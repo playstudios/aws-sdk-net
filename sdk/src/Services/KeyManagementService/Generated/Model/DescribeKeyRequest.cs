@@ -29,8 +29,53 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeKey operation.
-    /// Provides detailed information about the specified customer master key (CMK).
+    /// Provides detailed information about a customer master key (CMK). You can run <code>DescribeKey</code>
+    /// on a <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk">customer
+    /// managed CMK</a> or an <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk">AWS
+    /// managed CMK</a>.
     /// 
+    ///  
+    /// <para>
+    /// This detailed information includes the key ARN, creation date (and deletion date,
+    /// if applicable), the key state, and the origin and expiration date (if any) of the
+    /// key material. For CMKs in custom key stores, it includes information about the custom
+    /// key store, such as the key store ID and the AWS CloudHSM cluster ID. It includes fields,
+    /// like <code>KeySpec</code>, that help you distinguish symmetric from asymmetric CMKs.
+    /// It also provides information that is particularly important to asymmetric CMKs, such
+    /// as the key usage (encryption or signing) and the encryption algorithms or signing
+    /// algorithms that the CMK supports.
+    /// </para>
+    ///  
+    /// <para>
+    ///  <code>DescribeKey</code> does not return the following information:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// Aliases associated with the CMK. To get this information, use <a>ListAliases</a>.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Whether automatic key rotation is enabled on the CMK. To get this information, use
+    /// <a>GetKeyRotationStatus</a>. Also, some key states prevent a CMK from being automatically
+    /// rotated. For details, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotate-keys-how-it-works">How
+    /// Automatic Key Rotation Works</a> in <i>AWS Key Management Service Developer Guide</i>.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Tags on the CMK. To get this information, use <a>ListResourceTags</a>.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Key policies and grants on the CMK. To get this information, use <a>GetKeyPolicy</a>
+    /// and <a>ListGrants</a>.
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// If you call the <code>DescribeKey</code> operation on a <i>predefined AWS alias</i>,
+    /// that is, an AWS alias with no key ID, AWS KMS creates an <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">AWS
+    /// managed CMK</a>. Then, it associates the alias with the new CMK, and returns the <code>KeyId</code>
+    /// and <code>Arn</code> of the new CMK in the response.
+    /// </para>
     ///  
     /// <para>
     /// To perform this operation on a CMK in a different AWS account, specify the key ARN
@@ -49,10 +94,11 @@ namespace Amazon.KeyManagementService.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+        /// For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
         /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10)]
         public List<string> GrantTokens
         {
             get { return this._grantTokens; }
@@ -68,13 +114,19 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property KeyId. 
         /// <para>
-        /// A unique identifier for the customer master key (CMK).
+        /// Describes the specified customer master key (CMK). 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify a predefined AWS alias (an AWS alias with no key ID), KMS associates
+        /// the alias with an <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">AWS
+        /// managed CMK</a> and returns its <code>KeyId</code> and <code>Arn</code> in the response.
         /// </para>
         ///  
         /// <para>
         /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias
-        /// ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different
-        /// AWS account, you must use the key ARN or alias ARN.
+        /// ARN. When using an alias name, prefix it with <code>"alias/"</code>. To specify a
+        /// CMK in a different AWS account, you must use the key ARN or alias ARN.
         /// </para>
         ///  
         /// <para>
@@ -103,6 +155,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the alias name and alias ARN, use <a>ListAliases</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }

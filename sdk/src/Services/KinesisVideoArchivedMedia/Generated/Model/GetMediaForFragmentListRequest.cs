@@ -30,12 +30,14 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
     /// <summary>
     /// Container for the parameters to the GetMediaForFragmentList operation.
     /// Gets media for a list of fragments (specified by fragment number) from the archived
-    /// data in a Kinesis video stream.
+    /// data in an Amazon Kinesis video stream.
     /// 
     ///  <note> 
     /// <para>
-    /// This operation is only available for the AWS SDK for Java. It is not supported in
-    /// AWS SDKs for other languages.
+    /// You must first call the <code>GetDataEndpoint</code> API to get an endpoint. Then
+    /// send the <code>GetMediaForFragmentList</code> requests to this endpoint using the
+    /// <a href="https://docs.aws.amazon.com/cli/latest/reference/">--endpoint-url parameter</a>.
+    /// 
     /// </para>
     ///  </note> 
     /// <para>
@@ -52,7 +54,36 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
     /// (or 200 megabits per second) during a <code>GetMediaForFragmentList</code> session.
     /// 
     /// </para>
-    ///  </li> </ul>
+    ///  </li> </ul> <important> 
+    /// <para>
+    /// If an error is thrown after invoking a Kinesis Video Streams archived media API, in
+    /// addition to the HTTP status code and the response body, it includes the following
+    /// pieces of information: 
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <code>x-amz-ErrorType</code> HTTP header – contains a more specific error type in
+    /// addition to what the HTTP status code provides. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>x-amz-RequestId</code> HTTP header – if you want to report an issue to AWS,
+    /// the support team can better diagnose the problem if given the Request Id.
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic
+    /// decisions about whether errors are retry-able and under what conditions, as well as
+    /// provide information on what actions the client programmer might need to take in order
+    /// to successfully try again.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see the <b>Errors</b> section at the bottom of this topic, as
+    /// well as <a href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html">Common
+    /// Errors</a>. 
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class GetMediaForFragmentListRequest : AmazonKinesisVideoArchivedMediaRequest
     {
@@ -66,6 +97,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// values with <a>ListFragments</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1000)]
         public List<string> Fragments
         {
             get { return this._fragments; }
@@ -84,6 +116,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// The name of the stream from which to retrieve fragment media.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string StreamName
         {
             get { return this._streamName; }

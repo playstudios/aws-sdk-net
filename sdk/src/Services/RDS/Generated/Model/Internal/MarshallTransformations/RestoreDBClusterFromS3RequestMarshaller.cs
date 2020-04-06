@@ -67,6 +67,10 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         publicRequestlistValueIndex++;
                     }
                 }
+                if(publicRequest.IsSetBacktrackWindow())
+                {
+                    request.Parameters.Add("BacktrackWindow", StringUtils.FromLong(publicRequest.BacktrackWindow));
+                }
                 if(publicRequest.IsSetBackupRetentionPeriod())
                 {
                     request.Parameters.Add("BackupRetentionPeriod", StringUtils.FromInt(publicRequest.BackupRetentionPeriod));
@@ -74,6 +78,10 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetCharacterSetName())
                 {
                     request.Parameters.Add("CharacterSetName", StringUtils.FromString(publicRequest.CharacterSetName));
+                }
+                if(publicRequest.IsSetCopyTagsToSnapshot())
+                {
+                    request.Parameters.Add("CopyTagsToSnapshot", StringUtils.FromBool(publicRequest.CopyTagsToSnapshot));
                 }
                 if(publicRequest.IsSetDatabaseName())
                 {
@@ -90,6 +98,27 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetDBSubnetGroupName())
                 {
                     request.Parameters.Add("DBSubnetGroupName", StringUtils.FromString(publicRequest.DBSubnetGroupName));
+                }
+                if(publicRequest.IsSetDeletionProtection())
+                {
+                    request.Parameters.Add("DeletionProtection", StringUtils.FromBool(publicRequest.DeletionProtection));
+                }
+                if(publicRequest.IsSetDomain())
+                {
+                    request.Parameters.Add("Domain", StringUtils.FromString(publicRequest.Domain));
+                }
+                if(publicRequest.IsSetDomainIAMRoleName())
+                {
+                    request.Parameters.Add("DomainIAMRoleName", StringUtils.FromString(publicRequest.DomainIAMRoleName));
+                }
+                if(publicRequest.IsSetEnableCloudwatchLogsExports())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.EnableCloudwatchLogsExports)
+                    {
+                        request.Parameters.Add("EnableCloudwatchLogsExports" + "." + "member" + "." + publicRequestlistValueIndex, StringUtils.FromString(publicRequestlistValue));
+                        publicRequestlistValueIndex++;
+                    }
                 }
                 if(publicRequest.IsSetEnableIAMDatabaseAuthentication())
                 {

@@ -41,6 +41,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The token returned to indicate that there is more data available.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1100)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -56,7 +57,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// The list of tags requested for the specific resource.
+        /// The tags requested for the specified resource.
         /// </para>
         /// </summary>
         public List<Tag> Tags

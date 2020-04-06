@@ -36,7 +36,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "GET";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketRequestPaymentRequest.BucketName));
+            if (string.IsNullOrEmpty(getBucketRequestPaymentRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "GetBucketRequestPaymentRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketRequestPaymentRequest.BucketName));
             request.AddSubResource("requestPayment");
             request.UseQueryString = true;
             

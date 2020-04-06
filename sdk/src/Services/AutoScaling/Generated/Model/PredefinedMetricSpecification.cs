@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AutoScaling.Model
 {
     /// <summary>
-    /// Configures a predefined metric for a target tracking policy.
+    /// Represents a predefined metric for a target tracking scaling policy to use with Amazon
+    /// EC2 Auto Scaling.
     /// </summary>
     public partial class PredefinedMetricSpecification
     {
@@ -38,9 +39,31 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property PredefinedMetricType. 
         /// <para>
-        /// The metric type.
+        /// The metric type. The following predefined metrics are available:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>ASGAverageCPUUtilization</code> - Average CPU utilization of the Auto Scaling
+        /// group.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ASGAverageNetworkIn</code> - Average number of bytes received on all network
+        /// interfaces by the Auto Scaling group.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ASGAverageNetworkOut</code> - Average number of bytes sent out on all network
+        /// interfaces by the Auto Scaling group.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ALBRequestCountPerTarget</code> - Number of requests completed per target in
+        /// an Application Load Balancer target group.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public MetricType PredefinedMetricType
         {
             get { return this._predefinedMetricType; }
@@ -56,42 +79,28 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property ResourceLabel. 
         /// <para>
-        /// Identifies the resource associated with the metric type. The following predefined
-        /// metrics are available:
+        /// Identifies the resource associated with the metric type. You can't specify a resource
+        /// label unless the metric type is <code>ALBRequestCountPerTarget</code> and there is
+        /// a target group attached to the Auto Scaling group.
+        /// </para>
+        ///  
+        /// <para>
+        /// The format is <code>app/<i>load-balancer-name</i>/<i>load-balancer-id</i>/targetgroup/<i>target-group-name</i>/<i>target-group-id</i>
+        /// </code>, where 
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>ASGAverageCPUUtilization</code> - average CPU utilization of the Auto Scaling
-        /// group
+        ///  <code>app/<i>load-balancer-name</i>/<i>load-balancer-id</i> </code> is the final
+        /// portion of the load balancer ARN, and
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>ASGAverageNetworkIn</code> - average number of bytes received on all network
-        /// interfaces by the Auto Scaling group
+        ///  <code>targetgroup/<i>target-group-name</i>/<i>target-group-id</i> </code> is the
+        /// final portion of the target group ARN.
         /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>ASGAverageNetworkOut</code> - average number of bytes sent out on all network
-        /// interfaces by the Auto Scaling group
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>ALBRequestCountPerTarget</code> - number of requests completed per target in
-        /// an Application Load Balancer target group
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// For predefined metric types <code>ASGAverageCPUUtilization</code>, <code>ASGAverageNetworkIn</code>,
-        /// and <code>ASGAverageNetworkOut</code>, the parameter must not be specified as the
-        /// resource associated with the metric type is the Auto Scaling group. For predefined
-        /// metric type <code>ALBRequestCountPerTarget</code>, the parameter must be specified
-        /// in the format: <code>app/<i>load-balancer-name</i>/<i>load-balancer-id</i>/targetgroup/<i>target-group-name</i>/<i>target-group-id</i>
-        /// </code>, where <code>app/<i>load-balancer-name</i>/<i>load-balancer-id</i> </code>
-        /// is the final portion of the load balancer ARN, and <code>targetgroup/<i>target-group-name</i>/<i>target-group-id</i>
-        /// </code> is the final portion of the target group ARN. The target group must be attached
-        /// to the Auto Scaling group.
-        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=1023)]
         public string ResourceLabel
         {
             get { return this._resourceLabel; }

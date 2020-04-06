@@ -42,7 +42,28 @@ namespace Amazon.ECS.Model
     /// </summary>
     public partial class DescribeTaskDefinitionRequest : AmazonECSRequest
     {
+        private List<string> _include = new List<string>();
         private string _taskDefinition;
+
+        /// <summary>
+        /// Gets and sets the property Include. 
+        /// <para>
+        /// Specifies whether to see the resource tags for the task definition. If <code>TAGS</code>
+        /// is specified, the tags are included in the response. If this field is omitted, tags
+        /// are not included in the response.
+        /// </para>
+        /// </summary>
+        public List<string> Include
+        {
+            get { return this._include; }
+            set { this._include = value; }
+        }
+
+        // Check to see if Include property is set
+        internal bool IsSetInclude()
+        {
+            return this._include != null && this._include.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property TaskDefinition. 
@@ -52,6 +73,7 @@ namespace Amazon.ECS.Model
         /// the family, or full Amazon Resource Name (ARN) of the task definition to describe.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TaskDefinition
         {
             get { return this._taskDefinition; }

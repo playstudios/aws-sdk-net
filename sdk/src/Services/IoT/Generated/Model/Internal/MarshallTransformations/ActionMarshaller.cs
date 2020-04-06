@@ -56,6 +56,17 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetCloudwatchLogs())
+            {
+                context.Writer.WritePropertyName("cloudwatchLogs");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = CloudwatchLogsActionMarshaller.Instance;
+                marshaller.Marshall(requestObject.CloudwatchLogs, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetCloudwatchMetric())
             {
                 context.Writer.WritePropertyName("cloudwatchMetric");
@@ -107,6 +118,50 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
 
                 var marshaller = FirehoseActionMarshaller.Instance;
                 marshaller.Marshall(requestObject.Firehose, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetHttp())
+            {
+                context.Writer.WritePropertyName("http");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = HttpActionMarshaller.Instance;
+                marshaller.Marshall(requestObject.Http, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetIotAnalytics())
+            {
+                context.Writer.WritePropertyName("iotAnalytics");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = IotAnalyticsActionMarshaller.Instance;
+                marshaller.Marshall(requestObject.IotAnalytics, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetIotEvents())
+            {
+                context.Writer.WritePropertyName("iotEvents");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = IotEventsActionMarshaller.Instance;
+                marshaller.Marshall(requestObject.IotEvents, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetIotSiteWise())
+            {
+                context.Writer.WritePropertyName("iotSiteWise");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = IotSiteWiseActionMarshaller.Instance;
+                marshaller.Marshall(requestObject.IotSiteWise, context);
 
                 context.Writer.WriteObjectEnd();
             }
@@ -184,6 +239,17 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
 
                 var marshaller = SqsActionMarshaller.Instance;
                 marshaller.Marshall(requestObject.Sqs, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetStepFunctions())
+            {
+                context.Writer.WritePropertyName("stepFunctions");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = StepFunctionsActionMarshaller.Instance;
+                marshaller.Marshall(requestObject.StepFunctions, context);
 
                 context.Writer.WriteObjectEnd();
             }

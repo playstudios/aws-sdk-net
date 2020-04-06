@@ -76,6 +76,12 @@ namespace Amazon.KinesisFirehose.Model.Internal.MarshallTransformations
                     unmarshalledObject.DeliveryStreamARN = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("DeliveryStreamEncryptionConfiguration", targetDepth))
+                {
+                    var unmarshaller = DeliveryStreamEncryptionConfigurationUnmarshaller.Instance;
+                    unmarshalledObject.DeliveryStreamEncryptionConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("DeliveryStreamName", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -98,6 +104,12 @@ namespace Amazon.KinesisFirehose.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = new ListUnmarshaller<DestinationDescription, DestinationDescriptionUnmarshaller>(DestinationDescriptionUnmarshaller.Instance);
                     unmarshalledObject.Destinations = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("FailureDescription", targetDepth))
+                {
+                    var unmarshaller = FailureDescriptionUnmarshaller.Instance;
+                    unmarshalledObject.FailureDescription = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("HasMoreDestinations", targetDepth))

@@ -29,12 +29,8 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the ResolveAlias operation.
-    /// Retrieves the fleet ID that a specified alias is currently pointing to.
+    /// Retrieves the fleet ID that an alias is currently pointing to.
     /// 
-    ///  
-    /// <para>
-    /// Alias-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateAlias</a> 
@@ -68,9 +64,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for the alias you want to resolve.
+        /// The unique identifier of the alias that you want to retrieve a fleet ID for. You can
+        /// use either the alias ID or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AliasId
         {
             get { return this._aliasId; }

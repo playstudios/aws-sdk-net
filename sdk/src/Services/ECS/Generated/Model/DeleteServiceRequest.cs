@@ -38,19 +38,25 @@ namespace Amazon.ECS.Model
     /// <para>
     /// When you delete a service, if there are still running tasks that require cleanup,
     /// the service status moves from <code>ACTIVE</code> to <code>DRAINING</code>, and the
-    /// service is no longer visible in the console or in <a>ListServices</a> API operations.
-    /// After the tasks have stopped, then the service status moves from <code>DRAINING</code>
-    /// to <code>INACTIVE</code>. Services in the <code>DRAINING</code> or <code>INACTIVE</code>
-    /// status can still be viewed with <a>DescribeServices</a> API operations. However, in
-    /// the future, <code>INACTIVE</code> services may be cleaned up and purged from Amazon
-    /// ECS record keeping, and <a>DescribeServices</a> API operations on those services return
-    /// a <code>ServiceNotFoundException</code> error.
+    /// service is no longer visible in the console or in the <a>ListServices</a> API operation.
+    /// After all tasks have transitioned to either <code>STOPPING</code> or <code>STOPPED</code>
+    /// status, the service status moves from <code>DRAINING</code> to <code>INACTIVE</code>.
+    /// Services in the <code>DRAINING</code> or <code>INACTIVE</code> status can still be
+    /// viewed with the <a>DescribeServices</a> API operation. However, in the future, <code>INACTIVE</code>
+    /// services may be cleaned up and purged from Amazon ECS record keeping, and <a>DescribeServices</a>
+    /// calls on those services return a <code>ServiceNotFoundException</code> error.
     /// </para>
-    ///  </note>
+    ///  </note> <important> 
+    /// <para>
+    /// If you attempt to create a new service with the same name as an existing service in
+    /// either <code>ACTIVE</code> or <code>DRAINING</code> status, you receive an error.
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class DeleteServiceRequest : AmazonECSRequest
     {
         private string _cluster;
+        private bool? _force;
         private string _service;
 
         /// <summary>
@@ -73,11 +79,32 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Force. 
+        /// <para>
+        /// If <code>true</code>, allows you to delete a service even if it has not been scaled
+        /// down to zero tasks. It is only necessary to use this if the service is using the <code>REPLICA</code>
+        /// scheduling strategy.
+        /// </para>
+        /// </summary>
+        public bool Force
+        {
+            get { return this._force.GetValueOrDefault(); }
+            set { this._force = value; }
+        }
+
+        // Check to see if Force property is set
+        internal bool IsSetForce()
+        {
+            return this._force.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Service. 
         /// <para>
         /// The name of the service to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Service
         {
             get { return this._service; }

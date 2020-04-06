@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -87,6 +87,7 @@ namespace Amazon.CloudFront.Model
         /// that aren't associated with a web ACL. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string WebACLId
         {
             get { return this._webACLId; }

@@ -33,8 +33,21 @@ namespace Amazon.AutoScaling.Model
     /// 
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-enter-exit-standby.html">Temporarily
-    /// Removing Instances from Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+    /// If you choose to decrement the desired capacity of the Auto Scaling group, the instances
+    /// can enter standby as long as the desired capacity of the Auto Scaling group after
+    /// the instances are placed into standby is equal to or greater than the minimum capacity
+    /// of the group.
+    /// </para>
+    ///  
+    /// <para>
+    /// If you choose not to decrement the desired capacity of the Auto Scaling group, the
+    /// Auto Scaling group launches new instances to replace the instances on standby.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enter-exit-standby.html">Temporarily
+    /// Removing Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling
+    /// User Guide</i>.
     /// </para>
     /// </summary>
     public partial class EnterStandbyRequest : AmazonAutoScalingRequest
@@ -49,6 +62,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -86,6 +100,7 @@ namespace Amazon.AutoScaling.Model
         /// number of instances moved to <code>Standby</code> mode.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool ShouldDecrementDesiredCapacity
         {
             get { return this._shouldDecrementDesiredCapacity.GetValueOrDefault(); }

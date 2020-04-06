@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MigrationHub.Model;
 using Amazon.MigrationHub.Model.Internal.MarshallTransformations;
+using Amazon.MigrationHub.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -36,9 +38,17 @@ namespace Amazon.MigrationHub
     /// The AWS Migration Hub API methods help to obtain server and application migration
     /// status and integrate your resource-specific migration tool by providing a programmatic
     /// interface to Migration Hub.
+    /// 
+    ///  
+    /// <para>
+    /// Remember that you must set your AWS Migration Hub home region before you call any
+    /// of these APIs, or a <code>HomeRegionNotSetException</code> error will be returned.
+    /// Also, you must make the API calls while in your home region.
+    /// </para>
     /// </summary>
     public partial class AmazonMigrationHubClient : AmazonServiceClient, IAmazonMigrationHub
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMigrationHubMetadata();
         #region Constructors
 
         /// <summary>
@@ -209,6 +219,16 @@ namespace Amazon.MigrationHub
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -224,7 +244,7 @@ namespace Amazon.MigrationHub
 
         #endregion
 
-        
+
         #region  AssociateCreatedArtifact
 
         /// <summary>
@@ -259,17 +279,20 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -281,10 +304,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateCreatedArtifact">REST API Reference for AssociateCreatedArtifact Operation</seealso>
         public virtual AssociateCreatedArtifactResponse AssociateCreatedArtifact(AssociateCreatedArtifactRequest request)
         {
-            var marshaller = AssociateCreatedArtifactRequestMarshaller.Instance;
-            var unmarshaller = AssociateCreatedArtifactResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateCreatedArtifactRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateCreatedArtifactResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateCreatedArtifactRequest,AssociateCreatedArtifactResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateCreatedArtifactResponse>(request, options);
         }
 
         /// <summary>
@@ -301,11 +325,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateCreatedArtifact">REST API Reference for AssociateCreatedArtifact Operation</seealso>
         public virtual IAsyncResult BeginAssociateCreatedArtifact(AssociateCreatedArtifactRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateCreatedArtifactRequestMarshaller.Instance;
-            var unmarshaller = AssociateCreatedArtifactResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateCreatedArtifactRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateCreatedArtifactResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateCreatedArtifactRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -326,8 +350,8 @@ namespace Amazon.MigrationHub
         #region  AssociateDiscoveredResource
 
         /// <summary>
-        /// Associates a discovered resource ID from Application Discovery Service (ADS) with
-        /// a migration task.
+        /// Associates a discovered resource ID from Application Discovery Service with a migration
+        /// task.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AssociateDiscoveredResource service method.</param>
         /// 
@@ -339,22 +363,25 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.PolicyErrorException">
-        /// Exception raised when there are problems accessing ADS (Application Discovery Service);
-        /// most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
+        /// Exception raised when there are problems accessing Application Discovery Service (Application
+        /// Discovery Service); most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
         /// role is missing or not configured correctly.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -366,10 +393,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateDiscoveredResource">REST API Reference for AssociateDiscoveredResource Operation</seealso>
         public virtual AssociateDiscoveredResourceResponse AssociateDiscoveredResource(AssociateDiscoveredResourceRequest request)
         {
-            var marshaller = AssociateDiscoveredResourceRequestMarshaller.Instance;
-            var unmarshaller = AssociateDiscoveredResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateDiscoveredResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateDiscoveredResourceResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateDiscoveredResourceRequest,AssociateDiscoveredResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateDiscoveredResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -386,11 +414,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateDiscoveredResource">REST API Reference for AssociateDiscoveredResource Operation</seealso>
         public virtual IAsyncResult BeginAssociateDiscoveredResource(AssociateDiscoveredResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateDiscoveredResourceRequestMarshaller.Instance;
-            var unmarshaller = AssociateDiscoveredResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateDiscoveredResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateDiscoveredResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateDiscoveredResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -427,8 +455,11 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
@@ -444,10 +475,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/CreateProgressUpdateStream">REST API Reference for CreateProgressUpdateStream Operation</seealso>
         public virtual CreateProgressUpdateStreamResponse CreateProgressUpdateStream(CreateProgressUpdateStreamRequest request)
         {
-            var marshaller = CreateProgressUpdateStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateProgressUpdateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProgressUpdateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProgressUpdateStreamResponseUnmarshaller.Instance;
 
-            return Invoke<CreateProgressUpdateStreamRequest,CreateProgressUpdateStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateProgressUpdateStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -464,11 +496,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/CreateProgressUpdateStream">REST API Reference for CreateProgressUpdateStream Operation</seealso>
         public virtual IAsyncResult BeginCreateProgressUpdateStream(CreateProgressUpdateStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateProgressUpdateStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateProgressUpdateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProgressUpdateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProgressUpdateStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateProgressUpdateStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -511,7 +543,7 @@ namespace Amazon.MigrationHub
         ///  </li> <li> 
         /// <para>
         ///  <code>CreateProgressUpdateStream</code>, <code>ImportMigrationTask</code>, <code>NotifyMigrationTaskState</code>,
-        /// and all Associate[*] APIs realted to the tasks belonging to the stream will throw
+        /// and all Associate[*] APIs related to the tasks belonging to the stream will throw
         /// "InvalidInputException" if the stream of the same name is in the process of being
         /// deleted.
         /// </para>
@@ -533,17 +565,20 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -555,10 +590,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DeleteProgressUpdateStream">REST API Reference for DeleteProgressUpdateStream Operation</seealso>
         public virtual DeleteProgressUpdateStreamResponse DeleteProgressUpdateStream(DeleteProgressUpdateStreamRequest request)
         {
-            var marshaller = DeleteProgressUpdateStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteProgressUpdateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProgressUpdateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProgressUpdateStreamResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteProgressUpdateStreamRequest,DeleteProgressUpdateStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteProgressUpdateStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -575,11 +611,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DeleteProgressUpdateStream">REST API Reference for DeleteProgressUpdateStream Operation</seealso>
         public virtual IAsyncResult BeginDeleteProgressUpdateStream(DeleteProgressUpdateStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteProgressUpdateStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteProgressUpdateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProgressUpdateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProgressUpdateStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteProgressUpdateStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -608,22 +644,25 @@ namespace Amazon.MigrationHub
         /// <exception cref="Amazon.MigrationHub.Model.AccessDeniedException">
         /// You do not have sufficient access to perform this action.
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.PolicyErrorException">
-        /// Exception raised when there are problems accessing ADS (Application Discovery Service);
-        /// most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
+        /// Exception raised when there are problems accessing Application Discovery Service (Application
+        /// Discovery Service); most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
         /// role is missing or not configured correctly.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -631,10 +670,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeApplicationState">REST API Reference for DescribeApplicationState Operation</seealso>
         public virtual DescribeApplicationStateResponse DescribeApplicationState(DescribeApplicationStateRequest request)
         {
-            var marshaller = DescribeApplicationStateRequestMarshaller.Instance;
-            var unmarshaller = DescribeApplicationStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeApplicationStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeApplicationStateResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeApplicationStateRequest,DescribeApplicationStateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeApplicationStateResponse>(request, options);
         }
 
         /// <summary>
@@ -651,11 +691,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeApplicationState">REST API Reference for DescribeApplicationState Operation</seealso>
         public virtual IAsyncResult BeginDescribeApplicationState(DescribeApplicationStateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeApplicationStateRequestMarshaller.Instance;
-            var unmarshaller = DescribeApplicationStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeApplicationStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeApplicationStateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeApplicationStateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -684,17 +724,20 @@ namespace Amazon.MigrationHub
         /// <exception cref="Amazon.MigrationHub.Model.AccessDeniedException">
         /// You do not have sufficient access to perform this action.
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -702,10 +745,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeMigrationTask">REST API Reference for DescribeMigrationTask Operation</seealso>
         public virtual DescribeMigrationTaskResponse DescribeMigrationTask(DescribeMigrationTaskRequest request)
         {
-            var marshaller = DescribeMigrationTaskRequestMarshaller.Instance;
-            var unmarshaller = DescribeMigrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMigrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMigrationTaskResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeMigrationTaskRequest,DescribeMigrationTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeMigrationTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -722,11 +766,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeMigrationTask">REST API Reference for DescribeMigrationTask Operation</seealso>
         public virtual IAsyncResult BeginDescribeMigrationTask(DescribeMigrationTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeMigrationTaskRequestMarshaller.Instance;
-            var unmarshaller = DescribeMigrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMigrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMigrationTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeMigrationTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -777,17 +821,20 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -799,10 +846,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateCreatedArtifact">REST API Reference for DisassociateCreatedArtifact Operation</seealso>
         public virtual DisassociateCreatedArtifactResponse DisassociateCreatedArtifact(DisassociateCreatedArtifactRequest request)
         {
-            var marshaller = DisassociateCreatedArtifactRequestMarshaller.Instance;
-            var unmarshaller = DisassociateCreatedArtifactResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateCreatedArtifactRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateCreatedArtifactResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateCreatedArtifactRequest,DisassociateCreatedArtifactResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateCreatedArtifactResponse>(request, options);
         }
 
         /// <summary>
@@ -819,11 +867,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateCreatedArtifact">REST API Reference for DisassociateCreatedArtifact Operation</seealso>
         public virtual IAsyncResult BeginDisassociateCreatedArtifact(DisassociateCreatedArtifactRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisassociateCreatedArtifactRequestMarshaller.Instance;
-            var unmarshaller = DisassociateCreatedArtifactResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateCreatedArtifactRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateCreatedArtifactResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisassociateCreatedArtifactRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -844,7 +892,7 @@ namespace Amazon.MigrationHub
         #region  DisassociateDiscoveredResource
 
         /// <summary>
-        /// Disassociate an Application Discovery Service (ADS) discovered resource from a migration
+        /// Disassociate an Application Discovery Service discovered resource from a migration
         /// task.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DisassociateDiscoveredResource service method.</param>
@@ -857,17 +905,20 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -879,10 +930,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateDiscoveredResource">REST API Reference for DisassociateDiscoveredResource Operation</seealso>
         public virtual DisassociateDiscoveredResourceResponse DisassociateDiscoveredResource(DisassociateDiscoveredResourceRequest request)
         {
-            var marshaller = DisassociateDiscoveredResourceRequestMarshaller.Instance;
-            var unmarshaller = DisassociateDiscoveredResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateDiscoveredResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateDiscoveredResourceResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateDiscoveredResourceRequest,DisassociateDiscoveredResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateDiscoveredResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -899,11 +951,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateDiscoveredResource">REST API Reference for DisassociateDiscoveredResource Operation</seealso>
         public virtual IAsyncResult BeginDisassociateDiscoveredResource(DisassociateDiscoveredResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisassociateDiscoveredResourceRequestMarshaller.Instance;
-            var unmarshaller = DisassociateDiscoveredResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateDiscoveredResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateDiscoveredResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisassociateDiscoveredResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -943,17 +995,20 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -965,10 +1020,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ImportMigrationTask">REST API Reference for ImportMigrationTask Operation</seealso>
         public virtual ImportMigrationTaskResponse ImportMigrationTask(ImportMigrationTaskRequest request)
         {
-            var marshaller = ImportMigrationTaskRequestMarshaller.Instance;
-            var unmarshaller = ImportMigrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportMigrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportMigrationTaskResponseUnmarshaller.Instance;
 
-            return Invoke<ImportMigrationTaskRequest,ImportMigrationTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<ImportMigrationTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -985,11 +1041,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ImportMigrationTask">REST API Reference for ImportMigrationTask Operation</seealso>
         public virtual IAsyncResult BeginImportMigrationTask(ImportMigrationTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ImportMigrationTaskRequestMarshaller.Instance;
-            var unmarshaller = ImportMigrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportMigrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportMigrationTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ImportMigrationTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1003,6 +1059,77 @@ namespace Amazon.MigrationHub
         public virtual ImportMigrationTaskResponse EndImportMigrationTask(IAsyncResult asyncResult)
         {
             return EndInvoke<ImportMigrationTaskResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListApplicationStates
+
+        /// <summary>
+        /// Lists all the migration statuses for your applications. If you use the optional <code>ApplicationIds</code>
+        /// parameter, only the migration statuses for those applications will be returned.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListApplicationStates service method.</param>
+        /// 
+        /// <returns>The response from the ListApplicationStates service method, as returned by MigrationHub.</returns>
+        /// <exception cref="Amazon.MigrationHub.Model.AccessDeniedException">
+        /// You do not have sufficient access to perform this action.
+        /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
+        /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
+        /// Exception raised when the provided input violates a policy constraint or is entered
+        /// in the wrong format or data type.
+        /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
+        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListApplicationStates">REST API Reference for ListApplicationStates Operation</seealso>
+        public virtual ListApplicationStatesResponse ListApplicationStates(ListApplicationStatesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListApplicationStatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListApplicationStatesResponseUnmarshaller.Instance;
+
+            return Invoke<ListApplicationStatesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListApplicationStates operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListApplicationStates operation on AmazonMigrationHubClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListApplicationStates
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListApplicationStates">REST API Reference for ListApplicationStates Operation</seealso>
+        public virtual IAsyncResult BeginListApplicationStates(ListApplicationStatesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListApplicationStatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListApplicationStatesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListApplicationStates operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListApplicationStates.</param>
+        /// 
+        /// <returns>Returns a  ListApplicationStatesResult from MigrationHub.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListApplicationStates">REST API Reference for ListApplicationStates Operation</seealso>
+        public virtual ListApplicationStatesResponse EndListApplicationStates(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListApplicationStatesResponse>(asyncResult);
         }
 
         #endregion
@@ -1034,17 +1161,20 @@ namespace Amazon.MigrationHub
         /// <exception cref="Amazon.MigrationHub.Model.AccessDeniedException">
         /// You do not have sufficient access to perform this action.
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -1052,10 +1182,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListCreatedArtifacts">REST API Reference for ListCreatedArtifacts Operation</seealso>
         public virtual ListCreatedArtifactsResponse ListCreatedArtifacts(ListCreatedArtifactsRequest request)
         {
-            var marshaller = ListCreatedArtifactsRequestMarshaller.Instance;
-            var unmarshaller = ListCreatedArtifactsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCreatedArtifactsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCreatedArtifactsResponseUnmarshaller.Instance;
 
-            return Invoke<ListCreatedArtifactsRequest,ListCreatedArtifactsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListCreatedArtifactsResponse>(request, options);
         }
 
         /// <summary>
@@ -1072,11 +1203,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListCreatedArtifacts">REST API Reference for ListCreatedArtifacts Operation</seealso>
         public virtual IAsyncResult BeginListCreatedArtifacts(ListCreatedArtifactsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListCreatedArtifactsRequestMarshaller.Instance;
-            var unmarshaller = ListCreatedArtifactsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCreatedArtifactsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCreatedArtifactsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListCreatedArtifactsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1105,17 +1236,20 @@ namespace Amazon.MigrationHub
         /// <exception cref="Amazon.MigrationHub.Model.AccessDeniedException">
         /// You do not have sufficient access to perform this action.
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -1123,10 +1257,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListDiscoveredResources">REST API Reference for ListDiscoveredResources Operation</seealso>
         public virtual ListDiscoveredResourcesResponse ListDiscoveredResources(ListDiscoveredResourcesRequest request)
         {
-            var marshaller = ListDiscoveredResourcesRequestMarshaller.Instance;
-            var unmarshaller = ListDiscoveredResourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDiscoveredResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDiscoveredResourcesResponseUnmarshaller.Instance;
 
-            return Invoke<ListDiscoveredResourcesRequest,ListDiscoveredResourcesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDiscoveredResourcesResponse>(request, options);
         }
 
         /// <summary>
@@ -1143,11 +1278,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListDiscoveredResources">REST API Reference for ListDiscoveredResources Operation</seealso>
         public virtual IAsyncResult BeginListDiscoveredResources(ListDiscoveredResourcesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDiscoveredResourcesRequestMarshaller.Instance;
-            var unmarshaller = ListDiscoveredResourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDiscoveredResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDiscoveredResourcesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDiscoveredResourcesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1191,22 +1326,25 @@ namespace Amazon.MigrationHub
         /// <exception cref="Amazon.MigrationHub.Model.AccessDeniedException">
         /// You do not have sufficient access to perform this action.
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.PolicyErrorException">
-        /// Exception raised when there are problems accessing ADS (Application Discovery Service);
-        /// most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
+        /// Exception raised when there are problems accessing Application Discovery Service (Application
+        /// Discovery Service); most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
         /// role is missing or not configured correctly.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -1214,10 +1352,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListMigrationTasks">REST API Reference for ListMigrationTasks Operation</seealso>
         public virtual ListMigrationTasksResponse ListMigrationTasks(ListMigrationTasksRequest request)
         {
-            var marshaller = ListMigrationTasksRequestMarshaller.Instance;
-            var unmarshaller = ListMigrationTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMigrationTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMigrationTasksResponseUnmarshaller.Instance;
 
-            return Invoke<ListMigrationTasksRequest,ListMigrationTasksResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListMigrationTasksResponse>(request, options);
         }
 
         /// <summary>
@@ -1234,11 +1373,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListMigrationTasks">REST API Reference for ListMigrationTasks Operation</seealso>
         public virtual IAsyncResult BeginListMigrationTasks(ListMigrationTasksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListMigrationTasksRequestMarshaller.Instance;
-            var unmarshaller = ListMigrationTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMigrationTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMigrationTasksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListMigrationTasksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1267,8 +1406,11 @@ namespace Amazon.MigrationHub
         /// <exception cref="Amazon.MigrationHub.Model.AccessDeniedException">
         /// You do not have sufficient access to perform this action.
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
@@ -1280,10 +1422,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListProgressUpdateStreams">REST API Reference for ListProgressUpdateStreams Operation</seealso>
         public virtual ListProgressUpdateStreamsResponse ListProgressUpdateStreams(ListProgressUpdateStreamsRequest request)
         {
-            var marshaller = ListProgressUpdateStreamsRequestMarshaller.Instance;
-            var unmarshaller = ListProgressUpdateStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProgressUpdateStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProgressUpdateStreamsResponseUnmarshaller.Instance;
 
-            return Invoke<ListProgressUpdateStreamsRequest,ListProgressUpdateStreamsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListProgressUpdateStreamsResponse>(request, options);
         }
 
         /// <summary>
@@ -1300,11 +1443,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListProgressUpdateStreams">REST API Reference for ListProgressUpdateStreams Operation</seealso>
         public virtual IAsyncResult BeginListProgressUpdateStreams(ListProgressUpdateStreamsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListProgressUpdateStreamsRequestMarshaller.Instance;
-            var unmarshaller = ListProgressUpdateStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProgressUpdateStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProgressUpdateStreamsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListProgressUpdateStreamsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1339,22 +1482,25 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.PolicyErrorException">
-        /// Exception raised when there are problems accessing ADS (Application Discovery Service);
-        /// most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
+        /// Exception raised when there are problems accessing Application Discovery Service (Application
+        /// Discovery Service); most likely due to a misconfigured policy or the <code>migrationhub-discovery</code>
         /// role is missing or not configured correctly.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -1366,10 +1512,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyApplicationState">REST API Reference for NotifyApplicationState Operation</seealso>
         public virtual NotifyApplicationStateResponse NotifyApplicationState(NotifyApplicationStateRequest request)
         {
-            var marshaller = NotifyApplicationStateRequestMarshaller.Instance;
-            var unmarshaller = NotifyApplicationStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = NotifyApplicationStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = NotifyApplicationStateResponseUnmarshaller.Instance;
 
-            return Invoke<NotifyApplicationStateRequest,NotifyApplicationStateResponse>(request, marshaller, unmarshaller);
+            return Invoke<NotifyApplicationStateResponse>(request, options);
         }
 
         /// <summary>
@@ -1386,11 +1533,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyApplicationState">REST API Reference for NotifyApplicationState Operation</seealso>
         public virtual IAsyncResult BeginNotifyApplicationState(NotifyApplicationStateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = NotifyApplicationStateRequestMarshaller.Instance;
-            var unmarshaller = NotifyApplicationStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = NotifyApplicationStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = NotifyApplicationStateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<NotifyApplicationStateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1440,17 +1587,20 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -1462,10 +1612,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyMigrationTaskState">REST API Reference for NotifyMigrationTaskState Operation</seealso>
         public virtual NotifyMigrationTaskStateResponse NotifyMigrationTaskState(NotifyMigrationTaskStateRequest request)
         {
-            var marshaller = NotifyMigrationTaskStateRequestMarshaller.Instance;
-            var unmarshaller = NotifyMigrationTaskStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = NotifyMigrationTaskStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = NotifyMigrationTaskStateResponseUnmarshaller.Instance;
 
-            return Invoke<NotifyMigrationTaskStateRequest,NotifyMigrationTaskStateResponse>(request, marshaller, unmarshaller);
+            return Invoke<NotifyMigrationTaskStateResponse>(request, options);
         }
 
         /// <summary>
@@ -1482,11 +1633,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyMigrationTaskState">REST API Reference for NotifyMigrationTaskState Operation</seealso>
         public virtual IAsyncResult BeginNotifyMigrationTaskState(NotifyMigrationTaskStateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = NotifyMigrationTaskStateRequestMarshaller.Instance;
-            var unmarshaller = NotifyMigrationTaskStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = NotifyMigrationTaskStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = NotifyMigrationTaskStateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<NotifyMigrationTaskStateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1508,7 +1659,7 @@ namespace Amazon.MigrationHub
 
         /// <summary>
         /// Provides identifying details of the resource being migrated so that it can be associated
-        /// in the Application Discovery Service (ADS)'s repository. This association occurs asynchronously
+        /// in the Application Discovery Service repository. This association occurs asynchronously
         /// after <code>PutResourceAttributes</code> returns.
         /// 
         ///  <important> <ul> <li> 
@@ -1516,12 +1667,13 @@ namespace Amazon.MigrationHub
         /// Keep in mind that subsequent calls to PutResourceAttributes will override previously
         /// stored attributes. For example, if it is first called with a MAC address, but later,
         /// it is desired to <i>add</i> an IP address, it will then be required to call it with
-        /// <i>both</i> the IP and MAC addresses to prevent overiding the MAC address.
+        /// <i>both</i> the IP and MAC addresses to prevent overriding the MAC address.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Note the instructions regarding the special use case of the <code>ResourceAttributeList</code>
-        /// parameter when specifying any "VM" related value.
+        /// Note the instructions regarding the special use case of the <a href="https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#migrationhub-PutResourceAttributes-request-ResourceAttributeList">
+        /// <code>ResourceAttributeList</code> </a> parameter when specifying any "VM" related
+        /// value.
         /// </para>
         ///  </li> </ul> </important> <note> 
         /// <para>
@@ -1541,17 +1693,20 @@ namespace Amazon.MigrationHub
         /// Exception raised to indicate a successfully authorized action when the <code>DryRun</code>
         /// flag is set to "true".
         /// </exception>
+        /// <exception cref="Amazon.MigrationHub.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InternalServerErrorException">
-        /// Exception raised when there is an internal, configuration, or dependency error encountered.
+        /// Exception raised when an internal, configuration, or dependency error is encountered.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.InvalidInputException">
         /// Exception raised when the provided input violates a policy constraint or is entered
         /// in the wrong format or data type.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ResourceNotFoundException">
-        /// Exception raised when the request references a resource (ADS configuration, update
-        /// stream, migration task, etc.) that does not exist in ADS (Application Discovery Service)
-        /// or in Migration Hub's repository.
+        /// Exception raised when the request references a resource (Application Discovery Service
+        /// configuration, update stream, migration task, etc.) that does not exist in Application
+        /// Discovery Service (Application Discovery Service) or in Migration Hub's repository.
         /// </exception>
         /// <exception cref="Amazon.MigrationHub.Model.ServiceUnavailableException">
         /// Exception raised when there is an internal, configuration, or dependency error encountered.
@@ -1563,10 +1718,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/PutResourceAttributes">REST API Reference for PutResourceAttributes Operation</seealso>
         public virtual PutResourceAttributesResponse PutResourceAttributes(PutResourceAttributesRequest request)
         {
-            var marshaller = PutResourceAttributesRequestMarshaller.Instance;
-            var unmarshaller = PutResourceAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutResourceAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutResourceAttributesResponseUnmarshaller.Instance;
 
-            return Invoke<PutResourceAttributesRequest,PutResourceAttributesResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutResourceAttributesResponse>(request, options);
         }
 
         /// <summary>
@@ -1583,11 +1739,11 @@ namespace Amazon.MigrationHub
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/PutResourceAttributes">REST API Reference for PutResourceAttributes Operation</seealso>
         public virtual IAsyncResult BeginPutResourceAttributes(PutResourceAttributesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutResourceAttributesRequestMarshaller.Instance;
-            var unmarshaller = PutResourceAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutResourceAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutResourceAttributesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutResourceAttributesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

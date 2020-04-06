@@ -39,9 +39,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property ContainerPath. 
         /// <para>
-        /// The absolute file path where the tmpfs volume will be mounted.
+        /// The absolute file path where the tmpfs volume is to be mounted.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ContainerPath
         {
             get { return this._containerPath; }
@@ -65,7 +66,8 @@ namespace Amazon.ECS.Model
         /// | "exec" | "noexec" | "sync" | "async" | "dirsync" | "remount" | "mand" | "nomand"
         /// | "atime" | "noatime" | "diratime" | "nodiratime" | "bind" | "rbind" | "unbindable"
         /// | "runbindable" | "private" | "rprivate" | "shared" | "rshared" | "slave" | "rslave"
-        /// | "relatime" | "norelatime" | "strictatime" | "nostrictatime"</code> 
+        /// | "relatime" | "norelatime" | "strictatime" | "nostrictatime" | "mode" | "uid" | "gid"
+        /// | "nr_inodes" | "nr_blocks" | "mpol"</code> 
         /// </para>
         /// </summary>
         public List<string> MountOptions
@@ -83,9 +85,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Size. 
         /// <para>
-        /// The size of the tmpfs volume.
+        /// The size (in MiB) of the tmpfs volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Size
         {
             get { return this._size.GetValueOrDefault(); }

@@ -32,8 +32,9 @@ namespace Amazon.APIGateway.Model
     /// Simulate the execution of an <a>Authorizer</a> in your <a>RestApi</a> with headers,
     /// parameters, and an incoming request body.
     /// 
-    ///  <div class="seeAlso"> <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/use-custom-authorizer.html">Enable
-    /// custom authorizers</a> </div>
+    ///  <div class="seeAlso"> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use
+    /// Lambda Function as Authorizer</a> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use
+    /// Cognito User Pool as Authorizer</a> </div>
     /// </summary>
     public partial class TestInvokeAuthorizerRequest : AmazonAPIGatewayRequest
     {
@@ -41,6 +42,7 @@ namespace Amazon.APIGateway.Model
         private string _authorizerId;
         private string _body;
         private Dictionary<string, string> _headers = new Dictionary<string, string>();
+        private Dictionary<string, List<string>> _multiValueHeaders = new Dictionary<string, List<string>>();
         private string _pathWithQueryString;
         private string _restApiId;
         private Dictionary<string, string> _stageVariables = new Dictionary<string, string>();
@@ -69,6 +71,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] Specifies a test invoke authorizer request's <a>Authorizer</a> ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AuthorizerId
         {
             get { return this._authorizerId; }
@@ -119,6 +122,26 @@ namespace Amazon.APIGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MultiValueHeaders. 
+        /// <para>
+        /// [Optional] The headers as a map from string to list of values to simulate an incoming
+        /// invocation request. This is where the incoming authorization token, or identity source,
+        /// may be specified.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, List<string>> MultiValueHeaders
+        {
+            get { return this._multiValueHeaders; }
+            set { this._multiValueHeaders = value; }
+        }
+
+        // Check to see if MultiValueHeaders property is set
+        internal bool IsSetMultiValueHeaders()
+        {
+            return this._multiValueHeaders != null && this._multiValueHeaders.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PathWithQueryString. 
         /// <para>
         /// [Optional] The URI path, including query string, of the simulated invocation request.
@@ -143,6 +166,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }

@@ -33,10 +33,6 @@ namespace Amazon.GameLift.Model
     /// counts are non-zero only if fleet capacity is adjusting to an <a>UpdateFleetCapacity</a>
     /// request, or if access to resources is temporarily affected.
     /// 
-    ///  
-    /// <para>
-    /// Fleet-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateFleet</a> 
@@ -47,79 +43,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Describe fleets:
+    ///  <a>DeleteFleet</a> 
     /// </para>
-    ///  <ul> <li> 
+    ///  </li> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>DescribeFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetUtilization</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetEvents</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Update fleets:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
     ///  <a>UpdateFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -139,6 +75,7 @@ namespace Amazon.GameLift.Model
         /// Actual number of active instances in the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int ACTIVE
         {
             get { return this._active.GetValueOrDefault(); }
@@ -157,6 +94,7 @@ namespace Amazon.GameLift.Model
         /// Ideal number of active instances in the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int DESIRED
         {
             get { return this._desired.GetValueOrDefault(); }
@@ -175,6 +113,7 @@ namespace Amazon.GameLift.Model
         /// Number of active instances in the fleet that are not currently hosting a game session.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int IDLE
         {
             get { return this._idle.GetValueOrDefault(); }
@@ -190,9 +129,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MAXIMUM. 
         /// <para>
-        /// Maximum value allowed for the fleet's instance count.
+        /// The maximum value allowed for the fleet's instance count.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MAXIMUM
         {
             get { return this._maximum.GetValueOrDefault(); }
@@ -208,9 +148,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MINIMUM. 
         /// <para>
-        /// Minimum value allowed for the fleet's instance count.
+        /// The minimum value allowed for the fleet's instance count.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MINIMUM
         {
             get { return this._minimum.GetValueOrDefault(); }
@@ -229,6 +170,7 @@ namespace Amazon.GameLift.Model
         /// Number of instances in the fleet that are starting but not yet active.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int PENDING
         {
             get { return this._pending.GetValueOrDefault(); }
@@ -247,6 +189,7 @@ namespace Amazon.GameLift.Model
         /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int TERMINATING
         {
             get { return this._terminating.GetValueOrDefault(); }

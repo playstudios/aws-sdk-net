@@ -55,11 +55,12 @@ namespace Amazon.XRay.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetTraceSummariesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.XRay");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-04-12";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/TraceSummaries";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/TraceSummaries";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -89,10 +90,27 @@ namespace Amazon.XRay.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Sampling);
                 }
 
+                if(publicRequest.IsSetSamplingStrategy())
+                {
+                    context.Writer.WritePropertyName("SamplingStrategy");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = SamplingStrategyMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.SamplingStrategy, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetStartTime())
                 {
                     context.Writer.WritePropertyName("StartTime");
                     context.Writer.Write(publicRequest.StartTime);
+                }
+
+                if(publicRequest.IsSetTimeRangeType())
+                {
+                    context.Writer.WritePropertyName("TimeRangeType");
+                    context.Writer.Write(publicRequest.TimeRangeType);
                 }
 
         

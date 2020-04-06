@@ -58,10 +58,11 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
             string target = "OvertureService.DeleteBGPPeer";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-10-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,12 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("asn");
                     context.Writer.Write(publicRequest.Asn);
+                }
+
+                if(publicRequest.IsSetBgpPeerId())
+                {
+                    context.Writer.WritePropertyName("bgpPeerId");
+                    context.Writer.Write(publicRequest.BgpPeerId);
                 }
 
                 if(publicRequest.IsSetCustomerAddress())

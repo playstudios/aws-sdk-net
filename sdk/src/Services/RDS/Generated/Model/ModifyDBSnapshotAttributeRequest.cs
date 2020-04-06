@@ -47,7 +47,7 @@ namespace Amazon.RDS.Model
     ///  
     /// <para>
     /// To view which AWS accounts have access to copy or restore a manual DB snapshot, or
-    /// whether a manual DB snapshot public or private, use the <a>DescribeDBSnapshotAttributes</a>
+    /// whether a manual DB snapshot public or private, use the <code>DescribeDBSnapshotAttributes</code>
     /// API action.
     /// </para>
     /// </summary>
@@ -69,6 +69,7 @@ namespace Amazon.RDS.Model
         /// set this value to <code>restore</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AttributeName
         {
             get { return this._attributeName; }
@@ -87,6 +88,7 @@ namespace Amazon.RDS.Model
         /// The identifier for the DB snapshot to modify the attributes for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBSnapshotIdentifier
         {
             get { return this._dbSnapshotIdentifier; }

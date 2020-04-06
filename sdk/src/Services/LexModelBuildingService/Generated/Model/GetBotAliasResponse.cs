@@ -35,6 +35,7 @@ namespace Amazon.LexModelBuildingService.Model
         private string _botName;
         private string _botVersion;
         private string _checksum;
+        private ConversationLogsResponse _conversationLogs;
         private DateTime? _createdDate;
         private string _description;
         private DateTime? _lastUpdatedDate;
@@ -46,6 +47,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the bot that the alias points to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=50)]
         public string BotName
         {
             get { return this._botName; }
@@ -64,6 +66,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The version of the bot that the alias points to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string BotVersion
         {
             get { return this._botVersion; }
@@ -95,6 +98,24 @@ namespace Amazon.LexModelBuildingService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ConversationLogs. 
+        /// <para>
+        /// The settings that determine how Amazon Lex uses conversation logs for the alias.
+        /// </para>
+        /// </summary>
+        public ConversationLogsResponse ConversationLogs
+        {
+            get { return this._conversationLogs; }
+            set { this._conversationLogs = value; }
+        }
+
+        // Check to see if ConversationLogs property is set
+        internal bool IsSetConversationLogs()
+        {
+            return this._conversationLogs != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreatedDate. 
         /// <para>
         /// The date that the bot alias was created.
@@ -118,6 +139,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// A description of the bot alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -155,6 +177,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the bot alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }

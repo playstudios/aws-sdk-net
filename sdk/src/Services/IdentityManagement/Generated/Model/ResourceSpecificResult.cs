@@ -42,15 +42,14 @@ namespace Amazon.IdentityManagement.Model
         private string _evalResourceName;
         private List<Statement> _matchedStatements = new List<Statement>();
         private List<string> _missingContextValues = new List<string>();
+        private PermissionsBoundaryDecisionDetail _permissionsBoundaryDecisionDetail;
 
         /// <summary>
         /// Gets and sets the property EvalDecisionDetails. 
         /// <para>
-        /// Additional details about the results of the evaluation decision. When there are both
-        /// IAM policies and resource policies, this parameter explains how each set of policies
-        /// contributes to the final evaluation decision. When simulating cross-account access
-        /// to a resource, both the resource-based policy and the caller's IAM policy must grant
-        /// access.
+        /// Additional details about the results of the evaluation decision on a single resource.
+        /// This parameter is returned only for cross-account simulations. This parameter explains
+        /// how each policy type contributes to the resource-specific evaluation decision.
         /// </para>
         /// </summary>
         public Dictionary<string, string> EvalDecisionDetails
@@ -72,6 +71,7 @@ namespace Amazon.IdentityManagement.Model
         /// in <code>EvalResourceName</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PolicyEvaluationDecisionType EvalResourceDecision
         {
             get { return this._evalResourceDecision; }
@@ -90,6 +90,7 @@ namespace Amazon.IdentityManagement.Model
         /// The name of the simulated resource, in Amazon Resource Name (ARN) format.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string EvalResourceName
         {
             get { return this._evalResourceName; }
@@ -108,8 +109,8 @@ namespace Amazon.IdentityManagement.Model
         /// A list of the statements in the input policies that determine the result for this
         /// part of the simulation. Remember that even if multiple statements allow the operation
         /// on the resource, if <i>any</i> statement denies that operation, then the explicit
-        /// deny overrides any allow, and the deny statement is the only entry included in the
-        /// result.
+        /// deny overrides any allow. In addition, the deny statement is the only entry included
+        /// in the result.
         /// </para>
         /// </summary>
         public List<Statement> MatchedStatements
@@ -147,6 +148,25 @@ namespace Amazon.IdentityManagement.Model
         internal bool IsSetMissingContextValues()
         {
             return this._missingContextValues != null && this._missingContextValues.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property PermissionsBoundaryDecisionDetail. 
+        /// <para>
+        /// Contains information about the effect that a permissions boundary has on a policy
+        /// simulation when that boundary is applied to an IAM entity.
+        /// </para>
+        /// </summary>
+        public PermissionsBoundaryDecisionDetail PermissionsBoundaryDecisionDetail
+        {
+            get { return this._permissionsBoundaryDecisionDetail; }
+            set { this._permissionsBoundaryDecisionDetail = value; }
+        }
+
+        // Check to see if PermissionsBoundaryDecisionDetail property is set
+        internal bool IsSetPermissionsBoundaryDecisionDetail()
+        {
+            return this._permissionsBoundaryDecisionDetail != null;
         }
 
     }

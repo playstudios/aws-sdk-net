@@ -30,13 +30,14 @@ namespace Amazon.Glue.Model
     /// <summary>
     /// Container for the parameters to the CreateCrawler operation.
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule.
-    /// At least one crawl target must be specified, in either the <i>s3Targets</i> or the
-    /// <i>jdbcTargets</i> field.
+    /// At least one crawl target must be specified, in the <code>s3Targets</code> field,
+    /// the <code>jdbcTargets</code> field, or the <code>DynamoDBTargets</code> field.
     /// </summary>
     public partial class CreateCrawlerRequest : AmazonGlueRequest
     {
         private List<string> _classifiers = new List<string>();
         private string _configuration;
+        private string _crawlerSecurityConfiguration;
         private string _databaseName;
         private string _description;
         private string _name;
@@ -44,14 +45,15 @@ namespace Amazon.Glue.Model
         private string _schedule;
         private SchemaChangePolicy _schemaChangePolicy;
         private string _tablePrefix;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private CrawlerTargets _targets;
 
         /// <summary>
         /// Gets and sets the property Classifiers. 
         /// <para>
-        /// A list of custom classifiers that the user has registered. By default, all AWS classifiers
-        /// are included in a crawl, but these custom classifiers always override the default
-        /// classifiers for a given classification.
+        /// A list of custom classifiers that the user has registered. By default, all built-in
+        /// classifiers are included in a crawl, but these custom classifiers always override
+        /// the default classifiers for a given classification.
         /// </para>
         /// </summary>
         public List<string> Classifiers
@@ -69,20 +71,9 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Configuration. 
         /// <para>
-        /// Crawler configuration information. This versioned JSON string allows users to specify
-        /// aspects of a Crawler's behavior.
-        /// </para>
-        ///  
-        /// <para>
-        /// You can use this field to force partitions to inherit metadata such as classification,
-        /// input format, output format, serde information, and schema from their parent table,
-        /// rather than detect this information separately for each partition. Use the following
-        /// JSON string to specify that behavior:
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: <code>'{ "Version": 1.0, "CrawlerOutput": { "Partitions": { "AddOrUpdateBehavior":
-        /// "InheritFromTable" } } }'</code> 
+        /// The crawler configuration information. This versioned JSON string allows users to
+        /// specify aspects of a crawler's behavior. For more information, see <a href="http://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
+        /// a Crawler</a>.
         /// </para>
         /// </summary>
         public string Configuration
@@ -95,6 +86,25 @@ namespace Amazon.Glue.Model
         internal bool IsSetConfiguration()
         {
             return this._configuration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CrawlerSecurityConfiguration. 
+        /// <para>
+        /// The name of the <code>SecurityConfiguration</code> structure to be used by this crawler.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=128)]
+        public string CrawlerSecurityConfiguration
+        {
+            get { return this._crawlerSecurityConfiguration; }
+            set { this._crawlerSecurityConfiguration = value; }
+        }
+
+        // Check to see if CrawlerSecurityConfiguration property is set
+        internal bool IsSetCrawlerSecurityConfiguration()
+        {
+            return this._crawlerSecurityConfiguration != null;
         }
 
         /// <summary>
@@ -121,6 +131,7 @@ namespace Amazon.Glue.Model
         /// A description of the new crawler.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -139,6 +150,7 @@ namespace Amazon.Glue.Model
         /// Name of the new crawler.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -154,9 +166,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Role. 
         /// <para>
-        /// The IAM role (or ARN of an IAM role) used by the new crawler to access customer resources.
+        /// The IAM role or Amazon Resource Name (ARN) of an IAM role used by the new crawler
+        /// to access customer resources.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Role
         {
             get { return this._role; }
@@ -172,9 +186,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Schedule. 
         /// <para>
-        /// A <code>cron</code> expression used to specify the schedule (see <a href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+        /// A <code>cron</code> expression used to specify the schedule. For more information,
+        /// see <a href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
         /// Schedules for Jobs and Crawlers</a>. For example, to run something every day at 12:15
-        /// UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
+        /// UTC, specify <code>cron(15 12 * * ? *)</code>.
         /// </para>
         /// </summary>
         public string Schedule
@@ -192,7 +207,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property SchemaChangePolicy. 
         /// <para>
-        /// Policy for the crawler's update and deletion behavior.
+        /// The policy for the crawler's update and deletion behavior.
         /// </para>
         /// </summary>
         public SchemaChangePolicy SchemaChangePolicy
@@ -213,6 +228,7 @@ namespace Amazon.Glue.Model
         /// The table prefix used for catalog tables that are created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=128)]
         public string TablePrefix
         {
             get { return this._tablePrefix; }
@@ -226,11 +242,33 @@ namespace Amazon.Glue.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to use with this crawler request. You can use tags to limit access to the
+        /// crawler. For more information, see <a href="http://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS
+        /// Tags in AWS Glue</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Targets. 
         /// <para>
         /// A list of collection of targets to crawl.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public CrawlerTargets Targets
         {
             get { return this._targets; }

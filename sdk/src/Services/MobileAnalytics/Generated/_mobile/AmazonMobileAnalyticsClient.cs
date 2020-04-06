@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MobileAnalytics.Model;
 using Amazon.MobileAnalytics.Model.Internal.MarshallTransformations;
+using Amazon.MobileAnalytics.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -41,10 +43,11 @@ namespace Amazon.MobileAnalytics
     /// </summary>
     public partial class AmazonMobileAnalyticsClient : AmazonServiceClient, IAmazonMobileAnalytics
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMobileAnalyticsMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonMobileAnalyticsClient with the credentials loaded from the application's
@@ -215,6 +218,16 @@ namespace Amazon.MobileAnalytics
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -230,34 +243,41 @@ namespace Amazon.MobileAnalytics
 
         #endregion
 
-        
+
         #region  PutEvents
 
         internal virtual PutEventsResponse PutEvents(PutEventsRequest request)
         {
-            var marshaller = PutEventsRequestMarshaller.Instance;
-            var unmarshaller = PutEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
 
-            return Invoke<PutEventsRequest,PutEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutEventsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutEvents operation.
+        /// The PutEvents operation records one or more events. You can have up to 1,500 unique
+        /// custom events per app, any combination of up to 40 attributes and metrics per custom
+        /// event, and any number of attribute or metric values.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutEvents operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutEvents service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutEvents service method, as returned by MobileAnalytics.</returns>
+        /// <exception cref="Amazon.MobileAnalytics.Model.BadRequestException">
+        /// An exception object returned when a request fails.
+        /// </exception>
         public virtual Task<PutEventsResponse> PutEventsAsync(PutEventsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutEventsRequestMarshaller.Instance;
-            var unmarshaller = PutEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PutEventsRequest,PutEventsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PutEventsResponse>(request, options, cancellationToken);
         }
 
         #endregion

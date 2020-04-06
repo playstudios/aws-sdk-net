@@ -29,7 +29,7 @@ namespace Amazon.Route53.Model
 {
     /// <summary>
     /// Container for the parameters to the ListGeoLocations operation.
-    /// Retrieves a list of supported geo locations.
+    /// Retrieves a list of supported geographic locations.
     /// 
     ///  
     /// <para>
@@ -37,6 +37,11 @@ namespace Amazon.Route53.Model
     /// subdivisions for a country (for example, states or provinces), the subdivisions for
     /// that country are listed in alphabetical order immediately after the corresponding
     /// country.
+    /// </para>
+    ///  
+    /// <para>
+    /// For a list of supported geolocation codes, see the <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html">GeoLocation</a>
+    /// data type.
     /// </para>
     /// </summary>
     public partial class ListGeoLocationsRequest : AmazonRoute53Request
@@ -50,18 +55,19 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property StartContinentCode. 
         /// <para>
         /// The code for the continent with which you want to start listing locations that Amazon
-        /// Route 53 supports for geolocation. If Amazon Route 53 has already returned a page
-        /// or more of results, if <code>IsTruncated</code> is true, and if <code>NextContinentCode</code>
-        /// from the previous response has a value, enter that value in <code>StartContinentCode</code>
+        /// Route 53 supports for geolocation. If Route 53 has already returned a page or more
+        /// of results, if <code>IsTruncated</code> is true, and if <code>NextContinentCode</code>
+        /// from the previous response has a value, enter that value in <code>startcontinentcode</code>
         /// to return the next page of results.
         /// </para>
         ///  
         /// <para>
-        /// Include <code>StartContinentCode</code> only if you want to list continents. Don't
-        /// include <code>StartContinentCode</code> when you're listing countries or countries
+        /// Include <code>startcontinentcode</code> only if you want to list continents. Don't
+        /// include <code>startcontinentcode</code> when you're listing countries or countries
         /// with their subdivisions.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=2)]
         public string StartContinentCode
         {
             get { return this._startContinentCode; }
@@ -78,17 +84,13 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property StartCountryCode. 
         /// <para>
         /// The code for the country with which you want to start listing locations that Amazon
-        /// Route 53 supports for geolocation. If Amazon Route 53 has already returned a page
-        /// or more of results, if <code>IsTruncated</code> is <code>true</code>, and if <code>NextCountryCode</code>
-        /// from the previous response has a value, enter that value in <code>StartCountryCode</code>
+        /// Route 53 supports for geolocation. If Route 53 has already returned a page or more
+        /// of results, if <code>IsTruncated</code> is <code>true</code>, and if <code>NextCountryCode</code>
+        /// from the previous response has a value, enter that value in <code>startcountrycode</code>
         /// to return the next page of results.
         /// </para>
-        ///  
-        /// <para>
-        /// Amazon Route 53 uses the two-letter country codes that are specified in <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO
-        /// standard 3166-1 alpha-2</a>.
-        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2)]
         public string StartCountryCode
         {
             get { return this._startCountryCode; }
@@ -104,19 +106,19 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property StartSubdivisionCode. 
         /// <para>
-        /// The code for the subdivision (for example, state or province) with which you want
-        /// to start listing locations that Amazon Route 53 supports for geolocation. If Amazon
-        /// Route 53 has already returned a page or more of results, if <code>IsTruncated</code>
-        /// is <code>true</code>, and if <code>NextSubdivisionCode</code> from the previous response
-        /// has a value, enter that value in <code>StartSubdivisionCode</code> to return the next
-        /// page of results.
+        /// The code for the state of the United States with which you want to start listing locations
+        /// that Amazon Route 53 supports for geolocation. If Route 53 has already returned a
+        /// page or more of results, if <code>IsTruncated</code> is <code>true</code>, and if
+        /// <code>NextSubdivisionCode</code> from the previous response has a value, enter that
+        /// value in <code>startsubdivisioncode</code> to return the next page of results.
         /// </para>
         ///  
         /// <para>
-        /// To list subdivisions of a country, you must include both <code>StartCountryCode</code>
-        /// and <code>StartSubdivisionCode</code>.
+        /// To list subdivisions (U.S. states), you must include both <code>startcountrycode</code>
+        /// and <code>startsubdivisioncode</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=3)]
         public string StartSubdivisionCode
         {
             get { return this._startSubdivisionCode; }
@@ -133,7 +135,7 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property MaxItems. 
         /// <para>
         /// (Optional) The maximum number of geolocations to be included in the response body
-        /// for this request. If more than <code>MaxItems</code> geolocations remain to be listed,
+        /// for this request. If more than <code>maxitems</code> geolocations remain to be listed,
         /// then the value of the <code>IsTruncated</code> element in the response is <code>true</code>.
         /// </para>
         /// </summary>

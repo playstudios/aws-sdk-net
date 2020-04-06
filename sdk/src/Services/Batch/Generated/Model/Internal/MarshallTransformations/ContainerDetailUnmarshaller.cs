@@ -94,10 +94,22 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                     unmarshalledObject.Image = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("instanceType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.InstanceType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("jobRoleArn", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.JobRoleArn = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("linuxParameters", targetDepth))
+                {
+                    var unmarshaller = LinuxParametersUnmarshaller.Instance;
+                    unmarshalledObject.LinuxParameters = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("logStreamName", targetDepth))
@@ -118,6 +130,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                     unmarshalledObject.MountPoints = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("networkInterfaces", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<NetworkInterface, NetworkInterfaceUnmarshaller>(NetworkInterfaceUnmarshaller.Instance);
+                    unmarshalledObject.NetworkInterfaces = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("privileged", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
@@ -134,6 +152,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Reason = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("resourceRequirements", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ResourceRequirement, ResourceRequirementUnmarshaller>(ResourceRequirementUnmarshaller.Instance);
+                    unmarshalledObject.ResourceRequirements = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("taskArn", targetDepth))

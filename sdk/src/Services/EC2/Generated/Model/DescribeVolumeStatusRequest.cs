@@ -49,8 +49,8 @@ namespace Amazon.EC2.Model
     /// If all checks pass, the overall status of the volume is <code>ok</code>. If the check
     /// fails, the overall status is <code>impaired</code>. If the status is <code>insufficient-data</code>,
     /// then the checks may still be taking place on your volume at the time. We recommend
-    /// that you retry the request. For more information on volume status, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
-    /// the Status of Your Volumes</a>.
+    /// that you retry the request. For more information about volume status, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
+    /// the Status of Your Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -68,13 +68,12 @@ namespace Amazon.EC2.Model
     /// This means that you may want to enable the I/O operations for the volume by calling
     /// the <a>EnableVolumeIO</a> action and then check the volume for data consistency.
     /// </para>
-    ///  <note> 
+    ///  
     /// <para>
     /// Volume status is based on the volume status checks, and does not reflect the volume
     /// state. Therefore, volume status does not indicate volumes in the <code>error</code>
     /// state (for example, when a volume is incapable of accepting I/O.)
     /// </para>
-    ///  </note>
     /// </summary>
     public partial class DescribeVolumeStatusRequest : AmazonEC2Request
     {
@@ -86,7 +85,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -206,7 +205,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property VolumeIds. 
         /// <para>
-        /// One or more volume IDs.
+        /// The IDs of the volumes.
         /// </para>
         ///  
         /// <para>

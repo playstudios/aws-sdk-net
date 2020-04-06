@@ -30,13 +30,13 @@ namespace Amazon.IdentityManagement.Model
     /// <summary>
     /// Container for the parameters to the ListSSHPublicKeys operation.
     /// Returns information about the SSH public keys associated with the specified IAM user.
-    /// If there are none, the operation returns an empty list.
+    /// If none exists, the operation returns an empty list.
     /// 
     ///  
     /// <para>
     /// The SSH public keys returned by this operation are used only for authenticating the
     /// IAM user to an AWS CodeCommit repository. For more information about using SSH keys
-    /// to authenticate to an AWS CodeCommit repository, see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+    /// to authenticate to an AWS CodeCommit repository, see <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
     /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User Guide</i>.
     /// </para>
     ///  
@@ -59,6 +59,7 @@ namespace Amazon.IdentityManagement.Model
         /// element in the response that you received to indicate where the next call should start.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=320)]
         public string Marker
         {
             get { return this._marker; }
@@ -74,18 +75,20 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// (Optional) Use this only when paginating results to indicate the maximum number of
-        /// items you want in the response. If additional items exist beyond the maximum you specify,
-        /// the <code>IsTruncated</code> response element is <code>true</code>.
+        /// Use this only when paginating results to indicate the maximum number of items you
+        /// want in the response. If additional items exist beyond the maximum you specify, the
+        /// <code>IsTruncated</code> response element is <code>true</code>.
         /// </para>
         ///  
         /// <para>
-        /// If you do not include this parameter, it defaults to 100. Note that IAM might return
-        /// fewer results, even when there are more results available. In that case, the <code>IsTruncated</code>
-        /// response element returns <code>true</code> and <code>Marker</code> contains a value
-        /// to include in the subsequent call that tells the service where to continue from.
+        /// If you do not include this parameter, the number of items defaults to 100. Note that
+        /// IAM might return fewer results, even when there are more results available. In that
+        /// case, the <code>IsTruncated</code> response element returns <code>true</code>, and
+        /// <code>Marker</code> contains a value to include in the subsequent call that tells
+        /// the service where to continue from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -106,11 +109,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string UserName
         {
             get { return this._userName; }

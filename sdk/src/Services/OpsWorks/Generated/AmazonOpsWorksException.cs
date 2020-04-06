@@ -28,10 +28,10 @@ namespace Amazon.OpsWorks
     ///<summary>
     /// Common exception for the OpsWorks service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonOpsWorksException : AmazonServiceException
+    public partial class AmazonOpsWorksException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonOpsWorksException
@@ -88,7 +88,7 @@ namespace Amazon.OpsWorks
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonOpsWorksException class with serialized data.
         /// </summary>

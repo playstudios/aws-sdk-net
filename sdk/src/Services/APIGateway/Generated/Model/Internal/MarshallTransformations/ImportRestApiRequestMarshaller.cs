@@ -55,10 +55,10 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(ImportRestApiRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/restapis";
             request.AddSubResource("mode", "import");
             
             if (publicRequest.IsSetFailOnWarnings())
@@ -71,7 +71,8 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
                     request.Parameters.Add(kvp.Key, kvp.Value);
                 }
             }
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/restapis";
+            request.MarshallerVersion = 2;
             request.ContentStream =  publicRequest.Body ?? new MemoryStream();
             request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
                 request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);

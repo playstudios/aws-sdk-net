@@ -30,8 +30,8 @@ namespace Amazon.CodePipeline.Model
     /// <summary>
     /// Represents an AWS session credentials object. These credentials are temporary credentials
     /// that are issued by AWS Secure Token Service (STS). They can be used to access input
-    /// and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline
-    /// in AWS CodePipeline.
+    /// and output artifacts in the S3 bucket used to store artifact for the pipeline in AWS
+    /// CodePipeline.
     /// </summary>
     public partial class AWSSessionCredentials
     {
@@ -45,6 +45,7 @@ namespace Amazon.CodePipeline.Model
         /// The access key for the session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AccessKeyId
         {
             get { return this._accessKeyId; }
@@ -63,6 +64,7 @@ namespace Amazon.CodePipeline.Model
         /// The secret access key for the session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SecretAccessKey
         {
             get { return this._secretAccessKey; }
@@ -81,6 +83,7 @@ namespace Amazon.CodePipeline.Model
         /// The token for the session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SessionToken
         {
             get { return this._sessionToken; }

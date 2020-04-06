@@ -58,10 +58,11 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
             string target = "DeviceFarm_20150623.UpdateDevicePool";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-06-23";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -73,10 +74,22 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Arn);
                 }
 
+                if(publicRequest.IsSetClearMaxDevices())
+                {
+                    context.Writer.WritePropertyName("clearMaxDevices");
+                    context.Writer.Write(publicRequest.ClearMaxDevices);
+                }
+
                 if(publicRequest.IsSetDescription())
                 {
                     context.Writer.WritePropertyName("description");
                     context.Writer.Write(publicRequest.Description);
+                }
+
+                if(publicRequest.IsSetMaxDevices())
+                {
+                    context.Writer.WritePropertyName("maxDevices");
+                    context.Writer.Write(publicRequest.MaxDevices);
                 }
 
                 if(publicRequest.IsSetName())

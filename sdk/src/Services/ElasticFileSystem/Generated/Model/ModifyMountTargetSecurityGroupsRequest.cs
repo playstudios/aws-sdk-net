@@ -64,9 +64,10 @@ namespace Amazon.ElasticFileSystem.Model
         /// <summary>
         /// Gets and sets the property MountTargetId. 
         /// <para>
-        /// ID of the mount target whose security groups you want to modify.
+        /// The ID of the mount target whose security groups you want to modify.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MountTargetId
         {
             get { return this._mountTargetId; }
@@ -82,9 +83,10 @@ namespace Amazon.ElasticFileSystem.Model
         /// <summary>
         /// Gets and sets the property SecurityGroups. 
         /// <para>
-        /// Array of up to five VPC security group IDs.
+        /// An array of up to five VPC security group IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> SecurityGroups
         {
             get { return this._securityGroups; }

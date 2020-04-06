@@ -33,7 +33,7 @@ namespace Amazon.AWSSupport.Model
     /// you can filter the cases by date by setting values for the <code>afterTime</code>
     /// and <code>beforeTime</code> request parameters. You can set values for the <code>includeResolvedCases</code>
     /// and <code>includeCommunications</code> request parameters to control how much information
-    /// is returned. 
+    /// is returned.
     /// 
     ///  
     /// <para>
@@ -46,7 +46,7 @@ namespace Amazon.AWSSupport.Model
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// One or more <a>CaseDetails</a> data types. 
+    /// One or more <a>CaseDetails</a> data types.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -112,6 +112,7 @@ namespace Amazon.AWSSupport.Model
         /// cases is 100.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public List<string> CaseIdList
         {
             get { return this._caseIdList; }
@@ -206,6 +207,7 @@ namespace Amazon.AWSSupport.Model
         /// The maximum number of results to return before paginating.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

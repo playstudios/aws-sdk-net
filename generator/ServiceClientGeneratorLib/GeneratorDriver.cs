@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,12 +7,12 @@ using ServiceClientGenerator.Generators.Examples;
 using ServiceClientGenerator.Generators.Marshallers;
 using ServiceClientGenerator.Generators.NuGet;
 using ServiceClientGenerator.Generators.SourceFiles;
-using ServiceClientGenerator.Generators.CodeAnalysis;
 using ServiceClientGenerator.Generators.TestFiles;
 using StructureGenerator = ServiceClientGenerator.Generators.SourceFiles.StructureGenerator;
 using ServiceClientGenerator.Generators.Component;
 
 using Json.LitJson;
+using System.Collections.Concurrent;
 
 namespace ServiceClientGenerator
 {
@@ -75,6 +74,12 @@ namespace ServiceClientGenerator
         /// </summary>
         public string SampleFilesRoot { get; private set; }
 
+        /// <summary>
+        /// The folder under which all of the unit files for the service
+        /// will exist.
+        /// </summary>
+        public string ServiceUnitTestFilesRoot { get; private set; }
+
         private readonly HashSet<Shape> _structuresToProcess = new HashSet<Shape>();
 
         private readonly HashSet<string> _processedStructures = new HashSet<string>();
@@ -92,6 +97,7 @@ namespace ServiceClientGenerator
         public const string TestsSubFoldername = "test";
         public const string CodeAnalysisFoldername = "code-analysis";
         public const string ServicesSubFoldername = "Services";
+        public const string ServicesAnalysisSubFolderName = "ServiceAnalysis";
         public const string CoreSubFoldername = "Core";
         public const string GeneratedCodeFoldername = "Generated";
         public const string CommonTestSubFoldername = "Common";
@@ -106,9 +112,9 @@ namespace ServiceClientGenerator
         private static readonly Dictionary<string, ProjectFileCreator.ProjectConfigurationData> NewlyCreatedProjectFiles
             = new Dictionary<string, ProjectFileCreator.ProjectConfigurationData>();
 
-        public HashSet<string> FilesWrittenToGeneratorFolder {get; private set;}
+        public HashSet<string> FilesWrittenToGeneratorFolder { get; private set; }
 
-
+        private static ConcurrentBag<string> codeGeneratedServiceNames = new ConcurrentBag<string>();
         public GeneratorDriver(ServiceConfiguration config, GenerationManifest generationManifest, GeneratorOptions options)
         {
             FilesWrittenToGeneratorFolder = new HashSet<string>();
@@ -117,28 +123,28 @@ namespace ServiceClientGenerator
             ProjectFileConfigurations = GenerationManifest.ProjectFileConfigurations;
             Options = options;
 
-            // Base name in the manifest is not a reliable source of info, as if append-service
-            // is set 'Service' gets appended and in the case of IAM then sends us to the wrong folder.
-            // Instead we'll use the namespace and rip off any Amazon. prefix. This also helps us
-            // handle versioned namespaces too.
-            var serviceNameRoot = Configuration.Namespace.StartsWith("Amazon.", StringComparison.Ordinal)
-                ? Configuration.Namespace.Substring(7)
-                : Configuration.Namespace;
-
-            ServiceFilesRoot = Path.Combine(Options.SdkRootFolder, SourceSubFoldername, ServicesSubFoldername, config.ServiceFolderName);
+            ServiceFilesRoot = Path.Combine(Options.SdkRootFolder, SourceSubFoldername, ServicesSubFoldername, Configuration.ServiceFolderName);
+            ServiceUnitTestFilesRoot = Path.Combine(Options.SdkRootFolder, TestsSubFoldername, ServicesSubFoldername, Configuration.ServiceFolderName);
             GeneratedFilesRoot = Path.Combine(ServiceFilesRoot, GeneratedCodeFoldername);
 
-            CodeAnalysisRoot = Path.Combine(Options.SdkRootFolder, CodeAnalysisFoldername, "ServiceAnalysis", serviceNameRoot);
+            CodeAnalysisRoot = Path.Combine(Options.SdkRootFolder, CodeAnalysisFoldername, ServicesAnalysisSubFolderName, Configuration.ServiceFolderName);
 
             TestFilesRoot = Path.Combine(Options.SdkRootFolder, TestsSubFoldername);
 
-            ComponentsFilesRoot = Path.Combine(Options.SdkRootFolder, XamarinComponentsSubFolderName, config.ServiceFolderName);
+            ComponentsFilesRoot = Path.Combine(Options.SdkRootFolder, XamarinComponentsSubFolderName, Configuration.ServiceFolderName);
 
             SampleFilesRoot = options.SamplesRootFolder;
+            codeGeneratedServiceNames.Add(Configuration.ServiceFolderName);
         }
 
         public void Execute()
         {
+            if (Configuration.ServiceModel.H2Support == H2SupportDegree.Required)
+            {
+                Console.WriteLine("This service requires HTTP2 for all operations. The AWS SDK for .NET does not yet support this functionality. Not generating service.");
+                return;
+            }
+
             this.FilesWrittenToGeneratorFolder.Clear();
             if (Options.Clean && !Configuration.IsChildConfig)
             {
@@ -188,13 +194,14 @@ namespace ServiceClientGenerator
 
             // Client config object
             ExecuteGenerator(new ServiceConfig(), "Amazon" + Configuration.ClassName + "Config.cs");
+            ExecuteGenerator(new ServiceMetadata(), "Amazon" + Configuration.ClassName + "Metadata.cs", "Internal");
 
             if (Configuration.Namespace == "Amazon.S3")
             {
                 ExecuteProjectFileGenerators();
                 return;
             }
-
+            
 
             // The top level request that all operation requests are children of
             ExecuteGenerator(new BaseRequest(), "Amazon" + Configuration.ClassName + "Request.cs", "Model");
@@ -219,6 +226,7 @@ namespace ServiceClientGenerator
                 GenerateResponse(operation);
                 GenerateRequestMarshaller(operation);
                 GenerateResponseUnmarshaller(operation);
+                GenerateEndpointDiscoveryMarshaller(operation);
                 GenerateExceptions(operation);
             }
 
@@ -244,6 +252,13 @@ namespace ServiceClientGenerator
             }
             else if (Configuration.ServiceModel.Type == ServiceType.Rest_Xml || Configuration.ServiceModel.Type == ServiceType.Rest_Json)
                 ExecuteTestGenerator(new RestMarshallingTests(), fileName);
+
+            //Generate endpoint discovery tests for classes that have an endpoint operation
+            if(Configuration.ServiceModel.FindEndpointOperation() != null)
+            {
+                fileName = string.Format("{0}EndpointDiscoveryMarshallingTests.cs", Configuration.ClassName);
+                ExecuteTestGenerator(new EndpointDiscoveryMarshallingTests(), fileName);
+            }            
 
             // Test that simple customizations were generated correctly
             GenerateCustomizationTests();
@@ -475,7 +490,7 @@ namespace ServiceClientGenerator
                 // Check to see if the exceptions has already been generated for a previous operation.
                 if (!this._processedStructures.Contains(exception.Name))
                 {
-                    
+
 
                     var generator = new ExceptionClass()
                     {
@@ -629,6 +644,25 @@ namespace ServiceClientGenerator
             }
         }
 
+        /// <summary>
+        /// Generates the endpoint discovery marshaller for the specified operation.
+        /// </summary>
+        /// <param name="operation">The operation to generate endpoint discovery marshaller for</param>
+        void GenerateEndpointDiscoveryMarshaller(Operation operation)
+        {            
+            if(operation.IsEndpointOperation || !operation.EndpointDiscoveryEnabled)
+            {
+                return;
+            }
+
+            var generator = new EndpointDiscoveryMarshaller
+            {
+                Operation = operation
+            };
+
+            this.ExecuteGenerator(generator, operation.Name + "EndpointDiscoveryMarshaller.cs", "Model.Internal.MarshallTransformations");                        
+        }
+
         public static void GenerateCoreProjects(GenerationManifest generationManifest,
             GeneratorOptions options)
         {
@@ -642,18 +676,32 @@ namespace ServiceClientGenerator
             }
         }
 
+        /// <summary>
+        /// Method to create/update legacy unit test projects
+        /// </summary>
         public static void UpdateUnitTestProjects(GenerationManifest generationManifest, GeneratorOptions options)
         {
-            Console.WriteLine("Updating unit test project files.");
             string unitTestRoot = Path.Combine(options.SdkRootFolder, "test", "UnitTests");
             var creator = new UnitTestProjectFileCreator(options, generationManifest.UnitTestProjectFileConfigurations);
+            UpdateUnitTestProjects(generationManifest.ServiceConfigurations, options, unitTestRoot, creator);
+        }
 
-            creator.Execute(unitTestRoot, generationManifest.ServiceConfigurations, false);
+        /// <summary>
+        /// Adding Method to create/update service specific unit test projects
+        /// </summary>
+        public static void UpdateUnitTestProjects(GenerationManifest generationManifest, GeneratorOptions options, string serviceTestFilesRoot, ServiceConfiguration serviceConfiguration)
+        {
+            Console.WriteLine("Updating unit test project files.");
+            string unitTestRoot = Path.Combine(serviceTestFilesRoot, "UnitTests");
+            var creator = new UnitTestProjectFileCreator(options, generationManifest.UnitTestProjectFileConfigurations, serviceConfiguration.ServiceFolderName);
 
-            if ((options.PartialBuildList != null) && (options.PartialBuildList.Count() != 0))
-            {
-                creator.Execute(unitTestRoot, generationManifest.ServiceConfigurations, true);
-            }
+            UpdateUnitTestProjects(new[] { serviceConfiguration }, options, unitTestRoot, creator);
+        }
+
+        private static void UpdateUnitTestProjects(IEnumerable<ServiceConfiguration> serviceConfigurations, GeneratorOptions options, string unitTestRoot, UnitTestProjectFileCreator creator)
+        {
+            Console.WriteLine("Updating unit test project files.");
+            creator.Execute(unitTestRoot, serviceConfigurations, false);
         }
 
         public static void UpdateSolutionFiles(GenerationManifest manifest, GeneratorOptions options)
@@ -1023,15 +1071,15 @@ namespace ServiceClientGenerator
                 androidPclVariant = Configuration.PclVariants.Contains("Android");
             }
 
-            
+
             var pclTargetFrameworks = ProjectFileConfigurations.Where(pc => pc.Name.Equals("PCL")).First().SharedNugetTargetFrameworks;
 
             var session = new Dictionary<string, object>
             {
                 { "AssemblyName", assemblyName },
                 { "AssemblyTitle",  assemblyTitle },
-                { "CoreCLRSupport",  Configuration.CoreCLRSupport },
-                { "CoreCLRCoreAssemblyName",  Configuration.ServiceFolderName },
+                { "NetStandardSupport",  Configuration.NetStandardSupport },
+                { "NetStandardCoreAssemblyName",  Configuration.ServiceFolderName },
                 { "NuGetTitle",  nugetTitle },
                 { "AssemblyDescription", Configuration.AssemblyDescription },
                 { "AssemblyVersion", assemblyVersion },
@@ -1109,7 +1157,7 @@ namespace ServiceClientGenerator
             WriteFile(GeneratedFilesRoot, subNamespace, fileName, text, true, true, out outputFile);
             FilesWrittenToGeneratorFolder.Add(outputFile);
         }
-        
+
         /// <summary>
         /// Runs the generator and saves the content in the test directory.
         /// </summary>
@@ -1121,7 +1169,7 @@ namespace ServiceClientGenerator
             generator.Config = this.Configuration;
             var text = generator.TransformText();
             var outputSubFolder = subNamespace == null ? MarshallingTestsSubFolder : Path.Combine(MarshallingTestsSubFolder, subNamespace);
-            WriteFile(TestFilesRoot, outputSubFolder, fileName, text);
+            WriteFile(ServiceUnitTestFilesRoot, outputSubFolder, fileName, text);
         }
 
         void ExecuteGeneratorAssemblyInfo()
@@ -1152,7 +1200,7 @@ namespace ServiceClientGenerator
             generator.Config = this.Configuration;
             var text = generator.TransformText();
             var outputSubFolder = subNamespace == null ? CustomizationTestsSubFolder : Path.Combine(CustomizationTestsSubFolder, subNamespace);
-            WriteFile(TestFilesRoot, outputSubFolder, fileName, text);
+            WriteFile(ServiceUnitTestFilesRoot, outputSubFolder, fileName, text);
         }
 
         internal static bool WriteFile(string baseOutputDir,
@@ -1291,7 +1339,7 @@ namespace ServiceClientGenerator
                 default:
                     throw new Exception("No structure unmarshaller for service type: " + this.Configuration.ServiceModel.Type);
             }
-        }
+        }                
 
         void GenerateCodeAnalysisProject()
         {
@@ -1299,10 +1347,22 @@ namespace ServiceClientGenerator
             command.Execute(CodeAnalysisRoot, this.Configuration);
         }
 
-        public static void RemoveOrphanedShapes(HashSet<string> generatedFiles, string rootFolder)
+        public static void RemoveOrphanedShapesAndServices(HashSet<string> generatedFiles, string sdkRootFolder)
+        {
+            var codeGeneratedServiceList = codeGeneratedServiceNames.Distinct();
+            var srcFolder = Path.Combine(sdkRootFolder, SourceSubFoldername, ServicesSubFoldername);
+            RemoveOrphanedShapes(generatedFiles, srcFolder);
+            // Cleanup orphaned Service src artifacts. This is encountered when the service identifier is modified.
+            RemoveOrphanedServices(srcFolder, codeGeneratedServiceList);
+            // Cleanup orphaned Service test artifacts. This is encountered when the service identifier is modified.
+            RemoveOrphanedServices(Path.Combine(sdkRootFolder, TestsSubFoldername, ServicesSubFoldername), codeGeneratedServiceList);
+            // Cleanup orphaned Service code analysis artifacts. This is encountered when the service identifier is modified.
+            RemoveOrphanedServices(Path.Combine(sdkRootFolder, CodeAnalysisFoldername, ServicesAnalysisSubFolderName), codeGeneratedServiceList);
+        }
+        public static void RemoveOrphanedShapes(HashSet<string> generatedFiles, string srcFolder)
         {
             // Remove orphaned shapes. Most likely due to taking in a model that was still under development.
-            foreach (var file in Directory.GetFiles(rootFolder, "*.cs", SearchOption.AllDirectories))
+            foreach (var file in Directory.GetFiles(srcFolder, "*.cs", SearchOption.AllDirectories))
             {
                 var fullPath = Path.GetFullPath(file);
                 if (fullPath.IndexOf(string.Format(@"\{0}\", GeneratedCodeFoldername), StringComparison.OrdinalIgnoreCase) < 0)
@@ -1312,7 +1372,19 @@ namespace ServiceClientGenerator
                 {
                     Console.Error.WriteLine("**** Warning: Removing orphaned generated code " + Path.GetFileName(file));
                     File.Delete(file);
-    }
+                }
+            }
+        }
+
+
+        private static void RemoveOrphanedServices(string path, IEnumerable<string> codeGeneratedServiceList)
+        {
+            foreach (var directoryName in Directory.GetDirectories(path))
+            {
+                if (!codeGeneratedServiceList.Contains(new DirectoryInfo(directoryName).Name))
+                {
+                    Directory.Delete(directoryName, true);
+                }
             }
         }
     }

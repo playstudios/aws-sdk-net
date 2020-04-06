@@ -58,10 +58,11 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
             string target = "GameLift.CreateFleet";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-10-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,17 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("BuildId");
                     context.Writer.Write(publicRequest.BuildId);
+                }
+
+                if(publicRequest.IsSetCertificateConfiguration())
+                {
+                    context.Writer.WritePropertyName("CertificateConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CertificateConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.CertificateConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetDescription())
@@ -105,6 +117,12 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("FleetType");
                     context.Writer.Write(publicRequest.FleetType);
+                }
+
+                if(publicRequest.IsSetInstanceRoleArn())
+                {
+                    context.Writer.WritePropertyName("InstanceRoleArn");
+                    context.Writer.Write(publicRequest.InstanceRoleArn);
                 }
 
                 if(publicRequest.IsSetLogPaths())
@@ -175,6 +193,12 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetScriptId())
+                {
+                    context.Writer.WritePropertyName("ScriptId");
+                    context.Writer.Write(publicRequest.ScriptId);
+                }
+
                 if(publicRequest.IsSetServerLaunchParameters())
                 {
                     context.Writer.WritePropertyName("ServerLaunchParameters");
@@ -185,6 +209,22 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("ServerLaunchPath");
                     context.Writer.Write(publicRequest.ServerLaunchPath);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

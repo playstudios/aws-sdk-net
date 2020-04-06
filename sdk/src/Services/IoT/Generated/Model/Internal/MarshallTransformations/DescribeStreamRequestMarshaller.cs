@@ -55,13 +55,14 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeStreamRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/streams/{streamId}";
             if (!publicRequest.IsSetStreamId())
                 throw new AmazonIoTException("Request object does not have required field StreamId set");
-            uriResourcePath = uriResourcePath.Replace("{streamId}", StringUtils.FromString(publicRequest.StreamId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{streamId}", StringUtils.FromString(publicRequest.StreamId));
+            request.ResourcePath = "/streams/{streamId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

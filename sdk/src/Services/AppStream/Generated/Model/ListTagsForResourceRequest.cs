@@ -29,13 +29,13 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the ListTagsForResource operation.
-    /// Lists the tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0
-    /// image builders, images, fleets, and stacks.
+    /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag
+    /// AppStream 2.0 image builders, images, fleets, and stacks.
     /// 
     ///  
     /// <para>
-    /// For more information about tags, see <a href="http://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-    /// Your Resources</a> in the <i>Amazon AppStream 2.0 Developer Guide</i>.
+    /// For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+    /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
     /// </para>
     /// </summary>
     public partial class ListTagsForResourceRequest : AmazonAppStreamRequest
@@ -48,6 +48,7 @@ namespace Amazon.AppStream.Model
         /// The Amazon Resource Name (ARN) of the resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceArn
         {
             get { return this._resourceArn; }

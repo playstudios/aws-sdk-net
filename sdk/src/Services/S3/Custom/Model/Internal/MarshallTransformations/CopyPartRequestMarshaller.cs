@@ -56,6 +56,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             if (copyPartRequest.IsSetServerSideEncryptionCustomerMethod())
                 request.Headers.Add(HeaderKeys.XAmzSSECustomerAlgorithmHeader, copyPartRequest.ServerSideEncryptionCustomerMethod);
+
             if (copyPartRequest.IsSetServerSideEncryptionCustomerProvidedKey())
             {
                 request.Headers.Add(HeaderKeys.XAmzSSECustomerKeyHeader, copyPartRequest.ServerSideEncryptionCustomerProvidedKey);
@@ -64,8 +65,10 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                 else
                     request.Headers.Add(HeaderKeys.XAmzSSECustomerKeyMD5Header, AmazonS3Util.ComputeEncodedMD5FromEncodedString(copyPartRequest.ServerSideEncryptionCustomerProvidedKey));
             }
+
             if (copyPartRequest.IsSetCopySourceServerSideEncryptionCustomerMethod())
                 request.Headers.Add(HeaderKeys.XAmzCopySourceSSECustomerAlgorithmHeader, copyPartRequest.CopySourceServerSideEncryptionCustomerMethod);
+
             if (copyPartRequest.IsSetCopySourceServerSideEncryptionCustomerProvidedKey())
             {
                 request.Headers.Add(HeaderKeys.XAmzCopySourceSSECustomerKeyHeader, copyPartRequest.CopySourceServerSideEncryptionCustomerProvidedKey);
@@ -74,13 +77,18 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                 else
                     request.Headers.Add(HeaderKeys.XAmzCopySourceSSECustomerKeyMD5Header, AmazonS3Util.ComputeEncodedMD5FromEncodedString(copyPartRequest.CopySourceServerSideEncryptionCustomerProvidedKey));
             }
-            if (copyPartRequest.IsSetServerSideEncryptionKeyManagementServiceKeyId())
-                request.Headers.Add(HeaderKeys.XAmzServerSideEncryptionAwsKmsKeyIdHeader, copyPartRequest.ServerSideEncryptionKeyManagementServiceKeyId);
 
             if(copyPartRequest.IsSetFirstByte() && copyPartRequest.IsSetLastByte())
             	request.Headers.Add(HeaderKeys.XAmzCopySourceRangeHeader, ConstructCopySourceRangeHeader(copyPartRequest.FirstByte, copyPartRequest.LastByte));
 
-            request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
+            if (string.IsNullOrEmpty(copyPartRequest.DestinationBucket))
+                throw new System.ArgumentException("DestinationBucket is a required property and must be set before making this call.", "CopyPartRequest.DestinationBucket");
+
+            if (string.IsNullOrEmpty(copyPartRequest.DestinationKey))
+                throw new System.ArgumentException("DestinationKey is a required property and must be set before making this call.", "CopyPartRequest.DestinationKey");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
                                                  S3Transforms.ToStringValue(copyPartRequest.DestinationBucket),
                                                  S3Transforms.ToStringValue(copyPartRequest.DestinationKey));
 

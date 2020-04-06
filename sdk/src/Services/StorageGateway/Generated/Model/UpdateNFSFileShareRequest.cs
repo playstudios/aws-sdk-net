@@ -29,7 +29,8 @@ namespace Amazon.StorageGateway.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateNFSFileShare operation.
-    /// Updates a file share. This operation is only supported in the file gateway type.
+    /// Updates a Network File System (NFS) file share. This operation is only supported in
+    /// the file gateway type.
     /// 
     ///  <note> 
     /// <para>
@@ -87,6 +88,7 @@ namespace Amazon.StorageGateway.Model
         /// either valid IP addresses or valid CIDR blocks.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> ClientList
         {
             get { return this._clientList; }
@@ -102,11 +104,13 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property DefaultStorageClass. 
         /// <para>
-        /// The default storage class for objects put into an Amazon S3 bucket by a file gateway.
-        /// Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated,
-        /// the default value S3_STANDARD is used. Optional.
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway.
+        /// Possible values are <code>S3_STANDARD</code>, <code>S3_STANDARD_IA</code>, or <code>S3_ONEZONE_IA</code>.
+        /// If this field is not populated, the default value <code>S3_STANDARD</code> is used.
+        /// Optional.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=20)]
         public string DefaultStorageClass
         {
             get { return this._defaultStorageClass; }
@@ -125,6 +129,7 @@ namespace Amazon.StorageGateway.Model
         /// The Amazon Resource Name (ARN) of the file share to be updated. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string FileShareARN
         {
             get { return this._fileShareARN; }
@@ -140,9 +145,9 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GuessMIMETypeEnabled. 
         /// <para>
-        /// Enables guessing of the MIME type for uploaded objects based on file extensions. Set
-        /// this value to true to enable MIME type guessing, and otherwise to false. The default
-        /// value is true.
+        /// A value that enables guessing of the MIME type for uploaded objects based on file
+        /// extensions. Set this value to true to enable MIME type guessing, and otherwise to
+        /// false. The default value is true.
         /// </para>
         /// </summary>
         public bool GuessMIMETypeEnabled
@@ -179,10 +184,11 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property KMSKey. 
         /// <para>
-        /// The KMS key used for Amazon S3 server side encryption. This value can only be set
-        /// when KmsEncrypted is true. Optional. 
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption.
+        /// This value can only be set when KMSEncrypted is true. Optional. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
         public string KMSKey
         {
             get { return this._kmsKey; }
@@ -216,8 +222,8 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property ObjectACL. 
         /// <para>
-        /// Sets the access control list permission for objects in the S3 bucket that a file gateway
-        /// puts objects into. The default value is "private".
+        /// A value that sets the access control list permission for objects in the S3 bucket
+        /// that a file gateway puts objects into. The default value is "private".
         /// </para>
         /// </summary>
         public ObjectACL ObjectACL
@@ -235,8 +241,8 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property ReadOnly. 
         /// <para>
-        /// Sets the write status of a file share. This value is true if the write status is read-only,
-        /// and otherwise false.
+        /// A value that sets the write status of a file share. This value is true if the write
+        /// status is read-only, and otherwise false.
         /// </para>
         /// </summary>
         public bool ReadOnly
@@ -254,10 +260,18 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property RequesterPays. 
         /// <para>
-        /// Sets who pays the cost of the request and the data download from the Amazon S3 bucket.
-        /// Set this value to true if you want the requester to pay instead of the bucket owner,
-        /// and otherwise to false.
+        /// A value that sets who pays the cost of the request and the cost associated with data
+        /// download from the S3 bucket. If this value is set to true, the requester pays the
+        /// costs. Otherwise the S3 bucket owner pays. However, the S3 bucket owner always pays
+        /// the cost of storing data.
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>RequesterPays</code> is a configuration for the S3 bucket that backs the file
+        /// share, so make sure that the configuration on the file share is the same as the S3
+        /// bucket configuration.
+        /// </para>
+        ///  </note>
         /// </summary>
         public bool RequesterPays
         {
@@ -278,18 +292,19 @@ namespace Amazon.StorageGateway.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// "RootSquash" - Only root is mapped to anonymous user.
+        ///  <code>RootSquash</code> - Only root is mapped to anonymous user.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// "NoSquash" - No one is mapped to anonymous user
+        ///  <code>NoSquash</code> - No one is mapped to anonymous user
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// "AllSquash" - Everyone is mapped to anonymous user.
+        ///  <code>AllSquash</code> - Everyone is mapped to anonymous user.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=5, Max=15)]
         public string Squash
         {
             get { return this._squash; }

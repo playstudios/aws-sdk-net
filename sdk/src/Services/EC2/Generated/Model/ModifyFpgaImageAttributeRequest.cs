@@ -85,6 +85,7 @@ namespace Amazon.EC2.Model
         /// The ID of the AFI.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FpgaImageId
         {
             get { return this._fpgaImageId; }
@@ -154,8 +155,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ProductCodes. 
         /// <para>
-        /// One or more product codes. After you add a product code to an AFI, it can't be removed.
-        /// This parameter is valid only when modifying the <code>productCodes</code> attribute.
+        /// The product codes. After you add a product code to an AFI, it can't be removed. This
+        /// parameter is valid only when modifying the <code>productCodes</code> attribute.
         /// </para>
         /// </summary>
         public List<string> ProductCodes
@@ -173,7 +174,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property UserGroups. 
         /// <para>
-        /// One or more user groups. This parameter is valid only when modifying the <code>loadPermission</code>
+        /// The user groups. This parameter is valid only when modifying the <code>loadPermission</code>
         /// attribute.
         /// </para>
         /// </summary>
@@ -192,7 +193,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property UserIds. 
         /// <para>
-        /// One or more AWS account IDs. This parameter is valid only when modifying the <code>loadPermission</code>
+        /// The AWS account IDs. This parameter is valid only when modifying the <code>loadPermission</code>
         /// attribute.
         /// </para>
         /// </summary>

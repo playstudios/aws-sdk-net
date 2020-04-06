@@ -34,13 +34,15 @@ namespace Amazon.IdentityManagement.Model
     ///  
     /// <para>
     ///  For information about limitations on the number of IAM users you can create, see
-    /// <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+    /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
     /// on IAM Entities</a> in the <i>IAM User Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateUserRequest : AmazonIdentityManagementServiceRequest
     {
         private string _path;
+        private string _permissionsBoundary;
+        private List<Tag> _tags = new List<Tag>();
         private string _userName;
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Instantiates CreateUserRequest with the parameterized properties
         /// </summary>
-        /// <param name="userName">The name of the user to create. This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-. User names are not distinguished by case. For example, you cannot create users named both "TESTUSER" and "testuser".</param>
+        /// <param name="userName">The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".</param>
         public CreateUserRequest(string userName)
         {
             _userName = userName;
@@ -60,7 +62,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Path. 
         /// <para>
-        ///  The path for the user name. For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        ///  The path for the user name. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
         /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -69,13 +71,14 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of either a forward slash (/) by itself or a string
-        /// that must begin and end with forward slashes. In addition, it can contain any ASCII
-        /// character from the ! (\u0021) through the DEL character (\u007F), including most punctuation
-        /// characters, digits, and upper and lowercased letters.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of either a forward slash (/) by itself
+        /// or a string that must begin and end with forward slashes. In addition, it can contain
+        /// any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>),
+        /// including most punctuation characters, digits, and upper and lowercased letters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string Path
         {
             get { return this._path; }
@@ -89,19 +92,65 @@ namespace Amazon.IdentityManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PermissionsBoundary. 
+        /// <para>
+        /// The ARN of the policy that is used to set the permissions boundary for the user.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
+        public string PermissionsBoundary
+        {
+            get { return this._permissionsBoundary; }
+            set { this._permissionsBoundary = value; }
+        }
+
+        // Check to see if PermissionsBoundary property is set
+        internal bool IsSetPermissionsBoundary()
+        {
+            return this._permissionsBoundary != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of tags that you want to attach to the newly created user. Each tag consists
+        /// of a key name and an associated value. For more information about tagging, see <a
+        /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM Identities</a>
+        /// in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If any one of the tags is invalid or if you exceed the allowed number of tags per
+        /// user, then the entire request fails and the user is not created.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property UserName. 
         /// <para>
         /// The name of the user to create.
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-. User names
-        /// are not distinguished by case. For example, you cannot create users named both "TESTUSER"
-        /// and "testuser".
+        /// IAM user, group, role, and policy names must be unique within the account. Names are
+        /// not distinguished by case. For example, you cannot create resources named both "MyResource"
+        /// and "myresource".
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string UserName
         {
             get { return this._userName; }

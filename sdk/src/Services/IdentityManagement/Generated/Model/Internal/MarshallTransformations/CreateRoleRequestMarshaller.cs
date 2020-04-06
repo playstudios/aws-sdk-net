@@ -74,9 +74,29 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("Path", StringUtils.FromString(publicRequest.Path));
                 }
+                if(publicRequest.IsSetPermissionsBoundary())
+                {
+                    request.Parameters.Add("PermissionsBoundary", StringUtils.FromString(publicRequest.PermissionsBoundary));
+                }
                 if(publicRequest.IsSetRoleName())
                 {
                     request.Parameters.Add("RoleName", StringUtils.FromString(publicRequest.RoleName));
+                }
+                if(publicRequest.IsSetTags())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.Tags)
+                    {
+                        if(publicRequestlistValue.IsSetKey())
+                        {
+                            request.Parameters.Add("Tags" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Key", StringUtils.FromString(publicRequestlistValue.Key));
+                        }
+                        if(publicRequestlistValue.IsSetValue())
+                        {
+                            request.Parameters.Add("Tags" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Value", StringUtils.FromString(publicRequestlistValue.Value));
+                        }
+                        publicRequestlistValueIndex++;
+                    }
                 }
             }
             return request;

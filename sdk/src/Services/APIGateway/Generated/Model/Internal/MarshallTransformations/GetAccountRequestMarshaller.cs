@@ -55,10 +55,11 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetAccountRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/account";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/account";
+            request.MarshallerVersion = 2;
 
             return request;
         }

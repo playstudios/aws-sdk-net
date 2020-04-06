@@ -42,10 +42,11 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property AccountId. 
         /// <para>
-        /// The <code>accountId</code> associated with the budget that you want to create a subscriber
-        /// for.
+        /// The <code>accountId</code> that is associated with the budget that you want to create
+        /// a subscriber for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=12, Max=12)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -65,6 +66,7 @@ namespace Amazon.Budgets.Model
         /// within an account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string BudgetName
         {
             get { return this._budgetName; }
@@ -83,6 +85,7 @@ namespace Amazon.Budgets.Model
         /// The notification that you want to create a subscriber for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Notification Notification
         {
             get { return this._notification; }
@@ -101,6 +104,7 @@ namespace Amazon.Budgets.Model
         /// The subscriber that you want to associate with a budget notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Subscriber Subscriber
         {
             get { return this._subscriber; }

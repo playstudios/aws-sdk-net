@@ -144,9 +144,17 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
             {
                 return new InvalidClusterSubnetGroupStateException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidClusterTrack"))
+            {
+                return new InvalidClusterTrackException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
             if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidElasticIpFault"))
             {
                 return new InvalidElasticIpException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidRetentionPeriodFault"))
+            {
+                return new InvalidRetentionPeriodException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidSubnet"))
             {
@@ -171,6 +179,10 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
             if (errorResponse.Code != null && errorResponse.Code.Equals("NumberOfNodesQuotaExceeded"))
             {
                 return new NumberOfNodesQuotaExceededException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("SnapshotScheduleNotFound"))
+            {
+                return new SnapshotScheduleNotFoundException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             if (errorResponse.Code != null && errorResponse.Code.Equals("TagLimitExceededFault"))
             {

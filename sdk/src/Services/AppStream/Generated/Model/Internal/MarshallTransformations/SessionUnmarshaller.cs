@@ -70,6 +70,12 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
                     unmarshalledObject.AuthenticationType = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ConnectionState", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ConnectionState = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("FleetName", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -82,10 +88,28 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
                     unmarshalledObject.Id = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("MaxExpirationTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.MaxExpirationTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NetworkAccessConfiguration", targetDepth))
+                {
+                    var unmarshaller = NetworkAccessConfigurationUnmarshaller.Instance;
+                    unmarshalledObject.NetworkAccessConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("StackName", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.StackName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("StartTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.StartTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("State", targetDepth))

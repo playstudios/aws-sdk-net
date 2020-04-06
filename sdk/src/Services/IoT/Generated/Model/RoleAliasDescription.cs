@@ -64,6 +64,7 @@ namespace Amazon.IoT.Model
         /// The number of seconds for which the credential is valid.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=900, Max=3600)]
         public int CredentialDurationSeconds
         {
             get { return this._credentialDurationSeconds.GetValueOrDefault(); }
@@ -100,6 +101,7 @@ namespace Amazon.IoT.Model
         /// The role alias owner.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=12)]
         public string Owner
         {
             get { return this._owner; }
@@ -118,6 +120,7 @@ namespace Amazon.IoT.Model
         /// The role alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string RoleAlias
         {
             get { return this._roleAlias; }
@@ -131,8 +134,12 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RoleAliasArn.
+        /// Gets and sets the property RoleAliasArn. 
+        /// <para>
+        /// The ARN of the role alias.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string RoleAliasArn
         {
             get { return this._roleAliasArn; }
@@ -151,6 +158,7 @@ namespace Amazon.IoT.Model
         /// The role ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string RoleArn
         {
             get { return this._roleArn; }

@@ -36,6 +36,13 @@ namespace Amazon.Lightsail.Model
     /// This operation waits until the instances are no longer needed before they are detached
     /// from the load balancer.
     /// </para>
+    ///  
+    /// <para>
+    /// The <code>detach instances from load balancer</code> operation supports tag-based
+    /// access control via resource tags applied to the resource identified by <code>load
+    /// balancer name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class DetachInstancesFromLoadBalancerRequest : AmazonLightsailRequest
     {
@@ -49,6 +56,7 @@ namespace Amazon.Lightsail.Model
         /// the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceNames
         {
             get { return this._instanceNames; }
@@ -67,6 +75,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the Lightsail load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }

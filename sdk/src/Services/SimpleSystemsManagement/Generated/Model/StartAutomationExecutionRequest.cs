@@ -40,6 +40,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _maxErrors;
         private ExecutionMode _mode;
         private Dictionary<string, List<string>> _parameters = new Dictionary<string, List<string>>();
+        private List<Tag> _tags = new List<Tag>();
+        private List<TargetLocation> _targetLocations = new List<TargetLocation>();
+        private List<Dictionary<string, List<string>>> _targetMaps = new List<Dictionary<string, List<string>>>();
         private string _targetParameterName;
         private List<Target> _targets = new List<Target>();
 
@@ -50,6 +53,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// the UUID format, and can't be reused.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -68,6 +72,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the Automation document to use for this execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DocumentName
         {
             get { return this._documentName; }
@@ -105,6 +110,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// a number, such as 10, or a percentage, such as 10%. The default value is 10.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxConcurrency
         {
             get { return this._maxConcurrency; }
@@ -137,6 +143,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// 1 so the executions proceed one at a time.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxErrors
         {
             get { return this._maxErrors; }
@@ -175,6 +182,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Automation document.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public Dictionary<string, List<string>> Parameters
         {
             get { return this._parameters; }
@@ -188,12 +196,92 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five
+        /// tags for an automation. Tags enable you to categorize a resource in different ways,
+        /// such as by purpose, owner, or environment. For example, you might want to tag an automation
+        /// to identify an environment or operating system. In this case, you could specify the
+        /// following key name/value pairs:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Key=environment,Value=test</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key=OS,Value=Windows</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// To add tags to an existing patch baseline, use the <a>AddTagsToResource</a> action.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Max=1000)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TargetLocations. 
+        /// <para>
+        /// A location is a combination of AWS Regions and/or AWS accounts where you want to run
+        /// the Automation. Use this action to start an Automation in multiple Regions and multiple
+        /// accounts. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html">Executing
+        /// Automations in Multiple AWS Regions and Accounts</a> in the <i>AWS Systems Manager
+        /// User Guide</i>. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public List<TargetLocation> TargetLocations
+        {
+            get { return this._targetLocations; }
+            set { this._targetLocations = value; }
+        }
+
+        // Check to see if TargetLocations property is set
+        internal bool IsSetTargetLocations()
+        {
+            return this._targetLocations != null && this._targetLocations.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TargetMaps. 
+        /// <para>
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps
+        /// cannot be specified together.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=300)]
+        public List<Dictionary<string, List<string>>> TargetMaps
+        {
+            get { return this._targetMaps; }
+            set { this._targetMaps = value; }
+        }
+
+        // Check to see if TargetMaps property is set
+        internal bool IsSetTargetMaps()
+        {
+            return this._targetMaps != null && this._targetMaps.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TargetParameterName. 
         /// <para>
         /// The name of the parameter used as the target resource for the rate-controlled execution.
-        /// Required if you specify Targets.
+        /// Required if you specify targets.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string TargetParameterName
         {
             get { return this._targetParameterName; }
@@ -212,6 +300,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A key-value mapping to target resources. Required if you specify TargetParameterName.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }

@@ -35,16 +35,18 @@ namespace Amazon.Batch.Model
         private ContainerProperties _containerProperties;
         private string _jobDefinitionArn;
         private string _jobDefinitionName;
+        private NodeProperties _nodeProperties;
         private Dictionary<string, string> _parameters = new Dictionary<string, string>();
         private RetryStrategy _retryStrategy;
         private int? _revision;
         private string _status;
+        private JobTimeout _timeout;
         private string _type;
 
         /// <summary>
         /// Gets and sets the property ContainerProperties. 
         /// <para>
-        /// An object with various properties specific to container-based jobs. 
+        /// An object with various properties specific to container-based jobs.
         /// </para>
         /// </summary>
         public ContainerProperties ContainerProperties
@@ -62,9 +64,10 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property JobDefinitionArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) for the job definition. 
+        /// The Amazon Resource Name (ARN) for the job definition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobDefinitionArn
         {
             get { return this._jobDefinitionArn; }
@@ -80,9 +83,10 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property JobDefinitionName. 
         /// <para>
-        /// The name of the job definition. 
+        /// The name of the job definition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobDefinitionName
         {
             get { return this._jobDefinitionName; }
@@ -96,12 +100,31 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NodeProperties. 
+        /// <para>
+        /// An object with various properties specific to multi-node parallel jobs.
+        /// </para>
+        /// </summary>
+        public NodeProperties NodeProperties
+        {
+            get { return this._nodeProperties; }
+            set { this._nodeProperties = value; }
+        }
+
+        // Check to see if NodeProperties property is set
+        internal bool IsSetNodeProperties()
+        {
+            return this._nodeProperties != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
         /// Default parameters or parameter substitution placeholders that are set in the job
         /// definition. Parameters are specified as a key-value pair mapping. Parameters in a
         /// <code>SubmitJob</code> request override any corresponding parameter defaults from
-        /// the job definition.
+        /// the job definition. For more information about specifying parameters, see <a href="https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html">Job
+        /// Definition Parameters</a> in the <i>AWS Batch User Guide</i>.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Parameters
@@ -140,6 +163,7 @@ namespace Amazon.Batch.Model
         /// The revision of the job definition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Revision
         {
             get { return this._revision.GetValueOrDefault(); }
@@ -171,11 +195,32 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Timeout. 
+        /// <para>
+        /// The timeout configuration for jobs that are submitted with this job definition. You
+        /// can specify a timeout duration after which AWS Batch terminates your jobs if they
+        /// have not finished.
+        /// </para>
+        /// </summary>
+        public JobTimeout Timeout
+        {
+            get { return this._timeout; }
+            set { this._timeout = value; }
+        }
+
+        // Check to see if Timeout property is set
+        internal bool IsSetTimeout()
+        {
+            return this._timeout != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
         /// The type of job definition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Type
         {
             get { return this._type; }

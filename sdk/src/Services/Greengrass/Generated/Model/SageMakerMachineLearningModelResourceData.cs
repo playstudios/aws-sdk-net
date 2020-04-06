@@ -28,11 +28,12 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Greengrass.Model
 {
     /// <summary>
-    /// Attributes that define an SageMaker machine learning resource.
+    /// Attributes that define an Amazon SageMaker machine learning resource.
     /// </summary>
     public partial class SageMakerMachineLearningModelResourceData
     {
         private string _destinationPath;
+        private ResourceDownloadOwnerSetting _ownerSetting;
         private string _sageMakerJobArn;
 
         /// <summary>
@@ -52,8 +53,23 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SageMakerJobArn. The ARN of the SageMaker training job
-        /// that represents the source model.
+        /// Gets and sets the property OwnerSetting.
+        /// </summary>
+        public ResourceDownloadOwnerSetting OwnerSetting
+        {
+            get { return this._ownerSetting; }
+            set { this._ownerSetting = value; }
+        }
+
+        // Check to see if OwnerSetting property is set
+        internal bool IsSetOwnerSetting()
+        {
+            return this._ownerSetting != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SageMakerJobArn. The ARN of the Amazon SageMaker training
+        /// job that represents the source model.
         /// </summary>
         public string SageMakerJobArn
         {

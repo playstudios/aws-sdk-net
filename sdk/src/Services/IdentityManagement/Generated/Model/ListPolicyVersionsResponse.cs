@@ -44,7 +44,7 @@ namespace Amazon.IdentityManagement.Model
         /// request parameter to retrieve more items. Note that IAM might return fewer than the
         /// <code>MaxItems</code> number of results even when there are more results available.
         /// We recommend that you check <code>IsTruncated</code> after every call to ensure that
-        /// you receive all of your results.
+        /// you receive all your results.
         /// </para>
         /// </summary>
         public bool IsTruncated
@@ -86,7 +86,7 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about managed policy versions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+        /// For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
         /// for Managed Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>

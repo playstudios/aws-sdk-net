@@ -33,9 +33,9 @@ namespace Amazon.DirectoryService.Model
     /// 
     ///  
     /// <para>
-    /// Before you call <i>ConnectDirectory</i>, ensure that all of the required permissions
+    /// Before you call <code>ConnectDirectory</code>, ensure that all of the required permissions
     /// have been explicitly granted through a policy. For details about what permissions
-    /// are required to run the <i>ConnectDirectory</i> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
+    /// are required to run the <code>ConnectDirectory</code> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
     /// Directory Service API Permissions: Actions, Resources, and Conditions Reference</a>.
     /// </para>
     /// </summary>
@@ -47,6 +47,7 @@ namespace Amazon.DirectoryService.Model
         private string _password;
         private string _shortName;
         private DirectorySize _size;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ConnectSettings. 
@@ -55,6 +56,7 @@ namespace Amazon.DirectoryService.Model
         /// the operation.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DirectoryConnectSettings ConnectSettings
         {
             get { return this._connectSettings; }
@@ -70,9 +72,10 @@ namespace Amazon.DirectoryService.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// A textual description for the directory.
+        /// A description for the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=128)]
         public string Description
         {
             get { return this._description; }
@@ -88,9 +91,10 @@ namespace Amazon.DirectoryService.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The fully-qualified name of the on-premises directory, such as <code>corp.example.com</code>.
+        /// The fully qualified name of the on-premises directory, such as <code>corp.example.com</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -109,6 +113,7 @@ namespace Amazon.DirectoryService.Model
         /// The password for the on-premises user account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Password
         {
             get { return this._password; }
@@ -145,6 +150,7 @@ namespace Amazon.DirectoryService.Model
         /// The size of the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DirectorySize Size
         {
             get { return this._size; }
@@ -155,6 +161,24 @@ namespace Amazon.DirectoryService.Model
         internal bool IsSetSize()
         {
             return this._size != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to be assigned to AD Connector.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

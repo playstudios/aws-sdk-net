@@ -57,7 +57,7 @@ namespace Amazon.Glacier.Model
     ///  
     /// <para>
     /// You can set a maximum limit for the number of jobs returned in the response by specifying
-    /// the <code>limit</code> parameter in the request. The default limit is 1000. The number
+    /// the <code>limit</code> parameter in the request. The default limit is 50. The number
     /// of jobs returned might be fewer than the limit, but the number of returned jobs never
     /// exceeds the limit.
     /// </para>
@@ -73,7 +73,7 @@ namespace Amazon.Glacier.Model
     ///  
     /// <para>
     /// For more information about using this operation, see the documentation for the underlying
-    /// REST API <a href="http://docs.aws.amazon.com/amazonglacier/latest/dev/api-jobs-get.html">List
+    /// REST API <a href="https://docs.aws.amazon.com/amazonglacier/latest/dev/api-jobs-get.html">List
     /// Jobs</a>. 
     /// </para>
     /// </summary>
@@ -103,7 +103,7 @@ namespace Amazon.Glacier.Model
         /// <summary>
         /// Instantiates ListJobsRequest with the parameterized properties
         /// </summary>
-        /// <param name="accountId">The <code>AccountId</code> value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '<code>-</code>' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. </param>
+        /// <param name="accountId">The <code>AccountId</code> value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '<code>-</code>' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. </param>
         /// <param name="vaultName">The name of the vault.</param>
         public ListJobsRequest(string accountId, string vaultName)
         {
@@ -116,11 +116,12 @@ namespace Amazon.Glacier.Model
         /// <para>
         /// The <code>AccountId</code> value is the AWS account ID of the account that owns the
         /// vault. You can either specify an AWS account ID or optionally a single '<code>-</code>'
-        /// (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the
-        /// credentials used to sign the request. If you use an account ID, do not include any
-        /// hyphens ('-') in the ID. 
+        /// (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with
+        /// the credentials used to sign the request. If you use an account ID, do not include
+        /// any hyphens ('-') in the ID. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -154,7 +155,7 @@ namespace Amazon.Glacier.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// The maximum number of jobs to be returned. The default limit is 1000. The number of
+        /// The maximum number of jobs to be returned. The default limit is 50. The number of
         /// jobs returned might be fewer than the specified limit, but the number of returned
         /// jobs never exceeds the limit.
         /// </para>
@@ -217,6 +218,7 @@ namespace Amazon.Glacier.Model
         /// The name of the vault.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VaultName
         {
             get { return this._vaultName; }

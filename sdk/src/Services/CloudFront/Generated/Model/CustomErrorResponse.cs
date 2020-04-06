@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace Amazon.CloudFront.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// For more information about custom error pages, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
+    /// For more information about custom error pages, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
     /// Error Responses</a> in the <i>Amazon CloudFront Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -62,12 +62,7 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  
         /// <para>
-        /// If you don't want to specify a value, include an empty element, <code>&lt;ErrorCachingMinTTL&gt;</code>,
-        /// in the XML document.
-        /// </para>
-        ///  
-        /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
         /// Error Responses</a> in the <i>Amazon CloudFront Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -90,6 +85,7 @@ namespace Amazon.CloudFront.Model
         /// duration.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int ErrorCode
         {
             get { return this._errorCode.GetValueOrDefault(); }
@@ -130,8 +126,7 @@ namespace Amazon.CloudFront.Model
         ///  </li> </ul> 
         /// <para>
         /// If you specify a value for <code>ResponseCode</code>, you must also specify a value
-        /// for <code>ResponsePagePath</code>. If you don't want to specify a value, include an
-        /// empty element, <code>&lt;ResponseCode&gt;</code>, in the XML document.
+        /// for <code>ResponsePagePath</code>.
         /// </para>
         /// </summary>
         public string ResponseCode
@@ -171,8 +166,7 @@ namespace Amazon.CloudFront.Model
         ///  </li> </ul> 
         /// <para>
         /// If you specify a value for <code>ResponsePagePath</code>, you must also specify a
-        /// value for <code>ResponseCode</code>. If you don't want to specify a value, include
-        /// an empty element, <code>&lt;ResponsePagePath&gt;</code>, in the XML document.
+        /// value for <code>ResponseCode</code>.
         /// </para>
         ///  
         /// <para>

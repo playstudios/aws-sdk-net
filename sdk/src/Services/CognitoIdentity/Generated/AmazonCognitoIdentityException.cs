@@ -28,10 +28,10 @@ namespace Amazon.CognitoIdentity
     ///<summary>
     /// Common exception for the CognitoIdentity service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonCognitoIdentityException : AmazonServiceException
+    public partial class AmazonCognitoIdentityException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonCognitoIdentityException
@@ -88,7 +88,7 @@ namespace Amazon.CognitoIdentity
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonCognitoIdentityException class with serialized data.
         /// </summary>

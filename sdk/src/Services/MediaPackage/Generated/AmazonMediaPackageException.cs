@@ -28,10 +28,10 @@ namespace Amazon.MediaPackage
     ///<summary>
     /// Common exception for the MediaPackage service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonMediaPackageException : AmazonServiceException
+    public partial class AmazonMediaPackageException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonMediaPackageException
@@ -88,7 +88,7 @@ namespace Amazon.MediaPackage
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonMediaPackageException class with serialized data.
         /// </summary>

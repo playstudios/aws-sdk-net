@@ -43,6 +43,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// ARN of the input delivery stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string ResourceARN
         {
             get { return this._resourceARN; }
@@ -59,10 +60,11 @@ namespace Amazon.KinesisAnalytics.Model
         /// Gets and sets the property RoleARN. 
         /// <para>
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream
-        /// on your behalf. You need to make sure the role has necessary permissions to access
-        /// the stream.
+        /// on your behalf. You need to make sure that the role has the necessary permissions
+        /// to access the stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string RoleARN
         {
             get { return this._roleARN; }

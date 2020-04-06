@@ -55,16 +55,17 @@ namespace Amazon.Mobile.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeProjectRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Mobile");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/project";
             
             if (publicRequest.IsSetProjectId())
                 request.Parameters.Add("projectId", StringUtils.FromString(publicRequest.ProjectId));
             
             if (publicRequest.IsSetSyncFromResources())
                 request.Parameters.Add("syncFromResources", StringUtils.FromBool(publicRequest.SyncFromResources));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/project";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

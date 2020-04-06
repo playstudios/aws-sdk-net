@@ -32,9 +32,48 @@ namespace Amazon.CodeBuild.Model
     /// </summary>
     public partial class BuildArtifacts
     {
+        private string _artifactIdentifier;
+        private bool? _encryptionDisabled;
         private string _location;
         private string _md5sum;
+        private bool? _overrideArtifactName;
         private string _sha256sum;
+
+        /// <summary>
+        /// Gets and sets the property ArtifactIdentifier. 
+        /// <para>
+        ///  An identifier for this artifact definition. 
+        /// </para>
+        /// </summary>
+        public string ArtifactIdentifier
+        {
+            get { return this._artifactIdentifier; }
+            set { this._artifactIdentifier = value; }
+        }
+
+        // Check to see if ArtifactIdentifier property is set
+        internal bool IsSetArtifactIdentifier()
+        {
+            return this._artifactIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EncryptionDisabled. 
+        /// <para>
+        ///  Information that tells you if encryption for build artifacts is disabled. 
+        /// </para>
+        /// </summary>
+        public bool EncryptionDisabled
+        {
+            get { return this._encryptionDisabled.GetValueOrDefault(); }
+            set { this._encryptionDisabled = value; }
+        }
+
+        // Check to see if EncryptionDisabled property is set
+        internal bool IsSetEncryptionDisabled()
+        {
+            return this._encryptionDisabled.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property Location. 
@@ -61,8 +100,7 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  
         /// <para>
-        /// You can use this hash along with a checksum tool to confirm both file integrity and
-        /// authenticity.
+        /// You can use this hash along with a checksum tool to confirm file integrity and authenticity.
         /// </para>
         ///  <note> 
         /// <para>
@@ -84,14 +122,34 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OverrideArtifactName. 
+        /// <para>
+        ///  If this flag is set, a name specified in the buildspec file overrides the artifact
+        /// name. The name specified in a buildspec file is calculated at build time and uses
+        /// the Shell Command Language. For example, you can append a date and time to your artifact
+        /// name so that it is always unique. 
+        /// </para>
+        /// </summary>
+        public bool OverrideArtifactName
+        {
+            get { return this._overrideArtifactName.GetValueOrDefault(); }
+            set { this._overrideArtifactName = value; }
+        }
+
+        // Check to see if OverrideArtifactName property is set
+        internal bool IsSetOverrideArtifactName()
+        {
+            return this._overrideArtifactName.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Sha256sum. 
         /// <para>
         /// The SHA-256 hash of the build artifact.
         /// </para>
         ///  
         /// <para>
-        /// You can use this hash along with a checksum tool to confirm both file integrity and
-        /// authenticity.
+        /// You can use this hash along with a checksum tool to confirm file integrity and authenticity.
         /// </para>
         ///  <note> 
         /// <para>

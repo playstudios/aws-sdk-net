@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of DescribePlacementGroups.
+    /// This is the response object from the DescribePlacementGroups operation.
     /// </summary>
     public partial class DescribePlacementGroupsResponse : AmazonWebServiceResponse
     {
@@ -37,7 +37,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property PlacementGroups. 
         /// <para>
-        /// One or more placement groups.
+        /// Information about the placement groups.
         /// </para>
         /// </summary>
         public List<PlacementGroup> PlacementGroups

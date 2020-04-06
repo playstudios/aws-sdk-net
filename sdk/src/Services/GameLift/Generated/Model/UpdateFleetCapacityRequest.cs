@@ -36,10 +36,10 @@ namespace Amazon.GameLift.Model
     /// 
     ///  
     /// <para>
-    /// If you're using autoscaling (see <a>PutScalingPolicy</a>), you may want to specify
-    /// a minimum and/or maximum capacity. If you don't provide these, autoscaling can set
-    /// capacity anywhere between zero and the <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_gamelift">service
-    /// limits</a>.
+    /// Specify minimum and maximum number of instances. Amazon GameLift will not change fleet
+    /// capacity to values fall outside of this range. This is particularly important when
+    /// using auto-scaling (see <a>PutScalingPolicy</a>) to allow capacity to adjust based
+    /// on player demand while imposing limits on automatic adjustments.
     /// </para>
     ///  
     /// <para>
@@ -52,7 +52,16 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  
     /// <para>
-    /// Fleet-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
+    /// up GameLift Fleets</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -64,29 +73,13 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Describe fleets:
+    ///  <a>DeleteFleet</a> 
     /// </para>
-    ///  <ul> <li> 
+    ///  </li> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetUtilization</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetEvents</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
     /// <para>
     /// Update fleets:
     /// </para>
@@ -108,35 +101,7 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> </ul> </li> <li> 
     /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -153,6 +118,7 @@ namespace Amazon.GameLift.Model
         /// Number of EC2 instances you want this fleet to host.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int DesiredInstances
         {
             get { return this._desiredInstances.GetValueOrDefault(); }
@@ -168,9 +134,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet to update capacity for.
+        /// A unique identifier for a fleet to update capacity for. You can use either the fleet
+        /// ID or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FleetId
         {
             get { return this._fleetId; }
@@ -186,9 +154,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MaxSize. 
         /// <para>
-        /// Maximum value allowed for the fleet's instance count. Default if not set is 1.
+        /// The maximum value allowed for the fleet's instance count. Default if not set is 1.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MaxSize
         {
             get { return this._maxSize.GetValueOrDefault(); }
@@ -204,9 +173,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MinSize. 
         /// <para>
-        /// Minimum value allowed for the fleet's instance count. Default if not set is 0.
+        /// The minimum value allowed for the fleet's instance count. Default if not set is 0.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MinSize
         {
             get { return this._minSize.GetValueOrDefault(); }

@@ -34,6 +34,7 @@ namespace Amazon.SageMakerRuntime.Model
     {
         private MemoryStream _body;
         private string _contentType;
+        private string _customAttributes;
         private string _invokedProductionVariant;
 
         /// <summary>
@@ -41,7 +42,13 @@ namespace Amazon.SageMakerRuntime.Model
         /// <para>
         /// Includes the inference provided by the model.
         /// </para>
+        ///  
+        /// <para>
+        /// For information about the format of the response body, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html">Common
+        /// Data Formats—Inference</a>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=5242880)]
         public MemoryStream Body
         {
             get { return this._body; }
@@ -60,6 +67,7 @@ namespace Amazon.SageMakerRuntime.Model
         /// The MIME type of the inference returned in the response body.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string ContentType
         {
             get { return this._contentType; }
@@ -73,11 +81,44 @@ namespace Amazon.SageMakerRuntime.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CustomAttributes. 
+        /// <para>
+        /// Provides additional information in the response about the inference returned by a
+        /// model hosted at an Amazon SageMaker endpoint. The information is an opaque value that
+        /// is forwarded verbatim. You could use this value, for example, to return an ID received
+        /// in the <code>CustomAttributes</code> header of a request or other metadata that a
+        /// service endpoint was programmed to produce. The value must consist of no more than
+        /// 1024 visible US-ASCII characters as specified in <a href="https://tools.ietf.org/html/rfc7230#section-3.2.6">Section
+        /// 3.3.6. Field Value Components</a> of the Hypertext Transfer Protocol (HTTP/1.1). If
+        /// the customer wants the custom attribute returned, the model must set the custom attribute
+        /// to be included on the way back. 
+        /// </para>
+        ///  
+        /// <para>
+        /// This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker
+        /// Python SDK.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=1024)]
+        public string CustomAttributes
+        {
+            get { return this._customAttributes; }
+            set { this._customAttributes = value; }
+        }
+
+        // Check to see if CustomAttributes property is set
+        internal bool IsSetCustomAttributes()
+        {
+            return this._customAttributes != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property InvokedProductionVariant. 
         /// <para>
         /// Identifies the production variant that was invoked.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string InvokedProductionVariant
         {
             get { return this._invokedProductionVariant; }

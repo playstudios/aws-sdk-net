@@ -68,7 +68,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// Values: Configuration, Management, Monitoring, Security
+        /// Values: configuration, management, monitoring, security
         /// </para>
         /// </summary>
         public List<string> EventCategories
@@ -164,7 +164,8 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: cluster, cluster-parameter-group, cluster-security-group, and cluster-snapshot.
+        /// Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
+        /// and scheduled-action.
         /// </para>
         /// </summary>
         public string SourceType
@@ -185,6 +186,7 @@ namespace Amazon.Redshift.Model
         /// The name of the modified Amazon Redshift event notification subscription.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubscriptionName
         {
             get { return this._subscriptionName; }

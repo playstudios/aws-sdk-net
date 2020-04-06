@@ -28,8 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
-    /// Contains information about an AWS Directory Service directory for use with Amazon
-    /// WorkSpaces.
+    /// Describes a directory that is used with Amazon WorkSpaces.
     /// </summary>
     public partial class WorkspaceDirectory
     {
@@ -40,9 +39,13 @@ namespace Amazon.WorkSpaces.Model
         private WorkspaceDirectoryType _directoryType;
         private List<string> _dnsIpAddresses = new List<string>();
         private string _iamRoleId;
+        private List<string> _ipGroupIds = new List<string>();
         private string _registrationCode;
+        private SelfservicePermissions _selfservicePermissions;
         private WorkspaceDirectoryState _state;
         private List<string> _subnetIds = new List<string>();
+        private Tenancy _tenancy;
+        private WorkspaceAccessProperties _workspaceAccessProperties;
         private DefaultWorkspaceCreationProperties _workspaceCreationProperties;
         private string _workspaceSecurityGroupId;
 
@@ -70,6 +73,7 @@ namespace Amazon.WorkSpaces.Model
         /// The user name for the service account.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string CustomerUserName
         {
             get { return this._customerUserName; }
@@ -88,6 +92,7 @@ namespace Amazon.WorkSpaces.Model
         /// The directory identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=65)]
         public string DirectoryId
         {
             get { return this._directoryId; }
@@ -174,12 +179,31 @@ namespace Amazon.WorkSpaces.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IpGroupIds. 
+        /// <para>
+        /// The identifiers of the IP access control groups associated with the directory.
+        /// </para>
+        /// </summary>
+        public List<string> IpGroupIds
+        {
+            get { return this._ipGroupIds; }
+            set { this._ipGroupIds = value; }
+        }
+
+        // Check to see if IpGroupIds property is set
+        internal bool IsSetIpGroupIds()
+        {
+            return this._ipGroupIds != null && this._ipGroupIds.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property RegistrationCode. 
         /// <para>
         /// The registration code for the directory. This is the code that users enter in their
         /// Amazon WorkSpaces client application to connect to the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public string RegistrationCode
         {
             get { return this._registrationCode; }
@@ -193,9 +217,27 @@ namespace Amazon.WorkSpaces.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SelfservicePermissions. 
+        /// <para>
+        /// The default self-service permissions for WorkSpaces in the directory.
+        /// </para>
+        /// </summary>
+        public SelfservicePermissions SelfservicePermissions
+        {
+            get { return this._selfservicePermissions; }
+            set { this._selfservicePermissions = value; }
+        }
+
+        // Check to see if SelfservicePermissions property is set
+        internal bool IsSetSelfservicePermissions()
+        {
+            return this._selfservicePermissions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property State. 
         /// <para>
-        /// The state of the directory's registration with Amazon WorkSpaces
+        /// The state of the directory's registration with Amazon WorkSpaces.
         /// </para>
         /// </summary>
         public WorkspaceDirectoryState State
@@ -216,6 +258,7 @@ namespace Amazon.WorkSpaces.Model
         /// The identifiers of the subnets used with the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2)]
         public List<string> SubnetIds
         {
             get { return this._subnetIds; }
@@ -226,6 +269,45 @@ namespace Amazon.WorkSpaces.Model
         internal bool IsSetSubnetIds()
         {
             return this._subnetIds != null && this._subnetIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tenancy. 
+        /// <para>
+        /// Specifies whether the directory is dedicated or shared. To use Bring Your Own License
+        /// (BYOL), this value must be set to <code>DEDICATED</code>. For more information, see
+        /// <a href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
+        /// Your Own Windows Desktop Images</a>.
+        /// </para>
+        /// </summary>
+        public Tenancy Tenancy
+        {
+            get { return this._tenancy; }
+            set { this._tenancy = value; }
+        }
+
+        // Check to see if Tenancy property is set
+        internal bool IsSetTenancy()
+        {
+            return this._tenancy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WorkspaceAccessProperties. 
+        /// <para>
+        /// The devices and operating systems that users can use to access WorkSpaces.
+        /// </para>
+        /// </summary>
+        public WorkspaceAccessProperties WorkspaceAccessProperties
+        {
+            get { return this._workspaceAccessProperties; }
+            set { this._workspaceAccessProperties = value; }
+        }
+
+        // Check to see if WorkspaceAccessProperties property is set
+        internal bool IsSetWorkspaceAccessProperties()
+        {
+            return this._workspaceAccessProperties != null;
         }
 
         /// <summary>
@@ -252,6 +334,7 @@ namespace Amazon.WorkSpaces.Model
         /// The identifier of the security group that is assigned to new WorkSpaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=11, Max=20)]
         public string WorkspaceSecurityGroupId
         {
             get { return this._workspaceSecurityGroupId; }

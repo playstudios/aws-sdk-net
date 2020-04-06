@@ -36,6 +36,7 @@ namespace Amazon.CloudTrail.Model
         private string _cloudWatchLogsRoleArn;
         private bool? _includeGlobalServiceEvents;
         private bool? _isMultiRegionTrail;
+        private bool? _isOrganizationTrail;
         private string _kmsKeyId;
         private bool? _logFileValidationEnabled;
         private string _name;
@@ -121,6 +122,24 @@ namespace Amazon.CloudTrail.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IsOrganizationTrail. 
+        /// <para>
+        /// Specifies whether the trail is an organization trail.
+        /// </para>
+        /// </summary>
+        public bool IsOrganizationTrail
+        {
+            get { return this._isOrganizationTrail.GetValueOrDefault(); }
+            set { this._isOrganizationTrail = value; }
+        }
+
+        // Check to see if IsOrganizationTrail property is set
+        internal bool IsSetIsOrganizationTrail()
+        {
+            return this._isOrganizationTrail.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value
@@ -128,7 +147,7 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012</code>
+        ///  <code>arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012</code>
         /// 
         /// </para>
         /// </summary>
@@ -202,7 +221,7 @@ namespace Amazon.CloudTrail.Model
         /// Gets and sets the property S3KeyPrefix. 
         /// <para>
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have
-        /// designated for log file delivery. For more information, see <a href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
+        /// designated for log file delivery. For more information, see <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
         /// Your CloudTrail Log Files</a>.
         /// </para>
         /// </summary>
@@ -226,7 +245,7 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:sns:us-east-1:123456789012:MyTopic</code> 
+        ///  <code>arn:aws:sns:us-east-2:123456789012:MyTopic</code> 
         /// </para>
         /// </summary>
         public string SnsTopicARN
@@ -244,9 +263,10 @@ namespace Amazon.CloudTrail.Model
         /// <summary>
         /// Gets and sets the property SnsTopicName. 
         /// <para>
-        /// This field is deprecated. Use SnsTopicARN.
+        /// This field is no longer in use. Use SnsTopicARN.
         /// </para>
         /// </summary>
+        [Obsolete("This field is deprecated. Use SnsTopicARN.")]
         public string SnsTopicName
         {
             get { return this._snsTopicName; }
@@ -266,7 +286,7 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail</code> 
+        ///  <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> 
         /// </para>
         /// </summary>
         public string TrailARN

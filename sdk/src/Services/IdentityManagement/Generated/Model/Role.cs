@@ -39,17 +39,21 @@ namespace Amazon.IdentityManagement.Model
         private string _description;
         private int? _maxSessionDuration;
         private string _path;
+        private AttachedPermissionsBoundary _permissionsBoundary;
         private string _roleId;
+        private RoleLastUsed _roleLastUsed;
         private string _roleName;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
         ///  The Amazon Resource Name (ARN) specifying the role. For more information about ARNs
-        /// and how to use them in policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// and how to use them in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
         /// Identifiers</a> in the <i>IAM User Guide</i> guide. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string Arn
         {
             get { return this._arn; }
@@ -68,6 +72,7 @@ namespace Amazon.IdentityManagement.Model
         /// The policy that grants an entity permission to assume the role.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=131072)]
         public string AssumeRolePolicyDocument
         {
             get { return this._assumeRolePolicyDocument; }
@@ -87,6 +92,7 @@ namespace Amazon.IdentityManagement.Model
         /// format</a>, when the role was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreateDate
         {
             get { return this._createDate.GetValueOrDefault(); }
@@ -105,6 +111,7 @@ namespace Amazon.IdentityManagement.Model
         /// A description of the role that you provide.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1000)]
         public string Description
         {
             get { return this._description; }
@@ -121,10 +128,11 @@ namespace Amazon.IdentityManagement.Model
         /// Gets and sets the property MaxSessionDuration. 
         /// <para>
         /// The maximum session duration (in seconds) for the specified role. Anyone who uses
-        /// the AWS CLI or API to assume the role can specify the duration using the optional
+        /// the AWS CLI, or API to assume the role can specify the duration using the optional
         /// <code>DurationSeconds</code> API parameter or <code>duration-seconds</code> CLI parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3600, Max=43200)]
         public int MaxSessionDuration
         {
             get { return this._maxSessionDuration.GetValueOrDefault(); }
@@ -140,10 +148,11 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Path. 
         /// <para>
-        ///  The path to the role. For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide. 
+        ///  The path to the role. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string Path
         {
             get { return this._path; }
@@ -157,13 +166,37 @@ namespace Amazon.IdentityManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PermissionsBoundary. 
+        /// <para>
+        /// The ARN of the policy used to set the permissions boundary for the role.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+        /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        public AttachedPermissionsBoundary PermissionsBoundary
+        {
+            get { return this._permissionsBoundary; }
+            set { this._permissionsBoundary = value; }
+        }
+
+        // Check to see if PermissionsBoundary property is set
+        internal bool IsSetPermissionsBoundary()
+        {
+            return this._permissionsBoundary != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RoleId. 
         /// <para>
         ///  The stable and unique string identifying the role. For more information about IDs,
-        /// see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide. 
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=16, Max=128)]
         public string RoleId
         {
             get { return this._roleId; }
@@ -177,11 +210,35 @@ namespace Amazon.IdentityManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RoleLastUsed. 
+        /// <para>
+        /// Contains information about the last time that an IAM role was used. This includes
+        /// the date and time and the Region in which the role was last used. Activity is only
+        /// reported for the trailing 400 days. This period can be shorter if your Region began
+        /// supporting these features within the last year. The role might have been used more
+        /// than 400 days ago. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
+        /// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        public RoleLastUsed RoleLastUsed
+        {
+            get { return this._roleLastUsed; }
+            set { this._roleLastUsed = value; }
+        }
+
+        // Check to see if RoleLastUsed property is set
+        internal bool IsSetRoleLastUsed()
+        {
+            return this._roleLastUsed != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RoleName. 
         /// <para>
         /// The friendly name that identifies the role.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string RoleName
         {
             get { return this._roleName; }
@@ -192,6 +249,27 @@ namespace Amazon.IdentityManagement.Model
         internal bool IsSetRoleName()
         {
             return this._roleName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of tags that are attached to the specified role. For more information about
+        /// tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+        /// IAM Identities</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

@@ -29,9 +29,30 @@ namespace Amazon.ECS.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateService operation.
-    /// Modifies the desired count, deployment configuration, network configuration, or task
-    /// definition used in a service.
+    /// Modifies the parameters of a service.
     /// 
+    ///  
+    /// <para>
+    /// For services using the rolling update (<code>ECS</code>) deployment controller, the
+    /// desired count, deployment configuration, network configuration, or task definition
+    /// used can be updated.
+    /// </para>
+    ///  
+    /// <para>
+    /// For services using the blue/green (<code>CODE_DEPLOY</code>) deployment controller,
+    /// only the desired count, deployment configuration, and health check grace period can
+    /// be updated using this API. If the network configuration, platform version, or task
+    /// definition need to be updated, a new AWS CodeDeploy deployment should be created.
+    /// For more information, see <a href="https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html">CreateDeployment</a>
+    /// in the <i>AWS CodeDeploy API Reference</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For services using an external deployment controller, you can update only the desired
+    /// count and health check grace period using this API. If the launch type, load balancer,
+    /// network configuration, platform version, or task definition need to be updated, you
+    /// should create a new task set. For more information, see <a>CreateTaskSet</a>.
+    /// </para>
     ///  
     /// <para>
     /// You can add to or subtract from the number of instantiations of a task definition
@@ -137,15 +158,43 @@ namespace Amazon.ECS.Model
     /// </summary>
     public partial class UpdateServiceRequest : AmazonECSRequest
     {
+        private List<CapacityProviderStrategyItem> _capacityProviderStrategy = new List<CapacityProviderStrategyItem>();
         private string _cluster;
         private DeploymentConfiguration _deploymentConfiguration;
         private int? _desiredCount;
         private bool? _forceNewDeployment;
         private int? _healthCheckGracePeriodSeconds;
         private NetworkConfiguration _networkConfiguration;
+        private List<PlacementConstraint> _placementConstraints = new List<PlacementConstraint>();
+        private List<PlacementStrategy> _placementStrategy = new List<PlacementStrategy>();
         private string _platformVersion;
         private string _service;
         private string _taskDefinition;
+
+        /// <summary>
+        /// Gets and sets the property CapacityProviderStrategy. 
+        /// <para>
+        /// The capacity provider strategy to update the service to use.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the service is using the default capacity provider strategy for the cluster, the
+        /// service can be updated to use one or more capacity providers. However, when a service
+        /// is using a non-default capacity provider strategy, the service cannot be updated to
+        /// use the cluster's default capacity provider strategy.
+        /// </para>
+        /// </summary>
+        public List<CapacityProviderStrategyItem> CapacityProviderStrategy
+        {
+            get { return this._capacityProviderStrategy; }
+            set { this._capacityProviderStrategy = value; }
+        }
+
+        // Check to see if CapacityProviderStrategy property is set
+        internal bool IsSetCapacityProviderStrategy()
+        {
+            return this._capacityProviderStrategy != null && this._capacityProviderStrategy.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property Cluster. 
@@ -232,10 +281,10 @@ namespace Amazon.ECS.Model
         /// unhealthy Elastic Load Balancing target health checks after a task has first started.
         /// This is only valid if your service is configured to use a load balancer. If your service's
         /// tasks take a while to start and respond to Elastic Load Balancing health checks, you
-        /// can specify a health check grace period of up to 1,800 seconds during which the ECS
-        /// service scheduler ignores the Elastic Load Balancing health check status. This grace
-        /// period can prevent the ECS service scheduler from marking tasks as unhealthy and stopping
-        /// them before they have time to come up.
+        /// can specify a health check grace period of up to 2,147,483,647 seconds. During that
+        /// time, the Amazon ECS service scheduler ignores the Elastic Load Balancing health check
+        /// status. This grace period can prevent the ECS service scheduler from marking tasks
+        /// as unhealthy and stopping them before they have time to come up.
         /// </para>
         /// </summary>
         public int HealthCheckGracePeriodSeconds
@@ -251,22 +300,7 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property NetworkConfiguration. 
-        /// <para>
-        /// The network configuration for the service. This parameter is required for task definitions
-        /// that use the <code>awsvpc</code> network mode to receive their own elastic network
-        /// interface, and it is not supported for other network modes. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Task
-        /// Networking</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
-        /// </para>
-        ///  <note> 
-        /// <para>
-        /// Updating a service to add a subnet to a list of existing subnets does not trigger
-        /// a service deployment. For example, if your network configuration change is to keep
-        /// the existing subnets and simply add another subnet to the network configuration, this
-        /// does not trigger a new service deployment.
-        /// </para>
-        ///  </note>
+        /// Gets and sets the property NetworkConfiguration.
         /// </summary>
         public NetworkConfiguration NetworkConfiguration
         {
@@ -281,9 +315,66 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PlacementConstraints. 
+        /// <para>
+        /// An array of task placement constraint objects to update the service to use. If no
+        /// value is specified, the existing placement constraints for the service will remain
+        /// unchanged. If this value is specified, it will override any existing placement constraints
+        /// defined for the service. To remove all existing placement constraints, specify an
+        /// empty array.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify a maximum of 10 constraints per task (this limit includes constraints
+        /// in the task definition and those specified at runtime).
+        /// </para>
+        /// </summary>
+        public List<PlacementConstraint> PlacementConstraints
+        {
+            get { return this._placementConstraints; }
+            set { this._placementConstraints = value; }
+        }
+
+        // Check to see if PlacementConstraints property is set
+        internal bool IsSetPlacementConstraints()
+        {
+            return this._placementConstraints != null && this._placementConstraints.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property PlacementStrategy. 
+        /// <para>
+        /// The task placement strategy objects to update the service to use. If no value is specified,
+        /// the existing placement strategy for the service will remain unchanged. If this value
+        /// is specified, it will override the existing placement strategy defined for the service.
+        /// To remove an existing placement strategy, specify an empty object.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify a maximum of five strategy rules per service.
+        /// </para>
+        /// </summary>
+        public List<PlacementStrategy> PlacementStrategy
+        {
+            get { return this._placementStrategy; }
+            set { this._placementStrategy = value; }
+        }
+
+        // Check to see if PlacementStrategy property is set
+        internal bool IsSetPlacementStrategy()
+        {
+            return this._placementStrategy != null && this._placementStrategy.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PlatformVersion. 
         /// <para>
-        /// The platform version you want to update your service to run.
+        /// The platform version on which your tasks in the service are running. A platform version
+        /// is only specified for tasks using the Fargate launch type. If a platform version is
+        /// not specified, the <code>LATEST</code> platform version is used by default. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+        /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service Developer
+        /// Guide</i>.
         /// </para>
         /// </summary>
         public string PlatformVersion
@@ -304,6 +395,7 @@ namespace Amazon.ECS.Model
         /// The name of the service to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Service
         {
             get { return this._service; }

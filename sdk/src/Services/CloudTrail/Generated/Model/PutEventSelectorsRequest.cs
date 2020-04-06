@@ -29,12 +29,18 @@ namespace Amazon.CloudTrail.Model
 {
     /// <summary>
     /// Container for the parameters to the PutEventSelectors operation.
-    /// Configures an event selector for your trail. Use event selectors to specify whether
-    /// you want your trail to log management and/or data events. When an event occurs in
-    /// your account, CloudTrail evaluates the event selectors in all trails. For each trail,
-    /// if the event matches any event selector, the trail processes and logs the event. If
-    /// the event doesn't match any event selector, the trail doesn't log the event. 
+    /// Configures an event selector for your trail. Use event selectors to further specify
+    /// the management and data event settings for your trail. By default, trails created
+    /// without specific event selectors will be configured to log all read and write management
+    /// events, and no data events. 
     /// 
+    ///  
+    /// <para>
+    /// When an event occurs in your account, CloudTrail evaluates the event selectors in
+    /// all trails. For each trail, if the event matches any event selector, the trail processes
+    /// and logs the event. If the event doesn't match any event selector, the trail doesn't
+    /// log the event. 
+    /// </para>
     ///  
     /// <para>
     /// Example
@@ -70,8 +76,9 @@ namespace Amazon.CloudTrail.Model
     ///  
     /// <para>
     /// You can configure up to five event selectors for each trail. For more information,
-    /// see <a href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-and-data-events-with-cloudtrail.html">Logging
-    /// Data and Management Events for Trails </a> in the <i>AWS CloudTrail User Guide</i>.
+    /// see <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-and-data-events-with-cloudtrail.html">Logging
+    /// Data and Management Events for Trails </a> and <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/WhatIsCloudTrail-Limits.html">Limits
+    /// in AWS CloudTrail</a> in the <i>AWS CloudTrail User Guide</i>.
     /// </para>
     /// </summary>
     public partial class PutEventSelectorsRequest : AmazonCloudTrailRequest
@@ -86,6 +93,7 @@ namespace Amazon.CloudTrail.Model
         /// selectors for a trail.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<EventSelector> EventSelectors
         {
             get { return this._eventSelectors; }
@@ -132,9 +140,10 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail</code> 
+        ///  <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TrailName
         {
             get { return this._trailName; }

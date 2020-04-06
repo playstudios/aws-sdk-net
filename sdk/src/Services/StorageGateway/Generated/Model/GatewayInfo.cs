@@ -32,6 +32,8 @@ namespace Amazon.StorageGateway.Model
     /// </summary>
     public partial class GatewayInfo
     {
+        private string _ec2InstanceId;
+        private string _ec2InstanceRegion;
         private string _gatewayARN;
         private string _gatewayId;
         private string _gatewayName;
@@ -39,12 +41,49 @@ namespace Amazon.StorageGateway.Model
         private string _gatewayType;
 
         /// <summary>
+        /// Gets and sets the property Ec2InstanceId. 
+        /// <para>
+        /// The ID of the Amazon EC2 instance that was used to launch the gateway.
+        /// </para>
+        /// </summary>
+        public string Ec2InstanceId
+        {
+            get { return this._ec2InstanceId; }
+            set { this._ec2InstanceId = value; }
+        }
+
+        // Check to see if Ec2InstanceId property is set
+        internal bool IsSetEc2InstanceId()
+        {
+            return this._ec2InstanceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Ec2InstanceRegion. 
+        /// <para>
+        /// The AWS Region where the Amazon EC2 instance is located.
+        /// </para>
+        /// </summary>
+        public string Ec2InstanceRegion
+        {
+            get { return this._ec2InstanceRegion; }
+            set { this._ec2InstanceRegion = value; }
+        }
+
+        // Check to see if Ec2InstanceRegion property is set
+        internal bool IsSetEc2InstanceRegion()
+        {
+            return this._ec2InstanceRegion != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property GatewayARN. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a> operation
-        /// to return a list of gateways for your account and region.
+        /// to return a list of gateways for your account and AWS Region.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }
@@ -64,6 +103,7 @@ namespace Amazon.StorageGateway.Model
         /// part of the gateway Amazon Resource Name (ARN), which you use as input for other operations.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=30)]
         public string GatewayId
         {
             get { return this._gatewayId; }
@@ -104,6 +144,7 @@ namespace Amazon.StorageGateway.Model
         /// Valid Values: DISABLED or ACTIVE
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=25)]
         public string GatewayOperationalState
         {
             get { return this._gatewayOperationalState; }
@@ -122,6 +163,7 @@ namespace Amazon.StorageGateway.Model
         /// The type of the gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=20)]
         public string GatewayType
         {
             get { return this._gatewayType; }

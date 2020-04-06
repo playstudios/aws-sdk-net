@@ -70,12 +70,21 @@ namespace Amazon.OpsWorksCM.Model
     /// only. To edit security group rules, open Security Groups in the navigation pane of
     /// the EC2 management console. 
     /// </para>
+    ///  
+    /// <para>
+    /// To specify your own domain for a server, and provide your own self-signed or CA-signed
+    /// certificate and private key, specify values for <code>CustomDomain</code>, <code>CustomCertificate</code>,
+    /// and <code>CustomPrivateKey</code>.
+    /// </para>
     /// </summary>
     public partial class CreateServerRequest : AmazonOpsWorksCMRequest
     {
         private bool? _associatePublicIpAddress;
         private string _backupId;
         private int? _backupRetentionCount;
+        private string _customCertificate;
+        private string _customDomain;
+        private string _customPrivateKey;
         private bool? _disableAutomatedBackup;
         private string _engine;
         private List<EngineAttribute> _engineAttributes = new List<EngineAttribute>();
@@ -90,6 +99,7 @@ namespace Amazon.OpsWorksCM.Model
         private string _serverName;
         private string _serviceRoleArn;
         private List<string> _subnetIds = new List<string>();
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property AssociatePublicIpAddress. 
@@ -118,6 +128,7 @@ namespace Amazon.OpsWorksCM.Model
         /// represented by BackupId. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=79)]
         public string BackupId
         {
             get { return this._backupId; }
@@ -138,6 +149,7 @@ namespace Amazon.OpsWorksCM.Model
         /// value is <code>1</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int BackupRetentionCount
         {
             get { return this._backupRetentionCount.GetValueOrDefault(); }
@@ -148,6 +160,100 @@ namespace Amazon.OpsWorksCM.Model
         internal bool IsSetBackupRetentionCount()
         {
             return this._backupRetentionCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CustomCertificate. 
+        /// <para>
+        /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate,
+        /// or a certificate chain. If you specify a custom certificate, you must also specify
+        /// values for <code>CustomDomain</code> and <code>CustomPrivateKey</code>. The following
+        /// are requirements for the <code>CustomCertificate</code> value:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// You can provide either a self-signed, custom certificate, or the full certificate
+        /// chain.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The certificate must be a valid X509 certificate, or a certificate chain in PEM format.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The certificate must be valid at the time of upload. A certificate can't be used before
+        /// its validity period begins (the certificate's <code>NotBefore</code> date), or after
+        /// it expires (the certificate's <code>NotAfter</code> date).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The certificate’s common name or subject alternative names (SANs), if present, must
+        /// match the value of <code>CustomDomain</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The certificate must match the value of <code>CustomPrivateKey</code>.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Max=2097152)]
+        public string CustomCertificate
+        {
+            get { return this._customCertificate; }
+            set { this._customCertificate = value; }
+        }
+
+        // Check to see if CustomCertificate property is set
+        internal bool IsSetCustomCertificate()
+        {
+            return this._customCertificate != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CustomDomain. 
+        /// <para>
+        /// An optional public endpoint of a server, such as <code>https://aws.my-company.com</code>.
+        /// To access the server, create a CNAME DNS record in your preferred DNS service that
+        /// points the custom domain to the endpoint that is generated when the server is created
+        /// (the value of the CreateServer Endpoint attribute). You cannot access the server by
+        /// using the generated <code>Endpoint</code> value if the server is using a custom domain.
+        /// If you specify a custom domain, you must also specify values for <code>CustomCertificate</code>
+        /// and <code>CustomPrivateKey</code>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=253)]
+        public string CustomDomain
+        {
+            get { return this._customDomain; }
+            set { this._customDomain = value; }
+        }
+
+        // Check to see if CustomDomain property is set
+        internal bool IsSetCustomDomain()
+        {
+            return this._customDomain != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CustomPrivateKey. 
+        /// <para>
+        /// A private key in PEM format for connecting to the server by using HTTPS. The private
+        /// key must not be encrypted; it cannot be protected by a password or passphrase. If
+        /// you specify a custom private key, you must also specify values for <code>CustomDomain</code>
+        /// and <code>CustomCertificate</code>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=4096)]
+        public string CustomPrivateKey
+        {
+            get { return this._customPrivateKey; }
+            set { this._customPrivateKey = value; }
+        }
+
+        // Check to see if CustomPrivateKey property is set
+        internal bool IsSetCustomPrivateKey()
+        {
+            return this._customPrivateKey != null;
         }
 
         /// <summary>
@@ -172,10 +278,11 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property Engine. 
         /// <para>
-        ///  The configuration management engine to use. Valid values include <code>Chef</code>
+        ///  The configuration management engine to use. Valid values include <code>ChefAutomate</code>
         /// and <code>Puppet</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string Engine
         {
             get { return this._engine; }
@@ -197,18 +304,17 @@ namespace Amazon.OpsWorksCM.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>CHEF_PIVOTAL_KEY</code>: A base64-encoded RSA private key that is not stored
-        /// by AWS OpsWorks for Chef Automate. This private key is required to access the Chef
-        /// API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.
-        /// 
+        ///  <code>CHEF_AUTOMATE_PIVOTAL_KEY</code>: A base64-encoded RSA public key. The corresponding
+        /// private key is required to access the Chef API. When no CHEF_AUTOMATE_PIVOTAL_KEY
+        /// is set, a private key is generated and returned in the response. 
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>CHEF_DELIVERY_ADMIN_PASSWORD</code>: The password for the administrative user
-        /// in the Chef Automate GUI. The password length is a minimum of eight characters, and
-        /// a maximum of 32. The password can contain letters, numbers, and special characters
-        /// (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper
-        /// case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD
+        ///  <code>CHEF_AUTOMATE_ADMIN_PASSWORD</code>: The password for the administrative user
+        /// in the Chef Automate web-based dashboard. The password length is a minimum of eight
+        /// characters, and a maximum of 32. The password can contain letters, numbers, and special
+        /// characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter,
+        /// one upper case letter, one number, and one special character. When no CHEF_AUTOMATE_ADMIN_PASSWORD
         /// is set, one is generated and returned in the response.
         /// </para>
         ///  </li> </ul> <p class="title"> <b>Attributes accepted in a Puppet createServer request:</b>
@@ -218,6 +324,17 @@ namespace Amazon.OpsWorksCM.Model
         /// <para>
         ///  <code>PUPPET_ADMIN_PASSWORD</code>: To work with the Puppet Enterprise console, a
         /// password must use ASCII characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PUPPET_R10K_REMOTE</code>: The r10k remote is the URL of your control repository
+        /// (for example, ssh://git@your.git-repo.com:user/control-repo.git). Specifying an r10k
+        /// remote opens TCP port 8170.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PUPPET_R10K_PRIVATE_KEY</code>: If you are using a private Git repository,
+        /// add PUPPET_R10K_PRIVATE_KEY to specify a PEM-encoded private SSH key.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -240,6 +357,7 @@ namespace Amazon.OpsWorksCM.Model
         /// for Puppet and <code>Single</code> for Chef. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string EngineModel
         {
             get { return this._engineModel; }
@@ -256,10 +374,11 @@ namespace Amazon.OpsWorksCM.Model
         /// Gets and sets the property EngineVersion. 
         /// <para>
         ///  The major release version of the engine that you want to use. For a Chef server,
-        /// the valid value for EngineVersion is currently <code>12</code>. For a Puppet server,
+        /// the valid value for EngineVersion is currently <code>2</code>. For a Puppet server,
         /// the valid value is <code>2017</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string EngineVersion
         {
             get { return this._engineVersion; }
@@ -283,6 +402,7 @@ namespace Amazon.OpsWorksCM.Model
         /// need. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=10000)]
         public string InstanceProfileArn
         {
             get { return this._instanceProfileArn; }
@@ -298,11 +418,10 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        ///  The Amazon EC2 instance type to use. For example, <code>m4.large</code>. Recommended
-        /// instance types include <code>t2.medium</code> and greater, <code>m4.*</code>, or <code>c4.xlarge</code>
-        /// and greater. 
+        ///  The Amazon EC2 instance type to use. For example, <code>m5.large</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=10000)]
         public string InstanceType
         {
             get { return this._instanceType; }
@@ -322,6 +441,7 @@ namespace Amazon.OpsWorksCM.Model
         /// you may specify this parameter to connect to your instances by using SSH. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string KeyPair
         {
             get { return this._keyPair; }
@@ -351,8 +471,8 @@ namespace Amazon.OpsWorksCM.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// The specified time is in coordinated universal time (UTC). The default value is a
-        /// random, daily start time.
+        ///  <code>MM</code> must be specified as <code>00</code>. The specified time is in coordinated
+        /// universal time (UTC). The default value is a random, daily start time.
         /// </para>
         ///  
         /// <para>
@@ -365,6 +485,7 @@ namespace Amazon.OpsWorksCM.Model
         /// at 08:00 UTC. (8:00 a.m.)
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string PreferredBackupWindow
         {
             get { return this._preferredBackupWindow; }
@@ -382,9 +503,10 @@ namespace Amazon.OpsWorksCM.Model
         /// <para>
         ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs
         /// maintenance on the instance. Valid values must be specified in the following format:
-        /// <code>DDD:HH:MM</code>. The specified time is in coordinated universal time (UTC).
-        /// The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See
-        /// <code>TimeWindowDefinition</code> for more information. 
+        /// <code>DDD:HH:MM</code>. <code>MM</code> must be specified as <code>00</code>. The
+        /// specified time is in coordinated universal time (UTC). The default value is a random
+        /// one-hour period on Tuesday, Wednesday, or Friday. See <code>TimeWindowDefinition</code>
+        /// for more information. 
         /// </para>
         ///  
         /// <para>
@@ -392,6 +514,7 @@ namespace Amazon.OpsWorksCM.Model
         /// at 08:00 UTC. (8:00 a.m.) 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string PreferredMaintenanceWindow
         {
             get { return this._preferredMaintenanceWindow; }
@@ -437,6 +560,7 @@ namespace Amazon.OpsWorksCM.Model
         /// (-) are allowed, up to a maximum of 40 characters. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=40)]
         public string ServerName
         {
             get { return this._serverName; }
@@ -460,6 +584,7 @@ namespace Amazon.OpsWorksCM.Model
         /// profile that you need. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=10000)]
         public string ServiceRoleArn
         {
             get { return this._serviceRoleArn; }
@@ -490,7 +615,7 @@ namespace Amazon.OpsWorksCM.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about supported Amazon EC2 platforms, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
+        /// For more information about supported Amazon EC2 platforms, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
         /// Platforms</a>.
         /// </para>
         /// </summary>
@@ -504,6 +629,50 @@ namespace Amazon.OpsWorksCM.Model
         internal bool IsSetSubnetIds()
         {
             return this._subnetIds != null && this._subnetIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef
+        /// Automate or AWS OpsWorks for Puppet Enterprise server.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The key cannot be empty.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The key can be a maximum of 127 characters, and can contain only Unicode letters,
+        /// numbers, or separators, or the following special characters: <code>+ - = . _ : / @</code>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The value can be a maximum 255 characters, and contain only Unicode letters, numbers,
+        /// or separators, or the following special characters: <code>+ - = . _ : / @</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Leading and trailing white spaces are trimmed from both the key and value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Min=0, Max=200)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

@@ -83,6 +83,7 @@ namespace Amazon.Rekognition.Model
         /// in the subsequent request to retrieve the next set of faces. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -116,7 +117,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property VideoMetadata. 
         /// <para>
-        /// Information about a video that Rekognition Video analyzed. <code>Videometadata</code>
+        /// Information about a video that Amazon Rekognition Video analyzed. <code>Videometadata</code>
         /// is returned in every page of paginated responses from a Amazon Rekognition video operation.
         /// </para>
         /// </summary>

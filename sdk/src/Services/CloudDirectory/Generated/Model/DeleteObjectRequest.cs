@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,9 @@ namespace Amazon.CloudDirectory.Model
     /// <summary>
     /// Container for the parameters to the DeleteObject operation.
     /// Deletes an object and its associated attributes. Only objects with no children and
-    /// no parents can be deleted.
+    /// no parents can be deleted. The maximum number of attributes that can be deleted during
+    /// an object deletion is 30. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Amazon
+    /// Cloud Directory Limits</a>.
     /// </summary>
     public partial class DeleteObjectRequest : AmazonCloudDirectoryRequest
     {
@@ -44,6 +46,7 @@ namespace Amazon.CloudDirectory.Model
         /// the object resides. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -62,6 +65,7 @@ namespace Amazon.CloudDirectory.Model
         /// A reference that identifies the object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ObjectReference
         {
             get { return this._objectReference; }

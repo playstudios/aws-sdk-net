@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudFront.Model
 {
     /// <summary>
-    /// A streaming distribution.
+    /// A streaming distribution tells CloudFront where you want RTMP content to be delivered
+    /// from, and the details about how to track and manage content delivery.
     /// </summary>
     public partial class StreamingDistribution
     {
@@ -62,11 +63,12 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
         /// Private Content through CloudFront</a> in the <i>Amazon CloudFront Developer Guide</i>.
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActiveTrustedSigners ActiveTrustedSigners
         {
             get { return this._activeTrustedSigners; }
@@ -80,8 +82,13 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ARN.
+        /// Gets and sets the property ARN. 
+        /// <para>
+        /// The ARN (Amazon Resource Name) for the distribution. For example: <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
+        /// where <code>123456789012</code> is your AWS account ID.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ARN
         {
             get { return this._arn; }
@@ -101,6 +108,7 @@ namespace Amazon.CloudFront.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }
@@ -119,6 +127,7 @@ namespace Amazon.CloudFront.Model
         /// The identifier for the RTMP distribution. For example: <code>EGTXBD79EXAMPLE</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -156,6 +165,7 @@ namespace Amazon.CloudFront.Model
         /// the distribution's information is propagated to all CloudFront edge locations.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Status
         {
             get { return this._status; }
@@ -174,6 +184,7 @@ namespace Amazon.CloudFront.Model
         /// The current configuration information for the RTMP distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StreamingDistributionConfig StreamingDistributionConfig
         {
             get { return this._streamingDistributionConfig; }

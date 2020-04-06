@@ -29,8 +29,8 @@ namespace Amazon.CodePipeline.Model
 {
     /// <summary>
     /// Container for the parameters to the PutJobFailureResult operation.
-    /// Represents the failure of a job as returned to the pipeline by a job worker. Only
-    /// used for custom actions.
+    /// Represents the failure of a job as returned to the pipeline by a job worker. Used
+    /// for custom actions only.
     /// </summary>
     public partial class PutJobFailureResultRequest : AmazonCodePipelineRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.CodePipeline.Model
         /// The details about the failure of a job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FailureDetails FailureDetails
         {
             get { return this._failureDetails; }
@@ -59,9 +60,10 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property JobId. 
         /// <para>
         /// The unique system-generated ID of the job that failed. This is the same ID returned
-        /// from PollForJobs.
+        /// from <code>PollForJobs</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobId
         {
             get { return this._jobId; }

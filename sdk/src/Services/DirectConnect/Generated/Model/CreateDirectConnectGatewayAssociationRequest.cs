@@ -29,29 +29,51 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDirectConnectGatewayAssociation operation.
-    /// Creates an association between a direct connect gateway and a virtual private gateway
-    /// (VGW). The VGW must be attached to a VPC and must not be associated with another direct
-    /// connect gateway.
+    /// Creates an association between a Direct Connect gateway and a virtual private gateway.
+    /// The virtual private gateway must be attached to a VPC and must not be associated with
+    /// another Direct Connect gateway.
     /// </summary>
     public partial class CreateDirectConnectGatewayAssociationRequest : AmazonDirectConnectRequest
     {
+        private List<RouteFilterPrefix> _addAllowedPrefixesToDirectConnectGateway = new List<RouteFilterPrefix>();
         private string _directConnectGatewayId;
+        private string _gatewayId;
         private string _virtualGatewayId;
+
+        /// <summary>
+        /// Gets and sets the property AddAllowedPrefixesToDirectConnectGateway. 
+        /// <para>
+        /// The Amazon VPC prefixes to advertise to the Direct Connect gateway
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is required when you create an association to a transit gateway.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about how to set the prefixes, see <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/multi-account-associate-vgw.html#allowed-prefixes">Allowed
+        /// Prefixes</a> in the <i>AWS Direct Connect User Guide</i>.
+        /// </para>
+        /// </summary>
+        public List<RouteFilterPrefix> AddAllowedPrefixesToDirectConnectGateway
+        {
+            get { return this._addAllowedPrefixesToDirectConnectGateway; }
+            set { this._addAllowedPrefixesToDirectConnectGateway = value; }
+        }
+
+        // Check to see if AddAllowedPrefixesToDirectConnectGateway property is set
+        internal bool IsSetAddAllowedPrefixesToDirectConnectGateway()
+        {
+            return this._addAllowedPrefixesToDirectConnectGateway != null && this._addAllowedPrefixesToDirectConnectGateway.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property DirectConnectGatewayId. 
         /// <para>
-        /// The ID of the direct connect gateway.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: "abcd1234-dcba-5678-be23-cdef9876ab45"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the Direct Connect gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectConnectGatewayId
         {
             get { return this._directConnectGatewayId; }
@@ -65,17 +87,27 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
+        /// Gets and sets the property GatewayId. 
+        /// <para>
+        /// The ID of the virtual private gateway or transit gateway.
+        /// </para>
+        /// </summary>
+        public string GatewayId
+        {
+            get { return this._gatewayId; }
+            set { this._gatewayId = value; }
+        }
+
+        // Check to see if GatewayId property is set
+        internal bool IsSetGatewayId()
+        {
+            return this._gatewayId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property VirtualGatewayId. 
         /// <para>
         /// The ID of the virtual private gateway.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: "vgw-abc123ef"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
         /// </para>
         /// </summary>
         public string VirtualGatewayId

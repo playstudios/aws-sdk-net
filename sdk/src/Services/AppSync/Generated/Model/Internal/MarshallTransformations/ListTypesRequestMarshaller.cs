@@ -55,12 +55,12 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListTypesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.AppSync");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-25";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/v1/apis/{apiId}/types";
             if (!publicRequest.IsSetApiId())
                 throw new AmazonAppSyncException("Request object does not have required field ApiId set");
-            uriResourcePath = uriResourcePath.Replace("{apiId}", StringUtils.FromString(publicRequest.ApiId));
+            request.AddPathResource("{apiId}", StringUtils.FromString(publicRequest.ApiId));
             
             if (publicRequest.IsSetFormat())
                 request.Parameters.Add("format", StringUtils.FromString(publicRequest.Format));
@@ -70,7 +70,8 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("nextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/apis/{apiId}/types";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

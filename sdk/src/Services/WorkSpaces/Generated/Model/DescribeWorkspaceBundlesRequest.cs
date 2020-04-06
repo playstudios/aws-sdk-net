@@ -29,7 +29,7 @@ namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeWorkspaceBundles operation.
-    /// Describes the available WorkSpace bundles.
+    /// Retrieves a list that describes the available WorkSpace bundles.
     /// 
     ///  
     /// <para>
@@ -45,9 +45,10 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property BundleIds. 
         /// <para>
-        /// The IDs of the bundles. This parameter cannot be combined with any other filter.
+        /// The identifiers of the bundles. You cannot combine this parameter with any other filter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=25)]
         public List<string> BundleIds
         {
             get { return this._bundleIds; }
@@ -66,6 +67,7 @@ namespace Amazon.WorkSpaces.Model
         /// The token for the next set of results. (You received this token from a previous call.)
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -81,7 +83,7 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property Owner. 
         /// <para>
-        /// The owner of the bundles. This parameter cannot be combined with any other filter.
+        /// The owner of the bundles. You cannot combine this parameter with any other filter.
         /// </para>
         ///  
         /// <para>

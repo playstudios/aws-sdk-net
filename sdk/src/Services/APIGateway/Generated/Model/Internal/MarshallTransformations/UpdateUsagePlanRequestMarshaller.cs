@@ -55,14 +55,15 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateUsagePlanRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/usageplans/{usageplanId}";
             if (!publicRequest.IsSetUsagePlanId())
                 throw new AmazonAPIGatewayException("Request object does not have required field UsagePlanId set");
-            uriResourcePath = uriResourcePath.Replace("{usageplanId}", StringUtils.FromString(publicRequest.UsagePlanId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{usageplanId}", StringUtils.FromString(publicRequest.UsagePlanId));
+            request.ResourcePath = "/usageplans/{usageplanId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

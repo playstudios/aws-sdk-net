@@ -35,13 +35,17 @@ namespace Amazon.EC2.Model
         private DateTime? _creationTimestamp;
         private List<DnsEntry> _dnsEntries = new List<DnsEntry>();
         private List<SecurityGroupIdentifier> _groups = new List<SecurityGroupIdentifier>();
+        private LastError _lastError;
         private List<string> _networkInterfaceIds = new List<string>();
+        private string _ownerId;
         private string _policyDocument;
         private bool? _privateDnsEnabled;
+        private bool? _requesterManaged;
         private List<string> _routeTableIds = new List<string>();
         private string _serviceName;
         private State _state;
         private List<string> _subnetIds = new List<string>();
+        private List<Tag> _tags = new List<Tag>();
         private string _vpcEndpointId;
         private VpcEndpointType _vpcEndpointType;
         private string _vpcId;
@@ -49,7 +53,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property CreationTimestamp. 
         /// <para>
-        /// The date and time the VPC endpoint was created.
+        /// The date and time that the VPC endpoint was created.
         /// </para>
         /// </summary>
         public DateTime CreationTimestamp
@@ -85,8 +89,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Groups. 
         /// <para>
-        /// (Interface endpoint) Information about the security groups associated with the network
-        /// interface.
+        /// (Interface endpoint) Information about the security groups that are associated with
+        /// the network interface.
         /// </para>
         /// </summary>
         public List<SecurityGroupIdentifier> Groups
@@ -99,6 +103,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetGroups()
         {
             return this._groups != null && this._groups.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property LastError. 
+        /// <para>
+        /// The last error that occurred for VPC endpoint.
+        /// </para>
+        /// </summary>
+        public LastError LastError
+        {
+            get { return this._lastError; }
+            set { this._lastError = value; }
+        }
+
+        // Check to see if LastError property is set
+        internal bool IsSetLastError()
+        {
+            return this._lastError != null;
         }
 
         /// <summary>
@@ -117,6 +139,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetNetworkInterfaceIds()
         {
             return this._networkInterfaceIds != null && this._networkInterfaceIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property OwnerId. 
+        /// <para>
+        /// The ID of the AWS account that owns the VPC endpoint.
+        /// </para>
+        /// </summary>
+        public string OwnerId
+        {
+            get { return this._ownerId; }
+            set { this._ownerId = value; }
+        }
+
+        // Check to see if OwnerId property is set
+        internal bool IsSetOwnerId()
+        {
+            return this._ownerId != null;
         }
 
         /// <summary>
@@ -154,6 +194,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetPrivateDnsEnabled()
         {
             return this._privateDnsEnabled.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property RequesterManaged. 
+        /// <para>
+        /// Indicates whether the VPC endpoint is being managed by its service.
+        /// </para>
+        /// </summary>
+        public bool RequesterManaged
+        {
+            get { return this._requesterManaged.GetValueOrDefault(); }
+            set { this._requesterManaged = value; }
+        }
+
+        // Check to see if RequesterManaged property is set
+        internal bool IsSetRequesterManaged()
+        {
+            return this._requesterManaged.HasValue; 
         }
 
         /// <summary>
@@ -226,6 +284,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetSubnetIds()
         {
             return this._subnetIds != null && this._subnetIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Any tags assigned to the VPC endpoint.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

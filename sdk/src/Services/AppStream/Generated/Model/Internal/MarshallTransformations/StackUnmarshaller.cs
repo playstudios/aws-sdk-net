@@ -64,6 +64,18 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("AccessEndpoints", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<AccessEndpoint, AccessEndpointUnmarshaller>(AccessEndpointUnmarshaller.Instance);
+                    unmarshalledObject.AccessEndpoints = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ApplicationSettings", targetDepth))
+                {
+                    var unmarshaller = ApplicationSettingsResponseUnmarshaller.Instance;
+                    unmarshalledObject.ApplicationSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("Arn", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -86,6 +98,12 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.DisplayName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("EmbedHostDomains", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.EmbedHostDomains = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("FeedbackURL", targetDepth))
@@ -116,6 +134,12 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = new ListUnmarshaller<StorageConnector, StorageConnectorUnmarshaller>(StorageConnectorUnmarshaller.Instance);
                     unmarshalledObject.StorageConnectors = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("UserSettings", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<UserSetting, UserSettingUnmarshaller>(UserSettingUnmarshaller.Instance);
+                    unmarshalledObject.UserSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

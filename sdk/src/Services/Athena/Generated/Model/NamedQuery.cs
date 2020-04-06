@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Athena.Model
 {
     /// <summary>
-    /// A query, where <code>QueryString</code> is the SQL query statements that comprise
+    /// A query, where <code>QueryString</code> is the list of SQL query statements that comprise
     /// the query.
     /// </summary>
     public partial class NamedQuery
@@ -38,6 +38,7 @@ namespace Amazon.Athena.Model
         private string _name;
         private string _namedQueryId;
         private string _queryString;
+        private string _workGroup;
 
         /// <summary>
         /// Gets and sets the property Database. 
@@ -45,6 +46,7 @@ namespace Amazon.Athena.Model
         /// The database to which the query belongs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Database
         {
             get { return this._database; }
@@ -60,9 +62,10 @@ namespace Amazon.Athena.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// A brief description of the query.
+        /// The query description.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -78,9 +81,10 @@ namespace Amazon.Athena.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The plain-language name of the query.
+        /// The query name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -117,6 +121,7 @@ namespace Amazon.Athena.Model
         /// The SQL query statements that comprise the query.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=262144)]
         public string QueryString
         {
             get { return this._queryString; }
@@ -127,6 +132,24 @@ namespace Amazon.Athena.Model
         internal bool IsSetQueryString()
         {
             return this._queryString != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WorkGroup. 
+        /// <para>
+        /// The name of the workgroup that contains the named query.
+        /// </para>
+        /// </summary>
+        public string WorkGroup
+        {
+            get { return this._workGroup; }
+            set { this._workGroup = value; }
+        }
+
+        // Check to see if WorkGroup property is set
+        internal bool IsSetWorkGroup()
+        {
+            return this._workGroup != null;
         }
 
     }

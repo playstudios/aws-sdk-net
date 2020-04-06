@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.SecurityToken.Model;
 using Amazon.SecurityToken.Model.Internal.MarshallTransformations;
+using Amazon.SecurityToken.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -38,27 +40,17 @@ namespace Amazon.SecurityToken
     /// The AWS Security Token Service (STS) is a web service that enables you to request
     /// temporary, limited-privilege credentials for AWS Identity and Access Management (IAM)
     /// users or for users that you authenticate (federated users). This guide provides descriptions
-    /// of the STS API. For more detailed information about using this service, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html">Temporary
+    /// of the STS API. For more detailed information about using this service, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html">Temporary
     /// Security Credentials</a>. 
     /// </para>
-    ///  <note> 
-    /// <para>
-    ///  As an alternative to using the API, you can use one of the AWS SDKs, which consist
-    /// of libraries and sample code for various programming languages and platforms (Java,
-    /// Ruby, .NET, iOS, Android, etc.). The SDKs provide a convenient way to create programmatic
-    /// access to STS. For example, the SDKs take care of cryptographically signing requests,
-    /// managing errors, and retrying requests automatically. For information about the AWS
-    /// SDKs, including how to download and install them, see the <a href="http://aws.amazon.com/tools/">Tools
-    /// for Amazon Web Services page</a>. 
-    /// </para>
-    ///  </note> 
+    ///  
     /// <para>
     /// For information about setting up signatures and authorization through the API, go
-    /// to <a href="http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
+    /// to <a href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
     /// AWS API Requests</a> in the <i>AWS General Reference</i>. For general information
-    /// about the Query API, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+    /// about the Query API, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
     /// Query Requests</a> in <i>Using IAM</i>. For information about using security tokens
-    /// with other AWS products, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html">AWS
+    /// with other AWS products, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html">AWS
     /// Services That Work with IAM</a> in the <i>IAM User Guide</i>. 
     /// </para>
     ///  
@@ -73,15 +65,41 @@ namespace Amazon.SecurityToken
     /// </para>
     ///  
     /// <para>
-    /// The AWS Security Token Service (STS) has a default endpoint of https://sts.amazonaws.com
-    /// that maps to the US East (N. Virginia) region. Additional regions are available and
-    /// are activated by default. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-    /// and Deactivating AWS STS in an AWS Region</a> in the <i>IAM User Guide</i>.
+    /// By default, AWS Security Token Service (STS) is available as a global service, and
+    /// all AWS STS requests go to a single endpoint at <code>https://sts.amazonaws.com</code>.
+    /// Global requests map to the US East (N. Virginia) region. AWS recommends using Regional
+    /// AWS STS endpoints instead of the global endpoint to reduce latency, build in redundancy,
+    /// and increase session token validity. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Managing
+    /// AWS STS in an AWS Region</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  
     /// <para>
-    /// For information about STS endpoints, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#sts_region">Regions
-    /// and Endpoints</a> in the <i>AWS General Reference</i>.
+    /// Most AWS Regions are enabled for operations in all AWS services by default. Those
+    /// Regions are automatically activated for use with AWS STS. Some Regions, such as Asia
+    /// Pacific (Hong Kong), must be manually enabled. To learn more about enabling and disabling
+    /// AWS Regions, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html">Managing
+    /// AWS Regions</a> in the <i>AWS General Reference</i>. When you enable these AWS Regions,
+    /// they are automatically activated for use with AWS STS. You cannot activate the STS
+    /// endpoint for a Region that is disabled. Tokens that are valid in all AWS Regions are
+    /// longer than tokens that are valid in Regions that are enabled by default. Changing
+    /// this setting might affect existing systems where you temporarily store tokens. For
+    /// more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-manage-tokens">Managing
+    /// Global Endpoint Session Tokens</a> in the <i>IAM User Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// After you activate a Region for use with AWS STS, you can direct AWS STS API calls
+    /// to that Region. AWS STS recommends that you provide both the Region and endpoint when
+    /// you make calls to a Regional endpoint. You can provide the Region alone for manually
+    /// enabled Regions, such as Asia Pacific (Hong Kong). In this case, the calls are directed
+    /// to the STS Regional endpoint. However, if you provide the Region alone for Regions
+    /// enabled by default, the calls are directed to the global endpoint of <code>https://sts.amazonaws.com</code>.
+    /// </para>
+    ///  
+    /// <para>
+    /// To view the list of AWS STS endpoints and whether they are active by default, see
+    /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#id_credentials_temp_enable-regions_writing_code">Writing
+    /// Code to Use AWS STS Regions</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -92,13 +110,38 @@ namespace Amazon.SecurityToken
     /// STS supports AWS CloudTrail, which is a service that records AWS calls for your AWS
     /// account and delivers log files to an Amazon S3 bucket. By using information collected
     /// by CloudTrail, you can determine what requests were successfully made to STS, who
-    /// made the request, when it was made, and so on. To learn more about CloudTrail, including
-    /// how to turn it on and find your log files, see the <a href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">AWS
+    /// made the request, when it was made, and so on.
+    /// </para>
+    ///  
+    /// <para>
+    /// If you activate AWS STS endpoints in Regions other than the default global endpoint,
+    /// then you must also turn on CloudTrail logging in those Regions. This is necessary
+    /// to record any AWS STS API calls that are made in those Regions. For more information,
+    /// see <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/aggregating_logs_regions_turn_on_ct.html">Turning
+    /// On CloudTrail in Additional Regions</a> in the <i>AWS CloudTrail User Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// AWS Security Token Service (STS) is a global service with a single endpoint at <code>https://sts.amazonaws.com</code>.
+    /// Calls to this endpoint are logged as calls to a global service. However, because this
+    /// endpoint is physically located in the US East (N. Virginia) Region, your logs list
+    /// <code>us-east-1</code> as the event Region. CloudTrail does not write these logs to
+    /// the US East (Ohio) Region unless you choose to include global service logs in that
+    /// Region. CloudTrail writes calls to all Regional endpoints to their respective Regions.
+    /// For example, calls to sts.us-east-2.amazonaws.com are published to the US East (Ohio)
+    /// Region and calls to sts.eu-central-1.amazonaws.com are published to the EU (Frankfurt)
+    /// Region.
+    /// </para>
+    ///  
+    /// <para>
+    /// To learn more about CloudTrail, including how to turn it on and find your log files,
+    /// see the <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">AWS
     /// CloudTrail User Guide</a>.
     /// </para>
     /// </summary>
     public partial class AmazonSecurityTokenServiceClient : AmazonServiceClient, IAmazonSecurityTokenService
     {
+        private static IServiceMetadata serviceMetadata = new AmazonSecurityTokenServiceMetadata();
         #region Constructors
 
         /// <summary>
@@ -212,6 +255,17 @@ namespace Amazon.SecurityToken
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
+
         #endregion
 
         #region Dispose
@@ -226,14 +280,15 @@ namespace Amazon.SecurityToken
 
         #endregion
 
-        
+
         #region  AssumeRole
         internal virtual AssumeRoleResponse AssumeRole(AssumeRoleRequest request)
         {
-            var marshaller = AssumeRoleRequestMarshaller.Instance;
-            var unmarshaller = AssumeRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssumeRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssumeRoleResponseUnmarshaller.Instance;
 
-            return Invoke<AssumeRoleRequest,AssumeRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssumeRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -248,8 +303,9 @@ namespace Amazon.SecurityToken
         public virtual void AssumeRoleAsync(AssumeRoleRequest request, AmazonServiceCallback<AssumeRoleRequest, AssumeRoleResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = AssumeRoleRequestMarshaller.Instance;
-            var unmarshaller = AssumeRoleResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = AssumeRoleRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = AssumeRoleResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -257,7 +313,7 @@ namespace Amazon.SecurityToken
                             = new AmazonServiceResult<AssumeRoleRequest,AssumeRoleResponse>((AssumeRoleRequest)req, (AssumeRoleResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<AssumeRoleRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -265,10 +321,11 @@ namespace Amazon.SecurityToken
         #region  AssumeRoleWithSAML
         internal virtual AssumeRoleWithSAMLResponse AssumeRoleWithSAML(AssumeRoleWithSAMLRequest request)
         {
-            var marshaller = AssumeRoleWithSAMLRequestMarshaller.Instance;
-            var unmarshaller = AssumeRoleWithSAMLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssumeRoleWithSAMLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssumeRoleWithSAMLResponseUnmarshaller.Instance;
 
-            return Invoke<AssumeRoleWithSAMLRequest,AssumeRoleWithSAMLResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssumeRoleWithSAMLResponse>(request, options);
         }
 
         /// <summary>
@@ -283,8 +340,9 @@ namespace Amazon.SecurityToken
         public virtual void AssumeRoleWithSAMLAsync(AssumeRoleWithSAMLRequest request, AmazonServiceCallback<AssumeRoleWithSAMLRequest, AssumeRoleWithSAMLResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = AssumeRoleWithSAMLRequestMarshaller.Instance;
-            var unmarshaller = AssumeRoleWithSAMLResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = AssumeRoleWithSAMLRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = AssumeRoleWithSAMLResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -292,7 +350,7 @@ namespace Amazon.SecurityToken
                             = new AmazonServiceResult<AssumeRoleWithSAMLRequest,AssumeRoleWithSAMLResponse>((AssumeRoleWithSAMLRequest)req, (AssumeRoleWithSAMLResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<AssumeRoleWithSAMLRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -300,10 +358,11 @@ namespace Amazon.SecurityToken
         #region  AssumeRoleWithWebIdentity
         internal virtual AssumeRoleWithWebIdentityResponse AssumeRoleWithWebIdentity(AssumeRoleWithWebIdentityRequest request)
         {
-            var marshaller = AssumeRoleWithWebIdentityRequestMarshaller.Instance;
-            var unmarshaller = AssumeRoleWithWebIdentityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssumeRoleWithWebIdentityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssumeRoleWithWebIdentityResponseUnmarshaller.Instance;
 
-            return Invoke<AssumeRoleWithWebIdentityRequest,AssumeRoleWithWebIdentityResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssumeRoleWithWebIdentityResponse>(request, options);
         }
 
         /// <summary>
@@ -318,8 +377,9 @@ namespace Amazon.SecurityToken
         public virtual void AssumeRoleWithWebIdentityAsync(AssumeRoleWithWebIdentityRequest request, AmazonServiceCallback<AssumeRoleWithWebIdentityRequest, AssumeRoleWithWebIdentityResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = AssumeRoleWithWebIdentityRequestMarshaller.Instance;
-            var unmarshaller = AssumeRoleWithWebIdentityResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = AssumeRoleWithWebIdentityRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = AssumeRoleWithWebIdentityResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -327,7 +387,7 @@ namespace Amazon.SecurityToken
                             = new AmazonServiceResult<AssumeRoleWithWebIdentityRequest,AssumeRoleWithWebIdentityResponse>((AssumeRoleWithWebIdentityRequest)req, (AssumeRoleWithWebIdentityResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<AssumeRoleWithWebIdentityRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -335,10 +395,11 @@ namespace Amazon.SecurityToken
         #region  DecodeAuthorizationMessage
         internal virtual DecodeAuthorizationMessageResponse DecodeAuthorizationMessage(DecodeAuthorizationMessageRequest request)
         {
-            var marshaller = DecodeAuthorizationMessageRequestMarshaller.Instance;
-            var unmarshaller = DecodeAuthorizationMessageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecodeAuthorizationMessageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecodeAuthorizationMessageResponseUnmarshaller.Instance;
 
-            return Invoke<DecodeAuthorizationMessageRequest,DecodeAuthorizationMessageResponse>(request, marshaller, unmarshaller);
+            return Invoke<DecodeAuthorizationMessageResponse>(request, options);
         }
 
         /// <summary>
@@ -353,8 +414,9 @@ namespace Amazon.SecurityToken
         public virtual void DecodeAuthorizationMessageAsync(DecodeAuthorizationMessageRequest request, AmazonServiceCallback<DecodeAuthorizationMessageRequest, DecodeAuthorizationMessageResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = DecodeAuthorizationMessageRequestMarshaller.Instance;
-            var unmarshaller = DecodeAuthorizationMessageResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DecodeAuthorizationMessageRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DecodeAuthorizationMessageResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -362,7 +424,44 @@ namespace Amazon.SecurityToken
                             = new AmazonServiceResult<DecodeAuthorizationMessageRequest,DecodeAuthorizationMessageResponse>((DecodeAuthorizationMessageRequest)req, (DecodeAuthorizationMessageResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DecodeAuthorizationMessageRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  GetAccessKeyInfo
+        internal virtual GetAccessKeyInfoResponse GetAccessKeyInfo(GetAccessKeyInfoRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccessKeyInfoRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccessKeyInfoResponseUnmarshaller.Instance;
+
+            return Invoke<GetAccessKeyInfoResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAccessKeyInfo operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAccessKeyInfo operation on AmazonSecurityTokenServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfo">REST API Reference for GetAccessKeyInfo Operation</seealso>
+        public virtual void GetAccessKeyInfoAsync(GetAccessKeyInfoRequest request, AmazonServiceCallback<GetAccessKeyInfoRequest, GetAccessKeyInfoResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetAccessKeyInfoRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetAccessKeyInfoResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetAccessKeyInfoRequest,GetAccessKeyInfoResponse> responseObject 
+                            = new AmazonServiceResult<GetAccessKeyInfoRequest,GetAccessKeyInfoResponse>((GetAccessKeyInfoRequest)req, (GetAccessKeyInfoResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -370,10 +469,11 @@ namespace Amazon.SecurityToken
         #region  GetCallerIdentity
         internal virtual GetCallerIdentityResponse GetCallerIdentity(GetCallerIdentityRequest request)
         {
-            var marshaller = GetCallerIdentityRequestMarshaller.Instance;
-            var unmarshaller = GetCallerIdentityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCallerIdentityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCallerIdentityResponseUnmarshaller.Instance;
 
-            return Invoke<GetCallerIdentityRequest,GetCallerIdentityResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCallerIdentityResponse>(request, options);
         }
 
         /// <summary>
@@ -388,8 +488,9 @@ namespace Amazon.SecurityToken
         public virtual void GetCallerIdentityAsync(GetCallerIdentityRequest request, AmazonServiceCallback<GetCallerIdentityRequest, GetCallerIdentityResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetCallerIdentityRequestMarshaller.Instance;
-            var unmarshaller = GetCallerIdentityResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetCallerIdentityRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetCallerIdentityResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -397,7 +498,7 @@ namespace Amazon.SecurityToken
                             = new AmazonServiceResult<GetCallerIdentityRequest,GetCallerIdentityResponse>((GetCallerIdentityRequest)req, (GetCallerIdentityResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetCallerIdentityRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -405,10 +506,11 @@ namespace Amazon.SecurityToken
         #region  GetFederationToken
         internal virtual GetFederationTokenResponse GetFederationToken(GetFederationTokenRequest request)
         {
-            var marshaller = GetFederationTokenRequestMarshaller.Instance;
-            var unmarshaller = GetFederationTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFederationTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFederationTokenResponseUnmarshaller.Instance;
 
-            return Invoke<GetFederationTokenRequest,GetFederationTokenResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetFederationTokenResponse>(request, options);
         }
 
         /// <summary>
@@ -423,8 +525,9 @@ namespace Amazon.SecurityToken
         public virtual void GetFederationTokenAsync(GetFederationTokenRequest request, AmazonServiceCallback<GetFederationTokenRequest, GetFederationTokenResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetFederationTokenRequestMarshaller.Instance;
-            var unmarshaller = GetFederationTokenResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetFederationTokenRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetFederationTokenResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -432,7 +535,7 @@ namespace Amazon.SecurityToken
                             = new AmazonServiceResult<GetFederationTokenRequest,GetFederationTokenResponse>((GetFederationTokenRequest)req, (GetFederationTokenResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetFederationTokenRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -443,25 +546,33 @@ namespace Amazon.SecurityToken
         /// Returns a set of temporary credentials for an AWS account or IAM user. The credentials
         /// consist of an access key ID, a secret access key, and a security token. Typically,
         /// you use <code>GetSessionToken</code> if you want to use MFA to protect programmatic
-        /// calls to specific AWS APIs like Amazon EC2 <code>StopInstances</code>. MFA-enabled
+        /// calls to specific AWS API operations like Amazon EC2 <code>StopInstances</code>. MFA-enabled
         /// IAM users would need to call <code>GetSessionToken</code> and submit an MFA code that
         /// is associated with their MFA device. Using the temporary security credentials that
-        /// are returned from the call, IAM users can then make programmatic calls to APIs that
-        /// require MFA authentication. If you do not supply a correct MFA code, then the API
-        /// returns an access denied error. For a comparison of <code>GetSessionToken</code> with
-        /// the other APIs that produce temporary credentials, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
-        /// Temporary Security Credentials</a> and <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
-        /// the AWS STS APIs</a> in the <i>IAM User Guide</i>.
+        /// are returned from the call, IAM users can then make programmatic calls to API operations
+        /// that require MFA authentication. If you do not supply a correct MFA code, then the
+        /// API returns an access denied error. For a comparison of <code>GetSessionToken</code>
+        /// with the other API operations that produce temporary credentials, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
+        /// Temporary Security Credentials</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
+        /// the AWS STS API operations</a> in the <i>IAM User Guide</i>.
         /// 
         ///  
         /// <para>
-        /// The <code>GetSessionToken</code> action must be called by using the long-term AWS
-        /// security credentials of the AWS account or an IAM user. Credentials that are created
-        /// by IAM users are valid for the duration that you specify, from 900 seconds (15 minutes)
-        /// up to a maximum of 129600 seconds (36 hours), with a default of 43200 seconds (12
-        /// hours); credentials that are created by using account credentials can range from 900
-        /// seconds (15 minutes) up to a maximum of 3600 seconds (1 hour), with a default of 1
-        /// hour. 
+        ///  <b>Session Duration</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>GetSessionToken</code> operation must be called by using the long-term AWS
+        /// security credentials of the AWS account root user or an IAM user. Credentials that
+        /// are created by IAM users are valid for the duration that you specify. This duration
+        /// can range from 900 seconds (15 minutes) up to a maximum of 129,600 seconds (36 hours),
+        /// with a default of 43,200 seconds (12 hours). Credentials based on account credentials
+        /// can range from 900 seconds (15 minutes) up to 3,600 seconds (1 hour), with a default
+        /// of 1 hour. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
         /// </para>
         ///  
         /// <para>
@@ -470,8 +581,8 @@ namespace Amazon.SecurityToken
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// You cannot call any IAM APIs unless MFA authentication information is included in
-        /// the request.
+        /// You cannot call any IAM API operations unless MFA authentication information is included
+        /// in the request.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -479,24 +590,24 @@ namespace Amazon.SecurityToken
         /// </para>
         ///  </li> </ul> <note> 
         /// <para>
-        /// We recommend that you do not call <code>GetSessionToken</code> with root account credentials.
-        /// Instead, follow our <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#create-iam-users">best
+        /// We recommend that you do not call <code>GetSessionToken</code> with AWS account root
+        /// user credentials. Instead, follow our <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#create-iam-users">best
         /// practices</a> by creating one or more IAM users, giving them the necessary permissions,
         /// and using IAM users for everyday interaction with AWS. 
         /// </para>
         ///  </note> 
         /// <para>
-        /// The permissions associated with the temporary security credentials returned by <code>GetSessionToken</code>
-        /// are based on the permissions associated with account or IAM user whose credentials
-        /// are used to call the action. If <code>GetSessionToken</code> is called using root
-        /// account credentials, the temporary credentials have root account permissions. Similarly,
-        /// if <code>GetSessionToken</code> is called using the credentials of an IAM user, the
-        /// temporary credentials have the same permissions as the IAM user. 
+        /// The credentials that are returned by <code>GetSessionToken</code> are based on permissions
+        /// associated with the user whose credentials were used to call the operation. If <code>GetSessionToken</code>
+        /// is called using AWS account root user credentials, the temporary credentials have
+        /// root user permissions. Similarly, if <code>GetSessionToken</code> is called using
+        /// the credentials of an IAM user, the temporary credentials have the same permissions
+        /// as the IAM user. 
         /// </para>
         ///  
         /// <para>
         /// For more information about using <code>GetSessionToken</code> to create temporary
-        /// credentials, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken">Temporary
+        /// credentials, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken">Temporary
         /// Credentials for Users in Untrusted Environments</a> in the <i>IAM User Guide</i>.
         /// 
         /// </para>
@@ -506,7 +617,7 @@ namespace Amazon.SecurityToken
         /// <exception cref="Amazon.SecurityToken.Model.RegionDisabledException">
         /// STS is not activated in the requested region for the account that is being asked to
         /// generate credentials. The account administrator must use the IAM console to activate
-        /// STS in that region. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
+        /// STS in that region. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
         /// and Deactivating AWS STS in an AWS Region</a> in the <i>IAM User Guide</i>.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionToken">REST API Reference for GetSessionToken Operation</seealso>
@@ -516,35 +627,44 @@ namespace Amazon.SecurityToken
         }
         internal virtual GetSessionTokenResponse GetSessionToken(GetSessionTokenRequest request)
         {
-            var marshaller = GetSessionTokenRequestMarshaller.Instance;
-            var unmarshaller = GetSessionTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSessionTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSessionTokenResponseUnmarshaller.Instance;
 
-            return Invoke<GetSessionTokenRequest,GetSessionTokenResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSessionTokenResponse>(request, options);
         }
 
         /// <summary>
         /// Returns a set of temporary credentials for an AWS account or IAM user. The credentials
         /// consist of an access key ID, a secret access key, and a security token. Typically,
         /// you use <code>GetSessionToken</code> if you want to use MFA to protect programmatic
-        /// calls to specific AWS APIs like Amazon EC2 <code>StopInstances</code>. MFA-enabled
+        /// calls to specific AWS API operations like Amazon EC2 <code>StopInstances</code>. MFA-enabled
         /// IAM users would need to call <code>GetSessionToken</code> and submit an MFA code that
         /// is associated with their MFA device. Using the temporary security credentials that
-        /// are returned from the call, IAM users can then make programmatic calls to APIs that
-        /// require MFA authentication. If you do not supply a correct MFA code, then the API
-        /// returns an access denied error. For a comparison of <code>GetSessionToken</code> with
-        /// the other APIs that produce temporary credentials, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
-        /// Temporary Security Credentials</a> and <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
-        /// the AWS STS APIs</a> in the <i>IAM User Guide</i>.
+        /// are returned from the call, IAM users can then make programmatic calls to API operations
+        /// that require MFA authentication. If you do not supply a correct MFA code, then the
+        /// API returns an access denied error. For a comparison of <code>GetSessionToken</code>
+        /// with the other API operations that produce temporary credentials, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html">Requesting
+        /// Temporary Security Credentials</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
+        /// the AWS STS API operations</a> in the <i>IAM User Guide</i>.
         /// 
         ///  
         /// <para>
-        /// The <code>GetSessionToken</code> action must be called by using the long-term AWS
-        /// security credentials of the AWS account or an IAM user. Credentials that are created
-        /// by IAM users are valid for the duration that you specify, from 900 seconds (15 minutes)
-        /// up to a maximum of 129600 seconds (36 hours), with a default of 43200 seconds (12
-        /// hours); credentials that are created by using account credentials can range from 900
-        /// seconds (15 minutes) up to a maximum of 3600 seconds (1 hour), with a default of 1
-        /// hour. 
+        ///  <b>Session Duration</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>GetSessionToken</code> operation must be called by using the long-term AWS
+        /// security credentials of the AWS account root user or an IAM user. Credentials that
+        /// are created by IAM users are valid for the duration that you specify. This duration
+        /// can range from 900 seconds (15 minutes) up to a maximum of 129,600 seconds (36 hours),
+        /// with a default of 43,200 seconds (12 hours). Credentials based on account credentials
+        /// can range from 900 seconds (15 minutes) up to 3,600 seconds (1 hour), with a default
+        /// of 1 hour. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
         /// </para>
         ///  
         /// <para>
@@ -553,8 +673,8 @@ namespace Amazon.SecurityToken
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// You cannot call any IAM APIs unless MFA authentication information is included in
-        /// the request.
+        /// You cannot call any IAM API operations unless MFA authentication information is included
+        /// in the request.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -562,24 +682,24 @@ namespace Amazon.SecurityToken
         /// </para>
         ///  </li> </ul> <note> 
         /// <para>
-        /// We recommend that you do not call <code>GetSessionToken</code> with root account credentials.
-        /// Instead, follow our <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#create-iam-users">best
+        /// We recommend that you do not call <code>GetSessionToken</code> with AWS account root
+        /// user credentials. Instead, follow our <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#create-iam-users">best
         /// practices</a> by creating one or more IAM users, giving them the necessary permissions,
         /// and using IAM users for everyday interaction with AWS. 
         /// </para>
         ///  </note> 
         /// <para>
-        /// The permissions associated with the temporary security credentials returned by <code>GetSessionToken</code>
-        /// are based on the permissions associated with account or IAM user whose credentials
-        /// are used to call the action. If <code>GetSessionToken</code> is called using root
-        /// account credentials, the temporary credentials have root account permissions. Similarly,
-        /// if <code>GetSessionToken</code> is called using the credentials of an IAM user, the
-        /// temporary credentials have the same permissions as the IAM user. 
+        /// The credentials that are returned by <code>GetSessionToken</code> are based on permissions
+        /// associated with the user whose credentials were used to call the operation. If <code>GetSessionToken</code>
+        /// is called using AWS account root user credentials, the temporary credentials have
+        /// root user permissions. Similarly, if <code>GetSessionToken</code> is called using
+        /// the credentials of an IAM user, the temporary credentials have the same permissions
+        /// as the IAM user. 
         /// </para>
         ///  
         /// <para>
         /// For more information about using <code>GetSessionToken</code> to create temporary
-        /// credentials, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken">Temporary
+        /// credentials, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken">Temporary
         /// Credentials for Users in Untrusted Environments</a> in the <i>IAM User Guide</i>.
         /// 
         /// </para>
@@ -595,7 +715,7 @@ namespace Amazon.SecurityToken
         /// <exception cref="Amazon.SecurityToken.Model.RegionDisabledException">
         /// STS is not activated in the requested region for the account that is being asked to
         /// generate credentials. The account administrator must use the IAM console to activate
-        /// STS in that region. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
+        /// STS in that region. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
         /// and Deactivating AWS STS in an AWS Region</a> in the <i>IAM User Guide</i>.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionToken">REST API Reference for GetSessionToken Operation</seealso>
@@ -617,8 +737,9 @@ namespace Amazon.SecurityToken
         public virtual void GetSessionTokenAsync(GetSessionTokenRequest request, AmazonServiceCallback<GetSessionTokenRequest, GetSessionTokenResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetSessionTokenRequestMarshaller.Instance;
-            var unmarshaller = GetSessionTokenResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetSessionTokenRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetSessionTokenResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -626,7 +747,7 @@ namespace Amazon.SecurityToken
                             = new AmazonServiceResult<GetSessionTokenRequest,GetSessionTokenResponse>((GetSessionTokenRequest)req, (GetSessionTokenResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetSessionTokenRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion

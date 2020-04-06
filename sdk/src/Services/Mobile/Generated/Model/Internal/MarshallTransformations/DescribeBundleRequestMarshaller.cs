@@ -55,13 +55,14 @@ namespace Amazon.Mobile.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeBundleRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Mobile");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/bundles/{bundleId}";
             if (!publicRequest.IsSetBundleId())
                 throw new AmazonMobileException("Request object does not have required field BundleId set");
-            uriResourcePath = uriResourcePath.Replace("{bundleId}", StringUtils.FromString(publicRequest.BundleId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{bundleId}", StringUtils.FromString(publicRequest.BundleId));
+            request.ResourcePath = "/bundles/{bundleId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

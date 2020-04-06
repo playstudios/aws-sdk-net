@@ -33,12 +33,17 @@ namespace Amazon.GuardDuty.Model
     public partial class GetDetectorResponse : AmazonWebServiceResponse
     {
         private string _createdAt;
+        private FindingPublishingFrequency _findingPublishingFrequency;
         private string _serviceRole;
         private DetectorStatus _status;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private string _updatedAt;
 
         /// <summary>
-        /// Gets and sets the property CreatedAt.
+        /// Gets and sets the property CreatedAt. 
+        /// <para>
+        /// Detector creation timestamp.
+        /// </para>
         /// </summary>
         public string CreatedAt
         {
@@ -53,8 +58,30 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ServiceRole.
+        /// Gets and sets the property FindingPublishingFrequency. 
+        /// <para>
+        /// Finding publishing frequency.
+        /// </para>
         /// </summary>
+        public FindingPublishingFrequency FindingPublishingFrequency
+        {
+            get { return this._findingPublishingFrequency; }
+            set { this._findingPublishingFrequency = value; }
+        }
+
+        // Check to see if FindingPublishingFrequency property is set
+        internal bool IsSetFindingPublishingFrequency()
+        {
+            return this._findingPublishingFrequency != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ServiceRole. 
+        /// <para>
+        /// The GuardDuty service role.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public string ServiceRole
         {
             get { return this._serviceRole; }
@@ -68,8 +95,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Status.
+        /// Gets and sets the property Status. 
+        /// <para>
+        /// The detector status.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public DetectorStatus Status
         {
             get { return this._status; }
@@ -83,7 +114,29 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property UpdatedAt.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags of the detector resource.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=200)]
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property UpdatedAt. 
+        /// <para>
+        /// Detector last update timestamp.
+        /// </para>
         /// </summary>
         public string UpdatedAt
         {

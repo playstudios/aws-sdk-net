@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.DAX.Model;
 using Amazon.DAX.Model.Internal.MarshallTransformations;
+using Amazon.DAX.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -42,6 +44,7 @@ namespace Amazon.DAX
     /// </summary>
     public partial class AmazonDAXClient : AmazonServiceClient, IAmazonDAX
     {
+        private static IServiceMetadata serviceMetadata = new AmazonDAXMetadata();
         #region Constructors
 
         /// <summary>
@@ -212,6 +215,16 @@ namespace Amazon.DAX
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -227,7 +240,7 @@ namespace Amazon.DAX
 
         #endregion
 
-        
+
         #region  CreateCluster
 
         /// <summary>
@@ -270,6 +283,9 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.ParameterGroupNotFoundException">
         /// The specified parameter group does not exist.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <exception cref="Amazon.DAX.Model.SubnetGroupNotFoundException">
         /// The requested subnet group name does not refer to an existing subnet group.
         /// </exception>
@@ -279,10 +295,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/CreateCluster">REST API Reference for CreateCluster Operation</seealso>
         public virtual CreateClusterResponse CreateCluster(CreateClusterRequest request)
         {
-            var marshaller = CreateClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterResponseUnmarshaller.Instance;
 
-            return Invoke<CreateClusterRequest,CreateClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -299,11 +316,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/CreateCluster">REST API Reference for CreateCluster Operation</seealso>
         public virtual IAsyncResult BeginCreateCluster(CreateClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -345,13 +362,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.ParameterGroupQuotaExceededException">
         /// You have attempted to exceed the maximum number of parameter groups.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/CreateParameterGroup">REST API Reference for CreateParameterGroup Operation</seealso>
         public virtual CreateParameterGroupResponse CreateParameterGroup(CreateParameterGroupRequest request)
         {
-            var marshaller = CreateParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateParameterGroupRequest,CreateParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateParameterGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -368,11 +389,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/CreateParameterGroup">REST API Reference for CreateParameterGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateParameterGroup(CreateParameterGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateParameterGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateParameterGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -401,6 +422,9 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidSubnetException">
         /// An invalid subnet identifier was specified.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <exception cref="Amazon.DAX.Model.SubnetGroupAlreadyExistsException">
         /// The specified subnet group already exists.
         /// </exception>
@@ -415,10 +439,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/CreateSubnetGroup">REST API Reference for CreateSubnetGroup Operation</seealso>
         public virtual CreateSubnetGroupResponse CreateSubnetGroup(CreateSubnetGroupRequest request)
         {
-            var marshaller = CreateSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSubnetGroupRequest,CreateSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSubnetGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -435,11 +460,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/CreateSubnetGroup">REST API Reference for CreateSubnetGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateSubnetGroup(CreateSubnetGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSubnetGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateSubnetGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -487,13 +512,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.NodeNotFoundException">
         /// None of the nodes in the cluster have the given node ID.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DecreaseReplicationFactor">REST API Reference for DecreaseReplicationFactor Operation</seealso>
         public virtual DecreaseReplicationFactorResponse DecreaseReplicationFactor(DecreaseReplicationFactorRequest request)
         {
-            var marshaller = DecreaseReplicationFactorRequestMarshaller.Instance;
-            var unmarshaller = DecreaseReplicationFactorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseReplicationFactorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseReplicationFactorResponseUnmarshaller.Instance;
 
-            return Invoke<DecreaseReplicationFactorRequest,DecreaseReplicationFactorResponse>(request, marshaller, unmarshaller);
+            return Invoke<DecreaseReplicationFactorResponse>(request, options);
         }
 
         /// <summary>
@@ -510,11 +539,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DecreaseReplicationFactor">REST API Reference for DecreaseReplicationFactor Operation</seealso>
         public virtual IAsyncResult BeginDecreaseReplicationFactor(DecreaseReplicationFactorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DecreaseReplicationFactorRequestMarshaller.Instance;
-            var unmarshaller = DecreaseReplicationFactorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseReplicationFactorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseReplicationFactorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DecreaseReplicationFactorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -555,13 +584,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidParameterValueException">
         /// The value for a parameter is invalid.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DeleteCluster">REST API Reference for DeleteCluster Operation</seealso>
         public virtual DeleteClusterResponse DeleteCluster(DeleteClusterRequest request)
         {
-            var marshaller = DeleteClusterRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteClusterRequest,DeleteClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -578,11 +611,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DeleteCluster">REST API Reference for DeleteCluster Operation</seealso>
         public virtual IAsyncResult BeginDeleteCluster(DeleteClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteClusterRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -621,13 +654,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.ParameterGroupNotFoundException">
         /// The specified parameter group does not exist.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DeleteParameterGroup">REST API Reference for DeleteParameterGroup Operation</seealso>
         public virtual DeleteParameterGroupResponse DeleteParameterGroup(DeleteParameterGroupRequest request)
         {
-            var marshaller = DeleteParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteParameterGroupRequest,DeleteParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteParameterGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -644,11 +681,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DeleteParameterGroup">REST API Reference for DeleteParameterGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteParameterGroup(DeleteParameterGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteParameterGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteParameterGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -680,6 +717,9 @@ namespace Amazon.DAX
         /// <param name="request">Container for the necessary parameters to execute the DeleteSubnetGroup service method.</param>
         /// 
         /// <returns>The response from the DeleteSubnetGroup service method, as returned by DAX.</returns>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <exception cref="Amazon.DAX.Model.SubnetGroupInUseException">
         /// The specified subnet group is currently in use.
         /// </exception>
@@ -689,10 +729,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DeleteSubnetGroup">REST API Reference for DeleteSubnetGroup Operation</seealso>
         public virtual DeleteSubnetGroupResponse DeleteSubnetGroup(DeleteSubnetGroupRequest request)
         {
-            var marshaller = DeleteSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSubnetGroupRequest,DeleteSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSubnetGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -709,11 +750,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DeleteSubnetGroup">REST API Reference for DeleteSubnetGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteSubnetGroup(DeleteSubnetGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSubnetGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSubnetGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -771,13 +812,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidParameterValueException">
         /// The value for a parameter is invalid.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeClusters">REST API Reference for DescribeClusters Operation</seealso>
         public virtual DescribeClustersResponse DescribeClusters(DescribeClustersRequest request)
         {
-            var marshaller = DescribeClustersRequestMarshaller.Instance;
-            var unmarshaller = DescribeClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClustersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClustersRequest,DescribeClustersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClustersResponse>(request, options);
         }
 
         /// <summary>
@@ -794,11 +839,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeClusters">REST API Reference for DescribeClusters Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusters(DescribeClustersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClustersRequestMarshaller.Instance;
-            var unmarshaller = DescribeClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClustersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClustersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -830,13 +875,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidParameterValueException">
         /// The value for a parameter is invalid.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeDefaultParameters">REST API Reference for DescribeDefaultParameters Operation</seealso>
         public virtual DescribeDefaultParametersResponse DescribeDefaultParameters(DescribeDefaultParametersRequest request)
         {
-            var marshaller = DescribeDefaultParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeDefaultParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDefaultParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDefaultParametersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDefaultParametersRequest,DescribeDefaultParametersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDefaultParametersResponse>(request, options);
         }
 
         /// <summary>
@@ -853,11 +902,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeDefaultParameters">REST API Reference for DescribeDefaultParameters Operation</seealso>
         public virtual IAsyncResult BeginDescribeDefaultParameters(DescribeDefaultParametersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDefaultParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeDefaultParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDefaultParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDefaultParametersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDefaultParametersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -884,7 +933,7 @@ namespace Amazon.DAX
         /// 
         ///  
         /// <para>
-        /// By default, only the events occurring within the last hour are returned; however,
+        /// By default, only the events occurring within the last 24 hours are returned; however,
         /// you can retrieve up to 14 days' worth of events if necessary.
         /// </para>
         /// </summary>
@@ -897,13 +946,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidParameterValueException">
         /// The value for a parameter is invalid.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual DescribeEventsResponse DescribeEvents(DescribeEventsRequest request)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventsRequest,DescribeEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -920,11 +973,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual IAsyncResult BeginDescribeEvents(DescribeEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -960,13 +1013,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.ParameterGroupNotFoundException">
         /// The specified parameter group does not exist.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeParameterGroups">REST API Reference for DescribeParameterGroups Operation</seealso>
         public virtual DescribeParameterGroupsResponse DescribeParameterGroups(DescribeParameterGroupsRequest request)
         {
-            var marshaller = DescribeParameterGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeParameterGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeParameterGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeParameterGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeParameterGroupsRequest,DescribeParameterGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeParameterGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -983,11 +1040,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeParameterGroups">REST API Reference for DescribeParameterGroups Operation</seealso>
         public virtual IAsyncResult BeginDescribeParameterGroups(DescribeParameterGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeParameterGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeParameterGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeParameterGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeParameterGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeParameterGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1022,13 +1079,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.ParameterGroupNotFoundException">
         /// The specified parameter group does not exist.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeParameters">REST API Reference for DescribeParameters Operation</seealso>
         public virtual DescribeParametersResponse DescribeParameters(DescribeParametersRequest request)
         {
-            var marshaller = DescribeParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeParametersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeParametersRequest,DescribeParametersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeParametersResponse>(request, options);
         }
 
         /// <summary>
@@ -1045,11 +1106,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeParameters">REST API Reference for DescribeParameters Operation</seealso>
         public virtual IAsyncResult BeginDescribeParameters(DescribeParametersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeParametersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeParametersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1076,16 +1137,20 @@ namespace Amazon.DAX
         /// <param name="request">Container for the necessary parameters to execute the DescribeSubnetGroups service method.</param>
         /// 
         /// <returns>The response from the DescribeSubnetGroups service method, as returned by DAX.</returns>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <exception cref="Amazon.DAX.Model.SubnetGroupNotFoundException">
         /// The requested subnet group name does not refer to an existing subnet group.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeSubnetGroups">REST API Reference for DescribeSubnetGroups Operation</seealso>
         public virtual DescribeSubnetGroupsResponse DescribeSubnetGroups(DescribeSubnetGroupsRequest request)
         {
-            var marshaller = DescribeSubnetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSubnetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSubnetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSubnetGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeSubnetGroupsRequest,DescribeSubnetGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeSubnetGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -1102,11 +1167,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/DescribeSubnetGroups">REST API Reference for DescribeSubnetGroups Operation</seealso>
         public virtual IAsyncResult BeginDescribeSubnetGroups(DescribeSubnetGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeSubnetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSubnetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSubnetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSubnetGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeSubnetGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1157,13 +1222,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.NodeQuotaForCustomerExceededException">
         /// You have attempted to exceed the maximum number of nodes for your AWS account.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/IncreaseReplicationFactor">REST API Reference for IncreaseReplicationFactor Operation</seealso>
         public virtual IncreaseReplicationFactorResponse IncreaseReplicationFactor(IncreaseReplicationFactorRequest request)
         {
-            var marshaller = IncreaseReplicationFactorRequestMarshaller.Instance;
-            var unmarshaller = IncreaseReplicationFactorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseReplicationFactorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseReplicationFactorResponseUnmarshaller.Instance;
 
-            return Invoke<IncreaseReplicationFactorRequest,IncreaseReplicationFactorResponse>(request, marshaller, unmarshaller);
+            return Invoke<IncreaseReplicationFactorResponse>(request, options);
         }
 
         /// <summary>
@@ -1180,11 +1249,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/IncreaseReplicationFactor">REST API Reference for IncreaseReplicationFactor Operation</seealso>
         public virtual IAsyncResult BeginIncreaseReplicationFactor(IncreaseReplicationFactorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = IncreaseReplicationFactorRequestMarshaller.Instance;
-            var unmarshaller = IncreaseReplicationFactorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseReplicationFactorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseReplicationFactorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<IncreaseReplicationFactorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1226,13 +1295,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidParameterValueException">
         /// The value for a parameter is invalid.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/ListTags">REST API Reference for ListTags Operation</seealso>
         public virtual ListTagsResponse ListTags(ListTagsRequest request)
         {
-            var marshaller = ListTagsRequestMarshaller.Instance;
-            var unmarshaller = ListTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsRequest,ListTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsResponse>(request, options);
         }
 
         /// <summary>
@@ -1249,11 +1322,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/ListTags">REST API Reference for ListTags Operation</seealso>
         public virtual IAsyncResult BeginListTags(ListTagsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTagsRequestMarshaller.Instance;
-            var unmarshaller = ListTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTagsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1276,6 +1349,13 @@ namespace Amazon.DAX
         /// <summary>
         /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible.
         /// During the reboot, the node status is set to REBOOTING.
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  <code>RebootNode</code> restarts the DAX engine process and does not remove the contents
+        /// of the cache. 
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RebootNode service method.</param>
         /// 
@@ -1295,13 +1375,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.NodeNotFoundException">
         /// None of the nodes in the cluster have the given node ID.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/RebootNode">REST API Reference for RebootNode Operation</seealso>
         public virtual RebootNodeResponse RebootNode(RebootNodeRequest request)
         {
-            var marshaller = RebootNodeRequestMarshaller.Instance;
-            var unmarshaller = RebootNodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootNodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootNodeResponseUnmarshaller.Instance;
 
-            return Invoke<RebootNodeRequest,RebootNodeResponse>(request, marshaller, unmarshaller);
+            return Invoke<RebootNodeResponse>(request, options);
         }
 
         /// <summary>
@@ -1318,11 +1402,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/RebootNode">REST API Reference for RebootNode Operation</seealso>
         public virtual IAsyncResult BeginRebootNode(RebootNodeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RebootNodeRequestMarshaller.Instance;
-            var unmarshaller = RebootNodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootNodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootNodeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RebootNodeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1364,16 +1448,20 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidParameterValueException">
         /// The value for a parameter is invalid.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <exception cref="Amazon.DAX.Model.TagQuotaPerResourceExceededException">
         /// You have exceeded the maximum number of tags for this DAX cluster.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual TagResourceResponse TagResource(TagResourceRequest request)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<TagResourceRequest,TagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<TagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -1390,11 +1478,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1436,16 +1524,20 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidParameterValueException">
         /// The value for a parameter is invalid.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <exception cref="Amazon.DAX.Model.TagNotFoundException">
         /// The tag does not exist.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<UntagResourceRequest,UntagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UntagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -1462,11 +1554,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UntagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1511,13 +1603,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.ParameterGroupNotFoundException">
         /// The specified parameter group does not exist.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UpdateCluster">REST API Reference for UpdateCluster Operation</seealso>
         public virtual UpdateClusterResponse UpdateCluster(UpdateClusterRequest request)
         {
-            var marshaller = UpdateClusterRequestMarshaller.Instance;
-            var unmarshaller = UpdateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateClusterResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateClusterRequest,UpdateClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -1534,11 +1630,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UpdateCluster">REST API Reference for UpdateCluster Operation</seealso>
         public virtual IAsyncResult BeginUpdateCluster(UpdateClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateClusterRequestMarshaller.Instance;
-            var unmarshaller = UpdateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1577,13 +1673,17 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.ParameterGroupNotFoundException">
         /// The specified parameter group does not exist.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UpdateParameterGroup">REST API Reference for UpdateParameterGroup Operation</seealso>
         public virtual UpdateParameterGroupResponse UpdateParameterGroup(UpdateParameterGroupRequest request)
         {
-            var marshaller = UpdateParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateParameterGroupRequest,UpdateParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateParameterGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1600,11 +1700,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UpdateParameterGroup">REST API Reference for UpdateParameterGroup Operation</seealso>
         public virtual IAsyncResult BeginUpdateParameterGroup(UpdateParameterGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateParameterGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateParameterGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1633,6 +1733,9 @@ namespace Amazon.DAX
         /// <exception cref="Amazon.DAX.Model.InvalidSubnetException">
         /// An invalid subnet identifier was specified.
         /// </exception>
+        /// <exception cref="Amazon.DAX.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
         /// <exception cref="Amazon.DAX.Model.SubnetGroupNotFoundException">
         /// The requested subnet group name does not refer to an existing subnet group.
         /// </exception>
@@ -1646,10 +1749,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UpdateSubnetGroup">REST API Reference for UpdateSubnetGroup Operation</seealso>
         public virtual UpdateSubnetGroupResponse UpdateSubnetGroup(UpdateSubnetGroupRequest request)
         {
-            var marshaller = UpdateSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSubnetGroupRequest,UpdateSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSubnetGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1666,11 +1770,11 @@ namespace Amazon.DAX
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dax-2017-04-19/UpdateSubnetGroup">REST API Reference for UpdateSubnetGroup Operation</seealso>
         public virtual IAsyncResult BeginUpdateSubnetGroup(UpdateSubnetGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSubnetGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSubnetGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

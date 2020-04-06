@@ -29,12 +29,12 @@ namespace Amazon.RDS.Model
 {
     /// <summary>
     /// Container for the parameters to the ModifyDBSnapshot operation.
-    /// Updates a manual DB snapshot, which can be encrypted or not encrypted, with a new
-    /// engine version. 
+    /// Updates a manual DB snapshot with a new engine version. The snapshot can be encrypted
+    /// or unencrypted, but not shared or public. 
     /// 
     ///  
     /// <para>
-    /// Amazon RDS supports upgrading DB snapshots for MySQL and Oracle. 
+    /// Amazon RDS supports upgrading DB snapshots for MySQL, Oracle, and PostgreSQL. 
     /// </para>
     /// </summary>
     public partial class ModifyDBSnapshotRequest : AmazonRDSRequest
@@ -49,6 +49,7 @@ namespace Amazon.RDS.Model
         /// The identifier of the DB snapshot to modify.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBSnapshotIdentifier
         {
             get { return this._dbSnapshotIdentifier; }
@@ -95,7 +96,16 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  <code>11.2.0.4.v11</code> (supported for 11.2.0.3 DB snapshots)
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>PostgreSQL</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// For the list of engine versions that are available for upgrading a DB snapshot, see
+        /// <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.html#USER_UpgradeDBInstance.PostgreSQL.MajorVersion">
+        /// Upgrading the PostgreSQL DB Engine for Amazon RDS</a>. 
+        /// </para>
         /// </summary>
         public string EngineVersion
         {
@@ -119,7 +129,7 @@ namespace Amazon.RDS.Model
         /// You can specify this parameter when you upgrade an Oracle DB snapshot. The same option
         /// group considerations apply when upgrading a DB snapshot as when upgrading a DB instance.
         /// For more information, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Oracle.html#USER_UpgradeDBInstance.Oracle.OGPG.OG">Option
-        /// Group Considerations</a>. 
+        /// Group Considerations</a> in the <i>Amazon RDS User Guide.</i> 
         /// </para>
         /// </summary>
         public string OptionGroupName

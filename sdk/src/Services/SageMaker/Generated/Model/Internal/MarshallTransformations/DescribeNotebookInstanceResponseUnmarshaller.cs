@@ -51,10 +51,28 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("AcceleratorTypes", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    response.AcceleratorTypes = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("AdditionalCodeRepositories", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    response.AdditionalCodeRepositories = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CreationTime", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     response.CreationTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("DefaultCodeRepository", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.DefaultCodeRepository = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("DirectInternetAccess", targetDepth))
@@ -123,6 +141,12 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                     response.RoleArn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("RootAccess", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.RootAccess = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("SecurityGroups", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
@@ -139,6 +163,12 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.Url = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("VolumeSizeInGB", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    response.VolumeSizeInGB = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

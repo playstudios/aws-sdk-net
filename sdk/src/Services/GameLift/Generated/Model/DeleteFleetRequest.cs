@@ -34,12 +34,28 @@ namespace Amazon.GameLift.Model
     /// 
     ///  
     /// <para>
-    /// This action removes the fleet's resources and the fleet record. Once a fleet is deleted,
-    /// you can no longer use that fleet.
+    /// If the fleet being deleted has a VPC peering connection, you first need to get a valid
+    /// authorization (good for 24 hours) by calling <a>CreateVpcPeeringAuthorization</a>.
+    /// You do not need to explicitly delete the VPC peering connection--this is done as part
+    /// of the delete fleet process.
     /// </para>
     ///  
     /// <para>
-    /// Fleet-related operations include:
+    /// This action removes the fleet and its resources. Once a fleet is deleted, you can
+    /// no longer use any of the resource in that fleet.
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
+    /// up GameLift Fleets</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -51,79 +67,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Describe fleets:
+    ///  <a>DeleteFleet</a> 
     /// </para>
-    ///  <ul> <li> 
+    ///  </li> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>DescribeFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetUtilization</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetEvents</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Update fleets:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
     ///  <a>UpdateFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -134,9 +90,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet to be deleted.
+        /// A unique identifier for a fleet to be deleted. You can use either the fleet ID or
+        /// ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FleetId
         {
             get { return this._fleetId; }

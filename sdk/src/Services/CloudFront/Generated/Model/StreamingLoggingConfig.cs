@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -42,6 +42,7 @@ namespace Amazon.CloudFront.Model
         /// The Amazon S3 bucket to store the access logs in, for example, <code>myawslogbucket.s3.amazonaws.com</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Bucket
         {
             get { return this._bucket; }
@@ -66,6 +67,7 @@ namespace Amazon.CloudFront.Model
         /// deleted. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enabled
         {
             get { return this._enabled.GetValueOrDefault(); }
@@ -87,6 +89,7 @@ namespace Amazon.CloudFront.Model
         /// an empty <code>Prefix</code> element in the <code>Logging</code> element.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Prefix
         {
             get { return this._prefix; }

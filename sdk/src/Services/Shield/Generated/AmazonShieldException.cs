@@ -28,10 +28,10 @@ namespace Amazon.Shield
     ///<summary>
     /// Common exception for the Shield service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonShieldException : AmazonServiceException
+    public partial class AmazonShieldException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonShieldException
@@ -88,7 +88,7 @@ namespace Amazon.Shield
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonShieldException class with serialized data.
         /// </summary>

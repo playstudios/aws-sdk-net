@@ -148,14 +148,14 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
             modelEvent.EventType = this.EventType;
             modelEvent.Session = new Amazon.MobileAnalytics.Model.Session();
             modelEvent.Session.Id = session.SessionId;
-            modelEvent.Session.StartTimestamp = session.StartTime;
+            modelEvent.Session.StartTimestampUtc = session.StartTime;
             if (session.StopTime != null)
-                modelEvent.Session.StopTimestamp = session.StopTime.Value;
+                modelEvent.Session.StopTimestampUtc = session.StopTime.Value;
 
 
             if(this.EventType == Constants.SESSION_STOP_EVENT_TYPE)
             {
-                modelEvent.Session.StopTimestamp = this.StopTimestamp.Value;
+                modelEvent.Session.StopTimestampUtc = this.StopTimestamp.Value;
                 modelEvent.Session.Duration = this.Duration;
             }
 
@@ -181,7 +181,7 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
                 AddDict(_metrics,modelEvent.Metrics);
             }
 
-            modelEvent.Timestamp = Timestamp;
+            modelEvent.TimestampUtc = Timestamp;
             modelEvent.Version = "v2.0";
             
             return modelEvent;
@@ -238,7 +238,7 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
             bool ret = false;
             lock(_lock)
             {
-                ret = _attributes.ContainsKey("attributeName");
+                ret = _attributes.ContainsKey(attributeName);
             }
             
             return ret;
@@ -536,11 +536,11 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
         {
             if(string.IsNullOrEmpty(eventType))
             {
-                throw new ArgumentNullException(eventType);
+                throw new ArgumentNullException("eventType");
             }
             if(string.IsNullOrEmpty(attributeName))
             {
-                throw new ArgumentNullException(attributeName);
+                throw new ArgumentNullException("attributeName");
             }
             
             string ret = null;
@@ -698,12 +698,12 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
         {
             if(string.IsNullOrEmpty(eventType))
             {
-                throw new ArgumentNullException(eventType);
+                throw new ArgumentNullException("eventType");
             }
             
             if(string.IsNullOrEmpty(metricName))
             {
-                throw new ArgumentNullException(metricName);
+                throw new ArgumentNullException("metricName");
             }
             
             double? ret = null;

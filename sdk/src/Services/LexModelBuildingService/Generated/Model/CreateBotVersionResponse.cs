@@ -38,6 +38,7 @@ namespace Amazon.LexModelBuildingService.Model
         private Prompt _clarificationPrompt;
         private DateTime? _createdDate;
         private string _description;
+        private bool? _detectSentiment;
         private string _failureReason;
         private int? _idleSessionTTLInSeconds;
         private List<Intent> _intents = new List<Intent>();
@@ -169,6 +170,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// A description of the bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -179,6 +181,25 @@ namespace Amazon.LexModelBuildingService.Model
         internal bool IsSetDescription()
         {
             return this._description != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DetectSentiment. 
+        /// <para>
+        /// Indicates whether utterances entered by the user should be sent to Amazon Comprehend
+        /// for sentiment analysis.
+        /// </para>
+        /// </summary>
+        public bool DetectSentiment
+        {
+            get { return this._detectSentiment.GetValueOrDefault(); }
+            set { this._detectSentiment = value; }
+        }
+
+        // Check to see if DetectSentiment property is set
+        internal bool IsSetDetectSentiment()
+        {
+            return this._detectSentiment.HasValue; 
         }
 
         /// <summary>
@@ -207,6 +228,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// For more information, see <a>PutBot</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=60, Max=86400)]
         public int IdleSessionTTLInSeconds
         {
             get { return this._idleSessionTTLInSeconds.GetValueOrDefault(); }
@@ -279,6 +301,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=50)]
         public string Name
         {
             get { return this._name; }
@@ -319,6 +342,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The version of the bot. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string Version
         {
             get { return this._version; }

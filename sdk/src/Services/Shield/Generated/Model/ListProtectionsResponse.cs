@@ -44,7 +44,14 @@ namespace Amazon.Shield.Model
         /// ListProtections requests, specify the value of NextToken from the previous response
         /// to get information about another batch of Protections.
         /// </para>
+        ///  
+        /// <para>
+        /// AWS WAF might return the list of <a>Protection</a> objects in batches smaller than
+        /// the number specified by MaxResults. If there are more <a>Protection</a> objects to
+        /// return, AWS WAF will always also return a <code>NextToken</code>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
         public string NextToken
         {
             get { return this._nextToken; }

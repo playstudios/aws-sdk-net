@@ -50,6 +50,7 @@ namespace Amazon.DeviceFarm.Model
         /// The test's ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -122,6 +123,7 @@ namespace Amazon.DeviceFarm.Model
         /// A message about the test's result.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=16384)]
         public string Message
         {
             get { return this._message; }
@@ -140,6 +142,7 @@ namespace Amazon.DeviceFarm.Model
         /// The test's name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -163,31 +166,31 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// PENDING: A pending condition.
+        /// PENDING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PASSED: A passing condition.
+        /// PASSED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// WARNED: A warning condition.
+        /// WARNED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// FAILED: A failed condition.
+        /// FAILED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SKIPPED: A skipped condition.
+        /// SKIPPED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ERRORED: An error condition.
+        /// ERRORED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// STOPPED: A stopped condition.
+        /// STOPPED
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -232,39 +235,39 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// PENDING: A pending status.
+        /// PENDING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PENDING_CONCURRENCY: A pending concurrency status.
+        /// PENDING_CONCURRENCY
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PENDING_DEVICE: A pending device status.
+        /// PENDING_DEVICE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PROCESSING: A processing status.
+        /// PROCESSING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SCHEDULING: A scheduling status.
+        /// SCHEDULING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PREPARING: A preparing status.
+        /// PREPARING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// RUNNING: A running status.
+        /// RUNNING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// COMPLETED: A completed status.
+        /// COMPLETED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// STOPPING: A stopping status.
+        /// STOPPING
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -309,60 +312,80 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// BUILTIN_FUZZ: The built-in fuzz type.
+        /// BUILTIN_FUZZ
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app,
-        /// interacting with it and capturing screenshots at the same time.
+        /// BUILTIN_EXPLORER
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// For Android, an app explorer that traverses an Android app, interacting with it and
+        /// capturing screenshots at the same time.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_JUNIT
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_JUNIT: The Appium Java JUnit type.
+        /// APPIUM_JAVA_TESTNG
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_TESTNG: The Appium Java TestNG type.
+        /// APPIUM_PYTHON
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_PYTHON: The Appium Python type.
+        /// APPIUM_NODE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.
+        /// APPIUM_RUBY
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.
+        /// APPIUM_WEB_JAVA_JUNIT
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_PYTHON: The Appium Python type for Web apps.
+        /// APPIUM_WEB_JAVA_TESTNG
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// CALABASH: The Calabash type.
+        /// APPIUM_WEB_PYTHON
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INSTRUMENTATION: The Instrumentation type.
+        /// APPIUM_WEB_NODE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATION: The uiautomation type.
+        /// APPIUM_WEB_RUBY
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATOR: The uiautomator type.
+        /// CALABASH
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST: The XCode test type.
+        /// INSTRUMENTATION
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST_UI: The XCode UI test type.
+        /// UIAUTOMATION
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATOR
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI
         /// </para>
         ///  </li> </ul>
         /// </summary>

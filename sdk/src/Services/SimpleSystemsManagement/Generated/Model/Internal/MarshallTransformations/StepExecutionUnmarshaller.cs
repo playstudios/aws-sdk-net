@@ -100,10 +100,28 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     unmarshalledObject.Inputs = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("IsCritical", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.IsCritical = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("IsEnd", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.IsEnd = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("MaxAttempts", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     unmarshalledObject.MaxAttempts = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NextStep", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.NextStep = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("OnFailure", targetDepth))
@@ -154,10 +172,28 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     unmarshalledObject.StepStatus = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("TargetLocation", targetDepth))
+                {
+                    var unmarshaller = TargetLocationUnmarshaller.Instance;
+                    unmarshalledObject.TargetLocation = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("Targets", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Target, TargetUnmarshaller>(TargetUnmarshaller.Instance);
+                    unmarshalledObject.Targets = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("TimeoutSeconds", targetDepth))
                 {
                     var unmarshaller = LongUnmarshaller.Instance;
                     unmarshalledObject.TimeoutSeconds = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ValidNextSteps", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.ValidNextSteps = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

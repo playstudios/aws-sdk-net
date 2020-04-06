@@ -29,31 +29,61 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeRegions operation.
-    /// Describes one or more regions that are currently available to you.
+    /// Describes the Regions that are enabled for your account, or all Regions.
     /// 
     ///  
     /// <para>
-    /// For a list of the regions supported by Amazon EC2, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">Regions
-    /// and Endpoints</a>.
+    /// For a list of the Regions supported by Amazon EC2, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">
+    /// Regions and Endpoints</a>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For information about enabling and disabling Regions for your account, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html">Managing
+    /// AWS Regions</a> in the <i>AWS General Reference</i>.
     /// </para>
     /// </summary>
     public partial class DescribeRegionsRequest : AmazonEC2Request
     {
+        private bool? _allRegions;
         private List<Filter> _filters = new List<Filter>();
         private List<string> _regionNames = new List<string>();
 
         /// <summary>
+        /// Gets and sets the property AllRegions. 
+        /// <para>
+        /// Indicates whether to display all Regions, including Regions that are disabled for
+        /// your account.
+        /// </para>
+        /// </summary>
+        public bool AllRegions
+        {
+            get { return this._allRegions.GetValueOrDefault(); }
+            set { this._allRegions = value; }
+        }
+
+        // Check to see if AllRegions property is set
+        internal bool IsSetAllRegions()
+        {
+            return this._allRegions.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>endpoint</code> - The endpoint of the region (for example, <code>ec2.us-east-1.amazonaws.com</code>).
+        ///  <code>endpoint</code> - The endpoint of the Region (for example, <code>ec2.us-east-1.amazonaws.com</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>region-name</code> - The name of the region (for example, <code>us-east-1</code>).
+        ///  <code>opt-in-status</code> - The opt-in status of the Region (<code>opt-in-not-required</code>
+        /// | <code>opted-in</code> | <code>not-opted-in</code>).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>region-name</code> - The name of the Region (for example, <code>us-east-1</code>).
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -72,7 +102,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property RegionNames. 
         /// <para>
-        /// The names of one or more regions.
+        /// The names of the Regions. You can specify any Regions, whether they are enabled and
+        /// disabled for your account.
         /// </para>
         /// </summary>
         public List<string> RegionNames

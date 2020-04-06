@@ -61,6 +61,13 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.AvailabilityZones.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("AvailableProcessorFeatures/AvailableProcessorFeature", targetDepth))
+                    {
+                        var unmarshaller = AvailableProcessorFeatureUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.AvailableProcessorFeatures.Add(item);
+                        continue;
+                    }
                     if (context.TestExpression("DBInstanceClass", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -139,6 +146,13 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.StorageType = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("SupportedEngineModes/member", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.SupportedEngineModes.Add(item);
+                        continue;
+                    }
                     if (context.TestExpression("SupportsEnhancedMonitoring", targetDepth))
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
@@ -157,10 +171,22 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.SupportsIops = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("SupportsKerberosAuthentication", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.SupportsKerberosAuthentication = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("SupportsPerformanceInsights", targetDepth))
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
                         unmarshalledObject.SupportsPerformanceInsights = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("SupportsStorageAutoscaling", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.SupportsStorageAutoscaling = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("SupportsStorageEncryption", targetDepth))

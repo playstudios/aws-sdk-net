@@ -32,8 +32,28 @@ namespace Amazon.ElasticMapReduce.Model
     /// </summary>
     public partial class AddInstanceGroupsResponse : AmazonWebServiceResponse
     {
+        private string _clusterArn;
         private List<string> _instanceGroupIds = new List<string>();
         private string _jobFlowId;
+
+        /// <summary>
+        /// Gets and sets the property ClusterArn. 
+        /// <para>
+        /// The Amazon Resource Name of the cluster.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
+        public string ClusterArn
+        {
+            get { return this._clusterArn; }
+            set { this._clusterArn = value; }
+        }
+
+        // Check to see if ClusterArn property is set
+        internal bool IsSetClusterArn()
+        {
+            return this._clusterArn != null;
+        }
 
         /// <summary>
         /// Gets and sets the property InstanceGroupIds. 
@@ -59,6 +79,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The job flow ID in which the instance groups are added.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string JobFlowId
         {
             get { return this._jobFlowId; }

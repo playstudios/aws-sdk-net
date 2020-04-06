@@ -45,6 +45,22 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(MsSmoothGroupSettings requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetAdditionalManifests())
+            {
+                context.Writer.WritePropertyName("additionalManifests");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectAdditionalManifestsListValue in requestObject.AdditionalManifests)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = MsSmoothAdditionalManifestMarshaller.Instance;
+                    marshaller.Marshall(requestObjectAdditionalManifestsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetAudioDeduplication())
             {
                 context.Writer.WritePropertyName("audioDeduplication");
@@ -55,6 +71,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("destination");
                 context.Writer.Write(requestObject.Destination);
+            }
+
+            if(requestObject.IsSetDestinationSettings())
+            {
+                context.Writer.WritePropertyName("destinationSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = DestinationSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.DestinationSettings, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetEncryption())

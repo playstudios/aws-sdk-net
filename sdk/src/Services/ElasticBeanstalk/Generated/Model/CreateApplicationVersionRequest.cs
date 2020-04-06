@@ -68,6 +68,7 @@ namespace Amazon.ElasticBeanstalk.Model
         private bool? _process;
         private SourceBuildInformation _sourceBuildInformation;
         private S3Location _sourceBundle;
+        private List<Tag> _tags = new List<Tag>();
         private string _versionLabel;
 
         /// <summary>
@@ -93,6 +94,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// is <code>false</code>, returns an <code>InvalidParameterValue</code> error. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -148,6 +150,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// Describes this version.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -163,10 +166,16 @@ namespace Amazon.ElasticBeanstalk.Model
         /// <summary>
         /// Gets and sets the property Process. 
         /// <para>
-        /// Preprocesses and validates the environment manifest (<code>env.yaml</code>) and configuration
+        /// Pre-processes and validates the environment manifest (<code>env.yaml</code>) and configuration
         /// files (<code>*.config</code> files in the <code>.ebextensions</code> folder) in the
         /// source bundle. Validating configuration files can identify issues prior to deploying
         /// the application version to an environment.
+        /// </para>
+        ///  
+        /// <para>
+        /// You must turn processing on for application versions that you create using AWS CodeBuild
+        /// or AWS CodeCommit. For application versions built from a source bundle in Amazon S3,
+        /// processing is optional.
         /// </para>
         ///  <note> 
         /// <para>
@@ -237,6 +246,29 @@ namespace Amazon.ElasticBeanstalk.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Specifies the tags applied to the application version.
+        /// </para>
+        ///  
+        /// <para>
+        /// Elastic Beanstalk applies these tags only to the application version. Environments
+        /// that use the application version don't inherit the tags.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property VersionLabel. 
         /// <para>
         /// A label identifying this version.
@@ -248,6 +280,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// error. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string VersionLabel
         {
             get { return this._versionLabel; }

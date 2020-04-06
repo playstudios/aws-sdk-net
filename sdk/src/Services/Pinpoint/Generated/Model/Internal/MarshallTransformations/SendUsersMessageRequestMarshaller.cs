@@ -70,6 +70,23 @@ namespace Amazon.Pinpoint.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetTemplateConfiguration())
+            {
+                context.Writer.WritePropertyName("TemplateConfiguration");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = TemplateConfigurationMarshaller.Instance;
+                marshaller.Marshall(requestObject.TemplateConfiguration, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetTraceId())
+            {
+                context.Writer.WritePropertyName("TraceId");
+                context.Writer.Write(requestObject.TraceId);
+            }
+
             if(requestObject.IsSetUsers())
             {
                 context.Writer.WritePropertyName("Users");

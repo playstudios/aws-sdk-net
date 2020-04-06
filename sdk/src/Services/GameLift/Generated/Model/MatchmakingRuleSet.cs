@@ -28,15 +28,15 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GameLift.Model
 {
     /// <summary>
-    /// Set of rule statements, used with FlexMatch, that determine how to build a certain
-    /// kind of player match. Each rule set describes a type of group to be created and defines
-    /// the parameters for acceptable player matches. Rule sets are used in <a>MatchmakingConfiguration</a>
+    /// Set of rule statements, used with FlexMatch, that determine how to build your player
+    /// matches. Each rule set describes a type of group to be created and defines the parameters
+    /// for acceptable player matches. Rule sets are used in <a>MatchmakingConfiguration</a>
     /// objects.
     /// 
     ///  
     /// <para>
     /// A rule set may define the following elements for a match. For detailed information
-    /// and examples showing how to construct a rule set, see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
+    /// and examples showing how to construct a rule set, see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
     /// a FlexMatch Rule Set</a>. 
     /// </para>
     ///  <ul> <li> 
@@ -75,14 +75,15 @@ namespace Amazon.GameLift.Model
     public partial class MatchmakingRuleSet
     {
         private DateTime? _creationTime;
+        private string _ruleSetArn;
         private string _ruleSetBody;
         private string _ruleSetName;
 
         /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// Time stamp indicating when this data object was created. Format is a number expressed
-        /// in Unix time as milliseconds (for example "1469498468.057").
+        /// The time stamp indicating when this data object was created. The format is a number
+        /// expressed in Unix time as milliseconds (for example "1469498468.057").
         /// </para>
         /// </summary>
         public DateTime CreationTime
@@ -98,12 +99,34 @@ namespace Amazon.GameLift.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RuleSetBody. 
+        /// Gets and sets the property RuleSetArn. 
         /// <para>
-        /// Collection of matchmaking rules, formatted as a JSON string. (Note that comments14
-        /// are not allowed in JSON, but most elements support a description field.)
+        /// Amazon Resource Name (<a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+        /// that is assigned to a GameLift matchmaking rule set resource and uniquely identifies
+        /// it. ARNs are unique across all Regions. In a GameLift rule set ARN, the resource ID
+        /// matches the <i>RuleSetName</i> value.
         /// </para>
         /// </summary>
+        public string RuleSetArn
+        {
+            get { return this._ruleSetArn; }
+            set { this._ruleSetArn = value; }
+        }
+
+        // Check to see if RuleSetArn property is set
+        internal bool IsSetRuleSetArn()
+        {
+            return this._ruleSetArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RuleSetBody. 
+        /// <para>
+        /// A collection of matchmaking rules, formatted as a JSON string. Comments are not allowed
+        /// in JSON, but most elements support a description field.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=65535)]
         public string RuleSetBody
         {
             get { return this._ruleSetBody; }
@@ -119,9 +142,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property RuleSetName. 
         /// <para>
-        /// Unique identifier for a matchmaking rule set
+        /// A unique identifier for a matchmaking rule set
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string RuleSetName
         {
             get { return this._ruleSetName; }

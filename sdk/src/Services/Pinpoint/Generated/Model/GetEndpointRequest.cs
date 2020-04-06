@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the GetEndpoint operation.
-    /// Returns information about an endpoint.
+    /// Retrieves information about the settings and attributes of a specific endpoint for
+    /// an application.
     /// </summary>
     public partial class GetEndpointRequest : AmazonPinpointRequest
     {
@@ -37,8 +38,13 @@ namespace Amazon.Pinpoint.Model
         private string _endpointId;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -52,8 +58,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EndpointId.
+        /// Gets and sets the property EndpointId. 
+        /// <para>
+        /// The unique identifier for the endpoint.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EndpointId
         {
             get { return this._endpointId; }

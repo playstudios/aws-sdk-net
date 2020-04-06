@@ -57,13 +57,14 @@ namespace Amazon.ElasticTranscoder.Model
         /// </para>
         ///  
         /// <para>
-        /// If you use either <code>S3</code> or <code>S3-AWS-KMS</code> as your <code>Encryption:Mode</code>,
+        /// If you use either <code>s3</code> or <code>s3-aws-kms</code> as your <code>Encryption:Mode</code>,
         /// you don't need to provide a key with your job because a default key, known as an AWS-KMS
         /// key, is created for you automatically. You need to provide an AWS-KMS key only if
         /// you want to use a non-default AWS-KMS key, or if you are using an <code>Encryption:Mode</code>
-        /// of <code>AES-PKCS7</code>, <code>AES-CTR</code>, or <code>AES-GCM</code>.
+        /// of <code>aes-cbc-pkcs7</code>, <code>aes-ctr</code>, or <code>aes-gcm</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=255)]
         public string AwsKmsKeyArn
         {
             get { return this._awsKmsKeyArn; }
@@ -196,6 +197,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// The ID of the pipeline that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -238,6 +240,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// Constraints: Maximum 40 characters
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=40)]
         public string Name
         {
             get { return this._name; }
@@ -270,9 +273,9 @@ namespace Amazon.ElasticTranscoder.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <b>Completed</b>: The topic ARN for the Amazon SNS topic that you want to notify
-        /// when Elastic Transcoder has finished processing a job. This is the ARN that Amazon
-        /// SNS returned when you created the topic.
+        ///  <b>Complete</b>: The topic ARN for the Amazon SNS topic that you want to notify when
+        /// Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS
+        /// returned when you created the topic.
         /// </para>
         ///  </li> <li> 
         /// <para>

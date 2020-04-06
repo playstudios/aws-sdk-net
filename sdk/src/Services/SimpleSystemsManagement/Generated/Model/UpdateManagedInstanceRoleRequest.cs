@@ -29,7 +29,7 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateManagedInstanceRole operation.
-    /// Assigns or changes an Amazon Identity and Access Management (IAM) role to the managed
+    /// Assigns or changes an Amazon Identity and Access Management (IAM) role for the managed
     /// instance.
     /// </summary>
     public partial class UpdateManagedInstanceRoleRequest : AmazonSimpleSystemsManagementRequest
@@ -43,6 +43,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The IAM role you want to assign or change.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=64)]
         public string IamRole
         {
             get { return this._iamRole; }
@@ -61,6 +62,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the managed instance where you want to update the role.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }

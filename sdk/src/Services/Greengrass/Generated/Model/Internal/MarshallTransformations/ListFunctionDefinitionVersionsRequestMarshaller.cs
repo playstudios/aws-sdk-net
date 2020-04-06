@@ -55,19 +55,20 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListFunctionDefinitionVersionsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/greengrass/definition/functions/{FunctionDefinitionId}/versions";
             if (!publicRequest.IsSetFunctionDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field FunctionDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionDefinitionId}", StringUtils.FromString(publicRequest.FunctionDefinitionId));
+            request.AddPathResource("{FunctionDefinitionId}", StringUtils.FromString(publicRequest.FunctionDefinitionId));
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("MaxResults", StringUtils.FromString(publicRequest.MaxResults));
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("NextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/greengrass/definition/functions/{FunctionDefinitionId}/versions";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

@@ -35,8 +35,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _associationId;
         private string _associationName;
         private string _associationVersion;
+        private AssociationComplianceSeverity _complianceSeverity;
         private DateTime? _createdDate;
         private string _documentVersion;
+        private string _maxConcurrency;
+        private string _maxErrors;
         private string _name;
         private InstanceAssociationOutputLocation _outputLocation;
         private Dictionary<string, List<string>> _parameters = new Dictionary<string, List<string>>();
@@ -98,6 +101,24 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ComplianceSeverity. 
+        /// <para>
+        /// The severity level that is assigned to the association.
+        /// </para>
+        /// </summary>
+        public AssociationComplianceSeverity ComplianceSeverity
+        {
+            get { return this._complianceSeverity; }
+            set { this._complianceSeverity = value; }
+        }
+
+        // Check to see if ComplianceSeverity property is set
+        internal bool IsSetComplianceSeverity()
+        {
+            return this._complianceSeverity != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreatedDate. 
         /// <para>
         /// The date the association version was created.
@@ -131,6 +152,67 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetDocumentVersion()
         {
             return this._documentVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaxConcurrency. 
+        /// <para>
+        /// The maximum number of targets allowed to run the association at the same time. You
+        /// can specify a number, for example 10, or a percentage of the target set, for example
+        /// 10%. The default value is 100%, which means all targets run the association at the
+        /// same time.
+        /// </para>
+        ///  
+        /// <para>
+        /// If a new instance starts and attempts to run an association while Systems Manager
+        /// is running MaxConcurrency associations, the association is allowed to run. During
+        /// the next association interval, the new instance will process its association within
+        /// the limit specified for MaxConcurrency.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=7)]
+        public string MaxConcurrency
+        {
+            get { return this._maxConcurrency; }
+            set { this._maxConcurrency = value; }
+        }
+
+        // Check to see if MaxConcurrency property is set
+        internal bool IsSetMaxConcurrency()
+        {
+            return this._maxConcurrency != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaxErrors. 
+        /// <para>
+        /// The number of errors that are allowed before the system stops sending requests to
+        /// run the association on additional targets. You can specify either an absolute number
+        /// of errors, for example 10, or a percentage of the target set, for example 10%. If
+        /// you specify 3, for example, the system stops sending requests when the fourth error
+        /// is received. If you specify 0, then the system stops sending requests after the first
+        /// error is returned. If you run an association on 50 instances and set MaxError to 10%,
+        /// then the system stops sending the request when the sixth error is received.
+        /// </para>
+        ///  
+        /// <para>
+        /// Executions that are already running an association when MaxErrors is reached are allowed
+        /// to complete, but some of these executions may fail as well. If you need to ensure
+        /// that there won't be more than max-errors failed executions, set MaxConcurrency to
+        /// 1 so that executions proceed one at a time.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=7)]
+        public string MaxErrors
+        {
+            get { return this._maxErrors; }
+            set { this._maxErrors = value; }
+        }
+
+        // Check to see if MaxErrors property is set
+        internal bool IsSetMaxErrors()
+        {
+            return this._maxErrors != null;
         }
 
         /// <summary>
@@ -195,6 +277,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string ScheduleExpression
         {
             get { return this._scheduleExpression; }
@@ -214,6 +297,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }

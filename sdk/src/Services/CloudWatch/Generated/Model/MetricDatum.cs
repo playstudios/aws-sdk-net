@@ -33,13 +33,41 @@ namespace Amazon.CloudWatch.Model
     /// </summary>
     public partial class MetricDatum
     {
+        private List<double> _counts = new List<double>();
         private List<Dimension> _dimensions = new List<Dimension>();
         private string _metricName;
         private StatisticSet _statisticValues;
         private int? _storageResolution;
-        private DateTime? _timestamp;
+        private DateTime? _timestampUtc;
         private StandardUnit _unit;
         private double? _value;
+        private List<double> _values = new List<double>();
+
+        /// <summary>
+        /// Gets and sets the property Counts. 
+        /// <para>
+        /// Array of numbers that is used along with the <code>Values</code> array. Each number
+        /// in the <code>Count</code> array is the number of times the corresponding value in
+        /// the <code>Values</code> array occurred during the period. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you omit the <code>Counts</code> array, the default of 1 is used as the value for
+        /// each count. If you include a <code>Counts</code> array, it must include the same amount
+        /// of values as the <code>Values</code> array.
+        /// </para>
+        /// </summary>
+        public List<double> Counts
+        {
+            get { return this._counts; }
+            set { this._counts = value; }
+        }
+
+        // Check to see if Counts property is set
+        internal bool IsSetCounts()
+        {
+            return this._counts != null && this._counts.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property Dimensions. 
@@ -47,6 +75,7 @@ namespace Amazon.CloudWatch.Model
         /// The dimensions associated with the metric.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<Dimension> Dimensions
         {
             get { return this._dimensions; }
@@ -65,6 +94,7 @@ namespace Amazon.CloudWatch.Model
         /// The name of the metric.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -103,7 +133,7 @@ namespace Amazon.CloudWatch.Model
         /// second. Setting this to 60 specifies this metric as a regular-resolution metric, which
         /// CloudWatch stores at 1-minute resolution. Currently, high resolution is available
         /// only for custom metrics. For more information about high-resolution metrics, see <a
-        /// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics">High-Resolution
+        /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics">High-Resolution
         /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>. 
         /// </para>
         ///  
@@ -111,6 +141,7 @@ namespace Amazon.CloudWatch.Model
         /// This field is optional, if you do not specify it the default of 60 is used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int StorageResolution
         {
             get { return this._storageResolution.GetValueOrDefault(); }
@@ -124,28 +155,33 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Timestamp. 
+        /// Gets and sets the property TimestampUtc. 
         /// <para>
         /// The time the metric data was received, expressed as the number of milliseconds since
         /// Jan 1, 1970 00:00:00 UTC.
         /// </para>
         /// </summary>
-        public DateTime Timestamp
+        public DateTime TimestampUtc
         {
-            get { return this._timestamp.GetValueOrDefault(); }
-            set { this._timestamp = value; }
+            get { return this._timestampUtc.GetValueOrDefault(); }
+            set { this._timestamp = this._timestampUtc = value; }
         }
 
-        // Check to see if Timestamp property is set
-        internal bool IsSetTimestamp()
+        // Check to see if TimestampUtc property is set
+        internal bool IsSetTimestampUtc()
         {
-            return this._timestamp.HasValue; 
+            return this._timestampUtc.HasValue; 
         }
 
         /// <summary>
         /// Gets and sets the property Unit. 
         /// <para>
-        /// The unit of the metric.
+        /// When you are using a <code>Put</code> operation, this defines what unit you want to
+        /// use when storing the metric.
+        /// </para>
+        ///  
+        /// <para>
+        /// In a <code>Get</code> operation, this displays the unit that is used for the metric.
         /// </para>
         /// </summary>
         public StandardUnit Unit
@@ -168,9 +204,8 @@ namespace Amazon.CloudWatch.Model
         ///  
         /// <para>
         /// Although the parameter accepts numbers of type Double, CloudWatch rejects values that
-        /// are either too small or too large. Values must be in the range of 8.515920e-109 to
-        /// 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for
-        /// example, NaN, +Infinity, -Infinity) are not supported.
+        /// are either too small or too large. Values must be in the range of -2^360 to 2^360.
+        /// In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
         /// </para>
         /// </summary>
         public double Value
@@ -185,5 +220,68 @@ namespace Amazon.CloudWatch.Model
             return this._value.HasValue; 
         }
 
+        /// <summary>
+        /// Gets and sets the property Values. 
+        /// <para>
+        /// Array of numbers representing the values for the metric during the period. Each unique
+        /// value is listed just once in this array, and the corresponding number in the <code>Counts</code>
+        /// array specifies the number of times that value occurred during the period. You can
+        /// include up to 150 unique values in each <code>PutMetricData</code> action that specifies
+        /// a <code>Values</code> array.
+        /// </para>
+        ///  
+        /// <para>
+        /// Although the <code>Values</code> array accepts numbers of type <code>Double</code>,
+        /// CloudWatch rejects values that are either too small or too large. Values must be in
+        /// the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity,
+        /// -Infinity) are not supported.
+        /// </para>
+        /// </summary>
+        public List<double> Values
+        {
+            get { return this._values; }
+            set { this._values = value; }
+        }
+
+        // Check to see if Values property is set
+        internal bool IsSetValues()
+        {
+            return this._values != null && this._values.Count > 0; 
+        }
+
+#region Backwards compatible properties
+        private DateTime? _timestamp;
+
+        /// <summary>
+        /// Gets and sets the property TimestampUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use TimestampUtc instead. Setting either Timestamp or
+        /// TimestampUtc results in both Timestamp and TimestampUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. Timestamp
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time the metric data was received, expressed as the number of milliseconds since
+        /// Jan 1, 1970 00:00:00 UTC.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use TimestampUtc instead. Setting either Timestamp or TimestampUtc results in both Timestamp and " +
+            "TimestampUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. Timestamp is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime Timestamp
+        {
+            get { return this._timestamp.GetValueOrDefault(); }
+            set
+            {
+                this._timestamp = value;
+                this._timestampUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+#endregion
     }
 }

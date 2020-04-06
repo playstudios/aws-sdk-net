@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -44,6 +44,7 @@ namespace Amazon.CloudFront.Model
         /// A unique number that ensures the request can't be replayed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CallerReference
         {
             get { return this._callerReference; }

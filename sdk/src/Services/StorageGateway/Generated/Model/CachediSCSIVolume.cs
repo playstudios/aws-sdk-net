@@ -33,8 +33,11 @@ namespace Amazon.StorageGateway.Model
     public partial class CachediSCSIVolume
     {
         private DateTime? _createdDate;
+        private string _kmsKey;
         private string _sourceSnapshotId;
+        private string _targetName;
         private string _volumeARN;
+        private string _volumeAttachmentStatus;
         private string _volumeId;
         private VolumeiSCSIAttributes _volumeiSCSIAttributes;
         private double? _volumeProgress;
@@ -63,6 +66,22 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property KMSKey.
+        /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
+        public string KMSKey
+        {
+            get { return this._kmsKey; }
+            set { this._kmsKey = value; }
+        }
+
+        // Check to see if KMSKey property is set
+        internal bool IsSetKMSKey()
+        {
+            return this._kmsKey != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SourceSnapshotId. 
         /// <para>
         /// If the cached volume was created from a snapshot, this field contains the snapshot
@@ -82,11 +101,39 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TargetName. 
+        /// <para>
+        /// The name of the iSCSI target used by an initiator to connect to a volume and used
+        /// as a suffix for the target ARN. For example, specifying <code>TargetName</code> as
+        /// <i>myvolume</i> results in the target ARN of <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
+        /// The target name must be unique across all volumes on a gateway.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you don't specify a value, Storage Gateway uses the value that was previously used
+        /// for this volume as the new target name.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=200)]
+        public string TargetName
+        {
+            get { return this._targetName; }
+            set { this._targetName = value; }
+        }
+
+        // Check to see if TargetName property is set
+        internal bool IsSetTargetName()
+        {
+            return this._targetName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property VolumeARN. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the storage volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string VolumeARN
         {
             get { return this._volumeARN; }
@@ -100,11 +147,33 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property VolumeAttachmentStatus. 
+        /// <para>
+        /// A value that indicates whether a storage volume is attached to or detached from a
+        /// gateway. For more information, see <a href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#attach-detach-volume">Moving
+        /// Your Volumes to a Different Gateway</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=3, Max=50)]
+        public string VolumeAttachmentStatus
+        {
+            get { return this._volumeAttachmentStatus; }
+            set { this._volumeAttachmentStatus = value; }
+        }
+
+        // Check to see if VolumeAttachmentStatus property is set
+        internal bool IsSetVolumeAttachmentStatus()
+        {
+            return this._volumeAttachmentStatus != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property VolumeId. 
         /// <para>
         /// The unique identifier of the volume, e.g. vol-AE4B946D.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=30)]
         public string VolumeId
         {
             get { return this._volumeId; }
@@ -180,6 +249,7 @@ namespace Amazon.StorageGateway.Model
         /// One of the VolumeStatus values that indicates the state of the storage volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=50)]
         public string VolumeStatus
         {
             get { return this._volumeStatus; }
@@ -198,6 +268,7 @@ namespace Amazon.StorageGateway.Model
         /// One of the VolumeType enumeration values that describes the type of the volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=100)]
         public string VolumeType
         {
             get { return this._volumeType; }
@@ -213,7 +284,11 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property VolumeUsedInBytes. 
         /// <para>
-        /// The size of the data stored on the volume in bytes.
+        /// The size of the data stored on the volume in bytes. This value is calculated based
+        /// on the number of blocks that are touched, instead of the actual amount of data written.
+        /// This value can be useful for sequential write patterns but less accurate for random
+        /// write patterns. <code>VolumeUsedInBytes</code> is different from the compressed size
+        /// of the volume, which is the value that is used to calculate your bill.
         /// </para>
         ///  <note> 
         /// <para>

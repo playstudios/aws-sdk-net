@@ -55,14 +55,15 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateGroupRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/greengrass/groups/{GroupId}";
             if (!publicRequest.IsSetGroupId())
                 throw new AmazonGreengrassException("Request object does not have required field GroupId set");
-            uriResourcePath = uriResourcePath.Replace("{GroupId}", StringUtils.FromString(publicRequest.GroupId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{GroupId}", StringUtils.FromString(publicRequest.GroupId));
+            request.ResourcePath = "/greengrass/groups/{GroupId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

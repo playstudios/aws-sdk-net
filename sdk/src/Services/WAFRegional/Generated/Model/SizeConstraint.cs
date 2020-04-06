@@ -81,6 +81,7 @@ namespace Amazon.WAFRegional.Model
         /// of the <code>FieldToMatch</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ComparisonOperator ComparisonOperator
         {
             get { return this._comparisonOperator; }
@@ -99,6 +100,7 @@ namespace Amazon.WAFRegional.Model
         /// Specifies where in a web request to look for the size constraint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FieldToMatch FieldToMatch
         {
             get { return this._fieldToMatch; }
@@ -131,6 +133,7 @@ namespace Amazon.WAFRegional.Model
         /// long.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=21474836480)]
         public long Size
         {
             get { return this._size.GetValueOrDefault(); }
@@ -150,6 +153,10 @@ namespace Amazon.WAFRegional.Model
         /// web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS
         /// WAF performs the transformation on <code>FieldToMatch</code> before inspecting a request
         /// for a match.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
         /// </para>
         ///  
         /// <para>
@@ -284,6 +291,7 @@ namespace Amazon.WAFRegional.Model
         /// Use this option to decode a URL-encoded value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TextTransformation TextTransformation
         {
             get { return this._textTransformation; }

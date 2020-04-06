@@ -34,15 +34,19 @@ namespace Amazon.EC2.Model
     {
         private string _architecture;
         private string _description;
+        private bool? _encrypted;
         private string _hypervisor;
         private string _imageId;
         private string _importTaskId;
+        private string _kmsKeyId;
+        private List<ImportImageLicenseConfigurationResponse> _licenseSpecifications = new List<ImportImageLicenseConfigurationResponse>();
         private string _licenseType;
         private string _platform;
         private string _progress;
         private List<SnapshotDetail> _snapshotDetails = new List<SnapshotDetail>();
         private string _status;
         private string _statusMessage;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Architecture. 
@@ -51,7 +55,7 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: <code>i386</code> | <code>x86_64</code> 
+        /// Valid values: <code>i386</code> | <code>x86_64</code> | <code>arm64</code> 
         /// </para>
         /// </summary>
         public string Architecture
@@ -82,6 +86,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetDescription()
         {
             return this._description != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Encrypted. 
+        /// <para>
+        /// Indicates whether the image is encrypted.
+        /// </para>
+        /// </summary>
+        public bool Encrypted
+        {
+            get { return this._encrypted.GetValueOrDefault(); }
+            set { this._encrypted = value; }
+        }
+
+        // Check to see if Encrypted property is set
+        internal bool IsSetEncrypted()
+        {
+            return this._encrypted.HasValue; 
         }
 
         /// <summary>
@@ -140,6 +162,43 @@ namespace Amazon.EC2.Model
         internal bool IsSetImportTaskId()
         {
             return this._importTaskId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KmsKeyId. 
+        /// <para>
+        /// The identifier for the AWS Key Management Service (AWS KMS) customer master key (CMK)
+        /// that was used to create the encrypted image.
+        /// </para>
+        /// </summary>
+        public string KmsKeyId
+        {
+            get { return this._kmsKeyId; }
+            set { this._kmsKeyId = value; }
+        }
+
+        // Check to see if KmsKeyId property is set
+        internal bool IsSetKmsKeyId()
+        {
+            return this._kmsKeyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LicenseSpecifications. 
+        /// <para>
+        /// The ARNs of the license configurations that are associated with the import image task.
+        /// </para>
+        /// </summary>
+        public List<ImportImageLicenseConfigurationResponse> LicenseSpecifications
+        {
+            get { return this._licenseSpecifications; }
+            set { this._licenseSpecifications = value; }
+        }
+
+        // Check to see if LicenseSpecifications property is set
+        internal bool IsSetLicenseSpecifications()
+        {
+            return this._licenseSpecifications != null && this._licenseSpecifications.Count > 0; 
         }
 
         /// <summary>
@@ -248,6 +307,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetStatusMessage()
         {
             return this._statusMessage != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags for the import image task.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

@@ -29,14 +29,7 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the GetAlias operation.
-    /// Returns the specified alias information such as the alias ARN, description, and function
-    /// version it is pointing to. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-    /// to AWS Lambda Aliases</a>.
-    /// 
-    ///  
-    /// <para>
-    /// This requires permission for the <code>lambda:GetAlias</code> action.
-    /// </para>
+    /// Returns details about a Lambda function <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>.
     /// </summary>
     public partial class GetAliasRequest : AmazonLambdaRequest
     {
@@ -46,12 +39,29 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// Function name for which the alias is created. An alias is a subresource that exists
-        /// only in the context of an existing Lambda function so you must specify the function
-        /// name. Note that the length constraint applies only to the ARN. If you specify only
-        /// the function name, it is limited to 64 characters in length.
+        /// The name of the Lambda function.
+        /// </para>
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Function name</b> - <code>MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it is limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -67,9 +77,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Name of the alias for which you want to retrieve information.
+        /// The name of the alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }

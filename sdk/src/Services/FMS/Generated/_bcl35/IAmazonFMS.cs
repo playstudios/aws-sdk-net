@@ -34,7 +34,7 @@ namespace Amazon.FMS
     /// This is the <i>AWS Firewall Manager API Reference</i>. This guide is for developers
     /// who need detailed information about the AWS Firewall Manager API actions, data types,
     /// and errors. For detailed information about AWS Firewall Manager features, see the
-    /// <a href="http://docs.aws.amazon.com/waf/latest/developerguide/fms-chapter.html">AWS
+    /// <a href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-chapter.html">AWS
     /// Firewall Manager Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -47,7 +47,7 @@ namespace Amazon.FMS
 
         /// <summary>
         /// Sets the AWS Firewall Manager administrator account. AWS Firewall Manager must be
-        /// associated with a master account in AWS Organizations or associated with a member
+        /// associated with the master account of your AWS organization or associated with a member
         /// account that has the appropriate permissions. If the account ID that you submit is
         /// not an AWS Organizations master account, AWS Firewall Manager will set the appropriate
         /// permissions for the given member account.
@@ -55,7 +55,7 @@ namespace Amazon.FMS
         ///  
         /// <para>
         /// The account that you associate with AWS Firewall Manager is called the AWS Firewall
-        /// manager administrator account. 
+        /// Manager administrator account. 
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AssociateAdminAccount service method.</param>
@@ -217,8 +217,8 @@ namespace Amazon.FMS
 
         /// <summary>
         /// Disassociates the account that has been set as the AWS Firewall Manager administrator
-        /// account. You will need to submit an <code>AssociateAdminAccount</code> request to
-        /// set a new account as the AWS Firewall administrator.
+        /// account. To set a different account as the administrator account, you must submit
+        /// an <code>AssociateAdminAccount</code> request.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DisassociateAdminAccount service method.</param>
         /// 
@@ -325,7 +325,10 @@ namespace Amazon.FMS
         /// <summary>
         /// Returns detailed compliance information about the specified member account. Details
         /// include resources that are in and out of compliance with the specified policy. Resources
-        /// are considered non-compliant if the specified policy has not been applied to them.
+        /// are considered noncompliant for AWS WAF and Shield Advanced policies if the specified
+        /// policy has not been applied to them. Resources are considered noncompliant for security
+        /// group policies if they are in scope of the policy, they violate one or more of the
+        /// policy rules, and remediation is disabled or not possible.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetComplianceDetail service method.</param>
         /// 
@@ -372,8 +375,8 @@ namespace Amazon.FMS
 
 
         /// <summary>
-        /// Returns information about the Amazon Simple Notification Service (SNS) topic that
-        /// is used to record AWS Firewall Manager SNS logs.
+        /// Information about the Amazon Simple Notification Service (SNS) topic that is used
+        /// to record AWS Firewall Manager SNS logs.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetNotificationChannel service method.</param>
         /// 
@@ -439,6 +442,9 @@ namespace Amazon.FMS
         /// submitted an <code>AssociateAdminAccount</code> request, but the account ID that you
         /// submitted was already set as the AWS Firewall Manager administrator.
         /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidTypeException">
+        /// The value of the <code>Type</code> parameter is invalid.
+        /// </exception>
         /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
         /// The specified resource was not found.
         /// </exception>
@@ -470,6 +476,57 @@ namespace Amazon.FMS
         /// <returns>Returns a  GetPolicyResult from FMS.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetPolicy">REST API Reference for GetPolicy Operation</seealso>
         GetPolicyResponse EndGetPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetProtectionStatus
+
+
+        /// <summary>
+        /// If you created a Shield Advanced policy, returns policy-level attack summary information
+        /// in the event of a potential DDoS attack. Other policy types are currently unsupported.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetProtectionStatus service method.</param>
+        /// 
+        /// <returns>The response from the GetProtectionStatus service method, as returned by FMS.</returns>
+        /// <exception cref="Amazon.FMS.Model.InternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidInputException">
+        /// The parameters of the request were invalid.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetProtectionStatus">REST API Reference for GetProtectionStatus Operation</seealso>
+        GetProtectionStatusResponse GetProtectionStatus(GetProtectionStatusRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetProtectionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetProtectionStatus operation on AmazonFMSClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetProtectionStatus
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetProtectionStatus">REST API Reference for GetProtectionStatus Operation</seealso>
+        IAsyncResult BeginGetProtectionStatus(GetProtectionStatusRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetProtectionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetProtectionStatus.</param>
+        /// 
+        /// <returns>Returns a  GetProtectionStatusResult from FMS.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetProtectionStatus">REST API Reference for GetProtectionStatus Operation</seealso>
+        GetProtectionStatusResponse EndGetProtectionStatus(IAsyncResult asyncResult);
 
         #endregion
         
@@ -522,6 +579,60 @@ namespace Amazon.FMS
 
         #endregion
         
+        #region  ListMemberAccounts
+
+
+        /// <summary>
+        /// Returns a <code>MemberAccounts</code> object that lists the member accounts in the
+        /// administrator's AWS organization.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>ListMemberAccounts</code> must be submitted by the account that is set as
+        /// the AWS Firewall Manager administrator.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListMemberAccounts service method.</param>
+        /// 
+        /// <returns>The response from the ListMemberAccounts service method, as returned by FMS.</returns>
+        /// <exception cref="Amazon.FMS.Model.InternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListMemberAccounts">REST API Reference for ListMemberAccounts Operation</seealso>
+        ListMemberAccountsResponse ListMemberAccounts(ListMemberAccountsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListMemberAccounts operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListMemberAccounts operation on AmazonFMSClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListMemberAccounts
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListMemberAccounts">REST API Reference for ListMemberAccounts Operation</seealso>
+        IAsyncResult BeginListMemberAccounts(ListMemberAccountsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListMemberAccounts operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListMemberAccounts.</param>
+        /// 
+        /// <returns>Returns a  ListMemberAccountsResult from FMS.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListMemberAccounts">REST API Reference for ListMemberAccounts Operation</seealso>
+        ListMemberAccountsResponse EndListMemberAccounts(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListPolicies
 
 
@@ -542,7 +653,7 @@ namespace Amazon.FMS
         /// </exception>
         /// <exception cref="Amazon.FMS.Model.LimitExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>policy</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html">Firewall
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html">Firewall
         /// Manager Limits</a> in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
@@ -576,6 +687,61 @@ namespace Amazon.FMS
         /// <returns>Returns a  ListPoliciesResult from FMS.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListPolicies">REST API Reference for ListPolicies Operation</seealso>
         ListPoliciesResponse EndListPolicies(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// Retrieves the list of tags for the specified AWS resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by FMS.</returns>
+        /// <exception cref="Amazon.FMS.Model.InternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidInputException">
+        /// The parameters of the request were invalid.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidOperationException">
+        /// The operation failed because there was nothing to do. For example, you might have
+        /// submitted an <code>AssociateAdminAccount</code> request, but the account ID that you
+        /// submitted was already set as the AWS Firewall Manager administrator.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonFMSClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from FMS.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
 
         #endregion
         
@@ -637,6 +803,37 @@ namespace Amazon.FMS
 
         /// <summary>
         /// Creates an AWS Firewall Manager policy.
+        /// 
+        ///  
+        /// <para>
+        /// Firewall Manager provides the following types of policies: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// A Shield Advanced policy, which applies Shield Advanced protection to specified accounts
+        /// and resources
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An AWS WAF policy, which contains a rule group and defines which resources are to
+        /// be protected by that rule group
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A security group policy, which manages VPC security groups across your AWS organization.
+        /// 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Each policy is specific to one of the three types. If you want to enforce more than
+        /// one policy type across accounts, you can create multiple policies. You can create
+        /// multiple policies for each type.
+        /// </para>
+        ///  
+        /// <para>
+        /// You must be subscribed to Shield Advanced to create a Shield Advanced policy. For
+        /// more information about subscribing to Shield Advanced, see <a href="https://docs.aws.amazon.com/waf/latest/DDOSAPIReference/API_CreateSubscription.html">CreateSubscription</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutPolicy service method.</param>
         /// 
@@ -652,6 +849,14 @@ namespace Amazon.FMS
         /// The operation failed because there was nothing to do. For example, you might have
         /// submitted an <code>AssociateAdminAccount</code> request, but the account ID that you
         /// submitted was already set as the AWS Firewall Manager administrator.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidTypeException">
+        /// The value of the <code>Type</code> parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.LimitExceededException">
+        /// The operation exceeds a resource limit, for example, the maximum number of <code>policy</code>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html">Firewall
+        /// Manager Limits</a> in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
         /// The specified resource was not found.
@@ -684,6 +889,121 @@ namespace Amazon.FMS
         /// <returns>Returns a  PutPolicyResult from FMS.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PutPolicy">REST API Reference for PutPolicy Operation</seealso>
         PutPolicyResponse EndPutPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// Adds one or more tags to an AWS resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by FMS.</returns>
+        /// <exception cref="Amazon.FMS.Model.InternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidInputException">
+        /// The parameters of the request were invalid.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidOperationException">
+        /// The operation failed because there was nothing to do. For example, you might have
+        /// submitted an <code>AssociateAdminAccount</code> request, but the account ID that you
+        /// submitted was already set as the AWS Firewall Manager administrator.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.LimitExceededException">
+        /// The operation exceeds a resource limit, for example, the maximum number of <code>policy</code>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html">Firewall
+        /// Manager Limits</a> in the <i>AWS WAF Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonFMSClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from FMS.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes one or more tags from an AWS resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by FMS.</returns>
+        /// <exception cref="Amazon.FMS.Model.InternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidInputException">
+        /// The parameters of the request were invalid.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.InvalidOperationException">
+        /// The operation failed because there was nothing to do. For example, you might have
+        /// submitted an <code>AssociateAdminAccount</code> request, but the account ID that you
+        /// submitted was already set as the AWS Firewall Manager administrator.
+        /// </exception>
+        /// <exception cref="Amazon.FMS.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonFMSClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from FMS.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
 
         #endregion
         

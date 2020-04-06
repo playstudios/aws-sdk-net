@@ -29,9 +29,19 @@ namespace Amazon.KinesisAnalytics.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteApplicationCloudWatchLoggingOption operation.
+    /// <note> 
+    /// <para>
+    /// This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
+    /// only supports SQL applications. Version 2 of the API supports SQL and Java applications.
+    /// For more information about version 2, see <a href="/kinesisanalytics/latest/apiv2/Welcome.html">Amazon
+    /// Kinesis Data Analytics API V2 Documentation</a>.
+    /// </para>
+    ///  </note> 
+    /// <para>
     /// Deletes a CloudWatch log stream from an application. For more information about using
-    /// CloudWatch log streams with Amazon Kinesis Analytics applications, see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html">Working
+    /// CloudWatch log streams with Amazon Kinesis Analytics applications, see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html">Working
     /// with Amazon CloudWatch Logs</a>.
+    /// </para>
     /// </summary>
     public partial class DeleteApplicationCloudWatchLoggingOptionRequest : AmazonKinesisAnalyticsRequest
     {
@@ -45,6 +55,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// The Kinesis Analytics application name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -61,10 +72,11 @@ namespace Amazon.KinesisAnalytics.Model
         /// Gets and sets the property CloudWatchLoggingOptionId. 
         /// <para>
         /// The <code>CloudWatchLoggingOptionId</code> of the CloudWatch logging option to delete.
-        /// You can get the <code>CloudWatchLoggingOptionId</code> by using the <a>DescribeApplication</a>
+        /// You can get the <code>CloudWatchLoggingOptionId</code> by using the <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
         /// operation. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string CloudWatchLoggingOptionId
         {
             get { return this._cloudWatchLoggingOptionId; }
@@ -83,6 +95,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// The version ID of the Kinesis Analytics application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=999999999)]
         public long CurrentApplicationVersionId
         {
             get { return this._currentApplicationVersionId.GetValueOrDefault(); }

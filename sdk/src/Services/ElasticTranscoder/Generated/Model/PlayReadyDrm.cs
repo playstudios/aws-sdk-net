@@ -33,7 +33,7 @@ namespace Amazon.ElasticTranscoder.Model
     /// 
     ///  
     /// <para>
-    /// PlayReady DRM encrypts your media files using <code>AES-CTR</code> encryption.
+    /// PlayReady DRM encrypts your media files using <code>aes-ctr</code> encryption.
     /// </para>
     ///  
     /// <para>
@@ -78,6 +78,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// If no initialization vector is provided, Elastic Transcoder generates one for you.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=255)]
         public string InitializationVector
         {
             get { return this._initializationVector; }
@@ -172,6 +173,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// URL looks like this: <code>https://www.example.com/exampleKey/</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string LicenseAcquisitionUrl
         {
             get { return this._licenseAcquisitionUrl; }

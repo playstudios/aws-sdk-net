@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lambda.Model
 {
     /// <summary>
-    /// 
+    /// This is the response object from the AddPermission operation.
     /// </summary>
     public partial class AddPermissionResponse : AmazonWebServiceResponse
     {
@@ -37,8 +37,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Statement. 
         /// <para>
-        /// The permission statement you specified in the request. The response returns the same
-        /// as a string using a backslash ("\") as an escape character in the JSON.
+        /// The permission statement that's added to the function policy.
         /// </para>
         /// </summary>
         public string Statement

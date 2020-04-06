@@ -36,7 +36,9 @@ namespace Amazon.KinesisFirehose.Model
         private BufferingHints _bufferingHints;
         private CloudWatchLoggingOptions _cloudWatchLoggingOptions;
         private CompressionFormat _compressionFormat;
+        private DataFormatConversionConfiguration _dataFormatConversionConfiguration;
         private EncryptionConfiguration _encryptionConfiguration;
+        private string _errorOutputPrefix;
         private string _prefix;
         private ProcessingConfiguration _processingConfiguration;
         private string _roleARN;
@@ -46,9 +48,11 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property BucketARN. 
         /// <para>
-        /// The ARN of the S3 bucket.
+        /// The ARN of the S3 bucket. For more information, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// Resource Names (ARNs) and AWS Service Namespaces</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string BucketARN
         {
             get { return this._bucketARN; }
@@ -82,7 +86,7 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property CloudWatchLoggingOptions. 
         /// <para>
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         /// </para>
         /// </summary>
         public CloudWatchLoggingOptions CloudWatchLoggingOptions
@@ -117,6 +121,25 @@ namespace Amazon.KinesisFirehose.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DataFormatConversionConfiguration. 
+        /// <para>
+        /// The serializer, deserializer, and schema for converting data from the JSON format
+        /// to the Parquet or ORC format before writing it to Amazon S3.
+        /// </para>
+        /// </summary>
+        public DataFormatConversionConfiguration DataFormatConversionConfiguration
+        {
+            get { return this._dataFormatConversionConfiguration; }
+            set { this._dataFormatConversionConfiguration = value; }
+        }
+
+        // Check to see if DataFormatConversionConfiguration property is set
+        internal bool IsSetDataFormatConversionConfiguration()
+        {
+            return this._dataFormatConversionConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EncryptionConfiguration. 
         /// <para>
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -135,13 +158,32 @@ namespace Amazon.KinesisFirehose.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ErrorOutputPrefix. 
+        /// <para>
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing
+        /// them to S3. This prefix appears immediately following the bucket name. For information
+        /// about how to specify this prefix, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+        /// Prefixes for Amazon S3 Objects</a>.
+        /// </para>
+        /// </summary>
+        public string ErrorOutputPrefix
+        {
+            get { return this._errorOutputPrefix; }
+            set { this._errorOutputPrefix = value; }
+        }
+
+        // Check to see if ErrorOutputPrefix property is set
+        internal bool IsSetErrorOutputPrefix()
+        {
+            return this._errorOutputPrefix != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Prefix. 
         /// <para>
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files.
-        /// You can specify an extra prefix to be added in front of the time format prefix. If
-        /// the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information,
-        /// see <a href="http://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html">Amazon
-        /// S3 Object Name Format</a> in the <i>Amazon Kinesis Firehose Developer Guide</i>.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon
+        /// S3 files. You can also specify a custom prefix, as described in <a href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+        /// Prefixes for Amazon S3 Objects</a>.
         /// </para>
         /// </summary>
         public string Prefix
@@ -177,9 +219,12 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property RoleARN. 
         /// <para>
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see <a
+        /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// Resource Names (ARNs) and AWS Service Namespaces</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string RoleARN
         {
             get { return this._roleARN; }

@@ -38,6 +38,7 @@ namespace Amazon.SQS.Model
         private string _messageBody;
         private string _messageDeduplicationId;
         private string _messageGroupId;
+        private Dictionary<string, MessageSystemAttributeValue> _messageSystemAttributes = new Dictionary<string, MessageSystemAttributeValue>();
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -47,7 +48,7 @@ namespace Amazon.SQS.Model
         /// <summary>
         /// Instantiates SendMessageBatchRequestEntry with the parameterized properties
         /// </summary>
-        /// <param name="id">An identifier for a message in this batch used to communicate the result. <note> The <code>Id</code>s of a batch request need to be unique within a request </note></param>
+        /// <param name="id">An identifier for a message in this batch used to communicate the result. <note> The <code>Id</code>s of a batch request need to be unique within a request This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_). </note></param>
         /// <param name="messageBody">The body of the message.</param>
         public SendMessageBatchRequestEntry(string id, string messageBody)
         {
@@ -91,8 +92,14 @@ namespace Amazon.SQS.Model
         /// <para>
         /// The <code>Id</code>s of a batch request need to be unique within a request
         /// </para>
+        ///  
+        /// <para>
+        /// This identifier can have up to 80 characters. The following characters are accepted:
+        /// alphanumeric characters, hyphens(-), and underscores (_).
+        /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -109,9 +116,8 @@ namespace Amazon.SQS.Model
         /// Gets and sets the property MessageAttributes. 
         /// <para>
         /// Each message attribute consists of a <code>Name</code>, <code>Type</code>, and <code>Value</code>.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html#message-attributes-items-validation">Message
-        /// Attribute Items and Validation</a> in the <i>Amazon Simple Queue Service Developer
-        /// Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-attributes.html">Amazon
+        /// SQS Message Attributes</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
         /// </para>
         /// </summary>
         public Dictionary<string, MessageAttributeValue> MessageAttributes
@@ -132,6 +138,7 @@ namespace Amazon.SQS.Model
         /// The body of the message.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MessageBody
         {
             get { return this._messageBody; }
@@ -154,7 +161,7 @@ namespace Amazon.SQS.Model
         /// The token used for deduplication of messages within a 5-minute minimum deduplication
         /// interval. If a message with a particular <code>MessageDeduplicationId</code> is sent
         /// successfully, subsequent messages with the same <code>MessageDeduplicationId</code>
-        /// are accepted successfully but aren't delivered. For more information, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html#FIFO-queues-exactly-once-processing">
+        /// are accepted successfully but aren't delivered. For more information, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html#FIFO-queues-exactly-once-processing">
         /// Exactly-Once Processing</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
         /// </para>
         ///  <ul> <li> 
@@ -197,7 +204,7 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  </li> </ul> <note> 
         /// <para>
-        /// The <code>MessageDeduplicationId</code> is available to the recipient of the message
+        /// The <code>MessageDeduplicationId</code> is available to the consumer of the message
         /// (this can be useful for troubleshooting delivery issues).
         /// </para>
         ///  
@@ -205,6 +212,11 @@ namespace Amazon.SQS.Model
         /// If a message is sent successfully but the acknowledgement is lost and the message
         /// is resent with the same <code>MessageDeduplicationId</code> after the deduplication
         /// interval, Amazon SQS can't detect duplicate messages.
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon SQS continues to keep track of the message deduplication ID even after the
+        /// message is received and deleted.
         /// </para>
         ///  </note> 
         /// <para>
@@ -214,7 +226,7 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  
         /// <para>
-        /// For best practices of using <code>MessageDeduplicationId</code>, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queue-recommendations.html#using-messagededuplicationid-property">Using
+        /// For best practices of using <code>MessageDeduplicationId</code>, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html">Using
         /// the MessageDeduplicationId Property</a> in the <i>Amazon Simple Queue Service Developer
         /// Guide</i>.
         /// </para>
@@ -242,7 +254,7 @@ namespace Amazon.SQS.Model
         /// that belong to the same message group are processed in a FIFO manner (however, messages
         /// in different message groups might be processed out of order). To interleave multiple
         /// ordered streams within a single queue, use <code>MessageGroupId</code> values (for
-        /// example, session data for multiple users). In this scenario, multiple readers can
+        /// example, session data for multiple users). In this scenario, multiple consumers can
         /// process the queue, but the session data of each user is processed in a FIFO fashion.
         /// </para>
         ///  <ul> <li> 
@@ -258,12 +270,12 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// The length of <code>MessageGroupId</code> is 128 characters. Valid values are alphanumeric
+        /// The length of <code>MessageGroupId</code> is 128 characters. Valid values: alphanumeric
         /// characters and punctuation <code>(!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</code>.
         /// </para>
         ///  
         /// <para>
-        /// For best practices of using <code>MessageGroupId</code>, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queue-recommendations.html#using-messagegroupid-property">Using
+        /// For best practices of using <code>MessageGroupId</code>, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html">Using
         /// the MessageGroupId Property</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
         /// </para>
         ///  <important> 
@@ -283,6 +295,36 @@ namespace Amazon.SQS.Model
         internal bool IsSetMessageGroupId()
         {
             return this._messageGroupId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MessageSystemAttributes. 
+        /// <para>
+        /// The message system attribute to send Each message system attribute consists of a <code>Name</code>,
+        /// <code>Type</code>, and <code>Value</code>.
+        /// </para>
+        ///  <important> <ul> <li> 
+        /// <para>
+        /// Currently, the only supported message system attribute is <code>AWSTraceHeader</code>.
+        /// Its type must be <code>String</code> and its value must be a correctly formatted AWS
+        /// X-Ray trace string.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The size of a message system attribute doesn't count towards the total size of a message.
+        /// </para>
+        ///  </li> </ul> </important>
+        /// </summary>
+        public Dictionary<string, MessageSystemAttributeValue> MessageSystemAttributes
+        {
+            get { return this._messageSystemAttributes; }
+            set { this._messageSystemAttributes = value; }
+        }
+
+        // Check to see if MessageSystemAttributes property is set
+        internal bool IsSetMessageSystemAttributes()
+        {
+            return this._messageSystemAttributes != null && this._messageSystemAttributes.Count > 0; 
         }
 
     }

@@ -25,6 +25,110 @@ namespace Amazon.CloudWatch
 {
 
     /// <summary>
+    /// Constants used for properties of type AlarmType.
+    /// </summary>
+    public class AlarmType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CompositeAlarm for AlarmType
+        /// </summary>
+        public static readonly AlarmType CompositeAlarm = new AlarmType("CompositeAlarm");
+        /// <summary>
+        /// Constant MetricAlarm for AlarmType
+        /// </summary>
+        public static readonly AlarmType MetricAlarm = new AlarmType("MetricAlarm");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AlarmType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AlarmType FindValue(string value)
+        {
+            return FindValue<AlarmType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AlarmType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type AnomalyDetectorStateValue.
+    /// </summary>
+    public class AnomalyDetectorStateValue : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant PENDING_TRAINING for AnomalyDetectorStateValue
+        /// </summary>
+        public static readonly AnomalyDetectorStateValue PENDING_TRAINING = new AnomalyDetectorStateValue("PENDING_TRAINING");
+        /// <summary>
+        /// Constant TRAINED for AnomalyDetectorStateValue
+        /// </summary>
+        public static readonly AnomalyDetectorStateValue TRAINED = new AnomalyDetectorStateValue("TRAINED");
+        /// <summary>
+        /// Constant TRAINED_INSUFFICIENT_DATA for AnomalyDetectorStateValue
+        /// </summary>
+        public static readonly AnomalyDetectorStateValue TRAINED_INSUFFICIENT_DATA = new AnomalyDetectorStateValue("TRAINED_INSUFFICIENT_DATA");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AnomalyDetectorStateValue(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AnomalyDetectorStateValue FindValue(string value)
+        {
+            return FindValue<AnomalyDetectorStateValue>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AnomalyDetectorStateValue(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ComparisonOperator.
     /// </summary>
     public class ComparisonOperator : ConstantClass
@@ -38,6 +142,18 @@ namespace Amazon.CloudWatch
         /// Constant GreaterThanThreshold for ComparisonOperator
         /// </summary>
         public static readonly ComparisonOperator GreaterThanThreshold = new ComparisonOperator("GreaterThanThreshold");
+        /// <summary>
+        /// Constant GreaterThanUpperThreshold for ComparisonOperator
+        /// </summary>
+        public static readonly ComparisonOperator GreaterThanUpperThreshold = new ComparisonOperator("GreaterThanUpperThreshold");
+        /// <summary>
+        /// Constant LessThanLowerOrGreaterThanUpperThreshold for ComparisonOperator
+        /// </summary>
+        public static readonly ComparisonOperator LessThanLowerOrGreaterThanUpperThreshold = new ComparisonOperator("LessThanLowerOrGreaterThanUpperThreshold");
+        /// <summary>
+        /// Constant LessThanLowerThreshold for ComparisonOperator
+        /// </summary>
+        public static readonly ComparisonOperator LessThanLowerThreshold = new ComparisonOperator("LessThanLowerThreshold");
         /// <summary>
         /// Constant LessThanOrEqualToThreshold for ComparisonOperator
         /// </summary>

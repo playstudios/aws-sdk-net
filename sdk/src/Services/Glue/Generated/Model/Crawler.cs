@@ -37,6 +37,7 @@ namespace Amazon.Glue.Model
         private List<string> _classifiers = new List<string>();
         private string _configuration;
         private long? _crawlElapsedTime;
+        private string _crawlerSecurityConfiguration;
         private DateTime? _creationTime;
         private string _databaseName;
         private string _description;
@@ -54,7 +55,8 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Classifiers. 
         /// <para>
-        /// A list of custom classifiers associated with the crawler.
+        /// A list of UTF-8 strings that specify the custom classifiers that are associated with
+        /// the crawler.
         /// </para>
         /// </summary>
         public List<string> Classifiers
@@ -73,19 +75,8 @@ namespace Amazon.Glue.Model
         /// Gets and sets the property Configuration. 
         /// <para>
         /// Crawler configuration information. This versioned JSON string allows users to specify
-        /// aspects of a Crawler's behavior.
-        /// </para>
-        ///  
-        /// <para>
-        /// You can use this field to force partitions to inherit metadata such as classification,
-        /// input format, output format, serde information, and schema from their parent table,
-        /// rather than detect this information separately for each partition. Use the following
-        /// JSON string to specify that behavior:
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: <code>'{ "Version": 1.0, "CrawlerOutput": { "Partitions": { "AddOrUpdateBehavior":
-        /// "InheritFromTable" } } }'</code> 
+        /// aspects of a crawler's behavior. For more information, see <a href="http://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html">Configuring
+        /// a Crawler</a>.
         /// </para>
         /// </summary>
         public string Configuration
@@ -119,9 +110,28 @@ namespace Amazon.Glue.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CrawlerSecurityConfiguration. 
+        /// <para>
+        /// The name of the <code>SecurityConfiguration</code> structure to be used by this crawler.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=128)]
+        public string CrawlerSecurityConfiguration
+        {
+            get { return this._crawlerSecurityConfiguration; }
+            set { this._crawlerSecurityConfiguration = value; }
+        }
+
+        // Check to see if CrawlerSecurityConfiguration property is set
+        internal bool IsSetCrawlerSecurityConfiguration()
+        {
+            return this._crawlerSecurityConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// The time when the crawler was created.
+        /// The time that the crawler was created.
         /// </para>
         /// </summary>
         public DateTime CreationTime
@@ -139,7 +149,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property DatabaseName. 
         /// <para>
-        /// The database where metadata is written by this crawler.
+        /// The name of the database in which the crawler's output is stored.
         /// </para>
         /// </summary>
         public string DatabaseName
@@ -160,6 +170,7 @@ namespace Amazon.Glue.Model
         /// A description of the crawler.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -193,7 +204,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property LastUpdated. 
         /// <para>
-        /// The time the crawler was last updated.
+        /// The time that the crawler was last updated.
         /// </para>
         /// </summary>
         public DateTime LastUpdated
@@ -211,9 +222,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The crawler name.
+        /// The name of the crawler.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -229,8 +241,8 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Role. 
         /// <para>
-        /// The IAM role (or ARN of an IAM role) used to access customer resources, such as data
-        /// in Amazon S3.
+        /// The Amazon Resource Name (ARN) of an IAM role that's used to access customer resources,
+        /// such as Amazon Simple Storage Service (Amazon S3) data.
         /// </para>
         /// </summary>
         public string Role
@@ -266,7 +278,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property SchemaChangePolicy. 
         /// <para>
-        /// Sets the behavior when the crawler finds a changed or deleted object.
+        /// The policy that specifies update and delete behaviors for the crawler.
         /// </para>
         /// </summary>
         public SchemaChangePolicy SchemaChangePolicy
@@ -305,6 +317,7 @@ namespace Amazon.Glue.Model
         /// The prefix added to the names of tables that are created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=128)]
         public string TablePrefix
         {
             get { return this._tablePrefix; }

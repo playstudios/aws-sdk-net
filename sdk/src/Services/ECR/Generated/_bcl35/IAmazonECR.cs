@@ -29,12 +29,15 @@ namespace Amazon.ECR
     /// <summary>
     /// Interface for accessing ECR
     ///
+    /// Amazon Elastic Container Registry 
+    /// <para>
     /// Amazon Elastic Container Registry (Amazon ECR) is a managed Docker registry service.
     /// Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon
     /// ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private
     /// Docker repositories with resource-based permissions using IAM so that specific users
     /// or Amazon EC2 instances can access repositories and images. Developers can use the
     /// Docker CLI to author and manage images.
+    /// </para>
     /// </summary>
     public partial interface IAmazonECR : IAmazonService, IDisposable
     {
@@ -44,8 +47,18 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Check the availability of multiple image layers in a specified registry and repository.
+        /// Checks the availability of one or more image layers in a repository.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed to a repository, each image layer is checked to verify if
+        /// it has been uploaded before. If it is, then the image layer is skipped.
+        /// </para>
+        ///  
+        /// <para>
+        /// When an image is pulled from a repository, each image layer is checked once to verify
+        /// it is available to be pulled.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -102,8 +115,8 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Deletes a list of specified images within a specified repository. Images are specified
-        /// with either <code>imageTag</code> or <code>imageDigest</code>.
+        /// Deletes a list of specified images within a repository. Images are specified with
+        /// either an <code>imageTag</code> or <code>imageDigest</code>.
         /// 
         ///  
         /// <para>
@@ -164,8 +177,14 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Gets detailed information for specified images within a specified repository. Images
-        /// are specified with either <code>imageTag</code> or <code>imageDigest</code>.
+        /// Gets detailed information for an image. Images are specified with either an <code>imageTag</code>
+        /// or <code>imageDigest</code>.
+        /// 
+        ///  
+        /// <para>
+        /// When an image is pulled, the BatchGetImage API is called once to retrieve the image
+        /// manifest.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetImage service method.</param>
         /// 
@@ -219,6 +238,11 @@ namespace Amazon.ECR
         /// repository name, and upload ID. You can optionally provide a <code>sha256</code> digest
         /// of the image layer for data validation purposes.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed, the CompleteLayerUpload API is called once per each new image
+        /// layer to verify that the upload has completed.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -291,7 +315,8 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Creates an image repository.
+        /// Creates a repository. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html">Amazon
+        /// ECR Repositories</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRepository service method.</param>
         /// 
@@ -299,9 +324,13 @@ namespace Amazon.ECR
         /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
         /// The specified parameter is invalid. Review the available parameters for the API request.
         /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidTagParameterException">
+        /// An invalid parameter has been specified. Tag keys can have a maximum character length
+        /// of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// </exception>
         /// <exception cref="Amazon.ECR.Model.LimitExceededException">
         /// The operation did not succeed because it would have exceeded a service limit for your
-        /// account. For more information, see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
+        /// account. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
         /// ECR Default Service Limits</a> in the Amazon Elastic Container Registry User Guide.
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.RepositoryAlreadyExistsException">
@@ -309,6 +338,10 @@ namespace Amazon.ECR
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.ServerException">
         /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.TooManyTagsException">
+        /// The list of tags on the repository is over the limit. The maximum number of tags that
+        /// can be applied to a repository is 50.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CreateRepository">REST API Reference for CreateRepository Operation</seealso>
         CreateRepositoryResponse CreateRepository(CreateRepositoryRequest request);
@@ -345,7 +378,7 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Deletes the specified lifecycle policy.
+        /// Deletes the lifecycle policy associated with the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLifecyclePolicy service method.</param>
         /// 
@@ -398,8 +431,8 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Deletes an existing image repository. If a repository contains images, you must use
-        /// the <code>force</code> option to delete it.
+        /// Deletes a repository. If the repository contains images, you must either delete all
+        /// images in the repository or use the <code>force</code> option to delete the repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteRepository service method.</param>
         /// 
@@ -453,7 +486,7 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Deletes the repository policy from a specified repository.
+        /// Deletes the repository policy associated with the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteRepositoryPolicy service method.</param>
         /// 
@@ -507,8 +540,7 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Returns metadata about the images in a repository, including image size, image tags,
-        /// and creation date.
+        /// Returns metadata about the images in a repository.
         /// 
         ///  <note> 
         /// <para>
@@ -566,6 +598,63 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  DescribeImageScanFindings
+
+
+        /// <summary>
+        /// Returns the scan findings for the specified image.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImageScanFindings service method.</param>
+        /// 
+        /// <returns>The response from the DescribeImageScanFindings service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.ImageNotFoundException">
+        /// The image requested does not exist in the specified repository.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ScanNotFoundException">
+        /// The specified image scan could not be found. Ensure that image scanning is enabled
+        /// on the repository and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImageScanFindings">REST API Reference for DescribeImageScanFindings Operation</seealso>
+        DescribeImageScanFindingsResponse DescribeImageScanFindings(DescribeImageScanFindingsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeImageScanFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImageScanFindings operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeImageScanFindings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImageScanFindings">REST API Reference for DescribeImageScanFindings Operation</seealso>
+        IAsyncResult BeginDescribeImageScanFindings(DescribeImageScanFindingsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeImageScanFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeImageScanFindings.</param>
+        /// 
+        /// <returns>Returns a  DescribeImageScanFindingsResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImageScanFindings">REST API Reference for DescribeImageScanFindings Operation</seealso>
+        DescribeImageScanFindingsResponse EndDescribeImageScanFindings(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeRepositories
 
 
@@ -620,16 +709,17 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Retrieves a token that is valid for a specified registry for 12 hours. This command
-        /// allows you to use the <code>docker</code> CLI to push and pull images with Amazon
-        /// ECR. If you do not specify a registry, the default registry is assumed.
+        /// Retrieves an authorization token. An authorization token represents your IAM authentication
+        /// credentials and can be used to access any Amazon ECR registry that your IAM principal
+        /// has access to. The authorization token is valid for 12 hours.
         /// 
         ///  
         /// <para>
-        /// The <code>authorizationToken</code> returned for each registry specified is a base64
-        /// encoded string that can be decoded and used in a <code>docker login</code> command
-        /// to authenticate to a registry. The AWS CLI offers an <code>aws ecr get-login</code>
-        /// command that simplifies the login process.
+        /// The <code>authorizationToken</code> returned is a base64 encoded string that can be
+        /// decoded and used in a <code>docker login</code> command to authenticate to a registry.
+        /// The AWS CLI offers an <code>get-login-password</code> command that simplifies the
+        /// login process. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth">Registry
+        /// Authentication</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAuthorizationToken service method.</param>
@@ -679,6 +769,10 @@ namespace Amazon.ECR
         /// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You
         /// can only get URLs for image layers that are referenced in an image.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -743,7 +837,7 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Retrieves the specified lifecycle policy.
+        /// Retrieves the lifecycle policy for the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLifecyclePolicy service method.</param>
         /// 
@@ -796,7 +890,7 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Retrieves the results of the specified lifecycle policy preview request.
+        /// Retrieves the results of the lifecycle policy preview request for the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLifecyclePolicyPreview service method.</param>
         /// 
@@ -849,7 +943,7 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Retrieves the repository policy for a specified repository.
+        /// Retrieves the repository policy for the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetRepositoryPolicy service method.</param>
         /// 
@@ -903,8 +997,14 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Notify Amazon ECR that you intend to upload an image layer.
+        /// Notifies Amazon ECR that you intend to upload an image layer.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed, the InitiateLayerUpload API is called once per image layer
+        /// that has not already been uploaded. Whether an image layer has been uploaded before
+        /// is determined by the <a>BatchCheckLayerAvailability</a> API action.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -961,15 +1061,16 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Lists all the image IDs for a given repository.
+        /// Lists all the image IDs for the specified repository.
         /// 
         ///  
         /// <para>
-        /// You can filter images based on whether or not they are tagged by setting the <code>tagStatus</code>
-        /// parameter to <code>TAGGED</code> or <code>UNTAGGED</code>. For example, you can filter
-        /// your results to return only <code>UNTAGGED</code> images and then pipe that result
-        /// to a <a>BatchDeleteImage</a> operation to delete them. Or, you can filter your results
-        /// to return only <code>TAGGED</code> images to list all of the tags in your repository.
+        /// You can filter images based on whether or not they are tagged by using the <code>tagStatus</code>
+        /// filter and specifying either <code>TAGGED</code>, <code>UNTAGGED</code> or <code>ANY</code>.
+        /// For example, you can filter your results to return only <code>UNTAGGED</code> images
+        /// and then pipe that result to a <a>BatchDeleteImage</a> operation to delete them. Or,
+        /// you can filter your results to return only <code>TAGGED</code> images to list all
+        /// of the tags in your repository.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListImages service method.</param>
@@ -1016,12 +1117,68 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// List the tags for an Amazon ECR resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutImage
 
 
         /// <summary>
         /// Creates or updates the image manifest and tags associated with an image.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed and all new image layers have been uploaded, the PutImage
+        /// API is called once to create or update the image manifest and tags associated with
+        /// the image.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -1037,6 +1194,10 @@ namespace Amazon.ECR
         /// The specified image has already been pushed, and there were no changes to the manifest
         /// or image tag after the last push.
         /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ImageTagAlreadyExistsException">
+        /// The specified image is tagged with a tag that already exists. The repository is configured
+        /// for tag immutability.
+        /// </exception>
         /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
         /// The specified parameter is invalid. Review the available parameters for the API request.
         /// </exception>
@@ -1046,7 +1207,7 @@ namespace Amazon.ECR
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.LimitExceededException">
         /// The operation did not succeed because it would have exceeded a service limit for your
-        /// account. For more information, see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
+        /// account. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
         /// ECR Default Service Limits</a> in the Amazon Elastic Container Registry User Guide.
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
@@ -1087,12 +1248,114 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  PutImageScanningConfiguration
+
+
+        /// <summary>
+        /// Updates the image scanning configuration for the specified repository.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutImageScanningConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutImageScanningConfiguration service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageScanningConfiguration">REST API Reference for PutImageScanningConfiguration Operation</seealso>
+        PutImageScanningConfigurationResponse PutImageScanningConfiguration(PutImageScanningConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutImageScanningConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutImageScanningConfiguration operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutImageScanningConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageScanningConfiguration">REST API Reference for PutImageScanningConfiguration Operation</seealso>
+        IAsyncResult BeginPutImageScanningConfiguration(PutImageScanningConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutImageScanningConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutImageScanningConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutImageScanningConfigurationResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageScanningConfiguration">REST API Reference for PutImageScanningConfiguration Operation</seealso>
+        PutImageScanningConfigurationResponse EndPutImageScanningConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutImageTagMutability
+
+
+        /// <summary>
+        /// Updates the image tag mutability settings for the specified repository. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html">Image
+        /// Tag Mutability</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutImageTagMutability service method.</param>
+        /// 
+        /// <returns>The response from the PutImageTagMutability service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageTagMutability">REST API Reference for PutImageTagMutability Operation</seealso>
+        PutImageTagMutabilityResponse PutImageTagMutability(PutImageTagMutabilityRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutImageTagMutability operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutImageTagMutability operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutImageTagMutability
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageTagMutability">REST API Reference for PutImageTagMutability Operation</seealso>
+        IAsyncResult BeginPutImageTagMutability(PutImageTagMutabilityRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutImageTagMutability operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutImageTagMutability.</param>
+        /// 
+        /// <returns>Returns a  PutImageTagMutabilityResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageTagMutability">REST API Reference for PutImageTagMutability Operation</seealso>
+        PutImageTagMutabilityResponse EndPutImageTagMutability(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutLifecyclePolicy
 
 
         /// <summary>
-        /// Creates or updates a lifecycle policy. For information about lifecycle policy syntax,
-        /// see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html">Lifecycle
+        /// Creates or updates the lifecycle policy for the specified repository. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html">Lifecycle
         /// Policy Template</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutLifecyclePolicy service method.</param>
@@ -1143,7 +1406,9 @@ namespace Amazon.ECR
 
 
         /// <summary>
-        /// Applies a repository policy on a specified repository to control access permissions.
+        /// Applies a repository policy to the specified repository to control access permissions.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/RepositoryPolicies.html">Amazon
+        /// ECR Repository Policies</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetRepositoryPolicy service method.</param>
         /// 
@@ -1189,12 +1454,68 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  StartImageScan
+
+
+        /// <summary>
+        /// Starts an image vulnerability scan. An image scan can only be started once per day
+        /// on an individual image. This limit includes if an image was scanned on initial push.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html">Image
+        /// Scanning</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartImageScan service method.</param>
+        /// 
+        /// <returns>The response from the StartImageScan service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.ImageNotFoundException">
+        /// The image requested does not exist in the specified repository.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartImageScan">REST API Reference for StartImageScan Operation</seealso>
+        StartImageScanResponse StartImageScan(StartImageScanRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartImageScan operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartImageScan operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartImageScan
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartImageScan">REST API Reference for StartImageScan Operation</seealso>
+        IAsyncResult BeginStartImageScan(StartImageScanRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartImageScan operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartImageScan.</param>
+        /// 
+        /// <returns>Returns a  StartImageScanResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartImageScan">REST API Reference for StartImageScan Operation</seealso>
+        StartImageScanResponse EndStartImageScan(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartLifecyclePolicyPreview
 
 
         /// <summary>
-        /// Starts a preview of the specified lifecycle policy. This allows you to see the results
-        /// before creating the lifecycle policy.
+        /// Starts a preview of a lifecycle policy for the specified repository. This allows you
+        /// to see the results before associating the lifecycle policy with the repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartLifecyclePolicyPreview service method.</param>
         /// 
@@ -1247,12 +1568,135 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  TagResource
+
+
+        /// <summary>
+        /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource
+        /// are not changed if they are not specified in the request parameters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidTagParameterException">
+        /// An invalid parameter has been specified. Tag keys can have a maximum character length
+        /// of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.TooManyTagsException">
+        /// The list of tags on the repository is over the limit. The maximum number of tags that
+        /// can be applied to a repository is 50.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Deletes specified tags from a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidTagParameterException">
+        /// An invalid parameter has been specified. Tag keys can have a maximum character length
+        /// of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.TooManyTagsException">
+        /// The list of tags on the repository is over the limit. The maximum number of tags that
+        /// can be applied to a repository is 50.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UploadLayerPart
 
 
         /// <summary>
         /// Uploads an image layer part to Amazon ECR.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed, each new image layer is uploaded in parts. The maximum size
+        /// of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart
+        /// API is called once per each new image layer part.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -1273,7 +1717,7 @@ namespace Amazon.ECR
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.LimitExceededException">
         /// The operation did not succeed because it would have exceeded a service limit for your
-        /// account. For more information, see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
+        /// account. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
         /// ECR Default Service Limits</a> in the Amazon Elastic Container Registry User Guide.
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">

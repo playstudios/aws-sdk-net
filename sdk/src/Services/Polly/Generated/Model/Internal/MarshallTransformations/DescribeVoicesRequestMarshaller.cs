@@ -55,16 +55,23 @@ namespace Amazon.Polly.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeVoicesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Polly");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-06-10";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/v1/voices";
+            
+            if (publicRequest.IsSetEngine())
+                request.Parameters.Add("Engine", StringUtils.FromString(publicRequest.Engine));
+            
+            if (publicRequest.IsSetIncludeAdditionalLanguageCodes())
+                request.Parameters.Add("IncludeAdditionalLanguageCodes", StringUtils.FromBool(publicRequest.IncludeAdditionalLanguageCodes));
             
             if (publicRequest.IsSetLanguageCode())
                 request.Parameters.Add("LanguageCode", StringUtils.FromString(publicRequest.LanguageCode));
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("NextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/voices";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

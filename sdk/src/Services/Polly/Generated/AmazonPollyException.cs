@@ -28,10 +28,10 @@ namespace Amazon.Polly
     ///<summary>
     /// Common exception for the Polly service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonPollyException : AmazonServiceException
+    public partial class AmazonPollyException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonPollyException
@@ -88,7 +88,7 @@ namespace Amazon.Polly
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonPollyException class with serialized data.
         /// </summary>

@@ -33,6 +33,7 @@ namespace Amazon.SageMaker.Model
     public partial class DescribeEndpointConfigResponse : AmazonWebServiceResponse
     {
         private DateTime? _creationTime;
+        private DataCaptureConfig _dataCaptureConfig;
         private string _endpointConfigArn;
         private string _endpointConfigName;
         private string _kmsKeyId;
@@ -44,6 +45,7 @@ namespace Amazon.SageMaker.Model
         /// A timestamp that shows when the endpoint configuration was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreationTime
         {
             get { return this._creationTime.GetValueOrDefault(); }
@@ -57,11 +59,27 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DataCaptureConfig.
+        /// </summary>
+        public DataCaptureConfig DataCaptureConfig
+        {
+            get { return this._dataCaptureConfig; }
+            set { this._dataCaptureConfig = value; }
+        }
+
+        // Check to see if DataCaptureConfig property is set
+        internal bool IsSetDataCaptureConfig()
+        {
+            return this._dataCaptureConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EndpointConfigArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string EndpointConfigArn
         {
             get { return this._endpointConfigArn; }
@@ -80,6 +98,7 @@ namespace Amazon.SageMaker.Model
         /// Name of the Amazon SageMaker endpoint configuration.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string EndpointConfigName
         {
             get { return this._endpointConfigName; }
@@ -99,6 +118,7 @@ namespace Amazon.SageMaker.Model
         /// volume attached to the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string KmsKeyId
         {
             get { return this._kmsKeyId; }
@@ -118,6 +138,7 @@ namespace Amazon.SageMaker.Model
         /// to host at this endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public List<ProductionVariant> ProductionVariants
         {
             get { return this._productionVariants; }

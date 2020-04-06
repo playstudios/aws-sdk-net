@@ -36,6 +36,7 @@ namespace Amazon.ElastiCache.Model
         private string _nodeGroupId;
         private List<NodeGroupMember> _nodeGroupMembers = new List<NodeGroupMember>();
         private Endpoint _primaryEndpoint;
+        private Endpoint _readerEndpoint;
         private string _slots;
         private string _status;
 
@@ -44,8 +45,8 @@ namespace Amazon.ElastiCache.Model
         /// <para>
         /// The identifier for the node group (shard). A Redis (cluster mode disabled) replication
         /// group contains only 1 node group; therefore, the node group ID is 0001. A Redis (cluster
-        /// mode enabled) replication group contains 1 to 15 node groups numbered 0001 to 0015.
-        /// 
+        /// mode enabled) replication group contains 1 to 90 node groups numbered 0001 to 0090.
+        /// Optionally, the user can provide the id for a node group. 
         /// </para>
         /// </summary>
         public string NodeGroupId
@@ -94,6 +95,24 @@ namespace Amazon.ElastiCache.Model
         internal bool IsSetPrimaryEndpoint()
         {
             return this._primaryEndpoint != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReaderEndpoint. 
+        /// <para>
+        /// The endpoint of the replica nodes in this node group (shard).
+        /// </para>
+        /// </summary>
+        public Endpoint ReaderEndpoint
+        {
+            get { return this._readerEndpoint; }
+            set { this._readerEndpoint = value; }
+        }
+
+        // Check to see if ReaderEndpoint property is set
+        internal bool IsSetReaderEndpoint()
+        {
+            return this._readerEndpoint != null;
         }
 
         /// <summary>

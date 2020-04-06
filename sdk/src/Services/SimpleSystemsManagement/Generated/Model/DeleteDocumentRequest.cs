@@ -39,7 +39,10 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// </summary>
     public partial class DeleteDocumentRequest : AmazonSimpleSystemsManagementRequest
     {
+        private string _documentVersion;
+        private bool? _force;
         private string _name;
+        private string _versionName;
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -56,11 +59,53 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DocumentVersion. 
+        /// <para>
+        /// The version of the document that you want to delete. If not provided, all versions
+        /// of the document are deleted.
+        /// </para>
+        /// </summary>
+        public string DocumentVersion
+        {
+            get { return this._documentVersion; }
+            set { this._documentVersion = value; }
+        }
+
+        // Check to see if DocumentVersion property is set
+        internal bool IsSetDocumentVersion()
+        {
+            return this._documentVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Force. 
+        /// <para>
+        /// Some SSM document types require that you specify a <code>Force</code> flag before
+        /// you can delete the document. For example, you must specify a <code>Force</code> flag
+        /// to delete a document of type <code>ApplicationConfigurationSchema</code>. You can
+        /// restrict access to the <code>Force</code> flag in an AWS Identity and Access Management
+        /// (IAM) policy.
+        /// </para>
+        /// </summary>
+        public bool Force
+        {
+            get { return this._force.GetValueOrDefault(); }
+            set { this._force = value; }
+        }
+
+        // Check to see if Force property is set
+        internal bool IsSetForce()
+        {
+            return this._force.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the document.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -71,6 +116,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VersionName. 
+        /// <para>
+        /// The version name of the document that you want to delete. If not provided, all versions
+        /// of the document are deleted.
+        /// </para>
+        /// </summary>
+        public string VersionName
+        {
+            get { return this._versionName; }
+            set { this._versionName = value; }
+        }
+
+        // Check to see if VersionName property is set
+        internal bool IsSetVersionName()
+        {
+            return this._versionName != null;
         }
 
     }

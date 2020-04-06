@@ -30,7 +30,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
     /// <summary>
     /// This is the response object from the GetMediaForFragmentList operation.
     /// </summary>
-    public partial class GetMediaForFragmentListResponse : AmazonWebServiceResponse
+    public partial class GetMediaForFragmentListResponse : AmazonWebServiceResponse, IDisposable
     {
         private string _contentType;
         private Stream _payload;
@@ -41,6 +41,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// The content type of the requested media.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ContentType
         {
             get { return this._contentType; }
@@ -57,7 +58,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// Gets and sets the property Payload. 
         /// <para>
         /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified
-        /// stream. For information about the chunks, see <a href="docs.aws.amazon.com/acuity/latest/dg/API_dataplane_PutMedia.html">PutMedia</a>.
+        /// stream. For information about the chunks, see <a href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_dataplane_PutMedia.html">PutMedia</a>.
         /// The chunks that Kinesis Video Streams returns in the <code>GetMediaForFragmentList</code>
         /// call also include the following additional Matroska (MKV) tags: 
         /// </para>
@@ -67,11 +68,11 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side time stamp of the fragment.
+        /// AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side timestamp of the fragment.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side time stamp of the fragment.
+        /// AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side timestamp of the fragment.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -103,5 +104,33 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
             return this._payload != null;
         }
 
+        #region Dispose Pattern
+
+        private bool _disposed;
+
+        /// <summary>
+        /// Disposes of all managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                this._payload?.Dispose();
+                this._payload = null;
+            }
+
+            this._disposed = true;
+         }
+
+         #endregion
     }
 }

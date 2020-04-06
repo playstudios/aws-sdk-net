@@ -58,9 +58,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property NextBackwardToken. 
         /// <para>
         /// The token for the next set of items in the backward direction. The token expires after
-        /// 24 hours.
+        /// 24 hours. This token will never be null. If you have reached the end of the stream,
+        /// it will return the same token you passed in.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextBackwardToken
         {
             get { return this._nextBackwardToken; }
@@ -77,9 +79,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property NextForwardToken. 
         /// <para>
         /// The token for the next set of items in the forward direction. The token expires after
-        /// 24 hours.
+        /// 24 hours. If you have reached the end of the stream, it will return the same token
+        /// you passed in.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextForwardToken
         {
             get { return this._nextForwardToken; }

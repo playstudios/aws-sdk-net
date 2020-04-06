@@ -29,30 +29,41 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the GetPersonTracking operation.
-    /// Gets the person tracking results of a Rekognition Video analysis started by .
+    /// Gets the path tracking results of a Amazon Rekognition Video analysis started by <a>StartPersonTracking</a>.
     /// 
     ///  
     /// <para>
-    /// The person detection operation is started by a call to <code>StartPersonTracking</code>
-    /// which returns a job identifier (<code>JobId</code>). When the person detection operation
-    /// finishes, Rekognition Video publishes a completion status to the Amazon Simple Notification
+    /// The person path tracking operation is started by a call to <code>StartPersonTracking</code>
+    /// which returns a job identifier (<code>JobId</code>). When the operation finishes,
+    /// Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification
     /// Service topic registered in the initial call to <code>StartPersonTracking</code>.
     /// </para>
     ///  
     /// <para>
-    /// To get the results of the person tracking operation, first check that the status value
-    /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and pass
-    /// the job identifier (<code>JobId</code>) from the initial call to <code>StartPersonTracking</code>.
+    /// To get the results of the person path tracking operation, first check that the status
+    /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetPersonTracking</a>
+    /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartPersonTracking</code>.
     /// </para>
     ///  
     /// <para>
     ///  <code>GetPersonTracking</code> returns an array, <code>Persons</code>, of tracked
-    /// persons and the time(s) they were tracked in the video. 
+    /// persons and the time(s) their paths were tracked in the video. 
+    /// </para>
+    ///  <note> 
+    /// <para>
+    ///  <code>GetPersonTracking</code> only returns the default facial attributes (<code>BoundingBox</code>,
+    /// <code>Confidence</code>, <code>Landmarks</code>, <code>Pose</code>, and <code>Quality</code>).
+    /// The other facial attributes listed in the <code>Face</code> object of the following
+    /// response syntax are not returned. 
     /// </para>
     ///  
     /// <para>
-    /// By default, the array is sorted by the time(s) a person is tracked in the video. You
-    /// can sort by tracked persons by specifying <code>INDEX</code> for the <code>SortBy</code>
+    /// For more information, see FaceDetail in the Amazon Rekognition Developer Guide.
+    /// </para>
+    ///  </note> 
+    /// <para>
+    /// By default, the array is sorted by the time(s) a person's path is tracked in the video.
+    /// You can sort by tracked persons by specifying <code>INDEX</code> for the <code>SortBy</code>
     /// input parameter.
     /// </para>
     ///  
@@ -79,6 +90,7 @@ namespace Amazon.Rekognition.Model
         /// from a call to <code>StartPersonTracking</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -94,9 +106,12 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// Maximum number of tracked persons to return. The default is 1000. 
+        /// Maximum number of results to return per paginated call. The largest value you can
+        /// specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results
+        /// is returned. The default value is 1000.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -113,10 +128,11 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If the previous response was incomplete (because there are more persons to retrieve),
-        /// Rekognition Video returns a pagination token in the response. You can use this pagination
-        /// token to retrieve the next set of persons. 
+        /// Amazon Rekognition Video returns a pagination token in the response. You can use this
+        /// pagination token to retrieve the next set of persons. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }

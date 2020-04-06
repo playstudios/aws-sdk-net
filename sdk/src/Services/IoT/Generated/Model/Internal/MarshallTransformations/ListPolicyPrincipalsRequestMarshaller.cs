@@ -55,9 +55,9 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListPolicyPrincipalsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/policy-principals";
             
             if (publicRequest.IsSetAscendingOrder())
                 request.Parameters.Add("isAscendingOrder", StringUtils.FromBool(publicRequest.AscendingOrder));
@@ -67,7 +67,8 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetPageSize())
                 request.Parameters.Add("pageSize", StringUtils.FromInt(publicRequest.PageSize));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/policy-principals";
+            request.MarshallerVersion = 2;
         
             if(publicRequest.IsSetPolicyName())
                 request.Headers["x-amzn-iot-policy"] = publicRequest.PolicyName;

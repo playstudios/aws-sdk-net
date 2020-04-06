@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2010-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace Amazon.Runtime
@@ -21,7 +22,7 @@ namespace Amazon.Runtime
     /// <summary>
     /// This exception is thrown when there is a parse error on the response back from AWS.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
     public class AmazonUnmarshallingException : AmazonServiceException
@@ -34,6 +35,7 @@ namespace Amazon.Runtime
             this.RequestId = requestId;
             this.LastKnownLocation = lastKnownLocation;
         }
+
         public AmazonUnmarshallingException(string requestId, string lastKnownLocation, string responseBody, Exception innerException)
             : base("Error unmarshalling response back from AWS.", innerException)
         {
@@ -42,9 +44,24 @@ namespace Amazon.Runtime
             this.ResponseBody = responseBody;
         }
 
-        public AmazonUnmarshallingException(string requestId, string lastKnownLocation, 
+        public AmazonUnmarshallingException(string requestId, string lastKnownLocation,
             string responseBody, string message, Exception innerException)
             : base("Error unmarshalling response back from AWS. " + message, innerException)
+        {
+            this.RequestId = requestId;
+            this.LastKnownLocation = lastKnownLocation;
+            this.ResponseBody = responseBody;
+        }
+
+        public AmazonUnmarshallingException(string requestId, string lastKnownLocation, Exception innerException, HttpStatusCode statusCode)
+            : base("Error unmarshalling response back from AWS.", innerException, statusCode)
+        {
+            this.RequestId = requestId;
+            this.LastKnownLocation = lastKnownLocation;
+        }
+
+        public AmazonUnmarshallingException(string requestId, string lastKnownLocation, string responseBody, Exception innerException, HttpStatusCode statusCode)
+            : base("Error unmarshalling response back from AWS.", innerException, statusCode)
         {
             this.RequestId = requestId;
             this.LastKnownLocation = lastKnownLocation;
@@ -78,6 +95,7 @@ namespace Amazon.Runtime
                 AppendFormat(sb, "Request ID: {0}", this.RequestId);
                 AppendFormat(sb, "Response Body: {0}", this.ResponseBody);
                 AppendFormat(sb, "Last Parsed Path: {0}", this.LastKnownLocation);
+                AppendFormat(sb, "HTTP Status Code: {0}", (int)(this.StatusCode) + " " + this.StatusCode.ToString());
 
                 var partialMessage = sb.ToString();
 
@@ -102,7 +120,7 @@ namespace Amazon.Runtime
 
         #endregion
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonSimpleDBException class with serialized data.
         /// </summary>

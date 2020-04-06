@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model
     /// <para>
     /// An IAM group can also have inline policies embedded with it. To list the inline policies
     /// for a group, use the <a>ListGroupPolicies</a> API. For information about policies,
-    /// see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+    /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
     /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  
@@ -61,11 +61,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string GroupName
         {
             get { return this._groupName; }
@@ -86,6 +87,7 @@ namespace Amazon.IdentityManagement.Model
         /// element in the response that you received to indicate where the next call should start.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=320)]
         public string Marker
         {
             get { return this._marker; }
@@ -101,18 +103,20 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// (Optional) Use this only when paginating results to indicate the maximum number of
-        /// items you want in the response. If additional items exist beyond the maximum you specify,
-        /// the <code>IsTruncated</code> response element is <code>true</code>.
+        /// Use this only when paginating results to indicate the maximum number of items you
+        /// want in the response. If additional items exist beyond the maximum you specify, the
+        /// <code>IsTruncated</code> response element is <code>true</code>.
         /// </para>
         ///  
         /// <para>
-        /// If you do not include this parameter, it defaults to 100. Note that IAM might return
-        /// fewer results, even when there are more results available. In that case, the <code>IsTruncated</code>
-        /// response element returns <code>true</code> and <code>Marker</code> contains a value
-        /// to include in the subsequent call that tells the service where to continue from.
+        /// If you do not include this parameter, the number of items defaults to 100. Note that
+        /// IAM might return fewer results, even when there are more results available. In that
+        /// case, the <code>IsTruncated</code> response element returns <code>true</code>, and
+        /// <code>Marker</code> contains a value to include in the subsequent call that tells
+        /// the service where to continue from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -133,13 +137,14 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of either a forward slash (/) by itself or a string
-        /// that must begin and end with forward slashes. In addition, it can contain any ASCII
-        /// character from the ! (\u0021) through the DEL character (\u007F), including most punctuation
-        /// characters, digits, and upper and lowercased letters.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of either a forward slash (/) by itself
+        /// or a string that must begin and end with forward slashes. In addition, it can contain
+        /// any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>),
+        /// including most punctuation characters, digits, and upper and lowercased letters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string PathPrefix
         {
             get { return this._pathPrefix; }

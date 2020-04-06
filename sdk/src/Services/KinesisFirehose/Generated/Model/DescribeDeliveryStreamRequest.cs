@@ -29,9 +29,18 @@ namespace Amazon.KinesisFirehose.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeDeliveryStream operation.
-    /// Describes the specified delivery stream and gets the status. For example, after your
-    /// delivery stream is created, call <a>DescribeDeliveryStream</a> to see if the delivery
-    /// stream is <code>ACTIVE</code> and therefore ready for data to be sent to it.
+    /// Describes the specified delivery stream and its status. For example, after your delivery
+    /// stream is created, call <code>DescribeDeliveryStream</code> to see whether the delivery
+    /// stream is <code>ACTIVE</code> and therefore ready for data to be sent to it. 
+    /// 
+    ///  
+    /// <para>
+    /// If the status of a delivery stream is <code>CREATING_FAILED</code>, this status doesn't
+    /// change, and you can't invoke <a>CreateDeliveryStream</a> again on it. However, you
+    /// can invoke the <a>DeleteDeliveryStream</a> operation to delete it. If the status is
+    /// <code>DELETING_FAILED</code>, you can force deletion by invoking <a>DeleteDeliveryStream</a>
+    /// again but with <a>DeleteDeliveryStreamInput$AllowForceDelete</a> set to true.
+    /// </para>
     /// </summary>
     public partial class DescribeDeliveryStreamRequest : AmazonKinesisFirehoseRequest
     {
@@ -45,6 +54,7 @@ namespace Amazon.KinesisFirehose.Model
         /// The name of the delivery stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string DeliveryStreamName
         {
             get { return this._deliveryStreamName; }
@@ -60,10 +70,11 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property ExclusiveStartDestinationId. 
         /// <para>
-        /// The ID of the destination to start returning the destination information. Currently,
-        /// Kinesis Firehose supports one destination per delivery stream.
+        /// The ID of the destination to start returning the destination information. Kinesis
+        /// Data Firehose supports one destination per delivery stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ExclusiveStartDestinationId
         {
             get { return this._exclusiveStartDestinationId; }
@@ -79,10 +90,11 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// The limit on the number of destinations to return. Currently, you can have one destination
-        /// per delivery stream.
+        /// The limit on the number of destinations to return. You can have one destination per
+        /// delivery stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }

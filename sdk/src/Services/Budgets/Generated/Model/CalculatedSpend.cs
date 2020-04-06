@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Budgets.Model
 {
     /// <summary>
-    /// The spend objects associated with this budget. The <code>actualSpend</code> tracks
-    /// how much you've used, cost, usage, or RI units, and the <code>forecastedSpend</code>
+    /// The spend objects that are associated with this budget. The <code>actualSpend</code>
+    /// tracks how much you've used, cost, usage, or RI units, and the <code>forecastedSpend</code>
     /// tracks how much you are predicted to spend if your current usage remains steady.
     /// 
     ///  
@@ -50,6 +50,7 @@ namespace Amazon.Budgets.Model
         /// The amount of cost, usage, or RI units that you have used.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Spend ActualSpend
         {
             get { return this._actualSpend; }

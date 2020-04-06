@@ -34,7 +34,9 @@ namespace Amazon.MediaConvert.Model
     {
         private int? _adAvailOffset;
         private AvailBlanking _availBlanking;
+        private EsamSettings _esam;
         private List<Input> _inputs = new List<Input>();
+        private MotionImageInserter _motionImageInserter;
         private NielsenConfiguration _nielsenConfiguration;
         private List<OutputGroup> _outputGroups = new List<OutputGroup>();
         private TimecodeConfig _timecodeConfig;
@@ -44,6 +46,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property AdAvailOffset. When specified, this offset (in milliseconds)
         /// is added to the input Ad Avail PTS time.
         /// </summary>
+        [AWSProperty(Min=-1000, Max=1000)]
         public int AdAvailOffset
         {
             get { return this._adAvailOffset.GetValueOrDefault(); }
@@ -74,6 +77,21 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Esam. Settings for Event Signaling And Messaging (ESAM).
+        /// </summary>
+        public EsamSettings Esam
+        {
+            get { return this._esam; }
+            set { this._esam = value; }
+        }
+
+        // Check to see if Esam property is set
+        internal bool IsSetEsam()
+        {
+            return this._esam != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Inputs. Use Inputs (inputs) to define source file used
         /// in the transcode job. There can be multiple inputs add in a job. These inputs will
         /// be concantenated together to create the output.
@@ -91,7 +109,29 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property NielsenConfiguration.
+        /// Gets and sets the property MotionImageInserter. Overlay motion graphics on top of
+        /// your video. The motion graphics that you specify here appear on all outputs in all
+        /// output groups.
+        /// </summary>
+        public MotionImageInserter MotionImageInserter
+        {
+            get { return this._motionImageInserter; }
+            set { this._motionImageInserter = value; }
+        }
+
+        // Check to see if MotionImageInserter property is set
+        internal bool IsSetMotionImageInserter()
+        {
+            return this._motionImageInserter != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NielsenConfiguration. Settings for your Nielsen configuration.
+        /// If you don't do Nielsen measurement and analytics, ignore these settings. When you
+        /// enable Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM to ID3
+        /// tagging for all outputs in the job. To enable Nielsen configuration programmatically,
+        /// include an instance of nielsenConfiguration in your JSON job specification. Even if
+        /// you don't include any children of nielsenConfiguration, you still enable the setting.
         /// </summary>
         public NielsenConfiguration NielsenConfiguration
         {
@@ -106,14 +146,14 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property OutputGroups. **!!**(OutputGroups) contains one group of
-        /// settings for each set of outputs that share a common package type. All unpackaged
-        /// files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single
-        /// output group as well. Required in (OutputGroups) is a group of settings that apply
-        /// to the whole group. This required object depends on the value you set for (Type) under
-        /// (OutputGroups)>(OutputGroupSettings). Type, settings object pairs are as follows.
-        /// * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings *
-        /// DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings
+        /// Gets and sets the property OutputGroups. (OutputGroups) contains one group of settings
+        /// for each set of outputs that share a common package type. All unpackaged files (MPEG-4,
+        /// MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group
+        /// as well. Required in (OutputGroups) is a group of settings that apply to the whole
+        /// group. This required object depends on the value you set for (Type) under (OutputGroups)>(OutputGroupSettings).
+        /// Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings
+        /// * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings
+        /// * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
         /// </summary>
         public List<OutputGroup> OutputGroups
         {
@@ -144,7 +184,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TimedMetadataInsertion.
+        /// Gets and sets the property TimedMetadataInsertion. Enable Timed metadata insertion
+        /// (TimedMetadataInsertion) to include ID3 tags in your job. To include timed metadata,
+        /// you must enable it here, enable it in each output container, and specify tags and
+        /// timecodes in ID3 insertion (Id3Insertion) objects.
         /// </summary>
         public TimedMetadataInsertion TimedMetadataInsertion
         {

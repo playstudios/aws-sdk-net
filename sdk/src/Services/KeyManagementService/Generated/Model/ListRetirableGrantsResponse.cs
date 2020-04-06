@@ -61,6 +61,7 @@ namespace Amazon.KeyManagementService.Model
         /// to use for the <code>Marker</code> parameter in a subsequent request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextMarker
         {
             get { return this._nextMarker; }
@@ -78,7 +79,7 @@ namespace Amazon.KeyManagementService.Model
         /// <para>
         /// A flag that indicates whether there are more items in the list. When this value is
         /// true, the list in this response is truncated. To get more items, pass the value of
-        /// the <code>NextMarker</code> element in this response to the <code>Marker</code> parameter
+        /// the <code>NextMarker</code> element in thisresponse to the <code>Marker</code> parameter
         /// in a subsequent request.
         /// </para>
         /// </summary>

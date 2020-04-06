@@ -45,6 +45,35 @@ namespace Amazon.CloudWatchEvents.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(EcsParameters requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetGroup())
+            {
+                context.Writer.WritePropertyName("Group");
+                context.Writer.Write(requestObject.Group);
+            }
+
+            if(requestObject.IsSetLaunchType())
+            {
+                context.Writer.WritePropertyName("LaunchType");
+                context.Writer.Write(requestObject.LaunchType);
+            }
+
+            if(requestObject.IsSetNetworkConfiguration())
+            {
+                context.Writer.WritePropertyName("NetworkConfiguration");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = NetworkConfigurationMarshaller.Instance;
+                marshaller.Marshall(requestObject.NetworkConfiguration, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetPlatformVersion())
+            {
+                context.Writer.WritePropertyName("PlatformVersion");
+                context.Writer.Write(requestObject.PlatformVersion);
+            }
+
             if(requestObject.IsSetTaskCount())
             {
                 context.Writer.WritePropertyName("TaskCount");

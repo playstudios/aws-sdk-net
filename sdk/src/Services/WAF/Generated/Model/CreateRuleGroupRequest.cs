@@ -53,7 +53,7 @@ namespace Amazon.WAF.Model
     ///  </li> </ul> 
     /// <para>
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-    /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+    /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
     /// Guide</a>.
     /// </para>
     /// </summary>
@@ -62,6 +62,7 @@ namespace Amazon.WAF.Model
         private string _changeToken;
         private string _metricName;
         private string _name;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ChangeToken. 
@@ -69,6 +70,7 @@ namespace Amazon.WAF.Model
         /// The value returned by the most recent call to <a>GetChangeToken</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }
@@ -85,10 +87,13 @@ namespace Amazon.WAF.Model
         /// Gets and sets the property MetricName. 
         /// <para>
         /// A friendly name or description for the metrics for this <code>RuleGroup</code>. The
-        /// name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain
-        /// whitespace. You can't change the name of the metric after you create the <code>RuleGroup</code>.
+        /// name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length
+        /// 128 and minimum length one. It can't contain whitespace or metric names reserved for
+        /// AWS WAF, including "All" and "Default_Action." You can't change the name of the metric
+        /// after you create the <code>RuleGroup</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -108,6 +113,7 @@ namespace Amazon.WAF.Model
         /// after you create a <code>RuleGroup</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -118,6 +124,22 @@ namespace Amazon.WAF.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags.
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

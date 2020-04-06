@@ -29,7 +29,7 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the ExpireSession operation.
-    /// Stops the specified streaming session.
+    /// Immediately stops the specified streaming session.
     /// </summary>
     public partial class ExpireSessionRequest : AmazonAppStreamRequest
     {
@@ -38,9 +38,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property SessionId. 
         /// <para>
-        /// The ID of the streaming session.
+        /// The identifier of the streaming session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string SessionId
         {
             get { return this._sessionId; }

@@ -173,6 +173,10 @@ namespace Amazon.DeviceFarm
         /// </summary>
         public static readonly ArtifactType SERVICE_LOG = new ArtifactType("SERVICE_LOG");
         /// <summary>
+        /// Constant TESTSPEC_OUTPUT for ArtifactType
+        /// </summary>
+        public static readonly ArtifactType TESTSPEC_OUTPUT = new ArtifactType("TESTSPEC_OUTPUT");
+        /// <summary>
         /// Constant UNKNOWN for ArtifactType
         /// </summary>
         public static readonly ArtifactType UNKNOWN = new ArtifactType("UNKNOWN");
@@ -339,6 +343,14 @@ namespace Amazon.DeviceFarm
         /// </summary>
         public static readonly DeviceAttribute ARN = new DeviceAttribute("ARN");
         /// <summary>
+        /// Constant AVAILABILITY for DeviceAttribute
+        /// </summary>
+        public static readonly DeviceAttribute AVAILABILITY = new DeviceAttribute("AVAILABILITY");
+        /// <summary>
+        /// Constant FLEET_TYPE for DeviceAttribute
+        /// </summary>
+        public static readonly DeviceAttribute FLEET_TYPE = new DeviceAttribute("FLEET_TYPE");
+        /// <summary>
         /// Constant FORM_FACTOR for DeviceAttribute
         /// </summary>
         public static readonly DeviceAttribute FORM_FACTOR = new DeviceAttribute("FORM_FACTOR");
@@ -354,6 +366,14 @@ namespace Amazon.DeviceFarm
         /// Constant MANUFACTURER for DeviceAttribute
         /// </summary>
         public static readonly DeviceAttribute MANUFACTURER = new DeviceAttribute("MANUFACTURER");
+        /// <summary>
+        /// Constant MODEL for DeviceAttribute
+        /// </summary>
+        public static readonly DeviceAttribute MODEL = new DeviceAttribute("MODEL");
+        /// <summary>
+        /// Constant OS_VERSION for DeviceAttribute
+        /// </summary>
+        public static readonly DeviceAttribute OS_VERSION = new DeviceAttribute("OS_VERSION");
         /// <summary>
         /// Constant PLATFORM for DeviceAttribute
         /// </summary>
@@ -396,6 +416,154 @@ namespace Amazon.DeviceFarm
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator DeviceAttribute(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type DeviceAvailability.
+    /// </summary>
+    public class DeviceAvailability : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant AVAILABLE for DeviceAvailability
+        /// </summary>
+        public static readonly DeviceAvailability AVAILABLE = new DeviceAvailability("AVAILABLE");
+        /// <summary>
+        /// Constant BUSY for DeviceAvailability
+        /// </summary>
+        public static readonly DeviceAvailability BUSY = new DeviceAvailability("BUSY");
+        /// <summary>
+        /// Constant HIGHLY_AVAILABLE for DeviceAvailability
+        /// </summary>
+        public static readonly DeviceAvailability HIGHLY_AVAILABLE = new DeviceAvailability("HIGHLY_AVAILABLE");
+        /// <summary>
+        /// Constant TEMPORARY_NOT_AVAILABLE for DeviceAvailability
+        /// </summary>
+        public static readonly DeviceAvailability TEMPORARY_NOT_AVAILABLE = new DeviceAvailability("TEMPORARY_NOT_AVAILABLE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DeviceAvailability(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DeviceAvailability FindValue(string value)
+        {
+            return FindValue<DeviceAvailability>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DeviceAvailability(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type DeviceFilterAttribute.
+    /// </summary>
+    public class DeviceFilterAttribute : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ARN for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute ARN = new DeviceFilterAttribute("ARN");
+        /// <summary>
+        /// Constant AVAILABILITY for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute AVAILABILITY = new DeviceFilterAttribute("AVAILABILITY");
+        /// <summary>
+        /// Constant FLEET_TYPE for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute FLEET_TYPE = new DeviceFilterAttribute("FLEET_TYPE");
+        /// <summary>
+        /// Constant FORM_FACTOR for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute FORM_FACTOR = new DeviceFilterAttribute("FORM_FACTOR");
+        /// <summary>
+        /// Constant INSTANCE_ARN for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute INSTANCE_ARN = new DeviceFilterAttribute("INSTANCE_ARN");
+        /// <summary>
+        /// Constant INSTANCE_LABELS for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute INSTANCE_LABELS = new DeviceFilterAttribute("INSTANCE_LABELS");
+        /// <summary>
+        /// Constant MANUFACTURER for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute MANUFACTURER = new DeviceFilterAttribute("MANUFACTURER");
+        /// <summary>
+        /// Constant MODEL for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute MODEL = new DeviceFilterAttribute("MODEL");
+        /// <summary>
+        /// Constant OS_VERSION for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute OS_VERSION = new DeviceFilterAttribute("OS_VERSION");
+        /// <summary>
+        /// Constant PLATFORM for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute PLATFORM = new DeviceFilterAttribute("PLATFORM");
+        /// <summary>
+        /// Constant REMOTE_ACCESS_ENABLED for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute REMOTE_ACCESS_ENABLED = new DeviceFilterAttribute("REMOTE_ACCESS_ENABLED");
+        /// <summary>
+        /// Constant REMOTE_DEBUG_ENABLED for DeviceFilterAttribute
+        /// </summary>
+        public static readonly DeviceFilterAttribute REMOTE_DEBUG_ENABLED = new DeviceFilterAttribute("REMOTE_DEBUG_ENABLED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DeviceFilterAttribute(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DeviceFilterAttribute FindValue(string value)
+        {
+            return FindValue<DeviceFilterAttribute>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DeviceFilterAttribute(string value)
         {
             return FindValue(value);
         }
@@ -632,6 +800,10 @@ namespace Amazon.DeviceFarm
         /// Constant PARSING_FAILED for ExecutionResultCode
         /// </summary>
         public static readonly ExecutionResultCode PARSING_FAILED = new ExecutionResultCode("PARSING_FAILED");
+        /// <summary>
+        /// Constant VPC_ENDPOINT_SETUP_FAILED for ExecutionResultCode
+        /// </summary>
+        public static readonly ExecutionResultCode VPC_ENDPOINT_SETUP_FAILED = new ExecutionResultCode("VPC_ENDPOINT_SETUP_FAILED");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -1073,6 +1245,10 @@ namespace Amazon.DeviceFarm
         /// </summary>
         public static readonly RuleOperator GREATER_THAN = new RuleOperator("GREATER_THAN");
         /// <summary>
+        /// Constant GREATER_THAN_OR_EQUALS for RuleOperator
+        /// </summary>
+        public static readonly RuleOperator GREATER_THAN_OR_EQUALS = new RuleOperator("GREATER_THAN_OR_EQUALS");
+        /// <summary>
         /// Constant IN for RuleOperator
         /// </summary>
         public static readonly RuleOperator IN = new RuleOperator("IN");
@@ -1080,6 +1256,10 @@ namespace Amazon.DeviceFarm
         /// Constant LESS_THAN for RuleOperator
         /// </summary>
         public static readonly RuleOperator LESS_THAN = new RuleOperator("LESS_THAN");
+        /// <summary>
+        /// Constant LESS_THAN_OR_EQUALS for RuleOperator
+        /// </summary>
+        public static readonly RuleOperator LESS_THAN_OR_EQUALS = new RuleOperator("LESS_THAN_OR_EQUALS");
         /// <summary>
         /// Constant NOT_IN for RuleOperator
         /// </summary>
@@ -1231,6 +1411,164 @@ namespace Amazon.DeviceFarm
 
 
     /// <summary>
+    /// Constants used for properties of type TestGridSessionArtifactCategory.
+    /// </summary>
+    public class TestGridSessionArtifactCategory : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant LOG for TestGridSessionArtifactCategory
+        /// </summary>
+        public static readonly TestGridSessionArtifactCategory LOG = new TestGridSessionArtifactCategory("LOG");
+        /// <summary>
+        /// Constant VIDEO for TestGridSessionArtifactCategory
+        /// </summary>
+        public static readonly TestGridSessionArtifactCategory VIDEO = new TestGridSessionArtifactCategory("VIDEO");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TestGridSessionArtifactCategory(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TestGridSessionArtifactCategory FindValue(string value)
+        {
+            return FindValue<TestGridSessionArtifactCategory>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TestGridSessionArtifactCategory(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TestGridSessionArtifactType.
+    /// </summary>
+    public class TestGridSessionArtifactType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant SELENIUM_LOG for TestGridSessionArtifactType
+        /// </summary>
+        public static readonly TestGridSessionArtifactType SELENIUM_LOG = new TestGridSessionArtifactType("SELENIUM_LOG");
+        /// <summary>
+        /// Constant UNKNOWN for TestGridSessionArtifactType
+        /// </summary>
+        public static readonly TestGridSessionArtifactType UNKNOWN = new TestGridSessionArtifactType("UNKNOWN");
+        /// <summary>
+        /// Constant VIDEO for TestGridSessionArtifactType
+        /// </summary>
+        public static readonly TestGridSessionArtifactType VIDEO = new TestGridSessionArtifactType("VIDEO");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TestGridSessionArtifactType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TestGridSessionArtifactType FindValue(string value)
+        {
+            return FindValue<TestGridSessionArtifactType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TestGridSessionArtifactType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TestGridSessionStatus.
+    /// </summary>
+    public class TestGridSessionStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACTIVE for TestGridSessionStatus
+        /// </summary>
+        public static readonly TestGridSessionStatus ACTIVE = new TestGridSessionStatus("ACTIVE");
+        /// <summary>
+        /// Constant CLOSED for TestGridSessionStatus
+        /// </summary>
+        public static readonly TestGridSessionStatus CLOSED = new TestGridSessionStatus("CLOSED");
+        /// <summary>
+        /// Constant ERRORED for TestGridSessionStatus
+        /// </summary>
+        public static readonly TestGridSessionStatus ERRORED = new TestGridSessionStatus("ERRORED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TestGridSessionStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TestGridSessionStatus FindValue(string value)
+        {
+            return FindValue<TestGridSessionStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TestGridSessionStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type TestType.
     /// </summary>
     public class TestType : ConstantClass
@@ -1245,9 +1583,17 @@ namespace Amazon.DeviceFarm
         /// </summary>
         public static readonly TestType APPIUM_JAVA_TESTNG = new TestType("APPIUM_JAVA_TESTNG");
         /// <summary>
+        /// Constant APPIUM_NODE for TestType
+        /// </summary>
+        public static readonly TestType APPIUM_NODE = new TestType("APPIUM_NODE");
+        /// <summary>
         /// Constant APPIUM_PYTHON for TestType
         /// </summary>
         public static readonly TestType APPIUM_PYTHON = new TestType("APPIUM_PYTHON");
+        /// <summary>
+        /// Constant APPIUM_RUBY for TestType
+        /// </summary>
+        public static readonly TestType APPIUM_RUBY = new TestType("APPIUM_RUBY");
         /// <summary>
         /// Constant APPIUM_WEB_JAVA_JUNIT for TestType
         /// </summary>
@@ -1257,9 +1603,17 @@ namespace Amazon.DeviceFarm
         /// </summary>
         public static readonly TestType APPIUM_WEB_JAVA_TESTNG = new TestType("APPIUM_WEB_JAVA_TESTNG");
         /// <summary>
+        /// Constant APPIUM_WEB_NODE for TestType
+        /// </summary>
+        public static readonly TestType APPIUM_WEB_NODE = new TestType("APPIUM_WEB_NODE");
+        /// <summary>
         /// Constant APPIUM_WEB_PYTHON for TestType
         /// </summary>
         public static readonly TestType APPIUM_WEB_PYTHON = new TestType("APPIUM_WEB_PYTHON");
+        /// <summary>
+        /// Constant APPIUM_WEB_RUBY for TestType
+        /// </summary>
+        public static readonly TestType APPIUM_WEB_RUBY = new TestType("APPIUM_WEB_RUBY");
         /// <summary>
         /// Constant BUILTIN_EXPLORER for TestType
         /// </summary>
@@ -1341,6 +1695,56 @@ namespace Amazon.DeviceFarm
 
 
     /// <summary>
+    /// Constants used for properties of type UploadCategory.
+    /// </summary>
+    public class UploadCategory : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CURATED for UploadCategory
+        /// </summary>
+        public static readonly UploadCategory CURATED = new UploadCategory("CURATED");
+        /// <summary>
+        /// Constant PRIVATE for UploadCategory
+        /// </summary>
+        public static readonly UploadCategory PRIVATE = new UploadCategory("PRIVATE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public UploadCategory(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static UploadCategory FindValue(string value)
+        {
+            return FindValue<UploadCategory>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator UploadCategory(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type UploadStatus.
     /// </summary>
     public class UploadStatus : ConstantClass
@@ -1413,25 +1817,81 @@ namespace Amazon.DeviceFarm
         /// </summary>
         public static readonly UploadType APPIUM_JAVA_JUNIT_TEST_PACKAGE = new UploadType("APPIUM_JAVA_JUNIT_TEST_PACKAGE");
         /// <summary>
+        /// Constant APPIUM_JAVA_JUNIT_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_JAVA_JUNIT_TEST_SPEC = new UploadType("APPIUM_JAVA_JUNIT_TEST_SPEC");
+        /// <summary>
         /// Constant APPIUM_JAVA_TESTNG_TEST_PACKAGE for UploadType
         /// </summary>
         public static readonly UploadType APPIUM_JAVA_TESTNG_TEST_PACKAGE = new UploadType("APPIUM_JAVA_TESTNG_TEST_PACKAGE");
+        /// <summary>
+        /// Constant APPIUM_JAVA_TESTNG_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_JAVA_TESTNG_TEST_SPEC = new UploadType("APPIUM_JAVA_TESTNG_TEST_SPEC");
+        /// <summary>
+        /// Constant APPIUM_NODE_TEST_PACKAGE for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_NODE_TEST_PACKAGE = new UploadType("APPIUM_NODE_TEST_PACKAGE");
+        /// <summary>
+        /// Constant APPIUM_NODE_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_NODE_TEST_SPEC = new UploadType("APPIUM_NODE_TEST_SPEC");
         /// <summary>
         /// Constant APPIUM_PYTHON_TEST_PACKAGE for UploadType
         /// </summary>
         public static readonly UploadType APPIUM_PYTHON_TEST_PACKAGE = new UploadType("APPIUM_PYTHON_TEST_PACKAGE");
         /// <summary>
+        /// Constant APPIUM_PYTHON_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_PYTHON_TEST_SPEC = new UploadType("APPIUM_PYTHON_TEST_SPEC");
+        /// <summary>
+        /// Constant APPIUM_RUBY_TEST_PACKAGE for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_RUBY_TEST_PACKAGE = new UploadType("APPIUM_RUBY_TEST_PACKAGE");
+        /// <summary>
+        /// Constant APPIUM_RUBY_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_RUBY_TEST_SPEC = new UploadType("APPIUM_RUBY_TEST_SPEC");
+        /// <summary>
         /// Constant APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE for UploadType
         /// </summary>
         public static readonly UploadType APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE = new UploadType("APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE");
+        /// <summary>
+        /// Constant APPIUM_WEB_JAVA_JUNIT_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_WEB_JAVA_JUNIT_TEST_SPEC = new UploadType("APPIUM_WEB_JAVA_JUNIT_TEST_SPEC");
         /// <summary>
         /// Constant APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE for UploadType
         /// </summary>
         public static readonly UploadType APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE = new UploadType("APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE");
         /// <summary>
+        /// Constant APPIUM_WEB_JAVA_TESTNG_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_WEB_JAVA_TESTNG_TEST_SPEC = new UploadType("APPIUM_WEB_JAVA_TESTNG_TEST_SPEC");
+        /// <summary>
+        /// Constant APPIUM_WEB_NODE_TEST_PACKAGE for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_WEB_NODE_TEST_PACKAGE = new UploadType("APPIUM_WEB_NODE_TEST_PACKAGE");
+        /// <summary>
+        /// Constant APPIUM_WEB_NODE_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_WEB_NODE_TEST_SPEC = new UploadType("APPIUM_WEB_NODE_TEST_SPEC");
+        /// <summary>
         /// Constant APPIUM_WEB_PYTHON_TEST_PACKAGE for UploadType
         /// </summary>
         public static readonly UploadType APPIUM_WEB_PYTHON_TEST_PACKAGE = new UploadType("APPIUM_WEB_PYTHON_TEST_PACKAGE");
+        /// <summary>
+        /// Constant APPIUM_WEB_PYTHON_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_WEB_PYTHON_TEST_SPEC = new UploadType("APPIUM_WEB_PYTHON_TEST_SPEC");
+        /// <summary>
+        /// Constant APPIUM_WEB_RUBY_TEST_PACKAGE for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_WEB_RUBY_TEST_PACKAGE = new UploadType("APPIUM_WEB_RUBY_TEST_PACKAGE");
+        /// <summary>
+        /// Constant APPIUM_WEB_RUBY_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType APPIUM_WEB_RUBY_TEST_SPEC = new UploadType("APPIUM_WEB_RUBY_TEST_SPEC");
         /// <summary>
         /// Constant CALABASH_TEST_PACKAGE for UploadType
         /// </summary>
@@ -1444,6 +1904,10 @@ namespace Amazon.DeviceFarm
         /// Constant INSTRUMENTATION_TEST_PACKAGE for UploadType
         /// </summary>
         public static readonly UploadType INSTRUMENTATION_TEST_PACKAGE = new UploadType("INSTRUMENTATION_TEST_PACKAGE");
+        /// <summary>
+        /// Constant INSTRUMENTATION_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType INSTRUMENTATION_TEST_SPEC = new UploadType("INSTRUMENTATION_TEST_SPEC");
         /// <summary>
         /// Constant IOS_APP for UploadType
         /// </summary>
@@ -1468,6 +1932,10 @@ namespace Amazon.DeviceFarm
         /// Constant XCTEST_UI_TEST_PACKAGE for UploadType
         /// </summary>
         public static readonly UploadType XCTEST_UI_TEST_PACKAGE = new UploadType("XCTEST_UI_TEST_PACKAGE");
+        /// <summary>
+        /// Constant XCTEST_UI_TEST_SPEC for UploadType
+        /// </summary>
+        public static readonly UploadType XCTEST_UI_TEST_SPEC = new UploadType("XCTEST_UI_TEST_SPEC");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant

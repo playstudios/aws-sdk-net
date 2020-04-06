@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// Describes a subnet group in response to a request by the <code>DescribeReplicationSubnetGroup</code>
+    /// operation.
     /// </summary>
     public partial class ReplicationSubnetGroup
     {
@@ -41,7 +42,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ReplicationSubnetGroupDescription. 
         /// <para>
-        /// The description of the replication subnet group.
+        /// A description for the replication subnet group.
         /// </para>
         /// </summary>
         public string ReplicationSubnetGroupDescription

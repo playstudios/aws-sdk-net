@@ -55,12 +55,12 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetUsageRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/usageplans/{usageplanId}/usage";
             if (!publicRequest.IsSetUsagePlanId())
                 throw new AmazonAPIGatewayException("Request object does not have required field UsagePlanId set");
-            uriResourcePath = uriResourcePath.Replace("{usageplanId}", StringUtils.FromString(publicRequest.UsagePlanId));
+            request.AddPathResource("{usageplanId}", StringUtils.FromString(publicRequest.UsagePlanId));
             
             if (publicRequest.IsSetEndDate())
                 request.Parameters.Add("endDate", StringUtils.FromString(publicRequest.EndDate));
@@ -76,7 +76,8 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetStartDate())
                 request.Parameters.Add("startDate", StringUtils.FromString(publicRequest.StartDate));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/usageplans/{usageplanId}/usage";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

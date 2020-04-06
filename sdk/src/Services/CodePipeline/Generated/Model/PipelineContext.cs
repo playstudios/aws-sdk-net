@@ -29,17 +29,27 @@ namespace Amazon.CodePipeline.Model
 {
     /// <summary>
     /// Represents information about a pipeline to a job worker.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// PipelineContext contains <code>pipelineArn</code> and <code>pipelineExecutionId</code>
+    /// for custom action jobs. The <code>pipelineArn</code> and <code>pipelineExecutionId</code>
+    /// fields are not populated for ThirdParty action jobs.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class PipelineContext
     {
         private ActionContext _action;
+        private string _pipelineArn;
+        private string _pipelineExecutionId;
         private string _pipelineName;
         private StageContext _stage;
 
         /// <summary>
         /// Gets and sets the property Action. 
         /// <para>
-        /// The context of an action to a job worker within the stage of a pipeline.
+        /// The context of an action to a job worker in the stage of a pipeline.
         /// </para>
         /// </summary>
         public ActionContext Action
@@ -55,12 +65,49 @@ namespace Amazon.CodePipeline.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PipelineArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the pipeline.
+        /// </para>
+        /// </summary>
+        public string PipelineArn
+        {
+            get { return this._pipelineArn; }
+            set { this._pipelineArn = value; }
+        }
+
+        // Check to see if PipelineArn property is set
+        internal bool IsSetPipelineArn()
+        {
+            return this._pipelineArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PipelineExecutionId. 
+        /// <para>
+        /// The execution ID of the pipeline.
+        /// </para>
+        /// </summary>
+        public string PipelineExecutionId
+        {
+            get { return this._pipelineExecutionId; }
+            set { this._pipelineExecutionId = value; }
+        }
+
+        // Check to see if PipelineExecutionId property is set
+        internal bool IsSetPipelineExecutionId()
+        {
+            return this._pipelineExecutionId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property PipelineName. 
         /// <para>
         /// The name of the pipeline. This is a user-specified value. Pipeline names must be unique
         /// across all pipeline names under an Amazon Web Services account.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string PipelineName
         {
             get { return this._pipelineName; }

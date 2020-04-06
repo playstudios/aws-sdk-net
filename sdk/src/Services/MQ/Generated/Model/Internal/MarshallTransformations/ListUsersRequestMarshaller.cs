@@ -55,19 +55,20 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListUsersRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MQ");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/v1/brokers/{broker-id}/users";
             if (!publicRequest.IsSetBrokerId())
                 throw new AmazonMQException("Request object does not have required field BrokerId set");
-            uriResourcePath = uriResourcePath.Replace("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
+            request.AddPathResource("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("maxResults", StringUtils.FromInt(publicRequest.MaxResults));
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("nextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/brokers/{broker-id}/users";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

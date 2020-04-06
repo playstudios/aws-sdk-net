@@ -40,6 +40,33 @@ namespace Amazon.GameLift.Model
     /// as a set of sequential pages. If successful, an <a>Instance</a> object is returned
     /// for each result.
     /// </para>
+    ///  
+    /// <para>
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-remote-access.html">Remotely
+    /// Access Fleet Instances</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-creating-debug.html">Debug
+    /// Fleet Issues</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <a>DescribeInstances</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>GetInstanceAccess</a> 
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class DescribeInstancesRequest : AmazonGameLiftRequest
     {
@@ -51,9 +78,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet to retrieve instance information for.
+        /// A unique identifier for a fleet to retrieve instance information for. You can use
+        /// either the fleet ID or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FleetId
         {
             get { return this._fleetId; }
@@ -69,7 +98,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
-        /// Unique identifier for an instance to retrieve. Specify an instance ID or leave blank
+        /// A unique identifier for an instance to retrieve. Specify an instance ID or leave blank
         /// to retrieve all instances in the fleet.
         /// </para>
         /// </summary>
@@ -88,10 +117,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -112,6 +142,7 @@ namespace Amazon.GameLift.Model
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

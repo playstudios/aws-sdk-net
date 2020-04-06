@@ -36,6 +36,7 @@ namespace Amazon.AutoScaling.Model
         private List<Alarm> _alarms = new List<Alarm>();
         private string _autoScalingGroupName;
         private int? _cooldown;
+        private bool? _enabled;
         private int? _estimatedInstanceWarmup;
         private string _metricAggregationType;
         private int? _minAdjustmentMagnitude;
@@ -51,9 +52,11 @@ namespace Amazon.AutoScaling.Model
         /// Gets and sets the property AdjustmentType. 
         /// <para>
         /// The adjustment type, which specifies how <code>ScalingAdjustment</code> is interpreted.
-        /// Valid values are <code>ChangeInCapacity</code>, <code>ExactCapacity</code>, and <code>PercentChangeInCapacity</code>.
+        /// The valid values are <code>ChangeInCapacity</code>, <code>ExactCapacity</code>, and
+        /// <code>PercentChangeInCapacity</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string AdjustmentType
         {
             get { return this._adjustmentType; }
@@ -90,6 +93,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -122,6 +126,24 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Enabled. 
+        /// <para>
+        /// Indicates whether the policy is enabled (<code>true</code>) or disabled (<code>false</code>).
+        /// </para>
+        /// </summary>
+        public bool Enabled
+        {
+            get { return this._enabled.GetValueOrDefault(); }
+            set { this._enabled = value; }
+        }
+
+        // Check to see if Enabled property is set
+        internal bool IsSetEnabled()
+        {
+            return this._enabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property EstimatedInstanceWarmup. 
         /// <para>
         /// The estimated time, in seconds, until a newly launched instance can contribute to
@@ -143,10 +165,11 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property MetricAggregationType. 
         /// <para>
-        /// The aggregation type for the CloudWatch metrics. Valid values are <code>Minimum</code>,
+        /// The aggregation type for the CloudWatch metrics. The valid values are <code>Minimum</code>,
         /// <code>Maximum</code>, and <code>Average</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public string MetricAggregationType
         {
             get { return this._metricAggregationType; }
@@ -204,6 +227,7 @@ namespace Amazon.AutoScaling.Model
         /// The Amazon Resource Name (ARN) of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string PolicyARN
         {
             get { return this._policyARN; }
@@ -222,6 +246,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the scaling policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -237,9 +262,11 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property PolicyType. 
         /// <para>
-        /// The policy type. Valid values are <code>SimpleScaling</code> and <code>StepScaling</code>.
+        /// The policy type. The valid values are <code>SimpleScaling</code>, <code>StepScaling</code>,
+        /// and <code>TargetTrackingScaling</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string PolicyType
         {
             get { return this._policyType; }
@@ -292,7 +319,7 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property TargetTrackingConfiguration. 
         /// <para>
-        /// A target tracking policy.
+        /// A target tracking scaling policy.
         /// </para>
         /// </summary>
         public TargetTrackingConfiguration TargetTrackingConfiguration

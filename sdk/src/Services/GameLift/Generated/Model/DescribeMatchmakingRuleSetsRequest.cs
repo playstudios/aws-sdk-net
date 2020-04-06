@@ -30,13 +30,22 @@ namespace Amazon.GameLift.Model
     /// <summary>
     /// Container for the parameters to the DescribeMatchmakingRuleSets operation.
     /// Retrieves the details for FlexMatch matchmaking rule sets. You can request all existing
-    /// rule sets for the region, or provide a list of one or more rule set names. When requesting
+    /// rule sets for the Region, or provide a list of one or more rule set names. When requesting
     /// multiple items, use the pagination parameters to retrieve results as a set of sequential
     /// pages. If successful, a rule set is returned for each requested name. 
     /// 
     ///  
     /// <para>
-    /// Operations related to match configurations and rule sets include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-rulesets.html">Build
+    /// a Rule Set</a> 
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -66,6 +75,10 @@ namespace Amazon.GameLift.Model
     /// <para>
     ///  <a>ValidateMatchmakingRuleSet</a> 
     /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DeleteMatchmakingRuleSet</a> 
+    /// </para>
     ///  </li> </ul>
     /// </summary>
     public partial class DescribeMatchmakingRuleSetsRequest : AmazonGameLiftRequest
@@ -77,10 +90,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -96,10 +110,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Names. 
         /// <para>
-        /// Unique identifier for a matchmaking rule set. This name is used to identify the rule
-        /// set associated with a matchmaking configuration.
+        /// A list of one or more matchmaking rule set names to retrieve details for. (Note: The
+        /// rule set name is different from the optional "name" field in the rule set body.) You
+        /// can use either the rule set name or ARN value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> Names
         {
             get { return this._names; }
@@ -115,11 +131,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Token that indicates the start of the next sequential page of results. Use the token
+        /// A token that indicates the start of the next sequential page of results. Use the token
         /// that is returned with a previous call to this action. To start at the beginning of
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

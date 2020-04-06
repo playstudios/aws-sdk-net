@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AutoScaling.Model
 {
     /// <summary>
-    /// Describes an Amazon EBS volume.
+    /// Describes an Amazon EBS volume. Used in combination with <a>BlockDeviceMapping</a>.
     /// </summary>
     public partial class Ebs
     {
@@ -42,7 +42,8 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property DeleteOnTermination. 
         /// <para>
-        /// Indicates whether the volume is deleted on instance termination. The default is <code>true</code>.
+        /// Indicates whether the volume is deleted on instance termination. For Amazon EC2 Auto
+        /// Scaling, the default value is <code>true</code>.
         /// </para>
         /// </summary>
         public bool DeleteOnTermination
@@ -60,12 +61,36 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property Encrypted. 
         /// <para>
-        /// Indicates whether the volume should be encrypted. Encrypted EBS volumes must be attached
-        /// to instances that support Amazon EBS encryption. Volumes that are created from encrypted
-        /// snapshots are automatically encrypted. There is no way to create an encrypted volume
-        /// from an unencrypted snapshot or an unencrypted volume from an encrypted snapshot.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can only be
+        /// attached to instances that support Amazon EBS encryption. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances">Supported
+        /// Instance Types</a>. If your AMI uses encrypted volumes, you can also only launch it
+        /// on supported instance types.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are creating a volume from a snapshot, you cannot specify an encryption value.
+        /// Volumes that are created from encrypted snapshots are automatically encrypted, and
+        /// volumes that are created from unencrypted snapshots are automatically unencrypted.
+        /// By default, encrypted snapshots use the AWS managed CMK that is used for EBS encryption,
+        /// but you can specify a custom CMK when you create the snapshot. The ability to encrypt
+        /// a snapshot during copying also allows you to apply a new CMK to an already-encrypted
+        /// snapshot. Volumes restored from the resulting copy are only accessible using the new
+        /// CMK.
+        /// </para>
+        ///  
+        /// <para>
+        /// Enabling <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">encryption
+        /// by default</a> results in all EBS volumes being encrypted with the AWS managed CMK
+        /// or a customer managed CMK, whether or not the snapshot was encrypted.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html">Using
+        /// Encryption with EBS-Backed AMIs</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>
+        /// and <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/key-policy-requirements-EBS-encryption.html">Required
+        /// CMK Key Policy for Use with Encrypted Volumes</a> in the <i>Amazon EC2 Auto Scaling
+        /// User Guide</i>.
         /// </para>
         /// </summary>
         public bool Encrypted
@@ -83,13 +108,18 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property Iops. 
         /// <para>
-        /// The number of I/O operations per second (IOPS) to provision for the volume.
+        /// The number of I/O operations per second (IOPS) to provision for the volume. The maximum
+        /// ratio of IOPS to volume size (in GiB) is 50:1. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+        /// EBS Volume Types</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// </para>
         ///  
         /// <para>
-        /// Constraint: Required when the volume type is <code>io1</code>.
+        /// Conditional: This parameter is required when the volume type is <code>io1</code>.
+        /// (Not used with <code>standard</code>, <code>gp2</code>, <code>st1</code>, or <code>sc1</code>
+        /// volumes.) 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=100, Max=20000)]
         public int Iops
         {
             get { return this._iops.GetValueOrDefault(); }
@@ -105,9 +135,16 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property SnapshotId. 
         /// <para>
-        /// The ID of the snapshot.
+        /// The snapshot ID of the volume to use.
+        /// </para>
+        ///  
+        /// <para>
+        /// Conditional: This parameter is optional if you specify a volume size. If you specify
+        /// both <code>SnapshotId</code> and <code>VolumeSize</code>, <code>VolumeSize</code>
+        /// must be equal or greater than the size of the snapshot.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string SnapshotId
         {
             get { return this._snapshotId; }
@@ -123,17 +160,27 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property VolumeSize. 
         /// <para>
-        /// The volume size, in GiB. For <code>standard</code> volumes, specify a value from 1
-        /// to 1,024. For <code>io1</code> volumes, specify a value from 4 to 16,384. For <code>gp2</code>
-        /// volumes, specify a value from 1 to 16,384. If you specify a snapshot, the volume size
-        /// must be equal to or larger than the snapshot size.
+        /// The volume size, in Gibibytes (GiB).
+        /// </para>
+        ///  
+        /// <para>
+        /// This can be a number from 1-1,024 for <code>standard</code>, 4-16,384 for <code>io1</code>,
+        /// 1-16,384 for <code>gp2</code>, and 500-16,384 for <code>st1</code> and <code>sc1</code>.
+        /// If you specify a snapshot, the volume size must be equal to or larger than the snapshot
+        /// size.
         /// </para>
         ///  
         /// <para>
         /// Default: If you create a volume from a snapshot and you don't specify a volume size,
         /// the default is the snapshot size.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// At least one of VolumeSize or SnapshotId is required.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Min=1, Max=16384)]
         public int VolumeSize
         {
             get { return this._volumeSize.GetValueOrDefault(); }
@@ -149,18 +196,19 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property VolumeType. 
         /// <para>
-        /// The volume type. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
-        /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// The volume type, which can be <code>standard</code> for Magnetic, <code>io1</code>
+        /// for Provisioned IOPS SSD, <code>gp2</code> for General Purpose SSD, <code>st1</code>
+        /// for Throughput Optimized HDD, or <code>sc1</code> for Cold HDD. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+        /// EBS Volume Types</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// </para>
         ///  
         /// <para>
-        /// Valid values: <code>standard</code> | <code>io1</code> | <code>gp2</code> 
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: <code>standard</code> 
+        /// Valid Values: <code>standard</code> | <code>io1</code> | <code>gp2</code> | <code>st1</code>
+        /// | <code>sc1</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string VolumeType
         {
             get { return this._volumeType; }

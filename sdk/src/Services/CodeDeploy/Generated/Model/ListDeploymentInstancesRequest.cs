@@ -29,8 +29,17 @@ namespace Amazon.CodeDeploy.Model
 {
     /// <summary>
     /// Container for the parameters to the ListDeploymentInstances operation.
-    /// Lists the instance for a deployment associated with the applicable IAM user or AWS
-    /// account.
+    /// <note> 
+    /// <para>
+    ///  The newer BatchGetDeploymentTargets should be used instead because it works with
+    /// all compute types. <code>ListDeploymentInstances</code> throws an exception if it
+    /// is used with a compute platform other than EC2/On-premises or AWS Lambda. 
+    /// </para>
+    ///  </note> 
+    /// <para>
+    ///  Lists the instance for a deployment associated with the IAM user or AWS account.
+    /// 
+    /// </para>
     /// </summary>
     public partial class ListDeploymentInstancesRequest : AmazonCodeDeployRequest
     {
@@ -42,9 +51,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentId. 
         /// <para>
-        /// The unique ID of a deployment.
+        ///  The unique ID of a deployment. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DeploymentId
         {
             get { return this._deploymentId; }
@@ -64,11 +74,11 @@ namespace Amazon.CodeDeploy.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Pending: Include those instance with pending deployments.
+        /// Pending: Include those instances with pending deployments.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// InProgress: Include those instance where deployments are still in progress.
+        /// InProgress: Include those instances where deployments are still in progress.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -76,15 +86,15 @@ namespace Amazon.CodeDeploy.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Failed: Include those instance with failed deployments.
+        /// Failed: Include those instances with failed deployments.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Skipped: Include those instance with skipped deployments.
+        /// Skipped: Include those instances with skipped deployments.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Unknown: Include those instance with deployments in an unknown state.
+        /// Unknown: Include those instances with deployments in an unknown state.
         /// </para>
         ///  </li> </ul>
         /// </summary>

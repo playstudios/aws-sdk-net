@@ -76,6 +76,12 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                     unmarshalledObject.CustomCodeSigning = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("startSigningJobParameter", targetDepth))
+                {
+                    var unmarshaller = StartSigningJobParameterUnmarshaller.Instance;
+                    unmarshalledObject.StartSigningJobParameter = unmarshaller.Unmarshall(context);
+                    continue;
+                }
             }
           
             return unmarshalledObject;

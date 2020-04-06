@@ -34,8 +34,8 @@ namespace Amazon.IdentityManagement.Model
     ///  
     /// <para>
     /// If you do not specify a user name, IAM determines the user name implicitly based on
-    /// the AWS access key ID signing the request. Because this operation works for access
-    /// keys under the AWS account, you can use this operation to manage AWS account root
+    /// the AWS access key ID signing the request. This operation works for access keys under
+    /// the AWS account. Consequently, you can use this operation to manage AWS account root
     /// user credentials even if the AWS account has no associated IAM users.
     /// </para>
     /// </summary>
@@ -69,6 +69,7 @@ namespace Amazon.IdentityManagement.Model
         /// pattern, is a string of characters that can be upper- or lower-cased letters or digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=24, Max=128)]
         public string CertificateId
         {
             get { return this._certificateId; }
@@ -88,11 +89,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string UserName
         {
             get { return this._userName; }

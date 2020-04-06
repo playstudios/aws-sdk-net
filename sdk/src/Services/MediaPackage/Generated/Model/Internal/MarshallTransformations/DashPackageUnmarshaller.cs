@@ -64,10 +64,28 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("adsOnDeliveryRestrictions", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AdsOnDeliveryRestrictions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("adTriggers", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.AdTriggers = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("encryption", targetDepth))
                 {
                     var unmarshaller = DashEncryptionUnmarshaller.Instance;
                     unmarshalledObject.Encryption = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("manifestLayout", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ManifestLayout = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("manifestWindowSeconds", targetDepth))
@@ -88,6 +106,12 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                     unmarshalledObject.MinUpdatePeriodSeconds = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("periodTriggers", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.PeriodTriggers = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("profile", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -98,6 +122,12 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     unmarshalledObject.SegmentDurationSeconds = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("segmentTemplateFormat", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SegmentTemplateFormat = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("streamSelection", targetDepth))

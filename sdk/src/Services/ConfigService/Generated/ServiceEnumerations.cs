@@ -407,6 +407,118 @@ namespace Amazon.ConfigService
 
 
     /// <summary>
+    /// Constants used for properties of type ConformancePackComplianceType.
+    /// </summary>
+    public class ConformancePackComplianceType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant COMPLIANT for ConformancePackComplianceType
+        /// </summary>
+        public static readonly ConformancePackComplianceType COMPLIANT = new ConformancePackComplianceType("COMPLIANT");
+        /// <summary>
+        /// Constant NON_COMPLIANT for ConformancePackComplianceType
+        /// </summary>
+        public static readonly ConformancePackComplianceType NON_COMPLIANT = new ConformancePackComplianceType("NON_COMPLIANT");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ConformancePackComplianceType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ConformancePackComplianceType FindValue(string value)
+        {
+            return FindValue<ConformancePackComplianceType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ConformancePackComplianceType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ConformancePackState.
+    /// </summary>
+    public class ConformancePackState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CREATE_COMPLETE for ConformancePackState
+        /// </summary>
+        public static readonly ConformancePackState CREATE_COMPLETE = new ConformancePackState("CREATE_COMPLETE");
+        /// <summary>
+        /// Constant CREATE_FAILED for ConformancePackState
+        /// </summary>
+        public static readonly ConformancePackState CREATE_FAILED = new ConformancePackState("CREATE_FAILED");
+        /// <summary>
+        /// Constant CREATE_IN_PROGRESS for ConformancePackState
+        /// </summary>
+        public static readonly ConformancePackState CREATE_IN_PROGRESS = new ConformancePackState("CREATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant DELETE_FAILED for ConformancePackState
+        /// </summary>
+        public static readonly ConformancePackState DELETE_FAILED = new ConformancePackState("DELETE_FAILED");
+        /// <summary>
+        /// Constant DELETE_IN_PROGRESS for ConformancePackState
+        /// </summary>
+        public static readonly ConformancePackState DELETE_IN_PROGRESS = new ConformancePackState("DELETE_IN_PROGRESS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ConformancePackState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ConformancePackState FindValue(string value)
+        {
+            return FindValue<ConformancePackState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ConformancePackState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type DeliveryStatus.
     /// </summary>
     public class DeliveryStatus : ConstantClass
@@ -569,6 +681,84 @@ namespace Amazon.ConfigService
 
 
     /// <summary>
+    /// Constants used for properties of type MemberAccountRuleStatus.
+    /// </summary>
+    public class MemberAccountRuleStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CREATE_FAILED for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus CREATE_FAILED = new MemberAccountRuleStatus("CREATE_FAILED");
+        /// <summary>
+        /// Constant CREATE_IN_PROGRESS for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus CREATE_IN_PROGRESS = new MemberAccountRuleStatus("CREATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant CREATE_SUCCESSFUL for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus CREATE_SUCCESSFUL = new MemberAccountRuleStatus("CREATE_SUCCESSFUL");
+        /// <summary>
+        /// Constant DELETE_FAILED for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus DELETE_FAILED = new MemberAccountRuleStatus("DELETE_FAILED");
+        /// <summary>
+        /// Constant DELETE_IN_PROGRESS for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus DELETE_IN_PROGRESS = new MemberAccountRuleStatus("DELETE_IN_PROGRESS");
+        /// <summary>
+        /// Constant DELETE_SUCCESSFUL for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus DELETE_SUCCESSFUL = new MemberAccountRuleStatus("DELETE_SUCCESSFUL");
+        /// <summary>
+        /// Constant UPDATE_FAILED for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus UPDATE_FAILED = new MemberAccountRuleStatus("UPDATE_FAILED");
+        /// <summary>
+        /// Constant UPDATE_IN_PROGRESS for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus UPDATE_IN_PROGRESS = new MemberAccountRuleStatus("UPDATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant UPDATE_SUCCESSFUL for MemberAccountRuleStatus
+        /// </summary>
+        public static readonly MemberAccountRuleStatus UPDATE_SUCCESSFUL = new MemberAccountRuleStatus("UPDATE_SUCCESSFUL");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public MemberAccountRuleStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static MemberAccountRuleStatus FindValue(string value)
+        {
+            return FindValue<MemberAccountRuleStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator MemberAccountRuleStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type MessageType.
     /// </summary>
     public class MessageType : ConstantClass
@@ -620,6 +810,294 @@ namespace Amazon.ConfigService
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator MessageType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OrganizationConfigRuleTriggerType.
+    /// </summary>
+    public class OrganizationConfigRuleTriggerType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ConfigurationItemChangeNotification for OrganizationConfigRuleTriggerType
+        /// </summary>
+        public static readonly OrganizationConfigRuleTriggerType ConfigurationItemChangeNotification = new OrganizationConfigRuleTriggerType("ConfigurationItemChangeNotification");
+        /// <summary>
+        /// Constant OversizedConfigurationItemChangeNotification for OrganizationConfigRuleTriggerType
+        /// </summary>
+        public static readonly OrganizationConfigRuleTriggerType OversizedConfigurationItemChangeNotification = new OrganizationConfigRuleTriggerType("OversizedConfigurationItemChangeNotification");
+        /// <summary>
+        /// Constant ScheduledNotification for OrganizationConfigRuleTriggerType
+        /// </summary>
+        public static readonly OrganizationConfigRuleTriggerType ScheduledNotification = new OrganizationConfigRuleTriggerType("ScheduledNotification");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OrganizationConfigRuleTriggerType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OrganizationConfigRuleTriggerType FindValue(string value)
+        {
+            return FindValue<OrganizationConfigRuleTriggerType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OrganizationConfigRuleTriggerType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OrganizationResourceDetailedStatus.
+    /// </summary>
+    public class OrganizationResourceDetailedStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CREATE_FAILED for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus CREATE_FAILED = new OrganizationResourceDetailedStatus("CREATE_FAILED");
+        /// <summary>
+        /// Constant CREATE_IN_PROGRESS for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus CREATE_IN_PROGRESS = new OrganizationResourceDetailedStatus("CREATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant CREATE_SUCCESSFUL for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus CREATE_SUCCESSFUL = new OrganizationResourceDetailedStatus("CREATE_SUCCESSFUL");
+        /// <summary>
+        /// Constant DELETE_FAILED for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus DELETE_FAILED = new OrganizationResourceDetailedStatus("DELETE_FAILED");
+        /// <summary>
+        /// Constant DELETE_IN_PROGRESS for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus DELETE_IN_PROGRESS = new OrganizationResourceDetailedStatus("DELETE_IN_PROGRESS");
+        /// <summary>
+        /// Constant DELETE_SUCCESSFUL for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus DELETE_SUCCESSFUL = new OrganizationResourceDetailedStatus("DELETE_SUCCESSFUL");
+        /// <summary>
+        /// Constant UPDATE_FAILED for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus UPDATE_FAILED = new OrganizationResourceDetailedStatus("UPDATE_FAILED");
+        /// <summary>
+        /// Constant UPDATE_IN_PROGRESS for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus UPDATE_IN_PROGRESS = new OrganizationResourceDetailedStatus("UPDATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant UPDATE_SUCCESSFUL for OrganizationResourceDetailedStatus
+        /// </summary>
+        public static readonly OrganizationResourceDetailedStatus UPDATE_SUCCESSFUL = new OrganizationResourceDetailedStatus("UPDATE_SUCCESSFUL");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OrganizationResourceDetailedStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OrganizationResourceDetailedStatus FindValue(string value)
+        {
+            return FindValue<OrganizationResourceDetailedStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OrganizationResourceDetailedStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OrganizationResourceStatus.
+    /// </summary>
+    public class OrganizationResourceStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CREATE_FAILED for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus CREATE_FAILED = new OrganizationResourceStatus("CREATE_FAILED");
+        /// <summary>
+        /// Constant CREATE_IN_PROGRESS for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus CREATE_IN_PROGRESS = new OrganizationResourceStatus("CREATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant CREATE_SUCCESSFUL for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus CREATE_SUCCESSFUL = new OrganizationResourceStatus("CREATE_SUCCESSFUL");
+        /// <summary>
+        /// Constant DELETE_FAILED for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus DELETE_FAILED = new OrganizationResourceStatus("DELETE_FAILED");
+        /// <summary>
+        /// Constant DELETE_IN_PROGRESS for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus DELETE_IN_PROGRESS = new OrganizationResourceStatus("DELETE_IN_PROGRESS");
+        /// <summary>
+        /// Constant DELETE_SUCCESSFUL for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus DELETE_SUCCESSFUL = new OrganizationResourceStatus("DELETE_SUCCESSFUL");
+        /// <summary>
+        /// Constant UPDATE_FAILED for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus UPDATE_FAILED = new OrganizationResourceStatus("UPDATE_FAILED");
+        /// <summary>
+        /// Constant UPDATE_IN_PROGRESS for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus UPDATE_IN_PROGRESS = new OrganizationResourceStatus("UPDATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant UPDATE_SUCCESSFUL for OrganizationResourceStatus
+        /// </summary>
+        public static readonly OrganizationResourceStatus UPDATE_SUCCESSFUL = new OrganizationResourceStatus("UPDATE_SUCCESSFUL");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OrganizationResourceStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OrganizationResourceStatus FindValue(string value)
+        {
+            return FindValue<OrganizationResourceStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OrganizationResourceStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OrganizationRuleStatus.
+    /// </summary>
+    public class OrganizationRuleStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CREATE_FAILED for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus CREATE_FAILED = new OrganizationRuleStatus("CREATE_FAILED");
+        /// <summary>
+        /// Constant CREATE_IN_PROGRESS for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus CREATE_IN_PROGRESS = new OrganizationRuleStatus("CREATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant CREATE_SUCCESSFUL for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus CREATE_SUCCESSFUL = new OrganizationRuleStatus("CREATE_SUCCESSFUL");
+        /// <summary>
+        /// Constant DELETE_FAILED for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus DELETE_FAILED = new OrganizationRuleStatus("DELETE_FAILED");
+        /// <summary>
+        /// Constant DELETE_IN_PROGRESS for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus DELETE_IN_PROGRESS = new OrganizationRuleStatus("DELETE_IN_PROGRESS");
+        /// <summary>
+        /// Constant DELETE_SUCCESSFUL for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus DELETE_SUCCESSFUL = new OrganizationRuleStatus("DELETE_SUCCESSFUL");
+        /// <summary>
+        /// Constant UPDATE_FAILED for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus UPDATE_FAILED = new OrganizationRuleStatus("UPDATE_FAILED");
+        /// <summary>
+        /// Constant UPDATE_IN_PROGRESS for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus UPDATE_IN_PROGRESS = new OrganizationRuleStatus("UPDATE_IN_PROGRESS");
+        /// <summary>
+        /// Constant UPDATE_SUCCESSFUL for OrganizationRuleStatus
+        /// </summary>
+        public static readonly OrganizationRuleStatus UPDATE_SUCCESSFUL = new OrganizationRuleStatus("UPDATE_SUCCESSFUL");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OrganizationRuleStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OrganizationRuleStatus FindValue(string value)
+        {
+            return FindValue<OrganizationRuleStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OrganizationRuleStatus(string value)
         {
             return FindValue(value);
         }
@@ -731,6 +1209,218 @@ namespace Amazon.ConfigService
 
 
     /// <summary>
+    /// Constants used for properties of type RemediationExecutionState.
+    /// </summary>
+    public class RemediationExecutionState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant FAILED for RemediationExecutionState
+        /// </summary>
+        public static readonly RemediationExecutionState FAILED = new RemediationExecutionState("FAILED");
+        /// <summary>
+        /// Constant IN_PROGRESS for RemediationExecutionState
+        /// </summary>
+        public static readonly RemediationExecutionState IN_PROGRESS = new RemediationExecutionState("IN_PROGRESS");
+        /// <summary>
+        /// Constant QUEUED for RemediationExecutionState
+        /// </summary>
+        public static readonly RemediationExecutionState QUEUED = new RemediationExecutionState("QUEUED");
+        /// <summary>
+        /// Constant SUCCEEDED for RemediationExecutionState
+        /// </summary>
+        public static readonly RemediationExecutionState SUCCEEDED = new RemediationExecutionState("SUCCEEDED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public RemediationExecutionState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static RemediationExecutionState FindValue(string value)
+        {
+            return FindValue<RemediationExecutionState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator RemediationExecutionState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type RemediationExecutionStepState.
+    /// </summary>
+    public class RemediationExecutionStepState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant FAILED for RemediationExecutionStepState
+        /// </summary>
+        public static readonly RemediationExecutionStepState FAILED = new RemediationExecutionStepState("FAILED");
+        /// <summary>
+        /// Constant PENDING for RemediationExecutionStepState
+        /// </summary>
+        public static readonly RemediationExecutionStepState PENDING = new RemediationExecutionStepState("PENDING");
+        /// <summary>
+        /// Constant SUCCEEDED for RemediationExecutionStepState
+        /// </summary>
+        public static readonly RemediationExecutionStepState SUCCEEDED = new RemediationExecutionStepState("SUCCEEDED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public RemediationExecutionStepState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static RemediationExecutionStepState FindValue(string value)
+        {
+            return FindValue<RemediationExecutionStepState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator RemediationExecutionStepState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type RemediationTargetType.
+    /// </summary>
+    public class RemediationTargetType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant SSM_DOCUMENT for RemediationTargetType
+        /// </summary>
+        public static readonly RemediationTargetType SSM_DOCUMENT = new RemediationTargetType("SSM_DOCUMENT");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public RemediationTargetType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static RemediationTargetType FindValue(string value)
+        {
+            return FindValue<RemediationTargetType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator RemediationTargetType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ResourceCountGroupKey.
+    /// </summary>
+    public class ResourceCountGroupKey : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACCOUNT_ID for ResourceCountGroupKey
+        /// </summary>
+        public static readonly ResourceCountGroupKey ACCOUNT_ID = new ResourceCountGroupKey("ACCOUNT_ID");
+        /// <summary>
+        /// Constant AWS_REGION for ResourceCountGroupKey
+        /// </summary>
+        public static readonly ResourceCountGroupKey AWS_REGION = new ResourceCountGroupKey("AWS_REGION");
+        /// <summary>
+        /// Constant RESOURCE_TYPE for ResourceCountGroupKey
+        /// </summary>
+        public static readonly ResourceCountGroupKey RESOURCE_TYPE = new ResourceCountGroupKey("RESOURCE_TYPE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ResourceCountGroupKey(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ResourceCountGroupKey FindValue(string value)
+        {
+            return FindValue<ResourceCountGroupKey>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ResourceCountGroupKey(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ResourceType.
     /// </summary>
     public class ResourceType : ConstantClass
@@ -740,6 +1430,22 @@ namespace Amazon.ConfigService
         /// Constant AWSACMCertificate for ResourceType
         /// </summary>
         public static readonly ResourceType AWSACMCertificate = new ResourceType("AWS::ACM::Certificate");
+        /// <summary>
+        /// Constant AWSApiGatewayRestApi for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSApiGatewayRestApi = new ResourceType("AWS::ApiGateway::RestApi");
+        /// <summary>
+        /// Constant AWSApiGatewayStage for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSApiGatewayStage = new ResourceType("AWS::ApiGateway::Stage");
+        /// <summary>
+        /// Constant AWSApiGatewayV2Api for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSApiGatewayV2Api = new ResourceType("AWS::ApiGatewayV2::Api");
+        /// <summary>
+        /// Constant AWSApiGatewayV2Stage for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSApiGatewayV2Stage = new ResourceType("AWS::ApiGatewayV2::Stage");
         /// <summary>
         /// Constant AWSAutoScalingAutoScalingGroup for ResourceType
         /// </summary>
@@ -781,6 +1487,14 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSCodeBuildProject = new ResourceType("AWS::CodeBuild::Project");
         /// <summary>
+        /// Constant AWSCodePipelinePipeline for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSCodePipelinePipeline = new ResourceType("AWS::CodePipeline::Pipeline");
+        /// <summary>
+        /// Constant AWSConfigResourceCompliance for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSConfigResourceCompliance = new ResourceType("AWS::Config::ResourceCompliance");
+        /// <summary>
         /// Constant AWSDynamoDBTable for ResourceType
         /// </summary>
         public static readonly ResourceType AWSDynamoDBTable = new ResourceType("AWS::DynamoDB::Table");
@@ -789,9 +1503,17 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSEC2CustomerGateway = new ResourceType("AWS::EC2::CustomerGateway");
         /// <summary>
+        /// Constant AWSEC2EgressOnlyInternetGateway for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSEC2EgressOnlyInternetGateway = new ResourceType("AWS::EC2::EgressOnlyInternetGateway");
+        /// <summary>
         /// Constant AWSEC2EIP for ResourceType
         /// </summary>
         public static readonly ResourceType AWSEC2EIP = new ResourceType("AWS::EC2::EIP");
+        /// <summary>
+        /// Constant AWSEC2FlowLog for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSEC2FlowLog = new ResourceType("AWS::EC2::FlowLog");
         /// <summary>
         /// Constant AWSEC2Host for ResourceType
         /// </summary>
@@ -805,6 +1527,10 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSEC2InternetGateway = new ResourceType("AWS::EC2::InternetGateway");
         /// <summary>
+        /// Constant AWSEC2NatGateway for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSEC2NatGateway = new ResourceType("AWS::EC2::NatGateway");
+        /// <summary>
         /// Constant AWSEC2NetworkAcl for ResourceType
         /// </summary>
         public static readonly ResourceType AWSEC2NetworkAcl = new ResourceType("AWS::EC2::NetworkAcl");
@@ -812,6 +1538,10 @@ namespace Amazon.ConfigService
         /// Constant AWSEC2NetworkInterface for ResourceType
         /// </summary>
         public static readonly ResourceType AWSEC2NetworkInterface = new ResourceType("AWS::EC2::NetworkInterface");
+        /// <summary>
+        /// Constant AWSEC2RegisteredHAInstance for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSEC2RegisteredHAInstance = new ResourceType("AWS::EC2::RegisteredHAInstance");
         /// <summary>
         /// Constant AWSEC2RouteTable for ResourceType
         /// </summary>
@@ -833,6 +1563,18 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSEC2VPC = new ResourceType("AWS::EC2::VPC");
         /// <summary>
+        /// Constant AWSEC2VPCEndpoint for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSEC2VPCEndpoint = new ResourceType("AWS::EC2::VPCEndpoint");
+        /// <summary>
+        /// Constant AWSEC2VPCEndpointService for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSEC2VPCEndpointService = new ResourceType("AWS::EC2::VPCEndpointService");
+        /// <summary>
+        /// Constant AWSEC2VPCPeeringConnection for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSEC2VPCPeeringConnection = new ResourceType("AWS::EC2::VPCPeeringConnection");
+        /// <summary>
         /// Constant AWSEC2VPNConnection for ResourceType
         /// </summary>
         public static readonly ResourceType AWSEC2VPNConnection = new ResourceType("AWS::EC2::VPNConnection");
@@ -841,9 +1583,29 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSEC2VPNGateway = new ResourceType("AWS::EC2::VPNGateway");
         /// <summary>
+        /// Constant AWSElasticBeanstalkApplication for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSElasticBeanstalkApplication = new ResourceType("AWS::ElasticBeanstalk::Application");
+        /// <summary>
+        /// Constant AWSElasticBeanstalkApplicationVersion for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSElasticBeanstalkApplicationVersion = new ResourceType("AWS::ElasticBeanstalk::ApplicationVersion");
+        /// <summary>
+        /// Constant AWSElasticBeanstalkEnvironment for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSElasticBeanstalkEnvironment = new ResourceType("AWS::ElasticBeanstalk::Environment");
+        /// <summary>
+        /// Constant AWSElasticLoadBalancingLoadBalancer for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSElasticLoadBalancingLoadBalancer = new ResourceType("AWS::ElasticLoadBalancing::LoadBalancer");
+        /// <summary>
         /// Constant AWSElasticLoadBalancingV2LoadBalancer for ResourceType
         /// </summary>
         public static readonly ResourceType AWSElasticLoadBalancingV2LoadBalancer = new ResourceType("AWS::ElasticLoadBalancingV2::LoadBalancer");
+        /// <summary>
+        /// Constant AWSElasticsearchDomain for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSElasticsearchDomain = new ResourceType("AWS::Elasticsearch::Domain");
         /// <summary>
         /// Constant AWSIAMGroup for ResourceType
         /// </summary>
@@ -860,6 +1622,26 @@ namespace Amazon.ConfigService
         /// Constant AWSIAMUser for ResourceType
         /// </summary>
         public static readonly ResourceType AWSIAMUser = new ResourceType("AWS::IAM::User");
+        /// <summary>
+        /// Constant AWSKMSKey for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSKMSKey = new ResourceType("AWS::KMS::Key");
+        /// <summary>
+        /// Constant AWSLambdaFunction for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSLambdaFunction = new ResourceType("AWS::Lambda::Function");
+        /// <summary>
+        /// Constant AWSQLDBLedger for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSQLDBLedger = new ResourceType("AWS::QLDB::Ledger");
+        /// <summary>
+        /// Constant AWSRDSDBCluster for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSRDSDBCluster = new ResourceType("AWS::RDS::DBCluster");
+        /// <summary>
+        /// Constant AWSRDSDBClusterSnapshot for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSRDSDBClusterSnapshot = new ResourceType("AWS::RDS::DBClusterSnapshot");
         /// <summary>
         /// Constant AWSRDSDBInstance for ResourceType
         /// </summary>
@@ -905,13 +1687,49 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSRedshiftEventSubscription = new ResourceType("AWS::Redshift::EventSubscription");
         /// <summary>
+        /// Constant AWSS3AccountPublicAccessBlock for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSS3AccountPublicAccessBlock = new ResourceType("AWS::S3::AccountPublicAccessBlock");
+        /// <summary>
         /// Constant AWSS3Bucket for ResourceType
         /// </summary>
         public static readonly ResourceType AWSS3Bucket = new ResourceType("AWS::S3::Bucket");
         /// <summary>
+        /// Constant AWSServiceCatalogCloudFormationProduct for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSServiceCatalogCloudFormationProduct = new ResourceType("AWS::ServiceCatalog::CloudFormationProduct");
+        /// <summary>
+        /// Constant AWSServiceCatalogCloudFormationProvisionedProduct for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSServiceCatalogCloudFormationProvisionedProduct = new ResourceType("AWS::ServiceCatalog::CloudFormationProvisionedProduct");
+        /// <summary>
+        /// Constant AWSServiceCatalogPortfolio for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSServiceCatalogPortfolio = new ResourceType("AWS::ServiceCatalog::Portfolio");
+        /// <summary>
+        /// Constant AWSShieldProtection for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSShieldProtection = new ResourceType("AWS::Shield::Protection");
+        /// <summary>
+        /// Constant AWSShieldRegionalProtection for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSShieldRegionalProtection = new ResourceType("AWS::ShieldRegional::Protection");
+        /// <summary>
+        /// Constant AWSSQSQueue for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSSQSQueue = new ResourceType("AWS::SQS::Queue");
+        /// <summary>
+        /// Constant AWSSSMAssociationCompliance for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSSSMAssociationCompliance = new ResourceType("AWS::SSM::AssociationCompliance");
+        /// <summary>
         /// Constant AWSSSMManagedInstanceInventory for ResourceType
         /// </summary>
         public static readonly ResourceType AWSSSMManagedInstanceInventory = new ResourceType("AWS::SSM::ManagedInstanceInventory");
+        /// <summary>
+        /// Constant AWSSSMPatchCompliance for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSSSMPatchCompliance = new ResourceType("AWS::SSM::PatchCompliance");
         /// <summary>
         /// Constant AWSWAFRateBasedRule for ResourceType
         /// </summary>
@@ -925,6 +1743,10 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSWAFRegionalRule = new ResourceType("AWS::WAFRegional::Rule");
         /// <summary>
+        /// Constant AWSWAFRegionalRuleGroup for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSWAFRegionalRuleGroup = new ResourceType("AWS::WAFRegional::RuleGroup");
+        /// <summary>
         /// Constant AWSWAFRegionalWebACL for ResourceType
         /// </summary>
         public static readonly ResourceType AWSWAFRegionalWebACL = new ResourceType("AWS::WAFRegional::WebACL");
@@ -933,9 +1755,37 @@ namespace Amazon.ConfigService
         /// </summary>
         public static readonly ResourceType AWSWAFRule = new ResourceType("AWS::WAF::Rule");
         /// <summary>
+        /// Constant AWSWAFRuleGroup for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSWAFRuleGroup = new ResourceType("AWS::WAF::RuleGroup");
+        /// <summary>
+        /// Constant AWSWAFv2IPSet for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSWAFv2IPSet = new ResourceType("AWS::WAFv2::IPSet");
+        /// <summary>
+        /// Constant AWSWAFv2ManagedRuleSet for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSWAFv2ManagedRuleSet = new ResourceType("AWS::WAFv2::ManagedRuleSet");
+        /// <summary>
+        /// Constant AWSWAFv2RegexPatternSet for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSWAFv2RegexPatternSet = new ResourceType("AWS::WAFv2::RegexPatternSet");
+        /// <summary>
+        /// Constant AWSWAFv2RuleGroup for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSWAFv2RuleGroup = new ResourceType("AWS::WAFv2::RuleGroup");
+        /// <summary>
+        /// Constant AWSWAFv2WebACL for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSWAFv2WebACL = new ResourceType("AWS::WAFv2::WebACL");
+        /// <summary>
         /// Constant AWSWAFWebACL for ResourceType
         /// </summary>
         public static readonly ResourceType AWSWAFWebACL = new ResourceType("AWS::WAF::WebACL");
+        /// <summary>
+        /// Constant AWSXRayEncryptionConfig for ResourceType
+        /// </summary>
+        public static readonly ResourceType AWSXRayEncryptionConfig = new ResourceType("AWS::XRay::EncryptionConfig");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -966,6 +1816,52 @@ namespace Amazon.ConfigService
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator ResourceType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ResourceValueType.
+    /// </summary>
+    public class ResourceValueType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant RESOURCE_ID for ResourceValueType
+        /// </summary>
+        public static readonly ResourceValueType RESOURCE_ID = new ResourceValueType("RESOURCE_ID");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ResourceValueType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ResourceValueType FindValue(string value)
+        {
+            return FindValue<ResourceValueType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ResourceValueType(string value)
         {
             return FindValue(value);
         }

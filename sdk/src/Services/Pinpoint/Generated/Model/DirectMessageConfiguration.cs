@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// The message configuration.
+    /// Specifies the settings and content for the default message and any default messages
+    /// that you tailored for specific channels.
     /// </summary>
     public partial class DirectMessageConfiguration
     {
@@ -37,12 +38,17 @@ namespace Amazon.Pinpoint.Model
         private BaiduMessage _baiduMessage;
         private DefaultMessage _defaultMessage;
         private DefaultPushNotificationMessage _defaultPushNotificationMessage;
+        private EmailMessage _emailMessage;
         private GCMMessage _gcmMessage;
         private SMSMessage _smsMessage;
+        private VoiceMessage _voiceMessage;
 
         /// <summary>
-        /// Gets and sets the property ADMMessage. The message to ADM channels. Overrides the
-        /// default push notification message.
+        /// Gets and sets the property ADMMessage. 
+        /// <para>
+        /// The default push notification message for the ADM (Amazon Device Messaging) channel.
+        /// This message overrides the default push notification message (DefaultPushNotificationMessage).
+        /// </para>
         /// </summary>
         public ADMMessage ADMMessage
         {
@@ -57,8 +63,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property APNSMessage. The message to APNS channels. Overrides the
-        /// default push notification message.
+        /// Gets and sets the property APNSMessage. 
+        /// <para>
+        /// The default push notification message for the APNs (Apple Push Notification service)
+        /// channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
+        /// </para>
         /// </summary>
         public APNSMessage APNSMessage
         {
@@ -73,8 +82,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property BaiduMessage. The message to Baidu GCM channels. Overrides
-        /// the default push notification message.
+        /// Gets and sets the property BaiduMessage. 
+        /// <para>
+        /// The default push notification message for the Baidu (Baidu Cloud Push) channel. This
+        /// message overrides the default push notification message (DefaultPushNotificationMessage).
+        /// </para>
         /// </summary>
         public BaiduMessage BaiduMessage
         {
@@ -89,7 +101,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DefaultMessage. The default message for all channels.
+        /// Gets and sets the property DefaultMessage. 
+        /// <para>
+        /// The default message for all channels.
+        /// </para>
         /// </summary>
         public DefaultMessage DefaultMessage
         {
@@ -104,8 +119,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DefaultPushNotificationMessage. The default push notification
-        /// message for all push channels.
+        /// Gets and sets the property DefaultPushNotificationMessage. 
+        /// <para>
+        /// The default push notification message for all push notification channels.
+        /// </para>
         /// </summary>
         public DefaultPushNotificationMessage DefaultPushNotificationMessage
         {
@@ -120,8 +137,31 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GCMMessage. The message to GCM channels. Overrides the
-        /// default push notification message.
+        /// Gets and sets the property EmailMessage. 
+        /// <para>
+        /// The default message for the email channel. This message overrides the default message
+        /// (DefaultMessage).
+        /// </para>
+        /// </summary>
+        public EmailMessage EmailMessage
+        {
+            get { return this._emailMessage; }
+            set { this._emailMessage = value; }
+        }
+
+        // Check to see if EmailMessage property is set
+        internal bool IsSetEmailMessage()
+        {
+            return this._emailMessage != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property GCMMessage. 
+        /// <para>
+        /// The default push notification message for the GCM channel, which is used to send notifications
+        /// through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM),
+        /// service. This message overrides the default push notification message (DefaultPushNotificationMessage).
+        /// </para>
         /// </summary>
         public GCMMessage GCMMessage
         {
@@ -136,8 +176,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SMSMessage. The message to SMS channels. Overrides the
-        /// default message.
+        /// Gets and sets the property SMSMessage. 
+        /// <para>
+        /// The default message for the SMS channel. This message overrides the default message
+        /// (DefaultMessage).
+        /// </para>
         /// </summary>
         public SMSMessage SMSMessage
         {
@@ -149,6 +192,25 @@ namespace Amazon.Pinpoint.Model
         internal bool IsSetSMSMessage()
         {
             return this._smsMessage != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VoiceMessage. 
+        /// <para>
+        /// The default message for the voice channel. This message overrides the default message
+        /// (DefaultMessage).
+        /// </para>
+        /// </summary>
+        public VoiceMessage VoiceMessage
+        {
+            get { return this._voiceMessage; }
+            set { this._voiceMessage = value; }
+        }
+
+        // Check to see if VoiceMessage property is set
+        internal bool IsSetVoiceMessage()
+        {
+            return this._voiceMessage != null;
         }
 
     }

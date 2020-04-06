@@ -58,10 +58,11 @@ namespace Amazon.AlexaForBusiness.Model.Internal.MarshallTransformations
             string target = "AlexaForBusiness.CreateProfile";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -90,10 +91,27 @@ namespace Amazon.AlexaForBusiness.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.DistanceUnit);
                 }
 
+                if(publicRequest.IsSetLocale())
+                {
+                    context.Writer.WritePropertyName("Locale");
+                    context.Writer.Write(publicRequest.Locale);
+                }
+
                 if(publicRequest.IsSetMaxVolumeLimit())
                 {
                     context.Writer.WritePropertyName("MaxVolumeLimit");
                     context.Writer.Write(publicRequest.MaxVolumeLimit);
+                }
+
+                if(publicRequest.IsSetMeetingRoomConfiguration())
+                {
+                    context.Writer.WritePropertyName("MeetingRoomConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CreateMeetingRoomConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.MeetingRoomConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetProfileName())

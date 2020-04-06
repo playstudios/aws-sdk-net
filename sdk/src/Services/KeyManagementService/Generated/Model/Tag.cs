@@ -33,7 +33,7 @@ namespace Amazon.KeyManagementService.Model
     /// 
     ///  
     /// <para>
-    /// For information about the rules that apply to tag keys and tag values, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
+    /// For information about the rules that apply to tag keys and tag values, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">User-Defined
     /// Tag Restrictions</a> in the <i>AWS Billing and Cost Management User Guide</i>.
     /// </para>
     /// </summary>
@@ -48,6 +48,7 @@ namespace Amazon.KeyManagementService.Model
         /// The key of the tag.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string TagKey
         {
             get { return this._tagKey; }
@@ -66,6 +67,7 @@ namespace Amazon.KeyManagementService.Model
         /// The value of the tag.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string TagValue
         {
             get { return this._tagValue; }

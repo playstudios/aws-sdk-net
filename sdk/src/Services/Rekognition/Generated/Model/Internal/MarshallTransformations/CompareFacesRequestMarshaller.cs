@@ -58,15 +58,22 @@ namespace Amazon.Rekognition.Model.Internal.MarshallTransformations
             string target = "RekognitionService.CompareFaces";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-06-27";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetQualityFilter())
+                {
+                    context.Writer.WritePropertyName("QualityFilter");
+                    context.Writer.Write(publicRequest.QualityFilter);
+                }
+
                 if(publicRequest.IsSetSimilarityThreshold())
                 {
                     context.Writer.WritePropertyName("SimilarityThreshold");

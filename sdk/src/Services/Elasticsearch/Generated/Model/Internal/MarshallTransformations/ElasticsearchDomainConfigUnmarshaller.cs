@@ -76,10 +76,22 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
                     unmarshalledObject.AdvancedOptions = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("AdvancedSecurityOptions", targetDepth))
+                {
+                    var unmarshaller = AdvancedSecurityOptionsStatusUnmarshaller.Instance;
+                    unmarshalledObject.AdvancedSecurityOptions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CognitoOptions", targetDepth))
                 {
                     var unmarshaller = CognitoOptionsStatusUnmarshaller.Instance;
                     unmarshalledObject.CognitoOptions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("DomainEndpointOptions", targetDepth))
+                {
+                    var unmarshaller = DomainEndpointOptionsStatusUnmarshaller.Instance;
+                    unmarshalledObject.DomainEndpointOptions = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("EBSOptions", targetDepth))
@@ -110,6 +122,12 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = LogPublishingOptionsStatusUnmarshaller.Instance;
                     unmarshalledObject.LogPublishingOptions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NodeToNodeEncryptionOptions", targetDepth))
+                {
+                    var unmarshaller = NodeToNodeEncryptionOptionsStatusUnmarshaller.Instance;
+                    unmarshalledObject.NodeToNodeEncryptionOptions = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("SnapshotOptions", targetDepth))

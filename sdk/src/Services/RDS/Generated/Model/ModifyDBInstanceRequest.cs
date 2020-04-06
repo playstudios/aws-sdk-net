@@ -31,8 +31,8 @@ namespace Amazon.RDS.Model
     /// Container for the parameters to the ModifyDBInstance operation.
     /// Modifies settings for a DB instance. You can change one or more database configuration
     /// parameters by specifying these parameters and the new values in the request. To learn
-    /// what modifications you can make to your DB instance, call <a>DescribeValidDBInstanceModifications</a>
-    /// before you call <a>ModifyDBInstance</a>.
+    /// what modifications you can make to your DB instance, call <code>DescribeValidDBInstanceModifications</code>
+    /// before you call <code>ModifyDBInstance</code>.
     /// </summary>
     public partial class ModifyDBInstanceRequest : AmazonRDSRequest
     {
@@ -42,6 +42,7 @@ namespace Amazon.RDS.Model
         private bool? _autoMinorVersionUpgrade;
         private int? _backupRetentionPeriod;
         private string _caCertificateIdentifier;
+        private bool? _certificateRotationRestart;
         private CloudwatchLogsExportConfiguration _cloudwatchLogsExportConfiguration;
         private bool? _copyTagsToSnapshot;
         private string _dbInstanceClass;
@@ -50,6 +51,7 @@ namespace Amazon.RDS.Model
         private int? _dbPortNumber;
         private List<string> _dbSecurityGroups = new List<string>();
         private string _dbSubnetGroupName;
+        private bool? _deletionProtection;
         private string _domain;
         private string _domainIAMRoleName;
         private bool? _enableIAMDatabaseAuthentication;
@@ -58,19 +60,23 @@ namespace Amazon.RDS.Model
         private int? _iops;
         private string _licenseModel;
         private string _masterUserPassword;
+        private int? _maxAllocatedStorage;
         private int? _monitoringInterval;
         private string _monitoringRoleArn;
         private bool? _multiAZ;
         private string _newDBInstanceIdentifier;
         private string _optionGroupName;
         private string _performanceInsightsKMSKeyId;
+        private int? _performanceInsightsRetentionPeriod;
         private string _preferredBackupWindow;
         private string _preferredMaintenanceWindow;
+        private List<ProcessorFeature> _processorFeatures = new List<ProcessorFeature>();
         private int? _promotionTier;
         private bool? _publiclyAccessible;
         private string _storageType;
         private string _tdeCredentialArn;
         private string _tdeCredentialPassword;
+        private bool? _useDefaultProcessorFeatures;
         private List<string> _vpcSecurityGroupIds = new List<string>();
 
         /// <summary>
@@ -101,7 +107,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// For the valid values for allocated storage for each engine, see <a>CreateDBInstance</a>.
+        /// For the valid values for allocated storage for each engine, see <code>CreateDBInstance</code>.
         /// 
         /// </para>
         /// </summary>
@@ -120,13 +126,14 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AllowMajorVersionUpgrade. 
         /// <para>
-        /// Indicates that major version upgrades are allowed. Changing this parameter doesn't
-        /// result in an outage and the change is asynchronously applied as soon as possible.
+        /// A value that indicates whether major version upgrades are allowed. Changing this parameter
+        /// doesn't result in an outage and the change is asynchronously applied as soon as possible.
         /// </para>
         ///  
         /// <para>
-        /// Constraints: This parameter must be set to true when specifying a value for the EngineVersion
-        /// parameter that is a different major version than the DB instance's current version.
+        /// Constraints: Major version upgrades must be allowed when specifying a value for the
+        /// EngineVersion parameter that is a different major version than the DB instance's current
+        /// version.
         /// </para>
         /// </summary>
         public bool AllowMajorVersionUpgrade
@@ -144,23 +151,19 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ApplyImmediately. 
         /// <para>
-        /// Specifies whether the modifications in this request and any pending modifications
+        /// A value that indicates whether the modifications in this request and any pending modifications
         /// are asynchronously applied as soon as possible, regardless of the <code>PreferredMaintenanceWindow</code>
-        /// setting for the DB instance. 
+        /// setting for the DB instance. By default, this parameter is disabled. 
         /// </para>
         ///  
         /// <para>
-        ///  If this parameter is set to <code>false</code>, changes to the DB instance are applied
-        /// during the next maintenance window. Some parameter changes can cause an outage and
-        /// are applied on the next call to <a>RebootDBInstance</a>, or the next failure reboot.
-        /// Review the table of parameters in <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html">Modifying
-        /// a DB Instance and Using the Apply Immediately Parameter</a> to see the impact that
-        /// setting <code>ApplyImmediately</code> to <code>true</code> or <code>false</code> has
-        /// for each modified parameter and to determine when the changes are applied. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: <code>false</code> 
+        ///  If this parameter is disabled, changes to the DB instance are applied during the
+        /// next maintenance window. Some parameter changes can cause an outage and are applied
+        /// on the next call to <a>RebootDBInstance</a>, or the next failure reboot. Review the
+        /// table of parameters in <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Modifying.html">Modifying
+        /// a DB Instance</a> in the <i>Amazon RDS User Guide.</i> to see the impact of enabling
+        /// or disabling <code>ApplyImmediately</code> for each modified parameter and to determine
+        /// when the changes are applied. 
         /// </para>
         /// </summary>
         public bool ApplyImmediately
@@ -178,10 +181,10 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AutoMinorVersionUpgrade. 
         /// <para>
-        ///  Indicates that minor version upgrades are applied automatically to the DB instance
-        /// during the maintenance window. Changing this parameter doesn't result in an outage
-        /// except in the following case and the change is asynchronously applied as soon as possible.
-        /// An outage will result if this parameter is set to <code>true</code> during the maintenance
+        ///  A value that indicates whether minor version upgrades are applied automatically to
+        /// the DB instance during the maintenance window. Changing this parameter doesn't result
+        /// in an outage except in the following case and the change is asynchronously applied
+        /// as soon as possible. An outage results if this parameter is enabled during the maintenance
         /// window, and a newer minor version is available, and RDS has enabled auto patching
         /// for that engine version. 
         /// </para>
@@ -208,9 +211,9 @@ namespace Amazon.RDS.Model
         /// <para>
         /// Changing this parameter can result in an outage if you change from 0 to a non-zero
         /// value or from a non-zero value to 0. These changes are applied during the next maintenance
-        /// window unless the <code>ApplyImmediately</code> parameter is set to <code>true</code>
-        /// for this request. If you change the parameter from one non-zero value to another non-zero
-        /// value, the change is asynchronously applied as soon as possible.
+        /// window unless the <code>ApplyImmediately</code> parameter is enabled for this request.
+        /// If you change the parameter from one non-zero value to another non-zero value, the
+        /// change is asynchronously applied as soon as possible.
         /// </para>
         ///  
         /// <para>
@@ -219,7 +222,7 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// Not applicable. The retention period for automated backups is managed by the DB cluster.
-        /// For more information, see <a>ModifyDBCluster</a>.
+        /// For more information, see <code>ModifyDBCluster</code>.
         /// </para>
         ///  
         /// <para>
@@ -235,16 +238,17 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Can be specified for a MySQL Read Replica only if the source is running MySQL 5.6
+        /// Can be specified for a MySQL read replica only if the source is running MySQL 5.6
+        /// or later
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Can be specified for a PostgreSQL Read Replica only if the source is running PostgreSQL
+        /// Can be specified for a PostgreSQL read replica only if the source is running PostgreSQL
         /// 9.3.5
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot be set to 0 if the DB instance is a source to Read Replicas
+        /// Can't be set to 0 if the DB instance is a source to read replicas
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -279,10 +283,62 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CertificateRotationRestart. 
+        /// <para>
+        /// A value that indicates whether the DB instance is restarted when you rotate your SSL/TLS
+        /// certificate.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the DB instance is restarted when you rotate your SSL/TLS certificate.
+        /// The certificate is not updated until the DB instance is restarted.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Set this parameter only if you are <i>not</i> using SSL/TLS to connect to the DB instance.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions
+        /// for your DB engine to rotate your SSL/TLS certificate:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For more information about rotating your SSL/TLS certificate for RDS DB engines, see
+        /// <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html">
+        /// Rotating Your SSL/TLS Certificate.</a> in the <i>Amazon RDS User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For more information about rotating your SSL/TLS certificate for Aurora DB engines,
+        /// see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL-certificate-rotation.html">
+        /// Rotating Your SSL/TLS Certificate</a> in the <i>Amazon Aurora User Guide.</i> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public bool CertificateRotationRestart
+        {
+            get { return this._certificateRotationRestart.GetValueOrDefault(); }
+            set { this._certificateRotationRestart = value; }
+        }
+
+        // Check to see if CertificateRotationRestart property is set
+        internal bool IsSetCertificateRotationRestart()
+        {
+            return this._certificateRotationRestart.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property CloudwatchLogsExportConfiguration. 
         /// <para>
         /// The configuration setting for the log types to be enabled for export to CloudWatch
-        /// Logs for a specific DB instance or DB cluster.
+        /// Logs for a specific DB instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// A change to the <code>CloudwatchLogsExportConfiguration</code> parameter is always
+        /// applied to the DB instance immediately. Therefore, the <code>ApplyImmediately</code>
+        /// parameter has no effect.
         /// </para>
         /// </summary>
         public CloudwatchLogsExportConfiguration CloudwatchLogsExportConfiguration
@@ -300,8 +356,18 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property CopyTagsToSnapshot. 
         /// <para>
-        /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise
-        /// false. The default is false.
+        /// A value that indicates whether to copy all tags from the DB instance to snapshots
+        /// of the DB instance. By default, tags are not copied.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Amazon Aurora</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this
+        /// value for an Aurora DB instance has no effect on the DB cluster setting. For more
+        /// information, see <code>ModifyDBCluster</code>.
         /// </para>
         /// </summary>
         public bool CopyTagsToSnapshot
@@ -322,14 +388,14 @@ namespace Amazon.RDS.Model
         /// The new compute and memory capacity of the DB instance, for example, <code>db.m4.large</code>.
         /// Not all DB instance classes are available in all AWS Regions, or for all database
         /// engines. For the full list of DB instance classes, and availability for your engine,
-        /// see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-        /// Instance Class</a> in the Amazon RDS User Guide. 
+        /// see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
+        /// Instance Class</a> in the <i>Amazon RDS User Guide.</i> 
         /// </para>
         ///  
         /// <para>
         /// If you modify the DB instance class, an outage occurs during the change. The change
         /// is applied during the next maintenance window, unless <code>ApplyImmediately</code>
-        /// is specified as <code>true</code> for this request. 
+        /// is enabled for this request. 
         /// </para>
         ///  
         /// <para>
@@ -363,6 +429,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBInstanceIdentifier
         {
             get { return this._dbInstanceIdentifier; }
@@ -381,8 +448,8 @@ namespace Amazon.RDS.Model
         /// The name of the DB parameter group to apply to the DB instance. Changing this setting
         /// doesn't result in an outage. The parameter group name itself is changed immediately,
         /// but the actual parameter changes are not applied until you reboot the instance without
-        /// failover. The db instance will NOT be rebooted automatically and the parameter changes
-        /// will NOT be applied during the next maintenance window.
+        /// failover. In this case, the DB instance isn't rebooted automatically and the parameter
+        /// changes isn't applied during the next maintenance window.
         /// </para>
         ///  
         /// <para>
@@ -431,7 +498,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        ///  Valid Values: <code>1150-65535</code> 
+        ///  Valid values: <code>1150-65535</code> 
         /// </para>
         ///  
         /// <para>
@@ -443,7 +510,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        ///  Valid Values: <code>1150-65535</code> 
+        ///  Valid values: <code>1150-65535</code> 
         /// </para>
         ///  
         /// <para>
@@ -455,7 +522,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        ///  Valid Values: <code>1150-65535</code> 
+        ///  Valid values: <code>1150-65535</code> 
         /// </para>
         ///  
         /// <para>
@@ -471,7 +538,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        ///  Valid Values: <code>1150-65535</code> 
+        ///  Valid values: <code>1150-65535</code> 
         /// </para>
         ///  
         /// <para>
@@ -483,9 +550,8 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        ///  Valid Values: <code>1150-65535</code> except for <code>1434</code>, <code>3389</code>,
-        /// <code>47001</code>, <code>49152</code>, and <code>49152</code> through <code>49156</code>.
-        /// 
+        ///  Valid values: <code>1150-65535</code> except <code>1234</code>, <code>1434</code>,
+        /// <code>3260</code>, <code>3343</code>, <code>3389</code>, <code>47001</code>, and <code>49152-49156</code>.
         /// </para>
         ///  
         /// <para>
@@ -497,7 +563,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        ///  Valid Values: <code>1150-65535</code> 
+        ///  Valid values: <code>1150-65535</code> 
         /// </para>
         /// </summary>
         public int DBPortNumber
@@ -544,16 +610,15 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property DBSubnetGroupName. 
         /// <para>
         /// The new DB subnet group for the DB instance. You can use this parameter to move your
-        /// DB instance to a different VPC. If your DB instance is not in a VPC, you can also
-        /// use this parameter to move your DB instance into a VPC. For more information, see
-        /// <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Non-VPC2VPC">Updating
-        /// the VPC for a DB Instance</a>. 
+        /// DB instance to a different VPC. If your DB instance isn't in a VPC, you can also use
+        /// this parameter to move your DB instance into a VPC. For more information, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Non-VPC2VPC">Updating
+        /// the VPC for a DB Instance</a> in the <i>Amazon RDS User Guide.</i> 
         /// </para>
         ///  
         /// <para>
         /// Changing the subnet group causes an outage during the change. The change is applied
-        /// during the next maintenance window, unless you specify <code>true</code> for the <code>ApplyImmediately</code>
-        /// parameter. 
+        /// during the next maintenance window, unless you enable <code>ApplyImmediately</code>.
+        /// 
         /// </para>
         ///  
         /// <para>
@@ -577,12 +642,47 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeletionProtection. 
+        /// <para>
+        /// A value that indicates whether the DB instance has deletion protection enabled. The
+        /// database can't be deleted when deletion protection is enabled. By default, deletion
+        /// protection is disabled. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html">
+        /// Deleting a DB Instance</a>. 
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Domain. 
         /// <para>
-        /// The Active Directory Domain to move the instance to. Specify <code>none</code> to
-        /// remove the instance from its current domain. The domain must be created prior to this
-        /// operation. Currently only a Microsoft SQL Server instance can be created in a Active
-        /// Directory Domain. 
+        /// The Active Directory directory ID to move the DB instance to. Specify <code>none</code>
+        /// to remove the instance from its current domain. The domain must be created prior to
+        /// this operation. Currently, only Microsoft SQL Server and Oracle DB instances can be
+        /// created in an Active Directory Domain. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to
+        /// authenticate users that connect to the DB instance. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
+        /// Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL
+        /// Server</a> in the <i>Amazon RDS User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to authenticate
+        /// users that connect to the DB instance. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
+        /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the <i>Amazon RDS
+        /// User Guide</i>.
         /// </para>
         /// </summary>
         public string Domain
@@ -618,37 +718,15 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property EnableIAMDatabaseAuthentication. 
         /// <para>
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database
-        /// accounts, and otherwise false.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management
+        /// (IAM) accounts to database accounts. By default, mapping is disabled. For information
+        /// about the supported DB engines, see <a>CreateDBInstance</a>.
         /// </para>
         ///  
         /// <para>
-        /// You can enable IAM database authentication for the following database engines
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Amazon Aurora</b> 
-        /// </para>
-        ///  
-        /// <para>
-        /// Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB
-        /// cluster. For more information, see <a>ModifyDBCluster</a>.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>MySQL</b> 
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// For MySQL 5.6, minor version 5.6.34 or higher
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// For MySQL 5.7, minor version 5.7.16 or higher
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// Default: <code>false</code> 
+        /// For more information about IAM database authentication, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
+        /// IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon RDS User
+        /// Guide.</i> 
         /// </para>
         /// </summary>
         public bool EnableIAMDatabaseAuthentication
@@ -666,7 +744,13 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property EnablePerformanceInsights. 
         /// <para>
-        /// True to enable Performance Insights for the DB instance, and otherwise false.
+        /// A value that indicates whether to enable Performance Insights for the DB instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">Using
+        /// Amazon Performance Insights</a> in the <i>Amazon Relational Database Service User
+        /// Guide</i>. 
         /// </para>
         /// </summary>
         public bool EnablePerformanceInsights
@@ -686,8 +770,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The version number of the database engine to upgrade to. Changing this parameter
         /// results in an outage and the change is applied during the next maintenance window
-        /// unless the <code>ApplyImmediately</code> parameter is set to <code>true</code> for
-        /// this request. 
+        /// unless the <code>ApplyImmediately</code> parameter is eanbled for this request. 
         /// </para>
         ///  
         /// <para>
@@ -698,7 +781,8 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// For a list of valid engine versions, see <a>CreateDBInstance</a>.
+        /// For information about valid engine versions, see <code>CreateDBInstance</code>, or
+        /// call <code>DescribeDBEngineVersions</code>.
         /// </para>
         /// </summary>
         public string EngineVersion
@@ -722,9 +806,9 @@ namespace Amazon.RDS.Model
         /// <para>
         /// Changing this setting doesn't result in an outage and the change is applied during
         /// the next maintenance window unless the <code>ApplyImmediately</code> parameter is
-        /// set to <code>true</code> for this request. If you are migrating from Provisioned IOPS
-        /// to standard storage, set this value to 0. The DB instance will require a reboot for
-        /// the change in storage type to take effect. 
+        /// enabled for this request. If you are migrating from Provisioned IOPS to standard storage,
+        /// set this value to 0. The DB instance will require a reboot for the change in storage
+        /// type to take effect. 
         /// </para>
         ///  
         /// <para>
@@ -738,7 +822,7 @@ namespace Amazon.RDS.Model
         /// degradation. While the migration takes place, nightly backups for the instance are
         /// suspended. No other Amazon RDS operations can take place for the instance, including
         /// modifying the instance, rebooting the instance, deleting the instance, creating a
-        /// Read Replica for the instance, and creating a DB snapshot of the instance. 
+        /// read replica for the instance, and creating a DB snapshot of the instance. 
         /// </para>
         ///  
         /// <para>
@@ -807,7 +891,7 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// Not applicable. The password for the master user is managed by the DB cluster. For
-        /// more information, see <a>ModifyDBCluster</a>. 
+        /// more information, see <code>ModifyDBCluster</code>. 
         /// </para>
         ///  
         /// <para>
@@ -874,6 +958,25 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaxAllocatedStorage. 
+        /// <para>
+        /// The upper limit to which Amazon RDS can automatically scale the storage of the DB
+        /// instance.
+        /// </para>
+        /// </summary>
+        public int MaxAllocatedStorage
+        {
+            get { return this._maxAllocatedStorage.GetValueOrDefault(); }
+            set { this._maxAllocatedStorage = value; }
+        }
+
+        // Check to see if MaxAllocatedStorage property is set
+        internal bool IsSetMaxAllocatedStorage()
+        {
+            return this._maxAllocatedStorage.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MonitoringInterval. 
         /// <para>
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected
@@ -907,8 +1010,9 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon
         /// CloudWatch Logs. For example, <code>arn:aws:iam:123456789012:role/emaccess</code>.
-        /// For information on creating a monitoring role, go to <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.html#USER_Monitoring.OS.IAMRole">To
-        /// create an IAM role for Amazon RDS Enhanced Monitoring</a>.
+        /// For information on creating a monitoring role, go to <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.html#USER_Monitoring.OS.IAMRole">To
+        /// create an IAM role for Amazon RDS Enhanced Monitoring</a> in the <i>Amazon RDS User
+        /// Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -931,10 +1035,10 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        /// Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter doesn't
-        /// result in an outage and the change is applied during the next maintenance window unless
-        /// the <code>ApplyImmediately</code> parameter is set to <code>true</code> for this request.
-        /// 
+        /// A value that indicates whether the DB instance is a Multi-AZ deployment. Changing
+        /// this parameter doesn't result in an outage and the change is applied during the next
+        /// maintenance window unless the <code>ApplyImmediately</code> parameter is enabled for
+        /// this request. 
         /// </para>
         /// </summary>
         public bool MultiAZ
@@ -953,10 +1057,9 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property NewDBInstanceIdentifier. 
         /// <para>
         ///  The new DB instance identifier for the DB instance when renaming a DB instance. When
-        /// you change the DB instance identifier, an instance reboot will occur immediately if
-        /// you set <code>Apply Immediately</code> to true, or will occur during the next maintenance
-        /// window if <code>Apply Immediately</code> to false. This value is stored as a lowercase
-        /// string. 
+        /// you change the DB instance identifier, an instance reboot occurs immediately if you
+        /// enable <code>ApplyImmediately</code>, or will occur during the next maintenance window
+        /// if you disable Apply Immediately. This value is stored as a lowercase string. 
         /// </para>
         ///  
         /// <para>
@@ -972,7 +1075,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens.
+        /// Can't end with a hyphen or contain two consecutive hyphens.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -997,10 +1100,9 @@ namespace Amazon.RDS.Model
         ///  Indicates that the DB instance should be associated with the specified option group.
         /// Changing this parameter doesn't result in an outage except in the following case and
         /// the change is applied during the next maintenance window unless the <code>ApplyImmediately</code>
-        /// parameter is set to <code>true</code> for this request. If the parameter change results
-        /// in an option group that enables OEM, this change can cause a brief (sub-second) period
-        /// during which new connections are rejected but existing connections are not interrupted.
-        /// 
+        /// parameter is enabled for this request. If the parameter change results in an option
+        /// group that enables OEM, this change can cause a brief (sub-second) period during which
+        /// new connections are rejected but existing connections are not interrupted. 
         /// </para>
         ///  
         /// <para>
@@ -1028,6 +1130,13 @@ namespace Amazon.RDS.Model
         /// ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for
         /// the KMS encryption key.
         /// </para>
+        ///  
+        /// <para>
+        /// If you do not specify a value for <code>PerformanceInsightsKMSKeyId</code>, then Amazon
+        /// RDS uses your default encryption key. AWS KMS creates the default encryption key for
+        /// your AWS account. Your AWS account has a different default encryption key for each
+        /// AWS Region.
+        /// </para>
         /// </summary>
         public string PerformanceInsightsKMSKeyId
         {
@@ -1039,6 +1148,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetPerformanceInsightsKMSKeyId()
         {
             return this._performanceInsightsKMSKeyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PerformanceInsightsRetentionPeriod. 
+        /// <para>
+        /// The amount of time, in days, to retain Performance Insights data. Valid values are
+        /// 7 or 731 (2 years). 
+        /// </para>
+        /// </summary>
+        public int PerformanceInsightsRetentionPeriod
+        {
+            get { return this._performanceInsightsRetentionPeriod.GetValueOrDefault(); }
+            set { this._performanceInsightsRetentionPeriod = value; }
+        }
+
+        // Check to see if PerformanceInsightsRetentionPeriod property is set
+        internal bool IsSetPerformanceInsightsRetentionPeriod()
+        {
+            return this._performanceInsightsRetentionPeriod.HasValue; 
         }
 
         /// <summary>
@@ -1056,7 +1184,7 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// Not applicable. The daily time range for creating automated backups is managed by
-        /// the DB cluster. For more information, see <a>ModifyDBCluster</a>.
+        /// the DB cluster. For more information, see <code>ModifyDBCluster</code>.
         /// </para>
         ///  
         /// <para>
@@ -1134,12 +1262,32 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ProcessorFeatures. 
+        /// <para>
+        /// The number of CPU cores and the number of threads per core for the DB instance class
+        /// of the DB instance.
+        /// </para>
+        /// </summary>
+        public List<ProcessorFeature> ProcessorFeatures
+        {
+            get { return this._processorFeatures; }
+            set { this._processorFeatures = value; }
+        }
+
+        // Check to see if ProcessorFeatures property is set
+        internal bool IsSetProcessorFeatures()
+        {
+            return this._processorFeatures != null && this._processorFeatures.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PromotionTier. 
         /// <para>
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary
         /// instance after a failure of the existing primary instance. For more information, see
-        /// <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Aurora.Managing.html#Aurora.Managing.FaultTolerance">
-        /// Fault Tolerance for an Aurora DB Cluster</a>. 
+        /// <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.FaultTolerance">
+        /// Fault Tolerance for an Aurora DB Cluster</a> in the <i>Amazon Aurora User Guide</i>.
+        /// 
         /// </para>
         ///  
         /// <para>
@@ -1165,25 +1313,22 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property PubliclyAccessible. 
         /// <para>
-        /// Boolean value that indicates if the DB instance has a publicly resolvable DNS name.
-        /// Set to <code>True</code> to make the DB instance Internet-facing with a publicly resolvable
-        /// DNS name, which resolves to a public IP address. Set to <code>False</code> to make
-        /// the DB instance internal with a DNS name that resolves to a private IP address. 
+        /// A value that indicates whether the DB instance is publicly accessible. When the DB
+        /// instance is publicly accessible, it is an Internet-facing instance with a publicly
+        /// resolvable DNS name, which resolves to a public IP address. When the DB instance isn't
+        /// publicly accessible, it is an internal instance with a DNS name that resolves to a
+        /// private IP address. 
         /// </para>
         ///  
         /// <para>
         ///  <code>PubliclyAccessible</code> only applies to DB instances in a VPC. The DB instance
-        /// must be part of a public subnet and <code>PubliclyAccessible</code> must be true in
-        /// order for it to be publicly accessible. 
+        /// must be part of a public subnet and <code>PubliclyAccessible</code> must be enabled
+        /// for it to be publicly accessible. 
         /// </para>
         ///  
         /// <para>
         /// Changes to the <code>PubliclyAccessible</code> parameter are applied immediately regardless
         /// of the value of the <code>ApplyImmediately</code> parameter.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: false
         /// </para>
         /// </summary>
         public bool PubliclyAccessible
@@ -1220,7 +1365,7 @@ namespace Amazon.RDS.Model
         /// degradation. While the migration takes place, nightly backups for the instance are
         /// suspended. No other Amazon RDS operations can take place for the instance, including
         /// modifying the instance, rebooting the instance, deleting the instance, creating a
-        /// Read Replica for the instance, and creating a DB snapshot of the instance. 
+        /// read replica for the instance, and creating a DB snapshot of the instance. 
         /// </para>
         ///  
         /// <para>
@@ -1229,7 +1374,7 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// Default: <code>io1</code> if the <code>Iops</code> parameter is specified, otherwise
-        /// <code>standard</code> 
+        /// <code>gp2</code> 
         /// </para>
         /// </summary>
         public string StorageType
@@ -1281,6 +1426,25 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property UseDefaultProcessorFeatures. 
+        /// <para>
+        /// A value that indicates whether the DB instance class of the DB instance uses its default
+        /// processor features.
+        /// </para>
+        /// </summary>
+        public bool UseDefaultProcessorFeatures
+        {
+            get { return this._useDefaultProcessorFeatures.GetValueOrDefault(); }
+            set { this._useDefaultProcessorFeatures = value; }
+        }
+
+        // Check to see if UseDefaultProcessorFeatures property is set
+        internal bool IsSetUseDefaultProcessorFeatures()
+        {
+            return this._useDefaultProcessorFeatures.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property VpcSecurityGroupIds. 
         /// <para>
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is
@@ -1293,7 +1457,7 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// Not applicable. The associated list of EC2 VPC security groups is managed by the DB
-        /// cluster. For more information, see <a>ModifyDBCluster</a>.
+        /// cluster. For more information, see <code>ModifyDBCluster</code>.
         /// </para>
         ///  
         /// <para>

@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  Copyright 2008-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *  Copyright 2008-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use
  *  this file except in compliance with the License. A copy of the License is located at
  *
@@ -109,6 +109,51 @@ namespace Amazon.S3
         /// <param name="value"></param>
         /// <returns></returns>
         public static implicit operator BucketAccelerateStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// The status of the delete marker replication.
+    /// </summary>
+    public sealed class DeleteMarkerReplicationStatus : ConstantClass
+    {
+        /// <summary>
+        /// Delete marker replication is enabled.
+        /// </summary>
+        public static readonly DeleteMarkerReplicationStatus Enabled = new DeleteMarkerReplicationStatus("Enabled");
+
+        /// <summary>
+        /// Delete marker replication is disabled.
+        /// </summary>
+        public static readonly DeleteMarkerReplicationStatus Disabled = new DeleteMarkerReplicationStatus("Disabled");
+
+        /// <summary>
+        /// Construct instance of DeleteMarkerReplicationStatus. It is not intended for this constructor to be called. Instead users should call the FindValue.
+        /// </summary>
+        /// <param name="value"></param>
+        public DeleteMarkerReplicationStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static DeleteMarkerReplicationStatus FindValue(string value)
+        {
+            return FindValue<DeleteMarkerReplicationStatus>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to a DeleteMarkerReplicationStatus
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static implicit operator DeleteMarkerReplicationStatus(string value)
         {
             return FindValue(value);
         }
@@ -230,6 +275,10 @@ namespace Amazon.S3
         /// </summary>
         public static readonly S3Region EU = new S3Region("EU");
         /// <summary>
+        /// Specifies that the S3 Bucket should use the EU-NORTH-1 locality.
+        /// </summary>
+        public static readonly S3Region EUN1 = new S3Region("eu-north-1");
+        /// <summary>
         /// Specifies that the S3 Bucket should use the EU-WEST-1 locality.
         /// </summary>
         public static readonly S3Region EUW1 = new S3Region("eu-west-1");
@@ -253,10 +302,18 @@ namespace Amazon.S3
         /// Specifies that the S3 Bucket should use US-WEST-2 locality.
         /// </summary>
         public static readonly S3Region USW2 = new S3Region("us-west-2");
+		/// <summary>
+        /// Specifies that the S3 Bucket should use US-GOV-EAST-1 locality.
+        /// </summary>
+        public static readonly S3Region GOVE1 = new S3Region("us-gov-east-1");
         /// <summary>
         /// Specifies that the S3 Bucket should use US-GOV-WEST-1 locality.
         /// </summary>
         public static readonly S3Region GOVW1 = new S3Region("us-gov-west-1");
+        /// <summary>
+        /// Specifies that the S3 Bucket should use the AP-EAST-1 locality.
+        /// </summary>
+        public static readonly S3Region APE1 = new S3Region("ap-east-1"); 
         /// <summary>
         /// Specifies that the S3 Bucket should use the AP-SOUTHEAST-1 locality.
         /// </summary>
@@ -273,6 +330,10 @@ namespace Amazon.S3
         /// Specifies that the S3 Bucket should use the AP-NORTHEAST-2 locality.
         /// </summary>
         public static readonly S3Region APN2 = new S3Region("ap-northeast-2");
+        /// <summary>
+        /// Specifies that the S3 Bucket should use the AP-NORTHEAST-3 locality.
+        /// </summary>
+        public static readonly S3Region APN3 = new S3Region("ap-northeast-3");
         /// <summary>
         /// Specifies that the S3 Bucket should use the AP-SOUTH-1 locality.
         /// </summary>
@@ -537,6 +598,23 @@ namespace Amazon.S3
         /// Durability 99.999999999%; Availability 99% over a given year.
         /// </summary>
         public static readonly S3StorageClass OneZoneInfrequentAccess = new S3StorageClass("ONEZONE_IA");
+
+        /// <summary>
+        /// IntelligentTiering makes it easy to lower your overall cost of storage by automatically placing data in the storage
+        /// class that best matches the access patterns for the storage. With IntelligentTiering, you don’t need to define
+        /// and manage individual policies for lifecycle data management or write code to transition objects
+        /// between storage classes. Instead, you can use IntelligentTiering to manage transitions between Standard and
+        /// S-IA without writing any application code. IntelligentTiering also manages transitions automatically to
+        /// Glacier for long term archive in addition to S3 storage classes.
+        /// </summary>
+        public static readonly S3StorageClass IntelligentTiering = new S3StorageClass("INTELLIGENT_TIERING");
+
+        /// <summary>
+        /// S3 Glacier Deep Archive provides secure, durable object storage class for long term data archival.
+        /// It is the ideal storage class to make an archival, durable copy of data that rarely, if ever, needs to be accessed.
+        /// It can be used as an offline backup for their most important data assets and to meet long-term retention needs.
+        /// </summary>
+        public static readonly S3StorageClass DeepArchive = new S3StorageClass("DEEP_ARCHIVE");
 
         /// <summary>
         /// Construct an instance of S3StorageClass.
@@ -868,7 +946,7 @@ namespace Amazon.S3
     }
 
     /// <summary>
-    /// A list of all event types that can configured with the bucket notification configuration.
+    /// The bucket event for which to send notifications.
     /// </summary>
     public sealed class EventType : ConstantClass
     {
@@ -911,11 +989,51 @@ namespace Amazon.S3
         /// Event for object removed, delete marker created operation.
         /// </summary>
         public static readonly EventType ObjectRemovedDeleteMarkerCreated = new EventType("s3:ObjectRemoved:DeleteMarkerCreated");
-		
+
         /// <summary>
         /// Event for objects stored in reduced redundancy and S3 detects the object is lost
         /// </summary>
         public static readonly EventType ReducedRedundancyLostObject = new EventType("s3:ReducedRedundancyLostObject");
+
+        /// <summary>
+        /// Event for all object restore
+        /// </summary>
+        public static readonly EventType ObjectRestoreAll = new EventType("s3:ObjectRestore:*");
+
+        /// <summary>
+        /// Event for restore post operations.
+        /// </summary>
+        public static readonly EventType ObjectRestorePost = new EventType("s3:ObjectRestore:Post");
+
+        /// <summary>
+        /// Event for when object restore is completed.
+        /// </summary>
+        public static readonly EventType ObjectRestoreCompleted = new EventType("s3:ObjectRestore:Completed");
+
+        /// <summary>
+        /// Event for replication of all
+        /// </summary>
+        public static readonly EventType ReplicationAll = new EventType("s3:Replication:*");
+
+        /// <summary>
+        /// Event for operation failed replication
+        /// </summary>
+        public static readonly EventType ReplicationOperationFailedReplication = new EventType("s3:Replication:OperationFailedReplication");
+
+        /// <summary>
+        /// Evemt for replication operation not tracked
+        /// </summary>
+        public static readonly EventType ReplicationOperationNotTracked = new EventType("s3:Replication:OperationNotTracked");
+
+        /// <summary>
+        /// Event for replication operation missed threshold
+        /// </summary>
+        public static readonly EventType ReplicationOperationMissedThreshold = new EventType("s3:Replication:OperationMissedThreshold");
+
+        /// <summary>
+        /// Event for operation replicated after threshold
+        /// </summary>
+        public static readonly EventType ReplicationOperationReplicatedAfterThreshold = new EventType("s3:Replication:OperationReplicatedAfterThreshold");
 
         /// <summary>
         /// Constructs instance of EventType.
@@ -995,11 +1113,16 @@ namespace Amazon.S3
         ///  CSV inventory format
         /// </summary>
         public static readonly InventoryFormat CSV = new InventoryFormat("CSV");
-        
+
         /// <summary>
-        ///  CSV inventory format
+        ///  ORC inventory format
         /// </summary>
         public static readonly InventoryFormat ORC = new InventoryFormat("ORC");
+
+        /// <summary>
+        ///  Parquet inventory format
+        /// </summary>
+        public static readonly InventoryFormat Parquet = new InventoryFormat("Parquet");
 
         /// <summary>
         /// Construct instance of InventoryFormat.
@@ -1161,6 +1284,27 @@ namespace Amazon.S3
         ///  InventoryOptionalField for EncryptionStatus
         /// </summary>
         public static readonly InventoryOptionalField EncryptionStatus = new InventoryOptionalField("EncryptionStatus");
+        
+        /// <summary>
+        ///  InventoryOptionalField for ObjectLockRetainUntilDate
+        /// </summary>
+        public static readonly InventoryOptionalField ObjectLockRetainUntilDate = new InventoryOptionalField("ObjectLockRetainUntilDate");
+
+        /// <summary>
+        ///  InventoryOptionalField for ObjectLockMode
+        /// </summary>
+        public static readonly InventoryOptionalField ObjectLockMode = new InventoryOptionalField("ObjectLockMode");
+
+        /// <summary>
+        ///  InventoryOptionalField for ObjectLockLegalHoldStatus
+        /// </summary>
+        public static readonly InventoryOptionalField ObjectLockLegalHoldStatus = new InventoryOptionalField("ObjectLockLegalHoldStatus");
+
+        /// <summary>
+        /// InventoryOptionalField for IntelligentTieringAccessTier
+        /// </summary>
+        public static readonly InventoryOptionalField IntelligentTieringAccessTier = new InventoryOptionalField("IntelligentTieringAccessTier");
+
         /// <summary>
         /// Construct instance of InventoryOptionalField.
         /// </summary>
@@ -1630,6 +1774,45 @@ namespace Amazon.S3
     }
 
     /// <summary>
+    /// Specifies whether existing object replication is enabled.
+    /// </summary>
+    public sealed class ExistingObjectReplicationStatus : ConstantClass
+    {
+        /// <summary>
+        /// Enable the replication of existing objects
+        /// </summary>
+        public static readonly ExistingObjectReplicationStatus Enabled = new ExistingObjectReplicationStatus("Enabled");
+
+        /// <summary>
+        /// Disable the replication of existing objects
+        /// </summary>
+        public static readonly ExistingObjectReplicationStatus Disabled = new ExistingObjectReplicationStatus("Disabled");
+
+        private ExistingObjectReplicationStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the ExistingObjectReplicationStatus instance for the string value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ExistingObjectReplicationStatus FindValue(string value)
+        {
+            return FindValue<ExistingObjectReplicationStatus>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to ExistingObjectReplicationStatus instance
+        /// </summary>
+        public static implicit operator ExistingObjectReplicationStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
     /// Describes when fields in output should be surrounded with quotes.
     /// </summary>
     public sealed class QuoteFields : ConstantClass
@@ -1726,6 +1909,268 @@ namespace Amazon.S3
         /// Converts the string to RestoreRequestType instance
         /// </summary>
         public static implicit operator RestoreRequestType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// The type of JSON.
+    /// </summary>
+    public sealed class JsonType : ConstantClass
+    {
+        public static readonly JsonType Document = new JsonType("DOCUMENT");
+        public static readonly JsonType Lines = new JsonType("LINES");
+
+        private JsonType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the JsonType instance for the string value
+        /// </summary>
+        public static JsonType FindValue(string value)
+        {
+            return FindValue<JsonType>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to JsonType instance
+        /// </summary>
+        public static implicit operator JsonType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// Specifies object's compression format.
+    /// </summary>
+    public sealed class CompressionType : ConstantClass
+    {
+        public static readonly CompressionType None = new CompressionType("NONE");
+        public static readonly CompressionType Gzip = new CompressionType("GZIP");
+        public static readonly CompressionType Bzip2 = new CompressionType("BZIP2");
+
+        private CompressionType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the CompressionType instance for the string value
+        /// </summary>
+        public static CompressionType FindValue(string value)
+        {
+            return FindValue<CompressionType>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to CompressionType instance
+        /// </summary>
+        public static implicit operator CompressionType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// The type of ObjectLockEnabled
+    /// </summary>
+    public sealed class ObjectLockEnabled : ConstantClass
+    {        
+        public static readonly ObjectLockEnabled Enabled = new ObjectLockEnabled("Enabled");
+        
+        public ObjectLockEnabled(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the ObjectLockEnabled instance for the string value
+        /// </summary>
+        public static ObjectLockEnabled FindValue(string value)
+        {
+            return FindValue<ObjectLockEnabled>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to ObjectLockEnabled instance
+        /// </summary>
+        public static implicit operator ObjectLockEnabled(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// The type of ObjectLockLegalHoldStatus
+    /// </summary>
+    public sealed class ObjectLockLegalHoldStatus : ConstantClass
+    {        
+        public static readonly ObjectLockLegalHoldStatus On = new ObjectLockLegalHoldStatus("ON");
+        public static readonly ObjectLockLegalHoldStatus Off = new ObjectLockLegalHoldStatus("OFF");
+        
+        public ObjectLockLegalHoldStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the ObjectLockLegalHoldStatus instance for the string value
+        /// </summary>
+        public static ObjectLockLegalHoldStatus FindValue(string value)
+        {
+            return FindValue<ObjectLockLegalHoldStatus>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to ObjectLockLegalHoldStatus instance
+        /// </summary>
+        public static implicit operator ObjectLockLegalHoldStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// The type of ObjectLockRetentionMode
+    /// </summary>
+    public sealed class ObjectLockRetentionMode : ConstantClass
+    {        
+        public static readonly ObjectLockRetentionMode Governance = new ObjectLockRetentionMode("GOVERNANCE");
+        public static readonly ObjectLockRetentionMode Compliance = new ObjectLockRetentionMode("COMPLIANCE");
+        
+        public ObjectLockRetentionMode(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the ObjectLockRetentionMode instance for the string value
+        /// </summary>
+        public static ObjectLockRetentionMode FindValue(string value)
+        {
+            return FindValue<ObjectLockRetentionMode>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to ObjectLockRetentionMode instance
+        /// </summary>
+        public static implicit operator ObjectLockRetentionMode(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// The type of ObjectLockMode
+    /// </summary>
+    public sealed class ObjectLockMode : ConstantClass
+    {        
+        public static readonly ObjectLockMode Governance = new ObjectLockMode("GOVERNANCE");
+        public static readonly ObjectLockMode Compliance = new ObjectLockMode("COMPLIANCE");
+        
+        public ObjectLockMode(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the ObjectLockMode instance for the string value
+        /// </summary>
+        public static ObjectLockMode FindValue(string value)
+        {
+            return FindValue<ObjectLockMode>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to ObjectLockMode instance
+        /// </summary>
+        public static implicit operator ObjectLockMode(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// Specifies whether the replication time is enabled.
+    /// </summary>
+    public sealed class ReplicationTimeStatus : ConstantClass
+    {
+        public ReplicationTimeStatus(string value)
+            : base(value)
+        {
+
+        }
+
+        /// <summary>
+        /// Replication time is enabled.
+        /// </summary>
+        public static readonly ReplicationTimeStatus Enabled = new ReplicationTimeStatus("Enabled");
+
+        /// <summary>
+        /// Replication time is disabled.
+        /// </summary>
+        public static readonly ReplicationTimeStatus Disabled = new ReplicationTimeStatus("Disabled");
+
+        /// <summary>
+        /// Finds the ReplicationTimeStatus instance for the string value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ReplicationTimeStatus FindValue(string value)
+        {
+            return FindValue<ReplicationTimeStatus>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to ReplicationTimeStatus instance
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator ReplicationTimeStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+    /// <summary>
+    /// Specifies whether the replication metrics are enabled.
+    /// </summary>
+    public sealed class MetricsStatus : ConstantClass
+    {
+        private MetricsStatus(string value)
+            : base(value)
+        {
+
+        }
+
+        /// <summary>
+        /// Replication metrics are enabled.
+        /// </summary>
+        public static readonly MetricsStatus Enabled = new MetricsStatus("Enabled");
+
+        /// <summary>
+        /// Replication metrics are disabled.
+        /// </summary>
+        public static readonly MetricsStatus Disabled = new MetricsStatus("Disabled");
+
+        /// <summary>
+        /// Finds the MetricsStatus instance for the string value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static MetricsStatus FindValue(string value)
+        {
+            return FindValue<MetricsStatus>(value);
+        }
+
+        /// <summary>
+        /// Converts the string to MetricsStatus instance
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator MetricsStatus(string value)
         {
             return FindValue(value);
         }

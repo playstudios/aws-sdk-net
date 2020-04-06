@@ -28,21 +28,25 @@ using Amazon.Runtime.Internal;
 namespace Amazon.RDS.Model
 {
     /// <summary>
-    /// This data type is used as a response element in the following actions:
+    /// This data type represents the information you need to connect to an Amazon RDS DB
+    /// instance. This data type is used as a response element in the following actions:
     /// 
     ///  <ul> <li> 
     /// <para>
-    ///  <a>CreateDBInstance</a> 
+    ///  <code>CreateDBInstance</code> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>DescribeDBInstances</a> 
+    ///  <code>DescribeDBInstances</code> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>DeleteDBInstance</a> 
+    ///  <code>DeleteDBInstance</code> 
     /// </para>
-    ///  </li> </ul>
+    ///  </li> </ul> 
+    /// <para>
+    /// For the data structure that represents Amazon Aurora DB cluster endpoints, see <code>DBClusterEndpoint</code>.
+    /// </para>
     /// </summary>
     public partial class Endpoint
     {

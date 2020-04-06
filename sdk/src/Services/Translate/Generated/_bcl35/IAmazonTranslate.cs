@@ -29,51 +29,491 @@ namespace Amazon.Translate
     /// <summary>
     /// Interface for accessing Translate
     ///
-    /// Provides translation between English and one of six languages, or between one of the
-    /// six languages and English.
+    /// Provides translation between one source language and another of the same set of languages.
     /// </summary>
     public partial interface IAmazonTranslate : IAmazonService, IDisposable
     {
 
         
+        #region  DeleteTerminology
+
+
+        /// <summary>
+        /// A synchronous action that deletes a custom terminology.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTerminology service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTerminology service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.ResourceNotFoundException">
+        /// The resource you are looking for has not been found. Review the resource you're looking
+        /// for and see if a different resource will accomplish your needs before retrying the
+        /// revised request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/DeleteTerminology">REST API Reference for DeleteTerminology Operation</seealso>
+        DeleteTerminologyResponse DeleteTerminology(DeleteTerminologyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTerminology operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTerminology operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTerminology
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/DeleteTerminology">REST API Reference for DeleteTerminology Operation</seealso>
+        IAsyncResult BeginDeleteTerminology(DeleteTerminologyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTerminology operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTerminology.</param>
+        /// 
+        /// <returns>Returns a  DeleteTerminologyResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/DeleteTerminology">REST API Reference for DeleteTerminology Operation</seealso>
+        DeleteTerminologyResponse EndDeleteTerminology(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTextTranslationJob
+
+
+        /// <summary>
+        /// Gets the properties associated with an asycnhronous batch translation job including
+        /// name, ID, status, source and target languages, input/output S3 buckets, and so on.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTextTranslationJob service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTextTranslationJob service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.ResourceNotFoundException">
+        /// The resource you are looking for has not been found. Review the resource you're looking
+        /// for and see if a different resource will accomplish your needs before retrying the
+        /// revised request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/DescribeTextTranslationJob">REST API Reference for DescribeTextTranslationJob Operation</seealso>
+        DescribeTextTranslationJobResponse DescribeTextTranslationJob(DescribeTextTranslationJobRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTextTranslationJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTextTranslationJob operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTextTranslationJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/DescribeTextTranslationJob">REST API Reference for DescribeTextTranslationJob Operation</seealso>
+        IAsyncResult BeginDescribeTextTranslationJob(DescribeTextTranslationJobRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTextTranslationJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTextTranslationJob.</param>
+        /// 
+        /// <returns>Returns a  DescribeTextTranslationJobResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/DescribeTextTranslationJob">REST API Reference for DescribeTextTranslationJob Operation</seealso>
+        DescribeTextTranslationJobResponse EndDescribeTextTranslationJob(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetTerminology
+
+
+        /// <summary>
+        /// Retrieves a custom terminology.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTerminology service method.</param>
+        /// 
+        /// <returns>The response from the GetTerminology service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.InvalidParameterValueException">
+        /// The value of the parameter is invalid. Review the value of the parameter you are using
+        /// to correct it, and then retry your operation.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.ResourceNotFoundException">
+        /// The resource you are looking for has not been found. Review the resource you're looking
+        /// for and see if a different resource will accomplish your needs before retrying the
+        /// revised request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/GetTerminology">REST API Reference for GetTerminology Operation</seealso>
+        GetTerminologyResponse GetTerminology(GetTerminologyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTerminology operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTerminology operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTerminology
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/GetTerminology">REST API Reference for GetTerminology Operation</seealso>
+        IAsyncResult BeginGetTerminology(GetTerminologyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTerminology operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTerminology.</param>
+        /// 
+        /// <returns>Returns a  GetTerminologyResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/GetTerminology">REST API Reference for GetTerminology Operation</seealso>
+        GetTerminologyResponse EndGetTerminology(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ImportTerminology
+
+
+        /// <summary>
+        /// Creates or updates a custom terminology, depending on whether or not one already exists
+        /// for the given terminology name. Importing a terminology with the same name as an existing
+        /// one will merge the terminologies based on the chosen merge strategy. Currently, the
+        /// only supported merge strategy is OVERWRITE, and so the imported terminology will overwrite
+        /// an existing terminology of the same name.
+        /// 
+        ///  
+        /// <para>
+        /// If you import a terminology that overwrites an existing one, the new terminology take
+        /// up to 10 minutes to fully propagate and be available for use in a translation due
+        /// to cache policies with the DataPlane service that performs the translations.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ImportTerminology service method.</param>
+        /// 
+        /// <returns>The response from the ImportTerminology service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.InvalidParameterValueException">
+        /// The value of the parameter is invalid. Review the value of the parameter you are using
+        /// to correct it, and then retry your operation.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.LimitExceededException">
+        /// The specified limit has been exceeded. Review your request and retry it with a quantity
+        /// below the stated limit.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ImportTerminology">REST API Reference for ImportTerminology Operation</seealso>
+        ImportTerminologyResponse ImportTerminology(ImportTerminologyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ImportTerminology operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ImportTerminology operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndImportTerminology
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ImportTerminology">REST API Reference for ImportTerminology Operation</seealso>
+        IAsyncResult BeginImportTerminology(ImportTerminologyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ImportTerminology operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginImportTerminology.</param>
+        /// 
+        /// <returns>Returns a  ImportTerminologyResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ImportTerminology">REST API Reference for ImportTerminology Operation</seealso>
+        ImportTerminologyResponse EndImportTerminology(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTerminologies
+
+
+        /// <summary>
+        /// Provides a list of custom terminologies associated with your account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTerminologies service method.</param>
+        /// 
+        /// <returns>The response from the ListTerminologies service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.InvalidParameterValueException">
+        /// The value of the parameter is invalid. Review the value of the parameter you are using
+        /// to correct it, and then retry your operation.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ListTerminologies">REST API Reference for ListTerminologies Operation</seealso>
+        ListTerminologiesResponse ListTerminologies(ListTerminologiesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTerminologies operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTerminologies operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTerminologies
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ListTerminologies">REST API Reference for ListTerminologies Operation</seealso>
+        IAsyncResult BeginListTerminologies(ListTerminologiesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTerminologies operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTerminologies.</param>
+        /// 
+        /// <returns>Returns a  ListTerminologiesResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ListTerminologies">REST API Reference for ListTerminologies Operation</seealso>
+        ListTerminologiesResponse EndListTerminologies(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTextTranslationJobs
+
+
+        /// <summary>
+        /// Gets a list of the batch translation jobs that you have submitted.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTextTranslationJobs service method.</param>
+        /// 
+        /// <returns>The response from the ListTextTranslationJobs service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.InvalidFilterException">
+        /// The filter specified for the operation is invalid. Specify a different filter.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.InvalidRequestException">
+        /// The request that you made is invalid. Check your request to determine why it's invalid
+        /// and then retry the request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ListTextTranslationJobs">REST API Reference for ListTextTranslationJobs Operation</seealso>
+        ListTextTranslationJobsResponse ListTextTranslationJobs(ListTextTranslationJobsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTextTranslationJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTextTranslationJobs operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTextTranslationJobs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ListTextTranslationJobs">REST API Reference for ListTextTranslationJobs Operation</seealso>
+        IAsyncResult BeginListTextTranslationJobs(ListTextTranslationJobsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTextTranslationJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTextTranslationJobs.</param>
+        /// 
+        /// <returns>Returns a  ListTextTranslationJobsResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/ListTextTranslationJobs">REST API Reference for ListTextTranslationJobs Operation</seealso>
+        ListTextTranslationJobsResponse EndListTextTranslationJobs(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StartTextTranslationJob
+
+
+        /// <summary>
+        /// Starts an asynchronous batch translation job. Batch translation jobs can be used to
+        /// translate large volumes of text across multiple documents at once. For more information,
+        /// see <a>async</a>.
+        /// 
+        ///  
+        /// <para>
+        /// Batch translation jobs can be described with the <a>DescribeTextTranslationJob</a>
+        /// operation, listed with the <a>ListTextTranslationJobs</a> operation, and stopped with
+        /// the <a>StopTextTranslationJob</a> operation.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Amazon Translate does not support batch translation of multiple source languages at
+        /// once.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartTextTranslationJob service method.</param>
+        /// 
+        /// <returns>The response from the StartTextTranslationJob service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.InvalidRequestException">
+        /// The request that you made is invalid. Check your request to determine why it's invalid
+        /// and then retry the request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.ResourceNotFoundException">
+        /// The resource you are looking for has not been found. Review the resource you're looking
+        /// for and see if a different resource will accomplish your needs before retrying the
+        /// revised request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.UnsupportedLanguagePairException">
+        /// Amazon Translate does not support translation from the language of the source text
+        /// into the requested target language. For more information, see <a>how-to-error-msg</a>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/StartTextTranslationJob">REST API Reference for StartTextTranslationJob Operation</seealso>
+        StartTextTranslationJobResponse StartTextTranslationJob(StartTextTranslationJobRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartTextTranslationJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartTextTranslationJob operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartTextTranslationJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/StartTextTranslationJob">REST API Reference for StartTextTranslationJob Operation</seealso>
+        IAsyncResult BeginStartTextTranslationJob(StartTextTranslationJobRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartTextTranslationJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartTextTranslationJob.</param>
+        /// 
+        /// <returns>Returns a  StartTextTranslationJobResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/StartTextTranslationJob">REST API Reference for StartTextTranslationJob Operation</seealso>
+        StartTextTranslationJobResponse EndStartTextTranslationJob(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StopTextTranslationJob
+
+
+        /// <summary>
+        /// Stops an asynchronous batch translation job that is in progress.
+        /// 
+        ///  
+        /// <para>
+        /// If the job's state is <code>IN_PROGRESS</code>, the job will be marked for termination
+        /// and put into the <code>STOP_REQUESTED</code> state. If the job completes before it
+        /// can be stopped, it is put into the <code>COMPLETED</code> state. Otherwise, the job
+        /// is put into the <code>STOPPED</code> state.
+        /// </para>
+        ///  
+        /// <para>
+        /// Asynchronous batch translation jobs are started with the <a>StartTextTranslationJob</a>
+        /// operation. You can use the <a>DescribeTextTranslationJob</a> or <a>ListTextTranslationJobs</a>
+        /// operations to get a batch translation job's <code>JobId</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopTextTranslationJob service method.</param>
+        /// 
+        /// <returns>The response from the StopTextTranslationJob service method, as returned by Translate.</returns>
+        /// <exception cref="Amazon.Translate.Model.InternalServerException">
+        /// An internal server error occurred. Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.ResourceNotFoundException">
+        /// The resource you are looking for has not been found. Review the resource you're looking
+        /// for and see if a different resource will accomplish your needs before retrying the
+        /// revised request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/StopTextTranslationJob">REST API Reference for StopTextTranslationJob Operation</seealso>
+        StopTextTranslationJobResponse StopTextTranslationJob(StopTextTranslationJobRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopTextTranslationJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopTextTranslationJob operation on AmazonTranslateClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopTextTranslationJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/StopTextTranslationJob">REST API Reference for StopTextTranslationJob Operation</seealso>
+        IAsyncResult BeginStopTextTranslationJob(StopTextTranslationJobRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopTextTranslationJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopTextTranslationJob.</param>
+        /// 
+        /// <returns>Returns a  StopTextTranslationJobResult from Translate.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/StopTextTranslationJob">REST API Reference for StopTextTranslationJob Operation</seealso>
+        StopTextTranslationJobResponse EndStopTextTranslationJob(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  TranslateText
 
 
         /// <summary>
-        /// Translates input text from the source language to the target language. You can translate
-        /// between English (en) and one of the following languages, or between one of the following
-        /// languages and English.
-        /// 
-        ///  <ul> <li> 
-        /// <para>
-        /// Arabic (ar)
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// Chinese (Simplified) (zh)
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// French (fr)
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// German (de)
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// Portuguese (pt)
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// Spanish (es)
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// To have Amazon Translate determine the source language of your text, you can specify
-        /// <code>auto</code> in the <code>SourceLanguageCode</code> field. If you specify <code>auto</code>,
-        /// Amazon Translate will call Amazon Comprehend to determine the source language.
-        /// </para>
+        /// Translates input text from the source language to the target language. For a list
+        /// of available languages and language codes, see <a>what-is-languages</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TranslateText service method.</param>
         /// 
@@ -89,21 +529,29 @@ namespace Amazon.Translate
         /// An internal server error occurred. Retry your request.
         /// </exception>
         /// <exception cref="Amazon.Translate.Model.InvalidRequestException">
-        /// The request is invalid.
+        /// The request that you made is invalid. Check your request to determine why it's invalid
+        /// and then retry the request.
+        /// </exception>
+        /// <exception cref="Amazon.Translate.Model.ResourceNotFoundException">
+        /// The resource you are looking for has not been found. Review the resource you're looking
+        /// for and see if a different resource will accomplish your needs before retrying the
+        /// revised request.
         /// </exception>
         /// <exception cref="Amazon.Translate.Model.ServiceUnavailableException">
-        /// Amazon Translate is unavailable. Retry your request later.
+        /// The Amazon Translate service is temporarily unavailable. Please wait a bit and then
+        /// retry your request.
         /// </exception>
         /// <exception cref="Amazon.Translate.Model.TextSizeLimitExceededException">
-        /// The size of the input text exceeds the length constraint for the <code>Text</code>
-        /// field. Try again with a shorter text.
+        /// The size of the text you submitted exceeds the size limit. Reduce the size of the
+        /// text or use a smaller document and then retry your request.
         /// </exception>
         /// <exception cref="Amazon.Translate.Model.TooManyRequestsException">
-        /// The number of requests exceeds the limit. Resubmit your request later.
+        /// You have made too many requests within a short period of time. Wait for a short time
+        /// and then try your request again.
         /// </exception>
         /// <exception cref="Amazon.Translate.Model.UnsupportedLanguagePairException">
-        /// Amazon Translate cannot translate input text in the source language into this target
-        /// language. For more information, see <a>how-to-error-msg</a>.
+        /// Amazon Translate does not support translation from the language of the source text
+        /// into the requested target language. For more information, see <a>how-to-error-msg</a>.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/translate-2017-07-01/TranslateText">REST API Reference for TranslateText Operation</seealso>
         TranslateTextResponse TranslateText(TranslateTextRequest request);

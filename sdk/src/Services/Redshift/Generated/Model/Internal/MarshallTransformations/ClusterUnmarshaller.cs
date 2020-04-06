@@ -72,6 +72,12 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         unmarshalledObject.AvailabilityZone = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("ClusterAvailabilityStatus", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ClusterAvailabilityStatus = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("ClusterCreateTime", targetDepth))
                     {
                         var unmarshaller = DateTimeUnmarshaller.Instance;
@@ -141,16 +147,35 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         unmarshalledObject.ClusterVersion = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("DataTransferProgress", targetDepth))
+                    {
+                        var unmarshaller = DataTransferProgressUnmarshaller.Instance;
+                        unmarshalledObject.DataTransferProgress = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("DBName", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.DBName = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("DeferredMaintenanceWindows/DeferredMaintenanceWindow", targetDepth))
+                    {
+                        var unmarshaller = DeferredMaintenanceWindowUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.DeferredMaintenanceWindows.Add(item);
+                        continue;
+                    }
                     if (context.TestExpression("ElasticIpStatus", targetDepth))
                     {
                         var unmarshaller = ElasticIpStatusUnmarshaller.Instance;
                         unmarshalledObject.ElasticIpStatus = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ElasticResizeNumberOfNodeOptions", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ElasticResizeNumberOfNodeOptions = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("Encrypted", targetDepth))
@@ -169,6 +194,18 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
                         unmarshalledObject.EnhancedVpcRouting = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ExpectedNextSnapshotScheduleTime", targetDepth))
+                    {
+                        var unmarshaller = DateTimeUnmarshaller.Instance;
+                        unmarshalledObject.ExpectedNextSnapshotScheduleTime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ExpectedNextSnapshotScheduleTimeStatus", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ExpectedNextSnapshotScheduleTimeStatus = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("HsmStatus", targetDepth))
@@ -190,6 +227,18 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         unmarshalledObject.KmsKeyId = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("MaintenanceTrackName", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.MaintenanceTrackName = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ManualSnapshotRetentionPeriod", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.ManualSnapshotRetentionPeriod = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("MasterUsername", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -202,6 +251,12 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         unmarshalledObject.ModifyStatus = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("NextMaintenanceWindowStartTime", targetDepth))
+                    {
+                        var unmarshaller = DateTimeUnmarshaller.Instance;
+                        unmarshalledObject.NextMaintenanceWindowStartTime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("NodeType", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -212,6 +267,13 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = IntUnmarshaller.Instance;
                         unmarshalledObject.NumberOfNodes = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("PendingActions/member", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.PendingActions.Add(item);
                         continue;
                     }
                     if (context.TestExpression("PendingModifiedValues", targetDepth))
@@ -232,10 +294,28 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         unmarshalledObject.PubliclyAccessible = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("ResizeInfo", targetDepth))
+                    {
+                        var unmarshaller = ResizeInfoUnmarshaller.Instance;
+                        unmarshalledObject.ResizeInfo = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("RestoreStatus", targetDepth))
                     {
                         var unmarshaller = RestoreStatusUnmarshaller.Instance;
                         unmarshalledObject.RestoreStatus = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("SnapshotScheduleIdentifier", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.SnapshotScheduleIdentifier = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("SnapshotScheduleState", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.SnapshotScheduleState = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("Tags/Tag", targetDepth))

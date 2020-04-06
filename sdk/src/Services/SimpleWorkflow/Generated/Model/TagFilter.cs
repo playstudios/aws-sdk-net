@@ -40,7 +40,13 @@ namespace Amazon.SimpleWorkflow.Model
         ///  Specifies the tag that must be associated with the execution for it to meet the filter
         /// criteria.
         /// </para>
+        ///  
+        /// <para>
+        /// Tags may only contain unicode letters, digits, whitespace, or these symbols: <code>_
+        /// . : / = + - @</code>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string Tag
         {
             get { return this._tag; }

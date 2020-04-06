@@ -30,6 +30,13 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// <summary>
     /// Container for the parameters to the DescribeTargetGroupAttributes operation.
     /// Describes the attributes for the specified target group.
+    /// 
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-attributes">Target
+    /// Group Attributes</a> in the <i>Application Load Balancers Guide</i> or <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-group-attributes">Target
+    /// Group Attributes</a> in the <i>Network Load Balancers Guide</i>.
+    /// </para>
     /// </summary>
     public partial class DescribeTargetGroupAttributesRequest : AmazonElasticLoadBalancingV2Request
     {
@@ -41,6 +48,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The Amazon Resource Name (ARN) of the target group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetGroupArn
         {
             get { return this._targetGroupArn; }

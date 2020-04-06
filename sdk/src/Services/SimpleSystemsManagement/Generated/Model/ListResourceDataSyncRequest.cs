@@ -48,6 +48,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     {
         private int? _maxResults;
         private string _nextToken;
+        private string _syncType;
 
         /// <summary>
         /// Gets and sets the property MaxResults. 
@@ -56,6 +57,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that you can specify in a subsequent call to get the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -84,6 +86,28 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SyncType. 
+        /// <para>
+        /// View a list of resource data syncs according to the sync type. Specify <code>SyncToDestination</code>
+        /// to view resource data syncs that synchronize data to an Amazon S3 buckets. Specify
+        /// <code>SyncFromSource</code> to view resource data syncs from AWS Organizations or
+        /// from multiple AWS Regions. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=64)]
+        public string SyncType
+        {
+            get { return this._syncType; }
+            set { this._syncType = value; }
+        }
+
+        // Check to see if SyncType property is set
+        internal bool IsSetSyncType()
+        {
+            return this._syncType != null;
         }
 
     }

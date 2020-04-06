@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -58,6 +58,7 @@ namespace Amazon.CloudFront.Model
         /// The distribution's id.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DistributionId
         {
             get { return this._distributionId; }
@@ -76,6 +77,7 @@ namespace Amazon.CloudFront.Model
         /// The batch information for the invalidation.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public InvalidationBatch InvalidationBatch
         {
             get { return this._invalidationBatch; }

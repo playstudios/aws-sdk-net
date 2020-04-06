@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -41,6 +41,7 @@ namespace Amazon.CloudFront.Model
         /// The request to create a field-level encryption profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FieldLevelEncryptionProfileConfig FieldLevelEncryptionProfileConfig
         {
             get { return this._fieldLevelEncryptionProfileConfig; }

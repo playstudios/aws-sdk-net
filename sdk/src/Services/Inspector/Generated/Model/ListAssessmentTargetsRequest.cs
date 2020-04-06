@@ -30,7 +30,7 @@ namespace Amazon.Inspector.Model
     /// <summary>
     /// Container for the parameters to the ListAssessmentTargets operation.
     /// Lists the ARNs of the assessment targets within this AWS account. For more information
-    /// about assessment targets, see <a href="http://docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html">Amazon
+    /// about assessment targets, see <a href="https://docs.aws.amazon.com/inspector/latest/userguide/inspector_applications.html">Amazon
     /// Inspector Assessment Targets</a>.
     /// </summary>
     public partial class ListAssessmentTargetsRequest : AmazonInspectorRequest
@@ -91,6 +91,7 @@ namespace Amazon.Inspector.Model
         /// from the previous response to continue listing data.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=300)]
         public string NextToken
         {
             get { return this._nextToken; }

@@ -35,7 +35,16 @@ namespace Amazon.GameLift.Model
     /// 
     ///  
     /// <para>
-    /// Queue-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/queues-intro.html">
+    /// Using Multi-Region Queues</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -62,10 +71,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with game session queue. Queue names must be
-        /// unique within each region.
+        /// A descriptive label that is associated with game session queue. Queue names must be
+        /// unique within each Region. You can use either the queue ID or ARN value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }

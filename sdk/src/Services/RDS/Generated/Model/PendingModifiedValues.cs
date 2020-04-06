@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.RDS.Model
 {
     /// <summary>
-    /// This data type is used as a response element in the <a>ModifyDBInstance</a> action.
+    /// This data type is used as a response element in the <code>ModifyDBInstance</code>
+    /// action.
     /// </summary>
     public partial class PendingModifiedValues
     {
@@ -45,6 +46,7 @@ namespace Amazon.RDS.Model
         private bool? _multiAZ;
         private PendingCloudwatchLogsExports _pendingCloudwatchLogsExports;
         private int? _port;
+        private List<ProcessorFeature> _processorFeatures = new List<ProcessorFeature>();
         private string _storageType;
 
         /// <summary>
@@ -291,6 +293,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetPort()
         {
             return this._port.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ProcessorFeatures. 
+        /// <para>
+        /// The number of CPU cores and the number of threads per core for the DB instance class
+        /// of the DB instance.
+        /// </para>
+        /// </summary>
+        public List<ProcessorFeature> ProcessorFeatures
+        {
+            get { return this._processorFeatures; }
+            set { this._processorFeatures = value; }
+        }
+
+        // Check to see if ProcessorFeatures property is set
+        internal bool IsSetProcessorFeatures()
+        {
+            return this._processorFeatures != null && this._processorFeatures.Count > 0; 
         }
 
         /// <summary>

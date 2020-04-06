@@ -201,6 +201,10 @@ namespace Amazon.CodeDeploy
     {
 
         /// <summary>
+        /// Constant ECS for ComputePlatform
+        /// </summary>
+        public static readonly ComputePlatform ECS = new ComputePlatform("ECS");
+        /// <summary>
         /// Constant Lambda for ComputePlatform
         /// </summary>
         public static readonly ComputePlatform Lambda = new ComputePlatform("Lambda");
@@ -469,6 +473,60 @@ namespace Amazon.CodeDeploy
 
 
     /// <summary>
+    /// Constants used for properties of type DeploymentTargetType.
+    /// </summary>
+    public class DeploymentTargetType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ECSTarget for DeploymentTargetType
+        /// </summary>
+        public static readonly DeploymentTargetType ECSTarget = new DeploymentTargetType("ECSTarget");
+        /// <summary>
+        /// Constant InstanceTarget for DeploymentTargetType
+        /// </summary>
+        public static readonly DeploymentTargetType InstanceTarget = new DeploymentTargetType("InstanceTarget");
+        /// <summary>
+        /// Constant LambdaTarget for DeploymentTargetType
+        /// </summary>
+        public static readonly DeploymentTargetType LambdaTarget = new DeploymentTargetType("LambdaTarget");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DeploymentTargetType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DeploymentTargetType FindValue(string value)
+        {
+            return FindValue<DeploymentTargetType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DeploymentTargetType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type DeploymentType.
     /// </summary>
     public class DeploymentType : ConstantClass
@@ -512,6 +570,56 @@ namespace Amazon.CodeDeploy
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator DeploymentType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type DeploymentWaitType.
+    /// </summary>
+    public class DeploymentWaitType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant READY_WAIT for DeploymentWaitType
+        /// </summary>
+        public static readonly DeploymentWaitType READY_WAIT = new DeploymentWaitType("READY_WAIT");
+        /// <summary>
+        /// Constant TERMINATION_WAIT for DeploymentWaitType
+        /// </summary>
+        public static readonly DeploymentWaitType TERMINATION_WAIT = new DeploymentWaitType("TERMINATION_WAIT");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DeploymentWaitType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DeploymentWaitType FindValue(string value)
+        {
+            return FindValue<DeploymentWaitType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DeploymentWaitType(string value)
         {
             return FindValue(value);
         }
@@ -599,9 +707,25 @@ namespace Amazon.CodeDeploy
         /// </summary>
         public static readonly ErrorCode AUTO_SCALING_IAM_ROLE_PERMISSIONS = new ErrorCode("AUTO_SCALING_IAM_ROLE_PERMISSIONS");
         /// <summary>
+        /// Constant AUTOSCALING_VALIDATION_ERROR for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode AUTOSCALING_VALIDATION_ERROR = new ErrorCode("AUTOSCALING_VALIDATION_ERROR");
+        /// <summary>
+        /// Constant CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND = new ErrorCode("CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND");
+        /// <summary>
+        /// Constant CUSTOMER_APPLICATION_UNHEALTHY for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode CUSTOMER_APPLICATION_UNHEALTHY = new ErrorCode("CUSTOMER_APPLICATION_UNHEALTHY");
+        /// <summary>
         /// Constant DEPLOYMENT_GROUP_MISSING for ErrorCode
         /// </summary>
         public static readonly ErrorCode DEPLOYMENT_GROUP_MISSING = new ErrorCode("DEPLOYMENT_GROUP_MISSING");
+        /// <summary>
+        /// Constant ECS_UPDATE_ERROR for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode ECS_UPDATE_ERROR = new ErrorCode("ECS_UPDATE_ERROR");
         /// <summary>
         /// Constant ELASTIC_LOAD_BALANCING_INVALID for ErrorCode
         /// </summary>
@@ -635,6 +759,10 @@ namespace Amazon.CodeDeploy
         /// </summary>
         public static readonly ErrorCode INTERNAL_ERROR = new ErrorCode("INTERNAL_ERROR");
         /// <summary>
+        /// Constant INVALID_ECS_SERVICE for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode INVALID_ECS_SERVICE = new ErrorCode("INVALID_ECS_SERVICE");
+        /// <summary>
         /// Constant INVALID_LAMBDA_CONFIGURATION for ErrorCode
         /// </summary>
         public static readonly ErrorCode INVALID_LAMBDA_CONFIGURATION = new ErrorCode("INVALID_LAMBDA_CONFIGURATION");
@@ -642,6 +770,10 @@ namespace Amazon.CodeDeploy
         /// Constant INVALID_LAMBDA_FUNCTION for ErrorCode
         /// </summary>
         public static readonly ErrorCode INVALID_LAMBDA_FUNCTION = new ErrorCode("INVALID_LAMBDA_FUNCTION");
+        /// <summary>
+        /// Constant INVALID_REVISION for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode INVALID_REVISION = new ErrorCode("INVALID_REVISION");
         /// <summary>
         /// Constant MANUAL_STOP for ErrorCode
         /// </summary>
@@ -670,6 +802,10 @@ namespace Amazon.CodeDeploy
         /// Constant OVER_MAX_INSTANCES for ErrorCode
         /// </summary>
         public static readonly ErrorCode OVER_MAX_INSTANCES = new ErrorCode("OVER_MAX_INSTANCES");
+        /// <summary>
+        /// Constant RESOURCE_LIMIT_EXCEEDED for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode RESOURCE_LIMIT_EXCEEDED = new ErrorCode("RESOURCE_LIMIT_EXCEEDED");
         /// <summary>
         /// Constant REVISION_MISSING for ErrorCode
         /// </summary>
@@ -1285,6 +1421,10 @@ namespace Amazon.CodeDeploy
     {
 
         /// <summary>
+        /// Constant AppSpecContent for RevisionLocationType
+        /// </summary>
+        public static readonly RevisionLocationType AppSpecContent = new RevisionLocationType("AppSpecContent");
+        /// <summary>
         /// Constant GitHub for RevisionLocationType
         /// </summary>
         public static readonly RevisionLocationType GitHub = new RevisionLocationType("GitHub");
@@ -1480,6 +1620,176 @@ namespace Amazon.CodeDeploy
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator TagFilterType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TargetFilterName.
+    /// </summary>
+    public class TargetFilterName : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ServerInstanceLabel for TargetFilterName
+        /// </summary>
+        public static readonly TargetFilterName ServerInstanceLabel = new TargetFilterName("ServerInstanceLabel");
+        /// <summary>
+        /// Constant TargetStatus for TargetFilterName
+        /// </summary>
+        public static readonly TargetFilterName TargetStatus = new TargetFilterName("TargetStatus");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TargetFilterName(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TargetFilterName FindValue(string value)
+        {
+            return FindValue<TargetFilterName>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TargetFilterName(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TargetLabel.
+    /// </summary>
+    public class TargetLabel : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Blue for TargetLabel
+        /// </summary>
+        public static readonly TargetLabel Blue = new TargetLabel("Blue");
+        /// <summary>
+        /// Constant Green for TargetLabel
+        /// </summary>
+        public static readonly TargetLabel Green = new TargetLabel("Green");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TargetLabel(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TargetLabel FindValue(string value)
+        {
+            return FindValue<TargetLabel>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TargetLabel(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TargetStatus.
+    /// </summary>
+    public class TargetStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Failed for TargetStatus
+        /// </summary>
+        public static readonly TargetStatus Failed = new TargetStatus("Failed");
+        /// <summary>
+        /// Constant InProgress for TargetStatus
+        /// </summary>
+        public static readonly TargetStatus InProgress = new TargetStatus("InProgress");
+        /// <summary>
+        /// Constant Pending for TargetStatus
+        /// </summary>
+        public static readonly TargetStatus Pending = new TargetStatus("Pending");
+        /// <summary>
+        /// Constant Ready for TargetStatus
+        /// </summary>
+        public static readonly TargetStatus Ready = new TargetStatus("Ready");
+        /// <summary>
+        /// Constant Skipped for TargetStatus
+        /// </summary>
+        public static readonly TargetStatus Skipped = new TargetStatus("Skipped");
+        /// <summary>
+        /// Constant Succeeded for TargetStatus
+        /// </summary>
+        public static readonly TargetStatus Succeeded = new TargetStatus("Succeeded");
+        /// <summary>
+        /// Constant Unknown for TargetStatus
+        /// </summary>
+        public static readonly TargetStatus Unknown = new TargetStatus("Unknown");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TargetStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TargetStatus FindValue(string value)
+        {
+            return FindValue<TargetStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TargetStatus(string value)
         {
             return FindValue(value);
         }

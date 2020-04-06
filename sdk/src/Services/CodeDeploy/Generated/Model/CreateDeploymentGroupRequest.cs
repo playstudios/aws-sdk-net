@@ -29,7 +29,7 @@ namespace Amazon.CodeDeploy.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDeploymentGroup operation.
-    /// Creates a deployment group to which application revisions will be deployed.
+    /// Creates a deployment group to which application revisions are deployed.
     /// </summary>
     public partial class CreateDeploymentGroupRequest : AmazonCodeDeployRequest
     {
@@ -43,10 +43,12 @@ namespace Amazon.CodeDeploy.Model
         private DeploymentStyle _deploymentStyle;
         private List<EC2TagFilter> _ec2TagFilters = new List<EC2TagFilter>();
         private EC2TagSet _ec2TagSet;
+        private List<ECSService> _ecsServices = new List<ECSService>();
         private LoadBalancerInfo _loadBalancerInfo;
         private List<TagFilter> _onPremisesInstanceTagFilters = new List<TagFilter>();
         private OnPremisesTagSet _onPremisesTagSet;
         private string _serviceRoleArn;
+        private List<Tag> _tags = new List<Tag>();
         private List<TriggerConfig> _triggerConfigurations = new List<TriggerConfig>();
 
         /// <summary>
@@ -70,10 +72,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ApplicationName. 
         /// <para>
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user
-        /// or AWS account.
+        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -108,7 +110,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property AutoScalingGroups. 
         /// <para>
-        /// A list of associated Auto Scaling groups.
+        /// A list of associated Amazon EC2 Auto Scaling groups.
         /// </para>
         /// </summary>
         public List<string> AutoScalingGroups
@@ -151,15 +153,16 @@ namespace Amazon.CodeDeploy.Model
         ///  
         /// <para>
         /// CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if
-        /// a configuration isn't specified for the deployment or the deployment group.
+        /// a configuration isn't specified for the deployment or deployment group.
         /// </para>
         ///  
         /// <para>
         /// For more information about the predefined deployment configurations in AWS CodeDeploy,
-        /// see <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html">Working
+        /// see <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html">Working
         /// with Deployment Groups in AWS CodeDeploy</a> in the AWS CodeDeploy User Guide.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentConfigName
         {
             get { return this._deploymentConfigName; }
@@ -178,6 +181,7 @@ namespace Amazon.CodeDeploy.Model
         /// The name of a new deployment group for the specified application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string DeploymentGroupName
         {
             get { return this._deploymentGroupName; }
@@ -212,7 +216,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property Ec2TagFilters. 
         /// <para>
-        /// The Amazon EC2 tags on which to filter. The deployment group will include EC2 instances
+        /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances
         /// with any of the specified tags. Cannot be used in the same call as ec2TagSet.
         /// </para>
         /// </summary>
@@ -231,9 +235,9 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property Ec2TagSet. 
         /// <para>
-        /// Information about groups of tags applied to EC2 instances. The deployment group will
-        /// include only EC2 instances identified by all the tag groups. Cannot be used in the
-        /// same call as ec2TagFilters.
+        /// Information about groups of tags applied to EC2 instances. The deployment group includes
+        /// only EC2 instances identified by all the tag groups. Cannot be used in the same call
+        /// as ec2TagFilters.
         /// </para>
         /// </summary>
         public EC2TagSet Ec2TagSet
@@ -246,6 +250,27 @@ namespace Amazon.CodeDeploy.Model
         internal bool IsSetEc2TagSet()
         {
             return this._ec2TagSet != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EcsServices. 
+        /// <para>
+        ///  The target Amazon ECS services in the deployment group. This applies only to deployment
+        /// groups that use the Amazon ECS compute platform. A target Amazon ECS service is specified
+        /// as an Amazon ECS cluster and service name pair using the format <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+        /// 
+        /// </para>
+        /// </summary>
+        public List<ECSService> EcsServices
+        {
+            get { return this._ecsServices; }
+            set { this._ecsServices = value; }
+        }
+
+        // Check to see if EcsServices property is set
+        internal bool IsSetEcsServices()
+        {
+            return this._ecsServices != null && this._ecsServices.Count > 0; 
         }
 
         /// <summary>
@@ -269,9 +294,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property OnPremisesInstanceTagFilters. 
         /// <para>
-        /// The on-premises instance tags on which to filter. The deployment group will include
-        /// on-premises instances with any of the specified tags. Cannot be used in the same call
-        /// as OnPremisesTagSet.
+        /// The on-premises instance tags on which to filter. The deployment group includes on-premises
+        /// instances with any of the specified tags. Cannot be used in the same call as OnPremisesTagSet.
         /// </para>
         /// </summary>
         public List<TagFilter> OnPremisesInstanceTagFilters
@@ -290,7 +314,7 @@ namespace Amazon.CodeDeploy.Model
         /// Gets and sets the property OnPremisesTagSet. 
         /// <para>
         /// Information about groups of tags applied to on-premises instances. The deployment
-        /// group will include only on-premises instances identified by all the tag groups. Cannot
+        /// group includes only on-premises instances identified by all of the tag groups. Cannot
         /// be used in the same call as onPremisesInstanceTagFilters.
         /// </para>
         /// </summary>
@@ -313,6 +337,7 @@ namespace Amazon.CodeDeploy.Model
         /// with AWS services.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ServiceRoleArn
         {
             get { return this._serviceRoleArn; }
@@ -326,10 +351,30 @@ namespace Amazon.CodeDeploy.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        ///  The metadata that you apply to CodeDeploy deployment groups to help you organize
+        /// and categorize them. Each tag consists of a key and an optional value, both of which
+        /// you define. 
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TriggerConfigurations. 
         /// <para>
         /// Information about triggers to create when the deployment group is created. For examples,
-        /// see <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-sns.html">Create
+        /// see <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-sns.html">Create
         /// a Trigger for an AWS CodeDeploy Event</a> in the AWS CodeDeploy User Guide.
         /// </para>
         /// </summary>

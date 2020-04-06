@@ -124,9 +124,21 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("KmsKeyId", StringUtils.FromString(publicRequest.KmsKeyId));
                 }
+                if(publicRequest.IsSetMaintenanceTrackName())
+                {
+                    request.Parameters.Add("MaintenanceTrackName", StringUtils.FromString(publicRequest.MaintenanceTrackName));
+                }
+                if(publicRequest.IsSetManualSnapshotRetentionPeriod())
+                {
+                    request.Parameters.Add("ManualSnapshotRetentionPeriod", StringUtils.FromInt(publicRequest.ManualSnapshotRetentionPeriod));
+                }
                 if(publicRequest.IsSetNodeType())
                 {
                     request.Parameters.Add("NodeType", StringUtils.FromString(publicRequest.NodeType));
+                }
+                if(publicRequest.IsSetNumberOfNodes())
+                {
+                    request.Parameters.Add("NumberOfNodes", StringUtils.FromInt(publicRequest.NumberOfNodes));
                 }
                 if(publicRequest.IsSetOwnerAccount())
                 {
@@ -151,6 +163,10 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetSnapshotIdentifier())
                 {
                     request.Parameters.Add("SnapshotIdentifier", StringUtils.FromString(publicRequest.SnapshotIdentifier));
+                }
+                if(publicRequest.IsSetSnapshotScheduleIdentifier())
+                {
+                    request.Parameters.Add("SnapshotScheduleIdentifier", StringUtils.FromString(publicRequest.SnapshotScheduleIdentifier));
                 }
                 if(publicRequest.IsSetVpcSecurityGroupIds())
                 {

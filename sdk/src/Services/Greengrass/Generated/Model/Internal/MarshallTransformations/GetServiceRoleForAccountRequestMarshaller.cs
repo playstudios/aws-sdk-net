@@ -55,10 +55,11 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetServiceRoleForAccountRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/greengrass/servicerole";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/greengrass/servicerole";
+            request.MarshallerVersion = 2;
 
             return request;
         }

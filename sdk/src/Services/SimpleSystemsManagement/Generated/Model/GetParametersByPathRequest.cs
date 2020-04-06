@@ -29,10 +29,9 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the GetParametersByPath operation.
-    /// Retrieve parameters in a specific hierarchy. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-working.html">Working
-    /// with Systems Manager Parameters</a>. 
+    /// Retrieve information about one or more parameters in a specific hierarchy. 
     /// 
-    ///  
+    ///  <note> 
     /// <para>
     /// Request results are returned on a best-effort basis. If you specify <code>MaxResults</code>
     /// in the request, the response includes information up to the limit specified. The number
@@ -41,10 +40,6 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// operation and returns the matching values up to that point and a <code>NextToken</code>.
     /// You can specify the <code>NextToken</code> in a subsequent call to get the next set
     /// of results.
-    /// </para>
-    ///  <note> 
-    /// <para>
-    /// This API action doesn't support filtering by tags. 
     /// </para>
     ///  </note>
     /// </summary>
@@ -64,6 +59,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that you can specify in a subsequent call to get the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -116,10 +112,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Gets and sets the property Path. 
         /// <para>
         /// The hierarchy for the parameter. Hierarchies start with a forward slash (/) and end
-        /// with the parameter name. A hierarchy can have a maximum of 15 levels. Here is an example
-        /// of a hierarchy: <code>/Finance/Prod/IAD/WinServ2016/license33</code> 
+        /// with the parameter name. A parameter name hierarchy can have a maximum of 15 levels.
+        /// Here is an example of a hierarchy: <code>/Finance/Prod/IAD/WinServ2016/license33</code>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string Path
         {
             get { return this._path; }
@@ -137,6 +135,15 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <para>
         /// Retrieve all parameters within a hierarchy.
         /// </para>
+        ///  <important> 
+        /// <para>
+        /// If a user has access to a path, then the user can access all levels of that path.
+        /// For example, if a user has permission to access path <code>/a</code>, then the user
+        /// can also access <code>/a/b</code>. Even if a user has explicitly been denied access
+        /// in IAM for parameter <code>/a/b</code>, they can still call the GetParametersByPath
+        /// API action recursively for <code>/a</code> and view <code>/a/b</code>.
+        /// </para>
+        ///  </important>
         /// </summary>
         public bool Recursive
         {

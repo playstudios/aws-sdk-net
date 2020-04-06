@@ -29,24 +29,55 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the GenerateDataKey operation.
-    /// Returns a data encryption key that you can use in your application to encrypt data
-    /// locally. 
+    /// Generates a unique symmetric data key. This operation returns a plaintext copy of
+    /// the data key and a copy that is encrypted under a customer master key (CMK) that you
+    /// specify. You can use the plaintext key to encrypt your data outside of AWS KMS and
+    /// store the encrypted data key with the encrypted data.
     /// 
     ///  
     /// <para>
-    /// You must specify the customer master key (CMK) under which to generate the data key.
-    /// You must also specify the length of the data key using either the <code>KeySpec</code>
-    /// or <code>NumberOfBytes</code> field. You must specify one field or the other, but
-    /// not both. For common key lengths (128-bit and 256-bit symmetric keys), we recommend
-    /// that you use <code>KeySpec</code>. To perform this operation on a CMK in a different
-    /// AWS account, specify the key ARN or alias ARN in the value of the KeyId parameter.
+    ///  <code>GenerateDataKey</code> returns a unique data key for each request. The bytes
+    /// in the key are not related to the caller or CMK that is used to encrypt the data key.
     /// </para>
     ///  
     /// <para>
-    /// This operation returns a plaintext copy of the data key in the <code>Plaintext</code>
-    /// field of the response, and an encrypted copy of the data key in the <code>CiphertextBlob</code>
-    /// field. The data key is encrypted under the CMK specified in the <code>KeyId</code>
-    /// field of the request. 
+    /// To generate a data key, specify the symmetric CMK that will be used to encrypt the
+    /// data key. You cannot use an asymmetric CMK to generate data keys. To get the type
+    /// of your CMK, use the <a>DescribeKey</a> operation.
+    /// </para>
+    ///  
+    /// <para>
+    /// You must also specify the length of the data key. Use either the <code>KeySpec</code>
+    /// or <code>NumberOfBytes</code> parameters (but not both). For 128-bit and 256-bit data
+    /// keys, use the <code>KeySpec</code> parameter. 
+    /// </para>
+    ///  
+    /// <para>
+    /// If the operation succeeds, the plaintext copy of the data key is in the <code>Plaintext</code>
+    /// field of the response, and the encrypted copy of the data key in the <code>CiphertextBlob</code>
+    /// field.
+    /// </para>
+    ///  
+    /// <para>
+    /// To get only an encrypted copy of the data key, use <a>GenerateDataKeyWithoutPlaintext</a>.
+    /// To generate an asymmetric data key pair, use the <a>GenerateDataKeyPair</a> or <a>GenerateDataKeyPairWithoutPlaintext</a>
+    /// operation. To get a cryptographically secure random byte string, use <a>GenerateRandom</a>.
+    /// </para>
+    ///  
+    /// <para>
+    /// You can use the optional encryption context to add additional security to the encryption
+    /// operation. If you specify an <code>EncryptionContext</code>, you must specify the
+    /// same encryption context (a case-sensitive exact match) when decrypting the encrypted
+    /// data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException.
+    /// For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+    /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// The CMK that you use for this operation must be in a compatible key state. For details,
+    /// see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+    /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key Management Service
+    /// Developer Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -54,12 +85,12 @@ namespace Amazon.KeyManagementService.Model
     /// </para>
     ///  <ol> <li> 
     /// <para>
-    /// Use this operation (<code>GenerateDataKey</code>) to get a data encryption key.
+    /// Use the <code>GenerateDataKey</code> operation to get a data encryption key.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Use the plaintext data encryption key (returned in the <code>Plaintext</code> field
-    /// of the response) to encrypt data locally, then erase the plaintext data key from memory.
+    /// Use the plaintext data key (returned in the <code>Plaintext</code> field of the response)
+    /// to encrypt data locally, then erase the plaintext data key from memory.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -72,28 +103,15 @@ namespace Amazon.KeyManagementService.Model
     /// </para>
     ///  <ol> <li> 
     /// <para>
-    /// Use the <a>Decrypt</a> operation to decrypt the encrypted data key into a plaintext
-    /// copy of the data key.
+    /// Use the <a>Decrypt</a> operation to decrypt the encrypted data key. The operation
+    /// returns a plaintext copy of the data key.
     /// </para>
     ///  </li> <li> 
     /// <para>
     /// Use the plaintext data key to decrypt data locally, then erase the plaintext data
     /// key from memory.
     /// </para>
-    ///  </li> </ol> 
-    /// <para>
-    /// To return only an encrypted copy of the data key, use <a>GenerateDataKeyWithoutPlaintext</a>.
-    /// To return a random byte string that is cryptographically secure, use <a>GenerateRandom</a>.
-    /// </para>
-    ///  
-    /// <para>
-    /// If you use the optional <code>EncryptionContext</code> field, you must store at least
-    /// enough information to be able to reconstruct the full encryption context when you
-    /// later send the ciphertext to the <a>Decrypt</a> operation. It is a good practice to
-    /// choose an encryption context that you can reconstruct on the fly to better secure
-    /// the ciphertext. For more information, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/encryption-context.html">Encryption
-    /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
-    /// </para>
+    ///  </li> </ol>
     /// </summary>
     public partial class GenerateDataKeyRequest : AmazonKeyManagementServiceRequest
     {
@@ -106,11 +124,19 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property EncryptionContext. 
         /// <para>
-        /// A set of key-value pairs that represents additional authenticated data.
+        /// Specifies the encryption context that will be used when encrypting the data key.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/encryption-context.html">Encryption
+        /// An <i>encryption context</i> is a collection of non-secret key-value pairs that represents
+        /// additional authenticated data. When you use an encryption context to encrypt data,
+        /// you must specify the same (an exact case-sensitive match) encryption context to decrypt
+        /// the data. An encryption context is optional when encrypting with a symmetric CMK,
+        /// but it is highly recommended.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
         /// Context</a> in the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -133,10 +159,11 @@ namespace Amazon.KeyManagementService.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+        /// For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
         /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10)]
         public List<string> GrantTokens
         {
             get { return this._grantTokens; }
@@ -152,14 +179,13 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property KeyId. 
         /// <para>
-        /// The identifier of the CMK under which to generate and encrypt the data encryption
-        /// key.
+        /// Identifies the symmetric CMK that encrypts the data key.
         /// </para>
         ///  
         /// <para>
         /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias
-        /// ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different
-        /// AWS account, you must use the key ARN or alias ARN.
+        /// ARN. When using an alias name, prefix it with <code>"alias/"</code>. To specify a
+        /// CMK in a different AWS account, you must use the key ARN or alias ARN.
         /// </para>
         ///  
         /// <para>
@@ -188,6 +214,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the alias name and alias ARN, use <a>ListAliases</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -203,8 +230,13 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property KeySpec. 
         /// <para>
-        /// The length of the data encryption key. Use <code>AES_128</code> to generate a 128-bit
+        /// Specifies the length of the data key. Use <code>AES_128</code> to generate a 128-bit
         /// symmetric key, or <code>AES_256</code> to generate a 256-bit symmetric key.
+        /// </para>
+        ///  
+        /// <para>
+        /// You must specify either the <code>KeySpec</code> or the <code>NumberOfBytes</code>
+        /// parameter (but not both) in every <code>GenerateDataKey</code> request.
         /// </para>
         /// </summary>
         public DataKeySpec KeySpec
@@ -222,12 +254,17 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property NumberOfBytes. 
         /// <para>
-        /// The length of the data encryption key in bytes. For example, use the value 64 to generate
-        /// a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit
-        /// symmetric keys), we recommend that you use the <code>KeySpec</code> field instead
-        /// of this one.
+        /// Specifies the length of the data key in bytes. For example, use the value 64 to generate
+        /// a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte) and 256-bit (32-byte)
+        /// data keys, use the <code>KeySpec</code> parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// You must specify either the <code>KeySpec</code> or the <code>NumberOfBytes</code>
+        /// parameter (but not both) in every <code>GenerateDataKey</code> request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public int NumberOfBytes
         {
             get { return this._numberOfBytes.GetValueOrDefault(); }

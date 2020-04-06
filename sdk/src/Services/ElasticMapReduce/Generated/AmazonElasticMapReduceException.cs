@@ -28,10 +28,10 @@ namespace Amazon.ElasticMapReduce
     ///<summary>
     /// Common exception for the ElasticMapReduce service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonElasticMapReduceException : AmazonServiceException
+    public partial class AmazonElasticMapReduceException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonElasticMapReduceException
@@ -88,7 +88,7 @@ namespace Amazon.ElasticMapReduce
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonElasticMapReduceException class with serialized data.
         /// </summary>

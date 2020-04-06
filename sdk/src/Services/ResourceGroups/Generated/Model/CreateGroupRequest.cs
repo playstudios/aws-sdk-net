@@ -45,6 +45,7 @@ namespace Amazon.ResourceGroups.Model
         /// including letters, numbers, hyphens, underscores, punctuation, and spaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=512)]
         public string Description
         {
             get { return this._description; }
@@ -62,11 +63,12 @@ namespace Amazon.ResourceGroups.Model
         /// <para>
         /// The name of the group, which is the identifier of the group in other operations. A
         /// resource group name cannot be updated after it is created. A resource group name can
-        /// have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores.
+        /// have a maximum of 128 characters, including letters, numbers, hyphens, dots, and underscores.
         /// The name cannot start with <code>AWS</code> or <code>aws</code>; these are reserved.
         /// A resource group name must be unique within your account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -85,6 +87,7 @@ namespace Amazon.ResourceGroups.Model
         /// The resource query that determines which AWS resources are members of this group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ResourceQuery ResourceQuery
         {
             get { return this._resourceQuery; }
@@ -101,8 +104,8 @@ namespace Amazon.ResourceGroups.Model
         /// Gets and sets the property Tags. 
         /// <para>
         /// The tags to add to the group. A tag is a string-to-string map of key-value pairs.
-        /// Tag keys can have a maximum character length of 127 characters, and tag values can
-        /// have a maximum length of 255 characters.
+        /// Tag keys can have a maximum character length of 128 characters, and tag values can
+        /// have a maximum length of 256 characters.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Tags

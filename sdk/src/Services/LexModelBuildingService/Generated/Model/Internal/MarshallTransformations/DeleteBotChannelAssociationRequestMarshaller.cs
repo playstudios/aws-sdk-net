@@ -55,19 +55,20 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteBotChannelAssociationRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.LexModelBuildingService");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/bots/{botName}/aliases/{aliasName}/channels/{name}";
             if (!publicRequest.IsSetBotAlias())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field BotAlias set");
-            uriResourcePath = uriResourcePath.Replace("{aliasName}", StringUtils.FromString(publicRequest.BotAlias));
+            request.AddPathResource("{aliasName}", StringUtils.FromString(publicRequest.BotAlias));
             if (!publicRequest.IsSetBotName())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field BotName set");
-            uriResourcePath = uriResourcePath.Replace("{botName}", StringUtils.FromString(publicRequest.BotName));
+            request.AddPathResource("{botName}", StringUtils.FromString(publicRequest.BotName));
             if (!publicRequest.IsSetName())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/bots/{botName}/aliases/{aliasName}/channels/{name}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

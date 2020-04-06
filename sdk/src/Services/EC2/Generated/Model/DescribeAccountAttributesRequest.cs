@@ -43,8 +43,10 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>max-instances</code>: The maximum number of On-Demand Instances that you can
-    /// run.
+    ///  <code>max-instances</code>: This attribute is no longer supported. The returned value
+    /// does not reflect your actual vCPU limit for running On-Demand Instances. For more
+    /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-on-demand-instances.html#ec2-on-demand-instances-limits">On-Demand
+    /// Instance Limits</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -70,7 +72,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property AttributeNames. 
         /// <para>
-        /// One or more account attribute names.
+        /// The account attribute names.
         /// </para>
         /// </summary>
         public List<string> AttributeNames

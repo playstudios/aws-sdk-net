@@ -28,10 +28,10 @@ namespace Amazon.ServerMigrationService
     ///<summary>
     /// Common exception for the ServerMigrationService service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonServerMigrationServiceException : AmazonServiceException
+    public partial class AmazonServerMigrationServiceException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonServerMigrationServiceException
@@ -88,7 +88,7 @@ namespace Amazon.ServerMigrationService
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonServerMigrationServiceException class with serialized data.
         /// </summary>

@@ -31,10 +31,35 @@ namespace Amazon.EC2
     ///
     /// Amazon Elastic Compute Cloud 
     /// <para>
-    /// Amazon Elastic Compute Cloud (Amazon EC2) provides resizable computing capacity in
-    /// the AWS Cloud. Using Amazon EC2 eliminates the need to invest in hardware up front,
-    /// so you can develop and deploy applications faster.
+    /// Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing
+    /// capacity in the AWS cloud. Using Amazon EC2 eliminates the need to invest in hardware
+    /// up front, so you can develop and deploy applications faster.
     /// </para>
+    ///  
+    /// <para>
+    /// To learn more, see the following resources:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// Amazon EC2: <a href="http://aws.amazon.com/ec2">AmazonEC2 product page</a>, <a href="http://aws.amazon.com/documentation/ec2">Amazon
+    /// EC2 documentation</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Amazon EBS: <a href="http://aws.amazon.com/ebs">Amazon EBS product page</a>, <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html">Amazon
+    /// EBS documentation</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Amazon VPC: <a href="http://aws.amazon.com/vpc">Amazon VPC product page</a>, <a href="http://aws.amazon.com/documentation/vpc">Amazon
+    /// VPC documentation</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// AWS VPN: <a href="http://aws.amazon.com/vpn">AWS VPN product page</a>, <a href="http://aws.amazon.com/documentation/vpn">AWS
+    /// VPN documentation</a> 
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial interface IAmazonEC2 : IAmazonService, IDisposable
     {
@@ -78,6 +103,94 @@ namespace Amazon.EC2
         /// <returns>Returns a  AcceptReservedInstancesExchangeQuoteResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptReservedInstancesExchangeQuote">REST API Reference for AcceptReservedInstancesExchangeQuote Operation</seealso>
         AcceptReservedInstancesExchangeQuoteResponse EndAcceptReservedInstancesExchangeQuote(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  AcceptTransitGatewayPeeringAttachment
+
+
+        /// <summary>
+        /// Accepts a transit gateway peering attachment request. The peering attachment must
+        /// be in the <code>pendingAcceptance</code> state.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AcceptTransitGatewayPeeringAttachment service method.</param>
+        /// 
+        /// <returns>The response from the AcceptTransitGatewayPeeringAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayPeeringAttachment">REST API Reference for AcceptTransitGatewayPeeringAttachment Operation</seealso>
+        AcceptTransitGatewayPeeringAttachmentResponse AcceptTransitGatewayPeeringAttachment(AcceptTransitGatewayPeeringAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AcceptTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AcceptTransitGatewayPeeringAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAcceptTransitGatewayPeeringAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayPeeringAttachment">REST API Reference for AcceptTransitGatewayPeeringAttachment Operation</seealso>
+        IAsyncResult BeginAcceptTransitGatewayPeeringAttachment(AcceptTransitGatewayPeeringAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AcceptTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAcceptTransitGatewayPeeringAttachment.</param>
+        /// 
+        /// <returns>Returns a  AcceptTransitGatewayPeeringAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayPeeringAttachment">REST API Reference for AcceptTransitGatewayPeeringAttachment Operation</seealso>
+        AcceptTransitGatewayPeeringAttachmentResponse EndAcceptTransitGatewayPeeringAttachment(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  AcceptTransitGatewayVpcAttachment
+
+
+        /// <summary>
+        /// Accepts a request to attach a VPC to a transit gateway.
+        /// 
+        ///  
+        /// <para>
+        /// The VPC attachment must be in the <code>pendingAcceptance</code> state. Use <a>DescribeTransitGatewayVpcAttachments</a>
+        /// to view your pending VPC attachment requests. Use <a>RejectTransitGatewayVpcAttachment</a>
+        /// to reject a VPC attachment request.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AcceptTransitGatewayVpcAttachment service method.</param>
+        /// 
+        /// <returns>The response from the AcceptTransitGatewayVpcAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayVpcAttachment">REST API Reference for AcceptTransitGatewayVpcAttachment Operation</seealso>
+        AcceptTransitGatewayVpcAttachmentResponse AcceptTransitGatewayVpcAttachment(AcceptTransitGatewayVpcAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AcceptTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AcceptTransitGatewayVpcAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAcceptTransitGatewayVpcAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayVpcAttachment">REST API Reference for AcceptTransitGatewayVpcAttachment Operation</seealso>
+        IAsyncResult BeginAcceptTransitGatewayVpcAttachment(AcceptTransitGatewayVpcAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AcceptTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAcceptTransitGatewayVpcAttachment.</param>
+        /// 
+        /// <returns>Returns a  AcceptTransitGatewayVpcAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AcceptTransitGatewayVpcAttachment">REST API Reference for AcceptTransitGatewayVpcAttachment Operation</seealso>
+        AcceptTransitGatewayVpcAttachmentResponse EndAcceptTransitGatewayVpcAttachment(IAsyncResult asyncResult);
 
         #endregion
         
@@ -133,8 +246,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For an inter-region VPC peering connection request, you must accept the VPC peering
-        /// connection in the region of the accepter VPC.
+        /// For an inter-Region VPC peering connection request, you must accept the VPC peering
+        /// connection in the Region of the accepter VPC.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AcceptVpcPeeringConnection service method.</param>
@@ -171,28 +284,102 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  AdvertiseByoipCidr
+
+
+        /// <summary>
+        /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your AWS
+        /// resources through bring your own IP addresses (BYOIP).
+        /// 
+        ///  
+        /// <para>
+        /// You can perform this operation at most once every 10 seconds, even if you specify
+        /// different address ranges each time.
+        /// </para>
+        ///  
+        /// <para>
+        /// We recommend that you stop advertising the BYOIP CIDR from other locations when you
+        /// advertise it from AWS. To minimize down time, you can configure your AWS resources
+        /// to use an address from a BYOIP CIDR before it is advertised, and then simultaneously
+        /// stop advertising it from the current location and start advertising it through AWS.
+        /// </para>
+        ///  
+        /// <para>
+        /// It can take a few minutes before traffic to the specified addresses starts routing
+        /// to AWS because of BGP propagation delays.
+        /// </para>
+        ///  
+        /// <para>
+        /// To stop advertising the BYOIP CIDR, use <a>WithdrawByoipCidr</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AdvertiseByoipCidr service method.</param>
+        /// 
+        /// <returns>The response from the AdvertiseByoipCidr service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AdvertiseByoipCidr">REST API Reference for AdvertiseByoipCidr Operation</seealso>
+        AdvertiseByoipCidrResponse AdvertiseByoipCidr(AdvertiseByoipCidrRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AdvertiseByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AdvertiseByoipCidr operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAdvertiseByoipCidr
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AdvertiseByoipCidr">REST API Reference for AdvertiseByoipCidr Operation</seealso>
+        IAsyncResult BeginAdvertiseByoipCidr(AdvertiseByoipCidrRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AdvertiseByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAdvertiseByoipCidr.</param>
+        /// 
+        /// <returns>Returns a  AdvertiseByoipCidrResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AdvertiseByoipCidr">REST API Reference for AdvertiseByoipCidr Operation</seealso>
+        AdvertiseByoipCidrResponse EndAdvertiseByoipCidr(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AllocateAddress
 
 
         /// <summary>
-        /// Allocates an Elastic IP address.
+        /// Allocates an Elastic IP address to your AWS account. After you allocate the Elastic
+        /// IP address you can associate it with an instance or network interface. After you release
+        /// an Elastic IP address, it is released to the IP address pool and can be allocated
+        /// to a different AWS account.
         /// 
         ///  
         /// <para>
+        /// You can allocate an Elastic IP address from an address pool owned by AWS or from an
+        /// address pool created from a public IPv4 address range that you have brought to AWS
+        /// for use with your AWS resources using bring your own IP addresses (BYOIP). For more
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html">Bring
+        /// Your Own IP Addresses (BYOIP)</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// [EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You
+        /// cannot recover an Elastic IP address that you released after it is allocated to another
+        /// AWS account. You cannot recover an Elastic IP address for EC2-Classic. To attempt
+        /// to recover an Elastic IP address that you released, specify it in this operation.
+        /// </para>
+        ///  
+        /// <para>
         /// An Elastic IP address is for use either in the EC2-Classic platform or in a VPC. By
-        /// default, you can allocate 5 Elastic IP addresses for EC2-Classic per region and 5
-        /// Elastic IP addresses for EC2-VPC per region.
+        /// default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5
+        /// Elastic IP addresses for EC2-VPC per Region.
         /// </para>
         ///  
         /// <para>
-        /// If you release an Elastic IP address for use in a VPC, you might be able to recover
-        /// it. To recover an Elastic IP address that you released, specify it in the <code>Address</code>
-        /// parameter. Note that you cannot recover an Elastic IP address that you released after
-        /// it is allocated to another AWS account.
-        /// </para>
-        ///  
-        /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
         /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -202,24 +389,35 @@ namespace Amazon.EC2
         AllocateAddressResponse AllocateAddress();
 
         /// <summary>
-        /// Allocates an Elastic IP address.
+        /// Allocates an Elastic IP address to your AWS account. After you allocate the Elastic
+        /// IP address you can associate it with an instance or network interface. After you release
+        /// an Elastic IP address, it is released to the IP address pool and can be allocated
+        /// to a different AWS account.
         /// 
         ///  
         /// <para>
+        /// You can allocate an Elastic IP address from an address pool owned by AWS or from an
+        /// address pool created from a public IPv4 address range that you have brought to AWS
+        /// for use with your AWS resources using bring your own IP addresses (BYOIP). For more
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html">Bring
+        /// Your Own IP Addresses (BYOIP)</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// [EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You
+        /// cannot recover an Elastic IP address that you released after it is allocated to another
+        /// AWS account. You cannot recover an Elastic IP address for EC2-Classic. To attempt
+        /// to recover an Elastic IP address that you released, specify it in this operation.
+        /// </para>
+        ///  
+        /// <para>
         /// An Elastic IP address is for use either in the EC2-Classic platform or in a VPC. By
-        /// default, you can allocate 5 Elastic IP addresses for EC2-Classic per region and 5
-        /// Elastic IP addresses for EC2-VPC per region.
+        /// default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5
+        /// Elastic IP addresses for EC2-VPC per Region.
         /// </para>
         ///  
         /// <para>
-        /// If you release an Elastic IP address for use in a VPC, you might be able to recover
-        /// it. To recover an Elastic IP address that you released, specify it in the <code>Address</code>
-        /// parameter. Note that you cannot recover an Elastic IP address that you released after
-        /// it is allocated to another AWS account.
-        /// </para>
-        ///  
-        /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
         /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -261,8 +459,9 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Allocates a Dedicated Host to your account. At minimum you need to specify the instance
-        /// size type, Availability Zone, and quantity of hosts you want to allocate.
+        /// Allocates a Dedicated Host to your account. At a minimum, specify the supported instance
+        /// type or instance family, the Availability Zone in which to allocate the host, and
+        /// the number of hosts to allocate.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AllocateHosts service method.</param>
         /// 
@@ -298,6 +497,48 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  ApplySecurityGroupsToClientVpnTargetNetwork
+
+
+        /// <summary>
+        /// Applies a security group to the association between the target network and the Client
+        /// VPN endpoint. This action replaces the existing security groups with the specified
+        /// security groups.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ApplySecurityGroupsToClientVpnTargetNetwork service method.</param>
+        /// 
+        /// <returns>The response from the ApplySecurityGroupsToClientVpnTargetNetwork service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ApplySecurityGroupsToClientVpnTargetNetwork">REST API Reference for ApplySecurityGroupsToClientVpnTargetNetwork Operation</seealso>
+        ApplySecurityGroupsToClientVpnTargetNetworkResponse ApplySecurityGroupsToClientVpnTargetNetwork(ApplySecurityGroupsToClientVpnTargetNetworkRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ApplySecurityGroupsToClientVpnTargetNetwork operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ApplySecurityGroupsToClientVpnTargetNetwork operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndApplySecurityGroupsToClientVpnTargetNetwork
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ApplySecurityGroupsToClientVpnTargetNetwork">REST API Reference for ApplySecurityGroupsToClientVpnTargetNetwork Operation</seealso>
+        IAsyncResult BeginApplySecurityGroupsToClientVpnTargetNetwork(ApplySecurityGroupsToClientVpnTargetNetworkRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ApplySecurityGroupsToClientVpnTargetNetwork operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginApplySecurityGroupsToClientVpnTargetNetwork.</param>
+        /// 
+        /// <returns>Returns a  ApplySecurityGroupsToClientVpnTargetNetworkResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ApplySecurityGroupsToClientVpnTargetNetwork">REST API Reference for ApplySecurityGroupsToClientVpnTargetNetwork Operation</seealso>
+        ApplySecurityGroupsToClientVpnTargetNetworkResponse EndApplySecurityGroupsToClientVpnTargetNetwork(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AssignIpv6Addresses
 
 
@@ -306,9 +547,14 @@ namespace Amazon.EC2
         /// one or more specific IPv6 addresses, or you can specify the number of IPv6 addresses
         /// to be automatically assigned from within the subnet's IPv6 CIDR block range. You can
         /// assign as many IPv6 addresses to a network interface as you can assign private IPv4
-        /// addresses, and the limit varies per instance type. For information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI">IP
+        /// addresses, and the limit varies per instance type. For information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI">IP
         /// Addresses Per Network Interface Per Instance Type</a> in the <i>Amazon Elastic Compute
         /// Cloud User Guide</i>.
+        /// 
+        ///  
+        /// <para>
+        /// You must specify either the IPv6 addresses or the IPv6 address count in the request.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AssignIpv6Addresses service method.</param>
         /// 
@@ -349,17 +595,31 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Assigns one or more secondary private IP addresses to the specified network interface.
-        /// You can specify one or more specific secondary IP addresses, or you can specify the
-        /// number of secondary IP addresses to be automatically assigned within the subnet's
-        /// CIDR block range. The number of secondary IP addresses that you can assign to an instance
-        /// varies by instance type. For information about instance types, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
-        /// Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. For more information
-        /// about Elastic IP addresses, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
-        /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// 
         ///  
         /// <para>
-        /// AssignPrivateIpAddresses is available only in EC2-VPC.
+        /// You can specify one or more specific secondary IP addresses, or you can specify the
+        /// number of secondary IP addresses to be automatically assigned within the subnet's
+        /// CIDR block range. The number of secondary IP addresses that you can assign to an instance
+        /// varies by instance type. For information about instance types, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+        /// Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. For more information
+        /// about Elastic IP addresses, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+        /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you move a secondary private IP address to another network interface, any Elastic
+        /// IP address that is associated with the IP address is also moved.
+        /// </para>
+        ///  
+        /// <para>
+        /// Remapping an IP address is an asynchronous operation. When you move an IP address
+        /// from one network interface to another, check <code>network/interfaces/macs/mac/local-ipv4s</code>
+        /// in the instance metadata to confirm that the remapping is complete.
+        /// </para>
+        ///  
+        /// <para>
+        /// You must specify either the IP addresses or the IP address count in the request.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AssignPrivateIpAddresses service method.</param>
@@ -400,12 +660,13 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Associates an Elastic IP address with an instance or a network interface.
+        /// Associates an Elastic IP address with an instance or a network interface. Before you
+        /// can use an Elastic IP address, you must allocate it to your account.
         /// 
         ///  
         /// <para>
         /// An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For
-        /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+        /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
         /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
@@ -423,6 +684,11 @@ namespace Amazon.EC2
         /// already associated with a different instance or a network interface, you get an error
         /// unless you allow reassociation. You cannot associate an Elastic IP address with an
         /// instance or network interface that has an existing Elastic IP address.
+        /// </para>
+        ///  
+        /// <para>
+        /// You cannot associate an Elastic IP address with an interface in a different network
+        /// border group.
         /// </para>
         ///  <important> 
         /// <para>
@@ -467,6 +733,57 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  AssociateClientVpnTargetNetwork
+
+
+        /// <summary>
+        /// Associates a target network with a Client VPN endpoint. A target network is a subnet
+        /// in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint.
+        /// You can associate only one subnet in each Availability Zone. We recommend that you
+        /// associate at least two subnets to provide Availability Zone redundancy.
+        /// 
+        ///  
+        /// <para>
+        /// If you specified a VPC when you created the Client VPN endpoint or if you have previous
+        /// subnet associations, the specified subnet must be in the same VPC. To specify a subnet
+        /// that's in a different VPC, you must first modify the Client VPN endpoint (<a>ModifyClientVpnEndpoint</a>)
+        /// and change the VPC that's associated with it.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AssociateClientVpnTargetNetwork service method.</param>
+        /// 
+        /// <returns>The response from the AssociateClientVpnTargetNetwork service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateClientVpnTargetNetwork">REST API Reference for AssociateClientVpnTargetNetwork Operation</seealso>
+        AssociateClientVpnTargetNetworkResponse AssociateClientVpnTargetNetwork(AssociateClientVpnTargetNetworkRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AssociateClientVpnTargetNetwork operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AssociateClientVpnTargetNetwork operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAssociateClientVpnTargetNetwork
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateClientVpnTargetNetwork">REST API Reference for AssociateClientVpnTargetNetwork Operation</seealso>
+        IAsyncResult BeginAssociateClientVpnTargetNetwork(AssociateClientVpnTargetNetworkRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AssociateClientVpnTargetNetwork operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAssociateClientVpnTargetNetwork.</param>
+        /// 
+        /// <returns>Returns a  AssociateClientVpnTargetNetworkResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateClientVpnTargetNetwork">REST API Reference for AssociateClientVpnTargetNetwork Operation</seealso>
+        AssociateClientVpnTargetNetworkResponse EndAssociateClientVpnTargetNetwork(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AssociateDhcpOptions
 
 
@@ -484,7 +801,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html">DHCP
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
         /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -567,15 +884,15 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Associates a subnet with a route table. The subnet and route table must be in the
-        /// same VPC. This association causes traffic originating from the subnet to be routed
-        /// according to the routes in the route table. The action returns an association ID,
-        /// which you need in order to disassociate the route table from the subnet later. A route
-        /// table can be associated with multiple subnets.
+        /// Associates a subnet in your VPC or an internet gateway or virtual private gateway
+        /// attached to your VPC with a route table in your VPC. This association causes traffic
+        /// from the subnet or gateway to be routed according to the routes in the route table.
+        /// The action returns an association ID, which you need in order to disassociate the
+        /// route table later. A route table can be associated with multiple subnets.
         /// 
         ///  
         /// <para>
-        /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -654,18 +971,113 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  AssociateTransitGatewayMulticastDomain
+
+
+        /// <summary>
+        /// Associates the specified subnets and transit gateway attachments with the specified
+        /// transit gateway multicast domain.
+        /// 
+        ///  
+        /// <para>
+        /// The transit gateway attachment must be in the available state before you can add a
+        /// resource. Use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGatewayAttachments.html">DescribeTransitGatewayAttachments</a>
+        /// to see the state of the attachment.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AssociateTransitGatewayMulticastDomain service method.</param>
+        /// 
+        /// <returns>The response from the AssociateTransitGatewayMulticastDomain service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayMulticastDomain">REST API Reference for AssociateTransitGatewayMulticastDomain Operation</seealso>
+        AssociateTransitGatewayMulticastDomainResponse AssociateTransitGatewayMulticastDomain(AssociateTransitGatewayMulticastDomainRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AssociateTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AssociateTransitGatewayMulticastDomain operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAssociateTransitGatewayMulticastDomain
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayMulticastDomain">REST API Reference for AssociateTransitGatewayMulticastDomain Operation</seealso>
+        IAsyncResult BeginAssociateTransitGatewayMulticastDomain(AssociateTransitGatewayMulticastDomainRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AssociateTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAssociateTransitGatewayMulticastDomain.</param>
+        /// 
+        /// <returns>Returns a  AssociateTransitGatewayMulticastDomainResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayMulticastDomain">REST API Reference for AssociateTransitGatewayMulticastDomain Operation</seealso>
+        AssociateTransitGatewayMulticastDomainResponse EndAssociateTransitGatewayMulticastDomain(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  AssociateTransitGatewayRouteTable
+
+
+        /// <summary>
+        /// Associates the specified attachment with the specified transit gateway route table.
+        /// You can associate only one route table with an attachment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AssociateTransitGatewayRouteTable service method.</param>
+        /// 
+        /// <returns>The response from the AssociateTransitGatewayRouteTable service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayRouteTable">REST API Reference for AssociateTransitGatewayRouteTable Operation</seealso>
+        AssociateTransitGatewayRouteTableResponse AssociateTransitGatewayRouteTable(AssociateTransitGatewayRouteTableRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AssociateTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AssociateTransitGatewayRouteTable operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAssociateTransitGatewayRouteTable
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayRouteTable">REST API Reference for AssociateTransitGatewayRouteTable Operation</seealso>
+        IAsyncResult BeginAssociateTransitGatewayRouteTable(AssociateTransitGatewayRouteTableRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AssociateTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAssociateTransitGatewayRouteTable.</param>
+        /// 
+        /// <returns>Returns a  AssociateTransitGatewayRouteTableResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AssociateTransitGatewayRouteTable">REST API Reference for AssociateTransitGatewayRouteTable Operation</seealso>
+        AssociateTransitGatewayRouteTableResponse EndAssociateTransitGatewayRouteTable(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AssociateVpcCidrBlock
 
 
         /// <summary>
         /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block,
-        /// or you can associate an Amazon-provided IPv6 CIDR block. The IPv6 CIDR block size
-        /// is fixed at /56.
+        /// an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool
+        /// that you provisioned through bring your own IP addresses (<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html">BYOIP</a>).
+        /// The IPv6 CIDR block size is fixed at /56.
         /// 
         ///  
         /// <para>
+        /// You must specify one of the following in the request: an IPv4 CIDR block, an IPv6
+        /// pool, or an Amazon-provided IPv6 CIDR block.
+        /// </para>
+        ///  
+        /// <para>
         /// For more information about associating CIDR blocks with your VPC and applicable restrictions,
-        /// see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html#VPC_Sizing">VPC
+        /// see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing">VPC
         /// and Subnet Sizing</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -762,10 +1174,10 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Attaches an Internet gateway to a VPC, enabling connectivity between the Internet
-        /// and the VPC. For more information about your VPC and Internet gateway, see the <a
-        /// href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/">Amazon Virtual Private
-        /// Cloud User Guide</a>.
+        /// Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity
+        /// between the internet and the VPC. For more information about your VPC and internet
+        /// gateway, see the <a href="https://docs.aws.amazon.com/vpc/latest/userguide/">Amazon
+        /// Virtual Private Cloud User Guide</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachInternetGateway service method.</param>
         /// 
@@ -850,16 +1262,15 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// Encrypted EBS volumes may only be attached to instances that support Amazon EBS encryption.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
         /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For a list of supported device names, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html">Attaching
-        /// an EBS Volume to an Instance</a>. Any device names that aren't reserved for instance
-        /// store volumes can be used for EBS volumes. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html">Amazon
-        /// EC2 Instance Store</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// After you attach an EBS volume, you must make it available. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html">Making
+        /// an EBS Volume Available For Use</a>.
         /// </para>
         ///  
         /// <para>
@@ -885,12 +1296,7 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For an overview of the AWS Marketplace, see <a href="https://aws.amazon.com/marketplace/help/200900000">Introducing
-        /// AWS Marketplace</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// For more information about EBS volumes, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html">Attaching
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html">Attaching
         /// Amazon EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -937,8 +1343,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachVpnGateway service method.</param>
@@ -975,31 +1381,76 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  AuthorizeClientVpnIngress
+
+
+        /// <summary>
+        /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization
+        /// rules act as firewall rules that grant access to networks. You must configure ingress
+        /// authorization rules to enable clients to access resources in AWS or on-premises networks.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AuthorizeClientVpnIngress service method.</param>
+        /// 
+        /// <returns>The response from the AuthorizeClientVpnIngress service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AuthorizeClientVpnIngress">REST API Reference for AuthorizeClientVpnIngress Operation</seealso>
+        AuthorizeClientVpnIngressResponse AuthorizeClientVpnIngress(AuthorizeClientVpnIngressRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AuthorizeClientVpnIngress operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AuthorizeClientVpnIngress operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAuthorizeClientVpnIngress
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AuthorizeClientVpnIngress">REST API Reference for AuthorizeClientVpnIngress Operation</seealso>
+        IAsyncResult BeginAuthorizeClientVpnIngress(AuthorizeClientVpnIngressRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AuthorizeClientVpnIngress operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAuthorizeClientVpnIngress.</param>
+        /// 
+        /// <returns>Returns a  AuthorizeClientVpnIngressResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/AuthorizeClientVpnIngress">REST API Reference for AuthorizeClientVpnIngress Operation</seealso>
+        AuthorizeClientVpnIngressResponse EndAuthorizeClientVpnIngress(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AuthorizeSecurityGroupEgress
 
 
         /// <summary>
-        /// [EC2-VPC only] Adds one or more egress rules to a security group for use with a VPC.
-        /// Specifically, this action permits instances to send traffic to one or more destination
-        /// IPv4 or IPv6 CIDR address ranges, or to one or more destination security groups for
-        /// the same VPC. This action doesn't apply to security groups for use in EC2-Classic.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
-        /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User Guide</i>. For
-        /// more information about security group limits, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html">Amazon
-        /// VPC Limits</a>.
+        /// [VPC only] Adds the specified egress rules to a security group for use with a VPC.
         /// 
         ///  
         /// <para>
-        /// Each rule consists of the protocol (for example, TCP), plus either a CIDR range or
-        /// a source group. For the TCP and UDP protocols, you must also specify the destination
-        /// port or port range. For the ICMP protocol, you must also specify the ICMP type and
-        /// code. You can use -1 for the type or code to mean all types or all codes. You can
-        /// optionally specify a description for the rule.
+        /// An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR
+        /// address ranges, or to the instances associated with the specified destination security
+        /// groups.
+        /// </para>
+        ///  
+        /// <para>
+        /// You specify a protocol for each rule (for example, TCP). For the TCP and UDP protocols,
+        /// you must also specify the destination port or port range. For the ICMP protocol, you
+        /// must also specify the ICMP type and code. You can use -1 for the type or code to mean
+        /// all types or all codes.
         /// </para>
         ///  
         /// <para>
         /// Rule changes are propagated to affected instances as quickly as possible. However,
         /// a small delay might occur.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about VPC security group limits, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html">Amazon
+        /// VPC Limits</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AuthorizeSecurityGroupEgress service method.</param>
@@ -1040,8 +1491,20 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Adds one or more ingress rules to a security group.
+        /// Adds the specified ingress rules to a security group.
         /// 
+        ///  
+        /// <para>
+        /// An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6
+        /// CIDR address ranges, or from the instances associated with the specified destination
+        /// security groups.
+        /// </para>
+        ///  
+        /// <para>
+        /// You specify a protocol for each rule (for example, TCP). For TCP and UDP, you must
+        /// also specify the destination port or port range. For ICMP/ICMPv6, you must also specify
+        /// the ICMP/ICMPv6 type and code. You can use -1 to mean all types or all codes.
+        /// </para>
         ///  
         /// <para>
         /// Rule changes are propagated to instances within the security group as quickly as possible.
@@ -1049,24 +1512,8 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// [EC2-Classic] This action gives one or more IPv4 CIDR address ranges permission to
-        /// access a security group in your account, or gives one or more security groups (called
-        /// the <i>source groups</i>) permission to access a security group for your account.
-        /// A source group can be for your own AWS account, or another. You can have up to 100
-        /// rules per group.
-        /// </para>
-        ///  
-        /// <para>
-        /// [EC2-VPC] This action gives one or more IPv4 or IPv6 CIDR address ranges permission
-        /// to access a security group in your VPC, or gives one or more other security groups
-        /// (called the <i>source groups</i>) permission to access a security group for your VPC.
-        /// The security groups must all be for the same VPC or a peer VPC in a VPC peering connection.
-        /// For more information about VPC security group limits, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html">Amazon
+        /// For more information about VPC security group limits, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html">Amazon
         /// VPC Limits</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// You can optionally specify a description for the security group rule.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AuthorizeSecurityGroupIngress service method.</param>
@@ -1119,11 +1566,7 @@ namespace Amazon.EC2
         /// This action is not applicable for Linux/Unix instances or Windows instances that are
         /// backed by Amazon EBS.
         /// </para>
-        ///  </note> 
-        /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/Creating_InstanceStoreBacked_WinAMI.html">Creating
-        /// an Instance Store-Backed Windows AMI</a>.
-        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BundleInstance service method.</param>
         /// 
@@ -1199,6 +1642,56 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  CancelCapacityReservation
+
+
+        /// <summary>
+        /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes
+        /// the Capacity Reservation's state to <code>cancelled</code>.
+        /// 
+        ///  
+        /// <para>
+        /// Instances running in the reserved capacity continue running until you stop them. Stopped
+        /// instances that target the Capacity Reservation can no longer launch. Modify these
+        /// instances to either target a different Capacity Reservation, launch On-Demand Instance
+        /// capacity, or run in any open Capacity Reservation that has matching attributes and
+        /// sufficient capacity.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelCapacityReservation service method.</param>
+        /// 
+        /// <returns>The response from the CancelCapacityReservation service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CancelCapacityReservation">REST API Reference for CancelCapacityReservation Operation</seealso>
+        CancelCapacityReservationResponse CancelCapacityReservation(CancelCapacityReservationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelCapacityReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelCapacityReservation operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelCapacityReservation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CancelCapacityReservation">REST API Reference for CancelCapacityReservation Operation</seealso>
+        IAsyncResult BeginCancelCapacityReservation(CancelCapacityReservationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelCapacityReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelCapacityReservation.</param>
+        /// 
+        /// <returns>Returns a  CancelCapacityReservationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CancelCapacityReservation">REST API Reference for CancelCapacityReservation Operation</seealso>
+        CancelCapacityReservationResponse EndCancelCapacityReservation(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CancelConversionTask
 
 
@@ -1210,7 +1703,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ec2-cli-vmimport-export.html">Importing
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ec2-cli-vmimport-export.html">Importing
         /// a Virtual Machine Using the Amazon EC2 CLI</a>.
         /// </para>
         /// </summary>
@@ -1338,7 +1831,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
         /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -1430,10 +1923,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Cancels one or more Spot Instance requests. Spot Instances are instances that Amazon
-        /// EC2 starts on your behalf when the maximum price that you specify exceeds the current
-        /// Spot price. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html">Spot
-        /// Instance Requests</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Cancels one or more Spot Instance requests.
         /// 
         ///  <important> 
         /// <para>
@@ -1522,7 +2012,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Copies the specified Amazon FPGA Image (AFI) to the current region.
+        /// Copies the specified Amazon FPGA Image (AFI) to the current Region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CopyFpgaImage service method.</param>
         /// 
@@ -1562,13 +2052,20 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Initiates the copy of an AMI from the specified source region to the current region.
-        /// You specify the destination region by using its endpoint when making the request.
+        /// Initiates the copy of an AMI from the specified source Region to the current Region.
+        /// You specify the destination Region by using its endpoint when making the request.
         /// 
         ///  
         /// <para>
+        /// Copies of encrypted backing snapshots for the AMI are encrypted. Copies of unencrypted
+        /// backing snapshots remain unencrypted, unless you set <code>Encrypted</code> during
+        /// the copy operation. You cannot create an unencrypted copy of an encrypted backing
+        /// snapshot.
+        /// </para>
+        ///  
+        /// <para>
         /// For more information about the prerequisites and limits when copying an AMI, see <a
-        /// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html">Copying
+        /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html">Copying
         /// an AMI</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -1611,31 +2108,29 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can
-        /// copy the snapshot within the same region or from one region to another. You can use
-        /// the snapshot to create EBS volumes or Amazon Machine Images (AMIs). The snapshot is
-        /// copied to the regional endpoint that you send the HTTP request to.
+        /// copy the snapshot within the same Region or from one Region to another. You can use
+        /// the snapshot to create EBS volumes or Amazon Machine Images (AMIs).
         /// 
         ///  
         /// <para>
         /// Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots
-        /// remain unencrypted, unless the <code>Encrypted</code> flag is specified during the
-        /// snapshot copy operation. By default, encrypted snapshot copies use the default AWS
-        /// Key Management Service (AWS KMS) customer master key (CMK); however, you can specify
-        /// a non-default CMK with the <code>KmsKeyId</code> parameter. 
+        /// remain unencrypted, unless you enable encryption for the snapshot copy operation.
+        /// By default, encrypted snapshot copies use the default AWS Key Management Service (AWS
+        /// KMS) customer master key (CMK); however, you can specify a different CMK.
         /// </para>
-        ///  <note> 
+        ///  
         /// <para>
         /// To copy an encrypted snapshot that has been shared from another account, you must
         /// have permissions for the CMK used to encrypt the snapshot.
         /// </para>
-        ///  </note> <note> 
+        ///  
         /// <para>
-        /// Snapshots created by the CopySnapshot action have an arbitrary volume ID that should
+        /// Snapshots created by copying another snapshot have an arbitrary volume ID that should
         /// not be used for any purpose.
         /// </para>
-        ///  </note> 
+        ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-copy-snapshot.html">Copying
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-copy-snapshot.html">Copying
         /// an Amazon EBS Snapshot</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -1673,6 +2168,158 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  CreateCapacityReservation
+
+
+        /// <summary>
+        /// Creates a new Capacity Reservation with the specified attributes.
+        /// 
+        ///  
+        /// <para>
+        /// Capacity Reservations enable you to reserve capacity for your Amazon EC2 instances
+        /// in a specific Availability Zone for any duration. This gives you the flexibility to
+        /// selectively add capacity reservations and still get the Regional RI discounts for
+        /// that usage. By creating Capacity Reservations, you ensure that you always have access
+        /// to Amazon EC2 capacity when you need it, for as long as you need it. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html">Capacity
+        /// Reservations</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Your request to create a Capacity Reservation could fail if Amazon EC2 does not have
+        /// sufficient capacity to fulfill the request. If your request fails due to Amazon EC2
+        /// capacity constraints, either try again at a later time, try in a different Availability
+        /// Zone, or request a smaller capacity reservation. If your application is flexible across
+        /// instance types and sizes, try to create a Capacity Reservation with different instance
+        /// attributes.
+        /// </para>
+        ///  
+        /// <para>
+        /// Your request could also fail if the requested quantity exceeds your On-Demand Instance
+        /// limit for the selected instance type. If your request fails due to limit constraints,
+        /// increase your On-Demand Instance limit for the required instance type and try again.
+        /// For more information about increasing your instance limits, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Amazon
+        /// EC2 Service Limits</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCapacityReservation service method.</param>
+        /// 
+        /// <returns>The response from the CreateCapacityReservation service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateCapacityReservation">REST API Reference for CreateCapacityReservation Operation</seealso>
+        CreateCapacityReservationResponse CreateCapacityReservation(CreateCapacityReservationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateCapacityReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateCapacityReservation operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateCapacityReservation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateCapacityReservation">REST API Reference for CreateCapacityReservation Operation</seealso>
+        IAsyncResult BeginCreateCapacityReservation(CreateCapacityReservationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateCapacityReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateCapacityReservation.</param>
+        /// 
+        /// <returns>Returns a  CreateCapacityReservationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateCapacityReservation">REST API Reference for CreateCapacityReservation Operation</seealso>
+        CreateCapacityReservationResponse EndCreateCapacityReservation(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateClientVpnEndpoint
+
+
+        /// <summary>
+        /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and
+        /// configure to enable and manage client VPN sessions. It is the destination endpoint
+        /// at which all client VPN sessions are terminated.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateClientVpnEndpoint service method.</param>
+        /// 
+        /// <returns>The response from the CreateClientVpnEndpoint service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateClientVpnEndpoint">REST API Reference for CreateClientVpnEndpoint Operation</seealso>
+        CreateClientVpnEndpointResponse CreateClientVpnEndpoint(CreateClientVpnEndpointRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateClientVpnEndpoint operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateClientVpnEndpoint operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateClientVpnEndpoint
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateClientVpnEndpoint">REST API Reference for CreateClientVpnEndpoint Operation</seealso>
+        IAsyncResult BeginCreateClientVpnEndpoint(CreateClientVpnEndpointRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateClientVpnEndpoint operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateClientVpnEndpoint.</param>
+        /// 
+        /// <returns>Returns a  CreateClientVpnEndpointResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateClientVpnEndpoint">REST API Reference for CreateClientVpnEndpoint Operation</seealso>
+        CreateClientVpnEndpointResponse EndCreateClientVpnEndpoint(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateClientVpnRoute
+
+
+        /// <summary>
+        /// Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a
+        /// route table that describes the available destination network routes. Each route in
+        /// the route table specifies the path for traﬃc to speciﬁc resources or networks.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateClientVpnRoute service method.</param>
+        /// 
+        /// <returns>The response from the CreateClientVpnRoute service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateClientVpnRoute">REST API Reference for CreateClientVpnRoute Operation</seealso>
+        CreateClientVpnRouteResponse CreateClientVpnRoute(CreateClientVpnRouteRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateClientVpnRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateClientVpnRoute operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateClientVpnRoute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateClientVpnRoute">REST API Reference for CreateClientVpnRoute Operation</seealso>
+        IAsyncResult BeginCreateClientVpnRoute(CreateClientVpnRouteRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateClientVpnRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateClientVpnRoute.</param>
+        /// 
+        /// <returns>Returns a  CreateClientVpnRouteResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateClientVpnRoute">REST API Reference for CreateClientVpnRoute Operation</seealso>
+        CreateClientVpnRouteResponse EndCreateClientVpnRoute(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateCustomerGateway
 
 
@@ -1681,7 +2328,7 @@ namespace Amazon.EC2
         /// is the appliance at your end of the VPN connection. (The device on the AWS side of
         /// the VPN connection is the virtual private gateway.) You must provide the Internet-routable
         /// IP address of the customer gateway's external interface. The IP address must be static
-        /// and may be behind a device performing network address translation (NAT).
+        /// and can be behind a device performing network address translation (NAT).
         /// 
         ///  
         /// <para>
@@ -1693,21 +2340,19 @@ namespace Amazon.EC2
         ///  <note> 
         /// <para>
         /// Amazon EC2 supports all 2-byte ASN numbers in the range of 1 - 65534, with the exception
-        /// of 7224, which is reserved in the <code>us-east-1</code> region, and 9059, which is
-        /// reserved in the <code>eu-west-1</code> region.
+        /// of 7224, which is reserved in the <code>us-east-1</code> Region, and 9059, which is
+        /// reserved in the <code>eu-west-1</code> Region.
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information about VPN customer gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         ///  <important> 
         /// <para>
-        /// You cannot create more than one customer gateway with the same VPN type, IP address,
-        /// and BGP ASN parameter values. If you run an identical request more than one time,
-        /// the first request creates the customer gateway, and subsequent requests return information
-        /// about the existing customer gateway. The subsequent requests do not create new customer
-        /// gateway resources.
+        /// To create more than one customer gateway with the same VPN type, IP address, and BGP
+        /// ASN, specify a unique device name for each customer gateway. Identical requests return
+        /// information about the existing customer gateway and do not create new customer gateways.
         /// </para>
         ///  </important>
         /// </summary>
@@ -1751,7 +2396,7 @@ namespace Amazon.EC2
         /// <summary>
         /// Creates a default subnet with a size <code>/20</code> IPv4 CIDR block in the specified
         /// Availability Zone in your default VPC. You can have only one default subnet per Availability
-        /// Zone. For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html#create-default-subnet">Creating
+        /// Zone. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-subnet">Creating
         /// a Default Subnet</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDefaultSubnet service method.</param>
@@ -1794,19 +2439,19 @@ namespace Amazon.EC2
         /// <summary>
         /// Creates a default VPC with a size <code>/16</code> IPv4 CIDR block and a default subnet
         /// in each Availability Zone. For more information about the components of a default
-        /// VPC, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html">Default
+        /// VPC, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html">Default
         /// VPC and Default Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// You cannot specify the components of the default VPC yourself.
         /// 
         ///  
         /// <para>
-        /// You can create a default VPC if you deleted your previous default VPC. You cannot
-        /// have more than one default VPC per region. 
+        /// If you deleted your previous default VPC, you can create a default VPC. You cannot
+        /// have more than one default VPC per Region.
         /// </para>
         ///  
         /// <para>
         /// If your account supports EC2-Classic, you cannot use this action to create a default
-        /// VPC in a region that supports EC2-Classic. If you want a default VPC in a region that
+        /// VPC in a Region that supports EC2-Classic. If you want a default VPC in a Region that
         /// supports EC2-Classic, see "I really want a default VPC for my existing EC2 account.
         /// Is that possible?" in the <a href="http://aws.amazon.com/vpc/faqs/#Default_VPCs">Default
         /// VPCs FAQ</a>.
@@ -1861,14 +2506,14 @@ namespace Amazon.EC2
         ///  <code>domain-name-servers</code> - The IP addresses of up to four domain name servers,
         /// or AmazonProvidedDNS. The default DHCP option set specifies AmazonProvidedDNS. If
         /// specifying more than one domain name server, specify the IP addresses in a single
-        /// parameter, separated by commas. If you want your instance to receive a custom DNS
-        /// hostname as specified in <code>domain-name</code>, you must set <code>domain-name-servers</code>
+        /// parameter, separated by commas. To have your instance receive a custom DNS hostname
+        /// as specified in <code>domain-name</code>, you must set <code>domain-name-servers</code>
         /// to a custom DNS server.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>domain-name</code> - If you're using AmazonProvidedDNS in <code>us-east-1</code>,
-        /// specify <code>ec2.internal</code>. If you're using AmazonProvidedDNS in another region,
+        /// specify <code>ec2.internal</code>. If you're using AmazonProvidedDNS in another Region,
         /// specify <code>region.compute.internal</code> (for example, <code>ap-northeast-1.compute.internal</code>).
         /// Otherwise, specify a domain name (for example, <code>MyCompany.com</code>). This value
         /// is used to complete unqualified DNS hostnames. <b>Important</b>: Some Linux operating
@@ -1897,9 +2542,9 @@ namespace Amazon.EC2
         /// <para>
         /// Your VPC automatically starts out with a set of DHCP options that includes only a
         /// DNS server that we provide (AmazonProvidedDNS). If you create a set of options, and
-        /// if your VPC has an Internet gateway, make sure to set the <code>domain-name-servers</code>
+        /// if your VPC has an internet gateway, make sure to set the <code>domain-name-servers</code>
         /// option either to <code>AmazonProvidedDNS</code> or to a domain name server of your
-        /// choice. For more information about DHCP options, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html">DHCP
+        /// choice. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
         /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -1941,9 +2586,9 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// [IPv6 only] Creates an egress-only Internet gateway for your VPC. An egress-only Internet
+        /// [IPv6 only] Creates an egress-only internet gateway for your VPC. An egress-only internet
         /// gateway is used to enable outbound communication over IPv6 from instances in your
-        /// VPC to the Internet, and prevents hosts outside of your VPC from initiating an IPv6
+        /// VPC to the internet, and prevents hosts outside of your VPC from initiating an IPv6
         /// connection with your instance.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateEgressOnlyInternetGateway service method.</param>
@@ -1980,25 +2625,81 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  CreateFleet
+
+
+        /// <summary>
+        /// Launches an EC2 Fleet.
+        /// 
+        ///  
+        /// <para>
+        /// You can create a single EC2 Fleet that includes multiple launch specifications that
+        /// vary by instance type, AMI, Availability Zone, or subnet.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html">Launching
+        /// an EC2 Fleet</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateFleet service method.</param>
+        /// 
+        /// <returns>The response from the CreateFleet service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateFleet">REST API Reference for CreateFleet Operation</seealso>
+        CreateFleetResponse CreateFleet(CreateFleetRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateFleet operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateFleet operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateFleet
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateFleet">REST API Reference for CreateFleet Operation</seealso>
+        IAsyncResult BeginCreateFleet(CreateFleetRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateFleet operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateFleet.</param>
+        /// 
+        /// <returns>Returns a  CreateFleetResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateFleet">REST API Reference for CreateFleet Operation</seealso>
+        CreateFleetResponse EndCreateFleet(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateFlowLogs
 
 
         /// <summary>
-        /// Creates one or more flow logs to capture IP traffic for a specific network interface,
-        /// subnet, or VPC. Flow logs are delivered to a specified log group in Amazon CloudWatch
-        /// Logs. If you specify a VPC or subnet in the request, a log stream is created in CloudWatch
-        /// Logs for each network interface in the subnet or VPC. Log streams can include information
-        /// about accepted and rejected traffic to a network interface. You can view the data
-        /// in your log streams using Amazon CloudWatch Logs.
+        /// Creates one or more flow logs to capture information about IP traffic for a specific
+        /// network interface, subnet, or VPC. 
         /// 
         ///  
         /// <para>
-        /// In your request, you must also specify an IAM role that has permission to publish
-        /// logs to CloudWatch Logs.
+        /// Flow log data for a monitored network interface is recorded as flow log records, which
+        /// are log events consisting of fields that describe the traffic flow. For more information,
+        /// see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html#flow-log-records">Flow
+        /// Log Records</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/flow-logs.html">VPC
+        /// When publishing to CloudWatch Logs, flow log records are published to a log group,
+        /// and each network interface has a unique log stream in the log group. When publishing
+        /// to Amazon S3, flow log records for all of the monitored network interfaces are published
+        /// to a single log file object that is stored in the specified bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html">VPC
         /// Flow Logs</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2050,8 +2751,8 @@ namespace Amazon.EC2
         ///  
         /// <para>
         /// An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely
-        /// deploy an AFI on one or more FPGA-accelerated instances. For more information, see
-        /// the <a href="https://github.com/aws/aws-fpga/">AWS FPGA Hardware Development Kit</a>.
+        /// deploy an AFI on multiple FPGA-accelerated instances. For more information, see the
+        /// <a href="https://github.com/aws/aws-fpga/">AWS FPGA Hardware Development Kit</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateFpgaImage service method.</param>
@@ -2104,7 +2805,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html">Creating
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html">Creating
         /// Amazon EBS-Backed Linux AMIs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2151,7 +2852,7 @@ namespace Amazon.EC2
         ///  
         /// <para>
         /// For information about the supported operating systems, image formats, and known limitations
-        /// for the types of instances you can export, see <a href="http://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html">Exporting
+        /// for the types of instances you can export, see <a href="https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html">Exporting
         /// an Instance as a VM Using VM Import/Export</a> in the <i>VM Import/Export User Guide</i>.
         /// </para>
         /// </summary>
@@ -2193,12 +2894,12 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Creates an Internet gateway for use with a VPC. After creating the Internet gateway,
+        /// Creates an internet gateway for use with a VPC. After creating the internet gateway,
         /// you attach it to a VPC using <a>AttachInternetGateway</a>.
         /// 
         ///  
         /// <para>
-        /// For more information about your VPC and Internet gateway, see the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/">Amazon
+        /// For more information about your VPC and internet gateway, see the <a href="https://docs.aws.amazon.com/vpc/latest/userguide/">Amazon
         /// Virtual Private Cloud User Guide</a>.
         /// </para>
         /// </summary>
@@ -2208,12 +2909,12 @@ namespace Amazon.EC2
         CreateInternetGatewayResponse CreateInternetGateway();
 
         /// <summary>
-        /// Creates an Internet gateway for use with a VPC. After creating the Internet gateway,
+        /// Creates an internet gateway for use with a VPC. After creating the internet gateway,
         /// you attach it to a VPC using <a>AttachInternetGateway</a>.
         /// 
         ///  
         /// <para>
-        /// For more information about your VPC and Internet gateway, see the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/">Amazon
+        /// For more information about your VPC and internet gateway, see the <a href="https://docs.aws.amazon.com/vpc/latest/userguide/">Amazon
         /// Virtual Private Cloud User Guide</a>.
         /// </para>
         /// </summary>
@@ -2262,17 +2963,17 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// You can have up to five thousand key pairs per region.
+        /// You can have up to five thousand key pairs per Region.
         /// </para>
         ///  
         /// <para>
-        /// The key pair returned to you is available only in the region in which you create it.
+        /// The key pair returned to you is available only in the Region in which you create it.
         /// If you prefer, you can create your own key pair using a third-party tool and upload
-        /// it to any region using <a>ImportKeyPair</a>.
+        /// it to any Region using <a>ImportKeyPair</a>.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
         /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2399,14 +3100,95 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  CreateLocalGatewayRoute
+
+
+        /// <summary>
+        /// Creates a static route for the specified local gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateLocalGatewayRoute service method.</param>
+        /// 
+        /// <returns>The response from the CreateLocalGatewayRoute service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateLocalGatewayRoute">REST API Reference for CreateLocalGatewayRoute Operation</seealso>
+        CreateLocalGatewayRouteResponse CreateLocalGatewayRoute(CreateLocalGatewayRouteRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateLocalGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateLocalGatewayRoute operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateLocalGatewayRoute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateLocalGatewayRoute">REST API Reference for CreateLocalGatewayRoute Operation</seealso>
+        IAsyncResult BeginCreateLocalGatewayRoute(CreateLocalGatewayRouteRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateLocalGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateLocalGatewayRoute.</param>
+        /// 
+        /// <returns>Returns a  CreateLocalGatewayRouteResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateLocalGatewayRoute">REST API Reference for CreateLocalGatewayRoute Operation</seealso>
+        CreateLocalGatewayRouteResponse EndCreateLocalGatewayRoute(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateLocalGatewayRouteTableVpcAssociation
+
+
+        /// <summary>
+        /// Associates the specified VPC with the specified local gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateLocalGatewayRouteTableVpcAssociation service method.</param>
+        /// 
+        /// <returns>The response from the CreateLocalGatewayRouteTableVpcAssociation service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateLocalGatewayRouteTableVpcAssociation">REST API Reference for CreateLocalGatewayRouteTableVpcAssociation Operation</seealso>
+        CreateLocalGatewayRouteTableVpcAssociationResponse CreateLocalGatewayRouteTableVpcAssociation(CreateLocalGatewayRouteTableVpcAssociationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateLocalGatewayRouteTableVpcAssociation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateLocalGatewayRouteTableVpcAssociation operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateLocalGatewayRouteTableVpcAssociation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateLocalGatewayRouteTableVpcAssociation">REST API Reference for CreateLocalGatewayRouteTableVpcAssociation Operation</seealso>
+        IAsyncResult BeginCreateLocalGatewayRouteTableVpcAssociation(CreateLocalGatewayRouteTableVpcAssociationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateLocalGatewayRouteTableVpcAssociation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateLocalGatewayRouteTableVpcAssociation.</param>
+        /// 
+        /// <returns>Returns a  CreateLocalGatewayRouteTableVpcAssociationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateLocalGatewayRouteTableVpcAssociation">REST API Reference for CreateLocalGatewayRouteTableVpcAssociation Operation</seealso>
+        CreateLocalGatewayRouteTableVpcAssociationResponse EndCreateLocalGatewayRouteTableVpcAssociation(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateNatGateway
 
 
         /// <summary>
-        /// Creates a NAT gateway in the specified subnet. A NAT gateway can be used to enable
-        /// instances in a private subnet to connect to the Internet. This action creates a network
+        /// Creates a NAT gateway in the specified public subnet. This action creates a network
         /// interface in the specified subnet with a private IP address from the IP address range
-        /// of the subnet. For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html">NAT
+        /// of the subnet. Internet-bound traffic from a private subnet can be routed to the NAT
+        /// gateway, therefore enabling instances in the private subnet to connect to the internet.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">NAT
         /// Gateways</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateNatGateway service method.</param>
@@ -2452,7 +3234,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about network ACLs, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html">Network
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_ACLs.html">Network
         /// ACLs</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2515,7 +3297,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about network ACLs, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html">Network
+        /// For more information about network ACLs, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_ACLs.html">Network
         /// ACLs</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2561,7 +3343,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about network interfaces, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html">Elastic
+        /// For more information about network interfaces, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html">Elastic
         /// Network Interfaces</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2603,8 +3385,8 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Grants an AWS authorized partner account permission to attach the specified network
-        /// interface to an instance in their account.
+        /// Grants an AWS-authorized account permission to attach the specified network interface
+        /// to an instance in their account.
         /// 
         ///  
         /// <para>
@@ -2656,11 +3438,13 @@ namespace Amazon.EC2
         /// <para>
         /// A <code>cluster</code> placement group is a logical grouping of instances within a
         /// single Availability Zone that benefit from low network latency, high network throughput.
-        /// A <code>spread</code> placement group places instances on distinct hardware.
+        /// A <code>spread</code> placement group places instances on distinct hardware. A <code>partition</code>
+        /// placement group places groups of instances in different partitions, where instances
+        /// in one partition do not share the same hardware with instances in another partition.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
         /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2709,9 +3493,8 @@ namespace Amazon.EC2
         /// 
         ///  <note> 
         /// <para>
-        /// Only Standard Reserved Instances with a capacity reservation can be sold in the Reserved
-        /// Instance Marketplace. Convertible Reserved Instances and Standard Reserved Instances
-        /// with a regional benefit cannot be sold.
+        /// Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.
+        /// Convertible Reserved Instances cannot be sold.
         /// </para>
         ///  </note> 
         /// <para>
@@ -2732,7 +3515,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
         /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2778,9 +3561,9 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// You must specify one of the following targets: Internet gateway or virtual private
-        /// gateway, NAT instance, NAT gateway, VPC peering connection, network interface, or
-        /// egress-only Internet gateway.
+        /// You must specify one of the following targets: internet gateway or virtual private
+        /// gateway, NAT instance, NAT gateway, VPC peering connection, network interface, egress-only
+        /// internet gateway, or transit gateway.
         /// </para>
         ///  
         /// <para>
@@ -2804,7 +3587,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// For more information about route tables, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2851,7 +3634,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -2897,21 +3680,13 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// A security group is for use with instances either in the EC2-Classic platform or in
-        /// a specific VPC. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
+        /// A security group acts as a virtual firewall for your instance to control inbound and
+        /// outbound traffic. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
         /// EC2 Security Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i> and
-        /// <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
+        /// <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
         /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
-        ///  <important> 
-        /// <para>
-        /// EC2-Classic: You can have up to 500 security groups.
-        /// </para>
         ///  
-        /// <para>
-        /// EC2-VPC: You can create up to 500 security groups per VPC.
-        /// </para>
-        ///  </important> 
         /// <para>
         /// When you create a security group, you specify a friendly name of your choice. You
         /// can have a security group for use in EC2-Classic with the same name as a security
@@ -2930,6 +3705,11 @@ namespace Amazon.EC2
         /// <para>
         /// You can add or remove rules from your security groups using <a>AuthorizeSecurityGroupIngress</a>,
         /// <a>AuthorizeSecurityGroupEgress</a>, <a>RevokeSecurityGroupIngress</a>, and <a>RevokeSecurityGroupEgress</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about VPC security group limits, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html">Amazon
+        /// VPC Limits</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateSecurityGroup service method.</param>
@@ -3003,13 +3783,13 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// You can tag your snapshots during creation. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-        /// Your Amazon EC2 Resources</a>.
+        /// You can tag your snapshots during creation. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+        /// Your Amazon EC2 Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html">Amazon
-        /// Elastic Block Store</a> and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html">Amazon
+        /// Elastic Block Store</a> and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
         /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -3047,13 +3827,56 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  CreateSnapshots
+
+
+        /// <summary>
+        /// Creates crash-consistent snapshots of multiple EBS volumes and stores the data in
+        /// S3. Volumes are chosen by specifying an instance. Any attached volumes will produce
+        /// one snapshot each that is crash-consistent across the instance. Boot volumes can be
+        /// excluded by changing the parameters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSnapshots service method.</param>
+        /// 
+        /// <returns>The response from the CreateSnapshots service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateSnapshots">REST API Reference for CreateSnapshots Operation</seealso>
+        CreateSnapshotsResponse CreateSnapshots(CreateSnapshotsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateSnapshots operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSnapshots
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateSnapshots">REST API Reference for CreateSnapshots Operation</seealso>
+        IAsyncResult BeginCreateSnapshots(CreateSnapshotsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSnapshots.</param>
+        /// 
+        /// <returns>Returns a  CreateSnapshotsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateSnapshots">REST API Reference for CreateSnapshots Operation</seealso>
+        CreateSnapshotsResponse EndCreateSnapshots(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateSpotDatafeedSubscription
 
 
         /// <summary>
         /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs.
-        /// You can create one data feed per AWS account. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
-        /// Instance Data Feed</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// You can create one data feed per AWS account. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
+        /// Instance Data Feed</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateSpotDatafeedSubscription service method.</param>
         /// 
@@ -3097,13 +3920,12 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// When you create each subnet, you provide the VPC ID and the IPv4 CIDR block you want
-        /// for the subnet. After you create a subnet, you can't change its CIDR block. The size
-        /// of the subnet's IPv4 CIDR block can be the same as a VPC's IPv4 CIDR block, or a subset
-        /// of a VPC's IPv4 CIDR block. If you create more than one subnet in a VPC, the subnets'
-        /// CIDR blocks must not overlap. The smallest IPv4 subnet (and VPC) you can create uses
-        /// a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
-        /// addresses).
+        /// When you create each subnet, you provide the VPC ID and IPv4 CIDR block for the subnet.
+        /// After you create a subnet, you can't change its CIDR block. The size of the subnet's
+        /// IPv4 CIDR block can be the same as a VPC's IPv4 CIDR block, or a subset of a VPC's
+        /// IPv4 CIDR block. If you create more than one subnet in a VPC, the subnets' CIDR blocks
+        /// must not overlap. The smallest IPv4 subnet (and VPC) you can create uses a /28 netmask
+        /// (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses).
         /// </para>
         ///  
         /// <para>
@@ -3130,7 +3952,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about subnets, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html">Your
+        /// For more information about subnets, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
         /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -3172,16 +3994,16 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Adds or overwrites one or more tags for the specified Amazon EC2 resource or resources.
+        /// Adds or overwrites the specified tags for the specified Amazon EC2 resource or resources.
         /// Each resource can have a maximum of 50 tags. Each tag consists of a key and optional
         /// value. Tag keys must be unique per resource.
         /// 
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
         /// Your Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. For more
         /// information about creating IAM policies that control users' access to resources based
-        /// on tags, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-iam-actions-resources.html">Supported
+        /// on tags, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-iam-actions-resources.html">Supported
         /// Resource-Level Permissions for Amazon EC2 API Actions</a> in the <i>Amazon Elastic
         /// Compute Cloud User Guide</i>.
         /// </para>
@@ -3220,13 +4042,523 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  CreateTrafficMirrorFilter
+
+
+        /// <summary>
+        /// Creates a Traffic Mirror filter.
+        /// 
+        ///  
+        /// <para>
+        /// A Traffic Mirror filter is a set of rules that defines the traffic to mirror.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, no traffic is mirrored. To mirror traffic, use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilterRule.htm">CreateTrafficMirrorFilterRule</a>
+        /// to add Traffic Mirror rules to the filter. The rules you add define what traffic gets
+        /// mirrored. You can also use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyTrafficMirrorFilterNetworkServices.html">ModifyTrafficMirrorFilterNetworkServices</a>
+        /// to mirror supported network services.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorFilter service method.</param>
+        /// 
+        /// <returns>The response from the CreateTrafficMirrorFilter service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorFilter">REST API Reference for CreateTrafficMirrorFilter Operation</seealso>
+        CreateTrafficMirrorFilterResponse CreateTrafficMirrorFilter(CreateTrafficMirrorFilterRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTrafficMirrorFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorFilter operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTrafficMirrorFilter
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorFilter">REST API Reference for CreateTrafficMirrorFilter Operation</seealso>
+        IAsyncResult BeginCreateTrafficMirrorFilter(CreateTrafficMirrorFilterRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTrafficMirrorFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTrafficMirrorFilter.</param>
+        /// 
+        /// <returns>Returns a  CreateTrafficMirrorFilterResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorFilter">REST API Reference for CreateTrafficMirrorFilter Operation</seealso>
+        CreateTrafficMirrorFilterResponse EndCreateTrafficMirrorFilter(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTrafficMirrorFilterRule
+
+
+        /// <summary>
+        /// Creates a Traffic Mirror filter rule. 
+        /// 
+        ///  
+        /// <para>
+        /// A Traffic Mirror rule defines the Traffic Mirror source traffic to mirror.
+        /// </para>
+        ///  
+        /// <para>
+        /// You need the Traffic Mirror filter ID when you create the rule.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorFilterRule service method.</param>
+        /// 
+        /// <returns>The response from the CreateTrafficMirrorFilterRule service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorFilterRule">REST API Reference for CreateTrafficMirrorFilterRule Operation</seealso>
+        CreateTrafficMirrorFilterRuleResponse CreateTrafficMirrorFilterRule(CreateTrafficMirrorFilterRuleRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTrafficMirrorFilterRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorFilterRule operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTrafficMirrorFilterRule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorFilterRule">REST API Reference for CreateTrafficMirrorFilterRule Operation</seealso>
+        IAsyncResult BeginCreateTrafficMirrorFilterRule(CreateTrafficMirrorFilterRuleRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTrafficMirrorFilterRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTrafficMirrorFilterRule.</param>
+        /// 
+        /// <returns>Returns a  CreateTrafficMirrorFilterRuleResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorFilterRule">REST API Reference for CreateTrafficMirrorFilterRule Operation</seealso>
+        CreateTrafficMirrorFilterRuleResponse EndCreateTrafficMirrorFilterRule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTrafficMirrorSession
+
+
+        /// <summary>
+        /// Creates a Traffic Mirror session.
+        /// 
+        ///  
+        /// <para>
+        /// A Traffic Mirror session actively copies packets from a Traffic Mirror source to a
+        /// Traffic Mirror target. Create a filter, and then assign it to the session to define
+        /// a subset of the traffic to mirror, for example all TCP traffic.
+        /// </para>
+        ///  
+        /// <para>
+        /// The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can
+        /// be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, no traffic is mirrored. Use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilter.htm">CreateTrafficMirrorFilter</a>
+        /// to create filter rules that specify the traffic to mirror.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorSession service method.</param>
+        /// 
+        /// <returns>The response from the CreateTrafficMirrorSession service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorSession">REST API Reference for CreateTrafficMirrorSession Operation</seealso>
+        CreateTrafficMirrorSessionResponse CreateTrafficMirrorSession(CreateTrafficMirrorSessionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTrafficMirrorSession operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorSession operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTrafficMirrorSession
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorSession">REST API Reference for CreateTrafficMirrorSession Operation</seealso>
+        IAsyncResult BeginCreateTrafficMirrorSession(CreateTrafficMirrorSessionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTrafficMirrorSession operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTrafficMirrorSession.</param>
+        /// 
+        /// <returns>Returns a  CreateTrafficMirrorSessionResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorSession">REST API Reference for CreateTrafficMirrorSession Operation</seealso>
+        CreateTrafficMirrorSessionResponse EndCreateTrafficMirrorSession(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTrafficMirrorTarget
+
+
+        /// <summary>
+        /// Creates a target for your Traffic Mirror session.
+        /// 
+        ///  
+        /// <para>
+        /// A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror
+        /// source and the Traffic Mirror target (monitoring appliances) can be in the same VPC,
+        /// or in different VPCs connected via VPC peering or a transit gateway.
+        /// </para>
+        ///  
+        /// <para>
+        /// A Traffic Mirror target can be a network interface, or a Network Load Balancer.
+        /// </para>
+        ///  
+        /// <para>
+        /// To use the target in a Traffic Mirror session, use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorSession.htm">CreateTrafficMirrorSession</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorTarget service method.</param>
+        /// 
+        /// <returns>The response from the CreateTrafficMirrorTarget service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorTarget">REST API Reference for CreateTrafficMirrorTarget Operation</seealso>
+        CreateTrafficMirrorTargetResponse CreateTrafficMirrorTarget(CreateTrafficMirrorTargetRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTrafficMirrorTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTrafficMirrorTarget operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTrafficMirrorTarget
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorTarget">REST API Reference for CreateTrafficMirrorTarget Operation</seealso>
+        IAsyncResult BeginCreateTrafficMirrorTarget(CreateTrafficMirrorTargetRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTrafficMirrorTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTrafficMirrorTarget.</param>
+        /// 
+        /// <returns>Returns a  CreateTrafficMirrorTargetResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTrafficMirrorTarget">REST API Reference for CreateTrafficMirrorTarget Operation</seealso>
+        CreateTrafficMirrorTargetResponse EndCreateTrafficMirrorTarget(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTransitGateway
+
+
+        /// <summary>
+        /// Creates a transit gateway.
+        /// 
+        ///  
+        /// <para>
+        /// You can use a transit gateway to interconnect your virtual private clouds (VPC) and
+        /// on-premises networks. After the transit gateway enters the <code>available</code>
+        /// state, you can attach your VPCs and VPN connections to the transit gateway.
+        /// </para>
+        ///  
+        /// <para>
+        /// To attach your VPCs, use <a>CreateTransitGatewayVpcAttachment</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To attach a VPN connection, use <a>CreateCustomerGateway</a> to create a customer
+        /// gateway and specify the ID of the customer gateway and the ID of the transit gateway
+        /// in a call to <a>CreateVpnConnection</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you create a transit gateway, we create a default transit gateway route table
+        /// and use it as the default association route table and the default propagation route
+        /// table. You can use <a>CreateTransitGatewayRouteTable</a> to create additional transit
+        /// gateway route tables. If you disable automatic route propagation, we do not create
+        /// a default transit gateway route table. You can use <a>EnableTransitGatewayRouteTablePropagation</a>
+        /// to propagate routes from a resource attachment to a transit gateway route table. If
+        /// you disable automatic associations, you can use <a>AssociateTransitGatewayRouteTable</a>
+        /// to associate a resource attachment with a transit gateway route table.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGateway service method.</param>
+        /// 
+        /// <returns>The response from the CreateTransitGateway service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGateway">REST API Reference for CreateTransitGateway Operation</seealso>
+        CreateTransitGatewayResponse CreateTransitGateway(CreateTransitGatewayRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTransitGateway operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGateway operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTransitGateway
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGateway">REST API Reference for CreateTransitGateway Operation</seealso>
+        IAsyncResult BeginCreateTransitGateway(CreateTransitGatewayRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTransitGateway operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTransitGateway.</param>
+        /// 
+        /// <returns>Returns a  CreateTransitGatewayResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGateway">REST API Reference for CreateTransitGateway Operation</seealso>
+        CreateTransitGatewayResponse EndCreateTransitGateway(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTransitGatewayMulticastDomain
+
+
+        /// <summary>
+        /// Creates a multicast domain using the specified transit gateway.
+        /// 
+        ///  
+        /// <para>
+        /// The transit gateway must be in the available state before you create a domain. Use
+        /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGateways.html">DescribeTransitGateways</a>
+        /// to see the state of transit gateway.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayMulticastDomain service method.</param>
+        /// 
+        /// <returns>The response from the CreateTransitGatewayMulticastDomain service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayMulticastDomain">REST API Reference for CreateTransitGatewayMulticastDomain Operation</seealso>
+        CreateTransitGatewayMulticastDomainResponse CreateTransitGatewayMulticastDomain(CreateTransitGatewayMulticastDomainRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayMulticastDomain operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTransitGatewayMulticastDomain
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayMulticastDomain">REST API Reference for CreateTransitGatewayMulticastDomain Operation</seealso>
+        IAsyncResult BeginCreateTransitGatewayMulticastDomain(CreateTransitGatewayMulticastDomainRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTransitGatewayMulticastDomain.</param>
+        /// 
+        /// <returns>Returns a  CreateTransitGatewayMulticastDomainResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayMulticastDomain">REST API Reference for CreateTransitGatewayMulticastDomain Operation</seealso>
+        CreateTransitGatewayMulticastDomainResponse EndCreateTransitGatewayMulticastDomain(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTransitGatewayPeeringAttachment
+
+
+        /// <summary>
+        /// Requests a transit gateway peering attachment between the specified transit gateway
+        /// (requester) and a peer transit gateway (accepter). The transit gateways must be in
+        /// different Regions. The peer transit gateway can be in your account or a different
+        /// AWS account. 
+        /// 
+        ///  
+        /// <para>
+        /// After you create the peering attachment, the owner of the accepter transit gateway
+        /// must accept the attachment request.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayPeeringAttachment service method.</param>
+        /// 
+        /// <returns>The response from the CreateTransitGatewayPeeringAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayPeeringAttachment">REST API Reference for CreateTransitGatewayPeeringAttachment Operation</seealso>
+        CreateTransitGatewayPeeringAttachmentResponse CreateTransitGatewayPeeringAttachment(CreateTransitGatewayPeeringAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayPeeringAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTransitGatewayPeeringAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayPeeringAttachment">REST API Reference for CreateTransitGatewayPeeringAttachment Operation</seealso>
+        IAsyncResult BeginCreateTransitGatewayPeeringAttachment(CreateTransitGatewayPeeringAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTransitGatewayPeeringAttachment.</param>
+        /// 
+        /// <returns>Returns a  CreateTransitGatewayPeeringAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayPeeringAttachment">REST API Reference for CreateTransitGatewayPeeringAttachment Operation</seealso>
+        CreateTransitGatewayPeeringAttachmentResponse EndCreateTransitGatewayPeeringAttachment(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTransitGatewayRoute
+
+
+        /// <summary>
+        /// Creates a static route for the specified transit gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayRoute service method.</param>
+        /// 
+        /// <returns>The response from the CreateTransitGatewayRoute service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayRoute">REST API Reference for CreateTransitGatewayRoute Operation</seealso>
+        CreateTransitGatewayRouteResponse CreateTransitGatewayRoute(CreateTransitGatewayRouteRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTransitGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayRoute operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTransitGatewayRoute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayRoute">REST API Reference for CreateTransitGatewayRoute Operation</seealso>
+        IAsyncResult BeginCreateTransitGatewayRoute(CreateTransitGatewayRouteRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTransitGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTransitGatewayRoute.</param>
+        /// 
+        /// <returns>Returns a  CreateTransitGatewayRouteResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayRoute">REST API Reference for CreateTransitGatewayRoute Operation</seealso>
+        CreateTransitGatewayRouteResponse EndCreateTransitGatewayRoute(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTransitGatewayRouteTable
+
+
+        /// <summary>
+        /// Creates a route table for the specified transit gateway.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayRouteTable service method.</param>
+        /// 
+        /// <returns>The response from the CreateTransitGatewayRouteTable service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayRouteTable">REST API Reference for CreateTransitGatewayRouteTable Operation</seealso>
+        CreateTransitGatewayRouteTableResponse CreateTransitGatewayRouteTable(CreateTransitGatewayRouteTableRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayRouteTable operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTransitGatewayRouteTable
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayRouteTable">REST API Reference for CreateTransitGatewayRouteTable Operation</seealso>
+        IAsyncResult BeginCreateTransitGatewayRouteTable(CreateTransitGatewayRouteTableRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTransitGatewayRouteTable.</param>
+        /// 
+        /// <returns>Returns a  CreateTransitGatewayRouteTableResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayRouteTable">REST API Reference for CreateTransitGatewayRouteTable Operation</seealso>
+        CreateTransitGatewayRouteTableResponse EndCreateTransitGatewayRouteTable(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTransitGatewayVpcAttachment
+
+
+        /// <summary>
+        /// Attaches the specified VPC to the specified transit gateway.
+        /// 
+        ///  
+        /// <para>
+        /// If you attach a VPC with a CIDR range that overlaps the CIDR range of a VPC that is
+        /// already attached, the new VPC CIDR range is not propagated to the default propagation
+        /// route table.
+        /// </para>
+        ///  
+        /// <para>
+        /// To send VPC traffic to an attached transit gateway, add a route to the VPC route table
+        /// using <a>CreateRoute</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayVpcAttachment service method.</param>
+        /// 
+        /// <returns>The response from the CreateTransitGatewayVpcAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayVpcAttachment">REST API Reference for CreateTransitGatewayVpcAttachment Operation</seealso>
+        CreateTransitGatewayVpcAttachmentResponse CreateTransitGatewayVpcAttachment(CreateTransitGatewayVpcAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitGatewayVpcAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTransitGatewayVpcAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayVpcAttachment">REST API Reference for CreateTransitGatewayVpcAttachment Operation</seealso>
+        IAsyncResult BeginCreateTransitGatewayVpcAttachment(CreateTransitGatewayVpcAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTransitGatewayVpcAttachment.</param>
+        /// 
+        /// <returns>Returns a  CreateTransitGatewayVpcAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateTransitGatewayVpcAttachment">REST API Reference for CreateTransitGatewayVpcAttachment Operation</seealso>
+        CreateTransitGatewayVpcAttachmentResponse EndCreateTransitGatewayVpcAttachment(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateVolume
 
 
         /// <summary>
         /// Creates an EBS volume that can be attached to an instance in the same Availability
         /// Zone. The volume is created in the regional endpoint that you send the HTTP request
-        /// to. For more information see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
+        /// to. For more information see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
         /// and Endpoints</a>.
         /// 
         ///  
@@ -3236,20 +4568,19 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// You can create encrypted volumes with the <code>Encrypted</code> parameter. Encrypted
-        /// volumes may only be attached to instances that support Amazon EBS encryption. Volumes
-        /// that are created from encrypted snapshots are also automatically encrypted. For more
-        /// information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// You can create encrypted volumes. Encrypted volumes must be attached to instances
+        /// that support Amazon EBS encryption. Volumes that are created from encrypted snapshots
+        /// are also automatically encrypted. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
         /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// You can tag your volumes during creation. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-        /// Your Amazon EC2 Resources</a>.
+        /// You can tag your volumes during creation. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+        /// Your Amazon EC2 Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html">Creating
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html">Creating
         /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -3293,26 +4624,26 @@ namespace Amazon.EC2
         /// <summary>
         /// Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create
         /// uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536
-        /// IPv4 addresses). To help you decide how big to make your VPC, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html">Your
+        /// IPv4 addresses). For more information about how large to make your VPC, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
         /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// 
         ///  
         /// <para>
-        /// You can optionally request an Amazon-provided IPv6 CIDR block for the VPC. The IPv6
-        /// CIDR block uses a /56 prefix length, and is allocated from Amazon's pool of IPv6 addresses.
-        /// You cannot choose the IPv6 range for your VPC.
+        /// You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided
+        /// IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an
+        /// IPv6 address pool that you provisioned through bring your own IP addresses (<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html">BYOIP</a>).
         /// </para>
         ///  
         /// <para>
         /// By default, each instance you launch in the VPC has the default DHCP options, which
-        /// includes only a default DNS server that we provide (AmazonProvidedDNS). For more information
-        /// about DHCP options, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html">DHCP
+        /// include only a default DNS server that we provide (AmazonProvidedDNS). For more information,
+        /// see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
         /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// You can specify the instance tenancy value for the VPC when you create it. You can't
-        /// change this value for the VPC after you create it. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
+        /// change this value for the VPC after you create it. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
         /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -3356,15 +4687,15 @@ namespace Amazon.EC2
         /// <summary>
         /// Creates a VPC endpoint for a specified service. An endpoint enables you to create
         /// a private connection between your VPC and the service. The service may be provided
-        /// by AWS, an AWS Marketplace partner, or another AWS account. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-endpoints.html">VPC
+        /// by AWS, an AWS Marketplace Partner, or another AWS account. For more information,
+        /// see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html">VPC
         /// Endpoints</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// 
         ///  
         /// <para>
         /// A <code>gateway</code> endpoint serves as a target for a route in your route table
         /// for traffic destined for the AWS service. You can specify an endpoint policy to attach
-        /// to the endpoint that will control access to the service from your VPC. You can also
+        /// to the endpoint, which will control access to the service from your VPC. You can also
         /// specify the VPC route tables that use the endpoint.
         /// </para>
         ///  
@@ -3419,7 +4750,7 @@ namespace Amazon.EC2
         /// <summary>
         /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service.
         /// A connection notification notifies you of specific endpoint events. You must create
-        /// an SNS topic to receive notifications. For more information, see <a href="http://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Create
+        /// an SNS topic to receive notifications. For more information, see <a href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Create
         /// a Topic</a> in the <i>Amazon Simple Notification Service Developer Guide</i>.
         /// 
         ///  
@@ -3472,8 +4803,15 @@ namespace Amazon.EC2
         ///  
         /// <para>
         /// To create an endpoint service configuration, you must first create a Network Load
-        /// Balancer for your service. For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/endpoint-service.html">VPC
+        /// Balancer for your service. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html">VPC
         /// Endpoint Services</a> in the <i>Amazon Virtual Private Cloud User Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you set the private DNS name, you must prove that you own the private DNS domain
+        /// name. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-dns-validation.html">VPC
+        /// Endpoint Service Private DNS Name Verification</a> in the <i>Amazon Virtual Private
+        /// Cloud User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateVpcEndpointServiceConfiguration service method.</param>
@@ -3516,13 +4854,13 @@ namespace Amazon.EC2
         /// <summary>
         /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and
         /// an accepter VPC with which to create the connection. The accepter VPC can belong to
-        /// another AWS account and can be in a different region to the requester VPC. The requester
+        /// another AWS account and can be in a different Region to the requester VPC. The requester
         /// VPC and accepter VPC cannot have overlapping CIDR blocks.
         /// 
         ///  <note> 
         /// <para>
         /// Limitations and rules apply to a VPC peering connection. For more information, see
-        /// the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/vpc-peering-basics.html#vpc-peering-limitations">limitations</a>
+        /// the <a href="https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations">limitations</a>
         /// section in the <i>VPC Peering Guide</i>.
         /// </para>
         ///  </note> 
@@ -3576,7 +4914,7 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Creates a VPN connection between an existing virtual private gateway and a VPN customer
-        /// gateway. The only supported connection type is <code>ipsec.1</code>.
+        /// gateway. The supported connection type is <code>ipsec.1</code>.
         /// 
         ///  
         /// <para>
@@ -3601,8 +4939,8 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateVpnConnection service method.</param>
@@ -3649,8 +4987,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about VPN connections, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateVpnConnectionRoute service method.</param>
@@ -3697,8 +5035,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about virtual private gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateVpnGateway service method.</param>
@@ -3732,6 +5070,90 @@ namespace Amazon.EC2
         /// <returns>Returns a  CreateVpnGatewayResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/CreateVpnGateway">REST API Reference for CreateVpnGateway Operation</seealso>
         CreateVpnGatewayResponse EndCreateVpnGateway(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteClientVpnEndpoint
+
+
+        /// <summary>
+        /// Deletes the specified Client VPN endpoint. You must disassociate all target networks
+        /// before you can delete a Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteClientVpnEndpoint service method.</param>
+        /// 
+        /// <returns>The response from the DeleteClientVpnEndpoint service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteClientVpnEndpoint">REST API Reference for DeleteClientVpnEndpoint Operation</seealso>
+        DeleteClientVpnEndpointResponse DeleteClientVpnEndpoint(DeleteClientVpnEndpointRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteClientVpnEndpoint operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteClientVpnEndpoint operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteClientVpnEndpoint
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteClientVpnEndpoint">REST API Reference for DeleteClientVpnEndpoint Operation</seealso>
+        IAsyncResult BeginDeleteClientVpnEndpoint(DeleteClientVpnEndpointRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteClientVpnEndpoint operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteClientVpnEndpoint.</param>
+        /// 
+        /// <returns>Returns a  DeleteClientVpnEndpointResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteClientVpnEndpoint">REST API Reference for DeleteClientVpnEndpoint Operation</seealso>
+        DeleteClientVpnEndpointResponse EndDeleteClientVpnEndpoint(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteClientVpnRoute
+
+
+        /// <summary>
+        /// Deletes a route from a Client VPN endpoint. You can only delete routes that you manually
+        /// added using the <b>CreateClientVpnRoute</b> action. You cannot delete routes that
+        /// were automatically added when associating a subnet. To remove routes that have been
+        /// automatically added, disassociate the target subnet from the Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteClientVpnRoute service method.</param>
+        /// 
+        /// <returns>The response from the DeleteClientVpnRoute service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteClientVpnRoute">REST API Reference for DeleteClientVpnRoute Operation</seealso>
+        DeleteClientVpnRouteResponse DeleteClientVpnRoute(DeleteClientVpnRouteRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteClientVpnRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteClientVpnRoute operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteClientVpnRoute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteClientVpnRoute">REST API Reference for DeleteClientVpnRoute Operation</seealso>
+        IAsyncResult BeginDeleteClientVpnRoute(DeleteClientVpnRouteRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteClientVpnRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteClientVpnRoute.</param>
+        /// 
+        /// <returns>Returns a  DeleteClientVpnRouteResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteClientVpnRoute">REST API Reference for DeleteClientVpnRoute Operation</seealso>
+        DeleteClientVpnRouteResponse EndDeleteClientVpnRoute(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3822,7 +5244,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Deletes an egress-only Internet gateway.
+        /// Deletes an egress-only internet gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteEgressOnlyInternetGateway service method.</param>
         /// 
@@ -3855,6 +5277,55 @@ namespace Amazon.EC2
         /// <returns>Returns a  DeleteEgressOnlyInternetGatewayResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteEgressOnlyInternetGateway">REST API Reference for DeleteEgressOnlyInternetGateway Operation</seealso>
         DeleteEgressOnlyInternetGatewayResponse EndDeleteEgressOnlyInternetGateway(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteFleets
+
+
+        /// <summary>
+        /// Deletes the specified EC2 Fleet.
+        /// 
+        ///  
+        /// <para>
+        /// After you delete an EC2 Fleet, it launches no new instances. You must specify whether
+        /// an EC2 Fleet should also terminate its instances. If you terminate the instances,
+        /// the EC2 Fleet enters the <code>deleted_terminating</code> state. Otherwise, the EC2
+        /// Fleet enters the <code>deleted_running</code> state, and the instances continue to
+        /// run until they are interrupted or you terminate them manually. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFleets service method.</param>
+        /// 
+        /// <returns>The response from the DeleteFleets service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteFleets">REST API Reference for DeleteFleets Operation</seealso>
+        DeleteFleetsResponse DeleteFleets(DeleteFleetsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteFleets operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFleets operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteFleets
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteFleets">REST API Reference for DeleteFleets Operation</seealso>
+        IAsyncResult BeginDeleteFleets(DeleteFleetsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteFleets operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteFleets.</param>
+        /// 
+        /// <returns>Returns a  DeleteFleetsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteFleets">REST API Reference for DeleteFleets Operation</seealso>
+        DeleteFleetsResponse EndDeleteFleets(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3942,7 +5413,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Deletes the specified Internet gateway. You must detach the Internet gateway from
+        /// Deletes the specified internet gateway. You must detach the internet gateway from
         /// the VPC before you can delete it.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteInternetGateway service method.</param>
@@ -4099,6 +5570,86 @@ namespace Amazon.EC2
         /// <returns>Returns a  DeleteLaunchTemplateVersionsResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLaunchTemplateVersions">REST API Reference for DeleteLaunchTemplateVersions Operation</seealso>
         DeleteLaunchTemplateVersionsResponse EndDeleteLaunchTemplateVersions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteLocalGatewayRoute
+
+
+        /// <summary>
+        /// Deletes the specified route from the specified local gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLocalGatewayRoute service method.</param>
+        /// 
+        /// <returns>The response from the DeleteLocalGatewayRoute service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLocalGatewayRoute">REST API Reference for DeleteLocalGatewayRoute Operation</seealso>
+        DeleteLocalGatewayRouteResponse DeleteLocalGatewayRoute(DeleteLocalGatewayRouteRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLocalGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLocalGatewayRoute operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteLocalGatewayRoute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLocalGatewayRoute">REST API Reference for DeleteLocalGatewayRoute Operation</seealso>
+        IAsyncResult BeginDeleteLocalGatewayRoute(DeleteLocalGatewayRouteRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteLocalGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteLocalGatewayRoute.</param>
+        /// 
+        /// <returns>Returns a  DeleteLocalGatewayRouteResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLocalGatewayRoute">REST API Reference for DeleteLocalGatewayRoute Operation</seealso>
+        DeleteLocalGatewayRouteResponse EndDeleteLocalGatewayRoute(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteLocalGatewayRouteTableVpcAssociation
+
+
+        /// <summary>
+        /// Deletes the specified association between a VPC and local gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLocalGatewayRouteTableVpcAssociation service method.</param>
+        /// 
+        /// <returns>The response from the DeleteLocalGatewayRouteTableVpcAssociation service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLocalGatewayRouteTableVpcAssociation">REST API Reference for DeleteLocalGatewayRouteTableVpcAssociation Operation</seealso>
+        DeleteLocalGatewayRouteTableVpcAssociationResponse DeleteLocalGatewayRouteTableVpcAssociation(DeleteLocalGatewayRouteTableVpcAssociationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLocalGatewayRouteTableVpcAssociation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLocalGatewayRouteTableVpcAssociation operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteLocalGatewayRouteTableVpcAssociation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLocalGatewayRouteTableVpcAssociation">REST API Reference for DeleteLocalGatewayRouteTableVpcAssociation Operation</seealso>
+        IAsyncResult BeginDeleteLocalGatewayRouteTableVpcAssociation(DeleteLocalGatewayRouteTableVpcAssociationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteLocalGatewayRouteTableVpcAssociation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteLocalGatewayRouteTableVpcAssociation.</param>
+        /// 
+        /// <returns>Returns a  DeleteLocalGatewayRouteTableVpcAssociationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteLocalGatewayRouteTableVpcAssociation">REST API Reference for DeleteLocalGatewayRouteTableVpcAssociation Operation</seealso>
+        DeleteLocalGatewayRouteTableVpcAssociationResponse EndDeleteLocalGatewayRouteTableVpcAssociation(IAsyncResult asyncResult);
 
         #endregion
         
@@ -4313,7 +5864,7 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Deletes the specified placement group. You must terminate all instances in the placement
-        /// group before you can delete the placement group. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
+        /// group before you can delete the placement group. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
         /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeletePlacementGroup service method.</param>
@@ -4347,6 +5898,46 @@ namespace Amazon.EC2
         /// <returns>Returns a  DeletePlacementGroupResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeletePlacementGroup">REST API Reference for DeletePlacementGroup Operation</seealso>
         DeletePlacementGroupResponse EndDeletePlacementGroup(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteQueuedReservedInstances
+
+
+        /// <summary>
+        /// Deletes the queued purchases for the specified Reserved Instances.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteQueuedReservedInstances service method.</param>
+        /// 
+        /// <returns>The response from the DeleteQueuedReservedInstances service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteQueuedReservedInstances">REST API Reference for DeleteQueuedReservedInstances Operation</seealso>
+        DeleteQueuedReservedInstancesResponse DeleteQueuedReservedInstances(DeleteQueuedReservedInstancesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteQueuedReservedInstances operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteQueuedReservedInstances operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteQueuedReservedInstances
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteQueuedReservedInstances">REST API Reference for DeleteQueuedReservedInstances Operation</seealso>
+        IAsyncResult BeginDeleteQueuedReservedInstances(DeleteQueuedReservedInstancesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteQueuedReservedInstances operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteQueuedReservedInstances.</param>
+        /// 
+        /// <returns>Returns a  DeleteQueuedReservedInstancesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteQueuedReservedInstances">REST API Reference for DeleteQueuedReservedInstances Operation</seealso>
+        DeleteQueuedReservedInstancesResponse EndDeleteQueuedReservedInstances(IAsyncResult asyncResult);
 
         #endregion
         
@@ -4499,7 +6090,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-snapshot.html">Deleting
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-snapshot.html">Deleting
         /// an Amazon EBS Snapshot</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -4635,7 +6226,7 @@ namespace Amazon.EC2
         ///  
         /// <para>
         /// To list the current tags, use <a>DescribeTags</a>. For more information about tags,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
         /// Your Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -4673,6 +6264,417 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DeleteTrafficMirrorFilter
+
+
+        /// <summary>
+        /// Deletes the specified Traffic Mirror filter.
+        /// 
+        ///  
+        /// <para>
+        /// You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorFilter service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTrafficMirrorFilter service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorFilter">REST API Reference for DeleteTrafficMirrorFilter Operation</seealso>
+        DeleteTrafficMirrorFilterResponse DeleteTrafficMirrorFilter(DeleteTrafficMirrorFilterRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTrafficMirrorFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorFilter operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTrafficMirrorFilter
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorFilter">REST API Reference for DeleteTrafficMirrorFilter Operation</seealso>
+        IAsyncResult BeginDeleteTrafficMirrorFilter(DeleteTrafficMirrorFilterRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTrafficMirrorFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTrafficMirrorFilter.</param>
+        /// 
+        /// <returns>Returns a  DeleteTrafficMirrorFilterResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorFilter">REST API Reference for DeleteTrafficMirrorFilter Operation</seealso>
+        DeleteTrafficMirrorFilterResponse EndDeleteTrafficMirrorFilter(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTrafficMirrorFilterRule
+
+
+        /// <summary>
+        /// Deletes the specified Traffic Mirror rule.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorFilterRule service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTrafficMirrorFilterRule service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorFilterRule">REST API Reference for DeleteTrafficMirrorFilterRule Operation</seealso>
+        DeleteTrafficMirrorFilterRuleResponse DeleteTrafficMirrorFilterRule(DeleteTrafficMirrorFilterRuleRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTrafficMirrorFilterRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorFilterRule operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTrafficMirrorFilterRule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorFilterRule">REST API Reference for DeleteTrafficMirrorFilterRule Operation</seealso>
+        IAsyncResult BeginDeleteTrafficMirrorFilterRule(DeleteTrafficMirrorFilterRuleRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTrafficMirrorFilterRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTrafficMirrorFilterRule.</param>
+        /// 
+        /// <returns>Returns a  DeleteTrafficMirrorFilterRuleResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorFilterRule">REST API Reference for DeleteTrafficMirrorFilterRule Operation</seealso>
+        DeleteTrafficMirrorFilterRuleResponse EndDeleteTrafficMirrorFilterRule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTrafficMirrorSession
+
+
+        /// <summary>
+        /// Deletes the specified Traffic Mirror session.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorSession service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTrafficMirrorSession service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorSession">REST API Reference for DeleteTrafficMirrorSession Operation</seealso>
+        DeleteTrafficMirrorSessionResponse DeleteTrafficMirrorSession(DeleteTrafficMirrorSessionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTrafficMirrorSession operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorSession operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTrafficMirrorSession
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorSession">REST API Reference for DeleteTrafficMirrorSession Operation</seealso>
+        IAsyncResult BeginDeleteTrafficMirrorSession(DeleteTrafficMirrorSessionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTrafficMirrorSession operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTrafficMirrorSession.</param>
+        /// 
+        /// <returns>Returns a  DeleteTrafficMirrorSessionResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorSession">REST API Reference for DeleteTrafficMirrorSession Operation</seealso>
+        DeleteTrafficMirrorSessionResponse EndDeleteTrafficMirrorSession(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTrafficMirrorTarget
+
+
+        /// <summary>
+        /// Deletes the specified Traffic Mirror target.
+        /// 
+        ///  
+        /// <para>
+        /// You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorTarget service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTrafficMirrorTarget service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorTarget">REST API Reference for DeleteTrafficMirrorTarget Operation</seealso>
+        DeleteTrafficMirrorTargetResponse DeleteTrafficMirrorTarget(DeleteTrafficMirrorTargetRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTrafficMirrorTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTrafficMirrorTarget operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTrafficMirrorTarget
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorTarget">REST API Reference for DeleteTrafficMirrorTarget Operation</seealso>
+        IAsyncResult BeginDeleteTrafficMirrorTarget(DeleteTrafficMirrorTargetRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTrafficMirrorTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTrafficMirrorTarget.</param>
+        /// 
+        /// <returns>Returns a  DeleteTrafficMirrorTargetResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTrafficMirrorTarget">REST API Reference for DeleteTrafficMirrorTarget Operation</seealso>
+        DeleteTrafficMirrorTargetResponse EndDeleteTrafficMirrorTarget(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTransitGateway
+
+
+        /// <summary>
+        /// Deletes the specified transit gateway.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGateway service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTransitGateway service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGateway">REST API Reference for DeleteTransitGateway Operation</seealso>
+        DeleteTransitGatewayResponse DeleteTransitGateway(DeleteTransitGatewayRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTransitGateway operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGateway operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTransitGateway
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGateway">REST API Reference for DeleteTransitGateway Operation</seealso>
+        IAsyncResult BeginDeleteTransitGateway(DeleteTransitGatewayRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTransitGateway operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTransitGateway.</param>
+        /// 
+        /// <returns>Returns a  DeleteTransitGatewayResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGateway">REST API Reference for DeleteTransitGateway Operation</seealso>
+        DeleteTransitGatewayResponse EndDeleteTransitGateway(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTransitGatewayMulticastDomain
+
+
+        /// <summary>
+        /// Deletes the specified transit gateway multicast domain.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayMulticastDomain service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTransitGatewayMulticastDomain service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayMulticastDomain">REST API Reference for DeleteTransitGatewayMulticastDomain Operation</seealso>
+        DeleteTransitGatewayMulticastDomainResponse DeleteTransitGatewayMulticastDomain(DeleteTransitGatewayMulticastDomainRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayMulticastDomain operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTransitGatewayMulticastDomain
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayMulticastDomain">REST API Reference for DeleteTransitGatewayMulticastDomain Operation</seealso>
+        IAsyncResult BeginDeleteTransitGatewayMulticastDomain(DeleteTransitGatewayMulticastDomainRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTransitGatewayMulticastDomain.</param>
+        /// 
+        /// <returns>Returns a  DeleteTransitGatewayMulticastDomainResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayMulticastDomain">REST API Reference for DeleteTransitGatewayMulticastDomain Operation</seealso>
+        DeleteTransitGatewayMulticastDomainResponse EndDeleteTransitGatewayMulticastDomain(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTransitGatewayPeeringAttachment
+
+
+        /// <summary>
+        /// Deletes a transit gateway peering attachment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayPeeringAttachment service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTransitGatewayPeeringAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayPeeringAttachment">REST API Reference for DeleteTransitGatewayPeeringAttachment Operation</seealso>
+        DeleteTransitGatewayPeeringAttachmentResponse DeleteTransitGatewayPeeringAttachment(DeleteTransitGatewayPeeringAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayPeeringAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTransitGatewayPeeringAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayPeeringAttachment">REST API Reference for DeleteTransitGatewayPeeringAttachment Operation</seealso>
+        IAsyncResult BeginDeleteTransitGatewayPeeringAttachment(DeleteTransitGatewayPeeringAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTransitGatewayPeeringAttachment.</param>
+        /// 
+        /// <returns>Returns a  DeleteTransitGatewayPeeringAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayPeeringAttachment">REST API Reference for DeleteTransitGatewayPeeringAttachment Operation</seealso>
+        DeleteTransitGatewayPeeringAttachmentResponse EndDeleteTransitGatewayPeeringAttachment(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTransitGatewayRoute
+
+
+        /// <summary>
+        /// Deletes the specified route from the specified transit gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayRoute service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTransitGatewayRoute service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayRoute">REST API Reference for DeleteTransitGatewayRoute Operation</seealso>
+        DeleteTransitGatewayRouteResponse DeleteTransitGatewayRoute(DeleteTransitGatewayRouteRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTransitGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayRoute operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTransitGatewayRoute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayRoute">REST API Reference for DeleteTransitGatewayRoute Operation</seealso>
+        IAsyncResult BeginDeleteTransitGatewayRoute(DeleteTransitGatewayRouteRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTransitGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTransitGatewayRoute.</param>
+        /// 
+        /// <returns>Returns a  DeleteTransitGatewayRouteResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayRoute">REST API Reference for DeleteTransitGatewayRoute Operation</seealso>
+        DeleteTransitGatewayRouteResponse EndDeleteTransitGatewayRoute(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTransitGatewayRouteTable
+
+
+        /// <summary>
+        /// Deletes the specified transit gateway route table. You must disassociate the route
+        /// table from any transit gateway route tables before you can delete it.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayRouteTable service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTransitGatewayRouteTable service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayRouteTable">REST API Reference for DeleteTransitGatewayRouteTable Operation</seealso>
+        DeleteTransitGatewayRouteTableResponse DeleteTransitGatewayRouteTable(DeleteTransitGatewayRouteTableRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayRouteTable operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTransitGatewayRouteTable
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayRouteTable">REST API Reference for DeleteTransitGatewayRouteTable Operation</seealso>
+        IAsyncResult BeginDeleteTransitGatewayRouteTable(DeleteTransitGatewayRouteTableRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTransitGatewayRouteTable.</param>
+        /// 
+        /// <returns>Returns a  DeleteTransitGatewayRouteTableResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayRouteTable">REST API Reference for DeleteTransitGatewayRouteTable Operation</seealso>
+        DeleteTransitGatewayRouteTableResponse EndDeleteTransitGatewayRouteTable(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTransitGatewayVpcAttachment
+
+
+        /// <summary>
+        /// Deletes the specified VPC attachment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayVpcAttachment service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTransitGatewayVpcAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayVpcAttachment">REST API Reference for DeleteTransitGatewayVpcAttachment Operation</seealso>
+        DeleteTransitGatewayVpcAttachmentResponse DeleteTransitGatewayVpcAttachment(DeleteTransitGatewayVpcAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTransitGatewayVpcAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTransitGatewayVpcAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayVpcAttachment">REST API Reference for DeleteTransitGatewayVpcAttachment Operation</seealso>
+        IAsyncResult BeginDeleteTransitGatewayVpcAttachment(DeleteTransitGatewayVpcAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTransitGatewayVpcAttachment.</param>
+        /// 
+        /// <returns>Returns a  DeleteTransitGatewayVpcAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteTransitGatewayVpcAttachment">REST API Reference for DeleteTransitGatewayVpcAttachment Operation</seealso>
+        DeleteTransitGatewayVpcAttachmentResponse EndDeleteTransitGatewayVpcAttachment(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteVolume
 
 
@@ -4680,13 +6682,13 @@ namespace Amazon.EC2
         /// Deletes the specified EBS volume. The volume must be in the <code>available</code>
         /// state (not attached to an instance).
         /// 
-        ///  <note> 
+        ///  
         /// <para>
-        /// The volume may remain in the <code>deleting</code> state for several minutes.
+        /// The volume can remain in the <code>deleting</code> state for several minutes.
         /// </para>
-        ///  </note> 
+        ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-volume.html">Deleting
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-volume.html">Deleting
         /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -5034,10 +7036,9 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Deletes the specified virtual private gateway. We recommend that before you delete
-        /// a virtual private gateway, you detach it from the VPC and delete the VPN connection.
-        /// Note that you don't need to delete the virtual private gateway if you plan to delete
-        /// and recreate the VPN connection between your VPC and your network.
+        /// Deletes the specified virtual private gateway. You must first detach the virtual private
+        /// gateway from the VPC. Note that you don't need to delete the virtual private gateway
+        /// if you plan to delete and recreate the VPN connection between your VPC and your network.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteVpnGateway service method.</param>
         /// 
@@ -5070,6 +7071,54 @@ namespace Amazon.EC2
         /// <returns>Returns a  DeleteVpnGatewayResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeleteVpnGateway">REST API Reference for DeleteVpnGateway Operation</seealso>
         DeleteVpnGatewayResponse EndDeleteVpnGateway(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeprovisionByoipCidr
+
+
+        /// <summary>
+        /// Releases the specified address range that you provisioned for use with your AWS resources
+        /// through bring your own IP addresses (BYOIP) and deletes the corresponding address
+        /// pool.
+        /// 
+        ///  
+        /// <para>
+        /// Before you can release an address range, you must stop advertising it using <a>WithdrawByoipCidr</a>
+        /// and you must not have any IP addresses allocated from its address range.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeprovisionByoipCidr service method.</param>
+        /// 
+        /// <returns>The response from the DeprovisionByoipCidr service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeprovisionByoipCidr">REST API Reference for DeprovisionByoipCidr Operation</seealso>
+        DeprovisionByoipCidrResponse DeprovisionByoipCidr(DeprovisionByoipCidrRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeprovisionByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeprovisionByoipCidr operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeprovisionByoipCidr
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeprovisionByoipCidr">REST API Reference for DeprovisionByoipCidr Operation</seealso>
+        IAsyncResult BeginDeprovisionByoipCidr(DeprovisionByoipCidrRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeprovisionByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeprovisionByoipCidr.</param>
+        /// 
+        /// <returns>Returns a  DeprovisionByoipCidrResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeprovisionByoipCidr">REST API Reference for DeprovisionByoipCidr Operation</seealso>
+        DeprovisionByoipCidrResponse EndDeprovisionByoipCidr(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5124,6 +7173,88 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DeregisterTransitGatewayMulticastGroupMembers
+
+
+        /// <summary>
+        /// Deregisters the specified members (network interfaces) from the transit gateway multicast
+        /// group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterTransitGatewayMulticastGroupMembers service method.</param>
+        /// 
+        /// <returns>The response from the DeregisterTransitGatewayMulticastGroupMembers service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeregisterTransitGatewayMulticastGroupMembers">REST API Reference for DeregisterTransitGatewayMulticastGroupMembers Operation</seealso>
+        DeregisterTransitGatewayMulticastGroupMembersResponse DeregisterTransitGatewayMulticastGroupMembers(DeregisterTransitGatewayMulticastGroupMembersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeregisterTransitGatewayMulticastGroupMembers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterTransitGatewayMulticastGroupMembers operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeregisterTransitGatewayMulticastGroupMembers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeregisterTransitGatewayMulticastGroupMembers">REST API Reference for DeregisterTransitGatewayMulticastGroupMembers Operation</seealso>
+        IAsyncResult BeginDeregisterTransitGatewayMulticastGroupMembers(DeregisterTransitGatewayMulticastGroupMembersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeregisterTransitGatewayMulticastGroupMembers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeregisterTransitGatewayMulticastGroupMembers.</param>
+        /// 
+        /// <returns>Returns a  DeregisterTransitGatewayMulticastGroupMembersResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeregisterTransitGatewayMulticastGroupMembers">REST API Reference for DeregisterTransitGatewayMulticastGroupMembers Operation</seealso>
+        DeregisterTransitGatewayMulticastGroupMembersResponse EndDeregisterTransitGatewayMulticastGroupMembers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeregisterTransitGatewayMulticastGroupSources
+
+
+        /// <summary>
+        /// Deregisters the specified sources (network interfaces) from the transit gateway multicast
+        /// group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterTransitGatewayMulticastGroupSources service method.</param>
+        /// 
+        /// <returns>The response from the DeregisterTransitGatewayMulticastGroupSources service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeregisterTransitGatewayMulticastGroupSources">REST API Reference for DeregisterTransitGatewayMulticastGroupSources Operation</seealso>
+        DeregisterTransitGatewayMulticastGroupSourcesResponse DeregisterTransitGatewayMulticastGroupSources(DeregisterTransitGatewayMulticastGroupSourcesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeregisterTransitGatewayMulticastGroupSources operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterTransitGatewayMulticastGroupSources operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeregisterTransitGatewayMulticastGroupSources
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeregisterTransitGatewayMulticastGroupSources">REST API Reference for DeregisterTransitGatewayMulticastGroupSources Operation</seealso>
+        IAsyncResult BeginDeregisterTransitGatewayMulticastGroupSources(DeregisterTransitGatewayMulticastGroupSourcesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeregisterTransitGatewayMulticastGroupSources operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeregisterTransitGatewayMulticastGroupSources.</param>
+        /// 
+        /// <returns>Returns a  DeregisterTransitGatewayMulticastGroupSourcesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DeregisterTransitGatewayMulticastGroupSources">REST API Reference for DeregisterTransitGatewayMulticastGroupSources Operation</seealso>
+        DeregisterTransitGatewayMulticastGroupSourcesResponse EndDeregisterTransitGatewayMulticastGroupSources(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeAccountAttributes
 
 
@@ -5142,8 +7273,10 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>max-instances</code>: The maximum number of On-Demand Instances that you can
-        /// run.
+        ///  <code>max-instances</code>: This attribute is no longer supported. The returned value
+        /// does not reflect your actual vCPU limit for running On-Demand Instances. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-on-demand-instances.html#ec2-on-demand-instances-limits">On-Demand
+        /// Instance Limits</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5182,8 +7315,10 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>max-instances</code>: The maximum number of On-Demand Instances that you can
-        /// run.
+        ///  <code>max-instances</code>: This attribute is no longer supported. The returned value
+        /// does not reflect your actual vCPU limit for running On-Demand Instances. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-on-demand-instances.html#ec2-on-demand-instances-limits">On-Demand
+        /// Instance Limits</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5240,12 +7375,12 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your Elastic IP addresses.
+        /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
         /// 
         ///  
         /// <para>
         /// An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For
-        /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+        /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
         /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -5255,12 +7390,12 @@ namespace Amazon.EC2
         DescribeAddressesResponse DescribeAddresses();
 
         /// <summary>
-        /// Describes one or more of your Elastic IP addresses.
+        /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
         /// 
         ///  
         /// <para>
         /// An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For
-        /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+        /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
         /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -5302,9 +7437,9 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the longer ID format settings for all resource types in a specific region.
+        /// Describes the longer ID format settings for all resource types in a specific Region.
         /// This request is useful for performing a quick audit to determine whether a specific
-        /// region is fully opted in for longer IDs (17-character IDs).
+        /// Region is fully opted in for longer IDs (17-character IDs).
         /// 
         ///  
         /// <para>
@@ -5363,14 +7498,13 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of the Availability Zones that are available to you. The results
-        /// include zones only for the region you're currently using. If there is an event impacting
-        /// an Availability Zone, you can use this request to view the state and any provided
-        /// message for that Availability Zone.
+        /// Describes the Availability Zones and Local Zones that are available to you. If there
+        /// is an event impacting an Availability Zone or Local Zone, you can use this request
+        /// to view the state and any provided messages for that Availability Zone or Local Zone.
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions
+        /// For more information about Availability Zones and Local Zones, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions
         /// and Availability Zones</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -5380,14 +7514,13 @@ namespace Amazon.EC2
         DescribeAvailabilityZonesResponse DescribeAvailabilityZones();
 
         /// <summary>
-        /// Describes one or more of the Availability Zones that are available to you. The results
-        /// include zones only for the region you're currently using. If there is an event impacting
-        /// an Availability Zone, you can use this request to view the state and any provided
-        /// message for that Availability Zone.
+        /// Describes the Availability Zones and Local Zones that are available to you. If there
+        /// is an event impacting an Availability Zone or Local Zone, you can use this request
+        /// to view the state and any provided messages for that Availability Zone or Local Zone.
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions
+        /// For more information about Availability Zones and Local Zones, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions
         /// and Availability Zones</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -5429,7 +7562,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your bundling tasks.
+        /// Describes the specified bundle tasks or all of your bundle tasks.
         /// 
         ///  <note> 
         /// <para>
@@ -5446,7 +7579,7 @@ namespace Amazon.EC2
         DescribeBundleTasksResponse DescribeBundleTasks();
 
         /// <summary>
-        /// Describes one or more of your bundling tasks.
+        /// Describes the specified bundle tasks or all of your bundle tasks.
         /// 
         ///  <note> 
         /// <para>
@@ -5491,12 +7624,99 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribeByoipCidrs
+
+
+        /// <summary>
+        /// Describes the IP address ranges that were specified in calls to <a>ProvisionByoipCidr</a>.
+        /// 
+        ///  
+        /// <para>
+        /// To describe the address pools that were created when you provisioned the address ranges,
+        /// use <a>DescribePublicIpv4Pools</a> or <a>DescribeIpv6Pools</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeByoipCidrs service method.</param>
+        /// 
+        /// <returns>The response from the DescribeByoipCidrs service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeByoipCidrs">REST API Reference for DescribeByoipCidrs Operation</seealso>
+        DescribeByoipCidrsResponse DescribeByoipCidrs(DescribeByoipCidrsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeByoipCidrs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeByoipCidrs operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeByoipCidrs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeByoipCidrs">REST API Reference for DescribeByoipCidrs Operation</seealso>
+        IAsyncResult BeginDescribeByoipCidrs(DescribeByoipCidrsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeByoipCidrs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeByoipCidrs.</param>
+        /// 
+        /// <returns>Returns a  DescribeByoipCidrsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeByoipCidrs">REST API Reference for DescribeByoipCidrs Operation</seealso>
+        DescribeByoipCidrsResponse EndDescribeByoipCidrs(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeCapacityReservations
+
+
+        /// <summary>
+        /// Describes one or more of your Capacity Reservations. The results describe only the
+        /// Capacity Reservations in the AWS Region that you're currently using.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCapacityReservations service method.</param>
+        /// 
+        /// <returns>The response from the DescribeCapacityReservations service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityReservations">REST API Reference for DescribeCapacityReservations Operation</seealso>
+        DescribeCapacityReservationsResponse DescribeCapacityReservations(DescribeCapacityReservationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeCapacityReservations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCapacityReservations operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeCapacityReservations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityReservations">REST API Reference for DescribeCapacityReservations Operation</seealso>
+        IAsyncResult BeginDescribeCapacityReservations(DescribeCapacityReservationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeCapacityReservations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeCapacityReservations.</param>
+        /// 
+        /// <returns>Returns a  DescribeCapacityReservationsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCapacityReservations">REST API Reference for DescribeCapacityReservations Operation</seealso>
+        DescribeCapacityReservationsResponse EndDescribeCapacityReservations(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeClassicLinkInstances
 
 
         /// <summary>
         /// Describes one or more of your linked EC2-Classic instances. This request only returns
-        /// information about EC2-Classic instances linked to a VPC through ClassicLink; you cannot
+        /// information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
         /// use this request to return information about other instances.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeClassicLinkInstances service method.</param>
@@ -5533,16 +7753,259 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribeClientVpnAuthorizationRules
+
+
+        /// <summary>
+        /// Describes the authorization rules for a specified Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnAuthorizationRules service method.</param>
+        /// 
+        /// <returns>The response from the DescribeClientVpnAuthorizationRules service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnAuthorizationRules">REST API Reference for DescribeClientVpnAuthorizationRules Operation</seealso>
+        DescribeClientVpnAuthorizationRulesResponse DescribeClientVpnAuthorizationRules(DescribeClientVpnAuthorizationRulesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeClientVpnAuthorizationRules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnAuthorizationRules operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeClientVpnAuthorizationRules
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnAuthorizationRules">REST API Reference for DescribeClientVpnAuthorizationRules Operation</seealso>
+        IAsyncResult BeginDescribeClientVpnAuthorizationRules(DescribeClientVpnAuthorizationRulesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeClientVpnAuthorizationRules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeClientVpnAuthorizationRules.</param>
+        /// 
+        /// <returns>Returns a  DescribeClientVpnAuthorizationRulesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnAuthorizationRules">REST API Reference for DescribeClientVpnAuthorizationRules Operation</seealso>
+        DescribeClientVpnAuthorizationRulesResponse EndDescribeClientVpnAuthorizationRules(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeClientVpnConnections
+
+
+        /// <summary>
+        /// Describes active client connections and connections that have been terminated within
+        /// the last 60 minutes for the specified Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnConnections service method.</param>
+        /// 
+        /// <returns>The response from the DescribeClientVpnConnections service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnConnections">REST API Reference for DescribeClientVpnConnections Operation</seealso>
+        DescribeClientVpnConnectionsResponse DescribeClientVpnConnections(DescribeClientVpnConnectionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeClientVpnConnections operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnConnections operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeClientVpnConnections
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnConnections">REST API Reference for DescribeClientVpnConnections Operation</seealso>
+        IAsyncResult BeginDescribeClientVpnConnections(DescribeClientVpnConnectionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeClientVpnConnections operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeClientVpnConnections.</param>
+        /// 
+        /// <returns>Returns a  DescribeClientVpnConnectionsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnConnections">REST API Reference for DescribeClientVpnConnections Operation</seealso>
+        DescribeClientVpnConnectionsResponse EndDescribeClientVpnConnections(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeClientVpnEndpoints
+
+
+        /// <summary>
+        /// Describes one or more Client VPN endpoints in the account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnEndpoints service method.</param>
+        /// 
+        /// <returns>The response from the DescribeClientVpnEndpoints service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnEndpoints">REST API Reference for DescribeClientVpnEndpoints Operation</seealso>
+        DescribeClientVpnEndpointsResponse DescribeClientVpnEndpoints(DescribeClientVpnEndpointsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeClientVpnEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnEndpoints operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeClientVpnEndpoints
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnEndpoints">REST API Reference for DescribeClientVpnEndpoints Operation</seealso>
+        IAsyncResult BeginDescribeClientVpnEndpoints(DescribeClientVpnEndpointsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeClientVpnEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeClientVpnEndpoints.</param>
+        /// 
+        /// <returns>Returns a  DescribeClientVpnEndpointsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnEndpoints">REST API Reference for DescribeClientVpnEndpoints Operation</seealso>
+        DescribeClientVpnEndpointsResponse EndDescribeClientVpnEndpoints(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeClientVpnRoutes
+
+
+        /// <summary>
+        /// Describes the routes for the specified Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnRoutes service method.</param>
+        /// 
+        /// <returns>The response from the DescribeClientVpnRoutes service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnRoutes">REST API Reference for DescribeClientVpnRoutes Operation</seealso>
+        DescribeClientVpnRoutesResponse DescribeClientVpnRoutes(DescribeClientVpnRoutesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeClientVpnRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnRoutes operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeClientVpnRoutes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnRoutes">REST API Reference for DescribeClientVpnRoutes Operation</seealso>
+        IAsyncResult BeginDescribeClientVpnRoutes(DescribeClientVpnRoutesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeClientVpnRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeClientVpnRoutes.</param>
+        /// 
+        /// <returns>Returns a  DescribeClientVpnRoutesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnRoutes">REST API Reference for DescribeClientVpnRoutes Operation</seealso>
+        DescribeClientVpnRoutesResponse EndDescribeClientVpnRoutes(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeClientVpnTargetNetworks
+
+
+        /// <summary>
+        /// Describes the target networks associated with the specified Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnTargetNetworks service method.</param>
+        /// 
+        /// <returns>The response from the DescribeClientVpnTargetNetworks service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnTargetNetworks">REST API Reference for DescribeClientVpnTargetNetworks Operation</seealso>
+        DescribeClientVpnTargetNetworksResponse DescribeClientVpnTargetNetworks(DescribeClientVpnTargetNetworksRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeClientVpnTargetNetworks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClientVpnTargetNetworks operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeClientVpnTargetNetworks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnTargetNetworks">REST API Reference for DescribeClientVpnTargetNetworks Operation</seealso>
+        IAsyncResult BeginDescribeClientVpnTargetNetworks(DescribeClientVpnTargetNetworksRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeClientVpnTargetNetworks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeClientVpnTargetNetworks.</param>
+        /// 
+        /// <returns>Returns a  DescribeClientVpnTargetNetworksResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeClientVpnTargetNetworks">REST API Reference for DescribeClientVpnTargetNetworks Operation</seealso>
+        DescribeClientVpnTargetNetworksResponse EndDescribeClientVpnTargetNetworks(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeCoipPools
+
+
+        /// <summary>
+        /// Describes the specified customer-owned address pools or all of your customer-owned
+        /// address pools.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCoipPools service method.</param>
+        /// 
+        /// <returns>The response from the DescribeCoipPools service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCoipPools">REST API Reference for DescribeCoipPools Operation</seealso>
+        DescribeCoipPoolsResponse DescribeCoipPools(DescribeCoipPoolsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeCoipPools operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCoipPools operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeCoipPools
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCoipPools">REST API Reference for DescribeCoipPools Operation</seealso>
+        IAsyncResult BeginDescribeCoipPools(DescribeCoipPoolsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeCoipPools operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeCoipPools.</param>
+        /// 
+        /// <returns>Returns a  DescribeCoipPoolsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeCoipPools">REST API Reference for DescribeCoipPools Operation</seealso>
+        DescribeCoipPoolsResponse EndDescribeCoipPools(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeConversionTasks
 
 
         /// <summary>
-        /// Describes one or more of your conversion tasks. For more information, see the <a href="http://docs.aws.amazon.com/vm-import/latest/userguide/">VM
-        /// Import/Export User Guide</a>.
+        /// Describes the specified conversion tasks or all your conversion tasks. For more information,
+        /// see the <a href="https://docs.aws.amazon.com/vm-import/latest/userguide/">VM Import/Export
+        /// User Guide</a>.
         /// 
         ///  
         /// <para>
-        /// For information about the import manifest referenced by this API action, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
+        /// For information about the import manifest referenced by this API action, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
         /// Import Manifest</a>.
         /// </para>
         /// </summary>
@@ -5552,12 +8015,13 @@ namespace Amazon.EC2
         DescribeConversionTasksResponse DescribeConversionTasks();
 
         /// <summary>
-        /// Describes one or more of your conversion tasks. For more information, see the <a href="http://docs.aws.amazon.com/vm-import/latest/userguide/">VM
-        /// Import/Export User Guide</a>.
+        /// Describes the specified conversion tasks or all your conversion tasks. For more information,
+        /// see the <a href="https://docs.aws.amazon.com/vm-import/latest/userguide/">VM Import/Export
+        /// User Guide</a>.
         /// 
         ///  
         /// <para>
-        /// For information about the import manifest referenced by this API action, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
+        /// For information about the import manifest referenced by this API action, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
         /// Import Manifest</a>.
         /// </para>
         /// </summary>
@@ -5603,8 +8067,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about VPN customer gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// 
@@ -5617,8 +8081,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about VPN customer gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeCustomerGateways service method.</param>
@@ -5663,7 +8127,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about DHCP options sets, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html">DHCP
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
         /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -5677,7 +8141,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about DHCP options sets, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html">DHCP
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
         /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -5719,7 +8183,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your egress-only Internet gateways.
+        /// Describes one or more of your egress-only internet gateways.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeEgressOnlyInternetGateways service method.</param>
         /// 
@@ -5759,9 +8223,9 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the Elastic GPUs associated with your instances. For more information about
-        /// Elastic GPUs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-gpus.html">Amazon
-        /// EC2 Elastic GPUs</a>.
+        /// Describes the Elastic Graphics accelerator associated with your instances. For more
+        /// information about Elastic Graphics, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-graphics.html">Amazon
+        /// Elastic Graphics</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeElasticGpus service method.</param>
         /// 
@@ -5797,11 +8261,51 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribeExportImageTasks
+
+
+        /// <summary>
+        /// Describes the specified export image tasks or all your export image tasks.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeExportImageTasks service method.</param>
+        /// 
+        /// <returns>The response from the DescribeExportImageTasks service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeExportImageTasks">REST API Reference for DescribeExportImageTasks Operation</seealso>
+        DescribeExportImageTasksResponse DescribeExportImageTasks(DescribeExportImageTasksRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeExportImageTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeExportImageTasks operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeExportImageTasks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeExportImageTasks">REST API Reference for DescribeExportImageTasks Operation</seealso>
+        IAsyncResult BeginDescribeExportImageTasks(DescribeExportImageTasksRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeExportImageTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeExportImageTasks.</param>
+        /// 
+        /// <returns>Returns a  DescribeExportImageTasksResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeExportImageTasks">REST API Reference for DescribeExportImageTasks Operation</seealso>
+        DescribeExportImageTasksResponse EndDescribeExportImageTasks(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeExportTasks
 
 
         /// <summary>
-        /// Describes one or more of your export tasks.
+        /// Describes the specified export instance tasks or all your export instance tasks.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeExportTasks service method, as returned by EC2.</returns>
@@ -5809,7 +8313,7 @@ namespace Amazon.EC2
         DescribeExportTasksResponse DescribeExportTasks();
 
         /// <summary>
-        /// Describes one or more of your export tasks.
+        /// Describes the specified export instance tasks or all your export instance tasks.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeExportTasks service method.</param>
         /// 
@@ -5842,6 +8346,173 @@ namespace Amazon.EC2
         /// <returns>Returns a  DescribeExportTasksResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeExportTasks">REST API Reference for DescribeExportTasks Operation</seealso>
         DescribeExportTasksResponse EndDescribeExportTasks(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeFastSnapshotRestores
+
+
+        /// <summary>
+        /// Describes the state of fast snapshot restores for your snapshots.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFastSnapshotRestores service method.</param>
+        /// 
+        /// <returns>The response from the DescribeFastSnapshotRestores service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFastSnapshotRestores">REST API Reference for DescribeFastSnapshotRestores Operation</seealso>
+        DescribeFastSnapshotRestoresResponse DescribeFastSnapshotRestores(DescribeFastSnapshotRestoresRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeFastSnapshotRestores operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFastSnapshotRestores operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeFastSnapshotRestores
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFastSnapshotRestores">REST API Reference for DescribeFastSnapshotRestores Operation</seealso>
+        IAsyncResult BeginDescribeFastSnapshotRestores(DescribeFastSnapshotRestoresRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeFastSnapshotRestores operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeFastSnapshotRestores.</param>
+        /// 
+        /// <returns>Returns a  DescribeFastSnapshotRestoresResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFastSnapshotRestores">REST API Reference for DescribeFastSnapshotRestores Operation</seealso>
+        DescribeFastSnapshotRestoresResponse EndDescribeFastSnapshotRestores(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeFleetHistory
+
+
+        /// <summary>
+        /// Describes the events for the specified EC2 Fleet during the specified time.
+        /// 
+        ///  
+        /// <para>
+        /// EC2 Fleet events are delayed by up to 30 seconds before they can be described. This
+        /// ensures that you can query by the last evaluated time and not miss a recorded event.
+        /// EC2 Fleet events are available for 48 hours.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFleetHistory service method.</param>
+        /// 
+        /// <returns>The response from the DescribeFleetHistory service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleetHistory">REST API Reference for DescribeFleetHistory Operation</seealso>
+        DescribeFleetHistoryResponse DescribeFleetHistory(DescribeFleetHistoryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeFleetHistory operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFleetHistory operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeFleetHistory
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleetHistory">REST API Reference for DescribeFleetHistory Operation</seealso>
+        IAsyncResult BeginDescribeFleetHistory(DescribeFleetHistoryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeFleetHistory operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeFleetHistory.</param>
+        /// 
+        /// <returns>Returns a  DescribeFleetHistoryResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleetHistory">REST API Reference for DescribeFleetHistory Operation</seealso>
+        DescribeFleetHistoryResponse EndDescribeFleetHistory(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeFleetInstances
+
+
+        /// <summary>
+        /// Describes the running instances for the specified EC2 Fleet.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFleetInstances service method.</param>
+        /// 
+        /// <returns>The response from the DescribeFleetInstances service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleetInstances">REST API Reference for DescribeFleetInstances Operation</seealso>
+        DescribeFleetInstancesResponse DescribeFleetInstances(DescribeFleetInstancesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeFleetInstances operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFleetInstances operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeFleetInstances
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleetInstances">REST API Reference for DescribeFleetInstances Operation</seealso>
+        IAsyncResult BeginDescribeFleetInstances(DescribeFleetInstancesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeFleetInstances operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeFleetInstances.</param>
+        /// 
+        /// <returns>Returns a  DescribeFleetInstancesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleetInstances">REST API Reference for DescribeFleetInstances Operation</seealso>
+        DescribeFleetInstancesResponse EndDescribeFleetInstances(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeFleets
+
+
+        /// <summary>
+        /// Describes the specified EC2 Fleets or all of your EC2 Fleets.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFleets service method.</param>
+        /// 
+        /// <returns>The response from the DescribeFleets service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleets">REST API Reference for DescribeFleets Operation</seealso>
+        DescribeFleetsResponse DescribeFleets(DescribeFleetsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeFleets operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFleets operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeFleets
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleets">REST API Reference for DescribeFleets Operation</seealso>
+        IAsyncResult BeginDescribeFleets(DescribeFleetsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeFleets operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeFleets.</param>
+        /// 
+        /// <returns>Returns a  DescribeFleetsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeFleets">REST API Reference for DescribeFleets Operation</seealso>
+        DescribeFleetsResponse EndDescribeFleets(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5931,7 +8602,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more available Amazon FPGA Images (AFIs). These include public AFIs,
+        /// Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs,
         /// private AFIs that you own, and AFIs owned by other AWS accounts for which you have
         /// load permissions.
         /// </summary>
@@ -5973,15 +8644,15 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the Dedicated Host Reservations that are available to purchase.
+        /// Describes the Dedicated Host reservations that are available to purchase.
         /// 
         ///  
         /// <para>
-        /// The results describe all the Dedicated Host Reservation offerings, including offerings
-        /// that may not match the instance family and region of your Dedicated Hosts. When purchasing
-        /// an offering, ensure that the the instance family and region of the offering matches
-        /// that of the Dedicated Host/s it will be associated with. For an overview of supported
-        /// instance types, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html">Dedicated
+        /// The results describe all of the Dedicated Host reservation offerings, including offerings
+        /// that might not match the instance family and Region of your Dedicated Hosts. When
+        /// purchasing an offering, ensure that the instance family and Region of the offering
+        /// matches that of the Dedicated Hosts with which it is to be associated. For more information
+        /// about supported instance types, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html">Dedicated
         /// Hosts Overview</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. 
         /// </para>
         /// </summary>
@@ -6023,8 +8694,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes Dedicated Host Reservations which are associated with Dedicated Hosts in
-        /// your account.
+        /// Describes reservations that are associated with Dedicated Hosts in your account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeHostReservations service method.</param>
         /// 
@@ -6064,13 +8734,13 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your Dedicated Hosts.
+        /// Describes the specified Dedicated Hosts or all your Dedicated Hosts.
         /// 
         ///  
         /// <para>
-        /// The results describe only the Dedicated Hosts in the region you're currently using.
+        /// The results describe only the Dedicated Hosts in the Region you're currently using.
         /// All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that
-        /// have recently been released will be listed with the state <code>released</code>.
+        /// have recently been released are listed with the state <code>released</code>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeHosts service method.</param>
@@ -6155,7 +8825,7 @@ namespace Amazon.EC2
         /// or root user. For example, you can view the resource types that are enabled for longer
         /// IDs. This request only returns information about resource types whose ID formats can
         /// be modified; it does not return information about other resource types. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
         /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. 
         /// 
         ///  
@@ -6216,7 +8886,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the ID format settings for your resources on a per-region basis, for example,
+        /// Describes the ID format settings for your resources on a per-Region basis, for example,
         /// to view which resource types are enabled for longer IDs. This request only returns
         /// information about resource types whose ID formats can be modified; it does not return
         /// information about other resource types.
@@ -6324,16 +8994,21 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of the images (AMIs, AKIs, and ARIs) available to you. Images
-        /// available to you include public images, private images that you own, and private images
-        /// owned by other AWS accounts but for which you have explicit launch permissions.
+        /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the
+        /// images available to you.
         /// 
-        ///  <note> 
+        ///  
         /// <para>
-        /// Deregistered images are included in the returned results for an unspecified interval
-        /// after deregistration.
+        /// The images available to you include public images, private images that you own, and
+        /// private images owned by other AWS accounts for which you have explicit launch permissions.
         /// </para>
-        ///  </note>
+        ///  
+        /// <para>
+        /// Recently deregistered images appear in the returned results for a short interval and
+        /// then return empty results. After all instances that reference a deregistered AMI are
+        /// terminated, specifying the ID of the image results in an error indicating that the
+        /// AMI ID cannot be found.
+        /// </para>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeImages service method, as returned by EC2.</returns>
@@ -6341,16 +9016,21 @@ namespace Amazon.EC2
         DescribeImagesResponse DescribeImages();
 
         /// <summary>
-        /// Describes one or more of the images (AMIs, AKIs, and ARIs) available to you. Images
-        /// available to you include public images, private images that you own, and private images
-        /// owned by other AWS accounts but for which you have explicit launch permissions.
+        /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the
+        /// images available to you.
         /// 
-        ///  <note> 
+        ///  
         /// <para>
-        /// Deregistered images are included in the returned results for an unspecified interval
-        /// after deregistration.
+        /// The images available to you include public images, private images that you own, and
+        /// private images owned by other AWS accounts for which you have explicit launch permissions.
         /// </para>
-        ///  </note>
+        ///  
+        /// <para>
+        /// Recently deregistered images appear in the returned results for a short interval and
+        /// then return empty results. After all instances that reference a deregistered AMI are
+        /// terminated, specifying the ID of the image results in an error indicating that the
+        /// AMI ID cannot be found.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeImages service method.</param>
         /// 
@@ -6516,16 +9196,23 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the credit option for CPU usage of one or more of your T2 instances. The
-        /// credit options are <code>standard</code> and <code>unlimited</code>.
+        /// Describes the credit option for CPU usage of the specified burstable performance instances.
+        /// The credit options are <code>standard</code> and <code>unlimited</code>.
         /// 
         ///  
         /// <para>
-        /// If you do not specify an instance ID, Amazon EC2 returns only the T2 instances with
-        /// the <code>unlimited</code> credit option. If you specify one or more instance IDs,
-        /// Amazon EC2 returns the credit option (<code>standard</code> or <code>unlimited</code>)
-        /// of those instances. If you specify an instance ID that is not valid, such as an instance
-        /// that is not a T2 instance, an error is returned.
+        /// If you do not specify an instance ID, Amazon EC2 returns burstable performance instances
+        /// with the <code>unlimited</code> credit option, as well as instances that were previously
+        /// configured as T2, T3, and T3a with the <code>unlimited</code> credit option. For example,
+        /// if you resize a T2 instance, while it is configured as <code>unlimited</code>, to
+        /// an M4 instance, Amazon EC2 returns the M4 instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify one or more instance IDs, Amazon EC2 returns the credit option (<code>standard</code>
+        /// or <code>unlimited</code>) of those instances. If you specify an instance ID that
+        /// is not valid, such as an instance that is not a burstable performance instance, an
+        /// error is returned.
         /// </para>
         ///  
         /// <para>
@@ -6540,8 +9227,8 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/t2-instances.html">T2
-        /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+        /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeInstanceCreditSpecifications service method.</param>
@@ -6582,7 +9269,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your instances.
+        /// Describes the specified instances or all of AWS account's instances.
         /// 
         ///  
         /// <para>
@@ -6611,7 +9298,7 @@ namespace Amazon.EC2
         DescribeInstancesResponse DescribeInstances();
 
         /// <summary>
-        /// Describes one or more of your instances.
+        /// Describes the specified instances or all of AWS account's instances.
         /// 
         ///  
         /// <para>
@@ -6672,8 +9359,9 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the status of one or more instances. By default, only running instances
-        /// are described, unless you specifically indicate to return the status of all instances.
+        /// Describes the status of the specified instances or all of your instances. By default,
+        /// only running instances are described, unless you specifically indicate to return the
+        /// status of all instances.
         /// 
         ///  
         /// <para>
@@ -6682,8 +9370,8 @@ namespace Amazon.EC2
         ///  <ul> <li> 
         /// <para>
         ///  <b>Status checks</b> - Amazon EC2 performs status checks on running EC2 instances
-        /// to identify hardware and software issues. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">Status
-        /// Checks for Your Instances</a> and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html">Troubleshooting
+        /// to identify hardware and software issues. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">Status
+        /// Checks for Your Instances</a> and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html">Troubleshooting
         /// Instances with Failed Status Checks</a> in the <i>Amazon Elastic Compute Cloud User
         /// Guide</i>.
         /// </para>
@@ -6691,13 +9379,13 @@ namespace Amazon.EC2
         /// <para>
         ///  <b>Scheduled events</b> - Amazon EC2 can schedule events (such as reboot, stop, or
         /// terminate) for your instances related to hardware issues, software updates, or system
-        /// maintenance. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html">Scheduled
+        /// maintenance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html">Scheduled
         /// Events for Your Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <b>Instance state</b> - You can manage your instances from the moment you launch
-        /// them through their termination. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
+        /// them through their termination. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
         /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </li> </ul>
@@ -6708,8 +9396,9 @@ namespace Amazon.EC2
         DescribeInstanceStatusResponse DescribeInstanceStatus();
 
         /// <summary>
-        /// Describes the status of one or more instances. By default, only running instances
-        /// are described, unless you specifically indicate to return the status of all instances.
+        /// Describes the status of the specified instances or all of your instances. By default,
+        /// only running instances are described, unless you specifically indicate to return the
+        /// status of all instances.
         /// 
         ///  
         /// <para>
@@ -6718,8 +9407,8 @@ namespace Amazon.EC2
         ///  <ul> <li> 
         /// <para>
         ///  <b>Status checks</b> - Amazon EC2 performs status checks on running EC2 instances
-        /// to identify hardware and software issues. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">Status
-        /// Checks for Your Instances</a> and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html">Troubleshooting
+        /// to identify hardware and software issues. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">Status
+        /// Checks for Your Instances</a> and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html">Troubleshooting
         /// Instances with Failed Status Checks</a> in the <i>Amazon Elastic Compute Cloud User
         /// Guide</i>.
         /// </para>
@@ -6727,13 +9416,13 @@ namespace Amazon.EC2
         /// <para>
         ///  <b>Scheduled events</b> - Amazon EC2 can schedule events (such as reboot, stop, or
         /// terminate) for your instances related to hardware issues, software updates, or system
-        /// maintenance. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html">Scheduled
+        /// maintenance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html">Scheduled
         /// Events for Your Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <b>Instance state</b> - You can manage your instances from the moment you launch
-        /// them through their termination. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
+        /// them through their termination. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
         /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </li> </ul>
@@ -6772,11 +9461,94 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribeInstanceTypeOfferings
+
+
+        /// <summary>
+        /// Returns a list of all instance types offered. The results can be filtered by location
+        /// (Region or Availability Zone). If no location is specified, the instance types offered
+        /// in the current Region are returned.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInstanceTypeOfferings service method.</param>
+        /// 
+        /// <returns>The response from the DescribeInstanceTypeOfferings service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceTypeOfferings">REST API Reference for DescribeInstanceTypeOfferings Operation</seealso>
+        DescribeInstanceTypeOfferingsResponse DescribeInstanceTypeOfferings(DescribeInstanceTypeOfferingsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeInstanceTypeOfferings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInstanceTypeOfferings operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeInstanceTypeOfferings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceTypeOfferings">REST API Reference for DescribeInstanceTypeOfferings Operation</seealso>
+        IAsyncResult BeginDescribeInstanceTypeOfferings(DescribeInstanceTypeOfferingsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeInstanceTypeOfferings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeInstanceTypeOfferings.</param>
+        /// 
+        /// <returns>Returns a  DescribeInstanceTypeOfferingsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceTypeOfferings">REST API Reference for DescribeInstanceTypeOfferings Operation</seealso>
+        DescribeInstanceTypeOfferingsResponse EndDescribeInstanceTypeOfferings(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeInstanceTypes
+
+
+        /// <summary>
+        /// Returns a list of all instance types offered in your current AWS Region. The results
+        /// can be filtered by the attributes of the instance types.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInstanceTypes service method.</param>
+        /// 
+        /// <returns>The response from the DescribeInstanceTypes service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceTypes">REST API Reference for DescribeInstanceTypes Operation</seealso>
+        DescribeInstanceTypesResponse DescribeInstanceTypes(DescribeInstanceTypesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeInstanceTypes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInstanceTypes operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeInstanceTypes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceTypes">REST API Reference for DescribeInstanceTypes Operation</seealso>
+        IAsyncResult BeginDescribeInstanceTypes(DescribeInstanceTypesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeInstanceTypes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeInstanceTypes.</param>
+        /// 
+        /// <returns>Returns a  DescribeInstanceTypesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeInstanceTypes">REST API Reference for DescribeInstanceTypes Operation</seealso>
+        DescribeInstanceTypesResponse EndDescribeInstanceTypes(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeInternetGateways
 
 
         /// <summary>
-        /// Describes one or more of your Internet gateways.
+        /// Describes one or more of your internet gateways.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeInternetGateways service method, as returned by EC2.</returns>
@@ -6784,7 +9556,7 @@ namespace Amazon.EC2
         DescribeInternetGatewaysResponse DescribeInternetGateways();
 
         /// <summary>
-        /// Describes one or more of your Internet gateways.
+        /// Describes one or more of your internet gateways.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeInternetGateways service method.</param>
         /// 
@@ -6820,15 +9592,55 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribeIpv6Pools
+
+
+        /// <summary>
+        /// Describes your IPv6 address pools.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeIpv6Pools service method.</param>
+        /// 
+        /// <returns>The response from the DescribeIpv6Pools service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeIpv6Pools">REST API Reference for DescribeIpv6Pools Operation</seealso>
+        DescribeIpv6PoolsResponse DescribeIpv6Pools(DescribeIpv6PoolsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeIpv6Pools operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeIpv6Pools operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeIpv6Pools
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeIpv6Pools">REST API Reference for DescribeIpv6Pools Operation</seealso>
+        IAsyncResult BeginDescribeIpv6Pools(DescribeIpv6PoolsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeIpv6Pools operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeIpv6Pools.</param>
+        /// 
+        /// <returns>Returns a  DescribeIpv6PoolsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeIpv6Pools">REST API Reference for DescribeIpv6Pools Operation</seealso>
+        DescribeIpv6PoolsResponse EndDescribeIpv6Pools(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeKeyPairs
 
 
         /// <summary>
-        /// Describes one or more of your key pairs.
+        /// Describes the specified key pairs or all of your key pairs.
         /// 
         ///  
         /// <para>
-        /// For more information about key pairs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+        /// For more information about key pairs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
         /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -6838,11 +9650,11 @@ namespace Amazon.EC2
         DescribeKeyPairsResponse DescribeKeyPairs();
 
         /// <summary>
-        /// Describes one or more of your key pairs.
+        /// Describes the specified key pairs or all of your key pairs.
         /// 
         ///  
         /// <para>
-        /// For more information about key pairs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+        /// For more information about key pairs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
         /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -6961,6 +9773,249 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribeLocalGatewayRouteTables
+
+
+        /// <summary>
+        /// Describes one or more local gateway route tables. By default, all local gateway route
+        /// tables are described. Alternatively, you can filter the results.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayRouteTables service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLocalGatewayRouteTables service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTables">REST API Reference for DescribeLocalGatewayRouteTables Operation</seealso>
+        DescribeLocalGatewayRouteTablesResponse DescribeLocalGatewayRouteTables(DescribeLocalGatewayRouteTablesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLocalGatewayRouteTables operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayRouteTables operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLocalGatewayRouteTables
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTables">REST API Reference for DescribeLocalGatewayRouteTables Operation</seealso>
+        IAsyncResult BeginDescribeLocalGatewayRouteTables(DescribeLocalGatewayRouteTablesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLocalGatewayRouteTables operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLocalGatewayRouteTables.</param>
+        /// 
+        /// <returns>Returns a  DescribeLocalGatewayRouteTablesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTables">REST API Reference for DescribeLocalGatewayRouteTables Operation</seealso>
+        DescribeLocalGatewayRouteTablesResponse EndDescribeLocalGatewayRouteTables(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations
+
+
+        /// <summary>
+        /// Describes the associations between virtual interface groups and local gateway route
+        /// tables.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations">REST API Reference for DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations Operation</seealso>
+        DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResponse DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations">REST API Reference for DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations Operation</seealso>
+        IAsyncResult BeginDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations.</param>
+        /// 
+        /// <returns>Returns a  DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations">REST API Reference for DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations Operation</seealso>
+        DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsResponse EndDescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeLocalGatewayRouteTableVpcAssociations
+
+
+        /// <summary>
+        /// Describes the specified associations between VPCs and local gateway route tables.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayRouteTableVpcAssociations service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLocalGatewayRouteTableVpcAssociations service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTableVpcAssociations">REST API Reference for DescribeLocalGatewayRouteTableVpcAssociations Operation</seealso>
+        DescribeLocalGatewayRouteTableVpcAssociationsResponse DescribeLocalGatewayRouteTableVpcAssociations(DescribeLocalGatewayRouteTableVpcAssociationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLocalGatewayRouteTableVpcAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayRouteTableVpcAssociations operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLocalGatewayRouteTableVpcAssociations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTableVpcAssociations">REST API Reference for DescribeLocalGatewayRouteTableVpcAssociations Operation</seealso>
+        IAsyncResult BeginDescribeLocalGatewayRouteTableVpcAssociations(DescribeLocalGatewayRouteTableVpcAssociationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLocalGatewayRouteTableVpcAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLocalGatewayRouteTableVpcAssociations.</param>
+        /// 
+        /// <returns>Returns a  DescribeLocalGatewayRouteTableVpcAssociationsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayRouteTableVpcAssociations">REST API Reference for DescribeLocalGatewayRouteTableVpcAssociations Operation</seealso>
+        DescribeLocalGatewayRouteTableVpcAssociationsResponse EndDescribeLocalGatewayRouteTableVpcAssociations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeLocalGateways
+
+
+        /// <summary>
+        /// Describes one or more local gateways. By default, all local gateways are described.
+        /// Alternatively, you can filter the results.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGateways service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLocalGateways service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGateways">REST API Reference for DescribeLocalGateways Operation</seealso>
+        DescribeLocalGatewaysResponse DescribeLocalGateways(DescribeLocalGatewaysRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLocalGateways operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGateways operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLocalGateways
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGateways">REST API Reference for DescribeLocalGateways Operation</seealso>
+        IAsyncResult BeginDescribeLocalGateways(DescribeLocalGatewaysRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLocalGateways operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLocalGateways.</param>
+        /// 
+        /// <returns>Returns a  DescribeLocalGatewaysResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGateways">REST API Reference for DescribeLocalGateways Operation</seealso>
+        DescribeLocalGatewaysResponse EndDescribeLocalGateways(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeLocalGatewayVirtualInterfaceGroups
+
+
+        /// <summary>
+        /// Describes the specified local gateway virtual interface groups.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayVirtualInterfaceGroups service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLocalGatewayVirtualInterfaceGroups service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayVirtualInterfaceGroups">REST API Reference for DescribeLocalGatewayVirtualInterfaceGroups Operation</seealso>
+        DescribeLocalGatewayVirtualInterfaceGroupsResponse DescribeLocalGatewayVirtualInterfaceGroups(DescribeLocalGatewayVirtualInterfaceGroupsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLocalGatewayVirtualInterfaceGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayVirtualInterfaceGroups operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLocalGatewayVirtualInterfaceGroups
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayVirtualInterfaceGroups">REST API Reference for DescribeLocalGatewayVirtualInterfaceGroups Operation</seealso>
+        IAsyncResult BeginDescribeLocalGatewayVirtualInterfaceGroups(DescribeLocalGatewayVirtualInterfaceGroupsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLocalGatewayVirtualInterfaceGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLocalGatewayVirtualInterfaceGroups.</param>
+        /// 
+        /// <returns>Returns a  DescribeLocalGatewayVirtualInterfaceGroupsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayVirtualInterfaceGroups">REST API Reference for DescribeLocalGatewayVirtualInterfaceGroups Operation</seealso>
+        DescribeLocalGatewayVirtualInterfaceGroupsResponse EndDescribeLocalGatewayVirtualInterfaceGroups(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeLocalGatewayVirtualInterfaces
+
+
+        /// <summary>
+        /// Describes the specified local gateway virtual interfaces.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayVirtualInterfaces service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLocalGatewayVirtualInterfaces service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayVirtualInterfaces">REST API Reference for DescribeLocalGatewayVirtualInterfaces Operation</seealso>
+        DescribeLocalGatewayVirtualInterfacesResponse DescribeLocalGatewayVirtualInterfaces(DescribeLocalGatewayVirtualInterfacesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLocalGatewayVirtualInterfaces operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLocalGatewayVirtualInterfaces operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLocalGatewayVirtualInterfaces
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayVirtualInterfaces">REST API Reference for DescribeLocalGatewayVirtualInterfaces Operation</seealso>
+        IAsyncResult BeginDescribeLocalGatewayVirtualInterfaces(DescribeLocalGatewayVirtualInterfacesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLocalGatewayVirtualInterfaces operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLocalGatewayVirtualInterfaces.</param>
+        /// 
+        /// <returns>Returns a  DescribeLocalGatewayVirtualInterfacesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeLocalGatewayVirtualInterfaces">REST API Reference for DescribeLocalGatewayVirtualInterfaces Operation</seealso>
+        DescribeLocalGatewayVirtualInterfacesResponse EndDescribeLocalGatewayVirtualInterfaces(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeMovingAddresses
 
 
@@ -7007,7 +10062,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of the your NAT gateways.
+        /// Describes one or more of your NAT gateways.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeNatGateways service method.</param>
         /// 
@@ -7051,7 +10106,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about network ACLs, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html">Network
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_ACLs.html">Network
         /// ACLs</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7065,7 +10120,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about network ACLs, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html">Network
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_ACLs.html">Network
         /// ACLs</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7235,7 +10290,8 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your placement groups. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
+        /// Describes the specified placement groups or all of your placement groups. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
         /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// 
@@ -7244,7 +10300,8 @@ namespace Amazon.EC2
         DescribePlacementGroupsResponse DescribePlacementGroups();
 
         /// <summary>
-        /// Describes one or more of your placement groups. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
+        /// Describes the specified placement groups or all of your placement groups. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
         /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribePlacementGroups service method.</param>
@@ -7288,7 +10345,8 @@ namespace Amazon.EC2
         /// Describes available AWS services in a prefix list format, which includes the prefix
         /// list name and prefix list ID of the service and the IP address range for the service.
         /// A prefix list ID is required for creating an outbound security group rule that allows
-        /// traffic from a VPC to access an AWS service through a gateway VPC endpoint.
+        /// traffic from a VPC to access an AWS service through a gateway VPC endpoint. Currently,
+        /// the services that support this action are Amazon S3 and Amazon DynamoDB.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribePrefixLists service method.</param>
         /// 
@@ -7386,16 +10444,61 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribePublicIpv4Pools
+
+
+        /// <summary>
+        /// Describes the specified IPv4 address pools.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribePublicIpv4Pools service method.</param>
+        /// 
+        /// <returns>The response from the DescribePublicIpv4Pools service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribePublicIpv4Pools">REST API Reference for DescribePublicIpv4Pools Operation</seealso>
+        DescribePublicIpv4PoolsResponse DescribePublicIpv4Pools(DescribePublicIpv4PoolsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribePublicIpv4Pools operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribePublicIpv4Pools operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribePublicIpv4Pools
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribePublicIpv4Pools">REST API Reference for DescribePublicIpv4Pools Operation</seealso>
+        IAsyncResult BeginDescribePublicIpv4Pools(DescribePublicIpv4PoolsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribePublicIpv4Pools operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribePublicIpv4Pools.</param>
+        /// 
+        /// <returns>Returns a  DescribePublicIpv4PoolsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribePublicIpv4Pools">REST API Reference for DescribePublicIpv4Pools Operation</seealso>
+        DescribePublicIpv4PoolsResponse EndDescribePublicIpv4Pools(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeRegions
 
 
         /// <summary>
-        /// Describes one or more regions that are currently available to you.
+        /// Describes the Regions that are enabled for your account, or all Regions.
         /// 
         ///  
         /// <para>
-        /// For a list of the regions supported by Amazon EC2, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">Regions
-        /// and Endpoints</a>.
+        /// For a list of the Regions supported by Amazon EC2, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">
+        /// Regions and Endpoints</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about enabling and disabling Regions for your account, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html">Managing
+        /// AWS Regions</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
         /// 
@@ -7404,12 +10507,17 @@ namespace Amazon.EC2
         DescribeRegionsResponse DescribeRegions();
 
         /// <summary>
-        /// Describes one or more regions that are currently available to you.
+        /// Describes the Regions that are enabled for your account, or all Regions.
         /// 
         ///  
         /// <para>
-        /// For a list of the regions supported by Amazon EC2, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">Regions
-        /// and Endpoints</a>.
+        /// For a list of the Regions supported by Amazon EC2, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#ec2_region">
+        /// Regions and Endpoints</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about enabling and disabling Regions for your account, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html">Managing
+        /// AWS Regions</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeRegions service method.</param>
@@ -7454,7 +10562,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about Reserved Instances, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
+        /// For more information about Reserved Instances, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
         /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7468,7 +10576,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about Reserved Instances, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
+        /// For more information about Reserved Instances, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
         /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7535,7 +10643,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
         /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7570,7 +10678,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
         /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7619,7 +10727,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
         /// Reserved Instances</a> in the Amazon Elastic Compute Cloud User Guide.
         /// </para>
         /// </summary>
@@ -7636,7 +10744,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
         /// Reserved Instances</a> in the Amazon Elastic Compute Cloud User Guide.
         /// </para>
         /// </summary>
@@ -7691,7 +10799,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
         /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7714,7 +10822,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
         /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7766,7 +10874,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7786,7 +10894,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7881,7 +10989,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your Scheduled Instances.
+        /// Describes the specified Scheduled Instances or all your Scheduled Instances.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledInstances service method.</param>
         /// 
@@ -7921,8 +11029,8 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// [EC2-VPC only] Describes the VPCs on the other side of a VPC peering connection that
-        /// are referencing the security groups you've specified in this request.
+        /// [VPC only] Describes the VPCs on the other side of a VPC peering connection that are
+        /// referencing the security groups you've specified in this request.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeSecurityGroupReferences service method.</param>
         /// 
@@ -7962,14 +11070,14 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of your security groups.
+        /// Describes the specified security groups or all of your security groups.
         /// 
         ///  
         /// <para>
         /// A security group is for use with instances either in the EC2-Classic platform or in
-        /// a specific VPC. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
+        /// a specific VPC. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
         /// EC2 Security Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i> and
-        /// <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
+        /// <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
         /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -7979,14 +11087,14 @@ namespace Amazon.EC2
         DescribeSecurityGroupsResponse DescribeSecurityGroups();
 
         /// <summary>
-        /// Describes one or more of your security groups.
+        /// Describes the specified security groups or all of your security groups.
         /// 
         ///  
         /// <para>
         /// A security group is for use with instances either in the EC2-Classic platform or in
-        /// a specific VPC. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
+        /// a specific VPC. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
         /// EC2 Security Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i> and
-        /// <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
+        /// <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
         /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8033,7 +11141,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about EBS snapshots, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
+        /// For more information about EBS snapshots, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
         /// EBS Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8075,11 +11183,15 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of the EBS snapshots available to you. Available snapshots include
-        /// public snapshots available for any AWS account to launch, private snapshots that you
-        /// own, and private snapshots owned by another AWS account but for which you've been
-        /// given explicit create volume permissions.
+        /// Describes the specified EBS snapshots available to you or all of the EBS snapshots
+        /// available to you.
         /// 
+        ///  
+        /// <para>
+        /// The snapshots available to you include public snapshots, private snapshots that you
+        /// own, and private snapshots owned by other AWS accounts for which you have explicit
+        /// create volume permissions.
+        /// </para>
         ///  
         /// <para>
         /// The create volume permissions fall into the following categories:
@@ -8102,7 +11214,7 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// The list of snapshots returned can be modified by specifying snapshot IDs, snapshot
+        /// The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot
         /// owners, or AWS accounts with create volume permissions. If no options are specified,
         /// Amazon EC2 returns all snapshots for which you have create volume permissions.
         /// </para>
@@ -8138,7 +11250,11 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about EBS snapshots, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
+        /// To get the state of fast snapshot restores for a snapshot, use <a>DescribeFastSnapshotRestores</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about EBS snapshots, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
         /// EBS Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8148,11 +11264,15 @@ namespace Amazon.EC2
         DescribeSnapshotsResponse DescribeSnapshots();
 
         /// <summary>
-        /// Describes one or more of the EBS snapshots available to you. Available snapshots include
-        /// public snapshots available for any AWS account to launch, private snapshots that you
-        /// own, and private snapshots owned by another AWS account but for which you've been
-        /// given explicit create volume permissions.
+        /// Describes the specified EBS snapshots available to you or all of the EBS snapshots
+        /// available to you.
         /// 
+        ///  
+        /// <para>
+        /// The snapshots available to you include public snapshots, private snapshots that you
+        /// own, and private snapshots owned by other AWS accounts for which you have explicit
+        /// create volume permissions.
+        /// </para>
         ///  
         /// <para>
         /// The create volume permissions fall into the following categories:
@@ -8175,7 +11295,7 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// The list of snapshots returned can be modified by specifying snapshot IDs, snapshot
+        /// The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot
         /// owners, or AWS accounts with create volume permissions. If no options are specified,
         /// Amazon EC2 returns all snapshots for which you have create volume permissions.
         /// </para>
@@ -8211,7 +11331,11 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about EBS snapshots, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
+        /// To get the state of fast snapshot restores for a snapshot, use <a>DescribeFastSnapshotRestores</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about EBS snapshots, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
         /// EBS Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8253,8 +11377,8 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the data feed for Spot Instances. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
-        /// Instance Data Feed</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Describes the data feed for Spot Instances. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
+        /// Instance Data Feed</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeSpotDatafeedSubscription service method, as returned by EC2.</returns>
@@ -8262,8 +11386,8 @@ namespace Amazon.EC2
         DescribeSpotDatafeedSubscriptionResponse DescribeSpotDatafeedSubscription();
 
         /// <summary>
-        /// Describes the data feed for Spot Instances. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
-        /// Instance Data Feed</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Describes the data feed for Spot Instances. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
+        /// Instance Data Feed</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeSpotDatafeedSubscription service method.</param>
         /// 
@@ -8349,6 +11473,7 @@ namespace Amazon.EC2
         /// <para>
         /// Spot Fleet events are delayed by up to 30 seconds before they can be described. This
         /// ensures that you can query by the last evaluated time and not miss a recorded event.
+        /// Spot Fleet events are available for 48 hours.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeSpotFleetRequestHistory service method.</param>
@@ -8435,10 +11560,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the Spot Instance requests that belong to your account. Spot Instances are
-        /// instances that Amazon EC2 launches when the Spot price that you specify exceeds the
-        /// current Spot price. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html">Spot
-        /// Instance Requests</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Describes the specified Spot Instance requests.
         /// 
         ///  
         /// <para>
@@ -8450,7 +11572,16 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// Spot Instance requests are deleted 4 hours after they are canceled and their instances
+        /// We recommend that you set <code>MaxResults</code> to a value between 5 and 1000 to
+        /// limit the number of results returned. This paginates the output, which makes the list
+        /// more manageable and returns the results faster. If the list of results exceeds your
+        /// <code>MaxResults</code> value, then that number of results is returned along with
+        /// a <code>NextToken</code> value that can be passed to a subsequent <code>DescribeSpotInstanceRequests</code>
+        /// request to retrieve the remaining results.
+        /// </para>
+        ///  
+        /// <para>
+        /// Spot Instance requests are deleted four hours after they are canceled and their instances
         /// are terminated.
         /// </para>
         /// </summary>
@@ -8460,10 +11591,7 @@ namespace Amazon.EC2
         DescribeSpotInstanceRequestsResponse DescribeSpotInstanceRequests();
 
         /// <summary>
-        /// Describes the Spot Instance requests that belong to your account. Spot Instances are
-        /// instances that Amazon EC2 launches when the Spot price that you specify exceeds the
-        /// current Spot price. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html">Spot
-        /// Instance Requests</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Describes the specified Spot Instance requests.
         /// 
         ///  
         /// <para>
@@ -8475,7 +11603,16 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// Spot Instance requests are deleted 4 hours after they are canceled and their instances
+        /// We recommend that you set <code>MaxResults</code> to a value between 5 and 1000 to
+        /// limit the number of results returned. This paginates the output, which makes the list
+        /// more manageable and returns the results faster. If the list of results exceeds your
+        /// <code>MaxResults</code> value, then that number of results is returned along with
+        /// a <code>NextToken</code> value that can be passed to a subsequent <code>DescribeSpotInstanceRequests</code>
+        /// request to retrieve the remaining results.
+        /// </para>
+        ///  
+        /// <para>
+        /// Spot Instance requests are deleted four hours after they are canceled and their instances
         /// are terminated.
         /// </para>
         /// </summary>
@@ -8517,8 +11654,8 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the Spot price history. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html">Spot
-        /// Instance Pricing History</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Describes the Spot price history. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html">Spot
+        /// Instance Pricing History</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// 
         ///  
         /// <para>
@@ -8534,8 +11671,8 @@ namespace Amazon.EC2
         DescribeSpotPriceHistoryResponse DescribeSpotPriceHistory();
 
         /// <summary>
-        /// Describes the Spot price history. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html">Spot
-        /// Instance Pricing History</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Describes the Spot price history. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html">Spot
+        /// Instance Pricing History</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// 
         ///  
         /// <para>
@@ -8583,7 +11720,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// [EC2-VPC only] Describes the stale security group rules for security groups in a specified
+        /// [VPC only] Describes the stale security group rules for security groups in a specified
         /// VPC. Rules are stale when they reference a deleted security group in a peer VPC, or
         /// a security group in a peer VPC for which the VPC peering connection has been deleted.
         /// </summary>
@@ -8629,7 +11766,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about subnets, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html">Your
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
         /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8643,7 +11780,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about subnets, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html">Your
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
         /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8685,11 +11822,11 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes one or more of the tags for your EC2 resources.
+        /// Describes the specified tags for your EC2 resources.
         /// 
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
         /// Your Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8699,11 +11836,11 @@ namespace Amazon.EC2
         DescribeTagsResponse DescribeTags();
 
         /// <summary>
-        /// Describes one or more of the tags for your EC2 resources.
+        /// Describes the specified tags for your EC2 resources.
         /// 
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
         /// Your Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8741,6 +11878,372 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DescribeTrafficMirrorFilters
+
+
+        /// <summary>
+        /// Describes one or more Traffic Mirror filters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrafficMirrorFilters service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTrafficMirrorFilters service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorFilters">REST API Reference for DescribeTrafficMirrorFilters Operation</seealso>
+        DescribeTrafficMirrorFiltersResponse DescribeTrafficMirrorFilters(DescribeTrafficMirrorFiltersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTrafficMirrorFilters operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrafficMirrorFilters operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTrafficMirrorFilters
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorFilters">REST API Reference for DescribeTrafficMirrorFilters Operation</seealso>
+        IAsyncResult BeginDescribeTrafficMirrorFilters(DescribeTrafficMirrorFiltersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTrafficMirrorFilters operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTrafficMirrorFilters.</param>
+        /// 
+        /// <returns>Returns a  DescribeTrafficMirrorFiltersResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorFilters">REST API Reference for DescribeTrafficMirrorFilters Operation</seealso>
+        DescribeTrafficMirrorFiltersResponse EndDescribeTrafficMirrorFilters(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTrafficMirrorSessions
+
+
+        /// <summary>
+        /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions
+        /// are described. Alternatively, you can filter the results.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrafficMirrorSessions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTrafficMirrorSessions service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorSessions">REST API Reference for DescribeTrafficMirrorSessions Operation</seealso>
+        DescribeTrafficMirrorSessionsResponse DescribeTrafficMirrorSessions(DescribeTrafficMirrorSessionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTrafficMirrorSessions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrafficMirrorSessions operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTrafficMirrorSessions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorSessions">REST API Reference for DescribeTrafficMirrorSessions Operation</seealso>
+        IAsyncResult BeginDescribeTrafficMirrorSessions(DescribeTrafficMirrorSessionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTrafficMirrorSessions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTrafficMirrorSessions.</param>
+        /// 
+        /// <returns>Returns a  DescribeTrafficMirrorSessionsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorSessions">REST API Reference for DescribeTrafficMirrorSessions Operation</seealso>
+        DescribeTrafficMirrorSessionsResponse EndDescribeTrafficMirrorSessions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTrafficMirrorTargets
+
+
+        /// <summary>
+        /// Information about one or more Traffic Mirror targets.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrafficMirrorTargets service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTrafficMirrorTargets service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorTargets">REST API Reference for DescribeTrafficMirrorTargets Operation</seealso>
+        DescribeTrafficMirrorTargetsResponse DescribeTrafficMirrorTargets(DescribeTrafficMirrorTargetsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTrafficMirrorTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrafficMirrorTargets operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTrafficMirrorTargets
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorTargets">REST API Reference for DescribeTrafficMirrorTargets Operation</seealso>
+        IAsyncResult BeginDescribeTrafficMirrorTargets(DescribeTrafficMirrorTargetsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTrafficMirrorTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTrafficMirrorTargets.</param>
+        /// 
+        /// <returns>Returns a  DescribeTrafficMirrorTargetsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTrafficMirrorTargets">REST API Reference for DescribeTrafficMirrorTargets Operation</seealso>
+        DescribeTrafficMirrorTargetsResponse EndDescribeTrafficMirrorTargets(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTransitGatewayAttachments
+
+
+        /// <summary>
+        /// Describes one or more attachments between resources and transit gateways. By default,
+        /// all attachments are described. Alternatively, you can filter the results by attachment
+        /// ID, attachment state, resource ID, or resource owner.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayAttachments service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTransitGatewayAttachments service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayAttachments">REST API Reference for DescribeTransitGatewayAttachments Operation</seealso>
+        DescribeTransitGatewayAttachmentsResponse DescribeTransitGatewayAttachments(DescribeTransitGatewayAttachmentsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTransitGatewayAttachments operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayAttachments operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTransitGatewayAttachments
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayAttachments">REST API Reference for DescribeTransitGatewayAttachments Operation</seealso>
+        IAsyncResult BeginDescribeTransitGatewayAttachments(DescribeTransitGatewayAttachmentsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTransitGatewayAttachments operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTransitGatewayAttachments.</param>
+        /// 
+        /// <returns>Returns a  DescribeTransitGatewayAttachmentsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayAttachments">REST API Reference for DescribeTransitGatewayAttachments Operation</seealso>
+        DescribeTransitGatewayAttachmentsResponse EndDescribeTransitGatewayAttachments(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTransitGatewayMulticastDomains
+
+
+        /// <summary>
+        /// Describes one or more transit gateway multicast domains.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayMulticastDomains service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTransitGatewayMulticastDomains service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayMulticastDomains">REST API Reference for DescribeTransitGatewayMulticastDomains Operation</seealso>
+        DescribeTransitGatewayMulticastDomainsResponse DescribeTransitGatewayMulticastDomains(DescribeTransitGatewayMulticastDomainsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTransitGatewayMulticastDomains operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayMulticastDomains operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTransitGatewayMulticastDomains
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayMulticastDomains">REST API Reference for DescribeTransitGatewayMulticastDomains Operation</seealso>
+        IAsyncResult BeginDescribeTransitGatewayMulticastDomains(DescribeTransitGatewayMulticastDomainsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTransitGatewayMulticastDomains operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTransitGatewayMulticastDomains.</param>
+        /// 
+        /// <returns>Returns a  DescribeTransitGatewayMulticastDomainsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayMulticastDomains">REST API Reference for DescribeTransitGatewayMulticastDomains Operation</seealso>
+        DescribeTransitGatewayMulticastDomainsResponse EndDescribeTransitGatewayMulticastDomains(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTransitGatewayPeeringAttachments
+
+
+        /// <summary>
+        /// Describes your transit gateway peering attachments.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayPeeringAttachments service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTransitGatewayPeeringAttachments service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayPeeringAttachments">REST API Reference for DescribeTransitGatewayPeeringAttachments Operation</seealso>
+        DescribeTransitGatewayPeeringAttachmentsResponse DescribeTransitGatewayPeeringAttachments(DescribeTransitGatewayPeeringAttachmentsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTransitGatewayPeeringAttachments operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayPeeringAttachments operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTransitGatewayPeeringAttachments
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayPeeringAttachments">REST API Reference for DescribeTransitGatewayPeeringAttachments Operation</seealso>
+        IAsyncResult BeginDescribeTransitGatewayPeeringAttachments(DescribeTransitGatewayPeeringAttachmentsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTransitGatewayPeeringAttachments operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTransitGatewayPeeringAttachments.</param>
+        /// 
+        /// <returns>Returns a  DescribeTransitGatewayPeeringAttachmentsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayPeeringAttachments">REST API Reference for DescribeTransitGatewayPeeringAttachments Operation</seealso>
+        DescribeTransitGatewayPeeringAttachmentsResponse EndDescribeTransitGatewayPeeringAttachments(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTransitGatewayRouteTables
+
+
+        /// <summary>
+        /// Describes one or more transit gateway route tables. By default, all transit gateway
+        /// route tables are described. Alternatively, you can filter the results.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayRouteTables service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTransitGatewayRouteTables service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayRouteTables">REST API Reference for DescribeTransitGatewayRouteTables Operation</seealso>
+        DescribeTransitGatewayRouteTablesResponse DescribeTransitGatewayRouteTables(DescribeTransitGatewayRouteTablesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTransitGatewayRouteTables operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayRouteTables operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTransitGatewayRouteTables
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayRouteTables">REST API Reference for DescribeTransitGatewayRouteTables Operation</seealso>
+        IAsyncResult BeginDescribeTransitGatewayRouteTables(DescribeTransitGatewayRouteTablesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTransitGatewayRouteTables operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTransitGatewayRouteTables.</param>
+        /// 
+        /// <returns>Returns a  DescribeTransitGatewayRouteTablesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayRouteTables">REST API Reference for DescribeTransitGatewayRouteTables Operation</seealso>
+        DescribeTransitGatewayRouteTablesResponse EndDescribeTransitGatewayRouteTables(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTransitGateways
+
+
+        /// <summary>
+        /// Describes one or more transit gateways. By default, all transit gateways are described.
+        /// Alternatively, you can filter the results.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGateways service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTransitGateways service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGateways">REST API Reference for DescribeTransitGateways Operation</seealso>
+        DescribeTransitGatewaysResponse DescribeTransitGateways(DescribeTransitGatewaysRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTransitGateways operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGateways operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTransitGateways
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGateways">REST API Reference for DescribeTransitGateways Operation</seealso>
+        IAsyncResult BeginDescribeTransitGateways(DescribeTransitGatewaysRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTransitGateways operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTransitGateways.</param>
+        /// 
+        /// <returns>Returns a  DescribeTransitGatewaysResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGateways">REST API Reference for DescribeTransitGateways Operation</seealso>
+        DescribeTransitGatewaysResponse EndDescribeTransitGateways(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTransitGatewayVpcAttachments
+
+
+        /// <summary>
+        /// Describes one or more VPC attachments. By default, all VPC attachments are described.
+        /// Alternatively, you can filter the results.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayVpcAttachments service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTransitGatewayVpcAttachments service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayVpcAttachments">REST API Reference for DescribeTransitGatewayVpcAttachments Operation</seealso>
+        DescribeTransitGatewayVpcAttachmentsResponse DescribeTransitGatewayVpcAttachments(DescribeTransitGatewayVpcAttachmentsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTransitGatewayVpcAttachments operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTransitGatewayVpcAttachments operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTransitGatewayVpcAttachments
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayVpcAttachments">REST API Reference for DescribeTransitGatewayVpcAttachments Operation</seealso>
+        IAsyncResult BeginDescribeTransitGatewayVpcAttachments(DescribeTransitGatewayVpcAttachmentsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTransitGatewayVpcAttachments operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTransitGatewayVpcAttachments.</param>
+        /// 
+        /// <returns>Returns a  DescribeTransitGatewayVpcAttachmentsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DescribeTransitGatewayVpcAttachments">REST API Reference for DescribeTransitGatewayVpcAttachments Operation</seealso>
+        DescribeTransitGatewayVpcAttachmentsResponse EndDescribeTransitGatewayVpcAttachments(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeVolumeAttribute
 
 
@@ -8750,7 +12253,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about EBS volumes, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
+        /// For more information about EBS volumes, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
         /// EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8792,7 +12295,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Describes the specified EBS volumes.
+        /// Describes the specified EBS volumes or all of your EBS volumes.
         /// 
         ///  
         /// <para>
@@ -8805,7 +12308,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about EBS volumes, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
+        /// For more information about EBS volumes, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
         /// EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8815,7 +12318,7 @@ namespace Amazon.EC2
         DescribeVolumesResponse DescribeVolumes();
 
         /// <summary>
-        /// Describes the specified EBS volumes.
+        /// Describes the specified EBS volumes or all of your EBS volumes.
         /// 
         ///  
         /// <para>
@@ -8828,7 +12331,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about EBS volumes, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
+        /// For more information about EBS volumes, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
         /// EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -8885,9 +12388,9 @@ namespace Amazon.EC2
         ///  
         /// <para>
         ///  You can also use CloudWatch Events to check the status of a modification to an EBS
-        /// volume. For information about CloudWatch Events, see the <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
-        /// CloudWatch Events User Guide</a>. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
-        /// Volume Modifications"</a>. 
+        /// volume. For information about CloudWatch Events, see the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
+        /// CloudWatch Events User Guide</a>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
+        /// Volume Modifications"</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeVolumesModifications service method.</param>
@@ -8948,8 +12451,8 @@ namespace Amazon.EC2
         /// If all checks pass, the overall status of the volume is <code>ok</code>. If the check
         /// fails, the overall status is <code>impaired</code>. If the status is <code>insufficient-data</code>,
         /// then the checks may still be taking place on your volume at the time. We recommend
-        /// that you retry the request. For more information on volume status, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
-        /// the Status of Your Volumes</a>.
+        /// that you retry the request. For more information about volume status, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
+        /// the Status of Your Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
@@ -8967,13 +12470,12 @@ namespace Amazon.EC2
         /// This means that you may want to enable the I/O operations for the volume by calling
         /// the <a>EnableVolumeIO</a> action and then check the volume for data consistency.
         /// </para>
-        ///  <note> 
+        ///  
         /// <para>
         /// Volume status is based on the volume status checks, and does not reflect the volume
         /// state. Therefore, volume status does not indicate volumes in the <code>error</code>
         /// state (for example, when a volume is incapable of accepting I/O.)
         /// </para>
-        ///  </note>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeVolumeStatus service method, as returned by EC2.</returns>
@@ -9001,8 +12503,8 @@ namespace Amazon.EC2
         /// If all checks pass, the overall status of the volume is <code>ok</code>. If the check
         /// fails, the overall status is <code>impaired</code>. If the status is <code>insufficient-data</code>,
         /// then the checks may still be taking place on your volume at the time. We recommend
-        /// that you retry the request. For more information on volume status, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
-        /// the Status of Your Volumes</a>.
+        /// that you retry the request. For more information about volume status, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
+        /// the Status of Your Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
@@ -9020,13 +12522,12 @@ namespace Amazon.EC2
         /// This means that you may want to enable the I/O operations for the volume by calling
         /// the <a>EnableVolumeIO</a> action and then check the volume for data consistency.
         /// </para>
-        ///  <note> 
+        ///  
         /// <para>
         /// Volume status is based on the volume status checks, and does not reflect the volume
         /// state. Therefore, volume status does not indicate volumes in the <code>error</code>
         /// state (for example, when a volume is incapable of accepting I/O.)
         /// </para>
-        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeVolumeStatus service method.</param>
         /// 
@@ -9151,7 +12652,7 @@ namespace Amazon.EC2
         /// DNS hostname of a linked EC2-Classic instance resolves to its private IP address when
         /// addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname
         /// of an instance in a VPC resolves to its private IP address when addressed from a linked
-        /// EC2-Classic instance. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
+        /// EC2-Classic instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
         /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeVpcClassicLinkDnsSupport service method.</param>
@@ -9534,8 +13035,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about VPN connections, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// 
@@ -9548,8 +13049,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about VPN connections, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeVpnConnections service method.</param>
@@ -9594,8 +13095,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about virtual private gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// 
@@ -9608,8 +13109,8 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about virtual private gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-        /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+        /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeVpnGateways service method.</param>
@@ -9692,7 +13193,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Detaches an Internet gateway from a VPC, disabling connectivity between the Internet
+        /// Detaches an internet gateway from a VPC, disabling connectivity between the internet
         /// and the VPC. The VPC must not contain any running instances with Elastic IP addresses
         /// or public IPv4 addresses.
         /// </summary>
@@ -9789,7 +13290,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html">Detaching
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html">Detaching
         /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -9873,6 +13374,144 @@ namespace Amazon.EC2
         /// <returns>Returns a  DetachVpnGatewayResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DetachVpnGateway">REST API Reference for DetachVpnGateway Operation</seealso>
         DetachVpnGatewayResponse EndDetachVpnGateway(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DisableEbsEncryptionByDefault
+
+
+        /// <summary>
+        /// Disables EBS encryption by default for your account in the current Region.
+        /// 
+        ///  
+        /// <para>
+        /// After you disable encryption by default, you can still create encrypted volumes by
+        /// enabling encryption when you create each volume.
+        /// </para>
+        ///  
+        /// <para>
+        /// Disabling encryption by default does not change the encryption status of your existing
+        /// volumes.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableEbsEncryptionByDefault service method.</param>
+        /// 
+        /// <returns>The response from the DisableEbsEncryptionByDefault service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableEbsEncryptionByDefault">REST API Reference for DisableEbsEncryptionByDefault Operation</seealso>
+        DisableEbsEncryptionByDefaultResponse DisableEbsEncryptionByDefault(DisableEbsEncryptionByDefaultRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableEbsEncryptionByDefault operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableEbsEncryptionByDefault operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableEbsEncryptionByDefault
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableEbsEncryptionByDefault">REST API Reference for DisableEbsEncryptionByDefault Operation</seealso>
+        IAsyncResult BeginDisableEbsEncryptionByDefault(DisableEbsEncryptionByDefaultRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableEbsEncryptionByDefault operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableEbsEncryptionByDefault.</param>
+        /// 
+        /// <returns>Returns a  DisableEbsEncryptionByDefaultResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableEbsEncryptionByDefault">REST API Reference for DisableEbsEncryptionByDefault Operation</seealso>
+        DisableEbsEncryptionByDefaultResponse EndDisableEbsEncryptionByDefault(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DisableFastSnapshotRestores
+
+
+        /// <summary>
+        /// Disables fast snapshot restores for the specified snapshots in the specified Availability
+        /// Zones.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableFastSnapshotRestores service method.</param>
+        /// 
+        /// <returns>The response from the DisableFastSnapshotRestores service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableFastSnapshotRestores">REST API Reference for DisableFastSnapshotRestores Operation</seealso>
+        DisableFastSnapshotRestoresResponse DisableFastSnapshotRestores(DisableFastSnapshotRestoresRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableFastSnapshotRestores operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableFastSnapshotRestores operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableFastSnapshotRestores
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableFastSnapshotRestores">REST API Reference for DisableFastSnapshotRestores Operation</seealso>
+        IAsyncResult BeginDisableFastSnapshotRestores(DisableFastSnapshotRestoresRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableFastSnapshotRestores operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableFastSnapshotRestores.</param>
+        /// 
+        /// <returns>Returns a  DisableFastSnapshotRestoresResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableFastSnapshotRestores">REST API Reference for DisableFastSnapshotRestores Operation</seealso>
+        DisableFastSnapshotRestoresResponse EndDisableFastSnapshotRestores(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DisableTransitGatewayRouteTablePropagation
+
+
+        /// <summary>
+        /// Disables the specified resource attachment from propagating routes to the specified
+        /// propagation route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableTransitGatewayRouteTablePropagation service method.</param>
+        /// 
+        /// <returns>The response from the DisableTransitGatewayRouteTablePropagation service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableTransitGatewayRouteTablePropagation">REST API Reference for DisableTransitGatewayRouteTablePropagation Operation</seealso>
+        DisableTransitGatewayRouteTablePropagationResponse DisableTransitGatewayRouteTablePropagation(DisableTransitGatewayRouteTablePropagationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableTransitGatewayRouteTablePropagation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableTransitGatewayRouteTablePropagation operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableTransitGatewayRouteTablePropagation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableTransitGatewayRouteTablePropagation">REST API Reference for DisableTransitGatewayRouteTablePropagation Operation</seealso>
+        IAsyncResult BeginDisableTransitGatewayRouteTablePropagation(DisableTransitGatewayRouteTablePropagationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableTransitGatewayRouteTablePropagation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableTransitGatewayRouteTablePropagation.</param>
+        /// 
+        /// <returns>Returns a  DisableTransitGatewayRouteTablePropagationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisableTransitGatewayRouteTablePropagation">REST API Reference for DisableTransitGatewayRouteTablePropagation Operation</seealso>
+        DisableTransitGatewayRouteTablePropagationResponse EndDisableTransitGatewayRouteTablePropagation(IAsyncResult asyncResult);
 
         #endregion
         
@@ -9964,7 +13603,7 @@ namespace Amazon.EC2
         /// <summary>
         /// Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to
         /// public IP addresses when addressed between a linked EC2-Classic instance and instances
-        /// in the VPC to which it's linked. For more information about ClassicLink, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
+        /// in the VPC to which it's linked. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
         /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DisableVpcClassicLinkDnsSupport service method.</param>
@@ -10011,7 +13650,7 @@ namespace Amazon.EC2
         ///  
         /// <para>
         /// An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For
-        /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+        /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
         /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
@@ -10051,6 +13690,65 @@ namespace Amazon.EC2
         /// <returns>Returns a  DisassociateAddressResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateAddress">REST API Reference for DisassociateAddress Operation</seealso>
         DisassociateAddressResponse EndDisassociateAddress(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DisassociateClientVpnTargetNetwork
+
+
+        /// <summary>
+        /// Disassociates a target network from the specified Client VPN endpoint. When you disassociate
+        /// the last target network from a Client VPN, the following happens:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// The route that was automatically added for the VPC is deleted
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// All active client connections are terminated
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// New client connections are disallowed
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The Client VPN endpoint's status changes to <code>pending-associate</code> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateClientVpnTargetNetwork service method.</param>
+        /// 
+        /// <returns>The response from the DisassociateClientVpnTargetNetwork service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateClientVpnTargetNetwork">REST API Reference for DisassociateClientVpnTargetNetwork Operation</seealso>
+        DisassociateClientVpnTargetNetworkResponse DisassociateClientVpnTargetNetwork(DisassociateClientVpnTargetNetworkRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisassociateClientVpnTargetNetwork operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateClientVpnTargetNetwork operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisassociateClientVpnTargetNetwork
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateClientVpnTargetNetwork">REST API Reference for DisassociateClientVpnTargetNetwork Operation</seealso>
+        IAsyncResult BeginDisassociateClientVpnTargetNetwork(DisassociateClientVpnTargetNetworkRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisassociateClientVpnTargetNetwork operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisassociateClientVpnTargetNetwork.</param>
+        /// 
+        /// <returns>Returns a  DisassociateClientVpnTargetNetworkResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateClientVpnTargetNetwork">REST API Reference for DisassociateClientVpnTargetNetwork Operation</seealso>
+        DisassociateClientVpnTargetNetworkResponse EndDisassociateClientVpnTargetNetwork(IAsyncResult asyncResult);
 
         #endregion
         
@@ -10109,7 +13807,7 @@ namespace Amazon.EC2
         /// <para>
         /// After you perform this action, the subnet no longer uses the routes in the route table.
         /// Instead, it uses the routes in the VPC's main route table. For more information about
-        /// route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// route tables, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -10189,6 +13887,86 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  DisassociateTransitGatewayMulticastDomain
+
+
+        /// <summary>
+        /// Disassociates the specified subnets from the transit gateway multicast domain.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateTransitGatewayMulticastDomain service method.</param>
+        /// 
+        /// <returns>The response from the DisassociateTransitGatewayMulticastDomain service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayMulticastDomain">REST API Reference for DisassociateTransitGatewayMulticastDomain Operation</seealso>
+        DisassociateTransitGatewayMulticastDomainResponse DisassociateTransitGatewayMulticastDomain(DisassociateTransitGatewayMulticastDomainRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisassociateTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateTransitGatewayMulticastDomain operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisassociateTransitGatewayMulticastDomain
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayMulticastDomain">REST API Reference for DisassociateTransitGatewayMulticastDomain Operation</seealso>
+        IAsyncResult BeginDisassociateTransitGatewayMulticastDomain(DisassociateTransitGatewayMulticastDomainRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisassociateTransitGatewayMulticastDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisassociateTransitGatewayMulticastDomain.</param>
+        /// 
+        /// <returns>Returns a  DisassociateTransitGatewayMulticastDomainResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayMulticastDomain">REST API Reference for DisassociateTransitGatewayMulticastDomain Operation</seealso>
+        DisassociateTransitGatewayMulticastDomainResponse EndDisassociateTransitGatewayMulticastDomain(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DisassociateTransitGatewayRouteTable
+
+
+        /// <summary>
+        /// Disassociates a resource attachment from a transit gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateTransitGatewayRouteTable service method.</param>
+        /// 
+        /// <returns>The response from the DisassociateTransitGatewayRouteTable service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayRouteTable">REST API Reference for DisassociateTransitGatewayRouteTable Operation</seealso>
+        DisassociateTransitGatewayRouteTableResponse DisassociateTransitGatewayRouteTable(DisassociateTransitGatewayRouteTableRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisassociateTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateTransitGatewayRouteTable operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisassociateTransitGatewayRouteTable
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayRouteTable">REST API Reference for DisassociateTransitGatewayRouteTable Operation</seealso>
+        IAsyncResult BeginDisassociateTransitGatewayRouteTable(DisassociateTransitGatewayRouteTableRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisassociateTransitGatewayRouteTable operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisassociateTransitGatewayRouteTable.</param>
+        /// 
+        /// <returns>Returns a  DisassociateTransitGatewayRouteTableResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateTransitGatewayRouteTable">REST API Reference for DisassociateTransitGatewayRouteTable Operation</seealso>
+        DisassociateTransitGatewayRouteTableResponse EndDisassociateTransitGatewayRouteTable(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DisassociateVpcCidrBlock
 
 
@@ -10235,6 +14013,164 @@ namespace Amazon.EC2
         /// <returns>Returns a  DisassociateVpcCidrBlockResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/DisassociateVpcCidrBlock">REST API Reference for DisassociateVpcCidrBlock Operation</seealso>
         DisassociateVpcCidrBlockResponse EndDisassociateVpcCidrBlock(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  EnableEbsEncryptionByDefault
+
+
+        /// <summary>
+        /// Enables EBS encryption by default for your account in the current Region.
+        /// 
+        ///  
+        /// <para>
+        /// After you enable encryption by default, the EBS volumes that you create are are always
+        /// encrypted, either using the default CMK or the CMK that you specified when you created
+        /// each volume. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify the default CMK for encryption by default using <a>ModifyEbsDefaultKmsKeyId</a>
+        /// or <a>ResetEbsDefaultKmsKeyId</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Enabling encryption by default has no effect on the encryption status of your existing
+        /// volumes.
+        /// </para>
+        ///  
+        /// <para>
+        /// After you enable encryption by default, you can no longer launch instances using instance
+        /// types that do not support encryption. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances">Supported
+        /// Instance Types</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableEbsEncryptionByDefault service method.</param>
+        /// 
+        /// <returns>The response from the EnableEbsEncryptionByDefault service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableEbsEncryptionByDefault">REST API Reference for EnableEbsEncryptionByDefault Operation</seealso>
+        EnableEbsEncryptionByDefaultResponse EnableEbsEncryptionByDefault(EnableEbsEncryptionByDefaultRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableEbsEncryptionByDefault operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableEbsEncryptionByDefault operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableEbsEncryptionByDefault
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableEbsEncryptionByDefault">REST API Reference for EnableEbsEncryptionByDefault Operation</seealso>
+        IAsyncResult BeginEnableEbsEncryptionByDefault(EnableEbsEncryptionByDefaultRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableEbsEncryptionByDefault operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableEbsEncryptionByDefault.</param>
+        /// 
+        /// <returns>Returns a  EnableEbsEncryptionByDefaultResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableEbsEncryptionByDefault">REST API Reference for EnableEbsEncryptionByDefault Operation</seealso>
+        EnableEbsEncryptionByDefaultResponse EndEnableEbsEncryptionByDefault(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  EnableFastSnapshotRestores
+
+
+        /// <summary>
+        /// Enables fast snapshot restores for the specified snapshots in the specified Availability
+        /// Zones.
+        /// 
+        ///  
+        /// <para>
+        /// You get the full benefit of fast snapshot restores after they enter the <code>enabled</code>
+        /// state. To get the current state of fast snapshot restores, use <a>DescribeFastSnapshotRestores</a>.
+        /// To disable fast snapshot restores, use <a>DisableFastSnapshotRestores</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-fast-snapshot-restore.html">Amazon
+        /// EBS Fast Snapshot Restore</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableFastSnapshotRestores service method.</param>
+        /// 
+        /// <returns>The response from the EnableFastSnapshotRestores service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableFastSnapshotRestores">REST API Reference for EnableFastSnapshotRestores Operation</seealso>
+        EnableFastSnapshotRestoresResponse EnableFastSnapshotRestores(EnableFastSnapshotRestoresRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableFastSnapshotRestores operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableFastSnapshotRestores operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableFastSnapshotRestores
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableFastSnapshotRestores">REST API Reference for EnableFastSnapshotRestores Operation</seealso>
+        IAsyncResult BeginEnableFastSnapshotRestores(EnableFastSnapshotRestoresRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableFastSnapshotRestores operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableFastSnapshotRestores.</param>
+        /// 
+        /// <returns>Returns a  EnableFastSnapshotRestoresResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableFastSnapshotRestores">REST API Reference for EnableFastSnapshotRestores Operation</seealso>
+        EnableFastSnapshotRestoresResponse EndEnableFastSnapshotRestores(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  EnableTransitGatewayRouteTablePropagation
+
+
+        /// <summary>
+        /// Enables the specified attachment to propagate routes to the specified propagation
+        /// route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableTransitGatewayRouteTablePropagation service method.</param>
+        /// 
+        /// <returns>The response from the EnableTransitGatewayRouteTablePropagation service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableTransitGatewayRouteTablePropagation">REST API Reference for EnableTransitGatewayRouteTablePropagation Operation</seealso>
+        EnableTransitGatewayRouteTablePropagationResponse EnableTransitGatewayRouteTablePropagation(EnableTransitGatewayRouteTablePropagationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableTransitGatewayRouteTablePropagation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableTransitGatewayRouteTablePropagation operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableTransitGatewayRouteTablePropagation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableTransitGatewayRouteTablePropagation">REST API Reference for EnableTransitGatewayRouteTablePropagation Operation</seealso>
+        IAsyncResult BeginEnableTransitGatewayRouteTablePropagation(EnableTransitGatewayRouteTablePropagationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableTransitGatewayRouteTablePropagation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableTransitGatewayRouteTablePropagation.</param>
+        /// 
+        /// <returns>Returns a  EnableTransitGatewayRouteTablePropagationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/EnableTransitGatewayRouteTablePropagation">REST API Reference for EnableTransitGatewayRouteTablePropagation Operation</seealso>
+        EnableTransitGatewayRouteTablePropagationResponse EndEnableTransitGatewayRouteTablePropagation(IAsyncResult asyncResult);
 
         #endregion
         
@@ -10326,10 +14262,10 @@ namespace Amazon.EC2
         /// <summary>
         /// Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled
         /// VPC to allow communication over private IP addresses. You cannot enable your VPC for
-        /// ClassicLink if any of your VPC's route tables have existing routes for address ranges
+        /// ClassicLink if any of your VPC route tables have existing routes for address ranges
         /// within the <code>10.0.0.0/8</code> IP address range, excluding local routes for VPCs
         /// in the <code>10.0.0.0/16</code> and <code>10.1.0.0/16</code> IP address ranges. For
-        /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
+        /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
         /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the EnableVpcClassicLink service method.</param>
@@ -10374,7 +14310,7 @@ namespace Amazon.EC2
         /// DNS hostname of a linked EC2-Classic instance resolves to its private IP address when
         /// addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname
         /// of an instance in a VPC resolves to its private IP address when addressed from a linked
-        /// EC2-Classic instance. For more information about ClassicLink, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
+        /// EC2-Classic instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
         /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the EnableVpcClassicLinkDnsSupport service method.</param>
@@ -10411,36 +14347,330 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  ExportClientVpnClientCertificateRevocationList
+
+
+        /// <summary>
+        /// Downloads the client certificate revocation list for the specified Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportClientVpnClientCertificateRevocationList service method.</param>
+        /// 
+        /// <returns>The response from the ExportClientVpnClientCertificateRevocationList service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportClientVpnClientCertificateRevocationList">REST API Reference for ExportClientVpnClientCertificateRevocationList Operation</seealso>
+        ExportClientVpnClientCertificateRevocationListResponse ExportClientVpnClientCertificateRevocationList(ExportClientVpnClientCertificateRevocationListRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportClientVpnClientCertificateRevocationList operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportClientVpnClientCertificateRevocationList operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportClientVpnClientCertificateRevocationList
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportClientVpnClientCertificateRevocationList">REST API Reference for ExportClientVpnClientCertificateRevocationList Operation</seealso>
+        IAsyncResult BeginExportClientVpnClientCertificateRevocationList(ExportClientVpnClientCertificateRevocationListRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportClientVpnClientCertificateRevocationList operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportClientVpnClientCertificateRevocationList.</param>
+        /// 
+        /// <returns>Returns a  ExportClientVpnClientCertificateRevocationListResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportClientVpnClientCertificateRevocationList">REST API Reference for ExportClientVpnClientCertificateRevocationList Operation</seealso>
+        ExportClientVpnClientCertificateRevocationListResponse EndExportClientVpnClientCertificateRevocationList(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ExportClientVpnClientConfiguration
+
+
+        /// <summary>
+        /// Downloads the contents of the Client VPN endpoint configuration file for the specified
+        /// Client VPN endpoint. The Client VPN endpoint configuration file includes the Client
+        /// VPN endpoint and certificate information clients need to establish a connection with
+        /// the Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportClientVpnClientConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the ExportClientVpnClientConfiguration service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportClientVpnClientConfiguration">REST API Reference for ExportClientVpnClientConfiguration Operation</seealso>
+        ExportClientVpnClientConfigurationResponse ExportClientVpnClientConfiguration(ExportClientVpnClientConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportClientVpnClientConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportClientVpnClientConfiguration operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportClientVpnClientConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportClientVpnClientConfiguration">REST API Reference for ExportClientVpnClientConfiguration Operation</seealso>
+        IAsyncResult BeginExportClientVpnClientConfiguration(ExportClientVpnClientConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportClientVpnClientConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportClientVpnClientConfiguration.</param>
+        /// 
+        /// <returns>Returns a  ExportClientVpnClientConfigurationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportClientVpnClientConfiguration">REST API Reference for ExportClientVpnClientConfiguration Operation</seealso>
+        ExportClientVpnClientConfigurationResponse EndExportClientVpnClientConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ExportImage
+
+
+        /// <summary>
+        /// Exports an Amazon Machine Image (AMI) to a VM file. For more information, see <a href="https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport_image.html">Exporting
+        /// a VM Directory from an Amazon Machine Image (AMI)</a> in the <i>VM Import/Export User
+        /// Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportImage service method.</param>
+        /// 
+        /// <returns>The response from the ExportImage service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportImage">REST API Reference for ExportImage Operation</seealso>
+        ExportImageResponse ExportImage(ExportImageRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportImage operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportImage operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportImage
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportImage">REST API Reference for ExportImage Operation</seealso>
+        IAsyncResult BeginExportImage(ExportImageRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportImage operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportImage.</param>
+        /// 
+        /// <returns>Returns a  ExportImageResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportImage">REST API Reference for ExportImage Operation</seealso>
+        ExportImageResponse EndExportImage(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ExportTransitGatewayRoutes
+
+
+        /// <summary>
+        /// Exports routes from the specified transit gateway route table to the specified S3
+        /// bucket. By default, all routes are exported. Alternatively, you can filter by CIDR
+        /// range.
+        /// 
+        ///  
+        /// <para>
+        /// The routes are saved to the specified bucket in a JSON file. For more information,
+        /// see <a href="https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html#tgw-export-route-tables">Export
+        /// Route Tables to Amazon S3</a> in <i>Transit Gateways</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportTransitGatewayRoutes service method.</param>
+        /// 
+        /// <returns>The response from the ExportTransitGatewayRoutes service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportTransitGatewayRoutes">REST API Reference for ExportTransitGatewayRoutes Operation</seealso>
+        ExportTransitGatewayRoutesResponse ExportTransitGatewayRoutes(ExportTransitGatewayRoutesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportTransitGatewayRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportTransitGatewayRoutes operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportTransitGatewayRoutes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportTransitGatewayRoutes">REST API Reference for ExportTransitGatewayRoutes Operation</seealso>
+        IAsyncResult BeginExportTransitGatewayRoutes(ExportTransitGatewayRoutesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportTransitGatewayRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportTransitGatewayRoutes.</param>
+        /// 
+        /// <returns>Returns a  ExportTransitGatewayRoutesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ExportTransitGatewayRoutes">REST API Reference for ExportTransitGatewayRoutes Operation</seealso>
+        ExportTransitGatewayRoutesResponse EndExportTransitGatewayRoutes(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetAssociatedIpv6PoolCidrs
+
+
+        /// <summary>
+        /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address
+        /// pool.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAssociatedIpv6PoolCidrs service method.</param>
+        /// 
+        /// <returns>The response from the GetAssociatedIpv6PoolCidrs service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetAssociatedIpv6PoolCidrs">REST API Reference for GetAssociatedIpv6PoolCidrs Operation</seealso>
+        GetAssociatedIpv6PoolCidrsResponse GetAssociatedIpv6PoolCidrs(GetAssociatedIpv6PoolCidrsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAssociatedIpv6PoolCidrs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAssociatedIpv6PoolCidrs operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAssociatedIpv6PoolCidrs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetAssociatedIpv6PoolCidrs">REST API Reference for GetAssociatedIpv6PoolCidrs Operation</seealso>
+        IAsyncResult BeginGetAssociatedIpv6PoolCidrs(GetAssociatedIpv6PoolCidrsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetAssociatedIpv6PoolCidrs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAssociatedIpv6PoolCidrs.</param>
+        /// 
+        /// <returns>Returns a  GetAssociatedIpv6PoolCidrsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetAssociatedIpv6PoolCidrs">REST API Reference for GetAssociatedIpv6PoolCidrs Operation</seealso>
+        GetAssociatedIpv6PoolCidrsResponse EndGetAssociatedIpv6PoolCidrs(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetCapacityReservationUsage
+
+
+        /// <summary>
+        /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is
+        /// shared, it shows usage information for the Capacity Reservation owner and each AWS
+        /// account that is currently using the shared capacity. If the Capacity Reservation is
+        /// not shared, it shows only the Capacity Reservation owner's usage.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCapacityReservationUsage service method.</param>
+        /// 
+        /// <returns>The response from the GetCapacityReservationUsage service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCapacityReservationUsage">REST API Reference for GetCapacityReservationUsage Operation</seealso>
+        GetCapacityReservationUsageResponse GetCapacityReservationUsage(GetCapacityReservationUsageRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCapacityReservationUsage operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCapacityReservationUsage operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCapacityReservationUsage
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCapacityReservationUsage">REST API Reference for GetCapacityReservationUsage Operation</seealso>
+        IAsyncResult BeginGetCapacityReservationUsage(GetCapacityReservationUsageRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCapacityReservationUsage operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCapacityReservationUsage.</param>
+        /// 
+        /// <returns>Returns a  GetCapacityReservationUsageResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCapacityReservationUsage">REST API Reference for GetCapacityReservationUsage Operation</seealso>
+        GetCapacityReservationUsageResponse EndGetCapacityReservationUsage(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetCoipPoolUsage
+
+
+        /// <summary>
+        /// Describes the allocations from the specified customer-owned address pool.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCoipPoolUsage service method.</param>
+        /// 
+        /// <returns>The response from the GetCoipPoolUsage service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCoipPoolUsage">REST API Reference for GetCoipPoolUsage Operation</seealso>
+        GetCoipPoolUsageResponse GetCoipPoolUsage(GetCoipPoolUsageRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCoipPoolUsage operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCoipPoolUsage operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCoipPoolUsage
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCoipPoolUsage">REST API Reference for GetCoipPoolUsage Operation</seealso>
+        IAsyncResult BeginGetCoipPoolUsage(GetCoipPoolUsageRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCoipPoolUsage operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCoipPoolUsage.</param>
+        /// 
+        /// <returns>Returns a  GetCoipPoolUsageResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetCoipPoolUsage">REST API Reference for GetCoipPoolUsage Operation</seealso>
+        GetCoipPoolUsageResponse EndGetCoipPoolUsage(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetConsoleOutput
 
 
         /// <summary>
-        /// Gets the console output for the specified instance.
+        /// Gets the console output for the specified instance. For Linux instances, the instance
+        /// console output displays the exact console output that would normally be displayed
+        /// on a physical monitor attached to a computer. For Windows instances, the instance
+        /// console output includes the last three system event log errors.
         /// 
         ///  
         /// <para>
-        /// Instances do not have a physical monitor through which you can view their console
-        /// output. They also lack physical controls that allow you to power up, reboot, or shut
-        /// them down. To allow these actions, we provide them through the Amazon EC2 API and
-        /// command line interface.
+        /// By default, the console output returns buffered information that was posted shortly
+        /// after an instance transition state (start, stop, reboot, or terminate). This information
+        /// is available for at least one hour after the most recent post. Only the most recent
+        /// 64 KB of console output is available.
         /// </para>
         ///  
         /// <para>
-        /// Instance console output is buffered and posted shortly after instance boot, reboot,
-        /// and termination. Amazon EC2 preserves the most recent 64 KB output, which is available
-        /// for at least one hour after the most recent post.
+        /// You can optionally retrieve the latest serial console output at any time during the
+        /// instance lifecycle. This option is supported on instance types that use the Nitro
+        /// hypervisor.
         /// </para>
         ///  
         /// <para>
-        /// For Linux instances, the instance console output displays the exact console output
-        /// that would normally be displayed on a physical monitor attached to a computer. This
-        /// output is buffered because the instance produces it and then posts it to a store where
-        /// the instance's owner can retrieve it.
-        /// </para>
-        ///  
-        /// <para>
-        /// For Windows instances, the instance console output includes output from the EC2Config
-        /// service.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output">Instance
+        /// Console Output</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetConsoleOutput service method.</param>
@@ -10519,6 +14749,148 @@ namespace Amazon.EC2
         /// <returns>Returns a  GetConsoleScreenshotResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetConsoleScreenshot">REST API Reference for GetConsoleScreenshot Operation</seealso>
         GetConsoleScreenshotResponse EndGetConsoleScreenshot(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetDefaultCreditSpecification
+
+
+        /// <summary>
+        /// Describes the default credit option for CPU usage of a burstable performance instance
+        /// family.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+        /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDefaultCreditSpecification service method.</param>
+        /// 
+        /// <returns>The response from the GetDefaultCreditSpecification service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetDefaultCreditSpecification">REST API Reference for GetDefaultCreditSpecification Operation</seealso>
+        GetDefaultCreditSpecificationResponse GetDefaultCreditSpecification(GetDefaultCreditSpecificationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetDefaultCreditSpecification operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetDefaultCreditSpecification operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetDefaultCreditSpecification
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetDefaultCreditSpecification">REST API Reference for GetDefaultCreditSpecification Operation</seealso>
+        IAsyncResult BeginGetDefaultCreditSpecification(GetDefaultCreditSpecificationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetDefaultCreditSpecification operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetDefaultCreditSpecification.</param>
+        /// 
+        /// <returns>Returns a  GetDefaultCreditSpecificationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetDefaultCreditSpecification">REST API Reference for GetDefaultCreditSpecification Operation</seealso>
+        GetDefaultCreditSpecificationResponse EndGetDefaultCreditSpecification(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetEbsDefaultKmsKeyId
+
+
+        /// <summary>
+        /// Describes the default customer master key (CMK) for EBS encryption by default for
+        /// your account in this Region. You can change the default CMK for encryption by default
+        /// using <a>ModifyEbsDefaultKmsKeyId</a> or <a>ResetEbsDefaultKmsKeyId</a>.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetEbsDefaultKmsKeyId service method.</param>
+        /// 
+        /// <returns>The response from the GetEbsDefaultKmsKeyId service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetEbsDefaultKmsKeyId">REST API Reference for GetEbsDefaultKmsKeyId Operation</seealso>
+        GetEbsDefaultKmsKeyIdResponse GetEbsDefaultKmsKeyId(GetEbsDefaultKmsKeyIdRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetEbsDefaultKmsKeyId operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetEbsDefaultKmsKeyId operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetEbsDefaultKmsKeyId
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetEbsDefaultKmsKeyId">REST API Reference for GetEbsDefaultKmsKeyId Operation</seealso>
+        IAsyncResult BeginGetEbsDefaultKmsKeyId(GetEbsDefaultKmsKeyIdRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetEbsDefaultKmsKeyId operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetEbsDefaultKmsKeyId.</param>
+        /// 
+        /// <returns>Returns a  GetEbsDefaultKmsKeyIdResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetEbsDefaultKmsKeyId">REST API Reference for GetEbsDefaultKmsKeyId Operation</seealso>
+        GetEbsDefaultKmsKeyIdResponse EndGetEbsDefaultKmsKeyId(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetEbsEncryptionByDefault
+
+
+        /// <summary>
+        /// Describes whether EBS encryption by default is enabled for your account in the current
+        /// Region.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetEbsEncryptionByDefault service method.</param>
+        /// 
+        /// <returns>The response from the GetEbsEncryptionByDefault service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetEbsEncryptionByDefault">REST API Reference for GetEbsEncryptionByDefault Operation</seealso>
+        GetEbsEncryptionByDefaultResponse GetEbsEncryptionByDefault(GetEbsEncryptionByDefaultRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetEbsEncryptionByDefault operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetEbsEncryptionByDefault operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetEbsEncryptionByDefault
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetEbsEncryptionByDefault">REST API Reference for GetEbsEncryptionByDefault Operation</seealso>
+        IAsyncResult BeginGetEbsEncryptionByDefault(GetEbsEncryptionByDefaultRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetEbsEncryptionByDefault operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetEbsEncryptionByDefault.</param>
+        /// 
+        /// <returns>Returns a  GetEbsEncryptionByDefaultResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetEbsEncryptionByDefault">REST API Reference for GetEbsEncryptionByDefault Operation</seealso>
+        GetEbsEncryptionByDefaultResponse EndGetEbsEncryptionByDefault(IAsyncResult asyncResult);
 
         #endregion
         
@@ -10620,8 +14992,8 @@ namespace Amazon.EC2
         /// <para>
         /// The Windows password is generated at boot by the <code>EC2Config</code> service or
         /// <code>EC2Launch</code> scripts (Windows Server 2016 and later). This usually only
-        /// happens the first time an instance is launched. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/UsingConfig_WinAMI.html">EC2Config</a>
-        /// and <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch.html">EC2Launch</a>
+        /// happens the first time an instance is launched. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/UsingConfig_WinAMI.html">EC2Config</a>
+        /// and <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2launch.html">EC2Launch</a>
         /// in the Amazon Elastic Compute Cloud User Guide.
         /// </para>
         ///  
@@ -10719,12 +15091,220 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  GetTransitGatewayAttachmentPropagations
+
+
+        /// <summary>
+        /// Lists the route tables to which the specified resource attachment propagates routes.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayAttachmentPropagations service method.</param>
+        /// 
+        /// <returns>The response from the GetTransitGatewayAttachmentPropagations service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayAttachmentPropagations">REST API Reference for GetTransitGatewayAttachmentPropagations Operation</seealso>
+        GetTransitGatewayAttachmentPropagationsResponse GetTransitGatewayAttachmentPropagations(GetTransitGatewayAttachmentPropagationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTransitGatewayAttachmentPropagations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayAttachmentPropagations operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTransitGatewayAttachmentPropagations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayAttachmentPropagations">REST API Reference for GetTransitGatewayAttachmentPropagations Operation</seealso>
+        IAsyncResult BeginGetTransitGatewayAttachmentPropagations(GetTransitGatewayAttachmentPropagationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTransitGatewayAttachmentPropagations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTransitGatewayAttachmentPropagations.</param>
+        /// 
+        /// <returns>Returns a  GetTransitGatewayAttachmentPropagationsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayAttachmentPropagations">REST API Reference for GetTransitGatewayAttachmentPropagations Operation</seealso>
+        GetTransitGatewayAttachmentPropagationsResponse EndGetTransitGatewayAttachmentPropagations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetTransitGatewayMulticastDomainAssociations
+
+
+        /// <summary>
+        /// Gets information about the associations for the transit gateway multicast domain.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayMulticastDomainAssociations service method.</param>
+        /// 
+        /// <returns>The response from the GetTransitGatewayMulticastDomainAssociations service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayMulticastDomainAssociations">REST API Reference for GetTransitGatewayMulticastDomainAssociations Operation</seealso>
+        GetTransitGatewayMulticastDomainAssociationsResponse GetTransitGatewayMulticastDomainAssociations(GetTransitGatewayMulticastDomainAssociationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTransitGatewayMulticastDomainAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayMulticastDomainAssociations operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTransitGatewayMulticastDomainAssociations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayMulticastDomainAssociations">REST API Reference for GetTransitGatewayMulticastDomainAssociations Operation</seealso>
+        IAsyncResult BeginGetTransitGatewayMulticastDomainAssociations(GetTransitGatewayMulticastDomainAssociationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTransitGatewayMulticastDomainAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTransitGatewayMulticastDomainAssociations.</param>
+        /// 
+        /// <returns>Returns a  GetTransitGatewayMulticastDomainAssociationsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayMulticastDomainAssociations">REST API Reference for GetTransitGatewayMulticastDomainAssociations Operation</seealso>
+        GetTransitGatewayMulticastDomainAssociationsResponse EndGetTransitGatewayMulticastDomainAssociations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetTransitGatewayRouteTableAssociations
+
+
+        /// <summary>
+        /// Gets information about the associations for the specified transit gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayRouteTableAssociations service method.</param>
+        /// 
+        /// <returns>The response from the GetTransitGatewayRouteTableAssociations service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayRouteTableAssociations">REST API Reference for GetTransitGatewayRouteTableAssociations Operation</seealso>
+        GetTransitGatewayRouteTableAssociationsResponse GetTransitGatewayRouteTableAssociations(GetTransitGatewayRouteTableAssociationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTransitGatewayRouteTableAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayRouteTableAssociations operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTransitGatewayRouteTableAssociations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayRouteTableAssociations">REST API Reference for GetTransitGatewayRouteTableAssociations Operation</seealso>
+        IAsyncResult BeginGetTransitGatewayRouteTableAssociations(GetTransitGatewayRouteTableAssociationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTransitGatewayRouteTableAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTransitGatewayRouteTableAssociations.</param>
+        /// 
+        /// <returns>Returns a  GetTransitGatewayRouteTableAssociationsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayRouteTableAssociations">REST API Reference for GetTransitGatewayRouteTableAssociations Operation</seealso>
+        GetTransitGatewayRouteTableAssociationsResponse EndGetTransitGatewayRouteTableAssociations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetTransitGatewayRouteTablePropagations
+
+
+        /// <summary>
+        /// Gets information about the route table propagations for the specified transit gateway
+        /// route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayRouteTablePropagations service method.</param>
+        /// 
+        /// <returns>The response from the GetTransitGatewayRouteTablePropagations service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayRouteTablePropagations">REST API Reference for GetTransitGatewayRouteTablePropagations Operation</seealso>
+        GetTransitGatewayRouteTablePropagationsResponse GetTransitGatewayRouteTablePropagations(GetTransitGatewayRouteTablePropagationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTransitGatewayRouteTablePropagations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTransitGatewayRouteTablePropagations operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTransitGatewayRouteTablePropagations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayRouteTablePropagations">REST API Reference for GetTransitGatewayRouteTablePropagations Operation</seealso>
+        IAsyncResult BeginGetTransitGatewayRouteTablePropagations(GetTransitGatewayRouteTablePropagationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTransitGatewayRouteTablePropagations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTransitGatewayRouteTablePropagations.</param>
+        /// 
+        /// <returns>Returns a  GetTransitGatewayRouteTablePropagationsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/GetTransitGatewayRouteTablePropagations">REST API Reference for GetTransitGatewayRouteTablePropagations Operation</seealso>
+        GetTransitGatewayRouteTablePropagationsResponse EndGetTransitGatewayRouteTablePropagations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ImportClientVpnClientCertificateRevocationList
+
+
+        /// <summary>
+        /// Uploads a client certificate revocation list to the specified Client VPN endpoint.
+        /// Uploading a client certificate revocation list overwrites the existing client certificate
+        /// revocation list.
+        /// 
+        ///  
+        /// <para>
+        /// Uploading a client certificate revocation list resets existing client connections.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ImportClientVpnClientCertificateRevocationList service method.</param>
+        /// 
+        /// <returns>The response from the ImportClientVpnClientCertificateRevocationList service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImportClientVpnClientCertificateRevocationList">REST API Reference for ImportClientVpnClientCertificateRevocationList Operation</seealso>
+        ImportClientVpnClientCertificateRevocationListResponse ImportClientVpnClientCertificateRevocationList(ImportClientVpnClientCertificateRevocationListRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ImportClientVpnClientCertificateRevocationList operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ImportClientVpnClientCertificateRevocationList operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndImportClientVpnClientCertificateRevocationList
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImportClientVpnClientCertificateRevocationList">REST API Reference for ImportClientVpnClientCertificateRevocationList Operation</seealso>
+        IAsyncResult BeginImportClientVpnClientCertificateRevocationList(ImportClientVpnClientCertificateRevocationListRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ImportClientVpnClientCertificateRevocationList operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginImportClientVpnClientCertificateRevocationList.</param>
+        /// 
+        /// <returns>Returns a  ImportClientVpnClientCertificateRevocationListResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImportClientVpnClientCertificateRevocationList">REST API Reference for ImportClientVpnClientCertificateRevocationList Operation</seealso>
+        ImportClientVpnClientCertificateRevocationListResponse EndImportClientVpnClientCertificateRevocationList(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ImportImage
 
 
         /// <summary>
         /// Import single or multi-volume disk images or EBS snapshots into an Amazon Machine
-        /// Image (AMI). For more information, see <a href="http://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html">Importing
+        /// Image (AMI). For more information, see <a href="https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html">Importing
         /// a VM as an Image Using VM Import/Export</a> in the <i>VM Import/Export User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ImportImage service method.</param>
@@ -10767,12 +15347,12 @@ namespace Amazon.EC2
         /// <summary>
         /// Creates an import instance task using metadata from the specified disk image. <code>ImportInstance</code>
         /// only supports single-volume VMs. To import multi-volume VMs, use <a>ImportImage</a>.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ec2-cli-vmimport-export.html">Importing
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ec2-cli-vmimport-export.html">Importing
         /// a Virtual Machine Using the Amazon EC2 CLI</a>.
         /// 
         ///  
         /// <para>
-        /// For information about the import manifest referenced by this API action, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
+        /// For information about the import manifest referenced by this API action, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
         /// Import Manifest</a>.
         /// </para>
         /// </summary>
@@ -10822,7 +15402,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information about key pairs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+        /// For more information about key pairs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
         /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -10905,12 +15485,12 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Creates an import volume task using metadata from the specified disk image.For more
-        /// information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/importing-your-volumes-into-amazon-ebs.html">Importing
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/importing-your-volumes-into-amazon-ebs.html">Importing
         /// Disks to Amazon EBS</a>.
         /// 
         ///  
         /// <para>
-        /// For information about the import manifest referenced by this API action, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
+        /// For information about the import manifest referenced by this API action, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
         /// Import Manifest</a>.
         /// </para>
         /// </summary>
@@ -10945,6 +15525,333 @@ namespace Amazon.EC2
         /// <returns>Returns a  ImportVolumeResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ImportVolume">REST API Reference for ImportVolume Operation</seealso>
         ImportVolumeResponse EndImportVolume(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyAvailabilityZoneGroup
+
+
+        /// <summary>
+        /// Enables or disables an Availability Zone group for your account.
+        /// 
+        ///  
+        /// <para>
+        /// Use <a href="https://docs.aws.amazon.com/AWSEC2ApiDocReef/build/server-root/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html">describe-availability-zones</a>
+        /// to view the value for <code>GroupName</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyAvailabilityZoneGroup service method.</param>
+        /// 
+        /// <returns>The response from the ModifyAvailabilityZoneGroup service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAvailabilityZoneGroup">REST API Reference for ModifyAvailabilityZoneGroup Operation</seealso>
+        ModifyAvailabilityZoneGroupResponse ModifyAvailabilityZoneGroup(ModifyAvailabilityZoneGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyAvailabilityZoneGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyAvailabilityZoneGroup operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyAvailabilityZoneGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAvailabilityZoneGroup">REST API Reference for ModifyAvailabilityZoneGroup Operation</seealso>
+        IAsyncResult BeginModifyAvailabilityZoneGroup(ModifyAvailabilityZoneGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyAvailabilityZoneGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyAvailabilityZoneGroup.</param>
+        /// 
+        /// <returns>Returns a  ModifyAvailabilityZoneGroupResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyAvailabilityZoneGroup">REST API Reference for ModifyAvailabilityZoneGroup Operation</seealso>
+        ModifyAvailabilityZoneGroupResponse EndModifyAvailabilityZoneGroup(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyCapacityReservation
+
+
+        /// <summary>
+        /// Modifies a Capacity Reservation's capacity and the conditions under which it is to
+        /// be released. You cannot change a Capacity Reservation's instance type, EBS optimization,
+        /// instance store settings, platform, Availability Zone, or instance eligibility. If
+        /// you need to modify any of these attributes, we recommend that you cancel the Capacity
+        /// Reservation, and then create a new one with the required attributes.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyCapacityReservation service method.</param>
+        /// 
+        /// <returns>The response from the ModifyCapacityReservation service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyCapacityReservation">REST API Reference for ModifyCapacityReservation Operation</seealso>
+        ModifyCapacityReservationResponse ModifyCapacityReservation(ModifyCapacityReservationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyCapacityReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyCapacityReservation operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyCapacityReservation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyCapacityReservation">REST API Reference for ModifyCapacityReservation Operation</seealso>
+        IAsyncResult BeginModifyCapacityReservation(ModifyCapacityReservationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyCapacityReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyCapacityReservation.</param>
+        /// 
+        /// <returns>Returns a  ModifyCapacityReservationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyCapacityReservation">REST API Reference for ModifyCapacityReservation Operation</seealso>
+        ModifyCapacityReservationResponse EndModifyCapacityReservation(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyClientVpnEndpoint
+
+
+        /// <summary>
+        /// Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing
+        /// client connections.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClientVpnEndpoint service method.</param>
+        /// 
+        /// <returns>The response from the ModifyClientVpnEndpoint service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyClientVpnEndpoint">REST API Reference for ModifyClientVpnEndpoint Operation</seealso>
+        ModifyClientVpnEndpointResponse ModifyClientVpnEndpoint(ModifyClientVpnEndpointRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyClientVpnEndpoint operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClientVpnEndpoint operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyClientVpnEndpoint
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyClientVpnEndpoint">REST API Reference for ModifyClientVpnEndpoint Operation</seealso>
+        IAsyncResult BeginModifyClientVpnEndpoint(ModifyClientVpnEndpointRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyClientVpnEndpoint operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyClientVpnEndpoint.</param>
+        /// 
+        /// <returns>Returns a  ModifyClientVpnEndpointResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyClientVpnEndpoint">REST API Reference for ModifyClientVpnEndpoint Operation</seealso>
+        ModifyClientVpnEndpointResponse EndModifyClientVpnEndpoint(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyDefaultCreditSpecification
+
+
+        /// <summary>
+        /// Modifies the default credit option for CPU usage of burstable performance instances.
+        /// The default credit option is set at the account level per AWS Region, and is specified
+        /// per instance family. All new burstable performance instances in the account launch
+        /// using the default credit option.
+        /// 
+        ///  
+        /// <para>
+        ///  <code>ModifyDefaultCreditSpecification</code> is an asynchronous operation, which
+        /// works at an AWS Region level and modifies the credit option for each Availability
+        /// Zone. All zones in a Region are updated within five minutes. But if instances are
+        /// launched during this operation, they might not get the new credit option until the
+        /// zone is updated. To verify whether the update has occurred, you can call <code>GetDefaultCreditSpecification</code>
+        /// and check <code>DefaultCreditSpecification</code> for updates.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+        /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyDefaultCreditSpecification service method.</param>
+        /// 
+        /// <returns>The response from the ModifyDefaultCreditSpecification service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyDefaultCreditSpecification">REST API Reference for ModifyDefaultCreditSpecification Operation</seealso>
+        ModifyDefaultCreditSpecificationResponse ModifyDefaultCreditSpecification(ModifyDefaultCreditSpecificationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyDefaultCreditSpecification operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyDefaultCreditSpecification operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyDefaultCreditSpecification
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyDefaultCreditSpecification">REST API Reference for ModifyDefaultCreditSpecification Operation</seealso>
+        IAsyncResult BeginModifyDefaultCreditSpecification(ModifyDefaultCreditSpecificationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyDefaultCreditSpecification operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyDefaultCreditSpecification.</param>
+        /// 
+        /// <returns>Returns a  ModifyDefaultCreditSpecificationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyDefaultCreditSpecification">REST API Reference for ModifyDefaultCreditSpecification Operation</seealso>
+        ModifyDefaultCreditSpecificationResponse EndModifyDefaultCreditSpecification(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyEbsDefaultKmsKeyId
+
+
+        /// <summary>
+        /// Changes the default customer master key (CMK) for EBS encryption by default for your
+        /// account in this Region.
+        /// 
+        ///  
+        /// <para>
+        /// AWS creates a unique AWS managed CMK in each Region for use with encryption by default.
+        /// If you change the default CMK to a symmetric customer managed CMK, it is used instead
+        /// of the AWS managed CMK. To reset the default CMK to the AWS managed CMK for EBS, use
+        /// <a>ResetEbsDefaultKmsKeyId</a>. Amazon EBS does not support asymmetric CMKs.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you delete or disable the customer managed CMK that you specified for use with
+        /// encryption by default, your instances will fail to launch.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyEbsDefaultKmsKeyId service method.</param>
+        /// 
+        /// <returns>The response from the ModifyEbsDefaultKmsKeyId service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyEbsDefaultKmsKeyId">REST API Reference for ModifyEbsDefaultKmsKeyId Operation</seealso>
+        ModifyEbsDefaultKmsKeyIdResponse ModifyEbsDefaultKmsKeyId(ModifyEbsDefaultKmsKeyIdRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyEbsDefaultKmsKeyId operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyEbsDefaultKmsKeyId operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyEbsDefaultKmsKeyId
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyEbsDefaultKmsKeyId">REST API Reference for ModifyEbsDefaultKmsKeyId Operation</seealso>
+        IAsyncResult BeginModifyEbsDefaultKmsKeyId(ModifyEbsDefaultKmsKeyIdRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyEbsDefaultKmsKeyId operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyEbsDefaultKmsKeyId.</param>
+        /// 
+        /// <returns>Returns a  ModifyEbsDefaultKmsKeyIdResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyEbsDefaultKmsKeyId">REST API Reference for ModifyEbsDefaultKmsKeyId Operation</seealso>
+        ModifyEbsDefaultKmsKeyIdResponse EndModifyEbsDefaultKmsKeyId(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyFleet
+
+
+        /// <summary>
+        /// Modifies the specified EC2 Fleet.
+        /// 
+        ///  
+        /// <para>
+        /// You can only modify an EC2 Fleet request of type <code>maintain</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// While the EC2 Fleet is being modified, it is in the <code>modifying</code> state.
+        /// </para>
+        ///  
+        /// <para>
+        /// To scale up your EC2 Fleet, increase its target capacity. The EC2 Fleet launches the
+        /// additional Spot Instances according to the allocation strategy for the EC2 Fleet request.
+        /// If the allocation strategy is <code>lowest-price</code>, the EC2 Fleet launches instances
+        /// using the Spot Instance pool with the lowest price. If the allocation strategy is
+        /// <code>diversified</code>, the EC2 Fleet distributes the instances across the Spot
+        /// Instance pools. If the allocation strategy is <code>capacity-optimized</code>, EC2
+        /// Fleet launches instances from Spot Instance pools with optimal capacity for the number
+        /// of instances that are launching.
+        /// </para>
+        ///  
+        /// <para>
+        /// To scale down your EC2 Fleet, decrease its target capacity. First, the EC2 Fleet cancels
+        /// any open requests that exceed the new target capacity. You can request that the EC2
+        /// Fleet terminate Spot Instances until the size of the fleet no longer exceeds the new
+        /// target capacity. If the allocation strategy is <code>lowest-price</code>, the EC2
+        /// Fleet terminates the instances with the highest price per unit. If the allocation
+        /// strategy is <code>capacity-optimized</code>, the EC2 Fleet terminates the instances
+        /// in the Spot Instance pools that have the least available Spot Instance capacity. If
+        /// the allocation strategy is <code>diversified</code>, the EC2 Fleet terminates instances
+        /// across the Spot Instance pools. Alternatively, you can request that the EC2 Fleet
+        /// keep the fleet at its current size, but not replace any Spot Instances that are interrupted
+        /// or that you terminate manually.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you are finished with your EC2 Fleet for now, but will use it again later, you
+        /// can set the target capacity to 0.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyFleet service method.</param>
+        /// 
+        /// <returns>The response from the ModifyFleet service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyFleet">REST API Reference for ModifyFleet Operation</seealso>
+        ModifyFleetResponse ModifyFleet(ModifyFleetRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyFleet operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyFleet operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyFleet
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyFleet">REST API Reference for ModifyFleet Operation</seealso>
+        IAsyncResult BeginModifyFleet(ModifyFleetRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyFleet operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyFleet.</param>
+        /// 
+        /// <returns>Returns a  ModifyFleetResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyFleet">REST API Reference for ModifyFleet Operation</seealso>
+        ModifyFleetResponse EndModifyFleet(IAsyncResult asyncResult);
 
         #endregion
         
@@ -10993,12 +15900,17 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled,
-        /// AWS will place instances that you launch with a tenancy of <code>host</code>, but
-        /// without targeting a specific host ID, onto any available Dedicated Host in your account
-        /// which has auto-placement enabled. When auto-placement is disabled, you need to provide
-        /// a host ID if you want the instance to launch onto a specific host. If no host ID is
-        /// provided, the instance will be launched onto a suitable host which has auto-placement
-        /// enabled.
+        /// any instances that you launch with a tenancy of <code>host</code> but without a specific
+        /// host ID are placed onto any available Dedicated Host in your account that has auto-placement
+        /// enabled. When auto-placement is disabled, you need to provide a host ID to have the
+        /// instance launch onto a specific host. If no host ID is provided, the instance is launched
+        /// onto a suitable host with auto-placement enabled.
+        /// 
+        ///  
+        /// <para>
+        /// You can also use this API action to modify a Dedicated Host to support either multiple
+        /// instance types in an instance family, or to support a specific instance type only.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyHosts service method.</param>
         /// 
@@ -11059,7 +15971,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
         /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. 
         /// </para>
         ///  
@@ -11112,7 +16024,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Modifies the ID format for the specified resource on a per-region basis. You can specify
+        /// Modifies the ID format for the specified resource on a per-Region basis. You can specify
         /// that resources should receive longer IDs (17-character IDs) when they are created.
         /// 
         ///  
@@ -11135,8 +16047,8 @@ namespace Amazon.EC2
         /// entire AWS account. By default, an IAM user defaults to the same settings as the root
         /// user. If you're using this action as the root user, then these settings apply to the
         /// entire account, unless an IAM user explicitly overrides these settings for themselves.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
-        /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. 
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
+        /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
@@ -11242,8 +16154,16 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
+        ///  <b>Note: </b>Using this action to change the security groups associated with an elastic
+        /// network interface (ENI) attached to an instance in a VPC can result in an error if
+        /// the instance has more than one ENI. To change the security groups associated with
+        /// an ENI attached to an instance that has multiple ENIs, we recommend that you use the
+        /// <a>ModifyNetworkInterfaceAttribute</a> action.
+        /// </para>
+        ///  
+        /// <para>
         /// To modify some attributes, the instance must be stopped. For more information, see
-        /// <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html">Modifying
+        /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html">Modifying
         /// Attributes of a Stopped Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -11281,17 +16201,59 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  ModifyInstanceCapacityReservationAttributes
+
+
+        /// <summary>
+        /// Modifies the Capacity Reservation settings for a stopped instance. Use this action
+        /// to configure an instance to target a specific Capacity Reservation, run in any <code>open</code>
+        /// Capacity Reservation with matching attributes, or run On-Demand Instance capacity.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyInstanceCapacityReservationAttributes service method.</param>
+        /// 
+        /// <returns>The response from the ModifyInstanceCapacityReservationAttributes service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceCapacityReservationAttributes">REST API Reference for ModifyInstanceCapacityReservationAttributes Operation</seealso>
+        ModifyInstanceCapacityReservationAttributesResponse ModifyInstanceCapacityReservationAttributes(ModifyInstanceCapacityReservationAttributesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyInstanceCapacityReservationAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyInstanceCapacityReservationAttributes operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyInstanceCapacityReservationAttributes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceCapacityReservationAttributes">REST API Reference for ModifyInstanceCapacityReservationAttributes Operation</seealso>
+        IAsyncResult BeginModifyInstanceCapacityReservationAttributes(ModifyInstanceCapacityReservationAttributesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyInstanceCapacityReservationAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyInstanceCapacityReservationAttributes.</param>
+        /// 
+        /// <returns>Returns a  ModifyInstanceCapacityReservationAttributesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceCapacityReservationAttributes">REST API Reference for ModifyInstanceCapacityReservationAttributes Operation</seealso>
+        ModifyInstanceCapacityReservationAttributesResponse EndModifyInstanceCapacityReservationAttributes(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ModifyInstanceCreditSpecification
 
 
         /// <summary>
-        /// Modifies the credit option for CPU usage on a running or stopped T2 instance. The
-        /// credit options are <code>standard</code> and <code>unlimited</code>.
+        /// Modifies the credit option for CPU usage on a running or stopped burstable performance
+        /// instance. The credit options are <code>standard</code> and <code>unlimited</code>.
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/t2-instances.html">T2
-        /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+        /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyInstanceCreditSpecification service method.</param>
@@ -11328,6 +16290,92 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  ModifyInstanceEventStartTime
+
+
+        /// <summary>
+        /// Modifies the start time for a scheduled Amazon EC2 instance event.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyInstanceEventStartTime service method.</param>
+        /// 
+        /// <returns>The response from the ModifyInstanceEventStartTime service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceEventStartTime">REST API Reference for ModifyInstanceEventStartTime Operation</seealso>
+        ModifyInstanceEventStartTimeResponse ModifyInstanceEventStartTime(ModifyInstanceEventStartTimeRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyInstanceEventStartTime operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyInstanceEventStartTime operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyInstanceEventStartTime
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceEventStartTime">REST API Reference for ModifyInstanceEventStartTime Operation</seealso>
+        IAsyncResult BeginModifyInstanceEventStartTime(ModifyInstanceEventStartTimeRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyInstanceEventStartTime operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyInstanceEventStartTime.</param>
+        /// 
+        /// <returns>Returns a  ModifyInstanceEventStartTimeResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceEventStartTime">REST API Reference for ModifyInstanceEventStartTime Operation</seealso>
+        ModifyInstanceEventStartTimeResponse EndModifyInstanceEventStartTime(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyInstanceMetadataOptions
+
+
+        /// <summary>
+        /// Modify the instance metadata parameters on a running or stopped instance. When you
+        /// modify the parameters on a stopped instance, they are applied when the instance is
+        /// started. When you modify the parameters on a running instance, the API responds with
+        /// a state of “pending”. After the parameter modifications are successfully applied to
+        /// the instance, the state of the modifications changes from “pending” to “applied” in
+        /// subsequent describe-instances API calls. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
+        /// Metadata and User Data</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyInstanceMetadataOptions service method.</param>
+        /// 
+        /// <returns>The response from the ModifyInstanceMetadataOptions service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceMetadataOptions">REST API Reference for ModifyInstanceMetadataOptions Operation</seealso>
+        ModifyInstanceMetadataOptionsResponse ModifyInstanceMetadataOptions(ModifyInstanceMetadataOptionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyInstanceMetadataOptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyInstanceMetadataOptions operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyInstanceMetadataOptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceMetadataOptions">REST API Reference for ModifyInstanceMetadataOptions Operation</seealso>
+        IAsyncResult BeginModifyInstanceMetadataOptions(ModifyInstanceMetadataOptionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyInstanceMetadataOptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyInstanceMetadataOptions.</param>
+        /// 
+        /// <returns>Returns a  ModifyInstanceMetadataOptionsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyInstanceMetadataOptions">REST API Reference for ModifyInstanceMetadataOptions Operation</seealso>
+        ModifyInstanceMetadataOptionsResponse EndModifyInstanceMetadataOptions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ModifyInstancePlacement
 
 
@@ -11336,7 +16384,7 @@ namespace Amazon.EC2
         /// 
         ///  <ul> <li> 
         /// <para>
-        /// Modify the affinity between an instance and a <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html">Dedicated
+        /// Modify the affinity between an instance and a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html">Dedicated
         /// Host</a>. When affinity is set to <code>host</code> and the instance is not associated
         /// with a specific Dedicated Host, the next time the instance is launched, it is automatically
         /// associated with the host on which it lands. If the instance is restarted or rebooted,
@@ -11353,7 +16401,7 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Move an instance to or from a <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">placement
+        /// Move an instance to or from a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">placement
         /// group</a>.
         /// </para>
         ///  </li> </ul> 
@@ -11363,8 +16411,8 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// To modify the host ID, tenancy, or placement group for an instance, the instance must
-        /// be in the <code>stopped</code> state.
+        /// To modify the host ID, tenancy, placement group, or partition for an instance, the
+        /// instance must be in the <code>stopped</code> state.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyInstancePlacement service method.</param>
@@ -11448,7 +16496,8 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Modifies the specified network interface attribute. You can specify only one attribute
-        /// at a time.
+        /// at a time. You can use this action to attach and detach security groups from an existing
+        /// EC2 instance.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyNetworkInterfaceAttribute service method.</param>
         /// 
@@ -11495,7 +16544,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
         /// Reserved Instances</a> in the Amazon Elastic Compute Cloud User Guide.
         /// </para>
         /// </summary>
@@ -11539,17 +16588,18 @@ namespace Amazon.EC2
         /// <summary>
         /// Adds or removes permission settings for the specified snapshot. You may add or remove
         /// specified AWS account IDs from a snapshot's list of create volume permissions, but
-        /// you cannot do both in a single API call. If you need to both add and remove account
-        /// IDs for a snapshot, you must use multiple API calls.
+        /// you cannot do both in a single operation. If you need to both add and remove account
+        /// IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications
+        /// to a snapshot in a single operation.
         /// 
-        ///  <note> 
+        ///  
         /// <para>
         /// Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made
         /// public. Snapshots encrypted with your default CMK cannot be shared with other accounts.
         /// </para>
-        ///  </note> 
+        ///  
         /// <para>
-        /// For more information on modifying snapshot permissions, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
+        /// For more information about modifying snapshot permissions, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
         /// Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -11595,6 +16645,10 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
+        /// You can only modify a Spot Fleet request of type <code>maintain</code>.
+        /// </para>
+        ///  
+        /// <para>
         /// While the Spot Fleet request is being modified, it is in the <code>modifying</code>
         /// state.
         /// </para>
@@ -11603,9 +16657,11 @@ namespace Amazon.EC2
         /// To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches
         /// the additional Spot Instances according to the allocation strategy for the Spot Fleet
         /// request. If the allocation strategy is <code>lowestPrice</code>, the Spot Fleet launches
-        /// instances using the Spot pool with the lowest price. If the allocation strategy is
-        /// <code>diversified</code>, the Spot Fleet distributes the instances across the Spot
-        /// pools.
+        /// instances using the Spot Instance pool with the lowest price. If the allocation strategy
+        /// is <code>diversified</code>, the Spot Fleet distributes the instances across the Spot
+        /// Instance pools. If the allocation strategy is <code>capacityOptimized</code>, Spot
+        /// Fleet launches instances from Spot Instance pools with optimal capacity for the number
+        /// of instances that are launching.
         /// </para>
         ///  
         /// <para>
@@ -11614,10 +16670,12 @@ namespace Amazon.EC2
         /// the Spot Fleet terminate Spot Instances until the size of the fleet no longer exceeds
         /// the new target capacity. If the allocation strategy is <code>lowestPrice</code>, the
         /// Spot Fleet terminates the instances with the highest price per unit. If the allocation
-        /// strategy is <code>diversified</code>, the Spot Fleet terminates instances across the
-        /// Spot pools. Alternatively, you can request that the Spot Fleet keep the fleet at its
-        /// current size, but not replace any Spot Instances that are interrupted or that you
-        /// terminate manually.
+        /// strategy is <code>capacityOptimized</code>, the Spot Fleet terminates the instances
+        /// in the Spot Instance pools that have the least available Spot Instance capacity. If
+        /// the allocation strategy is <code>diversified</code>, the Spot Fleet terminates instances
+        /// across the Spot Instance pools. Alternatively, you can request that the Spot Fleet
+        /// keep the fleet at its current size, but not replace any Spot Instances that are interrupted
+        /// or that you terminate manually.
         /// </para>
         ///  
         /// <para>
@@ -11699,6 +16757,187 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  ModifyTrafficMirrorFilterNetworkServices
+
+
+        /// <summary>
+        /// Allows or restricts mirroring network services.
+        /// 
+        ///  
+        /// <para>
+        ///  By default, Amazon DNS network services are not eligible for Traffic Mirror. Use
+        /// <code>AddNetworkServices</code> to add network services to a Traffic Mirror filter.
+        /// When a network service is added to the Traffic Mirror filter, all traffic related
+        /// to that network service will be mirrored. When you no longer want to mirror network
+        /// services, use <code>RemoveNetworkServices</code> to remove the network services from
+        /// the Traffic Mirror filter. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about filter rule properties, see <a href="https://docs.aws.amazon.com/vpc/latest/mirroring/traffic-mirroring-considerations.html">Network
+        /// Services</a> in the <i>Traffic Mirroring User Guide </i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTrafficMirrorFilterNetworkServices service method.</param>
+        /// 
+        /// <returns>The response from the ModifyTrafficMirrorFilterNetworkServices service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorFilterNetworkServices">REST API Reference for ModifyTrafficMirrorFilterNetworkServices Operation</seealso>
+        ModifyTrafficMirrorFilterNetworkServicesResponse ModifyTrafficMirrorFilterNetworkServices(ModifyTrafficMirrorFilterNetworkServicesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyTrafficMirrorFilterNetworkServices operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTrafficMirrorFilterNetworkServices operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyTrafficMirrorFilterNetworkServices
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorFilterNetworkServices">REST API Reference for ModifyTrafficMirrorFilterNetworkServices Operation</seealso>
+        IAsyncResult BeginModifyTrafficMirrorFilterNetworkServices(ModifyTrafficMirrorFilterNetworkServicesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyTrafficMirrorFilterNetworkServices operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyTrafficMirrorFilterNetworkServices.</param>
+        /// 
+        /// <returns>Returns a  ModifyTrafficMirrorFilterNetworkServicesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorFilterNetworkServices">REST API Reference for ModifyTrafficMirrorFilterNetworkServices Operation</seealso>
+        ModifyTrafficMirrorFilterNetworkServicesResponse EndModifyTrafficMirrorFilterNetworkServices(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyTrafficMirrorFilterRule
+
+
+        /// <summary>
+        /// Modifies the specified Traffic Mirror rule.
+        /// 
+        ///  
+        /// <para>
+        ///  <code>DestinationCidrBlock</code> and <code>SourceCidrBlock</code> must both be an
+        /// IPv4 range or an IPv6 range.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTrafficMirrorFilterRule service method.</param>
+        /// 
+        /// <returns>The response from the ModifyTrafficMirrorFilterRule service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorFilterRule">REST API Reference for ModifyTrafficMirrorFilterRule Operation</seealso>
+        ModifyTrafficMirrorFilterRuleResponse ModifyTrafficMirrorFilterRule(ModifyTrafficMirrorFilterRuleRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyTrafficMirrorFilterRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTrafficMirrorFilterRule operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyTrafficMirrorFilterRule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorFilterRule">REST API Reference for ModifyTrafficMirrorFilterRule Operation</seealso>
+        IAsyncResult BeginModifyTrafficMirrorFilterRule(ModifyTrafficMirrorFilterRuleRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyTrafficMirrorFilterRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyTrafficMirrorFilterRule.</param>
+        /// 
+        /// <returns>Returns a  ModifyTrafficMirrorFilterRuleResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorFilterRule">REST API Reference for ModifyTrafficMirrorFilterRule Operation</seealso>
+        ModifyTrafficMirrorFilterRuleResponse EndModifyTrafficMirrorFilterRule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyTrafficMirrorSession
+
+
+        /// <summary>
+        /// Modifies a Traffic Mirror session.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTrafficMirrorSession service method.</param>
+        /// 
+        /// <returns>The response from the ModifyTrafficMirrorSession service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorSession">REST API Reference for ModifyTrafficMirrorSession Operation</seealso>
+        ModifyTrafficMirrorSessionResponse ModifyTrafficMirrorSession(ModifyTrafficMirrorSessionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyTrafficMirrorSession operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTrafficMirrorSession operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyTrafficMirrorSession
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorSession">REST API Reference for ModifyTrafficMirrorSession Operation</seealso>
+        IAsyncResult BeginModifyTrafficMirrorSession(ModifyTrafficMirrorSessionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyTrafficMirrorSession operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyTrafficMirrorSession.</param>
+        /// 
+        /// <returns>Returns a  ModifyTrafficMirrorSessionResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTrafficMirrorSession">REST API Reference for ModifyTrafficMirrorSession Operation</seealso>
+        ModifyTrafficMirrorSessionResponse EndModifyTrafficMirrorSession(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyTransitGatewayVpcAttachment
+
+
+        /// <summary>
+        /// Modifies the specified VPC attachment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTransitGatewayVpcAttachment service method.</param>
+        /// 
+        /// <returns>The response from the ModifyTransitGatewayVpcAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTransitGatewayVpcAttachment">REST API Reference for ModifyTransitGatewayVpcAttachment Operation</seealso>
+        ModifyTransitGatewayVpcAttachmentResponse ModifyTransitGatewayVpcAttachment(ModifyTransitGatewayVpcAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyTransitGatewayVpcAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyTransitGatewayVpcAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTransitGatewayVpcAttachment">REST API Reference for ModifyTransitGatewayVpcAttachment Operation</seealso>
+        IAsyncResult BeginModifyTransitGatewayVpcAttachment(ModifyTransitGatewayVpcAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyTransitGatewayVpcAttachment.</param>
+        /// 
+        /// <returns>Returns a  ModifyTransitGatewayVpcAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyTransitGatewayVpcAttachment">REST API Reference for ModifyTransitGatewayVpcAttachment Operation</seealso>
+        ModifyTransitGatewayVpcAttachmentResponse EndModifyTransitGatewayVpcAttachment(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ModifyVolume
 
 
@@ -11707,45 +16946,43 @@ namespace Amazon.EC2
         /// volume type, and IOPS capacity. If your EBS volume is attached to a current-generation
         /// EC2 instance type, you may be able to apply these changes without stopping the instance
         /// or detaching the volume from it. For more information about modifying an EBS volume
-        /// running Linux, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html">Modifying
+        /// running Linux, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html">Modifying
         /// the Size, IOPS, or Type of an EBS Volume on Linux</a>. For more information about
-        /// modifying an EBS volume running Windows, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html">Modifying
+        /// modifying an EBS volume running Windows, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html">Modifying
         /// the Size, IOPS, or Type of an EBS Volume on Windows</a>. 
         /// 
         ///  
         /// <para>
         ///  When you complete a resize operation on your volume, you need to extend the volume's
         /// file-system size to take advantage of the new storage capacity. For information about
-        /// extending a Linux file system, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#recognize-expanded-volume-linux">Extending
+        /// extending a Linux file system, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#recognize-expanded-volume-linux">Extending
         /// a Linux File System</a>. For information about extending a Windows file system, see
-        /// <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html#recognize-expanded-volume-windows">Extending
+        /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html#recognize-expanded-volume-windows">Extending
         /// a Windows File System</a>. 
         /// </para>
         ///  
         /// <para>
         ///  You can use CloudWatch Events to check the status of a modification to an EBS volume.
-        /// For information about CloudWatch Events, see the <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
+        /// For information about CloudWatch Events, see the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
         /// CloudWatch Events User Guide</a>. You can also track the status of a modification
-        /// using the <a>DescribeVolumesModifications</a> API. For information about tracking
-        /// status changes using either method, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
+        /// using <a>DescribeVolumesModifications</a>. For information about tracking status changes
+        /// using either method, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
         /// Volume Modifications</a>. 
         /// </para>
-        ///  <note> 
+        ///  
         /// <para>
         /// With previous-generation instance types, resizing an EBS volume may require detaching
-        /// and reattaching the volume or stopping and restarting the instance. For more information
-        /// about modifying an EBS volume running Linux, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html">Modifying
-        /// the Size, IOPS, or Type of an EBS Volume on Linux</a>. For more information about
-        /// modifying an EBS volume running Windows, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html">Modifying
+        /// and reattaching the volume or stopping and restarting the instance. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html">Modifying
+        /// the Size, IOPS, or Type of an EBS Volume on Linux</a> and <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html">Modifying
         /// the Size, IOPS, or Type of an EBS Volume on Windows</a>.
         /// </para>
-        ///  </note> <note> 
+        ///  
         /// <para>
         /// If you reach the maximum volume modification rate per volume limit, you will need
         /// to wait at least six hours before applying further modifications to the affected EBS
         /// volume.
         /// </para>
-        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyVolume service method.</param>
         /// 
@@ -11880,7 +17117,7 @@ namespace Amazon.EC2
         /// <summary>
         /// Modifies attributes of a specified VPC endpoint. The attributes that you can modify
         /// depend on the type of VPC endpoint (interface or gateway). For more information, see
-        /// <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-endpoints.html">VPC
+        /// <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html">VPC
         /// Endpoints</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyVpcEndpoint service method.</param>
@@ -11966,6 +17203,14 @@ namespace Amazon.EC2
         /// the Network Load Balancers for your service, and you can specify whether acceptance
         /// is required for requests to connect to your endpoint service through an interface
         /// VPC endpoint.
+        /// 
+        ///  
+        /// <para>
+        /// If you set or modify the private DNS name, you must prove that you own the private
+        /// DNS domain name. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-dns-validation.html">VPC
+        /// Endpoint Service Private DNS Name Verification</a> in the <i>Amazon Virtual Private
+        /// Cloud User Guide</i>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyVpcEndpointServiceConfiguration service method.</param>
         /// 
@@ -12005,9 +17250,16 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Modifies the permissions for your <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/endpoint-service.html">VPC
+        /// Modifies the permissions for your <a href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html">VPC
         /// endpoint service</a>. You can add or remove permissions for service consumers (IAM
         /// users, IAM roles, and AWS accounts) to connect to your endpoint service.
+        /// 
+        ///  
+        /// <para>
+        /// If you grant permissions to all principals, the service is public. Any users who know
+        /// the name of a public service can send a request to attach an endpoint. If the service
+        /// does not require manual approval, attachments are automatically approved.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyVpcEndpointServicePermissions service method.</param>
         /// 
@@ -12067,12 +17319,16 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// If the peered VPCs are in different accounts, each owner must initiate a separate
-        /// request to modify the peering connection options, depending on whether their VPC was
-        /// the requester or accepter for the VPC peering connection. If the peered VPCs are in
-        /// the same account, you can modify the requester and accepter options in the same request.
-        /// To confirm which VPC is the accepter and requester for a VPC peering connection, use
-        /// the <a>DescribeVpcPeeringConnections</a> command.
+        /// If the peered VPCs are in the same AWS account, you can enable DNS resolution for
+        /// queries from the local VPC. This ensures that queries from the local VPC resolve to
+        /// private IP addresses in the peer VPC. This option is not available if the peered VPCs
+        /// are in different AWS accounts or different Regions. For peered VPCs in different AWS
+        /// accounts, each AWS account owner must initiate a separate request to modify the peering
+        /// connection options. For inter-region peering connections, you must use the Region
+        /// for the requester VPC to modify the requester VPC peering options and the Region for
+        /// the accepter VPC to modify the accepter VPC peering options. To verify which VPCs
+        /// are the accepter and the requester for a VPC peering connection, use the <a>DescribeVpcPeeringConnections</a>
+        /// command.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyVpcPeeringConnectionOptions service method.</param>
@@ -12125,7 +17381,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about Dedicated Instances, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
         /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -12163,12 +17419,199 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  ModifyVpnConnection
+
+
+        /// <summary>
+        /// Modifies the target gateway of an AWS Site-to-Site VPN connection. The following migration
+        /// options are available:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// An existing virtual private gateway to a new virtual private gateway
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An existing virtual private gateway to a transit gateway
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An existing transit gateway to a new transit gateway
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An existing transit gateway to a virtual private gateway
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Before you perform the migration to the new gateway, you must configure the new gateway.
+        /// Use <a>CreateVpnGateway</a> to create a virtual private gateway, or <a>CreateTransitGateway</a>
+        /// to create a transit gateway.
+        /// </para>
+        ///  
+        /// <para>
+        /// This step is required when you migrate from a virtual private gateway with static
+        /// routes to a transit gateway. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You must delete the static routes before you migrate to the new gateway.
+        /// </para>
+        ///  
+        /// <para>
+        /// Keep a copy of the static route before you delete it. You will need to add back these
+        /// routes to the transit gateway after the VPN connection migration is complete.
+        /// </para>
+        ///  
+        /// <para>
+        /// After you migrate to the new gateway, you might need to modify your VPC route table.
+        /// Use <a>CreateRoute</a> and <a>DeleteRoute</a> to make the changes described in <a
+        /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/modify-vpn-target.html#step-update-routing">VPN
+        /// Gateway Target Modification Required VPC Route Table Updates</a> in the <i>AWS Site-to-Site
+        /// VPN User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  When the new gateway is a transit gateway, modify the transit gateway route table
+        /// to allow traffic between the VPC and the AWS Site-to-Site VPN connection. Use <a>CreateTransitGatewayRoute</a>
+        /// to add the routes.
+        /// </para>
+        ///  
+        /// <para>
+        ///  If you deleted VPN static routes, you must add the static routes to the transit gateway
+        /// route table.
+        /// </para>
+        ///  
+        /// <para>
+        /// After you perform this operation, the AWS VPN endpoint's IP addresses on the AWS side
+        /// and the tunnel options remain intact. Your AWS Site-to-Site VPN connection will be
+        /// temporarily unavailable for a brief period while we provision the new endpoints.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyVpnConnection service method.</param>
+        /// 
+        /// <returns>The response from the ModifyVpnConnection service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnConnection">REST API Reference for ModifyVpnConnection Operation</seealso>
+        ModifyVpnConnectionResponse ModifyVpnConnection(ModifyVpnConnectionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyVpnConnection operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyVpnConnection operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyVpnConnection
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnConnection">REST API Reference for ModifyVpnConnection Operation</seealso>
+        IAsyncResult BeginModifyVpnConnection(ModifyVpnConnectionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyVpnConnection operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyVpnConnection.</param>
+        /// 
+        /// <returns>Returns a  ModifyVpnConnectionResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnConnection">REST API Reference for ModifyVpnConnection Operation</seealso>
+        ModifyVpnConnectionResponse EndModifyVpnConnection(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyVpnTunnelCertificate
+
+
+        /// <summary>
+        /// Modifies the VPN tunnel endpoint certificate.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyVpnTunnelCertificate service method.</param>
+        /// 
+        /// <returns>The response from the ModifyVpnTunnelCertificate service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnTunnelCertificate">REST API Reference for ModifyVpnTunnelCertificate Operation</seealso>
+        ModifyVpnTunnelCertificateResponse ModifyVpnTunnelCertificate(ModifyVpnTunnelCertificateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyVpnTunnelCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyVpnTunnelCertificate operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyVpnTunnelCertificate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnTunnelCertificate">REST API Reference for ModifyVpnTunnelCertificate Operation</seealso>
+        IAsyncResult BeginModifyVpnTunnelCertificate(ModifyVpnTunnelCertificateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyVpnTunnelCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyVpnTunnelCertificate.</param>
+        /// 
+        /// <returns>Returns a  ModifyVpnTunnelCertificateResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnTunnelCertificate">REST API Reference for ModifyVpnTunnelCertificate Operation</seealso>
+        ModifyVpnTunnelCertificateResponse EndModifyVpnTunnelCertificate(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyVpnTunnelOptions
+
+
+        /// <summary>
+        /// Modifies the options for a VPN tunnel in an AWS Site-to-Site VPN connection. You can
+        /// modify multiple options for a tunnel in a single request, but you can only modify
+        /// one tunnel at a time. For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNTunnels.html">Site-to-Site
+        /// VPN Tunnel Options for Your Site-to-Site VPN Connection</a> in the <i>AWS Site-to-Site
+        /// VPN User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyVpnTunnelOptions service method.</param>
+        /// 
+        /// <returns>The response from the ModifyVpnTunnelOptions service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnTunnelOptions">REST API Reference for ModifyVpnTunnelOptions Operation</seealso>
+        ModifyVpnTunnelOptionsResponse ModifyVpnTunnelOptions(ModifyVpnTunnelOptionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyVpnTunnelOptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyVpnTunnelOptions operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyVpnTunnelOptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnTunnelOptions">REST API Reference for ModifyVpnTunnelOptions Operation</seealso>
+        IAsyncResult BeginModifyVpnTunnelOptions(ModifyVpnTunnelOptionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyVpnTunnelOptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyVpnTunnelOptions.</param>
+        /// 
+        /// <returns>Returns a  ModifyVpnTunnelOptionsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ModifyVpnTunnelOptions">REST API Reference for ModifyVpnTunnelOptions Operation</seealso>
+        ModifyVpnTunnelOptionsResponse EndModifyVpnTunnelOptions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  MonitorInstances
 
 
         /// <summary>
         /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is
-        /// enabled. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
+        /// enabled. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
         /// Your Instances and Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// 
         ///  
@@ -12256,6 +17699,65 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  ProvisionByoipCidr
+
+
+        /// <summary>
+        /// Provisions an IPv4 or IPv6 address range for use with your AWS resources through bring
+        /// your own IP addresses (BYOIP) and creates a corresponding address pool. After the
+        /// address range is provisioned, it is ready to be advertised using <a>AdvertiseByoipCidr</a>.
+        /// 
+        ///  
+        /// <para>
+        /// AWS verifies that you own the address range and are authorized to advertise it. You
+        /// must ensure that the address range is registered to you and that you created an RPKI
+        /// ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html">Bring
+        /// Your Own IP Addresses (BYOIP)</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Provisioning an address range is an asynchronous operation, so the call returns immediately,
+        /// but the address range is not ready to use until its status changes from <code>pending-provision</code>
+        /// to <code>provisioned</code>. To monitor the status of an address range, use <a>DescribeByoipCidrs</a>.
+        /// To allocate an Elastic IP address from your IPv4 address pool, use <a>AllocateAddress</a>
+        /// with either the specific address from the address pool or the ID of the address pool.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ProvisionByoipCidr service method.</param>
+        /// 
+        /// <returns>The response from the ProvisionByoipCidr service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ProvisionByoipCidr">REST API Reference for ProvisionByoipCidr Operation</seealso>
+        ProvisionByoipCidrResponse ProvisionByoipCidr(ProvisionByoipCidrRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ProvisionByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ProvisionByoipCidr operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndProvisionByoipCidr
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ProvisionByoipCidr">REST API Reference for ProvisionByoipCidr Operation</seealso>
+        IAsyncResult BeginProvisionByoipCidr(ProvisionByoipCidrRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ProvisionByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginProvisionByoipCidr.</param>
+        /// 
+        /// <returns>Returns a  ProvisionByoipCidrResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ProvisionByoipCidr">REST API Reference for ProvisionByoipCidr Operation</seealso>
+        ProvisionByoipCidrResponse EndProvisionByoipCidr(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PurchaseHostReservation
 
 
@@ -12314,8 +17816,13 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
-        /// Instances</a> and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+        /// To queue a purchase for a future date and time, specify a purchase time. If you do
+        /// not specify a purchase time, the default is the current time.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
+        /// Instances</a> and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
         /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -12357,7 +17864,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Purchases one or more Scheduled Instances with the specified schedule.
+        /// Purchases the Scheduled Instances with the specified schedule.
         /// 
         ///  
         /// <para>
@@ -12411,7 +17918,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Requests a reboot of one or more instances. This operation is asynchronous; it only
+        /// Requests a reboot of the specified instances. This operation is asynchronous; it only
         /// queues a request to reboot the specified instances. The operation succeeds if the
         /// instances are valid and belong to you. Requests to reboot terminated instances are
         /// ignored.
@@ -12423,7 +17930,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information about troubleshooting, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html">Getting
+        /// For more information about troubleshooting, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html">Getting
         /// Console Output and Rebooting Instances</a> in the <i>Amazon Elastic Compute Cloud
         /// User Guide</i>.
         /// </para>
@@ -12468,7 +17975,7 @@ namespace Amazon.EC2
         /// <summary>
         /// Registers an AMI. When you're creating an AMI, this is the final step you must complete
         /// before you can launch an instance from the AMI. For more information about creating
-        /// AMIs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html">Creating
+        /// AMIs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html">Creating
         /// Your Own AMIs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// 
         ///  <note> 
@@ -12480,7 +17987,7 @@ namespace Amazon.EC2
         /// <para>
         /// You can also use <code>RegisterImage</code> to create an Amazon EBS-backed Linux AMI
         /// from a snapshot of a root device volume. You specify the snapshot using the block
-        /// device mapping. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-launch-snapshot.html">Launching
+        /// device mapping. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-launch-snapshot.html">Launching
         /// a Linux Instance from a Backup</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
@@ -12490,12 +17997,33 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// Some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise
-        /// Server (SLES), use the EC2 billing product code associated with an AMI to verify the
-        /// subscription status for package updates. Creating an AMI from an EBS snapshot does
-        /// not maintain this billing code, and subsequent instances launched from such an AMI
-        /// will not be able to connect to package update infrastructure. To create an AMI that
-        /// must retain billing codes, see <a>CreateImage</a>.
+        /// Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and
+        /// SUSE Linux Enterprise Server (SLES), use the EC2 billing product code associated with
+        /// an AMI to verify the subscription status for package updates. To create a new AMI
+        /// for operating systems that require a billing product code, instead of registering
+        /// the AMI, do the following to preserve the billing product code association:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// Launch an instance from an existing AMI with that billing product code.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Customize the instance.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Create an AMI from the instance using <a>CreateImage</a>.
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched
+        /// from an AMI with a billing product code, make sure that the Reserved Instance has
+        /// the matching billing product code. If you purchase a Reserved Instance without the
+        /// matching billing product code, the Reserved Instance will not be applied to the On-Demand
+        /// Instance. For information about how to obtain the platform details and billing information
+        /// of an AMI, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html">Obtaining
+        /// Billing Information</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
@@ -12535,6 +18063,195 @@ namespace Amazon.EC2
         /// <returns>Returns a  RegisterImageResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegisterImage">REST API Reference for RegisterImage Operation</seealso>
         RegisterImageResponse EndRegisterImage(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RegisterTransitGatewayMulticastGroupMembers
+
+
+        /// <summary>
+        /// Registers members (network interfaces) with the transit gateway multicast group. A
+        /// member is a network interface associated with a supported EC2 instance that receives
+        /// multicast traffic. For information about supported instances, see <a href="https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-limits.html#multicast-limits">Multicast
+        /// Consideration</a> in <i>Amazon VPC Transit Gateways</i>.
+        /// 
+        ///  
+        /// <para>
+        /// After you add the members, use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html">SearchTransitGatewayMulticastGroups</a>
+        /// to verify that the members were added to the transit gateway multicast group.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RegisterTransitGatewayMulticastGroupMembers service method.</param>
+        /// 
+        /// <returns>The response from the RegisterTransitGatewayMulticastGroupMembers service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegisterTransitGatewayMulticastGroupMembers">REST API Reference for RegisterTransitGatewayMulticastGroupMembers Operation</seealso>
+        RegisterTransitGatewayMulticastGroupMembersResponse RegisterTransitGatewayMulticastGroupMembers(RegisterTransitGatewayMulticastGroupMembersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RegisterTransitGatewayMulticastGroupMembers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RegisterTransitGatewayMulticastGroupMembers operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRegisterTransitGatewayMulticastGroupMembers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegisterTransitGatewayMulticastGroupMembers">REST API Reference for RegisterTransitGatewayMulticastGroupMembers Operation</seealso>
+        IAsyncResult BeginRegisterTransitGatewayMulticastGroupMembers(RegisterTransitGatewayMulticastGroupMembersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RegisterTransitGatewayMulticastGroupMembers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRegisterTransitGatewayMulticastGroupMembers.</param>
+        /// 
+        /// <returns>Returns a  RegisterTransitGatewayMulticastGroupMembersResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegisterTransitGatewayMulticastGroupMembers">REST API Reference for RegisterTransitGatewayMulticastGroupMembers Operation</seealso>
+        RegisterTransitGatewayMulticastGroupMembersResponse EndRegisterTransitGatewayMulticastGroupMembers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RegisterTransitGatewayMulticastGroupSources
+
+
+        /// <summary>
+        /// Registers sources (network interfaces) with the specified transit gateway multicast
+        /// group.
+        /// 
+        ///  
+        /// <para>
+        /// A multicast source is a network interface attached to a supported instance that sends
+        /// multicast traffic. For information about supported instances, see <a href="https://docs.aws.amazon.com/vpc/latest/tgw/transit-gateway-limits.html#multicast-limits">Multicast
+        /// Considerations</a> in <i>Amazon VPC Transit Gateways</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// After you add the source, use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html">SearchTransitGatewayMulticastGroups</a>
+        /// to verify that the source was added to the multicast group.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RegisterTransitGatewayMulticastGroupSources service method.</param>
+        /// 
+        /// <returns>The response from the RegisterTransitGatewayMulticastGroupSources service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegisterTransitGatewayMulticastGroupSources">REST API Reference for RegisterTransitGatewayMulticastGroupSources Operation</seealso>
+        RegisterTransitGatewayMulticastGroupSourcesResponse RegisterTransitGatewayMulticastGroupSources(RegisterTransitGatewayMulticastGroupSourcesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RegisterTransitGatewayMulticastGroupSources operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RegisterTransitGatewayMulticastGroupSources operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRegisterTransitGatewayMulticastGroupSources
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegisterTransitGatewayMulticastGroupSources">REST API Reference for RegisterTransitGatewayMulticastGroupSources Operation</seealso>
+        IAsyncResult BeginRegisterTransitGatewayMulticastGroupSources(RegisterTransitGatewayMulticastGroupSourcesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RegisterTransitGatewayMulticastGroupSources operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRegisterTransitGatewayMulticastGroupSources.</param>
+        /// 
+        /// <returns>Returns a  RegisterTransitGatewayMulticastGroupSourcesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RegisterTransitGatewayMulticastGroupSources">REST API Reference for RegisterTransitGatewayMulticastGroupSources Operation</seealso>
+        RegisterTransitGatewayMulticastGroupSourcesResponse EndRegisterTransitGatewayMulticastGroupSources(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RejectTransitGatewayPeeringAttachment
+
+
+        /// <summary>
+        /// Rejects a transit gateway peering attachment request.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RejectTransitGatewayPeeringAttachment service method.</param>
+        /// 
+        /// <returns>The response from the RejectTransitGatewayPeeringAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayPeeringAttachment">REST API Reference for RejectTransitGatewayPeeringAttachment Operation</seealso>
+        RejectTransitGatewayPeeringAttachmentResponse RejectTransitGatewayPeeringAttachment(RejectTransitGatewayPeeringAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RejectTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RejectTransitGatewayPeeringAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRejectTransitGatewayPeeringAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayPeeringAttachment">REST API Reference for RejectTransitGatewayPeeringAttachment Operation</seealso>
+        IAsyncResult BeginRejectTransitGatewayPeeringAttachment(RejectTransitGatewayPeeringAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RejectTransitGatewayPeeringAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRejectTransitGatewayPeeringAttachment.</param>
+        /// 
+        /// <returns>Returns a  RejectTransitGatewayPeeringAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayPeeringAttachment">REST API Reference for RejectTransitGatewayPeeringAttachment Operation</seealso>
+        RejectTransitGatewayPeeringAttachmentResponse EndRejectTransitGatewayPeeringAttachment(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RejectTransitGatewayVpcAttachment
+
+
+        /// <summary>
+        /// Rejects a request to attach a VPC to a transit gateway.
+        /// 
+        ///  
+        /// <para>
+        /// The VPC attachment must be in the <code>pendingAcceptance</code> state. Use <a>DescribeTransitGatewayVpcAttachments</a>
+        /// to view your pending VPC attachment requests. Use <a>AcceptTransitGatewayVpcAttachment</a>
+        /// to accept a VPC attachment request.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RejectTransitGatewayVpcAttachment service method.</param>
+        /// 
+        /// <returns>The response from the RejectTransitGatewayVpcAttachment service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayVpcAttachment">REST API Reference for RejectTransitGatewayVpcAttachment Operation</seealso>
+        RejectTransitGatewayVpcAttachmentResponse RejectTransitGatewayVpcAttachment(RejectTransitGatewayVpcAttachmentRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RejectTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RejectTransitGatewayVpcAttachment operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRejectTransitGatewayVpcAttachment
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayVpcAttachment">REST API Reference for RejectTransitGatewayVpcAttachment Operation</seealso>
+        IAsyncResult BeginRejectTransitGatewayVpcAttachment(RejectTransitGatewayVpcAttachmentRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RejectTransitGatewayVpcAttachment operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRejectTransitGatewayVpcAttachment.</param>
+        /// 
+        /// <returns>Returns a  RejectTransitGatewayVpcAttachmentResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RejectTransitGatewayVpcAttachment">REST API Reference for RejectTransitGatewayVpcAttachment Operation</seealso>
+        RejectTransitGatewayVpcAttachmentResponse EndRejectTransitGatewayVpcAttachment(IAsyncResult asyncResult);
 
         #endregion
         
@@ -12694,18 +18411,18 @@ namespace Amazon.EC2
         /// When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand
         /// billing is stopped and the host goes into <code>released</code> state. The host ID
         /// of Dedicated Hosts that have been released can no longer be specified in another request,
-        /// e.g., ModifyHosts. You must stop or terminate all instances on a host before it can
-        /// be released.
+        /// for example, to modify the host. You must stop or terminate all instances on a host
+        /// before it can be released.
         /// 
         ///  
         /// <para>
-        /// When Dedicated Hosts are released, it make take some time for them to stop counting
+        /// When Dedicated Hosts are released, it may take some time for them to stop counting
         /// toward your limit and you may receive capacity errors when trying to allocate new
-        /// Dedicated hosts. Try waiting a few minutes, and then try again.
+        /// Dedicated Hosts. Wait a few minutes and then try again.
         /// </para>
         ///  
         /// <para>
-        /// Released hosts will still appear in a <a>DescribeHosts</a> response.
+        /// Released hosts still appear in a <a>DescribeHosts</a> response.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ReleaseHosts service method.</param>
@@ -12794,8 +18511,8 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Changes which network ACL a subnet is associated with. By default when you create
-        /// a subnet, it's automatically associated with the default network ACL. For more information
-        /// about network ACLs, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html">Network
+        /// a subnet, it's automatically associated with the default network ACL. For more information,
+        /// see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_ACLs.html">Network
         /// ACLs</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// 
         ///  
@@ -12841,8 +18558,7 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Replaces an entry (rule) in a network ACL. For more information about network ACLs,
-        /// see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html">Network
+        /// Replaces an entry (rule) in a network ACL. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_ACLs.html">Network
         /// ACLs</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ReplaceNetworkAclEntry service method.</param>
@@ -12884,12 +18600,13 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Replaces an existing route within a route table in a VPC. You must provide only one
-        /// of the following: Internet gateway or virtual private gateway, NAT instance, NAT gateway,
-        /// VPC peering connection, network interface, or egress-only Internet gateway.
+        /// of the following: internet gateway, virtual private gateway, NAT instance, NAT gateway,
+        /// VPC peering connection, network interface, egress-only internet gateway, or transit
+        /// gateway.
         /// 
         ///  
         /// <para>
-        /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -12931,16 +18648,17 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Changes the route table associated with a given subnet in a VPC. After the operation
-        /// completes, the subnet uses the routes in the new route table it's associated with.
-        /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+        /// Changes the route table associated with a given subnet, internet gateway, or virtual
+        /// private gateway in a VPC. After the operation completes, the subnet or gateway uses
+        /// the routes in the new route table. For more information about route tables, see <a
+        /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
         /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// 
         ///  
         /// <para>
-        /// You can also use ReplaceRouteTableAssociation to change which table is the main route
-        /// table in the VPC. You just specify the main route table's association ID and the route
-        /// table to be the new main route table.
+        /// You can also use this operation to change which table is the main route table in the
+        /// VPC. Specify the main route table's association ID and the route table ID of the new
+        /// main route table.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ReplaceRouteTableAssociation service method.</param>
@@ -12974,6 +18692,46 @@ namespace Amazon.EC2
         /// <returns>Returns a  ReplaceRouteTableAssociationResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceRouteTableAssociation">REST API Reference for ReplaceRouteTableAssociation Operation</seealso>
         ReplaceRouteTableAssociationResponse EndReplaceRouteTableAssociation(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ReplaceTransitGatewayRoute
+
+
+        /// <summary>
+        /// Replaces the specified route in the specified transit gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ReplaceTransitGatewayRoute service method.</param>
+        /// 
+        /// <returns>The response from the ReplaceTransitGatewayRoute service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceTransitGatewayRoute">REST API Reference for ReplaceTransitGatewayRoute Operation</seealso>
+        ReplaceTransitGatewayRouteResponse ReplaceTransitGatewayRoute(ReplaceTransitGatewayRouteRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ReplaceTransitGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ReplaceTransitGatewayRoute operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndReplaceTransitGatewayRoute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceTransitGatewayRoute">REST API Reference for ReplaceTransitGatewayRoute Operation</seealso>
+        IAsyncResult BeginReplaceTransitGatewayRoute(ReplaceTransitGatewayRouteRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ReplaceTransitGatewayRoute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginReplaceTransitGatewayRoute.</param>
+        /// 
+        /// <returns>Returns a  ReplaceTransitGatewayRouteResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ReplaceTransitGatewayRoute">REST API Reference for ReplaceTransitGatewayRoute Operation</seealso>
+        ReplaceTransitGatewayRouteResponse EndReplaceTransitGatewayRoute(IAsyncResult asyncResult);
 
         #endregion
         
@@ -13034,14 +18792,20 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
+        /// The Spot Fleet request specifies the total target capacity and the On-Demand target
+        /// capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand
+        /// capacity, and launches the difference as Spot capacity.
+        /// </para>
+        ///  
+        /// <para>
         /// You can submit a single request that includes multiple launch specifications that
         /// vary by instance type, AMI, Availability Zone, or subnet.
         /// </para>
         ///  
         /// <para>
-        /// By default, the Spot Fleet requests Spot Instances in the Spot pool where the price
-        /// per unit is the lowest. Each launch specification can include its own instance weighting
-        /// that reflects the value of the instance type to your application workload.
+        /// By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where
+        /// the price per unit is the lowest. Each launch specification can include its own instance
+        /// weighting that reflects the value of the instance type to your application workload.
         /// </para>
         ///  
         /// <para>
@@ -13052,13 +18816,14 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// You can specify tags for the Spot Instances. You cannot tag other resource types in
-        /// a Spot Fleet request; only the <code>instance</code> resource type is supported.
+        /// You can specify tags for the Spot Fleet request and instances launched by the fleet.
+        /// You cannot tag other resource types in a Spot Fleet request because only the <code>spot-fleet-request</code>
+        /// and <code>instance</code> resource types are supported.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html">Spot
-        /// Fleet Requests</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html">Spot
+        /// Fleet Requests</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RequestSpotFleet service method.</param>
@@ -13099,10 +18864,13 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Creates a Spot Instance request. Spot Instances are instances that Amazon EC2 launches
-        /// when the maximum price that you specify exceeds the current Spot price. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html">Spot
-        /// Instance Requests</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Creates a Spot Instance request.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html">Spot
+        /// Instance Requests</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RequestSpotInstances service method.</param>
         /// 
@@ -13135,6 +18903,55 @@ namespace Amazon.EC2
         /// <returns>Returns a  RequestSpotInstancesResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RequestSpotInstances">REST API Reference for RequestSpotInstances Operation</seealso>
         RequestSpotInstancesResponse EndRequestSpotInstances(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ResetEbsDefaultKmsKeyId
+
+
+        /// <summary>
+        /// Resets the default customer master key (CMK) for EBS encryption for your account in
+        /// this Region to the AWS managed CMK for EBS.
+        /// 
+        ///  
+        /// <para>
+        /// After resetting the default CMK to the AWS managed CMK, you can continue to encrypt
+        /// by a customer managed CMK by specifying it when you create the volume. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ResetEbsDefaultKmsKeyId service method.</param>
+        /// 
+        /// <returns>The response from the ResetEbsDefaultKmsKeyId service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ResetEbsDefaultKmsKeyId">REST API Reference for ResetEbsDefaultKmsKeyId Operation</seealso>
+        ResetEbsDefaultKmsKeyIdResponse ResetEbsDefaultKmsKeyId(ResetEbsDefaultKmsKeyIdRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ResetEbsDefaultKmsKeyId operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ResetEbsDefaultKmsKeyId operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndResetEbsDefaultKmsKeyId
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ResetEbsDefaultKmsKeyId">REST API Reference for ResetEbsDefaultKmsKeyId Operation</seealso>
+        IAsyncResult BeginResetEbsDefaultKmsKeyId(ResetEbsDefaultKmsKeyIdRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ResetEbsDefaultKmsKeyId operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginResetEbsDefaultKmsKeyId.</param>
+        /// 
+        /// <returns>Returns a  ResetEbsDefaultKmsKeyIdResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/ResetEbsDefaultKmsKeyId">REST API Reference for ResetEbsDefaultKmsKeyId Operation</seealso>
+        ResetEbsDefaultKmsKeyIdResponse EndResetEbsDefaultKmsKeyId(IAsyncResult asyncResult);
 
         #endregion
         
@@ -13238,7 +19055,7 @@ namespace Amazon.EC2
         /// The <code>sourceDestCheck</code> attribute controls whether source/destination checking
         /// is enabled. The default value is <code>true</code>, which means checking is enabled.
         /// This value must be <code>false</code> for a NAT instance to perform NAT. For more
-        /// information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html">NAT
+        /// information, see <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html">NAT
         /// Instances</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -13324,7 +19141,7 @@ namespace Amazon.EC2
         /// 
         ///  
         /// <para>
-        /// For more information on modifying snapshot permissions, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
+        /// For more information about modifying snapshot permissions, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
         /// Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -13405,12 +19222,52 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  RevokeClientVpnIngress
+
+
+        /// <summary>
+        /// Removes an ingress authorization rule from a Client VPN endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RevokeClientVpnIngress service method.</param>
+        /// 
+        /// <returns>The response from the RevokeClientVpnIngress service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RevokeClientVpnIngress">REST API Reference for RevokeClientVpnIngress Operation</seealso>
+        RevokeClientVpnIngressResponse RevokeClientVpnIngress(RevokeClientVpnIngressRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RevokeClientVpnIngress operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RevokeClientVpnIngress operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRevokeClientVpnIngress
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RevokeClientVpnIngress">REST API Reference for RevokeClientVpnIngress Operation</seealso>
+        IAsyncResult BeginRevokeClientVpnIngress(RevokeClientVpnIngressRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RevokeClientVpnIngress operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRevokeClientVpnIngress.</param>
+        /// 
+        /// <returns>Returns a  RevokeClientVpnIngressResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/RevokeClientVpnIngress">REST API Reference for RevokeClientVpnIngress Operation</seealso>
+        RevokeClientVpnIngressResponse EndRevokeClientVpnIngress(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  RevokeSecurityGroupEgress
 
 
         /// <summary>
-        /// [EC2-VPC only] Removes one or more egress rules from a security group for EC2-VPC.
-        /// This action doesn't apply to security groups for use in EC2-Classic. To remove a rule,
+        /// [VPC only] Removes the specified egress rules from a security group for EC2-VPC. This
+        /// action doesn't apply to security groups for use in EC2-Classic. To remove a rule,
         /// the values that you specify (for example, ports) must match the existing rule's values
         /// exactly.
         /// 
@@ -13466,14 +19323,14 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// Removes one or more ingress rules from a security group. To remove a rule, the values
+        /// Removes the specified ingress rules from a security group. To remove a rule, the values
         /// that you specify (for example, ports) must match the existing rule's values exactly.
         /// 
         ///  <note> 
         /// <para>
-        /// [EC2-Classic security groups only] If the values you specify do not match the existing
-        /// rule's values, no error is returned. Use <a>DescribeSecurityGroups</a> to verify that
-        /// the rule has been removed.
+        /// [EC2-Classic only] If the values you specify do not match the existing rule's values,
+        /// no error is returned. Use <a>DescribeSecurityGroups</a> to verify that the rule has
+        /// been removed.
         /// </para>
         ///  </note> 
         /// <para>
@@ -13549,7 +19406,7 @@ namespace Amazon.EC2
         /// <para>
         /// Some instance types must be launched into a VPC. If you do not have a default VPC,
         /// or if you do not specify a subnet ID, the request fails. For more information, see
-        /// <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html#vpc-only-instance-types">Instance
+        /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html#vpc-only-instance-types">Instance
         /// Types Available Only in a VPC</a>.
         /// </para>
         ///  </li> <li> 
@@ -13559,13 +19416,13 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Not all instance types support IPv6 addresses. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+        /// Not all instance types support IPv6 addresses. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
         /// Types</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If you don't specify a security group ID, we use the default security group. For more
-        /// information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Security
+        /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Security
         /// Groups</a>.
         /// </para>
         ///  </li> <li> 
@@ -13575,7 +19432,7 @@ namespace Amazon.EC2
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// You can create a <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">launch
+        /// You can create a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">launch
         /// template</a>, which is a resource that contains the parameters to launch an instance.
         /// When you launch an instance using <a>RunInstances</a>, you can specify the launch
         /// template instead of specifying the launch parameters.
@@ -13591,20 +19448,20 @@ namespace Amazon.EC2
         /// An instance is ready for you to use when it's in the <code>running</code> state. You
         /// can check the state of your instance using <a>DescribeInstances</a>. You can tag instances
         /// and EBS volumes during launch, after launch, or both. For more information, see <a>CreateTags</a>
-        /// and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+        /// and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
         /// Your Amazon EC2 Resources</a>.
         /// </para>
         ///  
         /// <para>
         /// Linux instances have access to the public key of the key pair at boot. You can use
         /// this key to provide secure access to the instance. Amazon EC2 public images use this
-        /// feature to provide secure access without passwords. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+        /// feature to provide secure access without passwords. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
         /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For troubleshooting, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_InstanceStraightToTerminated.html">What
-        /// To Do If An Instance Immediately Terminates</a>, and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html">Troubleshooting
+        /// For troubleshooting, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_InstanceStraightToTerminated.html">What
+        /// To Do If An Instance Immediately Terminates</a>, and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html">Troubleshooting
         /// Connecting to Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -13658,7 +19515,7 @@ namespace Amazon.EC2
         /// You must launch a Scheduled Instance during its scheduled time period. You can't stop
         /// or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate
         /// a Scheduled Instance before the current scheduled time period ends, you can launch
-        /// it again after a few minutes. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html">Scheduled
+        /// it again after a few minutes. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html">Scheduled
         /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -13696,6 +19553,190 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  SearchLocalGatewayRoutes
+
+
+        /// <summary>
+        /// Searches for routes in the specified local gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SearchLocalGatewayRoutes service method.</param>
+        /// 
+        /// <returns>The response from the SearchLocalGatewayRoutes service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchLocalGatewayRoutes">REST API Reference for SearchLocalGatewayRoutes Operation</seealso>
+        SearchLocalGatewayRoutesResponse SearchLocalGatewayRoutes(SearchLocalGatewayRoutesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SearchLocalGatewayRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SearchLocalGatewayRoutes operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSearchLocalGatewayRoutes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchLocalGatewayRoutes">REST API Reference for SearchLocalGatewayRoutes Operation</seealso>
+        IAsyncResult BeginSearchLocalGatewayRoutes(SearchLocalGatewayRoutesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SearchLocalGatewayRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSearchLocalGatewayRoutes.</param>
+        /// 
+        /// <returns>Returns a  SearchLocalGatewayRoutesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchLocalGatewayRoutes">REST API Reference for SearchLocalGatewayRoutes Operation</seealso>
+        SearchLocalGatewayRoutesResponse EndSearchLocalGatewayRoutes(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  SearchTransitGatewayMulticastGroups
+
+
+        /// <summary>
+        /// Searches one or more transit gateway multicast groups and returns the group membership
+        /// information.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SearchTransitGatewayMulticastGroups service method.</param>
+        /// 
+        /// <returns>The response from the SearchTransitGatewayMulticastGroups service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayMulticastGroups">REST API Reference for SearchTransitGatewayMulticastGroups Operation</seealso>
+        SearchTransitGatewayMulticastGroupsResponse SearchTransitGatewayMulticastGroups(SearchTransitGatewayMulticastGroupsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SearchTransitGatewayMulticastGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SearchTransitGatewayMulticastGroups operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSearchTransitGatewayMulticastGroups
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayMulticastGroups">REST API Reference for SearchTransitGatewayMulticastGroups Operation</seealso>
+        IAsyncResult BeginSearchTransitGatewayMulticastGroups(SearchTransitGatewayMulticastGroupsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SearchTransitGatewayMulticastGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSearchTransitGatewayMulticastGroups.</param>
+        /// 
+        /// <returns>Returns a  SearchTransitGatewayMulticastGroupsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayMulticastGroups">REST API Reference for SearchTransitGatewayMulticastGroups Operation</seealso>
+        SearchTransitGatewayMulticastGroupsResponse EndSearchTransitGatewayMulticastGroups(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  SearchTransitGatewayRoutes
+
+
+        /// <summary>
+        /// Searches for routes in the specified transit gateway route table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SearchTransitGatewayRoutes service method.</param>
+        /// 
+        /// <returns>The response from the SearchTransitGatewayRoutes service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayRoutes">REST API Reference for SearchTransitGatewayRoutes Operation</seealso>
+        SearchTransitGatewayRoutesResponse SearchTransitGatewayRoutes(SearchTransitGatewayRoutesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SearchTransitGatewayRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SearchTransitGatewayRoutes operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSearchTransitGatewayRoutes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayRoutes">REST API Reference for SearchTransitGatewayRoutes Operation</seealso>
+        IAsyncResult BeginSearchTransitGatewayRoutes(SearchTransitGatewayRoutesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SearchTransitGatewayRoutes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSearchTransitGatewayRoutes.</param>
+        /// 
+        /// <returns>Returns a  SearchTransitGatewayRoutesResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SearchTransitGatewayRoutes">REST API Reference for SearchTransitGatewayRoutes Operation</seealso>
+        SearchTransitGatewayRoutesResponse EndSearchTransitGatewayRoutes(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  SendDiagnosticInterrupt
+
+
+        /// <summary>
+        /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a <i>kernel
+        /// panic</i> (on Linux instances), or a <i>blue screen</i>/<i>stop error</i> (on Windows
+        /// instances). For instances based on Intel and AMD processors, the interrupt is received
+        /// as a <i>non-maskable interrupt</i> (NMI).
+        /// 
+        ///  
+        /// <para>
+        /// In general, the operating system crashes and reboots when a kernel panic or stop error
+        /// is triggered. The operating system can also be configured to perform diagnostic tasks,
+        /// such as generating a memory dump file, loading a secondary kernel, or obtaining a
+        /// call trace.
+        /// </para>
+        ///  
+        /// <para>
+        /// Before sending a diagnostic interrupt to your instance, ensure that its operating
+        /// system is configured to perform the required diagnostic tasks.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about configuring your operating system to generate a crash dump
+        /// when a kernel panic or stop error occurs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/diagnostic-interrupt.html">Send
+        /// a Diagnostic Interrupt</a> (Linux instances) or <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/diagnostic-interrupt.html">Send
+        /// a Diagnostic Interrupt</a> (Windows instances).
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SendDiagnosticInterrupt service method.</param>
+        /// 
+        /// <returns>The response from the SendDiagnosticInterrupt service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SendDiagnosticInterrupt">REST API Reference for SendDiagnosticInterrupt Operation</seealso>
+        SendDiagnosticInterruptResponse SendDiagnosticInterrupt(SendDiagnosticInterruptRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SendDiagnosticInterrupt operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SendDiagnosticInterrupt operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSendDiagnosticInterrupt
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SendDiagnosticInterrupt">REST API Reference for SendDiagnosticInterrupt Operation</seealso>
+        IAsyncResult BeginSendDiagnosticInterrupt(SendDiagnosticInterruptRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SendDiagnosticInterrupt operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSendDiagnosticInterrupt.</param>
+        /// 
+        /// <returns>Returns a  SendDiagnosticInterruptResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/SendDiagnosticInterrupt">REST API Reference for SendDiagnosticInterrupt Operation</seealso>
+        SendDiagnosticInterruptResponse EndSendDiagnosticInterrupt(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartInstances
 
 
@@ -13727,7 +19768,7 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">Stopping
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">Stopping
         /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -13765,12 +19806,72 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  StartVpcEndpointServicePrivateDnsVerification
+
+
+        /// <summary>
+        /// Initiates the verification process to prove that the service provider owns the private
+        /// DNS name domain for the endpoint service.
+        /// 
+        ///  
+        /// <para>
+        /// The service provider must successfully perform the verification before the consumer
+        /// can use the name to access the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// Before the service provider runs this command, they must add a record to the DNS server.
+        /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/ndpoint-services-dns-validation.html#add-dns-txt-record">Adding
+        /// a TXT Record to Your Domain's DNS Server </a> in the <i>Amazon VPC User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartVpcEndpointServicePrivateDnsVerification service method.</param>
+        /// 
+        /// <returns>The response from the StartVpcEndpointServicePrivateDnsVerification service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/StartVpcEndpointServicePrivateDnsVerification">REST API Reference for StartVpcEndpointServicePrivateDnsVerification Operation</seealso>
+        StartVpcEndpointServicePrivateDnsVerificationResponse StartVpcEndpointServicePrivateDnsVerification(StartVpcEndpointServicePrivateDnsVerificationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartVpcEndpointServicePrivateDnsVerification operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartVpcEndpointServicePrivateDnsVerification operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartVpcEndpointServicePrivateDnsVerification
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/StartVpcEndpointServicePrivateDnsVerification">REST API Reference for StartVpcEndpointServicePrivateDnsVerification Operation</seealso>
+        IAsyncResult BeginStartVpcEndpointServicePrivateDnsVerification(StartVpcEndpointServicePrivateDnsVerificationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartVpcEndpointServicePrivateDnsVerification operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartVpcEndpointServicePrivateDnsVerification.</param>
+        /// 
+        /// <returns>Returns a  StartVpcEndpointServicePrivateDnsVerificationResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/StartVpcEndpointServicePrivateDnsVerification">REST API Reference for StartVpcEndpointServicePrivateDnsVerification Operation</seealso>
+        StartVpcEndpointServicePrivateDnsVerificationResponse EndStartVpcEndpointServicePrivateDnsVerification(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StopInstances
 
 
         /// <summary>
         /// Stops an Amazon EBS-backed instance.
         /// 
+        ///  
+        /// <para>
+        /// You can use the Stop action to hibernate an instance if the instance is <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#enabling-hibernation">enabled
+        /// for hibernation</a> and it meets the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#hibernating-prerequisites">hibernation
+        /// prerequisites</a>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
+        /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
         ///  
         /// <para>
         /// We don't charge usage for a stopped instance, or data transfer fees; however, your
@@ -13784,28 +19885,34 @@ namespace Amazon.EC2
         /// </para>
         ///  
         /// <para>
-        /// You can't start or stop Spot Instances, and you can't stop instance store-backed instances.
+        /// You can't stop or hibernate instance store-backed instances. You can't use the Stop
+        /// action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate
+        /// Spot Instances when they are interrupted. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#hibernate-spot-instances">Hibernating
+        /// Interrupted Spot Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// When you stop an instance, we shut it down. You can restart your instance at any time.
-        /// Before stopping an instance, make sure it is in a state from which it can be restarted.
-        /// Stopping an instance does not preserve data stored in RAM.
+        /// When you stop or hibernate an instance, we shut it down. You can restart your instance
+        /// at any time. Before stopping or hibernating an instance, make sure it is in a state
+        /// from which it can be restarted. Stopping an instance does not preserve data stored
+        /// in RAM, but hibernating an instance does preserve data stored in RAM. If an instance
+        /// cannot hibernate successfully, a normal shutdown occurs.
         /// </para>
         ///  
         /// <para>
-        /// Stopping an instance is different to rebooting or terminating it. For example, when
-        /// you stop an instance, the root device and any other devices attached to the instance
-        /// persist. When you terminate an instance, the root device and any other devices attached
-        /// during the instance launch are automatically deleted. For more information about the
-        /// differences between rebooting, stopping, and terminating instances, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
+        /// Stopping and hibernating an instance is different to rebooting or terminating it.
+        /// For example, when you stop or hibernate an instance, the root device and any other
+        /// devices attached to the instance persist. When you terminate an instance, the root
+        /// device and any other devices attached during the instance launch are automatically
+        /// deleted. For more information about the differences between rebooting, stopping, hibernating,
+        /// and terminating instances, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
         /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// When you stop an instance, we attempt to shut it down forcibly after a short while.
         /// If your instance appears stuck in the stopping state after a period of time, there
-        /// may be an issue with the underlying host computer. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html">Troubleshooting
+        /// may be an issue with the underlying host computer. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html">Troubleshooting
         /// Stopping Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -13843,12 +19950,54 @@ namespace Amazon.EC2
 
         #endregion
         
+        #region  TerminateClientVpnConnections
+
+
+        /// <summary>
+        /// Terminates active Client VPN endpoint connections. This action can be used to terminate
+        /// a specific client connection, or up to five connections established by a specific
+        /// user.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TerminateClientVpnConnections service method.</param>
+        /// 
+        /// <returns>The response from the TerminateClientVpnConnections service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TerminateClientVpnConnections">REST API Reference for TerminateClientVpnConnections Operation</seealso>
+        TerminateClientVpnConnectionsResponse TerminateClientVpnConnections(TerminateClientVpnConnectionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TerminateClientVpnConnections operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TerminateClientVpnConnections operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTerminateClientVpnConnections
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TerminateClientVpnConnections">REST API Reference for TerminateClientVpnConnections Operation</seealso>
+        IAsyncResult BeginTerminateClientVpnConnections(TerminateClientVpnConnectionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TerminateClientVpnConnections operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTerminateClientVpnConnections.</param>
+        /// 
+        /// <returns>Returns a  TerminateClientVpnConnectionsResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/TerminateClientVpnConnections">REST API Reference for TerminateClientVpnConnections Operation</seealso>
+        TerminateClientVpnConnectionsResponse EndTerminateClientVpnConnections(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  TerminateInstances
 
 
         /// <summary>
-        /// Shuts down one or more instances. This operation is idempotent; if you terminate an
-        /// instance more than once, each call succeeds. 
+        /// Shuts down the specified instances. This operation is idempotent; if you terminate
+        /// an instance more than once, each call succeeds. 
         /// 
         ///  
         /// <para>
@@ -13872,12 +20021,12 @@ namespace Amazon.EC2
         /// attached to the instance persist. When you terminate an instance, any attached EBS
         /// volumes with the <code>DeleteOnTermination</code> block device mapping parameter set
         /// to <code>true</code> are automatically deleted. For more information about the differences
-        /// between stopping and terminating instances, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
+        /// between stopping and terminating instances, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
         /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information about troubleshooting, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesShuttingDown.html">Troubleshooting
+        /// For more information about troubleshooting, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesShuttingDown.html">Troubleshooting
         /// Terminating Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -14000,7 +20149,7 @@ namespace Amazon.EC2
 
         /// <summary>
         /// Disables detailed monitoring for a running instance. For more information, see <a
-        /// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
+        /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
         /// Your Instances and Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UnmonitorInstances service method.</param>
@@ -14041,9 +20190,9 @@ namespace Amazon.EC2
 
 
         /// <summary>
-        /// [EC2-VPC only] Updates the description of an egress (outbound) security group rule.
-        /// You can replace an existing description, or add a description to a rule that did not
-        /// have one previously.
+        /// [VPC only] Updates the description of an egress (outbound) security group rule. You
+        /// can replace an existing description, or add a description to a rule that did not have
+        /// one previously.
         /// 
         ///  
         /// <para>
@@ -14131,6 +20280,57 @@ namespace Amazon.EC2
         /// <returns>Returns a  UpdateSecurityGroupRuleDescriptionsIngressResult from EC2.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/UpdateSecurityGroupRuleDescriptionsIngress">REST API Reference for UpdateSecurityGroupRuleDescriptionsIngress Operation</seealso>
         UpdateSecurityGroupRuleDescriptionsIngressResponse EndUpdateSecurityGroupRuleDescriptionsIngress(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  WithdrawByoipCidr
+
+
+        /// <summary>
+        /// Stops advertising an address range that is provisioned as an address pool.
+        /// 
+        ///  
+        /// <para>
+        /// You can perform this operation at most once every 10 seconds, even if you specify
+        /// different address ranges each time.
+        /// </para>
+        ///  
+        /// <para>
+        /// It can take a few minutes before traffic to the specified addresses stops routing
+        /// to AWS because of BGP propagation delays.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the WithdrawByoipCidr service method.</param>
+        /// 
+        /// <returns>The response from the WithdrawByoipCidr service method, as returned by EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/WithdrawByoipCidr">REST API Reference for WithdrawByoipCidr Operation</seealso>
+        WithdrawByoipCidrResponse WithdrawByoipCidr(WithdrawByoipCidrRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the WithdrawByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the WithdrawByoipCidr operation on AmazonEC2Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndWithdrawByoipCidr
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/WithdrawByoipCidr">REST API Reference for WithdrawByoipCidr Operation</seealso>
+        IAsyncResult BeginWithdrawByoipCidr(WithdrawByoipCidrRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  WithdrawByoipCidr operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginWithdrawByoipCidr.</param>
+        /// 
+        /// <returns>Returns a  WithdrawByoipCidrResult from EC2.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ec2-2016-11-15/WithdrawByoipCidr">REST API Reference for WithdrawByoipCidr Operation</seealso>
+        WithdrawByoipCidrResponse EndWithdrawByoipCidr(IAsyncResult asyncResult);
 
         #endregion
         

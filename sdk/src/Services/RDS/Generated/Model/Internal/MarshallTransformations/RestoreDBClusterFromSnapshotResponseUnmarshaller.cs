@@ -108,6 +108,10 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
             {
                 return new DBClusterAlreadyExistsException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("DBClusterParameterGroupNotFound"))
+            {
+                return new DBClusterParameterGroupNotFoundException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
             if (errorResponse.Code != null && errorResponse.Code.Equals("DBClusterQuotaExceededFault"))
             {
                 return new DBClusterQuotaExceededException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
@@ -127,6 +131,10 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
             if (errorResponse.Code != null && errorResponse.Code.Equals("DBSubnetGroupNotFoundFault"))
             {
                 return new DBSubnetGroupNotFoundException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("DomainNotFoundFault"))
+            {
+                return new DomainNotFoundException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             if (errorResponse.Code != null && errorResponse.Code.Equals("InsufficientDBClusterCapacityFault"))
             {

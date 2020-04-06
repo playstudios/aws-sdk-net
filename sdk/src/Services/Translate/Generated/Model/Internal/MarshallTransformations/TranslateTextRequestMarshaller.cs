@@ -58,10 +58,11 @@ namespace Amazon.Translate.Model.Internal.MarshallTransformations
             string target = "AWSShineFrontendService_20170701.TranslateText";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -77,6 +78,17 @@ namespace Amazon.Translate.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("TargetLanguageCode");
                     context.Writer.Write(publicRequest.TargetLanguageCode);
+                }
+
+                if(publicRequest.IsSetTerminologyNames())
+                {
+                    context.Writer.WritePropertyName("TerminologyNames");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTerminologyNamesListValue in publicRequest.TerminologyNames)
+                    {
+                            context.Writer.Write(publicRequestTerminologyNamesListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetText())

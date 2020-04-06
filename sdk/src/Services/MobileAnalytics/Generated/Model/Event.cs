@@ -36,7 +36,7 @@ namespace Amazon.MobileAnalytics.Model
         private string _eventType;
         private Dictionary<string, double> _metrics = new Dictionary<string, double>();
         private Session _session;
-        private DateTime? _timestamp;
+        private DateTime? _timestampUtc;
         private string _version;
 
         /// <summary>
@@ -50,6 +50,7 @@ namespace Amazon.MobileAnalytics.Model
         /// This collection can be empty or the attribute object can be omitted.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public Dictionary<string, string> Attributes
         {
             get { return this._attributes; }
@@ -69,6 +70,7 @@ namespace Amazon.MobileAnalytics.Model
         /// aggregating like events together for reporting purposes.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string EventType
         {
             get { return this._eventType; }
@@ -92,6 +94,7 @@ namespace Amazon.MobileAnalytics.Model
         /// This collection can be empty or the attribute object can be omitted.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public Dictionary<string, double> Metrics
         {
             get { return this._metrics; }
@@ -123,21 +126,22 @@ namespace Amazon.MobileAnalytics.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Timestamp. 
+        /// Gets and sets the property TimestampUtc. 
         /// <para>
         /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         /// </para>
         /// </summary>
-        public DateTime Timestamp
+        [AWSProperty(Required=true)]
+        public DateTime TimestampUtc
         {
-            get { return this._timestamp.GetValueOrDefault(); }
-            set { this._timestamp = value; }
+            get { return this._timestampUtc.GetValueOrDefault(); }
+            set { this._timestamp = this._timestampUtc = value; }
         }
 
-        // Check to see if Timestamp property is set
-        internal bool IsSetTimestamp()
+        // Check to see if TimestampUtc property is set
+        internal bool IsSetTimestampUtc()
         {
-            return this._timestamp.HasValue; 
+            return this._timestampUtc.HasValue; 
         }
 
         /// <summary>
@@ -146,6 +150,7 @@ namespace Amazon.MobileAnalytics.Model
         /// The version of the event.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public string Version
         {
             get { return this._version; }
@@ -158,5 +163,38 @@ namespace Amazon.MobileAnalytics.Model
             return this._version != null;
         }
 
+#region Backwards compatible properties
+        private DateTime? _timestamp;
+
+        /// <summary>
+        /// Gets and sets the property TimestampUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use TimestampUtc instead. Setting either Timestamp or
+        /// TimestampUtc results in both Timestamp and TimestampUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. Timestamp
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use TimestampUtc instead. Setting either Timestamp or TimestampUtc results in both Timestamp and " +
+            "TimestampUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. Timestamp is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime Timestamp
+        {
+            get { return this._timestamp.GetValueOrDefault(); }
+            set
+            {
+                this._timestamp = value;
+                this._timestampUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+#endregion
     }
 }

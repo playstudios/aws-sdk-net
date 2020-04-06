@@ -29,18 +29,20 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribePlacementGroups operation.
-    /// Describes one or more of your placement groups. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
+    /// Describes the specified placement groups or all of your placement groups. For more
+    /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
     /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </summary>
     public partial class DescribePlacementGroupsRequest : AmazonEC2Request
     {
         private List<Filter> _filters = new List<Filter>();
+        private List<string> _groupIds = new List<string>();
         private List<string> _groupNames = new List<string>();
 
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -54,7 +56,7 @@ namespace Amazon.EC2.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>strategy</code> - The strategy of the placement group (<code>cluster</code>
-        /// | <code>spread</code>).
+        /// | <code>spread</code> | <code>partition</code>).
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -71,9 +73,27 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property GroupIds. 
+        /// <para>
+        /// The IDs of the placement groups.
+        /// </para>
+        /// </summary>
+        public List<string> GroupIds
+        {
+            get { return this._groupIds; }
+            set { this._groupIds = value; }
+        }
+
+        // Check to see if GroupIds property is set
+        internal bool IsSetGroupIds()
+        {
+            return this._groupIds != null && this._groupIds.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property GroupNames. 
         /// <para>
-        /// One or more placement group names.
+        /// The names of the placement groups.
         /// </para>
         ///  
         /// <para>

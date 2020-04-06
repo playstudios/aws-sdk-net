@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudDirectory.Model
 {
     /// <summary>
-    /// A facet attribute definition. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
+    /// A facet attribute definition. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
     /// References</a> for more information.
     /// </summary>
     public partial class FacetAttributeDefinition
@@ -98,6 +98,7 @@ namespace Amazon.CloudDirectory.Model
         /// The type of the attribute.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FacetAttributeType Type
         {
             get { return this._type; }

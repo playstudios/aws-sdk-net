@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AppStream.Model
 {
     /// <summary>
-    /// Configuration information for the directory used to join domains.
+    /// Describes the configuration information required to join fleets and image builders
+    /// to Microsoft Active Directory domains.
     /// </summary>
     public partial class DirectoryConfig
     {
@@ -61,6 +62,7 @@ namespace Amazon.AppStream.Model
         /// The fully qualified name of the directory (for example, corp.example.com).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryName
         {
             get { return this._directoryName; }
@@ -94,7 +96,7 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property ServiceAccountCredentials. 
         /// <para>
-        /// The credentials for the service account used by the streaming instance to connect
+        /// The credentials for the service account used by the fleet or image builder to connect
         /// to the directory.
         /// </para>
         /// </summary>

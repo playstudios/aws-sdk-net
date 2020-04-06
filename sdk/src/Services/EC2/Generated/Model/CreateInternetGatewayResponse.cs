@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of CreateInternetGateway.
+    /// This is the response object from the CreateInternetGateway operation.
     /// </summary>
     public partial class CreateInternetGatewayResponse : AmazonWebServiceResponse
     {
@@ -37,7 +37,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InternetGateway. 
         /// <para>
-        /// Information about the Internet gateway.
+        /// Information about the internet gateway.
         /// </para>
         /// </summary>
         public InternetGateway InternetGateway

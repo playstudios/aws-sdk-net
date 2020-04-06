@@ -32,12 +32,32 @@ namespace Amazon.Rekognition.Model
     /// </summary>
     public partial class DetectModerationLabelsResponse : AmazonWebServiceResponse
     {
+        private HumanLoopActivationOutput _humanLoopActivationOutput;
         private List<ModerationLabel> _moderationLabels = new List<ModerationLabel>();
+        private string _moderationModelVersion;
+
+        /// <summary>
+        /// Gets and sets the property HumanLoopActivationOutput. 
+        /// <para>
+        /// Shows the results of the human in the loop evaluation.
+        /// </para>
+        /// </summary>
+        public HumanLoopActivationOutput HumanLoopActivationOutput
+        {
+            get { return this._humanLoopActivationOutput; }
+            set { this._humanLoopActivationOutput = value; }
+        }
+
+        // Check to see if HumanLoopActivationOutput property is set
+        internal bool IsSetHumanLoopActivationOutput()
+        {
+            return this._humanLoopActivationOutput != null;
+        }
 
         /// <summary>
         /// Gets and sets the property ModerationLabels. 
         /// <para>
-        /// Array of detected Moderation labels and the time, in millseconds from the start of
+        /// Array of detected Moderation labels and the time, in milliseconds from the start of
         /// the video, they were detected.
         /// </para>
         /// </summary>
@@ -51,6 +71,24 @@ namespace Amazon.Rekognition.Model
         internal bool IsSetModerationLabels()
         {
             return this._moderationLabels != null && this._moderationLabels.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ModerationModelVersion. 
+        /// <para>
+        /// Version number of the moderation detection model that was used to detect unsafe content.
+        /// </para>
+        /// </summary>
+        public string ModerationModelVersion
+        {
+            get { return this._moderationModelVersion; }
+            set { this._moderationModelVersion = value; }
+        }
+
+        // Check to see if ModerationModelVersion property is set
+        internal bool IsSetModerationModelVersion()
+        {
+            return this._moderationModelVersion != null;
         }
 
     }

@@ -29,18 +29,27 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the ListBuilds operation.
-    /// Retrieves build records for all builds associated with the AWS account in use. You
+    /// Retrieves build resources for all builds associated with the AWS account in use. You
     /// can limit results to builds that are in a specific status by using the <code>Status</code>
     /// parameter. Use the pagination parameters to retrieve results in a set of sequential
     /// pages. 
     /// 
     ///  <note> 
     /// <para>
-    /// Build records are not listed in any particular order.
+    /// Build resources are not listed in any particular order.
     /// </para>
     ///  </note> 
     /// <para>
-    /// Build-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-intro.html">
+    /// Upload a Custom Server Build</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -73,10 +82,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -97,6 +107,7 @@ namespace Amazon.GameLift.Model
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }

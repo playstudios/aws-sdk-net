@@ -33,7 +33,7 @@ namespace Amazon.CognitoIdentityProvider.Model
     /// 
     ///  
     /// <para>
-    /// Requires developer credentials.
+    /// Calling this action requires developer credentials.
     /// </para>
     /// </summary>
     public partial class AdminEnableUserRequest : AmazonCognitoIdentityProviderRequest
@@ -47,6 +47,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user name of the user you wish to enable.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Username
         {
             get { return this._username; }
@@ -65,6 +66,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID for the user pool where you want to enable the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }

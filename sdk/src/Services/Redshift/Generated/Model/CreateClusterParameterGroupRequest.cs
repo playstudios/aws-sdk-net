@@ -42,7 +42,7 @@ namespace Amazon.Redshift.Model
     /// <para>
     /// Parameters in the parameter group define specific behavior that applies to the databases
     /// you create on the cluster. For more information about parameters and parameter groups,
-    /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+    /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
     /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
@@ -59,6 +59,7 @@ namespace Amazon.Redshift.Model
         /// A description of the parameter group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Description
         {
             get { return this._description; }
@@ -87,6 +88,7 @@ namespace Amazon.Redshift.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ParameterGroupFamily
         {
             get { return this._parameterGroupFamily; }
@@ -130,6 +132,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ParameterGroupName
         {
             get { return this._parameterGroupName; }

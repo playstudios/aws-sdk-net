@@ -43,6 +43,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Point in time or source backup time.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime RestoreDateTime
         {
             get { return this._restoreDateTime.GetValueOrDefault(); }
@@ -61,6 +62,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Indicates if a restore is in progress or not.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool RestoreInProgress
         {
             get { return this._restoreInProgress.GetValueOrDefault(); }
@@ -76,9 +78,10 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property SourceBackupArn. 
         /// <para>
-        /// ARN of the backup from which the table was restored.
+        /// The Amazon Resource Name (ARN) of the backup from which the table was restored.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=37, Max=1024)]
         public string SourceBackupArn
         {
             get { return this._sourceBackupArn; }
@@ -94,7 +97,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property SourceTableArn. 
         /// <para>
-        /// ARN of the source table of the backup that is being restored.
+        /// The ARN of the source table of the backup that is being restored.
         /// </para>
         /// </summary>
         public string SourceTableArn

@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Placeholder documentation for H264Settings
+    /// H264 Settings
     /// </summary>
     public partial class H264Settings
     {
@@ -38,9 +38,11 @@ namespace Amazon.MediaLive.Model
         private int? _bufFillPct;
         private int? _bufSize;
         private H264ColorMetadata _colorMetadata;
+        private H264ColorSpaceSettings _colorSpaceSettings;
         private H264EntropyEncoding _entropyEncoding;
         private FixedAfd _fixedAfd;
         private H264FlickerAq _flickerAq;
+        private H264ForceFieldPictures _forceFieldPictures;
         private H264FramerateControl _framerateControl;
         private int? _framerateDenominator;
         private int? _framerateNumerator;
@@ -58,12 +60,14 @@ namespace Amazon.MediaLive.Model
         private int? _parDenominator;
         private int? _parNumerator;
         private H264Profile _profile;
+        private int? _qvbrQualityLevel;
         private H264RateControlMode _rateControlMode;
         private H264ScanType _scanType;
         private H264SceneChangeDetect _sceneChangeDetect;
         private int? _slices;
         private int? _softness;
         private H264SpatialAq _spatialAq;
+        private H264SubGopLength _subgopLength;
         private H264Syntax _syntax;
         private H264TemporalAq _temporalAq;
         private H264TimecodeInsertionBehavior _timecodeInsertion;
@@ -103,10 +107,12 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Bitrate. Average bitrate in bits/second. Required for VBR,
-        /// CBR, and ABR. For MS Smooth outputs, bitrates must be unique when rounded down to
-        /// the nearest multiple of 1000.
+        /// Gets and sets the property Bitrate. Average bitrate in bits/second. Required when
+        /// the rate control mode is VBR or CBR. Not used for QVBR. In an MS Smooth output group,
+        /// each output must have a unique value when its bitrate is rounded down to the nearest
+        /// multiple of 1000.
         /// </summary>
+        [AWSProperty(Min=1000)]
         public int Bitrate
         {
             get { return this._bitrate.GetValueOrDefault(); }
@@ -123,6 +129,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property BufFillPct. Percentage of the buffer that should initially
         /// be filled (HRD buffer model).
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int BufFillPct
         {
             get { return this._bufFillPct.GetValueOrDefault(); }
@@ -136,8 +143,9 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property BufSize. Size of buffer (HRD buffer model) in bits/second.
+        /// Gets and sets the property BufSize. Size of buffer (HRD buffer model) in bits.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int BufSize
         {
             get { return this._bufSize.GetValueOrDefault(); }
@@ -163,6 +171,21 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetColorMetadata()
         {
             return this._colorMetadata != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ColorSpaceSettings. Color Space settings
+        /// </summary>
+        public H264ColorSpaceSettings ColorSpaceSettings
+        {
+            get { return this._colorSpaceSettings; }
+            set { this._colorSpaceSettings = value; }
+        }
+
+        // Check to see if ColorSpaceSettings property is set
+        internal bool IsSetColorSpaceSettings()
+        {
+            return this._colorSpaceSettings != null;
         }
 
         /// <summary>
@@ -214,6 +237,26 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ForceFieldPictures. This setting applies only when scan
+        /// type is "interlaced." It controls whether coding is on a field basis or a frame basis.
+        /// (When the video is progressive, the coding is always on a frame basis.)enabled: Always
+        /// code on a field basis, so that odd and even sets of fields are coded separately.disabled:
+        /// Code the two sets of fields separately (on a field basis) or together (on a frame
+        /// basis, using PAFF or MBAFF), depending on what is most appropriate for the content.
+        /// </summary>
+        public H264ForceFieldPictures ForceFieldPictures
+        {
+            get { return this._forceFieldPictures; }
+            set { this._forceFieldPictures = value; }
+        }
+
+        // Check to see if ForceFieldPictures property is set
+        internal bool IsSetForceFieldPictures()
+        {
+            return this._forceFieldPictures != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property FramerateControl. This field indicates how the output video
         /// frame rate is specified.  If "specified" is selected then the output video frame rate
         /// is determined by framerateNumerator and framerateDenominator, else if "initializeFromSource"
@@ -235,6 +278,7 @@ namespace Amazon.MediaLive.Model
         /// <summary>
         /// Gets and sets the property FramerateDenominator. Framerate denominator.
         /// </summary>
+        [AWSProperty(Min=1)]
         public int FramerateDenominator
         {
             get { return this._framerateDenominator.GetValueOrDefault(); }
@@ -251,6 +295,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property FramerateNumerator. Framerate numerator - framerate is
         /// a fraction, e.g. 24000 / 1001 = 23.976 fps.
         /// </summary>
+        [AWSProperty(Min=1)]
         public int FramerateNumerator
         {
             get { return this._framerateNumerator.GetValueOrDefault(); }
@@ -284,6 +329,7 @@ namespace Amazon.MediaLive.Model
         /// will receive an IDR frame as quickly as possible. Setting this value to 0 will break
         /// output segmenting.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int GopClosedCadence
         {
             get { return this._gopClosedCadence.GetValueOrDefault(); }
@@ -299,6 +345,7 @@ namespace Amazon.MediaLive.Model
         /// <summary>
         /// Gets and sets the property GopNumBFrames. Number of B-frames between reference frames.
         /// </summary>
+        [AWSProperty(Min=0, Max=7)]
         public int GopNumBFrames
         {
             get { return this._gopNumBFrames.GetValueOrDefault(); }
@@ -313,7 +360,9 @@ namespace Amazon.MediaLive.Model
 
         /// <summary>
         /// Gets and sets the property GopSize. GOP size (keyframe interval) in units of either
-        /// frames or seconds per gopSizeUnits. Must be greater than zero.
+        /// frames or seconds per gopSizeUnits.If gopSizeUnits is frames, gopSize must be an integer
+        /// and must be greater than or equal to 1.If gopSizeUnits is seconds, gopSize must be
+        /// greater than 0, but need not be an integer.
         /// </summary>
         public double GopSize
         {
@@ -377,9 +426,11 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MaxBitrate. Maximum bitrate in bits/second (for VBR mode
-        /// only).
+        /// Gets and sets the property MaxBitrate. For QVBR: See the tooltip for Quality levelFor
+        /// VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity
+        /// of the video.
         /// </summary>
+        [AWSProperty(Min=1000)]
         public int MaxBitrate
         {
             get { return this._maxBitrate.GetValueOrDefault(); }
@@ -394,13 +445,14 @@ namespace Amazon.MediaLive.Model
 
         /// <summary>
         /// Gets and sets the property MinIInterval. Only meaningful if sceneChangeDetect is set
-        /// to enabled.  Enforces separation between repeated (cadence) I-frames and I-frames
-        /// inserted by Scene Change Detection. If a scene change I-frame is within I-interval
-        /// frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change
-        /// I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The
-        /// normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval
-        /// - 1
+        /// to enabled.  Defaults to 5 if multiplex rate control is used.  Enforces separation
+        /// between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection.
+        /// If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP
+        /// is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling
+        /// lookahead as well as setting I-interval. The normal cadence resumes for the next GOP.
+        /// Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         /// </summary>
+        [AWSProperty(Min=0, Max=30)]
         public int MinIInterval
         {
             get { return this._minIInterval.GetValueOrDefault(); }
@@ -417,6 +469,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property NumRefFrames. Number of reference frames to use. The encoder
         /// may use more than requested if using B-frames and/or interlaced encoding.
         /// </summary>
+        [AWSProperty(Min=1, Max=6)]
         public int NumRefFrames
         {
             get { return this._numRefFrames.GetValueOrDefault(); }
@@ -451,6 +504,7 @@ namespace Amazon.MediaLive.Model
         /// <summary>
         /// Gets and sets the property ParDenominator. Pixel Aspect Ratio denominator.
         /// </summary>
+        [AWSProperty(Min=1)]
         public int ParDenominator
         {
             get { return this._parDenominator.GetValueOrDefault(); }
@@ -494,7 +548,37 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RateControlMode. Rate control mode.
+        /// Gets and sets the property QvbrQualityLevel. Controls the target quality for the video
+        /// encode. Applies only when the rate control mode is QVBR. Set values for the QVBR quality
+        /// level field and Max bitrate field that suit your most important viewing devices. Recommended
+        /// values are:- Primary screen: Quality level: 8 to 10. Max bitrate: 4M- PC or tablet:
+        /// Quality level: 7. Max bitrate: 1.5M to 3M- Smartphone: Quality level: 6. Max bitrate:
+        /// 1M to 1.5M
+        /// </summary>
+        [AWSProperty(Min=1, Max=10)]
+        public int QvbrQualityLevel
+        {
+            get { return this._qvbrQualityLevel.GetValueOrDefault(); }
+            set { this._qvbrQualityLevel = value; }
+        }
+
+        // Check to see if QvbrQualityLevel property is set
+        internal bool IsSetQvbrQualityLevel()
+        {
+            return this._qvbrQualityLevel.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property RateControlMode. Rate control mode.QVBR: Quality will match
+        /// the specified quality level except when it is constrained by themaximum bitrate. 
+        /// Recommended if you or your viewers pay for bandwidth.VBR: Quality and bitrate vary,
+        /// depending on the video complexity. Recommended instead of QVBRif you want to maintain
+        /// a specific average bitrate over the duration of the channel.CBR: Quality varies, depending
+        /// on the video complexity. Recommended only if you distributeyour assets to devices
+        /// that cannot handle variable bitrates.Multiplex: This rate control mode is only supported
+        /// (and is required) when the video is beingdelivered to a MediaLive Multiplex in which
+        /// case the rate control configuration is controlledby the properties within the Multiplex
+        /// Program.
         /// </summary>
         public H264RateControlMode RateControlMode
         {
@@ -525,8 +609,9 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SceneChangeDetect. Scene change detection.  Inserts I-frames
-        /// on scene changes when enabled.
+        /// Gets and sets the property SceneChangeDetect. Scene change detection.- On: inserts
+        /// I-frames when scene change is detected.- Off: does not force an I-frame when scene
+        /// change is detected.
         /// </summary>
         public H264SceneChangeDetect SceneChangeDetect
         {
@@ -547,6 +632,7 @@ namespace Amazon.MediaLive.Model
         /// is optional; when no value is specified the encoder will choose the number of slices
         /// based on encode resolution.
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public int Slices
         {
             get { return this._slices.GetValueOrDefault(); }
@@ -563,6 +649,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property Softness. Softness. Selects quantizer matrix, larger values
         /// reduce high-frequency content in the encoded image.
         /// </summary>
+        [AWSProperty(Min=0, Max=128)]
         public int Softness
         {
             get { return this._softness.GetValueOrDefault(); }
@@ -589,6 +676,23 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetSpatialAq()
         {
             return this._spatialAq != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SubgopLength. If set to fixed, use gopNumBFrames B-frames
+        /// per sub-GOP. If set to dynamic, optimize the number of B-frames used for each sub-GOP
+        /// to improve visual quality.
+        /// </summary>
+        public H264SubGopLength SubgopLength
+        {
+            get { return this._subgopLength; }
+            set { this._subgopLength = value; }
+        }
+
+        // Check to see if SubgopLength property is set
+        internal bool IsSetSubgopLength()
+        {
+            return this._subgopLength != null;
         }
 
         /// <summary>

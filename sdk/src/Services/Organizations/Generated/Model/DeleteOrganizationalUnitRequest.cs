@@ -29,8 +29,8 @@ namespace Amazon.Organizations.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteOrganizationalUnit operation.
-    /// Deletes an organizational unit from a root or another OU. You must first remove all
-    /// accounts and child OUs from the OU that you want to delete.
+    /// Deletes an organizational unit (OU) from a root or another OU. You must first remove
+    /// all accounts and child OUs from the OU that you want to delete.
     /// 
     ///  
     /// <para>
@@ -50,11 +50,12 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an organizational
-        /// unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits
-        /// (the ID of the root that contains the OU) followed by a second "-" dash and from 8
-        /// to 32 additional lower-case letters or digits.
+        /// unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits
+        /// (the ID of the root that contains the OU). This string is followed by a second "-"
+        /// dash and from 8 to 32 additional lowercase letters or digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string OrganizationalUnitId
         {
             get { return this._organizationalUnitId; }

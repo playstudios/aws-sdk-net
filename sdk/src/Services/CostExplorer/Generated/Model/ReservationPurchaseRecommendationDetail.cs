@@ -32,6 +32,7 @@ namespace Amazon.CostExplorer.Model
     /// </summary>
     public partial class ReservationPurchaseRecommendationDetail
     {
+        private string _accountId;
         private string _averageNormalizedUnitsUsedPerHour;
         private string _averageNumberOfInstancesUsedPerHour;
         private string _averageUtilization;
@@ -50,6 +51,24 @@ namespace Amazon.CostExplorer.Model
         private string _recommendedNumberOfInstancesToPurchase;
         private string _recurringStandardMonthlyCost;
         private string _upfrontCost;
+
+        /// <summary>
+        /// Gets and sets the property AccountId. 
+        /// <para>
+        /// The account that this RI recommendation is for.
+        /// </para>
+        /// </summary>
+        public string AccountId
+        {
+            get { return this._accountId; }
+            set { this._accountId = value; }
+        }
+
+        // Check to see if AccountId property is set
+        internal bool IsSetAccountId()
+        {
+            return this._accountId != null;
+        }
 
         /// <summary>
         /// Gets and sets the property AverageNormalizedUnitsUsedPerHour. 
@@ -203,8 +222,8 @@ namespace Amazon.CostExplorer.Model
         /// <summary>
         /// Gets and sets the property EstimatedReservationCostForLookbackPeriod. 
         /// <para>
-        /// How much AWS estimates that you spent on Reserved Instances during the specified historical
-        /// period.
+        /// How much AWS estimates that you would have spent for all usage during the specified
+        /// historical period if you had a reservation.
         /// </para>
         /// </summary>
         public string EstimatedReservationCostForLookbackPeriod
@@ -278,8 +297,8 @@ namespace Amazon.CostExplorer.Model
         /// <summary>
         /// Gets and sets the property MinimumNormalizedUnitsUsedPerHour. 
         /// <para>
-        /// The minimum number of hours that you used in an hour during the historical period.
-        /// AWS uses this to calculate your recommended reservation purchases.
+        /// The minimum number of normalized units that you used in an hour during the historical
+        /// period. AWS uses this to calculate your recommended reservation purchases.
         /// </para>
         /// </summary>
         public string MinimumNormalizedUnitsUsedPerHour

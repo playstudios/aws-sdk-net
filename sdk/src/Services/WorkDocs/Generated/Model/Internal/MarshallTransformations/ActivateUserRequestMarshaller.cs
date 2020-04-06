@@ -55,14 +55,15 @@ namespace Amazon.WorkDocs.Model.Internal.MarshallTransformations
         public IRequest Marshall(ActivateUserRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.WorkDocs");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-05-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/api/v1/users/{UserId}/activation";
             if (!publicRequest.IsSetUserId())
                 throw new AmazonWorkDocsException("Request object does not have required field UserId set");
-            uriResourcePath = uriResourcePath.Replace("{UserId}", StringUtils.FromString(publicRequest.UserId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{UserId}", StringUtils.FromString(publicRequest.UserId));
+            request.ResourcePath = "/api/v1/users/{UserId}/activation";
+            request.MarshallerVersion = 2;
         
             if(publicRequest.IsSetAuthenticationToken())
                 request.Headers["Authentication"] = publicRequest.AuthenticationToken;

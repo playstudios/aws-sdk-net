@@ -58,15 +58,32 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
             string target = "AmazonEC2ContainerServiceV20141113.RunTask";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-13";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCapacityProviderStrategy())
+                {
+                    context.Writer.WritePropertyName("capacityProviderStrategy");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestCapacityProviderStrategyListValue in publicRequest.CapacityProviderStrategy)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = CapacityProviderStrategyItemMarshaller.Instance;
+                        marshaller.Marshall(publicRequestCapacityProviderStrategyListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetCluster())
                 {
                     context.Writer.WritePropertyName("cluster");
@@ -77,6 +94,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("count");
                     context.Writer.Write(publicRequest.Count);
+                }
+
+                if(publicRequest.IsSetEnableECSManagedTags())
+                {
+                    context.Writer.WritePropertyName("enableECSManagedTags");
+                    context.Writer.Write(publicRequest.EnableECSManagedTags);
                 }
 
                 if(publicRequest.IsSetGroup())
@@ -151,10 +174,38 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.PlatformVersion);
                 }
 
+                if(publicRequest.IsSetPropagateTags())
+                {
+                    context.Writer.WritePropertyName("propagateTags");
+                    context.Writer.Write(publicRequest.PropagateTags);
+                }
+
+                if(publicRequest.IsSetReferenceId())
+                {
+                    context.Writer.WritePropertyName("referenceId");
+                    context.Writer.Write(publicRequest.ReferenceId);
+                }
+
                 if(publicRequest.IsSetStartedBy())
                 {
                     context.Writer.WritePropertyName("startedBy");
                     context.Writer.Write(publicRequest.StartedBy);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetTaskDefinition())

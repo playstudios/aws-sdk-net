@@ -55,13 +55,14 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetMasterAccountRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.GuardDuty");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/detector/{detectorId}/master";
             if (!publicRequest.IsSetDetectorId())
                 throw new AmazonGuardDutyException("Request object does not have required field DetectorId set");
-            uriResourcePath = uriResourcePath.Replace("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
+            request.ResourcePath = "/detector/{detectorId}/master";
+            request.MarshallerVersion = 2;
 
             return request;
         }

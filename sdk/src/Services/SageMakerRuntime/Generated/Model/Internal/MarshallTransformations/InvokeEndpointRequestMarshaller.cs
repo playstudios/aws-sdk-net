@@ -55,14 +55,15 @@ namespace Amazon.SageMakerRuntime.Model.Internal.MarshallTransformations
         public IRequest Marshall(InvokeEndpointRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.SageMakerRuntime");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-05-13";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/endpoints/{EndpointName}/invocations";
             if (!publicRequest.IsSetEndpointName())
                 throw new AmazonSageMakerRuntimeException("Request object does not have required field EndpointName set");
-            uriResourcePath = uriResourcePath.Replace("{EndpointName}", StringUtils.FromString(publicRequest.EndpointName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{EndpointName}", StringUtils.FromString(publicRequest.EndpointName));
+            request.ResourcePath = "/endpoints/{EndpointName}/invocations";
+            request.MarshallerVersion = 2;
             request.ContentStream =  publicRequest.Body ?? new MemoryStream();
             request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
                 request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);
@@ -73,6 +74,12 @@ namespace Amazon.SageMakerRuntime.Model.Internal.MarshallTransformations
         
             if(publicRequest.IsSetContentType())
                 request.Headers["Content-Type"] = publicRequest.ContentType;
+        
+            if(publicRequest.IsSetCustomAttributes())
+                request.Headers["X-Amzn-SageMaker-Custom-Attributes"] = publicRequest.CustomAttributes;
+        
+            if(publicRequest.IsSetTargetModel())
+                request.Headers["X-Amzn-SageMaker-Target-Model"] = publicRequest.TargetModel;
 
             return request;
         }

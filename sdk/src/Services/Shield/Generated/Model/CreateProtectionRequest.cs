@@ -30,8 +30,17 @@ namespace Amazon.Shield.Model
     /// <summary>
     /// Container for the parameters to the CreateProtection operation.
     /// Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon
-    /// CloudFront distribution, Elastic Load Balancing load balancer, Elastic IP Address,
-    /// or an Amazon Route 53 hosted zone.
+    /// CloudFront distribution, Elastic Load Balancing load balancer, AWS Global Accelerator
+    /// accelerator, Elastic IP Address, or an Amazon Route 53 hosted zone.
+    /// 
+    ///  
+    /// <para>
+    /// You can add protection to only a single resource with each CreateProtection request.
+    /// If you want to add protection to multiple resources at once, use the <a href="https://console.aws.amazon.com/waf/">AWS
+    /// WAF console</a>. For more information see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html">Getting
+    /// Started with AWS Shield Advanced</a> and <a href="https://docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html">Add
+    /// AWS Shield Advanced Protection to more AWS Resources</a>.
+    /// </para>
     /// </summary>
     public partial class CreateProtectionRequest : AmazonShieldRequest
     {
@@ -44,6 +53,7 @@ namespace Amazon.Shield.Model
         /// Friendly name for the <code>Protection</code> you are creating.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -77,13 +87,18 @@ namespace Amazon.Shield.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// For AWS CloudFront distribution: <code>arn:aws:cloudfront::<i>account-id</i>:distribution/<i>distribution-id</i>
+        /// For an AWS CloudFront distribution: <code>arn:aws:cloudfront::<i>account-id</i>:distribution/<i>distribution-id</i>
         /// </code> 
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// For Amazon Route 53: <code>arn:aws:route53::<i>account-id</i>:hostedzone/<i>hosted-zone-id</i>
+        /// For an AWS Global Accelerator accelerator: <code>arn:aws:globalaccelerator::<i>account-id</i>:accelerator/<i>accelerator-id</i>
         /// </code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For Amazon Route 53: <code>arn:aws:route53:::hostedzone/<i>hosted-zone-id</i> </code>
+        /// 
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -92,6 +107,7 @@ namespace Amazon.Shield.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string ResourceArn
         {
             get { return this._resourceArn; }

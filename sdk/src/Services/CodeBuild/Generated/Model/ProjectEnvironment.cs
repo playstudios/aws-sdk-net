@@ -36,7 +36,9 @@ namespace Amazon.CodeBuild.Model
         private ComputeType _computeType;
         private List<EnvironmentVariable> _environmentVariables = new List<EnvironmentVariable>();
         private string _image;
+        private ImagePullCredentialsType _imagePullCredentialsType;
         private bool? _privilegedMode;
+        private RegistryCredential _registryCredential;
         private EnvironmentType _type;
 
         /// <summary>
@@ -60,8 +62,7 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property ComputeType. 
         /// <para>
-        /// Information about the compute resources the build project will use. Available values
-        /// include:
+        /// Information about the compute resources the build project uses. Available values include:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -73,10 +74,40 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>BUILD_GENERAL1_LARGE</code>: Use up to 15 GB memory and 8 vCPUs for builds.
+        ///  <code>BUILD_GENERAL1_LARGE</code>: Use up to 16 GB memory and 8 vCPUs for builds,
+        /// depending on your environment type.
         /// </para>
-        ///  </li> </ul>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>BUILD_GENERAL1_2XLARGE</code>: Use up to 145 GB memory, 72 vCPUs, and 824 GB
+        /// of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  If you use <code>BUILD_GENERAL1_LARGE</code>: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  For environment type <code>LINUX_CONTAINER</code>, you can use up to 15 GB memory
+        /// and 8 vCPUs for builds. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  For environment type <code>LINUX_GPU_CONTAINER</code>, you can use up to 255 GB memory,
+        /// 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  For environment type <code>ARM_CONTAINER</code>, you can use up to 16 GB memory and
+        /// 8 vCPUs on ARM-based processors for builds.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  For more information, see <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html">Build
+        /// Environment Compute Types</a> in the <i>AWS CodeBuild User Guide.</i> 
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ComputeType ComputeType
         {
             get { return this._computeType; }
@@ -110,9 +141,23 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property Image. 
         /// <para>
-        /// The ID of the Docker image to use for this build project.
+        /// The image tag or image digest that identifies the Docker image to use for this build
+        /// project. Use the following formats:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For an image tag: <code>registry/repository:tag</code>. For example, to specify an
+        /// image with the tag "latest," use <code>registry/repository:latest</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For an image digest: <code>registry/repository@digest</code>. For example, to specify
+        /// an image with the digest "sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf,"
+        /// use <code>registry/repository@sha256:cbbf2f9a99b47fc460d422812b6a5adff7dfee951d8fa2e4a98caa0382cfbdbf</code>.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Image
         {
             get { return this._image; }
@@ -126,22 +171,80 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ImagePullCredentialsType. 
+        /// <para>
+        ///  The type of credentials AWS CodeBuild uses to pull images in your build. There are
+        /// two valid values: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>CODEBUILD</code> specifies that AWS CodeBuild uses its own credentials. This
+        /// requires that you modify your ECR repository policy to trust AWS CodeBuild's service
+        /// principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SERVICE_ROLE</code> specifies that AWS CodeBuild uses your build project's
+        /// service role. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  When you use a cross-account or private registry image, you must use SERVICE_ROLE
+        /// credentials. When you use an AWS CodeBuild curated image, you must use CODEBUILD credentials.
+        /// 
+        /// </para>
+        /// </summary>
+        public ImagePullCredentialsType ImagePullCredentialsType
+        {
+            get { return this._imagePullCredentialsType; }
+            set { this._imagePullCredentialsType = value; }
+        }
+
+        // Check to see if ImagePullCredentialsType property is set
+        internal bool IsSetImagePullCredentialsType()
+        {
+            return this._imagePullCredentialsType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property PrivilegedMode. 
         /// <para>
         /// Enables running the Docker daemon inside a Docker container. Set to true only if the
-        /// build project is be used to build Docker images, and the specified build environment
-        /// image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated
-        /// builds that attempt to interact with the Docker daemon will fail. Note that you must
-        /// also start the Docker daemon so that builds can interact with it. One way to do this
-        /// is to initialize the Docker daemon during the install phase of your build spec by
-        /// running the following build commands. (Do not run the following build commands if
-        /// the specified build environment image is provided by AWS CodeBuild with Docker support.)
+        /// build project is used to build Docker images. Otherwise, a build that attempts to
+        /// interact with the Docker daemon fails. The default setting is <code>false</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can initialize the Docker daemon during the install phase of your build by adding
+        /// one of the following sets of commands to the install phase of your buildspec file:
+        /// </para>
+        ///  
+        /// <para>
+        /// If the operating system's base image is Ubuntu Linux:
         /// </para>
         ///  
         /// <para>
         ///  <code>- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375
-        /// --storage-driver=overlay&amp; - timeout -t 15 sh -c "until docker info; do echo .;
-        /// sleep 1; done"</code> 
+        /// --storage-driver=overlay&amp;</code> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>- timeout 15 sh -c "until docker info; do echo .; sleep 1; done"</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If the operating system's base image is Alpine Linux and the previous command does
+        /// not work, add the <code>-t</code> argument to <code>timeout</code>:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375
+        /// --storage-driver=overlay&amp;</code> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>- timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done"</code>
+        /// 
         /// </para>
         /// </summary>
         public bool PrivilegedMode
@@ -157,11 +260,52 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RegistryCredential. 
+        /// <para>
+        ///  The credentials for access to a private registry.
+        /// </para>
+        /// </summary>
+        public RegistryCredential RegistryCredential
+        {
+            get { return this._registryCredential; }
+            set { this._registryCredential = value; }
+        }
+
+        // Check to see if RegistryCredential property is set
+        internal bool IsSetRegistryCredential()
+        {
+            return this._registryCredential != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
         /// The type of build environment to use for related builds.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The environment type <code>ARM_CONTAINER</code> is available only in regions US East
+        /// (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai),
+        /// Asia Pacific (Tokyo), Asia Pacific (Sydney), and EU (Frankfurt).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The environment type <code>LINUX_CONTAINER</code> with compute type <code>build.general1.2xlarge</code>
+        /// is available only in regions US East (N. Virginia), US East (N. Virginia), US West
+        /// (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific
+        /// (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China
+        /// (Beijing), and China (Ningxia).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The environment type <code>LINUX_GPU_CONTAINER</code> is available only in regions
+        /// US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central),
+        /// EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul),
+        /// Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia).
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public EnvironmentType Type
         {
             get { return this._type; }

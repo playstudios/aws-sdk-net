@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -81,6 +81,7 @@ namespace Amazon.CloudFront.Model
         /// and forward to your origin.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Items
         {
             get { return this._items; }
@@ -102,6 +103,7 @@ namespace Amazon.CloudFront.Model
         /// OPTIONS, PUT, PATCH, POST</code>, and <code>DELETE</code> requests).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Quantity
         {
             get { return this._quantity.GetValueOrDefault(); }

@@ -47,6 +47,7 @@ namespace Amazon.CloudHSMV2.Model
         /// use <a>DescribeClusters</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterId
         {
             get { return this._clusterId; }
@@ -66,6 +67,7 @@ namespace Amazon.CloudHSMV2.Model
         /// The certificate must be in PEM format and can contain a maximum of 5000 characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=5000)]
         public string SignedCert
         {
             get { return this._signedCert; }
@@ -82,12 +84,12 @@ namespace Amazon.CloudHSMV2.Model
         /// Gets and sets the property TrustAnchor. 
         /// <para>
         /// The issuing certificate of the issuing certificate authority (CA) that issued (signed)
-        /// the cluster certificate. This can be a root (self-signed) certificate or a certificate
-        /// chain that begins with the certificate that issued the cluster certificate and ends
-        /// with a root certificate. The certificate or certificate chain must be in PEM format
-        /// and can contain a maximum of 5000 characters.
+        /// the cluster certificate. You must use a self-signed certificate. The certificate used
+        /// to sign the HSM CSR must be directly available, and thus must be the root certificate.
+        /// The certificate must be in PEM format and can contain a maximum of 5000 characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=5000)]
         public string TrustAnchor
         {
             get { return this._trustAnchor; }

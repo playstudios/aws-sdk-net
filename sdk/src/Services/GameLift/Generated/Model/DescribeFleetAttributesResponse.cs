@@ -38,7 +38,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetAttributes. 
         /// <para>
-        /// Collection of objects containing attribute metadata for each requested fleet ID.
+        /// A collection of objects containing attribute metadata for each requested fleet ID.
+        /// Attribute objects are returned only for fleets that currently exist.
         /// </para>
         /// </summary>
         public List<FleetAttributes> FleetAttributes
@@ -60,6 +61,7 @@ namespace Amazon.GameLift.Model
         /// If no token is returned, these results represent the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

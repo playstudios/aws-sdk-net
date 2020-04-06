@@ -30,7 +30,7 @@ namespace Amazon.ACMPCA.Model
     /// <summary>
     /// Length of time for which the certificate issued by your private certificate authority
     /// (CA), or by the private CA itself, is valid in days, months, or years. You can issue
-    /// a certificate by calling the <a>IssueCertificate</a> function.
+    /// a certificate by calling the <a>IssueCertificate</a> action.
     /// </summary>
     public partial class Validity
     {
@@ -43,6 +43,7 @@ namespace Amazon.ACMPCA.Model
         /// Specifies whether the <code>Value</code> parameter represents days, months, or years.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ValidityPeriodType Type
         {
             get { return this._type; }
@@ -61,6 +62,7 @@ namespace Amazon.ACMPCA.Model
         /// Time period.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public long Value
         {
             get { return this._value.GetValueOrDefault(); }

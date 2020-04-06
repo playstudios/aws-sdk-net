@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
-    /// Information about a tag.
+    /// Describes a tag.
     /// </summary>
     public partial class Tag
     {
@@ -41,6 +41,7 @@ namespace Amazon.WorkSpaces.Model
         /// The key of the tag.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=127)]
         public string Key
         {
             get { return this._key; }
@@ -59,6 +60,7 @@ namespace Amazon.WorkSpaces.Model
         /// The value of the tag.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string Value
         {
             get { return this._value; }

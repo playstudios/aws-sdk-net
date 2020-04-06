@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of DescribeAddresses.
+    /// This is the response object from the DescribeAddresses operation.
     /// </summary>
     public partial class DescribeAddressesResponse : AmazonWebServiceResponse
     {
@@ -37,7 +37,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Addresses. 
         /// <para>
-        /// Information about one or more Elastic IP addresses.
+        /// Information about the Elastic IP addresses.
         /// </para>
         /// </summary>
         public List<Address> Addresses

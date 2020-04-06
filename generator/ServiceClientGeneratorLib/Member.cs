@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace ServiceClientGenerator
 {
@@ -17,8 +18,14 @@ namespace ServiceClientGenerator
         public const string MemberKey = "member";
         public const string FlattenedKey = "flattened";
         public const string JsonValueKey = "jsonvalue";
+        public const string DeprecatedKey = "deprecated";
+        public const string RequiredKey = "required";
+        public const string DeprecatedMessageKey = "deprecatedMessage";
+        public const string HostLabelKey = "hostLabel";
 
         private const string UnhandledTypeDecimalErrorMessage = "Unhandled type 'decimal' : using .net's decimal type for modeled decimal type may result in loss of data.  decimal type members should explicitly opt-in via shape customization.";
+
+        private const string BackwardsCompatibleDateTimePropertySuffix = "Utc";
 
         private readonly string _name;
         private string _newType;
@@ -76,9 +83,37 @@ namespace ServiceClientGenerator
         }
 
         /// <summary>
-        /// The name of the member with the first character lower and begins with an underscore: _nameHere
+        /// The name of the member with the first character lower and begins with an underscore: _nameHere.
+        /// It includes the backward compatibility suffix if required.
         /// </summary>
         public string VariableName
+        {
+            get
+            {
+                if (IsBackwardsCompatibleDateTimeProperty)
+                    return BaseVariableName + BackwardsCompatibleDateTimePropertySuffix;
+                return BaseVariableName;
+            }
+        }
+
+        /// <summary>
+        /// The name of the property's backing to be used in backwards compatibility property names
+        /// </summary>
+        public string BackwardCompatibilityVariableName
+        {
+            get
+            {
+                if (IsBackwardsCompatibleDateTimeProperty)
+                    return BaseVariableName;
+                throw new Exception("Property " + BasePropertyName + " is not marked as requiring backward compatibility");
+            }
+        }
+
+        /// <summary>
+        /// The name of the member with the first character lower and begins with an underscore: _nameHere.
+        /// This doesn't include the backward compatibility suffix.
+        /// </summary>
+        private string BaseVariableName
         {
             get
             {
@@ -152,9 +187,38 @@ namespace ServiceClientGenerator
 
         /// <summary>
         /// The name of the member as the first character upper: NameHere
-        /// Uses the custom name instead if it exists
+        /// Uses the custom name instead if it exists.
+        /// It includes the backward compatibility suffix if required.
         /// </summary>
         public string PropertyName
+        {
+            get
+            {
+                if (IsBackwardsCompatibleDateTimeProperty)
+                    return BasePropertyName + BackwardsCompatibleDateTimePropertySuffix;
+                return BasePropertyName;
+            }
+        }
+
+        /// <summary>
+        /// The name of the member to be used in backwards compatibility property names
+        /// </summary>
+        public string BackwardCompatibilityPropertyName
+        {
+            get
+            {
+                if (IsBackwardsCompatibleDateTimeProperty)
+                    return BasePropertyName;
+                throw new Exception("Property " + BasePropertyName + " is not marked as requiring backward compatibility");
+            }
+        }
+
+        /// <summary>
+        /// The name of the member as the first character upper: NameHere
+        /// Uses the custom name instead if it exists.
+        /// This doesn't include the backwards compatibility suffix.
+        /// </summary>
+        public string BasePropertyName
         {
             get
             {
@@ -170,10 +234,7 @@ namespace ServiceClientGenerator
                     }
                 }
 
-                string txt = this._name[0].ToString().ToUpper();
-                if (this._name.Length > 1)
-                    txt += this._name.Substring(1);
-                return txt;
+                return _name.ToUpperFirstCharacter();
             }
         }
 
@@ -225,6 +286,14 @@ namespace ServiceClientGenerator
                 var locationName = source[ServiceModel.LocationNameKey];
                 if (locationName == null) return null;
                 return locationName.ToString();
+            }
+        }
+
+        public bool IsEndpointDiscoveryId
+        {
+            get
+            {
+                return (bool)(this.data[ServiceModel.EndpointDiscoveryIdKey] ?? false);
             }
         }
 
@@ -289,6 +358,34 @@ namespace ServiceClientGenerator
 
                 // Default to Body if location is not specified.
                 return MarshallLocation.Body;
+            }
+        }
+
+        /// <summary>
+        /// The hostLabel of the shape
+        /// </summary>
+        public bool IsHostLabel
+        {
+            get
+            {
+                if (data[HostLabelKey] != null)
+                {
+                    return (bool)data[HostLabelKey];
+                }
+
+                // Default to false (not a hostLabel) if hostLabel is not specified.
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// If present, use instead of MarshallLocationName
+        /// </summary>
+        public string MarshallQueryName
+        {
+            get
+            {
+                return data[ServiceModel.QueryNameKey] == null ? string.Empty : (string)data[ServiceModel.QueryNameKey];
             }
         }
 
@@ -418,7 +515,7 @@ namespace ServiceClientGenerator
                 case "string":
                     if (!treatEnumsAsString && memberShape["enum"] != null)
                     {
-                        return ServiceModel.CapitalizeFirstChar(renameShape ?? extendsNode.ToString());
+                        return (renameShape ?? extendsNode.ToString()).ToUpperFirstCharacter();
                     }
                     return "string";
                 case "blob":
@@ -613,7 +710,7 @@ namespace ServiceClientGenerator
                     var valueTypeUnmarshaller = GetTypeUnmarshallerName(memberShape[Shape.ValueKey]);
                     var valueTypeUnmarshallerInstantiate = DetermineTypeUnmarshallerInstantiate(memberShape[Shape.ValueKey]);
 
-                    if (this.model.Type == ServiceType.Json || this.model.Type == ServiceType.Rest_Json)
+                    if (this.model.Type == ServiceType.Json || this.model.Type == ServiceType.Rest_Json || this.model.Type == ServiceType.Rest_Xml)
                         return string.Format("new DictionaryUnmarshaller<{0}, {1}, {2}, {3}>(StringUnmarshaller.Instance, {5})",
                             keyType, valueType, keyTypeUnmarshaller, valueTypeUnmarshaller, keyTypeUnmarshallerInstantiate, valueTypeUnmarshallerInstantiate);
                     else
@@ -647,7 +744,7 @@ namespace ServiceClientGenerator
                 case "string":
                 case "boolean":
                 case "double":
-                    return "Get" + ServiceModel.CapitalizeFirstChar(simpleTypeName);
+                    return "Get" + simpleTypeName.ToUpperFirstCharacter();
                 case "float":
                     return "GetSingle";
                 case "integer":
@@ -750,6 +847,17 @@ namespace ServiceClientGenerator
         }
 
         /// <summary>
+        /// Determines if the member has requiresLength from the shape in the json model
+        /// </summary>
+        public bool RequiresLength
+        {
+            get
+            {
+                return this.Shape.RequiresLength;
+            }
+        }
+
+        /// <summary>
         /// Determines if the member is a stream from the shape in the json model
         /// </summary>
         public bool IsStreaming
@@ -760,11 +868,56 @@ namespace ServiceClientGenerator
             }
         }
 
-        public bool IsExcluded
+        /// <summary>
+        /// Determines if the member is deprecated
+        /// </summary>
+        public bool IsDeprecated
         {
-            get { return this.model.Customizations.IsExcludedProperty(this.PropertyName, this.OwningShape.Name); }
+            get
+            {
+                if (data[DeprecatedKey] != null && data[DeprecatedKey].IsBoolean)
+                    return (bool)data[DeprecatedKey];
+
+                return false;
+            }
         }
 
+        /// <summary>
+        /// Determines if the member is required
+        /// </summary>
+        public bool IsRequired
+        {
+            get
+            {
+                return OwningShape.IsFieldRequired(ModeledName);
+            }
+        }
+
+        /// <summary>
+        /// Returns the deprecation message specified in the model or in the customization file.
+        /// </summary>
+        public string DeprecationMessage
+        {
+            get
+            {
+                string message = this.model.Customizations.GetPropertyModifier(this.OwningShape.Name, this._name)?.DeprecationMessage ??
+                                 this.data[DeprecatedMessageKey].CastToString();
+                if (message == null)
+                    throw new Exception(string.Format("The 'message' property of the 'deprecated' trait is missing for member {0}.{1}.\nFor example: \"MemberName\":{{ ... \"deprecated\":true, \"deprecatedMessage\":\"This property is deprecated, use XXX instead.\"}}", this.OwningShape.Name, this._name));
+
+                return message;
+            }
+        }
+
+        public bool IsExcluded
+        {
+            get { return this.model.Customizations.IsExcludedProperty(this.BasePropertyName, this.OwningShape.Name); }
+        }
+
+        public bool IsBackwardsCompatibleDateTimeProperty
+        {
+            get { return this.model.Customizations.IsBackwardsCompatibleDateTimeProperty(this.BasePropertyName, this.OwningShape.Name); }
+        }
 
         /// <summary>
         /// Determines if the member is a type that needs to be instantiated, such as a list or map
@@ -829,6 +982,63 @@ namespace ServiceClientGenerator
         }
 
         /// <summary>
+        /// TimestampFormat that may be specified on a member or a shape.        
+        /// </summary>
+        public TimestampFormat TimestampFormat
+        {
+            get
+            {
+                if (!this.IsDateTime)
+                {
+                    throw new InvalidOperationException(string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Property TimestampFormat is not valid for member {0} of type {1}.",
+                        this.ModeledName, this.DetermineType()));
+                }
+
+                var resolvedTimestampFormat = data.GetTimestampFormat();
+                if (resolvedTimestampFormat == TimestampFormat.None)
+                {
+                    // Fallback to shape's TimestampFormat if not specified at member level
+                    // Fallback to marshall location/protocol rules if not specified at shape level
+                    resolvedTimestampFormat = this.Shape.GetTimestampFormat(this.MarshallLocation);                    
+                }                
+                return resolvedTimestampFormat;
+            }
+        }
+
+        /// <summary>
+        /// Returns if the member's type is timestamp.
+        /// </summary>
+        public bool IsDateTime
+        {
+            get
+            {
+                return this.DetermineType().Equals("DateTime", StringComparison.InvariantCulture);
+            }
+        }
+
+        /// <summary>
+        /// Returns the marshaller method to use in the generated marshaller code for a
+        /// member of primitive type.
+        /// </summary>
+        public string PrimitiveMarshaller
+        {
+            get
+            {
+                if (this.IsDateTime)
+                {
+                    return "StringUtils.FromDateTimeTo" + this.TimestampFormat;
+                }
+                else
+                {
+                    return "StringUtils.From" + this.GetPrimitiveType();
+                }
+
+            }
+        }
+                        
+        /// <summary>
         /// Creates a representation of the member as a string using the member name
         /// </summary>
         /// <returns>The member name as a string</returns>
@@ -836,5 +1046,46 @@ namespace ServiceClientGenerator
         {
             return this._name;
         }
+
+        internal static TimestampFormat GetDefaultTimestampFormat(MarshallLocation marshallLocation, ServiceType serviceType)
+        {
+            // Rules used to default the format if timestampFormat is not specified.
+            // 1. All timestamp values serialized in HTTP headers are formatted using rfc822 by default.
+            // 2. All timestamp values serialized in query strings are formatted using iso8601 by default.    
+            if (marshallLocation == MarshallLocation.Header)
+            {
+                return TimestampFormat.RFC822;
+            }
+            else if (marshallLocation == MarshallLocation.QueryString)
+            {
+                return TimestampFormat.ISO8601;
+            }
+            else
+            {
+                // Return protocol defaults if marshall location is not header or querystring.
+                // The default timestamp formats per protocol for structured payload shapes are as follows. 
+                //     rest-json: unixTimestamp
+                //     jsonrpc: unixTimestamp
+                //     rest-xml: iso8601
+                //     query: iso8601
+                //     ec2: iso8601                
+                switch (serviceType)
+                {
+                    case ServiceType.Rest_Json:
+                        return TimestampFormat.UnixTimestamp;
+                    case ServiceType.Json:
+                        return TimestampFormat.UnixTimestamp;
+                    case ServiceType.Query:
+                        return TimestampFormat.ISO8601;
+                    case ServiceType.Rest_Xml:
+                        return TimestampFormat.ISO8601;
+
+                    default:
+                        throw new InvalidOperationException(
+                            "Encountered unknown model type (protocol): " + serviceType);
+                }
+            }
+        }
+
     }
 }

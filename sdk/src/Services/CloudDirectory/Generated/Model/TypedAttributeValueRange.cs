@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudDirectory.Model
 {
     /// <summary>
-    /// A range of attribute values.
+    /// A range of attribute values. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_range_filters.html">Range
+    /// Filters</a>.
     /// </summary>
     public partial class TypedAttributeValueRange
     {
@@ -43,6 +44,7 @@ namespace Amazon.CloudDirectory.Model
         /// The inclusive or exclusive range end.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RangeMode EndMode
         {
             get { return this._endMode; }
@@ -79,6 +81,7 @@ namespace Amazon.CloudDirectory.Model
         /// The inclusive or exclusive range start.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RangeMode StartMode
         {
             get { return this._startMode; }

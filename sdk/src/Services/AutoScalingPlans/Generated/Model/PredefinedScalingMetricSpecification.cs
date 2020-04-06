@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AutoScalingPlans.Model
 {
     /// <summary>
-    /// Represents a predefined metric for a target tracking policy.
+    /// Represents a predefined metric that can be used for dynamic scaling as part of a target
+    /// tracking scaling policy.
     /// </summary>
     public partial class PredefinedScalingMetricSpecification
     {
@@ -39,9 +40,10 @@ namespace Amazon.AutoScalingPlans.Model
         /// Gets and sets the property PredefinedScalingMetricType. 
         /// <para>
         /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type applies only
-        /// to Auto Scaling groups, Sport Fleet requests, and ECS services.
+        /// to Auto Scaling groups, Spot Fleet requests, and ECS services.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScalingMetricType PredefinedScalingMetricType
         {
             get { return this._predefinedScalingMetricType; }
@@ -59,7 +61,8 @@ namespace Amazon.AutoScalingPlans.Model
         /// <para>
         /// Identifies the resource associated with the metric type. You can't specify a resource
         /// label unless the metric type is <code>ALBRequestCountPerTarget</code> and there is
-        /// a target group attached to the Auto Scaling group, Spot Fleet request, or ECS service.
+        /// a target group for an Application Load Balancer attached to the Auto Scaling group,
+        /// Spot Fleet request, or ECS service.
         /// </para>
         ///  
         /// <para>
@@ -69,7 +72,7 @@ namespace Amazon.AutoScalingPlans.Model
         ///  <ul> <li> 
         /// <para>
         /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion of the
-        /// load balancer ARN
+        /// load balancer ARN.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -78,6 +81,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=1023)]
         public string ResourceLabel
         {
             get { return this._resourceLabel; }

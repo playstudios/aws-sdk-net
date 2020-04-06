@@ -305,6 +305,26 @@ namespace Amazon.Organizations
         /// </summary>
         public static readonly ConstraintViolationExceptionReason ACCOUNT_NUMBER_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("ACCOUNT_NUMBER_LIMIT_EXCEEDED");
         /// <summary>
+        /// Constant CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR = new ConstraintViolationExceptionReason("CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR");
+        /// <summary>
+        /// Constant CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG = new ConstraintViolationExceptionReason("CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG");
+        /// <summary>
+        /// Constant CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION = new ConstraintViolationExceptionReason("CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION");
+        /// <summary>
+        /// Constant DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE = new ConstraintViolationExceptionReason("DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE");
+        /// <summary>
+        /// Constant EMAIL_VERIFICATION_CODE_EXPIRED for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason EMAIL_VERIFICATION_CODE_EXPIRED = new ConstraintViolationExceptionReason("EMAIL_VERIFICATION_CODE_EXPIRED");
+        /// <summary>
         /// Constant HANDSHAKE_RATE_LIMIT_EXCEEDED for ConstraintViolationExceptionReason
         /// </summary>
         public static readonly ConstraintViolationExceptionReason HANDSHAKE_RATE_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("HANDSHAKE_RATE_LIMIT_EXCEEDED");
@@ -317,13 +337,25 @@ namespace Amazon.Organizations
         /// </summary>
         public static readonly ConstraintViolationExceptionReason MASTER_ACCOUNT_MISSING_CONTACT_INFO = new ConstraintViolationExceptionReason("MASTER_ACCOUNT_MISSING_CONTACT_INFO");
         /// <summary>
+        /// Constant MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED = new ConstraintViolationExceptionReason("MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED");
+        /// <summary>
         /// Constant MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED for ConstraintViolationExceptionReason
         /// </summary>
         public static readonly ConstraintViolationExceptionReason MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED = new ConstraintViolationExceptionReason("MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED");
         /// <summary>
+        /// Constant MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED");
+        /// <summary>
         /// Constant MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED for ConstraintViolationExceptionReason
         /// </summary>
         public static readonly ConstraintViolationExceptionReason MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED");
+        /// <summary>
+        /// Constant MAX_TAG_LIMIT_EXCEEDED for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason MAX_TAG_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("MAX_TAG_LIMIT_EXCEEDED");
         /// <summary>
         /// Constant MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED for ConstraintViolationExceptionReason
         /// </summary>
@@ -345,9 +377,21 @@ namespace Amazon.Organizations
         /// </summary>
         public static readonly ConstraintViolationExceptionReason OU_NUMBER_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("OU_NUMBER_LIMIT_EXCEEDED");
         /// <summary>
+        /// Constant POLICY_CONTENT_LIMIT_EXCEEDED for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason POLICY_CONTENT_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("POLICY_CONTENT_LIMIT_EXCEEDED");
+        /// <summary>
         /// Constant POLICY_NUMBER_LIMIT_EXCEEDED for ConstraintViolationExceptionReason
         /// </summary>
         public static readonly ConstraintViolationExceptionReason POLICY_NUMBER_LIMIT_EXCEEDED = new ConstraintViolationExceptionReason("POLICY_NUMBER_LIMIT_EXCEEDED");
+        /// <summary>
+        /// Constant TAG_POLICY_VIOLATION for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason TAG_POLICY_VIOLATION = new ConstraintViolationExceptionReason("TAG_POLICY_VIOLATION");
+        /// <summary>
+        /// Constant WAIT_PERIOD_ACTIVE for ConstraintViolationExceptionReason
+        /// </summary>
+        public static readonly ConstraintViolationExceptionReason WAIT_PERIOD_ACTIVE = new ConstraintViolationExceptionReason("WAIT_PERIOD_ACTIVE");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -402,6 +446,10 @@ namespace Amazon.Organizations
         /// Constant EMAIL_ALREADY_EXISTS for CreateAccountFailureReason
         /// </summary>
         public static readonly CreateAccountFailureReason EMAIL_ALREADY_EXISTS = new CreateAccountFailureReason("EMAIL_ALREADY_EXISTS");
+        /// <summary>
+        /// Constant GOVCLOUD_ACCOUNT_ALREADY_EXISTS for CreateAccountFailureReason
+        /// </summary>
+        public static readonly CreateAccountFailureReason GOVCLOUD_ACCOUNT_ALREADY_EXISTS = new CreateAccountFailureReason("GOVCLOUD_ACCOUNT_ALREADY_EXISTS");
         /// <summary>
         /// Constant INTERNAL_FAILURE for CreateAccountFailureReason
         /// </summary>
@@ -498,6 +546,52 @@ namespace Amazon.Organizations
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator CreateAccountState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type EffectivePolicyType.
+    /// </summary>
+    public class EffectivePolicyType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant TAG_POLICY for EffectivePolicyType
+        /// </summary>
+        public static readonly EffectivePolicyType TAG_POLICY = new EffectivePolicyType("TAG_POLICY");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public EffectivePolicyType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static EffectivePolicyType FindValue(string value)
+        {
+            return FindValue<EffectivePolicyType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator EffectivePolicyType(string value)
         {
             return FindValue(value);
         }
@@ -841,6 +935,10 @@ namespace Amazon.Organizations
         /// </summary>
         public static readonly InvalidInputExceptionReason INVALID_ENUM = new InvalidInputExceptionReason("INVALID_ENUM");
         /// <summary>
+        /// Constant INVALID_ENUM_POLICY_TYPE for InvalidInputExceptionReason
+        /// </summary>
+        public static readonly InvalidInputExceptionReason INVALID_ENUM_POLICY_TYPE = new InvalidInputExceptionReason("INVALID_ENUM_POLICY_TYPE");
+        /// <summary>
         /// Constant INVALID_FULL_NAME_TARGET for InvalidInputExceptionReason
         /// </summary>
         public static readonly InvalidInputExceptionReason INVALID_FULL_NAME_TARGET = new InvalidInputExceptionReason("INVALID_FULL_NAME_TARGET");
@@ -877,6 +975,10 @@ namespace Amazon.Organizations
         /// </summary>
         public static readonly InvalidInputExceptionReason INVALID_SYNTAX_POLICY_ID = new InvalidInputExceptionReason("INVALID_SYNTAX_POLICY_ID");
         /// <summary>
+        /// Constant INVALID_SYSTEM_TAGS_PARAMETER for InvalidInputExceptionReason
+        /// </summary>
+        public static readonly InvalidInputExceptionReason INVALID_SYSTEM_TAGS_PARAMETER = new InvalidInputExceptionReason("INVALID_SYSTEM_TAGS_PARAMETER");
+        /// <summary>
         /// Constant MAX_LENGTH_EXCEEDED for InvalidInputExceptionReason
         /// </summary>
         public static readonly InvalidInputExceptionReason MAX_LENGTH_EXCEEDED = new InvalidInputExceptionReason("MAX_LENGTH_EXCEEDED");
@@ -900,6 +1002,10 @@ namespace Amazon.Organizations
         /// Constant MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS for InvalidInputExceptionReason
         /// </summary>
         public static readonly InvalidInputExceptionReason MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS = new InvalidInputExceptionReason("MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS");
+        /// <summary>
+        /// Constant TARGET_NOT_SUPPORTED for InvalidInputExceptionReason
+        /// </summary>
+        public static readonly InvalidInputExceptionReason TARGET_NOT_SUPPORTED = new InvalidInputExceptionReason("TARGET_NOT_SUPPORTED");
         /// <summary>
         /// Constant UNRECOGNIZED_SERVICE_PRINCIPAL for InvalidInputExceptionReason
         /// </summary>
@@ -1050,6 +1156,10 @@ namespace Amazon.Organizations
         /// Constant SERVICE_CONTROL_POLICY for PolicyType
         /// </summary>
         public static readonly PolicyType SERVICE_CONTROL_POLICY = new PolicyType("SERVICE_CONTROL_POLICY");
+        /// <summary>
+        /// Constant TAG_POLICY for PolicyType
+        /// </summary>
+        public static readonly PolicyType TAG_POLICY = new PolicyType("TAG_POLICY");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant

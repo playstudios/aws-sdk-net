@@ -62,6 +62,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetEsam())
+            {
+                context.Writer.WritePropertyName("esam");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = EsamSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.Esam, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetInputs())
             {
                 context.Writer.WritePropertyName("inputs");
@@ -76,6 +87,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
                 context.Writer.WriteArrayEnd();
+            }
+
+            if(requestObject.IsSetMotionImageInserter())
+            {
+                context.Writer.WritePropertyName("motionImageInserter");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = MotionImageInserterMarshaller.Instance;
+                marshaller.Marshall(requestObject.MotionImageInserter, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetNielsenConfiguration())

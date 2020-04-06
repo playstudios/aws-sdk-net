@@ -66,7 +66,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </summary>
         /// <param name="tableName">The name of the table containing the item to update.</param>
         /// <param name="key">The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.</param>
-        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         public UpdateItemRequest(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates)
         {
             _tableName = tableName;
@@ -79,7 +79,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </summary>
         /// <param name="tableName">The name of the table containing the item to update.</param>
         /// <param name="key">The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.</param>
-        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// <param name="returnValues">Use <code>ReturnValues</code> if you want to get the item attributes as they appear before or after they are updated. For <code>UpdateItem</code>, the valid values are: <ul> <li>  <code>NONE</code> - If <code>ReturnValues</code> is not specified, or if its value is <code>NONE</code>, then nothing is returned. (This setting is the default for <code>ReturnValues</code>.) </li> <li>  <code>ALL_OLD</code> - Returns all of the attributes of the item, as they appeared before the UpdateItem operation. </li> <li>  <code>UPDATED_OLD</code> - Returns only the updated attributes, as they appeared before the UpdateItem operation. </li> <li>  <code>ALL_NEW</code> - Returns all of the attributes of the item, as they appear after the UpdateItem operation. </li> <li>  <code>UPDATED_NEW</code> - Returns only the updated attributes, as they appear after the UpdateItem operation. </li> </ul> There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The values returned are strongly consistent.</param>
         public UpdateItemRequest(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates, ReturnValue returnValues)
         {
@@ -93,7 +93,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property AttributeUpdates. 
         /// <para>
         /// This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a>
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -113,7 +113,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property ConditionalOperator. 
         /// <para>
         /// This is a legacy parameter. Use <code>ConditionExpression</code> instead. For more
-        /// information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
+        /// information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -158,7 +158,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For more information on condition expressions, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Specifying
+        /// For more information about condition expressions, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Specifying
         /// Conditions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -178,7 +178,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property Expected. 
         /// <para>
         /// This is a legacy parameter. Use <code>ConditionExpression</code> instead. For more
-        /// information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.Expected.html">Expected</a>
+        /// information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.Expected.html">Expected</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -225,8 +225,8 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> </ul> 
         /// <para>
         /// The name of this attribute conflicts with a reserved word, so it cannot be used directly
-        /// in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
-        /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you
+        /// in an expression. (For the complete list of reserved words, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+        /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>.) To work around this, you
         /// could specify the following for <code>ExpressionAttributeNames</code>:
         /// </para>
         ///  <ul> <li> 
@@ -248,7 +248,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+        /// For more information about expression attribute names, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
         /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -272,7 +272,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  
         /// <para>
         /// Use the <b>:</b> (colon) character in an expression to dereference an attribute value.
-        /// For example, suppose that you wanted to check whether the value of the <i>ProductStatus</i>
+        /// For example, suppose that you wanted to check whether the value of the <code>ProductStatus</code>
         /// attribute was one of the following: 
         /// </para>
         ///  
@@ -298,8 +298,8 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information on expression attribute values, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Specifying
-        /// Conditions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// For more information on expression attribute values, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Condition
+        /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
         public Dictionary<string, AttributeValue> ExpressionAttributeValues
@@ -327,6 +327,7 @@ namespace Amazon.DynamoDBv2.Model
         /// primary key, you must provide values for both the partition key and the sort key.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Dictionary<string, AttributeValue> Key
         {
             get { return this._key; }
@@ -435,6 +436,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the table containing the item to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }
@@ -451,7 +453,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property UpdateExpression. 
         /// <para>
         /// An expression that defines one or more attributes to be updated, the action to be
-        /// performed on them, and new value(s) for them.
+        /// performed on them, and new values for them.
         /// </para>
         ///  
         /// <para>
@@ -460,7 +462,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  <ul> <li> 
         /// <para>
         ///  <code>SET</code> - Adds one or more attributes and values to an item. If any of these
-        /// attribute already exist, they are replaced by the new values. You can also use <code>SET</code>
+        /// attributes already exist, they are replaced by the new values. You can also use <code>SET</code>
         /// to add or subtract from an attribute that is of type Number. For example: <code>SET
         /// myNum = myNum + :val</code> 
         /// </para>
@@ -511,11 +513,11 @@ namespace Amazon.DynamoDBv2.Model
         /// Similarly, if you use <code>ADD</code> for an existing item to increment or decrement
         /// an attribute value that doesn't exist before the update, DynamoDB uses <code>0</code>
         /// as the initial value. For example, suppose that the item you want to update doesn't
-        /// have an attribute named <i>itemcount</i>, but you decide to <code>ADD</code> the number
-        /// <code>3</code> to this attribute anyway. DynamoDB will create the <i>itemcount</i>
+        /// have an attribute named <code>itemcount</code>, but you decide to <code>ADD</code>
+        /// the number <code>3</code> to this attribute anyway. DynamoDB will create the <code>itemcount</code>
         /// attribute, set its initial value to <code>0</code>, and finally add <code>3</code>
-        /// to it. The result will be a new <i>itemcount</i> attribute in the item, with a value
-        /// of <code>3</code>.
+        /// to it. The result will be a new <code>itemcount</code> attribute in the item, with
+        /// a value of <code>3</code>.
         /// </para>
         ///  </note> </li> <li> 
         /// <para>
@@ -559,7 +561,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information on update expressions, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html">Modifying
+        /// For more information on update expressions, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html">Modifying
         /// Items and Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>

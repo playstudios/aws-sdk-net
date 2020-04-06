@@ -42,9 +42,10 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property ExecutionArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) that identifies the execution.
+        /// The Amazon Resource Name (ARN) that id entifies the execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ExecutionArn
         {
             get { return this._executionArn; }
@@ -68,7 +69,7 @@ namespace Amazon.StepFunctions.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// whitespace
+        /// white space
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -86,8 +87,13 @@ namespace Amazon.StepFunctions.Model
         /// <para>
         /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z,
+        /// - and _.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=80)]
         public string Name
         {
             get { return this._name; }
@@ -106,6 +112,7 @@ namespace Amazon.StepFunctions.Model
         /// The date the execution started.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime StartDate
         {
             get { return this._startDate.GetValueOrDefault(); }
@@ -124,6 +131,7 @@ namespace Amazon.StepFunctions.Model
         /// The Amazon Resource Name (ARN) of the executed state machine.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string StateMachineArn
         {
             get { return this._stateMachineArn; }
@@ -142,6 +150,7 @@ namespace Amazon.StepFunctions.Model
         /// The current status of the execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ExecutionStatus Status
         {
             get { return this._status; }

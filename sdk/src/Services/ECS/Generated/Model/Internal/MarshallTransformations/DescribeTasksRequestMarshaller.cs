@@ -58,10 +58,11 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
             string target = "AmazonEC2ContainerServiceV20141113.DescribeTasks";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-13";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,17 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("cluster");
                     context.Writer.Write(publicRequest.Cluster);
+                }
+
+                if(publicRequest.IsSetInclude())
+                {
+                    context.Writer.WritePropertyName("include");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestIncludeListValue in publicRequest.Include)
+                    {
+                            context.Writer.Write(publicRequestIncludeListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetTasks())

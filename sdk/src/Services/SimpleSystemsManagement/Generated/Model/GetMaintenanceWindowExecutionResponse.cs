@@ -42,7 +42,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property EndTime. 
         /// <para>
-        /// The time the Maintenance Window finished executing.
+        /// The time the maintenance window finished running.
         /// </para>
         /// </summary>
         public DateTime EndTime
@@ -60,7 +60,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property StartTime. 
         /// <para>
-        /// The time the Maintenance Window started executing.
+        /// The time the maintenance window started running.
         /// </para>
         /// </summary>
         public DateTime StartTime
@@ -78,7 +78,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The status of the Maintenance Window execution.
+        /// The status of the maintenance window execution.
         /// </para>
         /// </summary>
         public MaintenanceWindowExecutionStatus Status
@@ -99,6 +99,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The details explaining the Status. Only available for certain status values.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=250)]
         public string StatusDetails
         {
             get { return this._statusDetails; }
@@ -114,7 +115,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskIds. 
         /// <para>
-        /// The ID of the task executions from the Maintenance Window execution.
+        /// The ID of the task executions from the maintenance window execution.
         /// </para>
         /// </summary>
         public List<string> TaskIds
@@ -132,9 +133,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowExecutionId. 
         /// <para>
-        /// The ID of the Maintenance Window execution.
+        /// The ID of the maintenance window execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string WindowExecutionId
         {
             get { return this._windowExecutionId; }

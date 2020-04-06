@@ -45,6 +45,7 @@ namespace Amazon.CloudHSMV2.Model
         private Dictionary<string, List<string>> _filters = new Dictionary<string, List<string>>();
         private int? _maxResults;
         private string _nextToken;
+        private bool? _sortAscending;
 
         /// <summary>
         /// Gets and sets the property Filters. 
@@ -55,6 +56,12 @@ namespace Amazon.CloudHSMV2.Model
         /// <para>
         /// Use the <code>backupIds</code> filter to return only the specified backups. Specify
         /// backups by their backup identifier (ID).
+        /// </para>
+        ///  
+        /// <para>
+        /// Use the <code>sourceBackupIds</code> filter to return only the backups created from
+        /// a source backup. The <code>sourceBackupID</code> of a source backup is returned by
+        /// the <a>CopyBackupToRegion</a> operation.
         /// </para>
         ///  
         /// <para>
@@ -86,6 +93,7 @@ namespace Amazon.CloudHSMV2.Model
         /// than the number you specify, the response contains a <code>NextToken</code> value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -105,6 +113,7 @@ namespace Amazon.CloudHSMV2.Model
         /// value to get more backups.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -115,6 +124,25 @@ namespace Amazon.CloudHSMV2.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SortAscending. 
+        /// <para>
+        /// Designates whether or not to sort the return backups by ascending chronological order
+        /// of generation.
+        /// </para>
+        /// </summary>
+        public bool SortAscending
+        {
+            get { return this._sortAscending.GetValueOrDefault(); }
+            set { this._sortAscending = value; }
+        }
+
+        // Check to see if SortAscending property is set
+        internal bool IsSetSortAscending()
+        {
+            return this._sortAscending.HasValue; 
         }
 
     }

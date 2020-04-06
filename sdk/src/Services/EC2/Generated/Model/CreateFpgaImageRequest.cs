@@ -39,8 +39,8 @@ namespace Amazon.EC2.Model
     ///  
     /// <para>
     /// An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely
-    /// deploy an AFI on one or more FPGA-accelerated instances. For more information, see
-    /// the <a href="https://github.com/aws/aws-fpga/">AWS FPGA Hardware Development Kit</a>.
+    /// deploy an AFI on multiple FPGA-accelerated instances. For more information, see the
+    /// <a href="https://github.com/aws/aws-fpga/">AWS FPGA Hardware Development Kit</a>.
     /// </para>
     /// </summary>
     public partial class CreateFpgaImageRequest : AmazonEC2Request
@@ -50,12 +50,13 @@ namespace Amazon.EC2.Model
         private StorageLocation _inputStorageLocation;
         private StorageLocation _logsStorageLocation;
         private string _name;
+        private List<TagSpecification> _tagSpecifications = new List<TagSpecification>();
 
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">Ensuring
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
         /// </para>
         /// </summary>
@@ -96,6 +97,7 @@ namespace Amazon.EC2.Model
         /// tarball.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StorageLocation InputStorageLocation
         {
             get { return this._inputStorageLocation; }
@@ -142,6 +144,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TagSpecifications. 
+        /// <para>
+        /// The tags to apply to the FPGA image during creation.
+        /// </para>
+        /// </summary>
+        public List<TagSpecification> TagSpecifications
+        {
+            get { return this._tagSpecifications; }
+            set { this._tagSpecifications = value; }
+        }
+
+        // Check to see if TagSpecifications property is set
+        internal bool IsSetTagSpecifications()
+        {
+            return this._tagSpecifications != null && this._tagSpecifications.Count > 0; 
         }
 
     }

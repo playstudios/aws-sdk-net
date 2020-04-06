@@ -29,7 +29,8 @@ namespace Amazon.SageMaker.Model
 {
     /// <summary>
     /// Container for the parameters to the ListNotebookInstanceLifecycleConfigs operation.
-    /// Lists notebook instance lifestyle configurations created with the API.
+    /// Lists notebook instance lifestyle configurations created with the <a>CreateNotebookInstanceLifecycleConfig</a>
+    /// API.
     /// </summary>
     public partial class ListNotebookInstanceLifecycleConfigsRequest : AmazonSageMakerRequest
     {
@@ -125,6 +126,7 @@ namespace Amazon.SageMaker.Model
         /// The maximum number of lifecycle configurations to return in the response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -144,6 +146,7 @@ namespace Amazon.SageMaker.Model
         /// whose name contains the specified string.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NameContains
         {
             get { return this._nameContains; }
@@ -164,6 +167,7 @@ namespace Amazon.SageMaker.Model
         /// use the token in the next request.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8192)]
         public string NextToken
         {
             get { return this._nextToken; }

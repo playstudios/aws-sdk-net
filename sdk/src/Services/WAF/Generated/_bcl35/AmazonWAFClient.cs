@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.WAF.Model;
 using Amazon.WAF.Model.Internal.MarshallTransformations;
+using Amazon.WAF.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -38,11 +40,12 @@ namespace Amazon.WAF
     /// Amazon CloudFront distributions. You can use these actions and data types via the
     /// endpoint <i>waf.amazonaws.com</i>. This guide is for developers who need detailed
     /// information about the AWS WAF API actions, data types, and errors. For detailed information
-    /// about AWS WAF features and an overview of how to use the AWS WAF API, see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS
+    /// about AWS WAF features and an overview of how to use the AWS WAF API, see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS
     /// WAF Developer Guide</a>.
     /// </summary>
     public partial class AmazonWAFClient : AmazonServiceClient, IAmazonWAF
     {
+        private static IServiceMetadata serviceMetadata = new AmazonWAFMetadata();
         #region Constructors
 
         /// <summary>
@@ -213,6 +216,16 @@ namespace Amazon.WAF
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -228,7 +241,7 @@ namespace Amazon.WAF
 
         #endregion
 
-        
+
         #region  CreateByteMatchSet
 
         /// <summary>
@@ -266,7 +279,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -336,7 +349,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -388,7 +401,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -457,7 +470,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -467,10 +480,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateByteMatchSet">REST API Reference for CreateByteMatchSet Operation</seealso>
         public virtual CreateByteMatchSetResponse CreateByteMatchSet(CreateByteMatchSetRequest request)
         {
-            var marshaller = CreateByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateByteMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateByteMatchSetRequest,CreateByteMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateByteMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -487,11 +501,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateByteMatchSet">REST API Reference for CreateByteMatchSet Operation</seealso>
         public virtual IAsyncResult BeginCreateByteMatchSet(CreateByteMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateByteMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateByteMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -544,7 +558,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -613,7 +627,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -623,10 +637,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateGeoMatchSet">REST API Reference for CreateGeoMatchSet Operation</seealso>
         public virtual CreateGeoMatchSetResponse CreateGeoMatchSet(CreateGeoMatchSetRequest request)
         {
-            var marshaller = CreateGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGeoMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateGeoMatchSetRequest,CreateGeoMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateGeoMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -643,11 +658,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateGeoMatchSet">REST API Reference for CreateGeoMatchSet Operation</seealso>
         public virtual IAsyncResult BeginCreateGeoMatchSet(CreateGeoMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGeoMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateGeoMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -668,12 +683,12 @@ namespace Amazon.WAF
         #region  CreateIPSet
 
         /// <summary>
-        /// Creates an <a>IPSet</a>, which you use to specify which web requests you want to allow
-        /// or block based on the IP addresses that the requests originate from. For example,
-        /// if you're receiving a lot of requests from one or more individual IP addresses or
-        /// one or more ranges of IP addresses and you want to block the requests, you can create
-        /// an <code>IPSet</code> that contains those IP addresses and then configure AWS WAF
-        /// to block the requests. 
+        /// Creates an <a>IPSet</a>, which you use to specify which web requests that you want
+        /// to allow or block based on the IP addresses that the requests originate from. For
+        /// example, if you're receiving a lot of requests from one or more individual IP addresses
+        /// or one or more ranges of IP addresses and you want to block the requests, you can
+        /// create an <code>IPSet</code> that contains those IP addresses and then configure AWS
+        /// WAF to block the requests. 
         /// 
         ///  
         /// <para>
@@ -701,7 +716,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -771,7 +786,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -789,12 +804,12 @@ namespace Amazon.WAF
 
 
         /// <summary>
-        /// Creates an <a>IPSet</a>, which you use to specify which web requests you want to allow
-        /// or block based on the IP addresses that the requests originate from. For example,
-        /// if you're receiving a lot of requests from one or more individual IP addresses or
-        /// one or more ranges of IP addresses and you want to block the requests, you can create
-        /// an <code>IPSet</code> that contains those IP addresses and then configure AWS WAF
-        /// to block the requests. 
+        /// Creates an <a>IPSet</a>, which you use to specify which web requests that you want
+        /// to allow or block based on the IP addresses that the requests originate from. For
+        /// example, if you're receiving a lot of requests from one or more individual IP addresses
+        /// or one or more ranges of IP addresses and you want to block the requests, you can
+        /// create an <code>IPSet</code> that contains those IP addresses and then configure AWS
+        /// WAF to block the requests. 
         /// 
         ///  
         /// <para>
@@ -822,7 +837,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -891,7 +906,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -901,10 +916,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateIPSet">REST API Reference for CreateIPSet Operation</seealso>
         public virtual CreateIPSetResponse CreateIPSet(CreateIPSetRequest request)
         {
-            var marshaller = CreateIPSetRequestMarshaller.Instance;
-            var unmarshaller = CreateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateIPSetRequest,CreateIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateIPSetResponse>(request, options);
         }
 
         /// <summary>
@@ -921,11 +937,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateIPSet">REST API Reference for CreateIPSet Operation</seealso>
         public virtual IAsyncResult BeginCreateIPSet(CreateIPSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateIPSetRequestMarshaller.Instance;
-            var unmarshaller = CreateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateIPSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateIPSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1045,13 +1061,16 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRateBasedRule service method.</param>
         /// 
         /// <returns>The response from the CreateRateBasedRule service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -1110,20 +1129,27 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRateBasedRule">REST API Reference for CreateRateBasedRule Operation</seealso>
         public virtual CreateRateBasedRuleResponse CreateRateBasedRule(CreateRateBasedRuleRequest request)
         {
-            var marshaller = CreateRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = CreateRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRateBasedRuleResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRateBasedRuleRequest,CreateRateBasedRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRateBasedRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -1140,11 +1166,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRateBasedRule">REST API Reference for CreateRateBasedRule Operation</seealso>
         public virtual IAsyncResult BeginCreateRateBasedRule(CreateRateBasedRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = CreateRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRateBasedRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRateBasedRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1200,7 +1226,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1216,7 +1242,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -1226,10 +1252,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRegexMatchSet">REST API Reference for CreateRegexMatchSet Operation</seealso>
         public virtual CreateRegexMatchSetResponse CreateRegexMatchSet(CreateRegexMatchSetRequest request)
         {
-            var marshaller = CreateRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRegexMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRegexMatchSetRequest,CreateRegexMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRegexMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -1246,11 +1273,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRegexMatchSet">REST API Reference for CreateRegexMatchSet Operation</seealso>
         public virtual IAsyncResult BeginCreateRegexMatchSet(CreateRegexMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRegexMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRegexMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1302,7 +1329,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1318,7 +1345,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -1328,10 +1355,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRegexPatternSet">REST API Reference for CreateRegexPatternSet Operation</seealso>
         public virtual CreateRegexPatternSetResponse CreateRegexPatternSet(CreateRegexPatternSetRequest request)
         {
-            var marshaller = CreateRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = CreateRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRegexPatternSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRegexPatternSetRequest,CreateRegexPatternSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRegexPatternSetResponse>(request, options);
         }
 
         /// <summary>
@@ -1348,11 +1376,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRegexPatternSet">REST API Reference for CreateRegexPatternSet Operation</seealso>
         public virtual IAsyncResult BeginCreateRegexPatternSet(CreateRegexPatternSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = CreateRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRegexPatternSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRegexPatternSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1376,8 +1404,8 @@ namespace Amazon.WAF
         /// Creates a <code>Rule</code>, which contains the <code>IPSet</code> objects, <code>ByteMatchSet</code>
         /// objects, and other predicates that identify the requests that you want to block. If
         /// you add more than one predicate to a <code>Rule</code>, a request must match all of
-        /// the specifications to be allowed or blocked. For example, suppose you add the following
-        /// to a <code>Rule</code>:
+        /// the specifications to be allowed or blocked. For example, suppose that you add the
+        /// following to a <code>Rule</code>:
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -1431,15 +1459,18 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="name">A friendly name or description of the <a>Rule</a>. You can't change the name of a <code>Rule</code> after you create it.</param>
         /// <param name="changeToken">The value returned by the most recent call to <a>GetChangeToken</a>.</param>
-        /// <param name="metricName">A friendly name or description for the metrics for this <code>Rule</code>. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change the name of the metric after you create the <code>Rule</code>.</param>
+        /// <param name="metricName">A friendly name or description for the metrics for this <code>Rule</code>. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the <code>Rule</code>.</param>
         /// 
         /// <returns>The response from the CreateRule service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -1498,12 +1529,18 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRule">REST API Reference for CreateRule Operation</seealso>
         public virtual CreateRuleResponse CreateRule(string name, string changeToken, string metricName)
@@ -1520,8 +1557,8 @@ namespace Amazon.WAF
         /// Creates a <code>Rule</code>, which contains the <code>IPSet</code> objects, <code>ByteMatchSet</code>
         /// objects, and other predicates that identify the requests that you want to block. If
         /// you add more than one predicate to a <code>Rule</code>, a request must match all of
-        /// the specifications to be allowed or blocked. For example, suppose you add the following
-        /// to a <code>Rule</code>:
+        /// the specifications to be allowed or blocked. For example, suppose that you add the
+        /// following to a <code>Rule</code>:
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -1575,13 +1612,16 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRule service method.</param>
         /// 
         /// <returns>The response from the CreateRule service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -1640,20 +1680,27 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRule">REST API Reference for CreateRule Operation</seealso>
         public virtual CreateRuleResponse CreateRule(CreateRuleRequest request)
         {
-            var marshaller = CreateRuleRequestMarshaller.Instance;
-            var unmarshaller = CreateRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRuleResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRuleRequest,CreateRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -1670,11 +1717,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRule">REST API Reference for CreateRule Operation</seealso>
         public virtual IAsyncResult BeginCreateRule(CreateRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRuleRequestMarshaller.Instance;
-            var unmarshaller = CreateRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1719,13 +1766,16 @@ namespace Amazon.WAF
         ///  </li> </ul> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRuleGroup service method.</param>
         /// 
         /// <returns>The response from the CreateRuleGroup service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -1735,20 +1785,27 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRuleGroup">REST API Reference for CreateRuleGroup Operation</seealso>
         public virtual CreateRuleGroupResponse CreateRuleGroup(CreateRuleGroupRequest request)
         {
-            var marshaller = CreateRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRuleGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRuleGroupRequest,CreateRuleGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRuleGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1765,11 +1822,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateRuleGroup">REST API Reference for CreateRuleGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateRuleGroup(CreateRuleGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRuleGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRuleGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1824,7 +1881,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1893,7 +1950,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -1903,10 +1960,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateSizeConstraintSet">REST API Reference for CreateSizeConstraintSet Operation</seealso>
         public virtual CreateSizeConstraintSetResponse CreateSizeConstraintSet(CreateSizeConstraintSetRequest request)
         {
-            var marshaller = CreateSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = CreateSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSizeConstraintSetRequest,CreateSizeConstraintSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSizeConstraintSetResponse>(request, options);
         }
 
         /// <summary>
@@ -1923,11 +1981,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateSizeConstraintSet">REST API Reference for CreateSizeConstraintSet Operation</seealso>
         public virtual IAsyncResult BeginCreateSizeConstraintSet(CreateSizeConstraintSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = CreateSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateSizeConstraintSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1979,7 +2037,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -2049,7 +2107,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -2098,7 +2156,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -2167,7 +2225,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -2177,10 +2235,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateSqlInjectionMatchSet">REST API Reference for CreateSqlInjectionMatchSet Operation</seealso>
         public virtual CreateSqlInjectionMatchSetResponse CreateSqlInjectionMatchSet(CreateSqlInjectionMatchSetRequest request)
         {
-            var marshaller = CreateSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSqlInjectionMatchSetRequest,CreateSqlInjectionMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSqlInjectionMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -2197,11 +2256,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateSqlInjectionMatchSet">REST API Reference for CreateSqlInjectionMatchSet Operation</seealso>
         public virtual IAsyncResult BeginCreateSqlInjectionMatchSet(CreateSqlInjectionMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateSqlInjectionMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2270,13 +2329,16 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> </ol> 
         /// <para>
-        /// For more information about how to use the AWS WAF API, see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS
+        /// For more information about how to use the AWS WAF API, see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS
         /// WAF Developer Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateWebACL service method.</param>
         /// 
         /// <returns>The response from the CreateWebACL service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -2339,20 +2401,27 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateWebACL">REST API Reference for CreateWebACL Operation</seealso>
         public virtual CreateWebACLResponse CreateWebACL(CreateWebACLRequest request)
         {
-            var marshaller = CreateWebACLRequestMarshaller.Instance;
-            var unmarshaller = CreateWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateWebACLResponseUnmarshaller.Instance;
 
-            return Invoke<CreateWebACLRequest,CreateWebACLResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateWebACLResponse>(request, options);
         }
 
         /// <summary>
@@ -2369,11 +2438,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateWebACL">REST API Reference for CreateWebACL Operation</seealso>
         public virtual IAsyncResult BeginCreateWebACL(CreateWebACLRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateWebACLRequestMarshaller.Instance;
-            var unmarshaller = CreateWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateWebACLResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateWebACLRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2424,7 +2493,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -2493,7 +2562,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
@@ -2503,10 +2572,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateXssMatchSet">REST API Reference for CreateXssMatchSet Operation</seealso>
         public virtual CreateXssMatchSetResponse CreateXssMatchSet(CreateXssMatchSetRequest request)
         {
-            var marshaller = CreateXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateXssMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateXssMatchSetRequest,CreateXssMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateXssMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -2523,11 +2593,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/CreateXssMatchSet">REST API Reference for CreateXssMatchSet Operation</seealso>
         public virtual IAsyncResult BeginCreateXssMatchSet(CreateXssMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = CreateXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateXssMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateXssMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2733,10 +2803,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteByteMatchSet">REST API Reference for DeleteByteMatchSet Operation</seealso>
         public virtual DeleteByteMatchSetResponse DeleteByteMatchSet(DeleteByteMatchSetRequest request)
         {
-            var marshaller = DeleteByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteByteMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteByteMatchSetRequest,DeleteByteMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteByteMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -2753,11 +2824,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteByteMatchSet">REST API Reference for DeleteByteMatchSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteByteMatchSet(DeleteByteMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteByteMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteByteMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2866,10 +2937,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteGeoMatchSet">REST API Reference for DeleteGeoMatchSet Operation</seealso>
         public virtual DeleteGeoMatchSetResponse DeleteGeoMatchSet(DeleteGeoMatchSetRequest request)
         {
-            var marshaller = DeleteGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGeoMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteGeoMatchSetRequest,DeleteGeoMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteGeoMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -2886,11 +2958,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteGeoMatchSet">REST API Reference for DeleteGeoMatchSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteGeoMatchSet(DeleteGeoMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGeoMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteGeoMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3092,10 +3164,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteIPSet">REST API Reference for DeleteIPSet Operation</seealso>
         public virtual DeleteIPSetResponse DeleteIPSet(DeleteIPSetRequest request)
         {
-            var marshaller = DeleteIPSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteIPSetRequest,DeleteIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteIPSetResponse>(request, options);
         }
 
         /// <summary>
@@ -3112,11 +3185,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteIPSet">REST API Reference for DeleteIPSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteIPSet(DeleteIPSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteIPSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteIPSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3130,6 +3203,71 @@ namespace Amazon.WAF
         public virtual DeleteIPSetResponse EndDeleteIPSet(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteIPSetResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteLoggingConfiguration
+
+        /// <summary>
+        /// Permanently deletes the <a>LoggingConfiguration</a> from the specified web ACL.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLoggingConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteLoggingConfiguration service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
+        /// The operation failed because you tried to create, update, or delete an object by using
+        /// a change token that has already been used.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteLoggingConfiguration">REST API Reference for DeleteLoggingConfiguration Operation</seealso>
+        public virtual DeleteLoggingConfigurationResponse DeleteLoggingConfiguration(DeleteLoggingConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoggingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoggingConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteLoggingConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLoggingConfiguration operation on AmazonWAFClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteLoggingConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteLoggingConfiguration">REST API Reference for DeleteLoggingConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginDeleteLoggingConfiguration(DeleteLoggingConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoggingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoggingConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteLoggingConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteLoggingConfigurationResult from WAF.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteLoggingConfiguration">REST API Reference for DeleteLoggingConfiguration Operation</seealso>
+        public virtual DeleteLoggingConfigurationResponse EndDeleteLoggingConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteLoggingConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -3161,10 +3299,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeletePermissionPolicy">REST API Reference for DeletePermissionPolicy Operation</seealso>
         public virtual DeletePermissionPolicyResponse DeletePermissionPolicy(DeletePermissionPolicyRequest request)
         {
-            var marshaller = DeletePermissionPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePermissionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePermissionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePermissionPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeletePermissionPolicyRequest,DeletePermissionPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeletePermissionPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3181,11 +3320,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeletePermissionPolicy">REST API Reference for DeletePermissionPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeletePermissionPolicy(DeletePermissionPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeletePermissionPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePermissionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePermissionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePermissionPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeletePermissionPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3291,13 +3430,20 @@ namespace Amazon.WAF
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRateBasedRule">REST API Reference for DeleteRateBasedRule Operation</seealso>
         public virtual DeleteRateBasedRuleResponse DeleteRateBasedRule(DeleteRateBasedRuleRequest request)
         {
-            var marshaller = DeleteRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = DeleteRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRateBasedRuleResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRateBasedRuleRequest,DeleteRateBasedRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRateBasedRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -3314,11 +3460,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRateBasedRule">REST API Reference for DeleteRateBasedRule Operation</seealso>
         public virtual IAsyncResult BeginDeleteRateBasedRule(DeleteRateBasedRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = DeleteRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRateBasedRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRateBasedRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3427,10 +3573,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRegexMatchSet">REST API Reference for DeleteRegexMatchSet Operation</seealso>
         public virtual DeleteRegexMatchSetResponse DeleteRegexMatchSet(DeleteRegexMatchSetRequest request)
         {
-            var marshaller = DeleteRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRegexMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRegexMatchSetRequest,DeleteRegexMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRegexMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -3447,11 +3594,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRegexMatchSet">REST API Reference for DeleteRegexMatchSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteRegexMatchSet(DeleteRegexMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRegexMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRegexMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3535,10 +3682,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRegexPatternSet">REST API Reference for DeleteRegexPatternSet Operation</seealso>
         public virtual DeleteRegexPatternSetResponse DeleteRegexPatternSet(DeleteRegexPatternSetRequest request)
         {
-            var marshaller = DeleteRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRegexPatternSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRegexPatternSetRequest,DeleteRegexPatternSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRegexPatternSetResponse>(request, options);
         }
 
         /// <summary>
@@ -3555,11 +3703,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRegexPatternSet">REST API Reference for DeleteRegexPatternSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteRegexPatternSet(DeleteRegexPatternSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRegexPatternSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRegexPatternSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3665,6 +3813,12 @@ namespace Amazon.WAF
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRule">REST API Reference for DeleteRule Operation</seealso>
         public virtual DeleteRuleResponse DeleteRule(string ruleId, string changeToken)
         {
@@ -3760,13 +3914,20 @@ namespace Amazon.WAF
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRule">REST API Reference for DeleteRule Operation</seealso>
         public virtual DeleteRuleResponse DeleteRule(DeleteRuleRequest request)
         {
-            var marshaller = DeleteRuleRequestMarshaller.Instance;
-            var unmarshaller = DeleteRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRuleResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRuleRequest,DeleteRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -3783,11 +3944,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRule">REST API Reference for DeleteRule Operation</seealso>
         public virtual IAsyncResult BeginDeleteRule(DeleteRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRuleRequestMarshaller.Instance;
-            var unmarshaller = DeleteRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3845,6 +4006,36 @@ namespace Amazon.WAF
         /// The operation failed because of a system problem, even though the request was valid.
         /// Retry your request.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInvalidOperationException">
+        /// The operation failed because there was nothing to do. For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You tried to remove a <code>Rule</code> from a <code>WebACL</code>, but the <code>Rule</code>
+        /// isn't in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to remove an IP address from an <code>IPSet</code>, but the IP address isn't
+        /// in the specified <code>IPSet</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to remove a <code>ByteMatchTuple</code> from a <code>ByteMatchSet</code>,
+        /// but the <code>ByteMatchTuple</code> isn't in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
+        /// already exists in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
+        /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonEmptyEntityException">
         /// The operation failed because you tried to delete an object that isn't empty. For example:
         /// 
@@ -3890,13 +4081,20 @@ namespace Amazon.WAF
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRuleGroup">REST API Reference for DeleteRuleGroup Operation</seealso>
         public virtual DeleteRuleGroupResponse DeleteRuleGroup(DeleteRuleGroupRequest request)
         {
-            var marshaller = DeleteRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRuleGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRuleGroupRequest,DeleteRuleGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRuleGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -3913,11 +4111,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteRuleGroup">REST API Reference for DeleteRuleGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteRuleGroup(DeleteRuleGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRuleGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRuleGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4026,10 +4224,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteSizeConstraintSet">REST API Reference for DeleteSizeConstraintSet Operation</seealso>
         public virtual DeleteSizeConstraintSetResponse DeleteSizeConstraintSet(DeleteSizeConstraintSetRequest request)
         {
-            var marshaller = DeleteSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSizeConstraintSetRequest,DeleteSizeConstraintSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSizeConstraintSetResponse>(request, options);
         }
 
         /// <summary>
@@ -4046,11 +4245,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteSizeConstraintSet">REST API Reference for DeleteSizeConstraintSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteSizeConstraintSet(DeleteSizeConstraintSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSizeConstraintSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4258,10 +4457,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteSqlInjectionMatchSet">REST API Reference for DeleteSqlInjectionMatchSet Operation</seealso>
         public virtual DeleteSqlInjectionMatchSetResponse DeleteSqlInjectionMatchSet(DeleteSqlInjectionMatchSetRequest request)
         {
-            var marshaller = DeleteSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSqlInjectionMatchSetRequest,DeleteSqlInjectionMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSqlInjectionMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -4278,11 +4478,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteSqlInjectionMatchSet">REST API Reference for DeleteSqlInjectionMatchSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteSqlInjectionMatchSet(DeleteSqlInjectionMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSqlInjectionMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4383,6 +4583,12 @@ namespace Amazon.WAF
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteWebACL">REST API Reference for DeleteWebACL Operation</seealso>
         public virtual DeleteWebACLResponse DeleteWebACL(string webACLId, string changeToken)
         {
@@ -4473,13 +4679,20 @@ namespace Amazon.WAF
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteWebACL">REST API Reference for DeleteWebACL Operation</seealso>
         public virtual DeleteWebACLResponse DeleteWebACL(DeleteWebACLRequest request)
         {
-            var marshaller = DeleteWebACLRequestMarshaller.Instance;
-            var unmarshaller = DeleteWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteWebACLResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteWebACLRequest,DeleteWebACLResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteWebACLResponse>(request, options);
         }
 
         /// <summary>
@@ -4496,11 +4709,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteWebACL">REST API Reference for DeleteWebACL Operation</seealso>
         public virtual IAsyncResult BeginDeleteWebACL(DeleteWebACLRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteWebACLRequestMarshaller.Instance;
-            var unmarshaller = DeleteWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteWebACLResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteWebACLRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4610,10 +4823,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteXssMatchSet">REST API Reference for DeleteXssMatchSet Operation</seealso>
         public virtual DeleteXssMatchSetResponse DeleteXssMatchSet(DeleteXssMatchSetRequest request)
         {
-            var marshaller = DeleteXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteXssMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteXssMatchSetRequest,DeleteXssMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteXssMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -4630,11 +4844,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/DeleteXssMatchSet">REST API Reference for DeleteXssMatchSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteXssMatchSet(DeleteXssMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteXssMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteXssMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4700,10 +4914,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetByteMatchSet">REST API Reference for GetByteMatchSet Operation</seealso>
         public virtual GetByteMatchSetResponse GetByteMatchSet(GetByteMatchSetRequest request)
         {
-            var marshaller = GetByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetByteMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetByteMatchSetRequest,GetByteMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetByteMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -4720,11 +4935,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetByteMatchSet">REST API Reference for GetByteMatchSet Operation</seealso>
         public virtual IAsyncResult BeginGetByteMatchSet(GetByteMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetByteMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetByteMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4806,10 +5021,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetChangeToken">REST API Reference for GetChangeToken Operation</seealso>
         public virtual GetChangeTokenResponse GetChangeToken(GetChangeTokenRequest request)
         {
-            var marshaller = GetChangeTokenRequestMarshaller.Instance;
-            var unmarshaller = GetChangeTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChangeTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChangeTokenResponseUnmarshaller.Instance;
 
-            return Invoke<GetChangeTokenRequest,GetChangeTokenResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetChangeTokenResponse>(request, options);
         }
 
         /// <summary>
@@ -4826,11 +5042,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetChangeToken">REST API Reference for GetChangeToken Operation</seealso>
         public virtual IAsyncResult BeginGetChangeToken(GetChangeTokenRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetChangeTokenRequestMarshaller.Instance;
-            var unmarshaller = GetChangeTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChangeTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChangeTokenResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetChangeTokenRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4866,7 +5082,7 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>IN_SYNC</code>: Propagation is complete.
+        ///  <code>INSYNC</code>: Propagation is complete.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -4905,7 +5121,7 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>IN_SYNC</code>: Propagation is complete.
+        ///  <code>INSYNC</code>: Propagation is complete.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -4922,10 +5138,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetChangeTokenStatus">REST API Reference for GetChangeTokenStatus Operation</seealso>
         public virtual GetChangeTokenStatusResponse GetChangeTokenStatus(GetChangeTokenStatusRequest request)
         {
-            var marshaller = GetChangeTokenStatusRequestMarshaller.Instance;
-            var unmarshaller = GetChangeTokenStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChangeTokenStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChangeTokenStatusResponseUnmarshaller.Instance;
 
-            return Invoke<GetChangeTokenStatusRequest,GetChangeTokenStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetChangeTokenStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -4942,11 +5159,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetChangeTokenStatus">REST API Reference for GetChangeTokenStatus Operation</seealso>
         public virtual IAsyncResult BeginGetChangeTokenStatus(GetChangeTokenStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetChangeTokenStatusRequestMarshaller.Instance;
-            var unmarshaller = GetChangeTokenStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChangeTokenStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChangeTokenStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetChangeTokenStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4986,10 +5203,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetGeoMatchSet">REST API Reference for GetGeoMatchSet Operation</seealso>
         public virtual GetGeoMatchSetResponse GetGeoMatchSet(GetGeoMatchSetRequest request)
         {
-            var marshaller = GetGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGeoMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetGeoMatchSetRequest,GetGeoMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetGeoMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -5006,11 +5224,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetGeoMatchSet">REST API Reference for GetGeoMatchSet Operation</seealso>
         public virtual IAsyncResult BeginGetGeoMatchSet(GetGeoMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGeoMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetGeoMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5076,10 +5294,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetIPSet">REST API Reference for GetIPSet Operation</seealso>
         public virtual GetIPSetResponse GetIPSet(GetIPSetRequest request)
         {
-            var marshaller = GetIPSetRequestMarshaller.Instance;
-            var unmarshaller = GetIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetIPSetRequest,GetIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetIPSetResponse>(request, options);
         }
 
         /// <summary>
@@ -5096,11 +5315,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetIPSet">REST API Reference for GetIPSet Operation</seealso>
         public virtual IAsyncResult BeginGetIPSet(GetIPSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetIPSetRequestMarshaller.Instance;
-            var unmarshaller = GetIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIPSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetIPSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5114,6 +5333,67 @@ namespace Amazon.WAF
         public virtual GetIPSetResponse EndGetIPSet(IAsyncResult asyncResult)
         {
             return EndInvoke<GetIPSetResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetLoggingConfiguration
+
+        /// <summary>
+        /// Returns the <a>LoggingConfiguration</a> for the specified web ACL.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLoggingConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the GetLoggingConfiguration service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetLoggingConfiguration">REST API Reference for GetLoggingConfiguration Operation</seealso>
+        public virtual GetLoggingConfigurationResponse GetLoggingConfiguration(GetLoggingConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoggingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoggingConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<GetLoggingConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLoggingConfiguration operation on AmazonWAFClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLoggingConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetLoggingConfiguration">REST API Reference for GetLoggingConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginGetLoggingConfiguration(GetLoggingConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoggingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoggingConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLoggingConfiguration.</param>
+        /// 
+        /// <returns>Returns a  GetLoggingConfigurationResult from WAF.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetLoggingConfiguration">REST API Reference for GetLoggingConfiguration Operation</seealso>
+        public virtual GetLoggingConfigurationResponse EndGetLoggingConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetLoggingConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -5136,10 +5416,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetPermissionPolicy">REST API Reference for GetPermissionPolicy Operation</seealso>
         public virtual GetPermissionPolicyResponse GetPermissionPolicy(GetPermissionPolicyRequest request)
         {
-            var marshaller = GetPermissionPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetPermissionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPermissionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPermissionPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetPermissionPolicyRequest,GetPermissionPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetPermissionPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -5156,11 +5437,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetPermissionPolicy">REST API Reference for GetPermissionPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetPermissionPolicy(GetPermissionPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetPermissionPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetPermissionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPermissionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPermissionPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetPermissionPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5201,10 +5482,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRateBasedRule">REST API Reference for GetRateBasedRule Operation</seealso>
         public virtual GetRateBasedRuleResponse GetRateBasedRule(GetRateBasedRuleRequest request)
         {
-            var marshaller = GetRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = GetRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRateBasedRuleResponseUnmarshaller.Instance;
 
-            return Invoke<GetRateBasedRuleRequest,GetRateBasedRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRateBasedRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -5221,11 +5503,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRateBasedRule">REST API Reference for GetRateBasedRule Operation</seealso>
         public virtual IAsyncResult BeginGetRateBasedRule(GetRateBasedRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = GetRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRateBasedRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRateBasedRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5317,10 +5599,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRateBasedRuleManagedKeys">REST API Reference for GetRateBasedRuleManagedKeys Operation</seealso>
         public virtual GetRateBasedRuleManagedKeysResponse GetRateBasedRuleManagedKeys(GetRateBasedRuleManagedKeysRequest request)
         {
-            var marshaller = GetRateBasedRuleManagedKeysRequestMarshaller.Instance;
-            var unmarshaller = GetRateBasedRuleManagedKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRateBasedRuleManagedKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRateBasedRuleManagedKeysResponseUnmarshaller.Instance;
 
-            return Invoke<GetRateBasedRuleManagedKeysRequest,GetRateBasedRuleManagedKeysResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRateBasedRuleManagedKeysResponse>(request, options);
         }
 
         /// <summary>
@@ -5337,11 +5620,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRateBasedRuleManagedKeys">REST API Reference for GetRateBasedRuleManagedKeys Operation</seealso>
         public virtual IAsyncResult BeginGetRateBasedRuleManagedKeys(GetRateBasedRuleManagedKeysRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRateBasedRuleManagedKeysRequestMarshaller.Instance;
-            var unmarshaller = GetRateBasedRuleManagedKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRateBasedRuleManagedKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRateBasedRuleManagedKeysResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRateBasedRuleManagedKeysRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5381,10 +5664,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRegexMatchSet">REST API Reference for GetRegexMatchSet Operation</seealso>
         public virtual GetRegexMatchSetResponse GetRegexMatchSet(GetRegexMatchSetRequest request)
         {
-            var marshaller = GetRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegexMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetRegexMatchSetRequest,GetRegexMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRegexMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -5401,11 +5685,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRegexMatchSet">REST API Reference for GetRegexMatchSet Operation</seealso>
         public virtual IAsyncResult BeginGetRegexMatchSet(GetRegexMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegexMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRegexMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5445,10 +5729,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRegexPatternSet">REST API Reference for GetRegexPatternSet Operation</seealso>
         public virtual GetRegexPatternSetResponse GetRegexPatternSet(GetRegexPatternSetRequest request)
         {
-            var marshaller = GetRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = GetRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegexPatternSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetRegexPatternSetRequest,GetRegexPatternSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRegexPatternSetResponse>(request, options);
         }
 
         /// <summary>
@@ -5465,11 +5750,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRegexPatternSet">REST API Reference for GetRegexPatternSet Operation</seealso>
         public virtual IAsyncResult BeginGetRegexPatternSet(GetRegexPatternSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = GetRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegexPatternSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRegexPatternSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5537,10 +5822,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRule">REST API Reference for GetRule Operation</seealso>
         public virtual GetRuleResponse GetRule(GetRuleRequest request)
         {
-            var marshaller = GetRuleRequestMarshaller.Instance;
-            var unmarshaller = GetRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRuleResponseUnmarshaller.Instance;
 
-            return Invoke<GetRuleRequest,GetRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -5557,11 +5843,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRule">REST API Reference for GetRule Operation</seealso>
         public virtual IAsyncResult BeginGetRule(GetRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRuleRequestMarshaller.Instance;
-            var unmarshaller = GetRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5603,10 +5889,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRuleGroup">REST API Reference for GetRuleGroup Operation</seealso>
         public virtual GetRuleGroupResponse GetRuleGroup(GetRuleGroupRequest request)
         {
-            var marshaller = GetRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = GetRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRuleGroupResponseUnmarshaller.Instance;
 
-            return Invoke<GetRuleGroupRequest,GetRuleGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRuleGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -5623,11 +5910,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetRuleGroup">REST API Reference for GetRuleGroup Operation</seealso>
         public virtual IAsyncResult BeginGetRuleGroup(GetRuleGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = GetRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRuleGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRuleGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5675,10 +5962,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetSampledRequests">REST API Reference for GetSampledRequests Operation</seealso>
         public virtual GetSampledRequestsResponse GetSampledRequests(GetSampledRequestsRequest request)
         {
-            var marshaller = GetSampledRequestsRequestMarshaller.Instance;
-            var unmarshaller = GetSampledRequestsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSampledRequestsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSampledRequestsResponseUnmarshaller.Instance;
 
-            return Invoke<GetSampledRequestsRequest,GetSampledRequestsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSampledRequestsResponse>(request, options);
         }
 
         /// <summary>
@@ -5695,11 +5983,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetSampledRequests">REST API Reference for GetSampledRequests Operation</seealso>
         public virtual IAsyncResult BeginGetSampledRequests(GetSampledRequestsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSampledRequestsRequestMarshaller.Instance;
-            var unmarshaller = GetSampledRequestsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSampledRequestsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSampledRequestsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSampledRequestsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5739,10 +6027,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetSizeConstraintSet">REST API Reference for GetSizeConstraintSet Operation</seealso>
         public virtual GetSizeConstraintSetResponse GetSizeConstraintSet(GetSizeConstraintSetRequest request)
         {
-            var marshaller = GetSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = GetSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetSizeConstraintSetRequest,GetSizeConstraintSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSizeConstraintSetResponse>(request, options);
         }
 
         /// <summary>
@@ -5759,11 +6048,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetSizeConstraintSet">REST API Reference for GetSizeConstraintSet Operation</seealso>
         public virtual IAsyncResult BeginGetSizeConstraintSet(GetSizeConstraintSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = GetSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSizeConstraintSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5829,10 +6118,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetSqlInjectionMatchSet">REST API Reference for GetSqlInjectionMatchSet Operation</seealso>
         public virtual GetSqlInjectionMatchSetResponse GetSqlInjectionMatchSet(GetSqlInjectionMatchSetRequest request)
         {
-            var marshaller = GetSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetSqlInjectionMatchSetRequest,GetSqlInjectionMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSqlInjectionMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -5849,11 +6139,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetSqlInjectionMatchSet">REST API Reference for GetSqlInjectionMatchSet Operation</seealso>
         public virtual IAsyncResult BeginGetSqlInjectionMatchSet(GetSqlInjectionMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSqlInjectionMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5919,10 +6209,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetWebACL">REST API Reference for GetWebACL Operation</seealso>
         public virtual GetWebACLResponse GetWebACL(GetWebACLRequest request)
         {
-            var marshaller = GetWebACLRequestMarshaller.Instance;
-            var unmarshaller = GetWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetWebACLResponseUnmarshaller.Instance;
 
-            return Invoke<GetWebACLRequest,GetWebACLResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetWebACLResponse>(request, options);
         }
 
         /// <summary>
@@ -5939,11 +6230,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetWebACL">REST API Reference for GetWebACL Operation</seealso>
         public virtual IAsyncResult BeginGetWebACL(GetWebACLRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetWebACLRequestMarshaller.Instance;
-            var unmarshaller = GetWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetWebACLResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetWebACLRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5983,10 +6274,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetXssMatchSet">REST API Reference for GetXssMatchSet Operation</seealso>
         public virtual GetXssMatchSetResponse GetXssMatchSet(GetXssMatchSetRequest request)
         {
-            var marshaller = GetXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetXssMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetXssMatchSetRequest,GetXssMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetXssMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -6003,11 +6295,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/GetXssMatchSet">REST API Reference for GetXssMatchSet Operation</seealso>
         public virtual IAsyncResult BeginGetXssMatchSet(GetXssMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = GetXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetXssMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetXssMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6092,10 +6384,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListActivatedRulesInRuleGroup">REST API Reference for ListActivatedRulesInRuleGroup Operation</seealso>
         public virtual ListActivatedRulesInRuleGroupResponse ListActivatedRulesInRuleGroup(ListActivatedRulesInRuleGroupRequest request)
         {
-            var marshaller = ListActivatedRulesInRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = ListActivatedRulesInRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActivatedRulesInRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActivatedRulesInRuleGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ListActivatedRulesInRuleGroupRequest,ListActivatedRulesInRuleGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListActivatedRulesInRuleGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -6112,11 +6405,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListActivatedRulesInRuleGroup">REST API Reference for ListActivatedRulesInRuleGroup Operation</seealso>
         public virtual IAsyncResult BeginListActivatedRulesInRuleGroup(ListActivatedRulesInRuleGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListActivatedRulesInRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = ListActivatedRulesInRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActivatedRulesInRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActivatedRulesInRuleGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListActivatedRulesInRuleGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6153,10 +6446,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListByteMatchSets">REST API Reference for ListByteMatchSets Operation</seealso>
         public virtual ListByteMatchSetsResponse ListByteMatchSets(ListByteMatchSetsRequest request)
         {
-            var marshaller = ListByteMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListByteMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListByteMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListByteMatchSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListByteMatchSetsRequest,ListByteMatchSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListByteMatchSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6173,11 +6467,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListByteMatchSets">REST API Reference for ListByteMatchSets Operation</seealso>
         public virtual IAsyncResult BeginListByteMatchSets(ListByteMatchSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListByteMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListByteMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListByteMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListByteMatchSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListByteMatchSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6214,10 +6508,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListGeoMatchSets">REST API Reference for ListGeoMatchSets Operation</seealso>
         public virtual ListGeoMatchSetsResponse ListGeoMatchSets(ListGeoMatchSetsRequest request)
         {
-            var marshaller = ListGeoMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListGeoMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGeoMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGeoMatchSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListGeoMatchSetsRequest,ListGeoMatchSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGeoMatchSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6234,11 +6529,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListGeoMatchSets">REST API Reference for ListGeoMatchSets Operation</seealso>
         public virtual IAsyncResult BeginListGeoMatchSets(ListGeoMatchSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListGeoMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListGeoMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGeoMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGeoMatchSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListGeoMatchSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6275,10 +6570,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListIPSets">REST API Reference for ListIPSets Operation</seealso>
         public virtual ListIPSetsResponse ListIPSets(ListIPSetsRequest request)
         {
-            var marshaller = ListIPSetsRequestMarshaller.Instance;
-            var unmarshaller = ListIPSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIPSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIPSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListIPSetsRequest,ListIPSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListIPSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6295,11 +6591,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListIPSets">REST API Reference for ListIPSets Operation</seealso>
         public virtual IAsyncResult BeginListIPSets(ListIPSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListIPSetsRequestMarshaller.Instance;
-            var unmarshaller = ListIPSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIPSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIPSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListIPSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6313,6 +6609,116 @@ namespace Amazon.WAF
         public virtual ListIPSetsResponse EndListIPSets(IAsyncResult asyncResult)
         {
             return EndInvoke<ListIPSetsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListLoggingConfigurations
+
+        /// <summary>
+        /// Returns an array of <a>LoggingConfiguration</a> objects.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListLoggingConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the ListLoggingConfigurations service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListLoggingConfigurations">REST API Reference for ListLoggingConfigurations Operation</seealso>
+        public virtual ListLoggingConfigurationsResponse ListLoggingConfigurations(ListLoggingConfigurationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListLoggingConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListLoggingConfigurationsResponseUnmarshaller.Instance;
+
+            return Invoke<ListLoggingConfigurationsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLoggingConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLoggingConfigurations operation on AmazonWAFClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListLoggingConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListLoggingConfigurations">REST API Reference for ListLoggingConfigurations Operation</seealso>
+        public virtual IAsyncResult BeginListLoggingConfigurations(ListLoggingConfigurationsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListLoggingConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListLoggingConfigurationsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListLoggingConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListLoggingConfigurations.</param>
+        /// 
+        /// <returns>Returns a  ListLoggingConfigurationsResult from WAF.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListLoggingConfigurations">REST API Reference for ListLoggingConfigurations Operation</seealso>
+        public virtual ListLoggingConfigurationsResponse EndListLoggingConfigurations(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListLoggingConfigurationsResponse>(asyncResult);
         }
 
         #endregion
@@ -6336,10 +6742,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRateBasedRules">REST API Reference for ListRateBasedRules Operation</seealso>
         public virtual ListRateBasedRulesResponse ListRateBasedRules(ListRateBasedRulesRequest request)
         {
-            var marshaller = ListRateBasedRulesRequestMarshaller.Instance;
-            var unmarshaller = ListRateBasedRulesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRateBasedRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRateBasedRulesResponseUnmarshaller.Instance;
 
-            return Invoke<ListRateBasedRulesRequest,ListRateBasedRulesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRateBasedRulesResponse>(request, options);
         }
 
         /// <summary>
@@ -6356,11 +6763,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRateBasedRules">REST API Reference for ListRateBasedRules Operation</seealso>
         public virtual IAsyncResult BeginListRateBasedRules(ListRateBasedRulesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRateBasedRulesRequestMarshaller.Instance;
-            var unmarshaller = ListRateBasedRulesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRateBasedRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRateBasedRulesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRateBasedRulesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6397,10 +6804,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRegexMatchSets">REST API Reference for ListRegexMatchSets Operation</seealso>
         public virtual ListRegexMatchSetsResponse ListRegexMatchSets(ListRegexMatchSetsRequest request)
         {
-            var marshaller = ListRegexMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListRegexMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRegexMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRegexMatchSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListRegexMatchSetsRequest,ListRegexMatchSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRegexMatchSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6417,11 +6825,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRegexMatchSets">REST API Reference for ListRegexMatchSets Operation</seealso>
         public virtual IAsyncResult BeginListRegexMatchSets(ListRegexMatchSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRegexMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListRegexMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRegexMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRegexMatchSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRegexMatchSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6458,10 +6866,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRegexPatternSets">REST API Reference for ListRegexPatternSets Operation</seealso>
         public virtual ListRegexPatternSetsResponse ListRegexPatternSets(ListRegexPatternSetsRequest request)
         {
-            var marshaller = ListRegexPatternSetsRequestMarshaller.Instance;
-            var unmarshaller = ListRegexPatternSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRegexPatternSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRegexPatternSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListRegexPatternSetsRequest,ListRegexPatternSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRegexPatternSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6478,11 +6887,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRegexPatternSets">REST API Reference for ListRegexPatternSets Operation</seealso>
         public virtual IAsyncResult BeginListRegexPatternSets(ListRegexPatternSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRegexPatternSetsRequestMarshaller.Instance;
-            var unmarshaller = ListRegexPatternSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRegexPatternSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRegexPatternSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRegexPatternSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6515,10 +6924,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRuleGroups">REST API Reference for ListRuleGroups Operation</seealso>
         public virtual ListRuleGroupsResponse ListRuleGroups(ListRuleGroupsRequest request)
         {
-            var marshaller = ListRuleGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListRuleGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRuleGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRuleGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<ListRuleGroupsRequest,ListRuleGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRuleGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -6535,11 +6945,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRuleGroups">REST API Reference for ListRuleGroups Operation</seealso>
         public virtual IAsyncResult BeginListRuleGroups(ListRuleGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRuleGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListRuleGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRuleGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRuleGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRuleGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6576,10 +6986,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRules">REST API Reference for ListRules Operation</seealso>
         public virtual ListRulesResponse ListRules(ListRulesRequest request)
         {
-            var marshaller = ListRulesRequestMarshaller.Instance;
-            var unmarshaller = ListRulesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRulesResponseUnmarshaller.Instance;
 
-            return Invoke<ListRulesRequest,ListRulesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRulesResponse>(request, options);
         }
 
         /// <summary>
@@ -6596,11 +7007,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListRules">REST API Reference for ListRules Operation</seealso>
         public virtual IAsyncResult BeginListRules(ListRulesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRulesRequestMarshaller.Instance;
-            var unmarshaller = ListRulesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRulesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRulesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6637,10 +7048,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListSizeConstraintSets">REST API Reference for ListSizeConstraintSets Operation</seealso>
         public virtual ListSizeConstraintSetsResponse ListSizeConstraintSets(ListSizeConstraintSetsRequest request)
         {
-            var marshaller = ListSizeConstraintSetsRequestMarshaller.Instance;
-            var unmarshaller = ListSizeConstraintSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSizeConstraintSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSizeConstraintSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListSizeConstraintSetsRequest,ListSizeConstraintSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSizeConstraintSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6657,11 +7069,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListSizeConstraintSets">REST API Reference for ListSizeConstraintSets Operation</seealso>
         public virtual IAsyncResult BeginListSizeConstraintSets(ListSizeConstraintSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSizeConstraintSetsRequestMarshaller.Instance;
-            var unmarshaller = ListSizeConstraintSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSizeConstraintSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSizeConstraintSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSizeConstraintSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6698,10 +7110,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListSqlInjectionMatchSets">REST API Reference for ListSqlInjectionMatchSets Operation</seealso>
         public virtual ListSqlInjectionMatchSetsResponse ListSqlInjectionMatchSets(ListSqlInjectionMatchSetsRequest request)
         {
-            var marshaller = ListSqlInjectionMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListSqlInjectionMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSqlInjectionMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSqlInjectionMatchSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListSqlInjectionMatchSetsRequest,ListSqlInjectionMatchSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSqlInjectionMatchSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6718,11 +7131,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListSqlInjectionMatchSets">REST API Reference for ListSqlInjectionMatchSets Operation</seealso>
         public virtual IAsyncResult BeginListSqlInjectionMatchSets(ListSqlInjectionMatchSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSqlInjectionMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListSqlInjectionMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSqlInjectionMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSqlInjectionMatchSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSqlInjectionMatchSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6758,10 +7171,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListSubscribedRuleGroups">REST API Reference for ListSubscribedRuleGroups Operation</seealso>
         public virtual ListSubscribedRuleGroupsResponse ListSubscribedRuleGroups(ListSubscribedRuleGroupsRequest request)
         {
-            var marshaller = ListSubscribedRuleGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListSubscribedRuleGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSubscribedRuleGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSubscribedRuleGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<ListSubscribedRuleGroupsRequest,ListSubscribedRuleGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSubscribedRuleGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -6778,11 +7192,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListSubscribedRuleGroups">REST API Reference for ListSubscribedRuleGroups Operation</seealso>
         public virtual IAsyncResult BeginListSubscribedRuleGroups(ListSubscribedRuleGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSubscribedRuleGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListSubscribedRuleGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSubscribedRuleGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSubscribedRuleGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSubscribedRuleGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6796,6 +7210,125 @@ namespace Amazon.WAF
         public virtual ListSubscribedRuleGroupsResponse EndListSubscribedRuleGroups(IAsyncResult asyncResult)
         {
             return EndInvoke<ListSubscribedRuleGroupsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonWAFClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from WAF.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -6819,10 +7352,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListWebACLs">REST API Reference for ListWebACLs Operation</seealso>
         public virtual ListWebACLsResponse ListWebACLs(ListWebACLsRequest request)
         {
-            var marshaller = ListWebACLsRequestMarshaller.Instance;
-            var unmarshaller = ListWebACLsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListWebACLsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListWebACLsResponseUnmarshaller.Instance;
 
-            return Invoke<ListWebACLsRequest,ListWebACLsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListWebACLsResponse>(request, options);
         }
 
         /// <summary>
@@ -6839,11 +7373,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListWebACLs">REST API Reference for ListWebACLs Operation</seealso>
         public virtual IAsyncResult BeginListWebACLs(ListWebACLsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListWebACLsRequestMarshaller.Instance;
-            var unmarshaller = ListWebACLsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListWebACLsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListWebACLsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListWebACLsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6880,10 +7414,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListXssMatchSets">REST API Reference for ListXssMatchSets Operation</seealso>
         public virtual ListXssMatchSetsResponse ListXssMatchSets(ListXssMatchSetsRequest request)
         {
-            var marshaller = ListXssMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListXssMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListXssMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListXssMatchSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListXssMatchSetsRequest,ListXssMatchSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListXssMatchSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -6900,11 +7435,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/ListXssMatchSets">REST API Reference for ListXssMatchSets Operation</seealso>
         public virtual IAsyncResult BeginListXssMatchSets(ListXssMatchSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListXssMatchSetsRequestMarshaller.Instance;
-            var unmarshaller = ListXssMatchSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListXssMatchSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListXssMatchSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListXssMatchSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6918,6 +7453,112 @@ namespace Amazon.WAF
         public virtual ListXssMatchSetsResponse EndListXssMatchSets(IAsyncResult asyncResult)
         {
             return EndInvoke<ListXssMatchSetsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutLoggingConfiguration
+
+        /// <summary>
+        /// Associates a <a>LoggingConfiguration</a> with a specified web ACL.
+        /// 
+        ///  
+        /// <para>
+        /// You can access information about all traffic that AWS WAF inspects using the following
+        /// steps:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// Create an Amazon Kinesis Data Firehose. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Create the data firehose with a PUT source and in the region that you are operating.
+        /// However, if you are capturing logs for Amazon CloudFront, always create the firehose
+        /// in US East (N. Virginia). 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Do not create the data firehose using a <code>Kinesis stream</code> as your source.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        /// Associate that firehose to your web ACL using a <code>PutLoggingConfiguration</code>
+        /// request.
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// When you successfully enable logging using a <code>PutLoggingConfiguration</code>
+        /// request, AWS WAF will create a service linked role with the necessary permissions
+        /// to write logs to the Amazon Kinesis Data Firehose. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+        /// Web ACL Traffic Information</a> in the <i>AWS WAF Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutLoggingConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutLoggingConfiguration service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFServiceLinkedRoleErrorException">
+        /// AWS WAF is not able to access the service linked role. This can be caused by a previous
+        /// <code>PutLoggingConfiguration</code> request, which can lock the service linked role
+        /// for about 20 seconds. Please try your request again. The service linked role can also
+        /// be locked by a previous <code>DeleteServiceLinkedRole</code> request, which can lock
+        /// the role for 15 minutes or more. If you recently made a <code>DeleteServiceLinkedRole</code>,
+        /// wait at least 15 minutes and try the request again. If you receive this same exception
+        /// again, you will have to wait additional time until the role is unlocked.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFStaleDataException">
+        /// The operation failed because you tried to create, update, or delete an object by using
+        /// a change token that has already been used.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/PutLoggingConfiguration">REST API Reference for PutLoggingConfiguration Operation</seealso>
+        public virtual PutLoggingConfigurationResponse PutLoggingConfiguration(PutLoggingConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLoggingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLoggingConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<PutLoggingConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutLoggingConfiguration operation on AmazonWAFClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutLoggingConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/PutLoggingConfiguration">REST API Reference for PutLoggingConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginPutLoggingConfiguration(PutLoggingConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLoggingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLoggingConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutLoggingConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutLoggingConfigurationResult from WAF.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/PutLoggingConfiguration">REST API Reference for PutLoggingConfiguration Operation</seealso>
+        public virtual PutLoggingConfigurationResponse EndPutLoggingConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutLoggingConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -6947,8 +7588,9 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code> and <code>waf-regional:UpdateWebACL</code>.
-        /// Any extra or wildcard actions in the policy will be rejected.
+        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code>, <code>waf-regional:UpdateWebACL</code>,
+        /// <code>waf:GetRuleGroup</code> and <code>waf-regional:GetRuleGroup</code> . Any extra
+        /// or wildcard actions in the policy will be rejected.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7006,8 +7648,9 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code> or <code>waf-regional:UpdateWebACL</code>.
-        /// Any extra or wildcard actions in the policy will be rejected.
+        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code>, <code>waf-regional:UpdateWebACL</code>,
+        /// <code>waf:GetRuleGroup</code> and <code>waf-regional:GetRuleGroup</code> . Any extra
+        /// or wildcard actions in the policy will be rejected.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7038,10 +7681,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/PutPermissionPolicy">REST API Reference for PutPermissionPolicy Operation</seealso>
         public virtual PutPermissionPolicyResponse PutPermissionPolicy(PutPermissionPolicyRequest request)
         {
-            var marshaller = PutPermissionPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutPermissionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutPermissionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutPermissionPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutPermissionPolicyRequest,PutPermissionPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutPermissionPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -7058,11 +7702,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/PutPermissionPolicy">REST API Reference for PutPermissionPolicy Operation</seealso>
         public virtual IAsyncResult BeginPutPermissionPolicy(PutPermissionPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutPermissionPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutPermissionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutPermissionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutPermissionPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutPermissionPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7076,6 +7720,249 @@ namespace Amazon.WAF
         public virtual PutPermissionPolicyResponse EndPutPermissionPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<PutPermissionPolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
+        /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// in the <i>AWS WAF Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonWAFClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from WAF.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by WAF.</returns>
+        /// <exception cref="Amazon.WAF.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAF.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonWAFClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from WAF.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -7140,7 +8027,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -7179,11 +8066,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7243,7 +8125,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -7348,7 +8230,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -7385,11 +8267,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7449,7 +8326,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -7488,10 +8365,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateByteMatchSet">REST API Reference for UpdateByteMatchSet Operation</seealso>
         public virtual UpdateByteMatchSetResponse UpdateByteMatchSet(UpdateByteMatchSetRequest request)
         {
-            var marshaller = UpdateByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateByteMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateByteMatchSetRequest,UpdateByteMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateByteMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -7508,11 +8386,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateByteMatchSet">REST API Reference for UpdateByteMatchSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateByteMatchSet(UpdateByteMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateByteMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateByteMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateByteMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateByteMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateByteMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7578,7 +8456,7 @@ namespace Amazon.WAF
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -7615,11 +8493,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7679,7 +8552,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -7732,10 +8605,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateGeoMatchSet">REST API Reference for UpdateGeoMatchSet Operation</seealso>
         public virtual UpdateGeoMatchSetResponse UpdateGeoMatchSet(UpdateGeoMatchSetRequest request)
         {
-            var marshaller = UpdateGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGeoMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateGeoMatchSetRequest,UpdateGeoMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateGeoMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -7752,11 +8626,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateGeoMatchSet">REST API Reference for UpdateGeoMatchSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateGeoMatchSet(UpdateGeoMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateGeoMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateGeoMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGeoMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGeoMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateGeoMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7797,9 +8671,9 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// AWS WAF supports /8, /16, /24, and /32 IP address ranges for IPv4, and /24, /32, /48,
-        /// /56, /64 and /128 for IPv6. For more information about CIDR notation, see the Wikipedia
-        /// entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+        /// AWS WAF supports IPv4 address ranges: /8 and any range between /16 through /32. AWS
+        /// WAF supports IPv6 address ranges: /24, /32, /48, /56, /64, and /128. For more information
+        /// about CIDR notation, see the Wikipedia entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
         /// Inter-Domain Routing</a>.
         /// </para>
         ///  
@@ -7856,13 +8730,17 @@ namespace Amazon.WAF
         /// </para>
         ///  
         /// <para>
+        /// You can insert a maximum of 1000 addresses in a single request.
+        /// </para>
+        ///  
+        /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="ipSetId">The <code>IPSetId</code> of the <a>IPSet</a> that you want to update. <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by <a>ListIPSets</a>.</param>
-        /// <param name="updates">An array of <code>IPSetUpdate</code> objects that you want to insert into or delete from an <a>IPSet</a>. For more information, see the applicable data types: <ul> <li>  <a>IPSetUpdate</a>: Contains <code>Action</code> and <code>IPSetDescriptor</code>  </li> <li>  <a>IPSetDescriptor</a>: Contains <code>Type</code> and <code>Value</code>  </li> </ul></param>
+        /// <param name="updates">An array of <code>IPSetUpdate</code> objects that you want to insert into or delete from an <a>IPSet</a>. For more information, see the applicable data types: <ul> <li>  <a>IPSetUpdate</a>: Contains <code>Action</code> and <code>IPSetDescriptor</code>  </li> <li>  <a>IPSetDescriptor</a>: Contains <code>Type</code> and <code>Value</code>  </li> </ul> You can insert a maximum of 1000 addresses in a single request.</param>
         /// <param name="changeToken">The value returned by the most recent call to <a>GetChangeToken</a>.</param>
         /// 
         /// <returns>The response from the UpdateIPSet service method, as returned by WAF.</returns>
@@ -7896,11 +8774,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7960,7 +8833,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -8042,9 +8915,9 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// AWS WAF supports /8, /16, /24, and /32 IP address ranges for IPv4, and /24, /32, /48,
-        /// /56, /64 and /128 for IPv6. For more information about CIDR notation, see the Wikipedia
-        /// entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+        /// AWS WAF supports IPv4 address ranges: /8 and any range between /16 through /32. AWS
+        /// WAF supports IPv6 address ranges: /24, /32, /48, /56, /64, and /128. For more information
+        /// about CIDR notation, see the Wikipedia entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
         /// Inter-Domain Routing</a>.
         /// </para>
         ///  
@@ -8101,8 +8974,12 @@ namespace Amazon.WAF
         /// </para>
         ///  
         /// <para>
+        /// You can insert a maximum of 1000 addresses in a single request.
+        /// </para>
+        ///  
+        /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8139,11 +9016,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8203,7 +9075,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -8256,10 +9128,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateIPSet">REST API Reference for UpdateIPSet Operation</seealso>
         public virtual UpdateIPSetResponse UpdateIPSet(UpdateIPSetRequest request)
         {
-            var marshaller = UpdateIPSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateIPSetRequest,UpdateIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateIPSetResponse>(request, options);
         }
 
         /// <summary>
@@ -8276,11 +9149,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateIPSet">REST API Reference for UpdateIPSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateIPSet(UpdateIPSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateIPSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateIPSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8402,11 +9275,6 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -8463,7 +9331,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -8516,10 +9384,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRateBasedRule">REST API Reference for UpdateRateBasedRule Operation</seealso>
         public virtual UpdateRateBasedRuleResponse UpdateRateBasedRule(UpdateRateBasedRuleRequest request)
         {
-            var marshaller = UpdateRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = UpdateRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRateBasedRuleResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRateBasedRuleRequest,UpdateRateBasedRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRateBasedRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -8536,11 +9405,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRateBasedRule">REST API Reference for UpdateRateBasedRule Operation</seealso>
         public virtual IAsyncResult BeginUpdateRateBasedRule(UpdateRateBasedRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRateBasedRuleRequestMarshaller.Instance;
-            var unmarshaller = UpdateRateBasedRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRateBasedRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRateBasedRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRateBasedRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8614,7 +9483,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8657,11 +9526,6 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -8669,7 +9533,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -8708,10 +9572,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRegexMatchSet">REST API Reference for UpdateRegexMatchSet Operation</seealso>
         public virtual UpdateRegexMatchSetResponse UpdateRegexMatchSet(UpdateRegexMatchSetRequest request)
         {
-            var marshaller = UpdateRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRegexMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRegexMatchSetRequest,UpdateRegexMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRegexMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -8728,11 +9593,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRegexMatchSet">REST API Reference for UpdateRegexMatchSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateRegexMatchSet(UpdateRegexMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRegexMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateRegexMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRegexMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRegexMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRegexMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8808,7 +9673,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8848,11 +9713,6 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -8864,7 +9724,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -8903,10 +9763,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRegexPatternSet">REST API Reference for UpdateRegexPatternSet Operation</seealso>
         public virtual UpdateRegexPatternSetResponse UpdateRegexPatternSet(UpdateRegexPatternSetRequest request)
         {
-            var marshaller = UpdateRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRegexPatternSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRegexPatternSetRequest,UpdateRegexPatternSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRegexPatternSetResponse>(request, options);
         }
 
         /// <summary>
@@ -8923,11 +9784,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRegexPatternSet">REST API Reference for UpdateRegexPatternSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateRegexPatternSet(UpdateRegexPatternSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRegexPatternSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateRegexPatternSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRegexPatternSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRegexPatternSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRegexPatternSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8952,8 +9813,8 @@ namespace Amazon.WAF
         /// object identifies a predicate, such as a <a>ByteMatchSet</a> or an <a>IPSet</a>, that
         /// specifies the web requests that you want to allow, block, or count. If you add more
         /// than one predicate to a <code>Rule</code>, a request must match all of the specifications
-        /// to be allowed, blocked, or counted. For example, suppose you add the following to
-        /// a <code>Rule</code>: 
+        /// to be allowed, blocked, or counted. For example, suppose that you add the following
+        /// to a <code>Rule</code>: 
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -9004,7 +9865,7 @@ namespace Amazon.WAF
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9043,11 +9904,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9107,7 +9963,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -9173,8 +10029,8 @@ namespace Amazon.WAF
         /// object identifies a predicate, such as a <a>ByteMatchSet</a> or an <a>IPSet</a>, that
         /// specifies the web requests that you want to allow, block, or count. If you add more
         /// than one predicate to a <code>Rule</code>, a request must match all of the specifications
-        /// to be allowed, blocked, or counted. For example, suppose you add the following to
-        /// a <code>Rule</code>: 
+        /// to be allowed, blocked, or counted. For example, suppose that you add the following
+        /// to a <code>Rule</code>: 
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -9225,7 +10081,7 @@ namespace Amazon.WAF
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9262,11 +10118,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9326,7 +10177,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -9379,10 +10230,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRule">REST API Reference for UpdateRule Operation</seealso>
         public virtual UpdateRuleResponse UpdateRule(UpdateRuleRequest request)
         {
-            var marshaller = UpdateRuleRequestMarshaller.Instance;
-            var unmarshaller = UpdateRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRuleResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRuleRequest,UpdateRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -9399,11 +10251,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRule">REST API Reference for UpdateRule Operation</seealso>
         public virtual IAsyncResult BeginUpdateRule(UpdateRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRuleRequestMarshaller.Instance;
-            var unmarshaller = UpdateRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9465,7 +10317,7 @@ namespace Amazon.WAF
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9498,11 +10350,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9562,7 +10409,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -9601,10 +10448,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRuleGroup">REST API Reference for UpdateRuleGroup Operation</seealso>
         public virtual UpdateRuleGroupResponse UpdateRuleGroup(UpdateRuleGroupRequest request)
         {
-            var marshaller = UpdateRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRuleGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRuleGroupRequest,UpdateRuleGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRuleGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -9621,11 +10469,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateRuleGroup">REST API Reference for UpdateRuleGroup Operation</seealso>
         public virtual IAsyncResult BeginUpdateRuleGroup(UpdateRuleGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRuleGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateRuleGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRuleGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRuleGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRuleGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9666,6 +10514,10 @@ namespace Amazon.WAF
         /// supported because the AWS resource forwards only the first <code>8192</code> bytes
         /// of your request to AWS WAF.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> <li> 
         /// <para>
         /// A <code>ComparisonOperator</code> used for evaluating the selected part of the request
@@ -9705,7 +10557,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9742,11 +10594,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9806,7 +10653,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -9859,10 +10706,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateSizeConstraintSet">REST API Reference for UpdateSizeConstraintSet Operation</seealso>
         public virtual UpdateSizeConstraintSetResponse UpdateSizeConstraintSet(UpdateSizeConstraintSetRequest request)
         {
-            var marshaller = UpdateSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSizeConstraintSetRequest,UpdateSizeConstraintSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSizeConstraintSetResponse>(request, options);
         }
 
         /// <summary>
@@ -9879,11 +10727,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateSizeConstraintSet">REST API Reference for UpdateSizeConstraintSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateSizeConstraintSet(UpdateSizeConstraintSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSizeConstraintSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateSizeConstraintSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSizeConstraintSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSizeConstraintSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSizeConstraintSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9916,18 +10764,23 @@ namespace Amazon.WAF
         ///  </li> <li> 
         /// <para>
         ///  <code>FieldToMatch</code>: The part of web requests that you want AWS WAF to inspect
-        /// and, if you want AWS WAF to inspect a header, the name of the header.
+        /// and, if you want AWS WAF to inspect a header or custom query parameter, the name of
+        /// the header or parameter.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>TextTransformation</code>: Which text transformation, if any, to perform on
         /// the web request before inspecting the request for snippets of malicious SQL code.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> </ul> 
         /// <para>
         /// You use <code>SqlInjectionMatchSet</code> objects to specify which CloudFront requests
-        /// you want to allow, block, or count. For example, if you're receiving requests that
-        /// contain snippets of SQL code in the query string and you want to block the requests,
+        /// that you want to allow, block, or count. For example, if you're receiving requests
+        /// that contain snippets of SQL code in the query string and you want to block the requests,
         /// you can create a <code>SqlInjectionMatchSet</code> with the applicable settings, and
         /// then configure AWS WAF to block the requests. 
         /// </para>
@@ -9953,7 +10806,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9992,11 +10845,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -10056,7 +10904,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -10116,18 +10964,23 @@ namespace Amazon.WAF
         ///  </li> <li> 
         /// <para>
         ///  <code>FieldToMatch</code>: The part of web requests that you want AWS WAF to inspect
-        /// and, if you want AWS WAF to inspect a header, the name of the header.
+        /// and, if you want AWS WAF to inspect a header or custom query parameter, the name of
+        /// the header or parameter.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>TextTransformation</code>: Which text transformation, if any, to perform on
         /// the web request before inspecting the request for snippets of malicious SQL code.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> </ul> 
         /// <para>
         /// You use <code>SqlInjectionMatchSet</code> objects to specify which CloudFront requests
-        /// you want to allow, block, or count. For example, if you're receiving requests that
-        /// contain snippets of SQL code in the query string and you want to block the requests,
+        /// that you want to allow, block, or count. For example, if you're receiving requests
+        /// that contain snippets of SQL code in the query string and you want to block the requests,
         /// you can create a <code>SqlInjectionMatchSet</code> with the applicable settings, and
         /// then configure AWS WAF to block the requests. 
         /// </para>
@@ -10153,7 +11006,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -10193,11 +11046,6 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -10254,7 +11102,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -10293,10 +11141,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateSqlInjectionMatchSet">REST API Reference for UpdateSqlInjectionMatchSet Operation</seealso>
         public virtual UpdateSqlInjectionMatchSetResponse UpdateSqlInjectionMatchSet(UpdateSqlInjectionMatchSetRequest request)
         {
-            var marshaller = UpdateSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSqlInjectionMatchSetRequest,UpdateSqlInjectionMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSqlInjectionMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -10313,11 +11162,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateSqlInjectionMatchSet">REST API Reference for UpdateSqlInjectionMatchSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateSqlInjectionMatchSet(UpdateSqlInjectionMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSqlInjectionMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateSqlInjectionMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSqlInjectionMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSqlInjectionMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSqlInjectionMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10350,9 +11199,9 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The <code>Rules</code> that you want to add and/or delete. If you want to replace
-        /// one <code>Rule</code> with another, you delete the existing <code>Rule</code> and
-        /// add the new one.
+        /// The <code>Rules</code> that you want to add or delete. If you want to replace one
+        /// <code>Rule</code> with another, you delete the existing <code>Rule</code> and add
+        /// the new one.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -10365,7 +11214,7 @@ namespace Amazon.WAF
         /// If you add more than one <code>Rule</code> to a <code>WebACL</code>, AWS WAF evaluates
         /// each request against the <code>Rules</code> in order based on the value of <code>Priority</code>.
         /// (The <code>Rule</code> that has the lowest value for <code>Priority</code> is evaluated
-        /// first.) When a web request matches all of the predicates (such as <code>ByteMatchSets</code>
+        /// first.) When a web request matches all the predicates (such as <code>ByteMatchSets</code>
         /// and <code>IPSets</code>) in a <code>Rule</code>, AWS WAF immediately takes the corresponding
         /// action, allow or block, and doesn't evaluate the request against the remaining <code>Rules</code>
         /// in the <code>WebACL</code>, if any. 
@@ -10400,6 +11249,18 @@ namespace Amazon.WAF
         /// you want to include in the <code>WebACL</code>, to specify the default action, and
         /// to associate the <code>WebACL</code> with a CloudFront distribution. 
         /// </para>
+        ///  
+        /// <para>
+        /// The <code>ActivatedRule</code> can be a rule group. If you specify a rule group as
+        /// your <code>ActivatedRule</code>, you can exclude specific rules from that rule group.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you already have a rule group associated with a web ACL and want to submit an <code>UpdateWebACL</code>
+        /// request to exclude certain rules from that rule group, you must first remove the rule
+        /// group from the web ACL, the re-insert it again, specifying the excluded rules. For
+        /// details, see <a>ActivatedRule$ExcludedRules</a>. 
+        /// </para>
         ///  </li> </ol> 
         /// <para>
         /// Be aware that if you try to add a RATE_BASED rule to a web ACL without setting the
@@ -10410,7 +11271,7 @@ namespace Amazon.WAF
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -10450,11 +11311,6 @@ namespace Amazon.WAF
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -10511,7 +11367,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -10567,10 +11423,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateWebACL">REST API Reference for UpdateWebACL Operation</seealso>
         public virtual UpdateWebACLResponse UpdateWebACL(UpdateWebACLRequest request)
         {
-            var marshaller = UpdateWebACLRequestMarshaller.Instance;
-            var unmarshaller = UpdateWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateWebACLResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateWebACLRequest,UpdateWebACLResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateWebACLResponse>(request, options);
         }
 
         /// <summary>
@@ -10587,11 +11444,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateWebACL">REST API Reference for UpdateWebACL Operation</seealso>
         public virtual IAsyncResult BeginUpdateWebACL(UpdateWebACLRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateWebACLRequestMarshaller.Instance;
-            var unmarshaller = UpdateWebACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateWebACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateWebACLResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateWebACLRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10618,26 +11475,31 @@ namespace Amazon.WAF
         ///  <ul> <li> 
         /// <para>
         ///  <code>Action</code>: Whether to insert the object into or delete the object from
-        /// the array. To change a <code>XssMatchTuple</code>, you delete the existing object
+        /// the array. To change an <code>XssMatchTuple</code>, you delete the existing object
         /// and add a new one.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>FieldToMatch</code>: The part of web requests that you want AWS WAF to inspect
-        /// and, if you want AWS WAF to inspect a header, the name of the header.
+        /// and, if you want AWS WAF to inspect a header or custom query parameter, the name of
+        /// the header or parameter.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>TextTransformation</code>: Which text transformation, if any, to perform on
         /// the web request before inspecting the request for cross-site scripting attacks.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// You use <code>XssMatchSet</code> objects to specify which CloudFront requests you
-        /// want to allow, block, or count. For example, if you're receiving requests that contain
-        /// cross-site scripting attacks in the request body and you want to block the requests,
-        /// you can create an <code>XssMatchSet</code> with the applicable settings, and then
-        /// configure AWS WAF to block the requests. 
+        /// You use <code>XssMatchSet</code> objects to specify which CloudFront requests that
+        /// you want to allow, block, or count. For example, if you're receiving requests that
+        /// contain cross-site scripting attacks in the request body and you want to block the
+        /// requests, you can create an <code>XssMatchSet</code> with the applicable settings,
+        /// and then configure AWS WAF to block the requests. 
         /// </para>
         ///  
         /// <para>
@@ -10660,7 +11522,7 @@ namespace Amazon.WAF
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -10697,11 +11559,6 @@ namespace Amazon.WAF
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -10761,7 +11618,7 @@ namespace Amazon.WAF
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAF.Model.WAFNonexistentContainerException">
@@ -10800,10 +11657,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateXssMatchSet">REST API Reference for UpdateXssMatchSet Operation</seealso>
         public virtual UpdateXssMatchSetResponse UpdateXssMatchSet(UpdateXssMatchSetRequest request)
         {
-            var marshaller = UpdateXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateXssMatchSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateXssMatchSetRequest,UpdateXssMatchSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateXssMatchSetResponse>(request, options);
         }
 
         /// <summary>
@@ -10820,11 +11678,11 @@ namespace Amazon.WAF
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-2015-08-24/UpdateXssMatchSet">REST API Reference for UpdateXssMatchSet Operation</seealso>
         public virtual IAsyncResult BeginUpdateXssMatchSet(UpdateXssMatchSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateXssMatchSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateXssMatchSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateXssMatchSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateXssMatchSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateXssMatchSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

@@ -55,11 +55,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListJobsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Batch");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-08-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/listjobs";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/listjobs";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -87,6 +88,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("maxResults");
                     context.Writer.Write(publicRequest.MaxResults);
+                }
+
+                if(publicRequest.IsSetMultiNodeJobId())
+                {
+                    context.Writer.WritePropertyName("multiNodeJobId");
+                    context.Writer.Write(publicRequest.MultiNodeJobId);
                 }
 
                 if(publicRequest.IsSetNextToken())

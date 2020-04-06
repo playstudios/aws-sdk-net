@@ -73,11 +73,11 @@ namespace Amazon.DatabaseMigrationService.Model
         /// Gets and sets the property AllowMajorVersionUpgrade. 
         /// <para>
         /// Indicates that major version upgrades are allowed. Changing this parameter does not
-        /// result in an outage and the change is asynchronously applied as soon as possible.
+        /// result in an outage, and the change is asynchronously applied as soon as possible.
         /// </para>
         ///  
         /// <para>
-        /// Constraints: This parameter must be set to true when specifying a value for the <code>EngineVersion</code>
+        /// This parameter must be set to <code>true</code> when specifying a value for the <code>EngineVersion</code>
         /// parameter that is a different major version than the replication instance's current
         /// version.
         /// </para>
@@ -116,13 +116,28 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property AutoMinorVersionUpgrade. 
         /// <para>
-        ///  Indicates that minor version upgrades will be applied automatically to the replication
-        /// instance during the maintenance window. Changing this parameter does not result in
-        /// an outage except in the following case and the change is asynchronously applied as
-        /// soon as possible. An outage will result if this parameter is set to <code>true</code>
-        /// during the maintenance window, and a newer minor version is available, and AWS DMS
-        /// has enabled auto patching for that engine version. 
+        /// A value that indicates that minor version upgrades are applied automatically to the
+        /// replication instance during the maintenance window. Changing this parameter doesn't
+        /// result in an outage, except in the case dsecribed following. The change is asynchronously
+        /// applied as soon as possible. 
         /// </para>
+        ///  
+        /// <para>
+        /// An outage does result if these factors apply: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// This parameter is set to <code>true</code> during the maintenance window.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A newer minor version is available. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// AWS DMS has enabled automatic patching for the given engine version. 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public bool AutoMinorVersionUpgrade
         {
@@ -157,8 +172,8 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the
-        /// <code>AvailabilityZone</code> parameter if the Multi-AZ parameter is set to <code>true</code>.
+        ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set
+        /// the <code>AvailabilityZone</code> parameter if the Multi-AZ parameter is set to <code>true</code>.
         /// 
         /// </para>
         /// </summary>
@@ -218,6 +233,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// The Amazon Resource Name (ARN) of the replication instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReplicationInstanceArn
         {
             get { return this._replicationInstanceArn; }

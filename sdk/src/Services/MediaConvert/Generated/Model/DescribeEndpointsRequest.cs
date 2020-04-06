@@ -35,6 +35,7 @@ namespace Amazon.MediaConvert.Model
     public partial class DescribeEndpointsRequest : AmazonMediaConvertRequest
     {
         private int? _maxResults;
+        private DescribeEndpointsMode _mode;
         private string _nextToken;
 
         /// <summary>
@@ -51,6 +52,24 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetMaxResults()
         {
             return this._maxResults.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Mode. Optional field, defaults to DEFAULT. Specify DEFAULT
+        /// for this operation to return your endpoints if any exist, or to create an endpoint
+        /// for you and return it if one doesn't already exist. Specify GET_ONLY to return your
+        /// endpoints if any exist, or an empty list if none exist.
+        /// </summary>
+        public DescribeEndpointsMode Mode
+        {
+            get { return this._mode; }
+            set { this._mode = value; }
+        }
+
+        // Check to see if Mode property is set
+        internal bool IsSetMode()
+        {
+            return this._mode != null;
         }
 
         /// <summary>

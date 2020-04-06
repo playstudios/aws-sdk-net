@@ -51,9 +51,11 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property CertificateId. 
         /// <para>
-        /// The ID of the certificate.
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate
+        /// ID.)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=64, Max=64)]
         public string CertificateId
         {
             get { return this._certificateId; }

@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -42,6 +42,7 @@ namespace Amazon.CloudDirectory.Model
         /// The attributes to set on the object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<AttributeKeyAndValue> ObjectAttributeList
         {
             get { return this._objectAttributeList; }
@@ -60,6 +61,7 @@ namespace Amazon.CloudDirectory.Model
         /// A reference to the object being mutated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ObjectReference
         {
             get { return this._objectReference; }
@@ -78,6 +80,7 @@ namespace Amazon.CloudDirectory.Model
         /// Represents the facet being added to the object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SchemaFacet SchemaFacet
         {
             get { return this._schemaFacet; }

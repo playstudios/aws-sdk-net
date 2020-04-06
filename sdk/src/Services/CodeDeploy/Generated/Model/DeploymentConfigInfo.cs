@@ -42,7 +42,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ComputePlatform. 
         /// <para>
-        /// The destination platform type for the deployment (<code>Lambda</code> or <code>Server</code>).
+        /// The destination platform type for the deployment (<code>Lambda</code>, <code>Server</code>,
+        /// or <code>ECS</code>).
         /// </para>
         /// </summary>
         public ComputePlatform ComputePlatform
@@ -99,6 +100,7 @@ namespace Amazon.CodeDeploy.Model
         /// The deployment configuration name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentConfigName
         {
             get { return this._deploymentConfigName; }
@@ -132,7 +134,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property TrafficRoutingConfig. 
         /// <para>
-        /// The configuration specifying how the deployment traffic will be routed. Only deployments
+        /// The configuration that specifies how the deployment traffic is routed. Only deployments
         /// with a Lambda compute platform can specify this.
         /// </para>
         /// </summary>

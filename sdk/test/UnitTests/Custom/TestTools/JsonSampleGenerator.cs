@@ -30,20 +30,20 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
             JsonWriter writer = new JsonWriter();
             writer.PrettyPrint = true;
 
-            WriteStructure(writer, this._rootStructure);
+            WriteStructure(writer, null, this._rootStructure);
 
             var json = writer.ToString();
             return json;
         }
 
-        private void Write(JsonWriter writer, Shape shape)
+        private void Write(JsonWriter writer, Member member, Shape shape)
         {
             if (shape.IsStructure)
-                WriteStructure(writer, shape);
+                WriteStructure(writer, member, shape);
             else if (shape.IsList)
-                WriteArray(writer, shape);
+                WriteArray(writer, member, shape);
             else if (shape.IsMap)
-                WriteMap(writer, shape);
+                WriteMap(writer, member, shape);
             else if (shape.IsEnum)
             {
                 var enumerationWrapper = this._model.Enumerations(true).First(x => x.Name == shape.Name);
@@ -60,25 +60,32 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
             else if (shape.IsFloat)
                 writer.Write(float.MaxValue);
             else if (shape.IsDateTime)
-                writer.Write(Constants.DEFAULT_DATE);
+            {
+                writer.Write(ValidatorUtils.GetTestDate(member, shape));
+            }
             else if (shape.IsBoolean)
                 writer.Write(true);
-            else if (shape.IsBlob)
+            else if (shape.IsMemoryStream)
                 writer.Write(Constants.DEFAULT_BLOB_ENCODED);
             else
                 throw new Exception("Unknown Type for shape " + shape.Name);
         }
 
 
-        private void WriteStructure(JsonWriter writer, Shape structure)
+        private void WriteStructure(JsonWriter writer, Member memberWithComplexShape, Shape structure)
         {
             var pushed = this._tcr.Push(structure.Name);
             if (!pushed)
+            {
+                // Circular reference found. Closing the structure
+                writer.WriteObjectStart();
+                writer.WriteObjectEnd();
                 return;
+            }
 
             if (structure.PayloadMemberName != null)
             {
-                this.WriteStructure(writer, structure.PayloadMember.Shape);
+                this.WriteStructure(writer, structure.PayloadMember, structure.PayloadMember.Shape);
                 return;
             }
 
@@ -90,8 +97,7 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
 
                 if (member.OverrideDataType != null && string.Equals(member.OverrideDataType.Unmarshaller, "DateTimeEpochLongMillisecondsUnmarshaller"))
                 {
-                    var ticks = Constants.DEFAULT_DATE.Ticks - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).Ticks;
-                    writer.Write((long)TimeSpan.FromTicks(ticks).TotalMilliseconds);
+                    writer.Write(ValidatorUtils.GetTestEpochTime().TotalMilliseconds);
                 }
                 else if (member.OverrideDataType != null && string.Equals(member.OverrideDataType.Unmarshaller, "Amazon.Runtime.Internal.Transform.DateTimeUnmarshaller"))
                 {
@@ -103,7 +109,7 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
                 }
                 else
                 {
-                    this.Write(writer, member.Shape);
+                    this.Write(writer, member, member.Shape);
                 }
             }
 
@@ -113,7 +119,8 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
                 this._tcr.Pop();
         }
 
-        private void WriteArray(JsonWriter writer, Shape array)
+
+        private void WriteArray(JsonWriter writer, Member member, Shape array)
         {
 
             writer.WriteArrayStart();
@@ -123,14 +130,14 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
             {
                 for (int i = 0; i < array.Name.Length % 5 + 2; i++)
                 {
-                    Write(writer, listShape);
+                    Write(writer, member, listShape);
                 }
             }
 
             writer.WriteArrayEnd();
         }
 
-        private void WriteMap(JsonWriter writer, Shape map)
+        private void WriteMap(JsonWriter writer, Member member, Shape map)
         {
 
             writer.WriteObjectStart();
@@ -141,7 +148,7 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
                 for (int i = 0; i < map.Name.Length % 5 + 2; i++)
                 {
                     writer.WritePropertyName("key" + i);
-                    Write(writer, map.ValueShape);
+                    Write(writer, member, map.ValueShape);
                 }
             }
 

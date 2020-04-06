@@ -29,7 +29,7 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the GetLifecyclePolicy operation.
-    /// Retrieves the specified lifecycle policy.
+    /// Retrieves the lifecycle policy for the specified repository.
     /// </summary>
     public partial class GetLifecyclePolicyRequest : AmazonECRRequest
     {
@@ -61,6 +61,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

@@ -55,16 +55,34 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateJobRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaConvert");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-29";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/2017-08-29/jobs";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2017-08-29/jobs";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAccelerationSettings())
+                {
+                    context.Writer.WritePropertyName("accelerationSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AccelerationSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.AccelerationSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetBillingTagsSource())
+                {
+                    context.Writer.WritePropertyName("billingTagsSource");
+                    context.Writer.Write(publicRequest.BillingTagsSource);
+                }
+
                 if(publicRequest.IsSetClientRequestToken())
                 {
                     context.Writer.WritePropertyName("clientRequestToken");
@@ -80,6 +98,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("jobTemplate");
                     context.Writer.Write(publicRequest.JobTemplate);
+                }
+
+                if(publicRequest.IsSetPriority())
+                {
+                    context.Writer.WritePropertyName("priority");
+                    context.Writer.Write(publicRequest.Priority);
                 }
 
                 if(publicRequest.IsSetQueue())
@@ -102,6 +126,32 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     var marshaller = JobSettingsMarshaller.Instance;
                     marshaller.Marshall(publicRequest.Settings, context);
 
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetSimulateReservedQueue())
+                {
+                    context.Writer.WritePropertyName("simulateReservedQueue");
+                    context.Writer.Write(publicRequest.SimulateReservedQueue);
+                }
+
+                if(publicRequest.IsSetStatusUpdateInterval())
+                {
+                    context.Writer.WritePropertyName("statusUpdateInterval");
+                    context.Writer.Write(publicRequest.StatusUpdateInterval);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
                     context.Writer.WriteObjectEnd();
                 }
 

@@ -55,16 +55,17 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteBasePathMappingRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/domainnames/{domain_name}/basepathmappings/{base_path}";
             if (!publicRequest.IsSetBasePath())
                 throw new AmazonAPIGatewayException("Request object does not have required field BasePath set");
-            uriResourcePath = uriResourcePath.Replace("{base_path}", StringUtils.FromString(publicRequest.BasePath));
+            request.AddPathResource("{base_path}", StringUtils.FromString(publicRequest.BasePath));
             if (!publicRequest.IsSetDomainName())
                 throw new AmazonAPIGatewayException("Request object does not have required field DomainName set");
-            uriResourcePath = uriResourcePath.Replace("{domain_name}", StringUtils.FromString(publicRequest.DomainName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{domain_name}", StringUtils.FromString(publicRequest.DomainName));
+            request.ResourcePath = "/domainnames/{domain_name}/basepathmappings/{base_path}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

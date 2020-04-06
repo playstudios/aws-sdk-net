@@ -29,14 +29,40 @@ namespace Amazon.CloudWatchEvents.Model
 {
     /// <summary>
     /// Container for the parameters to the ListRules operation.
-    /// Lists your Amazon CloudWatch Events rules. You can either list all the rules or you
-    /// can provide a prefix to match to the rule names.
+    /// Lists your Amazon EventBridge rules. You can either list all the rules or you can
+    /// provide a prefix to match to the rule names.
+    /// 
+    ///  
+    /// <para>
+    /// ListRules does not list the targets of a rule. To see the targets associated with
+    /// a rule, use <a>ListTargetsByRule</a>.
+    /// </para>
     /// </summary>
     public partial class ListRulesRequest : AmazonCloudWatchEventsRequest
     {
+        private string _eventBusName;
         private int? _limit;
         private string _namePrefix;
         private string _nextToken;
+
+        /// <summary>
+        /// Gets and sets the property EventBusName. 
+        /// <para>
+        /// Limits the results to show only the rules associated with the specified event bus.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string EventBusName
+        {
+            get { return this._eventBusName; }
+            set { this._eventBusName = value; }
+        }
+
+        // Check to see if EventBusName property is set
+        internal bool IsSetEventBusName()
+        {
+            return this._eventBusName != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Limit. 
@@ -44,6 +70,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The maximum number of results to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -62,6 +89,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The prefix matching the rule name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string NamePrefix
         {
             get { return this._namePrefix; }
@@ -80,6 +108,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The token returned by a previous call to retrieve the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string NextToken
         {
             get { return this._nextToken; }

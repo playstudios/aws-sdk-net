@@ -29,12 +29,18 @@ namespace Amazon.ACMPCA.Model
 {
     /// <summary>
     /// Container for the parameters to the RevokeCertificate operation.
-    /// Revokes a certificate that you issued by calling the <a>IssueCertificate</a> function.
-    /// If you enable a certificate revocation list (CRL) when you create or update your private
-    /// CA, information about the revoked certificates will be included in the CRL. ACM PCA
-    /// writes the CRL to an S3 bucket that you specify. For more information about revocation,
-    /// see the <a>CrlConfiguration</a> structure. ACM PCA also writes revocation information
-    /// to the audit report. For more information, see <a>CreateCertificateAuthorityAuditReport</a>.
+    /// Revokes a certificate that was issued inside ACM Private CA. If you enable a certificate
+    /// revocation list (CRL) when you create or update your private CA, information about
+    /// the revoked certificates will be included in the CRL. ACM Private CA writes the CRL
+    /// to an S3 bucket that you specify. For more information about revocation, see the <a>CrlConfiguration</a>
+    /// structure. ACM Private CA also writes revocation information to the audit report.
+    /// For more information, see <a>CreateCertificateAuthorityAuditReport</a>. 
+    /// 
+    ///  <note> 
+    /// <para>
+    /// You cannot revoke a root CA self-signed certificate.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class RevokeCertificateRequest : AmazonACMPCARequest
     {
@@ -50,10 +56,11 @@ namespace Amazon.ACMPCA.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:acm:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+        ///  <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
         /// </code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=200)]
         public string CertificateAuthorityArn
         {
             get { return this._certificateAuthorityArn; }
@@ -72,7 +79,7 @@ namespace Amazon.ACMPCA.Model
         /// Serial number of the certificate to be revoked. This must be in hexadecimal format.
         /// You can retrieve the serial number by calling <a>GetCertificate</a> with the Amazon
         /// Resource Name (ARN) of the certificate you want and the ARN of your private CA. The
-        /// <b>GetCertificate</b> function retrieves the certificate in the PEM format. You can
+        /// <b>GetCertificate</b> action retrieves the certificate in the PEM format. You can
         /// use the following OpenSSL command to list the certificate in text format and copy
         /// the hexadecimal serial number. 
         /// </para>
@@ -82,10 +89,11 @@ namespace Amazon.ACMPCA.Model
         /// </para>
         ///  
         /// <para>
-        /// You can also copy the serial number from the console or use the <a href="http://docs.aws.amazon.comacm/latest/APIReferenceAPI_DescribeCertificate.html">DescribeCertificate</a>
-        /// function in the <i>AWS Certificate Manager API Reference</i>. 
+        /// You can also copy the serial number from the console or use the <a href="https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html">DescribeCertificate</a>
+        /// action in the <i>AWS Certificate Manager API Reference</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=128)]
         public string CertificateSerial
         {
             get { return this._certificateSerial; }
@@ -104,6 +112,7 @@ namespace Amazon.ACMPCA.Model
         /// Specifies why you revoked the certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RevocationReason RevocationReason
         {
             get { return this._revocationReason; }

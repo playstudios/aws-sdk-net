@@ -42,6 +42,7 @@ namespace Amazon.CodeBuild.Model
         /// The name or key of the environment variable.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Name
         {
             get { return this._name; }
@@ -66,7 +67,12 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>PLAINTEXT</code>: An environment variable in plaintext format.
+        ///  <code>PLAINTEXT</code>: An environment variable in plain text format. This is the
+        /// default value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SECRETS_MANAGER</code>: An environment variable stored in AWS Secrets Manager.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -89,13 +95,15 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  <important> 
         /// <para>
-        /// We strongly discourage using environment variables to store sensitive values, especially
-        /// AWS secret key IDs and secret access keys. Environment variables can be displayed
-        /// in plain text using tools such as the AWS CodeBuild console and the AWS Command Line
-        /// Interface (AWS CLI).
+        /// We strongly discourage the use of <code>PLAINTEXT</code> environment variables to
+        /// store sensitive values, especially AWS secret key IDs and secret access keys. <code>PLAINTEXT</code>
+        /// environment variables can be displayed in plain text using the AWS CodeBuild console
+        /// and the AWS Command Line Interface (AWS CLI). For sensitive values, we recommend you
+        /// use an environment variable of type <code>PARAMETER_STORE</code> or <code>SECRETS_MANAGER</code>.
         /// </para>
         ///  </important>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Value
         {
             get { return this._value; }

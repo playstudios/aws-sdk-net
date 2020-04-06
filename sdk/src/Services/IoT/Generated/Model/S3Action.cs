@@ -43,6 +43,7 @@ namespace Amazon.IoT.Model
         /// The Amazon S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BucketName
         {
             get { return this._bucketName; }
@@ -59,7 +60,7 @@ namespace Amazon.IoT.Model
         /// Gets and sets the property CannedAcl. 
         /// <para>
         /// The Amazon S3 canned ACL that controls access to the object identified by the object
-        /// key. For more information, see <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl">S3
+        /// key. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl">S3
         /// canned ACLs</a>.
         /// </para>
         /// </summary>
@@ -81,6 +82,7 @@ namespace Amazon.IoT.Model
         /// The object key.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Key
         {
             get { return this._key; }
@@ -99,6 +101,7 @@ namespace Amazon.IoT.Model
         /// The ARN of the IAM role that grants access.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }

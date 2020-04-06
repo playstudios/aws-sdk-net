@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.StepFunctions.Model
 {
     /// <summary>
-    /// Contains details about a failed lambda function schedule event which occurred during
+    /// Contains details about a failed lambda function schedule event that occurred during
     /// an execution.
     /// </summary>
     public partial class LambdaFunctionScheduleFailedEventDetails
@@ -42,6 +42,7 @@ namespace Amazon.StepFunctions.Model
         /// A more detailed explanation of the cause of the failure.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=32768)]
         public string Cause
         {
             get { return this._cause; }
@@ -60,6 +61,7 @@ namespace Amazon.StepFunctions.Model
         /// The error code of the failure.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Error
         {
             get { return this._error; }

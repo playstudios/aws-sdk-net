@@ -29,24 +29,28 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the StartContentModeration operation.
-    /// Starts asynchronous detection of explicit or suggestive adult content in a stored
-    /// video.
+    /// Starts asynchronous detection of unsafe content in a stored video.
     /// 
     ///  
     /// <para>
-    /// Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use
-    /// <a>Video</a> to specify the bucket name and the filename of the video. <code>StartContentModeration</code>
+    /// Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket.
+    /// Use <a>Video</a> to specify the bucket name and the filename of the video. <code>StartContentModeration</code>
     /// returns a job identifier (<code>JobId</code>) which you use to get the results of
-    /// the analysis. When content moderation analysis is finished, Rekognition Video publishes
+    /// the analysis. When unsafe content analysis is finished, Amazon Rekognition Video publishes
     /// a completion status to the Amazon Simple Notification Service topic that you specify
     /// in <code>NotificationChannel</code>.
     /// </para>
     ///  
     /// <para>
-    /// To get the results of the content moderation analysis, first check that the status
-    /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and
-    /// pass the job identifier (<code>JobId</code>) from the initial call to <code>StartContentModeration</code>.
-    /// For more information, see <a>moderation</a>.
+    /// To get the results of the unsafe content analysis, first check that the status value
+    /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetContentModeration</a>
+    /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartContentModeration</code>.
+    /// 
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see Detecting Unsafe Content in the Amazon Rekognition Developer
+    /// Guide.
     /// </para>
     /// </summary>
     public partial class StartContentModerationRequest : AmazonRekognitionRequest
@@ -66,6 +70,7 @@ namespace Amazon.Rekognition.Model
         /// accidently started more than once. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -81,10 +86,12 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property JobTag. 
         /// <para>
-        /// Unique identifier you specify to identify the job in the completion status published
-        /// to the Amazon Simple Notification Service topic. 
+        /// An identifier you specify that's returned in the completion notification that's published
+        /// to your Amazon Simple Notification Service topic. For example, you can use <code>JobTag</code>
+        /// to group related jobs and identify them in the completion notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string JobTag
         {
             get { return this._jobTag; }
@@ -104,9 +111,12 @@ namespace Amazon.Rekognition.Model
         /// a moderated content label. Confidence represents how certain Amazon Rekognition is
         /// that the moderated content is correctly identified. 0 is the lowest confidence. 100
         /// is the highest confidence. Amazon Rekognition doesn't return any moderated content
-        /// labels with a confidence level lower than this specified value.
+        /// labels with a confidence level lower than this specified value. If you don't specify
+        /// <code>MinConfidence</code>, <code>GetContentModeration</code> returns labels with
+        /// confidence values greater than or equal to 50 percent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float MinConfidence
         {
             get { return this._minConfidence.GetValueOrDefault(); }
@@ -122,8 +132,8 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property NotificationChannel. 
         /// <para>
-        /// The Amazon SNS topic ARN that you want Rekognition Video to publish the completion
-        /// status of the content moderation analysis to.
+        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion
+        /// status of the unsafe content analysis to.
         /// </para>
         /// </summary>
         public NotificationChannel NotificationChannel
@@ -141,10 +151,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property Video. 
         /// <para>
-        /// The video in which you want to moderate content. The video must be stored in an Amazon
-        /// S3 bucket.
+        /// The video in which you want to detect unsafe content. The video must be stored in
+        /// an Amazon S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Video Video
         {
             get { return this._video; }

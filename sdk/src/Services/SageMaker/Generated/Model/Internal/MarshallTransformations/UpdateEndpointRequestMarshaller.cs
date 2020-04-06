@@ -58,10 +58,11 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
             string target = "SageMaker.UpdateEndpoint";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-24";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -77,6 +78,28 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("EndpointName");
                     context.Writer.Write(publicRequest.EndpointName);
+                }
+
+                if(publicRequest.IsSetExcludeRetainedVariantProperties())
+                {
+                    context.Writer.WritePropertyName("ExcludeRetainedVariantProperties");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestExcludeRetainedVariantPropertiesListValue in publicRequest.ExcludeRetainedVariantProperties)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = VariantPropertyMarshaller.Instance;
+                        marshaller.Marshall(publicRequestExcludeRetainedVariantPropertiesListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetRetainAllVariantProperties())
+                {
+                    context.Writer.WritePropertyName("RetainAllVariantProperties");
+                    context.Writer.Write(publicRequest.RetainAllVariantProperties);
                 }
 
         

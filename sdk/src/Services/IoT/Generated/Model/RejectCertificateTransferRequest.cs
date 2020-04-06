@@ -51,9 +51,11 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property CertificateId. 
         /// <para>
-        /// The ID of the certificate.
+        /// The ID of the certificate. (The last part of the certificate ARN contains the certificate
+        /// ID.)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=64, Max=64)]
         public string CertificateId
         {
             get { return this._certificateId; }
@@ -72,6 +74,7 @@ namespace Amazon.IoT.Model
         /// The reason the certificate transfer was rejected.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string RejectReason
         {
             get { return this._rejectReason; }

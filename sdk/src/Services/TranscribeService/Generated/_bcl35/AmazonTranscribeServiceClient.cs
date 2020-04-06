@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.TranscribeService.Model;
 using Amazon.TranscribeService.Model.Internal.MarshallTransformations;
+using Amazon.TranscribeService.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -37,6 +39,7 @@ namespace Amazon.TranscribeService
     /// </summary>
     public partial class AmazonTranscribeServiceClient : AmazonServiceClient, IAmazonTranscribeService
     {
+        private static IServiceMetadata serviceMetadata = new AmazonTranscribeServiceMetadata();
         #region Constructors
 
         /// <summary>
@@ -207,6 +210,16 @@ namespace Amazon.TranscribeService
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -222,7 +235,7 @@ namespace Amazon.TranscribeService
 
         #endregion
 
-        
+
         #region  CreateVocabulary
 
         /// <summary>
@@ -233,13 +246,20 @@ namespace Amazon.TranscribeService
         /// 
         /// <returns>The response from the CreateVocabulary service method, as returned by TranscribeService.</returns>
         /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
-        /// Your request didn't pass one or more validation tests. For example, a name already
-        /// exists when createing a resource or a name may not exist when getting a transcription
-        /// job or custom vocabulary. See the exception <code>Message</code> field for more information.
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.ConflictException">
-        /// The <code>JobName</code> field is a duplicate of a previously entered job name. Resend
-        /// your request with a different name.
+        /// When you are using the <code>CreateVocabulary</code> operation, the <code>JobName</code>
+        /// field is a duplicate of a previously entered job name. Resend your request with a
+        /// different name.
+        /// 
+        ///  
+        /// <para>
+        /// When you are using the <code>UpdateVocabulary</code> operation, there are two jobs
+        /// running at the same time. Resend the second request later.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
@@ -251,10 +271,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateVocabulary">REST API Reference for CreateVocabulary Operation</seealso>
         public virtual CreateVocabularyResponse CreateVocabulary(CreateVocabularyRequest request)
         {
-            var marshaller = CreateVocabularyRequestMarshaller.Instance;
-            var unmarshaller = CreateVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVocabularyResponseUnmarshaller.Instance;
 
-            return Invoke<CreateVocabularyRequest,CreateVocabularyResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateVocabularyResponse>(request, options);
         }
 
         /// <summary>
@@ -271,11 +292,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateVocabulary">REST API Reference for CreateVocabulary Operation</seealso>
         public virtual IAsyncResult BeginCreateVocabulary(CreateVocabularyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateVocabularyRequestMarshaller.Instance;
-            var unmarshaller = CreateVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVocabularyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateVocabularyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -293,6 +314,151 @@ namespace Amazon.TranscribeService
 
         #endregion
         
+        #region  CreateVocabularyFilter
+
+        /// <summary>
+        /// Creates a new vocabulary filter that you can use to filter words, such as profane
+        /// words, from the output of a transcription job.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateVocabularyFilter service method.</param>
+        /// 
+        /// <returns>The response from the CreateVocabularyFilter service method, as returned by TranscribeService.</returns>
+        /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.ConflictException">
+        /// When you are using the <code>CreateVocabulary</code> operation, the <code>JobName</code>
+        /// field is a duplicate of a previously entered job name. Resend your request with a
+        /// different name.
+        /// 
+        ///  
+        /// <para>
+        /// When you are using the <code>UpdateVocabulary</code> operation, there are two jobs
+        /// running at the same time. Resend the second request later.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
+        /// There was an internal error. Check the error message and try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.LimitExceededException">
+        /// Either you have sent too many requests or your input file is too long. Wait before
+        /// you resend your request, or use a smaller file and resend the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateVocabularyFilter">REST API Reference for CreateVocabularyFilter Operation</seealso>
+        public virtual CreateVocabularyFilterResponse CreateVocabularyFilter(CreateVocabularyFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVocabularyFilterResponseUnmarshaller.Instance;
+
+            return Invoke<CreateVocabularyFilterResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateVocabularyFilter operation on AmazonTranscribeServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateVocabularyFilter
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateVocabularyFilter">REST API Reference for CreateVocabularyFilter Operation</seealso>
+        public virtual IAsyncResult BeginCreateVocabularyFilter(CreateVocabularyFilterRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVocabularyFilterResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateVocabularyFilter.</param>
+        /// 
+        /// <returns>Returns a  CreateVocabularyFilterResult from TranscribeService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateVocabularyFilter">REST API Reference for CreateVocabularyFilter Operation</seealso>
+        public virtual CreateVocabularyFilterResponse EndCreateVocabularyFilter(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateVocabularyFilterResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteTranscriptionJob
+
+        /// <summary>
+        /// Deletes a previously submitted transcription job along with any other generated results
+        /// such as the transcription, models, and so on.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTranscriptionJob service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTranscriptionJob service method, as returned by TranscribeService.</returns>
+        /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
+        /// There was an internal error. Check the error message and try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.LimitExceededException">
+        /// Either you have sent too many requests or your input file is too long. Wait before
+        /// you resend your request, or use a smaller file and resend the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteTranscriptionJob">REST API Reference for DeleteTranscriptionJob Operation</seealso>
+        public virtual DeleteTranscriptionJobResponse DeleteTranscriptionJob(DeleteTranscriptionJobRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTranscriptionJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTranscriptionJobResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteTranscriptionJobResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTranscriptionJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTranscriptionJob operation on AmazonTranscribeServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTranscriptionJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteTranscriptionJob">REST API Reference for DeleteTranscriptionJob Operation</seealso>
+        public virtual IAsyncResult BeginDeleteTranscriptionJob(DeleteTranscriptionJobRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTranscriptionJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTranscriptionJobResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTranscriptionJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTranscriptionJob.</param>
+        /// 
+        /// <returns>Returns a  DeleteTranscriptionJobResult from TranscribeService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteTranscriptionJob">REST API Reference for DeleteTranscriptionJob Operation</seealso>
+        public virtual DeleteTranscriptionJobResponse EndDeleteTranscriptionJob(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteTranscriptionJobResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteVocabulary
 
         /// <summary>
@@ -301,6 +467,11 @@ namespace Amazon.TranscribeService
         /// <param name="request">Container for the necessary parameters to execute the DeleteVocabulary service method.</param>
         /// 
         /// <returns>The response from the DeleteVocabulary service method, as returned by TranscribeService.</returns>
+        /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
         /// </exception>
@@ -309,16 +480,16 @@ namespace Amazon.TranscribeService
         /// you resend your request, or use a smaller file and resend the request.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.NotFoundException">
-        /// We can't find the requested transcription job or custom vocabulary. Check the name
-        /// and try your request again.
+        /// We can't find the requested resource. Check the name and try your request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteVocabulary">REST API Reference for DeleteVocabulary Operation</seealso>
         public virtual DeleteVocabularyResponse DeleteVocabulary(DeleteVocabularyRequest request)
         {
-            var marshaller = DeleteVocabularyRequestMarshaller.Instance;
-            var unmarshaller = DeleteVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVocabularyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteVocabularyRequest,DeleteVocabularyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteVocabularyResponse>(request, options);
         }
 
         /// <summary>
@@ -335,11 +506,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteVocabulary">REST API Reference for DeleteVocabulary Operation</seealso>
         public virtual IAsyncResult BeginDeleteVocabulary(DeleteVocabularyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteVocabularyRequestMarshaller.Instance;
-            var unmarshaller = DeleteVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVocabularyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteVocabularyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -357,21 +528,18 @@ namespace Amazon.TranscribeService
 
         #endregion
         
-        #region  GetTranscriptionJob
+        #region  DeleteVocabularyFilter
 
         /// <summary>
-        /// Returns information about a transcription job. To see the status of the job, check
-        /// the <code>TranscriptionJobStatus</code> field. If the status is <code>COMPLETED</code>,
-        /// the job is finished and you can find the results at the location specified in the
-        /// <code>TranscriptionFileUri</code> field.
+        /// Removes a vocabulary filter.
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the GetTranscriptionJob service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVocabularyFilter service method.</param>
         /// 
-        /// <returns>The response from the GetTranscriptionJob service method, as returned by TranscribeService.</returns>
+        /// <returns>The response from the DeleteVocabularyFilter service method, as returned by TranscribeService.</returns>
         /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
-        /// Your request didn't pass one or more validation tests. For example, a name already
-        /// exists when createing a resource or a name may not exist when getting a transcription
-        /// job or custom vocabulary. See the exception <code>Message</code> field for more information.
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
@@ -381,16 +549,89 @@ namespace Amazon.TranscribeService
         /// you resend your request, or use a smaller file and resend the request.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.NotFoundException">
-        /// We can't find the requested transcription job or custom vocabulary. Check the name
-        /// and try your request again.
+        /// We can't find the requested resource. Check the name and try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteVocabularyFilter">REST API Reference for DeleteVocabularyFilter Operation</seealso>
+        public virtual DeleteVocabularyFilterResponse DeleteVocabularyFilter(DeleteVocabularyFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVocabularyFilterResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteVocabularyFilterResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVocabularyFilter operation on AmazonTranscribeServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteVocabularyFilter
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteVocabularyFilter">REST API Reference for DeleteVocabularyFilter Operation</seealso>
+        public virtual IAsyncResult BeginDeleteVocabularyFilter(DeleteVocabularyFilterRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVocabularyFilterResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteVocabularyFilter.</param>
+        /// 
+        /// <returns>Returns a  DeleteVocabularyFilterResult from TranscribeService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteVocabularyFilter">REST API Reference for DeleteVocabularyFilter Operation</seealso>
+        public virtual DeleteVocabularyFilterResponse EndDeleteVocabularyFilter(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteVocabularyFilterResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetTranscriptionJob
+
+        /// <summary>
+        /// Returns information about a transcription job. To see the status of the job, check
+        /// the <code>TranscriptionJobStatus</code> field. If the status is <code>COMPLETED</code>,
+        /// the job is finished and you can find the results at the location specified in the
+        /// <code>TranscriptFileUri</code> field. If you enable content redaction, the redacted
+        /// transcript appears in <code>RedactedTranscriptFileUri</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTranscriptionJob service method.</param>
+        /// 
+        /// <returns>The response from the GetTranscriptionJob service method, as returned by TranscribeService.</returns>
+        /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
+        /// There was an internal error. Check the error message and try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.LimitExceededException">
+        /// Either you have sent too many requests or your input file is too long. Wait before
+        /// you resend your request, or use a smaller file and resend the request.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.NotFoundException">
+        /// We can't find the requested resource. Check the name and try your request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetTranscriptionJob">REST API Reference for GetTranscriptionJob Operation</seealso>
         public virtual GetTranscriptionJobResponse GetTranscriptionJob(GetTranscriptionJobRequest request)
         {
-            var marshaller = GetTranscriptionJobRequestMarshaller.Instance;
-            var unmarshaller = GetTranscriptionJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTranscriptionJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTranscriptionJobResponseUnmarshaller.Instance;
 
-            return Invoke<GetTranscriptionJobRequest,GetTranscriptionJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTranscriptionJobResponse>(request, options);
         }
 
         /// <summary>
@@ -407,11 +648,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetTranscriptionJob">REST API Reference for GetTranscriptionJob Operation</seealso>
         public virtual IAsyncResult BeginGetTranscriptionJob(GetTranscriptionJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTranscriptionJobRequestMarshaller.Instance;
-            var unmarshaller = GetTranscriptionJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTranscriptionJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTranscriptionJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTranscriptionJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -438,9 +679,9 @@ namespace Amazon.TranscribeService
         /// 
         /// <returns>The response from the GetVocabulary service method, as returned by TranscribeService.</returns>
         /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
-        /// Your request didn't pass one or more validation tests. For example, a name already
-        /// exists when createing a resource or a name may not exist when getting a transcription
-        /// job or custom vocabulary. See the exception <code>Message</code> field for more information.
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
@@ -450,16 +691,16 @@ namespace Amazon.TranscribeService
         /// you resend your request, or use a smaller file and resend the request.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.NotFoundException">
-        /// We can't find the requested transcription job or custom vocabulary. Check the name
-        /// and try your request again.
+        /// We can't find the requested resource. Check the name and try your request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetVocabulary">REST API Reference for GetVocabulary Operation</seealso>
         public virtual GetVocabularyResponse GetVocabulary(GetVocabularyRequest request)
         {
-            var marshaller = GetVocabularyRequestMarshaller.Instance;
-            var unmarshaller = GetVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVocabularyResponseUnmarshaller.Instance;
 
-            return Invoke<GetVocabularyRequest,GetVocabularyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetVocabularyResponse>(request, options);
         }
 
         /// <summary>
@@ -476,11 +717,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetVocabulary">REST API Reference for GetVocabulary Operation</seealso>
         public virtual IAsyncResult BeginGetVocabulary(GetVocabularyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetVocabularyRequestMarshaller.Instance;
-            var unmarshaller = GetVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVocabularyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetVocabularyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -498,6 +739,75 @@ namespace Amazon.TranscribeService
 
         #endregion
         
+        #region  GetVocabularyFilter
+
+        /// <summary>
+        /// Returns information about a vocabulary filter.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetVocabularyFilter service method.</param>
+        /// 
+        /// <returns>The response from the GetVocabularyFilter service method, as returned by TranscribeService.</returns>
+        /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
+        /// There was an internal error. Check the error message and try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.LimitExceededException">
+        /// Either you have sent too many requests or your input file is too long. Wait before
+        /// you resend your request, or use a smaller file and resend the request.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.NotFoundException">
+        /// We can't find the requested resource. Check the name and try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetVocabularyFilter">REST API Reference for GetVocabularyFilter Operation</seealso>
+        public virtual GetVocabularyFilterResponse GetVocabularyFilter(GetVocabularyFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVocabularyFilterResponseUnmarshaller.Instance;
+
+            return Invoke<GetVocabularyFilterResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetVocabularyFilter operation on AmazonTranscribeServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetVocabularyFilter
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetVocabularyFilter">REST API Reference for GetVocabularyFilter Operation</seealso>
+        public virtual IAsyncResult BeginGetVocabularyFilter(GetVocabularyFilterRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVocabularyFilterResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetVocabularyFilter.</param>
+        /// 
+        /// <returns>Returns a  GetVocabularyFilterResult from TranscribeService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetVocabularyFilter">REST API Reference for GetVocabularyFilter Operation</seealso>
+        public virtual GetVocabularyFilterResponse EndGetVocabularyFilter(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetVocabularyFilterResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  ListTranscriptionJobs
 
         /// <summary>
@@ -507,9 +817,9 @@ namespace Amazon.TranscribeService
         /// 
         /// <returns>The response from the ListTranscriptionJobs service method, as returned by TranscribeService.</returns>
         /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
-        /// Your request didn't pass one or more validation tests. For example, a name already
-        /// exists when createing a resource or a name may not exist when getting a transcription
-        /// job or custom vocabulary. See the exception <code>Message</code> field for more information.
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
@@ -521,10 +831,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListTranscriptionJobs">REST API Reference for ListTranscriptionJobs Operation</seealso>
         public virtual ListTranscriptionJobsResponse ListTranscriptionJobs(ListTranscriptionJobsRequest request)
         {
-            var marshaller = ListTranscriptionJobsRequestMarshaller.Instance;
-            var unmarshaller = ListTranscriptionJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTranscriptionJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTranscriptionJobsResponseUnmarshaller.Instance;
 
-            return Invoke<ListTranscriptionJobsRequest,ListTranscriptionJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTranscriptionJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -541,11 +852,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListTranscriptionJobs">REST API Reference for ListTranscriptionJobs Operation</seealso>
         public virtual IAsyncResult BeginListTranscriptionJobs(ListTranscriptionJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTranscriptionJobsRequestMarshaller.Instance;
-            var unmarshaller = ListTranscriptionJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTranscriptionJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTranscriptionJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTranscriptionJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -573,9 +884,9 @@ namespace Amazon.TranscribeService
         /// 
         /// <returns>The response from the ListVocabularies service method, as returned by TranscribeService.</returns>
         /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
-        /// Your request didn't pass one or more validation tests. For example, a name already
-        /// exists when createing a resource or a name may not exist when getting a transcription
-        /// job or custom vocabulary. See the exception <code>Message</code> field for more information.
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
@@ -587,10 +898,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListVocabularies">REST API Reference for ListVocabularies Operation</seealso>
         public virtual ListVocabulariesResponse ListVocabularies(ListVocabulariesRequest request)
         {
-            var marshaller = ListVocabulariesRequestMarshaller.Instance;
-            var unmarshaller = ListVocabulariesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVocabulariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVocabulariesResponseUnmarshaller.Instance;
 
-            return Invoke<ListVocabulariesRequest,ListVocabulariesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListVocabulariesResponse>(request, options);
         }
 
         /// <summary>
@@ -607,11 +919,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListVocabularies">REST API Reference for ListVocabularies Operation</seealso>
         public virtual IAsyncResult BeginListVocabularies(ListVocabulariesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListVocabulariesRequestMarshaller.Instance;
-            var unmarshaller = ListVocabulariesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVocabulariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVocabulariesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListVocabulariesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -629,6 +941,72 @@ namespace Amazon.TranscribeService
 
         #endregion
         
+        #region  ListVocabularyFilters
+
+        /// <summary>
+        /// Gets information about vocabulary filters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListVocabularyFilters service method.</param>
+        /// 
+        /// <returns>The response from the ListVocabularyFilters service method, as returned by TranscribeService.</returns>
+        /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
+        /// There was an internal error. Check the error message and try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.LimitExceededException">
+        /// Either you have sent too many requests or your input file is too long. Wait before
+        /// you resend your request, or use a smaller file and resend the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListVocabularyFilters">REST API Reference for ListVocabularyFilters Operation</seealso>
+        public virtual ListVocabularyFiltersResponse ListVocabularyFilters(ListVocabularyFiltersRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVocabularyFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVocabularyFiltersResponseUnmarshaller.Instance;
+
+            return Invoke<ListVocabularyFiltersResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListVocabularyFilters operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListVocabularyFilters operation on AmazonTranscribeServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListVocabularyFilters
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListVocabularyFilters">REST API Reference for ListVocabularyFilters Operation</seealso>
+        public virtual IAsyncResult BeginListVocabularyFilters(ListVocabularyFiltersRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVocabularyFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVocabularyFiltersResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListVocabularyFilters operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListVocabularyFilters.</param>
+        /// 
+        /// <returns>Returns a  ListVocabularyFiltersResult from TranscribeService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListVocabularyFilters">REST API Reference for ListVocabularyFilters Operation</seealso>
+        public virtual ListVocabularyFiltersResponse EndListVocabularyFilters(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListVocabularyFiltersResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  StartTranscriptionJob
 
         /// <summary>
@@ -638,13 +1016,20 @@ namespace Amazon.TranscribeService
         /// 
         /// <returns>The response from the StartTranscriptionJob service method, as returned by TranscribeService.</returns>
         /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
-        /// Your request didn't pass one or more validation tests. For example, a name already
-        /// exists when createing a resource or a name may not exist when getting a transcription
-        /// job or custom vocabulary. See the exception <code>Message</code> field for more information.
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.ConflictException">
-        /// The <code>JobName</code> field is a duplicate of a previously entered job name. Resend
-        /// your request with a different name.
+        /// When you are using the <code>CreateVocabulary</code> operation, the <code>JobName</code>
+        /// field is a duplicate of a previously entered job name. Resend your request with a
+        /// different name.
+        /// 
+        ///  
+        /// <para>
+        /// When you are using the <code>UpdateVocabulary</code> operation, there are two jobs
+        /// running at the same time. Resend the second request later.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
@@ -656,10 +1041,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/StartTranscriptionJob">REST API Reference for StartTranscriptionJob Operation</seealso>
         public virtual StartTranscriptionJobResponse StartTranscriptionJob(StartTranscriptionJobRequest request)
         {
-            var marshaller = StartTranscriptionJobRequestMarshaller.Instance;
-            var unmarshaller = StartTranscriptionJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartTranscriptionJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartTranscriptionJobResponseUnmarshaller.Instance;
 
-            return Invoke<StartTranscriptionJobRequest,StartTranscriptionJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartTranscriptionJobResponse>(request, options);
         }
 
         /// <summary>
@@ -676,11 +1062,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/StartTranscriptionJob">REST API Reference for StartTranscriptionJob Operation</seealso>
         public virtual IAsyncResult BeginStartTranscriptionJob(StartTranscriptionJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartTranscriptionJobRequestMarshaller.Instance;
-            var unmarshaller = StartTranscriptionJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartTranscriptionJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartTranscriptionJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartTranscriptionJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -701,15 +1087,28 @@ namespace Amazon.TranscribeService
         #region  UpdateVocabulary
 
         /// <summary>
-        /// Updates an existing vocabulary with new values.
+        /// Updates an existing vocabulary with new values. The <code>UpdateVocabulary</code>
+        /// operation overwrites all of the existing information with the values that you provide
+        /// in the request.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateVocabulary service method.</param>
         /// 
         /// <returns>The response from the UpdateVocabulary service method, as returned by TranscribeService.</returns>
         /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
-        /// Your request didn't pass one or more validation tests. For example, a name already
-        /// exists when createing a resource or a name may not exist when getting a transcription
-        /// job or custom vocabulary. See the exception <code>Message</code> field for more information.
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.ConflictException">
+        /// When you are using the <code>CreateVocabulary</code> operation, the <code>JobName</code>
+        /// field is a duplicate of a previously entered job name. Resend your request with a
+        /// different name.
+        /// 
+        ///  
+        /// <para>
+        /// When you are using the <code>UpdateVocabulary</code> operation, there are two jobs
+        /// running at the same time. Resend the second request later.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
         /// There was an internal error. Check the error message and try your request again.
@@ -719,16 +1118,16 @@ namespace Amazon.TranscribeService
         /// you resend your request, or use a smaller file and resend the request.
         /// </exception>
         /// <exception cref="Amazon.TranscribeService.Model.NotFoundException">
-        /// We can't find the requested transcription job or custom vocabulary. Check the name
-        /// and try your request again.
+        /// We can't find the requested resource. Check the name and try your request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateVocabulary">REST API Reference for UpdateVocabulary Operation</seealso>
         public virtual UpdateVocabularyResponse UpdateVocabulary(UpdateVocabularyRequest request)
         {
-            var marshaller = UpdateVocabularyRequestMarshaller.Instance;
-            var unmarshaller = UpdateVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVocabularyResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateVocabularyRequest,UpdateVocabularyResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateVocabularyResponse>(request, options);
         }
 
         /// <summary>
@@ -745,11 +1144,11 @@ namespace Amazon.TranscribeService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateVocabulary">REST API Reference for UpdateVocabulary Operation</seealso>
         public virtual IAsyncResult BeginUpdateVocabulary(UpdateVocabularyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateVocabularyRequestMarshaller.Instance;
-            var unmarshaller = UpdateVocabularyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVocabularyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVocabularyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateVocabularyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -763,6 +1162,75 @@ namespace Amazon.TranscribeService
         public virtual UpdateVocabularyResponse EndUpdateVocabulary(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateVocabularyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateVocabularyFilter
+
+        /// <summary>
+        /// Updates a vocabulary filter with a new list of filtered words.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVocabularyFilter service method.</param>
+        /// 
+        /// <returns>The response from the UpdateVocabularyFilter service method, as returned by TranscribeService.</returns>
+        /// <exception cref="Amazon.TranscribeService.Model.BadRequestException">
+        /// Your request didn't pass one or more validation tests. For example, if the transcription
+        /// you're trying to delete doesn't exist or if it is in a non-terminal state (for example,
+        /// it's "in progress"). See the exception <code>Message</code> field for more information.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.InternalFailureException">
+        /// There was an internal error. Check the error message and try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.LimitExceededException">
+        /// Either you have sent too many requests or your input file is too long. Wait before
+        /// you resend your request, or use a smaller file and resend the request.
+        /// </exception>
+        /// <exception cref="Amazon.TranscribeService.Model.NotFoundException">
+        /// We can't find the requested resource. Check the name and try your request again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateVocabularyFilter">REST API Reference for UpdateVocabularyFilter Operation</seealso>
+        public virtual UpdateVocabularyFilterResponse UpdateVocabularyFilter(UpdateVocabularyFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVocabularyFilterResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateVocabularyFilterResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVocabularyFilter operation on AmazonTranscribeServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateVocabularyFilter
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateVocabularyFilter">REST API Reference for UpdateVocabularyFilter Operation</seealso>
+        public virtual IAsyncResult BeginUpdateVocabularyFilter(UpdateVocabularyFilterRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVocabularyFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVocabularyFilterResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateVocabularyFilter operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateVocabularyFilter.</param>
+        /// 
+        /// <returns>Returns a  UpdateVocabularyFilterResult from TranscribeService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateVocabularyFilter">REST API Reference for UpdateVocabularyFilter Operation</seealso>
+        public virtual UpdateVocabularyFilterResponse EndUpdateVocabularyFilter(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateVocabularyFilterResponse>(asyncResult);
         }
 
         #endregion

@@ -31,9 +31,9 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// Container for the parameters to the ListCommandInvocations operation.
     /// An invocation is copy of a command sent to a specific instance. A command can apply
     /// to one or more instances. A command invocation applies to one instance. For example,
-    /// if a user executes SendCommand against three instances, then a command invocation
-    /// is created for each requested instance ID. ListCommandInvocations provide status about
-    /// command execution.
+    /// if a user runs SendCommand against three instances, then a command invocation is created
+    /// for each requested instance ID. ListCommandInvocations provide status about command
+    /// execution.
     /// </summary>
     public partial class ListCommandInvocationsRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -64,6 +64,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// (Optional) The invocations for a specific command ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string CommandId
         {
             get { return this._commandId; }
@@ -99,8 +100,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Gets and sets the property Filters. 
         /// <para>
         /// (Optional) One or more filters. Use a filter to return a more specific list of results.
+        /// Note that the <code>DocumentName</code> filter is not supported for ListCommandInvocations.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=5)]
         public List<CommandFilter> Filters
         {
             get { return this._filters; }
@@ -138,6 +141,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// a token that you can specify in a subsequent call to get the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

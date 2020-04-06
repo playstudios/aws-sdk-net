@@ -99,8 +99,21 @@ namespace Amazon.Shield.Model
         /// <para>
         /// REQUEST_FLOOD
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HTTP_REFLECTION
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UDS_REFLECTION
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMCACHED_REFLECTION
+        /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VectorType
         {
             get { return this._vectorType; }

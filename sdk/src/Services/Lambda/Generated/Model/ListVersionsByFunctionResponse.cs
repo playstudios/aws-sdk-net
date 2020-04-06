@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lambda.Model
 {
     /// <summary>
-    /// 
+    /// This is the response object from the ListVersionsByFunction operation.
     /// </summary>
     public partial class ListVersionsByFunctionResponse : AmazonWebServiceResponse
     {
@@ -38,7 +38,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property NextMarker. 
         /// <para>
-        /// A string, present if there are more function versions.
+        /// The pagination token that's included if more results are available.
         /// </para>
         /// </summary>
         public string NextMarker

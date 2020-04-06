@@ -36,6 +36,7 @@ namespace Amazon.CloudHSMV2.Model
         private string _hsmType;
         private string _sourceBackupId;
         private List<string> _subnetIds = new List<string>();
+        private List<Tag> _tagList = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property HsmType. 
@@ -43,6 +44,7 @@ namespace Amazon.CloudHSMV2.Model
         /// The type of HSM to use in the cluster. Currently the only allowed value is <code>hsm1.medium</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HsmType
         {
             get { return this._hsmType; }
@@ -92,6 +94,7 @@ namespace Amazon.CloudHSMV2.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public List<string> SubnetIds
         {
             get { return this._subnetIds; }
@@ -102,6 +105,22 @@ namespace Amazon.CloudHSMV2.Model
         internal bool IsSetSubnetIds()
         {
             return this._subnetIds != null && this._subnetIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TagList.
+        /// </summary>
+        [AWSProperty(Min=1, Max=50)]
+        public List<Tag> TagList
+        {
+            get { return this._tagList; }
+            set { this._tagList = value; }
+        }
+
+        // Check to see if TagList property is set
+        internal bool IsSetTagList()
+        {
+            return this._tagList != null && this._tagList.Count > 0; 
         }
 
     }

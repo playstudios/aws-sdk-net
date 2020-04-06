@@ -29,10 +29,11 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// A set of instructions for launching server processes on each instance in a fleet.
-    /// Each instruction set identifies the location of the server executable, optional launch
-    /// parameters, and the number of server processes with this configuration to maintain
-    /// concurrently on the instance. Server process configurations make up a fleet's <code>
-    /// <a>RuntimeConfiguration</a> </code>.
+    /// Server processes run either a custom game build executable or a Realtime Servers script.
+    /// Each instruction set identifies the location of the custom game build executable or
+    /// Realtime launch script, optional launch parameters, and the number of server processes
+    /// with this configuration to maintain concurrently on the instance. Server process configurations
+    /// make up a fleet's <code> <a>RuntimeConfiguration</a> </code>.
     /// </summary>
     public partial class ServerProcess
     {
@@ -43,9 +44,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property ConcurrentExecutions. 
         /// <para>
-        /// Number of server processes using this configuration to run concurrently on an instance.
+        /// The number of server processes that use this configuration to run concurrently on
+        /// an instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public int ConcurrentExecutions
         {
             get { return this._concurrentExecutions.GetValueOrDefault(); }
@@ -61,14 +64,23 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property LaunchPath. 
         /// <para>
-        /// Location of the server executable in a game build. All game builds are installed on
-        /// instances at the root : for Windows instances <code>C:\game</code>, and for Linux
-        /// instances <code>/local/game</code>. A Windows game build with an executable file located
-        /// at <code>MyGame\latest\server.exe</code> must have a launch path of "<code>C:\game\MyGame\latest\server.exe</code>".
-        /// A Linux game build with an executable file located at <code>MyGame/latest/server.exe</code>
-        /// must have a launch path of "<code>/local/game/MyGame/latest/server.exe</code>". 
+        /// The location of the server executable in a custom game build or the name of the Realtime
+        /// script file that contains the <code>Init()</code> function. Game builds and Realtime
+        /// scripts are installed on instances at the root: 
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Windows (for custom game builds only): <code>C:\game</code>. Example: "<code>C:\game\MyGame\server.exe</code>"
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Linux: <code>/local/game</code>. Examples: "<code>/local/game/MyGame/server.exe</code>"
+        /// or "<code>/local/game/MyRealtimeScript.js</code>"
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1024)]
         public string LaunchPath
         {
             get { return this._launchPath; }
@@ -84,9 +96,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
-        /// Optional list of parameters to pass to the server executable on launch.
+        /// An optional list of parameters to pass to the server executable or Realtime script
+        /// on launch.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Parameters
         {
             get { return this._parameters; }

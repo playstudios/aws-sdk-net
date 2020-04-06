@@ -47,7 +47,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// <para>
         /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the decision
         /// failed because the IAM role attached to the execution lacked sufficient permissions.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">Lambda
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">Lambda
         /// Tasks</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         ///  </note>
@@ -70,6 +70,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// A description that can help diagnose the cause of the fault.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1728)]
         public string Message
         {
             get { return this._message; }

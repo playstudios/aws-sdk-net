@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Route53.Model
 {
     /// <summary>
-    /// A complex type that contains information about a geo location.
+    /// A complex type that contains information about a geographic location.
     /// </summary>
     public partial class GeoLocation
     {
@@ -43,15 +43,43 @@ namespace Amazon.Route53.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: <code>AF</code> | <code>AN</code> | <code>AS</code> | <code>EU</code>
-        /// | <code>OC</code> | <code>NA</code> | <code>SA</code> 
+        /// Amazon Route 53 supports the following continent codes:
         /// </para>
-        ///  
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>AF</b>: Africa
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>AN</b>: Antarctica
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>AS</b>: Asia
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>EU</b>: Europe
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>OC</b>: Oceania
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>NA</b>: North America
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>SA</b>: South America
+        /// </para>
+        ///  </li> </ul> 
         /// <para>
         /// Constraint: Specifying <code>ContinentCode</code> with either <code>CountryCode</code>
         /// or <code>SubdivisionCode</code> returns an <code>InvalidInput</code> error.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=2)]
         public string ContinentCode
         {
             get { return this._continentCode; }
@@ -67,9 +95,15 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property CountryCode. 
         /// <para>
-        /// The two-letter code for the country.
+        /// For geolocation resource record sets, the two-letter code for a country.
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon Route 53 uses the two-letter country codes that are specified in <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO
+        /// standard 3166-1 alpha-2</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2)]
         public string CountryCode
         {
             get { return this._countryCode; }
@@ -85,10 +119,19 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property SubdivisionCode. 
         /// <para>
-        /// The code for the subdivision, for example, a state in the United States or a province
-        /// in Canada.
+        /// For geolocation resource record sets, the two-letter code for a state of the United
+        /// States. Route 53 doesn't support any other values for <code>SubdivisionCode</code>.
+        /// For a list of state abbreviations, see <a href="https://pe.usps.com/text/pub28/28apb.htm">Appendix
+        /// B: Two–Letter State and Possession Abbreviations</a> on the United States Postal Service
+        /// website. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify <code>subdivisioncode</code>, you must also specify <code>US</code>
+        /// for <code>CountryCode</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=3)]
         public string SubdivisionCode
         {
             get { return this._subdivisionCode; }

@@ -36,9 +36,8 @@ namespace Amazon.EC2.Model
     /// 
     ///  <note> 
     /// <para>
-    /// Only Standard Reserved Instances with a capacity reservation can be sold in the Reserved
-    /// Instance Marketplace. Convertible Reserved Instances and Standard Reserved Instances
-    /// with a regional benefit cannot be sold.
+    /// Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace.
+    /// Convertible Reserved Instances cannot be sold.
     /// </para>
     ///  </note> 
     /// <para>
@@ -59,7 +58,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
     /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -74,10 +73,11 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings.
-        /// This helps avoid duplicate listings. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+        /// This helps avoid duplicate listings. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -98,6 +98,7 @@ namespace Amazon.EC2.Model
         /// the instance count associated with the Reserved Instance ID specified in this call.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int InstanceCount
         {
             get { return this._instanceCount.GetValueOrDefault(); }
@@ -117,6 +118,7 @@ namespace Amazon.EC2.Model
         /// in the Reserved Instance term.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<PriceScheduleSpecification> PriceSchedules
         {
             get { return this._priceSchedules; }
@@ -135,6 +137,7 @@ namespace Amazon.EC2.Model
         /// The ID of the active Standard Reserved Instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReservedInstancesId
         {
             get { return this._reservedInstancesId; }

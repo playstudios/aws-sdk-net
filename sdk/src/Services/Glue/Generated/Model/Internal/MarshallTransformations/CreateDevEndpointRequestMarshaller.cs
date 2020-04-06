@@ -58,15 +58,30 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
             string target = "AWSGlue.CreateDevEndpoint";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetArguments())
+                {
+                    context.Writer.WritePropertyName("Arguments");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestArgumentsKvp in publicRequest.Arguments)
+                    {
+                        context.Writer.WritePropertyName(publicRequestArgumentsKvp.Key);
+                        var publicRequestArgumentsValue = publicRequestArgumentsKvp.Value;
+
+                            context.Writer.Write(publicRequestArgumentsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetEndpointName())
                 {
                     context.Writer.WritePropertyName("EndpointName");
@@ -85,10 +100,22 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.ExtraPythonLibsS3Path);
                 }
 
+                if(publicRequest.IsSetGlueVersion())
+                {
+                    context.Writer.WritePropertyName("GlueVersion");
+                    context.Writer.Write(publicRequest.GlueVersion);
+                }
+
                 if(publicRequest.IsSetNumberOfNodes())
                 {
                     context.Writer.WritePropertyName("NumberOfNodes");
                     context.Writer.Write(publicRequest.NumberOfNodes);
+                }
+
+                if(publicRequest.IsSetNumberOfWorkers())
+                {
+                    context.Writer.WritePropertyName("NumberOfWorkers");
+                    context.Writer.Write(publicRequest.NumberOfWorkers);
                 }
 
                 if(publicRequest.IsSetPublicKey())
@@ -97,10 +124,27 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.PublicKey);
                 }
 
+                if(publicRequest.IsSetPublicKeys())
+                {
+                    context.Writer.WritePropertyName("PublicKeys");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestPublicKeysListValue in publicRequest.PublicKeys)
+                    {
+                            context.Writer.Write(publicRequestPublicKeysListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetRoleArn())
                 {
                     context.Writer.WritePropertyName("RoleArn");
                     context.Writer.Write(publicRequest.RoleArn);
+                }
+
+                if(publicRequest.IsSetSecurityConfiguration())
+                {
+                    context.Writer.WritePropertyName("SecurityConfiguration");
+                    context.Writer.Write(publicRequest.SecurityConfiguration);
                 }
 
                 if(publicRequest.IsSetSecurityGroupIds())
@@ -118,6 +162,26 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("SubnetId");
                     context.Writer.Write(publicRequest.SubnetId);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetWorkerType())
+                {
+                    context.Writer.WritePropertyName("WorkerType");
+                    context.Writer.Write(publicRequest.WorkerType);
                 }
 
         

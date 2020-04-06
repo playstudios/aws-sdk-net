@@ -108,6 +108,10 @@ namespace Amazon.SimpleNotificationService.Model.Internal.MarshallTransformation
             {
                 return new AuthorizationErrorException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("FilterPolicyLimitExceeded"))
+            {
+                return new FilterPolicyLimitExceededException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
             if (errorResponse.Code != null && errorResponse.Code.Equals("InternalError"))
             {
                 return new InternalErrorException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
@@ -115,6 +119,10 @@ namespace Amazon.SimpleNotificationService.Model.Internal.MarshallTransformation
             if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidParameter"))
             {
                 return new InvalidParameterException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidSecurity"))
+            {
+                return new InvalidSecurityException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             if (errorResponse.Code != null && errorResponse.Code.Equals("NotFound"))
             {

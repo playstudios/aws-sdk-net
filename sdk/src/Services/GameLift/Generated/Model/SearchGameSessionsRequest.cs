@@ -34,7 +34,7 @@ namespace Amazon.GameLift.Model
     /// 
     ///  <ul> <li> 
     /// <para>
-    ///  <b>gameSessionId</b> -- Unique identifier for the game session. You can use either
+    ///  <b>gameSessionId</b> -- A unique identifier for the game session. You can use either
     /// a <code>GameSessionId</code> or <code>GameSessionArn</code> value. 
     /// </para>
     ///  </li> <li> 
@@ -49,8 +49,8 @@ namespace Amazon.GameLift.Model
     /// parameter. <code>GameProperty</code> values are stored as key:value pairs; the filter
     /// expression must indicate the key and a string to search the data values for. For example,
     /// to search for game sessions with custom data containing the key:value pair "gameMode:brawl",
-    /// specify the following: gameSessionProperties.gameMode = "brawl". All custom data values
-    /// are searched as strings.
+    /// specify the following: <code>gameSessionProperties.gameMode = "brawl"</code>. All
+    /// custom data values are searched as strings.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -95,10 +95,6 @@ namespace Amazon.GameLift.Model
     /// multiple fleets, you must search each fleet separately and combine the results. This
     /// search feature finds only game sessions that are in <code>ACTIVE</code> status. To
     /// locate games in statuses other than active, use <a>DescribeGameSessionDetails</a>.
-    /// </para>
-    ///  
-    /// <para>
-    /// Game-session-related operations include:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -154,8 +150,9 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for an alias associated with the fleet to search for active game
-        /// sessions. Each request must reference either a fleet ID or alias ID, but not both.
+        /// A unique identifier for an alias associated with the fleet to search for active game
+        /// sessions. You can use either the alias ID or ARN value. Each request must reference
+        /// either a fleet ID or alias ID, but not both.
         /// </para>
         /// </summary>
         public string AliasId
@@ -241,6 +238,7 @@ namespace Amazon.GameLift.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string FilterExpression
         {
             get { return this._filterExpression; }
@@ -256,8 +254,9 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet to search for active game sessions. Each request must
-        /// reference either a fleet ID or alias ID, but not both.
+        /// A unique identifier for a fleet to search for active game sessions. You can use either
+        /// the fleet ID or ARN value. Each request must reference either a fleet ID or alias
+        /// ID, but not both.
         /// </para>
         /// </summary>
         public string FleetId
@@ -275,11 +274,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages. The maximum number of results returned
         /// is 20, even if this value is not set or is set higher than 20. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -300,6 +300,7 @@ namespace Amazon.GameLift.Model
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -337,6 +338,7 @@ namespace Amazon.GameLift.Model
         /// returned at the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string SortExpression
         {
             get { return this._sortExpression; }

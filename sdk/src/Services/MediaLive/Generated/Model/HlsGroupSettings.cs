@@ -28,13 +28,15 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Placeholder documentation for HlsGroupSettings
+    /// Hls Group Settings
     /// </summary>
     public partial class HlsGroupSettings
     {
         private List<string> _adMarkers = new List<string>();
         private string _baseUrlContent;
+        private string _baseUrlContent1;
         private string _baseUrlManifest;
+        private string _baseUrlManifest1;
         private List<CaptionLanguageMapping> _captionLanguageMappings = new List<CaptionLanguageMapping>();
         private HlsCaptionLanguageSetting _captionLanguageSetting;
         private HlsClientCache _clientCache;
@@ -44,6 +46,8 @@ namespace Amazon.MediaLive.Model
         private HlsDirectoryStructure _directoryStructure;
         private HlsEncryptionType _encryptionType;
         private HlsCdnSettings _hlsCdnSettings;
+        private HlsId3SegmentTaggingState _hlsId3SegmentTagging;
+        private IFrameOnlyPlaylistType _iFrameOnlyPlaylists;
         private int? _indexNSegments;
         private InputLossActionForHlsOut _inputLossAction;
         private HlsIvInManifest _ivInManifest;
@@ -59,6 +63,7 @@ namespace Amazon.MediaLive.Model
         private HlsOutputSelection _outputSelection;
         private HlsProgramDateTime _programDateTime;
         private int? _programDateTimePeriod;
+        private HlsRedundantManifest _redundantManifest;
         private HlsSegmentationMode _segmentationMode;
         private int? _segmentLength;
         private int? _segmentsPerSubdirectory;
@@ -102,6 +107,24 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BaseUrlContent1. Optional. One value per output group.This
+        /// field is required only if you are completing Base URL content A, and the downstream
+        /// system has notified you that the media files for pipeline 1 of all outputs are in
+        /// a location different from the media files for pipeline 0.
+        /// </summary>
+        public string BaseUrlContent1
+        {
+            get { return this._baseUrlContent1; }
+            set { this._baseUrlContent1 = value; }
+        }
+
+        // Check to see if BaseUrlContent1 property is set
+        internal bool IsSetBaseUrlContent1()
+        {
+            return this._baseUrlContent1 != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property BaseUrlManifest. A partial URI prefix that will be prepended
         /// to each output in the media .m3u8 file. Can be used if base manifest is delivered
         /// from a different URL than the main .m3u8 file.
@@ -116,6 +139,24 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetBaseUrlManifest()
         {
             return this._baseUrlManifest != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property BaseUrlManifest1. Optional. One value per output group.Complete
+        /// this field only if you are completing Base URL manifest A, and the downstream system
+        /// has notified you that the child manifest files for pipeline 1 of all outputs are in
+        /// a location different from the child manifest files for pipeline 0.
+        /// </summary>
+        public string BaseUrlManifest1
+        {
+            get { return this._baseUrlManifest1; }
+            set { this._baseUrlManifest1 = value; }
+        }
+
+        // Check to see if BaseUrlManifest1 property is set
+        internal bool IsSetBaseUrlManifest1()
+        {
+            return this._baseUrlManifest1 != null;
         }
 
         /// <summary>
@@ -194,6 +235,7 @@ namespace Amazon.MediaLive.Model
         /// 16-byte hex value represented by a 32-character text string. If ivSource is set to
         /// "explicit" then this parameter is required and is used as the IV for encryption.
         /// </summary>
+        [AWSProperty(Min=32, Max=32)]
         public string ConstantIv
         {
             get { return this._constantIv; }
@@ -210,6 +252,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property Destination. A directory or HTTP destination for the HLS
         /// segments, manifest files, and encryption keys (if enabled).
         /// </summary>
+        [AWSProperty(Required=true)]
         public OutputLocationRef Destination
         {
             get { return this._destination; }
@@ -270,10 +313,47 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property IndexNSegments. If mode is "live", the number of segments
-        /// to retain in the manifest (.m3u8) file. This number must be less than or equal to
-        /// keepSegments. If mode is "vod", this parameter has no effect.
+        /// Gets and sets the property HlsId3SegmentTagging. State of HLS ID3 Segment Tagging
         /// </summary>
+        public HlsId3SegmentTaggingState HlsId3SegmentTagging
+        {
+            get { return this._hlsId3SegmentTagging; }
+            set { this._hlsId3SegmentTagging = value; }
+        }
+
+        // Check to see if HlsId3SegmentTagging property is set
+        internal bool IsSetHlsId3SegmentTagging()
+        {
+            return this._hlsId3SegmentTagging != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IFrameOnlyPlaylists. DISABLED: Do not create an I-frame-only
+        /// manifest, but do create the master and media manifests (according to the Output Selection
+        /// field).STANDARD: Create an I-frame-only manifest for each output that contains video,
+        /// as well as the other manifests (according to the Output Selection field). The I-frame
+        /// manifest contains a #EXT-X-I-FRAMES-ONLY tag to indicate it is I-frame only, and one
+        /// or more #EXT-X-BYTERANGE entries identifying the I-frame position. For example, #EXT-X-BYTERANGE:160364@1461888"
+        /// </summary>
+        public IFrameOnlyPlaylistType IFrameOnlyPlaylists
+        {
+            get { return this._iFrameOnlyPlaylists; }
+            set { this._iFrameOnlyPlaylists = value; }
+        }
+
+        // Check to see if IFrameOnlyPlaylists property is set
+        internal bool IsSetIFrameOnlyPlaylists()
+        {
+            return this._iFrameOnlyPlaylists != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IndexNSegments. Applies only if Mode field is LIVE. Specifies
+        /// the maximum number of segments in the media manifest file. After this maximum, older
+        /// segments are removed from the media manifest. This number must be less than or equal
+        /// to the Keep Segments field.
+        /// </summary>
+        [AWSProperty(Min=3)]
         public int IndexNSegments
         {
             get { return this._indexNSegments.GetValueOrDefault(); }
@@ -340,9 +420,10 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property KeepSegments. If mode is "live", the number of TS segments
-        /// to retain in the destination directory. If mode is "vod", this parameter has no effect.
+        /// Gets and sets the property KeepSegments. Applies only if Mode field is LIVE. Specifies
+        /// the number of media segments (.ts files) to retain in the destination directory.
         /// </summary>
+        [AWSProperty(Min=1)]
         public int KeepSegments
         {
             get { return this._keepSegments.GetValueOrDefault(); }
@@ -439,6 +520,7 @@ namespace Amazon.MediaLive.Model
         /// by looking ahead and back within the specified range for a nearby avail and extending
         /// the segment size if needed.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MinSegmentLength
         {
             get { return this._minSegmentLength.GetValueOrDefault(); }
@@ -472,9 +554,9 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property OutputSelection. Generates the .m3u8 playlist file for
-        /// this HLS output group. The segmentsOnly option will output segments without the .m3u8
-        /// file.
+        /// Gets and sets the property OutputSelection. MANIFESTSANDSEGMENTS: Generates manifests
+        /// (master manifest, if applicable, and media manifests) for this output group.SEGMENTSONLY:
+        /// Does not generate any manifests for this output group.
         /// </summary>
         public HlsOutputSelection OutputSelection
         {
@@ -510,6 +592,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property ProgramDateTimePeriod. Period of insertion of EXT-X-PROGRAM-DATE-TIME
         /// entry, in seconds.
         /// </summary>
+        [AWSProperty(Min=0, Max=3600)]
         public int ProgramDateTimePeriod
         {
             get { return this._programDateTimePeriod.GetValueOrDefault(); }
@@ -523,8 +606,32 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentationMode. When set to useInputSegmentation, the
-        /// output segment or fragment points are set by the RAI markers from the input streams.
+        /// Gets and sets the property RedundantManifest. ENABLED: The master manifest (.m3u8
+        /// file) for each pipeline includes information about both pipelines: first its own media
+        /// files, then the media files of the other pipeline. This feature allows playout device
+        /// that support stale manifest detection to switch from one manifest to the other, when
+        /// the current manifest seems to be stale. There are still two destinations and two master
+        /// manifests, but both master manifests reference the media files from both pipelines.DISABLED:
+        /// The master manifest (.m3u8 file) for each pipeline includes information about its
+        /// own pipeline only.For an HLS output group with MediaPackage as the destination, the
+        /// DISABLED behavior is always followed. MediaPackage regenerates the manifests it serves
+        /// to players so a redundant manifest from MediaLive is irrelevant.
+        /// </summary>
+        public HlsRedundantManifest RedundantManifest
+        {
+            get { return this._redundantManifest; }
+            set { this._redundantManifest = value; }
+        }
+
+        // Check to see if RedundantManifest property is set
+        internal bool IsSetRedundantManifest()
+        {
+            return this._redundantManifest != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SegmentationMode. useInputSegmentation has been deprecated.
+        /// The configured segment size is always used.
         /// </summary>
         public HlsSegmentationMode SegmentationMode
         {
@@ -543,6 +650,7 @@ namespace Amazon.MediaLive.Model
         /// to create (in seconds). Note that segments will end on the next keyframe after this
         /// number of seconds, so actual segment length may be longer.
         /// </summary>
+        [AWSProperty(Min=1)]
         public int SegmentLength
         {
             get { return this._segmentLength.GetValueOrDefault(); }
@@ -560,6 +668,7 @@ namespace Amazon.MediaLive.Model
         /// a subdirectory before starting a new one. directoryStructure must be subdirectoryPerStream
         /// for this setting to have an effect.
         /// </summary>
+        [AWSProperty(Min=1)]
         public int SegmentsPerSubdirectory
         {
             get { return this._segmentsPerSubdirectory.GetValueOrDefault(); }
@@ -607,6 +716,7 @@ namespace Amazon.MediaLive.Model
         /// <summary>
         /// Gets and sets the property TimedMetadataId3Period. Timed Metadata interval in seconds.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int TimedMetadataId3Period
         {
             get { return this._timedMetadataId3Period.GetValueOrDefault(); }
@@ -623,6 +733,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property TimestampDeltaMilliseconds. Provides an extra millisecond
         /// delta offset to fine tune the timestamps.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int TimestampDeltaMilliseconds
         {
             get { return this._timestampDeltaMilliseconds.GetValueOrDefault(); }
@@ -636,10 +747,12 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TsFileMode. When set to "singleFile", emits the program
-        /// as a single media resource (.ts) file, and uses #EXT-X-BYTERANGE tags to index segment
-        /// for playback. Playback of VOD mode content during event is not guaranteed due to HTTP
-        /// server caching.
+        /// Gets and sets the property TsFileMode. SEGMENTEDFILES: Emit the program as segments
+        /// - multiple .ts media files.SINGLEFILE: Applies only if Mode field is VOD. Emit the
+        /// program as a single .ts media file. The media manifest includes #EXT-X-BYTERANGE tags
+        /// to index segments for playback. A typical use for this value is when sending the output
+        /// to AWS Elemental MediaConvert, which can accept only a single media file. Playback
+        /// while the channel is running is not guaranteed due to HTTP server caching.
         /// </summary>
         public HlsTsFileMode TsFileMode
         {

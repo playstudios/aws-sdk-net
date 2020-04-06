@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -42,6 +42,7 @@ namespace Amazon.CloudFront.Model
         /// A list that contains allowed SSL/TLS protocols for this distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Items
         {
             get { return this._items; }
@@ -61,6 +62,7 @@ namespace Amazon.CloudFront.Model
         /// an HTTPS connection with this origin. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Quantity
         {
             get { return this._quantity.GetValueOrDefault(); }

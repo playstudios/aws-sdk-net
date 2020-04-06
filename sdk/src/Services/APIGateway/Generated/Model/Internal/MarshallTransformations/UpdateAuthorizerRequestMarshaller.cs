@@ -55,17 +55,18 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateAuthorizerRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/restapis/{restapi_id}/authorizers/{authorizer_id}";
             if (!publicRequest.IsSetAuthorizerId())
                 throw new AmazonAPIGatewayException("Request object does not have required field AuthorizerId set");
-            uriResourcePath = uriResourcePath.Replace("{authorizer_id}", StringUtils.FromString(publicRequest.AuthorizerId));
+            request.AddPathResource("{authorizer_id}", StringUtils.FromString(publicRequest.AuthorizerId));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.ResourcePath = "/restapis/{restapi_id}/authorizers/{authorizer_id}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

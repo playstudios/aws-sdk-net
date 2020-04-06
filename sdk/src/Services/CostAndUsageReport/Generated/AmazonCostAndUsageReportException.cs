@@ -28,10 +28,10 @@ namespace Amazon.CostAndUsageReport
     ///<summary>
     /// Common exception for the CostAndUsageReport service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonCostAndUsageReportException : AmazonServiceException
+    public partial class AmazonCostAndUsageReportException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonCostAndUsageReportException
@@ -88,7 +88,7 @@ namespace Amazon.CostAndUsageReport
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonCostAndUsageReportException class with serialized data.
         /// </summary>

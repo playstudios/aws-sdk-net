@@ -58,10 +58,11 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
             string target = "DynamoDB_20120810.UpdateTable";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.0";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-08-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -81,6 +82,12 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
                         context.Writer.WriteObjectEnd();
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetBillingMode())
+                {
+                    context.Writer.WritePropertyName("BillingMode");
+                    context.Writer.Write(publicRequest.BillingMode);
                 }
 
                 if(publicRequest.IsSetGlobalSecondaryIndexUpdates())
@@ -106,6 +113,33 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
 
                     var marshaller = ProvisionedThroughputMarshaller.Instance;
                     marshaller.Marshall(publicRequest.ProvisionedThroughput, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetReplicaUpdates())
+                {
+                    context.Writer.WritePropertyName("ReplicaUpdates");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestReplicaUpdatesListValue in publicRequest.ReplicaUpdates)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ReplicationGroupUpdateMarshaller.Instance;
+                        marshaller.Marshall(publicRequestReplicaUpdatesListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetSSESpecification())
+                {
+                    context.Writer.WritePropertyName("SSESpecification");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = SSESpecificationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.SSESpecification, context);
 
                     context.Writer.WriteObjectEnd();
                 }

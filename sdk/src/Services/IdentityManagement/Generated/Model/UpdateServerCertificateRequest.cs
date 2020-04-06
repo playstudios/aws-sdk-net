@@ -33,14 +33,14 @@ namespace Amazon.IdentityManagement.Model
     /// 
     ///  
     /// <para>
-    /// For more information about working with server certificates, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+    /// For more information about working with server certificates, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
     /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also includes
     /// a list of AWS services that can use the server certificates that you manage with IAM.
     /// </para>
     ///  <important> 
     /// <para>
     /// You should understand the implications of changing a server certificate's path or
-    /// name. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts">Renaming
+    /// name. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts">Renaming
     /// a Server Certificate</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  </important> <note> 
@@ -51,7 +51,7 @@ namespace Amazon.IdentityManagement.Model
     /// must have a policy that allows them to update both certificates. If the principal
     /// has permission to update the <code>ProductionCert</code> group, but not the <code>ProdCert</code>
     /// certificate, then the update fails. For more information about permissions, see <a
-    /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access Management</a>
+    /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access Management</a>
     /// in the <i>IAM User Guide</i>.
     /// </para>
     ///  </note>
@@ -70,7 +70,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Instantiates UpdateServerCertificateRequest with the parameterized properties
         /// </summary>
-        /// <param name="serverCertificateName">The name of the server certificate that you want to update. This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-</param>
+        /// <param name="serverCertificateName">The name of the server certificate that you want to update. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-</param>
         public UpdateServerCertificateRequest(string serverCertificateName)
         {
             _serverCertificateName = serverCertificateName;
@@ -84,13 +84,14 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of either a forward slash (/) by itself or a string
-        /// that must begin and end with forward slashes. In addition, it can contain any ASCII
-        /// character from the ! (\u0021) through the DEL character (\u007F), including most punctuation
-        /// characters, digits, and upper and lowercased letters.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of either a forward slash (/) by itself
+        /// or a string that must begin and end with forward slashes. In addition, it can contain
+        /// any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>),
+        /// including most punctuation characters, digits, and upper and lowercased letters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string NewPath
         {
             get { return this._newPath; }
@@ -111,11 +112,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string NewServerCertificateName
         {
             get { return this._newServerCertificateName; }
@@ -135,11 +137,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ServerCertificateName
         {
             get { return this._serverCertificateName; }

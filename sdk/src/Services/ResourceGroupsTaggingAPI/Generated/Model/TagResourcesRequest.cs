@@ -33,25 +33,25 @@ namespace Amazon.ResourceGroupsTaggingAPI.Model
     /// 
     ///  <ul> <li> 
     /// <para>
-    /// Not all resources can have tags. For a list of resources that support tagging, see
-    /// <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/supported-resources.html">Supported
-    /// Resources</a> in the <i>AWS Resource Groups and Tag Editor User Guide</i>.
+    /// Not all resources can have tags. For a list of services that support tagging, see
+    /// <a href="http://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/Welcome.html">this
+    /// list</a>.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Each resource can have up to 50 tags. For other limits, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-restrictions">Tag
-    /// Restrictions</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+    /// Each resource can have up to 50 tags. For other limits, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions">Tag
+    /// Naming and Usage Conventions</a> in the <i>AWS General Reference.</i> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// You can only tag resources that are located in the specified region for the AWS account.
+    /// You can only tag resources that are located in the specified Region for the AWS account.
     /// </para>
     ///  </li> <li> 
     /// <para>
     /// To add tags to a resource, you need the necessary permissions for the service that
     /// the resource belongs to as well as permissions for adding tags. For more information,
-    /// see <a href="http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/obtaining-permissions-for-tagging.html">Obtaining
-    /// Permissions for Tagging</a> in the <i>AWS Resource Groups and Tag Editor User Guide</i>.
+    /// see <a href="http://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/Welcome.html">this
+    /// list</a>.
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -69,6 +69,7 @@ namespace Amazon.ResourceGroupsTaggingAPI.Model
         /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=20)]
         public List<string> ResourceARNList
         {
             get { return this._resourceARNList; }
@@ -88,6 +89,7 @@ namespace Amazon.ResourceGroupsTaggingAPI.Model
         /// and a value that you define.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public Dictionary<string, string> Tags
         {
             get { return this._tags; }

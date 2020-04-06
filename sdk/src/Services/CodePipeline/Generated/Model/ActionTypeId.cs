@@ -41,9 +41,11 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property Category. 
         /// <para>
         /// A category defines what kind of action can be taken in the stage, and constrains the
-        /// provider type for the action. Valid categories are limited to one of the values below.
+        /// provider type for the action. Valid categories are limited to one of the following
+        /// values. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActionCategory Category
         {
             get { return this._category; }
@@ -62,6 +64,7 @@ namespace Amazon.CodePipeline.Model
         /// The creator of the action being called.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActionOwner Owner
         {
             get { return this._owner; }
@@ -79,9 +82,12 @@ namespace Amazon.CodePipeline.Model
         /// <para>
         /// The provider of the service being called by the action. Valid providers are determined
         /// by the action category. For example, an action in the Deploy category type might have
-        /// a provider of AWS CodeDeploy, which would be specified as CodeDeploy.
+        /// a provider of AWS CodeDeploy, which would be specified as CodeDeploy. For more information,
+        /// see <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers">Valid
+        /// Action Types and Providers in CodePipeline</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=25)]
         public string Provider
         {
             get { return this._provider; }
@@ -97,9 +103,10 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Version. 
         /// <para>
-        /// A string that identifies the action type.
+        /// A string that describes the action version.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=9)]
         public string Version
         {
             get { return this._version; }

@@ -29,10 +29,11 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateNatGateway operation.
-    /// Creates a NAT gateway in the specified subnet. A NAT gateway can be used to enable
-    /// instances in a private subnet to connect to the Internet. This action creates a network
+    /// Creates a NAT gateway in the specified public subnet. This action creates a network
     /// interface in the specified subnet with a private IP address from the IP address range
-    /// of the subnet. For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html">NAT
+    /// of the subnet. Internet-bound traffic from a private subnet can be routed to the NAT
+    /// gateway, therefore enabling instances in the private subnet to connect to the internet.
+    /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html">NAT
     /// Gateways</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </summary>
     public partial class CreateNatGatewayRequest : AmazonEC2Request
@@ -40,6 +41,7 @@ namespace Amazon.EC2.Model
         private string _allocationId;
         private string _clientToken;
         private string _subnetId;
+        private List<TagSpecification> _tagSpecifications = new List<TagSpecification>();
 
         /// <summary>
         /// Gets and sets the property AllocationId. 
@@ -49,6 +51,7 @@ namespace Amazon.EC2.Model
         /// it.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AllocationId
         {
             get { return this._allocationId; }
@@ -64,8 +67,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
         /// to Ensure Idempotency</a>.
         /// </para>
         ///  
@@ -91,6 +94,7 @@ namespace Amazon.EC2.Model
         /// The subnet in which to create the NAT gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubnetId
         {
             get { return this._subnetId; }
@@ -101,6 +105,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetSubnetId()
         {
             return this._subnetId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TagSpecifications. 
+        /// <para>
+        /// The tags to assign to the NAT gateway.
+        /// </para>
+        /// </summary>
+        public List<TagSpecification> TagSpecifications
+        {
+            get { return this._tagSpecifications; }
+            set { this._tagSpecifications = value; }
+        }
+
+        // Check to see if TagSpecifications property is set
+        internal bool IsSetTagSpecifications()
+        {
+            return this._tagSpecifications != null && this._tagSpecifications.Count > 0; 
         }
 
     }

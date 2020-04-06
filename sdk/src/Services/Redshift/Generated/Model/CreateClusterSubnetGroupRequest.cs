@@ -35,7 +35,7 @@ namespace Amazon.Redshift.Model
     /// 
     ///  
     /// <para>
-    ///  For information about subnet groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-cluster-subnet-groups.html">Amazon
+    ///  For information about subnet groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-cluster-subnet-groups.html">Amazon
     /// Redshift Cluster Subnet Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
@@ -72,6 +72,7 @@ namespace Amazon.Redshift.Model
         /// Example: <code>examplesubnetgroup</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterSubnetGroupName
         {
             get { return this._clusterSubnetGroupName; }
@@ -90,6 +91,7 @@ namespace Amazon.Redshift.Model
         /// A description for the subnet group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Description
         {
             get { return this._description; }
@@ -108,6 +110,7 @@ namespace Amazon.Redshift.Model
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> SubnetIds
         {
             get { return this._subnetIds; }

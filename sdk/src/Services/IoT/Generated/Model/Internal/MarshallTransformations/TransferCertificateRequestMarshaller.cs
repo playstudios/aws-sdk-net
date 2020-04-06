@@ -55,17 +55,18 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(TransferCertificateRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/transfer-certificate/{certificateId}";
             if (!publicRequest.IsSetCertificateId())
                 throw new AmazonIoTException("Request object does not have required field CertificateId set");
-            uriResourcePath = uriResourcePath.Replace("{certificateId}", StringUtils.FromString(publicRequest.CertificateId));
+            request.AddPathResource("{certificateId}", StringUtils.FromString(publicRequest.CertificateId));
             
             if (publicRequest.IsSetTargetAwsAccount())
                 request.Parameters.Add("targetAwsAccount", StringUtils.FromString(publicRequest.TargetAwsAccount));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/transfer-certificate/{certificateId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

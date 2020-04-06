@@ -29,7 +29,9 @@ namespace Amazon.IoT.Model
 {
     /// <summary>
     /// Container for the parameters to the ListPrincipalThings operation.
-    /// Lists the things associated with the specified principal.
+    /// Lists the things associated with the specified principal. A principal can be X.509
+    /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+    /// identities.
     /// </summary>
     public partial class ListPrincipalThingsRequest : AmazonIoTRequest
     {
@@ -40,8 +42,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Marker. 
         /// <para>
-        /// The token used to get the next set of results, or <b>null</b> if there are no additional
-        /// results.
+        /// The token to retrieve the next set of results.
         /// </para>
         /// </summary>
         public string Marker
@@ -62,6 +63,7 @@ namespace Amazon.IoT.Model
         /// The maximum number of results to return in this operation.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=250)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -80,6 +82,7 @@ namespace Amazon.IoT.Model
         /// The principal.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Principal
         {
             get { return this._principal; }

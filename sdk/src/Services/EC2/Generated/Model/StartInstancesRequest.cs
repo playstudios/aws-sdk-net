@@ -56,7 +56,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">Stopping
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">Stopping
     /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -73,7 +73,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates StartInstancesRequest with the parameterized properties
         /// </summary>
-        /// <param name="instanceIds">One or more instance IDs.</param>
+        /// <param name="instanceIds">The IDs of the instances.</param>
         public StartInstancesRequest(List<string> instanceIds)
         {
             _instanceIds = instanceIds;
@@ -100,9 +100,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InstanceIds. 
         /// <para>
-        /// One or more instance IDs.
+        /// The IDs of the instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceIds
         {
             get { return this._instanceIds; }

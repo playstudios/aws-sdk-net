@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ namespace Amazon.CloudDirectory.Model
     public partial class CreateFacetRequest : AmazonCloudDirectoryRequest
     {
         private List<FacetAttribute> _attributes = new List<FacetAttribute>();
+        private FacetStyle _facetStyle;
         private string _name;
         private ObjectType _objectType;
         private string _schemaArn;
@@ -58,11 +59,32 @@ namespace Amazon.CloudDirectory.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FacetStyle. 
+        /// <para>
+        /// There are two different styles that you can define on any given facet, <code>Static</code>
+        /// and <code>Dynamic</code>. For static facets, all attributes must be defined in the
+        /// schema. For dynamic facets, attributes can be defined during data plane operations.
+        /// </para>
+        /// </summary>
+        public FacetStyle FacetStyle
+        {
+            get { return this._facetStyle; }
+            set { this._facetStyle = value; }
+        }
+
+        // Check to see if FacetStyle property is set
+        internal bool IsSetFacetStyle()
+        {
+            return this._facetStyle != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the <a>Facet</a>, which is unique for a given schema.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Name
         {
             get { return this._name; }
@@ -92,7 +114,7 @@ namespace Amazon.CloudDirectory.Model
         ///  </li> </ul> <ul> <li> 
         /// <para>
         /// Policy: Allows you to store a policy document and policy type. For more information,
-        /// see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
+        /// see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
         /// </para>
         ///  </li> </ul> <ul> <li> 
         /// <para>
@@ -119,6 +141,7 @@ namespace Amazon.CloudDirectory.Model
         /// see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SchemaArn
         {
             get { return this._schemaArn; }

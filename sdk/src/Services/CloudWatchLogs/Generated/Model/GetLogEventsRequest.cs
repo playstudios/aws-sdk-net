@@ -69,9 +69,10 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property EndTime. 
         /// <para>
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970
-        /// 00:00:00 UTC. Events with a time stamp later than this time are not included.
+        /// 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public DateTime EndTime
         {
             get { return this._endTime.GetValueOrDefault(); }
@@ -91,6 +92,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -109,6 +111,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string LogGroupName
         {
             get { return this._logGroupName; }
@@ -127,6 +130,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string LogStreamName
         {
             get { return this._logStreamName; }
@@ -145,7 +149,12 @@ namespace Amazon.CloudWatchLogs.Model
         /// The token for the next set of items to return. (You received this token from a previous
         /// call.)
         /// </para>
+        ///  
+        /// <para>
+        /// Using this token works only when you specify <code>true</code> for <code>startFromHead</code>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -164,6 +173,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// If the value is true, the earliest log events are returned first. If the value is
         /// false, the latest log events are returned first. The default value is false.
         /// </para>
+        ///  
+        /// <para>
+        /// If you are using <code>nextToken</code> in this operation, you must specify <code>true</code>
+        /// for <code>startFromHead</code>.
+        /// </para>
         /// </summary>
         public bool StartFromHead
         {
@@ -181,9 +195,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property StartTime. 
         /// <para>
         /// The start of the time range, expressed as the number of milliseconds after Jan 1,
-        /// 1970 00:00:00 UTC. Events with a time stamp earlier than this time are not included.
+        /// 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time
+        /// are included. Events with a timestamp earlier than this time are not included.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public DateTime StartTime
         {
             get { return this._startTime.GetValueOrDefault(); }

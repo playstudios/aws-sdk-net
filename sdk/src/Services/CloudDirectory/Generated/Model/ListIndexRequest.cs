@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Amazon.CloudDirectory.Model
 {
     /// <summary>
     /// Container for the parameters to the ListIndex operation.
-    /// Lists objects and indexed values attached to the index.
+    /// Lists objects attached to the specified index.
     /// </summary>
     public partial class ListIndexRequest : AmazonCloudDirectoryRequest
     {
@@ -64,6 +64,7 @@ namespace Amazon.CloudDirectory.Model
         /// The ARN of the directory that the index exists in.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -82,6 +83,7 @@ namespace Amazon.CloudDirectory.Model
         /// The reference to the index to list.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference IndexReference
         {
             get { return this._indexReference; }
@@ -98,10 +100,11 @@ namespace Amazon.CloudDirectory.Model
         /// Gets and sets the property MaxResults. 
         /// <para>
         /// The maximum number of objects in a single page to retrieve from the index during a
-        /// request. For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html#limits_cd">AWS
-        /// Directory Service Limits</a>.
+        /// request. For more information, see <a href="http://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Amazon
+        /// Cloud Directory Limits</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

@@ -29,10 +29,7 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeSpotInstanceRequests operation.
-    /// Describes the Spot Instance requests that belong to your account. Spot Instances are
-    /// instances that Amazon EC2 launches when the Spot price that you specify exceeds the
-    /// current Spot price. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html">Spot
-    /// Instance Requests</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+    /// Describes the specified Spot Instance requests.
     /// 
     ///  
     /// <para>
@@ -44,13 +41,24 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// Spot Instance requests are deleted 4 hours after they are canceled and their instances
+    /// We recommend that you set <code>MaxResults</code> to a value between 5 and 1000 to
+    /// limit the number of results returned. This paginates the output, which makes the list
+    /// more manageable and returns the results faster. If the list of results exceeds your
+    /// <code>MaxResults</code> value, then that number of results is returned along with
+    /// a <code>NextToken</code> value that can be passed to a subsequent <code>DescribeSpotInstanceRequests</code>
+    /// request to retrieve the remaining results.
+    /// </para>
+    ///  
+    /// <para>
+    /// Spot Instance requests are deleted four hours after they are canceled and their instances
     /// are terminated.
     /// </para>
     /// </summary>
     public partial class DescribeSpotInstanceRequestsRequest : AmazonEC2Request
     {
         private List<Filter> _filters = new List<Filter>();
+        private int? _maxResults;
+        private string _nextToken;
         private List<string> _spotInstanceRequestIds = new List<string>();
 
         /// <summary>
@@ -111,7 +119,11 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>launch.group-id</code> - The security group for the instance.
+        ///  <code>launch.group-id</code> - The ID of the security group for the instance.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>launch.group-name</code> - The name of the security group for the instance.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -199,8 +211,8 @@ namespace Amazon.EC2.Model
         ///  <code>state</code> - The state of the Spot Instance request (<code>open</code> |
         /// <code>active</code> | <code>closed</code> | <code>cancelled</code> | <code>failed</code>).
         /// Spot request status information can help you track your Amazon EC2 Spot Instance requests.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html">Spot
-        /// Request Status</a> in the Amazon Elastic Compute Cloud User Guide.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html">Spot
+        /// Request Status</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -214,24 +226,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of what the tag's key is). If you want to list only resources where
-        /// Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -257,6 +261,45 @@ namespace Amazon.EC2.Model
         internal bool IsSetFilters()
         {
             return this._filters != null && this._filters.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaxResults. 
+        /// <para>
+        /// The maximum number of results to return in a single call. Specify a value between
+        /// 5 and 1000. To retrieve the remaining results, make another call with the returned
+        /// <code>NextToken</code> value.
+        /// </para>
+        /// </summary>
+        public int MaxResults
+        {
+            get { return this._maxResults.GetValueOrDefault(); }
+            set { this._maxResults = value; }
+        }
+
+        // Check to see if MaxResults property is set
+        internal bool IsSetMaxResults()
+        {
+            return this._maxResults.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// The token to request the next set of results. This value is <code>null</code> when
+        /// there are no more results to return.
+        /// </para>
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
         }
 
         /// <summary>

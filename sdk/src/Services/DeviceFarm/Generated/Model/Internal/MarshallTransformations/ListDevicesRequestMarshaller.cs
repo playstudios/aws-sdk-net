@@ -58,10 +58,11 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
             string target = "DeviceFarm_20150623.ListDevices";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-06-23";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,22 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("arn");
                     context.Writer.Write(publicRequest.Arn);
+                }
+
+                if(publicRequest.IsSetFilters())
+                {
+                    context.Writer.WritePropertyName("filters");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestFiltersListValue in publicRequest.Filters)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = DeviceFilterMarshaller.Instance;
+                        marshaller.Marshall(publicRequestFiltersListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetNextToken())

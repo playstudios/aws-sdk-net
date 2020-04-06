@@ -51,19 +51,23 @@ namespace Amazon.StorageGateway.Model
     {
         private string _diskId;
         private string _gatewayARN;
+        private bool? _kmsEncrypted;
+        private string _kmsKey;
         private string _networkInterfaceId;
         private bool? _preserveExistingData;
         private string _snapshotId;
+        private List<Tag> _tags = new List<Tag>();
         private string _targetName;
 
         /// <summary>
         /// Gets and sets the property DiskId. 
         /// <para>
         /// The unique identifier for the gateway local disk that is configured as a stored volume.
-        /// Use <a href="http://docs.aws.amazon.com/storagegateway/latest/userguide/API_ListLocalDisks.html">ListLocalDisks</a>
+        /// Use <a href="https://docs.aws.amazon.com/storagegateway/latest/userguide/API_ListLocalDisks.html">ListLocalDisks</a>
         /// to list disk IDs for a gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DiskId
         {
             get { return this._diskId; }
@@ -79,6 +83,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayARN.
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }
@@ -89,6 +94,45 @@ namespace Amazon.StorageGateway.Model
         internal bool IsSetGatewayARN()
         {
             return this._gatewayARN != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KMSEncrypted. 
+        /// <para>
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to
+        /// use a key managed by Amazon S3. Optional.
+        /// </para>
+        /// </summary>
+        public bool KMSEncrypted
+        {
+            get { return this._kmsEncrypted.GetValueOrDefault(); }
+            set { this._kmsEncrypted = value; }
+        }
+
+        // Check to see if KMSEncrypted property is set
+        internal bool IsSetKMSEncrypted()
+        {
+            return this._kmsEncrypted.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property KMSKey. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the KMS key used for Amazon S3 server side encryption.
+        /// This value can only be set when KMSEncrypted is true. Optional.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
+        public string KMSKey
+        {
+            get { return this._kmsKey; }
+            set { this._kmsKey = value; }
+        }
+
+        // Check to see if KMSKey property is set
+        internal bool IsSetKMSKey()
+        {
+            return this._kmsKey != null;
         }
 
         /// <summary>
@@ -103,6 +147,7 @@ namespace Amazon.StorageGateway.Model
         ///  Valid Values: A valid IP address.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NetworkInterfaceId
         {
             get { return this._networkInterfaceId; }
@@ -126,6 +171,7 @@ namespace Amazon.StorageGateway.Model
         ///  Valid Values: true, false
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool PreserveExistingData
         {
             get { return this._preserveExistingData.GetValueOrDefault(); }
@@ -143,7 +189,7 @@ namespace Amazon.StorageGateway.Model
         /// <para>
         /// The snapshot ID (e.g. "snap-1122aabb") of the snapshot to restore as the new stored
         /// volume. Specify this field if you want to create the iSCSI storage volume from a snapshot
-        /// otherwise do not include this field. To list snapshots for your account use <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html">DescribeSnapshots</a>
+        /// otherwise do not include this field. To list snapshots for your account use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html">DescribeSnapshots</a>
         /// in the <i>Amazon Elastic Compute Cloud API Reference</i>.
         /// </para>
         /// </summary>
@@ -160,14 +206,47 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags that can be assigned to a stored volume. Each tag is a key-value
+        /// pair.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Valid characters for key and value are letters, spaces, and numbers representable
+        /// in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+        /// length of a tag's key is 128 characters, and the maximum length for a tag's value
+        /// is 256.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TargetName. 
         /// <para>
-        /// The name of the iSCSI target used by initiators to connect to the target and as a
-        /// suffix for the target ARN. For example, specifying <code>TargetName</code> as <i>myvolume</i>
-        /// results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume.
-        /// The target name must be unique across all volumes of a gateway.
+        /// The name of the iSCSI target used by an initiator to connect to a volume and used
+        /// as a suffix for the target ARN. For example, specifying <code>TargetName</code> as
+        /// <i>myvolume</i> results in the target ARN of <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
+        /// The target name must be unique across all volumes on a gateway.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you don't specify a value, Storage Gateway uses the value that was previously used
+        /// for this volume as the new target name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=200)]
         public string TargetName
         {
             get { return this._targetName; }

@@ -30,10 +30,18 @@ namespace Amazon.IoT.Model
     /// <summary>
     /// Container for the parameters to the CreateThingGroup operation.
     /// Create a thing group.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This is a control plane operation. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
+    /// for information about authorizing control plane actions.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateThingGroupRequest : AmazonIoTRequest
     {
         private string _parentGroupName;
+        private List<Tag> _tags = new List<Tag>();
         private string _thingGroupName;
         private ThingGroupProperties _thingGroupProperties;
 
@@ -43,6 +51,7 @@ namespace Amazon.IoT.Model
         /// The name of the parent thing group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ParentGroupName
         {
             get { return this._parentGroupName; }
@@ -56,11 +65,30 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Metadata which can be used to manage the thing group.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ThingGroupName. 
         /// <para>
         /// The thing group name to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ThingGroupName
         {
             get { return this._thingGroupName; }

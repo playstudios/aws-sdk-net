@@ -46,6 +46,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Classification
         {
             get { return this._classification; }
@@ -65,6 +66,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// systems provide this level of information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime InstalledTime
         {
             get { return this._installedTime.GetValueOrDefault(); }
@@ -83,6 +85,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The operating system-specific ID of the patch.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string KBId
         {
             get { return this._kbId; }
@@ -101,6 +104,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The severity of the patch (for example, Critical, Important, Moderate).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Severity
         {
             get { return this._severity; }
@@ -116,10 +120,15 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property State. 
         /// <para>
-        /// The state of the patch on the instance (INSTALLED, INSTALLED_OTHER, MISSING, NOT_APPLICABLE
-        /// or FAILED).
+        /// The state of the patch on the instance, such as INSTALLED or FAILED.
+        /// </para>
+        ///  
+        /// <para>
+        /// For descriptions of each patch state, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-compliance-about.html#sysman-compliance-monitor-patch">About
+        /// Patch Compliance</a> in the <i>AWS Systems Manager User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PatchComplianceDataState State
         {
             get { return this._state; }
@@ -138,6 +147,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The title of the patch.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Title
         {
             get { return this._title; }

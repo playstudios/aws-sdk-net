@@ -68,6 +68,17 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.GitCloneDepth);
             }
 
+            if(requestObject.IsSetGitSubmodulesConfig())
+            {
+                context.Writer.WritePropertyName("gitSubmodulesConfig");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = GitSubmodulesConfigMarshaller.Instance;
+                marshaller.Marshall(requestObject.GitSubmodulesConfig, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetInsecureSsl())
             {
                 context.Writer.WritePropertyName("insecureSsl");
@@ -78,6 +89,18 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("location");
                 context.Writer.Write(requestObject.Location);
+            }
+
+            if(requestObject.IsSetReportBuildStatus())
+            {
+                context.Writer.WritePropertyName("reportBuildStatus");
+                context.Writer.Write(requestObject.ReportBuildStatus);
+            }
+
+            if(requestObject.IsSetSourceIdentifier())
+            {
+                context.Writer.WritePropertyName("sourceIdentifier");
+                context.Writer.Write(requestObject.SourceIdentifier);
             }
 
             if(requestObject.IsSetType())

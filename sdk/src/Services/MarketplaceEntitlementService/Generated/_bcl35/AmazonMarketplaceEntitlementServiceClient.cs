@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MarketplaceEntitlementService.Model;
 using Amazon.MarketplaceEntitlementService.Model.Internal.MarshallTransformations;
+using Amazon.MarketplaceEntitlementService.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -56,6 +58,7 @@ namespace Amazon.MarketplaceEntitlementService
     /// </summary>
     public partial class AmazonMarketplaceEntitlementServiceClient : AmazonServiceClient, IAmazonMarketplaceEntitlementService
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMarketplaceEntitlementServiceMetadata();
         #region Constructors
 
         /// <summary>
@@ -226,6 +229,16 @@ namespace Amazon.MarketplaceEntitlementService
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -241,7 +254,7 @@ namespace Amazon.MarketplaceEntitlementService
 
         #endregion
 
-        
+
         #region  GetEntitlements
 
         /// <summary>
@@ -264,10 +277,11 @@ namespace Amazon.MarketplaceEntitlementService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/entitlement.marketplace-2017-01-11/GetEntitlements">REST API Reference for GetEntitlements Operation</seealso>
         public virtual GetEntitlementsResponse GetEntitlements(GetEntitlementsRequest request)
         {
-            var marshaller = GetEntitlementsRequestMarshaller.Instance;
-            var unmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEntitlementsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
 
-            return Invoke<GetEntitlementsRequest,GetEntitlementsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetEntitlementsResponse>(request, options);
         }
 
         /// <summary>
@@ -284,11 +298,11 @@ namespace Amazon.MarketplaceEntitlementService
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/entitlement.marketplace-2017-01-11/GetEntitlements">REST API Reference for GetEntitlements Operation</seealso>
         public virtual IAsyncResult BeginGetEntitlements(GetEntitlementsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetEntitlementsRequestMarshaller.Instance;
-            var unmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEntitlementsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetEntitlementsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

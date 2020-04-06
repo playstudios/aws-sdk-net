@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.SageMakerRuntime.Model;
 using Amazon.SageMakerRuntime.Model.Internal.MarshallTransformations;
+using Amazon.SageMakerRuntime.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -33,10 +35,11 @@ namespace Amazon.SageMakerRuntime
     /// <summary>
     /// Implementation for accessing SageMakerRuntime
     ///
-    /// Amazon SageMaker runtime API.
+    /// The Amazon SageMaker runtime API.
     /// </summary>
     public partial class AmazonSageMakerRuntimeClient : AmazonServiceClient, IAmazonSageMakerRuntime
     {
+        private static IServiceMetadata serviceMetadata = new AmazonSageMakerRuntimeMetadata();
         #region Constructors
 
         /// <summary>
@@ -207,6 +210,16 @@ namespace Amazon.SageMakerRuntime
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -222,7 +235,7 @@ namespace Amazon.SageMakerRuntime
 
         #endregion
 
-        
+
         #region  InvokeEndpoint
 
         /// <summary>
@@ -232,27 +245,47 @@ namespace Amazon.SageMakerRuntime
         /// 
         ///  
         /// <para>
-        /// For an overview of Amazon SageMaker, see <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html">How
-        /// It Works</a> 
+        /// For an overview of Amazon SageMaker, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html">How
+        /// It Works</a>. 
         /// </para>
         ///  
         /// <para>
-        ///  Amazon SageMaker strips all POST headers except those supported by the API. Amazon
+        /// Amazon SageMaker strips all POST headers except those supported by the API. Amazon
         /// SageMaker might add additional headers. You should not rely on the behavior of headers
         /// outside those enumerated in the request syntax. 
         /// </para>
+        ///  
+        /// <para>
+        /// Calls to <code>InvokeEndpoint</code> are authenticated by using AWS Signature Version
+        /// 4. For information, see <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
+        /// Requests (AWS Signature Version 4)</a> in the <i>Amazon S3 API Reference</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// A customer's model containers must respond to requests within 60 seconds. The model
+        /// itself can have a maximum processing time of 60 seconds before responding to the /invocations.
+        /// If your model is going to take 50-60 seconds of processing time, the SDK socket timeout
+        /// should be set to be 70 seconds.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Endpoints are scoped to an individual account, and are not public. The URL does not
+        /// contain the account ID, but Amazon SageMaker determines the account ID from the authentication
+        /// token that is supplied by the caller.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the InvokeEndpoint service method.</param>
         /// 
         /// <returns>The response from the InvokeEndpoint service method, as returned by SageMakerRuntime.</returns>
         /// <exception cref="Amazon.SageMakerRuntime.Model.InternalFailureException">
-        /// Internal failure occurred.
+        /// An internal failure occurred.
         /// </exception>
         /// <exception cref="Amazon.SageMakerRuntime.Model.ModelErrorException">
-        /// Model (owned by the customer in the container) returned an error 500.
+        /// Model (owned by the customer in the container) returned 4xx or 5xx error code.
         /// </exception>
         /// <exception cref="Amazon.SageMakerRuntime.Model.ServiceUnavailableException">
-        /// Service is unavailable. Try your call again.
+        /// The service is unavailable. Try your call again.
         /// </exception>
         /// <exception cref="Amazon.SageMakerRuntime.Model.ValidationErrorException">
         /// Inspect your request and try again.
@@ -260,10 +293,11 @@ namespace Amazon.SageMakerRuntime
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/runtime.sagemaker-2017-05-13/InvokeEndpoint">REST API Reference for InvokeEndpoint Operation</seealso>
         public virtual InvokeEndpointResponse InvokeEndpoint(InvokeEndpointRequest request)
         {
-            var marshaller = InvokeEndpointRequestMarshaller.Instance;
-            var unmarshaller = InvokeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InvokeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InvokeEndpointResponseUnmarshaller.Instance;
 
-            return Invoke<InvokeEndpointRequest,InvokeEndpointResponse>(request, marshaller, unmarshaller);
+            return Invoke<InvokeEndpointResponse>(request, options);
         }
 
         /// <summary>
@@ -280,11 +314,11 @@ namespace Amazon.SageMakerRuntime
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/runtime.sagemaker-2017-05-13/InvokeEndpoint">REST API Reference for InvokeEndpoint Operation</seealso>
         public virtual IAsyncResult BeginInvokeEndpoint(InvokeEndpointRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = InvokeEndpointRequestMarshaller.Instance;
-            var unmarshaller = InvokeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InvokeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InvokeEndpointResponseUnmarshaller.Instance;
 
-            return BeginInvoke<InvokeEndpointRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

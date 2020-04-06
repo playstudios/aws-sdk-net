@@ -34,14 +34,16 @@ namespace Amazon.Glue.Model
     {
         private string _comment;
         private string _name;
+        private Dictionary<string, string> _parameters = new Dictionary<string, string>();
         private string _type;
 
         /// <summary>
         /// Gets and sets the property Comment. 
         /// <para>
-        /// Free-form text comment.
+        /// A free-form text comment.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=255)]
         public string Comment
         {
             get { return this._comment; }
@@ -60,6 +62,7 @@ namespace Amazon.Glue.Model
         /// The name of the <code>Column</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -73,11 +76,30 @@ namespace Amazon.Glue.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Type. 
+        /// Gets and sets the property Parameters. 
         /// <para>
-        /// The datatype of data in the <code>Column</code>.
+        /// These key-value pairs define properties associated with the column.
         /// </para>
         /// </summary>
+        public Dictionary<string, string> Parameters
+        {
+            get { return this._parameters; }
+            set { this._parameters = value; }
+        }
+
+        // Check to see if Parameters property is set
+        internal bool IsSetParameters()
+        {
+            return this._parameters != null && this._parameters.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Type. 
+        /// <para>
+        /// The data type of the <code>Column</code>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=131072)]
         public string Type
         {
             get { return this._type; }

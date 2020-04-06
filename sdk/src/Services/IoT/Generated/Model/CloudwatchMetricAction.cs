@@ -45,6 +45,7 @@ namespace Amazon.IoT.Model
         /// The CloudWatch metric name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -63,6 +64,7 @@ namespace Amazon.IoT.Model
         /// The CloudWatch metric namespace name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MetricNamespace
         {
             get { return this._metricNamespace; }
@@ -78,7 +80,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property MetricTimestamp. 
         /// <para>
-        /// An optional <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#about_timestamp">Unix
+        /// An optional <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#about_timestamp">Unix
         /// timestamp</a>.
         /// </para>
         /// </summary>
@@ -97,10 +99,11 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property MetricUnit. 
         /// <para>
-        /// The <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Unit">metric
+        /// The <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Unit">metric
         /// unit</a> supported by CloudWatch.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MetricUnit
         {
             get { return this._metricUnit; }
@@ -119,6 +122,7 @@ namespace Amazon.IoT.Model
         /// The CloudWatch metric value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MetricValue
         {
             get { return this._metricValue; }
@@ -137,6 +141,7 @@ namespace Amazon.IoT.Model
         /// The IAM role that allows access to the CloudWatch metric.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }

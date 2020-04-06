@@ -63,18 +63,24 @@ namespace Amazon.ElastiCache.Model
         /// </para>
         ///  
         /// <para>
-        ///  <b>T2 node types:</b> <code>cache.t2.micro</code>, <code>cache.t2.small</code>, <code>cache.t2.medium</code>
-        /// 
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>M3 node types:</b> <code>cache.m3.medium</code>, <code>cache.m3.large</code>,
-        /// <code>cache.m3.xlarge</code>, <code>cache.m3.2xlarge</code> 
+        ///  <b>M5 node types:</b> <code>cache.m5.large</code>, <code>cache.m5.xlarge</code>,
+        /// <code>cache.m5.2xlarge</code>, <code>cache.m5.4xlarge</code>, <code>cache.m5.12xlarge</code>,
+        /// <code>cache.m5.24xlarge</code> 
         /// </para>
         ///  
         /// <para>
         ///  <b>M4 node types:</b> <code>cache.m4.large</code>, <code>cache.m4.xlarge</code>,
         /// <code>cache.m4.2xlarge</code>, <code>cache.m4.4xlarge</code>, <code>cache.m4.10xlarge</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>T3 node types:</b> <code>cache.t3.micro</code>, <code>cache.t3.small</code>, <code>cache.t3.medium</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>T2 node types:</b> <code>cache.t2.micro</code>, <code>cache.t2.small</code>, <code>cache.t2.medium</code>
         /// 
         /// </para>
         ///  </li> <li> 
@@ -89,6 +95,11 @@ namespace Amazon.ElastiCache.Model
         /// <para>
         ///  <b>M1 node types:</b> <code>cache.m1.small</code>, <code>cache.m1.medium</code>,
         /// <code>cache.m1.large</code>, <code>cache.m1.xlarge</code> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>M3 node types:</b> <code>cache.m3.medium</code>, <code>cache.m3.large</code>,
+        /// <code>cache.m3.xlarge</code>, <code>cache.m3.2xlarge</code> 
         /// </para>
         ///  </li> </ul> </li> <li> 
         /// <para>
@@ -112,9 +123,15 @@ namespace Amazon.ElastiCache.Model
         /// </para>
         ///  
         /// <para>
-        ///  <b>R3 node types:</b> <code>cache.r3.large</code>, <code>cache.r3.xlarge</code>,
-        /// <code>cache.r3.2xlarge</code>, <code>cache.r3.4xlarge</code>, <code>cache.r3.8xlarge</code>
-        /// 
+        ///  <b>R5 node types:</b> <code>cache.r5.large</code>, <code>cache.r5.xlarge</code>,
+        /// <code>cache.r5.2xlarge</code>, <code>cache.r5.4xlarge</code>, <code>cache.r5.12xlarge</code>,
+        /// <code>cache.r5.24xlarge</code> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>R4 node types:</b> <code>cache.r4.large</code>, <code>cache.r4.xlarge</code>,
+        /// <code>cache.r4.2xlarge</code>, <code>cache.r4.4xlarge</code>, <code>cache.r4.8xlarge</code>,
+        /// <code>cache.r4.16xlarge</code> 
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -125,34 +142,34 @@ namespace Amazon.ElastiCache.Model
         ///  <b>M2 node types:</b> <code>cache.m2.xlarge</code>, <code>cache.m2.2xlarge</code>,
         /// <code>cache.m2.4xlarge</code> 
         /// </para>
+        ///  
+        /// <para>
+        ///  <b>R3 node types:</b> <code>cache.r3.large</code>, <code>cache.r3.xlarge</code>,
+        /// <code>cache.r3.2xlarge</code>, <code>cache.r3.4xlarge</code>, <code>cache.r3.8xlarge</code>
+        /// 
+        /// </para>
         ///  </li> </ul> </li> </ul> 
         /// <para>
-        ///  <b>Notes:</b> 
+        ///  <b>Additional node type info</b> 
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).
+        /// All current generation instance types are created in Amazon VPC by default.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2
-        /// instances. 
+        /// Redis append-only files (AOF) are not supported for T1 or T2 instances.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.
+        /// Redis Multi-AZ with automatic failover is not supported on T1 instances.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.
+        /// Redis configuration variables <code>appendonly</code> and <code>appendfsync</code>
+        /// are not supported on Redis version 2.8.22 and later.
         /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// For a complete listing of node types and specifications, see <a href="http://aws.amazon.com/elasticache/details">Amazon
-        /// ElastiCache Product Features and Details</a> and either <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/CacheParameterGroups.Memcached.html#ParameterGroups.Memcached.NodeSpecific">Cache
-        /// Node Type-Specific Parameters for Memcached</a> or <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/CacheParameterGroups.Redis.html#ParameterGroups.Redis.NodeSpecific">Cache
-        /// Node Type-Specific Parameters for Redis</a>.
-        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public string CacheNodeType
         {

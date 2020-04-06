@@ -55,12 +55,12 @@ namespace Amazon.WorkDocs.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeDocumentVersionsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.WorkDocs");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-05-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/api/v1/documents/{DocumentId}/versions";
             if (!publicRequest.IsSetDocumentId())
                 throw new AmazonWorkDocsException("Request object does not have required field DocumentId set");
-            uriResourcePath = uriResourcePath.Replace("{DocumentId}", StringUtils.FromString(publicRequest.DocumentId));
+            request.AddPathResource("{DocumentId}", StringUtils.FromString(publicRequest.DocumentId));
             
             if (publicRequest.IsSetFields())
                 request.Parameters.Add("fields", StringUtils.FromString(publicRequest.Fields));
@@ -73,7 +73,8 @@ namespace Amazon.WorkDocs.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetMarker())
                 request.Parameters.Add("marker", StringUtils.FromString(publicRequest.Marker));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/api/v1/documents/{DocumentId}/versions";
+            request.MarshallerVersion = 2;
         
             if(publicRequest.IsSetAuthenticationToken())
                 request.Headers["Authentication"] = publicRequest.AuthenticationToken;

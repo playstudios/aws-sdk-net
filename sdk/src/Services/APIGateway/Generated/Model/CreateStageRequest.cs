@@ -43,6 +43,7 @@ namespace Amazon.APIGateway.Model
         private string _restApiId;
         private string _stageName;
         private Dictionary<string, string> _tags = new Dictionary<string, string>();
+        private bool? _tracingEnabled;
         private Dictionary<string, string> _variables = new Dictionary<string, string>();
 
         /// <summary>
@@ -105,6 +106,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The identifier of the <a>Deployment</a> resource for the <a>Stage</a> resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DeploymentId
         {
             get { return this._deploymentId; }
@@ -159,6 +161,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }
@@ -174,9 +177,11 @@ namespace Amazon.APIGateway.Model
         /// <summary>
         /// Gets and sets the property StageName. 
         /// <para>
-        /// [Required] The name for the <a>Stage</a> resource.
+        /// [Required] The name for the <a>Stage</a> resource. Stage names can only contain alphanumeric
+        /// characters, hyphens, and underscores. Maximum length is 128 characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StageName
         {
             get { return this._stageName; }
@@ -207,6 +212,24 @@ namespace Amazon.APIGateway.Model
         internal bool IsSetTags()
         {
             return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TracingEnabled. 
+        /// <para>
+        /// Specifies whether active tracing with X-ray is enabled for the <a>Stage</a>.
+        /// </para>
+        /// </summary>
+        public bool TracingEnabled
+        {
+            get { return this._tracingEnabled.GetValueOrDefault(); }
+            set { this._tracingEnabled = value; }
+        }
+
+        // Check to see if TracingEnabled property is set
+        internal bool IsSetTracingEnabled()
+        {
+            return this._tracingEnabled.HasValue; 
         }
 
         /// <summary>

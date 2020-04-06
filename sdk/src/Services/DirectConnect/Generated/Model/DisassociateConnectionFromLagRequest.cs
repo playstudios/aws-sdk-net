@@ -33,12 +33,12 @@ namespace Amazon.DirectConnect.Model
     /// interrupted and re-established as a standalone connection (the connection is not deleted;
     /// to delete the connection, use the <a>DeleteConnection</a> request). If the LAG has
     /// associated virtual interfaces or hosted connections, they remain associated with the
-    /// LAG. A disassociated connection owned by an AWS Direct Connect partner is automatically
+    /// LAG. A disassociated connection owned by an AWS Direct Connect Partner is automatically
     /// converted to an interconnect.
     /// 
     ///  
     /// <para>
-    /// If disassociating the connection will cause the LAG to fall below its setting for
+    /// If disassociating the connection would cause the LAG to fall below its setting for
     /// minimum number of operational connections, the request fails, except when it's the
     /// last member of the LAG. If all connections are disassociated, the LAG continues to
     /// exist as an empty LAG with no physical connections. 
@@ -52,17 +52,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property ConnectionId. 
         /// <para>
-        /// The ID of the connection to disassociate from the LAG.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: dxcon-abc123
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConnectionId
         {
             get { return this._connectionId; }
@@ -80,15 +73,8 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The ID of the LAG.
         /// </para>
-        ///  
-        /// <para>
-        /// Example: dxlag-abc123
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LagId
         {
             get { return this._lagId; }

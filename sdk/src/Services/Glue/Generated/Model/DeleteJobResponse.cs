@@ -37,9 +37,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property JobName. 
         /// <para>
-        /// The name of the job that was deleted.
+        /// The name of the job definition that was deleted.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string JobName
         {
             get { return this._jobName; }

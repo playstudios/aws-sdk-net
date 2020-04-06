@@ -43,6 +43,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The activityId provided in the <code>ScheduleActivityTask</code> decision that failed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ActivityId
         {
             get { return this._activityId; }
@@ -62,6 +63,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// failed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActivityType ActivityType
         {
             get { return this._activityType; }
@@ -84,11 +86,12 @@ namespace Amazon.SimpleWorkflow.Model
         /// <para>
         /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the decision
         /// failed because it lacked sufficient permissions. For details and example IAM policies,
-        /// see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScheduleActivityTaskFailedCause Cause
         {
             get { return this._cause; }
@@ -109,6 +112,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// for diagnosing problems by tracing back the chain of events leading up to this event.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long DecisionTaskCompletedEventId
         {
             get { return this._decisionTaskCompletedEventId.GetValueOrDefault(); }

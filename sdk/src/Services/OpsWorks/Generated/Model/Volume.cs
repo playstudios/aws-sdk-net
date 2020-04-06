@@ -50,7 +50,7 @@ namespace Amazon.OpsWorks.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZone. 
         /// <para>
-        /// The volume Availability Zone. For more information, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
+        /// The volume Availability Zone. For more information, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
         /// and Endpoints</a>.
         /// </para>
         /// </summary>
@@ -103,7 +103,12 @@ namespace Amazon.OpsWorks.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Encrypted.
+        /// Gets and sets the property Encrypted. 
+        /// <para>
+        /// Specifies whether an Amazon EBS volume is encrypted. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// EBS Encryption</a>.
+        /// </para>
         /// </summary>
         public bool Encrypted
         {
@@ -210,7 +215,7 @@ namespace Amazon.OpsWorks.Model
         /// <summary>
         /// Gets and sets the property Region. 
         /// <para>
-        /// The AWS region. For more information about AWS regions, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
+        /// The AWS region. For more information about AWS regions, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
         /// and Endpoints</a>.
         /// </para>
         /// </summary>
@@ -247,7 +252,7 @@ namespace Amazon.OpsWorks.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The value returned by <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumes.html">DescribeVolumes</a>.
+        /// The value returned by <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumes.html">DescribeVolumes</a>.
         /// </para>
         /// </summary>
         public string Status
@@ -283,8 +288,35 @@ namespace Amazon.OpsWorks.Model
         /// <summary>
         /// Gets and sets the property VolumeType. 
         /// <para>
-        /// The volume type, standard or PIOPS.
+        /// The volume type. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">
+        /// Amazon EBS Volume Types</a>.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>standard</code> - Magnetic. Magnetic volumes must have a minimum size of 1
+        /// GiB and a maximum size of 1024 GiB.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>io1</code> - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size
+        /// of 4 GiB and a maximum size of 16384 GiB.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>gp2</code> - General Purpose (SSD). General purpose volumes must have a minimum
+        /// size of 1 GiB and a maximum size of 16384 GiB.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>st1</code> - Throughput Optimized hard disk drive (HDD). Throughput optimized
+        /// HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>sc1</code> - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB
+        /// and a maximum size of 16384 GiB.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public string VolumeType
         {

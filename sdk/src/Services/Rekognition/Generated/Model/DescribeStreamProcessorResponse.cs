@@ -105,6 +105,7 @@ namespace Amazon.Rekognition.Model
         /// Name of the stream processor. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -120,7 +121,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property Output. 
         /// <para>
-        /// Kinesis data stream to which Rekognition Video puts the analysis results.
+        /// Kinesis data stream to which Amazon Rekognition Video puts the analysis results.
         /// </para>
         /// </summary>
         public StreamProcessorOutput Output

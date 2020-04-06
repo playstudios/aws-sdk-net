@@ -50,6 +50,8 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                 response.DeleteMarker = S3Transforms.ToString(responseData.GetHeaderValue("x-amz-delete-marker"));
             if (responseData.IsHeaderPresent("accept-ranges"))
                 response.AcceptRanges = S3Transforms.ToString(responseData.GetHeaderValue("accept-ranges"));
+            if (context.ResponseData.IsHeaderPresent("content-range"))
+				response.ContentRange = S3Transforms.ToString(responseData.GetHeaderValue("content-range"));
             if (responseData.IsHeaderPresent("x-amz-expiration"))
                 response.Expiration = new Expiration(responseData.GetHeaderValue("x-amz-expiration"));
             if (responseData.IsHeaderPresent("x-amz-restore"))
@@ -93,6 +95,12 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                 response.ReplicationStatus = S3Transforms.ToString(responseData.GetHeaderValue("x-amz-replication-status"));
             if (responseData.IsHeaderPresent(S3Constants.AmzHeaderMultipartPartsCount))
                 response.PartsCount = S3Transforms.ToInt(responseData.GetHeaderValue(S3Constants.AmzHeaderMultipartPartsCount));
+            if (responseData.IsHeaderPresent("x-amz-object-lock-mode"))
+                response.ObjectLockMode = S3Transforms.ToString(responseData.GetHeaderValue("x-amz-object-lock-mode"));
+            if (responseData.IsHeaderPresent("x-amz-object-lock-retain-until-date"))
+                response.ObjectLockRetainUntilDate = S3Transforms.ToDateTime(responseData.GetHeaderValue("x-amz-object-lock-retain-until-date"));
+            if (responseData.IsHeaderPresent("x-amz-object-lock-legal-hold"))
+                response.ObjectLockLegalHoldStatus = S3Transforms.ToString(responseData.GetHeaderValue("x-amz-object-lock-legal-hold"));
             if (responseData.IsHeaderPresent(HeaderKeys.XAmzStorageClassHeader))
                 response.StorageClass = S3Transforms.ToString(responseData.GetHeaderValue(HeaderKeys.XAmzStorageClassHeader));
             if (responseData.IsHeaderPresent(S3Constants.AmzHeaderRequestCharged))

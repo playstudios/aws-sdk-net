@@ -65,10 +65,11 @@ namespace Amazon.IdentityManagement.Model
         /// Gets and sets the property Arn. 
         /// <para>
         ///  The Amazon Resource Name (ARN) specifying the instance profile. For more information
-        /// about ARNs and how to use them in policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide. 
+        /// about ARNs and how to use them in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string Arn
         {
             get { return this._arn; }
@@ -87,6 +88,7 @@ namespace Amazon.IdentityManagement.Model
         /// The date when the instance profile was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreateDate
         {
             get { return this._createDate.GetValueOrDefault(); }
@@ -103,10 +105,11 @@ namespace Amazon.IdentityManagement.Model
         /// Gets and sets the property InstanceProfileId. 
         /// <para>
         ///  The stable and unique string identifying the instance profile. For more information
-        /// about IDs, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide. 
+        /// about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=16, Max=128)]
         public string InstanceProfileId
         {
             get { return this._instanceProfileId; }
@@ -125,6 +128,7 @@ namespace Amazon.IdentityManagement.Model
         /// The name identifying the instance profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string InstanceProfileName
         {
             get { return this._instanceProfileName; }
@@ -140,10 +144,11 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Path. 
         /// <para>
-        ///  The path to the instance profile. For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide. 
+        ///  The path to the instance profile. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string Path
         {
             get { return this._path; }
@@ -162,6 +167,7 @@ namespace Amazon.IdentityManagement.Model
         /// The role associated with the instance profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Role> Roles
         {
             get { return this._roles; }

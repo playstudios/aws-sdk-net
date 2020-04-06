@@ -39,13 +39,15 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+    /// For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
     /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </para>
     /// </summary>
     public partial class DescribeRouteTablesRequest : AmazonEC2Request
     {
         private List<Filter> _filters = new List<Filter>();
+        private int? _maxResults;
+        private string _nextToken;
         private List<string> _routeTableIds = new List<string>();
 
         /// <summary>
@@ -72,6 +74,10 @@ namespace Amazon.EC2.Model
         ///  <code>association.main</code> - Indicates whether the route table is the main route
         /// table for the VPC (<code>true</code> | <code>false</code>). Route tables that do not
         /// have an association ID are not returned in the response.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>owner-id</code> - The ID of the AWS account that owns the route table.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -112,6 +118,10 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>route.transit-gateway-id</code> - The ID of a transit gateway.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>route.origin</code> - Describes how the route was created. <code>CreateRouteTable</code>
         /// indicates that the route was automatically created when the route table was created;
         /// <code>CreateRoute</code> indicates that the route was manually added to the route
@@ -132,24 +142,20 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of what the tag's key is). If you want to list only resources where
-        /// Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>transit-gateway-id</code> - The ID of a transit gateway.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -167,6 +173,44 @@ namespace Amazon.EC2.Model
         internal bool IsSetFilters()
         {
             return this._filters != null && this._filters.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaxResults. 
+        /// <para>
+        /// The maximum number of results to return with a single call. To retrieve the remaining
+        /// results, make another call with the returned <code>nextToken</code> value.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=5, Max=100)]
+        public int MaxResults
+        {
+            get { return this._maxResults.GetValueOrDefault(); }
+            set { this._maxResults = value; }
+        }
+
+        // Check to see if MaxResults property is set
+        internal bool IsSetMaxResults()
+        {
+            return this._maxResults.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// The token for the next page of results.
+        /// </para>
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
         }
 
         /// <summary>

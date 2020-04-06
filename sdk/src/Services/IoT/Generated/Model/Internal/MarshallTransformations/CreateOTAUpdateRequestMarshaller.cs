@@ -55,14 +55,15 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateOTAUpdateRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/otaUpdates/{otaUpdateId}";
             if (!publicRequest.IsSetOtaUpdateId())
                 throw new AmazonIoTException("Request object does not have required field OtaUpdateId set");
-            uriResourcePath = uriResourcePath.Replace("{otaUpdateId}", StringUtils.FromString(publicRequest.OtaUpdateId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{otaUpdateId}", StringUtils.FromString(publicRequest.OtaUpdateId));
+            request.ResourcePath = "/otaUpdates/{otaUpdateId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -79,6 +80,28 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
 
                             context.Writer.Write(publicRequestAdditionalParametersValue);
                     }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetAwsJobExecutionsRolloutConfig())
+                {
+                    context.Writer.WritePropertyName("awsJobExecutionsRolloutConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AwsJobExecutionsRolloutConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.AwsJobExecutionsRolloutConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetAwsJobPresignedUrlConfig())
+                {
+                    context.Writer.WritePropertyName("awsJobPresignedUrlConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AwsJobPresignedUrlConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.AwsJobPresignedUrlConfig, context);
+
                     context.Writer.WriteObjectEnd();
                 }
 
@@ -104,10 +127,37 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                     context.Writer.WriteArrayEnd();
                 }
 
+                if(publicRequest.IsSetProtocols())
+                {
+                    context.Writer.WritePropertyName("protocols");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestProtocolsListValue in publicRequest.Protocols)
+                    {
+                            context.Writer.Write(publicRequestProtocolsListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetRoleArn())
                 {
                     context.Writer.WritePropertyName("roleArn");
                     context.Writer.Write(publicRequest.RoleArn);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetTargets())

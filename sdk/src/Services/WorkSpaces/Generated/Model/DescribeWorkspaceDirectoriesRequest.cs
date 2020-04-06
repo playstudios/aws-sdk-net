@@ -29,12 +29,12 @@ namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeWorkspaceDirectories operation.
-    /// Describes the available AWS Directory Service directories that are registered with
-    /// Amazon WorkSpaces.
+    /// Describes the available directories that are registered with Amazon WorkSpaces.
     /// </summary>
     public partial class DescribeWorkspaceDirectoriesRequest : AmazonWorkSpacesRequest
     {
         private List<string> _directoryIds = new List<string>();
+        private int? _limit;
         private string _nextToken;
 
         /// <summary>
@@ -43,6 +43,7 @@ namespace Amazon.WorkSpaces.Model
         /// The identifiers of the directories. If the value is null, all directories are retrieved.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=25)]
         public List<string> DirectoryIds
         {
             get { return this._directoryIds; }
@@ -56,11 +57,32 @@ namespace Amazon.WorkSpaces.Model
         }
 
         /// <summary>
-        /// Gets and sets the property NextToken. 
+        /// Gets and sets the property Limit. 
         /// <para>
-        /// The token for the next set of results. (You received this token from a previous call.)
+        /// The maximum number of directories to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=25)]
+        public int Limit
+        {
+            get { return this._limit.GetValueOrDefault(); }
+            set { this._limit = value; }
+        }
+
+        // Check to see if Limit property is set
+        internal bool IsSetLimit()
+        {
+            return this._limit.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// If you received a <code>NextToken</code> from a previous call that was paginated,
+        /// provide this token to receive the next set of results.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string NextToken
         {
             get { return this._nextToken; }

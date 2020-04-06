@@ -55,14 +55,15 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetEffectivePoliciesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/effective-policies";
             
             if (publicRequest.IsSetThingName())
                 request.Parameters.Add("thingName", StringUtils.FromString(publicRequest.ThingName));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/effective-policies";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

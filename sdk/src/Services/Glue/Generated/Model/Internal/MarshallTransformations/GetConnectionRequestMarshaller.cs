@@ -58,10 +58,11 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
             string target = "AWSGlue.GetConnection";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,12 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("CatalogId");
                     context.Writer.Write(publicRequest.CatalogId);
+                }
+
+                if(publicRequest.IsSetHidePassword())
+                {
+                    context.Writer.WritePropertyName("HidePassword");
+                    context.Writer.Write(publicRequest.HidePassword);
                 }
 
                 if(publicRequest.IsSetName())

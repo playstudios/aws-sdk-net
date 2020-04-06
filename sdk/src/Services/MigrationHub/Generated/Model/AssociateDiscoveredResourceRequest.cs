@@ -29,8 +29,8 @@ namespace Amazon.MigrationHub.Model
 {
     /// <summary>
     /// Container for the parameters to the AssociateDiscoveredResource operation.
-    /// Associates a discovered resource ID from Application Discovery Service (ADS) with
-    /// a migration task.
+    /// Associates a discovered resource ID from Application Discovery Service with a migration
+    /// task.
     /// </summary>
     public partial class AssociateDiscoveredResourceRequest : AmazonMigrationHubRequest
     {
@@ -45,6 +45,7 @@ namespace Amazon.MigrationHub.Model
         /// Object representing a Resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DiscoveredResource DiscoveredResource
         {
             get { return this._discoveredResource; }
@@ -79,9 +80,11 @@ namespace Amazon.MigrationHub.Model
         /// <summary>
         /// Gets and sets the property MigrationTaskName. 
         /// <para>
-        /// The identifier given to the MigrationTask.
+        /// The identifier given to the MigrationTask. <i>Do not store personal data in this field.</i>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string MigrationTaskName
         {
             get { return this._migrationTaskName; }
@@ -100,6 +103,7 @@ namespace Amazon.MigrationHub.Model
         /// The name of the ProgressUpdateStream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string ProgressUpdateStream
         {
             get { return this._progressUpdateStream; }

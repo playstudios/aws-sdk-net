@@ -51,6 +51,12 @@ namespace Amazon.KinesisFirehose.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("Encrypted", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    response.Encrypted = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("RecordId", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -75,6 +81,10 @@ namespace Amazon.KinesisFirehose.Model.Internal.MarshallTransformations
             if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidArgumentException"))
             {
                 return new InvalidArgumentException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidKMSResourceException"))
+            {
+                return new InvalidKMSResourceException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             if (errorResponse.Code != null && errorResponse.Code.Equals("ResourceNotFoundException"))
             {

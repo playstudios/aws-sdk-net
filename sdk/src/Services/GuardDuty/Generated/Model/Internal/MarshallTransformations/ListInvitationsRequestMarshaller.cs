@@ -55,16 +55,17 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListInvitationsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.GuardDuty");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/invitation";
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("maxResults", StringUtils.FromInt(publicRequest.MaxResults));
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("nextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/invitation";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

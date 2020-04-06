@@ -31,14 +31,14 @@ namespace Amazon.OpsWorks.Model
     /// Container for the parameters to the RegisterEcsCluster operation.
     /// Registers a specified Amazon ECS cluster with a stack. You can register only one cluster
     /// with a stack. A cluster can be registered with only one stack. For more information,
-    /// see <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html">
+    /// see <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-ecscluster.html">
     /// Resource Management</a>.
     /// 
     ///  
     /// <para>
     ///  <b>Required Permissions</b>: To use this action, an IAM user must have a Manage permissions
     /// level for the stack or an attached policy that explicitly grants permissions. For
-    /// more information on user permissions, see <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">
+    /// more information on user permissions, see <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">
     /// Managing User Permissions</a>.
     /// </para>
     /// </summary>
@@ -53,6 +53,7 @@ namespace Amazon.OpsWorks.Model
         /// The cluster's ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EcsClusterArn
         {
             get { return this._ecsClusterArn; }
@@ -71,6 +72,7 @@ namespace Amazon.OpsWorks.Model
         /// The stack ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackId
         {
             get { return this._stackId; }

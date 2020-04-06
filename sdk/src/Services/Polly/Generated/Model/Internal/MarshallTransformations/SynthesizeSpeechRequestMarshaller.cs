@@ -55,16 +55,29 @@ namespace Amazon.Polly.Model.Internal.MarshallTransformations
         public IRequest Marshall(SynthesizeSpeechRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Polly");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-06-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/speech";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/speech";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetEngine())
+                {
+                    context.Writer.WritePropertyName("Engine");
+                    context.Writer.Write(publicRequest.Engine);
+                }
+
+                if(publicRequest.IsSetLanguageCode())
+                {
+                    context.Writer.WritePropertyName("LanguageCode");
+                    context.Writer.Write(publicRequest.LanguageCode);
+                }
+
                 if(publicRequest.IsSetLexiconNames())
                 {
                     context.Writer.WritePropertyName("LexiconNames");

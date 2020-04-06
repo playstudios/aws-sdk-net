@@ -42,6 +42,7 @@ namespace Amazon.GameLift.Model
         /// If no token is returned, these results represent the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -57,8 +58,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlayerSessions. 
         /// <para>
-        /// Collection of objects containing properties for each player session that matches the
-        /// request.
+        /// A collection of objects containing properties for each player session that matches
+        /// the request.
         /// </para>
         /// </summary>
         public List<PlayerSession> PlayerSessions

@@ -58,10 +58,11 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
             string target = "CodeBuild_20161006.CreateProject";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-10-06";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -118,10 +119,91 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetFileSystemLocations())
+                {
+                    context.Writer.WritePropertyName("fileSystemLocations");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestFileSystemLocationsListValue in publicRequest.FileSystemLocations)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ProjectFileSystemLocationMarshaller.Instance;
+                        marshaller.Marshall(publicRequestFileSystemLocationsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetLogsConfig())
+                {
+                    context.Writer.WritePropertyName("logsConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = LogsConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.LogsConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetName())
                 {
                     context.Writer.WritePropertyName("name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetQueuedTimeoutInMinutes())
+                {
+                    context.Writer.WritePropertyName("queuedTimeoutInMinutes");
+                    context.Writer.Write(publicRequest.QueuedTimeoutInMinutes);
+                }
+
+                if(publicRequest.IsSetSecondaryArtifacts())
+                {
+                    context.Writer.WritePropertyName("secondaryArtifacts");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSecondaryArtifactsListValue in publicRequest.SecondaryArtifacts)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ProjectArtifactsMarshaller.Instance;
+                        marshaller.Marshall(publicRequestSecondaryArtifactsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetSecondarySources())
+                {
+                    context.Writer.WritePropertyName("secondarySources");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSecondarySourcesListValue in publicRequest.SecondarySources)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ProjectSourceMarshaller.Instance;
+                        marshaller.Marshall(publicRequestSecondarySourcesListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetSecondarySourceVersions())
+                {
+                    context.Writer.WritePropertyName("secondarySourceVersions");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSecondarySourceVersionsListValue in publicRequest.SecondarySourceVersions)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ProjectSourceVersionMarshaller.Instance;
+                        marshaller.Marshall(publicRequestSecondarySourceVersionsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetServiceRole())
@@ -139,6 +221,12 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.Source, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetSourceVersion())
+                {
+                    context.Writer.WritePropertyName("sourceVersion");
+                    context.Writer.Write(publicRequest.SourceVersion);
                 }
 
                 if(publicRequest.IsSetTags())

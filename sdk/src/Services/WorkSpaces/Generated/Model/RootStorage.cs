@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
-    /// Information about the root volume for a WorkSpace bundle.
+    /// Describes the root volume for a WorkSpace bundle.
     /// </summary>
     public partial class RootStorage
     {
@@ -40,6 +40,7 @@ namespace Amazon.WorkSpaces.Model
         /// The size of the root volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Capacity
         {
             get { return this._capacity; }

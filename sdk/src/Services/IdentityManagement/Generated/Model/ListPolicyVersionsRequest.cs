@@ -34,7 +34,7 @@ namespace Amazon.IdentityManagement.Model
     /// 
     ///  
     /// <para>
-    /// For more information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+    /// For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
     /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
     /// </para>
     /// </summary>
@@ -52,6 +52,7 @@ namespace Amazon.IdentityManagement.Model
         /// element in the response that you received to indicate where the next call should start.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=320)]
         public string Marker
         {
             get { return this._marker; }
@@ -67,18 +68,20 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// (Optional) Use this only when paginating results to indicate the maximum number of
-        /// items you want in the response. If additional items exist beyond the maximum you specify,
-        /// the <code>IsTruncated</code> response element is <code>true</code>.
+        /// Use this only when paginating results to indicate the maximum number of items you
+        /// want in the response. If additional items exist beyond the maximum you specify, the
+        /// <code>IsTruncated</code> response element is <code>true</code>.
         /// </para>
         ///  
         /// <para>
-        /// If you do not include this parameter, it defaults to 100. Note that IAM might return
-        /// fewer results, even when there are more results available. In that case, the <code>IsTruncated</code>
-        /// response element returns <code>true</code> and <code>Marker</code> contains a value
-        /// to include in the subsequent call that tells the service where to continue from.
+        /// If you do not include this parameter, the number of items defaults to 100. Note that
+        /// IAM might return fewer results, even when there are more results available. In that
+        /// case, the <code>IsTruncated</code> response element returns <code>true</code>, and
+        /// <code>Marker</code> contains a value to include in the subsequent call that tells
+        /// the service where to continue from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -98,10 +101,11 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string PolicyArn
         {
             get { return this._policyArn; }

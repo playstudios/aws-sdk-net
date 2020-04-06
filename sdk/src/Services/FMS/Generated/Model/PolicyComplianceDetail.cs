@@ -28,14 +28,15 @@ using Amazon.Runtime.Internal;
 namespace Amazon.FMS.Model
 {
     /// <summary>
-    /// Describes the non-compliant resources in a member account for a specific AWS Firewall
+    /// Describes the noncompliant resources in a member account for a specific AWS Firewall
     /// Manager policy. A maximum of 100 entries are displayed. If more than 100 resources
-    /// are non-compliant, <code>EvaluationLimitExceeded</code> is set to <code>True</code>.
+    /// are noncompliant, <code>EvaluationLimitExceeded</code> is set to <code>True</code>.
     /// </summary>
     public partial class PolicyComplianceDetail
     {
         private bool? _evaluationLimitExceeded;
         private DateTime? _expiredAt;
+        private Dictionary<string, string> _issueInfoMap = new Dictionary<string, string>();
         private string _memberAccount;
         private string _policyId;
         private string _policyOwner;
@@ -44,7 +45,7 @@ namespace Amazon.FMS.Model
         /// <summary>
         /// Gets and sets the property EvaluationLimitExceeded. 
         /// <para>
-        /// Indicates if over 100 resources are non-compliant with the AWS Firewall Manager policy.
+        /// Indicates if over 100 resources are noncompliant with the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
         public bool EvaluationLimitExceeded
@@ -62,7 +63,8 @@ namespace Amazon.FMS.Model
         /// <summary>
         /// Gets and sets the property ExpiredAt. 
         /// <para>
-        /// A time stamp that indicates when the returned information should be considered out-of-date.
+        /// A timestamp that indicates when the returned information should be considered out
+        /// of date.
         /// </para>
         /// </summary>
         public DateTime ExpiredAt
@@ -78,11 +80,32 @@ namespace Amazon.FMS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IssueInfoMap. 
+        /// <para>
+        /// Details about problems with dependent services, such as AWS WAF or AWS Config, that
+        /// are causing a resource to be noncompliant. The details include the name of the dependent
+        /// service and the error message received that indicates the problem with the service.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> IssueInfoMap
+        {
+            get { return this._issueInfoMap; }
+            set { this._issueInfoMap = value; }
+        }
+
+        // Check to see if IssueInfoMap property is set
+        internal bool IsSetIssueInfoMap()
+        {
+            return this._issueInfoMap != null && this._issueInfoMap.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MemberAccount. 
         /// <para>
         /// The AWS account ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string MemberAccount
         {
             get { return this._memberAccount; }
@@ -101,6 +124,7 @@ namespace Amazon.FMS.Model
         /// The ID of the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string PolicyId
         {
             get { return this._policyId; }
@@ -119,6 +143,7 @@ namespace Amazon.FMS.Model
         /// The AWS account that created the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string PolicyOwner
         {
             get { return this._policyOwner; }
@@ -134,7 +159,8 @@ namespace Amazon.FMS.Model
         /// <summary>
         /// Gets and sets the property Violators. 
         /// <para>
-        /// An array of resources that are not protected by the policy.
+        /// An array of resources that aren't protected by the AWS WAF or Shield Advanced policy
+        /// or that aren't in compliance with the security group policy.
         /// </para>
         /// </summary>
         public List<ComplianceViolator> Violators

@@ -31,6 +31,12 @@ namespace Amazon.ECR.Model
     /// Container for the parameters to the UploadLayerPart operation.
     /// Uploads an image layer part to Amazon ECR.
     /// 
+    ///  
+    /// <para>
+    /// When an image is pushed, each new image layer is uploaded in parts. The maximum size
+    /// of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart
+    /// API is called once per each new image layer part.
+    /// </para>
     ///  <note> 
     /// <para>
     /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -54,6 +60,7 @@ namespace Amazon.ECR.Model
         /// The base64-encoded layer part payload.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=20971520)]
         public MemoryStream LayerPartBlob
         {
             get { return this._layerPartBlob; }
@@ -72,6 +79,7 @@ namespace Amazon.ECR.Model
         /// The integer value of the first byte of the layer part.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public long PartFirstByte
         {
             get { return this._partFirstByte.GetValueOrDefault(); }
@@ -90,6 +98,7 @@ namespace Amazon.ECR.Model
         /// The integer value of the last byte of the layer part.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public long PartLastByte
         {
             get { return this._partLastByte.GetValueOrDefault(); }
@@ -127,6 +136,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository to which you are uploading layer parts.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }
@@ -146,6 +156,7 @@ namespace Amazon.ECR.Model
         /// the layer part upload.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string UploadId
         {
             get { return this._uploadId; }

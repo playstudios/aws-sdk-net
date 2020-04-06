@@ -40,8 +40,8 @@ namespace Amazon.RDS.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about copying snapshots, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopyDBSnapshot.html">Copying
-    /// a DB Snapshot</a> in the Amazon RDS User Guide. 
+    /// For more information about copying snapshots, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopyDBSnapshot">Copying
+    /// a DB Snapshot</a> in the <i>Amazon RDS User Guide.</i> 
     /// </para>
     /// </summary>
     public partial class CopyDBSnapshotRequest : AmazonRDSRequest
@@ -57,8 +57,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property CopyTags. 
         /// <para>
-        /// True to copy all tags from the source DB snapshot to the target DB snapshot, and otherwise
-        /// false. The default is false.
+        /// A value that indicates whether to copy all tags from the source DB snapshot to the
+        /// target DB snapshot. By default, tags are not copied.
         /// </para>
         /// </summary>
         public bool CopyTags
@@ -126,8 +126,8 @@ namespace Amazon.RDS.Model
         /// Specify this option if you are copying a snapshot from one AWS Region to another,
         /// and your DB instance uses a nondefault option group. If your source DB instance uses
         /// Transparent Data Encryption for Oracle or Microsoft SQL Server, you must specify this
-        /// option when copying across AWS Regions. For more information, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopySnapshot.Options">Option
-        /// Group Considerations</a>. 
+        /// option when copying across AWS Regions. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopySnapshot.Options">Option
+        /// Group Considerations</a> in the <i>Amazon RDS User Guide.</i> 
         /// </para>
         /// </summary>
         public string OptionGroupName
@@ -152,9 +152,8 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// You must specify this parameter when you copy an encrypted DB snapshot from another
-        /// AWS Region by using the Amazon RDS API. You can specify the <code>--source-region</code>
-        /// option instead of this parameter when you copy an encrypted DB snapshot from another
-        /// AWS Region by using the AWS CLI. 
+        /// AWS Region by using the Amazon RDS API. Don't specify <code>PreSignedUrl</code> when
+        /// you are copying an encrypted DB snapshot in the same AWS Region.
         /// </para>
         ///  
         /// <para>
@@ -195,10 +194,18 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// To learn how to generate a Signature Version 4 signed request, see <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">Authenticating
-        /// Requests: Using Query Parameters (AWS Signature Version 4)</a> and <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+        /// To learn how to generate a Signature Version 4 signed request, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">Authenticating
+        /// Requests: Using Query Parameters (AWS Signature Version 4)</a> and <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
         /// Version 4 Signing Process</a>. 
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are using an AWS SDK tool or the AWS CLI, you can specify <code>SourceRegion</code>
+        /// (or <code>--source-region</code> for the AWS CLI) instead of specifying <code>PreSignedUrl</code>
+        /// manually. Specifying <code>SourceRegion</code> autogenerates a pre-signed URL that
+        /// is a valid request for the operation that can be executed in the source AWS Region.
+        /// </para>
+        ///  </note>
         /// </summary>
         public string PreSignedUrl
         {
@@ -258,6 +265,7 @@ namespace Amazon.RDS.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceDBSnapshotIdentifier
         {
             get { return this._sourceDBSnapshotIdentifier; }
@@ -296,7 +304,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Cannot be null, empty, or blank
+        /// Can't be null, empty, or blank
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -308,13 +316,14 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-db-snapshot</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetDBSnapshotIdentifier
         {
             get { return this._targetDBSnapshotIdentifier; }

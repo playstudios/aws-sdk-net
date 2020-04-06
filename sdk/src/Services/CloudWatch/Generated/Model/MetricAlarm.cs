@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudWatch.Model
 {
     /// <summary>
-    /// Represents an alarm.
+    /// The details about a metric alarm.
     /// </summary>
     public partial class MetricAlarm
     {
@@ -46,6 +46,7 @@ namespace Amazon.CloudWatch.Model
         private string _extendedStatistic;
         private List<string> _insufficientDataActions = new List<string>();
         private string _metricName;
+        private List<MetricDataQuery> _metrics = new List<MetricDataQuery>();
         private string _awsNamespace;
         private List<string> _okActions = new List<string>();
         private int? _period;
@@ -55,6 +56,7 @@ namespace Amazon.CloudWatch.Model
         private StateValue _stateValue;
         private Statistic _statistic;
         private double? _threshold;
+        private string _thresholdMetricId;
         private string _treatMissingData;
         private StandardUnit _unit;
 
@@ -83,6 +85,7 @@ namespace Amazon.CloudWatch.Model
         /// from any other state. Each action is specified as an Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> AlarmActions
         {
             get { return this._alarmActions; }
@@ -101,6 +104,7 @@ namespace Amazon.CloudWatch.Model
         /// The Amazon Resource Name (ARN) of the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string AlarmArn
         {
             get { return this._alarmArn; }
@@ -137,6 +141,7 @@ namespace Amazon.CloudWatch.Model
         /// The description of the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string AlarmDescription
         {
             get { return this._alarmDescription; }
@@ -155,6 +160,7 @@ namespace Amazon.CloudWatch.Model
         /// The name of the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string AlarmName
         {
             get { return this._alarmName; }
@@ -189,9 +195,10 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property DatapointsToAlarm. 
         /// <para>
-        /// The number of datapoints that must be breaching to trigger the alarm.
+        /// The number of data points that must be breaching to trigger the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int DatapointsToAlarm
         {
             get { return this._datapointsToAlarm.GetValueOrDefault(); }
@@ -210,6 +217,7 @@ namespace Amazon.CloudWatch.Model
         /// The dimensions for the metric associated with the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<Dimension> Dimensions
         {
             get { return this._dimensions; }
@@ -231,6 +239,7 @@ namespace Amazon.CloudWatch.Model
         /// and possibly changes state no matter how many data points are available.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string EvaluateLowSampleCountPercentile
         {
             get { return this._evaluateLowSampleCountPercentile; }
@@ -249,6 +258,7 @@ namespace Amazon.CloudWatch.Model
         /// The number of periods over which data is compared to the specified threshold.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int EvaluationPeriods
         {
             get { return this._evaluationPeriods.GetValueOrDefault(); }
@@ -287,6 +297,7 @@ namespace Amazon.CloudWatch.Model
         /// state from any other state. Each action is specified as an Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> InsufficientDataActions
         {
             get { return this._insufficientDataActions; }
@@ -302,9 +313,11 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property MetricName. 
         /// <para>
-        /// The name of the metric associated with the alarm.
+        /// The name of the metric associated with the alarm, if this is an alarm based on a single
+        /// metric.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -318,11 +331,33 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Metrics. 
+        /// <para>
+        /// An array of MetricDataQuery structures, used in an alarm based on a metric math expression.
+        /// Each structure either retrieves a metric or performs a math expression. One item in
+        /// the Metrics array is the math expression that the alarm watches. This expression by
+        /// designated by having <code>ReturnValue</code> set to true.
+        /// </para>
+        /// </summary>
+        public List<MetricDataQuery> Metrics
+        {
+            get { return this._metrics; }
+            set { this._metrics = value; }
+        }
+
+        // Check to see if Metrics property is set
+        internal bool IsSetMetrics()
+        {
+            return this._metrics != null && this._metrics.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Namespace. 
         /// <para>
         /// The namespace of the metric associated with the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Namespace
         {
             get { return this._awsNamespace; }
@@ -342,6 +377,7 @@ namespace Amazon.CloudWatch.Model
         /// any other state. Each action is specified as an Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> OKActions
         {
             get { return this._okActions; }
@@ -360,6 +396,7 @@ namespace Amazon.CloudWatch.Model
         /// The period, in seconds, over which the statistic is applied.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Period
         {
             get { return this._period.GetValueOrDefault(); }
@@ -378,6 +415,7 @@ namespace Amazon.CloudWatch.Model
         /// An explanation for the alarm state, in text format.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1023)]
         public string StateReason
         {
             get { return this._stateReason; }
@@ -396,6 +434,7 @@ namespace Amazon.CloudWatch.Model
         /// An explanation for the alarm state, in JSON format.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=4000)]
         public string StateReasonData
         {
             get { return this._stateReasonData; }
@@ -482,12 +521,33 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ThresholdMetricId. 
+        /// <para>
+        /// In an alarm based on an anomaly detection model, this is the ID of the <code>ANOMALY_DETECTION_BAND</code>
+        /// function used as the threshold for the alarm.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=255)]
+        public string ThresholdMetricId
+        {
+            get { return this._thresholdMetricId; }
+            set { this._thresholdMetricId = value; }
+        }
+
+        // Check to see if ThresholdMetricId property is set
+        internal bool IsSetThresholdMetricId()
+        {
+            return this._thresholdMetricId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TreatMissingData. 
         /// <para>
         /// Sets how this alarm is to handle missing data points. If this parameter is omitted,
         /// the default behavior of <code>missing</code> is used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string TreatMissingData
         {
             get { return this._treatMissingData; }

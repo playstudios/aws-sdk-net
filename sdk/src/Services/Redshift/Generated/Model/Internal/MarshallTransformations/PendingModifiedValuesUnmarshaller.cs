@@ -78,10 +78,22 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         unmarshalledObject.ClusterVersion = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("EncryptionType", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.EncryptionType = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("EnhancedVpcRouting", targetDepth))
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
                         unmarshalledObject.EnhancedVpcRouting = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("MaintenanceTrackName", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.MaintenanceTrackName = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("MasterUserPassword", targetDepth))

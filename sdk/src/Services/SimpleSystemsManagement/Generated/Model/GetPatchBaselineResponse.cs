@@ -45,6 +45,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         private OperatingSystem _operatingSystem;
         private List<string> _patchGroups = new List<string>();
         private List<string> _rejectedPatches = new List<string>();
+        private PatchAction _rejectedPatchesAction;
         private List<PatchSource> _sources = new List<PatchSource>();
 
         /// <summary>
@@ -71,6 +72,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A list of explicitly approved patches for the baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> ApprovedPatches
         {
             get { return this._approvedPatches; }
@@ -128,6 +130,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the retrieved patch baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=128)]
         public string BaselineId
         {
             get { return this._baselineId; }
@@ -164,6 +167,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A description of the patch baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -218,6 +222,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the patch baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -272,6 +277,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A list of explicitly rejected patches for the baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> RejectedPatches
         {
             get { return this._rejectedPatches; }
@@ -285,12 +291,33 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RejectedPatchesAction. 
+        /// <para>
+        /// The action specified to take on patches included in the RejectedPatches list. A patch
+        /// can be allowed only if it is a dependency of another package, or blocked entirely
+        /// along with packages that include it as a dependency.
+        /// </para>
+        /// </summary>
+        public PatchAction RejectedPatchesAction
+        {
+            get { return this._rejectedPatchesAction; }
+            set { this._rejectedPatchesAction = value; }
+        }
+
+        // Check to see if RejectedPatchesAction property is set
+        internal bool IsSetRejectedPatchesAction()
+        {
+            return this._rejectedPatchesAction != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Sources. 
         /// <para>
         /// Information about the patches to use to update the instances, including target operating
         /// systems and source repositories. Applies to Linux instances only.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=20)]
         public List<PatchSource> Sources
         {
             get { return this._sources; }

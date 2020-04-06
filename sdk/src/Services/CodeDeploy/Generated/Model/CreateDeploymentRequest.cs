@@ -47,10 +47,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ApplicationName. 
         /// <para>
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user
-        /// or AWS account.
+        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -85,16 +85,16 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentConfigName. 
         /// <para>
-        /// The name of a deployment configuration associated with the applicable IAM user or
-        /// AWS account.
+        /// The name of a deployment configuration associated with the IAM user or AWS account.
         /// </para>
         ///  
         /// <para>
-        /// If not specified, the value configured in the deployment group will be used as the
-        /// default. If the deployment group does not have a deployment configuration associated
-        /// with it, then CodeDeployDefault.OneAtATime will be used by default.
+        /// If not specified, the value configured in the deployment group is used as the default.
+        /// If the deployment group does not have a deployment configuration associated with it,
+        /// CodeDeployDefault.OneAtATime is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentConfigName
         {
             get { return this._deploymentConfigName; }
@@ -113,6 +113,7 @@ namespace Amazon.CodeDeploy.Model
         /// The name of the deployment group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentGroupName
         {
             get { return this._deploymentGroupName; }
@@ -185,16 +186,33 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property IgnoreApplicationStopFailures. 
         /// <para>
-        /// If set to true, then if the deployment causes the ApplicationStop deployment lifecycle
-        /// event to an instance to fail, the deployment to that instance will not be considered
-        /// to have failed at that point and will continue on to the BeforeInstall deployment
-        /// lifecycle event.
+        ///  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment
+        /// lifecycle event to an instance fails, then the deployment continues to the next deployment
+        /// lifecycle event. For example, if ApplicationStop fails, the deployment continues with
+        /// DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic.
+        /// If AfterBlockTraffic fails, the deployment continues with ApplicationStop. 
         /// </para>
         ///  
         /// <para>
-        /// If set to false or not specified, then if the deployment causes the ApplicationStop
-        /// deployment lifecycle event to fail to an instance, the deployment to that instance
-        /// will stop, and the deployment to that instance will be considered to have failed.
+        ///  If false or not specified, then if a lifecycle event fails during a deployment to
+        /// an instance, that deployment fails. If deployment to that instance is part of an overall
+        /// deployment and the number of healthy hosts is not less than the minimum number of
+        /// healthy hosts, then a deployment to the next instance is attempted. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  During a deployment, the AWS CodeDeploy agent runs the scripts specified for ApplicationStop,
+        /// BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful
+        /// deployment. (All other scripts are run from the AppSpec file in the current deployment.)
+        /// If one of these scripts contains an error and does not run successfully, the deployment
+        /// can fail. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  If the cause of the failure is a script from the last successful deployment that
+        /// will never run successfully, create a new deployment and use <code>ignoreApplicationStopFailures</code>
+        /// to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures
+        /// should be ignored. 
         /// </para>
         /// </summary>
         public bool IgnoreApplicationStopFailures
@@ -212,7 +230,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property Revision. 
         /// <para>
-        /// The type and location of the revision to deploy.
+        ///  The type and location of the revision to deploy. 
         /// </para>
         /// </summary>
         public RevisionLocation Revision
@@ -230,8 +248,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property TargetInstances. 
         /// <para>
-        /// Information about the instances that will belong to the replacement environment in
-        /// a blue/green deployment.
+        ///  Information about the instances that belong to the replacement environment in a blue/green
+        /// deployment. 
         /// </para>
         /// </summary>
         public TargetInstances TargetInstances
@@ -249,8 +267,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property UpdateOutdatedInstancesOnly. 
         /// <para>
-        /// Indicates whether to deploy to all instances or only to instances that are not running
-        /// the latest application revision.
+        ///  Indicates whether to deploy to all instances or only to instances that are not running
+        /// the latest application revision. 
         /// </para>
         /// </summary>
         public bool UpdateOutdatedInstancesOnly

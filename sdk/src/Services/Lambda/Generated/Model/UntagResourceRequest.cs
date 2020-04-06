@@ -29,9 +29,8 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the UntagResource operation.
-    /// Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name).
-    /// For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/tagging.html">Tagging
-    /// Lambda Functions</a> in the <b>AWS Lambda Developer Guide</b>.
+    /// Removes <a href="https://docs.aws.amazon.com/lambda/latest/dg/tagging.html">tags</a>
+    /// from a function.
     /// </summary>
     public partial class UntagResourceRequest : AmazonLambdaRequest
     {
@@ -41,10 +40,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Resource. 
         /// <para>
-        /// The ARN (Amazon Resource Name) of the function. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/tagging.html">Tagging
-        /// Lambda Functions</a> in the <b>AWS Lambda Developer Guide</b>.
+        /// The function's Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Resource
         {
             get { return this._resource; }
@@ -60,11 +59,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property TagKeys. 
         /// <para>
-        /// The list of tag keys to be deleted from the function. For more information, see <a
-        /// href="http://docs.aws.amazon.com/lambda/latest/dg/tagging.html">Tagging Lambda Functions</a>
-        /// in the <b>AWS Lambda Developer Guide</b>.
+        /// A list of tag keys to remove from the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

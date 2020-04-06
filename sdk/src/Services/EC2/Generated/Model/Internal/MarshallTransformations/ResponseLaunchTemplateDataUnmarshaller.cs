@@ -61,6 +61,18 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.BlockDeviceMappings.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("capacityReservationSpecification", targetDepth))
+                    {
+                        var unmarshaller = LaunchTemplateCapacityReservationSpecificationResponseUnmarshaller.Instance;
+                        unmarshalledObject.CapacityReservationSpecification = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("cpuOptions", targetDepth))
+                    {
+                        var unmarshaller = LaunchTemplateCpuOptionsUnmarshaller.Instance;
+                        unmarshalledObject.CpuOptions = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("creditSpecification", targetDepth))
                     {
                         var unmarshaller = CreditSpecificationUnmarshaller.Instance;
@@ -84,6 +96,19 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         var unmarshaller = ElasticGpuSpecificationResponseUnmarshaller.Instance;
                         var item = unmarshaller.Unmarshall(context);
                         unmarshalledObject.ElasticGpuSpecifications.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("elasticInferenceAcceleratorSet/item", targetDepth))
+                    {
+                        var unmarshaller = LaunchTemplateElasticInferenceAcceleratorResponseUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.ElasticInferenceAccelerators.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("hibernationOptions", targetDepth))
+                    {
+                        var unmarshaller = LaunchTemplateHibernationOptionsUnmarshaller.Instance;
+                        unmarshalledObject.HibernationOptions = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("iamInstanceProfile", targetDepth))
@@ -126,6 +151,19 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.KeyName = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("licenseSet/item", targetDepth))
+                    {
+                        var unmarshaller = LaunchTemplateLicenseConfigurationUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.LicenseSpecifications.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("metadataOptions", targetDepth))
+                    {
+                        var unmarshaller = LaunchTemplateInstanceMetadataOptionsUnmarshaller.Instance;
+                        unmarshalledObject.MetadataOptions = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("monitoring", targetDepth))

@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,7 @@ namespace Amazon.CloudFront.Model
     public partial class LambdaFunctionAssociation
     {
         private EventType _eventType;
+        private bool? _includeBody;
         private string _lambdaFunctionARN;
 
         /// <summary>
@@ -59,11 +60,6 @@ namespace Amazon.CloudFront.Model
         /// from the origin and before it caches the object in the response. When the requested
         /// object is in the edge cache, the function doesn't execute.
         /// </para>
-        ///  
-        /// <para>
-        /// If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't
-        /// execute.
-        /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>viewer-response</code>: The function executes before CloudFront returns the
@@ -77,6 +73,7 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public EventType EventType
         {
             get { return this._eventType; }
@@ -90,12 +87,34 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IncludeBody. 
+        /// <para>
+        /// A flag that allows a Lambda function to have read access to the body content. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-include-body-access.html">Accessing
+        /// the Request Body by Choosing the Include Body Option</a> in the Amazon CloudFront
+        /// Developer Guide.
+        /// </para>
+        /// </summary>
+        public bool IncludeBody
+        {
+            get { return this._includeBody.GetValueOrDefault(); }
+            set { this._includeBody = value; }
+        }
+
+        // Check to see if IncludeBody property is set
+        internal bool IsSetIncludeBody()
+        {
+            return this._includeBody.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property LambdaFunctionARN. 
         /// <para>
         /// The ARN of the Lambda function. You must specify the ARN of a function version; you
         /// can't specify a Lambda alias or $LATEST.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LambdaFunctionARN
         {
             get { return this._lambdaFunctionARN; }

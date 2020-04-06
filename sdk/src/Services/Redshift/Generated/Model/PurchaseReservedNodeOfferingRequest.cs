@@ -37,7 +37,7 @@ namespace Amazon.Redshift.Model
     /// 
     ///  
     /// <para>
-    ///  For more information about reserved node offerings, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
+    ///  For more information about reserved node offerings, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
     /// Reserved Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
@@ -74,6 +74,7 @@ namespace Amazon.Redshift.Model
         /// The unique identifier of the reserved node offering you want to purchase.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReservedNodeOfferingId
         {
             get { return this._reservedNodeOfferingId; }

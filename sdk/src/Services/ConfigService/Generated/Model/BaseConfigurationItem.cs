@@ -50,7 +50,7 @@ namespace Amazon.ConfigService.Model
         /// <summary>
         /// Gets and sets the property AccountId. 
         /// <para>
-        /// The 12 digit AWS account ID associated with the resource.
+        /// The 12-digit AWS account ID associated with the resource.
         /// </para>
         /// </summary>
         public string AccountId
@@ -107,6 +107,7 @@ namespace Amazon.ConfigService.Model
         /// The region where the resource resides.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string AwsRegion
         {
             get { return this._awsRegion; }
@@ -215,6 +216,7 @@ namespace Amazon.ConfigService.Model
         /// The ID of the resource (for example., sg-xxxxxx).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=768)]
         public string ResourceId
         {
             get { return this._resourceId; }

@@ -29,7 +29,7 @@ namespace Amazon.DeviceFarm.Model
 {
     /// <summary>
     /// Container for the parameters to the GetDeviceInstance operation.
-    /// Returns information about a device instance belonging to a private device fleet.
+    /// Returns information about a device instance that belongs to a private device fleet.
     /// </summary>
     public partial class GetDeviceInstanceRequest : AmazonDeviceFarmRequest
     {
@@ -41,6 +41,7 @@ namespace Amazon.DeviceFarm.Model
         /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }

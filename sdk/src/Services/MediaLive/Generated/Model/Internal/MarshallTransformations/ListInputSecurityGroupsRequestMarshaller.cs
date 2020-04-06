@@ -55,16 +55,17 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListInputSecurityGroupsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaLive");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-14";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/prod/inputSecurityGroups";
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("maxResults", StringUtils.FromInt(publicRequest.MaxResults));
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("nextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/prod/inputSecurityGroups";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

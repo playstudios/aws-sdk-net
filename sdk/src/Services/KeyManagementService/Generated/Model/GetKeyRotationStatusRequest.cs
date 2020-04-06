@@ -29,13 +29,38 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the GetKeyRotationStatus operation.
-    /// Gets a Boolean value that indicates whether automatic rotation of the key material
-    /// is enabled for the specified customer master key (CMK).
+    /// Gets a Boolean value that indicates whether <a href="https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html">automatic
+    /// rotation of the key material</a> is enabled for the specified customer master key
+    /// (CMK).
     /// 
     ///  
     /// <para>
+    /// You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key material,
+    /// or CMKs in a <a href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+    /// key store</a>. The key rotation status for these CMKs is always <code>false</code>.
+    /// </para>
+    ///  
+    /// <para>
+    /// The CMK that you use for this operation must be in a compatible key state. For details,
+    /// see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+    /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key Management Service
+    /// Developer Guide</i>.
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// Disabled: The key rotation status does not change when you disable a CMK. However,
+    /// while the CMK is disabled, AWS KMS does not rotate the backing key.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Pending deletion: While a CMK is pending deletion, its key rotation status is <code>false</code>
+    /// and AWS KMS does not rotate the backing key. If you cancel the deletion, the original
+    /// key rotation status is restored.
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
     /// To perform this operation on a CMK in a different AWS account, specify the key ARN
-    /// in the value of the KeyId parameter.
+    /// in the value of the <code>KeyId</code> parameter.
     /// </para>
     /// </summary>
     public partial class GetKeyRotationStatusRequest : AmazonKeyManagementServiceRequest
@@ -70,6 +95,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or <a>DescribeKey</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }

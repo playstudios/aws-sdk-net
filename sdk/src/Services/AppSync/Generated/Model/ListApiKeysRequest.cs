@@ -30,6 +30,15 @@ namespace Amazon.AppSync.Model
     /// <summary>
     /// Container for the parameters to the ListApiKeys operation.
     /// Lists the API keys for a given API.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// API keys are deleted automatically sometime after they expire. However, they may still
+    /// be included in the response until they have actually been deleted. You can safely
+    /// call <code>DeleteApiKey</code> to manually delete a key before it's automatically
+    /// deleted.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class ListApiKeysRequest : AmazonAppSyncRequest
     {
@@ -43,6 +52,7 @@ namespace Amazon.AppSync.Model
         /// The API ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApiId
         {
             get { return this._apiId; }
@@ -61,6 +71,7 @@ namespace Amazon.AppSync.Model
         /// The maximum number of results you want the request to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=25)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -80,6 +91,7 @@ namespace Amazon.AppSync.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string NextToken
         {
             get { return this._nextToken; }

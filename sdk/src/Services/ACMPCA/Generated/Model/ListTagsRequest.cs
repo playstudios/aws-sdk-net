@@ -31,9 +31,8 @@ namespace Amazon.ACMPCA.Model
     /// Container for the parameters to the ListTags operation.
     /// Lists the tags, if any, that are associated with your private CA. Tags are labels
     /// that you can use to identify and organize your CAs. Each tag consists of a key and
-    /// an optional value. Call the <a>TagCertificateAuthority</a> function to add one or
-    /// more tags to your CA. Call the <a>UntagCertificateAuthority</a> function to remove
-    /// tags.
+    /// an optional value. Call the <a>TagCertificateAuthority</a> action to add one or more
+    /// tags to your CA. Call the <a>UntagCertificateAuthority</a> action to remove tags.
     /// </summary>
     public partial class ListTagsRequest : AmazonACMPCARequest
     {
@@ -45,14 +44,15 @@ namespace Amazon.ACMPCA.Model
         /// Gets and sets the property CertificateAuthorityArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) that was returned when you called the <a>CreateCertificateAuthority</a>
-        /// function. This must be of the form: 
+        /// action. This must be of the form: 
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:acm:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+        ///  <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
         /// </code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=200)]
         public string CertificateAuthorityArn
         {
             get { return this._certificateAuthorityArn; }
@@ -74,6 +74,7 @@ namespace Amazon.ACMPCA.Model
         /// in a subsequent request to retrieve additional items.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -94,6 +95,7 @@ namespace Amazon.ACMPCA.Model
         /// response you just received.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=500)]
         public string NextToken
         {
             get { return this._nextToken; }

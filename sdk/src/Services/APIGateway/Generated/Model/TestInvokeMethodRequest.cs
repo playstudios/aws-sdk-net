@@ -38,6 +38,7 @@ namespace Amazon.APIGateway.Model
         private string _clientCertificateId;
         private Dictionary<string, string> _headers = new Dictionary<string, string>();
         private string _httpMethod;
+        private Dictionary<string, List<string>> _multiValueHeaders = new Dictionary<string, List<string>>();
         private string _pathWithQueryString;
         private string _resourceId;
         private string _restApiId;
@@ -104,6 +105,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] Specifies a test invoke method request's HTTP method.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HttpMethod
         {
             get { return this._httpMethod; }
@@ -114,6 +116,25 @@ namespace Amazon.APIGateway.Model
         internal bool IsSetHttpMethod()
         {
             return this._httpMethod != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MultiValueHeaders. 
+        /// <para>
+        /// The headers as a map from string to list of values to simulate an incoming invocation
+        /// request.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, List<string>> MultiValueHeaders
+        {
+            get { return this._multiValueHeaders; }
+            set { this._multiValueHeaders = value; }
+        }
+
+        // Check to see if MultiValueHeaders property is set
+        internal bool IsSetMultiValueHeaders()
+        {
+            return this._multiValueHeaders != null && this._multiValueHeaders.Count > 0; 
         }
 
         /// <summary>
@@ -141,6 +162,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] Specifies a test invoke method request's resource ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -159,6 +181,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }

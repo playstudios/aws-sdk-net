@@ -29,7 +29,7 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the UntagResource operation.
-    /// Removes one or more tags from the specified Direct Connect resource.
+    /// Removes one or more tags from the specified AWS Direct Connect resource.
     /// </summary>
     public partial class UntagResourceRequest : AmazonDirectConnectRequest
     {
@@ -39,9 +39,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property ResourceArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the Direct Connect resource.
+        /// The Amazon Resource Name (ARN) of the resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceArn
         {
             get { return this._resourceArn; }
@@ -57,9 +58,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property TagKeys. 
         /// <para>
-        /// The list of tag keys to remove.
+        /// The tag keys of the tags to remove.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

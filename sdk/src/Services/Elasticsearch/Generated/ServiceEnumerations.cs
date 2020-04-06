@@ -25,6 +25,184 @@ namespace Amazon.Elasticsearch
 {
 
     /// <summary>
+    /// Constants used for properties of type DeploymentStatus.
+    /// </summary>
+    public class DeploymentStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant COMPLETED for DeploymentStatus
+        /// </summary>
+        public static readonly DeploymentStatus COMPLETED = new DeploymentStatus("COMPLETED");
+        /// <summary>
+        /// Constant ELIGIBLE for DeploymentStatus
+        /// </summary>
+        public static readonly DeploymentStatus ELIGIBLE = new DeploymentStatus("ELIGIBLE");
+        /// <summary>
+        /// Constant IN_PROGRESS for DeploymentStatus
+        /// </summary>
+        public static readonly DeploymentStatus IN_PROGRESS = new DeploymentStatus("IN_PROGRESS");
+        /// <summary>
+        /// Constant NOT_ELIGIBLE for DeploymentStatus
+        /// </summary>
+        public static readonly DeploymentStatus NOT_ELIGIBLE = new DeploymentStatus("NOT_ELIGIBLE");
+        /// <summary>
+        /// Constant PENDING_UPDATE for DeploymentStatus
+        /// </summary>
+        public static readonly DeploymentStatus PENDING_UPDATE = new DeploymentStatus("PENDING_UPDATE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DeploymentStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DeploymentStatus FindValue(string value)
+        {
+            return FindValue<DeploymentStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DeploymentStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type DescribePackagesFilterName.
+    /// </summary>
+    public class DescribePackagesFilterName : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant PackageID for DescribePackagesFilterName
+        /// </summary>
+        public static readonly DescribePackagesFilterName PackageID = new DescribePackagesFilterName("PackageID");
+        /// <summary>
+        /// Constant PackageName for DescribePackagesFilterName
+        /// </summary>
+        public static readonly DescribePackagesFilterName PackageName = new DescribePackagesFilterName("PackageName");
+        /// <summary>
+        /// Constant PackageStatus for DescribePackagesFilterName
+        /// </summary>
+        public static readonly DescribePackagesFilterName PackageStatus = new DescribePackagesFilterName("PackageStatus");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DescribePackagesFilterName(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DescribePackagesFilterName FindValue(string value)
+        {
+            return FindValue<DescribePackagesFilterName>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DescribePackagesFilterName(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type DomainPackageStatus.
+    /// </summary>
+    public class DomainPackageStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACTIVE for DomainPackageStatus
+        /// </summary>
+        public static readonly DomainPackageStatus ACTIVE = new DomainPackageStatus("ACTIVE");
+        /// <summary>
+        /// Constant ASSOCIATING for DomainPackageStatus
+        /// </summary>
+        public static readonly DomainPackageStatus ASSOCIATING = new DomainPackageStatus("ASSOCIATING");
+        /// <summary>
+        /// Constant ASSOCIATION_FAILED for DomainPackageStatus
+        /// </summary>
+        public static readonly DomainPackageStatus ASSOCIATION_FAILED = new DomainPackageStatus("ASSOCIATION_FAILED");
+        /// <summary>
+        /// Constant DISSOCIATING for DomainPackageStatus
+        /// </summary>
+        public static readonly DomainPackageStatus DISSOCIATING = new DomainPackageStatus("DISSOCIATING");
+        /// <summary>
+        /// Constant DISSOCIATION_FAILED for DomainPackageStatus
+        /// </summary>
+        public static readonly DomainPackageStatus DISSOCIATION_FAILED = new DomainPackageStatus("DISSOCIATION_FAILED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DomainPackageStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DomainPackageStatus FindValue(string value)
+        {
+            return FindValue<DomainPackageStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DomainPackageStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ESPartitionInstanceType.
     /// </summary>
     public class ESPartitionInstanceType : ConstantClass
@@ -50,6 +228,30 @@ namespace Amazon.Elasticsearch
         /// Constant C4XlargeElasticsearch for ESPartitionInstanceType
         /// </summary>
         public static readonly ESPartitionInstanceType C4XlargeElasticsearch = new ESPartitionInstanceType("c4.xlarge.elasticsearch");
+        /// <summary>
+        /// Constant C518xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType C518xlargeElasticsearch = new ESPartitionInstanceType("c5.18xlarge.elasticsearch");
+        /// <summary>
+        /// Constant C52xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType C52xlargeElasticsearch = new ESPartitionInstanceType("c5.2xlarge.elasticsearch");
+        /// <summary>
+        /// Constant C54xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType C54xlargeElasticsearch = new ESPartitionInstanceType("c5.4xlarge.elasticsearch");
+        /// <summary>
+        /// Constant C59xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType C59xlargeElasticsearch = new ESPartitionInstanceType("c5.9xlarge.elasticsearch");
+        /// <summary>
+        /// Constant C5LargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType C5LargeElasticsearch = new ESPartitionInstanceType("c5.large.elasticsearch");
+        /// <summary>
+        /// Constant C5XlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType C5XlargeElasticsearch = new ESPartitionInstanceType("c5.xlarge.elasticsearch");
         /// <summary>
         /// Constant D22xlargeElasticsearch for ESPartitionInstanceType
         /// </summary>
@@ -135,6 +337,26 @@ namespace Amazon.Elasticsearch
         /// </summary>
         public static readonly ESPartitionInstanceType M4XlargeElasticsearch = new ESPartitionInstanceType("m4.xlarge.elasticsearch");
         /// <summary>
+        /// Constant M512xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType M512xlargeElasticsearch = new ESPartitionInstanceType("m5.12xlarge.elasticsearch");
+        /// <summary>
+        /// Constant M52xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType M52xlargeElasticsearch = new ESPartitionInstanceType("m5.2xlarge.elasticsearch");
+        /// <summary>
+        /// Constant M54xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType M54xlargeElasticsearch = new ESPartitionInstanceType("m5.4xlarge.elasticsearch");
+        /// <summary>
+        /// Constant M5LargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType M5LargeElasticsearch = new ESPartitionInstanceType("m5.large.elasticsearch");
+        /// <summary>
+        /// Constant M5XlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType M5XlargeElasticsearch = new ESPartitionInstanceType("m5.xlarge.elasticsearch");
+        /// <summary>
         /// Constant R32xlargeElasticsearch for ESPartitionInstanceType
         /// </summary>
         public static readonly ESPartitionInstanceType R32xlargeElasticsearch = new ESPartitionInstanceType("r3.2xlarge.elasticsearch");
@@ -179,6 +401,26 @@ namespace Amazon.Elasticsearch
         /// </summary>
         public static readonly ESPartitionInstanceType R4XlargeElasticsearch = new ESPartitionInstanceType("r4.xlarge.elasticsearch");
         /// <summary>
+        /// Constant R512xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType R512xlargeElasticsearch = new ESPartitionInstanceType("r5.12xlarge.elasticsearch");
+        /// <summary>
+        /// Constant R52xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType R52xlargeElasticsearch = new ESPartitionInstanceType("r5.2xlarge.elasticsearch");
+        /// <summary>
+        /// Constant R54xlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType R54xlargeElasticsearch = new ESPartitionInstanceType("r5.4xlarge.elasticsearch");
+        /// <summary>
+        /// Constant R5LargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType R5LargeElasticsearch = new ESPartitionInstanceType("r5.large.elasticsearch");
+        /// <summary>
+        /// Constant R5XlargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType R5XlargeElasticsearch = new ESPartitionInstanceType("r5.xlarge.elasticsearch");
+        /// <summary>
         /// Constant T2MediumElasticsearch for ESPartitionInstanceType
         /// </summary>
         public static readonly ESPartitionInstanceType T2MediumElasticsearch = new ESPartitionInstanceType("t2.medium.elasticsearch");
@@ -190,6 +432,14 @@ namespace Amazon.Elasticsearch
         /// Constant T2SmallElasticsearch for ESPartitionInstanceType
         /// </summary>
         public static readonly ESPartitionInstanceType T2SmallElasticsearch = new ESPartitionInstanceType("t2.small.elasticsearch");
+        /// <summary>
+        /// Constant Ultrawarm1LargeElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType Ultrawarm1LargeElasticsearch = new ESPartitionInstanceType("ultrawarm1.large.elasticsearch");
+        /// <summary>
+        /// Constant Ultrawarm1MediumElasticsearch for ESPartitionInstanceType
+        /// </summary>
+        public static readonly ESPartitionInstanceType Ultrawarm1MediumElasticsearch = new ESPartitionInstanceType("ultrawarm1.medium.elasticsearch");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -227,11 +477,65 @@ namespace Amazon.Elasticsearch
 
 
     /// <summary>
+    /// Constants used for properties of type ESWarmPartitionInstanceType.
+    /// </summary>
+    public class ESWarmPartitionInstanceType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Ultrawarm1LargeElasticsearch for ESWarmPartitionInstanceType
+        /// </summary>
+        public static readonly ESWarmPartitionInstanceType Ultrawarm1LargeElasticsearch = new ESWarmPartitionInstanceType("ultrawarm1.large.elasticsearch");
+        /// <summary>
+        /// Constant Ultrawarm1MediumElasticsearch for ESWarmPartitionInstanceType
+        /// </summary>
+        public static readonly ESWarmPartitionInstanceType Ultrawarm1MediumElasticsearch = new ESWarmPartitionInstanceType("ultrawarm1.medium.elasticsearch");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ESWarmPartitionInstanceType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ESWarmPartitionInstanceType FindValue(string value)
+        {
+            return FindValue<ESWarmPartitionInstanceType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ESWarmPartitionInstanceType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type LogType.
     /// </summary>
     public class LogType : ConstantClass
     {
 
+        /// <summary>
+        /// Constant ES_APPLICATION_LOGS for LogType
+        /// </summary>
+        public static readonly LogType ES_APPLICATION_LOGS = new LogType("ES_APPLICATION_LOGS");
         /// <summary>
         /// Constant INDEX_SLOW_LOGS for LogType
         /// </summary>
@@ -324,6 +628,342 @@ namespace Amazon.Elasticsearch
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator OptionState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type PackageStatus.
+    /// </summary>
+    public class PackageStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant AVAILABLE for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus AVAILABLE = new PackageStatus("AVAILABLE");
+        /// <summary>
+        /// Constant COPY_FAILED for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus COPY_FAILED = new PackageStatus("COPY_FAILED");
+        /// <summary>
+        /// Constant COPYING for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus COPYING = new PackageStatus("COPYING");
+        /// <summary>
+        /// Constant DELETE_FAILED for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus DELETE_FAILED = new PackageStatus("DELETE_FAILED");
+        /// <summary>
+        /// Constant DELETED for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus DELETED = new PackageStatus("DELETED");
+        /// <summary>
+        /// Constant DELETING for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus DELETING = new PackageStatus("DELETING");
+        /// <summary>
+        /// Constant VALIDATING for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus VALIDATING = new PackageStatus("VALIDATING");
+        /// <summary>
+        /// Constant VALIDATION_FAILED for PackageStatus
+        /// </summary>
+        public static readonly PackageStatus VALIDATION_FAILED = new PackageStatus("VALIDATION_FAILED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public PackageStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static PackageStatus FindValue(string value)
+        {
+            return FindValue<PackageStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator PackageStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type PackageType.
+    /// </summary>
+    public class PackageType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant TXTDICTIONARY for PackageType
+        /// </summary>
+        public static readonly PackageType TXTDICTIONARY = new PackageType("TXT-DICTIONARY");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public PackageType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static PackageType FindValue(string value)
+        {
+            return FindValue<PackageType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator PackageType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ReservedElasticsearchInstancePaymentOption.
+    /// </summary>
+    public class ReservedElasticsearchInstancePaymentOption : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ALL_UPFRONT for ReservedElasticsearchInstancePaymentOption
+        /// </summary>
+        public static readonly ReservedElasticsearchInstancePaymentOption ALL_UPFRONT = new ReservedElasticsearchInstancePaymentOption("ALL_UPFRONT");
+        /// <summary>
+        /// Constant NO_UPFRONT for ReservedElasticsearchInstancePaymentOption
+        /// </summary>
+        public static readonly ReservedElasticsearchInstancePaymentOption NO_UPFRONT = new ReservedElasticsearchInstancePaymentOption("NO_UPFRONT");
+        /// <summary>
+        /// Constant PARTIAL_UPFRONT for ReservedElasticsearchInstancePaymentOption
+        /// </summary>
+        public static readonly ReservedElasticsearchInstancePaymentOption PARTIAL_UPFRONT = new ReservedElasticsearchInstancePaymentOption("PARTIAL_UPFRONT");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReservedElasticsearchInstancePaymentOption(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReservedElasticsearchInstancePaymentOption FindValue(string value)
+        {
+            return FindValue<ReservedElasticsearchInstancePaymentOption>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReservedElasticsearchInstancePaymentOption(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TLSSecurityPolicy.
+    /// </summary>
+    public class TLSSecurityPolicy : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant PolicyMinTLS10201907 for TLSSecurityPolicy
+        /// </summary>
+        public static readonly TLSSecurityPolicy PolicyMinTLS10201907 = new TLSSecurityPolicy("Policy-Min-TLS-1-0-2019-07");
+        /// <summary>
+        /// Constant PolicyMinTLS12201907 for TLSSecurityPolicy
+        /// </summary>
+        public static readonly TLSSecurityPolicy PolicyMinTLS12201907 = new TLSSecurityPolicy("Policy-Min-TLS-1-2-2019-07");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TLSSecurityPolicy(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TLSSecurityPolicy FindValue(string value)
+        {
+            return FindValue<TLSSecurityPolicy>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TLSSecurityPolicy(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type UpgradeStatus.
+    /// </summary>
+    public class UpgradeStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant FAILED for UpgradeStatus
+        /// </summary>
+        public static readonly UpgradeStatus FAILED = new UpgradeStatus("FAILED");
+        /// <summary>
+        /// Constant IN_PROGRESS for UpgradeStatus
+        /// </summary>
+        public static readonly UpgradeStatus IN_PROGRESS = new UpgradeStatus("IN_PROGRESS");
+        /// <summary>
+        /// Constant SUCCEEDED for UpgradeStatus
+        /// </summary>
+        public static readonly UpgradeStatus SUCCEEDED = new UpgradeStatus("SUCCEEDED");
+        /// <summary>
+        /// Constant SUCCEEDED_WITH_ISSUES for UpgradeStatus
+        /// </summary>
+        public static readonly UpgradeStatus SUCCEEDED_WITH_ISSUES = new UpgradeStatus("SUCCEEDED_WITH_ISSUES");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public UpgradeStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static UpgradeStatus FindValue(string value)
+        {
+            return FindValue<UpgradeStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator UpgradeStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type UpgradeStep.
+    /// </summary>
+    public class UpgradeStep : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant PRE_UPGRADE_CHECK for UpgradeStep
+        /// </summary>
+        public static readonly UpgradeStep PRE_UPGRADE_CHECK = new UpgradeStep("PRE_UPGRADE_CHECK");
+        /// <summary>
+        /// Constant SNAPSHOT for UpgradeStep
+        /// </summary>
+        public static readonly UpgradeStep SNAPSHOT = new UpgradeStep("SNAPSHOT");
+        /// <summary>
+        /// Constant UPGRADE for UpgradeStep
+        /// </summary>
+        public static readonly UpgradeStep UPGRADE = new UpgradeStep("UPGRADE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public UpgradeStep(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static UpgradeStep FindValue(string value)
+        {
+            return FindValue<UpgradeStep>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator UpgradeStep(string value)
         {
             return FindValue(value);
         }

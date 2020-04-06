@@ -126,7 +126,7 @@ namespace AWSSDKDocSamples.Amazon.DatabaseMigrationService.Generated
 
             var response = client.CreateReplicationTask(new CreateReplicationTaskRequest 
             {
-                CdcStartTime = new DateTime(2016, 12, 14, 10, 25, 43),
+                CdcStartTime = new DateTime(2016, 12, 14, 10, 25, 43, DateTimeKind.Utc),
                 MigrationType = "full-load",
                 ReplicationInstanceArn = "arn:aws:dms:us-east-1:123456789012:rep:6UTDJGBOUS3VI3SUWA66XFJCJQ",
                 ReplicationTaskIdentifier = "task1",
@@ -157,6 +157,21 @@ namespace AWSSDKDocSamples.Amazon.DatabaseMigrationService.Generated
             });
 
             Certificate certificate = response.Certificate;
+
+            #endregion
+        }
+
+        public void DatabaseMigrationServiceDeleteConnection()
+        {
+            #region delete-connection-1481751957981
+
+            var response = client.DeleteConnection(new DeleteConnectionRequest 
+            {
+                EndpointArn = "arn:aws:dms:us-east-1:123456789012:endpoint:RAAR3R22XSH46S3PWLC3NJAWKM",
+                ReplicationInstanceArn = "arn:aws:dms:us-east-1:123456789012:rep:6UTDJGBOUS3VI3SUWA66XFJCJQ"
+            });
+
+            Connection connection = response.Connection;
 
             #endregion
         }
@@ -604,7 +619,7 @@ namespace AWSSDKDocSamples.Amazon.DatabaseMigrationService.Generated
 
             var response = client.StartReplicationTask(new StartReplicationTaskRequest 
             {
-                CdcStartTime = new DateTime(2016, 12, 14, 5, 33, 20),
+                CdcStartTime = new DateTime(2016, 12, 14, 5, 33, 20, DateTimeKind.Utc),
                 ReplicationTaskArn = "arn:aws:dms:us-east-1:123456789012:rep:6UTDJGBOUS3VI3SUWA66XFJCJQ",
                 StartReplicationTaskType = "start-replication"
             });

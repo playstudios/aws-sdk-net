@@ -32,28 +32,69 @@ namespace Amazon.CodeBuild.Model
     /// </summary>
     public partial class ProjectArtifacts
     {
+        private string _artifactIdentifier;
+        private bool? _encryptionDisabled;
         private string _location;
         private string _name;
         private ArtifactNamespace _namespaceType;
+        private bool? _overrideArtifactName;
         private ArtifactPackaging _packaging;
         private string _path;
         private ArtifactsType _type;
 
         /// <summary>
+        /// Gets and sets the property ArtifactIdentifier. 
+        /// <para>
+        ///  An identifier for this artifact definition. 
+        /// </para>
+        /// </summary>
+        public string ArtifactIdentifier
+        {
+            get { return this._artifactIdentifier; }
+            set { this._artifactIdentifier = value; }
+        }
+
+        // Check to see if ArtifactIdentifier property is set
+        internal bool IsSetArtifactIdentifier()
+        {
+            return this._artifactIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EncryptionDisabled. 
+        /// <para>
+        ///  Set to true if you do not want your output artifacts encrypted. This option is valid
+        /// only if your artifacts type is Amazon Simple Storage Service (Amazon S3). If this
+        /// is set with another artifacts type, an invalidInputException is thrown. 
+        /// </para>
+        /// </summary>
+        public bool EncryptionDisabled
+        {
+            get { return this._encryptionDisabled.GetValueOrDefault(); }
+            set { this._encryptionDisabled = value; }
+        }
+
+        // Check to see if EncryptionDisabled property is set
+        internal bool IsSetEncryptionDisabled()
+        {
+            return this._encryptionDisabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Location. 
         /// <para>
-        /// Information about the build output artifact location, as follows:
+        /// Information about the build output artifact location:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, then AWS CodePipeline will
-        /// ignore this value if specified. This is because AWS CodePipeline manages its build
-        /// output locations instead of AWS CodeBuild.
+        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline ignores
+        /// this value if specified. This is because AWS CodePipeline manages its build output
+        /// locations instead of AWS CodeBuild.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, then this value will be
-        /// ignored if specified, because no build output will be produced.
+        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is ignored if
+        /// specified, because no build output is produced.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -77,30 +118,49 @@ namespace Amazon.CodeBuild.Model
         /// Gets and sets the property Name. 
         /// <para>
         /// Along with <code>path</code> and <code>namespaceType</code>, the pattern that AWS
-        /// CodeBuild will use to name and store the output artifact, as follows:
+        /// CodeBuild uses to name and store the output artifact:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, then AWS CodePipeline will
-        /// ignore this value if specified. This is because AWS CodePipeline manages its build
-        /// output names instead of AWS CodeBuild.
+        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline ignores
+        /// this value if specified. This is because AWS CodePipeline manages its build output
+        /// names instead of AWS CodeBuild.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, then this value will be
-        /// ignored if specified, because no build output will be produced.
+        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is ignored if
+        /// specified, because no build output is produced.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If <code>type</code> is set to <code>S3</code>, this is the name of the output artifact
-        /// object.
+        /// object. If you set the name to be a forward slash ("/"), the artifact is stored in
+        /// the root of the output bucket.
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For example, if <code>path</code> is set to <code>MyArtifacts</code>, <code>namespaceType</code>
-        /// is set to <code>BUILD_ID</code>, and <code>name</code> is set to <code>MyArtifact.zip</code>,
-        /// then the output artifact would be stored in <code>MyArtifacts/<i>build-ID</i>/MyArtifact.zip</code>.
+        /// For example:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  If <code>path</code> is set to <code>MyArtifacts</code>, <code>namespaceType</code>
+        /// is set to <code>BUILD_ID</code>, and <code>name</code> is set to <code>MyArtifact.zip</code>,
+        /// then the output artifact is stored in <code>MyArtifacts/<i>build-ID</i>/MyArtifact.zip</code>.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  If <code>path</code> is empty, <code>namespaceType</code> is set to <code>NONE</code>,
+        /// and <code>name</code> is set to "<code>/</code>", the output artifact is stored in
+        /// the root of the output bucket. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  If <code>path</code> is set to <code>MyArtifacts</code>, <code>namespaceType</code>
+        /// is set to <code>BUILD_ID</code>, and <code>name</code> is set to "<code>/</code>",
+        /// the output artifact is stored in <code>MyArtifacts/<i>build-ID</i> </code>. 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public string Name
         {
@@ -118,22 +178,22 @@ namespace Amazon.CodeBuild.Model
         /// Gets and sets the property NamespaceType. 
         /// <para>
         /// Along with <code>path</code> and <code>name</code>, the pattern that AWS CodeBuild
-        /// will use to determine the name and location to store the output artifact, as follows:
+        /// uses to determine the name and location to store the output artifact:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, then AWS CodePipeline will
-        /// ignore this value if specified. This is because AWS CodePipeline manages its build
-        /// output names instead of AWS CodeBuild.
+        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline ignores
+        /// this value if specified. This is because AWS CodePipeline manages its build output
+        /// names instead of AWS CodeBuild.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, then this value will be
-        /// ignored if specified, because no build output will be produced.
+        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is ignored if
+        /// specified, because no build output is produced.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>S3</code>, then valid values include:
+        /// If <code>type</code> is set to <code>S3</code>, valid values include:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -148,7 +208,7 @@ namespace Amazon.CodeBuild.Model
         /// <para>
         /// For example, if <code>path</code> is set to <code>MyArtifacts</code>, <code>namespaceType</code>
         /// is set to <code>BUILD_ID</code>, and <code>name</code> is set to <code>MyArtifact.zip</code>,
-        /// then the output artifact would be stored in <code>MyArtifacts/<i>build-ID</i>/MyArtifact.zip</code>.
+        /// the output artifact is stored in <code>MyArtifacts/<i>build-ID</i>/MyArtifact.zip</code>.
         /// </para>
         /// </summary>
         public ArtifactNamespace NamespaceType
@@ -164,20 +224,41 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OverrideArtifactName. 
+        /// <para>
+        ///  If this flag is set, a name specified in the buildspec file overrides the artifact
+        /// name. The name specified in a buildspec file is calculated at build time and uses
+        /// the Shell Command Language. For example, you can append a date and time to your artifact
+        /// name so that it is always unique. 
+        /// </para>
+        /// </summary>
+        public bool OverrideArtifactName
+        {
+            get { return this._overrideArtifactName.GetValueOrDefault(); }
+            set { this._overrideArtifactName = value; }
+        }
+
+        // Check to see if OverrideArtifactName property is set
+        internal bool IsSetOverrideArtifactName()
+        {
+            return this._overrideArtifactName.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Packaging. 
         /// <para>
-        /// The type of build output artifact to create, as follows:
+        /// The type of build output artifact to create:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, then AWS CodePipeline will
-        /// ignore this value if specified. This is because AWS CodePipeline manages its build
-        /// output artifacts instead of AWS CodeBuild.
+        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline ignores
+        /// this value if specified. This is because AWS CodePipeline manages its build output
+        /// artifacts instead of AWS CodeBuild.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, then this value will be
-        /// ignored if specified, because no build output will be produced.
+        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is ignored if
+        /// specified, because no build output is produced.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -185,12 +266,12 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>NONE</code>: AWS CodeBuild will create in the output bucket a folder containing
+        ///  <code>NONE</code>: AWS CodeBuild creates in the output bucket a folder that contains
         /// the build output. This is the default if <code>packaging</code> is not specified.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>ZIP</code>: AWS CodeBuild will create in the output bucket a ZIP file containing
+        ///  <code>ZIP</code>: AWS CodeBuild creates in the output bucket a ZIP file that contains
         /// the build output.
         /// </para>
         ///  </li> </ul> </li> </ul>
@@ -211,29 +292,29 @@ namespace Amazon.CodeBuild.Model
         /// Gets and sets the property Path. 
         /// <para>
         /// Along with <code>namespaceType</code> and <code>name</code>, the pattern that AWS
-        /// CodeBuild will use to name and store the output artifact, as follows:
+        /// CodeBuild uses to name and store the output artifact:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, then AWS CodePipeline will
-        /// ignore this value if specified. This is because AWS CodePipeline manages its build
-        /// output names instead of AWS CodeBuild.
+        /// If <code>type</code> is set to <code>CODEPIPELINE</code>, AWS CodePipeline ignores
+        /// this value if specified. This is because AWS CodePipeline manages its build output
+        /// names instead of AWS CodeBuild.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, then this value will be
-        /// ignored if specified, because no build output will be produced.
+        /// If <code>type</code> is set to <code>NO_ARTIFACTS</code>, this value is ignored if
+        /// specified, because no build output is produced.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If <code>type</code> is set to <code>S3</code>, this is the path to the output artifact.
-        /// If <code>path</code> is not specified, then <code>path</code> will not be used.
+        /// If <code>path</code> is not specified, <code>path</code> is not used.
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// For example, if <code>path</code> is set to <code>MyArtifacts</code>, <code>namespaceType</code>
         /// is set to <code>NONE</code>, and <code>name</code> is set to <code>MyArtifact.zip</code>,
-        /// then the output artifact would be stored in the output bucket at <code>MyArtifacts/MyArtifact.zip</code>.
+        /// the output artifact is stored in the output bucket at <code>MyArtifacts/MyArtifact.zip</code>.
         /// </para>
         /// </summary>
         public string Path
@@ -255,20 +336,25 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>CODEPIPELINE</code>: The build project will have build output generated through
-        /// AWS CodePipeline.
+        ///  <code>CODEPIPELINE</code>: The build project has build output generated through AWS
+        /// CodePipeline. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// The <code>CODEPIPELINE</code> type is not supported for <code>secondaryArtifacts</code>.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        ///  <code>NO_ARTIFACTS</code>: The build project does not produce any build output.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>NO_ARTIFACTS</code>: The build project will not produce any build output.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>S3</code>: The build project will store build output in Amazon Simple Storage
-        /// Service (Amazon S3).
+        ///  <code>S3</code>: The build project stores build output in Amazon Simple Storage Service
+        /// (Amazon S3).
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ArtifactsType Type
         {
             get { return this._type; }

@@ -44,6 +44,7 @@ namespace Amazon.WAF.Model
         private string _metricName;
         private string _name;
         private List<ActivatedRule> _rules = new List<ActivatedRule>();
+        private string _webACLArn;
         private string _webACLId;
 
         /// <summary>
@@ -53,6 +54,7 @@ namespace Amazon.WAF.Model
         /// match. The action is specified by the <a>WafAction</a> object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public WafAction DefaultAction
         {
             get { return this._defaultAction; }
@@ -69,8 +71,10 @@ namespace Amazon.WAF.Model
         /// Gets and sets the property MetricName. 
         /// <para>
         /// A friendly name or description for the metrics for this <code>WebACL</code>. The name
-        /// can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace.
-        /// You can't change <code>MetricName</code> after you create the <code>WebACL</code>.
+        /// can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128
+        /// and minimum length one. It can't contain whitespace or metric names reserved for AWS
+        /// WAF, including "All" and "Default_Action." You can't change <code>MetricName</code>
+        /// after you create the <code>WebACL</code>.
         /// </para>
         /// </summary>
         public string MetricName
@@ -92,6 +96,7 @@ namespace Amazon.WAF.Model
         /// of a <code>WebACL</code> after you create it.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -111,6 +116,7 @@ namespace Amazon.WAF.Model
         /// the priority of the <code>Rule</code>, and the ID of the <code>Rule</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ActivatedRule> Rules
         {
             get { return this._rules; }
@@ -121,6 +127,25 @@ namespace Amazon.WAF.Model
         internal bool IsSetRules()
         {
             return this._rules != null && this._rules.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property WebACLArn. 
+        /// <para>
+        /// Tha Amazon Resource Name (ARN) of the web ACL.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=1224)]
+        public string WebACLArn
+        {
+            get { return this._webACLArn; }
+            set { this._webACLArn = value; }
+        }
+
+        // Check to see if WebACLArn property is set
+        internal bool IsSetWebACLArn()
+        {
+            return this._webACLArn != null;
         }
 
         /// <summary>
@@ -135,6 +160,7 @@ namespace Amazon.WAF.Model
         ///  <code>WebACLId</code> is returned by <a>CreateWebACL</a> and by <a>ListWebACLs</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string WebACLId
         {
             get { return this._webACLId; }

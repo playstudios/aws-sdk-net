@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateApnsSandboxChannel operation.
-    /// Update an APNS sandbox channel
+    /// Enables the APNs sandbox channel for an application or updates the status and settings
+    /// of the APNs sandbox channel for an application.
     /// </summary>
     public partial class UpdateApnsSandboxChannelRequest : AmazonPinpointRequest
     {
@@ -39,6 +40,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property APNSSandboxChannelRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public APNSSandboxChannelRequest APNSSandboxChannelRequest
         {
             get { return this._apnsSandboxChannelRequest; }
@@ -52,8 +54,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

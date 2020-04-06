@@ -49,6 +49,10 @@ namespace Amazon.WAFRegional.Model
     /// supported because the AWS resource forwards only the first <code>8192</code> bytes
     /// of your request to AWS WAF.
     /// </para>
+    ///  
+    /// <para>
+    /// You can only specify a single type of TextTransformation.
+    /// </para>
     ///  </li> <li> 
     /// <para>
     /// A <code>ComparisonOperator</code> used for evaluating the selected part of the request
@@ -88,7 +92,7 @@ namespace Amazon.WAFRegional.Model
     ///  </li> </ol> 
     /// <para>
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-    /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+    /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
     /// Guide</a>.
     /// </para>
     /// </summary>
@@ -104,6 +108,7 @@ namespace Amazon.WAFRegional.Model
         /// The value returned by the most recent call to <a>GetChangeToken</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }
@@ -124,6 +129,7 @@ namespace Amazon.WAFRegional.Model
         /// and by <a>ListSizeConstraintSets</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string SizeConstraintSetId
         {
             get { return this._sizeConstraintSetId; }
@@ -159,6 +165,7 @@ namespace Amazon.WAFRegional.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<SizeConstraintSetUpdate> Updates
         {
             get { return this._updates; }

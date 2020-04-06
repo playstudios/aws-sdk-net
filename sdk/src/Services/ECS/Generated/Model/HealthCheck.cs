@@ -32,6 +32,29 @@ namespace Amazon.ECS.Model
     /// specified in a container definition override any Docker health checks that exist in
     /// the container image (such as those specified in a parent image or from the image's
     /// Dockerfile).
+    /// 
+    ///  
+    /// <para>
+    /// The following are notes about container health check support:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// Container health checks require version 1.17.0 or greater of the Amazon ECS container
+    /// agent. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html">Updating
+    /// the Amazon ECS Container Agent</a>.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Container health checks are supported for Fargate tasks if you are using platform
+    /// version 1.1.0 or greater. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+    /// Fargate Platform Versions</a>.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Container health checks are not supported for tasks that are part of a service that
+    /// is configured to use a Classic Load Balancer.
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class HealthCheck
     {
@@ -56,11 +79,12 @@ namespace Amazon.ECS.Model
         ///  
         /// <para>
         /// An exit code of 0 indicates success, and non-zero exit code indicates failure. For
-        /// more information, see <code>HealthCheck</code> in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.27/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.27/">Docker
+        /// more information, see <code>HealthCheck</code> in the <a href="https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.35/">Docker
         /// Remote API</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Command
         {
             get { return this._command; }
@@ -96,7 +120,7 @@ namespace Amazon.ECS.Model
         /// Gets and sets the property Retries. 
         /// <para>
         /// The number of times to retry a failed health check before the container is considered
-        /// unhealthy. You may specify between 1 and 10 retries. The default value is 3 retries.
+        /// unhealthy. You may specify between 1 and 10 retries. The default value is 3.
         /// </para>
         /// </summary>
         public int Retries
@@ -142,7 +166,7 @@ namespace Amazon.ECS.Model
         /// Gets and sets the property Timeout. 
         /// <para>
         /// The time period in seconds to wait for a health check to succeed before it is considered
-        /// a failure. You may specify between 2 and 60 seconds. The default value is 5 seconds.
+        /// a failure. You may specify between 2 and 60 seconds. The default value is 5.
         /// </para>
         /// </summary>
         public int Timeout

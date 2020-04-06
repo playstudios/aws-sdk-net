@@ -64,10 +64,40 @@ namespace Amazon.CostExplorer.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("AmortizedRecurringFee", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AmortizedRecurringFee = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("AmortizedUpfrontFee", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AmortizedUpfrontFee = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NetRISavings", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.NetRISavings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("OnDemandCostOfRIHoursUsed", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.OnDemandCostOfRIHoursUsed = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("PurchasedHours", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.PurchasedHours = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("PurchasedUnits", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.PurchasedUnits = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("TotalActualHours", targetDepth))
@@ -76,16 +106,46 @@ namespace Amazon.CostExplorer.Model.Internal.MarshallTransformations
                     unmarshalledObject.TotalActualHours = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("TotalActualUnits", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.TotalActualUnits = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("TotalAmortizedFee", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.TotalAmortizedFee = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("TotalPotentialRISavings", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.TotalPotentialRISavings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("UnusedHours", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.UnusedHours = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("UnusedUnits", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.UnusedUnits = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("UtilizationPercentage", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.UtilizationPercentage = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("UtilizationPercentageInUnits", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.UtilizationPercentageInUnits = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

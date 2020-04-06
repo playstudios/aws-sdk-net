@@ -28,9 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AWSHealth.Model
 {
     /// <summary>
-    /// Summary information about an event, returned by the <a>DescribeEvents</a> operation.
-    /// The <a>DescribeEventDetails</a> operation also returns this information, as well as
-    /// the <a>EventDescription</a> and additional event metadata.
+    /// Summary information about an AWS Health event.
     /// </summary>
     public partial class Event
     {
@@ -48,11 +46,12 @@ namespace Amazon.AWSHealth.Model
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// The unique identifier for the event. Format: <code>arn:aws:health:<i>event-region</i>::event/<i>EVENT_TYPE_PLUS_ID</i>
-        /// </code>. Example: <code>arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331</code>
+        /// The unique identifier for the event. Format: <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+        /// </code>. Example: <code>Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1600)]
         public string Arn
         {
             get { return this._arn; }
@@ -71,6 +70,7 @@ namespace Amazon.AWSHealth.Model
         /// The AWS Availability Zone of the event. For example, us-east-1a.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=18)]
         public string AvailabilityZone
         {
             get { return this._availabilityZone; }
@@ -104,9 +104,11 @@ namespace Amazon.AWSHealth.Model
         /// <summary>
         /// Gets and sets the property EventTypeCategory. 
         /// <para>
-        /// The 
+        /// The category of the event. Possible values are <code>issue</code>, <code>scheduledChange</code>,
+        /// and <code>accountNotification</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public EventTypeCategory EventTypeCategory
         {
             get { return this._eventTypeCategory; }
@@ -126,6 +128,7 @@ namespace Amazon.AWSHealth.Model
         /// </code>; for example, <code>AWS_EC2_SYSTEM_MAINTENANCE_EVENT</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=100)]
         public string EventTypeCode
         {
             get { return this._eventTypeCode; }
@@ -162,6 +165,7 @@ namespace Amazon.AWSHealth.Model
         /// The AWS region name of the event.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=25)]
         public string Region
         {
             get { return this._region; }
@@ -180,6 +184,7 @@ namespace Amazon.AWSHealth.Model
         /// The AWS service that is affected by the event. For example, <code>EC2</code>, <code>RDS</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=30)]
         public string Service
         {
             get { return this._service; }

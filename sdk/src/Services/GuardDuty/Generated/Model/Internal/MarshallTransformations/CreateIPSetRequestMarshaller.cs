@@ -55,14 +55,15 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateIPSetRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.GuardDuty");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/detector/{detectorId}/ipset";
             if (!publicRequest.IsSetDetectorId())
                 throw new AmazonGuardDutyException("Request object does not have required field DetectorId set");
-            uriResourcePath = uriResourcePath.Replace("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
+            request.ResourcePath = "/detector/{detectorId}/ipset";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -74,6 +75,17 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Activate);
                 }
 
+                if(publicRequest.IsSetClientToken())
+                {
+                    context.Writer.WritePropertyName("clientToken");
+                    context.Writer.Write(publicRequest.ClientToken);
+                }
+
+                else if(!(publicRequest.IsSetClientToken()))
+                {
+                    context.Writer.WritePropertyName("clientToken");
+                    context.Writer.Write(Guid.NewGuid().ToString());                                                
+                }
                 if(publicRequest.IsSetFormat())
                 {
                     context.Writer.WritePropertyName("format");
@@ -90,6 +102,20 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
         

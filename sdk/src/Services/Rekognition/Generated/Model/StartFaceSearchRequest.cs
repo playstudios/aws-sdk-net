@@ -37,11 +37,12 @@ namespace Amazon.Rekognition.Model
     /// The video must be stored in an Amazon S3 bucket. Use <a>Video</a> to specify the bucket
     /// name and the filename of the video. <code>StartFaceSearch</code> returns a job identifier
     /// (<code>JobId</code>) which you use to get the search results once the search has completed.
-    /// When searching is finished, Rekognition Video publishes a completion status to the
-    /// Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
+    /// When searching is finished, Amazon Rekognition Video publishes a completion status
+    /// to the Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
     /// To get the search results, first check that the status value published to the Amazon
-    /// SNS topic is <code>SUCCEEDED</code>. If so, call and pass the job identifier (<code>JobId</code>)
-    /// from the initial call to <code>StartFaceSearch</code>. For more information, see <a>collections-search-person</a>.
+    /// SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetFaceSearch</a> and pass the
+    /// job identifier (<code>JobId</code>) from the initial call to <code>StartFaceSearch</code>.
+    /// For more information, see <a>procedure-person-search-videos</a>.
     /// </para>
     /// </summary>
     public partial class StartFaceSearchRequest : AmazonRekognitionRequest
@@ -62,6 +63,7 @@ namespace Amazon.Rekognition.Model
         /// started more than once. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -80,6 +82,7 @@ namespace Amazon.Rekognition.Model
         /// ID of the collection that contains the faces you want to search for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string CollectionId
         {
             get { return this._collectionId; }
@@ -96,9 +99,10 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property FaceMatchThreshold. 
         /// <para>
         /// The minimum confidence in the person match to return. For example, don't return any
-        /// matches where confidence in matches is less than 70%. 
+        /// matches where confidence in matches is less than 70%. The default value is 80%.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float FaceMatchThreshold
         {
             get { return this._faceMatchThreshold.GetValueOrDefault(); }
@@ -114,10 +118,12 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property JobTag. 
         /// <para>
-        /// Unique identifier you specify to identify the job in the completion status published
-        /// to the Amazon Simple Notification Service topic. 
+        /// An identifier you specify that's returned in the completion notification that's published
+        /// to your Amazon Simple Notification Service topic. For example, you can use <code>JobTag</code>
+        /// to group related jobs and identify them in the completion notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string JobTag
         {
             get { return this._jobTag; }
@@ -133,8 +139,8 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property NotificationChannel. 
         /// <para>
-        /// The ARN of the Amazon SNS topic to which you want Rekognition Video to publish the
-        /// completion status of the search. 
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish
+        /// the completion status of the search. 
         /// </para>
         /// </summary>
         public NotificationChannel NotificationChannel
@@ -155,6 +161,7 @@ namespace Amazon.Rekognition.Model
         /// The video you want to search. The video must be stored in an Amazon S3 bucket. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Video Video
         {
             get { return this._video; }

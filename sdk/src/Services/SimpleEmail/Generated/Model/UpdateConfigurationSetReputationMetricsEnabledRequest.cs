@@ -30,9 +30,9 @@ namespace Amazon.SimpleEmail.Model
     /// <summary>
     /// Container for the parameters to the UpdateConfigurationSetReputationMetricsEnabled operation.
     /// Enables or disables the publishing of reputation metrics for emails sent using a specific
-    /// configuration set. Reputation metrics include bounce and complaint rates. These metrics
-    /// are published to Amazon CloudWatch. By using Amazon CloudWatch, you can create alarms
-    /// when bounce or complaint rates exceed a certain threshold.
+    /// configuration set in a given AWS Region. Reputation metrics include bounce and complaint
+    /// rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you
+    /// can create alarms when bounce or complaint rates exceed certain thresholds.
     /// 
     ///  
     /// <para>
@@ -50,6 +50,7 @@ namespace Amazon.SimpleEmail.Model
         /// The name of the configuration set that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConfigurationSetName
         {
             get { return this._configurationSetName; }
@@ -69,6 +70,7 @@ namespace Amazon.SimpleEmail.Model
         /// set, such as bounce and complaint rates, to Amazon CloudWatch.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enabled
         {
             get { return this._enabled.GetValueOrDefault(); }

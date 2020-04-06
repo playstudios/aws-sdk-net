@@ -28,12 +28,13 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Campaign definition
+    /// Provides information about the status, configuration, and other settings for a campaign.
     /// </summary>
     public partial class CampaignResponse
     {
         private List<TreatmentResource> _additionalTreatments = new List<TreatmentResource>();
         private string _applicationId;
+        private string _arn;
         private string _creationDate;
         private CampaignState _defaultState;
         private string _description;
@@ -49,13 +50,18 @@ namespace Amazon.Pinpoint.Model
         private string _segmentId;
         private int? _segmentVersion;
         private CampaignState _state;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
+        private TemplateConfiguration _templateConfiguration;
         private string _treatmentDescription;
         private string _treatmentName;
         private int? _version;
 
         /// <summary>
-        /// Gets and sets the property AdditionalTreatments. Treatments that are defined in addition
-        /// to the default treatment.
+        /// Gets and sets the property AdditionalTreatments. 
+        /// <para>
+        /// An array of responses, one for each treatment that you defined for the campaign, in
+        /// addition to the default treatment.
+        /// </para>
         /// </summary>
         public List<TreatmentResource> AdditionalTreatments
         {
@@ -70,9 +76,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ApplicationId. The ID of the application to which the campaign
-        /// applies.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application that the campaign applies to.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -86,9 +95,31 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CreationDate. The date the campaign was created in ISO
-        /// 8601 format.
+        /// Gets and sets the property Arn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the campaign.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
+        public string Arn
+        {
+            get { return this._arn; }
+            set { this._arn = value; }
+        }
+
+        // Check to see if Arn property is set
+        internal bool IsSetArn()
+        {
+            return this._arn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CreationDate. 
+        /// <para>
+        /// The date, in ISO 8601 format, when the campaign was created.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public string CreationDate
         {
             get { return this._creationDate; }
@@ -102,8 +133,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DefaultState. The status of the campaign's default treatment.
-        /// Only present for A/B test campaigns.
+        /// Gets and sets the property DefaultState. 
+        /// <para>
+        /// The current status of the campaign's default treatment. This value exists only for
+        /// campaigns that have more than one treatment, to support A/B testing.
+        /// </para>
         /// </summary>
         public CampaignState DefaultState
         {
@@ -118,7 +152,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Description. A description of the campaign.
+        /// Gets and sets the property Description. 
+        /// <para>
+        /// The custom description of the campaign.
+        /// </para>
         /// </summary>
         public string Description
         {
@@ -133,8 +170,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property HoldoutPercent. The allocated percentage of end users who
-        /// will not receive messages from this campaign.
+        /// Gets and sets the property HoldoutPercent. 
+        /// <para>
+        /// The allocated percentage of users (segment members) who shouldn't receive messages
+        /// from the campaign.
+        /// </para>
         /// </summary>
         public int HoldoutPercent
         {
@@ -149,7 +189,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Hook. Campaign hook information.
+        /// Gets and sets the property Hook. 
+        /// <para>
+        /// The settings for the AWS Lambda function to use as a code hook for the campaign.
+        /// </para>
         /// </summary>
         public CampaignHook Hook
         {
@@ -164,8 +207,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Id. The unique campaign ID.
+        /// Gets and sets the property Id. 
+        /// <para>
+        /// The unique identifier for the campaign.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -179,8 +226,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property IsPaused. Indicates whether the campaign is paused. A paused
-        /// campaign does not send messages unless you resume it by setting IsPaused to false.
+        /// Gets and sets the property IsPaused. 
+        /// <para>
+        /// Specifies whether the campaign is paused. A paused campaign doesn't run unless you
+        /// resume it by changing this value to false.
+        /// </para>
         /// </summary>
         public bool IsPaused
         {
@@ -195,9 +245,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LastModifiedDate. The date the campaign was last updated
-        /// in ISO 8601 format.
+        /// Gets and sets the property LastModifiedDate. 
+        /// <para>
+        /// The date, in ISO 8601 format, when the campaign was last modified.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LastModifiedDate
         {
             get { return this._lastModifiedDate; }
@@ -211,7 +264,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Limits. The campaign limits settings.
+        /// Gets and sets the property Limits. 
+        /// <para>
+        /// The messaging limits for the campaign.
+        /// </para>
         /// </summary>
         public CampaignLimits Limits
         {
@@ -226,7 +282,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MessageConfiguration. The message configuration settings.
+        /// Gets and sets the property MessageConfiguration. 
+        /// <para>
+        /// The message configuration settings for the campaign.
+        /// </para>
         /// </summary>
         public MessageConfiguration MessageConfiguration
         {
@@ -241,7 +300,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Name. The custom name of the campaign.
+        /// Gets and sets the property Name. 
+        /// <para>
+        /// The name of the campaign.
+        /// </para>
         /// </summary>
         public string Name
         {
@@ -256,7 +318,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Schedule. The campaign schedule.
+        /// Gets and sets the property Schedule. 
+        /// <para>
+        /// The schedule settings for the campaign.
+        /// </para>
         /// </summary>
         public Schedule Schedule
         {
@@ -271,9 +336,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentId. The ID of the segment to which the campaign
-        /// sends messages.
+        /// Gets and sets the property SegmentId. 
+        /// <para>
+        /// The unique identifier for the segment that's associated with the campaign.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SegmentId
         {
             get { return this._segmentId; }
@@ -287,9 +355,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentVersion. The version of the segment to which the
-        /// campaign sends messages.
+        /// Gets and sets the property SegmentVersion. 
+        /// <para>
+        /// The version number of the segment that's associated with the campaign.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int SegmentVersion
         {
             get { return this._segmentVersion.GetValueOrDefault(); }
@@ -303,8 +374,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property State. The campaign status.An A/B test campaign will have
-        /// a status of COMPLETED only when all treatments have a status of COMPLETED.
+        /// Gets and sets the property State. 
+        /// <para>
+        /// The current status of the campaign.
+        /// </para>
         /// </summary>
         public CampaignState State
         {
@@ -319,7 +392,47 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TreatmentDescription. A custom description for the treatment.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A string-to-string map of key-value pairs that identifies the tags that are associated
+        /// with the campaign. Each tag consists of a required tag key and an associated tag value.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TemplateConfiguration. 
+        /// <para>
+        /// The message template that’s used for the campaign.
+        /// </para>
+        /// </summary>
+        public TemplateConfiguration TemplateConfiguration
+        {
+            get { return this._templateConfiguration; }
+            set { this._templateConfiguration = value; }
+        }
+
+        // Check to see if TemplateConfiguration property is set
+        internal bool IsSetTemplateConfiguration()
+        {
+            return this._templateConfiguration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TreatmentDescription. 
+        /// <para>
+        /// The custom description of a variation of the campaign that's used for A/B testing.
+        /// </para>
         /// </summary>
         public string TreatmentDescription
         {
@@ -334,8 +447,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TreatmentName. The custom name of a variation of the campaign
-        /// used for A/B testing.
+        /// Gets and sets the property TreatmentName. 
+        /// <para>
+        /// The custom name of a variation of the campaign that's used for A/B testing.
+        /// </para>
         /// </summary>
         public string TreatmentName
         {
@@ -350,7 +465,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Version. The campaign version number.
+        /// Gets and sets the property Version. 
+        /// <para>
+        /// The version number of the campaign.
+        /// </para>
         /// </summary>
         public int Version
         {

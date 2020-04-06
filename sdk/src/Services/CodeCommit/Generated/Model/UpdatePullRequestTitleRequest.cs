@@ -42,6 +42,7 @@ namespace Amazon.CodeCommit.Model
         /// The system-generated ID of the pull request. To get this ID, use <a>ListPullRequests</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PullRequestId
         {
             get { return this._pullRequestId; }
@@ -57,9 +58,10 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property Title. 
         /// <para>
-        /// The updated title of the pull request. This will replace the existing title.
+        /// The updated title of the pull request. This replaces the existing title.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=150)]
         public string Title
         {
             get { return this._title; }

@@ -64,6 +64,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// A list of identity provider identifiers.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> IdpIdentifiers
         {
             get { return this._idpIdentifiers; }
@@ -79,9 +80,111 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property ProviderDetails. 
         /// <para>
-        /// The identity provider details, such as <code>MetadataURL</code> and <code>MetadataFile</code>.
+        /// The identity provider details. The following list describes the provider detail keys
+        /// for each identity provider type.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For Google, Facebook and Login with Amazon:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// client_id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// client_secret
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// authorize_scopes
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// For Sign in with Apple:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// client_id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// team_id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// key_id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// private_key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// authorize_scopes
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// For OIDC providers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// client_id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// client_secret
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// attributes_request_method
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// oidc_issuer
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// authorize_scopes
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// authorize_url <i>if not available from discovery URL specified by oidc_issuer key</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// token_url <i>if not available from discovery URL specified by oidc_issuer key</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// attributes_url <i>if not available from discovery URL specified by oidc_issuer key</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// jwks_uri <i>if not available from discovery URL specified by oidc_issuer key</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// authorize_scopes
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// For SAML providers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// MetadataFile OR MetadataURL
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// IDPSignout <i>optional</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Dictionary<string, string> ProviderDetails
         {
             get { return this._providerDetails; }
@@ -100,6 +203,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The identity provider name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=32)]
         public string ProviderName
         {
             get { return this._providerName; }
@@ -118,6 +222,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The identity provider type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public IdentityProviderTypeType ProviderType
         {
             get { return this._providerType; }
@@ -136,6 +241,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }

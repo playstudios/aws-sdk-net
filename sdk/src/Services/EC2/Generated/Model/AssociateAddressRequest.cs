@@ -29,12 +29,13 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the AssociateAddress operation.
-    /// Associates an Elastic IP address with an instance or a network interface.
+    /// Associates an Elastic IP address with an instance or a network interface. Before you
+    /// can use an Elastic IP address, you must allocate it to your account.
     /// 
     ///  
     /// <para>
     /// An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For
-    /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+    /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
     /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
@@ -52,6 +53,11 @@ namespace Amazon.EC2.Model
     /// already associated with a different instance or a network interface, you get an error
     /// unless you allow reassociation. You cannot associate an Elastic IP address with an
     /// instance or network interface that has an existing Elastic IP address.
+    /// </para>
+    ///  
+    /// <para>
+    /// You cannot associate an Elastic IP address with an interface in a different network
+    /// border group.
     /// </para>
     ///  <important> 
     /// <para>
@@ -80,7 +86,7 @@ namespace Amazon.EC2.Model
         /// Instantiates AssociateAddressRequest with the parameterized properties
         /// </summary>
         /// <param name="instanceId">The ID of the instance. This is required for EC2-Classic. For EC2-VPC, you can specify either the instance ID or the network interface ID, but not both. The operation fails if you specify an instance ID unless exactly one network interface is attached.</param>
-        /// <param name="publicIp">The Elastic IP address. This is required for EC2-Classic.</param>
+        /// <param name="publicIp">The Elastic IP address to associate with the instance. This is required for EC2-Classic.</param>
         public AssociateAddressRequest(string instanceId, string publicIp)
         {
             _instanceId = instanceId;
@@ -154,6 +160,11 @@ namespace Amazon.EC2.Model
         /// [EC2-VPC] The ID of the network interface. If the instance has more than one network
         /// interface, you must specify a network interface ID.
         /// </para>
+        ///  
+        /// <para>
+        /// For EC2-VPC, you can specify either the instance ID or the network interface ID, but
+        /// not both. 
+        /// </para>
         /// </summary>
         public string NetworkInterfaceId
         {
@@ -190,7 +201,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property PublicIp. 
         /// <para>
-        /// The Elastic IP address. This is required for EC2-Classic.
+        /// The Elastic IP address to associate with the instance. This is required for EC2-Classic.
         /// </para>
         /// </summary>
         public string PublicIp

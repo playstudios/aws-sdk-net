@@ -96,6 +96,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.InstanceOwnerId = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("localGatewayId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.LocalGatewayId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("natGatewayId", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -118,6 +124,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.State = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("transitGatewayId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.TransitGatewayId = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("vpcPeeringConnectionId", targetDepth))

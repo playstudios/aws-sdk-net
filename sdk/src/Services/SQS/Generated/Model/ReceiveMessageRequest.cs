@@ -30,7 +30,7 @@ namespace Amazon.SQS.Model
     /// <summary>
     /// Container for the parameters to the ReceiveMessage operation.
     /// Retrieves one or more messages (up to 10), from the specified queue. Using the <code>WaitTimeSeconds</code>
-    /// parameter enables long-poll support. For more information, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html">Amazon
+    /// parameter enables long-poll support. For more information, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-long-polling.html">Amazon
     /// SQS Long Polling</a> in the <i>Amazon Simple Queue Service Developer Guide</i>. 
     /// 
     ///  
@@ -74,7 +74,7 @@ namespace Amazon.SQS.Model
     ///  </li> </ul> 
     /// <para>
     /// The receipt handle is the identifier you must provide when deleting the message. For
-    /// more information, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html">Queue
+    /// more information, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html">Queue
     /// and Message Identifiers</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
     /// </para>
     ///  
@@ -82,7 +82,7 @@ namespace Amazon.SQS.Model
     /// You can provide the <code>VisibilityTimeout</code> parameter in your request. The
     /// parameter is applied to the messages that Amazon SQS returns in the response. If you
     /// don't include the parameter, the overall visibility timeout for the queue is used
-    /// for the returned messages. For more information, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
+    /// for the returned messages. For more information, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
     /// Timeout</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
     /// </para>
     ///  
@@ -116,7 +116,7 @@ namespace Amazon.SQS.Model
         /// <summary>
         /// Instantiates ReceiveMessageRequest with the parameterized properties
         /// </summary>
-        /// <param name="queueUrl">The URL of the Amazon SQS queue from which messages are received. Queue URLs are case-sensitive.</param>
+        /// <param name="queueUrl">The URL of the Amazon SQS queue from which messages are received. Queue URLs and names are case-sensitive.</param>
         public ReceiveMessageRequest(string queueUrl)
         {
             _queueUrl = queueUrl;
@@ -145,6 +145,10 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>AWSTraceHeader</code> - Returns the AWS X-Ray trace header string. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>SenderId</code> 
         /// </para>
         ///  <ul> <li> 
@@ -162,82 +166,18 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>MessageDeduplicationId</code> - Returns the value provided by the sender that
-        /// calls the <code> <a>SendMessage</a> </code> action.
+        ///  <code>MessageDeduplicationId</code> - Returns the value provided by the producer
+        /// that calls the <code> <a>SendMessage</a> </code> action.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>MessageGroupId</code> - Returns the value provided by the sender that calls
+        ///  <code>MessageGroupId</code> - Returns the value provided by the producer that calls
         /// the <code> <a>SendMessage</a> </code> action. Messages with the same <code>MessageGroupId</code>
         /// are returned in sequence.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>SequenceNumber</code> - Returns the value provided by Amazon SQS.
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// Any other valid special request parameters (such as the following) are ignored:
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        ///  <code>ApproximateNumberOfMessages</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>ApproximateNumberOfMessagesDelayed</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>ApproximateNumberOfMessagesNotVisible</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>CreatedTimestamp</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>ContentBasedDeduplication</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>DelaySeconds</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>FifoQueue</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>LastModifiedTimestamp</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>MaximumMessageSize</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>MessageRetentionPeriod</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>Policy</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>QueueArn</code>, 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>ReceiveMessageWaitTimeSeconds</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>RedrivePolicy</code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>VisibilityTimeout</code> 
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -257,8 +197,8 @@ namespace Amazon.SQS.Model
         /// Gets and sets the property MaxNumberOfMessages. 
         /// <para>
         /// The maximum number of messages to return. Amazon SQS never returns more messages than
-        /// this value (however, fewer messages might be returned). Valid values are 1 to 10.
-        /// Default is 1.
+        /// this value (however, fewer messages might be returned). Valid values: 1 to 10. Default:
+        /// 1.
         /// </para>
         /// </summary>
         public int MaxNumberOfMessages
@@ -328,9 +268,10 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  
         /// <para>
-        /// Queue URLs are case-sensitive.
+        /// Queue URLs and names are case-sensitive.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string QueueUrl
         {
             get { return this._queueUrl; }
@@ -380,15 +321,15 @@ namespace Amazon.SQS.Model
         /// <para>
         /// During a visibility timeout, subsequent calls with the same <code>ReceiveRequestAttemptId</code>
         /// return the same messages and receipt handles. If a retry occurs within the deduplication
-        /// interval, it resets the visibility timeout. For more information, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
+        /// interval, it resets the visibility timeout. For more information, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">Visibility
         /// Timeout</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
         /// </para>
         ///  <important> 
         /// <para>
-        /// If a caller of the <code>ReceiveMessage</code> action is still processing messages
-        /// when the visibility timeout expires and messages become visible, another worker reading
+        /// If a caller of the <code>ReceiveMessage</code> action still processes messages when
+        /// the visibility timeout expires and messages become visible, another worker consuming
         /// from the same queue can receive the same messages and therefore process duplicates.
-        /// Also, if a reader whose message processing time is longer than the visibility timeout
+        /// Also, if a consumer whose message processing time is longer than the visibility timeout
         /// tries to delete the processed messages, the action fails with an error.
         /// </para>
         ///  
@@ -417,7 +358,7 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  
         /// <para>
-        /// For best practices of using <code>ReceiveRequestAttemptId</code>, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queue-recommendations.html#using-receiverequestattemptid-request-parameter">Using
+        /// For best practices of using <code>ReceiveRequestAttemptId</code>, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-receiverequestattemptid-request-parameter.html">Using
         /// the ReceiveRequestAttemptId Request Parameter</a> in the <i>Amazon Simple Queue Service
         /// Developer Guide</i>.
         /// </para>

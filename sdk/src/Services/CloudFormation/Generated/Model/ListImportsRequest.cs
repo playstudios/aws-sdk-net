@@ -35,7 +35,7 @@ namespace Amazon.CloudFormation.Model
     /// 
     ///  
     /// <para>
-    /// For more information about importing an exported output value, see the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
+    /// For more information about importing an exported output value, see the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
     /// <code>Fn::ImportValue</code> </a> function. 
     /// </para>
     /// </summary>
@@ -51,6 +51,7 @@ namespace Amazon.CloudFormation.Model
         /// that are importing this value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ExportName
         {
             get { return this._exportName; }
@@ -70,6 +71,7 @@ namespace Amazon.CloudFormation.Model
         /// next page of stacks that are importing the specified exported output value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

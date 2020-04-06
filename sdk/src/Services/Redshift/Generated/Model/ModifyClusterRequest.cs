@@ -29,19 +29,21 @@ namespace Amazon.Redshift.Model
 {
     /// <summary>
     /// Container for the parameters to the ModifyCluster operation.
-    /// Modifies the settings for a cluster. For example, you can add another security or
-    /// parameter group, update the preferred maintenance window, or change the master user
-    /// password. Resetting a cluster password or modifying the security groups associated
-    /// with a cluster do not need a reboot. However, modifying a parameter group requires
-    /// a reboot for parameters to take effect. For more information about managing clusters,
-    /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
-    /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
+    /// Modifies the settings for a cluster.
     /// 
     ///  
     /// <para>
     /// You can also change node type and the number of nodes to scale up or down the cluster.
     /// When resizing a cluster, you must specify both the number of nodes and the node type
     /// even if one of the parameters does not change.
+    /// </para>
+    ///  
+    /// <para>
+    /// You can add another security or parameter group, or change the master user password.
+    /// Resetting a cluster password or modifying the security groups associated with a cluster
+    /// do not need a reboot. However, modifying a parameter group requires a reboot for parameters
+    /// to take effect. For more information about managing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+    /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
     public partial class ModifyClusterRequest : AmazonRedshiftRequest
@@ -54,9 +56,13 @@ namespace Amazon.Redshift.Model
         private string _clusterType;
         private string _clusterVersion;
         private string _elasticIp;
+        private bool? _encrypted;
         private bool? _enhancedVpcRouting;
         private string _hsmClientCertificateIdentifier;
         private string _hsmConfigurationIdentifier;
+        private string _kmsKeyId;
+        private string _maintenanceTrackName;
+        private int? _manualSnapshotRetentionPeriod;
         private string _masterUserPassword;
         private string _newClusterIdentifier;
         private string _nodeType;
@@ -132,6 +138,7 @@ namespace Amazon.Redshift.Model
         /// Example: <code>examplecluster</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterIdentifier
         {
             get { return this._clusterIdentifier; }
@@ -255,7 +262,7 @@ namespace Amazon.Redshift.Model
         /// in use, a new cluster parameter group in the cluster parameter group family for the
         /// new version must be specified. The new cluster parameter group can be the default
         /// for that cluster parameter group family. For more information about parameters and
-        /// parameter groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+        /// parameter groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
         /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         ///  
@@ -284,7 +291,7 @@ namespace Amazon.Redshift.Model
         /// <para>
         /// Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through
         /// an Internet gateway. For more information about provisioning clusters in EC2-VPC,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms">Supported
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms">Supported
         /// Platforms to Launch Your Cluster</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         /// </summary>
@@ -301,11 +308,37 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Encrypted. 
+        /// <para>
+        /// Indicates whether the cluster is encrypted. If the value is encrypted (true) and you
+        /// provide a value for the <code>KmsKeyId</code> parameter, we encrypt the cluster with
+        /// the provided <code>KmsKeyId</code>. If you don't provide a <code>KmsKeyId</code>,
+        /// we encrypt with the default key. In the China region we use legacy encryption if you
+        /// specify that the cluster is encrypted.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the value is not encrypted (false), then the cluster is decrypted. 
+        /// </para>
+        /// </summary>
+        public bool Encrypted
+        {
+            get { return this._encrypted.GetValueOrDefault(); }
+            set { this._encrypted = value; }
+        }
+
+        // Check to see if Encrypted property is set
+        internal bool IsSetEncrypted()
+        {
+            return this._encrypted.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property EnhancedVpcRouting. 
         /// <para>
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled.
         /// To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC.
-        /// For more information, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
+        /// For more information, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
         /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         ///  
@@ -365,6 +398,75 @@ namespace Amazon.Redshift.Model
         internal bool IsSetHsmConfigurationIdentifier()
         {
             return this._hsmConfigurationIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KmsKeyId. 
+        /// <para>
+        /// The AWS Key Management Service (KMS) key ID of the encryption key that you want to
+        /// use to encrypt data in the cluster.
+        /// </para>
+        /// </summary>
+        public string KmsKeyId
+        {
+            get { return this._kmsKeyId; }
+            set { this._kmsKeyId = value; }
+        }
+
+        // Check to see if KmsKeyId property is set
+        internal bool IsSetKmsKeyId()
+        {
+            return this._kmsKeyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaintenanceTrackName. 
+        /// <para>
+        /// The name for the maintenance track that you want to assign for the cluster. This name
+        /// change is asynchronous. The new track name stays in the <code>PendingModifiedValues</code>
+        /// for the cluster until the next maintenance window. When the maintenance track changes,
+        /// the cluster is switched to the latest cluster release available for the maintenance
+        /// track. At this point, the maintenance track name is applied.
+        /// </para>
+        /// </summary>
+        public string MaintenanceTrackName
+        {
+            get { return this._maintenanceTrackName; }
+            set { this._maintenanceTrackName = value; }
+        }
+
+        // Check to see if MaintenanceTrackName property is set
+        internal bool IsSetMaintenanceTrackName()
+        {
+            return this._maintenanceTrackName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManualSnapshotRetentionPeriod. 
+        /// <para>
+        /// The default for number of days that a newly created manual snapshot is retained. If
+        /// the value is -1, the manual snapshot is retained indefinitely. This value doesn't
+        /// retroactively change the retention periods of existing manual snapshots.
+        /// </para>
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        ///  
+        /// <para>
+        /// The default value is -1.
+        /// </para>
+        /// </summary>
+        public int ManualSnapshotRetentionPeriod
+        {
+            get { return this._manualSnapshotRetentionPeriod.GetValueOrDefault(); }
+            set { this._manualSnapshotRetentionPeriod = value; }
+        }
+
+        // Check to see if ManualSnapshotRetentionPeriod property is set
+        internal bool IsSetManualSnapshotRetentionPeriod()
+        {
+            return this._manualSnapshotRetentionPeriod.HasValue; 
         }
 
         /// <summary>
@@ -477,17 +579,14 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// When you submit your request to resize a cluster, Amazon Redshift sets access permissions
-        /// for the cluster to read-only. After Amazon Redshift provisions a new cluster according
-        /// to your resize requirements, there will be a temporary outage while the old cluster
-        /// is deleted and your connection is switched to the new cluster. When the new connection
-        /// is complete, the original access permissions for the cluster are restored. You can
-        /// use <a>DescribeResize</a> to track the progress of the resize request. 
+        ///  For more information about resizing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html">Resizing
+        /// Clusters in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> | <code>dc1.large</code>
-        /// | <code>dc1.8xlarge</code> | <code>dc2.large</code> | <code>dc2.8xlarge</code> 
+        /// | <code>dc1.8xlarge</code> | <code>dc2.large</code> | <code>dc2.8xlarge</code> | <code>ra3.4xlarge</code>
+        /// | <code>ra3.16xlarge</code> 
         /// </para>
         /// </summary>
         public string NodeType
@@ -510,12 +609,8 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// When you submit your request to resize a cluster, Amazon Redshift sets access permissions
-        /// for the cluster to read-only. After Amazon Redshift provisions a new cluster according
-        /// to your resize requirements, there will be a temporary outage while the old cluster
-        /// is deleted and your connection is switched to the new cluster. When the new connection
-        /// is complete, the original access permissions for the cluster are restored. You can
-        /// use <a>DescribeResize</a> to track the progress of the resize request. 
+        ///  For more information about resizing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html">Resizing
+        /// Clusters in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         ///  
         /// <para>
@@ -598,6 +693,7 @@ namespace Amazon.Redshift.Model
         /// Gets and sets the property VpcSecurityGroupIds. 
         /// <para>
         /// A list of virtual private cloud (VPC) security groups to be associated with the cluster.
+        /// This change is asynchronously applied as soon as possible.
         /// </para>
         /// </summary>
         public List<string> VpcSecurityGroupIds

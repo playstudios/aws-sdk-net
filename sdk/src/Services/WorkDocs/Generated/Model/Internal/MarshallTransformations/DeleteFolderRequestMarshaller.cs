@@ -55,13 +55,14 @@ namespace Amazon.WorkDocs.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteFolderRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.WorkDocs");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-05-01";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/api/v1/folders/{FolderId}";
             if (!publicRequest.IsSetFolderId())
                 throw new AmazonWorkDocsException("Request object does not have required field FolderId set");
-            uriResourcePath = uriResourcePath.Replace("{FolderId}", StringUtils.FromString(publicRequest.FolderId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{FolderId}", StringUtils.FromString(publicRequest.FolderId));
+            request.ResourcePath = "/api/v1/folders/{FolderId}";
+            request.MarshallerVersion = 2;
         
             if(publicRequest.IsSetAuthenticationToken())
                 request.Headers["Authentication"] = publicRequest.AuthenticationToken;

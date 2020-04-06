@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -45,6 +45,7 @@ namespace Amazon.CloudDirectory.Model
         /// objects reside. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -63,6 +64,7 @@ namespace Amazon.CloudDirectory.Model
         /// The link name associated with the object that needs to be detached.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string LinkName
         {
             get { return this._linkName; }
@@ -81,6 +83,7 @@ namespace Amazon.CloudDirectory.Model
         /// The parent reference from which the object with the specified link name is detached.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ParentReference
         {
             get { return this._parentReference; }

@@ -83,8 +83,8 @@ namespace Amazon.Redshift.Model
         /// <summary>
         /// Gets and sets the property Enabled. 
         /// <para>
-        /// A Boolean value indicating whether the subscription is enabled. <code>true</code>
-        /// indicates the subscription is enabled.
+        /// A boolean value indicating whether the subscription is enabled; <code>true</code>
+        /// indicates that the subscription is enabled.
         /// </para>
         /// </summary>
         public bool Enabled
@@ -184,8 +184,9 @@ namespace Amazon.Redshift.Model
         /// <summary>
         /// Gets and sets the property SourceType. 
         /// <para>
-        /// The source type of the events returned the Amazon Redshift event notification, such
-        /// as cluster, or cluster-snapshot.
+        /// The source type of the events returned by the Amazon Redshift event notification,
+        /// such as cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group,
+        /// or scheduled-action. 
         /// </para>
         /// </summary>
         public string SourceType

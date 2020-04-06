@@ -55,14 +55,15 @@ namespace Amazon.ElasticFileSystem.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteTagsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ElasticFileSystem");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-02-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/2015-02-01/delete-tags/{FileSystemId}";
             if (!publicRequest.IsSetFileSystemId())
                 throw new AmazonElasticFileSystemException("Request object does not have required field FileSystemId set");
-            uriResourcePath = uriResourcePath.Replace("{FileSystemId}", StringUtils.FromString(publicRequest.FileSystemId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{FileSystemId}", StringUtils.FromString(publicRequest.FileSystemId));
+            request.ResourcePath = "/2015-02-01/delete-tags/{FileSystemId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

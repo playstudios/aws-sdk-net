@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ServiceDiscovery.Model
 {
     /// <summary>
-    /// A complex type that contains information about the records that you want Amazon Route
-    /// 53 to create when you register an instance.
+    /// A complex type that contains information about the Amazon Route 53 DNS records that
+    /// you want AWS Cloud Map to create when you register an instance.
     /// </summary>
     public partial class DnsConfig
     {
@@ -40,10 +40,11 @@ namespace Amazon.ServiceDiscovery.Model
         /// <summary>
         /// Gets and sets the property DnsRecords. 
         /// <para>
-        /// An array that contains one <code>DnsRecord</code> object for each record that you
-        /// want Route 53 to create when you register an instance.
+        /// An array that contains one <code>DnsRecord</code> object for each Route 53 DNS record
+        /// that you want AWS Cloud Map to create when you register an instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<DnsRecord> DnsRecords
         {
             get { return this._dnsRecords; }
@@ -62,6 +63,8 @@ namespace Amazon.ServiceDiscovery.Model
         /// The ID of the namespace to use for DNS configuration.
         /// </para>
         /// </summary>
+        [Obsolete("Top level attribute in request should be used to reference namespace-id")]
+        [AWSProperty(Max=64)]
         public string NamespaceId
         {
             get { return this._namespaceId; }
@@ -77,8 +80,8 @@ namespace Amazon.ServiceDiscovery.Model
         /// <summary>
         /// Gets and sets the property RoutingPolicy. 
         /// <para>
-        /// The routing policy that you want to apply to all records that Route 53 creates when
-        /// you register an instance and specify this service.
+        /// The routing policy that you want to apply to all Route 53 DNS records that AWS Cloud
+        /// Map creates when you register an instance and specify this service.
         /// </para>
         ///  <note> 
         /// <para>

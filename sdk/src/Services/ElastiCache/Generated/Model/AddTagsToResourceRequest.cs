@@ -39,7 +39,7 @@ namespace Amazon.ElastiCache.Model
     /// report as a comma-separated value (CSV) file with your usage and costs aggregated
     /// by your tags. You can apply tags that represent business categories (such as cost
     /// centers, application names, or owners) to organize your costs across multiple services.
-    /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/UserGuide/Tagging.html">Using
+    /// For more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html">Using
     /// Cost Allocation Tags in Amazon ElastiCache</a> in the <i>ElastiCache User Guide</i>.
     /// </para>
     /// </summary>
@@ -58,10 +58,11 @@ namespace Amazon.ElastiCache.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Names (ARNs) and AWS Service Namespaces</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceName
         {
             get { return this._resourceName; }
@@ -81,6 +82,7 @@ namespace Amazon.ElastiCache.Model
         /// pair. A tag key must be accompanied by a tag value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Tag> Tags
         {
             get { return this._tags; }

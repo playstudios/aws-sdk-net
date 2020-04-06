@@ -45,7 +45,9 @@ namespace Amazon.KinesisAnalytics.Model
         /// <summary>
         /// Gets and sets the property Mapping. 
         /// <para>
-        /// Reference to the data element in the streaming input of the reference data source.
+        /// Reference to the data element in the streaming input or the reference data source.
+        /// This element is required if the <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_RecordFormat.html#analytics-Type-RecordFormat-RecordFormatTypel">RecordFormatType</a>
+        /// is <code>JSON</code>.
         /// </para>
         /// </summary>
         public string Mapping
@@ -66,6 +68,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Name of the column created in the in-application input stream or reference table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -84,6 +87,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Type of column created in the in-application input stream or reference table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string SqlType
         {
             get { return this._sqlType; }

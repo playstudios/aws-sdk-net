@@ -55,16 +55,17 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetAliasRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lambda");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-03-31";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2015-03-31/functions/{FunctionName}/aliases/{Name}";
             if (!publicRequest.IsSetFunctionName())
                 throw new AmazonLambdaException("Request object does not have required field FunctionName set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
+            request.AddPathResource("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
             if (!publicRequest.IsSetName())
                 throw new AmazonLambdaException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{Name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/2015-03-31/functions/{FunctionName}/aliases/{Name}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

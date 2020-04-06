@@ -310,10 +310,10 @@ namespace AWSSDKDocSamples.Amazon.AutoScaling.Generated
             {
             });
 
-            integer maxNumberOfAutoScalingGroups = response.MaxNumberOfAutoScalingGroups;
-            integer maxNumberOfLaunchConfigurations = response.MaxNumberOfLaunchConfigurations;
-            integer numberOfAutoScalingGroups = response.NumberOfAutoScalingGroups;
-            integer numberOfLaunchConfigurations = response.NumberOfLaunchConfigurations;
+            int maxNumberOfAutoScalingGroups = response.MaxNumberOfAutoScalingGroups;
+            int maxNumberOfLaunchConfigurations = response.MaxNumberOfLaunchConfigurations;
+            int numberOfAutoScalingGroups = response.NumberOfAutoScalingGroups;
+            int numberOfLaunchConfigurations = response.NumberOfLaunchConfigurations;
 
             #endregion
         }
@@ -755,11 +755,11 @@ namespace AWSSDKDocSamples.Amazon.AutoScaling.Generated
             {
                 AutoScalingGroupName = "my-auto-scaling-group",
                 DesiredCapacity = 4,
-                EndTime = new DateTime(2014, 5, 12, 1, 0, 0),
+                EndTimeUtc = new DateTime(2014, 5, 12, 1, 0, 0, DateTimeKind.Utc),
                 MaxSize = 6,
                 MinSize = 2,
                 ScheduledActionName = "my-scheduled-action",
-                StartTime = new DateTime(2014, 5, 12, 1, 0, 0)
+                StartTimeUtc = new DateTime(2014, 5, 12, 1, 0, 0, DateTimeKind.Utc)
             });
 
 

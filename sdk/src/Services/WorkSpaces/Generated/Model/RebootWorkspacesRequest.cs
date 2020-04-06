@@ -33,8 +33,7 @@ namespace Amazon.WorkSpaces.Model
     /// 
     ///  
     /// <para>
-    /// You cannot reboot a WorkSpace unless its state is <code>AVAILABLE</code>, <code>IMPAIRED</code>,
-    /// or <code>INOPERABLE</code>.
+    /// You cannot reboot a WorkSpace unless its state is <code>AVAILABLE</code> or <code>UNHEALTHY</code>.
     /// </para>
     ///  
     /// <para>
@@ -48,9 +47,10 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property RebootWorkspaceRequests. 
         /// <para>
-        /// The WorkSpaces to reboot.
+        /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=25)]
         public List<RebootRequest> RebootWorkspaceRequests
         {
             get { return this._rebootWorkspaceRequests; }

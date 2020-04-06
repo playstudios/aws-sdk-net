@@ -66,6 +66,7 @@ namespace Amazon.CodePipeline.Model
         /// The external ID of the run of the action.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1500)]
         public string ExternalExecutionId
         {
             get { return this._externalExecutionId; }
@@ -81,10 +82,11 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property ExternalExecutionUrl. 
         /// <para>
-        /// The URL of a resource external to AWS that will be used when running the action, for
-        /// example an external repository URL.
+        /// The URL of a resource external to AWS that is used when running the action (for example,
+        /// an external repository URL).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string ExternalExecutionUrl
         {
             get { return this._externalExecutionUrl; }
@@ -139,6 +141,7 @@ namespace Amazon.CodePipeline.Model
         /// A percentage of completeness of the action as it runs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int PercentComplete
         {
             get { return this._percentComplete.GetValueOrDefault(); }
@@ -175,6 +178,7 @@ namespace Amazon.CodePipeline.Model
         /// A summary of the run of the action.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string Summary
         {
             get { return this._summary; }
@@ -191,9 +195,9 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property Token. 
         /// <para>
         /// The system-generated token used to identify a unique approval request. The token for
-        /// each open approval request can be obtained using the GetPipelineState command and
-        /// is used to validate that the approval request corresponding to this token is still
-        /// valid.
+        /// each open approval request can be obtained using the <code>GetPipelineState</code>
+        /// command. It is used to validate that the approval request corresponding to this token
+        /// is still valid.
         /// </para>
         /// </summary>
         public string Token

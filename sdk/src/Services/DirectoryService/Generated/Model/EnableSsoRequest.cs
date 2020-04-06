@@ -29,7 +29,9 @@ namespace Amazon.DirectoryService.Model
 {
     /// <summary>
     /// Container for the parameters to the EnableSso operation.
-    /// Enables single sign-on for a directory.
+    /// Enables single sign-on for a directory. Single sign-on allows users in your directory
+    /// to access certain AWS services from a computer joined to the directory without having
+    /// to enter their credentials separately.
     /// </summary>
     public partial class EnableSsoRequest : AmazonDirectoryServiceRequest
     {
@@ -43,6 +45,7 @@ namespace Amazon.DirectoryService.Model
         /// The identifier of the directory for which to enable single-sign on.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryId
         {
             get { return this._directoryId; }
@@ -62,6 +65,7 @@ namespace Amazon.DirectoryService.Model
         /// used for AD Connector directories. For more information, see the <i>UserName</i> parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Password
         {
             get { return this._password; }
@@ -89,6 +93,7 @@ namespace Amazon.DirectoryService.Model
         /// by the service. The AD Connector service account is not changed.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string UserName
         {
             get { return this._userName; }

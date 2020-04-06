@@ -55,11 +55,12 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateSoftwareUpdateJobRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/greengrass/updates";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/greengrass/updates";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

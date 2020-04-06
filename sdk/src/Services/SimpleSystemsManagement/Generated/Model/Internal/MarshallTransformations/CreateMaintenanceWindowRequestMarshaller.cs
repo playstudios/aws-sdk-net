@@ -58,10 +58,11 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
             string target = "AmazonSSM.CreateMaintenanceWindow";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-06";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -102,6 +103,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Duration);
                 }
 
+                if(publicRequest.IsSetEndDate())
+                {
+                    context.Writer.WritePropertyName("EndDate");
+                    context.Writer.Write(publicRequest.EndDate);
+                }
+
                 if(publicRequest.IsSetName())
                 {
                     context.Writer.WritePropertyName("Name");
@@ -112,6 +119,34 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("Schedule");
                     context.Writer.Write(publicRequest.Schedule);
+                }
+
+                if(publicRequest.IsSetScheduleTimezone())
+                {
+                    context.Writer.WritePropertyName("ScheduleTimezone");
+                    context.Writer.Write(publicRequest.ScheduleTimezone);
+                }
+
+                if(publicRequest.IsSetStartDate())
+                {
+                    context.Writer.WritePropertyName("StartDate");
+                    context.Writer.Write(publicRequest.StartDate);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

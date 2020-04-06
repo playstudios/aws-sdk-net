@@ -28,10 +28,10 @@ namespace Amazon.WorkDocs
     ///<summary>
     /// Common exception for the WorkDocs service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonWorkDocsException : AmazonServiceException
+    public partial class AmazonWorkDocsException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonWorkDocsException
@@ -88,7 +88,7 @@ namespace Amazon.WorkDocs
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonWorkDocsException class with serialized data.
         /// </summary>

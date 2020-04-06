@@ -33,8 +33,7 @@ namespace Amazon.SageMaker.Model
     /// or capacity of one variant associated with an existing endpoint. When it receives
     /// the request, Amazon SageMaker sets the endpoint status to <code>Updating</code>. After
     /// updating the endpoint, it sets the status to <code>InService</code>. To check the
-    /// status of an endpoint, use the <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/API_DescribeEndpoint.html">DescribeEndpoint</a>
-    /// API.
+    /// status of an endpoint, use the <a>DescribeEndpoint</a> API.
     /// </summary>
     public partial class UpdateEndpointWeightsAndCapacitiesRequest : AmazonSageMakerRequest
     {
@@ -47,6 +46,7 @@ namespace Amazon.SageMaker.Model
         /// An object that provides new capacity and weight values for a variant.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<DesiredWeightAndCapacity> DesiredWeightsAndCapacities
         {
             get { return this._desiredWeightsAndCapacities; }
@@ -65,6 +65,7 @@ namespace Amazon.SageMaker.Model
         /// The name of an existing Amazon SageMaker endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string EndpointName
         {
             get { return this._endpointName; }

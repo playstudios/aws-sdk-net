@@ -33,7 +33,7 @@ namespace Amazon.CloudWatchLogs.Model
     /// 
     ///  
     /// <para>
-    /// You can create up to 5000 log groups per account.
+    /// You can create up to 20,000 log groups per account.
     /// </para>
     ///  
     /// <para>
@@ -50,7 +50,7 @@ namespace Amazon.CloudWatchLogs.Model
     ///  </li> <li> 
     /// <para>
     /// Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore),
-    /// '-' (hyphen), '/' (forward slash), and '.' (period).
+    /// '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign)
     /// </para>
     ///  </li> </ul> 
     /// <para>
@@ -65,6 +65,13 @@ namespace Amazon.CloudWatchLogs.Model
     /// the CMK is disabled, you will receive an <code>InvalidParameterException</code> error.
     /// 
     /// </para>
+    ///  <note> 
+    /// <para>
+    ///  <b>Important:</b> CloudWatch Logs supports only symmetric CMKs. Do not associate
+    /// an asymmetric CMK with your log group. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+    /// Symmetric and Asymmetric Keys</a>.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateLogGroupRequest : AmazonCloudWatchLogsRequest
     {
@@ -90,10 +97,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property KmsKeyId. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more
-        /// information, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">Amazon
+        /// information, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">Amazon
         /// Resource Names - AWS Key Management Service (AWS KMS)</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string KmsKeyId
         {
             get { return this._kmsKeyId; }
@@ -112,6 +120,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string LogGroupName
         {
             get { return this._logGroupName; }
@@ -130,6 +139,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The key-value pairs to use for the tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public Dictionary<string, string> Tags
         {
             get { return this._tags; }

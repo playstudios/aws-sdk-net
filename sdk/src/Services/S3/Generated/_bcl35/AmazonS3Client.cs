@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.S3.Model;
 using Amazon.S3.Model.Internal.MarshallTransformations;
+using Amazon.S3.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -37,6 +39,7 @@ namespace Amazon.S3
     /// </summary>
     public partial class AmazonS3Client : AmazonServiceClient, IAmazonS3
     {
+        private static IServiceMetadata serviceMetadata = new AmazonS3Metadata();
         #region Constructors
 
         /// <summary>
@@ -219,8 +222,29 @@ namespace Amazon.S3
             pipeline.AddHandlerBefore<Amazon.Runtime.Internal.Unmarshaller>(new Amazon.S3.Internal.AmazonS3ResponseHandler());
             pipeline.AddHandlerAfter<Amazon.Runtime.Internal.ErrorCallbackHandler>(new Amazon.S3.Internal.AmazonS3ExceptionHandler());
             pipeline.AddHandlerAfter<Amazon.Runtime.Internal.Unmarshaller>(new Amazon.S3.Internal.AmazonS3RedirectHandler());
-            pipeline.ReplaceHandler<Amazon.Runtime.Internal.RetryHandler>(new Amazon.Runtime.Internal.RetryHandler(new Amazon.S3.Internal.AmazonS3RetryPolicy(this.Config)));
+            if(this.Config.RetryMode == RequestRetryMode.Legacy)
+            {
+                pipeline.ReplaceHandler<Amazon.Runtime.Internal.RetryHandler>(new Amazon.Runtime.Internal.RetryHandler(new Amazon.S3.Internal.AmazonS3RetryPolicy(this.Config)));
+            }
+            if(this.Config.RetryMode == RequestRetryMode.Standard)
+            {
+                pipeline.ReplaceHandler<Amazon.Runtime.Internal.RetryHandler>(new Amazon.Runtime.Internal.RetryHandler(new Amazon.S3.Internal.AmazonS3StandardRetryPolicy(this.Config)));
+            }
+            if(this.Config.RetryMode == RequestRetryMode.Adaptive)
+            {
+                pipeline.ReplaceHandler<Amazon.Runtime.Internal.RetryHandler>(new Amazon.Runtime.Internal.RetryHandler(new Amazon.S3.Internal.AmazonS3AdaptiveRetryPolicy(this.Config)));
+            }
         }    
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -236,21 +260,58 @@ namespace Amazon.S3
 
         #endregion
 
-        
+
         #region  AbortMultipartUpload
 
         /// <summary>
-        /// Aborts a multipart upload.
+        /// This operation aborts a multipart upload. After a multipart upload is aborted, no
+        /// additional parts can be uploaded using that upload ID. The storage consumed by any
+        /// previously uploaded parts will be freed. However, if any part uploads are currently
+        /// in progress, those part uploads might or might not succeed. As a result, it might
+        /// be necessary to abort a given multipart upload multiple times in order to completely
+        /// free all storage consumed by all parts. 
         /// 
-        /// 
+        ///  
         /// <para>
         /// To verify that all parts have been removed, so you don't get charged for the part
-        /// storage, you should call the List Parts operation and ensure the parts list is empty.
+        /// storage, you should call the <a>ListParts</a> operation and ensure that the parts
+        /// list is empty.
         /// </para>
+        ///  
+        /// <para>
+        /// For information about permissions required to use the multipart upload API, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>AbortMultipartUpload</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of AbortMultipartUploadRequest used to execute the AbortMultipartUpload service method.</param>
-        /// <param name="key">A property of AbortMultipartUploadRequest used to execute the AbortMultipartUpload service method.</param>
-        /// <param name="uploadId">A property of AbortMultipartUploadRequest used to execute the AbortMultipartUpload service method.</param>
+        /// <param name="bucketName">The bucket name to which the upload was taking place.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Key of the object for which the multipart upload was initiated.</param>
+        /// <param name="uploadId">Upload ID that identifies the multipart upload.</param>
         /// 
         /// <returns>The response from the AbortMultipartUpload service method, as returned by S3.</returns>
         public virtual AbortMultipartUploadResponse AbortMultipartUpload(string bucketName, string key, string uploadId)
@@ -264,23 +325,61 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Aborts a multipart upload.
+        /// This operation aborts a multipart upload. After a multipart upload is aborted, no
+        /// additional parts can be uploaded using that upload ID. The storage consumed by any
+        /// previously uploaded parts will be freed. However, if any part uploads are currently
+        /// in progress, those part uploads might or might not succeed. As a result, it might
+        /// be necessary to abort a given multipart upload multiple times in order to completely
+        /// free all storage consumed by all parts. 
         /// 
-        /// 
+        ///  
         /// <para>
         /// To verify that all parts have been removed, so you don't get charged for the part
-        /// storage, you should call the List Parts operation and ensure the parts list is empty.
+        /// storage, you should call the <a>ListParts</a> operation and ensure that the parts
+        /// list is empty.
         /// </para>
+        ///  
+        /// <para>
+        /// For information about permissions required to use the multipart upload API, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>AbortMultipartUpload</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AbortMultipartUpload service method.</param>
         /// 
         /// <returns>The response from the AbortMultipartUpload service method, as returned by S3.</returns>
         public virtual AbortMultipartUploadResponse AbortMultipartUpload(AbortMultipartUploadRequest request)
         {
-            var marshaller = AbortMultipartUploadRequestMarshaller.Instance;
-            var unmarshaller = AbortMultipartUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AbortMultipartUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AbortMultipartUploadResponseUnmarshaller.Instance;
 
-            return Invoke<AbortMultipartUploadRequest,AbortMultipartUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<AbortMultipartUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -296,11 +395,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginAbortMultipartUpload(AbortMultipartUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AbortMultipartUploadRequestMarshaller.Instance;
-            var unmarshaller = AbortMultipartUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AbortMultipartUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AbortMultipartUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AbortMultipartUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -321,16 +420,137 @@ namespace Amazon.S3
 
         /// <summary>
         /// Completes a multipart upload by assembling previously uploaded parts.
+        /// 
+        ///  
+        /// <para>
+        /// You first initiate the multipart upload and then upload all parts using the <a>UploadPart</a>
+        /// operation. After successfully uploading all relevant parts of an upload, you call
+        /// this operation to complete the upload. Upon receiving this request, Amazon S3 concatenates
+        /// all the parts in ascending order by part number to create a new object. In the Complete
+        /// Multipart Upload request, you must provide the parts list. You must ensure that the
+        /// parts list is complete. This operation concatenates the parts that you provide in
+        /// the list. For each part in the list, you must provide the part number and the <code>ETag</code>
+        /// value, returned after that part was uploaded.
+        /// </para>
+        ///  
+        /// <para>
+        /// Processing of a Complete Multipart Upload request could take several minutes to complete.
+        /// After Amazon S3 begins processing the request, it sends an HTTP response header that
+        /// specifies a 200 OK response. While processing is in progress, Amazon S3 periodically
+        /// sends white space characters to keep the connection from timing out. Because a request
+        /// could fail after the initial 200 OK response has been sent, it is important that you
+        /// check the response body to determine whether the request succeeded.
+        /// </para>
+        ///  
+        /// <para>
+        /// Note that if <code>CompleteMultipartUpload</code> fails, applications should be prepared
+        /// to retry the failed requests. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorBestPractices.html">Amazon
+        /// S3 Error Best Practices</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about permissions required to use the multipart upload API, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetBucketLifecycle</code> has the following special errors:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Error code: <code>EntityTooSmall</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: Your proposed upload is smaller than the minimum allowed object size.
+        /// Each part must be at least 5 MB in size, except the last part.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// 400 Bad Request
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>InvalidPart</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: One or more of the specified parts could not be found. The part might
+        /// not have been uploaded, or the specified entity tag might not have matched the part's
+        /// entity tag.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// 400 Bad Request
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>InvalidPartOrder</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The list of parts was not in ascending order. The parts list must be
+        /// specified in order by part number.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// 400 Bad Request
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>NoSuchUpload</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The specified multipart upload does not exist. The upload ID might be
+        /// invalid, or the multipart upload might have been aborted or completed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// 404 Not Found
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CompleteMultipartUpload service method.</param>
         /// 
         /// <returns>The response from the CompleteMultipartUpload service method, as returned by S3.</returns>
         public virtual CompleteMultipartUploadResponse CompleteMultipartUpload(CompleteMultipartUploadRequest request)
         {
-            var marshaller = CompleteMultipartUploadRequestMarshaller.Instance;
-            var unmarshaller = CompleteMultipartUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteMultipartUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteMultipartUploadResponseUnmarshaller.Instance;
 
-            return Invoke<CompleteMultipartUploadRequest,CompleteMultipartUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<CompleteMultipartUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -346,11 +566,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginCompleteMultipartUpload(CompleteMultipartUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CompleteMultipartUploadRequestMarshaller.Instance;
-            var unmarshaller = CompleteMultipartUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteMultipartUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteMultipartUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CompleteMultipartUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -371,6 +591,354 @@ namespace Amazon.S3
 
         /// <summary>
         /// Creates a copy of an object that is already stored in Amazon S3.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// You can store individual objects of up to 5 TB in Amazon S3. You create a copy of
+        /// your object up to 5 GB in size in a single atomic operation using this API. However,
+        /// for copying an object greater than 5 GB, you must use the multipart upload Upload
+        /// Part - Copy API. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html">Copy
+        /// Object Using the REST Multipart Upload API</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// When copying an object, you can preserve all metadata (default) or specify new metadata.
+        /// However, the ACL is not preserved and is set to private for the user making the request.
+        /// To override the default ACL setting, specify a new ACL when generating a copy request.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Amazon S3 transfer acceleration does not support cross-region copies. If you request
+        /// a cross-region copy using a transfer acceleration endpoint, you get a 400 <code>Bad
+        /// Request</code> error. For more information about transfer acceleration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
+        /// Acceleration</a>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// All copy requests must be authenticated. Additionally, you must have <i>read</i> access
+        /// to the source object and <i>write</i> access to the destination bucket. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">REST
+        /// Authentication</a>. Both the Region that you want to copy the object from and the
+        /// Region that you want to copy the object to must be enabled for your account.
+        /// </para>
+        ///  
+        /// <para>
+        /// To only copy an object under certain conditions, such as whether the <code>Etag</code>
+        /// matches or whether the object was modified before or after a specified date, use the
+        /// request parameters <code>x-amz-copy-source-if-match</code>, <code>x-amz-copy-source-if-none-match</code>,
+        /// <code>x-amz-copy-source-if-unmodified-since</code>, or <code> x-amz-copy-source-if-modified-since</code>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// All headers with the <code>x-amz-</code> prefix, including <code>x-amz-copy-source</code>,
+        /// must be signed.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You can use this operation to change the storage class of an object that is already
+        /// stored in Amazon S3 using the <code>StorageClass</code> parameter. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+        /// Classes</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The source object that you are copying can be encrypted or unencrypted. If the source
+        /// object is encrypted, it can be encrypted by server-side encryption using AWS managed
+        /// encryption keys or by using a customer-provided encryption key. When copying an object,
+        /// you can request that Amazon S3 encrypt the target object by using either the AWS managed
+        /// encryption keys or by using your own encryption key. You can do this regardless of
+        /// the form of server-side encryption that was used to encrypt the source, or even if
+        /// the source object was not encrypted. For more information about server-side encryption,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Using
+        /// Server-Side Encryption</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// A copy request might return an error when Amazon S3 receives the copy request or while
+        /// Amazon S3 is copying the files. If the error occurs before the copy operation starts,
+        /// you receive a standard Amazon S3 error. If the error occurs during the copy operation,
+        /// the error response is embedded in the <code>200 OK</code> response. This means that
+        /// a <code>200 OK</code> response can contain either a success or an error. Design your
+        /// application to parse the contents of the response and handle it appropriately.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the copy is successful, you receive a response with information about the copied
+        /// object.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If the request is an HTTP 1.1 request, the response is chunk encoded. If it were not,
+        /// it would not contain the content-length, and you would need to read the entire body.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Consider the following when using request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  Consideration 1 – If both the <code>x-amz-copy-source-if-match</code> and <code>x-amz-copy-source-if-unmodified-since</code>
+        /// headers are present in the request and evaluate as follows, Amazon S3 returns 200
+        /// OK and copies the data:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-match</code> condition evaluates to true
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-unmodified-since</code> condition evaluates to false
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        ///  Consideration 2 – If both of the <code>x-amz-copy-source-if-none-match</code> and
+        /// <code>x-amz-copy-source-if-modified-since</code> headers are present in the request
+        /// and evaluate as follows, Amazon S3 returns the <code>412 Precondition Failed</code>
+        /// response code:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-none-match</code> condition evaluates to false
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-modified-since</code> condition evaluates to true
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The copy request charge is based on the storage class and Region you specify for the
+        /// destination object. For pricing information, see <a href="https://aws.amazon.com/s3/pricing/">Amazon
+        /// S3 Pricing</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Following are other considerations when using <code>CopyObject</code>:
+        /// </para>
+        ///  <dl> <dt>Versioning</dt> <dd> 
+        /// <para>
+        /// By default, <code>x-amz-copy-source</code> identifies the current version of an object
+        /// to copy. (If the current version is a delete marker, Amazon S3 behaves as if the object
+        /// was deleted.) To copy a different version, use the <code>versionId</code> subresource.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you enable versioning on the target bucket, Amazon S3 generates a unique version
+        /// ID for the object being copied. This version ID is different from the version ID of
+        /// the source object. Amazon S3 returns the version ID of the copied object in the <code>x-amz-version-id</code>
+        /// response header in the response.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do not enable versioning or suspend it on the target bucket, the version ID
+        /// that Amazon S3 generates is always null.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the source object's storage class is GLACIER, you must restore a copy of this object
+        /// before you can use it as a source object for the copy operation. For more information,
+        /// see .
+        /// </para>
+        ///  </dd> <dt>Access Permissions</dt> <dd> 
+        /// <para>
+        /// When copying an object, you can optionally specify the accounts or groups that should
+        /// be granted specific permissions on the new object. There are two ways to grant the
+        /// permissions using the request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly with the <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
+        /// <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code> headers.
+        /// These parameters map to the set of permissions that Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd> 
+        /// <para>
+        /// To encrypt the target object, you must provide the appropriate encryption-related
+        /// request headers. The one you use depends on whether you want to use AWS managed encryption
+        /// keys or provide your own encryption key. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To encrypt the target object using server-side encryption with an AWS managed encryption
+        /// key, provide the following request headers, as appropriate.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side​-encryption</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side-encryption-aws-kms-key-id</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side-encryption-context</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but don't provide
+        /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS managed
+        /// CMK in AWS KMS to protect the data. If you want to use a customer managed AWS KMS
+        /// CMK, you must provide the <code>x-amz-server-side-encryption-aws-kms-key-id</code>
+        /// of the symmetric customer managed CMK. Amazon S3 only supports symmetric CMKs and
+        /// not asymmetric CMKs. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// All GET and PUT requests for an object protected by AWS KMS fail if you don't make
+        /// them with SSL or by using SigV4.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in KMS</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To encrypt the target object using server-side encryption with an encryption key that
+        /// you provide, use the following headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// If the source object is encrypted using server-side encryption with customer-provided
+        /// encryption keys, you must use the following headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-copy-source​-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-copy-source​-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-copy-source-​server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in Amazon KMS</a>.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt> <dd>
+        /// 
+        /// <para>
+        /// You also can use the following access control–related headers with this operation.
+        /// By default, all objects are private. Only the owner has full access control. When
+        /// adding a new object, you can grant permissions to individual AWS accounts or to predefined
+        /// groups defined by Amazon S3. These permissions are then added to the access control
+        /// list (ACL) on the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>. With this operation, you can grant access permissions using one of the following
+        /// two methods:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set of predefined
+        /// ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined set of grantees
+        /// and permissions. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly — To explicitly grant access permissions to
+        /// specific AWS accounts or groups, use the following headers. Each header maps to specific
+        /// permissions that Amazon S3 supports in an ACL. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>. In the header, you specify a list of grantees who
+        /// get the specific permission. To grant permissions explicitly, use:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-grant-read
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-read-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-full-control
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> </dd> </dl> 
+        /// <para>
+        /// The following operations are related to <code>CopyObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjectsExamples.html">Copying
+        /// Objects</a>.
+        /// </para>
         /// </summary>
         /// <param name="sourceBucket">A property of CopyObjectRequest used to execute the CopyObject service method.</param>
         /// <param name="sourceKey">A property of CopyObjectRequest used to execute the CopyObject service method.</param>
@@ -391,6 +959,354 @@ namespace Amazon.S3
 
         /// <summary>
         /// Creates a copy of an object that is already stored in Amazon S3.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// You can store individual objects of up to 5 TB in Amazon S3. You create a copy of
+        /// your object up to 5 GB in size in a single atomic operation using this API. However,
+        /// for copying an object greater than 5 GB, you must use the multipart upload Upload
+        /// Part - Copy API. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html">Copy
+        /// Object Using the REST Multipart Upload API</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// When copying an object, you can preserve all metadata (default) or specify new metadata.
+        /// However, the ACL is not preserved and is set to private for the user making the request.
+        /// To override the default ACL setting, specify a new ACL when generating a copy request.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Amazon S3 transfer acceleration does not support cross-region copies. If you request
+        /// a cross-region copy using a transfer acceleration endpoint, you get a 400 <code>Bad
+        /// Request</code> error. For more information about transfer acceleration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
+        /// Acceleration</a>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// All copy requests must be authenticated. Additionally, you must have <i>read</i> access
+        /// to the source object and <i>write</i> access to the destination bucket. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">REST
+        /// Authentication</a>. Both the Region that you want to copy the object from and the
+        /// Region that you want to copy the object to must be enabled for your account.
+        /// </para>
+        ///  
+        /// <para>
+        /// To only copy an object under certain conditions, such as whether the <code>Etag</code>
+        /// matches or whether the object was modified before or after a specified date, use the
+        /// request parameters <code>x-amz-copy-source-if-match</code>, <code>x-amz-copy-source-if-none-match</code>,
+        /// <code>x-amz-copy-source-if-unmodified-since</code>, or <code> x-amz-copy-source-if-modified-since</code>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// All headers with the <code>x-amz-</code> prefix, including <code>x-amz-copy-source</code>,
+        /// must be signed.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You can use this operation to change the storage class of an object that is already
+        /// stored in Amazon S3 using the <code>StorageClass</code> parameter. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+        /// Classes</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The source object that you are copying can be encrypted or unencrypted. If the source
+        /// object is encrypted, it can be encrypted by server-side encryption using AWS managed
+        /// encryption keys or by using a customer-provided encryption key. When copying an object,
+        /// you can request that Amazon S3 encrypt the target object by using either the AWS managed
+        /// encryption keys or by using your own encryption key. You can do this regardless of
+        /// the form of server-side encryption that was used to encrypt the source, or even if
+        /// the source object was not encrypted. For more information about server-side encryption,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Using
+        /// Server-Side Encryption</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// A copy request might return an error when Amazon S3 receives the copy request or while
+        /// Amazon S3 is copying the files. If the error occurs before the copy operation starts,
+        /// you receive a standard Amazon S3 error. If the error occurs during the copy operation,
+        /// the error response is embedded in the <code>200 OK</code> response. This means that
+        /// a <code>200 OK</code> response can contain either a success or an error. Design your
+        /// application to parse the contents of the response and handle it appropriately.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the copy is successful, you receive a response with information about the copied
+        /// object.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If the request is an HTTP 1.1 request, the response is chunk encoded. If it were not,
+        /// it would not contain the content-length, and you would need to read the entire body.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Consider the following when using request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  Consideration 1 – If both the <code>x-amz-copy-source-if-match</code> and <code>x-amz-copy-source-if-unmodified-since</code>
+        /// headers are present in the request and evaluate as follows, Amazon S3 returns 200
+        /// OK and copies the data:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-match</code> condition evaluates to true
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-unmodified-since</code> condition evaluates to false
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        ///  Consideration 2 – If both of the <code>x-amz-copy-source-if-none-match</code> and
+        /// <code>x-amz-copy-source-if-modified-since</code> headers are present in the request
+        /// and evaluate as follows, Amazon S3 returns the <code>412 Precondition Failed</code>
+        /// response code:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-none-match</code> condition evaluates to false
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-modified-since</code> condition evaluates to true
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The copy request charge is based on the storage class and Region you specify for the
+        /// destination object. For pricing information, see <a href="https://aws.amazon.com/s3/pricing/">Amazon
+        /// S3 Pricing</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Following are other considerations when using <code>CopyObject</code>:
+        /// </para>
+        ///  <dl> <dt>Versioning</dt> <dd> 
+        /// <para>
+        /// By default, <code>x-amz-copy-source</code> identifies the current version of an object
+        /// to copy. (If the current version is a delete marker, Amazon S3 behaves as if the object
+        /// was deleted.) To copy a different version, use the <code>versionId</code> subresource.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you enable versioning on the target bucket, Amazon S3 generates a unique version
+        /// ID for the object being copied. This version ID is different from the version ID of
+        /// the source object. Amazon S3 returns the version ID of the copied object in the <code>x-amz-version-id</code>
+        /// response header in the response.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do not enable versioning or suspend it on the target bucket, the version ID
+        /// that Amazon S3 generates is always null.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the source object's storage class is GLACIER, you must restore a copy of this object
+        /// before you can use it as a source object for the copy operation. For more information,
+        /// see .
+        /// </para>
+        ///  </dd> <dt>Access Permissions</dt> <dd> 
+        /// <para>
+        /// When copying an object, you can optionally specify the accounts or groups that should
+        /// be granted specific permissions on the new object. There are two ways to grant the
+        /// permissions using the request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly with the <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
+        /// <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code> headers.
+        /// These parameters map to the set of permissions that Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd> 
+        /// <para>
+        /// To encrypt the target object, you must provide the appropriate encryption-related
+        /// request headers. The one you use depends on whether you want to use AWS managed encryption
+        /// keys or provide your own encryption key. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To encrypt the target object using server-side encryption with an AWS managed encryption
+        /// key, provide the following request headers, as appropriate.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side​-encryption</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side-encryption-aws-kms-key-id</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side-encryption-context</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but don't provide
+        /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS managed
+        /// CMK in AWS KMS to protect the data. If you want to use a customer managed AWS KMS
+        /// CMK, you must provide the <code>x-amz-server-side-encryption-aws-kms-key-id</code>
+        /// of the symmetric customer managed CMK. Amazon S3 only supports symmetric CMKs and
+        /// not asymmetric CMKs. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// All GET and PUT requests for an object protected by AWS KMS fail if you don't make
+        /// them with SSL or by using SigV4.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in KMS</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To encrypt the target object using server-side encryption with an encryption key that
+        /// you provide, use the following headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// If the source object is encrypted using server-side encryption with customer-provided
+        /// encryption keys, you must use the following headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-copy-source​-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-copy-source​-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-copy-source-​server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in Amazon KMS</a>.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt> <dd>
+        /// 
+        /// <para>
+        /// You also can use the following access control–related headers with this operation.
+        /// By default, all objects are private. Only the owner has full access control. When
+        /// adding a new object, you can grant permissions to individual AWS accounts or to predefined
+        /// groups defined by Amazon S3. These permissions are then added to the access control
+        /// list (ACL) on the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>. With this operation, you can grant access permissions using one of the following
+        /// two methods:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set of predefined
+        /// ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined set of grantees
+        /// and permissions. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly — To explicitly grant access permissions to
+        /// specific AWS accounts or groups, use the following headers. Each header maps to specific
+        /// permissions that Amazon S3 supports in an ACL. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>. In the header, you specify a list of grantees who
+        /// get the specific permission. To grant permissions explicitly, use:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-grant-read
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-read-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-full-control
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> </dd> </dl> 
+        /// <para>
+        /// The following operations are related to <code>CopyObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjectsExamples.html">Copying
+        /// Objects</a>.
+        /// </para>
         /// </summary>
         /// <param name="sourceBucket">A property of CopyObjectRequest used to execute the CopyObject service method.</param>
         /// <param name="sourceKey">A property of CopyObjectRequest used to execute the CopyObject service method.</param>
@@ -413,16 +1329,365 @@ namespace Amazon.S3
 
         /// <summary>
         /// Creates a copy of an object that is already stored in Amazon S3.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// You can store individual objects of up to 5 TB in Amazon S3. You create a copy of
+        /// your object up to 5 GB in size in a single atomic operation using this API. However,
+        /// for copying an object greater than 5 GB, you must use the multipart upload Upload
+        /// Part - Copy API. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html">Copy
+        /// Object Using the REST Multipart Upload API</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// When copying an object, you can preserve all metadata (default) or specify new metadata.
+        /// However, the ACL is not preserved and is set to private for the user making the request.
+        /// To override the default ACL setting, specify a new ACL when generating a copy request.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Amazon S3 transfer acceleration does not support cross-region copies. If you request
+        /// a cross-region copy using a transfer acceleration endpoint, you get a 400 <code>Bad
+        /// Request</code> error. For more information about transfer acceleration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
+        /// Acceleration</a>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// All copy requests must be authenticated. Additionally, you must have <i>read</i> access
+        /// to the source object and <i>write</i> access to the destination bucket. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">REST
+        /// Authentication</a>. Both the Region that you want to copy the object from and the
+        /// Region that you want to copy the object to must be enabled for your account.
+        /// </para>
+        ///  
+        /// <para>
+        /// To only copy an object under certain conditions, such as whether the <code>Etag</code>
+        /// matches or whether the object was modified before or after a specified date, use the
+        /// request parameters <code>x-amz-copy-source-if-match</code>, <code>x-amz-copy-source-if-none-match</code>,
+        /// <code>x-amz-copy-source-if-unmodified-since</code>, or <code> x-amz-copy-source-if-modified-since</code>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// All headers with the <code>x-amz-</code> prefix, including <code>x-amz-copy-source</code>,
+        /// must be signed.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You can use this operation to change the storage class of an object that is already
+        /// stored in Amazon S3 using the <code>StorageClass</code> parameter. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+        /// Classes</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The source object that you are copying can be encrypted or unencrypted. If the source
+        /// object is encrypted, it can be encrypted by server-side encryption using AWS managed
+        /// encryption keys or by using a customer-provided encryption key. When copying an object,
+        /// you can request that Amazon S3 encrypt the target object by using either the AWS managed
+        /// encryption keys or by using your own encryption key. You can do this regardless of
+        /// the form of server-side encryption that was used to encrypt the source, or even if
+        /// the source object was not encrypted. For more information about server-side encryption,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Using
+        /// Server-Side Encryption</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// A copy request might return an error when Amazon S3 receives the copy request or while
+        /// Amazon S3 is copying the files. If the error occurs before the copy operation starts,
+        /// you receive a standard Amazon S3 error. If the error occurs during the copy operation,
+        /// the error response is embedded in the <code>200 OK</code> response. This means that
+        /// a <code>200 OK</code> response can contain either a success or an error. Design your
+        /// application to parse the contents of the response and handle it appropriately.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the copy is successful, you receive a response with information about the copied
+        /// object.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If the request is an HTTP 1.1 request, the response is chunk encoded. If it were not,
+        /// it would not contain the content-length, and you would need to read the entire body.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Consider the following when using request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  Consideration 1 – If both the <code>x-amz-copy-source-if-match</code> and <code>x-amz-copy-source-if-unmodified-since</code>
+        /// headers are present in the request and evaluate as follows, Amazon S3 returns 200
+        /// OK and copies the data:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-match</code> condition evaluates to true
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-unmodified-since</code> condition evaluates to false
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        ///  Consideration 2 – If both of the <code>x-amz-copy-source-if-none-match</code> and
+        /// <code>x-amz-copy-source-if-modified-since</code> headers are present in the request
+        /// and evaluate as follows, Amazon S3 returns the <code>412 Precondition Failed</code>
+        /// response code:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-none-match</code> condition evaluates to false
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-copy-source-if-modified-since</code> condition evaluates to true
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The copy request charge is based on the storage class and Region you specify for the
+        /// destination object. For pricing information, see <a href="https://aws.amazon.com/s3/pricing/">Amazon
+        /// S3 Pricing</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Following are other considerations when using <code>CopyObject</code>:
+        /// </para>
+        ///  <dl> <dt>Versioning</dt> <dd> 
+        /// <para>
+        /// By default, <code>x-amz-copy-source</code> identifies the current version of an object
+        /// to copy. (If the current version is a delete marker, Amazon S3 behaves as if the object
+        /// was deleted.) To copy a different version, use the <code>versionId</code> subresource.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you enable versioning on the target bucket, Amazon S3 generates a unique version
+        /// ID for the object being copied. This version ID is different from the version ID of
+        /// the source object. Amazon S3 returns the version ID of the copied object in the <code>x-amz-version-id</code>
+        /// response header in the response.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do not enable versioning or suspend it on the target bucket, the version ID
+        /// that Amazon S3 generates is always null.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the source object's storage class is GLACIER, you must restore a copy of this object
+        /// before you can use it as a source object for the copy operation. For more information,
+        /// see .
+        /// </para>
+        ///  </dd> <dt>Access Permissions</dt> <dd> 
+        /// <para>
+        /// When copying an object, you can optionally specify the accounts or groups that should
+        /// be granted specific permissions on the new object. There are two ways to grant the
+        /// permissions using the request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly with the <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
+        /// <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code> headers.
+        /// These parameters map to the set of permissions that Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd> 
+        /// <para>
+        /// To encrypt the target object, you must provide the appropriate encryption-related
+        /// request headers. The one you use depends on whether you want to use AWS managed encryption
+        /// keys or provide your own encryption key. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To encrypt the target object using server-side encryption with an AWS managed encryption
+        /// key, provide the following request headers, as appropriate.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side​-encryption</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side-encryption-aws-kms-key-id</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-server-side-encryption-context</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but don't provide
+        /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS managed
+        /// CMK in AWS KMS to protect the data. If you want to use a customer managed AWS KMS
+        /// CMK, you must provide the <code>x-amz-server-side-encryption-aws-kms-key-id</code>
+        /// of the symmetric customer managed CMK. Amazon S3 only supports symmetric CMKs and
+        /// not asymmetric CMKs. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// All GET and PUT requests for an object protected by AWS KMS fail if you don't make
+        /// them with SSL or by using SigV4.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in KMS</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To encrypt the target object using server-side encryption with an encryption key that
+        /// you provide, use the following headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// If the source object is encrypted using server-side encryption with customer-provided
+        /// encryption keys, you must use the following headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-copy-source​-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-copy-source​-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-copy-source-​server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in Amazon KMS</a>.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt> <dd>
+        /// 
+        /// <para>
+        /// You also can use the following access control–related headers with this operation.
+        /// By default, all objects are private. Only the owner has full access control. When
+        /// adding a new object, you can grant permissions to individual AWS accounts or to predefined
+        /// groups defined by Amazon S3. These permissions are then added to the access control
+        /// list (ACL) on the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>. With this operation, you can grant access permissions using one of the following
+        /// two methods:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set of predefined
+        /// ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined set of grantees
+        /// and permissions. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly — To explicitly grant access permissions to
+        /// specific AWS accounts or groups, use the following headers. Each header maps to specific
+        /// permissions that Amazon S3 supports in an ACL. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>. In the header, you specify a list of grantees who
+        /// get the specific permission. To grant permissions explicitly, use:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-grant-read
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-read-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-full-control
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> </dd> </dl> 
+        /// <para>
+        /// The following operations are related to <code>CopyObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjectsExamples.html">Copying
+        /// Objects</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CopyObject service method.</param>
         /// 
         /// <returns>The response from the CopyObject service method, as returned by S3.</returns>
         public virtual CopyObjectResponse CopyObject(CopyObjectRequest request)
         {
-            var marshaller = CopyObjectRequestMarshaller.Instance;
-            var unmarshaller = CopyObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopyObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopyObjectResponseUnmarshaller.Instance;
 
-            return Invoke<CopyObjectRequest,CopyObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<CopyObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -438,11 +1703,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginCopyObject(CopyObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CopyObjectRequestMarshaller.Instance;
-            var unmarshaller = CopyObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopyObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopyObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CopyObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -462,7 +1727,187 @@ namespace Amazon.S3
         #region  CopyPart
 
         /// <summary>
-        /// Uploads a part by copying data from an existing object as data source.
+        /// Uploads a part by copying data from an existing object as data source. You specify
+        /// the data source by adding the request header <code>x-amz-copy-source</code> in your
+        /// request and a byte range by adding the request header <code>x-amz-copy-source-range</code>
+        /// in your request. 
+        /// 
+        ///  
+        /// <para>
+        /// The minimum allowable part size for a multipart upload is 5 MB. For more information
+        /// about multipart upload limits, go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/qfacts.html">Quick
+        /// Facts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Instead of using an existing object as part data, you might use the <a>UploadPart</a>
+        /// operation and provide data in your request.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You must initiate a multipart upload before you can upload any part. In response to
+        /// your initiate request. Amazon S3 returns a unique identifier, the upload ID, that
+        /// you must include in your upload part request.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about using the <code>UploadPartCopy</code> operation, see the
+        /// following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For conceptual information about multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about permissions required to use the multipart upload API, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about copying objects using a single atomic operation vs. the multipart
+        /// upload, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectOperations.html">Operations
+        /// on Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about using server-side encryption with customer-provided encryption
+        /// keys with the UploadPartCopy operation, see <a>CopyObject</a> and <a>UploadPart</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Note the following additional considerations about the request headers <code>x-amz-copy-source-if-match</code>,
+        /// <code>x-amz-copy-source-if-none-match</code>, <code>x-amz-copy-source-if-unmodified-since</code>,
+        /// and <code>x-amz-copy-source-if-modified-since</code>:
+        /// </para>
+        ///  
+        /// <para>
+        ///  
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Consideration 1</b> - If both of the <code>x-amz-copy-source-if-match</code> and
+        /// <code>x-amz-copy-source-if-unmodified-since</code> headers are present in the request
+        /// as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-match</code> condition evaluates to <code>true</code>,
+        /// and;
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-unmodified-since</code> condition evaluates to <code>false</code>;
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon S3 returns <code>200 OK</code> and copies the data. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Consideration 2</b> - If both of the <code>x-amz-copy-source-if-none-match</code>
+        /// and <code>x-amz-copy-source-if-modified-since</code> headers are present in the request
+        /// as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-none-match</code> condition evaluates to <code>false</code>,
+        /// and;
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-modified-since</code> condition evaluates to <code>true</code>;
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon S3 returns <code>412 Precondition Failed</code> response code. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Versioning</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has versioning enabled, you could have multiple versions of the same
+        /// object. By default, <code>x-amz-copy-source</code> identifies the current version
+        /// of the object to copy. If the current version is a delete marker and you don't specify
+        /// a versionId in the <code>x-amz-copy-source</code>, Amazon S3 returns a 404 error,
+        /// because the object does not exist. If you specify versionId in the <code>x-amz-copy-source</code>
+        /// and the versionId is a delete marker, Amazon S3 returns an HTTP 400 error, because
+        /// you are not allowed to specify a delete marker as a version for the <code>x-amz-copy-source</code>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can optionally specify a specific version of the source object to copy by adding
+        /// the <code>versionId</code> subresource as shown in the following example:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source: /bucket/object?versionId=version id</code> 
+        /// </para>
+        ///  <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: NoSuchUpload</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The specified multipart upload does not exist. The upload ID might be invalid,
+        /// or the multipart upload might have been aborted or completed.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 404 Not Found</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: InvalidRequest</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The specified copy source is not supported as a byte-range copy source.</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 400 Bad Request</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="sourceBucket">A property of CopyPartRequest used to execute the CopyPart service method.</param>
         /// <param name="sourceKey">A property of CopyPartRequest used to execute the CopyPart service method.</param>
@@ -484,7 +1929,187 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Uploads a part by copying data from an existing object as data source.
+        /// Uploads a part by copying data from an existing object as data source. You specify
+        /// the data source by adding the request header <code>x-amz-copy-source</code> in your
+        /// request and a byte range by adding the request header <code>x-amz-copy-source-range</code>
+        /// in your request. 
+        /// 
+        ///  
+        /// <para>
+        /// The minimum allowable part size for a multipart upload is 5 MB. For more information
+        /// about multipart upload limits, go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/qfacts.html">Quick
+        /// Facts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Instead of using an existing object as part data, you might use the <a>UploadPart</a>
+        /// operation and provide data in your request.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You must initiate a multipart upload before you can upload any part. In response to
+        /// your initiate request. Amazon S3 returns a unique identifier, the upload ID, that
+        /// you must include in your upload part request.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about using the <code>UploadPartCopy</code> operation, see the
+        /// following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For conceptual information about multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about permissions required to use the multipart upload API, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about copying objects using a single atomic operation vs. the multipart
+        /// upload, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectOperations.html">Operations
+        /// on Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about using server-side encryption with customer-provided encryption
+        /// keys with the UploadPartCopy operation, see <a>CopyObject</a> and <a>UploadPart</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Note the following additional considerations about the request headers <code>x-amz-copy-source-if-match</code>,
+        /// <code>x-amz-copy-source-if-none-match</code>, <code>x-amz-copy-source-if-unmodified-since</code>,
+        /// and <code>x-amz-copy-source-if-modified-since</code>:
+        /// </para>
+        ///  
+        /// <para>
+        ///  
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Consideration 1</b> - If both of the <code>x-amz-copy-source-if-match</code> and
+        /// <code>x-amz-copy-source-if-unmodified-since</code> headers are present in the request
+        /// as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-match</code> condition evaluates to <code>true</code>,
+        /// and;
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-unmodified-since</code> condition evaluates to <code>false</code>;
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon S3 returns <code>200 OK</code> and copies the data. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Consideration 2</b> - If both of the <code>x-amz-copy-source-if-none-match</code>
+        /// and <code>x-amz-copy-source-if-modified-since</code> headers are present in the request
+        /// as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-none-match</code> condition evaluates to <code>false</code>,
+        /// and;
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-modified-since</code> condition evaluates to <code>true</code>;
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon S3 returns <code>412 Precondition Failed</code> response code. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Versioning</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has versioning enabled, you could have multiple versions of the same
+        /// object. By default, <code>x-amz-copy-source</code> identifies the current version
+        /// of the object to copy. If the current version is a delete marker and you don't specify
+        /// a versionId in the <code>x-amz-copy-source</code>, Amazon S3 returns a 404 error,
+        /// because the object does not exist. If you specify versionId in the <code>x-amz-copy-source</code>
+        /// and the versionId is a delete marker, Amazon S3 returns an HTTP 400 error, because
+        /// you are not allowed to specify a delete marker as a version for the <code>x-amz-copy-source</code>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can optionally specify a specific version of the source object to copy by adding
+        /// the <code>versionId</code> subresource as shown in the following example:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source: /bucket/object?versionId=version id</code> 
+        /// </para>
+        ///  <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: NoSuchUpload</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The specified multipart upload does not exist. The upload ID might be invalid,
+        /// or the multipart upload might have been aborted or completed.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 404 Not Found</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: InvalidRequest</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The specified copy source is not supported as a byte-range copy source.</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 400 Bad Request</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="sourceBucket">A property of CopyPartRequest used to execute the CopyPart service method.</param>
         /// <param name="sourceKey">A property of CopyPartRequest used to execute the CopyPart service method.</param>
@@ -508,17 +2133,198 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Uploads a part by copying data from an existing object as data source.
+        /// Uploads a part by copying data from an existing object as data source. You specify
+        /// the data source by adding the request header <code>x-amz-copy-source</code> in your
+        /// request and a byte range by adding the request header <code>x-amz-copy-source-range</code>
+        /// in your request. 
+        /// 
+        ///  
+        /// <para>
+        /// The minimum allowable part size for a multipart upload is 5 MB. For more information
+        /// about multipart upload limits, go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/qfacts.html">Quick
+        /// Facts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Instead of using an existing object as part data, you might use the <a>UploadPart</a>
+        /// operation and provide data in your request.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You must initiate a multipart upload before you can upload any part. In response to
+        /// your initiate request. Amazon S3 returns a unique identifier, the upload ID, that
+        /// you must include in your upload part request.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about using the <code>UploadPartCopy</code> operation, see the
+        /// following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For conceptual information about multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about permissions required to use the multipart upload API, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about copying objects using a single atomic operation vs. the multipart
+        /// upload, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectOperations.html">Operations
+        /// on Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For information about using server-side encryption with customer-provided encryption
+        /// keys with the UploadPartCopy operation, see <a>CopyObject</a> and <a>UploadPart</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Note the following additional considerations about the request headers <code>x-amz-copy-source-if-match</code>,
+        /// <code>x-amz-copy-source-if-none-match</code>, <code>x-amz-copy-source-if-unmodified-since</code>,
+        /// and <code>x-amz-copy-source-if-modified-since</code>:
+        /// </para>
+        ///  
+        /// <para>
+        ///  
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Consideration 1</b> - If both of the <code>x-amz-copy-source-if-match</code> and
+        /// <code>x-amz-copy-source-if-unmodified-since</code> headers are present in the request
+        /// as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-match</code> condition evaluates to <code>true</code>,
+        /// and;
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-unmodified-since</code> condition evaluates to <code>false</code>;
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon S3 returns <code>200 OK</code> and copies the data. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Consideration 2</b> - If both of the <code>x-amz-copy-source-if-none-match</code>
+        /// and <code>x-amz-copy-source-if-modified-since</code> headers are present in the request
+        /// as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-none-match</code> condition evaluates to <code>false</code>,
+        /// and;
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source-if-modified-since</code> condition evaluates to <code>true</code>;
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon S3 returns <code>412 Precondition Failed</code> response code. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Versioning</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has versioning enabled, you could have multiple versions of the same
+        /// object. By default, <code>x-amz-copy-source</code> identifies the current version
+        /// of the object to copy. If the current version is a delete marker and you don't specify
+        /// a versionId in the <code>x-amz-copy-source</code>, Amazon S3 returns a 404 error,
+        /// because the object does not exist. If you specify versionId in the <code>x-amz-copy-source</code>
+        /// and the versionId is a delete marker, Amazon S3 returns an HTTP 400 error, because
+        /// you are not allowed to specify a delete marker as a version for the <code>x-amz-copy-source</code>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can optionally specify a specific version of the source object to copy by adding
+        /// the <code>versionId</code> subresource as shown in the following example:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-copy-source: /bucket/object?versionId=version id</code> 
+        /// </para>
+        ///  <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: NoSuchUpload</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The specified multipart upload does not exist. The upload ID might be invalid,
+        /// or the multipart upload might have been aborted or completed.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 404 Not Found</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: InvalidRequest</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The specified copy source is not supported as a byte-range copy source.</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 400 Bad Request</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CopyPart service method.</param>
         /// 
         /// <returns>The response from the CopyPart service method, as returned by S3.</returns>
         public virtual CopyPartResponse CopyPart(CopyPartRequest request)
         {
-            var marshaller = CopyPartRequestMarshaller.Instance;
-            var unmarshaller = CopyPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopyPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopyPartResponseUnmarshaller.Instance;
 
-            return Invoke<CopyPartRequest,CopyPartResponse>(request, marshaller, unmarshaller);
+            return Invoke<CopyPartResponse>(request, options);
         }
 
         /// <summary>
@@ -534,11 +2340,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginCopyPart(CopyPartRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CopyPartRequestMarshaller.Instance;
-            var unmarshaller = CopyPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopyPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopyPartResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CopyPartRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -558,10 +2364,22 @@ namespace Amazon.S3
         #region  DeleteBucket
 
         /// <summary>
-        /// Deletes the bucket. All objects (including all object versions and Delete Markers)
+        /// Deletes the bucket. All objects (including all object versions and delete markers)
         /// in the bucket must be deleted before the bucket itself can be deleted.
+        /// 
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteBucketRequest used to execute the DeleteBucket service method.</param>
+        /// <param name="bucketName">Specifies the bucket being deleted.</param>
         /// 
         /// <returns>The response from the DeleteBucket service method, as returned by S3.</returns>
         public virtual DeleteBucketResponse DeleteBucket(string bucketName)
@@ -573,18 +2391,31 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Deletes the bucket. All objects (including all object versions and Delete Markers)
+        /// Deletes the bucket. All objects (including all object versions and delete markers)
         /// in the bucket must be deleted before the bucket itself can be deleted.
+        /// 
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucket service method.</param>
         /// 
         /// <returns>The response from the DeleteBucket service method, as returned by S3.</returns>
         public virtual DeleteBucketResponse DeleteBucket(DeleteBucketRequest request)
         {
-            var marshaller = DeleteBucketRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketRequest,DeleteBucketResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketResponse>(request, options);
         }
 
         /// <summary>
@@ -600,11 +2431,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucket(DeleteBucketRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -626,16 +2457,48 @@ namespace Amazon.S3
         /// <summary>
         /// Deletes an analytics configuration for the bucket (specified by the analytics configuration
         /// ID).
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutAnalyticsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about the Amazon S3 analytics feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html">Amazon
+        /// S3 Analytics – Storage Class Analysis</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketAnalyticsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketAnalyticsConfiguration service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketAnalyticsConfiguration service method, as returned by S3.</returns>
         public virtual DeleteBucketAnalyticsConfigurationResponse DeleteBucketAnalyticsConfiguration(DeleteBucketAnalyticsConfigurationRequest request)
         {
-            var marshaller = DeleteBucketAnalyticsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketAnalyticsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketAnalyticsConfigurationRequest,DeleteBucketAnalyticsConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketAnalyticsConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -651,11 +2514,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketAnalyticsConfiguration(DeleteBucketAnalyticsConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketAnalyticsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketAnalyticsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketAnalyticsConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -675,17 +2538,42 @@ namespace Amazon.S3
         #region  DeleteBucketEncryption
 
         /// <summary>
-        /// Deletes the server-side encryption configuration from the bucket.
+        /// This implementation of the DELETE operation removes default encryption from the bucket.
+        /// For information about the Amazon S3 default encryption feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//bucket-encryption.html">Amazon
+        /// S3 Default Bucket Encryption</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutEncryptionConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+        /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketEncryption</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketEncryption</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketEncryption service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketEncryption service method, as returned by S3.</returns>
         public virtual DeleteBucketEncryptionResponse DeleteBucketEncryption(DeleteBucketEncryptionRequest request)
         {
-            var marshaller = DeleteBucketEncryptionRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketEncryptionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketEncryptionRequest,DeleteBucketEncryptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketEncryptionResponse>(request, options);
         }
 
         /// <summary>
@@ -701,11 +2589,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketEncryption(DeleteBucketEncryptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketEncryptionRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketEncryptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketEncryptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -726,16 +2614,48 @@ namespace Amazon.S3
 
         /// <summary>
         /// Deletes an inventory configuration (identified by the inventory ID) from the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutInventoryConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about the Amazon S3 inventory feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html">Amazon
+        /// S3 Inventory</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Operations related to <code>DeleteBucketInventoryConfiguration</code> include: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBucketInventoryConfigurations</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketInventoryConfiguration service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketInventoryConfiguration service method, as returned by S3.</returns>
         public virtual DeleteBucketInventoryConfigurationResponse DeleteBucketInventoryConfiguration(DeleteBucketInventoryConfigurationRequest request)
         {
-            var marshaller = DeleteBucketInventoryConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketInventoryConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketInventoryConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketInventoryConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketInventoryConfigurationRequest,DeleteBucketInventoryConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketInventoryConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -751,11 +2671,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketInventoryConfiguration(DeleteBucketInventoryConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketInventoryConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketInventoryConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketInventoryConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketInventoryConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketInventoryConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -775,18 +2695,56 @@ namespace Amazon.S3
         #region  DeleteBucketMetricsConfiguration
 
         /// <summary>
-        /// Deletes a metrics configuration (specified by the metrics configuration ID) from the
-        /// bucket.
+        /// Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified
+        /// by the metrics configuration ID) from the bucket. Note that this doesn't include the
+        /// daily storage metrics.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this operation, you must have permissions to perform the <code>s3:PutMetricsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about CloudWatch request metrics for Amazon S3, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html">Monitoring
+        /// Metrics with Amazon CloudWatch</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBucketMetricsConfigurations</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html">Monitoring
+        /// Metrics with Amazon CloudWatch</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketMetricsConfiguration service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketMetricsConfiguration service method, as returned by S3.</returns>
         public virtual DeleteBucketMetricsConfigurationResponse DeleteBucketMetricsConfiguration(DeleteBucketMetricsConfigurationRequest request)
         {
-            var marshaller = DeleteBucketMetricsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketMetricsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketMetricsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketMetricsConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketMetricsConfigurationRequest,DeleteBucketMetricsConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketMetricsConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -802,11 +2760,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketMetricsConfiguration(DeleteBucketMetricsConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketMetricsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketMetricsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketMetricsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketMetricsConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketMetricsConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -826,9 +2784,45 @@ namespace Amazon.S3
         #region  DeleteBucketPolicy
 
         /// <summary>
-        /// Deletes the policy from the bucket.
+        /// This implementation of the DELETE operation uses the policy subresource to delete
+        /// the policy of a specified bucket. If you are using an identity other than the root
+        /// user of the AWS account that owns the bucket, the calling identity must have the <code>DeleteBucketPolicy</code>
+        /// permissions on the specified bucket and belong to the bucket owner's account to use
+        /// this operation. 
+        /// 
+        ///  
+        /// <para>
+        /// If you don't have <code>DeleteBucketPolicy</code> permissions, Amazon S3 returns a
+        /// <code>403 Access Denied</code> error. If you have the correct permissions, but you're
+        /// not using an identity that belongs to the bucket owner's account, Amazon S3 returns
+        /// a <code>405 Method Not Allowed</code> error. 
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// As a security precaution, the root user of the AWS account that owns a bucket can
+        /// always use this operation, even if the policy explicitly denies the root user the
+        /// ability to perform this action.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about bucket policies, see <a href=" https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies and UserPolicies</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketPolicy</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteBucketPolicyRequest used to execute the DeleteBucketPolicy service method.</param>
+        /// <param name="bucketName">The bucket name.</param>
         /// 
         /// <returns>The response from the DeleteBucketPolicy service method, as returned by S3.</returns>
         public virtual DeleteBucketPolicyResponse DeleteBucketPolicy(string bucketName)
@@ -840,17 +2834,54 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Deletes the policy from the bucket.
+        /// This implementation of the DELETE operation uses the policy subresource to delete
+        /// the policy of a specified bucket. If you are using an identity other than the root
+        /// user of the AWS account that owns the bucket, the calling identity must have the <code>DeleteBucketPolicy</code>
+        /// permissions on the specified bucket and belong to the bucket owner's account to use
+        /// this operation. 
+        /// 
+        ///  
+        /// <para>
+        /// If you don't have <code>DeleteBucketPolicy</code> permissions, Amazon S3 returns a
+        /// <code>403 Access Denied</code> error. If you have the correct permissions, but you're
+        /// not using an identity that belongs to the bucket owner's account, Amazon S3 returns
+        /// a <code>405 Method Not Allowed</code> error. 
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// As a security precaution, the root user of the AWS account that owns a bucket can
+        /// always use this operation, even if the policy explicitly denies the root user the
+        /// ability to perform this action.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about bucket policies, see <a href=" https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies and UserPolicies</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketPolicy</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketPolicy service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketPolicy service method, as returned by S3.</returns>
         public virtual DeleteBucketPolicyResponse DeleteBucketPolicy(DeleteBucketPolicyRequest request)
         {
-            var marshaller = DeleteBucketPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketPolicyRequest,DeleteBucketPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -866,11 +2897,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketPolicy(DeleteBucketPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -891,16 +2922,48 @@ namespace Amazon.S3
 
         /// <summary>
         /// Deletes the replication configuration from the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutReplicationConfiguration</code>
+        /// action. The bucket owner has these permissions by default and can grant it to others.
+        /// For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// It can take a while for the deletion of a replication configuration to fully propagate.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  For information about replication configuration, see <a href=" https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
+        /// in the <i>Amazon S3 Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketReplication</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketReplication</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketReplication</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketReplication service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketReplication service method, as returned by S3.</returns>
         public virtual DeleteBucketReplicationResponse DeleteBucketReplication(DeleteBucketReplicationRequest request)
         {
-            var marshaller = DeleteBucketReplicationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketReplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketReplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketReplicationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketReplicationRequest,DeleteBucketReplicationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketReplicationResponse>(request, options);
         }
 
         /// <summary>
@@ -916,11 +2979,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketReplication(DeleteBucketReplicationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketReplicationRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketReplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketReplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketReplicationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketReplicationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -941,8 +3004,28 @@ namespace Amazon.S3
 
         /// <summary>
         /// Deletes the tags from the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:PutBucketTagging</code>
+        /// action. By default, the bucket owner has this permission and can grant this permission
+        /// to others. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketTagging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketTagging</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteBucketTaggingRequest used to execute the DeleteBucketTagging service method.</param>
+        /// <param name="bucketName">The bucket that has the tag set to be removed.</param>
         /// 
         /// <returns>The response from the DeleteBucketTagging service method, as returned by S3.</returns>
         public virtual DeleteBucketTaggingResponse DeleteBucketTagging(string bucketName)
@@ -955,16 +3038,37 @@ namespace Amazon.S3
 
         /// <summary>
         /// Deletes the tags from the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:PutBucketTagging</code>
+        /// action. By default, the bucket owner has this permission and can grant this permission
+        /// to others. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketTagging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketTagging</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketTagging service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketTagging service method, as returned by S3.</returns>
         public virtual DeleteBucketTaggingResponse DeleteBucketTagging(DeleteBucketTaggingRequest request)
         {
-            var marshaller = DeleteBucketTaggingRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketTaggingResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketTaggingRequest,DeleteBucketTaggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketTaggingResponse>(request, options);
         }
 
         /// <summary>
@@ -980,11 +3084,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketTagging(DeleteBucketTaggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketTaggingRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketTaggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketTaggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1004,9 +3108,40 @@ namespace Amazon.S3
         #region  DeleteBucketWebsite
 
         /// <summary>
-        /// This operation removes the website configuration from the bucket.
+        /// This operation removes the website configuration for a bucket. Amazon S3 returns a
+        /// <code>200 OK</code> response upon successfully deleting a website configuration on
+        /// the specified bucket. You will get a <code>200 OK</code> response if the website configuration
+        /// you are trying to delete does not exist on the bucket. Amazon S3 returns a <code>404</code>
+        /// response if the bucket specified in the request does not exist.
+        /// 
+        ///  
+        /// <para>
+        /// This DELETE operation requires the <code>S3:DeleteBucketWebsite</code> permission.
+        /// By default, only the bucket owner can delete the website configuration attached to
+        /// a bucket. However, bucket owners can grant other users permission to delete the website
+        /// configuration by writing a bucket policy granting them the <code>S3:DeleteBucketWebsite</code>
+        /// permission. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about hosting websites, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
+        /// Websites on Amazon S3</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketWebsite</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketWebsite</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketWebsite</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteBucketWebsiteRequest used to execute the DeleteBucketWebsite service method.</param>
+        /// <param name="bucketName">The bucket name for which you want to remove the website configuration. </param>
         /// 
         /// <returns>The response from the DeleteBucketWebsite service method, as returned by S3.</returns>
         public virtual DeleteBucketWebsiteResponse DeleteBucketWebsite(string bucketName)
@@ -1018,17 +3153,49 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// This operation removes the website configuration from the bucket.
+        /// This operation removes the website configuration for a bucket. Amazon S3 returns a
+        /// <code>200 OK</code> response upon successfully deleting a website configuration on
+        /// the specified bucket. You will get a <code>200 OK</code> response if the website configuration
+        /// you are trying to delete does not exist on the bucket. Amazon S3 returns a <code>404</code>
+        /// response if the bucket specified in the request does not exist.
+        /// 
+        ///  
+        /// <para>
+        /// This DELETE operation requires the <code>S3:DeleteBucketWebsite</code> permission.
+        /// By default, only the bucket owner can delete the website configuration attached to
+        /// a bucket. However, bucket owners can grant other users permission to delete the website
+        /// configuration by writing a bucket policy granting them the <code>S3:DeleteBucketWebsite</code>
+        /// permission. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about hosting websites, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
+        /// Websites on Amazon S3</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketWebsite</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketWebsite</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketWebsite</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBucketWebsite service method.</param>
         /// 
         /// <returns>The response from the DeleteBucketWebsite service method, as returned by S3.</returns>
         public virtual DeleteBucketWebsiteResponse DeleteBucketWebsite(DeleteBucketWebsiteRequest request)
         {
-            var marshaller = DeleteBucketWebsiteRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketWebsiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketWebsiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketWebsiteResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBucketWebsiteRequest,DeleteBucketWebsiteResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBucketWebsiteResponse>(request, options);
         }
 
         /// <summary>
@@ -1044,11 +3211,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBucketWebsite(DeleteBucketWebsiteRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBucketWebsiteRequestMarshaller.Instance;
-            var unmarshaller = DeleteBucketWebsiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBucketWebsiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBucketWebsiteResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBucketWebsiteRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1068,9 +3235,33 @@ namespace Amazon.S3
         #region  DeleteCORSConfiguration
 
         /// <summary>
-        /// Deletes the cors configuration information set for the bucket.
+        /// Deletes the <code>cors</code> configuration information set for the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:PutBucketCORS</code>
+        /// action. The bucket owner has this permission by default and can grant this permission
+        /// to others. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about <code>cors</code>, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
+        /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources:</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>RESTOPTIONSobject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteCORSConfigurationRequest used to execute the DeleteCORSConfiguration service method.</param>
+        /// <param name="bucketName">Specifies the bucket whose <code>cors</code> configuration is being deleted.</param>
         /// 
         /// <returns>The response from the DeleteCORSConfiguration service method, as returned by S3.</returns>
         public virtual DeleteCORSConfigurationResponse DeleteCORSConfiguration(string bucketName)
@@ -1082,17 +3273,42 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Deletes the cors configuration information set for the bucket.
+        /// Deletes the <code>cors</code> configuration information set for the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:PutBucketCORS</code>
+        /// action. The bucket owner has this permission by default and can grant this permission
+        /// to others. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about <code>cors</code>, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
+        /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources:</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>RESTOPTIONSobject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteCORSConfiguration service method.</param>
         /// 
         /// <returns>The response from the DeleteCORSConfiguration service method, as returned by S3.</returns>
         public virtual DeleteCORSConfigurationResponse DeleteCORSConfiguration(DeleteCORSConfigurationRequest request)
         {
-            var marshaller = DeleteCORSConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteCORSConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCORSConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCORSConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCORSConfigurationRequest,DeleteCORSConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCORSConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1108,11 +3324,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteCORSConfiguration(DeleteCORSConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteCORSConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteCORSConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCORSConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCORSConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteCORSConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1132,9 +3348,42 @@ namespace Amazon.S3
         #region  DeleteLifecycleConfiguration
 
         /// <summary>
-        /// Deletes the lifecycle configuration from the bucket.
+        /// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all
+        /// the lifecycle configuration rules in the lifecycle subresource associated with the
+        /// bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any
+        /// objects on the basis of rules contained in the deleted lifecycle configuration.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:PutLifecycleConfiguration</code>
+        /// action. By default, the bucket owner has this permission and the bucket owner can
+        /// grant this permission to others.
+        /// </para>
+        ///  
+        /// <para>
+        /// There is usually some time lag before lifecycle configuration deletion is fully propagated
+        /// to all the Amazon S3 systems.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the object expiration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions">Elements
+        /// to Describe Lifecycle Actions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Related actions include:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteLifecycleConfigurationRequest used to execute the DeleteLifecycleConfiguration service method.</param>
+        /// <param name="bucketName">The bucket name of the lifecycle to delete.</param>
         /// 
         /// <returns>The response from the DeleteLifecycleConfiguration service method, as returned by S3.</returns>
         public virtual DeleteLifecycleConfigurationResponse DeleteLifecycleConfiguration(string bucketName)
@@ -1146,17 +3395,51 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Deletes the lifecycle configuration from the bucket.
+        /// Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all
+        /// the lifecycle configuration rules in the lifecycle subresource associated with the
+        /// bucket. Your objects never expire, and Amazon S3 no longer automatically deletes any
+        /// objects on the basis of rules contained in the deleted lifecycle configuration.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:PutLifecycleConfiguration</code>
+        /// action. By default, the bucket owner has this permission and the bucket owner can
+        /// grant this permission to others.
+        /// </para>
+        ///  
+        /// <para>
+        /// There is usually some time lag before lifecycle configuration deletion is fully propagated
+        /// to all the Amazon S3 systems.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the object expiration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions">Elements
+        /// to Describe Lifecycle Actions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Related actions include:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLifecycleConfiguration service method.</param>
         /// 
         /// <returns>The response from the DeleteLifecycleConfiguration service method, as returned by S3.</returns>
         public virtual DeleteLifecycleConfigurationResponse DeleteLifecycleConfiguration(DeleteLifecycleConfigurationRequest request)
         {
-            var marshaller = DeleteLifecycleConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteLifecycleConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecycleConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecycleConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLifecycleConfigurationRequest,DeleteLifecycleConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLifecycleConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1172,11 +3455,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteLifecycleConfiguration(DeleteLifecycleConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLifecycleConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteLifecycleConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecycleConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecycleConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLifecycleConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1199,9 +3482,47 @@ namespace Amazon.S3
         /// Removes the null version (if there is one) of an object and inserts a delete marker,
         /// which becomes the latest version of the object. If there isn't a null version, Amazon
         /// S3 does not remove any objects.
+        /// 
+        ///  
+        /// <para>
+        /// To remove a specific version, you must be the bucket owner and you must use the version
+        /// Id subresource. Using this subresource permanently deletes the version. If the object
+        /// deleted is a delete marker, Amazon S3 sets the response header, <code>x-amz-delete-marker</code>,
+        /// to true. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If the object you want to delete is in a bucket where the bucket versioning configuration
+        /// is MFA Delete enabled, you must include the <code>x-amz-mfa</code> request header
+        /// in the DELETE <code>versionId</code> request. Requests that include <code>x-amz-mfa</code>
+        /// must use HTTPS. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information about MFA Delete, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html">Using
+        /// MFA Delete</a>. To see sample requests that use versioning, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete">Sample
+        /// Request</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can delete objects by explicitly calling the DELETE Object API or configure its
+        /// lifecycle (<a>PutBucketLifecycle</a>) to enable Amazon S3 to remove them for you.
+        /// If you want to block users or accounts from removing or deleting objects from your
+        /// bucket, you must deny them the <code>s3:DeleteObject</code>, <code>s3:DeleteObjectVersion</code>,
+        /// and <code>s3:PutLifeCycleConfiguration</code> actions. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>DeleteObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteObjectRequest used to execute the DeleteObject service method.</param>
-        /// <param name="key">A property of DeleteObjectRequest used to execute the DeleteObject service method.</param>
+        /// <param name="bucketName">The bucket name of the bucket containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Key name of the object to delete.</param>
         /// 
         /// <returns>The response from the DeleteObject service method, as returned by S3.</returns>
         public virtual DeleteObjectResponse DeleteObject(string bucketName, string key)
@@ -1217,9 +3538,47 @@ namespace Amazon.S3
         /// Removes the null version (if there is one) of an object and inserts a delete marker,
         /// which becomes the latest version of the object. If there isn't a null version, Amazon
         /// S3 does not remove any objects.
+        /// 
+        ///  
+        /// <para>
+        /// To remove a specific version, you must be the bucket owner and you must use the version
+        /// Id subresource. Using this subresource permanently deletes the version. If the object
+        /// deleted is a delete marker, Amazon S3 sets the response header, <code>x-amz-delete-marker</code>,
+        /// to true. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If the object you want to delete is in a bucket where the bucket versioning configuration
+        /// is MFA Delete enabled, you must include the <code>x-amz-mfa</code> request header
+        /// in the DELETE <code>versionId</code> request. Requests that include <code>x-amz-mfa</code>
+        /// must use HTTPS. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information about MFA Delete, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html">Using
+        /// MFA Delete</a>. To see sample requests that use versioning, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete">Sample
+        /// Request</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can delete objects by explicitly calling the DELETE Object API or configure its
+        /// lifecycle (<a>PutBucketLifecycle</a>) to enable Amazon S3 to remove them for you.
+        /// If you want to block users or accounts from removing or deleting objects from your
+        /// bucket, you must deny them the <code>s3:DeleteObject</code>, <code>s3:DeleteObjectVersion</code>,
+        /// and <code>s3:PutLifeCycleConfiguration</code> actions. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>DeleteObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of DeleteObjectRequest used to execute the DeleteObject service method.</param>
-        /// <param name="key">A property of DeleteObjectRequest used to execute the DeleteObject service method.</param>
+        /// <param name="bucketName">The bucket name of the bucket containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Key name of the object to delete.</param>
         /// <param name="versionId">VersionId used to reference a specific version of the object.</param>
         /// 
         /// <returns>The response from the DeleteObject service method, as returned by S3.</returns>
@@ -1237,16 +3596,55 @@ namespace Amazon.S3
         /// Removes the null version (if there is one) of an object and inserts a delete marker,
         /// which becomes the latest version of the object. If there isn't a null version, Amazon
         /// S3 does not remove any objects.
+        /// 
+        ///  
+        /// <para>
+        /// To remove a specific version, you must be the bucket owner and you must use the version
+        /// Id subresource. Using this subresource permanently deletes the version. If the object
+        /// deleted is a delete marker, Amazon S3 sets the response header, <code>x-amz-delete-marker</code>,
+        /// to true. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If the object you want to delete is in a bucket where the bucket versioning configuration
+        /// is MFA Delete enabled, you must include the <code>x-amz-mfa</code> request header
+        /// in the DELETE <code>versionId</code> request. Requests that include <code>x-amz-mfa</code>
+        /// must use HTTPS. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information about MFA Delete, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html">Using
+        /// MFA Delete</a>. To see sample requests that use versioning, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete">Sample
+        /// Request</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can delete objects by explicitly calling the DELETE Object API or configure its
+        /// lifecycle (<a>PutBucketLifecycle</a>) to enable Amazon S3 to remove them for you.
+        /// If you want to block users or accounts from removing or deleting objects from your
+        /// bucket, you must deny them the <code>s3:DeleteObject</code>, <code>s3:DeleteObjectVersion</code>,
+        /// and <code>s3:PutLifeCycleConfiguration</code> actions. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>DeleteObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteObject service method.</param>
         /// 
         /// <returns>The response from the DeleteObject service method, as returned by S3.</returns>
         public virtual DeleteObjectResponse DeleteObject(DeleteObjectRequest request)
         {
-            var marshaller = DeleteObjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteObjectRequest,DeleteObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -1262,11 +3660,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteObject(DeleteObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteObjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1287,17 +3685,79 @@ namespace Amazon.S3
 
         /// <summary>
         /// This operation enables you to delete multiple objects from a bucket using a single
-        /// HTTP request. You may specify up to 1000 keys.
+        /// HTTP request. If you know the object keys that you want to delete, then this operation
+        /// provides a suitable alternative to sending individual delete requests, reducing per-request
+        /// overhead.
+        /// 
+        ///  
+        /// <para>
+        /// The request contains a list of up to 1000 keys that you want to delete. In the XML,
+        /// you provide the object key names, and optionally, version IDs if you want to delete
+        /// a specific version of the object from a versioning-enabled bucket. For each key, Amazon
+        /// S3 performs a delete operation and returns the result of that delete, success, or
+        /// failure, in the response. Note that if the object specified in the request is not
+        /// found, Amazon S3 returns the result as deleted.
+        /// </para>
+        ///  
+        /// <para>
+        ///  The operation supports two modes for the response: verbose and quiet. By default,
+        /// the operation uses verbose mode in which the response includes the result of deletion
+        /// of each key in your request. In quiet mode the response includes only keys where the
+        /// delete operation encountered an error. For a successful deletion, the operation does
+        /// not return any information about the delete in the response body.
+        /// </para>
+        ///  
+        /// <para>
+        /// When performing this operation on an MFA Delete enabled bucket, that attempts to delete
+        /// any versioned objects, you must include an MFA token. If you do not provide one, the
+        /// entire request will fail, even if there are non-versioned objects you are trying to
+        /// delete. If you provide an invalid token, whether there are versioned keys in the request
+        /// or not, the entire Multi-Object Delete request will fail. For information about MFA
+        /// Delete, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete">
+        /// MFA Delete</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Finally, the Content-MD5 header is required for all Multi-Object Delete requests.
+        /// Amazon S3 uses the header value to ensure that your request body has not been altered
+        /// in transit.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteObjects</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteObjects service method.</param>
         /// 
         /// <returns>The response from the DeleteObjects service method, as returned by S3.</returns>
         public virtual DeleteObjectsResponse DeleteObjects(DeleteObjectsRequest request)
         {
-            var marshaller = DeleteObjectsRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectsResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteObjectsRequest,DeleteObjectsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteObjectsResponse>(request, options);
         }
 
         /// <summary>
@@ -1313,11 +3773,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteObjects(DeleteObjectsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteObjectsRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteObjectsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1337,17 +3797,45 @@ namespace Amazon.S3
         #region  DeleteObjectTagging
 
         /// <summary>
-        /// Removes the tag-set from an existing object.
+        /// Removes the entire tag set from the specified object. For more information about managing
+        /// object tags, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html">
+        /// Object Tagging</a>.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:DeleteObjectTagging</code>
+        /// action.
+        /// </para>
+        ///  
+        /// <para>
+        /// To delete tags of a specific object version, add the <code>versionId</code> query
+        /// parameter in the request. You will need permission for the <code>s3:DeleteObjectVersionTagging</code>
+        /// action.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObjectTagging</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObjectTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteObjectTagging service method.</param>
         /// 
         /// <returns>The response from the DeleteObjectTagging service method, as returned by S3.</returns>
         public virtual DeleteObjectTaggingResponse DeleteObjectTagging(DeleteObjectTaggingRequest request)
         {
-            var marshaller = DeleteObjectTaggingRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectTaggingResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteObjectTaggingRequest,DeleteObjectTaggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteObjectTaggingResponse>(request, options);
         }
 
         /// <summary>
@@ -1363,11 +3851,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteObjectTagging(DeleteObjectTaggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteObjectTaggingRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectTaggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteObjectTaggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1384,12 +3872,102 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  DeletePublicAccessBlock
+
+        /// <summary>
+        /// Removes the <code>PublicAccessBlock</code> configuration for an Amazon S3 bucket.
+        /// To use this operation, you must have the <code>s3:PutBucketPublicAccessBlock</code>
+        /// permission. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">Using
+        /// Amazon S3 Block Public Access</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetPublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutPublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketPolicyStatus</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeletePublicAccessBlock service method.</param>
+        /// 
+        /// <returns>The response from the DeletePublicAccessBlock service method, as returned by S3.</returns>
+        public virtual DeletePublicAccessBlockResponse DeletePublicAccessBlock(DeletePublicAccessBlockRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePublicAccessBlockRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePublicAccessBlockResponseUnmarshaller.Instance;
+
+            return Invoke<DeletePublicAccessBlockResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeletePublicAccessBlock operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeletePublicAccessBlock operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeletePublicAccessBlock
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeletePublicAccessBlock(DeletePublicAccessBlockRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePublicAccessBlockRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePublicAccessBlockResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeletePublicAccessBlock operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeletePublicAccessBlock.</param>
+        /// 
+        /// <returns>Returns a  DeletePublicAccessBlockResult from S3.</returns>
+        public virtual DeletePublicAccessBlockResponse EndDeletePublicAccessBlock(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeletePublicAccessBlockResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetACL
 
         /// <summary>
-        /// Gets the access control policy for the bucket.
+        /// This implementation of the <code>GET</code> operation uses the <code>acl</code> subresource
+        /// to return the access control list (ACL) of a bucket. To use <code>GET</code> to return
+        /// the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If
+        /// <code>READ_ACP</code> permission is granted to the anonymous user, you can return
+        /// the ACL of the bucket without using an authorization header.
+        /// 
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetACLRequest used to execute the GetACL service method.</param>
+        /// <param name="bucketName">Specifies the S3 bucket whose ACL is being requested.</param>
         /// 
         /// <returns>The response from the GetACL service method, as returned by S3.</returns>
         public virtual GetACLResponse GetACL(string bucketName)
@@ -1401,17 +3979,30 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Gets the access control policy for the bucket.
+        /// This implementation of the <code>GET</code> operation uses the <code>acl</code> subresource
+        /// to return the access control list (ACL) of a bucket. To use <code>GET</code> to return
+        /// the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If
+        /// <code>READ_ACP</code> permission is granted to the anonymous user, you can return
+        /// the ACL of the bucket without using an authorization header.
+        /// 
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetACL service method.</param>
         /// 
         /// <returns>The response from the GetACL service method, as returned by S3.</returns>
         public virtual GetACLResponse GetACL(GetACLRequest request)
         {
-            var marshaller = GetACLRequestMarshaller.Instance;
-            var unmarshaller = GetACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetACLResponseUnmarshaller.Instance;
 
-            return Invoke<GetACLRequest,GetACLResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetACLResponse>(request, options);
         }
 
         /// <summary>
@@ -1427,11 +4018,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetACL(GetACLRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetACLRequestMarshaller.Instance;
-            var unmarshaller = GetACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetACLResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetACLRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1451,7 +4042,44 @@ namespace Amazon.S3
         #region  GetBucketAccelerateConfiguration
 
         /// <summary>
-        /// Returns the accelerate configuration of a bucket.
+        /// This implementation of the GET operation uses the <code>accelerate</code> subresource
+        /// to return the Transfer Acceleration state of a bucket, which is either <code>Enabled</code>
+        /// or <code>Suspended</code>. Amazon S3 Transfer Acceleration is a bucket-level feature
+        /// that enables you to perform faster data transfers to and from Amazon S3.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:GetAccelerateConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+        /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You set the Transfer Acceleration state of an existing bucket to <code>Enabled</code>
+        /// or <code>Suspended</code> by using the <a>PutBucketAccelerateConfiguration</a> operation.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// A GET <code>accelerate</code> request does not return a state value for a bucket that
+        /// has no transfer acceleration state. A bucket has no Transfer Acceleration state if
+        /// a state has never been set on the bucket. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about transfer acceleration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//transfer-acceleration.html">Transfer
+        /// Acceleration</a> in the Amazon Simple Storage Service Developer Guide.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketAccelerateConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="bucketName">Name of the bucket for which the accelerate configuration is retrieved.</param>
         /// 
@@ -1465,17 +4093,55 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns the accelerate configuration of a bucket.
+        /// This implementation of the GET operation uses the <code>accelerate</code> subresource
+        /// to return the Transfer Acceleration state of a bucket, which is either <code>Enabled</code>
+        /// or <code>Suspended</code>. Amazon S3 Transfer Acceleration is a bucket-level feature
+        /// that enables you to perform faster data transfers to and from Amazon S3.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:GetAccelerateConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+        /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You set the Transfer Acceleration state of an existing bucket to <code>Enabled</code>
+        /// or <code>Suspended</code> by using the <a>PutBucketAccelerateConfiguration</a> operation.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// A GET <code>accelerate</code> request does not return a state value for a bucket that
+        /// has no transfer acceleration state. A bucket has no Transfer Acceleration state if
+        /// a state has never been set on the bucket. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about transfer acceleration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//transfer-acceleration.html">Transfer
+        /// Acceleration</a> in the Amazon Simple Storage Service Developer Guide.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketAccelerateConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketAccelerateConfiguration service method.</param>
         /// 
         /// <returns>The response from the GetBucketAccelerateConfiguration service method, as returned by S3.</returns>
         public virtual GetBucketAccelerateConfigurationResponse GetBucketAccelerateConfiguration(GetBucketAccelerateConfigurationRequest request)
         {
-            var marshaller = GetBucketAccelerateConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketAccelerateConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketAccelerateConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketAccelerateConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketAccelerateConfigurationRequest,GetBucketAccelerateConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketAccelerateConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1491,11 +4157,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketAccelerateConfiguration(GetBucketAccelerateConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketAccelerateConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketAccelerateConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketAccelerateConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketAccelerateConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketAccelerateConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1515,18 +4181,50 @@ namespace Amazon.S3
         #region  GetBucketAnalyticsConfiguration
 
         /// <summary>
-        /// Gets an analytics configuration for the bucket (specified by the analytics configuration
-        /// ID).
+        /// This implementation of the GET operation returns an analytics configuration (identified
+        /// by the analytics configuration ID) from the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:GetAnalyticsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">
+        /// Permissions Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about Amazon S3 analytics feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html">Amazon
+        /// S3 Analytics – Storage Class Analysis</a> in the <i>Amazon Simple Storage Service
+        /// Developer Guide</i>.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketAnalyticsConfiguration service method.</param>
         /// 
         /// <returns>The response from the GetBucketAnalyticsConfiguration service method, as returned by S3.</returns>
         public virtual GetBucketAnalyticsConfigurationResponse GetBucketAnalyticsConfiguration(GetBucketAnalyticsConfigurationRequest request)
         {
-            var marshaller = GetBucketAnalyticsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketAnalyticsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketAnalyticsConfigurationRequest,GetBucketAnalyticsConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketAnalyticsConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1542,11 +4240,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketAnalyticsConfiguration(GetBucketAnalyticsConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketAnalyticsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketAnalyticsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketAnalyticsConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1566,17 +4264,42 @@ namespace Amazon.S3
         #region  GetBucketEncryption
 
         /// <summary>
-        /// Returns the server-side encryption configuration of a bucket.
+        /// Returns the default encryption configuration for an Amazon S3 bucket. For information
+        /// about the Amazon S3 default encryption feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
+        /// S3 Default Bucket Encryption</a>.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this operation, you must have permission to perform the <code>s3:GetEncryptionConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketEncryption</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketEncryption</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketEncryption</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketEncryption service method.</param>
         /// 
         /// <returns>The response from the GetBucketEncryption service method, as returned by S3.</returns>
         public virtual GetBucketEncryptionResponse GetBucketEncryption(GetBucketEncryptionRequest request)
         {
-            var marshaller = GetBucketEncryptionRequestMarshaller.Instance;
-            var unmarshaller = GetBucketEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketEncryptionResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketEncryptionRequest,GetBucketEncryptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketEncryptionResponse>(request, options);
         }
 
         /// <summary>
@@ -1592,11 +4315,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketEncryption(GetBucketEncryptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketEncryptionRequestMarshaller.Instance;
-            var unmarshaller = GetBucketEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketEncryptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketEncryptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1616,17 +4339,50 @@ namespace Amazon.S3
         #region  GetBucketInventoryConfiguration
 
         /// <summary>
-        /// Returns an inventory configuration (identified by the inventory ID) from the bucket.
+        /// Returns an inventory configuration (identified by the inventory configuration ID)
+        /// from the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:GetInventoryConfiguration</code>
+        /// action. The bucket owner has this permission by default and can grant this permission
+        /// to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about the Amazon S3 inventory feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html">Amazon
+        /// S3 Inventory</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketInventoryConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>DeleteBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBucketInventoryConfigurations</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketInventoryConfiguration service method.</param>
         /// 
         /// <returns>The response from the GetBucketInventoryConfiguration service method, as returned by S3.</returns>
         public virtual GetBucketInventoryConfigurationResponse GetBucketInventoryConfiguration(GetBucketInventoryConfigurationRequest request)
         {
-            var marshaller = GetBucketInventoryConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketInventoryConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketInventoryConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketInventoryConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketInventoryConfigurationRequest,GetBucketInventoryConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketInventoryConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1642,11 +4398,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketInventoryConfiguration(GetBucketInventoryConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketInventoryConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketInventoryConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketInventoryConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketInventoryConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketInventoryConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1666,9 +4422,29 @@ namespace Amazon.S3
         #region  GetBucketLocation
 
         /// <summary>
-        /// Returns the region the bucket resides in.
+        /// Returns the Region the bucket resides in. You set the bucket's Region using the <code>LocationConstraint</code>
+        /// request parameter in a <code>CreateBucket</code> request. For more information, see
+        /// <a>CreateBucket</a>.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this implementation of the operation, you must be the bucket owner.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketLocation</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetBucketLocationRequest used to execute the GetBucketLocation service method.</param>
+        /// <param name="bucketName">The name of the bucket for which to get the location.</param>
         /// 
         /// <returns>The response from the GetBucketLocation service method, as returned by S3.</returns>
         public virtual GetBucketLocationResponse GetBucketLocation(string bucketName)
@@ -1680,17 +4456,38 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns the region the bucket resides in.
+        /// Returns the Region the bucket resides in. You set the bucket's Region using the <code>LocationConstraint</code>
+        /// request parameter in a <code>CreateBucket</code> request. For more information, see
+        /// <a>CreateBucket</a>.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this implementation of the operation, you must be the bucket owner.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketLocation</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketLocation service method.</param>
         /// 
         /// <returns>The response from the GetBucketLocation service method, as returned by S3.</returns>
         public virtual GetBucketLocationResponse GetBucketLocation(GetBucketLocationRequest request)
         {
-            var marshaller = GetBucketLocationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketLocationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketLocationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketLocationResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketLocationRequest,GetBucketLocationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketLocationResponse>(request, options);
         }
 
         /// <summary>
@@ -1706,11 +4503,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketLocation(GetBucketLocationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketLocationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketLocationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketLocationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketLocationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketLocationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1732,8 +4529,22 @@ namespace Amazon.S3
         /// <summary>
         /// Returns the logging status of a bucket and the permissions users have to view and
         /// modify that status. To use GET, you must be the bucket owner.
+        /// 
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketLogging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketLogging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetBucketLoggingRequest used to execute the GetBucketLogging service method.</param>
+        /// <param name="bucketName">The bucket name for which to get the logging information.</param>
         /// 
         /// <returns>The response from the GetBucketLogging service method, as returned by S3.</returns>
         public virtual GetBucketLoggingResponse GetBucketLogging(string bucketName)
@@ -1747,16 +4558,31 @@ namespace Amazon.S3
         /// <summary>
         /// Returns the logging status of a bucket and the permissions users have to view and
         /// modify that status. To use GET, you must be the bucket owner.
+        /// 
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketLogging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketLogging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketLogging service method.</param>
         /// 
         /// <returns>The response from the GetBucketLogging service method, as returned by S3.</returns>
         public virtual GetBucketLoggingResponse GetBucketLogging(GetBucketLoggingRequest request)
         {
-            var marshaller = GetBucketLoggingRequestMarshaller.Instance;
-            var unmarshaller = GetBucketLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketLoggingResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketLoggingRequest,GetBucketLoggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketLoggingResponse>(request, options);
         }
 
         /// <summary>
@@ -1772,11 +4598,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketLogging(GetBucketLoggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketLoggingRequestMarshaller.Instance;
-            var unmarshaller = GetBucketLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketLoggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketLoggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1797,17 +4623,54 @@ namespace Amazon.S3
 
         /// <summary>
         /// Gets a metrics configuration (specified by the metrics configuration ID) from the
-        /// bucket.
+        /// bucket. Note that this doesn't include the daily storage metrics.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this operation, you must have permissions to perform the <code>s3:GetMetricsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  For information about CloudWatch request metrics for Amazon S3, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html">Monitoring
+        /// Metrics with Amazon CloudWatch</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBucketMetricsConfigurations</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html">Monitoring
+        /// Metrics with Amazon CloudWatch</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketMetricsConfiguration service method.</param>
         /// 
         /// <returns>The response from the GetBucketMetricsConfiguration service method, as returned by S3.</returns>
         public virtual GetBucketMetricsConfigurationResponse GetBucketMetricsConfiguration(GetBucketMetricsConfigurationRequest request)
         {
-            var marshaller = GetBucketMetricsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketMetricsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketMetricsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketMetricsConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketMetricsConfigurationRequest,GetBucketMetricsConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketMetricsConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1823,11 +4686,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketMetricsConfiguration(GetBucketMetricsConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketMetricsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketMetricsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketMetricsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketMetricsConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketMetricsConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1848,8 +4711,38 @@ namespace Amazon.S3
 
         /// <summary>
         /// Returns the notification configuration of a bucket.
+        /// 
+        ///  
+        /// <para>
+        /// If notifications are not enabled on the bucket, the operation returns an empty <code>NotificationConfiguration</code>
+        /// element.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, you must be the bucket owner to read the notification configuration of
+        /// a bucket. However, the bucket owner can use a bucket policy to grant permission to
+        /// other users to read this configuration with the <code>s3:GetBucketNotification</code>
+        /// permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about setting and reading the notification configuration on a
+        /// bucket, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Setting
+        /// Up Notification of Bucket Events</a>. For more information about bucket policies,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>GetBucketNotification</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketNotification</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">Name of the bucket to get the notification configuration for.</param>
+        /// <param name="bucketName">Name of the bucket for which to get the notification configuration</param>
         /// 
         /// <returns>The response from the GetBucketNotification service method, as returned by S3.</returns>
         public virtual GetBucketNotificationResponse GetBucketNotification(string bucketName)
@@ -1862,16 +4755,47 @@ namespace Amazon.S3
 
         /// <summary>
         /// Returns the notification configuration of a bucket.
+        /// 
+        ///  
+        /// <para>
+        /// If notifications are not enabled on the bucket, the operation returns an empty <code>NotificationConfiguration</code>
+        /// element.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, you must be the bucket owner to read the notification configuration of
+        /// a bucket. However, the bucket owner can use a bucket policy to grant permission to
+        /// other users to read this configuration with the <code>s3:GetBucketNotification</code>
+        /// permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about setting and reading the notification configuration on a
+        /// bucket, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Setting
+        /// Up Notification of Bucket Events</a>. For more information about bucket policies,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>GetBucketNotification</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketNotification</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketNotification service method.</param>
         /// 
         /// <returns>The response from the GetBucketNotification service method, as returned by S3.</returns>
         public virtual GetBucketNotificationResponse GetBucketNotification(GetBucketNotificationRequest request)
         {
-            var marshaller = GetBucketNotificationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketNotificationResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketNotificationRequest,GetBucketNotificationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketNotificationResponse>(request, options);
         }
 
         /// <summary>
@@ -1887,11 +4811,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketNotification(GetBucketNotificationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketNotificationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketNotificationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketNotificationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1911,9 +4835,40 @@ namespace Amazon.S3
         #region  GetBucketPolicy
 
         /// <summary>
-        /// Returns the policy of a specified bucket.
+        /// Returns the policy of a specified bucket. If you are using an identity other than
+        /// the root user of the AWS account that owns the bucket, the calling identity must have
+        /// the <code>GetBucketPolicy</code> permissions on the specified bucket and belong to
+        /// the bucket owner's account in order to use this operation.
+        /// 
+        ///  
+        /// <para>
+        /// If you don't have <code>GetBucketPolicy</code> permissions, Amazon S3 returns a <code>403
+        /// Access Denied</code> error. If you have the correct permissions, but you're not using
+        /// an identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405
+        /// Method Not Allowed</code> error.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// As a security precaution, the root user of the AWS account that owns a bucket can
+        /// always use this operation, even if the policy explicitly denies the root user the
+        /// ability to perform this action.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about bucket policies, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies and User Policies</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>GetBucketPolicy</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetBucketPolicyRequest used to execute the GetBucketPolicy service method.</param>
+        /// <param name="bucketName">The bucket name for which to get the bucket policy.</param>
         /// 
         /// <returns>The response from the GetBucketPolicy service method, as returned by S3.</returns>
         public virtual GetBucketPolicyResponse GetBucketPolicy(string bucketName)
@@ -1925,17 +4880,49 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns the policy of a specified bucket.
+        /// Returns the policy of a specified bucket. If you are using an identity other than
+        /// the root user of the AWS account that owns the bucket, the calling identity must have
+        /// the <code>GetBucketPolicy</code> permissions on the specified bucket and belong to
+        /// the bucket owner's account in order to use this operation.
+        /// 
+        ///  
+        /// <para>
+        /// If you don't have <code>GetBucketPolicy</code> permissions, Amazon S3 returns a <code>403
+        /// Access Denied</code> error. If you have the correct permissions, but you're not using
+        /// an identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405
+        /// Method Not Allowed</code> error.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// As a security precaution, the root user of the AWS account that owns a bucket can
+        /// always use this operation, even if the policy explicitly denies the root user the
+        /// ability to perform this action.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about bucket policies, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies and User Policies</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>GetBucketPolicy</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketPolicy service method.</param>
         /// 
         /// <returns>The response from the GetBucketPolicy service method, as returned by S3.</returns>
         public virtual GetBucketPolicyResponse GetBucketPolicy(GetBucketPolicyRequest request)
         {
-            var marshaller = GetBucketPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetBucketPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketPolicyRequest,GetBucketPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1951,11 +4938,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketPolicy(GetBucketPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetBucketPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1972,6 +4959,88 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  GetBucketPolicyStatus
+
+        /// <summary>
+        /// Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket
+        /// is public. In order to use this operation, you must have the <code>s3:GetBucketPolicyStatus</code>
+        /// permission. For more information about Amazon S3 permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>.
+        /// 
+        ///  
+        /// <para>
+        ///  For more information about when Amazon S3 considers a bucket public, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
+        /// Meaning of "Public"</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketPolicyStatus</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">Using
+        /// Amazon S3 Block Public Access</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetPublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutPublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeletePublicAccessBlock</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetBucketPolicyStatus service method.</param>
+        /// 
+        /// <returns>The response from the GetBucketPolicyStatus service method, as returned by S3.</returns>
+        public virtual GetBucketPolicyStatusResponse GetBucketPolicyStatus(GetBucketPolicyStatusRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketPolicyStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketPolicyStatusResponseUnmarshaller.Instance;
+
+            return Invoke<GetBucketPolicyStatusResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetBucketPolicyStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetBucketPolicyStatus operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetBucketPolicyStatus
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetBucketPolicyStatus(GetBucketPolicyStatusRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketPolicyStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketPolicyStatusResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetBucketPolicyStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetBucketPolicyStatus.</param>
+        /// 
+        /// <returns>Returns a  GetBucketPolicyStatusResult from S3.</returns>
+        public virtual GetBucketPolicyStatusResponse EndGetBucketPolicyStatus(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetBucketPolicyStatusResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetBucketReplication
 
         /// <summary>
@@ -1982,10 +5051,11 @@ namespace Amazon.S3
         /// <returns>The response from the GetBucketReplication service method, as returned by S3.</returns>
         public virtual GetBucketReplicationResponse GetBucketReplication(GetBucketReplicationRequest request)
         {
-            var marshaller = GetBucketReplicationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketReplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketReplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketReplicationResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketReplicationRequest,GetBucketReplicationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketReplicationResponse>(request, options);
         }
 
         /// <summary>
@@ -2001,11 +5071,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketReplication(GetBucketReplicationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketReplicationRequestMarshaller.Instance;
-            var unmarshaller = GetBucketReplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketReplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketReplicationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketReplicationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2025,9 +5095,21 @@ namespace Amazon.S3
         #region  GetBucketRequestPayment
 
         /// <summary>
-        /// Returns the request payment configuration of a bucket.
+        /// Returns the request payment configuration of a bucket. To use this version of the
+        /// operation, you must be the bucket owner. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
+        /// Pays Buckets</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketRequestPayment</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjects</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetBucketRequestPaymentRequest used to execute the GetBucketRequestPayment service method.</param>
+        /// <param name="bucketName">The name of the bucket for which to get the payment request configuration</param>
         /// 
         /// <returns>The response from the GetBucketRequestPayment service method, as returned by S3.</returns>
         public virtual GetBucketRequestPaymentResponse GetBucketRequestPayment(string bucketName)
@@ -2039,17 +5121,30 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns the request payment configuration of a bucket.
+        /// Returns the request payment configuration of a bucket. To use this version of the
+        /// operation, you must be the bucket owner. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
+        /// Pays Buckets</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketRequestPayment</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjects</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketRequestPayment service method.</param>
         /// 
         /// <returns>The response from the GetBucketRequestPayment service method, as returned by S3.</returns>
         public virtual GetBucketRequestPaymentResponse GetBucketRequestPayment(GetBucketRequestPaymentRequest request)
         {
-            var marshaller = GetBucketRequestPaymentRequestMarshaller.Instance;
-            var unmarshaller = GetBucketRequestPaymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketRequestPaymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketRequestPaymentResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketRequestPaymentRequest,GetBucketRequestPaymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketRequestPaymentResponse>(request, options);
         }
 
         /// <summary>
@@ -2065,11 +5160,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketRequestPayment(GetBucketRequestPaymentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketRequestPaymentRequestMarshaller.Instance;
-            var unmarshaller = GetBucketRequestPaymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketRequestPaymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketRequestPaymentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketRequestPaymentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2090,16 +5185,49 @@ namespace Amazon.S3
 
         /// <summary>
         /// Returns the tag set associated with the bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:GetBucketTagging</code>
+        /// action. By default, the bucket owner has this permission and can grant this permission
+        /// to others.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetBucketTagging</code> has the following special error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Error code: <code>NoSuchTagSetError</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: There is no tag set associated with the bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The following operations are related to <code>GetBucketTagging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketTagging</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketTagging service method.</param>
         /// 
         /// <returns>The response from the GetBucketTagging service method, as returned by S3.</returns>
         public virtual GetBucketTaggingResponse GetBucketTagging(GetBucketTaggingRequest request)
         {
-            var marshaller = GetBucketTaggingRequestMarshaller.Instance;
-            var unmarshaller = GetBucketTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketTaggingResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketTaggingRequest,GetBucketTaggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketTaggingResponse>(request, options);
         }
 
         /// <summary>
@@ -2115,11 +5243,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketTagging(GetBucketTaggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketTaggingRequestMarshaller.Instance;
-            var unmarshaller = GetBucketTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketTaggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketTaggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2140,8 +5268,36 @@ namespace Amazon.S3
 
         /// <summary>
         /// Returns the versioning state of a bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To retrieve the versioning state of a bucket, you must be the bucket owner.
+        /// </para>
+        ///  
+        /// <para>
+        /// This implementation also returns the MFA Delete status of the versioning state. If
+        /// the MFA Delete status is <code>enabled</code>, the bucket owner must use an authentication
+        /// device to change the versioning state of the bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketVersioning</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetBucketVersioningRequest used to execute the GetBucketVersioning service method.</param>
+        /// <param name="bucketName">The name of the bucket for which to get the versioning information.</param>
         /// 
         /// <returns>The response from the GetBucketVersioning service method, as returned by S3.</returns>
         public virtual GetBucketVersioningResponse GetBucketVersioning(string bucketName)
@@ -2154,16 +5310,45 @@ namespace Amazon.S3
 
         /// <summary>
         /// Returns the versioning state of a bucket.
+        /// 
+        ///  
+        /// <para>
+        /// To retrieve the versioning state of a bucket, you must be the bucket owner.
+        /// </para>
+        ///  
+        /// <para>
+        /// This implementation also returns the MFA Delete status of the versioning state. If
+        /// the MFA Delete status is <code>enabled</code>, the bucket owner must use an authentication
+        /// device to change the versioning state of the bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketVersioning</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketVersioning service method.</param>
         /// 
         /// <returns>The response from the GetBucketVersioning service method, as returned by S3.</returns>
         public virtual GetBucketVersioningResponse GetBucketVersioning(GetBucketVersioningRequest request)
         {
-            var marshaller = GetBucketVersioningRequestMarshaller.Instance;
-            var unmarshaller = GetBucketVersioningResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketVersioningRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketVersioningResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketVersioningRequest,GetBucketVersioningResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketVersioningResponse>(request, options);
         }
 
         /// <summary>
@@ -2179,11 +5364,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketVersioning(GetBucketVersioningRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketVersioningRequestMarshaller.Instance;
-            var unmarshaller = GetBucketVersioningResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketVersioningRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketVersioningResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketVersioningRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2203,9 +5388,33 @@ namespace Amazon.S3
         #region  GetBucketWebsite
 
         /// <summary>
-        /// Returns the website configuration for a bucket.
+        /// Returns the website configuration for a bucket. To host website on Amazon S3, you
+        /// can configure a bucket as website by adding a website configuration. For more information
+        /// about hosting websites, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
+        /// Websites on Amazon S3</a>. 
+        /// 
+        ///  
+        /// <para>
+        /// This GET operation requires the <code>S3:GetBucketWebsite</code> permission. By default,
+        /// only the bucket owner can read the bucket website configuration. However, bucket owners
+        /// can allow other users to read the website configuration by writing a bucket policy
+        /// granting them the <code>S3:GetBucketWebsite</code> permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketWebsite</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>DeleteBucketWebsite</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketWebsite</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetBucketWebsiteRequest used to execute the GetBucketWebsite service method.</param>
+        /// <param name="bucketName">The bucket name for which to get the website configuration.</param>
         /// 
         /// <returns>The response from the GetBucketWebsite service method, as returned by S3.</returns>
         public virtual GetBucketWebsiteResponse GetBucketWebsite(string bucketName)
@@ -2217,17 +5426,42 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns the website configuration for a bucket.
+        /// Returns the website configuration for a bucket. To host website on Amazon S3, you
+        /// can configure a bucket as website by adding a website configuration. For more information
+        /// about hosting websites, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
+        /// Websites on Amazon S3</a>. 
+        /// 
+        ///  
+        /// <para>
+        /// This GET operation requires the <code>S3:GetBucketWebsite</code> permission. By default,
+        /// only the bucket owner can read the bucket website configuration. However, bucket owners
+        /// can allow other users to read the website configuration by writing a bucket policy
+        /// granting them the <code>S3:GetBucketWebsite</code> permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketWebsite</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>DeleteBucketWebsite</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketWebsite</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBucketWebsite service method.</param>
         /// 
         /// <returns>The response from the GetBucketWebsite service method, as returned by S3.</returns>
         public virtual GetBucketWebsiteResponse GetBucketWebsite(GetBucketWebsiteRequest request)
         {
-            var marshaller = GetBucketWebsiteRequestMarshaller.Instance;
-            var unmarshaller = GetBucketWebsiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketWebsiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketWebsiteResponseUnmarshaller.Instance;
 
-            return Invoke<GetBucketWebsiteRequest,GetBucketWebsiteResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBucketWebsiteResponse>(request, options);
         }
 
         /// <summary>
@@ -2243,11 +5477,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBucketWebsite(GetBucketWebsiteRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBucketWebsiteRequestMarshaller.Instance;
-            var unmarshaller = GetBucketWebsiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBucketWebsiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBucketWebsiteResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBucketWebsiteRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2267,9 +5501,33 @@ namespace Amazon.S3
         #region  GetCORSConfiguration
 
         /// <summary>
-        /// Returns the cors configuration for the bucket.
+        /// Returns the cors configuration information set for the bucket.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this operation, you must have permission to perform the s3:GetBucketCORS action.
+        /// By default, the bucket owner has this permission and can grant it to others.
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information about cors, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">
+        /// Enabling Cross-Origin Resource Sharing</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketCors</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketCors</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketCors</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetCORSConfigurationRequest used to execute the GetCORSConfiguration service method.</param>
+        /// <param name="bucketName">The bucket name for which to get the cors configuration.</param>
         /// 
         /// <returns>The response from the GetCORSConfiguration service method, as returned by S3.</returns>
         public virtual GetCORSConfigurationResponse GetCORSConfiguration(string bucketName)
@@ -2281,17 +5539,42 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns the cors configuration for the bucket.
+        /// Returns the cors configuration information set for the bucket.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this operation, you must have permission to perform the s3:GetBucketCORS action.
+        /// By default, the bucket owner has this permission and can grant it to others.
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information about cors, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">
+        /// Enabling Cross-Origin Resource Sharing</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetBucketCors</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketCors</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketCors</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCORSConfiguration service method.</param>
         /// 
         /// <returns>The response from the GetCORSConfiguration service method, as returned by S3.</returns>
         public virtual GetCORSConfigurationResponse GetCORSConfiguration(GetCORSConfigurationRequest request)
         {
-            var marshaller = GetCORSConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetCORSConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCORSConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCORSConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<GetCORSConfigurationRequest,GetCORSConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCORSConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -2307,11 +5590,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetCORSConfiguration(GetCORSConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCORSConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetCORSConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCORSConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCORSConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCORSConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2331,9 +5614,68 @@ namespace Amazon.S3
         #region  GetLifecycleConfiguration
 
         /// <summary>
-        /// Returns the lifecycle configuration information set on the bucket.
+        /// <note> 
+        /// <para>
+        /// Bucket lifecycle configuration now supports specifying a lifecycle rule using an object
+        /// key name prefix, one or more object tags, or a combination of both. Accordingly, this
+        /// section describes the latest API. The response describes the new filter element that
+        /// you can use to specify a filter to select a subset of objects to which the rule applies.
+        /// If you are still using previous version of the lifecycle configuration, it works.
+        /// For the earlier API description, see <a>GetBucketLifecycle</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Returns the lifecycle configuration information set on the bucket. For information
+        /// about lifecycle configuration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:GetLifecycleConfiguration</code>
+        /// action. The bucket owner has this permission, by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetBucketLifecycleConfiguration</code> has the following special error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Error code: <code>NoSuchLifecycleConfiguration</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The lifecycle configuration does not exist.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HTTP Status Code: 404 Not Found
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// SOAP Fault Code Prefix: Client
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketLifecycle</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycle</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketLifecycle</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetLifecycleConfigurationRequest used to execute the GetLifecycleConfiguration service method.</param>
+        /// <param name="bucketName">The name of the bucket for which to get the lifecycle information.</param>
         /// 
         /// <returns>The response from the GetLifecycleConfiguration service method, as returned by S3.</returns>
         public virtual GetLifecycleConfigurationResponse GetLifecycleConfiguration(string bucketName)
@@ -2345,17 +5687,77 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns the lifecycle configuration information set on the bucket.
+        /// <note> 
+        /// <para>
+        /// Bucket lifecycle configuration now supports specifying a lifecycle rule using an object
+        /// key name prefix, one or more object tags, or a combination of both. Accordingly, this
+        /// section describes the latest API. The response describes the new filter element that
+        /// you can use to specify a filter to select a subset of objects to which the rule applies.
+        /// If you are still using previous version of the lifecycle configuration, it works.
+        /// For the earlier API description, see <a>GetBucketLifecycle</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Returns the lifecycle configuration information set on the bucket. For information
+        /// about lifecycle configuration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:GetLifecycleConfiguration</code>
+        /// action. The bucket owner has this permission, by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetBucketLifecycleConfiguration</code> has the following special error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Error code: <code>NoSuchLifecycleConfiguration</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The lifecycle configuration does not exist.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HTTP Status Code: 404 Not Found
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// SOAP Fault Code Prefix: Client
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The following operations are related to <code>DeleteBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketLifecycle</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycle</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketLifecycle</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLifecycleConfiguration service method.</param>
         /// 
         /// <returns>The response from the GetLifecycleConfiguration service method, as returned by S3.</returns>
         public virtual GetLifecycleConfigurationResponse GetLifecycleConfiguration(GetLifecycleConfigurationRequest request)
         {
-            var marshaller = GetLifecycleConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetLifecycleConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecycleConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecycleConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<GetLifecycleConfigurationRequest,GetLifecycleConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLifecycleConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -2371,11 +5773,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetLifecycleConfiguration(GetLifecycleConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLifecycleConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetLifecycleConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecycleConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecycleConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLifecycleConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2395,10 +5797,208 @@ namespace Amazon.S3
         #region  GetObject
 
         /// <summary>
-        /// Retrieves objects from Amazon S3.
+        /// Retrieves objects from Amazon S3. To use <code>GET</code>, you must have <code>READ</code>
+        /// access to the object. If you grant <code>READ</code> access to the anonymous user,
+        /// you can return the object without using an authorization header.
+        /// 
+        ///  
+        /// <para>
+        /// An Amazon S3 bucket has no directory hierarchy such as you would find in a typical
+        /// computer file system. You can, however, create a logical hierarchy by using object
+        /// key names that imply a folder structure. For example, instead of naming an object
+        /// <code>sample.jpg</code>, you can name it <code>photos/2006/February/sample.jpg</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get an object from such a logical hierarchy, specify the full key name for the
+        /// object in the <code>GET</code> operation. For a virtual hosted-style request example,
+        /// if you have the object <code>photos/2006/February/sample.jpg</code>, specify the resource
+        /// as <code>/photos/2006/February/sample.jpg</code>. For a path-style request example,
+        /// if you have the object <code>photos/2006/February/sample.jpg</code> in the bucket
+        /// named <code>examplebucket</code>, specify the resource as <code>/examplebucket/photos/2006/February/sample.jpg</code>.
+        /// For more information about request types, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html#VirtualHostingSpecifyBucket">HTTP
+        /// Host Header Bucket Specification</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To distribute large files to many people, you can save bandwidth costs by using BitTorrent.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
+        /// S3 Torrent</a>. For more information about returning the ACL of an object, see <a>GetObjectAcl</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the object you are retrieving is stored in the GLACIER or DEEP_ARCHIVE storage
+        /// classes, before you can retrieve the object you must first restore a copy using .
+        /// Otherwise, this operation returns an <code>InvalidObjectStateError</code> error. For
+        /// information about restoring archived objects, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Encryption request headers, like <code>x-amz-server-side-encryption</code>, should
+        /// not be sent for GET requests if your object uses server-side encryption with CMKs
+        /// stored in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption
+        /// keys (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400
+        /// BadRequest error.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you encrypt an object by using server-side encryption with customer-provided encryption
+        /// keys (SSE-C) when you store the object in Amazon S3, then when you GET the object,
+        /// you must use the following headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+        /// Encryption (Using Customer-Provided Encryption Keys)</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Assuming you have permission to read object tags (permission for the <code>s3:GetObjectVersionTagging</code>
+        /// action), the response also returns the <code>x-amz-tagging-count</code> header that
+        /// provides the count of number of tags associated with the object. You can use <a>GetObjectTagging</a>
+        /// to retrieve the tag set associated with an object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You need the <code>s3:GetObject</code> permission for this operation. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>. If the object you request does not exist, the error Amazon
+        /// S3 returns depends on whether you also have the <code>s3:ListBucket</code> permission.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 will
+        /// return an HTTP status code 404 ("no such key") error.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 will return
+        /// an HTTP status code 403 ("access denied") error.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Versioning</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the GET operation returns the current version of an object. To return
+        /// a different version, use the <code>versionId</code> subresource.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If the current version of the object is a delete marker, Amazon S3 behaves as if the
+        /// object was deleted and includes <code>x-amz-delete-marker: true</code> in the response.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For more information about versioning, see <a>PutBucketVersioning</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Overriding Response Header Values</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// There are times when you want to override certain response header values in a GET
+        /// response. For example, you might override the Content-Disposition response header
+        /// value in your GET request.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can override values for a set of response headers using the following query parameters.
+        /// These response header values are sent only on a successful request, that is, when
+        /// status code 200 OK is returned. The set of headers you can override using these parameters
+        /// is a subset of the headers that Amazon S3 accepts when you create an object. The response
+        /// headers that you can override for the GET response are <code>Content-Type</code>,
+        /// <code>Content-Language</code>, <code>Expires</code>, <code>Cache-Control</code>, <code>Content-Disposition</code>,
+        /// and <code>Content-Encoding</code>. To override these header values in the GET response,
+        /// you use the following request parameters.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// You must sign the request, either using an Authorization header or a presigned URL,
+        /// when using these parameters. They cannot be used with an unsigned (anonymous) request.
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        ///  <code>response-content-type</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-language</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-expires</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-cache-control</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-disposition</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-encoding</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Additional Considerations about Request Headers</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If both of the <code>If-Match</code> and <code>If-Unmodified-Since</code> headers
+        /// are present in the request as follows: <code>If-Match</code> condition evaluates to
+        /// <code>true</code>, and; <code>If-Unmodified-Since</code> condition evaluates to <code>false</code>;
+        /// then, S3 returns 200 OK and the data requested. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If both of the <code>If-None-Match</code> and <code>If-Modified-Since</code> headers
+        /// are present in the request as follows:<code> If-None-Match</code> condition evaluates
+        /// to <code>false</code>, and; <code>If-Modified-Since</code> condition evaluates to
+        /// <code>true</code>; then, S3 returns 304 Not Modified response code.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about conditional requests, see <a href="https://tools.ietf.org/html/rfc7232">RFC
+        /// 7232</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListBuckets</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObjectAcl</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetObjectRequest used to execute the GetObject service method.</param>
-        /// <param name="key">A property of GetObjectRequest used to execute the GetObject service method.</param>
+        /// <param name="bucketName">The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Key of the object to get.</param>
         /// 
         /// <returns>The response from the GetObject service method, as returned by S3.</returns>
         public virtual GetObjectResponse GetObject(string bucketName, string key)
@@ -2411,10 +6011,208 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Retrieves objects from Amazon S3.
+        /// Retrieves objects from Amazon S3. To use <code>GET</code>, you must have <code>READ</code>
+        /// access to the object. If you grant <code>READ</code> access to the anonymous user,
+        /// you can return the object without using an authorization header.
+        /// 
+        ///  
+        /// <para>
+        /// An Amazon S3 bucket has no directory hierarchy such as you would find in a typical
+        /// computer file system. You can, however, create a logical hierarchy by using object
+        /// key names that imply a folder structure. For example, instead of naming an object
+        /// <code>sample.jpg</code>, you can name it <code>photos/2006/February/sample.jpg</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get an object from such a logical hierarchy, specify the full key name for the
+        /// object in the <code>GET</code> operation. For a virtual hosted-style request example,
+        /// if you have the object <code>photos/2006/February/sample.jpg</code>, specify the resource
+        /// as <code>/photos/2006/February/sample.jpg</code>. For a path-style request example,
+        /// if you have the object <code>photos/2006/February/sample.jpg</code> in the bucket
+        /// named <code>examplebucket</code>, specify the resource as <code>/examplebucket/photos/2006/February/sample.jpg</code>.
+        /// For more information about request types, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html#VirtualHostingSpecifyBucket">HTTP
+        /// Host Header Bucket Specification</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To distribute large files to many people, you can save bandwidth costs by using BitTorrent.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
+        /// S3 Torrent</a>. For more information about returning the ACL of an object, see <a>GetObjectAcl</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the object you are retrieving is stored in the GLACIER or DEEP_ARCHIVE storage
+        /// classes, before you can retrieve the object you must first restore a copy using .
+        /// Otherwise, this operation returns an <code>InvalidObjectStateError</code> error. For
+        /// information about restoring archived objects, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Encryption request headers, like <code>x-amz-server-side-encryption</code>, should
+        /// not be sent for GET requests if your object uses server-side encryption with CMKs
+        /// stored in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption
+        /// keys (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400
+        /// BadRequest error.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you encrypt an object by using server-side encryption with customer-provided encryption
+        /// keys (SSE-C) when you store the object in Amazon S3, then when you GET the object,
+        /// you must use the following headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+        /// Encryption (Using Customer-Provided Encryption Keys)</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Assuming you have permission to read object tags (permission for the <code>s3:GetObjectVersionTagging</code>
+        /// action), the response also returns the <code>x-amz-tagging-count</code> header that
+        /// provides the count of number of tags associated with the object. You can use <a>GetObjectTagging</a>
+        /// to retrieve the tag set associated with an object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You need the <code>s3:GetObject</code> permission for this operation. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>. If the object you request does not exist, the error Amazon
+        /// S3 returns depends on whether you also have the <code>s3:ListBucket</code> permission.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 will
+        /// return an HTTP status code 404 ("no such key") error.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 will return
+        /// an HTTP status code 403 ("access denied") error.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Versioning</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the GET operation returns the current version of an object. To return
+        /// a different version, use the <code>versionId</code> subresource.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If the current version of the object is a delete marker, Amazon S3 behaves as if the
+        /// object was deleted and includes <code>x-amz-delete-marker: true</code> in the response.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For more information about versioning, see <a>PutBucketVersioning</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Overriding Response Header Values</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// There are times when you want to override certain response header values in a GET
+        /// response. For example, you might override the Content-Disposition response header
+        /// value in your GET request.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can override values for a set of response headers using the following query parameters.
+        /// These response header values are sent only on a successful request, that is, when
+        /// status code 200 OK is returned. The set of headers you can override using these parameters
+        /// is a subset of the headers that Amazon S3 accepts when you create an object. The response
+        /// headers that you can override for the GET response are <code>Content-Type</code>,
+        /// <code>Content-Language</code>, <code>Expires</code>, <code>Cache-Control</code>, <code>Content-Disposition</code>,
+        /// and <code>Content-Encoding</code>. To override these header values in the GET response,
+        /// you use the following request parameters.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// You must sign the request, either using an Authorization header or a presigned URL,
+        /// when using these parameters. They cannot be used with an unsigned (anonymous) request.
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        ///  <code>response-content-type</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-language</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-expires</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-cache-control</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-disposition</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-encoding</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Additional Considerations about Request Headers</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If both of the <code>If-Match</code> and <code>If-Unmodified-Since</code> headers
+        /// are present in the request as follows: <code>If-Match</code> condition evaluates to
+        /// <code>true</code>, and; <code>If-Unmodified-Since</code> condition evaluates to <code>false</code>;
+        /// then, S3 returns 200 OK and the data requested. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If both of the <code>If-None-Match</code> and <code>If-Modified-Since</code> headers
+        /// are present in the request as follows:<code> If-None-Match</code> condition evaluates
+        /// to <code>false</code>, and; <code>If-Modified-Since</code> condition evaluates to
+        /// <code>true</code>; then, S3 returns 304 Not Modified response code.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about conditional requests, see <a href="https://tools.ietf.org/html/rfc7232">RFC
+        /// 7232</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListBuckets</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObjectAcl</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetObjectRequest used to execute the GetObject service method.</param>
-        /// <param name="key">A property of GetObjectRequest used to execute the GetObject service method.</param>
+        /// <param name="bucketName">The bucket name containing the object.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Key of the object to get.</param>
         /// <param name="versionId">VersionId used to reference a specific version of the object.</param>
         /// 
         /// <returns>The response from the GetObject service method, as returned by S3.</returns>
@@ -2429,17 +6227,216 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Retrieves objects from Amazon S3.
+        /// Retrieves objects from Amazon S3. To use <code>GET</code>, you must have <code>READ</code>
+        /// access to the object. If you grant <code>READ</code> access to the anonymous user,
+        /// you can return the object without using an authorization header.
+        /// 
+        ///  
+        /// <para>
+        /// An Amazon S3 bucket has no directory hierarchy such as you would find in a typical
+        /// computer file system. You can, however, create a logical hierarchy by using object
+        /// key names that imply a folder structure. For example, instead of naming an object
+        /// <code>sample.jpg</code>, you can name it <code>photos/2006/February/sample.jpg</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get an object from such a logical hierarchy, specify the full key name for the
+        /// object in the <code>GET</code> operation. For a virtual hosted-style request example,
+        /// if you have the object <code>photos/2006/February/sample.jpg</code>, specify the resource
+        /// as <code>/photos/2006/February/sample.jpg</code>. For a path-style request example,
+        /// if you have the object <code>photos/2006/February/sample.jpg</code> in the bucket
+        /// named <code>examplebucket</code>, specify the resource as <code>/examplebucket/photos/2006/February/sample.jpg</code>.
+        /// For more information about request types, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html#VirtualHostingSpecifyBucket">HTTP
+        /// Host Header Bucket Specification</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To distribute large files to many people, you can save bandwidth costs by using BitTorrent.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
+        /// S3 Torrent</a>. For more information about returning the ACL of an object, see <a>GetObjectAcl</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the object you are retrieving is stored in the GLACIER or DEEP_ARCHIVE storage
+        /// classes, before you can retrieve the object you must first restore a copy using .
+        /// Otherwise, this operation returns an <code>InvalidObjectStateError</code> error. For
+        /// information about restoring archived objects, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Encryption request headers, like <code>x-amz-server-side-encryption</code>, should
+        /// not be sent for GET requests if your object uses server-side encryption with CMKs
+        /// stored in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption
+        /// keys (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400
+        /// BadRequest error.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you encrypt an object by using server-side encryption with customer-provided encryption
+        /// keys (SSE-C) when you store the object in Amazon S3, then when you GET the object,
+        /// you must use the following headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+        /// Encryption (Using Customer-Provided Encryption Keys)</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Assuming you have permission to read object tags (permission for the <code>s3:GetObjectVersionTagging</code>
+        /// action), the response also returns the <code>x-amz-tagging-count</code> header that
+        /// provides the count of number of tags associated with the object. You can use <a>GetObjectTagging</a>
+        /// to retrieve the tag set associated with an object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You need the <code>s3:GetObject</code> permission for this operation. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>. If the object you request does not exist, the error Amazon
+        /// S3 returns depends on whether you also have the <code>s3:ListBucket</code> permission.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 will
+        /// return an HTTP status code 404 ("no such key") error.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 will return
+        /// an HTTP status code 403 ("access denied") error.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Versioning</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the GET operation returns the current version of an object. To return
+        /// a different version, use the <code>versionId</code> subresource.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If the current version of the object is a delete marker, Amazon S3 behaves as if the
+        /// object was deleted and includes <code>x-amz-delete-marker: true</code> in the response.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For more information about versioning, see <a>PutBucketVersioning</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Overriding Response Header Values</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// There are times when you want to override certain response header values in a GET
+        /// response. For example, you might override the Content-Disposition response header
+        /// value in your GET request.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can override values for a set of response headers using the following query parameters.
+        /// These response header values are sent only on a successful request, that is, when
+        /// status code 200 OK is returned. The set of headers you can override using these parameters
+        /// is a subset of the headers that Amazon S3 accepts when you create an object. The response
+        /// headers that you can override for the GET response are <code>Content-Type</code>,
+        /// <code>Content-Language</code>, <code>Expires</code>, <code>Cache-Control</code>, <code>Content-Disposition</code>,
+        /// and <code>Content-Encoding</code>. To override these header values in the GET response,
+        /// you use the following request parameters.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// You must sign the request, either using an Authorization header or a presigned URL,
+        /// when using these parameters. They cannot be used with an unsigned (anonymous) request.
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        ///  <code>response-content-type</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-language</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-expires</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-cache-control</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-disposition</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>response-content-encoding</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Additional Considerations about Request Headers</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If both of the <code>If-Match</code> and <code>If-Unmodified-Since</code> headers
+        /// are present in the request as follows: <code>If-Match</code> condition evaluates to
+        /// <code>true</code>, and; <code>If-Unmodified-Since</code> condition evaluates to <code>false</code>;
+        /// then, S3 returns 200 OK and the data requested. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If both of the <code>If-None-Match</code> and <code>If-Modified-Since</code> headers
+        /// are present in the request as follows:<code> If-None-Match</code> condition evaluates
+        /// to <code>false</code>, and; <code>If-Modified-Since</code> condition evaluates to
+        /// <code>true</code>; then, S3 returns 304 Not Modified response code.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about conditional requests, see <a href="https://tools.ietf.org/html/rfc7232">RFC
+        /// 7232</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListBuckets</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObjectAcl</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetObject service method.</param>
         /// 
         /// <returns>The response from the GetObject service method, as returned by S3.</returns>
         public virtual GetObjectResponse GetObject(GetObjectRequest request)
         {
-            var marshaller = GetObjectRequestMarshaller.Instance;
-            var unmarshaller = GetObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectResponseUnmarshaller.Instance;
 
-            return Invoke<GetObjectRequest,GetObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -2455,11 +6452,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetObject(GetObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetObjectRequestMarshaller.Instance;
-            var unmarshaller = GetObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2476,15 +6473,237 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  GetObjectLegalHold
+
+        /// <summary>
+        /// Gets an object's current Legal Hold status. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+        /// Objects</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectLegalHold service method.</param>
+        /// 
+        /// <returns>The response from the GetObjectLegalHold service method, as returned by S3.</returns>
+        public virtual GetObjectLegalHoldResponse GetObjectLegalHold(GetObjectLegalHoldRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectLegalHoldRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectLegalHoldResponseUnmarshaller.Instance;
+
+            return Invoke<GetObjectLegalHoldResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetObjectLegalHold operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectLegalHold operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetObjectLegalHold
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetObjectLegalHold(GetObjectLegalHoldRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectLegalHoldRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectLegalHoldResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetObjectLegalHold operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetObjectLegalHold.</param>
+        /// 
+        /// <returns>Returns a  GetObjectLegalHoldResult from S3.</returns>
+        public virtual GetObjectLegalHoldResponse EndGetObjectLegalHold(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetObjectLegalHoldResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetObjectLockConfiguration
+
+        /// <summary>
+        /// Gets the Object Lock configuration for a bucket. The rule specified in the Object
+        /// Lock configuration will be applied by default to every new object placed in the specified
+        /// bucket. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+        /// Objects</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectLockConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the GetObjectLockConfiguration service method, as returned by S3.</returns>
+        public virtual GetObjectLockConfigurationResponse GetObjectLockConfiguration(GetObjectLockConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectLockConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectLockConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<GetObjectLockConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetObjectLockConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectLockConfiguration operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetObjectLockConfiguration
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetObjectLockConfiguration(GetObjectLockConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectLockConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectLockConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetObjectLockConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetObjectLockConfiguration.</param>
+        /// 
+        /// <returns>Returns a  GetObjectLockConfigurationResult from S3.</returns>
+        public virtual GetObjectLockConfigurationResponse EndGetObjectLockConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetObjectLockConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetObjectMetadata
 
         /// <summary>
         /// The HEAD operation retrieves metadata from an object without returning the object
         /// itself. This operation is useful if you're only interested in an object's metadata.
         /// To use HEAD, you must have READ access to the object.
+        /// 
+        ///  
+        /// <para>
+        /// A <code>HEAD</code> request has the same options as a <code>GET</code> operation on
+        /// an object. The response is identical to the <code>GET</code> response except that
+        /// there is no response body.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you encrypt an object by using server-side encryption with customer-provided encryption
+        /// keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the metadata
+        /// from the object, you must use the following headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+        /// Encryption (Using Customer-Provided Encryption Keys)</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Encryption request headers, like <code>x-amz-server-side-encryption</code>, should
+        /// not be sent for GET requests if your object uses server-side encryption with CMKs
+        /// stored in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption
+        /// keys (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400
+        /// BadRequest error.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Request headers are limited to 8 KB in size. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html">Common
+        /// Request Headers</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Consider the following when using request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  Consideration 1 – If both of the <code>If-Match</code> and <code>If-Unmodified-Since</code>
+        /// headers are present in the request as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>If-Match</code> condition evaluates to <code>true</code>, and;
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>If-Unmodified-Since</code> condition evaluates to <code>false</code>;
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Then Amazon S3 returns <code>200 OK</code> and the data requested.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Consideration 2 – If both of the <code>If-None-Match</code> and <code>If-Modified-Since</code>
+        /// headers are present in the request as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>If-None-Match</code> condition evaluates to <code>false</code>, and;
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>If-Modified-Since</code> condition evaluates to <code>true</code>;
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Then Amazon S3 returns the <code>304 Not Modified</code> response code.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about conditional requests, see <a href="https://tools.ietf.org/html/rfc7232">RFC
+        /// 7232</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You need the <code>s3:GetObject</code> permission for this operation. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>. If the object you request does not exist, the error Amazon
+        /// S3 returns depends on whether you also have the s3:ListBucket permission.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 returns
+        /// an HTTP status code 404 ("no such key") error.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 returns an
+        /// HTTP status code 403 ("access denied") error.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following operation is related to <code>HeadObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetObjectMetadataRequest used to execute the GetObjectMetadata service method.</param>
-        /// <param name="key">A property of GetObjectMetadataRequest used to execute the GetObjectMetadata service method.</param>
+        /// <param name="bucketName">The name of the bucket containing the object.</param>
+        /// <param name="key">The object key.</param>
         /// 
         /// <returns>The response from the GetObjectMetadata service method, as returned by S3.</returns>
         public virtual GetObjectMetadataResponse GetObjectMetadata(string bucketName, string key)
@@ -2500,9 +6719,125 @@ namespace Amazon.S3
         /// The HEAD operation retrieves metadata from an object without returning the object
         /// itself. This operation is useful if you're only interested in an object's metadata.
         /// To use HEAD, you must have READ access to the object.
+        /// 
+        ///  
+        /// <para>
+        /// A <code>HEAD</code> request has the same options as a <code>GET</code> operation on
+        /// an object. The response is identical to the <code>GET</code> response except that
+        /// there is no response body.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you encrypt an object by using server-side encryption with customer-provided encryption
+        /// keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the metadata
+        /// from the object, you must use the following headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+        /// Encryption (Using Customer-Provided Encryption Keys)</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Encryption request headers, like <code>x-amz-server-side-encryption</code>, should
+        /// not be sent for GET requests if your object uses server-side encryption with CMKs
+        /// stored in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption
+        /// keys (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400
+        /// BadRequest error.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Request headers are limited to 8 KB in size. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html">Common
+        /// Request Headers</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Consider the following when using request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  Consideration 1 – If both of the <code>If-Match</code> and <code>If-Unmodified-Since</code>
+        /// headers are present in the request as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>If-Match</code> condition evaluates to <code>true</code>, and;
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>If-Unmodified-Since</code> condition evaluates to <code>false</code>;
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Then Amazon S3 returns <code>200 OK</code> and the data requested.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Consideration 2 – If both of the <code>If-None-Match</code> and <code>If-Modified-Since</code>
+        /// headers are present in the request as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>If-None-Match</code> condition evaluates to <code>false</code>, and;
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>If-Modified-Since</code> condition evaluates to <code>true</code>;
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Then Amazon S3 returns the <code>304 Not Modified</code> response code.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about conditional requests, see <a href="https://tools.ietf.org/html/rfc7232">RFC
+        /// 7232</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You need the <code>s3:GetObject</code> permission for this operation. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>. If the object you request does not exist, the error Amazon
+        /// S3 returns depends on whether you also have the s3:ListBucket permission.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 returns
+        /// an HTTP status code 404 ("no such key") error.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 returns an
+        /// HTTP status code 403 ("access denied") error.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following operation is related to <code>HeadObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetObjectMetadataRequest used to execute the GetObjectMetadata service method.</param>
-        /// <param name="key">A property of GetObjectMetadataRequest used to execute the GetObjectMetadata service method.</param>
+        /// <param name="bucketName">The name of the bucket containing the object.</param>
+        /// <param name="key">The object key.</param>
         /// <param name="versionId">VersionId used to reference a specific version of the object.</param>
         /// 
         /// <returns>The response from the GetObjectMetadata service method, as returned by S3.</returns>
@@ -2520,16 +6855,133 @@ namespace Amazon.S3
         /// The HEAD operation retrieves metadata from an object without returning the object
         /// itself. This operation is useful if you're only interested in an object's metadata.
         /// To use HEAD, you must have READ access to the object.
+        /// 
+        ///  
+        /// <para>
+        /// A <code>HEAD</code> request has the same options as a <code>GET</code> operation on
+        /// an object. The response is identical to the <code>GET</code> response except that
+        /// there is no response body.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you encrypt an object by using server-side encryption with customer-provided encryption
+        /// keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the metadata
+        /// from the object, you must use the following headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+        /// Encryption (Using Customer-Provided Encryption Keys)</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Encryption request headers, like <code>x-amz-server-side-encryption</code>, should
+        /// not be sent for GET requests if your object uses server-side encryption with CMKs
+        /// stored in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption
+        /// keys (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400
+        /// BadRequest error.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Request headers are limited to 8 KB in size. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html">Common
+        /// Request Headers</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Consider the following when using request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  Consideration 1 – If both of the <code>If-Match</code> and <code>If-Unmodified-Since</code>
+        /// headers are present in the request as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>If-Match</code> condition evaluates to <code>true</code>, and;
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>If-Unmodified-Since</code> condition evaluates to <code>false</code>;
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Then Amazon S3 returns <code>200 OK</code> and the data requested.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Consideration 2 – If both of the <code>If-None-Match</code> and <code>If-Modified-Since</code>
+        /// headers are present in the request as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>If-None-Match</code> condition evaluates to <code>false</code>, and;
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>If-Modified-Since</code> condition evaluates to <code>true</code>;
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Then Amazon S3 returns the <code>304 Not Modified</code> response code.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about conditional requests, see <a href="https://tools.ietf.org/html/rfc7232">RFC
+        /// 7232</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You need the <code>s3:GetObject</code> permission for this operation. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>. If the object you request does not exist, the error Amazon
+        /// S3 returns depends on whether you also have the s3:ListBucket permission.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 returns
+        /// an HTTP status code 404 ("no such key") error.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 returns an
+        /// HTTP status code 403 ("access denied") error.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following operation is related to <code>HeadObject</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetObjectMetadata service method.</param>
         /// 
         /// <returns>The response from the GetObjectMetadata service method, as returned by S3.</returns>
         public virtual GetObjectMetadataResponse GetObjectMetadata(GetObjectMetadataRequest request)
         {
-            var marshaller = GetObjectMetadataRequestMarshaller.Instance;
-            var unmarshaller = GetObjectMetadataResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectMetadataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectMetadataResponseUnmarshaller.Instance;
 
-            return Invoke<GetObjectMetadataRequest,GetObjectMetadataResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetObjectMetadataResponse>(request, options);
         }
 
         /// <summary>
@@ -2545,11 +6997,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetObjectMetadata(GetObjectMetadataRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetObjectMetadataRequestMarshaller.Instance;
-            var unmarshaller = GetObjectMetadataResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectMetadataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectMetadataResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetObjectMetadataRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2566,20 +7018,102 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  GetObjectRetention
+
+        /// <summary>
+        /// Retrieves an object's retention settings. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+        /// Objects</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectRetention service method.</param>
+        /// 
+        /// <returns>The response from the GetObjectRetention service method, as returned by S3.</returns>
+        public virtual GetObjectRetentionResponse GetObjectRetention(GetObjectRetentionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectRetentionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectRetentionResponseUnmarshaller.Instance;
+
+            return Invoke<GetObjectRetentionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetObjectRetention operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectRetention operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetObjectRetention
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetObjectRetention(GetObjectRetentionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectRetentionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectRetentionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetObjectRetention operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetObjectRetention.</param>
+        /// 
+        /// <returns>Returns a  GetObjectRetentionResult from S3.</returns>
+        public virtual GetObjectRetentionResponse EndGetObjectRetention(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetObjectRetentionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetObjectTagging
 
         /// <summary>
-        /// Returns the tag-set of an object.
+        /// Returns the tag-set of an object. You send the GET request against the tagging subresource
+        /// associated with the object.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:GetObjectTagging</code>
+        /// action. By default, the GET operation returns information about current version of
+        /// an object. For a versioned bucket, you can have multiple versions of an object in
+        /// your bucket. To retrieve tags of any other version, use the versionId query parameter.
+        /// You also need permission for the <code>s3:GetObjectVersionTagging</code> action.
+        /// </para>
+        ///  
+        /// <para>
+        ///  By default, the bucket owner has this permission and can grant this permission to
+        /// others.
+        /// </para>
+        ///  
+        /// <para>
+        ///  For information about the Amazon S3 object tagging feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html">Object
+        /// Tagging</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>GetObjectTagging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObjectTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetObjectTagging service method.</param>
         /// 
         /// <returns>The response from the GetObjectTagging service method, as returned by S3.</returns>
         public virtual GetObjectTaggingResponse GetObjectTagging(GetObjectTaggingRequest request)
         {
-            var marshaller = GetObjectTaggingRequestMarshaller.Instance;
-            var unmarshaller = GetObjectTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectTaggingResponseUnmarshaller.Instance;
 
-            return Invoke<GetObjectTaggingRequest,GetObjectTaggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetObjectTaggingResponse>(request, options);
         }
 
         /// <summary>
@@ -2595,11 +7129,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetObjectTagging(GetObjectTaggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetObjectTaggingRequestMarshaller.Instance;
-            var unmarshaller = GetObjectTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectTaggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetObjectTaggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2619,10 +7153,31 @@ namespace Amazon.S3
         #region  GetObjectTorrent
 
         /// <summary>
-        /// Return torrent files from a bucket.
+        /// Return torrent files from a bucket. BitTorrent can save you bandwidth when you're
+        /// distributing large files. For more information about BitTorrent, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
+        /// S3 Torrent</a>.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// You can get torrent only for objects that are less than 5 GB in size and that are
+        /// not encrypted using server-side encryption with customer-provided encryption key.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// To use GET, you must have READ access to the object.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>GetObjectTorrent</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of GetObjectTorrentRequest used to execute the GetObjectTorrent service method.</param>
-        /// <param name="key">A property of GetObjectTorrentRequest used to execute the GetObjectTorrent service method.</param>
+        /// <param name="bucketName">The name of the bucket containing the object for which to get the torrent files.</param>
+        /// <param name="key">The object key for which to get the information.</param>
         /// 
         /// <returns>The response from the GetObjectTorrent service method, as returned by S3.</returns>
         public virtual GetObjectTorrentResponse GetObjectTorrent(string bucketName, string key)
@@ -2635,17 +7190,39 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Return torrent files from a bucket.
+        /// Return torrent files from a bucket. BitTorrent can save you bandwidth when you're
+        /// distributing large files. For more information about BitTorrent, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
+        /// S3 Torrent</a>.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// You can get torrent only for objects that are less than 5 GB in size and that are
+        /// not encrypted using server-side encryption with customer-provided encryption key.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// To use GET, you must have READ access to the object.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>GetObjectTorrent</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetObjectTorrent service method.</param>
         /// 
         /// <returns>The response from the GetObjectTorrent service method, as returned by S3.</returns>
         public virtual GetObjectTorrentResponse GetObjectTorrent(GetObjectTorrentRequest request)
         {
-            var marshaller = GetObjectTorrentRequestMarshaller.Instance;
-            var unmarshaller = GetObjectTorrentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectTorrentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectTorrentResponseUnmarshaller.Instance;
 
-            return Invoke<GetObjectTorrentRequest,GetObjectTorrentResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetObjectTorrentResponse>(request, options);
         }
 
         /// <summary>
@@ -2661,11 +7238,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetObjectTorrent(GetObjectTorrentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetObjectTorrentRequestMarshaller.Instance;
-            var unmarshaller = GetObjectTorrentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectTorrentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectTorrentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetObjectTorrentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2682,21 +7259,125 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  GetPublicAccessBlock
+
+        /// <summary>
+        /// Retrieves the <code>PublicAccessBlock</code> configuration for an Amazon S3 bucket.
+        /// To use this operation, you must have the <code>s3:GetBucketPublicAccessBlock</code>
+        /// permission. For more information about Amazon S3 permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// When Amazon S3 evaluates the <code>PublicAccessBlock</code> configuration for a bucket
+        /// or an object, it checks the <code>PublicAccessBlock</code> configuration for both
+        /// the bucket (or the bucket that contains the object) and the bucket owner's account.
+        /// If the <code>PublicAccessBlock</code> settings are different between the bucket and
+        /// the account, Amazon S3 uses the most restrictive combination of the bucket-level and
+        /// account-level settings.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about when Amazon S3 considers a bucket or an object public,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
+        /// Meaning of "Public"</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>GetPublicAccessBlock</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">Using
+        /// Amazon S3 Block Public Access</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutPublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetPublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeletePublicAccessBlock</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetPublicAccessBlock service method.</param>
+        /// 
+        /// <returns>The response from the GetPublicAccessBlock service method, as returned by S3.</returns>
+        public virtual GetPublicAccessBlockResponse GetPublicAccessBlock(GetPublicAccessBlockRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPublicAccessBlockRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPublicAccessBlockResponseUnmarshaller.Instance;
+
+            return Invoke<GetPublicAccessBlockResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetPublicAccessBlock operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetPublicAccessBlock operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetPublicAccessBlock
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetPublicAccessBlock(GetPublicAccessBlockRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPublicAccessBlockRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPublicAccessBlockResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetPublicAccessBlock operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetPublicAccessBlock.</param>
+        /// 
+        /// <returns>Returns a  GetPublicAccessBlockResult from S3.</returns>
+        public virtual GetPublicAccessBlockResponse EndGetPublicAccessBlock(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetPublicAccessBlockResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  HeadBucket
 
         /// <summary>
         /// This operation is useful to determine if a bucket exists and you have permission to
-        /// access it.
+        /// access it. The operation returns a <code>200 OK</code> if the bucket exists and you
+        /// have permission to access it. Otherwise, the operation might return responses such
+        /// as <code>404 Not Found</code> and <code>403 Forbidden</code>. 
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:ListBucket</code>
+        /// action. The bucket owner has this permission by default and can grant this permission
+        /// to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the HeadBucket service method.</param>
         /// 
         /// <returns>The response from the HeadBucket service method, as returned by S3.</returns>
         internal virtual HeadBucketResponse HeadBucket(HeadBucketRequest request)
         {
-            var marshaller = HeadBucketRequestMarshaller.Instance;
-            var unmarshaller = HeadBucketResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = HeadBucketRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = HeadBucketResponseUnmarshaller.Instance;
 
-            return Invoke<HeadBucketRequest,HeadBucketResponse>(request, marshaller, unmarshaller);
+            return Invoke<HeadBucketResponse>(request, options);
         }
 
         /// <summary>
@@ -2712,11 +7393,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         internal virtual IAsyncResult BeginHeadBucket(HeadBucketRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = HeadBucketRequestMarshaller.Instance;
-            var unmarshaller = HeadBucketResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = HeadBucketRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = HeadBucketResponseUnmarshaller.Instance;
 
-            return BeginInvoke<HeadBucketRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2736,18 +7417,270 @@ namespace Amazon.S3
         #region  InitiateMultipartUpload
 
         /// <summary>
-        /// Initiates a multipart upload and returns an upload ID.
+        /// This operation initiates a multipart upload and returns an upload ID. This upload
+        /// ID is used to associate all of the parts in the specific multipart upload. You specify
+        /// this upload ID in each of your subsequent upload part requests (see <a>UploadPart</a>).
+        /// You also include this upload ID in the final request to either complete or abort the
+        /// multipart upload request.
         /// 
+        ///  
+        /// <para>
+        /// For more information about multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
+        /// Upload Overview</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you have configured a lifecycle rule to abort incomplete multipart uploads, the
+        /// upload must complete within the number of days specified in the bucket lifecycle configuration.
+        /// Otherwise, the incomplete multipart upload becomes eligible for an abort operation
+        /// and Amazon S3 aborts the multipart upload. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">Aborting
+        /// Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about the permissions required to use the multipart upload API, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For request signing, multipart upload is just a series of regular requests. You initiate
+        /// a multipart upload, send one or more requests to upload parts, and then complete the
+        /// multipart upload process. You sign each request individually. There is nothing special
+        /// about signing multipart upload requests. For more information about signing, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
+        /// Requests (AWS Signature Version 4)</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  After you initiate a multipart upload and upload one or more parts, to stop being
+        /// charged for storing the uploaded parts, you must either complete or abort the multipart
+        /// upload. Amazon S3 frees up the space used to store the parts and stop charging you
+        /// for storing them only after you either complete or abort a multipart upload. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You can optionally request server-side encryption. For server-side encryption, Amazon
+        /// S3 encrypts your data as it writes it to disks in its data centers and decrypts it
+        /// when you access it. You can provide your own encryption key, or use AWS Key Management
+        /// Service (AWS KMS) customer master keys (CMKs) or Amazon S3-managed encryption keys.
+        /// If you choose to provide your own encryption key, the request headers you provide
+        /// in <a>UploadPart</a>) and <a>UploadPartCopy</a>) requests must match the headers you
+        /// used in the request to initiate the upload by using <code>CreateMultipartUpload</code>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To perform a multipart upload with encryption using an AWS KMS CMK, the requester
+        /// must have permission to the <code>kms:Encrypt</code>, <code>kms:Decrypt</code>, <code>kms:ReEncrypt*</code>,
+        /// <code>kms:GenerateDataKey*</code>, and <code>kms:DescribeKey</code> actions on the
+        /// key. These permissions are required because Amazon S3 must decrypt and read data from
+        /// the encrypted file parts before it completes the multipart upload.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your AWS Identity and Access Management (IAM) user or role is in the same AWS account
+        /// as the AWS KMS CMK, then you must have these permissions on the key policy. If your
+        /// IAM user or role belongs to a different account than the key, then you must have the
+        /// permissions on both the key policy and your IAM user or role.
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a>.
+        /// </para>
+        ///  <dl> <dt>Access Permissions</dt> <dd> 
+        /// <para>
+        /// When copying an object, you can optionally specify the accounts or groups that should
+        /// be granted specific permissions on the new object. There are two ways to grant the
+        /// permissions using the request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly with the <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
+        /// <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code> headers.
+        /// These parameters map to the set of permissions that Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd> 
+        /// <para>
+        /// You can optionally tell Amazon S3 to encrypt data at rest using server-side encryption.
+        /// Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data
+        /// as it writes it to disks in its data centers and decrypts it when you access it. The
+        /// option you use depends on whether you want to use AWS managed encryption keys or provide
+        /// your own encryption key. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use encryption keys managed by Amazon S3 or customer master keys (CMKs) stored in
+        /// AWS Key Management Service (AWS KMS) – If you want AWS to manage the keys used to
+        /// encrypt data, specify the following headers in the request.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-aws-kms-key-id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-context
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but don't provide
+        /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS managed
+        /// CMK in AWS KMS to protect the data.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// All GET and PUT requests for an object protected by AWS KMS fail if you don't make
+        /// them with SSL or by using SigV4.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use customer-provided encryption keys – If you want to manage your own encryption
+        /// keys, provide all the following headers in the request.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt> <dd>
         /// 
         /// <para>
-        /// <b>Note:</b> After you initiate multipart upload and upload one or more parts, you
-        /// must either complete or abort multipart upload in order to stop getting charged for
-        /// storage of the uploaded parts. Only after you either complete or abort multipart upload,
-        /// Amazon S3 frees up the parts storage and stops charging you for the parts storage.
+        /// You also can use the following access control–related headers with this operation.
+        /// By default, all objects are private. Only the owner has full access control. When
+        /// adding a new object, you can grant permissions to individual AWS accounts or to predefined
+        /// groups defined by Amazon S3. These permissions are then added to the access control
+        /// list (ACL) on the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>. With this operation, you can grant access permissions using one of the following
+        /// two methods:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set of predefined
+        /// ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined set of grantees
+        /// and permissions. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly — To explicitly grant access permissions to
+        /// specific AWS accounts or groups, use the following headers. Each header maps to specific
+        /// permissions that Amazon S3 supports in an ACL. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>. In the header, you specify a list of grantees who
+        /// get the specific permission. To grant permissions explicitly, use:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-grant-read
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-read-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-full-control
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> </dd> </dl> 
+        /// <para>
+        /// The following operations are related to <code>CreateMultipartUpload</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of InitiateMultipartUploadRequest used to execute the InitiateMultipartUpload service method.</param>
-        /// <param name="key">A property of InitiateMultipartUploadRequest used to execute the InitiateMultipartUpload service method.</param>
+        /// <param name="bucketName">The name of the bucket to which to initiate the upload</param>
+        /// <param name="key">Object key for which the multipart upload is to be initiated.</param>
         /// 
         /// <returns>The response from the InitiateMultipartUpload service method, as returned by S3.</returns>
         public virtual InitiateMultipartUploadResponse InitiateMultipartUpload(string bucketName, string key)
@@ -2760,25 +7693,278 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Initiates a multipart upload and returns an upload ID.
+        /// This operation initiates a multipart upload and returns an upload ID. This upload
+        /// ID is used to associate all of the parts in the specific multipart upload. You specify
+        /// this upload ID in each of your subsequent upload part requests (see <a>UploadPart</a>).
+        /// You also include this upload ID in the final request to either complete or abort the
+        /// multipart upload request.
         /// 
+        ///  
+        /// <para>
+        /// For more information about multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
+        /// Upload Overview</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you have configured a lifecycle rule to abort incomplete multipart uploads, the
+        /// upload must complete within the number of days specified in the bucket lifecycle configuration.
+        /// Otherwise, the incomplete multipart upload becomes eligible for an abort operation
+        /// and Amazon S3 aborts the multipart upload. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">Aborting
+        /// Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about the permissions required to use the multipart upload API, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For request signing, multipart upload is just a series of regular requests. You initiate
+        /// a multipart upload, send one or more requests to upload parts, and then complete the
+        /// multipart upload process. You sign each request individually. There is nothing special
+        /// about signing multipart upload requests. For more information about signing, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Authenticating
+        /// Requests (AWS Signature Version 4)</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  After you initiate a multipart upload and upload one or more parts, to stop being
+        /// charged for storing the uploaded parts, you must either complete or abort the multipart
+        /// upload. Amazon S3 frees up the space used to store the parts and stop charging you
+        /// for storing them only after you either complete or abort a multipart upload. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You can optionally request server-side encryption. For server-side encryption, Amazon
+        /// S3 encrypts your data as it writes it to disks in its data centers and decrypts it
+        /// when you access it. You can provide your own encryption key, or use AWS Key Management
+        /// Service (AWS KMS) customer master keys (CMKs) or Amazon S3-managed encryption keys.
+        /// If you choose to provide your own encryption key, the request headers you provide
+        /// in <a>UploadPart</a>) and <a>UploadPartCopy</a>) requests must match the headers you
+        /// used in the request to initiate the upload by using <code>CreateMultipartUpload</code>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To perform a multipart upload with encryption using an AWS KMS CMK, the requester
+        /// must have permission to the <code>kms:Encrypt</code>, <code>kms:Decrypt</code>, <code>kms:ReEncrypt*</code>,
+        /// <code>kms:GenerateDataKey*</code>, and <code>kms:DescribeKey</code> actions on the
+        /// key. These permissions are required because Amazon S3 must decrypt and read data from
+        /// the encrypted file parts before it completes the multipart upload.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your AWS Identity and Access Management (IAM) user or role is in the same AWS account
+        /// as the AWS KMS CMK, then you must have these permissions on the key policy. If your
+        /// IAM user or role belongs to a different account than the key, then you must have the
+        /// permissions on both the key policy and your IAM user or role.
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a>.
+        /// </para>
+        ///  <dl> <dt>Access Permissions</dt> <dd> 
+        /// <para>
+        /// When copying an object, you can optionally specify the accounts or groups that should
+        /// be granted specific permissions on the new object. There are two ways to grant the
+        /// permissions using the request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly with the <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
+        /// <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code> headers.
+        /// These parameters map to the set of permissions that Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd> 
+        /// <para>
+        /// You can optionally tell Amazon S3 to encrypt data at rest using server-side encryption.
+        /// Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data
+        /// as it writes it to disks in its data centers and decrypts it when you access it. The
+        /// option you use depends on whether you want to use AWS managed encryption keys or provide
+        /// your own encryption key. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use encryption keys managed by Amazon S3 or customer master keys (CMKs) stored in
+        /// AWS Key Management Service (AWS KMS) – If you want AWS to manage the keys used to
+        /// encrypt data, specify the following headers in the request.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-aws-kms-key-id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-context
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but don't provide
+        /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS managed
+        /// CMK in AWS KMS to protect the data.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// All GET and PUT requests for an object protected by AWS KMS fail if you don't make
+        /// them with SSL or by using SigV4.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use customer-provided encryption keys – If you want to manage your own encryption
+        /// keys, provide all the following headers in the request.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt> <dd>
         /// 
         /// <para>
-        /// <b>Note:</b> After you initiate multipart upload and upload one or more parts, you
-        /// must either complete or abort multipart upload in order to stop getting charged for
-        /// storage of the uploaded parts. Only after you either complete or abort multipart upload,
-        /// Amazon S3 frees up the parts storage and stops charging you for the parts storage.
+        /// You also can use the following access control–related headers with this operation.
+        /// By default, all objects are private. Only the owner has full access control. When
+        /// adding a new object, you can grant permissions to individual AWS accounts or to predefined
+        /// groups defined by Amazon S3. These permissions are then added to the access control
+        /// list (ACL) on the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>. With this operation, you can grant access permissions using one of the following
+        /// two methods:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set of predefined
+        /// ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined set of grantees
+        /// and permissions. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly — To explicitly grant access permissions to
+        /// specific AWS accounts or groups, use the following headers. Each header maps to specific
+        /// permissions that Amazon S3 supports in an ACL. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>. In the header, you specify a list of grantees who
+        /// get the specific permission. To grant permissions explicitly, use:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-grant-read
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-read-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-full-control
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> </dd> </dl> 
+        /// <para>
+        /// The following operations are related to <code>CreateMultipartUpload</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the InitiateMultipartUpload service method.</param>
         /// 
         /// <returns>The response from the InitiateMultipartUpload service method, as returned by S3.</returns>
         public virtual InitiateMultipartUploadResponse InitiateMultipartUpload(InitiateMultipartUploadRequest request)
         {
-            var marshaller = InitiateMultipartUploadRequestMarshaller.Instance;
-            var unmarshaller = InitiateMultipartUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InitiateMultipartUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InitiateMultipartUploadResponseUnmarshaller.Instance;
 
-            return Invoke<InitiateMultipartUploadRequest,InitiateMultipartUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<InitiateMultipartUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -2794,11 +7980,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginInitiateMultipartUpload(InitiateMultipartUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = InitiateMultipartUploadRequestMarshaller.Instance;
-            var unmarshaller = InitiateMultipartUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InitiateMultipartUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InitiateMultipartUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<InitiateMultipartUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2818,17 +8004,60 @@ namespace Amazon.S3
         #region  ListBucketAnalyticsConfigurations
 
         /// <summary>
-        /// Lists the analytics configurations for the bucket.
+        /// Lists the analytics configurations for the bucket. You can have up to 1,000 analytics
+        /// configurations per bucket.
+        /// 
+        ///  
+        /// <para>
+        /// This operation supports list pagination and does not return more than 100 configurations
+        /// at a time. You should always check the <code>IsTruncated</code> element in the response.
+        /// If there are no more configurations to list, <code>IsTruncated</code> is set to false.
+        /// If there are more configurations to list, <code>IsTruncated</code> is set to true,
+        /// and there will be a value in <code>NextContinuationToken</code>. You use the <code>NextContinuationToken</code>
+        /// value to continue the pagination of the list by passing the value in continuation-token
+        /// in the request to <code>GET</code> the next page.
+        /// </para>
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:GetAnalyticsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about Amazon S3 analytics feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html">Amazon
+        /// S3 Analytics – Storage Class Analysis</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListBucketAnalyticsConfigurations</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketAnalyticsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketAnalyticsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketAnalyticsConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListBucketAnalyticsConfigurations service method.</param>
         /// 
         /// <returns>The response from the ListBucketAnalyticsConfigurations service method, as returned by S3.</returns>
         public virtual ListBucketAnalyticsConfigurationsResponse ListBucketAnalyticsConfigurations(ListBucketAnalyticsConfigurationsRequest request)
         {
-            var marshaller = ListBucketAnalyticsConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketAnalyticsConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketAnalyticsConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketAnalyticsConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListBucketAnalyticsConfigurationsRequest,ListBucketAnalyticsConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListBucketAnalyticsConfigurationsResponse>(request, options);
         }
 
         /// <summary>
@@ -2844,11 +8073,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListBucketAnalyticsConfigurations(ListBucketAnalyticsConfigurationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListBucketAnalyticsConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketAnalyticsConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketAnalyticsConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketAnalyticsConfigurationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListBucketAnalyticsConfigurationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2868,17 +8097,60 @@ namespace Amazon.S3
         #region  ListBucketInventoryConfigurations
 
         /// <summary>
-        /// Returns a list of inventory configurations for the bucket.
+        /// Returns a list of inventory configurations for the bucket. You can have up to 1,000
+        /// analytics configurations per bucket.
+        /// 
+        ///  
+        /// <para>
+        /// This operation supports list pagination and does not return more than 100 configurations
+        /// at a time. Always check the <code>IsTruncated</code> element in the response. If there
+        /// are no more configurations to list, <code>IsTruncated</code> is set to false. If there
+        /// are more configurations to list, <code>IsTruncated</code> is set to true, and there
+        /// is a value in <code>NextContinuationToken</code>. You use the <code>NextContinuationToken</code>
+        /// value to continue the pagination of the list by passing the value in continuation-token
+        /// in the request to <code>GET</code> the next page.
+        /// </para>
+        ///  
+        /// <para>
+        ///  To use this operation, you must have permissions to perform the <code>s3:GetInventoryConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about the Amazon S3 inventory feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html">Amazon
+        /// S3 Inventory</a> 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListBucketInventoryConfigurations</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListBucketInventoryConfigurations service method.</param>
         /// 
         /// <returns>The response from the ListBucketInventoryConfigurations service method, as returned by S3.</returns>
         public virtual ListBucketInventoryConfigurationsResponse ListBucketInventoryConfigurations(ListBucketInventoryConfigurationsRequest request)
         {
-            var marshaller = ListBucketInventoryConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketInventoryConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketInventoryConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketInventoryConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListBucketInventoryConfigurationsRequest,ListBucketInventoryConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListBucketInventoryConfigurationsResponse>(request, options);
         }
 
         /// <summary>
@@ -2894,11 +8166,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListBucketInventoryConfigurations(ListBucketInventoryConfigurationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListBucketInventoryConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketInventoryConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketInventoryConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketInventoryConfigurationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListBucketInventoryConfigurationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2918,17 +8190,62 @@ namespace Amazon.S3
         #region  ListBucketMetricsConfigurations
 
         /// <summary>
-        /// Lists the metrics configurations for the bucket.
+        /// Lists the metrics configurations for the bucket. The metrics configurations are only
+        /// for the request metrics of the bucket and do not provide information on daily storage
+        /// metrics. You can have up to 1,000 configurations per bucket.
+        /// 
+        ///  
+        /// <para>
+        /// This operation supports list pagination and does not return more than 100 configurations
+        /// at a time. Always check the <code>IsTruncated</code> element in the response. If there
+        /// are no more configurations to list, <code>IsTruncated</code> is set to false. If there
+        /// are more configurations to list, <code>IsTruncated</code> is set to true, and there
+        /// is a value in <code>NextContinuationToken</code>. You use the <code>NextContinuationToken</code>
+        /// value to continue the pagination of the list by passing the value in <code>continuation-token</code>
+        /// in the request to <code>GET</code> the next page.
+        /// </para>
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:GetMetricsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about metrics configurations and CloudWatch request metrics,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html">Monitoring
+        /// Metrics with Amazon CloudWatch</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListBucketMetricsConfigurations</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListBucketMetricsConfigurations service method.</param>
         /// 
         /// <returns>The response from the ListBucketMetricsConfigurations service method, as returned by S3.</returns>
         public virtual ListBucketMetricsConfigurationsResponse ListBucketMetricsConfigurations(ListBucketMetricsConfigurationsRequest request)
         {
-            var marshaller = ListBucketMetricsConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketMetricsConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketMetricsConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketMetricsConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListBucketMetricsConfigurationsRequest,ListBucketMetricsConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListBucketMetricsConfigurationsResponse>(request, options);
         }
 
         /// <summary>
@@ -2944,11 +8261,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListBucketMetricsConfigurations(ListBucketMetricsConfigurationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListBucketMetricsConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketMetricsConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketMetricsConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketMetricsConfigurationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListBucketMetricsConfigurationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2985,10 +8302,11 @@ namespace Amazon.S3
         /// <returns>The response from the ListBuckets service method, as returned by S3.</returns>
         public virtual ListBucketsResponse ListBuckets(ListBucketsRequest request)
         {
-            var marshaller = ListBucketsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketsResponseUnmarshaller.Instance;
 
-            return Invoke<ListBucketsRequest,ListBucketsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListBucketsResponse>(request, options);
         }
 
         /// <summary>
@@ -3004,11 +8322,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListBuckets(ListBucketsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListBucketsRequestMarshaller.Instance;
-            var unmarshaller = ListBucketsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBucketsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBucketsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListBucketsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3028,9 +8346,64 @@ namespace Amazon.S3
         #region  ListMultipartUploads
 
         /// <summary>
-        /// This operation lists in-progress multipart uploads.
+        /// This operation lists in-progress multipart uploads. An in-progress multipart upload
+        /// is a multipart upload that has been initiated using the Initiate Multipart Upload
+        /// request, but has not yet been completed or aborted.
+        /// 
+        ///  
+        /// <para>
+        /// This operation returns at most 1,000 multipart uploads in the response. 1,000 multipart
+        /// uploads is the maximum number of uploads a response can include, which is also the
+        /// default value. You can further limit the number of uploads in a response by specifying
+        /// the <code>max-uploads</code> parameter in the response. If additional multipart uploads
+        /// satisfy the list criteria, the response will contain an <code>IsTruncated</code> element
+        /// with the value true. To list the additional multipart uploads, use the <code>key-marker</code>
+        /// and <code>upload-id-marker</code> request parameters.
+        /// </para>
+        ///  
+        /// <para>
+        /// In the response, the uploads are sorted by key. If your application has initiated
+        /// more than one multipart upload using the same object key, then uploads in the response
+        /// are first sorted by key. Additionally, uploads are sorted in ascending order within
+        /// each key by the upload initiation time.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information on multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information on permissions required to use the multipart upload API, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListMultipartUploads</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of ListMultipartUploadsRequest used to execute the ListMultipartUploads service method.</param>
+        /// <param name="bucketName">Name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the ListMultipartUploads service method, as returned by S3.</returns>
         public virtual ListMultipartUploadsResponse ListMultipartUploads(string bucketName)
@@ -3042,10 +8415,65 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// This operation lists in-progress multipart uploads.
+        /// This operation lists in-progress multipart uploads. An in-progress multipart upload
+        /// is a multipart upload that has been initiated using the Initiate Multipart Upload
+        /// request, but has not yet been completed or aborted.
+        /// 
+        ///  
+        /// <para>
+        /// This operation returns at most 1,000 multipart uploads in the response. 1,000 multipart
+        /// uploads is the maximum number of uploads a response can include, which is also the
+        /// default value. You can further limit the number of uploads in a response by specifying
+        /// the <code>max-uploads</code> parameter in the response. If additional multipart uploads
+        /// satisfy the list criteria, the response will contain an <code>IsTruncated</code> element
+        /// with the value true. To list the additional multipart uploads, use the <code>key-marker</code>
+        /// and <code>upload-id-marker</code> request parameters.
+        /// </para>
+        ///  
+        /// <para>
+        /// In the response, the uploads are sorted by key. If your application has initiated
+        /// more than one multipart upload using the same object key, then uploads in the response
+        /// are first sorted by key. Additionally, uploads are sorted in ascending order within
+        /// each key by the upload initiation time.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information on multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information on permissions required to use the multipart upload API, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListMultipartUploads</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of ListMultipartUploadsRequest used to execute the ListMultipartUploads service method.</param>
-        /// <param name="prefix">Lists in-progress uploads only for those keys that begin with the specified prefix.</param>
+        /// <param name="bucketName">Name of the bucket to which the multipart upload was initiated.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="prefix">Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)</param>
         /// 
         /// <returns>The response from the ListMultipartUploads service method, as returned by S3.</returns>
         public virtual ListMultipartUploadsResponse ListMultipartUploads(string bucketName, string prefix)
@@ -3058,17 +8486,73 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// This operation lists in-progress multipart uploads.
+        /// This operation lists in-progress multipart uploads. An in-progress multipart upload
+        /// is a multipart upload that has been initiated using the Initiate Multipart Upload
+        /// request, but has not yet been completed or aborted.
+        /// 
+        ///  
+        /// <para>
+        /// This operation returns at most 1,000 multipart uploads in the response. 1,000 multipart
+        /// uploads is the maximum number of uploads a response can include, which is also the
+        /// default value. You can further limit the number of uploads in a response by specifying
+        /// the <code>max-uploads</code> parameter in the response. If additional multipart uploads
+        /// satisfy the list criteria, the response will contain an <code>IsTruncated</code> element
+        /// with the value true. To list the additional multipart uploads, use the <code>key-marker</code>
+        /// and <code>upload-id-marker</code> request parameters.
+        /// </para>
+        ///  
+        /// <para>
+        /// In the response, the uploads are sorted by key. If your application has initiated
+        /// more than one multipart upload using the same object key, then uploads in the response
+        /// are first sorted by key. Additionally, uploads are sorted in ascending order within
+        /// each key by the upload initiation time.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information on multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information on permissions required to use the multipart upload API, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListMultipartUploads</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListMultipartUploads service method.</param>
         /// 
         /// <returns>The response from the ListMultipartUploads service method, as returned by S3.</returns>
         public virtual ListMultipartUploadsResponse ListMultipartUploads(ListMultipartUploadsRequest request)
         {
-            var marshaller = ListMultipartUploadsRequestMarshaller.Instance;
-            var unmarshaller = ListMultipartUploadsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMultipartUploadsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMultipartUploadsResponseUnmarshaller.Instance;
 
-            return Invoke<ListMultipartUploadsRequest,ListMultipartUploadsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListMultipartUploadsResponse>(request, options);
         }
 
         /// <summary>
@@ -3084,11 +8568,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListMultipartUploads(ListMultipartUploadsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListMultipartUploadsRequestMarshaller.Instance;
-            var unmarshaller = ListMultipartUploadsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMultipartUploadsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMultipartUploadsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListMultipartUploadsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3108,10 +8592,44 @@ namespace Amazon.S3
         #region  ListObjects
 
         /// <summary>
-        /// Returns some or all (up to 1000) of the objects in a bucket. You can use the request
-        /// parameters as selection criteria to return a subset of the objects in a bucket.
+        /// Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
+        /// parameters as selection criteria to return a subset of the objects in a bucket. A
+        /// 200 OK response can contain valid or invalid XML. Be sure to design your application
+        /// to parse the contents of the response and handle it appropriately.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// This API has been revised. We recommend that you use the newer version, <a>ListObjectsV2</a>,
+        /// when developing applications. For backward compatibility, Amazon S3 continues to support
+        /// <code>ListObjects</code>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// The following operations are related to <code>ListObjects</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjectsV2</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBuckets</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of ListObjectsRequest used to execute the ListObjects service method.</param>
+        /// <param name="bucketName">The name of the bucket containing the objects.</param>
         /// 
         /// <returns>The response from the ListObjects service method, as returned by S3.</returns>
         public virtual ListObjectsResponse ListObjects(string bucketName)
@@ -3123,10 +8641,44 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns some or all (up to 1000) of the objects in a bucket. You can use the request
-        /// parameters as selection criteria to return a subset of the objects in a bucket.
+        /// Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
+        /// parameters as selection criteria to return a subset of the objects in a bucket. A
+        /// 200 OK response can contain valid or invalid XML. Be sure to design your application
+        /// to parse the contents of the response and handle it appropriately.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// This API has been revised. We recommend that you use the newer version, <a>ListObjectsV2</a>,
+        /// when developing applications. For backward compatibility, Amazon S3 continues to support
+        /// <code>ListObjects</code>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// The following operations are related to <code>ListObjects</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjectsV2</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBuckets</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of ListObjectsRequest used to execute the ListObjects service method.</param>
+        /// <param name="bucketName">The name of the bucket containing the objects.</param>
         /// <param name="prefix">Limits the response to keys that begin with the specified prefix.</param>
         /// 
         /// <returns>The response from the ListObjects service method, as returned by S3.</returns>
@@ -3140,18 +8692,53 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns some or all (up to 1000) of the objects in a bucket. You can use the request
-        /// parameters as selection criteria to return a subset of the objects in a bucket.
+        /// Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
+        /// parameters as selection criteria to return a subset of the objects in a bucket. A
+        /// 200 OK response can contain valid or invalid XML. Be sure to design your application
+        /// to parse the contents of the response and handle it appropriately.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// This API has been revised. We recommend that you use the newer version, <a>ListObjectsV2</a>,
+        /// when developing applications. For backward compatibility, Amazon S3 continues to support
+        /// <code>ListObjects</code>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// The following operations are related to <code>ListObjects</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjectsV2</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBuckets</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListObjects service method.</param>
         /// 
         /// <returns>The response from the ListObjects service method, as returned by S3.</returns>
         public virtual ListObjectsResponse ListObjects(ListObjectsRequest request)
         {
-            var marshaller = ListObjectsRequestMarshaller.Instance;
-            var unmarshaller = ListObjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectsResponseUnmarshaller.Instance;
 
-            return Invoke<ListObjectsRequest,ListObjectsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListObjectsResponse>(request, options);
         }
 
         /// <summary>
@@ -3167,11 +8754,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListObjects(ListObjectsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListObjectsRequestMarshaller.Instance;
-            var unmarshaller = ListObjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListObjectsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3191,20 +8778,62 @@ namespace Amazon.S3
         #region  ListObjectsV2
 
         /// <summary>
-        /// Returns some or all (up to 1000) of the objects in a bucket. You can use the request
-        /// parameters as selection criteria to return a subset of the objects in a bucket. Note:
-        /// ListObjectsV2 is the revised List Objects API and we recommend you use this revised
-        /// API for new application development.
+        /// Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
+        /// parameters as selection criteria to return a subset of the objects in a bucket. A
+        /// <code>200 OK</code> response can contain valid or invalid XML. Make sure to design
+        /// your application to parse the contents of the response and handle it appropriately.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have READ access to the bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// To use this operation in an AWS Identity and Access Management (IAM) policy, you must
+        /// have permissions to perform the <code>s3:ListBucket</code> action. The bucket owner
+        /// has this permission by default and can grant this permission to others. For more information
+        /// about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// This section describes the latest revision of the API. We recommend that you use this
+        /// revised API for application development. For backward compatibility, Amazon S3 continues
+        /// to support the prior version of this API, <a>ListObjects</a>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// To get a list of your buckets, see <a>ListBuckets</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListObjectsV2</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListObjectsV2 service method.</param>
         /// 
         /// <returns>The response from the ListObjectsV2 service method, as returned by S3.</returns>
         public virtual ListObjectsV2Response ListObjectsV2(ListObjectsV2Request request)
         {
-            var marshaller = ListObjectsV2RequestMarshaller.Instance;
-            var unmarshaller = ListObjectsV2ResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectsV2RequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectsV2ResponseUnmarshaller.Instance;
 
-            return Invoke<ListObjectsV2Request,ListObjectsV2Response>(request, marshaller, unmarshaller);
+            return Invoke<ListObjectsV2Response>(request, options);
         }
 
         /// <summary>
@@ -3220,11 +8849,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListObjectsV2(ListObjectsV2Request request, AsyncCallback callback, object state)
         {
-            var marshaller = ListObjectsV2RequestMarshaller.Instance;
-            var unmarshaller = ListObjectsV2ResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectsV2RequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectsV2ResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListObjectsV2Request>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3244,10 +8873,55 @@ namespace Amazon.S3
         #region  ListParts
 
         /// <summary>
-        /// Lists the parts that have been uploaded for a specific multipart upload.
+        /// Lists the parts that have been uploaded for a specific multipart upload. This operation
+        /// must include the upload ID, which you obtain by sending the initiate multipart upload
+        /// request (see <a>CreateMultipartUpload</a>). This request returns a maximum of 1,000
+        /// uploaded parts. The default number of parts returned is 1,000 parts. You can restrict
+        /// the number of parts returned by specifying the <code>max-parts</code> request parameter.
+        /// If your multipart upload consists of more than 1,000 parts, the response returns an
+        /// <code>IsTruncated</code> field with the value of true, and a <code>NextPartNumberMarker</code>
+        /// element. In subsequent <code>ListParts</code> requests you can include the part-number-marker
+        /// query string parameter and set its value to the <code>NextPartNumberMarker</code>
+        /// field value from the previous response.
+        /// 
+        ///  
+        /// <para>
+        /// For more information on multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information on permissions required to use the multipart upload API, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListParts</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of ListPartsRequest used to execute the ListParts service method.</param>
-        /// <param name="key">A property of ListPartsRequest used to execute the ListParts service method.</param>
+        /// <param name="bucketName">Name of the bucket to which the parts are being uploaded.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Object key for which the multipart upload was initiated.</param>
         /// <param name="uploadId">Upload ID identifying the multipart upload whose parts are being listed.</param>
         /// 
         /// <returns>The response from the ListParts service method, as returned by S3.</returns>
@@ -3262,17 +8936,63 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Lists the parts that have been uploaded for a specific multipart upload.
+        /// Lists the parts that have been uploaded for a specific multipart upload. This operation
+        /// must include the upload ID, which you obtain by sending the initiate multipart upload
+        /// request (see <a>CreateMultipartUpload</a>). This request returns a maximum of 1,000
+        /// uploaded parts. The default number of parts returned is 1,000 parts. You can restrict
+        /// the number of parts returned by specifying the <code>max-parts</code> request parameter.
+        /// If your multipart upload consists of more than 1,000 parts, the response returns an
+        /// <code>IsTruncated</code> field with the value of true, and a <code>NextPartNumberMarker</code>
+        /// element. In subsequent <code>ListParts</code> requests you can include the part-number-marker
+        /// query string parameter and set its value to the <code>NextPartNumberMarker</code>
+        /// field value from the previous response.
+        /// 
+        ///  
+        /// <para>
+        /// For more information on multipart uploads, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
+        /// Objects Using Multipart Upload</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information on permissions required to use the multipart upload API, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListParts</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>UploadPart</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListParts service method.</param>
         /// 
         /// <returns>The response from the ListParts service method, as returned by S3.</returns>
         public virtual ListPartsResponse ListParts(ListPartsRequest request)
         {
-            var marshaller = ListPartsRequestMarshaller.Instance;
-            var unmarshaller = ListPartsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPartsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPartsResponseUnmarshaller.Instance;
 
-            return Invoke<ListPartsRequest,ListPartsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPartsResponse>(request, options);
         }
 
         /// <summary>
@@ -3288,11 +9008,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListParts(ListPartsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPartsRequestMarshaller.Instance;
-            var unmarshaller = ListPartsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPartsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPartsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPartsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3312,9 +9032,42 @@ namespace Amazon.S3
         #region  ListVersions
 
         /// <summary>
-        /// Returns metadata about all of the versions of objects in a bucket.
+        /// Returns metadata about all of the versions of objects in a bucket. You can also use
+        /// request parameters as selection criteria to return metadata about a subset of all
+        /// the object versions. 
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  A 200 OK response can contain valid or invalid XML. Make sure to design your application
+        /// to parse the contents of the response and handle it appropriately.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// To use this operation, you must have READ access to the bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListObjectVersions</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjectsV2</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of ListVersionsRequest used to execute the ListVersions service method.</param>
+        /// <param name="bucketName">The bucket name that contains the objects.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the ListVersions service method, as returned by S3.</returns>
         public virtual ListVersionsResponse ListVersions(string bucketName)
@@ -3326,10 +9079,43 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns metadata about all of the versions of objects in a bucket.
+        /// Returns metadata about all of the versions of objects in a bucket. You can also use
+        /// request parameters as selection criteria to return metadata about a subset of all
+        /// the object versions. 
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  A 200 OK response can contain valid or invalid XML. Make sure to design your application
+        /// to parse the contents of the response and handle it appropriately.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// To use this operation, you must have READ access to the bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListObjectVersions</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjectsV2</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of ListVersionsRequest used to execute the ListVersions service method.</param>
-        /// <param name="prefix">Limits the response to keys that begin with the specified prefix.</param>
+        /// <param name="bucketName">The bucket name that contains the objects.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="prefix">Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes. </param>
         /// 
         /// <returns>The response from the ListVersions service method, as returned by S3.</returns>
         public virtual ListVersionsResponse ListVersions(string bucketName, string prefix)
@@ -3342,17 +9128,51 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Returns metadata about all of the versions of objects in a bucket.
+        /// Returns metadata about all of the versions of objects in a bucket. You can also use
+        /// request parameters as selection criteria to return metadata about a subset of all
+        /// the object versions. 
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  A 200 OK response can contain valid or invalid XML. Make sure to design your application
+        /// to parse the contents of the response and handle it appropriately.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// To use this operation, you must have READ access to the bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>ListObjectVersions</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>ListObjectsV2</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListVersions service method.</param>
         /// 
         /// <returns>The response from the ListVersions service method, as returned by S3.</returns>
         public virtual ListVersionsResponse ListVersions(ListVersionsRequest request)
         {
-            var marshaller = ListVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListVersionsRequest,ListVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListVersionsResponse>(request, options);
         }
 
         /// <summary>
@@ -3368,11 +9188,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginListVersions(ListVersionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVersionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListVersionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3392,17 +9212,165 @@ namespace Amazon.S3
         #region  PutACL
 
         /// <summary>
-        /// Sets the permissions on a bucket using access control lists (ACL).
+        /// Sets the permissions on an existing bucket using access control lists (ACL). For more
+        /// information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>. To set the ACL of a bucket, you must have <code>WRITE_ACP</code> permission.
+        /// 
+        ///  
+        /// <para>
+        /// You can use one of the following two ways to set a bucket's permissions:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify the ACL in the request body
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify permissions using request headers
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// You cannot specify access permission using both the body and the request headers.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Depending on your application needs, you may choose to set the ACL on a bucket using
+        /// either the request body or the headers. For example, if you have an existing application
+        /// that updates a bucket ACL using the request body, then you can continue to use that
+        /// approach.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Access Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can set access permissions using one of the following methods:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL with the <code>x-amz-acl</code> request header. Amazon S3 supports
+        /// a set of predefined ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined
+        /// set of grantees and permissions. Specify the canned ACL name as the value of <code>x-amz-acl</code>.
+        /// If you use this header, you cannot use other access control-specific headers in your
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly with the <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
+        /// <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code> headers.
+        /// When using these headers, you specify explicit access permissions and grantees (AWS
+        /// accounts or Amazon S3 groups) who will receive the permission. If you use these ACL-specific
+        /// headers, you cannot use the <code>x-amz-acl</code> header to set a canned ACL. These
+        /// parameters map to the set of permissions that Amazon S3 supports in an ACL. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-write</code> header grants create, overwrite,
+        /// and delete objects permission to LogDelivery group predefined by Amazon S3 and two
+        /// AWS accounts identified by their email addresses.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-write: uri="http://acs.amazonaws.com/groups/s3/LogDelivery", emailAddress="xyz@amazon.com",
+        /// emailAddress="abc@amazon.com" </code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Grantee Values</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify the person (grantee) to whom you're assigning access rights (using
+        /// request elements) in the following ways:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// By Email address:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"&gt;&lt;EmailAddress&gt;&lt;&gt;Grantees@email.com&lt;&gt;&lt;/EmailAddress&gt;lt;/Grantee&gt;</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// The grantee is resolved to the CanonicalUser and, in a response to a GET Object acl
+        /// request, appears as the CanonicalUser.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// By the person's ID:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt;
+        /// &lt;/Grantee&gt;</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// DisplayName is optional and ignored in the request
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// By URI:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"&gt;&lt;URI&gt;&lt;&gt;http://acs.amazonaws.com/groups/global/AuthenticatedUsers&lt;&gt;&lt;/URI&gt;&lt;/Grantee&gt;</code>
+        /// 
+        /// </para>
+        ///  </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetObjectAcl</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutACL service method.</param>
         /// 
         /// <returns>The response from the PutACL service method, as returned by S3.</returns>
         public virtual PutACLResponse PutACL(PutACLRequest request)
         {
-            var marshaller = PutACLRequestMarshaller.Instance;
-            var unmarshaller = PutACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutACLResponseUnmarshaller.Instance;
 
-            return Invoke<PutACLRequest,PutACLResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutACLResponse>(request, options);
         }
 
         /// <summary>
@@ -3418,11 +9386,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutACL(PutACLRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutACLRequestMarshaller.Instance;
-            var unmarshaller = PutACLResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutACLRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutACLResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutACLRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3442,9 +9410,103 @@ namespace Amazon.S3
         #region  PutBucket
 
         /// <summary>
-        /// Creates a new bucket.
+        /// Creates a new bucket. To create a bucket, you must register with Amazon S3 and have
+        /// a valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed
+        /// to create buckets. By creating the bucket, you become the bucket owner.
+        /// 
+        ///  
+        /// <para>
+        /// Not every string is an acceptable bucket name. For information on bucket naming restrictions,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">Working
+        /// with Amazon S3 Buckets</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the bucket is created in the US East (N. Virginia) Region. You can optionally
+        /// specify a Region in the request body. You might choose a Region to optimize latency,
+        /// minimize costs, or address regulatory requirements. For example, if you reside in
+        /// Europe, you will probably find it advantageous to create buckets in the EU (Ireland)
+        /// Region. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro">How
+        /// to Select a Region for Your Buckets</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you send your create bucket request to the <code>s3.amazonaws.com</code> endpoint,
+        /// the request goes to the us-east-1 Region. Accordingly, the signature calculations
+        /// in Signature Version 4 must use us-east-1 as the Region, even if the location constraint
+        /// in the request specifies another Region where the bucket is to be created. If you
+        /// create a bucket in a Region other than US East (N. Virginia), your application must
+        /// be able to handle 307 redirect. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html">Virtual
+        /// Hosting of Buckets</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// When creating a bucket using this operation, you can optionally specify the accounts
+        /// or groups that should be granted specific permissions on the bucket. There are two
+        /// ways to grant the appropriate permissions using the request headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL using the <code>x-amz-acl</code> request header. Amazon S3 supports
+        /// a set of predefined ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined
+        /// set of grantees and permissions. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly using the <code>x-amz-grant-read</code>, <code>x-amz-grant-write</code>,
+        /// <code>x-amz-grant-read-acp</code>, <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code>
+        /// headers. These headers map to the set of permissions Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The following operations are related to <code>CreateBucket</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutBucketRequest used to execute the PutBucket service method.</param>
+        /// <param name="bucketName">The name of the bucket to create.</param>
         /// 
         /// <returns>The response from the PutBucket service method, as returned by S3.</returns>
         public virtual PutBucketResponse PutBucket(string bucketName)
@@ -3456,17 +9518,112 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Creates a new bucket.
+        /// Creates a new bucket. To create a bucket, you must register with Amazon S3 and have
+        /// a valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed
+        /// to create buckets. By creating the bucket, you become the bucket owner.
+        /// 
+        ///  
+        /// <para>
+        /// Not every string is an acceptable bucket name. For information on bucket naming restrictions,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">Working
+        /// with Amazon S3 Buckets</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the bucket is created in the US East (N. Virginia) Region. You can optionally
+        /// specify a Region in the request body. You might choose a Region to optimize latency,
+        /// minimize costs, or address regulatory requirements. For example, if you reside in
+        /// Europe, you will probably find it advantageous to create buckets in the EU (Ireland)
+        /// Region. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro">How
+        /// to Select a Region for Your Buckets</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you send your create bucket request to the <code>s3.amazonaws.com</code> endpoint,
+        /// the request goes to the us-east-1 Region. Accordingly, the signature calculations
+        /// in Signature Version 4 must use us-east-1 as the Region, even if the location constraint
+        /// in the request specifies another Region where the bucket is to be created. If you
+        /// create a bucket in a Region other than US East (N. Virginia), your application must
+        /// be able to handle 307 redirect. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html">Virtual
+        /// Hosting of Buckets</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// When creating a bucket using this operation, you can optionally specify the accounts
+        /// or groups that should be granted specific permissions on the bucket. There are two
+        /// ways to grant the appropriate permissions using the request headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL using the <code>x-amz-acl</code> request header. Amazon S3 supports
+        /// a set of predefined ACLs, known as <i>canned ACLs</i>. Each canned ACL has a predefined
+        /// set of grantees and permissions. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly using the <code>x-amz-grant-read</code>, <code>x-amz-grant-write</code>,
+        /// <code>x-amz-grant-read-acp</code>, <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code>
+        /// headers. These headers map to the set of permissions Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The following operations are related to <code>CreateBucket</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucket service method.</param>
         /// 
         /// <returns>The response from the PutBucket service method, as returned by S3.</returns>
         public virtual PutBucketResponse PutBucket(PutBucketRequest request)
         {
-            var marshaller = PutBucketRequestMarshaller.Instance;
-            var unmarshaller = PutBucketResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketRequest,PutBucketResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketResponse>(request, options);
         }
 
         /// <summary>
@@ -3482,11 +9639,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucket(PutBucketRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketRequestMarshaller.Instance;
-            var unmarshaller = PutBucketResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3506,17 +9663,75 @@ namespace Amazon.S3
         #region  PutBucketAccelerateConfiguration
 
         /// <summary>
-        /// Sets the accelerate configuration of an existing bucket.
+        /// Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration
+        /// is a bucket-level feature that enables you to perform faster data transfers to Amazon
+        /// S3.
+        /// 
+        ///  
+        /// <para>
+        ///  To use this operation, you must have permission to perform the s3:PutAccelerateConfiguration
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  The Transfer Acceleration state of a bucket can be set to one of the following two
+        /// values:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  Enabled – Enables accelerated data transfers to the bucket.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Suspended – Disables accelerated data transfers to the bucket.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The <a>GetBucketAccelerateConfiguration</a> operation returns the transfer acceleration
+        /// state of a bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// After setting the Transfer Acceleration state of a bucket to Enabled, it might take
+        /// up to thirty minutes before the data transfer rates to the bucket increase.
+        /// </para>
+        ///  
+        /// <para>
+        ///  The name of the bucket used for Transfer Acceleration must be DNS-compliant and must
+        /// not contain periods (".").
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information about transfer acceleration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
+        /// Acceleration</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketAccelerateConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketAccelerateConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketAccelerateConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutBucketAccelerateConfiguration service method, as returned by S3.</returns>
         public virtual PutBucketAccelerateConfigurationResponse PutBucketAccelerateConfiguration(PutBucketAccelerateConfigurationRequest request)
         {
-            var marshaller = PutBucketAccelerateConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketAccelerateConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketAccelerateConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketAccelerateConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketAccelerateConfigurationRequest,PutBucketAccelerateConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketAccelerateConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -3532,11 +9747,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketAccelerateConfiguration(PutBucketAccelerateConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketAccelerateConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketAccelerateConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketAccelerateConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketAccelerateConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketAccelerateConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3557,17 +9772,101 @@ namespace Amazon.S3
 
         /// <summary>
         /// Sets an analytics configuration for the bucket (specified by the analytics configuration
-        /// ID).
+        /// ID). You can have up to 1,000 analytics configurations per bucket.
+        /// 
+        ///  
+        /// <para>
+        /// You can choose to have storage class analysis export analysis reports sent to a comma-separated
+        /// values (CSV) flat file. See the <code>DataExport</code> request element. Reports are
+        /// updated daily and are based on the object filters that you configure. When selecting
+        /// data export, you specify a destination bucket and an optional destination prefix where
+        /// the file is written. You can export the data to a destination bucket in a different
+        /// account. However, the destination bucket must be in the same Region as the bucket
+        /// that you are making the PUT analytics configuration to. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html">Amazon
+        /// S3 Analytics – Storage Class Analysis</a>. 
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// You must create a bucket policy on the destination bucket where the exported file
+        /// is written to grant permissions to Amazon S3 to write objects to the bucket. For an
+        /// example policy, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-9">Granting
+        /// Permissions for Amazon S3 Inventory and Storage Class Analysis</a>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutAnalyticsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <ul> <li> 
+        /// <para>
+        ///  <i>HTTP Error: HTTP 400 Bad Request</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Code: InvalidArgument</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Invalid argument.</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <ul> <li> 
+        /// <para>
+        ///  <i>HTTP Error: HTTP 400 Bad Request</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Code: TooManyConfigurations</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: You are attempting to create a new configuration but have already reached
+        /// the 1,000-configuration limit.</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <ul> <li> 
+        /// <para>
+        ///  <i>HTTP Error: HTTP 403 Forbidden</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Code: AccessDenied</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: You are not the owner of the specified bucket, or you do not have the s3:PutAnalyticsConfiguration
+        /// bucket permission to set the configuration on the bucket.</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketAnalyticsConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutBucketAnalyticsConfiguration service method, as returned by S3.</returns>
         public virtual PutBucketAnalyticsConfigurationResponse PutBucketAnalyticsConfiguration(PutBucketAnalyticsConfigurationRequest request)
         {
-            var marshaller = PutBucketAnalyticsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketAnalyticsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketAnalyticsConfigurationRequest,PutBucketAnalyticsConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketAnalyticsConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -3583,11 +9882,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketAnalyticsConfiguration(PutBucketAnalyticsConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketAnalyticsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketAnalyticsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketAnalyticsConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketAnalyticsConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3607,18 +9906,51 @@ namespace Amazon.S3
         #region  PutBucketEncryption
 
         /// <summary>
-        /// Creates a new server-side encryption configuration (or replaces an existing one, if
-        /// present).
+        /// This implementation of the <code>PUT</code> operation uses the <code>encryption</code>
+        /// subresource to set the default encryption state of an existing bucket.
+        /// 
+        ///  
+        /// <para>
+        /// This implementation of the <code>PUT</code> operation sets default encryption for
+        /// a bucket using server-side encryption with Amazon S3-managed keys SSE-S3 or AWS KMS
+        /// customer master keys (CMKs) (SSE-KMS).
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// This operation requires AWS Signature Version 4. For more information, see <a href="sig-v4-authenticating-requests.html">
+        /// Authenticating Requests (AWS Signature Version 4)</a>. 
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutEncryptionConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the Amazon Simple Storage Service
+        /// Developer Guide. 
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketEncryption</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketEncryption</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketEncryption service method.</param>
         /// 
         /// <returns>The response from the PutBucketEncryption service method, as returned by S3.</returns>
         public virtual PutBucketEncryptionResponse PutBucketEncryption(PutBucketEncryptionRequest request)
         {
-            var marshaller = PutBucketEncryptionRequestMarshaller.Instance;
-            var unmarshaller = PutBucketEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketEncryptionResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketEncryptionRequest,PutBucketEncryptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketEncryptionResponse>(request, options);
         }
 
         /// <summary>
@@ -3634,11 +9966,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketEncryption(PutBucketEncryptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketEncryptionRequestMarshaller.Instance;
-            var unmarshaller = PutBucketEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketEncryptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketEncryptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3658,17 +9990,104 @@ namespace Amazon.S3
         #region  PutBucketInventoryConfiguration
 
         /// <summary>
-        /// Adds an inventory configuration (identified by the inventory ID) from the bucket.
+        /// This implementation of the <code>PUT</code> operation adds an inventory configuration
+        /// (identified by the inventory ID) to the bucket. You can have up to 1,000 inventory
+        /// configurations per bucket. 
+        /// 
+        ///  
+        /// <para>
+        /// Amazon S3 inventory generates inventories of the objects in the bucket on a daily
+        /// or weekly basis, and the results are published to a flat file. The bucket that is
+        /// inventoried is called the <i>source</i> bucket, and the bucket where the inventory
+        /// flat file is stored is called the <i>destination</i> bucket. The <i>destination</i>
+        /// bucket must be in the same AWS Region as the <i>source</i> bucket. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When you configure an inventory for a <i>source</i> bucket, you specify the <i>destination</i>
+        /// bucket where you want the inventory to be stored, and whether to generate the inventory
+        /// daily or weekly. You can also configure what object metadata to include and whether
+        /// to inventory all object versions or only current versions. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//storage-inventory.html">Amazon
+        /// S3 Inventory</a> in the Amazon Simple Storage Service Developer Guide.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// You must create a bucket policy on the <i>destination</i> bucket to grant permissions
+        /// to Amazon S3 to write objects to the bucket in the defined location. For an example
+        /// policy, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/example-bucket-policies.html#example-bucket-policies-use-case-9">
+        /// Granting Permissions for Amazon S3 Inventory and Storage Class Analysis.</a> 
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutInventoryConfiguration</code>
+        /// action. The bucket owner has this permission by default and can grant this permission
+        /// to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the Amazon Simple Storage Service
+        /// Developer Guide.
+        /// </para>
+        ///  <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b>HTTP 400 Bad Request Error</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code:</i> InvalidArgument
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause:</i> Invalid Argument
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b>HTTP 400 Bad Request Error</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code:</i> TooManyConfigurations
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause:</i> You are attempting to create a new configuration but have already reached
+        /// the 1,000-configuration limit. 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b>HTTP 403 Forbidden Error</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code:</i> AccessDenied
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause:</i> You are not the owner of the specified bucket, or you do not have the
+        /// <code>s3:PutInventoryConfiguration</code> bucket permission to set the configuration
+        /// on the bucket 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketInventoryConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBucketInventoryConfigurations</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketInventoryConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutBucketInventoryConfiguration service method, as returned by S3.</returns>
         public virtual PutBucketInventoryConfigurationResponse PutBucketInventoryConfiguration(PutBucketInventoryConfigurationRequest request)
         {
-            var marshaller = PutBucketInventoryConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketInventoryConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketInventoryConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketInventoryConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketInventoryConfigurationRequest,PutBucketInventoryConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketInventoryConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -3684,11 +10103,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketInventoryConfiguration(PutBucketInventoryConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketInventoryConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketInventoryConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketInventoryConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketInventoryConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketInventoryConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3709,18 +10128,113 @@ namespace Amazon.S3
 
         /// <summary>
         /// Set the logging parameters for a bucket and to specify permissions for who can view
-        /// and modify the logging parameters. To set the logging status of a bucket, you must
-        /// be the bucket owner.
+        /// and modify the logging parameters. All logs are saved to buckets in the same AWS Region
+        /// as the source bucket. To set the logging status of a bucket, you must be the bucket
+        /// owner.
+        /// 
+        ///  
+        /// <para>
+        /// The bucket owner is automatically granted FULL_CONTROL to all logs. You use the <code>Grantee</code>
+        /// request element to grant access to other people. The <code>Permissions</code> request
+        /// element specifies the kind of access the grantee has to the logs.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Grantee Values</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify the person (grantee) to whom you're assigning access rights (using
+        /// request elements) in the following ways:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// By the person's ID:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt;
+        /// &lt;/Grantee&gt;</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// DisplayName is optional and ignored in the request.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// By Email address:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code> &lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail"&gt;&lt;EmailAddress&gt;&lt;&gt;Grantees@email.com&lt;&gt;&lt;/EmailAddress&gt;&lt;/Grantee&gt;</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// The grantee is resolved to the CanonicalUser and, in a response to a GET Object acl
+        /// request, appears as the CanonicalUser.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// By URI:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group"&gt;&lt;URI&gt;&lt;&gt;http://acs.amazonaws.com/groups/global/AuthenticatedUsers&lt;&gt;&lt;/URI&gt;&lt;/Grantee&gt;</code>
+        /// 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To enable logging, you use LoggingEnabled and its children request elements. To disable
+        /// logging, you use an empty BucketLoggingStatus request element:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01" /&gt;</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about server access logging, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerLogs.html">Server
+        /// Access Logging</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about creating a bucket, see <a>CreateBucket</a>. For more information
+        /// about returning the logging status of a bucket, see <a>GetBucketLogging</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketLogging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketLogging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketLogging service method.</param>
         /// 
         /// <returns>The response from the PutBucketLogging service method, as returned by S3.</returns>
         public virtual PutBucketLoggingResponse PutBucketLogging(PutBucketLoggingRequest request)
         {
-            var marshaller = PutBucketLoggingRequestMarshaller.Instance;
-            var unmarshaller = PutBucketLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketLoggingResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketLoggingRequest,PutBucketLoggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketLoggingResponse>(request, options);
         }
 
         /// <summary>
@@ -3736,11 +10250,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketLogging(PutBucketLoggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketLoggingRequestMarshaller.Instance;
-            var unmarshaller = PutBucketLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketLoggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketLoggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3761,16 +10275,69 @@ namespace Amazon.S3
 
         /// <summary>
         /// Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
+        /// You can have up to 1,000 metrics configurations per bucket. If you're updating an
+        /// existing metrics configuration, note that this is a full replacement of the existing
+        /// metrics configuration. If you don't include the elements you want to keep, they are
+        /// erased.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutMetricsConfiguration</code>
+        /// action. The bucket owner has this permission by default. The bucket owner can grant
+        /// this permission to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about CloudWatch request metrics for Amazon S3, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html">Monitoring
+        /// Metrics with Amazon CloudWatch</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketMetricsConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>DeleteBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketMetricsConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListBucketMetricsConfigurations</a> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <code>GetBucketLifecycle</code> has the following special error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Error code: <code>TooManyConfigurations</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: You are attempting to create a new configuration but have already reached
+        /// the 1,000-configuration limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HTTP Status Code: HTTP 400 Bad Request
+        /// </para>
+        ///  </li> </ul> </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketMetricsConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutBucketMetricsConfiguration service method, as returned by S3.</returns>
         public virtual PutBucketMetricsConfigurationResponse PutBucketMetricsConfiguration(PutBucketMetricsConfigurationRequest request)
         {
-            var marshaller = PutBucketMetricsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketMetricsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketMetricsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketMetricsConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketMetricsConfigurationRequest,PutBucketMetricsConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketMetricsConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -3786,11 +10353,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketMetricsConfiguration(PutBucketMetricsConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketMetricsConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketMetricsConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketMetricsConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketMetricsConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketMetricsConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3810,17 +10377,94 @@ namespace Amazon.S3
         #region  PutBucketNotification
 
         /// <summary>
-        /// Enables notifications of specified events for a bucket.
+        /// Enables notifications of specified events for a bucket. For more information about
+        /// event notifications, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
+        /// Event Notifications</a>.
+        /// 
+        ///  
+        /// <para>
+        /// Using this API, you can replace an existing notification configuration. The configuration
+        /// is an XML file that defines the event types that you want Amazon S3 to publish and
+        /// the destination where you want Amazon S3 to publish an event notification when it
+        /// detects an event of the specified type.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, your bucket has no event notifications configured. That is, the notification
+        /// configuration will be an empty <code>NotificationConfiguration</code>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;NotificationConfiguration&gt;</code> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>&lt;/NotificationConfiguration&gt;</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation replaces the existing notification configuration with the configuration
+        /// you include in the request body.
+        /// </para>
+        ///  
+        /// <para>
+        /// After Amazon S3 receives this request, it first verifies that any Amazon Simple Notification
+        /// Service (Amazon SNS) or Amazon Simple Queue Service (Amazon SQS) destination exists,
+        /// and that the bucket owner has permission to publish to it by sending a test notification.
+        /// In the case of AWS Lambda destinations, Amazon S3 verifies that the Lambda function
+        /// permissions grant Amazon S3 permission to invoke the function from the Amazon S3 bucket.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
+        /// Notifications for Amazon S3 Events</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can disable notifications by adding the empty NotificationConfiguration element.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, only the bucket owner can configure notifications on a bucket. However,
+        /// bucket owners can use a bucket policy to grant permission to other users to set this
+        /// configuration with <code>s3:PutBucketNotification</code> permission.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// The PUT notification is an atomic operation. For example, suppose your notification
+        /// configuration includes SNS topic, SQS queue, and Lambda function configurations. When
+        /// you send a PUT request with this configuration, Amazon S3 sends test messages to your
+        /// SNS topic. If the message fails, the entire PUT operation will fail, and Amazon S3
+        /// will not add the configuration to your bucket.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  <b>Responses</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If the configuration in the request body includes only one <code>TopicConfiguration</code>
+        /// specifying only the <code>s3:ReducedRedundancyLostObject</code> event type, the response
+        /// will also include the <code>x-amz-sns-test-message-id</code> header containing the
+        /// message ID of the test notification sent to the topic.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operation is related to <code>PutBucketNotificationConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketNotificationConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketNotification service method.</param>
         /// 
         /// <returns>The response from the PutBucketNotification service method, as returned by S3.</returns>
         public virtual PutBucketNotificationResponse PutBucketNotification(PutBucketNotificationRequest request)
         {
-            var marshaller = PutBucketNotificationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketNotificationResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketNotificationRequest,PutBucketNotificationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketNotificationResponse>(request, options);
         }
 
         /// <summary>
@@ -3836,11 +10480,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketNotification(PutBucketNotificationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketNotificationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketNotificationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketNotificationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3860,10 +10504,44 @@ namespace Amazon.S3
         #region  PutBucketPolicy
 
         /// <summary>
-        /// Replaces a policy on a bucket. If the bucket already has a policy, the one in this
-        /// request completely replaces it.
+        /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an identity
+        /// other than the root user of the AWS account that owns the bucket, the calling identity
+        /// must have the <code>PutBucketPolicy</code> permissions on the specified bucket and
+        /// belong to the bucket owner's account in order to use this operation.
+        /// 
+        ///  
+        /// <para>
+        /// If you don't have <code>PutBucketPolic</code>y permissions, Amazon S3 returns a <code>403
+        /// Access Denied</code> error. If you have the correct permissions, but you're not using
+        /// an identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405
+        /// Method Not Allowed</code> error.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        ///  As a security precaution, the root user of the AWS account that owns a bucket can
+        /// always use this operation, even if the policy explicitly denies the root user the
+        /// ability to perform this action. 
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about bucket policies, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies and User Policies</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketPolicy</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutBucketPolicyRequest used to execute the PutBucketPolicy service method.</param>
+        /// <param name="bucketName">The name of the bucket.</param>
         /// <param name="policy">The bucket policy as a JSON document.</param>
         /// 
         /// <returns>The response from the PutBucketPolicy service method, as returned by S3.</returns>
@@ -3877,12 +10555,46 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Replaces a policy on a bucket. If the bucket already has a policy, the one in this
-        /// request completely replaces it.
+        /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an identity
+        /// other than the root user of the AWS account that owns the bucket, the calling identity
+        /// must have the <code>PutBucketPolicy</code> permissions on the specified bucket and
+        /// belong to the bucket owner's account in order to use this operation.
+        /// 
+        ///  
+        /// <para>
+        /// If you don't have <code>PutBucketPolic</code>y permissions, Amazon S3 returns a <code>403
+        /// Access Denied</code> error. If you have the correct permissions, but you're not using
+        /// an identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405
+        /// Method Not Allowed</code> error.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        ///  As a security precaution, the root user of the AWS account that owns a bucket can
+        /// always use this operation, even if the policy explicitly denies the root user the
+        /// ability to perform this action. 
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about bucket policies, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies and User Policies</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketPolicy</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutBucketPolicyRequest used to execute the PutBucketPolicy service method.</param>
+        /// <param name="bucketName">The name of the bucket.</param>
         /// <param name="policy">The bucket policy as a JSON document.</param>
-        /// <param name="contentMD5">A property of PutBucketPolicyRequest used to execute the PutBucketPolicy service method.</param>
+        /// <param name="contentMD5">The MD5 hash of the request body.</param>
         /// 
         /// <returns>The response from the PutBucketPolicy service method, as returned by S3.</returns>
         public virtual PutBucketPolicyResponse PutBucketPolicy(string bucketName, string policy, string contentMD5)
@@ -3896,18 +10608,53 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Replaces a policy on a bucket. If the bucket already has a policy, the one in this
-        /// request completely replaces it.
+        /// Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an identity
+        /// other than the root user of the AWS account that owns the bucket, the calling identity
+        /// must have the <code>PutBucketPolicy</code> permissions on the specified bucket and
+        /// belong to the bucket owner's account in order to use this operation.
+        /// 
+        ///  
+        /// <para>
+        /// If you don't have <code>PutBucketPolic</code>y permissions, Amazon S3 returns a <code>403
+        /// Access Denied</code> error. If you have the correct permissions, but you're not using
+        /// an identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405
+        /// Method Not Allowed</code> error.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        ///  As a security precaution, the root user of the AWS account that owns a bucket can
+        /// always use this operation, even if the policy explicitly denies the root user the
+        /// ability to perform this action. 
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about bucket policies, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+        /// Bucket Policies and User Policies</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketPolicy</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketPolicy service method.</param>
         /// 
         /// <returns>The response from the PutBucketPolicy service method, as returned by S3.</returns>
         public virtual PutBucketPolicyResponse PutBucketPolicy(PutBucketPolicyRequest request)
         {
-            var marshaller = PutBucketPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutBucketPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketPolicyRequest,PutBucketPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3923,11 +10670,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketPolicy(PutBucketPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutBucketPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3947,17 +10694,93 @@ namespace Amazon.S3
         #region  PutBucketReplication
 
         /// <summary>
-        /// Creates a new replication configuration (or replaces an existing one, if present).
+        /// Creates a replication configuration or replaces an existing one. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
+        /// in the <i>Amazon S3 Developer Guide</i>. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// To perform this operation, the user or role performing the operation must have the
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">iam:PassRole</a>
+        /// permission.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Specify the replication configuration in the request body. In the replication configuration,
+        /// you provide the name of the destination bucket where you want Amazon S3 to replicate
+        /// objects, the IAM role that Amazon S3 can assume to replicate objects on your behalf,
+        /// and other relevant information.
+        /// </para>
+        ///  
+        /// <para>
+        /// A replication configuration must include at least one rule, and can contain a maximum
+        /// of 1,000. Each rule identifies a subset of objects to replicate by filtering the objects
+        /// in the source bucket. To choose additional subsets of objects to replicate, add a
+        /// rule for each subset. All rules must specify the same destination bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// To specify a subset of the objects in the source bucket to apply a replication rule
+        /// to, add the Filter element as a child of the Rule element. You can filter objects
+        /// based on an object key prefix, one or more object tags, or both. When you add the
+        /// Filter element in the configuration, you must also add the following elements: <code>DeleteMarkerReplication</code>,
+        /// <code>Status</code>, and <code>Priority</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about enabling versioning on a bucket, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html">Using
+        /// Versioning</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, a resource owner, in this case the AWS account that created the bucket,
+        /// can perform this operation. The resource owner can also grant others permissions to
+        /// perform the operation. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Handling Replication of Encrypted Objects</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, Amazon S3 doesn't replicate objects that are stored at rest using server-side
+        /// encryption with CMKs stored in AWS KMS. To replicate AWS KMS-encrypted objects, add
+        /// the following: <code>SourceSelectionCriteria</code>, <code>SseKmsEncryptedObjects</code>,
+        /// <code>Status</code>, <code>EncryptionConfiguration</code>, and <code>ReplicaKmsKeyID</code>.
+        /// For information about replication configuration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-config-for-kms-objects.html">Replicating
+        /// Objects Created with SSE Using CMKs stored in AWS KMS</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information on <code>PutBucketReplication</code> errors, see <a>ReplicationErrorCodeList</a>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketReplication</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketReplication</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketReplication</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketReplication service method.</param>
         /// 
         /// <returns>The response from the PutBucketReplication service method, as returned by S3.</returns>
         public virtual PutBucketReplicationResponse PutBucketReplication(PutBucketReplicationRequest request)
         {
-            var marshaller = PutBucketReplicationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketReplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketReplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketReplicationResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketReplicationRequest,PutBucketReplicationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketReplicationResponse>(request, options);
         }
 
         /// <summary>
@@ -3973,11 +10796,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketReplication(PutBucketReplicationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketReplicationRequestMarshaller.Instance;
-            var unmarshaller = PutBucketReplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketReplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketReplicationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketReplicationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4000,10 +10823,25 @@ namespace Amazon.S3
         /// Sets the request payment configuration for a bucket. By default, the bucket owner
         /// pays for downloads from the bucket. This configuration parameter enables the bucket
         /// owner (only) to specify that the person requesting the download will be charged for
-        /// the download. Documentation on requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html
+        /// the download. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
+        /// Pays Buckets</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketRequestPayment</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketRequestPayment</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutBucketRequestPaymentRequest used to execute the PutBucketRequestPayment service method.</param>
-        /// <param name="requestPaymentConfiguration">A property of PutBucketRequestPaymentRequest used to execute the PutBucketRequestPayment service method.</param>
+        /// <param name="bucketName">The bucket name.</param>
+        /// <param name="requestPaymentConfiguration">Container for Payer.</param>
         /// 
         /// <returns>The response from the PutBucketRequestPayment service method, as returned by S3.</returns>
         public virtual PutBucketRequestPaymentResponse PutBucketRequestPayment(string bucketName, RequestPaymentConfiguration requestPaymentConfiguration)
@@ -4019,17 +10857,33 @@ namespace Amazon.S3
         /// Sets the request payment configuration for a bucket. By default, the bucket owner
         /// pays for downloads from the bucket. This configuration parameter enables the bucket
         /// owner (only) to specify that the person requesting the download will be charged for
-        /// the download. Documentation on requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html
+        /// the download. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester
+        /// Pays Buckets</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The following operations are related to <code>PutBucketRequestPayment</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketRequestPayment</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketRequestPayment service method.</param>
         /// 
         /// <returns>The response from the PutBucketRequestPayment service method, as returned by S3.</returns>
         public virtual PutBucketRequestPaymentResponse PutBucketRequestPayment(PutBucketRequestPaymentRequest request)
         {
-            var marshaller = PutBucketRequestPaymentRequestMarshaller.Instance;
-            var unmarshaller = PutBucketRequestPaymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketRequestPaymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketRequestPaymentResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketRequestPaymentRequest,PutBucketRequestPaymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketRequestPaymentResponse>(request, options);
         }
 
         /// <summary>
@@ -4045,11 +10899,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketRequestPayment(PutBucketRequestPaymentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketRequestPaymentRequestMarshaller.Instance;
-            var unmarshaller = PutBucketRequestPaymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketRequestPaymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketRequestPaymentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketRequestPaymentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4070,8 +10924,86 @@ namespace Amazon.S3
 
         /// <summary>
         /// Sets the tags for a bucket.
+        /// 
+        ///  
+        /// <para>
+        /// Use tags to organize your AWS bill to reflect your own cost structure. To do this,
+        /// sign up to get your AWS account bill with tag key values included. Then, to see the
+        /// cost of combined resources, organize your billing information according to resources
+        /// with the same tag key values. For example, you can tag several resources with a specific
+        /// application name, and then organize your billing information to see the total cost
+        /// of that application across several services. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Cost
+        /// Allocation and Tagging</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Within a bucket, if you add a tag that has the same key as an existing tag, the new
+        /// value overwrites the old value. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CostAllocTagging.html">Using
+        /// Cost Allocation in Amazon S3 Bucket Tags</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutBucketTagging</code>
+        /// action. The bucket owner has this permission by default and can grant this permission
+        /// to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>PutBucketTagging</code> has the following special errors:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Error code: <code>InvalidTagError</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The tag provided was not a valid tag. This error can occur if the tag
+        /// did not pass input validation. For information about tag restrictions, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2//allocation-tag-restrictions.html">User-Defined
+        /// Tag Restrictions</a> and <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2//aws-tag-restrictions.html">AWS-Generated
+        /// Cost Allocation Tag Restrictions</a>.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>MalformedXMLError</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The XML provided does not match the schema.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>OperationAbortedError </code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: A conflicting conditional operation is currently in progress against
+        /// this resource. Please try again.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>InternalError</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The service was unable to apply the provided tag to the bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The following operations are related to <code>PutBucketTagging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketTagging</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutBucketTaggingRequest used to execute the PutBucketTagging service method.</param>
+        /// <param name="bucketName">The bucket name.</param>
         /// <param name="tagSet">A property of PutBucketTaggingRequest used to execute the PutBucketTagging service method.</param>
         /// 
         /// <returns>The response from the PutBucketTagging service method, as returned by S3.</returns>
@@ -4086,16 +11018,95 @@ namespace Amazon.S3
 
         /// <summary>
         /// Sets the tags for a bucket.
+        /// 
+        ///  
+        /// <para>
+        /// Use tags to organize your AWS bill to reflect your own cost structure. To do this,
+        /// sign up to get your AWS account bill with tag key values included. Then, to see the
+        /// cost of combined resources, organize your billing information according to resources
+        /// with the same tag key values. For example, you can tag several resources with a specific
+        /// application name, and then organize your billing information to see the total cost
+        /// of that application across several services. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Cost
+        /// Allocation and Tagging</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Within a bucket, if you add a tag that has the same key as an existing tag, the new
+        /// value overwrites the old value. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CostAllocTagging.html">Using
+        /// Cost Allocation in Amazon S3 Bucket Tags</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:PutBucketTagging</code>
+        /// action. The bucket owner has this permission by default and can grant this permission
+        /// to others. For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>PutBucketTagging</code> has the following special errors:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Error code: <code>InvalidTagError</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The tag provided was not a valid tag. This error can occur if the tag
+        /// did not pass input validation. For information about tag restrictions, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2//allocation-tag-restrictions.html">User-Defined
+        /// Tag Restrictions</a> and <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2//aws-tag-restrictions.html">AWS-Generated
+        /// Cost Allocation Tag Restrictions</a>.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>MalformedXMLError</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The XML provided does not match the schema.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>OperationAbortedError </code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: A conflicting conditional operation is currently in progress against
+        /// this resource. Please try again.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Error code: <code>InternalError</code> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Description: The service was unable to apply the provided tag to the bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// The following operations are related to <code>PutBucketTagging</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketTagging</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketTagging service method.</param>
         /// 
         /// <returns>The response from the PutBucketTagging service method, as returned by S3.</returns>
         public virtual PutBucketTaggingResponse PutBucketTagging(PutBucketTaggingRequest request)
         {
-            var marshaller = PutBucketTaggingRequestMarshaller.Instance;
-            var unmarshaller = PutBucketTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketTaggingResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketTaggingRequest,PutBucketTaggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketTaggingResponse>(request, options);
         }
 
         /// <summary>
@@ -4111,11 +11122,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketTagging(PutBucketTaggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketTaggingRequestMarshaller.Instance;
-            var unmarshaller = PutBucketTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketTaggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketTaggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4137,16 +11148,69 @@ namespace Amazon.S3
         /// <summary>
         /// Sets the versioning state of an existing bucket. To set the versioning state, you
         /// must be the bucket owner.
+        /// 
+        ///  
+        /// <para>
+        /// You can set the versioning state with one of the following values:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Enabled</b>—Enables versioning for the objects in the bucket. All objects added
+        /// to the bucket receive a unique version ID.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Suspended</b>—Disables versioning for the objects in the bucket. All objects added
+        /// to the bucket receive the version ID null.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the versioning state has never been set on a bucket, it has no versioning state;
+        /// a <a>GetBucketVersioning</a> request does not return a versioning state value.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the bucket owner enables MFA Delete in the bucket versioning configuration, the
+        /// bucket owner must include the <code>x-amz-mfa request</code> header and the <code>Status</code>
+        /// and the <code>MfaDelete</code> request elements in a request to set the versioning
+        /// state of the bucket.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// If you have an object expiration lifecycle policy in your non-versioned bucket and
+        /// you want to maintain the same permanent delete behavior when you enable versioning,
+        /// you must add a noncurrent expiration policy. The noncurrent expiration lifecycle policy
+        /// will manage the deletes of the noncurrent object versions in the version-enabled bucket.
+        /// (A version-enabled bucket maintains one current and zero or more noncurrent object
+        /// versions.) For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-and-other-bucket-config">Lifecycle
+        /// and Versioning</a>.
+        /// </para>
+        ///  </important> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucket</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketVersioning</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketVersioning service method.</param>
         /// 
         /// <returns>The response from the PutBucketVersioning service method, as returned by S3.</returns>
         public virtual PutBucketVersioningResponse PutBucketVersioning(PutBucketVersioningRequest request)
         {
-            var marshaller = PutBucketVersioningRequestMarshaller.Instance;
-            var unmarshaller = PutBucketVersioningResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketVersioningRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketVersioningResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketVersioningRequest,PutBucketVersioningResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketVersioningResponse>(request, options);
         }
 
         /// <summary>
@@ -4162,11 +11226,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketVersioning(PutBucketVersioningRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketVersioningRequestMarshaller.Instance;
-            var unmarshaller = PutBucketVersioningResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketVersioningRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketVersioningResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketVersioningRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4186,10 +11250,116 @@ namespace Amazon.S3
         #region  PutBucketWebsite
 
         /// <summary>
-        /// Set the website configuration for a bucket.
+        /// Sets the configuration of the website that is specified in the <code>website</code>
+        /// subresource. To configure a bucket as a website, you can add this subresource on the
+        /// bucket with website configuration information such as the file name of the index document
+        /// and any redirect rules. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
+        /// Websites on Amazon S3</a>.
+        /// 
+        ///  
+        /// <para>
+        /// This PUT operation requires the <code>S3:PutBucketWebsite</code> permission. By default,
+        /// only the bucket owner can configure the website attached to a bucket; however, bucket
+        /// owners can allow other users to set the website configuration by writing a bucket
+        /// policy that grants them the <code>S3:PutBucketWebsite</code> permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// To redirect all website requests sent to the bucket's website endpoint, you add a
+        /// website configuration with the following elements. Because all requests are sent to
+        /// another website, you don't need to provide index document name for the bucket.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>WebsiteConfiguration</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>RedirectAllRequestsTo</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HostName</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Protocol</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If you want granular control over redirects, you can use the following elements to
+        /// add routing rules that describe conditions for redirecting requests and information
+        /// about the redirect destination. In this case, the website configuration must provide
+        /// an index document for the bucket, because some requests might not be redirected. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>WebsiteConfiguration</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>IndexDocument</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Suffix</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ErrorDocument</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>RoutingRules</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>RoutingRule</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Condition</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HttpErrorCodeReturnedEquals</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>KeyPrefixEquals</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Redirect</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Protocol</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HostName</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ReplaceKeyPrefixWith</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ReplaceKeyWith</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HttpRedirectCode</code> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutBucketWebsiteRequest used to execute the PutBucketWebsite service method.</param>
-        /// <param name="websiteConfiguration">A property of PutBucketWebsiteRequest used to execute the PutBucketWebsite service method.</param>
+        /// <param name="bucketName">The bucket name.</param>
+        /// <param name="websiteConfiguration">Container for the request.</param>
         /// 
         /// <returns>The response from the PutBucketWebsite service method, as returned by S3.</returns>
         public virtual PutBucketWebsiteResponse PutBucketWebsite(string bucketName, WebsiteConfiguration websiteConfiguration)
@@ -4202,17 +11372,124 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Set the website configuration for a bucket.
+        /// Sets the configuration of the website that is specified in the <code>website</code>
+        /// subresource. To configure a bucket as a website, you can add this subresource on the
+        /// bucket with website configuration information such as the file name of the index document
+        /// and any redirect rules. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
+        /// Websites on Amazon S3</a>.
+        /// 
+        ///  
+        /// <para>
+        /// This PUT operation requires the <code>S3:PutBucketWebsite</code> permission. By default,
+        /// only the bucket owner can configure the website attached to a bucket; however, bucket
+        /// owners can allow other users to set the website configuration by writing a bucket
+        /// policy that grants them the <code>S3:PutBucketWebsite</code> permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// To redirect all website requests sent to the bucket's website endpoint, you add a
+        /// website configuration with the following elements. Because all requests are sent to
+        /// another website, you don't need to provide index document name for the bucket.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>WebsiteConfiguration</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>RedirectAllRequestsTo</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HostName</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Protocol</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If you want granular control over redirects, you can use the following elements to
+        /// add routing rules that describe conditions for redirecting requests and information
+        /// about the redirect destination. In this case, the website configuration must provide
+        /// an index document for the bucket, because some requests might not be redirected. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>WebsiteConfiguration</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>IndexDocument</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Suffix</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ErrorDocument</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>RoutingRules</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>RoutingRule</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Condition</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HttpErrorCodeReturnedEquals</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>KeyPrefixEquals</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Redirect</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Protocol</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HostName</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ReplaceKeyPrefixWith</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ReplaceKeyWith</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>HttpRedirectCode</code> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBucketWebsite service method.</param>
         /// 
         /// <returns>The response from the PutBucketWebsite service method, as returned by S3.</returns>
         public virtual PutBucketWebsiteResponse PutBucketWebsite(PutBucketWebsiteRequest request)
         {
-            var marshaller = PutBucketWebsiteRequestMarshaller.Instance;
-            var unmarshaller = PutBucketWebsiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketWebsiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketWebsiteResponseUnmarshaller.Instance;
 
-            return Invoke<PutBucketWebsiteRequest,PutBucketWebsiteResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutBucketWebsiteResponse>(request, options);
         }
 
         /// <summary>
@@ -4228,11 +11505,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutBucketWebsite(PutBucketWebsiteRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutBucketWebsiteRequestMarshaller.Instance;
-            var unmarshaller = PutBucketWebsiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutBucketWebsiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutBucketWebsiteResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutBucketWebsiteRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4252,10 +11529,75 @@ namespace Amazon.S3
         #region  PutCORSConfiguration
 
         /// <summary>
-        /// Sets the cors configuration for a bucket.
+        /// Sets the <code>cors</code> configuration for your bucket. If the configuration exists,
+        /// Amazon S3 replaces it.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must be allowed to perform the <code>s3:PutBucketCORS</code>
+        /// action. By default, the bucket owner has this permission and can grant it to others.
+        /// </para>
+        ///  
+        /// <para>
+        /// You set this configuration on a bucket so that the bucket can service cross-origin
+        /// requests. For example, you might want to enable a request whose origin is <code>http://www.example.com</code>
+        /// to access your Amazon S3 bucket at <code>my.example.bucket.com</code> by using the
+        /// browser's <code>XMLHttpRequest</code> capability.
+        /// </para>
+        ///  
+        /// <para>
+        /// To enable cross-origin resource sharing (CORS) on a bucket, you add the <code>cors</code>
+        /// subresource to the bucket. The <code>cors</code> subresource is an XML document in
+        /// which you configure rules that identify origins and the HTTP methods that can be executed
+        /// on your bucket. The document is limited to 64 KB in size. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When Amazon S3 receives a cross-origin request (or a pre-flight OPTIONS request) against
+        /// a bucket, it evaluates the <code>cors</code> configuration on the bucket and uses
+        /// the first <code>CORSRule</code> rule that matches the incoming browser request to
+        /// enable a cross-origin request. For a rule to match, the following conditions must
+        /// be met:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The request's <code>Origin</code> header must match <code>AllowedOrigin</code> elements.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The request method (for example, GET, PUT, HEAD, and so on) or the <code>Access-Control-Request-Method</code>
+        /// header in case of a pre-flight <code>OPTIONS</code> request must be one of the <code>AllowedMethod</code>
+        /// elements. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Every header specified in the <code>Access-Control-Request-Headers</code> request
+        /// header of a pre-flight request must match an <code>AllowedHeader</code> element. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  For more information about CORS, go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
+        /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketCors</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketCors</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>RESTOPTIONSobject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutCORSConfigurationRequest used to execute the PutCORSConfiguration service method.</param>
-        /// <param name="configuration">A property of PutCORSConfigurationRequest used to execute the PutCORSConfiguration service method.</param>
+        /// <param name="bucketName">Specifies the bucket impacted by the <code>cors</code>configuration.</param>
+        /// <param name="configuration">Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev//cors.html">Enabling Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the PutCORSConfiguration service method, as returned by S3.</returns>
         public virtual PutCORSConfigurationResponse PutCORSConfiguration(string bucketName, CORSConfiguration configuration)
@@ -4268,17 +11610,83 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Sets the cors configuration for a bucket.
+        /// Sets the <code>cors</code> configuration for your bucket. If the configuration exists,
+        /// Amazon S3 replaces it.
+        /// 
+        ///  
+        /// <para>
+        /// To use this operation, you must be allowed to perform the <code>s3:PutBucketCORS</code>
+        /// action. By default, the bucket owner has this permission and can grant it to others.
+        /// </para>
+        ///  
+        /// <para>
+        /// You set this configuration on a bucket so that the bucket can service cross-origin
+        /// requests. For example, you might want to enable a request whose origin is <code>http://www.example.com</code>
+        /// to access your Amazon S3 bucket at <code>my.example.bucket.com</code> by using the
+        /// browser's <code>XMLHttpRequest</code> capability.
+        /// </para>
+        ///  
+        /// <para>
+        /// To enable cross-origin resource sharing (CORS) on a bucket, you add the <code>cors</code>
+        /// subresource to the bucket. The <code>cors</code> subresource is an XML document in
+        /// which you configure rules that identify origins and the HTTP methods that can be executed
+        /// on your bucket. The document is limited to 64 KB in size. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When Amazon S3 receives a cross-origin request (or a pre-flight OPTIONS request) against
+        /// a bucket, it evaluates the <code>cors</code> configuration on the bucket and uses
+        /// the first <code>CORSRule</code> rule that matches the incoming browser request to
+        /// enable a cross-origin request. For a rule to match, the following conditions must
+        /// be met:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The request's <code>Origin</code> header must match <code>AllowedOrigin</code> elements.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The request method (for example, GET, PUT, HEAD, and so on) or the <code>Access-Control-Request-Method</code>
+        /// header in case of a pre-flight <code>OPTIONS</code> request must be one of the <code>AllowedMethod</code>
+        /// elements. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Every header specified in the <code>Access-Control-Request-Headers</code> request
+        /// header of a pre-flight request must match an <code>AllowedHeader</code> element. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  For more information about CORS, go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
+        /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetBucketCors</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketCors</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>RESTOPTIONSobject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutCORSConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutCORSConfiguration service method, as returned by S3.</returns>
         public virtual PutCORSConfigurationResponse PutCORSConfiguration(PutCORSConfigurationRequest request)
         {
-            var marshaller = PutCORSConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutCORSConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutCORSConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutCORSConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<PutCORSConfigurationRequest,PutCORSConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutCORSConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -4294,11 +11702,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutCORSConfiguration(PutCORSConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutCORSConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutCORSConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutCORSConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutCORSConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutCORSConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4318,10 +11726,106 @@ namespace Amazon.S3
         #region  PutLifecycleConfiguration
 
         /// <summary>
-        /// Sets lifecycle configuration for your bucket. If a lifecycle configuration exists,
-        /// it replaces it.
+        /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
+        /// configuration. For information about lifecycle configuration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Bucket lifecycle configuration now supports specifying a lifecycle rule using an object
+        /// key name prefix, one or more object tags, or a combination of both. Accordingly, this
+        /// section describes the latest API. The previous version of the API supported filtering
+        /// based only on an object key name prefix, which is supported for backward compatibility.
+        /// For the related API description, see <a>PutBucketLifecycle</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  <b>Rules</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You specify the lifecycle configuration in your request body. The lifecycle configuration
+        /// is specified as XML consisting of one or more rules. Each rule consists of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Filter identifying a subset of objects to which the rule applies. The filter can be
+        /// based on a key name prefix, object tags, or a combination of both.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Status whether the rule is in effect.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// One or more lifecycle transition and expiration actions that you want Amazon S3 to
+        /// perform on the objects identified by the filter. If the state of your bucket is versioning-enabled
+        /// or versioning-suspended, you can have many versions of the same object (one current
+        /// version and zero or more noncurrent versions). Amazon S3 provides predefined actions
+        /// that you can specify for current and noncurrent object versions.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html">Lifecycle
+        /// Configuration Elements</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, all Amazon S3 resources are private, including buckets, objects, and related
+        /// subresources (for example, lifecycle configuration and website configuration). Only
+        /// the resource owner (that is, the AWS account that created it) can access the resource.
+        /// The resource owner can optionally grant access permissions to others by writing an
+        /// access policy. For this operation, a user must get the s3:PutLifecycleConfiguration
+        /// permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can also explicitly deny permissions. Explicit deny also supersedes any other
+        /// permissions. If you want to block users or accounts from removing or deleting objects
+        /// from your bucket, you must deny them permissions for the following actions:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// s3:DeleteObject
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// s3:DeleteObjectVersion
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// s3:PutLifecycleConfiguration
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following are related to <code>PutBucketLifecycleConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-configuration-examples.html">Examples
+        /// of Lifecycle Configuration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketLifecycle</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of PutLifecycleConfigurationRequest used to execute the PutLifecycleConfiguration service method.</param>
+        /// <param name="bucketName">The name of the bucket for which to set the configuration.</param>
         /// <param name="configuration">A property of PutLifecycleConfigurationRequest used to execute the PutLifecycleConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutLifecycleConfiguration service method, as returned by S3.</returns>
@@ -4335,18 +11839,115 @@ namespace Amazon.S3
 
 
         /// <summary>
-        /// Sets lifecycle configuration for your bucket. If a lifecycle configuration exists,
-        /// it replaces it.
+        /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
+        /// configuration. For information about lifecycle configuration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Bucket lifecycle configuration now supports specifying a lifecycle rule using an object
+        /// key name prefix, one or more object tags, or a combination of both. Accordingly, this
+        /// section describes the latest API. The previous version of the API supported filtering
+        /// based only on an object key name prefix, which is supported for backward compatibility.
+        /// For the related API description, see <a>PutBucketLifecycle</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  <b>Rules</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You specify the lifecycle configuration in your request body. The lifecycle configuration
+        /// is specified as XML consisting of one or more rules. Each rule consists of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Filter identifying a subset of objects to which the rule applies. The filter can be
+        /// based on a key name prefix, object tags, or a combination of both.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Status whether the rule is in effect.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// One or more lifecycle transition and expiration actions that you want Amazon S3 to
+        /// perform on the objects identified by the filter. If the state of your bucket is versioning-enabled
+        /// or versioning-suspended, you can have many versions of the same object (one current
+        /// version and zero or more noncurrent versions). Amazon S3 provides predefined actions
+        /// that you can specify for current and noncurrent object versions.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html">Lifecycle
+        /// Configuration Elements</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, all Amazon S3 resources are private, including buckets, objects, and related
+        /// subresources (for example, lifecycle configuration and website configuration). Only
+        /// the resource owner (that is, the AWS account that created it) can access the resource.
+        /// The resource owner can optionally grant access permissions to others by writing an
+        /// access policy. For this operation, a user must get the s3:PutLifecycleConfiguration
+        /// permission.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can also explicitly deny permissions. Explicit deny also supersedes any other
+        /// permissions. If you want to block users or accounts from removing or deleting objects
+        /// from your bucket, you must deny them permissions for the following actions:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// s3:DeleteObject
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// s3:DeleteObjectVersion
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// s3:PutLifecycleConfiguration
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following are related to <code>PutBucketLifecycleConfiguration</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-configuration-examples.html">Examples
+        /// of Lifecycle Configuration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteBucketLifecycle</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutLifecycleConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutLifecycleConfiguration service method, as returned by S3.</returns>
         public virtual PutLifecycleConfigurationResponse PutLifecycleConfiguration(PutLifecycleConfigurationRequest request)
         {
-            var marshaller = PutLifecycleConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutLifecycleConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecycleConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecycleConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<PutLifecycleConfigurationRequest,PutLifecycleConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutLifecycleConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -4362,11 +11963,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutLifecycleConfiguration(PutLifecycleConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutLifecycleConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutLifecycleConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecycleConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecycleConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutLifecycleConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4386,17 +11987,379 @@ namespace Amazon.S3
         #region  PutObject
 
         /// <summary>
-        /// Adds an object to a bucket.
+        /// Adds an object to a bucket. You must have WRITE permissions on a bucket to add an
+        /// object to it.
+        /// 
+        ///  
+        /// <para>
+        /// Amazon S3 never adds partial objects; if you receive a success response, Amazon S3
+        /// added the entire object to the bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon S3 is a distributed system. If it receives multiple write requests for the
+        /// same object simultaneously, it overwrites all but the last object written. Amazon
+        /// S3 does not provide object locking; if you need this, make sure to build it into your
+        /// application layer or use versioning instead.
+        /// </para>
+        ///  
+        /// <para>
+        /// To ensure that data is not corrupted traversing the network, use the <code>Content-MD5</code>
+        /// header. When you use this header, Amazon S3 checks the object against the provided
+        /// MD5 value and, if they do not match, returns an error. Additionally, you can calculate
+        /// the MD5 while putting an object to Amazon S3 and compare the returned ETag to the
+        /// calculated MD5 value.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// To configure your application to send the request headers before sending the request
+        /// body, use the <code>100-continue</code> HTTP status code. For PUT operations, this
+        /// helps you avoid sending the message body if the message is rejected based on the headers
+        /// (for example, because authentication fails or a redirect occurs). For more information
+        /// on the <code>100-continue</code> HTTP status code, see Section 8.2.3 of <a href="http://www.ietf.org/rfc/rfc2616.txt">http://www.ietf.org/rfc/rfc2616.txt</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You can optionally request server-side encryption. With server-side encryption, Amazon
+        /// S3 encrypts your data as it writes it to disks in its data centers and decrypts the
+        /// data when you access it. You have the option to provide your own encryption key or
+        /// use AWS managed encryption keys. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
+        /// Server-Side Encryption</a>.
+        /// </para>
+        ///  <dl> <dt>Access Permissions</dt> <dd> 
+        /// <para>
+        /// You can optionally specify the accounts or groups that should be granted specific
+        /// permissions on the new object. There are two ways to grant the permissions using the
+        /// request headers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL with the <code>x-amz-acl</code> request header. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly with the <code>x-amz-grant-read</code>, <code>x-amz-grant-read-acp</code>,
+        /// <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code> headers.
+        /// These parameters map to the set of permissions that Amazon S3 supports in an ACL.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either a canned ACL or specify access permissions explicitly. You cannot
+        /// do both.
+        /// </para>
+        ///  </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd> 
+        /// <para>
+        /// You can optionally tell Amazon S3 to encrypt data at rest using server-side encryption.
+        /// Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data
+        /// as it writes it to disks in its data centers and decrypts it when you access it. The
+        /// option you use depends on whether you want to use AWS managed encryption keys or provide
+        /// your own encryption key. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use encryption keys managed by Amazon S3 or customer master keys (CMKs) stored in
+        /// AWS Key Management Service (AWS KMS) – If you want AWS to manage the keys used to
+        /// encrypt data, specify the following headers in the request.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-aws-kms-key-id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-context
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but don't provide
+        /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS managed
+        /// CMK in AWS KMS to protect the data. If you want to use a customer managed AWS KMS
+        /// CMK, you must provide the <code>x-amz-server-side-encryption-aws-kms-key-id</code>
+        /// of the symmetric customer managed CMK. Amazon S3 only supports symmetric CMKs and
+        /// not asymmetric CMKs. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// All GET and PUT requests for an object protected by AWS KMS fail if you don't make
+        /// them with SSL or by using SigV4.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use customer-provided encryption keys – If you want to manage your own encryption
+        /// keys, provide all the following headers in the request.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS</a>.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Access-Control-List (ACL)-Specific Request Headers</dt> <dd>
+        /// 
+        /// <para>
+        /// You also can use the following access control–related headers with this operation.
+        /// By default, all objects are private. Only the owner has full access control. When
+        /// adding a new object, you can grant permissions to individual AWS accounts or to predefined
+        /// groups defined by Amazon S3. These permissions are then added to the Access Control
+        /// List (ACL) on the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Using
+        /// ACLs</a>. With this operation, you can grant access permissions using one of the following
+        /// two methods:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Specify a canned ACL (<code>x-amz-acl</code>) — Amazon S3 supports a set of predefined
+        /// ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+        /// ACL</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify access permissions explicitly — To explicitly grant access permissions to
+        /// specific AWS accounts or groups, use the following headers. Each header maps to specific
+        /// permissions that Amazon S3 supports in an ACL. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
+        /// Control List (ACL) Overview</a>. In the header, you specify a list of grantees who
+        /// get the specific permission. To grant permissions explicitly use:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-grant-read
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-read-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-write-acp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-grant-full-control
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You specify each grantee as a type=value pair, where the type is one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>emailAddress</code> – if the value specified is the email address of an AWS
+        /// account
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Using email addresses to specify a grantee is only supported in the following AWS
+        /// Regions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// US East (N. Virginia)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// US West (N. California)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  US West (Oregon)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Asia Pacific (Singapore)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Asia Pacific (Sydney)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Asia Pacific (Tokyo)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// EU (Ireland)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// South America (São Paulo)
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For a list of all the Amazon S3 supported Regions and endpoints, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
+        /// and Endpoints</a> in the AWS General Reference
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        ///  <code>id</code> – if the value specified is the canonical user ID of an AWS account
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>uri</code> – if you are granting permissions to a predefined group
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts
+        /// identified by email addresses permissions to read object data and its metadata:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>x-amz-grant-read: emailAddress="xyz@amazon.com", emailAddress="abc@amazon.com"
+        /// </code> 
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Server-Side- Encryption-Specific Request Headers</dt> <dd>
+        /// 
+        /// <para>
+        /// You can optionally tell Amazon S3 to encrypt data at rest using server-side encryption.
+        /// Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data
+        /// as it writes it to disks in its data centers and decrypts it when you access it. The
+        /// option you use depends on whether you want to use AWS-managed encryption keys or provide
+        /// your own encryption key. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use encryption keys managed by Amazon S3 or customer master keys (CMKs) stored in
+        /// AWS Key Management Service (AWS KMS) – If you want AWS to manage the keys used to
+        /// encrypt data, specify the following headers in the request.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-aws-kms-key-id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side-encryption-context
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but don't provide
+        /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS managed
+        /// CMK in AWS KMS to protect the data. If you want to use a customer managed AWS KMS
+        /// CMK, you must provide the <code>x-amz-server-side-encryption-aws-kms-key-id</code>
+        /// of the symmetric customer managed CMK. Amazon S3 only supports symmetric CMKs and
+        /// not asymmetric CMKs. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// All GET and PUT requests for an object protected by AWS KMS fail if you don't make
+        /// them with SSL or by using SigV4.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use customer-provided encryption keys – If you want to manage your own encryption
+        /// keys, provide all the following headers in the request.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you use this feature, the ETag value that Amazon S3 returns in the response is
+        /// not the MD5 of the object.
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about server-side encryption with CMKs stored in AWS KMS (SSE-KMS),
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+        /// Data Using Server-Side Encryption with CMKs stored in AWS KMS</a>.
+        /// </para>
+        ///  </li> </ul> </dd> </dl> 
+        /// <para>
+        ///  <b>Storage Class Options</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, Amazon S3 uses the Standard storage class to store newly created objects.
+        /// The Standard storage class provides high durability and high availability. You can
+        /// specify other storage classes depending on the performance needs. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+        /// Classes</a> in the Amazon Simple Storage Service Developer Guide.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Versioning</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you enable versioning for a bucket, Amazon S3 automatically generates a unique
+        /// version ID for the object being stored. Amazon S3 returns this ID in the response
+        /// using the <code>x-amz-version-id response</code> header. If versioning is suspended,
+        /// Amazon S3 always uses null as the version ID for the object stored. For more information
+        /// about returning the versioning state of a bucket, see <a>GetBucketVersioning</a>.
+        /// If you enable versioning for a bucket, when Amazon S3 receives multiple write requests
+        /// for the same object simultaneously, it stores all of the objects.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CopyObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeleteObject</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutObject service method.</param>
         /// 
         /// <returns>The response from the PutObject service method, as returned by S3.</returns>
         public virtual PutObjectResponse PutObject(PutObjectRequest request)
         {
-            var marshaller = PutObjectRequestMarshaller.Instance;
-            var unmarshaller = PutObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectResponseUnmarshaller.Instance;
 
-            return Invoke<PutObjectRequest,PutObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -4412,11 +12375,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutObject(PutObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutObjectRequestMarshaller.Instance;
-            var unmarshaller = PutObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4433,20 +12396,285 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  PutObjectLegalHold
+
+        /// <summary>
+        /// Applies a Legal Hold configuration to the specified object.
+        /// 
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+        /// Objects</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutObjectLegalHold service method.</param>
+        /// 
+        /// <returns>The response from the PutObjectLegalHold service method, as returned by S3.</returns>
+        public virtual PutObjectLegalHoldResponse PutObjectLegalHold(PutObjectLegalHoldRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectLegalHoldRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectLegalHoldResponseUnmarshaller.Instance;
+
+            return Invoke<PutObjectLegalHoldResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutObjectLegalHold operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutObjectLegalHold operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutObjectLegalHold
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginPutObjectLegalHold(PutObjectLegalHoldRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectLegalHoldRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectLegalHoldResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutObjectLegalHold operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutObjectLegalHold.</param>
+        /// 
+        /// <returns>Returns a  PutObjectLegalHoldResult from S3.</returns>
+        public virtual PutObjectLegalHoldResponse EndPutObjectLegalHold(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutObjectLegalHoldResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutObjectLockConfiguration
+
+        /// <summary>
+        /// Places an Object Lock configuration on the specified bucket. The rule specified in
+        /// the Object Lock configuration will be applied by default to every new object placed
+        /// in the specified bucket.
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  <code>DefaultRetention</code> requires either Days or Years. You can't specify both
+        /// at the same time.
+        /// </para>
+        ///  </note> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+        /// Objects</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutObjectLockConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutObjectLockConfiguration service method, as returned by S3.</returns>
+        public virtual PutObjectLockConfigurationResponse PutObjectLockConfiguration(PutObjectLockConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectLockConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectLockConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<PutObjectLockConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutObjectLockConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutObjectLockConfiguration operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutObjectLockConfiguration
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginPutObjectLockConfiguration(PutObjectLockConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectLockConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectLockConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutObjectLockConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutObjectLockConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutObjectLockConfigurationResult from S3.</returns>
+        public virtual PutObjectLockConfigurationResponse EndPutObjectLockConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutObjectLockConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutObjectRetention
+
+        /// <summary>
+        /// Places an Object Retention configuration on an object.
+        /// 
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+        /// Objects</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutObjectRetention service method.</param>
+        /// 
+        /// <returns>The response from the PutObjectRetention service method, as returned by S3.</returns>
+        public virtual PutObjectRetentionResponse PutObjectRetention(PutObjectRetentionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectRetentionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectRetentionResponseUnmarshaller.Instance;
+
+            return Invoke<PutObjectRetentionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutObjectRetention operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutObjectRetention operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutObjectRetention
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginPutObjectRetention(PutObjectRetentionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectRetentionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectRetentionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutObjectRetention operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutObjectRetention.</param>
+        /// 
+        /// <returns>Returns a  PutObjectRetentionResult from S3.</returns>
+        public virtual PutObjectRetentionResponse EndPutObjectRetention(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutObjectRetentionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutObjectTagging
 
         /// <summary>
         /// Sets the supplied tag-set to an object that already exists in a bucket
+        /// 
+        ///  
+        /// <para>
+        /// A tag is a key-value pair. You can associate tags with an object by sending a PUT
+        /// request against the tagging subresource that is associated with the object. You can
+        /// retrieve tags by sending a GET request. For more information, see <a>GetObjectTagging</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For tagging-related restrictions related to characters and encodings, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html">Tag
+        /// Restrictions</a>. Note that Amazon S3 limits the maximum number of tags to 10 tags
+        /// per object.
+        /// </para>
+        ///  
+        /// <para>
+        /// To use this operation, you must have permission to perform the <code>s3:PutObjectTagging</code>
+        /// action. By default, the bucket owner has this permission and can grant this permission
+        /// to others.
+        /// </para>
+        ///  
+        /// <para>
+        /// To put tags of any other version, use the <code>versionId</code> query parameter.
+        /// You also need permission for the <code>s3:PutObjectVersionTagging</code> action.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about the Amazon S3 object tagging feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html">Object
+        /// Tagging</a>.
+        /// </para>
+        ///  <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: InvalidTagError </i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The tag provided was not a valid tag. This error can occur if the tag did
+        /// not pass input validation. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html">Object
+        /// Tagging</a>.</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: MalformedXMLError </i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The XML provided does not match the schema.</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <ul> <li> 
+        /// <para>
+        ///  <i>Code: OperationAbortedError </i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: A conflicting conditional operation is currently in progress against this
+        /// resource. Please try again.</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <ul> <li> 
+        /// <para>
+        ///  <i>Code: InternalError</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The service was unable to apply the provided tag to the object.</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObjectTagging</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutObjectTagging service method.</param>
         /// 
         /// <returns>The response from the PutObjectTagging service method, as returned by S3.</returns>
         public virtual PutObjectTaggingResponse PutObjectTagging(PutObjectTaggingRequest request)
         {
-            var marshaller = PutObjectTaggingRequestMarshaller.Instance;
-            var unmarshaller = PutObjectTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectTaggingResponseUnmarshaller.Instance;
 
-            return Invoke<PutObjectTaggingRequest,PutObjectTaggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutObjectTaggingResponse>(request, options);
         }
 
         /// <summary>
@@ -4462,11 +12690,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutObjectTagging(PutObjectTaggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutObjectTaggingRequestMarshaller.Instance;
-            var unmarshaller = PutObjectTaggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectTaggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectTaggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutObjectTaggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4483,13 +12711,425 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  PutPublicAccessBlock
+
+        /// <summary>
+        /// Creates or modifies the <code>PublicAccessBlock</code> configuration for an Amazon
+        /// S3 bucket. To use this operation, you must have the <code>s3:PutBucketPublicAccessBlock</code>
+        /// permission. For more information about Amazon S3 permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a>.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// When Amazon S3 evaluates the <code>PublicAccessBlock</code> configuration for a bucket
+        /// or an object, it checks the <code>PublicAccessBlock</code> configuration for both
+        /// the bucket (or the bucket that contains the object) and the bucket owner's account.
+        /// If the <code>PublicAccessBlock</code> configurations are different between the bucket
+        /// and the account, Amazon S3 uses the most restrictive combination of the bucket-level
+        /// and account-level settings.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information about when Amazon S3 considers a bucket or an object public,
+        /// see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
+        /// Meaning of "Public"</a>.
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetPublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>DeletePublicAccessBlock</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketPolicyStatus</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">Using
+        /// Amazon S3 Block Public Access</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutPublicAccessBlock service method.</param>
+        /// 
+        /// <returns>The response from the PutPublicAccessBlock service method, as returned by S3.</returns>
+        public virtual PutPublicAccessBlockResponse PutPublicAccessBlock(PutPublicAccessBlockRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutPublicAccessBlockRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutPublicAccessBlockResponseUnmarshaller.Instance;
+
+            return Invoke<PutPublicAccessBlockResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutPublicAccessBlock operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutPublicAccessBlock operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutPublicAccessBlock
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginPutPublicAccessBlock(PutPublicAccessBlockRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutPublicAccessBlockRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutPublicAccessBlockResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutPublicAccessBlock operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutPublicAccessBlock.</param>
+        /// 
+        /// <returns>Returns a  PutPublicAccessBlockResult from S3.</returns>
+        public virtual PutPublicAccessBlockResponse EndPutPublicAccessBlock(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutPublicAccessBlockResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  RestoreObject
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
+        /// 
+        ///  
+        /// <para>
+        /// This operation performs the following types of requests: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>select</code> - Perform a select query on an archived object
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>restore an archive</code> - Restore an archived object
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:RestoreObject</code>
+        /// and <code>s3:GetObject</code> actions. The bucket owner has this permission by default
+        /// and can grant this permission to others. For more information about permissions, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Querying Archives with Select Requests</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You use a select type of request to perform SQL queries on archived objects. The archived
+        /// objects that are being queried by the select request must be formatted as uncompressed
+        /// comma-separated values (CSV) files. You can run queries and custom analytics on your
+        /// archived data without having to restore your data to a hotter Amazon S3 tier. For
+        /// an overview about select requests, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Define an output location for the select query's output. This must be an Amazon S3
+        /// bucket in the same AWS Region as the bucket that contains the archive object that
+        /// is being queried. The AWS account that initiates the job must have permissions to
+        /// write to the S3 bucket. You can specify the storage class and encryption for the output
+        /// objects stored in the bucket. For more information about output, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the <code>S3</code> structure in the request body, see
+        /// the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Managing
+        /// Access with ACLs</a> in the <i>Amazon Simple Storage Service Developer Guide</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Define the SQL expression for the <code>SELECT</code> type of restoration for your
+        /// query in the request body's <code>SelectParameters</code> structure. You can use expressions
+        /// like the following examples.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The following expression returns all records from the specified object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT * FROM Object</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Assuming that you are not using any headers for data stored in the object, you can
+        /// specify columns with positional headers.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you have headers and you set the <code>fileHeaderInfo</code> in the <code>CSV</code>
+        /// structure in the request body to <code>USE</code>, you can specify headers in the
+        /// query. (If you set the <code>fileHeaderInfo</code> field to <code>IGNORE</code>, the
+        /// first row is skipped for the query.) You cannot mix ordinal positions with header
+        /// column names. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s.Id, s.FirstName, s.SSN FROM S3Object s</code> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// For more information about using SQL with Glacier Select restore, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, you can also do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To expedite your queries, specify the <code>Expedited</code> tier. For more information
+        /// about tiers, see "Restoring Archives," later in this topic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify details about the data serialization format of both the input object that
+        /// is being queried and the serialization of the CSV-encoded query results.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following are additional important facts about the select feature:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The output results are new Amazon S3 objects. Unlike archive retrievals, they are
+        /// stored until explicitly deleted-manually or through a lifecycle policy.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can issue more than one select request on the same Amazon S3 object. Amazon S3
+        /// doesn't deduplicate requests, so avoid issuing duplicate requests.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Amazon S3 accepts a select request even if the object has already been restored.
+        /// A select request doesn’t return error response <code>409</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Restoring Archives</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Objects in the GLACIER and DEEP_ARCHIVE storage classes are archived. To access an
+        /// archived object, you must first initiate a restore request. This restores a temporary
+        /// copy of the archived object. In a restore request, you specify the number of days
+        /// that you want the restored copy to exist. After the specified period, Amazon S3 deletes
+        /// the temporary copy but the object remains archived in the GLACIER or DEEP_ARCHIVE
+        /// storage class that object was restored from. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To restore a specific object version, you can provide a version ID. If you don't provide
+        /// a version ID, Amazon S3 restores the current version.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time it takes restore jobs to finish depends on which storage class the object
+        /// is being restored from and which data access tier you specify. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When restoring an archived object (or using a select request), you can specify one
+        /// of the following data access tier options in the <code>Tier</code> element of the
+        /// request body: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b> <code>Expedited</code> </b> - Expedited retrievals allow you to quickly access
+        /// your data stored in the GLACIER storage class when occasional urgent requests for
+        /// a subset of archives are required. For all but the largest archived objects (250 MB+),
+        /// data accessed using Expedited retrievals are typically made available within 1–5 minutes.
+        /// Provisioned capacity ensures that retrieval capacity for Expedited retrievals is available
+        /// when you need it. Expedited retrievals and provisioned capacity are not available
+        /// for the DEEP_ARCHIVE storage class.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Standard</code> </b> - Standard retrievals allow you to access any of your
+        /// archived objects within several hours. This is the default option for the GLACIER
+        /// and DEEP_ARCHIVE retrieval requests that do not specify the retrieval option. Standard
+        /// retrievals typically complete within 3-5 hours from the GLACIER storage class and
+        /// typically complete within 12 hours from the DEEP_ARCHIVE storage class. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Bulk</code> </b> - Bulk retrievals are Amazon S3 Glacier’s lowest-cost
+        /// retrieval option, enabling you to retrieve large amounts, even petabytes, of data
+        /// inexpensively in a day. Bulk retrievals typically complete within 5-12 hours from
+        /// the GLACIER storage class and typically complete within 48 hours from the DEEP_ARCHIVE
+        /// storage class.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about archive retrieval options and provisioned capacity for
+        /// <code>Expedited</code> data access, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use Amazon S3 restore speed upgrade to change the restore speed to a faster
+        /// speed while it is in progress. You upgrade the speed of an in-progress restoration
+        /// by issuing another restore request to the same object, setting a new <code>Tier</code>
+        /// request element. When issuing a request to upgrade the restore tier, you must choose
+        /// a tier that is faster than the tier that the in-progress restore is using. You must
+        /// not change any other parameters, such as the <code>Days</code> request element. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html">
+        /// Upgrading the Speed of an In-Progress Restore</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To get the status of object restoration, you can send a <code>HEAD</code> request.
+        /// Operations return the <code>x-amz-restore</code> header, which provides information
+        /// about the restoration status, in the response. You can use Amazon S3 event notifications
+        /// to notify you when a restore is initiated or completed. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
+        /// Amazon S3 Event Notifications</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// After restoring an archived object, you can update the restoration period by reissuing
+        /// the request with a new period. Amazon S3 updates the restoration period relative to
+        /// the current time and charges only for the request-there are no data transfer charges.
+        /// You cannot update the restoration period when Amazon S3 is actively processing your
+        /// current restore request for the object.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has a lifecycle configuration with a rule that includes an expiration
+        /// action, the object expiration overrides the life span that you specify in a restore
+        /// request. For example, if you restore an object copy for 10 days, but the object is
+        /// scheduled to expire in 3 days, Amazon S3 deletes the object in 3 days. For more information
+        /// about lifecycle configuration, see <a>PutBucketLifecycleConfiguration</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a> in <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Responses</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// A successful operation returns either the <code>200 OK</code> or <code>202 Accepted</code>
+        /// status code. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If the object copy is not previously restored, then Amazon S3 returns <code>202 Accepted</code>
+        /// in the response. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If the object copy is previously restored, Amazon S3 returns <code>200 OK</code> in
+        /// the response. 
+        /// </para>
+        ///  </li> </ul> <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: RestoreAlreadyInProgress</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Object restore is already in progress. (This error does not apply to SELECT
+        /// type requests.)</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 409 Conflict</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: Client</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: GlacierExpeditedRetrievalNotAvailable</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Glacier expedited retrievals are currently not available. Try again later.
+        /// (Returned if there is insufficient capacity to process the Expedited request. This
+        /// error applies only to Expedited retrievals and not to Standard or Bulk retrievals.)</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 503</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: N/A</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketNotificationConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select </a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
-        /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="bucketName">The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Object key for which the operation was initiated.</param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
         public virtual RestoreObjectResponse RestoreObject(string bucketName, string key)
@@ -4503,9 +13143,331 @@ namespace Amazon.S3
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
+        /// 
+        ///  
+        /// <para>
+        /// This operation performs the following types of requests: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>select</code> - Perform a select query on an archived object
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>restore an archive</code> - Restore an archived object
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:RestoreObject</code>
+        /// and <code>s3:GetObject</code> actions. The bucket owner has this permission by default
+        /// and can grant this permission to others. For more information about permissions, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Querying Archives with Select Requests</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You use a select type of request to perform SQL queries on archived objects. The archived
+        /// objects that are being queried by the select request must be formatted as uncompressed
+        /// comma-separated values (CSV) files. You can run queries and custom analytics on your
+        /// archived data without having to restore your data to a hotter Amazon S3 tier. For
+        /// an overview about select requests, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Define an output location for the select query's output. This must be an Amazon S3
+        /// bucket in the same AWS Region as the bucket that contains the archive object that
+        /// is being queried. The AWS account that initiates the job must have permissions to
+        /// write to the S3 bucket. You can specify the storage class and encryption for the output
+        /// objects stored in the bucket. For more information about output, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the <code>S3</code> structure in the request body, see
+        /// the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Managing
+        /// Access with ACLs</a> in the <i>Amazon Simple Storage Service Developer Guide</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Define the SQL expression for the <code>SELECT</code> type of restoration for your
+        /// query in the request body's <code>SelectParameters</code> structure. You can use expressions
+        /// like the following examples.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The following expression returns all records from the specified object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT * FROM Object</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Assuming that you are not using any headers for data stored in the object, you can
+        /// specify columns with positional headers.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you have headers and you set the <code>fileHeaderInfo</code> in the <code>CSV</code>
+        /// structure in the request body to <code>USE</code>, you can specify headers in the
+        /// query. (If you set the <code>fileHeaderInfo</code> field to <code>IGNORE</code>, the
+        /// first row is skipped for the query.) You cannot mix ordinal positions with header
+        /// column names. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s.Id, s.FirstName, s.SSN FROM S3Object s</code> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// For more information about using SQL with Glacier Select restore, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, you can also do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To expedite your queries, specify the <code>Expedited</code> tier. For more information
+        /// about tiers, see "Restoring Archives," later in this topic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify details about the data serialization format of both the input object that
+        /// is being queried and the serialization of the CSV-encoded query results.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following are additional important facts about the select feature:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The output results are new Amazon S3 objects. Unlike archive retrievals, they are
+        /// stored until explicitly deleted-manually or through a lifecycle policy.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can issue more than one select request on the same Amazon S3 object. Amazon S3
+        /// doesn't deduplicate requests, so avoid issuing duplicate requests.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Amazon S3 accepts a select request even if the object has already been restored.
+        /// A select request doesn’t return error response <code>409</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Restoring Archives</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Objects in the GLACIER and DEEP_ARCHIVE storage classes are archived. To access an
+        /// archived object, you must first initiate a restore request. This restores a temporary
+        /// copy of the archived object. In a restore request, you specify the number of days
+        /// that you want the restored copy to exist. After the specified period, Amazon S3 deletes
+        /// the temporary copy but the object remains archived in the GLACIER or DEEP_ARCHIVE
+        /// storage class that object was restored from. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To restore a specific object version, you can provide a version ID. If you don't provide
+        /// a version ID, Amazon S3 restores the current version.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time it takes restore jobs to finish depends on which storage class the object
+        /// is being restored from and which data access tier you specify. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When restoring an archived object (or using a select request), you can specify one
+        /// of the following data access tier options in the <code>Tier</code> element of the
+        /// request body: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b> <code>Expedited</code> </b> - Expedited retrievals allow you to quickly access
+        /// your data stored in the GLACIER storage class when occasional urgent requests for
+        /// a subset of archives are required. For all but the largest archived objects (250 MB+),
+        /// data accessed using Expedited retrievals are typically made available within 1–5 minutes.
+        /// Provisioned capacity ensures that retrieval capacity for Expedited retrievals is available
+        /// when you need it. Expedited retrievals and provisioned capacity are not available
+        /// for the DEEP_ARCHIVE storage class.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Standard</code> </b> - Standard retrievals allow you to access any of your
+        /// archived objects within several hours. This is the default option for the GLACIER
+        /// and DEEP_ARCHIVE retrieval requests that do not specify the retrieval option. Standard
+        /// retrievals typically complete within 3-5 hours from the GLACIER storage class and
+        /// typically complete within 12 hours from the DEEP_ARCHIVE storage class. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Bulk</code> </b> - Bulk retrievals are Amazon S3 Glacier’s lowest-cost
+        /// retrieval option, enabling you to retrieve large amounts, even petabytes, of data
+        /// inexpensively in a day. Bulk retrievals typically complete within 5-12 hours from
+        /// the GLACIER storage class and typically complete within 48 hours from the DEEP_ARCHIVE
+        /// storage class.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about archive retrieval options and provisioned capacity for
+        /// <code>Expedited</code> data access, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use Amazon S3 restore speed upgrade to change the restore speed to a faster
+        /// speed while it is in progress. You upgrade the speed of an in-progress restoration
+        /// by issuing another restore request to the same object, setting a new <code>Tier</code>
+        /// request element. When issuing a request to upgrade the restore tier, you must choose
+        /// a tier that is faster than the tier that the in-progress restore is using. You must
+        /// not change any other parameters, such as the <code>Days</code> request element. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html">
+        /// Upgrading the Speed of an In-Progress Restore</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To get the status of object restoration, you can send a <code>HEAD</code> request.
+        /// Operations return the <code>x-amz-restore</code> header, which provides information
+        /// about the restoration status, in the response. You can use Amazon S3 event notifications
+        /// to notify you when a restore is initiated or completed. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
+        /// Amazon S3 Event Notifications</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// After restoring an archived object, you can update the restoration period by reissuing
+        /// the request with a new period. Amazon S3 updates the restoration period relative to
+        /// the current time and charges only for the request-there are no data transfer charges.
+        /// You cannot update the restoration period when Amazon S3 is actively processing your
+        /// current restore request for the object.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has a lifecycle configuration with a rule that includes an expiration
+        /// action, the object expiration overrides the life span that you specify in a restore
+        /// request. For example, if you restore an object copy for 10 days, but the object is
+        /// scheduled to expire in 3 days, Amazon S3 deletes the object in 3 days. For more information
+        /// about lifecycle configuration, see <a>PutBucketLifecycleConfiguration</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a> in <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Responses</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// A successful operation returns either the <code>200 OK</code> or <code>202 Accepted</code>
+        /// status code. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If the object copy is not previously restored, then Amazon S3 returns <code>202 Accepted</code>
+        /// in the response. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If the object copy is previously restored, Amazon S3 returns <code>200 OK</code> in
+        /// the response. 
+        /// </para>
+        ///  </li> </ul> <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: RestoreAlreadyInProgress</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Object restore is already in progress. (This error does not apply to SELECT
+        /// type requests.)</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 409 Conflict</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: Client</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: GlacierExpeditedRetrievalNotAvailable</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Glacier expedited retrievals are currently not available. Try again later.
+        /// (Returned if there is insufficient capacity to process the Expedited request. This
+        /// error applies only to Expedited retrievals and not to Standard or Bulk retrievals.)</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 503</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: N/A</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketNotificationConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select </a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
-        /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="bucketName">The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Object key for which the operation was initiated.</param>
         /// <param name="days">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
@@ -4521,10 +13483,332 @@ namespace Amazon.S3
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
+        /// 
+        ///  
+        /// <para>
+        /// This operation performs the following types of requests: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>select</code> - Perform a select query on an archived object
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>restore an archive</code> - Restore an archived object
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:RestoreObject</code>
+        /// and <code>s3:GetObject</code> actions. The bucket owner has this permission by default
+        /// and can grant this permission to others. For more information about permissions, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Querying Archives with Select Requests</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You use a select type of request to perform SQL queries on archived objects. The archived
+        /// objects that are being queried by the select request must be formatted as uncompressed
+        /// comma-separated values (CSV) files. You can run queries and custom analytics on your
+        /// archived data without having to restore your data to a hotter Amazon S3 tier. For
+        /// an overview about select requests, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Define an output location for the select query's output. This must be an Amazon S3
+        /// bucket in the same AWS Region as the bucket that contains the archive object that
+        /// is being queried. The AWS account that initiates the job must have permissions to
+        /// write to the S3 bucket. You can specify the storage class and encryption for the output
+        /// objects stored in the bucket. For more information about output, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the <code>S3</code> structure in the request body, see
+        /// the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Managing
+        /// Access with ACLs</a> in the <i>Amazon Simple Storage Service Developer Guide</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Define the SQL expression for the <code>SELECT</code> type of restoration for your
+        /// query in the request body's <code>SelectParameters</code> structure. You can use expressions
+        /// like the following examples.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The following expression returns all records from the specified object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT * FROM Object</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Assuming that you are not using any headers for data stored in the object, you can
+        /// specify columns with positional headers.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you have headers and you set the <code>fileHeaderInfo</code> in the <code>CSV</code>
+        /// structure in the request body to <code>USE</code>, you can specify headers in the
+        /// query. (If you set the <code>fileHeaderInfo</code> field to <code>IGNORE</code>, the
+        /// first row is skipped for the query.) You cannot mix ordinal positions with header
+        /// column names. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s.Id, s.FirstName, s.SSN FROM S3Object s</code> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// For more information about using SQL with Glacier Select restore, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, you can also do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To expedite your queries, specify the <code>Expedited</code> tier. For more information
+        /// about tiers, see "Restoring Archives," later in this topic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify details about the data serialization format of both the input object that
+        /// is being queried and the serialization of the CSV-encoded query results.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following are additional important facts about the select feature:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The output results are new Amazon S3 objects. Unlike archive retrievals, they are
+        /// stored until explicitly deleted-manually or through a lifecycle policy.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can issue more than one select request on the same Amazon S3 object. Amazon S3
+        /// doesn't deduplicate requests, so avoid issuing duplicate requests.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Amazon S3 accepts a select request even if the object has already been restored.
+        /// A select request doesn’t return error response <code>409</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Restoring Archives</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Objects in the GLACIER and DEEP_ARCHIVE storage classes are archived. To access an
+        /// archived object, you must first initiate a restore request. This restores a temporary
+        /// copy of the archived object. In a restore request, you specify the number of days
+        /// that you want the restored copy to exist. After the specified period, Amazon S3 deletes
+        /// the temporary copy but the object remains archived in the GLACIER or DEEP_ARCHIVE
+        /// storage class that object was restored from. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To restore a specific object version, you can provide a version ID. If you don't provide
+        /// a version ID, Amazon S3 restores the current version.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time it takes restore jobs to finish depends on which storage class the object
+        /// is being restored from and which data access tier you specify. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When restoring an archived object (or using a select request), you can specify one
+        /// of the following data access tier options in the <code>Tier</code> element of the
+        /// request body: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b> <code>Expedited</code> </b> - Expedited retrievals allow you to quickly access
+        /// your data stored in the GLACIER storage class when occasional urgent requests for
+        /// a subset of archives are required. For all but the largest archived objects (250 MB+),
+        /// data accessed using Expedited retrievals are typically made available within 1–5 minutes.
+        /// Provisioned capacity ensures that retrieval capacity for Expedited retrievals is available
+        /// when you need it. Expedited retrievals and provisioned capacity are not available
+        /// for the DEEP_ARCHIVE storage class.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Standard</code> </b> - Standard retrievals allow you to access any of your
+        /// archived objects within several hours. This is the default option for the GLACIER
+        /// and DEEP_ARCHIVE retrieval requests that do not specify the retrieval option. Standard
+        /// retrievals typically complete within 3-5 hours from the GLACIER storage class and
+        /// typically complete within 12 hours from the DEEP_ARCHIVE storage class. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Bulk</code> </b> - Bulk retrievals are Amazon S3 Glacier’s lowest-cost
+        /// retrieval option, enabling you to retrieve large amounts, even petabytes, of data
+        /// inexpensively in a day. Bulk retrievals typically complete within 5-12 hours from
+        /// the GLACIER storage class and typically complete within 48 hours from the DEEP_ARCHIVE
+        /// storage class.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about archive retrieval options and provisioned capacity for
+        /// <code>Expedited</code> data access, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use Amazon S3 restore speed upgrade to change the restore speed to a faster
+        /// speed while it is in progress. You upgrade the speed of an in-progress restoration
+        /// by issuing another restore request to the same object, setting a new <code>Tier</code>
+        /// request element. When issuing a request to upgrade the restore tier, you must choose
+        /// a tier that is faster than the tier that the in-progress restore is using. You must
+        /// not change any other parameters, such as the <code>Days</code> request element. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html">
+        /// Upgrading the Speed of an In-Progress Restore</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To get the status of object restoration, you can send a <code>HEAD</code> request.
+        /// Operations return the <code>x-amz-restore</code> header, which provides information
+        /// about the restoration status, in the response. You can use Amazon S3 event notifications
+        /// to notify you when a restore is initiated or completed. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
+        /// Amazon S3 Event Notifications</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// After restoring an archived object, you can update the restoration period by reissuing
+        /// the request with a new period. Amazon S3 updates the restoration period relative to
+        /// the current time and charges only for the request-there are no data transfer charges.
+        /// You cannot update the restoration period when Amazon S3 is actively processing your
+        /// current restore request for the object.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has a lifecycle configuration with a rule that includes an expiration
+        /// action, the object expiration overrides the life span that you specify in a restore
+        /// request. For example, if you restore an object copy for 10 days, but the object is
+        /// scheduled to expire in 3 days, Amazon S3 deletes the object in 3 days. For more information
+        /// about lifecycle configuration, see <a>PutBucketLifecycleConfiguration</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a> in <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Responses</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// A successful operation returns either the <code>200 OK</code> or <code>202 Accepted</code>
+        /// status code. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If the object copy is not previously restored, then Amazon S3 returns <code>202 Accepted</code>
+        /// in the response. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If the object copy is previously restored, Amazon S3 returns <code>200 OK</code> in
+        /// the response. 
+        /// </para>
+        ///  </li> </ul> <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: RestoreAlreadyInProgress</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Object restore is already in progress. (This error does not apply to SELECT
+        /// type requests.)</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 409 Conflict</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: Client</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: GlacierExpeditedRetrievalNotAvailable</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Glacier expedited retrievals are currently not available. Try again later.
+        /// (Returned if there is insufficient capacity to process the Expedited request. This
+        /// error applies only to Expedited retrievals and not to Standard or Bulk retrievals.)</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 503</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: N/A</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketNotificationConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select </a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
-        /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
-        /// <param name="versionId">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="bucketName">The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Object key for which the operation was initiated.</param>
+        /// <param name="versionId">VersionId used to reference a specific version of the object.</param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
         public virtual RestoreObjectResponse RestoreObject(string bucketName, string key, string versionId)
@@ -4539,10 +13823,332 @@ namespace Amazon.S3
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
+        /// 
+        ///  
+        /// <para>
+        /// This operation performs the following types of requests: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>select</code> - Perform a select query on an archived object
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>restore an archive</code> - Restore an archived object
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:RestoreObject</code>
+        /// and <code>s3:GetObject</code> actions. The bucket owner has this permission by default
+        /// and can grant this permission to others. For more information about permissions, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Querying Archives with Select Requests</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You use a select type of request to perform SQL queries on archived objects. The archived
+        /// objects that are being queried by the select request must be formatted as uncompressed
+        /// comma-separated values (CSV) files. You can run queries and custom analytics on your
+        /// archived data without having to restore your data to a hotter Amazon S3 tier. For
+        /// an overview about select requests, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Define an output location for the select query's output. This must be an Amazon S3
+        /// bucket in the same AWS Region as the bucket that contains the archive object that
+        /// is being queried. The AWS account that initiates the job must have permissions to
+        /// write to the S3 bucket. You can specify the storage class and encryption for the output
+        /// objects stored in the bucket. For more information about output, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the <code>S3</code> structure in the request body, see
+        /// the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Managing
+        /// Access with ACLs</a> in the <i>Amazon Simple Storage Service Developer Guide</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Define the SQL expression for the <code>SELECT</code> type of restoration for your
+        /// query in the request body's <code>SelectParameters</code> structure. You can use expressions
+        /// like the following examples.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The following expression returns all records from the specified object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT * FROM Object</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Assuming that you are not using any headers for data stored in the object, you can
+        /// specify columns with positional headers.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you have headers and you set the <code>fileHeaderInfo</code> in the <code>CSV</code>
+        /// structure in the request body to <code>USE</code>, you can specify headers in the
+        /// query. (If you set the <code>fileHeaderInfo</code> field to <code>IGNORE</code>, the
+        /// first row is skipped for the query.) You cannot mix ordinal positions with header
+        /// column names. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s.Id, s.FirstName, s.SSN FROM S3Object s</code> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// For more information about using SQL with Glacier Select restore, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, you can also do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To expedite your queries, specify the <code>Expedited</code> tier. For more information
+        /// about tiers, see "Restoring Archives," later in this topic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify details about the data serialization format of both the input object that
+        /// is being queried and the serialization of the CSV-encoded query results.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following are additional important facts about the select feature:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The output results are new Amazon S3 objects. Unlike archive retrievals, they are
+        /// stored until explicitly deleted-manually or through a lifecycle policy.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can issue more than one select request on the same Amazon S3 object. Amazon S3
+        /// doesn't deduplicate requests, so avoid issuing duplicate requests.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Amazon S3 accepts a select request even if the object has already been restored.
+        /// A select request doesn’t return error response <code>409</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Restoring Archives</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Objects in the GLACIER and DEEP_ARCHIVE storage classes are archived. To access an
+        /// archived object, you must first initiate a restore request. This restores a temporary
+        /// copy of the archived object. In a restore request, you specify the number of days
+        /// that you want the restored copy to exist. After the specified period, Amazon S3 deletes
+        /// the temporary copy but the object remains archived in the GLACIER or DEEP_ARCHIVE
+        /// storage class that object was restored from. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To restore a specific object version, you can provide a version ID. If you don't provide
+        /// a version ID, Amazon S3 restores the current version.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time it takes restore jobs to finish depends on which storage class the object
+        /// is being restored from and which data access tier you specify. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When restoring an archived object (or using a select request), you can specify one
+        /// of the following data access tier options in the <code>Tier</code> element of the
+        /// request body: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b> <code>Expedited</code> </b> - Expedited retrievals allow you to quickly access
+        /// your data stored in the GLACIER storage class when occasional urgent requests for
+        /// a subset of archives are required. For all but the largest archived objects (250 MB+),
+        /// data accessed using Expedited retrievals are typically made available within 1–5 minutes.
+        /// Provisioned capacity ensures that retrieval capacity for Expedited retrievals is available
+        /// when you need it. Expedited retrievals and provisioned capacity are not available
+        /// for the DEEP_ARCHIVE storage class.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Standard</code> </b> - Standard retrievals allow you to access any of your
+        /// archived objects within several hours. This is the default option for the GLACIER
+        /// and DEEP_ARCHIVE retrieval requests that do not specify the retrieval option. Standard
+        /// retrievals typically complete within 3-5 hours from the GLACIER storage class and
+        /// typically complete within 12 hours from the DEEP_ARCHIVE storage class. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Bulk</code> </b> - Bulk retrievals are Amazon S3 Glacier’s lowest-cost
+        /// retrieval option, enabling you to retrieve large amounts, even petabytes, of data
+        /// inexpensively in a day. Bulk retrievals typically complete within 5-12 hours from
+        /// the GLACIER storage class and typically complete within 48 hours from the DEEP_ARCHIVE
+        /// storage class.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about archive retrieval options and provisioned capacity for
+        /// <code>Expedited</code> data access, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use Amazon S3 restore speed upgrade to change the restore speed to a faster
+        /// speed while it is in progress. You upgrade the speed of an in-progress restoration
+        /// by issuing another restore request to the same object, setting a new <code>Tier</code>
+        /// request element. When issuing a request to upgrade the restore tier, you must choose
+        /// a tier that is faster than the tier that the in-progress restore is using. You must
+        /// not change any other parameters, such as the <code>Days</code> request element. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html">
+        /// Upgrading the Speed of an In-Progress Restore</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To get the status of object restoration, you can send a <code>HEAD</code> request.
+        /// Operations return the <code>x-amz-restore</code> header, which provides information
+        /// about the restoration status, in the response. You can use Amazon S3 event notifications
+        /// to notify you when a restore is initiated or completed. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
+        /// Amazon S3 Event Notifications</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// After restoring an archived object, you can update the restoration period by reissuing
+        /// the request with a new period. Amazon S3 updates the restoration period relative to
+        /// the current time and charges only for the request-there are no data transfer charges.
+        /// You cannot update the restoration period when Amazon S3 is actively processing your
+        /// current restore request for the object.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has a lifecycle configuration with a rule that includes an expiration
+        /// action, the object expiration overrides the life span that you specify in a restore
+        /// request. For example, if you restore an object copy for 10 days, but the object is
+        /// scheduled to expire in 3 days, Amazon S3 deletes the object in 3 days. For more information
+        /// about lifecycle configuration, see <a>PutBucketLifecycleConfiguration</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a> in <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Responses</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// A successful operation returns either the <code>200 OK</code> or <code>202 Accepted</code>
+        /// status code. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If the object copy is not previously restored, then Amazon S3 returns <code>202 Accepted</code>
+        /// in the response. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If the object copy is previously restored, Amazon S3 returns <code>200 OK</code> in
+        /// the response. 
+        /// </para>
+        ///  </li> </ul> <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: RestoreAlreadyInProgress</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Object restore is already in progress. (This error does not apply to SELECT
+        /// type requests.)</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 409 Conflict</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: Client</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: GlacierExpeditedRetrievalNotAvailable</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Glacier expedited retrievals are currently not available. Try again later.
+        /// (Returned if there is insufficient capacity to process the Expedited request. This
+        /// error applies only to Expedited retrievals and not to Standard or Bulk retrievals.)</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 503</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: N/A</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketNotificationConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select </a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
-        /// <param name="bucketName">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
-        /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
-        /// <param name="versionId">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="bucketName">The bucket name or containing the object to restore.  When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation using an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</param>
+        /// <param name="key">Object key for which the operation was initiated.</param>
+        /// <param name="versionId">VersionId used to reference a specific version of the object.</param>
         /// <param name="days">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
@@ -4559,16 +14165,339 @@ namespace Amazon.S3
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
+        /// 
+        ///  
+        /// <para>
+        /// This operation performs the following types of requests: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>select</code> - Perform a select query on an archived object
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>restore an archive</code> - Restore an archived object
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To use this operation, you must have permissions to perform the <code>s3:RestoreObject</code>
+        /// and <code>s3:GetObject</code> actions. The bucket owner has this permission by default
+        /// and can grant this permission to others. For more information about permissions, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+        /// Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+        /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Querying Archives with Select Requests</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You use a select type of request to perform SQL queries on archived objects. The archived
+        /// objects that are being queried by the select request must be formatted as uncompressed
+        /// comma-separated values (CSV) files. You can run queries and custom analytics on your
+        /// archived data without having to restore your data to a hotter Amazon S3 tier. For
+        /// an overview about select requests, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Define an output location for the select query's output. This must be an Amazon S3
+        /// bucket in the same AWS Region as the bucket that contains the archive object that
+        /// is being queried. The AWS account that initiates the job must have permissions to
+        /// write to the S3 bucket. You can specify the storage class and encryption for the output
+        /// objects stored in the bucket. For more information about output, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the <code>S3</code> structure in the request body, see
+        /// the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Managing
+        /// Access with ACLs</a> in the <i>Amazon Simple Storage Service Developer Guide</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Define the SQL expression for the <code>SELECT</code> type of restoration for your
+        /// query in the request body's <code>SelectParameters</code> structure. You can use expressions
+        /// like the following examples.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The following expression returns all records from the specified object.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT * FROM Object</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Assuming that you are not using any headers for data stored in the object, you can
+        /// specify columns with positional headers.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you have headers and you set the <code>fileHeaderInfo</code> in the <code>CSV</code>
+        /// structure in the request body to <code>USE</code>, you can specify headers in the
+        /// query. (If you set the <code>fileHeaderInfo</code> field to <code>IGNORE</code>, the
+        /// first row is skipped for the query.) You cannot mix ordinal positions with header
+        /// column names. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>SELECT s.Id, s.FirstName, s.SSN FROM S3Object s</code> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// For more information about using SQL with Glacier Select restore, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When making a select request, you can also do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To expedite your queries, specify the <code>Expedited</code> tier. For more information
+        /// about tiers, see "Restoring Archives," later in this topic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Specify details about the data serialization format of both the input object that
+        /// is being queried and the serialization of the CSV-encoded query results.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following are additional important facts about the select feature:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The output results are new Amazon S3 objects. Unlike archive retrievals, they are
+        /// stored until explicitly deleted-manually or through a lifecycle policy.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can issue more than one select request on the same Amazon S3 object. Amazon S3
+        /// doesn't deduplicate requests, so avoid issuing duplicate requests.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  Amazon S3 accepts a select request even if the object has already been restored.
+        /// A select request doesn’t return error response <code>409</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Restoring Archives</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Objects in the GLACIER and DEEP_ARCHIVE storage classes are archived. To access an
+        /// archived object, you must first initiate a restore request. This restores a temporary
+        /// copy of the archived object. In a restore request, you specify the number of days
+        /// that you want the restored copy to exist. After the specified period, Amazon S3 deletes
+        /// the temporary copy but the object remains archived in the GLACIER or DEEP_ARCHIVE
+        /// storage class that object was restored from. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To restore a specific object version, you can provide a version ID. If you don't provide
+        /// a version ID, Amazon S3 restores the current version.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time it takes restore jobs to finish depends on which storage class the object
+        /// is being restored from and which data access tier you specify. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When restoring an archived object (or using a select request), you can specify one
+        /// of the following data access tier options in the <code>Tier</code> element of the
+        /// request body: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b> <code>Expedited</code> </b> - Expedited retrievals allow you to quickly access
+        /// your data stored in the GLACIER storage class when occasional urgent requests for
+        /// a subset of archives are required. For all but the largest archived objects (250 MB+),
+        /// data accessed using Expedited retrievals are typically made available within 1–5 minutes.
+        /// Provisioned capacity ensures that retrieval capacity for Expedited retrievals is available
+        /// when you need it. Expedited retrievals and provisioned capacity are not available
+        /// for the DEEP_ARCHIVE storage class.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Standard</code> </b> - Standard retrievals allow you to access any of your
+        /// archived objects within several hours. This is the default option for the GLACIER
+        /// and DEEP_ARCHIVE retrieval requests that do not specify the retrieval option. Standard
+        /// retrievals typically complete within 3-5 hours from the GLACIER storage class and
+        /// typically complete within 12 hours from the DEEP_ARCHIVE storage class. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b> <code>Bulk</code> </b> - Bulk retrievals are Amazon S3 Glacier’s lowest-cost
+        /// retrieval option, enabling you to retrieve large amounts, even petabytes, of data
+        /// inexpensively in a day. Bulk retrievals typically complete within 5-12 hours from
+        /// the GLACIER storage class and typically complete within 48 hours from the DEEP_ARCHIVE
+        /// storage class.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about archive retrieval options and provisioned capacity for
+        /// <code>Expedited</code> data access, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
+        /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use Amazon S3 restore speed upgrade to change the restore speed to a faster
+        /// speed while it is in progress. You upgrade the speed of an in-progress restoration
+        /// by issuing another restore request to the same object, setting a new <code>Tier</code>
+        /// request element. When issuing a request to upgrade the restore tier, you must choose
+        /// a tier that is faster than the tier that the in-progress restore is using. You must
+        /// not change any other parameters, such as the <code>Days</code> request element. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html">
+        /// Upgrading the Speed of an In-Progress Restore</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To get the status of object restoration, you can send a <code>HEAD</code> request.
+        /// Operations return the <code>x-amz-restore</code> header, which provides information
+        /// about the restoration status, in the response. You can use Amazon S3 event notifications
+        /// to notify you when a restore is initiated or completed. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
+        /// Amazon S3 Event Notifications</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// After restoring an archived object, you can update the restoration period by reissuing
+        /// the request with a new period. Amazon S3 updates the restoration period relative to
+        /// the current time and charges only for the request-there are no data transfer charges.
+        /// You cannot update the restoration period when Amazon S3 is actively processing your
+        /// current restore request for the object.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your bucket has a lifecycle configuration with a rule that includes an expiration
+        /// action, the object expiration overrides the life span that you specify in a restore
+        /// request. For example, if you restore an object copy for 10 days, but the object is
+        /// scheduled to expire in 3 days, Amazon S3 deletes the object in 3 days. For more information
+        /// about lifecycle configuration, see <a>PutBucketLifecycleConfiguration</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+        /// Lifecycle Management</a> in <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Responses</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// A successful operation returns either the <code>200 OK</code> or <code>202 Accepted</code>
+        /// status code. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If the object copy is not previously restored, then Amazon S3 returns <code>202 Accepted</code>
+        /// in the response. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If the object copy is previously restored, Amazon S3 returns <code>200 OK</code> in
+        /// the response. 
+        /// </para>
+        ///  </li> </ul> <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: RestoreAlreadyInProgress</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Object restore is already in progress. (This error does not apply to SELECT
+        /// type requests.)</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 409 Conflict</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: Client</i> 
+        /// </para>
+        ///  </li> </ul> </li> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: GlacierExpeditedRetrievalNotAvailable</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: Glacier expedited retrievals are currently not available. Try again later.
+        /// (Returned if there is insufficient capacity to process the Expedited request. This
+        /// error applies only to Expedited retrievals and not to Standard or Bulk retrievals.)</i>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>HTTP Status Code: 503</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: N/A</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketNotificationConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
+        /// Reference for Amazon S3 Select and Glacier Select </a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RestoreObject service method.</param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
         public virtual RestoreObjectResponse RestoreObject(RestoreObjectRequest request)
         {
-            var marshaller = RestoreObjectRequestMarshaller.Instance;
-            var unmarshaller = RestoreObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreObjectResponseUnmarshaller.Instance;
 
-            return Invoke<RestoreObjectRequest,RestoreObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<RestoreObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -4584,11 +14513,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginRestoreObject(RestoreObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RestoreObjectRequestMarshaller.Instance;
-            var unmarshaller = RestoreObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RestoreObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4605,28 +14534,330 @@ namespace Amazon.S3
 
         #endregion
         
+        #region  SelectObjectContent
+
+        /// <summary>
+        /// This operation filters the contents of an Amazon S3 object based on a simple structured
+        /// query language (SQL) statement. In the request, along with the SQL expression, you
+        /// must also specify a data serialization format (JSON, CSV, or Apache Parquet) of the
+        /// object. Amazon S3 uses this format to parse object data into records, and returns
+        /// only records that match the specified SQL expression. You must also specify the data
+        /// serialization format for the response.
+        /// 
+        ///  
+        /// <para>
+        /// For more information about Amazon S3 Select, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/selecting-content-from-objects.html">Selecting
+        /// Content from Objects</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about using SQL with Amazon S3 Select, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">
+        /// SQL Reference for Amazon S3 Select and Glacier Select</a> in the <i>Amazon Simple
+        /// Storage Service Developer Guide</i>.
+        /// </para>
+        ///   
+        /// <para>
+        ///  <b>Permissions</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You must have <code>s3:GetObject</code> permission for this operation. Amazon S3 Select
+        /// does not support anonymous access. For more information about permissions, see <a
+        /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+        /// Permissions in a Policy</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///   
+        /// <para>
+        ///  <i>Object Data Formats</i> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use Amazon S3 Select to query objects that have the following format properties:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>CSV, JSON, and Parquet</i> - Objects must be in CSV, JSON, or Parquet format.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>UTF-8</i> - UTF-8 is the only encoding type Amazon S3 Select supports.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>GZIP or BZIP2</i> - CSV and JSON files can be compressed using GZIP or BZIP2.
+        /// GZIP and BZIP2 are the only compression formats that Amazon S3 Select supports for
+        /// CSV and JSON files. Amazon S3 Select supports columnar compression for Parquet using
+        /// GZIP or Snappy. Amazon S3 Select does not support whole-object compression for Parquet
+        /// objects.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Server-side encryption</i> - Amazon S3 Select supports querying objects that are
+        /// protected with server-side encryption.
+        /// </para>
+        ///  
+        /// <para>
+        /// For objects that are encrypted with customer-provided encryption keys (SSE-C), you
+        /// must use HTTPS, and you must use the headers that are documented in the <a>GetObject</a>.
+        /// For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+        /// Encryption (Using Customer-Provided Encryption Keys)</a> in the <i>Amazon Simple Storage
+        /// Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For objects that are encrypted with Amazon S3 managed encryption keys (SSE-S3) and
+        /// customer master keys (CMKs) stored in AWS Key Management Service (SSE-KMS), server-side
+        /// encryption is handled transparently, so you don't need to specify anything. For more
+        /// information about server-side encryption, including SSE-S3 and SSE-KMS, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
+        /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage Service Developer
+        /// Guide</i>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        ///  <b>Working with the Response Body</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Given the response size is unknown, Amazon S3 Select streams the response as a series
+        /// of messages and includes a <code>Transfer-Encoding</code> header with <code>chunked</code>
+        /// as its value in the response. For more information, see <a>RESTSelectObjectAppendix</a>
+        /// .
+        /// </para>
+        ///   
+        /// <para>
+        ///  <b>GetObject Support</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>SelectObjectContent</code> operation does not support the following <code>GetObject</code>
+        /// functionality. For more information, see <a>GetObject</a>.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Range</code>: While you can specify a scan range for a Amazon S3 Select request,
+        /// see <a>SelectObjectContentRequest$ScanRange</a> in the request parameters below, you
+        /// cannot specify the range of bytes of an object to return. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// GLACIER, DEEP_ARCHIVE and REDUCED_REDUNDANCY storage classes: You cannot specify the
+        /// GLACIER, DEEP_ARCHIVE, or <code>REDUCED_REDUNDANCY</code> storage classes. For more
+        /// information, about storage classes see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#storage-class-intro">Storage
+        /// Classes</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  </li> </ul>  
+        /// <para>
+        ///  <b>Special Errors</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// For a list of special errors for this operation and for general information about
+        /// Amazon S3 errors and a list of error codes, see <a>ErrorResponses</a> 
+        /// </para>
+        ///  <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetObject</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>PutBucketLifecycleConfiguration</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SelectObjectContent service method.</param>
+        /// 
+        /// <returns>The response from the SelectObjectContent service method, as returned by S3.</returns>
+        public virtual SelectObjectContentResponse SelectObjectContent(SelectObjectContentRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SelectObjectContentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SelectObjectContentResponseUnmarshaller.Instance;
+
+            return Invoke<SelectObjectContentResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SelectObjectContent operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SelectObjectContent operation on AmazonS3Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSelectObjectContent
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginSelectObjectContent(SelectObjectContentRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SelectObjectContentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SelectObjectContentResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SelectObjectContent operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSelectObjectContent.</param>
+        /// 
+        /// <returns>Returns a  SelectObjectContentResult from S3.</returns>
+        public virtual SelectObjectContentResponse EndSelectObjectContent(IAsyncResult asyncResult)
+        {
+            return EndInvoke<SelectObjectContentResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UploadPart
 
         /// <summary>
         /// Uploads a part in a multipart upload.
         /// 
-        /// 
+        ///  <note> 
         /// <para>
-        /// <b>Note:</b> After you initiate multipart upload and upload one or more parts, you
+        /// In this operation, you provide part data in your request. However, you have an option
+        /// to specify your existing Amazon S3 object as a data source for the part you are uploading.
+        /// To upload a part from an existing object, you use the <a>UploadPartCopy</a> operation.
+        /// 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You must initiate a multipart upload (see <a>CreateMultipartUpload</a>) before you
+        /// can upload any part. In response to your initiate request, Amazon S3 returns an upload
+        /// ID, a unique identifier, that you must include in your upload part request.
+        /// </para>
+        ///  
+        /// <para>
+        /// Part numbers can be any number from 1 to 10,000, inclusive. A part number uniquely
+        /// identifies a part and also defines its position within the object being created. If
+        /// you upload a new part using the same part number that was used with a previous part,
+        /// the previously uploaded part is overwritten. Each part must be at least 5 MB in size,
+        /// except the last part. There is no size limit on the last part of your multipart upload.
+        /// </para>
+        ///  
+        /// <para>
+        /// To ensure that data is not corrupted when traversing the network, specify the <code>Content-MD5</code>
+        /// header in the upload part request. Amazon S3 checks the part data against the provided
+        /// MD5 value. If they do not match, Amazon S3 returns an error. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Note:</b> After you initiate multipart upload and upload one or more parts, you
         /// must either complete or abort multipart upload in order to stop getting charged for
         /// storage of the uploaded parts. Only after you either complete or abort multipart upload,
         /// Amazon S3 frees up the parts storage and stops charging you for the parts storage.
         /// </para>
+        ///  
+        /// <para>
+        /// For more information on multipart uploads, go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
+        /// Upload Overview</a> in the <i>Amazon Simple Storage Service Developer Guide </i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information on the permissions required to use the multipart upload API, go to
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
+        /// Upload API and Permissions</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can optionally request server-side encryption where Amazon S3 encrypts your data
+        /// as it writes it to disks in its data centers and decrypts it for you when you access
+        /// it. You have the option of providing your own encryption key, or you can use the AWS
+        /// managed encryption keys. If you choose to provide your own encryption key, the request
+        /// headers you provide in the request must match the headers you used in the request
+        /// to initiate the upload by using <a>CreateMultipartUpload</a>. For more information,
+        /// go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
+        /// Server-Side Encryption</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Server-side encryption is supported by the S3 Multipart Upload actions. Unless you
+        /// are using a customer-provided encryption key, you don't need to specify the encryption
+        /// parameters in each UploadPart request. Instead, you only need to specify the server-side
+        /// encryption parameters in the initial Initiate Multipart request. For more information,
+        /// see <a>CreateMultipartUpload</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you requested server-side encryption using a customer-provided encryption key in
+        /// your initiate multipart upload request, you must provide identical encryption information
+        /// in each part upload using the following headers.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-algorithm
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// x-amz-server-side​-encryption​-customer-key-MD5
+        /// </para>
+        ///  </li> </ul> <p class="title"> <b>Special Errors</b> 
+        /// </para>
+        ///  <ul> <li> <p class="title"> <b/> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <i>Code: NoSuchUpload</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>Cause: The specified multipart upload does not exist. The upload ID might be invalid,
+        /// or the multipart upload might have been aborted or completed.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i> HTTP Status Code: 404 Not Found </i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <i>SOAP Fault Code Prefix: Client</i> 
+        /// </para>
+        ///  </li> </ul> </li> </ul> <p class="title"> <b>Related Resources</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>CreateMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>CompleteMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AbortMultipartUpload</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListParts</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ListMultipartUploads</a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UploadPart service method.</param>
         /// 
         /// <returns>The response from the UploadPart service method, as returned by S3.</returns>
         public virtual UploadPartResponse UploadPart(UploadPartRequest request)
         {
-            var marshaller = UploadPartRequestMarshaller.Instance;
-            var unmarshaller = UploadPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadPartResponseUnmarshaller.Instance;
 
-            return Invoke<UploadPartRequest,UploadPartResponse>(request, marshaller, unmarshaller);
+            return Invoke<UploadPartResponse>(request, options);
         }
 
         /// <summary>
@@ -4642,11 +14873,11 @@ namespace Amazon.S3
         ///         operation.</returns>
         public virtual IAsyncResult BeginUploadPart(UploadPartRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UploadPartRequestMarshaller.Instance;
-            var unmarshaller = UploadPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadPartResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UploadPartRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

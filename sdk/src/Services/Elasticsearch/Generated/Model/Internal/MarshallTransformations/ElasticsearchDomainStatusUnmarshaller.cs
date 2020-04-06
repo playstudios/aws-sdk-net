@@ -76,6 +76,12 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
                     unmarshalledObject.AdvancedOptions = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("AdvancedSecurityOptions", targetDepth))
+                {
+                    var unmarshaller = AdvancedSecurityOptionsUnmarshaller.Instance;
+                    unmarshalledObject.AdvancedSecurityOptions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("ARN", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -98,6 +104,12 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
                     unmarshalledObject.Deleted = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("DomainEndpointOptions", targetDepth))
+                {
+                    var unmarshaller = DomainEndpointOptionsUnmarshaller.Instance;
+                    unmarshalledObject.DomainEndpointOptions = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("DomainId", targetDepth))
@@ -154,16 +166,34 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
                     unmarshalledObject.LogPublishingOptions = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("NodeToNodeEncryptionOptions", targetDepth))
+                {
+                    var unmarshaller = NodeToNodeEncryptionOptionsUnmarshaller.Instance;
+                    unmarshalledObject.NodeToNodeEncryptionOptions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("Processing", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
                     unmarshalledObject.Processing = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ServiceSoftwareOptions", targetDepth))
+                {
+                    var unmarshaller = ServiceSoftwareOptionsUnmarshaller.Instance;
+                    unmarshalledObject.ServiceSoftwareOptions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("SnapshotOptions", targetDepth))
                 {
                     var unmarshaller = SnapshotOptionsUnmarshaller.Instance;
                     unmarshalledObject.SnapshotOptions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("UpgradeProcessing", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.UpgradeProcessing = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("VPCOptions", targetDepth))

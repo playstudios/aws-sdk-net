@@ -29,14 +29,18 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeFleetCapacity operation.
-    /// Retrieves the current status of fleet capacity for one or more fleets. This information
-    /// includes the number of instances that have been requested for the fleet and the number
-    /// currently active. You can request capacity for all fleets, or specify a list of one
-    /// or more fleet IDs. When requesting multiple fleets, use the pagination parameters
-    /// to retrieve results as a set of sequential pages. If successful, a <a>FleetCapacity</a>
-    /// object is returned for each requested fleet ID. When specifying a list of fleet IDs,
-    /// attribute objects are returned only for fleets that currently exist. 
+    /// Retrieves the current capacity statistics for one or more fleets. These statistics
+    /// present a snapshot of the fleet's instances and provide insight on current or imminent
+    /// scaling activity. To get statistics on game hosting activity in the fleet, see <a>DescribeFleetUtilization</a>.
     /// 
+    ///  
+    /// <para>
+    /// You can request capacity for all fleets or specify a list of one or more fleet identifiers.
+    /// When requesting multiple fleets, use the pagination parameters to retrieve results
+    /// as a set of sequential pages. If successful, a <a>FleetCapacity</a> object is returned
+    /// for each requested fleet ID. When a list of fleet IDs is provided, attribute objects
+    /// are returned only for fleets that currently exist.
+    /// </para>
     ///  <note> 
     /// <para>
     /// Some API actions may limit the number of fleet IDs allowed in one request. If a request
@@ -44,7 +48,21 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </note> 
     /// <para>
-    /// Fleet-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
+    /// up GameLift Fleets</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/monitoring-cloudwatch.html#gamelift-metrics-fleet">GameLift
+    /// Metrics for Fleets</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -56,11 +74,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <a>DeleteFleet</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     /// Describe fleets:
     /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DescribeFleetCapacity</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -76,59 +102,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <a>DescribeEC2InstanceLimits</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     ///  <a>DescribeFleetEvents</a> 
     /// </para>
     ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Update fleets:
-    /// </para>
-    ///  <ul> <li> 
     /// <para>
     ///  <a>UpdateFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -141,10 +127,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetIds. 
         /// <para>
-        /// Unique identifier for a fleet(s) to retrieve capacity information for. To request
-        /// capacity information for all fleets, leave this parameter empty.
+        /// A unique identifier for a fleet(s) to retrieve capacity information for. You can use
+        /// either the fleet ID or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> FleetIds
         {
             get { return this._fleetIds; }
@@ -160,11 +147,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages. This parameter is ignored when the request
         /// specifies one or a list of fleet IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -186,6 +174,7 @@ namespace Amazon.GameLift.Model
         /// specifies one or a list of fleet IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

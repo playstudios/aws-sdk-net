@@ -34,7 +34,7 @@ namespace Amazon.IdentityManagement
     /// users and user permissions under your AWS account. This guide provides descriptions
     /// of IAM actions that you can call programmatically. For general information about IAM,
     /// see <a href="http://aws.amazon.com/iam/">AWS Identity and Access Management (IAM)</a>.
-    /// For the user guide for IAM, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">Using
+    /// For the user guide for IAM, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/">Using
     /// IAM</a>. 
     /// </para>
     ///  <note> 
@@ -51,7 +51,7 @@ namespace Amazon.IdentityManagement
     /// <para>
     /// We recommend that you use the AWS SDKs to make programmatic API calls to IAM. However,
     /// you can also use the IAM Query API to make direct calls to the IAM web service. To
-    /// learn more about the IAM Query API, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+    /// learn more about the IAM Query API, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
     /// Query Requests</a> in the <i>Using IAM</i> guide. IAM supports GET and POST requests
     /// for all actions. That is, the API does not require you to use GET for some actions
     /// and POST for others. However, GET requests are subject to the limitation size of a
@@ -71,7 +71,7 @@ namespace Amazon.IdentityManagement
     /// </para>
     ///  
     /// <para>
-    /// To sign requests, we recommend that you use <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+    /// To sign requests, we recommend that you use <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
     /// Version 4</a>. If you have an existing application that uses Signature Version 2,
     /// you do not have to update it to use Signature Version 4. However, some operations
     /// now require Signature Version 4. The documentation for operations that require version
@@ -87,19 +87,19 @@ namespace Amazon.IdentityManagement
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html">AWS
+    ///  <a href="https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html">AWS
     /// Security Credentials</a>. This topic provides general information about the types
     /// of credentials used for accessing AWS. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html">IAM
+    ///  <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html">IAM
     /// Best Practices</a>. This topic presents a list of suggestions for using the IAM service
     /// to help secure your AWS resources. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
+    ///  <a href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
     /// AWS API Requests</a>. This set of topics walk you through the process of signing a
     /// request using an access key ID and secret access key. 
     /// </para>
@@ -670,6 +670,23 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  DeleteRolePermissionsBoundary
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRolePermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRolePermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePermissionsBoundary">REST API Reference for DeleteRolePermissionsBoundary Operation</seealso>
+        void DeleteRolePermissionsBoundaryAsync(DeleteRolePermissionsBoundaryRequest request, AmazonServiceCallback<DeleteRolePermissionsBoundaryRequest, DeleteRolePermissionsBoundaryResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  DeleteRolePolicy
 
 
@@ -806,6 +823,23 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  DeleteUserPermissionsBoundary
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteUserPermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUserPermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPermissionsBoundary">REST API Reference for DeleteUserPermissionsBoundary Operation</seealso>
+        void DeleteUserPermissionsBoundaryAsync(DeleteUserPermissionsBoundaryRequest request, AmazonServiceCallback<DeleteUserPermissionsBoundaryRequest, DeleteUserPermissionsBoundaryResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  DeleteUserPolicy
 
 
@@ -925,6 +959,40 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  GenerateOrganizationsAccessReport
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GenerateOrganizationsAccessReport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GenerateOrganizationsAccessReport operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateOrganizationsAccessReport">REST API Reference for GenerateOrganizationsAccessReport Operation</seealso>
+        void GenerateOrganizationsAccessReportAsync(GenerateOrganizationsAccessReportRequest request, AmazonServiceCallback<GenerateOrganizationsAccessReportRequest, GenerateOrganizationsAccessReportResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  GenerateServiceLastAccessedDetails
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GenerateServiceLastAccessedDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GenerateServiceLastAccessedDetails operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateServiceLastAccessedDetails">REST API Reference for GenerateServiceLastAccessedDetails Operation</seealso>
+        void GenerateServiceLastAccessedDetailsAsync(GenerateServiceLastAccessedDetailsRequest request, AmazonServiceCallback<GenerateServiceLastAccessedDetailsRequest, GenerateServiceLastAccessedDetailsResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  GetAccessKeyLastUsed
 
 
@@ -1011,7 +1079,7 @@ namespace Amazon.IdentityManagement
         /// URL encoded to be included as a part of a real HTML request.
         /// </para>
         /// </summary>
-        /// <param name="policyInputList">A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF) </li> <li> The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D) </li> </ul></param>
+        /// <param name="policyInputList">A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through <code>\u00FF</code>) </li> <li> The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>) </li> </ul></param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -1069,7 +1137,7 @@ namespace Amazon.IdentityManagement
         /// what key names and values you must supply when you call <a>SimulatePrincipalPolicy</a>.
         /// </para>
         /// </summary>
-        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
+        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -1082,8 +1150,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForPrincipalPolicy">REST API Reference for GetContextKeysForPrincipalPolicy Operation</seealso>
         void GetContextKeysForPrincipalPolicyAsync(string policySourceArn,  AmazonServiceCallback<GetContextKeysForPrincipalPolicyRequest, GetContextKeysForPrincipalPolicyResponse> callback, AsyncOptions options = null);
@@ -1114,8 +1182,8 @@ namespace Amazon.IdentityManagement
         /// what key names and values you must supply when you call <a>SimulatePrincipalPolicy</a>.
         /// </para>
         /// </summary>
-        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
-        /// <param name="policyInputList">An optional list of additional policies for which you want the list of context keys that are referenced. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF) </li> <li> The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D) </li> </ul></param>
+        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
+        /// <param name="policyInputList">An optional list of additional policies for which you want the list of context keys that are referenced. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through <code>\u00FF</code>) </li> <li> The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>) </li> </ul></param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -1128,8 +1196,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForPrincipalPolicy">REST API Reference for GetContextKeysForPrincipalPolicy Operation</seealso>
         void GetContextKeysForPrincipalPolicyAsync(string policySourceArn, List<string> policyInputList,  AmazonServiceCallback<GetContextKeysForPrincipalPolicyRequest, GetContextKeysForPrincipalPolicyResponse> callback, AsyncOptions options = null);
@@ -1250,6 +1318,23 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  GetOrganizationsAccessReport
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetOrganizationsAccessReport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetOrganizationsAccessReport operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOrganizationsAccessReport">REST API Reference for GetOrganizationsAccessReport Operation</seealso>
+        void GetOrganizationsAccessReportAsync(GetOrganizationsAccessReportRequest request, AmazonServiceCallback<GetOrganizationsAccessReportRequest, GetOrganizationsAccessReportResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  GetPolicy
 
 
@@ -1348,6 +1433,40 @@ namespace Amazon.IdentityManagement
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServerCertificate">REST API Reference for GetServerCertificate Operation</seealso>
         void GetServerCertificateAsync(GetServerCertificateRequest request, AmazonServiceCallback<GetServerCertificateRequest, GetServerCertificateResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  GetServiceLastAccessedDetails
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetServiceLastAccessedDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceLastAccessedDetails operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetails">REST API Reference for GetServiceLastAccessedDetails Operation</seealso>
+        void GetServiceLastAccessedDetailsAsync(GetServiceLastAccessedDetailsRequest request, AmazonServiceCallback<GetServiceLastAccessedDetailsRequest, GetServiceLastAccessedDetailsResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  GetServiceLastAccessedDetailsWithEntities
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetServiceLastAccessedDetailsWithEntities operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceLastAccessedDetailsWithEntities operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetailsWithEntities">REST API Reference for GetServiceLastAccessedDetailsWithEntities Operation</seealso>
+        void GetServiceLastAccessedDetailsWithEntitiesAsync(GetServiceLastAccessedDetailsWithEntitiesRequest request, AmazonServiceCallback<GetServiceLastAccessedDetailsWithEntitiesRequest, GetServiceLastAccessedDetailsWithEntitiesResponse> callback, AsyncOptions options = null);
 
 
         #endregion
@@ -1658,6 +1777,23 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  ListPoliciesGrantingServiceAccess
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListPoliciesGrantingServiceAccess operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListPoliciesGrantingServiceAccess operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPoliciesGrantingServiceAccess">REST API Reference for ListPoliciesGrantingServiceAccess Operation</seealso>
+        void ListPoliciesGrantingServiceAccessAsync(ListPoliciesGrantingServiceAccessRequest request, AmazonServiceCallback<ListPoliciesGrantingServiceAccessRequest, ListPoliciesGrantingServiceAccessResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  ListPolicyVersions
 
 
@@ -1705,6 +1841,23 @@ namespace Amazon.IdentityManagement
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRoles">REST API Reference for ListRoles Operation</seealso>
         void ListRolesAsync(ListRolesRequest request, AmazonServiceCallback<ListRolesRequest, ListRolesResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  ListRoleTags
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListRoleTags operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListRoleTags operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRoleTags">REST API Reference for ListRoleTags Operation</seealso>
+        void ListRoleTagsAsync(ListRoleTagsRequest request, AmazonServiceCallback<ListRoleTagsRequest, ListRoleTagsResponse> callback, AsyncOptions options = null);
 
 
         #endregion
@@ -1828,6 +1981,23 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  ListUserTags
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListUserTags operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListUserTags operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserTags">REST API Reference for ListUserTags Operation</seealso>
+        void ListUserTagsAsync(ListUserTagsRequest request, AmazonServiceCallback<ListUserTagsRequest, ListUserTagsResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  ListVirtualMFADevices
 
 
@@ -1862,6 +2032,23 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  PutRolePermissionsBoundary
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutRolePermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutRolePermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePermissionsBoundary">REST API Reference for PutRolePermissionsBoundary Operation</seealso>
+        void PutRolePermissionsBoundaryAsync(PutRolePermissionsBoundaryRequest request, AmazonServiceCallback<PutRolePermissionsBoundaryRequest, PutRolePermissionsBoundaryResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  PutRolePolicy
 
 
@@ -1875,6 +2062,23 @@ namespace Amazon.IdentityManagement
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePolicy">REST API Reference for PutRolePolicy Operation</seealso>
         void PutRolePolicyAsync(PutRolePolicyRequest request, AmazonServiceCallback<PutRolePolicyRequest, PutRolePolicyResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  PutUserPermissionsBoundary
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutUserPermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutUserPermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPermissionsBoundary">REST API Reference for PutUserPermissionsBoundary Operation</seealso>
+        void PutUserPermissionsBoundaryAsync(PutUserPermissionsBoundaryRequest request, AmazonServiceCallback<PutUserPermissionsBoundaryRequest, PutUserPermissionsBoundaryResponse> callback, AsyncOptions options = null);
 
 
         #endregion
@@ -1998,6 +2202,23 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  SetSecurityTokenServicePreferences
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SetSecurityTokenServicePreferences operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SetSecurityTokenServicePreferences operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetSecurityTokenServicePreferences">REST API Reference for SetSecurityTokenServicePreferences Operation</seealso>
+        void SetSecurityTokenServicePreferencesAsync(SetSecurityTokenServicePreferencesRequest request, AmazonServiceCallback<SetSecurityTokenServicePreferencesRequest, SetSecurityTokenServicePreferencesResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  SimulateCustomPolicy
 
 
@@ -2028,6 +2249,74 @@ namespace Amazon.IdentityManagement
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulatePrincipalPolicy">REST API Reference for SimulatePrincipalPolicy Operation</seealso>
         void SimulatePrincipalPolicyAsync(SimulatePrincipalPolicyRequest request, AmazonServiceCallback<SimulatePrincipalPolicyRequest, SimulatePrincipalPolicyResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  TagRole
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagRole operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagRole operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagRole">REST API Reference for TagRole Operation</seealso>
+        void TagRoleAsync(TagRoleRequest request, AmazonServiceCallback<TagRoleRequest, TagRoleResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  TagUser
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagUser operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagUser">REST API Reference for TagUser Operation</seealso>
+        void TagUserAsync(TagUserRequest request, AmazonServiceCallback<TagUserRequest, TagUserResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  UntagRole
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagRole operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagRole operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagRole">REST API Reference for UntagRole Operation</seealso>
+        void UntagRoleAsync(UntagRoleRequest request, AmazonServiceCallback<UntagRoleRequest, UntagRoleResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  UntagUser
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagUser operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagUser">REST API Reference for UntagUser Operation</seealso>
+        void UntagUserAsync(UntagUserRequest request, AmazonServiceCallback<UntagUserRequest, UntagUserResponse> callback, AsyncOptions options = null);
 
 
         #endregion

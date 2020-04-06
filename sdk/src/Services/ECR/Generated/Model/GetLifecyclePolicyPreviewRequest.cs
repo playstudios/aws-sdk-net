@@ -29,7 +29,7 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the GetLifecyclePolicyPreview operation.
-    /// Retrieves the results of the specified lifecycle policy preview request.
+    /// Retrieves the results of the lifecycle policy preview request for the specified repository.
     /// </summary>
     public partial class GetLifecyclePolicyPreviewRequest : AmazonECRRequest
     {
@@ -65,6 +65,7 @@ namespace Amazon.ECR.Model
         /// The list of imageIDs to be included.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<ImageIdentifier> ImageIds
         {
             get { return this._imageIds; }
@@ -86,11 +87,12 @@ namespace Amazon.ECR.Model
         /// <code>nextToken</code>&#x2028; response element. The remaining results of the initial
         /// request can be seen by sending&#x2028; another <code>GetLifecyclePolicyPreviewRequest</code>
         /// request with the returned <code>nextToken</code>&#x2028; value. This value can be
-        /// between 1 and 100. If this&#x2028; parameter is not used, then <code>GetLifecyclePolicyPreviewRequest</code>
+        /// between 1 and 1000. If this&#x2028; parameter is not used, then <code>GetLifecyclePolicyPreviewRequest</code>
         /// returns up to&#x2028; 100 results and a <code>nextToken</code> value, if&#x2028; applicable.
         /// This option cannot be used when you specify images with <code>imageIds</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -151,6 +153,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

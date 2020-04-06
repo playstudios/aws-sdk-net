@@ -55,14 +55,15 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateDeploymentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/restapis/{restapi_id}/deployments";
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.ResourcePath = "/restapis/{restapi_id}/deployments";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -107,6 +108,12 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("stageName");
                     context.Writer.Write(publicRequest.StageName);
+                }
+
+                if(publicRequest.IsSetTracingEnabled())
+                {
+                    context.Writer.WritePropertyName("tracingEnabled");
+                    context.Writer.Write(publicRequest.TracingEnabled);
                 }
 
                 if(publicRequest.IsSetVariables())

@@ -35,6 +35,13 @@ namespace Amazon.SageMaker.Model
     /// <para>
     /// To list a resource's tags, use the <code>ListTags</code> API. 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// When you call this API to delete tags from a hyperparameter tuning job, the deleted
+    /// tags are not removed from training jobs that the hyperparameter tuning job launched
+    /// before you called this API.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DeleteTagsRequest : AmazonSageMakerRequest
     {
@@ -47,6 +54,7 @@ namespace Amazon.SageMaker.Model
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=256)]
         public string ResourceArn
         {
             get { return this._resourceArn; }
@@ -65,6 +73,7 @@ namespace Amazon.SageMaker.Model
         /// An array or one or more tag keys to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

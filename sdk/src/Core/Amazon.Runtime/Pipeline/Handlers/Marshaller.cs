@@ -80,8 +80,16 @@ namespace Amazon.Runtime.Internal
             requestContext.Request.AuthenticationRegion = requestContext.ClientConfig.AuthenticationRegion;
 
 #if !UNITY
-            requestContext.Request.Headers[HeaderKeys.UserAgentHeader] = requestContext.ClientConfig.UserAgent
-            + " " + (executionContext.RequestContext.IsAsync ? "ClientAsync" : "ClientSync");
+            string userAgentHeader = HeaderKeys.UserAgentHeader;
+#if BCL || NETSTANDARD
+            if ((requestContext.ClientConfig as ClientConfig)?.UseAlternateUserAgentHeader ?? false)
+            {
+                userAgentHeader = HeaderKeys.XAmzUserAgentHeader;
+            }
+#endif
+
+            requestContext.Request.Headers[userAgentHeader] = requestContext.ClientConfig.UserAgent
+                + " " + (executionContext.RequestContext.IsAsync ? "ClientAsync" : "ClientSync");
 #else
             if (AWSConfigs.HttpClient == AWSConfigs.HttpClientOption.UnityWWW)
             {
@@ -97,7 +105,7 @@ namespace Amazon.Runtime.Internal
             }
 #endif
 
-#if CORECLR
+#if NETSTANDARD
             var method = requestContext.Request.HttpMethod.ToUpperInvariant();
 #else
             var method = requestContext.Request.HttpMethod.ToUpper(CultureInfo.InvariantCulture);

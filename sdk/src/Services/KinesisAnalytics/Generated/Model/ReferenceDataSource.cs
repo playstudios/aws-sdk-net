@@ -46,6 +46,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// maps to corresponding columns created in the in-application stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SourceSchema ReferenceSchema
         {
             get { return this._referenceSchema; }
@@ -64,8 +65,8 @@ namespace Amazon.KinesisAnalytics.Model
         /// Identifies the S3 bucket and object that contains the reference data. Also identifies
         /// the IAM role Amazon Kinesis Analytics can assume to read this object on your behalf.
         /// An Amazon Kinesis Analytics application loads reference data only once. If the data
-        /// changes, you call the <a>UpdateApplication</a> operation to trigger reloading of data
-        /// into your application. 
+        /// changes, you call the <code>UpdateApplication</code> operation to trigger reloading
+        /// of data into your application. 
         /// </para>
         /// </summary>
         public S3ReferenceDataSource S3ReferenceDataSource
@@ -86,6 +87,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Name of the in-application table to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=32)]
         public string TableName
         {
             get { return this._tableName; }

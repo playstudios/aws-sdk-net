@@ -29,8 +29,8 @@ namespace Amazon.Organizations.Model
 {
     /// <summary>
     /// Container for the parameters to the MoveAccount operation.
-    /// Moves an account from its current source parent root or OU to the specified destination
-    /// parent root or OU.
+    /// Moves an account from its current source parent root or organizational unit (OU) to
+    /// the specified destination parent root or OU.
     /// 
     ///  
     /// <para>
@@ -54,6 +54,7 @@ namespace Amazon.Organizations.Model
         /// string requires exactly 12 digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -79,17 +80,19 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or
-        /// digits.
+        ///  <b>Root</b> - A string that begins with "r-" followed by from 4 to 32 lowercase letters
+        /// or digits.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32
-        /// lower-case letters or digits (the ID of the root that the OU is in) followed by a
-        /// second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        ///  <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed by from
+        /// 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string
+        /// is followed by a second "-" dash and from 8 to 32 additional lowercase letters or
+        /// digits.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DestinationParentId
         {
             get { return this._destinationParentId; }
@@ -115,17 +118,19 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or
-        /// digits.
+        ///  <b>Root</b> - A string that begins with "r-" followed by from 4 to 32 lowercase letters
+        /// or digits.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32
-        /// lower-case letters or digits (the ID of the root that the OU is in) followed by a
-        /// second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        ///  <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed by from
+        /// 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string
+        /// is followed by a second "-" dash and from 8 to 32 additional lowercase letters or
+        /// digits.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceParentId
         {
             get { return this._sourceParentId; }

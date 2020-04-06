@@ -1,9 +1,11 @@
 ﻿using Amazon.Runtime.Internal;
+using Amazon.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceClientGenerator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -57,6 +59,7 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
             ValidateHeaders(type.GetProperties());
             ValidateQueryParameters(type.GetProperties());
             ValidateUriParameters(type.GetProperties());
+            ValidateHostPrefixParameters(type.GetProperties());
             ValidateStreamingContent();
             ValidateBody();
         }
@@ -66,42 +69,41 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
         protected virtual void ValidateBody()
         {
             var payload = this.Operation.RequestPayloadMember;
-            var payloadMarshalled = payload != null && payload.IsStructure;
+            var payloadMarshalled = payload != null && !payload.IsMemoryStream;
             if (this.Operation.RequestHasBodyMembers || payloadMarshalled)
             {
                 Assert.IsTrue(this.MarshalledRequest.Content.Count() > 0);
                 T marshalledData = GetMarshalledData(this.MarshalledRequest.Content);
 
-                var parentType = this.Operation.RequestPayloadMember == null ?
-                    this.Request.GetType() :
-                    this.Request.GetType().GetProperties().Single(p => p.Name == this.Operation.RequestPayloadMember.PropertyName).PropertyType;
-
-                var parentObject = this.Operation.RequestPayloadMember == null ?
-                    this.Request :
-                    this.Request.GetType().GetProperties().Single(p => p.Name == this.Operation.RequestPayloadMember.PropertyName).GetValue(this.Request);
-
-                var members = this.Operation.RequestPayloadMember == null ?
-                    this.Operation.RequestBodyMembers :
-                    this.Operation.RequestPayloadMember.Shape.Members;
-
-                foreach (var property in parentType.GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance))
+                if (this.Operation.RequestPayloadMember != null)
                 {
-                    if (this.Operation.RequestHeaderMembers.Any(m=>m.PropertyName == property.Name) ||
-                        this.Operation.RequestQueryStringMembers.Any(m => m.PropertyName == property.Name) ||
-                        this.Operation.RequestUriMembers.Any(m => m.PropertyName == property.Name))
-                    {
-                        continue;
-                    }
+                    var parentObject = this.Request.GetType().GetProperties().Single(p => p.Name == this.Operation.RequestPayloadMember.PropertyName).GetValue(this.Request);
 
-                    if (property.PropertyType.BaseType.FullName == "System.MulticastDelegate")
+                    Visit(parentObject, Operation.RequestPayloadMember, marshalledData, new TypeCircularReference<Type>());
+                }
+                else
+                {
+                    var properties = this.Request.GetType().GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    foreach (var childMember in this.Operation.RequestBodyMembers)
                     {
-                        continue;
-                    }
+                        var property = properties.Single(p => childMember.PropertyName == p.Name);
+                        if (this.Operation.RequestHeaderMembers.Any(m => m.PropertyName == property.Name) ||
+                            this.Operation.RequestQueryStringMembers.Any(m => m.PropertyName == property.Name) ||
+                            this.Operation.RequestUriMembers.Any(m => m.PropertyName == property.Name))
+                        {
+                            continue;
+                        }
 
-                    var childMember = members.Single(m => m.PropertyName == property.Name);
-                    var childValue = property.GetValue(parentObject);
-                    var childMarshalledData = GetMarshalledProperty(marshalledData, childMember.MarshallName);
-                    Visit(childValue, childMember, childMarshalledData);
+                        if (property.PropertyType.BaseType.FullName == "System.MulticastDelegate")
+                        {
+                            continue;
+                        }
+
+                        var childValue = property.GetValue(this.Request);
+                        var childMarshalledData = GetMarshalledProperty(marshalledData, childMember.MarshallName);
+                        Visit(childValue, childMember, childMarshalledData, new TypeCircularReference<Type>());
+                        
+                    }
                 }
             }
             else
@@ -112,93 +114,120 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
 
         protected abstract T GetMarshalledProperty(T marshalledData, string propertyName);
 
-        void Visit(object value, Member member, T marshalledData)
+        void Visit(object value, Member member, T marshalledData, TypeCircularReference<Type> tcr)
         {
             var type = value.GetType();
+            var pushed = false;
+            if (!type.FullName.StartsWith("System."))
+            {
+                pushed = tcr.Push(type);
+                if (!pushed)
+                    return;
+            }
 
-            if (type.IsPrimitive || type == typeof(string))
-            {   
-                ValidateProperty(value, member, marshalledData);
-            }
-            else if (type == typeof(DateTime))
+            try
             {
-                ValidateProperty(value, member, marshalledData);
-            }
-            else if (type == typeof(MemoryStream))
-            {
-                ValidateProperty(value, member, marshalledData);
-            }
-            else if (type.BaseType.FullName == "Amazon.Runtime.ConstantClass")
-            {
-                ValidateProperty(value.ToString(), member, marshalledData);
-            }
-            else if (type.GetInterface("System.Collections.IList") != null)
-            {
-                var list = value as IList;
-                Assert.IsTrue(member.IsList);
-                ValidateList(list, member, marshalledData);
-                var enumerator = GetMarshalledListItem(marshalledData).GetEnumerator();
-                foreach (var item in list)
+                if (type.IsPrimitive || type == typeof(string))
                 {
-                    enumerator.MoveNext();
-                    var marshalledListData = enumerator.Current;
-
-                    ValidateListMember(item, member.Shape, marshalledListData);                        
-                    if (member.Shape.ListShape.IsStructure)
+                    ValidateProperty(value, member, marshalledData);
+                }
+                else if (type == typeof(DateTime))
+                {
+                    ValidateProperty(value, member, marshalledData);
+                }
+                else if (type == typeof(MemoryStream))
+                {
+                    ValidateProperty(value, member, marshalledData);
+                }
+                else if (type.BaseType.FullName == "Amazon.Runtime.ConstantClass")
+                {
+                    ValidateProperty(value.ToString(), member, marshalledData);
+                }
+                else if (type.GetInterface("System.Collections.IList") != null)
+                {
+                    var list = value as IList;
+                    Assert.IsTrue(member.IsList);
+                    ValidateList(list, member, marshalledData);
+                    var enumerator = GetMarshalledListItem(marshalledData).GetEnumerator();
+                    foreach (var item in list)
                     {
-                        // It's a list of complex type                        
-                        foreach (var property in item.GetType().GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance))
+                        enumerator.MoveNext();
+                        var marshalledListData = enumerator.Current;
+
+                        ValidateListMember(item, member.Shape, marshalledListData);
+                        if (member.Shape.ListShape.IsStructure)
                         {
-                            var childMember = member.Shape.ListShape.Members.Single(m => m.PropertyName == property.Name);
-                            var childValue = property.GetValue(item);
-                            var childMarshalledData = GetMarshalledProperty(marshalledListData, childMember.MarshallName);
-                            Visit(childValue, childMember, childMarshalledData);
+                            // It's a list of complex type       
+                            var properties = item.GetType().GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                            foreach (var childMember in member.Shape.ListShape.Members)
+                            {
+                                var property = properties.Single(p => childMember.PropertyName == p.Name);
+                                var childValue = property.GetValue(item);
+                                var childMarshalledData = GetMarshalledProperty(marshalledListData, childMember.MarshallName);
+                                Visit(childValue, childMember, childMarshalledData, tcr);
+                            }
+                        }
+                    }
+                }
+                else if (type.GetInterface("System.Collections.IDictionary") != null)
+                {
+                    var map = value as IDictionary;
+                    Assert.IsTrue(member.IsMap);
+                    ValidateMap(map, member, marshalledData);
+                    var enumerator = GetMarshalledMapKey(marshalledData).GetEnumerator();
+                    foreach (var item in map.Keys)
+                    {
+                        enumerator.MoveNext();
+                        var marshalledKey = enumerator.Current;
+                        ValidateMapKey(item, member, marshalledKey);
+
+                        var marshalledValue = GetMarshalledMapValue(marshalledData, marshalledKey);
+                        var mapValue = map[item];
+                        if (member.Shape.ValueShape.IsStructure)
+                        {
+                            // Map's value is of complex type
+                            ValidateMapValue(mapValue, member, marshalledValue);
+                            var properties = mapValue.GetType().GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                            foreach (var childMember in member.Shape.ValueShape.Members)
+                            {
+                                var property = properties.Single(p => childMember.PropertyName == p.Name);
+                                var childValue = property.GetValue(mapValue);
+                                var childMarshalledData = GetMarshalledProperty(marshalledValue, childMember.MarshallName);
+                                Visit(childValue, childMember, childMarshalledData, tcr);
+                            }
+                        }
+                        else
+                        {
+                            ValidateMapValue(mapValue, member, marshalledValue);
+                        }
+                    }
+                }
+                else
+                {
+                    // It's a complex type
+                    var properties = type.GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    foreach (var childMember in member.Shape.Members)
+                    {
+                        var property = properties.Single(p => childMember.PropertyName == p.Name);
+
+                        // Check that the child type and any of its generic type arguments types haven't been visited already.
+                        // InstantiateClassGenerator also uses TypeCircularReference to make sure it doesn't recurse infinitely.
+                        var typesToCheck = new List<Type>() { property.PropertyType };
+                        typesToCheck.AddRange(property.PropertyType.GetGenericArguments());
+
+                        if (!typesToCheck.Exists(childType => tcr.Contains(childType)))
+                        {
+                            var childValue = property.GetValue(value);
+                            var childMarshalledData = GetMarshalledProperty(marshalledData, childMember.MarshallName);
+                            Visit(childValue, childMember, childMarshalledData, tcr);
                         }
                     }
                 }
             }
-            else if (type.GetInterface("System.Collections.IDictionary") != null)
+            finally
             {
-                var map = value as IDictionary;
-                Assert.IsTrue(member.IsMap);
-                ValidateMap(map, member, marshalledData);
-                var enumerator = GetMarshalledMapKey(marshalledData).GetEnumerator();
-                foreach (var item in map.Keys)
-                {
-                    enumerator.MoveNext();
-                    var marshalledKey = enumerator.Current;
-                    ValidateMapKey(item, member, marshalledKey);
-
-                    var marshalledValue = GetMarshalledMapValue(marshalledData, marshalledKey);
-                    var mapValue = map[item];
-                    if (member.Shape.ValueShape.IsStructure)
-                    {
-                        // Map's value is of complex type
-                        ValidateMapValue(mapValue, member, marshalledValue);
-                        foreach (var property in mapValue.GetType().GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance))
-                        {
-                            var childMember = member.Shape.ValueShape.Members.Single(m => m.PropertyName == property.Name);
-                            var childValue = property.GetValue(mapValue);
-                            var childMarshalledData = GetMarshalledProperty(marshalledValue, childMember.MarshallName);
-                            Visit(childValue, childMember, childMarshalledData);
-                        }
-                    }
-                    else
-                    {
-                        ValidateMapValue(mapValue, member, marshalledValue);
-                    }
-                }
-            }
-            else
-            {
-                // It's a complex type
-                foreach (var property in type.GetProperties(BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance))
-                {
-                    var childMember = member.Shape.Members.Single(m => m.PropertyName == property.Name);
-                    var childValue = property.GetValue(value);
-                    var childMarshalledData = GetMarshalledProperty(marshalledData, childMember.MarshallName);
-                    Visit(childValue, childMember, childMarshalledData);
-                }
+                if (pushed)
+                    tcr.Pop();
             }
         }
 
@@ -223,7 +252,7 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
         private void ValidateStreamingContent()
         {
             var payload = this.Operation.RequestPayloadMember;
-            if (payload != null && !payload.IsStructure)
+            if (payload != null && payload.IsMemoryStream)
             {
                 Assert.IsTrue(this.MarshalledRequest.Headers.ContainsKey("Content-Type"));
                 if (!this.Operation.RequestHeaderMembers.Any(h => h.MarshallLocationName.ToLower() == "content-type"))
@@ -242,7 +271,8 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
         {
             foreach (var property in properties)
             {
-                if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(string))
+                if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(string) ||
+                    property.PropertyType == typeof(DateTime))
                 {
                     var member = this.Operation.RequestHeaderMembers.SingleOrDefault(m =>
                         m.PropertyName == property.Name);
@@ -255,6 +285,11 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
                             {
                                 var encodedValue = Convert.ToBase64String(Encoding.UTF8.GetBytes((string)property.GetValue(this.Request)));
                                 Assert.AreEqual(encodedValue, this.MarshalledRequest.Headers[member.MarshallLocationName]);
+                            }
+                            else if(member.IsDateTime)
+                            {
+                                var value = ParseUsingFormat(this.MarshalledRequest.Headers[member.MarshallLocationName], member.TimestampFormat);
+                                Assert.AreEqual(((DateTime)property.GetValue(this.Request)).ToUniversalTime(), value.ToUniversalTime());
                             }
                             else
                                 Assert.AreEqual(property.GetValue(this.Request), this.MarshalledRequest.Headers[member.MarshallLocationName]);
@@ -270,16 +305,23 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
             {
                 foreach (var property in properties)
                 {
-                    if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(string))
-                    {
-                        var member = this.Operation.RequestQueryStringMembers.SingleOrDefault(m =>
+                    var member = this.Operation.RequestQueryStringMembers.SingleOrDefault(m =>
                             m.PropertyName == property.Name);
-                        if (member == null)
-                            continue;
+                    if (member == null)
+                        continue;
+                    if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(string))
+                    {   
                         Assert.IsTrue(this.MarshalledRequest.Parameters.ContainsKey(member.MarshallLocationName));
                         var value = this.MarshalledRequest.Parameters[member.MarshallLocationName];
                         var convertedValue = Convert.ChangeType(value, property.PropertyType);
                         Assert.AreEqual(property.GetValue(this.Request), convertedValue);
+                    }
+                    else if(property.PropertyType == typeof(DateTime))
+                    {
+                        Assert.IsTrue(this.MarshalledRequest.Parameters.ContainsKey(member.MarshallLocationName));
+                        var value = ParseUsingFormat(this.MarshalledRequest.Parameters[member.MarshallLocationName],
+                            member.TimestampFormat);
+                        Assert.AreEqual(((DateTime)property.GetValue(this.Request)).ToUniversalTime(), value.ToUniversalTime());
                     }
                 }
             }
@@ -288,9 +330,14 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
         protected void ValidateUriParameters(IEnumerable<PropertyInfo> properties)
         {
             if (this.Operation.RequestUriMembers.Count() > 0)
-            {
-                var uri = this.MarshalledRequest.ResourcePath.Split('?')[0];
-                var uriSegments = uri.Split('/');
+            {   
+                var splitSegments = this.MarshalledRequest.ResourcePath.Split('?')[0].Split('/');
+                var uriSegments = new List<string>(splitSegments.Select(
+                    segment => this.MarshalledRequest?.PathResources.ContainsKey(segment) == true 
+                        ? this.MarshalledRequest.PathResources[segment] 
+                        : segment
+                ));
+
                 var operationUri = this.Operation.RequestUri.Split('?')[0];
                 var operationUriSegments = operationUri.Split('/');
 
@@ -316,6 +363,50 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
                         }
                     }
                 }
+            }
+        }
+
+        protected void ValidateHostPrefixParameters(IEnumerable<PropertyInfo> properties)
+        {
+            if (!string.IsNullOrEmpty(this.Operation.EndpointHostPrefix))
+            {
+                var hostPrefix = this.MarshalledRequest.HostPrefix;
+                var hostPrefixTemplate = this.Operation.EndpointHostPrefix;
+                
+                foreach (var property in properties)
+                {
+                    if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(string))
+                    {
+                        var member = this.Operation.RequestHostPrefixMembers.SingleOrDefault(m =>
+                            m.PropertyName == property.Name);
+                        if (member != null)
+                        {
+                            hostPrefixTemplate = hostPrefixTemplate.Replace(string.Format("{{{0}}}", member.MarshallLocationName), (string)property.GetValue(this.Request));                         
+                        }
+                    }
+                }
+
+                Assert.AreEqual(hostPrefix, hostPrefixTemplate);
+                Assert.AreEqual(hostPrefixTemplate.IndexOfAny(new char[] { '{', '}' }), -1);
+            }
+        }
+
+        private DateTime ParseUsingFormat(string text, TimestampFormat timestampFormat)
+        {
+            if (timestampFormat == TimestampFormat.ISO8601 ||
+                        timestampFormat == TimestampFormat.RFC822)
+            {
+                return DateTime.Parse(text, CultureInfo.InvariantCulture);
+            }
+            else if (timestampFormat == TimestampFormat.UnixTimestamp)
+            {
+                var epochSeconds = Double.Parse(text, NumberStyles.Any, CultureInfo.InvariantCulture);
+                return AWSSDKUtils.EPOCH_START.AddSeconds(epochSeconds);
+
+            }
+            else
+            {
+                throw new InvalidOperationException("Cannot parse for format " + timestampFormat);
             }
         }
     }

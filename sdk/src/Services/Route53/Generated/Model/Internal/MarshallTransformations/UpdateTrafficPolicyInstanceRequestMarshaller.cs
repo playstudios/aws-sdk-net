@@ -56,11 +56,11 @@ namespace Amazon.Route53.Model.Internal.MarshallTransformations
         {
             var request = new DefaultRequest(publicRequest, "Amazon.Route53");
             request.HttpMethod = "POST";
-            string uriResourcePath = "/2013-04-01/trafficpolicyinstance/{Id}";
             if (!publicRequest.IsSetId())
                 throw new AmazonRoute53Exception("Request object does not have required field Id set");
-            uriResourcePath = uriResourcePath.Replace("{Id}", StringUtils.FromString(publicRequest.Id));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Id}", StringUtils.FromString(publicRequest.Id));
+            request.ResourcePath = "/2013-04-01/trafficpolicyinstance/{Id}";
+            request.MarshallerVersion = 2;
 
             var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Encoding = System.Text.Encoding.UTF8, OmitXmlDeclaration = true }))
@@ -83,6 +83,7 @@ namespace Amazon.Route53.Model.Internal.MarshallTransformations
                 string content = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(content);
                 request.Headers["Content-Type"] = "application/xml";
+                request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2013-04-01";            
             } 
             catch (EncoderFallbackException e) 
             {

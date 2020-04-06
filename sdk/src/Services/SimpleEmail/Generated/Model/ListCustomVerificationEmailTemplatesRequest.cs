@@ -29,7 +29,8 @@ namespace Amazon.SimpleEmail.Model
 {
     /// <summary>
     /// Container for the parameters to the ListCustomVerificationEmailTemplates operation.
-    /// Lists the existing custom verification email templates for your account.
+    /// Lists the existing custom verification email templates for your account in the current
+    /// AWS Region.
     /// 
     ///  
     /// <para>
@@ -55,6 +56,7 @@ namespace Amazon.SimpleEmail.Model
         /// results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

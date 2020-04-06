@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// Represents the output of a ListPipelines action.
+    /// Represents the output of a <code>ListPipelines</code> action.
     /// </summary>
     public partial class ListPipelinesResponse : AmazonWebServiceResponse
     {
@@ -39,10 +39,11 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If the amount of returned information is significantly large, an identifier is also
-        /// returned which can be used in a subsequent list pipelines call to return the next
-        /// set of pipelines in the list.
+        /// returned. It can be used in a subsequent list pipelines call to return the next set
+        /// of pipelines in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string NextToken
         {
             get { return this._nextToken; }

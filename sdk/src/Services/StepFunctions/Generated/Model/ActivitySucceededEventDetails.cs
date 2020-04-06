@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.StepFunctions.Model
 {
     /// <summary>
-    /// Contains details about an activity which successfully terminated during an execution.
+    /// Contains details about an activity that successfully terminated during an execution.
     /// </summary>
     public partial class ActivitySucceededEventDetails
     {
@@ -40,6 +40,7 @@ namespace Amazon.StepFunctions.Model
         /// The JSON data output by the activity task.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32768)]
         public string Output
         {
             get { return this._output; }

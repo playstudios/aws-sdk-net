@@ -29,7 +29,7 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteDevEndpoint operation.
-    /// Deletes a specified DevEndpoint.
+    /// Deletes a specified development endpoint.
     /// </summary>
     public partial class DeleteDevEndpointRequest : AmazonGlueRequest
     {
@@ -38,9 +38,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property EndpointName. 
         /// <para>
-        /// The name of the DevEndpoint.
+        /// The name of the <code>DevEndpoint</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EndpointName
         {
             get { return this._endpointName; }

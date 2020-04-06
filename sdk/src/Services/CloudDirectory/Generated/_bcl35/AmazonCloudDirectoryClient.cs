@@ -14,15 +14,17 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CloudDirectory.Model;
 using Amazon.CloudDirectory.Model.Internal.MarshallTransformations;
+using Amazon.CloudDirectory.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -39,13 +41,14 @@ namespace Amazon.CloudDirectory
     /// the development and management of cloud-scale web, mobile, and IoT applications. This
     /// guide describes the Cloud Directory operations that you can call programmatically
     /// and includes detailed information on data types and errors. For information about
-    /// AWS Directory Services features, see <a href="https://aws.amazon.com/directoryservice/">AWS
-    /// Directory Service</a> and the <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/what_is.html">AWS
-    /// Directory Service Administration Guide</a>.
+    /// Cloud Directory features, see <a href="https://aws.amazon.com/directoryservice/">AWS
+    /// Directory Service</a> and the <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/what_is_cloud_directory.html">Amazon
+    /// Cloud Directory Developer Guide</a>.
     /// </para>
     /// </summary>
     public partial class AmazonCloudDirectoryClient : AmazonServiceClient, IAmazonCloudDirectory
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCloudDirectoryMetadata();
         #region Constructors
 
         /// <summary>
@@ -216,6 +219,16 @@ namespace Amazon.CloudDirectory
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -231,11 +244,12 @@ namespace Amazon.CloudDirectory
 
         #endregion
 
-        
+
         #region  AddFacetToObject
 
         /// <summary>
-        /// Adds a new <a>Facet</a> to an object.
+        /// Adds a new <a>Facet</a> to an object. An object can have more than one facet applied
+        /// on it.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AddFacetToObject service method.</param>
         /// 
@@ -244,7 +258,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -260,7 +274,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -277,13 +291,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AddFacetToObject">REST API Reference for AddFacetToObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AddFacetToObject">REST API Reference for AddFacetToObject Operation</seealso>
         public virtual AddFacetToObjectResponse AddFacetToObject(AddFacetToObjectRequest request)
         {
-            var marshaller = AddFacetToObjectRequestMarshaller.Instance;
-            var unmarshaller = AddFacetToObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddFacetToObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddFacetToObjectResponseUnmarshaller.Instance;
 
-            return Invoke<AddFacetToObjectRequest,AddFacetToObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddFacetToObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -297,14 +312,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAddFacetToObject
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AddFacetToObject">REST API Reference for AddFacetToObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AddFacetToObject">REST API Reference for AddFacetToObject Operation</seealso>
         public virtual IAsyncResult BeginAddFacetToObject(AddFacetToObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddFacetToObjectRequestMarshaller.Instance;
-            var unmarshaller = AddFacetToObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddFacetToObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddFacetToObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddFacetToObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -314,7 +329,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAddFacetToObject.</param>
         /// 
         /// <returns>Returns a  AddFacetToObjectResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AddFacetToObject">REST API Reference for AddFacetToObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AddFacetToObject">REST API Reference for AddFacetToObject Operation</seealso>
         public virtual AddFacetToObjectResponse EndAddFacetToObject(IAsyncResult asyncResult)
         {
             return EndInvoke<AddFacetToObjectResponse>(asyncResult);
@@ -344,12 +359,12 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidAttachmentException">
-        /// Indicates that an attempt to attach an object with the same link name or to apply
-        /// a schema with the same name has occurred. Rename the link or the schema and then try
-        /// again.
+        /// Indicates that an attempt to make an attachment was invalid. For example, attaching
+        /// two nodes with a link type that is not applicable to the nodes or attempting to apply
+        /// a schema to a directory a second time.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -363,16 +378,21 @@ namespace Amazon.CloudDirectory
         /// request. A retry (with appropriate backoff logic) is the recommended response to this
         /// exception.
         /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.SchemaAlreadyExistsException">
+        /// Indicates that a schema could not be created due to a naming conflict. Please select
+        /// a different name and then try again.
+        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ApplySchema">REST API Reference for ApplySchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ApplySchema">REST API Reference for ApplySchema Operation</seealso>
         public virtual ApplySchemaResponse ApplySchema(ApplySchemaRequest request)
         {
-            var marshaller = ApplySchemaRequestMarshaller.Instance;
-            var unmarshaller = ApplySchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ApplySchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ApplySchemaResponseUnmarshaller.Instance;
 
-            return Invoke<ApplySchemaRequest,ApplySchemaResponse>(request, marshaller, unmarshaller);
+            return Invoke<ApplySchemaResponse>(request, options);
         }
 
         /// <summary>
@@ -386,14 +406,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndApplySchema
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ApplySchema">REST API Reference for ApplySchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ApplySchema">REST API Reference for ApplySchema Operation</seealso>
         public virtual IAsyncResult BeginApplySchema(ApplySchemaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ApplySchemaRequestMarshaller.Instance;
-            var unmarshaller = ApplySchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ApplySchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ApplySchemaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ApplySchemaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -403,7 +423,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginApplySchema.</param>
         /// 
         /// <returns>Returns a  ApplySchemaResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ApplySchema">REST API Reference for ApplySchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ApplySchema">REST API Reference for ApplySchema Operation</seealso>
         public virtual ApplySchemaResponse EndApplySchema(IAsyncResult asyncResult)
         {
             return EndInvoke<ApplySchemaResponse>(asyncResult);
@@ -433,7 +453,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -449,12 +469,12 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidAttachmentException">
-        /// Indicates that an attempt to attach an object with the same link name or to apply
-        /// a schema with the same name has occurred. Rename the link or the schema and then try
-        /// again.
+        /// Indicates that an attempt to make an attachment was invalid. For example, attaching
+        /// two nodes with a link type that is not applicable to the nodes or attempting to apply
+        /// a schema to a directory a second time.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LinkNameAlreadyInUseException">
@@ -478,13 +498,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachObject">REST API Reference for AttachObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachObject">REST API Reference for AttachObject Operation</seealso>
         public virtual AttachObjectResponse AttachObject(AttachObjectRequest request)
         {
-            var marshaller = AttachObjectRequestMarshaller.Instance;
-            var unmarshaller = AttachObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachObjectResponseUnmarshaller.Instance;
 
-            return Invoke<AttachObjectRequest,AttachObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -498,14 +519,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAttachObject
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachObject">REST API Reference for AttachObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachObject">REST API Reference for AttachObject Operation</seealso>
         public virtual IAsyncResult BeginAttachObject(AttachObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachObjectRequestMarshaller.Instance;
-            var unmarshaller = AttachObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -515,7 +536,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAttachObject.</param>
         /// 
         /// <returns>Returns a  AttachObjectResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachObject">REST API Reference for AttachObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachObject">REST API Reference for AttachObject Operation</seealso>
         public virtual AttachObjectResponse EndAttachObject(IAsyncResult asyncResult)
         {
             return EndInvoke<AttachObjectResponse>(asyncResult);
@@ -536,7 +557,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -547,11 +568,8 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.NotPolicyException">
@@ -571,13 +589,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
         public virtual AttachPolicyResponse AttachPolicy(AttachPolicyRequest request)
         {
-            var marshaller = AttachPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<AttachPolicyRequest,AttachPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -591,14 +610,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAttachPolicy
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
         public virtual IAsyncResult BeginAttachPolicy(AttachPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -608,7 +627,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAttachPolicy.</param>
         /// 
         /// <returns>Returns a  AttachPolicyResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
         public virtual AttachPolicyResponse EndAttachPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<AttachPolicyResponse>(asyncResult);
@@ -628,7 +647,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.IndexedAttributeMissingException">
         /// An object has been attempted to be attached to an object that does not have the appropriate
@@ -643,8 +662,13 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InvalidAttachmentException">
+        /// Indicates that an attempt to make an attachment was invalid. For example, attaching
+        /// two nodes with a link type that is not applicable to the nodes or attempting to apply
+        /// a schema to a directory a second time.
+        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LinkNameAlreadyInUseException">
@@ -668,13 +692,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachToIndex">REST API Reference for AttachToIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachToIndex">REST API Reference for AttachToIndex Operation</seealso>
         public virtual AttachToIndexResponse AttachToIndex(AttachToIndexRequest request)
         {
-            var marshaller = AttachToIndexRequestMarshaller.Instance;
-            var unmarshaller = AttachToIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachToIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachToIndexResponseUnmarshaller.Instance;
 
-            return Invoke<AttachToIndexRequest,AttachToIndexResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachToIndexResponse>(request, options);
         }
 
         /// <summary>
@@ -688,14 +713,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAttachToIndex
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachToIndex">REST API Reference for AttachToIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachToIndex">REST API Reference for AttachToIndex Operation</seealso>
         public virtual IAsyncResult BeginAttachToIndex(AttachToIndexRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachToIndexRequestMarshaller.Instance;
-            var unmarshaller = AttachToIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachToIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachToIndexResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachToIndexRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -705,7 +730,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAttachToIndex.</param>
         /// 
         /// <returns>Returns a  AttachToIndexResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachToIndex">REST API Reference for AttachToIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachToIndex">REST API Reference for AttachToIndex Operation</seealso>
         public virtual AttachToIndexResponse EndAttachToIndex(IAsyncResult asyncResult)
         {
             return EndInvoke<AttachToIndexResponse>(asyncResult);
@@ -717,8 +742,8 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Attaches a typed link to a specified source and target object. For more information,
-        /// see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachTypedLink service method.</param>
         /// 
@@ -727,7 +752,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -743,12 +768,12 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidAttachmentException">
-        /// Indicates that an attempt to attach an object with the same link name or to apply
-        /// a schema with the same name has occurred. Rename the link or the schema and then try
-        /// again.
+        /// Indicates that an attempt to make an attachment was invalid. For example, attaching
+        /// two nodes with a link type that is not applicable to the nodes or attempting to apply
+        /// a schema to a directory a second time.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -768,13 +793,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachTypedLink">REST API Reference for AttachTypedLink Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachTypedLink">REST API Reference for AttachTypedLink Operation</seealso>
         public virtual AttachTypedLinkResponse AttachTypedLink(AttachTypedLinkRequest request)
         {
-            var marshaller = AttachTypedLinkRequestMarshaller.Instance;
-            var unmarshaller = AttachTypedLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachTypedLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachTypedLinkResponseUnmarshaller.Instance;
 
-            return Invoke<AttachTypedLinkRequest,AttachTypedLinkResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachTypedLinkResponse>(request, options);
         }
 
         /// <summary>
@@ -788,14 +814,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAttachTypedLink
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachTypedLink">REST API Reference for AttachTypedLink Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachTypedLink">REST API Reference for AttachTypedLink Operation</seealso>
         public virtual IAsyncResult BeginAttachTypedLink(AttachTypedLinkRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachTypedLinkRequestMarshaller.Instance;
-            var unmarshaller = AttachTypedLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachTypedLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachTypedLinkResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachTypedLinkRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -805,7 +831,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAttachTypedLink.</param>
         /// 
         /// <returns>Returns a  AttachTypedLinkResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachTypedLink">REST API Reference for AttachTypedLink Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/AttachTypedLink">REST API Reference for AttachTypedLink Operation</seealso>
         public virtual AttachTypedLinkResponse EndAttachTypedLink(IAsyncResult asyncResult)
         {
             return EndInvoke<AttachTypedLinkResponse>(asyncResult);
@@ -825,7 +851,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -837,7 +863,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
@@ -851,13 +877,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchRead">REST API Reference for BatchRead Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/BatchRead">REST API Reference for BatchRead Operation</seealso>
         public virtual BatchReadResponse BatchRead(BatchReadRequest request)
         {
-            var marshaller = BatchReadRequestMarshaller.Instance;
-            var unmarshaller = BatchReadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchReadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchReadResponseUnmarshaller.Instance;
 
-            return Invoke<BatchReadRequest,BatchReadResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchReadResponse>(request, options);
         }
 
         /// <summary>
@@ -871,14 +898,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchRead
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchRead">REST API Reference for BatchRead Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/BatchRead">REST API Reference for BatchRead Operation</seealso>
         public virtual IAsyncResult BeginBatchRead(BatchReadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchReadRequestMarshaller.Instance;
-            var unmarshaller = BatchReadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchReadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchReadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchReadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -888,7 +915,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchRead.</param>
         /// 
         /// <returns>Returns a  BatchReadResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchRead">REST API Reference for BatchRead Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/BatchRead">REST API Reference for BatchRead Operation</seealso>
         public virtual BatchReadResponse EndBatchRead(IAsyncResult asyncResult)
         {
             return EndInvoke<BatchReadResponse>(asyncResult);
@@ -912,7 +939,7 @@ namespace Amazon.CloudDirectory
         /// A <code>BatchWrite</code> exception has occurred.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -924,7 +951,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
@@ -938,13 +965,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchWrite">REST API Reference for BatchWrite Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/BatchWrite">REST API Reference for BatchWrite Operation</seealso>
         public virtual BatchWriteResponse BatchWrite(BatchWriteRequest request)
         {
-            var marshaller = BatchWriteRequestMarshaller.Instance;
-            var unmarshaller = BatchWriteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchWriteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchWriteResponseUnmarshaller.Instance;
 
-            return Invoke<BatchWriteRequest,BatchWriteResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchWriteResponse>(request, options);
         }
 
         /// <summary>
@@ -958,14 +986,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchWrite
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchWrite">REST API Reference for BatchWrite Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/BatchWrite">REST API Reference for BatchWrite Operation</seealso>
         public virtual IAsyncResult BeginBatchWrite(BatchWriteRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchWriteRequestMarshaller.Instance;
-            var unmarshaller = BatchWriteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchWriteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchWriteResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchWriteRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -975,7 +1003,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchWrite.</param>
         /// 
         /// <returns>Returns a  BatchWriteResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchWrite">REST API Reference for BatchWrite Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/BatchWrite">REST API Reference for BatchWrite Operation</seealso>
         public virtual BatchWriteResponse EndBatchWrite(IAsyncResult asyncResult)
         {
             return EndInvoke<BatchWriteResponse>(asyncResult);
@@ -988,6 +1016,13 @@ namespace Amazon.CloudDirectory
         /// <summary>
         /// Creates a <a>Directory</a> by copying the published schema into the directory. A directory
         /// cannot be created without a schema.
+        /// 
+        ///  
+        /// <para>
+        /// You can also quickly create a directory using a managed schema, called the <code>QuickStartSchema</code>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html">Managed
+        /// Schema</a> in the <i>Amazon Cloud Directory Developer Guide</i>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDirectory service method.</param>
         /// 
@@ -1008,11 +1043,8 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -1029,13 +1061,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateDirectory">REST API Reference for CreateDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateDirectory">REST API Reference for CreateDirectory Operation</seealso>
         public virtual CreateDirectoryResponse CreateDirectory(CreateDirectoryRequest request)
         {
-            var marshaller = CreateDirectoryRequestMarshaller.Instance;
-            var unmarshaller = CreateDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectoryResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDirectoryRequest,CreateDirectoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDirectoryResponse>(request, options);
         }
 
         /// <summary>
@@ -1049,14 +1082,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDirectory
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateDirectory">REST API Reference for CreateDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateDirectory">REST API Reference for CreateDirectory Operation</seealso>
         public virtual IAsyncResult BeginCreateDirectory(CreateDirectoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDirectoryRequestMarshaller.Instance;
-            var unmarshaller = CreateDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDirectoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1066,7 +1099,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDirectory.</param>
         /// 
         /// <returns>Returns a  CreateDirectoryResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateDirectory">REST API Reference for CreateDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateDirectory">REST API Reference for CreateDirectory Operation</seealso>
         public virtual CreateDirectoryResponse EndCreateDirectory(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateDirectoryResponse>(asyncResult);
@@ -1106,7 +1139,7 @@ namespace Amazon.CloudDirectory
         /// Occurs when any of the rule parameter keys or values are invalid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -1123,13 +1156,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateFacet">REST API Reference for CreateFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateFacet">REST API Reference for CreateFacet Operation</seealso>
         public virtual CreateFacetResponse CreateFacet(CreateFacetRequest request)
         {
-            var marshaller = CreateFacetRequestMarshaller.Instance;
-            var unmarshaller = CreateFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateFacetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateFacetRequest,CreateFacetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateFacetResponse>(request, options);
         }
 
         /// <summary>
@@ -1143,14 +1177,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateFacet
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateFacet">REST API Reference for CreateFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateFacet">REST API Reference for CreateFacet Operation</seealso>
         public virtual IAsyncResult BeginCreateFacet(CreateFacetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateFacetRequestMarshaller.Instance;
-            var unmarshaller = CreateFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateFacetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateFacetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1160,7 +1194,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateFacet.</param>
         /// 
         /// <returns>Returns a  CreateFacetResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateFacet">REST API Reference for CreateFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateFacet">REST API Reference for CreateFacet Operation</seealso>
         public virtual CreateFacetResponse EndCreateFacet(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateFacetResponse>(asyncResult);
@@ -1171,8 +1205,8 @@ namespace Amazon.CloudDirectory
         #region  CreateIndex
 
         /// <summary>
-        /// Creates an index object. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_indexing.html">Indexing</a>
-        /// for more information.
+        /// Creates an index object. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html">Indexing
+        /// and search</a> for more information.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateIndex service method.</param>
         /// 
@@ -1181,7 +1215,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -1197,7 +1231,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LinkNameAlreadyInUseException">
@@ -1221,13 +1255,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateIndex">REST API Reference for CreateIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateIndex">REST API Reference for CreateIndex Operation</seealso>
         public virtual CreateIndexResponse CreateIndex(CreateIndexRequest request)
         {
-            var marshaller = CreateIndexRequestMarshaller.Instance;
-            var unmarshaller = CreateIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateIndexResponseUnmarshaller.Instance;
 
-            return Invoke<CreateIndexRequest,CreateIndexResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateIndexResponse>(request, options);
         }
 
         /// <summary>
@@ -1241,14 +1276,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateIndex
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateIndex">REST API Reference for CreateIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateIndex">REST API Reference for CreateIndex Operation</seealso>
         public virtual IAsyncResult BeginCreateIndex(CreateIndexRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateIndexRequestMarshaller.Instance;
-            var unmarshaller = CreateIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateIndexResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateIndexRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1258,7 +1293,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateIndex.</param>
         /// 
         /// <returns>Returns a  CreateIndexResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateIndex">REST API Reference for CreateIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateIndex">REST API Reference for CreateIndex Operation</seealso>
         public virtual CreateIndexResponse EndCreateIndex(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateIndexResponse>(asyncResult);
@@ -1281,7 +1316,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -1296,11 +1331,8 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LinkNameAlreadyInUseException">
@@ -1324,13 +1356,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateObject">REST API Reference for CreateObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateObject">REST API Reference for CreateObject Operation</seealso>
         public virtual CreateObjectResponse CreateObject(CreateObjectRequest request)
         {
-            var marshaller = CreateObjectRequestMarshaller.Instance;
-            var unmarshaller = CreateObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateObjectResponseUnmarshaller.Instance;
 
-            return Invoke<CreateObjectRequest,CreateObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -1344,14 +1377,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateObject
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateObject">REST API Reference for CreateObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateObject">REST API Reference for CreateObject Operation</seealso>
         public virtual IAsyncResult BeginCreateObject(CreateObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateObjectRequestMarshaller.Instance;
-            var unmarshaller = CreateObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1361,7 +1394,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateObject.</param>
         /// 
         /// <returns>Returns a  CreateObjectResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateObject">REST API Reference for CreateObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateObject">REST API Reference for CreateObject Operation</seealso>
         public virtual CreateObjectResponse EndCreateObject(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateObjectResponse>(asyncResult);
@@ -1411,7 +1444,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
@@ -1429,13 +1462,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateSchema">REST API Reference for CreateSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateSchema">REST API Reference for CreateSchema Operation</seealso>
         public virtual CreateSchemaResponse CreateSchema(CreateSchemaRequest request)
         {
-            var marshaller = CreateSchemaRequestMarshaller.Instance;
-            var unmarshaller = CreateSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSchemaResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSchemaRequest,CreateSchemaResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSchemaResponse>(request, options);
         }
 
         /// <summary>
@@ -1449,14 +1483,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSchema
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateSchema">REST API Reference for CreateSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateSchema">REST API Reference for CreateSchema Operation</seealso>
         public virtual IAsyncResult BeginCreateSchema(CreateSchemaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateSchemaRequestMarshaller.Instance;
-            var unmarshaller = CreateSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSchemaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateSchemaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1466,7 +1500,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSchema.</param>
         /// 
         /// <returns>Returns a  CreateSchemaResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateSchema">REST API Reference for CreateSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateSchema">REST API Reference for CreateSchema Operation</seealso>
         public virtual CreateSchemaResponse EndCreateSchema(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateSchemaResponse>(asyncResult);
@@ -1477,8 +1511,8 @@ namespace Amazon.CloudDirectory
         #region  CreateTypedLinkFacet
 
         /// <summary>
-        /// Creates a <a>TypedLinkFacet</a>. For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// Creates a <a>TypedLinkFacet</a>. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateTypedLinkFacet service method.</param>
         /// 
@@ -1506,7 +1540,7 @@ namespace Amazon.CloudDirectory
         /// Occurs when any of the rule parameter keys or values are invalid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -1523,13 +1557,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateTypedLinkFacet">REST API Reference for CreateTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateTypedLinkFacet">REST API Reference for CreateTypedLinkFacet Operation</seealso>
         public virtual CreateTypedLinkFacetResponse CreateTypedLinkFacet(CreateTypedLinkFacetRequest request)
         {
-            var marshaller = CreateTypedLinkFacetRequestMarshaller.Instance;
-            var unmarshaller = CreateTypedLinkFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTypedLinkFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTypedLinkFacetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateTypedLinkFacetRequest,CreateTypedLinkFacetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateTypedLinkFacetResponse>(request, options);
         }
 
         /// <summary>
@@ -1543,14 +1578,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTypedLinkFacet
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateTypedLinkFacet">REST API Reference for CreateTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateTypedLinkFacet">REST API Reference for CreateTypedLinkFacet Operation</seealso>
         public virtual IAsyncResult BeginCreateTypedLinkFacet(CreateTypedLinkFacetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateTypedLinkFacetRequestMarshaller.Instance;
-            var unmarshaller = CreateTypedLinkFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTypedLinkFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTypedLinkFacetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateTypedLinkFacetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1560,7 +1595,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTypedLinkFacet.</param>
         /// 
         /// <returns>Returns a  CreateTypedLinkFacetResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateTypedLinkFacet">REST API Reference for CreateTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/CreateTypedLinkFacet">REST API Reference for CreateTypedLinkFacet Operation</seealso>
         public virtual CreateTypedLinkFacetResponse EndCreateTypedLinkFacet(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateTypedLinkFacetResponse>(asyncResult);
@@ -1597,7 +1632,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -1614,13 +1649,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteDirectory">REST API Reference for DeleteDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteDirectory">REST API Reference for DeleteDirectory Operation</seealso>
         public virtual DeleteDirectoryResponse DeleteDirectory(DeleteDirectoryRequest request)
         {
-            var marshaller = DeleteDirectoryRequestMarshaller.Instance;
-            var unmarshaller = DeleteDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectoryResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDirectoryRequest,DeleteDirectoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDirectoryResponse>(request, options);
         }
 
         /// <summary>
@@ -1634,14 +1670,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDirectory
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteDirectory">REST API Reference for DeleteDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteDirectory">REST API Reference for DeleteDirectory Operation</seealso>
         public virtual IAsyncResult BeginDeleteDirectory(DeleteDirectoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDirectoryRequestMarshaller.Instance;
-            var unmarshaller = DeleteDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDirectoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1651,7 +1687,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDirectory.</param>
         /// 
         /// <returns>Returns a  DeleteDirectoryResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteDirectory">REST API Reference for DeleteDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteDirectory">REST API Reference for DeleteDirectory Operation</seealso>
         public virtual DeleteDirectoryResponse EndDeleteDirectory(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteDirectoryResponse>(asyncResult);
@@ -1688,7 +1724,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -1705,13 +1741,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteFacet">REST API Reference for DeleteFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteFacet">REST API Reference for DeleteFacet Operation</seealso>
         public virtual DeleteFacetResponse DeleteFacet(DeleteFacetRequest request)
         {
-            var marshaller = DeleteFacetRequestMarshaller.Instance;
-            var unmarshaller = DeleteFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteFacetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteFacetRequest,DeleteFacetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteFacetResponse>(request, options);
         }
 
         /// <summary>
@@ -1725,14 +1762,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteFacet
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteFacet">REST API Reference for DeleteFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteFacet">REST API Reference for DeleteFacet Operation</seealso>
         public virtual IAsyncResult BeginDeleteFacet(DeleteFacetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteFacetRequestMarshaller.Instance;
-            var unmarshaller = DeleteFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteFacetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteFacetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1742,7 +1779,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteFacet.</param>
         /// 
         /// <returns>Returns a  DeleteFacetResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteFacet">REST API Reference for DeleteFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteFacet">REST API Reference for DeleteFacet Operation</seealso>
         public virtual DeleteFacetResponse EndDeleteFacet(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteFacetResponse>(asyncResult);
@@ -1754,7 +1791,9 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Deletes an object and its associated attributes. Only objects with no children and
-        /// no parents can be deleted.
+        /// no parents can be deleted. The maximum number of attributes that can be deleted during
+        /// an object deletion is 30. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Amazon
+        /// Cloud Directory Limits</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteObject service method.</param>
         /// 
@@ -1763,7 +1802,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -1775,7 +1814,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ObjectNotDetachedException">
@@ -1796,13 +1835,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
         public virtual DeleteObjectResponse DeleteObject(DeleteObjectRequest request)
         {
-            var marshaller = DeleteObjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteObjectRequest,DeleteObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -1816,14 +1856,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteObject
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
         public virtual IAsyncResult BeginDeleteObject(DeleteObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteObjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1833,7 +1873,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteObject.</param>
         /// 
         /// <returns>Returns a  DeleteObjectResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
         public virtual DeleteObjectResponse EndDeleteObject(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteObjectResponse>(asyncResult);
@@ -1862,7 +1902,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -1883,13 +1923,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteSchema">REST API Reference for DeleteSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteSchema">REST API Reference for DeleteSchema Operation</seealso>
         public virtual DeleteSchemaResponse DeleteSchema(DeleteSchemaRequest request)
         {
-            var marshaller = DeleteSchemaRequestMarshaller.Instance;
-            var unmarshaller = DeleteSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSchemaResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSchemaRequest,DeleteSchemaResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSchemaResponse>(request, options);
         }
 
         /// <summary>
@@ -1903,14 +1944,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSchema
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteSchema">REST API Reference for DeleteSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteSchema">REST API Reference for DeleteSchema Operation</seealso>
         public virtual IAsyncResult BeginDeleteSchema(DeleteSchemaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSchemaRequestMarshaller.Instance;
-            var unmarshaller = DeleteSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSchemaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSchemaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1920,7 +1961,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSchema.</param>
         /// 
         /// <returns>Returns a  DeleteSchemaResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteSchema">REST API Reference for DeleteSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteSchema">REST API Reference for DeleteSchema Operation</seealso>
         public virtual DeleteSchemaResponse EndDeleteSchema(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteSchemaResponse>(asyncResult);
@@ -1931,8 +1972,8 @@ namespace Amazon.CloudDirectory
         #region  DeleteTypedLinkFacet
 
         /// <summary>
-        /// Deletes a <a>TypedLinkFacet</a>. For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// Deletes a <a>TypedLinkFacet</a>. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteTypedLinkFacet service method.</param>
         /// 
@@ -1953,7 +1994,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -1970,13 +2011,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteTypedLinkFacet">REST API Reference for DeleteTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteTypedLinkFacet">REST API Reference for DeleteTypedLinkFacet Operation</seealso>
         public virtual DeleteTypedLinkFacetResponse DeleteTypedLinkFacet(DeleteTypedLinkFacetRequest request)
         {
-            var marshaller = DeleteTypedLinkFacetRequestMarshaller.Instance;
-            var unmarshaller = DeleteTypedLinkFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTypedLinkFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTypedLinkFacetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteTypedLinkFacetRequest,DeleteTypedLinkFacetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTypedLinkFacetResponse>(request, options);
         }
 
         /// <summary>
@@ -1990,14 +2032,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTypedLinkFacet
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteTypedLinkFacet">REST API Reference for DeleteTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteTypedLinkFacet">REST API Reference for DeleteTypedLinkFacet Operation</seealso>
         public virtual IAsyncResult BeginDeleteTypedLinkFacet(DeleteTypedLinkFacetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteTypedLinkFacetRequestMarshaller.Instance;
-            var unmarshaller = DeleteTypedLinkFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTypedLinkFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTypedLinkFacetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteTypedLinkFacetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2007,7 +2049,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTypedLinkFacet.</param>
         /// 
         /// <returns>Returns a  DeleteTypedLinkFacetResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteTypedLinkFacet">REST API Reference for DeleteTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DeleteTypedLinkFacet">REST API Reference for DeleteTypedLinkFacet Operation</seealso>
         public virtual DeleteTypedLinkFacetResponse EndDeleteTypedLinkFacet(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteTypedLinkFacetResponse>(asyncResult);
@@ -2027,7 +2069,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -2039,7 +2081,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.NotIndexException">
@@ -2062,13 +2104,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachFromIndex">REST API Reference for DetachFromIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachFromIndex">REST API Reference for DetachFromIndex Operation</seealso>
         public virtual DetachFromIndexResponse DetachFromIndex(DetachFromIndexRequest request)
         {
-            var marshaller = DetachFromIndexRequestMarshaller.Instance;
-            var unmarshaller = DetachFromIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachFromIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachFromIndexResponseUnmarshaller.Instance;
 
-            return Invoke<DetachFromIndexRequest,DetachFromIndexResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachFromIndexResponse>(request, options);
         }
 
         /// <summary>
@@ -2082,14 +2125,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetachFromIndex
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachFromIndex">REST API Reference for DetachFromIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachFromIndex">REST API Reference for DetachFromIndex Operation</seealso>
         public virtual IAsyncResult BeginDetachFromIndex(DetachFromIndexRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachFromIndexRequestMarshaller.Instance;
-            var unmarshaller = DetachFromIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachFromIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachFromIndexResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachFromIndexRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2099,7 +2142,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetachFromIndex.</param>
         /// 
         /// <returns>Returns a  DetachFromIndexResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachFromIndex">REST API Reference for DetachFromIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachFromIndex">REST API Reference for DetachFromIndex Operation</seealso>
         public virtual DetachFromIndexResponse EndDetachFromIndex(IAsyncResult asyncResult)
         {
             return EndInvoke<DetachFromIndexResponse>(asyncResult);
@@ -2120,7 +2163,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -2132,8 +2175,12 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.NotNodeException">
+        /// Occurs when any invalid operations are performed on an object that is not a node,
+        /// such as calling <code>ListObjectChildren</code> for a leaf node object.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
         /// The specified resource could not be found.
@@ -2149,13 +2196,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachObject">REST API Reference for DetachObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachObject">REST API Reference for DetachObject Operation</seealso>
         public virtual DetachObjectResponse DetachObject(DetachObjectRequest request)
         {
-            var marshaller = DetachObjectRequestMarshaller.Instance;
-            var unmarshaller = DetachObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachObjectResponseUnmarshaller.Instance;
 
-            return Invoke<DetachObjectRequest,DetachObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -2169,14 +2217,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetachObject
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachObject">REST API Reference for DetachObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachObject">REST API Reference for DetachObject Operation</seealso>
         public virtual IAsyncResult BeginDetachObject(DetachObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachObjectRequestMarshaller.Instance;
-            var unmarshaller = DetachObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2186,7 +2234,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetachObject.</param>
         /// 
         /// <returns>Returns a  DetachObjectResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachObject">REST API Reference for DetachObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachObject">REST API Reference for DetachObject Operation</seealso>
         public virtual DetachObjectResponse EndDetachObject(IAsyncResult asyncResult)
         {
             return EndInvoke<DetachObjectResponse>(asyncResult);
@@ -2206,7 +2254,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -2217,11 +2265,8 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.NotPolicyException">
@@ -2241,13 +2286,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
         public virtual DetachPolicyResponse DetachPolicy(DetachPolicyRequest request)
         {
-            var marshaller = DetachPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DetachPolicyRequest,DetachPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2261,14 +2307,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetachPolicy
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
         public virtual IAsyncResult BeginDetachPolicy(DetachPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2278,7 +2324,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetachPolicy.</param>
         /// 
         /// <returns>Returns a  DetachPolicyResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
         public virtual DetachPolicyResponse EndDetachPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<DetachPolicyResponse>(asyncResult);
@@ -2290,8 +2336,8 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Detaches a typed link from a specified source and target object. For more information,
-        /// see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachTypedLink service method.</param>
         /// 
@@ -2300,7 +2346,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -2316,7 +2362,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -2333,13 +2379,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachTypedLink">REST API Reference for DetachTypedLink Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachTypedLink">REST API Reference for DetachTypedLink Operation</seealso>
         public virtual DetachTypedLinkResponse DetachTypedLink(DetachTypedLinkRequest request)
         {
-            var marshaller = DetachTypedLinkRequestMarshaller.Instance;
-            var unmarshaller = DetachTypedLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachTypedLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachTypedLinkResponseUnmarshaller.Instance;
 
-            return Invoke<DetachTypedLinkRequest,DetachTypedLinkResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachTypedLinkResponse>(request, options);
         }
 
         /// <summary>
@@ -2353,14 +2400,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetachTypedLink
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachTypedLink">REST API Reference for DetachTypedLink Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachTypedLink">REST API Reference for DetachTypedLink Operation</seealso>
         public virtual IAsyncResult BeginDetachTypedLink(DetachTypedLinkRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachTypedLinkRequestMarshaller.Instance;
-            var unmarshaller = DetachTypedLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachTypedLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachTypedLinkResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachTypedLinkRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2370,7 +2417,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetachTypedLink.</param>
         /// 
         /// <returns>Returns a  DetachTypedLinkResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachTypedLink">REST API Reference for DetachTypedLink Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DetachTypedLink">REST API Reference for DetachTypedLink Operation</seealso>
         public virtual DetachTypedLinkResponse EndDetachTypedLink(IAsyncResult asyncResult)
         {
             return EndInvoke<DetachTypedLinkResponse>(asyncResult);
@@ -2404,7 +2451,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -2421,13 +2468,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DisableDirectory">REST API Reference for DisableDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DisableDirectory">REST API Reference for DisableDirectory Operation</seealso>
         public virtual DisableDirectoryResponse DisableDirectory(DisableDirectoryRequest request)
         {
-            var marshaller = DisableDirectoryRequestMarshaller.Instance;
-            var unmarshaller = DisableDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableDirectoryResponseUnmarshaller.Instance;
 
-            return Invoke<DisableDirectoryRequest,DisableDirectoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisableDirectoryResponse>(request, options);
         }
 
         /// <summary>
@@ -2441,14 +2489,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableDirectory
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DisableDirectory">REST API Reference for DisableDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DisableDirectory">REST API Reference for DisableDirectory Operation</seealso>
         public virtual IAsyncResult BeginDisableDirectory(DisableDirectoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisableDirectoryRequestMarshaller.Instance;
-            var unmarshaller = DisableDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableDirectoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisableDirectoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2458,7 +2506,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableDirectory.</param>
         /// 
         /// <returns>Returns a  DisableDirectoryResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DisableDirectory">REST API Reference for DisableDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/DisableDirectory">REST API Reference for DisableDirectory Operation</seealso>
         public virtual DisableDirectoryResponse EndDisableDirectory(IAsyncResult asyncResult)
         {
             return EndInvoke<DisableDirectoryResponse>(asyncResult);
@@ -2492,7 +2540,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -2509,13 +2557,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/EnableDirectory">REST API Reference for EnableDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/EnableDirectory">REST API Reference for EnableDirectory Operation</seealso>
         public virtual EnableDirectoryResponse EnableDirectory(EnableDirectoryRequest request)
         {
-            var marshaller = EnableDirectoryRequestMarshaller.Instance;
-            var unmarshaller = EnableDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableDirectoryResponseUnmarshaller.Instance;
 
-            return Invoke<EnableDirectoryRequest,EnableDirectoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnableDirectoryResponse>(request, options);
         }
 
         /// <summary>
@@ -2529,14 +2578,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableDirectory
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/EnableDirectory">REST API Reference for EnableDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/EnableDirectory">REST API Reference for EnableDirectory Operation</seealso>
         public virtual IAsyncResult BeginEnableDirectory(EnableDirectoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = EnableDirectoryRequestMarshaller.Instance;
-            var unmarshaller = EnableDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableDirectoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<EnableDirectoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2546,7 +2595,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableDirectory.</param>
         /// 
         /// <returns>Returns a  EnableDirectoryResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/EnableDirectory">REST API Reference for EnableDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/EnableDirectory">REST API Reference for EnableDirectory Operation</seealso>
         public virtual EnableDirectoryResponse EndEnableDirectory(IAsyncResult asyncResult)
         {
             return EndInvoke<EnableDirectoryResponse>(asyncResult);
@@ -2575,7 +2624,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -2592,13 +2641,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetAppliedSchemaVersion">REST API Reference for GetAppliedSchemaVersion Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetAppliedSchemaVersion">REST API Reference for GetAppliedSchemaVersion Operation</seealso>
         public virtual GetAppliedSchemaVersionResponse GetAppliedSchemaVersion(GetAppliedSchemaVersionRequest request)
         {
-            var marshaller = GetAppliedSchemaVersionRequestMarshaller.Instance;
-            var unmarshaller = GetAppliedSchemaVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAppliedSchemaVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAppliedSchemaVersionResponseUnmarshaller.Instance;
 
-            return Invoke<GetAppliedSchemaVersionRequest,GetAppliedSchemaVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAppliedSchemaVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -2612,14 +2662,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAppliedSchemaVersion
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetAppliedSchemaVersion">REST API Reference for GetAppliedSchemaVersion Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetAppliedSchemaVersion">REST API Reference for GetAppliedSchemaVersion Operation</seealso>
         public virtual IAsyncResult BeginGetAppliedSchemaVersion(GetAppliedSchemaVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAppliedSchemaVersionRequestMarshaller.Instance;
-            var unmarshaller = GetAppliedSchemaVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAppliedSchemaVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAppliedSchemaVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAppliedSchemaVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2629,7 +2679,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAppliedSchemaVersion.</param>
         /// 
         /// <returns>Returns a  GetAppliedSchemaVersionResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetAppliedSchemaVersion">REST API Reference for GetAppliedSchemaVersion Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetAppliedSchemaVersion">REST API Reference for GetAppliedSchemaVersion Operation</seealso>
         public virtual GetAppliedSchemaVersionResponse EndGetAppliedSchemaVersion(IAsyncResult asyncResult)
         {
             return EndInvoke<GetAppliedSchemaVersionResponse>(asyncResult);
@@ -2658,7 +2708,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
@@ -2672,13 +2722,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetDirectory">REST API Reference for GetDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetDirectory">REST API Reference for GetDirectory Operation</seealso>
         public virtual GetDirectoryResponse GetDirectory(GetDirectoryRequest request)
         {
-            var marshaller = GetDirectoryRequestMarshaller.Instance;
-            var unmarshaller = GetDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDirectoryResponseUnmarshaller.Instance;
 
-            return Invoke<GetDirectoryRequest,GetDirectoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDirectoryResponse>(request, options);
         }
 
         /// <summary>
@@ -2692,14 +2743,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetDirectory
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetDirectory">REST API Reference for GetDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetDirectory">REST API Reference for GetDirectory Operation</seealso>
         public virtual IAsyncResult BeginGetDirectory(GetDirectoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDirectoryRequestMarshaller.Instance;
-            var unmarshaller = GetDirectoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDirectoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDirectoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDirectoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2709,7 +2760,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetDirectory.</param>
         /// 
         /// <returns>Returns a  GetDirectoryResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetDirectory">REST API Reference for GetDirectory Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetDirectory">REST API Reference for GetDirectory Operation</seealso>
         public virtual GetDirectoryResponse EndGetDirectory(IAsyncResult asyncResult)
         {
             return EndInvoke<GetDirectoryResponse>(asyncResult);
@@ -2743,7 +2794,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -2760,13 +2811,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetFacet">REST API Reference for GetFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetFacet">REST API Reference for GetFacet Operation</seealso>
         public virtual GetFacetResponse GetFacet(GetFacetRequest request)
         {
-            var marshaller = GetFacetRequestMarshaller.Instance;
-            var unmarshaller = GetFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFacetResponseUnmarshaller.Instance;
 
-            return Invoke<GetFacetRequest,GetFacetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetFacetResponse>(request, options);
         }
 
         /// <summary>
@@ -2780,14 +2832,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetFacet
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetFacet">REST API Reference for GetFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetFacet">REST API Reference for GetFacet Operation</seealso>
         public virtual IAsyncResult BeginGetFacet(GetFacetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetFacetRequestMarshaller.Instance;
-            var unmarshaller = GetFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFacetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetFacetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2797,10 +2849,192 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetFacet.</param>
         /// 
         /// <returns>Returns a  GetFacetResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetFacet">REST API Reference for GetFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetFacet">REST API Reference for GetFacet Operation</seealso>
         public virtual GetFacetResponse EndGetFacet(IAsyncResult asyncResult)
         {
             return EndInvoke<GetFacetResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetLinkAttributes
+
+        /// <summary>
+        /// Retrieves attributes that are associated with a typed link.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLinkAttributes service method.</param>
+        /// 
+        /// <returns>The response from the GetLinkAttributes service method, as returned by CloudDirectory.</returns>
+        /// <exception cref="Amazon.CloudDirectory.Model.AccessDeniedException">
+        /// Access denied. Check your permissions.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
+        /// Operations are only permitted on enabled directories.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
+        /// The <a>Facet</a> that you provided was not well formed or could not be validated with
+        /// the schema.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
+        /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
+        /// transient error in which case you can retry your request until it succeeds. Otherwise,
+        /// go to the <a href="http://status.aws.amazon.com/">AWS Service Health Dashboard</a>
+        /// site to see if there are any operational issues with the service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
+        /// Indicates that the provided ARN value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
+        /// for more information.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
+        /// Occurs when a conflict with a previous successful write is detected. For example,
+        /// if a write operation occurs on an object and then an attempt is made to read the object
+        /// using “SERIALIZABLE” consistency, this exception may result. This generally occurs
+        /// when the previous write did not have time to propagate to the host serving the current
+        /// request. A retry (with appropriate backoff logic) is the recommended response to this
+        /// exception.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
+        /// Indicates that your request is malformed in some manner. See the exception message.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetLinkAttributes">REST API Reference for GetLinkAttributes Operation</seealso>
+        public virtual GetLinkAttributesResponse GetLinkAttributes(GetLinkAttributesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLinkAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLinkAttributesResponseUnmarshaller.Instance;
+
+            return Invoke<GetLinkAttributesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLinkAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLinkAttributes operation on AmazonCloudDirectoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLinkAttributes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetLinkAttributes">REST API Reference for GetLinkAttributes Operation</seealso>
+        public virtual IAsyncResult BeginGetLinkAttributes(GetLinkAttributesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLinkAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLinkAttributesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLinkAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLinkAttributes.</param>
+        /// 
+        /// <returns>Returns a  GetLinkAttributesResult from CloudDirectory.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetLinkAttributes">REST API Reference for GetLinkAttributes Operation</seealso>
+        public virtual GetLinkAttributesResponse EndGetLinkAttributes(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetLinkAttributesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetObjectAttributes
+
+        /// <summary>
+        /// Retrieves attributes within a facet that are associated with an object.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectAttributes service method.</param>
+        /// 
+        /// <returns>The response from the GetObjectAttributes service method, as returned by CloudDirectory.</returns>
+        /// <exception cref="Amazon.CloudDirectory.Model.AccessDeniedException">
+        /// Access denied. Check your permissions.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
+        /// Operations are only permitted on enabled directories.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
+        /// The <a>Facet</a> that you provided was not well formed or could not be validated with
+        /// the schema.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
+        /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
+        /// transient error in which case you can retry your request until it succeeds. Otherwise,
+        /// go to the <a href="http://status.aws.amazon.com/">AWS Service Health Dashboard</a>
+        /// site to see if there are any operational issues with the service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
+        /// Indicates that the provided ARN value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
+        /// for more information.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
+        /// Occurs when a conflict with a previous successful write is detected. For example,
+        /// if a write operation occurs on an object and then an attempt is made to read the object
+        /// using “SERIALIZABLE” consistency, this exception may result. This generally occurs
+        /// when the previous write did not have time to propagate to the host serving the current
+        /// request. A retry (with appropriate backoff logic) is the recommended response to this
+        /// exception.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
+        /// Indicates that your request is malformed in some manner. See the exception message.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetObjectAttributes">REST API Reference for GetObjectAttributes Operation</seealso>
+        public virtual GetObjectAttributesResponse GetObjectAttributes(GetObjectAttributesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectAttributesResponseUnmarshaller.Instance;
+
+            return Invoke<GetObjectAttributesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetObjectAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetObjectAttributes operation on AmazonCloudDirectoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetObjectAttributes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetObjectAttributes">REST API Reference for GetObjectAttributes Operation</seealso>
+        public virtual IAsyncResult BeginGetObjectAttributes(GetObjectAttributesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectAttributesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetObjectAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetObjectAttributes.</param>
+        /// 
+        /// <returns>Returns a  GetObjectAttributesResult from CloudDirectory.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetObjectAttributes">REST API Reference for GetObjectAttributes Operation</seealso>
+        public virtual GetObjectAttributesResponse EndGetObjectAttributes(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetObjectAttributesResponse>(asyncResult);
         }
 
         #endregion
@@ -2817,7 +3051,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -2829,7 +3063,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -2846,13 +3080,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectInformation">REST API Reference for GetObjectInformation Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetObjectInformation">REST API Reference for GetObjectInformation Operation</seealso>
         public virtual GetObjectInformationResponse GetObjectInformation(GetObjectInformationRequest request)
         {
-            var marshaller = GetObjectInformationRequestMarshaller.Instance;
-            var unmarshaller = GetObjectInformationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectInformationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectInformationResponseUnmarshaller.Instance;
 
-            return Invoke<GetObjectInformationRequest,GetObjectInformationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetObjectInformationResponse>(request, options);
         }
 
         /// <summary>
@@ -2866,14 +3101,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetObjectInformation
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectInformation">REST API Reference for GetObjectInformation Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetObjectInformation">REST API Reference for GetObjectInformation Operation</seealso>
         public virtual IAsyncResult BeginGetObjectInformation(GetObjectInformationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetObjectInformationRequestMarshaller.Instance;
-            var unmarshaller = GetObjectInformationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectInformationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectInformationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetObjectInformationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2883,7 +3118,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetObjectInformation.</param>
         /// 
         /// <returns>Returns a  GetObjectInformationResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectInformation">REST API Reference for GetObjectInformation Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetObjectInformation">REST API Reference for GetObjectInformation Operation</seealso>
         public virtual GetObjectInformationResponse EndGetObjectInformation(IAsyncResult asyncResult)
         {
             return EndInvoke<GetObjectInformationResponse>(asyncResult);
@@ -2894,7 +3129,7 @@ namespace Amazon.CloudDirectory
         #region  GetSchemaAsJson
 
         /// <summary>
-        /// Retrieves a JSON representation of the schema. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_schemas.html#jsonformat">JSON
+        /// Retrieves a JSON representation of the schema. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json">JSON
         /// Schema Format</a> for more information.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSchemaAsJson service method.</param>
@@ -2913,7 +3148,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -2933,13 +3168,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetSchemaAsJson">REST API Reference for GetSchemaAsJson Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetSchemaAsJson">REST API Reference for GetSchemaAsJson Operation</seealso>
         public virtual GetSchemaAsJsonResponse GetSchemaAsJson(GetSchemaAsJsonRequest request)
         {
-            var marshaller = GetSchemaAsJsonRequestMarshaller.Instance;
-            var unmarshaller = GetSchemaAsJsonResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSchemaAsJsonRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSchemaAsJsonResponseUnmarshaller.Instance;
 
-            return Invoke<GetSchemaAsJsonRequest,GetSchemaAsJsonResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSchemaAsJsonResponse>(request, options);
         }
 
         /// <summary>
@@ -2953,14 +3189,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSchemaAsJson
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetSchemaAsJson">REST API Reference for GetSchemaAsJson Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetSchemaAsJson">REST API Reference for GetSchemaAsJson Operation</seealso>
         public virtual IAsyncResult BeginGetSchemaAsJson(GetSchemaAsJsonRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSchemaAsJsonRequestMarshaller.Instance;
-            var unmarshaller = GetSchemaAsJsonResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSchemaAsJsonRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSchemaAsJsonResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSchemaAsJsonRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2970,7 +3206,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSchemaAsJson.</param>
         /// 
         /// <returns>Returns a  GetSchemaAsJsonResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetSchemaAsJson">REST API Reference for GetSchemaAsJson Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetSchemaAsJson">REST API Reference for GetSchemaAsJson Operation</seealso>
         public virtual GetSchemaAsJsonResponse EndGetSchemaAsJson(IAsyncResult asyncResult)
         {
             return EndInvoke<GetSchemaAsJsonResponse>(asyncResult);
@@ -2982,8 +3218,8 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Returns the identity attribute order for a specific <a>TypedLinkFacet</a>. For more
-        /// information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetTypedLinkFacetInformation service method.</param>
         /// 
@@ -3007,7 +3243,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3024,13 +3260,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetTypedLinkFacetInformation">REST API Reference for GetTypedLinkFacetInformation Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetTypedLinkFacetInformation">REST API Reference for GetTypedLinkFacetInformation Operation</seealso>
         public virtual GetTypedLinkFacetInformationResponse GetTypedLinkFacetInformation(GetTypedLinkFacetInformationRequest request)
         {
-            var marshaller = GetTypedLinkFacetInformationRequestMarshaller.Instance;
-            var unmarshaller = GetTypedLinkFacetInformationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTypedLinkFacetInformationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTypedLinkFacetInformationResponseUnmarshaller.Instance;
 
-            return Invoke<GetTypedLinkFacetInformationRequest,GetTypedLinkFacetInformationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTypedLinkFacetInformationResponse>(request, options);
         }
 
         /// <summary>
@@ -3044,14 +3281,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTypedLinkFacetInformation
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetTypedLinkFacetInformation">REST API Reference for GetTypedLinkFacetInformation Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetTypedLinkFacetInformation">REST API Reference for GetTypedLinkFacetInformation Operation</seealso>
         public virtual IAsyncResult BeginGetTypedLinkFacetInformation(GetTypedLinkFacetInformationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTypedLinkFacetInformationRequestMarshaller.Instance;
-            var unmarshaller = GetTypedLinkFacetInformationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTypedLinkFacetInformationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTypedLinkFacetInformationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTypedLinkFacetInformationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3061,7 +3298,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTypedLinkFacetInformation.</param>
         /// 
         /// <returns>Returns a  GetTypedLinkFacetInformationResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetTypedLinkFacetInformation">REST API Reference for GetTypedLinkFacetInformation Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/GetTypedLinkFacetInformation">REST API Reference for GetTypedLinkFacetInformation Operation</seealso>
         public virtual GetTypedLinkFacetInformationResponse EndGetTypedLinkFacetInformation(IAsyncResult asyncResult)
         {
             return EndInvoke<GetTypedLinkFacetInformationResponse>(asyncResult);
@@ -3094,7 +3331,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3111,13 +3348,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAppliedSchemaArns">REST API Reference for ListAppliedSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListAppliedSchemaArns">REST API Reference for ListAppliedSchemaArns Operation</seealso>
         public virtual ListAppliedSchemaArnsResponse ListAppliedSchemaArns(ListAppliedSchemaArnsRequest request)
         {
-            var marshaller = ListAppliedSchemaArnsRequestMarshaller.Instance;
-            var unmarshaller = ListAppliedSchemaArnsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAppliedSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAppliedSchemaArnsResponseUnmarshaller.Instance;
 
-            return Invoke<ListAppliedSchemaArnsRequest,ListAppliedSchemaArnsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAppliedSchemaArnsResponse>(request, options);
         }
 
         /// <summary>
@@ -3131,14 +3369,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAppliedSchemaArns
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAppliedSchemaArns">REST API Reference for ListAppliedSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListAppliedSchemaArns">REST API Reference for ListAppliedSchemaArns Operation</seealso>
         public virtual IAsyncResult BeginListAppliedSchemaArns(ListAppliedSchemaArnsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAppliedSchemaArnsRequestMarshaller.Instance;
-            var unmarshaller = ListAppliedSchemaArnsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAppliedSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAppliedSchemaArnsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAppliedSchemaArnsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3148,7 +3386,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAppliedSchemaArns.</param>
         /// 
         /// <returns>Returns a  ListAppliedSchemaArnsResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAppliedSchemaArns">REST API Reference for ListAppliedSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListAppliedSchemaArns">REST API Reference for ListAppliedSchemaArns Operation</seealso>
         public virtual ListAppliedSchemaArnsResponse EndListAppliedSchemaArns(IAsyncResult asyncResult)
         {
             return EndInvoke<ListAppliedSchemaArnsResponse>(asyncResult);
@@ -3168,7 +3406,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -3180,7 +3418,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3197,13 +3435,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAttachedIndices">REST API Reference for ListAttachedIndices Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListAttachedIndices">REST API Reference for ListAttachedIndices Operation</seealso>
         public virtual ListAttachedIndicesResponse ListAttachedIndices(ListAttachedIndicesRequest request)
         {
-            var marshaller = ListAttachedIndicesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedIndicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedIndicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedIndicesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAttachedIndicesRequest,ListAttachedIndicesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAttachedIndicesResponse>(request, options);
         }
 
         /// <summary>
@@ -3217,14 +3456,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAttachedIndices
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAttachedIndices">REST API Reference for ListAttachedIndices Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListAttachedIndices">REST API Reference for ListAttachedIndices Operation</seealso>
         public virtual IAsyncResult BeginListAttachedIndices(ListAttachedIndicesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAttachedIndicesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedIndicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedIndicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedIndicesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAttachedIndicesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3234,7 +3473,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAttachedIndices.</param>
         /// 
         /// <returns>Returns a  ListAttachedIndicesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAttachedIndices">REST API Reference for ListAttachedIndices Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListAttachedIndices">REST API Reference for ListAttachedIndices Operation</seealso>
         public virtual ListAttachedIndicesResponse EndListAttachedIndices(IAsyncResult asyncResult)
         {
             return EndInvoke<ListAttachedIndicesResponse>(asyncResult);
@@ -3266,7 +3505,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3283,13 +3522,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDevelopmentSchemaArns">REST API Reference for ListDevelopmentSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListDevelopmentSchemaArns">REST API Reference for ListDevelopmentSchemaArns Operation</seealso>
         public virtual ListDevelopmentSchemaArnsResponse ListDevelopmentSchemaArns(ListDevelopmentSchemaArnsRequest request)
         {
-            var marshaller = ListDevelopmentSchemaArnsRequestMarshaller.Instance;
-            var unmarshaller = ListDevelopmentSchemaArnsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDevelopmentSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDevelopmentSchemaArnsResponseUnmarshaller.Instance;
 
-            return Invoke<ListDevelopmentSchemaArnsRequest,ListDevelopmentSchemaArnsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDevelopmentSchemaArnsResponse>(request, options);
         }
 
         /// <summary>
@@ -3303,14 +3543,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDevelopmentSchemaArns
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDevelopmentSchemaArns">REST API Reference for ListDevelopmentSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListDevelopmentSchemaArns">REST API Reference for ListDevelopmentSchemaArns Operation</seealso>
         public virtual IAsyncResult BeginListDevelopmentSchemaArns(ListDevelopmentSchemaArnsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDevelopmentSchemaArnsRequestMarshaller.Instance;
-            var unmarshaller = ListDevelopmentSchemaArnsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDevelopmentSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDevelopmentSchemaArnsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDevelopmentSchemaArnsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3320,7 +3560,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDevelopmentSchemaArns.</param>
         /// 
         /// <returns>Returns a  ListDevelopmentSchemaArnsResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDevelopmentSchemaArns">REST API Reference for ListDevelopmentSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListDevelopmentSchemaArns">REST API Reference for ListDevelopmentSchemaArns Operation</seealso>
         public virtual ListDevelopmentSchemaArnsResponse EndListDevelopmentSchemaArns(IAsyncResult asyncResult)
         {
             return EndInvoke<ListDevelopmentSchemaArnsResponse>(asyncResult);
@@ -3352,7 +3592,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
@@ -3366,13 +3606,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDirectories">REST API Reference for ListDirectories Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListDirectories">REST API Reference for ListDirectories Operation</seealso>
         public virtual ListDirectoriesResponse ListDirectories(ListDirectoriesRequest request)
         {
-            var marshaller = ListDirectoriesRequestMarshaller.Instance;
-            var unmarshaller = ListDirectoriesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDirectoriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDirectoriesResponseUnmarshaller.Instance;
 
-            return Invoke<ListDirectoriesRequest,ListDirectoriesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDirectoriesResponse>(request, options);
         }
 
         /// <summary>
@@ -3386,14 +3627,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDirectories
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDirectories">REST API Reference for ListDirectories Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListDirectories">REST API Reference for ListDirectories Operation</seealso>
         public virtual IAsyncResult BeginListDirectories(ListDirectoriesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDirectoriesRequestMarshaller.Instance;
-            var unmarshaller = ListDirectoriesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDirectoriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDirectoriesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDirectoriesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3403,7 +3644,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDirectories.</param>
         /// 
         /// <returns>Returns a  ListDirectoriesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDirectories">REST API Reference for ListDirectories Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListDirectories">REST API Reference for ListDirectories Operation</seealso>
         public virtual ListDirectoriesResponse EndListDirectories(IAsyncResult asyncResult)
         {
             return EndInvoke<ListDirectoriesResponse>(asyncResult);
@@ -3438,7 +3679,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3455,13 +3696,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetAttributes">REST API Reference for ListFacetAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListFacetAttributes">REST API Reference for ListFacetAttributes Operation</seealso>
         public virtual ListFacetAttributesResponse ListFacetAttributes(ListFacetAttributesRequest request)
         {
-            var marshaller = ListFacetAttributesRequestMarshaller.Instance;
-            var unmarshaller = ListFacetAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFacetAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFacetAttributesResponseUnmarshaller.Instance;
 
-            return Invoke<ListFacetAttributesRequest,ListFacetAttributesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListFacetAttributesResponse>(request, options);
         }
 
         /// <summary>
@@ -3475,14 +3717,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListFacetAttributes
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetAttributes">REST API Reference for ListFacetAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListFacetAttributes">REST API Reference for ListFacetAttributes Operation</seealso>
         public virtual IAsyncResult BeginListFacetAttributes(ListFacetAttributesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListFacetAttributesRequestMarshaller.Instance;
-            var unmarshaller = ListFacetAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFacetAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFacetAttributesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListFacetAttributesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3492,7 +3734,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListFacetAttributes.</param>
         /// 
         /// <returns>Returns a  ListFacetAttributesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetAttributes">REST API Reference for ListFacetAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListFacetAttributes">REST API Reference for ListFacetAttributes Operation</seealso>
         public virtual ListFacetAttributesResponse EndListFacetAttributes(IAsyncResult asyncResult)
         {
             return EndInvoke<ListFacetAttributesResponse>(asyncResult);
@@ -3524,7 +3766,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3541,13 +3783,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetNames">REST API Reference for ListFacetNames Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListFacetNames">REST API Reference for ListFacetNames Operation</seealso>
         public virtual ListFacetNamesResponse ListFacetNames(ListFacetNamesRequest request)
         {
-            var marshaller = ListFacetNamesRequestMarshaller.Instance;
-            var unmarshaller = ListFacetNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFacetNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFacetNamesResponseUnmarshaller.Instance;
 
-            return Invoke<ListFacetNamesRequest,ListFacetNamesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListFacetNamesResponse>(request, options);
         }
 
         /// <summary>
@@ -3561,14 +3804,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListFacetNames
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetNames">REST API Reference for ListFacetNames Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListFacetNames">REST API Reference for ListFacetNames Operation</seealso>
         public virtual IAsyncResult BeginListFacetNames(ListFacetNamesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListFacetNamesRequestMarshaller.Instance;
-            var unmarshaller = ListFacetNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFacetNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFacetNamesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListFacetNamesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3578,7 +3821,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListFacetNames.</param>
         /// 
         /// <returns>Returns a  ListFacetNamesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetNames">REST API Reference for ListFacetNames Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListFacetNames">REST API Reference for ListFacetNames Operation</seealso>
         public virtual ListFacetNamesResponse EndListFacetNames(IAsyncResult asyncResult)
         {
             return EndInvoke<ListFacetNamesResponse>(asyncResult);
@@ -3591,8 +3834,8 @@ namespace Amazon.CloudDirectory
         /// <summary>
         /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a> information
         /// for an object. It also supports filtering by typed link facet and identity attributes.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListIncomingTypedLinks service method.</param>
         /// 
@@ -3601,7 +3844,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -3620,7 +3863,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3637,13 +3880,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIncomingTypedLinks">REST API Reference for ListIncomingTypedLinks Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListIncomingTypedLinks">REST API Reference for ListIncomingTypedLinks Operation</seealso>
         public virtual ListIncomingTypedLinksResponse ListIncomingTypedLinks(ListIncomingTypedLinksRequest request)
         {
-            var marshaller = ListIncomingTypedLinksRequestMarshaller.Instance;
-            var unmarshaller = ListIncomingTypedLinksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIncomingTypedLinksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIncomingTypedLinksResponseUnmarshaller.Instance;
 
-            return Invoke<ListIncomingTypedLinksRequest,ListIncomingTypedLinksResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListIncomingTypedLinksResponse>(request, options);
         }
 
         /// <summary>
@@ -3657,14 +3901,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListIncomingTypedLinks
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIncomingTypedLinks">REST API Reference for ListIncomingTypedLinks Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListIncomingTypedLinks">REST API Reference for ListIncomingTypedLinks Operation</seealso>
         public virtual IAsyncResult BeginListIncomingTypedLinks(ListIncomingTypedLinksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListIncomingTypedLinksRequestMarshaller.Instance;
-            var unmarshaller = ListIncomingTypedLinksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIncomingTypedLinksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIncomingTypedLinksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListIncomingTypedLinksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3674,7 +3918,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListIncomingTypedLinks.</param>
         /// 
         /// <returns>Returns a  ListIncomingTypedLinksResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIncomingTypedLinks">REST API Reference for ListIncomingTypedLinks Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListIncomingTypedLinks">REST API Reference for ListIncomingTypedLinks Operation</seealso>
         public virtual ListIncomingTypedLinksResponse EndListIncomingTypedLinks(IAsyncResult asyncResult)
         {
             return EndInvoke<ListIncomingTypedLinksResponse>(asyncResult);
@@ -3685,7 +3929,7 @@ namespace Amazon.CloudDirectory
         #region  ListIndex
 
         /// <summary>
-        /// Lists objects and indexed values attached to the index.
+        /// Lists objects attached to the specified index.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListIndex service method.</param>
         /// 
@@ -3694,7 +3938,11 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
+        /// The <a>Facet</a> that you provided was not well formed or could not be validated with
+        /// the schema.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -3705,8 +3953,11 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InvalidNextTokenException">
+        /// Indicates that the <code>NextToken</code> value is not valid.
+        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.NotIndexException">
@@ -3726,13 +3977,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIndex">REST API Reference for ListIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListIndex">REST API Reference for ListIndex Operation</seealso>
         public virtual ListIndexResponse ListIndex(ListIndexRequest request)
         {
-            var marshaller = ListIndexRequestMarshaller.Instance;
-            var unmarshaller = ListIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIndexResponseUnmarshaller.Instance;
 
-            return Invoke<ListIndexRequest,ListIndexResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListIndexResponse>(request, options);
         }
 
         /// <summary>
@@ -3746,14 +3998,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListIndex
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIndex">REST API Reference for ListIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListIndex">REST API Reference for ListIndex Operation</seealso>
         public virtual IAsyncResult BeginListIndex(ListIndexRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListIndexRequestMarshaller.Instance;
-            var unmarshaller = ListIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIndexResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListIndexRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3763,10 +4015,86 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListIndex.</param>
         /// 
         /// <returns>Returns a  ListIndexResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIndex">REST API Reference for ListIndex Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListIndex">REST API Reference for ListIndex Operation</seealso>
         public virtual ListIndexResponse EndListIndex(IAsyncResult asyncResult)
         {
             return EndInvoke<ListIndexResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListManagedSchemaArns
+
+        /// <summary>
+        /// Lists the major version families of each managed schema. If a major version ARN is
+        /// provided as SchemaArn, the minor version revisions in that family are listed instead.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListManagedSchemaArns service method.</param>
+        /// 
+        /// <returns>The response from the ListManagedSchemaArns service method, as returned by CloudDirectory.</returns>
+        /// <exception cref="Amazon.CloudDirectory.Model.AccessDeniedException">
+        /// Access denied. Check your permissions.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
+        /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
+        /// transient error in which case you can retry your request until it succeeds. Otherwise,
+        /// go to the <a href="http://status.aws.amazon.com/">AWS Service Health Dashboard</a>
+        /// site to see if there are any operational issues with the service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
+        /// Indicates that the provided ARN value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InvalidNextTokenException">
+        /// Indicates that the <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
+        /// Indicates that your request is malformed in some manner. See the exception message.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListManagedSchemaArns">REST API Reference for ListManagedSchemaArns Operation</seealso>
+        public virtual ListManagedSchemaArnsResponse ListManagedSchemaArns(ListManagedSchemaArnsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListManagedSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListManagedSchemaArnsResponseUnmarshaller.Instance;
+
+            return Invoke<ListManagedSchemaArnsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListManagedSchemaArns operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListManagedSchemaArns operation on AmazonCloudDirectoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListManagedSchemaArns
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListManagedSchemaArns">REST API Reference for ListManagedSchemaArns Operation</seealso>
+        public virtual IAsyncResult BeginListManagedSchemaArns(ListManagedSchemaArnsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListManagedSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListManagedSchemaArnsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListManagedSchemaArns operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListManagedSchemaArns.</param>
+        /// 
+        /// <returns>Returns a  ListManagedSchemaArnsResult from CloudDirectory.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListManagedSchemaArns">REST API Reference for ListManagedSchemaArns Operation</seealso>
+        public virtual ListManagedSchemaArnsResponse EndListManagedSchemaArns(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListManagedSchemaArnsResponse>(asyncResult);
         }
 
         #endregion
@@ -3783,7 +4111,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -3798,14 +4126,11 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidNextTokenException">
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -3822,13 +4147,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectAttributes">REST API Reference for ListObjectAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectAttributes">REST API Reference for ListObjectAttributes Operation</seealso>
         public virtual ListObjectAttributesResponse ListObjectAttributes(ListObjectAttributesRequest request)
         {
-            var marshaller = ListObjectAttributesRequestMarshaller.Instance;
-            var unmarshaller = ListObjectAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectAttributesResponseUnmarshaller.Instance;
 
-            return Invoke<ListObjectAttributesRequest,ListObjectAttributesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListObjectAttributesResponse>(request, options);
         }
 
         /// <summary>
@@ -3842,14 +4168,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListObjectAttributes
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectAttributes">REST API Reference for ListObjectAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectAttributes">REST API Reference for ListObjectAttributes Operation</seealso>
         public virtual IAsyncResult BeginListObjectAttributes(ListObjectAttributesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListObjectAttributesRequestMarshaller.Instance;
-            var unmarshaller = ListObjectAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectAttributesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListObjectAttributesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3859,7 +4185,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListObjectAttributes.</param>
         /// 
         /// <returns>Returns a  ListObjectAttributesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectAttributes">REST API Reference for ListObjectAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectAttributes">REST API Reference for ListObjectAttributes Operation</seealso>
         public virtual ListObjectAttributesResponse EndListObjectAttributes(IAsyncResult asyncResult)
         {
             return EndInvoke<ListObjectAttributesResponse>(asyncResult);
@@ -3879,7 +4205,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -3890,14 +4216,11 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidNextTokenException">
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.NotNodeException">
@@ -3918,13 +4241,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectChildren">REST API Reference for ListObjectChildren Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectChildren">REST API Reference for ListObjectChildren Operation</seealso>
         public virtual ListObjectChildrenResponse ListObjectChildren(ListObjectChildrenRequest request)
         {
-            var marshaller = ListObjectChildrenRequestMarshaller.Instance;
-            var unmarshaller = ListObjectChildrenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectChildrenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectChildrenResponseUnmarshaller.Instance;
 
-            return Invoke<ListObjectChildrenRequest,ListObjectChildrenResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListObjectChildrenResponse>(request, options);
         }
 
         /// <summary>
@@ -3938,14 +4262,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListObjectChildren
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectChildren">REST API Reference for ListObjectChildren Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectChildren">REST API Reference for ListObjectChildren Operation</seealso>
         public virtual IAsyncResult BeginListObjectChildren(ListObjectChildrenRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListObjectChildrenRequestMarshaller.Instance;
-            var unmarshaller = ListObjectChildrenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectChildrenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectChildrenResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListObjectChildrenRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3955,7 +4279,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListObjectChildren.</param>
         /// 
         /// <returns>Returns a  ListObjectChildrenResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectChildren">REST API Reference for ListObjectChildren Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectChildren">REST API Reference for ListObjectChildren Operation</seealso>
         public virtual ListObjectChildrenResponse EndListObjectChildren(IAsyncResult asyncResult)
         {
             return EndInvoke<ListObjectChildrenResponse>(asyncResult);
@@ -3967,7 +4291,7 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Retrieves all available parent paths for any object type such as node, leaf node,
-        /// policy node, and index node objects. For more information about objects, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#dirstructure">Directory
+        /// policy node, and index node objects. For more information about objects, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
         /// Structure</a>.
         /// 
         ///  
@@ -3987,7 +4311,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -4002,7 +4326,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4019,13 +4343,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParentPaths">REST API Reference for ListObjectParentPaths Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectParentPaths">REST API Reference for ListObjectParentPaths Operation</seealso>
         public virtual ListObjectParentPathsResponse ListObjectParentPaths(ListObjectParentPathsRequest request)
         {
-            var marshaller = ListObjectParentPathsRequestMarshaller.Instance;
-            var unmarshaller = ListObjectParentPathsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectParentPathsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectParentPathsResponseUnmarshaller.Instance;
 
-            return Invoke<ListObjectParentPathsRequest,ListObjectParentPathsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListObjectParentPathsResponse>(request, options);
         }
 
         /// <summary>
@@ -4039,14 +4364,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListObjectParentPaths
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParentPaths">REST API Reference for ListObjectParentPaths Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectParentPaths">REST API Reference for ListObjectParentPaths Operation</seealso>
         public virtual IAsyncResult BeginListObjectParentPaths(ListObjectParentPathsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListObjectParentPathsRequestMarshaller.Instance;
-            var unmarshaller = ListObjectParentPathsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectParentPathsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectParentPathsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListObjectParentPathsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4056,7 +4381,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListObjectParentPaths.</param>
         /// 
         /// <returns>Returns a  ListObjectParentPathsResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParentPaths">REST API Reference for ListObjectParentPaths Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectParentPaths">REST API Reference for ListObjectParentPaths Operation</seealso>
         public virtual ListObjectParentPathsResponse EndListObjectParentPaths(IAsyncResult asyncResult)
         {
             return EndInvoke<ListObjectParentPathsResponse>(asyncResult);
@@ -4079,7 +4404,7 @@ namespace Amazon.CloudDirectory
         /// Cannot list the parents of a <a>Directory</a> root.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -4090,14 +4415,11 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidNextTokenException">
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4114,13 +4436,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParents">REST API Reference for ListObjectParents Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectParents">REST API Reference for ListObjectParents Operation</seealso>
         public virtual ListObjectParentsResponse ListObjectParents(ListObjectParentsRequest request)
         {
-            var marshaller = ListObjectParentsRequestMarshaller.Instance;
-            var unmarshaller = ListObjectParentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectParentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectParentsResponseUnmarshaller.Instance;
 
-            return Invoke<ListObjectParentsRequest,ListObjectParentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListObjectParentsResponse>(request, options);
         }
 
         /// <summary>
@@ -4134,14 +4457,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListObjectParents
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParents">REST API Reference for ListObjectParents Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectParents">REST API Reference for ListObjectParents Operation</seealso>
         public virtual IAsyncResult BeginListObjectParents(ListObjectParentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListObjectParentsRequestMarshaller.Instance;
-            var unmarshaller = ListObjectParentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectParentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectParentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListObjectParentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4151,7 +4474,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListObjectParents.</param>
         /// 
         /// <returns>Returns a  ListObjectParentsResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParents">REST API Reference for ListObjectParents Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectParents">REST API Reference for ListObjectParents Operation</seealso>
         public virtual ListObjectParentsResponse EndListObjectParents(IAsyncResult asyncResult)
         {
             return EndInvoke<ListObjectParentsResponse>(asyncResult);
@@ -4171,7 +4494,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -4186,7 +4509,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4203,13 +4526,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectPolicies">REST API Reference for ListObjectPolicies Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectPolicies">REST API Reference for ListObjectPolicies Operation</seealso>
         public virtual ListObjectPoliciesResponse ListObjectPolicies(ListObjectPoliciesRequest request)
         {
-            var marshaller = ListObjectPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListObjectPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListObjectPoliciesRequest,ListObjectPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListObjectPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -4223,14 +4547,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListObjectPolicies
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectPolicies">REST API Reference for ListObjectPolicies Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectPolicies">REST API Reference for ListObjectPolicies Operation</seealso>
         public virtual IAsyncResult BeginListObjectPolicies(ListObjectPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListObjectPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListObjectPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListObjectPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListObjectPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListObjectPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4240,7 +4564,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListObjectPolicies.</param>
         /// 
         /// <returns>Returns a  ListObjectPoliciesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectPolicies">REST API Reference for ListObjectPolicies Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListObjectPolicies">REST API Reference for ListObjectPolicies Operation</seealso>
         public virtual ListObjectPoliciesResponse EndListObjectPolicies(IAsyncResult asyncResult)
         {
             return EndInvoke<ListObjectPoliciesResponse>(asyncResult);
@@ -4253,8 +4577,8 @@ namespace Amazon.CloudDirectory
         /// <summary>
         /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a> information
         /// for an object. It also supports filtering by typed link facet and identity attributes.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListOutgoingTypedLinks service method.</param>
         /// 
@@ -4263,7 +4587,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -4282,7 +4606,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4299,13 +4623,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListOutgoingTypedLinks">REST API Reference for ListOutgoingTypedLinks Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListOutgoingTypedLinks">REST API Reference for ListOutgoingTypedLinks Operation</seealso>
         public virtual ListOutgoingTypedLinksResponse ListOutgoingTypedLinks(ListOutgoingTypedLinksRequest request)
         {
-            var marshaller = ListOutgoingTypedLinksRequestMarshaller.Instance;
-            var unmarshaller = ListOutgoingTypedLinksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOutgoingTypedLinksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOutgoingTypedLinksResponseUnmarshaller.Instance;
 
-            return Invoke<ListOutgoingTypedLinksRequest,ListOutgoingTypedLinksResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOutgoingTypedLinksResponse>(request, options);
         }
 
         /// <summary>
@@ -4319,14 +4644,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListOutgoingTypedLinks
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListOutgoingTypedLinks">REST API Reference for ListOutgoingTypedLinks Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListOutgoingTypedLinks">REST API Reference for ListOutgoingTypedLinks Operation</seealso>
         public virtual IAsyncResult BeginListOutgoingTypedLinks(ListOutgoingTypedLinksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOutgoingTypedLinksRequestMarshaller.Instance;
-            var unmarshaller = ListOutgoingTypedLinksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOutgoingTypedLinksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOutgoingTypedLinksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOutgoingTypedLinksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4336,7 +4661,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListOutgoingTypedLinks.</param>
         /// 
         /// <returns>Returns a  ListOutgoingTypedLinksResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListOutgoingTypedLinks">REST API Reference for ListOutgoingTypedLinks Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListOutgoingTypedLinks">REST API Reference for ListOutgoingTypedLinks Operation</seealso>
         public virtual ListOutgoingTypedLinksResponse EndListOutgoingTypedLinks(IAsyncResult asyncResult)
         {
             return EndInvoke<ListOutgoingTypedLinksResponse>(asyncResult);
@@ -4356,7 +4681,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -4367,14 +4692,11 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidNextTokenException">
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.NotPolicyException">
@@ -4394,13 +4716,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPolicyAttachments">REST API Reference for ListPolicyAttachments Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListPolicyAttachments">REST API Reference for ListPolicyAttachments Operation</seealso>
         public virtual ListPolicyAttachmentsResponse ListPolicyAttachments(ListPolicyAttachmentsRequest request)
         {
-            var marshaller = ListPolicyAttachmentsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyAttachmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyAttachmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyAttachmentsResponseUnmarshaller.Instance;
 
-            return Invoke<ListPolicyAttachmentsRequest,ListPolicyAttachmentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPolicyAttachmentsResponse>(request, options);
         }
 
         /// <summary>
@@ -4414,14 +4737,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListPolicyAttachments
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPolicyAttachments">REST API Reference for ListPolicyAttachments Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListPolicyAttachments">REST API Reference for ListPolicyAttachments Operation</seealso>
         public virtual IAsyncResult BeginListPolicyAttachments(ListPolicyAttachmentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPolicyAttachmentsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyAttachmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyAttachmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyAttachmentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPolicyAttachmentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4431,7 +4754,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListPolicyAttachments.</param>
         /// 
         /// <returns>Returns a  ListPolicyAttachmentsResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPolicyAttachments">REST API Reference for ListPolicyAttachments Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListPolicyAttachments">REST API Reference for ListPolicyAttachments Operation</seealso>
         public virtual ListPolicyAttachmentsResponse EndListPolicyAttachments(IAsyncResult asyncResult)
         {
             return EndInvoke<ListPolicyAttachmentsResponse>(asyncResult);
@@ -4442,8 +4765,9 @@ namespace Amazon.CloudDirectory
         #region  ListPublishedSchemaArns
 
         /// <summary>
-        /// Lists schema major versions for a published schema. If <code>SchemaArn</code> is provided,
-        /// lists the minor version.
+        /// Lists the major version families of each published schema. If a major version ARN
+        /// is provided as <code>SchemaArn</code>, the minor version revisions in that family
+        /// are listed instead.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListPublishedSchemaArns service method.</param>
         /// 
@@ -4464,7 +4788,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4481,13 +4805,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPublishedSchemaArns">REST API Reference for ListPublishedSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListPublishedSchemaArns">REST API Reference for ListPublishedSchemaArns Operation</seealso>
         public virtual ListPublishedSchemaArnsResponse ListPublishedSchemaArns(ListPublishedSchemaArnsRequest request)
         {
-            var marshaller = ListPublishedSchemaArnsRequestMarshaller.Instance;
-            var unmarshaller = ListPublishedSchemaArnsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPublishedSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPublishedSchemaArnsResponseUnmarshaller.Instance;
 
-            return Invoke<ListPublishedSchemaArnsRequest,ListPublishedSchemaArnsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPublishedSchemaArnsResponse>(request, options);
         }
 
         /// <summary>
@@ -4501,14 +4826,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListPublishedSchemaArns
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPublishedSchemaArns">REST API Reference for ListPublishedSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListPublishedSchemaArns">REST API Reference for ListPublishedSchemaArns Operation</seealso>
         public virtual IAsyncResult BeginListPublishedSchemaArns(ListPublishedSchemaArnsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPublishedSchemaArnsRequestMarshaller.Instance;
-            var unmarshaller = ListPublishedSchemaArnsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPublishedSchemaArnsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPublishedSchemaArnsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPublishedSchemaArnsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4518,7 +4843,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListPublishedSchemaArns.</param>
         /// 
         /// <returns>Returns a  ListPublishedSchemaArnsResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPublishedSchemaArns">REST API Reference for ListPublishedSchemaArns Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListPublishedSchemaArns">REST API Reference for ListPublishedSchemaArns Operation</seealso>
         public virtual ListPublishedSchemaArnsResponse EndListPublishedSchemaArns(IAsyncResult asyncResult)
         {
             return EndInvoke<ListPublishedSchemaArnsResponse>(asyncResult);
@@ -4554,7 +4879,7 @@ namespace Amazon.CloudDirectory
         /// limit is 50 tags per resource.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4571,13 +4896,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsForResourceRequest,ListTagsForResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsForResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -4591,14 +4917,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTagsForResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4608,7 +4934,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
         /// 
         /// <returns>Returns a  ListTagsForResourceResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
         {
             return EndInvoke<ListTagsForResourceResponse>(asyncResult);
@@ -4620,8 +4946,8 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Returns a paginated list of all attribute definitions for a particular <a>TypedLinkFacet</a>.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListTypedLinkFacetAttributes service method.</param>
         /// 
@@ -4645,7 +4971,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4662,13 +4988,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetAttributes">REST API Reference for ListTypedLinkFacetAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTypedLinkFacetAttributes">REST API Reference for ListTypedLinkFacetAttributes Operation</seealso>
         public virtual ListTypedLinkFacetAttributesResponse ListTypedLinkFacetAttributes(ListTypedLinkFacetAttributesRequest request)
         {
-            var marshaller = ListTypedLinkFacetAttributesRequestMarshaller.Instance;
-            var unmarshaller = ListTypedLinkFacetAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTypedLinkFacetAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTypedLinkFacetAttributesResponseUnmarshaller.Instance;
 
-            return Invoke<ListTypedLinkFacetAttributesRequest,ListTypedLinkFacetAttributesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTypedLinkFacetAttributesResponse>(request, options);
         }
 
         /// <summary>
@@ -4682,14 +5009,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTypedLinkFacetAttributes
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetAttributes">REST API Reference for ListTypedLinkFacetAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTypedLinkFacetAttributes">REST API Reference for ListTypedLinkFacetAttributes Operation</seealso>
         public virtual IAsyncResult BeginListTypedLinkFacetAttributes(ListTypedLinkFacetAttributesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTypedLinkFacetAttributesRequestMarshaller.Instance;
-            var unmarshaller = ListTypedLinkFacetAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTypedLinkFacetAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTypedLinkFacetAttributesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTypedLinkFacetAttributesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4699,7 +5026,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTypedLinkFacetAttributes.</param>
         /// 
         /// <returns>Returns a  ListTypedLinkFacetAttributesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetAttributes">REST API Reference for ListTypedLinkFacetAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTypedLinkFacetAttributes">REST API Reference for ListTypedLinkFacetAttributes Operation</seealso>
         public virtual ListTypedLinkFacetAttributesResponse EndListTypedLinkFacetAttributes(IAsyncResult asyncResult)
         {
             return EndInvoke<ListTypedLinkFacetAttributesResponse>(asyncResult);
@@ -4711,8 +5038,8 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Returns a paginated list of <code>TypedLink</code> facet names for a particular schema.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListTypedLinkFacetNames service method.</param>
         /// 
@@ -4733,7 +5060,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4750,13 +5077,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetNames">REST API Reference for ListTypedLinkFacetNames Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTypedLinkFacetNames">REST API Reference for ListTypedLinkFacetNames Operation</seealso>
         public virtual ListTypedLinkFacetNamesResponse ListTypedLinkFacetNames(ListTypedLinkFacetNamesRequest request)
         {
-            var marshaller = ListTypedLinkFacetNamesRequestMarshaller.Instance;
-            var unmarshaller = ListTypedLinkFacetNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTypedLinkFacetNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTypedLinkFacetNamesResponseUnmarshaller.Instance;
 
-            return Invoke<ListTypedLinkFacetNamesRequest,ListTypedLinkFacetNamesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTypedLinkFacetNamesResponse>(request, options);
         }
 
         /// <summary>
@@ -4770,14 +5098,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTypedLinkFacetNames
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetNames">REST API Reference for ListTypedLinkFacetNames Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTypedLinkFacetNames">REST API Reference for ListTypedLinkFacetNames Operation</seealso>
         public virtual IAsyncResult BeginListTypedLinkFacetNames(ListTypedLinkFacetNamesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTypedLinkFacetNamesRequestMarshaller.Instance;
-            var unmarshaller = ListTypedLinkFacetNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTypedLinkFacetNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTypedLinkFacetNamesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTypedLinkFacetNamesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4787,7 +5115,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTypedLinkFacetNames.</param>
         /// 
         /// <returns>Returns a  ListTypedLinkFacetNamesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetNames">REST API Reference for ListTypedLinkFacetNames Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/ListTypedLinkFacetNames">REST API Reference for ListTypedLinkFacetNames Operation</seealso>
         public virtual ListTypedLinkFacetNamesResponse EndListTypedLinkFacetNames(IAsyncResult asyncResult)
         {
             return EndInvoke<ListTypedLinkFacetNamesResponse>(asyncResult);
@@ -4803,7 +5131,7 @@ namespace Amazon.CloudDirectory
         /// and if some objects don't have the policies attached, it returns the <code>ObjectIdentifier</code>
         /// for such objects. If policies are present, it returns <code>ObjectIdentifier</code>,
         /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to the root
-        /// from the target object are ignored. For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
+        /// from the target object are ignored. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the LookupPolicy service method.</param>
         /// 
@@ -4812,7 +5140,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
@@ -4823,14 +5151,11 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
-        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
-        /// Indicates that the provided ARN value is not valid.
-        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidNextTokenException">
         /// Indicates that the <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4847,13 +5172,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/LookupPolicy">REST API Reference for LookupPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/LookupPolicy">REST API Reference for LookupPolicy Operation</seealso>
         public virtual LookupPolicyResponse LookupPolicy(LookupPolicyRequest request)
         {
-            var marshaller = LookupPolicyRequestMarshaller.Instance;
-            var unmarshaller = LookupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = LookupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = LookupPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<LookupPolicyRequest,LookupPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<LookupPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -4867,14 +5193,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndLookupPolicy
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/LookupPolicy">REST API Reference for LookupPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/LookupPolicy">REST API Reference for LookupPolicy Operation</seealso>
         public virtual IAsyncResult BeginLookupPolicy(LookupPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = LookupPolicyRequestMarshaller.Instance;
-            var unmarshaller = LookupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = LookupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = LookupPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<LookupPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4884,7 +5210,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginLookupPolicy.</param>
         /// 
         /// <returns>Returns a  LookupPolicyResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/LookupPolicy">REST API Reference for LookupPolicy Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/LookupPolicy">REST API Reference for LookupPolicy Operation</seealso>
         public virtual LookupPolicyResponse EndLookupPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<LookupPolicyResponse>(asyncResult);
@@ -4913,7 +5239,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -4933,13 +5259,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PublishSchema">REST API Reference for PublishSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/PublishSchema">REST API Reference for PublishSchema Operation</seealso>
         public virtual PublishSchemaResponse PublishSchema(PublishSchemaRequest request)
         {
-            var marshaller = PublishSchemaRequestMarshaller.Instance;
-            var unmarshaller = PublishSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PublishSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PublishSchemaResponseUnmarshaller.Instance;
 
-            return Invoke<PublishSchemaRequest,PublishSchemaResponse>(request, marshaller, unmarshaller);
+            return Invoke<PublishSchemaResponse>(request, options);
         }
 
         /// <summary>
@@ -4953,14 +5280,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPublishSchema
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PublishSchema">REST API Reference for PublishSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/PublishSchema">REST API Reference for PublishSchema Operation</seealso>
         public virtual IAsyncResult BeginPublishSchema(PublishSchemaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PublishSchemaRequestMarshaller.Instance;
-            var unmarshaller = PublishSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PublishSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PublishSchemaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PublishSchemaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4970,7 +5297,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPublishSchema.</param>
         /// 
         /// <returns>Returns a  PublishSchemaResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PublishSchema">REST API Reference for PublishSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/PublishSchema">REST API Reference for PublishSchema Operation</seealso>
         public virtual PublishSchemaResponse EndPublishSchema(IAsyncResult asyncResult)
         {
             return EndInvoke<PublishSchemaResponse>(asyncResult);
@@ -4982,7 +5309,7 @@ namespace Amazon.CloudDirectory
 
         /// <summary>
         /// Allows a schema to be updated using JSON upload. Only available for development schemas.
-        /// See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_schemas.html#jsonformat">JSON
+        /// See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json">JSON
         /// Schema Format</a> for more information.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutSchemaFromJson service method.</param>
@@ -5007,7 +5334,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided <code>SchemaDoc</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
@@ -5021,13 +5348,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PutSchemaFromJson">REST API Reference for PutSchemaFromJson Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/PutSchemaFromJson">REST API Reference for PutSchemaFromJson Operation</seealso>
         public virtual PutSchemaFromJsonResponse PutSchemaFromJson(PutSchemaFromJsonRequest request)
         {
-            var marshaller = PutSchemaFromJsonRequestMarshaller.Instance;
-            var unmarshaller = PutSchemaFromJsonResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutSchemaFromJsonRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutSchemaFromJsonResponseUnmarshaller.Instance;
 
-            return Invoke<PutSchemaFromJsonRequest,PutSchemaFromJsonResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutSchemaFromJsonResponse>(request, options);
         }
 
         /// <summary>
@@ -5041,14 +5369,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutSchemaFromJson
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PutSchemaFromJson">REST API Reference for PutSchemaFromJson Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/PutSchemaFromJson">REST API Reference for PutSchemaFromJson Operation</seealso>
         public virtual IAsyncResult BeginPutSchemaFromJson(PutSchemaFromJsonRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutSchemaFromJsonRequestMarshaller.Instance;
-            var unmarshaller = PutSchemaFromJsonResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutSchemaFromJsonRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutSchemaFromJsonResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutSchemaFromJsonRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5058,7 +5386,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutSchemaFromJson.</param>
         /// 
         /// <returns>Returns a  PutSchemaFromJsonResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PutSchemaFromJson">REST API Reference for PutSchemaFromJson Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/PutSchemaFromJson">REST API Reference for PutSchemaFromJson Operation</seealso>
         public virtual PutSchemaFromJsonResponse EndPutSchemaFromJson(IAsyncResult asyncResult)
         {
             return EndInvoke<PutSchemaFromJsonResponse>(asyncResult);
@@ -5078,7 +5406,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -5094,7 +5422,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -5111,13 +5439,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/RemoveFacetFromObject">REST API Reference for RemoveFacetFromObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/RemoveFacetFromObject">REST API Reference for RemoveFacetFromObject Operation</seealso>
         public virtual RemoveFacetFromObjectResponse RemoveFacetFromObject(RemoveFacetFromObjectRequest request)
         {
-            var marshaller = RemoveFacetFromObjectRequestMarshaller.Instance;
-            var unmarshaller = RemoveFacetFromObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveFacetFromObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveFacetFromObjectResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveFacetFromObjectRequest,RemoveFacetFromObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveFacetFromObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -5131,14 +5460,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRemoveFacetFromObject
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/RemoveFacetFromObject">REST API Reference for RemoveFacetFromObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/RemoveFacetFromObject">REST API Reference for RemoveFacetFromObject Operation</seealso>
         public virtual IAsyncResult BeginRemoveFacetFromObject(RemoveFacetFromObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RemoveFacetFromObjectRequestMarshaller.Instance;
-            var unmarshaller = RemoveFacetFromObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveFacetFromObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveFacetFromObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RemoveFacetFromObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5148,7 +5477,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRemoveFacetFromObject.</param>
         /// 
         /// <returns>Returns a  RemoveFacetFromObjectResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/RemoveFacetFromObject">REST API Reference for RemoveFacetFromObject Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/RemoveFacetFromObject">REST API Reference for RemoveFacetFromObject Operation</seealso>
         public virtual RemoveFacetFromObjectResponse EndRemoveFacetFromObject(IAsyncResult asyncResult)
         {
             return EndInvoke<RemoveFacetFromObjectResponse>(asyncResult);
@@ -5182,7 +5511,7 @@ namespace Amazon.CloudDirectory
         /// limit is 50 tags per resource.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -5199,13 +5528,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/TagResource">REST API Reference for TagResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual TagResourceResponse TagResource(TagResourceRequest request)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<TagResourceRequest,TagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<TagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -5219,14 +5549,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/TagResource">REST API Reference for TagResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5236,7 +5566,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
         /// 
         /// <returns>Returns a  TagResourceResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/TagResource">REST API Reference for TagResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
         {
             return EndInvoke<TagResourceResponse>(asyncResult);
@@ -5270,7 +5600,7 @@ namespace Amazon.CloudDirectory
         /// limit is 50 tags per resource.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -5287,13 +5617,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<UntagResourceRequest,UntagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UntagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -5307,14 +5638,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UntagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5324,7 +5655,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
         /// 
         /// <returns>Returns a  UntagResourceResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
         {
             return EndInvoke<UntagResourceResponse>(asyncResult);
@@ -5360,6 +5691,10 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.FacetNotFoundException">
         /// The specified <a>Facet</a> could not be found.
         /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
+        /// The <a>Facet</a> that you provided was not well formed or could not be validated with
+        /// the schema.
+        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
         /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
         /// transient error in which case you can retry your request until it succeeds. Otherwise,
@@ -5376,7 +5711,7 @@ namespace Amazon.CloudDirectory
         /// Occurs when any of the rule parameter keys or values are invalid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -5393,13 +5728,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateFacet">REST API Reference for UpdateFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateFacet">REST API Reference for UpdateFacet Operation</seealso>
         public virtual UpdateFacetResponse UpdateFacet(UpdateFacetRequest request)
         {
-            var marshaller = UpdateFacetRequestMarshaller.Instance;
-            var unmarshaller = UpdateFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateFacetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateFacetRequest,UpdateFacetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateFacetResponse>(request, options);
         }
 
         /// <summary>
@@ -5413,14 +5749,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateFacet
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateFacet">REST API Reference for UpdateFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateFacet">REST API Reference for UpdateFacet Operation</seealso>
         public virtual IAsyncResult BeginUpdateFacet(UpdateFacetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateFacetRequestMarshaller.Instance;
-            var unmarshaller = UpdateFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateFacetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateFacetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5430,10 +5766,102 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateFacet.</param>
         /// 
         /// <returns>Returns a  UpdateFacetResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateFacet">REST API Reference for UpdateFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateFacet">REST API Reference for UpdateFacet Operation</seealso>
         public virtual UpdateFacetResponse EndUpdateFacet(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateFacetResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateLinkAttributes
+
+        /// <summary>
+        /// Updates a given typed link’s attributes. Attributes to be updated must not contribute
+        /// to the typed link’s identity, as defined by its <code>IdentityAttributeOrder</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateLinkAttributes service method.</param>
+        /// 
+        /// <returns>The response from the UpdateLinkAttributes service method, as returned by CloudDirectory.</returns>
+        /// <exception cref="Amazon.CloudDirectory.Model.AccessDeniedException">
+        /// Access denied. Check your permissions.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
+        /// Operations are only permitted on enabled directories.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
+        /// The <a>Facet</a> that you provided was not well formed or could not be validated with
+        /// the schema.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InternalServiceException">
+        /// Indicates a problem that must be resolved by Amazon Web Services. This might be a
+        /// transient error in which case you can retry your request until it succeeds. Otherwise,
+        /// go to the <a href="http://status.aws.amazon.com/">AWS Service Health Dashboard</a>
+        /// site to see if there are any operational issues with the service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.InvalidArnException">
+        /// Indicates that the provided ARN value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
+        /// for more information.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.RetryableConflictException">
+        /// Occurs when a conflict with a previous successful write is detected. For example,
+        /// if a write operation occurs on an object and then an attempt is made to read the object
+        /// using “SERIALIZABLE” consistency, this exception may result. This generally occurs
+        /// when the previous write did not have time to propagate to the host serving the current
+        /// request. A retry (with appropriate backoff logic) is the recommended response to this
+        /// exception.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
+        /// Indicates that your request is malformed in some manner. See the exception message.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateLinkAttributes">REST API Reference for UpdateLinkAttributes Operation</seealso>
+        public virtual UpdateLinkAttributesResponse UpdateLinkAttributes(UpdateLinkAttributesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLinkAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLinkAttributesResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateLinkAttributesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateLinkAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateLinkAttributes operation on AmazonCloudDirectoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateLinkAttributes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateLinkAttributes">REST API Reference for UpdateLinkAttributes Operation</seealso>
+        public virtual IAsyncResult BeginUpdateLinkAttributes(UpdateLinkAttributesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLinkAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLinkAttributesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateLinkAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateLinkAttributes.</param>
+        /// 
+        /// <returns>Returns a  UpdateLinkAttributesResult from CloudDirectory.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateLinkAttributes">REST API Reference for UpdateLinkAttributes Operation</seealso>
+        public virtual UpdateLinkAttributesResponse EndUpdateLinkAttributes(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateLinkAttributesResponse>(asyncResult);
         }
 
         #endregion
@@ -5450,7 +5878,7 @@ namespace Amazon.CloudDirectory
         /// Access denied. Check your permissions.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.DirectoryNotEnabledException">
-        /// An operation can only operate on a directory that is not enabled.
+        /// Operations are only permitted on enabled directories.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.FacetValidationException">
         /// The <a>Facet</a> that you provided was not well formed or could not be validated with
@@ -5466,8 +5894,12 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
+        /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.LinkNameAlreadyInUseException">
+        /// Indicates that a link could not be created due to a naming conflict. Choose a different
+        /// name and then try again.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
         /// The specified resource could not be found.
@@ -5483,13 +5915,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateObjectAttributes">REST API Reference for UpdateObjectAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateObjectAttributes">REST API Reference for UpdateObjectAttributes Operation</seealso>
         public virtual UpdateObjectAttributesResponse UpdateObjectAttributes(UpdateObjectAttributesRequest request)
         {
-            var marshaller = UpdateObjectAttributesRequestMarshaller.Instance;
-            var unmarshaller = UpdateObjectAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateObjectAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateObjectAttributesResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateObjectAttributesRequest,UpdateObjectAttributesResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateObjectAttributesResponse>(request, options);
         }
 
         /// <summary>
@@ -5503,14 +5936,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateObjectAttributes
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateObjectAttributes">REST API Reference for UpdateObjectAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateObjectAttributes">REST API Reference for UpdateObjectAttributes Operation</seealso>
         public virtual IAsyncResult BeginUpdateObjectAttributes(UpdateObjectAttributesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateObjectAttributesRequestMarshaller.Instance;
-            var unmarshaller = UpdateObjectAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateObjectAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateObjectAttributesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateObjectAttributesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5520,7 +5953,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateObjectAttributes.</param>
         /// 
         /// <returns>Returns a  UpdateObjectAttributesResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateObjectAttributes">REST API Reference for UpdateObjectAttributes Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateObjectAttributes">REST API Reference for UpdateObjectAttributes Operation</seealso>
         public virtual UpdateObjectAttributesResponse EndUpdateObjectAttributes(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateObjectAttributesResponse>(asyncResult);
@@ -5549,7 +5982,7 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -5566,13 +5999,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateSchema">REST API Reference for UpdateSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateSchema">REST API Reference for UpdateSchema Operation</seealso>
         public virtual UpdateSchemaResponse UpdateSchema(UpdateSchemaRequest request)
         {
-            var marshaller = UpdateSchemaRequestMarshaller.Instance;
-            var unmarshaller = UpdateSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSchemaResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSchemaRequest,UpdateSchemaResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSchemaResponse>(request, options);
         }
 
         /// <summary>
@@ -5586,14 +6020,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateSchema
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateSchema">REST API Reference for UpdateSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateSchema">REST API Reference for UpdateSchema Operation</seealso>
         public virtual IAsyncResult BeginUpdateSchema(UpdateSchemaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSchemaRequestMarshaller.Instance;
-            var unmarshaller = UpdateSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSchemaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSchemaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5603,7 +6037,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateSchema.</param>
         /// 
         /// <returns>Returns a  UpdateSchemaResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateSchema">REST API Reference for UpdateSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateSchema">REST API Reference for UpdateSchema Operation</seealso>
         public virtual UpdateSchemaResponse EndUpdateSchema(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateSchemaResponse>(asyncResult);
@@ -5614,8 +6048,8 @@ namespace Amazon.CloudDirectory
         #region  UpdateTypedLinkFacet
 
         /// <summary>
-        /// Updates a <a>TypedLinkFacet</a>. For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// Updates a <a>TypedLinkFacet</a>. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateTypedLinkFacet service method.</param>
         /// 
@@ -5646,7 +6080,7 @@ namespace Amazon.CloudDirectory
         /// Occurs when any of the rule parameter keys or values are invalid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -5663,13 +6097,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateTypedLinkFacet">REST API Reference for UpdateTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateTypedLinkFacet">REST API Reference for UpdateTypedLinkFacet Operation</seealso>
         public virtual UpdateTypedLinkFacetResponse UpdateTypedLinkFacet(UpdateTypedLinkFacetRequest request)
         {
-            var marshaller = UpdateTypedLinkFacetRequestMarshaller.Instance;
-            var unmarshaller = UpdateTypedLinkFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTypedLinkFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTypedLinkFacetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateTypedLinkFacetRequest,UpdateTypedLinkFacetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateTypedLinkFacetResponse>(request, options);
         }
 
         /// <summary>
@@ -5683,14 +6118,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateTypedLinkFacet
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateTypedLinkFacet">REST API Reference for UpdateTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateTypedLinkFacet">REST API Reference for UpdateTypedLinkFacet Operation</seealso>
         public virtual IAsyncResult BeginUpdateTypedLinkFacet(UpdateTypedLinkFacetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateTypedLinkFacetRequestMarshaller.Instance;
-            var unmarshaller = UpdateTypedLinkFacetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTypedLinkFacetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTypedLinkFacetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateTypedLinkFacetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5700,7 +6135,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateTypedLinkFacet.</param>
         /// 
         /// <returns>Returns a  UpdateTypedLinkFacetResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateTypedLinkFacet">REST API Reference for UpdateTypedLinkFacet Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpdateTypedLinkFacet">REST API Reference for UpdateTypedLinkFacet Operation</seealso>
         public virtual UpdateTypedLinkFacetResponse EndUpdateTypedLinkFacet(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateTypedLinkFacetResponse>(asyncResult);
@@ -5738,9 +6173,9 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidAttachmentException">
-        /// Indicates that an attempt to attach an object with the same link name or to apply
-        /// a schema with the same name has occurred. Rename the link or the schema and then try
-        /// again.
+        /// Indicates that an attempt to make an attachment was invalid. For example, attaching
+        /// two nodes with a link type that is not applicable to the nodes or attempting to apply
+        /// a schema to a directory a second time.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
         /// The specified resource could not be found.
@@ -5753,16 +6188,21 @@ namespace Amazon.CloudDirectory
         /// request. A retry (with appropriate backoff logic) is the recommended response to this
         /// exception.
         /// </exception>
+        /// <exception cref="Amazon.CloudDirectory.Model.SchemaAlreadyExistsException">
+        /// Indicates that a schema could not be created due to a naming conflict. Please select
+        /// a different name and then try again.
+        /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradeAppliedSchema">REST API Reference for UpgradeAppliedSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpgradeAppliedSchema">REST API Reference for UpgradeAppliedSchema Operation</seealso>
         public virtual UpgradeAppliedSchemaResponse UpgradeAppliedSchema(UpgradeAppliedSchemaRequest request)
         {
-            var marshaller = UpgradeAppliedSchemaRequestMarshaller.Instance;
-            var unmarshaller = UpgradeAppliedSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpgradeAppliedSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpgradeAppliedSchemaResponseUnmarshaller.Instance;
 
-            return Invoke<UpgradeAppliedSchemaRequest,UpgradeAppliedSchemaResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpgradeAppliedSchemaResponse>(request, options);
         }
 
         /// <summary>
@@ -5776,14 +6216,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpgradeAppliedSchema
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradeAppliedSchema">REST API Reference for UpgradeAppliedSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpgradeAppliedSchema">REST API Reference for UpgradeAppliedSchema Operation</seealso>
         public virtual IAsyncResult BeginUpgradeAppliedSchema(UpgradeAppliedSchemaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpgradeAppliedSchemaRequestMarshaller.Instance;
-            var unmarshaller = UpgradeAppliedSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpgradeAppliedSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpgradeAppliedSchemaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpgradeAppliedSchemaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5793,7 +6233,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpgradeAppliedSchema.</param>
         /// 
         /// <returns>Returns a  UpgradeAppliedSchemaResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradeAppliedSchema">REST API Reference for UpgradeAppliedSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpgradeAppliedSchema">REST API Reference for UpgradeAppliedSchema Operation</seealso>
         public virtual UpgradeAppliedSchemaResponse EndUpgradeAppliedSchema(IAsyncResult asyncResult)
         {
             return EndInvoke<UpgradeAppliedSchemaResponse>(asyncResult);
@@ -5827,12 +6267,12 @@ namespace Amazon.CloudDirectory
         /// Indicates that the provided ARN value is not valid.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.InvalidAttachmentException">
-        /// Indicates that an attempt to attach an object with the same link name or to apply
-        /// a schema with the same name has occurred. Rename the link or the schema and then try
-        /// again.
+        /// Indicates that an attempt to make an attachment was invalid. For example, attaching
+        /// two nodes with a link type that is not applicable to the nodes or attempting to apply
+        /// a schema to a directory a second time.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.LimitExceededException">
-        /// Indicates that limits are exceeded. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html">Limits</a>
+        /// Indicates that limits are exceeded. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Limits</a>
         /// for more information.
         /// </exception>
         /// <exception cref="Amazon.CloudDirectory.Model.ResourceNotFoundException">
@@ -5849,13 +6289,14 @@ namespace Amazon.CloudDirectory
         /// <exception cref="Amazon.CloudDirectory.Model.ValidationException">
         /// Indicates that your request is malformed in some manner. See the exception message.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradePublishedSchema">REST API Reference for UpgradePublishedSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpgradePublishedSchema">REST API Reference for UpgradePublishedSchema Operation</seealso>
         public virtual UpgradePublishedSchemaResponse UpgradePublishedSchema(UpgradePublishedSchemaRequest request)
         {
-            var marshaller = UpgradePublishedSchemaRequestMarshaller.Instance;
-            var unmarshaller = UpgradePublishedSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpgradePublishedSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpgradePublishedSchemaResponseUnmarshaller.Instance;
 
-            return Invoke<UpgradePublishedSchemaRequest,UpgradePublishedSchemaResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpgradePublishedSchemaResponse>(request, options);
         }
 
         /// <summary>
@@ -5869,14 +6310,14 @@ namespace Amazon.CloudDirectory
         /// 
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpgradePublishedSchema
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradePublishedSchema">REST API Reference for UpgradePublishedSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpgradePublishedSchema">REST API Reference for UpgradePublishedSchema Operation</seealso>
         public virtual IAsyncResult BeginUpgradePublishedSchema(UpgradePublishedSchemaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpgradePublishedSchemaRequestMarshaller.Instance;
-            var unmarshaller = UpgradePublishedSchemaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpgradePublishedSchemaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpgradePublishedSchemaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpgradePublishedSchemaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5886,7 +6327,7 @@ namespace Amazon.CloudDirectory
         /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpgradePublishedSchema.</param>
         /// 
         /// <returns>Returns a  UpgradePublishedSchemaResult from CloudDirectory.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradePublishedSchema">REST API Reference for UpgradePublishedSchema Operation</seealso>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2017-01-11/UpgradePublishedSchema">REST API Reference for UpgradePublishedSchema Operation</seealso>
         public virtual UpgradePublishedSchemaResponse EndUpgradePublishedSchema(IAsyncResult asyncResult)
         {
             return EndInvoke<UpgradePublishedSchemaResponse>(asyncResult);

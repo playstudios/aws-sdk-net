@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Net;
@@ -25,7 +25,7 @@ namespace Amazon.CloudDirectory.Model
     ///<summary>
     /// CloudDirectory exception
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
     public class IndexedAttributeMissingException : AmazonCloudDirectoryException 
@@ -79,7 +79,7 @@ namespace Amazon.CloudDirectory.Model
             : base(message, errorType, errorCode, requestId, statusCode) {}
 
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the IndexedAttributeMissingException class with serialized data.
         /// </summary>

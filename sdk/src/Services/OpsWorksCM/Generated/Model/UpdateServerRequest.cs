@@ -84,6 +84,7 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property PreferredBackupWindow.
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string PreferredBackupWindow
         {
             get { return this._preferredBackupWindow; }
@@ -99,6 +100,7 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property PreferredMaintenanceWindow.
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string PreferredMaintenanceWindow
         {
             get { return this._preferredMaintenanceWindow; }
@@ -117,6 +119,7 @@ namespace Amazon.OpsWorksCM.Model
         /// The name of the server to update. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=40)]
         public string ServerName
         {
             get { return this._serverName; }

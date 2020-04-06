@@ -47,7 +47,7 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property CreationTimeAfter. 
         /// <para>
-        /// A filter that only training jobs created after the specified time (timestamp).
+        /// A filter that returns only training jobs created after the specified time (timestamp).
         /// </para>
         /// </summary>
         public DateTime CreationTimeAfter
@@ -122,6 +122,7 @@ namespace Amazon.SageMaker.Model
         /// The maximum number of training jobs to return in the response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -137,10 +138,11 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property NameContains. 
         /// <para>
-        /// A string in the training job name. This filter returns only models whose name contains
-        /// the specified string.
+        /// A string in the training job name. This filter returns only training jobs whose name
+        /// contains the specified string.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NameContains
         {
             get { return this._nameContains; }
@@ -161,6 +163,7 @@ namespace Amazon.SageMaker.Model
         /// jobs, use the token in the next request. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8192)]
         public string NextToken
         {
             get { return this._nextToken; }

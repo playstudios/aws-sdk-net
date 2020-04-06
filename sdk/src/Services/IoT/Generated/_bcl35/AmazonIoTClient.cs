@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.IoT.Model;
 using Amazon.IoT.Model.Internal.MarshallTransformations;
+using Amazon.IoT.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -35,21 +37,38 @@ namespace Amazon.IoT
     ///
     /// AWS IoT 
     /// <para>
-    /// AWS IoT provides secure, bi-directional communication between Internet-connected things
+    /// AWS IoT provides secure, bi-directional communication between Internet-connected devices
     /// (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud.
     /// You can discover your custom IoT-Data endpoint to communicate with, configure rules
     /// for data processing and integration with other services, organize resources associated
-    /// with each thing (Thing Registry), configure logging, and create and manage policies
-    /// and credentials to authenticate things.
+    /// with each device (Registry), configure logging, and create and manage policies and
+    /// credentials to authenticate devices.
     /// </para>
     ///  
     /// <para>
-    /// For more information about how AWS IoT works, see the <a href="http://docs.aws.amazon.com/iot/latest/developerguide/aws-iot-how-it-works.html">Developer
+    /// The service endpoints that expose this API are listed in <a href="https://docs.aws.amazon.com/general/latest/gr/iot-core.html">AWS
+    /// IoT Core Endpoints and Quotas</a>. You must use the endpoint for the region that has
+    /// the resources you want to access.
+    /// </para>
+    ///  
+    /// <para>
+    /// The service name used by <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">AWS
+    /// Signature Version 4</a> to sign the request is: <i>execute-api</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information about how AWS IoT works, see the <a href="https://docs.aws.amazon.com/iot/latest/developerguide/aws-iot-how-it-works.html">Developer
     /// Guide</a>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For information about how to use the credentials provider for AWS IoT, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/authorizing-direct-aws.html">Authorizing
+    /// Direct Calls to AWS Services</a>.
     /// </para>
     /// </summary>
     public partial class AmazonIoTClient : AmazonServiceClient, IAmazonIoT
     {
+        private static IServiceMetadata serviceMetadata = new AmazonIoTMetadata();
         #region Constructors
 
         /// <summary>
@@ -220,6 +239,16 @@ namespace Amazon.IoT
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -235,7 +264,7 @@ namespace Amazon.IoT
 
         #endregion
 
-        
+
         #region  AcceptCertificateTransfer
 
         /// <summary>
@@ -274,10 +303,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AcceptCertificateTransfer">REST API Reference for AcceptCertificateTransfer Operation</seealso>
         public virtual AcceptCertificateTransferResponse AcceptCertificateTransfer(AcceptCertificateTransferRequest request)
         {
-            var marshaller = AcceptCertificateTransferRequestMarshaller.Instance;
-            var unmarshaller = AcceptCertificateTransferResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptCertificateTransferRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptCertificateTransferResponseUnmarshaller.Instance;
 
-            return Invoke<AcceptCertificateTransferRequest,AcceptCertificateTransferResponse>(request, marshaller, unmarshaller);
+            return Invoke<AcceptCertificateTransferResponse>(request, options);
         }
 
         /// <summary>
@@ -294,11 +324,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AcceptCertificateTransfer">REST API Reference for AcceptCertificateTransfer Operation</seealso>
         public virtual IAsyncResult BeginAcceptCertificateTransfer(AcceptCertificateTransferRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AcceptCertificateTransferRequestMarshaller.Instance;
-            var unmarshaller = AcceptCertificateTransferResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptCertificateTransferRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptCertificateTransferResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AcceptCertificateTransferRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -312,6 +342,72 @@ namespace Amazon.IoT
         public virtual AcceptCertificateTransferResponse EndAcceptCertificateTransfer(IAsyncResult asyncResult)
         {
             return EndInvoke<AcceptCertificateTransferResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  AddThingToBillingGroup
+
+        /// <summary>
+        /// Adds a thing to a billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AddThingToBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the AddThingToBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToBillingGroup">REST API Reference for AddThingToBillingGroup Operation</seealso>
+        public virtual AddThingToBillingGroupResponse AddThingToBillingGroup(AddThingToBillingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddThingToBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddThingToBillingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<AddThingToBillingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AddThingToBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AddThingToBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAddThingToBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToBillingGroup">REST API Reference for AddThingToBillingGroup Operation</seealso>
+        public virtual IAsyncResult BeginAddThingToBillingGroup(AddThingToBillingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddThingToBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddThingToBillingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AddThingToBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAddThingToBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  AddThingToBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToBillingGroup">REST API Reference for AddThingToBillingGroup Operation</seealso>
+        public virtual AddThingToBillingGroupResponse EndAddThingToBillingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<AddThingToBillingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -339,10 +435,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToThingGroup">REST API Reference for AddThingToThingGroup Operation</seealso>
         public virtual AddThingToThingGroupResponse AddThingToThingGroup(AddThingToThingGroupRequest request)
         {
-            var marshaller = AddThingToThingGroupRequestMarshaller.Instance;
-            var unmarshaller = AddThingToThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddThingToThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddThingToThingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<AddThingToThingGroupRequest,AddThingToThingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddThingToThingGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -359,11 +456,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToThingGroup">REST API Reference for AddThingToThingGroup Operation</seealso>
         public virtual IAsyncResult BeginAddThingToThingGroup(AddThingToThingGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddThingToThingGroupRequestMarshaller.Instance;
-            var unmarshaller = AddThingToThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddThingToThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddThingToThingGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddThingToThingGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -408,7 +505,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -422,10 +519,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AssociateTargetsWithJob">REST API Reference for AssociateTargetsWithJob Operation</seealso>
         public virtual AssociateTargetsWithJobResponse AssociateTargetsWithJob(AssociateTargetsWithJobRequest request)
         {
-            var marshaller = AssociateTargetsWithJobRequestMarshaller.Instance;
-            var unmarshaller = AssociateTargetsWithJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateTargetsWithJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateTargetsWithJobResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateTargetsWithJobRequest,AssociateTargetsWithJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateTargetsWithJobResponse>(request, options);
         }
 
         /// <summary>
@@ -442,11 +540,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AssociateTargetsWithJob">REST API Reference for AssociateTargetsWithJob Operation</seealso>
         public virtual IAsyncResult BeginAssociateTargetsWithJob(AssociateTargetsWithJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateTargetsWithJobRequestMarshaller.Instance;
-            var unmarshaller = AssociateTargetsWithJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateTargetsWithJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateTargetsWithJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateTargetsWithJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -479,7 +577,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -496,10 +594,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
         public virtual AttachPolicyResponse AttachPolicy(AttachPolicyRequest request)
         {
-            var marshaller = AttachPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<AttachPolicyRequest,AttachPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -516,11 +615,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
         public virtual IAsyncResult BeginAttachPolicy(AttachPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -559,7 +658,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -602,7 +701,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -620,10 +719,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of AttachPolicy.")]
         public virtual AttachPrincipalPolicyResponse AttachPrincipalPolicy(AttachPrincipalPolicyRequest request)
         {
-            var marshaller = AttachPrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachPrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachPrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachPrincipalPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<AttachPrincipalPolicyRequest,AttachPrincipalPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachPrincipalPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -641,11 +741,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of AttachPolicy.")]
         public virtual IAsyncResult BeginAttachPrincipalPolicy(AttachPrincipalPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachPrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachPrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachPrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachPrincipalPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachPrincipalPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -664,13 +764,90 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  AttachSecurityProfile
+
+        /// <summary>
+        /// Associates a Device Defender security profile with a thing group or this account.
+        /// Each thing group or account can have up to five security profiles associated with
+        /// it.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AttachSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the AttachSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachSecurityProfile">REST API Reference for AttachSecurityProfile Operation</seealso>
+        public virtual AttachSecurityProfileResponse AttachSecurityProfile(AttachSecurityProfileRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachSecurityProfileResponseUnmarshaller.Instance;
+
+            return Invoke<AttachSecurityProfileResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AttachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AttachSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAttachSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachSecurityProfile">REST API Reference for AttachSecurityProfile Operation</seealso>
+        public virtual IAsyncResult BeginAttachSecurityProfile(AttachSecurityProfileRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachSecurityProfileResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AttachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAttachSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  AttachSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachSecurityProfile">REST API Reference for AttachSecurityProfile Operation</seealso>
+        public virtual AttachSecurityProfileResponse EndAttachSecurityProfile(IAsyncResult asyncResult)
+        {
+            return EndInvoke<AttachSecurityProfileResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  AttachThingPrincipal
 
         /// <summary>
-        /// Attaches the specified principal to the specified thing.
+        /// Attaches the specified principal to the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="thingName">The name of the thing.</param>
-        /// <param name="principal">The principal, such as a certificate or other credential.</param>
+        /// <param name="principal">The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.</param>
         /// 
         /// <returns>The response from the AttachThingPrincipal service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -702,7 +879,9 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Attaches the specified principal to the specified thing.
+        /// Attaches the specified principal to the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachThingPrincipal service method.</param>
         /// 
@@ -728,10 +907,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachThingPrincipal">REST API Reference for AttachThingPrincipal Operation</seealso>
         public virtual AttachThingPrincipalResponse AttachThingPrincipal(AttachThingPrincipalRequest request)
         {
-            var marshaller = AttachThingPrincipalRequestMarshaller.Instance;
-            var unmarshaller = AttachThingPrincipalResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachThingPrincipalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachThingPrincipalResponseUnmarshaller.Instance;
 
-            return Invoke<AttachThingPrincipalRequest,AttachThingPrincipalResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachThingPrincipalResponse>(request, options);
         }
 
         /// <summary>
@@ -748,11 +928,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachThingPrincipal">REST API Reference for AttachThingPrincipal Operation</seealso>
         public virtual IAsyncResult BeginAttachThingPrincipal(AttachThingPrincipalRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachThingPrincipalRequestMarshaller.Instance;
-            var unmarshaller = AttachThingPrincipalResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachThingPrincipalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachThingPrincipalResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachThingPrincipalRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -766,6 +946,140 @@ namespace Amazon.IoT
         public virtual AttachThingPrincipalResponse EndAttachThingPrincipal(IAsyncResult asyncResult)
         {
             return EndInvoke<AttachThingPrincipalResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CancelAuditMitigationActionsTask
+
+        /// <summary>
+        /// Cancels a mitigation action task that is in progress. If the task is not in progress,
+        /// an InvalidRequestException occurs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditMitigationActionsTask service method.</param>
+        /// 
+        /// <returns>The response from the CancelAuditMitigationActionsTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditMitigationActionsTask">REST API Reference for CancelAuditMitigationActionsTask Operation</seealso>
+        public virtual CancelAuditMitigationActionsTaskResponse CancelAuditMitigationActionsTask(CancelAuditMitigationActionsTaskRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelAuditMitigationActionsTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelAuditMitigationActionsTaskResponseUnmarshaller.Instance;
+
+            return Invoke<CancelAuditMitigationActionsTaskResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditMitigationActionsTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelAuditMitigationActionsTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditMitigationActionsTask">REST API Reference for CancelAuditMitigationActionsTask Operation</seealso>
+        public virtual IAsyncResult BeginCancelAuditMitigationActionsTask(CancelAuditMitigationActionsTaskRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelAuditMitigationActionsTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelAuditMitigationActionsTaskResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelAuditMitigationActionsTask.</param>
+        /// 
+        /// <returns>Returns a  CancelAuditMitigationActionsTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditMitigationActionsTask">REST API Reference for CancelAuditMitigationActionsTask Operation</seealso>
+        public virtual CancelAuditMitigationActionsTaskResponse EndCancelAuditMitigationActionsTask(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CancelAuditMitigationActionsTaskResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CancelAuditTask
+
+        /// <summary>
+        /// Cancels an audit that is in progress. The audit can be either scheduled or on-demand.
+        /// If the audit is not in progress, an "InvalidRequestException" occurs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditTask service method.</param>
+        /// 
+        /// <returns>The response from the CancelAuditTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditTask">REST API Reference for CancelAuditTask Operation</seealso>
+        public virtual CancelAuditTaskResponse CancelAuditTask(CancelAuditTaskRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelAuditTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelAuditTaskResponseUnmarshaller.Instance;
+
+            return Invoke<CancelAuditTaskResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelAuditTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditTask">REST API Reference for CancelAuditTask Operation</seealso>
+        public virtual IAsyncResult BeginCancelAuditTask(CancelAuditTaskRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelAuditTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelAuditTaskResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelAuditTask.</param>
+        /// 
+        /// <returns>Returns a  CancelAuditTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditTask">REST API Reference for CancelAuditTask Operation</seealso>
+        public virtual CancelAuditTaskResponse EndCancelAuditTask(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CancelAuditTaskResponse>(asyncResult);
         }
 
         #endregion
@@ -788,7 +1102,7 @@ namespace Amazon.IoT
         /// PENDING_TRANSFER to INACTIVE.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the CancelCertificateTransfer service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -864,10 +1178,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelCertificateTransfer">REST API Reference for CancelCertificateTransfer Operation</seealso>
         public virtual CancelCertificateTransferResponse CancelCertificateTransfer(CancelCertificateTransferRequest request)
         {
-            var marshaller = CancelCertificateTransferRequestMarshaller.Instance;
-            var unmarshaller = CancelCertificateTransferResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelCertificateTransferRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelCertificateTransferResponseUnmarshaller.Instance;
 
-            return Invoke<CancelCertificateTransferRequest,CancelCertificateTransferResponse>(request, marshaller, unmarshaller);
+            return Invoke<CancelCertificateTransferResponse>(request, options);
         }
 
         /// <summary>
@@ -884,11 +1199,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelCertificateTransfer">REST API Reference for CancelCertificateTransfer Operation</seealso>
         public virtual IAsyncResult BeginCancelCertificateTransfer(CancelCertificateTransferRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CancelCertificateTransferRequestMarshaller.Instance;
-            var unmarshaller = CancelCertificateTransferResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelCertificateTransferRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelCertificateTransferResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CancelCertificateTransferRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -929,10 +1244,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJob">REST API Reference for CancelJob Operation</seealso>
         public virtual CancelJobResponse CancelJob(CancelJobRequest request)
         {
-            var marshaller = CancelJobRequestMarshaller.Instance;
-            var unmarshaller = CancelJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelJobResponseUnmarshaller.Instance;
 
-            return Invoke<CancelJobRequest,CancelJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<CancelJobResponse>(request, options);
         }
 
         /// <summary>
@@ -949,11 +1265,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJob">REST API Reference for CancelJob Operation</seealso>
         public virtual IAsyncResult BeginCancelJob(CancelJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CancelJobRequestMarshaller.Instance;
-            var unmarshaller = CancelJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CancelJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -967,6 +1283,80 @@ namespace Amazon.IoT
         public virtual CancelJobResponse EndCancelJob(IAsyncResult asyncResult)
         {
             return EndInvoke<CancelJobResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CancelJobExecution
+
+        /// <summary>
+        /// Cancels the execution of a job for a given thing.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelJobExecution service method.</param>
+        /// 
+        /// <returns>The response from the CancelJobExecution service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidStateTransitionException">
+        /// An attempt was made to change to an invalid state, for example by deleting a job or
+        /// a job execution which is "IN_PROGRESS" without setting the <code>force</code> parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJobExecution">REST API Reference for CancelJobExecution Operation</seealso>
+        public virtual CancelJobExecutionResponse CancelJobExecution(CancelJobExecutionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelJobExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelJobExecutionResponseUnmarshaller.Instance;
+
+            return Invoke<CancelJobExecutionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelJobExecution operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelJobExecution
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJobExecution">REST API Reference for CancelJobExecution Operation</seealso>
+        public virtual IAsyncResult BeginCancelJobExecution(CancelJobExecutionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelJobExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelJobExecutionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelJobExecution.</param>
+        /// 
+        /// <returns>Returns a  CancelJobExecutionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJobExecution">REST API Reference for CancelJobExecution Operation</seealso>
+        public virtual CancelJobExecutionResponse EndCancelJobExecution(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CancelJobExecutionResponse>(asyncResult);
         }
 
         #endregion
@@ -1000,10 +1390,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ClearDefaultAuthorizer">REST API Reference for ClearDefaultAuthorizer Operation</seealso>
         public virtual ClearDefaultAuthorizerResponse ClearDefaultAuthorizer(ClearDefaultAuthorizerRequest request)
         {
-            var marshaller = ClearDefaultAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = ClearDefaultAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ClearDefaultAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ClearDefaultAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<ClearDefaultAuthorizerRequest,ClearDefaultAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<ClearDefaultAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -1020,11 +1411,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ClearDefaultAuthorizer">REST API Reference for ClearDefaultAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginClearDefaultAuthorizer(ClearDefaultAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ClearDefaultAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = ClearDefaultAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ClearDefaultAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ClearDefaultAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ClearDefaultAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1038,6 +1429,79 @@ namespace Amazon.IoT
         public virtual ClearDefaultAuthorizerResponse EndClearDefaultAuthorizer(IAsyncResult asyncResult)
         {
             return EndInvoke<ClearDefaultAuthorizerResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ConfirmTopicRuleDestination
+
+        /// <summary>
+        /// Confirms a topic rule destination. When you create a rule requiring a destination,
+        /// AWS IoT sends a confirmation message to the endpoint or base address you specify.
+        /// The message includes a token which you pass back when calling <code>ConfirmTopicRuleDestination</code>
+        /// to confirm that you own or have access to the endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ConfirmTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the ConfirmTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ConfirmTopicRuleDestination">REST API Reference for ConfirmTopicRuleDestination Operation</seealso>
+        public virtual ConfirmTopicRuleDestinationResponse ConfirmTopicRuleDestination(ConfirmTopicRuleDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<ConfirmTopicRuleDestinationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ConfirmTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ConfirmTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndConfirmTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ConfirmTopicRuleDestination">REST API Reference for ConfirmTopicRuleDestination Operation</seealso>
+        public virtual IAsyncResult BeginConfirmTopicRuleDestination(ConfirmTopicRuleDestinationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ConfirmTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginConfirmTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  ConfirmTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ConfirmTopicRuleDestination">REST API Reference for ConfirmTopicRuleDestination Operation</seealso>
+        public virtual ConfirmTopicRuleDestinationResponse EndConfirmTopicRuleDestination(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ConfirmTopicRuleDestinationResponse>(asyncResult);
         }
 
         #endregion
@@ -1057,7 +1521,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -1074,10 +1538,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateAuthorizer">REST API Reference for CreateAuthorizer Operation</seealso>
         public virtual CreateAuthorizerResponse CreateAuthorizer(CreateAuthorizerRequest request)
         {
-            var marshaller = CreateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAuthorizerRequest,CreateAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -1094,11 +1559,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateAuthorizer">REST API Reference for CreateAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginCreateAuthorizer(CreateAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1112,6 +1577,72 @@ namespace Amazon.IoT
         public virtual CreateAuthorizerResponse EndCreateAuthorizer(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateAuthorizerResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateBillingGroup
+
+        /// <summary>
+        /// Creates a billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the CreateBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateBillingGroup">REST API Reference for CreateBillingGroup Operation</seealso>
+        public virtual CreateBillingGroupResponse CreateBillingGroup(CreateBillingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBillingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<CreateBillingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateBillingGroup">REST API Reference for CreateBillingGroup Operation</seealso>
+        public virtual IAsyncResult BeginCreateBillingGroup(CreateBillingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBillingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  CreateBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateBillingGroup">REST API Reference for CreateBillingGroup Operation</seealso>
+        public virtual CreateBillingGroupResponse EndCreateBillingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateBillingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -1405,10 +1936,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateCertificateFromCsr">REST API Reference for CreateCertificateFromCsr Operation</seealso>
         public virtual CreateCertificateFromCsrResponse CreateCertificateFromCsr(CreateCertificateFromCsrRequest request)
         {
-            var marshaller = CreateCertificateFromCsrRequestMarshaller.Instance;
-            var unmarshaller = CreateCertificateFromCsrResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCertificateFromCsrRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCertificateFromCsrResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCertificateFromCsrRequest,CreateCertificateFromCsrResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCertificateFromCsrResponse>(request, options);
         }
 
         /// <summary>
@@ -1425,11 +1957,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateCertificateFromCsr">REST API Reference for CreateCertificateFromCsr Operation</seealso>
         public virtual IAsyncResult BeginCreateCertificateFromCsr(CreateCertificateFromCsrRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateCertificateFromCsrRequestMarshaller.Instance;
-            var unmarshaller = CreateCertificateFromCsrResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCertificateFromCsrRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCertificateFromCsrResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateCertificateFromCsrRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1447,6 +1979,237 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CreateDimension
+
+        /// <summary>
+        /// Create a dimension that you can use to limit the scope of a metric used in a security
+        /// profile for AWS IoT Device Defender. For example, using a <code>TOPIC_FILTER</code>
+        /// dimension, you can narrow down the scope of the metric only to MQTT topics whose name
+        /// match the pattern specified in the dimension.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDimension service method.</param>
+        /// 
+        /// <returns>The response from the CreateDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDimension">REST API Reference for CreateDimension Operation</seealso>
+        public virtual CreateDimensionResponse CreateDimension(CreateDimensionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDimensionResponseUnmarshaller.Instance;
+
+            return Invoke<CreateDimensionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDimension">REST API Reference for CreateDimension Operation</seealso>
+        public virtual IAsyncResult BeginCreateDimension(CreateDimensionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDimensionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDimension.</param>
+        /// 
+        /// <returns>Returns a  CreateDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDimension">REST API Reference for CreateDimension Operation</seealso>
+        public virtual CreateDimensionResponse EndCreateDimension(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateDimensionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateDomainConfiguration
+
+        /// <summary>
+        /// Creates a domain configuration.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the CreateDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.CertificateValidationException">
+        /// The certificate is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDomainConfiguration">REST API Reference for CreateDomainConfiguration Operation</seealso>
+        public virtual CreateDomainConfigurationResponse CreateDomainConfiguration(CreateDomainConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<CreateDomainConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDomainConfiguration">REST API Reference for CreateDomainConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginCreateDomainConfiguration(CreateDomainConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  CreateDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDomainConfiguration">REST API Reference for CreateDomainConfiguration Operation</seealso>
+        public virtual CreateDomainConfigurationResponse EndCreateDomainConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateDomainConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateDynamicThingGroup
+
+        /// <summary>
+        /// Creates a dynamic thing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDynamicThingGroup service method.</param>
+        /// 
+        /// <returns>The response from the CreateDynamicThingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDynamicThingGroup">REST API Reference for CreateDynamicThingGroup Operation</seealso>
+        public virtual CreateDynamicThingGroupResponse CreateDynamicThingGroup(CreateDynamicThingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDynamicThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDynamicThingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<CreateDynamicThingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateDynamicThingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDynamicThingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDynamicThingGroup">REST API Reference for CreateDynamicThingGroup Operation</seealso>
+        public virtual IAsyncResult BeginCreateDynamicThingGroup(CreateDynamicThingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDynamicThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDynamicThingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDynamicThingGroup.</param>
+        /// 
+        /// <returns>Returns a  CreateDynamicThingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDynamicThingGroup">REST API Reference for CreateDynamicThingGroup Operation</seealso>
+        public virtual CreateDynamicThingGroupResponse EndCreateDynamicThingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateDynamicThingGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateJob
 
         /// <summary>
@@ -1459,7 +2222,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -1476,10 +2239,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateJob">REST API Reference for CreateJob Operation</seealso>
         public virtual CreateJobResponse CreateJob(CreateJobRequest request)
         {
-            var marshaller = CreateJobRequestMarshaller.Instance;
-            var unmarshaller = CreateJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateJobResponseUnmarshaller.Instance;
 
-            return Invoke<CreateJobRequest,CreateJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateJobResponse>(request, options);
         }
 
         /// <summary>
@@ -1496,11 +2260,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateJob">REST API Reference for CreateJob Operation</seealso>
         public virtual IAsyncResult BeginCreateJob(CreateJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateJobRequestMarshaller.Instance;
-            var unmarshaller = CreateJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1522,7 +2286,9 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
-        /// key.
+        /// key. You can also call <code>CreateKeysAndCertificate</code> over MQTT from a device,
+        /// for more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api">Provisioning
+        /// MQTT API</a>.
         /// 
         ///  
         /// <para>
@@ -1557,7 +2323,9 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
-        /// key.
+        /// key. You can also call <code>CreateKeysAndCertificate</code> over MQTT from a device,
+        /// for more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api">Provisioning
+        /// MQTT API</a>.
         /// 
         ///  
         /// <para>
@@ -1594,7 +2362,9 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
-        /// key.
+        /// key. You can also call <code>CreateKeysAndCertificate</code> over MQTT from a device,
+        /// for more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api">Provisioning
+        /// MQTT API</a>.
         /// 
         ///  
         /// <para>
@@ -1623,10 +2393,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateKeysAndCertificate">REST API Reference for CreateKeysAndCertificate Operation</seealso>
         public virtual CreateKeysAndCertificateResponse CreateKeysAndCertificate(CreateKeysAndCertificateRequest request)
         {
-            var marshaller = CreateKeysAndCertificateRequestMarshaller.Instance;
-            var unmarshaller = CreateKeysAndCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateKeysAndCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateKeysAndCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<CreateKeysAndCertificateRequest,CreateKeysAndCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateKeysAndCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -1643,11 +2414,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateKeysAndCertificate">REST API Reference for CreateKeysAndCertificate Operation</seealso>
         public virtual IAsyncResult BeginCreateKeysAndCertificate(CreateKeysAndCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateKeysAndCertificateRequestMarshaller.Instance;
-            var unmarshaller = CreateKeysAndCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateKeysAndCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateKeysAndCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateKeysAndCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1665,6 +2436,76 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CreateMitigationAction
+
+        /// <summary>
+        /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask.
+        /// Each mitigation action can apply only one type of change.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the CreateMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateMitigationAction">REST API Reference for CreateMitigationAction Operation</seealso>
+        public virtual CreateMitigationActionResponse CreateMitigationAction(CreateMitigationActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMitigationActionResponseUnmarshaller.Instance;
+
+            return Invoke<CreateMitigationActionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateMitigationAction">REST API Reference for CreateMitigationAction Operation</seealso>
+        public virtual IAsyncResult BeginCreateMitigationAction(CreateMitigationActionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMitigationActionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  CreateMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateMitigationAction">REST API Reference for CreateMitigationAction Operation</seealso>
+        public virtual CreateMitigationActionResponse EndCreateMitigationAction(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateMitigationActionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateOTAUpdate
 
         /// <summary>
@@ -1678,6 +2519,9 @@ namespace Amazon.IoT
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
         /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -1697,10 +2541,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateOTAUpdate">REST API Reference for CreateOTAUpdate Operation</seealso>
         public virtual CreateOTAUpdateResponse CreateOTAUpdate(CreateOTAUpdateRequest request)
         {
-            var marshaller = CreateOTAUpdateRequestMarshaller.Instance;
-            var unmarshaller = CreateOTAUpdateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateOTAUpdateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateOTAUpdateResponseUnmarshaller.Instance;
 
-            return Invoke<CreateOTAUpdateRequest,CreateOTAUpdateResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateOTAUpdateResponse>(request, options);
         }
 
         /// <summary>
@@ -1717,11 +2562,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateOTAUpdate">REST API Reference for CreateOTAUpdate Operation</seealso>
         public virtual IAsyncResult BeginCreateOTAUpdate(CreateOTAUpdateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateOTAUpdateRequestMarshaller.Instance;
-            var unmarshaller = CreateOTAUpdateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateOTAUpdateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateOTAUpdateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateOTAUpdateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1823,10 +2668,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreatePolicy">REST API Reference for CreatePolicy Operation</seealso>
         public virtual CreatePolicyResponse CreatePolicy(CreatePolicyRequest request)
         {
-            var marshaller = CreatePolicyRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<CreatePolicyRequest,CreatePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreatePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1843,11 +2689,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreatePolicy">REST API Reference for CreatePolicy Operation</seealso>
         public virtual IAsyncResult BeginCreatePolicy(CreatePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreatePolicyRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreatePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2014,10 +2860,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreatePolicyVersion">REST API Reference for CreatePolicyVersion Operation</seealso>
         public virtual CreatePolicyVersionResponse CreatePolicyVersion(CreatePolicyVersionRequest request)
         {
-            var marshaller = CreatePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<CreatePolicyVersionRequest,CreatePolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreatePolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -2034,11 +2881,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreatePolicyVersion">REST API Reference for CreatePolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginCreatePolicyVersion(CreatePolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreatePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreatePolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2052,6 +2899,226 @@ namespace Amazon.IoT
         public virtual CreatePolicyVersionResponse EndCreatePolicyVersion(IAsyncResult asyncResult)
         {
             return EndInvoke<CreatePolicyVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateProvisioningClaim
+
+        /// <summary>
+        /// Creates a provisioning claim.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningClaim service method.</param>
+        /// 
+        /// <returns>The response from the CreateProvisioningClaim service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningClaim">REST API Reference for CreateProvisioningClaim Operation</seealso>
+        public virtual CreateProvisioningClaimResponse CreateProvisioningClaim(CreateProvisioningClaimRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProvisioningClaimRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProvisioningClaimResponseUnmarshaller.Instance;
+
+            return Invoke<CreateProvisioningClaimResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProvisioningClaim operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningClaim operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProvisioningClaim
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningClaim">REST API Reference for CreateProvisioningClaim Operation</seealso>
+        public virtual IAsyncResult BeginCreateProvisioningClaim(CreateProvisioningClaimRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProvisioningClaimRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProvisioningClaimResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProvisioningClaim operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProvisioningClaim.</param>
+        /// 
+        /// <returns>Returns a  CreateProvisioningClaimResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningClaim">REST API Reference for CreateProvisioningClaim Operation</seealso>
+        public virtual CreateProvisioningClaimResponse EndCreateProvisioningClaim(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateProvisioningClaimResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateProvisioningTemplate
+
+        /// <summary>
+        /// Creates a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the CreateProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplate">REST API Reference for CreateProvisioningTemplate Operation</seealso>
+        public virtual CreateProvisioningTemplateResponse CreateProvisioningTemplate(CreateProvisioningTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<CreateProvisioningTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplate">REST API Reference for CreateProvisioningTemplate Operation</seealso>
+        public virtual IAsyncResult BeginCreateProvisioningTemplate(CreateProvisioningTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  CreateProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplate">REST API Reference for CreateProvisioningTemplate Operation</seealso>
+        public virtual CreateProvisioningTemplateResponse EndCreateProvisioningTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateProvisioningTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateProvisioningTemplateVersion
+
+        /// <summary>
+        /// Creates a new version of a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplateVersion service method.</param>
+        /// 
+        /// <returns>The response from the CreateProvisioningTemplateVersion service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionsLimitExceededException">
+        /// The number of policy versions exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplateVersion">REST API Reference for CreateProvisioningTemplateVersion Operation</seealso>
+        public virtual CreateProvisioningTemplateVersionResponse CreateProvisioningTemplateVersion(CreateProvisioningTemplateVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProvisioningTemplateVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProvisioningTemplateVersionResponseUnmarshaller.Instance;
+
+            return Invoke<CreateProvisioningTemplateVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplateVersion operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProvisioningTemplateVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplateVersion">REST API Reference for CreateProvisioningTemplateVersion Operation</seealso>
+        public virtual IAsyncResult BeginCreateProvisioningTemplateVersion(CreateProvisioningTemplateVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProvisioningTemplateVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProvisioningTemplateVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProvisioningTemplateVersion.</param>
+        /// 
+        /// <returns>Returns a  CreateProvisioningTemplateVersionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplateVersion">REST API Reference for CreateProvisioningTemplateVersion Operation</seealso>
+        public virtual CreateProvisioningTemplateVersionResponse EndCreateProvisioningTemplateVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateProvisioningTemplateVersionResponse>(asyncResult);
         }
 
         #endregion
@@ -2071,7 +3138,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -2088,10 +3155,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateRoleAlias">REST API Reference for CreateRoleAlias Operation</seealso>
         public virtual CreateRoleAliasResponse CreateRoleAlias(CreateRoleAliasRequest request)
         {
-            var marshaller = CreateRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = CreateRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRoleAliasResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRoleAliasRequest,CreateRoleAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRoleAliasResponse>(request, options);
         }
 
         /// <summary>
@@ -2108,11 +3176,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateRoleAlias">REST API Reference for CreateRoleAlias Operation</seealso>
         public virtual IAsyncResult BeginCreateRoleAlias(CreateRoleAliasRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = CreateRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRoleAliasResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRoleAliasRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2130,16 +3198,147 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CreateScheduledAudit
+
+        /// <summary>
+        /// Creates a scheduled audit that is run at a specified time interval.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the CreateScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateScheduledAudit">REST API Reference for CreateScheduledAudit Operation</seealso>
+        public virtual CreateScheduledAuditResponse CreateScheduledAudit(CreateScheduledAuditRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateScheduledAuditResponseUnmarshaller.Instance;
+
+            return Invoke<CreateScheduledAuditResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateScheduledAudit">REST API Reference for CreateScheduledAudit Operation</seealso>
+        public virtual IAsyncResult BeginCreateScheduledAudit(CreateScheduledAuditRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateScheduledAuditResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  CreateScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateScheduledAudit">REST API Reference for CreateScheduledAudit Operation</seealso>
+        public virtual CreateScheduledAuditResponse EndCreateScheduledAudit(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateScheduledAuditResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateSecurityProfile
+
+        /// <summary>
+        /// Creates a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the CreateSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateSecurityProfile">REST API Reference for CreateSecurityProfile Operation</seealso>
+        public virtual CreateSecurityProfileResponse CreateSecurityProfile(CreateSecurityProfileRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSecurityProfileResponseUnmarshaller.Instance;
+
+            return Invoke<CreateSecurityProfileResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateSecurityProfile">REST API Reference for CreateSecurityProfile Operation</seealso>
+        public virtual IAsyncResult BeginCreateSecurityProfile(CreateSecurityProfileRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSecurityProfileResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  CreateSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateSecurityProfile">REST API Reference for CreateSecurityProfile Operation</seealso>
+        public virtual CreateSecurityProfileResponse EndCreateSecurityProfile(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateSecurityProfileResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateStream
 
         /// <summary>
         /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream
         /// transports data bytes in chunks or blocks packaged as MQTT messages from a source
-        /// like S3. You can have one or more files associated with a stream. The total size of
-        /// a file associated with the stream cannot exceed more than 2 MB. The stream will be
-        /// created with version 0. If a stream is created with the same streamID as a stream
-        /// that existed and was deleted within last 90 days, we will resurrect that old stream
-        /// by incrementing the version by 1.
+        /// like S3. You can have one or more files associated with a stream.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStream service method.</param>
         /// 
@@ -2149,6 +3348,9 @@ namespace Amazon.IoT
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
         /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -2168,10 +3370,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateStream">REST API Reference for CreateStream Operation</seealso>
         public virtual CreateStreamResponse CreateStream(CreateStreamRequest request)
         {
-            var marshaller = CreateStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStreamResponseUnmarshaller.Instance;
 
-            return Invoke<CreateStreamRequest,CreateStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -2188,11 +3391,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateStream">REST API Reference for CreateStream Operation</seealso>
         public virtual IAsyncResult BeginCreateStream(CreateStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2213,7 +3416,17 @@ namespace Amazon.IoT
         #region  CreateThing
 
         /// <summary>
-        /// Creates a thing record in the thing registry.
+        /// Creates a thing record in the registry. If this call is made multiple times using
+        /// the same thing name and configuration, the call will succeed. If this call is made
+        /// with the same thing name but different configuration a <code>ResourceAlreadyExistsException</code>
+        /// is thrown.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This is a control plane operation. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
+        /// for information about authorizing control plane actions.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateThing service method.</param>
         /// 
@@ -2242,10 +3455,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateThing">REST API Reference for CreateThing Operation</seealso>
         public virtual CreateThingResponse CreateThing(CreateThingRequest request)
         {
-            var marshaller = CreateThingRequestMarshaller.Instance;
-            var unmarshaller = CreateThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThingResponseUnmarshaller.Instance;
 
-            return Invoke<CreateThingRequest,CreateThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateThingResponse>(request, options);
         }
 
         /// <summary>
@@ -2262,11 +3476,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateThing">REST API Reference for CreateThing Operation</seealso>
         public virtual IAsyncResult BeginCreateThing(CreateThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateThingRequestMarshaller.Instance;
-            var unmarshaller = CreateThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2288,6 +3502,13 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Create a thing group.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This is a control plane operation. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
+        /// for information about authorizing control plane actions.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateThingGroup service method.</param>
         /// 
@@ -2307,10 +3528,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateThingGroup">REST API Reference for CreateThingGroup Operation</seealso>
         public virtual CreateThingGroupResponse CreateThingGroup(CreateThingGroupRequest request)
         {
-            var marshaller = CreateThingGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateThingGroupRequest,CreateThingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateThingGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -2327,11 +3549,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateThingGroup">REST API Reference for CreateThingGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateThingGroup(CreateThingGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateThingGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThingGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateThingGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2378,10 +3600,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateThingType">REST API Reference for CreateThingType Operation</seealso>
         public virtual CreateThingTypeResponse CreateThingType(CreateThingTypeRequest request)
         {
-            var marshaller = CreateThingTypeRequestMarshaller.Instance;
-            var unmarshaller = CreateThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThingTypeResponseUnmarshaller.Instance;
 
-            return Invoke<CreateThingTypeRequest,CreateThingTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateThingTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -2398,11 +3621,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateThingType">REST API Reference for CreateThingType Operation</seealso>
         public virtual IAsyncResult BeginCreateThingType(CreateThingTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateThingTypeRequestMarshaller.Instance;
-            var unmarshaller = CreateThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThingTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateThingTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2429,6 +3652,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the CreateTopicRule service method.</param>
         /// 
         /// <returns>The response from the CreateTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -2447,10 +3674,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRule">REST API Reference for CreateTopicRule Operation</seealso>
         public virtual CreateTopicRuleResponse CreateTopicRule(CreateTopicRuleRequest request)
         {
-            var marshaller = CreateTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = CreateTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTopicRuleResponseUnmarshaller.Instance;
 
-            return Invoke<CreateTopicRuleRequest,CreateTopicRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateTopicRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -2467,11 +3695,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRule">REST API Reference for CreateTopicRule Operation</seealso>
         public virtual IAsyncResult BeginCreateTopicRule(CreateTopicRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = CreateTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTopicRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateTopicRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2485,6 +3713,143 @@ namespace Amazon.IoT
         public virtual CreateTopicRuleResponse EndCreateTopicRule(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateTopicRuleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateTopicRuleDestination
+
+        /// <summary>
+        /// Creates a topic rule destination. The destination must be confirmed prior to use.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the CreateTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRuleDestination">REST API Reference for CreateTopicRuleDestination Operation</seealso>
+        public virtual CreateTopicRuleDestinationResponse CreateTopicRuleDestination(CreateTopicRuleDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<CreateTopicRuleDestinationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRuleDestination">REST API Reference for CreateTopicRuleDestination Operation</seealso>
+        public virtual IAsyncResult BeginCreateTopicRuleDestination(CreateTopicRuleDestinationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  CreateTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRuleDestination">REST API Reference for CreateTopicRuleDestination Operation</seealso>
+        public virtual CreateTopicRuleDestinationResponse EndCreateTopicRuleDestination(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateTopicRuleDestinationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteAccountAuditConfiguration
+
+        /// <summary>
+        /// Restores the default settings for Device Defender audits for this account. Any configuration
+        /// data you entered is deleted and all audit checks are reset to disabled.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAccountAuditConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAccountAuditConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAccountAuditConfiguration">REST API Reference for DeleteAccountAuditConfiguration Operation</seealso>
+        public virtual DeleteAccountAuditConfigurationResponse DeleteAccountAuditConfiguration(DeleteAccountAuditConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccountAuditConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccountAuditConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteAccountAuditConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAccountAuditConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAccountAuditConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAccountAuditConfiguration">REST API Reference for DeleteAccountAuditConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginDeleteAccountAuditConfiguration(DeleteAccountAuditConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccountAuditConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccountAuditConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAccountAuditConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteAccountAuditConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAccountAuditConfiguration">REST API Reference for DeleteAccountAuditConfiguration Operation</seealso>
+        public virtual DeleteAccountAuditConfigurationResponse EndDeleteAccountAuditConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteAccountAuditConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -2521,10 +3886,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAuthorizer">REST API Reference for DeleteAuthorizer Operation</seealso>
         public virtual DeleteAuthorizerResponse DeleteAuthorizer(DeleteAuthorizerRequest request)
         {
-            var marshaller = DeleteAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAuthorizerRequest,DeleteAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -2541,11 +3907,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAuthorizer">REST API Reference for DeleteAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginDeleteAuthorizer(DeleteAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2559,6 +3925,73 @@ namespace Amazon.IoT
         public virtual DeleteAuthorizerResponse EndDeleteAuthorizer(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteAuthorizerResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteBillingGroup
+
+        /// <summary>
+        /// Deletes the billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the DeleteBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteBillingGroup">REST API Reference for DeleteBillingGroup Operation</seealso>
+        public virtual DeleteBillingGroupResponse DeleteBillingGroup(DeleteBillingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBillingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteBillingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteBillingGroup">REST API Reference for DeleteBillingGroup Operation</seealso>
+        public virtual IAsyncResult BeginDeleteBillingGroup(DeleteBillingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBillingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  DeleteBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteBillingGroup">REST API Reference for DeleteBillingGroup Operation</seealso>
+        public virtual DeleteBillingGroupResponse EndDeleteBillingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteBillingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -2595,10 +4028,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteCACertificate">REST API Reference for DeleteCACertificate Operation</seealso>
         public virtual DeleteCACertificateResponse DeleteCACertificate(DeleteCACertificateRequest request)
         {
-            var marshaller = DeleteCACertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCACertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCACertificateRequest,DeleteCACertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCACertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -2615,11 +4049,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteCACertificate">REST API Reference for DeleteCACertificate Operation</seealso>
         public virtual IAsyncResult BeginDeleteCACertificate(DeleteCACertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteCACertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCACertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteCACertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2644,13 +4078,13 @@ namespace Amazon.IoT
         /// 
         ///  
         /// <para>
-        /// A certificate cannot be deleted if it has a policy attached to it or if its status
-        /// is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
+        /// A certificate cannot be deleted if it has a policy or IoT thing attached to it or
+        /// if its status is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
         /// API to detach all policies. Next, use the <a>UpdateCertificate</a> API to set the
         /// certificate to the INACTIVE status.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the DeleteCertificate service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.CertificateStateException">
@@ -2691,8 +4125,8 @@ namespace Amazon.IoT
         /// 
         ///  
         /// <para>
-        /// A certificate cannot be deleted if it has a policy attached to it or if its status
-        /// is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
+        /// A certificate cannot be deleted if it has a policy or IoT thing attached to it or
+        /// if its status is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
         /// API to detach all policies. Next, use the <a>UpdateCertificate</a> API to set the
         /// certificate to the INACTIVE status.
         /// </para>
@@ -2727,10 +4161,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteCertificate">REST API Reference for DeleteCertificate Operation</seealso>
         public virtual DeleteCertificateResponse DeleteCertificate(DeleteCertificateRequest request)
         {
-            var marshaller = DeleteCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCertificateRequest,DeleteCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -2747,11 +4182,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteCertificate">REST API Reference for DeleteCertificate Operation</seealso>
         public virtual IAsyncResult BeginDeleteCertificate(DeleteCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2765,6 +4200,433 @@ namespace Amazon.IoT
         public virtual DeleteCertificateResponse EndDeleteCertificate(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteCertificateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteDimension
+
+        /// <summary>
+        /// Removes the specified dimension from your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDimension service method.</param>
+        /// 
+        /// <returns>The response from the DeleteDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDimension">REST API Reference for DeleteDimension Operation</seealso>
+        public virtual DeleteDimensionResponse DeleteDimension(DeleteDimensionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDimensionResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteDimensionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDimension">REST API Reference for DeleteDimension Operation</seealso>
+        public virtual IAsyncResult BeginDeleteDimension(DeleteDimensionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDimensionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDimension.</param>
+        /// 
+        /// <returns>Returns a  DeleteDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDimension">REST API Reference for DeleteDimension Operation</seealso>
+        public virtual DeleteDimensionResponse EndDeleteDimension(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteDimensionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteDomainConfiguration
+
+        /// <summary>
+        /// Deletes the specified domain configuration.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDomainConfiguration">REST API Reference for DeleteDomainConfiguration Operation</seealso>
+        public virtual DeleteDomainConfigurationResponse DeleteDomainConfiguration(DeleteDomainConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteDomainConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDomainConfiguration">REST API Reference for DeleteDomainConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginDeleteDomainConfiguration(DeleteDomainConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDomainConfiguration">REST API Reference for DeleteDomainConfiguration Operation</seealso>
+        public virtual DeleteDomainConfigurationResponse EndDeleteDomainConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteDomainConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteDynamicThingGroup
+
+        /// <summary>
+        /// Deletes a dynamic thing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDynamicThingGroup service method.</param>
+        /// 
+        /// <returns>The response from the DeleteDynamicThingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDynamicThingGroup">REST API Reference for DeleteDynamicThingGroup Operation</seealso>
+        public virtual DeleteDynamicThingGroupResponse DeleteDynamicThingGroup(DeleteDynamicThingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDynamicThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDynamicThingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteDynamicThingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDynamicThingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDynamicThingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDynamicThingGroup">REST API Reference for DeleteDynamicThingGroup Operation</seealso>
+        public virtual IAsyncResult BeginDeleteDynamicThingGroup(DeleteDynamicThingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDynamicThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDynamicThingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDynamicThingGroup.</param>
+        /// 
+        /// <returns>Returns a  DeleteDynamicThingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDynamicThingGroup">REST API Reference for DeleteDynamicThingGroup Operation</seealso>
+        public virtual DeleteDynamicThingGroupResponse EndDeleteDynamicThingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteDynamicThingGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteJob
+
+        /// <summary>
+        /// Deletes a job and its related job executions.
+        /// 
+        ///  
+        /// <para>
+        /// Deleting a job may take time, depending on the number of job executions created for
+        /// the job and various other factors. While the job is being deleted, the status of the
+        /// job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job
+        /// whose status is already "DELETION_IN_PROGRESS" will result in an error.
+        /// </para>
+        ///  
+        /// <para>
+        /// Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException
+        /// will occur.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJob service method.</param>
+        /// 
+        /// <returns>The response from the DeleteJob service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidStateTransitionException">
+        /// An attempt was made to change to an invalid state, for example by deleting a job or
+        /// a job execution which is "IN_PROGRESS" without setting the <code>force</code> parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJob">REST API Reference for DeleteJob Operation</seealso>
+        public virtual DeleteJobResponse DeleteJob(DeleteJobRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteJobResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteJobResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJob operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJob">REST API Reference for DeleteJob Operation</seealso>
+        public virtual IAsyncResult BeginDeleteJob(DeleteJobRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteJobResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteJob.</param>
+        /// 
+        /// <returns>Returns a  DeleteJobResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJob">REST API Reference for DeleteJob Operation</seealso>
+        public virtual DeleteJobResponse EndDeleteJob(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteJobResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteJobExecution
+
+        /// <summary>
+        /// Deletes a job execution.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJobExecution service method.</param>
+        /// 
+        /// <returns>The response from the DeleteJobExecution service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidStateTransitionException">
+        /// An attempt was made to change to an invalid state, for example by deleting a job or
+        /// a job execution which is "IN_PROGRESS" without setting the <code>force</code> parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJobExecution">REST API Reference for DeleteJobExecution Operation</seealso>
+        public virtual DeleteJobExecutionResponse DeleteJobExecution(DeleteJobExecutionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteJobExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteJobExecutionResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteJobExecutionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJobExecution operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteJobExecution
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJobExecution">REST API Reference for DeleteJobExecution Operation</seealso>
+        public virtual IAsyncResult BeginDeleteJobExecution(DeleteJobExecutionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteJobExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteJobExecutionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteJobExecution.</param>
+        /// 
+        /// <returns>Returns a  DeleteJobExecutionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJobExecution">REST API Reference for DeleteJobExecution Operation</seealso>
+        public virtual DeleteJobExecutionResponse EndDeleteJobExecution(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteJobExecutionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteMitigationAction
+
+        /// <summary>
+        /// Deletes a defined mitigation action from your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the DeleteMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteMitigationAction">REST API Reference for DeleteMitigationAction Operation</seealso>
+        public virtual DeleteMitigationActionResponse DeleteMitigationAction(DeleteMitigationActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMitigationActionResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteMitigationActionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteMitigationAction">REST API Reference for DeleteMitigationAction Operation</seealso>
+        public virtual IAsyncResult BeginDeleteMitigationAction(DeleteMitigationActionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMitigationActionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  DeleteMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteMitigationAction">REST API Reference for DeleteMitigationAction Operation</seealso>
+        public virtual DeleteMitigationActionResponse EndDeleteMitigationAction(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteMitigationActionResponse>(asyncResult);
         }
 
         #endregion
@@ -2795,13 +4657,18 @@ namespace Amazon.IoT
         /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
         /// You are not authorized to perform this operation.
         /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteOTAUpdate">REST API Reference for DeleteOTAUpdate Operation</seealso>
         public virtual DeleteOTAUpdateResponse DeleteOTAUpdate(DeleteOTAUpdateRequest request)
         {
-            var marshaller = DeleteOTAUpdateRequestMarshaller.Instance;
-            var unmarshaller = DeleteOTAUpdateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteOTAUpdateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteOTAUpdateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteOTAUpdateRequest,DeleteOTAUpdateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteOTAUpdateResponse>(request, options);
         }
 
         /// <summary>
@@ -2818,11 +4685,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteOTAUpdate">REST API Reference for DeleteOTAUpdate Operation</seealso>
         public virtual IAsyncResult BeginDeleteOTAUpdate(DeleteOTAUpdateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteOTAUpdateRequestMarshaller.Instance;
-            var unmarshaller = DeleteOTAUpdateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteOTAUpdateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteOTAUpdateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteOTAUpdateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2940,10 +4807,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeletePolicy">REST API Reference for DeletePolicy Operation</seealso>
         public virtual DeletePolicyResponse DeletePolicy(DeletePolicyRequest request)
         {
-            var marshaller = DeletePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeletePolicyRequest,DeletePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeletePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2960,11 +4828,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeletePolicy">REST API Reference for DeletePolicy Operation</seealso>
         public virtual IAsyncResult BeginDeletePolicy(DeletePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeletePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeletePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3058,10 +4926,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeletePolicyVersion">REST API Reference for DeletePolicyVersion Operation</seealso>
         public virtual DeletePolicyVersionResponse DeletePolicyVersion(DeletePolicyVersionRequest request)
         {
-            var marshaller = DeletePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<DeletePolicyVersionRequest,DeletePolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeletePolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -3078,11 +4947,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeletePolicyVersion">REST API Reference for DeletePolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginDeletePolicyVersion(DeletePolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeletePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeletePolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3096,6 +4965,150 @@ namespace Amazon.IoT
         public virtual DeletePolicyVersionResponse EndDeletePolicyVersion(IAsyncResult asyncResult)
         {
             return EndInvoke<DeletePolicyVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteProvisioningTemplate
+
+        /// <summary>
+        /// Deletes a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DeleteProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.DeleteConflictException">
+        /// You can't delete the resource because it is attached to one or more resources.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplate">REST API Reference for DeleteProvisioningTemplate Operation</seealso>
+        public virtual DeleteProvisioningTemplateResponse DeleteProvisioningTemplate(DeleteProvisioningTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteProvisioningTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplate">REST API Reference for DeleteProvisioningTemplate Operation</seealso>
+        public virtual IAsyncResult BeginDeleteProvisioningTemplate(DeleteProvisioningTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  DeleteProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplate">REST API Reference for DeleteProvisioningTemplate Operation</seealso>
+        public virtual DeleteProvisioningTemplateResponse EndDeleteProvisioningTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteProvisioningTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteProvisioningTemplateVersion
+
+        /// <summary>
+        /// Deletes a fleet provisioning template version.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplateVersion service method.</param>
+        /// 
+        /// <returns>The response from the DeleteProvisioningTemplateVersion service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.DeleteConflictException">
+        /// You can't delete the resource because it is attached to one or more resources.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplateVersion">REST API Reference for DeleteProvisioningTemplateVersion Operation</seealso>
+        public virtual DeleteProvisioningTemplateVersionResponse DeleteProvisioningTemplateVersion(DeleteProvisioningTemplateVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProvisioningTemplateVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProvisioningTemplateVersionResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteProvisioningTemplateVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplateVersion operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteProvisioningTemplateVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplateVersion">REST API Reference for DeleteProvisioningTemplateVersion Operation</seealso>
+        public virtual IAsyncResult BeginDeleteProvisioningTemplateVersion(DeleteProvisioningTemplateVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProvisioningTemplateVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProvisioningTemplateVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteProvisioningTemplateVersion.</param>
+        /// 
+        /// <returns>Returns a  DeleteProvisioningTemplateVersionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplateVersion">REST API Reference for DeleteProvisioningTemplateVersion Operation</seealso>
+        public virtual DeleteProvisioningTemplateVersionResponse EndDeleteProvisioningTemplateVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteProvisioningTemplateVersionResponse>(asyncResult);
         }
 
         #endregion
@@ -3126,10 +5139,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteRegistrationCode">REST API Reference for DeleteRegistrationCode Operation</seealso>
         public virtual DeleteRegistrationCodeResponse DeleteRegistrationCode(DeleteRegistrationCodeRequest request)
         {
-            var marshaller = DeleteRegistrationCodeRequestMarshaller.Instance;
-            var unmarshaller = DeleteRegistrationCodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRegistrationCodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRegistrationCodeResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRegistrationCodeRequest,DeleteRegistrationCodeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRegistrationCodeResponse>(request, options);
         }
 
         /// <summary>
@@ -3146,11 +5160,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteRegistrationCode">REST API Reference for DeleteRegistrationCode Operation</seealso>
         public virtual IAsyncResult BeginDeleteRegistrationCode(DeleteRegistrationCodeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRegistrationCodeRequestMarshaller.Instance;
-            var unmarshaller = DeleteRegistrationCodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRegistrationCodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRegistrationCodeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRegistrationCodeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3200,10 +5214,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteRoleAlias">REST API Reference for DeleteRoleAlias Operation</seealso>
         public virtual DeleteRoleAliasResponse DeleteRoleAlias(DeleteRoleAliasRequest request)
         {
-            var marshaller = DeleteRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = DeleteRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRoleAliasResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRoleAliasRequest,DeleteRoleAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRoleAliasResponse>(request, options);
         }
 
         /// <summary>
@@ -3220,11 +5235,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteRoleAlias">REST API Reference for DeleteRoleAlias Operation</seealso>
         public virtual IAsyncResult BeginDeleteRoleAlias(DeleteRoleAliasRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = DeleteRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRoleAliasResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRoleAliasRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3238,6 +5253,139 @@ namespace Amazon.IoT
         public virtual DeleteRoleAliasResponse EndDeleteRoleAlias(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteRoleAliasResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteScheduledAudit
+
+        /// <summary>
+        /// Deletes a scheduled audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the DeleteScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteScheduledAudit">REST API Reference for DeleteScheduledAudit Operation</seealso>
+        public virtual DeleteScheduledAuditResponse DeleteScheduledAudit(DeleteScheduledAuditRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduledAuditResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteScheduledAuditResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteScheduledAudit">REST API Reference for DeleteScheduledAudit Operation</seealso>
+        public virtual IAsyncResult BeginDeleteScheduledAudit(DeleteScheduledAuditRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduledAuditResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  DeleteScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteScheduledAudit">REST API Reference for DeleteScheduledAudit Operation</seealso>
+        public virtual DeleteScheduledAuditResponse EndDeleteScheduledAudit(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteScheduledAuditResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteSecurityProfile
+
+        /// <summary>
+        /// Deletes a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteSecurityProfile">REST API Reference for DeleteSecurityProfile Operation</seealso>
+        public virtual DeleteSecurityProfileResponse DeleteSecurityProfile(DeleteSecurityProfileRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSecurityProfileResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteSecurityProfileResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteSecurityProfile">REST API Reference for DeleteSecurityProfile Operation</seealso>
+        public virtual IAsyncResult BeginDeleteSecurityProfile(DeleteSecurityProfileRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSecurityProfileResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  DeleteSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteSecurityProfile">REST API Reference for DeleteSecurityProfile Operation</seealso>
+        public virtual DeleteSecurityProfileResponse EndDeleteSecurityProfile(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteSecurityProfileResponse>(asyncResult);
         }
 
         #endregion
@@ -3274,10 +5422,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteStream">REST API Reference for DeleteStream Operation</seealso>
         public virtual DeleteStreamResponse DeleteStream(DeleteStreamRequest request)
         {
-            var marshaller = DeleteStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStreamResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteStreamRequest,DeleteStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -3294,11 +5443,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteStream">REST API Reference for DeleteStream Operation</seealso>
         public virtual IAsyncResult BeginDeleteStream(DeleteStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3319,7 +5468,8 @@ namespace Amazon.IoT
         #region  DeleteThing
 
         /// <summary>
-        /// Deletes the specified thing.
+        /// Deletes the specified thing. Returns successfully with no error if the deletion is
+        /// successful or you specify a thing that doesn't exist.
         /// </summary>
         /// <param name="thingName">The name of the thing to delete.</param>
         /// 
@@ -3343,8 +5493,8 @@ namespace Amazon.IoT
         /// You are not authorized to perform this operation.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThing">REST API Reference for DeleteThing Operation</seealso>
         public virtual DeleteThingResponse DeleteThing(string thingName)
@@ -3356,7 +5506,8 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Deletes the specified thing.
+        /// Deletes the specified thing. Returns successfully with no error if the deletion is
+        /// successful or you specify a thing that doesn't exist.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteThing service method.</param>
         /// 
@@ -3380,16 +5531,17 @@ namespace Amazon.IoT
         /// You are not authorized to perform this operation.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThing">REST API Reference for DeleteThing Operation</seealso>
         public virtual DeleteThingResponse DeleteThing(DeleteThingRequest request)
         {
-            var marshaller = DeleteThingRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteThingRequest,DeleteThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteThingResponse>(request, options);
         }
 
         /// <summary>
@@ -3406,11 +5558,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThing">REST API Reference for DeleteThing Operation</seealso>
         public virtual IAsyncResult BeginDeleteThing(DeleteThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteThingRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3446,16 +5598,17 @@ namespace Amazon.IoT
         /// The rate exceeds the limit.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThingGroup">REST API Reference for DeleteThingGroup Operation</seealso>
         public virtual DeleteThingGroupResponse DeleteThingGroup(DeleteThingGroupRequest request)
         {
-            var marshaller = DeleteThingGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteThingGroupRequest,DeleteThingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteThingGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -3472,11 +5625,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThingGroup">REST API Reference for DeleteThingGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteThingGroup(DeleteThingGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteThingGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteThingGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3497,7 +5650,7 @@ namespace Amazon.IoT
         #region  DeleteThingType
 
         /// <summary>
-        /// Deletes the specified thing type . You cannot delete a thing type if it has things
+        /// Deletes the specified thing type. You cannot delete a thing type if it has things
         /// associated with it. To delete a thing type, first mark it as deprecated by calling
         /// <a>DeprecateThingType</a>, then remove any associated things by calling <a>UpdateThing</a>
         /// to change the thing type on any associated thing, and finally use <a>DeleteThingType</a>
@@ -3527,10 +5680,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThingType">REST API Reference for DeleteThingType Operation</seealso>
         public virtual DeleteThingTypeResponse DeleteThingType(DeleteThingTypeRequest request)
         {
-            var marshaller = DeleteThingTypeRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingTypeResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteThingTypeRequest,DeleteThingTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteThingTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -3547,11 +5701,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThingType">REST API Reference for DeleteThingType Operation</seealso>
         public virtual IAsyncResult BeginDeleteThingType(DeleteThingTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteThingTypeRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteThingTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3577,6 +5731,10 @@ namespace Amazon.IoT
         /// <param name="ruleName">The name of the rule.</param>
         /// 
         /// <returns>The response from the DeleteTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -3604,6 +5762,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the DeleteTopicRule service method.</param>
         /// 
         /// <returns>The response from the DeleteTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -3619,10 +5781,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRule">REST API Reference for DeleteTopicRule Operation</seealso>
         public virtual DeleteTopicRuleResponse DeleteTopicRule(DeleteTopicRuleRequest request)
         {
-            var marshaller = DeleteTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = DeleteTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTopicRuleResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteTopicRuleRequest,DeleteTopicRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTopicRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -3639,11 +5802,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRule">REST API Reference for DeleteTopicRule Operation</seealso>
         public virtual IAsyncResult BeginDeleteTopicRule(DeleteTopicRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = DeleteTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTopicRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteTopicRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3657,6 +5820,76 @@ namespace Amazon.IoT
         public virtual DeleteTopicRuleResponse EndDeleteTopicRule(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteTopicRuleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteTopicRuleDestination
+
+        /// <summary>
+        /// Deletes a topic rule destination.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRuleDestination">REST API Reference for DeleteTopicRuleDestination Operation</seealso>
+        public virtual DeleteTopicRuleDestinationResponse DeleteTopicRuleDestination(DeleteTopicRuleDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteTopicRuleDestinationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRuleDestination">REST API Reference for DeleteTopicRuleDestination Operation</seealso>
+        public virtual IAsyncResult BeginDeleteTopicRuleDestination(DeleteTopicRuleDestinationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  DeleteTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRuleDestination">REST API Reference for DeleteTopicRuleDestination Operation</seealso>
+        public virtual DeleteTopicRuleDestinationResponse EndDeleteTopicRuleDestination(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteTopicRuleDestinationResponse>(asyncResult);
         }
 
         #endregion
@@ -3681,10 +5914,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteV2LoggingLevel">REST API Reference for DeleteV2LoggingLevel Operation</seealso>
         public virtual DeleteV2LoggingLevelResponse DeleteV2LoggingLevel(DeleteV2LoggingLevelRequest request)
         {
-            var marshaller = DeleteV2LoggingLevelRequestMarshaller.Instance;
-            var unmarshaller = DeleteV2LoggingLevelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteV2LoggingLevelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteV2LoggingLevelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteV2LoggingLevelRequest,DeleteV2LoggingLevelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteV2LoggingLevelResponse>(request, options);
         }
 
         /// <summary>
@@ -3701,11 +5935,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteV2LoggingLevel">REST API Reference for DeleteV2LoggingLevel Operation</seealso>
         public virtual IAsyncResult BeginDeleteV2LoggingLevel(DeleteV2LoggingLevelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteV2LoggingLevelRequestMarshaller.Instance;
-            var unmarshaller = DeleteV2LoggingLevelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteV2LoggingLevelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteV2LoggingLevelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteV2LoggingLevelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3752,10 +5986,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeprecateThingType">REST API Reference for DeprecateThingType Operation</seealso>
         public virtual DeprecateThingTypeResponse DeprecateThingType(DeprecateThingTypeRequest request)
         {
-            var marshaller = DeprecateThingTypeRequestMarshaller.Instance;
-            var unmarshaller = DeprecateThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateThingTypeResponseUnmarshaller.Instance;
 
-            return Invoke<DeprecateThingTypeRequest,DeprecateThingTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeprecateThingTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -3772,11 +6007,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeprecateThingType">REST API Reference for DeprecateThingType Operation</seealso>
         public virtual IAsyncResult BeginDeprecateThingType(DeprecateThingTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeprecateThingTypeRequestMarshaller.Instance;
-            var unmarshaller = DeprecateThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateThingTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeprecateThingTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3790,6 +6025,268 @@ namespace Amazon.IoT
         public virtual DeprecateThingTypeResponse EndDeprecateThingType(IAsyncResult asyncResult)
         {
             return EndInvoke<DeprecateThingTypeResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeAccountAuditConfiguration
+
+        /// <summary>
+        /// Gets information about the Device Defender audit settings for this account. Settings
+        /// include how audit notifications are sent and which audit checks are enabled or disabled.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountAuditConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAccountAuditConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAccountAuditConfiguration">REST API Reference for DescribeAccountAuditConfiguration Operation</seealso>
+        public virtual DescribeAccountAuditConfigurationResponse DescribeAccountAuditConfiguration(DescribeAccountAuditConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountAuditConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountAuditConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeAccountAuditConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountAuditConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAccountAuditConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAccountAuditConfiguration">REST API Reference for DescribeAccountAuditConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginDescribeAccountAuditConfiguration(DescribeAccountAuditConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountAuditConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountAuditConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAccountAuditConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DescribeAccountAuditConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAccountAuditConfiguration">REST API Reference for DescribeAccountAuditConfiguration Operation</seealso>
+        public virtual DescribeAccountAuditConfigurationResponse EndDescribeAccountAuditConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeAccountAuditConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeAuditFinding
+
+        /// <summary>
+        /// Gets information about a single audit finding. Properties include the reason for noncompliance,
+        /// the severity of the issue, and when the audit that returned the finding was started.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditFinding service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAuditFinding service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditFinding">REST API Reference for DescribeAuditFinding Operation</seealso>
+        public virtual DescribeAuditFindingResponse DescribeAuditFinding(DescribeAuditFindingRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuditFindingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuditFindingResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeAuditFindingResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAuditFinding operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditFinding operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAuditFinding
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditFinding">REST API Reference for DescribeAuditFinding Operation</seealso>
+        public virtual IAsyncResult BeginDescribeAuditFinding(DescribeAuditFindingRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuditFindingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuditFindingResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAuditFinding operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAuditFinding.</param>
+        /// 
+        /// <returns>Returns a  DescribeAuditFindingResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditFinding">REST API Reference for DescribeAuditFinding Operation</seealso>
+        public virtual DescribeAuditFindingResponse EndDescribeAuditFinding(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeAuditFindingResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeAuditMitigationActionsTask
+
+        /// <summary>
+        /// Gets information about an audit mitigation task that is used to apply mitigation actions
+        /// to a set of audit findings. Properties include the actions being applied, the audit
+        /// checks to which they're being applied, the task status, and aggregated task statistics.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditMitigationActionsTask service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAuditMitigationActionsTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditMitigationActionsTask">REST API Reference for DescribeAuditMitigationActionsTask Operation</seealso>
+        public virtual DescribeAuditMitigationActionsTaskResponse DescribeAuditMitigationActionsTask(DescribeAuditMitigationActionsTaskRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuditMitigationActionsTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuditMitigationActionsTaskResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeAuditMitigationActionsTaskResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditMitigationActionsTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAuditMitigationActionsTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditMitigationActionsTask">REST API Reference for DescribeAuditMitigationActionsTask Operation</seealso>
+        public virtual IAsyncResult BeginDescribeAuditMitigationActionsTask(DescribeAuditMitigationActionsTaskRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuditMitigationActionsTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuditMitigationActionsTaskResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAuditMitigationActionsTask.</param>
+        /// 
+        /// <returns>Returns a  DescribeAuditMitigationActionsTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditMitigationActionsTask">REST API Reference for DescribeAuditMitigationActionsTask Operation</seealso>
+        public virtual DescribeAuditMitigationActionsTaskResponse EndDescribeAuditMitigationActionsTask(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeAuditMitigationActionsTaskResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeAuditTask
+
+        /// <summary>
+        /// Gets information about a Device Defender audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditTask service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAuditTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditTask">REST API Reference for DescribeAuditTask Operation</seealso>
+        public virtual DescribeAuditTaskResponse DescribeAuditTask(DescribeAuditTaskRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuditTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuditTaskResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeAuditTaskResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAuditTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditTask">REST API Reference for DescribeAuditTask Operation</seealso>
+        public virtual IAsyncResult BeginDescribeAuditTask(DescribeAuditTaskRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuditTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuditTaskResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAuditTask.</param>
+        /// 
+        /// <returns>Returns a  DescribeAuditTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditTask">REST API Reference for DescribeAuditTask Operation</seealso>
+        public virtual DescribeAuditTaskResponse EndDescribeAuditTask(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeAuditTaskResponse>(asyncResult);
         }
 
         #endregion
@@ -3823,10 +6320,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuthorizer">REST API Reference for DescribeAuthorizer Operation</seealso>
         public virtual DescribeAuthorizerResponse DescribeAuthorizer(DescribeAuthorizerRequest request)
         {
-            var marshaller = DescribeAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DescribeAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAuthorizerRequest,DescribeAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -3843,11 +6341,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuthorizer">REST API Reference for DescribeAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginDescribeAuthorizer(DescribeAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DescribeAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3861,6 +6359,72 @@ namespace Amazon.IoT
         public virtual DescribeAuthorizerResponse EndDescribeAuthorizer(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeAuthorizerResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeBillingGroup
+
+        /// <summary>
+        /// Returns information about a billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the DescribeBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeBillingGroup">REST API Reference for DescribeBillingGroup Operation</seealso>
+        public virtual DescribeBillingGroupResponse DescribeBillingGroup(DescribeBillingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBillingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeBillingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeBillingGroup">REST API Reference for DescribeBillingGroup Operation</seealso>
+        public virtual IAsyncResult BeginDescribeBillingGroup(DescribeBillingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBillingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  DescribeBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeBillingGroup">REST API Reference for DescribeBillingGroup Operation</seealso>
+        public virtual DescribeBillingGroupResponse EndDescribeBillingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeBillingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -3894,10 +6458,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeCACertificate">REST API Reference for DescribeCACertificate Operation</seealso>
         public virtual DescribeCACertificateResponse DescribeCACertificate(DescribeCACertificateRequest request)
         {
-            var marshaller = DescribeCACertificateRequestMarshaller.Instance;
-            var unmarshaller = DescribeCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCACertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCACertificateRequest,DescribeCACertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCACertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -3914,11 +6479,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeCACertificate">REST API Reference for DescribeCACertificate Operation</seealso>
         public virtual IAsyncResult BeginDescribeCACertificate(DescribeCACertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeCACertificateRequestMarshaller.Instance;
-            var unmarshaller = DescribeCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCACertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeCACertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3941,7 +6506,7 @@ namespace Amazon.IoT
         /// <summary>
         /// Gets information about the specified certificate.
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the DescribeCertificate service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -3998,10 +6563,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeCertificate">REST API Reference for DescribeCertificate Operation</seealso>
         public virtual DescribeCertificateResponse DescribeCertificate(DescribeCertificateRequest request)
         {
-            var marshaller = DescribeCertificateRequestMarshaller.Instance;
-            var unmarshaller = DescribeCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCertificateRequest,DescribeCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -4018,11 +6584,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeCertificate">REST API Reference for DescribeCertificate Operation</seealso>
         public virtual IAsyncResult BeginDescribeCertificate(DescribeCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeCertificateRequestMarshaller.Instance;
-            var unmarshaller = DescribeCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4069,10 +6635,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDefaultAuthorizer">REST API Reference for DescribeDefaultAuthorizer Operation</seealso>
         public virtual DescribeDefaultAuthorizerResponse DescribeDefaultAuthorizer(DescribeDefaultAuthorizerRequest request)
         {
-            var marshaller = DescribeDefaultAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DescribeDefaultAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDefaultAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDefaultAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDefaultAuthorizerRequest,DescribeDefaultAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDefaultAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -4089,11 +6656,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDefaultAuthorizer">REST API Reference for DescribeDefaultAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginDescribeDefaultAuthorizer(DescribeDefaultAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDefaultAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DescribeDefaultAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDefaultAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDefaultAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDefaultAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4107,6 +6674,147 @@ namespace Amazon.IoT
         public virtual DescribeDefaultAuthorizerResponse EndDescribeDefaultAuthorizer(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeDefaultAuthorizerResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeDimension
+
+        /// <summary>
+        /// Provides details about a dimension that is defined in your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDimension service method.</param>
+        /// 
+        /// <returns>The response from the DescribeDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDimension">REST API Reference for DescribeDimension Operation</seealso>
+        public virtual DescribeDimensionResponse DescribeDimension(DescribeDimensionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDimensionResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeDimensionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDimension">REST API Reference for DescribeDimension Operation</seealso>
+        public virtual IAsyncResult BeginDescribeDimension(DescribeDimensionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDimensionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeDimension.</param>
+        /// 
+        /// <returns>Returns a  DescribeDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDimension">REST API Reference for DescribeDimension Operation</seealso>
+        public virtual DescribeDimensionResponse EndDescribeDimension(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeDimensionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeDomainConfiguration
+
+        /// <summary>
+        /// Gets summary information about a domain configuration.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DescribeDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDomainConfiguration">REST API Reference for DescribeDomainConfiguration Operation</seealso>
+        public virtual DescribeDomainConfigurationResponse DescribeDomainConfiguration(DescribeDomainConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDomainConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeDomainConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDomainConfiguration">REST API Reference for DescribeDomainConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginDescribeDomainConfiguration(DescribeDomainConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDomainConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DescribeDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDomainConfiguration">REST API Reference for DescribeDomainConfiguration Operation</seealso>
+        public virtual DescribeDomainConfigurationResponse EndDescribeDomainConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeDomainConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -4159,10 +6867,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeEndpoint">REST API Reference for DescribeEndpoint Operation</seealso>
         public virtual DescribeEndpointResponse DescribeEndpoint(DescribeEndpointRequest request)
         {
-            var marshaller = DescribeEndpointRequestMarshaller.Instance;
-            var unmarshaller = DescribeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEndpointResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEndpointRequest,DescribeEndpointResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEndpointResponse>(request, options);
         }
 
         /// <summary>
@@ -4179,11 +6888,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeEndpoint">REST API Reference for DescribeEndpoint Operation</seealso>
         public virtual IAsyncResult BeginDescribeEndpoint(DescribeEndpointRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEndpointRequestMarshaller.Instance;
-            var unmarshaller = DescribeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEndpointResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEndpointRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4218,10 +6927,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeEventConfigurations">REST API Reference for DescribeEventConfigurations Operation</seealso>
         public virtual DescribeEventConfigurationsResponse DescribeEventConfigurations(DescribeEventConfigurationsRequest request)
         {
-            var marshaller = DescribeEventConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventConfigurationsRequest,DescribeEventConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventConfigurationsResponse>(request, options);
         }
 
         /// <summary>
@@ -4238,11 +6948,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeEventConfigurations">REST API Reference for DescribeEventConfigurations Operation</seealso>
         public virtual IAsyncResult BeginDescribeEventConfigurations(DescribeEventConfigurationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventConfigurationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventConfigurationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4289,10 +6999,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeIndex">REST API Reference for DescribeIndex Operation</seealso>
         public virtual DescribeIndexResponse DescribeIndex(DescribeIndexRequest request)
         {
-            var marshaller = DescribeIndexRequestMarshaller.Instance;
-            var unmarshaller = DescribeIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeIndexResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeIndexRequest,DescribeIndexResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeIndexResponse>(request, options);
         }
 
         /// <summary>
@@ -4309,11 +7020,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeIndex">REST API Reference for DescribeIndex Operation</seealso>
         public virtual IAsyncResult BeginDescribeIndex(DescribeIndexRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeIndexRequestMarshaller.Instance;
-            var unmarshaller = DescribeIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeIndexResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeIndexRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4354,10 +7065,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeJob">REST API Reference for DescribeJob Operation</seealso>
         public virtual DescribeJobResponse DescribeJob(DescribeJobRequest request)
         {
-            var marshaller = DescribeJobRequestMarshaller.Instance;
-            var unmarshaller = DescribeJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeJobResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeJobRequest,DescribeJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeJobResponse>(request, options);
         }
 
         /// <summary>
@@ -4374,11 +7086,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeJob">REST API Reference for DescribeJob Operation</seealso>
         public virtual IAsyncResult BeginDescribeJob(DescribeJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeJobRequestMarshaller.Instance;
-            var unmarshaller = DescribeJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4419,10 +7131,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeJobExecution">REST API Reference for DescribeJobExecution Operation</seealso>
         public virtual DescribeJobExecutionResponse DescribeJobExecution(DescribeJobExecutionRequest request)
         {
-            var marshaller = DescribeJobExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeJobExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeJobExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeJobExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeJobExecutionRequest,DescribeJobExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeJobExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -4439,11 +7152,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeJobExecution">REST API Reference for DescribeJobExecution Operation</seealso>
         public virtual IAsyncResult BeginDescribeJobExecution(DescribeJobExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeJobExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeJobExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeJobExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeJobExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeJobExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4457,6 +7170,210 @@ namespace Amazon.IoT
         public virtual DescribeJobExecutionResponse EndDescribeJobExecution(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeJobExecutionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeMitigationAction
+
+        /// <summary>
+        /// Gets information about a mitigation action.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the DescribeMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeMitigationAction">REST API Reference for DescribeMitigationAction Operation</seealso>
+        public virtual DescribeMitigationActionResponse DescribeMitigationAction(DescribeMitigationActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMitigationActionResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeMitigationActionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeMitigationAction">REST API Reference for DescribeMitigationAction Operation</seealso>
+        public virtual IAsyncResult BeginDescribeMitigationAction(DescribeMitigationActionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMitigationActionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  DescribeMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeMitigationAction">REST API Reference for DescribeMitigationAction Operation</seealso>
+        public virtual DescribeMitigationActionResponse EndDescribeMitigationAction(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeMitigationActionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeProvisioningTemplate
+
+        /// <summary>
+        /// Returns information about a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DescribeProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplate">REST API Reference for DescribeProvisioningTemplate Operation</seealso>
+        public virtual DescribeProvisioningTemplateResponse DescribeProvisioningTemplate(DescribeProvisioningTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeProvisioningTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplate">REST API Reference for DescribeProvisioningTemplate Operation</seealso>
+        public virtual IAsyncResult BeginDescribeProvisioningTemplate(DescribeProvisioningTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  DescribeProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplate">REST API Reference for DescribeProvisioningTemplate Operation</seealso>
+        public virtual DescribeProvisioningTemplateResponse EndDescribeProvisioningTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeProvisioningTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeProvisioningTemplateVersion
+
+        /// <summary>
+        /// Returns information about a fleet provisioning template version.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplateVersion service method.</param>
+        /// 
+        /// <returns>The response from the DescribeProvisioningTemplateVersion service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplateVersion">REST API Reference for DescribeProvisioningTemplateVersion Operation</seealso>
+        public virtual DescribeProvisioningTemplateVersionResponse DescribeProvisioningTemplateVersion(DescribeProvisioningTemplateVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProvisioningTemplateVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProvisioningTemplateVersionResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeProvisioningTemplateVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplateVersion operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeProvisioningTemplateVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplateVersion">REST API Reference for DescribeProvisioningTemplateVersion Operation</seealso>
+        public virtual IAsyncResult BeginDescribeProvisioningTemplateVersion(DescribeProvisioningTemplateVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProvisioningTemplateVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProvisioningTemplateVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeProvisioningTemplateVersion.</param>
+        /// 
+        /// <returns>Returns a  DescribeProvisioningTemplateVersionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplateVersion">REST API Reference for DescribeProvisioningTemplateVersion Operation</seealso>
+        public virtual DescribeProvisioningTemplateVersionResponse EndDescribeProvisioningTemplateVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeProvisioningTemplateVersionResponse>(asyncResult);
         }
 
         #endregion
@@ -4490,10 +7407,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeRoleAlias">REST API Reference for DescribeRoleAlias Operation</seealso>
         public virtual DescribeRoleAliasResponse DescribeRoleAlias(DescribeRoleAliasRequest request)
         {
-            var marshaller = DescribeRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = DescribeRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeRoleAliasResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeRoleAliasRequest,DescribeRoleAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeRoleAliasResponse>(request, options);
         }
 
         /// <summary>
@@ -4510,11 +7428,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeRoleAlias">REST API Reference for DescribeRoleAlias Operation</seealso>
         public virtual IAsyncResult BeginDescribeRoleAlias(DescribeRoleAliasRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = DescribeRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeRoleAliasResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeRoleAliasRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4528,6 +7446,138 @@ namespace Amazon.IoT
         public virtual DescribeRoleAliasResponse EndDescribeRoleAlias(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeRoleAliasResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeScheduledAudit
+
+        /// <summary>
+        /// Gets information about a scheduled audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the DescribeScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeScheduledAudit">REST API Reference for DescribeScheduledAudit Operation</seealso>
+        public virtual DescribeScheduledAuditResponse DescribeScheduledAudit(DescribeScheduledAuditRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduledAuditResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeScheduledAuditResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeScheduledAudit">REST API Reference for DescribeScheduledAudit Operation</seealso>
+        public virtual IAsyncResult BeginDescribeScheduledAudit(DescribeScheduledAuditRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduledAuditResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  DescribeScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeScheduledAudit">REST API Reference for DescribeScheduledAudit Operation</seealso>
+        public virtual DescribeScheduledAuditResponse EndDescribeScheduledAudit(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeScheduledAuditResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeSecurityProfile
+
+        /// <summary>
+        /// Gets information about a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the DescribeSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeSecurityProfile">REST API Reference for DescribeSecurityProfile Operation</seealso>
+        public virtual DescribeSecurityProfileResponse DescribeSecurityProfile(DescribeSecurityProfileRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSecurityProfileResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeSecurityProfileResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeSecurityProfile">REST API Reference for DescribeSecurityProfile Operation</seealso>
+        public virtual IAsyncResult BeginDescribeSecurityProfile(DescribeSecurityProfileRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSecurityProfileResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  DescribeSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeSecurityProfile">REST API Reference for DescribeSecurityProfile Operation</seealso>
+        public virtual DescribeSecurityProfileResponse EndDescribeSecurityProfile(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeSecurityProfileResponse>(asyncResult);
         }
 
         #endregion
@@ -4561,10 +7611,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeStream">REST API Reference for DescribeStream Operation</seealso>
         public virtual DescribeStreamResponse DescribeStream(DescribeStreamRequest request)
         {
-            var marshaller = DescribeStreamRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeStreamRequest,DescribeStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -4581,11 +7632,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeStream">REST API Reference for DescribeStream Operation</seealso>
         public virtual IAsyncResult BeginDescribeStream(DescribeStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeStreamRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4665,10 +7716,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThing">REST API Reference for DescribeThing Operation</seealso>
         public virtual DescribeThingResponse DescribeThing(DescribeThingRequest request)
         {
-            var marshaller = DescribeThingRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeThingRequest,DescribeThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeThingResponse>(request, options);
         }
 
         /// <summary>
@@ -4685,11 +7737,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThing">REST API Reference for DescribeThing Operation</seealso>
         public virtual IAsyncResult BeginDescribeThing(DescribeThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeThingRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4730,10 +7782,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThingGroup">REST API Reference for DescribeThingGroup Operation</seealso>
         public virtual DescribeThingGroupResponse DescribeThingGroup(DescribeThingGroupRequest request)
         {
-            var marshaller = DescribeThingGroupRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeThingGroupRequest,DescribeThingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeThingGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -4750,11 +7803,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThingGroup">REST API Reference for DescribeThingGroup Operation</seealso>
         public virtual IAsyncResult BeginDescribeThingGroup(DescribeThingGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeThingGroupRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeThingGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4798,10 +7851,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThingRegistrationTask">REST API Reference for DescribeThingRegistrationTask Operation</seealso>
         public virtual DescribeThingRegistrationTaskResponse DescribeThingRegistrationTask(DescribeThingRegistrationTaskRequest request)
         {
-            var marshaller = DescribeThingRegistrationTaskRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingRegistrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingRegistrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingRegistrationTaskResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeThingRegistrationTaskRequest,DescribeThingRegistrationTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeThingRegistrationTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -4818,11 +7872,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThingRegistrationTask">REST API Reference for DescribeThingRegistrationTask Operation</seealso>
         public virtual IAsyncResult BeginDescribeThingRegistrationTask(DescribeThingRegistrationTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeThingRegistrationTaskRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingRegistrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingRegistrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingRegistrationTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeThingRegistrationTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4869,10 +7923,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThingType">REST API Reference for DescribeThingType Operation</seealso>
         public virtual DescribeThingTypeResponse DescribeThingType(DescribeThingTypeRequest request)
         {
-            var marshaller = DescribeThingTypeRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingTypeResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeThingTypeRequest,DescribeThingTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeThingTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -4889,11 +7944,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeThingType">REST API Reference for DescribeThingType Operation</seealso>
         public virtual IAsyncResult BeginDescribeThingType(DescribeThingTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeThingTypeRequestMarshaller.Instance;
-            var unmarshaller = DescribeThingTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeThingTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeThingTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeThingTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4926,7 +7981,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
         /// The service is temporarily unavailable.
@@ -4940,10 +7995,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
         public virtual DetachPolicyResponse DetachPolicy(DetachPolicyRequest request)
         {
-            var marshaller = DetachPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DetachPolicyRequest,DetachPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -4960,11 +8016,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
         public virtual IAsyncResult BeginDetachPolicy(DetachPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5058,10 +8114,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of DetachPolicy.")]
         public virtual DetachPrincipalPolicyResponse DetachPrincipalPolicy(DetachPrincipalPolicyRequest request)
         {
-            var marshaller = DetachPrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachPrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachPrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachPrincipalPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DetachPrincipalPolicyRequest,DetachPrincipalPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachPrincipalPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -5079,11 +8136,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of DetachPolicy.")]
         public virtual IAsyncResult BeginDetachPrincipalPolicy(DetachPrincipalPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachPrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachPrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachPrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachPrincipalPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachPrincipalPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5102,10 +8159,84 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  DetachSecurityProfile
+
+        /// <summary>
+        /// Disassociates a Device Defender security profile from a thing group or from this account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetachSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the DetachSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachSecurityProfile">REST API Reference for DetachSecurityProfile Operation</seealso>
+        public virtual DetachSecurityProfileResponse DetachSecurityProfile(DetachSecurityProfileRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachSecurityProfileResponseUnmarshaller.Instance;
+
+            return Invoke<DetachSecurityProfileResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DetachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DetachSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetachSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachSecurityProfile">REST API Reference for DetachSecurityProfile Operation</seealso>
+        public virtual IAsyncResult BeginDetachSecurityProfile(DetachSecurityProfileRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachSecurityProfileResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DetachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetachSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  DetachSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachSecurityProfile">REST API Reference for DetachSecurityProfile Operation</seealso>
+        public virtual DetachSecurityProfileResponse EndDetachSecurityProfile(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DetachSecurityProfileResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DetachThingPrincipal
 
         /// <summary>
-        /// Detaches the specified principal from the specified thing.
+        /// Detaches the specified principal from the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This call is asynchronous. It might take several seconds for the detachment to propagate.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="thingName">The name of the thing.</param>
         /// <param name="principal">If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.</param>
@@ -5140,7 +8271,15 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Detaches the specified principal from the specified thing.
+        /// Detaches the specified principal from the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This call is asynchronous. It might take several seconds for the detachment to propagate.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachThingPrincipal service method.</param>
         /// 
@@ -5166,10 +8305,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachThingPrincipal">REST API Reference for DetachThingPrincipal Operation</seealso>
         public virtual DetachThingPrincipalResponse DetachThingPrincipal(DetachThingPrincipalRequest request)
         {
-            var marshaller = DetachThingPrincipalRequestMarshaller.Instance;
-            var unmarshaller = DetachThingPrincipalResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachThingPrincipalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachThingPrincipalResponseUnmarshaller.Instance;
 
-            return Invoke<DetachThingPrincipalRequest,DetachThingPrincipalResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachThingPrincipalResponse>(request, options);
         }
 
         /// <summary>
@@ -5186,11 +8326,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachThingPrincipal">REST API Reference for DetachThingPrincipal Operation</seealso>
         public virtual IAsyncResult BeginDetachThingPrincipal(DetachThingPrincipalRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachThingPrincipalRequestMarshaller.Instance;
-            var unmarshaller = DetachThingPrincipalResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachThingPrincipalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachThingPrincipalResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachThingPrincipalRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5216,6 +8356,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the DisableTopicRule service method.</param>
         /// 
         /// <returns>The response from the DisableTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -5231,10 +8375,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DisableTopicRule">REST API Reference for DisableTopicRule Operation</seealso>
         public virtual DisableTopicRuleResponse DisableTopicRule(DisableTopicRuleRequest request)
         {
-            var marshaller = DisableTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = DisableTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableTopicRuleResponseUnmarshaller.Instance;
 
-            return Invoke<DisableTopicRuleRequest,DisableTopicRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisableTopicRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -5251,11 +8396,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DisableTopicRule">REST API Reference for DisableTopicRule Operation</seealso>
         public virtual IAsyncResult BeginDisableTopicRule(DisableTopicRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisableTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = DisableTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableTopicRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisableTopicRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5281,6 +8426,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the EnableTopicRule service method.</param>
         /// 
         /// <returns>The response from the EnableTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -5296,10 +8445,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/EnableTopicRule">REST API Reference for EnableTopicRule Operation</seealso>
         public virtual EnableTopicRuleResponse EnableTopicRule(EnableTopicRuleRequest request)
         {
-            var marshaller = EnableTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = EnableTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableTopicRuleResponseUnmarshaller.Instance;
 
-            return Invoke<EnableTopicRuleRequest,EnableTopicRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnableTopicRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -5316,11 +8466,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/EnableTopicRule">REST API Reference for EnableTopicRule Operation</seealso>
         public virtual IAsyncResult BeginEnableTopicRule(EnableTopicRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = EnableTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = EnableTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableTopicRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<EnableTopicRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5338,10 +8488,92 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  GetCardinality
+
+        /// <summary>
+        /// Returns the approximate count of unique values that match the query.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCardinality service method.</param>
+        /// 
+        /// <returns>The response from the GetCardinality service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.IndexNotReadyException">
+        /// The index is not ready.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidAggregationException">
+        /// The aggregation is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetCardinality">REST API Reference for GetCardinality Operation</seealso>
+        public virtual GetCardinalityResponse GetCardinality(GetCardinalityRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCardinalityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCardinalityResponseUnmarshaller.Instance;
+
+            return Invoke<GetCardinalityResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCardinality operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCardinality operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCardinality
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetCardinality">REST API Reference for GetCardinality Operation</seealso>
+        public virtual IAsyncResult BeginGetCardinality(GetCardinalityRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCardinalityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCardinalityResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCardinality operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCardinality.</param>
+        /// 
+        /// <returns>Returns a  GetCardinalityResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetCardinality">REST API Reference for GetCardinality Operation</seealso>
+        public virtual GetCardinalityResponse EndGetCardinality(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetCardinalityResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetEffectivePolicies
 
         /// <summary>
-        /// Gets effective policies.
+        /// Gets a list of the policies that have an effect on the authorization behavior of the
+        /// specified device when it connects to the AWS IoT device gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetEffectivePolicies service method.</param>
         /// 
@@ -5353,7 +8585,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -5370,10 +8602,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetEffectivePolicies">REST API Reference for GetEffectivePolicies Operation</seealso>
         public virtual GetEffectivePoliciesResponse GetEffectivePolicies(GetEffectivePoliciesRequest request)
         {
-            var marshaller = GetEffectivePoliciesRequestMarshaller.Instance;
-            var unmarshaller = GetEffectivePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEffectivePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEffectivePoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<GetEffectivePoliciesRequest,GetEffectivePoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetEffectivePoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -5390,11 +8623,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetEffectivePolicies">REST API Reference for GetEffectivePolicies Operation</seealso>
         public virtual IAsyncResult BeginGetEffectivePolicies(GetEffectivePoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetEffectivePoliciesRequestMarshaller.Instance;
-            var unmarshaller = GetEffectivePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEffectivePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEffectivePoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetEffectivePoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5415,7 +8648,7 @@ namespace Amazon.IoT
         #region  GetIndexingConfiguration
 
         /// <summary>
-        /// Gets the search configuration.
+        /// Gets the indexing configuration.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetIndexingConfiguration service method.</param>
         /// 
@@ -5438,10 +8671,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetIndexingConfiguration">REST API Reference for GetIndexingConfiguration Operation</seealso>
         public virtual GetIndexingConfigurationResponse GetIndexingConfiguration(GetIndexingConfigurationRequest request)
         {
-            var marshaller = GetIndexingConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetIndexingConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIndexingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIndexingConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<GetIndexingConfigurationRequest,GetIndexingConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetIndexingConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -5458,11 +8692,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetIndexingConfiguration">REST API Reference for GetIndexingConfiguration Operation</seealso>
         public virtual IAsyncResult BeginGetIndexingConfiguration(GetIndexingConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetIndexingConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetIndexingConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIndexingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIndexingConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetIndexingConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5503,10 +8737,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetJobDocument">REST API Reference for GetJobDocument Operation</seealso>
         public virtual GetJobDocumentResponse GetJobDocument(GetJobDocumentRequest request)
         {
-            var marshaller = GetJobDocumentRequestMarshaller.Instance;
-            var unmarshaller = GetJobDocumentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobDocumentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobDocumentResponseUnmarshaller.Instance;
 
-            return Invoke<GetJobDocumentRequest,GetJobDocumentResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetJobDocumentResponse>(request, options);
         }
 
         /// <summary>
@@ -5523,11 +8758,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetJobDocument">REST API Reference for GetJobDocument Operation</seealso>
         public virtual IAsyncResult BeginGetJobDocument(GetJobDocumentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetJobDocumentRequestMarshaller.Instance;
-            var unmarshaller = GetJobDocumentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobDocumentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobDocumentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetJobDocumentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5549,6 +8784,12 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Gets the logging options.
+        /// 
+        ///  
+        /// <para>
+        /// NOTE: use of this command is not recommended. Use <code>GetV2LoggingOptions</code>
+        /// instead.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLoggingOptions service method.</param>
         /// 
@@ -5565,10 +8806,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetLoggingOptions">REST API Reference for GetLoggingOptions Operation</seealso>
         public virtual GetLoggingOptionsResponse GetLoggingOptions(GetLoggingOptionsRequest request)
         {
-            var marshaller = GetLoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = GetLoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoggingOptionsResponseUnmarshaller.Instance;
 
-            return Invoke<GetLoggingOptionsRequest,GetLoggingOptionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLoggingOptionsResponse>(request, options);
         }
 
         /// <summary>
@@ -5585,11 +8827,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetLoggingOptions">REST API Reference for GetLoggingOptions Operation</seealso>
         public virtual IAsyncResult BeginGetLoggingOptions(GetLoggingOptionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = GetLoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoggingOptionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLoggingOptionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5636,10 +8878,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetOTAUpdate">REST API Reference for GetOTAUpdate Operation</seealso>
         public virtual GetOTAUpdateResponse GetOTAUpdate(GetOTAUpdateRequest request)
         {
-            var marshaller = GetOTAUpdateRequestMarshaller.Instance;
-            var unmarshaller = GetOTAUpdateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOTAUpdateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOTAUpdateResponseUnmarshaller.Instance;
 
-            return Invoke<GetOTAUpdateRequest,GetOTAUpdateResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetOTAUpdateResponse>(request, options);
         }
 
         /// <summary>
@@ -5656,11 +8899,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetOTAUpdate">REST API Reference for GetOTAUpdate Operation</seealso>
         public virtual IAsyncResult BeginGetOTAUpdate(GetOTAUpdateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetOTAUpdateRequestMarshaller.Instance;
-            var unmarshaller = GetOTAUpdateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOTAUpdateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOTAUpdateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetOTAUpdateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5674,6 +8917,95 @@ namespace Amazon.IoT
         public virtual GetOTAUpdateResponse EndGetOTAUpdate(IAsyncResult asyncResult)
         {
             return EndInvoke<GetOTAUpdateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetPercentiles
+
+        /// <summary>
+        /// Groups the aggregated values that match the query into percentile groupings. The default
+        /// percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when
+        /// you call <code>GetPercentiles</code>. This function returns a value for each percentile
+        /// group specified (or the default percentile groupings). The percentile group "1" contains
+        /// the aggregated field value that occurs in approximately one percent of the values
+        /// that match the query. The percentile group "5" contains the aggregated field value
+        /// that occurs in approximately five percent of the values that match the query, and
+        /// so on. The result is an approximation, the more values that match the query, the more
+        /// accurate the percentile values.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetPercentiles service method.</param>
+        /// 
+        /// <returns>The response from the GetPercentiles service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.IndexNotReadyException">
+        /// The index is not ready.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidAggregationException">
+        /// The aggregation is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPercentiles">REST API Reference for GetPercentiles Operation</seealso>
+        public virtual GetPercentilesResponse GetPercentiles(GetPercentilesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPercentilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPercentilesResponseUnmarshaller.Instance;
+
+            return Invoke<GetPercentilesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetPercentiles operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetPercentiles operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetPercentiles
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPercentiles">REST API Reference for GetPercentiles Operation</seealso>
+        public virtual IAsyncResult BeginGetPercentiles(GetPercentilesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPercentilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPercentilesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetPercentiles operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetPercentiles.</param>
+        /// 
+        /// <returns>Returns a  GetPercentilesResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPercentiles">REST API Reference for GetPercentiles Operation</seealso>
+        public virtual GetPercentilesResponse EndGetPercentiles(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetPercentilesResponse>(asyncResult);
         }
 
         #endregion
@@ -5742,10 +9074,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPolicy">REST API Reference for GetPolicy Operation</seealso>
         public virtual GetPolicyResponse GetPolicy(GetPolicyRequest request)
         {
-            var marshaller = GetPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetPolicyRequest,GetPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -5762,11 +9095,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPolicy">REST API Reference for GetPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetPolicy(GetPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5848,10 +9181,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPolicyVersion">REST API Reference for GetPolicyVersion Operation</seealso>
         public virtual GetPolicyVersionResponse GetPolicyVersion(GetPolicyVersionRequest request)
         {
-            var marshaller = GetPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<GetPolicyVersionRequest,GetPolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetPolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -5868,11 +9202,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPolicyVersion">REST API Reference for GetPolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginGetPolicyVersion(GetPolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetPolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5916,10 +9250,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetRegistrationCode">REST API Reference for GetRegistrationCode Operation</seealso>
         public virtual GetRegistrationCodeResponse GetRegistrationCode(GetRegistrationCodeRequest request)
         {
-            var marshaller = GetRegistrationCodeRequestMarshaller.Instance;
-            var unmarshaller = GetRegistrationCodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegistrationCodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegistrationCodeResponseUnmarshaller.Instance;
 
-            return Invoke<GetRegistrationCodeRequest,GetRegistrationCodeResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRegistrationCodeResponse>(request, options);
         }
 
         /// <summary>
@@ -5936,11 +9271,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetRegistrationCode">REST API Reference for GetRegistrationCode Operation</seealso>
         public virtual IAsyncResult BeginGetRegistrationCode(GetRegistrationCodeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRegistrationCodeRequestMarshaller.Instance;
-            var unmarshaller = GetRegistrationCodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegistrationCodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegistrationCodeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRegistrationCodeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5954,6 +9289,89 @@ namespace Amazon.IoT
         public virtual GetRegistrationCodeResponse EndGetRegistrationCode(IAsyncResult asyncResult)
         {
             return EndInvoke<GetRegistrationCodeResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetStatistics
+
+        /// <summary>
+        /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard
+        /// deviation for the specified aggregated field. If the aggregation field is of type
+        /// <code>String</code>, only the count statistic is returned.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetStatistics service method.</param>
+        /// 
+        /// <returns>The response from the GetStatistics service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.IndexNotReadyException">
+        /// The index is not ready.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidAggregationException">
+        /// The aggregation is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetStatistics">REST API Reference for GetStatistics Operation</seealso>
+        public virtual GetStatisticsResponse GetStatistics(GetStatisticsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStatisticsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStatisticsResponseUnmarshaller.Instance;
+
+            return Invoke<GetStatisticsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetStatistics operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetStatistics operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetStatistics
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetStatistics">REST API Reference for GetStatistics Operation</seealso>
+        public virtual IAsyncResult BeginGetStatistics(GetStatisticsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStatisticsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStatisticsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetStatistics operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetStatistics.</param>
+        /// 
+        /// <returns>Returns a  GetStatisticsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetStatistics">REST API Reference for GetStatistics Operation</seealso>
+        public virtual GetStatisticsResponse EndGetStatistics(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetStatisticsResponse>(asyncResult);
         }
 
         #endregion
@@ -6008,10 +9426,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRule">REST API Reference for GetTopicRule Operation</seealso>
         public virtual GetTopicRuleResponse GetTopicRule(GetTopicRuleRequest request)
         {
-            var marshaller = GetTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = GetTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTopicRuleResponseUnmarshaller.Instance;
 
-            return Invoke<GetTopicRuleRequest,GetTopicRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTopicRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -6028,11 +9447,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRule">REST API Reference for GetTopicRule Operation</seealso>
         public virtual IAsyncResult BeginGetTopicRule(GetTopicRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = GetTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTopicRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTopicRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6050,6 +9469,72 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  GetTopicRuleDestination
+
+        /// <summary>
+        /// Gets information about a topic rule destination.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the GetTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRuleDestination">REST API Reference for GetTopicRuleDestination Operation</seealso>
+        public virtual GetTopicRuleDestinationResponse GetTopicRuleDestination(GetTopicRuleDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<GetTopicRuleDestinationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRuleDestination">REST API Reference for GetTopicRuleDestination Operation</seealso>
+        public virtual IAsyncResult BeginGetTopicRuleDestination(GetTopicRuleDestinationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  GetTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRuleDestination">REST API Reference for GetTopicRuleDestination Operation</seealso>
+        public virtual GetTopicRuleDestinationResponse EndGetTopicRuleDestination(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetTopicRuleDestinationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetV2LoggingOptions
 
         /// <summary>
@@ -6061,8 +9546,8 @@ namespace Amazon.IoT
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
-        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
-        /// The request is not valid.
+        /// <exception cref="Amazon.IoT.Model.NotConfiguredException">
+        /// The resource is not configured.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
         /// The service is temporarily unavailable.
@@ -6070,10 +9555,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetV2LoggingOptions">REST API Reference for GetV2LoggingOptions Operation</seealso>
         public virtual GetV2LoggingOptionsResponse GetV2LoggingOptions(GetV2LoggingOptionsRequest request)
         {
-            var marshaller = GetV2LoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = GetV2LoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetV2LoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetV2LoggingOptionsResponseUnmarshaller.Instance;
 
-            return Invoke<GetV2LoggingOptionsRequest,GetV2LoggingOptionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetV2LoggingOptionsResponse>(request, options);
         }
 
         /// <summary>
@@ -6090,11 +9576,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetV2LoggingOptions">REST API Reference for GetV2LoggingOptions Operation</seealso>
         public virtual IAsyncResult BeginGetV2LoggingOptions(GetV2LoggingOptionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetV2LoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = GetV2LoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetV2LoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetV2LoggingOptionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetV2LoggingOptionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6108,6 +9594,72 @@ namespace Amazon.IoT
         public virtual GetV2LoggingOptionsResponse EndGetV2LoggingOptions(IAsyncResult asyncResult)
         {
             return EndInvoke<GetV2LoggingOptionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListActiveViolations
+
+        /// <summary>
+        /// Lists the active violations for a given Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListActiveViolations service method.</param>
+        /// 
+        /// <returns>The response from the ListActiveViolations service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListActiveViolations">REST API Reference for ListActiveViolations Operation</seealso>
+        public virtual ListActiveViolationsResponse ListActiveViolations(ListActiveViolationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActiveViolationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActiveViolationsResponseUnmarshaller.Instance;
+
+            return Invoke<ListActiveViolationsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListActiveViolations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListActiveViolations operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListActiveViolations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListActiveViolations">REST API Reference for ListActiveViolations Operation</seealso>
+        public virtual IAsyncResult BeginListActiveViolations(ListActiveViolationsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActiveViolationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActiveViolationsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListActiveViolations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListActiveViolations.</param>
+        /// 
+        /// <returns>Returns a  ListActiveViolationsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListActiveViolations">REST API Reference for ListActiveViolations Operation</seealso>
+        public virtual ListActiveViolationsResponse EndListActiveViolations(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListActiveViolationsResponse>(asyncResult);
         }
 
         #endregion
@@ -6127,7 +9679,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -6144,10 +9696,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAttachedPolicies">REST API Reference for ListAttachedPolicies Operation</seealso>
         public virtual ListAttachedPoliciesResponse ListAttachedPolicies(ListAttachedPoliciesRequest request)
         {
-            var marshaller = ListAttachedPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAttachedPoliciesRequest,ListAttachedPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAttachedPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -6164,11 +9717,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAttachedPolicies">REST API Reference for ListAttachedPolicies Operation</seealso>
         public virtual IAsyncResult BeginListAttachedPolicies(ListAttachedPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAttachedPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAttachedPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6182,6 +9735,259 @@ namespace Amazon.IoT
         public virtual ListAttachedPoliciesResponse EndListAttachedPolicies(IAsyncResult asyncResult)
         {
             return EndInvoke<ListAttachedPoliciesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListAuditFindings
+
+        /// <summary>
+        /// Lists the findings (results) of a Device Defender audit or of the audits performed
+        /// during a specified time period. (Findings are retained for 180 days.)
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditFindings service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditFindings service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditFindings">REST API Reference for ListAuditFindings Operation</seealso>
+        public virtual ListAuditFindingsResponse ListAuditFindings(ListAuditFindingsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditFindingsResponseUnmarshaller.Instance;
+
+            return Invoke<ListAuditFindingsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditFindings operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditFindings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditFindings">REST API Reference for ListAuditFindings Operation</seealso>
+        public virtual IAsyncResult BeginListAuditFindings(ListAuditFindingsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditFindingsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditFindings.</param>
+        /// 
+        /// <returns>Returns a  ListAuditFindingsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditFindings">REST API Reference for ListAuditFindings Operation</seealso>
+        public virtual ListAuditFindingsResponse EndListAuditFindings(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListAuditFindingsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListAuditMitigationActionsExecutions
+
+        /// <summary>
+        /// Gets the status of audit mitigation action tasks that were executed.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsExecutions service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditMitigationActionsExecutions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsExecutions">REST API Reference for ListAuditMitigationActionsExecutions Operation</seealso>
+        public virtual ListAuditMitigationActionsExecutionsResponse ListAuditMitigationActionsExecutions(ListAuditMitigationActionsExecutionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditMitigationActionsExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditMitigationActionsExecutionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListAuditMitigationActionsExecutionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditMitigationActionsExecutions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsExecutions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditMitigationActionsExecutions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsExecutions">REST API Reference for ListAuditMitigationActionsExecutions Operation</seealso>
+        public virtual IAsyncResult BeginListAuditMitigationActionsExecutions(ListAuditMitigationActionsExecutionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditMitigationActionsExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditMitigationActionsExecutionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditMitigationActionsExecutions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditMitigationActionsExecutions.</param>
+        /// 
+        /// <returns>Returns a  ListAuditMitigationActionsExecutionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsExecutions">REST API Reference for ListAuditMitigationActionsExecutions Operation</seealso>
+        public virtual ListAuditMitigationActionsExecutionsResponse EndListAuditMitigationActionsExecutions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListAuditMitigationActionsExecutionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListAuditMitigationActionsTasks
+
+        /// <summary>
+        /// Gets a list of audit mitigation action tasks that match the specified filters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsTasks service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditMitigationActionsTasks service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsTasks">REST API Reference for ListAuditMitigationActionsTasks Operation</seealso>
+        public virtual ListAuditMitigationActionsTasksResponse ListAuditMitigationActionsTasks(ListAuditMitigationActionsTasksRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditMitigationActionsTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditMitigationActionsTasksResponseUnmarshaller.Instance;
+
+            return Invoke<ListAuditMitigationActionsTasksResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditMitigationActionsTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsTasks operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditMitigationActionsTasks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsTasks">REST API Reference for ListAuditMitigationActionsTasks Operation</seealso>
+        public virtual IAsyncResult BeginListAuditMitigationActionsTasks(ListAuditMitigationActionsTasksRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditMitigationActionsTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditMitigationActionsTasksResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditMitigationActionsTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditMitigationActionsTasks.</param>
+        /// 
+        /// <returns>Returns a  ListAuditMitigationActionsTasksResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsTasks">REST API Reference for ListAuditMitigationActionsTasks Operation</seealso>
+        public virtual ListAuditMitigationActionsTasksResponse EndListAuditMitigationActionsTasks(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListAuditMitigationActionsTasksResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListAuditTasks
+
+        /// <summary>
+        /// Lists the Device Defender audits that have been performed during a given time period.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditTasks service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditTasks service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditTasks">REST API Reference for ListAuditTasks Operation</seealso>
+        public virtual ListAuditTasksResponse ListAuditTasks(ListAuditTasksRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditTasksResponseUnmarshaller.Instance;
+
+            return Invoke<ListAuditTasksResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditTasks operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditTasks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditTasks">REST API Reference for ListAuditTasks Operation</seealso>
+        public virtual IAsyncResult BeginListAuditTasks(ListAuditTasksRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuditTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuditTasksResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditTasks.</param>
+        /// 
+        /// <returns>Returns a  ListAuditTasksResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditTasks">REST API Reference for ListAuditTasks Operation</seealso>
+        public virtual ListAuditTasksResponse EndListAuditTasks(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListAuditTasksResponse>(asyncResult);
         }
 
         #endregion
@@ -6212,10 +10018,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuthorizers">REST API Reference for ListAuthorizers Operation</seealso>
         public virtual ListAuthorizersResponse ListAuthorizers(ListAuthorizersRequest request)
         {
-            var marshaller = ListAuthorizersRequestMarshaller.Instance;
-            var unmarshaller = ListAuthorizersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuthorizersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuthorizersResponseUnmarshaller.Instance;
 
-            return Invoke<ListAuthorizersRequest,ListAuthorizersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAuthorizersResponse>(request, options);
         }
 
         /// <summary>
@@ -6232,11 +10039,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuthorizers">REST API Reference for ListAuthorizers Operation</seealso>
         public virtual IAsyncResult BeginListAuthorizers(ListAuthorizersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAuthorizersRequestMarshaller.Instance;
-            var unmarshaller = ListAuthorizersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAuthorizersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAuthorizersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAuthorizersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6250,6 +10057,72 @@ namespace Amazon.IoT
         public virtual ListAuthorizersResponse EndListAuthorizers(IAsyncResult asyncResult)
         {
             return EndInvoke<ListAuthorizersResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListBillingGroups
+
+        /// <summary>
+        /// Lists the billing groups you have created.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListBillingGroups service method.</param>
+        /// 
+        /// <returns>The response from the ListBillingGroups service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListBillingGroups">REST API Reference for ListBillingGroups Operation</seealso>
+        public virtual ListBillingGroupsResponse ListBillingGroups(ListBillingGroupsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBillingGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBillingGroupsResponseUnmarshaller.Instance;
+
+            return Invoke<ListBillingGroupsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListBillingGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListBillingGroups operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListBillingGroups
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListBillingGroups">REST API Reference for ListBillingGroups Operation</seealso>
+        public virtual IAsyncResult BeginListBillingGroups(ListBillingGroupsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBillingGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBillingGroupsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListBillingGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListBillingGroups.</param>
+        /// 
+        /// <returns>Returns a  ListBillingGroupsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListBillingGroups">REST API Reference for ListBillingGroups Operation</seealso>
+        public virtual ListBillingGroupsResponse EndListBillingGroups(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListBillingGroupsResponse>(asyncResult);
         }
 
         #endregion
@@ -6286,10 +10159,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListCACertificates">REST API Reference for ListCACertificates Operation</seealso>
         public virtual ListCACertificatesResponse ListCACertificates(ListCACertificatesRequest request)
         {
-            var marshaller = ListCACertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListCACertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCACertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCACertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<ListCACertificatesRequest,ListCACertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListCACertificatesResponse>(request, options);
         }
 
         /// <summary>
@@ -6306,11 +10180,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListCACertificates">REST API Reference for ListCACertificates Operation</seealso>
         public virtual IAsyncResult BeginListCACertificates(ListCACertificatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListCACertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListCACertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCACertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCACertificatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListCACertificatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6394,10 +10268,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListCertificates">REST API Reference for ListCertificates Operation</seealso>
         public virtual ListCertificatesResponse ListCertificates(ListCertificatesRequest request)
         {
-            var marshaller = ListCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<ListCertificatesRequest,ListCertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListCertificatesResponse>(request, options);
         }
 
         /// <summary>
@@ -6414,11 +10289,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListCertificates">REST API Reference for ListCertificates Operation</seealso>
         public virtual IAsyncResult BeginListCertificates(ListCertificatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCertificatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListCertificatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6462,10 +10337,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListCertificatesByCA">REST API Reference for ListCertificatesByCA Operation</seealso>
         public virtual ListCertificatesByCAResponse ListCertificatesByCA(ListCertificatesByCARequest request)
         {
-            var marshaller = ListCertificatesByCARequestMarshaller.Instance;
-            var unmarshaller = ListCertificatesByCAResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCertificatesByCARequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCertificatesByCAResponseUnmarshaller.Instance;
 
-            return Invoke<ListCertificatesByCARequest,ListCertificatesByCAResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListCertificatesByCAResponse>(request, options);
         }
 
         /// <summary>
@@ -6482,11 +10358,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListCertificatesByCA">REST API Reference for ListCertificatesByCA Operation</seealso>
         public virtual IAsyncResult BeginListCertificatesByCA(ListCertificatesByCARequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListCertificatesByCARequestMarshaller.Instance;
-            var unmarshaller = ListCertificatesByCAResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCertificatesByCARequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCertificatesByCAResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListCertificatesByCARequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6500,6 +10376,145 @@ namespace Amazon.IoT
         public virtual ListCertificatesByCAResponse EndListCertificatesByCA(IAsyncResult asyncResult)
         {
             return EndInvoke<ListCertificatesByCAResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListDimensions
+
+        /// <summary>
+        /// List the set of dimensions that are defined for your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDimensions service method.</param>
+        /// 
+        /// <returns>The response from the ListDimensions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDimensions">REST API Reference for ListDimensions Operation</seealso>
+        public virtual ListDimensionsResponse ListDimensions(ListDimensionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDimensionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDimensionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListDimensionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDimensions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDimensions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDimensions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDimensions">REST API Reference for ListDimensions Operation</seealso>
+        public virtual IAsyncResult BeginListDimensions(ListDimensionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDimensionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDimensionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDimensions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDimensions.</param>
+        /// 
+        /// <returns>Returns a  ListDimensionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDimensions">REST API Reference for ListDimensions Operation</seealso>
+        public virtual ListDimensionsResponse EndListDimensions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListDimensionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListDomainConfigurations
+
+        /// <summary>
+        /// Gets a list of domain configurations for the user. This list is sorted alphabetically
+        /// by domain configuration name.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDomainConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the ListDomainConfigurations service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDomainConfigurations">REST API Reference for ListDomainConfigurations Operation</seealso>
+        public virtual ListDomainConfigurationsResponse ListDomainConfigurations(ListDomainConfigurationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDomainConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDomainConfigurationsResponseUnmarshaller.Instance;
+
+            return Invoke<ListDomainConfigurationsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDomainConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDomainConfigurations operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDomainConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDomainConfigurations">REST API Reference for ListDomainConfigurations Operation</seealso>
+        public virtual IAsyncResult BeginListDomainConfigurations(ListDomainConfigurationsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDomainConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDomainConfigurationsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDomainConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDomainConfigurations.</param>
+        /// 
+        /// <returns>Returns a  ListDomainConfigurationsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDomainConfigurations">REST API Reference for ListDomainConfigurations Operation</seealso>
+        public virtual ListDomainConfigurationsResponse EndListDomainConfigurations(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListDomainConfigurationsResponse>(asyncResult);
         }
 
         #endregion
@@ -6530,10 +10545,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListIndices">REST API Reference for ListIndices Operation</seealso>
         public virtual ListIndicesResponse ListIndices(ListIndicesRequest request)
         {
-            var marshaller = ListIndicesRequestMarshaller.Instance;
-            var unmarshaller = ListIndicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIndicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIndicesResponseUnmarshaller.Instance;
 
-            return Invoke<ListIndicesRequest,ListIndicesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListIndicesResponse>(request, options);
         }
 
         /// <summary>
@@ -6550,11 +10566,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListIndices">REST API Reference for ListIndices Operation</seealso>
         public virtual IAsyncResult BeginListIndices(ListIndicesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListIndicesRequestMarshaller.Instance;
-            var unmarshaller = ListIndicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIndicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIndicesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListIndicesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6595,10 +10611,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListJobExecutionsForJob">REST API Reference for ListJobExecutionsForJob Operation</seealso>
         public virtual ListJobExecutionsForJobResponse ListJobExecutionsForJob(ListJobExecutionsForJobRequest request)
         {
-            var marshaller = ListJobExecutionsForJobRequestMarshaller.Instance;
-            var unmarshaller = ListJobExecutionsForJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobExecutionsForJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobExecutionsForJobResponseUnmarshaller.Instance;
 
-            return Invoke<ListJobExecutionsForJobRequest,ListJobExecutionsForJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListJobExecutionsForJobResponse>(request, options);
         }
 
         /// <summary>
@@ -6615,11 +10632,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListJobExecutionsForJob">REST API Reference for ListJobExecutionsForJob Operation</seealso>
         public virtual IAsyncResult BeginListJobExecutionsForJob(ListJobExecutionsForJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListJobExecutionsForJobRequestMarshaller.Instance;
-            var unmarshaller = ListJobExecutionsForJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobExecutionsForJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobExecutionsForJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListJobExecutionsForJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6660,10 +10677,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListJobExecutionsForThing">REST API Reference for ListJobExecutionsForThing Operation</seealso>
         public virtual ListJobExecutionsForThingResponse ListJobExecutionsForThing(ListJobExecutionsForThingRequest request)
         {
-            var marshaller = ListJobExecutionsForThingRequestMarshaller.Instance;
-            var unmarshaller = ListJobExecutionsForThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobExecutionsForThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobExecutionsForThingResponseUnmarshaller.Instance;
 
-            return Invoke<ListJobExecutionsForThingRequest,ListJobExecutionsForThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListJobExecutionsForThingResponse>(request, options);
         }
 
         /// <summary>
@@ -6680,11 +10698,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListJobExecutionsForThing">REST API Reference for ListJobExecutionsForThing Operation</seealso>
         public virtual IAsyncResult BeginListJobExecutionsForThing(ListJobExecutionsForThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListJobExecutionsForThingRequestMarshaller.Instance;
-            var unmarshaller = ListJobExecutionsForThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobExecutionsForThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobExecutionsForThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListJobExecutionsForThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6725,10 +10743,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListJobs">REST API Reference for ListJobs Operation</seealso>
         public virtual ListJobsResponse ListJobs(ListJobsRequest request)
         {
-            var marshaller = ListJobsRequestMarshaller.Instance;
-            var unmarshaller = ListJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobsResponseUnmarshaller.Instance;
 
-            return Invoke<ListJobsRequest,ListJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -6745,11 +10764,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListJobs">REST API Reference for ListJobs Operation</seealso>
         public virtual IAsyncResult BeginListJobs(ListJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListJobsRequestMarshaller.Instance;
-            var unmarshaller = ListJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6763,6 +10782,69 @@ namespace Amazon.IoT
         public virtual ListJobsResponse EndListJobs(IAsyncResult asyncResult)
         {
             return EndInvoke<ListJobsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListMitigationActions
+
+        /// <summary>
+        /// Gets a list of all mitigation actions that match the specified filter criteria.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListMitigationActions service method.</param>
+        /// 
+        /// <returns>The response from the ListMitigationActions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListMitigationActions">REST API Reference for ListMitigationActions Operation</seealso>
+        public virtual ListMitigationActionsResponse ListMitigationActions(ListMitigationActionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMitigationActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMitigationActionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListMitigationActionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListMitigationActions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListMitigationActions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListMitigationActions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListMitigationActions">REST API Reference for ListMitigationActions Operation</seealso>
+        public virtual IAsyncResult BeginListMitigationActions(ListMitigationActionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMitigationActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMitigationActionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListMitigationActions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListMitigationActions.</param>
+        /// 
+        /// <returns>Returns a  ListMitigationActionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListMitigationActions">REST API Reference for ListMitigationActions Operation</seealso>
+        public virtual ListMitigationActionsResponse EndListMitigationActions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListMitigationActionsResponse>(asyncResult);
         }
 
         #endregion
@@ -6793,10 +10875,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListOTAUpdates">REST API Reference for ListOTAUpdates Operation</seealso>
         public virtual ListOTAUpdatesResponse ListOTAUpdates(ListOTAUpdatesRequest request)
         {
-            var marshaller = ListOTAUpdatesRequestMarshaller.Instance;
-            var unmarshaller = ListOTAUpdatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOTAUpdatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOTAUpdatesResponseUnmarshaller.Instance;
 
-            return Invoke<ListOTAUpdatesRequest,ListOTAUpdatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOTAUpdatesResponse>(request, options);
         }
 
         /// <summary>
@@ -6813,11 +10896,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListOTAUpdates">REST API Reference for ListOTAUpdates Operation</seealso>
         public virtual IAsyncResult BeginListOTAUpdates(ListOTAUpdatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOTAUpdatesRequestMarshaller.Instance;
-            var unmarshaller = ListOTAUpdatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOTAUpdatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOTAUpdatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOTAUpdatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6861,10 +10944,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListOutgoingCertificates">REST API Reference for ListOutgoingCertificates Operation</seealso>
         public virtual ListOutgoingCertificatesResponse ListOutgoingCertificates(ListOutgoingCertificatesRequest request)
         {
-            var marshaller = ListOutgoingCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListOutgoingCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOutgoingCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOutgoingCertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<ListOutgoingCertificatesRequest,ListOutgoingCertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOutgoingCertificatesResponse>(request, options);
         }
 
         /// <summary>
@@ -6881,11 +10965,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListOutgoingCertificates">REST API Reference for ListOutgoingCertificates Operation</seealso>
         public virtual IAsyncResult BeginListOutgoingCertificates(ListOutgoingCertificatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOutgoingCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListOutgoingCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOutgoingCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOutgoingCertificatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOutgoingCertificatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6957,10 +11041,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListPolicies">REST API Reference for ListPolicies Operation</seealso>
         public virtual ListPoliciesResponse ListPolicies(ListPoliciesRequest request)
         {
-            var marshaller = ListPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListPoliciesRequest,ListPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -6977,11 +11062,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListPolicies">REST API Reference for ListPolicies Operation</seealso>
         public virtual IAsyncResult BeginListPolicies(ListPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7034,10 +11119,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of ListTargetsForPolicy.")]
         public virtual ListPolicyPrincipalsResponse ListPolicyPrincipals(ListPolicyPrincipalsRequest request)
         {
-            var marshaller = ListPolicyPrincipalsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyPrincipalsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyPrincipalsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyPrincipalsResponseUnmarshaller.Instance;
 
-            return Invoke<ListPolicyPrincipalsRequest,ListPolicyPrincipalsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPolicyPrincipalsResponse>(request, options);
         }
 
         /// <summary>
@@ -7055,11 +11141,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of ListTargetsForPolicy.")]
         public virtual IAsyncResult BeginListPolicyPrincipals(ListPolicyPrincipalsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPolicyPrincipalsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyPrincipalsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyPrincipalsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyPrincipalsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPolicyPrincipalsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7140,10 +11226,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListPolicyVersions">REST API Reference for ListPolicyVersions Operation</seealso>
         public virtual ListPolicyVersionsResponse ListPolicyVersions(ListPolicyVersionsRequest request)
         {
-            var marshaller = ListPolicyVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListPolicyVersionsRequest,ListPolicyVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPolicyVersionsResponse>(request, options);
         }
 
         /// <summary>
@@ -7160,11 +11247,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListPolicyVersions">REST API Reference for ListPolicyVersions Operation</seealso>
         public virtual IAsyncResult BeginListPolicyVersions(ListPolicyVersionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPolicyVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPolicyVersionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7186,7 +11273,7 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Lists the policies attached to the specified principal. If you use an Cognito identity,
-        /// the ID must be in <a href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
+        /// the ID must be in <a href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
         /// Identity format</a>.
         /// 
         ///  
@@ -7227,7 +11314,7 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Lists the policies attached to the specified principal. If you use an Cognito identity,
-        /// the ID must be in <a href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
+        /// the ID must be in <a href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
         /// Identity format</a>.
         /// 
         ///  
@@ -7260,10 +11347,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of ListAttachedPolicies.")]
         public virtual ListPrincipalPoliciesResponse ListPrincipalPolicies(ListPrincipalPoliciesRequest request)
         {
-            var marshaller = ListPrincipalPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListPrincipalPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPrincipalPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPrincipalPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListPrincipalPoliciesRequest,ListPrincipalPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPrincipalPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -7281,11 +11369,11 @@ namespace Amazon.IoT
         [Obsolete("Deprecated in favor of ListAttachedPolicies.")]
         public virtual IAsyncResult BeginListPrincipalPolicies(ListPrincipalPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPrincipalPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListPrincipalPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPrincipalPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPrincipalPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPrincipalPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7307,7 +11395,9 @@ namespace Amazon.IoT
         #region  ListPrincipalThings
 
         /// <summary>
-        /// Lists the things associated with the specified principal.
+        /// Lists the things associated with the specified principal. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="principal">The principal.</param>
         /// 
@@ -7340,7 +11430,9 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Lists the things associated with the specified principal.
+        /// Lists the things associated with the specified principal. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListPrincipalThings service method.</param>
         /// 
@@ -7366,10 +11458,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListPrincipalThings">REST API Reference for ListPrincipalThings Operation</seealso>
         public virtual ListPrincipalThingsResponse ListPrincipalThings(ListPrincipalThingsRequest request)
         {
-            var marshaller = ListPrincipalThingsRequestMarshaller.Instance;
-            var unmarshaller = ListPrincipalThingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPrincipalThingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPrincipalThingsResponseUnmarshaller.Instance;
 
-            return Invoke<ListPrincipalThingsRequest,ListPrincipalThingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPrincipalThingsResponse>(request, options);
         }
 
         /// <summary>
@@ -7386,11 +11479,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListPrincipalThings">REST API Reference for ListPrincipalThings Operation</seealso>
         public virtual IAsyncResult BeginListPrincipalThings(ListPrincipalThingsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPrincipalThingsRequestMarshaller.Instance;
-            var unmarshaller = ListPrincipalThingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPrincipalThingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPrincipalThingsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPrincipalThingsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7404,6 +11497,141 @@ namespace Amazon.IoT
         public virtual ListPrincipalThingsResponse EndListPrincipalThings(IAsyncResult asyncResult)
         {
             return EndInvoke<ListPrincipalThingsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListProvisioningTemplates
+
+        /// <summary>
+        /// Lists the fleet provisioning templates in your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplates service method.</param>
+        /// 
+        /// <returns>The response from the ListProvisioningTemplates service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplates">REST API Reference for ListProvisioningTemplates Operation</seealso>
+        public virtual ListProvisioningTemplatesResponse ListProvisioningTemplates(ListProvisioningTemplatesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProvisioningTemplatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProvisioningTemplatesResponseUnmarshaller.Instance;
+
+            return Invoke<ListProvisioningTemplatesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListProvisioningTemplates operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplates operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListProvisioningTemplates
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplates">REST API Reference for ListProvisioningTemplates Operation</seealso>
+        public virtual IAsyncResult BeginListProvisioningTemplates(ListProvisioningTemplatesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProvisioningTemplatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProvisioningTemplatesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListProvisioningTemplates operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListProvisioningTemplates.</param>
+        /// 
+        /// <returns>Returns a  ListProvisioningTemplatesResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplates">REST API Reference for ListProvisioningTemplates Operation</seealso>
+        public virtual ListProvisioningTemplatesResponse EndListProvisioningTemplates(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListProvisioningTemplatesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListProvisioningTemplateVersions
+
+        /// <summary>
+        /// A list of fleet provisioning template versions.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplateVersions service method.</param>
+        /// 
+        /// <returns>The response from the ListProvisioningTemplateVersions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplateVersions">REST API Reference for ListProvisioningTemplateVersions Operation</seealso>
+        public virtual ListProvisioningTemplateVersionsResponse ListProvisioningTemplateVersions(ListProvisioningTemplateVersionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProvisioningTemplateVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProvisioningTemplateVersionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListProvisioningTemplateVersionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListProvisioningTemplateVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplateVersions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListProvisioningTemplateVersions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplateVersions">REST API Reference for ListProvisioningTemplateVersions Operation</seealso>
+        public virtual IAsyncResult BeginListProvisioningTemplateVersions(ListProvisioningTemplateVersionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProvisioningTemplateVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProvisioningTemplateVersionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListProvisioningTemplateVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListProvisioningTemplateVersions.</param>
+        /// 
+        /// <returns>Returns a  ListProvisioningTemplateVersionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplateVersions">REST API Reference for ListProvisioningTemplateVersions Operation</seealso>
+        public virtual ListProvisioningTemplateVersionsResponse EndListProvisioningTemplateVersions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListProvisioningTemplateVersionsResponse>(asyncResult);
         }
 
         #endregion
@@ -7434,10 +11662,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListRoleAliases">REST API Reference for ListRoleAliases Operation</seealso>
         public virtual ListRoleAliasesResponse ListRoleAliases(ListRoleAliasesRequest request)
         {
-            var marshaller = ListRoleAliasesRequestMarshaller.Instance;
-            var unmarshaller = ListRoleAliasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRoleAliasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRoleAliasesResponseUnmarshaller.Instance;
 
-            return Invoke<ListRoleAliasesRequest,ListRoleAliasesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRoleAliasesResponse>(request, options);
         }
 
         /// <summary>
@@ -7454,11 +11683,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListRoleAliases">REST API Reference for ListRoleAliases Operation</seealso>
         public virtual IAsyncResult BeginListRoleAliases(ListRoleAliasesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRoleAliasesRequestMarshaller.Instance;
-            var unmarshaller = ListRoleAliasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRoleAliasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRoleAliasesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRoleAliasesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7472,6 +11701,203 @@ namespace Amazon.IoT
         public virtual ListRoleAliasesResponse EndListRoleAliases(IAsyncResult asyncResult)
         {
             return EndInvoke<ListRoleAliasesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListScheduledAudits
+
+        /// <summary>
+        /// Lists all of your scheduled audits.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListScheduledAudits service method.</param>
+        /// 
+        /// <returns>The response from the ListScheduledAudits service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListScheduledAudits">REST API Reference for ListScheduledAudits Operation</seealso>
+        public virtual ListScheduledAuditsResponse ListScheduledAudits(ListScheduledAuditsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListScheduledAuditsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListScheduledAuditsResponseUnmarshaller.Instance;
+
+            return Invoke<ListScheduledAuditsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListScheduledAudits operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListScheduledAudits operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListScheduledAudits
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListScheduledAudits">REST API Reference for ListScheduledAudits Operation</seealso>
+        public virtual IAsyncResult BeginListScheduledAudits(ListScheduledAuditsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListScheduledAuditsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListScheduledAuditsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListScheduledAudits operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListScheduledAudits.</param>
+        /// 
+        /// <returns>Returns a  ListScheduledAuditsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListScheduledAudits">REST API Reference for ListScheduledAudits Operation</seealso>
+        public virtual ListScheduledAuditsResponse EndListScheduledAudits(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListScheduledAuditsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListSecurityProfiles
+
+        /// <summary>
+        /// Lists the Device Defender security profiles you have created. You can use filters
+        /// to list only those security profiles associated with a thing group or only those associated
+        /// with your account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfiles service method.</param>
+        /// 
+        /// <returns>The response from the ListSecurityProfiles service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfiles">REST API Reference for ListSecurityProfiles Operation</seealso>
+        public virtual ListSecurityProfilesResponse ListSecurityProfiles(ListSecurityProfilesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSecurityProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSecurityProfilesResponseUnmarshaller.Instance;
+
+            return Invoke<ListSecurityProfilesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListSecurityProfiles operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfiles operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListSecurityProfiles
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfiles">REST API Reference for ListSecurityProfiles Operation</seealso>
+        public virtual IAsyncResult BeginListSecurityProfiles(ListSecurityProfilesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSecurityProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSecurityProfilesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListSecurityProfiles operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListSecurityProfiles.</param>
+        /// 
+        /// <returns>Returns a  ListSecurityProfilesResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfiles">REST API Reference for ListSecurityProfiles Operation</seealso>
+        public virtual ListSecurityProfilesResponse EndListSecurityProfiles(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListSecurityProfilesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListSecurityProfilesForTarget
+
+        /// <summary>
+        /// Lists the Device Defender security profiles attached to a target (thing group).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfilesForTarget service method.</param>
+        /// 
+        /// <returns>The response from the ListSecurityProfilesForTarget service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfilesForTarget">REST API Reference for ListSecurityProfilesForTarget Operation</seealso>
+        public virtual ListSecurityProfilesForTargetResponse ListSecurityProfilesForTarget(ListSecurityProfilesForTargetRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSecurityProfilesForTargetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSecurityProfilesForTargetResponseUnmarshaller.Instance;
+
+            return Invoke<ListSecurityProfilesForTargetResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListSecurityProfilesForTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfilesForTarget operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListSecurityProfilesForTarget
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfilesForTarget">REST API Reference for ListSecurityProfilesForTarget Operation</seealso>
+        public virtual IAsyncResult BeginListSecurityProfilesForTarget(ListSecurityProfilesForTargetRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSecurityProfilesForTargetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSecurityProfilesForTargetResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListSecurityProfilesForTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListSecurityProfilesForTarget.</param>
+        /// 
+        /// <returns>Returns a  ListSecurityProfilesForTargetResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfilesForTarget">REST API Reference for ListSecurityProfilesForTarget Operation</seealso>
+        public virtual ListSecurityProfilesForTargetResponse EndListSecurityProfilesForTarget(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListSecurityProfilesForTargetResponse>(asyncResult);
         }
 
         #endregion
@@ -7502,10 +11928,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListStreams">REST API Reference for ListStreams Operation</seealso>
         public virtual ListStreamsResponse ListStreams(ListStreamsRequest request)
         {
-            var marshaller = ListStreamsRequestMarshaller.Instance;
-            var unmarshaller = ListStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamsResponseUnmarshaller.Instance;
 
-            return Invoke<ListStreamsRequest,ListStreamsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListStreamsResponse>(request, options);
         }
 
         /// <summary>
@@ -7522,11 +11949,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListStreams">REST API Reference for ListStreams Operation</seealso>
         public virtual IAsyncResult BeginListStreams(ListStreamsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListStreamsRequestMarshaller.Instance;
-            var unmarshaller = ListStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListStreamsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7540,6 +11967,72 @@ namespace Amazon.IoT
         public virtual ListStreamsResponse EndListStreams(IAsyncResult asyncResult)
         {
             return EndInvoke<ListStreamsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// Lists the tags (metadata) you have assigned to the resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -7559,7 +12052,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -7576,10 +12069,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForPolicy">REST API Reference for ListTargetsForPolicy Operation</seealso>
         public virtual ListTargetsForPolicyResponse ListTargetsForPolicy(ListTargetsForPolicyRequest request)
         {
-            var marshaller = ListTargetsForPolicyRequestMarshaller.Instance;
-            var unmarshaller = ListTargetsForPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTargetsForPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTargetsForPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<ListTargetsForPolicyRequest,ListTargetsForPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTargetsForPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -7596,11 +12090,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForPolicy">REST API Reference for ListTargetsForPolicy Operation</seealso>
         public virtual IAsyncResult BeginListTargetsForPolicy(ListTargetsForPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTargetsForPolicyRequestMarshaller.Instance;
-            var unmarshaller = ListTargetsForPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTargetsForPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTargetsForPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTargetsForPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7614,6 +12108,73 @@ namespace Amazon.IoT
         public virtual ListTargetsForPolicyResponse EndListTargetsForPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<ListTargetsForPolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTargetsForSecurityProfile
+
+        /// <summary>
+        /// Lists the targets (thing groups) associated with a given Device Defender security
+        /// profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTargetsForSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the ListTargetsForSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForSecurityProfile">REST API Reference for ListTargetsForSecurityProfile Operation</seealso>
+        public virtual ListTargetsForSecurityProfileResponse ListTargetsForSecurityProfile(ListTargetsForSecurityProfileRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTargetsForSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTargetsForSecurityProfileResponseUnmarshaller.Instance;
+
+            return Invoke<ListTargetsForSecurityProfileResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTargetsForSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTargetsForSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTargetsForSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForSecurityProfile">REST API Reference for ListTargetsForSecurityProfile Operation</seealso>
+        public virtual IAsyncResult BeginListTargetsForSecurityProfile(ListTargetsForSecurityProfileRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTargetsForSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTargetsForSecurityProfileResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTargetsForSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTargetsForSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  ListTargetsForSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForSecurityProfile">REST API Reference for ListTargetsForSecurityProfile Operation</seealso>
+        public virtual ListTargetsForSecurityProfileResponse EndListTargetsForSecurityProfile(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTargetsForSecurityProfileResponse>(asyncResult);
         }
 
         #endregion
@@ -7638,10 +12199,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingGroups">REST API Reference for ListThingGroups Operation</seealso>
         public virtual ListThingGroupsResponse ListThingGroups(ListThingGroupsRequest request)
         {
-            var marshaller = ListThingGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListThingGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingGroupsRequest,ListThingGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -7658,11 +12220,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingGroups">REST API Reference for ListThingGroups Operation</seealso>
         public virtual IAsyncResult BeginListThingGroups(ListThingGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListThingGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7700,10 +12262,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingGroupsForThing">REST API Reference for ListThingGroupsForThing Operation</seealso>
         public virtual ListThingGroupsForThingResponse ListThingGroupsForThing(ListThingGroupsForThingRequest request)
         {
-            var marshaller = ListThingGroupsForThingRequestMarshaller.Instance;
-            var unmarshaller = ListThingGroupsForThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingGroupsForThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingGroupsForThingResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingGroupsForThingRequest,ListThingGroupsForThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingGroupsForThingResponse>(request, options);
         }
 
         /// <summary>
@@ -7720,11 +12283,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingGroupsForThing">REST API Reference for ListThingGroupsForThing Operation</seealso>
         public virtual IAsyncResult BeginListThingGroupsForThing(ListThingGroupsForThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingGroupsForThingRequestMarshaller.Instance;
-            var unmarshaller = ListThingGroupsForThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingGroupsForThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingGroupsForThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingGroupsForThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7745,7 +12308,9 @@ namespace Amazon.IoT
         #region  ListThingPrincipals
 
         /// <summary>
-        /// Lists the principals associated with the specified thing.
+        /// Lists the principals associated with the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="thingName">The name of the thing.</param>
         /// 
@@ -7778,7 +12343,9 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Lists the principals associated with the specified thing.
+        /// Lists the principals associated with the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListThingPrincipals service method.</param>
         /// 
@@ -7804,10 +12371,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingPrincipals">REST API Reference for ListThingPrincipals Operation</seealso>
         public virtual ListThingPrincipalsResponse ListThingPrincipals(ListThingPrincipalsRequest request)
         {
-            var marshaller = ListThingPrincipalsRequestMarshaller.Instance;
-            var unmarshaller = ListThingPrincipalsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingPrincipalsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingPrincipalsResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingPrincipalsRequest,ListThingPrincipalsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingPrincipalsResponse>(request, options);
         }
 
         /// <summary>
@@ -7824,11 +12392,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingPrincipals">REST API Reference for ListThingPrincipals Operation</seealso>
         public virtual IAsyncResult BeginListThingPrincipals(ListThingPrincipalsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingPrincipalsRequestMarshaller.Instance;
-            var unmarshaller = ListThingPrincipalsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingPrincipalsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingPrincipalsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingPrincipalsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7869,10 +12437,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingRegistrationTaskReports">REST API Reference for ListThingRegistrationTaskReports Operation</seealso>
         public virtual ListThingRegistrationTaskReportsResponse ListThingRegistrationTaskReports(ListThingRegistrationTaskReportsRequest request)
         {
-            var marshaller = ListThingRegistrationTaskReportsRequestMarshaller.Instance;
-            var unmarshaller = ListThingRegistrationTaskReportsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingRegistrationTaskReportsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingRegistrationTaskReportsResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingRegistrationTaskReportsRequest,ListThingRegistrationTaskReportsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingRegistrationTaskReportsResponse>(request, options);
         }
 
         /// <summary>
@@ -7889,11 +12458,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingRegistrationTaskReports">REST API Reference for ListThingRegistrationTaskReports Operation</seealso>
         public virtual IAsyncResult BeginListThingRegistrationTaskReports(ListThingRegistrationTaskReportsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingRegistrationTaskReportsRequestMarshaller.Instance;
-            var unmarshaller = ListThingRegistrationTaskReportsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingRegistrationTaskReportsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingRegistrationTaskReportsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingRegistrationTaskReportsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7934,10 +12503,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingRegistrationTasks">REST API Reference for ListThingRegistrationTasks Operation</seealso>
         public virtual ListThingRegistrationTasksResponse ListThingRegistrationTasks(ListThingRegistrationTasksRequest request)
         {
-            var marshaller = ListThingRegistrationTasksRequestMarshaller.Instance;
-            var unmarshaller = ListThingRegistrationTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingRegistrationTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingRegistrationTasksResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingRegistrationTasksRequest,ListThingRegistrationTasksResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingRegistrationTasksResponse>(request, options);
         }
 
         /// <summary>
@@ -7954,11 +12524,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingRegistrationTasks">REST API Reference for ListThingRegistrationTasks Operation</seealso>
         public virtual IAsyncResult BeginListThingRegistrationTasks(ListThingRegistrationTasksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingRegistrationTasksRequestMarshaller.Instance;
-            var unmarshaller = ListThingRegistrationTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingRegistrationTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingRegistrationTasksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingRegistrationTasksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8036,10 +12606,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThings">REST API Reference for ListThings Operation</seealso>
         public virtual ListThingsResponse ListThings(ListThingsRequest request)
         {
-            var marshaller = ListThingsRequestMarshaller.Instance;
-            var unmarshaller = ListThingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingsResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingsRequest,ListThingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingsResponse>(request, options);
         }
 
         /// <summary>
@@ -8056,11 +12627,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThings">REST API Reference for ListThings Operation</seealso>
         public virtual IAsyncResult BeginListThings(ListThingsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingsRequestMarshaller.Instance;
-            var unmarshaller = ListThingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8074,6 +12645,72 @@ namespace Amazon.IoT
         public virtual ListThingsResponse EndListThings(IAsyncResult asyncResult)
         {
             return EndInvoke<ListThingsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListThingsInBillingGroup
+
+        /// <summary>
+        /// Lists the things you have added to the given billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListThingsInBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the ListThingsInBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInBillingGroup">REST API Reference for ListThingsInBillingGroup Operation</seealso>
+        public virtual ListThingsInBillingGroupResponse ListThingsInBillingGroup(ListThingsInBillingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingsInBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingsInBillingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<ListThingsInBillingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListThingsInBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListThingsInBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListThingsInBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInBillingGroup">REST API Reference for ListThingsInBillingGroup Operation</seealso>
+        public virtual IAsyncResult BeginListThingsInBillingGroup(ListThingsInBillingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingsInBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingsInBillingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListThingsInBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListThingsInBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  ListThingsInBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInBillingGroup">REST API Reference for ListThingsInBillingGroup Operation</seealso>
+        public virtual ListThingsInBillingGroupResponse EndListThingsInBillingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListThingsInBillingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -8098,10 +12735,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInThingGroup">REST API Reference for ListThingsInThingGroup Operation</seealso>
         public virtual ListThingsInThingGroupResponse ListThingsInThingGroup(ListThingsInThingGroupRequest request)
         {
-            var marshaller = ListThingsInThingGroupRequestMarshaller.Instance;
-            var unmarshaller = ListThingsInThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingsInThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingsInThingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingsInThingGroupRequest,ListThingsInThingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingsInThingGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -8118,11 +12756,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInThingGroup">REST API Reference for ListThingsInThingGroup Operation</seealso>
         public virtual IAsyncResult BeginListThingsInThingGroup(ListThingsInThingGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingsInThingGroupRequestMarshaller.Instance;
-            var unmarshaller = ListThingsInThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingsInThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingsInThingGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingsInThingGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8166,10 +12804,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingTypes">REST API Reference for ListThingTypes Operation</seealso>
         public virtual ListThingTypesResponse ListThingTypes(ListThingTypesRequest request)
         {
-            var marshaller = ListThingTypesRequestMarshaller.Instance;
-            var unmarshaller = ListThingTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingTypesResponseUnmarshaller.Instance;
 
-            return Invoke<ListThingTypesRequest,ListThingTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThingTypesResponse>(request, options);
         }
 
         /// <summary>
@@ -8186,11 +12825,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingTypes">REST API Reference for ListThingTypes Operation</seealso>
         public virtual IAsyncResult BeginListThingTypes(ListThingTypesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListThingTypesRequestMarshaller.Instance;
-            var unmarshaller = ListThingTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThingTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThingTypesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListThingTypesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8204,6 +12843,72 @@ namespace Amazon.IoT
         public virtual ListThingTypesResponse EndListThingTypes(IAsyncResult asyncResult)
         {
             return EndInvoke<ListThingTypesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTopicRuleDestinations
+
+        /// <summary>
+        /// Lists all the topic rule destinations in your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTopicRuleDestinations service method.</param>
+        /// 
+        /// <returns>The response from the ListTopicRuleDestinations service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRuleDestinations">REST API Reference for ListTopicRuleDestinations Operation</seealso>
+        public virtual ListTopicRuleDestinationsResponse ListTopicRuleDestinations(ListTopicRuleDestinationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTopicRuleDestinationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTopicRuleDestinationsResponseUnmarshaller.Instance;
+
+            return Invoke<ListTopicRuleDestinationsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTopicRuleDestinations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTopicRuleDestinations operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTopicRuleDestinations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRuleDestinations">REST API Reference for ListTopicRuleDestinations Operation</seealso>
+        public virtual IAsyncResult BeginListTopicRuleDestinations(ListTopicRuleDestinationsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTopicRuleDestinationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTopicRuleDestinationsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTopicRuleDestinations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTopicRuleDestinations.</param>
+        /// 
+        /// <returns>Returns a  ListTopicRuleDestinationsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRuleDestinations">REST API Reference for ListTopicRuleDestinations Operation</seealso>
+        public virtual ListTopicRuleDestinationsResponse EndListTopicRuleDestinations(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTopicRuleDestinationsResponse>(asyncResult);
         }
 
         #endregion
@@ -8252,10 +12957,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRules">REST API Reference for ListTopicRules Operation</seealso>
         public virtual ListTopicRulesResponse ListTopicRules(ListTopicRulesRequest request)
         {
-            var marshaller = ListTopicRulesRequestMarshaller.Instance;
-            var unmarshaller = ListTopicRulesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTopicRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTopicRulesResponseUnmarshaller.Instance;
 
-            return Invoke<ListTopicRulesRequest,ListTopicRulesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTopicRulesResponse>(request, options);
         }
 
         /// <summary>
@@ -8272,11 +12978,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRules">REST API Reference for ListTopicRules Operation</seealso>
         public virtual IAsyncResult BeginListTopicRules(ListTopicRulesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTopicRulesRequestMarshaller.Instance;
-            var unmarshaller = ListTopicRulesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTopicRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTopicRulesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTopicRulesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8317,10 +13023,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListV2LoggingLevels">REST API Reference for ListV2LoggingLevels Operation</seealso>
         public virtual ListV2LoggingLevelsResponse ListV2LoggingLevels(ListV2LoggingLevelsRequest request)
         {
-            var marshaller = ListV2LoggingLevelsRequestMarshaller.Instance;
-            var unmarshaller = ListV2LoggingLevelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListV2LoggingLevelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListV2LoggingLevelsResponseUnmarshaller.Instance;
 
-            return Invoke<ListV2LoggingLevelsRequest,ListV2LoggingLevelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListV2LoggingLevelsResponse>(request, options);
         }
 
         /// <summary>
@@ -8337,11 +13044,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListV2LoggingLevels">REST API Reference for ListV2LoggingLevels Operation</seealso>
         public virtual IAsyncResult BeginListV2LoggingLevels(ListV2LoggingLevelsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListV2LoggingLevelsRequestMarshaller.Instance;
-            var unmarshaller = ListV2LoggingLevelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListV2LoggingLevelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListV2LoggingLevelsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListV2LoggingLevelsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8355,6 +13062,71 @@ namespace Amazon.IoT
         public virtual ListV2LoggingLevelsResponse EndListV2LoggingLevels(IAsyncResult asyncResult)
         {
             return EndInvoke<ListV2LoggingLevelsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListViolationEvents
+
+        /// <summary>
+        /// Lists the Device Defender security profile violations discovered during the given
+        /// time period. You can use filters to limit the results to those alerts issued for a
+        /// particular security profile, behavior, or thing (device).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListViolationEvents service method.</param>
+        /// 
+        /// <returns>The response from the ListViolationEvents service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListViolationEvents">REST API Reference for ListViolationEvents Operation</seealso>
+        public virtual ListViolationEventsResponse ListViolationEvents(ListViolationEventsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListViolationEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListViolationEventsResponseUnmarshaller.Instance;
+
+            return Invoke<ListViolationEventsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListViolationEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListViolationEvents operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListViolationEvents
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListViolationEvents">REST API Reference for ListViolationEvents Operation</seealso>
+        public virtual IAsyncResult BeginListViolationEvents(ListViolationEventsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListViolationEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListViolationEventsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListViolationEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListViolationEvents.</param>
+        /// 
+        /// <returns>Returns a  ListViolationEventsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListViolationEvents">REST API Reference for ListViolationEvents Operation</seealso>
+        public virtual ListViolationEventsResponse EndListViolationEvents(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListViolationEventsResponse>(asyncResult);
         }
 
         #endregion
@@ -8382,7 +13154,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.RegistrationCodeValidationException">
         /// The registration code is invalid.
@@ -8402,10 +13174,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RegisterCACertificate">REST API Reference for RegisterCACertificate Operation</seealso>
         public virtual RegisterCACertificateResponse RegisterCACertificate(RegisterCACertificateRequest request)
         {
-            var marshaller = RegisterCACertificateRequestMarshaller.Instance;
-            var unmarshaller = RegisterCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterCACertificateResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterCACertificateRequest,RegisterCACertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterCACertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -8422,11 +13195,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RegisterCACertificate">REST API Reference for RegisterCACertificate Operation</seealso>
         public virtual IAsyncResult BeginRegisterCACertificate(RegisterCACertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterCACertificateRequestMarshaller.Instance;
-            var unmarshaller = RegisterCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterCACertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterCACertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8486,10 +13259,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RegisterCertificate">REST API Reference for RegisterCertificate Operation</seealso>
         public virtual RegisterCertificateResponse RegisterCertificate(RegisterCertificateRequest request)
         {
-            var marshaller = RegisterCertificateRequestMarshaller.Instance;
-            var unmarshaller = RegisterCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterCertificateRequest,RegisterCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -8506,11 +13280,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RegisterCertificate">REST API Reference for RegisterCertificate Operation</seealso>
         public virtual IAsyncResult BeginRegisterCertificate(RegisterCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterCertificateRequestMarshaller.Instance;
-            var unmarshaller = RegisterCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8531,7 +13305,10 @@ namespace Amazon.IoT
         #region  RegisterThing
 
         /// <summary>
-        /// Provisions a thing.
+        /// Provisions a thing in the device registry. RegisterThing calls other AWS IoT control
+        /// plane APIs. These calls might exceed your account level <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot">
+        /// AWS IoT Throttling Limits</a> and cause throttle errors. Please contact <a href="https://console.aws.amazon.com/support/home">AWS
+        /// Customer Support</a> to raise your throttling limits if necessary.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RegisterThing service method.</param>
         /// 
@@ -8561,10 +13338,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RegisterThing">REST API Reference for RegisterThing Operation</seealso>
         public virtual RegisterThingResponse RegisterThing(RegisterThingRequest request)
         {
-            var marshaller = RegisterThingRequestMarshaller.Instance;
-            var unmarshaller = RegisterThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterThingResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterThingRequest,RegisterThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterThingResponse>(request, options);
         }
 
         /// <summary>
@@ -8581,11 +13359,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RegisterThing">REST API Reference for RegisterThing Operation</seealso>
         public virtual IAsyncResult BeginRegisterThing(RegisterThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterThingRequestMarshaller.Instance;
-            var unmarshaller = RegisterThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8620,7 +13398,7 @@ namespace Amazon.IoT
         /// the certificate will be returned to the source's account in the INACTIVE state.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the RejectCertificateTransfer service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -8695,10 +13473,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RejectCertificateTransfer">REST API Reference for RejectCertificateTransfer Operation</seealso>
         public virtual RejectCertificateTransferResponse RejectCertificateTransfer(RejectCertificateTransferRequest request)
         {
-            var marshaller = RejectCertificateTransferRequestMarshaller.Instance;
-            var unmarshaller = RejectCertificateTransferResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RejectCertificateTransferRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RejectCertificateTransferResponseUnmarshaller.Instance;
 
-            return Invoke<RejectCertificateTransferRequest,RejectCertificateTransferResponse>(request, marshaller, unmarshaller);
+            return Invoke<RejectCertificateTransferResponse>(request, options);
         }
 
         /// <summary>
@@ -8715,11 +13494,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RejectCertificateTransfer">REST API Reference for RejectCertificateTransfer Operation</seealso>
         public virtual IAsyncResult BeginRejectCertificateTransfer(RejectCertificateTransferRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RejectCertificateTransferRequestMarshaller.Instance;
-            var unmarshaller = RejectCertificateTransferResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RejectCertificateTransferRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RejectCertificateTransferResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RejectCertificateTransferRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8733,6 +13512,72 @@ namespace Amazon.IoT
         public virtual RejectCertificateTransferResponse EndRejectCertificateTransfer(IAsyncResult asyncResult)
         {
             return EndInvoke<RejectCertificateTransferResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  RemoveThingFromBillingGroup
+
+        /// <summary>
+        /// Removes the given thing from the billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RemoveThingFromBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the RemoveThingFromBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromBillingGroup">REST API Reference for RemoveThingFromBillingGroup Operation</seealso>
+        public virtual RemoveThingFromBillingGroupResponse RemoveThingFromBillingGroup(RemoveThingFromBillingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveThingFromBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveThingFromBillingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<RemoveThingFromBillingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RemoveThingFromBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RemoveThingFromBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRemoveThingFromBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromBillingGroup">REST API Reference for RemoveThingFromBillingGroup Operation</seealso>
+        public virtual IAsyncResult BeginRemoveThingFromBillingGroup(RemoveThingFromBillingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveThingFromBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveThingFromBillingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RemoveThingFromBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRemoveThingFromBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  RemoveThingFromBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromBillingGroup">REST API Reference for RemoveThingFromBillingGroup Operation</seealso>
+        public virtual RemoveThingFromBillingGroupResponse EndRemoveThingFromBillingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<RemoveThingFromBillingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -8760,10 +13605,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromThingGroup">REST API Reference for RemoveThingFromThingGroup Operation</seealso>
         public virtual RemoveThingFromThingGroupResponse RemoveThingFromThingGroup(RemoveThingFromThingGroupRequest request)
         {
-            var marshaller = RemoveThingFromThingGroupRequestMarshaller.Instance;
-            var unmarshaller = RemoveThingFromThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveThingFromThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveThingFromThingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveThingFromThingGroupRequest,RemoveThingFromThingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveThingFromThingGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -8780,11 +13626,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromThingGroup">REST API Reference for RemoveThingFromThingGroup Operation</seealso>
         public virtual IAsyncResult BeginRemoveThingFromThingGroup(RemoveThingFromThingGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RemoveThingFromThingGroupRequestMarshaller.Instance;
-            var unmarshaller = RemoveThingFromThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveThingFromThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveThingFromThingGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RemoveThingFromThingGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8812,6 +13658,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the ReplaceTopicRule service method.</param>
         /// 
         /// <returns>The response from the ReplaceTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -8830,10 +13680,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ReplaceTopicRule">REST API Reference for ReplaceTopicRule Operation</seealso>
         public virtual ReplaceTopicRuleResponse ReplaceTopicRule(ReplaceTopicRuleRequest request)
         {
-            var marshaller = ReplaceTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = ReplaceTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ReplaceTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ReplaceTopicRuleResponseUnmarshaller.Instance;
 
-            return Invoke<ReplaceTopicRuleRequest,ReplaceTopicRuleResponse>(request, marshaller, unmarshaller);
+            return Invoke<ReplaceTopicRuleResponse>(request, options);
         }
 
         /// <summary>
@@ -8850,11 +13701,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ReplaceTopicRule">REST API Reference for ReplaceTopicRule Operation</seealso>
         public virtual IAsyncResult BeginReplaceTopicRule(ReplaceTopicRuleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ReplaceTopicRuleRequestMarshaller.Instance;
-            var unmarshaller = ReplaceTopicRuleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ReplaceTopicRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ReplaceTopicRuleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ReplaceTopicRuleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8907,10 +13758,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SearchIndex">REST API Reference for SearchIndex Operation</seealso>
         public virtual SearchIndexResponse SearchIndex(SearchIndexRequest request)
         {
-            var marshaller = SearchIndexRequestMarshaller.Instance;
-            var unmarshaller = SearchIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchIndexResponseUnmarshaller.Instance;
 
-            return Invoke<SearchIndexRequest,SearchIndexResponse>(request, marshaller, unmarshaller);
+            return Invoke<SearchIndexResponse>(request, options);
         }
 
         /// <summary>
@@ -8927,11 +13779,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SearchIndex">REST API Reference for SearchIndex Operation</seealso>
         public virtual IAsyncResult BeginSearchIndex(SearchIndexRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SearchIndexRequestMarshaller.Instance;
-            var unmarshaller = SearchIndexResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchIndexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchIndexResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SearchIndexRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8982,10 +13834,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetDefaultAuthorizer">REST API Reference for SetDefaultAuthorizer Operation</seealso>
         public virtual SetDefaultAuthorizerResponse SetDefaultAuthorizer(SetDefaultAuthorizerRequest request)
         {
-            var marshaller = SetDefaultAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = SetDefaultAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDefaultAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDefaultAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<SetDefaultAuthorizerRequest,SetDefaultAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetDefaultAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -9002,11 +13855,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetDefaultAuthorizer">REST API Reference for SetDefaultAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginSetDefaultAuthorizer(SetDefaultAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SetDefaultAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = SetDefaultAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDefaultAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDefaultAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SetDefaultAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9092,10 +13945,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetDefaultPolicyVersion">REST API Reference for SetDefaultPolicyVersion Operation</seealso>
         public virtual SetDefaultPolicyVersionResponse SetDefaultPolicyVersion(SetDefaultPolicyVersionRequest request)
         {
-            var marshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<SetDefaultPolicyVersionRequest,SetDefaultPolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetDefaultPolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -9112,11 +13966,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetDefaultPolicyVersion">REST API Reference for SetDefaultPolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginSetDefaultPolicyVersion(SetDefaultPolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SetDefaultPolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9138,6 +13992,12 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Sets the logging options.
+        /// 
+        ///  
+        /// <para>
+        /// NOTE: use of this command is not recommended. Use <code>SetV2LoggingOptions</code>
+        /// instead.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetLoggingOptions service method.</param>
         /// 
@@ -9154,10 +14014,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetLoggingOptions">REST API Reference for SetLoggingOptions Operation</seealso>
         public virtual SetLoggingOptionsResponse SetLoggingOptions(SetLoggingOptionsRequest request)
         {
-            var marshaller = SetLoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = SetLoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetLoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetLoggingOptionsResponseUnmarshaller.Instance;
 
-            return Invoke<SetLoggingOptionsRequest,SetLoggingOptionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetLoggingOptionsResponse>(request, options);
         }
 
         /// <summary>
@@ -9174,11 +14035,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetLoggingOptions">REST API Reference for SetLoggingOptions Operation</seealso>
         public virtual IAsyncResult BeginSetLoggingOptions(SetLoggingOptionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SetLoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = SetLoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetLoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetLoggingOptionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SetLoggingOptionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9219,10 +14080,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetV2LoggingLevel">REST API Reference for SetV2LoggingLevel Operation</seealso>
         public virtual SetV2LoggingLevelResponse SetV2LoggingLevel(SetV2LoggingLevelRequest request)
         {
-            var marshaller = SetV2LoggingLevelRequestMarshaller.Instance;
-            var unmarshaller = SetV2LoggingLevelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetV2LoggingLevelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetV2LoggingLevelResponseUnmarshaller.Instance;
 
-            return Invoke<SetV2LoggingLevelRequest,SetV2LoggingLevelResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetV2LoggingLevelResponse>(request, options);
         }
 
         /// <summary>
@@ -9239,11 +14101,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetV2LoggingLevel">REST API Reference for SetV2LoggingLevel Operation</seealso>
         public virtual IAsyncResult BeginSetV2LoggingLevel(SetV2LoggingLevelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SetV2LoggingLevelRequestMarshaller.Instance;
-            var unmarshaller = SetV2LoggingLevelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetV2LoggingLevelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetV2LoggingLevelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SetV2LoggingLevelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9281,10 +14143,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetV2LoggingOptions">REST API Reference for SetV2LoggingOptions Operation</seealso>
         public virtual SetV2LoggingOptionsResponse SetV2LoggingOptions(SetV2LoggingOptionsRequest request)
         {
-            var marshaller = SetV2LoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = SetV2LoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetV2LoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetV2LoggingOptionsResponseUnmarshaller.Instance;
 
-            return Invoke<SetV2LoggingOptionsRequest,SetV2LoggingOptionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetV2LoggingOptionsResponse>(request, options);
         }
 
         /// <summary>
@@ -9301,11 +14164,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/SetV2LoggingOptions">REST API Reference for SetV2LoggingOptions Operation</seealso>
         public virtual IAsyncResult BeginSetV2LoggingOptions(SetV2LoggingOptionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SetV2LoggingOptionsRequestMarshaller.Instance;
-            var unmarshaller = SetV2LoggingOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetV2LoggingOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetV2LoggingOptionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SetV2LoggingOptionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9319,6 +14182,142 @@ namespace Amazon.IoT
         public virtual SetV2LoggingOptionsResponse EndSetV2LoggingOptions(IAsyncResult asyncResult)
         {
             return EndInvoke<SetV2LoggingOptionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StartAuditMitigationActionsTask
+
+        /// <summary>
+        /// Starts a task that applies a set of mitigation actions to the specified target.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartAuditMitigationActionsTask service method.</param>
+        /// 
+        /// <returns>The response from the StartAuditMitigationActionsTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.TaskAlreadyExistsException">
+        /// This exception occurs if you attempt to start a task with the same task-id as an existing
+        /// task but with a different clientRequestToken.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartAuditMitigationActionsTask">REST API Reference for StartAuditMitigationActionsTask Operation</seealso>
+        public virtual StartAuditMitigationActionsTaskResponse StartAuditMitigationActionsTask(StartAuditMitigationActionsTaskRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartAuditMitigationActionsTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartAuditMitigationActionsTaskResponseUnmarshaller.Instance;
+
+            return Invoke<StartAuditMitigationActionsTaskResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartAuditMitigationActionsTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartAuditMitigationActionsTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartAuditMitigationActionsTask">REST API Reference for StartAuditMitigationActionsTask Operation</seealso>
+        public virtual IAsyncResult BeginStartAuditMitigationActionsTask(StartAuditMitigationActionsTaskRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartAuditMitigationActionsTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartAuditMitigationActionsTaskResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartAuditMitigationActionsTask.</param>
+        /// 
+        /// <returns>Returns a  StartAuditMitigationActionsTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartAuditMitigationActionsTask">REST API Reference for StartAuditMitigationActionsTask Operation</seealso>
+        public virtual StartAuditMitigationActionsTaskResponse EndStartAuditMitigationActionsTask(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartAuditMitigationActionsTaskResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StartOnDemandAuditTask
+
+        /// <summary>
+        /// Starts an on-demand Device Defender audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartOnDemandAuditTask service method.</param>
+        /// 
+        /// <returns>The response from the StartOnDemandAuditTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartOnDemandAuditTask">REST API Reference for StartOnDemandAuditTask Operation</seealso>
+        public virtual StartOnDemandAuditTaskResponse StartOnDemandAuditTask(StartOnDemandAuditTaskRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartOnDemandAuditTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartOnDemandAuditTaskResponseUnmarshaller.Instance;
+
+            return Invoke<StartOnDemandAuditTaskResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartOnDemandAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartOnDemandAuditTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartOnDemandAuditTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartOnDemandAuditTask">REST API Reference for StartOnDemandAuditTask Operation</seealso>
+        public virtual IAsyncResult BeginStartOnDemandAuditTask(StartOnDemandAuditTaskRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartOnDemandAuditTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartOnDemandAuditTaskResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartOnDemandAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartOnDemandAuditTask.</param>
+        /// 
+        /// <returns>Returns a  StartOnDemandAuditTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartOnDemandAuditTask">REST API Reference for StartOnDemandAuditTask Operation</seealso>
+        public virtual StartOnDemandAuditTaskResponse EndStartOnDemandAuditTask(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartOnDemandAuditTaskResponse>(asyncResult);
         }
 
         #endregion
@@ -9346,10 +14345,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartThingRegistrationTask">REST API Reference for StartThingRegistrationTask Operation</seealso>
         public virtual StartThingRegistrationTaskResponse StartThingRegistrationTask(StartThingRegistrationTaskRequest request)
         {
-            var marshaller = StartThingRegistrationTaskRequestMarshaller.Instance;
-            var unmarshaller = StartThingRegistrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartThingRegistrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartThingRegistrationTaskResponseUnmarshaller.Instance;
 
-            return Invoke<StartThingRegistrationTaskRequest,StartThingRegistrationTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartThingRegistrationTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -9366,11 +14366,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartThingRegistrationTask">REST API Reference for StartThingRegistrationTask Operation</seealso>
         public virtual IAsyncResult BeginStartThingRegistrationTask(StartThingRegistrationTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartThingRegistrationTaskRequestMarshaller.Instance;
-            var unmarshaller = StartThingRegistrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartThingRegistrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartThingRegistrationTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartThingRegistrationTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9414,10 +14414,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StopThingRegistrationTask">REST API Reference for StopThingRegistrationTask Operation</seealso>
         public virtual StopThingRegistrationTaskResponse StopThingRegistrationTask(StopThingRegistrationTaskRequest request)
         {
-            var marshaller = StopThingRegistrationTaskRequestMarshaller.Instance;
-            var unmarshaller = StopThingRegistrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopThingRegistrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopThingRegistrationTaskResponseUnmarshaller.Instance;
 
-            return Invoke<StopThingRegistrationTaskRequest,StopThingRegistrationTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopThingRegistrationTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -9434,11 +14435,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StopThingRegistrationTask">REST API Reference for StopThingRegistrationTask Operation</seealso>
         public virtual IAsyncResult BeginStopThingRegistrationTask(StopThingRegistrationTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopThingRegistrationTaskRequestMarshaller.Instance;
-            var unmarshaller = StopThingRegistrationTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopThingRegistrationTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopThingRegistrationTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopThingRegistrationTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9456,10 +14457,82 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  TagResource
+
+        /// <summary>
+        /// Adds to or modifies the tags of the given resource. Tags are metadata which can be
+        /// used to manage a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  TestAuthorization
 
         /// <summary>
-        /// Test custom authorization.
+        /// Tests if a specified principal is authorized to perform an AWS IoT action on a specified
+        /// resource. Use this to test and debug the authorization behavior of devices that connect
+        /// to the AWS IoT device gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TestAuthorization service method.</param>
         /// 
@@ -9471,7 +14544,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -9488,10 +14561,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TestAuthorization">REST API Reference for TestAuthorization Operation</seealso>
         public virtual TestAuthorizationResponse TestAuthorization(TestAuthorizationRequest request)
         {
-            var marshaller = TestAuthorizationRequestMarshaller.Instance;
-            var unmarshaller = TestAuthorizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestAuthorizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestAuthorizationResponseUnmarshaller.Instance;
 
-            return Invoke<TestAuthorizationRequest,TestAuthorizationResponse>(request, marshaller, unmarshaller);
+            return Invoke<TestAuthorizationResponse>(request, options);
         }
 
         /// <summary>
@@ -9508,11 +14582,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TestAuthorization">REST API Reference for TestAuthorization Operation</seealso>
         public virtual IAsyncResult BeginTestAuthorization(TestAuthorizationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TestAuthorizationRequestMarshaller.Instance;
-            var unmarshaller = TestAuthorizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestAuthorizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestAuthorizationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TestAuthorizationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9533,7 +14607,9 @@ namespace Amazon.IoT
         #region  TestInvokeAuthorizer
 
         /// <summary>
-        /// Invoke the specified custom authorizer for testing purposes.
+        /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use
+        /// this to test and debug the custom authorization behavior of devices that connect to
+        /// the AWS IoT device gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TestInvokeAuthorizer service method.</param>
         /// 
@@ -9562,10 +14638,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TestInvokeAuthorizer">REST API Reference for TestInvokeAuthorizer Operation</seealso>
         public virtual TestInvokeAuthorizerResponse TestInvokeAuthorizer(TestInvokeAuthorizerRequest request)
         {
-            var marshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<TestInvokeAuthorizerRequest,TestInvokeAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<TestInvokeAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -9582,11 +14659,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TestInvokeAuthorizer">REST API Reference for TestInvokeAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginTestInvokeAuthorizer(TestInvokeAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TestInvokeAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9629,7 +14706,7 @@ namespace Amazon.IoT
         /// API to detach them.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// <param name="targetAwsAccount">The AWS account.</param>
         /// 
         /// <returns>The response from the TransferCertificate service method, as returned by IoT.</returns>
@@ -9720,10 +14797,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TransferCertificate">REST API Reference for TransferCertificate Operation</seealso>
         public virtual TransferCertificateResponse TransferCertificate(TransferCertificateRequest request)
         {
-            var marshaller = TransferCertificateRequestMarshaller.Instance;
-            var unmarshaller = TransferCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TransferCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TransferCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<TransferCertificateRequest,TransferCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<TransferCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -9740,11 +14818,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TransferCertificate">REST API Reference for TransferCertificate Operation</seealso>
         public virtual IAsyncResult BeginTransferCertificate(TransferCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TransferCertificateRequestMarshaller.Instance;
-            var unmarshaller = TransferCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TransferCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TransferCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TransferCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9758,6 +14836,136 @@ namespace Amazon.IoT
         public virtual TransferCertificateResponse EndTransferCertificate(IAsyncResult asyncResult)
         {
             return EndInvoke<TransferCertificateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Removes the given tags (metadata) from the resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateAccountAuditConfiguration
+
+        /// <summary>
+        /// Configures or reconfigures the Device Defender audit settings for this account. Settings
+        /// include how audit notifications are sent and which audit checks are enabled or disabled.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateAccountAuditConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the UpdateAccountAuditConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAccountAuditConfiguration">REST API Reference for UpdateAccountAuditConfiguration Operation</seealso>
+        public virtual UpdateAccountAuditConfigurationResponse UpdateAccountAuditConfiguration(UpdateAccountAuditConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccountAuditConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccountAuditConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateAccountAuditConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateAccountAuditConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateAccountAuditConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAccountAuditConfiguration">REST API Reference for UpdateAccountAuditConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginUpdateAccountAuditConfiguration(UpdateAccountAuditConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccountAuditConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccountAuditConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateAccountAuditConfiguration.</param>
+        /// 
+        /// <returns>Returns a  UpdateAccountAuditConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAccountAuditConfiguration">REST API Reference for UpdateAccountAuditConfiguration Operation</seealso>
+        public virtual UpdateAccountAuditConfigurationResponse EndUpdateAccountAuditConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateAccountAuditConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -9777,7 +14985,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -9794,10 +15002,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAuthorizer">REST API Reference for UpdateAuthorizer Operation</seealso>
         public virtual UpdateAuthorizerResponse UpdateAuthorizer(UpdateAuthorizerRequest request)
         {
-            var marshaller = UpdateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAuthorizerRequest,UpdateAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAuthorizerResponse>(request, options);
         }
 
         /// <summary>
@@ -9814,11 +15023,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAuthorizer">REST API Reference for UpdateAuthorizer Operation</seealso>
         public virtual IAsyncResult BeginUpdateAuthorizer(UpdateAuthorizerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateAuthorizerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9832,6 +15041,76 @@ namespace Amazon.IoT
         public virtual UpdateAuthorizerResponse EndUpdateAuthorizer(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateAuthorizerResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateBillingGroup
+
+        /// <summary>
+        /// Updates information about the billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the UpdateBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateBillingGroup">REST API Reference for UpdateBillingGroup Operation</seealso>
+        public virtual UpdateBillingGroupResponse UpdateBillingGroup(UpdateBillingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBillingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateBillingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateBillingGroup">REST API Reference for UpdateBillingGroup Operation</seealso>
+        public virtual IAsyncResult BeginUpdateBillingGroup(UpdateBillingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBillingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBillingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  UpdateBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateBillingGroup">REST API Reference for UpdateBillingGroup Operation</seealso>
+        public virtual UpdateBillingGroupResponse EndUpdateBillingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateBillingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -9865,10 +15144,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateCACertificate">REST API Reference for UpdateCACertificate Operation</seealso>
         public virtual UpdateCACertificateResponse UpdateCACertificate(UpdateCACertificateRequest request)
         {
-            var marshaller = UpdateCACertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateCACertificateResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateCACertificateRequest,UpdateCACertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateCACertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -9885,11 +15165,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateCACertificate">REST API Reference for UpdateCACertificate Operation</seealso>
         public virtual IAsyncResult BeginUpdateCACertificate(UpdateCACertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateCACertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateCACertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateCACertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateCACertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateCACertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9923,8 +15203,8 @@ namespace Amazon.IoT
         /// certificate.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
-        /// <param name="newStatus">The new status.  <b>Note:</b> Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use.  <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should not be used.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
+        /// <param name="newStatus">The new status.  <b>Note:</b> Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for developer use.  <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should not be used.</param>
         /// 
         /// <returns>The response from the UpdateCertificate service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.CertificateStateException">
@@ -9999,10 +15279,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateCertificate">REST API Reference for UpdateCertificate Operation</seealso>
         public virtual UpdateCertificateResponse UpdateCertificate(UpdateCertificateRequest request)
         {
-            var marshaller = UpdateCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateCertificateRequest,UpdateCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -10019,11 +15300,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateCertificate">REST API Reference for UpdateCertificate Operation</seealso>
         public virtual IAsyncResult BeginUpdateCertificate(UpdateCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10037,6 +15318,228 @@ namespace Amazon.IoT
         public virtual UpdateCertificateResponse EndUpdateCertificate(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateCertificateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateDimension
+
+        /// <summary>
+        /// Updates the definition for a dimension. You cannot change the type of a dimension
+        /// after it is created (you can delete it and re-create it).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDimension service method.</param>
+        /// 
+        /// <returns>The response from the UpdateDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDimension">REST API Reference for UpdateDimension Operation</seealso>
+        public virtual UpdateDimensionResponse UpdateDimension(UpdateDimensionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDimensionResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateDimensionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDimension">REST API Reference for UpdateDimension Operation</seealso>
+        public virtual IAsyncResult BeginUpdateDimension(UpdateDimensionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDimensionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDimensionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateDimension.</param>
+        /// 
+        /// <returns>Returns a  UpdateDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDimension">REST API Reference for UpdateDimension Operation</seealso>
+        public virtual UpdateDimensionResponse EndUpdateDimension(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateDimensionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateDomainConfiguration
+
+        /// <summary>
+        /// Updates values stored in the domain configuration. Domain configurations for default
+        /// endpoints can't be updated.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the UpdateDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.CertificateValidationException">
+        /// The certificate is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDomainConfiguration">REST API Reference for UpdateDomainConfiguration Operation</seealso>
+        public virtual UpdateDomainConfigurationResponse UpdateDomainConfiguration(UpdateDomainConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDomainConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateDomainConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDomainConfiguration">REST API Reference for UpdateDomainConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginUpdateDomainConfiguration(UpdateDomainConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDomainConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDomainConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  UpdateDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDomainConfiguration">REST API Reference for UpdateDomainConfiguration Operation</seealso>
+        public virtual UpdateDomainConfigurationResponse EndUpdateDomainConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateDomainConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateDynamicThingGroup
+
+        /// <summary>
+        /// Updates a dynamic thing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDynamicThingGroup service method.</param>
+        /// 
+        /// <returns>The response from the UpdateDynamicThingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDynamicThingGroup">REST API Reference for UpdateDynamicThingGroup Operation</seealso>
+        public virtual UpdateDynamicThingGroupResponse UpdateDynamicThingGroup(UpdateDynamicThingGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDynamicThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDynamicThingGroupResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateDynamicThingGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDynamicThingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateDynamicThingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDynamicThingGroup">REST API Reference for UpdateDynamicThingGroup Operation</seealso>
+        public virtual IAsyncResult BeginUpdateDynamicThingGroup(UpdateDynamicThingGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDynamicThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDynamicThingGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateDynamicThingGroup.</param>
+        /// 
+        /// <returns>Returns a  UpdateDynamicThingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDynamicThingGroup">REST API Reference for UpdateDynamicThingGroup Operation</seealso>
+        public virtual UpdateDynamicThingGroupResponse EndUpdateDynamicThingGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateDynamicThingGroupResponse>(asyncResult);
         }
 
         #endregion
@@ -10061,10 +15564,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateEventConfigurations">REST API Reference for UpdateEventConfigurations Operation</seealso>
         public virtual UpdateEventConfigurationsResponse UpdateEventConfigurations(UpdateEventConfigurationsRequest request)
         {
-            var marshaller = UpdateEventConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = UpdateEventConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEventConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEventConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateEventConfigurationsRequest,UpdateEventConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateEventConfigurationsResponse>(request, options);
         }
 
         /// <summary>
@@ -10081,11 +15585,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateEventConfigurations">REST API Reference for UpdateEventConfigurations Operation</seealso>
         public virtual IAsyncResult BeginUpdateEventConfigurations(UpdateEventConfigurationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateEventConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = UpdateEventConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEventConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEventConfigurationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateEventConfigurationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10129,10 +15633,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateIndexingConfiguration">REST API Reference for UpdateIndexingConfiguration Operation</seealso>
         public virtual UpdateIndexingConfigurationResponse UpdateIndexingConfiguration(UpdateIndexingConfigurationRequest request)
         {
-            var marshaller = UpdateIndexingConfigurationRequestMarshaller.Instance;
-            var unmarshaller = UpdateIndexingConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIndexingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIndexingConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateIndexingConfigurationRequest,UpdateIndexingConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateIndexingConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -10149,11 +15654,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateIndexingConfiguration">REST API Reference for UpdateIndexingConfiguration Operation</seealso>
         public virtual IAsyncResult BeginUpdateIndexingConfiguration(UpdateIndexingConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateIndexingConfigurationRequestMarshaller.Instance;
-            var unmarshaller = UpdateIndexingConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIndexingConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIndexingConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateIndexingConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10167,6 +15672,208 @@ namespace Amazon.IoT
         public virtual UpdateIndexingConfigurationResponse EndUpdateIndexingConfiguration(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateIndexingConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateJob
+
+        /// <summary>
+        /// Updates supported fields of the specified job.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJob service method.</param>
+        /// 
+        /// <returns>The response from the UpdateJob service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
+        public virtual UpdateJobResponse UpdateJob(UpdateJobRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJobResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateJobResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJob operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
+        public virtual IAsyncResult BeginUpdateJob(UpdateJobRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJobResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateJob.</param>
+        /// 
+        /// <returns>Returns a  UpdateJobResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
+        public virtual UpdateJobResponse EndUpdateJob(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateJobResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateMitigationAction
+
+        /// <summary>
+        /// Updates the definition for the specified mitigation action.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the UpdateMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateMitigationAction">REST API Reference for UpdateMitigationAction Operation</seealso>
+        public virtual UpdateMitigationActionResponse UpdateMitigationAction(UpdateMitigationActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMitigationActionResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateMitigationActionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateMitigationAction">REST API Reference for UpdateMitigationAction Operation</seealso>
+        public virtual IAsyncResult BeginUpdateMitigationAction(UpdateMitigationActionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMitigationActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMitigationActionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  UpdateMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateMitigationAction">REST API Reference for UpdateMitigationAction Operation</seealso>
+        public virtual UpdateMitigationActionResponse EndUpdateMitigationAction(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateMitigationActionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateProvisioningTemplate
+
+        /// <summary>
+        /// Updates a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the UpdateProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateProvisioningTemplate">REST API Reference for UpdateProvisioningTemplate Operation</seealso>
+        public virtual UpdateProvisioningTemplateResponse UpdateProvisioningTemplate(UpdateProvisioningTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateProvisioningTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateProvisioningTemplate">REST API Reference for UpdateProvisioningTemplate Operation</seealso>
+        public virtual IAsyncResult BeginUpdateProvisioningTemplate(UpdateProvisioningTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateProvisioningTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateProvisioningTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  UpdateProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateProvisioningTemplate">REST API Reference for UpdateProvisioningTemplate Operation</seealso>
+        public virtual UpdateProvisioningTemplateResponse EndUpdateProvisioningTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateProvisioningTemplateResponse>(asyncResult);
         }
 
         #endregion
@@ -10200,10 +15907,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateRoleAlias">REST API Reference for UpdateRoleAlias Operation</seealso>
         public virtual UpdateRoleAliasResponse UpdateRoleAlias(UpdateRoleAliasRequest request)
         {
-            var marshaller = UpdateRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = UpdateRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRoleAliasResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRoleAliasRequest,UpdateRoleAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRoleAliasResponse>(request, options);
         }
 
         /// <summary>
@@ -10220,11 +15928,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateRoleAlias">REST API Reference for UpdateRoleAlias Operation</seealso>
         public virtual IAsyncResult BeginUpdateRoleAlias(UpdateRoleAliasRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRoleAliasRequestMarshaller.Instance;
-            var unmarshaller = UpdateRoleAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRoleAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRoleAliasResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRoleAliasRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10238,6 +15946,143 @@ namespace Amazon.IoT
         public virtual UpdateRoleAliasResponse EndUpdateRoleAlias(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateRoleAliasResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateScheduledAudit
+
+        /// <summary>
+        /// Updates a scheduled audit, including which checks are performed and how often the
+        /// audit takes place.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the UpdateScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateScheduledAudit">REST API Reference for UpdateScheduledAudit Operation</seealso>
+        public virtual UpdateScheduledAuditResponse UpdateScheduledAudit(UpdateScheduledAuditRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateScheduledAuditResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateScheduledAuditResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateScheduledAudit">REST API Reference for UpdateScheduledAudit Operation</seealso>
+        public virtual IAsyncResult BeginUpdateScheduledAudit(UpdateScheduledAuditRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateScheduledAuditRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateScheduledAuditResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  UpdateScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateScheduledAudit">REST API Reference for UpdateScheduledAudit Operation</seealso>
+        public virtual UpdateScheduledAuditResponse EndUpdateScheduledAudit(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateScheduledAuditResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateSecurityProfile
+
+        /// <summary>
+        /// Updates a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the UpdateSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateSecurityProfile">REST API Reference for UpdateSecurityProfile Operation</seealso>
+        public virtual UpdateSecurityProfileResponse UpdateSecurityProfile(UpdateSecurityProfileRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSecurityProfileResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateSecurityProfileResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateSecurityProfile">REST API Reference for UpdateSecurityProfile Operation</seealso>
+        public virtual IAsyncResult BeginUpdateSecurityProfile(UpdateSecurityProfileRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSecurityProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSecurityProfileResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  UpdateSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateSecurityProfile">REST API Reference for UpdateSecurityProfile Operation</seealso>
+        public virtual UpdateSecurityProfileResponse EndUpdateSecurityProfile(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateSecurityProfileResponse>(asyncResult);
         }
 
         #endregion
@@ -10271,10 +16116,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateStream">REST API Reference for UpdateStream Operation</seealso>
         public virtual UpdateStreamResponse UpdateStream(UpdateStreamRequest request)
         {
-            var marshaller = UpdateStreamRequestMarshaller.Instance;
-            var unmarshaller = UpdateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateStreamResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateStreamRequest,UpdateStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -10291,11 +16137,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateStream">REST API Reference for UpdateStream Operation</seealso>
         public virtual IAsyncResult BeginUpdateStream(UpdateStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateStreamRequestMarshaller.Instance;
-            var unmarshaller = UpdateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10340,16 +16186,17 @@ namespace Amazon.IoT
         /// You are not authorized to perform this operation.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThing">REST API Reference for UpdateThing Operation</seealso>
         public virtual UpdateThingResponse UpdateThing(UpdateThingRequest request)
         {
-            var marshaller = UpdateThingRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateThingRequest,UpdateThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateThingResponse>(request, options);
         }
 
         /// <summary>
@@ -10366,11 +16213,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThing">REST API Reference for UpdateThing Operation</seealso>
         public virtual IAsyncResult BeginUpdateThing(UpdateThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateThingRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10409,16 +16256,17 @@ namespace Amazon.IoT
         /// The rate exceeds the limit.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThingGroup">REST API Reference for UpdateThingGroup Operation</seealso>
         public virtual UpdateThingGroupResponse UpdateThingGroup(UpdateThingGroupRequest request)
         {
-            var marshaller = UpdateThingGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateThingGroupRequest,UpdateThingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateThingGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -10435,11 +16283,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThingGroup">REST API Reference for UpdateThingGroup Operation</seealso>
         public virtual IAsyncResult BeginUpdateThingGroup(UpdateThingGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateThingGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateThingGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10480,10 +16328,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThingGroupsForThing">REST API Reference for UpdateThingGroupsForThing Operation</seealso>
         public virtual UpdateThingGroupsForThingResponse UpdateThingGroupsForThing(UpdateThingGroupsForThingRequest request)
         {
-            var marshaller = UpdateThingGroupsForThingRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingGroupsForThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingGroupsForThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingGroupsForThingResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateThingGroupsForThingRequest,UpdateThingGroupsForThingResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateThingGroupsForThingResponse>(request, options);
         }
 
         /// <summary>
@@ -10500,11 +16349,11 @@ namespace Amazon.IoT
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThingGroupsForThing">REST API Reference for UpdateThingGroupsForThing Operation</seealso>
         public virtual IAsyncResult BeginUpdateThingGroupsForThing(UpdateThingGroupsForThingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateThingGroupsForThingRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingGroupsForThingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingGroupsForThingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingGroupsForThingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateThingGroupsForThingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10518,6 +16367,140 @@ namespace Amazon.IoT
         public virtual UpdateThingGroupsForThingResponse EndUpdateThingGroupsForThing(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateThingGroupsForThingResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateTopicRuleDestination
+
+        /// <summary>
+        /// Updates a topic rule destination. You use this to change the status, endpoint URL,
+        /// or confirmation URL of the destination.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the UpdateTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateTopicRuleDestination">REST API Reference for UpdateTopicRuleDestination Operation</seealso>
+        public virtual UpdateTopicRuleDestinationResponse UpdateTopicRuleDestination(UpdateTopicRuleDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateTopicRuleDestinationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateTopicRuleDestination">REST API Reference for UpdateTopicRuleDestination Operation</seealso>
+        public virtual IAsyncResult BeginUpdateTopicRuleDestination(UpdateTopicRuleDestinationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTopicRuleDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTopicRuleDestinationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  UpdateTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateTopicRuleDestination">REST API Reference for UpdateTopicRuleDestination Operation</seealso>
+        public virtual UpdateTopicRuleDestinationResponse EndUpdateTopicRuleDestination(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateTopicRuleDestinationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ValidateSecurityProfileBehaviors
+
+        /// <summary>
+        /// Validates a Device Defender security profile behaviors specification.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ValidateSecurityProfileBehaviors service method.</param>
+        /// 
+        /// <returns>The response from the ValidateSecurityProfileBehaviors service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ValidateSecurityProfileBehaviors">REST API Reference for ValidateSecurityProfileBehaviors Operation</seealso>
+        public virtual ValidateSecurityProfileBehaviorsResponse ValidateSecurityProfileBehaviors(ValidateSecurityProfileBehaviorsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ValidateSecurityProfileBehaviorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ValidateSecurityProfileBehaviorsResponseUnmarshaller.Instance;
+
+            return Invoke<ValidateSecurityProfileBehaviorsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ValidateSecurityProfileBehaviors operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ValidateSecurityProfileBehaviors operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndValidateSecurityProfileBehaviors
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ValidateSecurityProfileBehaviors">REST API Reference for ValidateSecurityProfileBehaviors Operation</seealso>
+        public virtual IAsyncResult BeginValidateSecurityProfileBehaviors(ValidateSecurityProfileBehaviorsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ValidateSecurityProfileBehaviorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ValidateSecurityProfileBehaviorsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ValidateSecurityProfileBehaviors operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginValidateSecurityProfileBehaviors.</param>
+        /// 
+        /// <returns>Returns a  ValidateSecurityProfileBehaviorsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ValidateSecurityProfileBehaviors">REST API Reference for ValidateSecurityProfileBehaviors Operation</seealso>
+        public virtual ValidateSecurityProfileBehaviorsResponse EndValidateSecurityProfileBehaviors(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ValidateSecurityProfileBehaviorsResponse>(asyncResult);
         }
 
         #endregion

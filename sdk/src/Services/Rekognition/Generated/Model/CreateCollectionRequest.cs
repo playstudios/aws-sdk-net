@@ -30,7 +30,7 @@ namespace Amazon.Rekognition.Model
     /// <summary>
     /// Container for the parameters to the CreateCollection operation.
     /// Creates a collection in an AWS Region. You can add faces to the collection using the
-    /// operation. 
+    /// <a>IndexFaces</a> operation. 
     /// 
     ///  
     /// <para>
@@ -38,6 +38,11 @@ namespace Amazon.Rekognition.Model
     /// A user can then index faces using the <code>IndexFaces</code> operation and persist
     /// results in a specific collection. Then, a user can search the collection for faces
     /// in the user-specific container. 
+    /// </para>
+    ///  
+    /// <para>
+    /// When you create a collection, it is associated with the latest version of the face
+    /// model version.
     /// </para>
     ///  <note> 
     /// <para>
@@ -59,6 +64,7 @@ namespace Amazon.Rekognition.Model
         /// ID for the collection that you are creating.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string CollectionId
         {
             get { return this._collectionId; }

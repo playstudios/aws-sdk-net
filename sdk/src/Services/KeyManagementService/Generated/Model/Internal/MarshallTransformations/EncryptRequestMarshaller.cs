@@ -58,15 +58,22 @@ namespace Amazon.KeyManagementService.Model.Internal.MarshallTransformations
             string target = "TrentService.Encrypt";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetEncryptionAlgorithm())
+                {
+                    context.Writer.WritePropertyName("EncryptionAlgorithm");
+                    context.Writer.Write(publicRequest.EncryptionAlgorithm);
+                }
+
                 if(publicRequest.IsSetEncryptionContext())
                 {
                     context.Writer.WritePropertyName("EncryptionContext");

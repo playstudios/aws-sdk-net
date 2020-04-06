@@ -38,9 +38,32 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property EndpointType. 
         /// <para>
-        /// The endpoint type.
+        /// The endpoint type. Valid endpoint types include:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>iot:Data</code> - Returns a VeriSign signed data endpoint.
+        /// </para>
+        ///  </li> </ul> <ul> <li> 
+        /// <para>
+        ///  <code>iot:Data-ATS</code> - Returns an ATS signed data endpoint.
+        /// </para>
+        ///  </li> </ul> <ul> <li> 
+        /// <para>
+        ///  <code>iot:CredentialProvider</code> - Returns an AWS IoT credentials provider API
+        /// endpoint.
+        /// </para>
+        ///  </li> </ul> <ul> <li> 
+        /// <para>
+        ///  <code>iot:Jobs</code> - Returns an AWS IoT device management Jobs API endpoint.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// We strongly recommend that customers use the newer <code>iot:Data-ATS</code> endpoint
+        /// type to avoid issues related to the widespread distrust of Symantec certificate authorities.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string EndpointType
         {
             get { return this._endpointType; }

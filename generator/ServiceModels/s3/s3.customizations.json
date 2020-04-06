@@ -8,10 +8,25 @@
             { "operation": "addAfter", "newType": "Amazon.S3.Internal.AmazonS3ExceptionHandler", "targetType": "Amazon.Runtime.Internal.ErrorCallbackHandler" },
             { "operation": "addAfter", "newType": "Amazon.S3.Internal.AmazonS3RedirectHandler", "targetType": "Amazon.Runtime.Internal.Unmarshaller" },
             {
+                "condition":"this.Config.RetryMode == RequestRetryMode.Legacy",
                 "operation": "replace",
                 "newType": "Amazon.Runtime.Internal.RetryHandler",
                 "targetType": "Amazon.Runtime.Internal.RetryHandler",
                 "constructorInput": "new Amazon.S3.Internal.AmazonS3RetryPolicy(this.Config)"
+            },
+            {
+                "condition":"this.Config.RetryMode == RequestRetryMode.Standard",
+                "operation": "replace",
+                "newType": "Amazon.Runtime.Internal.RetryHandler",
+                "targetType": "Amazon.Runtime.Internal.RetryHandler",
+                "constructorInput": "new Amazon.S3.Internal.AmazonS3StandardRetryPolicy(this.Config)"
+            },
+            {
+                "condition":"this.Config.RetryMode == RequestRetryMode.Adaptive",
+                "operation": "replace",
+                "newType": "Amazon.Runtime.Internal.RetryHandler",
+                "targetType": "Amazon.Runtime.Internal.RetryHandler",
+                "constructorInput": "new Amazon.S3.Internal.AmazonS3AdaptiveRetryPolicy(this.Config)"
             }
         ]
     },
@@ -50,6 +65,13 @@
             "modify": [
                 {
                     "Bucket": { "emitPropertyName": "BucketName" }
+                }
+            ]
+        },
+        "CloudFunctionConfiguration": {
+            "modify": [
+                {
+                    "Event": { "deprecatedMessage": "This property is deprecated. Use Events instead." }
                 }
             ]
         },
@@ -116,6 +138,13 @@
                 }
             ]
         },
+        "LifecycleRule": {
+            "modify": [
+                {
+                    "Prefix": { "deprecatedMessage": "This property is deprecated. Use Filter instead." }
+                }
+            ]
+        },
         "PutBucketTaggingRequest": {
             "exclude": [ "Tagging" ],
             "inject": [
@@ -152,6 +181,13 @@
                 }
             ]
         },
+        "QueueConfigurationDeprecated": {
+            "modify": [
+                {
+                    "Event": { "deprecatedMessage": "This property is deprecated. Use Events instead." }
+                }
+            ]
+        },
         "RestoreObjectRequest": {
             "exclude": [ "RestoreRequest" ],
             "inject": [
@@ -159,6 +195,13 @@
                     "Days": {
                         "shape": "Days"
                     }
+                }
+            ]
+        },
+        "TopicConfigurationDeprecated": {
+            "modify": [
+                {
+                    "Event": { "deprecatedMessage": "This property is deprecated. Use Events instead." }
                 }
             ]
         },
@@ -229,7 +272,7 @@
             "name": "ListVersions"
         },
         "PutBucketAcl": {
-            "name": "PutACL",
+            "name": "PutACL"
         },
         "PutBucketCors": {
             "name": "PutCORSConfiguration"
@@ -240,8 +283,6 @@
         "UploadPartCopy": {
             "name": "CopyPart"
         },
-
-
         "GetBucketNotification": {
             "exclude": true
         },
@@ -254,10 +295,6 @@
         "PutBucketNotification": {
             "exclude": true
         },
-        "SelectObjectContent": {
-          "exclude": true
-        },
-
         "PutBucketNotificationConfiguration": {
             "name": "PutBucketNotification"
         },
@@ -270,7 +307,6 @@
         "GetBucketNotificationConfiguration": {
             "name": "GetBucketNotification"
         },
-
         "GetBucketReplication": {
             "documentation": "Retrieves the replication configuration for the given Amazon S3 bucket."
         }

@@ -207,7 +207,7 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
 
             var response = client.CreateRole(new CreateRoleRequest 
             {
-                AssumeRolePolicyDocument = "<URL-encoded-JSON>",
+                AssumeRolePolicyDocument = "<Stringified-JSON>",
                 Path = "/",
                 RoleName = "Test-Role"
             });
@@ -391,6 +391,34 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
             #endregion
         }
 
+        public void IdentityManagementServiceGenerateOrganizationsAccessReport()
+        {
+            #region generateorganizationsaccessreport-ou
+
+            var response = client.GenerateOrganizationsAccessReport(new GenerateOrganizationsAccessReportRequest 
+            {
+                EntityPath = "o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-1a2b3c-k9l8m7n6o5example"
+            });
+
+            string jobId = response.JobId;
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceGenerateServiceLastAccessedDetails()
+        {
+            #region generateaccessdata-policy-1541695178514
+
+            var response = client.GenerateServiceLastAccessedDetails(new GenerateServiceLastAccessedDetailsRequest 
+            {
+                Arn = "arn:aws:iam::123456789012:policy/ExamplePolicy1"
+            });
+
+            string jobId = response.JobId;
+
+            #endregion
+        }
+
         public void IdentityManagementServiceGetAccountPasswordPolicy()
         {
             #region 5e4598c7-c425-431f-8af1-19073b3c4a5f
@@ -412,7 +440,7 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
             {
             });
 
-            Dictionary<string, integer> summaryMap = response.SummaryMap;
+            Dictionary<string, int> summaryMap = response.SummaryMap;
 
             #endregion
         }
@@ -445,6 +473,26 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
             #endregion
         }
 
+        public void IdentityManagementServiceGetOrganizationsAccessReport()
+        {
+            #region getorganizationsaccessreport-ou
+
+            var response = client.GetOrganizationsAccessReport(new GetOrganizationsAccessReportRequest 
+            {
+                JobId = "examplea-1234-b567-cde8-90fg123abcd4"
+            });
+
+            List<AccessDetail> accessDetails = response.AccessDetails;
+            bool isTruncated = response.IsTruncated;
+            DateTime jobCompletionDate = response.JobCompletionDate;
+            DateTime jobCreationDate = response.JobCreationDate;
+            string jobStatus = response.JobStatus;
+            int numberOfServicesAccessible = response.NumberOfServicesAccessible;
+            int numberOfServicesNotAccessed = response.NumberOfServicesNotAccessed;
+
+            #endregion
+        }
+
         public void IdentityManagementServiceGetRole()
         {
             #region 5b7d03a6-340c-472d-aa77-56425950d8b0
@@ -455,6 +503,43 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
             });
 
             Role role = response.Role;
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceGetServiceLastAccessedDetails()
+        {
+            #region getserviceaccessdetails-policy-1541696298085
+
+            var response = client.GetServiceLastAccessedDetails(new GetServiceLastAccessedDetailsRequest 
+            {
+                JobId = "examplef-1305-c245-eba4-71fe298bcda7"
+            });
+
+            bool isTruncated = response.IsTruncated;
+            DateTime jobCompletionDate = response.JobCompletionDate;
+            DateTime jobCreationDate = response.JobCreationDate;
+            string jobStatus = response.JobStatus;
+            List<ServiceLastAccessed> servicesLastAccessed = response.ServicesLastAccessed;
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceGetServiceLastAccessedDetailsWithEntities()
+        {
+            #region getserviceaccessdetailsentity-policy-1541697621384
+
+            var response = client.GetServiceLastAccessedDetailsWithEntities(new GetServiceLastAccessedDetailsWithEntitiesRequest 
+            {
+                JobId = "examplef-1305-c245-eba4-71fe298bcda7",
+                ServiceNamespace = "iam"
+            });
+
+            List<EntityDetails> entityDetailsList = response.EntityDetailsList;
+            bool isTruncated = response.IsTruncated;
+            DateTime jobCompletionDate = response.JobCompletionDate;
+            DateTime jobCreationDate = response.JobCreationDate;
+            string jobStatus = response.JobStatus;
 
             #endregion
         }
@@ -541,6 +626,40 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
             #endregion
         }
 
+        public void IdentityManagementServiceListPoliciesGrantingServiceAccess()
+        {
+            #region listpoliciesaccess-user-1541698749508
+
+            var response = client.ListPoliciesGrantingServiceAccess(new ListPoliciesGrantingServiceAccessRequest 
+            {
+                Arn = "arn:aws:iam::123456789012:user/ExampleUser01",
+                ServiceNamespaces = new List<string> {
+                    "iam",
+                    "ec2"
+                }
+            });
+
+            bool isTruncated = response.IsTruncated;
+            List<ListPoliciesGrantingServiceAccessEntry> policiesGrantingServiceAccess = response.PoliciesGrantingServiceAccess;
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceListRoleTags()
+        {
+            #region to-list-the-tags-attached-to-an-iam-role-1506719238376
+
+            var response = client.ListRoleTags(new ListRoleTagsRequest 
+            {
+                RoleName = "taggedrole1"
+            });
+
+            bool isTruncated = response.IsTruncated;
+            List<Tag> tags = response.Tags;
+
+            #endregion
+        }
+
         public void IdentityManagementServiceListSigningCertificates()
         {
             #region b4c10256-4fc9-457e-b3fd-4a110d4d73dc
@@ -564,6 +683,21 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
             });
 
             List<User> users = response.Users;
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceListUserTags()
+        {
+            #region to-list-the-tags-attached-to-an-iam-user-1506719473186
+
+            var response = client.ListUserTags(new ListUserTagsRequest 
+            {
+                UserName = "anika"
+            });
+
+            bool isTruncated = response.IsTruncated;
+            List<Tag> tags = response.Tags;
 
             #endregion
         }
@@ -648,6 +782,97 @@ namespace AWSSDKDocSamples.Amazon.IdentityManagement.Generated
             {
                 GroupName = "Admins",
                 UserName = "Bob"
+            });
+
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceSetSecurityTokenServicePreferences()
+        {
+            #region 61a785a7-d30a-415a-ae18-ab9236e56871
+
+            var response = client.SetSecurityTokenServicePreferences(new SetSecurityTokenServicePreferencesRequest 
+            {
+                GlobalEndpointTokenVersion = "v2Token"
+            });
+
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceTagRole()
+        {
+            #region to-add-a-tag-key-and-value-to-an-iam-role-1506718791513
+
+            var response = client.TagRole(new TagRoleRequest 
+            {
+                RoleName = "taggedrole",
+                Tags = new List<Tag> {
+                    new Tag {
+                        Key = "Dept",
+                        Value = "Accounting"
+                    },
+                    new Tag {
+                        Key = "CostCenter",
+                        Value = "12345"
+                    }
+                }
+            });
+
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceTagUser()
+        {
+            #region to-add-a-tag-key-and-value-to-an-iam-user-1506719044227
+
+            var response = client.TagUser(new TagUserRequest 
+            {
+                Tags = new List<Tag> {
+                    new Tag {
+                        Key = "Dept",
+                        Value = "Accounting"
+                    },
+                    new Tag {
+                        Key = "CostCenter",
+                        Value = "12345"
+                    }
+                },
+                UserName = "anika"
+            });
+
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceUntagRole()
+        {
+            #region to-remove-a-tag-from-an-iam-role-1506719589943
+
+            var response = client.UntagRole(new UntagRoleRequest 
+            {
+                RoleName = "taggedrole",
+                TagKeys = new List<string> {
+                    "Dept"
+                }
+            });
+
+
+            #endregion
+        }
+
+        public void IdentityManagementServiceUntagUser()
+        {
+            #region to-remove-a-tag-from-an-iam-user-1506719725554
+
+            var response = client.UntagUser(new UntagUserRequest 
+            {
+                TagKeys = new List<string> {
+                    "Dept"
+                },
+                UserName = "anika"
             });
 
 

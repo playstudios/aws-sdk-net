@@ -43,6 +43,7 @@ namespace Amazon.CodeDeploy.Model
         private DeploymentStyle _deploymentStyle;
         private List<EC2TagFilter> _ec2TagFilters = new List<EC2TagFilter>();
         private EC2TagSet _ec2TagSet;
+        private List<ECSService> _ecsServices = new List<ECSService>();
         private LoadBalancerInfo _loadBalancerInfo;
         private string _newDeploymentGroupName;
         private List<TagFilter> _onPremisesInstanceTagFilters = new List<TagFilter>();
@@ -72,9 +73,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ApplicationName. 
         /// <para>
-        /// The application name corresponding to the deployment group to update.
+        /// The application name that corresponds to the deployment group to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -150,6 +152,7 @@ namespace Amazon.CodeDeploy.Model
         /// The current name of the deployment group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string CurrentDeploymentGroupName
         {
             get { return this._currentDeploymentGroupName; }
@@ -168,6 +171,7 @@ namespace Amazon.CodeDeploy.Model
         /// The replacement deployment configuration name to use, if you want to change it.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentConfigName
         {
             get { return this._deploymentConfigName; }
@@ -223,7 +227,7 @@ namespace Amazon.CodeDeploy.Model
         /// Gets and sets the property Ec2TagSet. 
         /// <para>
         /// Information about groups of tags applied to on-premises instances. The deployment
-        /// group will include only EC2 instances identified by all the tag groups.
+        /// group includes only EC2 instances identified by all the tag groups.
         /// </para>
         /// </summary>
         public EC2TagSet Ec2TagSet
@@ -236,6 +240,27 @@ namespace Amazon.CodeDeploy.Model
         internal bool IsSetEc2TagSet()
         {
             return this._ec2TagSet != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EcsServices. 
+        /// <para>
+        ///  The target Amazon ECS services in the deployment group. This applies only to deployment
+        /// groups that use the Amazon ECS compute platform. A target Amazon ECS service is specified
+        /// as an Amazon ECS cluster and service name pair using the format <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+        /// 
+        /// </para>
+        /// </summary>
+        public List<ECSService> EcsServices
+        {
+            get { return this._ecsServices; }
+            set { this._ecsServices = value; }
+        }
+
+        // Check to see if EcsServices property is set
+        internal bool IsSetEcsServices()
+        {
+            return this._ecsServices != null && this._ecsServices.Count > 0; 
         }
 
         /// <summary>
@@ -262,6 +287,7 @@ namespace Amazon.CodeDeploy.Model
         /// The new name of the deployment group, if you want to change it.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string NewDeploymentGroupName
         {
             get { return this._newDeploymentGroupName; }
@@ -297,8 +323,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property OnPremisesTagSet. 
         /// <para>
-        /// Information about an on-premises instance tag set. The deployment group will include
-        /// only on-premises instances identified by all the tag groups.
+        /// Information about an on-premises instance tag set. The deployment group includes only
+        /// on-premises instances identified by all the tag groups.
         /// </para>
         /// </summary>
         public OnPremisesTagSet OnPremisesTagSet
@@ -335,7 +361,7 @@ namespace Amazon.CodeDeploy.Model
         /// Gets and sets the property TriggerConfigurations. 
         /// <para>
         /// Information about triggers to change when the deployment group is updated. For examples,
-        /// see <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-edit.html">Modify
+        /// see <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-edit.html">Modify
         /// Triggers in an AWS CodeDeploy Deployment Group</a> in the AWS CodeDeploy User Guide.
         /// </para>
         /// </summary>

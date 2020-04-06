@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -55,11 +55,12 @@ namespace Amazon.CloudDirectory.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListFacetAttributesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.CloudDirectory");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-01-11";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/amazonclouddirectory/2017-01-11/facet/attributes";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/amazonclouddirectory/2017-01-11/facet/attributes";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

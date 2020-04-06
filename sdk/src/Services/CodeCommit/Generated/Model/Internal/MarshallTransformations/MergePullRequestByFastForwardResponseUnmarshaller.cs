@@ -72,6 +72,10 @@ namespace Amazon.CodeCommit.Model.Internal.MarshallTransformations
         public override AmazonServiceException UnmarshallException(JsonUnmarshallerContext context, Exception innerException, HttpStatusCode statusCode)
         {
             ErrorResponse errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context);
+            if (errorResponse.Code != null && errorResponse.Code.Equals("ConcurrentReferenceUpdateException"))
+            {
+                return new ConcurrentReferenceUpdateException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
             if (errorResponse.Code != null && errorResponse.Code.Equals("EncryptionIntegrityChecksFailedException"))
             {
                 return new EncryptionIntegrityChecksFailedException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
@@ -112,6 +116,10 @@ namespace Amazon.CodeCommit.Model.Internal.MarshallTransformations
             {
                 return new PullRequestAlreadyClosedException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("PullRequestApprovalRulesNotSatisfiedException"))
+            {
+                return new PullRequestApprovalRulesNotSatisfiedException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
             if (errorResponse.Code != null && errorResponse.Code.Equals("PullRequestDoesNotExistException"))
             {
                 return new PullRequestDoesNotExistException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
@@ -131,6 +139,10 @@ namespace Amazon.CodeCommit.Model.Internal.MarshallTransformations
             if (errorResponse.Code != null && errorResponse.Code.Equals("RepositoryNameRequiredException"))
             {
                 return new RepositoryNameRequiredException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("RepositoryNotAssociatedWithPullRequestException"))
+            {
+                return new RepositoryNotAssociatedWithPullRequestException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             if (errorResponse.Code != null && errorResponse.Code.Equals("TipOfSourceReferenceIsDifferentException"))
             {

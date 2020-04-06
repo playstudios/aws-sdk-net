@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-16"?>
 <property-value-rules>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.DescribeScheduleRequest.MaxResults</property>
+    <min>1</min>
+    <max>1000</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.ListChannelsRequest.MaxResults</property>
     <min>1</min>
     <max>1000</max>
@@ -14,6 +19,30 @@
     <property>Amazon.MediaLive.Model.ListInputSecurityGroupsRequest.MaxResults</property>
     <min>1</min>
     <max>1000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.ListMultiplexesRequest.MaxResults</property>
+    <min>1</min>
+    <max>1000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.ListMultiplexProgramsRequest.MaxResults</property>
+    <min>1</min>
+    <max>1000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.ListOfferingsRequest.MaxResults</property>
+    <min>1</min>
+    <max>1000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.ListReservationsRequest.MaxResults</property>
+    <min>1</min>
+    <max>1000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.PurchaseOfferingRequest.Count</property>
+    <min>1</min>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.MediaLive.Model.Ac3Settings.Dialnorm</property>
@@ -38,6 +67,10 @@
     <property>Amazon.MediaLive.Model.AudioPidSelection.Pid</property>
     <min>0</min>
     <max>8191</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.AudioSelector.Name</property>
+    <min>1</min>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.MediaLive.Model.BlackoutSlate.NetworkId</property>
@@ -89,6 +122,10 @@
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.MediaLive.Model.CaptionLanguageMapping.LanguageDescription</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.CaptionSelector.Name</property>
     <min>1</min>
   </property-value-rule>
   <property-value-rule>
@@ -189,6 +226,11 @@
     <max>20</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.FrameCaptureSettings.CaptureInterval</property>
+    <min>1</min>
+    <max>3600000</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.GlobalConfiguration.InitialAudioGain</property>
     <min>-60</min>
     <max>60</max>
@@ -205,6 +247,14 @@
   <property-value-rule>
     <property>Amazon.MediaLive.Model.H264Settings.BufSize</property>
     <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H264Settings.FramerateDenominator</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H264Settings.FramerateNumerator</property>
+    <min>1</min>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.MediaLive.Model.H264Settings.GopClosedCadence</property>
@@ -234,6 +284,11 @@
     <min>1</min>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.H264Settings.QvbrQualityLevel</property>
+    <min>1</min>
+    <max>10</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.H264Settings.Slices</property>
     <min>1</min>
     <max>32</max>
@@ -242,6 +297,67 @@
     <property>Amazon.MediaLive.Model.H264Settings.Softness</property>
     <min>0</min>
     <max>128</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.Bitrate</property>
+    <min>100000</min>
+    <max>40000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.BufSize</property>
+    <min>100000</min>
+    <max>80000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.FramerateDenominator</property>
+    <min>1</min>
+    <max>3003</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.FramerateNumerator</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.GopClosedCadence</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.MaxBitrate</property>
+    <min>100000</min>
+    <max>40000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.MinIInterval</property>
+    <min>0</min>
+    <max>30</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.ParDenominator</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.ParNumerator</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.QvbrQualityLevel</property>
+    <min>1</min>
+    <max>10</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.H265Settings.Slices</property>
+    <min>1</min>
+    <max>16</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Hdr10Settings.MaxCll</property>
+    <min>0</min>
+    <max>32768</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Hdr10Settings.MaxFall</property>
+    <min>0</min>
+    <max>32768</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.MediaLive.Model.HlsAkamaiSettings.ConnectionRetryInterval</property>
@@ -471,6 +587,10 @@
     <max>65535</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.MediaPackageOutputDestinationSettings.ChannelId</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.MsSmoothGroupSettings.ConnectionRetryInterval</property>
     <min>0</min>
   </property-value-rule>
@@ -496,6 +616,71 @@
     <max>10000</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexMediaConnectOutputDestinationSettings.EntitlementArn</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexProgramChannelDestinationSettings.MultiplexId</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexProgramChannelDestinationSettings.ProgramName</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexProgramServiceDescriptor.ProviderName</property>
+    <max>256</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexProgramServiceDescriptor.ServiceName</property>
+    <max>256</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexProgramSettings.ProgramNumber</property>
+    <min>0</min>
+    <max>65535</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexSettings.MaximumVideoBufferDelayMilliseconds</property>
+    <min>1000</min>
+    <max>3000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexSettings.TransportStreamBitrate</property>
+    <min>1000000</min>
+    <max>100000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexSettings.TransportStreamId</property>
+    <min>0</min>
+    <max>65535</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexSettings.TransportStreamReservedBitrate</property>
+    <min>0</min>
+    <max>100000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexSettingsSummary.TransportStreamBitrate</property>
+    <min>1000000</min>
+    <max>100000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexStatmuxVideoSettings.MaximumBitrate</property>
+    <min>100000</min>
+    <max>100000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexStatmuxVideoSettings.MinimumBitrate</property>
+    <min>100000</min>
+    <max>100000000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.MultiplexVideoSettings.ConstantBitrate</property>
+    <min>100000</min>
+    <max>100000000</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.Output.OutputName</property>
     <min>1</min>
     <max>255</max>
@@ -503,6 +688,10 @@
   <property-value-rule>
     <property>Amazon.MediaLive.Model.OutputGroup.Name</property>
     <max>32</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.PurchaseOffering.Count</property>
+    <min>1</min>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.MediaLive.Model.RemixSettings.ChannelsIn</property>
@@ -515,6 +704,22 @@
     <max>8</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.RtmpGroupSettings.CacheLength</property>
+    <min>30</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.RtmpGroupSettings.RestartDelay</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.RtmpOutputSettings.ConnectionRetryInterval</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.RtmpOutputSettings.NumRetries</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.Scte20SourceSettings.Source608ChannelNumber</property>
     <min>1</min>
     <max>4</max>
@@ -524,14 +729,116 @@
     <min>1</min>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35ReturnToNetworkScheduleActionSettings.SpliceEventId</property>
+    <min>0</min>
+    <max>4294967295</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SegmentationDuration</property>
+    <min>0</min>
+    <max>1099511627775</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SegmentationEventId</property>
+    <min>0</min>
+    <max>4294967295</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SegmentationTypeId</property>
+    <min>0</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SegmentationUpidType</property>
+    <min>0</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SegmentNum</property>
+    <min>0</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SegmentsExpected</property>
+    <min>0</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SubSegmentNum</property>
+    <min>0</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SegmentationDescriptor.SubSegmentsExpected</property>
+    <min>0</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.Scte35SpliceInsert.AdAvailOffset</property>
     <min>-1000</min>
     <max>1000</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SpliceInsertScheduleActionSettings.Duration</property>
+    <min>0</min>
+    <max>8589934591</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.Scte35SpliceInsertScheduleActionSettings.SpliceEventId</property>
+    <min>0</min>
+    <max>4294967295</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.MediaLive.Model.Scte35TimeSignalApos.AdAvailOffset</property>
     <min>-1000</min>
     <max>1000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.Duration</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.FadeIn</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.FadeOut</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.Height</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.ImageX</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.ImageY</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.Layer</property>
+    <min>0</min>
+    <max>7</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.Opacity</property>
+    <min>0</min>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageActivateScheduleActionSettings.Width</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageDeactivateScheduleActionSettings.FadeOut</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.MediaLive.Model.StaticImageDeactivateScheduleActionSettings.Layer</property>
+    <min>0</min>
+    <max>7</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.MediaLive.Model.StaticKeySettings.StaticKeyValue</property>

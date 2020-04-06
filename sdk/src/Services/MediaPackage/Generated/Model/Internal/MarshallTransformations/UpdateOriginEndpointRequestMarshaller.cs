@@ -55,19 +55,42 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateOriginEndpointRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaPackage");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-12";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/origin_endpoints/{id}";
             if (!publicRequest.IsSetId())
                 throw new AmazonMediaPackageException("Request object does not have required field Id set");
-            uriResourcePath = uriResourcePath.Replace("{id}", StringUtils.FromString(publicRequest.Id));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{id}", StringUtils.FromString(publicRequest.Id));
+            request.ResourcePath = "/origin_endpoints/{id}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAuthorization())
+                {
+                    context.Writer.WritePropertyName("authorization");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AuthorizationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Authorization, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetCmafPackage())
+                {
+                    context.Writer.WritePropertyName("cmafPackage");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CmafPackageCreateOrUpdateParametersMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.CmafPackage, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetDashPackage())
                 {
                     context.Writer.WritePropertyName("dashPackage");
@@ -111,6 +134,12 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.MssPackage, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetOrigination())
+                {
+                    context.Writer.WritePropertyName("origination");
+                    context.Writer.Write(publicRequest.Origination);
                 }
 
                 if(publicRequest.IsSetStartoverWindowSeconds())

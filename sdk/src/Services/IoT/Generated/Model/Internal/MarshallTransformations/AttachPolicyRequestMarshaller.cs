@@ -55,14 +55,15 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(AttachPolicyRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/target-policies/{policyName}";
             if (!publicRequest.IsSetPolicyName())
                 throw new AmazonIoTException("Request object does not have required field PolicyName set");
-            uriResourcePath = uriResourcePath.Replace("{policyName}", StringUtils.FromString(publicRequest.PolicyName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{policyName}", StringUtils.FromString(publicRequest.PolicyName));
+            request.ResourcePath = "/target-policies/{policyName}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

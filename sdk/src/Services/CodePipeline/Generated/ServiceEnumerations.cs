@@ -151,6 +151,10 @@ namespace Amazon.CodePipeline
     {
 
         /// <summary>
+        /// Constant Abandoned for ActionExecutionStatus
+        /// </summary>
+        public static readonly ActionExecutionStatus Abandoned = new ActionExecutionStatus("Abandoned");
+        /// <summary>
         /// Constant Failed for ActionExecutionStatus
         /// </summary>
         public static readonly ActionExecutionStatus Failed = new ActionExecutionStatus("Failed");
@@ -637,6 +641,14 @@ namespace Amazon.CodePipeline
         /// </summary>
         public static readonly PipelineExecutionStatus InProgress = new PipelineExecutionStatus("InProgress");
         /// <summary>
+        /// Constant Stopped for PipelineExecutionStatus
+        /// </summary>
+        public static readonly PipelineExecutionStatus Stopped = new PipelineExecutionStatus("Stopped");
+        /// <summary>
+        /// Constant Stopping for PipelineExecutionStatus
+        /// </summary>
+        public static readonly PipelineExecutionStatus Stopping = new PipelineExecutionStatus("Stopping");
+        /// <summary>
         /// Constant Succeeded for PipelineExecutionStatus
         /// </summary>
         public static readonly PipelineExecutionStatus Succeeded = new PipelineExecutionStatus("Succeeded");
@@ -694,6 +706,14 @@ namespace Amazon.CodePipeline
         /// Constant InProgress for StageExecutionStatus
         /// </summary>
         public static readonly StageExecutionStatus InProgress = new StageExecutionStatus("InProgress");
+        /// <summary>
+        /// Constant Stopped for StageExecutionStatus
+        /// </summary>
+        public static readonly StageExecutionStatus Stopped = new StageExecutionStatus("Stopped");
+        /// <summary>
+        /// Constant Stopping for StageExecutionStatus
+        /// </summary>
+        public static readonly StageExecutionStatus Stopping = new StageExecutionStatus("Stopping");
         /// <summary>
         /// Constant Succeeded for StageExecutionStatus
         /// </summary>
@@ -824,6 +844,126 @@ namespace Amazon.CodePipeline
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator StageTransitionType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TriggerType.
+    /// </summary>
+    public class TriggerType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CloudWatchEvent for TriggerType
+        /// </summary>
+        public static readonly TriggerType CloudWatchEvent = new TriggerType("CloudWatchEvent");
+        /// <summary>
+        /// Constant CreatePipeline for TriggerType
+        /// </summary>
+        public static readonly TriggerType CreatePipeline = new TriggerType("CreatePipeline");
+        /// <summary>
+        /// Constant PollForSourceChanges for TriggerType
+        /// </summary>
+        public static readonly TriggerType PollForSourceChanges = new TriggerType("PollForSourceChanges");
+        /// <summary>
+        /// Constant PutActionRevision for TriggerType
+        /// </summary>
+        public static readonly TriggerType PutActionRevision = new TriggerType("PutActionRevision");
+        /// <summary>
+        /// Constant StartPipelineExecution for TriggerType
+        /// </summary>
+        public static readonly TriggerType StartPipelineExecution = new TriggerType("StartPipelineExecution");
+        /// <summary>
+        /// Constant Webhook for TriggerType
+        /// </summary>
+        public static readonly TriggerType Webhook = new TriggerType("Webhook");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TriggerType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TriggerType FindValue(string value)
+        {
+            return FindValue<TriggerType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TriggerType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type WebhookAuthenticationType.
+    /// </summary>
+    public class WebhookAuthenticationType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant GITHUB_HMAC for WebhookAuthenticationType
+        /// </summary>
+        public static readonly WebhookAuthenticationType GITHUB_HMAC = new WebhookAuthenticationType("GITHUB_HMAC");
+        /// <summary>
+        /// Constant IP for WebhookAuthenticationType
+        /// </summary>
+        public static readonly WebhookAuthenticationType IP = new WebhookAuthenticationType("IP");
+        /// <summary>
+        /// Constant UNAUTHENTICATED for WebhookAuthenticationType
+        /// </summary>
+        public static readonly WebhookAuthenticationType UNAUTHENTICATED = new WebhookAuthenticationType("UNAUTHENTICATED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public WebhookAuthenticationType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static WebhookAuthenticationType FindValue(string value)
+        {
+            return FindValue<WebhookAuthenticationType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator WebhookAuthenticationType(string value)
         {
             return FindValue(value);
         }

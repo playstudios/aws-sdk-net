@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// A specification for an Elastic GPU.
+    /// A specification for an Elastic Graphics accelerator.
     /// </summary>
     public partial class ElasticGpuSpecification
     {
@@ -37,9 +37,13 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of Elastic GPU.
+        /// The type of Elastic Graphics accelerator. For more information about the values to
+        /// specify for <code>Type</code>, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-graphics.html#elastic-graphics-basics">Elastic
+        /// Graphics Basics</a>, specifically the Elastic Graphics accelerator column, in the
+        /// <i>Amazon Elastic Compute Cloud User Guide for Windows Instances</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Type
         {
             get { return this._type; }

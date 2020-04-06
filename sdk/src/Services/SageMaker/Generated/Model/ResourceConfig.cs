@@ -45,6 +45,7 @@ namespace Amazon.SageMaker.Model
         /// greater than 1. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public int InstanceCount
         {
             get { return this._instanceCount.GetValueOrDefault(); }
@@ -63,6 +64,7 @@ namespace Amazon.SageMaker.Model
         /// The ML compute instance type. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TrainingInstanceType InstanceType
         {
             get { return this._instanceType; }
@@ -78,11 +80,49 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property VolumeKmsKeyId. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker
-        /// uses to encrypt data on the storage volume attached to the ML compute instance(s)
-        /// that run the training job.
+        /// The AWS KMS key that Amazon SageMaker uses to encrypt data on the storage volume attached
+        /// to the ML compute instance(s) that run the training job.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// Certain Nitro-based instances include local storage, dependent on the instance type.
+        /// Local storage volumes are encrypted using a hardware module on the instance. You can't
+        /// request a <code>VolumeKmsKeyId</code> when using an instance type with local storage.
+        /// </para>
+        ///  
+        /// <para>
+        /// For a list of instance types that support local instance storage, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes">Instance
+        /// Store Volumes</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about local instance storage encryption, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html">SSD
+        /// Instance Store Volumes</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The <code>VolumeKmsKeyId</code> can be in any of the following formats:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// // KMS Key ID
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// // Amazon Resource Name (ARN) of a KMS Key
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+        /// 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string VolumeKmsKeyId
         {
             get { return this._volumeKmsKeyId; }
@@ -116,8 +156,22 @@ namespace Amazon.SageMaker.Model
         ///  Amazon SageMaker supports only the General Purpose SSD (gp2) ML storage volume type.
         /// 
         /// </para>
+        ///  </note> <note> 
+        /// <para>
+        /// Certain Nitro-based instances include local storage with a fixed total size, dependent
+        /// on the instance type. When using these instances for training, Amazon SageMaker mounts
+        /// the local instance storage instead of Amazon EBS gp2 storage. You can't request a
+        /// <code>VolumeSizeInGB</code> greater than the total size of the local instance storage.
+        /// </para>
+        ///  
+        /// <para>
+        /// For a list of instance types that support local instance storage, including the total
+        /// size per instance type, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes">Instance
+        /// Store Volumes</a>.
+        /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public int VolumeSizeInGB
         {
             get { return this._volumeSizeInGB.GetValueOrDefault(); }

@@ -42,6 +42,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -81,6 +82,7 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string NotificationType
         {
             get { return this._notificationType; }
@@ -96,9 +98,11 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property TopicARN. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS)
+        /// topic.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string TopicARN
         {
             get { return this._topicARN; }

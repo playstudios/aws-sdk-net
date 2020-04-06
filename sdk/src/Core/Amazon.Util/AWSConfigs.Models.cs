@@ -129,6 +129,19 @@ namespace Amazon.Util
         }
     }
 
+    public partial class CSMConfig
+    {
+        internal const string DEFAULT_HOST = "127.0.0.1";
+        internal const int DEFAULT_PORT = 31000;
+
+        public string CSMHost { get; set; } = DEFAULT_HOST;
+
+        public int CSMPort { get; set; } = DEFAULT_PORT;
+
+        public string CSMClientId { get; set; }
+
+        public bool? CSMEnabled { get; set; }
+    }
     #endregion
 
 }

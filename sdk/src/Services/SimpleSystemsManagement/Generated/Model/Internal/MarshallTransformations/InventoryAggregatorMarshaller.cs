@@ -67,6 +67,22 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Expression);
             }
 
+            if(requestObject.IsSetGroups())
+            {
+                context.Writer.WritePropertyName("Groups");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectGroupsListValue in requestObject.Groups)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = InventoryGroupMarshaller.Instance;
+                    marshaller.Marshall(requestObjectGroupsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
         }
 
         /// <summary>

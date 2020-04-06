@@ -104,10 +104,22 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetGlueVersion())
+            {
+                context.Writer.WritePropertyName("GlueVersion");
+                context.Writer.Write(requestObject.GlueVersion);
+            }
+
             if(requestObject.IsSetLogUri())
             {
                 context.Writer.WritePropertyName("LogUri");
                 context.Writer.Write(requestObject.LogUri);
+            }
+
+            if(requestObject.IsSetMaxCapacity())
+            {
+                context.Writer.WritePropertyName("MaxCapacity");
+                context.Writer.Write(requestObject.MaxCapacity);
             }
 
             if(requestObject.IsSetMaxRetries())
@@ -116,10 +128,59 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.MaxRetries);
             }
 
+            if(requestObject.IsSetNonOverridableArguments())
+            {
+                context.Writer.WritePropertyName("NonOverridableArguments");
+                context.Writer.WriteObjectStart();
+                foreach (var requestObjectNonOverridableArgumentsKvp in requestObject.NonOverridableArguments)
+                {
+                    context.Writer.WritePropertyName(requestObjectNonOverridableArgumentsKvp.Key);
+                    var requestObjectNonOverridableArgumentsValue = requestObjectNonOverridableArgumentsKvp.Value;
+
+                        context.Writer.Write(requestObjectNonOverridableArgumentsValue);
+                }
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetNotificationProperty())
+            {
+                context.Writer.WritePropertyName("NotificationProperty");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = NotificationPropertyMarshaller.Instance;
+                marshaller.Marshall(requestObject.NotificationProperty, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetNumberOfWorkers())
+            {
+                context.Writer.WritePropertyName("NumberOfWorkers");
+                context.Writer.Write(requestObject.NumberOfWorkers);
+            }
+
             if(requestObject.IsSetRole())
             {
                 context.Writer.WritePropertyName("Role");
                 context.Writer.Write(requestObject.Role);
+            }
+
+            if(requestObject.IsSetSecurityConfiguration())
+            {
+                context.Writer.WritePropertyName("SecurityConfiguration");
+                context.Writer.Write(requestObject.SecurityConfiguration);
+            }
+
+            if(requestObject.IsSetTimeout())
+            {
+                context.Writer.WritePropertyName("Timeout");
+                context.Writer.Write(requestObject.Timeout);
+            }
+
+            if(requestObject.IsSetWorkerType())
+            {
+                context.Writer.WritePropertyName("WorkerType");
+                context.Writer.Write(requestObject.WorkerType);
             }
 
         }

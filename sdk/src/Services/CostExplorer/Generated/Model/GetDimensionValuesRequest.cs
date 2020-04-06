@@ -29,7 +29,7 @@ namespace Amazon.CostExplorer.Model
 {
     /// <summary>
     /// Container for the parameters to the GetDimensionValues operation.
-    /// Retrieves all available filter values for a specific filter over a period of time.
+    /// Retrieves all available filter values for a specified filter over a period of time.
     /// You can search the dimension values for an arbitrary string.
     /// </summary>
     public partial class GetDimensionValuesRequest : AmazonCostExplorerRequest
@@ -47,12 +47,12 @@ namespace Amazon.CostExplorer.Model
         /// or <code>COST_AND_USAGE</code>. The default value is <code>COST_AND_USAGE</code>.
         /// If the context is set to <code>RESERVATIONS</code>, the resulting dimension values
         /// can be used in the <code>GetReservationUtilization</code> operation. If the context
-        /// is set to <code>COST_AND_USAGE</code> the resulting dimension values can be used in
-        /// the <code>GetCostAndUsage</code> operation.
+        /// is set to <code>COST_AND_USAGE</code>, the resulting dimension values can be used
+        /// in the <code>GetCostAndUsage</code> operation.
         /// </para>
         ///  
         /// <para>
-        /// If you set the context to <code>CostAndUsage</code>, you can use the following dimensions
+        /// If you set the context to <code>COST_AND_USAGE</code>, you can use the following dimensions
         /// for searching:
         /// </para>
         ///  <ul> <li> 
@@ -61,7 +61,17 @@ namespace Amazon.CostExplorer.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INSTANCE_TYPE - The type of instance. An example is an EC2 <code>m4.xlarge</code>.
+        /// DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora
+        /// or MySQL.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INSTANCE_TYPE - The type of Amazon EC2 instance. An example is <code>m4.xlarge</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such
+        /// as Amazon Web Services.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -70,7 +80,15 @@ namespace Amazon.CostExplorer.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        /// OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         /// OPERATION - The action performed. Examples include <code>RunInstance</code> and <code>CreateBucket</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -79,23 +97,28 @@ namespace Amazon.CostExplorer.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SERVICE - The AWS service such as DynamoDB.
+        /// SERVICE - The AWS service such as Amazon DynamoDB.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// USAGE_TYPE - The type of usage. An example is <code>DataTransfer-In-Bytes</code>.
-        /// The response for the <code>GetDimensionValues</code> operation includes a unit attribute,
-        /// examples of which include GB and Hrs.
+        /// USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response
+        /// for the <code>GetDimensionValues</code> operation includes a unit attribute. Examples
+        /// include GB and Hrs.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// USAGE_TYPE_GROUP - The grouping of common usage types. An example is EC2: CloudWatch
+        /// USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch
         /// – Alarms. The response for this operation includes a unit attribute.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds,
         /// and credits.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature
+        /// only available for last 14 days for EC2-Compute Service.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -108,7 +131,16 @@ namespace Amazon.CostExplorer.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INSTANCE_TYPE - The type of instance. An example is an EC2 <code>m4.xlarge</code>.
+        /// CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid
+        /// values are <code>SingleAZ</code> and <code>MultiAZ</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INSTANCE_TYPE - The type of Amazon EC2 instance. An example is <code>m4.xlarge</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -117,9 +149,7 @@ namespace Amazon.CostExplorer.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PLATFORM - The specific combination of operating system, license model, and software
-        /// on an instance. For example, a Windows instance with SQL Server Web and no license,
-        /// or a Red Hat Enterprise Linux instance.
+        /// PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -127,12 +157,46 @@ namespace Amazon.CostExplorer.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SCOPE - The scope of a Reserved Instance (RI). Values are regional or a single Availability
-        /// Zone.
+        /// SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional
+        /// or a single Availability Zone.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// TENANCY - The tenancy of a resource. Examples are shared or dedicated.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If you set the context to <code>SAVINGS_PLANS</code>, you can use the following dimensions
+        /// for searching:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// REGION - The AWS Region.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INSTANCE_TYPE_FAMILY - The family of instances (For example, <code>m5</code>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// LINKED_ACCOUNT - The description in the attribute map that includes the full name
+        /// of the member account. The value field contains the AWS ID of the member account.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -151,10 +215,11 @@ namespace Amazon.CostExplorer.Model
         /// <summary>
         /// Gets and sets the property Dimension. 
         /// <para>
-        /// The name of the dimension. Each <code>Dimension</code> is available for different
-        /// a <code>Context</code>. For more information, see <code>Context</code>.
+        /// The name of the dimension. Each <code>Dimension</code> is available for a different
+        /// <code>Context</code>. For more information, see <code>Context</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Dimension Dimension
         {
             get { return this._dimension; }
@@ -214,6 +279,7 @@ namespace Amazon.CostExplorer.Model
         /// <code>2017-05-01</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateInterval TimePeriod
         {
             get { return this._timePeriod; }

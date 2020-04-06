@@ -36,27 +36,27 @@ namespace Amazon.IdentityManagement.Model
     /// When you embed an inline policy in a role, the inline policy is used as part of the
     /// role's access (permissions) policy. The role's trust policy is created at the same
     /// time as the role, using <a>CreateRole</a>. You can update a role's trust policy using
-    /// <a>UpdateAssumeRolePolicy</a>. For more information about IAM roles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
+    /// <a>UpdateAssumeRolePolicy</a>. For more information about IAM roles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
     /// Roles to Delegate Permissions and Federate Identities</a>.
     /// </para>
     ///  
     /// <para>
     /// A role can also have a managed policy attached to it. To attach a managed policy to
     /// a role, use <a>AttachRolePolicy</a>. To create a new managed policy, use <a>CreatePolicy</a>.
-    /// For information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+    /// For information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
     /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  
     /// <para>
     /// For information about limits on the number of inline policies that you can embed with
-    /// a role, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+    /// a role, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
     /// on IAM Entities</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  <note> 
     /// <para>
     /// Because policy documents can be large, you should use POST rather than GET when calling
     /// <code>PutRolePolicy</code>. For general information about using the Query API with
-    /// IAM, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+    /// IAM, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
     /// Query Requests</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  </note>
@@ -74,25 +74,33 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
+        /// You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates
+        /// formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation
+        /// always converts a YAML policy to JSON format before submitting it to IAM.
+        /// </para>
+        ///  
+        /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this
         /// parameter is a string of characters consisting of the following:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Any printable ASCII character ranging from the space character (\u0020) through the
-        /// end of the ASCII character range
+        /// Any printable ASCII character ranging from the space character (<code>\u0020</code>)
+        /// through the end of the ASCII character range
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// The printable characters in the Basic Latin and Latin-1 Supplement character set (through
-        /// \u00FF)
+        /// <code>\u00FF</code>)
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>),
+        /// and carriage return (<code>\u000D</code>)
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=131072)]
         public string PolicyDocument
         {
             get { return this._policyDocument; }
@@ -112,11 +120,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -136,11 +145,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string RoleName
         {
             get { return this._roleName; }

@@ -42,7 +42,7 @@ namespace Amazon.DynamoDBv2.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Enable or disable Streams on the table.
+    /// Enable or disable DynamoDB Streams on the table.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -50,7 +50,7 @@ namespace Amazon.DynamoDBv2.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Create a new global secondary index on the table. Once the index begins backfilling,
+    /// Create a new global secondary index on the table. After the index begins backfilling,
     /// you can use <code>UpdateTable</code> to perform other operations.
     /// </para>
     ///  </li> </ul> 
@@ -65,8 +65,11 @@ namespace Amazon.DynamoDBv2.Model
     public partial class UpdateTableRequest : AmazonDynamoDBRequest
     {
         private List<AttributeDefinition> _attributeDefinitions = new List<AttributeDefinition>();
+        private BillingMode _billingMode;
         private List<GlobalSecondaryIndexUpdate> _globalSecondaryIndexUpdates = new List<GlobalSecondaryIndexUpdate>();
         private ProvisionedThroughput _provisionedThroughput;
+        private List<ReplicationGroupUpdate> _replicaUpdates = new List<ReplicationGroupUpdate>();
+        private SSESpecification _sseSpecification;
         private StreamSpecification _streamSpecification;
         private string _tableName;
 
@@ -107,6 +110,42 @@ namespace Amazon.DynamoDBv2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BillingMode. 
+        /// <para>
+        /// Controls how you are charged for read and write throughput and how you manage capacity.
+        /// When switching from pay-per-request to provisioned capacity, initial provisioned capacity
+        /// values must be set. The initial provisioned capacity values are estimated based on
+        /// the consumed read and write capacity of your table and global secondary indexes over
+        /// the past 30 minutes.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>PROVISIONED</code> - We recommend using <code>PROVISIONED</code> for predictable
+        /// workloads. <code>PROVISIONED</code> sets the billing mode to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual">Provisioned
+        /// Mode</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PAY_PER_REQUEST</code> - We recommend using <code>PAY_PER_REQUEST</code> for
+        /// unpredictable workloads. <code>PAY_PER_REQUEST</code> sets the billing mode to <a
+        /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand">On-Demand
+        /// Mode</a>. 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public BillingMode BillingMode
+        {
+            get { return this._billingMode; }
+            set { this._billingMode = value; }
+        }
+
+        // Check to see if BillingMode property is set
+        internal bool IsSetBillingMode()
+        {
+            return this._billingMode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property GlobalSecondaryIndexUpdates. 
         /// <para>
         /// An array of one or more global secondary indexes for the table. For each index in
@@ -127,7 +166,12 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html">Managing
+        /// You can create or delete only one global secondary index per <code>UpdateTable</code>
+        /// operation.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html">Managing
         /// Global Secondary Indexes</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
         /// </para>
         /// </summary>
@@ -162,15 +206,58 @@ namespace Amazon.DynamoDBv2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ReplicaUpdates. 
+        /// <para>
+        /// A list of replica update actions (create, delete, or update) for the table.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This property only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+        /// 2019.11.21</a> of global tables.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<ReplicationGroupUpdate> ReplicaUpdates
+        {
+            get { return this._replicaUpdates; }
+            set { this._replicaUpdates = value; }
+        }
+
+        // Check to see if ReplicaUpdates property is set
+        internal bool IsSetReplicaUpdates()
+        {
+            return this._replicaUpdates != null && this._replicaUpdates.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SSESpecification. 
+        /// <para>
+        /// The new server-side encryption settings for the specified table.
+        /// </para>
+        /// </summary>
+        public SSESpecification SSESpecification
+        {
+            get { return this._sseSpecification; }
+            set { this._sseSpecification = value; }
+        }
+
+        // Check to see if SSESpecification property is set
+        internal bool IsSetSSESpecification()
+        {
+            return this._sseSpecification != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StreamSpecification. 
         /// <para>
         /// Represents the DynamoDB Streams configuration for the table.
         /// </para>
         ///  <note> 
         /// <para>
-        /// You will receive a <code>ResourceInUseException</code> if you attempt to enable a
-        /// stream on a table that already has a stream, or if you attempt to disable a stream
-        /// on a table which does not have a stream.
+        /// You receive a <code>ResourceInUseException</code> if you try to enable a stream on
+        /// a table that already has a stream, or if you try to disable a stream on a table that
+        /// doesn't have a stream.
         /// </para>
         ///  </note>
         /// </summary>
@@ -192,6 +279,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the table to be updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

@@ -28,10 +28,10 @@ namespace Amazon.Mobile
     ///<summary>
     /// Common exception for the Mobile service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonMobileException : AmazonServiceException
+    public partial class AmazonMobileException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonMobileException
@@ -88,7 +88,7 @@ namespace Amazon.Mobile
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonMobileException class with serialized data.
         /// </summary>

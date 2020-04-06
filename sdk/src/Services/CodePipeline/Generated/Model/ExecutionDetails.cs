@@ -44,6 +44,7 @@ namespace Amazon.CodePipeline.Model
         /// any external systems, such as AWS CodeDeploy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1500)]
         public string ExternalExecutionId
         {
             get { return this._externalExecutionId; }
@@ -59,10 +60,11 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property PercentComplete. 
         /// <para>
-        /// The percentage of work completed on the action, represented on a scale of zero to
-        /// one hundred percent.
+        /// The percentage of work completed on the action, represented on a scale of 0 to 100
+        /// percent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int PercentComplete
         {
             get { return this._percentComplete.GetValueOrDefault(); }
@@ -81,6 +83,7 @@ namespace Amazon.CodePipeline.Model
         /// The summary of the current status of the actions.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string Summary
         {
             get { return this._summary; }

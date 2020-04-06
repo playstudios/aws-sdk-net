@@ -51,6 +51,7 @@ namespace Amazon.Snowball.Model
         private ShippingDetails _shippingDetails;
         private SnowballCapacity _snowballCapacityPreference;
         private SnowballType _snowballType;
+        private TaxDocuments _taxDocuments;
 
         /// <summary>
         /// Gets and sets the property AddressId. 
@@ -58,6 +59,7 @@ namespace Amazon.Snowball.Model
         /// The ID for the address that you want the Snowball shipped to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string AddressId
         {
             get { return this._addressId; }
@@ -76,6 +78,7 @@ namespace Amazon.Snowball.Model
         /// The 39-character ID for the cluster, for example <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ClusterId
         {
             get { return this._clusterId; }
@@ -110,7 +113,7 @@ namespace Amazon.Snowball.Model
         /// Gets and sets the property DataTransferProgress. 
         /// <para>
         /// A value that defines the real-time status of a Snowball's data transfer while the
-        /// appliance is at AWS. This data is only available while a job has a <code>JobState</code>
+        /// device is at AWS. This data is only available while a job has a <code>JobState</code>
         /// value of <code>InProgress</code>, for both import and export jobs.
         /// </para>
         /// </summary>
@@ -132,6 +135,7 @@ namespace Amazon.Snowball.Model
         /// The description of the job, provided at job creation.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Description
         {
             get { return this._description; }
@@ -151,6 +155,7 @@ namespace Amazon.Snowball.Model
         /// its primary address. This field is not supported in most regions.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string ForwardingAddressId
         {
             get { return this._forwardingAddressId; }
@@ -169,6 +174,7 @@ namespace Amazon.Snowball.Model
         /// The automatically generated ID for a job, for example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string JobId
         {
             get { return this._jobId; }
@@ -242,10 +248,11 @@ namespace Amazon.Snowball.Model
         /// Gets and sets the property KmsKeyARN. 
         /// <para>
         /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated
-        /// with this job. This ARN was created using the <a href="http://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
+        /// with this job. This ARN was created using the <a href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
         /// API action in AWS KMS.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string KmsKeyARN
         {
             get { return this._kmsKeyARN; }
@@ -301,10 +308,11 @@ namespace Amazon.Snowball.Model
         /// <summary>
         /// Gets and sets the property RoleARN. 
         /// <para>
-        /// The role ARN associated with this job. This ARN was created using the <a href="http://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+        /// The role ARN associated with this job. This ARN was created using the <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
         /// API action in AWS Identity and Access Management (IAM).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string RoleARN
         {
             get { return this._roleARN; }
@@ -359,7 +367,7 @@ namespace Amazon.Snowball.Model
         /// <summary>
         /// Gets and sets the property SnowballType. 
         /// <para>
-        /// The type of appliance used with this job.
+        /// The type of device used with this job.
         /// </para>
         /// </summary>
         public SnowballType SnowballType
@@ -372,6 +380,24 @@ namespace Amazon.Snowball.Model
         internal bool IsSetSnowballType()
         {
             return this._snowballType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TaxDocuments. 
+        /// <para>
+        /// The metadata associated with the tax documents required in your AWS Region.
+        /// </para>
+        /// </summary>
+        public TaxDocuments TaxDocuments
+        {
+            get { return this._taxDocuments; }
+            set { this._taxDocuments = value; }
+        }
+
+        // Check to see if TaxDocuments property is set
+        internal bool IsSetTaxDocuments()
+        {
+            return this._taxDocuments != null;
         }
 
     }

@@ -38,7 +38,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         private FailureDetails _failureDetails;
         private string _failureMessage;
         private Dictionary<string, string> _inputs = new Dictionary<string, string>();
+        private bool? _isCritical;
+        private bool? _isEnd;
         private int? _maxAttempts;
+        private string _nextStep;
         private string _onFailure;
         private Dictionary<string, List<string>> _outputs = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> _overriddenParameters = new Dictionary<string, List<string>>();
@@ -47,7 +50,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _stepExecutionId;
         private string _stepName;
         private AutomationExecutionStatus _stepStatus;
+        private TargetLocation _targetLocation;
+        private List<Target> _targets = new List<Target>();
         private long? _timeoutSeconds;
+        private List<string> _validNextSteps = new List<string>();
 
         /// <summary>
         /// Gets and sets the property Action. 
@@ -160,6 +166,44 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IsCritical. 
+        /// <para>
+        /// The flag which can be used to help decide whether the failure of current step leads
+        /// to the Automation failure.
+        /// </para>
+        /// </summary>
+        public bool IsCritical
+        {
+            get { return this._isCritical.GetValueOrDefault(); }
+            set { this._isCritical = value; }
+        }
+
+        // Check to see if IsCritical property is set
+        internal bool IsSetIsCritical()
+        {
+            return this._isCritical.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property IsEnd. 
+        /// <para>
+        /// The flag which can be used to end automation no matter whether the step succeeds or
+        /// fails.
+        /// </para>
+        /// </summary>
+        public bool IsEnd
+        {
+            get { return this._isEnd.GetValueOrDefault(); }
+            set { this._isEnd = value; }
+        }
+
+        // Check to see if IsEnd property is set
+        internal bool IsSetIsEnd()
+        {
+            return this._isEnd.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MaxAttempts. 
         /// <para>
         /// The maximum number of tries to run the action of the step. The default value is 1.
@@ -175,6 +219,24 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetMaxAttempts()
         {
             return this._maxAttempts.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextStep. 
+        /// <para>
+        /// The next step after the step succeeds.
+        /// </para>
+        /// </summary>
+        public string NextStep
+        {
+            get { return this._nextStep; }
+            set { this._nextStep = value; }
+        }
+
+        // Check to see if NextStep property is set
+        internal bool IsSetNextStep()
+        {
+            return this._nextStep != null;
         }
 
         /// <summary>
@@ -201,6 +263,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Returned values from the execution of the step.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public Dictionary<string, List<string>> Outputs
         {
             get { return this._outputs; }
@@ -216,9 +279,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property OverriddenParameters. 
         /// <para>
-        /// A user-specified list of parameters to override when executing a step.
+        /// A user-specified list of parameters to override when running a step.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public Dictionary<string, List<string>> OverriddenParameters
         {
             get { return this._overriddenParameters; }
@@ -306,8 +370,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property StepStatus. 
         /// <para>
-        /// The execution status for this step. Valid values include: Pending, InProgress, Success,
-        /// Cancelled, Failed, and TimedOut.
+        /// The execution status for this step.
         /// </para>
         /// </summary>
         public AutomationExecutionStatus StepStatus
@@ -320,6 +383,43 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetStepStatus()
         {
             return this._stepStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TargetLocation. 
+        /// <para>
+        /// The combination of AWS Regions and accounts targeted by the current Automation execution.
+        /// </para>
+        /// </summary>
+        public TargetLocation TargetLocation
+        {
+            get { return this._targetLocation; }
+            set { this._targetLocation = value; }
+        }
+
+        // Check to see if TargetLocation property is set
+        internal bool IsSetTargetLocation()
+        {
+            return this._targetLocation != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Targets. 
+        /// <para>
+        /// The targets for the step execution.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=5)]
+        public List<Target> Targets
+        {
+            get { return this._targets; }
+            set { this._targets = value; }
+        }
+
+        // Check to see if Targets property is set
+        internal bool IsSetTargets()
+        {
+            return this._targets != null && this._targets.Count > 0; 
         }
 
         /// <summary>
@@ -338,6 +438,27 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetTimeoutSeconds()
         {
             return this._timeoutSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ValidNextSteps. 
+        /// <para>
+        /// Strategies used when step fails, we support Continue and Abort. Abort will fail the
+        /// automation when the step fails. Continue will ignore the failure of current step and
+        /// allow automation to run the next step. With conditional branching, we add step:stepName
+        /// to support the automation to go to another specific step.
+        /// </para>
+        /// </summary>
+        public List<string> ValidNextSteps
+        {
+            get { return this._validNextSteps; }
+            set { this._validNextSteps = value; }
+        }
+
+        // Check to see if ValidNextSteps property is set
+        internal bool IsSetValidNextSteps()
+        {
+            return this._validNextSteps != null && this._validNextSteps.Count > 0; 
         }
 
     }

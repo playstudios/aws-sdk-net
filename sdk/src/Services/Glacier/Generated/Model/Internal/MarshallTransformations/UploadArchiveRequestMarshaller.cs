@@ -55,15 +55,16 @@ namespace Amazon.Glacier.Model.Internal.MarshallTransformations
         public IRequest Marshall(UploadArchiveRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Glacier");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-06-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/{accountId}/vaults/{vaultName}/archives";
-            uriResourcePath = uriResourcePath.Replace("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
+            request.AddPathResource("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
             if (!publicRequest.IsSetVaultName())
                 throw new AmazonGlacierException("Request object does not have required field VaultName set");
-            uriResourcePath = uriResourcePath.Replace("{vaultName}", StringUtils.FromString(publicRequest.VaultName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{vaultName}", StringUtils.FromString(publicRequest.VaultName));
+            request.ResourcePath = "/{accountId}/vaults/{vaultName}/archives";
+            request.MarshallerVersion = 2;
             request.ContentStream =  publicRequest.Body ?? new MemoryStream();
             request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
                 request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);

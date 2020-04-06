@@ -74,10 +74,27 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetInputMode())
+            {
+                context.Writer.WritePropertyName("InputMode");
+                context.Writer.Write(requestObject.InputMode);
+            }
+
             if(requestObject.IsSetRecordWrapperType())
             {
                 context.Writer.WritePropertyName("RecordWrapperType");
                 context.Writer.Write(requestObject.RecordWrapperType);
+            }
+
+            if(requestObject.IsSetShuffleConfig())
+            {
+                context.Writer.WritePropertyName("ShuffleConfig");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = ShuffleConfigMarshaller.Instance;
+                marshaller.Marshall(requestObject.ShuffleConfig, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
         }

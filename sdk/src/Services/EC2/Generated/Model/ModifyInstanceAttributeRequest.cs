@@ -34,8 +34,16 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
+    ///  <b>Note: </b>Using this action to change the security groups associated with an elastic
+    /// network interface (ENI) attached to an instance in a VPC can result in an error if
+    /// the instance has more than one ENI. To change the security groups associated with
+    /// an ENI attached to an instance that has multiple ENIs, we recommend that you use the
+    /// <a>ModifyNetworkInterfaceAttribute</a> action.
+    /// </para>
+    ///  
+    /// <para>
     /// To modify some attributes, the instance must be stopped. For more information, see
-    /// <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html">Modifying
+    /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html">Modifying
     /// Attributes of a Stopped Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -101,7 +109,7 @@ namespace Amazon.EC2.Model
         ///  
         /// <para>
         /// To add instance store volumes to an Amazon EBS-backed instance, you must add them
-        /// when you launch the instance. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html#Using_OverridingAMIBDM">Updating
+        /// when you launch the instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html#Using_OverridingAMIBDM">Updating
         /// the Block Device Mapping when Launching an Instance</a> in the <i>Amazon Elastic Compute
         /// Cloud User Guide</i>.
         /// </para>
@@ -208,6 +216,7 @@ namespace Amazon.EC2.Model
         /// The ID of the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -242,7 +251,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        /// Changes the instance type to the specified value. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+        /// Changes the instance type to the specified value. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
         /// Types</a>. If the instance type is not valid, the error returned is <code>InvalidInstanceAttributeValue</code>.
         /// </para>
         /// </summary>
@@ -262,7 +271,7 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property Kernel. 
         /// <para>
         /// Changes the instance's kernel to the specified value. We recommend that you use PV-GRUB
-        /// instead of kernels and RAM disks. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">PV-GRUB</a>.
+        /// instead of kernels and RAM disks. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">PV-GRUB</a>.
         /// </para>
         /// </summary>
         public string Kernel
@@ -281,7 +290,7 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property Ramdisk. 
         /// <para>
         /// Changes the instance's RAM disk to the specified value. We recommend that you use
-        /// PV-GRUB instead of kernels and RAM disks. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">PV-GRUB</a>.
+        /// PV-GRUB instead of kernels and RAM disks. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">PV-GRUB</a>.
         /// </para>
         /// </summary>
         public string Ramdisk

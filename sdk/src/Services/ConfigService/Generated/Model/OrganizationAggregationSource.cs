@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ConfigService.Model
 {
     /// <summary>
-    /// This object contains regions to setup the aggregator and an IAM role to retrieve organization
-    /// details.
+    /// This object contains regions to set up the aggregator and an IAM role to retrieve
+    /// organization details.
     /// </summary>
     public partial class OrganizationAggregationSource
     {
@@ -40,7 +40,7 @@ namespace Amazon.ConfigService.Model
         /// <summary>
         /// Gets and sets the property AllAwsRegions. 
         /// <para>
-        /// If true, aggreagate existing AWS Config regions and future regions.
+        /// If true, aggregate existing AWS Config regions and future regions.
         /// </para>
         /// </summary>
         public bool AllAwsRegions
@@ -61,6 +61,7 @@ namespace Amazon.ConfigService.Model
         /// The source regions being aggregated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> AwsRegions
         {
             get { return this._awsRegions; }
@@ -76,10 +77,11 @@ namespace Amazon.ConfigService.Model
         /// <summary>
         /// Gets and sets the property RoleArn. 
         /// <para>
-        /// ARN of the IAM role used to retreive AWS Organization details associated with the
+        /// ARN of the IAM role used to retrieve AWS Organization details associated with the
         /// aggregator account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }

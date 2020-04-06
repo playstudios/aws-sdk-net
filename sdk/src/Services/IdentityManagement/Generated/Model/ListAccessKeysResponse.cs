@@ -42,6 +42,7 @@ namespace Amazon.IdentityManagement.Model
         /// A list of objects containing metadata about the access keys.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<AccessKeyMetadata> AccessKeyMetadata
         {
             get { return this._accessKeyMetadata; }
@@ -62,7 +63,7 @@ namespace Amazon.IdentityManagement.Model
         /// request parameter to retrieve more items. Note that IAM might return fewer than the
         /// <code>MaxItems</code> number of results even when there are more results available.
         /// We recommend that you check <code>IsTruncated</code> after every call to ensure that
-        /// you receive all of your results.
+        /// you receive all your results.
         /// </para>
         /// </summary>
         public bool IsTruncated

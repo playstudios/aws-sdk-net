@@ -55,14 +55,15 @@ namespace Amazon.ServerlessApplicationRepository.Model.Internal.MarshallTransfor
         public IRequest Marshall(UpdateApplicationRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ServerlessApplicationRepository");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-08";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/applications/{applicationId}";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonServerlessApplicationRepositoryException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.ResourcePath = "/applications/{applicationId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

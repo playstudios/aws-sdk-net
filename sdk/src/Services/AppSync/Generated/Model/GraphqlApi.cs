@@ -32,12 +32,35 @@ namespace Amazon.AppSync.Model
     /// </summary>
     public partial class GraphqlApi
     {
+        private List<AdditionalAuthenticationProvider> _additionalAuthenticationProviders = new List<AdditionalAuthenticationProvider>();
         private string _apiId;
         private string _arn;
         private AuthenticationType _authenticationType;
+        private LogConfig _logConfig;
         private string _name;
+        private OpenIDConnectConfig _openidConnectConfig;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private Dictionary<string, string> _uris = new Dictionary<string, string>();
         private UserPoolConfig _userPoolConfig;
+        private bool? _xrayEnabled;
+
+        /// <summary>
+        /// Gets and sets the property AdditionalAuthenticationProviders. 
+        /// <para>
+        /// A list of additional authentication providers for the <code>GraphqlApi</code> API.
+        /// </para>
+        /// </summary>
+        public List<AdditionalAuthenticationProvider> AdditionalAuthenticationProviders
+        {
+            get { return this._additionalAuthenticationProviders; }
+            set { this._additionalAuthenticationProviders = value; }
+        }
+
+        // Check to see if AdditionalAuthenticationProviders property is set
+        internal bool IsSetAdditionalAuthenticationProviders()
+        {
+            return this._additionalAuthenticationProviders != null && this._additionalAuthenticationProviders.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property ApiId. 
@@ -94,11 +117,30 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LogConfig. 
+        /// <para>
+        /// The Amazon CloudWatch Logs configuration.
+        /// </para>
+        /// </summary>
+        public LogConfig LogConfig
+        {
+            get { return this._logConfig; }
+            set { this._logConfig = value; }
+        }
+
+        // Check to see if LogConfig property is set
+        internal bool IsSetLogConfig()
+        {
+            return this._logConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The API name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string Name
         {
             get { return this._name; }
@@ -109,6 +151,43 @@ namespace Amazon.AppSync.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OpenIDConnectConfig. 
+        /// <para>
+        /// The OpenID Connect configuration.
+        /// </para>
+        /// </summary>
+        public OpenIDConnectConfig OpenIDConnectConfig
+        {
+            get { return this._openidConnectConfig; }
+            set { this._openidConnectConfig = value; }
+        }
+
+        // Check to see if OpenIDConnectConfig property is set
+        internal bool IsSetOpenIDConnectConfig()
+        {
+            return this._openidConnectConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=50)]
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>
@@ -132,7 +211,7 @@ namespace Amazon.AppSync.Model
         /// <summary>
         /// Gets and sets the property UserPoolConfig. 
         /// <para>
-        /// The Amazon Cognito User Pool configuration.
+        /// The Amazon Cognito user pool configuration.
         /// </para>
         /// </summary>
         public UserPoolConfig UserPoolConfig
@@ -145,6 +224,24 @@ namespace Amazon.AppSync.Model
         internal bool IsSetUserPoolConfig()
         {
             return this._userPoolConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property XrayEnabled. 
+        /// <para>
+        /// A flag representing whether X-Ray tracing is enabled for this <code>GraphqlApi</code>.
+        /// </para>
+        /// </summary>
+        public bool XrayEnabled
+        {
+            get { return this._xrayEnabled.GetValueOrDefault(); }
+            set { this._xrayEnabled = value; }
+        }
+
+        // Check to see if XrayEnabled property is set
+        internal bool IsSetXrayEnabled()
+        {
+            return this._xrayEnabled.HasValue; 
         }
 
     }

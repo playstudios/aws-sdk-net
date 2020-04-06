@@ -70,16 +70,40 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     unmarshalledObject.ArchiveGroupSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("frameCaptureGroupSettings", targetDepth))
+                {
+                    var unmarshaller = FrameCaptureGroupSettingsUnmarshaller.Instance;
+                    unmarshalledObject.FrameCaptureGroupSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("hlsGroupSettings", targetDepth))
                 {
                     var unmarshaller = HlsGroupSettingsUnmarshaller.Instance;
                     unmarshalledObject.HlsGroupSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("mediaPackageGroupSettings", targetDepth))
+                {
+                    var unmarshaller = MediaPackageGroupSettingsUnmarshaller.Instance;
+                    unmarshalledObject.MediaPackageGroupSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("msSmoothGroupSettings", targetDepth))
                 {
                     var unmarshaller = MsSmoothGroupSettingsUnmarshaller.Instance;
                     unmarshalledObject.MsSmoothGroupSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("multiplexGroupSettings", targetDepth))
+                {
+                    var unmarshaller = MultiplexGroupSettingsUnmarshaller.Instance;
+                    unmarshalledObject.MultiplexGroupSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("rtmpGroupSettings", targetDepth))
+                {
+                    var unmarshaller = RtmpGroupSettingsUnmarshaller.Instance;
+                    unmarshalledObject.RtmpGroupSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("udpGroupSettings", targetDepth))

@@ -64,7 +64,10 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property MFAOptions. 
         /// <para>
-        /// Specifies the options for MFA (e.g., email or phone number).
+        ///  <i>This response parameter is no longer supported.</i> It provides information only
+        /// about SMS MFA configurations. It doesn't provide information about TOTP software token
+        /// MFA configurations. To look up information about either type of MFA configuration,
+        /// use the <a>AdminGetUserResponse$UserMFASettingList</a> response instead.
         /// </para>
         /// </summary>
         public List<MFAOptionType> MFAOptions
@@ -154,7 +157,8 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property UserMFASettingList. 
         /// <para>
-        /// The list of the user's MFA settings.
+        /// The MFA options that are enabled for the user. The possible values in this list are
+        /// <code>SMS_MFA</code> and <code>SOFTWARE_TOKEN_MFA</code>.
         /// </para>
         /// </summary>
         public List<string> UserMFASettingList
@@ -175,6 +179,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user name of the user about whom you are receiving information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Username
         {
             get { return this._username; }
@@ -211,6 +216,17 @@ namespace Amazon.CognitoIdentityProvider.Model
         ///  </li> <li> 
         /// <para>
         /// UNKNOWN - User status is not known.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// RESET_REQUIRED - User is confirmed, but the user must request a code and reset his
+        /// or her password before he or she can sign in.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary
+        /// password, but on first sign-in, the user must change his or her password to a new
+        /// value before doing anything else. 
         /// </para>
         ///  </li> </ul>
         /// </summary>

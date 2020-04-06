@@ -28,23 +28,33 @@ using Amazon.Runtime.Internal;
 namespace Amazon.RDS.Model
 {
     /// <summary>
-    /// Contains the details of an Amazon RDS DB cluster. 
+    /// Contains the details of an Amazon Aurora DB cluster. 
     /// 
     ///  
     /// <para>
-    /// This data type is used as a response element in the <a>DescribeDBClusters</a> action.
-    /// 
+    /// This data type is used as a response element in the <code>DescribeDBClusters</code>,
+    /// <code>StopDBCluster</code>, and <code>StartDBCluster</code> actions. 
     /// </para>
     /// </summary>
     public partial class DBCluster
     {
+        private string _activityStreamKinesisStreamName;
+        private string _activityStreamKmsKeyId;
+        private ActivityStreamMode _activityStreamMode;
+        private ActivityStreamStatus _activityStreamStatus;
         private int? _allocatedStorage;
         private List<DBClusterRole> _associatedRoles = new List<DBClusterRole>();
         private List<string> _availabilityZones = new List<string>();
+        private long? _backtrackConsumedChangeRecords;
+        private long? _backtrackWindow;
         private int? _backupRetentionPeriod;
+        private int? _capacity;
         private string _characterSetName;
         private string _cloneGroupId;
         private DateTime? _clusterCreateTime;
+        private bool? _copyTagsToSnapshot;
+        private bool? _crossAccountClone;
+        private List<string> _customEndpoints = new List<string>();
         private string _databaseName;
         private string _dbClusterArn;
         private string _dbClusterIdentifier;
@@ -53,11 +63,17 @@ namespace Amazon.RDS.Model
         private string _dbClusterParameterGroup;
         private string _dbClusterResourceId;
         private string _dbSubnetGroup;
+        private bool? _deletionProtection;
+        private List<DomainMembership> _domainMemberships = new List<DomainMembership>();
+        private DateTime? _earliestBacktrackTime;
         private DateTime? _earliestRestorableTime;
+        private List<string> _enabledCloudwatchLogsExports = new List<string>();
         private string _endpoint;
         private string _engine;
+        private string _engineMode;
         private string _engineVersion;
         private string _hostedZoneId;
+        private bool? _httpEndpointEnabled;
         private bool? _iamDatabaseAuthenticationEnabled;
         private string _kmsKeyId;
         private DateTime? _latestRestorableTime;
@@ -70,16 +86,91 @@ namespace Amazon.RDS.Model
         private string _readerEndpoint;
         private List<string> _readReplicaIdentifiers = new List<string>();
         private string _replicationSourceIdentifier;
+        private ScalingConfigurationInfo _scalingConfigurationInfo;
         private string _status;
         private bool? _storageEncrypted;
         private List<VpcSecurityGroupMembership> _vpcSecurityGroups = new List<VpcSecurityGroupMembership>();
+
+        /// <summary>
+        /// Gets and sets the property ActivityStreamKinesisStreamName. 
+        /// <para>
+        /// The name of the Amazon Kinesis data stream used for the database activity stream.
+        /// </para>
+        /// </summary>
+        public string ActivityStreamKinesisStreamName
+        {
+            get { return this._activityStreamKinesisStreamName; }
+            set { this._activityStreamKinesisStreamName = value; }
+        }
+
+        // Check to see if ActivityStreamKinesisStreamName property is set
+        internal bool IsSetActivityStreamKinesisStreamName()
+        {
+            return this._activityStreamKinesisStreamName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ActivityStreamKmsKeyId. 
+        /// <para>
+        /// The AWS KMS key identifier used for encrypting messages in the database activity stream.
+        /// </para>
+        /// </summary>
+        public string ActivityStreamKmsKeyId
+        {
+            get { return this._activityStreamKmsKeyId; }
+            set { this._activityStreamKmsKeyId = value; }
+        }
+
+        // Check to see if ActivityStreamKmsKeyId property is set
+        internal bool IsSetActivityStreamKmsKeyId()
+        {
+            return this._activityStreamKmsKeyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ActivityStreamMode. 
+        /// <para>
+        /// The mode of the database activity stream. Database events such as a change or access
+        /// generate an activity stream event. The database session can handle these events either
+        /// synchronously or asynchronously. 
+        /// </para>
+        /// </summary>
+        public ActivityStreamMode ActivityStreamMode
+        {
+            get { return this._activityStreamMode; }
+            set { this._activityStreamMode = value; }
+        }
+
+        // Check to see if ActivityStreamMode property is set
+        internal bool IsSetActivityStreamMode()
+        {
+            return this._activityStreamMode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ActivityStreamStatus. 
+        /// <para>
+        /// The status of the database activity stream.
+        /// </para>
+        /// </summary>
+        public ActivityStreamStatus ActivityStreamStatus
+        {
+            get { return this._activityStreamStatus; }
+            set { this._activityStreamStatus = value; }
+        }
+
+        // Check to see if ActivityStreamStatus property is set
+        internal bool IsSetActivityStreamStatus()
+        {
+            return this._activityStreamStatus != null;
+        }
 
         /// <summary>
         /// Gets and sets the property AllocatedStorage. 
         /// <para>
         /// For all database engines except Amazon Aurora, <code>AllocatedStorage</code> specifies
         /// the allocated storage size in gibibytes (GiB). For Aurora, <code>AllocatedStorage</code>
-        /// always returns 1, because Aurora DB cluster storage size is not fixed, but instead
+        /// always returns 1, because Aurora DB cluster storage size isn't fixed, but instead
         /// automatically adjusts as needed.
         /// </para>
         /// </summary>
@@ -118,8 +209,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZones. 
         /// <para>
-        /// Provides the list of EC2 Availability Zones that instances in the DB cluster can be
-        /// created in.
+        /// Provides the list of Availability Zones (AZs) where instances in the DB cluster can
+        /// be created.
         /// </para>
         /// </summary>
         public List<string> AvailabilityZones
@@ -132,6 +223,43 @@ namespace Amazon.RDS.Model
         internal bool IsSetAvailabilityZones()
         {
             return this._availabilityZones != null && this._availabilityZones.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property BacktrackConsumedChangeRecords. 
+        /// <para>
+        /// The number of change records stored for Backtrack.
+        /// </para>
+        /// </summary>
+        public long BacktrackConsumedChangeRecords
+        {
+            get { return this._backtrackConsumedChangeRecords.GetValueOrDefault(); }
+            set { this._backtrackConsumedChangeRecords = value; }
+        }
+
+        // Check to see if BacktrackConsumedChangeRecords property is set
+        internal bool IsSetBacktrackConsumedChangeRecords()
+        {
+            return this._backtrackConsumedChangeRecords.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property BacktrackWindow. 
+        /// <para>
+        /// The target backtrack window, in seconds. If this value is set to 0, backtracking is
+        /// disabled for the DB cluster. Otherwise, backtracking is enabled.
+        /// </para>
+        /// </summary>
+        public long BacktrackWindow
+        {
+            get { return this._backtrackWindow.GetValueOrDefault(); }
+            set { this._backtrackWindow = value; }
+        }
+
+        // Check to see if BacktrackWindow property is set
+        internal bool IsSetBacktrackWindow()
+        {
+            return this._backtrackWindow.HasValue; 
         }
 
         /// <summary>
@@ -150,6 +278,30 @@ namespace Amazon.RDS.Model
         internal bool IsSetBackupRetentionPeriod()
         {
             return this._backupRetentionPeriod.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Capacity. 
+        /// <para>
+        /// The current capacity of an Aurora Serverless DB cluster. The capacity is 0 (zero)
+        /// when the cluster is paused.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about Aurora Serverless, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
+        /// Amazon Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+        /// </para>
+        /// </summary>
+        public int Capacity
+        {
+            get { return this._capacity.GetValueOrDefault(); }
+            set { this._capacity = value; }
+        }
+
+        // Check to see if Capacity property is set
+        internal bool IsSetCapacity()
+        {
+            return this._capacity.HasValue; 
         }
 
         /// <summary>
@@ -206,6 +358,61 @@ namespace Amazon.RDS.Model
         internal bool IsSetClusterCreateTime()
         {
             return this._clusterCreateTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CopyTagsToSnapshot. 
+        /// <para>
+        /// Specifies whether tags are copied from the DB cluster to snapshots of the DB cluster.
+        /// </para>
+        /// </summary>
+        public bool CopyTagsToSnapshot
+        {
+            get { return this._copyTagsToSnapshot.GetValueOrDefault(); }
+            set { this._copyTagsToSnapshot = value; }
+        }
+
+        // Check to see if CopyTagsToSnapshot property is set
+        internal bool IsSetCopyTagsToSnapshot()
+        {
+            return this._copyTagsToSnapshot.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CrossAccountClone. 
+        /// <para>
+        /// Specifies whether the DB cluster is a clone of a DB cluster owned by a different AWS
+        /// account.
+        /// </para>
+        /// </summary>
+        public bool CrossAccountClone
+        {
+            get { return this._crossAccountClone.GetValueOrDefault(); }
+            set { this._crossAccountClone = value; }
+        }
+
+        // Check to see if CrossAccountClone property is set
+        internal bool IsSetCrossAccountClone()
+        {
+            return this._crossAccountClone.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CustomEndpoints. 
+        /// <para>
+        /// Identifies all custom endpoints associated with the cluster.
+        /// </para>
+        /// </summary>
+        public List<string> CustomEndpoints
+        {
+            get { return this._customEndpoints; }
+            set { this._customEndpoints = value; }
+        }
+
+        // Check to see if CustomEndpoints property is set
+        internal bool IsSetCustomEndpoints()
+        {
+            return this._customEndpoints != null && this._customEndpoints.Count > 0; 
         }
 
         /// <summary>
@@ -359,10 +566,64 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeletionProtection. 
+        /// <para>
+        /// Indicates if the DB cluster has deletion protection enabled. The database can't be
+        /// deleted when deletion protection is enabled. 
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DomainMemberships. 
+        /// <para>
+        /// The Active Directory Domain membership records associated with the DB cluster.
+        /// </para>
+        /// </summary>
+        public List<DomainMembership> DomainMemberships
+        {
+            get { return this._domainMemberships; }
+            set { this._domainMemberships = value; }
+        }
+
+        // Check to see if DomainMemberships property is set
+        internal bool IsSetDomainMemberships()
+        {
+            return this._domainMemberships != null && this._domainMemberships.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EarliestBacktrackTime. 
+        /// <para>
+        /// The earliest time to which a DB cluster can be backtracked.
+        /// </para>
+        /// </summary>
+        public DateTime EarliestBacktrackTime
+        {
+            get { return this._earliestBacktrackTime.GetValueOrDefault(); }
+            set { this._earliestBacktrackTime = value; }
+        }
+
+        // Check to see if EarliestBacktrackTime property is set
+        internal bool IsSetEarliestBacktrackTime()
+        {
+            return this._earliestBacktrackTime.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property EarliestRestorableTime. 
         /// <para>
-        /// Specifies the earliest time to which a database can be restored with point-in-time
-        /// restore.
+        /// The earliest time to which a database can be restored with point-in-time restore.
         /// </para>
         /// </summary>
         public DateTime EarliestRestorableTime
@@ -375,6 +636,30 @@ namespace Amazon.RDS.Model
         internal bool IsSetEarliestRestorableTime()
         {
             return this._earliestRestorableTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnabledCloudwatchLogsExports. 
+        /// <para>
+        /// A list of log types that this DB cluster is configured to export to CloudWatch Logs.
+        /// </para>
+        ///  
+        /// <para>
+        /// Log types vary by DB engine. For information about the log types for each DB engine,
+        /// see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html">Amazon
+        /// RDS Database Log Files</a> in the <i>Amazon Aurora User Guide.</i> 
+        /// </para>
+        /// </summary>
+        public List<string> EnabledCloudwatchLogsExports
+        {
+            get { return this._enabledCloudwatchLogsExports; }
+            set { this._enabledCloudwatchLogsExports = value; }
+        }
+
+        // Check to see if EnabledCloudwatchLogsExports property is set
+        internal bool IsSetEnabledCloudwatchLogsExports()
+        {
+            return this._enabledCloudwatchLogsExports != null && this._enabledCloudwatchLogsExports.Count > 0; 
         }
 
         /// <summary>
@@ -414,6 +699,34 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EngineMode. 
+        /// <para>
+        /// The DB engine mode of the DB cluster, either <code>provisioned</code>, <code>serverless</code>,
+        /// <code>parallelquery</code>, <code>global</code>, or <code>multimaster</code>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>global</code> engine mode only applies for global database clusters created
+        /// with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters
+        /// in a global database use <code>provisioned</code> engine mode. To check if a DB cluster
+        /// is part of a global database, use <code>DescribeGlobalClusters</code> instead of checking
+        /// the <code>EngineMode</code> return value from <code>DescribeDBClusters</code>. 
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public string EngineMode
+        {
+            get { return this._engineMode; }
+            set { this._engineMode = value; }
+        }
+
+        // Check to see if EngineMode property is set
+        internal bool IsSetEngineMode()
+        {
+            return this._engineMode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EngineVersion. 
         /// <para>
         /// Indicates the database engine version.
@@ -450,10 +763,40 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HttpEndpointEnabled. 
+        /// <para>
+        /// A value that indicates whether the HTTP endpoint for an Aurora Serverless DB cluster
+        /// is enabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// When enabled, the HTTP endpoint provides a connectionless web service API for running
+        /// SQL queries on the Aurora Serverless DB cluster. You can also query your database
+        /// from inside the RDS console with the query editor.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
+        /// the Data API for Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool HttpEndpointEnabled
+        {
+            get { return this._httpEndpointEnabled.GetValueOrDefault(); }
+            set { this._httpEndpointEnabled = value; }
+        }
+
+        // Check to see if HttpEndpointEnabled property is set
+        internal bool IsSetHttpEndpointEnabled()
+        {
+            return this._httpEndpointEnabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property IAMDatabaseAuthenticationEnabled. 
         /// <para>
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts
-        /// is enabled, and otherwise false.
+        /// A value that indicates whether the mapping of AWS Identity and Access Management (IAM)
+        /// accounts to database accounts is enabled.
         /// </para>
         /// </summary>
         public bool IAMDatabaseAuthenticationEnabled
@@ -471,7 +814,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// If <code>StorageEncrypted</code> is true, the AWS KMS key identifier for the encrypted
+        /// If <code>StorageEncrypted</code> is enabled, the AWS KMS key identifier for the encrypted
         /// DB cluster.
         /// </para>
         /// </summary>
@@ -647,7 +990,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ReadReplicaIdentifiers. 
         /// <para>
-        /// Contains one or more identifiers of the Read Replicas associated with this DB cluster.
+        /// Contains one or more identifiers of the read replicas associated with this DB cluster.
         /// </para>
         /// </summary>
         public List<string> ReadReplicaIdentifiers
@@ -665,7 +1008,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ReplicationSourceIdentifier. 
         /// <para>
-        /// Contains the identifier of the source DB cluster if this DB cluster is a Read Replica.
+        /// Contains the identifier of the source DB cluster if this DB cluster is a read replica.
         /// </para>
         /// </summary>
         public string ReplicationSourceIdentifier
@@ -678,6 +1021,21 @@ namespace Amazon.RDS.Model
         internal bool IsSetReplicationSourceIdentifier()
         {
             return this._replicationSourceIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ScalingConfigurationInfo.
+        /// </summary>
+        public ScalingConfigurationInfo ScalingConfigurationInfo
+        {
+            get { return this._scalingConfigurationInfo; }
+            set { this._scalingConfigurationInfo = value; }
+        }
+
+        // Check to see if ScalingConfigurationInfo property is set
+        internal bool IsSetScalingConfigurationInfo()
+        {
+            return this._scalingConfigurationInfo != null;
         }
 
         /// <summary>

@@ -102,6 +102,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetCrop())
+            {
+                context.Writer.WritePropertyName("crop");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = RectangleMarshaller.Instance;
+                marshaller.Marshall(requestObject.Crop, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetDeblockFilter())
             {
                 context.Writer.WritePropertyName("deblockFilter");
@@ -126,6 +137,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.FilterStrength);
             }
 
+            if(requestObject.IsSetImageInserter())
+            {
+                context.Writer.WritePropertyName("imageInserter");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = ImageInserterMarshaller.Instance;
+                marshaller.Marshall(requestObject.ImageInserter, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetInputClippings())
             {
                 context.Writer.WritePropertyName("inputClippings");
@@ -140,6 +162,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
                 context.Writer.WriteArrayEnd();
+            }
+
+            if(requestObject.IsSetPosition())
+            {
+                context.Writer.WritePropertyName("position");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = RectangleMarshaller.Instance;
+                marshaller.Marshall(requestObject.Position, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetProgramNumber())
@@ -158,6 +191,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("timecodeSource");
                 context.Writer.Write(requestObject.TimecodeSource);
+            }
+
+            if(requestObject.IsSetTimecodeStart())
+            {
+                context.Writer.WritePropertyName("timecodeStart");
+                context.Writer.Write(requestObject.TimecodeStart);
             }
 
             if(requestObject.IsSetVideoSelector())

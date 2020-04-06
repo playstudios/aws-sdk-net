@@ -35,7 +35,7 @@ namespace Amazon.OpsWorks.Model
     /// <para>
     ///  <b>Required Permissions</b>: To use this action, an IAM user must have a Manage permissions
     /// level for the stack, or an attached policy that explicitly grants permissions. For
-    /// more information on user permissions, see <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
+    /// more information on user permissions, see <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
     /// User Permissions</a>.
     /// </para>
     /// </summary>
@@ -50,6 +50,7 @@ namespace Amazon.OpsWorks.Model
         /// The Elastic Load Balancing instance's name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ElasticLoadBalancerName
         {
             get { return this._elasticLoadBalancerName; }
@@ -68,6 +69,7 @@ namespace Amazon.OpsWorks.Model
         /// The ID of the layer that the Elastic Load Balancing instance is attached to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LayerId
         {
             get { return this._layerId; }

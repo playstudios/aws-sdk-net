@@ -29,8 +29,18 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the BatchCheckLayerAvailability operation.
-    /// Check the availability of multiple image layers in a specified registry and repository.
+    /// Checks the availability of one or more image layers in a repository.
     /// 
+    ///  
+    /// <para>
+    /// When an image is pushed to a repository, each image layer is checked to verify if
+    /// it has been uploaded before. If it is, then the image layer is skipped.
+    /// </para>
+    ///  
+    /// <para>
+    /// When an image is pulled from a repository, each image layer is checked once to verify
+    /// it is available to be pulled.
+    /// </para>
     ///  <note> 
     /// <para>
     /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -51,6 +61,7 @@ namespace Amazon.ECR.Model
         /// The digests of the image layers to check.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<string> LayerDigests
         {
             get { return this._layerDigests; }
@@ -88,6 +99,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository that is associated with the image layers to check.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

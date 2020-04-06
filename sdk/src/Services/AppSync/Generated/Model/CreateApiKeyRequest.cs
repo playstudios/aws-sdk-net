@@ -43,6 +43,7 @@ namespace Amazon.AppSync.Model
         /// The ID for your GraphQL API.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApiId
         {
             get { return this._apiId; }
@@ -76,9 +77,9 @@ namespace Amazon.AppSync.Model
         /// <summary>
         /// Gets and sets the property Expires. 
         /// <para>
-        /// The time after which the API key expires. The date is represented as seconds since
-        /// the epoch, rounded down to the nearest hour. The default value for this parameter
-        /// is 7 days from creation time.
+        /// The time from creation time after which the API key expires. The date is represented
+        /// as seconds since the epoch, rounded down to the nearest hour. The default value for
+        /// this parameter is 7 days from creation time. For more information, see .
         /// </para>
         /// </summary>
         public long Expires

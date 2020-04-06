@@ -32,6 +32,7 @@ namespace Amazon.Comprehend.Model
     /// </summary>
     public partial class TopicsDetectionJobProperties
     {
+        private string _dataAccessRoleArn;
         private DateTime? _endTime;
         private InputDataConfig _inputDataConfig;
         private string _jobId;
@@ -41,6 +42,28 @@ namespace Amazon.Comprehend.Model
         private int? _numberOfTopics;
         private OutputDataConfig _outputDataConfig;
         private DateTime? _submitTime;
+        private string _volumeKmsKeyId;
+        private VpcConfig _vpcConfig;
+
+        /// <summary>
+        /// Gets and sets the property DataAccessRoleArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that
+        /// grants Amazon Comprehend read access to your job data. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
+        public string DataAccessRoleArn
+        {
+            get { return this._dataAccessRoleArn; }
+            set { this._dataAccessRoleArn = value; }
+        }
+
+        // Check to see if DataAccessRoleArn property is set
+        internal bool IsSetDataAccessRoleArn()
+        {
+            return this._dataAccessRoleArn != null;
+        }
 
         /// <summary>
         /// Gets and sets the property EndTime. 
@@ -84,6 +107,7 @@ namespace Amazon.Comprehend.Model
         /// The identifier assigned to the topic detection job.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public string JobId
         {
             get { return this._jobId; }
@@ -102,6 +126,7 @@ namespace Amazon.Comprehend.Model
         /// The name of the topic detection job.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string JobName
         {
             get { return this._jobName; }
@@ -204,6 +229,58 @@ namespace Amazon.Comprehend.Model
         internal bool IsSetSubmitTime()
         {
             return this._submitTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property VolumeKmsKeyId. 
+        /// <para>
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt
+        /// data on the storage volume attached to the ML compute instance(s) that process the
+        /// analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Amazon Resource Name (ARN) of a KMS Key: <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+        /// 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Max=2048)]
+        public string VolumeKmsKeyId
+        {
+            get { return this._volumeKmsKeyId; }
+            set { this._volumeKmsKeyId = value; }
+        }
+
+        // Check to see if VolumeKmsKeyId property is set
+        internal bool IsSetVolumeKmsKeyId()
+        {
+            return this._volumeKmsKeyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VpcConfig. 
+        /// <para>
+        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the
+        /// resources you are using for your topic detection job. For more information, see <a
+        /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
+        /// VPC</a>. 
+        /// </para>
+        /// </summary>
+        public VpcConfig VpcConfig
+        {
+            get { return this._vpcConfig; }
+            set { this._vpcConfig = value; }
+        }
+
+        // Check to see if VpcConfig property is set
+        internal bool IsSetVpcConfig()
+        {
+            return this._vpcConfig != null;
         }
 
     }

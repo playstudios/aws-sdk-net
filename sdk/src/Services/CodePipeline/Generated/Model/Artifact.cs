@@ -28,8 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// Represents information about an artifact that will be worked upon by actions in the
-    /// pipeline.
+    /// Represents information about an artifact that is worked on by actions in the pipeline.
     /// </summary>
     public partial class Artifact
     {
@@ -61,6 +60,7 @@ namespace Amazon.CodePipeline.Model
         /// The artifact's name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -80,6 +80,7 @@ namespace Amazon.CodePipeline.Model
         /// ID (GitHub) or a revision ID (Amazon S3).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1500)]
         public string Revision
         {
             get { return this._revision; }

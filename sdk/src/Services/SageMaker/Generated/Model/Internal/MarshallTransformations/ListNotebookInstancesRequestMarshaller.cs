@@ -58,15 +58,22 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
             string target = "SageMaker.ListNotebookInstances";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-24";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAdditionalCodeRepositoryEquals())
+                {
+                    context.Writer.WritePropertyName("AdditionalCodeRepositoryEquals");
+                    context.Writer.Write(publicRequest.AdditionalCodeRepositoryEquals);
+                }
+
                 if(publicRequest.IsSetCreationTimeAfter())
                 {
                     context.Writer.WritePropertyName("CreationTimeAfter");
@@ -77,6 +84,12 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("CreationTimeBefore");
                     context.Writer.Write(publicRequest.CreationTimeBefore);
+                }
+
+                if(publicRequest.IsSetDefaultCodeRepositoryContains())
+                {
+                    context.Writer.WritePropertyName("DefaultCodeRepositoryContains");
+                    context.Writer.Write(publicRequest.DefaultCodeRepositoryContains);
                 }
 
                 if(publicRequest.IsSetLastModifiedTimeAfter())

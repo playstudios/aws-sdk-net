@@ -1,5 +1,6 @@
 ﻿using Json.LitJson;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -82,11 +83,19 @@ namespace ServiceClientGenerator
             }
         }
 
+        /// <summary>
+        /// Returns the deprecation message specified in the model or in the customization file.
+        /// </summary>
         public string DeprecationMessage
         {
             get
             {
-                return this.model.Customizations.GetDeprecationMessage(this.name);
+                string message = this.model.Customizations.GetOperationModifiers(this.name)?.DeprecatedMessage ??
+                                 data[ServiceModel.DeprecatedMessageKey].CastToString();
+                if (message == null)
+                    throw new Exception(string.Format("The 'message' property of the 'deprecated' trait is missing for operation {0}.\nFor example: \"OperationName\":{{\"name\":\"OperationName\", ... \"deprecated\":true, \"deprecatedMessage\":\"This operation is deprecated\"}}", this.name));          
+
+                return message;
             }
         }
 
@@ -319,8 +328,8 @@ namespace ServiceClientGenerator
                         !string.Equals(m.MarshallName, payloadName, StringComparison.Ordinal)).ToList();
             }
         }
-
-
+        
+        
         /// <summary>
         /// Members who are part of the response's body
         /// </summary>
@@ -339,6 +348,23 @@ namespace ServiceClientGenerator
             }
         }
 
+        /// <summary>
+        /// List of members that are decorated with a hostLabel value equal to true
+        /// </summary>
+        public IEnumerable<Member> RequestHostPrefixMembers
+        {
+            get
+            {
+                return this.RequestStructure == null ?
+                    new List<Member>() :
+                    this.RequestStructure.Members.Where(m => m.IsHostLabel);
+            }
+        }
+
+        public bool IsEventStreamOutput => ResponseStructure?.Members?.Any(
+                                               member => member.Shape?.IsEventStream ?? false)
+                                           ?? false;
+        
         /// <summary>
         /// Determines if the request structure will have members in the body
         /// </summary>
@@ -375,7 +401,7 @@ namespace ServiceClientGenerator
                     this.RequestStructure.Members.Any(m => m.MarshallLocation == MarshallLocation.QueryString);
             }
         }
-
+        
         /// <summary>
         /// Use query string if there are body members or a streamed member
         /// </summary>
@@ -427,6 +453,117 @@ namespace ServiceClientGenerator
                     return string.Empty;
 
                 return methodNode.ToString();
+            }
+        }
+
+        /// <summary>
+        /// The endpoint hostPrefix of the operation
+        /// </summary>
+        public string EndpointHostPrefix
+        {
+            get
+            {
+                JsonData endpointNode = this.data[ServiceModel.EndpointKey];
+                if (endpointNode == null)
+                    return string.Empty;
+                                
+                return endpointNode[ServiceModel.HostPrefixKey]?.ToString() ?? string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// The endpointoperation flag marking if this is the operation to use for endpoint discovery.
+        /// </summary>
+        public bool IsEndpointOperation
+        {
+            get
+            {
+                return (bool)(this.data[ServiceModel.EndpointOperationKey] ?? false);                
+            }
+        }
+
+        /// <summary>
+        /// The endpointdiscovery flag specifying if this operation is to use endpoint discovery.
+        /// </summary>
+        public bool EndpointDiscoveryEnabled
+        {
+            get
+            {
+                return this.data[ServiceModel.EndpointDiscoveryKey] != null ? true : false;                
+            }
+        }
+
+        /// <summary>
+        /// The endpointdiscovery required flag specifying if this operation is required use endpoint discovery.
+        /// </summary>
+        public bool IsEndpointDiscoveryRequired
+        {
+            get
+            {
+                JsonData endpointDiscovery = this.data[ServiceModel.EndpointDiscoveryKey];
+                if (endpointDiscovery == null)
+                    return false;
+
+                JsonData required = endpointDiscovery[ServiceModel.RequiredKey];
+                if (required == null)
+                    return false;
+
+                if (required.IsBoolean)
+                    return (bool)(required ?? false);
+                return Convert.ToBoolean((string)required);
+            }
+        }
+
+        /// <summary>
+        /// Members that are marked with the "endpointdiscoveryid" = true trait
+        /// </summary>
+        public IList<Member> RequestEndpointDiscoveryIdMembers
+        {
+            get
+            {
+                if (this.RequestStructure == null)
+                    return new List<Member>();
+                                
+                return this.RequestStructure.Members.Where(m => m.IsEndpointDiscoveryId && m.GetPrimitiveType() == "String").ToList();
+            }
+        }
+                
+        /// <summary>
+        /// Determines if the structure has any members that are marked with the "endpointdiscoveryid" = true trait
+        /// </summary>
+        public bool RequestHasEndpointDiscoveryIdMembers
+        {
+            get
+            {                
+                return (this.RequestEndpointDiscoveryIdMembers.Count > 0);
+            }
+        }
+
+        /// <summary>
+        /// Determines if there is an Operation member for the operation with the request structure marked with "endpointoperation" = true.
+        /// </summary>
+        public bool RequestHasOperationEndpointOperationMember
+        {
+            get
+            {
+                if (this.RequestStructure == null)
+                    return false;
+
+                return this.RequestStructure.Members.FirstOrDefault(m => m.PropertyName == "Operation") != null;
+            }
+        }
+
+        /// <summary>
+        /// Determines if there is an Identifiers member for the operation with the request structure marked with "endpointoperation" = true.
+        /// </summary>
+        public bool RequestHasIdentifiersEndpointOperationMember
+        {
+            get
+            {
+                if (this.RequestStructure == null)
+                    return false;
+
+                return this.RequestStructure.Members.FirstOrDefault(m => m.PropertyName == "Operation") != null;
             }
         }
 
@@ -652,7 +789,7 @@ namespace ServiceClientGenerator
         public string RestAPIDocUrl
         {
             get {
-                string serviceId = this.model.ServiceId;
+                string serviceId = this.model.ServiceUid;
                 if (!string.IsNullOrEmpty(serviceId) && !IsExcludedServiceId(serviceId))
                 {
                     return string.Format(@"http://docs.aws.amazon.com/goto/WebAPI/{0}/{1}", serviceId, ShapeName);
@@ -681,29 +818,10 @@ namespace ServiceClientGenerator
             "sdb",
             "xray",
         };
-        private static Dictionary<string, bool> _checkedService = new Dictionary<string, bool>();
+        private static ConcurrentDictionary<string, bool> _checkedService = new ConcurrentDictionary<string, bool>();
         private static bool IsExcludedServiceId(string serviceId)
         {
-            bool excluded = false;
-
-            if (_checkedService.TryGetValue(serviceId, out excluded))
-            {
-                return excluded;
-            }
-            else
-            {
-                foreach (string excludedService in _excludedServiceList)
-                {
-                    if (serviceId.StartsWith(excludedService, StringComparison.OrdinalIgnoreCase))
-                    {
-                        excluded = true;
-                        break;
-                    }
-                }
-
-                _checkedService[serviceId] = excluded;
-                return excluded;
-            }
+            return _checkedService.GetOrAdd(serviceId, (k) => _excludedServiceList.Any((excludedService) => k.StartsWith(excludedService, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

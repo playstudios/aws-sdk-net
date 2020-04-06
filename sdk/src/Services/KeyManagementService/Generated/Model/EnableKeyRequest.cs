@@ -29,9 +29,17 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the EnableKey operation.
-    /// Sets the state of a customer master key (CMK) to enabled, thereby permitting its use
-    /// for cryptographic operations. You cannot perform this operation on a CMK in a different
-    /// AWS account.
+    /// Sets the key state of a customer master key (CMK) to enabled. This allows you to use
+    /// the CMK for cryptographic operations. You cannot perform this operation on a CMK in
+    /// a different AWS account.
+    /// 
+    ///  
+    /// <para>
+    /// The CMK that you use for this operation must be in a compatible key state. For details,
+    /// see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+    /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key Management Service
+    /// Developer Guide</i>.
+    /// </para>
     /// </summary>
     public partial class EnableKeyRequest : AmazonKeyManagementServiceRequest
     {
@@ -64,6 +72,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or <a>DescribeKey</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }

@@ -32,8 +32,28 @@ namespace Amazon.Glue.Model
     /// </summary>
     public partial class Location
     {
+        private List<CodeGenNodeArg> _dynamoDB = new List<CodeGenNodeArg>();
         private List<CodeGenNodeArg> _jdbc = new List<CodeGenNodeArg>();
         private List<CodeGenNodeArg> _s3 = new List<CodeGenNodeArg>();
+
+        /// <summary>
+        /// Gets and sets the property DynamoDB. 
+        /// <para>
+        /// An Amazon DynamoDB table location.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public List<CodeGenNodeArg> DynamoDB
+        {
+            get { return this._dynamoDB; }
+            set { this._dynamoDB = value; }
+        }
+
+        // Check to see if DynamoDB property is set
+        internal bool IsSetDynamoDB()
+        {
+            return this._dynamoDB != null && this._dynamoDB.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property Jdbc. 
@@ -41,6 +61,7 @@ namespace Amazon.Glue.Model
         /// A JDBC location.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<CodeGenNodeArg> Jdbc
         {
             get { return this._jdbc; }
@@ -56,9 +77,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property S3. 
         /// <para>
-        /// An Amazon S3 location.
+        /// An Amazon Simple Storage Service (Amazon S3) location.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<CodeGenNodeArg> S3
         {
             get { return this._s3; }

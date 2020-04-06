@@ -36,11 +36,18 @@ namespace Amazon.Lightsail.Model
     /// <para>
     /// The disk may remain in the <code>deleting</code> state for several minutes.
     /// </para>
-    ///  </note>
+    ///  </note> 
+    /// <para>
+    /// The <code>delete disk</code> operation supports tag-based access control via resource
+    /// tags applied to the resource identified by <code>disk name</code>. For more information,
+    /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class DeleteDiskRequest : AmazonLightsailRequest
     {
         private string _diskName;
+        private bool? _forceDeleteAddOns;
 
         /// <summary>
         /// Gets and sets the property DiskName. 
@@ -48,6 +55,7 @@ namespace Amazon.Lightsail.Model
         /// The unique name of the disk you want to delete (e.g., <code>my-disk</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DiskName
         {
             get { return this._diskName; }
@@ -58,6 +66,24 @@ namespace Amazon.Lightsail.Model
         internal bool IsSetDiskName()
         {
             return this._diskName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ForceDeleteAddOns. 
+        /// <para>
+        /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
+        /// </para>
+        /// </summary>
+        public bool ForceDeleteAddOns
+        {
+            get { return this._forceDeleteAddOns.GetValueOrDefault(); }
+            set { this._forceDeleteAddOns = value; }
+        }
+
+        // Check to see if ForceDeleteAddOns property is set
+        internal bool IsSetForceDeleteAddOns()
+        {
+            return this._forceDeleteAddOns.HasValue; 
         }
 
     }

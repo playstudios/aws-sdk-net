@@ -30,7 +30,7 @@ namespace Amazon.CodePipeline.Model
     /// <summary>
     /// Container for the parameters to the PutThirdPartyJobFailureResult operation.
     /// Represents the failure of a third party job as returned to the pipeline by a job worker.
-    /// Only used for partner actions.
+    /// Used for partner actions only.
     /// </summary>
     public partial class PutThirdPartyJobFailureResultRequest : AmazonCodePipelineRequest
     {
@@ -45,6 +45,7 @@ namespace Amazon.CodePipeline.Model
         /// calling entity is allowed access to the job and its details.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -63,6 +64,7 @@ namespace Amazon.CodePipeline.Model
         /// Represents information about failure details.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FailureDetails FailureDetails
         {
             get { return this._failureDetails; }
@@ -78,9 +80,10 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property JobId. 
         /// <para>
-        /// The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs.
+        /// The ID of the job that failed. This is the same ID returned from <code>PollForThirdPartyJobs</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string JobId
         {
             get { return this._jobId; }

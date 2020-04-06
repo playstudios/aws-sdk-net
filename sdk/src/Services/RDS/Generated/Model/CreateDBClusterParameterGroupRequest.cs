@@ -39,12 +39,12 @@ namespace Amazon.RDS.Model
     /// <para>
     ///  A DB cluster parameter group is initially created with the default parameters for
     /// the database engine used by instances in the DB cluster. To provide custom values
-    /// for any of the parameters, you must modify the group after creating it using <a>ModifyDBClusterParameterGroup</a>.
+    /// for any of the parameters, you must modify the group after creating it using <code>ModifyDBClusterParameterGroup</code>.
     /// Once you've created a DB cluster parameter group, you need to associate it with your
-    /// DB cluster using <a>ModifyDBCluster</a>. When you associate a new DB cluster parameter
-    /// group with a running DB cluster, you need to reboot the DB instances in the DB cluster
-    /// without failover for the new DB cluster parameter group and associated settings to
-    /// take effect. 
+    /// DB cluster using <code>ModifyDBCluster</code>. When you associate a new DB cluster
+    /// parameter group with a running DB cluster, you need to reboot the DB instances in
+    /// the DB cluster without failover for the new DB cluster parameter group and associated
+    /// settings to take effect. 
     /// </para>
     ///  <important> 
     /// <para>
@@ -56,14 +56,19 @@ namespace Amazon.RDS.Model
     /// database for a DB cluster, such as the character set for the default database defined
     /// by the <code>character_set_database</code> parameter. You can use the <i>Parameter
     /// Groups</i> option of the <a href="https://console.aws.amazon.com/rds/">Amazon RDS
-    /// console</a> or the <a>DescribeDBClusterParameters</a> command to verify that your
-    /// DB cluster parameter group has been created or modified.
+    /// console</a> or the <code>DescribeDBClusterParameters</code> action to verify that
+    /// your DB cluster parameter group has been created or modified.
     /// </para>
     ///  </important> 
     /// <para>
-    /// For more information on Amazon Aurora, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i> 
+    /// For more information on Amazon Aurora, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateDBClusterParameterGroupRequest : AmazonRDSRequest
     {
@@ -83,7 +88,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Must match the name of an existing DBClusterParameterGroup.
+        /// Must match the name of an existing DB cluster parameter group.
         /// </para>
         ///  </li> </ul> <note> 
         /// <para>
@@ -91,6 +96,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterParameterGroupName
         {
             get { return this._dbClusterParameterGroupName; }
@@ -128,6 +134,7 @@ namespace Amazon.RDS.Model
         /// Example: <code>aurora-postgresql9.6</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBParameterGroupFamily
         {
             get { return this._dbParameterGroupFamily; }
@@ -146,6 +153,7 @@ namespace Amazon.RDS.Model
         /// The description for the DB cluster parameter group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Description
         {
             get { return this._description; }
@@ -159,7 +167,10 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Tags.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Tags to assign to the DB cluster parameter group.
+        /// </para>
         /// </summary>
         public List<Tag> Tags
         {

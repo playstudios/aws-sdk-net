@@ -15,8 +15,10 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDescription("The Amazon Web Services SDK for .NET (PCL) -  Amazon Rekognition. AWS Rekognition service does image processing and concept recognition, face detection and identification, face verification, similar face search and face clustering.")]
 #elif UNITY
 [assembly: AssemblyDescription("The Amazon Web Services SDK for .NET (Unity) - Amazon Rekognition. AWS Rekognition service does image processing and concept recognition, face detection and identification, face verification, similar face search and face clustering.")]
-#elif CORECLR
-[assembly: AssemblyDescription("The Amazon Web Services SDK for .NET (CoreCLR)- Amazon Rekognition. AWS Rekognition service does image processing and concept recognition, face detection and identification, face verification, similar face search and face clustering.")]
+#elif NETSTANDARD13
+[assembly: AssemblyDescription("The Amazon Web Services SDK for .NET (NetStandard 1.3)- Amazon Rekognition. AWS Rekognition service does image processing and concept recognition, face detection and identification, face verification, similar face search and face clustering.")]
+#elif NETSTANDARD20
+[assembly: AssemblyDescription("The Amazon Web Services SDK for .NET (NetStandard 2.0)- Amazon Rekognition. AWS Rekognition service does image processing and concept recognition, face detection and identification, face verification, similar face search and face clustering.")]
 #else
 #error Unknown platform constant - unable to set correct AssemblyDescription
 #endif
@@ -24,7 +26,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Amazon Web Services SDK for .NET")]
 [assembly: AssemblyCompany("Amazon.com, Inc")]
-[assembly: AssemblyCopyright("Copyright 2009-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright 2009-2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -44,7 +46,7 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("3.3")]
-[assembly: AssemblyFileVersion("3.3.8.3")]
+[assembly: AssemblyFileVersion("3.3.105.4")]
 
 #if WINDOWS_PHONE || UNITY
 [assembly: System.CLSCompliant(false)]

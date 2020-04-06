@@ -33,6 +33,7 @@ namespace Amazon.SageMaker.Model
     public partial class DescribeEndpointResponse : AmazonWebServiceResponse
     {
         private DateTime? _creationTime;
+        private DataCaptureConfigSummary _dataCaptureConfig;
         private string _endpointArn;
         private string _endpointConfigName;
         private string _endpointName;
@@ -47,6 +48,7 @@ namespace Amazon.SageMaker.Model
         /// A timestamp that shows when the endpoint was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreationTime
         {
             get { return this._creationTime.GetValueOrDefault(); }
@@ -60,11 +62,27 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DataCaptureConfig.
+        /// </summary>
+        public DataCaptureConfigSummary DataCaptureConfig
+        {
+            get { return this._dataCaptureConfig; }
+            set { this._dataCaptureConfig = value; }
+        }
+
+        // Check to see if DataCaptureConfig property is set
+        internal bool IsSetDataCaptureConfig()
+        {
+            return this._dataCaptureConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EndpointArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string EndpointArn
         {
             get { return this._endpointArn; }
@@ -83,6 +101,7 @@ namespace Amazon.SageMaker.Model
         /// The name of the endpoint configuration associated with this endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string EndpointConfigName
         {
             get { return this._endpointConfigName; }
@@ -101,6 +120,7 @@ namespace Amazon.SageMaker.Model
         /// Name of the endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string EndpointName
         {
             get { return this._endpointName; }
@@ -118,7 +138,52 @@ namespace Amazon.SageMaker.Model
         /// <para>
         /// The status of the endpoint.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>OutOfService</code>: Endpoint is not available to take incoming requests.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Creating</code>: <a>CreateEndpoint</a> is executing.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Updating</code>: <a>UpdateEndpoint</a> or <a>UpdateEndpointWeightsAndCapacities</a>
+        /// is executing.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SystemUpdating</code>: Endpoint is undergoing maintenance and cannot be updated
+        /// or deleted or re-scaled until it has completed. This maintenance operation does not
+        /// change any customer-specified values such as VPC config, KMS encryption, model, instance
+        /// type, or instance count.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>RollingBack</code>: Endpoint fails to scale up or down or change its variant
+        /// weight and is in the process of rolling back to its previous configuration. Once the
+        /// rollback completes, endpoint returns to an <code>InService</code> status. This transitional
+        /// status only applies to an endpoint that has autoscaling enabled and is undergoing
+        /// variant weight or capacity changes as part of an <a>UpdateEndpointWeightsAndCapacities</a>
+        /// call or when the <a>UpdateEndpointWeightsAndCapacities</a> operation is called explicitly.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>InService</code>: Endpoint is available to process incoming requests.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Deleting</code>: <a>DeleteEndpoint</a> is executing.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Failed</code>: Endpoint could not be created, updated, or re-scaled. Use <a>DescribeEndpointOutput$FailureReason</a>
+        /// for information about the failure. <a>DeleteEndpoint</a> is the only operation that
+        /// can be performed on a failed endpoint.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public EndpointStatus EndpointStatus
         {
             get { return this._endpointStatus; }
@@ -137,6 +202,7 @@ namespace Amazon.SageMaker.Model
         /// If the status of the endpoint is <code>Failed</code>, the reason why it failed. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string FailureReason
         {
             get { return this._failureReason; }
@@ -155,6 +221,7 @@ namespace Amazon.SageMaker.Model
         /// A timestamp that shows when the endpoint was last modified.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime LastModifiedTime
         {
             get { return this._lastModifiedTime.GetValueOrDefault(); }
@@ -170,10 +237,11 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property ProductionVariants. 
         /// <para>
-        ///  An array of ProductionVariant objects, one for each model hosted behind this endpoint.
-        /// 
+        ///  An array of <a>ProductionVariantSummary</a> objects, one for each model hosted behind
+        /// this endpoint. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<ProductionVariantSummary> ProductionVariants
         {
             get { return this._productionVariants; }

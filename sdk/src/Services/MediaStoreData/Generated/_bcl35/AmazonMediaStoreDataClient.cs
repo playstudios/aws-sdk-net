@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MediaStoreData.Model;
 using Amazon.MediaStoreData.Model.Internal.MarshallTransformations;
+using Amazon.MediaStoreData.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -39,6 +41,7 @@ namespace Amazon.MediaStoreData
     /// </summary>
     public partial class AmazonMediaStoreDataClient : AmazonServiceClient, IAmazonMediaStoreData
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMediaStoreDataMetadata();
 
         #region Overrides
 
@@ -51,6 +54,16 @@ namespace Amazon.MediaStoreData
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -66,7 +79,7 @@ namespace Amazon.MediaStoreData
 
         #endregion
 
-        
+
         #region  DeleteObject
 
         /// <summary>
@@ -87,10 +100,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
         public virtual DeleteObjectResponse DeleteObject(DeleteObjectRequest request)
         {
-            var marshaller = DeleteObjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteObjectRequest,DeleteObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -107,11 +121,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/DeleteObject">REST API Reference for DeleteObject Operation</seealso>
         public virtual IAsyncResult BeginDeleteObject(DeleteObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteObjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -149,10 +163,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/DescribeObject">REST API Reference for DescribeObject Operation</seealso>
         public virtual DescribeObjectResponse DescribeObject(DescribeObjectRequest request)
         {
-            var marshaller = DescribeObjectRequestMarshaller.Instance;
-            var unmarshaller = DescribeObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeObjectResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeObjectRequest,DescribeObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -169,11 +184,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/DescribeObject">REST API Reference for DescribeObject Operation</seealso>
         public virtual IAsyncResult BeginDescribeObject(DescribeObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeObjectRequestMarshaller.Instance;
-            var unmarshaller = DescribeObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -194,7 +209,9 @@ namespace Amazon.MediaStoreData
         #region  GetObject
 
         /// <summary>
-        /// Downloads the object at the specified path.
+        /// Downloads the object at the specified path. If the object’s upload availability is
+        /// set to <code>streaming</code>, AWS Elemental MediaStore downloads the object even
+        /// if it’s still uploading the object.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetObject service method.</param>
         /// 
@@ -214,10 +231,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/GetObject">REST API Reference for GetObject Operation</seealso>
         public virtual GetObjectResponse GetObject(GetObjectRequest request)
         {
-            var marshaller = GetObjectRequestMarshaller.Instance;
-            var unmarshaller = GetObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectResponseUnmarshaller.Instance;
 
-            return Invoke<GetObjectRequest,GetObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -234,11 +252,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/GetObject">REST API Reference for GetObject Operation</seealso>
         public virtual IAsyncResult BeginGetObject(GetObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetObjectRequestMarshaller.Instance;
-            var unmarshaller = GetObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -273,10 +291,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/ListItems">REST API Reference for ListItems Operation</seealso>
         public virtual ListItemsResponse ListItems(ListItemsRequest request)
         {
-            var marshaller = ListItemsRequestMarshaller.Instance;
-            var unmarshaller = ListItemsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListItemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListItemsResponseUnmarshaller.Instance;
 
-            return Invoke<ListItemsRequest,ListItemsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListItemsResponse>(request, options);
         }
 
         /// <summary>
@@ -293,11 +312,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/ListItems">REST API Reference for ListItems Operation</seealso>
         public virtual IAsyncResult BeginListItems(ListItemsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListItemsRequestMarshaller.Instance;
-            var unmarshaller = ListItemsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListItemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListItemsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListItemsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -318,7 +337,8 @@ namespace Amazon.MediaStoreData
         #region  PutObject
 
         /// <summary>
-        /// Uploads an object to the specified path. Object sizes are limited to 10 MB.
+        /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard
+        /// upload availability and 10 MB for streaming upload availability.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutObject service method.</param>
         /// 
@@ -332,10 +352,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/PutObject">REST API Reference for PutObject Operation</seealso>
         public virtual PutObjectResponse PutObject(PutObjectRequest request)
         {
-            var marshaller = PutObjectRequestMarshaller.Instance;
-            var unmarshaller = PutObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectResponseUnmarshaller.Instance;
 
-            return Invoke<PutObjectRequest,PutObjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutObjectResponse>(request, options);
         }
 
         /// <summary>
@@ -352,11 +373,11 @@ namespace Amazon.MediaStoreData
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-data-2017-09-01/PutObject">REST API Reference for PutObject Operation</seealso>
         public virtual IAsyncResult BeginPutObject(PutObjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutObjectRequestMarshaller.Instance;
-            var unmarshaller = PutObjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutObjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutObjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutObjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

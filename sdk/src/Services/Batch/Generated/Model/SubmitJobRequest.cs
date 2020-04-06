@@ -40,15 +40,17 @@ namespace Amazon.Batch.Model
         private string _jobDefinition;
         private string _jobName;
         private string _jobQueue;
+        private NodeOverrides _nodeOverrides;
         private Dictionary<string, string> _parameters = new Dictionary<string, string>();
         private RetryStrategy _retryStrategy;
+        private JobTimeout _timeout;
 
         /// <summary>
         /// Gets and sets the property ArrayProperties. 
         /// <para>
         /// The array properties for the submitted job, such as the size of the array. The array
         /// size can be between 2 and 10,000. If you specify array properties for a job, it becomes
-        /// an array job. For more information, see <a href="http://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html">Array
+        /// an array job. For more information, see <a href="https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html">Array
         /// Jobs</a> in the <i>AWS Batch User Guide</i>.
         /// </para>
         /// </summary>
@@ -95,8 +97,8 @@ namespace Amazon.Batch.Model
         /// can specify a <code>SEQUENTIAL</code> type dependency without specifying a job ID
         /// for array jobs so that each child array job completes sequentially, starting at index
         /// 0. You can also specify an <code>N_TO_N</code> type dependency with a job ID for array
-        /// jobs so that each index child of this job must wait for the corresponding index child
-        /// of each dependency to complete before it can begin.
+        /// jobs. In that case, each index child of this job must wait for the corresponding index
+        /// child of each dependency to complete before it can begin.
         /// </para>
         /// </summary>
         public List<JobDependency> DependsOn
@@ -114,10 +116,12 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property JobDefinition. 
         /// <para>
-        /// The job definition used by this job. This value can be either a <code>name:revision</code>
-        /// or the Amazon Resource Name (ARN) for the job definition.
+        /// The job definition used by this job. This value can be one of <code>name</code>, <code>name:revision</code>,
+        /// or the Amazon Resource Name (ARN) for the job definition. If <code>name</code> is
+        /// specified without a revision then the latest active revision is used.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobDefinition
         {
             get { return this._jobDefinition; }
@@ -134,9 +138,10 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property JobName. 
         /// <para>
         /// The name of the job. The first character must be alphanumeric, and up to 128 letters
-        /// (uppercase and lowercase), numbers, hyphens, and underscores are allowed. 
+        /// (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobName
         {
             get { return this._jobName; }
@@ -153,9 +158,10 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property JobQueue. 
         /// <para>
         /// The job queue into which the job is submitted. You can specify either the name or
-        /// the Amazon Resource Name (ARN) of the queue. 
+        /// the Amazon Resource Name (ARN) of the queue.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobQueue
         {
             get { return this._jobQueue; }
@@ -166,6 +172,25 @@ namespace Amazon.Batch.Model
         internal bool IsSetJobQueue()
         {
             return this._jobQueue != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NodeOverrides. 
+        /// <para>
+        /// A list of node overrides in JSON format that specify the node range to target and
+        /// the container overrides for that node range.
+        /// </para>
+        /// </summary>
+        public NodeOverrides NodeOverrides
+        {
+            get { return this._nodeOverrides; }
+            set { this._nodeOverrides = value; }
+        }
+
+        // Check to see if NodeOverrides property is set
+        internal bool IsSetNodeOverrides()
+        {
+            return this._nodeOverrides != null;
         }
 
         /// <summary>
@@ -207,6 +232,30 @@ namespace Amazon.Batch.Model
         internal bool IsSetRetryStrategy()
         {
             return this._retryStrategy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Timeout. 
+        /// <para>
+        /// The timeout configuration for this <a>SubmitJob</a> operation. You can specify a timeout
+        /// duration after which AWS Batch terminates your jobs if they have not finished. If
+        /// a job is terminated due to a timeout, it is not retried. The minimum value for the
+        /// timeout is 60 seconds. This configuration overrides any timeout configuration specified
+        /// in the job definition. For array jobs, child jobs have the same timeout configuration
+        /// as the parent job. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/job_timeouts.html">Job
+        /// Timeouts</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        public JobTimeout Timeout
+        {
+            get { return this._timeout; }
+            set { this._timeout = value; }
+        }
+
+        // Check to see if Timeout property is set
+        internal bool IsSetTimeout()
+        {
+            return this._timeout != null;
         }
 
     }

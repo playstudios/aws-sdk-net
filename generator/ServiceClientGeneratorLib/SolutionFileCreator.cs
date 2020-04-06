@@ -26,7 +26,7 @@ namespace ServiceClientGenerator
         {
             public const string Net35 = "Net35";
             public const string Net45 = "Net45";
-            public const string CoreCLR = "CoreCLR";
+            public const string NetStandard = "NetStandard";            
             public const string Win8 = "Win8";
             public const string WinPhone81 = "WinPhone81";
             public const string WinPhoneSilverlight8 = "WinPhoneSilverlight8";
@@ -64,6 +64,20 @@ namespace ServiceClientGenerator
         private const string CommonTestProjectGuid = "{66F78F86-68D7-4538-8EA5-A669A08E1C19}";
         private const string CommonTestProjectName = "AWSSDK.CommonTest";
 
+        private const string UnitTestUtilityProjectFileName35 = "AWSSDK.UnitTestUtilities.Net35";
+        private const string UtilityProjectFileGuid35 = "{A23CE153-A4A3-4D3A-A6DC-0DD1B207118E}";
+
+        private const string UnitTestUtilityProjectFileName45 = "AWSSDK.UnitTestUtilities.Net45";
+        private const string UtilityProjectFileGuid45 = "{002B183F-E568-49CD-9D06-CBCFF2C2921F}";
+
+        private const string IntegrationTestUtilityName35 = "AWSSDK.IntegrationTestUtilities.Net35";
+        private const string IntegrationTestUtilityGuid35 = "{924D2906-70D6-4D77-8603-816648B2CCA6}";
+
+        private const string IntegrationTestUtilityName45 = "AWSSDK.IntegrationTestUtilities.Net45";
+        private const string IntegrationTestUtilityGuid45 = "{7AB0DA1C-CA0E-4579-BA82-2B41A9DA15C7}";
+
+        private static Regex ProjectReferenceRegex = new Regex("\"([^\"]*)\"");
+
         private static readonly ProjectFileCreator.ProjectConfigurationData GeneratorLibProjectConfig
             = new ProjectFileCreator.ProjectConfigurationData
             {
@@ -85,6 +99,13 @@ namespace ServiceClientGenerator
             ProjectPath = string.Format(@"..\generator\{0}\{0}.csproj", GeneratorLibProjectName)
         };
 
+        private static readonly Project ServiceSlnGeneratorLibProject = new Project
+        {
+            Name = GeneratorLibProjectName,
+            ProjectGuid = GeneratorLibProjectGuid,
+            ProjectPath = Path.Combine("..", "..", "..", GeneratorLibProject.ProjectPath)
+        };
+
         private static readonly Project CommonTestProject = new Project
         {
             Name = CommonTestProjectName,
@@ -92,6 +113,66 @@ namespace ServiceClientGenerator
             ProjectPath = string.Format(@"..\sdk\test\Common\{0}.csproj", CommonTestProjectName)
         };
 
+        private static readonly Project ServiceSlnCommonTestProject = new Project
+        {
+            Name = CommonTestProjectName,
+            ProjectGuid = CommonTestProjectGuid,
+            ProjectPath = Path.Combine("..", "..", "..", CommonTestProject.ProjectPath),
+            RelativePath = string.Format(@"..\..\..\test\Common\{0}.csproj", CommonTestProjectName)
+        };
+
+        private static readonly Project UnitTestUtilityProject35 = new Project
+        {
+            Name = UnitTestUtilityProjectFileName35,
+            ProjectGuid = UtilityProjectFileGuid35,
+            ProjectPath = string.Format(@"..\..\..\..\sdk\test\UnitTests\Custom\{0}.csproj", UnitTestUtilityProjectFileName35),
+            RelativePath = string.Format(@"..\..\..\test\UnitTests\Custom\{0}.csproj", UnitTestUtilityProjectFileName35)
+        };
+
+        private static readonly Project UnitTestUtilityProject45 = new Project
+        {
+            Name = UnitTestUtilityProjectFileName45,
+            ProjectGuid = UtilityProjectFileGuid45,
+            ProjectPath = string.Format(@"..\..\..\..\sdk\test\UnitTests\Custom\{0}.csproj", UnitTestUtilityProjectFileName45),
+            RelativePath = string.Format(@"..\..\..\test\UnitTests\Custom\{0}.csproj", UnitTestUtilityProjectFileName45)
+        };
+
+        private static readonly Project IntegrationTestUtility35Project = new Project
+        {
+            Name = IntegrationTestUtilityName35,
+            ProjectGuid = IntegrationTestUtilityGuid35,
+            ProjectPath = string.Format(@"..\..\..\..\sdk\test\IntegrationTests\{0}.csproj", IntegrationTestUtilityName35),
+            RelativePath = string.Format(@"..\..\..\test\IntegrationTests\{0}.csproj", IntegrationTestUtilityName35)
+        };
+
+        private static readonly Project IntegrationTestUtility45Project = new Project
+        {
+            Name = IntegrationTestUtilityName45,
+            ProjectGuid = IntegrationTestUtilityGuid45,
+            ProjectPath = string.Format(@"..\..\..\..\sdk\test\IntegrationTests\{0}.csproj", IntegrationTestUtilityName45),
+            RelativePath = string.Format(@"..\..\..\test\IntegrationTests\{0}.csproj", IntegrationTestUtilityName45)
+        };
+
+        private static readonly List<Project> CoreProjects = new List<Project>{ 
+        new Project
+        {
+            Name = "AWSSDK.Core.Net35",
+            ProjectGuid = "{1FACE5D0-97BF-4069-B4F7-0FE28BB160F8}",
+            ProjectPath = @"..\..\Core\AWSSDK.Core.Net35.csproj"
+        },
+        new Project
+        {
+            Name = "AWSSDK.Core.Net45",
+            ProjectGuid = "{7DE3AFA0-1B2D-41B1-82BD-120B8B210B43}",
+            ProjectPath = @"..\..\Core\AWSSDK.Core.Net45.csproj"
+        },
+        new Project
+        {
+            Name = "AWSSDK.Core.NetStandard",
+            ProjectGuid = "{A855B58E-ED32-40AE-AE8F-054F448B9F2C}",
+            ProjectPath = @"..\..\Core\AWSSDK.Core.NetStandard.csproj"
+        }
+        };
         private readonly Dictionary<string, ProjectFileCreator.ProjectConfigurationData> _allProjects
             = new Dictionary<string, ProjectFileCreator.ProjectConfigurationData>();
 
@@ -126,35 +207,21 @@ namespace ServiceClientGenerator
                     GetProjectConfig(ProjectTypes.Unity)
                 };
 
-            var coreCLRProjectConfigs = new List<ProjectFileConfiguration> {
-                    GetProjectConfig(ProjectTypes.CoreCLR)
-                };
+            var netStandardProjectConfigs = new List<ProjectFileConfiguration> {
+                    GetProjectConfig(ProjectTypes.NetStandard)
+                };            
 
+            GenerateVS2017ServiceSolution(net35ProjectConfigs);
             GenerateVS2017Solution("AWSSDK.Net35.sln", true, false, net35ProjectConfigs);
             GenerateVS2017Solution("AWSSDK.Net45.sln", true, false, net45ProjectConfigs);
             GenerateCombinedSolution("AWSSDK.PCL.sln", true, pclProjectConfigs);
             GenerateCombinedSolution("AWSSDK.Unity.sln", false, unityProjectConfigs);
 
-            GenerateVS2017Solution("AWSSDK.CoreCLR.sln", true, false, coreCLRProjectConfigs);
+            GenerateVS2017Solution("AWSSDK.NetStandard.sln", true, false, netStandardProjectConfigs);            
 
             // Include solutions that Travis CI can build
             GenerateVS2017Solution("AWSSDK.Net35.Travis.sln", false, true, net35ProjectConfigs);
             GenerateVS2017Solution("AWSSDK.Net45.Travis.sln", false, true, net45ProjectConfigs);
-
-            ICollection<string> projectsForPartialBuild = Options.PartialBuildList;
-            if (projectsForPartialBuild != null && projectsForPartialBuild.Count != 0)
-            {
-                // If we are explicitly rebuilding Core, all service projects must be rebuilt as well.
-                if (projectsForPartialBuild.Contains("Core", StringComparer.InvariantCultureIgnoreCase))
-                {
-                    projectsForPartialBuild = null;
-                }
-
-                GenerateVS2017Solution("Build.Net35.partial.sln", false, false, net35ProjectConfigs, projectsForPartialBuild);
-                GenerateVS2017Solution("Build.Net45.partial.sln", false, false, net45ProjectConfigs, projectsForPartialBuild);
-                GenerateCombinedSolution("Build.PCL.partial.sln", false, pclProjectConfigs, projectsForPartialBuild);
-                GenerateVS2017Solution("Build.CoreCLR.partial.sln", false, false, coreCLRProjectConfigs, projectsForPartialBuild);
-            }
         }
 
         // adds any necessary projects to the collection prior to generating the solution file(s)
@@ -236,13 +303,18 @@ namespace ServiceClientGenerator
         }
         private static IEnumerable<string> GetProjectPlatforms(string projectName, string projectFile)
         {
-
-            var projectTypeStart = projectName.LastIndexOf('.');
-            var projectType = projectName.Substring(projectTypeStart + 1);
+            string projectType = GetProjectType(projectName);
 
             var platformConfigurations = GetPlatformConfigurations(projectType);
             // Identify the framework of the project file if not already identified.
             return IdentifyProjectConfigurations(projectFile, platformConfigurations, projectType);
+        }
+
+        private static string GetProjectType(string projectName)
+        {
+            var projectTypeStart = projectName.LastIndexOf('.');
+            var projectType = projectName.Substring(projectTypeStart + 1);
+            return projectType;
         }
 
         private static IEnumerable<string> GetPlatformConfigurations(string projectType)
@@ -256,7 +328,7 @@ namespace ServiceClientGenerator
 
                 case ProjectTypes.Net35:
                 case ProjectTypes.Net45:
-                case ProjectTypes.CoreCLR:
+                case ProjectTypes.NetStandard:                
                 case ProjectTypes.PCL:
                 case ProjectTypes.Android:
                 case ProjectTypes.IOS:
@@ -271,8 +343,6 @@ namespace ServiceClientGenerator
         /// Method that opens the project file and does a Regex match for <TargetFramework></TargetFramework>
         /// to identify the framework of the csproj.
         /// </summary>
-        /// <param name="projectFile"></param>
-        /// <returns></returns>
         private static IEnumerable<string> IdentifyProjectConfigurations(string projectFile, IEnumerable<string> configurations, string projectType)
         {
             if (!string.IsNullOrEmpty(projectFile) && (configurations == null))
@@ -407,7 +477,6 @@ namespace ServiceClientGenerator
                         string itemName = match.Groups[2].ToString();
                         string itemSource = match.Groups[3].ToString();
                         string itemGuid = match.Groups[4].ToString();
-
                         itemGuidDictionary.Add(itemName, itemGuid);
                     }
                 }
@@ -509,7 +578,10 @@ namespace ServiceClientGenerator
                 foreach (var configuration in projectFileConfigurations)
                 {
                     string projectFilePattern = string.Format("*.{0}.csproj", configuration.Name);
-                    foreach (var projectFile in Directory.GetFiles(testProjectsRoot, projectFilePattern, SearchOption.AllDirectories))
+                    foreach (var projectFile in Directory.GetFiles(testProjectsRoot, projectFilePattern, SearchOption.AllDirectories)
+                        .Where(projectFile => !Path.GetFileNameWithoutExtension(projectFile).Contains("Utilities") &&
+                        !Path.GetFullPath(projectFile).Contains("Services") &&
+                        !Path.GetFullPath(projectFile).Contains("CSM")))
                     {
                         string projectName = Path.GetFileNameWithoutExtension(projectFile);
                         testProjects.Add(new Project
@@ -537,7 +609,7 @@ namespace ServiceClientGenerator
             session["ServiceSolutionFolders"] = serviceSolutionFolders;
             session["SolutionGuid"] = solutionGuid;
 
-            var generator = new CoreCLRSolutionFile() { Session = session };
+            var generator = new SolutionFileBclAndNetStandard() { Session = session };
             var content = generator.TransformText();
             GeneratorDriver.WriteFile(Options.SdkRootFolder, null, solutionFileName, content, true, false);
         }
@@ -637,73 +709,203 @@ namespace ServiceClientGenerator
             GeneratorDriver.WriteFile(Options.SdkRootFolder, null, solutionFileName, content, true, false);
         }
 
-        private void GenerateBuildUnitTestSolution(string solutionFileName, IEnumerable<ProjectFileConfiguration> projectFileConfigurations, ICollection<string> serviceProjectsForPartialBuild = null)
+        /// <summary>
+        /// Service specific solution generator. A single sln file is created that contains csproj for net35,net45,netstandard and their corresponding integ and unit tests.
+        /// </summary>
+        private void GenerateVS2017ServiceSolution(IEnumerable<ProjectFileConfiguration> projectFileConfigurations)
         {
+            var sdkSourceFolder = Path.Combine(Options.SdkRootFolder, GeneratorDriver.SourceSubFoldername);
             var buildConfigurations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            // AllProjects
-            var solutionProjects = new Dictionary<string, ProjectFileCreator.ProjectConfigurationData>();
+            var serviceProjectsRoot = Path.Combine(sdkSourceFolder, GeneratorDriver.ServicesSubFoldername);
+            var coreProjectsRoot = Path.Combine(sdkSourceFolder, GeneratorDriver.CoreSubFoldername);
 
-            // CoreProjects
-            var coreProjects = new List<Project>();
-
-            // TestProjects
-            var testProjects = new List<Project>
+            // Iterating through each service in the service folder
+            foreach (var servicePath in Directory.GetDirectories(serviceProjectsRoot))
             {
-                GeneratorLibProject
-            };
-            foreach (var pfc in projectFileConfigurations)
-            {
-                var projectType = pfc.Name;
-                var sdkTestsFolder = Path.Combine(Options.SdkRootFolder, GeneratorDriver.TestsSubFoldername);
+                var session = new Dictionary<string, object>();
+                var serviceSolutionFolders = new List<ServiceSolutionFolder>();
+                var serviceDirectory = new DirectoryInfo(servicePath);
+                var folder = ServiceSolutionFolderFromPath(serviceDirectory.Name);
+                var solutionFileName = serviceDirectory.Name + ".sln";
+                var serviceProjectDependencies = new List<string>();
+                var testProjects = new List<Project>();
+                var dependentProjects = new List<string>();
+                var dependentProjectList = new List<Project>();
+                var solutionPath = Path.Combine(serviceDirectory.ToString(), solutionFileName);
+                // Since vs2017 .csproj files are not identified by guid, see if we can scan and determine the guid ahead of time to reduce changes
+                // to .sln files if possible.
+                IDictionary<string, string> projectGuidDictionary = GetItemGuidDictionary(solutionPath);
 
-                // Add partial project files
-                var projectTypeWildCard = string.Format("AWSSDK.*.{0}.partial.csproj", pfc.Name);
-                var testFolder = Path.Combine(sdkTestsFolder, GeneratorDriver.UnitTestsSubFoldername);
-                foreach (var projectFile in Directory.GetFiles(testFolder, projectTypeWildCard, SearchOption.TopDirectoryOnly))
+                // Include only net35,net45,netstandard service csproj
+                // in the service specific solutions
+                foreach (var projectFile in Directory.EnumerateFiles(servicePath, "*.*", SearchOption.TopDirectoryOnly)
+                    .Where(s => s.Contains("NetStandard") || s.Contains("Net35") || s.Contains("Net45")))
                 {
-                    testProjects.Add(TestProjectFromFile(GeneratorDriver.UnitTestsSubFoldername, projectFile));
+                    serviceProjectDependencies.AddRange(AddProjectDependencies(projectFile, serviceDirectory.Name, new List<string>()));
+                    serviceProjectDependencies.Add(projectFile);
 
-                    var projectKey = Path.GetFileNameWithoutExtension(projectFile);
-                    solutionProjects.Add(projectKey, _allProjects[projectKey]);
-                    SelectBuildConfigurationsForProject(projectKey, buildConfigurations);
+                    SelectProjectAndConfigurationsForSolution(projectFile, buildConfigurations);
                 }
 
-                // Add common test project files
-                projectTypeWildCard = string.Format("AWSSDK.*.{0}.csproj", pfc.Name);
-                testFolder = Path.Combine(sdkTestsFolder, GeneratorDriver.CommonTestSubFoldername);
-                foreach (var projectFile in Directory.GetFiles(testFolder, projectTypeWildCard, SearchOption.TopDirectoryOnly))
-                {
-                    testProjects.Add(TestProjectFromFile(GeneratorDriver.CommonTestSubFoldername, projectFile));
+                // Include service's Unit and Integ csproj files and its dependencies.
+                AddTestProjectsAndDependencies(projectFileConfigurations, buildConfigurations, serviceDirectory, projectGuidDictionary, testProjects, dependentProjects);
 
-                    var projectKey = Path.GetFileNameWithoutExtension(projectFile);
-                    solutionProjects.Add(projectKey, _allProjects[projectKey]);
-                    SelectBuildConfigurationsForProject(projectKey, buildConfigurations);
+                // Add AWSSDK.CommonTest.csproj 
+                testProjects.Add(ServiceSlnCommonTestProject);
+                SelectBuildConfigurationsForProject(CommonTestProjectName, buildConfigurations);
+
+                foreach (var serviceProjectDependency in serviceProjectDependencies)
+                {
+                    string projectName = Path.GetFileNameWithoutExtension(serviceProjectDependency);
+                    var filePath = serviceProjectDependency;
+                    if (filePath.Contains(serviceDirectory.Name))
+                    {
+                        filePath = Path.GetFileName(serviceProjectDependency);
+                    }
+                    folder.Projects.Add(new Project
+                    {
+                        Name = projectName,
+                        ProjectPath = filePath,
+                        ProjectGuid = projectGuidDictionary.ContainsKey(projectName) ? projectGuidDictionary[projectName] : Guid.NewGuid().ToString("B").ToUpper()
+                    });
                 }
 
-                if (projectType.Equals(ProjectTypes.Net35, StringComparison.Ordinal) || projectType.Equals(ProjectTypes.Net45, StringComparison.Ordinal) &&
-                    !solutionProjects.ContainsKey(GeneratorLibProjectName))
+                if (folder.Projects.Count == 0)
                 {
-                    solutionProjects.Add(GeneratorLibProjectName, GeneratorLibProjectConfig);
-                    SelectBuildConfigurationsForProject(GeneratorLibProjectName, buildConfigurations);
+                    continue;
                 }
 
-                AddExtraTestProjects(pfc, solutionProjects, testProjects);
+                ConvertToSlnRelativePath(testProjects, solutionPath);
+
+                serviceSolutionFolders.Add(folder);
+                // Adding core projects to service solution
+                session["CoreProjects"] = CoreProjects;
+                // Adding service projects and its dependencies to the service solution
+                session["ServiceSolutionFolders"] = serviceSolutionFolders;
+                // Adding test projects to the service solution
+                session["TestProjects"] = testProjects;
+                // Set solution guild property
+                session["SolutionGuid"] = GetSolutionGuid(solutionPath);
+
+                var dependentProjectPathList = dependentProjects.Distinct();
+                var serviceProjectDependenciesNames = serviceProjectDependencies.Select(val => Path.GetFileNameWithoutExtension(val));
+                foreach (var dependentProject in dependentProjectPathList)
+                {
+                    if (!serviceProjectDependenciesNames.Contains(Path.GetFileNameWithoutExtension(dependentProject)))
+                    {
+                        var projectName = Path.GetFileNameWithoutExtension(dependentProject);
+                        dependentProjectList.Add(new Project
+                        {
+                            Name = projectName,
+                            ProjectPath = dependentProject,
+                            ProjectGuid = projectGuidDictionary.ContainsKey(projectName) ? projectGuidDictionary[projectName] : Guid.NewGuid().ToString("B").ToUpper()
+                        });
+                    }
+                }
+                //Adding integration test service dependencies
+                session["IntegrationTestDependencies"] = dependentProjectList;
+                var generator = new SolutionFileBclAndNetStandard() { Session = session };
+                var content = generator.TransformText();
+                GeneratorDriver.WriteFile(serviceDirectory.FullName, null, solutionFileName, content, true, false);
             }
+        }
 
-            var configurationsList = buildConfigurations.ToList();
-            configurationsList.Sort();
+        /// <summary>
+        /// This method converts the test projects path from being generator sln relative to the service specific sln
+        /// relative path
+        /// Ex
+        /// ..\..\..\..\sdk\test\Services\{ServiceName}\UnitTests\AWSSDK.UnitTests.{ServiceName}.Net35.csproj
+        /// becomes
+        /// ..\..\..\test\Services\{ServiceName}\UnitTests\AWSSDK.UnitTests.{ServiceName}.Net35.csproj
+        /// </summary>
+        private static void ConvertToSlnRelativePath(List<Project> testProjects, string solutionPath)
+        {
+            var solutionUri = new Uri(Path.GetFullPath(solutionPath));
+            foreach (var testProject in testProjects)
+            {
+                if (!string.IsNullOrEmpty(testProject.RelativePath))
+                {
+                    continue;
+                }
+                var testProjecturi = new Uri(Path.GetFullPath(testProject.ProjectPath));
+                testProject.RelativePath = solutionUri.MakeRelativeUri(testProjecturi).ToString().Replace('/', Path.DirectorySeparatorChar);
+            }
+        }
 
-            var session = new Dictionary<string, object>();
-            session["AllProjects"] = solutionProjects;
-            session["CoreProjects"] = coreProjects;
-            session["ServiceSolutionFolders"] = new List<ServiceSolutionFolder>();
-            session["TestProjects"] = testProjects;
-            session["Configurations"] = configurationsList;
+        /// <summary>
+        /// Adding Service test projects and its dependecies
+        /// </summary>
+        private void AddTestProjectsAndDependencies(IEnumerable<ProjectFileConfiguration> projectFileConfigurations, HashSet<string> buildConfigurations, DirectoryInfo serviceDirectory, 
+            IDictionary<string, string> projectGuidDictionary, IList<Project> testProjects, List<string> dependentProjects)
+        {
+            var testProjectsRoot = Path.Combine(Options.SdkRootFolder, GeneratorDriver.TestsSubFoldername, GeneratorDriver.ServicesSubFoldername, serviceDirectory.Name);
+            foreach (var configuration in projectFileConfigurations)
+            {
+                string filePattern = string.Format("*.csproj");
+                foreach (var projectFile in Directory.GetFiles(testProjectsRoot, filePattern, SearchOption.AllDirectories))
+                {
+                    string projectName = Path.GetFileNameWithoutExtension(projectFile);
 
-            var generator = new SolutionFileGenerator { Session = session };
-            var content = generator.TransformText();
-            GeneratorDriver.WriteFile(Options.SdkRootFolder, null, "Build.UnitTests.partial.sln", content, true, false);
+                    if (GetProjectType(projectName).Equals(ProjectTypes.Partial, StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    if (projectName.Contains("Integration"))
+                    {
+                        dependentProjects.AddRange(AddProjectDependencies
+                            (projectFile, serviceDirectory.Name, new List<string>()));
+                    }
+
+                    testProjects.Add(new Project
+                    {
+                        Name = projectName,
+                        ProjectPath = projectFile,
+                        ProjectGuid = projectGuidDictionary.ContainsKey(projectName) ? projectGuidDictionary[projectName] : Guid.NewGuid().ToString("B").ToUpper(),
+                    });
+                }
+
+                if (configuration.Name.Equals(ProjectTypes.Net35, StringComparison.Ordinal) || configuration.Name.Equals(ProjectTypes.Net45, StringComparison.Ordinal))
+                {
+                    testProjects.Add(ServiceSlnGeneratorLibProject);
+                    SelectBuildConfigurationsForProject(GeneratorLibProjectName, buildConfigurations);
+
+                    testProjects.Add(UnitTestUtilityProject35);
+                    testProjects.Add(UnitTestUtilityProject45);
+
+                    testProjects.Add(IntegrationTestUtility35Project);
+                    dependentProjects.AddRange(AddProjectDependencies
+                        (IntegrationTestUtility35Project.ProjectPath, serviceDirectory.Name, new List<string>()));
+
+                    testProjects.Add(IntegrationTestUtility45Project);
+                    dependentProjects.AddRange(AddProjectDependencies
+                        (IntegrationTestUtility45Project.ProjectPath, serviceDirectory.Name, new List<string>()));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens a csproj file and recursively adds the project's reference to the sln dependency list
+        /// </summary>
+        private List<string> AddProjectDependencies(string projectFile, string serviceName, List<string> depsProjects)
+        {
+            foreach (var line in File.ReadAllLines(projectFile))
+            {
+                if (line.Contains("ProjectReference"))
+                {
+                    var matches = ProjectReferenceRegex.Match(line);
+                    var fileName = matches.ToString().Replace("\"", "");
+                    if (!(fileName.Contains("\\Core\\") || fileName.Contains(serviceName) || fileName.Contains("Test") || depsProjects.Contains(fileName)))
+                    {
+                        var split = fileName.Split('\\');
+                        var deps = Path.Combine("..", split[split.Length - 2], split[split.Length - 1]);
+                        depsProjects.Add(deps);
+                        AddProjectDependencies(Path.Combine(Options.SdkRootFolder, @"src\Services", split[split.Length - 2], split[split.Length - 1]), split[split.Length - 2], depsProjects);
+                    }
+                }
+            }
+            return depsProjects;
         }
 
         private void AddExtraTestProjects(ProjectFileConfiguration projectConfig, Dictionary<string, ProjectFileCreator.ProjectConfigurationData> solutionProjects, List<Project> testProjects)
@@ -732,6 +934,13 @@ namespace ServiceClientGenerator
         {
             var projectKey = Path.GetFileNameWithoutExtension(projectFile);
             solutionProjects.Add(projectKey, _allProjects[projectKey]);
+            SelectBuildConfigurationsForProject(projectKey, buildConfigurations);
+        }
+
+        void SelectProjectAndConfigurationsForSolution(string projectFile,
+                                               ISet<string> buildConfigurations)
+        {
+            var projectKey = Path.GetFileNameWithoutExtension(projectFile);
             SelectBuildConfigurationsForProject(projectKey, buildConfigurations);
         }
 
@@ -802,6 +1011,11 @@ namespace ServiceClientGenerator
             public string ProjectPath { get; set; }
             public string Name { get; set; }
             public string FolderGuid { get; set; }
+            /// <summary>
+            /// This property is being used only by service specific sln's test projects
+            /// to denote a path relative to the sln files.
+            /// </summary>
+            public string RelativePath { get; set; }
         }
 
         public class ServiceSolutionFolder

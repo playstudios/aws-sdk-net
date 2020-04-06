@@ -33,11 +33,15 @@ namespace Amazon.CostExplorer.Model
     public partial class InstanceDetails
     {
         private EC2InstanceDetails _ec2InstanceDetails;
+        private ElastiCacheInstanceDetails _elastiCacheInstanceDetails;
+        private ESInstanceDetails _esInstanceDetails;
+        private RDSInstanceDetails _rdsInstanceDetails;
+        private RedshiftInstanceDetails _redshiftInstanceDetails;
 
         /// <summary>
         /// Gets and sets the property EC2InstanceDetails. 
         /// <para>
-        /// The EC2 instances that AWS recommends that you purchase.
+        /// The Amazon EC2 instances that AWS recommends that you purchase.
         /// </para>
         /// </summary>
         public EC2InstanceDetails EC2InstanceDetails
@@ -50,6 +54,78 @@ namespace Amazon.CostExplorer.Model
         internal bool IsSetEC2InstanceDetails()
         {
             return this._ec2InstanceDetails != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ElastiCacheInstanceDetails. 
+        /// <para>
+        /// The ElastiCache instances that AWS recommends that you purchase.
+        /// </para>
+        /// </summary>
+        public ElastiCacheInstanceDetails ElastiCacheInstanceDetails
+        {
+            get { return this._elastiCacheInstanceDetails; }
+            set { this._elastiCacheInstanceDetails = value; }
+        }
+
+        // Check to see if ElastiCacheInstanceDetails property is set
+        internal bool IsSetElastiCacheInstanceDetails()
+        {
+            return this._elastiCacheInstanceDetails != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ESInstanceDetails. 
+        /// <para>
+        /// The Amazon ES instances that AWS recommends that you purchase.
+        /// </para>
+        /// </summary>
+        public ESInstanceDetails ESInstanceDetails
+        {
+            get { return this._esInstanceDetails; }
+            set { this._esInstanceDetails = value; }
+        }
+
+        // Check to see if ESInstanceDetails property is set
+        internal bool IsSetESInstanceDetails()
+        {
+            return this._esInstanceDetails != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RDSInstanceDetails. 
+        /// <para>
+        /// The Amazon RDS instances that AWS recommends that you purchase.
+        /// </para>
+        /// </summary>
+        public RDSInstanceDetails RDSInstanceDetails
+        {
+            get { return this._rdsInstanceDetails; }
+            set { this._rdsInstanceDetails = value; }
+        }
+
+        // Check to see if RDSInstanceDetails property is set
+        internal bool IsSetRDSInstanceDetails()
+        {
+            return this._rdsInstanceDetails != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RedshiftInstanceDetails. 
+        /// <para>
+        /// The Amazon Redshift instances that AWS recommends that you purchase.
+        /// </para>
+        /// </summary>
+        public RedshiftInstanceDetails RedshiftInstanceDetails
+        {
+            get { return this._redshiftInstanceDetails; }
+            set { this._redshiftInstanceDetails = value; }
+        }
+
+        // Check to see if RedshiftInstanceDetails property is set
+        internal bool IsSetRedshiftInstanceDetails()
+        {
+            return this._redshiftInstanceDetails != null;
         }
 
     }

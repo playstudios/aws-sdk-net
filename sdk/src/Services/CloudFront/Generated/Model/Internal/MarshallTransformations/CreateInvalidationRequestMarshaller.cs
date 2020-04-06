@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -56,48 +56,52 @@ namespace Amazon.CloudFront.Model.Internal.MarshallTransformations
         {
             var request = new DefaultRequest(publicRequest, "Amazon.CloudFront");
             request.HttpMethod = "POST";
-            string uriResourcePath = "/2017-10-30/distribution/{DistributionId}/invalidation";
             if (!publicRequest.IsSetDistributionId())
                 throw new AmazonCloudFrontException("Request object does not have required field DistributionId set");
-            uriResourcePath = uriResourcePath.Replace("{DistributionId}", StringUtils.FromString(publicRequest.DistributionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{DistributionId}", StringUtils.FromString(publicRequest.DistributionId));
+            request.ResourcePath = "/2019-03-26/distribution/{DistributionId}/invalidation";
+            request.MarshallerVersion = 2;
 
             var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Encoding = System.Text.Encoding.UTF8, OmitXmlDeclaration = true }))
             {   
-                xmlWriter.WriteStartElement("InvalidationBatch", "http://cloudfront.amazonaws.com/doc/2017-10-30/");                                
-                if(publicRequest.InvalidationBatch.IsSetCallerReference())
-                    xmlWriter.WriteElementString("CallerReference", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequest.InvalidationBatch.CallerReference));                    
-
-                
-                if (publicRequest.InvalidationBatch.Paths != null) 
+                if (publicRequest.IsSetInvalidationBatch())
                 {
-                    xmlWriter.WriteStartElement("Paths", "http://cloudfront.amazonaws.com/doc/2017-10-30/");            
-                    var publicRequestInvalidationBatchPathsItems = publicRequest.InvalidationBatch.Paths.Items;
-                    if (publicRequestInvalidationBatchPathsItems != null && publicRequestInvalidationBatchPathsItems.Count > 0) 
-                    {                        
-                        xmlWriter.WriteStartElement("Items", "http://cloudfront.amazonaws.com/doc/2017-10-30/");
-                        foreach (var publicRequestInvalidationBatchPathsItemsValue in publicRequestInvalidationBatchPathsItems) 
-                        {
-                            xmlWriter.WriteStartElement("Path", "http://cloudfront.amazonaws.com/doc/2017-10-30/");
-                            xmlWriter.WriteValue(publicRequestInvalidationBatchPathsItemsValue);
-                            xmlWriter.WriteEndElement();
-                        }            
-                        xmlWriter.WriteEndElement();            
+                    xmlWriter.WriteStartElement("InvalidationBatch", "http://cloudfront.amazonaws.com/doc/2019-03-26/");
+                    if(publicRequest.InvalidationBatch.IsSetCallerReference())
+                        xmlWriter.WriteElementString("CallerReference", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequest.InvalidationBatch.CallerReference));                    
+    
+                    
+                    if (publicRequest.InvalidationBatch.Paths != null) 
+                    {
+                        xmlWriter.WriteStartElement("Paths", "http://cloudfront.amazonaws.com/doc/2019-03-26/");            
+                        var publicRequestInvalidationBatchPathsItems = publicRequest.InvalidationBatch.Paths.Items;
+                        if (publicRequestInvalidationBatchPathsItems != null && publicRequestInvalidationBatchPathsItems.Count > 0) 
+                        {                        
+                            xmlWriter.WriteStartElement("Items", "http://cloudfront.amazonaws.com/doc/2019-03-26/");
+                            foreach (var publicRequestInvalidationBatchPathsItemsValue in publicRequestInvalidationBatchPathsItems) 
+                            {
+                                xmlWriter.WriteStartElement("Path", "http://cloudfront.amazonaws.com/doc/2019-03-26/");
+                                xmlWriter.WriteValue(publicRequestInvalidationBatchPathsItemsValue);
+                                xmlWriter.WriteEndElement();
+                            }            
+                            xmlWriter.WriteEndElement();            
+                        }
+                        if(publicRequest.InvalidationBatch.Paths.IsSetQuantity())
+                            xmlWriter.WriteElementString("Quantity", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromInt(publicRequest.InvalidationBatch.Paths.Quantity));                 
+        
+                        xmlWriter.WriteEndElement();
                     }
-                    if(publicRequest.InvalidationBatch.Paths.IsSetQuantity())
-                        xmlWriter.WriteElementString("Quantity", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromInt(publicRequest.InvalidationBatch.Paths.Quantity));                 
     
                     xmlWriter.WriteEndElement();
                 }
-
-                xmlWriter.WriteEndElement();
             }
             try 
             {
                 string content = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(content);
                 request.Headers["Content-Type"] = "application/xml";
+                request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2019-03-26";            
             } 
             catch (EncoderFallbackException e) 
             {

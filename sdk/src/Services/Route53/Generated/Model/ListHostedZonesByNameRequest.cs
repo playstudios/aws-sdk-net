@@ -62,15 +62,15 @@ namespace Amazon.Route53.Model
     /// <para>
     /// The labels are reversed and alphabetized using the escaped value. For more information
     /// about valid domain name formats, including internationalized domain names, see <a
-    /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
+    /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
     /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
     /// </para>
     ///  
     /// <para>
-    /// Amazon Route 53 returns up to 100 items in each response. If you have a lot of hosted
-    /// zones, use the <code>MaxItems</code> parameter to list them in groups of up to 100.
-    /// The response includes values that help navigate from one group of <code>MaxItems</code>
-    /// hosted zones to the next:
+    /// Route 53 returns up to 100 items in each response. If you have a lot of hosted zones,
+    /// use the <code>MaxItems</code> parameter to list them in groups of up to 100. The response
+    /// includes values that help navigate from one group of <code>MaxItems</code> hosted
+    /// zones to the next:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -124,6 +124,7 @@ namespace Amazon.Route53.Model
         /// from the previous response.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string DNSName
         {
             get { return this._dnsName; }
@@ -152,6 +153,7 @@ namespace Amazon.Route53.Model
         /// element from the previous response.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32)]
         public string HostedZoneId
         {
             get { return this._hostedZoneId; }

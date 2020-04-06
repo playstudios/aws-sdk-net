@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GuardDuty.Model
 {
     /// <summary>
-    /// Invitation from an AWS account to become the current account's master.
+    /// Contains information about the invitation to become a member account.
     /// </summary>
     public partial class Invitation
     {
@@ -38,8 +38,12 @@ namespace Amazon.GuardDuty.Model
         private string _relationshipStatus;
 
         /// <summary>
-        /// Gets and sets the property AccountId. Inviter account ID
+        /// Gets and sets the property AccountId. 
+        /// <para>
+        /// The ID of the account from which the invitations was sent.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=12)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -53,8 +57,11 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InvitationId. This value is used to validate the inviter
-        /// account to the member account.
+        /// Gets and sets the property InvitationId. 
+        /// <para>
+        /// The ID of the invitation. This value is used to validate the inviter account to the
+        /// member account.
+        /// </para>
         /// </summary>
         public string InvitationId
         {
@@ -69,7 +76,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InvitedAt. Timestamp at which the invitation was sent
+        /// Gets and sets the property InvitedAt. 
+        /// <para>
+        /// Timestamp at which the invitation was sent.
+        /// </para>
         /// </summary>
         public string InvitedAt
         {
@@ -84,8 +94,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RelationshipStatus. The status of the relationship between
-        /// the inviter and invitee accounts.
+        /// Gets and sets the property RelationshipStatus. 
+        /// <para>
+        /// The status of the relationship between the inviter and invitee accounts.
+        /// </para>
         /// </summary>
         public string RelationshipStatus
         {

@@ -29,47 +29,61 @@ namespace Amazon.KinesisFirehose.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDeliveryStream operation.
-    /// Creates a delivery stream.
+    /// Creates a Kinesis Data Firehose delivery stream.
     /// 
     ///  
     /// <para>
-    /// By default, you can create up to 20 delivery streams per region.
+    /// By default, you can create up to 50 delivery streams per AWS Region.
     /// </para>
     ///  
     /// <para>
     /// This is an asynchronous operation that immediately returns. The initial status of
     /// the delivery stream is <code>CREATING</code>. After the delivery stream is created,
-    /// its status is <code>ACTIVE</code> and it now accepts data. Attempts to send data to
-    /// a delivery stream that is not in the <code>ACTIVE</code> state cause an exception.
-    /// To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
+    /// its status is <code>ACTIVE</code> and it now accepts data. If the delivery stream
+    /// creation fails, the status transitions to <code>CREATING_FAILED</code>. Attempts to
+    /// send data to a delivery stream that is not in the <code>ACTIVE</code> state cause
+    /// an exception. To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
     /// </para>
     ///  
     /// <para>
-    /// A Kinesis Firehose delivery stream can be configured to receive records directly from
-    /// providers using <a>PutRecord</a> or <a>PutRecordBatch</a>, or it can be configured
-    /// to use an existing Kinesis stream as its source. To specify a Kinesis stream as input,
-    /// set the <code>DeliveryStreamType</code> parameter to <code>KinesisStreamAsSource</code>,
-    /// and provide the Kinesis stream ARN and role ARN in the <code>KinesisStreamSourceConfiguration</code>
+    /// If the status of a delivery stream is <code>CREATING_FAILED</code>, this status doesn't
+    /// change, and you can't invoke <code>CreateDeliveryStream</code> again on it. However,
+    /// you can invoke the <a>DeleteDeliveryStream</a> operation to delete it.
+    /// </para>
+    ///  
+    /// <para>
+    /// A Kinesis Data Firehose delivery stream can be configured to receive records directly
+    /// from providers using <a>PutRecord</a> or <a>PutRecordBatch</a>, or it can be configured
+    /// to use an existing Kinesis stream as its source. To specify a Kinesis data stream
+    /// as input, set the <code>DeliveryStreamType</code> parameter to <code>KinesisStreamAsSource</code>,
+    /// and provide the Kinesis stream Amazon Resource Name (ARN) and role ARN in the <code>KinesisStreamSourceConfiguration</code>
     /// parameter.
     /// </para>
     ///  
     /// <para>
-    /// A delivery stream is configured with a single destination: Amazon S3, Amazon ES, or
-    /// Amazon Redshift. You must specify only one of the following destination configuration
-    /// parameters: <b>ExtendedS3DestinationConfiguration</b>, <b>S3DestinationConfiguration</b>,
-    /// <b>ElasticsearchDestinationConfiguration</b>, or <b>RedshiftDestinationConfiguration</b>.
+    /// To create a delivery stream with server-side encryption (SSE) enabled, include <a>DeliveryStreamEncryptionConfigurationInput</a>
+    /// in your request. This is optional. You can also invoke <a>StartDeliveryStreamEncryption</a>
+    /// to turn on SSE for an existing delivery stream that doesn't have SSE enabled.
     /// </para>
     ///  
     /// <para>
-    /// When you specify <b>S3DestinationConfiguration</b>, you can also provide the following
-    /// optional values: <b>BufferingHints</b>, <b>EncryptionConfiguration</b>, and <b>CompressionFormat</b>.
-    /// By default, if no <b>BufferingHints</b> value is provided, Kinesis Firehose buffers
-    /// data up to 5 MB or for 5 minutes, whichever condition is satisfied first. Note that
-    /// <b>BufferingHints</b> is a hint, so there are some cases where the service cannot
-    /// adhere to these conditions strictly; for example, record boundaries are such that
-    /// the size is a little over or under the configured buffering size. By default, no encryption
-    /// is performed. We strongly recommend that you enable encryption to ensure secure data
-    /// storage in Amazon S3.
+    /// A delivery stream is configured with a single destination: Amazon S3, Amazon ES, Amazon
+    /// Redshift, or Splunk. You must specify only one of the following destination configuration
+    /// parameters: <code>ExtendedS3DestinationConfiguration</code>, <code>S3DestinationConfiguration</code>,
+    /// <code>ElasticsearchDestinationConfiguration</code>, <code>RedshiftDestinationConfiguration</code>,
+    /// or <code>SplunkDestinationConfiguration</code>.
+    /// </para>
+    ///  
+    /// <para>
+    /// When you specify <code>S3DestinationConfiguration</code>, you can also provide the
+    /// following optional values: BufferingHints, <code>EncryptionConfiguration</code>, and
+    /// <code>CompressionFormat</code>. By default, if no <code>BufferingHints</code> value
+    /// is provided, Kinesis Data Firehose buffers data up to 5 MB or for 5 minutes, whichever
+    /// condition is satisfied first. <code>BufferingHints</code> is a hint, so there are
+    /// some cases where the service cannot adhere to these conditions strictly. For example,
+    /// record boundaries might be such that the size is a little over or under the configured
+    /// buffering size. By default, no encryption is performed. We strongly recommend that
+    /// you enable encryption to ensure secure data storage in Amazon S3.
     /// </para>
     ///  
     /// <para>
@@ -77,35 +91,37 @@ namespace Amazon.KinesisFirehose.Model
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// An Amazon Redshift destination requires an S3 bucket as intermediate location, as
-    /// Kinesis Firehose first delivers data to S3 and then uses <code>COPY</code> syntax
-    /// to load data into an Amazon Redshift table. This is specified in the <b>RedshiftDestinationConfiguration.S3Configuration</b>
+    /// An Amazon Redshift destination requires an S3 bucket as intermediate location. Kinesis
+    /// Data Firehose first delivers data to Amazon S3 and then uses <code>COPY</code> syntax
+    /// to load data into an Amazon Redshift table. This is specified in the <code>RedshiftDestinationConfiguration.S3Configuration</code>
     /// parameter.
     /// </para>
     ///  </li> <li> 
     /// <para>
     /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be specified
-    /// in <b>RedshiftDestinationConfiguration.S3Configuration</b> because the Amazon Redshift
-    /// <code>COPY</code> operation that reads from the S3 bucket doesn't support these compression
-    /// formats.
+    /// in <code>RedshiftDestinationConfiguration.S3Configuration</code> because the Amazon
+    /// Redshift <code>COPY</code> operation that reads from the S3 bucket doesn't support
+    /// these compression formats.
     /// </para>
     ///  </li> <li> 
     /// <para>
     /// We strongly recommend that you use the user name and password you provide exclusively
-    /// with Kinesis Firehose, and that the permissions for the account are restricted for
-    /// Amazon Redshift <code>INSERT</code> permissions.
+    /// with Kinesis Data Firehose, and that the permissions for the account are restricted
+    /// for Amazon Redshift <code>INSERT</code> permissions.
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// Kinesis Firehose assumes the IAM role that is configured as part of the destination.
-    /// The role should allow the Kinesis Firehose principal to assume the role, and the role
-    /// should have permissions that allow the service to deliver the data. For more information,
-    /// see <a href="http://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Amazon
-    /// S3 Bucket Access</a> in the <i>Amazon Kinesis Firehose Developer Guide</i>.
+    /// Kinesis Data Firehose assumes the IAM role that is configured as part of the destination.
+    /// The role should allow the Kinesis Data Firehose principal to assume the role, and
+    /// the role should have permissions that allow the service to deliver the data. For more
+    /// information, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
+    /// Kinesis Data Firehose Access to an Amazon S3 Destination</a> in the <i>Amazon Kinesis
+    /// Data Firehose Developer Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateDeliveryStreamRequest : AmazonKinesisFirehoseRequest
     {
+        private DeliveryStreamEncryptionConfigurationInput _deliveryStreamEncryptionConfigurationInput;
         private string _deliveryStreamName;
         private DeliveryStreamType _deliveryStreamType;
         private ElasticsearchDestinationConfiguration _elasticsearchDestinationConfiguration;
@@ -114,15 +130,36 @@ namespace Amazon.KinesisFirehose.Model
         private RedshiftDestinationConfiguration _redshiftDestinationConfiguration;
         private S3DestinationConfiguration _s3DestinationConfiguration;
         private SplunkDestinationConfiguration _splunkDestinationConfiguration;
+        private List<Tag> _tags = new List<Tag>();
+
+        /// <summary>
+        /// Gets and sets the property DeliveryStreamEncryptionConfigurationInput. 
+        /// <para>
+        /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for
+        /// Server-Side Encryption (SSE).
+        /// </para>
+        /// </summary>
+        public DeliveryStreamEncryptionConfigurationInput DeliveryStreamEncryptionConfigurationInput
+        {
+            get { return this._deliveryStreamEncryptionConfigurationInput; }
+            set { this._deliveryStreamEncryptionConfigurationInput = value; }
+        }
+
+        // Check to see if DeliveryStreamEncryptionConfigurationInput property is set
+        internal bool IsSetDeliveryStreamEncryptionConfigurationInput()
+        {
+            return this._deliveryStreamEncryptionConfigurationInput != null;
+        }
 
         /// <summary>
         /// Gets and sets the property DeliveryStreamName. 
         /// <para>
         /// The name of the delivery stream. This name must be unique per AWS account in the same
-        /// region. If the delivery streams are in different accounts or different regions, you
-        /// can have multiple delivery streams with the same name.
+        /// AWS Region. If the delivery streams are in different accounts or different Regions,
+        /// you can have multiple delivery streams with the same name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string DeliveryStreamName
         {
             get { return this._deliveryStreamName; }
@@ -146,8 +183,8 @@ namespace Amazon.KinesisFirehose.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis stream as
-        /// a source.
+        ///  <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis data stream
+        /// as a source.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -202,8 +239,9 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property KinesisStreamSourceConfiguration. 
         /// <para>
-        /// When a Kinesis stream is used as the source for the delivery stream, a <a>KinesisStreamSourceConfiguration</a>
-        /// containing the Kinesis stream ARN and the role ARN for the source stream.
+        /// When a Kinesis data stream is used as the source for the delivery stream, a <a>KinesisStreamSourceConfiguration</a>
+        /// containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for
+        /// the source stream.
         /// </para>
         /// </summary>
         public KinesisStreamSourceConfiguration KinesisStreamSourceConfiguration
@@ -242,6 +280,7 @@ namespace Amazon.KinesisFirehose.Model
         /// [Deprecated] The destination in Amazon S3. You can specify only one destination.
         /// </para>
         /// </summary>
+        [Obsolete("This property is deprecated. Use ExtendedS3DestinationConfiguration instead.")]
         public S3DestinationConfiguration S3DestinationConfiguration
         {
             get { return this._s3DestinationConfiguration; }
@@ -270,6 +309,33 @@ namespace Amazon.KinesisFirehose.Model
         internal bool IsSetSplunkDestinationConfiguration()
         {
             return this._splunkDestinationConfiguration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you
+        /// can define and assign to AWS resources. Tags are metadata. For example, you can add
+        /// friendly names and descriptions or other types of information that can help you distinguish
+        /// the delivery stream. For more information about tags, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+        /// Cost Allocation Tags</a> in the AWS Billing and Cost Management User Guide.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify up to 50 tags when creating a delivery stream.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

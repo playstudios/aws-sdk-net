@@ -44,7 +44,7 @@ namespace Amazon.Redshift.Model
     /// </para>
     ///  
     /// <para>
-    ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+    ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
     /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
@@ -64,13 +64,17 @@ namespace Amazon.Redshift.Model
         private string _hsmConfigurationIdentifier;
         private List<string> _iamRoles = new List<string>();
         private string _kmsKeyId;
+        private string _maintenanceTrackName;
+        private int? _manualSnapshotRetentionPeriod;
         private string _nodeType;
+        private int? _numberOfNodes;
         private string _ownerAccount;
         private int? _port;
         private string _preferredMaintenanceWindow;
         private bool? _publiclyAccessible;
         private string _snapshotClusterIdentifier;
         private string _snapshotIdentifier;
+        private string _snapshotScheduleIdentifier;
         private List<string> _vpcSecurityGroupIds = new List<string>();
 
         /// <summary>
@@ -153,7 +157,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// Example: <code>us-east-1a</code> 
+        /// Example: <code>us-east-2a</code> 
         /// </para>
         /// </summary>
         public string AvailabilityZone
@@ -199,6 +203,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterIdentifier
         {
             get { return this._clusterIdentifier; }
@@ -219,7 +224,7 @@ namespace Amazon.Redshift.Model
         ///  
         /// <para>
         /// Default: The default Amazon Redshift cluster parameter group. For information about
-        /// the default parameter group, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Working
+        /// the default parameter group, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Working
         /// with Amazon Redshift Parameter Groups</a>.
         /// </para>
         ///  
@@ -324,7 +329,7 @@ namespace Amazon.Redshift.Model
         /// <para>
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled.
         /// To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC.
-        /// For more information, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
+        /// For more information, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
         /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         ///  
@@ -430,6 +435,53 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaintenanceTrackName. 
+        /// <para>
+        /// The name of the maintenance track for the restored cluster. When you take a snapshot,
+        /// the snapshot inherits the <code>MaintenanceTrack</code> value from the cluster. The
+        /// snapshot might be on a different track than the cluster that was the source for the
+        /// snapshot. For example, suppose that you take a snapshot of a cluster that is on the
+        /// current track and then change the cluster to be on the trailing track. In this case,
+        /// the snapshot and the source cluster are on different tracks.
+        /// </para>
+        /// </summary>
+        public string MaintenanceTrackName
+        {
+            get { return this._maintenanceTrackName; }
+            set { this._maintenanceTrackName = value; }
+        }
+
+        // Check to see if MaintenanceTrackName property is set
+        internal bool IsSetMaintenanceTrackName()
+        {
+            return this._maintenanceTrackName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManualSnapshotRetentionPeriod. 
+        /// <para>
+        /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot
+        /// is retained indefinitely. This setting doesn't change the retention period of existing
+        /// snapshots.
+        /// </para>
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </summary>
+        public int ManualSnapshotRetentionPeriod
+        {
+            get { return this._manualSnapshotRetentionPeriod.GetValueOrDefault(); }
+            set { this._manualSnapshotRetentionPeriod = value; }
+        }
+
+        // Check to see if ManualSnapshotRetentionPeriod property is set
+        internal bool IsSetManualSnapshotRetentionPeriod()
+        {
+            return this._manualSnapshotRetentionPeriod.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property NodeType. 
         /// <para>
         /// The node type that the restored cluster will be provisioned with.
@@ -444,7 +496,7 @@ namespace Amazon.Redshift.Model
         /// a dc1.large instance type into another dc1.large instance type or dc2.large instance
         /// type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg
         /// cluster, then resize to a dc2.8large cluster. For more information about node types,
-        /// see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes">
+        /// see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes">
         /// About Clusters and Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         /// </para>
@@ -459,6 +511,24 @@ namespace Amazon.Redshift.Model
         internal bool IsSetNodeType()
         {
             return this._nodeType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NumberOfNodes. 
+        /// <para>
+        /// The number of nodes specified when provisioning the restored cluster.
+        /// </para>
+        /// </summary>
+        public int NumberOfNodes
+        {
+            get { return this._numberOfNodes.GetValueOrDefault(); }
+            set { this._numberOfNodes = value; }
+        }
+
+        // Check to see if NumberOfNodes property is set
+        internal bool IsSetNumberOfNodes()
+        {
+            return this._numberOfNodes.HasValue; 
         }
 
         /// <summary>
@@ -518,7 +588,7 @@ namespace Amazon.Redshift.Model
         ///  
         /// <para>
         ///  Default: The value selected for the cluster from which the snapshot was taken. For
-        /// more information about the time blocks for each region, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows">Maintenance
+        /// more information about the time blocks for each region, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows">Maintenance
         /// Windows</a> in Amazon Redshift Cluster Management Guide. 
         /// </para>
         ///  
@@ -591,6 +661,7 @@ namespace Amazon.Redshift.Model
         /// Example: <code>my-snapshot-id</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SnapshotIdentifier
         {
             get { return this._snapshotIdentifier; }
@@ -601,6 +672,24 @@ namespace Amazon.Redshift.Model
         internal bool IsSetSnapshotIdentifier()
         {
             return this._snapshotIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SnapshotScheduleIdentifier. 
+        /// <para>
+        /// A unique identifier for the snapshot schedule.
+        /// </para>
+        /// </summary>
+        public string SnapshotScheduleIdentifier
+        {
+            get { return this._snapshotScheduleIdentifier; }
+            set { this._snapshotScheduleIdentifier = value; }
+        }
+
+        // Check to see if SnapshotScheduleIdentifier property is set
+        internal bool IsSetSnapshotScheduleIdentifier()
+        {
+            return this._snapshotScheduleIdentifier != null;
         }
 
         /// <summary>

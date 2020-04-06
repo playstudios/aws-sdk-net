@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,7 @@ namespace Amazon.CloudFront.Model
     public partial class DistributionSummary
     {
         private Aliases _aliases;
+        private List<AliasICPRecordal> _aliasICPRecordals = new List<AliasICPRecordal>();
         private string _arn;
         private CacheBehaviors _cacheBehaviors;
         private string _comment;
@@ -44,6 +45,7 @@ namespace Amazon.CloudFront.Model
         private string _id;
         private bool? _isIPV6Enabled;
         private DateTime? _lastModifiedTime;
+        private OriginGroups _originGroups;
         private Origins _origins;
         private PriceClass _priceClass;
         private Restrictions _restrictions;
@@ -63,6 +65,7 @@ namespace Amazon.CloudFront.Model
         /// any, for this distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Aliases Aliases
         {
             get { return this._aliases; }
@@ -76,12 +79,39 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AliasICPRecordals. 
+        /// <para>
+        /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal
+        /// if they want to serve content publicly on an alternate domain name, also known as
+        /// a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal
+        /// status for CNAMEs associated with distributions.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about ICP recordals, see <a href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
+        /// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS services in China</i>.
+        /// </para>
+        /// </summary>
+        public List<AliasICPRecordal> AliasICPRecordals
+        {
+            get { return this._aliasICPRecordals; }
+            set { this._aliasICPRecordals = value; }
+        }
+
+        // Check to see if AliasICPRecordals property is set
+        internal bool IsSetAliasICPRecordals()
+        {
+            return this._aliasICPRecordals != null && this._aliasICPRecordals.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ARN. 
         /// <para>
         /// The ARN (Amazon Resource Name) for the distribution. For example: <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
         /// where <code>123456789012</code> is your AWS account ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ARN
         {
             get { return this._arn; }
@@ -100,6 +130,7 @@ namespace Amazon.CloudFront.Model
         /// A complex type that contains zero or more <code>CacheBehavior</code> elements.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public CacheBehaviors CacheBehaviors
         {
             get { return this._cacheBehaviors; }
@@ -118,6 +149,7 @@ namespace Amazon.CloudFront.Model
         /// The comment originally specified when this distribution was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Comment
         {
             get { return this._comment; }
@@ -136,6 +168,7 @@ namespace Amazon.CloudFront.Model
         /// A complex type that contains zero or more <code>CustomErrorResponses</code> elements.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public CustomErrorResponses CustomErrorResponses
         {
             get { return this._customErrorResponses; }
@@ -156,6 +189,7 @@ namespace Amazon.CloudFront.Model
         /// elements. You must create exactly one default cache behavior.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DefaultCacheBehavior DefaultCacheBehavior
         {
             get { return this._defaultCacheBehavior; }
@@ -174,6 +208,7 @@ namespace Amazon.CloudFront.Model
         /// The domain name that corresponds to the distribution, for example, <code>d111111abcdef8.cloudfront.net</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }
@@ -192,6 +227,7 @@ namespace Amazon.CloudFront.Model
         /// Whether the distribution is enabled to accept user requests for content.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enabled
         {
             get { return this._enabled.GetValueOrDefault(); }
@@ -212,6 +248,7 @@ namespace Amazon.CloudFront.Model
         /// that don't support <code>HTTP/2</code> will automatically use an earlier version.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public HttpVersion HttpVersion
         {
             get { return this._httpVersion; }
@@ -230,6 +267,7 @@ namespace Amazon.CloudFront.Model
         /// The identifier for the distribution. For example: <code>EDFDVBD632BHDS5</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -248,6 +286,7 @@ namespace Amazon.CloudFront.Model
         /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool IsIPV6Enabled
         {
             get { return this._isIPV6Enabled.GetValueOrDefault(); }
@@ -266,6 +305,7 @@ namespace Amazon.CloudFront.Model
         /// The date and time the distribution was last modified.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime LastModifiedTime
         {
             get { return this._lastModifiedTime.GetValueOrDefault(); }
@@ -279,11 +319,30 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OriginGroups. 
+        /// <para>
+        ///  A complex type that contains information about origin groups for this distribution.
+        /// </para>
+        /// </summary>
+        public OriginGroups OriginGroups
+        {
+            get { return this._originGroups; }
+            set { this._originGroups = value; }
+        }
+
+        // Check to see if OriginGroups property is set
+        internal bool IsSetOriginGroups()
+        {
+            return this._originGroups != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Origins. 
         /// <para>
         /// A complex type that contains information about origins for this distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Origins Origins
         {
             get { return this._origins; }
@@ -297,8 +356,13 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PriceClass.
+        /// Gets and sets the property PriceClass. 
+        /// <para>
+        /// A complex type that contains information about price class for this streaming distribution.
+        /// 
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PriceClass PriceClass
         {
             get { return this._priceClass; }
@@ -312,8 +376,13 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Restrictions.
+        /// Gets and sets the property Restrictions. 
+        /// <para>
+        /// A complex type that identifies ways in which you want to restrict distribution of
+        /// your content.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Restrictions Restrictions
         {
             get { return this._restrictions; }
@@ -333,6 +402,7 @@ namespace Amazon.CloudFront.Model
         /// the distribution's information is propagated to all CloudFront edge locations.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Status
         {
             get { return this._status; }
@@ -346,8 +416,13 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ViewerCertificate.
+        /// Gets and sets the property ViewerCertificate. 
+        /// <para>
+        /// A complex type that determines the distribution’s SSL/TLS configuration for communicating
+        /// with viewers.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ViewerCertificate ViewerCertificate
         {
             get { return this._viewerCertificate; }
@@ -366,6 +441,7 @@ namespace Amazon.CloudFront.Model
         /// The Web ACL Id (if any) associated with the distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string WebACLId
         {
             get { return this._webACLId; }

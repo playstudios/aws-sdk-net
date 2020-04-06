@@ -34,13 +34,14 @@ namespace Amazon.Redshift.Model
     /// 
     ///  
     /// <para>
-    ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+    ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
     /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateClusterSnapshotRequest : AmazonRedshiftRequest
     {
         private string _clusterIdentifier;
+        private int? _manualSnapshotRetentionPeriod;
         private string _snapshotIdentifier;
         private List<Tag> _tags = new List<Tag>();
 
@@ -50,6 +51,7 @@ namespace Amazon.Redshift.Model
         /// The cluster identifier for which you want a snapshot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterIdentifier
         {
             get { return this._clusterIdentifier; }
@@ -60,6 +62,33 @@ namespace Amazon.Redshift.Model
         internal bool IsSetClusterIdentifier()
         {
             return this._clusterIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManualSnapshotRetentionPeriod. 
+        /// <para>
+        /// The number of days that a manual snapshot is retained. If the value is -1, the manual
+        /// snapshot is retained indefinitely. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        ///  
+        /// <para>
+        /// The default value is -1.
+        /// </para>
+        /// </summary>
+        public int ManualSnapshotRetentionPeriod
+        {
+            get { return this._manualSnapshotRetentionPeriod.GetValueOrDefault(); }
+            set { this._manualSnapshotRetentionPeriod = value; }
+        }
+
+        // Check to see if ManualSnapshotRetentionPeriod property is set
+        internal bool IsSetManualSnapshotRetentionPeriod()
+        {
+            return this._manualSnapshotRetentionPeriod.HasValue; 
         }
 
         /// <summary>
@@ -93,6 +122,7 @@ namespace Amazon.Redshift.Model
         /// Example: <code>my-snapshot-id</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SnapshotIdentifier
         {
             get { return this._snapshotIdentifier; }

@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AppStream.Model
 {
     /// <summary>
-    /// Contains the information needed to join a Microsoft Active Directory domain.
+    /// Describes the configuration information required to join fleets and image builders
+    /// to Microsoft Active Directory domains.
     /// </summary>
     public partial class DomainJoinInfo
     {
@@ -59,6 +60,7 @@ namespace Amazon.AppStream.Model
         /// The distinguished name of the organizational unit for computer accounts.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2000)]
         public string OrganizationalUnitDistinguishedName
         {
             get { return this._organizationalUnitDistinguishedName; }

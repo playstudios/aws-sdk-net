@@ -33,6 +33,7 @@ namespace Amazon.ServiceCatalog.Model
     public partial class ProvisioningArtifactProperties
     {
         private string _description;
+        private bool? _disableTemplateValidation;
         private Dictionary<string, string> _info = new Dictionary<string, string>();
         private string _name;
         private ProvisioningArtifactType _type;
@@ -57,6 +58,25 @@ namespace Amazon.ServiceCatalog.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DisableTemplateValidation. 
+        /// <para>
+        /// If set to true, AWS Service Catalog stops validating the specified provisioning artifact
+        /// even if it is invalid.
+        /// </para>
+        /// </summary>
+        public bool DisableTemplateValidation
+        {
+            get { return this._disableTemplateValidation.GetValueOrDefault(); }
+            set { this._disableTemplateValidation = value; }
+        }
+
+        // Check to see if DisableTemplateValidation property is set
+        internal bool IsSetDisableTemplateValidation()
+        {
+            return this._disableTemplateValidation.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Info. 
         /// <para>
         /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format
@@ -68,6 +88,7 @@ namespace Amazon.ServiceCatalog.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public Dictionary<string, string> Info
         {
             get { return this._info; }

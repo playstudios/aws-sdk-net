@@ -54,6 +54,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBInstanceIdentifier
         {
             get { return this._dbInstanceIdentifier; }
@@ -72,6 +73,7 @@ namespace Amazon.RDS.Model
         /// The name of the log file to be downloaded.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LogFileName
         {
             get { return this._logFileName; }
@@ -123,7 +125,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If NumberOfLines is specified and Marker is not specified, then the most recent lines
+        /// If NumberOfLines is specified and Marker isn't specified, then the most recent lines
         /// from the end of the log file are returned.
         /// </para>
         ///  </li> <li> 

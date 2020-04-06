@@ -39,10 +39,11 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// The updated content of the description for the pull request. This content will replace
+        /// The updated content of the description for the pull request. This content replaces
         /// the existing description.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=10240)]
         public string Description
         {
             get { return this._description; }
@@ -61,6 +62,7 @@ namespace Amazon.CodeCommit.Model
         /// The system-generated ID of the pull request. To get this ID, use <a>ListPullRequests</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PullRequestId
         {
             get { return this._pullRequestId; }

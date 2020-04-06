@@ -43,6 +43,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -58,8 +59,8 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property RemoteAccessSessions. 
         /// <para>
-        /// A container representing the metadata from the service about each remote access session
-        /// you are requesting.
+        /// A container that represents the metadata from the service about each remote access
+        /// session you are requesting.
         /// </para>
         /// </summary>
         public List<RemoteAccessSession> RemoteAccessSessions

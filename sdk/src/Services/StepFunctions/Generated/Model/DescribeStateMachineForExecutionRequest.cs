@@ -30,6 +30,16 @@ namespace Amazon.StepFunctions.Model
     /// <summary>
     /// Container for the parameters to the DescribeStateMachineForExecution operation.
     /// Describes the state machine associated with a specific execution.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This operation is eventually consistent. The results are best effort and may not reflect
+    /// very recent updates and changes.
+    /// </para>
+    ///  </note> 
+    /// <para>
+    /// This API action is not supported by <code>EXPRESS</code> state machines.
+    /// </para>
     /// </summary>
     public partial class DescribeStateMachineForExecutionRequest : AmazonStepFunctionsRequest
     {
@@ -42,6 +52,7 @@ namespace Amazon.StepFunctions.Model
         /// for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ExecutionArn
         {
             get { return this._executionArn; }

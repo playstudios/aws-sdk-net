@@ -29,8 +29,8 @@ namespace Amazon.StorageGateway.Model
 {
     /// <summary>
     /// Container for the parameters to the ListGateways operation.
-    /// Lists gateways owned by an AWS account in a region specified in the request. The returned
-    /// list is ordered by gateway Amazon Resource Name (ARN).
+    /// Lists gateways owned by an AWS account in an AWS Region specified in the request.
+    /// The returned list is ordered by gateway Amazon Resource Name (ARN).
     /// 
     ///  
     /// <para>
@@ -57,6 +57,7 @@ namespace Amazon.StorageGateway.Model
         /// items.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -76,6 +77,7 @@ namespace Amazon.StorageGateway.Model
         /// gateways.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public string Marker
         {
             get { return this._marker; }

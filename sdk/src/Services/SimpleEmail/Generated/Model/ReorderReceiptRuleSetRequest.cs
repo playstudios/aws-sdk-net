@@ -39,7 +39,7 @@ namespace Amazon.SimpleEmail.Model
     /// </para>
     ///  </note> 
     /// <para>
-    /// For information about managing receipt rule sets, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon
+    /// For information about managing receipt rule sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rule-sets.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     ///  
@@ -59,6 +59,7 @@ namespace Amazon.SimpleEmail.Model
         /// to put them.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> RuleNames
         {
             get { return this._ruleNames; }
@@ -77,6 +78,7 @@ namespace Amazon.SimpleEmail.Model
         /// The name of the receipt rule set to reorder.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RuleSetName
         {
             get { return this._ruleSetName; }

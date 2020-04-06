@@ -114,7 +114,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminAddUserToGroup service method.</param>
@@ -179,7 +179,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminConfirmSignUp service method.</param>
@@ -385,7 +385,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminDeleteUser service method.</param>
@@ -449,7 +449,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminDeleteUserAttributes service method.</param>
@@ -612,11 +612,11 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Disables the specified user as an administrator. Works on any user.
+        /// Disables the specified user.
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminDisableUser service method.</param>
@@ -680,7 +680,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminEnableUser service method.</param>
@@ -744,7 +744,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminForgetDevice service method.</param>
@@ -811,7 +811,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminGetDevice service method.</param>
@@ -876,7 +876,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminGetUser service method.</param>
@@ -940,7 +940,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminInitiateAuth service method.</param>
@@ -1130,7 +1130,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminListDevices service method.</param>
@@ -1194,7 +1194,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminListGroupsForUser service method.</param>
@@ -1321,7 +1321,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminRemoveUserFromGroup service method.</param>
@@ -1396,7 +1396,7 @@ namespace Amazon.CognitoIdentityProvider
         /// </para>
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminResetUserPassword service method.</param>
@@ -1489,7 +1489,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminRespondToAuthChallenge service method.</param>
@@ -1602,7 +1602,11 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Sets the user's multi-factor authentication (MFA) preference.
+        /// Sets the user's multi-factor authentication (MFA) preference, including which MFA
+        /// options are enabled and if any are preferred. Only one factor can be set as preferred.
+        /// The preferred MFA factor will be used to authenticate a user if multiple factors are
+        /// enabled. If multiple options are enabled and no preference is set, a challenge to
+        /// choose an MFA option will be returned during sign in.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminSetUserMFAPreference service method.</param>
         /// 
@@ -1660,16 +1664,90 @@ namespace Amazon.CognitoIdentityProvider
 
         #endregion
         
+        #region  AdminSetUserPassword
+
+
+        /// <summary>
+        /// Sets the specified user's password in a user pool as an administrator. Works on any
+        /// user. 
+        /// 
+        ///  
+        /// <para>
+        /// The password can be temporary or permanent. If it is temporary, the user status will
+        /// be placed into the <code>FORCE_CHANGE_PASSWORD</code> state. When the user next tries
+        /// to sign in, the InitiateAuth/AdminInitiateAuth response will contain the <code>NEW_PASSWORD_REQUIRED</code>
+        /// challenge. If the user does not sign in before it expires, the user will not be able
+        /// to sign in and their password will need to be reset by an administrator. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Once the user has set a new password, or the password is permanent, the user status
+        /// will be set to <code>Confirmed</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AdminSetUserPassword service method.</param>
+        /// 
+        /// <returns>The response from the AdminSetUserPassword service method, as returned by CognitoIdentityProvider.</returns>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InternalErrorException">
+        /// This exception is thrown when Amazon Cognito encounters an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
+        /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidPasswordException">
+        /// This exception is thrown when the Amazon Cognito service encounters an invalid password.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.NotAuthorizedException">
+        /// This exception is thrown when a user is not authorized.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.ResourceNotFoundException">
+        /// This exception is thrown when the Amazon Cognito service cannot find the requested
+        /// resource.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.TooManyRequestsException">
+        /// This exception is thrown when the user has made too many requests for a given operation.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.UserNotFoundException">
+        /// This exception is thrown when a user is not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminSetUserPassword">REST API Reference for AdminSetUserPassword Operation</seealso>
+        AdminSetUserPasswordResponse AdminSetUserPassword(AdminSetUserPasswordRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AdminSetUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AdminSetUserPassword operation on AmazonCognitoIdentityProviderClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAdminSetUserPassword
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminSetUserPassword">REST API Reference for AdminSetUserPassword Operation</seealso>
+        IAsyncResult BeginAdminSetUserPassword(AdminSetUserPasswordRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AdminSetUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAdminSetUserPassword.</param>
+        /// 
+        /// <returns>Returns a  AdminSetUserPasswordResult from CognitoIdentityProvider.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/AdminSetUserPassword">REST API Reference for AdminSetUserPassword Operation</seealso>
+        AdminSetUserPasswordResponse EndAdminSetUserPassword(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AdminSetUserSettings
 
 
         /// <summary>
-        /// Sets all the user settings for a specified user name. Works on any user.
-        /// 
-        ///  
-        /// <para>
-        /// Requires developer credentials.
-        /// </para>
+        /// <i>This action is no longer supported.</i> You can use it to configure only SMS MFA.
+        /// You can't use it to configure TOTP software token MFA. To configure either type of
+        /// MFA, use the <a>AdminSetUserMFAPreference</a> action instead.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminSetUserSettings service method.</param>
         /// 
@@ -1793,7 +1871,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminUpdateDeviceStatus service method.</param>
@@ -1871,7 +1949,7 @@ namespace Amazon.CognitoIdentityProvider
         /// </para>
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminUpdateUserAttributes service method.</param>
@@ -1885,12 +1963,26 @@ namespace Amazon.CognitoIdentityProvider
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.InternalErrorException">
         /// This exception is thrown when Amazon Cognito encounters an internal error.
         /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidEmailRoleAccessPolicyException">
+        /// This exception is thrown when Amazon Cognito is not allowed to use your email identity.
+        /// HTTP status code: 400.
+        /// </exception>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidLambdaResponseException">
         /// This exception is thrown when the Amazon Cognito service encounters an invalid AWS
         /// Lambda response.
         /// </exception>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
         /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidSmsRoleAccessPolicyException">
+        /// This exception is returned when the role provided for SMS configuration does not have
+        /// permission to publish using Amazon SNS.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidSmsRoleTrustRelationshipException">
+        /// This exception is thrown when the trust relationship is invalid for the role provided
+        /// for SMS configuration. This can happen if you do not trust <b>cognito-idp.amazonaws.com</b>
+        /// or the external ID provided in the role does not match what is provided in the SMS
+        /// configuration for the user pool.
         /// </exception>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.NotAuthorizedException">
         /// This exception is thrown when a user is not authorized.
@@ -1948,11 +2040,13 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Signs out users from all devices, as an administrator.
+        /// Signs out users from all devices, as an administrator. It also invalidates all refresh
+        /// tokens issued to a user. The user's current access and Id tokens remain valid until
+        /// their expiry. Access and Id tokens expire one hour after they are issued.
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AdminUserGlobalSignOut service method.</param>
@@ -2403,7 +2497,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateGroup service method.</param>
@@ -2798,6 +2892,9 @@ namespace Amazon.CognitoIdentityProvider
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
         /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
         /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.LimitExceededException">
+        /// This exception is thrown when a user exceeds the limit for a requested AWS resource.
+        /// </exception>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.NotAuthorizedException">
         /// This exception is thrown when a user is not authorized.
         /// </exception>
@@ -2844,7 +2941,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteGroup service method.</param>
@@ -3602,7 +3699,7 @@ namespace Amazon.CognitoIdentityProvider
 
         /// <summary>
         /// Client method for returning the configuration information and metadata of the specified
-        /// user pool client.
+        /// user pool app client.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeUserPoolClient service method.</param>
         /// 
@@ -3781,11 +3878,11 @@ namespace Amazon.CognitoIdentityProvider
         /// <summary>
         /// Calling this API causes a message to be sent to the end user with a confirmation code
         /// that is required to change the user's password. For the <code>Username</code> parameter,
-        /// you can use the username or user alias. If a verified phone number exists for the
-        /// user, the confirmation code is sent to the phone number. Otherwise, if a verified
-        /// email exists, the confirmation code is sent to the email. If neither a verified phone
-        /// number nor a verified email exists, <code>InvalidParameterException</code> is thrown.
-        /// To use the confirmation code for resetting the password, call .
+        /// you can use the username or user alias. The method used to send the confirmation code
+        /// is sent according to the specified AccountRecoverySetting. For more information, see
+        /// <a href="">Recovering User Accounts</a> in the <i>Amazon Cognito Developer Guide</i>.
+        /// If neither a verified phone number nor a verified email exists, an <code>InvalidParameterException</code>
+        /// is thrown. To use the confirmation code for resetting the password, call .
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ForgotPassword service method.</param>
         /// 
@@ -4008,7 +4105,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetGroup service method.</param>
@@ -4128,6 +4225,9 @@ namespace Amazon.CognitoIdentityProvider
         /// <returns>The response from the GetSigningCertificate service method, as returned by CognitoIdentityProvider.</returns>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.InternalErrorException">
         /// This exception is thrown when Amazon Cognito encounters an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
+        /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
         /// </exception>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.ResourceNotFoundException">
         /// This exception is thrown when the Amazon Cognito service cannot find the requested
@@ -4445,7 +4545,9 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Signs out users from all devices.
+        /// Signs out users from all devices. It also invalidates all refresh tokens issued to
+        /// a user. The user's current access and Id tokens remain valid until their expiry. Access
+        /// and Id tokens expire one hour after they are issued.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GlobalSignOut service method.</param>
         /// 
@@ -4521,6 +4623,16 @@ namespace Amazon.CognitoIdentityProvider
         /// </exception>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
         /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidSmsRoleAccessPolicyException">
+        /// This exception is returned when the role provided for SMS configuration does not have
+        /// permission to publish using Amazon SNS.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidSmsRoleTrustRelationshipException">
+        /// This exception is thrown when the trust relationship is invalid for the role provided
+        /// for SMS configuration. This can happen if you do not trust <b>cognito-idp.amazonaws.com</b>
+        /// or the external ID provided in the role does not match what is provided in the SMS
+        /// configuration for the user pool.
         /// </exception>
         /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidUserPoolConfigurationException">
         /// This exception is thrown when the user pool configuration is invalid.
@@ -4659,7 +4771,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListGroups service method.</param>
@@ -4821,6 +4933,72 @@ namespace Amazon.CognitoIdentityProvider
         /// <returns>Returns a  ListResourceServersResult from CognitoIdentityProvider.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListResourceServers">REST API Reference for ListResourceServers Operation</seealso>
         ListResourceServersResponse EndListResourceServers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// Lists the tags that are assigned to an Amazon Cognito user pool.
+        /// 
+        ///  
+        /// <para>
+        /// A tag is a label that you can apply to user pools to categorize and manage them in
+        /// different ways, such as by purpose, owner, environment, or other criteria.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use this action up to 10 times per second, per account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by CognitoIdentityProvider.</returns>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InternalErrorException">
+        /// This exception is thrown when Amazon Cognito encounters an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
+        /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.NotAuthorizedException">
+        /// This exception is thrown when a user is not authorized.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.ResourceNotFoundException">
+        /// This exception is thrown when the Amazon Cognito service cannot find the requested
+        /// resource.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.TooManyRequestsException">
+        /// This exception is thrown when the user has made too many requests for a given operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonCognitoIdentityProviderClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from CognitoIdentityProvider.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5052,7 +5230,7 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListUsersInGroup service method.</param>
@@ -5462,7 +5640,11 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Set the user's multi-factor authentication (MFA) method preference.
+        /// Set the user's multi-factor authentication (MFA) method preference, including which
+        /// MFA factors are enabled and if any are preferred. Only one factor can be set as preferred.
+        /// The preferred MFA factor will be used to authenticate a user if multiple factors are
+        /// enabled. If multiple options are enabled and no preference is set, a challenge to
+        /// choose an MFA option will be returned during sign in.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetUserMFAPreference service method.</param>
         /// 
@@ -5524,7 +5706,7 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Set the user pool MFA configuration.
+        /// Set the user pool multi-factor authentication (MFA) configuration.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetUserPoolMfaConfig service method.</param>
         /// 
@@ -5590,9 +5772,9 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Sets the user settings like multi-factor authentication (MFA). If MFA is to be removed
-        /// for a particular attribute pass the attribute with code delivery as null. If null
-        /// list is passed, all MFA options are removed.
+        /// <i>This action is no longer supported.</i> You can use it to configure only SMS MFA.
+        /// You can't use it to configure TOTP software token MFA. To configure either type of
+        /// MFA, use the <a>SetUserMFAPreference</a> action instead.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetUserSettings service method.</param>
         /// 
@@ -5861,6 +6043,142 @@ namespace Amazon.CognitoIdentityProvider
 
         #endregion
         
+        #region  TagResource
+
+
+        /// <summary>
+        /// Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can
+        /// use to categorize and manage user pools in different ways, such as by purpose, owner,
+        /// environment, or other criteria.
+        /// 
+        ///  
+        /// <para>
+        /// Each tag consists of a key and value, both of which you define. A key is a general
+        /// category for more specific values. For example, if you have two versions of a user
+        /// pool, one for testing and another for production, you might assign an <code>Environment</code>
+        /// tag key to both user pools. The value of this key might be <code>Test</code> for one
+        /// user pool and <code>Production</code> for the other.
+        /// </para>
+        ///  
+        /// <para>
+        /// Tags are useful for cost tracking and access control. You can activate your tags so
+        /// that they appear on the Billing and Cost Management console, where you can track the
+        /// costs associated with your user pools. In an IAM policy, you can constrain permissions
+        /// for user pools based on specific tags or tag values.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use this action up to 5 times per second, per account. A user pool can have
+        /// as many as 50 tags.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by CognitoIdentityProvider.</returns>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InternalErrorException">
+        /// This exception is thrown when Amazon Cognito encounters an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
+        /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.NotAuthorizedException">
+        /// This exception is thrown when a user is not authorized.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.ResourceNotFoundException">
+        /// This exception is thrown when the Amazon Cognito service cannot find the requested
+        /// resource.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.TooManyRequestsException">
+        /// This exception is thrown when the user has made too many requests for a given operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonCognitoIdentityProviderClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from CognitoIdentityProvider.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes the specified tags from an Amazon Cognito user pool. You can use this action
+        /// up to 5 times per second, per account
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by CognitoIdentityProvider.</returns>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InternalErrorException">
+        /// This exception is thrown when Amazon Cognito encounters an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
+        /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.NotAuthorizedException">
+        /// This exception is thrown when a user is not authorized.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.ResourceNotFoundException">
+        /// This exception is thrown when the Amazon Cognito service cannot find the requested
+        /// resource.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.TooManyRequestsException">
+        /// This exception is thrown when the user has made too many requests for a given operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonCognitoIdentityProviderClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from CognitoIdentityProvider.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateAuthEventFeedback
 
 
@@ -6001,8 +6319,13 @@ namespace Amazon.CognitoIdentityProvider
         /// 
         ///  
         /// <para>
-        /// Requires developer credentials.
+        /// Calling this action requires developer credentials.
         /// </para>
+        ///  <important> 
+        /// <para>
+        /// If you don't provide a value for an attribute, it will be set to the default value.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateGroup service method.</param>
         /// 
@@ -6118,6 +6441,12 @@ namespace Amazon.CognitoIdentityProvider
 
         /// <summary>
         /// Updates the name and scopes of resource server. All other fields are read-only.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// If you don't provide a value for an attribute, it will be set to the default value.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateResourceServer service method.</param>
         /// 
@@ -6278,7 +6607,14 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Updates the specified user pool with the specified attributes.
+        /// Updates the specified user pool with the specified attributes. You can get a list
+        /// of the current user pool settings with .
+        /// 
+        ///  <important> 
+        /// <para>
+        /// If you don't provide a value for an attribute, it will be set to the default value.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateUserPool service method.</param>
         /// 
@@ -6358,7 +6694,14 @@ namespace Amazon.CognitoIdentityProvider
 
 
         /// <summary>
-        /// Allows the developer to update the specified user pool client and password policy.
+        /// Updates the specified user pool app client with the specified attributes. You can
+        /// get a list of the current user pool app client settings with .
+        /// 
+        ///  <important> 
+        /// <para>
+        /// If you don't provide a value for an attribute, it will be set to the default value.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateUserPoolClient service method.</param>
         /// 
@@ -6419,12 +6762,111 @@ namespace Amazon.CognitoIdentityProvider
 
         #endregion
         
+        #region  UpdateUserPoolDomain
+
+
+        /// <summary>
+        /// Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your
+        /// user pool.
+        /// 
+        ///  
+        /// <para>
+        /// You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate
+        /// to Amazon Cognito. You cannot use it to change the domain for a user pool.
+        /// </para>
+        ///  
+        /// <para>
+        /// A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up
+        /// and sign-in pages for your application. When you set up a custom domain, you provide
+        /// a certificate that you manage with AWS Certificate Manager (ACM). When necessary,
+        /// you can use this operation to change the certificate that you applied to your custom
+        /// domain.
+        /// </para>
+        ///  
+        /// <para>
+        /// Usually, this is unnecessary following routine certificate renewal with ACM. When
+        /// you renew your existing certificate in ACM, the ARN for your certificate remains the
+        /// same, and your custom domain uses the new certificate automatically.
+        /// </para>
+        ///  
+        /// <para>
+        /// However, if you replace your existing certificate with a new one, ACM gives the new
+        /// certificate a new ARN. To apply the new certificate to your custom domain, you must
+        /// provide this ARN to Amazon Cognito.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you add your new certificate in ACM, you must choose US East (N. Virginia) as
+        /// the AWS Region.
+        /// </para>
+        ///  
+        /// <para>
+        /// After you submit your request, Amazon Cognito requires up to 1 hour to distribute
+        /// your new certificate to your custom domain.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about adding a custom domain to your user pool, see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html">Using
+        /// Your Own Domain for the Hosted UI</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateUserPoolDomain service method.</param>
+        /// 
+        /// <returns>The response from the UpdateUserPoolDomain service method, as returned by CognitoIdentityProvider.</returns>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InternalErrorException">
+        /// This exception is thrown when Amazon Cognito encounters an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.InvalidParameterException">
+        /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.NotAuthorizedException">
+        /// This exception is thrown when a user is not authorized.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.ResourceNotFoundException">
+        /// This exception is thrown when the Amazon Cognito service cannot find the requested
+        /// resource.
+        /// </exception>
+        /// <exception cref="Amazon.CognitoIdentityProvider.Model.TooManyRequestsException">
+        /// This exception is thrown when the user has made too many requests for a given operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolDomain">REST API Reference for UpdateUserPoolDomain Operation</seealso>
+        UpdateUserPoolDomainResponse UpdateUserPoolDomain(UpdateUserPoolDomainRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateUserPoolDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateUserPoolDomain operation on AmazonCognitoIdentityProviderClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateUserPoolDomain
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolDomain">REST API Reference for UpdateUserPoolDomain Operation</seealso>
+        IAsyncResult BeginUpdateUserPoolDomain(UpdateUserPoolDomainRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateUserPoolDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateUserPoolDomain.</param>
+        /// 
+        /// <returns>Returns a  UpdateUserPoolDomainResult from CognitoIdentityProvider.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cognito-idp-2016-04-18/UpdateUserPoolDomain">REST API Reference for UpdateUserPoolDomain Operation</seealso>
+        UpdateUserPoolDomainResponse EndUpdateUserPoolDomain(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  VerifySoftwareToken
 
 
         /// <summary>
         /// Use this API to register a user's entered TOTP code and mark the user's software token
-        /// MFA status as "verified" if successful,
+        /// MFA status as "verified" if successful. The request takes an access token or a session
+        /// string, but not both.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the VerifySoftwareToken service method.</param>
         /// 

@@ -55,14 +55,15 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
         public IRequest Marshall(PutBotRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.LexModelBuildingService");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/bots/{name}/versions/$LATEST";
             if (!publicRequest.IsSetName())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/bots/{name}/versions/$LATEST";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -114,6 +115,12 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Description);
                 }
 
+                if(publicRequest.IsSetDetectSentiment())
+                {
+                    context.Writer.WritePropertyName("detectSentiment");
+                    context.Writer.Write(publicRequest.DetectSentiment);
+                }
+
                 if(publicRequest.IsSetIdleSessionTTLInSeconds())
                 {
                     context.Writer.WritePropertyName("idleSessionTTLInSeconds");
@@ -146,6 +153,22 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("processBehavior");
                     context.Writer.Write(publicRequest.ProcessBehavior);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetVoiceId())

@@ -51,6 +51,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("CloudWatchOutputConfig", targetDepth))
+                {
+                    var unmarshaller = CloudWatchOutputConfigUnmarshaller.Instance;
+                    response.CloudWatchOutputConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CommandId", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -67,6 +73,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.DocumentName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("DocumentVersion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.DocumentVersion = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ExecutionElapsedTime", targetDepth))

@@ -73,7 +73,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property AgentVersion. 
         /// <para>
-        /// The version of the SSM Agent running on your Linux instance. 
+        /// The version of SSM Agent running on your Linux instance. 
         /// </para>
         /// </summary>
         public string AgentVersion
@@ -130,6 +130,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The fully qualified host name of the managed instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string ComputerName
         {
             get { return this._computerName; }
@@ -145,10 +146,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property IamRole. 
         /// <para>
-        /// The Amazon Identity and Access Management (IAM) role assigned to EC2 instances or
-        /// managed instances. 
+        /// The Amazon Identity and Access Management (IAM) role assigned to the on-premises Systems
+        /// Manager managed instances. This call does not return the IAM role for Amazon EC2 instances.
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=64)]
         public string IamRole
         {
             get { return this._iamRole; }
@@ -185,6 +188,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The IP address of the managed instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=46)]
         public string IPAddress
         {
             get { return this._ipAddress; }
@@ -200,10 +204,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property IsLatestVersion. 
         /// <para>
-        /// Indicates whether latest version of the SSM Agent is running on your instance. Some
-        /// older versions of Windows Server use the EC2Config service to process SSM requests.
-        /// For this reason, this field does not indicate whether or not the latest version is
-        /// installed on Windows managed instances.
+        /// Indicates whether the latest version of SSM Agent is running on your Linux Managed
+        /// Instance. This field does not indicate whether or not the latest version is installed
+        /// on Windows managed instances, because some older versions of Windows Server use the
+        /// EC2Config service to process SSM requests.
         /// </para>
         /// </summary>
         public bool IsLatestVersion
@@ -221,7 +225,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property LastAssociationExecutionDate. 
         /// <para>
-        /// The date the association was last executed.
+        /// The date the association was last run.
         /// </para>
         /// </summary>
         public DateTime LastAssociationExecutionDate
@@ -293,7 +297,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property PingStatus. 
         /// <para>
-        /// Connection status of the SSM Agent. 
+        /// Connection status of SSM Agent. 
         /// </para>
         /// </summary>
         public PingStatus PingStatus

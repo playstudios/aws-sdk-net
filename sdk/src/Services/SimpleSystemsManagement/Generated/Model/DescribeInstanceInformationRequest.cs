@@ -34,7 +34,15 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// etc. If you specify one or more instance IDs, it returns information for those instances.
     /// If you do not specify instance IDs, it returns information for all your instances.
     /// If you specify an instance ID that is not valid or an instance that you do not own,
-    /// you receive an error.
+    /// you receive an error. 
+    /// 
+    ///  <note> 
+    /// <para>
+    /// The IamRole field for this API action is the Amazon Identity and Access Management
+    /// (IAM) role assigned to on-premises instances. This call does not return the IAM role
+    /// for Amazon EC2 instances.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DescribeInstanceInformationRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -46,9 +54,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters. Use a filter to return a more specific list of instances.
+        /// One or more filters. Use a filter to return a more specific list of instances. You
+        /// can filter on Amazon EC2 tag. Specify tags by using a key-value mapping.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public List<InstanceInformationStringFilter> Filters
         {
             get { return this._filters; }
@@ -64,9 +74,19 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property InstanceInformationFilterList. 
         /// <para>
-        /// One or more filters. Use a filter to return a more specific list of instances.
+        /// This is a legacy method. We recommend that you don't use this method. Instead, use
+        /// the <a>InstanceInformationFilter</a> action. The <code>InstanceInformationFilter</code>
+        /// action enables you to return instance information by using tags that are specified
+        /// as a key-value mapping. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do use this method, then you can't use the <code>InstanceInformationFilter</code>
+        /// action. Using this method and the <code>InstanceInformationFilter</code> action causes
+        /// an exception error. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public List<InstanceInformationFilter> InstanceInformationFilterList
         {
             get { return this._instanceInformationFilterList; }
@@ -86,6 +106,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that you can specify in a subsequent call to get the next set of results. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

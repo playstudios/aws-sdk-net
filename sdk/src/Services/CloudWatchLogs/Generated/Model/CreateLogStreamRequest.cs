@@ -34,6 +34,8 @@ namespace Amazon.CloudWatchLogs.Model
     ///  
     /// <para>
     /// There is no limit on the number of log streams that you can create for a log group.
+    /// There is a limit of 50 TPS on <code>CreateLogStream</code> operations, after which
+    /// transactions are throttled.
     /// </para>
     ///  
     /// <para>
@@ -80,6 +82,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string LogGroupName
         {
             get { return this._logGroupName; }
@@ -98,6 +101,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string LogStreamName
         {
             get { return this._logStreamName; }

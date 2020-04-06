@@ -44,8 +44,7 @@ namespace Amazon.DynamoDBv2.Model
     ///  
     /// <para>
     ///  <code>LatestRestorableDateTime</code> is typically 5 minutes before the current time.
-    /// You can restore your table to any point in time during the last 35 days with a 1-minute
-    /// granularity. 
+    /// You can restore your table to any point in time during the last 35 days. 
     /// </para>
     /// </summary>
     public partial class UpdateContinuousBackupsRequest : AmazonDynamoDBRequest
@@ -59,6 +58,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Represents the settings used to enable point in time recovery.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PointInTimeRecoverySpecification PointInTimeRecoverySpecification
         {
             get { return this._pointInTimeRecoverySpecification; }
@@ -77,6 +77,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

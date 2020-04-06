@@ -42,7 +42,7 @@ namespace Amazon.ConfigService.Model
     /// </para>
     ///  </note> 
     /// <para>
-    /// For more information about developing and using AWS Config rules, see <a href="http://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
+    /// For more information about developing and using AWS Config rules, see <a href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
     /// AWS Resource Configurations with AWS Config</a> in the <i>AWS Config Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -52,6 +52,7 @@ namespace Amazon.ConfigService.Model
         private string _configRuleId;
         private string _configRuleName;
         private ConfigRuleState _configRuleState;
+        private string _createdBy;
         private string _description;
         private string _inputParameters;
         private MaximumExecutionFrequency _maximumExecutionFrequency;
@@ -64,6 +65,7 @@ namespace Amazon.ConfigService.Model
         /// The Amazon Resource Name (ARN) of the AWS Config rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string ConfigRuleArn
         {
             get { return this._configRuleArn; }
@@ -82,6 +84,7 @@ namespace Amazon.ConfigService.Model
         /// The ID of the AWS Config rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ConfigRuleId
         {
             get { return this._configRuleId; }
@@ -101,6 +104,7 @@ namespace Amazon.ConfigService.Model
         /// a new rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ConfigRuleName
         {
             get { return this._configRuleName; }
@@ -152,11 +156,37 @@ namespace Amazon.ConfigService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CreatedBy. 
+        /// <para>
+        /// Service principal name of the service that created the rule.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// The field is populated only if the service linked rule is created by a service. The
+        /// field is empty if you create your own rule.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string CreatedBy
+        {
+            get { return this._createdBy; }
+            set { this._createdBy = value; }
+        }
+
+        // Check to see if CreatedBy property is set
+        internal bool IsSetCreatedBy()
+        {
+            return this._createdBy != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
         /// The description that you provide for the AWS Config rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Description
         {
             get { return this._description; }
@@ -175,6 +205,7 @@ namespace Amazon.ConfigService.Model
         /// A string, in JSON format, that is passed to the AWS Config rule Lambda function.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string InputParameters
         {
             get { return this._inputParameters; }
@@ -251,6 +282,7 @@ namespace Amazon.ConfigService.Model
         /// that cause the function to evaluate your AWS resources.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Source Source
         {
             get { return this._source; }

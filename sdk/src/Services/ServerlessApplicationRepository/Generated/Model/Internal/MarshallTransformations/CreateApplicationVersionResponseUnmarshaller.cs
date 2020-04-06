@@ -69,10 +69,28 @@ namespace Amazon.ServerlessApplicationRepository.Model.Internal.MarshallTransfor
                     response.ParameterDefinitions = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("requiredCapabilities", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    response.RequiredCapabilities = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("resourcesSupported", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    response.ResourcesSupported = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("semanticVersion", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.SemanticVersion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("sourceCodeArchiveUrl", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.SourceCodeArchiveUrl = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("sourceCodeUrl", targetDepth))

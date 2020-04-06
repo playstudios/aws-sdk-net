@@ -63,10 +63,22 @@ namespace Amazon.CloudWatchEvents.Model.Internal.MarshallTransformations
                     response.Description = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("EventBusName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.EventBusName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("EventPattern", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.EventPattern = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ManagedBy", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.ManagedBy = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("Name", targetDepth))

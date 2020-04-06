@@ -32,7 +32,9 @@ namespace Amazon.SageMaker.Model
     /// </summary>
     public partial class NotebookInstanceSummary
     {
+        private List<string> _additionalCodeRepositories = new List<string>();
         private DateTime? _creationTime;
+        private string _defaultCodeRepository;
         private InstanceType _instanceType;
         private DateTime? _lastModifiedTime;
         private string _notebookInstanceArn;
@@ -40,6 +42,31 @@ namespace Amazon.SageMaker.Model
         private string _notebookInstanceName;
         private NotebookInstanceStatus _notebookInstanceStatus;
         private string _url;
+
+        /// <summary>
+        /// Gets and sets the property AdditionalCodeRepositories. 
+        /// <para>
+        /// An array of up to three Git repositories associated with the notebook instance. These
+        /// can be either the names of Git repositories stored as resources in your account, or
+        /// the URL of Git repositories in <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+        /// CodeCommit</a> or in any other Git repository. These repositories are cloned at the
+        /// same level as the default repository of your notebook instance. For more information,
+        /// see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+        /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=3)]
+        public List<string> AdditionalCodeRepositories
+        {
+            get { return this._additionalCodeRepositories; }
+            set { this._additionalCodeRepositories = value; }
+        }
+
+        // Check to see if AdditionalCodeRepositories property is set
+        internal bool IsSetAdditionalCodeRepositories()
+        {
+            return this._additionalCodeRepositories != null && this._additionalCodeRepositories.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property CreationTime. 
@@ -57,6 +84,31 @@ namespace Amazon.SageMaker.Model
         internal bool IsSetCreationTime()
         {
             return this._creationTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DefaultCodeRepository. 
+        /// <para>
+        /// The Git repository associated with the notebook instance as its default code repository.
+        /// This can be either the name of a Git repository stored as a resource in your account,
+        /// or the URL of a Git repository in <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+        /// CodeCommit</a> or in any other Git repository. When you open a notebook instance,
+        /// it opens in the directory that contains this repository. For more information, see
+        /// <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+        /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
+        public string DefaultCodeRepository
+        {
+            get { return this._defaultCodeRepository; }
+            set { this._defaultCodeRepository = value; }
+        }
+
+        // Check to see if DefaultCodeRepository property is set
+        internal bool IsSetDefaultCodeRepository()
+        {
+            return this._defaultCodeRepository != null;
         }
 
         /// <summary>
@@ -101,6 +153,7 @@ namespace Amazon.SageMaker.Model
         /// The Amazon Resource Name (ARN) of the notebook instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=256)]
         public string NotebookInstanceArn
         {
             get { return this._notebookInstanceArn; }
@@ -121,9 +174,11 @@ namespace Amazon.SageMaker.Model
         /// </para>
         ///  
         /// <para>
-        /// For information about notebook instance lifestyle configurations, see <a>notebook-lifecycle-config</a>.
+        /// For information about notebook instance lifestyle configurations, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html">Step
+        /// 2.1: (Optional) Customize a Notebook Instance</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NotebookInstanceLifecycleConfigName
         {
             get { return this._notebookInstanceLifecycleConfigName; }
@@ -142,6 +197,7 @@ namespace Amazon.SageMaker.Model
         /// The name of the notebook instance that you want a summary for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string NotebookInstanceName
         {
             get { return this._notebookInstanceName; }

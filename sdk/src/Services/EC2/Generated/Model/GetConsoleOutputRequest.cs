@@ -29,37 +29,34 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the GetConsoleOutput operation.
-    /// Gets the console output for the specified instance.
+    /// Gets the console output for the specified instance. For Linux instances, the instance
+    /// console output displays the exact console output that would normally be displayed
+    /// on a physical monitor attached to a computer. For Windows instances, the instance
+    /// console output includes the last three system event log errors.
     /// 
     ///  
     /// <para>
-    /// Instances do not have a physical monitor through which you can view their console
-    /// output. They also lack physical controls that allow you to power up, reboot, or shut
-    /// them down. To allow these actions, we provide them through the Amazon EC2 API and
-    /// command line interface.
+    /// By default, the console output returns buffered information that was posted shortly
+    /// after an instance transition state (start, stop, reboot, or terminate). This information
+    /// is available for at least one hour after the most recent post. Only the most recent
+    /// 64 KB of console output is available.
     /// </para>
     ///  
     /// <para>
-    /// Instance console output is buffered and posted shortly after instance boot, reboot,
-    /// and termination. Amazon EC2 preserves the most recent 64 KB output, which is available
-    /// for at least one hour after the most recent post.
+    /// You can optionally retrieve the latest serial console output at any time during the
+    /// instance lifecycle. This option is supported on instance types that use the Nitro
+    /// hypervisor.
     /// </para>
     ///  
     /// <para>
-    /// For Linux instances, the instance console output displays the exact console output
-    /// that would normally be displayed on a physical monitor attached to a computer. This
-    /// output is buffered because the instance produces it and then posts it to a store where
-    /// the instance's owner can retrieve it.
-    /// </para>
-    ///  
-    /// <para>
-    /// For Windows instances, the instance console output includes output from the EC2Config
-    /// service.
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output">Instance
+    /// Console Output</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
     public partial class GetConsoleOutputRequest : AmazonEC2Request
     {
         private string _instanceId;
+        private bool? _latest;
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -81,6 +78,7 @@ namespace Amazon.EC2.Model
         /// The ID of the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -91,6 +89,28 @@ namespace Amazon.EC2.Model
         internal bool IsSetInstanceId()
         {
             return this._instanceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Latest. 
+        /// <para>
+        /// When enabled, retrieves the latest console output for the instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// Default: disabled (<code>false</code>)
+        /// </para>
+        /// </summary>
+        public bool Latest
+        {
+            get { return this._latest.GetValueOrDefault(); }
+            set { this._latest = value; }
+        }
+
+        // Check to see if Latest property is set
+        internal bool IsSetLatest()
+        {
+            return this._latest.HasValue; 
         }
 
     }

@@ -28,7 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// Describes an identifiable significant activity that affects a replication instance
+    /// or task. This object can provide the message, the available event categories, the
+    /// date and source of the event, and the AWS DMS resource type.
     /// </summary>
     public partial class DMSEvent
     {
@@ -95,13 +97,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property SourceIdentifier. 
         /// <para>
-        ///  The identifier of the event source. An identifier must begin with a letter and must
-        /// contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain
-        /// two consecutive hyphens. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Constraints:replication instance, endpoint, migration task
+        ///  The identifier of an event source.
         /// </para>
         /// </summary>
         public string SourceIdentifier
@@ -123,7 +119,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: replication-instance | endpoint | migration-task
+        /// Valid values: replication-instance | endpoint | replication-task
         /// </para>
         /// </summary>
         public SourceType SourceType

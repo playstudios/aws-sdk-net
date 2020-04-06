@@ -29,18 +29,12 @@ namespace Amazon.Connect.Model
 {
     /// <summary>
     /// Container for the parameters to the StartOutboundVoiceContact operation.
-    /// The <code>StartOutboundVoiceContact</code> operation initiates a contact flow to place
-    /// an outbound call to a customer.
+    /// Initiates a contact flow to place an outbound call to a customer.
     /// 
     ///  
     /// <para>
-    /// There is a throttling limit placed on usage of the API that includes a <code>RateLimit</code>
-    /// of 2 per second, and a <code>BurstLimit</code> of 5 per second.
-    /// </para>
-    ///  
-    /// <para>
-    /// If you are using an IAM account, it must have permissions to the <code>connect:StartOutboundVoiceContact</code>
-    /// action.
+    /// There is a 60 second dialing timeout for this operation. If the call is not connected
+    /// after 60 seconds, it fails.
     /// </para>
     /// </summary>
     public partial class StartOutboundVoiceContactRequest : AmazonConnectRequest
@@ -56,19 +50,14 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property Attributes. 
         /// <para>
-        /// Specify a custom key-value pair using an attribute map. The attributes are standard
-        /// Amazon Connect attributes, and can be accessed in contact flows just like any other
-        /// contact attributes.
+        /// A custom key-value pair using an attribute map. The attributes are standard Amazon
+        /// Connect attributes, and can be accessed in contact flows just like any other contact
+        /// attributes.
         /// </para>
         ///  
         /// <para>
-        /// There can be up to 32,768 UTF-8 bytes across all key-value pairs. Attribute keys can
-        /// include only alphanumeric, dash, and underscore characters.
-        /// </para>
-        ///  
-        /// <para>
-        /// For example, to play a greeting when the customer answers the call, you can pass the
-        /// customer name in attributes similar to the following:
+        /// There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute
+        /// keys can include only alphanumeric, dash, and underscore characters.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Attributes
@@ -92,6 +81,7 @@ namespace Amazon.Connect.Model
         /// is started.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=500)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -107,20 +97,10 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property ContactFlowId. 
         /// <para>
-        /// The identifier for the contact flow to execute for the outbound call. This is a GUID
-        /// value only. Amazon Resource Name (ARN) values are not supported.
-        /// </para>
-        ///  
-        /// <para>
-        /// To find the <code>ContactFlowId</code>, open the contact flow to use in the Amazon
-        /// Connect contact flow designer. The ID for the contact flow is displayed in the address
-        /// bar as part of the URL. For example, an address displayed when you open a contact
-        /// flow is similar to the following: <code>https://myconnectinstance.awsapps.com/connect/contact-flows/edit?id=arn:aws:connect:us-east-1:361814831152:instance/2fb42df9-78a2-4b99-b484-f5cf80dc300c/contact-flow/<i>b0b8f2dd-ed1b-4c44-af36-ce189a178181</i>
-        /// </code>. At the end of the URL, you see <code>contact-flow/b0b8f2dd-ed1b-4c44-af36-ce189a178181</code>.
-        /// The <code>ContactFlowID</code> for this contact flow is <code> <i>b0b8f2dd-ed1b-4c44-af36-ce189a178181</i>
-        /// </code>. Make sure to include only the GUID after the "contact-flow/" in your requests.
+        /// The identifier of the contact flow for the outbound call.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=500)]
         public string ContactFlowId
         {
             get { return this._contactFlowId; }
@@ -136,9 +116,10 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property DestinationPhoneNumber. 
         /// <para>
-        /// The phone number, in E.164 format, of the customer to call with the outbound contact.
+        /// The phone number of the customer, in E.164 format.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DestinationPhoneNumber
         {
             get { return this._destinationPhoneNumber; }
@@ -154,13 +135,10 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
-        /// The identifier for your Amazon Connect instance. To find the <code>InstanceId</code>
-        /// value for your Amazon Connect instance, open the <a href="https://console.aws.amazon.com/connect/">Amazon
-        /// Connect console</a>. Select the instance alias of the instance and view the instance
-        /// ID in the <b>Overview</b> section. For example, the instance ID is the set of characters
-        /// at the end of the instance ARN, after "instance/", such as 10a4c4eb-f57e-4d4c-b602-bf39176ced07.
+        /// The identifier of the Amazon Connect instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -176,16 +154,10 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property QueueId. 
         /// <para>
-        /// The queue to which to add the call. If you specify a queue, the phone displayed for
-        /// caller ID is the phone number defined for the queue. If you do not specify a queue,
-        /// the queue used is the queue defined in the contact flow specified by <code>ContactFlowId</code>.
-        /// </para>
-        ///  
-        /// <para>
-        /// To find the <code>QueueId</code>, open the queue to use in the Amazon Connect queue
-        /// editor. The ID for the queue is displayed in the address bar as part of the URL. For
-        /// example, the <code>QueueId</code> value is the set of characters at the end of the
-        /// URL, after "queue/", such as <code>aeg40574-2d01-51c3-73d6-bf8624d2168c</code>.
+        /// The queue for the call. If you specify a queue, the phone displayed for caller ID
+        /// is the phone number specified in the queue. If you do not specify a queue, the queue
+        /// defined in the contact flow is used. If you do not specify a queue, you must specify
+        /// a source phone number.
         /// </para>
         /// </summary>
         public string QueueId
@@ -203,8 +175,8 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property SourcePhoneNumber. 
         /// <para>
-        /// The phone number, in E.164 format, associated with your Amazon Connect instance to
-        /// use to place the outbound call.
+        /// The phone number associated with the Amazon Connect instance, in E.164 format. If
+        /// you do not specify a source phone number, you must specify a queue.
         /// </para>
         /// </summary>
         public string SourcePhoneNumber

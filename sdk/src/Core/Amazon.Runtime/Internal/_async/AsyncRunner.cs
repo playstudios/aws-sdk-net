@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2010-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
@@ -18,6 +18,11 @@ using System.Threading.Tasks;
 
 namespace Amazon.Runtime.Internal
 {
+    /// <summary>
+    /// This class is no longer used anymore and should be avoided as it is just meant
+    /// as a last resort when blending async and sync operations. The code is still
+    /// here to support versions before 3.3.9.0 of AWSSDK.DynamoDBv2.
+    /// </summary>
     public static class AsyncRunner
     {
         public static Task Run(Action action, CancellationToken cancellationToken)
@@ -57,7 +62,7 @@ namespace Amazon.Runtime.Internal
                             semaphore.Release();
                         }
                     });
-#if !CORECLR
+#if !NETSTANDARD
                 using (var ctr = cancellationToken.Register(() =>
                 {
                     if (thread.IsAlive)

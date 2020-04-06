@@ -29,8 +29,17 @@ namespace Amazon.Lightsail.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDomainEntry operation.
-    /// Creates one of the following entry records associated with the domain: A record, CNAME
-    /// record, TXT record, or MX record.
+    /// Creates one of the following entry records associated with the domain: Address (A),
+    /// canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
+    /// (SOA), service locator (SRV), or text (TXT).
+    /// 
+    ///  
+    /// <para>
+    /// The <code>create domain entry</code> operation supports tag-based access control via
+    /// resource tags applied to the resource identified by <code>domain name</code>. For
+    /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class CreateDomainEntryRequest : AmazonLightsailRequest
     {
@@ -43,6 +52,7 @@ namespace Amazon.Lightsail.Model
         /// An array of key-value pairs containing information about the domain entry request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DomainEntry DomainEntry
         {
             get { return this._domainEntry; }
@@ -62,6 +72,7 @@ namespace Amazon.Lightsail.Model
         /// domain entry.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }

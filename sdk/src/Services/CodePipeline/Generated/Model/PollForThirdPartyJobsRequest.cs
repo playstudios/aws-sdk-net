@@ -29,14 +29,14 @@ namespace Amazon.CodePipeline.Model
 {
     /// <summary>
     /// Container for the parameters to the PollForThirdPartyJobs operation.
-    /// Determines whether there are any third party jobs for a job worker to act on. Only
-    /// used for partner actions.
+    /// Determines whether there are any third party jobs for a job worker to act on. Used
+    /// for partner actions only.
     /// 
     ///  <important> 
     /// <para>
-    /// When this API is called, AWS CodePipeline returns temporary credentials for the Amazon
-    /// S3 bucket used to store artifacts for the pipeline, if the action requires access
-    /// to that Amazon S3 bucket for input or output artifacts.
+    /// When this API is called, AWS CodePipeline returns temporary credentials for the S3
+    /// bucket used to store artifacts for the pipeline, if the action requires access to
+    /// that S3 bucket for input or output artifacts.
     /// </para>
     ///  </important>
     /// </summary>
@@ -51,6 +51,7 @@ namespace Amazon.CodePipeline.Model
         /// Represents information about an action type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActionTypeId ActionTypeId
         {
             get { return this._actionTypeId; }
@@ -69,6 +70,7 @@ namespace Amazon.CodePipeline.Model
         /// The maximum number of jobs to return in a poll for jobs call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxBatchSize
         {
             get { return this._maxBatchSize.GetValueOrDefault(); }

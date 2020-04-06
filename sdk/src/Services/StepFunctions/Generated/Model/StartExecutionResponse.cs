@@ -38,9 +38,10 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property ExecutionArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) that identifies the execution.
+        /// The Amazon Resource Name (ARN) that id entifies the execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ExecutionArn
         {
             get { return this._executionArn; }
@@ -59,6 +60,7 @@ namespace Amazon.StepFunctions.Model
         /// The date the execution is started.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime StartDate
         {
             get { return this._startDate.GetValueOrDefault(); }

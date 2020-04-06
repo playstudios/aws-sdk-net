@@ -29,16 +29,26 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the ListFleets operation.
-    /// Retrieves a collection of fleet records for this AWS account. You can filter the result
-    /// set by build ID. Use the pagination parameters to retrieve results in sequential pages.
+    /// Retrieves a collection of fleet resources for this AWS account. You can filter the
+    /// result set to find only those fleets that are deployed with a specific build or script.
+    /// Use the pagination parameters to retrieve results in sequential pages.
     /// 
     ///  <note> 
     /// <para>
-    /// Fleet records are not listed in any particular order.
+    /// Fleet resources are not listed in a particular order.
     /// </para>
     ///  </note> 
     /// <para>
-    /// Fleet-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
+    /// up GameLift Fleets</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -50,79 +60,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Describe fleets:
+    ///  <a>DeleteFleet</a> 
     /// </para>
-    ///  <ul> <li> 
+    ///  </li> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>DescribeFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetUtilization</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetEvents</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Update fleets:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
     ///  <a>UpdateFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -131,12 +81,14 @@ namespace Amazon.GameLift.Model
         private string _buildId;
         private int? _limit;
         private string _nextToken;
+        private string _scriptId;
 
         /// <summary>
         /// Gets and sets the property BuildId. 
         /// <para>
-        /// Unique identifier for a build to return fleets for. Use this parameter to return only
-        /// fleets using the specified build. To retrieve all fleets, leave this parameter empty.
+        /// A unique identifier for a build to return fleets for. Use this parameter to return
+        /// only fleets using a specified build. Use either the build ID or ARN value. To retrieve
+        /// all fleets, do not include either a BuildId and ScriptID parameter.
         /// </para>
         /// </summary>
         public string BuildId
@@ -154,10 +106,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -178,6 +131,7 @@ namespace Amazon.GameLift.Model
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -188,6 +142,26 @@ namespace Amazon.GameLift.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ScriptId. 
+        /// <para>
+        /// A unique identifier for a Realtime script to return fleets for. Use this parameter
+        /// to return only fleets using a specified script. Use either the script ID or ARN value.
+        /// To retrieve all fleets, leave this parameter empty.
+        /// </para>
+        /// </summary>
+        public string ScriptId
+        {
+            get { return this._scriptId; }
+            set { this._scriptId = value; }
+        }
+
+        // Check to see if ScriptId property is set
+        internal bool IsSetScriptId()
+        {
+            return this._scriptId != null;
         }
 
     }

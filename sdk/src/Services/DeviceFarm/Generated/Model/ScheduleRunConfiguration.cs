@@ -41,11 +41,12 @@ namespace Amazon.DeviceFarm.Model
         private Location _location;
         private string _networkProfileArn;
         private Radios _radios;
+        private List<string> _vpceConfigurationArns = new List<string>();
 
         /// <summary>
         /// Gets and sets the property AuxiliaryApps. 
         /// <para>
-        /// A list of auxiliary apps for the run.
+        /// A list of upload ARNs for app packages to be installed with your app.
         /// </para>
         /// </summary>
         public List<string> AuxiliaryApps
@@ -66,6 +67,12 @@ namespace Amazon.DeviceFarm.Model
         /// Specifies the billing method for a test run: <code>metered</code> or <code>unmetered</code>.
         /// If the parameter is not specified, the default value is <code>metered</code>.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you have purchased unmetered device slots, you must set this parameter to <code>unmetered</code>
+        /// to make use of them. Otherwise, your run counts against your metered time.
+        /// </para>
+        ///  </note>
         /// </summary>
         public BillingMethod BillingMethod
         {
@@ -101,9 +108,10 @@ namespace Amazon.DeviceFarm.Model
         /// Gets and sets the property ExtraDataPackageArn. 
         /// <para>
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device
-        /// Farm will extract to external data for Android or the app's sandbox for iOS.
+        /// Farm extracts to external data for Android or the app's sandbox for iOS.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string ExtraDataPackageArn
         {
             get { return this._extraDataPackageArn; }
@@ -158,6 +166,7 @@ namespace Amazon.DeviceFarm.Model
         /// Reserved for internal use.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string NetworkProfileArn
         {
             get { return this._networkProfileArn; }
@@ -186,6 +195,24 @@ namespace Amazon.DeviceFarm.Model
         internal bool IsSetRadios()
         {
             return this._radios != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VpceConfigurationArns. 
+        /// <para>
+        /// An array of ARNs for your VPC endpoint configurations.
+        /// </para>
+        /// </summary>
+        public List<string> VpceConfigurationArns
+        {
+            get { return this._vpceConfigurationArns; }
+            set { this._vpceConfigurationArns = value; }
+        }
+
+        // Check to see if VpceConfigurationArns property is set
+        internal bool IsSetVpceConfigurationArns()
+        {
+            return this._vpceConfigurationArns != null && this._vpceConfigurationArns.Count > 0; 
         }
 
     }

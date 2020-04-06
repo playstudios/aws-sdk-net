@@ -29,7 +29,18 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateMaintenanceWindow operation.
-    /// Creates a new Maintenance Window.
+    /// Creates a new maintenance window.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// The value you specify for <code>Duration</code> determines the specific end time for
+    /// the maintenance window based on the time it begins. No maintenance window tasks are
+    /// permitted to start after the resulting endtime minus the number of hours you specify
+    /// for <code>Cutoff</code>. For example, if the maintenance window starts at 3 PM, the
+    /// duration is three hours, and the value you specify for <code>Cutoff</code> is one
+    /// hour, no maintenance window tasks can start after 5 PM.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateMaintenanceWindowRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -38,22 +49,27 @@ namespace Amazon.SimpleSystemsManagement.Model
         private int? _cutoff;
         private string _description;
         private int? _duration;
+        private string _endDate;
         private string _name;
         private string _schedule;
+        private string _scheduleTimezone;
+        private string _startDate;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property AllowUnassociatedTargets. 
         /// <para>
-        /// Enables a Maintenance Window task to execute on managed instances, even if you have
-        /// not registered those instances as targets. If enabled, then you must specify the unregistered
-        /// instances (by instance ID) when you register a task with the Maintenance Window 
+        /// Enables a maintenance window task to run on managed instances, even if you have not
+        /// registered those instances as targets. If enabled, then you must specify the unregistered
+        /// instances (by instance ID) when you register a task with the maintenance window.
         /// </para>
         ///  
         /// <para>
         /// If you don't enable this option, then you must specify previously-registered targets
-        /// when you register a task with the Maintenance Window. 
+        /// when you register a task with the maintenance window.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool AllowUnassociatedTargets
         {
             get { return this._allowUnassociatedTargets.GetValueOrDefault(); }
@@ -72,6 +88,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// User-provided idempotency token.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -87,10 +104,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Cutoff. 
         /// <para>
-        /// The number of hours before the end of the Maintenance Window that Systems Manager
+        /// The number of hours before the end of the maintenance window that Systems Manager
         /// stops scheduling new tasks for execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=23)]
         public int Cutoff
         {
             get { return this._cutoff.GetValueOrDefault(); }
@@ -106,10 +124,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// An optional description for the Maintenance Window. We recommend specifying a description
-        /// to help you organize your Maintenance Windows. 
+        /// An optional description for the maintenance window. We recommend specifying a description
+        /// to help you organize your maintenance windows. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Description
         {
             get { return this._description; }
@@ -125,9 +144,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Duration. 
         /// <para>
-        /// The duration of the Maintenance Window in hours.
+        /// The duration of the maintenance window in hours.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=24)]
         public int Duration
         {
             get { return this._duration.GetValueOrDefault(); }
@@ -141,11 +161,32 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Name. 
+        /// Gets and sets the property EndDate. 
         /// <para>
-        /// The name of the Maintenance Window.
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance
+        /// window to become inactive. EndDate allows you to set a date and time in the future
+        /// when the maintenance window will no longer run.
         /// </para>
         /// </summary>
+        public string EndDate
+        {
+            get { return this._endDate; }
+            set { this._endDate = value; }
+        }
+
+        // Check to see if EndDate property is set
+        internal bool IsSetEndDate()
+        {
+            return this._endDate != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Name. 
+        /// <para>
+        /// The name of the maintenance window.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -161,9 +202,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Schedule. 
         /// <para>
-        /// The schedule of the Maintenance Window in the form of a cron or rate expression.
+        /// The schedule of the maintenance window in the form of a cron or rate expression.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Schedule
         {
             get { return this._schedule; }
@@ -174,6 +216,87 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetSchedule()
         {
             return this._schedule != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ScheduleTimezone. 
+        /// <para>
+        /// The time zone that the scheduled maintenance window executions are based on, in Internet
+        /// Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "etc/UTC",
+        /// or "Asia/Seoul". For more information, see the <a href="https://www.iana.org/time-zones">Time
+        /// Zone Database</a> on the IANA website.
+        /// </para>
+        /// </summary>
+        public string ScheduleTimezone
+        {
+            get { return this._scheduleTimezone; }
+            set { this._scheduleTimezone = value; }
+        }
+
+        // Check to see if ScheduleTimezone property is set
+        internal bool IsSetScheduleTimezone()
+        {
+            return this._scheduleTimezone != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StartDate. 
+        /// <para>
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance
+        /// window to become active. StartDate allows you to delay activation of the maintenance
+        /// window until the specified future date.
+        /// </para>
+        /// </summary>
+        public string StartDate
+        {
+            get { return this._startDate; }
+            set { this._startDate = value; }
+        }
+
+        // Check to see if StartDate property is set
+        internal bool IsSetStartDate()
+        {
+            return this._startDate != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource
+        /// in different ways, such as by purpose, owner, or environment. For example, you might
+        /// want to tag a maintenance window to identify the type of tasks it will run, the types
+        /// of targets, and the environment it will run in. In this case, you could specify the
+        /// following key name/value pairs:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Key=TaskType,Value=AgentUpdate</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key=OS,Value=Windows</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key=Environment,Value=Production</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// To add tags to an existing maintenance window, use the <a>AddTagsToResource</a> action.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Max=1000)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

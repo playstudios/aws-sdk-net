@@ -55,9 +55,9 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListJobsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaConvert");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-29";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2017-08-29/jobs";
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("maxResults", StringUtils.FromInt(publicRequest.MaxResults));
@@ -73,7 +73,8 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetStatus())
                 request.Parameters.Add("status", StringUtils.FromString(publicRequest.Status));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2017-08-29/jobs";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

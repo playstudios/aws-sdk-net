@@ -46,6 +46,7 @@ namespace Amazon.Budgets.Model
         /// a notification for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=12, Max=12)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -61,10 +62,11 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property BudgetName. 
         /// <para>
-        /// The name of the budget that you want AWS to notified you about. Budget names must
-        /// be unique within an account.
+        /// The name of the budget that you want AWS to notify you about. Budget names must be
+        /// unique within an account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string BudgetName
         {
             get { return this._budgetName; }
@@ -83,6 +85,7 @@ namespace Amazon.Budgets.Model
         /// The notification that you want to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Notification Notification
         {
             get { return this._notification; }
@@ -99,9 +102,10 @@ namespace Amazon.Budgets.Model
         /// Gets and sets the property Subscribers. 
         /// <para>
         /// A list of subscribers that you want to associate with the notification. Each notification
-        /// can have one SNS subscriber and up to ten email subscribers.
+        /// can have one SNS subscriber and up to 10 email subscribers.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=11)]
         public List<Subscriber> Subscribers
         {
             get { return this._subscribers; }

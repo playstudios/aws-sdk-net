@@ -67,18 +67,15 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Scope = "type", Target = "Amazon.S3.Util.S3EventNotification+S3EventNotificationRecord")]
 [module: SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Scope = "type", Target = "Amazon.S3.Util.S3EventNotification+S3ObjectEntity")]
 [module: SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Scope = "type", Target = "Amazon.S3.Util.S3EventNotification+UserIdentityEntity")]
+[module: SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Scope = "type", Target = "Amazon.S3.Util.S3EventNotification+S3GlacierEventDataEntity")]
+[module: SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Scope = "type", Target = "Amazon.S3.Util.S3EventNotification+S3RestoreEventDataEntity")]
 // Normalize strings to uppercase, breaking change
 [module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.Runtime.Internal.Auth.AWS3Signer.#GetCanonicalizedHeadersForStringToSign(Amazon.Runtime.Internal.IRequest)")]
 [module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.Runtime.Internal.Auth.AWS3Signer.#GetHeadersForStringToSign(Amazon.Runtime.Internal.IRequest)")]
 [module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.Runtime.Internal.Auth.S3Signer.#buildCanonicalizedHeaders(System.Collections.Generic.IDictionary`2<System.String,System.String>)")]
-[module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.S3.Model.Internal.MarshallTransformations.DeleteObjectsRequestMarshaller.#Marshall(Amazon.S3.Model.DeleteObjectsRequest)")]
-[module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope="member", Target="Amazon.S3.Model.Internal.MarshallTransformations.PutLifecycleConfigurationRequestMarshaller.#Marshall(Amazon.S3.Model.PutLifecycleConfigurationRequest)")]
 [module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.Runtime.Internal.Auth.S3Signer.#BuildCanonicalizedHeaders(System.Collections.Generic.IDictionary`2<System.String,System.String>)")]
 [module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.S3.Internal.S3Signer.#BuildCanonicalizedHeaders(System.Collections.Generic.IDictionary`2<System.String,System.String>)")]
 [module: SuppressMessage("Microsoft.Globalization", "CA1307:SpecifyStringComparison", Scope = "member", Target = "Amazon.S3.Internal.S3Signer.#BuildCanonicalizedResource(Amazon.Runtime.Internal.IRequest)")]
-[module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope="member", Target="Amazon.S3.Model.Internal.MarshallTransformations.ListObjectsV2RequestMarshaller.#Marshall(Amazon.S3.Model.ListObjectsV2Request)")]
-[module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.S3.Model.Internal.MarshallTransformations.PutBucketInventoryConfigurationRequestMarshaller.#Marshall(Amazon.S3.Model.PutBucketInventoryConfigurationRequest)")]
-[module: SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Scope = "member", Target = "Amazon.S3.Model.Internal.MarshallTransformations.PutBucketPolicyRequestMarshaller.#Marshall(Amazon.S3.Model.PutBucketPolicyRequest)")]
 // Uri properties should not be strings
 [module: SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", Scope="member", Target="Amazon.SQS.IAmazonSQS.#AuthorizeS3ToSendMessage(System.String,System.String)", MessageId="0#")]
 [module: SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Scope = "member", Target = "Amazon.S3.Model.S3Grantee.#URI")]
@@ -146,12 +143,6 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "Amazon.V4ClientSectionRoot.#.ctor(System.Xml.Linq.XElement)")]
 // Unused private field
 [module: SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields", Scope = "member", Target = "Amazon.S3.Transfer.Internal.SimpleUploadCommand.#_config")]
-
-[module: SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Scope = "member", Target = "Amazon.S3.Model.Internal.MarshallTransformations.GetObjectTorrentRequestMarshaller.#Marshall(Amazon.S3.Model.GetObjectTorrentRequest)")]
-[module: SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Scope = "member", Target = "Amazon.S3.Model.Internal.MarshallTransformations.GetObjectRequestMarshaller.#Marshall(Amazon.S3.Model.GetObjectRequest)")]
-[module: SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Scope = "member", Target = "Amazon.S3.Model.Internal.MarshallTransformations.GetObjectMetadataRequestMarshaller.#Marshall(Amazon.S3.Model.GetObjectMetadataRequest)")]
-[module: SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Scope = "member", Target = "Amazon.S3.Model.S3Encryption.#Marshall(System.String,System.Xml.XmlWriter)")]
-[module: SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Scope = "member", Target = "Amazon.S3.Model.S3Location.#Marshall(System.String,System.Xml.XmlWriter)")]
 
 [module: SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Scope = "member", Target = "Amazon.AWSConfigsS3.#.cctor()")]
 

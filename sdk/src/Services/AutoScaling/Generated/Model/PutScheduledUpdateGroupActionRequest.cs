@@ -29,27 +29,27 @@ namespace Amazon.AutoScaling.Model
 {
     /// <summary>
     /// Container for the parameters to the PutScheduledUpdateGroupAction operation.
-    /// Creates or updates a scheduled scaling action for an Auto Scaling group. When updating
-    /// a scheduled scaling action, if you leave a parameter unspecified, the corresponding
+    /// Creates or updates a scheduled scaling action for an Auto Scaling group. If you leave
+    /// a parameter unspecified when updating a scheduled scaling action, the corresponding
     /// value remains unchanged.
     /// 
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/schedule_time.html">Scheduled
-    /// Scaling</a> in the <i>Auto Scaling User Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html">Scheduled
+    /// Scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
     /// </para>
     /// </summary>
     public partial class PutScheduledUpdateGroupActionRequest : AmazonAutoScalingRequest
     {
         private string _autoScalingGroupName;
         private int? _desiredCapacity;
-        private DateTime? _endTime;
+        private DateTime? _endTimeUtc;
         private int? _maxSize;
         private int? _minSize;
         private string _recurrence;
         private string _scheduledActionName;
-        private DateTime? _startTime;
-        private DateTime? _time;
+        private DateTime? _startTimeUtc;
+        private DateTime? _timeUtc;
 
         /// <summary>
         /// Gets and sets the property AutoScalingGroupName. 
@@ -57,6 +57,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -72,7 +73,7 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property DesiredCapacity. 
         /// <para>
-        /// The number of EC2 instances that should be running in the group.
+        /// The number of EC2 instances that should be running in the Auto Scaling group.
         /// </para>
         /// </summary>
         public int DesiredCapacity
@@ -88,28 +89,28 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EndTime. 
+        /// Gets and sets the property EndTimeUtc. 
         /// <para>
-        /// The time for the recurring schedule to end. Auto Scaling does not perform the action
-        /// after this time.
+        /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling does
+        /// not perform the action after this time.
         /// </para>
         /// </summary>
-        public DateTime EndTime
+        public DateTime EndTimeUtc
         {
-            get { return this._endTime.GetValueOrDefault(); }
-            set { this._endTime = value; }
+            get { return this._endTimeUtc.GetValueOrDefault(); }
+            set { this._endTime = this._endTimeUtc = value; }
         }
 
-        // Check to see if EndTime property is set
-        internal bool IsSetEndTime()
+        // Check to see if EndTimeUtc property is set
+        internal bool IsSetEndTimeUtc()
         {
-            return this._endTime.HasValue; 
+            return this._endTimeUtc.HasValue; 
         }
 
         /// <summary>
         /// Gets and sets the property MaxSize. 
         /// <para>
-        /// The maximum size for the Auto Scaling group.
+        /// The maximum number of instances in the Auto Scaling group.
         /// </para>
         /// </summary>
         public int MaxSize
@@ -127,7 +128,7 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property MinSize. 
         /// <para>
-        /// The minimum size for the Auto Scaling group.
+        /// The minimum number of instances in the Auto Scaling group.
         /// </para>
         /// </summary>
         public int MinSize
@@ -145,10 +146,18 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property Recurrence. 
         /// <para>
-        /// The recurring schedule for this action, in Unix cron syntax format. For more information,
-        /// see <a href="http://en.wikipedia.org/wiki/Cron">Cron</a> in Wikipedia.
+        /// The recurring schedule for this action, in Unix cron syntax format. This format consists
+        /// of five fields separated by white spaces: [Minute] [Hour] [Day_of_Month] [Month_of_Year]
+        /// [Day_of_Week]. The value must be in quotes (for example, <code>"30 0 1 1,6,12 *"</code>).
+        /// For more information about this format, see <a href="http://crontab.org">Crontab</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When <code>StartTime</code> and <code>EndTime</code> are specified with <code>Recurrence</code>,
+        /// they form the boundaries of when the recurring action starts and stops.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Recurrence
         {
             get { return this._recurrence; }
@@ -167,6 +176,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of this scaling action.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string ScheduledActionName
         {
             get { return this._scheduledActionName; }
@@ -180,50 +190,158 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartTime. 
+        /// Gets and sets the property StartTimeUtc. 
         /// <para>
-        /// The time for this action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only
-        /// (for example, <code>2014-06-01T00:00:00Z</code>).
+        /// The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT
+        /// only and in quotes (for example, <code>"2019-06-01T00:00:00Z"</code>).
         /// </para>
         ///  
         /// <para>
-        /// If you specify <code>Recurrence</code> and <code>StartTime</code>, Auto Scaling performs
-        /// the action at this time, and then performs the action based on the specified recurrence.
+        /// If you specify <code>Recurrence</code> and <code>StartTime</code>, Amazon EC2 Auto
+        /// Scaling performs the action at this time, and then performs the action based on the
+        /// specified recurrence.
         /// </para>
         ///  
         /// <para>
-        /// If you try to schedule your action in the past, Auto Scaling returns an error message.
+        /// If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an
+        /// error message.
         /// </para>
         /// </summary>
-        public DateTime StartTime
+        public DateTime StartTimeUtc
         {
-            get { return this._startTime.GetValueOrDefault(); }
-            set { this._startTime = value; }
+            get { return this._startTimeUtc.GetValueOrDefault(); }
+            set { this._startTime = this._startTimeUtc = value; }
         }
 
-        // Check to see if StartTime property is set
-        internal bool IsSetStartTime()
+        // Check to see if StartTimeUtc property is set
+        internal bool IsSetStartTimeUtc()
         {
-            return this._startTime.HasValue; 
+            return this._startTimeUtc.HasValue; 
         }
 
         /// <summary>
-        /// Gets and sets the property Time. 
+        /// Gets and sets the property TimeUtc. 
         /// <para>
-        /// This parameter is deprecated.
+        /// This parameter is no longer used.
         /// </para>
         /// </summary>
+        public DateTime TimeUtc
+        {
+            get { return this._timeUtc.GetValueOrDefault(); }
+            set { this._time = this._timeUtc = value; }
+        }
+
+        // Check to see if TimeUtc property is set
+        internal bool IsSetTimeUtc()
+        {
+            return this._timeUtc.HasValue; 
+        }
+
+#region Backwards compatible properties
+        private DateTime? _endTime;
+        private DateTime? _startTime;
+        private DateTime? _time;
+
+        /// <summary>
+        /// Gets and sets the property EndTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc
+        /// results in both EndTime and EndTimeUtc being assigned, the latest assignment to either
+        /// one of the two property is reflected in the value of both. EndTime is provided for
+        /// backwards compatibility only and assigning a non-Utc DateTime to it results in the
+        /// wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling does
+        /// not perform the action after this time.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc results in both EndTime and " +
+            "EndTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. EndTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime EndTime
+        {
+            get { return this._endTime.GetValueOrDefault(); }
+            set
+            {
+                this._endTime = value;
+                this._endTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+        /// <summary>
+        /// Gets and sets the property StartTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use StartTimeUtc instead. Setting either StartTime or
+        /// StartTimeUtc results in both StartTime and StartTimeUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. StartTime
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format in UTC/GMT
+        /// only and in quotes (for example, <code>"2019-06-01T00:00:00Z"</code>).
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify <code>Recurrence</code> and <code>StartTime</code>, Amazon EC2 Auto
+        /// Scaling performs the action at this time, and then performs the action based on the
+        /// specified recurrence.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you try to schedule your action in the past, Amazon EC2 Auto Scaling returns an
+        /// error message.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use StartTimeUtc instead. Setting either StartTime or StartTimeUtc results in both StartTime and " +
+            "StartTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. StartTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime StartTime
+        {
+            get { return this._startTime.GetValueOrDefault(); }
+            set
+            {
+                this._startTime = value;
+                this._startTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+        /// <summary>
+        /// Gets and sets the property TimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use TimeUtc instead. Setting either Time or TimeUtc results
+        /// in both Time and TimeUtc being assigned, the latest assignment to either one of the
+        /// two property is reflected in the value of both. Time is provided for backwards compatibility
+        /// only and assigning a non-Utc DateTime to it results in the wrong timestamp being passed
+        /// to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is no longer used.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use TimeUtc instead. Setting either Time or TimeUtc results in both Time and " +
+            "TimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. Time is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
         public DateTime Time
         {
             get { return this._time.GetValueOrDefault(); }
-            set { this._time = value; }
+            set
+            {
+                this._time = value;
+                this._timeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
         }
-
-        // Check to see if Time property is set
-        internal bool IsSetTime()
-        {
-            return this._time.HasValue; 
-        }
-
+#endregion
     }
 }

@@ -18,7 +18,7 @@ using System.Globalization;
 using Amazon.Runtime.Internal.Util;
 using System.Collections.Generic;
 using Amazon.Util;
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
 using Amazon.Runtime.CredentialManagement;
 #endif
 
@@ -63,12 +63,11 @@ namespace Amazon.Runtime
                 logger.InfoFormat("Region {0} found using {1} setting in application configuration file.", region.SystemName, AWSConfigs.AWSRegionKey);
             }
             else
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
-                                                    "The app.config/web.config files for the application did not contain region information"));
+                throw new InvalidOperationException("The app.config/web.config files for the application did not contain region information");
         }
     }
 
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
     /// <summary>
     /// Determines region based on an environment variable. If the environment does not contain
     /// the region setting key an InvalidOperationException is thrown.
@@ -113,8 +112,7 @@ namespace Amazon.Runtime
 
             if (region == null)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
-                    "EC2 instance metadata was not available or did not contain region information.", AWSConfigs.AWSRegionKey));
+                throw new InvalidOperationException("EC2 instance metadata was not available or did not contain region information.");
             }
 
             this.Region = region;
@@ -185,7 +183,7 @@ namespace Amazon.Runtime
     /// </summary>
     public static class FallbackRegionFactory
     {
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
         private static CredentialProfileStoreChain credentialProfileChain = new CredentialProfileStoreChain();
 #endif
 
@@ -207,7 +205,7 @@ namespace Amazon.Runtime
             AllGenerators = new List<RegionGenerator>
             {
                 () => new AppConfigAWSRegion(),
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
                 () => new EnvironmentVariableAWSRegion(),
                 () => new ProfileAWSRegion(credentialProfileChain),
                 () => new InstanceProfileAWSRegion()
@@ -217,7 +215,7 @@ namespace Amazon.Runtime
             NonMetadataGenerators = new List<RegionGenerator>
             {
                 () => new AppConfigAWSRegion(),
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
                 () => new EnvironmentVariableAWSRegion(),
                 () => new ProfileAWSRegion(credentialProfileChain),
 #endif

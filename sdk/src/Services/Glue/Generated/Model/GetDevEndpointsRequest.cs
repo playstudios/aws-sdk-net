@@ -29,7 +29,16 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the GetDevEndpoints operation.
-    /// Retrieves all the DevEndpoints in this AWS account.
+    /// Retrieves all the development endpoints in this AWS account.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// When you create a development endpoint in a virtual private cloud (VPC), AWS Glue
+    /// returns only a private IP address and the public IP address field is not populated.
+    /// When you create a non-VPC development endpoint, AWS Glue returns only a public IP
+    /// address.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class GetDevEndpointsRequest : AmazonGlueRequest
     {
@@ -42,6 +51,7 @@ namespace Amazon.Glue.Model
         /// The maximum size of information to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

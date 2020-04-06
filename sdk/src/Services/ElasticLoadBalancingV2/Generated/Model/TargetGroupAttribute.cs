@@ -40,37 +40,81 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <para>
         /// The name of the attribute.
         /// </para>
+        ///  
+        /// <para>
+        /// The following attributes are supported by both Application Load Balancers and Network
+        /// Load Balancers:
+        /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>deregistration_delay.timeout_seconds</code> - The amount time for Elastic Load
-        /// Balancing to wait before changing the state of a deregistering target from <code>draining</code>
-        /// to <code>unused</code>. The range is 0-3600 seconds. The default value is 300 seconds.
+        ///  <code>deregistration_delay.timeout_seconds</code> - The amount of time, in seconds,
+        /// for Elastic Load Balancing to wait before changing the state of a deregistering target
+        /// from <code>draining</code> to <code>unused</code>. The range is 0-3600 seconds. The
+        /// default value is 300 seconds. If the target is a Lambda function, this attribute is
+        /// not supported.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>proxy_protocol_v2.enabled</code> - [Network Load Balancers] Indicates whether
-        /// Proxy Protocol version 2 is enabled.
+        ///  <code>stickiness.enabled</code> - Indicates whether sticky sessions are enabled.
+        /// The value is <code>true</code> or <code>false</code>. The default is <code>false</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>stickiness.enabled</code> - [Application Load Balancers] Indicates whether
-        /// sticky sessions are enabled. The value is <code>true</code> or <code>false</code>.
+        ///  <code>stickiness.type</code> - The type of sticky sessions. The possible values are
+        /// <code>lb_cookie</code> for Application Load Balancers or <code>source_ip</code> for
+        /// Network Load Balancers.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following attributes are supported by Application Load Balancers if the target
+        /// is not a Lambda function:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>load_balancing.algorithm.type</code> - The load balancing algorithm determines
+        /// how the load balancer selects targets when routing requests. The value is <code>round_robin</code>
+        /// or <code>least_outstanding_requests</code>. The default is <code>round_robin</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>stickiness.type</code> - [Application Load Balancers] The type of sticky sessions.
-        /// The possible value is <code>lb_cookie</code>.
+        ///  <code>slow_start.duration_seconds</code> - The time period, in seconds, during which
+        /// a newly registered target receives a linearly increasing share of the traffic to the
+        /// target group. After this time period ends, the target receives its full share of traffic.
+        /// The range is 30-900 seconds (15 minutes). Slow start mode is disabled by default.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>stickiness.lb_cookie.duration_seconds</code> - [Application Load Balancers]
-        /// The time period, in seconds, during which requests from a client should be routed
-        /// to the same target. After this time period expires, the load balancer-generated cookie
-        /// is considered stale. The range is 1 second to 1 week (604800 seconds). The default
-        /// value is 1 day (86400 seconds).
+        ///  <code>stickiness.lb_cookie.duration_seconds</code> - The time period, in seconds,
+        /// during which requests from a client should be routed to the same target. After this
+        /// time period expires, the load balancer-generated cookie is considered stale. The range
+        /// is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following attribute is supported only if the target is a Lambda function.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>lambda.multi_value_headers.enabled</code> - Indicates whether the request and
+        /// response headers exchanged between the load balancer and the Lambda function include
+        /// arrays of values or strings. The value is <code>true</code> or <code>false</code>.
+        /// The default is <code>false</code>. If the value is <code>false</code> and the request
+        /// contains a duplicate header field name or query parameter key, the load balancer uses
+        /// the last value sent by the client.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The following attribute is supported only by Network Load Balancers:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>proxy_protocol_v2.enabled</code> - Indicates whether Proxy Protocol version
+        /// 2 is enabled. The value is <code>true</code> or <code>false</code>. The default is
+        /// <code>false</code>.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string Key
         {
             get { return this._key; }

@@ -32,8 +32,10 @@ using System.Threading;
 namespace AWSSDK_DotNet.IntegrationTests.Tests
 {
     [TestClass]
-    public class General
+    public partial class General
     {
+        private readonly string fakeData = "obviously-super-duper-fake-data";
+
         [TestMethod]
         [TestCategory("General")]
         // Test exception parsing with selected services
@@ -80,8 +82,6 @@ namespace AWSSDK_DotNet.IntegrationTests.Tests
         // Test exception parsing with selected services
         public void TestExceptions()
         {
-            var fakeData = "obviously-super-duper-fake-data";
-
             using (var client = new Amazon.Lightsail.AmazonLightsailClient())
             {
                 var ex = AssertExtensions.ExpectException<Amazon.Lightsail.Model.NotFoundException>(() =>
@@ -137,7 +137,7 @@ namespace AWSSDK_DotNet.IntegrationTests.Tests
                 Assert.AreEqual(ErrorType.Unknown, ex.ErrorType);
             }
 
-            using(var client = new Amazon.Glacier.AmazonGlacierClient())
+            using (var client = new Amazon.Glacier.AmazonGlacierClient())
             {
                 var ex = AssertExtensions.ExpectException<Amazon.Glacier.Model.ResourceNotFoundException>(() =>
                 {
@@ -151,7 +151,13 @@ namespace AWSSDK_DotNet.IntegrationTests.Tests
                 });
                 Assert.AreEqual(ErrorType.Unknown, ex.ErrorType);
             }
+        }
 
+        [TestMethod]
+        [TestCategory("General")]
+        [Ignore("Excluding tests that need IAM Write/Permissions management.")]
+        public void IAMTestExceptions()
+        {
             using (var client = new Amazon.IdentityManagement.AmazonIdentityManagementServiceClient())
             {
                 var ex = AssertExtensions.ExpectException<Amazon.IdentityManagement.Model.NoSuchEntityException>(() =>
@@ -165,7 +171,6 @@ namespace AWSSDK_DotNet.IntegrationTests.Tests
                 Assert.AreEqual(ErrorType.Sender, ex.ErrorType);
             }
         }
-
 
         [TestMethod]
         [TestCategory("General")]
@@ -205,7 +210,27 @@ namespace AWSSDK_DotNet.IntegrationTests.Tests
             }
         }
 
-        
+        [TestMethod]
+        [TestCategory("General")]
+        public void TestAnonymousCredentialsGetThroughPipeline()
+        {
+            using (var client = new Amazon.DynamoDBv2.AmazonDynamoDBClient(new AnonymousAWSCredentials()))
+            {
+                try
+                {
+                    client.ListTables();
+                }
+                catch(AmazonServiceException e)
+                {
+                    if(e.StatusCode != HttpStatusCode.BadRequest)
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
+
         [TestMethod]
         [TestCategory("General")]
         public void TestSerializaingObjects()
@@ -880,23 +905,6 @@ namespace AWSSDK_DotNet.IntegrationTests.Tests
         };
 
         // Reflection helpers
-        public static TimeSpan IncorrectPositiveClockSkewOffset = TimeSpan.FromHours(26);
-        public static TimeSpan IncorrectNegativeClockSkewOffset = TimeSpan.FromHours(-1);
-        private static Func<DateTime> GetUtcNowSource()
-        {
-            var field = typeof(AWSConfigs).GetField("utcNowSource", BindingFlags.Static | BindingFlags.NonPublic);
-            return (Func<DateTime>)field.GetValue(null);
-        }
-        private static void SetUtcNowSource(Func<DateTime> source)
-        {
-            var field = typeof(AWSConfigs).GetField("utcNowSource", BindingFlags.Static | BindingFlags.NonPublic);
-            field.SetValue(null, source);
-        }
-        public static void SetClockSkewCorrection(IClientConfig config, TimeSpan value)
-        {
-            var method = typeof(CorrectClockSkew).GetMethod("SetClockCorrectionForEndpoint", BindingFlags.Static | BindingFlags.NonPublic);
-            method.Invoke(null, new object[] {config.DetermineServiceURL(), value});
-        }
         private AbstractAWSSigner GetSigner(object client)
         {
             var signerProperty = typeof(AmazonServiceClient).GetProperty("Signer", BindingFlags.Instance | BindingFlags.NonPublic);

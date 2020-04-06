@@ -36,6 +36,14 @@ namespace Amazon.ServiceCatalog.Model
     /// Use this operation after calling a request operation (for example, <a>ProvisionProduct</a>,
     /// <a>TerminateProvisionedProduct</a>, or <a>UpdateProvisionedProduct</a>). 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// If a provisioned product was transferred to a new owner using <a>UpdateProvisionedProductProperties</a>,
+    /// the new owner will be able to describe all past records for that product. The previous
+    /// owner will no longer be able to describe the records, but will be able to use <a>ListRecordHistory</a>
+    /// to see the product's history from when he was the owner.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DescribeRecordRequest : AmazonServiceCatalogRequest
     {
@@ -63,6 +71,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string AcceptLanguage
         {
             get { return this._acceptLanguage; }
@@ -82,6 +91,7 @@ namespace Amazon.ServiceCatalog.Model
         /// request operation.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string Id
         {
             get { return this._id; }
@@ -100,6 +110,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The maximum number of items to return with this call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=20)]
         public int PageSize
         {
             get { return this._pageSize.GetValueOrDefault(); }
@@ -119,6 +130,7 @@ namespace Amazon.ServiceCatalog.Model
         /// use null.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2024)]
         public string PageToken
         {
             get { return this._pageToken; }

@@ -44,9 +44,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ApplicationId. 
         /// <para>
-        /// The application ARN.
+        /// The application Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -66,13 +67,14 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=127.
+        /// Minimum length=1. Maximum length=127.
         /// </para>
         /// 
         /// <para>
         /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Author
         {
             get { return this._author; }
@@ -88,7 +90,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// The date/time this resource was created.
+        /// The date and time this resource was created.
         /// </para>
         /// </summary>
         public string CreationTime
@@ -110,9 +112,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=256
+        /// Minimum length=1. Maximum length=256
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Description
         {
             get { return this._description; }
@@ -151,7 +154,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=127. Maximum number of labels: 10
+        /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
         /// </para>
         /// 
         /// <para>
@@ -177,13 +180,14 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=140
+        /// Minimum length=1. Maximum length=140
         /// </para>
         /// 
         /// <para>
         /// Pattern: "[a-zA-Z0-9\\-]+";
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

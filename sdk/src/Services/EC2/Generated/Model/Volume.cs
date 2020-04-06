@@ -36,8 +36,11 @@ namespace Amazon.EC2.Model
         private string _availabilityZone;
         private DateTime? _createTime;
         private bool? _encrypted;
+        private bool? _fastRestored;
         private int? _iops;
         private string _kmsKeyId;
+        private bool? _multiAttachEnabled;
+        private string _outpostArn;
         private int? _size;
         private string _snapshotId;
         private VolumeState _state;
@@ -102,7 +105,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Encrypted. 
         /// <para>
-        /// Indicates whether the volume will be encrypted.
+        /// Indicates whether the volume is encrypted.
         /// </para>
         /// </summary>
         public bool Encrypted
@@ -118,20 +121,39 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FastRestored. 
+        /// <para>
+        /// Indicates whether the volume was created using fast snapshot restore.
+        /// </para>
+        /// </summary>
+        public bool FastRestored
+        {
+            get { return this._fastRestored.GetValueOrDefault(); }
+            set { this._fastRestored = value; }
+        }
+
+        // Check to see if FastRestored property is set
+        internal bool IsSetFastRestored()
+        {
+            return this._fastRestored.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Iops. 
         /// <para>
         /// The number of I/O operations per second (IOPS) that the volume supports. For Provisioned
         /// IOPS SSD volumes, this represents the number of IOPS that are provisioned for the
         /// volume. For General Purpose SSD volumes, this represents the baseline performance
         /// of the volume and the rate at which the volume accumulates I/O credits for bursting.
-        /// For more information on General Purpose SSD baseline performance, I/O credits, and
-        /// bursting, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
         /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for <code>gp2</code>
-        /// volumes.
+        /// Constraints: Range is 100-16,000 IOPS for <code>gp2</code> volumes and 100 to 64,000IOPS
+        /// for <code>io1</code> volumes, in most Regions. The maximum IOPS for <code>io1</code>
+        /// of 64,000 is guaranteed only on <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
+        /// instances</a>. Other instance families guarantee performance up to 32,000 IOPS.
         /// </para>
         ///  
         /// <para>
@@ -155,8 +177,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK)
-        /// that was used to protect the volume encryption key for the volume.
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) customer
+        /// master key (CMK) that was used to protect the volume encryption key for the volume.
         /// </para>
         /// </summary>
         public string KmsKeyId
@@ -169,6 +191,42 @@ namespace Amazon.EC2.Model
         internal bool IsSetKmsKeyId()
         {
             return this._kmsKeyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MultiAttachEnabled. 
+        /// <para>
+        /// Indicates whether Amazon EBS Multi-Attach is enabled.
+        /// </para>
+        /// </summary>
+        public bool MultiAttachEnabled
+        {
+            get { return this._multiAttachEnabled.GetValueOrDefault(); }
+            set { this._multiAttachEnabled = value; }
+        }
+
+        // Check to see if MultiAttachEnabled property is set
+        internal bool IsSetMultiAttachEnabled()
+        {
+            return this._multiAttachEnabled.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property OutpostArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the Outpost.
+        /// </para>
+        /// </summary>
+        public string OutpostArn
+        {
+            get { return this._outpostArn; }
+            set { this._outpostArn = value; }
+        }
+
+        // Check to see if OutpostArn property is set
+        internal bool IsSetOutpostArn()
+        {
+            return this._outpostArn != null;
         }
 
         /// <summary>

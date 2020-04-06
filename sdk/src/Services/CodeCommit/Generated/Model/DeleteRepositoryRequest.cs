@@ -30,12 +30,12 @@ namespace Amazon.CodeCommit.Model
     /// <summary>
     /// Container for the parameters to the DeleteRepository operation.
     /// Deletes a repository. If a specified repository was already deleted, a null repository
-    /// ID will be returned.
+    /// ID is returned.
     /// 
     ///  <important> 
     /// <para>
     /// Deleting a repository also deletes all associated objects and metadata. After a repository
-    /// is deleted, all future push calls to the deleted repository will fail.
+    /// is deleted, all future push calls to the deleted repository fail.
     /// </para>
     ///  </important>
     /// </summary>
@@ -49,6 +49,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

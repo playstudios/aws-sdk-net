@@ -29,19 +29,22 @@ namespace Amazon.CloudWatchLogs.Model
 {
     /// <summary>
     /// Container for the parameters to the PutDestination operation.
-    /// Creates or updates a destination. A destination encapsulates a physical resource (such
-    /// as an Amazon Kinesis stream) and enables you to subscribe to a real-time stream of
-    /// log events for a different account, ingested using <a>PutLogEvents</a>. Currently,
-    /// the only supported physical resource is a Kinesis stream belonging to the same account
-    /// as the destination.
+    /// Creates or updates a destination. This operation is used only to create destinations
+    /// for cross-account subscriptions.
     /// 
     ///  
     /// <para>
-    /// Through an access policy, a destination controls what is written to its Kinesis stream.
-    /// By default, <code>PutDestination</code> does not set any access policy with the destination,
-    /// which means a cross-account user cannot call <a>PutSubscriptionFilter</a> against
-    /// this destination. To enable this, the destination owner must call <a>PutDestinationPolicy</a>
-    /// after <code>PutDestination</code>.
+    /// A destination encapsulates a physical resource (such as an Amazon Kinesis stream)
+    /// and enables you to subscribe to a real-time stream of log events for a different account,
+    /// ingested using <a>PutLogEvents</a>.
+    /// </para>
+    ///  
+    /// <para>
+    /// Through an access policy, a destination controls what is written to it. By default,
+    /// <code>PutDestination</code> does not set any access policy with the destination, which
+    /// means a cross-account user cannot call <a>PutSubscriptionFilter</a> against this destination.
+    /// To enable this, the destination owner must call <a>PutDestinationPolicy</a> after
+    /// <code>PutDestination</code>.
     /// </para>
     /// </summary>
     public partial class PutDestinationRequest : AmazonCloudWatchLogsRequest
@@ -56,6 +59,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// A name for the destination.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string DestinationName
         {
             get { return this._destinationName; }
@@ -75,6 +79,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// Kinesis PutRecord operation on the destination stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -93,6 +98,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The ARN of an Amazon Kinesis stream to which to deliver matching log events.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string TargetArn
         {
             get { return this._targetArn; }

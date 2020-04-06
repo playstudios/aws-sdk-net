@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -56,33 +56,37 @@ namespace Amazon.CloudFront.Model.Internal.MarshallTransformations
         {
             var request = new DefaultRequest(publicRequest, "Amazon.CloudFront");
             request.HttpMethod = "PUT";
-            string uriResourcePath = "/2017-10-30/origin-access-identity/cloudfront/{Id}/config";
         
             if(publicRequest.IsSetIfMatch())
                 request.Headers["If-Match"] = publicRequest.IfMatch;
             if (!publicRequest.IsSetId())
                 throw new AmazonCloudFrontException("Request object does not have required field Id set");
-            uriResourcePath = uriResourcePath.Replace("{Id}", StringUtils.FromString(publicRequest.Id));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Id}", StringUtils.FromString(publicRequest.Id));
+            request.ResourcePath = "/2019-03-26/origin-access-identity/cloudfront/{Id}/config";
+            request.MarshallerVersion = 2;
 
             var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Encoding = System.Text.Encoding.UTF8, OmitXmlDeclaration = true }))
             {   
-                xmlWriter.WriteStartElement("CloudFrontOriginAccessIdentityConfig", "http://cloudfront.amazonaws.com/doc/2017-10-30/");                                
-                if(publicRequest.CloudFrontOriginAccessIdentityConfig.IsSetCallerReference())
-                    xmlWriter.WriteElementString("CallerReference", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequest.CloudFrontOriginAccessIdentityConfig.CallerReference));                    
-
-                if(publicRequest.CloudFrontOriginAccessIdentityConfig.IsSetComment())
-                    xmlWriter.WriteElementString("Comment", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequest.CloudFrontOriginAccessIdentityConfig.Comment));                    
-
-
-                xmlWriter.WriteEndElement();
+                if (publicRequest.IsSetCloudFrontOriginAccessIdentityConfig())
+                {
+                    xmlWriter.WriteStartElement("CloudFrontOriginAccessIdentityConfig", "http://cloudfront.amazonaws.com/doc/2019-03-26/");
+                    if(publicRequest.CloudFrontOriginAccessIdentityConfig.IsSetCallerReference())
+                        xmlWriter.WriteElementString("CallerReference", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequest.CloudFrontOriginAccessIdentityConfig.CallerReference));                    
+    
+                    if(publicRequest.CloudFrontOriginAccessIdentityConfig.IsSetComment())
+                        xmlWriter.WriteElementString("Comment", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequest.CloudFrontOriginAccessIdentityConfig.Comment));                    
+    
+    
+                    xmlWriter.WriteEndElement();
+                }
             }
             try 
             {
                 string content = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(content);
                 request.Headers["Content-Type"] = "application/xml";
+                request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2019-03-26";            
             } 
             catch (EncoderFallbackException e) 
             {

@@ -35,16 +35,18 @@ namespace Amazon.Glue.Model
     {
         private string _catalogId;
         private GetConnectionsFilter _filter;
+        private bool? _hidePassword;
         private int? _maxResults;
         private string _nextToken;
 
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog in which the connections reside. If none is supplied, the
+        /// The ID of the Data Catalog in which the connections reside. If none is provided, the
         /// AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -60,7 +62,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Filter. 
         /// <para>
-        /// A filter that controls which connections will be returned.
+        /// A filter that controls which connections are returned.
         /// </para>
         /// </summary>
         public GetConnectionsFilter Filter
@@ -76,11 +78,34 @@ namespace Amazon.Glue.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HidePassword. 
+        /// <para>
+        /// Allows you to retrieve the connection metadata without returning the password. For
+        /// instance, the AWS Glue console uses this flag to retrieve the connection, and does
+        /// not display the password. Set this parameter when the caller might not have permission
+        /// to use the AWS KMS key to decrypt the password, but it does have permission to access
+        /// the rest of the connection properties.
+        /// </para>
+        /// </summary>
+        public bool HidePassword
+        {
+            get { return this._hidePassword.GetValueOrDefault(); }
+            set { this._hidePassword = value; }
+        }
+
+        // Check to see if HidePassword property is set
+        internal bool IsSetHidePassword()
+        {
+            return this._hidePassword.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
         /// The maximum number of connections to return in one response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

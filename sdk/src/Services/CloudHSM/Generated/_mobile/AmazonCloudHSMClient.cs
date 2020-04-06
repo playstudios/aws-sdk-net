@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CloudHSM.Model;
 using Amazon.CloudHSM.Model.Internal.MarshallTransformations;
+using Amazon.CloudHSM.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -54,10 +56,11 @@ namespace Amazon.CloudHSM
     /// </summary>
     public partial class AmazonCloudHSMClient : AmazonServiceClient, IAmazonCloudHSM
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCloudHSMMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonCloudHSMClient with the credentials loaded from the application's
@@ -228,6 +231,16 @@ namespace Amazon.CloudHSM
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -243,35 +256,66 @@ namespace Amazon.CloudHSM
 
         #endregion
 
-        
+
         #region  AddTagsToResource
 
         internal virtual AddTagsToResourceResponse AddTagsToResource(AddTagsToResourceRequest request)
         {
-            var marshaller = AddTagsToResourceRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
 
-            return Invoke<AddTagsToResourceRequest,AddTagsToResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddTagsToResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AddTagsToResource operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AddTagsToResource operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Adds or overwrites one or more tags for the specified AWS CloudHSM resource.
+        /// </para>
+        ///  
+        /// <para>
+        /// Each tag consists of a key and a value. Tag keys must be unique to each resource.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AddTagsToResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AddTagsToResource service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/AddTagsToResource">REST API Reference for AddTagsToResource Operation</seealso>
         public virtual Task<AddTagsToResourceResponse> AddTagsToResourceAsync(AddTagsToResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AddTagsToResourceRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AddTagsToResourceRequest,AddTagsToResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AddTagsToResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -280,10 +324,11 @@ namespace Amazon.CloudHSM
 
         internal virtual CreateHapgResponse CreateHapg(CreateHapgRequest request)
         {
-            var marshaller = CreateHapgRequestMarshaller.Instance;
-            var unmarshaller = CreateHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHapgResponseUnmarshaller.Instance;
 
-            return Invoke<CreateHapgRequest,CreateHapgResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateHapgResponse>(request, options);
         }
 
 
@@ -331,23 +376,50 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateHapg operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateHapg operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Creates a high-availability partition group. A high-availability partition group is
+        /// a group of partitions that spans multiple physical HSMs.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateHapg service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateHapg service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/CreateHapg">REST API Reference for CreateHapg Operation</seealso>
         public virtual Task<CreateHapgResponse> CreateHapgAsync(CreateHapgRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateHapgRequestMarshaller.Instance;
-            var unmarshaller = CreateHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHapgResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateHapgRequest,CreateHapgResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateHapgResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -356,30 +428,71 @@ namespace Amazon.CloudHSM
 
         internal virtual CreateHsmResponse CreateHsm(CreateHsmRequest request)
         {
-            var marshaller = CreateHsmRequestMarshaller.Instance;
-            var unmarshaller = CreateHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHsmResponseUnmarshaller.Instance;
 
-            return Invoke<CreateHsmRequest,CreateHsmResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateHsmResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateHsm operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateHsm operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Creates an uninitialized HSM instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// There is an upfront fee charged for each HSM instance that you create with the <code>CreateHsm</code>
+        /// operation. If you accidentally provision an HSM and want to request a refund, delete
+        /// the instance using the <a>DeleteHsm</a> operation, go to the <a href="https://console.aws.amazon.com/support/home">AWS
+        /// Support Center</a>, create a new case, and select <b>Account and Billing Support</b>.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// It can take up to 20 minutes to create and provision an HSM. You can monitor the status
+        /// of the HSM with the <a>DescribeHsm</a> operation. The HSM is ready to be initialized
+        /// when the status changes to <code>RUNNING</code>.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateHsm service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateHsm service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/CreateHsm">REST API Reference for CreateHsm Operation</seealso>
         public virtual Task<CreateHsmResponse> CreateHsmAsync(CreateHsmRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateHsmRequestMarshaller.Instance;
-            var unmarshaller = CreateHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHsmResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateHsmRequest,CreateHsmResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateHsmResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -388,30 +501,57 @@ namespace Amazon.CloudHSM
 
         internal virtual CreateLunaClientResponse CreateLunaClient(CreateLunaClientRequest request)
         {
-            var marshaller = CreateLunaClientRequestMarshaller.Instance;
-            var unmarshaller = CreateLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLunaClientResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLunaClientRequest,CreateLunaClientResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLunaClientResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateLunaClient operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateLunaClient operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Creates an HSM client.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateLunaClient service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateLunaClient service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/CreateLunaClient">REST API Reference for CreateLunaClient Operation</seealso>
         public virtual Task<CreateLunaClientResponse> CreateLunaClientAsync(CreateLunaClientRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateLunaClientRequestMarshaller.Instance;
-            var unmarshaller = CreateLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLunaClientResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateLunaClientRequest,CreateLunaClientResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateLunaClientResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -420,10 +560,11 @@ namespace Amazon.CloudHSM
 
         internal virtual DeleteHapgResponse DeleteHapg(DeleteHapgRequest request)
         {
-            var marshaller = DeleteHapgRequestMarshaller.Instance;
-            var unmarshaller = DeleteHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHapgResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteHapgRequest,DeleteHapgResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteHapgResponse>(request, options);
         }
 
 
@@ -470,23 +611,49 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteHapg operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteHapg operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Deletes a high-availability partition group.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteHapg service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteHapg service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteHapg">REST API Reference for DeleteHapg Operation</seealso>
         public virtual Task<DeleteHapgResponse> DeleteHapgAsync(DeleteHapgRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteHapgRequestMarshaller.Instance;
-            var unmarshaller = DeleteHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHapgResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteHapgRequest,DeleteHapgResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteHapgResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -495,10 +662,11 @@ namespace Amazon.CloudHSM
 
         internal virtual DeleteHsmResponse DeleteHsm(DeleteHsmRequest request)
         {
-            var marshaller = DeleteHsmRequestMarshaller.Instance;
-            var unmarshaller = DeleteHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHsmResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteHsmRequest,DeleteHsmResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteHsmResponse>(request, options);
         }
 
 
@@ -546,23 +714,50 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteHsm operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteHsm operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Deletes an HSM. After completion, this operation cannot be undone and your key material
+        /// cannot be recovered.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteHsm service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteHsm service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteHsm">REST API Reference for DeleteHsm Operation</seealso>
         public virtual Task<DeleteHsmResponse> DeleteHsmAsync(DeleteHsmRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteHsmRequestMarshaller.Instance;
-            var unmarshaller = DeleteHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHsmResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteHsmRequest,DeleteHsmResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteHsmResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -571,10 +766,11 @@ namespace Amazon.CloudHSM
 
         internal virtual DeleteLunaClientResponse DeleteLunaClient(DeleteLunaClientRequest request)
         {
-            var marshaller = DeleteLunaClientRequestMarshaller.Instance;
-            var unmarshaller = DeleteLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLunaClientResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLunaClientRequest,DeleteLunaClientResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLunaClientResponse>(request, options);
         }
 
 
@@ -621,23 +817,49 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteLunaClient operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteLunaClient operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Deletes a client.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLunaClient service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteLunaClient service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteLunaClient">REST API Reference for DeleteLunaClient Operation</seealso>
         public virtual Task<DeleteLunaClientResponse> DeleteLunaClientAsync(DeleteLunaClientRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteLunaClientRequestMarshaller.Instance;
-            var unmarshaller = DeleteLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLunaClientResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteLunaClientRequest,DeleteLunaClientResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteLunaClientResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -646,10 +868,11 @@ namespace Amazon.CloudHSM
 
         internal virtual DescribeHapgResponse DescribeHapg(DescribeHapgRequest request)
         {
-            var marshaller = DescribeHapgRequestMarshaller.Instance;
-            var unmarshaller = DescribeHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHapgResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeHapgRequest,DescribeHapgResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeHapgResponse>(request, options);
         }
 
 
@@ -696,23 +919,49 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeHapg operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeHapg operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Retrieves information about a high-availability partition group.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHapg service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeHapg service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DescribeHapg">REST API Reference for DescribeHapg Operation</seealso>
         public virtual Task<DescribeHapgResponse> DescribeHapgAsync(DescribeHapgRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeHapgRequestMarshaller.Instance;
-            var unmarshaller = DescribeHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHapgResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeHapgRequest,DescribeHapgResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeHapgResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -721,10 +970,11 @@ namespace Amazon.CloudHSM
 
         internal virtual DescribeHsmResponse DescribeHsm(DescribeHsmRequest request)
         {
-            var marshaller = DescribeHsmRequestMarshaller.Instance;
-            var unmarshaller = DescribeHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHsmResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeHsmRequest,DescribeHsmResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeHsmResponse>(request, options);
         }
 
 
@@ -772,23 +1022,50 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeHsm operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeHsm operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Retrieves information about an HSM. You can identify the HSM by its ARN or its serial
+        /// number.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHsm service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeHsm service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DescribeHsm">REST API Reference for DescribeHsm Operation</seealso>
         public virtual Task<DescribeHsmResponse> DescribeHsmAsync(DescribeHsmRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeHsmRequestMarshaller.Instance;
-            var unmarshaller = DescribeHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHsmResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeHsmRequest,DescribeHsmResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeHsmResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -797,30 +1074,57 @@ namespace Amazon.CloudHSM
 
         internal virtual DescribeLunaClientResponse DescribeLunaClient(DescribeLunaClientRequest request)
         {
-            var marshaller = DescribeLunaClientRequestMarshaller.Instance;
-            var unmarshaller = DescribeLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLunaClientResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLunaClientRequest,DescribeLunaClientResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLunaClientResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeLunaClient operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeLunaClient operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Retrieves information about an HSM client.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLunaClient service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeLunaClient service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DescribeLunaClient">REST API Reference for DescribeLunaClient Operation</seealso>
         public virtual Task<DescribeLunaClientResponse> DescribeLunaClientAsync(DescribeLunaClientRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeLunaClientRequestMarshaller.Instance;
-            var unmarshaller = DescribeLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLunaClientResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeLunaClientRequest,DescribeLunaClientResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeLunaClientResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -829,30 +1133,58 @@ namespace Amazon.CloudHSM
 
         internal virtual GetConfigResponse GetConfig(GetConfigRequest request)
         {
-            var marshaller = GetConfigRequestMarshaller.Instance;
-            var unmarshaller = GetConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetConfigResponseUnmarshaller.Instance;
 
-            return Invoke<GetConfigRequest,GetConfigResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetConfigResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetConfig operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetConfig operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Gets the configuration files necessary to connect to all high availability partition
+        /// groups the client is associated with.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetConfig service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetConfig service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/GetConfig">REST API Reference for GetConfig Operation</seealso>
         public virtual Task<GetConfigResponse> GetConfigAsync(GetConfigRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetConfigRequestMarshaller.Instance;
-            var unmarshaller = GetConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetConfigResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetConfigRequest,GetConfigResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetConfigResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -861,10 +1193,11 @@ namespace Amazon.CloudHSM
 
         internal virtual ListAvailableZonesResponse ListAvailableZones(ListAvailableZonesRequest request)
         {
-            var marshaller = ListAvailableZonesRequestMarshaller.Instance;
-            var unmarshaller = ListAvailableZonesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAvailableZonesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAvailableZonesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAvailableZonesRequest,ListAvailableZonesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAvailableZonesResponse>(request, options);
         }
 
 
@@ -909,23 +1242,49 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListAvailableZones operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListAvailableZones operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Lists the Availability Zones that have available AWS CloudHSM capacity.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAvailableZones service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListAvailableZones service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListAvailableZones">REST API Reference for ListAvailableZones Operation</seealso>
         public virtual Task<ListAvailableZonesResponse> ListAvailableZonesAsync(ListAvailableZonesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListAvailableZonesRequestMarshaller.Instance;
-            var unmarshaller = ListAvailableZonesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAvailableZonesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAvailableZonesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListAvailableZonesRequest,ListAvailableZonesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListAvailableZonesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -934,10 +1293,11 @@ namespace Amazon.CloudHSM
 
         internal virtual ListHapgsResponse ListHapgs(ListHapgsRequest request)
         {
-            var marshaller = ListHapgsRequestMarshaller.Instance;
-            var unmarshaller = ListHapgsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHapgsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHapgsResponseUnmarshaller.Instance;
 
-            return Invoke<ListHapgsRequest,ListHapgsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListHapgsResponse>(request, options);
         }
 
 
@@ -989,23 +1349,56 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListHapgs operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListHapgs operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Lists the high-availability partition groups for the account.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation supports pagination with the use of the <code>NextToken</code> member.
+        /// If more results are available, the <code>NextToken</code> member of the response contains
+        /// a token that you pass in the next call to <code>ListHapgs</code> to retrieve the next
+        /// set of items.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListHapgs service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListHapgs service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListHapgs">REST API Reference for ListHapgs Operation</seealso>
         public virtual Task<ListHapgsResponse> ListHapgsAsync(ListHapgsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListHapgsRequestMarshaller.Instance;
-            var unmarshaller = ListHapgsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHapgsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHapgsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListHapgsRequest,ListHapgsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListHapgsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1014,10 +1407,11 @@ namespace Amazon.CloudHSM
 
         internal virtual ListHsmsResponse ListHsms(ListHsmsRequest request)
         {
-            var marshaller = ListHsmsRequestMarshaller.Instance;
-            var unmarshaller = ListHsmsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHsmsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHsmsResponseUnmarshaller.Instance;
 
-            return Invoke<ListHsmsRequest,ListHsmsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListHsmsResponse>(request, options);
         }
 
 
@@ -1069,23 +1463,56 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListHsms operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListHsms operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Retrieves the identifiers of all of the HSMs provisioned for the current customer.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation supports pagination with the use of the <code>NextToken</code> member.
+        /// If more results are available, the <code>NextToken</code> member of the response contains
+        /// a token that you pass in the next call to <code>ListHsms</code> to retrieve the next
+        /// set of items.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListHsms service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListHsms service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListHsms">REST API Reference for ListHsms Operation</seealso>
         public virtual Task<ListHsmsResponse> ListHsmsAsync(ListHsmsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListHsmsRequestMarshaller.Instance;
-            var unmarshaller = ListHsmsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHsmsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHsmsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListHsmsRequest,ListHsmsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListHsmsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1094,10 +1521,11 @@ namespace Amazon.CloudHSM
 
         internal virtual ListLunaClientsResponse ListLunaClients(ListLunaClientsRequest request)
         {
-            var marshaller = ListLunaClientsRequestMarshaller.Instance;
-            var unmarshaller = ListLunaClientsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListLunaClientsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListLunaClientsResponseUnmarshaller.Instance;
 
-            return Invoke<ListLunaClientsRequest,ListLunaClientsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListLunaClientsResponse>(request, options);
         }
 
 
@@ -1149,23 +1577,56 @@ namespace Amazon.CloudHSM
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListLunaClients operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListLunaClients operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Lists all of the clients.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation supports pagination with the use of the <code>NextToken</code> member.
+        /// If more results are available, the <code>NextToken</code> member of the response contains
+        /// a token that you pass in the next call to <code>ListLunaClients</code> to retrieve
+        /// the next set of items.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListLunaClients service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListLunaClients service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListLunaClients">REST API Reference for ListLunaClients Operation</seealso>
         public virtual Task<ListLunaClientsResponse> ListLunaClientsAsync(ListLunaClientsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListLunaClientsRequestMarshaller.Instance;
-            var unmarshaller = ListLunaClientsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListLunaClientsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListLunaClientsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListLunaClientsRequest,ListLunaClientsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListLunaClientsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1174,30 +1635,57 @@ namespace Amazon.CloudHSM
 
         internal virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsForResourceRequest,ListTagsForResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsForResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListTagsForResource operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Returns a list of all tags for the specified AWS CloudHSM resource.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         public virtual Task<ListTagsForResourceResponse> ListTagsForResourceAsync(ListTagsForResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListTagsForResourceRequest,ListTagsForResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListTagsForResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1206,30 +1694,57 @@ namespace Amazon.CloudHSM
 
         internal virtual ModifyHapgResponse ModifyHapg(ModifyHapgRequest request)
         {
-            var marshaller = ModifyHapgRequestMarshaller.Instance;
-            var unmarshaller = ModifyHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyHapgResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyHapgRequest,ModifyHapgResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyHapgResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyHapg operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyHapg operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Modifies an existing high-availability partition group.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyHapg service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyHapg service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyHapg">REST API Reference for ModifyHapg Operation</seealso>
         public virtual Task<ModifyHapgResponse> ModifyHapgAsync(ModifyHapgRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyHapgRequestMarshaller.Instance;
-            var unmarshaller = ModifyHapgResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyHapgRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyHapgResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyHapgRequest,ModifyHapgResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyHapgResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1238,30 +1753,65 @@ namespace Amazon.CloudHSM
 
         internal virtual ModifyHsmResponse ModifyHsm(ModifyHsmRequest request)
         {
-            var marshaller = ModifyHsmRequestMarshaller.Instance;
-            var unmarshaller = ModifyHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyHsmResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyHsmRequest,ModifyHsmResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyHsmResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyHsm operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyHsm operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Modifies an HSM.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// This operation can result in the HSM being offline for up to 15 minutes while the
+        /// AWS CloudHSM service is reconfigured. If you are modifying a production HSM, you should
+        /// ensure that your AWS CloudHSM service is configured for high availability, and consider
+        /// executing this operation during a maintenance window.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyHsm service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyHsm service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyHsm">REST API Reference for ModifyHsm Operation</seealso>
         public virtual Task<ModifyHsmResponse> ModifyHsmAsync(ModifyHsmRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyHsmRequestMarshaller.Instance;
-            var unmarshaller = ModifyHsmResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyHsmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyHsmResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyHsmRequest,ModifyHsmResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyHsmResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1270,30 +1820,56 @@ namespace Amazon.CloudHSM
 
         internal virtual ModifyLunaClientResponse ModifyLunaClient(ModifyLunaClientRequest request)
         {
-            var marshaller = ModifyLunaClientRequestMarshaller.Instance;
-            var unmarshaller = ModifyLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyLunaClientResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyLunaClientRequest,ModifyLunaClientResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyLunaClientResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyLunaClient operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyLunaClient operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Modifies the certificate used by the client.
+        /// </para>
+        ///  
+        /// <para>
+        /// This action can potentially start a workflow to install the new certificate on the
+        /// client's HSMs.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyLunaClient service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyLunaClient service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyLunaClient">REST API Reference for ModifyLunaClient Operation</seealso>
         public virtual Task<ModifyLunaClientResponse> ModifyLunaClientAsync(ModifyLunaClientRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyLunaClientRequestMarshaller.Instance;
-            var unmarshaller = ModifyLunaClientResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyLunaClientRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyLunaClientResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyLunaClientRequest,ModifyLunaClientResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyLunaClientResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1302,30 +1878,62 @@ namespace Amazon.CloudHSM
 
         internal virtual RemoveTagsFromResourceResponse RemoveTagsFromResource(RemoveTagsFromResourceRequest request)
         {
-            var marshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveTagsFromResourceRequest,RemoveTagsFromResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveTagsFromResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RemoveTagsFromResource operation.
-        /// </summary>
+        /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information, see <a
+        /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic FAQs</a>,
+        /// the <a href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+        /// Classic User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+        /// CloudHSM Classic API Reference</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the RemoveTagsFromResource operation.</param>
+        ///  
+        /// <para>
+        ///  <b>For information about the current version of AWS CloudHSM</b>, see <a href="http://aws.amazon.com/cloudhsm/">AWS
+        /// CloudHSM</a>, the <a href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS
+        /// CloudHSM User Guide</a>, and the <a href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+        /// CloudHSM API Reference</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Removes one or more tags from the specified AWS CloudHSM resource.
+        /// </para>
+        ///  
+        /// <para>
+        /// To remove a tag, specify only the tag key to remove (not the value). To overwrite
+        /// the value for an existing tag, use <a>AddTagsToResource</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RemoveTagsFromResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RemoveTagsFromResource service method, as returned by CloudHSM.</returns>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmInternalException">
+        /// Indicates that an internal error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.CloudHsmServiceException">
+        /// Indicates that an exception occurred in the AWS CloudHSM service.
+        /// </exception>
+        /// <exception cref="Amazon.CloudHSM.Model.InvalidRequestException">
+        /// Indicates that one or more of the request parameters are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/RemoveTagsFromResource">REST API Reference for RemoveTagsFromResource Operation</seealso>
         public virtual Task<RemoveTagsFromResourceResponse> RemoveTagsFromResourceAsync(RemoveTagsFromResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<RemoveTagsFromResourceRequest,RemoveTagsFromResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<RemoveTagsFromResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion

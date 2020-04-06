@@ -58,10 +58,11 @@ namespace Amazon.CloudTrail.Model.Internal.MarshallTransformations
             string target = "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.LookupEvents";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2013-11-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,12 @@ namespace Amazon.CloudTrail.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("EndTime");
                     context.Writer.Write(publicRequest.EndTime);
+                }
+
+                if(publicRequest.IsSetEventCategory())
+                {
+                    context.Writer.WritePropertyName("EventCategory");
+                    context.Writer.Write(publicRequest.EventCategory);
                 }
 
                 if(publicRequest.IsSetLookupAttributes())

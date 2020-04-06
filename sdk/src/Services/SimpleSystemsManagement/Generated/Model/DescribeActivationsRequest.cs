@@ -29,9 +29,9 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeActivations operation.
-    /// Details about the activation, including: the date and time the activation was created,
-    /// the expiration date, the IAM role assigned to the instances in the activation, and
-    /// the number of instances activated by this registration.
+    /// Describes details about the activation, such as the date and time the activation was
+    /// created, its expiration date, the IAM role assigned to the instances in the activation,
+    /// and the number of instances registered by using this activation.
     /// </summary>
     public partial class DescribeActivationsRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -64,6 +64,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that you can specify in a subsequent call to get the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

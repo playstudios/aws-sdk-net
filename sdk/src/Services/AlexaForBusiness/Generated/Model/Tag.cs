@@ -41,6 +41,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The key of a tag. Tag keys are case-sensitive. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Key
         {
             get { return this._key; }
@@ -56,9 +57,10 @@ namespace Amazon.AlexaForBusiness.Model
         /// <summary>
         /// Gets and sets the property Value. 
         /// <para>
-        /// The value of a tag. Tag values are case-sensitive and can be null.
+        /// The value of a tag. Tag values are case sensitive and can be null.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string Value
         {
             get { return this._value; }

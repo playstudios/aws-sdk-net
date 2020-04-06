@@ -33,8 +33,8 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// For more information about VPN customer gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-    /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+    /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
     /// </para>
     /// </summary>
     public partial class DescribeCustomerGatewaysRequest : AmazonEC2Request
@@ -95,24 +95,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of what the tag's key is). If you want to list only resources where
-        /// Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> </ul>
         /// </summary>

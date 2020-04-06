@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.StepFunctions.Model;
 using Amazon.StepFunctions.Model.Internal.MarshallTransformations;
+using Amazon.StepFunctions.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -54,12 +56,13 @@ namespace Amazon.StepFunctions
     /// is available at any scale. You can run tasks on AWS, your own servers, or any system
     /// that has access to AWS. You can access and use Step Functions using the console, the
     /// AWS SDKs, or an HTTP API. For more information about Step Functions, see the <i> <a
-    /// href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions
-    /// Developer Guide</a> </i>.
+    /// href="https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step
+    /// Functions Developer Guide</a> </i>.
     /// </para>
     /// </summary>
     public partial class AmazonStepFunctionsClient : AmazonServiceClient, IAmazonStepFunctions
     {
+        private static IServiceMetadata serviceMetadata = new AmazonStepFunctionsMetadata();
         #region Constructors
 
         /// <summary>
@@ -230,6 +233,16 @@ namespace Amazon.StepFunctions
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -245,16 +258,32 @@ namespace Amazon.StepFunctions
 
         #endregion
 
-        
+
         #region  CreateActivity
 
         /// <summary>
-        /// Creates an activity. An activity is a task which you write in any programming language
-        /// and host on any machine which has access to AWS Step Functions. Activities must poll
+        /// Creates an activity. An activity is a task that you write in any programming language
+        /// and host on any machine that has access to AWS Step Functions. Activities must poll
         /// Step Functions using the <code>GetActivityTask</code> API action and respond using
         /// <code>SendTask*</code> API actions. This function lets Step Functions know the existence
         /// of your activity and returns an identifier for use in a state machine and when polling
         /// from the activity.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> <note> 
+        /// <para>
+        ///  <code>CreateActivity</code> is an idempotent API. Subsequent requests won’t create
+        /// a duplicate resource if it was already created. <code>CreateActivity</code>'s idempotency
+        /// check is based on the activity <code>name</code>. If a following request has different
+        /// <code>tags</code> values, Step Functions will ignore these differences and treat it
+        /// as an idempotent request of the previous. In this case, <code>tags</code> will not
+        /// be updated, even if they are different.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateActivity service method.</param>
         /// 
@@ -266,13 +295,18 @@ namespace Amazon.StepFunctions
         /// <exception cref="Amazon.StepFunctions.Model.InvalidNameException">
         /// The provided name is invalid.
         /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a resource. See the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html">
+        /// Limits Topic</a> in the AWS Step Functions Developer Guide.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateActivity">REST API Reference for CreateActivity Operation</seealso>
         public virtual CreateActivityResponse CreateActivity(CreateActivityRequest request)
         {
-            var marshaller = CreateActivityRequestMarshaller.Instance;
-            var unmarshaller = CreateActivityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateActivityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateActivityResponseUnmarshaller.Instance;
 
-            return Invoke<CreateActivityRequest,CreateActivityResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateActivityResponse>(request, options);
         }
 
         /// <summary>
@@ -289,11 +323,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateActivity">REST API Reference for CreateActivity Operation</seealso>
         public virtual IAsyncResult BeginCreateActivity(CreateActivityRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateActivityRequestMarshaller.Instance;
-            var unmarshaller = CreateActivityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateActivityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateActivityResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateActivityRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -317,7 +351,26 @@ namespace Amazon.StepFunctions
         /// Creates a state machine. A state machine consists of a collection of states that can
         /// do work (<code>Task</code> states), determine to which states to transition next (<code>Choice</code>
         /// states), stop an execution with an error (<code>Fail</code> states), and so on. State
-        /// machines are specified using a JSON-based, structured language.
+        /// machines are specified using a JSON-based, structured language. For more information,
+        /// see <a href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+        /// States Language</a> in the AWS Step Functions User Guide.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> <note> 
+        /// <para>
+        ///  <code>CreateStateMachine</code> is an idempotent API. Subsequent requests won’t create
+        /// a duplicate resource if it was already created. <code>CreateStateMachine</code>'s
+        /// idempotency check is based on the state machine <code>name</code>, <code>definition</code>,
+        /// <code>type</code>, and <code>LoggingConfiguration</code>. If a following request has
+        /// a different <code>roleArn</code> or <code>tags</code>, Step Functions will ignore
+        /// these differences and treat it as an idempotent request of the previous. In this case,
+        /// <code>roleArn</code> and <code>tags</code> will not be updated, even if they are different.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStateMachine service method.</param>
         /// 
@@ -327,6 +380,9 @@ namespace Amazon.StepFunctions
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.InvalidDefinitionException">
         /// The provided Amazon States Language definition is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidLoggingConfigurationException">
+        /// 
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.InvalidNameException">
         /// The provided name is invalid.
@@ -342,13 +398,21 @@ namespace Amazon.StepFunctions
         /// The maximum number of state machines has been reached. Existing state machines must
         /// be deleted before a new state machine can be created.
         /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.StateMachineTypeNotSupportedException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a resource. See the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html">
+        /// Limits Topic</a> in the AWS Step Functions Developer Guide.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachine">REST API Reference for CreateStateMachine Operation</seealso>
         public virtual CreateStateMachineResponse CreateStateMachine(CreateStateMachineRequest request)
         {
-            var marshaller = CreateStateMachineRequestMarshaller.Instance;
-            var unmarshaller = CreateStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStateMachineResponseUnmarshaller.Instance;
 
-            return Invoke<CreateStateMachineRequest,CreateStateMachineResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateStateMachineResponse>(request, options);
         }
 
         /// <summary>
@@ -365,11 +429,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachine">REST API Reference for CreateStateMachine Operation</seealso>
         public virtual IAsyncResult BeginCreateStateMachine(CreateStateMachineRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateStateMachineRequestMarshaller.Instance;
-            var unmarshaller = CreateStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStateMachineResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateStateMachineRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -401,10 +465,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteActivity">REST API Reference for DeleteActivity Operation</seealso>
         public virtual DeleteActivityResponse DeleteActivity(DeleteActivityRequest request)
         {
-            var marshaller = DeleteActivityRequestMarshaller.Instance;
-            var unmarshaller = DeleteActivityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteActivityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteActivityResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteActivityRequest,DeleteActivityResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteActivityResponse>(request, options);
         }
 
         /// <summary>
@@ -421,11 +486,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteActivity">REST API Reference for DeleteActivity Operation</seealso>
         public virtual IAsyncResult BeginDeleteActivity(DeleteActivityRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteActivityRequestMarshaller.Instance;
-            var unmarshaller = DeleteActivityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteActivityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteActivityResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteActivityRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -447,12 +512,13 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Deletes a state machine. This is an asynchronous operation: It sets the state machine's
-        /// status to <code>DELETING</code> and begins the deletion process. Each state machine
-        /// execution is deleted the next time it makes a state transition.
+        /// status to <code>DELETING</code> and begins the deletion process. 
         /// 
         ///  <note> 
         /// <para>
-        /// The state machine itself is deleted after all executions are completed or deleted.
+        /// For <code>EXPRESS</code>state machines, the deletion will happen eventually (usually
+        /// less than a minute). Running executions may emit logs after <code>DeleteStateMachine</code>
+        /// API is called.
         /// </para>
         ///  </note>
         /// </summary>
@@ -465,10 +531,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachine">REST API Reference for DeleteStateMachine Operation</seealso>
         public virtual DeleteStateMachineResponse DeleteStateMachine(DeleteStateMachineRequest request)
         {
-            var marshaller = DeleteStateMachineRequestMarshaller.Instance;
-            var unmarshaller = DeleteStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStateMachineResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteStateMachineRequest,DeleteStateMachineResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteStateMachineResponse>(request, options);
         }
 
         /// <summary>
@@ -485,11 +552,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachine">REST API Reference for DeleteStateMachine Operation</seealso>
         public virtual IAsyncResult BeginDeleteStateMachine(DeleteStateMachineRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteStateMachineRequestMarshaller.Instance;
-            var unmarshaller = DeleteStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStateMachineResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteStateMachineRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -511,6 +578,13 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes an activity.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeActivity service method.</param>
         /// 
@@ -524,10 +598,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeActivity">REST API Reference for DescribeActivity Operation</seealso>
         public virtual DescribeActivityResponse DescribeActivity(DescribeActivityRequest request)
         {
-            var marshaller = DescribeActivityRequestMarshaller.Instance;
-            var unmarshaller = DescribeActivityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeActivityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeActivityResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeActivityRequest,DescribeActivityResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeActivityResponse>(request, options);
         }
 
         /// <summary>
@@ -544,11 +619,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeActivity">REST API Reference for DescribeActivity Operation</seealso>
         public virtual IAsyncResult BeginDescribeActivity(DescribeActivityRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeActivityRequestMarshaller.Instance;
-            var unmarshaller = DescribeActivityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeActivityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeActivityResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeActivityRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -570,6 +645,16 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes an execution.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeExecution service method.</param>
         /// 
@@ -583,10 +668,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeExecution">REST API Reference for DescribeExecution Operation</seealso>
         public virtual DescribeExecutionResponse DescribeExecution(DescribeExecutionRequest request)
         {
-            var marshaller = DescribeExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeExecutionRequest,DescribeExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -603,11 +689,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeExecution">REST API Reference for DescribeExecution Operation</seealso>
         public virtual IAsyncResult BeginDescribeExecution(DescribeExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -629,6 +715,13 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes a state machine.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeStateMachine service method.</param>
         /// 
@@ -642,10 +735,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachine">REST API Reference for DescribeStateMachine Operation</seealso>
         public virtual DescribeStateMachineResponse DescribeStateMachine(DescribeStateMachineRequest request)
         {
-            var marshaller = DescribeStateMachineRequestMarshaller.Instance;
-            var unmarshaller = DescribeStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStateMachineResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeStateMachineRequest,DescribeStateMachineResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeStateMachineResponse>(request, options);
         }
 
         /// <summary>
@@ -662,11 +756,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachine">REST API Reference for DescribeStateMachine Operation</seealso>
         public virtual IAsyncResult BeginDescribeStateMachine(DescribeStateMachineRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeStateMachineRequestMarshaller.Instance;
-            var unmarshaller = DescribeStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStateMachineResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeStateMachineRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -688,6 +782,16 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes the state machine associated with a specific execution.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeStateMachineForExecution service method.</param>
         /// 
@@ -701,10 +805,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineForExecution">REST API Reference for DescribeStateMachineForExecution Operation</seealso>
         public virtual DescribeStateMachineForExecutionResponse DescribeStateMachineForExecution(DescribeStateMachineForExecutionRequest request)
         {
-            var marshaller = DescribeStateMachineForExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeStateMachineForExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStateMachineForExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStateMachineForExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeStateMachineForExecutionRequest,DescribeStateMachineForExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeStateMachineForExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -721,11 +826,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineForExecution">REST API Reference for DescribeStateMachineForExecution Operation</seealso>
         public virtual IAsyncResult BeginDescribeStateMachineForExecution(DescribeStateMachineForExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeStateMachineForExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeStateMachineForExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStateMachineForExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStateMachineForExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeStateMachineForExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -758,6 +863,12 @@ namespace Amazon.StepFunctions
         /// Workers should set their client side socket timeout to at least 65 seconds (5 seconds
         /// higher than the maximum time the service may hold the poll request).
         /// </para>
+        ///  
+        /// <para>
+        /// Polling with <code>GetActivityTask</code> can cause latency in some implementations.
+        /// See <a href="https://docs.aws.amazon.com/step-functions/latest/dg/bp-activity-pollers.html">Avoid
+        /// Latency When Polling for Activity Tasks</a> in the Step Functions Developer Guide.
+        /// </para>
         ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetActivityTask service method.</param>
@@ -775,10 +886,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetActivityTask">REST API Reference for GetActivityTask Operation</seealso>
         public virtual GetActivityTaskResponse GetActivityTask(GetActivityTaskRequest request)
         {
-            var marshaller = GetActivityTaskRequestMarshaller.Instance;
-            var unmarshaller = GetActivityTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetActivityTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetActivityTaskResponseUnmarshaller.Instance;
 
-            return Invoke<GetActivityTaskRequest,GetActivityTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetActivityTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -795,11 +907,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetActivityTask">REST API Reference for GetActivityTask Operation</seealso>
         public virtual IAsyncResult BeginGetActivityTask(GetActivityTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetActivityTaskRequestMarshaller.Instance;
-            var unmarshaller = GetActivityTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetActivityTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetActivityTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetActivityTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -826,9 +938,15 @@ namespace Amazon.StepFunctions
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
+        /// </para>
+        ///  
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetExecutionHistory service method.</param>
@@ -846,10 +964,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetExecutionHistory">REST API Reference for GetExecutionHistory Operation</seealso>
         public virtual GetExecutionHistoryResponse GetExecutionHistory(GetExecutionHistoryRequest request)
         {
-            var marshaller = GetExecutionHistoryRequestMarshaller.Instance;
-            var unmarshaller = GetExecutionHistoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExecutionHistoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExecutionHistoryResponseUnmarshaller.Instance;
 
-            return Invoke<GetExecutionHistoryRequest,GetExecutionHistoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetExecutionHistoryResponse>(request, options);
         }
 
         /// <summary>
@@ -866,11 +985,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetExecutionHistory">REST API Reference for GetExecutionHistory Operation</seealso>
         public virtual IAsyncResult BeginGetExecutionHistory(GetExecutionHistoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetExecutionHistoryRequestMarshaller.Instance;
-            var unmarshaller = GetExecutionHistoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExecutionHistoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExecutionHistoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetExecutionHistoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -895,10 +1014,18 @@ namespace Amazon.StepFunctions
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListActivities service method.</param>
         /// 
@@ -909,10 +1036,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListActivities">REST API Reference for ListActivities Operation</seealso>
         public virtual ListActivitiesResponse ListActivities(ListActivitiesRequest request)
         {
-            var marshaller = ListActivitiesRequestMarshaller.Instance;
-            var unmarshaller = ListActivitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActivitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActivitiesResponseUnmarshaller.Instance;
 
-            return Invoke<ListActivitiesRequest,ListActivitiesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListActivitiesResponse>(request, options);
         }
 
         /// <summary>
@@ -929,11 +1057,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListActivities">REST API Reference for ListActivities Operation</seealso>
         public virtual IAsyncResult BeginListActivities(ListActivitiesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListActivitiesRequestMarshaller.Instance;
-            var unmarshaller = ListActivitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActivitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActivitiesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListActivitiesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -954,13 +1082,25 @@ namespace Amazon.StepFunctions
         #region  ListExecutions
 
         /// <summary>
-        /// Lists the executions of a state machine that meet the filtering criteria.
+        /// Lists the executions of a state machine that meet the filtering criteria. Results
+        /// are sorted by time, with the most recent execution first.
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListExecutions service method.</param>
@@ -975,13 +1115,17 @@ namespace Amazon.StepFunctions
         /// <exception cref="Amazon.StepFunctions.Model.StateMachineDoesNotExistException">
         /// The specified state machine does not exist.
         /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.StateMachineTypeNotSupportedException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListExecutions">REST API Reference for ListExecutions Operation</seealso>
         public virtual ListExecutionsResponse ListExecutions(ListExecutionsRequest request)
         {
-            var marshaller = ListExecutionsRequestMarshaller.Instance;
-            var unmarshaller = ListExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListExecutionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListExecutionsRequest,ListExecutionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListExecutionsResponse>(request, options);
         }
 
         /// <summary>
@@ -998,11 +1142,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListExecutions">REST API Reference for ListExecutions Operation</seealso>
         public virtual IAsyncResult BeginListExecutions(ListExecutionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListExecutionsRequestMarshaller.Instance;
-            var unmarshaller = ListExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListExecutionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListExecutionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1027,10 +1171,18 @@ namespace Amazon.StepFunctions
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListStateMachines service method.</param>
         /// 
@@ -1041,10 +1193,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachines">REST API Reference for ListStateMachines Operation</seealso>
         public virtual ListStateMachinesResponse ListStateMachines(ListStateMachinesRequest request)
         {
-            var marshaller = ListStateMachinesRequestMarshaller.Instance;
-            var unmarshaller = ListStateMachinesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStateMachinesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStateMachinesResponseUnmarshaller.Instance;
 
-            return Invoke<ListStateMachinesRequest,ListStateMachinesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListStateMachinesResponse>(request, options);
         }
 
         /// <summary>
@@ -1061,11 +1214,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachines">REST API Reference for ListStateMachines Operation</seealso>
         public virtual IAsyncResult BeginListStateMachines(ListStateMachinesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListStateMachinesRequestMarshaller.Instance;
-            var unmarshaller = ListStateMachinesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStateMachinesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStateMachinesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListStateMachinesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1083,10 +1236,77 @@ namespace Amazon.StepFunctions
 
         #endregion
         
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// List tags for a given resource.
+        /// 
+        ///  
+        /// <para>
+        /// Tags may only contain Unicode letters, digits, white space, or these symbols: <code>_
+        /// . : / = + - @</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by StepFunctions.</returns>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidArnException">
+        /// The provided Amazon Resource Name (ARN) is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.ResourceNotFoundException">
+        /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonStepFunctionsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from StepFunctions.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  SendTaskFailure
 
         /// <summary>
-        /// Used by workers to report that the task identified by the <code>taskToken</code> failed.
+        /// Used by activity workers and task states using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern to report that the task identified by the <code>taskToken</code> failed.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SendTaskFailure service method.</param>
         /// 
@@ -1103,10 +1323,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskFailure">REST API Reference for SendTaskFailure Operation</seealso>
         public virtual SendTaskFailureResponse SendTaskFailure(SendTaskFailureRequest request)
         {
-            var marshaller = SendTaskFailureRequestMarshaller.Instance;
-            var unmarshaller = SendTaskFailureResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendTaskFailureRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendTaskFailureResponseUnmarshaller.Instance;
 
-            return Invoke<SendTaskFailureRequest,SendTaskFailureResponse>(request, marshaller, unmarshaller);
+            return Invoke<SendTaskFailureResponse>(request, options);
         }
 
         /// <summary>
@@ -1123,11 +1344,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskFailure">REST API Reference for SendTaskFailure Operation</seealso>
         public virtual IAsyncResult BeginSendTaskFailure(SendTaskFailureRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SendTaskFailureRequestMarshaller.Instance;
-            var unmarshaller = SendTaskFailureResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendTaskFailureRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendTaskFailureResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SendTaskFailureRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1148,23 +1369,23 @@ namespace Amazon.StepFunctions
         #region  SendTaskHeartbeat
 
         /// <summary>
-        /// Used by workers to report to the service that the task represented by the specified
-        /// <code>taskToken</code> is still making progress. This action resets the <code>Heartbeat</code>
-        /// clock. The <code>Heartbeat</code> threshold is specified in the state machine's Amazon
-        /// States Language definition. This action does not in itself create an event in the
-        /// execution history. However, if the task times out, the execution history contains
-        /// an <code>ActivityTimedOut</code> event.
+        /// Used by activity workers and task states using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern to report to Step Functions that the task represented by the specified <code>taskToken</code>
+        /// is still making progress. This action resets the <code>Heartbeat</code> clock. The
+        /// <code>Heartbeat</code> threshold is specified in the state machine's Amazon States
+        /// Language definition (<code>HeartbeatSeconds</code>). This action does not in itself
+        /// create an event in the execution history. However, if the task times out, the execution
+        /// history contains an <code>ActivityTimedOut</code> entry for activities, or a <code>TaskTimedOut</code>
+        /// entry for for tasks using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync">job
+        /// run</a> or <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern.
         /// 
         ///  <note> 
         /// <para>
         /// The <code>Timeout</code> of a task, defined in the state machine's Amazon States Language
         /// definition, is its maximum allowed duration, regardless of the number of <a>SendTaskHeartbeat</a>
-        /// requests received.
-        /// </para>
-        ///  </note> <note> 
-        /// <para>
-        /// This operation is only useful for long-lived tasks to report the liveliness of the
-        /// task.
+        /// requests received. Use <code>HeartbeatSeconds</code> to configure the timeout interval
+        /// for heartbeats.
         /// </para>
         ///  </note>
         /// </summary>
@@ -1183,10 +1404,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskHeartbeat">REST API Reference for SendTaskHeartbeat Operation</seealso>
         public virtual SendTaskHeartbeatResponse SendTaskHeartbeat(SendTaskHeartbeatRequest request)
         {
-            var marshaller = SendTaskHeartbeatRequestMarshaller.Instance;
-            var unmarshaller = SendTaskHeartbeatResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendTaskHeartbeatRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendTaskHeartbeatResponseUnmarshaller.Instance;
 
-            return Invoke<SendTaskHeartbeatRequest,SendTaskHeartbeatResponse>(request, marshaller, unmarshaller);
+            return Invoke<SendTaskHeartbeatResponse>(request, options);
         }
 
         /// <summary>
@@ -1203,11 +1425,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskHeartbeat">REST API Reference for SendTaskHeartbeat Operation</seealso>
         public virtual IAsyncResult BeginSendTaskHeartbeat(SendTaskHeartbeatRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SendTaskHeartbeatRequestMarshaller.Instance;
-            var unmarshaller = SendTaskHeartbeatResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendTaskHeartbeatRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendTaskHeartbeatResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SendTaskHeartbeatRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1228,7 +1450,8 @@ namespace Amazon.StepFunctions
         #region  SendTaskSuccess
 
         /// <summary>
-        /// Used by workers to report that the task identified by the <code>taskToken</code> completed
+        /// Used by activity workers and task states using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern to report that the task identified by the <code>taskToken</code> completed
         /// successfully.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SendTaskSuccess service method.</param>
@@ -1249,10 +1472,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskSuccess">REST API Reference for SendTaskSuccess Operation</seealso>
         public virtual SendTaskSuccessResponse SendTaskSuccess(SendTaskSuccessRequest request)
         {
-            var marshaller = SendTaskSuccessRequestMarshaller.Instance;
-            var unmarshaller = SendTaskSuccessResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendTaskSuccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendTaskSuccessResponseUnmarshaller.Instance;
 
-            return Invoke<SendTaskSuccessRequest,SendTaskSuccessResponse>(request, marshaller, unmarshaller);
+            return Invoke<SendTaskSuccessResponse>(request, options);
         }
 
         /// <summary>
@@ -1269,11 +1493,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskSuccess">REST API Reference for SendTaskSuccess Operation</seealso>
         public virtual IAsyncResult BeginSendTaskSuccess(SendTaskSuccessRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SendTaskSuccessRequestMarshaller.Instance;
-            var unmarshaller = SendTaskSuccessResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendTaskSuccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendTaskSuccessResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SendTaskSuccessRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1295,6 +1519,16 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Starts a state machine execution.
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  <code>StartExecution</code> is idempotent. If <code>StartExecution</code> is called
+        /// with the same name and input as a running execution, the call will succeed and return
+        /// the same response as the original request. If the execution is closed or if the input
+        /// is different, it will return a 400 <code>ExecutionAlreadyExists</code> error. Names
+        /// can be reused after 90 days. 
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartExecution service method.</param>
         /// 
@@ -1331,10 +1565,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StartExecution">REST API Reference for StartExecution Operation</seealso>
         public virtual StartExecutionResponse StartExecution(StartExecutionRequest request)
         {
-            var marshaller = StartExecutionRequestMarshaller.Instance;
-            var unmarshaller = StartExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<StartExecutionRequest,StartExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -1351,11 +1586,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StartExecution">REST API Reference for StartExecution Operation</seealso>
         public virtual IAsyncResult BeginStartExecution(StartExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartExecutionRequestMarshaller.Instance;
-            var unmarshaller = StartExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1377,6 +1612,11 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Stops an execution.
+        /// 
+        ///  
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StopExecution service method.</param>
         /// 
@@ -1390,10 +1630,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StopExecution">REST API Reference for StopExecution Operation</seealso>
         public virtual StopExecutionResponse StopExecution(StopExecutionRequest request)
         {
-            var marshaller = StopExecutionRequestMarshaller.Instance;
-            var unmarshaller = StopExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<StopExecutionRequest,StopExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -1410,11 +1651,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StopExecution">REST API Reference for StopExecution Operation</seealso>
         public virtual IAsyncResult BeginStopExecution(StopExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopExecutionRequestMarshaller.Instance;
-            var unmarshaller = StopExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1432,20 +1673,158 @@ namespace Amazon.StepFunctions
 
         #endregion
         
+        #region  TagResource
+
+        /// <summary>
+        /// Add a tag to a Step Functions resource.
+        /// 
+        ///  
+        /// <para>
+        /// An array of key-value pairs. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+        /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>,
+        /// and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
+        /// Access Using IAM Tags</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Tags may only contain Unicode letters, digits, white space, or these symbols: <code>_
+        /// . : / = + - @</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by StepFunctions.</returns>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidArnException">
+        /// The provided Amazon Resource Name (ARN) is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.ResourceNotFoundException">
+        /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a resource. See the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html">
+        /// Limits Topic</a> in the AWS Step Functions Developer Guide.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonStepFunctionsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from StepFunctions.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Remove a tag from a Step Functions resource
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by StepFunctions.</returns>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidArnException">
+        /// The provided Amazon Resource Name (ARN) is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.ResourceNotFoundException">
+        /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonStepFunctionsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from StepFunctions.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateStateMachine
 
         /// <summary>
-        /// Updates an existing state machine by modifying its <code>definition</code> and/or
-        /// <code>roleArn</code>. Running executions will continue to use the previous <code>definition</code>
-        /// and <code>roleArn</code>.
+        /// Updates an existing state machine by modifying its <code>definition</code>, <code>roleArn</code>,
+        /// or <code>loggingConfiguration</code>. Running executions will continue to use the
+        /// previous <code>definition</code> and <code>roleArn</code>. You must include at least
+        /// one of <code>definition</code> or <code>roleArn</code> or you will receive a <code>MissingRequiredParameter</code>
+        /// error.
         /// 
         ///  <note> 
         /// <para>
         /// All <code>StartExecution</code> calls within a few seconds will use the updated <code>definition</code>
         /// and <code>roleArn</code>. Executions started immediately after calling <code>UpdateStateMachine</code>
         /// may use the previous state machine <code>definition</code> and <code>roleArn</code>.
-        /// You must include at least one of <code>definition</code> or <code>roleArn</code> or
-        /// you will receive a <code>MissingRequiredParameter</code> error.
+        /// 
         /// </para>
         ///  </note>
         /// </summary>
@@ -1457,6 +1836,9 @@ namespace Amazon.StepFunctions
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.InvalidDefinitionException">
         /// The provided Amazon States Language definition is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidLoggingConfigurationException">
+        /// 
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.MissingRequiredParameterException">
         /// Request is missing a required parameter. This error occurs if both <code>definition</code>
@@ -1471,10 +1853,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachine">REST API Reference for UpdateStateMachine Operation</seealso>
         public virtual UpdateStateMachineResponse UpdateStateMachine(UpdateStateMachineRequest request)
         {
-            var marshaller = UpdateStateMachineRequestMarshaller.Instance;
-            var unmarshaller = UpdateStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateStateMachineResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateStateMachineRequest,UpdateStateMachineResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateStateMachineResponse>(request, options);
         }
 
         /// <summary>
@@ -1491,11 +1874,11 @@ namespace Amazon.StepFunctions
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachine">REST API Reference for UpdateStateMachine Operation</seealso>
         public virtual IAsyncResult BeginUpdateStateMachine(UpdateStateMachineRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateStateMachineRequestMarshaller.Instance;
-            var unmarshaller = UpdateStateMachineResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateStateMachineRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateStateMachineResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateStateMachineRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

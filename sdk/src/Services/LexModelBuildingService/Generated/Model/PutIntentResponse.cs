@@ -124,7 +124,12 @@ namespace Amazon.LexModelBuildingService.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CreateVersion.
+        /// Gets and sets the property CreateVersion. 
+        /// <para>
+        ///  <code>True</code> if a new version of the intent was created. If the <code>createVersion</code>
+        /// field was not specified in the request, the <code>createVersion</code> field is set
+        /// to false in the response.
+        /// </para>
         /// </summary>
         public bool CreateVersion
         {
@@ -144,6 +149,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// A description of the intent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -237,6 +243,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the intent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -293,6 +300,7 @@ namespace Amazon.LexModelBuildingService.Model
         ///  An array of sample utterances that are configured for the intent. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1500)]
         public List<string> SampleUtterances
         {
             get { return this._sampleUtterances; }
@@ -311,6 +319,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// An array of intent slots that are configured for the intent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public List<Slot> Slots
         {
             get { return this._slots; }
@@ -329,6 +338,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The version of the intent. For a new intent, the version is always <code>$LATEST</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string Version
         {
             get { return this._version; }

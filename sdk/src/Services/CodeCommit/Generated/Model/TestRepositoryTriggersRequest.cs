@@ -30,8 +30,8 @@ namespace Amazon.CodeCommit.Model
     /// <summary>
     /// Container for the parameters to the TestRepositoryTriggers operation.
     /// Tests the functionality of repository triggers by sending information to the trigger
-    /// target. If real data is available in the repository, the test will send data from
-    /// the last commit. If no data is available, sample data will be generated.
+    /// target. If real data is available in the repository, the test sends data from the
+    /// last commit. If no data is available, sample data is generated.
     /// </summary>
     public partial class TestRepositoryTriggersRequest : AmazonCodeCommitRequest
     {
@@ -44,6 +44,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository in which to test the triggers.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }
@@ -62,6 +63,7 @@ namespace Amazon.CodeCommit.Model
         /// The list of triggers to test.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<RepositoryTrigger> Triggers
         {
             get { return this._triggers; }

@@ -38,16 +38,14 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
-        /// </para>
-        ///  
-        /// <para>
-        /// The configured <code>maxResults</code> determines how many results can be returned
-        /// in a single call.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -63,6 +61,7 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property StateMachines.
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<StateMachineListItem> StateMachines
         {
             get { return this._stateMachines; }

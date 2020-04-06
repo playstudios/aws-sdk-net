@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudFront.Model
 {
     /// <summary>
-    /// A customer origin.
+    /// A custom origin or an Amazon S3 bucket configured as a website endpoint.
     /// </summary>
     public partial class CustomOriginConfig
     {
@@ -45,6 +45,7 @@ namespace Amazon.CloudFront.Model
         /// The HTTP port the custom origin listens on.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int HTTPPort
         {
             get { return this._httpPort.GetValueOrDefault(); }
@@ -63,6 +64,7 @@ namespace Amazon.CloudFront.Model
         /// The HTTPS port the custom origin listens on.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int HTTPSPort
         {
             get { return this._httpsPort.GetValueOrDefault(); }
@@ -107,6 +109,7 @@ namespace Amazon.CloudFront.Model
         /// The origin protocol policy to apply to your origin.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public OriginProtocolPolicy OriginProtocolPolicy
         {
             get { return this._originProtocolPolicy; }

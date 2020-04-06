@@ -30,7 +30,7 @@ namespace Amazon.SimpleEmail.Model
     /// <summary>
     /// Container for the parameters to the DescribeConfigurationSet operation.
     /// Returns the details of the specified configuration set. For information about using
-    /// configuration sets, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+    /// configuration sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
     /// SES Developer Guide</a>.
     /// 
     ///  
@@ -67,6 +67,7 @@ namespace Amazon.SimpleEmail.Model
         /// The name of the configuration set to describe.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConfigurationSetName
         {
             get { return this._configurationSetName; }

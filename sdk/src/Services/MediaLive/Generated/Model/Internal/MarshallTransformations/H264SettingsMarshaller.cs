@@ -81,6 +81,17 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.ColorMetadata);
             }
 
+            if(requestObject.IsSetColorSpaceSettings())
+            {
+                context.Writer.WritePropertyName("colorSpaceSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = H264ColorSpaceSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.ColorSpaceSettings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetEntropyEncoding())
             {
                 context.Writer.WritePropertyName("entropyEncoding");
@@ -97,6 +108,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("flickerAq");
                 context.Writer.Write(requestObject.FlickerAq);
+            }
+
+            if(requestObject.IsSetForceFieldPictures())
+            {
+                context.Writer.WritePropertyName("forceFieldPictures");
+                context.Writer.Write(requestObject.ForceFieldPictures);
             }
 
             if(requestObject.IsSetFramerateControl())
@@ -201,6 +218,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Profile);
             }
 
+            if(requestObject.IsSetQvbrQualityLevel())
+            {
+                context.Writer.WritePropertyName("qvbrQualityLevel");
+                context.Writer.Write(requestObject.QvbrQualityLevel);
+            }
+
             if(requestObject.IsSetRateControlMode())
             {
                 context.Writer.WritePropertyName("rateControlMode");
@@ -235,6 +258,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("spatialAq");
                 context.Writer.Write(requestObject.SpatialAq);
+            }
+
+            if(requestObject.IsSetSubgopLength())
+            {
+                context.Writer.WritePropertyName("subgopLength");
+                context.Writer.Write(requestObject.SubgopLength);
             }
 
             if(requestObject.IsSetSyntax())

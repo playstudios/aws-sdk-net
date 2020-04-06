@@ -36,16 +36,19 @@ namespace Amazon.CodePipeline.Model
         private Dictionary<string, string> _configuration = new Dictionary<string, string>();
         private List<InputArtifact> _inputArtifacts = new List<InputArtifact>();
         private string _name;
+        private string _awsNamespace;
         private List<OutputArtifact> _outputArtifacts = new List<OutputArtifact>();
+        private string _region;
         private string _roleArn;
         private int? _runOrder;
 
         /// <summary>
         /// Gets and sets the property ActionTypeId. 
         /// <para>
-        /// The configuration information for the action type.
+        /// Specifies the action type and the provider of the action.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActionTypeId ActionTypeId
         {
             get { return this._actionTypeId; }
@@ -61,7 +64,27 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Configuration. 
         /// <para>
-        /// The action declaration's configuration.
+        /// The action's configuration. These are key-value pairs that specify input values for
+        /// an action. For more information, see <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements">Action
+        /// Structure Requirements in CodePipeline</a>. For the list of configuration properties
+        /// for the AWS CloudFormation action type in CodePipeline, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html">Configuration
+        /// Properties Reference</a> in the <i>AWS CloudFormation User Guide</i>. For template
+        /// snippets with examples, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html">Using
+        /// Parameter Override Functions with CodePipeline Pipelines</a> in the <i>AWS CloudFormation
+        /// User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The values can be represented in either JSON or YAML format. For example, the JSON
+        /// configuration item format is as follows: 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <i>JSON:</i> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>"Configuration" : { Key : Value },</code> 
         /// </para>
         /// </summary>
         public Dictionary<string, string> Configuration
@@ -100,6 +123,7 @@ namespace Amazon.CodePipeline.Model
         /// The action declaration's name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -110,6 +134,26 @@ namespace Amazon.CodePipeline.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Namespace. 
+        /// <para>
+        /// The variable namespace associated with the action. All variables produced as output
+        /// by this action fall under this namespace.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public string Namespace
+        {
+            get { return this._awsNamespace; }
+            set { this._awsNamespace = value; }
+        }
+
+        // Check to see if Namespace property is set
+        internal bool IsSetNamespace()
+        {
+            return this._awsNamespace != null;
         }
 
         /// <summary>
@@ -131,12 +175,32 @@ namespace Amazon.CodePipeline.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Region. 
+        /// <para>
+        /// The action declaration's AWS Region, such as us-east-1.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=4, Max=30)]
+        public string Region
+        {
+            get { return this._region; }
+            set { this._region = value; }
+        }
+
+        // Check to see if Region property is set
+        internal bool IsSetRegion()
+        {
+            return this._region != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RoleArn. 
         /// <para>
-        /// The ARN of the IAM service role that will perform the declared action. This is assumed
+        /// The ARN of the IAM service role that performs the declared action. This is assumed
         /// through the roleArn for the pipeline.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -155,6 +219,7 @@ namespace Amazon.CodePipeline.Model
         /// The order in which actions are run.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=999)]
         public int RunOrder
         {
             get { return this._runOrder.GetValueOrDefault(); }

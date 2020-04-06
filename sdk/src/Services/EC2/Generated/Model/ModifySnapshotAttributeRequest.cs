@@ -31,17 +31,18 @@ namespace Amazon.EC2.Model
     /// Container for the parameters to the ModifySnapshotAttribute operation.
     /// Adds or removes permission settings for the specified snapshot. You may add or remove
     /// specified AWS account IDs from a snapshot's list of create volume permissions, but
-    /// you cannot do both in a single API call. If you need to both add and remove account
-    /// IDs for a snapshot, you must use multiple API calls.
+    /// you cannot do both in a single operation. If you need to both add and remove account
+    /// IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications
+    /// to a snapshot in a single operation.
     /// 
-    ///  <note> 
+    ///  
     /// <para>
     /// Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made
     /// public. Snapshots encrypted with your default CMK cannot be shared with other accounts.
     /// </para>
-    ///  </note> 
+    ///  
     /// <para>
-    /// For more information on modifying snapshot permissions, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
+    /// For more information about modifying snapshot permissions, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
     /// Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -63,7 +64,7 @@ namespace Amazon.EC2.Model
         /// Instantiates ModifySnapshotAttributeRequest with the parameterized properties
         /// </summary>
         /// <param name="snapshotId">The ID of the snapshot.</param>
-        /// <param name="attribute">The snapshot attribute to modify. <note> Only volume creation permissions may be modified at the customer level. </note></param>
+        /// <param name="attribute">The snapshot attribute to modify. Only volume creation permissions can be modified.</param>
         /// <param name="operationType">The type of operation to perform to the attribute.</param>
         public ModifySnapshotAttributeRequest(string snapshotId, SnapshotAttributeName attribute, OperationType operationType)
         {
@@ -75,13 +76,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Attribute. 
         /// <para>
-        /// The snapshot attribute to modify.
+        /// The snapshot attribute to modify. Only volume creation permissions can be modified.
         /// </para>
-        ///  <note> 
-        /// <para>
-        /// Only volume creation permissions may be modified at the customer level.
-        /// </para>
-        ///  </note>
         /// </summary>
         public SnapshotAttributeName Attribute
         {
@@ -155,6 +151,7 @@ namespace Amazon.EC2.Model
         /// The ID of the snapshot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SnapshotId
         {
             get { return this._snapshotId; }

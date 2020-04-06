@@ -64,6 +64,12 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("AvailabilityZones", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.AvailabilityZones = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("DefaultAllocatedStorage", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
@@ -92,6 +98,12 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     unmarshalledObject.MinAllocatedStorage = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ReleaseStatus", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ReleaseStatus = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ReplicationInstanceClass", targetDepth))

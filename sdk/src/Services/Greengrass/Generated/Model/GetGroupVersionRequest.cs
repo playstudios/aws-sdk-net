@@ -37,8 +37,9 @@ namespace Amazon.Greengrass.Model
         private string _groupVersionId;
 
         /// <summary>
-        /// Gets and sets the property GroupId. The ID of the AWS Greengrass group.
+        /// Gets and sets the property GroupId. The ID of the Greengrass group.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string GroupId
         {
             get { return this._groupId; }
@@ -52,8 +53,13 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GroupVersionId. The ID of the group version.
+        /// Gets and sets the property GroupVersionId. The ID of the group version. This value
+        /// maps to the ''Version'' property of the corresponding ''VersionInformation'' object,
+        /// which is returned by ''ListGroupVersions'' requests. If the version is the last one
+        /// that was associated with a group, the value also maps to the ''LatestVersion'' property
+        /// of the corresponding ''GroupInformation'' object.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string GroupVersionId
         {
             get { return this._groupVersionId; }

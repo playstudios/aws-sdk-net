@@ -39,11 +39,15 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// </summary>
     public partial class CreateDocumentRequest : AmazonSimpleSystemsManagementRequest
     {
+        private List<AttachmentsSource> _attachments = new List<AttachmentsSource>();
         private string _content;
         private DocumentFormat _documentFormat;
         private DocumentType _documentType;
         private string _name;
+        private List<DocumentRequires> _requires = new List<DocumentRequires>();
+        private List<Tag> _tags = new List<Tag>();
         private string _targetType;
+        private string _versionName;
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -62,11 +66,31 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Attachments. 
+        /// <para>
+        /// A list of key and value pairs that describe attachments to a version of a document.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=20)]
+        public List<AttachmentsSource> Attachments
+        {
+            get { return this._attachments; }
+            set { this._attachments = value; }
+        }
+
+        // Check to see if Attachments property is set
+        internal bool IsSetAttachments()
+        {
+            return this._attachments != null && this._attachments.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Content. 
         /// <para>
         /// A valid JSON or YAML string.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Content
         {
             get { return this._content; }
@@ -82,8 +106,8 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property DocumentFormat. 
         /// <para>
-        /// Specify the document format for the request. The document format can be either JSON
-        /// or YAML. JSON is the default format.
+        /// Specify the document format for the request. The document format can be JSON, YAML,
+        /// or TEXT. JSON is the default format.
         /// </para>
         /// </summary>
         public DocumentFormat DocumentFormat
@@ -101,8 +125,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property DocumentType. 
         /// <para>
-        /// The type of document to create. Valid document types include: Policy, Automation,
-        /// and Command.
+        /// The type of document to create.
         /// </para>
         /// </summary>
         public DocumentType DocumentType
@@ -141,6 +164,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// </para>
         ///  </li> </ul> </important>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -154,6 +178,61 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Requires. 
+        /// <para>
+        /// A list of SSM documents required by a document. For example, an <code>ApplicationConfiguration</code>
+        /// document requires an <code>ApplicationConfigurationSchema</code> document.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<DocumentRequires> Requires
+        {
+            get { return this._requires; }
+            set { this._requires = value; }
+        }
+
+        // Check to see if Requires property is set
+        internal bool IsSetRequires()
+        {
+            return this._requires != null && this._requires.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource
+        /// in different ways, such as by purpose, owner, or environment. For example, you might
+        /// want to tag an SSM document to identify the types of targets or the environment where
+        /// it will run. In this case, you could specify the following key name/value pairs:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Key=OS,Value=Windows</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key=Environment,Value=Production</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// To add tags to an existing SSM document, use the <a>AddTagsToResource</a> action.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Max=1000)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TargetType. 
         /// <para>
         /// Specify a target type to define the kinds of resources the document can run on. For
@@ -164,6 +243,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Resource Types Reference</a> in the <i>AWS CloudFormation User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=200)]
         public string TargetType
         {
             get { return this._targetType; }
@@ -174,6 +254,26 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetTargetType()
         {
             return this._targetType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VersionName. 
+        /// <para>
+        /// An optional field specifying the version of the artifact you are creating with the
+        /// document. For example, "Release 12, Update 6". This value is unique across all versions
+        /// of a document, and cannot be changed.
+        /// </para>
+        /// </summary>
+        public string VersionName
+        {
+            get { return this._versionName; }
+            set { this._versionName = value; }
+        }
+
+        // Check to see if VersionName property is set
+        internal bool IsSetVersionName()
+        {
+            return this._versionName != null;
         }
 
     }

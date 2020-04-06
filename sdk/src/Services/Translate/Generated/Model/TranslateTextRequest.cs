@@ -29,60 +29,31 @@ namespace Amazon.Translate.Model
 {
     /// <summary>
     /// Container for the parameters to the TranslateText operation.
-    /// Translates input text from the source language to the target language. You can translate
-    /// between English (en) and one of the following languages, or between one of the following
-    /// languages and English.
-    /// 
-    ///  <ul> <li> 
-    /// <para>
-    /// Arabic (ar)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// Chinese (Simplified) (zh)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// French (fr)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// German (de)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// Portuguese (pt)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// Spanish (es)
-    /// </para>
-    ///  </li> </ul> 
-    /// <para>
-    /// To have Amazon Translate determine the source language of your text, you can specify
-    /// <code>auto</code> in the <code>SourceLanguageCode</code> field. If you specify <code>auto</code>,
-    /// Amazon Translate will call Amazon Comprehend to determine the source language.
-    /// </para>
+    /// Translates input text from the source language to the target language. For a list
+    /// of available languages and language codes, see <a>what-is-languages</a>.
     /// </summary>
     public partial class TranslateTextRequest : AmazonTranslateRequest
     {
         private string _sourceLanguageCode;
         private string _targetLanguageCode;
+        private List<string> _terminologyNames = new List<string>();
         private string _text;
 
         /// <summary>
         /// Gets and sets the property SourceLanguageCode. 
         /// <para>
-        /// One of the supported language codes for the source text. If the <code>TargetLanguageCode</code>
-        /// is not "en", the <code>SourceLanguageCode</code> must be "en".
+        /// The language code for the language of the source text. The language must be a language
+        /// supported by Amazon Translate. For a list of language codes, see <a>what-is-languages</a>.
         /// </para>
         ///  
         /// <para>
         /// To have Amazon Translate determine the source language of your text, you can specify
         /// <code>auto</code> in the <code>SourceLanguageCode</code> field. If you specify <code>auto</code>,
-        /// Amazon Translate will call Amazon Comprehend to determine the source language.
+        /// Amazon Translate will call <a href="https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html">Amazon
+        /// Comprehend</a> to determine the source language.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=5)]
         public string SourceLanguageCode
         {
             get { return this._sourceLanguageCode; }
@@ -98,10 +69,11 @@ namespace Amazon.Translate.Model
         /// <summary>
         /// Gets and sets the property TargetLanguageCode. 
         /// <para>
-        /// One of the supported language codes for the target text. If the <code>SourceLanguageCode</code>
-        /// is not "en", the <code>TargetLanguageCode</code> must be "en".
+        /// The language code requested for the language of the target text. The language must
+        /// be a language supported by Amazon Translate.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=5)]
         public string TargetLanguageCode
         {
             get { return this._targetLanguageCode; }
@@ -115,11 +87,33 @@ namespace Amazon.Translate.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Text. 
+        /// Gets and sets the property TerminologyNames. 
         /// <para>
-        /// The text to translate.
+        /// The name of the terminology list file to be used in the TranslateText request. You
+        /// can use 1 terminology list at most in a <code>TranslateText</code> request. Terminology
+        /// lists can contain a maximum of 256 terms.
         /// </para>
         /// </summary>
+        public List<string> TerminologyNames
+        {
+            get { return this._terminologyNames; }
+            set { this._terminologyNames = value; }
+        }
+
+        // Check to see if TerminologyNames property is set
+        internal bool IsSetTerminologyNames()
+        {
+            return this._terminologyNames != null && this._terminologyNames.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Text. 
+        /// <para>
+        /// The text to translate. The text string can be a maximum of 5,000 bytes long. Depending
+        /// on your character set, this may be fewer than 5,000 characters.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=5000)]
         public string Text
         {
             get { return this._text; }

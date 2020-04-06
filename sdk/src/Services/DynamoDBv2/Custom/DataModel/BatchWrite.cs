@@ -20,6 +20,10 @@ using System.Reflection;
 using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.DocumentModel;
 using System.Globalization;
+#if AWS_ASYNC_API
+using System.Threading.Tasks;
+#endif
+using System.Threading;
 
 namespace Amazon.DynamoDBv2.DataModel
 {
@@ -45,7 +49,7 @@ namespace Amazon.DynamoDBv2.DataModel
             Context = context;
             Config = config;
         }
-        
+
         #endregion
 
 
@@ -54,9 +58,14 @@ namespace Amazon.DynamoDBv2.DataModel
         /// <summary>
         /// Executes a server call to batch-write/delete the items requested.
         /// </summary>
-        protected virtual void ExecuteHelper(bool isAsync)
-        {
-        }
+        internal protected abstract void ExecuteHelper();
+
+#if AWS_ASYNC_API
+        /// <summary>
+        /// Executes an asynchronous server call to batch-write/delete the items requested.
+        /// </summary>
+        internal protected abstract Task ExecuteHelperAsync(CancellationToken cancellationToken);
+#endif
 
         #endregion
     }
@@ -182,7 +191,7 @@ namespace Amazon.DynamoDBv2.DataModel
             if (StorageConfig.HasVersion)
             {
                 if (!Config.SkipVersionCheck.GetValueOrDefault(false))
-                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, 
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
                         "Object {0} has a versioning field, which is not supported for this operation. To ignore versioning, use the DynamoDBContextConfig.SkipVersionCheck property.",
                         type.Name));
             }
@@ -198,19 +207,23 @@ namespace Amazon.DynamoDBv2.DataModel
 
         internal ItemStorageConfig StorageConfig { get; set; }
 
-        internal void ExecuteInternal(bool isAsync)
-        {
-            ExecuteHelper(isAsync);
-        }
-
         /// <summary>
         /// Execute the batch write.
         /// </summary>
-        /// <param name="isAsync"></param>
-        protected override void ExecuteHelper(bool isAsync)
+        internal protected override void ExecuteHelper()
         {
-            DocumentBatch.ExecuteHelper(isAsync);
+            DocumentBatch.ExecuteHelper();
         }
+
+#if AWS_ASYNC_API
+        /// <summary>
+        /// Execute the batch write asynchronously.
+        /// </summary>
+        internal protected override Task ExecuteHelperAsync(CancellationToken cancellationToken)
+        {
+            return DocumentBatch.ExecuteHelperAsync(cancellationToken);
+        }
+#endif
 
         #endregion
     }
@@ -231,10 +244,10 @@ namespace Amazon.DynamoDBv2.DataModel
         #region Constructor
 
         /// <summary>
-        /// Constructs a MultiTableBatchGet object from a number of
-        /// BatchGet objects
+        /// Constructs a MultiTableBatchWrite object from a number of
+        /// BatchWrite objects
         /// </summary>
-        /// <param name="batches">Collection of BatchGet objects</param>
+        /// <param name="batches">Collection of BatchWrite objects</param>
         public MultiTableBatchWrite(params BatchWrite[] batches)
         {
             allBatches = new List<BatchWrite>(batches);
@@ -261,15 +274,27 @@ namespace Amazon.DynamoDBv2.DataModel
             allBatches.Add(batch);
         }
 
-        internal void ExecuteHelper(bool isAsync)
+        internal void ExecuteHelper()
         {
             MultiTableDocumentBatchWrite superBatch = new MultiTableDocumentBatchWrite();
             foreach (var batch in allBatches)
             {
                 superBatch.AddBatch(batch.DocumentBatch);
             }
-            superBatch.ExecuteHelper(isAsync);
+            superBatch.ExecuteHelper();
         }
+
+#if AWS_ASYNC_API
+        internal Task ExecuteHelperAsync(CancellationToken cancellationToken)
+        {
+            MultiTableDocumentBatchWrite superBatch = new MultiTableDocumentBatchWrite();
+            foreach (var batch in allBatches)
+            {
+                superBatch.AddBatch(batch.DocumentBatch);
+            }
+            return superBatch.ExecuteHelperAsync(cancellationToken);
+        }
+#endif
 
         #endregion
     }

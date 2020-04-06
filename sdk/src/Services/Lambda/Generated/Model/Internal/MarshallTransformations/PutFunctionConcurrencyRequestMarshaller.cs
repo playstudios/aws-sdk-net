@@ -55,14 +55,15 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
         public IRequest Marshall(PutFunctionConcurrencyRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lambda");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-03-31";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/2017-10-31/functions/{FunctionName}/concurrency";
             if (!publicRequest.IsSetFunctionName())
                 throw new AmazonLambdaException("Request object does not have required field FunctionName set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
+            request.ResourcePath = "/2017-10-31/functions/{FunctionName}/concurrency";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

@@ -42,6 +42,7 @@ namespace Amazon.GameLift.Model
         /// If no token is returned, these results represent the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -57,7 +58,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property ScalingPolicies. 
         /// <para>
-        /// Collection of objects containing the scaling policies matching the request.
+        /// A collection of objects containing the scaling policies matching the request.
         /// </para>
         /// </summary>
         public List<ScalingPolicy> ScalingPolicies

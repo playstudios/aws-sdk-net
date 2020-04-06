@@ -33,6 +33,13 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
+    /// You can use the Stop action to hibernate an instance if the instance is <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#enabling-hibernation">enabled
+    /// for hibernation</a> and it meets the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#hibernating-prerequisites">hibernation
+    /// prerequisites</a>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
+    /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
     /// We don't charge usage for a stopped instance, or data transfer fees; however, your
     /// root partition Amazon EBS volume remains and continues to persist your data, and you
     /// are charged for Amazon EBS volume usage. Every time you start your Windows instance,
@@ -44,34 +51,41 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// You can't start or stop Spot Instances, and you can't stop instance store-backed instances.
+    /// You can't stop or hibernate instance store-backed instances. You can't use the Stop
+    /// action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate
+    /// Spot Instances when they are interrupted. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#hibernate-spot-instances">Hibernating
+    /// Interrupted Spot Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
-    /// When you stop an instance, we shut it down. You can restart your instance at any time.
-    /// Before stopping an instance, make sure it is in a state from which it can be restarted.
-    /// Stopping an instance does not preserve data stored in RAM.
+    /// When you stop or hibernate an instance, we shut it down. You can restart your instance
+    /// at any time. Before stopping or hibernating an instance, make sure it is in a state
+    /// from which it can be restarted. Stopping an instance does not preserve data stored
+    /// in RAM, but hibernating an instance does preserve data stored in RAM. If an instance
+    /// cannot hibernate successfully, a normal shutdown occurs.
     /// </para>
     ///  
     /// <para>
-    /// Stopping an instance is different to rebooting or terminating it. For example, when
-    /// you stop an instance, the root device and any other devices attached to the instance
-    /// persist. When you terminate an instance, the root device and any other devices attached
-    /// during the instance launch are automatically deleted. For more information about the
-    /// differences between rebooting, stopping, and terminating instances, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
+    /// Stopping and hibernating an instance is different to rebooting or terminating it.
+    /// For example, when you stop or hibernate an instance, the root device and any other
+    /// devices attached to the instance persist. When you terminate an instance, the root
+    /// device and any other devices attached during the instance launch are automatically
+    /// deleted. For more information about the differences between rebooting, stopping, hibernating,
+    /// and terminating instances, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
     /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
     /// When you stop an instance, we attempt to shut it down forcibly after a short while.
     /// If your instance appears stuck in the stopping state after a period of time, there
-    /// may be an issue with the underlying host computer. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html">Troubleshooting
+    /// may be an issue with the underlying host computer. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html">Troubleshooting
     /// Stopping Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
     public partial class StopInstancesRequest : AmazonEC2Request
     {
         private bool? _force;
+        private bool? _hibernate;
         private List<string> _instanceIds = new List<string>();
 
         /// <summary>
@@ -82,7 +96,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates StopInstancesRequest with the parameterized properties
         /// </summary>
-        /// <param name="instanceIds">One or more instance IDs.</param>
+        /// <param name="instanceIds">The IDs of the instances.</param>
         public StopInstancesRequest(List<string> instanceIds)
         {
             _instanceIds = instanceIds;
@@ -113,11 +127,37 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InstanceIds. 
+        /// Gets and sets the property Hibernate. 
         /// <para>
-        /// One or more instance IDs.
+        /// Hibernates the instance if the instance was enabled for hibernation at launch. If
+        /// the instance cannot hibernate successfully, a normal shutdown occurs. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
+        /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  Default: <code>false</code> 
         /// </para>
         /// </summary>
+        public bool Hibernate
+        {
+            get { return this._hibernate.GetValueOrDefault(); }
+            set { this._hibernate = value; }
+        }
+
+        // Check to see if Hibernate property is set
+        internal bool IsSetHibernate()
+        {
+            return this._hibernate.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property InstanceIds. 
+        /// <para>
+        /// The IDs of the instances.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceIds
         {
             get { return this._instanceIds; }

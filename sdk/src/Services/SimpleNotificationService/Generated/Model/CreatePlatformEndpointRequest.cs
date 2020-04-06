@@ -30,21 +30,21 @@ namespace Amazon.SimpleNotificationService.Model
     /// <summary>
     /// Container for the parameters to the CreatePlatformEndpoint operation.
     /// Creates an endpoint for a device and mobile app on one of the supported push notification
-    /// services, such as GCM and APNS. <code>CreatePlatformEndpoint</code> requires the PlatformApplicationArn
+    /// services, such as FCM and APNS. <code>CreatePlatformEndpoint</code> requires the PlatformApplicationArn
     /// that is returned from <code>CreatePlatformApplication</code>. The EndpointArn that
     /// is returned when using <code>CreatePlatformEndpoint</code> can then be used by the
     /// <code>Publish</code> action to send a message to a mobile app or by the <code>Subscribe</code>
     /// action for subscription to a topic. The <code>CreatePlatformEndpoint</code> action
     /// is idempotent, so if the requester already owns an endpoint with the same device token
     /// and attributes, that endpoint's ARN is returned without creating a new endpoint. For
-    /// more information, see <a href="http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
+    /// more information, see <a href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
     /// Amazon SNS Mobile Push Notifications</a>. 
     /// 
     ///  
     /// <para>
     /// When using <code>CreatePlatformEndpoint</code> with Baidu, two attributes must be
     /// provided: ChannelId and UserId. The token field must also contain the ChannelId. For
-    /// more information, see <a href="http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePushBaiduEndpoint.html">Creating
+    /// more information, see <a href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePushBaiduEndpoint.html">Creating
     /// an Amazon SNS Endpoint for Baidu</a>. 
     /// </para>
     /// </summary>
@@ -58,7 +58,7 @@ namespace Amazon.SimpleNotificationService.Model
         /// <summary>
         /// Gets and sets the property Attributes. 
         /// <para>
-        /// For a list of attributes, see <a href="http://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html">SetEndpointAttributes</a>.
+        /// For a list of attributes, see <a href="https://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html">SetEndpointAttributes</a>.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Attributes
@@ -99,6 +99,7 @@ namespace Amazon.SimpleNotificationService.Model
         /// an endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PlatformApplicationArn
         {
             get { return this._platformApplicationArn; }
@@ -117,10 +118,11 @@ namespace Amazon.SimpleNotificationService.Model
         /// Unique identifier created by the notification service for an app on a device. The
         /// specific name for Token will vary, depending on which notification service is being
         /// used. For example, when using APNS as the notification service, you need the device
-        /// token. Alternatively, when using GCM or ADM, the device token equivalent is called
+        /// token. Alternatively, when using FCM or ADM, the device token equivalent is called
         /// the registration ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Token
         {
             get { return this._token; }

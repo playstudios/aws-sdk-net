@@ -38,7 +38,7 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property Names. 
         /// <para>
-        /// The names of the fleets.
+        /// The name of the fleet.
         /// </para>
         /// </summary>
         public List<string> Names
@@ -60,6 +60,7 @@ namespace Amazon.AppStream.Model
         /// If there are no more pages, this value is null.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }

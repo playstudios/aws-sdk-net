@@ -31,20 +31,20 @@ namespace Amazon.IdentityManagement.Model
     /// Container for the parameters to the CreateVirtualMFADevice operation.
     /// Creates a new virtual MFA device for the AWS account. After creating the virtual MFA,
     /// use <a>EnableMFADevice</a> to attach the MFA device to an IAM user. For more information
-    /// about creating and working with virtual MFA devices, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
+    /// about creating and working with virtual MFA devices, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
     /// a Virtual MFA Device</a> in the <i>IAM User Guide</i>.
     /// 
     ///  
     /// <para>
-    /// For information about limits on the number of MFA devices you can create, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+    /// For information about limits on the number of MFA devices you can create, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
     /// on Entities</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  <important> 
     /// <para>
     /// The seed information contained in the QR code and the Base32 string should be treated
-    /// like any other secret access information, such as your AWS access keys or your passwords.
-    /// After you provision your virtual device, you should ensure that the information is
-    /// destroyed following secure procedures.
+    /// like any other secret access information. In other words, protect the seed information
+    /// as you would your AWS access keys or your passwords. After you provision your virtual
+    /// device, you should ensure that the information is destroyed following secure procedures.
     /// </para>
     ///  </important>
     /// </summary>
@@ -56,7 +56,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Path. 
         /// <para>
-        ///  The path for the virtual MFA device. For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        ///  The path for the virtual MFA device. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
         /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -65,13 +65,14 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of either a forward slash (/) by itself or a string
-        /// that must begin and end with forward slashes. In addition, it can contain any ASCII
-        /// character from the ! (\u0021) through the DEL character (\u007F), including most punctuation
-        /// characters, digits, and upper and lowercased letters.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of either a forward slash (/) by itself
+        /// or a string that must begin and end with forward slashes. In addition, it can contain
+        /// any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>),
+        /// including most punctuation characters, digits, and upper and lowercased letters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string Path
         {
             get { return this._path; }
@@ -92,11 +93,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string VirtualMFADeviceName
         {
             get { return this._virtualMFADeviceName; }

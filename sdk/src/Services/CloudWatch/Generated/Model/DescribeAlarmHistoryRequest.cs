@@ -30,8 +30,8 @@ namespace Amazon.CloudWatch.Model
     /// <summary>
     /// Container for the parameters to the DescribeAlarmHistory operation.
     /// Retrieves the history for the specified alarm. You can filter the results by date
-    /// range or item type. If an alarm name is not specified, the histories for all alarms
-    /// are returned.
+    /// range or item type. If an alarm name is not specified, the histories for either all
+    /// metric alarms or all composite alarms are returned.
     /// 
     ///  
     /// <para>
@@ -41,11 +41,13 @@ namespace Amazon.CloudWatch.Model
     public partial class DescribeAlarmHistoryRequest : AmazonCloudWatchRequest
     {
         private string _alarmName;
-        private DateTime? _endDate;
+        private List<string> _alarmTypes = new List<string>();
+        private DateTime? _endDateUtc;
         private HistoryItemType _historyItemType;
         private int? _maxRecords;
         private string _nextToken;
-        private DateTime? _startDate;
+        private ScanBy _scanBy;
+        private DateTime? _startDateUtc;
 
         /// <summary>
         /// Gets and sets the property AlarmName. 
@@ -53,6 +55,7 @@ namespace Amazon.CloudWatch.Model
         /// The name of the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string AlarmName
         {
             get { return this._alarmName; }
@@ -66,21 +69,40 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EndDate. 
+        /// Gets and sets the property AlarmTypes. 
+        /// <para>
+        /// Use this parameter to specify whether you want the operation to return metric alarms
+        /// or composite alarms. If you omit this parameter, only metric alarms are returned.
+        /// </para>
+        /// </summary>
+        public List<string> AlarmTypes
+        {
+            get { return this._alarmTypes; }
+            set { this._alarmTypes = value; }
+        }
+
+        // Check to see if AlarmTypes property is set
+        internal bool IsSetAlarmTypes()
+        {
+            return this._alarmTypes != null && this._alarmTypes.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EndDateUtc. 
         /// <para>
         /// The ending date to retrieve alarm history.
         /// </para>
         /// </summary>
-        public DateTime EndDate
+        public DateTime EndDateUtc
         {
-            get { return this._endDate.GetValueOrDefault(); }
-            set { this._endDate = value; }
+            get { return this._endDateUtc.GetValueOrDefault(); }
+            set { this._endDate = this._endDateUtc = value; }
         }
 
-        // Check to see if EndDate property is set
-        internal bool IsSetEndDate()
+        // Check to see if EndDateUtc property is set
+        internal bool IsSetEndDateUtc()
         {
-            return this._endDate.HasValue; 
+            return this._endDateUtc.HasValue; 
         }
 
         /// <summary>
@@ -107,6 +129,7 @@ namespace Amazon.CloudWatch.Model
         /// The maximum number of alarm history records to retrieve.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxRecords
         {
             get { return this._maxRecords.GetValueOrDefault(); }
@@ -138,22 +161,105 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartDate. 
+        /// Gets and sets the property ScanBy. 
+        /// <para>
+        /// Specified whether to return the newest or oldest alarm history first. Specify <code>TimestampDescending</code>
+        /// to have the newest event history returned first, and specify <code>TimestampAscending</code>
+        /// to have the oldest history returned first.
+        /// </para>
+        /// </summary>
+        public ScanBy ScanBy
+        {
+            get { return this._scanBy; }
+            set { this._scanBy = value; }
+        }
+
+        // Check to see if ScanBy property is set
+        internal bool IsSetScanBy()
+        {
+            return this._scanBy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StartDateUtc. 
         /// <para>
         /// The starting date to retrieve alarm history.
         /// </para>
         /// </summary>
+        public DateTime StartDateUtc
+        {
+            get { return this._startDateUtc.GetValueOrDefault(); }
+            set { this._startDate = this._startDateUtc = value; }
+        }
+
+        // Check to see if StartDateUtc property is set
+        internal bool IsSetStartDateUtc()
+        {
+            return this._startDateUtc.HasValue; 
+        }
+
+#region Backwards compatible properties
+        private DateTime? _endDate;
+        private DateTime? _startDate;
+
+        /// <summary>
+        /// Gets and sets the property EndDateUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use EndDateUtc instead. Setting either EndDate or EndDateUtc
+        /// results in both EndDate and EndDateUtc being assigned, the latest assignment to either
+        /// one of the two property is reflected in the value of both. EndDate is provided for
+        /// backwards compatibility only and assigning a non-Utc DateTime to it results in the
+        /// wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The ending date to retrieve alarm history.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use EndDateUtc instead. Setting either EndDate or EndDateUtc results in both EndDate and " +
+            "EndDateUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. EndDate is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime EndDate
+        {
+            get { return this._endDate.GetValueOrDefault(); }
+            set
+            {
+                this._endDate = value;
+                this._endDateUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+        /// <summary>
+        /// Gets and sets the property StartDateUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use StartDateUtc instead. Setting either StartDate or
+        /// StartDateUtc results in both StartDate and StartDateUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. StartDate
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The starting date to retrieve alarm history.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use StartDateUtc instead. Setting either StartDate or StartDateUtc results in both StartDate and " +
+            "StartDateUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. StartDate is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
         public DateTime StartDate
         {
             get { return this._startDate.GetValueOrDefault(); }
-            set { this._startDate = value; }
+            set
+            {
+                this._startDate = value;
+                this._startDateUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
         }
-
-        // Check to see if StartDate property is set
-        internal bool IsSetStartDate()
-        {
-            return this._startDate.HasValue; 
-        }
-
+#endregion
     }
 }

@@ -51,10 +51,12 @@ namespace Amazon.StorageGateway.Model
         private bool? _requesterPays;
         private string _role;
         private string _squash;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ClientList.
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> ClientList
         {
             get { return this._clientList; }
@@ -70,11 +72,13 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property DefaultStorageClass. 
         /// <para>
-        /// The default storage class for objects put into an Amazon S3 bucket by file gateway.
-        /// Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated,
-        /// the default value S3_STANDARD is used. Optional.
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway.
+        /// Possible values are <code>S3_STANDARD</code>, <code>S3_STANDARD_IA</code>, or <code>S3_ONEZONE_IA</code>.
+        /// If this field is not populated, the default value <code>S3_STANDARD</code> is used.
+        /// Optional.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=20)]
         public string DefaultStorageClass
         {
             get { return this._defaultStorageClass; }
@@ -90,6 +94,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property FileShareARN.
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string FileShareARN
         {
             get { return this._fileShareARN; }
@@ -105,6 +110,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property FileShareId.
         /// </summary>
+        [AWSProperty(Min=12, Max=30)]
         public string FileShareId
         {
             get { return this._fileShareId; }
@@ -120,6 +126,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property FileShareStatus.
         /// </summary>
+        [AWSProperty(Min=3, Max=50)]
         public string FileShareStatus
         {
             get { return this._fileShareStatus; }
@@ -135,6 +142,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayARN.
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }
@@ -150,9 +158,9 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GuessMIMETypeEnabled. 
         /// <para>
-        /// Enables guessing of the MIME type for uploaded objects based on file extensions. Set
-        /// this value to true to enable MIME type guessing, and otherwise to false. The default
-        /// value is true.
+        /// A value that enables guessing of the MIME type for uploaded objects based on file
+        /// extensions. Set this value to true to enable MIME type guessing, and otherwise to
+        /// false. The default value is true.
         /// </para>
         /// </summary>
         public bool GuessMIMETypeEnabled
@@ -170,8 +178,8 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property KMSEncrypted. 
         /// <para>
-        /// True to use Amazon S3 server side encryption with your own KMS key, or false to use
-        /// a key managed by Amazon S3. Optional. 
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to
+        /// use a key managed by Amazon S3. Optional. 
         /// </para>
         /// </summary>
         public bool KMSEncrypted
@@ -189,6 +197,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property KMSKey.
         /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
         public string KMSKey
         {
             get { return this._kmsKey; }
@@ -204,6 +213,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property LocationARN.
         /// </summary>
+        [AWSProperty(Min=16, Max=310)]
         public string LocationARN
         {
             get { return this._locationARN; }
@@ -264,8 +274,8 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property ReadOnly. 
         /// <para>
-        /// Sets the write status of a file share. This value is true if the write status is read-only,
-        /// and otherwise false.
+        /// A value that sets the write status of a file share. This value is true if the write
+        /// status is read-only, and otherwise false.
         /// </para>
         /// </summary>
         public bool ReadOnly
@@ -283,10 +293,18 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property RequesterPays. 
         /// <para>
-        /// Sets who pays the cost of the request and the data download from the Amazon S3 bucket.
-        /// Set this value to true if you want the requester to pay instead of the bucket owner,
-        /// and otherwise to false.
+        /// A value that sets who pays the cost of the request and the cost associated with data
+        /// download from the S3 bucket. If this value is set to true, the requester pays the
+        /// costs. Otherwise the S3 bucket owner pays. However, the S3 bucket owner always pays
+        /// the cost of storing data.
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>RequesterPays</code> is a configuration for the S3 bucket that backs the file
+        /// share, so make sure that the configuration on the file share is the same as the S3
+        /// bucket configuration.
+        /// </para>
+        ///  </note>
         /// </summary>
         public bool RequesterPays
         {
@@ -303,6 +321,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property Role.
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string Role
         {
             get { return this._role; }
@@ -318,6 +337,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property Squash.
         /// </summary>
+        [AWSProperty(Min=5, Max=15)]
         public string Squash
         {
             get { return this._squash; }
@@ -328,6 +348,26 @@ namespace Amazon.StorageGateway.Model
         internal bool IsSetSquash()
         {
             return this._squash != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags assigned to the NFS file share, sorted alphabetically by key
+        /// name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned,
+        /// you can view all tags using the <code>ListTagsForResource</code> API operation.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

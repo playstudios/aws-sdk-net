@@ -1335,6 +1335,10 @@ namespace Amazon.WAF
     {
 
         /// <summary>
+        /// Constant ALL_QUERY_ARGS for MatchFieldType
+        /// </summary>
+        public static readonly MatchFieldType ALL_QUERY_ARGS = new MatchFieldType("ALL_QUERY_ARGS");
+        /// <summary>
         /// Constant BODY for MatchFieldType
         /// </summary>
         public static readonly MatchFieldType BODY = new MatchFieldType("BODY");
@@ -1350,6 +1354,10 @@ namespace Amazon.WAF
         /// Constant QUERY_STRING for MatchFieldType
         /// </summary>
         public static readonly MatchFieldType QUERY_STRING = new MatchFieldType("QUERY_STRING");
+        /// <summary>
+        /// Constant SINGLE_QUERY_ARG for MatchFieldType
+        /// </summary>
+        public static readonly MatchFieldType SINGLE_QUERY_ARG = new MatchFieldType("SINGLE_QUERY_ARG");
         /// <summary>
         /// Constant URI for MatchFieldType
         /// </summary>
@@ -1437,6 +1445,10 @@ namespace Amazon.WAF
         /// </summary>
         public static readonly ParameterExceptionField RATE_KEY = new ParameterExceptionField("RATE_KEY");
         /// <summary>
+        /// Constant RESOURCE_ARN for ParameterExceptionField
+        /// </summary>
+        public static readonly ParameterExceptionField RESOURCE_ARN = new ParameterExceptionField("RESOURCE_ARN");
+        /// <summary>
         /// Constant RULE_TYPE for ParameterExceptionField
         /// </summary>
         public static readonly ParameterExceptionField RULE_TYPE = new ParameterExceptionField("RULE_TYPE");
@@ -1448,6 +1460,14 @@ namespace Amazon.WAF
         /// Constant SQL_INJECTION_MATCH_FIELD_TYPE for ParameterExceptionField
         /// </summary>
         public static readonly ParameterExceptionField SQL_INJECTION_MATCH_FIELD_TYPE = new ParameterExceptionField("SQL_INJECTION_MATCH_FIELD_TYPE");
+        /// <summary>
+        /// Constant TAG_KEYS for ParameterExceptionField
+        /// </summary>
+        public static readonly ParameterExceptionField TAG_KEYS = new ParameterExceptionField("TAG_KEYS");
+        /// <summary>
+        /// Constant TAGS for ParameterExceptionField
+        /// </summary>
+        public static readonly ParameterExceptionField TAGS = new ParameterExceptionField("TAGS");
         /// <summary>
         /// Constant WAF_ACTION for ParameterExceptionField
         /// </summary>
@@ -1499,6 +1519,10 @@ namespace Amazon.WAF
     {
 
         /// <summary>
+        /// Constant ILLEGAL_ARGUMENT for ParameterExceptionReason
+        /// </summary>
+        public static readonly ParameterExceptionReason ILLEGAL_ARGUMENT = new ParameterExceptionReason("ILLEGAL_ARGUMENT");
+        /// <summary>
         /// Constant ILLEGAL_COMBINATION for ParameterExceptionReason
         /// </summary>
         public static readonly ParameterExceptionReason ILLEGAL_COMBINATION = new ParameterExceptionReason("ILLEGAL_COMBINATION");
@@ -1506,6 +1530,10 @@ namespace Amazon.WAF
         /// Constant INVALID_OPTION for ParameterExceptionReason
         /// </summary>
         public static readonly ParameterExceptionReason INVALID_OPTION = new ParameterExceptionReason("INVALID_OPTION");
+        /// <summary>
+        /// Constant INVALID_TAG_KEY for ParameterExceptionReason
+        /// </summary>
+        public static readonly ParameterExceptionReason INVALID_TAG_KEY = new ParameterExceptionReason("INVALID_TAG_KEY");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant

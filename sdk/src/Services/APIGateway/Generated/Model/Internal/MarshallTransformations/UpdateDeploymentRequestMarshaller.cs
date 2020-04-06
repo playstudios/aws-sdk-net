@@ -55,17 +55,18 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateDeploymentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/restapis/{restapi_id}/deployments/{deployment_id}";
             if (!publicRequest.IsSetDeploymentId())
                 throw new AmazonAPIGatewayException("Request object does not have required field DeploymentId set");
-            uriResourcePath = uriResourcePath.Replace("{deployment_id}", StringUtils.FromString(publicRequest.DeploymentId));
+            request.AddPathResource("{deployment_id}", StringUtils.FromString(publicRequest.DeploymentId));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.ResourcePath = "/restapis/{restapi_id}/deployments/{deployment_id}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

@@ -33,15 +33,34 @@ namespace Amazon.MediaConvert.Model
     /// </summary>
     public partial class JobTemplate
     {
+        private AccelerationSettings _accelerationSettings;
         private string _arn;
         private string _category;
         private DateTime? _createdAt;
         private string _description;
         private DateTime? _lastUpdated;
         private string _name;
+        private int? _priority;
         private string _queue;
         private JobTemplateSettings _settings;
+        private StatusUpdateInterval _statusUpdateInterval;
         private Type _type;
+
+        /// <summary>
+        /// Gets and sets the property AccelerationSettings. Accelerated transcoding can significantly
+        /// speed up jobs with long, visually complex content.
+        /// </summary>
+        public AccelerationSettings AccelerationSettings
+        {
+            get { return this._accelerationSettings; }
+            set { this._accelerationSettings = value; }
+        }
+
+        // Check to see if AccelerationSettings property is set
+        internal bool IsSetAccelerationSettings()
+        {
+            return this._accelerationSettings != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Arn. An identifier for this resource that is unique within
@@ -127,6 +146,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property Name. A name you create for each job template. Each name
         /// must be unique within your account.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -137,6 +157,22 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Priority. Relative priority on the job.
+        /// </summary>
+        [AWSProperty(Min=-50, Max=50)]
+        public int Priority
+        {
+            get { return this._priority.GetValueOrDefault(); }
+            set { this._priority = value; }
+        }
+
+        // Check to see if Priority property is set
+        internal bool IsSetPriority()
+        {
+            return this._priority.HasValue; 
         }
 
         /// <summary>
@@ -156,8 +192,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Settings.
+        /// Gets and sets the property Settings. JobTemplateSettings contains all the transcode
+        /// settings saved in the template that will be applied to jobs created from it.
         /// </summary>
+        [AWSProperty(Required=true)]
         public JobTemplateSettings Settings
         {
             get { return this._settings; }
@@ -168,6 +206,25 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetSettings()
         {
             return this._settings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StatusUpdateInterval. Specify how often MediaConvert sends
+        /// STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between
+        /// status updates. MediaConvert sends an update at this interval from the time the service
+        /// begins processing your job to the time it completes the transcode or encounters an
+        /// error.
+        /// </summary>
+        public StatusUpdateInterval StatusUpdateInterval
+        {
+            get { return this._statusUpdateInterval; }
+            set { this._statusUpdateInterval = value; }
+        }
+
+        // Check to see if StatusUpdateInterval property is set
+        internal bool IsSetStatusUpdateInterval()
+        {
+            return this._statusUpdateInterval != null;
         }
 
         /// <summary>

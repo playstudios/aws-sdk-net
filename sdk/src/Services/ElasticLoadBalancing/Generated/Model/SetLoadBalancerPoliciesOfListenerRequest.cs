@@ -41,7 +41,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     /// For more information about setting policies, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/ssl-config-update.html">Update
     /// the SSL Negotiation Configuration</a>, <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration">Duration-Based
     /// Session Stickiness</a>, and <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application">Application-Controlled
-    /// Session Stickiness</a> in the <i>Classic Load Balancer Guide</i>.
+    /// Session Stickiness</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class SetLoadBalancerPoliciesOfListenerRequest : AmazonElasticLoadBalancingRequest
@@ -74,6 +74,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }
@@ -92,6 +93,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The external port of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int LoadBalancerPort
         {
             get { return this._loadBalancerPort.GetValueOrDefault(); }
@@ -112,6 +114,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// current policies are disabled.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> PolicyNames
         {
             get { return this._policyNames; }

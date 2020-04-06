@@ -38,10 +38,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ApplicationName. 
         /// <para>
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user
-        /// or AWS account.
+        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }

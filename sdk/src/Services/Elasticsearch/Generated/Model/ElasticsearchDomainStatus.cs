@@ -34,10 +34,12 @@ namespace Amazon.Elasticsearch.Model
     {
         private string _accessPolicies;
         private Dictionary<string, string> _advancedOptions = new Dictionary<string, string>();
+        private AdvancedSecurityOptions _advancedSecurityOptions;
         private string _arn;
         private CognitoOptions _cognitoOptions;
         private bool? _created;
         private bool? _deleted;
+        private DomainEndpointOptions _domainEndpointOptions;
         private string _domainId;
         private string _domainName;
         private EBSOptions _ebsOptions;
@@ -47,8 +49,11 @@ namespace Amazon.Elasticsearch.Model
         private string _endpoint;
         private Dictionary<string, string> _endpoints = new Dictionary<string, string>();
         private Dictionary<string, LogPublishingOption> _logPublishingOptions = new Dictionary<string, LogPublishingOption>();
+        private NodeToNodeEncryptionOptions _nodeToNodeEncryptionOptions;
         private bool? _processing;
+        private ServiceSoftwareOptions _serviceSoftwareOptions;
         private SnapshotOptions _snapshotOptions;
+        private bool? _upgradeProcessing;
         private VPCDerivedInfo _vpcOptions;
 
         /// <summary>
@@ -88,6 +93,24 @@ namespace Amazon.Elasticsearch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AdvancedSecurityOptions. 
+        /// <para>
+        /// The current status of the Elasticsearch domain's advanced security options.
+        /// </para>
+        /// </summary>
+        public AdvancedSecurityOptions AdvancedSecurityOptions
+        {
+            get { return this._advancedSecurityOptions; }
+            set { this._advancedSecurityOptions = value; }
+        }
+
+        // Check to see if AdvancedSecurityOptions property is set
+        internal bool IsSetAdvancedSecurityOptions()
+        {
+            return this._advancedSecurityOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ARN. 
         /// <para>
         /// The Amazon resource name (ARN) of an Elasticsearch domain. See <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/index.html?Using_Identifiers.html"
@@ -95,6 +118,7 @@ namespace Amazon.Elasticsearch.Model
         /// Management</i> for more information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ARN
         {
             get { return this._arn; }
@@ -168,11 +192,30 @@ namespace Amazon.Elasticsearch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DomainEndpointOptions. 
+        /// <para>
+        /// The current status of the Elasticsearch domain's endpoint options.
+        /// </para>
+        /// </summary>
+        public DomainEndpointOptions DomainEndpointOptions
+        {
+            get { return this._domainEndpointOptions; }
+            set { this._domainEndpointOptions = value; }
+        }
+
+        // Check to see if DomainEndpointOptions property is set
+        internal bool IsSetDomainEndpointOptions()
+        {
+            return this._domainEndpointOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DomainId. 
         /// <para>
         /// The unique identifier for the specified Elasticsearch domain.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string DomainId
         {
             get { return this._domainId; }
@@ -193,6 +236,7 @@ namespace Amazon.Elasticsearch.Model
         /// can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=28)]
         public string DomainName
         {
             get { return this._domainName; }
@@ -230,6 +274,7 @@ namespace Amazon.Elasticsearch.Model
         /// The type and number of instances in the domain cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ElasticsearchClusterConfig ElasticsearchClusterConfig
         {
             get { return this._elasticsearchClusterConfig; }
@@ -331,6 +376,24 @@ namespace Amazon.Elasticsearch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NodeToNodeEncryptionOptions. 
+        /// <para>
+        /// Specifies the status of the <code>NodeToNodeEncryptionOptions</code>.
+        /// </para>
+        /// </summary>
+        public NodeToNodeEncryptionOptions NodeToNodeEncryptionOptions
+        {
+            get { return this._nodeToNodeEncryptionOptions; }
+            set { this._nodeToNodeEncryptionOptions = value; }
+        }
+
+        // Check to see if NodeToNodeEncryptionOptions property is set
+        internal bool IsSetNodeToNodeEncryptionOptions()
+        {
+            return this._nodeToNodeEncryptionOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Processing. 
         /// <para>
         /// The status of the Elasticsearch domain configuration. <code>True</code> if Amazon
@@ -351,6 +414,24 @@ namespace Amazon.Elasticsearch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ServiceSoftwareOptions. 
+        /// <para>
+        /// The current status of the Elasticsearch domain's service software.
+        /// </para>
+        /// </summary>
+        public ServiceSoftwareOptions ServiceSoftwareOptions
+        {
+            get { return this._serviceSoftwareOptions; }
+            set { this._serviceSoftwareOptions = value; }
+        }
+
+        // Check to see if ServiceSoftwareOptions property is set
+        internal bool IsSetServiceSoftwareOptions()
+        {
+            return this._serviceSoftwareOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SnapshotOptions. 
         /// <para>
         /// Specifies the status of the <code>SnapshotOptions</code>
@@ -366,6 +447,26 @@ namespace Amazon.Elasticsearch.Model
         internal bool IsSetSnapshotOptions()
         {
             return this._snapshotOptions != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property UpgradeProcessing. 
+        /// <para>
+        /// The status of an Elasticsearch domain version upgrade. <code>True</code> if Amazon
+        /// Elasticsearch Service is undergoing a version upgrade. <code>False</code> if the configuration
+        /// is active.
+        /// </para>
+        /// </summary>
+        public bool UpgradeProcessing
+        {
+            get { return this._upgradeProcessing.GetValueOrDefault(); }
+            set { this._upgradeProcessing = value; }
+        }
+
+        // Check to see if UpgradeProcessing property is set
+        internal bool IsSetUpgradeProcessing()
+        {
+            return this._upgradeProcessing.HasValue; 
         }
 
         /// <summary>

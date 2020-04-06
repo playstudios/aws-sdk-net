@@ -55,16 +55,17 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteSlotTypeVersionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.LexModelBuildingService");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/slottypes/{name}/version/{version}";
             if (!publicRequest.IsSetName())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{name}", StringUtils.FromString(publicRequest.Name));
+            request.AddPathResource("{name}", StringUtils.FromString(publicRequest.Name));
             if (!publicRequest.IsSetVersion())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field Version set");
-            uriResourcePath = uriResourcePath.Replace("{version}", StringUtils.FromString(publicRequest.Version));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{version}", StringUtils.FromString(publicRequest.Version));
+            request.ResourcePath = "/slottypes/{name}/version/{version}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

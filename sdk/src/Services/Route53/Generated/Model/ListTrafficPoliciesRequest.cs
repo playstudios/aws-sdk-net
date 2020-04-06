@@ -30,8 +30,8 @@ namespace Amazon.Route53.Model
     /// <summary>
     /// Container for the parameters to the ListTrafficPolicies operation.
     /// Gets information about the latest version for every traffic policy that is associated
-    /// with the current AWS account. Policies are listed in the order in which they were
-    /// created.
+    /// with the current AWS account. Policies are listed in the order that they were created
+    /// in.
     /// </summary>
     public partial class ListTrafficPoliciesRequest : AmazonRoute53Request
     {
@@ -53,6 +53,7 @@ namespace Amazon.Route53.Model
         /// that was returned in the previous response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=36)]
         public string TrafficPolicyIdMarker
         {
             get { return this._trafficPolicyIdMarker; }
@@ -72,7 +73,7 @@ namespace Amazon.Route53.Model
         /// return in response to this request. If you have more than <code>MaxItems</code> traffic
         /// policies, the value of <code>IsTruncated</code> in the response is <code>true</code>,
         /// and the value of <code>TrafficPolicyIdMarker</code> is the ID of the first traffic
-        /// policy that Amazon Route 53 will return if you submit another request.
+        /// policy that Route 53 will return if you submit another request.
         /// </para>
         /// </summary>
         public string MaxItems

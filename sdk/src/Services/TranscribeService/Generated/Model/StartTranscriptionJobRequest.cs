@@ -33,12 +33,54 @@ namespace Amazon.TranscribeService.Model
     /// </summary>
     public partial class StartTranscriptionJobRequest : AmazonTranscribeServiceRequest
     {
+        private ContentRedaction _contentRedaction;
+        private JobExecutionSettings _jobExecutionSettings;
         private LanguageCode _languageCode;
         private Media _media;
         private MediaFormat _mediaFormat;
         private int? _mediaSampleRateHertz;
+        private string _outputBucketName;
+        private string _outputEncryptionKMSKeyId;
         private Settings _settings;
         private string _transcriptionJobName;
+
+        /// <summary>
+        /// Gets and sets the property ContentRedaction. 
+        /// <para>
+        /// An object that contains the request parameters for content redaction.
+        /// </para>
+        /// </summary>
+        public ContentRedaction ContentRedaction
+        {
+            get { return this._contentRedaction; }
+            set { this._contentRedaction = value; }
+        }
+
+        // Check to see if ContentRedaction property is set
+        internal bool IsSetContentRedaction()
+        {
+            return this._contentRedaction != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property JobExecutionSettings. 
+        /// <para>
+        /// Provides information about how a transcription job is executed. Use this field to
+        /// indicate that the job can be queued for deferred execution if the concurrency limit
+        /// is reached and there are no slots available to immediately run the job.
+        /// </para>
+        /// </summary>
+        public JobExecutionSettings JobExecutionSettings
+        {
+            get { return this._jobExecutionSettings; }
+            set { this._jobExecutionSettings = value; }
+        }
+
+        // Check to see if JobExecutionSettings property is set
+        internal bool IsSetJobExecutionSettings()
+        {
+            return this._jobExecutionSettings != null;
+        }
 
         /// <summary>
         /// Gets and sets the property LanguageCode. 
@@ -46,6 +88,7 @@ namespace Amazon.TranscribeService.Model
         /// The language code for the language used in the input media file.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public LanguageCode LanguageCode
         {
             get { return this._languageCode; }
@@ -64,6 +107,7 @@ namespace Amazon.TranscribeService.Model
         /// An object that describes the input media for a transcription job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Media Media
         {
             get { return this._media; }
@@ -99,7 +143,15 @@ namespace Amazon.TranscribeService.Model
         /// <para>
         /// The sample rate, in Hertz, of the audio track in the input media file. 
         /// </para>
+        ///  
+        /// <para>
+        /// If you do not specify the media sample rate, Amazon Transcribe determines the sample
+        /// rate. If you specify the sample rate, it must match the sample rate detected by Amazon
+        /// Transcribe. In most cases, you should leave the <code>MediaSampleRateHertz</code>
+        /// field blank and let Amazon Transcribe determine the sample rate.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=8000, Max=48000)]
         public int MediaSampleRateHertz
         {
             get { return this._mediaSampleRateHertz.GetValueOrDefault(); }
@@ -110,6 +162,107 @@ namespace Amazon.TranscribeService.Model
         internal bool IsSetMediaSampleRateHertz()
         {
             return this._mediaSampleRateHertz.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property OutputBucketName. 
+        /// <para>
+        /// The location where the transcription is stored.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you set the <code>OutputBucketName</code>, Amazon Transcribe puts the transcript
+        /// in the specified S3 bucket. When you call the <a>GetTranscriptionJob</a> operation,
+        /// the operation returns this location in the <code>TranscriptFileUri</code> field. If
+        /// you enable content redaction, the redacted transcript appears in <code>RedactedTranscriptFileUri</code>.
+        /// If you enable content redaction and choose to output an unredacted transcript, that
+        /// transcript's location still appears in the <code>TranscriptFileUri</code>. The S3
+        /// bucket must have permissions that allow Amazon Transcribe to put files in the bucket.
+        /// For more information, see <a href="https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user">Permissions
+        /// Required for IAM User Roles</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify an AWS Key Management Service (KMS) key to encrypt the output of your
+        /// transcription using the <code>OutputEncryptionKMSKeyId</code> parameter. If you don't
+        /// specify a KMS key, Amazon Transcribe uses the default Amazon S3 key for server-side
+        /// encryption of transcripts that are placed in your S3 bucket.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you don't set the <code>OutputBucketName</code>, Amazon Transcribe generates a
+        /// pre-signed URL, a shareable URL that provides secure access to your transcription,
+        /// and returns it in the <code>TranscriptFileUri</code> field. Use this URL to download
+        /// the transcription.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=64)]
+        public string OutputBucketName
+        {
+            get { return this._outputBucketName; }
+            set { this._outputBucketName = value; }
+        }
+
+        // Check to see if OutputBucketName property is set
+        internal bool IsSetOutputBucketName()
+        {
+            return this._outputBucketName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OutputEncryptionKMSKeyId. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key used to
+        /// encrypt the output of the transcription job. The user calling the <code>StartTranscriptionJob</code>
+        /// operation must have permission to use the specified KMS key.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use either of the following to identify a KMS key in the current account:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// KMS Key Alias: "alias/ExampleAlias"
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can use either of the following to identify a KMS key in the current account or
+        /// another account:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If you don't specify an encryption key, the output of the transcription job is encrypted
+        /// with the default Amazon S3 key (SSE-S3). 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify a KMS key to encrypt your output, you must also specify an output location
+        /// in the <code>OutputBucketName</code> parameter.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
+        public string OutputEncryptionKMSKeyId
+        {
+            get { return this._outputEncryptionKMSKeyId; }
+            set { this._outputEncryptionKMSKeyId = value; }
+        }
+
+        // Check to see if OutputEncryptionKMSKeyId property is set
+        internal bool IsSetOutputEncryptionKMSKeyId()
+        {
+            return this._outputEncryptionKMSKeyId != null;
         }
 
         /// <summary>
@@ -134,9 +287,11 @@ namespace Amazon.TranscribeService.Model
         /// <summary>
         /// Gets and sets the property TranscriptionJobName. 
         /// <para>
-        /// The name of the job. The name must be unique within an AWS account.
+        /// The name of the job. Note that you can't use the strings "." or ".." by themselves
+        /// as the job name. The name must also be unique within an AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=200)]
         public string TranscriptionJobName
         {
             get { return this._transcriptionJobName; }

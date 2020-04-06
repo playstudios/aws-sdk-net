@@ -35,7 +35,9 @@ namespace Amazon.ECS.Model
         private KernelCapabilities _capabilities;
         private List<Device> _devices = new List<Device>();
         private bool? _initProcessEnabled;
+        private int? _maxSwap;
         private int? _sharedMemorySize;
+        private int? _swappiness;
         private List<Tmpfs> _tmpfs = new List<Tmpfs>();
 
         /// <summary>
@@ -67,8 +69,8 @@ namespace Amazon.ECS.Model
         /// Gets and sets the property Devices. 
         /// <para>
         /// Any host devices to expose to the container. This parameter maps to <code>Devices</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.27/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.27/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.35/">Docker
         /// Remote API</a> and the <code>--device</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
@@ -99,7 +101,7 @@ namespace Amazon.ECS.Model
         /// run</a>. This parameter requires version 1.25 of the Docker Remote API or greater
         /// on your container instance. To check the Docker Remote API version on your container
         /// instance, log in to your container instance and run the following command: <code>sudo
-        /// docker version | grep "Server API version"</code> 
+        /// docker version --format '{{.Server.APIVersion}}'</code> 
         /// </para>
         /// </summary>
         public bool InitProcessEnabled
@@ -115,12 +117,53 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaxSwap. 
+        /// <para>
+        /// The total amount of swap memory (in MiB) a container can use. This parameter will
+        /// be translated to the <code>--memory-swap</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
+        /// run</a> where the value would be the sum of the container memory plus the <code>maxSwap</code>
+        /// value.
+        /// </para>
+        ///  
+        /// <para>
+        /// If a <code>maxSwap</code> value of <code>0</code> is specified, the container will
+        /// not use swap. Accepted values are <code>0</code> or any positive integer. If the <code>maxSwap</code>
+        /// parameter is omitted, the container will use the swap configuration for the container
+        /// instance it is running on. A <code>maxSwap</code> value must be set for the <code>swappiness</code>
+        /// parameter to be used.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are using tasks that use the Fargate launch type, the <code>maxSwap</code>
+        /// parameter is not supported.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public int MaxSwap
+        {
+            get { return this._maxSwap.GetValueOrDefault(); }
+            set { this._maxSwap = value; }
+        }
+
+        // Check to see if MaxSwap property is set
+        internal bool IsSetMaxSwap()
+        {
+            return this._maxSwap.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property SharedMemorySize. 
         /// <para>
-        /// The value for the size of the <code>/dev/shm</code> volume. This parameter maps to
-        /// the <code>--shm-size</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
+        /// The value for the size (in MiB) of the <code>/dev/shm</code> volume. This parameter
+        /// maps to the <code>--shm-size</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are using tasks that use the Fargate launch type, the <code>sharedMemorySize</code>
+        /// parameter is not supported.
+        /// </para>
+        ///  </note>
         /// </summary>
         public int SharedMemorySize
         {
@@ -135,12 +178,49 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Swappiness. 
+        /// <para>
+        /// This allows you to tune a container's memory swappiness behavior. A <code>swappiness</code>
+        /// value of <code>0</code> will cause swapping to not happen unless absolutely necessary.
+        /// A <code>swappiness</code> value of <code>100</code> will cause pages to be swapped
+        /// very aggressively. Accepted values are whole numbers between <code>0</code> and <code>100</code>.
+        /// If the <code>swappiness</code> parameter is not specified, a default value of <code>60</code>
+        /// is used. If a value is not specified for <code>maxSwap</code> then this parameter
+        /// is ignored. This parameter maps to the <code>--memory-swappiness</code> option to
+        /// <a href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are using tasks that use the Fargate launch type, the <code>swappiness</code>
+        /// parameter is not supported.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public int Swappiness
+        {
+            get { return this._swappiness.GetValueOrDefault(); }
+            set { this._swappiness = value; }
+        }
+
+        // Check to see if Swappiness property is set
+        internal bool IsSetSwappiness()
+        {
+            return this._swappiness.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Tmpfs. 
         /// <para>
-        /// The container path, mount options, and size of the tmpfs mount. This parameter maps
-        /// to the <code>--tmpfs</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter
+        /// maps to the <code>--tmpfs</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are using tasks that use the Fargate launch type, the <code>tmpfs</code> parameter
+        /// is not supported.
+        /// </para>
+        ///  </note>
         /// </summary>
         public List<Tmpfs> Tmpfs
         {

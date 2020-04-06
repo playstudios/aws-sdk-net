@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Glue.Model
 {
     /// <summary>
-    /// Records a successful request to stop a specified JobRun.
+    /// Records a successful request to stop a specified <code>JobRun</code>.
     /// </summary>
     public partial class BatchStopJobRunSuccessfulSubmission
     {
@@ -38,9 +38,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property JobName. 
         /// <para>
-        /// The Name of the Job in question.
+        /// The name of the job definition used in the job run that was stopped.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string JobName
         {
             get { return this._jobName; }
@@ -56,9 +57,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property JobRunId. 
         /// <para>
-        /// The JobRunId of the JobRun in question.
+        /// The <code>JobRunId</code> of the job run that was stopped.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string JobRunId
         {
             get { return this._jobRunId; }

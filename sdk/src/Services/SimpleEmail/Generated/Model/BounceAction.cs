@@ -35,7 +35,7 @@ namespace Amazon.SimpleEmail.Model
     ///  
     /// <para>
     /// For information about sending a bounce message in response to a received email, see
-    /// the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-bounce.html">Amazon
+    /// the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-bounce.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -53,6 +53,7 @@ namespace Amazon.SimpleEmail.Model
         /// Human-readable text to include in the bounce message.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Message
         {
             get { return this._message; }
@@ -72,6 +73,7 @@ namespace Amazon.SimpleEmail.Model
         /// the bounce message will be sent.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Sender
         {
             get { return this._sender; }
@@ -91,6 +93,7 @@ namespace Amazon.SimpleEmail.Model
         /// 5321</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SmtpReplyCode
         {
             get { return this._smtpReplyCode; }
@@ -127,7 +130,7 @@ namespace Amazon.SimpleEmail.Model
         /// <para>
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action
         /// is taken. An example of an Amazon SNS topic ARN is <code>arn:aws:sns:us-west-2:123456789012:MyTopic</code>.
-        /// For more information about Amazon SNS topics, see the <a href="http://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon
+        /// For more information about Amazon SNS topics, see the <a href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon
         /// SNS Developer Guide</a>.
         /// </para>
         /// </summary>

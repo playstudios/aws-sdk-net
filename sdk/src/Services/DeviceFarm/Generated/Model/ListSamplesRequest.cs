@@ -29,7 +29,7 @@ namespace Amazon.DeviceFarm.Model
 {
     /// <summary>
     /// Container for the parameters to the ListSamples operation.
-    /// Gets information about samples, given an AWS Device Farm project ARN
+    /// Gets information about samples, given an AWS Device Farm job ARN.
     /// </summary>
     public partial class ListSamplesRequest : AmazonDeviceFarmRequest
     {
@@ -39,9 +39,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the project for which you want to list samples.
+        /// The Amazon Resource Name (ARN) of the job used to list samples.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -61,6 +62,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

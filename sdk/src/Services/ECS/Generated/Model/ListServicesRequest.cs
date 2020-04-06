@@ -37,6 +37,7 @@ namespace Amazon.ECS.Model
         private LaunchType _launchType;
         private int? _maxResults;
         private string _nextToken;
+        private SchedulingStrategy _schedulingStrategy;
 
         /// <summary>
         /// Gets and sets the property Cluster. 
@@ -60,7 +61,7 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property LaunchType. 
         /// <para>
-        /// The launch type for services you want to list.
+        /// The launch type for the services to list.
         /// </para>
         /// </summary>
         public LaunchType LaunchType
@@ -83,7 +84,7 @@ namespace Amazon.ECS.Model
         /// results in a single page along with a <code>nextToken</code> response element. The
         /// remaining results of the initial request can be seen by sending another <code>ListServices</code>
         /// request with the returned <code>nextToken</code> value. This value can be between
-        /// 1 and 10. If this parameter is not used, then <code>ListServices</code> returns up
+        /// 1 and 100. If this parameter is not used, then <code>ListServices</code> returns up
         /// to 10 results and a <code>nextToken</code> value if applicable.
         /// </para>
         /// </summary>
@@ -102,10 +103,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The <code>nextToken</code> value returned from a previous paginated <code>ListServices</code>
-        /// request where <code>maxResults</code> was used and the results exceeded the value
-        /// of that parameter. Pagination continues from the end of the previous results that
-        /// returned the <code>nextToken</code> value.
+        /// The <code>nextToken</code> value returned from a <code>ListServices</code> request
+        /// indicating that more results are available to fulfill the request and further calls
+        /// will be needed. If <code>maxResults</code> was provided, it is possible the number
+        /// of results to be fewer than <code>maxResults</code>.
         /// </para>
         ///  <note> 
         /// <para>
@@ -124,6 +125,24 @@ namespace Amazon.ECS.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SchedulingStrategy. 
+        /// <para>
+        /// The scheduling strategy for services to list.
+        /// </para>
+        /// </summary>
+        public SchedulingStrategy SchedulingStrategy
+        {
+            get { return this._schedulingStrategy; }
+            set { this._schedulingStrategy = value; }
+        }
+
+        // Check to see if SchedulingStrategy property is set
+        internal bool IsSetSchedulingStrategy()
+        {
+            return this._schedulingStrategy != null;
         }
 
     }

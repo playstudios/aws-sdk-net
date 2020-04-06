@@ -39,7 +39,9 @@ namespace Amazon.AppStream.Model
         private DateTime? _createdTime;
         private string _description;
         private string _displayName;
+        private string _imageBuilderName;
         private bool? _imageBuilderSupported;
+        private ImagePermissions _imagePermissions;
         private string _name;
         private PlatformType _platform;
         private DateTime? _publicBaseImageReleasedDate;
@@ -72,6 +74,7 @@ namespace Amazon.AppStream.Model
         /// this image. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string AppstreamAgentVersion
         {
             get { return this._appstreamAgentVersion; }
@@ -141,9 +144,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// The description for display.
+        /// The description to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Description
         {
             get { return this._description; }
@@ -159,9 +163,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DisplayName. 
         /// <para>
-        /// The image name for display.
+        /// The image name to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string DisplayName
         {
             get { return this._displayName; }
@@ -172,6 +177,26 @@ namespace Amazon.AppStream.Model
         internal bool IsSetDisplayName()
         {
             return this._displayName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ImageBuilderName. 
+        /// <para>
+        /// The name of the image builder that was used to create the private image. If the image
+        /// is shared, this value is null.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public string ImageBuilderName
+        {
+            get { return this._imageBuilderName; }
+            set { this._imageBuilderName = value; }
+        }
+
+        // Check to see if ImageBuilderName property is set
+        internal bool IsSetImageBuilderName()
+        {
+            return this._imageBuilderName != null;
         }
 
         /// <summary>
@@ -193,11 +218,30 @@ namespace Amazon.AppStream.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ImagePermissions. 
+        /// <para>
+        /// The permissions to provide to the destination AWS account for the specified image.
+        /// </para>
+        /// </summary>
+        public ImagePermissions ImagePermissions
+        {
+            get { return this._imagePermissions; }
+            set { this._imagePermissions = value; }
+        }
+
+        // Check to see if ImagePermissions property is set
+        internal bool IsSetImagePermissions()
+        {
+            return this._imagePermissions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the image.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Name
         {
             get { return this._name; }

@@ -58,15 +58,27 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
             string target = "AWSCognitoIdentityProviderService.CreateUserPoolDomain";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-04-18";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCustomDomainConfig())
+                {
+                    context.Writer.WritePropertyName("CustomDomainConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CustomDomainConfigTypeMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.CustomDomainConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetDomain())
                 {
                     context.Writer.WritePropertyName("Domain");

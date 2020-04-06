@@ -55,17 +55,18 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateApiKeyRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.AppSync");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/apis/{apiId}/apikeys/{id}";
             if (!publicRequest.IsSetApiId())
                 throw new AmazonAppSyncException("Request object does not have required field ApiId set");
-            uriResourcePath = uriResourcePath.Replace("{apiId}", StringUtils.FromString(publicRequest.ApiId));
+            request.AddPathResource("{apiId}", StringUtils.FromString(publicRequest.ApiId));
             if (!publicRequest.IsSetId())
                 throw new AmazonAppSyncException("Request object does not have required field Id set");
-            uriResourcePath = uriResourcePath.Replace("{id}", StringUtils.FromString(publicRequest.Id));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{id}", StringUtils.FromString(publicRequest.Id));
+            request.ResourcePath = "/v1/apis/{apiId}/apikeys/{id}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

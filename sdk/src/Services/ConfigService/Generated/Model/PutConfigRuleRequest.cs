@@ -51,7 +51,7 @@ namespace Amazon.ConfigService.Model
     /// <para>
     /// If you are adding an AWS managed Config rule, specify the rule's identifier for the
     /// <code>SourceIdentifier</code> key. To reference AWS managed Config rule identifiers,
-    /// see <a href="http://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">About
+    /// see <a href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">About
     /// AWS Managed Config Rules</a>.
     /// </para>
     ///  
@@ -68,7 +68,7 @@ namespace Amazon.ConfigService.Model
     /// </para>
     ///  
     /// <para>
-    /// The maximum number of rules that AWS Config supports is 50.
+    /// The maximum number of rules that AWS Config supports is 150.
     /// </para>
     ///  
     /// <para>
@@ -77,13 +77,14 @@ namespace Amazon.ConfigService.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about developing and using AWS Config rules, see <a href="http://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
+    /// For more information about developing and using AWS Config rules, see <a href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
     /// AWS Resource Configurations with AWS Config</a> in the <i>AWS Config Developer Guide</i>.
     /// </para>
     /// </summary>
     public partial class PutConfigRuleRequest : AmazonConfigServiceRequest
     {
         private ConfigRule _configRule;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ConfigRule. 
@@ -91,6 +92,7 @@ namespace Amazon.ConfigService.Model
         /// The rule that you want to add to your account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ConfigRule ConfigRule
         {
             get { return this._configRule; }
@@ -101,6 +103,25 @@ namespace Amazon.ConfigService.Model
         internal bool IsSetConfigRule()
         {
             return this._configRule != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// An array of tag object.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

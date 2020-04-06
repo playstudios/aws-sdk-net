@@ -45,6 +45,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of entity ARNs (unique identifiers).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> EntityArns
         {
             get { return this._entityArns; }
@@ -63,6 +64,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of IDs for affected entities.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> EntityValues
         {
             get { return this._entityValues; }
@@ -78,10 +80,12 @@ namespace Amazon.AWSHealth.Model
         /// <summary>
         /// Gets and sets the property EventArns. 
         /// <para>
-        /// A list of event ARNs (unique identifiers). For example: <code>"arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331",
-        /// "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz"</code> 
+        /// A list of event ARNs (unique identifiers). For example: <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+        /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public List<string> EventArns
         {
             get { return this._eventArns; }
@@ -100,6 +104,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of the most recent dates and times that the entity was updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<DateTimeRange> LastUpdatedTimes
         {
             get { return this._lastUpdatedTimes; }
@@ -119,6 +124,7 @@ namespace Amazon.AWSHealth.Model
         /// <code>UNKNOWN</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=3)]
         public List<string> StatusCodes
         {
             get { return this._statusCodes; }
@@ -137,6 +143,7 @@ namespace Amazon.AWSHealth.Model
         /// A map of entity tags attached to the affected entity.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<Dictionary<string, string>> Tags
         {
             get { return this._tags; }

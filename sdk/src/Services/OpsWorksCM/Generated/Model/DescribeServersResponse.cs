@@ -38,16 +38,10 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// NextToken is a string that is returned in some command responses. It indicates that
-        /// not all entries have been returned, and that you must run at least one more request
-        /// to get remaining items. To get remaining results, call <code>DescribeServers</code>
-        /// again, and assign the token from the previous results as the value of the <code>nextToken</code>
-        /// parameter. If there are no more results, the response object's <code>nextToken</code>
-        /// parameter value is <code>null</code>. Setting a <code>nextToken</code> value that
-        /// was not returned in your previous results causes an <code>InvalidNextTokenException</code>
-        /// to occur. 
+        /// This is not currently implemented for <code>DescribeServers</code> requests. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -64,6 +58,13 @@ namespace Amazon.OpsWorksCM.Model
         /// Gets and sets the property Servers. 
         /// <para>
         /// Contains the response to a <code>DescribeServers</code> request.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <i>For Chef Automate servers:</i> If <code>DescribeServersResponse$Servers$EngineAttributes</code>
+        /// includes CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to
+        /// Chef Automate 2. To be eligible for upgrade, a server running Chef Automate 1 must
+        /// have had at least one successful maintenance run after November 1, 2019.
         /// </para>
         ///  
         /// <para>

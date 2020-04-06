@@ -34,8 +34,8 @@ namespace Amazon.AWSMarketplaceMetering.Model
     /// 
     ///  
     /// <para>
-    /// MeterUsage is authenticated on the buyer's AWS account, generally when running from
-    /// an EC2 instance on the AWS Marketplace.
+    /// MeterUsage is authenticated on the buyer's AWS account using credentials from the
+    /// EC2 instance, ECS task, or EKS pod.
     /// </para>
     /// </summary>
     public partial class MeterUsageRequest : AmazonAWSMarketplaceMeteringRequest
@@ -51,7 +51,7 @@ namespace Amazon.AWSMarketplaceMetering.Model
         /// <para>
         /// Checks whether you have the permissions required for the action, but does not make
         /// the request. If you have the permissions, the request returns DryRunOperation; otherwise,
-        /// it returns UnauthorizedException.
+        /// it returns UnauthorizedException. Defaults to <code>false</code> if not specified.
         /// </para>
         /// </summary>
         public bool DryRun
@@ -73,6 +73,7 @@ namespace Amazon.AWSMarketplaceMetering.Model
         /// code should be the same as the one used during the publishing of a new product.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string ProductCode
         {
             get { return this._productCode; }
@@ -88,10 +89,12 @@ namespace Amazon.AWSMarketplaceMetering.Model
         /// <summary>
         /// Gets and sets the property Timestamp. 
         /// <para>
-        /// Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the
-        /// timestamp will be ignored.
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter
+        /// usage for up to one hour in the past. Make sure the timestamp value is not before
+        /// the start of the software usage.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime Timestamp
         {
             get { return this._timestamp.GetValueOrDefault(); }
@@ -110,6 +113,7 @@ namespace Amazon.AWSMarketplaceMetering.Model
         /// It will be one of the fcp dimension name provided during the publishing of the product.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string UsageDimension
         {
             get { return this._usageDimension; }
@@ -125,9 +129,10 @@ namespace Amazon.AWSMarketplaceMetering.Model
         /// <summary>
         /// Gets and sets the property UsageQuantity. 
         /// <para>
-        /// Consumption value for the hour.
+        /// Consumption value for the hour. Defaults to <code>0</code> if not specified.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int UsageQuantity
         {
             get { return this._usageQuantity.GetValueOrDefault(); }

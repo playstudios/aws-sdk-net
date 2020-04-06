@@ -58,15 +58,32 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
             string target = "AmazonEC2ContainerServiceV20141113.UpdateService";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-13";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCapacityProviderStrategy())
+                {
+                    context.Writer.WritePropertyName("capacityProviderStrategy");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestCapacityProviderStrategyListValue in publicRequest.CapacityProviderStrategy)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = CapacityProviderStrategyItemMarshaller.Instance;
+                        marshaller.Marshall(publicRequestCapacityProviderStrategyListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetCluster())
                 {
                     context.Writer.WritePropertyName("cluster");
@@ -111,6 +128,38 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.NetworkConfiguration, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetPlacementConstraints())
+                {
+                    context.Writer.WritePropertyName("placementConstraints");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestPlacementConstraintsListValue in publicRequest.PlacementConstraints)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = PlacementConstraintMarshaller.Instance;
+                        marshaller.Marshall(publicRequestPlacementConstraintsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetPlacementStrategy())
+                {
+                    context.Writer.WritePropertyName("placementStrategy");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestPlacementStrategyListValue in publicRequest.PlacementStrategy)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = PlacementStrategyMarshaller.Instance;
+                        marshaller.Marshall(publicRequestPlacementStrategyListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetPlatformVersion())

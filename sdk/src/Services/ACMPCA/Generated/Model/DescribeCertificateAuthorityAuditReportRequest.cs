@@ -30,9 +30,9 @@ namespace Amazon.ACMPCA.Model
     /// <summary>
     /// Container for the parameters to the DescribeCertificateAuthorityAuditReport operation.
     /// Lists information about a specific audit report created by calling the <a>CreateCertificateAuthorityAuditReport</a>
-    /// function. Audit information is created every time the certificate authority (CA) private
-    /// key is used. The private key is used when you call the <a>IssueCertificate</a> function
-    /// or the <a>RevokeCertificate</a> function.
+    /// action. Audit information is created every time the certificate authority (CA) private
+    /// key is used. The private key is used when you call the <a>IssueCertificate</a> action
+    /// or the <a>RevokeCertificate</a> action.
     /// </summary>
     public partial class DescribeCertificateAuthorityAuditReportRequest : AmazonACMPCARequest
     {
@@ -43,9 +43,10 @@ namespace Amazon.ACMPCA.Model
         /// Gets and sets the property AuditReportId. 
         /// <para>
         /// The report ID returned by calling the <a>CreateCertificateAuthorityAuditReport</a>
-        /// function.
+        /// action.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=36, Max=36)]
         public string AuditReportId
         {
             get { return this._auditReportId; }
@@ -65,10 +66,11 @@ namespace Amazon.ACMPCA.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:acm:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+        ///  <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
         /// </code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=200)]
         public string CertificateAuthorityArn
         {
             get { return this._certificateAuthorityArn; }

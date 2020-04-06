@@ -40,10 +40,11 @@ namespace Amazon.WAF.Model
         /// <summary>
         /// Gets and sets the property Action. 
         /// <para>
-        /// Specify <code>INSERT</code> to add a <a>XssMatchSetUpdate</a> to an <a>XssMatchSet</a>.
-        /// Use <code>DELETE</code> to remove a <code>XssMatchSetUpdate</code> from an <code>XssMatchSet</code>.
+        /// Specify <code>INSERT</code> to add an <a>XssMatchSetUpdate</a> to an <a>XssMatchSet</a>.
+        /// Use <code>DELETE</code> to remove an <code>XssMatchSetUpdate</code> from an <code>XssMatchSet</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ChangeAction Action
         {
             get { return this._action; }
@@ -63,6 +64,7 @@ namespace Amazon.WAF.Model
         /// scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public XssMatchTuple XssMatchTuple
         {
             get { return this._xssMatchTuple; }

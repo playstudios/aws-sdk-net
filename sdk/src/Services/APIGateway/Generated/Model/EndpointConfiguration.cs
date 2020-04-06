@@ -34,6 +34,7 @@ namespace Amazon.APIGateway.Model
     public partial class EndpointConfiguration
     {
         private List<string> _types = new List<string>();
+        private List<string> _vpcEndpointIds = new List<string>();
 
         /// <summary>
         /// Gets and sets the property Types. 
@@ -41,6 +42,7 @@ namespace Amazon.APIGateway.Model
         /// A list of endpoint types of an API (<a>RestApi</a>) or its custom domain name (<a>DomainName</a>).
         /// For an edge-optimized API and its custom domain name, the endpoint type is <code>"EDGE"</code>.
         /// For a regional API and its custom domain name, the endpoint type is <code>REGIONAL</code>.
+        /// For a private API, the endpoint type is <code>PRIVATE</code>.
         /// </para>
         /// </summary>
         public List<string> Types
@@ -53,6 +55,25 @@ namespace Amazon.APIGateway.Model
         internal bool IsSetTypes()
         {
             return this._types != null && this._types.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property VpcEndpointIds. 
+        /// <para>
+        /// A list of VpcEndpointIds of an API (<a>RestApi</a>) against which to create Route53
+        /// ALIASes. It is only supported for <code>PRIVATE</code> endpoint type.
+        /// </para>
+        /// </summary>
+        public List<string> VpcEndpointIds
+        {
+            get { return this._vpcEndpointIds; }
+            set { this._vpcEndpointIds = value; }
+        }
+
+        // Check to see if VpcEndpointIds property is set
+        internal bool IsSetVpcEndpointIds()
+        {
+            return this._vpcEndpointIds != null && this._vpcEndpointIds.Count > 0; 
         }
 
     }

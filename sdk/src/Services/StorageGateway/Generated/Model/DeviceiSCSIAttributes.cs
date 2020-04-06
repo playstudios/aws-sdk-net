@@ -94,10 +94,11 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property TargetARN. 
         /// <para>
-        /// Specifies the unique Amazon Resource Name(ARN) that encodes the iSCSI qualified name(iqn)
+        /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI qualified name(iqn)
         /// of a tape drive or media changer target.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=800)]
         public string TargetARN
         {
             get { return this._targetARN; }

@@ -43,9 +43,10 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property Workspaces. 
         /// <para>
-        /// Information about the WorkSpaces to create.
+        /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=25)]
         public List<WorkspaceRequest> Workspaces
         {
             get { return this._workspaces; }

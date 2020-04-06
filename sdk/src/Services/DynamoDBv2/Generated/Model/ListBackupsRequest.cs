@@ -31,21 +31,22 @@ namespace Amazon.DynamoDBv2.Model
     /// Container for the parameters to the ListBackups operation.
     /// List backups associated with an AWS account. To list backups for a given table, specify
     /// <code>TableName</code>. <code>ListBackups</code> returns a paginated list of results
-    /// with at most 1MB worth of items in a page. You can also specify a limit for the maximum
+    /// with at most 1 MB worth of items in a page. You can also specify a limit for the maximum
     /// number of entries to be returned in a page. 
     /// 
     ///  
     /// <para>
-    /// In the request, start time is inclusive but end time is exclusive. Note that these
+    /// In the request, start time is inclusive, but end time is exclusive. Note that these
     /// limits are for the time at which the original backup was requested.
     /// </para>
     ///  
     /// <para>
-    /// You can call <code>ListBackups</code> a maximum of 5 times per second.
+    /// You can call <code>ListBackups</code> a maximum of five times per second.
     /// </para>
     /// </summary>
     public partial class ListBackupsRequest : AmazonDynamoDBRequest
     {
+        private BackupTypeFilter _backupType;
         private string _exclusiveStartBackupArn;
         private int? _limit;
         private string _tableName;
@@ -53,11 +54,51 @@ namespace Amazon.DynamoDBv2.Model
         private DateTime? _timeRangeUpperBound;
 
         /// <summary>
+        /// Gets and sets the property BackupType. 
+        /// <para>
+        /// The backups from the table specified by <code>BackupType</code> are listed.
+        /// </para>
+        ///  
+        /// <para>
+        /// Where <code>BackupType</code> can be:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>USER</code> - On-demand backup created by you.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SYSTEM</code> - On-demand backup automatically created by DynamoDB.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ALL</code> - All types of on-demand backups (USER and SYSTEM).
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public BackupTypeFilter BackupType
+        {
+            get { return this._backupType; }
+            set { this._backupType = value; }
+        }
+
+        // Check to see if BackupType property is set
+        internal bool IsSetBackupType()
+        {
+            return this._backupType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ExclusiveStartBackupArn. 
         /// <para>
-        ///  <code>LastEvaluatedBackupARN</code> returned by the previous ListBackups call. 
+        ///  <code>LastEvaluatedBackupArn</code> is the Amazon Resource Name (ARN) of the backup
+        /// last evaluated when the current page of results was returned, inclusive of the current
+        /// page of results. This value may be specified as the <code>ExclusiveStartBackupArn</code>
+        /// of a new <code>ListBackups</code> operation in order to fetch the next page of results.
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=37, Max=1024)]
         public string ExclusiveStartBackupArn
         {
             get { return this._exclusiveStartBackupArn; }
@@ -76,6 +117,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Maximum number of backups to return at once.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -91,9 +133,10 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property TableName. 
         /// <para>
-        /// The backups from the table specified by TableName are listed. 
+        /// The backups from the table specified by <code>TableName</code> are listed. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

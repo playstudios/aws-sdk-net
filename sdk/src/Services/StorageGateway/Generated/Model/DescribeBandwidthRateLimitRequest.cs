@@ -30,7 +30,8 @@ namespace Amazon.StorageGateway.Model
     /// <summary>
     /// Container for the parameters to the DescribeBandwidthRateLimit operation.
     /// Returns the bandwidth rate limits of a gateway. By default, these limits are not set,
-    /// which means no bandwidth rate limiting is in effect.
+    /// which means no bandwidth rate limiting is in effect. This operation is supported for
+    /// the stored volume, cached volume and tape gateway types.'
     /// 
     ///  
     /// <para>
@@ -47,6 +48,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayARN.
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Kinesis.Model;
 using Amazon.Kinesis.Model.Internal.MarshallTransformations;
+using Amazon.Kinesis.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -41,6 +43,7 @@ namespace Amazon.Kinesis
     /// </summary>
     public partial class AmazonKinesisClient : AmazonServiceClient, IAmazonKinesis
     {
+        private static IServiceMetadata serviceMetadata = new AmazonKinesisMetadata();
         #region Constructors
 
         /// <summary>
@@ -211,6 +214,16 @@ namespace Amazon.Kinesis
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -226,12 +239,14 @@ namespace Amazon.Kinesis
 
         #endregion
 
-        
+
         #region  AddTagsToStream
 
         /// <summary>
-        /// Adds or updates tags for the specified Kinesis data stream. Each stream can have up
-        /// to 10 tags.
+        /// Adds or updates tags for the specified Kinesis data stream. Each time you invoke this
+        /// operation, you can specify up to 10 tags. If you want to add more than 10 tags to
+        /// your stream, you can invoke this operation multiple times. In total, each stream can
+        /// have up to 50 tags.
         /// 
         ///  
         /// <para>
@@ -264,10 +279,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/AddTagsToStream">REST API Reference for AddTagsToStream Operation</seealso>
         public virtual AddTagsToStreamResponse AddTagsToStream(AddTagsToStreamRequest request)
         {
-            var marshaller = AddTagsToStreamRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToStreamResponseUnmarshaller.Instance;
 
-            return Invoke<AddTagsToStreamRequest,AddTagsToStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddTagsToStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -284,11 +300,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/AddTagsToStream">REST API Reference for AddTagsToStream Operation</seealso>
         public virtual IAsyncResult BeginAddTagsToStream(AddTagsToStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddTagsToStreamRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddTagsToStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -385,10 +401,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/CreateStream">REST API Reference for CreateStream Operation</seealso>
         public virtual CreateStreamResponse CreateStream(CreateStreamRequest request)
         {
-            var marshaller = CreateStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStreamResponseUnmarshaller.Instance;
 
-            return Invoke<CreateStreamRequest,CreateStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -405,11 +422,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/CreateStream">REST API Reference for CreateStream Operation</seealso>
         public virtual IAsyncResult BeginCreateStream(CreateStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -503,10 +520,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DecreaseStreamRetentionPeriod">REST API Reference for DecreaseStreamRetentionPeriod Operation</seealso>
         public virtual DecreaseStreamRetentionPeriodResponse DecreaseStreamRetentionPeriod(DecreaseStreamRetentionPeriodRequest request)
         {
-            var marshaller = DecreaseStreamRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = DecreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseStreamRetentionPeriodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
 
-            return Invoke<DecreaseStreamRetentionPeriodRequest,DecreaseStreamRetentionPeriodResponse>(request, marshaller, unmarshaller);
+            return Invoke<DecreaseStreamRetentionPeriodResponse>(request, options);
         }
 
         /// <summary>
@@ -523,11 +541,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DecreaseStreamRetentionPeriod">REST API Reference for DecreaseStreamRetentionPeriod Operation</seealso>
         public virtual IAsyncResult BeginDecreaseStreamRetentionPeriod(DecreaseStreamRetentionPeriodRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DecreaseStreamRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = DecreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseStreamRetentionPeriodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DecreaseStreamRetentionPeriodRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -586,16 +604,21 @@ namespace Amazon.Kinesis
         /// The requested resource exceeds the maximum number allowed, or the number of concurrent
         /// stream requests exceeds the maximum number allowed.
         /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.ResourceInUseException">
+        /// The resource is not available for this operation. For successful operation, the resource
+        /// must be in the <code>ACTIVE</code> state.
+        /// </exception>
         /// <exception cref="Amazon.Kinesis.Model.ResourceNotFoundException">
         /// The requested resource could not be found. The stream might not be specified correctly.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DeleteStream">REST API Reference for DeleteStream Operation</seealso>
         public virtual DeleteStreamResponse DeleteStream(DeleteStreamRequest request)
         {
-            var marshaller = DeleteStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStreamResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteStreamRequest,DeleteStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -612,11 +635,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DeleteStream">REST API Reference for DeleteStream Operation</seealso>
         public virtual IAsyncResult BeginDeleteStream(DeleteStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -630,6 +653,82 @@ namespace Amazon.Kinesis
         public virtual DeleteStreamResponse EndDeleteStream(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteStreamResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeregisterStreamConsumer
+
+        /// <summary>
+        /// To deregister a consumer, provide its ARN. Alternatively, you can provide the ARN
+        /// of the data stream and the name you gave the consumer when you registered it. You
+        /// may also provide all three parameters, as long as they don't conflict with each other.
+        /// If you don't know the name or ARN of the consumer that you want to deregister, you
+        /// can use the <a>ListStreamConsumers</a> operation to get a list of the descriptions
+        /// of all the consumers that are currently registered with a given data stream. The description
+        /// of a consumer contains its name and ARN.
+        /// 
+        ///  
+        /// <para>
+        /// This operation has a limit of five transactions per second per account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterStreamConsumer service method.</param>
+        /// 
+        /// <returns>The response from the DeregisterStreamConsumer service method, as returned by Kinesis.</returns>
+        /// <exception cref="Amazon.Kinesis.Model.InvalidArgumentException">
+        /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
+        /// For more information, see the returned message.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.LimitExceededException">
+        /// The requested resource exceeds the maximum number allowed, or the number of concurrent
+        /// stream requests exceeds the maximum number allowed.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.ResourceNotFoundException">
+        /// The requested resource could not be found. The stream might not be specified correctly.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DeregisterStreamConsumer">REST API Reference for DeregisterStreamConsumer Operation</seealso>
+        public virtual DeregisterStreamConsumerResponse DeregisterStreamConsumer(DeregisterStreamConsumerRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeregisterStreamConsumerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeregisterStreamConsumerResponseUnmarshaller.Instance;
+
+            return Invoke<DeregisterStreamConsumerResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeregisterStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterStreamConsumer operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeregisterStreamConsumer
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DeregisterStreamConsumer">REST API Reference for DeregisterStreamConsumer Operation</seealso>
+        public virtual IAsyncResult BeginDeregisterStreamConsumer(DeregisterStreamConsumerRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeregisterStreamConsumerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeregisterStreamConsumerResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeregisterStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeregisterStreamConsumer.</param>
+        /// 
+        /// <returns>Returns a  DeregisterStreamConsumerResult from Kinesis.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DeregisterStreamConsumer">REST API Reference for DeregisterStreamConsumer Operation</seealso>
+        public virtual DeregisterStreamConsumerResponse EndDeregisterStreamConsumer(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeregisterStreamConsumerResponse>(asyncResult);
         }
 
         #endregion
@@ -658,10 +757,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeLimits">REST API Reference for DescribeLimits Operation</seealso>
         public virtual DescribeLimitsResponse DescribeLimits(DescribeLimitsRequest request)
         {
-            var marshaller = DescribeLimitsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLimitsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLimitsRequest,DescribeLimitsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLimitsResponse>(request, options);
         }
 
         /// <summary>
@@ -678,11 +778,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeLimits">REST API Reference for DescribeLimits Operation</seealso>
         public virtual IAsyncResult BeginDescribeLimits(DescribeLimitsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLimitsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLimitsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeLimitsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -744,10 +844,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStream">REST API Reference for DescribeStream Operation</seealso>
         public virtual DescribeStreamResponse DescribeStream(DescribeStreamRequest request)
         {
-            var marshaller = DescribeStreamRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeStreamRequest,DescribeStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -764,11 +865,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStream">REST API Reference for DescribeStream Operation</seealso>
         public virtual IAsyncResult BeginDescribeStream(DescribeStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeStreamRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -782,6 +883,82 @@ namespace Amazon.Kinesis
         public virtual DescribeStreamResponse EndDescribeStream(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeStreamResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeStreamConsumer
+
+        /// <summary>
+        /// To get the description of a registered consumer, provide the ARN of the consumer.
+        /// Alternatively, you can provide the ARN of the data stream and the name you gave the
+        /// consumer when you registered it. You may also provide all three parameters, as long
+        /// as they don't conflict with each other. If you don't know the name or ARN of the consumer
+        /// that you want to describe, you can use the <a>ListStreamConsumers</a> operation to
+        /// get a list of the descriptions of all the consumers that are currently registered
+        /// with a given data stream.
+        /// 
+        ///  
+        /// <para>
+        /// This operation has a limit of 20 transactions per second per account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStreamConsumer service method.</param>
+        /// 
+        /// <returns>The response from the DescribeStreamConsumer service method, as returned by Kinesis.</returns>
+        /// <exception cref="Amazon.Kinesis.Model.InvalidArgumentException">
+        /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
+        /// For more information, see the returned message.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.LimitExceededException">
+        /// The requested resource exceeds the maximum number allowed, or the number of concurrent
+        /// stream requests exceeds the maximum number allowed.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.ResourceNotFoundException">
+        /// The requested resource could not be found. The stream might not be specified correctly.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStreamConsumer">REST API Reference for DescribeStreamConsumer Operation</seealso>
+        public virtual DescribeStreamConsumerResponse DescribeStreamConsumer(DescribeStreamConsumerRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamConsumerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamConsumerResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeStreamConsumerResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStreamConsumer operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeStreamConsumer
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStreamConsumer">REST API Reference for DescribeStreamConsumer Operation</seealso>
+        public virtual IAsyncResult BeginDescribeStreamConsumer(DescribeStreamConsumerRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamConsumerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamConsumerResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeStreamConsumer.</param>
+        /// 
+        /// <returns>Returns a  DescribeStreamConsumerResult from Kinesis.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStreamConsumer">REST API Reference for DescribeStreamConsumer Operation</seealso>
+        public virtual DescribeStreamConsumerResponse EndDescribeStreamConsumer(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeStreamConsumerResponse>(asyncResult);
         }
 
         #endregion
@@ -812,10 +989,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStreamSummary">REST API Reference for DescribeStreamSummary Operation</seealso>
         public virtual DescribeStreamSummaryResponse DescribeStreamSummary(DescribeStreamSummaryRequest request)
         {
-            var marshaller = DescribeStreamSummaryRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamSummaryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamSummaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamSummaryResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeStreamSummaryRequest,DescribeStreamSummaryResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeStreamSummaryResponse>(request, options);
         }
 
         /// <summary>
@@ -832,11 +1010,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStreamSummary">REST API Reference for DescribeStreamSummary Operation</seealso>
         public virtual IAsyncResult BeginDescribeStreamSummary(DescribeStreamSummaryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeStreamSummaryRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamSummaryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamSummaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamSummaryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeStreamSummaryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -880,10 +1058,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DisableEnhancedMonitoring">REST API Reference for DisableEnhancedMonitoring Operation</seealso>
         public virtual DisableEnhancedMonitoringResponse DisableEnhancedMonitoring(DisableEnhancedMonitoringRequest request)
         {
-            var marshaller = DisableEnhancedMonitoringRequestMarshaller.Instance;
-            var unmarshaller = DisableEnhancedMonitoringResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableEnhancedMonitoringRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableEnhancedMonitoringResponseUnmarshaller.Instance;
 
-            return Invoke<DisableEnhancedMonitoringRequest,DisableEnhancedMonitoringResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisableEnhancedMonitoringResponse>(request, options);
         }
 
         /// <summary>
@@ -900,11 +1079,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DisableEnhancedMonitoring">REST API Reference for DisableEnhancedMonitoring Operation</seealso>
         public virtual IAsyncResult BeginDisableEnhancedMonitoring(DisableEnhancedMonitoringRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisableEnhancedMonitoringRequestMarshaller.Instance;
-            var unmarshaller = DisableEnhancedMonitoringResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableEnhancedMonitoringRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableEnhancedMonitoringResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisableEnhancedMonitoringRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -948,10 +1127,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/EnableEnhancedMonitoring">REST API Reference for EnableEnhancedMonitoring Operation</seealso>
         public virtual EnableEnhancedMonitoringResponse EnableEnhancedMonitoring(EnableEnhancedMonitoringRequest request)
         {
-            var marshaller = EnableEnhancedMonitoringRequestMarshaller.Instance;
-            var unmarshaller = EnableEnhancedMonitoringResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableEnhancedMonitoringRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableEnhancedMonitoringResponseUnmarshaller.Instance;
 
-            return Invoke<EnableEnhancedMonitoringRequest,EnableEnhancedMonitoringResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnableEnhancedMonitoringResponse>(request, options);
         }
 
         /// <summary>
@@ -968,11 +1148,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/EnableEnhancedMonitoring">REST API Reference for EnableEnhancedMonitoring Operation</seealso>
         public virtual IAsyncResult BeginEnableEnhancedMonitoring(EnableEnhancedMonitoringRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = EnableEnhancedMonitoringRequestMarshaller.Instance;
-            var unmarshaller = EnableEnhancedMonitoringResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableEnhancedMonitoringRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableEnhancedMonitoringResponseUnmarshaller.Instance;
 
-            return BeginInvoke<EnableEnhancedMonitoringRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1021,22 +1201,23 @@ namespace Amazon.Kinesis
         /// </para>
         ///  
         /// <para>
-        /// Each data record can be up to 1 MB in size, and each shard can read up to 2 MB per
+        /// Each data record can be up to 1 MiB in size, and each shard can read up to 2 MiB per
         /// second. You can ensure that your calls don't exceed the maximum supported size or
         /// throughput by using the <code>Limit</code> parameter to specify the maximum number
         /// of records that <a>GetRecords</a> can return. Consider your average record size when
-        /// determining this limit.
+        /// determining this limit. The maximum number of records that can be returned per call
+        /// is 10,000.
         /// </para>
         ///  
         /// <para>
         /// The size of the data returned by <a>GetRecords</a> varies depending on the utilization
-        /// of the shard. The maximum size of data that <a>GetRecords</a> can return is 10 MB.
-        /// If a call returns this amount of data, subsequent calls made within the next five
-        /// seconds throw <code>ProvisionedThroughputExceededException</code>. If there is insufficient
-        /// provisioned throughput on the stream, subsequent calls made within the next one second
-        /// throw <code>ProvisionedThroughputExceededException</code>. <a>GetRecords</a> won't
+        /// of the shard. The maximum size of data that <a>GetRecords</a> can return is 10 MiB.
+        /// If a call returns this amount of data, subsequent calls made within the next 5 seconds
+        /// throw <code>ProvisionedThroughputExceededException</code>. If there is insufficient
+        /// provisioned throughput on the stream, subsequent calls made within the next 1 second
+        /// throw <code>ProvisionedThroughputExceededException</code>. <a>GetRecords</a> doesn't
         /// return any data when it throws an exception. For this reason, we recommend that you
-        /// wait one second between calls to <a>GetRecords</a>; however, it's possible that the
+        /// wait 1 second between calls to <a>GetRecords</a>. However, it's possible that the
         /// application will get exceptions for longer than 1 second.
         /// </para>
         ///  
@@ -1056,6 +1237,10 @@ namespace Amazon.Kinesis
         /// time stamp has millisecond precision. There are no guarantees about the time stamp
         /// accuracy, or that the time stamp is always increasing. For example, records in a shard
         /// or across a stream might have time stamps that are out of order.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation has a limit of five transactions per second per account.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetRecords service method.</param>
@@ -1104,10 +1289,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/GetRecords">REST API Reference for GetRecords Operation</seealso>
         public virtual GetRecordsResponse GetRecords(GetRecordsRequest request)
         {
-            var marshaller = GetRecordsRequestMarshaller.Instance;
-            var unmarshaller = GetRecordsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRecordsResponseUnmarshaller.Instance;
 
-            return Invoke<GetRecordsRequest,GetRecordsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRecordsResponse>(request, options);
         }
 
         /// <summary>
@@ -1124,11 +1310,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/GetRecords">REST API Reference for GetRecords Operation</seealso>
         public virtual IAsyncResult BeginGetRecords(GetRecordsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRecordsRequestMarshaller.Instance;
-            var unmarshaller = GetRecordsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRecordsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRecordsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1149,8 +1335,8 @@ namespace Amazon.Kinesis
         #region  GetShardIterator
 
         /// <summary>
-        /// Gets an Amazon Kinesis shard iterator. A shard iterator expires five minutes after
-        /// it is returned to the requester.
+        /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it
+        /// is returned to the requester.
         /// 
         ///  
         /// <para>
@@ -1221,10 +1407,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/GetShardIterator">REST API Reference for GetShardIterator Operation</seealso>
         public virtual GetShardIteratorResponse GetShardIterator(GetShardIteratorRequest request)
         {
-            var marshaller = GetShardIteratorRequestMarshaller.Instance;
-            var unmarshaller = GetShardIteratorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetShardIteratorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetShardIteratorResponseUnmarshaller.Instance;
 
-            return Invoke<GetShardIteratorRequest,GetShardIteratorResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetShardIteratorResponse>(request, options);
         }
 
         /// <summary>
@@ -1241,11 +1428,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/GetShardIterator">REST API Reference for GetShardIterator Operation</seealso>
         public virtual IAsyncResult BeginGetShardIterator(GetShardIteratorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetShardIteratorRequestMarshaller.Instance;
-            var unmarshaller = GetShardIteratorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetShardIteratorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetShardIteratorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetShardIteratorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1345,10 +1532,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/IncreaseStreamRetentionPeriod">REST API Reference for IncreaseStreamRetentionPeriod Operation</seealso>
         public virtual IncreaseStreamRetentionPeriodResponse IncreaseStreamRetentionPeriod(IncreaseStreamRetentionPeriodRequest request)
         {
-            var marshaller = IncreaseStreamRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = IncreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseStreamRetentionPeriodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
 
-            return Invoke<IncreaseStreamRetentionPeriodRequest,IncreaseStreamRetentionPeriodResponse>(request, marshaller, unmarshaller);
+            return Invoke<IncreaseStreamRetentionPeriodResponse>(request, options);
         }
 
         /// <summary>
@@ -1365,11 +1553,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/IncreaseStreamRetentionPeriod">REST API Reference for IncreaseStreamRetentionPeriod Operation</seealso>
         public virtual IAsyncResult BeginIncreaseStreamRetentionPeriod(IncreaseStreamRetentionPeriodRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = IncreaseStreamRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = IncreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseStreamRetentionPeriodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
 
-            return BeginInvoke<IncreaseStreamRetentionPeriodRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1390,7 +1578,8 @@ namespace Amazon.Kinesis
         #region  ListShards
 
         /// <summary>
-        /// Lists the shards in a stream and provides information about each shard.
+        /// Lists the shards in a stream and provides information about each shard. This operation
+        /// has a limit of 100 transactions per second per data stream.
         /// 
         ///  <important> 
         /// <para>
@@ -1405,8 +1594,7 @@ namespace Amazon.Kinesis
         /// 
         /// <returns>The response from the ListShards service method, as returned by Kinesis.</returns>
         /// <exception cref="Amazon.Kinesis.Model.ExpiredNextTokenException">
-        /// The pagination token passed to the <code>ListShards</code> operation is expired. For
-        /// more information, see <a>ListShardsInput$NextToken</a>.
+        /// The pagination token passed to the operation is expired.
         /// </exception>
         /// <exception cref="Amazon.Kinesis.Model.InvalidArgumentException">
         /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
@@ -1426,10 +1614,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListShards">REST API Reference for ListShards Operation</seealso>
         public virtual ListShardsResponse ListShards(ListShardsRequest request)
         {
-            var marshaller = ListShardsRequestMarshaller.Instance;
-            var unmarshaller = ListShardsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListShardsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListShardsResponseUnmarshaller.Instance;
 
-            return Invoke<ListShardsRequest,ListShardsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListShardsResponse>(request, options);
         }
 
         /// <summary>
@@ -1446,11 +1635,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListShards">REST API Reference for ListShards Operation</seealso>
         public virtual IAsyncResult BeginListShards(ListShardsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListShardsRequestMarshaller.Instance;
-            var unmarshaller = ListShardsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListShardsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListShardsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListShardsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1464,6 +1653,84 @@ namespace Amazon.Kinesis
         public virtual ListShardsResponse EndListShards(IAsyncResult asyncResult)
         {
             return EndInvoke<ListShardsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListStreamConsumers
+
+        /// <summary>
+        /// Lists the consumers registered to receive data from a stream using enhanced fan-out,
+        /// and provides information about each consumer.
+        /// 
+        ///  
+        /// <para>
+        /// This operation has a limit of 10 transactions per second per account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListStreamConsumers service method.</param>
+        /// 
+        /// <returns>The response from the ListStreamConsumers service method, as returned by Kinesis.</returns>
+        /// <exception cref="Amazon.Kinesis.Model.ExpiredNextTokenException">
+        /// The pagination token passed to the operation is expired.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.InvalidArgumentException">
+        /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
+        /// For more information, see the returned message.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.LimitExceededException">
+        /// The requested resource exceeds the maximum number allowed, or the number of concurrent
+        /// stream requests exceeds the maximum number allowed.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.ResourceInUseException">
+        /// The resource is not available for this operation. For successful operation, the resource
+        /// must be in the <code>ACTIVE</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.ResourceNotFoundException">
+        /// The requested resource could not be found. The stream might not be specified correctly.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListStreamConsumers">REST API Reference for ListStreamConsumers Operation</seealso>
+        public virtual ListStreamConsumersResponse ListStreamConsumers(ListStreamConsumersRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamConsumersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamConsumersResponseUnmarshaller.Instance;
+
+            return Invoke<ListStreamConsumersResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListStreamConsumers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListStreamConsumers operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListStreamConsumers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListStreamConsumers">REST API Reference for ListStreamConsumers Operation</seealso>
+        public virtual IAsyncResult BeginListStreamConsumers(ListStreamConsumersRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamConsumersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamConsumersResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListStreamConsumers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListStreamConsumers.</param>
+        /// 
+        /// <returns>Returns a  ListStreamConsumersResult from Kinesis.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListStreamConsumers">REST API Reference for ListStreamConsumers Operation</seealso>
+        public virtual ListStreamConsumersResponse EndListStreamConsumers(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListStreamConsumersResponse>(asyncResult);
         }
 
         #endregion
@@ -1542,10 +1809,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListStreams">REST API Reference for ListStreams Operation</seealso>
         public virtual ListStreamsResponse ListStreams(ListStreamsRequest request)
         {
-            var marshaller = ListStreamsRequestMarshaller.Instance;
-            var unmarshaller = ListStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamsResponseUnmarshaller.Instance;
 
-            return Invoke<ListStreamsRequest,ListStreamsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListStreamsResponse>(request, options);
         }
 
         /// <summary>
@@ -1562,11 +1830,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListStreams">REST API Reference for ListStreams Operation</seealso>
         public virtual IAsyncResult BeginListStreams(ListStreamsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListStreamsRequestMarshaller.Instance;
-            var unmarshaller = ListStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListStreamsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1607,10 +1875,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListTagsForStream">REST API Reference for ListTagsForStream Operation</seealso>
         public virtual ListTagsForStreamResponse ListTagsForStream(ListTagsForStreamRequest request)
         {
-            var marshaller = ListTagsForStreamRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForStreamResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsForStreamRequest,ListTagsForStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsForStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -1627,11 +1896,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListTagsForStream">REST API Reference for ListTagsForStream Operation</seealso>
         public virtual IAsyncResult BeginListTagsForStream(ListTagsForStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTagsForStreamRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTagsForStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1727,10 +1996,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/MergeShards">REST API Reference for MergeShards Operation</seealso>
         public virtual MergeShardsResponse MergeShards(MergeShardsRequest request)
         {
-            var marshaller = MergeShardsRequestMarshaller.Instance;
-            var unmarshaller = MergeShardsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = MergeShardsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = MergeShardsResponseUnmarshaller.Instance;
 
-            return Invoke<MergeShardsRequest,MergeShardsResponse>(request, marshaller, unmarshaller);
+            return Invoke<MergeShardsResponse>(request, options);
         }
 
         /// <summary>
@@ -1747,11 +2017,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/MergeShards">REST API Reference for MergeShards Operation</seealso>
         public virtual IAsyncResult BeginMergeShards(MergeShardsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = MergeShardsRequestMarshaller.Instance;
-            var unmarshaller = MergeShardsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = MergeShardsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = MergeShardsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<MergeShardsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1873,10 +2143,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/PutRecord">REST API Reference for PutRecord Operation</seealso>
         public virtual PutRecordResponse PutRecord(PutRecordRequest request)
         {
-            var marshaller = PutRecordRequestMarshaller.Instance;
-            var unmarshaller = PutRecordResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRecordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRecordResponseUnmarshaller.Instance;
 
-            return Invoke<PutRecordRequest,PutRecordResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutRecordResponse>(request, options);
         }
 
         /// <summary>
@@ -1893,11 +2164,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/PutRecord">REST API Reference for PutRecord Operation</seealso>
         public virtual IAsyncResult BeginPutRecord(PutRecordRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutRecordRequestMarshaller.Instance;
-            var unmarshaller = PutRecordResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRecordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRecordResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutRecordRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2042,10 +2313,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/PutRecords">REST API Reference for PutRecords Operation</seealso>
         public virtual PutRecordsResponse PutRecords(PutRecordsRequest request)
         {
-            var marshaller = PutRecordsRequestMarshaller.Instance;
-            var unmarshaller = PutRecordsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRecordsResponseUnmarshaller.Instance;
 
-            return Invoke<PutRecordsRequest,PutRecordsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutRecordsResponse>(request, options);
         }
 
         /// <summary>
@@ -2062,11 +2334,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/PutRecords">REST API Reference for PutRecords Operation</seealso>
         public virtual IAsyncResult BeginPutRecords(PutRecordsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutRecordsRequestMarshaller.Instance;
-            var unmarshaller = PutRecordsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRecordsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutRecordsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2080,6 +2352,87 @@ namespace Amazon.Kinesis
         public virtual PutRecordsResponse EndPutRecords(IAsyncResult asyncResult)
         {
             return EndInvoke<PutRecordsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  RegisterStreamConsumer
+
+        /// <summary>
+        /// Registers a consumer with a Kinesis data stream. When you use this operation, the
+        /// consumer you register can read data from the stream at a rate of up to 2 MiB per second.
+        /// This rate is unaffected by the total number of consumers that read from the same stream.
+        /// 
+        ///  
+        /// <para>
+        /// You can register up to 5 consumers per stream. A given consumer can only be registered
+        /// with one stream.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation has a limit of five transactions per second per account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RegisterStreamConsumer service method.</param>
+        /// 
+        /// <returns>The response from the RegisterStreamConsumer service method, as returned by Kinesis.</returns>
+        /// <exception cref="Amazon.Kinesis.Model.InvalidArgumentException">
+        /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
+        /// For more information, see the returned message.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.LimitExceededException">
+        /// The requested resource exceeds the maximum number allowed, or the number of concurrent
+        /// stream requests exceeds the maximum number allowed.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.ResourceInUseException">
+        /// The resource is not available for this operation. For successful operation, the resource
+        /// must be in the <code>ACTIVE</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.Kinesis.Model.ResourceNotFoundException">
+        /// The requested resource could not be found. The stream might not be specified correctly.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/RegisterStreamConsumer">REST API Reference for RegisterStreamConsumer Operation</seealso>
+        public virtual RegisterStreamConsumerResponse RegisterStreamConsumer(RegisterStreamConsumerRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterStreamConsumerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterStreamConsumerResponseUnmarshaller.Instance;
+
+            return Invoke<RegisterStreamConsumerResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RegisterStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RegisterStreamConsumer operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRegisterStreamConsumer
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/RegisterStreamConsumer">REST API Reference for RegisterStreamConsumer Operation</seealso>
+        public virtual IAsyncResult BeginRegisterStreamConsumer(RegisterStreamConsumerRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterStreamConsumerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterStreamConsumerResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RegisterStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRegisterStreamConsumer.</param>
+        /// 
+        /// <returns>Returns a  RegisterStreamConsumerResult from Kinesis.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/RegisterStreamConsumer">REST API Reference for RegisterStreamConsumer Operation</seealso>
+        public virtual RegisterStreamConsumerResponse EndRegisterStreamConsumer(IAsyncResult asyncResult)
+        {
+            return EndInvoke<RegisterStreamConsumerResponse>(asyncResult);
         }
 
         #endregion
@@ -2120,10 +2473,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/RemoveTagsFromStream">REST API Reference for RemoveTagsFromStream Operation</seealso>
         public virtual RemoveTagsFromStreamResponse RemoveTagsFromStream(RemoveTagsFromStreamRequest request)
         {
-            var marshaller = RemoveTagsFromStreamRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromStreamResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveTagsFromStreamRequest,RemoveTagsFromStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveTagsFromStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -2140,11 +2494,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/RemoveTagsFromStream">REST API Reference for RemoveTagsFromStream Operation</seealso>
         public virtual IAsyncResult BeginRemoveTagsFromStream(RemoveTagsFromStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RemoveTagsFromStreamRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RemoveTagsFromStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2216,9 +2570,9 @@ namespace Amazon.Kinesis
         /// </para>
         ///  
         /// <para>
-        /// For the default shard limit for an AWS account, see <a href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
-        /// Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>. To increase
-        /// this limit, <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
+        /// For the default shard limit for an AWS account, see <a href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Kinesis
+        /// Data Streams Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>.
+        /// To increase this limit, <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
         /// AWS Support</a>.
         /// </para>
         ///  
@@ -2253,10 +2607,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/SplitShard">REST API Reference for SplitShard Operation</seealso>
         public virtual SplitShardResponse SplitShard(SplitShardRequest request)
         {
-            var marshaller = SplitShardRequestMarshaller.Instance;
-            var unmarshaller = SplitShardResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SplitShardRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SplitShardResponseUnmarshaller.Instance;
 
-            return Invoke<SplitShardRequest,SplitShardResponse>(request, marshaller, unmarshaller);
+            return Invoke<SplitShardResponse>(request, options);
         }
 
         /// <summary>
@@ -2273,11 +2628,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/SplitShard">REST API Reference for SplitShard Operation</seealso>
         public virtual IAsyncResult BeginSplitShard(SplitShardRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SplitShardRequestMarshaller.Instance;
-            var unmarshaller = SplitShardResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SplitShardRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SplitShardResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SplitShardRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2318,8 +2673,8 @@ namespace Amazon.Kinesis
         /// </para>
         ///  
         /// <para>
-        /// Note: It can take up to five seconds after the stream is in an <code>ACTIVE</code>
-        /// status before all records written to the stream are encrypted. After you enable encryption,
+        /// Note: It can take up to 5 seconds after the stream is in an <code>ACTIVE</code> status
+        /// before all records written to the stream are encrypted. After you enable encryption,
         /// you can verify that encryption is applied by inspecting the API response from <code>PutRecord</code>
         /// or <code>PutRecords</code>.
         /// </para>
@@ -2368,10 +2723,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/StartStreamEncryption">REST API Reference for StartStreamEncryption Operation</seealso>
         public virtual StartStreamEncryptionResponse StartStreamEncryption(StartStreamEncryptionRequest request)
         {
-            var marshaller = StartStreamEncryptionRequestMarshaller.Instance;
-            var unmarshaller = StartStreamEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartStreamEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartStreamEncryptionResponseUnmarshaller.Instance;
 
-            return Invoke<StartStreamEncryptionRequest,StartStreamEncryptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartStreamEncryptionResponse>(request, options);
         }
 
         /// <summary>
@@ -2388,11 +2744,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/StartStreamEncryption">REST API Reference for StartStreamEncryption Operation</seealso>
         public virtual IAsyncResult BeginStartStreamEncryption(StartStreamEncryptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartStreamEncryptionRequestMarshaller.Instance;
-            var unmarshaller = StartStreamEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartStreamEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartStreamEncryptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartStreamEncryptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2432,9 +2788,9 @@ namespace Amazon.Kinesis
         /// </para>
         ///  
         /// <para>
-        /// Note: It can take up to five seconds after the stream is in an <code>ACTIVE</code>
-        /// status before all records written to the stream are no longer subject to encryption.
-        /// After you disabled encryption, you can verify that encryption is not applied by inspecting
+        /// Note: It can take up to 5 seconds after the stream is in an <code>ACTIVE</code> status
+        /// before all records written to the stream are no longer subject to encryption. After
+        /// you disabled encryption, you can verify that encryption is not applied by inspecting
         /// the API response from <code>PutRecord</code> or <code>PutRecords</code>.
         /// </para>
         /// </summary>
@@ -2459,10 +2815,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/StopStreamEncryption">REST API Reference for StopStreamEncryption Operation</seealso>
         public virtual StopStreamEncryptionResponse StopStreamEncryption(StopStreamEncryptionRequest request)
         {
-            var marshaller = StopStreamEncryptionRequestMarshaller.Instance;
-            var unmarshaller = StopStreamEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopStreamEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopStreamEncryptionResponseUnmarshaller.Instance;
 
-            return Invoke<StopStreamEncryptionRequest,StopStreamEncryptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopStreamEncryptionResponse>(request, options);
         }
 
         /// <summary>
@@ -2479,11 +2836,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/StopStreamEncryption">REST API Reference for StopStreamEncryption Operation</seealso>
         public virtual IAsyncResult BeginStopStreamEncryption(StopStreamEncryptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopStreamEncryptionRequestMarshaller.Instance;
-            var unmarshaller = StopStreamEncryptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopStreamEncryptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopStreamEncryptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopStreamEncryptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2524,7 +2881,7 @@ namespace Amazon.Kinesis
         /// </para>
         ///  
         /// <para>
-        /// This operation has the following limits. You cannot do the following:
+        /// This operation has the following default limits. By default, you cannot do the following:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -2580,10 +2937,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/UpdateShardCount">REST API Reference for UpdateShardCount Operation</seealso>
         public virtual UpdateShardCountResponse UpdateShardCount(UpdateShardCountRequest request)
         {
-            var marshaller = UpdateShardCountRequestMarshaller.Instance;
-            var unmarshaller = UpdateShardCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateShardCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateShardCountResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateShardCountRequest,UpdateShardCountResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateShardCountResponse>(request, options);
         }
 
         /// <summary>
@@ -2600,11 +2958,11 @@ namespace Amazon.Kinesis
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/UpdateShardCount">REST API Reference for UpdateShardCount Operation</seealso>
         public virtual IAsyncResult BeginUpdateShardCount(UpdateShardCountRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateShardCountRequestMarshaller.Instance;
-            var unmarshaller = UpdateShardCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateShardCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateShardCountResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateShardCountRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

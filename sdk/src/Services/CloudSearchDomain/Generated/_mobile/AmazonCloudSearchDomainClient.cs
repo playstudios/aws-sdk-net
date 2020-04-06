@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CloudSearchDomain.Model;
 using Amazon.CloudSearchDomain.Model.Internal.MarshallTransformations;
+using Amazon.CloudSearchDomain.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -55,6 +57,7 @@ namespace Amazon.CloudSearchDomain
     /// </summary>
     public partial class AmazonCloudSearchDomainClient : AmazonServiceClient, IAmazonCloudSearchDomain
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCloudSearchDomainMetadata();
         
 
         #region Overrides
@@ -77,6 +80,16 @@ namespace Amazon.CloudSearchDomain
             pipeline.AddHandlerBefore<Amazon.Runtime.Internal.Unmarshaller>(new Amazon.CloudSearchDomain.Internal.ValidationResponseHandler());
             pipeline.AddHandlerBefore<Amazon.Runtime.Internal.Unmarshaller>(new Amazon.CloudSearchDomain.Internal.ProcessExceptionHandler());
         }
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -92,34 +105,62 @@ namespace Amazon.CloudSearchDomain
 
         #endregion
 
-        
+
         #region  Search
 
         internal virtual SearchResponse Search(SearchRequest request)
         {
-            var marshaller = SearchRequestMarshaller.Instance;
-            var unmarshaller = SearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchResponseUnmarshaller.Instance;
 
-            return Invoke<SearchRequest,SearchResponse>(request, marshaller, unmarshaller);
+            return Invoke<SearchResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the Search operation.
-        /// </summary>
+        /// Retrieves a list of documents that match the specified search criteria. How you specify
+        /// the search criteria depends on which query parser you use. Amazon CloudSearch supports
+        /// four query parsers:
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the Search operation.</param>
+        ///  <ul> <li><code>simple</code>: search all <code>text</code> and <code>text-array</code>
+        /// fields for the specified string. Search for phrases, individual terms, and prefixes.
+        /// </li> <li><code>structured</code>: search specific fields, construct compound queries
+        /// using Boolean operators, and use advanced features such as term boosting and proximity
+        /// searching.</li> <li><code>lucene</code>: specify search criteria using the Apache
+        /// Lucene query parser syntax.</li> <li><code>dismax</code>: specify search criteria
+        /// using the simplified subset of the Apache Lucene query parser syntax defined by the
+        /// DisMax query parser.</li> </ul> 
+        /// <para>
+        /// For more information, see <a href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.html">Searching
+        /// Your Data</a> in the <i>Amazon CloudSearch Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The endpoint for submitting <code>Search</code> requests is domain-specific. You submit
+        /// search requests to a domain's search endpoint. To get the search endpoint for your
+        /// domain, use the Amazon CloudSearch configuration service <code>DescribeDomains</code>
+        /// action. A domain's endpoints are also displayed on the domain dashboard in the Amazon
+        /// CloudSearch console. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the Search service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the Search service method, as returned by CloudSearchDomain.</returns>
+        /// <exception cref="Amazon.CloudSearchDomain.Model.SearchException">
+        /// Information about any problems encountered while processing a search request.
+        /// </exception>
         public virtual Task<SearchResponse> SearchAsync(SearchRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = SearchRequestMarshaller.Instance;
-            var unmarshaller = SearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchResponseUnmarshaller.Instance;
 
-            return InvokeAsync<SearchRequest,SearchResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<SearchResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -128,29 +169,54 @@ namespace Amazon.CloudSearchDomain
 
         internal virtual SuggestResponse Suggest(SuggestRequest request)
         {
-            var marshaller = SuggestRequestMarshaller.Instance;
-            var unmarshaller = SuggestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SuggestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SuggestResponseUnmarshaller.Instance;
 
-            return Invoke<SuggestRequest,SuggestResponse>(request, marshaller, unmarshaller);
+            return Invoke<SuggestResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the Suggest operation.
-        /// </summary>
+        /// Retrieves autocomplete suggestions for a partial query string. You can use suggestions
+        /// enable you to display likely matches before users finish typing. In Amazon CloudSearch,
+        /// suggestions are based on the contents of a particular text field. When you request
+        /// suggestions, Amazon CloudSearch finds all of the documents whose values in the suggester
+        /// field start with the specified query string. The beginning of the field must match
+        /// the query string to be considered a match. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the Suggest operation.</param>
+        ///  
+        /// <para>
+        /// For more information about configuring suggesters and retrieving suggestions, see
+        /// <a href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html">Getting
+        /// Suggestions</a> in the <i>Amazon CloudSearch Developer Guide</i>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The endpoint for submitting <code>Suggest</code> requests is domain-specific. You
+        /// submit suggest requests to a domain's search endpoint. To get the search endpoint
+        /// for your domain, use the Amazon CloudSearch configuration service <code>DescribeDomains</code>
+        /// action. A domain's endpoints are also displayed on the domain dashboard in the Amazon
+        /// CloudSearch console. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the Suggest service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the Suggest service method, as returned by CloudSearchDomain.</returns>
+        /// <exception cref="Amazon.CloudSearchDomain.Model.SearchException">
+        /// Information about any problems encountered while processing a search request.
+        /// </exception>
         public virtual Task<SuggestResponse> SuggestAsync(SuggestRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = SuggestRequestMarshaller.Instance;
-            var unmarshaller = SuggestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SuggestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SuggestResponseUnmarshaller.Instance;
 
-            return InvokeAsync<SuggestRequest,SuggestResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<SuggestResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -159,29 +225,58 @@ namespace Amazon.CloudSearchDomain
 
         internal virtual UploadDocumentsResponse UploadDocuments(UploadDocumentsRequest request)
         {
-            var marshaller = UploadDocumentsRequestMarshaller.Instance;
-            var unmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadDocumentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
 
-            return Invoke<UploadDocumentsRequest,UploadDocumentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<UploadDocumentsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UploadDocuments operation.
-        /// </summary>
+        /// Posts a batch of documents to a search domain for indexing. A document batch is a
+        /// collection of add and delete operations that represent the documents you want to add,
+        /// update, or delete from your domain. Batches can be described in either JSON or XML.
+        /// Each item that you want Amazon CloudSearch to return as a search result (such as a
+        /// product) is represented as a document. Every document has a unique ID and one or more
+        /// fields that contain the data that you want to search and return in results. Individual
+        /// documents cannot contain more than 1 MB of data. The entire batch cannot exceed 5
+        /// MB. To get the best possible upload performance, group add and delete operations in
+        /// batches that are close the 5 MB limit. Submitting a large volume of single-document
+        /// batches can overload a domain's document service. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UploadDocuments operation.</param>
+        ///  
+        /// <para>
+        /// The endpoint for submitting <code>UploadDocuments</code> requests is domain-specific.
+        /// To get the document endpoint for your domain, use the Amazon CloudSearch configuration
+        /// service <code>DescribeDomains</code> action. A domain's endpoints are also displayed
+        /// on the domain dashboard in the Amazon CloudSearch console. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about formatting your data for Amazon CloudSearch, see <a href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/preparing-data.html">Preparing
+        /// Your Data</a> in the <i>Amazon CloudSearch Developer Guide</i>. For more information
+        /// about uploading data for indexing, see <a href="http://docs.aws.amazon.com/cloudsearch/latest/developerguide/uploading-data.html">Uploading
+        /// Data</a> in the <i>Amazon CloudSearch Developer Guide</i>. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UploadDocuments service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UploadDocuments service method, as returned by CloudSearchDomain.</returns>
+        /// <exception cref="Amazon.CloudSearchDomain.Model.DocumentServiceException">
+        /// Information about any problems encountered while processing an upload request.
+        /// </exception>
         public virtual Task<UploadDocumentsResponse> UploadDocumentsAsync(UploadDocumentsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UploadDocumentsRequestMarshaller.Instance;
-            var unmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadDocumentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UploadDocumentsRequest,UploadDocumentsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UploadDocumentsResponse>(request, options, cancellationToken);
         }
 
         #endregion

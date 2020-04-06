@@ -58,10 +58,11 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
             string target = "AmazonDMSv20160101.ModifyEndpoint";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-01-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -79,6 +80,17 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.DatabaseName);
                 }
 
+                if(publicRequest.IsSetDmsTransferSettings())
+                {
+                    context.Writer.WritePropertyName("DmsTransferSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = DmsTransferSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.DmsTransferSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetDynamoDbSettings())
                 {
                     context.Writer.WritePropertyName("DynamoDbSettings");
@@ -86,6 +98,17 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
 
                     var marshaller = DynamoDbSettingsMarshaller.Instance;
                     marshaller.Marshall(publicRequest.DynamoDbSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetElasticsearchSettings())
+                {
+                    context.Writer.WritePropertyName("ElasticsearchSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ElasticsearchSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ElasticsearchSettings, context);
 
                     context.Writer.WriteObjectEnd();
                 }
@@ -114,10 +137,38 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.EngineName);
                 }
 
+                if(publicRequest.IsSetExternalTableDefinition())
+                {
+                    context.Writer.WritePropertyName("ExternalTableDefinition");
+                    context.Writer.Write(publicRequest.ExternalTableDefinition);
+                }
+
                 if(publicRequest.IsSetExtraConnectionAttributes())
                 {
                     context.Writer.WritePropertyName("ExtraConnectionAttributes");
                     context.Writer.Write(publicRequest.ExtraConnectionAttributes);
+                }
+
+                if(publicRequest.IsSetKafkaSettings())
+                {
+                    context.Writer.WritePropertyName("KafkaSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = KafkaSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.KafkaSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetKinesisSettings())
+                {
+                    context.Writer.WritePropertyName("KinesisSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = KinesisSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.KinesisSettings, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetMongoDbSettings())
@@ -143,6 +194,17 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Port);
                 }
 
+                if(publicRequest.IsSetRedshiftSettings())
+                {
+                    context.Writer.WritePropertyName("RedshiftSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = RedshiftSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.RedshiftSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetS3Settings())
                 {
                     context.Writer.WritePropertyName("S3Settings");
@@ -158,6 +220,12 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("ServerName");
                     context.Writer.Write(publicRequest.ServerName);
+                }
+
+                if(publicRequest.IsSetServiceAccessRoleArn())
+                {
+                    context.Writer.WritePropertyName("ServiceAccessRoleArn");
+                    context.Writer.Write(publicRequest.ServiceAccessRoleArn);
                 }
 
                 if(publicRequest.IsSetSslMode())

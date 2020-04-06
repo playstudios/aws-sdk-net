@@ -55,16 +55,23 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateChannelRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaLive");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-14";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/prod/channels";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/prod/channels";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetChannelClass())
+                {
+                    context.Writer.WritePropertyName("channelClass");
+                    context.Writer.Write(publicRequest.ChannelClass);
+                }
+
                 if(publicRequest.IsSetDestinations())
                 {
                     context.Writer.WritePropertyName("destinations");
@@ -119,6 +126,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetLogLevel())
+                {
+                    context.Writer.WritePropertyName("logLevel");
+                    context.Writer.Write(publicRequest.LogLevel);
+                }
+
                 if(publicRequest.IsSetName())
                 {
                     context.Writer.WritePropertyName("name");
@@ -146,6 +159,20 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("roleArn");
                     context.Writer.Write(publicRequest.RoleArn);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
         

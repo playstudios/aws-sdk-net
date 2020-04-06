@@ -52,7 +52,7 @@ namespace Amazon.OpsWorks.Model
         /// <para>
         /// To use custom alarms, you must update your service role to allow <code>cloudwatch:DescribeAlarms</code>.
         /// You can either have AWS OpsWorks Stacks update the role for you when you first use
-        /// this feature or you can edit the role manually. For more information, see <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-servicerole.html">Allowing
+        /// this feature or you can edit the role manually. For more information, see <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-servicerole.html">Allowing
         /// AWS OpsWorks Stacks to Act on Your Behalf</a>.
         /// </para>
         ///  </note>
@@ -100,6 +100,7 @@ namespace Amazon.OpsWorks.Model
         /// suppress scaling events long enough to get the new instances online.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int IgnoreMetricsTime
         {
             get { return this._ignoreMetricsTime.GetValueOrDefault(); }
@@ -176,6 +177,7 @@ namespace Amazon.OpsWorks.Model
         /// instances are added or removed.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int ThresholdsWaitTime
         {
             get { return this._thresholdsWaitTime.GetValueOrDefault(); }

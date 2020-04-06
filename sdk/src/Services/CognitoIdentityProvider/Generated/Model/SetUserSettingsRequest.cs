@@ -30,9 +30,9 @@ namespace Amazon.CognitoIdentityProvider.Model
 {
     /// <summary>
     /// Container for the parameters to the SetUserSettings operation.
-    /// Sets the user settings like multi-factor authentication (MFA). If MFA is to be removed
-    /// for a particular attribute pass the attribute with code delivery as null. If null
-    /// list is passed, all MFA options are removed.
+    /// <i>This action is no longer supported.</i> You can use it to configure only SMS MFA.
+    /// You can't use it to configure TOTP software token MFA. To configure either type of
+    /// MFA, use the <a>SetUserMFAPreference</a> action instead.
     /// </summary>
     public partial class SetUserSettingsRequest : AmazonCognitoIdentityProviderRequest
     {
@@ -45,6 +45,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The access token for the set user settings request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AccessToken
         {
             get { return this._accessToken; }
@@ -60,9 +61,10 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property MFAOptions. 
         /// <para>
-        /// Specifies the options for MFA (e.g., email or phone number).
+        /// You can use this parameter only to set an SMS configuration that uses SMS for delivery.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<MFAOptionType> MFAOptions
         {
             get { return this._mfaOptions; }

@@ -49,9 +49,10 @@ namespace Amazon.CodeDeploy.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// STOP_DEPLOYMENT: Do not register new instances with load balancer unless traffic is
-        /// rerouted manually. If traffic is not rerouted manually before the end of the specified
-        /// wait period, the deployment status is changed to Stopped.
+        /// STOP_DEPLOYMENT: Do not register new instances with a load balancer unless traffic
+        /// rerouting is started using <a>ContinueDeployment</a>. If traffic rerouting is not
+        /// started before the end of the specified wait period, the deployment status is changed
+        /// to Stopped.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -70,7 +71,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property WaitTimeInMinutes. 
         /// <para>
-        /// The number of minutes to wait before the status of a blue/green deployment changed
+        /// The number of minutes to wait before the status of a blue/green deployment is changed
         /// to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT
         /// option for actionOnTimeout
         /// </para>

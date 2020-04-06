@@ -29,16 +29,13 @@ namespace Amazon.AutoScaling.Model
 {
     /// <summary>
     /// Container for the parameters to the PutScalingPolicy operation.
-    /// Creates or updates a policy for an Auto Scaling group. To update an existing policy,
-    /// use the existing policy name and set the parameters you want to change. Any existing
-    /// parameter not changed in an update to an existing policy is not changed in this update
-    /// request.
+    /// Creates or updates a scaling policy for an Auto Scaling group.
     /// 
     ///  
     /// <para>
-    /// If you exceed your maximum limit of step adjustments, which by default is 20 per region,
-    /// the call fails. For information about updating this limit, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS
-    /// Service Limits</a> in the <i>Amazon Web Services General Reference</i>.
+    /// For more information about using scaling policies to scale your Auto Scaling group
+    /// automatically, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scale-based-on-demand.html">Dynamic
+    /// Scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
     /// </para>
     /// </summary>
     public partial class PutScalingPolicyRequest : AmazonAutoScalingRequest
@@ -46,6 +43,7 @@ namespace Amazon.AutoScaling.Model
         private string _adjustmentType;
         private string _autoScalingGroupName;
         private int? _cooldown;
+        private bool? _enabled;
         private int? _estimatedInstanceWarmup;
         private string _metricAggregationType;
         private int? _minAdjustmentMagnitude;
@@ -59,19 +57,18 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property AdjustmentType. 
         /// <para>
-        /// The adjustment type. The valid values are <code>ChangeInCapacity</code>, <code>ExactCapacity</code>,
-        /// and <code>PercentChangeInCapacity</code>.
+        /// Specifies whether the <code>ScalingAdjustment</code> parameter is an absolute number
+        /// or a percentage of the current capacity. The valid values are <code>ChangeInCapacity</code>,
+        /// <code>ExactCapacity</code>, and <code>PercentChangeInCapacity</code>.
         /// </para>
         ///  
         /// <para>
-        /// This parameter is supported if the policy type is <code>SimpleScaling</code> or <code>StepScaling</code>.
-        /// </para>
-        ///  
-        /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-scale-based-on-demand.html">Dynamic
-        /// Scaling</a> in the <i>Auto Scaling User Guide</i>.
+        /// Valid only if the policy type is <code>StepScaling</code> or <code>SimpleScaling</code>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-adjustment">Scaling
+        /// Adjustment Types</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string AdjustmentType
         {
             get { return this._adjustmentType; }
@@ -90,6 +87,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -105,18 +103,15 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property Cooldown. 
         /// <para>
-        /// The amount of time, in seconds, after a scaling activity completes and before the
-        /// next scaling activity can start. If this parameter is not specified, the default cooldown
-        /// period for the group applies.
+        /// The amount of time, in seconds, after a scaling activity completes before any further
+        /// dynamic scaling activities can start. If this parameter is not specified, the default
+        /// cooldown period for the group applies.
         /// </para>
         ///  
         /// <para>
-        /// This parameter is supported if the policy type is <code>SimpleScaling</code>.
-        /// </para>
-        ///  
-        /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/Cooldown.html">Auto
-        /// Scaling Cooldowns</a> in the <i>Auto Scaling User Guide</i>.
+        /// Valid only if the policy type is <code>SimpleScaling</code>. For more information,
+        /// see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html">Scaling
+        /// Cooldowns</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         public int Cooldown
@@ -132,6 +127,27 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Enabled. 
+        /// <para>
+        /// Indicates whether the scaling policy is enabled or disabled. The default is enabled.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enable-disable-scaling-policy.html">Disabling
+        /// a Scaling Policy for an Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool Enabled
+        {
+            get { return this._enabled.GetValueOrDefault(); }
+            set { this._enabled = value; }
+        }
+
+        // Check to see if Enabled property is set
+        internal bool IsSetEnabled()
+        {
+            return this._enabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property EstimatedInstanceWarmup. 
         /// <para>
         /// The estimated time, in seconds, until a newly launched instance can contribute to
@@ -140,7 +156,7 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter is supported if the policy type is <code>StepScaling</code> or <code>TargetTrackingScaling</code>.
+        /// Valid only if the policy type is <code>StepScaling</code> or <code>TargetTrackingScaling</code>.
         /// </para>
         /// </summary>
         public int EstimatedInstanceWarmup
@@ -164,9 +180,10 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter is supported if the policy type is <code>StepScaling</code>.
+        /// Valid only if the policy type is <code>StepScaling</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public string MetricAggregationType
         {
             get { return this._metricAggregationType; }
@@ -189,7 +206,16 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter is supported if the policy type is <code>SimpleScaling</code> or <code>StepScaling</code>.
+        /// This property replaces the <code>MinAdjustmentStep</code> property. For example, suppose
+        /// that you create a step scaling policy to scale out an Auto Scaling group by 25 percent
+        /// and you specify a <code>MinAdjustmentMagnitude</code> of 2. If the group has 4 instances
+        /// and the scaling policy is performed, 25 percent of 4 is 1. However, because you specified
+        /// a <code>MinAdjustmentMagnitude</code> of 2, Amazon EC2 Auto Scaling scales out the
+        /// group by 2 instances.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid only if the policy type is <code>SimpleScaling</code> or <code>StepScaling</code>.
         /// </para>
         /// </summary>
         public int MinAdjustmentMagnitude
@@ -228,6 +254,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -248,6 +275,7 @@ namespace Amazon.AutoScaling.Model
         /// as <code>SimpleScaling</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string PolicyType
         {
             get { return this._policyType; }
@@ -263,13 +291,16 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property ScalingAdjustment. 
         /// <para>
-        /// The amount by which to scale, based on the specified adjustment type. A positive value
-        /// adds to the current capacity while a negative number removes from the current capacity.
+        /// The amount by which a simple scaling policy scales the Auto Scaling group in response
+        /// to an alarm breach. The adjustment is based on the value that you specified in the
+        /// <code>AdjustmentType</code> parameter (either an absolute number or a percentage).
+        /// A positive value adds to the current capacity and a negative value subtracts from
+        /// the current capacity. For exact capacity, you must specify a positive value.
         /// </para>
         ///  
         /// <para>
-        /// This parameter is required if the policy type is <code>SimpleScaling</code> and not
-        /// supported otherwise.
+        /// Conditional: If you specify <code>SimpleScaling</code> for the policy type, you must
+        /// specify this parameter. (Not used with any other policy type.) 
         /// </para>
         /// </summary>
         public int ScalingAdjustment
@@ -291,8 +322,8 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter is required if the policy type is <code>StepScaling</code> and not
-        /// supported otherwise.
+        /// Conditional: If you specify <code>StepScaling</code> for the policy type, you must
+        /// specify this parameter. (Not used with any other policy type.) 
         /// </para>
         /// </summary>
         public List<StepAdjustment> StepAdjustments
@@ -310,12 +341,17 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property TargetTrackingConfiguration. 
         /// <para>
-        /// A target tracking policy.
+        /// A target tracking scaling policy. Includes support for predefined or customized metrics.
         /// </para>
         ///  
         /// <para>
-        /// This parameter is required if the policy type is <code>TargetTrackingScaling</code>
-        /// and not supported otherwise.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_TargetTrackingConfiguration.html">TargetTrackingConfiguration</a>
+        /// in the <i>Amazon EC2 Auto Scaling API Reference</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Conditional: If you specify <code>TargetTrackingScaling</code> for the policy type,
+        /// you must specify this parameter. (Not used with any other policy type.) 
         /// </para>
         /// </summary>
         public TargetTrackingConfiguration TargetTrackingConfiguration

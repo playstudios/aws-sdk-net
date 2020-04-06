@@ -44,8 +44,8 @@ namespace Amazon.APIGateway.Model
         /// <para>
         /// The content-type of the export, for example <code>application/json</code>. Currently
         /// <code>application/json</code> and <code>application/yaml</code> are supported for
-        /// <code>exportType</code> of <code>swagger</code>. This should be specified in the <code>Accept</code>
-        /// header for direct API requests.
+        /// <code>exportType</code> of<code>oas30</code> and <code>swagger</code>. This should
+        /// be specified in the <code>Accept</code> header for direct API requests.
         /// </para>
         /// </summary>
         public string Accepts
@@ -63,9 +63,11 @@ namespace Amazon.APIGateway.Model
         /// <summary>
         /// Gets and sets the property ExportType. 
         /// <para>
-        /// [Required] The type of export. Currently only 'swagger' is supported.
+        /// [Required] The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and
+        /// 'swagger' for Swagger/OpenAPI 2.0.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ExportType
         {
             get { return this._exportType; }
@@ -82,9 +84,10 @@ namespace Amazon.APIGateway.Model
         /// Gets and sets the property Parameters. 
         /// <para>
         /// A key-value map of query string parameters that specify properties of the export,
-        /// depending on the requested <code>exportType</code>. For <code>exportType</code> <code>swagger</code>,
-        /// any combination of the following parameters are supported: <code>integrations</code>
-        /// will export the API with x-amazon-apigateway-integration extensions. <code>authorizers</code>
+        /// depending on the requested <code>exportType</code>. For <code>exportType</code> <code>oas30</code>
+        /// and <code>swagger</code>, any combination of the following parameters are supported:
+        /// <code>extensions='integrations'</code> or <code>extensions='apigateway'</code> will
+        /// export the API with x-amazon-apigateway-integration extensions. <code>extensions='authorizers'</code>
         /// will export the API with x-amazon-apigateway-authorizer extensions. <code>postman</code>
         /// will export the API with Postman extensions, allowing for import to the Postman tool
         /// </para>
@@ -107,6 +110,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }
@@ -125,6 +129,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The name of the <a>Stage</a> that will be exported.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StageName
         {
             get { return this._stageName; }

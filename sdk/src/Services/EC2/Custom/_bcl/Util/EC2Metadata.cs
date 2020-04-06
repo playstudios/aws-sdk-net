@@ -29,6 +29,8 @@ using Amazon.Runtime;
 using ThirdParty.Json.LitJson;
 using System.Globalization;
 using Amazon.Runtime.Internal.Util;
+using Amazon.Util.Internal;
+using Amazon.Util;
 
 namespace Amazon.EC2.Util
 {
@@ -58,7 +60,8 @@ namespace Amazon.EC2.Util
         private static string
             EC2_METADATA_SVC = "http://169.254.169.254",
             EC2_METADATA_ROOT = EC2_METADATA_SVC + "/latest/meta-data",
-            EC2_USERDATA_ROOT = EC2_METADATA_SVC + "/latest/user-data/";
+            EC2_USERDATA_ROOT = EC2_METADATA_SVC + "/latest/user-data/",
+            EC2_APITOKEN_URL = EC2_METADATA_SVC + "latest/api/token";
 
         private static int
             DEFAULT_RETRIES = 3,
@@ -66,6 +69,8 @@ namespace Amazon.EC2.Util
             MAX_RETRIES = 3; 
 
         private static Dictionary<string, string> _cache = new Dictionary<string, string>();
+
+        private static readonly string _userAgent = InternalSDKUtils.BuildUserAgentString(string.Empty);
 
         /// <summary>
         /// The AMI ID used to launch the instance.
@@ -388,18 +393,37 @@ namespace Amazon.EC2.Util
             {
                 return null;
             }
-        }
+        }                
 
         private static List<string> GetItems(string path, int tries, bool slurp)
         {
+            return GetItems(path, tries, slurp, null);
+        }
+
+        private static List<string> GetItems(string path, int tries, bool slurp, string token)
+        {
             var items = new List<string>();
+            //For all meta-data queries we need to fetch an api token to use. In the event a 
+            //token cannot be obtained we will fallback to not using a token.
+            Dictionary<string, string> headers = null;
+            if (token == null)
+            {
+                token = Amazon.Util.EC2InstanceMetadata.FetchApiToken();
+            }
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                headers = new Dictionary<string, string>();
+                headers.Add(HeaderKeys.XAwsEc2MetadataToken, token);
+            }
+
 
             try
             {
                 if (!Amazon.Util.EC2InstanceMetadata.IsIMDSEnabled)
                 {
                     throw new IMDSDisabledException();
-                }
+                }                                
 
                 HttpWebRequest request;
                 if (path.StartsWith("http", StringComparison.Ordinal))
@@ -408,6 +432,14 @@ namespace Amazon.EC2.Util
                     request = WebRequest.Create(EC2_METADATA_ROOT + path) as HttpWebRequest;
 
                 request.Timeout = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;
+                request.UserAgent = _userAgent;
+                if(headers != null)
+                {
+                    foreach(var header in headers)
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }                    
+                }                
 
                 using (var response = request.GetResponse())
                 {
@@ -432,8 +464,19 @@ namespace Amazon.EC2.Util
             catch (WebException wex)
             {
                 var response = wex.Response as HttpWebResponse;
-                if (response != null && response.StatusCode == HttpStatusCode.NotFound)
-                    return null;
+                if (response != null)
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        return null;
+                    }
+                    else if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        EC2InstanceMetadata.ClearTokenFlag();
+                        Logger.GetLogger(typeof(Amazon.EC2.Util.EC2Metadata)).Error(wex, "EC2 Metadata service returned unauthorized for token based secure data flow.");
+                        throw;
+                    }
+                }
 
                 if (tries <= 1)
                 {
@@ -442,7 +485,7 @@ namespace Amazon.EC2.Util
                 }
 
                 PauseExponentially(tries);
-                return GetItems(path, tries - 1, slurp);
+                return GetItems(path, tries - 1, slurp, token);
             }
             catch (IMDSDisabledException)
             {
@@ -460,7 +503,7 @@ namespace Amazon.EC2.Util
             Thread.Sleep(pause < MIN_PAUSE_MS ? MIN_PAUSE_MS : pause);
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         [Serializable]
 #endif
         private class IMDSDisabledException : InvalidOperationException { };

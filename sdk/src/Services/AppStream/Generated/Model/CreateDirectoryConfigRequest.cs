@@ -29,7 +29,9 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDirectoryConfig operation.
-    /// Creates a directory configuration.
+    /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration
+    /// information required to join fleets and image builders to Microsoft Active Directory
+    /// domains.
     /// </summary>
     public partial class CreateDirectoryConfigRequest : AmazonAppStreamRequest
     {
@@ -43,6 +45,7 @@ namespace Amazon.AppStream.Model
         /// The fully qualified name of the directory (for example, corp.example.com).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryName
         {
             get { return this._directoryName; }
@@ -61,6 +64,7 @@ namespace Amazon.AppStream.Model
         /// The distinguished names of the organizational units for computer accounts.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> OrganizationalUnitDistinguishedNames
         {
             get { return this._organizationalUnitDistinguishedNames; }
@@ -76,10 +80,11 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property ServiceAccountCredentials. 
         /// <para>
-        /// The credentials for the service account used by the streaming instance to connect
+        /// The credentials for the service account used by the fleet or image builder to connect
         /// to the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ServiceAccountCredentials ServiceAccountCredentials
         {
             get { return this._serviceAccountCredentials; }

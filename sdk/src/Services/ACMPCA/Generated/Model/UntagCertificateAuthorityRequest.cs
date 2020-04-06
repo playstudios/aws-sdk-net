@@ -30,11 +30,11 @@ namespace Amazon.ACMPCA.Model
     /// <summary>
     /// Container for the parameters to the UntagCertificateAuthority operation.
     /// Remove one or more tags from your private CA. A tag consists of a key-value pair.
-    /// If you do not specify the value portion of the tag when calling this function, the
-    /// tag will be removed regardless of value. If you specify a value, the tag is removed
-    /// only if it is associated with the specified value. To add tags to a private CA, use
-    /// the <a>TagCertificateAuthority</a>. Call the <a>ListTags</a> function to see what
-    /// tags are associated with your CA.
+    /// If you do not specify the value portion of the tag when calling this action, the tag
+    /// will be removed regardless of value. If you specify a value, the tag is removed only
+    /// if it is associated with the specified value. To add tags to a private CA, use the
+    /// <a>TagCertificateAuthority</a>. Call the <a>ListTags</a> action to see what tags are
+    /// associated with your CA.
     /// </summary>
     public partial class UntagCertificateAuthorityRequest : AmazonACMPCARequest
     {
@@ -49,10 +49,11 @@ namespace Amazon.ACMPCA.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:acm:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+        ///  <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
         /// </code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=200)]
         public string CertificateAuthorityArn
         {
             get { return this._certificateAuthorityArn; }
@@ -71,6 +72,7 @@ namespace Amazon.ACMPCA.Model
         /// List of tags to be removed from the CA.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public List<Tag> Tags
         {
             get { return this._tags; }

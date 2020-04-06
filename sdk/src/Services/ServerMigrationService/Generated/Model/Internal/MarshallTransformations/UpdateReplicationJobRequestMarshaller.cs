@@ -58,10 +58,11 @@ namespace Amazon.ServerMigrationService.Model.Internal.MarshallTransformations
             string target = "AWSServerMigrationService_V2016_10_24.UpdateReplicationJob";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-10-24";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -73,10 +74,22 @@ namespace Amazon.ServerMigrationService.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Description);
                 }
 
+                if(publicRequest.IsSetEncrypted())
+                {
+                    context.Writer.WritePropertyName("encrypted");
+                    context.Writer.Write(publicRequest.Encrypted);
+                }
+
                 if(publicRequest.IsSetFrequency())
                 {
                     context.Writer.WritePropertyName("frequency");
                     context.Writer.Write(publicRequest.Frequency);
+                }
+
+                if(publicRequest.IsSetKmsKeyId())
+                {
+                    context.Writer.WritePropertyName("kmsKeyId");
+                    context.Writer.Write(publicRequest.KmsKeyId);
                 }
 
                 if(publicRequest.IsSetLicenseType())
@@ -89,6 +102,12 @@ namespace Amazon.ServerMigrationService.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("nextReplicationRunStartTime");
                     context.Writer.Write(publicRequest.NextReplicationRunStartTime);
+                }
+
+                if(publicRequest.IsSetNumberOfRecentAmisToKeep())
+                {
+                    context.Writer.WritePropertyName("numberOfRecentAmisToKeep");
+                    context.Writer.Write(publicRequest.NumberOfRecentAmisToKeep);
                 }
 
                 if(publicRequest.IsSetReplicationJobId())

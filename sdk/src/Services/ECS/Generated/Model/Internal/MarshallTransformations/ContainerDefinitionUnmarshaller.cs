@@ -76,6 +76,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.Cpu = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("dependsOn", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ContainerDependency, ContainerDependencyUnmarshaller>(ContainerDependencyUnmarshaller.Instance);
+                    unmarshalledObject.DependsOn = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("disableNetworking", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
@@ -130,6 +136,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.ExtraHosts = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("firelensConfiguration", targetDepth))
+                {
+                    var unmarshaller = FirelensConfigurationUnmarshaller.Instance;
+                    unmarshalledObject.FirelensConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("healthCheck", targetDepth))
                 {
                     var unmarshaller = HealthCheckUnmarshaller.Instance;
@@ -146,6 +158,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Image = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("interactive", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.Interactive = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("links", targetDepth))
@@ -202,10 +220,52 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.Privileged = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("pseudoTerminal", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.PseudoTerminal = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("readonlyRootFilesystem", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
                     unmarshalledObject.ReadonlyRootFilesystem = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("repositoryCredentials", targetDepth))
+                {
+                    var unmarshaller = RepositoryCredentialsUnmarshaller.Instance;
+                    unmarshalledObject.RepositoryCredentials = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("resourceRequirements", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ResourceRequirement, ResourceRequirementUnmarshaller>(ResourceRequirementUnmarshaller.Instance);
+                    unmarshalledObject.ResourceRequirements = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("secrets", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Secret, SecretUnmarshaller>(SecretUnmarshaller.Instance);
+                    unmarshalledObject.Secrets = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("startTimeout", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.StartTimeout = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("stopTimeout", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.StopTimeout = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("systemControls", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<SystemControl, SystemControlUnmarshaller>(SystemControlUnmarshaller.Instance);
+                    unmarshalledObject.SystemControls = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ulimits", targetDepth))

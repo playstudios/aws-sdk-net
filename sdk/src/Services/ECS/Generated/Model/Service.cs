@@ -32,11 +32,15 @@ namespace Amazon.ECS.Model
     /// </summary>
     public partial class Service
     {
+        private List<CapacityProviderStrategyItem> _capacityProviderStrategy = new List<CapacityProviderStrategyItem>();
         private string _clusterArn;
         private DateTime? _createdAt;
+        private string _createdBy;
         private DeploymentConfiguration _deploymentConfiguration;
+        private DeploymentController _deploymentController;
         private List<Deployment> _deployments = new List<Deployment>();
         private int? _desiredCount;
+        private bool? _enableecsManagedTags;
         private List<ServiceEvent> _events = new List<ServiceEvent>();
         private int? _healthCheckGracePeriodSeconds;
         private LaunchType _launchType;
@@ -46,13 +50,35 @@ namespace Amazon.ECS.Model
         private List<PlacementConstraint> _placementConstraints = new List<PlacementConstraint>();
         private List<PlacementStrategy> _placementStrategy = new List<PlacementStrategy>();
         private string _platformVersion;
+        private PropagateTags _propagateTags;
         private string _roleArn;
         private int? _runningCount;
+        private SchedulingStrategy _schedulingStrategy;
         private string _serviceArn;
         private string _serviceName;
         private List<ServiceRegistry> _serviceRegistries = new List<ServiceRegistry>();
         private string _status;
+        private List<Tag> _tags = new List<Tag>();
         private string _taskDefinition;
+        private List<TaskSet> _taskSets = new List<TaskSet>();
+
+        /// <summary>
+        /// Gets and sets the property CapacityProviderStrategy. 
+        /// <para>
+        /// The capacity provider strategy associated with the service.
+        /// </para>
+        /// </summary>
+        public List<CapacityProviderStrategyItem> CapacityProviderStrategy
+        {
+            get { return this._capacityProviderStrategy; }
+            set { this._capacityProviderStrategy = value; }
+        }
+
+        // Check to see if CapacityProviderStrategy property is set
+        internal bool IsSetCapacityProviderStrategy()
+        {
+            return this._capacityProviderStrategy != null && this._capacityProviderStrategy.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property ClusterArn. 
@@ -75,7 +101,7 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property CreatedAt. 
         /// <para>
-        /// The Unix time stamp for when the service was created.
+        /// The Unix timestamp for when the service was created.
         /// </para>
         /// </summary>
         public DateTime CreatedAt
@@ -88,6 +114,24 @@ namespace Amazon.ECS.Model
         internal bool IsSetCreatedAt()
         {
             return this._createdAt.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CreatedBy. 
+        /// <para>
+        /// The principal that created the service.
+        /// </para>
+        /// </summary>
+        public string CreatedBy
+        {
+            get { return this._createdBy; }
+            set { this._createdBy = value; }
+        }
+
+        // Check to see if CreatedBy property is set
+        internal bool IsSetCreatedBy()
+        {
+            return this._createdBy != null;
         }
 
         /// <summary>
@@ -107,6 +151,26 @@ namespace Amazon.ECS.Model
         internal bool IsSetDeploymentConfiguration()
         {
             return this._deploymentConfiguration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeploymentController. 
+        /// <para>
+        /// The deployment controller type the service is using. When using the DescribeServices
+        /// API, this field is omitted if the service is using the <code>ECS</code> deployment
+        /// controller type.
+        /// </para>
+        /// </summary>
+        public DeploymentController DeploymentController
+        {
+            get { return this._deploymentController; }
+            set { this._deploymentController = value; }
+        }
+
+        // Check to see if DeploymentController property is set
+        internal bool IsSetDeploymentController()
+        {
+            return this._deploymentController != null;
         }
 
         /// <summary>
@@ -145,6 +209,27 @@ namespace Amazon.ECS.Model
         internal bool IsSetDesiredCount()
         {
             return this._desiredCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableECSManagedTags. 
+        /// <para>
+        /// Specifies whether to enable Amazon ECS managed tags for the tasks in the service.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
+        /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service Developer
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool EnableECSManagedTags
+        {
+            get { return this._enableecsManagedTags.GetValueOrDefault(); }
+            set { this._enableecsManagedTags = value; }
+        }
+
+        // Check to see if EnableECSManagedTags property is set
+        internal bool IsSetEnableECSManagedTags()
+        {
+            return this._enableecsManagedTags.HasValue; 
         }
 
         /// <summary>
@@ -187,7 +272,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property LaunchType. 
         /// <para>
-        /// The launch type on which your service is running.
+        /// The launch type on which your service is running. If no value is specified, it will
+        /// default to <code>EC2</code>. Valid values include <code>EC2</code> and <code>FARGATE</code>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
+        /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>
         public LaunchType LaunchType
@@ -225,8 +313,8 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property NetworkConfiguration. 
         /// <para>
-        /// The VPC subnet and security group configuration for tasks that receive their own Elastic
-        /// Network Interface by using the <code>awsvpc</code> networking mode.
+        /// The VPC subnet and security group configuration for tasks that receive their own elastic
+        /// network interface by using the <code>awsvpc</code> networking mode.
         /// </para>
         /// </summary>
         public NetworkConfiguration NetworkConfiguration
@@ -298,7 +386,9 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property PlatformVersion. 
         /// <para>
-        /// The platform version on which your task is running. For more information, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+        /// The platform version on which to run your service. A platform version is only specified
+        /// for tasks using the Fargate launch type. If one is not specified, the <code>LATEST</code>
+        /// platform version is used by default. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
         /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service Developer
         /// Guide</i>.
         /// </para>
@@ -313,6 +403,25 @@ namespace Amazon.ECS.Model
         internal bool IsSetPlatformVersion()
         {
             return this._platformVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PropagateTags. 
+        /// <para>
+        /// Specifies whether to propagate the tags from the task definition or the service to
+        /// the task. If no value is specified, the tags are not propagated.
+        /// </para>
+        /// </summary>
+        public PropagateTags PropagateTags
+        {
+            get { return this._propagateTags; }
+            set { this._propagateTags = value; }
+        }
+
+        // Check to see if PropagateTags property is set
+        internal bool IsSetPropagateTags()
+        {
+            return this._propagateTags != null;
         }
 
         /// <summary>
@@ -353,12 +462,52 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SchedulingStrategy. 
+        /// <para>
+        /// The scheduling strategy to use for the service. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Services</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// There are two service scheduler strategies available:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>REPLICA</code>-The replica scheduling strategy places and maintains the desired
+        /// number of tasks across your cluster. By default, the service scheduler spreads tasks
+        /// across Availability Zones. You can use task placement strategies and constraints to
+        /// customize task placement decisions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>DAEMON</code>-The daemon scheduling strategy deploys exactly one task on each
+        /// container instance in your cluster. When you are using this strategy, do not specify
+        /// a desired number of tasks or any task placement strategies.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Fargate tasks do not support the <code>DAEMON</code> scheduling strategy.
+        /// </para>
+        ///  </note> </li> </ul>
+        /// </summary>
+        public SchedulingStrategy SchedulingStrategy
+        {
+            get { return this._schedulingStrategy; }
+            set { this._schedulingStrategy = value; }
+        }
+
+        // Check to see if SchedulingStrategy property is set
+        internal bool IsSetSchedulingStrategy()
+        {
+            return this._schedulingStrategy != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ServiceArn. 
         /// <para>
         /// The ARN that identifies the service. The ARN contains the <code>arn:aws:ecs</code>
-        /// namespace, followed by the region of the service, the AWS account ID of the service
+        /// namespace, followed by the Region of the service, the AWS account ID of the service
         /// owner, the <code>service</code> namespace, and then the service name. For example,
-        /// <code>arn:aws:ecs:<i>region</i>:<i>012345678910</i>:service/<i>my-service</i> </code>.
+        /// <code>arn:aws:ecs:region:012345678910:service/my-service</code>.
         /// </para>
         /// </summary>
         public string ServiceArn
@@ -376,10 +525,9 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property ServiceName. 
         /// <para>
-        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, hyphens,
-        /// and underscores are allowed. Service names must be unique within a cluster, but you
-        /// can have similarly named services in multiple clusters within a region or across multiple
-        /// regions.
+        /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, and
+        /// hyphens are allowed. Service names must be unique within a cluster, but you can have
+        /// similarly named services in multiple clusters within a Region or across multiple Regions.
         /// </para>
         /// </summary>
         public string ServiceName
@@ -395,7 +543,12 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ServiceRegistries.
+        /// Gets and sets the property ServiceRegistries. 
+        /// <para>
+        /// The details of the service discovery registries to assign to this service. For more
+        /// information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html">Service
+        /// Discovery</a>.
+        /// </para>
         /// </summary>
         public List<ServiceRegistry> ServiceRegistries
         {
@@ -429,6 +582,66 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The metadata that you apply to the service to help you categorize and organize them.
+        /// Each tag consists of a key and an optional value, both of which you define.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following basic restrictions apply to tags:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Maximum number of tags per resource - 50
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For each resource, each tag key must be unique, and each tag key can have only one
+        /// value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Maximum key length - 128 Unicode characters in UTF-8
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Maximum value length - 256 Unicode characters in UTF-8
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If your tagging schema is used across multiple services and resources, remember that
+        /// other services may have restrictions on allowed characters. Generally allowed characters
+        /// are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+        /// + - = . _ : / @.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Tag keys and values are case-sensitive.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase combination
+        /// of such as a prefix for either keys or values as it is reserved for AWS use. You cannot
+        /// edit or delete tag keys or values with this prefix. Tags with this prefix do not count
+        /// against your tags per resource limit.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TaskDefinition. 
         /// <para>
         /// The task definition to use for tasks in the service. This value is specified when
@@ -445,6 +658,26 @@ namespace Amazon.ECS.Model
         internal bool IsSetTaskDefinition()
         {
             return this._taskDefinition != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TaskSets. 
+        /// <para>
+        /// Information about a set of Amazon ECS tasks in either an AWS CodeDeploy or an <code>EXTERNAL</code>
+        /// deployment. An Amazon ECS task set includes details such as the desired number of
+        /// tasks, how many tasks are running, and whether the task set serves production traffic.
+        /// </para>
+        /// </summary>
+        public List<TaskSet> TaskSets
+        {
+            get { return this._taskSets; }
+            set { this._taskSets = value; }
+        }
+
+        // Check to see if TaskSets property is set
+        internal bool IsSetTaskSets()
+        {
+            return this._taskSets != null && this._taskSets.Count > 0; 
         }
 
     }

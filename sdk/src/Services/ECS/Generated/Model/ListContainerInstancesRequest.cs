@@ -31,7 +31,7 @@ namespace Amazon.ECS.Model
     /// Container for the parameters to the ListContainerInstances operation.
     /// Returns a list of container instances in a specified cluster. You can filter the results
     /// of a <code>ListContainerInstances</code> operation with cluster query language statements
-    /// inside the <code>filter</code> parameter. For more information, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
+    /// inside the <code>filter</code> parameter. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
     /// Query Language</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
     /// </summary>
     public partial class ListContainerInstancesRequest : AmazonECSRequest
@@ -65,7 +65,7 @@ namespace Amazon.ECS.Model
         /// Gets and sets the property Filter. 
         /// <para>
         /// You can filter the results of a <code>ListContainerInstances</code> operation with
-        /// cluster query language statements. For more information, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
+        /// cluster query language statements. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
         /// Query Language</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -108,10 +108,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The <code>nextToken</code> value returned from a previous paginated <code>ListContainerInstances</code>
-        /// request where <code>maxResults</code> was used and the results exceeded the value
-        /// of that parameter. Pagination continues from the end of the previous results that
-        /// returned the <code>nextToken</code> value.
+        /// The <code>nextToken</code> value returned from a <code>ListContainerInstances</code>
+        /// request indicating that more results are available to fulfill the request and further
+        /// calls will be needed. If <code>maxResults</code> was provided, it is possible the
+        /// number of results to be fewer than <code>maxResults</code>.
         /// </para>
         ///  <note> 
         /// <para>
@@ -138,7 +138,7 @@ namespace Amazon.ECS.Model
         /// Filters the container instances by status. For example, if you specify the <code>DRAINING</code>
         /// status, the results include only container instances that have been set to <code>DRAINING</code>
         /// using <a>UpdateContainerInstancesState</a>. If you do not specify this parameter,
-        /// the default is to include container instances set to <code>ACTIVE</code> and <code>DRAINING</code>.
+        /// the default is to include container instances set to all states other than <code>INACTIVE</code>.
         /// </para>
         /// </summary>
         public ContainerInstanceStatus Status

@@ -56,6 +56,7 @@ namespace Amazon.Route53.Model
         /// there are no more reusable delegation sets to get.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=64)]
         public string Marker
         {
             get { return this._marker; }
@@ -72,8 +73,8 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property MaxItems. 
         /// <para>
         /// The number of reusable delegation sets that you want Amazon Route 53 to return in
-        /// the response to this request. If you specify a value greater than 100, Amazon Route
-        /// 53 returns only the first 100 reusable delegation sets.
+        /// the response to this request. If you specify a value greater than 100, Route 53 returns
+        /// only the first 100 reusable delegation sets.
         /// </para>
         /// </summary>
         public string MaxItems

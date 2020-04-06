@@ -58,10 +58,11 @@ namespace Amazon.CloudWatchLogs.Model.Internal.MarshallTransformations
             string target = "Logs_20140328.FilterLogEvents";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-03-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -95,6 +96,12 @@ namespace Amazon.CloudWatchLogs.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("logGroupName");
                     context.Writer.Write(publicRequest.LogGroupName);
+                }
+
+                if(publicRequest.IsSetLogStreamNamePrefix())
+                {
+                    context.Writer.WritePropertyName("logStreamNamePrefix");
+                    context.Writer.Write(publicRequest.LogStreamNamePrefix);
                 }
 
                 if(publicRequest.IsSetLogStreamNames())

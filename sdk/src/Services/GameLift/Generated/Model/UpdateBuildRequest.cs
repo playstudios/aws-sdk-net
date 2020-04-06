@@ -29,13 +29,22 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateBuild operation.
-    /// Updates metadata in a build record, including the build name and version. To update
+    /// Updates metadata in a build resource, including the build name and version. To update
     /// the metadata, specify the build ID to update and provide the new values. If successful,
     /// a build object containing the updated metadata is returned.
     /// 
     ///  
     /// <para>
-    /// Build-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-intro.html">
+    /// Upload a Custom Server Build</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -68,9 +77,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property BuildId. 
         /// <para>
-        /// Unique identifier for a build to update.
+        /// A unique identifier for a build to update. You can use either the build ID or ARN
+        /// value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BuildId
         {
             get { return this._buildId; }
@@ -86,10 +97,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with a build. Build names do not need to be unique.
-        /// 
+        /// A descriptive label that is associated with a build. Build names do not need to be
+        /// unique. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }
@@ -105,9 +117,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Version. 
         /// <para>
-        /// Version that is associated with this build. Version strings do not need to be unique.
+        /// Version information that is associated with a build or script. Version strings do
+        /// not need to be unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Version
         {
             get { return this._version; }

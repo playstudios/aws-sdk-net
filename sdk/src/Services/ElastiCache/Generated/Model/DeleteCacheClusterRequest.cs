@@ -36,16 +36,29 @@ namespace Amazon.ElastiCache.Model
     /// 
     ///  
     /// <para>
-    /// This operation cannot be used to delete a cluster that is the last read replica of
-    /// a replication group or node group (shard) that has Multi-AZ mode enabled or a cluster
-    /// from a Redis (cluster mode enabled) replication group.
+    /// This operation is not valid for:
     /// </para>
-    ///  <important> 
+    ///  <ul> <li> 
     /// <para>
-    /// Due to current limitations on Redis (cluster mode disabled), this operation or parameter
-    /// is not supported on Redis (cluster mode enabled) replication groups.
+    /// Redis (cluster mode enabled) clusters
     /// </para>
-    ///  </important>
+    ///  </li> <li> 
+    /// <para>
+    /// A cluster that is the last read replica of a replication group
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// A node group (shard) that has Multi-AZ mode enabled
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// A cluster from a Redis (cluster mode enabled) replication group
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// A cluster that is not in the <code>available</code> state
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class DeleteCacheClusterRequest : AmazonElastiCacheRequest
     {
@@ -72,6 +85,7 @@ namespace Amazon.ElastiCache.Model
         /// The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CacheClusterId
         {
             get { return this._cacheClusterId; }

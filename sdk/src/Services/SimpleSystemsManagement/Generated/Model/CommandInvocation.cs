@@ -30,16 +30,18 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// <summary>
     /// An invocation is copy of a command sent to a specific instance. A command can apply
     /// to one or more instances. A command invocation applies to one instance. For example,
-    /// if a user executes SendCommand against three instances, then a command invocation
-    /// is created for each requested instance ID. A command invocation returns status and
-    /// detail information about a command you executed.
+    /// if a user runs SendCommand against three instances, then a command invocation is created
+    /// for each requested instance ID. A command invocation returns status and detail information
+    /// about a command you ran.
     /// </summary>
     public partial class CommandInvocation
     {
+        private CloudWatchOutputConfig _cloudWatchOutputConfig;
         private string _commandId;
         private List<CommandPlugin> _commandPlugins = new List<CommandPlugin>();
         private string _comment;
         private string _documentName;
+        private string _documentVersion;
         private string _instanceId;
         private string _instanceName;
         private NotificationConfig _notificationConfig;
@@ -52,11 +54,30 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _traceOutput;
 
         /// <summary>
+        /// Gets and sets the property CloudWatchOutputConfig. 
+        /// <para>
+        /// CloudWatch Logs information where you want Systems Manager to send the command output.
+        /// </para>
+        /// </summary>
+        public CloudWatchOutputConfig CloudWatchOutputConfig
+        {
+            get { return this._cloudWatchOutputConfig; }
+            set { this._cloudWatchOutputConfig = value; }
+        }
+
+        // Check to see if CloudWatchOutputConfig property is set
+        internal bool IsSetCloudWatchOutputConfig()
+        {
+            return this._cloudWatchOutputConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CommandId. 
         /// <para>
         /// The command against which this invocation was requested.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string CommandId
         {
             get { return this._commandId; }
@@ -91,6 +112,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// the command should do.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string Comment
         {
             get { return this._comment; }
@@ -122,6 +144,24 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DocumentVersion. 
+        /// <para>
+        /// The SSM document version.
+        /// </para>
+        /// </summary>
+        public string DocumentVersion
+        {
+            get { return this._documentVersion; }
+            set { this._documentVersion = value; }
+        }
+
+        // Check to see if DocumentVersion property is set
+        internal bool IsSetDocumentVersion()
+        {
+            return this._documentVersion != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
         /// The instance ID in which this invocation was requested.
@@ -146,6 +186,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// the aws:Name tag. For on-premises instances, this is the name of the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string InstanceName
         {
             get { return this._instanceName; }
@@ -281,8 +322,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// by the command). StatusDetails includes more information than Status because it includes
         /// states resulting from error and concurrency control parameters. StatusDetails can
         /// show different results than Status. For more information about these statuses, see
-        /// <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-about-status.html">Run
-        /// Command Status</a>. StatusDetails can be one of the following values:
+        /// <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
+        /// Command Statuses</a> in the <i>AWS Systems Manager User Guide</i>. StatusDetails can
+        /// be one of the following values:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -336,6 +378,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public string StatusDetails
         {
             get { return this._statusDetails; }
@@ -354,6 +397,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  Gets the trace output sent by the agent. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2500)]
         public string TraceOutput
         {
             get { return this._traceOutput; }

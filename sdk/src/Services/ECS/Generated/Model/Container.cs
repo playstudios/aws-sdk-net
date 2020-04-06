@@ -33,13 +33,20 @@ namespace Amazon.ECS.Model
     public partial class Container
     {
         private string _containerArn;
+        private string _cpu;
         private int? _exitCode;
+        private List<string> _gpuIds = new List<string>();
         private HealthStatus _healthStatus;
+        private string _image;
+        private string _imageDigest;
         private string _lastStatus;
+        private string _memory;
+        private string _memoryReservation;
         private string _name;
         private List<NetworkBinding> _networkBindings = new List<NetworkBinding>();
         private List<NetworkInterface> _networkInterfaces = new List<NetworkInterface>();
         private string _reason;
+        private string _runtimeId;
         private string _taskArn;
 
         /// <summary>
@@ -61,6 +68,25 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Cpu. 
+        /// <para>
+        /// The number of CPU units set for the container. The value will be <code>0</code> if
+        /// no value was specified in the container definition when the task definition was registered.
+        /// </para>
+        /// </summary>
+        public string Cpu
+        {
+            get { return this._cpu; }
+            set { this._cpu = value; }
+        }
+
+        // Check to see if Cpu property is set
+        internal bool IsSetCpu()
+        {
+            return this._cpu != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ExitCode. 
         /// <para>
         /// The exit code returned from the container.
@@ -79,10 +105,28 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property GpuIds. 
+        /// <para>
+        /// The IDs of each GPU assigned to the container.
+        /// </para>
+        /// </summary>
+        public List<string> GpuIds
+        {
+            get { return this._gpuIds; }
+            set { this._gpuIds = value; }
+        }
+
+        // Check to see if GpuIds property is set
+        internal bool IsSetGpuIds()
+        {
+            return this._gpuIds != null && this._gpuIds.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property HealthStatus. 
         /// <para>
         /// The health status of the container. If health checks are not configured for this container
-        /// in its task definition, then it reports health status as <code>UNKNOWN</code>.
+        /// in its task definition, then it reports the health status as <code>UNKNOWN</code>.
         /// </para>
         /// </summary>
         public HealthStatus HealthStatus
@@ -95,6 +139,48 @@ namespace Amazon.ECS.Model
         internal bool IsSetHealthStatus()
         {
             return this._healthStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Image. 
+        /// <para>
+        /// The image used for the container.
+        /// </para>
+        /// </summary>
+        public string Image
+        {
+            get { return this._image; }
+            set { this._image = value; }
+        }
+
+        // Check to see if Image property is set
+        internal bool IsSetImage()
+        {
+            return this._image != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ImageDigest. 
+        /// <para>
+        /// The container image manifest digest.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// The <code>imageDigest</code> is only returned if the container is using an image hosted
+        /// in Amazon ECR, otherwise it is omitted.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public string ImageDigest
+        {
+            get { return this._imageDigest; }
+            set { this._imageDigest = value; }
+        }
+
+        // Check to see if ImageDigest property is set
+        internal bool IsSetImageDigest()
+        {
+            return this._imageDigest != null;
         }
 
         /// <summary>
@@ -113,6 +199,42 @@ namespace Amazon.ECS.Model
         internal bool IsSetLastStatus()
         {
             return this._lastStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Memory. 
+        /// <para>
+        /// The hard limit (in MiB) of memory set for the container.
+        /// </para>
+        /// </summary>
+        public string Memory
+        {
+            get { return this._memory; }
+            set { this._memory = value; }
+        }
+
+        // Check to see if Memory property is set
+        internal bool IsSetMemory()
+        {
+            return this._memory != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MemoryReservation. 
+        /// <para>
+        /// The soft limit (in MiB) of memory set for the container.
+        /// </para>
+        /// </summary>
+        public string MemoryReservation
+        {
+            get { return this._memoryReservation; }
+            set { this._memoryReservation = value; }
+        }
+
+        // Check to see if MemoryReservation property is set
+        internal bool IsSetMemoryReservation()
+        {
+            return this._memoryReservation != null;
         }
 
         /// <summary>
@@ -186,6 +308,24 @@ namespace Amazon.ECS.Model
         internal bool IsSetReason()
         {
             return this._reason != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RuntimeId. 
+        /// <para>
+        /// The ID of the Docker container.
+        /// </para>
+        /// </summary>
+        public string RuntimeId
+        {
+            get { return this._runtimeId; }
+            set { this._runtimeId = value; }
+        }
+
+        // Check to see if RuntimeId property is set
+        internal bool IsSetRuntimeId()
+        {
+            return this._runtimeId != null;
         }
 
         /// <summary>

@@ -35,10 +35,12 @@ namespace Amazon.Greengrass.Model
     {
         private string _deviceDefinitionId;
         private string _deviceDefinitionVersionId;
+        private string _nextToken;
 
         /// <summary>
         /// Gets and sets the property DeviceDefinitionId. The ID of the device definition.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DeviceDefinitionId
         {
             get { return this._deviceDefinitionId; }
@@ -53,8 +55,12 @@ namespace Amazon.Greengrass.Model
 
         /// <summary>
         /// Gets and sets the property DeviceDefinitionVersionId. The ID of the device definition
-        /// version.
+        /// version. This value maps to the ''Version'' property of the corresponding ''VersionInformation''
+        /// object, which is returned by ''ListDeviceDefinitionVersions'' requests. If the version
+        /// is the last one that was associated with a device definition, the value also maps
+        /// to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DeviceDefinitionVersionId
         {
             get { return this._deviceDefinitionVersionId; }
@@ -65,6 +71,22 @@ namespace Amazon.Greengrass.Model
         internal bool IsSetDeviceDefinitionVersionId()
         {
             return this._deviceDefinitionVersionId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. The token for the next set of results, or ''null''
+        /// if there are no additional results.
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
         }
 
     }

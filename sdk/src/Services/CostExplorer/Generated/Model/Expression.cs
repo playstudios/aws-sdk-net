@@ -34,14 +34,13 @@ namespace Amazon.CostExplorer.Model
     ///  <ul> <li> 
     /// <para>
     /// Simple dimension values - You can set the dimension name and values for the filters
-    /// that you plan to use. For example, you can filter for <code>INSTANCE_TYPE==m4.xlarge
-    /// OR INSTANCE_TYPE==c4.large</code>. The <code>Expression</code> for that looks like
-    /// this:
+    /// that you plan to use. For example, you can filter for <code>REGION==us-east-1 OR REGION==us-west-1</code>.
+    /// The <code>Expression</code> for that looks like this:
     /// </para>
     ///  
     /// <para>
-    ///  <code>{ "Dimensions": { "Key": "INSTANCE_TYPE", "Values": [ "m4.xlarge", “c4.large”
-    /// ] } }</code> 
+    ///  <code>{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", “us-west-1” ] }
+    /// }</code> 
     /// </para>
     ///  
     /// <para>
@@ -55,15 +54,15 @@ namespace Amazon.CostExplorer.Model
     /// Compound dimension values with logical operations - You can use multiple <code>Expression</code>
     /// types and the logical operators <code>AND/OR/NOT</code> to create a list of one or
     /// more <code>Expression</code> objects. This allows you to filter on more advanced options.
-    /// For example, you can filter on <code>((INSTANCE_TYPE == m4.large OR INSTANCE_TYPE
-    /// == m3.large) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer)</code>. The
-    /// <code>Expression</code> for that looks like this:
+    /// For example, you can filter on <code>((REGION == us-east-1 OR REGION == us-west-1)
+    /// OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer)</code>. The <code>Expression</code>
+    /// for that looks like this:
     /// </para>
     ///  
     /// <para>
-    ///  <code>{ "And": [ {"Or": [ {"Dimensions": { "Key": "INSTANCE_TYPE", "Values": [ "m4.x.large",
-    /// "c4.large" ] }}, {"Tag": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not":
-    /// {"dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } </code> 
+    ///  <code>{ "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    /// "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not":
+    /// {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } </code> 
     /// </para>
     ///  <note> 
     /// <para>
@@ -76,11 +75,19 @@ namespace Amazon.CostExplorer.Model
     ///  <code> { "And": [ ... ], "DimensionValues": { "Dimension": "USAGE_TYPE", "Values":
     /// [ "DataTransfer" ] } } </code> 
     /// </para>
-    ///  </li> </ul>
+    ///  </li> </ul> <note> 
+    /// <para>
+    /// For <code>GetRightsizingRecommendation</code> action, a combination of OR and NOT
+    /// is not supported. OR is not supported between different dimensions, or dimensions
+    /// and tags. NOT operators aren't supported. Dimensions are also limited to <code>LINKED_ACCOUNT</code>,
+    /// <code>REGION</code>, or <code>RIGHTSIZING_TYPE</code>.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class Expression
     {
         private List<Expression> _and = new List<Expression>();
+        private CostCategoryValues _costCategories;
         private DimensionValues _dimensions;
         private Expression _not;
         private List<Expression> _or = new List<Expression>();
@@ -102,6 +109,31 @@ namespace Amazon.CostExplorer.Model
         internal bool IsSetAnd()
         {
             return this._and != null && this._and.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CostCategories. 
+        /// <para>
+        ///  <i> <b>Cost Category is in public beta for AWS Billing and Cost Management and is
+        /// subject to change. Your use of Cost Categories is subject to the Beta Service Participation
+        /// terms of the <a href="http://aws.amazon.com/service-terms/">AWS Service Terms</a>
+        /// (Section 1.10).</b> </i> 
+        /// </para>
+        ///  
+        /// <para>
+        /// The specific <code>CostCategory</code> used for <code>Expression</code>.
+        /// </para>
+        /// </summary>
+        public CostCategoryValues CostCategories
+        {
+            get { return this._costCategories; }
+            set { this._costCategories = value; }
+        }
+
+        // Check to see if CostCategories property is set
+        internal bool IsSetCostCategories()
+        {
+            return this._costCategories != null;
         }
 
         /// <summary>

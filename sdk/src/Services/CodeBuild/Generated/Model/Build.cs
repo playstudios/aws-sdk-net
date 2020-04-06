@@ -35,17 +35,28 @@ namespace Amazon.CodeBuild.Model
         private string _arn;
         private BuildArtifacts _artifacts;
         private bool? _buildComplete;
+        private long? _buildNumber;
         private StatusType _buildStatus;
         private ProjectCache _cache;
         private string _currentPhase;
+        private string _encryptionKey;
         private DateTime? _endTime;
         private ProjectEnvironment _environment;
+        private List<ExportedEnvironmentVariable> _exportedEnvironmentVariables = new List<ExportedEnvironmentVariable>();
+        private List<ProjectFileSystemLocation> _fileSystemLocations = new List<ProjectFileSystemLocation>();
         private string _id;
         private string _initiator;
         private LogsLocation _logs;
         private NetworkInterface _networkInterface;
         private List<BuildPhase> _phases = new List<BuildPhase>();
         private string _projectName;
+        private int? _queuedTimeoutInMinutes;
+        private List<string> _reportArns = new List<string>();
+        private string _resolvedSourceVersion;
+        private List<BuildArtifacts> _secondaryArtifacts = new List<BuildArtifacts>();
+        private List<ProjectSource> _secondarySources = new List<ProjectSource>();
+        private List<ProjectSourceVersion> _secondarySourceVersions = new List<ProjectSourceVersion>();
+        private string _serviceRole;
         private ProjectSource _source;
         private string _sourceVersion;
         private DateTime? _startTime;
@@ -58,6 +69,7 @@ namespace Amazon.CodeBuild.Model
         /// The Amazon Resource Name (ARN) of the build.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Arn
         {
             get { return this._arn; }
@@ -91,7 +103,7 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property BuildComplete. 
         /// <para>
-        /// Whether the build has finished. True if completed; otherwise, false.
+        /// Whether the build is complete. True if complete; otherwise, false.
         /// </para>
         /// </summary>
         public bool BuildComplete
@@ -104,6 +116,27 @@ namespace Amazon.CodeBuild.Model
         internal bool IsSetBuildComplete()
         {
             return this._buildComplete.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property BuildNumber. 
+        /// <para>
+        /// The number of the build. For each project, the <code>buildNumber</code> of its first
+        /// build is <code>1</code>. The <code>buildNumber</code> of each subsequent build is
+        /// incremented by <code>1</code>. If a build is deleted, the <code>buildNumber</code>
+        /// of other builds does not change.
+        /// </para>
+        /// </summary>
+        public long BuildNumber
+        {
+            get { return this._buildNumber.GetValueOrDefault(); }
+            set { this._buildNumber = value; }
+        }
+
+        // Check to see if BuildNumber property is set
+        internal bool IsSetBuildNumber()
+        {
+            return this._buildNumber.HasValue; 
         }
 
         /// <summary>
@@ -186,6 +219,36 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EncryptionKey. 
+        /// <para>
+        /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for
+        /// encrypting the build output artifacts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  You can use a cross-account KMS key to encrypt the build output artifacts if your
+        /// service role has permission to that key. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You can specify either the Amazon Resource Name (ARN) of the CMK or, if available,
+        /// the CMK's alias (using the format <code>alias/<i>alias-name</i> </code>).
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public string EncryptionKey
+        {
+            get { return this._encryptionKey; }
+            set { this._encryptionKey = value; }
+        }
+
+        // Check to see if EncryptionKey property is set
+        internal bool IsSetEncryptionKey()
+        {
+            return this._encryptionKey != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EndTime. 
         /// <para>
         /// When the build process ended, expressed in Unix time format.
@@ -222,11 +285,51 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ExportedEnvironmentVariables. 
+        /// <para>
+        ///  A list of exported environment variables for this build. 
+        /// </para>
+        /// </summary>
+        public List<ExportedEnvironmentVariable> ExportedEnvironmentVariables
+        {
+            get { return this._exportedEnvironmentVariables; }
+            set { this._exportedEnvironmentVariables = value; }
+        }
+
+        // Check to see if ExportedEnvironmentVariables property is set
+        internal bool IsSetExportedEnvironmentVariables()
+        {
+            return this._exportedEnvironmentVariables != null && this._exportedEnvironmentVariables.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property FileSystemLocations. 
+        /// <para>
+        ///  An array of <code>ProjectFileSystemLocation</code> objects for a CodeBuild build
+        /// project. A <code>ProjectFileSystemLocation</code> object specifies the <code>identifier</code>,
+        /// <code>location</code>, <code>mountOptions</code>, <code>mountPoint</code>, and <code>type</code>
+        /// of a file system created using Amazon Elastic File System. 
+        /// </para>
+        /// </summary>
+        public List<ProjectFileSystemLocation> FileSystemLocations
+        {
+            get { return this._fileSystemLocations; }
+            set { this._fileSystemLocations = value; }
+        }
+
+        // Check to see if FileSystemLocations property is set
+        internal bool IsSetFileSystemLocations()
+        {
+            return this._fileSystemLocations != null && this._fileSystemLocations.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Id. 
         /// <para>
         /// The unique ID for the build.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Id
         {
             get { return this._id; }
@@ -251,7 +354,7 @@ namespace Amazon.CodeBuild.Model
         ///  </li> <li> 
         /// <para>
         /// If an AWS Identity and Access Management (IAM) user started the build, the user's
-        /// name (for example <code>MyUserName</code>).
+        /// name (for example, <code>MyUserName</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -310,7 +413,7 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property Phases. 
         /// <para>
-        /// Information about all previous build phases that are completed and information about
+        /// Information about all previous build phases that are complete and information about
         /// any current build phase that is not yet complete.
         /// </para>
         /// </summary>
@@ -332,6 +435,7 @@ namespace Amazon.CodeBuild.Model
         /// The name of the AWS CodeBuild project.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ProjectName
         {
             get { return this._projectName; }
@@ -342,6 +446,175 @@ namespace Amazon.CodeBuild.Model
         internal bool IsSetProjectName()
         {
             return this._projectName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property QueuedTimeoutInMinutes. 
+        /// <para>
+        ///  The number of minutes a build is allowed to be queued before it times out. 
+        /// </para>
+        /// </summary>
+        public int QueuedTimeoutInMinutes
+        {
+            get { return this._queuedTimeoutInMinutes.GetValueOrDefault(); }
+            set { this._queuedTimeoutInMinutes = value; }
+        }
+
+        // Check to see if QueuedTimeoutInMinutes property is set
+        internal bool IsSetQueuedTimeoutInMinutes()
+        {
+            return this._queuedTimeoutInMinutes.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReportArns. 
+        /// <para>
+        ///  An array of the ARNs associated with this build's reports. 
+        /// </para>
+        /// </summary>
+        public List<string> ReportArns
+        {
+            get { return this._reportArns; }
+            set { this._reportArns = value; }
+        }
+
+        // Check to see if ReportArns property is set
+        internal bool IsSetReportArns()
+        {
+            return this._reportArns != null && this._reportArns.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ResolvedSourceVersion. 
+        /// <para>
+        ///  An identifier for the version of this build's source code. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  For AWS CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  For AWS CodePipeline, the source revision provided by AWS CodePipeline. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  For Amazon Simple Storage Service (Amazon S3), this does not apply. 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public string ResolvedSourceVersion
+        {
+            get { return this._resolvedSourceVersion; }
+            set { this._resolvedSourceVersion = value; }
+        }
+
+        // Check to see if ResolvedSourceVersion property is set
+        internal bool IsSetResolvedSourceVersion()
+        {
+            return this._resolvedSourceVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SecondaryArtifacts. 
+        /// <para>
+        ///  An array of <code>ProjectArtifacts</code> objects. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=12)]
+        public List<BuildArtifacts> SecondaryArtifacts
+        {
+            get { return this._secondaryArtifacts; }
+            set { this._secondaryArtifacts = value; }
+        }
+
+        // Check to see if SecondaryArtifacts property is set
+        internal bool IsSetSecondaryArtifacts()
+        {
+            return this._secondaryArtifacts != null && this._secondaryArtifacts.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SecondarySources. 
+        /// <para>
+        ///  An array of <code>ProjectSource</code> objects. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=12)]
+        public List<ProjectSource> SecondarySources
+        {
+            get { return this._secondarySources; }
+            set { this._secondarySources = value; }
+        }
+
+        // Check to see if SecondarySources property is set
+        internal bool IsSetSecondarySources()
+        {
+            return this._secondarySources != null && this._secondarySources.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SecondarySourceVersions. 
+        /// <para>
+        ///  An array of <code>ProjectSourceVersion</code> objects. Each <code>ProjectSourceVersion</code>
+        /// must be one of: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For AWS CodeCommit: the commit ID, branch, or Git tag to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds
+        /// to the version of the source code you want to build. If a pull request ID is specified,
+        /// it must use the format <code>pr/pull-request-ID</code> (for example, <code>pr/25</code>).
+        /// If a branch name is specified, the branch's HEAD commit ID is used. If not specified,
+        /// the default branch's HEAD commit ID is used.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version
+        /// of the source code you want to build. If a branch name is specified, the branch's
+        /// HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents
+        /// the build input ZIP file to use.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Min=0, Max=12)]
+        public List<ProjectSourceVersion> SecondarySourceVersions
+        {
+            get { return this._secondarySourceVersions; }
+            set { this._secondarySourceVersions = value; }
+        }
+
+        // Check to see if SecondarySourceVersions property is set
+        internal bool IsSetSecondarySourceVersions()
+        {
+            return this._secondarySourceVersions != null && this._secondarySourceVersions.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ServiceRole. 
+        /// <para>
+        /// The name of a service role used for this build.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public string ServiceRole
+        {
+            get { return this._serviceRole; }
+            set { this._serviceRole = value; }
+        }
+
+        // Check to see if ServiceRole property is set
+        internal bool IsSetServiceRole()
+        {
+            return this._serviceRole != null;
         }
 
         /// <summary>
@@ -365,9 +638,17 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property SourceVersion. 
         /// <para>
-        /// Any version identifier for the version of the source code to be built.
+        /// Any version identifier for the version of the source code to be built. If <code>sourceVersion</code>
+        /// is specified at the project level, then this <code>sourceVersion</code> (at the build
+        /// level) takes precedence. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  For more information, see <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html">Source
+        /// Version Sample with CodeBuild</a> in the <i>AWS CodeBuild User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string SourceVersion
         {
             get { return this._sourceVersion; }

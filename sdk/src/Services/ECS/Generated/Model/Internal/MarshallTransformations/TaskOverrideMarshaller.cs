@@ -61,10 +61,38 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 context.Writer.WriteArrayEnd();
             }
 
+            if(requestObject.IsSetCpu())
+            {
+                context.Writer.WritePropertyName("cpu");
+                context.Writer.Write(requestObject.Cpu);
+            }
+
             if(requestObject.IsSetExecutionRoleArn())
             {
                 context.Writer.WritePropertyName("executionRoleArn");
                 context.Writer.Write(requestObject.ExecutionRoleArn);
+            }
+
+            if(requestObject.IsSetInferenceAcceleratorOverrides())
+            {
+                context.Writer.WritePropertyName("inferenceAcceleratorOverrides");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectInferenceAcceleratorOverridesListValue in requestObject.InferenceAcceleratorOverrides)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = InferenceAcceleratorOverrideMarshaller.Instance;
+                    marshaller.Marshall(requestObjectInferenceAcceleratorOverridesListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
+            if(requestObject.IsSetMemory())
+            {
+                context.Writer.WritePropertyName("memory");
+                context.Writer.Write(requestObject.Memory);
             }
 
             if(requestObject.IsSetTaskRoleArn())

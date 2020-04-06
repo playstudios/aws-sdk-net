@@ -29,12 +29,12 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeAddresses operation.
-    /// Describes one or more of your Elastic IP addresses.
+    /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
     /// 
     ///  
     /// <para>
     /// An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For
-    /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
+    /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
     /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -47,11 +47,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property AllocationIds. 
         /// <para>
-        /// [EC2-VPC] One or more allocation IDs.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: Describes all your Elastic IP addresses.
+        /// [EC2-VPC] Information about the allocation IDs.
         /// </para>
         /// </summary>
         public List<string> AllocationIds
@@ -91,6 +87,10 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>network-border-group</code> - The location from where the IP address is advertised.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>network-interface-id</code> - [EC2-VPC] The ID of the network interface that
         /// the address is associated with, if any.
         /// </para>
@@ -109,19 +109,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of the tag's key). If you want to list only resources where Purpose
-        /// is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -140,7 +137,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property PublicIps. 
         /// <para>
-        /// [EC2-Classic] One or more Elastic IP addresses.
+        /// One or more Elastic IP addresses.
         /// </para>
         ///  
         /// <para>

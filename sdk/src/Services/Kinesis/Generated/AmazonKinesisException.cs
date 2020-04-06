@@ -28,10 +28,10 @@ namespace Amazon.Kinesis
     ///<summary>
     /// Common exception for the Kinesis service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonKinesisException : AmazonServiceException
+    public partial class AmazonKinesisException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonKinesisException
@@ -88,7 +88,7 @@ namespace Amazon.Kinesis
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonKinesisException class with serialized data.
         /// </summary>

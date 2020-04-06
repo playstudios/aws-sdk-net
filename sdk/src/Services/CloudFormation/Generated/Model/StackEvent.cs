@@ -66,6 +66,7 @@ namespace Amazon.CloudFormation.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -84,6 +85,7 @@ namespace Amazon.CloudFormation.Model
         /// The unique ID of this event.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EventId
         {
             get { return this._eventId; }
@@ -189,10 +191,11 @@ namespace Amazon.CloudFormation.Model
         /// <summary>
         /// Gets and sets the property ResourceType. 
         /// <para>
-        /// Type of resource. (For more information, go to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">
+        /// Type of resource. (For more information, go to <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">
         /// AWS Resource Types Reference</a> in the AWS CloudFormation User Guide.)
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string ResourceType
         {
             get { return this._resourceType; }
@@ -211,6 +214,7 @@ namespace Amazon.CloudFormation.Model
         /// The unique ID name of the instance of the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackId
         {
             get { return this._stackId; }
@@ -229,6 +233,7 @@ namespace Amazon.CloudFormation.Model
         /// The name associated with a stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackName
         {
             get { return this._stackName; }
@@ -247,6 +252,7 @@ namespace Amazon.CloudFormation.Model
         /// Time the status was updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime Timestamp
         {
             get { return this._timestamp.GetValueOrDefault(); }

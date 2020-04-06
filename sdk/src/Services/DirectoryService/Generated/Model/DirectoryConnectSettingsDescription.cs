@@ -78,9 +78,10 @@ namespace Amazon.DirectoryService.Model
         /// <summary>
         /// Gets and sets the property CustomerUserName. 
         /// <para>
-        /// The username of the service account in the on-premises directory.
+        /// The user name of the service account in the on-premises directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string CustomerUserName
         {
             get { return this._customerUserName; }
@@ -114,7 +115,7 @@ namespace Amazon.DirectoryService.Model
         /// <summary>
         /// Gets and sets the property SubnetIds. 
         /// <para>
-        /// A list of subnet identifiers in the VPC that the AD connector is in.
+        /// A list of subnet identifiers in the VPC that the AD Connector is in.
         /// </para>
         /// </summary>
         public List<string> SubnetIds

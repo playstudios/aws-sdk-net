@@ -55,13 +55,14 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(DetachPrincipalPolicyRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/principal-policies/{policyName}";
             if (!publicRequest.IsSetPolicyName())
                 throw new AmazonIoTException("Request object does not have required field PolicyName set");
-            uriResourcePath = uriResourcePath.Replace("{policyName}", StringUtils.FromString(publicRequest.PolicyName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{policyName}", StringUtils.FromString(publicRequest.PolicyName));
+            request.ResourcePath = "/principal-policies/{policyName}";
+            request.MarshallerVersion = 2;
         
             if(publicRequest.IsSetPrincipal())
                 request.Headers["x-amzn-iot-principal"] = publicRequest.Principal;

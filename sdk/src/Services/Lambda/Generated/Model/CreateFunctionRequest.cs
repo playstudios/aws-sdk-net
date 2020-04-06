@@ -29,21 +29,52 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateFunction operation.
-    /// Creates a new Lambda function. The function metadata is created from the request parameters,
-    /// and the code for the function is provided by a .zip file in the request body. If the
-    /// function name already exists, the operation will fail. Note that the function name
-    /// is case-sensitive.
+    /// Creates a Lambda function. To create a function, you need a <a href="https://docs.aws.amazon.com/lambda/latest/dg/deployment-package-v2.html">deployment
+    /// package</a> and an <a href="https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role">execution
+    /// role</a>. The deployment package contains your function code. The execution role grants
+    /// the function permission to use AWS services, such as Amazon CloudWatch Logs for log
+    /// streaming and AWS X-Ray for request tracing.
     /// 
     ///  
     /// <para>
-    ///  If you are using versioning, you can also publish a version of the Lambda function
-    /// you are creating using the <code>Publish</code> parameter. For more information about
-    /// versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-    /// Lambda Function Versioning and Aliases</a>. 
+    /// When you create a function, Lambda provisions an instance of the function and its
+    /// supporting resources. If your function connects to a VPC, this process can take a
+    /// minute or so. During this time, you can't invoke or modify the function. The <code>State</code>,
+    /// <code>StateReason</code>, and <code>StateReasonCode</code> fields in the response
+    /// from <a>GetFunctionConfiguration</a> indicate when the function is ready to invoke.
+    /// For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html">Function
+    /// States</a>.
     /// </para>
     ///  
     /// <para>
-    /// This operation requires permission for the <code>lambda:CreateFunction</code> action.
+    /// A function has an unpublished version, and can have published versions and aliases.
+    /// The unpublished version changes when you update your function's code and configuration.
+    /// A published version is a snapshot of your function code and configuration that can't
+    /// be changed. An alias is a named resource that maps to a version, and can be changed
+    /// to map to a different version. Use the <code>Publish</code> parameter to create version
+    /// <code>1</code> of your function from its initial configuration.
+    /// </para>
+    ///  
+    /// <para>
+    /// The other parameters let you configure version-specific and function-level settings.
+    /// You can modify version-specific settings later with <a>UpdateFunctionConfiguration</a>.
+    /// Function-level settings apply to both the unpublished and published versions of the
+    /// function, and include tags (<a>TagResource</a>) and per-function concurrency limits
+    /// (<a>PutFunctionConcurrency</a>).
+    /// </para>
+    ///  
+    /// <para>
+    /// If another account or an AWS service invokes your function, use <a>AddPermission</a>
+    /// to grant permission by creating a resource-based IAM policy. You can grant permissions
+    /// at the function level, on a version, or on an alias.
+    /// </para>
+    ///  
+    /// <para>
+    /// To invoke your function directly, use <a>Invoke</a>. To invoke your function in response
+    /// to events in other AWS services, create an event source mapping (<a>CreateEventSourceMapping</a>),
+    /// or configure a function trigger in the other service. For more information, see <a
+    /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html">Invoking
+    /// Functions</a>.
     /// </para>
     /// </summary>
     public partial class CreateFunctionRequest : AmazonLambdaRequest
@@ -55,6 +86,7 @@ namespace Amazon.Lambda.Model
         private string _functionName;
         private string _handler;
         private string _kmsKeyArn;
+        private List<string> _layers = new List<string>();
         private int? _memorySize;
         private bool? _publish;
         private string _role;
@@ -67,9 +99,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Code. 
         /// <para>
-        /// The code for the Lambda function.
+        /// The code for the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FunctionCode Code
         {
             get { return this._code; }
@@ -85,8 +118,9 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property DeadLetterConfig. 
         /// <para>
-        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon
-        /// SQS queue or Amazon SNS topic. For more information, see <a>dlq</a>. 
+        /// A dead letter queue configuration that specifies the queue or topic where Lambda sends
+        /// asynchronous events when they fail processing. For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq">Dead
+        /// Letter Queues</a>.
         /// </para>
         /// </summary>
         public DeadLetterConfig DeadLetterConfig
@@ -104,10 +138,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// A short, user-defined function description. Lambda does not use this value. Assign
-        /// a meaningful description as you see fit.
+        /// A description of the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Description
         {
             get { return this._description; }
@@ -121,7 +155,10 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Environment.
+        /// Gets and sets the property Environment. 
+        /// <para>
+        /// Environment variables that are accessible from function code during execution.
+        /// </para>
         /// </summary>
         public Environment Environment
         {
@@ -138,13 +175,29 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// The name you want to assign to the function you are uploading. The function names
-        /// appear in the console and are returned in the <a>ListFunctions</a> API. Function names
-        /// are used to specify functions to other AWS Lambda API operations, such as <a>Invoke</a>.
-        /// Note that the length constraint applies only to the ARN. If you specify only the function
-        /// name, it is limited to 64 characters in length. 
+        /// The name of the Lambda function.
+        /// </para>
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Function name</b> - <code>my-function</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it is limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -160,13 +213,13 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Handler. 
         /// <para>
-        /// The function within your code that Lambda calls to begin execution. For Node.js, it
-        /// is the <i>module-name</i>.<i>export</i> value in your function. For Java, it can be
-        /// <code>package.class-name::handler</code> or <code>package.class-name</code>. For more
-        /// information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/java-programming-model-handler-types.html">Lambda
-        /// Function Handler (Java)</a>. 
+        /// The name of the method within your code that Lambda calls to execute your function.
+        /// The format includes the file name. It can also include namespaces and other qualifiers,
+        /// depending on the runtime. For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
+        /// Model</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=128)]
         public string Handler
         {
             get { return this._handler; }
@@ -182,8 +235,9 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property KMSKeyArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment
-        /// variables. If not provided, AWS Lambda will use a default service key.
+        /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your
+        /// function's environment variables. If it's not provided, AWS Lambda uses a default
+        /// service key.
         /// </para>
         /// </summary>
         public string KMSKeyArn
@@ -199,15 +253,34 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MemorySize. 
+        /// Gets and sets the property Layers. 
         /// <para>
-        /// The amount of memory, in MB, your Lambda function is given. Lambda uses this memory
-        /// size to infer the amount of CPU and memory allocated to your function. Your function
-        /// use-case determines your CPU and memory requirements. For example, a database operation
-        /// might need less memory compared to an image processing function. The default value
-        /// is 128 MB. The value must be a multiple of 64 MB.
+        /// A list of <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">function
+        /// layers</a> to add to the function's execution environment. Specify each layer by its
+        /// ARN, including the version.
         /// </para>
         /// </summary>
+        public List<string> Layers
+        {
+            get { return this._layers; }
+            set { this._layers = value; }
+        }
+
+        // Check to see if Layers property is set
+        internal bool IsSetLayers()
+        {
+            return this._layers != null && this._layers.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MemorySize. 
+        /// <para>
+        /// The amount of memory that your function has access to. Increasing the function's memory
+        /// also increases its CPU allocation. The default value is 128 MB. The value must be
+        /// a multiple of 64 MB.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=128, Max=3008)]
         public int MemorySize
         {
             get { return this._memorySize.GetValueOrDefault(); }
@@ -223,8 +296,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Publish. 
         /// <para>
-        /// This boolean parameter can be used to request AWS Lambda to create the Lambda function
-        /// and publish a version as an atomic operation.
+        /// Set to true to publish the first version of the function during creation.
         /// </para>
         /// </summary>
         public bool Publish
@@ -242,12 +314,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Role. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the IAM role that Lambda assumes when it executes
-        /// your function to access any other Amazon Web Services (AWS) resources. For more information,
-        /// see <a href="http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
-        /// Lambda: How it Works</a>. 
+        /// The Amazon Resource Name (ARN) of the function's execution role.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Role
         {
             get { return this._role; }
@@ -263,26 +333,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Runtime. 
         /// <para>
-        /// The runtime environment for the Lambda function you are uploading.
+        /// The identifier of the function's <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
         /// </para>
-        ///  
-        /// <para>
-        /// To use the Python runtime v3.6, set the value to "python3.6". To use the Python runtime
-        /// v2.7, set the value to "python2.7". To use the Node.js runtime v6.10, set the value
-        /// to "nodejs6.10". To use the Node.js runtime v4.3, set the value to "nodejs4.3". To
-        /// use the .NET Core runtime v1.0, set the value to "dotnetcore1.0". To use the .NET
-        /// Core runtime v2.0, set the value to "dotnetcore2.0".
-        /// </para>
-        ///  <note> 
-        /// <para>
-        /// Node v0.10.42 is currently marked as deprecated. You must migrate existing functions
-        /// to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10)
-        /// as soon as possible. Failure to do so will result in an invalid parameter error being
-        /// returned. Note that you will have to follow this procedure for each region that contains
-        /// functions written in the Node v0.10.42 runtime.
-        /// </para>
-        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Runtime Runtime
         {
             get { return this._runtime; }
@@ -298,9 +352,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// The list of tags (key-value pairs) assigned to the new function. For more information,
-        /// see <a href="http://docs.aws.amazon.com/lambda/latest/dg/tagging.html">Tagging Lambda
-        /// Functions</a> in the <b>AWS Lambda Developer Guide</b>.
+        /// A list of <a href="https://docs.aws.amazon.com/lambda/latest/dg/tagging.html">tags</a>
+        /// to apply to the function.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Tags
@@ -318,11 +371,11 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Timeout. 
         /// <para>
-        /// The function execution time at which Lambda should terminate the function. Because
-        /// the execution time has cost implications, we recommend you set this value based on
-        /// your expected execution time. The default is 3 seconds.
+        /// The amount of time that Lambda allows a function to run before stopping it. The default
+        /// is 3 seconds. The maximum allowed value is 900 seconds.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Timeout
         {
             get { return this._timeout.GetValueOrDefault(); }
@@ -338,7 +391,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property TracingConfig. 
         /// <para>
-        /// The parent object that contains your function's tracing settings.
+        /// Set <code>Mode</code> to <code>Active</code> to sample and trace a subset of incoming
+        /// requests with AWS X-Ray.
         /// </para>
         /// </summary>
         public TracingConfig TracingConfig
@@ -356,9 +410,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property VpcConfig. 
         /// <para>
-        /// If your Lambda function accesses resources in a VPC, you provide this parameter identifying
-        /// the list of security group IDs and subnet IDs. These must belong to the same VPC.
-        /// You must provide at least one security group and one subnet ID.
+        /// For network connectivity to AWS resources in a VPC, specify a list of security groups
+        /// and subnets in the VPC. When you connect a function to a VPC, it can only access resources
+        /// and the internet through that VPC. For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
+        /// Settings</a>.
         /// </para>
         /// </summary>
         public VpcConfig VpcConfig

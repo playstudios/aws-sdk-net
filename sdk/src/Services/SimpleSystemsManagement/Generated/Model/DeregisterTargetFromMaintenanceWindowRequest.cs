@@ -29,7 +29,7 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the DeregisterTargetFromMaintenanceWindow operation.
-    /// Removes a target from a Maintenance Window.
+    /// Removes a target from a maintenance window.
     /// </summary>
     public partial class DeregisterTargetFromMaintenanceWindowRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -42,7 +42,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <para>
         /// The system checks if the target is being referenced by a task. If the target is being
         /// referenced, the system returns an error and does not deregister the target from the
-        /// Maintenance Window.
+        /// maintenance window.
         /// </para>
         /// </summary>
         public bool Safe
@@ -60,9 +60,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowId. 
         /// <para>
-        /// The ID of the Maintenance Window the target should be removed from.
+        /// The ID of the maintenance window the target should be removed from.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=20)]
         public string WindowId
         {
             get { return this._windowId; }
@@ -81,6 +82,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the target definition to remove.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=36, Max=36)]
         public string WindowTargetId
         {
             get { return this._windowTargetId; }

@@ -33,8 +33,39 @@ namespace Amazon.CognitoIdentityProvider.Model
     /// </summary>
     public partial class CreateUserPoolDomainRequest : AmazonCognitoIdentityProviderRequest
     {
+        private CustomDomainConfigType _customDomainConfig;
         private string _domain;
         private string _userPoolId;
+
+        /// <summary>
+        /// Gets and sets the property CustomDomainConfig. 
+        /// <para>
+        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages
+        /// for your application.
+        /// </para>
+        ///  
+        /// <para>
+        /// Provide this parameter only if you want to use a custom domain for your user pool.
+        /// Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain
+        /// instead.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the hosted domain and custom domains, see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain.html">Configuring
+        /// a User Pool Domain</a>.
+        /// </para>
+        /// </summary>
+        public CustomDomainConfigType CustomDomainConfig
+        {
+            get { return this._customDomainConfig; }
+            set { this._customDomainConfig = value; }
+        }
+
+        // Check to see if CustomDomainConfig property is set
+        internal bool IsSetCustomDomainConfig()
+        {
+            return this._customDomainConfig != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Domain. 
@@ -42,6 +73,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The domain string.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=63)]
         public string Domain
         {
             get { return this._domain; }
@@ -60,6 +92,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }

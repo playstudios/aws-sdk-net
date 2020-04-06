@@ -31,13 +31,13 @@ namespace Amazon.EC2.Model
     /// Container for the parameters to the CreateVpcPeeringConnection operation.
     /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and
     /// an accepter VPC with which to create the connection. The accepter VPC can belong to
-    /// another AWS account and can be in a different region to the requester VPC. The requester
+    /// another AWS account and can be in a different Region to the requester VPC. The requester
     /// VPC and accepter VPC cannot have overlapping CIDR blocks.
     /// 
     ///  <note> 
     /// <para>
     /// Limitations and rules apply to a VPC peering connection. For more information, see
-    /// the <a href="http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/vpc-peering-basics.html#vpc-peering-limitations">limitations</a>
+    /// the <a href="https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations">limitations</a>
     /// section in the <i>VPC Peering Guide</i>.
     /// </para>
     ///  </note> 
@@ -84,12 +84,12 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property PeerRegion. 
         /// <para>
-        /// The region code for the accepter VPC, if the accepter VPC is located in a region other
-        /// than the region in which you make the request.
+        /// The Region code for the accepter VPC, if the accepter VPC is located in a Region other
+        /// than the Region in which you make the request.
         /// </para>
         ///  
         /// <para>
-        /// Default: The region in which you make the request.
+        /// Default: The Region in which you make the request.
         /// </para>
         /// </summary>
         public string PeerRegion

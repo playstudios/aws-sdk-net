@@ -40,7 +40,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     ///  
     /// <para>
     /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html">Tag
-    /// Your Classic Load Balancer</a> in the <i>Classic Load Balancer Guide</i>.
+    /// Your Classic Load Balancer</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class AddTagsRequest : AmazonElasticLoadBalancingRequest
@@ -54,6 +54,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer. You can specify one load balancer only.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> LoadBalancerNames
         {
             get { return this._loadBalancerNames; }
@@ -72,6 +73,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<Tag> Tags
         {
             get { return this._tags; }

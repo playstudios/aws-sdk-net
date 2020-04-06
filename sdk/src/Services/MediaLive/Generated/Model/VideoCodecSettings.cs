@@ -28,11 +28,28 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Placeholder documentation for VideoCodecSettings
+    /// Video Codec Settings
     /// </summary>
     public partial class VideoCodecSettings
     {
+        private FrameCaptureSettings _frameCaptureSettings;
         private H264Settings _h264Settings;
+        private H265Settings _h265Settings;
+
+        /// <summary>
+        /// Gets and sets the property FrameCaptureSettings.
+        /// </summary>
+        public FrameCaptureSettings FrameCaptureSettings
+        {
+            get { return this._frameCaptureSettings; }
+            set { this._frameCaptureSettings = value; }
+        }
+
+        // Check to see if FrameCaptureSettings property is set
+        internal bool IsSetFrameCaptureSettings()
+        {
+            return this._frameCaptureSettings != null;
+        }
 
         /// <summary>
         /// Gets and sets the property H264Settings.
@@ -47,6 +64,21 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetH264Settings()
         {
             return this._h264Settings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property H265Settings.
+        /// </summary>
+        public H265Settings H265Settings
+        {
+            get { return this._h265Settings; }
+            set { this._h265Settings = value; }
+        }
+
+        // Check to see if H265Settings property is set
+        internal bool IsSetH265Settings()
+        {
+            return this._h265Settings != null;
         }
 
     }

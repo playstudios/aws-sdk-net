@@ -100,6 +100,18 @@ namespace Amazon.Budgets.Model.Internal.MarshallTransformations
                     unmarshalledObject.CostTypes = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("LastUpdatedTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.LastUpdatedTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("PlannedBudgetLimits", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, Spend, StringUnmarshaller, SpendUnmarshaller>(StringUnmarshaller.Instance, SpendUnmarshaller.Instance);
+                    unmarshalledObject.PlannedBudgetLimits = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("TimePeriod", targetDepth))
                 {
                     var unmarshaller = TimePeriodUnmarshaller.Instance;

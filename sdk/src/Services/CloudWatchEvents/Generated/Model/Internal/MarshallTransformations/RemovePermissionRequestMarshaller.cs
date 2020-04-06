@@ -58,15 +58,22 @@ namespace Amazon.CloudWatchEvents.Model.Internal.MarshallTransformations
             string target = "AWSEvents.RemovePermission";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-10-07";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetEventBusName())
+                {
+                    context.Writer.WritePropertyName("EventBusName");
+                    context.Writer.Write(publicRequest.EventBusName);
+                }
+
                 if(publicRequest.IsSetStatementId())
                 {
                     context.Writer.WritePropertyName("StatementId");

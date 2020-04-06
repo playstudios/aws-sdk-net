@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -42,7 +42,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "PUT";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketTaggingRequest.BucketName));
+            if (string.IsNullOrEmpty(putBucketTaggingRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutBucketTaggingRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketTaggingRequest.BucketName));
 
             request.AddSubResource("tagging");
 
@@ -57,16 +61,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                     xmlWriter.WriteStartElement("TagSet", "");
                     foreach (var taggingTaggingtagSetListValue in taggingTaggingtagSetList)
                     {
-                        xmlWriter.WriteStartElement("Tag", "");
-                        if (taggingTaggingtagSetListValue.IsSetKey())
-                        {
-                            xmlWriter.WriteElementString("Key", "", S3Transforms.ToXmlStringValue(taggingTaggingtagSetListValue.Key));
-                        }
-                        if (taggingTaggingtagSetListValue.IsSetValue())
-                        {
-                            xmlWriter.WriteElementString("Value", "", S3Transforms.ToXmlStringValue(taggingTaggingtagSetListValue.Value));
-                        }
-                        xmlWriter.WriteEndElement();
+                        taggingTaggingtagSetListValue.Marshall("Tag", xmlWriter);
                     }
                     xmlWriter.WriteEndElement();
                 }

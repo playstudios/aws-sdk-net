@@ -40,7 +40,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "GET";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(listObjectsRequest.BucketName));
+            if (string.IsNullOrEmpty(listObjectsRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "ListObjectsV2Request.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(listObjectsRequest.BucketName));
 
             if (listObjectsRequest.IsSetDelimiter())
                 request.Parameters.Add("delimiter", S3Transforms.ToStringValue(listObjectsRequest.Delimiter));
@@ -53,7 +57,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             if (listObjectsRequest.IsSetContinuationToken())
                 request.Parameters.Add("continuation-token", S3Transforms.ToStringValue(listObjectsRequest.ContinuationToken));
             if (listObjectsRequest.IsSetFetchOwner())
-                request.Parameters.Add("fetch-owner", listObjectsRequest.FetchOwner.ToString().ToLowerInvariant());
+                request.Parameters.Add("fetch-owner", S3Transforms.ToStringValue(listObjectsRequest.FetchOwner));
             if (listObjectsRequest.IsSetStartAfter())
                 request.Parameters.Add("start-after", S3Transforms.ToStringValue(listObjectsRequest.StartAfter));
 

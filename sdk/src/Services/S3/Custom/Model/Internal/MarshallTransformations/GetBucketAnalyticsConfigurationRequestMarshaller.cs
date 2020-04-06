@@ -37,7 +37,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             request.Suppress404Exceptions = true;
             request.HttpMethod = "GET";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getAnalyticsConfigurationRequest.BucketName));
+            if (string.IsNullOrEmpty(getAnalyticsConfigurationRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "GetBucketAnalyticsConfigurationRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getAnalyticsConfigurationRequest.BucketName));
             request.AddSubResource("analytics");
             request.AddSubResource("id", getAnalyticsConfigurationRequest.AnalyticsId);
             request.UseQueryString = true;

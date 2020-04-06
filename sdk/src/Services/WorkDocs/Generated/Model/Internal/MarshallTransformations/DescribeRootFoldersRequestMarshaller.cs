@@ -55,16 +55,17 @@ namespace Amazon.WorkDocs.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeRootFoldersRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.WorkDocs");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-05-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/api/v1/me/root";
             
             if (publicRequest.IsSetLimit())
                 request.Parameters.Add("limit", StringUtils.FromInt(publicRequest.Limit));
             
             if (publicRequest.IsSetMarker())
                 request.Parameters.Add("marker", StringUtils.FromString(publicRequest.Marker));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/api/v1/me/root";
+            request.MarshallerVersion = 2;
         
             if(publicRequest.IsSetAuthenticationToken())
                 request.Headers["Authentication"] = publicRequest.AuthenticationToken;

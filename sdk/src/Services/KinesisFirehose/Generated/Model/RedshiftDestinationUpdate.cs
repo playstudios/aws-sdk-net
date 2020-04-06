@@ -47,7 +47,7 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property CloudWatchLoggingOptions. 
         /// <para>
-        /// The CloudWatch logging options for your delivery stream.
+        /// The Amazon CloudWatch logging options for your delivery stream.
         /// </para>
         /// </summary>
         public CloudWatchLoggingOptions CloudWatchLoggingOptions
@@ -68,6 +68,7 @@ namespace Amazon.KinesisFirehose.Model
         /// The database connection string.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ClusterJDBCURL
         {
             get { return this._clusterJDBCURL; }
@@ -104,6 +105,7 @@ namespace Amazon.KinesisFirehose.Model
         /// The user password.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6)]
         public string Password
         {
             get { return this._password; }
@@ -137,8 +139,8 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property RetryOptions. 
         /// <para>
-        /// The retry behavior in case Kinesis Firehose is unable to deliver documents to Amazon
-        /// Redshift. Default value is 3600 (60 minutes).
+        /// The retry behavior in case Kinesis Data Firehose is unable to deliver documents to
+        /// Amazon Redshift. Default value is 3600 (60 minutes).
         /// </para>
         /// </summary>
         public RedshiftRetryOptions RetryOptions
@@ -156,9 +158,12 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property RoleARN. 
         /// <para>
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see <a
+        /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// Resource Names (ARNs) and AWS Service Namespaces</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string RoleARN
         {
             get { return this._roleARN; }
@@ -215,7 +220,7 @@ namespace Amazon.KinesisFirehose.Model
         ///  
         /// <para>
         /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be specified
-        /// in <b>RedshiftDestinationUpdate.S3Update</b> because the Amazon Redshift <code>COPY</code>
+        /// in <code>RedshiftDestinationUpdate.S3Update</code> because the Amazon Redshift <code>COPY</code>
         /// operation that reads from the S3 bucket doesn't support these compression formats.
         /// </para>
         /// </summary>
@@ -237,6 +242,7 @@ namespace Amazon.KinesisFirehose.Model
         /// The name of the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Username
         {
             get { return this._username; }

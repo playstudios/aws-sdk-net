@@ -28,10 +28,10 @@ namespace Amazon.GuardDuty
     ///<summary>
     /// Common exception for the GuardDuty service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonGuardDutyException : AmazonServiceException
+    public partial class AmazonGuardDutyException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonGuardDutyException
@@ -88,7 +88,7 @@ namespace Amazon.GuardDuty
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonGuardDutyException class with serialized data.
         /// </summary>

@@ -39,6 +39,9 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property ResourceType. 
         /// <para>
         /// The type of resource. Currently, the only resource type that is supported is <code>instance</code>.
+        /// To tag the Spot Fleet request on creation, use the <code>TagSpecifications</code>
+        /// parameter in <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetRequestConfigData.html">
+        /// <code>SpotFleetRequestConfigData</code> </a>.
         /// </para>
         /// </summary>
         public ResourceType ResourceType

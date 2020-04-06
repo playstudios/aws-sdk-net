@@ -92,6 +92,12 @@ namespace Amazon.CodePipeline.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Name);
             }
 
+            if(requestObject.IsSetNamespace())
+            {
+                context.Writer.WritePropertyName("namespace");
+                context.Writer.Write(requestObject.Namespace);
+            }
+
             if(requestObject.IsSetOutputArtifacts())
             {
                 context.Writer.WritePropertyName("outputArtifacts");
@@ -106,6 +112,12 @@ namespace Amazon.CodePipeline.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
                 context.Writer.WriteArrayEnd();
+            }
+
+            if(requestObject.IsSetRegion())
+            {
+                context.Writer.WritePropertyName("region");
+                context.Writer.Write(requestObject.Region);
             }
 
             if(requestObject.IsSetRoleArn())

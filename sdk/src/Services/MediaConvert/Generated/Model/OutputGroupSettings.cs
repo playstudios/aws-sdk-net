@@ -32,6 +32,7 @@ namespace Amazon.MediaConvert.Model
     /// </summary>
     public partial class OutputGroupSettings
     {
+        private CmafGroupSettings _cmafGroupSettings;
         private DashIsoGroupSettings _dashIsoGroupSettings;
         private FileGroupSettings _fileGroupSettings;
         private HlsGroupSettings _hlsGroupSettings;
@@ -39,7 +40,25 @@ namespace Amazon.MediaConvert.Model
         private OutputGroupType _type;
 
         /// <summary>
-        /// Gets and sets the property DashIsoGroupSettings.
+        /// Gets and sets the property CmafGroupSettings. Required when you set (Type) under (OutputGroups)>(OutputGroupSettings)
+        /// to CMAF_GROUP_SETTINGS. Each output in a CMAF Output Group may only contain a single
+        /// video, audio, or caption output.
+        /// </summary>
+        public CmafGroupSettings CmafGroupSettings
+        {
+            get { return this._cmafGroupSettings; }
+            set { this._cmafGroupSettings = value; }
+        }
+
+        // Check to see if CmafGroupSettings property is set
+        internal bool IsSetCmafGroupSettings()
+        {
+            return this._cmafGroupSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DashIsoGroupSettings. Required when you set (Type) under
+        /// (OutputGroups)>(OutputGroupSettings) to DASH_ISO_GROUP_SETTINGS.
         /// </summary>
         public DashIsoGroupSettings DashIsoGroupSettings
         {
@@ -54,7 +73,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FileGroupSettings.
+        /// Gets and sets the property FileGroupSettings. Required when you set (Type) under (OutputGroups)>(OutputGroupSettings)
+        /// to FILE_GROUP_SETTINGS.
         /// </summary>
         public FileGroupSettings FileGroupSettings
         {
@@ -69,7 +89,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property HlsGroupSettings.
+        /// Gets and sets the property HlsGroupSettings. Required when you set (Type) under (OutputGroups)>(OutputGroupSettings)
+        /// to HLS_GROUP_SETTINGS.
         /// </summary>
         public HlsGroupSettings HlsGroupSettings
         {
@@ -84,7 +105,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MsSmoothGroupSettings.
+        /// Gets and sets the property MsSmoothGroupSettings. Required when you set (Type) under
+        /// (OutputGroups)>(OutputGroupSettings) to MS_SMOOTH_GROUP_SETTINGS.
         /// </summary>
         public MsSmoothGroupSettings MsSmoothGroupSettings
         {
@@ -99,7 +121,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Type.
+        /// Gets and sets the property Type. Type of output group (File group, Apple HLS, DASH
+        /// ISO, Microsoft Smooth Streaming, CMAF)
         /// </summary>
         public OutputGroupType Type
         {

@@ -30,8 +30,14 @@ namespace Amazon.RDS.Model
     /// <summary>
     /// Container for the parameters to the CreateDBClusterSnapshot operation.
     /// Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see <a
-    /// href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i>
+    /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateDBClusterSnapshotRequest : AmazonRDSRequest
     {
@@ -42,7 +48,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property DBClusterIdentifier. 
         /// <para>
-        /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive.
+        /// The identifier of the DB cluster to create a snapshot for. This parameter isn't case-sensitive.
         /// </para>
         ///  
         /// <para>
@@ -57,6 +63,7 @@ namespace Amazon.RDS.Model
         /// Example: <code>my-cluster1</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterIdentifier
         {
             get { return this._dbClusterIdentifier; }
@@ -89,13 +96,14 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens.
+        /// Can't end with a hyphen or contain two consecutive hyphens.
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-cluster1-snapshot1</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterSnapshotIdentifier
         {
             get { return this._dbClusterSnapshotIdentifier; }

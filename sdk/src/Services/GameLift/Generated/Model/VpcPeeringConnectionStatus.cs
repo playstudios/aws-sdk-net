@@ -30,7 +30,7 @@ namespace Amazon.GameLift.Model
     /// <summary>
     /// Represents status information for a VPC peering connection. Status is associated with
     /// a <a>VpcPeeringConnection</a> object. Status codes and messages are provided from
-    /// EC2 (see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_VpcPeeringConnectionStateReason.html">VpcPeeringConnectionStateReason</a>).
+    /// EC2 (see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_VpcPeeringConnectionStateReason.html">VpcPeeringConnectionStateReason</a>).
     /// Connection status information is also communicated as a fleet <a>Event</a>.
     /// </summary>
     public partial class VpcPeeringConnectionStatus
@@ -44,6 +44,7 @@ namespace Amazon.GameLift.Model
         /// Code indicating the status of a VPC peering connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Code
         {
             get { return this._code; }
@@ -62,6 +63,7 @@ namespace Amazon.GameLift.Model
         /// Additional messaging associated with the connection status. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Message
         {
             get { return this._message; }

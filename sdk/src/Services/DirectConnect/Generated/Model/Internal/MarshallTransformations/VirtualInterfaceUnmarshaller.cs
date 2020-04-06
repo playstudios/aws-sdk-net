@@ -94,6 +94,12 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                     unmarshalledObject.AuthKey = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("awsDeviceV2", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AwsDeviceV2 = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("bgpPeers", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<BGPPeer, BGPPeerUnmarshaller>(BGPPeerUnmarshaller.Instance);
@@ -124,10 +130,22 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                     unmarshalledObject.DirectConnectGatewayId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("jumboFrameCapable", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.JumboFrameCapable = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("location", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Location = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("mtu", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.Mtu = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ownerAccount", targetDepth))
@@ -136,10 +154,22 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                     unmarshalledObject.OwnerAccount = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("region", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.Region = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("routeFilterPrefixes", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<RouteFilterPrefix, RouteFilterPrefixUnmarshaller>(RouteFilterPrefixUnmarshaller.Instance);
                     unmarshalledObject.RouteFilterPrefixes = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Tag, TagUnmarshaller>(TagUnmarshaller.Instance);
+                    unmarshalledObject.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("virtualGatewayId", targetDepth))

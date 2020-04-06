@@ -38,9 +38,11 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The pagination token that indicates the next set of results that you can retrieve.
+        /// The pagination token in the service response that indicates the next set of results
+        /// that you can retrieve.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -56,9 +58,10 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property Subscribers. 
         /// <para>
-        /// A list of subscribers associated with a notification.
+        /// A list of subscribers that are associated with a notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=11)]
         public List<Subscriber> Subscribers
         {
             get { return this._subscribers; }

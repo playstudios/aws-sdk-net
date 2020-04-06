@@ -29,14 +29,7 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateAlias operation.
-    /// Using this API you can update the function version to which the alias points and the
-    /// alias description. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-    /// to AWS Lambda Aliases</a>.
-    /// 
-    ///  
-    /// <para>
-    /// This requires permission for the lambda:UpdateAlias action.
-    /// </para>
+    /// Updates the configuration of a Lambda function <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>.
     /// </summary>
     public partial class UpdateAliasRequest : AmazonLambdaRequest
     {
@@ -50,9 +43,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// You can change the description of the alias using this parameter.
+        /// A description of the alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Description
         {
             get { return this._description; }
@@ -68,11 +62,29 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// The function name for which the alias is created. Note that the length constraint
-        /// applies only to the ARN. If you specify only the function name, it is limited to 64
-        /// characters in length.
+        /// The name of the Lambda function.
+        /// </para>
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Function name</b> - <code>MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it is limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -88,10 +100,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionVersion. 
         /// <para>
-        /// Using this parameter you can change the Lambda function version to which the alias
-        /// points.
+        /// The function version that the alias invokes.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string FunctionVersion
         {
             get { return this._functionVersion; }
@@ -107,9 +119,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The alias name.
+        /// The name of the alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -125,11 +138,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property RevisionId. 
         /// <para>
-        /// An optional value you can use to ensure you are updating the latest update of the
-        /// function version or alias. If the <code>RevisionID</code> you pass doesn't match the
-        /// latest <code>RevisionId</code> of the function or alias, it will fail with an error
-        /// message, advising you to retrieve the latest function version or alias <code>RevisionID</code>
-        /// using either or .
+        /// Only update the alias if the revision ID matches the ID that's specified. Use this
+        /// option to avoid modifying an alias that has changed since you last read it.
         /// </para>
         /// </summary>
         public string RevisionId
@@ -147,8 +157,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property RoutingConfig. 
         /// <para>
-        /// Specifies an additional version your alias can point to, allowing you to dictate what
-        /// percentage of traffic will invoke each version. For more information, see <a>lambda-traffic-shifting-using-aliases</a>.
+        /// The <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">routing
+        /// configuration</a> of the alias.
         /// </para>
         /// </summary>
         public AliasRoutingConfiguration RoutingConfig

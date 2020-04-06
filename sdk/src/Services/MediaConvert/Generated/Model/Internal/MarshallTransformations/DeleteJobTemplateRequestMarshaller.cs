@@ -55,13 +55,14 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteJobTemplateRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaConvert");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-29";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/2017-08-29/jobTemplates/{name}";
             if (!publicRequest.IsSetName())
                 throw new AmazonMediaConvertException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/2017-08-29/jobTemplates/{name}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

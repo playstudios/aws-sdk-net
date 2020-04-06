@@ -55,11 +55,12 @@ namespace Amazon.KinesisVideo.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateStreamRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.KinesisVideo");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-30";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/createStream";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/createStream";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -93,6 +94,20 @@ namespace Amazon.KinesisVideo.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("StreamName");
                     context.Writer.Write(publicRequest.StreamName);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
         

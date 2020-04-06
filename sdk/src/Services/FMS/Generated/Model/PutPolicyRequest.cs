@@ -30,10 +30,42 @@ namespace Amazon.FMS.Model
     /// <summary>
     /// Container for the parameters to the PutPolicy operation.
     /// Creates an AWS Firewall Manager policy.
+    /// 
+    ///  
+    /// <para>
+    /// Firewall Manager provides the following types of policies: 
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// A Shield Advanced policy, which applies Shield Advanced protection to specified accounts
+    /// and resources
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// An AWS WAF policy, which contains a rule group and defines which resources are to
+    /// be protected by that rule group
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// A security group policy, which manages VPC security groups across your AWS organization.
+    /// 
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// Each policy is specific to one of the three types. If you want to enforce more than
+    /// one policy type across accounts, you can create multiple policies. You can create
+    /// multiple policies for each type.
+    /// </para>
+    ///  
+    /// <para>
+    /// You must be subscribed to Shield Advanced to create a Shield Advanced policy. For
+    /// more information about subscribing to Shield Advanced, see <a href="https://docs.aws.amazon.com/waf/latest/DDOSAPIReference/API_CreateSubscription.html">CreateSubscription</a>.
+    /// </para>
     /// </summary>
     public partial class PutPolicyRequest : AmazonFMSRequest
     {
         private Policy _policy;
+        private List<Tag> _tagList = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Policy. 
@@ -41,6 +73,7 @@ namespace Amazon.FMS.Model
         /// The details of the AWS Firewall Manager policy to be created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Policy Policy
         {
             get { return this._policy; }
@@ -51,6 +84,25 @@ namespace Amazon.FMS.Model
         internal bool IsSetPolicy()
         {
             return this._policy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TagList. 
+        /// <para>
+        /// The tags to add to the AWS resource.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=200)]
+        public List<Tag> TagList
+        {
+            get { return this._tagList; }
+            set { this._tagList = value; }
+        }
+
+        // Check to see if TagList property is set
+        internal bool IsSetTagList()
+        {
+            return this._tagList != null && this._tagList.Count > 0; 
         }
 
     }

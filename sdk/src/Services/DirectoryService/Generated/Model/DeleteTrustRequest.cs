@@ -29,7 +29,7 @@ namespace Amazon.DirectoryService.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteTrust operation.
-    /// Deletes an existing trust relationship between your Microsoft AD in the AWS cloud
+    /// Deletes an existing trust relationship between your AWS Managed Microsoft AD directory
     /// and an external domain.
     /// </summary>
     public partial class DeleteTrustRequest : AmazonDirectoryServiceRequest
@@ -61,6 +61,7 @@ namespace Amazon.DirectoryService.Model
         /// The Trust ID of the trust relationship to be deleted.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TrustId
         {
             get { return this._trustId; }

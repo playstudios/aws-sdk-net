@@ -34,6 +34,7 @@ namespace Amazon.CloudFormation.Model
     public partial class DeleteStackInstancesRequest : AmazonCloudFormationRequest
     {
         private List<string> _accounts = new List<string>();
+        private DeploymentTargets _deploymentTargets;
         private string _operationId;
         private StackSetOperationPreferences _operationPreferences;
         private List<string> _regions = new List<string>();
@@ -43,7 +44,12 @@ namespace Amazon.CloudFormation.Model
         /// <summary>
         /// Gets and sets the property Accounts. 
         /// <para>
-        /// The names of the AWS accounts that you want to delete stack instances for.
+        /// [Self-managed permissions] The names of the AWS accounts that you want to delete stack
+        /// instances for.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>, but not both.
         /// </para>
         /// </summary>
         public List<string> Accounts
@@ -56,6 +62,29 @@ namespace Amazon.CloudFormation.Model
         internal bool IsSetAccounts()
         {
             return this._accounts != null && this._accounts.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeploymentTargets. 
+        /// <para>
+        /// [<code>Service-managed</code> permissions] The AWS Organizations accounts from which
+        /// to delete stack instances.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>, but not both.
+        /// </para>
+        /// </summary>
+        public DeploymentTargets DeploymentTargets
+        {
+            get { return this._deploymentTargets; }
+            set { this._deploymentTargets = value; }
+        }
+
+        // Check to see if DeploymentTargets property is set
+        internal bool IsSetDeploymentTargets()
+        {
+            return this._deploymentTargets != null;
         }
 
         /// <summary>
@@ -80,6 +109,7 @@ namespace Amazon.CloudFormation.Model
         /// whose status is <code>OUTDATED</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string OperationId
         {
             get { return this._operationId; }
@@ -116,6 +146,7 @@ namespace Amazon.CloudFormation.Model
         /// The regions where you want to delete stack set instances. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Regions
         {
             get { return this._regions; }
@@ -137,10 +168,11 @@ namespace Amazon.CloudFormation.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
         /// set operation options</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool RetainStacks
         {
             get { return this._retainStacks.GetValueOrDefault(); }
@@ -159,6 +191,7 @@ namespace Amazon.CloudFormation.Model
         /// The name or unique ID of the stack set that you want to delete stack instances for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackSetName
         {
             get { return this._stackSetName; }

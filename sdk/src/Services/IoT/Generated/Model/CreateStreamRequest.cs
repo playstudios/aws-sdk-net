@@ -31,11 +31,7 @@ namespace Amazon.IoT.Model
     /// Container for the parameters to the CreateStream operation.
     /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream
     /// transports data bytes in chunks or blocks packaged as MQTT messages from a source
-    /// like S3. You can have one or more files associated with a stream. The total size of
-    /// a file associated with the stream cannot exceed more than 2 MB. The stream will be
-    /// created with version 0. If a stream is created with the same streamID as a stream
-    /// that existed and was deleted within last 90 days, we will resurrect that old stream
-    /// by incrementing the version by 1.
+    /// like S3. You can have one or more files associated with a stream.
     /// </summary>
     public partial class CreateStreamRequest : AmazonIoTRequest
     {
@@ -43,6 +39,7 @@ namespace Amazon.IoT.Model
         private List<StreamFile> _files = new List<StreamFile>();
         private string _roleArn;
         private string _streamId;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Description. 
@@ -50,6 +47,7 @@ namespace Amazon.IoT.Model
         /// A description of the stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2028)]
         public string Description
         {
             get { return this._description; }
@@ -68,6 +66,7 @@ namespace Amazon.IoT.Model
         /// The files to stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public List<StreamFile> Files
         {
             get { return this._files; }
@@ -86,6 +85,7 @@ namespace Amazon.IoT.Model
         /// An IAM role that allows the IoT service principal assumes to access your S3 files.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -104,6 +104,7 @@ namespace Amazon.IoT.Model
         /// The stream ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string StreamId
         {
             get { return this._streamId; }
@@ -114,6 +115,24 @@ namespace Amazon.IoT.Model
         internal bool IsSetStreamId()
         {
             return this._streamId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Metadata which can be used to manage streams.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

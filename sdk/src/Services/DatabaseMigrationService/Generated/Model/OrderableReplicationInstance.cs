@@ -28,17 +28,39 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// In response to the <code>DescribeOrderableReplicationInstances</code> operation, this
+    /// object describes an available replication instance. This description includes the
+    /// replication instance's type, engine version, and allocated storage.
     /// </summary>
     public partial class OrderableReplicationInstance
     {
+        private List<string> _availabilityZones = new List<string>();
         private int? _defaultAllocatedStorage;
         private string _engineVersion;
         private int? _includedAllocatedStorage;
         private int? _maxAllocatedStorage;
         private int? _minAllocatedStorage;
+        private ReleaseStatusValues _releaseStatus;
         private string _replicationInstanceClass;
         private string _storageType;
+
+        /// <summary>
+        /// Gets and sets the property AvailabilityZones. 
+        /// <para>
+        /// List of Availability Zones for this replication instance.
+        /// </para>
+        /// </summary>
+        public List<string> AvailabilityZones
+        {
+            get { return this._availabilityZones; }
+            set { this._availabilityZones = value; }
+        }
+
+        // Check to see if AvailabilityZones property is set
+        internal bool IsSetAvailabilityZones()
+        {
+            return this._availabilityZones != null && this._availabilityZones.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property DefaultAllocatedStorage. 
@@ -131,6 +153,30 @@ namespace Amazon.DatabaseMigrationService.Model
         internal bool IsSetMinAllocatedStorage()
         {
             return this._minAllocatedStorage.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReleaseStatus. 
+        /// <para>
+        /// The value returned when the specified <code>EngineVersion</code> of the replication
+        /// instance is in Beta or test mode. This indicates some features might not work as expected.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// AWS DMS supports the <code>ReleaseStatus</code> parameter in versions 3.1.4 and later.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public ReleaseStatusValues ReleaseStatus
+        {
+            get { return this._releaseStatus; }
+            set { this._releaseStatus = value; }
+        }
+
+        // Check to see if ReleaseStatus property is set
+        internal bool IsSetReleaseStatus()
+        {
+            return this._releaseStatus != null;
         }
 
         /// <summary>

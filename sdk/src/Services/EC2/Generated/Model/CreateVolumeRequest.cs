@@ -31,7 +31,7 @@ namespace Amazon.EC2.Model
     /// Container for the parameters to the CreateVolume operation.
     /// Creates an EBS volume that can be attached to an instance in the same Availability
     /// Zone. The volume is created in the regional endpoint that you send the HTTP request
-    /// to. For more information see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
+    /// to. For more information see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
     /// and Endpoints</a>.
     /// 
     ///  
@@ -41,20 +41,19 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// You can create encrypted volumes with the <code>Encrypted</code> parameter. Encrypted
-    /// volumes may only be attached to instances that support Amazon EBS encryption. Volumes
-    /// that are created from encrypted snapshots are also automatically encrypted. For more
-    /// information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+    /// You can create encrypted volumes. Encrypted volumes must be attached to instances
+    /// that support Amazon EBS encryption. Volumes that are created from encrypted snapshots
+    /// are also automatically encrypted. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
     /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
-    /// You can tag your volumes during creation. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-    /// Your Amazon EC2 Resources</a>.
+    /// You can tag your volumes during creation. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+    /// Your Amazon EC2 Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html">Creating
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html">Creating
     /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -64,6 +63,8 @@ namespace Amazon.EC2.Model
         private bool? _encrypted;
         private int? _iops;
         private string _kmsKeyId;
+        private bool? _multiAttachEnabled;
+        private string _outpostArn;
         private int? _size;
         private string _snapshotId;
         private List<TagSpecification> _tagSpecifications = new List<TagSpecification>();
@@ -77,8 +78,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates CreateVolumeRequest with the parameterized properties
         /// </summary>
-        /// <param name="availabilityZone">The Availability Zone in which to create the volume. Use <a>DescribeAvailabilityZones</a> to list the Availability Zones that are currently available to you.</param>
-        /// <param name="size">The size of the volume, in GiBs. Constraints: 1-16384 for <code>gp2</code>, 4-16384 for <code>io1</code>, 500-16384 for <code>st1</code>, 500-16384 for <code>sc1</code>, and 1-1024 for <code>standard</code>. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.</param>
+        /// <param name="availabilityZone">The Availability Zone in which to create the volume.</param>
+        /// <param name="size">The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. Constraints: 1-16,384 for <code>gp2</code>, 4-16,384 for <code>io1</code>, 500-16,384 for <code>st1</code>, 500-16,384 for <code>sc1</code>, and 1-1,024 for <code>standard</code>. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.</param>
         public CreateVolumeRequest(string availabilityZone, int size)
         {
             _availabilityZone = availabilityZone;
@@ -88,8 +89,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates CreateVolumeRequest with the parameterized properties
         /// </summary>
-        /// <param name="availabilityZone">The Availability Zone in which to create the volume. Use <a>DescribeAvailabilityZones</a> to list the Availability Zones that are currently available to you.</param>
-        /// <param name="snapshotId">The snapshot from which to create the volume.</param>
+        /// <param name="availabilityZone">The Availability Zone in which to create the volume.</param>
+        /// <param name="snapshotId">The snapshot from which to create the volume. You must specify either a snapshot ID or a volume size.</param>
         public CreateVolumeRequest(string availabilityZone, string snapshotId)
         {
             _availabilityZone = availabilityZone;
@@ -99,10 +100,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZone. 
         /// <para>
-        /// The Availability Zone in which to create the volume. Use <a>DescribeAvailabilityZones</a>
-        /// to list the Availability Zones that are currently available to you.
+        /// The Availability Zone in which to create the volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AvailabilityZone
         {
             get { return this._availabilityZone; }
@@ -118,13 +119,17 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Encrypted. 
         /// <para>
-        /// Specifies whether the volume should be encrypted. Encrypted Amazon EBS volumes may
-        /// only be attached to instances that support Amazon EBS encryption. Volumes that are
-        /// created from encrypted snapshots are automatically encrypted. There is no way to create
-        /// an encrypted volume from an unencrypted snapshot or vice versa. If your AMI uses encrypted
-        /// volumes, you can only launch it on supported instance types. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-        /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Specifies whether the volume should be encrypted. The effect of setting the encryption
+        /// state to <code>true</code> depends on the volume origin (new or from a snapshot),
+        /// starting encryption state, ownership, and whether encryption by default is enabled.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">Encryption
+        /// by Default</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS
+        /// encryption. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances">Supported
+        /// Instance Types</a>.
         /// </para>
         /// </summary>
         public bool Encrypted
@@ -142,12 +147,16 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Iops. 
         /// <para>
-        /// Only valid for Provisioned IOPS SSD volumes. The number of I/O operations per second
-        /// (IOPS) to provision for the volume, with a maximum ratio of 50 IOPS/GiB.
+        /// The number of I/O operations per second (IOPS) to provision for the volume, with a
+        /// maximum ratio of 50 IOPS/GiB. Range is 100 to 64,000 IOPS for volumes in most Regions.
+        /// Maximum IOPS of 64,000 is guaranteed only on <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
+        /// instances</a>. Other instance families guarantee performance up to 32,000 IOPS. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+        /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// Constraint: Range is 100 to 20000 for Provisioned IOPS SSD volumes 
+        /// This parameter is valid only for Provisioned IOPS SSD (io1) volumes.
         /// </para>
         /// </summary>
         public int Iops
@@ -165,43 +174,35 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// An identifier for the AWS Key Management Service (AWS KMS) customer master key (CMK)
-        /// to use when creating the encrypted volume. This parameter is only required if you
-        /// want to use a non-default CMK; if this parameter is not specified, the default CMK
-        /// for EBS is used. If a <code>KmsKeyId</code> is specified, the <code>Encrypted</code>
-        /// flag must also be set. 
+        /// The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK)
+        /// to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed
+        /// CMK for EBS is used. If <code>KmsKeyId</code> is specified, the encrypted state must
+        /// be <code>true</code>.
         /// </para>
         ///  
         /// <para>
-        /// The CMK identifier may be provided in any of the following formats: 
+        /// You can specify the CMK using any of the following:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Key ID
+        /// Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Key alias
+        /// Key alias. For example, alias/ExampleAlias.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ARN using key ID. The ID ARN contains the <code>arn:aws:kms</code> namespace, followed
-        /// by the region of the CMK, the AWS account ID of the CMK owner, the <code>key</code>
-        /// namespace, and then the CMK ID. For example, arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
-        /// 
+        /// Key ARN. For example, arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ARN using key alias. The alias ARN contains the <code>arn:aws:kms</code> namespace,
-        /// followed by the region of the CMK, the AWS account ID of the CMK owner, the <code>alias</code>
-        /// namespace, and then the CMK alias. For example, arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
-        /// 
+        /// Alias ARN. For example, arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// AWS parses <code>KmsKeyId</code> asynchronously, meaning that the action you call
-        /// may appear to complete even though you provided an invalid identifier. The action
-        /// will eventually fail. 
+        /// AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias,
+        /// or ARN that is not valid, the action can appear to complete, but eventually fails.
         /// </para>
         /// </summary>
         public string KmsKeyId
@@ -217,14 +218,54 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MultiAttachEnabled. 
+        /// <para>
+        /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you
+        /// can attach the volume to up to 16 <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
+        /// instances</a> in the same Availability Zone. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html">
+        /// Amazon EBS Multi-Attach</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool MultiAttachEnabled
+        {
+            get { return this._multiAttachEnabled.GetValueOrDefault(); }
+            set { this._multiAttachEnabled = value; }
+        }
+
+        // Check to see if MultiAttachEnabled property is set
+        internal bool IsSetMultiAttachEnabled()
+        {
+            return this._multiAttachEnabled.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property OutpostArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the Outpost.
+        /// </para>
+        /// </summary>
+        public string OutpostArn
+        {
+            get { return this._outpostArn; }
+            set { this._outpostArn = value; }
+        }
+
+        // Check to see if OutpostArn property is set
+        internal bool IsSetOutpostArn()
+        {
+            return this._outpostArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Size. 
         /// <para>
-        /// The size of the volume, in GiBs.
+        /// The size of the volume, in GiBs. You must specify either a snapshot ID or a volume
+        /// size.
         /// </para>
         ///  
         /// <para>
-        /// Constraints: 1-16384 for <code>gp2</code>, 4-16384 for <code>io1</code>, 500-16384
-        /// for <code>st1</code>, 500-16384 for <code>sc1</code>, and 1-1024 for <code>standard</code>.
+        /// Constraints: 1-16,384 for <code>gp2</code>, 4-16,384 for <code>io1</code>, 500-16,384
+        /// for <code>st1</code>, 500-16,384 for <code>sc1</code>, and 1-1,024 for <code>standard</code>.
         /// If you specify a snapshot, the volume size must be equal to or larger than the snapshot
         /// size.
         /// </para>
@@ -249,7 +290,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SnapshotId. 
         /// <para>
-        /// The snapshot from which to create the volume.
+        /// The snapshot from which to create the volume. You must specify either a snapshot ID
+        /// or a volume size.
         /// </para>
         /// </summary>
         public string SnapshotId
@@ -291,7 +333,7 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  
         /// <para>
-        /// Default: <code>standard</code> 
+        /// Default: <code>gp2</code> 
         /// </para>
         /// </summary>
         public VolumeType VolumeType

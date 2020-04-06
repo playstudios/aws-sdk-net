@@ -42,6 +42,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// A description for the service.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -57,10 +58,11 @@ namespace Amazon.ServiceDiscovery.Model
         /// <summary>
         /// Gets and sets the property DnsConfig. 
         /// <para>
-        /// A complex type that contains information about the records that you want Route 53
-        /// to create when you register an instance.
+        /// A complex type that contains information about the Route 53 DNS records that you want
+        /// AWS Cloud Map to create when you register an instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DnsConfigChange DnsConfig
         {
             get { return this._dnsConfig; }

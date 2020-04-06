@@ -47,7 +47,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         ///  
         /// <para>
         /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html">Enable
-        /// Access Logs</a> in the <i>Classic Load Balancer Guide</i>.
+        /// Access Logs</a> in the <i>Classic Load Balancers Guide</i>.
         /// </para>
         /// </summary>
         public AccessLog AccessLog
@@ -68,6 +68,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// This parameter is reserved.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<AdditionalAttribute> AdditionalAttributes
         {
             get { return this._additionalAttributes; }
@@ -89,7 +90,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         ///  
         /// <para>
         /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html">Configure
-        /// Connection Draining</a> in the <i>Classic Load Balancer Guide</i>.
+        /// Connection Draining</a> in the <i>Classic Load Balancers Guide</i>.
         /// </para>
         /// </summary>
         public ConnectionDraining ConnectionDraining
@@ -115,7 +116,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// By default, Elastic Load Balancing maintains a 60-second idle connection timeout for
         /// both front-end and back-end connections of your load balancer. For more information,
         /// see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html">Configure
-        /// Idle Connection Timeout</a> in the <i>Classic Load Balancer Guide</i>.
+        /// Idle Connection Timeout</a> in the <i>Classic Load Balancers Guide</i>.
         /// </para>
         /// </summary>
         public ConnectionSettings ConnectionSettings
@@ -139,7 +140,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         ///  
         /// <para>
         /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html">Configure
-        /// Cross-Zone Load Balancing</a> in the <i>Classic Load Balancer Guide</i>.
+        /// Cross-Zone Load Balancing</a> in the <i>Classic Load Balancers Guide</i>.
         /// </para>
         /// </summary>
         public CrossZoneLoadBalancing CrossZoneLoadBalancing

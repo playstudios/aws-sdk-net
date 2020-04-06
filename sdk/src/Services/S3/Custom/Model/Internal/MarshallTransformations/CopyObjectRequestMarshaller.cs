@@ -54,14 +54,14 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             if (copyObjectRequest.IsSetETagToMatch())
                 request.Headers.Add(HeaderKeys.XAmzCopySourceIfMatchHeader, S3Transforms.ToStringValue(copyObjectRequest.ETagToMatch));
 
-            if (copyObjectRequest.IsSetModifiedSinceDate())
-                request.Headers.Add(HeaderKeys.XAmzCopySourceIfModifiedSinceHeader, S3Transforms.ToStringValue(copyObjectRequest.ModifiedSinceDate));
+            if (copyObjectRequest.IsSetModifiedSinceDateUtc())
+                request.Headers.Add(HeaderKeys.XAmzCopySourceIfModifiedSinceHeader, S3Transforms.ToStringValue(copyObjectRequest.ModifiedSinceDateUtc));
 
             if (copyObjectRequest.IsSetETagToNotMatch())
                 request.Headers.Add(HeaderKeys.XAmzCopySourceIfNoneMatchHeader, S3Transforms.ToStringValue(copyObjectRequest.ETagToNotMatch));
 
-            if (copyObjectRequest.IsSetUnmodifiedSinceDate())
-                request.Headers.Add(HeaderKeys.XAmzCopySourceIfUnmodifiedSinceHeader, S3Transforms.ToStringValue(copyObjectRequest.UnmodifiedSinceDate));
+            if (copyObjectRequest.IsSetUnmodifiedSinceDateUtc())
+                request.Headers.Add(HeaderKeys.XAmzCopySourceIfUnmodifiedSinceHeader, S3Transforms.ToStringValue(copyObjectRequest.UnmodifiedSinceDateUtc));
 
             if (copyObjectRequest.IsSetTagSet())
             {
@@ -74,6 +74,13 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             }
 
             request.Headers.Add(HeaderKeys.XAmzMetadataDirectiveHeader, S3Transforms.ToStringValue(copyObjectRequest.MetadataDirective.ToString()));
+
+			if(copyObjectRequest.IsSetObjectLockLegalHoldStatus())
+                request.Headers.Add("x-amz-object-lock-legal-hold", S3Transforms.ToStringValue(copyObjectRequest.ObjectLockLegalHoldStatus));        
+            if(copyObjectRequest.IsSetObjectLockMode())
+                request.Headers.Add("x-amz-object-lock-mode", S3Transforms.ToStringValue(copyObjectRequest.ObjectLockMode));        
+            if(copyObjectRequest.IsSetObjectLockRetainUntilDate())
+                request.Headers.Add("x-amz-object-lock-retain-until-date", S3Transforms.ToStringValue(copyObjectRequest.ObjectLockRetainUntilDate, AWSSDKUtils.ISO8601DateFormat));
 
             if (copyObjectRequest.IsSetServerSideEncryptionMethod())
                 request.Headers.Add(HeaderKeys.XAmzServerSideEncryptionHeader, S3Transforms.ToStringValue(copyObjectRequest.ServerSideEncryptionMethod));
@@ -100,6 +107,9 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             if (copyObjectRequest.IsSetServerSideEncryptionKeyManagementServiceKeyId())
                 request.Headers.Add(HeaderKeys.XAmzServerSideEncryptionAwsKmsKeyIdHeader, copyObjectRequest.ServerSideEncryptionKeyManagementServiceKeyId);
 
+            if (copyObjectRequest.IsSetServerSideEncryptionKeyManagementServiceEncryptionContext())
+                request.Headers.Add("x-amz-server-side-encryption-context", copyObjectRequest.ServerSideEncryptionKeyManagementServiceEncryptionContext);
+
             if (copyObjectRequest.IsSetStorageClass())
                 request.Headers.Add(HeaderKeys.XAmzStorageClassHeader, S3Transforms.ToStringValue(copyObjectRequest.StorageClass));
 
@@ -111,10 +121,16 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             AmazonS3Util.SetMetadataHeaders(request, copyObjectRequest.Metadata);
 
+            if (string.IsNullOrEmpty(copyObjectRequest.DestinationBucket))
+                throw new System.ArgumentException("DestinationBucket is a required property and must be set before making this call.", "CopyObjectRequest.DestinationBucket");
+            if (string.IsNullOrEmpty(copyObjectRequest.DestinationKey))
+                throw new System.ArgumentException("DestinationKey is a required property and must be set before making this call.", "CopyObjectRequest.DestinationKey");
+
             var destinationKey = copyObjectRequest.DestinationKey.StartsWith("/", StringComparison.Ordinal) 
                                     ? copyObjectRequest.DestinationKey.Substring(1) 
                                     : copyObjectRequest.DestinationKey;
-            request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
                                                  S3Transforms.ToStringValue(copyObjectRequest.DestinationBucket),
                                                  S3Transforms.ToStringValue(destinationKey));
 

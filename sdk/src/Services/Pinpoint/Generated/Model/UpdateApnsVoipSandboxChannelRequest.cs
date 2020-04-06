@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateApnsVoipSandboxChannel operation.
-    /// Update an APNS VoIP sandbox channel
+    /// Enables the APNs VoIP sandbox channel for an application or updates the status and
+    /// settings of the APNs VoIP sandbox channel for an application.
     /// </summary>
     public partial class UpdateApnsVoipSandboxChannelRequest : AmazonPinpointRequest
     {
@@ -39,6 +40,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property APNSVoipSandboxChannelRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public APNSVoipSandboxChannelRequest APNSVoipSandboxChannelRequest
         {
             get { return this._apnsVoipSandboxChannelRequest; }
@@ -52,8 +54,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

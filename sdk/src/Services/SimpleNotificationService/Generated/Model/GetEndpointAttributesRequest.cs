@@ -30,7 +30,7 @@ namespace Amazon.SimpleNotificationService.Model
     /// <summary>
     /// Container for the parameters to the GetEndpointAttributes operation.
     /// Retrieves the endpoint attributes for a device on one of the supported push notification
-    /// services, such as GCM and APNS. For more information, see <a href="http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
+    /// services, such as FCM and APNS. For more information, see <a href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
     /// Amazon SNS Mobile Push Notifications</a>.
     /// </summary>
     public partial class GetEndpointAttributesRequest : AmazonSimpleNotificationServiceRequest
@@ -43,6 +43,7 @@ namespace Amazon.SimpleNotificationService.Model
         /// EndpointArn for GetEndpointAttributes input.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EndpointArn
         {
             get { return this._endpointArn; }

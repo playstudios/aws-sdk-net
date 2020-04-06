@@ -29,12 +29,12 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeHostedConnections operation.
-    /// Returns a list of hosted connections that have been provisioned on the given interconnect
+    /// Lists the hosted connections that have been provisioned on the specified interconnect
     /// or link aggregation group (LAG).
     /// 
     ///  <note> 
     /// <para>
-    /// This is intended for use by AWS Direct Connect partners only.
+    /// Intended for use by AWS Direct Connect Partners only.
     /// </para>
     ///  </note>
     /// </summary>
@@ -45,17 +45,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property ConnectionId. 
         /// <para>
-        /// The ID of the interconnect or LAG on which the hosted connections are provisioned.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: dxcon-abc123 or dxlag-abc123
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the interconnect or LAG.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConnectionId
         {
             get { return this._connectionId; }

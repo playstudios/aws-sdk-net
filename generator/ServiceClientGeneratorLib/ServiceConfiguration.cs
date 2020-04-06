@@ -78,7 +78,7 @@ namespace ServiceClientGenerator
             // concatenate all the words by removing whitespace.
             className = System.Text.RegularExpressions.Regex.Replace(className, @"[^a-zA-Z0-9]", "");
 
-            return className;
+            return className.ToUpperFirstCharacter();
         }
 
 
@@ -142,6 +142,10 @@ namespace ServiceClientGenerator
             set { this._namespace = value; } 
         }
 
+        // Base name in the manifest is not a reliable source of info, as if append-service
+        // is set 'Service' gets appended and in the case of IAM then sends us to the wrong folder.
+        // Instead we'll use the namespace and rip off any Amazon. prefix. This also helps us
+        // handle versioned namespaces too.
         public string ServiceFolderName
         {
             get
@@ -213,6 +217,7 @@ namespace ServiceClientGenerator
 
         public bool HasOverrideNamespace { get { return !string.IsNullOrEmpty(this._namespace); } }
         public string RegionLookupName { get { return this.ServiceModel.EndpointPrefix; } }
+        public string ServiceId { get { return this.ServiceModel.ServiceId; } }
         public string AuthenticationServiceName { get { return this.ServiceModel.SigningName != null ? this.ServiceModel.SigningName : this.ServiceModel.EndpointPrefix; } }
         public int? OverrideMaxRetries { get; set; }
         public string DefaultRegion { get; set; }
@@ -227,7 +232,7 @@ namespace ServiceClientGenerator
         public Dictionary<string, List<Dependency>> NugetDependencies { get; set; }
         public List<string> PclVariants { get; set; }
         public List<string> Tags { get; set; }
-        public bool CoreCLRSupport { get; set; }
+        public bool NetStandardSupport { get; set; }
 
         public bool EnableXamarinComponent { get; set; }
 

@@ -58,10 +58,11 @@ namespace Amazon.StepFunctions.Model.Internal.MarshallTransformations
             string target = "AWSStepFunctions.CreateStateMachine";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.0";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-11-23";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,17 @@ namespace Amazon.StepFunctions.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("definition");
                     context.Writer.Write(publicRequest.Definition);
+                }
+
+                if(publicRequest.IsSetLoggingConfiguration())
+                {
+                    context.Writer.WritePropertyName("loggingConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = LoggingConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.LoggingConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetName())
@@ -83,6 +95,28 @@ namespace Amazon.StepFunctions.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("roleArn");
                     context.Writer.Write(publicRequest.RoleArn);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetType())
+                {
+                    context.Writer.WritePropertyName("type");
+                    context.Writer.Write(publicRequest.Type);
                 }
 
         

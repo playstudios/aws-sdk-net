@@ -67,6 +67,7 @@ namespace Amazon.RDS.Model
         /// The name of the engine to retrieve DB instance options for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Engine
         {
             get { return this._engine; }
@@ -101,7 +102,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// This parameter isn't currently supported.
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -160,7 +161,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The maximum number of records to include in the response. If more records exist than
         /// the specified <code>MaxRecords</code> value, a pagination token called a marker is
-        /// included in the response so that the remaining results can be retrieved. 
+        /// included in the response so that you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>
@@ -186,8 +187,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Vpc. 
         /// <para>
-        /// The VPC filter value. Specify this parameter to show only the available VPC or non-VPC
-        /// offerings.
+        /// A value that indicates whether to show only VPC or non-VPC offerings.
         /// </para>
         /// </summary>
         public bool Vpc

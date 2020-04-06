@@ -58,10 +58,11 @@ namespace Amazon.KeyManagementService.Model.Internal.MarshallTransformations
             string target = "TrentService.Decrypt";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,12 @@ namespace Amazon.KeyManagementService.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("CiphertextBlob");
                     context.Writer.Write(StringUtils.FromMemoryStream(publicRequest.CiphertextBlob));
+                }
+
+                if(publicRequest.IsSetEncryptionAlgorithm())
+                {
+                    context.Writer.WritePropertyName("EncryptionAlgorithm");
+                    context.Writer.Write(publicRequest.EncryptionAlgorithm);
                 }
 
                 if(publicRequest.IsSetEncryptionContext())
@@ -96,6 +103,12 @@ namespace Amazon.KeyManagementService.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestGrantTokensListValue);
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetKeyId())
+                {
+                    context.Writer.WritePropertyName("KeyId");
+                    context.Writer.Write(publicRequest.KeyId);
                 }
 
         

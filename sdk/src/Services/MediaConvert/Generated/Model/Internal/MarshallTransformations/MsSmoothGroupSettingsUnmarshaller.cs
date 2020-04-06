@@ -64,6 +64,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("additionalManifests", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<MsSmoothAdditionalManifest, MsSmoothAdditionalManifestUnmarshaller>(MsSmoothAdditionalManifestUnmarshaller.Instance);
+                    unmarshalledObject.AdditionalManifests = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("audioDeduplication", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -74,6 +80,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Destination = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("destinationSettings", targetDepth))
+                {
+                    var unmarshaller = DestinationSettingsUnmarshaller.Instance;
+                    unmarshalledObject.DestinationSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("encryption", targetDepth))

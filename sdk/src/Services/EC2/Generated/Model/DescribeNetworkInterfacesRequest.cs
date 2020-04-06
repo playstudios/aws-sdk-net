@@ -34,7 +34,9 @@ namespace Amazon.EC2.Model
     public partial class DescribeNetworkInterfacesRequest : AmazonEC2Request
     {
         private List<Filter> _filters = new List<Filter>();
+        private int? _maxResults;
         private List<string> _networkInterfaceIds = new List<string>();
+        private string _nextToken;
 
         /// <summary>
         /// Gets and sets the property Filters. 
@@ -92,7 +94,7 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>attachment.attach.time</code> - The time that the network interface was attached
+        ///  <code>attachment.attach-time</code> - The time that the network interface was attached
         /// to an instance.
         /// </para>
         ///  </li> <li> 
@@ -181,7 +183,7 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>source-desk-check</code> - Indicates whether the network interface performs
+        ///  <code>source-dest-check</code> - Indicates whether the network interface performs
         /// source/destination checking. A value of <code>true</code> means checking is enabled,
         /// and <code>false</code> means checking is disabled. The value must be <code>false</code>
         /// for the network interface to perform network address translation (NAT) in your VPC.
@@ -199,24 +201,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of what the tag's key is). If you want to list only resources where
-        /// Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -234,6 +228,27 @@ namespace Amazon.EC2.Model
         internal bool IsSetFilters()
         {
             return this._filters != null && this._filters.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaxResults. 
+        /// <para>
+        /// The maximum number of items to return for this request. The request returns a token
+        /// that you can specify in a subsequent call to get the next set of results. You cannot
+        /// specify this parameter and the network interface IDs parameter in the same request.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=5, Max=1000)]
+        public int MaxResults
+        {
+            get { return this._maxResults.GetValueOrDefault(); }
+            set { this._maxResults = value; }
+        }
+
+        // Check to see if MaxResults property is set
+        internal bool IsSetMaxResults()
+        {
+            return this._maxResults.HasValue; 
         }
 
         /// <summary>
@@ -256,6 +271,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetNetworkInterfaceIds()
         {
             return this._networkInterfaceIds != null && this._networkInterfaceIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// The token to retrieve the next page of results.
+        /// </para>
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
         }
 
     }

@@ -64,6 +64,12 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("additionalAuthenticationProviders", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<AdditionalAuthenticationProvider, AdditionalAuthenticationProviderUnmarshaller>(AdditionalAuthenticationProviderUnmarshaller.Instance);
+                    unmarshalledObject.AdditionalAuthenticationProviders = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("apiId", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -82,10 +88,28 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
                     unmarshalledObject.AuthenticationType = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("logConfig", targetDepth))
+                {
+                    var unmarshaller = LogConfigUnmarshaller.Instance;
+                    unmarshalledObject.LogConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("name", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Name = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("openIDConnectConfig", targetDepth))
+                {
+                    var unmarshaller = OpenIDConnectConfigUnmarshaller.Instance;
+                    unmarshalledObject.OpenIDConnectConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    unmarshalledObject.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("uris", targetDepth))
@@ -98,6 +122,12 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = UserPoolConfigUnmarshaller.Instance;
                     unmarshalledObject.UserPoolConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("xrayEnabled", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.XrayEnabled = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

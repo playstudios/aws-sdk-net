@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ApplicationAutoScaling.Model
 {
     /// <summary>
-    /// Configures a predefined metric for a target tracking policy.
+    /// Represents a predefined metric for a target tracking scaling policy to use with Application
+    /// Auto Scaling.
     /// </summary>
     public partial class PredefinedMetricSpecification
     {
@@ -39,9 +40,10 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// Gets and sets the property PredefinedMetricType. 
         /// <para>
         /// The metric type. The <code>ALBRequestCountPerTarget</code> metric type applies only
-        /// to Spot fleet requests and ECS services.
+        /// to Spot Fleet requests and ECS services.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public MetricType PredefinedMetricType
         {
             get { return this._predefinedMetricType; }
@@ -59,7 +61,7 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// <para>
         /// Identifies the resource associated with the metric type. You can't specify a resource
         /// label unless the metric type is <code>ALBRequestCountPerTarget</code> and there is
-        /// a target group attached to the Spot fleet request or ECS service.
+        /// a target group attached to the Spot Fleet request or ECS service.
         /// </para>
         ///  
         /// <para>
@@ -78,6 +80,7 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=1023)]
         public string ResourceLabel
         {
             get { return this._resourceLabel; }

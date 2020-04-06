@@ -102,10 +102,32 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetCrop())
+            {
+                context.Writer.WritePropertyName("crop");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = RectangleMarshaller.Instance;
+                marshaller.Marshall(requestObject.Crop, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetDeblockFilter())
             {
                 context.Writer.WritePropertyName("deblockFilter");
                 context.Writer.Write(requestObject.DeblockFilter);
+            }
+
+            if(requestObject.IsSetDecryptionSettings())
+            {
+                context.Writer.WritePropertyName("decryptionSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = InputDecryptionSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.DecryptionSettings, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetDenoiseFilter())
@@ -132,6 +154,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.FilterStrength);
             }
 
+            if(requestObject.IsSetImageInserter())
+            {
+                context.Writer.WritePropertyName("imageInserter");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = ImageInserterMarshaller.Instance;
+                marshaller.Marshall(requestObject.ImageInserter, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetInputClippings())
             {
                 context.Writer.WritePropertyName("inputClippings");
@@ -148,6 +181,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.WriteArrayEnd();
             }
 
+            if(requestObject.IsSetPosition())
+            {
+                context.Writer.WritePropertyName("position");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = RectangleMarshaller.Instance;
+                marshaller.Marshall(requestObject.Position, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetProgramNumber())
             {
                 context.Writer.WritePropertyName("programNumber");
@@ -160,10 +204,27 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.PsiControl);
             }
 
+            if(requestObject.IsSetSupplementalImps())
+            {
+                context.Writer.WritePropertyName("supplementalImps");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectSupplementalImpsListValue in requestObject.SupplementalImps)
+                {
+                        context.Writer.Write(requestObjectSupplementalImpsListValue);
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetTimecodeSource())
             {
                 context.Writer.WritePropertyName("timecodeSource");
                 context.Writer.Write(requestObject.TimecodeSource);
+            }
+
+            if(requestObject.IsSetTimecodeStart())
+            {
+                context.Writer.WritePropertyName("timecodeStart");
+                context.Writer.Write(requestObject.TimecodeStart);
             }
 
             if(requestObject.IsSetVideoSelector())

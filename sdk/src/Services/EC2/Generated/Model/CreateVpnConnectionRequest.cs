@@ -30,7 +30,7 @@ namespace Amazon.EC2.Model
     /// <summary>
     /// Container for the parameters to the CreateVpnConnection operation.
     /// Creates a VPN connection between an existing virtual private gateway and a VPN customer
-    /// gateway. The only supported connection type is <code>ipsec.1</code>.
+    /// gateway. The supported connection type is <code>ipsec.1</code>.
     /// 
     ///  
     /// <para>
@@ -55,14 +55,15 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-    /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+    /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateVpnConnectionRequest : AmazonEC2Request
     {
         private string _customerGatewayId;
         private VpnConnectionOptionsSpecification _options;
+        private string _transitGatewayId;
         private string _type;
         private string _vpnGatewayId;
 
@@ -76,7 +77,7 @@ namespace Amazon.EC2.Model
         /// </summary>
         /// <param name="type">The type of VPN connection (<code>ipsec.1</code>).</param>
         /// <param name="customerGatewayId">The ID of the customer gateway.</param>
-        /// <param name="vpnGatewayId">The ID of the virtual private gateway.</param>
+        /// <param name="vpnGatewayId">The ID of the virtual private gateway. If you specify a virtual private gateway, you cannot specify a transit gateway.</param>
         public CreateVpnConnectionRequest(string type, string customerGatewayId, string vpnGatewayId)
         {
             _type = type;
@@ -90,6 +91,7 @@ namespace Amazon.EC2.Model
         /// The ID of the customer gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CustomerGatewayId
         {
             get { return this._customerGatewayId; }
@@ -121,11 +123,31 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TransitGatewayId. 
+        /// <para>
+        /// The ID of the transit gateway. If you specify a transit gateway, you cannot specify
+        /// a virtual private gateway.
+        /// </para>
+        /// </summary>
+        public string TransitGatewayId
+        {
+            get { return this._transitGatewayId; }
+            set { this._transitGatewayId = value; }
+        }
+
+        // Check to see if TransitGatewayId property is set
+        internal bool IsSetTransitGatewayId()
+        {
+            return this._transitGatewayId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
         /// The type of VPN connection (<code>ipsec.1</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Type
         {
             get { return this._type; }
@@ -141,7 +163,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property VpnGatewayId. 
         /// <para>
-        /// The ID of the virtual private gateway.
+        /// The ID of the virtual private gateway. If you specify a virtual private gateway, you
+        /// cannot specify a transit gateway.
         /// </para>
         /// </summary>
         public string VpnGatewayId

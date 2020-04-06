@@ -29,7 +29,7 @@ namespace Amazon.CodeBuild.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteProject operation.
-    /// Deletes a build project.
+    /// Deletes a build project. When you delete a project, its builds are not deleted.
     /// </summary>
     public partial class DeleteProjectRequest : AmazonCodeBuildRequest
     {
@@ -41,6 +41,7 @@ namespace Amazon.CodeBuild.Model
         /// The name of the build project.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Name
         {
             get { return this._name; }

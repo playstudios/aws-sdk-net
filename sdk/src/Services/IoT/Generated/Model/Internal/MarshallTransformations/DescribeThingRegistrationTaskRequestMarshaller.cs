@@ -55,13 +55,14 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeThingRegistrationTaskRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/thing-registration-tasks/{taskId}";
             if (!publicRequest.IsSetTaskId())
                 throw new AmazonIoTException("Request object does not have required field TaskId set");
-            uriResourcePath = uriResourcePath.Replace("{taskId}", StringUtils.FromString(publicRequest.TaskId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{taskId}", StringUtils.FromString(publicRequest.TaskId));
+            request.ResourcePath = "/thing-registration-tasks/{taskId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

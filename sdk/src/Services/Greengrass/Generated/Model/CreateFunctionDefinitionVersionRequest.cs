@@ -34,6 +34,7 @@ namespace Amazon.Greengrass.Model
     public partial class CreateFunctionDefinitionVersionRequest : AmazonGreengrassRequest
     {
         private string _amznClientToken;
+        private FunctionDefaultConfig _defaultConfig;
         private string _functionDefinitionId;
         private List<Function> _functions = new List<Function>();
 
@@ -54,8 +55,26 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DefaultConfig. The default configuration that applies to
+        /// all Lambda functions in this function definition version. Individual Lambda functions
+        /// can override these settings.
+        /// </summary>
+        public FunctionDefaultConfig DefaultConfig
+        {
+            get { return this._defaultConfig; }
+            set { this._defaultConfig = value; }
+        }
+
+        // Check to see if DefaultConfig property is set
+        internal bool IsSetDefaultConfig()
+        {
+            return this._defaultConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property FunctionDefinitionId. The ID of the Lambda function definition.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FunctionDefinitionId
         {
             get { return this._functionDefinitionId; }

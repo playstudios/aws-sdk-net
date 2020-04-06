@@ -30,13 +30,14 @@ namespace Amazon.CloudFormation.Model
     /// <summary>
     /// Container for the parameters to the CreateStackInstances operation.
     /// Creates stack instances for the specified accounts, within the specified regions.
-    /// A stack instance refers to a stack in a specific account and region. <code>Accounts</code>
-    /// and <code>Regions</code> are required parameters—you must specify at least one account
-    /// and one region.
+    /// A stack instance refers to a stack in a specific account and region. You must specify
+    /// at least one value for either <code>Accounts</code> or <code>DeploymentTargets</code>,
+    /// and you must specify at least one value for <code>Regions</code>.
     /// </summary>
     public partial class CreateStackInstancesRequest : AmazonCloudFormationRequest
     {
         private List<string> _accounts = new List<string>();
+        private DeploymentTargets _deploymentTargets;
         private string _operationId;
         private StackSetOperationPreferences _operationPreferences;
         private List<Parameter> _parameterOverrides = new List<Parameter>();
@@ -46,8 +47,12 @@ namespace Amazon.CloudFormation.Model
         /// <summary>
         /// Gets and sets the property Accounts. 
         /// <para>
-        /// The names of one or more AWS accounts that you want to create stack instances in the
-        /// specified region(s) for.
+        /// [Self-managed permissions] The names of one or more AWS accounts that you want to
+        /// create stack instances in the specified region(s) for.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>, but not both.
         /// </para>
         /// </summary>
         public List<string> Accounts
@@ -60,6 +65,29 @@ namespace Amazon.CloudFormation.Model
         internal bool IsSetAccounts()
         {
             return this._accounts != null && this._accounts.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeploymentTargets. 
+        /// <para>
+        /// [<code>Service-managed</code> permissions] The AWS Organizations accounts for which
+        /// to create stack instances in the specified Regions.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify <code>Accounts</code> or <code>DeploymentTargets</code>, but not both.
+        /// </para>
+        /// </summary>
+        public DeploymentTargets DeploymentTargets
+        {
+            get { return this._deploymentTargets; }
+            set { this._deploymentTargets = value; }
+        }
+
+        // Check to see if DeploymentTargets property is set
+        internal bool IsSetDeploymentTargets()
+        {
+            return this._deploymentTargets != null;
         }
 
         /// <summary>
@@ -84,6 +112,7 @@ namespace Amazon.CloudFormation.Model
         /// whose status is <code>OUTDATED</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string OperationId
         {
             get { return this._operationId; }
@@ -162,7 +191,7 @@ namespace Amazon.CloudFormation.Model
         ///  
         /// <para>
         /// You can only override the parameter <i>values</i> that are specified in the stack
-        /// set; to add or delete a parameter itself, use <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
+        /// set; to add or delete a parameter itself, use <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
         /// to update the stack set template.
         /// </para>
         /// </summary>
@@ -185,6 +214,7 @@ namespace Amazon.CloudFormation.Model
         /// specified AWS account(s). 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Regions
         {
             get { return this._regions; }
@@ -203,6 +233,7 @@ namespace Amazon.CloudFormation.Model
         /// The name or unique ID of the stack set that you want to create stack instances from.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackSetName
         {
             get { return this._stackSetName; }

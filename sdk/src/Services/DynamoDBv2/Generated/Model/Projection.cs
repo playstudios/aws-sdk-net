@@ -50,6 +50,7 @@ namespace Amazon.DynamoDBv2.Model
         /// when determining the total.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public List<string> NonKeyAttributes
         {
             get { return this._nonKeyAttributes; }
@@ -74,7 +75,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>INCLUDE</code> - Only the specified table attributes are projected into the
-        /// index. The list of projected attributes are in <code>NonKeyAttributes</code>.
+        /// index. The list of projected attributes is in <code>NonKeyAttributes</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>

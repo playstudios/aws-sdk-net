@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lightsail.Model
 {
     /// <summary>
-    /// Describes the snapshot of the virtual private server, or <i>instance</i>.
+    /// Describes an instance snapshot.
     /// </summary>
     public partial class InstanceSnapshot
     {
@@ -39,6 +39,7 @@ namespace Amazon.Lightsail.Model
         private string _fromBundleId;
         private string _fromInstanceArn;
         private string _fromInstanceName;
+        private bool? _isFromAutoSnapshot;
         private ResourceLocation _location;
         private string _name;
         private string _progress;
@@ -46,6 +47,7 @@ namespace Amazon.Lightsail.Model
         private int? _sizeInGb;
         private InstanceSnapshotState _state;
         private string _supportCode;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Arn. 
@@ -177,9 +179,27 @@ namespace Amazon.Lightsail.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IsFromAutoSnapshot. 
+        /// <para>
+        /// A Boolean value indicating whether the snapshot was created from an automatic snapshot.
+        /// </para>
+        /// </summary>
+        public bool IsFromAutoSnapshot
+        {
+            get { return this._isFromAutoSnapshot.GetValueOrDefault(); }
+            set { this._isFromAutoSnapshot = value; }
+        }
+
+        // Check to see if IsFromAutoSnapshot property is set
+        internal bool IsSetIsFromAutoSnapshot()
+        {
+            return this._isFromAutoSnapshot.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Location. 
         /// <para>
-        /// The region name and availability zone where you created the snapshot.
+        /// The region name and Availability Zone where you created the snapshot.
         /// </para>
         /// </summary>
         public ResourceLocation Location
@@ -302,6 +322,26 @@ namespace Amazon.Lightsail.Model
         internal bool IsSetSupportCode()
         {
             return this._supportCode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tag keys and optional values for the resource. For more information about tags
+        /// in Lightsail, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

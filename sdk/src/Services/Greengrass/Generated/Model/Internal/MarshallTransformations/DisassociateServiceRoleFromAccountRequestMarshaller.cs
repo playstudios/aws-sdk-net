@@ -55,10 +55,11 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(DisassociateServiceRoleFromAccountRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/greengrass/servicerole";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/greengrass/servicerole";
+            request.MarshallerVersion = 2;
 
             return request;
         }

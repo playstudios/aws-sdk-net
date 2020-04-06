@@ -29,7 +29,7 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the StartTrigger operation.
-    /// Starts an existing trigger. See <a href="http://docs.aws.amazon.com/glue/latest/dg/trigger-job.html">Triggering
+    /// Starts an existing trigger. See <a href="https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html">Triggering
     /// Jobs</a> for information about how different types of trigger are started.
     /// </summary>
     public partial class StartTriggerRequest : AmazonGlueRequest
@@ -42,6 +42,7 @@ namespace Amazon.Glue.Model
         /// The name of the trigger to start.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }

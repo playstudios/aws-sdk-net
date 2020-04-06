@@ -31,22 +31,25 @@ namespace Amazon.XRay.Model
     /// Container for the parameters to the GetServiceGraph operation.
     /// Retrieves a document that describes services that process incoming requests, and downstream
     /// services that they call as a result. Root services process incoming requests and make
-    /// calls to downstream services. Root services are applications that use the AWS X-Ray
-    /// SDK. Downstream services can be other applications, AWS resources, HTTP web APIs,
-    /// or SQL databases.
+    /// calls to downstream services. Root services are applications that use the <a href="https://docs.aws.amazon.com/xray/index.html">AWS
+    /// X-Ray SDK</a>. Downstream services can be other applications, AWS resources, HTTP
+    /// web APIs, or SQL databases.
     /// </summary>
     public partial class GetServiceGraphRequest : AmazonXRayRequest
     {
         private DateTime? _endTime;
+        private string _groupARN;
+        private string _groupName;
         private string _nextToken;
         private DateTime? _startTime;
 
         /// <summary>
         /// Gets and sets the property EndTime. 
         /// <para>
-        /// The end of the time frame for which to generate a graph.
+        /// The end of the timeframe for which to generate a graph.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime EndTime
         {
             get { return this._endTime.GetValueOrDefault(); }
@@ -60,9 +63,47 @@ namespace Amazon.XRay.Model
         }
 
         /// <summary>
+        /// Gets and sets the property GroupARN. 
+        /// <para>
+        /// The ARN of a group to generate a graph based on.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=400)]
+        public string GroupARN
+        {
+            get { return this._groupARN; }
+            set { this._groupARN = value; }
+        }
+
+        // Check to see if GroupARN property is set
+        internal bool IsSetGroupARN()
+        {
+            return this._groupARN != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property GroupName. 
+        /// <para>
+        /// The name of a group to generate a graph based on.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=32)]
+        public string GroupName
+        {
+            get { return this._groupName; }
+            set { this._groupName = value; }
+        }
+
+        // Check to see if GroupName property is set
+        internal bool IsSetGroupName()
+        {
+            return this._groupName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Pagination token. Not used.
+        /// Pagination token.
         /// </para>
         /// </summary>
         public string NextToken
@@ -83,6 +124,7 @@ namespace Amazon.XRay.Model
         /// The start of the time frame for which to generate a graph.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime StartTime
         {
             get { return this._startTime.GetValueOrDefault(); }

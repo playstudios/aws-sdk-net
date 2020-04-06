@@ -58,15 +58,22 @@ namespace Amazon.SecretsManager.Model.Internal.MarshallTransformations
             string target = "secretsmanager.DeleteSecret";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-17";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetForceDeleteWithoutRecovery())
+                {
+                    context.Writer.WritePropertyName("ForceDeleteWithoutRecovery");
+                    context.Writer.Write(publicRequest.ForceDeleteWithoutRecovery);
+                }
+
                 if(publicRequest.IsSetRecoveryWindowInDays())
                 {
                     context.Writer.WritePropertyName("RecoveryWindowInDays");

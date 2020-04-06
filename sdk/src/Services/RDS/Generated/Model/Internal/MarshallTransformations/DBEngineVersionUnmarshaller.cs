@@ -97,11 +97,31 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.ExportableLogTypes.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("Status", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.Status = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("SupportedCharacterSets/CharacterSet", targetDepth))
                     {
                         var unmarshaller = CharacterSetUnmarshaller.Instance;
                         var item = unmarshaller.Unmarshall(context);
                         unmarshalledObject.SupportedCharacterSets.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("SupportedEngineModes/member", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.SupportedEngineModes.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("SupportedFeatureNames/member", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.SupportedFeatureNames.Add(item);
                         continue;
                     }
                     if (context.TestExpression("SupportedTimezones/Timezone", targetDepth))

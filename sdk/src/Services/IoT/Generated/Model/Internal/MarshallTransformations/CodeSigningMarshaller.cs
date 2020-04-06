@@ -62,6 +62,17 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetStartSigningJobParameter())
+            {
+                context.Writer.WritePropertyName("startSigningJobParameter");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = StartSigningJobParameterMarshaller.Instance;
+                marshaller.Marshall(requestObject.StartSigningJobParameter, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
         }
 
         /// <summary>

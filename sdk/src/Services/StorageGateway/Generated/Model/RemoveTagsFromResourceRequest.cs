@@ -29,8 +29,8 @@ namespace Amazon.StorageGateway.Model
 {
     /// <summary>
     /// Container for the parameters to the RemoveTagsFromResource operation.
-    /// Removes one or more tags from the specified resource. This operation is only supported
-    /// in the cached volume, stored volume and tape gateway types.
+    /// Removes one or more tags from the specified resource. This operation is supported
+    /// in storage gateways of all types.
     /// </summary>
     public partial class RemoveTagsFromResourceRequest : AmazonStorageGatewayRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.StorageGateway.Model
         /// The Amazon Resource Name (ARN) of the resource you want to remove the tags from.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string ResourceARN
         {
             get { return this._resourceARN; }
@@ -62,6 +63,7 @@ namespace Amazon.StorageGateway.Model
         /// of a key/value pair.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

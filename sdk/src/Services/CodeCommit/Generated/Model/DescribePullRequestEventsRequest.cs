@@ -43,8 +43,8 @@ namespace Amazon.CodeCommit.Model
         /// Gets and sets the property ActorArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the user whose actions resulted in the event. Examples
-        /// include updating the pull request with additional commits or changing the status of
-        /// a pull request.
+        /// include updating the pull request with more commits or changing the status of a pull
+        /// request.
         /// </para>
         /// </summary>
         public string ActorArn
@@ -62,8 +62,9 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// A non-negative integer used to limit the number of returned results. The default is
-        /// 100 events, which is also the maximum number of events that can be returned in a result.
+        /// A non-zero, non-negative integer used to limit the number of returned results. The
+        /// default is 100 events, which is also the maximum number of events that can be returned
+        /// in a result.
         /// </para>
         /// </summary>
         public int MaxResults
@@ -81,7 +82,7 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// An enumeration token that when provided in a request, returns the next batch of the
+        /// An enumeration token that, when provided in a request, returns the next batch of the
         /// results.
         /// </para>
         /// </summary>
@@ -121,6 +122,7 @@ namespace Amazon.CodeCommit.Model
         /// The system-generated ID of the pull request. To get this ID, use <a>ListPullRequests</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PullRequestId
         {
             get { return this._pullRequestId; }

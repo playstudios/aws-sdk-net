@@ -28,8 +28,18 @@ using Amazon.Runtime.Internal;
 namespace Amazon.KinesisAnalytics.Model
 {
     /// <summary>
+    /// <note> 
+    /// <para>
+    /// This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
+    /// only supports SQL applications. Version 2 of the API supports SQL and Java applications.
+    /// For more information about version 2, see <a href="/kinesisanalytics/latest/apiv2/Welcome.html">Amazon
+    /// Kinesis Data Analytics API V2 Documentation</a>.
+    /// </para>
+    ///  </note> 
+    /// <para>
     /// Provides a description of the application, including the application Amazon Resource
     /// Name (ARN), status, latest version, and input and output configuration.
+    /// </para>
     /// </summary>
     public partial class ApplicationDetail
     {
@@ -52,6 +62,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// ARN of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string ApplicationARN
         {
             get { return this._applicationARN; }
@@ -71,6 +82,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// the in-application streams in your application.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=102400)]
         public string ApplicationCode
         {
             get { return this._applicationCode; }
@@ -89,6 +101,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Description of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string ApplicationDescription
         {
             get { return this._applicationDescription; }
@@ -107,6 +120,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Name of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -125,6 +139,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Status of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ApplicationStatus ApplicationStatus
         {
             get { return this._applicationStatus; }
@@ -143,6 +158,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Provides the current application version.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=999999999)]
         public long ApplicationVersionId
         {
             get { return this._applicationVersionId.GetValueOrDefault(); }
@@ -160,7 +176,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// <para>
         /// Describes the CloudWatch log streams that are configured to receive application messages.
         /// For more information about using CloudWatch log streams with Amazon Kinesis Analytics
-        /// applications, see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html">Working
+        /// applications, see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html">Working
         /// with Amazon CloudWatch Logs</a>. 
         /// </para>
         /// </summary>
@@ -197,7 +213,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// <summary>
         /// Gets and sets the property InputDescriptions. 
         /// <para>
-        /// Describes the application input configuration. For more information, see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
+        /// Describes the application input configuration. For more information, see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
         /// Application Input</a>. 
         /// </para>
         /// </summary>
@@ -234,7 +250,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// <summary>
         /// Gets and sets the property OutputDescriptions. 
         /// <para>
-        /// Describes the application output configuration. For more information, see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
+        /// Describes the application output configuration. For more information, see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
         /// Application Output</a>. 
         /// </para>
         /// </summary>
@@ -254,7 +270,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Gets and sets the property ReferenceDataSourceDescriptions. 
         /// <para>
         /// Describes reference data sources configured for the application. For more information,
-        /// see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
+        /// see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
         /// Application Input</a>. 
         /// </para>
         /// </summary>

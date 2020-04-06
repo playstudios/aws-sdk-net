@@ -29,7 +29,8 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateImageBuilder operation.
-    /// Creates an image builder.
+    /// Creates an image builder. An image builder is a virtual machine that is used to create
+    /// an image.
     /// 
     ///  
     /// <para>
@@ -39,15 +40,39 @@ namespace Amazon.AppStream.Model
     /// </summary>
     public partial class CreateImageBuilderRequest : AmazonAppStreamRequest
     {
+        private List<AccessEndpoint> _accessEndpoints = new List<AccessEndpoint>();
         private string _appstreamAgentVersion;
         private string _description;
         private string _displayName;
         private DomainJoinInfo _domainJoinInfo;
         private bool? _enableDefaultInternetAccess;
+        private string _iamRoleArn;
+        private string _imageArn;
         private string _imageName;
         private string _instanceType;
         private string _name;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private VpcConfig _vpcConfig;
+
+        /// <summary>
+        /// Gets and sets the property AccessEndpoints. 
+        /// <para>
+        /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can
+        /// connect to the image builder only through the specified endpoints.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=4)]
+        public List<AccessEndpoint> AccessEndpoints
+        {
+            get { return this._accessEndpoints; }
+            set { this._accessEndpoints = value; }
+        }
+
+        // Check to see if AccessEndpoints property is set
+        internal bool IsSetAccessEndpoints()
+        {
+            return this._accessEndpoints != null && this._accessEndpoints.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property AppstreamAgentVersion. 
@@ -56,6 +81,7 @@ namespace Amazon.AppStream.Model
         /// version of the AppStream 2.0 agent, specify [LATEST]. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string AppstreamAgentVersion
         {
             get { return this._appstreamAgentVersion; }
@@ -71,9 +97,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// The description for display.
+        /// The description to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string Description
         {
             get { return this._description; }
@@ -89,9 +116,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DisplayName. 
         /// <para>
-        /// The image builder name for display.
+        /// The image builder name to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string DisplayName
         {
             get { return this._displayName; }
@@ -107,7 +135,8 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DomainJoinInfo. 
         /// <para>
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the image builder
+        /// to a Microsoft Active Directory domain. 
         /// </para>
         /// </summary>
         public DomainJoinInfo DomainJoinInfo
@@ -141,11 +170,58 @@ namespace Amazon.AppStream.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ImageName. 
+        /// Gets and sets the property IamRoleArn. 
         /// <para>
-        /// The name of the image used to create the builder.
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume
+        /// a role, the image builder calls the AWS Security Token Service (STS) <code>AssumeRole</code>
+        /// API operation and passes the ARN of the role to use. The operation creates a new session
+        /// with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
+        /// creates the <b>AppStream_Machine_Role</b> credential profile on the instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+        /// an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream
+        /// 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
         /// </para>
         /// </summary>
+        public string IamRoleArn
+        {
+            get { return this._iamRoleArn; }
+            set { this._iamRoleArn = value; }
+        }
+
+        // Check to see if IamRoleArn property is set
+        internal bool IsSetIamRoleArn()
+        {
+            return this._iamRoleArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ImageArn. 
+        /// <para>
+        /// The ARN of the public, private, or shared image to use.
+        /// </para>
+        /// </summary>
+        public string ImageArn
+        {
+            get { return this._imageArn; }
+            set { this._imageArn = value; }
+        }
+
+        // Check to see if ImageArn property is set
+        internal bool IsSetImageArn()
+        {
+            return this._imageArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ImageName. 
+        /// <para>
+        /// The name of the image used to create the image builder.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
         public string ImageName
         {
             get { return this._imageName; }
@@ -161,9 +237,92 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        /// The instance type to use when launching the image builder.
+        /// The instance type to use when launching the image builder. The following instance
+        /// types are available:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// stream.standard.medium
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.standard.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-desktop.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-pro.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-pro.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-pro.16xlarge
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string InstanceType
         {
             get { return this._instanceType; }
@@ -182,6 +341,7 @@ namespace Amazon.AppStream.Model
         /// A unique name for the image builder.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -192,6 +352,45 @@ namespace Amazon.AppStream.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to associate with the image builder. A tag is a key-value pair, and the value
+        /// is optional. For example, Environment=Test. If you do not specify a value, Environment=.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// Generally allowed characters are: letters, numbers, and spaces representable in UTF-8,
+        /// and the following special characters: 
+        /// </para>
+        ///  
+        /// <para>
+        /// _ . : / = + \ - @
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do not specify a value, the value is set to an empty string.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+        /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=50)]
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

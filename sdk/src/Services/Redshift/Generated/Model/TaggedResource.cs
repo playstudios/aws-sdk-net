@@ -39,7 +39,7 @@ namespace Amazon.Redshift.Model
         /// <summary>
         /// Gets and sets the property ResourceName. 
         /// <para>
-        /// The Amazon Resource Name (ARN) with which the tag is associated. For example, <code>arn:aws:redshift:us-east-1:123456789:cluster:t1</code>.
+        /// The Amazon Resource Name (ARN) with which the tag is associated, for example: <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>.
         /// </para>
         /// </summary>
         public string ResourceName
@@ -98,7 +98,7 @@ namespace Amazon.Redshift.Model
         ///  </li> </ul> 
         /// <para>
         /// For more information about Amazon Redshift resource types and constructing ARNs, go
-        /// to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-overview.html#redshift-iam-access-control-specify-actions">Constructing
+        /// to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-overview.html#redshift-iam-access-control-specify-actions">Constructing
         /// an Amazon Redshift Amazon Resource Name (ARN)</a> in the Amazon Redshift Cluster Management
         /// Guide. 
         /// </para>

@@ -58,7 +58,7 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Data. 
         /// <para>
-        /// Additional data about a job.
+        /// Other data about a job.
         /// </para>
         /// </summary>
         public JobData Data
@@ -99,6 +99,7 @@ namespace Amazon.CodePipeline.Model
         /// request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string Nonce
         {
             get { return this._nonce; }

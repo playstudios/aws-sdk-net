@@ -29,17 +29,20 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the GetMasterAccount operation.
-    /// Provides the details for the GuardDuty master account to the current GuardDuty member
-    /// account.
+    /// Provides the details for the GuardDuty master account associated with the current
+    /// GuardDuty member account.
     /// </summary>
     public partial class GetMasterAccountRequest : AmazonGuardDutyRequest
     {
         private string _detectorId;
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The unique ID of the detector of the GuardDuty
-        /// member account.
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The unique ID of the detector of the GuardDuty member account.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }

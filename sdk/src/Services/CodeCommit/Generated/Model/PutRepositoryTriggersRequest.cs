@@ -29,7 +29,7 @@ namespace Amazon.CodeCommit.Model
 {
     /// <summary>
     /// Container for the parameters to the PutRepositoryTriggers operation.
-    /// Replaces all triggers for a repository. This can be used to create or delete triggers.
+    /// Replaces all triggers for a repository. Used to create or delete triggers.
     /// </summary>
     public partial class PutRepositoryTriggersRequest : AmazonCodeCommitRequest
     {
@@ -42,6 +42,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository where you want to create or update the trigger.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }
@@ -60,6 +61,7 @@ namespace Amazon.CodeCommit.Model
         /// The JSON block of configuration information for each trigger.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<RepositoryTrigger> Triggers
         {
             get { return this._triggers; }

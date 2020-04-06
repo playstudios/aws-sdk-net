@@ -33,6 +33,7 @@ namespace Amazon.Rekognition.Model
     public partial class GetLabelDetectionResponse : AmazonWebServiceResponse
     {
         private VideoJobStatus _jobStatus;
+        private string _labelModelVersion;
         private List<LabelDetection> _labels = new List<LabelDetection>();
         private string _nextToken;
         private string _statusMessage;
@@ -54,6 +55,24 @@ namespace Amazon.Rekognition.Model
         internal bool IsSetJobStatus()
         {
             return this._jobStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LabelModelVersion. 
+        /// <para>
+        /// Version number of the label detection model that was used to detect labels.
+        /// </para>
+        /// </summary>
+        public string LabelModelVersion
+        {
+            get { return this._labelModelVersion; }
+            set { this._labelModelVersion = value; }
+        }
+
+        // Check to see if LabelModelVersion property is set
+        internal bool IsSetLabelModelVersion()
+        {
+            return this._labelModelVersion != null;
         }
 
         /// <summary>
@@ -79,10 +98,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// If the response is truncated, Rekognition Video returns this token that you can use
-        /// in the subsequent request to retrieve the next set of labels.
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you
+        /// can use in the subsequent request to retrieve the next set of labels.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -116,7 +136,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property VideoMetadata. 
         /// <para>
-        /// Information about a video that Rekognition Video analyzed. <code>Videometadata</code>
+        /// Information about a video that Amazon Rekognition Video analyzed. <code>Videometadata</code>
         /// is returned in every page of paginated responses from a Amazon Rekognition video operation.
         /// </para>
         /// </summary>

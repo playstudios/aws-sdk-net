@@ -44,8 +44,16 @@ namespace Amazon.SecretsManager.Model
     /// to match. After testing the new credentials, the function marks the new secret with
     /// the staging label <code>AWSCURRENT</code> so that your clients all immediately begin
     /// to use the new version. For more information about rotating secrets and how to configure
-    /// a Lambda function to rotate the secrets for your protected service, see <a href="http://docs.aws.amazon.com/http:/docs.aws.amazon.com/;asm-service-name;/latest/userguide/rotating-secrets.html">Rotating
+    /// a Lambda function to rotate the secrets for your protected service, see <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">Rotating
     /// Secrets in AWS Secrets Manager</a> in the <i>AWS Secrets Manager User Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// Secrets Manager schedules the next rotation when the previous one is complete. Secrets
+    /// Manager schedules the date by adding the rotation interval (number of days) to the
+    /// actual date of the last rotation. The service chooses the hour within that 24-hour
+    /// date window randomly. The minute is also chosen somewhat randomly, but weighted towards
+    /// the top of the hour and influenced by a variety of factors that help distribute load.
     /// </para>
     ///  
     /// <para>
@@ -123,7 +131,7 @@ namespace Amazon.SecretsManager.Model
         /// If you use the AWS CLI or one of the AWS SDK to call this operation, then you can
         /// leave this parameter empty. The CLI or SDK generates a random UUID for you and includes
         /// that in the request for this parameter. If you don't use the SDK and instead generate
-        /// a raw HTTP request to the AWS Secrets Manager service endpoint, then you must generate
+        /// a raw HTTP request to the Secrets Manager service endpoint, then you must generate
         /// a <code>ClientRequestToken</code> yourself for new versions and include that value
         /// in the request.
         /// </para>
@@ -137,30 +145,11 @@ namespace Amazon.SecretsManager.Model
         ///  
         /// <para>
         /// Secrets Manager uses this value to prevent the accidental creation of duplicate versions
-        /// if there are failures and retries during the function's processing.
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// If the <code>ClientRequestToken</code> value isn't already associated with a version
-        /// of the secret then a new version of the secret is created. 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// If a version with this value already exists and that version's <code>SecretString</code>
-        /// and <code>SecretBinary</code> values are the same as the request, then the request
-        /// is ignored (the operation is idempotent). 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// If a version with this value already exists and that version's <code>SecretString</code>
-        /// and <code>SecretBinary</code> values are different from the request then an error
-        /// occurs because you cannot modify an existing secret value.
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// This value becomes the <code>SecretVersionId</code> of the new version.
+        /// if there are failures and retries during the function's processing. This value becomes
+        /// the <code>VersionId</code> of the new version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -179,6 +168,7 @@ namespace Amazon.SecretsManager.Model
         /// (Optional) Specifies the ARN of the Lambda function that can rotate the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string RotationLambdaARN
         {
             get { return this._rotationLambdaARN; }
@@ -215,7 +205,22 @@ namespace Amazon.SecretsManager.Model
         /// Specifies the secret that you want to rotate. You can specify either the Amazon Resource
         /// Name (ARN) or the friendly name of the secret.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you specify an ARN, we generally recommend that you specify a complete ARN. You
+        /// can specify a partial ARN too—for example, if you don’t include the final hyphen and
+        /// six random characters that Secrets Manager adds at the end of the ARN when you created
+        /// the secret. A partial ARN match can work as long as it uniquely matches only one secret.
+        /// However, if your secret has a name that ends in a hyphen followed by six characters
+        /// (before Secrets Manager adds the hyphen and six characters to the ARN) and you try
+        /// to use that as a partial ARN, then those characters cause Secrets Manager to assume
+        /// that you’re specifying a complete ARN. This confusion can cause unexpected results.
+        /// To avoid this situation, we recommend that you don’t create secret names that end
+        /// with a hyphen followed by six characters.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string SecretId
         {
             get { return this._secretId; }

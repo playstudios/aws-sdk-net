@@ -66,6 +66,12 @@ namespace Amazon.ElastiCache.Model.Internal.MarshallTransformations
                         unmarshalledObject.AuthTokenEnabled = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("AuthTokenLastModifiedDate", targetDepth))
+                    {
+                        var unmarshaller = DateTimeUnmarshaller.Instance;
+                        unmarshalledObject.AuthTokenLastModifiedDate = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("AutomaticFailover", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -94,6 +100,18 @@ namespace Amazon.ElastiCache.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.Description = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("GlobalReplicationGroupInfo", targetDepth))
+                    {
+                        var unmarshaller = GlobalReplicationGroupInfoUnmarshaller.Instance;
+                        unmarshalledObject.GlobalReplicationGroupInfo = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("KmsKeyId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.KmsKeyId = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("MemberClusters/ClusterId", targetDepth))

@@ -58,10 +58,11 @@ namespace Amazon.CodePipeline.Model.Internal.MarshallTransformations
             string target = "CodePipeline_20150709.PutJobSuccessResult";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -99,6 +100,20 @@ namespace Amazon.CodePipeline.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("jobId");
                     context.Writer.Write(publicRequest.JobId);
+                }
+
+                if(publicRequest.IsSetOutputVariables())
+                {
+                    context.Writer.WritePropertyName("outputVariables");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestOutputVariablesKvp in publicRequest.OutputVariables)
+                    {
+                        context.Writer.WritePropertyName(publicRequestOutputVariablesKvp.Key);
+                        var publicRequestOutputVariablesValue = publicRequestOutputVariablesKvp.Value;
+
+                            context.Writer.Write(publicRequestOutputVariablesValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
         

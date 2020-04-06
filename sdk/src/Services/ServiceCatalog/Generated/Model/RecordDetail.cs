@@ -70,6 +70,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The path identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string PathId
         {
             get { return this._pathId; }
@@ -88,6 +89,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The product identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProductId
         {
             get { return this._productId; }
@@ -106,6 +108,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The identifier of the provisioned product.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProvisionedProductId
         {
             get { return this._provisionedProductId; }
@@ -124,6 +127,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The user-friendly name of the provisioned product.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ProvisionedProductName
         {
             get { return this._provisionedProductName; }
@@ -139,7 +143,8 @@ namespace Amazon.ServiceCatalog.Model
         /// <summary>
         /// Gets and sets the property ProvisionedProductType. 
         /// <para>
-        /// The type of provisioned product. The supported value is <code>CFN_STACK</code>.
+        /// The type of provisioned product. The supported values are <code>CFN_STACK</code> and
+        /// <code>CFN_STACKSET</code>.
         /// </para>
         /// </summary>
         public string ProvisionedProductType
@@ -160,6 +165,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The identifier of the provisioning artifact.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProvisioningArtifactId
         {
             get { return this._provisioningArtifactId; }
@@ -196,6 +202,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The identifier of the record.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string RecordId
         {
             get { return this._recordId; }
@@ -214,6 +221,7 @@ namespace Amazon.ServiceCatalog.Model
         /// One or more tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<RecordTag> RecordTags
         {
             get { return this._recordTags; }

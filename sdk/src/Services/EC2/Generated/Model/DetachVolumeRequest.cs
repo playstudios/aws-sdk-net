@@ -44,7 +44,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html">Detaching
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html">Detaching
     /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -113,7 +113,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
-        /// The ID of the instance.
+        /// The ID of the instance. If you are detaching a Multi-Attach enabled volume, you must
+        /// specify an instance ID.
         /// </para>
         /// </summary>
         public string InstanceId
@@ -134,6 +135,7 @@ namespace Amazon.EC2.Model
         /// The ID of the volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VolumeId
         {
             get { return this._volumeId; }

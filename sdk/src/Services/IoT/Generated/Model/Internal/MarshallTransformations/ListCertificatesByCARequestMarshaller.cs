@@ -55,12 +55,12 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListCertificatesByCARequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/certificates-by-ca/{caCertificateId}";
             if (!publicRequest.IsSetCaCertificateId())
                 throw new AmazonIoTException("Request object does not have required field CaCertificateId set");
-            uriResourcePath = uriResourcePath.Replace("{caCertificateId}", StringUtils.FromString(publicRequest.CaCertificateId));
+            request.AddPathResource("{caCertificateId}", StringUtils.FromString(publicRequest.CaCertificateId));
             
             if (publicRequest.IsSetAscendingOrder())
                 request.Parameters.Add("isAscendingOrder", StringUtils.FromBool(publicRequest.AscendingOrder));
@@ -70,7 +70,8 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetPageSize())
                 request.Parameters.Add("pageSize", StringUtils.FromInt(publicRequest.PageSize));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/certificates-by-ca/{caCertificateId}";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

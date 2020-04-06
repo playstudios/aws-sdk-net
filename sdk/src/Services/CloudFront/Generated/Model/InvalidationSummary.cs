@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -42,8 +42,12 @@ namespace Amazon.CloudFront.Model
         public InvalidationSummary() { }
 
         /// <summary>
-        /// Gets and sets the property CreateTime.
+        /// Gets and sets the property CreateTime. 
+        /// <para>
+        /// The time that an invalidation request was created.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreateTime
         {
             get { return this._createTime.GetValueOrDefault(); }
@@ -62,6 +66,7 @@ namespace Amazon.CloudFront.Model
         /// The unique ID for an invalidation request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -80,6 +85,7 @@ namespace Amazon.CloudFront.Model
         /// The status of an invalidation request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Status
         {
             get { return this._status; }

@@ -61,6 +61,13 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.Actions.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("attachmentStatuses/item", targetDepth))
+                    {
+                        var unmarshaller = VolumeStatusAttachmentStatusUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.AttachmentStatuses.Add(item);
+                        continue;
+                    }
                     if (context.TestExpression("availabilityZone", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -72,6 +79,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         var unmarshaller = VolumeStatusEventUnmarshaller.Instance;
                         var item = unmarshaller.Unmarshall(context);
                         unmarshalledObject.Events.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("outpostArn", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.OutpostArn = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("volumeId", targetDepth))

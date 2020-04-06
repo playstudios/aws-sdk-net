@@ -28,18 +28,25 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Send message request.
+    /// Specifies the configuration and other settings for a message to send to all the endpoints
+    /// that are associated with a list of users.
     /// </summary>
     public partial class SendUsersMessageRequest
     {
         private Dictionary<string, string> _context = new Dictionary<string, string>();
         private DirectMessageConfiguration _messageConfiguration;
+        private TemplateConfiguration _templateConfiguration;
+        private string _traceId;
         private Dictionary<string, EndpointSendConfiguration> _users = new Dictionary<string, EndpointSendConfiguration>();
 
         /// <summary>
-        /// Gets and sets the property Context. A map of custom attributes to attributes to be
-        /// attached to the message. This payload is added to the push notification's 'data.pinpoint'
-        /// object or added to the email/sms delivery receipt event attributes.
+        /// Gets and sets the property Context. 
+        /// <para>
+        /// A map of custom attribute-value pairs. For a push notification, Amazon Pinpoint adds
+        /// these attributes to the data.pinpoint object in the body of the notification payload.
+        /// Amazon Pinpoint also provides these attributes in the events that it generates for
+        /// users-messages deliveries.
+        /// </para>
         /// </summary>
         public Dictionary<string, string> Context
         {
@@ -54,8 +61,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MessageConfiguration. Message configuration.
+        /// Gets and sets the property MessageConfiguration. 
+        /// <para>
+        /// The settings and content for the default message and any default messages that you
+        /// defined for specific channels.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DirectMessageConfiguration MessageConfiguration
         {
             get { return this._messageConfiguration; }
@@ -69,9 +81,51 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Users. A map of destination endpoints, with the EndpointId
-        /// as the key Endpoint Message Configuration as the value.
+        /// Gets and sets the property TemplateConfiguration. 
+        /// <para>
+        /// The message template to use for the message.
+        /// </para>
         /// </summary>
+        public TemplateConfiguration TemplateConfiguration
+        {
+            get { return this._templateConfiguration; }
+            set { this._templateConfiguration = value; }
+        }
+
+        // Check to see if TemplateConfiguration property is set
+        internal bool IsSetTemplateConfiguration()
+        {
+            return this._templateConfiguration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TraceId. 
+        /// <para>
+        /// The unique identifier for tracing the message. This identifier is visible to message
+        /// recipients.
+        /// </para>
+        /// </summary>
+        public string TraceId
+        {
+            get { return this._traceId; }
+            set { this._traceId = value; }
+        }
+
+        // Check to see if TraceId property is set
+        internal bool IsSetTraceId()
+        {
+            return this._traceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Users. 
+        /// <para>
+        /// A map that associates user IDs with EndpointSendConfiguration objects. You can use
+        /// an EndpointSendConfiguration object to tailor the message for a user by specifying
+        /// settings such as content overrides and message variables.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public Dictionary<string, EndpointSendConfiguration> Users
         {
             get { return this._users; }

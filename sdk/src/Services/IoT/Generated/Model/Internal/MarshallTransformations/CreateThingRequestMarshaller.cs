@@ -55,14 +55,15 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateThingRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/things/{thingName}";
             if (!publicRequest.IsSetThingName())
                 throw new AmazonIoTException("Request object does not have required field ThingName set");
-            uriResourcePath = uriResourcePath.Replace("{thingName}", StringUtils.FromString(publicRequest.ThingName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{thingName}", StringUtils.FromString(publicRequest.ThingName));
+            request.ResourcePath = "/things/{thingName}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -77,6 +78,12 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.AttributePayload, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetBillingGroupName())
+                {
+                    context.Writer.WritePropertyName("billingGroupName");
+                    context.Writer.Write(publicRequest.BillingGroupName);
                 }
 
                 if(publicRequest.IsSetThingTypeName())

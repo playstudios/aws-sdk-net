@@ -43,15 +43,15 @@ namespace Amazon.SecretsManager.Model
         /// </para>
         ///  <note> 
         /// <para>
-        /// AWS Secrets Manager automatically adds several random characters to the name at the
-        /// end of the ARN when you initially create a secret. This affects only the ARN and not
-        /// the actual friendly name. This ensures that if you create a new secret with the same
-        /// name as an old secret that you previously deleted, then users with access to the old
-        /// secret <i>don't</i> automatically get access to the new secret because the ARNs are
-        /// different.
+        /// Secrets Manager automatically adds several random characters to the name at the end
+        /// of the ARN when you initially create a secret. This affects only the ARN and not the
+        /// actual friendly name. This ensures that if you create a new secret with the same name
+        /// as an old secret that you previously deleted, then users with access to the old secret
+        /// <i>don't</i> automatically get access to the new secret because the ARNs are different.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string ARN
         {
             get { return this._arn; }
@@ -70,6 +70,7 @@ namespace Amazon.SecretsManager.Model
         /// The friendly name of the secret that you just created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -88,6 +89,7 @@ namespace Amazon.SecretsManager.Model
         /// The unique identifier that's associated with the version of the secret you just created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string VersionId
         {
             get { return this._versionId; }

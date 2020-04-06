@@ -30,8 +30,8 @@ namespace Amazon.CognitoIdentity.Model
     /// <summary>
     /// Container for the parameters to the CreateIdentityPool operation.
     /// Creates a new identity pool. The identity pool is a store of user identity information
-    /// that is specific to your AWS account. The limit on identity pools is 60 per account.
-    /// The keys for <code>SupportedLoginProviders</code> are as follows:
+    /// that is specific to your AWS account. The keys for <code>SupportedLoginProviders</code>
+    /// are as follows:
     /// 
     ///  <ul> <li> 
     /// <para>
@@ -60,13 +60,36 @@ namespace Amazon.CognitoIdentity.Model
     /// </summary>
     public partial class CreateIdentityPoolRequest : AmazonCognitoIdentityRequest
     {
+        private bool? _allowClassicFlow;
         private bool? _allowUnauthenticatedIdentities;
         private List<CognitoIdentityProviderInfo> _cognitoIdentityProviders = new List<CognitoIdentityProviderInfo>();
         private string _developerProviderName;
         private string _identityPoolName;
+        private Dictionary<string, string> _identityPoolTags = new Dictionary<string, string>();
         private List<string> _openIdConnectProviderARNs = new List<string>();
         private List<string> _samlProviderARNs = new List<string>();
         private Dictionary<string, string> _supportedLoginProviders = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Gets and sets the property AllowClassicFlow. 
+        /// <para>
+        /// Enables or disables the Basic (Classic) authentication flow. For more information,
+        /// see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html">Identity
+        /// Pools (Federated Identities) Authentication Flow</a> in the <i>Amazon Cognito Developer
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool AllowClassicFlow
+        {
+            get { return this._allowClassicFlow.GetValueOrDefault(); }
+            set { this._allowClassicFlow = value; }
+        }
+
+        // Check to see if AllowClassicFlow property is set
+        internal bool IsSetAllowClassicFlow()
+        {
+            return this._allowClassicFlow.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property AllowUnauthenticatedIdentities. 
@@ -74,6 +97,7 @@ namespace Amazon.CognitoIdentity.Model
         /// TRUE if the identity pool supports unauthenticated logins.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool AllowUnauthenticatedIdentities
         {
             get { return this._allowUnauthenticatedIdentities.GetValueOrDefault(); }
@@ -89,7 +113,7 @@ namespace Amazon.CognitoIdentity.Model
         /// <summary>
         /// Gets and sets the property CognitoIdentityProviders. 
         /// <para>
-        /// An array of Amazon Cognito Identity user pools and their client IDs.
+        /// An array of Amazon Cognito user pools and their client IDs.
         /// </para>
         /// </summary>
         public List<CognitoIdentityProviderInfo> CognitoIdentityProviders
@@ -118,6 +142,7 @@ namespace Amazon.CognitoIdentity.Model
         /// in setting this parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string DeveloperProviderName
         {
             get { return this._developerProviderName; }
@@ -136,6 +161,7 @@ namespace Amazon.CognitoIdentity.Model
         /// A string that you provide.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string IdentityPoolName
         {
             get { return this._identityPoolName; }
@@ -146,6 +172,26 @@ namespace Amazon.CognitoIdentity.Model
         internal bool IsSetIdentityPoolName()
         {
             return this._identityPoolName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IdentityPoolTags. 
+        /// <para>
+        /// Tags to assign to the identity pool. A tag is a label that you can apply to identity
+        /// pools to categorize and manage them in different ways, such as by purpose, owner,
+        /// environment, or other criteria.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> IdentityPoolTags
+        {
+            get { return this._identityPoolTags; }
+            set { this._identityPoolTags = value; }
+        }
+
+        // Check to see if IdentityPoolTags property is set
+        internal bool IsSetIdentityPoolTags()
+        {
+            return this._identityPoolTags != null && this._identityPoolTags.Count > 0; 
         }
 
         /// <summary>
@@ -190,6 +236,7 @@ namespace Amazon.CognitoIdentity.Model
         /// Optional key:value pairs mapping provider names to provider app IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public Dictionary<string, string> SupportedLoginProviders
         {
             get { return this._supportedLoginProviders; }

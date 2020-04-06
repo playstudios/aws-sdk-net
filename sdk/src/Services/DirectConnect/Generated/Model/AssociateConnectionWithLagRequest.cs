@@ -30,12 +30,12 @@ namespace Amazon.DirectConnect.Model
     /// <summary>
     /// Container for the parameters to the AssociateConnectionWithLag operation.
     /// Associates an existing connection with a link aggregation group (LAG). The connection
-    /// is interrupted and re-established as a member of the LAG (connectivity to AWS will
-    /// be interrupted). The connection must be hosted on the same AWS Direct Connect endpoint
-    /// as the LAG, and its bandwidth must match the bandwidth for the LAG. You can reassociate
-    /// a connection that's currently associated with a different LAG; however, if removing
-    /// the connection will cause the original LAG to fall below its setting for minimum number
-    /// of operational connections, the request fails.
+    /// is interrupted and re-established as a member of the LAG (connectivity to AWS is interrupted).
+    /// The connection must be hosted on the same AWS Direct Connect endpoint as the LAG,
+    /// and its bandwidth must match the bandwidth for the LAG. You can re-associate a connection
+    /// that's currently associated with a different LAG; however, if removing the connection
+    /// would cause the original LAG to fall below its setting for minimum number of operational
+    /// connections, the request fails.
     /// 
     ///  
     /// <para>
@@ -60,15 +60,8 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The ID of the connection.
         /// </para>
-        ///  
-        /// <para>
-        /// Example: dxcon-abc123
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConnectionId
         {
             get { return this._connectionId; }
@@ -86,15 +79,8 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The ID of the LAG with which to associate the connection.
         /// </para>
-        ///  
-        /// <para>
-        /// Example: dxlag-abc123
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LagId
         {
             get { return this._lagId; }

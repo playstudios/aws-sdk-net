@@ -55,14 +55,18 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(CancelJobRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/jobs/{jobId}/cancel";
             if (!publicRequest.IsSetJobId())
                 throw new AmazonIoTException("Request object does not have required field JobId set");
-            uriResourcePath = uriResourcePath.Replace("{jobId}", StringUtils.FromString(publicRequest.JobId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{jobId}", StringUtils.FromString(publicRequest.JobId));
+            
+            if (publicRequest.IsSetForce())
+                request.Parameters.Add("force", StringUtils.FromBool(publicRequest.Force));
+            request.ResourcePath = "/jobs/{jobId}/cancel";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -74,12 +78,19 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Comment);
                 }
 
+                if(publicRequest.IsSetReasonCode())
+                {
+                    context.Writer.WritePropertyName("reasonCode");
+                    context.Writer.Write(publicRequest.ReasonCode);
+                }
+
         
                 writer.WriteObjectEnd();
                 string snippet = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(snippet);
             }
 
+            request.UseQueryString = true;
 
             return request;
         }

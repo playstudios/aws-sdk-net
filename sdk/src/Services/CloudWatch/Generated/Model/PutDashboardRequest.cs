@@ -35,8 +35,7 @@ namespace Amazon.CloudWatch.Model
     /// 
     ///  
     /// <para>
-    /// You can have up to 500 dashboards per account. All dashboards in your account are
-    /// global, not region-specific.
+    /// All dashboards in your account are global, not region-specific.
     /// </para>
     ///  
     /// <para>
@@ -69,9 +68,11 @@ namespace Amazon.CloudWatch.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about the syntax, see <a>CloudWatch-Dashboard-Body-Structure</a>.
+        /// For more information about the syntax, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
+        /// Body Structure and Syntax</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DashboardBody
         {
             get { return this._dashboardBody; }
@@ -93,6 +94,7 @@ namespace Amazon.CloudWatch.Model
         /// and "_". This parameter is required.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DashboardName
         {
             get { return this._dashboardName; }

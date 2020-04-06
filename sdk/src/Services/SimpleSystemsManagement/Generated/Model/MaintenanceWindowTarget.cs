@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
-    /// The target registered with the Maintenance Window.
+    /// The target registered with the maintenance window.
     /// </summary>
     public partial class MaintenanceWindowTarget
     {
@@ -43,9 +43,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// A description of the target.
+        /// A description for the target.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Description
         {
             get { return this._description; }
@@ -61,9 +62,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The target name.
+        /// The name for the maintenance window target.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -79,10 +81,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property OwnerInformation. 
         /// <para>
-        /// User-provided value that will be included in any CloudWatch events raised while running
-        /// tasks for these targets in this Maintenance Window.
+        /// A user-provided value that will be included in any CloudWatch events that are raised
+        /// while running tasks for these targets in this maintenance window.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string OwnerInformation
         {
             get { return this._ownerInformation; }
@@ -98,7 +101,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ResourceType. 
         /// <para>
-        /// The type of target.
+        /// The type of target that is being registered with the maintenance window.
         /// </para>
         /// </summary>
         public MaintenanceWindowResourceType ResourceType
@@ -116,10 +119,26 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Targets. 
         /// <para>
-        /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;.
-        /// Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
+        /// The targets, either instances or tags.
+        /// </para>
+        ///  
+        /// <para>
+        /// Specify instances using the following format:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Tags are specified using the following format:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>Key=&lt;tag name&gt;,Values=&lt;tag value&gt;</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }
@@ -135,9 +154,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowId. 
         /// <para>
-        /// The Maintenance Window ID where the target is registered.
+        /// The ID of the maintenance window to register the target with.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=20)]
         public string WindowId
         {
             get { return this._windowId; }
@@ -156,6 +176,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the target.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string WindowTargetId
         {
             get { return this._windowTargetId; }

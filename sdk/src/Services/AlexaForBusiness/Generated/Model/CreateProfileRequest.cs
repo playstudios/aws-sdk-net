@@ -36,7 +36,9 @@ namespace Amazon.AlexaForBusiness.Model
         private string _address;
         private string _clientRequestToken;
         private DistanceUnit _distanceUnit;
+        private string _locale;
         private int? _maxVolumeLimit;
+        private CreateMeetingRoomConfiguration _meetingRoomConfiguration;
         private string _profileName;
         private bool? _pstnEnabled;
         private bool? _setupModeDisabled;
@@ -50,6 +52,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The valid address for the room.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=500)]
         public string Address
         {
             get { return this._address; }
@@ -68,6 +71,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The user-specified token that is used during the creation of a profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=150)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -86,6 +90,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The distance unit to be used by devices in the profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DistanceUnit DistanceUnit
         {
             get { return this._distanceUnit; }
@@ -96,6 +101,26 @@ namespace Amazon.AlexaForBusiness.Model
         internal bool IsSetDistanceUnit()
         {
             return this._distanceUnit != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Locale. 
+        /// <para>
+        /// The locale of the room profile. (This is currently only available to a limited preview
+        /// audience.)
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string Locale
+        {
+            get { return this._locale; }
+            set { this._locale = value; }
+        }
+
+        // Check to see if Locale property is set
+        internal bool IsSetLocale()
+        {
+            return this._locale != null;
         }
 
         /// <summary>
@@ -117,11 +142,30 @@ namespace Amazon.AlexaForBusiness.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MeetingRoomConfiguration. 
+        /// <para>
+        /// The meeting room settings of a room profile.
+        /// </para>
+        /// </summary>
+        public CreateMeetingRoomConfiguration MeetingRoomConfiguration
+        {
+            get { return this._meetingRoomConfiguration; }
+            set { this._meetingRoomConfiguration = value; }
+        }
+
+        // Check to see if MeetingRoomConfiguration property is set
+        internal bool IsSetMeetingRoomConfiguration()
+        {
+            return this._meetingRoomConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ProfileName. 
         /// <para>
         /// The name of a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ProfileName
         {
             get { return this._profileName; }
@@ -176,6 +220,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The temperature unit to be used by devices in the profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TemperatureUnit TemperatureUnit
         {
             get { return this._temperatureUnit; }
@@ -194,6 +239,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The time zone used by a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string Timezone
         {
             get { return this._timezone; }
@@ -212,6 +258,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// A wake word for Alexa, Echo, Amazon, or a computer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public WakeWord WakeWord
         {
             get { return this._wakeWord; }

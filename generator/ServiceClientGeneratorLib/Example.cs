@@ -303,7 +303,7 @@ namespace ServiceClientGenerator
                     cb.Append(" }");
             }
 
-            else if (shape.IsBlob && shape.IsMemoryStream && data.IsString)
+            else if (shape.IsMemoryStream && data.IsString)
             {
                 cb.AppendFormat("new {0}({1})", ShapeType(shape), data.ToString());
             }
@@ -318,14 +318,14 @@ namespace ServiceClientGenerator
                     DateTime parsedDateTime;
                     if (DateTime.TryParse(textValue, out parsedDateTime))
                     {
-                        exampleValue = string.Format("new DateTime({0})",
+                        exampleValue = string.Format("new DateTime({0}, DateTimeKind.Utc)",
                             parsedDateTime.ToString("yyyy, M, d, h, m, s"));
                     }
                 }
 
                 if (string.IsNullOrEmpty(exampleValue))
                 {
-                    exampleValue = "DateTime.Now";
+                    exampleValue = "DateTime.UtcNow";
                 }
 
                 cb.Append(exampleValue);
@@ -347,6 +347,14 @@ namespace ServiceClientGenerator
         {
             if (shape.IsBoolean)
                 return "bool";
+            if (shape.IsInt)
+                return "int";
+            if (shape.IsLong)
+                return "long";
+            if (shape.IsFloat)
+                return "float";
+            if (shape.IsDouble)
+                return "double";
             if (shape.IsDateTime)
                 return "DateTime";
             if (shape.IsMemoryStream)

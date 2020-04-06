@@ -33,7 +33,7 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// For more information on modifying snapshot permissions, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
+    /// For more information about modifying snapshot permissions, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
     /// Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -65,6 +65,7 @@ namespace Amazon.EC2.Model
         /// can be reset.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SnapshotAttributeName Attribute
         {
             get { return this._attribute; }
@@ -83,6 +84,7 @@ namespace Amazon.EC2.Model
         /// The ID of the snapshot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SnapshotId
         {
             get { return this._snapshotId; }

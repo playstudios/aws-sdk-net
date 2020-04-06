@@ -31,7 +31,7 @@ namespace Amazon.EC2.Model
     /// Container for the parameters to the RegisterImage operation.
     /// Registers an AMI. When you're creating an AMI, this is the final step you must complete
     /// before you can launch an instance from the AMI. For more information about creating
-    /// AMIs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html">Creating
+    /// AMIs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html">Creating
     /// Your Own AMIs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// 
     ///  <note> 
@@ -43,7 +43,7 @@ namespace Amazon.EC2.Model
     /// <para>
     /// You can also use <code>RegisterImage</code> to create an Amazon EBS-backed Linux AMI
     /// from a snapshot of a root device volume. You specify the snapshot using the block
-    /// device mapping. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-launch-snapshot.html">Launching
+    /// device mapping. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-launch-snapshot.html">Launching
     /// a Linux Instance from a Backup</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
@@ -53,12 +53,33 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// Some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise
-    /// Server (SLES), use the EC2 billing product code associated with an AMI to verify the
-    /// subscription status for package updates. Creating an AMI from an EBS snapshot does
-    /// not maintain this billing code, and subsequent instances launched from such an AMI
-    /// will not be able to connect to package update infrastructure. To create an AMI that
-    /// must retain billing codes, see <a>CreateImage</a>.
+    /// Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and
+    /// SUSE Linux Enterprise Server (SLES), use the EC2 billing product code associated with
+    /// an AMI to verify the subscription status for package updates. To create a new AMI
+    /// for operating systems that require a billing product code, instead of registering
+    /// the AMI, do the following to preserve the billing product code association:
+    /// </para>
+    ///  <ol> <li> 
+    /// <para>
+    /// Launch an instance from an existing AMI with that billing product code.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Customize the instance.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Create an AMI from the instance using <a>CreateImage</a>.
+    /// </para>
+    ///  </li> </ol> 
+    /// <para>
+    /// If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched
+    /// from an AMI with a billing product code, make sure that the Reserved Instance has
+    /// the matching billing product code. If you purchase a Reserved Instance without the
+    /// matching billing product code, the Reserved Instance will not be applied to the On-Demand
+    /// Instance. For information about how to obtain the platform details and billing information
+    /// of an AMI, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html">Obtaining
+    /// Billing Information</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -90,7 +111,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates RegisterImageRequest with the parameterized properties
         /// </summary>
-        /// <param name="imageLocation">The full path to your AMI manifest in Amazon S3 storage.</param>
+        /// <param name="imageLocation">The full path to your AMI manifest in Amazon S3 storage. The specified bucket must have the <code>aws-exec-read</code> canned access control list (ACL) to ensure that it can be accessed by Amazon EC2. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl">Canned ACLs</a> in the <i>Amazon S3 Service Developer Guide</i>.</param>
         public RegisterImageRequest(string imageLocation)
         {
             _imageLocation = imageLocation;
@@ -141,7 +162,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property BlockDeviceMappings. 
         /// <para>
-        /// One or more block device mapping entries.
+        /// The block device mapping entries.
         /// </para>
         /// </summary>
         public List<BlockDeviceMapping> BlockDeviceMappings
@@ -201,7 +222,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ImageLocation. 
         /// <para>
-        /// The full path to your AMI manifest in Amazon S3 storage.
+        /// The full path to your AMI manifest in Amazon S3 storage. The specified bucket must
+        /// have the <code>aws-exec-read</code> canned access control list (ACL) to ensure that
+        /// it can be accessed by Amazon EC2. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl">Canned
+        /// ACLs</a> in the <i>Amazon S3 Service Developer Guide</i>.
         /// </para>
         /// </summary>
         public string ImageLocation
@@ -246,6 +270,7 @@ namespace Amazon.EC2.Model
         /// or underscores(_)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

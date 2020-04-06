@@ -51,8 +51,19 @@ namespace Amazon.OpsWorksCM.Model
         /// Gets and sets the property EngineAttributes. 
         /// <para>
         /// Engine attributes that are specific to the server on which you want to run maintenance.
+        /// </para>
+        ///  <p class="title"> <b>Attributes accepted in a StartMaintenance request for Chef</b>
         /// 
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>CHEF_MAJOR_UPGRADE</code>: If a Chef Automate server is eligible for upgrade
+        /// to Chef Automate 2, add this engine attribute to a <code>StartMaintenance</code> request
+        /// and set the value to <code>true</code> to upgrade the server to Chef Automate 2. For
+        /// more information, see <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-a2upgrade.html">Upgrade
+        /// an AWS OpsWorks for Chef Automate Server to Chef Automate 2</a>. 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public List<EngineAttribute> EngineAttributes
         {
@@ -72,6 +83,7 @@ namespace Amazon.OpsWorksCM.Model
         /// The name of the server on which to run maintenance. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=40)]
         public string ServerName
         {
             get { return this._serverName; }

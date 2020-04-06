@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.ElastiCache.Model;
 using Amazon.ElastiCache.Model.Internal.MarshallTransformations;
+using Amazon.ElastiCache.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -57,10 +59,11 @@ namespace Amazon.ElastiCache
     /// </summary>
     public partial class AmazonElastiCacheClient : AmazonServiceClient, IAmazonElastiCache
     {
+        private static IServiceMetadata serviceMetadata = new AmazonElastiCacheMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonElastiCacheClient with the credentials loaded from the application's
@@ -231,6 +234,16 @@ namespace Amazon.ElastiCache
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -246,35 +259,63 @@ namespace Amazon.ElastiCache
 
         #endregion
 
-        
+
         #region  AddTagsToResource
 
         internal virtual AddTagsToResourceResponse AddTagsToResource(AddTagsToResourceRequest request)
         {
-            var marshaller = AddTagsToResourceRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
 
-            return Invoke<AddTagsToResourceRequest,AddTagsToResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddTagsToResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AddTagsToResource operation.
-        /// </summary>
+        /// Adds up to 50 cost allocation tags to the named resource. A cost allocation tag is
+        /// a key-value pair where the key and value are case-sensitive. You can use cost allocation
+        /// tags to categorize and track your AWS costs.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AddTagsToResource operation.</param>
+        ///  
+        /// <para>
+        ///  When you apply tags to your ElastiCache resources, AWS generates a cost allocation
+        /// report as a comma-separated value (CSV) file with your usage and costs aggregated
+        /// by your tags. You can apply tags that represent business categories (such as cost
+        /// centers, application names, or owners) to organize your costs across multiple services.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html">Using
+        /// Cost Allocation Tags in Amazon ElastiCache</a> in the <i>ElastiCache User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AddTagsToResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AddTagsToResource service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidARNException">
+        /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotNotFoundException">
+        /// The requested snapshot name does not refer to an existing snapshot.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.TagQuotaPerResourceExceededException">
+        /// The request cannot be processed because it would cause the resource to have more than
+        /// the allowed number of tags. The maximum number of tags permitted on a resource is
+        /// 50.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/AddTagsToResource">REST API Reference for AddTagsToResource Operation</seealso>
         public virtual Task<AddTagsToResourceResponse> AddTagsToResourceAsync(AddTagsToResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AddTagsToResourceRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AddTagsToResourceRequest,AddTagsToResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AddTagsToResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -283,30 +324,185 @@ namespace Amazon.ElastiCache
 
         internal virtual AuthorizeCacheSecurityGroupIngressResponse AuthorizeCacheSecurityGroupIngress(AuthorizeCacheSecurityGroupIngressRequest request)
         {
-            var marshaller = AuthorizeCacheSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = AuthorizeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AuthorizeCacheSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AuthorizeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return Invoke<AuthorizeCacheSecurityGroupIngressRequest,AuthorizeCacheSecurityGroupIngressResponse>(request, marshaller, unmarshaller);
+            return Invoke<AuthorizeCacheSecurityGroupIngressResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AuthorizeCacheSecurityGroupIngress operation.
-        /// </summary>
+        /// Allows network ingress to a cache security group. Applications using ElastiCache must
+        /// be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization
+        /// mechanism.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AuthorizeCacheSecurityGroupIngress operation.</param>
+        ///  <note> 
+        /// <para>
+        /// You cannot authorize ingress from an Amazon EC2 security group in one region to an
+        /// ElastiCache cluster in another region.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AuthorizeCacheSecurityGroupIngress service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AuthorizeCacheSecurityGroupIngress service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.AuthorizationAlreadyExistsException">
+        /// The specified Amazon EC2 security group is already authorized for the specified cache
+        /// security group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheSecurityGroupStateException">
+        /// The current state of the cache security group does not allow deletion.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/AuthorizeCacheSecurityGroupIngress">REST API Reference for AuthorizeCacheSecurityGroupIngress Operation</seealso>
         public virtual Task<AuthorizeCacheSecurityGroupIngressResponse> AuthorizeCacheSecurityGroupIngressAsync(AuthorizeCacheSecurityGroupIngressRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AuthorizeCacheSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = AuthorizeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AuthorizeCacheSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AuthorizeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AuthorizeCacheSecurityGroupIngressRequest,AuthorizeCacheSecurityGroupIngressResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AuthorizeCacheSecurityGroupIngressResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  BatchApplyUpdateAction
+
+        internal virtual BatchApplyUpdateActionResponse BatchApplyUpdateAction(BatchApplyUpdateActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchApplyUpdateActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchApplyUpdateActionResponseUnmarshaller.Instance;
+
+            return Invoke<BatchApplyUpdateActionResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Apply the service update. For more information on service updates and applying them,
+        /// see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/applying-updates.html">Applying
+        /// Service Updates</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchApplyUpdateAction service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the BatchApplyUpdateAction service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ServiceUpdateNotFoundException">
+        /// The service update doesn't exist
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/BatchApplyUpdateAction">REST API Reference for BatchApplyUpdateAction Operation</seealso>
+        public virtual Task<BatchApplyUpdateActionResponse> BatchApplyUpdateActionAsync(BatchApplyUpdateActionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchApplyUpdateActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchApplyUpdateActionResponseUnmarshaller.Instance;
+
+            return InvokeAsync<BatchApplyUpdateActionResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  BatchStopUpdateAction
+
+        internal virtual BatchStopUpdateActionResponse BatchStopUpdateAction(BatchStopUpdateActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchStopUpdateActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchStopUpdateActionResponseUnmarshaller.Instance;
+
+            return Invoke<BatchStopUpdateActionResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Stop the service update. For more information on service updates and stopping them,
+        /// see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/stopping-self-service-updates.html">Stopping
+        /// Service Updates</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchStopUpdateAction service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the BatchStopUpdateAction service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ServiceUpdateNotFoundException">
+        /// The service update doesn't exist
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/BatchStopUpdateAction">REST API Reference for BatchStopUpdateAction Operation</seealso>
+        public virtual Task<BatchStopUpdateActionResponse> BatchStopUpdateActionAsync(BatchStopUpdateActionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchStopUpdateActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchStopUpdateActionResponseUnmarshaller.Instance;
+
+            return InvokeAsync<BatchStopUpdateActionResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  CompleteMigration
+
+        internal virtual CompleteMigrationResponse CompleteMigration(CompleteMigrationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteMigrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteMigrationResponseUnmarshaller.Instance;
+
+            return Invoke<CompleteMigrationResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Complete the migration of data.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CompleteMigration service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the CompleteMigration service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotUnderMigrationException">
+        /// The designated replication group is not available for data migration.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CompleteMigration">REST API Reference for CompleteMigration Operation</seealso>
+        public virtual Task<CompleteMigrationResponse> CompleteMigrationAsync(CompleteMigrationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteMigrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteMigrationResponseUnmarshaller.Instance;
+
+            return InvokeAsync<CompleteMigrationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -315,30 +511,154 @@ namespace Amazon.ElastiCache
 
         internal virtual CopySnapshotResponse CopySnapshot(CopySnapshotRequest request)
         {
-            var marshaller = CopySnapshotRequestMarshaller.Instance;
-            var unmarshaller = CopySnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopySnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopySnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CopySnapshotRequest,CopySnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CopySnapshotResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CopySnapshot operation.
-        /// </summary>
+        /// Makes a copy of an existing snapshot.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CopySnapshot operation.</param>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// Users or groups that have permissions to use the <code>CopySnapshot</code> operation
+        /// can create their own Amazon S3 buckets and copy snapshots to it. To control access
+        /// to your snapshots, use an IAM policy to control who has the ability to use the <code>CopySnapshot</code>
+        /// operation. For more information about using IAM to control the use of ElastiCache
+        /// operations, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html">Exporting
+        /// Snapshots</a> and <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.html">Authentication
+        /// &amp; Access Control</a>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// You could receive the following error messages.
+        /// </para>
+        ///  <p class="title"> <b>Error Messages</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Error Message:</b> The S3 bucket %s is outside of the region.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Create an Amazon S3 bucket in the same region as your snapshot.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket">Step
+        /// 1: Create an Amazon S3 Bucket</a> in the ElastiCache User Guide.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Error Message:</b> The S3 bucket %s does not exist.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Create an Amazon S3 bucket in the same region as your snapshot.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket">Step
+        /// 1: Create an Amazon S3 Bucket</a> in the ElastiCache User Guide.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Error Message:</b> The S3 bucket %s is not owned by the authenticated user.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Create an Amazon S3 bucket in the same region as your snapshot.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket">Step
+        /// 1: Create an Amazon S3 Bucket</a> in the ElastiCache User Guide.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Error Message:</b> The authenticated user does not have sufficient permissions
+        /// to perform the desired activity.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Contact your system administrator to get the needed permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Error Message:</b> The S3 bucket %s already contains an object with key %s.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Give the <code>TargetSnapshotName</code> a new and unique value.
+        /// If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and
+        /// use this same value for <code>TargetSnapshotName</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Error Message: </b> ElastiCache has not been granted READ permissions %s on the
+        /// S3 Bucket.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Add List and Read permissions on the bucket. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+        /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the ElastiCache User Guide.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Error Message: </b> ElastiCache has not been granted WRITE permissions %s on the
+        /// S3 Bucket.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Add Upload/Delete permissions on the bucket. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+        /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the ElastiCache User Guide.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Error Message: </b> ElastiCache has not been granted READ_ACP permissions %s on
+        /// the S3 Bucket.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Solution:</b> Add View Permissions on the bucket. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access">Step
+        /// 2: Grant ElastiCache Access to Your Amazon S3 Bucket</a> in the ElastiCache User Guide.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CopySnapshot service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CopySnapshot service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidSnapshotStateException">
+        /// The current state of the snapshot does not allow the requested operation to occur.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotAlreadyExistsException">
+        /// You already have a snapshot with the given name.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotNotFoundException">
+        /// The requested snapshot name does not refer to an existing snapshot.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum number of snapshots.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CopySnapshot">REST API Reference for CopySnapshot Operation</seealso>
         public virtual Task<CopySnapshotResponse> CopySnapshotAsync(CopySnapshotRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CopySnapshotRequestMarshaller.Instance;
-            var unmarshaller = CopySnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopySnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopySnapshotResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CopySnapshotRequest,CopySnapshotResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CopySnapshotResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -347,30 +667,89 @@ namespace Amazon.ElastiCache
 
         internal virtual CreateCacheClusterResponse CreateCacheCluster(CreateCacheClusterRequest request)
         {
-            var marshaller = CreateCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheClusterResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCacheClusterRequest,CreateCacheClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCacheClusterResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateCacheCluster operation.
-        /// </summary>
+        /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache
+        /// engine software, either Memcached or Redis.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateCacheCluster operation.</param>
+        ///  
+        /// <para>
+        /// This operation is not supported for Redis (cluster mode enabled) clusters.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCacheCluster service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateCacheCluster service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterAlreadyExistsException">
+        /// You already have a cluster with the given identifier.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupNotFoundException">
+        /// The requested cache subnet group name does not refer to an existing cache subnet group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ClusterQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of clusters
+        /// per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InsufficientCacheClusterCapacityException">
+        /// The requested cache node type is not available in the specified Availability Zone.
+        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY">InsufficientCacheClusterCapacity</a>
+        /// in the ElastiCache User Guide.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidVPCNetworkStateException">
+        /// The VPC network is in an invalid state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForClusterExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes in a single cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.TagQuotaPerResourceExceededException">
+        /// The request cannot be processed because it would cause the resource to have more than
+        /// the allowed number of tags. The maximum number of tags permitted on a resource is
+        /// 50.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateCacheCluster">REST API Reference for CreateCacheCluster Operation</seealso>
         public virtual Task<CreateCacheClusterResponse> CreateCacheClusterAsync(CreateCacheClusterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheClusterResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateCacheClusterRequest,CreateCacheClusterResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateCacheClusterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -379,30 +758,69 @@ namespace Amazon.ElastiCache
 
         internal virtual CreateCacheParameterGroupResponse CreateCacheParameterGroup(CreateCacheParameterGroupRequest request)
         {
-            var marshaller = CreateCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCacheParameterGroupRequest,CreateCacheParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCacheParameterGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateCacheParameterGroup operation.
-        /// </summary>
+        /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter
+        /// group is a collection of parameters and their values that are applied to all of the
+        /// nodes in any cluster or replication group using the CacheParameterGroup.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateCacheParameterGroup operation.</param>
+        ///  
+        /// <para>
+        /// A newly created CacheParameterGroup is an exact duplicate of the default parameter
+        /// group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup
+        /// you can change the values of specific parameters. For more information, see:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyCacheParameterGroup.html">ModifyCacheParameterGroup</a>
+        /// in the ElastiCache API Reference.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.html">Parameters
+        /// and Parameter Groups</a> in the ElastiCache User Guide.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCacheParameterGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateCacheParameterGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupAlreadyExistsException">
+        /// A cache parameter group with the requested name already exists.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum number of cache
+        /// security groups.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheParameterGroupStateException">
+        /// The current state of the cache parameter group does not allow the requested operation
+        /// to occur.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateCacheParameterGroup">REST API Reference for CreateCacheParameterGroup Operation</seealso>
         public virtual Task<CreateCacheParameterGroupResponse> CreateCacheParameterGroupAsync(CreateCacheParameterGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateCacheParameterGroupRequest,CreateCacheParameterGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateCacheParameterGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -411,30 +829,53 @@ namespace Amazon.ElastiCache
 
         internal virtual CreateCacheSecurityGroupResponse CreateCacheSecurityGroup(CreateCacheSecurityGroupRequest request)
         {
-            var marshaller = CreateCacheSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCacheSecurityGroupRequest,CreateCacheSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCacheSecurityGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateCacheSecurityGroup operation.
-        /// </summary>
+        /// Creates a new cache security group. Use a cache security group to control access to
+        /// one or more clusters.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateCacheSecurityGroup operation.</param>
+        ///  
+        /// <para>
+        /// Cache security groups are only used when you are creating a cluster outside of an
+        /// Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of
+        /// a VPC, use a cache subnet group instead. For more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateCacheSubnetGroup.html">CreateCacheSubnetGroup</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCacheSecurityGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateCacheSecurityGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupAlreadyExistsException">
+        /// A cache security group with the specified name already exists.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupQuotaExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// security groups.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateCacheSecurityGroup">REST API Reference for CreateCacheSecurityGroup Operation</seealso>
         public virtual Task<CreateCacheSecurityGroupResponse> CreateCacheSecurityGroupAsync(CreateCacheSecurityGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateCacheSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheSecurityGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateCacheSecurityGroupRequest,CreateCacheSecurityGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateCacheSecurityGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -443,30 +884,117 @@ namespace Amazon.ElastiCache
 
         internal virtual CreateCacheSubnetGroupResponse CreateCacheSubnetGroup(CreateCacheSubnetGroupRequest request)
         {
-            var marshaller = CreateCacheSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCacheSubnetGroupRequest,CreateCacheSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCacheSubnetGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateCacheSubnetGroup operation.
-        /// </summary>
+        /// Creates a new cache subnet group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateCacheSubnetGroup operation.</param>
+        ///  
+        /// <para>
+        /// Use this parameter only when you are creating a cluster in an Amazon Virtual Private
+        /// Cloud (Amazon VPC).
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCacheSubnetGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateCacheSubnetGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupAlreadyExistsException">
+        /// The requested cache subnet group name is already in use by an existing cache subnet
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupQuotaExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// subnet groups.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetQuotaExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of subnets
+        /// in a cache subnet group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidSubnetException">
+        /// An invalid subnet identifier was specified.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateCacheSubnetGroup">REST API Reference for CreateCacheSubnetGroup Operation</seealso>
         public virtual Task<CreateCacheSubnetGroupResponse> CreateCacheSubnetGroupAsync(CreateCacheSubnetGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateCacheSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateCacheSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCacheSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCacheSubnetGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateCacheSubnetGroupRequest,CreateCacheSubnetGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateCacheSubnetGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  CreateGlobalReplicationGroup
+
+        internal virtual CreateGlobalReplicationGroupResponse CreateGlobalReplicationGroup(CreateGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<CreateGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region
+        /// replication. Using Global Datastore for Redis, you can create cross-region read replica
+        /// clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery
+        /// across regions. For more information, see <a href="/AmazonElastiCache/latest/red-ug/Redis-Global-Clusters.html">Replication
+        /// Across Regions Using Global Datastore</a>. 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// The <b>GlobalReplicationGroupId</b> is the name of the Global Datastore.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The <b>PrimaryReplicationGroupId</b> represents the name of the primary cluster that
+        /// accepts writes and will replicate updates to the secondary cluster.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the CreateGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupAlreadyExistsException">
+        /// The Global Datastore name already exists.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateGlobalReplicationGroup">REST API Reference for CreateGlobalReplicationGroup Operation</seealso>
+        public virtual Task<CreateGlobalReplicationGroupResponse> CreateGlobalReplicationGroupAsync(CreateGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<CreateGlobalReplicationGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -475,30 +1003,129 @@ namespace Amazon.ElastiCache
 
         internal virtual CreateReplicationGroupResponse CreateReplicationGroup(CreateReplicationGroupRequest request)
         {
-            var marshaller = CreateReplicationGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateReplicationGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateReplicationGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateReplicationGroupRequest,CreateReplicationGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateReplicationGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateReplicationGroup operation.
-        /// </summary>
+        /// Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication
+        /// group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateReplicationGroup operation.</param>
+        ///  
+        /// <para>
+        /// This API can be used to create a standalone regional replication group or a secondary
+        /// replication group associated with a Global Datastore.
+        /// </para>
+        ///  
+        /// <para>
+        /// A Redis (cluster mode disabled) replication group is a collection of clusters, where
+        /// one of the clusters is a read/write primary and the others are read-only replicas.
+        /// Writes to the primary are asynchronously propagated to the replicas.
+        /// </para>
+        ///  
+        /// <para>
+        /// A Redis (cluster mode enabled) replication group is a collection of 1 to 90 node groups
+        /// (shards). Each node group (shard) has one read/write primary node and up to 5 read-only
+        /// replica nodes. Writes to the primary are asynchronously propagated to the replicas.
+        /// Redis (cluster mode enabled) replication groups partition the data across node groups
+        /// (shards).
+        /// </para>
+        ///  
+        /// <para>
+        /// When a Redis (cluster mode disabled) replication group has been successfully created,
+        /// you can add one or more read replicas to it, up to a total of 5 read replicas. You
+        /// cannot alter a Redis (cluster mode enabled) replication group after it has been created.
+        /// However, if you need to increase or decrease the number of node groups (console: shards),
+        /// you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-restoring.html">Restoring
+        /// From a Backup with Cluster Resizing</a> in the <i>ElastiCache User Guide</i>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateReplicationGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupNotFoundException">
+        /// The requested cache subnet group name does not refer to an existing cache subnet group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ClusterQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of clusters
+        /// per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InsufficientCacheClusterCapacityException">
+        /// The requested cache node type is not available in the specified Availability Zone.
+        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY">InsufficientCacheClusterCapacity</a>
+        /// in the ElastiCache User Guide.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidVPCNetworkStateException">
+        /// The VPC network is in an invalid state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeGroupsPerReplicationGroupQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum allowed number
+        /// of node groups (shards) in a single replication group. The default maximum is 90
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForClusterExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes in a single cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupAlreadyExistsException">
+        /// The specified replication group already exists.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.TagQuotaPerResourceExceededException">
+        /// The request cannot be processed because it would cause the resource to have more than
+        /// the allowed number of tags. The maximum number of tags permitted on a resource is
+        /// 50.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateReplicationGroup">REST API Reference for CreateReplicationGroup Operation</seealso>
         public virtual Task<CreateReplicationGroupResponse> CreateReplicationGroupAsync(CreateReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateReplicationGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateReplicationGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateReplicationGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateReplicationGroupRequest,CreateReplicationGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateReplicationGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -507,30 +1134,203 @@ namespace Amazon.ElastiCache
 
         internal virtual CreateSnapshotResponse CreateSnapshot(CreateSnapshotRequest request)
         {
-            var marshaller = CreateSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSnapshotRequest,CreateSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSnapshotResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateSnapshot operation.
-        /// </summary>
+        /// Creates a copy of an entire cluster or replication group at a specific moment in time.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateSnapshot operation.</param>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSnapshot service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateSnapshot service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotAlreadyExistsException">
+        /// You already have a snapshot with the given name.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotFeatureNotSupportedException">
+        /// You attempted one of the following operations:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// Creating a snapshot of a Redis cluster running on a <code>cache.t1.micro</code> cache
+        /// node.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Creating a snapshot of a cluster that is running Memcached rather than Redis.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Neither of these are supported by ElastiCache.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum number of snapshots.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/CreateSnapshot">REST API Reference for CreateSnapshot Operation</seealso>
         public virtual Task<CreateSnapshotResponse> CreateSnapshotAsync(CreateSnapshotRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSnapshotResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateSnapshotRequest,CreateSnapshotResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateSnapshotResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DecreaseNodeGroupsInGlobalReplicationGroup
+
+        internal virtual DecreaseNodeGroupsInGlobalReplicationGroupResponse DecreaseNodeGroupsInGlobalReplicationGroup(DecreaseNodeGroupsInGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseNodeGroupsInGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseNodeGroupsInGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DecreaseNodeGroupsInGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Decreases the number of node groups in a Global Datastore
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DecreaseNodeGroupsInGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DecreaseNodeGroupsInGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DecreaseNodeGroupsInGlobalReplicationGroup">REST API Reference for DecreaseNodeGroupsInGlobalReplicationGroup Operation</seealso>
+        public virtual Task<DecreaseNodeGroupsInGlobalReplicationGroupResponse> DecreaseNodeGroupsInGlobalReplicationGroupAsync(DecreaseNodeGroupsInGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseNodeGroupsInGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseNodeGroupsInGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DecreaseNodeGroupsInGlobalReplicationGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DecreaseReplicaCount
+
+        internal virtual DecreaseReplicaCountResponse DecreaseReplicaCount(DecreaseReplicaCountRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseReplicaCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseReplicaCountResponseUnmarshaller.Instance;
+
+            return Invoke<DecreaseReplicaCountResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Dynamically decreases the number of replicas in a Redis (cluster mode disabled) replication
+        /// group or the number of replica nodes in one or more node groups (shards) of a Redis
+        /// (cluster mode enabled) replication group. This operation is performed with no cluster
+        /// down time.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DecreaseReplicaCount service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DecreaseReplicaCount service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.ClusterQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of clusters
+        /// per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InsufficientCacheClusterCapacityException">
+        /// The requested cache node type is not available in the specified Availability Zone.
+        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY">InsufficientCacheClusterCapacity</a>
+        /// in the ElastiCache User Guide.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidVPCNetworkStateException">
+        /// The VPC network is in an invalid state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeGroupsPerReplicationGroupQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum allowed number
+        /// of node groups (shards) in a single replication group. The default maximum is 90
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NoOperationException">
+        /// The operation was not performed because no changes were required.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ServiceLinkedRoleNotFoundException">
+        /// The specified service linked role (SLR) was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DecreaseReplicaCount">REST API Reference for DecreaseReplicaCount Operation</seealso>
+        public virtual Task<DecreaseReplicaCountResponse> DecreaseReplicaCountAsync(DecreaseReplicaCountRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DecreaseReplicaCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DecreaseReplicaCountResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DecreaseReplicaCountResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -539,30 +1339,96 @@ namespace Amazon.ElastiCache
 
         internal virtual DeleteCacheClusterResponse DeleteCacheCluster(DeleteCacheClusterRequest request)
         {
-            var marshaller = DeleteCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheClusterResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCacheClusterRequest,DeleteCacheClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCacheClusterResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteCacheCluster operation.
-        /// </summary>
+        /// Deletes a previously provisioned cluster. <code>DeleteCacheCluster</code> deletes
+        /// all associated cache nodes, node endpoints and the cluster itself. When you receive
+        /// a successful response from this operation, Amazon ElastiCache immediately begins deleting
+        /// the cluster; you cannot cancel or revert this operation.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheCluster operation.</param>
+        ///  
+        /// <para>
+        /// This operation is not valid for:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Redis (cluster mode enabled) clusters
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A cluster that is the last read replica of a replication group
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A node group (shard) that has Multi-AZ mode enabled
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A cluster from a Redis (cluster mode enabled) replication group
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A cluster that is not in the <code>available</code> state
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheCluster service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteCacheCluster service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotAlreadyExistsException">
+        /// You already have a snapshot with the given name.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotFeatureNotSupportedException">
+        /// You attempted one of the following operations:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// Creating a snapshot of a Redis cluster running on a <code>cache.t1.micro</code> cache
+        /// node.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Creating a snapshot of a cluster that is running Memcached rather than Redis.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Neither of these are supported by ElastiCache.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum number of snapshots.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteCacheCluster">REST API Reference for DeleteCacheCluster Operation</seealso>
         public virtual Task<DeleteCacheClusterResponse> DeleteCacheClusterAsync(DeleteCacheClusterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheClusterResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteCacheClusterRequest,DeleteCacheClusterResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteCacheClusterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -571,30 +1437,47 @@ namespace Amazon.ElastiCache
 
         internal virtual DeleteCacheParameterGroupResponse DeleteCacheParameterGroup(DeleteCacheParameterGroupRequest request)
         {
-            var marshaller = DeleteCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCacheParameterGroupRequest,DeleteCacheParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCacheParameterGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteCacheParameterGroup operation.
+        /// Deletes the specified cache parameter group. You cannot delete a cache parameter group
+        /// if it is associated with any cache clusters.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheParameterGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheParameterGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteCacheParameterGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheParameterGroupStateException">
+        /// The current state of the cache parameter group does not allow the requested operation
+        /// to occur.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteCacheParameterGroup">REST API Reference for DeleteCacheParameterGroup Operation</seealso>
         public virtual Task<DeleteCacheParameterGroupResponse> DeleteCacheParameterGroupAsync(DeleteCacheParameterGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteCacheParameterGroupRequest,DeleteCacheParameterGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteCacheParameterGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -603,30 +1486,51 @@ namespace Amazon.ElastiCache
 
         internal virtual DeleteCacheSecurityGroupResponse DeleteCacheSecurityGroup(DeleteCacheSecurityGroupRequest request)
         {
-            var marshaller = DeleteCacheSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCacheSecurityGroupRequest,DeleteCacheSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCacheSecurityGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteCacheSecurityGroup operation.
-        /// </summary>
+        /// Deletes a cache security group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheSecurityGroup operation.</param>
+        ///  <note> 
+        /// <para>
+        /// You cannot delete a cache security group if it is associated with any clusters.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheSecurityGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteCacheSecurityGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheSecurityGroupStateException">
+        /// The current state of the cache security group does not allow deletion.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteCacheSecurityGroup">REST API Reference for DeleteCacheSecurityGroup Operation</seealso>
         public virtual Task<DeleteCacheSecurityGroupResponse> DeleteCacheSecurityGroupAsync(DeleteCacheSecurityGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteCacheSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheSecurityGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteCacheSecurityGroupRequest,DeleteCacheSecurityGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteCacheSecurityGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -635,30 +1539,114 @@ namespace Amazon.ElastiCache
 
         internal virtual DeleteCacheSubnetGroupResponse DeleteCacheSubnetGroup(DeleteCacheSubnetGroupRequest request)
         {
-            var marshaller = DeleteCacheSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCacheSubnetGroupRequest,DeleteCacheSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCacheSubnetGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteCacheSubnetGroup operation.
-        /// </summary>
+        /// Deletes a cache subnet group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheSubnetGroup operation.</param>
+        ///  <note> 
+        /// <para>
+        /// You cannot delete a cache subnet group if it is associated with any clusters.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteCacheSubnetGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteCacheSubnetGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupInUseException">
+        /// The requested cache subnet group is currently in use.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupNotFoundException">
+        /// The requested cache subnet group name does not refer to an existing cache subnet group.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteCacheSubnetGroup">REST API Reference for DeleteCacheSubnetGroup Operation</seealso>
         public virtual Task<DeleteCacheSubnetGroupResponse> DeleteCacheSubnetGroupAsync(DeleteCacheSubnetGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteCacheSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteCacheSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCacheSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCacheSubnetGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteCacheSubnetGroupRequest,DeleteCacheSubnetGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteCacheSubnetGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DeleteGlobalReplicationGroup
+
+        internal virtual DeleteGlobalReplicationGroupResponse DeleteGlobalReplicationGroup(DeleteGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Deleting a Global Datastore is a two-step process: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// First, you must <a>DisassociateGlobalReplicationGroup</a> to remove the secondary
+        /// clusters in the Global Datastore.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Once the Global Datastore contains only the primary cluster, you can use DeleteGlobalReplicationGroup
+        /// API to delete the Global Datastore while retainining the primary cluster using Retain…=
+        /// true.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Since the Global Datastore has only a primary cluster, you can delete the Global Datastore
+        /// while retaining the primary by setting <code>RetainPrimaryCluster=true</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you receive a successful response from this operation, Amazon ElastiCache immediately
+        /// begins deleting the selected resources; you cannot cancel or revert this operation.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DeleteGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteGlobalReplicationGroup">REST API Reference for DeleteGlobalReplicationGroup Operation</seealso>
+        public virtual Task<DeleteGlobalReplicationGroupResponse> DeleteGlobalReplicationGroupAsync(DeleteGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DeleteGlobalReplicationGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -667,30 +1655,81 @@ namespace Amazon.ElastiCache
 
         internal virtual DeleteReplicationGroupResponse DeleteReplicationGroup(DeleteReplicationGroupRequest request)
         {
-            var marshaller = DeleteReplicationGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteReplicationGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReplicationGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteReplicationGroupRequest,DeleteReplicationGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteReplicationGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteReplicationGroup operation.
-        /// </summary>
+        /// Deletes an existing replication group. By default, this operation deletes the entire
+        /// replication group, including the primary/primaries and all of the read replicas. If
+        /// the replication group has only one primary, you can optionally delete only the read
+        /// replicas, while retaining the primary by setting <code>RetainPrimaryCluster=true</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteReplicationGroup operation.</param>
+        ///  
+        /// <para>
+        /// When you receive a successful response from this operation, Amazon ElastiCache immediately
+        /// begins deleting the selected resources; you cannot cancel or revert this operation.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteReplicationGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotAlreadyExistsException">
+        /// You already have a snapshot with the given name.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotFeatureNotSupportedException">
+        /// You attempted one of the following operations:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// Creating a snapshot of a Redis cluster running on a <code>cache.t1.micro</code> cache
+        /// node.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Creating a snapshot of a cluster that is running Memcached rather than Redis.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Neither of these are supported by ElastiCache.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum number of snapshots.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteReplicationGroup">REST API Reference for DeleteReplicationGroup Operation</seealso>
         public virtual Task<DeleteReplicationGroupResponse> DeleteReplicationGroupAsync(DeleteReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteReplicationGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteReplicationGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReplicationGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteReplicationGroupRequest,DeleteReplicationGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteReplicationGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -699,30 +1738,52 @@ namespace Amazon.ElastiCache
 
         internal virtual DeleteSnapshotResponse DeleteSnapshot(DeleteSnapshotRequest request)
         {
-            var marshaller = DeleteSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSnapshotRequest,DeleteSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSnapshotResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteSnapshot operation.
-        /// </summary>
+        /// Deletes an existing snapshot. When you receive a successful response from this operation,
+        /// ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert
+        /// this operation.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteSnapshot operation.</param>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSnapshot service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteSnapshot service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidSnapshotStateException">
+        /// The current state of the snapshot does not allow the requested operation to occur.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotNotFoundException">
+        /// The requested snapshot name does not refer to an existing snapshot.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DeleteSnapshot">REST API Reference for DeleteSnapshot Operation</seealso>
         public virtual Task<DeleteSnapshotResponse> DeleteSnapshotAsync(DeleteSnapshotRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSnapshotResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteSnapshotRequest,DeleteSnapshotResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteSnapshotResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -735,10 +1796,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeCacheClustersResponse DescribeCacheClusters(DescribeCacheClustersRequest request)
         {
-            var marshaller = DescribeCacheClustersRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheClustersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCacheClustersRequest,DescribeCacheClustersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCacheClustersResponse>(request, options);
         }
 
 
@@ -797,23 +1859,64 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCacheClusters operation.
-        /// </summary>
+        /// Returns information about all provisioned clusters if no cluster identifier is specified,
+        /// or about a specific cache cluster if a cluster identifier is supplied.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheClusters operation.</param>
+        ///  
+        /// <para>
+        /// By default, abbreviated information about the clusters is returned. You can use the
+        /// optional <i>ShowCacheNodeInfo</i> flag to retrieve detailed information about the
+        /// cache nodes associated with the clusters. These details include the DNS address and
+        /// port for the cache node endpoint.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the cluster is in the <i>creating</i> state, only cluster-level information is
+        /// displayed until all of the nodes are successfully provisioned.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the cluster is in the <i>deleting</i> state, only cluster-level information is
+        /// displayed.
+        /// </para>
+        ///  
+        /// <para>
+        /// If cache nodes are currently being added to the cluster, node endpoint information
+        /// and creation time for the additional nodes are not displayed until they are completely
+        /// provisioned. When the cluster state is <i>available</i>, the cluster is ready for
+        /// use.
+        /// </para>
+        ///  
+        /// <para>
+        /// If cache nodes are currently being removed from the cluster, no endpoint information
+        /// for the removed nodes is displayed.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheClusters service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCacheClusters service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeCacheClusters">REST API Reference for DescribeCacheClusters Operation</seealso>
         public virtual Task<DescribeCacheClustersResponse> DescribeCacheClustersAsync(DescribeCacheClustersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCacheClustersRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheClustersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeCacheClustersRequest,DescribeCacheClustersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeCacheClustersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -826,10 +1929,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeCacheEngineVersionsResponse DescribeCacheEngineVersions(DescribeCacheEngineVersionsRequest request)
         {
-            var marshaller = DescribeCacheEngineVersionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheEngineVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheEngineVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheEngineVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCacheEngineVersionsRequest,DescribeCacheEngineVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCacheEngineVersionsResponse>(request, options);
         }
 
 
@@ -848,23 +1952,24 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCacheEngineVersions operation.
+        /// Returns a list of the available cache engines and their versions.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheEngineVersions operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheEngineVersions service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCacheEngineVersions service method, as returned by ElastiCache.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeCacheEngineVersions">REST API Reference for DescribeCacheEngineVersions Operation</seealso>
         public virtual Task<DescribeCacheEngineVersionsResponse> DescribeCacheEngineVersionsAsync(DescribeCacheEngineVersionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCacheEngineVersionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheEngineVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheEngineVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheEngineVersionsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeCacheEngineVersionsRequest,DescribeCacheEngineVersionsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeCacheEngineVersionsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -877,10 +1982,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeCacheParameterGroupsResponse DescribeCacheParameterGroups(DescribeCacheParameterGroupsRequest request)
         {
-            var marshaller = DescribeCacheParameterGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheParameterGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheParameterGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheParameterGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCacheParameterGroupsRequest,DescribeCacheParameterGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCacheParameterGroupsResponse>(request, options);
         }
 
 
@@ -910,23 +2016,35 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCacheParameterGroups operation.
+        /// Returns a list of cache parameter group descriptions. If a cache parameter group name
+        /// is specified, the list contains only the descriptions for that group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheParameterGroups operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheParameterGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCacheParameterGroups service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeCacheParameterGroups">REST API Reference for DescribeCacheParameterGroups Operation</seealso>
         public virtual Task<DescribeCacheParameterGroupsResponse> DescribeCacheParameterGroupsAsync(DescribeCacheParameterGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCacheParameterGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheParameterGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheParameterGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheParameterGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeCacheParameterGroupsRequest,DescribeCacheParameterGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeCacheParameterGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -935,30 +2053,42 @@ namespace Amazon.ElastiCache
 
         internal virtual DescribeCacheParametersResponse DescribeCacheParameters(DescribeCacheParametersRequest request)
         {
-            var marshaller = DescribeCacheParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheParametersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCacheParametersRequest,DescribeCacheParametersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCacheParametersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCacheParameters operation.
+        /// Returns the detailed parameter list for a particular cache parameter group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheParameters operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheParameters service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCacheParameters service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeCacheParameters">REST API Reference for DescribeCacheParameters Operation</seealso>
         public virtual Task<DescribeCacheParametersResponse> DescribeCacheParametersAsync(DescribeCacheParametersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCacheParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheParametersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeCacheParametersRequest,DescribeCacheParametersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeCacheParametersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -971,16 +2101,18 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeCacheSecurityGroupsResponse DescribeCacheSecurityGroups(DescribeCacheSecurityGroupsRequest request)
         {
-            var marshaller = DescribeCacheSecurityGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheSecurityGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheSecurityGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheSecurityGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCacheSecurityGroupsRequest,DescribeCacheSecurityGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCacheSecurityGroupsResponse>(request, options);
         }
 
 
         /// <summary>
         /// Returns a list of cache security group descriptions. If a cache security group name
-        /// is specified, the list contains only the description of that group.
+        /// is specified, the list contains only the description of that group. This applicable
+        /// only when you have ElastiCache in Classic setup
         /// </summary>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -1004,23 +2136,36 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCacheSecurityGroups operation.
+        /// Returns a list of cache security group descriptions. If a cache security group name
+        /// is specified, the list contains only the description of that group. This applicable
+        /// only when you have ElastiCache in Classic setup
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheSecurityGroups operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheSecurityGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCacheSecurityGroups service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeCacheSecurityGroups">REST API Reference for DescribeCacheSecurityGroups Operation</seealso>
         public virtual Task<DescribeCacheSecurityGroupsResponse> DescribeCacheSecurityGroupsAsync(DescribeCacheSecurityGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCacheSecurityGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheSecurityGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheSecurityGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheSecurityGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeCacheSecurityGroupsRequest,DescribeCacheSecurityGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeCacheSecurityGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1033,16 +2178,18 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeCacheSubnetGroupsResponse DescribeCacheSubnetGroups(DescribeCacheSubnetGroupsRequest request)
         {
-            var marshaller = DescribeCacheSubnetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheSubnetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheSubnetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheSubnetGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCacheSubnetGroupsRequest,DescribeCacheSubnetGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCacheSubnetGroupsResponse>(request, options);
         }
 
 
         /// <summary>
         /// Returns a list of cache subnet group descriptions. If a subnet group name is specified,
-        /// the list contains only the description of that group.
+        /// the list contains only the description of that group. This is applicable only when
+        /// you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
         /// </summary>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -1059,23 +2206,29 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCacheSubnetGroups operation.
+        /// Returns a list of cache subnet group descriptions. If a subnet group name is specified,
+        /// the list contains only the description of that group. This is applicable only when
+        /// you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheSubnetGroups operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCacheSubnetGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCacheSubnetGroups service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupNotFoundException">
+        /// The requested cache subnet group name does not refer to an existing cache subnet group.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeCacheSubnetGroups">REST API Reference for DescribeCacheSubnetGroups Operation</seealso>
         public virtual Task<DescribeCacheSubnetGroupsResponse> DescribeCacheSubnetGroupsAsync(DescribeCacheSubnetGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCacheSubnetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCacheSubnetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCacheSubnetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCacheSubnetGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeCacheSubnetGroupsRequest,DescribeCacheSubnetGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeCacheSubnetGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1084,30 +2237,39 @@ namespace Amazon.ElastiCache
 
         internal virtual DescribeEngineDefaultParametersResponse DescribeEngineDefaultParameters(DescribeEngineDefaultParametersRequest request)
         {
-            var marshaller = DescribeEngineDefaultParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeEngineDefaultParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEngineDefaultParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEngineDefaultParametersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEngineDefaultParametersRequest,DescribeEngineDefaultParametersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEngineDefaultParametersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeEngineDefaultParameters operation.
+        /// Returns the default engine and system parameter information for the specified cache
+        /// engine.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeEngineDefaultParameters operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEngineDefaultParameters service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeEngineDefaultParameters service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeEngineDefaultParameters">REST API Reference for DescribeEngineDefaultParameters Operation</seealso>
         public virtual Task<DescribeEngineDefaultParametersResponse> DescribeEngineDefaultParametersAsync(DescribeEngineDefaultParametersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeEngineDefaultParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeEngineDefaultParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEngineDefaultParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEngineDefaultParametersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeEngineDefaultParametersRequest,DescribeEngineDefaultParametersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeEngineDefaultParametersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1120,10 +2282,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeEventsResponse DescribeEvents(DescribeEventsRequest request)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventsRequest,DescribeEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventsResponse>(request, options);
         }
 
 
@@ -1156,23 +2319,82 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeEvents operation.
-        /// </summary>
+        /// Returns events related to clusters, cache security groups, and cache parameter groups.
+        /// You can obtain events specific to a particular cluster, cache security group, or cache
+        /// parameter group by providing the name as a parameter.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeEvents operation.</param>
+        ///  
+        /// <para>
+        /// By default, only the events occurring within the last hour are returned; however,
+        /// you can retrieve up to 14 days' worth of events if necessary.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEvents service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeEvents service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual Task<DescribeEventsResponse> DescribeEventsAsync(DescribeEventsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeEventsRequest,DescribeEventsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeEventsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DescribeGlobalReplicationGroups
+
+        internal virtual DescribeGlobalReplicationGroupsResponse DescribeGlobalReplicationGroups(DescribeGlobalReplicationGroupsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGlobalReplicationGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGlobalReplicationGroupsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeGlobalReplicationGroupsResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Returns information about a particular global replication group. If no identifier
+        /// is specified, returns information about all Global Datastores.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeGlobalReplicationGroups service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DescribeGlobalReplicationGroups service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeGlobalReplicationGroups">REST API Reference for DescribeGlobalReplicationGroups Operation</seealso>
+        public virtual Task<DescribeGlobalReplicationGroupsResponse> DescribeGlobalReplicationGroupsAsync(DescribeGlobalReplicationGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGlobalReplicationGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGlobalReplicationGroupsResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DescribeGlobalReplicationGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1185,10 +2407,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeReplicationGroupsResponse DescribeReplicationGroups(DescribeReplicationGroupsRequest request)
         {
-            var marshaller = DescribeReplicationGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReplicationGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReplicationGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReplicationGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeReplicationGroupsRequest,DescribeReplicationGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeReplicationGroupsResponse>(request, options);
         }
 
 
@@ -1223,23 +2446,40 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeReplicationGroups operation.
-        /// </summary>
+        /// Returns information about a particular replication group. If no identifier is specified,
+        /// <code>DescribeReplicationGroups</code> returns information about all replication groups.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeReplicationGroups operation.</param>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeReplicationGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeReplicationGroups service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeReplicationGroups">REST API Reference for DescribeReplicationGroups Operation</seealso>
         public virtual Task<DescribeReplicationGroupsResponse> DescribeReplicationGroupsAsync(DescribeReplicationGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeReplicationGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReplicationGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReplicationGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReplicationGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeReplicationGroupsRequest,DescribeReplicationGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeReplicationGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1252,10 +2492,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeReservedCacheNodesResponse DescribeReservedCacheNodes(DescribeReservedCacheNodesRequest request)
         {
-            var marshaller = DescribeReservedCacheNodesRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedCacheNodesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedCacheNodesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedCacheNodesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeReservedCacheNodesRequest,DescribeReservedCacheNodesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeReservedCacheNodesResponse>(request, options);
         }
 
 
@@ -1284,23 +2525,34 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeReservedCacheNodes operation.
+        /// Returns information about reserved cache nodes for this account, or about a specified
+        /// reserved cache node.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeReservedCacheNodes operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeReservedCacheNodes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeReservedCacheNodes service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReservedCacheNodeNotFoundException">
+        /// The requested reserved cache node was not found.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeReservedCacheNodes">REST API Reference for DescribeReservedCacheNodes Operation</seealso>
         public virtual Task<DescribeReservedCacheNodesResponse> DescribeReservedCacheNodesAsync(DescribeReservedCacheNodesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeReservedCacheNodesRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedCacheNodesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedCacheNodesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedCacheNodesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeReservedCacheNodesRequest,DescribeReservedCacheNodesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeReservedCacheNodesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1313,10 +2565,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeReservedCacheNodesOfferingsResponse DescribeReservedCacheNodesOfferings(DescribeReservedCacheNodesOfferingsRequest request)
         {
-            var marshaller = DescribeReservedCacheNodesOfferingsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedCacheNodesOfferingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedCacheNodesOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedCacheNodesOfferingsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeReservedCacheNodesOfferingsRequest,DescribeReservedCacheNodesOfferingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeReservedCacheNodesOfferingsResponse>(request, options);
         }
 
 
@@ -1344,23 +2597,76 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeReservedCacheNodesOfferings operation.
+        /// Lists available reserved cache node offerings.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeReservedCacheNodesOfferings operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeReservedCacheNodesOfferings service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeReservedCacheNodesOfferings service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReservedCacheNodesOfferingNotFoundException">
+        /// The requested cache node offering does not exist.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeReservedCacheNodesOfferings">REST API Reference for DescribeReservedCacheNodesOfferings Operation</seealso>
         public virtual Task<DescribeReservedCacheNodesOfferingsResponse> DescribeReservedCacheNodesOfferingsAsync(DescribeReservedCacheNodesOfferingsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeReservedCacheNodesOfferingsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedCacheNodesOfferingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedCacheNodesOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedCacheNodesOfferingsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeReservedCacheNodesOfferingsRequest,DescribeReservedCacheNodesOfferingsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeReservedCacheNodesOfferingsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DescribeServiceUpdates
+
+        internal virtual DescribeServiceUpdatesResponse DescribeServiceUpdates(DescribeServiceUpdatesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServiceUpdatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServiceUpdatesResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeServiceUpdatesResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Returns details of the service updates
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeServiceUpdates service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DescribeServiceUpdates service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ServiceUpdateNotFoundException">
+        /// The service update doesn't exist
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeServiceUpdates">REST API Reference for DescribeServiceUpdates Operation</seealso>
+        public virtual Task<DescribeServiceUpdatesResponse> DescribeServiceUpdatesAsync(DescribeServiceUpdatesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServiceUpdatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServiceUpdatesResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DescribeServiceUpdatesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1373,10 +2679,11 @@ namespace Amazon.ElastiCache
         }
         internal virtual DescribeSnapshotsResponse DescribeSnapshots(DescribeSnapshotsRequest request)
         {
-            var marshaller = DescribeSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSnapshotsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeSnapshotsRequest,DescribeSnapshotsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeSnapshotsResponse>(request, options);
         }
 
 
@@ -1415,23 +2722,299 @@ namespace Amazon.ElastiCache
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeSnapshots operation.
-        /// </summary>
+        /// Returns information about cluster or replication group snapshots. By default, <code>DescribeSnapshots</code>
+        /// lists all of your snapshots; it can optionally describe a single snapshot, or just
+        /// the snapshots associated with a particular cache cluster.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeSnapshots operation.</param>
+        ///  <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSnapshots service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeSnapshots service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotNotFoundException">
+        /// The requested snapshot name does not refer to an existing snapshot.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeSnapshots">REST API Reference for DescribeSnapshots Operation</seealso>
         public virtual Task<DescribeSnapshotsResponse> DescribeSnapshotsAsync(DescribeSnapshotsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSnapshotsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeSnapshotsRequest,DescribeSnapshotsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeSnapshotsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DescribeUpdateActions
+
+        internal virtual DescribeUpdateActionsResponse DescribeUpdateActions(DescribeUpdateActionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeUpdateActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeUpdateActionsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeUpdateActionsResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Returns details of the update actions
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUpdateActions service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DescribeUpdateActions service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DescribeUpdateActions">REST API Reference for DescribeUpdateActions Operation</seealso>
+        public virtual Task<DescribeUpdateActionsResponse> DescribeUpdateActionsAsync(DescribeUpdateActionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeUpdateActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeUpdateActionsResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DescribeUpdateActionsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DisassociateGlobalReplicationGroup
+
+        internal virtual DisassociateGlobalReplicationGroupResponse DisassociateGlobalReplicationGroup(DisassociateGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DisassociateGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Remove a secondary cluster from the Global Datastore using the Global Datastore name.
+        /// The secondary cluster will no longer receive updates from the primary cluster, but
+        /// will remain as a standalone cluster in that AWS region.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DisassociateGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/DisassociateGlobalReplicationGroup">REST API Reference for DisassociateGlobalReplicationGroup Operation</seealso>
+        public virtual Task<DisassociateGlobalReplicationGroupResponse> DisassociateGlobalReplicationGroupAsync(DisassociateGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DisassociateGlobalReplicationGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  FailoverGlobalReplicationGroup
+
+        internal virtual FailoverGlobalReplicationGroupResponse FailoverGlobalReplicationGroup(FailoverGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FailoverGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FailoverGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<FailoverGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Used to failover the primary region to a selected secondary region.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the FailoverGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the FailoverGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/FailoverGlobalReplicationGroup">REST API Reference for FailoverGlobalReplicationGroup Operation</seealso>
+        public virtual Task<FailoverGlobalReplicationGroupResponse> FailoverGlobalReplicationGroupAsync(FailoverGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FailoverGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FailoverGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<FailoverGlobalReplicationGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  IncreaseNodeGroupsInGlobalReplicationGroup
+
+        internal virtual IncreaseNodeGroupsInGlobalReplicationGroupResponse IncreaseNodeGroupsInGlobalReplicationGroup(IncreaseNodeGroupsInGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseNodeGroupsInGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseNodeGroupsInGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<IncreaseNodeGroupsInGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Increase the number of node groups in the Global Datastore
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the IncreaseNodeGroupsInGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the IncreaseNodeGroupsInGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/IncreaseNodeGroupsInGlobalReplicationGroup">REST API Reference for IncreaseNodeGroupsInGlobalReplicationGroup Operation</seealso>
+        public virtual Task<IncreaseNodeGroupsInGlobalReplicationGroupResponse> IncreaseNodeGroupsInGlobalReplicationGroupAsync(IncreaseNodeGroupsInGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseNodeGroupsInGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseNodeGroupsInGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<IncreaseNodeGroupsInGlobalReplicationGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  IncreaseReplicaCount
+
+        internal virtual IncreaseReplicaCountResponse IncreaseReplicaCount(IncreaseReplicaCountRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseReplicaCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseReplicaCountResponseUnmarshaller.Instance;
+
+            return Invoke<IncreaseReplicaCountResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Dynamically increases the number of replics in a Redis (cluster mode disabled) replication
+        /// group or the number of replica nodes in one or more node groups (shards) of a Redis
+        /// (cluster mode enabled) replication group. This operation is performed with no cluster
+        /// down time.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the IncreaseReplicaCount service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the IncreaseReplicaCount service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.ClusterQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of clusters
+        /// per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InsufficientCacheClusterCapacityException">
+        /// The requested cache node type is not available in the specified Availability Zone.
+        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY">InsufficientCacheClusterCapacity</a>
+        /// in the ElastiCache User Guide.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidKMSKeyException">
+        /// The KMS key supplied is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidVPCNetworkStateException">
+        /// The VPC network is in an invalid state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeGroupsPerReplicationGroupQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum allowed number
+        /// of node groups (shards) in a single replication group. The default maximum is 90
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NoOperationException">
+        /// The operation was not performed because no changes were required.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/IncreaseReplicaCount">REST API Reference for IncreaseReplicaCount Operation</seealso>
+        public virtual Task<IncreaseReplicaCountResponse> IncreaseReplicaCountAsync(IncreaseReplicaCountRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IncreaseReplicaCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IncreaseReplicaCountResponseUnmarshaller.Instance;
+
+            return InvokeAsync<IncreaseReplicaCountResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1440,30 +3023,52 @@ namespace Amazon.ElastiCache
 
         internal virtual ListAllowedNodeTypeModificationsResponse ListAllowedNodeTypeModifications(ListAllowedNodeTypeModificationsRequest request)
         {
-            var marshaller = ListAllowedNodeTypeModificationsRequestMarshaller.Instance;
-            var unmarshaller = ListAllowedNodeTypeModificationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAllowedNodeTypeModificationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAllowedNodeTypeModificationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListAllowedNodeTypeModificationsRequest,ListAllowedNodeTypeModificationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAllowedNodeTypeModificationsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListAllowedNodeTypeModifications operation.
-        /// </summary>
+        /// Lists all available node types that you can scale your Redis cluster's or replication
+        /// group's current node type.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListAllowedNodeTypeModifications operation.</param>
+        ///  
+        /// <para>
+        /// When you use the <code>ModifyCacheCluster</code> or <code>ModifyReplicationGroup</code>
+        /// operations to scale your cluster or replication group, the value of the <code>CacheNodeType</code>
+        /// parameter must be one of the node types returned by this operation.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAllowedNodeTypeModifications service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListAllowedNodeTypeModifications service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ListAllowedNodeTypeModifications">REST API Reference for ListAllowedNodeTypeModifications Operation</seealso>
         public virtual Task<ListAllowedNodeTypeModificationsResponse> ListAllowedNodeTypeModificationsAsync(ListAllowedNodeTypeModificationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListAllowedNodeTypeModificationsRequestMarshaller.Instance;
-            var unmarshaller = ListAllowedNodeTypeModificationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAllowedNodeTypeModificationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAllowedNodeTypeModificationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListAllowedNodeTypeModificationsRequest,ListAllowedNodeTypeModificationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListAllowedNodeTypeModificationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1472,30 +3077,55 @@ namespace Amazon.ElastiCache
 
         internal virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsForResourceRequest,ListTagsForResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsForResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListTagsForResource operation.
-        /// </summary>
+        /// Lists all cost allocation tags currently on the named resource. A <code>cost allocation
+        /// tag</code> is a key-value pair where the key is case-sensitive and the value is optional.
+        /// You can use cost allocation tags to categorize and track your AWS costs.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation.</param>
+        ///  
+        /// <para>
+        /// If the cluster is not in the <i>available</i> state, <code>ListTagsForResource</code>
+        /// returns an error.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can have a maximum of 50 cost allocation tags on an ElastiCache resource. For
+        /// more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html">Monitoring
+        /// Costs with Tags</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidARNException">
+        /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotNotFoundException">
+        /// The requested snapshot name does not refer to an existing snapshot.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         public virtual Task<ListTagsForResourceResponse> ListTagsForResourceAsync(ListTagsForResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListTagsForResourceRequest,ListTagsForResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListTagsForResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1504,30 +3134,72 @@ namespace Amazon.ElastiCache
 
         internal virtual ModifyCacheClusterResponse ModifyCacheCluster(ModifyCacheClusterRequest request)
         {
-            var marshaller = ModifyCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = ModifyCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyCacheClusterResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyCacheClusterRequest,ModifyCacheClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyCacheClusterResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyCacheCluster operation.
+        /// Modifies the settings for a cluster. You can use this operation to change one or more
+        /// cluster configuration parameters by specifying the parameters and the new values.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyCacheCluster operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyCacheCluster service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyCacheCluster service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InsufficientCacheClusterCapacityException">
+        /// The requested cache node type is not available in the specified Availability Zone.
+        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY">InsufficientCacheClusterCapacity</a>
+        /// in the ElastiCache User Guide.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheSecurityGroupStateException">
+        /// The current state of the cache security group does not allow deletion.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidVPCNetworkStateException">
+        /// The VPC network is in an invalid state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForClusterExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes in a single cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes per customer.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyCacheCluster">REST API Reference for ModifyCacheCluster Operation</seealso>
         public virtual Task<ModifyCacheClusterResponse> ModifyCacheClusterAsync(ModifyCacheClusterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = ModifyCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyCacheClusterResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyCacheClusterRequest,ModifyCacheClusterResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyCacheClusterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1536,30 +3208,50 @@ namespace Amazon.ElastiCache
 
         internal virtual ModifyCacheParameterGroupResponse ModifyCacheParameterGroup(ModifyCacheParameterGroupRequest request)
         {
-            var marshaller = ModifyCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyCacheParameterGroupRequest,ModifyCacheParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyCacheParameterGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyCacheParameterGroup operation.
+        /// Modifies the parameters of a cache parameter group. You can modify up to 20 parameters
+        /// in a single request by submitting a list parameter name and value pairs.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyCacheParameterGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyCacheParameterGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyCacheParameterGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheParameterGroupStateException">
+        /// The current state of the cache parameter group does not allow the requested operation
+        /// to occur.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyCacheParameterGroup">REST API Reference for ModifyCacheParameterGroup Operation</seealso>
         public virtual Task<ModifyCacheParameterGroupResponse> ModifyCacheParameterGroupAsync(ModifyCacheParameterGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyCacheParameterGroupRequest,ModifyCacheParameterGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyCacheParameterGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1568,30 +3260,88 @@ namespace Amazon.ElastiCache
 
         internal virtual ModifyCacheSubnetGroupResponse ModifyCacheSubnetGroup(ModifyCacheSubnetGroupRequest request)
         {
-            var marshaller = ModifyCacheSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyCacheSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyCacheSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyCacheSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyCacheSubnetGroupRequest,ModifyCacheSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyCacheSubnetGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyCacheSubnetGroup operation.
+        /// Modifies an existing cache subnet group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyCacheSubnetGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyCacheSubnetGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyCacheSubnetGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetGroupNotFoundException">
+        /// The requested cache subnet group name does not refer to an existing cache subnet group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSubnetQuotaExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of subnets
+        /// in a cache subnet group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidSubnetException">
+        /// An invalid subnet identifier was specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SubnetInUseException">
+        /// The requested subnet is being used by another cache subnet group.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyCacheSubnetGroup">REST API Reference for ModifyCacheSubnetGroup Operation</seealso>
         public virtual Task<ModifyCacheSubnetGroupResponse> ModifyCacheSubnetGroupAsync(ModifyCacheSubnetGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyCacheSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyCacheSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyCacheSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyCacheSubnetGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyCacheSubnetGroupRequest,ModifyCacheSubnetGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyCacheSubnetGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  ModifyGlobalReplicationGroup
+
+        internal virtual ModifyGlobalReplicationGroupResponse ModifyGlobalReplicationGroup(ModifyGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<ModifyGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Modifies the settings for a Global Datastore.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ModifyGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyGlobalReplicationGroup">REST API Reference for ModifyGlobalReplicationGroup Operation</seealso>
+        public virtual Task<ModifyGlobalReplicationGroupResponse> ModifyGlobalReplicationGroupAsync(ModifyGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<ModifyGlobalReplicationGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1600,30 +3350,102 @@ namespace Amazon.ElastiCache
 
         internal virtual ModifyReplicationGroupResponse ModifyReplicationGroup(ModifyReplicationGroupRequest request)
         {
-            var marshaller = ModifyReplicationGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyReplicationGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyReplicationGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyReplicationGroupRequest,ModifyReplicationGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyReplicationGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyReplicationGroup operation.
-        /// </summary>
+        /// Modifies the settings for a replication group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyReplicationGroup operation.</param>
+        ///  
+        /// <para>
+        /// For Redis (cluster mode enabled) clusters, this operation cannot be used to change
+        /// a cluster's node type or engine version. For more information, see:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/scaling-redis-cluster-mode-enabled.html">Scaling
+        /// for Amazon ElastiCache for Redis (cluster mode enabled)</a> in the ElastiCache User
+        /// Guide
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyReplicationGroupShardConfiguration.html">ModifyReplicationGroupShardConfiguration</a>
+        /// in the ElastiCache API Reference
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// This operation is valid for Redis only.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyReplicationGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InsufficientCacheClusterCapacityException">
+        /// The requested cache node type is not available in the specified Availability Zone.
+        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY">InsufficientCacheClusterCapacity</a>
+        /// in the ElastiCache User Guide.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheSecurityGroupStateException">
+        /// The current state of the cache security group does not allow deletion.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidKMSKeyException">
+        /// The KMS key supplied is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidVPCNetworkStateException">
+        /// The VPC network is in an invalid state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForClusterExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes in a single cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyReplicationGroup">REST API Reference for ModifyReplicationGroup Operation</seealso>
         public virtual Task<ModifyReplicationGroupResponse> ModifyReplicationGroupAsync(ModifyReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyReplicationGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyReplicationGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyReplicationGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyReplicationGroupRequest,ModifyReplicationGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyReplicationGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1632,30 +3454,67 @@ namespace Amazon.ElastiCache
 
         internal virtual ModifyReplicationGroupShardConfigurationResponse ModifyReplicationGroupShardConfiguration(ModifyReplicationGroupShardConfigurationRequest request)
         {
-            var marshaller = ModifyReplicationGroupShardConfigurationRequestMarshaller.Instance;
-            var unmarshaller = ModifyReplicationGroupShardConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyReplicationGroupShardConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyReplicationGroupShardConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyReplicationGroupShardConfigurationRequest,ModifyReplicationGroupShardConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyReplicationGroupShardConfigurationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ModifyReplicationGroupShardConfiguration operation.
+        /// Modifies a replication group's shards (node groups) by allowing you to add shards,
+        /// remove shards, or rebalance the keyspaces among exisiting shards.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ModifyReplicationGroupShardConfiguration operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyReplicationGroupShardConfiguration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ModifyReplicationGroupShardConfiguration service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InsufficientCacheClusterCapacityException">
+        /// The requested cache node type is not available in the specified Availability Zone.
+        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY">InsufficientCacheClusterCapacity</a>
+        /// in the ElastiCache User Guide.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidKMSKeyException">
+        /// The KMS key supplied is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidVPCNetworkStateException">
+        /// The VPC network is in an invalid state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeGroupsPerReplicationGroupQuotaExceededException">
+        /// The request cannot be processed because it would exceed the maximum allowed number
+        /// of node groups (shards) in a single replication group. The default maximum is 90
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeQuotaForCustomerExceededException">
+        /// The request cannot be processed because it would exceed the allowed number of cache
+        /// nodes per customer.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ModifyReplicationGroupShardConfiguration">REST API Reference for ModifyReplicationGroupShardConfiguration Operation</seealso>
         public virtual Task<ModifyReplicationGroupShardConfigurationResponse> ModifyReplicationGroupShardConfigurationAsync(ModifyReplicationGroupShardConfigurationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ModifyReplicationGroupShardConfigurationRequestMarshaller.Instance;
-            var unmarshaller = ModifyReplicationGroupShardConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyReplicationGroupShardConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyReplicationGroupShardConfigurationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ModifyReplicationGroupShardConfigurationRequest,ModifyReplicationGroupShardConfigurationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ModifyReplicationGroupShardConfigurationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1664,30 +3523,90 @@ namespace Amazon.ElastiCache
 
         internal virtual PurchaseReservedCacheNodesOfferingResponse PurchaseReservedCacheNodesOffering(PurchaseReservedCacheNodesOfferingRequest request)
         {
-            var marshaller = PurchaseReservedCacheNodesOfferingRequestMarshaller.Instance;
-            var unmarshaller = PurchaseReservedCacheNodesOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseReservedCacheNodesOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseReservedCacheNodesOfferingResponseUnmarshaller.Instance;
 
-            return Invoke<PurchaseReservedCacheNodesOfferingRequest,PurchaseReservedCacheNodesOfferingResponse>(request, marshaller, unmarshaller);
+            return Invoke<PurchaseReservedCacheNodesOfferingResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PurchaseReservedCacheNodesOffering operation.
+        /// Allows you to purchase a reserved cache node offering.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PurchaseReservedCacheNodesOffering operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PurchaseReservedCacheNodesOffering service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PurchaseReservedCacheNodesOffering service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReservedCacheNodeAlreadyExistsException">
+        /// You already have a reservation with the given identifier.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReservedCacheNodeQuotaExceededException">
+        /// The request cannot be processed because it would exceed the user's cache node quota.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReservedCacheNodesOfferingNotFoundException">
+        /// The requested cache node offering does not exist.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/PurchaseReservedCacheNodesOffering">REST API Reference for PurchaseReservedCacheNodesOffering Operation</seealso>
         public virtual Task<PurchaseReservedCacheNodesOfferingResponse> PurchaseReservedCacheNodesOfferingAsync(PurchaseReservedCacheNodesOfferingRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PurchaseReservedCacheNodesOfferingRequestMarshaller.Instance;
-            var unmarshaller = PurchaseReservedCacheNodesOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseReservedCacheNodesOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseReservedCacheNodesOfferingResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PurchaseReservedCacheNodesOfferingRequest,PurchaseReservedCacheNodesOfferingResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PurchaseReservedCacheNodesOfferingResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  RebalanceSlotsInGlobalReplicationGroup
+
+        internal virtual RebalanceSlotsInGlobalReplicationGroupResponse RebalanceSlotsInGlobalReplicationGroup(RebalanceSlotsInGlobalReplicationGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebalanceSlotsInGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebalanceSlotsInGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return Invoke<RebalanceSlotsInGlobalReplicationGroupResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Redistribute slots to ensure unifirom distribution across existing shards in the cluster.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RebalanceSlotsInGlobalReplicationGroup service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the RebalanceSlotsInGlobalReplicationGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.GlobalReplicationGroupNotFoundException">
+        /// The Global Datastore does not exist
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/RebalanceSlotsInGlobalReplicationGroup">REST API Reference for RebalanceSlotsInGlobalReplicationGroup Operation</seealso>
+        public virtual Task<RebalanceSlotsInGlobalReplicationGroupResponse> RebalanceSlotsInGlobalReplicationGroupAsync(RebalanceSlotsInGlobalReplicationGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebalanceSlotsInGlobalReplicationGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebalanceSlotsInGlobalReplicationGroupResponseUnmarshaller.Instance;
+
+            return InvokeAsync<RebalanceSlotsInGlobalReplicationGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1696,30 +3615,62 @@ namespace Amazon.ElastiCache
 
         internal virtual RebootCacheClusterResponse RebootCacheCluster(RebootCacheClusterRequest request)
         {
-            var marshaller = RebootCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = RebootCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootCacheClusterResponseUnmarshaller.Instance;
 
-            return Invoke<RebootCacheClusterRequest,RebootCacheClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<RebootCacheClusterResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RebootCacheCluster operation.
-        /// </summary>
+        /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation
+        /// applies any modified cache parameter groups to the cluster. The reboot operation takes
+        /// place as soon as possible, and results in a momentary outage to the cluster. During
+        /// the reboot, the cluster status is set to REBOOTING.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the RebootCacheCluster operation.</param>
+        ///  
+        /// <para>
+        /// The reboot causes the contents of the cache (for each cache node being rebooted) to
+        /// be lost.
+        /// </para>
+        ///  
+        /// <para>
+        /// When the reboot is complete, a cluster event is created.
+        /// </para>
+        ///  
+        /// <para>
+        /// Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled)
+        /// clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you make changes to parameters that require a Redis (cluster mode enabled) cluster
+        /// reboot for the changes to be applied, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.Rebooting.html">Rebooting
+        /// a Cluster</a> for an alternate process.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RebootCacheCluster service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RebootCacheCluster service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/RebootCacheCluster">REST API Reference for RebootCacheCluster Operation</seealso>
         public virtual Task<RebootCacheClusterResponse> RebootCacheClusterAsync(RebootCacheClusterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = RebootCacheClusterRequestMarshaller.Instance;
-            var unmarshaller = RebootCacheClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootCacheClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootCacheClusterResponseUnmarshaller.Instance;
 
-            return InvokeAsync<RebootCacheClusterRequest,RebootCacheClusterResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<RebootCacheClusterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1728,30 +3679,44 @@ namespace Amazon.ElastiCache
 
         internal virtual RemoveTagsFromResourceResponse RemoveTagsFromResource(RemoveTagsFromResourceRequest request)
         {
-            var marshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveTagsFromResourceRequest,RemoveTagsFromResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveTagsFromResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RemoveTagsFromResource operation.
+        /// Removes the tags identified by the <code>TagKeys</code> list from the named resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the RemoveTagsFromResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the RemoveTagsFromResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RemoveTagsFromResource service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheClusterNotFoundException">
+        /// The requested cluster ID does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidARNException">
+        /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.SnapshotNotFoundException">
+        /// The requested snapshot name does not refer to an existing snapshot.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.TagNotFoundException">
+        /// The requested tag was not found on this resource.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/RemoveTagsFromResource">REST API Reference for RemoveTagsFromResource Operation</seealso>
         public virtual Task<RemoveTagsFromResourceResponse> RemoveTagsFromResourceAsync(RemoveTagsFromResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<RemoveTagsFromResourceRequest,RemoveTagsFromResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<RemoveTagsFromResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1760,30 +3725,52 @@ namespace Amazon.ElastiCache
 
         internal virtual ResetCacheParameterGroupResponse ResetCacheParameterGroup(ResetCacheParameterGroupRequest request)
         {
-            var marshaller = ResetCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ResetCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ResetCacheParameterGroupRequest,ResetCacheParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResetCacheParameterGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ResetCacheParameterGroup operation.
+        /// Modifies the parameters of a cache parameter group to the engine or system default
+        /// value. You can reset specific parameters by submitting a list of parameter names.
+        /// To reset the entire cache parameter group, specify the <code>ResetAllParameters</code>
+        /// and <code>CacheParameterGroupName</code> parameters.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ResetCacheParameterGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ResetCacheParameterGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ResetCacheParameterGroup service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheParameterGroupNotFoundException">
+        /// The requested cache parameter group name does not refer to an existing cache parameter
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheParameterGroupStateException">
+        /// The current state of the cache parameter group does not allow the requested operation
+        /// to occur.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidGlobalReplicationGroupStateException">
+        /// The Global Datastore is not available
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/ResetCacheParameterGroup">REST API Reference for ResetCacheParameterGroup Operation</seealso>
         public virtual Task<ResetCacheParameterGroupResponse> ResetCacheParameterGroupAsync(ResetCacheParameterGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ResetCacheParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ResetCacheParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetCacheParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetCacheParameterGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ResetCacheParameterGroupRequest,ResetCacheParameterGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ResetCacheParameterGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1792,30 +3779,96 @@ namespace Amazon.ElastiCache
 
         internal virtual RevokeCacheSecurityGroupIngressResponse RevokeCacheSecurityGroupIngress(RevokeCacheSecurityGroupIngressRequest request)
         {
-            var marshaller = RevokeCacheSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = RevokeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RevokeCacheSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RevokeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return Invoke<RevokeCacheSecurityGroupIngressRequest,RevokeCacheSecurityGroupIngressResponse>(request, marshaller, unmarshaller);
+            return Invoke<RevokeCacheSecurityGroupIngressResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RevokeCacheSecurityGroupIngress operation.
+        /// Revokes ingress from a cache security group. Use this operation to disallow access
+        /// from an Amazon EC2 security group that had been previously authorized.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the RevokeCacheSecurityGroupIngress operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the RevokeCacheSecurityGroupIngress service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RevokeCacheSecurityGroupIngress service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.AuthorizationNotFoundException">
+        /// The specified Amazon EC2 security group is not authorized for the specified cache
+        /// security group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.CacheSecurityGroupNotFoundException">
+        /// The requested cache security group name does not refer to an existing cache security
+        /// group.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheSecurityGroupStateException">
+        /// The current state of the cache security group does not allow deletion.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/RevokeCacheSecurityGroupIngress">REST API Reference for RevokeCacheSecurityGroupIngress Operation</seealso>
         public virtual Task<RevokeCacheSecurityGroupIngressResponse> RevokeCacheSecurityGroupIngressAsync(RevokeCacheSecurityGroupIngressRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = RevokeCacheSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = RevokeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RevokeCacheSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RevokeCacheSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return InvokeAsync<RevokeCacheSecurityGroupIngressRequest,RevokeCacheSecurityGroupIngressResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<RevokeCacheSecurityGroupIngressResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  StartMigration
+
+        internal virtual StartMigrationResponse StartMigration(StartMigrationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMigrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMigrationResponseUnmarshaller.Instance;
+
+            return Invoke<StartMigrationResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Start the migration of data.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartMigration service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the StartMigration service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupAlreadyUnderMigrationException">
+        /// The targeted replication group is not available.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/StartMigration">REST API Reference for StartMigration Operation</seealso>
+        public virtual Task<StartMigrationResponse> StartMigrationAsync(StartMigrationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMigrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMigrationResponseUnmarshaller.Instance;
+
+            return InvokeAsync<StartMigrationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1824,30 +3877,135 @@ namespace Amazon.ElastiCache
 
         internal virtual TestFailoverResponse TestFailover(TestFailoverRequest request)
         {
-            var marshaller = TestFailoverRequestMarshaller.Instance;
-            var unmarshaller = TestFailoverResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestFailoverRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestFailoverResponseUnmarshaller.Instance;
 
-            return Invoke<TestFailoverRequest,TestFailoverResponse>(request, marshaller, unmarshaller);
+            return Invoke<TestFailoverResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the TestFailover operation.
-        /// </summary>
+        /// Represents the input of a <code>TestFailover</code> operation which test automatic
+        /// failover on a specified node group (called shard in the console) in a replication
+        /// group (called cluster in the console).
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the TestFailover operation.</param>
+        ///  <p class="title"> <b>Note the following</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// A customer can use this operation to test automatic failover on up to 5 shards (called
+        /// node groups in the ElastiCache API and AWS CLI) in any rolling 24-hour period.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If calling this operation on shards in different clusters (called replication groups
+        /// in the API and CLI), the calls can be made concurrently.
+        /// </para>
+        ///  
+        /// <para>
+        ///  
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If calling this operation multiple times on different shards in the same Redis (cluster
+        /// mode enabled) replication group, the first node replacement must complete before a
+        /// subsequent call can be made.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To determine whether the node replacement is complete you can check Events using the
+        /// Amazon ElastiCache console, the AWS CLI, or the ElastiCache API. Look for the following
+        /// automatic failover related events, listed here in order of occurrance:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// Replication group message: <code>Test Failover API called for node group &lt;node-group-id&gt;</code>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Cache cluster message: <code>Failover from master node &lt;primary-node-id&gt; to
+        /// replica node &lt;node-id&gt; completed</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Replication group message: <code>Failover from master node &lt;primary-node-id&gt;
+        /// to replica node &lt;node-id&gt; completed</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Cache cluster message: <code>Recovering cache nodes &lt;node-id&gt;</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Cache cluster message: <code>Finished recovery for cache nodes &lt;node-id&gt;</code>
+        /// 
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// For more information see:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ECEvents.Viewing.html">Viewing
+        /// ElastiCache Events</a> in the <i>ElastiCache User Guide</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_DescribeEvents.html">DescribeEvents</a>
+        /// in the ElastiCache API Reference
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// Also see, <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html#auto-failover-test">Testing
+        /// Multi-AZ with Automatic Failover</a> in the <i>ElastiCache User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TestFailover service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the TestFailover service method, as returned by ElastiCache.</returns>
+        /// <exception cref="Amazon.ElastiCache.Model.APICallRateForCustomerExceededException">
+        /// The customer has exceeded the allowed rate of API calls.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidCacheClusterStateException">
+        /// The requested cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidKMSKeyException">
+        /// The KMS key supplied is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterCombinationException">
+        /// Two or more incompatible parameters were specified.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidParameterValueException">
+        /// The value for a parameter is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.InvalidReplicationGroupStateException">
+        /// The requested replication group is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.NodeGroupNotFoundException">
+        /// The node group specified by the <code>NodeGroupId</code> parameter could not be found.
+        /// Please verify that the node group exists and that you spelled the <code>NodeGroupId</code>
+        /// value correctly.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.ReplicationGroupNotFoundException">
+        /// The specified replication group does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ElastiCache.Model.TestFailoverNotAvailableException">
+        /// The <code>TestFailover</code> action is not available.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticache-2015-02-02/TestFailover">REST API Reference for TestFailover Operation</seealso>
         public virtual Task<TestFailoverResponse> TestFailoverAsync(TestFailoverRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = TestFailoverRequestMarshaller.Instance;
-            var unmarshaller = TestFailoverResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestFailoverRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestFailoverResponseUnmarshaller.Instance;
 
-            return InvokeAsync<TestFailoverRequest,TestFailoverResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<TestFailoverResponse>(request, options, cancellationToken);
         }
 
         #endregion

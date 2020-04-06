@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Segment dimensions
+    /// Specifies the dimension settings for a segment.
     /// </summary>
     public partial class SegmentDimensions
     {
@@ -36,10 +36,14 @@ namespace Amazon.Pinpoint.Model
         private SegmentBehaviors _behavior;
         private SegmentDemographics _demographic;
         private SegmentLocation _location;
+        private Dictionary<string, MetricDimension> _metrics = new Dictionary<string, MetricDimension>();
         private Dictionary<string, AttributeDimension> _userAttributes = new Dictionary<string, AttributeDimension>();
 
         /// <summary>
-        /// Gets and sets the property Attributes. Custom segment attributes.
+        /// Gets and sets the property Attributes. 
+        /// <para>
+        /// One or more custom attributes to use as criteria for the segment.
+        /// </para>
         /// </summary>
         public Dictionary<string, AttributeDimension> Attributes
         {
@@ -54,7 +58,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Behavior. The segment behaviors attributes.
+        /// Gets and sets the property Behavior. 
+        /// <para>
+        /// The behavior-based criteria, such as how recently users have used your app, for the
+        /// segment.
+        /// </para>
         /// </summary>
         public SegmentBehaviors Behavior
         {
@@ -69,7 +77,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Demographic. The segment demographics attributes.
+        /// Gets and sets the property Demographic. 
+        /// <para>
+        /// The demographic-based criteria, such as device platform, for the segment.
+        /// </para>
         /// </summary>
         public SegmentDemographics Demographic
         {
@@ -84,7 +95,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Location. The segment location attributes.
+        /// Gets and sets the property Location. 
+        /// <para>
+        /// The location-based criteria, such as region or GPS coordinates, for the segment.
+        /// </para>
         /// </summary>
         public SegmentLocation Location
         {
@@ -99,7 +113,28 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property UserAttributes. Custom segment user attributes.
+        /// Gets and sets the property Metrics. 
+        /// <para>
+        /// One or more custom metrics to use as criteria for the segment.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, MetricDimension> Metrics
+        {
+            get { return this._metrics; }
+            set { this._metrics = value; }
+        }
+
+        // Check to see if Metrics property is set
+        internal bool IsSetMetrics()
+        {
+            return this._metrics != null && this._metrics.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property UserAttributes. 
+        /// <para>
+        /// One or more custom user attributes to use as criteria for the segment.
+        /// </para>
         /// </summary>
         public Dictionary<string, AttributeDimension> UserAttributes
         {

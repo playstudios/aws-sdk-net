@@ -29,7 +29,10 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateEndpointsBatch operation.
-    /// Use to update a batch of endpoints.
+    /// Creates a new batch of endpoints for an application or updates the settings and attributes
+    /// of a batch of existing endpoints for an application. You can also use this operation
+    /// to define custom attributes (Attributes, Metrics, and UserAttributes properties) for
+    /// a batch of endpoints.
     /// </summary>
     public partial class UpdateEndpointsBatchRequest : AmazonPinpointRequest
     {
@@ -37,8 +40,13 @@ namespace Amazon.Pinpoint.Model
         private EndpointBatchRequest _endpointBatchRequest;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,6 +62,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property EndpointBatchRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public EndpointBatchRequest EndpointBatchRequest
         {
             get { return this._endpointBatchRequest; }

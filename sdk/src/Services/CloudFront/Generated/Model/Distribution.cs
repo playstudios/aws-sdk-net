@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -28,11 +28,13 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudFront.Model
 {
     /// <summary>
-    /// The distribution's information.
+    /// A distribution tells CloudFront where you want content to be delivered from, and the
+    /// details about how to track and manage content delivery.
     /// </summary>
     public partial class Distribution
     {
         private ActiveTrustedSigners _activeTrustedSigners;
+        private List<AliasICPRecordal> _aliasICPRecordals = new List<AliasICPRecordal>();
         private string _arn;
         private DistributionConfig _distributionConfig;
         private string _domainName;
@@ -72,6 +74,7 @@ namespace Amazon.CloudFront.Model
         /// URLs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActiveTrustedSigners ActiveTrustedSigners
         {
             get { return this._activeTrustedSigners; }
@@ -85,12 +88,39 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AliasICPRecordals. 
+        /// <para>
+        /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal
+        /// if they want to serve content publicly on an alternate domain name, also known as
+        /// a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal
+        /// status for CNAMEs associated with distributions.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about ICP recordals, see <a href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
+        /// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS services in China</i>.
+        /// </para>
+        /// </summary>
+        public List<AliasICPRecordal> AliasICPRecordals
+        {
+            get { return this._aliasICPRecordals; }
+            set { this._aliasICPRecordals = value; }
+        }
+
+        // Check to see if AliasICPRecordals property is set
+        internal bool IsSetAliasICPRecordals()
+        {
+            return this._aliasICPRecordals != null && this._aliasICPRecordals.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ARN. 
         /// <para>
         /// The ARN (Amazon Resource Name) for the distribution. For example: <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
         /// where <code>123456789012</code> is your AWS account ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ARN
         {
             get { return this._arn; }
@@ -111,6 +141,7 @@ namespace Amazon.CloudFront.Model
         /// resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DistributionConfig DistributionConfig
         {
             get { return this._distributionConfig; }
@@ -130,6 +161,7 @@ namespace Amazon.CloudFront.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }
@@ -148,6 +180,7 @@ namespace Amazon.CloudFront.Model
         /// The identifier for the distribution. For example: <code>EDFDVBD632BHDS5</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -166,6 +199,7 @@ namespace Amazon.CloudFront.Model
         /// The number of invalidation batches currently in progress. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int InProgressInvalidationBatches
         {
             get { return this._inProgressInvalidationBatches.GetValueOrDefault(); }
@@ -184,6 +218,7 @@ namespace Amazon.CloudFront.Model
         /// The date and time the distribution was last modified. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime LastModifiedTime
         {
             get { return this._lastModifiedTime.GetValueOrDefault(); }
@@ -204,6 +239,7 @@ namespace Amazon.CloudFront.Model
         /// CloudFront edge locations. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Status
         {
             get { return this._status; }

@@ -32,6 +32,8 @@ namespace Amazon.StorageGateway.Model
     /// </summary>
     public partial class Tape
     {
+        private string _kmsKey;
+        private string _poolId;
         private double? _progress;
         private string _tapeARN;
         private string _tapeBarcode;
@@ -40,6 +42,48 @@ namespace Amazon.StorageGateway.Model
         private string _tapeStatus;
         private long? _tapeUsedInBytes;
         private string _vtlDevice;
+
+        /// <summary>
+        /// Gets and sets the property KMSKey.
+        /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
+        public string KMSKey
+        {
+            get { return this._kmsKey; }
+            set { this._kmsKey = value; }
+        }
+
+        // Check to see if KMSKey property is set
+        internal bool IsSetKMSKey()
+        {
+            return this._kmsKey != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PoolId. 
+        /// <para>
+        /// The ID of the pool that contains tapes that will be archived. The tapes in this pool
+        /// are archived in the S3 storage class that is associated with the pool. When you use
+        /// your backup application to eject the tape, the tape is archived directly into the
+        /// storage class (Glacier or Deep Archive) that corresponds to the pool.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public string PoolId
+        {
+            get { return this._poolId; }
+            set { this._poolId = value; }
+        }
+
+        // Check to see if PoolId property is set
+        internal bool IsSetPoolId()
+        {
+            return this._poolId != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Progress. 
@@ -70,6 +114,7 @@ namespace Amazon.StorageGateway.Model
         /// The Amazon Resource Name (ARN) of the virtual tape.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string TapeARN
         {
             get { return this._tapeARN; }
@@ -88,6 +133,7 @@ namespace Amazon.StorageGateway.Model
         /// The barcode that identifies a specific virtual tape.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=7, Max=16)]
         public string TapeBarcode
         {
             get { return this._tapeBarcode; }
@@ -183,6 +229,7 @@ namespace Amazon.StorageGateway.Model
         /// The virtual tape library (VTL) device that the virtual tape is associated with.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string VTLDevice
         {
             get { return this._vtlDevice; }

@@ -36,17 +36,17 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// You can have up to five thousand key pairs per region.
+    /// You can have up to five thousand key pairs per Region.
     /// </para>
     ///  
     /// <para>
-    /// The key pair returned to you is available only in the region in which you create it.
+    /// The key pair returned to you is available only in the Region in which you create it.
     /// If you prefer, you can create your own key pair using a third-party tool and upload
-    /// it to any region using <a>ImportKeyPair</a>.
+    /// it to any Region using <a>ImportKeyPair</a>.
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
     /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -78,6 +78,7 @@ namespace Amazon.EC2.Model
         /// Constraints: Up to 255 ASCII characters
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string KeyName
         {
             get { return this._keyName; }

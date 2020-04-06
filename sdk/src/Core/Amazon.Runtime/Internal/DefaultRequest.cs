@@ -38,6 +38,7 @@ namespace Amazon.Runtime.Internal
         readonly IDictionary<string,string> parametersFacade;
         readonly IDictionary<string, string> headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         readonly IDictionary<string, string> subResources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        readonly IDictionary<string, string> pathResources = new Dictionary<string, string>(StringComparer.Ordinal);
 
         Uri endpoint;
         string resourcePath;
@@ -50,8 +51,9 @@ namespace Amazon.Runtime.Internal
         bool useQueryString = false;
         string requestName;
         string canonicalResource;
-        RegionEndpoint alternateRegion;
+        RegionEndpoint alternateRegion;        
         long originalStreamLength;
+        int marshallerVersion = 1; //1 is the default version and must be used whenever a version is not specified in the marshaller.
 
         /// <summary>
         /// Constructs a new DefaultRequest with the specified service name and the
@@ -68,6 +70,7 @@ namespace Amazon.Runtime.Internal
             this.originalRequest = request;
             this.requestName = this.originalRequest.GetType().Name;
             this.UseSigV4 = ((Amazon.Runtime.Internal.IAmazonWebServiceRequest)this.originalRequest).UseSigV4;
+            this.HostPrefix = string.Empty;
 
             parametersCollection = new ParameterCollection();
             parametersFacade = new ParametersDictionaryFacade(parametersCollection);
@@ -224,6 +227,50 @@ namespace Amazon.Runtime.Internal
             }
         }
 
+        /// <summary>
+        /// Returns the path resources that should be used within the resource path.
+        /// This is used for services where path keys can contain '/'
+        /// characters, making string-splitting of a resource path potentially 
+        /// hazardous.
+        /// </summary>
+        public IDictionary<string, string> PathResources
+        {
+            get
+            {
+                return this.pathResources;
+            }
+        }
+
+        /// <summary>
+        /// Adds a new entry to the PathResources collection for the request
+        /// </summary>
+        /// <param name="key">The name of the pathresource with potential greedy syntax: {key+}</param>
+        /// <param name="value">Value of the entry</param>
+        public void AddPathResource(string key, string value)
+        {
+            PathResources.Add(key, value);
+        }
+
+        /// <summary>
+        /// Gets and Sets the version number for the marshaller used to create this request. The version number
+        /// is used to support backward compatible changes that would otherwise be breaking changes when a 
+        /// newer core is used with an older service assembly.
+        /// Versions:
+        ///     1 - Default version
+        ///     2 - Support for path segments
+        /// </summary>
+        public int MarshallerVersion
+        {
+            get
+            {
+                return this.marshallerVersion;
+            }            
+            set
+            {
+                this.marshallerVersion = value;
+            }
+        }
+
         public string CanonicalResource
         {
             get
@@ -341,6 +388,11 @@ namespace Amazon.Runtime.Internal
         }
 
         /// <summary>
+        /// Host prefix value to prepend to the endpoint for this request, if any.
+        /// </summary>
+        public string HostPrefix { get; set; }
+
+        /// <summary>
         /// Gets and sets the Suppress404Exceptions property. If true then 404s return back from AWS will not cause an exception and 
         /// an empty response object will be returned.
         /// </summary>
@@ -388,7 +440,12 @@ namespace Amazon.Runtime.Internal
         /// </summary>
         public string AuthenticationRegion { get; set; }
 
-		/// <summary>
+        /// <summary>
+        /// The region in which the service request was signed.
+        /// </summary>
+        public string DeterminedSigningRegion { get ; set; }
+
+        /// <summary>
         /// Checks if the request stream can be rewinded.
         /// </summary>
         /// <returns>Returns true if the request stream can be rewinded ,
@@ -429,6 +486,15 @@ namespace Amazon.Runtime.Internal
             var isPutPost = (this.HttpMethod == "POST" || this.HttpMethod == "PUT" || this.HttpMethod == "PATCH");
             var hasContent = this.HasRequestData();
             return (isPutPost && hasContent);
+        }
+
+        public string GetHeaderValue(string headerName)
+        {
+            string headerValue;
+            if (headers.TryGetValue(headerName, out headerValue))
+                return headerValue;
+
+            return string.Empty;
         }
     }
 }

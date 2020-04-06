@@ -37,8 +37,8 @@ namespace Amazon.Organizations.Model
     /// 
     ///  
     /// <para>
-    /// For more information about OUs, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
-    /// Organizational Units</a> in the <i>AWS Organizations User Guide</i>.
+    /// For more information about OUs, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
+    /// Organizational Units</a> in the <i>AWS Organizations User Guide.</i> 
     /// </para>
     ///  
     /// <para>
@@ -56,6 +56,7 @@ namespace Amazon.Organizations.Model
         /// The friendly name to assign to the new OU.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -71,8 +72,8 @@ namespace Amazon.Organizations.Model
         /// <summary>
         /// Gets and sets the property ParentId. 
         /// <para>
-        /// The unique identifier (ID) of the parent root or OU in which you want to create the
-        /// new OU.
+        /// The unique identifier (ID) of the parent root or OU that you want to create the new
+        /// OU in.
         /// </para>
         ///  
         /// <para>
@@ -81,17 +82,19 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or
-        /// digits.
+        ///  <b>Root</b> - A string that begins with "r-" followed by from 4 to 32 lowercase letters
+        /// or digits.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32
-        /// lower-case letters or digits (the ID of the root that the OU is in) followed by a
-        /// second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        ///  <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed by from
+        /// 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string
+        /// is followed by a second "-" dash and from 8 to 32 additional lowercase letters or
+        /// digits.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ParentId
         {
             get { return this._parentId; }

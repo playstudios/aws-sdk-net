@@ -29,12 +29,17 @@ namespace Amazon.CloudTrail.Model
 {
     /// <summary>
     /// Container for the parameters to the LookupEvents operation.
-    /// Looks up API activity events captured by CloudTrail that create, update, or delete
-    /// resources in your account. Events for a region can be looked up for the times in which
-    /// you had CloudTrail turned on in that region during the last seven days. Lookup supports
-    /// the following attributes:
+    /// Looks up <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-management-events">management
+    /// events</a> or <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-insights-events">CloudTrail
+    /// Insights events</a> that are captured by CloudTrail. You can look up events that occurred
+    /// in a region within the last 90 days. Lookup supports the following attributes for
+    /// management events:
     /// 
     ///  <ul> <li> 
+    /// <para>
+    /// AWS access key
+    /// </para>
+    ///  </li> <li> 
     /// <para>
     /// Event ID
     /// </para>
@@ -45,6 +50,10 @@ namespace Amazon.CloudTrail.Model
     ///  </li> <li> 
     /// <para>
     /// Event source
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Read only
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -60,25 +69,37 @@ namespace Amazon.CloudTrail.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// All attributes are optional. The default number of results returned is 10, with a
+    /// Lookup supports the following attributes for Insights events:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// Event ID
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Event name
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Event source
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// All attributes are optional. The default number of results returned is 50, with a
     /// maximum of 50 possible. The response includes a token that you can use to get the
     /// next page of results.
     /// </para>
     ///  <important> 
     /// <para>
-    /// The rate of lookup requests is limited to one per second per account. If this limit
+    /// The rate of lookup requests is limited to two per second per account. If this limit
     /// is exceeded, a throttling error occurs.
-    /// </para>
-    ///  </important> <important> 
-    /// <para>
-    /// Events that occurred during the selected time range will not be available for lookup
-    /// if CloudTrail logging was not enabled when the events occurred.
     /// </para>
     ///  </important>
     /// </summary>
     public partial class LookupEventsRequest : AmazonCloudTrailRequest
     {
         private DateTime? _endTime;
+        private EventCategory _eventCategory;
         private List<LookupAttribute> _lookupAttributes = new List<LookupAttribute>();
         private int? _maxResults;
         private string _nextToken;
@@ -104,6 +125,26 @@ namespace Amazon.CloudTrail.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EventCategory. 
+        /// <para>
+        /// Specifies the event category. If you do not specify an event category, events of the
+        /// category are not returned in the response. For example, if you do not specify <code>insight</code>
+        /// as the value of <code>EventCategory</code>, no Insights events are returned.
+        /// </para>
+        /// </summary>
+        public EventCategory EventCategory
+        {
+            get { return this._eventCategory; }
+            set { this._eventCategory = value; }
+        }
+
+        // Check to see if EventCategory property is set
+        internal bool IsSetEventCategory()
+        {
+            return this._eventCategory != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property LookupAttributes. 
         /// <para>
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
@@ -124,9 +165,10 @@ namespace Amazon.CloudTrail.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The number of events to return. Possible values are 1 through 50. The default is 10.
+        /// The number of events to return. Possible values are 1 through 50. The default is 50.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

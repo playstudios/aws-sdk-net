@@ -57,6 +57,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     response.Arn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("channelClass", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.ChannelClass = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("destinations", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<OutputDestination, OutputDestinationUnmarshaller>(OutputDestinationUnmarshaller.Instance);
@@ -93,10 +99,22 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     response.InputSpecification = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("logLevel", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.LogLevel = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("name", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.Name = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("pipelineDetails", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<PipelineDetail, PipelineDetailUnmarshaller>(PipelineDetailUnmarshaller.Instance);
+                    response.PipelineDetails = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("pipelinesRunningCount", targetDepth))
@@ -115,6 +133,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.State = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    response.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

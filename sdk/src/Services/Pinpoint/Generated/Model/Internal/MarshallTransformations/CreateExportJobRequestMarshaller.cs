@@ -55,24 +55,25 @@ namespace Amazon.Pinpoint.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateExportJobRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Pinpoint");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-12-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/apps/{application-id}/jobs/export";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonPinpointException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.ResourcePath = "/v1/apps/{application-id}/jobs/export";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
-                writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                context.Writer.WriteObjectStart();
 
                 var marshaller = ExportJobRequestMarshaller.Instance;
                 marshaller.Marshall(publicRequest.ExportJobRequest, context);
-        
-                writer.WriteObjectEnd();
+
+                context.Writer.WriteObjectEnd();
                 string snippet = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(snippet);
             }

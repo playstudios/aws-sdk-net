@@ -28,15 +28,18 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Segment location dimensions
+    /// Specifies geographical dimension settings for a segment.
     /// </summary>
     public partial class SegmentLocation
     {
         private SetDimension _country;
+        private GPSPointDimension _gpsPoint;
 
         /// <summary>
-        /// Gets and sets the property Country. The country filter according to ISO 3166-1 Alpha-2
-        /// codes.
+        /// Gets and sets the property Country. 
+        /// <para>
+        /// The country or region code, in ISO 3166-1 alpha-2 format, for the segment.
+        /// </para>
         /// </summary>
         public SetDimension Country
         {
@@ -48,6 +51,24 @@ namespace Amazon.Pinpoint.Model
         internal bool IsSetCountry()
         {
             return this._country != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property GPSPoint. 
+        /// <para>
+        /// The GPS location and range for the segment.
+        /// </para>
+        /// </summary>
+        public GPSPointDimension GPSPoint
+        {
+            get { return this._gpsPoint; }
+            set { this._gpsPoint = value; }
+        }
+
+        // Check to see if GPSPoint property is set
+        internal bool IsSetGPSPoint()
+        {
+            return this._gpsPoint != null;
         }
 
     }

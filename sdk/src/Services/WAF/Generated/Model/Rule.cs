@@ -59,8 +59,10 @@ namespace Amazon.WAF.Model
         /// Gets and sets the property MetricName. 
         /// <para>
         /// A friendly name or description for the metrics for this <code>Rule</code>. The name
-        /// can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace.
-        /// You can't change <code>MetricName</code> after you create the <code>Rule</code>.
+        /// can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128
+        /// and minimum length one. It can't contain whitespace or metric names reserved for AWS
+        /// WAF, including "All" and "Default_Action." You can't change <code>MetricName</code>
+        /// after you create the <code>Rule</code>.
         /// </para>
         /// </summary>
         public string MetricName
@@ -82,6 +84,7 @@ namespace Amazon.WAF.Model
         /// of a <code>Rule</code> after you create it.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -102,6 +105,7 @@ namespace Amazon.WAF.Model
         /// you want to include in a <code>Rule</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Predicate> Predicates
         {
             get { return this._predicates; }
@@ -128,6 +132,7 @@ namespace Amazon.WAF.Model
         ///  <code>RuleId</code> is returned by <a>CreateRule</a> and by <a>ListRules</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string RuleId
         {
             get { return this._ruleId; }

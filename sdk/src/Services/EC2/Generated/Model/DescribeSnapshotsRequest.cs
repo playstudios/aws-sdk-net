@@ -29,11 +29,15 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeSnapshots operation.
-    /// Describes one or more of the EBS snapshots available to you. Available snapshots include
-    /// public snapshots available for any AWS account to launch, private snapshots that you
-    /// own, and private snapshots owned by another AWS account but for which you've been
-    /// given explicit create volume permissions.
+    /// Describes the specified EBS snapshots available to you or all of the EBS snapshots
+    /// available to you.
     /// 
+    ///  
+    /// <para>
+    /// The snapshots available to you include public snapshots, private snapshots that you
+    /// own, and private snapshots owned by other AWS accounts for which you have explicit
+    /// create volume permissions.
+    /// </para>
     ///  
     /// <para>
     /// The create volume permissions fall into the following categories:
@@ -56,7 +60,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// The list of snapshots returned can be modified by specifying snapshot IDs, snapshot
+    /// The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot
     /// owners, or AWS accounts with create volume permissions. If no options are specified,
     /// Amazon EC2 returns all snapshots for which you have create volume permissions.
     /// </para>
@@ -92,7 +96,11 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about EBS snapshots, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
+    /// To get the state of fast snapshot restores for a snapshot, use <a>DescribeFastSnapshotRestores</a>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information about EBS snapshots, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
     /// EBS Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -108,7 +116,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -116,10 +124,15 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>encrypted</code> - Indicates whether the snapshot is encrypted (<code>true</code>
+        /// | <code>false</code>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>owner-alias</code> - Value from an Amazon-maintained list (<code>amazon</code>
-        /// | <code>aws-marketplace</code> | <code>microsoft</code>) of snapshot owners. Not to
-        /// be confused with the user-configured AWS account alias, which is set from the IAM
-        /// console.
+        /// | <code>self</code> | <code>all</code> | <code>aws-marketplace</code> | <code>microsoft</code>)
+        /// of snapshot owners. Not to be confused with the user-configured AWS account alias,
+        /// which is set from the IAM console.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -145,24 +158,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of what the tag's key is). If you want to list only resources where
-        /// Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -237,7 +242,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property OwnerIds. 
         /// <para>
-        /// Returns the snapshots owned by the specified owner. Multiple owners can be specified.
+        /// Describes the snapshots owned by these owners.
         /// </para>
         /// </summary>
         public List<string> OwnerIds
@@ -255,7 +260,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property RestorableByUserIds. 
         /// <para>
-        /// One or more AWS accounts IDs that can create volumes from the snapshot.
+        /// The IDs of the AWS accounts that can create volumes from the snapshot.
         /// </para>
         /// </summary>
         public List<string> RestorableByUserIds
@@ -273,11 +278,11 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SnapshotIds. 
         /// <para>
-        /// One or more snapshot IDs.
+        /// The snapshot IDs.
         /// </para>
         ///  
         /// <para>
-        /// Default: Describes snapshots for which you have launch permissions.
+        /// Default: Describes the snapshots for which you have create volume permissions.
         /// </para>
         /// </summary>
         public List<string> SnapshotIds

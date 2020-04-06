@@ -55,11 +55,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateQueueRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaConvert");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-29";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/2017-08-29/queues";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2017-08-29/queues";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -75,6 +76,43 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetPricingPlan())
+                {
+                    context.Writer.WritePropertyName("pricingPlan");
+                    context.Writer.Write(publicRequest.PricingPlan);
+                }
+
+                if(publicRequest.IsSetReservationPlanSettings())
+                {
+                    context.Writer.WritePropertyName("reservationPlanSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ReservationPlanSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ReservationPlanSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetStatus())
+                {
+                    context.Writer.WritePropertyName("status");
+                    context.Writer.Write(publicRequest.Status);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
         

@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -53,24 +54,49 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
         {
             return value ?? "";
         }
+
         internal static string ToStringValue(int value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
         }
-        internal static string ToStringValue(DateTime value)
+
+        internal static string ToStringValue(long value)
         {
-            return value.ToString(AWSSDKUtils.RFC822DateFormat, CultureInfo.InvariantCulture);
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        internal static string ToStringValue(DateTime value, string dateFormat = AWSSDKUtils.RFC822DateFormat)
+        {
+            return value.ToUniversalTime().ToString(dateFormat, CultureInfo.InvariantCulture);
+        }                
+
+        [SuppressMessage("Microsoft.Globalization", "CA1308", Justification = "Value is not surfaced to user. Booleans have been lowercased by SDK precedent.")]
+        internal static string ToStringValue(bool value)
+        {
+            return value.ToString().ToLowerInvariant();
         }
 
         internal static string ToXmlStringValue(string value)
         {
             return ToStringValue(value);
         }
+
         internal static string ToXmlStringValue(DateTime value)
         {
-            return value.ToString(AWSSDKUtils.ISO8601DateFormat, CultureInfo.InvariantCulture);
+            return value.ToUniversalTime().ToString(AWSSDKUtils.ISO8601DateFormat, CultureInfo.InvariantCulture);
         }
+
         internal static string ToXmlStringValue(int value)
+        {
+            return ToStringValue(value);
+        }
+
+        internal static string ToXmlStringValue(long value)
+        {
+            return ToStringValue(value);
+        }
+
+        internal static string ToXmlStringValue(bool value)
         {
             return ToStringValue(value);
         }

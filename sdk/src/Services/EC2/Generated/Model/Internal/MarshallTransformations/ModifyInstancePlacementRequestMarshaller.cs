@@ -70,9 +70,17 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("HostId", StringUtils.FromString(publicRequest.HostId));
                 }
+                if(publicRequest.IsSetHostResourceGroupArn())
+                {
+                    request.Parameters.Add("HostResourceGroupArn", StringUtils.FromString(publicRequest.HostResourceGroupArn));
+                }
                 if(publicRequest.IsSetInstanceId())
                 {
                     request.Parameters.Add("InstanceId", StringUtils.FromString(publicRequest.InstanceId));
+                }
+                if(publicRequest.IsSetPartitionNumber())
+                {
+                    request.Parameters.Add("PartitionNumber", StringUtils.FromInt(publicRequest.PartitionNumber));
                 }
                 if(publicRequest.IsSetTenancy())
                 {

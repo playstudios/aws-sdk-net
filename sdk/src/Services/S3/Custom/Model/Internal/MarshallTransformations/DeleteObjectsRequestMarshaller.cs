@@ -44,12 +44,18 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "POST";
 
+			if (deleteObjectsRequest.IsSetBypassGovernanceRetention())
+                request.Headers.Add("x-amz-bypass-governance-retention", S3Transforms.ToStringValue(deleteObjectsRequest.BypassGovernanceRetention));
             if (deleteObjectsRequest.IsSetMfaCodes())
                 request.Headers.Add(HeaderKeys.XAmzMfaHeader, deleteObjectsRequest.MfaCodes.FormattedMfaCodes);
             if (deleteObjectsRequest.IsSetRequestPayer())
                 request.Headers.Add(S3Constants.AmzHeaderRequestPayer, S3Transforms.ToStringValue(deleteObjectsRequest.RequestPayer.ToString()));
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(deleteObjectsRequest.BucketName));
+            if (string.IsNullOrEmpty(deleteObjectsRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "DeleteObjectsRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(deleteObjectsRequest.BucketName));
 
             request.AddSubResource("delete");
 
@@ -77,7 +83,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                 }
                 if (deleteObjectsRequest.IsSetQuiet())
                 {
-                    xmlWriter.WriteElementString("Quiet", "", deleteObjectsRequest.Quiet.ToString().ToLowerInvariant());
+                    xmlWriter.WriteElementString("Quiet", "", S3Transforms.ToXmlStringValue(deleteObjectsRequest.Quiet));
                 }
                 xmlWriter.WriteEndElement();
             }

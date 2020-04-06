@@ -93,6 +93,64 @@ namespace Amazon.MediaPackage
 
         #endregion
         
+        #region  CreateHarvestJob
+
+
+        /// <summary>
+        /// Creates a new HarvestJob record.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateHarvestJob service method.</param>
+        /// 
+        /// <returns>The response from the CreateHarvestJob service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/CreateHarvestJob">REST API Reference for CreateHarvestJob Operation</seealso>
+        CreateHarvestJobResponse CreateHarvestJob(CreateHarvestJobRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateHarvestJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateHarvestJob operation on AmazonMediaPackageClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateHarvestJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/CreateHarvestJob">REST API Reference for CreateHarvestJob Operation</seealso>
+        IAsyncResult BeginCreateHarvestJob(CreateHarvestJobRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateHarvestJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateHarvestJob.</param>
+        /// 
+        /// <returns>Returns a  CreateHarvestJobResult from MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/CreateHarvestJob">REST API Reference for CreateHarvestJob Operation</seealso>
+        CreateHarvestJobResponse EndCreateHarvestJob(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateOriginEndpoint
 
 
@@ -325,6 +383,64 @@ namespace Amazon.MediaPackage
 
         #endregion
         
+        #region  DescribeHarvestJob
+
+
+        /// <summary>
+        /// Gets details about an existing HarvestJob.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHarvestJob service method.</param>
+        /// 
+        /// <returns>The response from the DescribeHarvestJob service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DescribeHarvestJob">REST API Reference for DescribeHarvestJob Operation</seealso>
+        DescribeHarvestJobResponse DescribeHarvestJob(DescribeHarvestJobRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeHarvestJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHarvestJob operation on AmazonMediaPackageClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeHarvestJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DescribeHarvestJob">REST API Reference for DescribeHarvestJob Operation</seealso>
+        IAsyncResult BeginDescribeHarvestJob(DescribeHarvestJobRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeHarvestJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeHarvestJob.</param>
+        /// 
+        /// <returns>Returns a  DescribeHarvestJobResult from MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DescribeHarvestJob">REST API Reference for DescribeHarvestJob Operation</seealso>
+        DescribeHarvestJobResponse EndDescribeHarvestJob(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeOriginEndpoint
 
 
@@ -441,6 +557,64 @@ namespace Amazon.MediaPackage
 
         #endregion
         
+        #region  ListHarvestJobs
+
+
+        /// <summary>
+        /// Returns a collection of HarvestJob records.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListHarvestJobs service method.</param>
+        /// 
+        /// <returns>The response from the ListHarvestJobs service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListHarvestJobs">REST API Reference for ListHarvestJobs Operation</seealso>
+        ListHarvestJobsResponse ListHarvestJobs(ListHarvestJobsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListHarvestJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListHarvestJobs operation on AmazonMediaPackageClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListHarvestJobs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListHarvestJobs">REST API Reference for ListHarvestJobs Operation</seealso>
+        IAsyncResult BeginListHarvestJobs(ListHarvestJobsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListHarvestJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListHarvestJobs.</param>
+        /// 
+        /// <returns>Returns a  ListHarvestJobsResult from MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListHarvestJobs">REST API Reference for ListHarvestJobs Operation</seealso>
+        ListHarvestJobsResponse EndListHarvestJobs(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListOriginEndpoints
 
 
@@ -499,11 +673,52 @@ namespace Amazon.MediaPackage
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonMediaPackageClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  RotateChannelCredentials
 
 
         /// <summary>
-        /// Changes the Channel ingest username and password.
+        /// Changes the Channel's first IngestEndpoint's username and password. WARNING - This
+        /// API is deprecated. Please use RotateIngestEndpointCredentials instead
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RotateChannelCredentials service method.</param>
         /// 
@@ -527,6 +742,7 @@ namespace Amazon.MediaPackage
         /// The parameters sent in the request are not valid.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateChannelCredentials">REST API Reference for RotateChannelCredentials Operation</seealso>
+        [Obsolete("This API is deprecated. Please use RotateIngestEndpointCredentials instead")]
         RotateChannelCredentialsResponse RotateChannelCredentials(RotateChannelCredentialsRequest request);
 
         /// <summary>
@@ -541,6 +757,7 @@ namespace Amazon.MediaPackage
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRotateChannelCredentials
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateChannelCredentials">REST API Reference for RotateChannelCredentials Operation</seealso>
+        [Obsolete("This API is deprecated. Please use RotateIngestEndpointCredentials instead")]
         IAsyncResult BeginRotateChannelCredentials(RotateChannelCredentialsRequest request, AsyncCallback callback, object state);
 
 
@@ -553,7 +770,147 @@ namespace Amazon.MediaPackage
         /// 
         /// <returns>Returns a  RotateChannelCredentialsResult from MediaPackage.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateChannelCredentials">REST API Reference for RotateChannelCredentials Operation</seealso>
+        [Obsolete("This API is deprecated. Please use RotateIngestEndpointCredentials instead")]
         RotateChannelCredentialsResponse EndRotateChannelCredentials(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RotateIngestEndpointCredentials
+
+
+        /// <summary>
+        /// Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's
+        /// id.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RotateIngestEndpointCredentials service method.</param>
+        /// 
+        /// <returns>The response from the RotateIngestEndpointCredentials service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateIngestEndpointCredentials">REST API Reference for RotateIngestEndpointCredentials Operation</seealso>
+        RotateIngestEndpointCredentialsResponse RotateIngestEndpointCredentials(RotateIngestEndpointCredentialsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RotateIngestEndpointCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RotateIngestEndpointCredentials operation on AmazonMediaPackageClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRotateIngestEndpointCredentials
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateIngestEndpointCredentials">REST API Reference for RotateIngestEndpointCredentials Operation</seealso>
+        IAsyncResult BeginRotateIngestEndpointCredentials(RotateIngestEndpointCredentialsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RotateIngestEndpointCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRotateIngestEndpointCredentials.</param>
+        /// 
+        /// <returns>Returns a  RotateIngestEndpointCredentialsResult from MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateIngestEndpointCredentials">REST API Reference for RotateIngestEndpointCredentials Operation</seealso>
+        RotateIngestEndpointCredentialsResponse EndRotateIngestEndpointCredentials(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonMediaPackageClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonMediaPackageClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
 
         #endregion
         

@@ -38,7 +38,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetUtilization. 
         /// <para>
-        /// Collection of objects containing utilization information for each requested fleet
+        /// A collection of objects containing utilization information for each requested fleet
         /// ID.
         /// </para>
         /// </summary>
@@ -61,6 +61,7 @@ namespace Amazon.GameLift.Model
         /// If no token is returned, these results represent the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

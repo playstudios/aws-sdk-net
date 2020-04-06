@@ -43,6 +43,7 @@ namespace Amazon.DeviceFarm.Model
         /// The project's ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -76,8 +77,8 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property DefaultJobTimeoutMinutes. 
         /// <para>
-        /// The default number of minutes (at the project level) a test run will execute before
-        /// it times out. Default value is 60 minutes.
+        /// The default number of minutes (at the project level) a test run executes before it
+        /// times out. The default value is 150 minutes.
         /// </para>
         /// </summary>
         public int DefaultJobTimeoutMinutes
@@ -98,6 +99,7 @@ namespace Amazon.DeviceFarm.Model
         /// The project's name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }

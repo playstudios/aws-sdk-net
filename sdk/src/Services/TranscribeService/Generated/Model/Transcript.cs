@@ -28,19 +28,53 @@ using Amazon.Runtime.Internal;
 namespace Amazon.TranscribeService.Model
 {
     /// <summary>
-    /// Describes the output of a transcription job.
+    /// Identifies the location of a transcription.
     /// </summary>
     public partial class Transcript
     {
+        private string _redactedTranscriptFileUri;
         private string _transcriptFileUri;
+
+        /// <summary>
+        /// Gets and sets the property RedactedTranscriptFileUri. 
+        /// <para>
+        /// The S3 object location of the redacted transcript.
+        /// </para>
+        ///  
+        /// <para>
+        /// Use this URI to access the redacated transcript. If you specified an S3 bucket in
+        /// the <code>OutputBucketName</code> field when you created the job, this is the URI
+        /// of that bucket. If you chose to store the transcript in Amazon Transcribe, this is
+        /// a shareable URL that provides secure access to that location.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=2000)]
+        public string RedactedTranscriptFileUri
+        {
+            get { return this._redactedTranscriptFileUri; }
+            set { this._redactedTranscriptFileUri = value; }
+        }
+
+        // Check to see if RedactedTranscriptFileUri property is set
+        internal bool IsSetRedactedTranscriptFileUri()
+        {
+            return this._redactedTranscriptFileUri != null;
+        }
 
         /// <summary>
         /// Gets and sets the property TranscriptFileUri. 
         /// <para>
-        /// The S3 location where the transcription result is stored. Use this URI to access the
-        /// results of the transcription job. 
+        /// The S3 object location of the the transcript.
+        /// </para>
+        ///  
+        /// <para>
+        /// Use this URI to access the transcript. If you specified an S3 bucket in the <code>OutputBucketName</code>
+        /// field when you created the job, this is the URI of that bucket. If you chose to store
+        /// the transcript in Amazon Transcribe, this is a shareable URL that provides secure
+        /// access to that location.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2000)]
         public string TranscriptFileUri
         {
             get { return this._transcriptFileUri; }

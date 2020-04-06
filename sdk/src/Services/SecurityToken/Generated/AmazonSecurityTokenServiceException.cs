@@ -28,10 +28,10 @@ namespace Amazon.SecurityToken
     ///<summary>
     /// Common exception for the SecurityTokenService service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonSecurityTokenServiceException : AmazonServiceException
+    public partial class AmazonSecurityTokenServiceException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonSecurityTokenServiceException
@@ -88,7 +88,7 @@ namespace Amazon.SecurityToken
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonSecurityTokenServiceException class with serialized data.
         /// </summary>

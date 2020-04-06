@@ -29,28 +29,43 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the GetCelebrityRecognition operation.
-    /// Gets the celebrity recognition results for a Rekognition Video analysis started by
-    /// .
+    /// Gets the celebrity recognition results for a Amazon Rekognition Video analysis started
+    /// by <a>StartCelebrityRecognition</a>.
     /// 
     ///  
     /// <para>
     /// Celebrity recognition in a video is an asynchronous operation. Analysis is started
-    /// by a call to which returns a job identifier (<code>JobId</code>). When the celebrity
-    /// recognition operation finishes, Rekognition Video publishes a completion status to
-    /// the Amazon Simple Notification Service topic registered in the initial call to <code>StartCelebrityRecognition</code>.
-    /// To get the results of the celebrity recognition analysis, first check that the status
-    /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <code>GetCelebrityDetection</code>
+    /// by a call to <a>StartCelebrityRecognition</a> which returns a job identifier (<code>JobId</code>).
+    /// When the celebrity recognition operation finishes, Amazon Rekognition Video publishes
+    /// a completion status to the Amazon Simple Notification Service topic registered in
+    /// the initial call to <code>StartCelebrityRecognition</code>. To get the results of
+    /// the celebrity recognition analysis, first check that the status value published to
+    /// the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <code>GetCelebrityDetection</code>
     /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartCelebrityDetection</code>.
-    /// For more information, see <a>video</a>.
+    /// 
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see Working With Stored Videos in the Amazon Rekognition Developer
+    /// Guide.
     /// </para>
     ///  
     /// <para>
     ///  <code>GetCelebrityRecognition</code> returns detected celebrities and the time(s)
-    /// they are detected in an array (<code>Celebrities</code>) of objects. Each <code>CelebrityRecognition</code>
-    /// contains information about the celebrity in a object and the time, <code>Timestamp</code>,
-    /// the celebrity was detected. 
+    /// they are detected in an array (<code>Celebrities</code>) of <a>CelebrityRecognition</a>
+    /// objects. Each <code>CelebrityRecognition</code> contains information about the celebrity
+    /// in a <a>CelebrityDetail</a> object and the time, <code>Timestamp</code>, the celebrity
+    /// was detected. 
     /// </para>
-    ///  
+    ///  <note> 
+    /// <para>
+    ///  <code>GetCelebrityRecognition</code> only returns the default facial attributes (<code>BoundingBox</code>,
+    /// <code>Confidence</code>, <code>Landmarks</code>, <code>Pose</code>, and <code>Quality</code>).
+    /// The other facial attributes listed in the <code>Face</code> object of the following
+    /// response syntax are not returned. For more information, see FaceDetail in the Amazon
+    /// Rekognition Developer Guide. 
+    /// </para>
+    ///  </note> 
     /// <para>
     /// By default, the <code>Celebrities</code> array is sorted by time (milliseconds from
     /// the start of the video). You can also sort the array by celebrity by specifying the
@@ -60,7 +75,7 @@ namespace Amazon.Rekognition.Model
     /// <para>
     /// The <code>CelebrityDetail</code> object includes the celebrity identifer and additional
     /// information urls. If you don't store the additional information urls, you can get
-    /// them later by calling with the celebrity identifer.
+    /// them later by calling <a>GetCelebrityInfo</a> with the celebrity identifer.
     /// </para>
     ///  
     /// <para>
@@ -90,6 +105,7 @@ namespace Amazon.Rekognition.Model
         /// identifer from a call to <code>StartCelebrityRecognition</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -105,10 +121,12 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// Maximum number of celebrities you want Rekognition Video to return in the response.
-        /// The default is 1000.
+        /// Maximum number of results to return per paginated call. The largest value you can
+        /// specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results
+        /// is returned. The default value is 1000.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -125,10 +143,11 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If the previous response was incomplete (because there is more recognized celebrities
-        /// to retrieve), Rekognition Video returns a pagination token in the response. You can
-        /// use this pagination token to retrieve the next set of celebrities. 
+        /// to retrieve), Amazon Rekognition Video returns a pagination token in the response.
+        /// You can use this pagination token to retrieve the next set of celebrities. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }

@@ -42,6 +42,7 @@ namespace Amazon.EC2.Model
         /// The size of the disk image, in GiB.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long Bytes
         {
             get { return this._bytes.GetValueOrDefault(); }
@@ -60,6 +61,7 @@ namespace Amazon.EC2.Model
         /// The disk image format.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DiskImageFormat Format
         {
             get { return this._format; }
@@ -78,15 +80,16 @@ namespace Amazon.EC2.Model
         /// A presigned URL for the import manifest stored in Amazon S3 and presented here as
         /// an Amazon S3 presigned URL. For information about creating a presigned URL for an
         /// Amazon S3 object, read the "Query String Request Authentication Alternative" section
-        /// of the <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">Authenticating
+        /// of the <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">Authenticating
         /// REST Requests</a> topic in the <i>Amazon Simple Storage Service Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For information about the import manifest referenced by this API action, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
+        /// For information about the import manifest referenced by this API action, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html">VM
         /// Import Manifest</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ImportManifestUrl
         {
             get { return this._importManifestUrl; }

@@ -29,9 +29,9 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeMaintenanceWindowExecutions operation.
-    /// Lists the executions of a Maintenance Window. This includes information about when
-    /// the Maintenance Window was scheduled to be active, and information about tasks registered
-    /// and run with the Maintenance Window.
+    /// Lists the executions of a maintenance window. This includes information about when
+    /// the maintenance window was scheduled to be active, and information about tasks registered
+    /// and run with the maintenance window.
     /// </summary>
     public partial class DescribeMaintenanceWindowExecutionsRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -59,6 +59,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// string such as 2016-11-04T05:00:00Z.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<MaintenanceWindowFilter> Filters
         {
             get { return this._filters; }
@@ -78,6 +79,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that you can specify in a subsequent call to get the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -112,9 +114,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowId. 
         /// <para>
-        /// The ID of the Maintenance Window whose executions should be retrieved.
+        /// The ID of the maintenance window whose executions should be retrieved.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=20)]
         public string WindowId
         {
             get { return this._windowId; }

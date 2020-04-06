@@ -28,17 +28,21 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Settings for MP4 Container
+    /// Settings for MP4 container. You can create audio-only AAC outputs with this container.
     /// </summary>
     public partial class Mp4Settings
     {
         private Mp4CslgAtom _cslgAtom;
+        private int? _cttsVersion;
         private Mp4FreeSpaceBox _freeSpaceBox;
         private Mp4MoovPlacement _moovPlacement;
         private string _mp4MajorBrand;
 
         /// <summary>
-        /// Gets and sets the property CslgAtom.
+        /// Gets and sets the property CslgAtom. When enabled, file composition times will start
+        /// at zero, composition times in the 'ctts' (composition time to sample) box for B-frames
+        /// will be negative, and a 'cslg' (composition shift least greatest) box will be included
+        /// per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
         /// </summary>
         public Mp4CslgAtom CslgAtom
         {
@@ -53,7 +57,29 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FreeSpaceBox.
+        /// Gets and sets the property CttsVersion. Ignore this setting unless compliance to the
+        /// CTTS box version specification matters in your workflow. Specify a value of 1 to set
+        /// your CTTS box version to 1 and make your output compliant with the specification.
+        /// When you specify a value of 1, you must also set CSLG atom (cslgAtom) to the value
+        /// INCLUDE. Keep the default value 0 to set your CTTS box version to 0. This can provide
+        /// backward compatibility for some players and packagers.
+        /// </summary>
+        [AWSProperty(Min=0, Max=1)]
+        public int CttsVersion
+        {
+            get { return this._cttsVersion.GetValueOrDefault(); }
+            set { this._cttsVersion = value; }
+        }
+
+        // Check to see if CttsVersion property is set
+        internal bool IsSetCttsVersion()
+        {
+            return this._cttsVersion.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property FreeSpaceBox. Inserts a free-space box immediately after
+        /// the moov box.
         /// </summary>
         public Mp4FreeSpaceBox FreeSpaceBox
         {
@@ -68,7 +94,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MoovPlacement.
+        /// Gets and sets the property MoovPlacement. If set to PROGRESSIVE_DOWNLOAD, the MOOV
+        /// atom is relocated to the beginning of the archive as required for progressive downloading.
+        /// Otherwise it is placed normally at the end.
         /// </summary>
         public Mp4MoovPlacement MoovPlacement
         {

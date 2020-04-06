@@ -29,7 +29,7 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the UntagResource operation.
-    /// Disassociates the specified tags from the specified AppStream 2.0 resource.
+    /// Disassociates one or more specified tags from the specified AppStream 2.0 resource.
     /// 
     ///  
     /// <para>
@@ -37,8 +37,8 @@ namespace Amazon.AppStream.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about tags, see <a href="http://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-    /// Your Resources</a> in the <i>Amazon AppStream 2.0 Developer Guide</i>.
+    /// For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+    /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
     /// </para>
     /// </summary>
     public partial class UntagResourceRequest : AmazonAppStreamRequest
@@ -52,6 +52,7 @@ namespace Amazon.AppStream.Model
         /// The Amazon Resource Name (ARN) of the resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceArn
         {
             get { return this._resourceArn; }
@@ -70,6 +71,7 @@ namespace Amazon.AppStream.Model
         /// The tag keys for the tags to disassociate.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

@@ -34,8 +34,8 @@ namespace Amazon.RDS.Model
     /// 
     ///  
     /// <para>
-    /// For more information on Amazon Aurora, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i> 
+    /// For more information on Amazon Aurora, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
     /// </para>
     /// </summary>
     public partial class DescribeEngineDefaultClusterParametersRequest : AmazonRDSRequest
@@ -52,6 +52,7 @@ namespace Amazon.RDS.Model
         /// for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBParameterGroupFamily
         {
             get { return this._dbParameterGroupFamily; }
@@ -67,7 +68,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// This parameter isn't currently supported.
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -107,7 +108,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The maximum number of records to include in the response. If more records exist than
         /// the specified <code>MaxRecords</code> value, a pagination token called a marker is
-        /// included in the response so that the remaining results can be retrieved. 
+        /// included in the response so you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>

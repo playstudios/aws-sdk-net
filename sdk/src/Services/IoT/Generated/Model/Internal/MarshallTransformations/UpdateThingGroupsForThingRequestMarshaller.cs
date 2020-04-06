@@ -55,16 +55,23 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateThingGroupsForThingRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/thing-groups/updateThingGroupsForThing";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/thing-groups/updateThingGroupsForThing";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetOverrideDynamicGroups())
+                {
+                    context.Writer.WritePropertyName("overrideDynamicGroups");
+                    context.Writer.Write(publicRequest.OverrideDynamicGroups);
+                }
+
                 if(publicRequest.IsSetThingGroupsToAdd())
                 {
                     context.Writer.WritePropertyName("thingGroupsToAdd");

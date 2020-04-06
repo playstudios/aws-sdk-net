@@ -90,16 +90,47 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.FlowLogStatus = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("logDestination", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.LogDestination = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("logDestinationType", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.LogDestinationType = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("logFormat", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.LogFormat = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("logGroupName", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.LogGroupName = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("maxAggregationInterval", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.MaxAggregationInterval = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("resourceId", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.ResourceId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("tagSet/item", targetDepth))
+                    {
+                        var unmarshaller = TagUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.Tags.Add(item);
                         continue;
                     }
                     if (context.TestExpression("trafficType", targetDepth))

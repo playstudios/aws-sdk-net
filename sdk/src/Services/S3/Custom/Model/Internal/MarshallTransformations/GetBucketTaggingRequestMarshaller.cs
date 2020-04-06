@@ -37,7 +37,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             request.Suppress404Exceptions = true;
             request.HttpMethod = "GET";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketTaggingRequest.BucketName));
+            if (string.IsNullOrEmpty(getBucketTaggingRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "GetBucketTaggingRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketTaggingRequest.BucketName));
             request.AddSubResource("tagging");
             request.UseQueryString = true;
             

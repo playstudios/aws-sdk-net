@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace Amazon.CloudDirectory.Model
     /// and if some objects don't have the policies attached, it returns the <code>ObjectIdentifier</code>
     /// for such objects. If policies are present, it returns <code>ObjectIdentifier</code>,
     /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to the root
-    /// from the target object are ignored. For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
+    /// from the target object are ignored. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
     /// </summary>
     public partial class LookupPolicyRequest : AmazonCloudDirectoryRequest
     {
@@ -50,6 +50,7 @@ namespace Amazon.CloudDirectory.Model
         /// information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -69,6 +70,7 @@ namespace Amazon.CloudDirectory.Model
         /// number.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -105,6 +107,7 @@ namespace Amazon.CloudDirectory.Model
         /// Reference that identifies the object whose policies will be looked up.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ObjectReference
         {
             get { return this._objectReference; }

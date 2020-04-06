@@ -133,6 +133,168 @@ namespace Amazon.DynamoDBv2
 
 
     /// <summary>
+    /// Constants used for properties of type BackupType.
+    /// </summary>
+    public class BackupType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant AWS_BACKUP for BackupType
+        /// </summary>
+        public static readonly BackupType AWS_BACKUP = new BackupType("AWS_BACKUP");
+        /// <summary>
+        /// Constant SYSTEM for BackupType
+        /// </summary>
+        public static readonly BackupType SYSTEM = new BackupType("SYSTEM");
+        /// <summary>
+        /// Constant USER for BackupType
+        /// </summary>
+        public static readonly BackupType USER = new BackupType("USER");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public BackupType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static BackupType FindValue(string value)
+        {
+            return FindValue<BackupType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator BackupType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type BackupTypeFilter.
+    /// </summary>
+    public class BackupTypeFilter : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ALL for BackupTypeFilter
+        /// </summary>
+        public static readonly BackupTypeFilter ALL = new BackupTypeFilter("ALL");
+        /// <summary>
+        /// Constant AWS_BACKUP for BackupTypeFilter
+        /// </summary>
+        public static readonly BackupTypeFilter AWS_BACKUP = new BackupTypeFilter("AWS_BACKUP");
+        /// <summary>
+        /// Constant SYSTEM for BackupTypeFilter
+        /// </summary>
+        public static readonly BackupTypeFilter SYSTEM = new BackupTypeFilter("SYSTEM");
+        /// <summary>
+        /// Constant USER for BackupTypeFilter
+        /// </summary>
+        public static readonly BackupTypeFilter USER = new BackupTypeFilter("USER");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public BackupTypeFilter(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static BackupTypeFilter FindValue(string value)
+        {
+            return FindValue<BackupTypeFilter>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator BackupTypeFilter(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type BillingMode.
+    /// </summary>
+    public class BillingMode : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant PAY_PER_REQUEST for BillingMode
+        /// </summary>
+        public static readonly BillingMode PAY_PER_REQUEST = new BillingMode("PAY_PER_REQUEST");
+        /// <summary>
+        /// Constant PROVISIONED for BillingMode
+        /// </summary>
+        public static readonly BillingMode PROVISIONED = new BillingMode("PROVISIONED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public BillingMode(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static BillingMode FindValue(string value)
+        {
+            return FindValue<BillingMode>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator BillingMode(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ComparisonOperator.
     /// </summary>
     public class ComparisonOperator : ConstantClass
@@ -320,6 +482,118 @@ namespace Amazon.DynamoDBv2
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator ContinuousBackupsStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ContributorInsightsAction.
+    /// </summary>
+    public class ContributorInsightsAction : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant DISABLE for ContributorInsightsAction
+        /// </summary>
+        public static readonly ContributorInsightsAction DISABLE = new ContributorInsightsAction("DISABLE");
+        /// <summary>
+        /// Constant ENABLE for ContributorInsightsAction
+        /// </summary>
+        public static readonly ContributorInsightsAction ENABLE = new ContributorInsightsAction("ENABLE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ContributorInsightsAction(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ContributorInsightsAction FindValue(string value)
+        {
+            return FindValue<ContributorInsightsAction>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ContributorInsightsAction(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ContributorInsightsStatus.
+    /// </summary>
+    public class ContributorInsightsStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant DISABLED for ContributorInsightsStatus
+        /// </summary>
+        public static readonly ContributorInsightsStatus DISABLED = new ContributorInsightsStatus("DISABLED");
+        /// <summary>
+        /// Constant DISABLING for ContributorInsightsStatus
+        /// </summary>
+        public static readonly ContributorInsightsStatus DISABLING = new ContributorInsightsStatus("DISABLING");
+        /// <summary>
+        /// Constant ENABLED for ContributorInsightsStatus
+        /// </summary>
+        public static readonly ContributorInsightsStatus ENABLED = new ContributorInsightsStatus("ENABLED");
+        /// <summary>
+        /// Constant ENABLING for ContributorInsightsStatus
+        /// </summary>
+        public static readonly ContributorInsightsStatus ENABLING = new ContributorInsightsStatus("ENABLING");
+        /// <summary>
+        /// Constant FAILED for ContributorInsightsStatus
+        /// </summary>
+        public static readonly ContributorInsightsStatus FAILED = new ContributorInsightsStatus("FAILED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ContributorInsightsStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ContributorInsightsStatus FindValue(string value)
+        {
+            return FindValue<ContributorInsightsStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ContributorInsightsStatus(string value)
         {
             return FindValue(value);
         }
@@ -597,6 +871,68 @@ namespace Amazon.DynamoDBv2
 
 
     /// <summary>
+    /// Constants used for properties of type ReplicaStatus.
+    /// </summary>
+    public class ReplicaStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACTIVE for ReplicaStatus
+        /// </summary>
+        public static readonly ReplicaStatus ACTIVE = new ReplicaStatus("ACTIVE");
+        /// <summary>
+        /// Constant CREATING for ReplicaStatus
+        /// </summary>
+        public static readonly ReplicaStatus CREATING = new ReplicaStatus("CREATING");
+        /// <summary>
+        /// Constant CREATION_FAILED for ReplicaStatus
+        /// </summary>
+        public static readonly ReplicaStatus CREATION_FAILED = new ReplicaStatus("CREATION_FAILED");
+        /// <summary>
+        /// Constant DELETING for ReplicaStatus
+        /// </summary>
+        public static readonly ReplicaStatus DELETING = new ReplicaStatus("DELETING");
+        /// <summary>
+        /// Constant UPDATING for ReplicaStatus
+        /// </summary>
+        public static readonly ReplicaStatus UPDATING = new ReplicaStatus("UPDATING");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReplicaStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReplicaStatus FindValue(string value)
+        {
+            return FindValue<ReplicaStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReplicaStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ReturnConsumedCapacity.
     /// </summary>
     public class ReturnConsumedCapacity : ConstantClass
@@ -763,6 +1099,56 @@ namespace Amazon.DynamoDBv2
 
 
     /// <summary>
+    /// Constants used for properties of type ReturnValuesOnConditionCheckFailure.
+    /// </summary>
+    public class ReturnValuesOnConditionCheckFailure : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ALL_OLD for ReturnValuesOnConditionCheckFailure
+        /// </summary>
+        public static readonly ReturnValuesOnConditionCheckFailure ALL_OLD = new ReturnValuesOnConditionCheckFailure("ALL_OLD");
+        /// <summary>
+        /// Constant NONE for ReturnValuesOnConditionCheckFailure
+        /// </summary>
+        public static readonly ReturnValuesOnConditionCheckFailure NONE = new ReturnValuesOnConditionCheckFailure("NONE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReturnValuesOnConditionCheckFailure(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReturnValuesOnConditionCheckFailure FindValue(string value)
+        {
+            return FindValue<ReturnValuesOnConditionCheckFailure>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReturnValuesOnConditionCheckFailure(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ScalarAttributeType.
     /// </summary>
     public class ScalarAttributeType : ConstantClass
@@ -896,6 +1282,10 @@ namespace Amazon.DynamoDBv2
         /// Constant ENABLING for SSEStatus
         /// </summary>
         public static readonly SSEStatus ENABLING = new SSEStatus("ENABLING");
+        /// <summary>
+        /// Constant UPDATING for SSEStatus
+        /// </summary>
+        public static readonly SSEStatus UPDATING = new SSEStatus("UPDATING");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -926,6 +1316,56 @@ namespace Amazon.DynamoDBv2
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator SSEStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type SSEType.
+    /// </summary>
+    public class SSEType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant AES256 for SSEType
+        /// </summary>
+        public static readonly SSEType AES256 = new SSEType("AES256");
+        /// <summary>
+        /// Constant KMS for SSEType
+        /// </summary>
+        public static readonly SSEType KMS = new SSEType("KMS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SSEType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SSEType FindValue(string value)
+        {
+            return FindValue<SSEType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SSEType(string value)
         {
             return FindValue(value);
         }
@@ -1001,6 +1441,14 @@ namespace Amazon.DynamoDBv2
         /// </summary>
         public static readonly TableStatus ACTIVE = new TableStatus("ACTIVE");
         /// <summary>
+        /// Constant ARCHIVED for TableStatus
+        /// </summary>
+        public static readonly TableStatus ARCHIVED = new TableStatus("ARCHIVED");
+        /// <summary>
+        /// Constant ARCHIVING for TableStatus
+        /// </summary>
+        public static readonly TableStatus ARCHIVING = new TableStatus("ARCHIVING");
+        /// <summary>
         /// Constant CREATING for TableStatus
         /// </summary>
         public static readonly TableStatus CREATING = new TableStatus("CREATING");
@@ -1008,6 +1456,10 @@ namespace Amazon.DynamoDBv2
         /// Constant DELETING for TableStatus
         /// </summary>
         public static readonly TableStatus DELETING = new TableStatus("DELETING");
+        /// <summary>
+        /// Constant INACCESSIBLE_ENCRYPTION_CREDENTIALS for TableStatus
+        /// </summary>
+        public static readonly TableStatus INACCESSIBLE_ENCRYPTION_CREDENTIALS = new TableStatus("INACCESSIBLE_ENCRYPTION_CREDENTIALS");
         /// <summary>
         /// Constant UPDATING for TableStatus
         /// </summary>

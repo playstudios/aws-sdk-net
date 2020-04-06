@@ -28,12 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GameLift.Model
 {
     /// <summary>
-    /// Properties describing a fleet alias.
+    /// Properties that describe an alias resource.
     /// 
-    ///  
-    /// <para>
-    /// Alias-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateAlias</a> 
@@ -73,7 +69,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasArn. 
         /// <para>
-        /// Unique identifier for an alias; alias ARNs are unique across all regions.
+        /// Amazon Resource Name (<a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+        /// that is assigned to a GameLift alias resource and uniquely identifies it. ARNs are
+        /// unique across all Regions. In a GameLift alias ARN, the resource ID matches the alias
+        /// ID value.
         /// </para>
         /// </summary>
         public string AliasArn
@@ -91,7 +90,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for an alias; alias IDs are unique within a region.
+        /// A unique identifier for an alias. Alias IDs are unique within a Region.
         /// </para>
         /// </summary>
         public string AliasId
@@ -109,7 +108,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// Time stamp indicating when this data object was created. Format is a number expressed
+        /// A time stamp indicating when this data object was created. Format is a number expressed
         /// in Unix time as milliseconds (for example "1469498468.057").
         /// </para>
         /// </summary>
@@ -128,7 +127,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// Human-readable description of an alias.
+        /// A human-readable description of an alias.
         /// </para>
         /// </summary>
         public string Description
@@ -146,8 +145,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property LastUpdatedTime. 
         /// <para>
-        /// Time stamp indicating when this data object was last modified. Format is a number
-        /// expressed in Unix time as milliseconds (for example "1469498468.057").
+        /// The time that this data object was last modified. Format is a number expressed in
+        /// Unix time as milliseconds (for example "1469498468.057").
         /// </para>
         /// </summary>
         public DateTime LastUpdatedTime
@@ -165,10 +164,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with an alias. Alias names do not need to be
+        /// A descriptive label that is associated with an alias. Alias names do not need to be
         /// unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }
@@ -184,7 +184,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property RoutingStrategy. 
         /// <para>
-        /// Alias configuration for the alias, including routing type and settings.
+        /// The routing configuration, including routing type and fleet target, for the alias.
+        /// 
         /// </para>
         /// </summary>
         public RoutingStrategy RoutingStrategy

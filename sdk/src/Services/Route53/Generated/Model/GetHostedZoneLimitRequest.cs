@@ -34,7 +34,7 @@ namespace Amazon.Route53.Model
     /// 
     ///  
     /// <para>
-    /// For the default limit, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+    /// For the default limit, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
     /// in the <i>Amazon Route 53 Developer Guide</i>. To request a higher limit, <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
     /// a case</a>.
     /// </para>
@@ -61,6 +61,7 @@ namespace Amazon.Route53.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public HostedZoneLimitType Type
         {
             get { return this._type; }
@@ -79,6 +80,7 @@ namespace Amazon.Route53.Model
         /// The ID of the hosted zone that you want to get a limit for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=32)]
         public string HostedZoneId
         {
             get { return this._hostedZoneId; }

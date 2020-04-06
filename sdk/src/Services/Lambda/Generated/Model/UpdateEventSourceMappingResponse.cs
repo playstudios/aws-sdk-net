@@ -28,15 +28,22 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lambda.Model
 {
     /// <summary>
-    /// Describes mapping between an Amazon Kinesis stream and a Lambda function.
+    /// A mapping between an AWS resource and an AWS Lambda function. See <a>CreateEventSourceMapping</a>
+    /// for details.
     /// </summary>
     public partial class UpdateEventSourceMappingResponse : AmazonWebServiceResponse
     {
         private int? _batchSize;
+        private bool? _bisectBatchOnFunctionError;
+        private DestinationConfig _destinationConfig;
         private string _eventSourceArn;
         private string _functionArn;
         private DateTime? _lastModified;
         private string _lastProcessingResult;
+        private int? _maximumBatchingWindowInSeconds;
+        private int? _maximumRecordAgeInSeconds;
+        private int? _maximumRetryAttempts;
+        private int? _parallelizationFactor;
         private string _state;
         private string _stateTransitionReason;
         private string _uuid;
@@ -44,11 +51,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property BatchSize. 
         /// <para>
-        /// The largest number of records that AWS Lambda will retrieve from your event source
-        /// at the time of invoking your function. Your function receives an event with all the
-        /// retrieved records.
+        /// The maximum number of items to retrieve in a single batch.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int BatchSize
         {
             get { return this._batchSize.GetValueOrDefault(); }
@@ -62,10 +68,45 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BisectBatchOnFunctionError. 
+        /// <para>
+        /// (Streams) If the function returns an error, split the batch in two and retry.
+        /// </para>
+        /// </summary>
+        public bool BisectBatchOnFunctionError
+        {
+            get { return this._bisectBatchOnFunctionError.GetValueOrDefault(); }
+            set { this._bisectBatchOnFunctionError = value; }
+        }
+
+        // Check to see if BisectBatchOnFunctionError property is set
+        internal bool IsSetBisectBatchOnFunctionError()
+        {
+            return this._bisectBatchOnFunctionError.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DestinationConfig. 
+        /// <para>
+        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// </para>
+        /// </summary>
+        public DestinationConfig DestinationConfig
+        {
+            get { return this._destinationConfig; }
+            set { this._destinationConfig = value; }
+        }
+
+        // Check to see if DestinationConfig property is set
+        internal bool IsSetDestinationConfig()
+        {
+            return this._destinationConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EventSourceArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream that is the source of
-        /// events.
+        /// The Amazon Resource Name (ARN) of the event source.
         /// </para>
         /// </summary>
         public string EventSourceArn
@@ -83,7 +124,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionArn. 
         /// <para>
-        /// The Lambda function to invoke when AWS Lambda detects an event on the stream.
+        /// The ARN of the Lambda function.
         /// </para>
         /// </summary>
         public string FunctionArn
@@ -101,7 +142,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property LastModified. 
         /// <para>
-        /// The UTC time string indicating the last time the event mapping was updated.
+        /// The date that the event source mapping was last updated, or its state changed.
         /// </para>
         /// </summary>
         public DateTime LastModified
@@ -135,11 +176,88 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaximumBatchingWindowInSeconds. 
+        /// <para>
+        /// (Streams) The maximum amount of time to gather records before invoking the function,
+        /// in seconds.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=300)]
+        public int MaximumBatchingWindowInSeconds
+        {
+            get { return this._maximumBatchingWindowInSeconds.GetValueOrDefault(); }
+            set { this._maximumBatchingWindowInSeconds = value; }
+        }
+
+        // Check to see if MaximumBatchingWindowInSeconds property is set
+        internal bool IsSetMaximumBatchingWindowInSeconds()
+        {
+            return this._maximumBatchingWindowInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaximumRecordAgeInSeconds. 
+        /// <para>
+        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=60, Max=604800)]
+        public int MaximumRecordAgeInSeconds
+        {
+            get { return this._maximumRecordAgeInSeconds.GetValueOrDefault(); }
+            set { this._maximumRecordAgeInSeconds = value; }
+        }
+
+        // Check to see if MaximumRecordAgeInSeconds property is set
+        internal bool IsSetMaximumRecordAgeInSeconds()
+        {
+            return this._maximumRecordAgeInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaximumRetryAttempts. 
+        /// <para>
+        /// (Streams) The maximum number of times to retry when the function returns an error.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=10000)]
+        public int MaximumRetryAttempts
+        {
+            get { return this._maximumRetryAttempts.GetValueOrDefault(); }
+            set { this._maximumRetryAttempts = value; }
+        }
+
+        // Check to see if MaximumRetryAttempts property is set
+        internal bool IsSetMaximumRetryAttempts()
+        {
+            return this._maximumRetryAttempts.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ParallelizationFactor. 
+        /// <para>
+        /// (Streams) The number of batches to process from each shard concurrently.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=10)]
+        public int ParallelizationFactor
+        {
+            get { return this._parallelizationFactor.GetValueOrDefault(); }
+            set { this._parallelizationFactor = value; }
+        }
+
+        // Check to see if ParallelizationFactor property is set
+        internal bool IsSetParallelizationFactor()
+        {
+            return this._parallelizationFactor.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property State. 
         /// <para>
-        /// The state of the event source mapping. It can be <code>Creating</code>, <code>Enabled</code>,
-        /// <code>Disabled</code>, <code>Enabling</code>, <code>Disabling</code>, <code>Updating</code>,
-        /// or <code>Deleting</code>.
+        /// The state of the event source mapping. It can be one of the following: <code>Creating</code>,
+        /// <code>Enabling</code>, <code>Enabled</code>, <code>Disabling</code>, <code>Disabled</code>,
+        /// <code>Updating</code>, or <code>Deleting</code>.
         /// </para>
         /// </summary>
         public string State
@@ -157,8 +275,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property StateTransitionReason. 
         /// <para>
-        /// The reason the event source mapping is in its current state. It is either user-requested
-        /// or an AWS Lambda-initiated state transition.
+        /// Indicates whether the last change to the event source mapping was made by a user,
+        /// or by the Lambda service.
         /// </para>
         /// </summary>
         public string StateTransitionReason
@@ -176,7 +294,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property UUID. 
         /// <para>
-        /// The AWS Lambda assigned opaque identifier for the mapping.
+        /// The identifier of the event source mapping.
         /// </para>
         /// </summary>
         public string UUID

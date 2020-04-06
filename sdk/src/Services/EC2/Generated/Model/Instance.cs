@@ -35,10 +35,15 @@ namespace Amazon.EC2.Model
         private int? _amiLaunchIndex;
         private ArchitectureValues _architecture;
         private List<InstanceBlockDeviceMapping> _blockDeviceMappings = new List<InstanceBlockDeviceMapping>();
+        private string _capacityReservationId;
+        private CapacityReservationSpecificationResponse _capacityReservationSpecification;
         private string _clientToken;
+        private CpuOptions _cpuOptions;
         private bool? _ebsOptimized;
         private List<ElasticGpuAssociation> _elasticGpuAssociations = new List<ElasticGpuAssociation>();
+        private List<ElasticInferenceAcceleratorAssociation> _elasticInferenceAcceleratorAssociations = new List<ElasticInferenceAcceleratorAssociation>();
         private bool? _enaSupport;
+        private HibernationOptions _hibernationOptions;
         private HypervisorType _hypervisor;
         private IamInstanceProfile _iamInstanceProfile;
         private string _imageId;
@@ -48,8 +53,11 @@ namespace Amazon.EC2.Model
         private string _kernelId;
         private string _keyName;
         private DateTime? _launchTime;
+        private List<LicenseConfiguration> _licenses = new List<LicenseConfiguration>();
+        private InstanceMetadataOptionsResponse _metadataOptions;
         private Monitoring _monitoring;
         private List<InstanceNetworkInterface> _networkInterfaces = new List<InstanceNetworkInterface>();
+        private string _outpostArn;
         private Placement _placement;
         private PlatformValues _platform;
         private string _privateDnsName;
@@ -127,6 +135,42 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CapacityReservationId. 
+        /// <para>
+        /// The ID of the Capacity Reservation.
+        /// </para>
+        /// </summary>
+        public string CapacityReservationId
+        {
+            get { return this._capacityReservationId; }
+            set { this._capacityReservationId = value; }
+        }
+
+        // Check to see if CapacityReservationId property is set
+        internal bool IsSetCapacityReservationId()
+        {
+            return this._capacityReservationId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CapacityReservationSpecification. 
+        /// <para>
+        /// Information about the Capacity Reservation targeting option.
+        /// </para>
+        /// </summary>
+        public CapacityReservationSpecificationResponse CapacityReservationSpecification
+        {
+            get { return this._capacityReservationSpecification; }
+            set { this._capacityReservationSpecification = value; }
+        }
+
+        // Check to see if CapacityReservationSpecification property is set
+        internal bool IsSetCapacityReservationSpecification()
+        {
+            return this._capacityReservationSpecification != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// The idempotency token you provided when you launched the instance, if applicable.
@@ -142,6 +186,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetClientToken()
         {
             return this._clientToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CpuOptions. 
+        /// <para>
+        /// The CPU options for the instance.
+        /// </para>
+        /// </summary>
+        public CpuOptions CpuOptions
+        {
+            get { return this._cpuOptions; }
+            set { this._cpuOptions = value; }
+        }
+
+        // Check to see if CpuOptions property is set
+        internal bool IsSetCpuOptions()
+        {
+            return this._cpuOptions != null;
         }
 
         /// <summary>
@@ -184,6 +246,24 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ElasticInferenceAcceleratorAssociations. 
+        /// <para>
+        ///  The elastic inference accelerator associated with the instance.
+        /// </para>
+        /// </summary>
+        public List<ElasticInferenceAcceleratorAssociation> ElasticInferenceAcceleratorAssociations
+        {
+            get { return this._elasticInferenceAcceleratorAssociations; }
+            set { this._elasticInferenceAcceleratorAssociations = value; }
+        }
+
+        // Check to see if ElasticInferenceAcceleratorAssociations property is set
+        internal bool IsSetElasticInferenceAcceleratorAssociations()
+        {
+            return this._elasticInferenceAcceleratorAssociations != null && this._elasticInferenceAcceleratorAssociations.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property EnaSupport. 
         /// <para>
         /// Specifies whether enhanced networking with ENA is enabled.
@@ -202,9 +282,28 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HibernationOptions. 
+        /// <para>
+        /// Indicates whether the instance is enabled for hibernation.
+        /// </para>
+        /// </summary>
+        public HibernationOptions HibernationOptions
+        {
+            get { return this._hibernationOptions; }
+            set { this._hibernationOptions = value; }
+        }
+
+        // Check to see if HibernationOptions property is set
+        internal bool IsSetHibernationOptions()
+        {
+            return this._hibernationOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Hypervisor. 
         /// <para>
-        /// The hypervisor type of the instance.
+        /// The hypervisor type of the instance. The value <code>xen</code> is used for both Xen
+        /// and Nitro hypervisors.
         /// </para>
         /// </summary>
         public HypervisorType Hypervisor
@@ -364,6 +463,42 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Licenses. 
+        /// <para>
+        /// The license configurations.
+        /// </para>
+        /// </summary>
+        public List<LicenseConfiguration> Licenses
+        {
+            get { return this._licenses; }
+            set { this._licenses = value; }
+        }
+
+        // Check to see if Licenses property is set
+        internal bool IsSetLicenses()
+        {
+            return this._licenses != null && this._licenses.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MetadataOptions. 
+        /// <para>
+        /// The metadata options for the instance.
+        /// </para>
+        /// </summary>
+        public InstanceMetadataOptionsResponse MetadataOptions
+        {
+            get { return this._metadataOptions; }
+            set { this._metadataOptions = value; }
+        }
+
+        // Check to see if MetadataOptions property is set
+        internal bool IsSetMetadataOptions()
+        {
+            return this._metadataOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Monitoring. 
         /// <para>
         /// The monitoring for the instance.
@@ -384,7 +519,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NetworkInterfaces. 
         /// <para>
-        /// [EC2-VPC] One or more network interfaces for the instance.
+        /// [EC2-VPC] The network interfaces for the instance.
         /// </para>
         /// </summary>
         public List<InstanceNetworkInterface> NetworkInterfaces
@@ -397,6 +532,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetNetworkInterfaces()
         {
             return this._networkInterfaces != null && this._networkInterfaces.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property OutpostArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the Outpost.
+        /// </para>
+        /// </summary>
+        public string OutpostArn
+        {
+            get { return this._outpostArn; }
+            set { this._outpostArn = value; }
+        }
+
+        // Check to see if OutpostArn property is set
+        internal bool IsSetOutpostArn()
+        {
+            return this._outpostArn != null;
         }
 
         /// <summary>
@@ -594,7 +747,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SecurityGroups. 
         /// <para>
-        /// One or more security groups for the instance.
+        /// The security groups for the instance.
         /// </para>
         /// </summary>
         public List<GroupIdentifier> SecurityGroups
@@ -616,7 +769,7 @@ namespace Amazon.EC2.Model
         /// whether source/destination checking is enabled on the instance. A value of <code>true</code>
         /// means that checking is enabled, and <code>false</code> means that checking is disabled.
         /// The value must be <code>false</code> for the instance to perform NAT. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html">NAT
+        /// see <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html">NAT
         /// Instances</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>

@@ -28,10 +28,10 @@ namespace Amazon.AppSync
     ///<summary>
     /// Common exception for the AppSync service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonAppSyncException : AmazonServiceException
+    public partial class AmazonAppSyncException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonAppSyncException
@@ -88,7 +88,7 @@ namespace Amazon.AppSync
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonAppSyncException class with serialized data.
         /// </summary>

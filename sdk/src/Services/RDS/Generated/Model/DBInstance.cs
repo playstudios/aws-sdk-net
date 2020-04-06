@@ -32,13 +32,14 @@ namespace Amazon.RDS.Model
     /// 
     ///  
     /// <para>
-    /// This data type is used as a response element in the <a>DescribeDBInstances</a> action.
-    /// 
+    /// This data type is used as a response element in the <code>DescribeDBInstances</code>
+    /// action. 
     /// </para>
     /// </summary>
     public partial class DBInstance
     {
         private int? _allocatedStorage;
+        private List<DBInstanceRole> _associatedRoles = new List<DBInstanceRole>();
         private bool? _autoMinorVersionUpgrade;
         private string _availabilityZone;
         private int? _backupRetentionPeriod;
@@ -56,6 +57,7 @@ namespace Amazon.RDS.Model
         private List<DBParameterGroupStatus> _dbParameterGroups = new List<DBParameterGroupStatus>();
         private List<DBSecurityGroupMembership> _dbSecurityGroups = new List<DBSecurityGroupMembership>();
         private DBSubnetGroup _dbSubnetGroup;
+        private bool? _deletionProtection;
         private List<DomainMembership> _domainMemberships = new List<DomainMembership>();
         private List<string> _enabledCloudwatchLogsExports = new List<string>();
         private Endpoint _endpoint;
@@ -68,7 +70,9 @@ namespace Amazon.RDS.Model
         private string _kmsKeyId;
         private DateTime? _latestRestorableTime;
         private string _licenseModel;
+        private Endpoint _listenerEndpoint;
         private string _masterUsername;
+        private int? _maxAllocatedStorage;
         private int? _monitoringInterval;
         private string _monitoringRoleArn;
         private bool? _multiAZ;
@@ -76,8 +80,10 @@ namespace Amazon.RDS.Model
         private PendingModifiedValues _pendingModifiedValues;
         private bool? _performanceInsightsEnabled;
         private string _performanceInsightsKMSKeyId;
+        private int? _performanceInsightsRetentionPeriod;
         private string _preferredBackupWindow;
         private string _preferredMaintenanceWindow;
+        private List<ProcessorFeature> _processorFeatures = new List<ProcessorFeature>();
         private int? _promotionTier;
         private bool? _publiclyAccessible;
         private List<string> _readReplicaDBClusterIdentifiers = new List<string>();
@@ -107,6 +113,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetAllocatedStorage()
         {
             return this._allocatedStorage.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AssociatedRoles. 
+        /// <para>
+        ///  The AWS Identity and Access Management (IAM) roles associated with the DB instance.
+        /// 
+        /// </para>
+        /// </summary>
+        public List<DBInstanceRole> AssociatedRoles
+        {
+            get { return this._associatedRoles; }
+            set { this._associatedRoles = value; }
+        }
+
+        // Check to see if AssociatedRoles property is set
+        internal bool IsSetAssociatedRoles()
+        {
+            return this._associatedRoles != null && this._associatedRoles.Count > 0; 
         }
 
         /// <summary>
@@ -204,6 +229,16 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property CopyTagsToSnapshot. 
         /// <para>
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Amazon Aurora</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this
+        /// value for an Aurora DB instance has no effect on the DB cluster setting. For more
+        /// information, see <code>DBCluster</code>.
         /// </para>
         /// </summary>
         public bool CopyTagsToSnapshot
@@ -316,6 +351,11 @@ namespace Amazon.RDS.Model
         /// <para>
         /// Specifies the current state of this database.
         /// </para>
+        ///  
+        /// <para>
+        /// For information about DB instance statuses, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.Status.html">DB
+        /// Instance Status</a> in the <i>Amazon RDS User Guide.</i> 
+        /// </para>
         /// </summary>
         public string DBInstanceStatus
         {
@@ -352,10 +392,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property DBName. 
         /// <para>
-        /// The meaning of this parameter differs according to the database engine you use. For
-        /// example, this value returns MySQL, MariaDB, or PostgreSQL information when returning
-        /// values from CreateDBInstanceReadReplica since Read Replicas are only supported for
-        /// these engines.
+        /// The meaning of this parameter differs according to the database engine you use.
         /// </para>
         ///  
         /// <para>
@@ -414,7 +451,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property DBSecurityGroups. 
         /// <para>
-        ///  Provides List of DB security group elements containing only <code>DBSecurityGroup.Name</code>
+        ///  A list of DB security group elements containing <code>DBSecurityGroup.Name</code>
         /// and <code>DBSecurityGroup.Status</code> subelements. 
         /// </para>
         /// </summary>
@@ -450,6 +487,26 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeletionProtection. 
+        /// <para>
+        /// Indicates if the DB instance has deletion protection enabled. The database can't be
+        /// deleted when deletion protection is enabled. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html">
+        /// Deleting a DB Instance</a>. 
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property DomainMemberships. 
         /// <para>
         /// The Active Directory Domain membership records associated with the DB instance.
@@ -471,6 +528,12 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property EnabledCloudwatchLogsExports. 
         /// <para>
         /// A list of log types that this DB instance is configured to export to CloudWatch Logs.
+        /// </para>
+        ///  
+        /// <para>
+        /// Log types vary by DB engine. For information about the log types for each DB engine,
+        /// see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html">Amazon
+        /// RDS Database Log Files</a> in the <i>Amazon RDS User Guide.</i> 
         /// </para>
         /// </summary>
         public List<string> EnabledCloudwatchLogsExports
@@ -687,6 +750,24 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ListenerEndpoint. 
+        /// <para>
+        /// Specifies the listener connection endpoint for SQL Server Always On.
+        /// </para>
+        /// </summary>
+        public Endpoint ListenerEndpoint
+        {
+            get { return this._listenerEndpoint; }
+            set { this._listenerEndpoint = value; }
+        }
+
+        // Check to see if ListenerEndpoint property is set
+        internal bool IsSetListenerEndpoint()
+        {
+            return this._listenerEndpoint != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MasterUsername. 
         /// <para>
         /// Contains the master username for the DB instance.
@@ -702,6 +783,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetMasterUsername()
         {
             return this._masterUsername != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaxAllocatedStorage. 
+        /// <para>
+        /// The upper limit to which Amazon RDS can automatically scale the storage of the DB
+        /// instance.
+        /// </para>
+        /// </summary>
+        public int MaxAllocatedStorage
+        {
+            get { return this._maxAllocatedStorage.GetValueOrDefault(); }
+            set { this._maxAllocatedStorage = value; }
+        }
+
+        // Check to see if MaxAllocatedStorage property is set
+        internal bool IsSetMaxAllocatedStorage()
+        {
+            return this._maxAllocatedStorage.HasValue; 
         }
 
         /// <summary>
@@ -836,6 +936,25 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PerformanceInsightsRetentionPeriod. 
+        /// <para>
+        /// The amount of time, in days, to retain Performance Insights data. Valid values are
+        /// 7 or 731 (2 years). 
+        /// </para>
+        /// </summary>
+        public int PerformanceInsightsRetentionPeriod
+        {
+            get { return this._performanceInsightsRetentionPeriod.GetValueOrDefault(); }
+            set { this._performanceInsightsRetentionPeriod = value; }
+        }
+
+        // Check to see if PerformanceInsightsRetentionPeriod property is set
+        internal bool IsSetPerformanceInsightsRetentionPeriod()
+        {
+            return this._performanceInsightsRetentionPeriod.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PreferredBackupWindow. 
         /// <para>
         ///  Specifies the daily time range during which automated backups are created if automated
@@ -874,12 +993,32 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ProcessorFeatures. 
+        /// <para>
+        /// The number of CPU cores and the number of threads per core for the DB instance class
+        /// of the DB instance.
+        /// </para>
+        /// </summary>
+        public List<ProcessorFeature> ProcessorFeatures
+        {
+            get { return this._processorFeatures; }
+            set { this._processorFeatures = value; }
+        }
+
+        // Check to see if ProcessorFeatures property is set
+        internal bool IsSetProcessorFeatures()
+        {
+            return this._processorFeatures != null && this._processorFeatures.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PromotionTier. 
         /// <para>
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary
         /// instance after a failure of the existing primary instance. For more information, see
-        /// <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Aurora.Managing.html#Aurora.Managing.FaultTolerance">
-        /// Fault Tolerance for an Aurora DB Cluster</a>. 
+        /// <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.FaultTolerance">
+        /// Fault Tolerance for an Aurora DB Cluster</a> in the <i>Amazon Aurora User Guide</i>.
+        /// 
         /// </para>
         /// </summary>
         public int PromotionTier
@@ -902,26 +1041,6 @@ namespace Amazon.RDS.Model
         /// a public IP address. A value of false specifies an internal instance with a DNS name
         /// that resolves to a private IP address.
         /// </para>
-        ///  
-        /// <para>
-        /// Default: The default behavior varies depending on whether a VPC has been requested
-        /// or not. The following list shows the default behavior in each case.
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        ///  <b>Default VPC:</b>true
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <b>VPC:</b>false
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// If no DB subnet group has been specified as part of the request and the PubliclyAccessible
-        /// value has not been set, the DB instance is publicly accessible. If a specific DB subnet
-        /// group has been specified as part of the request and the PubliclyAccessible value has
-        /// not been set, the DB instance is private.
-        /// </para>
         /// </summary>
         public bool PubliclyAccessible
         {
@@ -938,9 +1057,17 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ReadReplicaDBClusterIdentifiers. 
         /// <para>
-        /// Contains one or more identifiers of Aurora DB clusters that are Read Replicas of this
-        /// DB instance.
+        /// Contains one or more identifiers of Aurora DB clusters to which the RDS DB instance
+        /// is replicated as a read replica. For example, when you create an Aurora read replica
+        /// of an RDS MySQL DB instance, the Aurora MySQL DB cluster for the Aurora read replica
+        /// is shown. This output does not contain information about cross region Aurora read
+        /// replicas.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// Currently, each RDS DB instance can have only one Aurora read replica.
+        /// </para>
+        ///  </note>
         /// </summary>
         public List<string> ReadReplicaDBClusterIdentifiers
         {
@@ -957,7 +1084,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ReadReplicaDBInstanceIdentifiers. 
         /// <para>
-        /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
+        /// Contains one or more identifiers of the read replicas associated with this DB instance.
         /// </para>
         /// </summary>
         public List<string> ReadReplicaDBInstanceIdentifiers
@@ -975,7 +1102,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ReadReplicaSourceDBInstanceIdentifier. 
         /// <para>
-        /// Contains the identifier of the source DB instance if this DB instance is a Read Replica.
+        /// Contains the identifier of the source DB instance if this DB instance is a read replica.
         /// </para>
         /// </summary>
         public string ReadReplicaSourceDBInstanceIdentifier
@@ -1012,7 +1139,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property StatusInfos. 
         /// <para>
-        /// The status of a Read Replica. If the instance is not a Read Replica, this is blank.
+        /// The status of a read replica. If the instance isn't a read replica, this is blank.
         /// </para>
         /// </summary>
         public List<DBInstanceStatusInfo> StatusInfos

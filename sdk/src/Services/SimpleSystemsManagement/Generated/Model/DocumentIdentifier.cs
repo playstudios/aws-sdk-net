@@ -38,9 +38,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _name;
         private string _owner;
         private List<string> _platformTypes = new List<string>();
+        private List<DocumentRequires> _requires = new List<DocumentRequires>();
         private string _schemaVersion;
         private List<Tag> _tags = new List<Tag>();
         private string _targetType;
+        private string _versionName;
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -165,6 +167,26 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Requires. 
+        /// <para>
+        /// A list of SSM documents required by a document. For example, an <code>ApplicationConfiguration</code>
+        /// document requires an <code>ApplicationConfigurationSchema</code> document.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<DocumentRequires> Requires
+        {
+            get { return this._requires; }
+            set { this._requires = value; }
+        }
+
+        // Check to see if Requires property is set
+        internal bool IsSetRequires()
+        {
+            return this._requires != null && this._requires.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property SchemaVersion. 
         /// <para>
         /// The schema version.
@@ -188,6 +210,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The tags, or metadata, that have been applied to the document.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1000)]
         public List<Tag> Tags
         {
             get { return this._tags; }
@@ -208,6 +231,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Resource Types Reference</a> in the <i>AWS CloudFormation User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=200)]
         public string TargetType
         {
             get { return this._targetType; }
@@ -218,6 +242,26 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetTargetType()
         {
             return this._targetType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VersionName. 
+        /// <para>
+        /// An optional field specifying the version of the artifact associated with the document.
+        /// For example, "Release 12, Update 6". This value is unique across all versions of a
+        /// document, and cannot be changed.
+        /// </para>
+        /// </summary>
+        public string VersionName
+        {
+            get { return this._versionName; }
+            set { this._versionName = value; }
+        }
+
+        // Check to see if VersionName property is set
+        internal bool IsSetVersionName()
+        {
+            return this._versionName != null;
         }
 
     }

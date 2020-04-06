@@ -36,7 +36,7 @@ namespace Amazon.Polly.Model
     /// 
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
+    /// For more information, see <a href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
     /// Lexicons</a>.
     /// </para>
     /// </summary>
@@ -51,6 +51,7 @@ namespace Amazon.Polly.Model
         /// Content of the PLS lexicon as string data.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Content
         {
             get { return this._content; }
@@ -71,6 +72,7 @@ namespace Amazon.Polly.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

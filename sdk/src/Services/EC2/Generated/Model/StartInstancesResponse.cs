@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of StartInstances.
+    /// This is the response object from the StartInstances operation.
     /// </summary>
     public partial class StartInstancesResponse : AmazonWebServiceResponse
     {
@@ -37,7 +37,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property StartingInstances. 
         /// <para>
-        /// Information about one or more started instances.
+        /// Information about the started instances.
         /// </para>
         /// </summary>
         public List<InstanceStateChange> StartingInstances

@@ -55,9 +55,9 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListStreamsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/streams";
             
             if (publicRequest.IsSetAscendingOrder())
                 request.Parameters.Add("isAscendingOrder", StringUtils.FromBool(publicRequest.AscendingOrder));
@@ -67,7 +67,8 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("nextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/streams";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

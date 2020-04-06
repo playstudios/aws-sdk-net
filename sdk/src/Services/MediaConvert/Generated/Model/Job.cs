@@ -33,19 +33,70 @@ namespace Amazon.MediaConvert.Model
     /// </summary>
     public partial class Job
     {
+        private AccelerationSettings _accelerationSettings;
+        private AccelerationStatus _accelerationStatus;
         private string _arn;
+        private BillingTagsSource _billingTagsSource;
         private DateTime? _createdAt;
+        private JobPhase _currentPhase;
         private int? _errorCode;
         private string _errorMessage;
         private string _id;
+        private int? _jobPercentComplete;
         private string _jobTemplate;
+        private JobMessages _messages;
         private List<OutputGroupDetail> _outputGroupDetails = new List<OutputGroupDetail>();
+        private int? _priority;
         private string _queue;
+        private int? _retryCount;
         private string _role;
         private JobSettings _settings;
+        private SimulateReservedQueue _simulateReservedQueue;
         private JobStatus _status;
+        private StatusUpdateInterval _statusUpdateInterval;
         private Timing _timing;
         private Dictionary<string, string> _userMetadata = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Gets and sets the property AccelerationSettings. Accelerated transcoding can significantly
+        /// speed up jobs with long, visually complex content.
+        /// </summary>
+        public AccelerationSettings AccelerationSettings
+        {
+            get { return this._accelerationSettings; }
+            set { this._accelerationSettings = value; }
+        }
+
+        // Check to see if AccelerationSettings property is set
+        internal bool IsSetAccelerationSettings()
+        {
+            return this._accelerationSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AccelerationStatus. Describes whether the current job is
+        /// running with accelerated transcoding. For jobs that have Acceleration (AccelerationMode)
+        /// set to DISABLED, AccelerationStatus is always NOT_APPLICABLE. For jobs that have Acceleration
+        /// (AccelerationMode) set to ENABLED or PREFERRED, AccelerationStatus is one of the other
+        /// states. AccelerationStatus is IN_PROGRESS initially, while the service determines
+        /// whether the input files and job settings are compatible with accelerated transcoding.
+        /// If they are, AcclerationStatus is ACCELERATED. If your input files and job settings
+        /// aren't compatible with accelerated transcoding, the service either fails your job
+        /// or runs it without accelerated transcoding, depending on how you set Acceleration
+        /// (AccelerationMode). When the service runs your job without accelerated transcoding,
+        /// AccelerationStatus is NOT_ACCELERATED.
+        /// </summary>
+        public AccelerationStatus AccelerationStatus
+        {
+            get { return this._accelerationStatus; }
+            set { this._accelerationStatus = value; }
+        }
+
+        // Check to see if AccelerationStatus property is set
+        internal bool IsSetAccelerationStatus()
+        {
+            return this._accelerationStatus != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Arn. An identifier for this resource that is unique within
@@ -64,6 +115,25 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BillingTagsSource. Optional. Choose a tag type that AWS
+        /// Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs
+        /// on any billing report that you set up. Any transcoding outputs that don't have an
+        /// associated tag will appear in your billing report unsorted. If you don't choose a
+        /// valid value for this field, your job outputs will appear on the billing report unsorted.
+        /// </summary>
+        public BillingTagsSource BillingTagsSource
+        {
+            get { return this._billingTagsSource; }
+            set { this._billingTagsSource = value; }
+        }
+
+        // Check to see if BillingTagsSource property is set
+        internal bool IsSetBillingTagsSource()
+        {
+            return this._billingTagsSource != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreatedAt. The time, in Unix epoch format in seconds, when
         /// the job got created.
         /// </summary>
@@ -77,6 +147,22 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetCreatedAt()
         {
             return this._createdAt.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CurrentPhase. A job's phase can be PROBING, TRANSCODING
+        /// OR UPLOADING
+        /// </summary>
+        public JobPhase CurrentPhase
+        {
+            get { return this._currentPhase; }
+            set { this._currentPhase = value; }
+        }
+
+        // Check to see if CurrentPhase property is set
+        internal bool IsSetCurrentPhase()
+        {
+            return this._currentPhase != null;
         }
 
         /// <summary>
@@ -126,6 +212,28 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property JobPercentComplete. An estimate of how far your job has
+        /// progressed. This estimate is shown as a percentage of the total time from when your
+        /// job leaves its queue to when your output files appear in your output Amazon S3 bucket.
+        /// AWS Elemental MediaConvert provides jobPercentComplete in CloudWatch STATUS_UPDATE
+        /// events and in the response to GetJob and ListJobs requests. The jobPercentComplete
+        /// estimate is reliable for the following input containers: Quicktime, Transport Stream,
+        /// MP4, and MXF. For some jobs, the service can't provide information about job progress.
+        /// In those cases, jobPercentComplete returns a null value.
+        /// </summary>
+        public int JobPercentComplete
+        {
+            get { return this._jobPercentComplete.GetValueOrDefault(); }
+            set { this._jobPercentComplete = value; }
+        }
+
+        // Check to see if JobPercentComplete property is set
+        internal bool IsSetJobPercentComplete()
+        {
+            return this._jobPercentComplete.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property JobTemplate. The job template that the job is created from,
         /// if it is created from a job template.
         /// </summary>
@@ -142,6 +250,22 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Messages. Provides messages from the service about jobs
+        /// that you have already successfully submitted.
+        /// </summary>
+        public JobMessages Messages
+        {
+            get { return this._messages; }
+            set { this._messages = value; }
+        }
+
+        // Check to see if Messages property is set
+        internal bool IsSetMessages()
+        {
+            return this._messages != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property OutputGroupDetails. List of output group details
         /// </summary>
         public List<OutputGroupDetail> OutputGroupDetails
@@ -154,6 +278,22 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetOutputGroupDetails()
         {
             return this._outputGroupDetails != null && this._outputGroupDetails.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Priority. Relative priority on the job.
+        /// </summary>
+        [AWSProperty(Min=-50, Max=50)]
+        public int Priority
+        {
+            get { return this._priority.GetValueOrDefault(); }
+            set { this._priority = value; }
+        }
+
+        // Check to see if Priority property is set
+        internal bool IsSetPriority()
+        {
+            return this._priority.HasValue; 
         }
 
         /// <summary>
@@ -174,9 +314,26 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RetryCount. The number of times that the service automatically
+        /// attempted to process your job after encountering an error.
+        /// </summary>
+        public int RetryCount
+        {
+            get { return this._retryCount.GetValueOrDefault(); }
+            set { this._retryCount = value; }
+        }
+
+        // Check to see if RetryCount property is set
+        internal bool IsSetRetryCount()
+        {
+            return this._retryCount.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Role. The IAM role you use for creating this job. For details
         /// about permissions, see the User Guide topic at the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Role
         {
             get { return this._role; }
@@ -190,8 +347,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Settings.
+        /// Gets and sets the property Settings. JobSettings contains all the transcode settings
+        /// for a job.
         /// </summary>
+        [AWSProperty(Required=true)]
         public JobSettings Settings
         {
             get { return this._settings; }
@@ -205,7 +364,27 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Status.
+        /// Gets and sets the property SimulateReservedQueue. Enable this setting when you run
+        /// a test job to estimate how many reserved transcoding slots (RTS) you need. When this
+        /// is enabled, MediaConvert runs your job from an on-demand queue with similar performance
+        /// to what you will see with one RTS in a reserved queue. This setting is disabled by
+        /// default.
+        /// </summary>
+        public SimulateReservedQueue SimulateReservedQueue
+        {
+            get { return this._simulateReservedQueue; }
+            set { this._simulateReservedQueue = value; }
+        }
+
+        // Check to see if SimulateReservedQueue property is set
+        internal bool IsSetSimulateReservedQueue()
+        {
+            return this._simulateReservedQueue != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Status. A job's status can be SUBMITTED, PROGRESSING, COMPLETE,
+        /// CANCELED, or ERROR.
         /// </summary>
         public JobStatus Status
         {
@@ -220,7 +399,27 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Timing.
+        /// Gets and sets the property StatusUpdateInterval. Specify how often MediaConvert sends
+        /// STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between
+        /// status updates. MediaConvert sends an update at this interval from the time the service
+        /// begins processing your job to the time it completes the transcode or encounters an
+        /// error.
+        /// </summary>
+        public StatusUpdateInterval StatusUpdateInterval
+        {
+            get { return this._statusUpdateInterval; }
+            set { this._statusUpdateInterval = value; }
+        }
+
+        // Check to see if StatusUpdateInterval property is set
+        internal bool IsSetStatusUpdateInterval()
+        {
+            return this._statusUpdateInterval != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Timing. Information about when jobs are submitted, started,
+        /// and finished is specified in Unix epoch format in seconds.
         /// </summary>
         public Timing Timing
         {

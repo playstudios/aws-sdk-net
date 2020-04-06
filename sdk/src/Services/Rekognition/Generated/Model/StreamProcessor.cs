@@ -29,9 +29,10 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// An object that recognizes faces in a streaming video. An Amazon Rekognition stream
-    /// processor is created by a call to . The request parameters for <code>CreateStreamProcessor</code>
-    /// describe the Kinesis video stream source for the streaming video, face recognition
-    /// parameters, and where to stream the analysis resullts.
+    /// processor is created by a call to <a>CreateStreamProcessor</a>. The request parameters
+    /// for <code>CreateStreamProcessor</code> describe the Kinesis video stream source for
+    /// the streaming video, face recognition parameters, and where to stream the analysis
+    /// resullts.
     /// </summary>
     public partial class StreamProcessor
     {
@@ -44,6 +45,7 @@ namespace Amazon.Rekognition.Model
         /// Name of the Amazon Rekognition stream processor. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }

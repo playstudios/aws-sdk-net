@@ -109,7 +109,7 @@ namespace Amazon.Lex.Model
     ///  </li> </ul> 
     /// <para>
     ///  In addition, Amazon Lex also returns your application-specific <code>sessionAttributes</code>.
-    /// For more information, see <a href="http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html">Managing
+    /// For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html">Managing
     /// Conversation Context</a>. 
     /// </para>
     /// </summary>
@@ -146,7 +146,12 @@ namespace Amazon.Lex.Model
         /// in the <code>Accept</code> header). For example, if you specify <code>audio/mpeg</code>
         /// as the value, Amazon Lex returns speech in the MPEG format.
         /// </para>
-        ///  
+        ///  </li> <li> 
+        /// <para>
+        /// If the value is <code>audio/pcm</code>, the speech returned is <code>audio/pcm</code>
+        /// in 16-bit, little endian format. 
+        /// </para>
+        ///  </li> <li> 
         /// <para>
         /// The following are the accepted values:
         /// </para>
@@ -190,6 +195,7 @@ namespace Amazon.Lex.Model
         /// Alias of the Amazon Lex bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BotAlias
         {
             get { return this._botAlias; }
@@ -208,6 +214,7 @@ namespace Amazon.Lex.Model
         /// Name of the Amazon Lex bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BotName
         {
             get { return this._botName; }
@@ -265,6 +272,7 @@ namespace Amazon.Lex.Model
         /// </para>
         ///  </li> </ul> </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ContentType
         {
             get { return this._contentType; }
@@ -290,6 +298,7 @@ namespace Amazon.Lex.Model
         /// stream audio data rather than buffering the data locally.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Stream InputStream
         {
             get { return this._inputStream; }
@@ -321,7 +330,7 @@ namespace Amazon.Lex.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-request-attribs">Setting
+        /// For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-request-attribs">Setting
         /// Request Attributes</a>.
         /// </para>
         /// </summary>
@@ -351,7 +360,7 @@ namespace Amazon.Lex.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs">Setting
+        /// For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs">Setting
         /// Session Attributes</a>.
         /// </para>
         /// </summary>
@@ -403,6 +412,7 @@ namespace Amazon.Lex.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=100)]
         public string UserId
         {
             get { return this._userId; }

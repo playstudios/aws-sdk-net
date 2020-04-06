@@ -42,11 +42,15 @@ namespace Amazon.S3.Model
         private string serverSideEncryptionCustomerProvidedKey;
         private string serverSideEncryptionCustomerProvidedKeyMD5;
         private string serverSideEncryptionKeyManagementServiceKeyId;
+        private string serverSideEncryptionKeyManagementServiceEncryptionContext;
 
         private Stream inputStream;
         private string filePath;
         private string contentBody;
         private bool autoCloseStream = true;
+        private ObjectLockLegalHoldStatus objectLockLegalHoldStatus;
+        private ObjectLockMode objectLockMode;
+        private DateTime? objectLockRetainUntilDate;
         private bool autoResetStreamPosition = true;
         private bool useChunkEncoding = true;
         private RequestPayer requestPayer;
@@ -143,7 +147,13 @@ namespace Amazon.S3.Model
         }
 
         /// <summary>
-        /// The name of the bucket to contain the object.
+        /// <para>Bucket name to which the PUT operation was initiated.</para>
+        /// <para>When using this API with an access point, you must direct requests to the access point hostname. 
+        /// The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. 
+        /// When using this operation using an access point through the AWS SDKs, you provide the access point 
+        /// ARN in place of the bucket name. For more information about access point ARNs, see 
+        /// <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> 
+        /// in the <i>Amazon Simple Storage Service Developer Guide</i>.</para>
         /// </summary>
         public string BucketName
         {
@@ -307,6 +317,26 @@ namespace Amazon.S3.Model
             return !System.String.IsNullOrEmpty(this.serverSideEncryptionKeyManagementServiceKeyId);
         }
 
+        /// <summary>
+        /// Specifies the AWS KMS Encryption Context to use for object encryption.
+        /// The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        /// </summary>
+        public string ServerSideEncryptionKeyManagementServiceEncryptionContext
+        {
+            get { return this.serverSideEncryptionKeyManagementServiceEncryptionContext; }
+            set { this.serverSideEncryptionKeyManagementServiceEncryptionContext = value; }
+        }
+
+        /// <summary>
+        /// Checks if ServerSideEncryptionKeyManagementServiceEncryptionContext property is set.
+        /// </summary>
+        /// <returns>true if ServerSideEncryptionKeyManagementServiceEncryptionContext property is set.</returns>
+        internal bool IsSetServerSideEncryptionKeyManagementServiceEncryptionContext()
+        {
+            return !System.String.IsNullOrEmpty(this.serverSideEncryptionKeyManagementServiceEncryptionContext);
+        }
+
+
 
         /// <summary>
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
@@ -322,6 +352,60 @@ namespace Amazon.S3.Model
         internal bool IsSetStorageClass()
         {
             return this.storageClass != null;
+        }
+		
+        /// <summary>
+        /// Gets and sets the property ObjectLockLegalHoldStatus. 
+        /// <para>
+        /// The Legal Hold status that you want to apply to the specified object.
+        /// </para>
+        /// </summary>
+        public ObjectLockLegalHoldStatus ObjectLockLegalHoldStatus
+        {
+            get { return this.objectLockLegalHoldStatus; }
+            set { this.objectLockLegalHoldStatus = value; }
+        }
+
+        // Check to see if ObjectLockLegalHoldStatus property is set
+        internal bool IsSetObjectLockLegalHoldStatus()
+        {
+            return this.objectLockLegalHoldStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ObjectLockMode. 
+        /// <para>
+        /// The Object Lock mode that you want to apply to this object.
+        /// </para>
+        /// </summary>
+        public ObjectLockMode ObjectLockMode
+        {
+            get { return this.objectLockMode; }
+            set { this.objectLockMode = value; }
+        }
+
+        // Check to see if ObjectLockMode property is set
+        internal bool IsSetObjectLockMode()
+        {
+            return this.objectLockMode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ObjectLockRetainUntilDate. 
+        /// <para>
+        /// The date and time when you want this object's Object Lock to expire.
+        /// </para>
+        /// </summary>
+        public DateTime ObjectLockRetainUntilDate
+        {
+            get { return this.objectLockRetainUntilDate.GetValueOrDefault(); }
+            set { this.objectLockRetainUntilDate = value; }
+        }
+
+        // Check to see if ObjectLockRetainUntilDate property is set
+        internal bool IsSetObjectLockRetainUntilDate()
+        {
+            return this.objectLockRetainUntilDate.HasValue; 
         }
 
         /// <summary>

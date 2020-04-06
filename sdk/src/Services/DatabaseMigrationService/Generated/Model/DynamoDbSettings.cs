@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// Provides the Amazon Resource Name (ARN) of the AWS Identity and Access Management
+    /// (IAM) role used to define an Amazon DynamoDB target endpoint.
     /// </summary>
     public partial class DynamoDbSettings
     {
@@ -40,6 +41,7 @@ namespace Amazon.DatabaseMigrationService.Model
         ///  The Amazon Resource Name (ARN) used by the service access IAM role. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ServiceAccessRoleArn
         {
             get { return this._serviceAccessRoleArn; }

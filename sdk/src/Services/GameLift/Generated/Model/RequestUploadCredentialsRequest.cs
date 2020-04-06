@@ -39,6 +39,40 @@ namespace Amazon.GameLift.Model
     /// request. If successful, a new set of credentials are returned, along with the S3 storage
     /// location associated with the build ID.
     /// </para>
+    ///  
+    /// <para>
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-cli-uploading.html#gamelift-build-cli-uploading-create-build">
+    /// Create a Build with Files in S3</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <a>CreateBuild</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>ListBuilds</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DescribeBuild</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>UpdateBuild</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DeleteBuild</a> 
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class RequestUploadCredentialsRequest : AmazonGameLiftRequest
     {
@@ -47,9 +81,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property BuildId. 
         /// <para>
-        /// Unique identifier for a build to get credentials for.
+        /// A unique identifier for a build to get credentials for. You can use either the build
+        /// ID or ARN value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BuildId
         {
             get { return this._buildId; }

@@ -36,10 +36,6 @@ namespace Amazon.GameLift.Model
     /// the game session ID and the values you want to change. If successful, an updated <a>GameSession</a>
     /// object is returned. 
     /// 
-    ///  
-    /// <para>
-    /// Game-session-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateGameSession</a> 
@@ -93,9 +89,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionId. 
         /// <para>
-        /// Unique identifier for the game session to update.
+        /// A unique identifier for the game session to update. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string GameSessionId
         {
             get { return this._gameSessionId; }
@@ -111,9 +108,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MaximumPlayerSessionCount. 
         /// <para>
-        /// Maximum number of players that can be connected simultaneously to the game session.
+        /// The maximum number of players that can be connected simultaneously to the game session.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MaximumPlayerSessionCount
         {
             get { return this._maximumPlayerSessionCount.GetValueOrDefault(); }
@@ -129,10 +127,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with a game session. Session names do not need
+        /// A descriptive label that is associated with a game session. Session names do not need
         /// to be unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }

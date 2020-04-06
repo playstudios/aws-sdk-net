@@ -55,10 +55,11 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListDomainNamesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Elasticsearch");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-01-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2015-01-01/domain";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2015-01-01/domain";
+            request.MarshallerVersion = 2;
 
             return request;
         }

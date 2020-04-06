@@ -35,17 +35,24 @@ namespace Amazon.DatabaseMigrationService.Model
     {
         private string _certificateArn;
         private string _databaseName;
+        private DmsTransferSettings _dmsTransferSettings;
         private DynamoDbSettings _dynamoDbSettings;
+        private ElasticsearchSettings _elasticsearchSettings;
         private string _endpointArn;
         private string _endpointIdentifier;
         private ReplicationEndpointTypeValue _endpointType;
         private string _engineName;
+        private string _externalTableDefinition;
         private string _extraConnectionAttributes;
+        private KafkaSettings _kafkaSettings;
+        private KinesisSettings _kinesisSettings;
         private MongoDbSettings _mongoDbSettings;
         private string _password;
         private int? _port;
+        private RedshiftSettings _redshiftSettings;
         private S3Settings _s3Settings;
         private string _serverName;
+        private string _serviceAccessRoleArn;
         private DmsSslModeValue _sslMode;
         private string _username;
 
@@ -86,13 +93,59 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DmsTransferSettings. 
+        /// <para>
+        /// The settings in JSON format for the DMS transfer type of source endpoint. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Attributes include the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// serviceAccessRoleArn - The AWS Identity and Access Management (IAM) role that has
+        /// permission to access the Amazon S3 bucket.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// BucketName - The name of the S3 bucket to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// compressionType - An optional parameter to use GZIP to compress the target files.
+        /// Either set this parameter to NONE (the default) or don't use it to leave the files
+        /// uncompressed.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Shorthand syntax for these settings is as follows: <code>ServiceAccessRoleArn=string
+        /// ,BucketName=string,CompressionType=string</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// JSON syntax for these settings is as follows: <code>{ "ServiceAccessRoleArn": "string",
+        /// "BucketName": "string", "CompressionType": "none"|"gzip" } </code> 
+        /// </para>
+        /// </summary>
+        public DmsTransferSettings DmsTransferSettings
+        {
+            get { return this._dmsTransferSettings; }
+            set { this._dmsTransferSettings = value; }
+        }
+
+        // Check to see if DmsTransferSettings property is set
+        internal bool IsSetDmsTransferSettings()
+        {
+            return this._dmsTransferSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DynamoDbSettings. 
         /// <para>
-        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For more information
-        /// about the available settings, see the <b>Using Object Mapping to Migrate Data to DynamoDB</b>
-        /// section at <a href="http://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html">
-        /// Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service</a>.
-        /// 
+        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about
+        /// other available settings, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.DynamoDB.html">Using
+        /// Object Mapping to Migrate Data to DynamoDB</a> in the <i>AWS Database Migration Service
+        /// User Guide.</i> 
         /// </para>
         /// </summary>
         public DynamoDbSettings DynamoDbSettings
@@ -108,11 +161,33 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ElasticsearchSettings. 
+        /// <para>
+        /// Settings in JSON format for the target Elasticsearch endpoint. For more information
+        /// about the available settings, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Elasticsearch.html#CHAP_Target.Elasticsearch.Configuration">Extra
+        /// Connection Attributes When Using Elasticsearch as a Target for AWS DMS</a> in the
+        /// <i>AWS Database Migration User Guide.</i> 
+        /// </para>
+        /// </summary>
+        public ElasticsearchSettings ElasticsearchSettings
+        {
+            get { return this._elasticsearchSettings; }
+            set { this._elasticsearchSettings = value; }
+        }
+
+        // Check to see if ElasticsearchSettings property is set
+        internal bool IsSetElasticsearchSettings()
+        {
+            return this._elasticsearchSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EndpointArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EndpointArn
         {
             get { return this._endpointArn; }
@@ -128,9 +203,9 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property EndpointIdentifier. 
         /// <para>
-        /// The database endpoint identifier. Identifiers must begin with a letter; must contain
-        /// only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain
-        /// two consecutive hyphens.
+        /// The database endpoint identifier. Identifiers must begin with a letter and must contain
+        /// only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two
+        /// consecutive hyphens.
         /// </para>
         /// </summary>
         public string EndpointIdentifier
@@ -148,7 +223,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property EndpointType. 
         /// <para>
-        /// The type of endpoint.
+        /// The type of endpoint. Valid values are <code>source</code> and <code>target</code>.
         /// </para>
         /// </summary>
         public ReplicationEndpointTypeValue EndpointType
@@ -166,9 +241,12 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property EngineName. 
         /// <para>
-        /// The type of engine for the endpoint. Valid values, depending on the EndPointType,
-        /// include mysql, oracle, postgres, mariadb, aurora, redshift, S3, sybase, dynamodb,
-        /// mongodb, and sqlserver.
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType,
+        /// include <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>, <code>"mariadb"</code>,
+        /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>, <code>"redshift"</code>,
+        /// <code>"s3"</code>, <code>"db2"</code>, <code>"azuredb"</code>, <code>"sybase"</code>,
+        /// <code>"dynamodb"</code>, <code>"mongodb"</code>, <code>"kinesis"</code>, <code>"kafka"</code>,
+        /// <code>"elasticsearch"</code>, <code>"documentdb"</code>, and <code>"sqlserver"</code>.
         /// </para>
         /// </summary>
         public string EngineName
@@ -181,6 +259,24 @@ namespace Amazon.DatabaseMigrationService.Model
         internal bool IsSetEngineName()
         {
             return this._engineName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ExternalTableDefinition. 
+        /// <para>
+        /// The external table definition.
+        /// </para>
+        /// </summary>
+        public string ExternalTableDefinition
+        {
+            get { return this._externalTableDefinition; }
+            set { this._externalTableDefinition = value; }
+        }
+
+        // Check to see if ExternalTableDefinition property is set
+        internal bool IsSetExternalTableDefinition()
+        {
+            return this._externalTableDefinition != null;
         }
 
         /// <summary>
@@ -203,12 +299,54 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property KafkaSettings. 
+        /// <para>
+        /// Settings in JSON format for the target Apache Kafka endpoint. For information about
+        /// other available settings, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html#CHAP_Target.Kafka.ObjectMapping">Using
+        /// Object Mapping to Migrate Data to Apache Kafka</a> in the <i>AWS Database Migration
+        /// User Guide.</i> 
+        /// </para>
+        /// </summary>
+        public KafkaSettings KafkaSettings
+        {
+            get { return this._kafkaSettings; }
+            set { this._kafkaSettings = value; }
+        }
+
+        // Check to see if KafkaSettings property is set
+        internal bool IsSetKafkaSettings()
+        {
+            return this._kafkaSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KinesisSettings. 
+        /// <para>
+        /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For
+        /// information about other available settings, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kinesis.html#CHAP_Target.Kinesis.ObjectMapping">Using
+        /// Object Mapping to Migrate Data to a Kinesis Data Stream</a> in the <i>AWS Database
+        /// Migration User Guide.</i> 
+        /// </para>
+        /// </summary>
+        public KinesisSettings KinesisSettings
+        {
+            get { return this._kinesisSettings; }
+            set { this._kinesisSettings = value; }
+        }
+
+        // Check to see if KinesisSettings property is set
+        internal bool IsSetKinesisSettings()
+        {
+            return this._kinesisSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MongoDbSettings. 
         /// <para>
         /// Settings in JSON format for the source MongoDB endpoint. For more information about
-        /// the available settings, see the <b>Configuration Properties When Using MongoDB as
-        /// a Source for AWS Database Migration Service</b> section at <a href="http://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html">
-        /// Using Amazon S3 as a Target for AWS Database Migration Service</a>. 
+        /// the available settings, see the configuration properties section in <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MongoDB.html">
+        /// Using MongoDB as a Target for AWS Database Migration Service</a> in the <i>AWS Database
+        /// Migration Service User Guide.</i> 
         /// </para>
         /// </summary>
         public MongoDbSettings MongoDbSettings
@@ -260,11 +398,27 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RedshiftSettings.
+        /// </summary>
+        public RedshiftSettings RedshiftSettings
+        {
+            get { return this._redshiftSettings; }
+            set { this._redshiftSettings = value; }
+        }
+
+        // Check to see if RedshiftSettings property is set
+        internal bool IsSetRedshiftSettings()
+        {
+            return this._redshiftSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property S3Settings. 
         /// <para>
-        /// Settings in JSON format for the target S3 endpoint. For more information about the
-        /// available settings, see the <b>Extra Connection Attributes</b> section at <a href="http://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html">
-        /// Using Amazon S3 as a Target for AWS Database Migration Service</a>. 
+        /// Settings in JSON format for the target Amazon S3 endpoint. For more information about
+        /// the available settings, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring">Extra
+        /// Connection Attributes When Using Amazon S3 as a Target for AWS DMS</a> in the <i>AWS
+        /// Database Migration Service User Guide.</i> 
         /// </para>
         /// </summary>
         public S3Settings S3Settings
@@ -298,17 +452,28 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ServiceAccessRoleArn. 
+        /// <para>
+        ///  The Amazon Resource Name (ARN) for the service access role you want to use to modify
+        /// the endpoint. 
+        /// </para>
+        /// </summary>
+        public string ServiceAccessRoleArn
+        {
+            get { return this._serviceAccessRoleArn; }
+            set { this._serviceAccessRoleArn = value; }
+        }
+
+        // Check to see if ServiceAccessRoleArn property is set
+        internal bool IsSetServiceAccessRoleArn()
+        {
+            return this._serviceAccessRoleArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SslMode. 
         /// <para>
-        /// The SSL mode to be used.
-        /// </para>
-        ///  
-        /// <para>
-        /// SSL mode can be one of four values: none, require, verify-ca, verify-full. 
-        /// </para>
-        ///  
-        /// <para>
-        /// The default value is none.
+        /// The SSL mode used to connect to the endpoint. The default value is <code>none</code>.
         /// </para>
         /// </summary>
         public DmsSslModeValue SslMode

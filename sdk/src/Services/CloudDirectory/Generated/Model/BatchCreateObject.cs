@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -41,8 +41,8 @@ namespace Amazon.CloudDirectory.Model
         /// <summary>
         /// Gets and sets the property BatchReferenceName. 
         /// <para>
-        /// The batch reference name. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#batches">Batches</a>
-        /// for more information.
+        /// The batch reference name. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html">Transaction
+        /// Support</a> for more information.
         /// </para>
         /// </summary>
         public string BatchReferenceName
@@ -63,6 +63,7 @@ namespace Amazon.CloudDirectory.Model
         /// The name of the link.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string LinkName
         {
             get { return this._linkName; }
@@ -82,6 +83,7 @@ namespace Amazon.CloudDirectory.Model
         /// the map value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<AttributeKeyAndValue> ObjectAttributeList
         {
             get { return this._objectAttributeList; }
@@ -119,6 +121,7 @@ namespace Amazon.CloudDirectory.Model
         /// information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<SchemaFacet> SchemaFacet
         {
             get { return this._schemaFacet; }

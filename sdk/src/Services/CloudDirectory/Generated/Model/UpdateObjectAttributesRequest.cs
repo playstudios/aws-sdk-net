@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -43,6 +43,7 @@ namespace Amazon.CloudDirectory.Model
         /// The attributes update structure.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ObjectAttributeUpdate> AttributeUpdates
         {
             get { return this._attributeUpdates; }
@@ -62,6 +63,7 @@ namespace Amazon.CloudDirectory.Model
         /// the object resides. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -80,6 +82,7 @@ namespace Amazon.CloudDirectory.Model
         /// The reference that identifies the object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ObjectReference
         {
             get { return this._objectReference; }

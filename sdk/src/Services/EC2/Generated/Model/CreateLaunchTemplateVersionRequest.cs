@@ -51,8 +51,12 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraint: Maximum 128 ASCII characters.
         /// </para>
         /// </summary>
         public string ClientToken
@@ -73,6 +77,7 @@ namespace Amazon.EC2.Model
         /// The information for the launch template.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RequestLaunchTemplateData LaunchTemplateData
         {
             get { return this._launchTemplateData; }
@@ -111,6 +116,7 @@ namespace Amazon.EC2.Model
         /// launch template name in the request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string LaunchTemplateName
         {
             get { return this._launchTemplateName; }
@@ -128,7 +134,9 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The version number of the launch template version on which to base the new version.
         /// The new version inherits the same launch parameters as the source version, except
-        /// for parameters that you specify in LaunchTemplateData.
+        /// for parameters that you specify in <code>LaunchTemplateData</code>. Snapshots applied
+        /// to the block device mapping are ignored when creating a new version unless they are
+        /// explicitly included.
         /// </para>
         /// </summary>
         public string SourceVersion
@@ -149,6 +157,7 @@ namespace Amazon.EC2.Model
         /// A description for the version of the launch template.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string VersionDescription
         {
             get { return this._versionDescription; }

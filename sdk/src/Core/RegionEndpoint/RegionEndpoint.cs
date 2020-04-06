@@ -43,92 +43,131 @@ namespace Amazon
         /// <summary>
         /// The US East (Virginia) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint USEast1 = NewEndpoint("us-east-1", "US East (Virginia)");
+        public static readonly RegionEndpoint USEast1 = GetEndpoint("us-east-1", "US East (Virginia)");
+
+        /// <summary>
+        /// The US East (Virginia) regional endpoint.
+        /// </summary>
+        private static readonly RegionEndpoint USEast1Regional = GetEndpoint("us-east-1-regional", "US East (Virginia) regional");
 
         /// <summary>
         /// The US East (Ohio) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint USEast2 = NewEndpoint("us-east-2", "US East (Ohio)");
+        public static readonly RegionEndpoint USEast2 = GetEndpoint("us-east-2", "US East (Ohio)");
 
         /// <summary>
         /// The US West (N. California) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint USWest1 = NewEndpoint("us-west-1", "US West (N. California)");
+        public static readonly RegionEndpoint USWest1 = GetEndpoint("us-west-1", "US West (N. California)");
 
         /// <summary>
         /// The US West (Oregon) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint USWest2 = NewEndpoint("us-west-2", "US West (Oregon)");
+        public static readonly RegionEndpoint USWest2 = GetEndpoint("us-west-2", "US West (Oregon)");
+
+        /// <summary>
+        /// The EU North (Stockholm) endpoint.
+        /// </summary>
+        public static readonly RegionEndpoint EUNorth1 = GetEndpoint("eu-north-1", "EU North (Stockholm)");
 
         /// <summary>
         /// The EU West (Ireland) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint EUWest1 = NewEndpoint("eu-west-1", "EU West (Ireland)");
+        public static readonly RegionEndpoint EUWest1 = GetEndpoint("eu-west-1", "EU West (Ireland)");
 
         /// <summary>
         /// The EU West (London) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint EUWest2 = NewEndpoint("eu-west-2", "EU West (London)");
+        public static readonly RegionEndpoint EUWest2 = GetEndpoint("eu-west-2", "EU West (London)");
 
         /// <summary>
         /// The EU West (Paris) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint EUWest3 = NewEndpoint("eu-west-3", "EU West (Paris)");
+        public static readonly RegionEndpoint EUWest3 = GetEndpoint("eu-west-3", "EU West (Paris)");
 
         /// <summary>
         /// The EU Central (Frankfurt) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint EUCentral1 = NewEndpoint("eu-central-1", "EU Central (Frankfurt)");
+        public static readonly RegionEndpoint EUCentral1 = GetEndpoint("eu-central-1", "EU Central (Frankfurt)");
+
+        /// <summary>
+        /// The Asia Pacific (Hong Kong) endpoint.
+        /// </summary>
+        public static readonly RegionEndpoint APEast1 = GetEndpoint("ap-east-1", "Asia Pacific (Hong Kong)");
 
         /// <summary>
         /// The Asia Pacific (Tokyo) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint APNortheast1 = NewEndpoint("ap-northeast-1", "Asia Pacific (Tokyo)");
+        public static readonly RegionEndpoint APNortheast1 = GetEndpoint("ap-northeast-1", "Asia Pacific (Tokyo)");
 
         /// <summary>
         /// The Asia Pacific (Seoul) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint APNortheast2 = NewEndpoint("ap-northeast-2", "Asia Pacific (Seoul)");
+        public static readonly RegionEndpoint APNortheast2 = GetEndpoint("ap-northeast-2", "Asia Pacific (Seoul)");
+
+        /// <summary>
+        /// The Asia Pacific (Osaka-Local) endpoint.
+        /// </summary>
+        public static readonly RegionEndpoint APNortheast3 = GetEndpoint("ap-northeast-3", "Asia Pacific (Osaka-Local)");
 
         /// <summary>
         /// The Asia Pacific (Mumbai) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint APSouth1 = NewEndpoint("ap-south-1", "Asia Pacific (Mumbai)");
+        public static readonly RegionEndpoint APSouth1 = GetEndpoint("ap-south-1", "Asia Pacific (Mumbai)");
 
         /// <summary>
         /// The Asia Pacific (Singapore) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint APSoutheast1 = NewEndpoint("ap-southeast-1", "Asia Pacific (Singapore)");
+        public static readonly RegionEndpoint APSoutheast1 = GetEndpoint("ap-southeast-1", "Asia Pacific (Singapore)");
 
         /// <summary>
         /// The Asia Pacific (Sydney) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint APSoutheast2 = NewEndpoint("ap-southeast-2", "Asia Pacific (Sydney)");
+        public static readonly RegionEndpoint APSoutheast2 = GetEndpoint("ap-southeast-2", "Asia Pacific (Sydney)");
 
         /// <summary>
         /// The South America (Sao Paulo) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint SAEast1 = NewEndpoint("sa-east-1", "South America (Sao Paulo)");
+        public static readonly RegionEndpoint SAEast1 = GetEndpoint("sa-east-1", "South America (Sao Paulo)");
+		
+		/// <summary>
+        /// The US GovCloud East (Virginia) endpoint.
+        /// </summary>
+        public static readonly RegionEndpoint USGovCloudEast1 = GetEndpoint("us-gov-east-1", "US GovCloud East (Virginia)");
 
         /// <summary>
         /// The US GovCloud West (Oregon) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint USGovCloudWest1 = NewEndpoint("us-gov-west-1", "US GovCloud West (Oregon)");
+        public static readonly RegionEndpoint USGovCloudWest1 = GetEndpoint("us-gov-west-1", "US GovCloud West (Oregon)");
 
         /// <summary>
         /// The China (Beijing) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint CNNorth1 = NewEndpoint("cn-north-1", "China (Beijing)");
+        public static readonly RegionEndpoint CNNorth1 = GetEndpoint("cn-north-1", "China (Beijing)");
 
         /// <summary>
         /// The China (Ningxia) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint CNNorthWest1 = NewEndpoint("cn-northwest-1", "China (Ningxia)");
+        public static readonly RegionEndpoint CNNorthWest1 = GetEndpoint("cn-northwest-1", "China (Ningxia)");
 
         /// <summary>
         /// The Canada (Central) endpoint.
         /// </summary>
-        public static readonly RegionEndpoint CACentral1 = NewEndpoint("ca-central-1", "Canada (Central)");
+        public static readonly RegionEndpoint CACentral1 = GetEndpoint("ca-central-1", "Canada (Central)");
+
+        /// <summary>
+        /// The Middle East (Bahrain) endpoint.
+        /// </summary>
+        public static readonly RegionEndpoint MESouth1 = GetEndpoint("me-south-1", "Middle East (Bahrain)");
+
+        /// <summary>
+        /// Represents the endpoint overridding rules in the endpoints.json
+        /// Is used to map private region (ie us-east-1-regional) to public regions (us-east-1)
+        /// For signing purposes.
+        /// </summary>
+        private static Dictionary<RegionEndpoint, RegionEndpoint> _hashRegionEndpointOverride  = new Dictionary<RegionEndpoint, RegionEndpoint>() {
+                { USEast1Regional, USEast1 }
+            };
 
         /// <summary>
         /// Enumerate through all the regions.
@@ -139,13 +178,8 @@ namespace Amazon
             {
                 List<RegionEndpoint> list = new List<RegionEndpoint>();
                 foreach (IRegionEndpoint endpoint in RegionEndpointProvider.AllRegionEndpoints)
-                {
-                    RegionEndpoint val;
-                    if (!_hashBySystemName.TryGetValue(endpoint.RegionName, out val))
-                    {
-                        val = NewEndpoint(endpoint.RegionName, endpoint.DisplayName);
-                    }
-                    list.Add(val);
+                {                        
+                    list.Add(GetEndpoint(endpoint.RegionName, endpoint.DisplayName));
                 }
                 return list;
             }
@@ -157,25 +191,46 @@ namespace Amazon
         /// <param name="systemName">The system name of the service like "us-west-1"</param>
         /// <returns></returns>
         public static RegionEndpoint GetBySystemName(string systemName)
-        {
-            RegionEndpoint region = null;
-            if (_hashBySystemName.TryGetValue(systemName, out region))
-                return region;
-
-            IRegionEndpoint regionEndpointFromProvider = RegionEndpointProvider.GetRegionEndpoint(systemName);
-
-            // We received an instance of IRegionEndpoint from a provider,
-            // now we should wrap it in RegionEndpoint before returning the data back to the client code.
-            // GetRegionEndpoint will always return a non-null value. If the the region(systemName) is unknown,
-            // the providers will create a fallback instance that will generate an endpoint to the best
-            // of its knowledge.
-            return NewEndpoint(systemName, regionEndpointFromProvider.DisplayName);
+        {   
+            return GetEndpoint(systemName, null);
         }
 
-        private static RegionEndpoint NewEndpoint(string systemName, string displayName)
+        /// <summary>
+        /// Gets the region endpoint override if exists
+        /// </summary>
+        /// <param name="regionEndpoint">The region endpoint to find the possible override for</param>
+        /// <returns></returns>
+        public static RegionEndpoint GetRegionEndpointOverride(RegionEndpoint regionEndpoint)
         {
-            var regionEndpoint = new RegionEndpoint(systemName, displayName);
-            _hashBySystemName.Add(regionEndpoint.SystemName, regionEndpoint);
+            return _hashRegionEndpointOverride.ContainsKey(regionEndpoint) ? _hashRegionEndpointOverride[regionEndpoint] : null;
+        }
+
+        private static RegionEndpoint GetEndpoint(string systemName, string displayName)
+        {
+            RegionEndpoint regionEndpoint = null;
+            if (displayName == null)
+            {
+                lock (_hashBySystemName)
+                {
+                    if (_hashBySystemName.TryGetValue(systemName, out regionEndpoint))
+                        return regionEndpoint;
+                }
+
+                // GetRegionEndpoint will always return a non-null value. If the the region(systemName) is unknown,
+                // the providers will create a fallback instance that will generate an endpoint to the best
+                // of its knowledge.
+                displayName = RegionEndpointProvider.GetRegionEndpoint(systemName).DisplayName;
+            }
+            
+            lock (_hashBySystemName)
+            {
+                if (_hashBySystemName.TryGetValue(systemName, out regionEndpoint))
+                    return regionEndpoint;
+
+                regionEndpoint = new RegionEndpoint(systemName, displayName);
+                _hashBySystemName.Add(regionEndpoint.SystemName, regionEndpoint);
+            }
+
             return regionEndpoint;
         }
 
@@ -236,6 +291,30 @@ namespace Amazon
             private set;
         }
 
+        /// <summary>
+        /// Gets the partition name the region is in. For example for us-east-1 the partition name is aws. For cn-northwest-1 the partition name is aws-cn.
+        /// </summary>
+        public string PartitionName
+        {
+            get
+            {
+                var regionEndpointV3 = this.InternedRegionEndpoint as RegionEndpointV3;
+                return regionEndpointV3?.PartitionName;
+            }
+        }
+
+        /// <summary>
+        /// Gets the dns suffix for the region endpoints in a partition. For example the aws partition's suffix is amazonaws.com. The aws-cn partition's suffix is amazonaws.com.cn.
+        /// </summary>
+        public string PartitionDnsSuffix
+        {
+            get
+            {
+                var regionEndpointV3 = this.InternedRegionEndpoint as RegionEndpointV3;
+                return regionEndpointV3?.PartitionDnsSuffix;
+            }
+        }
+
         private IRegionEndpoint InternedRegionEndpoint
         {
             get
@@ -251,7 +330,11 @@ namespace Amazon
         /// The services system name. Service system names can be obtained from the
         /// RegionEndpointServiceName member of the ClientConfig-derived class for the service.
         /// </param>
-        /// <exception cref="System.ArgumentException">Thrown when the request service does not have a valid endpoint in the region.</exception>
+        /// <param>
+        /// For forwards compatibility, if the service being requested for isn't known in the region, this method 
+        /// will generate an endpoint using the AWS endpoint heuristics. In this case, it is not guaranteed the
+        /// endpoint will point to a valid service endpoint.
+        /// </param>
         /// <returns></returns>
         public Endpoint GetEndpointForService(string serviceName)
         {
@@ -269,7 +352,11 @@ namespace Amazon
         /// If true a dualstack endpoint is returned. It is the user's responsibility to verify that the given service
         /// supports a dualstack endpoint for the region.
         /// </param>
-        /// <exception cref="System.ArgumentException">Thrown when the request service does not have a valid endpoint in the region.</exception>
+        /// <param>
+        /// For forwards compatibility, if the service being requested for isn't known in the region, this method 
+        /// will generate an endpoint using the AWS endpoint heuristics. In this case, it is not guaranteed the
+        /// endpoint will point to a valid service endpoint.
+        /// </param>
         /// <returns></returns>
         public Endpoint GetEndpointForService(string serviceName, bool dualStack)
         {

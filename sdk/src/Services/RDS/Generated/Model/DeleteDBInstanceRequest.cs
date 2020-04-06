@@ -43,9 +43,10 @@ namespace Amazon.RDS.Model
     /// </para>
     ///  
     /// <para>
-    /// Note that when a DB instance is in a failure state and has a status of <code>failed</code>,
+    /// When a DB instance is in a failure state and has a status of <code>failed</code>,
     /// <code>incompatible-restore</code>, or <code>incompatible-network</code>, you can only
-    /// delete it when the <code>SkipFinalSnapshot</code> parameter is set to <code>true</code>.
+    /// delete it when you skip creation of the final snapshot with the <code>SkipFinalSnapshot</code>
+    /// parameter.
     /// </para>
     ///  
     /// <para>
@@ -54,7 +55,7 @@ namespace Amazon.RDS.Model
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// The DB cluster is a Read Replica of another Amazon Aurora DB cluster.
+    /// The DB cluster is a read replica of another Amazon Aurora DB cluster.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -62,8 +63,8 @@ namespace Amazon.RDS.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// To delete a DB instance in this case, first call the <a>PromoteReadReplicaDBCluster</a>
-    /// API action to promote the DB cluster so it's no longer a Read Replica. After the promotion
+    /// To delete a DB instance in this case, first call the <code>PromoteReadReplicaDBCluster</code>
+    /// API action to promote the DB cluster so it's no longer a read replica. After the promotion
     /// completes, then call the <code>DeleteDBInstance</code> API action to delete the final
     /// instance in the DB cluster.
     /// </para>
@@ -71,6 +72,7 @@ namespace Amazon.RDS.Model
     public partial class DeleteDBInstanceRequest : AmazonRDSRequest
     {
         private string _dbInstanceIdentifier;
+        private bool? _deleteAutomatedBackups;
         private string _finalDBSnapshotIdentifier;
         private bool? _skipFinalSnapshot;
 
@@ -104,6 +106,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBInstanceIdentifier
         {
             get { return this._dbInstanceIdentifier; }
@@ -117,15 +120,35 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeleteAutomatedBackups. 
+        /// <para>
+        /// A value that indicates whether to remove automated backups immediately after the DB
+        /// instance is deleted. This parameter isn't case-sensitive. The default is to remove
+        /// automated backups immediately after the DB instance is deleted.
+        /// </para>
+        /// </summary>
+        public bool DeleteAutomatedBackups
+        {
+            get { return this._deleteAutomatedBackups.GetValueOrDefault(); }
+            set { this._deleteAutomatedBackups = value; }
+        }
+
+        // Check to see if DeleteAutomatedBackups property is set
+        internal bool IsSetDeleteAutomatedBackups()
+        {
+            return this._deleteAutomatedBackups.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property FinalDBSnapshotIdentifier. 
         /// <para>
-        ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is
-        /// set to <code>false</code>. 
+        ///  The <code>DBSnapshotIdentifier</code> of the new <code>DBSnapshot</code> created
+        /// when the <code>SkipFinalSnapshot</code> parameter is disabled. 
         /// </para>
         ///  <note> 
         /// <para>
-        /// Specifying this parameter and also setting the SkipFinalShapshot parameter to true
-        /// results in an error.
+        /// Specifying this parameter and also specifying to skip final DB snapshot creation in
+        /// SkipFinalShapshot results in an error.
         /// </para>
         ///  </note> 
         /// <para>
@@ -137,15 +160,15 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// First character must be a letter
+        /// First character must be a letter.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot be specified when deleting a Read Replica.
+        /// Can't be specified when deleting a read replica.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -164,29 +187,25 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property SkipFinalSnapshot. 
         /// <para>
-        ///  Determines whether a final DB snapshot is created before the DB instance is deleted.
-        /// If <code>true</code> is specified, no DBSnapshot is created. If <code>false</code>
-        /// is specified, a DB snapshot is created before the DB instance is deleted. 
+        /// A value that indicates whether to skip the creation of a final DB snapshot before
+        /// the DB instance is deleted. If skip is specified, no DB snapshot is created. If skip
+        /// isn't specified, a DB snapshot is created before the DB instance is deleted. By default,
+        /// skip isn't specified, and the DB snapshot is created.
         /// </para>
         ///  
         /// <para>
-        /// Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore',
-        /// or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter
-        /// is set to "true".
+        /// When a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore',
+        /// or 'incompatible-network', it can only be deleted when skip is specified.
         /// </para>
         ///  
         /// <para>
-        /// Specify <code>true</code> when deleting a Read Replica.
+        /// Specify skip when deleting a read replica.
         /// </para>
         ///  <note> 
         /// <para>
-        /// The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is
-        /// <code>false</code>.
+        /// The FinalDBSnapshotIdentifier parameter must be specified if skip isn't specified.
         /// </para>
-        ///  </note> 
-        /// <para>
-        /// Default: <code>false</code> 
-        /// </para>
+        ///  </note>
         /// </summary>
         public bool SkipFinalSnapshot
         {

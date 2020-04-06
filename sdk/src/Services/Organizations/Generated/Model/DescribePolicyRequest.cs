@@ -33,7 +33,8 @@ namespace Amazon.Organizations.Model
     /// 
     ///  
     /// <para>
-    /// This operation can be called only from the organization's master account.
+    /// This operation can be called only from the organization's master account or by a member
+    /// account that is a delegated administrator for an AWS service.
     /// </para>
     /// </summary>
     public partial class DescribePolicyRequest : AmazonOrganizationsRequest
@@ -49,9 +50,11 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy ID string
-        /// requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or
+        /// the underscore character (_).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PolicyId
         {
             get { return this._policyId; }

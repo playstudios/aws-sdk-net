@@ -6,11 +6,19 @@ using System.Linq;
 using System.Xml;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace ServiceClientGenerator
 {
     public static class Utils
     {
+        // Regex used to evaluate if the service name contains any special characters except alphanumeric and underscore.
+        private readonly static Regex EvaluateSpecialCharacters = new Regex("[^a-zA-Z0-9 ]+");
+        // Regex used to evaluate if the service name begins with digits
+        private readonly static Regex EvaluateBeginningWithDigits = new Regex("^[0-9]+");
+        // Regex to evaluate if the final service name adheres to the Service id spec. The Regex has picked from the spec.
+        private readonly static Regex EvaluateServiceName = new Regex("^[a-zA-Z][a-zA-Z0-9]*( [a-zA-Z0-9]+)*$");
+
         public static string GetVersion(string fileVersionText)
         {
             var fileVersion = new Version(fileVersionText);
@@ -47,6 +55,15 @@ namespace ServiceClientGenerator
             return data;
         }
 
+        public static string CastToString(this JsonData self)
+        {
+            //Casting a null JsonData reference to string result in an exception
+            if (self == null)
+                return null;
+
+            return (string)self;
+        }
+
         public static string NewProjectGuid
         {
             get
@@ -57,6 +74,8 @@ namespace ServiceClientGenerator
 
         public static string GetProjectGuid(string projectPath)
         {
+            if (!File.Exists(projectPath))
+                return NewProjectGuid;
             var xdoc = new XmlDocument();
             xdoc.Load(projectPath);
             var propertyGroups = xdoc.GetElementsByTagName("PropertyGroup");
@@ -117,10 +136,23 @@ namespace ServiceClientGenerator
             return result;
         }
 
-        public static Member GetMemberByName(this IList<Member> self, string name )
+        public static Member GetMemberByName(this IList<Member> self, string name)
         {
             return self.Where(m => m.ModeledName.Equals(name, StringComparison.OrdinalIgnoreCase))
                        .SingleOrDefault();
+        }
+
+        /// <summary>
+        /// Parses the timestampFormat attribute if specified and returns it.
+        /// </summary>
+        public static TimestampFormat GetTimestampFormat(this JsonData self)
+        {
+            var value = self[Shape.TimestampFormatKey];
+            if (value == null) { return TimestampFormat.None; }
+
+            return Enum.TryParse<TimestampFormat>(value.ToString(), true, out var parsedValue) ?
+                parsedValue :
+                throw new Exception("Encountered unknown timestampFormat: "+ parsedValue);
         }
 
         public static string JsonDataToString(JsonData data)
@@ -128,6 +160,28 @@ namespace ServiceClientGenerator
             return (data == null)
                 ? null
                 : data.ToString();
+        }
+
+        /// <summary>
+        /// Method to determine the service name as per Appendix A of the Service id spec
+        /// </summary>
+        /// <returns></returns>
+        public static string DetermineServiceId(string serviceAbbreviation, string serviceFullName)
+        {
+            var name = serviceAbbreviation;
+            if (string.IsNullOrEmpty(name))
+            {
+                name = serviceFullName;
+            }
+            name = name.Replace("Amazon", string.Empty).Replace("AWS", string.Empty).Trim();
+            name = EvaluateSpecialCharacters.Replace(name, string.Empty);
+            name = EvaluateBeginningWithDigits.Replace(name, string.Empty);
+            Match match = EvaluateServiceName.Match(name);
+            if (match.Success)
+            {
+                return name;
+            }
+            return null;
         }
     }
 }

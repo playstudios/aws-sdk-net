@@ -55,14 +55,15 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateChannelRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaLive");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-14";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/prod/channels/{channelId}";
             if (!publicRequest.IsSetChannelId())
                 throw new AmazonMediaLiveException("Request object does not have required field ChannelId set");
-            uriResourcePath = uriResourcePath.Replace("{channelId}", StringUtils.FromString(publicRequest.ChannelId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{channelId}", StringUtils.FromString(publicRequest.ChannelId));
+            request.ResourcePath = "/prod/channels/{channelId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -120,6 +121,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.InputSpecification, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetLogLevel())
+                {
+                    context.Writer.WritePropertyName("logLevel");
+                    context.Writer.Write(publicRequest.LogLevel);
                 }
 
                 if(publicRequest.IsSetName())

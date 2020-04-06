@@ -35,7 +35,7 @@ namespace Amazon.Redshift.Model
     /// 
     ///  
     /// <para>
-    ///  For more information about managing snapshot copy grants, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
+    ///  For more information about managing snapshot copy grants, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
     /// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// 
     /// </para>
@@ -97,6 +97,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SnapshotCopyGrantName
         {
             get { return this._snapshotCopyGrantName; }

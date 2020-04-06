@@ -55,9 +55,9 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListOTAUpdatesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/otaUpdates";
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("maxResults", StringUtils.FromInt(publicRequest.MaxResults));
@@ -67,7 +67,8 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetOtaUpdateStatus())
                 request.Parameters.Add("otaUpdateStatus", StringUtils.FromString(publicRequest.OtaUpdateStatus));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/otaUpdates";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

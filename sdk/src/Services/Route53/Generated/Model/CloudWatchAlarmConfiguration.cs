@@ -49,6 +49,7 @@ namespace Amazon.Route53.Model
         /// that the metric is compared to the threshold.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public int EvaluationPeriods
         {
             get { return this._evaluationPeriods.GetValueOrDefault(); }
@@ -68,6 +69,7 @@ namespace Amazon.Route53.Model
         /// is compared with.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public double Threshold
         {
             get { return this._threshold.GetValueOrDefault(); }
@@ -87,6 +89,7 @@ namespace Amazon.Route53.Model
         /// that is used for the comparison.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ComparisonOperator ComparisonOperator
         {
             get { return this._comparisonOperator; }
@@ -106,6 +109,7 @@ namespace Amazon.Route53.Model
         /// period in seconds.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=60)]
         public int Period
         {
             get { return this._period.GetValueOrDefault(); }
@@ -124,6 +128,7 @@ namespace Amazon.Route53.Model
         /// The name of the CloudWatch metric that the alarm is associated with.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -140,11 +145,12 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property Namespace. 
         /// <para>
         /// The namespace of the metric that the alarm is associated with. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
+        /// see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
         /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the <i>Amazon CloudWatch
         /// User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Namespace
         {
             get { return this._awsNamespace; }
@@ -164,6 +170,7 @@ namespace Amazon.Route53.Model
         /// applied to the metric.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Statistic Statistic
         {
             get { return this._statistic; }
@@ -180,11 +187,12 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property Dimensions. 
         /// <para>
         /// For the metric that the CloudWatch alarm is associated with, a complex type that contains
-        /// information about the dimensions for the metric. For information, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
+        /// information about the dimensions for the metric. For information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
         /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the <i>Amazon CloudWatch
         /// User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<Dimension> Dimensions
         {
             get { return this._dimensions; }

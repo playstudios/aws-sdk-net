@@ -38,9 +38,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowId. 
         /// <para>
-        /// The ID of the Maintenance Window the task was removed from.
+        /// The ID of the maintenance window the task was removed from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=20)]
         public string WindowId
         {
             get { return this._windowId; }
@@ -56,9 +57,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowTaskId. 
         /// <para>
-        /// The ID of the task removed from the Maintenance Window.
+        /// The ID of the task removed from the maintenance window.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string WindowTaskId
         {
             get { return this._windowTaskId; }

@@ -28,16 +28,23 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Creating application setting request
+    /// Specifies the default settings for an application.
     /// </summary>
     public partial class WriteApplicationSettingsRequest
     {
         private CampaignHook _campaignHook;
+        private bool? _cloudWatchMetricsEnabled;
         private CampaignLimits _limits;
         private QuietTime _quietTime;
 
         /// <summary>
-        /// Gets and sets the property CampaignHook. Default campaign hook information.
+        /// Gets and sets the property CampaignHook. 
+        /// <para>
+        /// The settings for the AWS Lambda function to use by default as a code hook for campaigns
+        /// in the application. To override these settings for a specific campaign, use the <link
+        ///  linkend="apps-application-id-campaigns-campaign-id">Campaign</link> resource to define
+        /// custom Lambda function settings for the campaign.
+        /// </para>
         /// </summary>
         public CampaignHook CampaignHook
         {
@@ -52,9 +59,30 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Limits. The default campaign limits for the app. These
-        /// limits apply to each campaign for the app, unless the campaign overrides the default
-        /// with limits of its own.
+        /// Gets and sets the property CloudWatchMetricsEnabled. 
+        /// <para>
+        /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
+        /// </para>
+        /// </summary>
+        public bool CloudWatchMetricsEnabled
+        {
+            get { return this._cloudWatchMetricsEnabled.GetValueOrDefault(); }
+            set { this._cloudWatchMetricsEnabled = value; }
+        }
+
+        // Check to see if CloudWatchMetricsEnabled property is set
+        internal bool IsSetCloudWatchMetricsEnabled()
+        {
+            return this._cloudWatchMetricsEnabled.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Limits. 
+        /// <para>
+        /// The default sending limits for campaigns in the application. To override these limits
+        /// for a specific campaign, use the <link  linkend="apps-application-id-campaigns-campaign-id">Campaign</link>
+        /// resource to define custom limits for the campaign.
+        /// </para>
         /// </summary>
         public CampaignLimits Limits
         {
@@ -69,9 +97,40 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property QuietTime. The default quiet time for the app. Each campaign
-        /// for this app sends no messages during this time unless the campaign overrides the
-        /// default with a quiet time of its own.
+        /// Gets and sets the property QuietTime. 
+        /// <para>
+        /// The default quiet time for campaigns and journeys in the application. Quiet time is
+        /// a specific time range when messages aren't sent to endpoints, if all the following
+        /// conditions are met:
+        /// </para>
+        ///  <ul><li>
+        /// <para>
+        /// The EndpointDemographic.Timezone property of the endpoint is set to a valid value.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// The current time in the endpoint's time zone is later than or equal to the time specified
+        /// by the QuietTime.Start property for the application (or a campaign or journey that
+        /// has custom quiet time settings).
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// The current time in the endpoint's time zone is earlier than or equal to the time
+        /// specified by the QuietTime.End property for the application (or a campaign or journey
+        /// that has custom quiet time settings).
+        /// </para>
+        /// </li></ul> 
+        /// <para>
+        /// If any of the preceding conditions isn't met, the endpoint will receive messages from
+        /// a campaign or journey, even if quiet time is enabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// To override the default quiet time settings for a specific campaign or journey, use
+        /// the <link  linkend="apps-application-id-campaigns-campaign-id">Campaign</link> resource
+        /// or the <link  linkend="apps-application-id-journeys-journey-id">Journey</link> resource
+        /// to define a custom quiet time for the campaign or journey.
+        /// </para>
         /// </summary>
         public QuietTime QuietTime
         {

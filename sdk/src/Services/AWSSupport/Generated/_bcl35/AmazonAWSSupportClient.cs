@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.AWSSupport.Model;
 using Amazon.AWSSupport.Model.Internal.MarshallTransformations;
+using Amazon.AWSSupport.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -44,7 +46,7 @@ namespace Amazon.AWSSupport
     /// <para>
     /// The AWS Support service also exposes a set of <a href="http://aws.amazon.com/premiumsupport/trustedadvisor/">Trusted
     /// Advisor</a> features. You can retrieve a list of checks and their descriptions, get
-    /// check results, specify checks to refresh, and get the refresh status of checks. 
+    /// check results, specify checks to refresh, and get the refresh status of checks.
     /// </para>
     ///  
     /// <para>
@@ -55,7 +57,7 @@ namespace Amazon.AWSSupport
     ///  <b>Service names, issue categories, and available severity levels. </b>The <a>DescribeServices</a>
     /// and <a>DescribeSeverityLevels</a> operations return AWS service names, service codes,
     /// service categories, and problem severity levels. You use these values when you call
-    /// the <a>CreateCase</a> operation. 
+    /// the <a>CreateCase</a> operation.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -67,7 +69,7 @@ namespace Amazon.AWSSupport
     /// <para>
     ///  <b>Case communication.</b> The <a>DescribeCommunications</a>, <a>AddCommunicationToCase</a>,
     /// and <a>AddAttachmentsToSet</a> operations retrieve and add communications and attachments
-    /// to AWS Support cases. 
+    /// to AWS Support cases.
     /// </para>
     ///  </li> </ul> 
     /// <para>
@@ -93,28 +95,29 @@ namespace Amazon.AWSSupport
     ///  </li> <li> 
     /// <para>
     ///  <a>RefreshTrustedAdvisorCheck</a> requests that Trusted Advisor rerun a specified
-    /// check. 
+    /// check.
     /// </para>
     ///  </li> <li> 
     /// <para>
     ///  <a>DescribeTrustedAdvisorCheckRefreshStatuses</a> reports the refresh status of one
-    /// or more checks. 
+    /// or more checks.
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// For authentication of requests, AWS Support uses <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+    /// For authentication of requests, AWS Support uses <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
     /// Version 4 Signing Process</a>.
     /// </para>
     ///  
     /// <para>
-    /// See <a href="http://docs.aws.amazon.com/awssupport/latest/user/Welcome.html">About
+    /// See <a href="https://docs.aws.amazon.com/awssupport/latest/user/Welcome.html">About
     /// the AWS Support API</a> in the <i>AWS Support User Guide</i> for information about
     /// how to use this service to create and manage your support cases, and how to call Trusted
-    /// Advisor for results of checks on your resources. 
+    /// Advisor for results of checks on your resources.
     /// </para>
     /// </summary>
     public partial class AmazonAWSSupportClient : AmazonServiceClient, IAmazonAWSSupport
     {
+        private static IServiceMetadata serviceMetadata = new AmazonAWSSupportMetadata();
         #region Constructors
 
         /// <summary>
@@ -285,6 +288,16 @@ namespace Amazon.AWSSupport
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -300,7 +313,7 @@ namespace Amazon.AWSSupport
 
         #endregion
 
-        
+
         #region  AddAttachmentsToSet
 
         /// <summary>
@@ -342,10 +355,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddAttachmentsToSet">REST API Reference for AddAttachmentsToSet Operation</seealso>
         public virtual AddAttachmentsToSetResponse AddAttachmentsToSet(AddAttachmentsToSetRequest request)
         {
-            var marshaller = AddAttachmentsToSetRequestMarshaller.Instance;
-            var unmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddAttachmentsToSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
 
-            return Invoke<AddAttachmentsToSetRequest,AddAttachmentsToSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddAttachmentsToSetResponse>(request, options);
         }
 
         /// <summary>
@@ -362,11 +376,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddAttachmentsToSet">REST API Reference for AddAttachmentsToSet Operation</seealso>
         public virtual IAsyncResult BeginAddAttachmentsToSet(AddAttachmentsToSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddAttachmentsToSetRequestMarshaller.Instance;
-            var unmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddAttachmentsToSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddAttachmentsToSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -420,10 +434,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddCommunicationToCase">REST API Reference for AddCommunicationToCase Operation</seealso>
         public virtual AddCommunicationToCaseResponse AddCommunicationToCase(AddCommunicationToCaseRequest request)
         {
-            var marshaller = AddCommunicationToCaseRequestMarshaller.Instance;
-            var unmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddCommunicationToCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
 
-            return Invoke<AddCommunicationToCaseRequest,AddCommunicationToCaseResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddCommunicationToCaseResponse>(request, options);
         }
 
         /// <summary>
@@ -440,11 +455,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddCommunicationToCase">REST API Reference for AddCommunicationToCase Operation</seealso>
         public virtual IAsyncResult BeginAddCommunicationToCase(AddCommunicationToCaseRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddCommunicationToCaseRequestMarshaller.Instance;
-            var unmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddCommunicationToCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddCommunicationToCaseRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -467,29 +482,43 @@ namespace Amazon.AWSSupport
         /// <summary>
         /// Creates a new case in the AWS Support Center. This operation is modeled on the behavior
         /// of the AWS Support Center <a href="https://console.aws.amazon.com/support/home#/case/create">Create
-        /// Case</a> page. Its parameters require you to specify the following information: 
+        /// Case</a> page. Its parameters require you to specify the following information:
         /// 
         ///  <ul> <li> 
         /// <para>
         ///  <b>issueType.</b> The type of issue for the case. You can specify either "customer-service"
-        /// or "technical." If you do not indicate a value, the default is "technical." 
+        /// or "technical." If you do not indicate a value, the default is "technical."
         /// </para>
-        ///  </li> <li> 
+        ///  <note> 
         /// <para>
-        ///  <b>serviceCode.</b> The code for an AWS service. You obtain the <code>serviceCode</code>
-        /// by calling <a>DescribeServices</a>. 
+        /// Service limit increases are not supported by the Support API; you must submit service
+        /// limit increase requests in <a href="https://console.aws.amazon.com/support">Support
+        /// Center</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>caseId</code> is not the <code>displayId</code> that appears in <a href="https://console.aws.amazon.com/support">Support
+        /// Center</a>. You can use the <a>DescribeCases</a> API to get the <code>displayId</code>.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        ///  <b>serviceCode.</b> The code for an AWS service. You can get the possible <code>serviceCode</code>
+        /// values by calling <a>DescribeServices</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <b>categoryCode.</b> The category for the service defined for the <code>serviceCode</code>
-        /// value. You also obtain the category code for a service by calling <a>DescribeServices</a>.
-        /// Each AWS service defines its own set of category codes. 
+        /// value. You also get the category code for a service by calling <a>DescribeServices</a>.
+        /// Each AWS service defines its own set of category codes.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <b>severityCode.</b> A value that indicates the urgency of the case, which in turn
         /// determines the response time according to your service level agreement with AWS Support.
-        /// You obtain the SeverityCode by calling <a>DescribeSeverityLevels</a>.
+        /// You can get the possible <code>severityCode</code> values by calling <a>DescribeSeverityLevels</a>.
+        /// For more information about the meaning of the codes, see <a>SeverityLevel</a> and
+        /// <a href="https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity">Choosing
+        /// a Severity</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -529,7 +558,6 @@ namespace Amazon.AWSSupport
         /// <para>
         /// A successful <a>CreateCase</a> request returns an AWS Support case number. Case numbers
         /// are used by the <a>DescribeCases</a> operation to retrieve existing AWS Support cases.
-        /// 
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateCase service method.</param>
@@ -551,10 +579,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/CreateCase">REST API Reference for CreateCase Operation</seealso>
         public virtual CreateCaseResponse CreateCase(CreateCaseRequest request)
         {
-            var marshaller = CreateCaseRequestMarshaller.Instance;
-            var unmarshaller = CreateCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCaseResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCaseRequest,CreateCaseResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCaseResponse>(request, options);
         }
 
         /// <summary>
@@ -571,11 +600,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/CreateCase">REST API Reference for CreateCase Operation</seealso>
         public virtual IAsyncResult BeginCreateCase(CreateCaseRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateCaseRequestMarshaller.Instance;
-            var unmarshaller = CreateCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCaseResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateCaseRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -617,10 +646,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeAttachment">REST API Reference for DescribeAttachment Operation</seealso>
         public virtual DescribeAttachmentResponse DescribeAttachment(DescribeAttachmentRequest request)
         {
-            var marshaller = DescribeAttachmentRequestMarshaller.Instance;
-            var unmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAttachmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAttachmentRequest,DescribeAttachmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAttachmentResponse>(request, options);
         }
 
         /// <summary>
@@ -637,11 +667,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeAttachment">REST API Reference for DescribeAttachment Operation</seealso>
         public virtual IAsyncResult BeginDescribeAttachment(DescribeAttachmentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeAttachmentRequestMarshaller.Instance;
-            var unmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAttachmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeAttachmentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -666,7 +696,7 @@ namespace Amazon.AWSSupport
         /// you can filter the cases by date by setting values for the <code>afterTime</code>
         /// and <code>beforeTime</code> request parameters. You can set values for the <code>includeResolvedCases</code>
         /// and <code>includeCommunications</code> request parameters to control how much information
-        /// is returned. 
+        /// is returned.
         /// 
         ///  
         /// <para>
@@ -679,7 +709,7 @@ namespace Amazon.AWSSupport
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// One or more <a>CaseDetails</a> data types. 
+        /// One or more <a>CaseDetails</a> data types.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -700,10 +730,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCases">REST API Reference for DescribeCases Operation</seealso>
         public virtual DescribeCasesResponse DescribeCases(DescribeCasesRequest request)
         {
-            var marshaller = DescribeCasesRequestMarshaller.Instance;
-            var unmarshaller = DescribeCasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCasesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCasesRequest,DescribeCasesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCasesResponse>(request, options);
         }
 
         /// <summary>
@@ -720,11 +751,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCases">REST API Reference for DescribeCases Operation</seealso>
         public virtual IAsyncResult BeginDescribeCases(DescribeCasesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeCasesRequestMarshaller.Instance;
-            var unmarshaller = DescribeCasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCasesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeCasesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -775,10 +806,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCommunications">REST API Reference for DescribeCommunications Operation</seealso>
         public virtual DescribeCommunicationsResponse DescribeCommunications(DescribeCommunicationsRequest request)
         {
-            var marshaller = DescribeCommunicationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCommunicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCommunicationsRequest,DescribeCommunicationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCommunicationsResponse>(request, options);
         }
 
         /// <summary>
@@ -795,11 +827,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCommunications">REST API Reference for DescribeCommunications Operation</seealso>
         public virtual IAsyncResult BeginDescribeCommunications(DescribeCommunicationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeCommunicationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCommunicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeCommunicationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -871,10 +903,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeServices">REST API Reference for DescribeServices Operation</seealso>
         public virtual DescribeServicesResponse DescribeServices(DescribeServicesRequest request)
         {
-            var marshaller = DescribeServicesRequestMarshaller.Instance;
-            var unmarshaller = DescribeServicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServicesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeServicesRequest,DescribeServicesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeServicesResponse>(request, options);
         }
 
         /// <summary>
@@ -891,11 +924,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeServices">REST API Reference for DescribeServices Operation</seealso>
         public virtual IAsyncResult BeginDescribeServices(DescribeServicesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeServicesRequestMarshaller.Instance;
-            var unmarshaller = DescribeServicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServicesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeServicesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -945,10 +978,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeSeverityLevels">REST API Reference for DescribeSeverityLevels Operation</seealso>
         public virtual DescribeSeverityLevelsResponse DescribeSeverityLevels(DescribeSeverityLevelsRequest request)
         {
-            var marshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeSeverityLevelsRequest,DescribeSeverityLevelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeSeverityLevelsResponse>(request, options);
         }
 
         /// <summary>
@@ -965,11 +999,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeSeverityLevels">REST API Reference for DescribeSeverityLevels Operation</seealso>
         public virtual IAsyncResult BeginDescribeSeverityLevels(DescribeSeverityLevelsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeSeverityLevelsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1010,10 +1044,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckRefreshStatuses">REST API Reference for DescribeTrustedAdvisorCheckRefreshStatuses Operation</seealso>
         public virtual DescribeTrustedAdvisorCheckRefreshStatusesResponse DescribeTrustedAdvisorCheckRefreshStatuses(DescribeTrustedAdvisorCheckRefreshStatusesRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorCheckRefreshStatusesRequest,DescribeTrustedAdvisorCheckRefreshStatusesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorCheckRefreshStatusesResponse>(request, options);
         }
 
         /// <summary>
@@ -1030,11 +1065,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckRefreshStatuses">REST API Reference for DescribeTrustedAdvisorCheckRefreshStatuses Operation</seealso>
         public virtual IAsyncResult BeginDescribeTrustedAdvisorCheckRefreshStatuses(DescribeTrustedAdvisorCheckRefreshStatusesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeTrustedAdvisorCheckRefreshStatusesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1103,10 +1138,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckResult">REST API Reference for DescribeTrustedAdvisorCheckResult Operation</seealso>
         public virtual DescribeTrustedAdvisorCheckResultResponse DescribeTrustedAdvisorCheckResult(DescribeTrustedAdvisorCheckResultRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorCheckResultRequest,DescribeTrustedAdvisorCheckResultResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorCheckResultResponse>(request, options);
         }
 
         /// <summary>
@@ -1123,11 +1159,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckResult">REST API Reference for DescribeTrustedAdvisorCheckResult Operation</seealso>
         public virtual IAsyncResult BeginDescribeTrustedAdvisorCheckResult(DescribeTrustedAdvisorCheckResultRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeTrustedAdvisorCheckResultRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1151,7 +1187,7 @@ namespace Amazon.AWSSupport
         /// Returns information about all available Trusted Advisor checks, including name, ID,
         /// category, description, and metadata. You must specify a language code; English ("en")
         /// and Japanese ("ja") are currently supported. The response contains a <a>TrustedAdvisorCheckDescription</a>
-        /// for each check.
+        /// for each check. The region must be set to us-east-1.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorChecks service method.</param>
         /// 
@@ -1162,10 +1198,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorChecks">REST API Reference for DescribeTrustedAdvisorChecks Operation</seealso>
         public virtual DescribeTrustedAdvisorChecksResponse DescribeTrustedAdvisorChecks(DescribeTrustedAdvisorChecksRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorChecksRequest,DescribeTrustedAdvisorChecksResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorChecksResponse>(request, options);
         }
 
         /// <summary>
@@ -1182,11 +1219,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorChecks">REST API Reference for DescribeTrustedAdvisorChecks Operation</seealso>
         public virtual IAsyncResult BeginDescribeTrustedAdvisorChecks(DescribeTrustedAdvisorChecksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeTrustedAdvisorChecksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1224,10 +1261,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckSummaries">REST API Reference for DescribeTrustedAdvisorCheckSummaries Operation</seealso>
         public virtual DescribeTrustedAdvisorCheckSummariesResponse DescribeTrustedAdvisorCheckSummaries(DescribeTrustedAdvisorCheckSummariesRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorCheckSummariesRequest,DescribeTrustedAdvisorCheckSummariesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorCheckSummariesResponse>(request, options);
         }
 
         /// <summary>
@@ -1244,11 +1282,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckSummaries">REST API Reference for DescribeTrustedAdvisorCheckSummaries Operation</seealso>
         public virtual IAsyncResult BeginDescribeTrustedAdvisorCheckSummaries(DescribeTrustedAdvisorCheckSummariesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeTrustedAdvisorCheckSummariesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1285,10 +1323,31 @@ namespace Amazon.AWSSupport
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <b>status.</b> The refresh status of the check: "none", "enqueued", "processing",
-        /// "success", or "abandoned".
+        ///  <b>status.</b> The refresh status of the check: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>none:</code> The check is not refreshed or the non-success status exceeds the
+        /// timeout
         /// </para>
         ///  </li> <li> 
+        /// <para>
+        ///  <code>enqueued:</code> The check refresh requests has entered the refresh queue
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>processing:</code> The check refresh request is picked up by the rule processing
+        /// engine
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>success:</code> The check is successfully refreshed
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>abandoned:</code> The check refresh has failed
+        /// </para>
+        ///  </li> </ul> </li> <li> 
         /// <para>
         ///  <b>millisUntilNextRefreshable.</b> The amount of time, in milliseconds, until the
         /// check is eligible for refresh.
@@ -1308,10 +1367,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/RefreshTrustedAdvisorCheck">REST API Reference for RefreshTrustedAdvisorCheck Operation</seealso>
         public virtual RefreshTrustedAdvisorCheckResponse RefreshTrustedAdvisorCheck(RefreshTrustedAdvisorCheckRequest request)
         {
-            var marshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
-            var unmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
 
-            return Invoke<RefreshTrustedAdvisorCheckRequest,RefreshTrustedAdvisorCheckResponse>(request, marshaller, unmarshaller);
+            return Invoke<RefreshTrustedAdvisorCheckResponse>(request, options);
         }
 
         /// <summary>
@@ -1328,11 +1388,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/RefreshTrustedAdvisorCheck">REST API Reference for RefreshTrustedAdvisorCheck Operation</seealso>
         public virtual IAsyncResult BeginRefreshTrustedAdvisorCheck(RefreshTrustedAdvisorCheckRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
-            var unmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RefreshTrustedAdvisorCheckRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1368,10 +1428,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/ResolveCase">REST API Reference for ResolveCase Operation</seealso>
         public virtual ResolveCaseResponse ResolveCase(ResolveCaseRequest request)
         {
-            var marshaller = ResolveCaseRequestMarshaller.Instance;
-            var unmarshaller = ResolveCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResolveCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResolveCaseResponseUnmarshaller.Instance;
 
-            return Invoke<ResolveCaseRequest,ResolveCaseResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResolveCaseResponse>(request, options);
         }
 
         /// <summary>
@@ -1388,11 +1449,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/ResolveCase">REST API Reference for ResolveCase Operation</seealso>
         public virtual IAsyncResult BeginResolveCase(ResolveCaseRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ResolveCaseRequestMarshaller.Instance;
-            var unmarshaller = ResolveCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResolveCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResolveCaseResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ResolveCaseRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

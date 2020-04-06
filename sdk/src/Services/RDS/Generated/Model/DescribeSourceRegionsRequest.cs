@@ -30,7 +30,7 @@ namespace Amazon.RDS.Model
     /// <summary>
     /// Container for the parameters to the DescribeSourceRegions operation.
     /// Returns a list of the source AWS Regions where the current AWS Region can create a
-    /// Read Replica or copy a DB snapshot from. This API action supports pagination.
+    /// read replica or copy a DB snapshot from. This API action supports pagination.
     /// </summary>
     public partial class DescribeSourceRegionsRequest : AmazonRDSRequest
     {
@@ -42,7 +42,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// This parameter isn't currently supported.
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -60,9 +60,9 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Marker. 
         /// <para>
-        /// An optional pagination token provided by a previous <a>DescribeSourceRegions</a> request.
-        /// If this parameter is specified, the response includes only records beyond the marker,
-        /// up to the value specified by <code>MaxRecords</code>.
+        /// An optional pagination token provided by a previous <code>DescribeSourceRegions</code>
+        /// request. If this parameter is specified, the response includes only records beyond
+        /// the marker, up to the value specified by <code>MaxRecords</code>.
         /// </para>
         /// </summary>
         public string Marker
@@ -82,7 +82,7 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The maximum number of records to include in the response. If more records exist than
         /// the specified <code>MaxRecords</code> value, a pagination token called a marker is
-        /// included in the response so that the remaining results can be retrieved. 
+        /// included in the response so you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>

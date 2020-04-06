@@ -66,9 +66,25 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("DeliverLogsPermissionArn", StringUtils.FromString(publicRequest.DeliverLogsPermissionArn));
                 }
+                if(publicRequest.IsSetLogDestination())
+                {
+                    request.Parameters.Add("LogDestination", StringUtils.FromString(publicRequest.LogDestination));
+                }
+                if(publicRequest.IsSetLogDestinationType())
+                {
+                    request.Parameters.Add("LogDestinationType", StringUtils.FromString(publicRequest.LogDestinationType));
+                }
+                if(publicRequest.IsSetLogFormat())
+                {
+                    request.Parameters.Add("LogFormat", StringUtils.FromString(publicRequest.LogFormat));
+                }
                 if(publicRequest.IsSetLogGroupName())
                 {
                     request.Parameters.Add("LogGroupName", StringUtils.FromString(publicRequest.LogGroupName));
+                }
+                if(publicRequest.IsSetMaxAggregationInterval())
+                {
+                    request.Parameters.Add("MaxAggregationInterval", StringUtils.FromInt(publicRequest.MaxAggregationInterval));
                 }
                 if(publicRequest.IsSetResourceIds())
                 {
@@ -82,6 +98,34 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetResourceType())
                 {
                     request.Parameters.Add("ResourceType", StringUtils.FromString(publicRequest.ResourceType));
+                }
+                if(publicRequest.IsSetTagSpecifications())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.TagSpecifications)
+                    {
+                        if(publicRequestlistValue.IsSetResourceType())
+                        {
+                            request.Parameters.Add("TagSpecification" + "." + publicRequestlistValueIndex + "." + "ResourceType", StringUtils.FromString(publicRequestlistValue.ResourceType));
+                        }
+                        if(publicRequestlistValue.IsSetTags())
+                        {
+                            int publicRequestlistValuelistValueIndex = 1;
+                            foreach(var publicRequestlistValuelistValue in publicRequestlistValue.Tags)
+                            {
+                                if(publicRequestlistValuelistValue.IsSetKey())
+                                {
+                                    request.Parameters.Add("TagSpecification" + "." + publicRequestlistValueIndex + "." + "Tag" + "." + publicRequestlistValuelistValueIndex + "." + "Key", StringUtils.FromString(publicRequestlistValuelistValue.Key));
+                                }
+                                if(publicRequestlistValuelistValue.IsSetValue())
+                                {
+                                    request.Parameters.Add("TagSpecification" + "." + publicRequestlistValueIndex + "." + "Tag" + "." + publicRequestlistValuelistValueIndex + "." + "Value", StringUtils.FromString(publicRequestlistValuelistValue.Value));
+                                }
+                                publicRequestlistValuelistValueIndex++;
+                            }
+                        }
+                        publicRequestlistValueIndex++;
+                    }
                 }
                 if(publicRequest.IsSetTrafficType())
                 {

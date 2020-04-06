@@ -55,16 +55,17 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetGroupCertificateAuthorityRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/greengrass/groups/{GroupId}/certificateauthorities/{CertificateAuthorityId}";
             if (!publicRequest.IsSetCertificateAuthorityId())
                 throw new AmazonGreengrassException("Request object does not have required field CertificateAuthorityId set");
-            uriResourcePath = uriResourcePath.Replace("{CertificateAuthorityId}", StringUtils.FromString(publicRequest.CertificateAuthorityId));
+            request.AddPathResource("{CertificateAuthorityId}", StringUtils.FromString(publicRequest.CertificateAuthorityId));
             if (!publicRequest.IsSetGroupId())
                 throw new AmazonGreengrassException("Request object does not have required field GroupId set");
-            uriResourcePath = uriResourcePath.Replace("{GroupId}", StringUtils.FromString(publicRequest.GroupId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{GroupId}", StringUtils.FromString(publicRequest.GroupId));
+            request.ResourcePath = "/greengrass/groups/{GroupId}/certificateauthorities/{CertificateAuthorityId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

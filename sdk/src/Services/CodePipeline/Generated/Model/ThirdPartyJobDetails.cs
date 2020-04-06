@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// The details of a job sent in response to a GetThirdPartyJobDetails request.
+    /// The details of a job sent in response to a <code>GetThirdPartyJobDetails</code> request.
     /// </summary>
     public partial class ThirdPartyJobDetails
     {
@@ -60,6 +60,7 @@ namespace Amazon.CodePipeline.Model
         /// The identifier used to identify the job details in AWS CodePipeline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string Id
         {
             get { return this._id; }
@@ -80,6 +81,7 @@ namespace Amazon.CodePipeline.Model
         /// request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string Nonce
         {
             get { return this._nonce; }

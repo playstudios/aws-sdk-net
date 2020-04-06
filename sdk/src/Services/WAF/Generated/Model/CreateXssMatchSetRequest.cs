@@ -59,7 +59,7 @@ namespace Amazon.WAF.Model
     ///  </li> </ol> 
     /// <para>
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-    /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+    /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
     /// Guide</a>.
     /// </para>
     /// </summary>
@@ -74,6 +74,7 @@ namespace Amazon.WAF.Model
         /// The value returned by the most recent call to <a>GetChangeToken</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }
@@ -93,6 +94,7 @@ namespace Amazon.WAF.Model
         /// can't change <code>Name</code> after you create the <code>XssMatchSet</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }

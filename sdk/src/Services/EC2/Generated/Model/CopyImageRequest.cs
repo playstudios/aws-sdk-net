@@ -29,13 +29,20 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the CopyImage operation.
-    /// Initiates the copy of an AMI from the specified source region to the current region.
-    /// You specify the destination region by using its endpoint when making the request.
+    /// Initiates the copy of an AMI from the specified source Region to the current Region.
+    /// You specify the destination Region by using its endpoint when making the request.
     /// 
     ///  
     /// <para>
+    /// Copies of encrypted backing snapshots for the AMI are encrypted. Copies of unencrypted
+    /// backing snapshots remain unencrypted, unless you set <code>Encrypted</code> during
+    /// the copy operation. You cannot create an unencrypted copy of an encrypted backing
+    /// snapshot.
+    /// </para>
+    ///  
+    /// <para>
     /// For more information about the prerequisites and limits when copying an AMI, see <a
-    /// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html">Copying
+    /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html">Copying
     /// an AMI</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -53,7 +60,7 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
         /// to Ensure Idempotency</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -72,7 +79,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// A description for the new AMI in the destination region.
+        /// A description for the new AMI in the destination Region.
         /// </para>
         /// </summary>
         public string Description
@@ -91,8 +98,10 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property Encrypted. 
         /// <para>
         /// Specifies whether the destination snapshots of the copied image should be encrypted.
-        /// The default CMK for EBS is used unless a non-default AWS Key Management Service (AWS
-        /// KMS) CMK is specified with <code>KmsKeyId</code>. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted
+        /// copy of an encrypted snapshot. The default CMK for EBS is used unless you specify
+        /// a non-default AWS Key Management Service (AWS KMS) CMK using <code>KmsKeyId</code>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
         /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -111,37 +120,33 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// An identifier for the AWS Key Management Service (AWS KMS) customer master key (CMK)
-        /// to use when creating the encrypted volume. This parameter is only required if you
-        /// want to use a non-default CMK; if this parameter is not specified, the default CMK
-        /// for EBS is used. If a <code>KmsKeyId</code> is specified, the <code>Encrypted</code>
+        /// An identifier for the symmetric AWS Key Management Service (AWS KMS) customer master
+        /// key (CMK) to use when creating the encrypted volume. This parameter is only required
+        /// if you want to use a non-default CMK; if this parameter is not specified, the default
+        /// CMK for EBS is used. If a <code>KmsKeyId</code> is specified, the <code>Encrypted</code>
         /// flag must also be set. 
         /// </para>
         ///  
         /// <para>
-        /// The CMK identifier may be provided in any of the following formats: 
+        /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias
+        /// ARN. When using an alias name, prefix it with "alias/". For example:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Key ID
+        /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code> 
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Key alias, in the form <code>alias/<i>ExampleAlias</i> </code> 
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// ARN using key ID. The ID ARN contains the <code>arn:aws:kms</code> namespace, followed
-        /// by the region of the CMK, the AWS account ID of the CMK owner, the <code>key</code>
-        /// namespace, and then the CMK ID. For example, arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
+        /// Key ARN: <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
         /// 
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ARN using key alias. The alias ARN contains the <code>arn:aws:kms</code> namespace,
-        /// followed by the region of the CMK, the AWS account ID of the CMK owner, the <code>alias</code>
-        /// namespace, and then the CMK alias. For example, arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
-        /// 
+        /// Alias name: <code>alias/ExampleAlias</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Alias ARN: <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code> 
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -151,7 +156,11 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  
         /// <para>
-        /// The specified CMK must exist in the region that the snapshot is being copied to. 
+        /// The specified CMK must exist in the Region that the snapshot is being copied to. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon EBS does not support asymmetric CMKs.
         /// </para>
         /// </summary>
         public string KmsKeyId
@@ -169,9 +178,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the new AMI in the destination region.
+        /// The name of the new AMI in the destination Region.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -190,6 +200,7 @@ namespace Amazon.EC2.Model
         /// The ID of the AMI to copy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceImageId
         {
             get { return this._sourceImageId; }
@@ -205,9 +216,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SourceRegion. 
         /// <para>
-        /// The name of the region that contains the AMI to copy.
+        /// The name of the Region that contains the AMI to copy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceRegion
         {
             get { return this._sourceRegion; }

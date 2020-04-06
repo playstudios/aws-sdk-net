@@ -58,15 +58,27 @@ namespace Amazon.CodePipeline.Model.Internal.MarshallTransformations
             string target = "CodePipeline_20150709.StartPipelineExecution";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetClientRequestToken())
+                {
+                    context.Writer.WritePropertyName("clientRequestToken");
+                    context.Writer.Write(publicRequest.ClientRequestToken);
+                }
+
+                else if(!(publicRequest.IsSetClientRequestToken()))
+                {
+                    context.Writer.WritePropertyName("clientRequestToken");
+                    context.Writer.Write(Guid.NewGuid().ToString());                                                
+                }
                 if(publicRequest.IsSetName())
                 {
                     context.Writer.WritePropertyName("name");

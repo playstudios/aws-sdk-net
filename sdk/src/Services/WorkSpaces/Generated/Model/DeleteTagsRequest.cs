@@ -29,7 +29,7 @@ namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteTags operation.
-    /// Deletes the specified tags from a WorkSpace.
+    /// Deletes the specified tags from the specified WorkSpaces resource.
     /// </summary>
     public partial class DeleteTagsRequest : AmazonWorkSpacesRequest
     {
@@ -39,9 +39,11 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property ResourceId. 
         /// <para>
-        /// The ID of the resource.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces,
+        /// registered directories, images, custom bundles, and IP access control groups.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -60,6 +62,7 @@ namespace Amazon.WorkSpaces.Model
         /// The tag keys.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

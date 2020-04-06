@@ -31,9 +31,35 @@ namespace Amazon.AppStream
     ///
     /// Amazon AppStream 2.0 
     /// <para>
-    /// You can use Amazon AppStream 2.0 to stream desktop applications to any device running
-    /// a web browser, without rewriting them.
+    /// This is the <i>Amazon AppStream 2.0 API Reference</i>. This documentation provides
+    /// descriptions and syntax for each of the actions and data types in AppStream 2.0. AppStream
+    /// 2.0 is a fully managed, secure application streaming service that lets you stream
+    /// desktop applications to users without rewriting applications. AppStream 2.0 manages
+    /// the AWS resources that are required to host and run your applications, scales automatically,
+    /// and provides access to your users on demand. 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// You can call the AppStream 2.0 API operations by using an interface VPC endpoint (interface
+    /// endpoint). For more information, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/access-api-cli-through-interface-vpc-endpoint.html">Access
+    /// AppStream 2.0 API Operations and CLI Commands Through an Interface VPC Endpoint</a>
+    /// in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+    /// </para>
+    ///  </note> 
+    /// <para>
+    /// To learn more about AppStream 2.0, see the following resources:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <a href="http://aws.amazon.com/appstream2">Amazon AppStream 2.0 product page</a>
+    /// 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a href="http://aws.amazon.com/documentation/appstream2">Amazon AppStream 2.0 documentation</a>
+    /// 
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial interface IAmazonAppStream : IAmazonService, IDisposable
     {
@@ -95,6 +121,90 @@ namespace Amazon.AppStream
         /// <returns>Returns a  AssociateFleetResult from AppStream.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AssociateFleet">REST API Reference for AssociateFleet Operation</seealso>
         AssociateFleetResponse EndAssociateFleet(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  BatchAssociateUserStack
+
+
+        /// <summary>
+        /// Associates the specified users with the specified stacks. Users in a user pool cannot
+        /// be assigned to stacks with fleets that are joined to an Active Directory domain.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchAssociateUserStack service method.</param>
+        /// 
+        /// <returns>The response from the BatchAssociateUserStack service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.OperationNotPermittedException">
+        /// The attempted operation is not permitted.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/BatchAssociateUserStack">REST API Reference for BatchAssociateUserStack Operation</seealso>
+        BatchAssociateUserStackResponse BatchAssociateUserStack(BatchAssociateUserStackRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchAssociateUserStack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchAssociateUserStack operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchAssociateUserStack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/BatchAssociateUserStack">REST API Reference for BatchAssociateUserStack Operation</seealso>
+        IAsyncResult BeginBatchAssociateUserStack(BatchAssociateUserStackRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchAssociateUserStack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchAssociateUserStack.</param>
+        /// 
+        /// <returns>Returns a  BatchAssociateUserStackResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/BatchAssociateUserStack">REST API Reference for BatchAssociateUserStack Operation</seealso>
+        BatchAssociateUserStackResponse EndBatchAssociateUserStack(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  BatchDisassociateUserStack
+
+
+        /// <summary>
+        /// Disassociates the specified users from the specified stacks.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchDisassociateUserStack service method.</param>
+        /// 
+        /// <returns>The response from the BatchDisassociateUserStack service method, as returned by AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/BatchDisassociateUserStack">REST API Reference for BatchDisassociateUserStack Operation</seealso>
+        BatchDisassociateUserStackResponse BatchDisassociateUserStack(BatchDisassociateUserStackRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchDisassociateUserStack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchDisassociateUserStack operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchDisassociateUserStack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/BatchDisassociateUserStack">REST API Reference for BatchDisassociateUserStack Operation</seealso>
+        IAsyncResult BeginBatchDisassociateUserStack(BatchDisassociateUserStackRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchDisassociateUserStack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchDisassociateUserStack.</param>
+        /// 
+        /// <returns>Returns a  BatchDisassociateUserStackResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/BatchDisassociateUserStack">REST API Reference for BatchDisassociateUserStack Operation</seealso>
+        BatchDisassociateUserStackResponse EndBatchDisassociateUserStack(IAsyncResult asyncResult);
 
         #endregion
         
@@ -162,7 +272,9 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Creates a directory configuration.
+        /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration
+        /// information required to join fleets and image builders to Microsoft Active Directory
+        /// domains.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDirectoryConfig service method.</param>
         /// 
@@ -212,7 +324,7 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Creates a fleet.
+        /// Creates a fleet. A fleet consists of streaming instances that run a specified image.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateFleet service method.</param>
         /// 
@@ -235,6 +347,9 @@ namespace Amazon.AppStream
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.LimitExceededException">
         /// The requested limit exceeds the permitted limit for an account.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.OperationNotPermittedException">
+        /// The attempted operation is not permitted.
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.ResourceAlreadyExistsException">
         /// The specified resource already exists.
@@ -280,7 +395,8 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Creates an image builder.
+        /// Creates an image builder. An image builder is a virtual machine that is used to create
+        /// an image.
         /// 
         ///  
         /// <para>
@@ -309,6 +425,9 @@ namespace Amazon.AppStream
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.LimitExceededException">
         /// The requested limit exceeds the permitted limit for an account.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.OperationNotPermittedException">
+        /// The attempted operation is not permitted.
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.ResourceAlreadyExistsException">
         /// The specified resource already exists.
@@ -400,7 +519,8 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Creates a stack.
+        /// Creates a stack to start streaming applications to users. A stack consists of an associated
+        /// fleet, user access policies, and storage configurations.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStack service method.</param>
         /// 
@@ -462,7 +582,8 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Creates a URL to start a streaming session for the specified user.
+        /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified
+        /// user. A streaming URL enables application streaming to be tested without user setup.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStreamingURL service method.</param>
         /// 
@@ -510,11 +631,118 @@ namespace Amazon.AppStream
 
         #endregion
         
+        #region  CreateUsageReportSubscription
+
+
+        /// <summary>
+        /// Creates a usage report subscription. Usage reports are generated daily.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateUsageReportSubscription service method.</param>
+        /// 
+        /// <returns>The response from the CreateUsageReportSubscription service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidAccountStatusException">
+        /// The resource cannot be created because your AWS account is suspended. For assistance,
+        /// contact AWS Support.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.InvalidRoleException">
+        /// The specified role is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.LimitExceededException">
+        /// The requested limit exceeds the permitted limit for an account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUsageReportSubscription">REST API Reference for CreateUsageReportSubscription Operation</seealso>
+        CreateUsageReportSubscriptionResponse CreateUsageReportSubscription(CreateUsageReportSubscriptionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateUsageReportSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateUsageReportSubscription operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateUsageReportSubscription
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUsageReportSubscription">REST API Reference for CreateUsageReportSubscription Operation</seealso>
+        IAsyncResult BeginCreateUsageReportSubscription(CreateUsageReportSubscriptionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateUsageReportSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateUsageReportSubscription.</param>
+        /// 
+        /// <returns>Returns a  CreateUsageReportSubscriptionResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUsageReportSubscription">REST API Reference for CreateUsageReportSubscription Operation</seealso>
+        CreateUsageReportSubscriptionResponse EndCreateUsageReportSubscription(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateUser
+
+
+        /// <summary>
+        /// Creates a new user in the user pool.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateUser service method.</param>
+        /// 
+        /// <returns>The response from the CreateUser service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidAccountStatusException">
+        /// The resource cannot be created because your AWS account is suspended. For assistance,
+        /// contact AWS Support.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.InvalidParameterCombinationException">
+        /// Indicates an incorrect combination of parameters, or a missing parameter.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.LimitExceededException">
+        /// The requested limit exceeds the permitted limit for an account.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.OperationNotPermittedException">
+        /// The attempted operation is not permitted.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceAlreadyExistsException">
+        /// The specified resource already exists.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUser">REST API Reference for CreateUser Operation</seealso>
+        CreateUserResponse CreateUser(CreateUserRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateUser operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateUser
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUser">REST API Reference for CreateUser Operation</seealso>
+        IAsyncResult BeginCreateUser(CreateUserRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateUser operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateUser.</param>
+        /// 
+        /// <returns>Returns a  CreateUserResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUser">REST API Reference for CreateUser Operation</seealso>
+        CreateUserResponse EndCreateUser(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteDirectoryConfig
 
 
         /// <summary>
-        /// Deletes the specified directory configuration.
+        /// Deletes the specified Directory Config object from AppStream 2.0. This object includes
+        /// the information required to join streaming instances to an Active Directory domain.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDirectoryConfig service method.</param>
         /// 
@@ -609,8 +837,8 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Deletes the specified image. You cannot delete an image that is currently in use.
-        /// After you delete an image, you cannot provision new capacity using the image.
+        /// Deletes the specified image. You cannot delete an image when it is in use. After you
+        /// delete an image, you cannot provision new capacity using the image.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteImage service method.</param>
         /// 
@@ -707,12 +935,61 @@ namespace Amazon.AppStream
 
         #endregion
         
+        #region  DeleteImagePermissions
+
+
+        /// <summary>
+        /// Deletes permissions for the specified private image. After you delete permissions
+        /// for an image, AWS accounts to which you previously granted these permissions can no
+        /// longer use the image.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteImagePermissions service method.</param>
+        /// 
+        /// <returns>The response from the DeleteImagePermissions service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotAvailableException">
+        /// The specified resource exists and is not in use, but isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteImagePermissions">REST API Reference for DeleteImagePermissions Operation</seealso>
+        DeleteImagePermissionsResponse DeleteImagePermissions(DeleteImagePermissionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteImagePermissions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteImagePermissions operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteImagePermissions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteImagePermissions">REST API Reference for DeleteImagePermissions Operation</seealso>
+        IAsyncResult BeginDeleteImagePermissions(DeleteImagePermissionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteImagePermissions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteImagePermissions.</param>
+        /// 
+        /// <returns>Returns a  DeleteImagePermissionsResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteImagePermissions">REST API Reference for DeleteImagePermissions Operation</seealso>
+        DeleteImagePermissionsResponse EndDeleteImagePermissions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteStack
 
 
         /// <summary>
-        /// Deletes the specified stack. After this operation completes, the environment can no
-        /// longer be activated and any reservations made for the stack are released.
+        /// Deletes the specified stack. After the stack is deleted, the application streaming
+        /// environment provided by the stack is no longer available to users. Also, any reservations
+        /// made for application streaming sessions for the stack are released.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteStack service method.</param>
         /// 
@@ -757,13 +1034,111 @@ namespace Amazon.AppStream
 
         #endregion
         
+        #region  DeleteUsageReportSubscription
+
+
+        /// <summary>
+        /// Disables usage report generation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUsageReportSubscription service method.</param>
+        /// 
+        /// <returns>The response from the DeleteUsageReportSubscription service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidAccountStatusException">
+        /// The resource cannot be created because your AWS account is suspended. For assistance,
+        /// contact AWS Support.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUsageReportSubscription">REST API Reference for DeleteUsageReportSubscription Operation</seealso>
+        DeleteUsageReportSubscriptionResponse DeleteUsageReportSubscription(DeleteUsageReportSubscriptionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteUsageReportSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUsageReportSubscription operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteUsageReportSubscription
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUsageReportSubscription">REST API Reference for DeleteUsageReportSubscription Operation</seealso>
+        IAsyncResult BeginDeleteUsageReportSubscription(DeleteUsageReportSubscriptionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteUsageReportSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteUsageReportSubscription.</param>
+        /// 
+        /// <returns>Returns a  DeleteUsageReportSubscriptionResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUsageReportSubscription">REST API Reference for DeleteUsageReportSubscription Operation</seealso>
+        DeleteUsageReportSubscriptionResponse EndDeleteUsageReportSubscription(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteUser
+
+
+        /// <summary>
+        /// Deletes a user from the user pool.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUser service method.</param>
+        /// 
+        /// <returns>The response from the DeleteUser service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUser">REST API Reference for DeleteUser Operation</seealso>
+        DeleteUserResponse DeleteUser(DeleteUserRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUser operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteUser
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUser">REST API Reference for DeleteUser Operation</seealso>
+        IAsyncResult BeginDeleteUser(DeleteUserRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteUser operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteUser.</param>
+        /// 
+        /// <returns>Returns a  DeleteUserResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUser">REST API Reference for DeleteUser Operation</seealso>
+        DeleteUserResponse EndDeleteUser(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeDirectoryConfigs
 
 
         /// <summary>
-        /// Describes the specified directory configurations. Note that although the response
-        /// syntax in this topic includes the account password, this password is not returned
-        /// in the actual response.
+        /// Retrieves a list that describes one or more specified Directory Config objects for
+        /// AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory
+        /// Config objects in the account are described. These objects include the configuration
+        /// information required to join fleets and image builders to Microsoft Active Directory
+        /// domains. 
+        /// 
+        ///  
+        /// <para>
+        /// Although the response syntax in this topic includes the account password, this password
+        /// is not returned in the actual response.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeDirectoryConfigs service method.</param>
         /// 
@@ -806,7 +1181,8 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Describes the specified fleets or all fleets in the account.
+        /// Retrieves a list that describes one or more specified fleets, if the fleet names are
+        /// provided. Otherwise, all fleets in the account are described.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeFleets service method.</param>
         /// 
@@ -849,7 +1225,8 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Describes the specified image builders or all image builders in the account.
+        /// Retrieves a list that describes one or more specified image builders, if the image
+        /// builder names are provided. Otherwise, all image builders in the account are described.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeImageBuilders service method.</param>
         /// 
@@ -888,15 +1265,63 @@ namespace Amazon.AppStream
 
         #endregion
         
+        #region  DescribeImagePermissions
+
+
+        /// <summary>
+        /// Retrieves a list that describes the permissions for shared AWS account IDs on a private
+        /// image that you own.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImagePermissions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeImagePermissions service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeImagePermissions">REST API Reference for DescribeImagePermissions Operation</seealso>
+        DescribeImagePermissionsResponse DescribeImagePermissions(DescribeImagePermissionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeImagePermissions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImagePermissions operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeImagePermissions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeImagePermissions">REST API Reference for DescribeImagePermissions Operation</seealso>
+        IAsyncResult BeginDescribeImagePermissions(DescribeImagePermissionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeImagePermissions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeImagePermissions.</param>
+        /// 
+        /// <returns>Returns a  DescribeImagePermissionsResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeImagePermissions">REST API Reference for DescribeImagePermissions Operation</seealso>
+        DescribeImagePermissionsResponse EndDescribeImagePermissions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeImages
 
 
         /// <summary>
-        /// Describes the specified images or all images in the account.
+        /// Retrieves a list that describes one or more specified images, if the image names or
+        /// image ARNs are provided. Otherwise, all images in the account are described.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeImages service method.</param>
         /// 
         /// <returns>The response from the DescribeImages service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidParameterCombinationException">
+        /// Indicates an incorrect combination of parameters, or a missing parameter.
+        /// </exception>
         /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
         /// The specified resource was not found.
         /// </exception>
@@ -935,9 +1360,10 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Describes the streaming sessions for the specified stack and fleet. If a user ID is
-        /// provided, only the streaming sessions for only that user are returned. If an authentication
-        /// type is not provided, the default is to authenticate users using a streaming URL.
+        /// Retrieves a list that describes the streaming sessions for a specified stack and fleet.
+        /// If a UserId is provided for the stack and fleet, only streaming sessions for that
+        /// user are described. If an authentication type is not provided, the default is to authenticate
+        /// users using a streaming URL.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeSessions service method.</param>
         /// 
@@ -980,7 +1406,8 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Describes the specified stacks or all stacks in the account.
+        /// Retrieves a list that describes one or more specified stacks, if the stack names are
+        /// provided. Otherwise, all stacks in the account are described.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeStacks service method.</param>
         /// 
@@ -1016,6 +1443,198 @@ namespace Amazon.AppStream
         /// <returns>Returns a  DescribeStacksResult from AppStream.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeStacks">REST API Reference for DescribeStacks Operation</seealso>
         DescribeStacksResponse EndDescribeStacks(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeUsageReportSubscriptions
+
+
+        /// <summary>
+        /// Retrieves a list that describes one or more usage report subscriptions.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUsageReportSubscriptions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeUsageReportSubscriptions service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidAccountStatusException">
+        /// The resource cannot be created because your AWS account is suspended. For assistance,
+        /// contact AWS Support.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUsageReportSubscriptions">REST API Reference for DescribeUsageReportSubscriptions Operation</seealso>
+        DescribeUsageReportSubscriptionsResponse DescribeUsageReportSubscriptions(DescribeUsageReportSubscriptionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeUsageReportSubscriptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUsageReportSubscriptions operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeUsageReportSubscriptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUsageReportSubscriptions">REST API Reference for DescribeUsageReportSubscriptions Operation</seealso>
+        IAsyncResult BeginDescribeUsageReportSubscriptions(DescribeUsageReportSubscriptionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeUsageReportSubscriptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeUsageReportSubscriptions.</param>
+        /// 
+        /// <returns>Returns a  DescribeUsageReportSubscriptionsResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUsageReportSubscriptions">REST API Reference for DescribeUsageReportSubscriptions Operation</seealso>
+        DescribeUsageReportSubscriptionsResponse EndDescribeUsageReportSubscriptions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeUsers
+
+
+        /// <summary>
+        /// Retrieves a list that describes one or more specified users in the user pool.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUsers service method.</param>
+        /// 
+        /// <returns>The response from the DescribeUsers service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidParameterCombinationException">
+        /// Indicates an incorrect combination of parameters, or a missing parameter.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUsers">REST API Reference for DescribeUsers Operation</seealso>
+        DescribeUsersResponse DescribeUsers(DescribeUsersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeUsers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUsers operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeUsers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUsers">REST API Reference for DescribeUsers Operation</seealso>
+        IAsyncResult BeginDescribeUsers(DescribeUsersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeUsers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeUsers.</param>
+        /// 
+        /// <returns>Returns a  DescribeUsersResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUsers">REST API Reference for DescribeUsers Operation</seealso>
+        DescribeUsersResponse EndDescribeUsers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeUserStackAssociations
+
+
+        /// <summary>
+        /// Retrieves a list that describes the UserStackAssociation objects. You must specify
+        /// either or both of the following:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// The stack name
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The user name (email address of the user associated with the stack) and the authentication
+        /// type for the user
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUserStackAssociations service method.</param>
+        /// 
+        /// <returns>The response from the DescribeUserStackAssociations service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidParameterCombinationException">
+        /// Indicates an incorrect combination of parameters, or a missing parameter.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUserStackAssociations">REST API Reference for DescribeUserStackAssociations Operation</seealso>
+        DescribeUserStackAssociationsResponse DescribeUserStackAssociations(DescribeUserStackAssociationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeUserStackAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUserStackAssociations operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeUserStackAssociations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUserStackAssociations">REST API Reference for DescribeUserStackAssociations Operation</seealso>
+        IAsyncResult BeginDescribeUserStackAssociations(DescribeUserStackAssociationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeUserStackAssociations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeUserStackAssociations.</param>
+        /// 
+        /// <returns>Returns a  DescribeUserStackAssociationsResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeUserStackAssociations">REST API Reference for DescribeUserStackAssociations Operation</seealso>
+        DescribeUserStackAssociationsResponse EndDescribeUserStackAssociations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DisableUser
+
+
+        /// <summary>
+        /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0
+        /// until they are re-enabled. This action does not delete the user.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableUser service method.</param>
+        /// 
+        /// <returns>The response from the DisableUser service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DisableUser">REST API Reference for DisableUser Operation</seealso>
+        DisableUserResponse DisableUser(DisableUserRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableUser operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableUser
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DisableUser">REST API Reference for DisableUser Operation</seealso>
+        IAsyncResult BeginDisableUser(DisableUserRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableUser operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableUser.</param>
+        /// 
+        /// <returns>Returns a  DisableUserResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DisableUser">REST API Reference for DisableUser Operation</seealso>
+        DisableUserResponse EndDisableUser(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1068,11 +1687,59 @@ namespace Amazon.AppStream
 
         #endregion
         
+        #region  EnableUser
+
+
+        /// <summary>
+        /// Enables a user in the user pool. After being enabled, users can sign in to AppStream
+        /// 2.0 and open applications from the stacks to which they are assigned.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableUser service method.</param>
+        /// 
+        /// <returns>The response from the EnableUser service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.InvalidAccountStatusException">
+        /// The resource cannot be created because your AWS account is suspended. For assistance,
+        /// contact AWS Support.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/EnableUser">REST API Reference for EnableUser Operation</seealso>
+        EnableUserResponse EnableUser(EnableUserRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableUser operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableUser
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/EnableUser">REST API Reference for EnableUser Operation</seealso>
+        IAsyncResult BeginEnableUser(EnableUserRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableUser operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableUser.</param>
+        /// 
+        /// <returns>Returns a  EnableUserResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/EnableUser">REST API Reference for EnableUser Operation</seealso>
+        EnableUserResponse EndEnableUser(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ExpireSession
 
 
         /// <summary>
-        /// Stops the specified streaming session.
+        /// Immediately stops the specified streaming session.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ExpireSession service method.</param>
         /// 
@@ -1112,7 +1779,7 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Lists the fleets associated with the specified stack.
+        /// Retrieves the name of the fleet that is associated with the specified stack.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAssociatedFleets service method.</param>
         /// 
@@ -1152,7 +1819,7 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Lists the stacks associated with the specified fleet.
+        /// Retrieves the name of the stack with which the specified fleet is associated.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAssociatedStacks service method.</param>
         /// 
@@ -1192,13 +1859,13 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Lists the tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0
-        /// image builders, images, fleets, and stacks.
+        /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag
+        /// AppStream 2.0 image builders, images, fleets, and stacks.
         /// 
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-        /// Your Resources</a> in the <i>Amazon AppStream 2.0 Developer Guide</i>.
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+        /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
@@ -1254,11 +1921,17 @@ namespace Amazon.AppStream
         /// The resource cannot be created because your AWS account is suspended. For assistance,
         /// contact AWS Support.
         /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.InvalidRoleException">
+        /// The specified role is invalid.
+        /// </exception>
         /// <exception cref="Amazon.AppStream.Model.LimitExceededException">
         /// The requested limit exceeds the permitted limit for an account.
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.OperationNotPermittedException">
         /// The attempted operation is not permitted.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotAvailableException">
+        /// The specified resource exists and is not in use, but isn't available.
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
         /// The specified resource was not found.
@@ -1464,8 +2137,8 @@ namespace Amazon.AppStream
         /// </para>
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-        /// Your Resources</a> in the <i>Amazon AppStream 2.0 Developer Guide</i>.
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+        /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
@@ -1516,7 +2189,7 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Disassociates the specified tags from the specified AppStream 2.0 resource.
+        /// Disassociates one or more specified tags from the specified AppStream 2.0 resource.
         /// 
         ///  
         /// <para>
@@ -1524,8 +2197,8 @@ namespace Amazon.AppStream
         /// </para>
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-        /// Your Resources</a> in the <i>Amazon AppStream 2.0 Developer Guide</i>.
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+        /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
@@ -1569,7 +2242,9 @@ namespace Amazon.AppStream
 
 
         /// <summary>
-        /// Updates the specified directory configuration.
+        /// Updates the specified Directory Config object in AppStream 2.0. This object includes
+        /// the configuration information required to join fleets and image builders to Microsoft
+        /// Active Directory domains.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateDirectoryConfig service method.</param>
         /// 
@@ -1624,8 +2299,10 @@ namespace Amazon.AppStream
         /// <para>
         /// If the fleet is in the <code>STOPPED</code> state, you can update any attribute except
         /// the fleet name. If the fleet is in the <code>RUNNING</code> state, you can update
-        /// the <code>DisplayName</code> and <code>ComputeCapacity</code> attributes. If the fleet
-        /// is in the <code>STARTING</code> or <code>STOPPING</code> state, you can't update it.
+        /// the <code>DisplayName</code>, <code>ComputeCapacity</code>, <code>ImageARN</code>,
+        /// <code>ImageName</code>, <code>IdleDisconnectTimeoutInSeconds</code>, and <code>DisconnectTimeoutInSeconds</code>
+        /// attributes. If the fleet is in the <code>STARTING</code> or <code>STOPPING</code>
+        /// state, you can't update it.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateFleet service method.</param>
@@ -1693,15 +2370,67 @@ namespace Amazon.AppStream
 
         #endregion
         
+        #region  UpdateImagePermissions
+
+
+        /// <summary>
+        /// Adds or updates permissions for the specified private image.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateImagePermissions service method.</param>
+        /// 
+        /// <returns>The response from the UpdateImagePermissions service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.LimitExceededException">
+        /// The requested limit exceeds the permitted limit for an account.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotAvailableException">
+        /// The specified resource exists and is not in use, but isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.ResourceNotFoundException">
+        /// The specified resource was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateImagePermissions">REST API Reference for UpdateImagePermissions Operation</seealso>
+        UpdateImagePermissionsResponse UpdateImagePermissions(UpdateImagePermissionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateImagePermissions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateImagePermissions operation on AmazonAppStreamClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateImagePermissions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateImagePermissions">REST API Reference for UpdateImagePermissions Operation</seealso>
+        IAsyncResult BeginUpdateImagePermissions(UpdateImagePermissionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateImagePermissions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateImagePermissions.</param>
+        /// 
+        /// <returns>Returns a  UpdateImagePermissionsResult from AppStream.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateImagePermissions">REST API Reference for UpdateImagePermissions Operation</seealso>
+        UpdateImagePermissionsResponse EndUpdateImagePermissions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateStack
 
 
         /// <summary>
-        /// Updates the specified stack.
+        /// Updates the specified fields for the specified stack.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateStack service method.</param>
         /// 
         /// <returns>The response from the UpdateStack service method, as returned by AppStream.</returns>
+        /// <exception cref="Amazon.AppStream.Model.ConcurrentModificationException">
+        /// An API error occurred. Wait a few minutes and try again.
+        /// </exception>
         /// <exception cref="Amazon.AppStream.Model.IncompatibleImageException">
         /// The image does not support storage connectors.
         /// </exception>
@@ -1717,6 +2446,9 @@ namespace Amazon.AppStream
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.LimitExceededException">
         /// The requested limit exceeds the permitted limit for an account.
+        /// </exception>
+        /// <exception cref="Amazon.AppStream.Model.OperationNotPermittedException">
+        /// The attempted operation is not permitted.
         /// </exception>
         /// <exception cref="Amazon.AppStream.Model.ResourceInUseException">
         /// The specified resource is in use.

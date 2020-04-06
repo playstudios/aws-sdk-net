@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Endpoint demographic data
+    /// Specifies demographic information about an endpoint, such as the applicable time zone
+    /// and platform.
     /// </summary>
     public partial class EndpointDemographic
     {
@@ -42,8 +43,10 @@ namespace Amazon.Pinpoint.Model
         private string _timezone;
 
         /// <summary>
-        /// Gets and sets the property AppVersion. The version of the application associated with
-        /// the endpoint.
+        /// Gets and sets the property AppVersion. 
+        /// <para>
+        /// The version of the app that's associated with the endpoint.
+        /// </para>
         /// </summary>
         public string AppVersion
         {
@@ -58,9 +61,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Locale. The endpoint locale in the following format: The
-        /// ISO 639-1 alpha-2 code, followed by an underscore, followed by an ISO 3166-1 alpha-2
-        /// value.
+        /// Gets and sets the property Locale. 
+        /// <para>
+        /// The locale of the endpoint, in the following format: the ISO 639-1 alpha-2 code, followed
+        /// by an underscore (_), followed by an ISO 3166-1 alpha-2 value.
+        /// </para>
         /// </summary>
         public string Locale
         {
@@ -75,7 +80,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Make. The endpoint make, such as such as Apple or Samsung.
+        /// Gets and sets the property Make. 
+        /// <para>
+        /// The manufacturer of the endpoint device, such as apple or samsung.
+        /// </para>
         /// </summary>
         public string Make
         {
@@ -90,7 +98,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Model. The endpoint model, such as iPhone.
+        /// Gets and sets the property Model. 
+        /// <para>
+        /// The model name or number of the endpoint device, such as iPhone or SM-G900F.
+        /// </para>
         /// </summary>
         public string Model
         {
@@ -105,7 +116,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ModelVersion. The endpoint model version.
+        /// Gets and sets the property ModelVersion. 
+        /// <para>
+        /// The model version of the endpoint device.
+        /// </para>
         /// </summary>
         public string ModelVersion
         {
@@ -120,7 +134,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Platform. The endpoint platform, such as ios or android.
+        /// Gets and sets the property Platform. 
+        /// <para>
+        /// The platform of the endpoint device, such as ios.
+        /// </para>
         /// </summary>
         public string Platform
         {
@@ -135,7 +152,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PlatformVersion. The endpoint platform version.
+        /// Gets and sets the property PlatformVersion. 
+        /// <para>
+        /// The platform version of the endpoint device.
+        /// </para>
         /// </summary>
         public string PlatformVersion
         {
@@ -150,8 +170,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Timezone. The timezone of the endpoint. Specified as a
-        /// tz database value, such as Americas/Los_Angeles.
+        /// Gets and sets the property Timezone. 
+        /// <para>
+        /// The time zone of the endpoint, specified as a tz database name value, such as America/Los_Angeles.
+        /// </para>
         /// </summary>
         public string Timezone
         {

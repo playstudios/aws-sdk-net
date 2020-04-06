@@ -55,16 +55,17 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteUtterancesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.LexModelBuildingService");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/bots/{botName}/utterances/{userId}";
             if (!publicRequest.IsSetBotName())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field BotName set");
-            uriResourcePath = uriResourcePath.Replace("{botName}", StringUtils.FromString(publicRequest.BotName));
+            request.AddPathResource("{botName}", StringUtils.FromString(publicRequest.BotName));
             if (!publicRequest.IsSetUserId())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field UserId set");
-            uriResourcePath = uriResourcePath.Replace("{userId}", StringUtils.FromString(publicRequest.UserId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{userId}", StringUtils.FromString(publicRequest.UserId));
+            request.ResourcePath = "/bots/{botName}/utterances/{userId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

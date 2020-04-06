@@ -28,10 +28,10 @@ namespace Amazon.SimpleSystemsManagement
     ///<summary>
     /// Common exception for the SimpleSystemsManagement service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonSimpleSystemsManagementException : AmazonServiceException
+    public partial class AmazonSimpleSystemsManagementException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonSimpleSystemsManagementException
@@ -88,7 +88,7 @@ namespace Amazon.SimpleSystemsManagement
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonSimpleSystemsManagementException class with serialized data.
         /// </summary>

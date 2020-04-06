@@ -30,6 +30,14 @@ namespace Amazon.Lightsail.Model
     /// <summary>
     /// Container for the parameters to the OpenInstancePublicPorts operation.
     /// Adds public ports to an Amazon Lightsail instance.
+    /// 
+    ///  
+    /// <para>
+    /// The <code>open instance public ports</code> operation supports tag-based access control
+    /// via resource tags applied to the resource identified by <code>instance name</code>.
+    /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class OpenInstancePublicPortsRequest : AmazonLightsailRequest
     {
@@ -42,6 +50,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the instance for which you want to open the public ports.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceName
         {
             get { return this._instanceName; }
@@ -60,6 +69,7 @@ namespace Amazon.Lightsail.Model
         /// An array of key-value pairs containing information about the port mappings.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PortInfo PortInfo
         {
             get { return this._portInfo; }

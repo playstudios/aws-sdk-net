@@ -45,6 +45,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(ComputeResource requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetAllocationStrategy())
+            {
+                context.Writer.WritePropertyName("allocationStrategy");
+                context.Writer.Write(requestObject.AllocationStrategy);
+            }
+
             if(requestObject.IsSetBidPercentage())
             {
                 context.Writer.WritePropertyName("bidPercentage");
@@ -86,6 +92,17 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                 context.Writer.WriteArrayEnd();
             }
 
+            if(requestObject.IsSetLaunchTemplate())
+            {
+                context.Writer.WritePropertyName("launchTemplate");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = LaunchTemplateSpecificationMarshaller.Instance;
+                marshaller.Marshall(requestObject.LaunchTemplate, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetMaxvCpus())
             {
                 context.Writer.WritePropertyName("maxvCpus");
@@ -96,6 +113,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("minvCpus");
                 context.Writer.Write(requestObject.MinvCpus);
+            }
+
+            if(requestObject.IsSetPlacementGroup())
+            {
+                context.Writer.WritePropertyName("placementGroup");
+                context.Writer.Write(requestObject.PlacementGroup);
             }
 
             if(requestObject.IsSetSecurityGroupIds())

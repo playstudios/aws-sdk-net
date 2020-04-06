@@ -33,7 +33,7 @@ namespace Amazon.SimpleEmail.Model
     /// 
     ///  
     /// <para>
-    /// For information about setting up IP address filters, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
+    /// For information about setting up IP address filters, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -51,6 +51,7 @@ namespace Amazon.SimpleEmail.Model
         /// about CIDR notation, see <a href="https://tools.ietf.org/html/rfc2317">RFC 2317</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Cidr
         {
             get { return this._cidr; }
@@ -69,6 +70,7 @@ namespace Amazon.SimpleEmail.Model
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ReceiptFilterPolicy Policy
         {
             get { return this._policy; }

@@ -29,21 +29,28 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateIPSet operation.
-    /// Creates a new IPSet - a list of trusted IP addresses that have been whitelisted for
-    /// secure communication with AWS infrastructure and applications.
+    /// Creates a new IPSet, called Trusted IP list in the consoler user interface. An IPSet
+    /// is a list IP addresses trusted for secure communication with AWS infrastructure and
+    /// applications. GuardDuty does not generate findings for IP addresses included in IPSets.
+    /// Only users from the master account can use this operation.
     /// </summary>
     public partial class CreateIPSetRequest : AmazonGuardDutyRequest
     {
         private bool? _activate;
+        private string _clientToken;
         private string _detectorId;
         private IpSetFormat _format;
         private string _location;
         private string _name;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
-        /// Gets and sets the property Activate. A boolean value that indicates whether GuardDuty
-        /// is to start using the uploaded IPSet.
+        /// Gets and sets the property Activate. 
+        /// <para>
+        /// A boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Activate
         {
             get { return this._activate.GetValueOrDefault(); }
@@ -57,9 +64,32 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The unique ID of the detector that you want
-        /// to update.
+        /// Gets and sets the property ClientToken. 
+        /// <para>
+        /// The idempotency token for the create request.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=64)]
+        public string ClientToken
+        {
+            get { return this._clientToken; }
+            set { this._clientToken = value; }
+        }
+
+        // Check to see if ClientToken property is set
+        internal bool IsSetClientToken()
+        {
+            return this._clientToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The unique ID of the detector of the GuardDuty account for which you want to create
+        /// an IPSet.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }
@@ -73,8 +103,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Format. The format of the file that contains the IPSet.
+        /// Gets and sets the property Format. 
+        /// <para>
+        /// The format of the file that contains the IPSet.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public IpSetFormat Format
         {
             get { return this._format; }
@@ -88,9 +122,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Location. The URI of the file that contains the IPSet.
-        /// For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        /// Gets and sets the property Location. 
+        /// <para>
+        /// The URI of the file that contains the IPSet. For example (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string Location
         {
             get { return this._location; }
@@ -104,10 +141,13 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Name. The user friendly name to identify the IPSet. This
-        /// name is displayed in all findings that are triggered by activity that involves IP
-        /// addresses included in this IPSet.
+        /// Gets and sets the property Name. 
+        /// <para>
+        /// The user friendly name to identify the IPSet. This name is displayed in all findings
+        /// that are triggered by activity that involves IP addresses included in this IPSet.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string Name
         {
             get { return this._name; }
@@ -118,6 +158,25 @@ namespace Amazon.GuardDuty.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to be added to a new IP set resource.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=200)]
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

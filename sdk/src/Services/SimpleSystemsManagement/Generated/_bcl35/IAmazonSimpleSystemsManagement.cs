@@ -47,8 +47,8 @@ namespace Amazon.SimpleSystemsManagement
     ///  
     /// <para>
     /// To get started, verify prerequisites and configure managed instances. For more information,
-    /// see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html">Systems
-    /// Manager Prerequisites</a>.
+    /// see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html">Setting
+    /// Up AWS Systems Manager</a> in the <i>AWS Systems Manager User Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -67,7 +67,7 @@ namespace Amazon.SimpleSystemsManagement
 
         /// <summary>
         /// Adds or overwrites one or more tags for the specified resource. Tags are metadata
-        /// that you can assign to your documents, managed instances, Maintenance Windows, Parameter
+        /// that you can assign to your documents, managed instances, maintenance windows, Parameter
         /// Store parameters, and patch baselines. Tags enable you to categorize your resources
         /// in different ways, for example, by purpose, owner, or environment. Each tag consists
         /// of a key and an optional value, both of which you define. For example, you could define
@@ -107,8 +107,11 @@ namespace Amazon.SimpleSystemsManagement
         /// the instance must be a registered, managed instance.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.TooManyTagsErrorException">
-        /// The Targets parameter includes too many tags. Remove one or more tags and try the
-        /// command again.
+        /// The <code>Targets</code> parameter includes too many tags. Remove one or more tags
+        /// and try the command again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.TooManyUpdatesException">
+        /// There are concurrent updates for a resource that supports one update at a time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AddTagsToResource">REST API Reference for AddTagsToResource Operation</seealso>
         AddTagsToResourceResponse AddTagsToResource(AddTagsToResourceRequest request);
@@ -169,14 +172,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -213,14 +213,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -256,14 +253,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -302,15 +296,80 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  CancelMaintenanceWindowExecution
+
+
+        /// <summary>
+        /// Stops a maintenance window execution that is already in progress and cancels any tasks
+        /// in the window that have not already starting running. (Tasks already in progress will
+        /// continue to completion.)
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelMaintenanceWindowExecution service method.</param>
+        /// 
+        /// <returns>The response from the CancelMaintenanceWindowExecution service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
+        /// Error returned when the ID specified for a resource, such as a maintenance window
+        /// or Patch baseline, doesn't exist.
+        /// 
+        ///  
+        /// <para>
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CancelMaintenanceWindowExecution">REST API Reference for CancelMaintenanceWindowExecution Operation</seealso>
+        CancelMaintenanceWindowExecutionResponse CancelMaintenanceWindowExecution(CancelMaintenanceWindowExecutionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelMaintenanceWindowExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelMaintenanceWindowExecution operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelMaintenanceWindowExecution
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CancelMaintenanceWindowExecution">REST API Reference for CancelMaintenanceWindowExecution Operation</seealso>
+        IAsyncResult BeginCancelMaintenanceWindowExecution(CancelMaintenanceWindowExecutionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelMaintenanceWindowExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelMaintenanceWindowExecution.</param>
+        /// 
+        /// <returns>Returns a  CancelMaintenanceWindowExecutionResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CancelMaintenanceWindowExecution">REST API Reference for CancelMaintenanceWindowExecution Operation</seealso>
+        CancelMaintenanceWindowExecutionResponse EndCancelMaintenanceWindowExecution(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateActivation
 
 
         /// <summary>
-        /// Registers your on-premises server or virtual machine with Amazon EC2 so that you can
-        /// manage these resources using Run Command. An on-premises server or virtual machine
-        /// that has been registered with EC2 is called a managed instance. For more information
-        /// about activations, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html">Setting
-        /// Up Systems Manager in Hybrid Environments</a>.
+        /// Generates an activation code and activation ID you can use to register your on-premises
+        /// server or virtual machine (VM) with Systems Manager. Registering these machines with
+        /// Systems Manager makes it possible to manage them using Systems Manager capabilities.
+        /// You use the activation code and ID when installing SSM Agent on machines in your hybrid
+        /// environment. For more information about requirements for managing on-premises instances
+        /// and VMs using Systems Manager, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html">Setting
+        /// Up AWS Systems Manager for Hybrid Environments</a> in the <i>AWS Systems Manager User
+        /// Guide</i>. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// On-premises servers or VMs that are registered with Systems Manager and Amazon EC2
+        /// instances that you manage with Systems Manager are all called <i>managed instances</i>.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateActivation service method.</param>
         /// 
@@ -359,17 +418,17 @@ namespace Amazon.SimpleSystemsManagement
         ///  
         /// <para>
         /// When you associate a document with one or more instances using instance IDs or tags,
-        /// the SSM Agent running on the instance processes the document and configures the instance
+        /// SSM Agent running on the instance processes the document and configures the instance
         /// as specified.
         /// </para>
         ///  
         /// <para>
         /// If you associate a document with an instance that already has an associated document,
-        /// the system throws the AssociationAlreadyExists exception.
+        /// the system returns the AssociationAlreadyExists exception.
         /// </para>
         /// </summary>
-        /// <param name="instanceId">The instance ID.</param>
-        /// <param name="name">The name of the Systems Manager document.</param>
+        /// <param name="instanceId">The instance ID. <note>  <code>InstanceId</code> has been deprecated. To specify an instance ID for an association, use the <code>Targets</code> parameter. Requests that include the parameter <code>InstanceID</code> with SSM documents that use schema version 2.0 or later will fail. In addition, if you use the parameter <code>InstanceId</code>, you cannot use the parameters <code>AssociationName</code>, <code>DocumentVersion</code>, <code>MaxErrors</code>, <code>MaxConcurrency</code>, <code>OutputLocation</code>, or <code>ScheduleExpression</code>. To use these parameters, you must use the <code>Targets</code> parameter. </note></param>
+        /// <param name="name">The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  <code>arn:<i>partition</i>:ssm:<i>region</i>:<i>account-id</i>:document/<i>document-name</i> </code>  For example:  <code>arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document</code>  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, <code>AWS-ApplyPatchBaseline</code> or <code>My-Document</code>.</param>
         /// 
         /// <returns>The response from the CreateAssociation service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.AssociationAlreadyExistsException">
@@ -396,14 +455,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -439,13 +495,13 @@ namespace Amazon.SimpleSystemsManagement
         ///  
         /// <para>
         /// When you associate a document with one or more instances using instance IDs or tags,
-        /// the SSM Agent running on the instance processes the document and configures the instance
+        /// SSM Agent running on the instance processes the document and configures the instance
         /// as specified.
         /// </para>
         ///  
         /// <para>
         /// If you associate a document with an instance that already has an associated document,
-        /// the system throws the AssociationAlreadyExists exception.
+        /// the system returns the AssociationAlreadyExists exception.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateAssociation service method.</param>
@@ -475,14 +531,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -549,13 +602,13 @@ namespace Amazon.SimpleSystemsManagement
         ///  
         /// <para>
         /// When you associate a document with one or more instances using instance IDs or tags,
-        /// the SSM Agent running on the instance processes the document and configures the instance
+        /// SSM Agent running on the instance processes the document and configures the instance
         /// as specified.
         /// </para>
         ///  
         /// <para>
         /// If you associate a document with an instance that already has an associated document,
-        /// the system throws the AssociationAlreadyExists exception.
+        /// the system returns the AssociationAlreadyExists exception.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateAssociationBatch service method.</param>
@@ -585,14 +638,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -669,7 +719,7 @@ namespace Amazon.SimpleSystemsManagement
         /// The specified document already exists.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DocumentLimitExceededException">
-        /// You can have at most 200 active Systems Manager documents.
+        /// You can have at most 500 active Systems Manager documents.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
         /// An error occurred on the server side.
@@ -702,7 +752,7 @@ namespace Amazon.SimpleSystemsManagement
         /// The specified document already exists.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DocumentLimitExceededException">
-        /// You can have at most 200 active Systems Manager documents.
+        /// You can have at most 500 active Systems Manager documents.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
         /// An error occurred on the server side.
@@ -751,7 +801,18 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Creates a new Maintenance Window.
+        /// Creates a new maintenance window.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The value you specify for <code>Duration</code> determines the specific end time for
+        /// the maintenance window based on the time it begins. No maintenance window tasks are
+        /// permitted to start after the resulting endtime minus the number of hours you specify
+        /// for <code>Cutoff</code>. For example, if the maintenance window starts at 3 PM, the
+        /// duration is three hours, and the value you specify for <code>Cutoff</code> is one
+        /// hour, no maintenance window tasks can start after 5 PM.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateMaintenanceWindow service method.</param>
         /// 
@@ -764,13 +825,13 @@ namespace Amazon.SimpleSystemsManagement
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceLimitExceededException">
-        /// Error returned when the caller has exceeded the default resource limits. For example,
-        /// too many Maintenance Windows or Patch baselines have been created.
+        /// Error returned when the caller has exceeded the default resource quotas. For example,
+        /// too many maintenance windows or patch baselines have been created.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateMaintenanceWindow">REST API Reference for CreateMaintenanceWindow Operation</seealso>
@@ -804,6 +865,71 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  CreateOpsItem
+
+
+        /// <summary>
+        /// Creates a new OpsItem. You must have permission in AWS Identity and Access Management
+        /// (IAM) to create a new OpsItem. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+        /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// 
+        ///  
+        /// <para>
+        /// Operations engineers and IT professionals use OpsCenter to view, investigate, and
+        /// remediate operational issues impacting the performance and health of their AWS resources.
+        /// For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+        /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateOpsItem service method.</param>
+        /// 
+        /// <returns>The response from the CreateOpsItem service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemAlreadyExistsException">
+        /// The OpsItem already exists.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemInvalidParameterException">
+        /// A specified parameter argument isn't valid. Verify the available arguments and try
+        /// again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemLimitExceededException">
+        /// The request caused OpsItems to exceed one or more quotas. For information about OpsItem
+        /// quotas, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-learn-more.html#OpsCenter-learn-more-limits">What
+        /// are the resource limits for OpsCenter?</a>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateOpsItem">REST API Reference for CreateOpsItem Operation</seealso>
+        CreateOpsItemResponse CreateOpsItem(CreateOpsItemRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateOpsItem operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateOpsItem operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateOpsItem
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateOpsItem">REST API Reference for CreateOpsItem Operation</seealso>
+        IAsyncResult BeginCreateOpsItem(CreateOpsItemRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateOpsItem operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateOpsItem.</param>
+        /// 
+        /// <returns>Returns a  CreateOpsItemResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateOpsItem">REST API Reference for CreateOpsItem Operation</seealso>
+        CreateOpsItemResponse EndCreateOpsItem(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreatePatchBaseline
 
 
@@ -828,13 +954,13 @@ namespace Amazon.SimpleSystemsManagement
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceLimitExceededException">
-        /// Error returned when the caller has exceeded the default resource limits. For example,
-        /// too many Maintenance Windows or Patch baselines have been created.
+        /// Error returned when the caller has exceeded the default resource quotas. For example,
+        /// too many maintenance windows or patch baselines have been created.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreatePatchBaseline">REST API Reference for CreatePatchBaseline Operation</seealso>
@@ -872,20 +998,40 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Creates a resource data sync configuration to a single bucket in Amazon S3. This is
-        /// an asynchronous operation that returns immediately. After a successful initial sync
-        /// is completed, the system continuously syncs data to the Amazon S3 bucket. To check
-        /// the status of the sync, use the <a>ListResourceDataSync</a>.
+        /// A resource data sync helps you view data from multiple sources in a single location.
+        /// Systems Manager offers two types of resource data sync: <code>SyncToDestination</code>
+        /// and <code>SyncFromSource</code>.
         /// 
         ///  
         /// <para>
+        /// You can configure Systems Manager Inventory to use the <code>SyncToDestination</code>
+        /// type to synchronize Inventory data from multiple AWS Regions to a single Amazon S3
+        /// bucket. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-datasync.html">Configuring
+        /// Resource Data Sync for Inventory</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can configure Systems Manager Explorer to use the <code>SyncFromSource</code>
+        /// type to synchronize operational work items (OpsItems) and operational data (OpsData)
+        /// from multiple AWS Regions to a single Amazon S3 bucket. This type can synchronize
+        /// OpsItems and OpsData from multiple AWS accounts and Regions or <code>EntireOrganization</code>
+        /// by using AWS Organizations. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html">Setting
+        /// Up Explorer to Display Data from Multiple Accounts and Regions</a> in the <i>AWS Systems
+        /// Manager User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// A resource data sync is an asynchronous operation that returns immediately. After
+        /// a successful initial sync is completed, the system continuously syncs data. To check
+        /// the status of a sync, use the <a>ListResourceDataSync</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
         /// By default, data is not encrypted in Amazon S3. We strongly recommend that you enable
         /// encryption in Amazon S3 to ensure secure data storage. We also recommend that you
-        /// secure access to the Amazon S3 bucket by creating a restrictive bucket policy. To
-        /// view an example of a restrictive Amazon S3 bucket policy for Resource Data Sync, see
-        /// <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-configuring.html#sysman-inventory-datasync">Configuring
-        /// Resource Data Sync for Inventory</a>.
+        /// secure access to the Amazon S3 bucket by creating a restrictive bucket policy. 
         /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateResourceDataSync service method.</param>
         /// 
@@ -1026,14 +1172,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -1079,14 +1222,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -1215,11 +1355,69 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  DeleteInventory
+
+
+        /// <summary>
+        /// Delete a custom inventory type, or the data associated with a custom Inventory type.
+        /// Deleting a custom inventory type is also referred to as deleting a custom inventory
+        /// schema.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteInventory service method.</param>
+        /// 
+        /// <returns>The response from the DeleteInventory service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDeleteInventoryParametersException">
+        /// One or more of the parameters specified for the delete operation is not valid. Verify
+        /// all parameters and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidInventoryRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidOptionException">
+        /// The delete inventory option specified is not valid. Verify the option and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidTypeNameException">
+        /// The parameter type name is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteInventory">REST API Reference for DeleteInventory Operation</seealso>
+        DeleteInventoryResponse DeleteInventory(DeleteInventoryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteInventory operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteInventory operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteInventory
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteInventory">REST API Reference for DeleteInventory Operation</seealso>
+        IAsyncResult BeginDeleteInventory(DeleteInventoryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteInventory operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteInventory.</param>
+        /// 
+        /// <returns>Returns a  DeleteInventoryResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteInventory">REST API Reference for DeleteInventory Operation</seealso>
+        DeleteInventoryResponse EndDeleteInventory(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteMaintenanceWindow
 
 
         /// <summary>
-        /// Deletes a Maintenance Window.
+        /// Deletes a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteMaintenanceWindow service method.</param>
         /// 
@@ -1308,8 +1506,7 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Delete a list of parameters. This API is used to delete parameters by using the Amazon
-        /// EC2 console.
+        /// Delete a list of parameters.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteParameters service method.</param>
         /// 
@@ -1400,15 +1597,17 @@ namespace Amazon.SimpleSystemsManagement
 
         /// <summary>
         /// Deletes a Resource Data Sync configuration. After the configuration is deleted, changes
-        /// to inventory data on managed instances are no longer synced with the target Amazon
-        /// S3 bucket. Deleting a sync configuration does not delete data in the target Amazon
-        /// S3 bucket.
+        /// to data on managed instances are no longer synced to or from the target. Deleting
+        /// a sync configuration does not delete data.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteResourceDataSync service method.</param>
         /// 
         /// <returns>The response from the DeleteResourceDataSync service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
         /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceDataSyncInvalidConfigurationException">
+        /// The specified sync configuration is invalid.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceDataSyncNotFoundException">
         /// The specified sync name was not found.
@@ -1450,7 +1649,7 @@ namespace Amazon.SimpleSystemsManagement
         /// <summary>
         /// Removes the server or virtual machine from the list of registered servers. You can
         /// reregister the instance again at any time. If you don't plan to use Run Command on
-        /// the server, we suggest uninstalling the SSM Agent first.
+        /// the server, we suggest uninstalling SSM Agent first.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeregisterManagedInstance service method.</param>
         /// 
@@ -1467,14 +1666,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -1563,19 +1759,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Removes a target from a Maintenance Window.
+        /// Removes a target from a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeregisterTargetFromMaintenanceWindow service method.</param>
         /// 
         /// <returns>The response from the DeregisterTargetFromMaintenanceWindow service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -1620,19 +1816,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Removes a task from a Maintenance Window.
+        /// Removes a task from a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeregisterTaskFromMaintenanceWindow service method.</param>
         /// 
         /// <returns>The response from the DeregisterTaskFromMaintenanceWindow service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -1673,9 +1869,9 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Details about the activation, including: the date and time the activation was created,
-        /// the expiration date, the IAM role assigned to the instances in the activation, and
-        /// the number of instances activated by this registration.
+        /// Describes details about the activation, such as the date and time the activation was
+        /// created, its expiration date, the IAM role assigned to the instances in the activation,
+        /// and the number of instances registered by using this activation.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeActivations service method.</param>
         /// 
@@ -1757,14 +1953,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -1808,14 +2001,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -1851,6 +2041,107 @@ namespace Amazon.SimpleSystemsManagement
         /// <returns>Returns a  DescribeAssociationResult from SimpleSystemsManagement.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociation">REST API Reference for DescribeAssociation Operation</seealso>
         DescribeAssociationResponse EndDescribeAssociation(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeAssociationExecutions
+
+
+        /// <summary>
+        /// Use this API action to view all executions for a specific association ID.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAssociationExecutions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAssociationExecutions service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.AssociationDoesNotExistException">
+        /// The specified association does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidNextTokenException">
+        /// The specified token is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationExecutions">REST API Reference for DescribeAssociationExecutions Operation</seealso>
+        DescribeAssociationExecutionsResponse DescribeAssociationExecutions(DescribeAssociationExecutionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAssociationExecutions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAssociationExecutions operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAssociationExecutions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationExecutions">REST API Reference for DescribeAssociationExecutions Operation</seealso>
+        IAsyncResult BeginDescribeAssociationExecutions(DescribeAssociationExecutionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAssociationExecutions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAssociationExecutions.</param>
+        /// 
+        /// <returns>Returns a  DescribeAssociationExecutionsResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationExecutions">REST API Reference for DescribeAssociationExecutions Operation</seealso>
+        DescribeAssociationExecutionsResponse EndDescribeAssociationExecutions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeAssociationExecutionTargets
+
+
+        /// <summary>
+        /// Use this API action to view information about a specific execution of a specific association.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAssociationExecutionTargets service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAssociationExecutionTargets service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.AssociationDoesNotExistException">
+        /// The specified association does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.AssociationExecutionDoesNotExistException">
+        /// The specified execution ID does not exist. Verify the ID number and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidNextTokenException">
+        /// The specified token is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationExecutionTargets">REST API Reference for DescribeAssociationExecutionTargets Operation</seealso>
+        DescribeAssociationExecutionTargetsResponse DescribeAssociationExecutionTargets(DescribeAssociationExecutionTargetsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAssociationExecutionTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAssociationExecutionTargets operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAssociationExecutionTargets
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationExecutionTargets">REST API Reference for DescribeAssociationExecutionTargets Operation</seealso>
+        IAsyncResult BeginDescribeAssociationExecutionTargets(DescribeAssociationExecutionTargetsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAssociationExecutionTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAssociationExecutionTargets.</param>
+        /// 
+        /// <returns>Returns a  DescribeAssociationExecutionTargetsResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationExecutionTargets">REST API Reference for DescribeAssociationExecutionTargets Operation</seealso>
+        DescribeAssociationExecutionTargetsResponse EndDescribeAssociationExecutionTargets(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1966,7 +2257,7 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Lists all patches that could possibly be included in a patch baseline.
+        /// Lists all patches eligible to be included in a patch baseline.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeAvailablePatches service method.</param>
         /// 
@@ -2145,14 +2436,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -2205,13 +2493,13 @@ namespace Amazon.SimpleSystemsManagement
         /// 
         /// <returns>The response from the DescribeEffectivePatchesForPatchBaseline service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -2277,14 +2565,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -2335,7 +2620,15 @@ namespace Amazon.SimpleSystemsManagement
         /// etc. If you specify one or more instance IDs, it returns information for those instances.
         /// If you do not specify instance IDs, it returns information for all your instances.
         /// If you specify an instance ID that is not valid or an instance that you do not own,
-        /// you receive an error.
+        /// you receive an error. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The IamRole field for this API action is the Amazon Identity and Access Management
+        /// (IAM) role assigned to on-premises instances. This call does not return the IAM role
+        /// for Amazon EC2 instances.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeInstanceInformation service method, as returned by SimpleSystemsManagement.</returns>
@@ -2354,14 +2647,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -2384,7 +2674,15 @@ namespace Amazon.SimpleSystemsManagement
         /// etc. If you specify one or more instance IDs, it returns information for those instances.
         /// If you do not specify instance IDs, it returns information for all your instances.
         /// If you specify an instance ID that is not valid or an instance that you do not own,
-        /// you receive an error.
+        /// you receive an error. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The IamRole field for this API action is the Amazon Identity and Access Management
+        /// (IAM) role assigned to on-premises instances. This call does not return the IAM role
+        /// for Amazon EC2 instances.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeInstanceInformation service method.</param>
         /// 
@@ -2404,14 +2702,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -2481,14 +2776,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -2625,13 +2917,63 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  DescribeInventoryDeletions
+
+
+        /// <summary>
+        /// Describes a specific delete inventory operation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInventoryDeletions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeInventoryDeletions service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDeletionIdException">
+        /// The ID specified for the delete operation does not exist or is not valid. Verify the
+        /// ID and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidNextTokenException">
+        /// The specified token is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInventoryDeletions">REST API Reference for DescribeInventoryDeletions Operation</seealso>
+        DescribeInventoryDeletionsResponse DescribeInventoryDeletions(DescribeInventoryDeletionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeInventoryDeletions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInventoryDeletions operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeInventoryDeletions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInventoryDeletions">REST API Reference for DescribeInventoryDeletions Operation</seealso>
+        IAsyncResult BeginDescribeInventoryDeletions(DescribeInventoryDeletionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeInventoryDeletions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeInventoryDeletions.</param>
+        /// 
+        /// <returns>Returns a  DescribeInventoryDeletionsResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInventoryDeletions">REST API Reference for DescribeInventoryDeletions Operation</seealso>
+        DescribeInventoryDeletionsResponse EndDescribeInventoryDeletions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeMaintenanceWindowExecutions
 
 
         /// <summary>
-        /// Lists the executions of a Maintenance Window. This includes information about when
-        /// the Maintenance Window was scheduled to be active, and information about tasks registered
-        /// and run with the Maintenance Window.
+        /// Lists the executions of a maintenance window. This includes information about when
+        /// the maintenance window was scheduled to be active, and information about tasks registered
+        /// and run with the maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowExecutions service method.</param>
         /// 
@@ -2674,20 +3016,20 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Retrieves the individual task executions (one per target) for a particular task executed
-        /// as part of a Maintenance Window execution.
+        /// Retrieves the individual task executions (one per target) for a particular task run
+        /// as part of a maintenance window execution.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowExecutionTaskInvocations service method.</param>
         /// 
         /// <returns>The response from the DescribeMaintenanceWindowExecutionTaskInvocations service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -2728,19 +3070,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// For a given Maintenance Window execution, lists the tasks that were executed.
+        /// For a given maintenance window execution, lists the tasks that were run.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowExecutionTasks service method.</param>
         /// 
         /// <returns>The response from the DescribeMaintenanceWindowExecutionTasks service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -2781,7 +3123,7 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Retrieves the Maintenance Windows in an AWS account.
+        /// Retrieves the maintenance windows in an AWS account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindows service method.</param>
         /// 
@@ -2820,23 +3162,120 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  DescribeMaintenanceWindowSchedule
+
+
+        /// <summary>
+        /// Retrieves information about upcoming executions of a maintenance window.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowSchedule service method.</param>
+        /// 
+        /// <returns>The response from the DescribeMaintenanceWindowSchedule service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
+        /// Error returned when the ID specified for a resource, such as a maintenance window
+        /// or Patch baseline, doesn't exist.
+        /// 
+        ///  
+        /// <para>
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowSchedule">REST API Reference for DescribeMaintenanceWindowSchedule Operation</seealso>
+        DescribeMaintenanceWindowScheduleResponse DescribeMaintenanceWindowSchedule(DescribeMaintenanceWindowScheduleRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeMaintenanceWindowSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowSchedule operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeMaintenanceWindowSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowSchedule">REST API Reference for DescribeMaintenanceWindowSchedule Operation</seealso>
+        IAsyncResult BeginDescribeMaintenanceWindowSchedule(DescribeMaintenanceWindowScheduleRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeMaintenanceWindowSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeMaintenanceWindowSchedule.</param>
+        /// 
+        /// <returns>Returns a  DescribeMaintenanceWindowScheduleResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowSchedule">REST API Reference for DescribeMaintenanceWindowSchedule Operation</seealso>
+        DescribeMaintenanceWindowScheduleResponse EndDescribeMaintenanceWindowSchedule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeMaintenanceWindowsForTarget
+
+
+        /// <summary>
+        /// Retrieves information about the maintenance window targets or tasks that an instance
+        /// is associated with.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowsForTarget service method.</param>
+        /// 
+        /// <returns>The response from the DescribeMaintenanceWindowsForTarget service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowsForTarget">REST API Reference for DescribeMaintenanceWindowsForTarget Operation</seealso>
+        DescribeMaintenanceWindowsForTargetResponse DescribeMaintenanceWindowsForTarget(DescribeMaintenanceWindowsForTargetRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeMaintenanceWindowsForTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowsForTarget operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeMaintenanceWindowsForTarget
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowsForTarget">REST API Reference for DescribeMaintenanceWindowsForTarget Operation</seealso>
+        IAsyncResult BeginDescribeMaintenanceWindowsForTarget(DescribeMaintenanceWindowsForTargetRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeMaintenanceWindowsForTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeMaintenanceWindowsForTarget.</param>
+        /// 
+        /// <returns>Returns a  DescribeMaintenanceWindowsForTargetResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowsForTarget">REST API Reference for DescribeMaintenanceWindowsForTarget Operation</seealso>
+        DescribeMaintenanceWindowsForTargetResponse EndDescribeMaintenanceWindowsForTarget(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeMaintenanceWindowTargets
 
 
         /// <summary>
-        /// Lists the targets registered with the Maintenance Window.
+        /// Lists the targets registered with the maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowTargets service method.</param>
         /// 
         /// <returns>The response from the DescribeMaintenanceWindowTargets service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -2877,19 +3316,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Lists the tasks in a Maintenance Window.
+        /// Lists the tasks in a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeMaintenanceWindowTasks service method.</param>
         /// 
         /// <returns>The response from the DescribeMaintenanceWindowTasks service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -2926,13 +3365,66 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  DescribeOpsItems
+
+
+        /// <summary>
+        /// Query a set of OpsItems. You must have permission in AWS Identity and Access Management
+        /// (IAM) to query a list of OpsItems. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+        /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// 
+        ///  
+        /// <para>
+        /// Operations engineers and IT professionals use OpsCenter to view, investigate, and
+        /// remediate operational issues impacting the performance and health of their AWS resources.
+        /// For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+        /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOpsItems service method.</param>
+        /// 
+        /// <returns>The response from the DescribeOpsItems service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeOpsItems">REST API Reference for DescribeOpsItems Operation</seealso>
+        DescribeOpsItemsResponse DescribeOpsItems(DescribeOpsItemsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeOpsItems operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOpsItems operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeOpsItems
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeOpsItems">REST API Reference for DescribeOpsItems Operation</seealso>
+        IAsyncResult BeginDescribeOpsItems(DescribeOpsItemsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeOpsItems operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeOpsItems.</param>
+        /// 
+        /// <returns>Returns a  DescribeOpsItemsResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeOpsItems">REST API Reference for DescribeOpsItems Operation</seealso>
+        DescribeOpsItemsResponse EndDescribeOpsItems(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeParameters
 
 
         /// <summary>
         /// Get information about a parameter.
         /// 
-        ///  
+        ///  <note> 
         /// <para>
         /// Request results are returned on a best-effort basis. If you specify <code>MaxResults</code>
         /// in the request, the response includes information up to the limit specified. The number
@@ -2942,6 +3434,7 @@ namespace Amazon.SimpleSystemsManagement
         /// You can specify the <code>NextToken</code> in a subsequent call to get the next set
         /// of results.
         /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeParameters service method.</param>
         /// 
@@ -3125,6 +3618,137 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  DescribePatchProperties
+
+
+        /// <summary>
+        /// Lists the properties of available patches organized by product, product family, classification,
+        /// severity, and other properties of available patches. You can use the reported properties
+        /// in the filters you specify in requests for actions such as <a>CreatePatchBaseline</a>,
+        /// <a>UpdatePatchBaseline</a>, <a>DescribeAvailablePatches</a>, and <a>DescribePatchBaselines</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The following section lists the properties that can be used in filters for each major
+        /// operating system type:
+        /// </para>
+        ///  <dl> <dt>WINDOWS</dt> <dd> 
+        /// <para>
+        /// Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY
+        /// </para>
+        ///  </dd> <dt>AMAZON_LINUX</dt> <dd> 
+        /// <para>
+        /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
+        /// </para>
+        ///  </dd> <dt>AMAZON_LINUX_2</dt> <dd> 
+        /// <para>
+        /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
+        /// </para>
+        ///  </dd> <dt>UBUNTU </dt> <dd> 
+        /// <para>
+        /// Valid properties: PRODUCT, PRIORITY
+        /// </para>
+        ///  </dd> <dt>REDHAT_ENTERPRISE_LINUX</dt> <dd> 
+        /// <para>
+        /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
+        /// </para>
+        ///  </dd> <dt>SUSE</dt> <dd> 
+        /// <para>
+        /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
+        /// </para>
+        ///  </dd> <dt>CENTOS</dt> <dd> 
+        /// <para>
+        /// Valid properties: PRODUCT, CLASSIFICATION, SEVERITY
+        /// </para>
+        ///  </dd> </dl>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribePatchProperties service method.</param>
+        /// 
+        /// <returns>The response from the DescribePatchProperties service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchProperties">REST API Reference for DescribePatchProperties Operation</seealso>
+        DescribePatchPropertiesResponse DescribePatchProperties(DescribePatchPropertiesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribePatchProperties operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribePatchProperties operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribePatchProperties
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchProperties">REST API Reference for DescribePatchProperties Operation</seealso>
+        IAsyncResult BeginDescribePatchProperties(DescribePatchPropertiesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribePatchProperties operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribePatchProperties.</param>
+        /// 
+        /// <returns>Returns a  DescribePatchPropertiesResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchProperties">REST API Reference for DescribePatchProperties Operation</seealso>
+        DescribePatchPropertiesResponse EndDescribePatchProperties(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeSessions
+
+
+        /// <summary>
+        /// Retrieves a list of all active sessions (both connected and disconnected) or terminated
+        /// sessions from the past 30 days.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSessions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeSessions service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidFilterKeyException">
+        /// The specified key is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidNextTokenException">
+        /// The specified token is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeSessions">REST API Reference for DescribeSessions Operation</seealso>
+        DescribeSessionsResponse DescribeSessions(DescribeSessionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeSessions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSessions operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeSessions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeSessions">REST API Reference for DescribeSessions Operation</seealso>
+        IAsyncResult BeginDescribeSessions(DescribeSessionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeSessions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeSessions.</param>
+        /// 
+        /// <returns>Returns a  DescribeSessionsResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeSessions">REST API Reference for DescribeSessions Operation</seealso>
+        DescribeSessionsResponse EndDescribeSessions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetAutomationExecution
 
 
@@ -3172,6 +3796,66 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  GetCalendarState
+
+
+        /// <summary>
+        /// Gets the state of the AWS Systems Manager Change Calendar at an optional, specified
+        /// time. If you specify a time, <code>GetCalendarState</code> returns the state of the
+        /// calendar at a specific time, and returns the next time that the Change Calendar state
+        /// will transition. If you do not specify a time, <code>GetCalendarState</code> assumes
+        /// the current time. Change Calendar entries have two possible states: <code>OPEN</code>
+        /// or <code>CLOSED</code>. For more information about Systems Manager Change Calendar,
+        /// see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar.html">AWS
+        /// Systems Manager Change Calendar</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCalendarState service method.</param>
+        /// 
+        /// <returns>The response from the GetCalendarState service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentException">
+        /// The specified document does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentTypeException">
+        /// The document type is not valid. Valid document types are described in the <code>DocumentType</code>
+        /// property.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.UnsupportedCalendarException">
+        /// The calendar entry contained in the specified Systems Manager document is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetCalendarState">REST API Reference for GetCalendarState Operation</seealso>
+        GetCalendarStateResponse GetCalendarState(GetCalendarStateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCalendarState operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCalendarState operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCalendarState
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetCalendarState">REST API Reference for GetCalendarState Operation</seealso>
+        IAsyncResult BeginGetCalendarState(GetCalendarStateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCalendarState operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCalendarState.</param>
+        /// 
+        /// <returns>Returns a  GetCalendarStateResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetCalendarState">REST API Reference for GetCalendarState Operation</seealso>
+        GetCalendarStateResponse EndGetCalendarState(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetCommandInvocation
 
 
@@ -3196,14 +3880,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -3216,7 +3897,7 @@ namespace Amazon.SimpleSystemsManagement
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvocationDoesNotExistException">
         /// The command ID and instance ID you specified did not match any invocations. Verify
-        /// the command ID adn the instance ID and try again.
+        /// the command ID and the instance ID and try again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetCommandInvocation">REST API Reference for GetCommandInvocation Operation</seealso>
         GetCommandInvocationResponse GetCommandInvocation(GetCommandInvocationRequest request);
@@ -3246,6 +3927,50 @@ namespace Amazon.SimpleSystemsManagement
         /// <returns>Returns a  GetCommandInvocationResult from SimpleSystemsManagement.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetCommandInvocation">REST API Reference for GetCommandInvocation Operation</seealso>
         GetCommandInvocationResponse EndGetCommandInvocation(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetConnectionStatus
+
+
+        /// <summary>
+        /// Retrieves the Session Manager connection status for an instance to determine whether
+        /// it is connected and ready to receive Session Manager connections.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetConnectionStatus service method.</param>
+        /// 
+        /// <returns>The response from the GetConnectionStatus service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetConnectionStatus">REST API Reference for GetConnectionStatus Operation</seealso>
+        GetConnectionStatusResponse GetConnectionStatus(GetConnectionStatusRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetConnectionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetConnectionStatus operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetConnectionStatus
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetConnectionStatus">REST API Reference for GetConnectionStatus Operation</seealso>
+        IAsyncResult BeginGetConnectionStatus(GetConnectionStatusRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetConnectionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetConnectionStatus.</param>
+        /// 
+        /// <returns>Returns a  GetConnectionStatusResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetConnectionStatus">REST API Reference for GetConnectionStatus Operation</seealso>
+        GetConnectionStatusResponse EndGetConnectionStatus(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3312,6 +4037,12 @@ namespace Amazon.SimpleSystemsManagement
         /// <returns>The response from the GetDeployablePatchSnapshotForInstance service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
         /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.UnsupportedFeatureRequiredException">
+        /// Microsoft application patching is only available on EC2 instances and Advanced Instances.
+        /// To patch Microsoft applications on on-premises servers and VMs, you must enable Advanced
+        /// Instances. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html">Using
+        /// the Advanced-Instances Tier</a> in the <i>AWS Systems Manager User Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.UnsupportedOperatingSystemException">
         /// The operating systems you specified is not supported, or the operation is not supported
@@ -3428,8 +4159,15 @@ namespace Amazon.SimpleSystemsManagement
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidAggregatorException">
+        /// The specified aggregator is not valid for inventory groups. Verify that the aggregator
+        /// uses a valid inventory type such as <code>AWS:Application</code> or <code>AWS:InstanceInformation</code>.
+        /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidFilterException">
         /// The filter name is not valid. Verify the you entered the correct name and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidInventoryGroupException">
+        /// The specified inventory group is not valid.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidNextTokenException">
         /// The specified token is not valid.
@@ -3525,19 +4263,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Retrieves a Maintenance Window.
+        /// Retrieves a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetMaintenanceWindow service method.</param>
         /// 
         /// <returns>The response from the GetMaintenanceWindow service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -3578,19 +4316,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Retrieves details about a specific task executed as part of a Maintenance Window execution.
+        /// Retrieves details about a specific a maintenance window execution.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetMaintenanceWindowExecution service method.</param>
         /// 
         /// <returns>The response from the GetMaintenanceWindowExecution service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -3631,20 +4369,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Retrieves the details about a specific task executed as part of a Maintenance Window
-        /// execution.
+        /// Retrieves the details about a specific task run as part of a maintenance window execution.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetMaintenanceWindowExecutionTask service method.</param>
         /// 
         /// <returns>The response from the GetMaintenanceWindowExecutionTask service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -3685,20 +4422,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Retrieves a task invocation. A task invocation is a specific task executing on a specific
-        /// target. Maintenance Windows report status for all invocations.
+        /// Retrieves information about a specific task running on a specific target.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetMaintenanceWindowExecutionTaskInvocation service method.</param>
         /// 
         /// <returns>The response from the GetMaintenanceWindowExecutionTaskInvocation service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -3739,19 +4475,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Lists the tasks in a Maintenance Window.
+        /// Lists the tasks in a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetMaintenanceWindowTask service method.</param>
         /// 
         /// <returns>The response from the GetMaintenanceWindowTask service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -3788,11 +4524,128 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  GetOpsItem
+
+
+        /// <summary>
+        /// Get information about an OpsItem by using the ID. You must have permission in AWS
+        /// Identity and Access Management (IAM) to view information about an OpsItem. For more
+        /// information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+        /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// 
+        ///  
+        /// <para>
+        /// Operations engineers and IT professionals use OpsCenter to view, investigate, and
+        /// remediate operational issues impacting the performance and health of their AWS resources.
+        /// For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+        /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetOpsItem service method.</param>
+        /// 
+        /// <returns>The response from the GetOpsItem service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemNotFoundException">
+        /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetOpsItem">REST API Reference for GetOpsItem Operation</seealso>
+        GetOpsItemResponse GetOpsItem(GetOpsItemRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetOpsItem operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetOpsItem operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetOpsItem
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetOpsItem">REST API Reference for GetOpsItem Operation</seealso>
+        IAsyncResult BeginGetOpsItem(GetOpsItemRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetOpsItem operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetOpsItem.</param>
+        /// 
+        /// <returns>Returns a  GetOpsItemResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetOpsItem">REST API Reference for GetOpsItem Operation</seealso>
+        GetOpsItemResponse EndGetOpsItem(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetOpsSummary
+
+
+        /// <summary>
+        /// View a summary of OpsItems based on specified filters and aggregators.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetOpsSummary service method.</param>
+        /// 
+        /// <returns>The response from the GetOpsSummary service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidAggregatorException">
+        /// The specified aggregator is not valid for inventory groups. Verify that the aggregator
+        /// uses a valid inventory type such as <code>AWS:Application</code> or <code>AWS:InstanceInformation</code>.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidFilterException">
+        /// The filter name is not valid. Verify the you entered the correct name and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidNextTokenException">
+        /// The specified token is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidTypeNameException">
+        /// The parameter type name is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceDataSyncNotFoundException">
+        /// The specified sync name was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetOpsSummary">REST API Reference for GetOpsSummary Operation</seealso>
+        GetOpsSummaryResponse GetOpsSummary(GetOpsSummaryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetOpsSummary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetOpsSummary operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetOpsSummary
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetOpsSummary">REST API Reference for GetOpsSummary Operation</seealso>
+        IAsyncResult BeginGetOpsSummary(GetOpsSummaryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetOpsSummary operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetOpsSummary.</param>
+        /// 
+        /// <returns>Returns a  GetOpsSummaryResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetOpsSummary">REST API Reference for GetOpsSummary Operation</seealso>
+        GetOpsSummaryResponse EndGetOpsSummary(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetParameter
 
 
         /// <summary>
-        /// Get information about a parameter by using the parameter name.
+        /// Get information about a parameter by using the parameter name. Don't confuse this
+        /// API action with the <a>GetParameters</a> API action.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetParameter service method.</param>
         /// 
@@ -3897,7 +4750,8 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Get details of a parameter.
+        /// Get details of a parameter. Don't confuse this API action with the <a>GetParameter</a>
+        /// API action.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetParameters service method.</param>
         /// 
@@ -3943,10 +4797,9 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Retrieve parameters in a specific hierarchy. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-working.html">Working
-        /// with Systems Manager Parameters</a>. 
+        /// Retrieve information about one or more parameters in a specific hierarchy. 
         /// 
-        ///  
+        ///  <note> 
         /// <para>
         /// Request results are returned on a best-effort basis. If you specify <code>MaxResults</code>
         /// in the request, the response includes information up to the limit specified. The number
@@ -3955,10 +4808,6 @@ namespace Amazon.SimpleSystemsManagement
         /// operation and returns the matching values up to that point and a <code>NextToken</code>.
         /// You can specify the <code>NextToken</code> in a subsequent call to get the next set
         /// of results.
-        /// </para>
-        ///  <note> 
-        /// <para>
-        /// This API action doesn't support filtering by tags. 
         /// </para>
         ///  </note>
         /// </summary>
@@ -4025,13 +4874,13 @@ namespace Amazon.SimpleSystemsManagement
         /// 
         /// <returns>The response from the GetPatchBaseline service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -4114,11 +4963,183 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  GetServiceSetting
+
+
+        /// <summary>
+        /// <code>ServiceSetting</code> is an account-level setting for an AWS service. This
+        /// setting defines how a user interacts with or uses a service or a feature of a service.
+        /// For example, if an AWS service charges money to the account based on feature or service
+        /// usage, then the AWS service team might create a default setting of "false". This means
+        /// the user can't use this feature unless they change the setting to "true" and intentionally
+        /// opt in for a paid feature.
+        /// 
+        ///  
+        /// <para>
+        /// Services map a <code>SettingId</code> object to a setting value. AWS services teams
+        /// define the default value for a <code>SettingId</code>. You can't create a new <code>SettingId</code>,
+        /// but you can overwrite the default value if you have the <code>ssm:UpdateServiceSetting</code>
+        /// permission for the setting. Use the <a>UpdateServiceSetting</a> API action to change
+        /// the default setting. Or use the <a>ResetServiceSetting</a> to change the value back
+        /// to the original value defined by the AWS service team.
+        /// </para>
+        ///  
+        /// <para>
+        /// Query the current service setting for the account. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceSetting service method.</param>
+        /// 
+        /// <returns>The response from the GetServiceSetting service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ServiceSettingNotFoundException">
+        /// The specified service setting was not found. Either the service name or the setting
+        /// has not been provisioned by the AWS service team.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetServiceSetting">REST API Reference for GetServiceSetting Operation</seealso>
+        GetServiceSettingResponse GetServiceSetting(GetServiceSettingRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetServiceSetting operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceSetting operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetServiceSetting
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetServiceSetting">REST API Reference for GetServiceSetting Operation</seealso>
+        IAsyncResult BeginGetServiceSetting(GetServiceSettingRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetServiceSetting operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetServiceSetting.</param>
+        /// 
+        /// <returns>Returns a  GetServiceSettingResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetServiceSetting">REST API Reference for GetServiceSetting Operation</seealso>
+        GetServiceSettingResponse EndGetServiceSetting(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  LabelParameterVersion
+
+
+        /// <summary>
+        /// A parameter label is a user-defined alias to help you manage different versions of
+        /// a parameter. When you modify a parameter, Systems Manager automatically saves a new
+        /// version and increments the version number by one. A label can help you remember the
+        /// purpose of a parameter when there are multiple versions. 
+        /// 
+        ///  
+        /// <para>
+        /// Parameter labels have the following requirements and restrictions.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// A version of a parameter can have a maximum of 10 labels.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can't attach the same label to different versions of the same parameter. For example,
+        /// if version 1 has the label Production, then you can't attach Production to version
+        /// 2.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can move a label from one version of a parameter to another.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can't create a label when you create a new parameter. You must attach a label
+        /// to a specific version of a parameter.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You can't delete a parameter label. If you no longer want to use a parameter label,
+        /// then you must move it to a different version of a parameter.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A label can have a maximum of 100 characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or
+        /// underscores (_).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Labels can't begin with a number, "aws," or "ssm" (not case sensitive). If a label
+        /// fails to meet these requirements, then the label is not associated with a parameter
+        /// and the system displays it in the list of InvalidLabels.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the LabelParameterVersion service method.</param>
+        /// 
+        /// <returns>The response from the LabelParameterVersion service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ParameterNotFoundException">
+        /// The parameter could not be found. Verify the name and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ParameterVersionLabelLimitExceededException">
+        /// A parameter version can have a maximum of ten labels.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ParameterVersionNotFoundException">
+        /// The specified parameter version was not found. Verify the parameter name and version,
+        /// and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.TooManyUpdatesException">
+        /// There are concurrent updates for a resource that supports one update at a time.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/LabelParameterVersion">REST API Reference for LabelParameterVersion Operation</seealso>
+        LabelParameterVersionResponse LabelParameterVersion(LabelParameterVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the LabelParameterVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the LabelParameterVersion operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndLabelParameterVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/LabelParameterVersion">REST API Reference for LabelParameterVersion Operation</seealso>
+        IAsyncResult BeginLabelParameterVersion(LabelParameterVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  LabelParameterVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginLabelParameterVersion.</param>
+        /// 
+        /// <returns>Returns a  LabelParameterVersionResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/LabelParameterVersion">REST API Reference for LabelParameterVersion Operation</seealso>
+        LabelParameterVersionResponse EndLabelParameterVersion(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListAssociations
 
 
         /// <summary>
-        /// Lists the associations for the specified Systems Manager document or instance.
+        /// Returns all State Manager associations in the current AWS account and Region. You
+        /// can limit the results to a specific State Manager association document or instance
+        /// by specifying a filter.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAssociations service method.</param>
         /// 
@@ -4215,9 +5236,9 @@ namespace Amazon.SimpleSystemsManagement
         /// <summary>
         /// An invocation is copy of a command sent to a specific instance. A command can apply
         /// to one or more instances. A command invocation applies to one instance. For example,
-        /// if a user executes SendCommand against three instances, then a command invocation
-        /// is created for each requested instance ID. ListCommandInvocations provide status about
-        /// command execution.
+        /// if a user runs SendCommand against three instances, then a command invocation is created
+        /// for each requested instance ID. ListCommandInvocations provide status about command
+        /// execution.
         /// </summary>
         /// 
         /// <returns>The response from the ListCommandInvocations service method, as returned by SimpleSystemsManagement.</returns>
@@ -4239,14 +5260,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -4263,9 +5281,9 @@ namespace Amazon.SimpleSystemsManagement
         /// <summary>
         /// An invocation is copy of a command sent to a specific instance. A command can apply
         /// to one or more instances. A command invocation applies to one instance. For example,
-        /// if a user executes SendCommand against three instances, then a command invocation
-        /// is created for each requested instance ID. ListCommandInvocations provide status about
-        /// command execution.
+        /// if a user runs SendCommand against three instances, then a command invocation is created
+        /// for each requested instance ID. ListCommandInvocations provide status about command
+        /// execution.
         /// </summary>
         /// <param name="commandId">(Optional) The invocations for a specific command ID.</param>
         /// 
@@ -4288,14 +5306,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -4312,9 +5327,9 @@ namespace Amazon.SimpleSystemsManagement
         /// <summary>
         /// An invocation is copy of a command sent to a specific instance. A command can apply
         /// to one or more instances. A command invocation applies to one instance. For example,
-        /// if a user executes SendCommand against three instances, then a command invocation
-        /// is created for each requested instance ID. ListCommandInvocations provide status about
-        /// command execution.
+        /// if a user runs SendCommand against three instances, then a command invocation is created
+        /// for each requested instance ID. ListCommandInvocations provide status about command
+        /// execution.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListCommandInvocations service method.</param>
         /// 
@@ -4337,14 +5352,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -4412,14 +5424,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -4457,14 +5466,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -4502,14 +5508,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -4664,7 +5667,8 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Describes one or more of your Systems Manager documents.
+        /// Returns all Systems Manager (SSM) documents in the current AWS account and Region.
+        /// You can limit the results of this request by using a filter.
         /// </summary>
         /// 
         /// <returns>The response from the ListDocuments service method, as returned by SimpleSystemsManagement.</returns>
@@ -4681,7 +5685,8 @@ namespace Amazon.SimpleSystemsManagement
         ListDocumentsResponse ListDocuments();
 
         /// <summary>
-        /// Describes one or more of your Systems Manager documents.
+        /// Returns all Systems Manager (SSM) documents in the current AWS account and Region.
+        /// You can limit the results of this request by using a filter.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListDocuments service method.</param>
         /// 
@@ -4799,14 +5804,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -4930,6 +5932,9 @@ namespace Amazon.SimpleSystemsManagement
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidNextTokenException">
         /// The specified token is not valid.
         /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceDataSyncInvalidConfigurationException">
+        /// The specified sync configuration is invalid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListResourceDataSync">REST API Reference for ListResourceDataSync Operation</seealso>
         ListResourceDataSyncResponse ListResourceDataSync(ListResourceDataSyncRequest request);
 
@@ -5023,7 +6028,7 @@ namespace Amazon.SimpleSystemsManagement
         /// 
         /// <returns>The response from the ModifyDocumentPermission service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DocumentLimitExceededException">
-        /// You can have at most 200 active Systems Manager documents.
+        /// You can have at most 500 active Systems Manager documents.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DocumentPermissionLimitException">
         /// The document cannot be shared with more AWS user accounts. You can share a document
@@ -5233,14 +6238,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -5314,19 +6316,23 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Add one or more parameters to the system.
+        /// Add a parameter to the system.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutParameter service method.</param>
         /// 
         /// <returns>The response from the PutParameter service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.HierarchyLevelLimitExceededException">
-        /// A hierarchy can have a maximum of 15 levels. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-working.html">Working
-        /// with Systems Manager Parameters</a>.
+        /// A hierarchy can have a maximum of 15 levels. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html">Requirements
+        /// and Constraints for Parameter Names</a> in the <i>AWS Systems Manager User Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.HierarchyTypeMismatchException">
         /// Parameter Store does not support changing a parameter type in a hierarchy. For example,
         /// you can't change a parameter from a String type to a SecureString type. You must create
         /// a new, unique parameter.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.IncompatiblePolicyException">
+        /// There is a conflict in the policies specified for this parameter. You can't, for example,
+        /// specify two Expiration policies for a parameter. Review your policies, and try again.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
         /// An error occurred on the server side.
@@ -5336,6 +6342,13 @@ namespace Amazon.SimpleSystemsManagement
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidKeyIdException">
         /// The query key ID is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidPolicyAttributeException">
+        /// A policy attribute or its value is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidPolicyTypeException">
+        /// The policy type is not supported. Parameter Store supports the following policy types:
+        /// Expiration, ExpirationNotification, and NoChangeNotification.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ParameterAlreadyExistsException">
         /// The parameter already exists. You can't create duplicate parameters.
@@ -5349,6 +6362,10 @@ namespace Amazon.SimpleSystemsManagement
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ParameterPatternMismatchException">
         /// The parameter name is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.PoliciesLimitExceededException">
+        /// You specified more than the maximum number of allowed policies for the parameter.
+        /// The maximum is 10.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.TooManyUpdatesException">
         /// There are concurrent updates for a resource that supports one update at a time.
@@ -5391,19 +6408,26 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Defines the default patch baseline.
+        /// Defines the default patch baseline for the relevant operating system.
+        /// 
+        ///  
+        /// <para>
+        /// To reset the AWS predefined patch baseline as the default, specify the full patch
+        /// baseline ARN as the baseline ID value. For example, for CentOS, specify <code>arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed</code>
+        /// instead of <code>pb-0574b43a65ea646ed</code>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RegisterDefaultPatchBaseline service method.</param>
         /// 
         /// <returns>The response from the RegisterDefaultPatchBaseline service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -5457,13 +6481,13 @@ namespace Amazon.SimpleSystemsManagement
         /// that is already registered with a different patch baseline.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -5473,13 +6497,13 @@ namespace Amazon.SimpleSystemsManagement
         /// The resource ID is not valid. Verify that you entered the correct ID and try again.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceLimitExceededException">
-        /// Error returned when the caller has exceeded the default resource limits. For example,
-        /// too many Maintenance Windows or Patch baselines have been created.
+        /// Error returned when the caller has exceeded the default resource quotas. For example,
+        /// too many maintenance windows or patch baselines have been created.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterPatchBaselineForPatchGroup">REST API Reference for RegisterPatchBaselineForPatchGroup Operation</seealso>
@@ -5517,19 +6541,19 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Registers a target with a Maintenance Window.
+        /// Registers a target with a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RegisterTargetWithMaintenanceWindow service method.</param>
         /// 
         /// <returns>The response from the RegisterTargetWithMaintenanceWindow service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.IdempotentParameterMismatchException">
@@ -5540,13 +6564,13 @@ namespace Amazon.SimpleSystemsManagement
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceLimitExceededException">
-        /// Error returned when the caller has exceeded the default resource limits. For example,
-        /// too many Maintenance Windows or Patch baselines have been created.
+        /// Error returned when the caller has exceeded the default resource quotas. For example,
+        /// too many maintenance windows or patch baselines have been created.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterTargetWithMaintenanceWindow">REST API Reference for RegisterTargetWithMaintenanceWindow Operation</seealso>
@@ -5584,23 +6608,23 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Adds a new task to a Maintenance Window.
+        /// Adds a new task to a maintenance window.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RegisterTaskWithMaintenanceWindow service method.</param>
         /// 
         /// <returns>The response from the RegisterTaskWithMaintenanceWindow service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.FeatureNotAvailableException">
-        /// You attempted to register a LAMBDA or STEP_FUNCTION task in a region where the corresponding
+        /// You attempted to register a LAMBDA or STEP_FUNCTIONS task in a region where the corresponding
         /// service is not available.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.IdempotentParameterMismatchException">
@@ -5611,13 +6635,13 @@ namespace Amazon.SimpleSystemsManagement
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceLimitExceededException">
-        /// Error returned when the caller has exceeded the default resource limits. For example,
-        /// too many Maintenance Windows or Patch baselines have been created.
+        /// Error returned when the caller has exceeded the default resource quotas. For example,
+        /// too many maintenance windows or patch baselines have been created.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterTaskWithMaintenanceWindow">REST API Reference for RegisterTaskWithMaintenanceWindow Operation</seealso>
@@ -5655,7 +6679,7 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Removes all tags from the specified resource.
+        /// Removes tag keys from the specified resource.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RemoveTagsFromResource service method.</param>
         /// 
@@ -5669,6 +6693,9 @@ namespace Amazon.SimpleSystemsManagement
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidResourceTypeException">
         /// The resource type is not valid. For example, if you are attempting to tag an instance,
         /// the instance must be a registered, managed instance.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.TooManyUpdatesException">
+        /// There are concurrent updates for a resource that supports one update at a time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RemoveTagsFromResource">REST API Reference for RemoveTagsFromResource Operation</seealso>
         RemoveTagsFromResourceResponse RemoveTagsFromResource(RemoveTagsFromResourceRequest request);
@@ -5698,6 +6725,137 @@ namespace Amazon.SimpleSystemsManagement
         /// <returns>Returns a  RemoveTagsFromResourceResult from SimpleSystemsManagement.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RemoveTagsFromResource">REST API Reference for RemoveTagsFromResource Operation</seealso>
         RemoveTagsFromResourceResponse EndRemoveTagsFromResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ResetServiceSetting
+
+
+        /// <summary>
+        /// <code>ServiceSetting</code> is an account-level setting for an AWS service. This
+        /// setting defines how a user interacts with or uses a service or a feature of a service.
+        /// For example, if an AWS service charges money to the account based on feature or service
+        /// usage, then the AWS service team might create a default setting of "false". This means
+        /// the user can't use this feature unless they change the setting to "true" and intentionally
+        /// opt in for a paid feature.
+        /// 
+        ///  
+        /// <para>
+        /// Services map a <code>SettingId</code> object to a setting value. AWS services teams
+        /// define the default value for a <code>SettingId</code>. You can't create a new <code>SettingId</code>,
+        /// but you can overwrite the default value if you have the <code>ssm:UpdateServiceSetting</code>
+        /// permission for the setting. Use the <a>GetServiceSetting</a> API action to view the
+        /// current value. Use the <a>UpdateServiceSetting</a> API action to change the default
+        /// setting. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Reset the service setting for the account to the default value as provisioned by the
+        /// AWS service team. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ResetServiceSetting service method.</param>
+        /// 
+        /// <returns>The response from the ResetServiceSetting service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ServiceSettingNotFoundException">
+        /// The specified service setting was not found. Either the service name or the setting
+        /// has not been provisioned by the AWS service team.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.TooManyUpdatesException">
+        /// There are concurrent updates for a resource that supports one update at a time.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResetServiceSetting">REST API Reference for ResetServiceSetting Operation</seealso>
+        ResetServiceSettingResponse ResetServiceSetting(ResetServiceSettingRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ResetServiceSetting operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ResetServiceSetting operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndResetServiceSetting
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResetServiceSetting">REST API Reference for ResetServiceSetting Operation</seealso>
+        IAsyncResult BeginResetServiceSetting(ResetServiceSettingRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ResetServiceSetting operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginResetServiceSetting.</param>
+        /// 
+        /// <returns>Returns a  ResetServiceSettingResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResetServiceSetting">REST API Reference for ResetServiceSetting Operation</seealso>
+        ResetServiceSettingResponse EndResetServiceSetting(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ResumeSession
+
+
+        /// <summary>
+        /// Reconnects a session to an instance after it has been disconnected. Connections can
+        /// be resumed for disconnected sessions, but not terminated sessions.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This command is primarily for use by client machines to automatically reconnect during
+        /// intermittent network issues. It is not intended for any other use.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ResumeSession service method.</param>
+        /// 
+        /// <returns>The response from the ResumeSession service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
+        /// Error returned when the ID specified for a resource, such as a maintenance window
+        /// or Patch baseline, doesn't exist.
+        /// 
+        ///  
+        /// <para>
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResumeSession">REST API Reference for ResumeSession Operation</seealso>
+        ResumeSessionResponse ResumeSession(ResumeSessionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ResumeSession operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ResumeSession operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndResumeSession
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResumeSession">REST API Reference for ResumeSession Operation</seealso>
+        IAsyncResult BeginResumeSession(ResumeSessionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ResumeSession operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginResumeSession.</param>
+        /// 
+        /// <returns>Returns a  ResumeSessionResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResumeSession">REST API Reference for ResumeSession Operation</seealso>
+        ResumeSessionResponse EndResumeSession(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5760,10 +6918,10 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Executes commands on one or more managed instances.
+        /// Runs commands on one or more managed instances.
         /// </summary>
-        /// <param name="documentName">Required. The name of the Systems Manager document to execute. This can be a public document or a custom document.</param>
-        /// <param name="instanceIds">The instance IDs where the command should execute. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use Targets, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Sending Commands to a Fleet</a>.</param>
+        /// <param name="documentName">Required. The name of the Systems Manager document to run. This can be a public document or a custom document.</param>
+        /// <param name="instanceIds">The instance IDs where the command should run. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags. For more information about how to use targets, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Sending Commands to a Fleet</a> in the <i>AWS Systems Manager User Guide</i>.</param>
         /// 
         /// <returns>The response from the SendCommand service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DuplicateInstanceIdException">
@@ -5775,6 +6933,9 @@ namespace Amazon.SimpleSystemsManagement
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentException">
         /// The specified document does not exist.
         /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentVersionException">
+        /// The document version is not valid or does not exist.
+        /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidInstanceIdException">
         /// The following problems can cause this exception:
         /// 
@@ -5784,14 +6945,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -5827,7 +6985,7 @@ namespace Amazon.SimpleSystemsManagement
         SendCommandResponse SendCommand(string documentName, List<string> instanceIds);
 
         /// <summary>
-        /// Executes commands on one or more managed instances.
+        /// Runs commands on one or more managed instances.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SendCommand service method.</param>
         /// 
@@ -5841,6 +6999,9 @@ namespace Amazon.SimpleSystemsManagement
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentException">
         /// The specified document does not exist.
         /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentVersionException">
+        /// The document version is not valid or does not exist.
+        /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidInstanceIdException">
         /// The following problems can cause this exception:
         /// 
@@ -5850,14 +7011,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -5917,6 +7075,53 @@ namespace Amazon.SimpleSystemsManagement
         /// <returns>Returns a  SendCommandResult from SimpleSystemsManagement.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/SendCommand">REST API Reference for SendCommand Operation</seealso>
         SendCommandResponse EndSendCommand(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StartAssociationsOnce
+
+
+        /// <summary>
+        /// Use this API action to run an association immediately and only one time. This action
+        /// can be helpful when troubleshooting associations.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartAssociationsOnce service method.</param>
+        /// 
+        /// <returns>The response from the StartAssociationsOnce service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.AssociationDoesNotExistException">
+        /// The specified association does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidAssociationException">
+        /// The association is not valid or does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartAssociationsOnce">REST API Reference for StartAssociationsOnce Operation</seealso>
+        StartAssociationsOnceResponse StartAssociationsOnce(StartAssociationsOnceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartAssociationsOnce operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartAssociationsOnce operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartAssociationsOnce
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartAssociationsOnce">REST API Reference for StartAssociationsOnce Operation</seealso>
+        IAsyncResult BeginStartAssociationsOnce(StartAssociationsOnceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartAssociationsOnce operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartAssociationsOnce.</param>
+        /// 
+        /// <returns>Returns a  StartAssociationsOnceResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartAssociationsOnce">REST API Reference for StartAssociationsOnce Operation</seealso>
+        StartAssociationsOnceResponse EndStartAssociationsOnce(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5986,11 +7191,79 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  StartSession
+
+
+        /// <summary>
+        /// Initiates a connection to a target (for example, an instance) for a Session Manager
+        /// session. Returns a URL and token that can be used to open a WebSocket connection for
+        /// sending input and receiving outputs.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// AWS CLI usage: <code>start-session</code> is an interactive command that requires
+        /// the Session Manager plugin to be installed on the client machine making the call.
+        /// For information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html">
+        /// Install the Session Manager Plugin for the AWS CLI</a> in the <i>AWS Systems Manager
+        /// User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// AWS Tools for PowerShell usage: Start-SSMSession is not currently supported by AWS
+        /// Tools for PowerShell on Windows local machines.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartSession service method.</param>
+        /// 
+        /// <returns>The response from the StartSession service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentException">
+        /// The specified document does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.TargetNotConnectedException">
+        /// The specified target instance for the session is not fully configured for use with
+        /// Session Manager. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started.html">Getting
+        /// Started with Session Manager</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartSession">REST API Reference for StartSession Operation</seealso>
+        StartSessionResponse StartSession(StartSessionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartSession operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartSession operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartSession
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartSession">REST API Reference for StartSession Operation</seealso>
+        IAsyncResult BeginStartSession(StartSessionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartSession operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartSession.</param>
+        /// 
+        /// <returns>Returns a  StartSessionResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartSession">REST API Reference for StartSession Operation</seealso>
+        StartSessionResponse EndStartSession(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StopAutomationExecution
 
 
         /// <summary>
-        /// Stop an Automation that is currently executing.
+        /// Stop an Automation that is currently running.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StopAutomationExecution service method.</param>
         /// 
@@ -6036,12 +7309,82 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  TerminateSession
+
+
+        /// <summary>
+        /// Permanently ends a session and closes the data connection between the Session Manager
+        /// client and SSM Agent on the instance. A terminated session cannot be resumed.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TerminateSession service method.</param>
+        /// 
+        /// <returns>The response from the TerminateSession service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
+        /// Error returned when the ID specified for a resource, such as a maintenance window
+        /// or Patch baseline, doesn't exist.
+        /// 
+        ///  
+        /// <para>
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/TerminateSession">REST API Reference for TerminateSession Operation</seealso>
+        TerminateSessionResponse TerminateSession(TerminateSessionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TerminateSession operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TerminateSession operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTerminateSession
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/TerminateSession">REST API Reference for TerminateSession Operation</seealso>
+        IAsyncResult BeginTerminateSession(TerminateSessionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TerminateSession operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTerminateSession.</param>
+        /// 
+        /// <returns>Returns a  TerminateSessionResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/TerminateSession">REST API Reference for TerminateSession Operation</seealso>
+        TerminateSessionResponse EndTerminateSession(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateAssociation
 
 
         /// <summary>
         /// Updates an association. You can update the association name and version, the document
-        /// version, schedule, parameters, and Amazon S3 output.
+        /// version, schedule, parameters, and Amazon S3 output. 
+        /// 
+        ///  
+        /// <para>
+        /// In order to call this API action, your IAM user account, group, or role must be configured
+        /// with permission to call the <a>DescribeAssociation</a> API action. If you don't have
+        /// permission to call DescribeAssociation, then you receive the following error: <code>An
+        /// error occurred (AccessDeniedException) when calling the UpdateAssociation operation:
+        /// User: &lt;user_arn&gt; is not authorized to perform: ssm:DescribeAssociation on resource:
+        /// &lt;resource_arn&gt;</code> 
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// When you update an association, the association immediately runs against the specified
+        /// targets.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateAssociation service method.</param>
         /// 
@@ -6145,14 +7488,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -6201,7 +7541,7 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// The document you want to update.
+        /// Updates one or more values for an SSM document.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateDocument service method.</param>
         /// 
@@ -6213,6 +7553,10 @@ namespace Amazon.SimpleSystemsManagement
         /// The content of the association document matches another document. Change the content
         /// of the document and try again.
         /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.DuplicateDocumentVersionNameException">
+        /// The version name has already been used in this document. Specify a different version
+        /// name, and then try again.
+        /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
@@ -6221,6 +7565,10 @@ namespace Amazon.SimpleSystemsManagement
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentException">
         /// The specified document does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentOperationException">
+        /// You attempted to delete a document while it is still shared. You must stop sharing
+        /// the document before you can delete it.
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InvalidDocumentSchemaVersionException">
         /// The version of the document schema is not supported.
@@ -6318,19 +7666,30 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Updates an existing Maintenance Window. Only specified parameters are modified.
+        /// Updates an existing maintenance window. Only specified parameters are modified.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The value you specify for <code>Duration</code> determines the specific end time for
+        /// the maintenance window based on the time it begins. No maintenance window tasks are
+        /// permitted to start after the resulting endtime minus the number of hours you specify
+        /// for <code>Cutoff</code>. For example, if the maintenance window starts at 3 PM, the
+        /// duration is three hours, and the value you specify for <code>Cutoff</code> is one
+        /// hour, no maintenance window tasks can start after 5 PM.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateMaintenanceWindow service method.</param>
         /// 
         /// <returns>The response from the UpdateMaintenanceWindow service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -6371,49 +7730,50 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Modifies the target of an existing Maintenance Window. You can't change the target
-        /// type, but you can change the following:
+        /// Modifies the target of an existing maintenance window. You can change the following:
         /// 
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        /// The target from being an ID target to a Tag target, or a Tag target to an ID target.
+        /// Name
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// IDs for an ID target.
+        /// Description
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// Tags for a Tag target.
+        /// Owner
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// Owner.
+        /// IDs for an ID target
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// Name.
+        /// Tags for a Tag target
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// Description.
+        /// From any supported tag type to another. The three supported tag types are ID target,
+        /// Tag target, and resource group. For more information, see <a>Target</a>.
         /// </para>
-        ///  
+        ///  </li> </ul> <note> 
         /// <para>
         /// If a parameter is null, then the corresponding field is not modified.
         /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateMaintenanceWindowTarget service method.</param>
         /// 
         /// <returns>The response from the UpdateMaintenanceWindowTarget service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -6454,7 +7814,7 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Modifies a task assigned to a Maintenance Window. You can't change the task type,
+        /// Modifies a task assigned to a maintenance window. You can't change the task type,
         /// but you can change the following values:
         /// 
         ///  <ul> <li> 
@@ -6494,13 +7854,13 @@ namespace Amazon.SimpleSystemsManagement
         /// 
         /// <returns>The response from the UpdateMaintenanceWindowTask service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -6541,7 +7901,7 @@ namespace Amazon.SimpleSystemsManagement
 
 
         /// <summary>
-        /// Assigns or changes an Amazon Identity and Access Management (IAM) role to the managed
+        /// Assigns or changes an Amazon Identity and Access Management (IAM) role for the managed
         /// instance.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateManagedInstanceRole service method.</param>
@@ -6559,14 +7919,11 @@ namespace Amazon.SimpleSystemsManagement
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent is not running. On managed instances and Linux instances, verify that
-        /// the SSM Agent is running. On EC2 Windows instances, verify that the EC2Config service
-        /// is running.
+        /// SSM Agent is not running. Verify that SSM Agent is running.
         /// </para>
         ///  
         /// <para>
-        /// The SSM Agent or EC2Config service is not registered to the SSM endpoint. Try reinstalling
-        /// the SSM Agent or EC2Config service.
+        /// SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent.
         /// </para>
         ///  
         /// <para>
@@ -6605,6 +7962,74 @@ namespace Amazon.SimpleSystemsManagement
 
         #endregion
         
+        #region  UpdateOpsItem
+
+
+        /// <summary>
+        /// Edit or change an OpsItem. You must have permission in AWS Identity and Access Management
+        /// (IAM) to update an OpsItem. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html">Getting
+        /// Started with OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// 
+        ///  
+        /// <para>
+        /// Operations engineers and IT professionals use OpsCenter to view, investigate, and
+        /// remediate operational issues impacting the performance and health of their AWS resources.
+        /// For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
+        /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateOpsItem service method.</param>
+        /// 
+        /// <returns>The response from the UpdateOpsItem service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemAlreadyExistsException">
+        /// The OpsItem already exists.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemInvalidParameterException">
+        /// A specified parameter argument isn't valid. Verify the available arguments and try
+        /// again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemLimitExceededException">
+        /// The request caused OpsItems to exceed one or more quotas. For information about OpsItem
+        /// quotas, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-learn-more.html#OpsCenter-learn-more-limits">What
+        /// are the resource limits for OpsCenter?</a>.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.OpsItemNotFoundException">
+        /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateOpsItem">REST API Reference for UpdateOpsItem Operation</seealso>
+        UpdateOpsItemResponse UpdateOpsItem(UpdateOpsItemRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateOpsItem operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateOpsItem operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateOpsItem
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateOpsItem">REST API Reference for UpdateOpsItem Operation</seealso>
+        IAsyncResult BeginUpdateOpsItem(UpdateOpsItemRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateOpsItem operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateOpsItem.</param>
+        /// 
+        /// <returns>Returns a  UpdateOpsItemResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateOpsItem">REST API Reference for UpdateOpsItem Operation</seealso>
+        UpdateOpsItemResponse EndUpdateOpsItem(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdatePatchBaseline
 
 
@@ -6623,13 +8048,13 @@ namespace Amazon.SimpleSystemsManagement
         /// 
         /// <returns>The response from the UpdatePatchBaseline service method, as returned by SimpleSystemsManagement.</returns>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.DoesNotExistException">
-        /// Error returned when the ID specified for a resource, such as a Maintenance Window
+        /// Error returned when the ID specified for a resource, such as a maintenance window
         /// or Patch baseline, doesn't exist.
         /// 
         ///  
         /// <para>
-        /// For information about resource limits in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_ssm">AWS
-        /// Systems Manager Limits</a>.
+        /// For information about resource quotas in Systems Manager, see <a href="http://docs.aws.amazon.com/general/latest/gr/ssm.html#limits_ssm">Systems
+        /// Manager Service Quotas</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
@@ -6663,6 +8088,133 @@ namespace Amazon.SimpleSystemsManagement
         /// <returns>Returns a  UpdatePatchBaselineResult from SimpleSystemsManagement.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdatePatchBaseline">REST API Reference for UpdatePatchBaseline Operation</seealso>
         UpdatePatchBaselineResponse EndUpdatePatchBaseline(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateResourceDataSync
+
+
+        /// <summary>
+        /// Update a resource data sync. After you create a resource data sync for a Region, you
+        /// can't change the account options for that sync. For example, if you create a sync
+        /// in the us-east-2 (Ohio) Region and you choose the Include only the current account
+        /// option, you can't edit that sync later and choose the Include all accounts from my
+        /// AWS Organizations configuration option. Instead, you must delete the first resource
+        /// data sync, and create a new one.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateResourceDataSync service method.</param>
+        /// 
+        /// <returns>The response from the UpdateResourceDataSync service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceDataSyncConflictException">
+        /// Another <code>UpdateResourceDataSync</code> request is being processed. Wait a few
+        /// minutes and try again.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceDataSyncInvalidConfigurationException">
+        /// The specified sync configuration is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ResourceDataSyncNotFoundException">
+        /// The specified sync name was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateResourceDataSync">REST API Reference for UpdateResourceDataSync Operation</seealso>
+        UpdateResourceDataSyncResponse UpdateResourceDataSync(UpdateResourceDataSyncRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateResourceDataSync operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateResourceDataSync operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateResourceDataSync
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateResourceDataSync">REST API Reference for UpdateResourceDataSync Operation</seealso>
+        IAsyncResult BeginUpdateResourceDataSync(UpdateResourceDataSyncRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateResourceDataSync operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateResourceDataSync.</param>
+        /// 
+        /// <returns>Returns a  UpdateResourceDataSyncResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateResourceDataSync">REST API Reference for UpdateResourceDataSync Operation</seealso>
+        UpdateResourceDataSyncResponse EndUpdateResourceDataSync(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateServiceSetting
+
+
+        /// <summary>
+        /// <code>ServiceSetting</code> is an account-level setting for an AWS service. This
+        /// setting defines how a user interacts with or uses a service or a feature of a service.
+        /// For example, if an AWS service charges money to the account based on feature or service
+        /// usage, then the AWS service team might create a default setting of "false". This means
+        /// the user can't use this feature unless they change the setting to "true" and intentionally
+        /// opt in for a paid feature.
+        /// 
+        ///  
+        /// <para>
+        /// Services map a <code>SettingId</code> object to a setting value. AWS services teams
+        /// define the default value for a <code>SettingId</code>. You can't create a new <code>SettingId</code>,
+        /// but you can overwrite the default value if you have the <code>ssm:UpdateServiceSetting</code>
+        /// permission for the setting. Use the <a>GetServiceSetting</a> API action to view the
+        /// current value. Or, use the <a>ResetServiceSetting</a> to change the value back to
+        /// the original value defined by the AWS service team.
+        /// </para>
+        ///  
+        /// <para>
+        /// Update the service setting for the account. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateServiceSetting service method.</param>
+        /// 
+        /// <returns>The response from the UpdateServiceSetting service method, as returned by SimpleSystemsManagement.</returns>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.ServiceSettingNotFoundException">
+        /// The specified service setting was not found. Either the service name or the setting
+        /// has not been provisioned by the AWS service team.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleSystemsManagement.Model.TooManyUpdatesException">
+        /// There are concurrent updates for a resource that supports one update at a time.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateServiceSetting">REST API Reference for UpdateServiceSetting Operation</seealso>
+        UpdateServiceSettingResponse UpdateServiceSetting(UpdateServiceSettingRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateServiceSetting operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateServiceSetting operation on AmazonSimpleSystemsManagementClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateServiceSetting
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateServiceSetting">REST API Reference for UpdateServiceSetting Operation</seealso>
+        IAsyncResult BeginUpdateServiceSetting(UpdateServiceSettingRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateServiceSetting operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateServiceSetting.</param>
+        /// 
+        /// <returns>Returns a  UpdateServiceSettingResult from SimpleSystemsManagement.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateServiceSetting">REST API Reference for UpdateServiceSetting Operation</seealso>
+        UpdateServiceSettingResponse EndUpdateServiceSetting(IAsyncResult asyncResult);
 
         #endregion
         

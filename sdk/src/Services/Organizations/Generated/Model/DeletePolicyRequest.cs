@@ -30,7 +30,7 @@ namespace Amazon.Organizations.Model
     /// <summary>
     /// Container for the parameters to the DeletePolicy operation.
     /// Deletes the specified policy from your organization. Before you perform this operation,
-    /// you must first detach the policy from all OUs, roots, and accounts.
+    /// you must first detach the policy from all organizational units (OUs), roots, and accounts.
     /// 
     ///  
     /// <para>
@@ -50,9 +50,11 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy ID string
-        /// requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or
+        /// the underscore character (_).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PolicyId
         {
             get { return this._policyId; }

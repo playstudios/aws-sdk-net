@@ -32,7 +32,7 @@ namespace Amazon.AWSSupport.Model
     /// Returns information about all available Trusted Advisor checks, including name, ID,
     /// category, description, and metadata. You must specify a language code; English ("en")
     /// and Japanese ("ja") are currently supported. The response contains a <a>TrustedAdvisorCheckDescription</a>
-    /// for each check.
+    /// for each check. The region must be set to us-east-1.
     /// </summary>
     public partial class DescribeTrustedAdvisorChecksRequest : AmazonAWSSupportRequest
     {
@@ -46,6 +46,7 @@ namespace Amazon.AWSSupport.Model
         /// for operations that take them.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Language
         {
             get { return this._language; }

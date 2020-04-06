@@ -46,6 +46,7 @@ namespace Amazon.CodePipeline.Model
         /// The name of the action for which approval is requested.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ActionName
         {
             get { return this._actionName; }
@@ -64,6 +65,7 @@ namespace Amazon.CodePipeline.Model
         /// The name of the pipeline that contains the action. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string PipelineName
         {
             get { return this._pipelineName; }
@@ -82,6 +84,7 @@ namespace Amazon.CodePipeline.Model
         /// Represents information about the result of the approval request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ApprovalResult Result
         {
             get { return this._result; }
@@ -100,6 +103,7 @@ namespace Amazon.CodePipeline.Model
         /// The name of the stage that contains the action.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string StageName
         {
             get { return this._stageName; }
@@ -116,11 +120,12 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property Token. 
         /// <para>
         /// The system-generated token used to identify a unique approval request. The token for
-        /// each open approval request can be obtained using the <a>GetPipelineState</a> action
-        /// and is used to validate that the approval request corresponding to this token is still
+        /// each open approval request can be obtained using the <a>GetPipelineState</a> action.
+        /// It is used to validate that the approval request corresponding to this token is still
         /// valid.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Token
         {
             get { return this._token; }

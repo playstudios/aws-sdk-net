@@ -41,10 +41,11 @@ namespace Amazon.KinesisAnalytics.Model
         /// Gets and sets the property ReferenceId. 
         /// <para>
         /// ID of the reference data source. This is the ID that Amazon Kinesis Analytics assigns
-        /// when you add the reference data source to your application using the <a>AddApplicationReferenceDataSource</a>
+        /// when you add the reference data source to your application using the <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_AddApplicationReferenceDataSource.html">AddApplicationReferenceDataSource</a>
         /// operation.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string ReferenceId
         {
             get { return this._referenceId; }
@@ -85,6 +86,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// reference table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public S3ReferenceDataSourceDescription S3ReferenceDataSourceDescription
         {
             get { return this._s3ReferenceDataSourceDescription; }
@@ -103,6 +105,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// The in-application table name created by the specific reference data source configuration.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=32)]
         public string TableName
         {
             get { return this._tableName; }

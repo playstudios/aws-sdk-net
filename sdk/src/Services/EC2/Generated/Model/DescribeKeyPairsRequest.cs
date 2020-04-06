@@ -29,11 +29,11 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeKeyPairs operation.
-    /// Describes one or more of your key pairs.
+    /// Describes the specified key pairs or all of your key pairs.
     /// 
     ///  
     /// <para>
-    /// For more information about key pairs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+    /// For more information about key pairs, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
     /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -41,11 +41,12 @@ namespace Amazon.EC2.Model
     {
         private List<Filter> _filters = new List<Filter>();
         private List<string> _keyNames = new List<string>();
+        private List<string> _keyPairIds = new List<string>();
 
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -72,7 +73,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property KeyNames. 
         /// <para>
-        /// One or more key pair names.
+        /// The key pair names.
         /// </para>
         ///  
         /// <para>
@@ -89,6 +90,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetKeyNames()
         {
             return this._keyNames != null && this._keyNames.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property KeyPairIds. 
+        /// <para>
+        /// The IDs of the key pairs.
+        /// </para>
+        /// </summary>
+        public List<string> KeyPairIds
+        {
+            get { return this._keyPairIds; }
+            set { this._keyPairIds = value; }
+        }
+
+        // Check to see if KeyPairIds property is set
+        internal bool IsSetKeyPairIds()
+        {
+            return this._keyPairIds != null && this._keyPairIds.Count > 0; 
         }
 
     }

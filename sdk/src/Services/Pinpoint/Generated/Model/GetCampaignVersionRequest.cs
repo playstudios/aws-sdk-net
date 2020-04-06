@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the GetCampaignVersion operation.
-    /// Returns information about a specific version of a campaign.
+    /// Retrieves information about the status, configuration, and other settings for a specific
+    /// version of a campaign.
     /// </summary>
     public partial class GetCampaignVersionRequest : AmazonPinpointRequest
     {
@@ -38,8 +39,13 @@ namespace Amazon.Pinpoint.Model
         private string _version;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -53,8 +59,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CampaignId.
+        /// Gets and sets the property CampaignId. 
+        /// <para>
+        /// The unique identifier for the campaign.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CampaignId
         {
             get { return this._campaignId; }
@@ -68,8 +78,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Version.
+        /// Gets and sets the property Version. 
+        /// <para>
+        /// The unique version number (Version property) for the campaign version.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Version
         {
             get { return this._version; }

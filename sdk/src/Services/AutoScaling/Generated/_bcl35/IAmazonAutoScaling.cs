@@ -32,9 +32,14 @@ namespace Amazon.AutoScaling
     /// Amazon EC2 Auto Scaling 
     /// <para>
     /// Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2 instances
-    /// based on user-defined policies, schedules, and health checks. Use this service in
-    /// conjunction with the AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing
-    /// services.
+    /// based on user-defined scaling policies, scheduled actions, and health checks. Use
+    /// this service with AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, including information about granting IAM users required permissions
+    /// for Amazon EC2 Auto Scaling actions, see the <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html">Amazon
+    /// EC2 Auto Scaling User Guide</a>.
     /// </para>
     /// </summary>
     public partial interface IAmazonAutoScaling : IAmazonService, IDisposable
@@ -49,10 +54,10 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// When you attach instances, Auto Scaling increases the desired capacity of the group
-        /// by the number of instances being attached. If the number of instances being attached
-        /// plus the desired capacity of the group exceeds the maximum size of the group, the
-        /// operation fails.
+        /// When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity
+        /// of the group by the number of instances being attached. If the number of instances
+        /// being attached plus the desired capacity of the group exceeds the maximum size of
+        /// the group, the operation fails.
         /// </para>
         ///  
         /// <para>
@@ -62,16 +67,17 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/attach-instance-asg.html">Attach
-        /// EC2 Instances to Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-instance-asg.html">Attach
+        /// EC2 Instances to Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachInstances service method.</param>
         /// 
         /// <returns>The response from the AttachInstances service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -115,7 +121,7 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// To attach an Application Load Balancer instead, see <a>AttachLoadBalancerTargetGroups</a>.
+        /// To attach an Application Load Balancer or a Network Load Balancer instead, see <a>AttachLoadBalancerTargetGroups</a>.
         /// </para>
         ///  
         /// <para>
@@ -124,16 +130,17 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/attach-load-balancer-asg.html">Attach
-        /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-load-balancer-asg.html">Attaching
+        /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancers service method.</param>
         /// 
         /// <returns>The response from the AttachLoadBalancers service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -182,16 +189,19 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/attach-load-balancer-asg.html">Attach
-        /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+        /// With Application Load Balancers and Network Load Balancers, instances are registered
+        /// as targets with a target group. With Classic Load Balancers, instances are registered
+        /// with the load balancer. For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-load-balancer-asg.html">Attaching
+        /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancerTargetGroups service method.</param>
         /// 
         /// <returns>The response from the AttachLoadBalancerTargetGroups service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -227,6 +237,104 @@ namespace Amazon.AutoScaling
 
         #endregion
         
+        #region  BatchDeleteScheduledAction
+
+
+        /// <summary>
+        /// Deletes one or more scheduled actions for the specified Auto Scaling group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchDeleteScheduledAction service method.</param>
+        /// 
+        /// <returns>The response from the BatchDeleteScheduledAction service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchDeleteScheduledAction">REST API Reference for BatchDeleteScheduledAction Operation</seealso>
+        BatchDeleteScheduledActionResponse BatchDeleteScheduledAction(BatchDeleteScheduledActionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchDeleteScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchDeleteScheduledAction operation on AmazonAutoScalingClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchDeleteScheduledAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchDeleteScheduledAction">REST API Reference for BatchDeleteScheduledAction Operation</seealso>
+        IAsyncResult BeginBatchDeleteScheduledAction(BatchDeleteScheduledActionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchDeleteScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchDeleteScheduledAction.</param>
+        /// 
+        /// <returns>Returns a  BatchDeleteScheduledActionResult from AutoScaling.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchDeleteScheduledAction">REST API Reference for BatchDeleteScheduledAction Operation</seealso>
+        BatchDeleteScheduledActionResponse EndBatchDeleteScheduledAction(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  BatchPutScheduledUpdateGroupAction
+
+
+        /// <summary>
+        /// Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
+        /// If you leave a parameter unspecified when updating a scheduled scaling action, the
+        /// corresponding value remains unchanged.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchPutScheduledUpdateGroupAction service method.</param>
+        /// 
+        /// <returns>The response from the BatchPutScheduledUpdateGroupAction service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.AlreadyExistsException">
+        /// You already have an Auto Scaling group or launch configuration with this name.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchPutScheduledUpdateGroupAction">REST API Reference for BatchPutScheduledUpdateGroupAction Operation</seealso>
+        BatchPutScheduledUpdateGroupActionResponse BatchPutScheduledUpdateGroupAction(BatchPutScheduledUpdateGroupActionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchPutScheduledUpdateGroupAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchPutScheduledUpdateGroupAction operation on AmazonAutoScalingClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchPutScheduledUpdateGroupAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchPutScheduledUpdateGroupAction">REST API Reference for BatchPutScheduledUpdateGroupAction Operation</seealso>
+        IAsyncResult BeginBatchPutScheduledUpdateGroupAction(BatchPutScheduledUpdateGroupActionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchPutScheduledUpdateGroupAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchPutScheduledUpdateGroupAction.</param>
+        /// 
+        /// <returns>Returns a  BatchPutScheduledUpdateGroupActionResult from AutoScaling.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchPutScheduledUpdateGroupAction">REST API Reference for BatchPutScheduledUpdateGroupAction Operation</seealso>
+        BatchPutScheduledUpdateGroupActionResponse EndBatchPutScheduledUpdateGroupAction(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CompleteLifecycleAction
 
 
@@ -242,13 +350,13 @@ namespace Amazon.AutoScaling
         ///  <ol> <li> 
         /// <para>
         /// (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke
-        /// your Lambda function when Auto Scaling launches or terminates instances.
+        /// your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// (Optional) Create a notification target and an IAM role. The target can be either
-        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Auto Scaling to publish
-        /// lifecycle notifications to the target.
+        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
+        /// to publish lifecycle notifications to the target.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -267,16 +375,16 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  </li> </ol> 
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroupLifecycle.html">Auto
-        /// Scaling Lifecycle</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
+        /// EC2 Auto Scaling Lifecycle Hooks</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CompleteLifecycleAction service method.</param>
         /// 
         /// <returns>The response from the CompleteLifecycleAction service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CompleteLifecycleAction">REST API Reference for CompleteLifecycleAction Operation</seealso>
         CompleteLifecycleActionResponse CompleteLifecycleAction(CompleteLifecycleActionRequest request);
@@ -319,13 +427,8 @@ namespace Amazon.AutoScaling
         /// <para>
         /// If you exceed your maximum limit of Auto Scaling groups, the call fails. For information
         /// about viewing this limit, see <a>DescribeAccountLimits</a>. For information about
-        /// updating this limit, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html">Auto
-        /// Scaling Limits</a> in the <i>Auto Scaling User Guide</i>.
-        /// </para>
-        ///  
-        /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html">Auto
-        /// Scaling Groups</a> in the <i>Auto Scaling User Guide</i>.
+        /// updating this limit, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateAutoScalingGroup service method.</param>
@@ -335,12 +438,13 @@ namespace Amazon.AutoScaling
         /// You already have an Auto Scaling group or launch configuration with this name.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -386,13 +490,13 @@ namespace Amazon.AutoScaling
         /// <para>
         /// If you exceed your maximum limit of launch configurations, the call fails. For information
         /// about viewing this limit, see <a>DescribeAccountLimits</a>. For information about
-        /// updating this limit, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html">Auto
-        /// Scaling Limits</a> in the <i>Auto Scaling User Guide</i>.
+        /// updating this limit, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/LaunchConfiguration.html">Launch
-        /// Configurations</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html">Launch
+        /// Configurations</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLaunchConfiguration service method.</param>
@@ -402,12 +506,13 @@ namespace Amazon.AutoScaling
         /// You already have an Auto Scaling group or launch configuration with this name.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateLaunchConfiguration">REST API Reference for CreateLaunchConfiguration Operation</seealso>
         CreateLaunchConfigurationResponse CreateLaunchConfiguration(CreateLaunchConfigurationRequest request);
@@ -453,8 +558,8 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/autoscaling-tagging.html">Tagging
-        /// Auto Scaling Groups and Instances</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-tagging.html">Tagging
+        /// Auto Scaling Groups and Instances</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateOrUpdateTags service method.</param>
@@ -464,12 +569,13 @@ namespace Amazon.AutoScaling
         /// You already have an Auto Scaling group or launch configuration with this name.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
         /// The operation can't be performed because the resource is in use.
@@ -524,8 +630,8 @@ namespace Amazon.AutoScaling
         ///  
         /// <para>
         /// To remove instances from the Auto Scaling group before deleting it, call <a>DetachInstances</a>
-        /// with the list of instances and the option to decrement the desired capacity so that
-        /// Auto Scaling does not launch replacement instances.
+        /// with the list of instances and the option to decrement the desired capacity. This
+        /// ensures that Amazon EC2 Auto Scaling does not launch replacement instances.
         /// </para>
         ///  
         /// <para>
@@ -537,8 +643,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DeleteAutoScalingGroup service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
         /// The operation can't be performed because the resource is in use.
@@ -593,8 +699,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DeleteLaunchConfiguration service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
         /// The operation can't be performed because the resource is in use.
@@ -646,8 +752,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DeleteLifecycleHook service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteLifecycleHook">REST API Reference for DeleteLifecycleHook Operation</seealso>
         DeleteLifecycleHookResponse DeleteLifecycleHook(DeleteLifecycleHookRequest request);
@@ -690,8 +796,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DeleteNotificationConfiguration service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteNotificationConfiguration">REST API Reference for DeleteNotificationConfiguration Operation</seealso>
         DeleteNotificationConfigurationResponse DeleteNotificationConfiguration(DeleteNotificationConfigurationRequest request);
@@ -728,20 +834,26 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Deletes the specified Auto Scaling policy.
+        /// Deletes the specified scaling policy.
         /// 
         ///  
         /// <para>
-        /// Deleting a policy deletes the underlying alarm action, but does not delete the alarm,
-        /// even if it no longer has an associated action.
+        /// Deleting either a step scaling policy or a simple scaling policy deletes the underlying
+        /// alarm action, but does not delete the alarm, even if it no longer has an associated
+        /// action.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/deleting-scaling-policy.html">Deleting
+        /// a Scaling Policy</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeletePolicy service method.</param>
         /// 
         /// <returns>The response from the DeletePolicy service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -787,8 +899,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DeleteScheduledAction service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteScheduledAction">REST API Reference for DeleteScheduledAction Operation</seealso>
         DeleteScheduledActionResponse DeleteScheduledAction(DeleteScheduledActionRequest request);
@@ -831,8 +943,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DeleteTags service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
         /// The operation can't be performed because the resource is in use.
@@ -872,38 +984,38 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Describes the current Auto Scaling resource limits for your AWS account.
+        /// Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS account.
         /// 
         ///  
         /// <para>
-        /// For information about requesting an increase in these limits, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html">Auto
-        /// Scaling Limits</a> in the <i>Auto Scaling User Guide</i>.
+        /// For information about requesting an increase, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeAccountLimits service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAccountLimits">REST API Reference for DescribeAccountLimits Operation</seealso>
         DescribeAccountLimitsResponse DescribeAccountLimits();
 
         /// <summary>
-        /// Describes the current Auto Scaling resource limits for your AWS account.
+        /// Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS account.
         /// 
         ///  
         /// <para>
-        /// For information about requesting an increase in these limits, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html">Auto
-        /// Scaling Limits</a> in the <i>Auto Scaling User Guide</i>.
+        /// For information about requesting an increase, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeAccountLimits service method.</param>
         /// 
         /// <returns>The response from the DescribeAccountLimits service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAccountLimits">REST API Reference for DescribeAccountLimits Operation</seealso>
         DescribeAccountLimitsResponse DescribeAccountLimits(DescribeAccountLimitsRequest request);
@@ -945,8 +1057,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeAdjustmentTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAdjustmentTypes">REST API Reference for DescribeAdjustmentTypes Operation</seealso>
         DescribeAdjustmentTypesResponse DescribeAdjustmentTypes();
@@ -958,8 +1070,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeAdjustmentTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAdjustmentTypes">REST API Reference for DescribeAdjustmentTypes Operation</seealso>
         DescribeAdjustmentTypesResponse DescribeAdjustmentTypes(DescribeAdjustmentTypesRequest request);
@@ -1004,8 +1116,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingGroups">REST API Reference for DescribeAutoScalingGroups Operation</seealso>
         DescribeAutoScalingGroupsResponse DescribeAutoScalingGroups();
@@ -1020,8 +1132,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingGroups">REST API Reference for DescribeAutoScalingGroups Operation</seealso>
         DescribeAutoScalingGroupsResponse DescribeAutoScalingGroups(DescribeAutoScalingGroupsRequest request);
@@ -1066,8 +1178,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingInstances">REST API Reference for DescribeAutoScalingInstances Operation</seealso>
         DescribeAutoScalingInstancesResponse DescribeAutoScalingInstances();
@@ -1082,8 +1194,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingInstances">REST API Reference for DescribeAutoScalingInstances Operation</seealso>
         DescribeAutoScalingInstancesResponse DescribeAutoScalingInstances(DescribeAutoScalingInstancesRequest request);
@@ -1120,26 +1232,26 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Describes the notification types that are supported by Auto Scaling.
+        /// Describes the notification types that are supported by Amazon EC2 Auto Scaling.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeAutoScalingNotificationTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingNotificationTypes">REST API Reference for DescribeAutoScalingNotificationTypes Operation</seealso>
         DescribeAutoScalingNotificationTypesResponse DescribeAutoScalingNotificationTypes();
 
         /// <summary>
-        /// Describes the notification types that are supported by Auto Scaling.
+        /// Describes the notification types that are supported by Amazon EC2 Auto Scaling.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeAutoScalingNotificationTypes service method.</param>
         /// 
         /// <returns>The response from the DescribeAutoScalingNotificationTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingNotificationTypes">REST API Reference for DescribeAutoScalingNotificationTypes Operation</seealso>
         DescribeAutoScalingNotificationTypesResponse DescribeAutoScalingNotificationTypes(DescribeAutoScalingNotificationTypesRequest request);
@@ -1184,8 +1296,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLaunchConfigurations">REST API Reference for DescribeLaunchConfigurations Operation</seealso>
         DescribeLaunchConfigurationsResponse DescribeLaunchConfigurations();
@@ -1200,8 +1312,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLaunchConfigurations">REST API Reference for DescribeLaunchConfigurations Operation</seealso>
         DescribeLaunchConfigurationsResponse DescribeLaunchConfigurations(DescribeLaunchConfigurationsRequest request);
@@ -1244,8 +1356,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeLifecycleHooks service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLifecycleHooks">REST API Reference for DescribeLifecycleHooks Operation</seealso>
         DescribeLifecycleHooksResponse DescribeLifecycleHooks(DescribeLifecycleHooksRequest request);
@@ -1283,13 +1395,27 @@ namespace Amazon.AutoScaling
 
         /// <summary>
         /// Describes the available types of lifecycle hooks.
+        /// 
+        ///  
+        /// <para>
+        /// The following hook types are supported:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// autoscaling:EC2_INSTANCE_LAUNCHING
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// autoscaling:EC2_INSTANCE_TERMINATING
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeLifecycleHookTypes service method.</param>
         /// 
         /// <returns>The response from the DescribeLifecycleHookTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLifecycleHookTypes">REST API Reference for DescribeLifecycleHookTypes Operation</seealso>
         DescribeLifecycleHookTypesResponse DescribeLifecycleHookTypes(DescribeLifecycleHookTypesRequest request);
@@ -1330,16 +1456,16 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// Note that this operation describes only Classic Load Balancers. If you have Application
-        /// Load Balancers, use <a>DescribeLoadBalancerTargetGroups</a> instead.
+        /// This operation describes only Classic Load Balancers. If you have Application Load
+        /// Balancers or Network Load Balancers, use <a>DescribeLoadBalancerTargetGroups</a> instead.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeLoadBalancers service method.</param>
         /// 
         /// <returns>The response from the DescribeLoadBalancers service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancers">REST API Reference for DescribeLoadBalancers Operation</seealso>
         DescribeLoadBalancersResponse DescribeLoadBalancers(DescribeLoadBalancersRequest request);
@@ -1382,8 +1508,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeLoadBalancerTargetGroups service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancerTargetGroups">REST API Reference for DescribeLoadBalancerTargetGroups Operation</seealso>
         DescribeLoadBalancerTargetGroupsResponse DescribeLoadBalancerTargetGroups(DescribeLoadBalancerTargetGroupsRequest request);
@@ -1420,38 +1546,38 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Describes the available CloudWatch metrics for Auto Scaling.
+        /// Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
         /// 
         ///  
         /// <para>
-        /// Note that the <code>GroupStandbyInstances</code> metric is not returned by default.
-        /// You must explicitly request this metric when calling <a>EnableMetricsCollection</a>.
+        /// The <code>GroupStandbyInstances</code> metric is not returned by default. You must
+        /// explicitly request this metric when calling <a>EnableMetricsCollection</a>.
         /// </para>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeMetricCollectionTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeMetricCollectionTypes">REST API Reference for DescribeMetricCollectionTypes Operation</seealso>
         DescribeMetricCollectionTypesResponse DescribeMetricCollectionTypes();
 
         /// <summary>
-        /// Describes the available CloudWatch metrics for Auto Scaling.
+        /// Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
         /// 
         ///  
         /// <para>
-        /// Note that the <code>GroupStandbyInstances</code> metric is not returned by default.
-        /// You must explicitly request this metric when calling <a>EnableMetricsCollection</a>.
+        /// The <code>GroupStandbyInstances</code> metric is not returned by default. You must
+        /// explicitly request this metric when calling <a>EnableMetricsCollection</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeMetricCollectionTypes service method.</param>
         /// 
         /// <returns>The response from the DescribeMetricCollectionTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeMetricCollectionTypes">REST API Reference for DescribeMetricCollectionTypes Operation</seealso>
         DescribeMetricCollectionTypesResponse DescribeMetricCollectionTypes(DescribeMetricCollectionTypesRequest request);
@@ -1496,8 +1622,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeNotificationConfigurations">REST API Reference for DescribeNotificationConfigurations Operation</seealso>
         DescribeNotificationConfigurationsResponse DescribeNotificationConfigurations();
@@ -1512,8 +1638,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeNotificationConfigurations">REST API Reference for DescribeNotificationConfigurations Operation</seealso>
         DescribeNotificationConfigurationsResponse DescribeNotificationConfigurations(DescribeNotificationConfigurationsRequest request);
@@ -1558,8 +1684,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -1577,8 +1703,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -1626,8 +1752,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingActivities">REST API Reference for DescribeScalingActivities Operation</seealso>
         DescribeScalingActivitiesResponse DescribeScalingActivities();
@@ -1642,8 +1768,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingActivities">REST API Reference for DescribeScalingActivities Operation</seealso>
         DescribeScalingActivitiesResponse DescribeScalingActivities(DescribeScalingActivitiesRequest request);
@@ -1685,8 +1811,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeScalingProcessTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingProcessTypes">REST API Reference for DescribeScalingProcessTypes Operation</seealso>
         DescribeScalingProcessTypesResponse DescribeScalingProcessTypes();
@@ -1698,8 +1824,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeScalingProcessTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingProcessTypes">REST API Reference for DescribeScalingProcessTypes Operation</seealso>
         DescribeScalingProcessTypesResponse DescribeScalingProcessTypes(DescribeScalingProcessTypesRequest request);
@@ -1736,8 +1862,9 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Describes the actions scheduled for your Auto Scaling group that haven't run. To describe
-        /// the actions that have already run, use <a>DescribeScalingActivities</a>.
+        /// Describes the actions scheduled for your Auto Scaling group that haven't run or that
+        /// have not reached their end time. To describe the actions that have already run, use
+        /// <a>DescribeScalingActivities</a>.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeScheduledActions service method, as returned by AutoScaling.</returns>
@@ -1745,15 +1872,16 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScheduledActions">REST API Reference for DescribeScheduledActions Operation</seealso>
         DescribeScheduledActionsResponse DescribeScheduledActions();
 
         /// <summary>
-        /// Describes the actions scheduled for your Auto Scaling group that haven't run. To describe
-        /// the actions that have already run, use <a>DescribeScalingActivities</a>.
+        /// Describes the actions scheduled for your Auto Scaling group that haven't run or that
+        /// have not reached their end time. To describe the actions that have already run, use
+        /// <a>DescribeScalingActivities</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledActions service method.</param>
         /// 
@@ -1762,8 +1890,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScheduledActions">REST API Reference for DescribeScheduledActions Operation</seealso>
         DescribeScheduledActionsResponse DescribeScheduledActions(DescribeScheduledActionsRequest request);
@@ -1821,8 +1949,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         DescribeTagsResponse DescribeTags();
@@ -1850,8 +1978,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         DescribeTagsResponse DescribeTags(DescribeTagsRequest request);
@@ -1888,26 +2016,40 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Describes the termination policies supported by Auto Scaling.
+        /// Describes the termination policies supported by Amazon EC2 Auto Scaling.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html">Controlling
+        /// Which Auto Scaling Instances Terminate During Scale In</a> in the <i>Amazon EC2 Auto
+        /// Scaling User Guide</i>.
+        /// </para>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeTerminationPolicyTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTerminationPolicyTypes">REST API Reference for DescribeTerminationPolicyTypes Operation</seealso>
         DescribeTerminationPolicyTypesResponse DescribeTerminationPolicyTypes();
 
         /// <summary>
-        /// Describes the termination policies supported by Auto Scaling.
+        /// Describes the termination policies supported by Amazon EC2 Auto Scaling.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html">Controlling
+        /// Which Auto Scaling Instances Terminate During Scale In</a> in the <i>Amazon EC2 Auto
+        /// Scaling User Guide</i>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeTerminationPolicyTypes service method.</param>
         /// 
         /// <returns>The response from the DescribeTerminationPolicyTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTerminationPolicyTypes">REST API Reference for DescribeTerminationPolicyTypes Operation</seealso>
         DescribeTerminationPolicyTypesResponse DescribeTerminationPolicyTypes(DescribeTerminationPolicyTypesRequest request);
@@ -1953,8 +2095,8 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// If you do not specify the option to decrement the desired capacity, Auto Scaling launches
-        /// instances to replace the ones that are detached.
+        /// If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto
+        /// Scaling launches instances to replace the ones that are detached.
         /// </para>
         ///  
         /// <para>
@@ -1964,16 +2106,17 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/detach-instance-asg.html">Detach
-        /// EC2 Instances from Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html">Detach
+        /// EC2 Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachInstances service method.</param>
         /// 
         /// <returns>The response from the DetachInstances service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachInstances">REST API Reference for DetachInstances Operation</seealso>
         DetachInstancesResponse DetachInstances(DetachInstancesRequest request);
@@ -2014,23 +2157,23 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// Note that this operation detaches only Classic Load Balancers. If you have Application
-        /// Load Balancers, use <a>DetachLoadBalancerTargetGroups</a> instead.
+        /// This operation detaches only Classic Load Balancers. If you have Application Load
+        /// Balancers or Network Load Balancers, use <a>DetachLoadBalancerTargetGroups</a> instead.
         /// </para>
         ///  
         /// <para>
         /// When you detach a load balancer, it enters the <code>Removing</code> state while deregistering
         /// the instances in the group. When all instances are deregistered, then you can no longer
-        /// describe the load balancer using <a>DescribeLoadBalancers</a>. Note that the instances
-        /// remain running.
+        /// describe the load balancer using <a>DescribeLoadBalancers</a>. The instances remain
+        /// running.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachLoadBalancers service method.</param>
         /// 
         /// <returns>The response from the DetachLoadBalancers service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancers">REST API Reference for DetachLoadBalancers Operation</seealso>
         DetachLoadBalancersResponse DetachLoadBalancers(DetachLoadBalancersRequest request);
@@ -2073,8 +2216,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DetachLoadBalancerTargetGroups service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancerTargetGroups">REST API Reference for DetachLoadBalancerTargetGroups Operation</seealso>
         DetachLoadBalancerTargetGroupsResponse DetachLoadBalancerTargetGroups(DetachLoadBalancerTargetGroupsRequest request);
@@ -2117,8 +2260,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DisableMetricsCollection service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DisableMetricsCollection">REST API Reference for DisableMetricsCollection Operation</seealso>
         DisableMetricsCollectionResponse DisableMetricsCollection(DisableMetricsCollectionRequest request);
@@ -2156,15 +2299,16 @@ namespace Amazon.AutoScaling
 
         /// <summary>
         /// Enables group metrics for the specified Auto Scaling group. For more information,
-        /// see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-monitoring.html">Monitoring
-        /// Your Auto Scaling Groups and Instances</a> in the <i>Auto Scaling User Guide</i>.
+        /// see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html">Monitoring
+        /// Your Auto Scaling Groups and Instances</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the EnableMetricsCollection service method.</param>
         /// 
         /// <returns>The response from the EnableMetricsCollection service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnableMetricsCollection">REST API Reference for EnableMetricsCollection Operation</seealso>
         EnableMetricsCollectionResponse EnableMetricsCollection(EnableMetricsCollectionRequest request);
@@ -2205,16 +2349,29 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-enter-exit-standby.html">Temporarily
-        /// Removing Instances from Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+        /// If you choose to decrement the desired capacity of the Auto Scaling group, the instances
+        /// can enter standby as long as the desired capacity of the Auto Scaling group after
+        /// the instances are placed into standby is equal to or greater than the minimum capacity
+        /// of the group.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you choose not to decrement the desired capacity of the Auto Scaling group, the
+        /// Auto Scaling group launches new instances to replace the instances on standby.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enter-exit-standby.html">Temporarily
+        /// Removing Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling
+        /// User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the EnterStandby service method.</param>
         /// 
         /// <returns>The response from the EnterStandby service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnterStandby">REST API Reference for EnterStandby Operation</seealso>
         EnterStandbyResponse EnterStandby(EnterStandbyRequest request);
@@ -2257,8 +2414,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the ExecutePolicy service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
         /// The operation can't be performed because there are scaling activities in progress.
@@ -2302,16 +2459,21 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-enter-exit-standby.html">Temporarily
-        /// Removing Instances from Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+        /// After you put the instances back in service, the desired capacity is incremented.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enter-exit-standby.html">Temporarily
+        /// Removing Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling
+        /// User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ExitStandby service method.</param>
         /// 
         /// <returns>The response from the ExitStandby service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ExitStandby">REST API Reference for ExitStandby Operation</seealso>
         ExitStandbyResponse ExitStandby(ExitStandbyRequest request);
@@ -2348,13 +2510,13 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Creates or updates a lifecycle hook for the specified Auto Scaling Group.
+        /// Creates or updates a lifecycle hook for the specified Auto Scaling group.
         /// 
         ///  
         /// <para>
-        /// A lifecycle hook tells Auto Scaling that you want to perform an action on an instance
-        /// that is not actively in service; for example, either when the instance launches or
-        /// before the instance terminates.
+        /// A lifecycle hook tells Amazon EC2 Auto Scaling to perform an action on an instance
+        /// when the instance launches (before it is put into service) or as the instance terminates
+        /// (before it is fully terminated).
         /// </para>
         ///  
         /// <para>
@@ -2364,13 +2526,13 @@ namespace Amazon.AutoScaling
         ///  <ol> <li> 
         /// <para>
         /// (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke
-        /// your Lambda function when Auto Scaling launches or terminates instances.
+        /// your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// (Optional) Create a notification target and an IAM role. The target can be either
-        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Auto Scaling to publish
-        /// lifecycle notifications to the target.
+        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
+        /// to publish lifecycle notifications to the target.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2380,34 +2542,40 @@ namespace Amazon.AutoScaling
         ///  </li> <li> 
         /// <para>
         /// If you need more time, record the lifecycle action heartbeat to keep the instance
-        /// in a pending state.
+        /// in a pending state using <a>RecordLifecycleActionHeartbeat</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If you finish before the timeout period ends, complete the lifecycle action.
+        /// If you finish before the timeout period ends, complete the lifecycle action using
+        /// <a>CompleteLifecycleAction</a>.
         /// </para>
         ///  </li> </ol> 
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/lifecycle-hooks.html">Auto
-        /// Scaling Lifecycle Hooks</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
+        /// EC2 Auto Scaling Lifecycle Hooks</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto
-        /// Scaling group, the call fails. For information about updating this limit, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS
-        /// Service Limits</a> in the <i>Amazon Web Services General Reference</i>.
+        /// Scaling group, the call fails.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can view the lifecycle hooks for an Auto Scaling group using <a>DescribeLifecycleHooks</a>.
+        /// If you are no longer using a lifecycle hook, you can delete it using <a>DeleteLifecycleHook</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutLifecycleHook service method.</param>
         /// 
         /// <returns>The response from the PutLifecycleHook service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutLifecycleHook">REST API Reference for PutLifecycleHook Operation</seealso>
         PutLifecycleHookResponse PutLifecycleHook(PutLifecycleHookRequest request);
@@ -2454,21 +2622,22 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// For more information see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/ASGettingNotifications.html">Getting
-        /// SNS Notifications When Your Auto Scaling Group Scales</a> in the <i>Auto Scaling User
-        /// Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ASGettingNotifications.html">Getting
+        /// Amazon SNS Notifications When Your Auto Scaling Group Scales</a> in the <i>Amazon
+        /// EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutNotificationConfiguration service method.</param>
         /// 
         /// <returns>The response from the PutNotificationConfiguration service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -2508,28 +2677,26 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Creates or updates a policy for an Auto Scaling group. To update an existing policy,
-        /// use the existing policy name and set the parameters you want to change. Any existing
-        /// parameter not changed in an update to an existing policy is not changed in this update
-        /// request.
+        /// Creates or updates a scaling policy for an Auto Scaling group.
         /// 
         ///  
         /// <para>
-        /// If you exceed your maximum limit of step adjustments, which by default is 20 per region,
-        /// the call fails. For information about updating this limit, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">AWS
-        /// Service Limits</a> in the <i>Amazon Web Services General Reference</i>.
+        /// For more information about using scaling policies to scale your Auto Scaling group
+        /// automatically, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scale-based-on-demand.html">Dynamic
+        /// Scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutScalingPolicy service method.</param>
         /// 
         /// <returns>The response from the PutScalingPolicy service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -2569,14 +2736,14 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Creates or updates a scheduled scaling action for an Auto Scaling group. When updating
-        /// a scheduled scaling action, if you leave a parameter unspecified, the corresponding
+        /// Creates or updates a scheduled scaling action for an Auto Scaling group. If you leave
+        /// a parameter unspecified when updating a scheduled scaling action, the corresponding
         /// value remains unchanged.
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/schedule_time.html">Scheduled
-        /// Scaling</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html">Scheduled
+        /// Scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutScheduledUpdateGroupAction service method.</param>
@@ -2586,12 +2753,13 @@ namespace Amazon.AutoScaling
         /// You already have an Auto Scaling group or launch configuration with this name.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutScheduledUpdateGroupAction">REST API Reference for PutScheduledUpdateGroupAction Operation</seealso>
         PutScheduledUpdateGroupActionResponse PutScheduledUpdateGroupAction(PutScheduledUpdateGroupActionRequest request);
@@ -2639,13 +2807,13 @@ namespace Amazon.AutoScaling
         ///  <ol> <li> 
         /// <para>
         /// (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke
-        /// your Lambda function when Auto Scaling launches or terminates instances.
+        /// your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// (Optional) Create a notification target and an IAM role. The target can be either
-        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Auto Scaling to publish
-        /// lifecycle notifications to the target.
+        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
+        /// to publish lifecycle notifications to the target.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2663,16 +2831,16 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  </li> </ol> 
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroupLifecycle.html">Auto
-        /// Scaling Lifecycle</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Auto
+        /// Scaling Lifecycle</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RecordLifecycleActionHeartbeat service method.</param>
         /// 
         /// <returns>The response from the RecordLifecycleActionHeartbeat service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/RecordLifecycleActionHeartbeat">REST API Reference for RecordLifecycleActionHeartbeat Operation</seealso>
         RecordLifecycleActionHeartbeatResponse RecordLifecycleActionHeartbeat(RecordLifecycleActionHeartbeatRequest request);
@@ -2709,21 +2877,21 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Resumes the specified suspended Auto Scaling processes, or all suspended process,
+        /// Resumes the specified suspended automatic scaling processes, or all suspended process,
         /// for the specified Auto Scaling group.
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-suspend-resume-processes.html">Suspending
-        /// and Resuming Auto Scaling Processes</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html">Suspending
+        /// and Resuming Scaling Processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ResumeProcesses service method.</param>
         /// 
         /// <returns>The response from the ResumeProcesses service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
         /// The operation can't be performed because the resource is in use.
@@ -2767,16 +2935,16 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// For more information about desired capacity, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/WhatIsAutoScaling.html">What
-        /// Is Auto Scaling?</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information about desired capacity, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html">What
+        /// Is Amazon EC2 Auto Scaling?</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetDesiredCapacity service method.</param>
         /// 
         /// <returns>The response from the SetDesiredCapacity service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
         /// The operation can't be performed because there are scaling activities in progress.
@@ -2820,16 +2988,16 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/healthcheck.html">Health
-        /// Checks</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html">Health
+        /// Checks for Auto Scaling Instances</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetInstanceHealth service method.</param>
         /// 
         /// <returns>The response from the SetInstanceHealth service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceHealth">REST API Reference for SetInstanceHealth Operation</seealso>
         SetInstanceHealthResponse SetInstanceHealth(SetInstanceHealthRequest request);
@@ -2870,20 +3038,22 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-termination.html#instance-protection">Instance
-        /// Protection</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information about preventing instances that are part of an Auto Scaling group
+        /// from terminating on scale in, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection">Instance
+        /// Protection</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetInstanceProtection service method.</param>
         /// 
         /// <returns>The response from the SetInstanceProtection service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
-        /// You have already reached a limit for your Auto Scaling resources (for example, groups,
-        /// launch configurations, or lifecycle hooks). For more information, see <a>DescribeAccountLimits</a>.
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceProtection">REST API Reference for SetInstanceProtection Operation</seealso>
         SetInstanceProtectionResponse SetInstanceProtection(SetInstanceProtectionRequest request);
@@ -2920,13 +3090,13 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Suspends the specified Auto Scaling processes, or all processes, for the specified
+        /// Suspends the specified automatic scaling processes, or all processes, for the specified
         /// Auto Scaling group.
         /// 
         ///  
         /// <para>
-        /// Note that if you suspend either the <code>Launch</code> or <code>Terminate</code>
-        /// process types, it can prevent other process types from functioning properly.
+        /// If you suspend either the <code>Launch</code> or <code>Terminate</code> process types,
+        /// it can prevent other process types from functioning properly.
         /// </para>
         ///  
         /// <para>
@@ -2934,16 +3104,16 @@ namespace Amazon.AutoScaling
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-suspend-resume-processes.html">Suspending
-        /// and Resuming Auto Scaling Processes</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html">Suspending
+        /// and Resuming Scaling Processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SuspendProcesses service method.</param>
         /// 
         /// <returns>The response from the SuspendProcesses service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
         /// The operation can't be performed because the resource is in use.
@@ -2983,19 +3153,32 @@ namespace Amazon.AutoScaling
 
 
         /// <summary>
-        /// Terminates the specified instance and optionally adjusts the desired group size.
+        /// Terminates the specified instance and optionally adjusts the desired group size. This
+        /// call simply makes a termination request. The instance is not terminated immediately.
+        /// When an instance is terminated, the instance status changes to <code>terminated</code>.
+        /// You can't connect to or start an instance after you've terminated it.
         /// 
         ///  
         /// <para>
-        /// This call simply makes a termination request. The instance is not terminated immediately.
+        /// If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto
+        /// Scaling launches instances to replace the ones that are terminated. 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones.
+        /// If you decrement the desired capacity, your Auto Scaling group can become unbalanced
+        /// between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group,
+        /// and rebalancing might terminate instances in other zones. For more information, see
+        /// <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage">Rebalancing
+        /// Activities</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TerminateInstanceInAutoScalingGroup service method.</param>
         /// 
         /// <returns>The response from the TerminateInstanceInAutoScalingGroup service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
         /// The operation can't be performed because there are scaling activities in progress.
@@ -3039,46 +3222,63 @@ namespace Amazon.AutoScaling
         /// 
         ///  
         /// <para>
-        /// The new settings take effect on any scaling activities after this call returns. Scaling
-        /// activities that are currently in progress aren't affected.
+        /// To update an Auto Scaling group, specify the name of the group and the parameter that
+        /// you want to change. Any parameters that you don't specify are not changed by this
+        /// update request. The new settings take effect on any scaling activities after this
+        /// call returns. 
         /// </para>
         ///  
         /// <para>
-        /// To update an Auto Scaling group with a launch configuration with <code>InstanceMonitoring</code>
-        /// set to <code>false</code>, you must first disable the collection of group metrics.
-        /// Otherwise, you will get an error. If you have previously enabled the collection of
-        /// group metrics, you can disable it using <a>DisableMetricsCollection</a>.
+        /// If you associate a new launch configuration or template with an Auto Scaling group,
+        /// all new instances will get the updated configuration. Existing instances continue
+        /// to run with the configuration that they were originally launched with. When you update
+        /// a group to specify a mixed instances policy instead of a launch configuration or template,
+        /// existing instances may be replaced to match the new purchasing options that you specified
+        /// in the policy. For example, if the group currently has 100% On-Demand capacity and
+        /// the policy specifies 50% Spot capacity, this means that half of your instances will
+        /// be gradually terminated and relaunched as Spot Instances. When replacing instances,
+        /// Amazon EC2 Auto Scaling launches new instances before terminating the old ones, so
+        /// that updating your group does not compromise the performance or availability of your
+        /// application.
         /// </para>
         ///  
         /// <para>
-        /// Note the following:
+        /// Note the following about changing <code>DesiredCapacity</code>, <code>MaxSize</code>,
+        /// or <code>MinSize</code>:
         /// </para>
         ///  <ul> <li> 
         /// <para>
+        /// If a scale-in event occurs as a result of a new <code>DesiredCapacity</code> value
+        /// that is lower than the current size of the group, the Auto Scaling group uses its
+        /// termination policy to determine which instances to terminate.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         /// If you specify a new value for <code>MinSize</code> without specifying a value for
         /// <code>DesiredCapacity</code>, and the new <code>MinSize</code> is larger than the
-        /// current size of the group, we implicitly call <a>SetDesiredCapacity</a> to set the
-        /// size of the group to the new value of <code>MinSize</code>.
+        /// current size of the group, this sets the group's <code>DesiredCapacity</code> to the
+        /// new <code>MinSize</code> value.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If you specify a new value for <code>MaxSize</code> without specifying a value for
         /// <code>DesiredCapacity</code>, and the new <code>MaxSize</code> is smaller than the
-        /// current size of the group, we implicitly call <a>SetDesiredCapacity</a> to set the
-        /// size of the group to the new value of <code>MaxSize</code>.
+        /// current size of the group, this sets the group's <code>DesiredCapacity</code> to the
+        /// new <code>MaxSize</code> value.
         /// </para>
-        ///  </li> <li> 
+        ///  </li> </ul> 
         /// <para>
-        /// All other optional parameters are left unchanged if not specified.
+        /// To see which parameters have been set, use <a>DescribeAutoScalingGroups</a>. You can
+        /// also view the scaling policies for an Auto Scaling group using <a>DescribePolicies</a>.
+        /// If the group has scaling policies, you can update them using <a>PutScalingPolicy</a>.
         /// </para>
-        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateAutoScalingGroup service method.</param>
         /// 
         /// <returns>The response from the UpdateAutoScalingGroup service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
         /// The operation can't be performed because there are scaling activities in progress.

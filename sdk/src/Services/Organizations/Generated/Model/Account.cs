@@ -47,7 +47,7 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs in Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
+        /// For more information about ARNs in Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
         /// Formats Supported by Organizations</a> in the <i>AWS Organizations User Guide</i>.
         /// </para>
         /// </summary>
@@ -71,9 +71,10 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for this parameter
-        /// is a string of characters that represents a standard Internet email address.
+        /// is a string of characters that represents a standard internet email address.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=64)]
         public string Email
         {
             get { return this._email; }
@@ -156,6 +157,7 @@ namespace Amazon.Organizations.Model
         /// this parameter is a string of any of the characters in the ASCII character range.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string Name
         {
             get { return this._name; }

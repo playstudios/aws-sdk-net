@@ -29,18 +29,19 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeEgressOnlyInternetGateways operation.
-    /// Describes one or more of your egress-only Internet gateways.
+    /// Describes one or more of your egress-only internet gateways.
     /// </summary>
     public partial class DescribeEgressOnlyInternetGatewaysRequest : AmazonEC2Request
     {
         private List<string> _egressOnlyInternetGatewayIds = new List<string>();
+        private List<Filter> _filters = new List<Filter>();
         private int? _maxResults;
         private string _nextToken;
 
         /// <summary>
         /// Gets and sets the property EgressOnlyInternetGatewayIds. 
         /// <para>
-        /// One or more egress-only Internet gateway IDs.
+        /// One or more egress-only internet gateway IDs.
         /// </para>
         /// </summary>
         public List<string> EgressOnlyInternetGatewayIds
@@ -56,14 +57,45 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Filters. 
+        /// <para>
+        /// One or more filters.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public List<Filter> Filters
+        {
+            get { return this._filters; }
+            set { this._filters = value; }
+        }
+
+        // Check to see if Filters property is set
+        internal bool IsSetFilters()
+        {
+            return this._filters != null && this._filters.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The maximum number of results to return for the request in a single page. The remaining
-        /// results can be seen by sending another request with the returned <code>NextToken</code>
-        /// value. This value can be between 5 and 1000; if <code>MaxResults</code> is given a
-        /// value larger than 1000, only 1000 results are returned.
+        /// The maximum number of results to return with a single call. To retrieve the remaining
+        /// results, make another call with the returned <code>nextToken</code> value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=255)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -79,7 +111,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token to retrieve the next page of results.
+        /// The token for the next page of results.
         /// </para>
         /// </summary>
         public string NextToken

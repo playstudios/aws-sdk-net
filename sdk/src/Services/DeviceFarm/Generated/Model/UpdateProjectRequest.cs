@@ -40,9 +40,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the project whose name you wish to update.
+        /// The Amazon Resource Name (ARN) of the project whose name to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -58,7 +59,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property DefaultJobTimeoutMinutes. 
         /// <para>
-        /// The number of minutes a test run in the project will execute before it times out.
+        /// The number of minutes a test run in the project executes before it times out.
         /// </para>
         /// </summary>
         public int DefaultJobTimeoutMinutes
@@ -76,9 +77,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// A string representing the new name of the project that you are updating.
+        /// A string that represents the new name of the project that you are updating.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }

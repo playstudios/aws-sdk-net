@@ -32,11 +32,11 @@ namespace Amazon.ACMPCA.Model
     /// can issue and revoke X.509 digital certificates. Digital certificates verify that
     /// the entity named in the certificate <b>Subject</b> field owns or controls the public
     /// key contained in the <b>Subject Public Key Info</b> field. Call the <a>CreateCertificateAuthority</a>
-    /// function to create your private CA. You must then call the <a>GetCertificateAuthorityCertificate</a>
-    /// function to retrieve a private CA certificate signing request (CSR). Take the CSR
-    /// to your on-premises CA and sign it with the root CA certificate or a subordinate certificate.
-    /// Call the <a>ImportCertificateAuthorityCertificate</a> function to import the signed
-    /// certificate into AWS Certificate Manager (ACM).
+    /// action to create your private CA. You must then call the <a>GetCertificateAuthorityCertificate</a>
+    /// action to retrieve a private CA certificate signing request (CSR). Sign the CSR with
+    /// your ACM Private CA-hosted or on-premises root or subordinate CA certificate. Call
+    /// the <a>ImportCertificateAuthorityCertificate</a> action to import the signed certificate
+    /// into AWS Certificate Manager (ACM).
     /// </summary>
     public partial class CertificateAuthority
     {
@@ -47,6 +47,7 @@ namespace Amazon.ACMPCA.Model
         private DateTime? _lastStateChangeAt;
         private DateTime? _notAfter;
         private DateTime? _notBefore;
+        private DateTime? _restorableUntil;
         private RevocationConfiguration _revocationConfiguration;
         private string _serial;
         private CertificateAuthorityStatus _status;
@@ -59,6 +60,7 @@ namespace Amazon.ACMPCA.Model
         /// is <code> <i>12345678-1234-1234-1234-123456789012</i> </code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=200)]
         public string Arn
         {
             get { return this._arn; }
@@ -177,6 +179,26 @@ namespace Amazon.ACMPCA.Model
         internal bool IsSetNotBefore()
         {
             return this._notBefore.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property RestorableUntil. 
+        /// <para>
+        /// The period during which a deleted CA can be restored. For more information, see the
+        /// <code>PermanentDeletionTimeInDays</code> parameter of the <a>DeleteCertificateAuthorityRequest</a>
+        /// action. 
+        /// </para>
+        /// </summary>
+        public DateTime RestorableUntil
+        {
+            get { return this._restorableUntil.GetValueOrDefault(); }
+            set { this._restorableUntil = value; }
+        }
+
+        // Check to see if RestorableUntil property is set
+        internal bool IsSetRestorableUntil()
+        {
+            return this._restorableUntil.HasValue; 
         }
 
         /// <summary>

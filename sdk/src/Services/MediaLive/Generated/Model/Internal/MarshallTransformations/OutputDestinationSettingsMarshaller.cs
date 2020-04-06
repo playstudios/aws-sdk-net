@@ -51,6 +51,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.PasswordParam);
             }
 
+            if(requestObject.IsSetStreamName())
+            {
+                context.Writer.WritePropertyName("streamName");
+                context.Writer.Write(requestObject.StreamName);
+            }
+
             if(requestObject.IsSetUrl())
             {
                 context.Writer.WritePropertyName("url");

@@ -55,17 +55,18 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateAliasRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lambda");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-03-31";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/2015-03-31/functions/{FunctionName}/aliases/{Name}";
             if (!publicRequest.IsSetFunctionName())
                 throw new AmazonLambdaException("Request object does not have required field FunctionName set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
+            request.AddPathResource("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
             if (!publicRequest.IsSetName())
                 throw new AmazonLambdaException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{Name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/2015-03-31/functions/{FunctionName}/aliases/{Name}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

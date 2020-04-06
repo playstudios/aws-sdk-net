@@ -43,41 +43,122 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  
         /// <para>
-        /// Allowed values include:
+        /// The supported operators for each attribute are provided in the following list.
         /// </para>
-        ///  <ul> <li> 
+        ///  <dl> <dt>APPIUM_VERSION</dt> <dd> 
         /// <para>
-        /// ARN: The ARN.
+        /// The Appium version for the test.
         /// </para>
-        ///  </li> <li> 
+        ///  
         /// <para>
-        /// FORM_FACTOR: The form factor (for example, phone or tablet).
+        /// Supported operators: <code>CONTAINS</code> 
         /// </para>
-        ///  </li> <li> 
+        ///  </dd> <dt>ARN</dt> <dd> 
         /// <para>
-        /// MANUFACTURER: The manufacturer.
+        /// The Amazon Resource Name (ARN) of the device (for example, <code>arn:aws:devicefarm:us-west-2::device:12345Example</code>.
         /// </para>
-        ///  </li> <li> 
+        ///  
         /// <para>
-        /// PLATFORM: The platform (for example, Android or iOS).
+        /// Supported operators: <code>EQUALS</code>, <code>IN</code>, <code>NOT_IN</code> 
         /// </para>
-        ///  </li> <li> 
+        ///  </dd> <dt>AVAILABILITY</dt> <dd> 
         /// <para>
-        /// REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
+        /// The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE,
+        /// BUSY, or TEMPORARY_NOT_AVAILABLE.
         /// </para>
-        ///  </li> <li> 
+        ///  
         /// <para>
-        /// APPIUM_VERSION: The Appium version for the test.
+        /// Supported operators: <code>EQUALS</code> 
         /// </para>
-        ///  </li> <li> 
+        ///  </dd> <dt>FLEET_TYPE</dt> <dd> 
         /// <para>
-        /// INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+        /// The fleet type. Valid values are PUBLIC or PRIVATE.
         /// </para>
-        ///  </li> <li> 
+        ///  
         /// <para>
-        /// INSTANCE_LABELS: The label of the device instance.
+        /// Supported operators: <code>EQUALS</code> 
         /// </para>
-        ///  </li> </ul>
+        ///  </dd> <dt>FORM_FACTOR</dt> <dd> 
+        /// <para>
+        /// The device form factor. Valid values are PHONE or TABLET.
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>EQUALS</code>, <code>IN</code>, <code>NOT_IN</code> 
+        /// </para>
+        ///  </dd> <dt>INSTANCE_ARN</dt> <dd> 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the device instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>IN</code>, <code>NOT_IN</code> 
+        /// </para>
+        ///  </dd> <dt>INSTANCE_LABELS</dt> <dd> 
+        /// <para>
+        /// The label of the device instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>CONTAINS</code> 
+        /// </para>
+        ///  </dd> <dt>MANUFACTURER</dt> <dd> 
+        /// <para>
+        /// The device manufacturer (for example, Apple).
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>EQUALS</code>, <code>IN</code>, <code>NOT_IN</code> 
+        /// </para>
+        ///  </dd> <dt>MODEL</dt> <dd> 
+        /// <para>
+        /// The device model, such as Apple iPad Air 2 or Google Pixel.
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>CONTAINS</code>, <code>EQUALS</code>, <code>IN</code>,
+        /// <code>NOT_IN</code> 
+        /// </para>
+        ///  </dd> <dt>OS_VERSION</dt> <dd> 
+        /// <para>
+        /// The operating system version (for example, 10.3.2).
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>EQUALS</code>, <code>GREATER_THAN</code>, <code>GREATER_THAN_OR_EQUALS</code>,
+        /// <code>IN</code>, <code>LESS_THAN</code>, <code>LESS_THAN_OR_EQUALS</code>, <code>NOT_IN</code>
+        /// 
+        /// </para>
+        ///  </dd> <dt>PLATFORM</dt> <dd> 
+        /// <para>
+        /// The device platform. Valid values are ANDROID or IOS.
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>EQUALS</code>, <code>IN</code>, <code>NOT_IN</code> 
+        /// </para>
+        ///  </dd> <dt>REMOTE_ACCESS_ENABLED</dt> <dd> 
+        /// <para>
+        /// Whether the device is enabled for remote access. Valid values are TRUE or FALSE.
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>EQUALS</code> 
+        /// </para>
+        ///  </dd> <dt>REMOTE_DEBUG_ENABLED</dt> <dd> 
+        /// <para>
+        /// Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE.
+        /// </para>
+        ///  
+        /// <para>
+        /// Supported operators: <code>EQUALS</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Because remote debugging is <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+        /// longer supported</a>, this filter is ignored.
+        /// </para>
+        ///  </dd> </dl>
         /// </summary>
         public DeviceAttribute Attribute
         {
@@ -94,33 +175,9 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Operator. 
         /// <para>
-        /// The rule's operator.
+        /// Specifies how Device Farm compares the rule's attribute to the value. For the operators
+        /// that are supported by each attribute, see the attribute descriptions.
         /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// EQUALS: The equals operator.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// GREATER_THAN: The greater-than operator.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// IN: The in operator.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// LESS_THAN: The less-than operator.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// NOT_IN: The not-in operator.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// CONTAINS: The contains operator.
-        /// </para>
-        ///  </li> </ul>
         /// </summary>
         public RuleOperator Operator
         {

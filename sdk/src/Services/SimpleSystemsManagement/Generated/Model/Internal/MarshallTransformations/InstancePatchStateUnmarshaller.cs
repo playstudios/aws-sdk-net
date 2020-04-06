@@ -88,10 +88,34 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     unmarshalledObject.InstalledOtherCount = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("InstalledPendingRebootCount", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.InstalledPendingRebootCount = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("InstalledRejectedCount", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.InstalledRejectedCount = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("InstallOverrideList", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.InstallOverrideList = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("InstanceId", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.InstanceId = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("LastNoRebootInstallOperationTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.LastNoRebootInstallOperationTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("MissingCount", targetDepth))
@@ -136,10 +160,22 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     unmarshalledObject.PatchGroup = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("RebootOption", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.RebootOption = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("SnapshotId", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.SnapshotId = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("UnreportedNotApplicableCount", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.UnreportedNotApplicableCount = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

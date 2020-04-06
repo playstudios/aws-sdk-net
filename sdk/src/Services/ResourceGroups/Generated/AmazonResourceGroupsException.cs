@@ -28,10 +28,10 @@ namespace Amazon.ResourceGroups
     ///<summary>
     /// Common exception for the ResourceGroups service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonResourceGroupsException : AmazonServiceException
+    public partial class AmazonResourceGroupsException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonResourceGroupsException
@@ -88,7 +88,7 @@ namespace Amazon.ResourceGroups
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonResourceGroupsException class with serialized data.
         /// </summary>

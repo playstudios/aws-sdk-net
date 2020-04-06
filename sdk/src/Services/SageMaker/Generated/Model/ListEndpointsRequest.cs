@@ -47,7 +47,8 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property CreationTimeAfter. 
         /// <para>
-        /// A filter that returns only endpoints that were created after the specified time (timestamp).
+        /// A filter that returns only endpoints with a creation time greater than or equal to
+        /// the specified time (timestamp).
         /// </para>
         /// </summary>
         public DateTime CreationTimeAfter
@@ -124,6 +125,7 @@ namespace Amazon.SageMaker.Model
         /// The maximum number of endpoints to return in the response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -143,6 +145,7 @@ namespace Amazon.SageMaker.Model
         /// the specified string.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NameContains
         {
             get { return this._nameContains; }
@@ -163,6 +166,7 @@ namespace Amazon.SageMaker.Model
         /// token in the next request.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8192)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -196,7 +200,7 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property SortOrder. 
         /// <para>
-        /// The sort order for results. The default is <code>Ascending</code>.
+        /// The sort order for results. The default is <code>Descending</code>.
         /// </para>
         /// </summary>
         public OrderKey SortOrder
@@ -214,7 +218,7 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property StatusEquals. 
         /// <para>
-        ///  A filter that returns only endpoints with the specified status. 
+        ///  A filter that returns only endpoints with the specified status.
         /// </para>
         /// </summary>
         public EndpointStatus StatusEquals

@@ -33,6 +33,7 @@ namespace Amazon.MediaConvert.Model
     public partial class CaptionDescription
     {
         private string _captionSelectorName;
+        private string _customLanguageCode;
         private CaptionDestinationSettings _destinationSettings;
         private LanguageCode _languageCode;
         private string _languageDescription;
@@ -43,6 +44,7 @@ namespace Amazon.MediaConvert.Model
         /// "Caption Selector <N>", which denotes that the Nth Caption Selector will be used from
         /// each input.
         /// </summary>
+        [AWSProperty(Min=1)]
         public string CaptionSelectorName
         {
             get { return this._captionSelectorName; }
@@ -56,7 +58,31 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DestinationSettings.
+        /// Gets and sets the property CustomLanguageCode. Specify the language for this captions
+        /// output track. For most captions output formats, the encoder puts this language information
+        /// in the output captions metadata. If your output captions format is DVB-Sub or Burn
+        /// in, the encoder uses this language information when automatically selecting the font
+        /// script for rendering the captions text. For all outputs, you can use an ISO 639-2
+        /// or ISO 639-3 code. For streaming outputs, you can also use any other code in the full
+        /// RFC-5646 specification. Streaming outputs are those that are in one of the following
+        /// output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
+        /// </summary>
+        public string CustomLanguageCode
+        {
+            get { return this._customLanguageCode; }
+            set { this._customLanguageCode = value; }
+        }
+
+        // Check to see if CustomLanguageCode property is set
+        internal bool IsSetCustomLanguageCode()
+        {
+            return this._customLanguageCode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DestinationSettings. Specific settings required by destination
+        /// type. Note that burnin_destination_settings are not available if the source of the
+        /// caption data is Embedded or Teletext.
         /// </summary>
         public CaptionDestinationSettings DestinationSettings
         {
@@ -71,8 +97,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LanguageCode. Indicates the language of the caption output
-        /// track.
+        /// Gets and sets the property LanguageCode. Specify the language of this captions output
+        /// track. For most captions output formats, the encoder puts this language information
+        /// in the output captions metadata. If your output captions format is DVB-Sub or Burn
+        /// in, the encoder uses this language information to choose the font language for rendering
+        /// the captions text.
         /// </summary>
         public LanguageCode LanguageCode
         {
@@ -87,9 +116,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LanguageDescription. Human readable information to indicate
-        /// captions available for players (eg. English, or Spanish). Alphanumeric characters,
-        /// spaces, and underscore are legal.
+        /// Gets and sets the property LanguageDescription. Specify a label for this set of output
+        /// captions. For example, "English", "Director commentary", or "track_2". For streaming
+        /// outputs, MediaConvert passes this information into destination manifests for display
+        /// on the end-viewer's player device. For outputs in other output groups, the service
+        /// ignores this setting.
         /// </summary>
         public string LanguageDescription
         {

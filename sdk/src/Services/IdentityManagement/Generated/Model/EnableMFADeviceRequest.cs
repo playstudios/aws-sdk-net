@@ -55,11 +55,12 @@ namespace Amazon.IdentityManagement.Model
         /// generate the codes and then wait too long to submit the request, the MFA device successfully
         /// associates with the user but the MFA device becomes out of sync. This happens because
         /// time-based one-time passwords (TOTP) expire after a short period of time. If this
-        /// happens, you can <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html">resync
+        /// happens, you can <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html">resync
         /// the device</a>.
         /// </para>
         ///  </important>
         /// </summary>
+        [AWSProperty(Required=true, Min=6, Max=6)]
         public string AuthenticationCode1
         {
             get { return this._authenticationCode1; }
@@ -87,11 +88,12 @@ namespace Amazon.IdentityManagement.Model
         /// generate the codes and then wait too long to submit the request, the MFA device successfully
         /// associates with the user but the MFA device becomes out of sync. This happens because
         /// time-based one-time passwords (TOTP) expire after a short period of time. If this
-        /// happens, you can <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html">resync
+        /// happens, you can <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa_sync.html">resync
         /// the device</a>.
         /// </para>
         ///  </important>
         /// </summary>
+        [AWSProperty(Required=true, Min=6, Max=6)]
         public string AuthenticationCode2
         {
             get { return this._authenticationCode2; }
@@ -112,11 +114,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: =,.@:/-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: =,.@:/-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=9, Max=256)]
         public string SerialNumber
         {
             get { return this._serialNumber; }
@@ -136,11 +139,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string UserName
         {
             get { return this._userName; }

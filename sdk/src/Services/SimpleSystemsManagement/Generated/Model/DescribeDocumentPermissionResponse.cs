@@ -33,6 +33,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     public partial class DescribeDocumentPermissionResponse : AmazonWebServiceResponse
     {
         private List<string> _accountIds = new List<string>();
+        private List<AccountSharingInfo> _accountSharingInfoList = new List<AccountSharingInfo>();
 
         /// <summary>
         /// Gets and sets the property AccountIds. 
@@ -41,6 +42,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// AWS account or <i>All</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=20)]
         public List<string> AccountIds
         {
             get { return this._accountIds; }
@@ -51,6 +53,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetAccountIds()
         {
             return this._accountIds != null && this._accountIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AccountSharingInfoList. 
+        /// <para>
+        /// A list of of AWS accounts where the current document is shared and the version shared
+        /// with each account.
+        /// </para>
+        /// </summary>
+        public List<AccountSharingInfo> AccountSharingInfoList
+        {
+            get { return this._accountSharingInfoList; }
+            set { this._accountSharingInfoList = value; }
+        }
+
+        // Check to see if AccountSharingInfoList property is set
+        internal bool IsSetAccountSharingInfoList()
+        {
+            return this._accountSharingInfoList != null && this._accountSharingInfoList.Count > 0; 
         }
 
     }

@@ -34,10 +34,12 @@ namespace Amazon.StepFunctions.Model
     {
         private DateTime? _creationDate;
         private string _definition;
+        private LoggingConfiguration _loggingConfiguration;
         private string _name;
         private string _roleArn;
         private string _stateMachineArn;
         private StateMachineStatus _status;
+        private StateMachineType _type;
 
         /// <summary>
         /// Gets and sets the property CreationDate. 
@@ -45,6 +47,7 @@ namespace Amazon.StepFunctions.Model
         /// The date the state machine is created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreationDate
         {
             get { return this._creationDate.GetValueOrDefault(); }
@@ -60,9 +63,11 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property Definition. 
         /// <para>
-        /// The Amazon States Language definition of the state machine.
+        /// The Amazon States Language definition of the state machine. See <a href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+        /// States Language</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1048576)]
         public string Definition
         {
             get { return this._definition; }
@@ -76,6 +81,21 @@ namespace Amazon.StepFunctions.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LoggingConfiguration.
+        /// </summary>
+        public LoggingConfiguration LoggingConfiguration
+        {
+            get { return this._loggingConfiguration; }
+            set { this._loggingConfiguration = value; }
+        }
+
+        // Check to see if LoggingConfiguration property is set
+        internal bool IsSetLoggingConfiguration()
+        {
+            return this._loggingConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the state machine.
@@ -86,7 +106,7 @@ namespace Amazon.StepFunctions.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// whitespace
+        /// white space
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -104,8 +124,13 @@ namespace Amazon.StepFunctions.Model
         /// <para>
         /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z,
+        /// - and _.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=80)]
         public string Name
         {
             get { return this._name; }
@@ -125,6 +150,7 @@ namespace Amazon.StepFunctions.Model
         /// (The IAM role maintains security by granting Step Functions access to AWS resources.)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -143,6 +169,7 @@ namespace Amazon.StepFunctions.Model
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string StateMachineArn
         {
             get { return this._stateMachineArn; }
@@ -171,6 +198,25 @@ namespace Amazon.StepFunctions.Model
         internal bool IsSetStatus()
         {
             return this._status != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Type. 
+        /// <para>
+        /// The <code>type</code> of the state machine (<code>STANDARD</code> or <code>EXPRESS</code>).
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
+        public StateMachineType Type
+        {
+            get { return this._type; }
+            set { this._type = value; }
+        }
+
+        // Check to see if Type property is set
+        internal bool IsSetType()
+        {
+            return this._type != null;
         }
 
     }

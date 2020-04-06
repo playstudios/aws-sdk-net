@@ -42,6 +42,7 @@ namespace Amazon.CostExplorer.Model
         /// The amount of time that your reservations covered.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<CoverageByTime> CoveragesByTime
         {
             get { return this._coveragesByTime; }
@@ -76,7 +77,7 @@ namespace Amazon.CostExplorer.Model
         /// <summary>
         /// Gets and sets the property Total. 
         /// <para>
-        /// The total amount of instance usage that is covered by a reservation.
+        /// The total amount of instance usage that a reservation covered.
         /// </para>
         /// </summary>
         public Coverage Total

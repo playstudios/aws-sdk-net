@@ -42,6 +42,7 @@ namespace Amazon.IdentityManagement.Model
         /// The group the policy is associated with.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string GroupName
         {
             get { return this._groupName; }
@@ -59,7 +60,14 @@ namespace Amazon.IdentityManagement.Model
         /// <para>
         /// The policy document.
         /// </para>
+        ///  
+        /// <para>
+        /// IAM stores policies in JSON format. However, resources that were created using AWS
+        /// CloudFormation templates can be formatted in YAML. AWS CloudFormation always converts
+        /// a YAML policy to JSON format before submitting it to IAM.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=131072)]
         public string PolicyDocument
         {
             get { return this._policyDocument; }
@@ -78,6 +86,7 @@ namespace Amazon.IdentityManagement.Model
         /// The name of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }

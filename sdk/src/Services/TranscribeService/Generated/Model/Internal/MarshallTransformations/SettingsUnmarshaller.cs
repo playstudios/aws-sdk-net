@@ -64,16 +64,46 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("ChannelIdentification", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.ChannelIdentification = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("MaxAlternatives", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.MaxAlternatives = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("MaxSpeakerLabels", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     unmarshalledObject.MaxSpeakerLabels = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ShowAlternatives", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.ShowAlternatives = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("ShowSpeakerLabels", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
                     unmarshalledObject.ShowSpeakerLabels = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("VocabularyFilterMethod", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.VocabularyFilterMethod = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("VocabularyFilterName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.VocabularyFilterName = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("VocabularyName", targetDepth))

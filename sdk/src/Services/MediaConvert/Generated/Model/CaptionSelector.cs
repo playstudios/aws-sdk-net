@@ -28,12 +28,35 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Caption inputs to be mapped to caption outputs.
+    /// Set up captions in your outputs by first selecting them from your input here.
     /// </summary>
     public partial class CaptionSelector
     {
+        private string _customLanguageCode;
         private LanguageCode _languageCode;
         private CaptionSourceSettings _sourceSettings;
+
+        /// <summary>
+        /// Gets and sets the property CustomLanguageCode. The specific language to extract from
+        /// source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27,
+        /// complete this field and/or PID to select the caption language to extract. If input
+        /// is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select
+        /// the caption language to extract. If input is DVB-Sub that is being passed through,
+        /// omit this field (and PID field); there is no way to extract a specific language with
+        /// pass-through captions.
+        /// </summary>
+        [AWSProperty(Min=3, Max=3)]
+        public string CustomLanguageCode
+        {
+            get { return this._customLanguageCode; }
+            set { this._customLanguageCode = value; }
+        }
+
+        // Check to see if CustomLanguageCode property is set
+        internal bool IsSetCustomLanguageCode()
+        {
+            return this._customLanguageCode != null;
+        }
 
         /// <summary>
         /// Gets and sets the property LanguageCode. The specific language to extract from source.
@@ -56,7 +79,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SourceSettings.
+        /// Gets and sets the property SourceSettings. If your input captions are SCC, TTML, STL,
+        /// SMI, SRT, or IMSC in an xml file, specify the URI of the input captions source file.
+        /// If your input captions are IMSC in an IMF package, use TrackSourceSettings instead
+        /// of FileSoureSettings.
         /// </summary>
         public CaptionSourceSettings SourceSettings
         {

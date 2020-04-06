@@ -33,35 +33,18 @@ namespace Amazon.ServerlessApplicationRepository.Model
     public partial class ApplicationPolicyStatement
     {
         private List<string> _actions = new List<string>();
+        private List<string> _principalOrgIDs = new List<string>();
         private List<string> _principals = new List<string>();
         private string _statementId;
 
         /// <summary>
         /// Gets and sets the property Actions. 
         /// <para>
-        /// A list of supported actions:
-        /// </para>
-        /// 
-        /// <para>
-        ///  GetApplication 
-        /// </para>
-        /// 
-        /// <para>
-        ///  CreateCloudFormationChangeSet 
-        /// </para>
-        /// 
-        /// <para>
-        ///  ListApplicationVersions 
-        /// </para>
-        /// 
-        /// <para>
-        ///  SearchApplications 
-        /// </para>
-        /// 
-        /// <para>
-        ///  Deploy (Note: This action enables all other actions above.)
+        /// For the list of actions supported for this operation, see <a href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
+        ///  Permissions</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Actions
         {
             get { return this._actions; }
@@ -75,11 +58,31 @@ namespace Amazon.ServerlessApplicationRepository.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Principals. 
+        /// Gets and sets the property PrincipalOrgIDs. 
         /// <para>
-        /// An AWS account ID, or * to make the application public.
+        /// An array of PrinciplalOrgIDs, which corresponds to AWS IAM <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#principal-org-id">aws:PrincipalOrgID</a>
+        /// global condition key.
         /// </para>
         /// </summary>
+        public List<string> PrincipalOrgIDs
+        {
+            get { return this._principalOrgIDs; }
+            set { this._principalOrgIDs = value; }
+        }
+
+        // Check to see if PrincipalOrgIDs property is set
+        internal bool IsSetPrincipalOrgIDs()
+        {
+            return this._principalOrgIDs != null && this._principalOrgIDs.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Principals. 
+        /// <para>
+        /// An array of AWS account IDs, or * to make the application public.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Principals
         {
             get { return this._principals; }

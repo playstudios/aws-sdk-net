@@ -41,11 +41,12 @@ namespace Amazon.ServiceDiscovery.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The maximum number of instances that you want Amazon Route 53 to return in the response
+        /// The maximum number of instances that you want AWS Cloud Map to return in the response
         /// to a <code>ListInstances</code> request. If you don't specify a value for <code>MaxResults</code>,
-        /// Route 53 returns up to 100 instances.
+        /// AWS Cloud Map returns up to 100 instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -71,6 +72,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// request.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=4096)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -89,6 +91,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// The ID of the service that you want to list instances for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=64)]
         public string ServiceId
         {
             get { return this._serviceId; }

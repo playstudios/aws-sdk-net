@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudFront.Model
 {
     /// <summary>
-    /// A complex type that contains information about origins for this distribution.
+    /// A complex type that contains information about origins and origin groups for this
+    /// distribution.
     /// </summary>
     public partial class Origins
     {
@@ -38,9 +39,10 @@ namespace Amazon.CloudFront.Model
         /// <summary>
         /// Gets and sets the property Items. 
         /// <para>
-        /// A complex type that contains origins for this distribution.
+        /// A complex type that contains origins or origin groups for this distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<Origin> Items
         {
             get { return this._items; }
@@ -56,9 +58,10 @@ namespace Amazon.CloudFront.Model
         /// <summary>
         /// Gets and sets the property Quantity. 
         /// <para>
-        /// The number of origins for this distribution.
+        /// The number of origins or origin groups for this distribution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Quantity
         {
             get { return this._quantity.GetValueOrDefault(); }

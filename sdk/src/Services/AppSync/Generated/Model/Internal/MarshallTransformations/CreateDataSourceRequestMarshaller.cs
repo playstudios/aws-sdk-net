@@ -55,14 +55,15 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateDataSourceRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.AppSync");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/apis/{apiId}/datasources";
             if (!publicRequest.IsSetApiId())
                 throw new AmazonAppSyncException("Request object does not have required field ApiId set");
-            uriResourcePath = uriResourcePath.Replace("{apiId}", StringUtils.FromString(publicRequest.ApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{apiId}", StringUtils.FromString(publicRequest.ApiId));
+            request.ResourcePath = "/v1/apis/{apiId}/datasources";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -96,6 +97,17 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetHttpConfig())
+                {
+                    context.Writer.WritePropertyName("httpConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = HttpDataSourceConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.HttpConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetLambdaConfig())
                 {
                     context.Writer.WritePropertyName("lambdaConfig");
@@ -111,6 +123,17 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetRelationalDatabaseConfig())
+                {
+                    context.Writer.WritePropertyName("relationalDatabaseConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = RelationalDatabaseDataSourceConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.RelationalDatabaseConfig, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetServiceRoleArn())

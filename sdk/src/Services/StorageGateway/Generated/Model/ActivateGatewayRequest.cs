@@ -30,8 +30,8 @@ namespace Amazon.StorageGateway.Model
     /// <summary>
     /// Container for the parameters to the ActivateGateway operation.
     /// Activates the gateway you previously deployed on your host. In the activation process,
-    /// you specify information such as the region you want to use for storing snapshots or
-    /// tapes, the time zone for scheduled snapshots the gateway snapshot schedule window,
+    /// you specify information such as the AWS Region that you want to use for storing snapshots
+    /// or tapes, the time zone for scheduled snapshots the gateway snapshot schedule window,
     /// an activation key, and a name for your gateway. The activation process also associates
     /// your gateway with your account; for more information, see <a>UpdateGatewayInformation</a>.
     /// 
@@ -49,6 +49,7 @@ namespace Amazon.StorageGateway.Model
         private string _gatewayTimezone;
         private string _gatewayType;
         private string _mediumChangerType;
+        private List<Tag> _tags = new List<Tag>();
         private string _tapeDriveType;
 
         /// <summary>
@@ -67,6 +68,7 @@ namespace Amazon.StorageGateway.Model
         /// in the Storage Gateway User Guide.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string ActivationKey
         {
             get { return this._activationKey; }
@@ -85,6 +87,7 @@ namespace Amazon.StorageGateway.Model
         /// The name you configured for your gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=255)]
         public string GatewayName
         {
             get { return this._gatewayName; }
@@ -100,19 +103,19 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayRegion. 
         /// <para>
-        /// A value that indicates the region where you want to store your data. The gateway region
-        /// specified must be the same region as the region in your <code>Host</code> header in
-        /// the request. For more information about available regions and endpoints for AWS Storage
-        /// Gateway, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#sg_region">Regions
+        /// A value that indicates the AWS Region where you want to store your data. The gateway
+        /// AWS Region specified must be the same AWS Region as the AWS Region in your <code>Host</code>
+        /// header in the request. For more information about available AWS Regions and endpoints
+        /// for AWS Storage Gateway, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#sg_region">Regions
         /// and Endpoints</a> in the <i>Amazon Web Services Glossary</i>.
         /// </para>
         ///  
         /// <para>
-        ///  Valid Values: "us-east-1", "us-east-2", "us-west-1", "us-west-2", "ca-central-1",
-        /// "eu-west-1", "eu-central-1", "eu-west-2", "eu-west-3", "ap-northeast-1", "ap-northeast-2",
-        /// "ap-southeast-1", "ap-southeast-2", "ap-south-1", "sa-east-1"
+        ///  Valid Values: See <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#sg_region">AWS
+        /// Storage Gateway Regions and Endpoints</a> in the AWS General Reference. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=25)]
         public string GatewayRegion
         {
             get { return this._gatewayRegion; }
@@ -135,6 +138,7 @@ namespace Amazon.StorageGateway.Model
         /// schedule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=10)]
         public string GatewayTimezone
         {
             get { return this._gatewayTimezone; }
@@ -152,13 +156,14 @@ namespace Amazon.StorageGateway.Model
         /// <para>
         /// A value that defines the type of gateway to activate. The type specified is critical
         /// to all later functions of the gateway and cannot be changed after activation. The
-        /// default value is <code>STORED</code>. 
+        /// default value is <code>CACHED</code>. 
         /// </para>
         ///  
         /// <para>
         ///  Valid Values: "STORED", "CACHED", "VTL", "FILE_S3"
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=20)]
         public string GatewayType
         {
             get { return this._gatewayType; }
@@ -182,6 +187,7 @@ namespace Amazon.StorageGateway.Model
         ///  Valid Values: "STK-L700", "AWS-Gateway-VTL"
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=50)]
         public string MediumChangerType
         {
             get { return this._mediumChangerType; }
@@ -195,6 +201,33 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags that you can assign to the gateway. Each tag is a key-value
+        /// pair.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Valid characters for key and value are letters, spaces, and numbers that can be represented
+        /// in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+        /// length of a tag's key is 128 characters, and the maximum length for a tag's value
+        /// is 256 characters.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TapeDriveType. 
         /// <para>
         /// The value that indicates the type of tape drive to use for tape gateway. This field
@@ -205,6 +238,7 @@ namespace Amazon.StorageGateway.Model
         ///  Valid Values: "IBM-ULT3580-TD5" 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=50)]
         public string TapeDriveType
         {
             get { return this._tapeDriveType; }

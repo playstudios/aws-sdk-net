@@ -36,13 +36,19 @@ namespace Amazon.ECS.Model
     public partial class Cluster
     {
         private int? _activeServicesCount;
+        private List<Attachment> _attachments = new List<Attachment>();
+        private string _attachmentsStatus;
+        private List<string> _capacityProviders = new List<string>();
         private string _clusterArn;
         private string _clusterName;
+        private List<CapacityProviderStrategyItem> _defaultCapacityProviderStrategy = new List<CapacityProviderStrategyItem>();
         private int? _pendingTasksCount;
         private int? _registeredContainerInstancesCount;
         private int? _runningTasksCount;
+        private List<ClusterSetting> _settings = new List<ClusterSetting>();
         private List<KeyValuePair> _statistics = new List<KeyValuePair>();
         private string _status;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ActiveServicesCount. 
@@ -64,12 +70,82 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Attachments. 
+        /// <para>
+        /// The resources attached to a cluster. When using a capacity provider with a cluster,
+        /// the Auto Scaling plan that is created will be returned as a cluster attachment.
+        /// </para>
+        /// </summary>
+        public List<Attachment> Attachments
+        {
+            get { return this._attachments; }
+            set { this._attachments = value; }
+        }
+
+        // Check to see if Attachments property is set
+        internal bool IsSetAttachments()
+        {
+            return this._attachments != null && this._attachments.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AttachmentsStatus. 
+        /// <para>
+        /// The status of the capacity providers associated with the cluster. The following are
+        /// the states that will be returned:
+        /// </para>
+        ///  <dl> <dt>UPDATE_IN_PROGRESS</dt> <dd> 
+        /// <para>
+        /// The available capacity providers for the cluster are updating. This occurs when the
+        /// Auto Scaling plan is provisioning or deprovisioning.
+        /// </para>
+        ///  </dd> <dt>UPDATE_COMPLETE</dt> <dd> 
+        /// <para>
+        /// The capacity providers have successfully updated.
+        /// </para>
+        ///  </dd> <dt>UPDATE_FAILED</dt> <dd> 
+        /// <para>
+        /// The capacity provider updates failed.
+        /// </para>
+        ///  </dd> </dl>
+        /// </summary>
+        public string AttachmentsStatus
+        {
+            get { return this._attachmentsStatus; }
+            set { this._attachmentsStatus = value; }
+        }
+
+        // Check to see if AttachmentsStatus property is set
+        internal bool IsSetAttachmentsStatus()
+        {
+            return this._attachmentsStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CapacityProviders. 
+        /// <para>
+        /// The capacity providers associated with the cluster.
+        /// </para>
+        /// </summary>
+        public List<string> CapacityProviders
+        {
+            get { return this._capacityProviders; }
+            set { this._capacityProviders = value; }
+        }
+
+        // Check to see if CapacityProviders property is set
+        internal bool IsSetCapacityProviders()
+        {
+            return this._capacityProviders != null && this._capacityProviders.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ClusterArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) that identifies the cluster. The ARN contains the <code>arn:aws:ecs</code>
-        /// namespace, followed by the region of the cluster, the AWS account ID of the cluster
+        /// namespace, followed by the Region of the cluster, the AWS account ID of the cluster
         /// owner, the <code>cluster</code> namespace, and then the cluster name. For example,
-        /// <code>arn:aws:ecs:<i>region</i>:<i>012345678910</i>:cluster/<i>test</i> </code>..
+        /// <code>arn:aws:ecs:region:012345678910:cluster/test</code>.
         /// </para>
         /// </summary>
         public string ClusterArn
@@ -103,6 +179,26 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DefaultCapacityProviderStrategy. 
+        /// <para>
+        /// The default capacity provider strategy for the cluster. When services or tasks are
+        /// run in the cluster with no launch type or capacity provider strategy specified, the
+        /// default capacity provider strategy is used.
+        /// </para>
+        /// </summary>
+        public List<CapacityProviderStrategyItem> DefaultCapacityProviderStrategy
+        {
+            get { return this._defaultCapacityProviderStrategy; }
+            set { this._defaultCapacityProviderStrategy = value; }
+        }
+
+        // Check to see if DefaultCapacityProviderStrategy property is set
+        internal bool IsSetDefaultCapacityProviderStrategy()
+        {
+            return this._defaultCapacityProviderStrategy != null && this._defaultCapacityProviderStrategy.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PendingTasksCount. 
         /// <para>
         /// The number of tasks in the cluster that are in the <code>PENDING</code> state.
@@ -123,7 +219,8 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property RegisteredContainerInstancesCount. 
         /// <para>
-        /// The number of container instances registered into the cluster.
+        /// The number of container instances registered into the cluster. This includes container
+        /// instances in both <code>ACTIVE</code> and <code>DRAINING</code> status.
         /// </para>
         /// </summary>
         public int RegisteredContainerInstancesCount
@@ -154,6 +251,25 @@ namespace Amazon.ECS.Model
         internal bool IsSetRunningTasksCount()
         {
             return this._runningTasksCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Settings. 
+        /// <para>
+        /// The settings for the cluster. This parameter indicates whether CloudWatch Container
+        /// Insights is enabled or disabled for a cluster.
+        /// </para>
+        /// </summary>
+        public List<ClusterSetting> Settings
+        {
+            get { return this._settings; }
+            set { this._settings = value; }
+        }
+
+        // Check to see if Settings property is set
+        internal bool IsSetSettings()
+        {
+            return this._settings != null && this._settings.Count > 0; 
         }
 
         /// <summary>
@@ -210,10 +326,36 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The status of the cluster. The valid values are <code>ACTIVE</code> or <code>INACTIVE</code>.
-        /// <code>ACTIVE</code> indicates that you can register container instances with the cluster
-        /// and the associated instances can accept tasks.
+        /// The status of the cluster. The following are the possible states that will be returned.
         /// </para>
+        ///  <dl> <dt>ACTIVE</dt> <dd> 
+        /// <para>
+        /// The cluster is ready to accept tasks and if applicable you can register container
+        /// instances with the cluster.
+        /// </para>
+        ///  </dd> <dt>PROVISIONING</dt> <dd> 
+        /// <para>
+        /// The cluster has capacity providers associated with it and the resources needed for
+        /// the capacity provider are being created.
+        /// </para>
+        ///  </dd> <dt>DEPROVISIONING</dt> <dd> 
+        /// <para>
+        /// The cluster has capacity providers associated with it and the resources needed for
+        /// the capacity provider are being deleted.
+        /// </para>
+        ///  </dd> <dt>FAILED</dt> <dd> 
+        /// <para>
+        /// The cluster has capacity providers associated with it and the resources needed for
+        /// the capacity provider have failed to create.
+        /// </para>
+        ///  </dd> <dt>INACTIVE</dt> <dd> 
+        /// <para>
+        /// The cluster has been deleted. Clusters with an <code>INACTIVE</code> status may remain
+        /// discoverable in your account for a period of time. However, this behavior is subject
+        /// to change in the future, so you should not rely on <code>INACTIVE</code> clusters
+        /// persisting.
+        /// </para>
+        ///  </dd> </dl>
         /// </summary>
         public string Status
         {
@@ -225,6 +367,66 @@ namespace Amazon.ECS.Model
         internal bool IsSetStatus()
         {
             return this._status != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The metadata that you apply to the cluster to help you categorize and organize them.
+        /// Each tag consists of a key and an optional value, both of which you define.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following basic restrictions apply to tags:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Maximum number of tags per resource - 50
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For each resource, each tag key must be unique, and each tag key can have only one
+        /// value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Maximum key length - 128 Unicode characters in UTF-8
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Maximum value length - 256 Unicode characters in UTF-8
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If your tagging schema is used across multiple services and resources, remember that
+        /// other services may have restrictions on allowed characters. Generally allowed characters
+        /// are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+        /// + - = . _ : / @.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Tag keys and values are case-sensitive.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase combination
+        /// of such as a prefix for either keys or values as it is reserved for AWS use. You cannot
+        /// edit or delete tag keys or values with this prefix. Tags with this prefix do not count
+        /// against your tags per resource limit.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

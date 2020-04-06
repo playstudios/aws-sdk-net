@@ -63,6 +63,7 @@ namespace Amazon.MigrationHub.Model
         /// instance, etc.)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string CreatedArtifactName
         {
             get { return this._createdArtifactName; }
@@ -98,9 +99,10 @@ namespace Amazon.MigrationHub.Model
         /// Gets and sets the property MigrationTaskName. 
         /// <para>
         /// Unique identifier that references the migration task to be disassociated with the
-        /// artifact.
+        /// artifact. <i>Do not store personal data in this field.</i> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string MigrationTaskName
         {
             get { return this._migrationTaskName; }
@@ -119,6 +121,7 @@ namespace Amazon.MigrationHub.Model
         /// The name of the ProgressUpdateStream. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string ProgressUpdateStream
         {
             get { return this._progressUpdateStream; }

@@ -58,15 +58,32 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
             string target = "AmazonSSM.CreateDocument";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-06";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAttachments())
+                {
+                    context.Writer.WritePropertyName("Attachments");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAttachmentsListValue in publicRequest.Attachments)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = AttachmentsSourceMarshaller.Instance;
+                        marshaller.Marshall(publicRequestAttachmentsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetContent())
                 {
                     context.Writer.WritePropertyName("Content");
@@ -91,10 +108,48 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Name);
                 }
 
+                if(publicRequest.IsSetRequires())
+                {
+                    context.Writer.WritePropertyName("Requires");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestRequiresListValue in publicRequest.Requires)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = DocumentRequiresMarshaller.Instance;
+                        marshaller.Marshall(publicRequestRequiresListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetTargetType())
                 {
                     context.Writer.WritePropertyName("TargetType");
                     context.Writer.Write(publicRequest.TargetType);
+                }
+
+                if(publicRequest.IsSetVersionName())
+                {
+                    context.Writer.WritePropertyName("VersionName");
+                    context.Writer.Write(publicRequest.VersionName);
                 }
 
         

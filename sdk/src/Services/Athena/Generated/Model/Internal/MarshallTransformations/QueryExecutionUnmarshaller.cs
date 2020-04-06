@@ -88,6 +88,12 @@ namespace Amazon.Athena.Model.Internal.MarshallTransformations
                     unmarshalledObject.ResultConfiguration = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("StatementType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.StatementType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("Statistics", targetDepth))
                 {
                     var unmarshaller = QueryExecutionStatisticsUnmarshaller.Instance;
@@ -98,6 +104,12 @@ namespace Amazon.Athena.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = QueryExecutionStatusUnmarshaller.Instance;
                     unmarshalledObject.Status = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("WorkGroup", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.WorkGroup = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

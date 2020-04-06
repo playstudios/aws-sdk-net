@@ -43,7 +43,11 @@ namespace Amazon.StorageGateway.Model
     {
         private string _clientToken;
         private string _gatewayARN;
+        private bool? _kmsEncrypted;
+        private string _kmsKey;
         private int? _numTapesToCreate;
+        private string _poolId;
+        private List<Tag> _tags = new List<Tag>();
         private string _tapeBarcodePrefix;
         private long? _tapeSizeInBytes;
 
@@ -59,6 +63,7 @@ namespace Amazon.StorageGateway.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=100)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -76,9 +81,10 @@ namespace Amazon.StorageGateway.Model
         /// <para>
         /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the
         /// virtual tapes with. Use the <a>ListGateways</a> operation to return a list of gateways
-        /// for your account and region.
+        /// for your account and AWS Region.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }
@@ -92,11 +98,51 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property KMSEncrypted. 
+        /// <para>
+        /// True to use Amazon S3 server side encryption with your own AWS KMS key, or false to
+        /// use a key managed by Amazon S3. Optional.
+        /// </para>
+        /// </summary>
+        public bool KMSEncrypted
+        {
+            get { return this._kmsEncrypted.GetValueOrDefault(); }
+            set { this._kmsEncrypted = value; }
+        }
+
+        // Check to see if KMSEncrypted property is set
+        internal bool IsSetKMSEncrypted()
+        {
+            return this._kmsEncrypted.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property KMSKey. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used for Amazon S3 server side encryption.
+        /// This value can only be set when KMSEncrypted is true. Optional.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
+        public string KMSKey
+        {
+            get { return this._kmsKey; }
+            set { this._kmsKey = value; }
+        }
+
+        // Check to see if KMSKey property is set
+        internal bool IsSetKMSKey()
+        {
+            return this._kmsKey != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property NumTapesToCreate. 
         /// <para>
         /// The number of virtual tapes that you want to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public int NumTapesToCreate
         {
             get { return this._numTapesToCreate.GetValueOrDefault(); }
@@ -107,6 +153,59 @@ namespace Amazon.StorageGateway.Model
         internal bool IsSetNumTapesToCreate()
         {
             return this._numTapesToCreate.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property PoolId. 
+        /// <para>
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this
+        /// pool is archived in the S3 storage class that is associated with the pool. When you
+        /// use your backup application to eject the tape, the tape is archived directly into
+        /// the storage class (Glacier or Deep Archive) that corresponds to the pool.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public string PoolId
+        {
+            get { return this._poolId; }
+            set { this._poolId = value; }
+        }
+
+        // Check to see if PoolId property is set
+        internal bool IsSetPoolId()
+        {
+            return this._poolId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value
+        /// pair.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Valid characters for key and value are letters, spaces, and numbers representable
+        /// in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+        /// length of a tag's key is 128 characters, and the maximum length for a tag's value
+        /// is 256.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>
@@ -122,6 +221,7 @@ namespace Amazon.StorageGateway.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=4)]
         public string TapeBarcodePrefix
         {
             get { return this._tapeBarcodePrefix; }
@@ -145,6 +245,7 @@ namespace Amazon.StorageGateway.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long TapeSizeInBytes
         {
             get { return this._tapeSizeInBytes.GetValueOrDefault(); }

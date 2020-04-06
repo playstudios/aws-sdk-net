@@ -28,9 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Rekognition.Model
 {
     /// <summary>
-    /// Provides information about a single type of moderated content found in an image or
-    /// video. Each type of moderated content has a label within a hierarchical taxonomy.
-    /// For more information, see <a>moderation</a>.
+    /// Provides information about a single type of unsafe content found in an image or video.
+    /// Each type of moderated content has a label within a hierarchical taxonomy. For more
+    /// information, see Detecting Unsafe Content in the Amazon Rekognition Developer Guide.
     /// </summary>
     public partial class ModerationLabel
     {
@@ -50,6 +50,7 @@ namespace Amazon.Rekognition.Model
         /// the operation returns labels with a confidence value greater than or equal to 50 percent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float Confidence
         {
             get { return this._confidence.GetValueOrDefault(); }
@@ -65,7 +66,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The label name for the type of content detected in the image.
+        /// The label name for the type of unsafe content detected in the image.
         /// </para>
         /// </summary>
         public string Name
@@ -83,7 +84,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property ParentName. 
         /// <para>
-        /// The name for the parent label. Labels at the top-level of the hierarchy have the parent
+        /// The name for the parent label. Labels at the top level of the hierarchy have the parent
         /// label <code>""</code>.
         /// </para>
         /// </summary>

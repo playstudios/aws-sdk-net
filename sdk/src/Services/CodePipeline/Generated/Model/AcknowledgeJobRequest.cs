@@ -30,7 +30,7 @@ namespace Amazon.CodePipeline.Model
     /// <summary>
     /// Container for the parameters to the AcknowledgeJob operation.
     /// Returns information about a specified job and whether that job has been received by
-    /// the job worker. Only used for custom actions.
+    /// the job worker. Used for custom actions only.
     /// </summary>
     public partial class AcknowledgeJobRequest : AmazonCodePipelineRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.CodePipeline.Model
         /// The unique system-generated ID of the job for which you want to confirm receipt.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobId
         {
             get { return this._jobId; }
@@ -63,6 +64,7 @@ namespace Amazon.CodePipeline.Model
         /// <a>PollForJobs</a> request that returned this job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string Nonce
         {
             get { return this._nonce; }

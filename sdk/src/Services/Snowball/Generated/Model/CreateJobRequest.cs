@@ -49,6 +49,7 @@ namespace Amazon.Snowball.Model
         private ShippingOption _shippingOption;
         private SnowballCapacity _snowballCapacityPreference;
         private SnowballType _snowballType;
+        private TaxDocuments _taxDocuments;
 
         /// <summary>
         /// Gets and sets the property AddressId. 
@@ -56,6 +57,7 @@ namespace Amazon.Snowball.Model
         /// The ID for the address that you want the Snowball shipped to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string AddressId
         {
             get { return this._addressId; }
@@ -76,6 +78,7 @@ namespace Amazon.Snowball.Model
         /// from the cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=39, Max=39)]
         public string ClusterId
         {
             get { return this._clusterId; }
@@ -95,6 +98,7 @@ namespace Amazon.Snowball.Model
         /// Photos 2016-08-11</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Description
         {
             get { return this._description; }
@@ -113,6 +117,7 @@ namespace Amazon.Snowball.Model
         /// The forwarding address ID for a job. This field is not supported in most regions.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string ForwardingAddressId
         {
             get { return this._forwardingAddressId; }
@@ -147,10 +152,11 @@ namespace Amazon.Snowball.Model
         /// Gets and sets the property KmsKeyARN. 
         /// <para>
         /// The <code>KmsKeyARN</code> that you want to associate with this job. <code>KmsKeyARN</code>s
-        /// are created using the <a href="http://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
+        /// are created using the <a href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
         /// AWS Key Management Service (KMS) API action.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string KmsKeyARN
         {
             get { return this._kmsKeyARN; }
@@ -217,10 +223,11 @@ namespace Amazon.Snowball.Model
         /// Gets and sets the property RoleARN. 
         /// <para>
         /// The <code>RoleARN</code> that you want to associate with this job. <code>RoleArn</code>s
-        /// are created using the <a href="http://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+        /// are created using the <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
         /// AWS Identity and Access Management (IAM) API action.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string RoleARN
         {
             get { return this._roleARN; }
@@ -296,8 +303,13 @@ namespace Amazon.Snowball.Model
         /// <summary>
         /// Gets and sets the property SnowballType. 
         /// <para>
-        /// The type of AWS Snowball appliance to use for this job. Currently, the only supported
-        /// appliance type for cluster jobs is <code>EDGE</code>.
+        /// The type of AWS Snowball device to use for this job. Currently, the only supported
+        /// device type for cluster jobs is <code>EDGE</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
+        /// Edge Device Options</a> in the Snowball Edge Developer Guide.
         /// </para>
         /// </summary>
         public SnowballType SnowballType
@@ -310,6 +322,24 @@ namespace Amazon.Snowball.Model
         internal bool IsSetSnowballType()
         {
             return this._snowballType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TaxDocuments. 
+        /// <para>
+        /// The tax documents required in your AWS Region.
+        /// </para>
+        /// </summary>
+        public TaxDocuments TaxDocuments
+        {
+            get { return this._taxDocuments; }
+            set { this._taxDocuments = value; }
+        }
+
+        // Check to see if TaxDocuments property is set
+        internal bool IsSetTaxDocuments()
+        {
+            return this._taxDocuments != null;
         }
 
     }

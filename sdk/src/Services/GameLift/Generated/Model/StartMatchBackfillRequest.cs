@@ -42,9 +42,7 @@ namespace Amazon.GameLift.Model
     /// ARN, a matchmaking configuration, and a set of data that describes all current players
     /// in the game session. If successful, a match backfill ticket is created and returned
     /// with status set to QUEUED. The ticket is placed in the matchmaker's ticket pool and
-    /// processed. Track the status of the ticket to respond as needed. For more detail how
-    /// to set up backfilling, see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">
-    /// Backfill Existing Games with FlexMatch</a>. 
+    /// processed. Track the status of the ticket to respond as needed. 
     /// </para>
     ///  
     /// <para>
@@ -54,12 +52,26 @@ namespace Amazon.GameLift.Model
     /// formed, the matchmaker creates player sessions for the new players. All tickets in
     /// the match are updated with the game session's connection information, and the <a>GameSession</a>
     /// object is updated to include matchmaker data on the new players. For more detail on
-    /// how match backfill requests are processed, see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/match-intro.html">
+    /// how match backfill requests are processed, see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-match.html">
     /// How Amazon GameLift FlexMatch Works</a>. 
     /// </para>
     ///  
     /// <para>
-    /// Matchmaking-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-backfill.html">
+    /// Backfill Existing Games with FlexMatch</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-match.html">
+    /// How GameLift FlexMatch Works</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -93,13 +105,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property ConfigurationName. 
         /// <para>
-        /// Name of the matchmaker to use for this request. The name of the matchmaker that was
-        /// used with the original game session is listed in the <a>GameSession</a> object, <code>MatchmakerData</code>
-        /// property. This property contains a matchmaking configuration ARN value, which includes
-        /// the matchmaker name. (In the ARN value "arn:aws:gamelift:us-west-2:111122223333:matchmakingconfiguration/MM-4v4",
-        /// the matchmaking configuration name is "MM-4v4".) Use only the name for this parameter.
+        /// Name of the matchmaker to use for this request. You can use either the configuration
+        /// name or ARN value. The ARN of the matchmaker that was used with the original game
+        /// session is listed in the <a>GameSession</a> object, <code>MatchmakerData</code> property.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ConfigurationName
         {
             get { return this._configurationName; }
@@ -115,10 +126,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionArn. 
         /// <para>
-        /// Amazon Resource Name (<a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
-        /// that is assigned to a game session and uniquely identifies it. 
+        /// Amazon Resource Name (<a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+        /// that is assigned to a game session and uniquely identifies it. This is the same as
+        /// the game session ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string GameSessionArn
         {
             get { return this._gameSessionArn; }
@@ -143,17 +156,18 @@ namespace Amazon.GameLift.Model
         /// PlayerID, PlayerAttributes, Team -\\- This information is maintained in the <a>GameSession</a>
         /// object, <code>MatchmakerData</code> property, for all players who are currently assigned
         /// to the game session. The matchmaker data is in JSON syntax, formatted as a string.
-        /// For more details, see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/match-server.html#match-server-data">
+        /// For more details, see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-server.html#match-server-data">
         /// Match Data</a>. 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// LatencyInMs -\\- If the matchmaker uses player latency, include a latency value, in
-        /// milliseconds, for the region that the game session is currently in. Do not include
-        /// latency values for any other region.
+        /// milliseconds, for the Region that the game session is currently in. Do not include
+        /// latency values for any other Region.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Player> Players
         {
             get { return this._players; }
@@ -169,11 +183,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property TicketId. 
         /// <para>
-        /// Unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon
+        /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon
         /// GameLift will generate one in the form of a UUID. Use this identifier to track the
         /// match backfill ticket status and retrieve match results.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string TicketId
         {
             get { return this._ticketId; }

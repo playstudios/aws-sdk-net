@@ -30,7 +30,7 @@ namespace Amazon.AWSHealth.Model
     /// <summary>
     /// Container for the parameters to the DescribeEventDetails operation.
     /// Returns detailed information about one or more specified events. Information includes
-    /// standard event data (region, service, etc., as returned by <a>DescribeEvents</a>),
+    /// standard event data (region, service, and so on, as returned by <a>DescribeEvents</a>),
     /// a detailed event description, and possible additional metadata that depends upon the
     /// nature of the event. Affected entities are not included; to retrieve those, use the
     /// <a>DescribeAffectedEntities</a> operation.
@@ -48,10 +48,12 @@ namespace Amazon.AWSHealth.Model
         /// <summary>
         /// Gets and sets the property EventArns. 
         /// <para>
-        /// A list of event ARNs (unique identifiers). For example: <code>"arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331",
-        /// "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz"</code> 
+        /// A list of event ARNs (unique identifiers). For example: <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+        /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public List<string> EventArns
         {
             get { return this._eventArns; }
@@ -71,6 +73,7 @@ namespace Amazon.AWSHealth.Model
         /// only supported value at this time.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=256)]
         public string Locale
         {
             get { return this._locale; }

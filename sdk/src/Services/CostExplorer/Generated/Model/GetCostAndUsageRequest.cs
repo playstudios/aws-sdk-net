@@ -33,9 +33,9 @@ namespace Amazon.CostExplorer.Model
     /// usage-related metric, such as <code>BlendedCosts</code> or <code>UsageQuantity</code>,
     /// that you want the request to return. You can also filter and group your data by various
     /// dimensions, such as <code>SERVICE</code> or <code>AZ</code>, in a specific time range.
-    /// For a complete list of valid dimensions, see the <code> <a href="http://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html">GetDimensionValues</a>
-    /// </code> operation. Master accounts in an organization in AWS Organizations have access
-    /// to all member accounts.
+    /// For a complete list of valid dimensions, see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html">GetDimensionValues</a>
+    /// operation. Master accounts in an organization in AWS Organizations have access to
+    /// all member accounts.
     /// </summary>
     public partial class GetCostAndUsageRequest : AmazonCostExplorerRequest
     {
@@ -52,7 +52,7 @@ namespace Amazon.CostExplorer.Model
         /// Filters AWS costs by different dimensions. For example, you can specify <code>SERVICE</code>
         /// and <code>LINKED_ACCOUNT</code> and get the costs that are associated with that account's
         /// usage of that service. You can nest <code>Expression</code> objects to define any
-        /// combination of dimension filters. For more information, see <a href="http://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>.
+        /// combination of dimension filters. For more information, see <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>.
         /// 
         /// </para>
         /// </summary>
@@ -71,9 +71,9 @@ namespace Amazon.CostExplorer.Model
         /// <summary>
         /// Gets and sets the property Granularity. 
         /// <para>
-        /// Sets the AWS cost granularity to <code>MONTHLY</code> or <code>DAILY</code>. If <code>Granularity</code>
-        /// isn't set, the response object doesn't include the <code>Granularity</code>, either
-        /// <code>MONTHLY</code> or <code>DAILY</code>. 
+        /// Sets the AWS cost granularity to <code>MONTHLY</code> or <code>DAILY</code>, or <code>HOURLY</code>.
+        /// If <code>Granularity</code> isn't set, the response object doesn't include the <code>Granularity</code>,
+        /// either <code>MONTHLY</code> or <code>DAILY</code>, or <code>HOURLY</code>. 
         /// </para>
         /// </summary>
         public Granularity Granularity
@@ -102,7 +102,8 @@ namespace Amazon.CostExplorer.Model
         /// <para>
         /// Valid values are <code>AZ</code>, <code>INSTANCE_TYPE</code>, <code>LEGAL_ENTITY_NAME</code>,
         /// <code>LINKED_ACCOUNT</code>, <code>OPERATION</code>, <code>PLATFORM</code>, <code>PURCHASE_TYPE</code>,
-        /// <code>SERVICE</code>, <code>TAGS</code>, <code>TENANCY</code>, and <code>USAGE_TYPE</code>.
+        /// <code>SERVICE</code>, <code>TAGS</code>, <code>TENANCY</code>, <code>RECORD_TYPE</code>,
+        /// and <code>USAGE_TYPE</code>.
         /// </para>
         /// </summary>
         public List<GroupDefinition> GroupBy
@@ -121,21 +122,23 @@ namespace Amazon.CostExplorer.Model
         /// Gets and sets the property Metrics. 
         /// <para>
         /// Which metrics are returned in the query. For more information about blended and unblended
-        /// rates, see <a href="https://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/">Why
+        /// rates, see <a href="http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/">Why
         /// does the "blended" annotation appear on some line items in my bill?</a>. 
         /// </para>
         ///  
         /// <para>
-        /// Valid values are <code>BlendedCost</code>, <code>UnblendedCost</code>, and <code>UsageQuantity</code>.
+        /// Valid values are <code>AmortizedCost</code>, <code>BlendedCost</code>, <code>NetAmortizedCost</code>,
+        /// <code>NetUnblendedCost</code>, <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>,
+        /// and <code>UsageQuantity</code>. 
         /// </para>
         ///  <note> 
         /// <para>
         /// If you return the <code>UsageQuantity</code> metric, the service aggregates all usage
         /// numbers without taking into account the units. For example, if you aggregate <code>usageQuantity</code>
-        /// across all of EC2, the results aren't meaningful because EC2 compute hours and data
-        /// transfer are measured in different units (for example, hours vs. GB). To get more
-        /// meaningful <code>UsageQuantity</code> metrics, filter by <code>UsageType</code> or
-        /// <code>UsageTypeGroups</code>. 
+        /// across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute
+        /// hours and data transfer are measured in different units (for example, hours vs. GB).
+        /// To get more meaningful <code>UsageQuantity</code> metrics, filter by <code>UsageType</code>
+        /// or <code>UsageTypeGroups</code>. 
         /// </para>
         ///  </note> 
         /// <para>
@@ -183,6 +186,7 @@ namespace Amazon.CostExplorer.Model
         /// <code>2017-05-01</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateInterval TimePeriod
         {
             get { return this._timePeriod; }

@@ -29,7 +29,7 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the GetJobRuns operation.
-    /// Retrieves metadata for all runs of a given job.
+    /// Retrieves metadata for all runs of a given job definition.
     /// </summary>
     public partial class GetJobRunsRequest : AmazonGlueRequest
     {
@@ -40,9 +40,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property JobName. 
         /// <para>
-        /// The name of the job for which to retrieve all job runs.
+        /// The name of the job definition for which to retrieve all job runs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string JobName
         {
             get { return this._jobName; }
@@ -61,6 +62,7 @@ namespace Amazon.Glue.Model
         /// The maximum size of the response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

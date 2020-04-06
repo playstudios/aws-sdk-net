@@ -64,6 +64,18 @@ namespace Amazon.AlexaForBusiness.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("ConnectionStatus", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ConnectionStatus = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ConnectionStatusUpdatedTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.ConnectionStatusUpdatedTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("DeviceStatusDetails", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<DeviceStatusDetail, DeviceStatusDetailUnmarshaller>(DeviceStatusDetailUnmarshaller.Instance);

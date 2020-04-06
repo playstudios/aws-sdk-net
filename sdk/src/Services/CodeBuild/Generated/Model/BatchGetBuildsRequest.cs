@@ -29,7 +29,7 @@ namespace Amazon.CodeBuild.Model
 {
     /// <summary>
     /// Container for the parameters to the BatchGetBuilds operation.
-    /// Gets information about builds.
+    /// Gets information about one or more builds.
     /// </summary>
     public partial class BatchGetBuildsRequest : AmazonCodeBuildRequest
     {
@@ -41,6 +41,7 @@ namespace Amazon.CodeBuild.Model
         /// The IDs of the builds.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<string> Ids
         {
             get { return this._ids; }

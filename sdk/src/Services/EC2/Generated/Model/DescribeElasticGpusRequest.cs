@@ -29,9 +29,9 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeElasticGpus operation.
-    /// Describes the Elastic GPUs associated with your instances. For more information about
-    /// Elastic GPUs, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-gpus.html">Amazon
-    /// EC2 Elastic GPUs</a>.
+    /// Describes the Elastic Graphics accelerator associated with your instances. For more
+    /// information about Elastic Graphics, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-graphics.html">Amazon
+    /// Elastic Graphics</a>.
     /// </summary>
     public partial class DescribeElasticGpusRequest : AmazonEC2Request
     {
@@ -43,7 +43,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ElasticGpuIds. 
         /// <para>
-        /// One or more Elastic GPU IDs.
+        /// The Elastic Graphics accelerator IDs.
         /// </para>
         /// </summary>
         public List<string> ElasticGpuIds
@@ -61,28 +61,31 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>availability-zone</code> - The Availability Zone in which the Elastic GPU resides.
+        ///  <code>availability-zone</code> - The Availability Zone in which the Elastic Graphics
+        /// accelerator resides.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>elastic-gpu-health</code> - The status of the Elastic GPU (<code>OK</code>
-        /// | <code>IMPAIRED</code>).
+        ///  <code>elastic-gpu-health</code> - The status of the Elastic Graphics accelerator
+        /// (<code>OK</code> | <code>IMPAIRED</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>elastic-gpu-state</code> - The state of the Elastic GPU (<code>ATTACHED</code>).
+        ///  <code>elastic-gpu-state</code> - The state of the Elastic Graphics accelerator (<code>ATTACHED</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>elastic-gpu-type</code> - The type of Elastic GPU; for example, <code>eg1.medium</code>.
+        ///  <code>elastic-gpu-type</code> - The type of Elastic Graphics accelerator; for example,
+        /// <code>eg1.medium</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>instance-id</code> - The ID of the instance to which the Elastic GPU is associated.
+        ///  <code>instance-id</code> - The ID of the instance to which the Elastic Graphics accelerator
+        /// is associated.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -106,6 +109,7 @@ namespace Amazon.EC2.Model
         /// can be between 5 and 1000.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

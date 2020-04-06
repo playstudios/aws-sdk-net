@@ -135,6 +135,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// The ID of the operation that you want to get information about.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string Id
         {
             get { return this._id; }
@@ -158,7 +159,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <b>PENDING</b>: Route 53 is performing the operation.
+        ///  <b>PENDING</b>: AWS Cloud Map is performing the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>

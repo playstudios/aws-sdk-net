@@ -29,9 +29,8 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the StopMonitoringMembers operation.
-    /// Disables GuardDuty from monitoring findings of the member accounts specified by the
-    /// account IDs. After running this command, a master GuardDuty account can run StartMonitoringMembers
-    /// to re-enable GuardDuty to monitor these members' findings.
+    /// Stops GuardDuty monitoring for the specified member accounnts. Use the <code>StartMonitoringMembers</code>
+    /// to restart monitoring for those accounts.
     /// </summary>
     public partial class StopMonitoringMembersRequest : AmazonGuardDutyRequest
     {
@@ -39,9 +38,13 @@ namespace Amazon.GuardDuty.Model
         private string _detectorId;
 
         /// <summary>
-        /// Gets and sets the property AccountIds. A list of account IDs of the GuardDuty member
-        /// accounts whose findings you want the master account to stop monitoring.
+        /// Gets and sets the property AccountIds. 
+        /// <para>
+        /// A list of account IDs of the GuardDuty member accounts whose findings you want the
+        /// master account to stop monitoring.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public List<string> AccountIds
         {
             get { return this._accountIds; }
@@ -55,9 +58,13 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The unique ID of the detector of the GuardDuty
-        /// account that you want to stop from monitor members' findings.
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The unique ID of the detector of the GuardDuty account that you want to stop from
+        /// monitor members' findings.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }

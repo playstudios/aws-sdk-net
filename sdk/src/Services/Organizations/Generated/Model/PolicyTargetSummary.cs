@@ -44,7 +44,7 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs in Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
+        /// For more information about ARNs in Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
         /// Formats Supported by Organizations</a> in the <i>AWS Organizations User Guide</i>.
         /// </para>
         /// </summary>
@@ -71,6 +71,7 @@ namespace Amazon.Organizations.Model
         /// this parameter is a string of any of the characters in the ASCII character range.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -95,18 +96,18 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or
+        /// Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or
         /// digits.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Account: a string that consists of exactly 12 digits.
+        /// Account: A string that consists of exactly 12 digits.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32
-        /// lower-case letters or digits (the ID of the root that the OU is in) followed by a
-        /// second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        /// Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32
+        /// lower-case letters or digits (the ID of the root that the OU is in). This string is
+        /// followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         /// </para>
         ///  </li> </ul>
         /// </summary>

@@ -35,16 +35,18 @@ namespace Amazon.Comprehend.Model
     /// </summary>
     public partial class BatchDetectSentimentRequest : AmazonComprehendRequest
     {
-        private string _languageCode;
+        private LanguageCode _languageCode;
         private List<string> _textList = new List<string>();
 
         /// <summary>
         /// Gets and sets the property LanguageCode. 
         /// <para>
-        /// The language of the input documents. All documents must be in the same language.
+        /// The language of the input documents. You can specify any of the primary languages
+        /// supported by Amazon Comprehend. All documents must be in the same language.
         /// </para>
         /// </summary>
-        public string LanguageCode
+        [AWSProperty(Required=true)]
+        public LanguageCode LanguageCode
         {
             get { return this._languageCode; }
             set { this._languageCode = value; }
@@ -64,6 +66,7 @@ namespace Amazon.Comprehend.Model
         /// characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TextList
         {
             get { return this._textList; }

@@ -35,6 +35,7 @@ namespace Amazon.ElasticMapReduce.Model
         private List<Application> _applications = new List<Application>();
         private string _autoScalingRole;
         private bool? _autoTerminate;
+        private string _clusterArn;
         private List<Configuration> _configurations = new List<Configuration>();
         private string _customAmiId;
         private int? _ebsRootVolumeSize;
@@ -46,6 +47,7 @@ namespace Amazon.ElasticMapReduce.Model
         private string _masterPublicDnsName;
         private string _name;
         private int? _normalizedInstanceHours;
+        private string _outpostArn;
         private string _releaseLabel;
         private RepoUpgradeOnBoot _repoUpgradeOnBoot;
         private string _requestedAmiVersion;
@@ -54,6 +56,7 @@ namespace Amazon.ElasticMapReduce.Model
         private string _securityConfiguration;
         private string _serviceRole;
         private ClusterStatus _status;
+        private int? _stepConcurrencyLevel;
         private List<Tag> _tags = new List<Tag>();
         private bool? _terminationProtected;
         private bool? _visibleToAllUsers;
@@ -84,6 +87,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// and terminate EC2 instances in an instance group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10280)]
         public string AutoScalingRole
         {
             get { return this._autoScalingRole; }
@@ -115,6 +119,25 @@ namespace Amazon.ElasticMapReduce.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ClusterArn. 
+        /// <para>
+        /// The Amazon Resource Name of the cluster.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
+        public string ClusterArn
+        {
+            get { return this._clusterArn; }
+            set { this._clusterArn = value; }
+        }
+
+        // Check to see if ClusterArn property is set
+        internal bool IsSetClusterArn()
+        {
+            return this._clusterArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Configurations. 
         /// <para>
         /// Applies only to Amazon EMR releases 4.x and later. The list of Configurations supplied
@@ -140,6 +163,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// Linux AMI if the cluster uses a custom AMI.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string CustomAmiId
         {
             get { return this._customAmiId; }
@@ -237,7 +261,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// Gets and sets the property KerberosAttributes. 
         /// <para>
         /// Attributes for Kerberos configuration when Kerberos authentication is enabled using
-        /// a security configuration. For more information see <a href="http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html">Use
+        /// a security configuration. For more information see <a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html">Use
         /// Kerberos Authentication</a> in the <i>EMR Management Guide</i>.
         /// </para>
         /// </summary>
@@ -331,9 +355,34 @@ namespace Amazon.ElasticMapReduce.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OutpostArn. 
+        /// <para>
+        ///  The Amazon Resource Name (ARN) of the Outpost where the cluster is launched. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
+        public string OutpostArn
+        {
+            get { return this._outpostArn; }
+            set { this._outpostArn = value; }
+        }
+
+        // Check to see if OutpostArn property is set
+        internal bool IsSetOutpostArn()
+        {
+            return this._outpostArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ReleaseLabel. 
         /// <para>
-        /// The release label for the Amazon EMR release.
+        /// The Amazon EMR release label, which determines the version of open-source application
+        /// packages installed on the cluster. Release labels are in the form <code>emr-x.x.x</code>,
+        /// where x.x.x is an Amazon EMR release version such as <code>emr-5.14.0</code>. For
+        /// more information about Amazon EMR release versions and included application versions
+        /// and features, see <a href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">https://docs.aws.amazon.com/emr/latest/ReleaseGuide/</a>.
+        /// The release label applies only to Amazon EMR releases version 4.0 and later. Earlier
+        /// versions use <code>AmiVersion</code>.
         /// </para>
         /// </summary>
         public string ReleaseLabel
@@ -438,6 +487,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The name of the security configuration applied to the cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10280)]
         public string SecurityConfiguration
         {
             get { return this._securityConfiguration; }
@@ -488,6 +538,24 @@ namespace Amazon.ElasticMapReduce.Model
         }
 
         /// <summary>
+        /// Gets and sets the property StepConcurrencyLevel. 
+        /// <para>
+        /// Specifies the number of steps that can be executed concurrently.
+        /// </para>
+        /// </summary>
+        public int StepConcurrencyLevel
+        {
+            get { return this._stepConcurrencyLevel.GetValueOrDefault(); }
+            set { this._stepConcurrencyLevel = value; }
+        }
+
+        // Check to see if StepConcurrencyLevel property is set
+        internal bool IsSetStepConcurrencyLevel()
+        {
+            return this._stepConcurrencyLevel.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
         /// A list of tags associated with a cluster.
@@ -529,11 +597,13 @@ namespace Amazon.ElasticMapReduce.Model
         /// Gets and sets the property VisibleToAllUsers. 
         /// <para>
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated
-        /// with the cluster. If this value is set to <code>true</code>, all IAM users of that
-        /// AWS account can view and manage the cluster if they have the proper policy permissions
-        /// set. If this value is <code>false</code>, only the IAM user that created the cluster
-        /// can view and manage it. This value can be changed using the <a>SetVisibleToAllUsers</a>
-        /// action.
+        /// with the cluster. The default value, <code>true</code>, indicates that all IAM users
+        /// in the AWS account can perform cluster actions if they have the proper IAM policy
+        /// permissions. If this value is <code>false</code>, only the IAM user that created the
+        /// cluster can perform actions. This value can be changed on a running cluster by using
+        /// the <a>SetVisibleToAllUsers</a> action. You can override the default value of <code>true</code>
+        /// when you create a cluster by using the <code>VisibleToAllUsers</code> parameter of
+        /// the <code>RunJobFlow</code> action.
         /// </para>
         /// </summary>
         public bool VisibleToAllUsers

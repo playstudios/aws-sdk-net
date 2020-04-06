@@ -34,10 +34,6 @@ namespace Amazon.GameLift.Model
     /// fleet, provide an updated routing strategy. If successful, the updated alias record
     /// is returned.
     /// 
-    ///  
-    /// <para>
-    /// Alias-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateAlias</a> 
@@ -74,9 +70,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for a fleet alias. Specify the alias you want to update.
+        /// A unique identifier for the alias that you want to update. You can use either the
+        /// alias ID or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AliasId
         {
             get { return this._aliasId; }
@@ -92,9 +90,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// Human-readable description of an alias.
+        /// A human-readable description of the alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -110,10 +109,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with an alias. Alias names do not need to be
+        /// A descriptive label that is associated with an alias. Alias names do not need to be
         /// unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }
@@ -129,7 +129,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property RoutingStrategy. 
         /// <para>
-        /// Object that specifies the fleet and routing type to use for the alias.
+        /// The routing configuration, including routing type and fleet target, for the alias.
         /// </para>
         /// </summary>
         public RoutingStrategy RoutingStrategy

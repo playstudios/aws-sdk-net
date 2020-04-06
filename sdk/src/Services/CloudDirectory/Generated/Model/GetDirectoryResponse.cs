@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -40,6 +40,7 @@ namespace Amazon.CloudDirectory.Model
         /// Metadata about the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Directory Directory
         {
             get { return this._directory; }

@@ -30,9 +30,10 @@ namespace Amazon.ACMPCA.Model
     /// <summary>
     /// Contains configuration information for your private certificate authority (CA). This
     /// includes information about the class of public key algorithm and the key pair that
-    /// your private CA creates when it issues a certificate, the signature algorithm it uses
-    /// used when issuing certificates, and its X.500 distinguished name. You must specify
-    /// this information when you call the <a>CreateCertificateAuthority</a> function.
+    /// your private CA creates when it issues a certificate. It also includes the signature
+    /// algorithm that it uses when issuing certificates, and its X.500 distinguished name.
+    /// You must specify this information when you call the <a>CreateCertificateAuthority</a>
+    /// action.
     /// </summary>
     public partial class CertificateAuthorityConfiguration
     {
@@ -43,10 +44,12 @@ namespace Amazon.ACMPCA.Model
         /// <summary>
         /// Gets and sets the property KeyAlgorithm. 
         /// <para>
-        /// Type of the public key algorithm and size, in bits, of the key pair that your key
-        /// pair creates when it issues a certificate.
+        /// Type of the public key algorithm and size, in bits, of the key pair that your CA creates
+        /// when it issues a certificate. When you create a subordinate CA, you must use a key
+        /// algorithm supported by the parent CA.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public KeyAlgorithm KeyAlgorithm
         {
             get { return this._keyAlgorithm; }
@@ -65,6 +68,7 @@ namespace Amazon.ACMPCA.Model
         /// Name of the algorithm your private CA uses to sign certificate requests.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SigningAlgorithm SigningAlgorithm
         {
             get { return this._signingAlgorithm; }
@@ -83,6 +87,7 @@ namespace Amazon.ACMPCA.Model
         /// Structure that contains X.500 distinguished name information for your private CA.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ASN1Subject Subject
         {
             get { return this._subject; }

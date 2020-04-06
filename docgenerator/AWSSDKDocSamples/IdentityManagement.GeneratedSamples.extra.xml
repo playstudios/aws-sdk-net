@@ -257,7 +257,7 @@
         <value>
             <example>
                 <para>
-                    The following command creates a role named Test-Role and attaches a trust policy to it that is provided as a URL-encoded JSON string.
+                    The following command creates a role named Test-Role and attaches a trust policy that you must convert from JSON to a string. Upon success, the response includes the same policy as a URL-encoded JSON string.
                 </para>
                 <code
                     title="To create an IAM role"
@@ -515,6 +515,44 @@
     </doc>
     <doc>
         <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.GenerateOrganizationsAccessReport(Amazon.IdentityManagement.Model.GenerateOrganizationsAccessReportRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.GenerateOrganizationsAccessReport(Amazon.IdentityManagement.Model.GenerateOrganizationsAccessReportRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.GenerateOrganizationsAccessReportRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.GenerateOrganizationsAccessReportResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following operation generates a report for the organizational unit ou-rge0-awexample
+                </para>
+                <code
+                    title="To generate a service last accessed data report for an organizational unit"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="generateorganizationsaccessreport-ou" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.GenerateServiceLastAccessedDetails(Amazon.IdentityManagement.Model.GenerateServiceLastAccessedDetailsRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.GenerateServiceLastAccessedDetails(Amazon.IdentityManagement.Model.GenerateServiceLastAccessedDetailsRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.GenerateServiceLastAccessedDetailsRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.GenerateServiceLastAccessedDetailsResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following operation generates a report for the policy: ExamplePolicy1
+                </para>
+                <code
+                    title="To generate a service last accessed data report for a policy"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="generateaccessdata-policy-1541695178514" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
             <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.GetAccountPasswordPolicy(Amazon.IdentityManagement.Model.GetAccountPasswordPolicyRequest)" />
             <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.GetAccountPasswordPolicy(Amazon.IdentityManagement.Model.GetAccountPasswordPolicyRequest)" />
             <member name="T:Amazon.IdentityManagement.Model.GetAccountPasswordPolicyRequest" />
@@ -591,6 +629,25 @@
     </doc>
     <doc>
         <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.GetOrganizationsAccessReport(Amazon.IdentityManagement.Model.GetOrganizationsAccessReportRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.GetOrganizationsAccessReport(Amazon.IdentityManagement.Model.GetOrganizationsAccessReportRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.GetOrganizationsAccessReportRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.GetOrganizationsAccessReportResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following operation gets details about the report with the job ID: examplea-1234-b567-cde8-90fg123abcd4
+                </para>
+                <code
+                    title="To get details from a previously generated organizational unit report"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="getorganizationsaccessreport-ou" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
             <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.GetRole(Amazon.IdentityManagement.Model.GetRoleRequest)" />
             <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.GetRole(Amazon.IdentityManagement.Model.GetRoleRequest)" />
             <member name="T:Amazon.IdentityManagement.Model.GetRoleRequest" />
@@ -605,6 +662,44 @@
                     title="To get information about an IAM role"
                     source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
                     region="5b7d03a6-340c-472d-aa77-56425950d8b0" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.GetServiceLastAccessedDetails(Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.GetServiceLastAccessedDetails(Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following operation gets details about the report with the job ID: examplef-1305-c245-eba4-71fe298bcda7
+                </para>
+                <code
+                    title="To get details from a previously-generated report"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="getserviceaccessdetails-policy-1541696298085" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.GetServiceLastAccessedDetailsWithEntities(Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsWithEntitiesRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.GetServiceLastAccessedDetailsWithEntities(Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsWithEntitiesRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsWithEntitiesRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.GetServiceLastAccessedDetailsWithEntitiesResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following operation returns details about the entities that attempted to access the IAM service.
+                </para>
+                <code
+                    title="To get sntity details from a previously-generated report"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="getserviceaccessdetailsentity-policy-1541697621384" />
             </example>
         </value>
     </doc>
@@ -724,6 +819,44 @@
     </doc>
     <doc>
         <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.ListPoliciesGrantingServiceAccess(Amazon.IdentityManagement.Model.ListPoliciesGrantingServiceAccessRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.ListPoliciesGrantingServiceAccess(Amazon.IdentityManagement.Model.ListPoliciesGrantingServiceAccessRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.ListPoliciesGrantingServiceAccessRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.ListPoliciesGrantingServiceAccessResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following operation lists policies that allow ExampleUser01 to access IAM or EC2.
+                </para>
+                <code
+                    title="To list policies that allow access to a service"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="listpoliciesaccess-user-1541698749508" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.ListRoleTags(Amazon.IdentityManagement.Model.ListRoleTagsRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.ListRoleTags(Amazon.IdentityManagement.Model.ListRoleTagsRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.ListRoleTagsRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.ListRoleTagsResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following example shows how to list the tags attached to a role.
+                </para>
+                <code
+                    title="To list the tags attached to an IAM role"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="to-list-the-tags-attached-to-an-iam-role-1506719238376" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
             <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.ListSigningCertificates(Amazon.IdentityManagement.Model.ListSigningCertificatesRequest)" />
             <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.ListSigningCertificates(Amazon.IdentityManagement.Model.ListSigningCertificatesRequest)" />
             <member name="T:Amazon.IdentityManagement.Model.ListSigningCertificatesRequest" />
@@ -757,6 +890,25 @@
                     title="To list IAM users"
                     source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
                     region="9edfbd73-03d8-4d8a-9a79-76c85e8c8298" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.ListUserTags(Amazon.IdentityManagement.Model.ListUserTagsRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.ListUserTags(Amazon.IdentityManagement.Model.ListUserTagsRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.ListUserTagsRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.ListUserTagsResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following example shows how to list the tags attached to a user.
+                </para>
+                <code
+                    title="To list the tags attached to an IAM user"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="to-list-the-tags-attached-to-an-iam-user-1506719473186" />
             </example>
         </value>
     </doc>
@@ -871,6 +1023,101 @@
                     title="To remove a user from an IAM group"
                     source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
                     region="fb54d5b4-0caf-41d8-af0e-10a84413f174" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.SetSecurityTokenServicePreferences(Amazon.IdentityManagement.Model.SetSecurityTokenServicePreferencesRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.SetSecurityTokenServicePreferences(Amazon.IdentityManagement.Model.SetSecurityTokenServicePreferencesRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.SetSecurityTokenServicePreferencesRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.SetSecurityTokenServicePreferencesResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following command sets the STS global endpoint token to version 2. Version 2 tokens are valid in all Regions.
+                </para>
+                <code
+                    title="To delete an access key for an IAM user"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="61a785a7-d30a-415a-ae18-ab9236e56871" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.TagRole(Amazon.IdentityManagement.Model.TagRoleRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.TagRole(Amazon.IdentityManagement.Model.TagRoleRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.TagRoleRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.TagRoleResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following example shows how to add tags to an existing role.
+                </para>
+                <code
+                    title="To add a tag key and value to an IAM role"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="to-add-a-tag-key-and-value-to-an-iam-role-1506718791513" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.TagUser(Amazon.IdentityManagement.Model.TagUserRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.TagUser(Amazon.IdentityManagement.Model.TagUserRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.TagUserRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.TagUserResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following example shows how to add tags to an existing user.
+                </para>
+                <code
+                    title="To add a tag key and value to an IAM user"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="to-add-a-tag-key-and-value-to-an-iam-user-1506719044227" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.UntagRole(Amazon.IdentityManagement.Model.UntagRoleRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.UntagRole(Amazon.IdentityManagement.Model.UntagRoleRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.UntagRoleRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.UntagRoleResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following example shows how to remove a tag with the key 'Dept' from a role named 'taggedrole'.
+                </para>
+                <code
+                    title="To remove a tag from an IAM role"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="to-remove-a-tag-from-an-iam-role-1506719589943" />
+            </example>
+        </value>
+    </doc>
+    <doc>
+        <members>
+            <member name="M:Amazon.IdentityManagement.IAmazonIdentityManagementService.UntagUser(Amazon.IdentityManagement.Model.UntagUserRequest)" />
+            <member name="M:Amazon.IdentityManagement.AmazonIdentityManagementServiceClient.UntagUser(Amazon.IdentityManagement.Model.UntagUserRequest)" />
+            <member name="T:Amazon.IdentityManagement.Model.UntagUserRequest" />
+            <member name="T:Amazon.IdentityManagement.Model.UntagUserResponse" />
+        </members>
+        <value>
+            <example>
+                <para>
+                    The following example shows how to remove tags that are attached to a user named 'anika'.
+                </para>
+                <code
+                    title="To remove a tag from an IAM user"
+                    source=".\AWSSDKDocSamples\IdentityManagement\IdentityManagement.GeneratedSamples.cs"
+                    region="to-remove-a-tag-from-an-iam-user-1506719725554" />
             </example>
         </value>
     </doc>

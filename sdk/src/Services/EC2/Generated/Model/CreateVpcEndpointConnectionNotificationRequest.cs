@@ -31,7 +31,7 @@ namespace Amazon.EC2.Model
     /// Container for the parameters to the CreateVpcEndpointConnectionNotification operation.
     /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service.
     /// A connection notification notifies you of specific endpoint events. You must create
-    /// an SNS topic to receive notifications. For more information, see <a href="http://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Create
+    /// an SNS topic to receive notifications. For more information, see <a href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Create
     /// a Topic</a> in the <i>Amazon Simple Notification Service Developer Guide</i>.
     /// 
     ///  
@@ -50,8 +50,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
         /// to Ensure Idempotency</a>.
         /// </para>
         /// </summary>
@@ -74,6 +74,7 @@ namespace Amazon.EC2.Model
         /// <code>Connect</code>, <code>Delete</code>, and <code>Reject</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> ConnectionEvents
         {
             get { return this._connectionEvents; }
@@ -92,6 +93,7 @@ namespace Amazon.EC2.Model
         /// The ARN of the SNS topic for the notifications.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConnectionNotificationArn
         {
             get { return this._connectionNotificationArn; }
@@ -125,7 +127,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property VpcEndpointId. 
         /// <para>
-        /// The ID of the endpoint. 
+        /// The ID of the endpoint.
         /// </para>
         /// </summary>
         public string VpcEndpointId

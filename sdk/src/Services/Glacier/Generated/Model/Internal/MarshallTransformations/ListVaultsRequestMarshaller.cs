@@ -55,17 +55,18 @@ namespace Amazon.Glacier.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListVaultsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Glacier");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-06-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/{accountId}/vaults";
-            uriResourcePath = uriResourcePath.Replace("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
+            request.AddPathResource("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
             
             if (publicRequest.IsSetLimit())
                 request.Parameters.Add("limit", Amazon.Runtime.Internal.Util.StringUtils.FromInt(publicRequest.Limit));
             
             if (publicRequest.IsSetMarker())
                 request.Parameters.Add("marker", StringUtils.FromString(publicRequest.Marker));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/{accountId}/vaults";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

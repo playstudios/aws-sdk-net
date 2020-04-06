@@ -58,10 +58,11 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
             string target = "DeviceFarm_20150623.GetAccountSettings";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-06-23";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             request.Content = System.Text.Encoding.UTF8.GetBytes("{}");
 
             return request;

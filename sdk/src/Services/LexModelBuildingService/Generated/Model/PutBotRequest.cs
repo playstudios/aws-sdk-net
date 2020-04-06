@@ -48,7 +48,7 @@ namespace Amazon.LexModelBuildingService.Model
     ///  
     /// <para>
     /// This operation requires permissions for the <code>lex:PutBot</code> action. For more
-    /// information, see <a>auth-and-access-control</a>.
+    /// information, see <a>security-iam</a>.
     /// </para>
     /// </summary>
     public partial class PutBotRequest : AmazonLexModelBuildingServiceRequest
@@ -59,11 +59,13 @@ namespace Amazon.LexModelBuildingService.Model
         private Prompt _clarificationPrompt;
         private bool? _createVersion;
         private string _description;
+        private bool? _detectSentiment;
         private int? _idleSessionTTLInSeconds;
         private List<Intent> _intents = new List<Intent>();
         private Locale _locale;
         private string _name;
         private ProcessBehavior _processBehavior;
+        private List<Tag> _tags = new List<Tag>();
         private string _voiceId;
 
         /// <summary>
@@ -87,6 +89,12 @@ namespace Amazon.LexModelBuildingService.Model
         /// of the intents. This intent might require the <code>CrustType</code> slot. You specify
         /// the <code>valueElicitationPrompt</code> field when you create the <code>CrustType</code>
         /// slot.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you have defined a fallback intent the abort statement will not be sent to the
+        /// user, the fallback intent is used instead. For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html">
+        /// AMAZON.FallbackIntent</a>.
         /// </para>
         /// </summary>
         public Statement AbortStatement
@@ -160,6 +168,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// Lex FAQ.</a> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool ChildDirected
         {
             get { return this._childDirected.GetValueOrDefault(); }
@@ -176,7 +185,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// Gets and sets the property ClarificationPrompt. 
         /// <para>
         /// When Amazon Lex doesn't understand the user's intent, it uses this message to get
-        /// clarification. To specify how many times Amazon Lex should repeate the clarification
+        /// clarification. To specify how many times Amazon Lex should repeat the clarification
         /// prompt, use the <code>maxAttempts</code> field. If Amazon Lex still doesn't understand,
         /// it sends the message in the <code>abortStatement</code> field. 
         /// </para>
@@ -187,6 +196,39 @@ namespace Amazon.LexModelBuildingService.Model
         /// this clarification prompt: "What would you like to do? You can say 'Order a pizza'
         /// or 'Order a drink.'"
         /// </para>
+        ///  
+        /// <para>
+        /// If you have defined a fallback intent, it will be invoked if the clarification prompt
+        /// is repeated the number of times defined in the <code>maxAttempts</code> field. For
+        /// more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html">
+        /// AMAZON.FallbackIntent</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you don't define a clarification prompt, at runtime Amazon Lex will return a 400
+        /// Bad Request exception in three cases: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Follow-up prompt - When the user responds to a follow-up prompt but does not provide
+        /// an intent. For example, in response to a follow-up prompt that says "Would you like
+        /// anything else today?" the user says "Yes." Amazon Lex will return a 400 Bad Request
+        /// exception because it does not have a clarification prompt to send to the user to get
+        /// an intent.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Lambda function - When using a Lambda function, you return an <code>ElicitIntent</code>
+        /// dialog type. Since Amazon Lex does not have a clarification prompt to get an intent
+        /// from the user, it returns a 400 Bad Request exception.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PutSession operation - When using the <code>PutSession</code> operation, you send
+        /// an <code>ElicitIntent</code> dialog type. Since Amazon Lex does not have a clarification
+        /// prompt to get an intent from the user, it returns a 400 Bad Request exception.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public Prompt ClarificationPrompt
         {
@@ -201,7 +243,12 @@ namespace Amazon.LexModelBuildingService.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CreateVersion.
+        /// Gets and sets the property CreateVersion. 
+        /// <para>
+        /// When set to <code>true</code> a new numbered version of the bot is created. This is
+        /// the same as calling the <code>CreateBotVersion</code> operation. If you don't specify
+        /// <code>createVersion</code>, the default is <code>false</code>.
+        /// </para>
         /// </summary>
         public bool CreateVersion
         {
@@ -221,6 +268,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// A description of the bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -231,6 +279,25 @@ namespace Amazon.LexModelBuildingService.Model
         internal bool IsSetDescription()
         {
             return this._description != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DetectSentiment. 
+        /// <para>
+        /// When set to <code>true</code> user utterances are sent to Amazon Comprehend for sentiment
+        /// analysis. If you don't specify <code>detectSentiment</code>, the default is <code>false</code>.
+        /// </para>
+        /// </summary>
+        public bool DetectSentiment
+        {
+            get { return this._detectSentiment.GetValueOrDefault(); }
+            set { this._detectSentiment = value; }
+        }
+
+        // Check to see if DetectSentiment property is set
+        internal bool IsSetDetectSentiment()
+        {
+            return this._detectSentiment.HasValue; 
         }
 
         /// <summary>
@@ -262,6 +329,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The default is 300 seconds (5 minutes).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=60, Max=86400)]
         public int IdleSessionTTLInSeconds
         {
             get { return this._idleSessionTTLInSeconds.GetValueOrDefault(); }
@@ -305,6 +373,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The default is <code>en-US</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Locale Locale
         {
             get { return this._locale; }
@@ -323,6 +392,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the bot. The name is <i>not</i> case sensitive. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=50)]
         public string Name
         {
             get { return this._name; }
@@ -360,12 +430,33 @@ namespace Amazon.LexModelBuildingService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of tags to add to the bot. You can only add tags when you create a bot, you
+        /// can't use the <code>PutBot</code> operation to update the tags on a bot. To update
+        /// tags, use the <code>TagResource</code> operation.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=200)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property VoiceId. 
         /// <para>
         /// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with
         /// the user. The locale configured for the voice must match the locale of the bot. For
-        /// more information, see <a href="http://docs.aws.amazon.com/polly/latest/dg/voicelist.html">Available
-        /// Voices</a> in the <i>Amazon Polly Developer Guide</i>.
+        /// more information, see <a href="https://docs.aws.amazon.com/polly/latest/dg/voicelist.html">Voices
+        /// in Amazon Polly</a> in the <i>Amazon Polly Developer Guide</i>.
         /// </para>
         /// </summary>
         public string VoiceId

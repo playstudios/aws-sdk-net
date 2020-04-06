@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// Provides information that defines a MongoDB endpoint.
     /// </summary>
     public partial class MongoDbSettings
     {
@@ -38,6 +38,7 @@ namespace Amazon.DatabaseMigrationService.Model
         private string _databaseName;
         private string _docsToInvestigate;
         private string _extractDocId;
+        private string _kmsKeyId;
         private NestingLevelValue _nestingLevel;
         private string _password;
         private int? _port;
@@ -56,7 +57,7 @@ namespace Amazon.DatabaseMigrationService.Model
         ///  
         /// <para>
         /// DEFAULT – For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1.
-        /// This attribute is not used when authType=No.
+        /// This setting isn't used when authType=No.
         /// </para>
         /// </summary>
         public AuthMechanismValue AuthMechanism
@@ -74,7 +75,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property AuthSource. 
         /// <para>
-        ///  The MongoDB database name. This attribute is not used when <code>authType=NO</code>.
+        ///  The MongoDB database name. This setting isn't used when <code>authType=NO</code>.
         /// 
         /// </para>
         ///  
@@ -143,7 +144,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// Gets and sets the property DocsToInvestigate. 
         /// <para>
         ///  Indicates the number of documents to preview to determine the document organization.
-        /// Use this attribute when <code>NestingLevel</code> is set to ONE. 
+        /// Use this setting when <code>NestingLevel</code> is set to ONE. 
         /// </para>
         ///  
         /// <para>
@@ -165,7 +166,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ExtractDocId. 
         /// <para>
-        ///  Specifies the document ID. Use this attribute when <code>NestingLevel</code> is set
+        ///  Specifies the document ID. Use this setting when <code>NestingLevel</code> is set
         /// to NONE. 
         /// </para>
         ///  
@@ -183,6 +184,28 @@ namespace Amazon.DatabaseMigrationService.Model
         internal bool IsSetExtractDocId()
         {
             return this._extractDocId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KmsKeyId. 
+        /// <para>
+        /// The AWS KMS key identifier that is used to encrypt the content on the replication
+        /// instance. If you don't specify a value for the <code>KmsKeyId</code> parameter, then
+        /// AWS DMS uses your default encryption key. AWS KMS creates the default encryption key
+        /// for your AWS account. Your AWS account has a different default encryption key for
+        /// each AWS Region.
+        /// </para>
+        /// </summary>
+        public string KmsKeyId
+        {
+            get { return this._kmsKeyId; }
+            set { this._kmsKeyId = value; }
+        }
+
+        // Check to see if KmsKeyId property is set
+        internal bool IsSetKmsKeyId()
+        {
+            return this._kmsKeyId != null;
         }
 
         /// <summary>

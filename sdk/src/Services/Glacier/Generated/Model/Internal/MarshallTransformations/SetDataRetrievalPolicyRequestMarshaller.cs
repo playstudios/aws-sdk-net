@@ -55,12 +55,13 @@ namespace Amazon.Glacier.Model.Internal.MarshallTransformations
         public IRequest Marshall(SetDataRetrievalPolicyRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Glacier");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-06-01";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/{accountId}/policies/data-retrieval";
-            uriResourcePath = uriResourcePath.Replace("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
+            request.ResourcePath = "/{accountId}/policies/data-retrieval";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

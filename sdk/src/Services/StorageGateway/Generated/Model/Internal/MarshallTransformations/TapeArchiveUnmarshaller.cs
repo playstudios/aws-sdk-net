@@ -70,6 +70,18 @@ namespace Amazon.StorageGateway.Model.Internal.MarshallTransformations
                     unmarshalledObject.CompletionTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("KMSKey", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.KMSKey = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("PoolId", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.PoolId = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("RetrievedTo", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;

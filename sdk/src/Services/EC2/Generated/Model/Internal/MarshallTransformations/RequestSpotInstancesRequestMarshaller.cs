@@ -204,6 +204,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                     publicRequestLaunchSpecificationlistValuelistValueIndex++;
                                 }
                             }
+                            if(publicRequestLaunchSpecificationlistValue.IsSetInterfaceType())
+                            {
+                                request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "InterfaceType", StringUtils.FromString(publicRequestLaunchSpecificationlistValue.InterfaceType));
+                            }
                             if(publicRequestLaunchSpecificationlistValue.IsSetIpv6AddressCount())
                             {
                                 request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "Ipv6AddressCount", StringUtils.FromInt(publicRequestLaunchSpecificationlistValue.Ipv6AddressCount));
@@ -215,7 +219,7 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                 {
                                     if(publicRequestLaunchSpecificationlistValuelistValue.IsSetIpv6Address())
                                     {
-                                        request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "Ipv6AddressesSet" + "." + publicRequestLaunchSpecificationlistValuelistValueIndex + "." + "Ipv6Address", StringUtils.FromString(publicRequestLaunchSpecificationlistValuelistValue.Ipv6Address));
+                                        request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "Ipv6Addresses" + "." + publicRequestLaunchSpecificationlistValuelistValueIndex + "." + "Ipv6Address", StringUtils.FromString(publicRequestLaunchSpecificationlistValuelistValue.Ipv6Address));
                                     }
                                     publicRequestLaunchSpecificationlistValuelistValueIndex++;
                                 }
@@ -235,11 +239,11 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                 {
                                     if(publicRequestLaunchSpecificationlistValuelistValue.IsSetPrimary())
                                     {
-                                        request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "PrivateIpAddressesSet" + "." + publicRequestLaunchSpecificationlistValuelistValueIndex + "." + "Primary", StringUtils.FromBool(publicRequestLaunchSpecificationlistValuelistValue.Primary));
+                                        request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "PrivateIpAddresses" + "." + publicRequestLaunchSpecificationlistValuelistValueIndex + "." + "Primary", StringUtils.FromBool(publicRequestLaunchSpecificationlistValuelistValue.Primary));
                                     }
                                     if(publicRequestLaunchSpecificationlistValuelistValue.IsSetPrivateIpAddress())
                                     {
-                                        request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "PrivateIpAddressesSet" + "." + publicRequestLaunchSpecificationlistValuelistValueIndex + "." + "PrivateIpAddress", StringUtils.FromString(publicRequestLaunchSpecificationlistValuelistValue.PrivateIpAddress));
+                                        request.Parameters.Add("LaunchSpecification" + "." + "NetworkInterface" + "." + publicRequestLaunchSpecificationlistValueIndex + "." + "PrivateIpAddresses" + "." + publicRequestLaunchSpecificationlistValuelistValueIndex + "." + "PrivateIpAddress", StringUtils.FromString(publicRequestLaunchSpecificationlistValuelistValue.PrivateIpAddress));
                                     }
                                     publicRequestLaunchSpecificationlistValuelistValueIndex++;
                                 }
@@ -291,13 +295,13 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("Type", StringUtils.FromString(publicRequest.Type));
                 }
-                if(publicRequest.IsSetValidFrom())
+                if(publicRequest.IsSetValidFromUtc())
                 {
-                    request.Parameters.Add("ValidFrom", StringUtils.FromDateTime(publicRequest.ValidFrom));
+                    request.Parameters.Add("ValidFrom", StringUtils.FromDateTimeToISO8601(publicRequest.ValidFromUtc));
                 }
-                if(publicRequest.IsSetValidUntil())
+                if(publicRequest.IsSetValidUntilUtc())
                 {
-                    request.Parameters.Add("ValidUntil", StringUtils.FromDateTime(publicRequest.ValidUntil));
+                    request.Parameters.Add("ValidUntil", StringUtils.FromDateTimeToISO8601(publicRequest.ValidUntilUtc));
                 }
             }
             return request;

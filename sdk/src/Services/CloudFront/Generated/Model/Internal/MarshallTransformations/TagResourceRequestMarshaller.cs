@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -56,46 +56,50 @@ namespace Amazon.CloudFront.Model.Internal.MarshallTransformations
         {
             var request = new DefaultRequest(publicRequest, "Amazon.CloudFront");
             request.HttpMethod = "POST";
-            string uriResourcePath = "/2017-10-30/tagging";
             request.AddSubResource("Operation", "Tag");
             
             if (publicRequest.IsSetResource())
                 request.Parameters.Add("Resource", StringUtils.FromString(publicRequest.Resource));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2019-03-26/tagging";
+            request.MarshallerVersion = 2;
 
             var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Encoding = System.Text.Encoding.UTF8, OmitXmlDeclaration = true }))
             {   
-                xmlWriter.WriteStartElement("Tags", "http://cloudfront.amazonaws.com/doc/2017-10-30/");                                
-                var publicRequestTagsItems = publicRequest.Tags.Items;
-                if (publicRequestTagsItems != null && publicRequestTagsItems.Count > 0) 
-                {                        
-                    xmlWriter.WriteStartElement("Items", "http://cloudfront.amazonaws.com/doc/2017-10-30/");
-                    foreach (var publicRequestTagsItemsValue in publicRequestTagsItems) 
-                    {
-                    
-                    if (publicRequestTagsItemsValue != null) 
-                    {
-                        xmlWriter.WriteStartElement("Tag", "http://cloudfront.amazonaws.com/doc/2017-10-30/");            
-                        if(publicRequestTagsItemsValue.IsSetKey())
-                            xmlWriter.WriteElementString("Key", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequestTagsItemsValue.Key));                 
-        
-                        if(publicRequestTagsItemsValue.IsSetValue())
-                            xmlWriter.WriteElementString("Value", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequestTagsItemsValue.Value));                 
-        
-                        xmlWriter.WriteEndElement();
+                if (publicRequest.IsSetTags())
+                {
+                    xmlWriter.WriteStartElement("Tags", "http://cloudfront.amazonaws.com/doc/2019-03-26/");
+                    var publicRequestTagsItems = publicRequest.Tags.Items;
+                    if (publicRequestTagsItems != null && publicRequestTagsItems.Count > 0) 
+                    {                        
+                        xmlWriter.WriteStartElement("Items", "http://cloudfront.amazonaws.com/doc/2019-03-26/");
+                        foreach (var publicRequestTagsItemsValue in publicRequestTagsItems) 
+                        {
+                        
+                        if (publicRequestTagsItemsValue != null) 
+                        {
+                            xmlWriter.WriteStartElement("Tag", "http://cloudfront.amazonaws.com/doc/2019-03-26/");            
+                            if(publicRequestTagsItemsValue.IsSetKey())
+                                xmlWriter.WriteElementString("Key", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequestTagsItemsValue.Key));                 
+            
+                            if(publicRequestTagsItemsValue.IsSetValue())
+                                xmlWriter.WriteElementString("Value", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequestTagsItemsValue.Value));                 
+            
+                            xmlWriter.WriteEndElement();
+                        }
+                        }            
+                        xmlWriter.WriteEndElement();            
                     }
-                    }            
-                    xmlWriter.WriteEndElement();            
+    
+                    xmlWriter.WriteEndElement();
                 }
-
-                xmlWriter.WriteEndElement();
             }
             try 
             {
                 string content = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(content);
                 request.Headers["Content-Type"] = "application/xml";
+                request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2019-03-26";            
             } 
             catch (EncoderFallbackException e) 
             {

@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MarketplaceEntitlementService.Model;
 using Amazon.MarketplaceEntitlementService.Model.Internal.MarshallTransformations;
+using Amazon.MarketplaceEntitlementService.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -59,10 +61,11 @@ namespace Amazon.MarketplaceEntitlementService
     /// </summary>
     public partial class AmazonMarketplaceEntitlementServiceClient : AmazonServiceClient, IAmazonMarketplaceEntitlementService
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMarketplaceEntitlementServiceMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonMarketplaceEntitlementServiceClient with the credentials loaded from the application's
@@ -233,6 +236,16 @@ namespace Amazon.MarketplaceEntitlementService
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -248,35 +261,48 @@ namespace Amazon.MarketplaceEntitlementService
 
         #endregion
 
-        
+
         #region  GetEntitlements
 
         internal virtual GetEntitlementsResponse GetEntitlements(GetEntitlementsRequest request)
         {
-            var marshaller = GetEntitlementsRequestMarshaller.Instance;
-            var unmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEntitlementsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
 
-            return Invoke<GetEntitlementsRequest,GetEntitlementsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetEntitlementsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetEntitlements operation.
+        /// GetEntitlements retrieves entitlement values for a given product. The results can
+        /// be filtered based on customer identifier or product dimensions.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetEntitlements operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetEntitlements service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetEntitlements service method, as returned by MarketplaceEntitlementService.</returns>
+        /// <exception cref="Amazon.MarketplaceEntitlementService.Model.InternalServiceErrorException">
+        /// An internal error has occurred. Retry your request. If the problem persists, post
+        /// a message with details on the AWS forums.
+        /// </exception>
+        /// <exception cref="Amazon.MarketplaceEntitlementService.Model.InvalidParameterException">
+        /// One or more parameters in your request was invalid.
+        /// </exception>
+        /// <exception cref="Amazon.MarketplaceEntitlementService.Model.ThrottlingException">
+        /// The calls to the GetEntitlements API are throttled.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/entitlement.marketplace-2017-01-11/GetEntitlements">REST API Reference for GetEntitlements Operation</seealso>
         public virtual Task<GetEntitlementsResponse> GetEntitlementsAsync(GetEntitlementsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetEntitlementsRequestMarshaller.Instance;
-            var unmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEntitlementsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEntitlementsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetEntitlementsRequest,GetEntitlementsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetEntitlementsResponse>(request, options, cancellationToken);
         }
 
         #endregion

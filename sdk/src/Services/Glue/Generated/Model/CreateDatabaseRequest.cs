@@ -39,10 +39,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog in which to create the database. If none is supplied, the
+        /// The ID of the Data Catalog in which to create the database. If none is provided, the
         /// AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -58,10 +59,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property DatabaseInput. 
         /// <para>
-        /// A <code>DatabaseInput</code> object defining the metadata database to create in the
-        /// catalog.
+        /// The metadata for the database.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DatabaseInput DatabaseInput
         {
             get { return this._databaseInput; }

@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the GetApps operation.
-    /// Returns information about your apps.
+    /// Retrieves information about all the applications that are associated with your Amazon
+    /// Pinpoint account.
     /// </summary>
     public partial class GetAppsRequest : AmazonPinpointRequest
     {
@@ -37,7 +38,11 @@ namespace Amazon.Pinpoint.Model
         private string _token;
 
         /// <summary>
-        /// Gets and sets the property PageSize.
+        /// Gets and sets the property PageSize. 
+        /// <para>
+        /// The maximum number of items to include in each page of a paginated response. This
+        /// parameter is currently not supported for application, campaign, and journey metrics.
+        /// </para>
         /// </summary>
         public string PageSize
         {
@@ -52,7 +57,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Token.
+        /// Gets and sets the property Token. 
+        /// <para>
+        /// The NextToken string that specifies which page of results to return in a paginated
+        /// response.
+        /// </para>
         /// </summary>
         public string Token
         {

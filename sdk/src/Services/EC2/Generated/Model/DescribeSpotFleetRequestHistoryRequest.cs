@@ -35,6 +35,7 @@ namespace Amazon.EC2.Model
     /// <para>
     /// Spot Fleet events are delayed by up to 30 seconds before they can be described. This
     /// ensures that you can query by the last evaluated time and not miss a recorded event.
+    /// Spot Fleet events are available for 48 hours.
     /// </para>
     /// </summary>
     public partial class DescribeSpotFleetRequestHistoryRequest : AmazonEC2Request
@@ -43,7 +44,7 @@ namespace Amazon.EC2.Model
         private int? _maxResults;
         private string _nextToken;
         private string _spotFleetRequestId;
-        private DateTime? _startTime;
+        private DateTime? _startTimeUtc;
 
         /// <summary>
         /// Gets and sets the property EventType. 
@@ -71,6 +72,7 @@ namespace Amazon.EC2.Model
         /// call with the returned <code>NextToken</code> value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -107,6 +109,7 @@ namespace Amazon.EC2.Model
         /// The ID of the Spot Fleet request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SpotFleetRequestId
         {
             get { return this._spotFleetRequestId; }
@@ -120,22 +123,56 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartTime. 
+        /// Gets and sets the property StartTimeUtc. 
         /// <para>
         /// The starting date and time for the events, in UTC format (for example, <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
+        public DateTime StartTimeUtc
+        {
+            get { return this._startTimeUtc.GetValueOrDefault(); }
+            set { this._startTime = this._startTimeUtc = value; }
+        }
+
+        // Check to see if StartTimeUtc property is set
+        internal bool IsSetStartTimeUtc()
+        {
+            return this._startTimeUtc.HasValue; 
+        }
+
+#region Backwards compatible properties
+        private DateTime? _startTime;
+
+        /// <summary>
+        /// Gets and sets the property StartTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use StartTimeUtc instead. Setting either StartTime or
+        /// StartTimeUtc results in both StartTime and StartTimeUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. StartTime
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The starting date and time for the events, in UTC format (for example, <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use StartTimeUtc instead. Setting either StartTime or StartTimeUtc results in both StartTime and " +
+            "StartTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. StartTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
         public DateTime StartTime
         {
             get { return this._startTime.GetValueOrDefault(); }
-            set { this._startTime = value; }
+            set
+            {
+                this._startTime = value;
+                this._startTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
         }
-
-        // Check to see if StartTime property is set
-        internal bool IsSetStartTime()
-        {
-            return this._startTime.HasValue; 
-        }
-
+#endregion
     }
 }

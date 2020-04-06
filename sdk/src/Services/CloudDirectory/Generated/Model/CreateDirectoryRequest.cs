@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -31,6 +31,13 @@ namespace Amazon.CloudDirectory.Model
     /// Container for the parameters to the CreateDirectory operation.
     /// Creates a <a>Directory</a> by copying the published schema into the directory. A directory
     /// cannot be created without a schema.
+    /// 
+    ///  
+    /// <para>
+    /// You can also quickly create a directory using a managed schema, called the <code>QuickStartSchema</code>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html">Managed
+    /// Schema</a> in the <i>Amazon Cloud Directory Developer Guide</i>.
+    /// </para>
     /// </summary>
     public partial class CreateDirectoryRequest : AmazonCloudDirectoryRequest
     {
@@ -43,6 +50,7 @@ namespace Amazon.CloudDirectory.Model
         /// The name of the <a>Directory</a>. Should be unique per account, per region.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Name
         {
             get { return this._name; }
@@ -62,6 +70,7 @@ namespace Amazon.CloudDirectory.Model
         /// data <a>Directory</a>. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SchemaArn
         {
             get { return this._schemaArn; }

@@ -35,9 +35,21 @@ namespace Amazon.Budgets
         /// </summary>
         public static readonly BudgetType COST = new BudgetType("COST");
         /// <summary>
+        /// Constant RI_COVERAGE for BudgetType
+        /// </summary>
+        public static readonly BudgetType RI_COVERAGE = new BudgetType("RI_COVERAGE");
+        /// <summary>
         /// Constant RI_UTILIZATION for BudgetType
         /// </summary>
         public static readonly BudgetType RI_UTILIZATION = new BudgetType("RI_UTILIZATION");
+        /// <summary>
+        /// Constant SAVINGS_PLANS_COVERAGE for BudgetType
+        /// </summary>
+        public static readonly BudgetType SAVINGS_PLANS_COVERAGE = new BudgetType("SAVINGS_PLANS_COVERAGE");
+        /// <summary>
+        /// Constant SAVINGS_PLANS_UTILIZATION for BudgetType
+        /// </summary>
+        public static readonly BudgetType SAVINGS_PLANS_UTILIZATION = new BudgetType("SAVINGS_PLANS_UTILIZATION");
         /// <summary>
         /// Constant USAGE for BudgetType
         /// </summary>
@@ -126,6 +138,56 @@ namespace Amazon.Budgets
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator ComparisonOperator(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type NotificationState.
+    /// </summary>
+    public class NotificationState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ALARM for NotificationState
+        /// </summary>
+        public static readonly NotificationState ALARM = new NotificationState("ALARM");
+        /// <summary>
+        /// Constant OK for NotificationState
+        /// </summary>
+        public static readonly NotificationState OK = new NotificationState("OK");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public NotificationState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static NotificationState FindValue(string value)
+        {
+            return FindValue<NotificationState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator NotificationState(string value)
         {
             return FindValue(value);
         }

@@ -29,7 +29,14 @@ namespace Amazon.DynamoDBv2.Model
 {
     /// <summary>
     /// Container for the parameters to the ListGlobalTables operation.
-    /// Lists all global tables that have a replica in the specified region.
+    /// Lists all global tables that have a replica in the specified Region.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+    /// 2017.11.29</a> of global tables.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class ListGlobalTablesRequest : AmazonDynamoDBRequest
     {
@@ -43,6 +50,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The first global table name that this operation will evaluate.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public string ExclusiveStartGlobalTableName
         {
             get { return this._exclusiveStartGlobalTableName; }
@@ -58,9 +66,18 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// The maximum number of table names to return.
+        /// The maximum number of table names to return, if the parameter is not specified DynamoDB
+        /// defaults to 100.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the number of global tables DynamoDB finds reaches this limit, it stops the operation
+        /// and returns the table names collected up to that point, with a table name in the <code>LastEvaluatedGlobalTableName</code>
+        /// to apply in a subsequent operation to the <code>ExclusiveStartGlobalTableName</code>
+        /// parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -76,7 +93,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property RegionName. 
         /// <para>
-        /// Lists the global tables in a specific region.
+        /// Lists the global tables in a specific Region.
         /// </para>
         /// </summary>
         public string RegionName

@@ -29,12 +29,19 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateKeyDescription operation.
-    /// Updates the description of a customer master key (CMK). To see the decription of a
-    /// CMK, use <a>DescribeKey</a>. 
+    /// Updates the description of a customer master key (CMK). To see the description of
+    /// a CMK, use <a>DescribeKey</a>. 
     /// 
     ///  
     /// <para>
     /// You cannot perform this operation on a CMK in a different AWS account.
+    /// </para>
+    ///  
+    /// <para>
+    /// The CMK that you use for this operation must be in a compatible key state. For details,
+    /// see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+    /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key Management Service
+    /// Developer Guide</i>.
     /// </para>
     /// </summary>
     public partial class UpdateKeyDescriptionRequest : AmazonKeyManagementServiceRequest
@@ -48,6 +55,7 @@ namespace Amazon.KeyManagementService.Model
         /// New description for the CMK.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=8192)]
         public string Description
         {
             get { return this._description; }
@@ -87,6 +95,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or <a>DescribeKey</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }

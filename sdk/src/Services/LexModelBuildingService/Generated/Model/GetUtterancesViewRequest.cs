@@ -47,13 +47,19 @@ namespace Amazon.LexModelBuildingService.Model
     /// After you publish a new version of a bot, you can get information about the old version
     /// and the new so that you can compare the performance across the two versions. 
     /// </para>
-    ///  <note> 
+    ///  
     /// <para>
     /// Utterance statistics are generated once a day. Data is available for the last 15 days.
-    /// You can request information for up to 5 versions in each request. The response contains
-    /// information about a maximum of 100 utterances for each version.
+    /// You can request information for up to 5 versions of your bot in each request. Amazon
+    /// Lex returns the most frequent utterances received by the bot in the last 15 days.
+    /// The response contains information about a maximum of 100 utterances for each version.
     /// </para>
-    ///  </note> 
+    ///  
+    /// <para>
+    /// If you set <code>childDirected</code> field to true when you created your bot, or
+    /// if you opted out of participating in improving Amazon Lex, utterances are not available.
+    /// </para>
+    ///  
     /// <para>
     /// This operation requires permissions for the <code>lex:GetUtterancesView</code> action.
     /// </para>
@@ -70,6 +76,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the bot for which utterance information should be returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=50)]
         public string BotName
         {
             get { return this._botName; }
@@ -89,6 +96,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// is 5 versions per request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=5)]
         public List<string> BotVersions
         {
             get { return this._botVersions; }
@@ -104,10 +112,11 @@ namespace Amazon.LexModelBuildingService.Model
         /// <summary>
         /// Gets and sets the property StatusType. 
         /// <para>
-        /// To return utterances that were recognized and handled, use<code>Detected</code>. To
-        /// return utterances that were not recognized, use <code>Missed</code>.
+        /// To return utterances that were recognized and handled, use <code>Detected</code>.
+        /// To return utterances that were not recognized, use <code>Missed</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StatusType StatusType
         {
             get { return this._statusType; }

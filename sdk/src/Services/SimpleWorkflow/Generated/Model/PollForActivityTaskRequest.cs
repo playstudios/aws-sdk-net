@@ -71,7 +71,7 @@ namespace Amazon.SimpleWorkflow.Model
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
     /// values fall outside the specified constraints, the action fails. The associated event
     /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-    /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+    /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
     /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -87,6 +87,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The name of the domain that contains the task lists being polled.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Domain
         {
             get { return this._domain; }
@@ -107,6 +108,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The form of this identity is user defined.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string Identity
         {
             get { return this._identity; }
@@ -129,9 +131,10 @@ namespace Amazon.SimpleWorkflow.Model
         /// The specified string must not start or end with whitespace. It must not contain a
         /// <code>:</code> (colon), <code>/</code> (slash), <code>|</code> (vertical bar), or
         /// any control characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
-        /// Also, it must not contain the literal string <code>arn</code>.
+        /// Also, it must not <i>be</i> the literal string <code>arn</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TaskList TaskList
         {
             get { return this._taskList; }

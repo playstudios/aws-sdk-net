@@ -29,7 +29,7 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateApp operation.
-    /// Creates or updates an app.
+    /// Creates an application.
     /// </summary>
     public partial class CreateAppRequest : AmazonPinpointRequest
     {
@@ -38,6 +38,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property CreateApplicationRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public CreateApplicationRequest CreateApplicationRequest
         {
             get { return this._createApplicationRequest; }

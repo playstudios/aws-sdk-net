@@ -70,6 +70,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The defined maximum number of task executions that could be run in parallel.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxConcurrency
         {
             get { return this._maxConcurrency; }
@@ -89,6 +90,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// task execution would have been stopped.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxErrors
         {
             get { return this._maxErrors; }
@@ -107,6 +109,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The priority of the task.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int Priority
         {
             get { return this._priority.GetValueOrDefault(); }
@@ -122,7 +125,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ServiceRole. 
         /// <para>
-        /// The role that was assumed when executing the task.
+        /// The role that was assumed when running the task.
         /// </para>
         /// </summary>
         public string ServiceRole
@@ -179,6 +182,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The details explaining the Status. Only available for certain status values.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=250)]
         public string StatusDetails
         {
             get { return this._statusDetails; }
@@ -194,9 +198,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskArn. 
         /// <para>
-        /// The ARN of the executed task.
+        /// The ARN of the task that ran.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string TaskArn
         {
             get { return this._taskArn; }
@@ -212,9 +217,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskExecutionId. 
         /// <para>
-        /// The ID of the specific task execution in the Maintenance Window task that was retrieved.
+        /// The ID of the specific task execution in the maintenance window task that was retrieved.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string TaskExecutionId
         {
             get { return this._taskExecutionId; }
@@ -230,14 +236,14 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskParameters. 
         /// <para>
-        /// The parameters passed to the task when it was executed.
+        /// The parameters passed to the task when it was run.
         /// </para>
         ///  <note> 
         /// <para>
         ///  <code>TaskParameters</code> has been deprecated. To specify parameters to pass to
         /// a task when it runs, instead use the <code>Parameters</code> option in the <code>TaskInvocationParameters</code>
         /// structure. For information about how Systems Manager handles these options for the
-        /// supported Maintenance Window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+        /// supported maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
         /// </para>
         ///  </note> 
         /// <para>
@@ -267,7 +273,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of task executed.
+        /// The type of task that was run.
         /// </para>
         /// </summary>
         public MaintenanceWindowTaskType Type
@@ -285,9 +291,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowExecutionId. 
         /// <para>
-        /// The ID of the Maintenance Window execution that includes the task.
+        /// The ID of the maintenance window execution that includes the task.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string WindowExecutionId
         {
             get { return this._windowExecutionId; }

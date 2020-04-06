@@ -55,14 +55,15 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateClientCertificateRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/clientcertificates/{clientcertificate_id}";
             if (!publicRequest.IsSetClientCertificateId())
                 throw new AmazonAPIGatewayException("Request object does not have required field ClientCertificateId set");
-            uriResourcePath = uriResourcePath.Replace("{clientcertificate_id}", StringUtils.FromString(publicRequest.ClientCertificateId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{clientcertificate_id}", StringUtils.FromString(publicRequest.ClientCertificateId));
+            request.ResourcePath = "/clientcertificates/{clientcertificate_id}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

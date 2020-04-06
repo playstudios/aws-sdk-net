@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ApplicationAutoScaling.Model
 {
     /// <summary>
-    /// Describes the dimension of a metric.
+    /// Describes the dimension names and values associated with a metric.
     /// </summary>
     public partial class MetricDimension
     {
@@ -41,6 +41,7 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// The name of the dimension.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -59,6 +60,7 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// The value of the dimension.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Value
         {
             get { return this._value; }

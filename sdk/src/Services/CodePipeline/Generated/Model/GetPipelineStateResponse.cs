@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// Represents the output of a GetPipelineState action.
+    /// Represents the output of a <code>GetPipelineState</code> action.
     /// </summary>
     public partial class GetPipelineStateResponse : AmazonWebServiceResponse
     {
@@ -62,6 +62,7 @@ namespace Amazon.CodePipeline.Model
         /// The name of the pipeline for which you want to get the state.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string PipelineName
         {
             get { return this._pipelineName; }
@@ -81,10 +82,11 @@ namespace Amazon.CodePipeline.Model
         /// </para>
         ///  <note> 
         /// <para>
-        /// A newly-created pipeline is always assigned a version number of <code>1</code>.
+        /// A newly created pipeline is always assigned a version number of <code>1</code>.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int PipelineVersion
         {
             get { return this._pipelineVersion.GetValueOrDefault(); }

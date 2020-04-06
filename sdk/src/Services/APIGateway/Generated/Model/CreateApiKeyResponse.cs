@@ -32,7 +32,7 @@ namespace Amazon.APIGateway.Model
     /// that require an API key. API keys can be mapped to any <a>Stage</a> on any <a>RestApi</a>,
     /// which indicates that the callers with the API key can make requests to that stage.
     /// 
-    ///  <div class="seeAlso"> <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-api-keys.html">Use
+    ///  <div class="seeAlso"> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-api-keys.html">Use
     /// API Keys</a> </div>
     /// </summary>
     public partial class CreateApiKeyResponse : AmazonWebServiceResponse
@@ -45,6 +45,7 @@ namespace Amazon.APIGateway.Model
         private DateTime? _lastUpdatedDate;
         private string _name;
         private List<string> _stageKeys = new List<string>();
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private string _value;
 
         /// <summary>
@@ -189,6 +190,24 @@ namespace Amazon.APIGateway.Model
         internal bool IsSetStageKeys()
         {
             return this._stageKeys != null && this._stageKeys.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The collection of tags. Each tag element is associated with a given resource.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

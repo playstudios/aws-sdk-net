@@ -55,17 +55,18 @@ namespace Amazon.Glacier.Model.Internal.MarshallTransformations
         public IRequest Marshall(AbortMultipartUploadRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Glacier");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-06-01";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}";
-            uriResourcePath = uriResourcePath.Replace("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
+            request.AddPathResource("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
             if (!publicRequest.IsSetUploadId())
                 throw new AmazonGlacierException("Request object does not have required field UploadId set");
-            uriResourcePath = uriResourcePath.Replace("{uploadId}", StringUtils.FromString(publicRequest.UploadId));
+            request.AddPathResource("{uploadId}", StringUtils.FromString(publicRequest.UploadId));
             if (!publicRequest.IsSetVaultName())
                 throw new AmazonGlacierException("Request object does not have required field VaultName set");
-            uriResourcePath = uriResourcePath.Replace("{vaultName}", StringUtils.FromString(publicRequest.VaultName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{vaultName}", StringUtils.FromString(publicRequest.VaultName));
+            request.ResourcePath = "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

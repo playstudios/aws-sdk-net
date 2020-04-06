@@ -45,8 +45,10 @@ namespace Amazon.AutoScaling.Model
         private string _launchConfigurationName;
         private LaunchTemplateSpecification _launchTemplate;
         private List<string> _loadBalancerNames = new List<string>();
+        private int? _maxInstanceLifetime;
         private int? _maxSize;
         private int? _minSize;
+        private MixedInstancesPolicy _mixedInstancesPolicy;
         private bool? _newInstancesProtectedFromScaleIn;
         private string _placementGroup;
         private string _serviceLinkedRoleARN;
@@ -63,6 +65,7 @@ namespace Amazon.AutoScaling.Model
         /// The Amazon Resource Name (ARN) of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string AutoScalingGroupARN
         {
             get { return this._autoScalingGroupARN; }
@@ -81,6 +84,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -99,6 +103,7 @@ namespace Amazon.AutoScaling.Model
         /// One or more Availability Zones for the group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<string> AvailabilityZones
         {
             get { return this._availabilityZones; }
@@ -117,6 +122,7 @@ namespace Amazon.AutoScaling.Model
         /// The date and time the group was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreatedTime
         {
             get { return this._createdTime.GetValueOrDefault(); }
@@ -136,6 +142,7 @@ namespace Amazon.AutoScaling.Model
         /// scaling activity can start.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int DefaultCooldown
         {
             get { return this._defaultCooldown.GetValueOrDefault(); }
@@ -154,6 +161,7 @@ namespace Amazon.AutoScaling.Model
         /// The desired size of the group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int DesiredCapacity
         {
             get { return this._desiredCapacity.GetValueOrDefault(); }
@@ -187,8 +195,8 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property HealthCheckGracePeriod. 
         /// <para>
-        /// The amount of time, in seconds, that Auto Scaling waits before checking the health
-        /// status of an EC2 instance that has come into service.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking
+        /// the health status of an EC2 instance that has come into service.
         /// </para>
         /// </summary>
         public int HealthCheckGracePeriod
@@ -207,9 +215,12 @@ namespace Amazon.AutoScaling.Model
         /// Gets and sets the property HealthCheckType. 
         /// <para>
         /// The service to use for the health checks. The valid values are <code>EC2</code> and
-        /// <code>ELB</code>.
+        /// <code>ELB</code>. If you configure an Auto Scaling group to use ELB health checks,
+        /// it considers the instance unhealthy if it fails either the EC2 status checks or the
+        /// load balancer health checks.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=32)]
         public string HealthCheckType
         {
             get { return this._healthCheckType; }
@@ -246,6 +257,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the associated launch configuration.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string LaunchConfigurationName
         {
             get { return this._launchConfigurationName; }
@@ -295,11 +307,34 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaxInstanceLifetime. 
+        /// <para>
+        /// The maximum amount of time, in seconds, that an instance can be in service.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid Range: Minimum value of 604800.
+        /// </para>
+        /// </summary>
+        public int MaxInstanceLifetime
+        {
+            get { return this._maxInstanceLifetime.GetValueOrDefault(); }
+            set { this._maxInstanceLifetime = value; }
+        }
+
+        // Check to see if MaxInstanceLifetime property is set
+        internal bool IsSetMaxInstanceLifetime()
+        {
+            return this._maxInstanceLifetime.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MaxSize. 
         /// <para>
         /// The maximum size of the group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int MaxSize
         {
             get { return this._maxSize.GetValueOrDefault(); }
@@ -318,6 +353,7 @@ namespace Amazon.AutoScaling.Model
         /// The minimum size of the group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int MinSize
         {
             get { return this._minSize.GetValueOrDefault(); }
@@ -331,10 +367,28 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MixedInstancesPolicy. 
+        /// <para>
+        /// The mixed instances policy for the group.
+        /// </para>
+        /// </summary>
+        public MixedInstancesPolicy MixedInstancesPolicy
+        {
+            get { return this._mixedInstancesPolicy; }
+            set { this._mixedInstancesPolicy = value; }
+        }
+
+        // Check to see if MixedInstancesPolicy property is set
+        internal bool IsSetMixedInstancesPolicy()
+        {
+            return this._mixedInstancesPolicy != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property NewInstancesProtectedFromScaleIn. 
         /// <para>
-        /// Indicates whether newly launched instances are protected from termination by Auto
-        /// Scaling when scaling in.
+        /// Indicates whether newly launched instances are protected from termination by Amazon
+        /// EC2 Auto Scaling when scaling in.
         /// </para>
         /// </summary>
         public bool NewInstancesProtectedFromScaleIn
@@ -352,11 +406,10 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property PlacementGroup. 
         /// <para>
-        /// The name of the placement group into which you'll launch your instances, if any. For
-        /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-        /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// The name of the placement group into which to launch your instances, if any.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string PlacementGroup
         {
             get { return this._placementGroup; }
@@ -376,6 +429,7 @@ namespace Amazon.AutoScaling.Model
         /// uses to call other AWS services on your behalf.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string ServiceLinkedRoleARN
         {
             get { return this._serviceLinkedRoleARN; }
@@ -394,6 +448,7 @@ namespace Amazon.AutoScaling.Model
         /// The current state of the group when <a>DeleteAutoScalingGroup</a> is in progress.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Status
         {
             get { return this._status; }
@@ -483,12 +538,8 @@ namespace Amazon.AutoScaling.Model
         /// <para>
         /// One or more subnet IDs, if applicable, separated by commas.
         /// </para>
-        ///  
-        /// <para>
-        /// If you specify <code>VPCZoneIdentifier</code> and <code>AvailabilityZones</code>,
-        /// ensure that the Availability Zones of the subnets match the values for <code>AvailabilityZones</code>.
-        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2047)]
         public string VPCZoneIdentifier
         {
             get { return this._vpcZoneIdentifier; }

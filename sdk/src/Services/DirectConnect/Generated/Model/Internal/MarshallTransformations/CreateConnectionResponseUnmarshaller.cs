@@ -57,6 +57,12 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                     response.AwsDevice = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("awsDeviceV2", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.AwsDeviceV2 = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("bandwidth", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -79,6 +85,18 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.ConnectionState = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("hasLogicalRedundancy", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.HasLogicalRedundancy = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("jumboFrameCapable", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    response.JumboFrameCapable = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("lagId", targetDepth))
@@ -111,10 +129,22 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                     response.PartnerName = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("providerName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.ProviderName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("region", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.Region = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Tag, TagUnmarshaller>(TagUnmarshaller.Instance);
+                    response.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("vlan", targetDepth))
@@ -145,6 +175,14 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
             if (errorResponse.Code != null && errorResponse.Code.Equals("DirectConnectServerException"))
             {
                 return new DirectConnectServerException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("DuplicateTagKeysException"))
+            {
+                return new DuplicateTagKeysException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("TooManyTagsException"))
+            {
+                return new TooManyTagsException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             return new AmazonDirectConnectException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
         }

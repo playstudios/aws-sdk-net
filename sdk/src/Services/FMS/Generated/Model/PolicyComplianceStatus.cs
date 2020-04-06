@@ -29,11 +29,14 @@ namespace Amazon.FMS.Model
 {
     /// <summary>
     /// Indicates whether the account is compliant with the specified policy. An account is
-    /// considered non-compliant if it includes resources that are not protected by the policy.
+    /// considered noncompliant if it includes resources that are not protected by the policy,
+    /// for AWS WAF and Shield Advanced policies, or that are noncompliant with the policy,
+    /// for security group policies.
     /// </summary>
     public partial class PolicyComplianceStatus
     {
         private List<EvaluationResult> _evaluationResults = new List<EvaluationResult>();
+        private Dictionary<string, string> _issueInfoMap = new Dictionary<string, string>();
         private DateTime? _lastUpdated;
         private string _memberAccount;
         private string _policyId;
@@ -59,9 +62,29 @@ namespace Amazon.FMS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IssueInfoMap. 
+        /// <para>
+        /// Details about problems with dependent services, such as AWS WAF or AWS Config, that
+        /// are causing a resource to be noncompliant. The details include the name of the dependent
+        /// service and the error message received that indicates the problem with the service.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> IssueInfoMap
+        {
+            get { return this._issueInfoMap; }
+            set { this._issueInfoMap = value; }
+        }
+
+        // Check to see if IssueInfoMap property is set
+        internal bool IsSetIssueInfoMap()
+        {
+            return this._issueInfoMap != null && this._issueInfoMap.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property LastUpdated. 
         /// <para>
-        /// Time stamp of the last update to the <code>EvaluationResult</code> objects.
+        /// Timestamp of the last update to the <code>EvaluationResult</code> objects.
         /// </para>
         /// </summary>
         public DateTime LastUpdated
@@ -82,6 +105,7 @@ namespace Amazon.FMS.Model
         /// The member account ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string MemberAccount
         {
             get { return this._memberAccount; }
@@ -100,6 +124,7 @@ namespace Amazon.FMS.Model
         /// The ID of the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string PolicyId
         {
             get { return this._policyId; }
@@ -118,6 +143,7 @@ namespace Amazon.FMS.Model
         /// The friendly name of the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -136,6 +162,7 @@ namespace Amazon.FMS.Model
         /// The AWS account that created the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string PolicyOwner
         {
             get { return this._policyOwner; }

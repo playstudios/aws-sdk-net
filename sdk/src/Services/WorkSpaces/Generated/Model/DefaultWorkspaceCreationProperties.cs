@@ -28,13 +28,16 @@ using Amazon.Runtime.Internal;
 namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
-    /// Information about defaults used to create a WorkSpace.
+    /// Describes the default values that are used to create WorkSpaces. For more information,
+    /// see <a href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html">Update
+    /// Directory Details for Your WorkSpaces</a>.
     /// </summary>
     public partial class DefaultWorkspaceCreationProperties
     {
         private string _customSecurityGroupId;
         private string _defaultOu;
         private bool? _enableInternetAccess;
+        private bool? _enableMaintenanceMode;
         private bool? _enableWorkDocs;
         private bool? _userEnabledAsLocalAdministrator;
 
@@ -44,6 +47,7 @@ namespace Amazon.WorkSpaces.Model
         /// The identifier of any security groups to apply to WorkSpaces when they are created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=11, Max=20)]
         public string CustomSecurityGroupId
         {
             get { return this._customSecurityGroupId; }
@@ -77,7 +81,15 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property EnableInternetAccess. 
         /// <para>
-        /// The public IP address to attach to all WorkSpaces that are created or rebuilt.
+        /// Specifies whether to automatically assign an Elastic public IP address to WorkSpaces
+        /// in this directory by default. If enabled, the Elastic public IP address allows outbound
+        /// internet access from your WorkSpaces when you’re using an internet gateway in the
+        /// Amazon VPC in which your WorkSpaces are located. If you're using a Network Address
+        /// Translation (NAT) gateway for outbound internet access from your VPC, or if your WorkSpaces
+        /// are in public subnets and you manually assign them Elastic IP addresses, you should
+        /// disable this setting. This setting applies to new WorkSpaces that you launch or to
+        /// existing WorkSpaces that you rebuild. For more information, see <a href="https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html">
+        /// Configure a VPC for Amazon WorkSpaces</a>.
         /// </para>
         /// </summary>
         public bool EnableInternetAccess
@@ -93,9 +105,29 @@ namespace Amazon.WorkSpaces.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EnableMaintenanceMode. 
+        /// <para>
+        /// Specifies whether maintenance mode is enabled for WorkSpaces. For more information,
+        /// see <a href="https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html">WorkSpace
+        /// Maintenance</a>.
+        /// </para>
+        /// </summary>
+        public bool EnableMaintenanceMode
+        {
+            get { return this._enableMaintenanceMode.GetValueOrDefault(); }
+            set { this._enableMaintenanceMode = value; }
+        }
+
+        // Check to see if EnableMaintenanceMode property is set
+        internal bool IsSetEnableMaintenanceMode()
+        {
+            return this._enableMaintenanceMode.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property EnableWorkDocs. 
         /// <para>
-        /// Indicates whether the directory is enabled for Amazon WorkDocs.
+        /// Specifies whether the directory is enabled for Amazon WorkDocs.
         /// </para>
         /// </summary>
         public bool EnableWorkDocs
@@ -113,7 +145,7 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property UserEnabledAsLocalAdministrator. 
         /// <para>
-        /// Indicates whether the WorkSpace user is an administrator on the WorkSpace.
+        /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
         /// </para>
         /// </summary>
         public bool UserEnabledAsLocalAdministrator

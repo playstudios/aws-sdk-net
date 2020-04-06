@@ -28,19 +28,23 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GuardDuty.Model
 {
     /// <summary>
-    /// Information about the NETWORK_CONNECTION action described in this finding.
+    /// Contains information about the NETWORK_CONNECTION action described in the finding.
     /// </summary>
     public partial class NetworkConnectionAction
     {
         private bool? _blocked;
         private string _connectionDirection;
+        private LocalIpDetails _localIpDetails;
         private LocalPortDetails _localPortDetails;
         private string _protocol;
         private RemoteIpDetails _remoteIpDetails;
         private RemotePortDetails _remotePortDetails;
 
         /// <summary>
-        /// Gets and sets the property Blocked. Network connection blocked information.
+        /// Gets and sets the property Blocked. 
+        /// <para>
+        /// Network connection blocked information.
+        /// </para>
         /// </summary>
         public bool Blocked
         {
@@ -55,7 +59,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ConnectionDirection. Network connection direction.
+        /// Gets and sets the property ConnectionDirection. 
+        /// <para>
+        /// Network connection direction.
+        /// </para>
         /// </summary>
         public string ConnectionDirection
         {
@@ -70,7 +77,28 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LocalPortDetails. Local port information of the connection.
+        /// Gets and sets the property LocalIpDetails. 
+        /// <para>
+        /// Local IP information of the connection.
+        /// </para>
+        /// </summary>
+        public LocalIpDetails LocalIpDetails
+        {
+            get { return this._localIpDetails; }
+            set { this._localIpDetails = value; }
+        }
+
+        // Check to see if LocalIpDetails property is set
+        internal bool IsSetLocalIpDetails()
+        {
+            return this._localIpDetails != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LocalPortDetails. 
+        /// <para>
+        /// Local port information of the connection.
+        /// </para>
         /// </summary>
         public LocalPortDetails LocalPortDetails
         {
@@ -85,7 +113,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Protocol. Network connection protocol.
+        /// Gets and sets the property Protocol. 
+        /// <para>
+        /// Network connection protocol.
+        /// </para>
         /// </summary>
         public string Protocol
         {
@@ -100,7 +131,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RemoteIpDetails. Remote IP information of the connection.
+        /// Gets and sets the property RemoteIpDetails. 
+        /// <para>
+        /// Remote IP information of the connection.
+        /// </para>
         /// </summary>
         public RemoteIpDetails RemoteIpDetails
         {
@@ -115,7 +149,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RemotePortDetails. Remote port information of the connection.
+        /// Gets and sets the property RemotePortDetails. 
+        /// <para>
+        /// Remote port information of the connection.
+        /// </para>
         /// </summary>
         public RemotePortDetails RemotePortDetails
         {

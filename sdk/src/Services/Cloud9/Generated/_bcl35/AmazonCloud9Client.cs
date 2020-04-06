@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Cloud9.Model;
 using Amazon.Cloud9.Model.Internal.MarshallTransformations;
+using Amazon.Cloud9.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -84,6 +86,18 @@ namespace Amazon.Cloud9
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <code>ListTagsForResource</code>: Gets the tags for an environment.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>TagResource</code>: Adds tags to an environment.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>UntagResource</code>: Removes tags from an environment.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     ///  <code>UpdateEnvironment</code>: Changes the settings of an existing environment.
     /// </para>
     ///  </li> <li> 
@@ -95,6 +109,7 @@ namespace Amazon.Cloud9
     /// </summary>
     public partial class AmazonCloud9Client : AmazonServiceClient, IAmazonCloud9
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCloud9Metadata();
         #region Constructors
 
         /// <summary>
@@ -265,6 +280,16 @@ namespace Amazon.Cloud9
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -280,7 +305,7 @@ namespace Amazon.Cloud9
 
         #endregion
 
-        
+
         #region  CreateEnvironmentEC2
 
         /// <summary>
@@ -314,10 +339,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/CreateEnvironmentEC2">REST API Reference for CreateEnvironmentEC2 Operation</seealso>
         public virtual CreateEnvironmentEC2Response CreateEnvironmentEC2(CreateEnvironmentEC2Request request)
         {
-            var marshaller = CreateEnvironmentEC2RequestMarshaller.Instance;
-            var unmarshaller = CreateEnvironmentEC2ResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEnvironmentEC2RequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEnvironmentEC2ResponseUnmarshaller.Instance;
 
-            return Invoke<CreateEnvironmentEC2Request,CreateEnvironmentEC2Response>(request, marshaller, unmarshaller);
+            return Invoke<CreateEnvironmentEC2Response>(request, options);
         }
 
         /// <summary>
@@ -334,11 +360,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/CreateEnvironmentEC2">REST API Reference for CreateEnvironmentEC2 Operation</seealso>
         public virtual IAsyncResult BeginCreateEnvironmentEC2(CreateEnvironmentEC2Request request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateEnvironmentEC2RequestMarshaller.Instance;
-            var unmarshaller = CreateEnvironmentEC2ResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEnvironmentEC2RequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEnvironmentEC2ResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateEnvironmentEC2Request>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -388,10 +414,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/CreateEnvironmentMembership">REST API Reference for CreateEnvironmentMembership Operation</seealso>
         public virtual CreateEnvironmentMembershipResponse CreateEnvironmentMembership(CreateEnvironmentMembershipRequest request)
         {
-            var marshaller = CreateEnvironmentMembershipRequestMarshaller.Instance;
-            var unmarshaller = CreateEnvironmentMembershipResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEnvironmentMembershipRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEnvironmentMembershipResponseUnmarshaller.Instance;
 
-            return Invoke<CreateEnvironmentMembershipRequest,CreateEnvironmentMembershipResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateEnvironmentMembershipResponse>(request, options);
         }
 
         /// <summary>
@@ -408,11 +435,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/CreateEnvironmentMembership">REST API Reference for CreateEnvironmentMembership Operation</seealso>
         public virtual IAsyncResult BeginCreateEnvironmentMembership(CreateEnvironmentMembershipRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateEnvironmentMembershipRequestMarshaller.Instance;
-            var unmarshaller = CreateEnvironmentMembershipResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEnvironmentMembershipRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEnvironmentMembershipResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateEnvironmentMembershipRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -463,10 +490,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DeleteEnvironment">REST API Reference for DeleteEnvironment Operation</seealso>
         public virtual DeleteEnvironmentResponse DeleteEnvironment(DeleteEnvironmentRequest request)
         {
-            var marshaller = DeleteEnvironmentRequestMarshaller.Instance;
-            var unmarshaller = DeleteEnvironmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEnvironmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEnvironmentResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteEnvironmentRequest,DeleteEnvironmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteEnvironmentResponse>(request, options);
         }
 
         /// <summary>
@@ -483,11 +511,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DeleteEnvironment">REST API Reference for DeleteEnvironment Operation</seealso>
         public virtual IAsyncResult BeginDeleteEnvironment(DeleteEnvironmentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteEnvironmentRequestMarshaller.Instance;
-            var unmarshaller = DeleteEnvironmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEnvironmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEnvironmentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteEnvironmentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -537,10 +565,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DeleteEnvironmentMembership">REST API Reference for DeleteEnvironmentMembership Operation</seealso>
         public virtual DeleteEnvironmentMembershipResponse DeleteEnvironmentMembership(DeleteEnvironmentMembershipRequest request)
         {
-            var marshaller = DeleteEnvironmentMembershipRequestMarshaller.Instance;
-            var unmarshaller = DeleteEnvironmentMembershipResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEnvironmentMembershipRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEnvironmentMembershipResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteEnvironmentMembershipRequest,DeleteEnvironmentMembershipResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteEnvironmentMembershipResponse>(request, options);
         }
 
         /// <summary>
@@ -557,11 +586,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DeleteEnvironmentMembership">REST API Reference for DeleteEnvironmentMembership Operation</seealso>
         public virtual IAsyncResult BeginDeleteEnvironmentMembership(DeleteEnvironmentMembershipRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteEnvironmentMembershipRequestMarshaller.Instance;
-            var unmarshaller = DeleteEnvironmentMembershipResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEnvironmentMembershipRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEnvironmentMembershipResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteEnvironmentMembershipRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -611,10 +640,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DescribeEnvironmentMemberships">REST API Reference for DescribeEnvironmentMemberships Operation</seealso>
         public virtual DescribeEnvironmentMembershipsResponse DescribeEnvironmentMemberships(DescribeEnvironmentMembershipsRequest request)
         {
-            var marshaller = DescribeEnvironmentMembershipsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEnvironmentMembershipsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEnvironmentMembershipsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEnvironmentMembershipsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEnvironmentMembershipsRequest,DescribeEnvironmentMembershipsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEnvironmentMembershipsResponse>(request, options);
         }
 
         /// <summary>
@@ -631,11 +661,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DescribeEnvironmentMemberships">REST API Reference for DescribeEnvironmentMemberships Operation</seealso>
         public virtual IAsyncResult BeginDescribeEnvironmentMemberships(DescribeEnvironmentMembershipsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEnvironmentMembershipsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEnvironmentMembershipsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEnvironmentMembershipsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEnvironmentMembershipsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEnvironmentMembershipsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -685,10 +715,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DescribeEnvironments">REST API Reference for DescribeEnvironments Operation</seealso>
         public virtual DescribeEnvironmentsResponse DescribeEnvironments(DescribeEnvironmentsRequest request)
         {
-            var marshaller = DescribeEnvironmentsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEnvironmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEnvironmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEnvironmentsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEnvironmentsRequest,DescribeEnvironmentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEnvironmentsResponse>(request, options);
         }
 
         /// <summary>
@@ -705,11 +736,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DescribeEnvironments">REST API Reference for DescribeEnvironments Operation</seealso>
         public virtual IAsyncResult BeginDescribeEnvironments(DescribeEnvironmentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEnvironmentsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEnvironmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEnvironmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEnvironmentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEnvironmentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -759,10 +790,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DescribeEnvironmentStatus">REST API Reference for DescribeEnvironmentStatus Operation</seealso>
         public virtual DescribeEnvironmentStatusResponse DescribeEnvironmentStatus(DescribeEnvironmentStatusRequest request)
         {
-            var marshaller = DescribeEnvironmentStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeEnvironmentStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEnvironmentStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEnvironmentStatusResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEnvironmentStatusRequest,DescribeEnvironmentStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEnvironmentStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -779,11 +811,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/DescribeEnvironmentStatus">REST API Reference for DescribeEnvironmentStatus Operation</seealso>
         public virtual IAsyncResult BeginDescribeEnvironmentStatus(DescribeEnvironmentStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEnvironmentStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeEnvironmentStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEnvironmentStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEnvironmentStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEnvironmentStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -833,10 +865,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/ListEnvironments">REST API Reference for ListEnvironments Operation</seealso>
         public virtual ListEnvironmentsResponse ListEnvironments(ListEnvironmentsRequest request)
         {
-            var marshaller = ListEnvironmentsRequestMarshaller.Instance;
-            var unmarshaller = ListEnvironmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListEnvironmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListEnvironmentsResponseUnmarshaller.Instance;
 
-            return Invoke<ListEnvironmentsRequest,ListEnvironmentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListEnvironmentsResponse>(request, options);
         }
 
         /// <summary>
@@ -853,11 +886,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/ListEnvironments">REST API Reference for ListEnvironments Operation</seealso>
         public virtual IAsyncResult BeginListEnvironments(ListEnvironmentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListEnvironmentsRequestMarshaller.Instance;
-            var unmarshaller = ListEnvironmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListEnvironmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListEnvironmentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListEnvironmentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -871,6 +904,202 @@ namespace Amazon.Cloud9
         public virtual ListEnvironmentsResponse EndListEnvironments(IAsyncResult asyncResult)
         {
             return EndInvoke<ListEnvironmentsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// Gets a list of the tags associated with an AWS Cloud9 development environment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by Cloud9.</returns>
+        /// <exception cref="Amazon.Cloud9.Model.BadRequestException">
+        /// The target request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Cloud9.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Cloud9.Model.NotFoundException">
+        /// The target resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonCloud9Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from Cloud9.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        /// <summary>
+        /// Adds tags to an AWS Cloud9 development environment.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Tags that you add to an AWS Cloud9 environment by using this method will NOT be automatically
+        /// propagated to underlying resources.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by Cloud9.</returns>
+        /// <exception cref="Amazon.Cloud9.Model.BadRequestException">
+        /// The target request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Cloud9.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Cloud9.Model.NotFoundException">
+        /// The target resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonCloud9Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from Cloud9.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Removes tags from an AWS Cloud9 development environment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by Cloud9.</returns>
+        /// <exception cref="Amazon.Cloud9.Model.BadRequestException">
+        /// The target request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Cloud9.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Cloud9.Model.NotFoundException">
+        /// The target resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonCloud9Client.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from Cloud9.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -907,10 +1136,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UpdateEnvironment">REST API Reference for UpdateEnvironment Operation</seealso>
         public virtual UpdateEnvironmentResponse UpdateEnvironment(UpdateEnvironmentRequest request)
         {
-            var marshaller = UpdateEnvironmentRequestMarshaller.Instance;
-            var unmarshaller = UpdateEnvironmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEnvironmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEnvironmentResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateEnvironmentRequest,UpdateEnvironmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateEnvironmentResponse>(request, options);
         }
 
         /// <summary>
@@ -927,11 +1157,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UpdateEnvironment">REST API Reference for UpdateEnvironment Operation</seealso>
         public virtual IAsyncResult BeginUpdateEnvironment(UpdateEnvironmentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateEnvironmentRequestMarshaller.Instance;
-            var unmarshaller = UpdateEnvironmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEnvironmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEnvironmentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateEnvironmentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -982,10 +1212,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UpdateEnvironmentMembership">REST API Reference for UpdateEnvironmentMembership Operation</seealso>
         public virtual UpdateEnvironmentMembershipResponse UpdateEnvironmentMembership(UpdateEnvironmentMembershipRequest request)
         {
-            var marshaller = UpdateEnvironmentMembershipRequestMarshaller.Instance;
-            var unmarshaller = UpdateEnvironmentMembershipResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEnvironmentMembershipRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEnvironmentMembershipResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateEnvironmentMembershipRequest,UpdateEnvironmentMembershipResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateEnvironmentMembershipResponse>(request, options);
         }
 
         /// <summary>
@@ -1002,11 +1233,11 @@ namespace Amazon.Cloud9
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UpdateEnvironmentMembership">REST API Reference for UpdateEnvironmentMembership Operation</seealso>
         public virtual IAsyncResult BeginUpdateEnvironmentMembership(UpdateEnvironmentMembershipRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateEnvironmentMembershipRequestMarshaller.Instance;
-            var unmarshaller = UpdateEnvironmentMembershipResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEnvironmentMembershipRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEnvironmentMembershipResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateEnvironmentMembershipRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

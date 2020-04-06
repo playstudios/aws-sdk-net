@@ -52,6 +52,7 @@ namespace Amazon.Snowball.Model
         /// The ID of the updated <a>Address</a> object.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string AddressId
         {
             get { return this._addressId; }
@@ -70,6 +71,7 @@ namespace Amazon.Snowball.Model
         /// The updated description of this job's <a>JobMetadata</a> object.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Description
         {
             get { return this._description; }
@@ -89,6 +91,7 @@ namespace Amazon.Snowball.Model
         /// most regions.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string ForwardingAddressId
         {
             get { return this._forwardingAddressId; }
@@ -107,6 +110,7 @@ namespace Amazon.Snowball.Model
         /// The job ID of the job that you want to update, for example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=39, Max=39)]
         public string JobId
         {
             get { return this._jobId; }
@@ -140,8 +144,8 @@ namespace Amazon.Snowball.Model
         /// <summary>
         /// Gets and sets the property Resources. 
         /// <para>
-        /// The updated <a>S3Resource</a> object (for a single Amazon S3 bucket or key range),
-        /// or the updated <a>JobResource</a> object (for multiple buckets or key ranges). 
+        /// The updated <code>JobResource</code> object, or the updated <a>JobResource</a> object.
+        /// 
         /// </para>
         /// </summary>
         public JobResource Resources
@@ -160,10 +164,11 @@ namespace Amazon.Snowball.Model
         /// Gets and sets the property RoleARN. 
         /// <para>
         /// The new role Amazon Resource Name (ARN) that you want to associate with this job.
-        /// To create a role ARN, use the <a href="http://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>AWS
+        /// To create a role ARN, use the <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>AWS
         /// Identity and Access Management (IAM) API action.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string RoleARN
         {
             get { return this._roleARN; }

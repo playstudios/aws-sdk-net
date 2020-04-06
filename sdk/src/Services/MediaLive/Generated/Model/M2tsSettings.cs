@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Placeholder documentation for M2tsSettings
+    /// M2ts Settings
     /// </summary>
     public partial class M2tsSettings
     {
@@ -59,6 +59,7 @@ namespace Amazon.MediaLive.Model
         private double? _fragmentTime;
         private M2tsKlv _klv;
         private string _klvDataPids;
+        private M2tsNielsenId3Behavior _nielsenId3Behavior;
         private double? _nullPacketBitrate;
         private int? _patInterval;
         private M2tsPcrControl _pcrControl;
@@ -168,6 +169,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property AudioFramesPerPes. The number of audio frames to insert
         /// for each PES packet.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int AudioFramesPerPes
         {
             get { return this._audioFramesPerPes.GetValueOrDefault(); }
@@ -219,6 +221,7 @@ namespace Amazon.MediaLive.Model
         /// bits per second. Setting to 0 lets the muxer automatically determine the appropriate
         /// bitrate.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int Bitrate
         {
             get { return this._bitrate.GetValueOrDefault(); }
@@ -390,6 +393,7 @@ namespace Amazon.MediaLive.Model
         ///  The lookahead value does not add latency to the system. The Live Event must be configured
         /// elsewhere to create sufficient latency to make the lookahead accurate.
         /// </summary>
+        [AWSProperty(Min=0, Max=10000)]
         public int EbpLookaheadMs
         {
             get { return this._ebpLookaheadMs.GetValueOrDefault(); }
@@ -535,6 +539,23 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NielsenId3Behavior. If set to passthrough, Nielsen inaudible
+        /// tones for media tracking will be detected in the input audio and an equivalent ID3
+        /// tag will be inserted in the output.
+        /// </summary>
+        public M2tsNielsenId3Behavior NielsenId3Behavior
+        {
+            get { return this._nielsenId3Behavior; }
+            set { this._nielsenId3Behavior = value; }
+        }
+
+        // Check to see if NielsenId3Behavior property is set
+        internal bool IsSetNielsenId3Behavior()
+        {
+            return this._nielsenId3Behavior != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property NullPacketBitrate. Value in bits per second of extra null
         /// packets to insert into the transport stream. This can be used if a downstream encryption
         /// system requires periodic null packets.
@@ -555,6 +576,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property PatInterval. The number of milliseconds between instances
         /// of this table in the output transport stream.  Valid values are 0, 10..1000.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PatInterval
         {
             get { return this._patInterval.GetValueOrDefault(); }
@@ -589,6 +611,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property PcrPeriod. Maximum time in milliseconds between Program
         /// Clock Reference (PCRs) inserted into the transport stream.
         /// </summary>
+        [AWSProperty(Min=0, Max=500)]
         public int PcrPeriod
         {
             get { return this._pcrPeriod.GetValueOrDefault(); }
@@ -623,6 +646,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property PmtInterval. The number of milliseconds between instances
         /// of this table in the output transport stream. Valid values are 0, 10..1000.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PmtInterval
         {
             get { return this._pmtInterval.GetValueOrDefault(); }
@@ -656,6 +680,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property ProgramNum. The value of the program number field in the
         /// Program Map Table.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int ProgramNum
         {
             get { return this._programNum.GetValueOrDefault(); }
@@ -835,6 +860,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property TransportStreamId. The value of the transport stream ID
         /// field in the Program Map Table.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int TransportStreamId
         {
             get { return this._transportStreamId.GetValueOrDefault(); }

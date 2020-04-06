@@ -34,28 +34,42 @@ namespace Amazon.RDS.Model
     ///  
     /// <para>
     /// You can use the <code>ReplicationSourceIdentifier</code> parameter to create the DB
-    /// cluster as a Read Replica of another DB cluster or Amazon RDS MySQL DB instance. For
+    /// cluster as a read replica of another DB cluster or Amazon RDS MySQL DB instance. For
     /// cross-region replication where the DB cluster identified by <code>ReplicationSourceIdentifier</code>
     /// is encrypted, you must also specify the <code>PreSignedUrl</code> parameter.
     /// </para>
     ///  
     /// <para>
-    /// For more information on Amazon Aurora, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i> 
+    /// For more information on Amazon Aurora, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateDBClusterRequest : AmazonRDSRequest
     {
         private List<string> _availabilityZones = new List<string>();
+        private long? _backtrackWindow;
         private int? _backupRetentionPeriod;
         private string _characterSetName;
+        private bool? _copyTagsToSnapshot;
         private string _databaseName;
         private string _dbClusterIdentifier;
         private string _dbClusterParameterGroupName;
         private string _dbSubnetGroupName;
+        private bool? _deletionProtection;
+        private string _domain;
+        private string _domainIAMRoleName;
+        private List<string> _enableCloudwatchLogsExports = new List<string>();
+        private bool? _enableHttpEndpoint;
         private bool? _enableIAMDatabaseAuthentication;
         private string _engine;
+        private string _engineMode;
         private string _engineVersion;
+        private string _globalClusterIdentifier;
         private string _kmsKeyId;
         private string _masterUsername;
         private string _masterUserPassword;
@@ -65,6 +79,7 @@ namespace Amazon.RDS.Model
         private string _preferredMaintenanceWindow;
         private string _preSignedUrl;
         private string _replicationSourceIdentifier;
+        private ScalingConfiguration _scalingConfiguration;
         private bool? _storageEncrypted;
         private List<Tag> _tags = new List<Tag>();
         private List<string> _vpcSecurityGroupIds = new List<string>();
@@ -72,9 +87,9 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZones. 
         /// <para>
-        /// A list of EC2 Availability Zones that instances in the DB cluster can be created in.
-        /// For information on AWS Regions and Availability Zones, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html">Regions
-        /// and Availability Zones</a>. 
+        /// A list of Availability Zones (AZs) where instances in the DB cluster can be created.
+        /// For information on AWS Regions and Availability Zones, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html">Choosing
+        /// the Regions and Availability Zones</a> in the <i>Amazon Aurora User Guide</i>. 
         /// </para>
         /// </summary>
         public List<string> AvailabilityZones
@@ -90,10 +105,41 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BacktrackWindow. 
+        /// <para>
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to
+        /// 0. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Default: 0
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If specified, this value must be set to a number from 0 to 259,200 (72 hours).
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public long BacktrackWindow
+        {
+            get { return this._backtrackWindow.GetValueOrDefault(); }
+            set { this._backtrackWindow = value; }
+        }
+
+        // Check to see if BacktrackWindow property is set
+        internal bool IsSetBacktrackWindow()
+        {
+            return this._backtrackWindow.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property BackupRetentionPeriod. 
         /// <para>
-        /// The number of days for which automated backups are retained. You must specify a minimum
-        /// value of 1.
+        /// The number of days for which automated backups are retained.
         /// </para>
         ///  
         /// <para>
@@ -141,10 +187,29 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CopyTagsToSnapshot. 
+        /// <para>
+        /// A value that indicates whether to copy all tags from the DB cluster to snapshots of
+        /// the DB cluster. The default is not to copy them.
+        /// </para>
+        /// </summary>
+        public bool CopyTagsToSnapshot
+        {
+            get { return this._copyTagsToSnapshot.GetValueOrDefault(); }
+            set { this._copyTagsToSnapshot = value; }
+        }
+
+        // Check to see if CopyTagsToSnapshot property is set
+        internal bool IsSetCopyTagsToSnapshot()
+        {
+            return this._copyTagsToSnapshot.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property DatabaseName. 
         /// <para>
-        /// The name for your database of up to 64 alpha-numeric characters. If you do not provide
-        /// a name, Amazon RDS will not create a database in the DB cluster you are creating.
+        /// The name for your database of up to 64 alphanumeric characters. If you do not provide
+        /// a name, Amazon RDS doesn't create a database in the DB cluster you are creating.
         /// </para>
         /// </summary>
         public string DatabaseName
@@ -178,13 +243,14 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens.
+        /// Can't end with a hyphen or contain two consecutive hyphens.
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-cluster1</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterIdentifier
         {
             get { return this._dbClusterIdentifier; }
@@ -201,7 +267,8 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property DBClusterParameterGroupName. 
         /// <para>
         ///  The name of the DB cluster parameter group to associate with this DB cluster. If
-        /// this argument is omitted, <code>default.aurora5.6</code> is used. 
+        /// you do not specify a value, then the default DB cluster parameter group for the specified
+        /// DB engine and version is used. 
         /// </para>
         ///  
         /// <para>
@@ -209,7 +276,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// If supplied, must match the name of an existing DBClusterParameterGroup.
+        /// If supplied, must match the name of an existing DB cluster parameter group.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -252,14 +319,129 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EnableIAMDatabaseAuthentication. 
+        /// Gets and sets the property DeletionProtection. 
         /// <para>
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database
-        /// accounts, and otherwise false.
+        /// A value that indicates whether the DB cluster has deletion protection enabled. The
+        /// database can't be deleted when deletion protection is enabled. By default, deletion
+        /// protection is disabled.
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Domain. 
+        /// <para>
+        /// The Active Directory directory ID to create the DB cluster in.
         /// </para>
         ///  
         /// <para>
-        /// Default: <code>false</code> 
+        ///  For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate
+        /// users that connect to the DB cluster. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/kerberos-authentication.html">Kerberos
+        /// Authentication</a> in the <i>Amazon Aurora User Guide</i>. 
+        /// </para>
+        /// </summary>
+        public string Domain
+        {
+            get { return this._domain; }
+            set { this._domain = value; }
+        }
+
+        // Check to see if Domain property is set
+        internal bool IsSetDomain()
+        {
+            return this._domain != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DomainIAMRoleName. 
+        /// <para>
+        /// Specify the name of the IAM role to be used when making API calls to the Directory
+        /// Service.
+        /// </para>
+        /// </summary>
+        public string DomainIAMRoleName
+        {
+            get { return this._domainIAMRoleName; }
+            set { this._domainIAMRoleName = value; }
+        }
+
+        // Check to see if DomainIAMRoleName property is set
+        internal bool IsSetDomainIAMRoleName()
+        {
+            return this._domainIAMRoleName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableCloudwatchLogsExports. 
+        /// <para>
+        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The
+        /// values in the list depend on the DB engine being used. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+        /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User Guide</i>.
+        /// </para>
+        /// </summary>
+        public List<string> EnableCloudwatchLogsExports
+        {
+            get { return this._enableCloudwatchLogsExports; }
+            set { this._enableCloudwatchLogsExports = value; }
+        }
+
+        // Check to see if EnableCloudwatchLogsExports property is set
+        internal bool IsSetEnableCloudwatchLogsExports()
+        {
+            return this._enableCloudwatchLogsExports != null && this._enableCloudwatchLogsExports.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableHttpEndpoint. 
+        /// <para>
+        /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless
+        /// DB cluster. By default, the HTTP endpoint is disabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// When enabled, the HTTP endpoint provides a connectionless web service API for running
+        /// SQL queries on the Aurora Serverless DB cluster. You can also query your database
+        /// from inside the RDS console with the query editor.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
+        /// the Data API for Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool EnableHttpEndpoint
+        {
+            get { return this._enableHttpEndpoint.GetValueOrDefault(); }
+            set { this._enableHttpEndpoint = value; }
+        }
+
+        // Check to see if EnableHttpEndpoint property is set
+        internal bool IsSetEnableHttpEndpoint()
+        {
+            return this._enableHttpEndpoint.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableIAMDatabaseAuthentication. 
+        /// <para>
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management
+        /// (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
+        /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i> 
         /// </para>
         /// </summary>
         public bool EnableIAMDatabaseAuthentication
@@ -285,6 +467,7 @@ namespace Amazon.RDS.Model
         /// (for MySQL 5.7-compatible Aurora), and <code>aurora-postgresql</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Engine
         {
             get { return this._engine; }
@@ -298,9 +481,90 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EngineMode. 
+        /// <para>
+        /// The DB engine mode of the DB cluster, either <code>provisioned</code>, <code>serverless</code>,
+        /// <code>parallelquery</code>, <code>global</code>, or <code>multimaster</code>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>global</code> engine mode only applies for global database clusters created
+        /// with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters
+        /// in a global database use <code>provisioned</code> engine mode. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Limitations and requirements apply to some DB engine modes. For more information,
+        /// see the following sections in the <i>Amazon Aurora User Guide</i>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations">
+        /// Limitations of Aurora Serverless</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-mysql-parallel-query.html#aurora-mysql-parallel-query-limitations">
+        /// Limitations of Parallel Query</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations">
+        /// Requirements for Aurora Global Databases</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-multi-master.html#aurora-multi-master-limitations">
+        /// Limitations of Multi-Master Clusters</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public string EngineMode
+        {
+            get { return this._engineMode; }
+            set { this._engineMode = value; }
+        }
+
+        // Check to see if EngineMode property is set
+        internal bool IsSetEngineMode()
+        {
+            return this._engineMode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EngineVersion. 
         /// <para>
         /// The version number of the database engine to use.
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora</code> (for MySQL 5.6-compatible
+        /// Aurora), use the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora-mysql</code> (for MySQL
+        /// 5.7-compatible Aurora), use the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora-postgresql</code>, use
+        /// the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
         /// </para>
         ///  
         /// <para>
@@ -308,7 +572,8 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// Example: <code>5.6.10a</code>, <code>5.7.12</code> 
+        /// Example: <code>5.6.10a</code>, <code>5.6.mysql_aurora.1.19.2</code>, <code>5.7.12</code>,
+        /// <code>5.7.mysql_aurora.2.04.5</code> 
         /// </para>
         ///  
         /// <para>
@@ -316,7 +581,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// Example: <code>9.6.3</code> 
+        /// Example: <code>9.6.3</code>, <code>10.7</code> 
         /// </para>
         /// </summary>
         public string EngineVersion
@@ -329,6 +594,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetEngineVersion()
         {
             return this._engineVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property GlobalClusterIdentifier. 
+        /// <para>
+        ///  The global cluster ID of an Aurora cluster that becomes the primary cluster in the
+        /// new global database cluster. 
+        /// </para>
+        /// </summary>
+        public string GlobalClusterIdentifier
+        {
+            get { return this._globalClusterIdentifier; }
+            set { this._globalClusterIdentifier = value; }
+        }
+
+        // Check to see if GlobalClusterIdentifier property is set
+        internal bool IsSetGlobalClusterIdentifier()
+        {
+            return this._globalClusterIdentifier != null;
         }
 
         /// <summary>
@@ -345,7 +629,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// If an encryption key is not specified in <code>KmsKeyId</code>:
+        /// If an encryption key isn't specified in <code>KmsKeyId</code>:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -355,8 +639,8 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If the <code>StorageEncrypted</code> parameter is true and <code>ReplicationSourceIdentifier</code>
-        /// is not specified, then Amazon RDS will use your default encryption key.
+        /// If the <code>StorageEncrypted</code> parameter is enabled and <code>ReplicationSourceIdentifier</code>
+        /// isn't specified, then Amazon RDS will use your default encryption key.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -365,9 +649,9 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// If you create a Read Replica of an encrypted DB cluster in another AWS Region, you
+        /// If you create a read replica of an encrypted DB cluster in another AWS Region, you
         /// must set <code>KmsKeyId</code> to a KMS key ID that is valid in the destination AWS
-        /// Region. This key is used to encrypt the Read Replica in that AWS Region.
+        /// Region. This key is used to encrypt the read replica in that AWS Region.
         /// </para>
         /// </summary>
         public string KmsKeyId
@@ -401,7 +685,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot be a reserved word for the chosen database engine.
+        /// Can't be a reserved word for the chosen database engine.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -496,9 +780,9 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// The default is a 30-minute window selected at random from an 8-hour block of time
-        /// for each AWS Region. To see the time blocks available, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon RDS User Guide.</i>
-        /// 
+        /// for each AWS Region. To see the time blocks available, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
+        /// Adjusting the Preferred DB Cluster Maintenance Window</a> in the <i>Amazon Aurora
+        /// User Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -548,9 +832,9 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The default is a 30-minute window selected at random from an 8-hour block of time
         /// for each AWS Region, occurring on a random day of the week. To see the time blocks
-        /// available, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon RDS User Guide.</i>
-        /// 
+        /// available, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
+        /// Adjusting the Preferred DB Cluster Maintenance Window</a> in the <i>Amazon Aurora
+        /// User Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -600,7 +884,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>DestinationRegion</code> - The name of the AWS Region that Aurora Read Replica
+        ///  <code>DestinationRegion</code> - The name of the AWS Region that Aurora read replica
         /// will be created in.
         /// </para>
         ///  </li> <li> 
@@ -613,11 +897,19 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// To learn how to generate a Signature Version 4 signed request, see <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
+        /// To learn how to generate a Signature Version 4 signed request, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
         /// Authenticating Requests: Using Query Parameters (AWS Signature Version 4)</a> and
-        /// <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html"> Signature
-        /// Version 4 Signing Process</a>.
+        /// <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">
+        /// Signature Version 4 Signing Process</a>.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are using an AWS SDK tool or the AWS CLI, you can specify <code>SourceRegion</code>
+        /// (or <code>--source-region</code> for the AWS CLI) instead of specifying <code>PreSignedUrl</code>
+        /// manually. Specifying <code>SourceRegion</code> autogenerates a pre-signed URL that
+        /// is a valid request for the operation that can be executed in the source AWS Region.
+        /// </para>
+        ///  </note>
         /// </summary>
         public string PreSignedUrl
         {
@@ -635,7 +927,7 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property ReplicationSourceIdentifier. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB
-        /// cluster is created as a Read Replica.
+        /// cluster is created as a read replica.
         /// </para>
         /// </summary>
         public string ReplicationSourceIdentifier
@@ -651,9 +943,28 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ScalingConfiguration. 
+        /// <para>
+        /// For DB clusters in <code>serverless</code> DB engine mode, the scaling properties
+        /// of the DB cluster.
+        /// </para>
+        /// </summary>
+        public ScalingConfiguration ScalingConfiguration
+        {
+            get { return this._scalingConfiguration; }
+            set { this._scalingConfiguration = value; }
+        }
+
+        // Check to see if ScalingConfiguration property is set
+        internal bool IsSetScalingConfiguration()
+        {
+            return this._scalingConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StorageEncrypted. 
         /// <para>
-        /// Specifies whether the DB cluster is encrypted.
+        /// A value that indicates whether the DB cluster is encrypted.
         /// </para>
         /// </summary>
         public bool StorageEncrypted
@@ -669,7 +980,10 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Tags.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Tags to assign to the DB cluster.
+        /// </para>
         /// </summary>
         public List<Tag> Tags
         {

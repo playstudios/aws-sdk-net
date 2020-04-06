@@ -33,16 +33,19 @@ namespace Amazon.TranscribeService.Model
     public partial class TranscriptionJobSummary
     {
         private DateTime? _completionTime;
+        private ContentRedaction _contentRedaction;
         private DateTime? _creationTime;
         private string _failureReason;
         private LanguageCode _languageCode;
+        private OutputLocationType _outputLocationType;
+        private DateTime? _startTime;
         private string _transcriptionJobName;
         private TranscriptionJobStatus _transcriptionJobStatus;
 
         /// <summary>
         /// Gets and sets the property CompletionTime. 
         /// <para>
-        /// Timestamp of the date and time that the job completed.
+        /// A timestamp that shows when the job was completed.
         /// </para>
         /// </summary>
         public DateTime CompletionTime
@@ -58,9 +61,27 @@ namespace Amazon.TranscribeService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ContentRedaction. 
+        /// <para>
+        /// The content redaction settings of the transcription job.
+        /// </para>
+        /// </summary>
+        public ContentRedaction ContentRedaction
+        {
+            get { return this._contentRedaction; }
+            set { this._contentRedaction = value; }
+        }
+
+        // Check to see if ContentRedaction property is set
+        internal bool IsSetContentRedaction()
+        {
+            return this._contentRedaction != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// Timestamp of the date and time that the job was created.
+        /// A timestamp that shows when the job was created.
         /// </para>
         /// </summary>
         public DateTime CreationTime
@@ -78,8 +99,8 @@ namespace Amazon.TranscribeService.Model
         /// <summary>
         /// Gets and sets the property FailureReason. 
         /// <para>
-        /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>, this field
-        /// contains a description of the error.
+        /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>, a description
+        /// of the error.
         /// </para>
         /// </summary>
         public string FailureReason
@@ -113,11 +134,60 @@ namespace Amazon.TranscribeService.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TranscriptionJobName. 
+        /// Gets and sets the property OutputLocationType. 
         /// <para>
-        /// The name assigned to the transcription job when it was created.
+        /// Indicates the location of the output of the transcription job.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the value is <code>CUSTOMER_BUCKET</code> then the location is the S3 bucket specified
+        /// in the <code>outputBucketName</code> field when the transcription job was started
+        /// with the <code>StartTranscriptionJob</code> operation.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the value is <code>SERVICE_BUCKET</code> then the output is stored by Amazon Transcribe
+        /// and can be retrieved using the URI in the <code>GetTranscriptionJob</code> response's
+        /// <code>TranscriptFileUri</code> field.
         /// </para>
         /// </summary>
+        public OutputLocationType OutputLocationType
+        {
+            get { return this._outputLocationType; }
+            set { this._outputLocationType = value; }
+        }
+
+        // Check to see if OutputLocationType property is set
+        internal bool IsSetOutputLocationType()
+        {
+            return this._outputLocationType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StartTime. 
+        /// <para>
+        /// A timestamp that shows when the job started processing.
+        /// </para>
+        /// </summary>
+        public DateTime StartTime
+        {
+            get { return this._startTime.GetValueOrDefault(); }
+            set { this._startTime = value; }
+        }
+
+        // Check to see if StartTime property is set
+        internal bool IsSetStartTime()
+        {
+            return this._startTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TranscriptionJobName. 
+        /// <para>
+        /// The name of the transcription job.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public string TranscriptionJobName
         {
             get { return this._transcriptionJobName; }

@@ -28,8 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lambda.Model
 {
     /// <summary>
-    /// The parent object returned that contains your environment's configuration settings
-    /// or any error information associated with your configuration settings.
+    /// The results of an operation to update or read environment variables. If the operation
+    /// is successful, the response contains the environment variables. If it failed, the
+    /// response contains details about the error.
     /// </summary>
     public partial class EnvironmentResponse
     {
@@ -37,7 +38,10 @@ namespace Amazon.Lambda.Model
         private Dictionary<string, string> _variables = new Dictionary<string, string>();
 
         /// <summary>
-        /// Gets and sets the property Error.
+        /// Gets and sets the property Error. 
+        /// <para>
+        /// Error messages for environment variables that couldn't be applied.
+        /// </para>
         /// </summary>
         public EnvironmentError Error
         {
@@ -54,8 +58,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Variables. 
         /// <para>
-        /// The key-value pairs returned that represent your environment's configuration settings
-        /// or error information.
+        /// Environment variable key-value pairs.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Variables

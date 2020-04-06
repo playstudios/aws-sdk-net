@@ -38,7 +38,16 @@ namespace Amazon.GameLift.Model
     /// 
     ///  
     /// <para>
-    /// Fleet-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
+    /// up GameLift Fleets</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -50,29 +59,13 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Describe fleets:
+    ///  <a>DeleteFleet</a> 
     /// </para>
-    ///  <ul> <li> 
+    ///  </li> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetUtilization</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetEvents</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
     /// <para>
     /// Update fleets:
     /// </para>
@@ -94,35 +87,7 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> </ul> </li> <li> 
     /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -135,9 +100,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet to update port settings for.
+        /// A unique identifier for a fleet to update port settings for. You can use either the
+        /// fleet ID or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FleetId
         {
             get { return this._fleetId; }
@@ -153,9 +120,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property InboundPermissionAuthorizations. 
         /// <para>
-        /// Collection of port settings to be added to the fleet record.
+        /// A collection of port settings to be added to the fleet resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<IpPermission> InboundPermissionAuthorizations
         {
             get { return this._inboundPermissionAuthorizations; }
@@ -171,9 +139,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property InboundPermissionRevocations. 
         /// <para>
-        /// Collection of port settings to be removed from the fleet record.
+        /// A collection of port settings to be removed from the fleet resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<IpPermission> InboundPermissionRevocations
         {
             get { return this._inboundPermissionRevocations; }

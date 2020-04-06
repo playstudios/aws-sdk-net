@@ -45,6 +45,22 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(HlsGroupSettings requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetAdditionalManifests())
+            {
+                context.Writer.WritePropertyName("additionalManifests");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectAdditionalManifestsListValue in requestObject.AdditionalManifests)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = HlsAdditionalManifestMarshaller.Instance;
+                    marshaller.Marshall(requestObjectAdditionalManifestsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetAdMarkers())
             {
                 context.Writer.WritePropertyName("adMarkers");
@@ -102,6 +118,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Destination);
             }
 
+            if(requestObject.IsSetDestinationSettings())
+            {
+                context.Writer.WritePropertyName("destinationSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = DestinationSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.DestinationSettings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetDirectoryStructure())
             {
                 context.Writer.WritePropertyName("directoryStructure");
@@ -129,6 +156,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("manifestDurationFormat");
                 context.Writer.Write(requestObject.ManifestDurationFormat);
+            }
+
+            if(requestObject.IsSetMinFinalSegmentLength())
+            {
+                context.Writer.WritePropertyName("minFinalSegmentLength");
+                context.Writer.Write(requestObject.MinFinalSegmentLength);
             }
 
             if(requestObject.IsSetMinSegmentLength())

@@ -29,7 +29,7 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the GetIPSet operation.
-    /// Retrieves the IPSet specified by the IPSet ID.
+    /// Retrieves the IPSet specified by the <code>ipSetId</code>.
     /// </summary>
     public partial class GetIPSetRequest : AmazonGuardDutyRequest
     {
@@ -37,9 +37,12 @@ namespace Amazon.GuardDuty.Model
         private string _ipSetId;
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The detectorID that specifies the GuardDuty
-        /// service whose IPSet you want to retrieve.
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The unique ID of the detector the ipSet is associated with.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }
@@ -53,9 +56,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property IpSetId. The unique ID that specifies the IPSet that you
-        /// want to describe.
+        /// Gets and sets the property IpSetId. 
+        /// <para>
+        /// The unique ID of the IPSet to retrieve.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string IpSetId
         {
             get { return this._ipSetId; }

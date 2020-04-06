@@ -55,11 +55,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateComputeEnvironmentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Batch");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-08-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/updatecomputeenvironment";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/updatecomputeenvironment";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

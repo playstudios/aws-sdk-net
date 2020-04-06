@@ -36,8 +36,8 @@ namespace Amazon.Lambda
     ///  
     /// <para>
     /// This is the <i>AWS Lambda API Reference</i>. The AWS Lambda Developer Guide provides
-    /// additional information. For the service overview, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What
-    /// is AWS Lambda</a>, and for information about how the service works, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
+    /// additional information. For the service overview, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What
+    /// is AWS Lambda</a>, and for information about how the service works, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
     /// Lambda: How it Works</a> in the <b>AWS Lambda Developer Guide</b>.
     /// </para>
     /// </summary>
@@ -45,43 +45,30 @@ namespace Amazon.Lambda
     {
 
         
-        #region  AddPermission
+        #region  AddLayerVersionPermission
 
 
         /// <summary>
-        /// Adds a permission to the resource policy associated with the specified AWS Lambda
-        /// function. You use resource policies to grant permissions to event sources that use
-        /// <i>push</i> model. In a <i>push</i> model, event sources (such as Amazon S3 and custom
-        /// applications) invoke your Lambda function. Each permission you add to the resource
-        /// policy allows an event source, permission to invoke the Lambda function. 
+        /// Adds permissions to the resource-based policy of a version of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a>. Use this action to grant layer usage permission to other accounts.
+        /// You can grant permission to a single account, all AWS accounts, or all accounts in
+        /// an organization.
         /// 
         ///  
         /// <para>
-        /// For information about the push model, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">Lambda
-        /// Functions</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// If you are using versioning, the permissions you add are specific to the Lambda function
-        /// version or alias you specify in the <code>AddPermission</code> request via the <code>Qualifier</code>
-        /// parameter. For more information about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:AddPermission</code> action.
+        /// To revoke permission, call <a>RemoveLayerVersionPermission</a> with the statement
+        /// ID that you specified when you added it.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the AddPermission service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AddLayerVersionPermission service method.</param>
         /// 
-        /// <returns>The response from the AddPermission service method, as returned by Lambda.</returns>
+        /// <returns>The response from the AddLayerVersionPermission service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.PolicyLengthExceededException">
-        /// Lambda function access policy is limited to 20 KB.
+        /// The permissions policy for the resource is too large. <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">Learn
+        /// more</a>
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
         /// The RevisionId provided does not match the latest RevisionId for the Lambda function
@@ -89,17 +76,100 @@ namespace Amazon.Lambda
         /// the latest RevisionId for your resource.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddLayerVersionPermission">REST API Reference for AddLayerVersionPermission Operation</seealso>
+        AddLayerVersionPermissionResponse AddLayerVersionPermission(AddLayerVersionPermissionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AddLayerVersionPermission operation.
+        /// </summary>
         /// 
+        /// <param name="request">Container for the necessary parameters to execute the AddLayerVersionPermission operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAddLayerVersionPermission
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddLayerVersionPermission">REST API Reference for AddLayerVersionPermission Operation</seealso>
+        IAsyncResult BeginAddLayerVersionPermission(AddLayerVersionPermissionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AddLayerVersionPermission operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAddLayerVersionPermission.</param>
+        /// 
+        /// <returns>Returns a  AddLayerVersionPermissionResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddLayerVersionPermission">REST API Reference for AddLayerVersionPermission Operation</seealso>
+        AddLayerVersionPermissionResponse EndAddLayerVersionPermission(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  AddPermission
+
+
+        /// <summary>
+        /// Grants an AWS service or another account permission to use a function. You can apply
+        /// the policy at the function level, or specify a qualifier to restrict access to a single
+        /// version or alias. If you use a qualifier, the invoker must use the full Amazon Resource
+        /// Name (ARN) of that version or alias to invoke the function.
+        /// 
+        ///  
+        /// <para>
+        /// To grant permission to another account, specify the account ID as the <code>Principal</code>.
+        /// For AWS services, the principal is a domain-style identifier defined by the service,
+        /// like <code>s3.amazonaws.com</code> or <code>sns.amazonaws.com</code>. For AWS services,
+        /// you can also specify the ARN of the associated resource as the <code>SourceArn</code>.
+        /// If you grant permission to a service principal without specifying the source, other
+        /// accounts could potentially configure resources in their account to invoke your Lambda
+        /// function.
+        /// </para>
+        ///  
+        /// <para>
+        /// This action adds a statement to a resource-based permissions policy for the function.
+        /// For more information about function policies, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html">Lambda
+        /// Function Policies</a>. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AddPermission service method.</param>
+        /// 
+        /// <returns>The response from the AddPermission service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.PolicyLengthExceededException">
+        /// The permissions policy for the resource is too large. <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">Learn
+        /// more</a>
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
+        /// The RevisionId provided does not match the latest RevisionId for the Lambda function
+        /// or alias. Call the <code>GetFunction</code> or the <code>GetAlias</code> API to retrieve
+        /// the latest RevisionId for your resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddPermission">REST API Reference for AddPermission Operation</seealso>
         AddPermissionResponse AddPermission(AddPermissionRequest request);
@@ -136,36 +206,34 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Creates an alias that points to the specified Lambda function version. For more information,
-        /// see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-        /// to AWS Lambda Aliases</a>.
+        /// Creates an <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>
+        /// for a Lambda function version. Use aliases to provide clients with a function identifier
+        /// that you can update to invoke a different version.
         /// 
         ///  
         /// <para>
-        /// Alias names are unique for a given function. This requires permission for the lambda:CreateAlias
-        /// action.
+        /// You can also map an alias to split invocation requests between two versions. Use the
+        /// <code>RoutingConfig</code> parameter to specify a second version and the percentage
+        /// of invocation requests that it receives.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateAlias service method.</param>
         /// 
         /// <returns>The response from the CreateAlias service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateAlias">REST API Reference for CreateAlias Operation</seealso>
         CreateAliasResponse CreateAlias(CreateAliasRequest request);
@@ -202,58 +270,76 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Identifies a stream as an event source for a Lambda function. It can be either an
-        /// Amazon Kinesis stream or an Amazon DynamoDB stream. AWS Lambda invokes the specified
-        /// function when records are posted to the stream.
+        /// Creates a mapping between an event source and an AWS Lambda function. Lambda reads
+        /// items from the event source and triggers the function.
         /// 
         ///  
         /// <para>
-        /// This association between a stream source and a Lambda function is called the event
-        /// source mapping.
+        /// For details about each event source type, see the following topics.
         /// </para>
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        /// You provide mapping information (for example, which stream to read from and which
-        /// Lambda function to invoke) in the request body.
+        ///  <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html">Using AWS Lambda
+        /// with Amazon DynamoDB</a> 
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be associated
-        /// with multiple AWS Lambda functions. A given Lambda function can be associated with
-        /// multiple AWS event sources.
+        ///  <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html">Using AWS
+        /// Lambda with Amazon Kinesis</a> 
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// If you are using versioning, you can specify a specific function version or an alias
-        /// via the function name parameter. For more information about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
+        ///  <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html">Using AWS Lambda
+        /// with Amazon SQS</a> 
         /// </para>
-        ///  
+        ///  </li> </ul> 
         /// <para>
-        /// This operation requires permission for the <code>lambda:CreateEventSourceMapping</code>
-        /// action.
+        /// The following error handling options are only available for stream sources (DynamoDB
+        /// and Kinesis):
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>BisectBatchOnFunctionError</code> - If the function returns an error, split
+        /// the batch in two and retry.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>DestinationConfig</code> - Send discarded records to an Amazon SQS queue or
+        /// Amazon SNS topic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MaximumRecordAgeInSeconds</code> - Discard records older than the specified
+        /// age.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MaximumRetryAttempts</code> - Discard records after the specified number of
+        /// retries.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ParallelizationFactor</code> - Process multiple batches from each shard concurrently.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateEventSourceMapping service method.</param>
         /// 
         /// <returns>The response from the CreateEventSourceMapping service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateEventSourceMapping">REST API Reference for CreateEventSourceMapping Operation</seealso>
         CreateEventSourceMappingResponse CreateEventSourceMapping(CreateEventSourceMappingRequest request);
@@ -290,46 +376,75 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Creates a new Lambda function. The function metadata is created from the request parameters,
-        /// and the code for the function is provided by a .zip file in the request body. If the
-        /// function name already exists, the operation will fail. Note that the function name
-        /// is case-sensitive.
+        /// Creates a Lambda function. To create a function, you need a <a href="https://docs.aws.amazon.com/lambda/latest/dg/deployment-package-v2.html">deployment
+        /// package</a> and an <a href="https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role">execution
+        /// role</a>. The deployment package contains your function code. The execution role grants
+        /// the function permission to use AWS services, such as Amazon CloudWatch Logs for log
+        /// streaming and AWS X-Ray for request tracing.
         /// 
         ///  
         /// <para>
-        ///  If you are using versioning, you can also publish a version of the Lambda function
-        /// you are creating using the <code>Publish</code> parameter. For more information about
-        /// versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
+        /// When you create a function, Lambda provisions an instance of the function and its
+        /// supporting resources. If your function connects to a VPC, this process can take a
+        /// minute or so. During this time, you can't invoke or modify the function. The <code>State</code>,
+        /// <code>StateReason</code>, and <code>StateReasonCode</code> fields in the response
+        /// from <a>GetFunctionConfiguration</a> indicate when the function is ready to invoke.
+        /// For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html">Function
+        /// States</a>.
         /// </para>
         ///  
         /// <para>
-        /// This operation requires permission for the <code>lambda:CreateFunction</code> action.
+        /// A function has an unpublished version, and can have published versions and aliases.
+        /// The unpublished version changes when you update your function's code and configuration.
+        /// A published version is a snapshot of your function code and configuration that can't
+        /// be changed. An alias is a named resource that maps to a version, and can be changed
+        /// to map to a different version. Use the <code>Publish</code> parameter to create version
+        /// <code>1</code> of your function from its initial configuration.
+        /// </para>
+        ///  
+        /// <para>
+        /// The other parameters let you configure version-specific and function-level settings.
+        /// You can modify version-specific settings later with <a>UpdateFunctionConfiguration</a>.
+        /// Function-level settings apply to both the unpublished and published versions of the
+        /// function, and include tags (<a>TagResource</a>) and per-function concurrency limits
+        /// (<a>PutFunctionConcurrency</a>).
+        /// </para>
+        ///  
+        /// <para>
+        /// If another account or an AWS service invokes your function, use <a>AddPermission</a>
+        /// to grant permission by creating a resource-based IAM policy. You can grant permissions
+        /// at the function level, on a version, or on an alias.
+        /// </para>
+        ///  
+        /// <para>
+        /// To invoke your function directly, use <a>Invoke</a>. To invoke your function in response
+        /// to events in other AWS services, create an event source mapping (<a>CreateEventSourceMapping</a>),
+        /// or configure a function trigger in the other service. For more information, see <a
+        /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html">Invoking
+        /// Functions</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateFunction service method.</param>
         /// 
         /// <returns>The response from the CreateFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.CodeStorageExceededException">
-        /// You have exceeded your maximum total code size per account. <a href="http://docs.aws.amazon.com/lambda/latest/dg/limits.html">Limits</a>
+        /// You have exceeded your maximum total code size per account. <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">Learn
+        /// more</a>
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateFunction">REST API Reference for CreateFunction Operation</seealso>
         CreateFunctionResponse CreateFunction(CreateFunctionRequest request);
@@ -366,27 +481,22 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Deletes the specified Lambda function alias. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-        /// to AWS Lambda Aliases</a>.
-        /// 
-        ///  
-        /// <para>
-        /// This requires permission for the lambda:DeleteAlias action.
-        /// </para>
+        /// Deletes a Lambda function <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteAlias service method.</param>
         /// 
         /// <returns>The response from the DeleteAlias service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteAlias">REST API Reference for DeleteAlias Operation</seealso>
         DeleteAliasResponse DeleteAlias(DeleteAliasRequest request);
@@ -423,32 +533,34 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Removes an event source mapping. This means AWS Lambda will no longer invoke the function
-        /// for events in the associated source.
+        /// Deletes an <a href="https://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html">event
+        /// source mapping</a>. You can get the identifier of a mapping from the output of <a>ListEventSourceMappings</a>.
         /// 
         ///  
         /// <para>
-        /// This operation requires permission for the <code>lambda:DeleteEventSourceMapping</code>
-        /// action.
+        /// When you delete an event source mapping, it enters a <code>Deleting</code> state and
+        /// might not be completely deleted for several seconds.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteEventSourceMapping service method.</param>
         /// 
         /// <returns>The response from the DeleteEventSourceMapping service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceInUseException">
+        /// The operation conflicts with the resource's availability. For example, you attempted
+        /// to update an EventSource Mapping in CREATING, or tried to delete a EventSource mapping
+        /// currently in the UPDATING state.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteEventSourceMapping">REST API Reference for DeleteEventSourceMapping Operation</seealso>
         DeleteEventSourceMappingResponse DeleteEventSourceMapping(DeleteEventSourceMappingRequest request);
@@ -485,93 +597,65 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Deletes the specified Lambda function code and configuration.
+        /// Deletes a Lambda function. To delete a specific function version, use the <code>Qualifier</code>
+        /// parameter. Otherwise, all versions and aliases are deleted.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature and you don't specify a function version in
-        /// your <code>DeleteFunction</code> request, AWS Lambda will delete the function, including
-        /// all its versions, and any aliases pointing to the function versions. To delete a specific
-        /// function version, you must provide the function version via the <code>Qualifier</code>
-        /// parameter. For information about function versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// When you delete a function the associated resource policy is also deleted. You will
-        /// need to delete the event source mappings explicitly.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:DeleteFunction</code> action.
+        /// To delete Lambda event source mappings that invoke a function, use <a>DeleteEventSourceMapping</a>.
+        /// For AWS services and resources that invoke your function directly, delete the trigger
+        /// in the service where you originally configured it.
         /// </para>
         /// </summary>
-        /// <param name="functionName">The Lambda function to delete.  You can specify the function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function or version. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:1</code> (with version). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// 
         /// <returns>The response from the DeleteFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunction">REST API Reference for DeleteFunction Operation</seealso>
         DeleteFunctionResponse DeleteFunction(string functionName);
 
         /// <summary>
-        /// Deletes the specified Lambda function code and configuration.
+        /// Deletes a Lambda function. To delete a specific function version, use the <code>Qualifier</code>
+        /// parameter. Otherwise, all versions and aliases are deleted.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature and you don't specify a function version in
-        /// your <code>DeleteFunction</code> request, AWS Lambda will delete the function, including
-        /// all its versions, and any aliases pointing to the function versions. To delete a specific
-        /// function version, you must provide the function version via the <code>Qualifier</code>
-        /// parameter. For information about function versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// When you delete a function the associated resource policy is also deleted. You will
-        /// need to delete the event source mappings explicitly.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:DeleteFunction</code> action.
+        /// To delete Lambda event source mappings that invoke a function, use <a>DeleteEventSourceMapping</a>.
+        /// For AWS services and resources that invoke your function directly, delete the trigger
+        /// in the service where you originally configured it.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteFunction service method.</param>
         /// 
         /// <returns>The response from the DeleteFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunction">REST API Reference for DeleteFunction Operation</seealso>
         DeleteFunctionResponse DeleteFunction(DeleteFunctionRequest request);
@@ -608,26 +692,25 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Removes concurrent execution limits from this function. For more information, see
-        /// <a>concurrent-executions</a>.
+        /// Removes a concurrent execution limit from a function.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteFunctionConcurrency service method.</param>
         /// 
         /// <returns>The response from the DeleteFunctionConcurrency service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionConcurrency">REST API Reference for DeleteFunctionConcurrency Operation</seealso>
         DeleteFunctionConcurrencyResponse DeleteFunctionConcurrency(DeleteFunctionConcurrencyRequest request);
@@ -660,19 +743,174 @@ namespace Amazon.Lambda
 
         #endregion
         
+        #region  DeleteFunctionEventInvokeConfig
+
+
+        /// <summary>
+        /// Deletes the configuration for asynchronous invocation for a function, version, or
+        /// alias.
+        /// 
+        ///  
+        /// <para>
+        /// To configure options for asynchronous invocation, use <a>PutFunctionEventInvokeConfig</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFunctionEventInvokeConfig service method.</param>
+        /// 
+        /// <returns>The response from the DeleteFunctionEventInvokeConfig service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionEventInvokeConfig">REST API Reference for DeleteFunctionEventInvokeConfig Operation</seealso>
+        DeleteFunctionEventInvokeConfigResponse DeleteFunctionEventInvokeConfig(DeleteFunctionEventInvokeConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteFunctionEventInvokeConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionEventInvokeConfig">REST API Reference for DeleteFunctionEventInvokeConfig Operation</seealso>
+        IAsyncResult BeginDeleteFunctionEventInvokeConfig(DeleteFunctionEventInvokeConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteFunctionEventInvokeConfig.</param>
+        /// 
+        /// <returns>Returns a  DeleteFunctionEventInvokeConfigResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionEventInvokeConfig">REST API Reference for DeleteFunctionEventInvokeConfig Operation</seealso>
+        DeleteFunctionEventInvokeConfigResponse EndDeleteFunctionEventInvokeConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteLayerVersion
+
+
+        /// <summary>
+        /// Deletes a version of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a>. Deleted versions can no longer be viewed or added to functions.
+        /// To avoid breaking functions, a copy of the version remains in Lambda until no functions
+        /// refer to it.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLayerVersion service method.</param>
+        /// 
+        /// <returns>The response from the DeleteLayerVersion service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteLayerVersion">REST API Reference for DeleteLayerVersion Operation</seealso>
+        DeleteLayerVersionResponse DeleteLayerVersion(DeleteLayerVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteLayerVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteLayerVersion">REST API Reference for DeleteLayerVersion Operation</seealso>
+        IAsyncResult BeginDeleteLayerVersion(DeleteLayerVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteLayerVersion.</param>
+        /// 
+        /// <returns>Returns a  DeleteLayerVersionResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteLayerVersion">REST API Reference for DeleteLayerVersion Operation</seealso>
+        DeleteLayerVersionResponse EndDeleteLayerVersion(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteProvisionedConcurrencyConfig
+
+
+        /// <summary>
+        /// Deletes the provisioned concurrency configuration for a function.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisionedConcurrencyConfig service method.</param>
+        /// 
+        /// <returns>The response from the DeleteProvisionedConcurrencyConfig service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteProvisionedConcurrencyConfig">REST API Reference for DeleteProvisionedConcurrencyConfig Operation</seealso>
+        DeleteProvisionedConcurrencyConfigResponse DeleteProvisionedConcurrencyConfig(DeleteProvisionedConcurrencyConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteProvisionedConcurrencyConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteProvisionedConcurrencyConfig">REST API Reference for DeleteProvisionedConcurrencyConfig Operation</seealso>
+        IAsyncResult BeginDeleteProvisionedConcurrencyConfig(DeleteProvisionedConcurrencyConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteProvisionedConcurrencyConfig.</param>
+        /// 
+        /// <returns>Returns a  DeleteProvisionedConcurrencyConfigResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteProvisionedConcurrencyConfig">REST API Reference for DeleteProvisionedConcurrencyConfig Operation</seealso>
+        DeleteProvisionedConcurrencyConfigResponse EndDeleteProvisionedConcurrencyConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetAccountSettings
 
 
         /// <summary>
-        /// Returns a customer's account settings.
-        /// 
-        ///  
-        /// <para>
-        /// You can use this operation to retrieve Lambda limits information, such as code size
-        /// and concurrency limits. For more information about limits, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/limits.html">AWS
-        /// Lambda Limits</a>. You can also retrieve resource usage statistics, such as code storage
-        /// usage and function count.
-        /// </para>
+        /// Retrieves details about your account's <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">limits</a>
+        /// and usage in an AWS Region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAccountSettings service method.</param>
         /// 
@@ -681,7 +919,7 @@ namespace Amazon.Lambda
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAccountSettings">REST API Reference for GetAccountSettings Operation</seealso>
         GetAccountSettingsResponse GetAccountSettings(GetAccountSettingsRequest request);
@@ -718,32 +956,22 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Returns the specified alias information such as the alias ARN, description, and function
-        /// version it is pointing to. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-        /// to AWS Lambda Aliases</a>.
-        /// 
-        ///  
-        /// <para>
-        /// This requires permission for the <code>lambda:GetAlias</code> action.
-        /// </para>
+        /// Returns details about a Lambda function <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAlias service method.</param>
         /// 
         /// <returns>The response from the GetAlias service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAlias">REST API Reference for GetAlias Operation</seealso>
         GetAliasResponse GetAlias(GetAliasRequest request);
@@ -780,31 +1008,23 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Returns configuration information for the specified event source mapping (see <a>CreateEventSourceMapping</a>).
-        /// 
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetEventSourceMapping</code>
-        /// action.
-        /// </para>
+        /// Returns details about an event source mapping. You can get the identifier of a mapping
+        /// from the output of <a>ListEventSourceMappings</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetEventSourceMapping service method.</param>
         /// 
         /// <returns>The response from the GetEventSourceMapping service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetEventSourceMapping">REST API Reference for GetEventSourceMapping Operation</seealso>
         GetEventSourceMappingResponse GetEventSourceMapping(GetEventSourceMappingRequest request);
@@ -841,81 +1061,47 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function and a presigned URL link
-        /// to the .zip file you uploaded with <a>CreateFunction</a> so you can download the .zip
-        /// file. Note that the URL is valid for up to 10 minutes. The configuration information
-        /// is the same information you provided as parameters when uploading the function.
-        /// 
-        ///  
-        /// <para>
-        /// Using the optional <code>Qualifier</code> parameter, you can specify a specific function
-        /// version for which you want this information. If you don't specify this parameter,
-        /// the API uses unqualified function ARN which return information about the <code>$LATEST</code>
-        /// version of the Lambda function. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunction</code> action.
-        /// </para>
+        /// Returns information about the function or function version, with a link to download
+        /// the deployment package that's valid for 10 minutes. If you specify a function version,
+        /// only details that are specific to that version are returned.
         /// </summary>
-        /// <param name="functionName">The Lambda function name.  You can specify a function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function, version, or alias. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:v1</code> (with alias). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// 
         /// <returns>The response from the GetFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunction">REST API Reference for GetFunction Operation</seealso>
         GetFunctionResponse GetFunction(string functionName);
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function and a presigned URL link
-        /// to the .zip file you uploaded with <a>CreateFunction</a> so you can download the .zip
-        /// file. Note that the URL is valid for up to 10 minutes. The configuration information
-        /// is the same information you provided as parameters when uploading the function.
-        /// 
-        ///  
-        /// <para>
-        /// Using the optional <code>Qualifier</code> parameter, you can specify a specific function
-        /// version for which you want this information. If you don't specify this parameter,
-        /// the API uses unqualified function ARN which return information about the <code>$LATEST</code>
-        /// version of the Lambda function. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunction</code> action.
-        /// </para>
+        /// Returns information about the function or function version, with a link to download
+        /// the deployment package that's valid for 10 minutes. If you specify a function version,
+        /// only details that are specific to that version are returned.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetFunction service method.</param>
         /// 
         /// <returns>The response from the GetFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunction">REST API Reference for GetFunction Operation</seealso>
         GetFunctionResponse GetFunction(GetFunctionRequest request);
@@ -948,85 +1134,114 @@ namespace Amazon.Lambda
 
         #endregion
         
-        #region  GetFunctionConfiguration
+        #region  GetFunctionConcurrency
 
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function. This the same information
-        /// you provided as parameters when uploading the function by using <a>CreateFunction</a>.
-        /// 
-        ///  
-        /// <para>
-        /// If you are using the versioning feature, you can retrieve this information for a specific
-        /// function version by using the optional <code>Qualifier</code> parameter and specifying
-        /// the function version or alias that points to it. If you don't provide it, the API
-        /// returns information about the $LATEST version of the function. For more information
-        /// about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunctionConfiguration</code>
-        /// operation.
-        /// </para>
+        /// Returns details about the reserved concurrency configuration for a function. To set
+        /// a concurrency limit for a function, use <a>PutFunctionConcurrency</a>.
         /// </summary>
-        /// <param name="functionName">The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionConcurrency service method.</param>
         /// 
-        /// <returns>The response from the GetFunctionConfiguration service method, as returned by Lambda.</returns>
+        /// <returns>The response from the GetFunctionConcurrency service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConcurrency">REST API Reference for GetFunctionConcurrency Operation</seealso>
+        GetFunctionConcurrencyResponse GetFunctionConcurrency(GetFunctionConcurrencyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetFunctionConcurrency operation.
+        /// </summary>
         /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionConcurrency operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetFunctionConcurrency
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConcurrency">REST API Reference for GetFunctionConcurrency Operation</seealso>
+        IAsyncResult BeginGetFunctionConcurrency(GetFunctionConcurrencyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetFunctionConcurrency operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetFunctionConcurrency.</param>
+        /// 
+        /// <returns>Returns a  GetFunctionConcurrencyResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConcurrency">REST API Reference for GetFunctionConcurrency Operation</seealso>
+        GetFunctionConcurrencyResponse EndGetFunctionConcurrency(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetFunctionConfiguration
+
+
+        /// <summary>
+        /// Returns the version-specific settings of a Lambda function or version. The output
+        /// includes only options that can vary between versions of a function. To modify these
+        /// settings, use <a>UpdateFunctionConfiguration</a>.
+        /// 
+        ///  
+        /// <para>
+        /// To get all of a function's details, including function-level settings, use <a>GetFunction</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="functionName">The name of the Lambda function, version, or alias. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:v1</code> (with alias). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
+        /// 
+        /// <returns>The response from the GetFunctionConfiguration service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfiguration">REST API Reference for GetFunctionConfiguration Operation</seealso>
         GetFunctionConfigurationResponse GetFunctionConfiguration(string functionName);
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function. This the same information
-        /// you provided as parameters when uploading the function by using <a>CreateFunction</a>.
+        /// Returns the version-specific settings of a Lambda function or version. The output
+        /// includes only options that can vary between versions of a function. To modify these
+        /// settings, use <a>UpdateFunctionConfiguration</a>.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature, you can retrieve this information for a specific
-        /// function version by using the optional <code>Qualifier</code> parameter and specifying
-        /// the function version or alias that points to it. If you don't provide it, the API
-        /// returns information about the $LATEST version of the function. For more information
-        /// about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunctionConfiguration</code>
-        /// operation.
+        /// To get all of a function's details, including function-level settings, use <a>GetFunction</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetFunctionConfiguration service method.</param>
         /// 
         /// <returns>The response from the GetFunctionConfiguration service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfiguration">REST API Reference for GetFunctionConfiguration Operation</seealso>
         GetFunctionConfigurationResponse GetFunctionConfiguration(GetFunctionConfigurationRequest request);
@@ -1059,42 +1274,244 @@ namespace Amazon.Lambda
 
         #endregion
         
-        #region  GetPolicy
+        #region  GetFunctionEventInvokeConfig
 
 
         /// <summary>
-        /// Returns the resource policy associated with the specified Lambda function.
+        /// Retrieves the configuration for asynchronous invocation for a function, version, or
+        /// alias.
         /// 
         ///  
         /// <para>
-        ///  If you are using the versioning feature, you can get the resource policy associated
-        /// with the specific Lambda function version or alias by specifying the version or alias
-        /// name using the <code>Qualifier</code> parameter. For more information about versioning,
-        /// see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// You need permission for the <code>lambda:GetPolicy action.</code> 
+        /// To configure options for asynchronous invocation, use <a>PutFunctionEventInvokeConfig</a>.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the GetPolicy service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionEventInvokeConfig service method.</param>
         /// 
-        /// <returns>The response from the GetPolicy service method, as returned by Lambda.</returns>
+        /// <returns>The response from the GetFunctionEventInvokeConfig service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionEventInvokeConfig">REST API Reference for GetFunctionEventInvokeConfig Operation</seealso>
+        GetFunctionEventInvokeConfigResponse GetFunctionEventInvokeConfig(GetFunctionEventInvokeConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetFunctionEventInvokeConfig operation.
+        /// </summary>
         /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetFunctionEventInvokeConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionEventInvokeConfig">REST API Reference for GetFunctionEventInvokeConfig Operation</seealso>
+        IAsyncResult BeginGetFunctionEventInvokeConfig(GetFunctionEventInvokeConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetFunctionEventInvokeConfig.</param>
+        /// 
+        /// <returns>Returns a  GetFunctionEventInvokeConfigResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionEventInvokeConfig">REST API Reference for GetFunctionEventInvokeConfig Operation</seealso>
+        GetFunctionEventInvokeConfigResponse EndGetFunctionEventInvokeConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetLayerVersion
+
+
+        /// <summary>
+        /// Returns information about a version of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a>, with a link to download the layer archive that's valid for 10 minutes.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersion service method.</param>
+        /// 
+        /// <returns>The response from the GetLayerVersion service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersion">REST API Reference for GetLayerVersion Operation</seealso>
+        GetLayerVersionResponse GetLayerVersion(GetLayerVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLayerVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersion">REST API Reference for GetLayerVersion Operation</seealso>
+        IAsyncResult BeginGetLayerVersion(GetLayerVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLayerVersion.</param>
+        /// 
+        /// <returns>Returns a  GetLayerVersionResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersion">REST API Reference for GetLayerVersion Operation</seealso>
+        GetLayerVersionResponse EndGetLayerVersion(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetLayerVersionByArn
+
+
+        /// <summary>
+        /// Returns information about a version of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a>, with a link to download the layer archive that's valid for 10 minutes.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionByArn service method.</param>
+        /// 
+        /// <returns>The response from the GetLayerVersionByArn service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionByArn">REST API Reference for GetLayerVersionByArn Operation</seealso>
+        GetLayerVersionByArnResponse GetLayerVersionByArn(GetLayerVersionByArnRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersionByArn operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionByArn operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLayerVersionByArn
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionByArn">REST API Reference for GetLayerVersionByArn Operation</seealso>
+        IAsyncResult BeginGetLayerVersionByArn(GetLayerVersionByArnRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLayerVersionByArn operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLayerVersionByArn.</param>
+        /// 
+        /// <returns>Returns a  GetLayerVersionByArnResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionByArn">REST API Reference for GetLayerVersionByArn Operation</seealso>
+        GetLayerVersionByArnResponse EndGetLayerVersionByArn(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetLayerVersionPolicy
+
+
+        /// <summary>
+        /// Returns the permission policy for a version of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a>. For more information, see <a>AddLayerVersionPermission</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionPolicy service method.</param>
+        /// 
+        /// <returns>The response from the GetLayerVersionPolicy service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionPolicy">REST API Reference for GetLayerVersionPolicy Operation</seealso>
+        GetLayerVersionPolicyResponse GetLayerVersionPolicy(GetLayerVersionPolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersionPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionPolicy operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLayerVersionPolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionPolicy">REST API Reference for GetLayerVersionPolicy Operation</seealso>
+        IAsyncResult BeginGetLayerVersionPolicy(GetLayerVersionPolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLayerVersionPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLayerVersionPolicy.</param>
+        /// 
+        /// <returns>Returns a  GetLayerVersionPolicyResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionPolicy">REST API Reference for GetLayerVersionPolicy Operation</seealso>
+        GetLayerVersionPolicyResponse EndGetLayerVersionPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetPolicy
+
+
+        /// <summary>
+        /// Returns the <a href="https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html">resource-based
+        /// IAM policy</a> for a function, version, or alias.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetPolicy service method.</param>
+        /// 
+        /// <returns>The response from the GetPolicy service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicy">REST API Reference for GetPolicy Operation</seealso>
         GetPolicyResponse GetPolicy(GetPolicyRequest request);
@@ -1127,44 +1544,122 @@ namespace Amazon.Lambda
 
         #endregion
         
+        #region  GetProvisionedConcurrencyConfig
+
+
+        /// <summary>
+        /// Retrieves the provisioned concurrency configuration for a function's alias or version.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetProvisionedConcurrencyConfig service method.</param>
+        /// 
+        /// <returns>The response from the GetProvisionedConcurrencyConfig service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ProvisionedConcurrencyConfigNotFoundException">
+        /// The specified configuration does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetProvisionedConcurrencyConfig">REST API Reference for GetProvisionedConcurrencyConfig Operation</seealso>
+        GetProvisionedConcurrencyConfigResponse GetProvisionedConcurrencyConfig(GetProvisionedConcurrencyConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetProvisionedConcurrencyConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetProvisionedConcurrencyConfig">REST API Reference for GetProvisionedConcurrencyConfig Operation</seealso>
+        IAsyncResult BeginGetProvisionedConcurrencyConfig(GetProvisionedConcurrencyConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetProvisionedConcurrencyConfig.</param>
+        /// 
+        /// <returns>Returns a  GetProvisionedConcurrencyConfigResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetProvisionedConcurrencyConfig">REST API Reference for GetProvisionedConcurrencyConfig Operation</seealso>
+        GetProvisionedConcurrencyConfigResponse EndGetProvisionedConcurrencyConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  Invoke
 
 
         /// <summary>
-        /// Invokes a specific Lambda function. For an example, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/with-dynamodb-create-function.html#with-dbb-invoke-manually">Create
-        /// the Lambda Function and Test It Manually</a>. 
+        /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the
+        /// response), or asynchronously. To invoke a function asynchronously, set <code>InvocationType</code>
+        /// to <code>Event</code>.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature, you can invoke the specific function version
-        /// by providing function version or alias name that is pointing to the function version
-        /// using the <code>Qualifier</code> parameter in the request. If you don't provide the
-        /// <code>Qualifier</code> parameter, the <code>$LATEST</code> version of the Lambda function
-        /// is invoked. Invocations occur at least once in response to an event and functions
-        /// must be idempotent to handle this. For information about the versioning feature, see
-        /// <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
+        /// For <a href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html">synchronous
+        /// invocation</a>, details about the function response, including errors, are included
+        /// in the response body and headers. For either invocation type, you can find more information
+        /// in the <a href="https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions.html">execution
+        /// log</a> and <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html">trace</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When an error occurs, your function may be invoked multiple times. Retry behavior
+        /// varies by error type, client, event source, and invocation type. For example, if you
+        /// invoke a function asynchronously and it returns an error, Lambda executes the function
+        /// up to two more times. For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/retries-on-errors.html">Retry
+        /// Behavior</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For <a href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html">asynchronous
+        /// invocation</a>, Lambda adds events to a queue before sending them to your function.
+        /// If your function does not have enough capacity to keep up with the queue, events may
+        /// be lost. Occasionally, your function may receive the same event multiple times, even
+        /// if no error occurs. To retain events that were not processed, configure your function
+        /// with a <a href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq">dead-letter
+        /// queue</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The status code in the API response doesn't reflect function errors. Error codes are
+        /// reserved for errors that prevent your function from executing, such as permissions
+        /// errors, <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">limit errors</a>,
+        /// or issues with your function's code and configuration. For example, Lambda returns
+        /// <code>TooManyRequestsException</code> if executing the function would cause you to
+        /// exceed a concurrency limit at either the account level (<code>ConcurrentInvocationLimitExceeded</code>)
+        /// or function level (<code>ReservedFunctionConcurrentInvocationLimitExceeded</code>).
+        /// </para>
+        ///  
+        /// <para>
+        /// For functions with a long timeout, your client might be disconnected during synchronous
+        /// invocation while it waits for a response. Configure your HTTP client, SDK, firewall,
+        /// proxy, or operating system to allow for long connections with timeout or keep-alive
+        /// settings.
         /// </para>
         ///  
         /// <para>
         /// This operation requires permission for the <code>lambda:InvokeFunction</code> action.
         /// </para>
-        ///  <note> 
-        /// <para>
-        /// The <code>TooManyRequestsException</code> noted below will return the following: <code>ConcurrentInvocationLimitExceeded</code>
-        /// will be returned if you have no functions with reserved concurrency and have exceeded
-        /// your account concurrent limit or if a function without reserved concurrency exceeds
-        /// the account's unreserved concurrency limit. <code>ReservedFunctionConcurrentInvocationLimitExceeded</code>
-        /// will be returned when a function with reserved concurrency exceeds its configured
-        /// concurrency limit. 
-        /// </para>
-        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the Invoke service method.</param>
         /// 
         /// <returns>The response from the Invoke service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.EC2AccessDeniedException">
-        /// 
+        /// Need additional permissions to configure VPC settings.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.EC2ThrottledException">
         /// AWS Lambda was throttled by Amazon EC2 during Lambda function initialization using
@@ -1175,14 +1670,12 @@ namespace Amazon.Lambda
         /// function.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ENILimitReachedException">
-        /// AWS Lambda was not able to create an Elastic Network Interface (ENI) in the VPC, specified
+        /// AWS Lambda was not able to create an elastic network interface in the VPC, specified
         /// as part of Lambda function configuration, because the limit for network interfaces
         /// has been reached.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.InvalidRequestContentException">
         /// The request body could not be parsed as JSON.
@@ -1197,7 +1690,7 @@ namespace Amazon.Lambda
         /// The Subnet ID provided in the Lambda function VPC configuration is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.InvalidZipFileException">
-        /// AWS Lambda could not unzip the function zip file.
+        /// AWS Lambda could not unzip the deployment package.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.KMSAccessDeniedException">
         /// Lambda was unable to decrypt the environment variables because KMS access was denied.
@@ -1217,11 +1710,17 @@ namespace Amazon.Lambda
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.RequestTooLargeException">
         /// The request payload exceeded the <code>Invoke</code> request body JSON input limit.
-        /// For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/limits.html">Limits</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">Limits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotReadyException">
+        /// The function is inactive and its VPC connection is no longer available. Wait for the
+        /// VPC connection to reestablish and try again.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
@@ -1231,7 +1730,7 @@ namespace Amazon.Lambda
         /// more configured subnets has no available IP addresses.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.UnsupportedMediaTypeException">
         /// The content type of the <code>Invoke</code> request body is not JSON.
@@ -1273,17 +1772,11 @@ namespace Amazon.Lambda
         /// <summary>
         /// <important> 
         /// <para>
-        /// This API is deprecated. We recommend you use <code>Invoke</code> API (see <a>Invoke</a>).
+        /// For asynchronous function invocation, use <a>Invoke</a>.
         /// </para>
         ///  </important> 
         /// <para>
-        /// Submits an invocation request to AWS Lambda. Upon receiving the request, Lambda executes
-        /// the specified function asynchronously. To see the logs generated by the Lambda function
-        /// execution, see the CloudWatch Logs console.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:InvokeFunction</code> action.
+        /// Invokes a function asynchronously.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the InvokeAsync service method.</param>
@@ -1295,15 +1788,17 @@ namespace Amazon.Lambda
         /// <exception cref="Amazon.Lambda.Model.InvalidRuntimeException">
         /// The runtime or runtime version specified is not supported.
         /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsync">REST API Reference for InvokeAsync Operation</seealso>
-        [Obsolete("This API is deprecated. We recommend that you use Invoke API instead.")]
+        [Obsolete("For .NET 3.5/4.5, API InvokeAsyncResponse InvokeAsync(InvokeAsyncRequest) is deprecated, use InvokeResponse Invoke(InvokeRequest), or Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead. For .NET Core and PCL, Task<InvokeAsyncResponse> InvokeAsyncAsync(InvokeAsyncRequest, CancellationToken) is deprecated, use Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead.")]
         InvokeAsyncResponse InvokeAsync(InvokeAsyncRequest request);
 
         /// <summary>
@@ -1318,7 +1813,7 @@ namespace Amazon.Lambda
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndInvokeAsync
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsync">REST API Reference for InvokeAsync Operation</seealso>
-        [Obsolete("This API is deprecated. We recommend that you use Invoke API instead.")]
+        [Obsolete("For .NET 3.5/4.5, API InvokeAsyncResponse InvokeAsync(InvokeAsyncRequest) is deprecated, use InvokeResponse Invoke(InvokeRequest), or Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead. For .NET Core and PCL, Task<InvokeAsyncResponse> InvokeAsyncAsync(InvokeAsyncRequest, CancellationToken) is deprecated, use Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead.")]
         IAsyncResult BeginInvokeAsync(InvokeAsyncRequest request, AsyncCallback callback, object state);
 
 
@@ -1331,7 +1826,7 @@ namespace Amazon.Lambda
         /// 
         /// <returns>Returns a  InvokeAsyncResult from Lambda.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsync">REST API Reference for InvokeAsync Operation</seealso>
-        [Obsolete("This API is deprecated. We recommend that you use Invoke API instead.")]
+        [Obsolete("For .NET 3.5/4.5, API InvokeAsyncResponse InvokeAsync(InvokeAsyncRequest) is deprecated, use InvokeResponse Invoke(InvokeRequest), or Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead. For .NET Core and PCL, Task<InvokeAsyncResponse> InvokeAsyncAsync(InvokeAsyncRequest, CancellationToken) is deprecated, use Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead.")]
         InvokeAsyncResponse EndInvokeAsync(IAsyncResult asyncResult);
 
         #endregion
@@ -1340,33 +1835,23 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Returns list of aliases created for a Lambda function. For each alias, the response
-        /// includes information such as the alias ARN, description, alias name, and the function
-        /// version to which it points. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-        /// to AWS Lambda Aliases</a>.
-        /// 
-        ///  
-        /// <para>
-        /// This requires permission for the lambda:ListAliases action.
-        /// </para>
+        /// Returns a list of <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">aliases</a>
+        /// for a Lambda function.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAliases service method.</param>
         /// 
         /// <returns>The response from the ListAliases service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListAliases">REST API Reference for ListAliases Operation</seealso>
         ListAliasesResponse ListAliases(ListAliasesRequest request);
@@ -1403,44 +1888,23 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Returns a list of event source mappings you created using the <code>CreateEventSourceMapping</code>
-        /// (see <a>CreateEventSourceMapping</a>). 
-        /// 
-        ///  
-        /// <para>
-        /// For each mapping, the API returns configuration information. You can optionally specify
-        /// filters to retrieve specific event source mappings.
-        /// </para>
-        ///  
-        /// <para>
-        /// If you are using the versioning feature, you can get list of event source mappings
-        /// for a specific Lambda function version or an alias as described in the <code>FunctionName</code>
-        /// parameter. For information about the versioning feature, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:ListEventSourceMappings</code>
-        /// action.
-        /// </para>
+        /// Lists event source mappings. Specify an <code>EventSourceArn</code> to only show event
+        /// source mappings for a single event source.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListEventSourceMappings service method.</param>
         /// 
         /// <returns>The response from the ListEventSourceMappings service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListEventSourceMappings">REST API Reference for ListEventSourceMappings Operation</seealso>
         ListEventSourceMappingsResponse ListEventSourceMappings(ListEventSourceMappingsRequest request);
@@ -1473,72 +1937,113 @@ namespace Amazon.Lambda
 
         #endregion
         
-        #region  ListFunctions
+        #region  ListFunctionEventInvokeConfigs
 
 
         /// <summary>
-        /// Returns a list of your Lambda functions. For each function, the response includes
-        /// the function configuration information. You must use <a>GetFunction</a> to retrieve
-        /// the code for your function.
+        /// Retrieves a list of configurations for asynchronous invocation for a function.
         /// 
         ///  
         /// <para>
-        /// This operation requires permission for the <code>lambda:ListFunctions</code> action.
-        /// </para>
-        ///  
-        /// <para>
-        /// If you are using the versioning feature, you can list all of your functions or only
-        /// <code>$LATEST</code> versions. For information about the versioning feature, see <a
-        /// href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS Lambda
-        /// Function Versioning and Aliases</a>. 
+        /// To configure options for asynchronous invocation, use <a>PutFunctionEventInvokeConfig</a>.
         /// </para>
         /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListFunctionEventInvokeConfigs service method.</param>
         /// 
-        /// <returns>The response from the ListFunctions service method, as returned by Lambda.</returns>
+        /// <returns>The response from the ListFunctionEventInvokeConfigs service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionEventInvokeConfigs">REST API Reference for ListFunctionEventInvokeConfigs Operation</seealso>
+        ListFunctionEventInvokeConfigsResponse ListFunctionEventInvokeConfigs(ListFunctionEventInvokeConfigsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListFunctionEventInvokeConfigs operation.
+        /// </summary>
         /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListFunctionEventInvokeConfigs operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListFunctionEventInvokeConfigs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionEventInvokeConfigs">REST API Reference for ListFunctionEventInvokeConfigs Operation</seealso>
+        IAsyncResult BeginListFunctionEventInvokeConfigs(ListFunctionEventInvokeConfigsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListFunctionEventInvokeConfigs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListFunctionEventInvokeConfigs.</param>
+        /// 
+        /// <returns>Returns a  ListFunctionEventInvokeConfigsResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionEventInvokeConfigs">REST API Reference for ListFunctionEventInvokeConfigs Operation</seealso>
+        ListFunctionEventInvokeConfigsResponse EndListFunctionEventInvokeConfigs(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListFunctions
+
+
+        /// <summary>
+        /// Returns a list of Lambda functions, with the version-specific configuration of each.
+        /// Lambda returns up to 50 functions per call.
+        /// 
+        ///  
+        /// <para>
+        /// Set <code>FunctionVersion</code> to <code>ALL</code> to include all published versions
+        /// of each function in addition to the unpublished version. To get more information about
+        /// a function or version, use <a>GetFunction</a>.
+        /// </para>
+        /// </summary>
+        /// 
+        /// <returns>The response from the ListFunctions service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctions">REST API Reference for ListFunctions Operation</seealso>
         ListFunctionsResponse ListFunctions();
 
         /// <summary>
-        /// Returns a list of your Lambda functions. For each function, the response includes
-        /// the function configuration information. You must use <a>GetFunction</a> to retrieve
-        /// the code for your function.
+        /// Returns a list of Lambda functions, with the version-specific configuration of each.
+        /// Lambda returns up to 50 functions per call.
         /// 
         ///  
         /// <para>
-        /// This operation requires permission for the <code>lambda:ListFunctions</code> action.
-        /// </para>
-        ///  
-        /// <para>
-        /// If you are using the versioning feature, you can list all of your functions or only
-        /// <code>$LATEST</code> versions. For information about the versioning feature, see <a
-        /// href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS Lambda
-        /// Function Versioning and Aliases</a>. 
+        /// Set <code>FunctionVersion</code> to <code>ALL</code> to include all published versions
+        /// of each function in addition to the unpublished version. To get more information about
+        /// a function or version, use <a>GetFunction</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListFunctions service method.</param>
         /// 
         /// <returns>The response from the ListFunctions service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctions">REST API Reference for ListFunctions Operation</seealso>
         ListFunctionsResponse ListFunctions(ListFunctionsRequest request);
@@ -1571,31 +2076,187 @@ namespace Amazon.Lambda
 
         #endregion
         
-        #region  ListTags
+        #region  ListLayers
 
 
         /// <summary>
-        /// Returns a list of tags assigned to a function when supplied the function ARN (Amazon
-        /// Resource Name). For more information on Tagging, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/tagging.html">Tagging
-        /// Lambda Functions</a> in the <b>AWS Lambda Developer Guide</b>.
+        /// Lists <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layers</a> and shows information about the latest version of each. Specify
+        /// a <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime
+        /// identifier</a> to list only layers that indicate that they're compatible with that
+        /// runtime.
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the ListTags service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListLayers service method.</param>
         /// 
-        /// <returns>The response from the ListTags service method, as returned by Lambda.</returns>
+        /// <returns>The response from the ListLayers service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
-        /// </exception>
-        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayers">REST API Reference for ListLayers Operation</seealso>
+        ListLayersResponse ListLayers(ListLayersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLayers operation.
+        /// </summary>
         /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLayers operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListLayers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayers">REST API Reference for ListLayers Operation</seealso>
+        IAsyncResult BeginListLayers(ListLayersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListLayers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListLayers.</param>
+        /// 
+        /// <returns>Returns a  ListLayersResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayers">REST API Reference for ListLayers Operation</seealso>
+        ListLayersResponse EndListLayers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListLayerVersions
+
+
+        /// <summary>
+        /// Lists the versions of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a>. Versions that have been deleted aren't listed. Specify a <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime
+        /// identifier</a> to list only versions that indicate that they're compatible with that
+        /// runtime.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListLayerVersions service method.</param>
+        /// 
+        /// <returns>The response from the ListLayerVersions service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayerVersions">REST API Reference for ListLayerVersions Operation</seealso>
+        ListLayerVersionsResponse ListLayerVersions(ListLayerVersionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLayerVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLayerVersions operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListLayerVersions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayerVersions">REST API Reference for ListLayerVersions Operation</seealso>
+        IAsyncResult BeginListLayerVersions(ListLayerVersionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListLayerVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListLayerVersions.</param>
+        /// 
+        /// <returns>Returns a  ListLayerVersionsResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayerVersions">REST API Reference for ListLayerVersions Operation</seealso>
+        ListLayerVersionsResponse EndListLayerVersions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListProvisionedConcurrencyConfigs
+
+
+        /// <summary>
+        /// Retrieves a list of provisioned concurrency configurations for a function.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisionedConcurrencyConfigs service method.</param>
+        /// 
+        /// <returns>The response from the ListProvisionedConcurrencyConfigs service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListProvisionedConcurrencyConfigs">REST API Reference for ListProvisionedConcurrencyConfigs Operation</seealso>
+        ListProvisionedConcurrencyConfigsResponse ListProvisionedConcurrencyConfigs(ListProvisionedConcurrencyConfigsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListProvisionedConcurrencyConfigs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisionedConcurrencyConfigs operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListProvisionedConcurrencyConfigs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListProvisionedConcurrencyConfigs">REST API Reference for ListProvisionedConcurrencyConfigs Operation</seealso>
+        IAsyncResult BeginListProvisionedConcurrencyConfigs(ListProvisionedConcurrencyConfigsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListProvisionedConcurrencyConfigs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListProvisionedConcurrencyConfigs.</param>
+        /// 
+        /// <returns>Returns a  ListProvisionedConcurrencyConfigsResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListProvisionedConcurrencyConfigs">REST API Reference for ListProvisionedConcurrencyConfigs Operation</seealso>
+        ListProvisionedConcurrencyConfigsResponse EndListProvisionedConcurrencyConfigs(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTags
+
+
+        /// <summary>
+        /// Returns a function's <a href="https://docs.aws.amazon.com/lambda/latest/dg/tagging.html">tags</a>.
+        /// You can also view tags with <a>GetFunction</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTags service method.</param>
+        /// 
+        /// <returns>The response from the ListTags service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListTags">REST API Reference for ListTags Operation</seealso>
         ListTagsResponse ListTags(ListTagsRequest request);
@@ -1632,27 +2293,24 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// List all versions of a function. For information about the versioning feature, see
-        /// <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
+        /// Returns a list of <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">versions</a>,
+        /// with the version-specific configuration of each. Lambda returns up to 50 versions
+        /// per call.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListVersionsByFunction service method.</param>
         /// 
         /// <returns>The response from the ListVersionsByFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListVersionsByFunction">REST API Reference for ListVersionsByFunction Operation</seealso>
         ListVersionsByFunctionResponse ListVersionsByFunction(ListVersionsByFunctionRequest request);
@@ -1685,41 +2343,114 @@ namespace Amazon.Lambda
 
         #endregion
         
+        #region  PublishLayerVersion
+
+
+        /// <summary>
+        /// Creates an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a> from a ZIP archive. Each time you call <code>PublishLayerVersion</code>
+        /// with the same layer name, a new version is created.
+        /// 
+        ///  
+        /// <para>
+        /// Add layers to your function with <a>CreateFunction</a> or <a>UpdateFunctionConfiguration</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PublishLayerVersion service method.</param>
+        /// 
+        /// <returns>The response from the PublishLayerVersion service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.CodeStorageExceededException">
+        /// You have exceeded your maximum total code size per account. <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">Learn
+        /// more</a>
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishLayerVersion">REST API Reference for PublishLayerVersion Operation</seealso>
+        PublishLayerVersionResponse PublishLayerVersion(PublishLayerVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PublishLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PublishLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPublishLayerVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishLayerVersion">REST API Reference for PublishLayerVersion Operation</seealso>
+        IAsyncResult BeginPublishLayerVersion(PublishLayerVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PublishLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPublishLayerVersion.</param>
+        /// 
+        /// <returns>Returns a  PublishLayerVersionResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishLayerVersion">REST API Reference for PublishLayerVersion Operation</seealso>
+        PublishLayerVersionResponse EndPublishLayerVersion(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PublishVersion
 
 
         /// <summary>
-        /// Publishes a version of your function from the current snapshot of $LATEST. That is,
-        /// AWS Lambda takes a snapshot of the function code and configuration information from
-        /// $LATEST and publishes a new version. The code and configuration cannot be modified
-        /// after publication. For information about the versioning feature, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
+        /// Creates a <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">version</a>
+        /// from the current code and configuration of a function. Use versions to create a snapshot
+        /// of your function code and configuration that doesn't change.
+        /// 
+        ///  
+        /// <para>
+        /// AWS Lambda doesn't publish a version if the function's configuration and code haven't
+        /// changed since the last version. Use <a>UpdateFunctionCode</a> or <a>UpdateFunctionConfiguration</a>
+        /// to update the function before publishing a version.
+        /// </para>
+        ///  
+        /// <para>
+        /// Clients can invoke versions directly or with an alias. To create an alias, use <a>CreateAlias</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PublishVersion service method.</param>
         /// 
         /// <returns>The response from the PublishVersion service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.CodeStorageExceededException">
-        /// You have exceeded your maximum total code size per account. <a href="http://docs.aws.amazon.com/lambda/latest/dg/limits.html">Limits</a>
+        /// You have exceeded your maximum total code size per account. <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">Learn
+        /// more</a>
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
         /// The RevisionId provided does not match the latest RevisionId for the Lambda function
         /// or alias. Call the <code>GetFunction</code> or the <code>GetAlias</code> API to retrieve
         /// the latest RevisionId for your resource.
         /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishVersion">REST API Reference for PublishVersion Operation</seealso>
         PublishVersionResponse PublishVersion(PublishVersionRequest request);
@@ -1756,30 +2487,43 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Sets a limit on the number of concurrent executions available to this function. It
-        /// is a subset of your account's total concurrent execution limit per region. Note that
-        /// Lambda automatically reserves a buffer of 100 concurrent executions for functions
-        /// without any reserved concurrency limit. This means if your account limit is 1000,
-        /// you have a total of 900 available to allocate to individual functions. For more information,
-        /// see <a>concurrent-executions</a>.
+        /// Sets the maximum number of simultaneous executions for a function, and reserves capacity
+        /// for that concurrency level.
+        /// 
+        ///  
+        /// <para>
+        /// Concurrency settings apply to the function as a whole, including all published versions
+        /// and the unpublished version. Reserving concurrency both ensures that your function
+        /// has capacity to process the specified number of events simultaneously, and prevents
+        /// it from scaling beyond that level. Use <a>GetFunction</a> to see the current setting
+        /// for a function.
+        /// </para>
+        ///  
+        /// <para>
+        /// Use <a>GetAccountSettings</a> to see your Regional concurrency limit. You can reserve
+        /// concurrency for as many functions as you like, as long as you leave at least 100 simultaneous
+        /// executions unreserved for functions that aren't configured with a per-function limit.
+        /// For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html">Managing
+        /// Concurrency</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutFunctionConcurrency service method.</param>
         /// 
         /// <returns>The response from the PutFunctionConcurrency service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionConcurrency">REST API Reference for PutFunctionConcurrency Operation</seealso>
         PutFunctionConcurrencyResponse PutFunctionConcurrency(PutFunctionConcurrencyRequest request);
@@ -1812,38 +2556,145 @@ namespace Amazon.Lambda
 
         #endregion
         
-        #region  RemovePermission
+        #region  PutFunctionEventInvokeConfig
 
 
         /// <summary>
-        /// You can remove individual permissions from an resource policy associated with a Lambda
-        /// function by providing a statement ID that you provided when you added the permission.
+        /// Configures options for <a href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html">asynchronous
+        /// invocation</a> on a function, version, or alias. If a configuration already exists
+        /// for a function, version, or alias, this operation overwrites it. If you exclude any
+        /// settings, they are removed. To set one option without affecting existing settings
+        /// for other options, use <a>PutFunctionEventInvokeConfig</a>.
         /// 
         ///  
         /// <para>
-        /// If you are using versioning, the permissions you remove are specific to the Lambda
-        /// function version or alias you specify in the <code>AddPermission</code> request via
-        /// the <code>Qualifier</code> parameter. For more information about versioning, see <a
-        /// href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS Lambda
-        /// Function Versioning and Aliases</a>. 
+        /// By default, Lambda retries an asynchronous invocation twice if the function returns
+        /// an error. It retains events in a queue for up to six hours. When an event fails all
+        /// processing attempts or stays in the asynchronous invocation queue for too long, Lambda
+        /// discards it. To retain discarded events, configure a dead-letter queue with <a>UpdateFunctionConfiguration</a>.
         /// </para>
         ///  
         /// <para>
-        /// Note that removal of a permission will cause an active event source to lose permission
-        /// to the function.
-        /// </para>
-        ///  
-        /// <para>
-        /// You need permission for the <code>lambda:RemovePermission</code> action.
+        /// To send an invocation record to a queue, topic, function, or event bus, specify a
+        /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations">destination</a>.
+        /// You can configure separate destinations for successful invocations (on-success) and
+        /// events that fail all processing attempts (on-failure). You can configure destinations
+        /// in addition to or instead of a dead-letter queue.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the RemovePermission service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutFunctionEventInvokeConfig service method.</param>
         /// 
-        /// <returns>The response from the RemovePermission service method, as returned by Lambda.</returns>
+        /// <returns>The response from the PutFunctionEventInvokeConfig service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionEventInvokeConfig">REST API Reference for PutFunctionEventInvokeConfig Operation</seealso>
+        PutFunctionEventInvokeConfigResponse PutFunctionEventInvokeConfig(PutFunctionEventInvokeConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutFunctionEventInvokeConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionEventInvokeConfig">REST API Reference for PutFunctionEventInvokeConfig Operation</seealso>
+        IAsyncResult BeginPutFunctionEventInvokeConfig(PutFunctionEventInvokeConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutFunctionEventInvokeConfig.</param>
+        /// 
+        /// <returns>Returns a  PutFunctionEventInvokeConfigResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionEventInvokeConfig">REST API Reference for PutFunctionEventInvokeConfig Operation</seealso>
+        PutFunctionEventInvokeConfigResponse EndPutFunctionEventInvokeConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutProvisionedConcurrencyConfig
+
+
+        /// <summary>
+        /// Adds a provisioned concurrency configuration to a function's alias or version.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutProvisionedConcurrencyConfig service method.</param>
+        /// 
+        /// <returns>The response from the PutProvisionedConcurrencyConfig service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutProvisionedConcurrencyConfig">REST API Reference for PutProvisionedConcurrencyConfig Operation</seealso>
+        PutProvisionedConcurrencyConfigResponse PutProvisionedConcurrencyConfig(PutProvisionedConcurrencyConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutProvisionedConcurrencyConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutProvisionedConcurrencyConfig">REST API Reference for PutProvisionedConcurrencyConfig Operation</seealso>
+        IAsyncResult BeginPutProvisionedConcurrencyConfig(PutProvisionedConcurrencyConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutProvisionedConcurrencyConfig.</param>
+        /// 
+        /// <returns>Returns a  PutProvisionedConcurrencyConfigResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutProvisionedConcurrencyConfig">REST API Reference for PutProvisionedConcurrencyConfig Operation</seealso>
+        PutProvisionedConcurrencyConfigResponse EndPutProvisionedConcurrencyConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RemoveLayerVersionPermission
+
+
+        /// <summary>
+        /// Removes a statement from the permissions policy for a version of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
+        /// Lambda layer</a>. For more information, see <a>AddLayerVersionPermission</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RemoveLayerVersionPermission service method.</param>
+        /// 
+        /// <returns>The response from the RemoveLayerVersionPermission service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
         /// The RevisionId provided does not match the latest RevisionId for the Lambda function
@@ -1851,14 +2702,71 @@ namespace Amazon.Lambda
         /// the latest RevisionId for your resource.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemoveLayerVersionPermission">REST API Reference for RemoveLayerVersionPermission Operation</seealso>
+        RemoveLayerVersionPermissionResponse RemoveLayerVersionPermission(RemoveLayerVersionPermissionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RemoveLayerVersionPermission operation.
+        /// </summary>
         /// 
+        /// <param name="request">Container for the necessary parameters to execute the RemoveLayerVersionPermission operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRemoveLayerVersionPermission
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemoveLayerVersionPermission">REST API Reference for RemoveLayerVersionPermission Operation</seealso>
+        IAsyncResult BeginRemoveLayerVersionPermission(RemoveLayerVersionPermissionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RemoveLayerVersionPermission operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRemoveLayerVersionPermission.</param>
+        /// 
+        /// <returns>Returns a  RemoveLayerVersionPermissionResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemoveLayerVersionPermission">REST API Reference for RemoveLayerVersionPermission Operation</seealso>
+        RemoveLayerVersionPermissionResponse EndRemoveLayerVersionPermission(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RemovePermission
+
+
+        /// <summary>
+        /// Revokes function-use permission from an AWS service or another account. You can get
+        /// the ID of the statement from the output of <a>GetPolicy</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RemovePermission service method.</param>
+        /// 
+        /// <returns>The response from the RemovePermission service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
+        /// The RevisionId provided does not match the latest RevisionId for the Lambda function
+        /// or alias. Call the <code>GetFunction</code> or the <code>GetAlias</code> API to retrieve
+        /// the latest RevisionId for your resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemovePermission">REST API Reference for RemovePermission Operation</seealso>
         RemovePermissionResponse RemovePermission(RemovePermissionRequest request);
@@ -1895,29 +2803,26 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda
-        /// function ARN (Amazon Resource Name). If a key is specified without a value, Lambda
-        /// creates a tag with the specified key and a value of null. For more information, see
-        /// <a href="http://docs.aws.amazon.com/lambda/latest/dg/tagging.html">Tagging Lambda
-        /// Functions</a> in the <b>AWS Lambda Developer Guide</b>.
+        /// Adds <a href="https://docs.aws.amazon.com/lambda/latest/dg/tagging.html">tags</a>
+        /// to a function.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
         /// 
         /// <returns>The response from the TagResource service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TagResource">REST API Reference for TagResource Operation</seealso>
         TagResourceResponse TagResource(TagResourceRequest request);
@@ -1954,27 +2859,26 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name).
-        /// For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/tagging.html">Tagging
-        /// Lambda Functions</a> in the <b>AWS Lambda Developer Guide</b>.
+        /// Removes <a href="https://docs.aws.amazon.com/lambda/latest/dg/tagging.html">tags</a>
+        /// from a function.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
         /// 
         /// <returns>The response from the UntagResource service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UntagResource">REST API Reference for UntagResource Operation</seealso>
         UntagResourceResponse UntagResource(UntagResourceRequest request);
@@ -2011,37 +2915,30 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Using this API you can update the function version to which the alias points and the
-        /// alias description. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-        /// to AWS Lambda Aliases</a>.
-        /// 
-        ///  
-        /// <para>
-        /// This requires permission for the lambda:UpdateAlias action.
-        /// </para>
+        /// Updates the configuration of a Lambda function <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateAlias service method.</param>
         /// 
         /// <returns>The response from the UpdateAlias service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
         /// The RevisionId provided does not match the latest RevisionId for the Lambda function
         /// or alias. Call the <code>GetFunction</code> or the <code>GetAlias</code> API to retrieve
         /// the latest RevisionId for your resource.
         /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateAlias">REST API Reference for UpdateAlias Operation</seealso>
         UpdateAliasResponse UpdateAlias(UpdateAliasRequest request);
@@ -2078,51 +2975,62 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// You can update an event source mapping. This is useful if you want to change the parameters
-        /// of the existing mapping without losing your position in the stream. You can change
-        /// which function will receive the stream records, but to change the stream itself, you
-        /// must create a new mapping.
+        /// Updates an event source mapping. You can change the function that AWS Lambda invokes,
+        /// or pause invocation and resume later from the same location.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature, you can update the event source mapping to
-        /// map to a specific Lambda function version or alias as described in the <code>FunctionName</code>
-        /// parameter. For information about the versioning feature, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
+        /// The following error handling options are only available for stream sources (DynamoDB
+        /// and Kinesis):
         /// </para>
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        /// If you disable the event source mapping, AWS Lambda stops polling. If you enable again,
-        /// it will resume polling from the time it had stopped polling, so you don't lose processing
-        /// of any records. However, if you delete event source mapping and create it again, it
-        /// will reset.
+        ///  <code>BisectBatchOnFunctionError</code> - If the function returns an error, split
+        /// the batch in two and retry.
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// This operation requires permission for the <code>lambda:UpdateEventSourceMapping</code>
-        /// action.
+        ///  <code>DestinationConfig</code> - Send discarded records to an Amazon SQS queue or
+        /// Amazon SNS topic.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MaximumRecordAgeInSeconds</code> - Discard records older than the specified
+        /// age.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MaximumRetryAttempts</code> - Discard records after the specified number of
+        /// retries.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ParallelizationFactor</code> - Process multiple batches from each shard concurrently.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateEventSourceMapping service method.</param>
         /// 
         /// <returns>The response from the UpdateEventSourceMapping service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceInUseException">
+        /// The operation conflicts with the resource's availability. For example, you attempted
+        /// to update an EventSource Mapping in CREATING, or tried to delete a EventSource mapping
+        /// currently in the UPDATING state.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateEventSourceMapping">REST API Reference for UpdateEventSourceMapping Operation</seealso>
         UpdateEventSourceMappingResponse UpdateEventSourceMapping(UpdateEventSourceMappingRequest request);
@@ -2159,47 +3067,40 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Updates the code for the specified Lambda function. This operation must only be used
-        /// on an existing Lambda function and cannot be used to update the function configuration.
+        /// Updates a Lambda function's code.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature, note this API will always update the $LATEST
-        /// version of your Lambda function. For information about the versioning feature, see
-        /// <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:UpdateFunctionCode</code>
-        /// action.
+        /// The function's code is locked when you publish a version. You can't modify the code
+        /// of a published version, only the unpublished version.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateFunctionCode service method.</param>
         /// 
         /// <returns>The response from the UpdateFunctionCode service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.CodeStorageExceededException">
-        /// You have exceeded your maximum total code size per account. <a href="http://docs.aws.amazon.com/lambda/latest/dg/limits.html">Limits</a>
+        /// You have exceeded your maximum total code size per account. <a href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">Learn
+        /// more</a>
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
         /// The RevisionId provided does not match the latest RevisionId for the Lambda function
         /// or alias. Call the <code>GetFunction</code> or the <code>GetAlias</code> API to retrieve
         /// the latest RevisionId for your resource.
         /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
+        /// The resource already exists, or another operation is in progress.
+        /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionCode">REST API Reference for UpdateFunctionCode Operation</seealso>
         UpdateFunctionCodeResponse UpdateFunctionCode(UpdateFunctionCodeRequest request);
@@ -2236,31 +3137,36 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Updates the configuration parameters for the specified Lambda function by using the
-        /// values provided in the request. You provide only the parameters you want to change.
-        /// This operation must only be used on an existing Lambda function and cannot be used
-        /// to update the function's code.
+        /// Modify the version-specific settings of a Lambda function.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature, note this API will always update the $LATEST
-        /// version of your Lambda function. For information about the versioning feature, see
-        /// <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
+        /// When you update a function, Lambda provisions an instance of the function and its
+        /// supporting resources. If your function connects to a VPC, this process can take a
+        /// minute. During this time, you can't modify the function, but you can still invoke
+        /// it. The <code>LastUpdateStatus</code>, <code>LastUpdateStatusReason</code>, and <code>LastUpdateStatusReasonCode</code>
+        /// fields in the response from <a>GetFunctionConfiguration</a> indicate when the update
+        /// is complete and the function is processing events with the new configuration. For
+        /// more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html">Function
+        /// States</a>.
         /// </para>
         ///  
         /// <para>
-        /// This operation requires permission for the <code>lambda:UpdateFunctionConfiguration</code>
-        /// action.
+        /// These settings can vary between versions of a function and are locked when you publish
+        /// a version. You can't modify the configuration of a published version, only the unpublished
+        /// version.
+        /// </para>
+        ///  
+        /// <para>
+        /// To configure function concurrency, use <a>PutFunctionConcurrency</a>. To grant invoke
+        /// permissions to an account or AWS service, use <a>AddPermission</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateFunctionConfiguration service method.</param>
         /// 
         /// <returns>The response from the UpdateFunctionConfiguration service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.PreconditionFailedException">
         /// The RevisionId provided does not match the latest RevisionId for the Lambda function
@@ -2268,17 +3174,16 @@ namespace Amazon.Lambda
         /// the latest RevisionId for your resource.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfiguration">REST API Reference for UpdateFunctionConfiguration Operation</seealso>
         UpdateFunctionConfigurationResponse UpdateFunctionConfiguration(UpdateFunctionConfigurationRequest request);
@@ -2308,6 +3213,64 @@ namespace Amazon.Lambda
         /// <returns>Returns a  UpdateFunctionConfigurationResult from Lambda.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfiguration">REST API Reference for UpdateFunctionConfiguration Operation</seealso>
         UpdateFunctionConfigurationResponse EndUpdateFunctionConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateFunctionEventInvokeConfig
+
+
+        /// <summary>
+        /// Updates the configuration for asynchronous invocation for a function, version, or
+        /// alias.
+        /// 
+        ///  
+        /// <para>
+        /// To configure options for asynchronous invocation, use <a>PutFunctionEventInvokeConfig</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFunctionEventInvokeConfig service method.</param>
+        /// 
+        /// <returns>The response from the UpdateFunctionEventInvokeConfig service method, as returned by Lambda.</returns>
+        /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
+        /// The resource specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.ServiceException">
+        /// The AWS Lambda service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
+        /// The request throughput limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionEventInvokeConfig">REST API Reference for UpdateFunctionEventInvokeConfig Operation</seealso>
+        UpdateFunctionEventInvokeConfigResponse UpdateFunctionEventInvokeConfig(UpdateFunctionEventInvokeConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateFunctionEventInvokeConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionEventInvokeConfig">REST API Reference for UpdateFunctionEventInvokeConfig Operation</seealso>
+        IAsyncResult BeginUpdateFunctionEventInvokeConfig(UpdateFunctionEventInvokeConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateFunctionEventInvokeConfig.</param>
+        /// 
+        /// <returns>Returns a  UpdateFunctionEventInvokeConfigResult from Lambda.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionEventInvokeConfig">REST API Reference for UpdateFunctionEventInvokeConfig Operation</seealso>
+        UpdateFunctionEventInvokeConfigResponse EndUpdateFunctionEventInvokeConfig(IAsyncResult asyncResult);
 
         #endregion
         

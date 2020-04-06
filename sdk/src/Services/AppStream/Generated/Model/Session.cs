@@ -33,9 +33,13 @@ namespace Amazon.AppStream.Model
     public partial class Session
     {
         private AuthenticationType _authenticationType;
+        private SessionConnectionState _connectionState;
         private string _fleetName;
         private string _id;
+        private DateTime? _maxExpirationTime;
+        private NetworkAccessConfiguration _networkAccessConfiguration;
         private string _stackName;
+        private DateTime? _startTime;
         private StreamSessionState _state;
         private string _userId;
 
@@ -43,7 +47,7 @@ namespace Amazon.AppStream.Model
         /// Gets and sets the property AuthenticationType. 
         /// <para>
         /// The authentication method. The user is authenticated using a streaming URL (<code>API</code>)
-        /// or SAML federation (<code>SAML</code>).
+        /// or SAML 2.0 federation (<code>SAML</code>).
         /// </para>
         /// </summary>
         public AuthenticationType AuthenticationType
@@ -59,11 +63,30 @@ namespace Amazon.AppStream.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ConnectionState. 
+        /// <para>
+        /// Specifies whether a user is connected to the streaming session.
+        /// </para>
+        /// </summary>
+        public SessionConnectionState ConnectionState
+        {
+            get { return this._connectionState; }
+            set { this._connectionState = value; }
+        }
+
+        // Check to see if ConnectionState property is set
+        internal bool IsSetConnectionState()
+        {
+            return this._connectionState != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property FleetName. 
         /// <para>
         /// The name of the fleet for the streaming session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string FleetName
         {
             get { return this._fleetName; }
@@ -79,9 +102,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property Id. 
         /// <para>
-        /// The ID of the streaming session.
+        /// The identifier of the streaming session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Id
         {
             get { return this._id; }
@@ -95,11 +119,54 @@ namespace Amazon.AppStream.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaxExpirationTime. 
+        /// <para>
+        /// The time when the streaming session is set to expire. This time is based on the <code>MaxUserDurationinSeconds</code>
+        /// value, which determines the maximum length of time that a streaming session can run.
+        /// A streaming session might end earlier than the time specified in <code>SessionMaxExpirationTime</code>,
+        /// when the <code>DisconnectTimeOutInSeconds</code> elapses or the user chooses to end
+        /// his or her session. If the <code>DisconnectTimeOutInSeconds</code> elapses, or the
+        /// user chooses to end his or her session, the streaming instance is terminated and the
+        /// streaming session ends.
+        /// </para>
+        /// </summary>
+        public DateTime MaxExpirationTime
+        {
+            get { return this._maxExpirationTime.GetValueOrDefault(); }
+            set { this._maxExpirationTime = value; }
+        }
+
+        // Check to see if MaxExpirationTime property is set
+        internal bool IsSetMaxExpirationTime()
+        {
+            return this._maxExpirationTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NetworkAccessConfiguration. 
+        /// <para>
+        /// The network details for the streaming session.
+        /// </para>
+        /// </summary>
+        public NetworkAccessConfiguration NetworkAccessConfiguration
+        {
+            get { return this._networkAccessConfiguration; }
+            set { this._networkAccessConfiguration = value; }
+        }
+
+        // Check to see if NetworkAccessConfiguration property is set
+        internal bool IsSetNetworkAccessConfiguration()
+        {
+            return this._networkAccessConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StackName. 
         /// <para>
         /// The name of the stack for the streaming session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string StackName
         {
             get { return this._stackName; }
@@ -113,11 +180,30 @@ namespace Amazon.AppStream.Model
         }
 
         /// <summary>
+        /// Gets and sets the property StartTime. 
+        /// <para>
+        /// The time when a streaming instance is dedicated for the user.
+        /// </para>
+        /// </summary>
+        public DateTime StartTime
+        {
+            get { return this._startTime.GetValueOrDefault(); }
+            set { this._startTime = value; }
+        }
+
+        // Check to see if StartTime property is set
+        internal bool IsSetStartTime()
+        {
+            return this._startTime.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property State. 
         /// <para>
         /// The current state of the streaming session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StreamSessionState State
         {
             get { return this._state; }
@@ -136,6 +222,7 @@ namespace Amazon.AppStream.Model
         /// The identifier of the user for whom the session was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=32)]
         public string UserId
         {
             get { return this._userId; }

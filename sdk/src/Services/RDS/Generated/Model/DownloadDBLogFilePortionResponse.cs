@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.RDS.Model
 {
     /// <summary>
-    /// This data type is used as a response element to <a>DownloadDBLogFilePortion</a>.
+    /// This data type is used as a response element to <code>DownloadDBLogFilePortion</code>.
     /// </summary>
     public partial class DownloadDBLogFilePortionResponse : AmazonWebServiceResponse
     {
@@ -75,7 +75,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Marker. 
         /// <para>
-        /// A pagination token that can be used in a subsequent DownloadDBLogFilePortion request.
+        /// A pagination token that can be used in a later DownloadDBLogFilePortion request.
         /// </para>
         /// </summary>
         public string Marker

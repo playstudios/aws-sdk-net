@@ -29,14 +29,17 @@ namespace Amazon.CodePipeline.Model
 {
     /// <summary>
     /// Container for the parameters to the PollForJobs operation.
-    /// Returns information about any jobs for AWS CodePipeline to act upon.
+    /// Returns information about any jobs for AWS CodePipeline to act on. <code>PollForJobs</code>
+    /// is valid only for action types with "Custom" in the owner field. If the action type
+    /// contains "AWS" or "ThirdParty" in the owner field, the <code>PollForJobs</code> action
+    /// returns an error.
     /// 
     ///  <important> 
     /// <para>
-    /// When this API is called, AWS CodePipeline returns temporary credentials for the Amazon
-    /// S3 bucket used to store artifacts for the pipeline, if the action requires access
-    /// to that Amazon S3 bucket for input or output artifacts. Additionally, this API returns
-    /// any secret values defined for the action.
+    /// When this API is called, AWS CodePipeline returns temporary credentials for the S3
+    /// bucket used to store artifacts for the pipeline, if the action requires access to
+    /// that S3 bucket for input or output artifacts. This API also returns any secret values
+    /// defined for the action.
     /// </para>
     ///  </important>
     /// </summary>
@@ -52,6 +55,7 @@ namespace Amazon.CodePipeline.Model
         /// Represents information about an action type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActionTypeId ActionTypeId
         {
             get { return this._actionTypeId; }
@@ -70,6 +74,7 @@ namespace Amazon.CodePipeline.Model
         /// The maximum number of jobs to return in a poll for jobs call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxBatchSize
         {
             get { return this._maxBatchSize.GetValueOrDefault(); }
@@ -88,9 +93,10 @@ namespace Amazon.CodePipeline.Model
         /// A map of property names and values. For an action type with no queryable properties,
         /// this value must be null or an empty map. For an action type with a queryable property,
         /// you must supply that property as a key in the map. Only jobs whose action configuration
-        /// matches the mapped value will be returned.
+        /// matches the mapped value are returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1)]
         public Dictionary<string, string> QueryParam
         {
             get { return this._queryParam; }

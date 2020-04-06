@@ -28,14 +28,16 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// Provides information that defines a replication instance.
     /// </summary>
     public partial class ReplicationInstance
     {
         private int? _allocatedStorage;
         private bool? _autoMinorVersionUpgrade;
         private string _availabilityZone;
+        private string _dnsNameServers;
         private string _engineVersion;
+        private DateTime? _freeUntil;
         private DateTime? _instanceCreateTime;
         private string _kmsKeyId;
         private bool? _multiAZ;
@@ -110,6 +112,24 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DnsNameServers. 
+        /// <para>
+        /// The DNS name servers for the replication instance.
+        /// </para>
+        /// </summary>
+        public string DnsNameServers
+        {
+            get { return this._dnsNameServers; }
+            set { this._dnsNameServers = value; }
+        }
+
+        // Check to see if DnsNameServers property is set
+        internal bool IsSetDnsNameServers()
+        {
+            return this._dnsNameServers != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EngineVersion. 
         /// <para>
         /// The engine version number of the replication instance.
@@ -125,6 +145,25 @@ namespace Amazon.DatabaseMigrationService.Model
         internal bool IsSetEngineVersion()
         {
             return this._engineVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property FreeUntil. 
+        /// <para>
+        ///  The expiration date of the free replication instance that is part of the Free DMS
+        /// program. 
+        /// </para>
+        /// </summary>
+        public DateTime FreeUntil
+        {
+            get { return this._freeUntil.GetValueOrDefault(); }
+            set { this._freeUntil = value; }
+        }
+
+        // Check to see if FreeUntil property is set
+        internal bool IsSetFreeUntil()
+        {
+            return this._freeUntil.HasValue; 
         }
 
         /// <summary>
@@ -148,10 +187,17 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// The KMS key identifier that is used to encrypt the content on the replication instance.
-        /// If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your
-        /// default encryption key. AWS KMS creates the default encryption key for your AWS account.
-        /// Your AWS account has a different default encryption key for each AWS region.
+        /// An AWS KMS key identifier that is used to encrypt the data on the replication instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then AWS DMS
+        /// uses your default encryption key.
+        /// </para>
+        ///  
+        /// <para>
+        /// AWS KMS creates the default encryption key for your AWS account. Your AWS account
+        /// has a different default encryption key for each AWS Region.
         /// </para>
         /// </summary>
         public string KmsKeyId
@@ -169,8 +215,8 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the
-        /// <code>AvailabilityZone</code> parameter if the Multi-AZ parameter is set to <code>true</code>.
+        ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set
+        /// the <code>AvailabilityZone</code> parameter if the Multi-AZ parameter is set to <code>true</code>.
         /// 
         /// </para>
         /// </summary>
@@ -327,6 +373,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// The private IP address of the replication instance.
         /// </para>
         /// </summary>
+        [Obsolete("This type is deprecated")]
         public string ReplicationInstancePrivateIpAddress
         {
             get { return this._replicationInstancePrivateIpAddress; }
@@ -342,7 +389,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ReplicationInstancePrivateIpAddresses. 
         /// <para>
-        /// The private IP address of the replication instance.
+        /// One or more private IP addresses for the replication instance.
         /// </para>
         /// </summary>
         public List<string> ReplicationInstancePrivateIpAddresses
@@ -363,6 +410,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// The public IP address of the replication instance.
         /// </para>
         /// </summary>
+        [Obsolete("This type is deprecated")]
         public string ReplicationInstancePublicIpAddress
         {
             get { return this._replicationInstancePublicIpAddress; }
@@ -378,7 +426,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ReplicationInstancePublicIpAddresses. 
         /// <para>
-        /// The public IP address of the replication instance.
+        /// One or more public IP addresses for the replication instance.
         /// </para>
         /// </summary>
         public List<string> ReplicationInstancePublicIpAddresses
@@ -432,7 +480,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property SecondaryAvailabilityZone. 
         /// <para>
-        /// The availability zone of the standby replication instance in a Multi-AZ deployment.
+        /// The Availability Zone of the standby replication instance in a Multi-AZ deployment.
         /// </para>
         /// </summary>
         public string SecondaryAvailabilityZone

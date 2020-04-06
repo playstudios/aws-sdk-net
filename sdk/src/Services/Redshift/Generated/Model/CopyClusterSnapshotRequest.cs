@@ -42,15 +42,43 @@ namespace Amazon.Redshift.Model
     /// </para>
     ///  
     /// <para>
-    ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+    ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
     /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
     public partial class CopyClusterSnapshotRequest : AmazonRedshiftRequest
     {
+        private int? _manualSnapshotRetentionPeriod;
         private string _sourceSnapshotClusterIdentifier;
         private string _sourceSnapshotIdentifier;
         private string _targetSnapshotIdentifier;
+
+        /// <summary>
+        /// Gets and sets the property ManualSnapshotRetentionPeriod. 
+        /// <para>
+        /// The number of days that a manual snapshot is retained. If the value is -1, the manual
+        /// snapshot is retained indefinitely. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        ///  
+        /// <para>
+        /// The default value is -1.
+        /// </para>
+        /// </summary>
+        public int ManualSnapshotRetentionPeriod
+        {
+            get { return this._manualSnapshotRetentionPeriod.GetValueOrDefault(); }
+            set { this._manualSnapshotRetentionPeriod = value; }
+        }
+
+        // Check to see if ManualSnapshotRetentionPeriod property is set
+        internal bool IsSetManualSnapshotRetentionPeriod()
+        {
+            return this._manualSnapshotRetentionPeriod.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property SourceSnapshotClusterIdentifier. 
@@ -96,6 +124,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceSnapshotIdentifier
         {
             get { return this._sourceSnapshotIdentifier; }
@@ -139,6 +168,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetSnapshotIdentifier
         {
             get { return this._targetSnapshotIdentifier; }

@@ -29,14 +29,21 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the CancelKeyDeletion operation.
-    /// Cancels the deletion of a customer master key (CMK). When this operation is successful,
-    /// the CMK is set to the <code>Disabled</code> state. To enable a CMK, use <a>EnableKey</a>.
+    /// Cancels the deletion of a customer master key (CMK). When this operation succeeds,
+    /// the key state of the CMK is <code>Disabled</code>. To enable the CMK, use <a>EnableKey</a>.
     /// You cannot perform this operation on a CMK in a different AWS account.
     /// 
     ///  
     /// <para>
-    /// For more information about scheduling and canceling deletion of a CMK, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html">Deleting
+    /// For more information about scheduling and canceling deletion of a CMK, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html">Deleting
     /// Customer Master Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// The CMK that you use for this operation must be in a compatible key state. For details,
+    /// see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+    /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key Management Service
+    /// Developer Guide</i>.
     /// </para>
     /// </summary>
     public partial class CancelKeyDeletionRequest : AmazonKeyManagementServiceRequest
@@ -70,6 +77,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or <a>DescribeKey</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }

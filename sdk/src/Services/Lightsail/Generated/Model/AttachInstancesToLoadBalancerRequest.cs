@@ -36,6 +36,13 @@ namespace Amazon.Lightsail.Model
     /// After some time, the instances are attached to the load balancer and the health check
     /// status is available.
     /// </para>
+    ///  
+    /// <para>
+    /// The <code>attach instances to load balancer</code> operation supports tag-based access
+    /// control via resource tags applied to the resource identified by <code>load balancer
+    /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class AttachInstancesToLoadBalancerRequest : AmazonLightsailRequest
     {
@@ -59,6 +66,7 @@ namespace Amazon.Lightsail.Model
         /// (20).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceNames
         {
             get { return this._instanceNames; }
@@ -77,6 +85,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }

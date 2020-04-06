@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.RDS.Model
 {
     /// <summary>
-    /// Contains the result of a successful invocation of the <a>DescribeSourceRegions</a>
+    /// Contains the result of a successful invocation of the <code>DescribeSourceRegions</code>
     /// action.
     /// </summary>
     public partial class DescribeSourceRegionsResponse : AmazonWebServiceResponse
@@ -60,7 +60,7 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property SourceRegions. 
         /// <para>
         /// A list of SourceRegion instances that contains each source AWS Region that the current
-        /// AWS Region can get a Read Replica or a DB snapshot from.
+        /// AWS Region can get a read replica or a DB snapshot from.
         /// </para>
         /// </summary>
         public List<SourceRegion> SourceRegions

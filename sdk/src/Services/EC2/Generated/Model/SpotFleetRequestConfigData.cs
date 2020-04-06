@@ -38,22 +38,46 @@ namespace Amazon.EC2.Model
         private double? _fulfilledCapacity;
         private string _iamFleetRole;
         private InstanceInterruptionBehavior _instanceInterruptionBehavior;
+        private int? _instancePoolsToUseCount;
         private List<SpotFleetLaunchSpecification> _launchSpecifications = new List<SpotFleetLaunchSpecification>();
         private List<LaunchTemplateConfig> _launchTemplateConfigs = new List<LaunchTemplateConfig>();
         private LoadBalancersConfig _loadBalancersConfig;
+        private OnDemandAllocationStrategy _onDemandAllocationStrategy;
+        private double? _onDemandFulfilledCapacity;
+        private string _onDemandMaxTotalPrice;
+        private int? _onDemandTargetCapacity;
         private bool? _replaceUnhealthyInstances;
+        private string _spotMaxTotalPrice;
         private string _spotPrice;
+        private List<TagSpecification> _tagSpecifications = new List<TagSpecification>();
         private int? _targetCapacity;
         private bool? _terminateInstancesWithExpiration;
         private FleetType _type;
-        private DateTime? _validFrom;
-        private DateTime? _validUntil;
+        private DateTime? _validFromUtc;
+        private DateTime? _validUntilUtc;
 
         /// <summary>
         /// Gets and sets the property AllocationStrategy. 
         /// <para>
-        /// Indicates how to allocate the target capacity across the Spot pools specified by the
-        /// Spot Fleet request. The default is <code>lowestPrice</code>.
+        /// Indicates how to allocate the target Spot Instance capacity across the Spot Instance
+        /// pools specified by the Spot Fleet request.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the allocation strategy is <code>lowestPrice</code>, Spot Fleet launches instances
+        /// from the Spot Instance pools with the lowest price. This is the default allocation
+        /// strategy.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the allocation strategy is <code>diversified</code>, Spot Fleet launches instances
+        /// from all the Spot Instance pools that you specify.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the allocation strategy is <code>capacityOptimized</code>, Spot Fleet launches
+        /// instances from Spot Instance pools with optimal capacity for the number of instances
+        /// that are launching.
         /// </para>
         /// </summary>
         public AllocationStrategy AllocationStrategy
@@ -71,8 +95,9 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
-        /// A unique, case-sensitive identifier you provide to ensure idempotency of your listings.
-        /// This helps avoid duplicate listings. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of
+        /// your listings. This helps to avoid duplicate listings. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
         /// </para>
         /// </summary>
@@ -91,8 +116,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ExcessCapacityTerminationPolicy. 
         /// <para>
-        /// Indicates whether running Spot Instances should be terminated if the target capacity
-        /// of the Spot Fleet request is decreased below the current size of the Spot Fleet.
+        /// Indicates whether running Spot Instances should be terminated if you decrease the
+        /// target capacity of the Spot Fleet request below the current size of the Spot Fleet.
         /// </para>
         /// </summary>
         public ExcessCapacityTerminationPolicy ExcessCapacityTerminationPolicy
@@ -111,6 +136,7 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property FulfilledCapacity. 
         /// <para>
         /// The number of units fulfilled by this request compared to the set target capacity.
+        /// You cannot set this value.
         /// </para>
         /// </summary>
         public double FulfilledCapacity
@@ -128,11 +154,16 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property IamFleetRole. 
         /// <para>
-        /// Grants the Spot Fleet permission to terminate Spot Instances on your behalf when you
-        /// cancel its Spot Fleet request using <a>CancelSpotFleetRequests</a> or when the Spot
-        /// Fleet request expires, if you set <code>terminateInstancesWithExpiration</code>.
+        /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role
+        /// that grants the Spot Fleet the permission to request, launch, terminate, and tag instances
+        /// on your behalf. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-prerequisites">Spot
+        /// Fleet Prerequisites</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>. Spot
+        /// Fleet can terminate Spot Instances on your behalf when you cancel its Spot Fleet request
+        /// using <a>CancelSpotFleetRequests</a> or when the Spot Fleet request expires, if you
+        /// set <code>TerminateInstancesWithExpiration</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string IamFleetRole
         {
             get { return this._iamFleetRole; }
@@ -164,9 +195,32 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property InstancePoolsToUseCount. 
+        /// <para>
+        /// The number of Spot pools across which to allocate your target Spot capacity. Valid
+        /// only when Spot <b>AllocationStrategy</b> is set to <code>lowest-price</code>. Spot
+        /// Fleet selects the cheapest Spot pools and evenly allocates your target Spot capacity
+        /// across the number of Spot pools that you specify.
+        /// </para>
+        /// </summary>
+        public int InstancePoolsToUseCount
+        {
+            get { return this._instancePoolsToUseCount.GetValueOrDefault(); }
+            set { this._instancePoolsToUseCount = value; }
+        }
+
+        // Check to see if InstancePoolsToUseCount property is set
+        internal bool IsSetInstancePoolsToUseCount()
+        {
+            return this._instancePoolsToUseCount.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property LaunchSpecifications. 
         /// <para>
-        /// The launch specifications for the Spot Fleet request.
+        /// The launch specifications for the Spot Fleet request. If you specify <code>LaunchSpecifications</code>,
+        /// you can't specify <code>LaunchTemplateConfigs</code>. If you include On-Demand capacity
+        /// in your request, you must use <code>LaunchTemplateConfigs</code>.
         /// </para>
         /// </summary>
         public List<SpotFleetLaunchSpecification> LaunchSpecifications
@@ -184,7 +238,9 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property LaunchTemplateConfigs. 
         /// <para>
-        /// The launch template and overrides.
+        /// The launch template and overrides. If you specify <code>LaunchTemplateConfigs</code>,
+        /// you can't specify <code>LaunchSpecifications</code>. If you include On-Demand capacity
+        /// in your request, you must use <code>LaunchTemplateConfigs</code>.
         /// </para>
         /// </summary>
         public List<LaunchTemplateConfig> LaunchTemplateConfigs
@@ -226,6 +282,93 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OnDemandAllocationStrategy. 
+        /// <para>
+        /// The order of the launch template overrides to use in fulfilling On-Demand capacity.
+        /// If you specify <code>lowestPrice</code>, Spot Fleet uses price to determine the order,
+        /// launching the lowest price first. If you specify <code>prioritized</code>, Spot Fleet
+        /// uses the priority that you assign to each Spot Fleet launch template override, launching
+        /// the highest priority first. If you do not specify a value, Spot Fleet defaults to
+        /// <code>lowestPrice</code>.
+        /// </para>
+        /// </summary>
+        public OnDemandAllocationStrategy OnDemandAllocationStrategy
+        {
+            get { return this._onDemandAllocationStrategy; }
+            set { this._onDemandAllocationStrategy = value; }
+        }
+
+        // Check to see if OnDemandAllocationStrategy property is set
+        internal bool IsSetOnDemandAllocationStrategy()
+        {
+            return this._onDemandAllocationStrategy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OnDemandFulfilledCapacity. 
+        /// <para>
+        /// The number of On-Demand units fulfilled by this request compared to the set target
+        /// On-Demand capacity.
+        /// </para>
+        /// </summary>
+        public double OnDemandFulfilledCapacity
+        {
+            get { return this._onDemandFulfilledCapacity.GetValueOrDefault(); }
+            set { this._onDemandFulfilledCapacity = value; }
+        }
+
+        // Check to see if OnDemandFulfilledCapacity property is set
+        internal bool IsSetOnDemandFulfilledCapacity()
+        {
+            return this._onDemandFulfilledCapacity.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property OnDemandMaxTotalPrice. 
+        /// <para>
+        /// The maximum amount per hour for On-Demand Instances that you're willing to pay. You
+        /// can use the <code>onDemandMaxTotalPrice</code> parameter, the <code>spotMaxTotalPrice</code>
+        /// parameter, or both parameters to ensure that your fleet cost does not exceed your
+        /// budget. If you set a maximum price per hour for the On-Demand Instances and Spot Instances
+        /// in your request, Spot Fleet will launch instances until it reaches the maximum amount
+        /// you're willing to pay. When the maximum amount you're willing to pay is reached, the
+        /// fleet stops launching instances even if it hasn’t met the target capacity.
+        /// </para>
+        /// </summary>
+        public string OnDemandMaxTotalPrice
+        {
+            get { return this._onDemandMaxTotalPrice; }
+            set { this._onDemandMaxTotalPrice = value; }
+        }
+
+        // Check to see if OnDemandMaxTotalPrice property is set
+        internal bool IsSetOnDemandMaxTotalPrice()
+        {
+            return this._onDemandMaxTotalPrice != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OnDemandTargetCapacity. 
+        /// <para>
+        /// The number of On-Demand units to request. You can choose to set the target capacity
+        /// in terms of instances or a performance characteristic that is important to your application
+        /// workload, such as vCPUs, memory, or I/O. If the request type is <code>maintain</code>,
+        /// you can specify a target capacity of 0 and add capacity later.
+        /// </para>
+        /// </summary>
+        public int OnDemandTargetCapacity
+        {
+            get { return this._onDemandTargetCapacity.GetValueOrDefault(); }
+            set { this._onDemandTargetCapacity = value; }
+        }
+
+        // Check to see if OnDemandTargetCapacity property is set
+        internal bool IsSetOnDemandTargetCapacity()
+        {
+            return this._onDemandTargetCapacity.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ReplaceUnhealthyInstances. 
         /// <para>
         /// Indicates whether Spot Fleet should replace unhealthy instances.
@@ -241,6 +384,30 @@ namespace Amazon.EC2.Model
         internal bool IsSetReplaceUnhealthyInstances()
         {
             return this._replaceUnhealthyInstances.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SpotMaxTotalPrice. 
+        /// <para>
+        /// The maximum amount per hour for Spot Instances that you're willing to pay. You can
+        /// use the <code>spotdMaxTotalPrice</code> parameter, the <code>onDemandMaxTotalPrice</code>
+        /// parameter, or both parameters to ensure that your fleet cost does not exceed your
+        /// budget. If you set a maximum price per hour for the On-Demand Instances and Spot Instances
+        /// in your request, Spot Fleet will launch instances until it reaches the maximum amount
+        /// you're willing to pay. When the maximum amount you're willing to pay is reached, the
+        /// fleet stops launching instances even if it hasn’t met the target capacity.
+        /// </para>
+        /// </summary>
+        public string SpotMaxTotalPrice
+        {
+            get { return this._spotMaxTotalPrice; }
+            set { this._spotMaxTotalPrice = value; }
+        }
+
+        // Check to see if SpotMaxTotalPrice property is set
+        internal bool IsSetSpotMaxTotalPrice()
+        {
+            return this._spotMaxTotalPrice != null;
         }
 
         /// <summary>
@@ -263,14 +430,40 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TagSpecifications. 
+        /// <para>
+        /// The key-value pair for tagging the Spot Fleet request on creation. The value for <code>ResourceType</code>
+        /// must be <code>spot-fleet-request</code>, otherwise the Spot Fleet request fails. To
+        /// tag instances at launch, specify the tags in the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template">launch
+        /// template</a> (valid only if you use <code>LaunchTemplateConfigs</code>) or in the
+        /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetTagSpecification.html">
+        /// <code>SpotFleetTagSpecification</code> </a> (valid only if you use <code>LaunchSpecifications</code>).
+        /// For information about tagging after launch, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources">Tagging
+        /// Your Resources</a>.
+        /// </para>
+        /// </summary>
+        public List<TagSpecification> TagSpecifications
+        {
+            get { return this._tagSpecifications; }
+            set { this._tagSpecifications = value; }
+        }
+
+        // Check to see if TagSpecifications property is set
+        internal bool IsSetTagSpecifications()
+        {
+            return this._tagSpecifications != null && this._tagSpecifications.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TargetCapacity. 
         /// <para>
-        /// The number of units to request. You can choose to set the target capacity in terms
-        /// of instances or a performance characteristic that is important to your application
-        /// workload, such as vCPUs, memory, or I/O. If the request type is <code>maintain</code>,
+        /// The number of units to request for the Spot Fleet. You can choose to set the target
+        /// capacity in terms of instances or a performance characteristic that is important to
+        /// your application workload, such as vCPUs, memory, or I/O. If the request type is <code>maintain</code>,
         /// you can specify a target capacity of 0 and add capacity later.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int TargetCapacity
         {
             get { return this._targetCapacity.GetValueOrDefault(); }
@@ -286,8 +479,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property TerminateInstancesWithExpiration. 
         /// <para>
-        /// Indicates whether running Spot Instances should be terminated when the Spot Fleet
-        /// request expires.
+        /// Indicates whether running Spot Instances are terminated when the Spot Fleet request
+        /// expires.
         /// </para>
         /// </summary>
         public bool TerminateInstancesWithExpiration
@@ -305,14 +498,14 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of request. Indicates whether the fleet will only <code>request</code> the
-        /// target capacity or also attempt to <code>maintain</code> it. When you <code>request</code>
-        /// a certain target capacity, the fleet will only place the required requests. It will
-        /// not attempt to replenish Spot Instances if capacity is diminished, nor will it submit
-        /// requests in alternative Spot pools if capacity is not available. When you want to
-        /// <code>maintain</code> a certain target capacity, fleet will place the required requests
-        /// to meet this target capacity. It will also automatically replenish any interrupted
-        /// instances. Default: <code>maintain</code>.
+        /// The type of request. Indicates whether the Spot Fleet only requests the target capacity
+        /// or also attempts to maintain it. When this value is <code>request</code>, the Spot
+        /// Fleet only places the required requests. It does not attempt to replenish Spot Instances
+        /// if capacity is diminished, nor does it submit requests in alternative Spot pools if
+        /// capacity is not available. When this value is <code>maintain</code>, the Spot Fleet
+        /// maintains the target capacity. The Spot Fleet places the required requests to meet
+        /// capacity and automatically replenishes any interrupted instances. Default: <code>maintain</code>.
+        /// <code>instant</code> is listed but is not used by Spot Fleet.
         /// </para>
         /// </summary>
         public FleetType Type
@@ -328,43 +521,111 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ValidFrom. 
+        /// Gets and sets the property ValidFromUtc. 
         /// <para>
-        /// The start date and time of the request, in UTC format (for example, <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
-        /// The default is to start fulfilling the request immediately.
+        /// The start date and time of the request, in UTC format (<i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+        /// By default, Amazon EC2 starts fulfilling the request immediately.
         /// </para>
         /// </summary>
-        public DateTime ValidFrom
+        public DateTime ValidFromUtc
         {
-            get { return this._validFrom.GetValueOrDefault(); }
-            set { this._validFrom = value; }
+            get { return this._validFromUtc.GetValueOrDefault(); }
+            set { this._validFrom = this._validFromUtc = value; }
         }
 
-        // Check to see if ValidFrom property is set
-        internal bool IsSetValidFrom()
+        // Check to see if ValidFromUtc property is set
+        internal bool IsSetValidFromUtc()
         {
-            return this._validFrom.HasValue; 
+            return this._validFromUtc.HasValue; 
         }
 
         /// <summary>
-        /// Gets and sets the property ValidUntil. 
+        /// Gets and sets the property ValidUntilUtc. 
         /// <para>
-        /// The end date and time of the request, in UTC format (for example, <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
-        /// At this point, no new Spot Instance requests are placed or able to fulfill the request.
-        /// The default end date is 7 days from the current date.
+        /// The end date and time of the request, in UTC format (<i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+        /// After the end date and time, no new Spot Instance requests are placed or able to fulfill
+        /// the request. If no value is specified, the Spot Fleet request remains until you cancel
+        /// it.
         /// </para>
         /// </summary>
+        public DateTime ValidUntilUtc
+        {
+            get { return this._validUntilUtc.GetValueOrDefault(); }
+            set { this._validUntil = this._validUntilUtc = value; }
+        }
+
+        // Check to see if ValidUntilUtc property is set
+        internal bool IsSetValidUntilUtc()
+        {
+            return this._validUntilUtc.HasValue; 
+        }
+
+#region Backwards compatible properties
+        private DateTime? _validFrom;
+        private DateTime? _validUntil;
+
+        /// <summary>
+        /// Gets and sets the property ValidFromUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use ValidFromUtc instead. Setting either ValidFrom or
+        /// ValidFromUtc results in both ValidFrom and ValidFromUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. ValidFrom
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The start date and time of the request, in UTC format (<i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+        /// By default, Amazon EC2 starts fulfilling the request immediately.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use ValidFromUtc instead. Setting either ValidFrom or ValidFromUtc results in both ValidFrom and " +
+            "ValidFromUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. ValidFrom is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime ValidFrom
+        {
+            get { return this._validFrom.GetValueOrDefault(); }
+            set
+            {
+                this._validFrom = value;
+                this._validFromUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+        /// <summary>
+        /// Gets and sets the property ValidUntilUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use ValidUntilUtc instead. Setting either ValidUntil or
+        /// ValidUntilUtc results in both ValidUntil and ValidUntilUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. ValidUntil
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The end date and time of the request, in UTC format (<i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+        /// After the end date and time, no new Spot Instance requests are placed or able to fulfill
+        /// the request. If no value is specified, the Spot Fleet request remains until you cancel
+        /// it.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use ValidUntilUtc instead. Setting either ValidUntil or ValidUntilUtc results in both ValidUntil and " +
+            "ValidUntilUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. ValidUntil is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
         public DateTime ValidUntil
         {
             get { return this._validUntil.GetValueOrDefault(); }
-            set { this._validUntil = value; }
+            set
+            {
+                this._validUntil = value;
+                this._validUntilUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
         }
-
-        // Check to see if ValidUntil property is set
-        internal bool IsSetValidUntil()
-        {
-            return this._validUntil.HasValue; 
-        }
-
+#endregion
     }
 }

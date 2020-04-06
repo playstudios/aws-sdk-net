@@ -55,19 +55,36 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateThingTypeRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/thing-types/{thingTypeName}";
             if (!publicRequest.IsSetThingTypeName())
                 throw new AmazonIoTException("Request object does not have required field ThingTypeName set");
-            uriResourcePath = uriResourcePath.Replace("{thingTypeName}", StringUtils.FromString(publicRequest.ThingTypeName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{thingTypeName}", StringUtils.FromString(publicRequest.ThingTypeName));
+            request.ResourcePath = "/thing-types/{thingTypeName}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetThingTypeProperties())
                 {
                     context.Writer.WritePropertyName("thingTypeProperties");

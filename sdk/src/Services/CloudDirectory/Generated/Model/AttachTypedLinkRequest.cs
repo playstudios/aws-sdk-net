@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -30,8 +30,8 @@ namespace Amazon.CloudDirectory.Model
     /// <summary>
     /// Container for the parameters to the AttachTypedLink operation.
     /// Attaches a typed link to a specified source and target object. For more information,
-    /// see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-    /// link</a>.
+    /// see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+    /// Links</a>.
     /// </summary>
     public partial class AttachTypedLinkRequest : AmazonCloudDirectoryRequest
     {
@@ -47,6 +47,7 @@ namespace Amazon.CloudDirectory.Model
         /// A set of attributes that are associated with the typed link.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<AttributeNameAndValue> Attributes
         {
             get { return this._attributes; }
@@ -66,6 +67,7 @@ namespace Amazon.CloudDirectory.Model
         /// link.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -84,6 +86,7 @@ namespace Amazon.CloudDirectory.Model
         /// Identifies the source object that the typed link will attach to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference SourceObjectReference
         {
             get { return this._sourceObjectReference; }
@@ -102,6 +105,7 @@ namespace Amazon.CloudDirectory.Model
         /// Identifies the target object that the typed link will attach to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference TargetObjectReference
         {
             get { return this._targetObjectReference; }
@@ -120,6 +124,7 @@ namespace Amazon.CloudDirectory.Model
         /// Identifies the typed link facet that is associated with the typed link.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TypedLinkSchemaAndFacetName TypedLinkFacet
         {
             get { return this._typedLinkFacet; }

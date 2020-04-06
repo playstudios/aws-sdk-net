@@ -41,7 +41,13 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             if (abortMultipartUploadRequest.IsSetRequestPayer())
                 request.Headers.Add(S3Constants.AmzHeaderRequestPayer, S3Transforms.ToStringValue(abortMultipartUploadRequest.RequestPayer.ToString()));
 
-            request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}", 
+            if (string.IsNullOrEmpty(abortMultipartUploadRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "AbortMultipartUploadRequest.BucketName");
+            if (string.IsNullOrEmpty(abortMultipartUploadRequest.Key))
+                throw new System.ArgumentException("Key is a required property and must be set before making this call.", "AbortMultipartUploadRequest.Key");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}", 
                                                  S3Transforms.ToStringValue(abortMultipartUploadRequest.BucketName),
                                                  S3Transforms.ToStringValue(abortMultipartUploadRequest.Key));
 

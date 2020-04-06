@@ -30,10 +30,10 @@ namespace Amazon.MediaConvert.Model
     /// <summary>
     /// Audio codec settings (CodecSettings) under (AudioDescriptions) contains the group
     /// of settings related to audio encoding. The settings in this group vary depending on
-    /// the value you choose for Audio codec (Codec). For each codec enum you choose, define
-    /// the corresponding settings object. The following lists the codec enum, settings object
-    /// pairs. * AAC, AacSettings * MP2, Mp2Settings * WAV, WavSettings * AIFF, AiffSettings
-    /// * AC3, Ac3Settings * EAC3, Eac3Settings
+    /// the value that you choose for Audio codec (Codec). For each codec enum that you choose,
+    /// define the corresponding settings object. The following lists the codec enum, settings
+    /// object pairs. * AAC, AacSettings * MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings
+    /// * AIFF, AiffSettings * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
     /// </summary>
     public partial class AudioCodecSettings
     {
@@ -41,12 +41,19 @@ namespace Amazon.MediaConvert.Model
         private Ac3Settings _ac3Settings;
         private AiffSettings _aiffSettings;
         private AudioCodec _codec;
+        private Eac3AtmosSettings _eac3AtmosSettings;
         private Eac3Settings _eac3Settings;
         private Mp2Settings _mp2Settings;
+        private Mp3Settings _mp3Settings;
         private WavSettings _wavSettings;
 
         /// <summary>
-        /// Gets and sets the property AacSettings.
+        /// Gets and sets the property AacSettings. Required when you set (Codec) under (AudioDescriptions)>(CodecSettings)
+        /// to the value AAC. The service accepts one of two mutually exclusive groups of AAC
+        /// settings--VBR and CBR. To select one of these modes, set the value of Bitrate control
+        /// mode (rateControlMode) to "VBR" or "CBR".  In VBR mode, you control the audio quality
+        /// with the setting VBR quality (vbrQuality). In CBR mode, you use the setting Bitrate
+        /// (bitrate). Defaults and valid values depend on the rate control mode.
         /// </summary>
         public AacSettings AacSettings
         {
@@ -61,7 +68,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Ac3Settings.
+        /// Gets and sets the property Ac3Settings. Required when you set (Codec) under (AudioDescriptions)>(CodecSettings)
+        /// to the value AC3.
         /// </summary>
         public Ac3Settings Ac3Settings
         {
@@ -76,7 +84,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property AiffSettings.
+        /// Gets and sets the property AiffSettings. Required when you set (Codec) under (AudioDescriptions)>(CodecSettings)
+        /// to the value AIFF.
         /// </summary>
         public AiffSettings AiffSettings
         {
@@ -91,7 +100,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Codec.
+        /// Gets and sets the property Codec. Type of Audio codec.
         /// </summary>
         public AudioCodec Codec
         {
@@ -106,7 +115,24 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Eac3Settings.
+        /// Gets and sets the property Eac3AtmosSettings. Required when you set (Codec) under
+        /// (AudioDescriptions)>(CodecSettings) to the value EAC3_ATMOS.
+        /// </summary>
+        public Eac3AtmosSettings Eac3AtmosSettings
+        {
+            get { return this._eac3AtmosSettings; }
+            set { this._eac3AtmosSettings = value; }
+        }
+
+        // Check to see if Eac3AtmosSettings property is set
+        internal bool IsSetEac3AtmosSettings()
+        {
+            return this._eac3AtmosSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Eac3Settings. Required when you set (Codec) under (AudioDescriptions)>(CodecSettings)
+        /// to the value EAC3.
         /// </summary>
         public Eac3Settings Eac3Settings
         {
@@ -121,7 +147,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Mp2Settings.
+        /// Gets and sets the property Mp2Settings. Required when you set (Codec) under (AudioDescriptions)>(CodecSettings)
+        /// to the value MP2.
         /// </summary>
         public Mp2Settings Mp2Settings
         {
@@ -136,7 +163,24 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property WavSettings.
+        /// Gets and sets the property Mp3Settings. Required when you set Codec, under AudioDescriptions>CodecSettings,
+        /// to the value MP3.
+        /// </summary>
+        public Mp3Settings Mp3Settings
+        {
+            get { return this._mp3Settings; }
+            set { this._mp3Settings = value; }
+        }
+
+        // Check to see if Mp3Settings property is set
+        internal bool IsSetMp3Settings()
+        {
+            return this._mp3Settings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WavSettings. Required when you set (Codec) under (AudioDescriptions)>(CodecSettings)
+        /// to the value WAV.
         /// </summary>
         public WavSettings WavSettings
         {

@@ -1,5 +1,5 @@
 ﻿/*******************************************************************************
- *  Copyright 2008-2012 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *  Copyright 2008-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use
  *  this file except in compliance with the License. A copy of the License is located at
  *
@@ -44,6 +44,14 @@ namespace Amazon.Internal
             get
             {
                 return (string)_partitionJsonData["partition"];
+            }
+        }
+
+        public string PartitionDnsSuffix
+        {
+            get
+            {
+                return (string)_partitionJsonData["dnsSuffix"];
             }
         }
 
@@ -188,6 +196,19 @@ namespace Amazon.Internal
                         }
                     }
                 }
+                else if (serviceName.Equals("s3-control", StringComparison.OrdinalIgnoreCase))
+                {
+                    // transform s3-control.<region>.amazonaws.com or s3-control-fips.<region>.amazonaws.com into
+                    // s3-control.dualstack.<region>.amazonaws.com and s3-control-fips.dualstack.<region>.amazonaws.com
+                    if (hostname.StartsWith("s3-control", StringComparison.OrdinalIgnoreCase))
+                    {
+                        int firstDot = hostname.IndexOf('.');
+                        if (firstDot >= 0)
+                        {
+                            hostname = hostname.Substring(0, firstDot) + ".dualstack." + hostname.Substring(firstDot + 1);
+                        }
+                    }
+                }
                 else
                 {
                     // For certain region and endpoint combination, we actually get an explicit endpoint as "hostname" property
@@ -286,7 +307,7 @@ namespace Amazon.Internal
 
     public class RegionEndpointProviderV3 : IRegionEndpointProvider
     {
-#if CORECLR
+#if NETSTANDARD
         private const string ENDPOINT_JSON_RESOURCE = "Core.endpoints.json";
 #else
         private const string ENDPOINT_JSON_RESOURCE = "Amazon.endpoints.json";
@@ -313,7 +334,7 @@ namespace Amazon.Internal
 
         private static Stream GetEndpointJsonSourceStream()
         {
-#if BCL
+#if BCL || (NETSTANDARD && !NETSTANDARD13)
             //
             // If the endpoints.json file has been provided next to the assembly:
             //

@@ -29,15 +29,21 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteApnsChannel operation.
-    /// Deletes the APNs channel for an app.
+    /// Disables the APNs channel for an application and deletes any existing settings for
+    /// the channel.
     /// </summary>
     public partial class DeleteApnsChannelRequest : AmazonPinpointRequest
     {
         private string _applicationId;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

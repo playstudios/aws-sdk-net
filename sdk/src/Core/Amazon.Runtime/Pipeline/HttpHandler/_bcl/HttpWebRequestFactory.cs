@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace Amazon.Runtime.Internal
 {
@@ -29,6 +30,55 @@ namespace Amazon.Runtime.Internal
     /// </summary>    
     public class HttpWebRequestFactory : IHttpRequestFactory<Stream>
     {
+        private ILogger _logger;
+        private static volatile bool _isProtocolUpdated;
+
+        /// <summary>
+        /// Some AWS services like Cloud 9 require at least TLS 1.1. Version of .NET Framework 4.5 and earlier 
+        /// do not eanble TLS 1.1 and TLS 1.2 by default. This code adds those protocols if using an earlier 
+        /// version of .NET that explicitly set the protocol and didn't have TLS 1.1 and TLS 1.2. 
+        /// </summary>
+        /// <param name="amazonSecurityProtocolManager"></param>
+        public HttpWebRequestFactory(IAmazonSecurityProtocolManager amazonSecurityProtocolManager)
+            : this(amazonSecurityProtocolManager, null)
+        {
+        }
+
+        /// <summary>
+        /// Some AWS services like Cloud 9 require at least TLS 1.1. Version of .NET Framework 4.5 and earlier 
+        /// do not eanble TLS 1.1 and TLS 1.2 by default. This code adds those protocols if using an earlier 
+        /// version of .NET that explicitly set the protocol and didn't have TLS 1.1 and TLS 1.2. 
+        /// </summary>
+        /// <param name="amazonSecurityProtocolManager"></param>
+        /// <param name="logger"></param>
+        public HttpWebRequestFactory(IAmazonSecurityProtocolManager amazonSecurityProtocolManager, ILogger logger)
+        {
+            _logger = logger ?? Logger.GetLogger(typeof(HttpWebRequestFactory));
+
+            if (_isProtocolUpdated) return;
+
+            if (!amazonSecurityProtocolManager.IsSecurityProtocolSystemDefault())
+            {
+                try
+                {
+                    amazonSecurityProtocolManager.UpdateProtocolsToSupported();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is NotSupportedException)
+                    {
+                        _logger.InfoFormat(ex.Message);
+                    }
+                    else
+                    {
+                        _logger.InfoFormat("Unexpected error " + ex.GetType().Name +
+                                           " encountered when trying to set Security Protocol.\n" + ex);
+                    }
+                }
+            }
+            _isProtocolUpdated = true;
+        }
+
         /// <summary>
         /// Creates an HTTP request for the given URI.
         /// </summary>
@@ -37,6 +87,16 @@ namespace Amazon.Runtime.Internal
         public IHttpRequest<Stream> CreateHttpRequest(Uri requestUri)
         {
             return new HttpRequest(requestUri);
+        }
+
+        /// <summary>
+        /// This method is used for unit testing purposes. It allows setting of the flag
+        /// that indicates protocol setting was attempted.
+        /// </summary>
+        /// <param name="value">The new value</param>
+        public static void SetIsProtocolUpdated(bool value)
+        {
+            _isProtocolUpdated = value;
         }
 
         /// <summary>
@@ -223,32 +283,41 @@ namespace Amazon.Runtime.Internal
         /// <returns></returns>
         public virtual async System.Threading.Tasks.Task<IWebResponseData> GetResponseAsync(System.Threading.CancellationToken cancellationToken)
         {
-            try
+            using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+            using (linkedTokenSource.Token.Register(() => this.Abort(), useSynchronizationContext: false))
             {
-                using(cancellationToken.Register(()=> this.Abort(), useSynchronizationContext: false))
+                linkedTokenSource.CancelAfter(_request.Timeout);
+                
+                try
                 {
                     var response = await _request.GetResponseAsync().ConfigureAwait(false) as HttpWebResponse;
                     return new HttpWebRequestResponseData(response);
                 }
-            }
-            catch (WebException webException)
-            {
-                // After HttpWebRequest.Abort() is called, GetResponseAsync throws a WebException.
-                // If request has been cancelled using cancellationToken, wrap the
-                // WebException in an OperationCancelledException.
-                if (cancellationToken.IsCancellationRequested)
+                catch (WebException webException)
                 {
-                    throw new OperationCanceledException(webException.Message, webException, cancellationToken);
-                }
+                    // After HttpWebRequest.Abort() is called, GetResponseAsync throws a WebException.
+                    // If request has been cancelled using cancellationToken, wrap the
+                    // WebException in an OperationCancelledException.
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException(webException.Message, webException, cancellationToken);
+                    }
+                    
+                    if (linkedTokenSource.Token.IsCancellationRequested)
+                    {
+                        throw new OperationCanceledException(webException.Message, webException, linkedTokenSource.Token);
+                    }                    
 
-                var errorResponse = webException.Response as HttpWebResponse;
-                if (errorResponse != null)
-                {
-                    throw new HttpErrorResponseException(webException.Message,
-                        webException,
-                        new HttpWebRequestResponseData(errorResponse));
+                    var errorResponse = webException.Response as HttpWebResponse;
+                    if (errorResponse != null)
+                    {
+                        throw new HttpErrorResponseException(webException.Message,
+                            webException,
+                            new HttpWebRequestResponseData(errorResponse));
+                    }
+
+                    throw;
                 }
-                throw;
             }
         }
 
@@ -360,7 +429,7 @@ namespace Amazon.Runtime.Internal
             if (proxy != null)
             {
                 requestContext.Metrics.AddProperty(Metric.ProxyHost, requestContext.ClientConfig.ProxyHost);
-                requestContext.Metrics.AddProperty(Metric.ProxyHost, requestContext.ClientConfig.ProxyPort);
+                requestContext.Metrics.AddProperty(Metric.ProxyPort, requestContext.ClientConfig.ProxyPort);
                 _request.Proxy = proxy;
             }
 
@@ -369,6 +438,10 @@ namespace Amazon.Runtime.Internal
             _request.ServicePoint.UseNagleAlgorithm = clientConfig.UseNagleAlgorithm;
             _request.ServicePoint.MaxIdleTime = clientConfig.MaxIdleTime;
             _request.ServicePoint.Expect100Continue = originalRequest.GetExpect100Continue();
+
+            var tcpKeepAlive = clientConfig.TcpKeepAlive;
+            _request.ServicePoint.SetTcpKeepAlive(tcpKeepAlive.Enabled, (int)tcpKeepAlive.Timeout.Value.TotalMilliseconds, 
+                    (int)tcpKeepAlive.Interval.Value.TotalMilliseconds);
         }
 
         /// <summary>
@@ -401,6 +474,9 @@ namespace Amazon.Runtime.Internal
                         request.ContentLength = long.Parse(kvp.Value, CultureInfo.InvariantCulture);
                     else if (string.Equals(kvp.Key, HeaderKeys.UserAgentHeader, StringComparison.OrdinalIgnoreCase))
                         request.UserAgent = kvp.Value;
+                    else if (string.Equals(kvp.Key, HeaderKeys.TransferEncodingHeader, StringComparison.OrdinalIgnoreCase) 
+                        && string.Equals(kvp.Value, "chunked", StringComparison.OrdinalIgnoreCase))
+                        request.SendChunked = true;
                     // Date accessor is only present in .NET 4.0, so using reflection
                     else if (string.Equals(kvp.Key, HeaderKeys.DateHeader, StringComparison.OrdinalIgnoreCase))
                         _addWithoutValidateHeadersMethod.Invoke(request.Headers, new[] { HeaderKeys.DateHeader, kvp.Value });

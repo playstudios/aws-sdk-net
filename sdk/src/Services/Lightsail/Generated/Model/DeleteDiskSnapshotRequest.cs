@@ -39,6 +39,13 @@ namespace Amazon.Lightsail.Model
     /// is removed. So regardless of which prior snapshots have been deleted, all active snapshots
     /// will have access to all the information needed to restore the disk.
     /// </para>
+    ///  
+    /// <para>
+    /// The <code>delete disk snapshot</code> operation supports tag-based access control
+    /// via resource tags applied to the resource identified by <code>disk snapshot name</code>.
+    /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class DeleteDiskSnapshotRequest : AmazonLightsailRequest
     {
@@ -50,6 +57,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the disk snapshot you want to delete (e.g., <code>my-disk-snapshot</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DiskSnapshotName
         {
             get { return this._diskSnapshotName; }

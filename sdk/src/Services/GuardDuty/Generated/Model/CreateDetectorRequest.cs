@@ -29,18 +29,44 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDetector operation.
-    /// Creates a single Amazon GuardDuty detector. A detector is an object that represents
-    /// the GuardDuty service. A detector must be created in order for GuardDuty to become
-    /// operational.
+    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents
+    /// the GuardDuty service. To start using GuardDuty, you must create a detector in each
+    /// region that you enable the service. You can have only one detector per account per
+    /// region.
     /// </summary>
     public partial class CreateDetectorRequest : AmazonGuardDutyRequest
     {
+        private string _clientToken;
         private bool? _enable;
+        private FindingPublishingFrequency _findingPublishingFrequency;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
-        /// Gets and sets the property Enable. A boolean value that specifies whether the detector
-        /// is to be enabled.
+        /// Gets and sets the property ClientToken. 
+        /// <para>
+        /// The idempotency token for the create request.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=64)]
+        public string ClientToken
+        {
+            get { return this._clientToken; }
+            set { this._clientToken = value; }
+        }
+
+        // Check to see if ClientToken property is set
+        internal bool IsSetClientToken()
+        {
+            return this._clientToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Enable. 
+        /// <para>
+        /// A boolean value that specifies whether the detector is to be enabled.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enable
         {
             get { return this._enable.GetValueOrDefault(); }
@@ -51,6 +77,43 @@ namespace Amazon.GuardDuty.Model
         internal bool IsSetEnable()
         {
             return this._enable.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property FindingPublishingFrequency. 
+        /// <para>
+        /// A enum value that specifies how frequently customer got Finding updates published.
+        /// </para>
+        /// </summary>
+        public FindingPublishingFrequency FindingPublishingFrequency
+        {
+            get { return this._findingPublishingFrequency; }
+            set { this._findingPublishingFrequency = value; }
+        }
+
+        // Check to see if FindingPublishingFrequency property is set
+        internal bool IsSetFindingPublishingFrequency()
+        {
+            return this._findingPublishingFrequency != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to be added to a new detector resource.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=200)]
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

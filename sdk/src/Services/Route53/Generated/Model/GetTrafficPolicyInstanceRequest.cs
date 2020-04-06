@@ -40,7 +40,7 @@ namespace Amazon.Route53.Model
     /// </para>
     ///  </note> <note> 
     /// <para>
-    /// In the Amazon Route 53 console, traffic policy instances are known as policy records.
+    /// In the Route 53 console, traffic policy instances are known as policy records.
     /// </para>
     ///  </note>
     /// </summary>
@@ -54,6 +54,7 @@ namespace Amazon.Route53.Model
         /// The ID of the traffic policy instance that you want to get information about.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=36)]
         public string Id
         {
             get { return this._id; }

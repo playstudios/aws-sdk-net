@@ -29,165 +29,7 @@ namespace Amazon.Organizations
     /// <summary>
     /// Interface for accessing Organizations
     ///
-    /// AWS Organizations API Reference 
-    /// <para>
-    /// AWS Organizations is a web service that enables you to consolidate your multiple AWS
-    /// accounts into an <i>organization</i> and centrally manage your accounts and their
-    /// resources.
-    /// </para>
-    ///  
-    /// <para>
-    /// This guide provides descriptions of the Organizations API. For more information about
-    /// using this service, see the <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">AWS
-    /// Organizations User Guide</a>.
-    /// </para>
-    ///  
-    /// <para>
-    ///  <b>API Version</b> 
-    /// </para>
-    ///  
-    /// <para>
-    /// This version of the Organizations API Reference documents the Organizations API version
-    /// 2016-11-28.
-    /// </para>
-    ///  <note> 
-    /// <para>
-    /// As an alternative to using the API directly, you can use one of the AWS SDKs, which
-    /// consist of libraries and sample code for various programming languages and platforms
-    /// (Java, Ruby, .NET, iOS, Android, and more). The SDKs provide a convenient way to create
-    /// programmatic access to AWS Organizations. For example, the SDKs take care of cryptographically
-    /// signing requests, managing errors, and retrying requests automatically. For more information
-    /// about the AWS SDKs, including how to download and install them, see <a href="http://aws.amazon.com/tools/">Tools
-    /// for Amazon Web Services</a>.
-    /// </para>
-    ///  </note> 
-    /// <para>
-    /// We recommend that you use the AWS SDKs to make programmatic API calls to Organizations.
-    /// However, you also can use the Organizations Query API to make direct calls to the
-    /// Organizations web service. To learn more about the Organizations Query API, see <a
-    /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_query-requests.html">Making
-    /// Query Requests</a> in the <i>AWS Organizations User Guide</i>. Organizations supports
-    /// GET and POST requests for all actions. That is, the API does not require you to use
-    /// GET for some actions and POST for others. However, GET requests are subject to the
-    /// limitation size of a URL. Therefore, for operations that require larger sizes, use
-    /// a POST request.
-    /// </para>
-    ///  
-    /// <para>
-    ///  <b>Signing Requests</b> 
-    /// </para>
-    ///  
-    /// <para>
-    /// When you send HTTP requests to AWS, you must sign the requests so that AWS can identify
-    /// who sent them. You sign requests with your AWS access key, which consists of an access
-    /// key ID and a secret access key. We strongly recommend that you do not create an access
-    /// key for your root account. Anyone who has the access key for your root account has
-    /// unrestricted access to all the resources in your account. Instead, create an access
-    /// key for an IAM user account that has administrative privileges. As another option,
-    /// use AWS Security Token Service to generate temporary security credentials, and use
-    /// those credentials to sign requests. 
-    /// </para>
-    ///  
-    /// <para>
-    /// To sign requests, we recommend that you use <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
-    /// Version 4</a>. If you have an existing application that uses Signature Version 2,
-    /// you do not have to update it to use Signature Version 4. However, some operations
-    /// now require Signature Version 4. The documentation for operations that require version
-    /// 4 indicate this requirement. 
-    /// </para>
-    ///  
-    /// <para>
-    /// When you use the AWS Command Line Interface (AWS CLI) or one of the AWS SDKs to make
-    /// requests to AWS, these tools automatically sign the requests for you with the access
-    /// key that you specify when you configure the tools.
-    /// </para>
-    ///  
-    /// <para>
-    /// In this release, each organization can have only one root. In a future release, a
-    /// single organization will support multiple roots.
-    /// </para>
-    ///  
-    /// <para>
-    ///  <b>Support and Feedback for AWS Organizations</b> 
-    /// </para>
-    ///  
-    /// <para>
-    /// We welcome your feedback. Send your comments to <a href="mailto:feedback-awsorganizations@amazon.com">feedback-awsorganizations@amazon.com</a>
-    /// or post your feedback and questions in the <a href="http://forums.aws.amazon.com/forum.jspa?forumID=219">AWS
-    /// Organizations support forum</a>. For more information about the AWS support forums,
-    /// see <a href="http://forums.aws.amazon.com/help.jspa">Forums Help</a>.
-    /// </para>
-    ///  
-    /// <para>
-    ///  <b>Endpoint to Call When Using the CLI or the AWS API</b> 
-    /// </para>
-    ///  
-    /// <para>
-    /// For the current release of Organizations, you must specify the <code>us-east-1</code>
-    /// region for all AWS API and CLI calls. You can do this in the CLI by using these parameters
-    /// and commands:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    /// Use the following parameter with each command to specify both the endpoint and its
-    /// region:
-    /// </para>
-    ///  
-    /// <para>
-    ///  <code>--endpoint-url https://organizations.us-east-1.amazonaws.com</code> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// Use the default endpoint, but configure your default region with this command:
-    /// </para>
-    ///  
-    /// <para>
-    ///  <code>aws configure set default.region us-east-1</code> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// Use the following parameter with each command to specify the endpoint:
-    /// </para>
-    ///  
-    /// <para>
-    ///  <code>--region us-east-1</code> 
-    /// </para>
-    ///  </li> </ul> 
-    /// <para>
-    /// For the various SDKs used to call the APIs, see the documentation for the SDK of interest
-    /// to learn how to direct the requests to a specific endpoint. For more information,
-    /// see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#sts_region">Regions
-    /// and Endpoints</a> in the <i>AWS General Reference</i>. 
-    /// </para>
-    ///  
-    /// <para>
-    ///  <b>How examples are presented</b> 
-    /// </para>
-    ///  
-    /// <para>
-    /// The JSON returned by the AWS Organizations service as response to your requests is
-    /// returned as a single long string without line breaks or formatting whitespace. Both
-    /// line breaks and whitespace are included in the examples in this guide to improve readability.
-    /// When example input parameters also would result in long strings that would extend
-    /// beyond the screen, we insert line breaks to enhance readability. You should always
-    /// submit the input as a single JSON text string.
-    /// </para>
-    ///  
-    /// <para>
-    ///  <b>Recording API Requests</b> 
-    /// </para>
-    ///  
-    /// <para>
-    /// AWS Organizations supports AWS CloudTrail, a service that records AWS API calls for
-    /// your AWS account and delivers log files to an Amazon S3 bucket. By using information
-    /// collected by AWS CloudTrail, you can determine which requests were successfully made
-    /// to Organizations, who made the request, when it was made, and so on. For more about
-    /// AWS Organizations and its support for AWS CloudTrail, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_cloudtrail-integration.html">Logging
-    /// AWS Organizations Events with AWS CloudTrail</a> in the <i>AWS Organizations User
-    /// Guide</i>. To learn more about CloudTrail, including how to turn it on and find your
-    /// log files, see the <a href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">AWS
-    /// CloudTrail User Guide</a>.
-    /// </para>
+    /// AWS Organizations
     /// </summary>
     public partial interface IAmazonOrganizations : IAmazonService, IDisposable
     {
@@ -213,9 +55,9 @@ namespace Amazon.Organizations
         ///  
         /// <para>
         /// The user who calls the API for an invitation to join must have the <code>organizations:AcceptHandshake</code>
-        /// permission. If you enabled all features in the organization, then the user must also
-        /// have the <code>iam:CreateServiceLinkedRole</code> permission so that Organizations
-        /// can create the required service-linked role named <i>OrgsServiceLinkedRoleName</i>.
+        /// permission. If you enabled all features in the organization, the user must also have
+        /// the <code>iam:CreateServiceLinkedRole</code> permission so that AWS Organizations
+        /// can create the required service-linked role named <code>AWSServiceRoleForOrganizations</code>.
         /// For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integration_service-linked-roles">AWS
         /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations User Guide</i>.
         /// </para>
@@ -226,16 +68,17 @@ namespace Amazon.Organizations
         /// </para>
         ///  
         /// <para>
-        /// For more information about invitations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html">Inviting
-        /// an AWS Account to Join Your Organization</a> in the <i>AWS Organizations User Guide</i>.
+        /// For more information about invitations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_invites.html">Inviting
+        /// an AWS Account to Join Your Organization</a> in the <i>AWS Organizations User Guide.</i>
         /// For more information about requests to enable all features in the organization, see
-        /// <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide</i>.
+        /// <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
+        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// After you accept a handshake, it continues to appear in the results of relevant APIs
-        /// for only 30 days. After that it is deleted.
+        /// for only 30 days. After that, it's deleted.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AcceptHandshake service method.</param>
@@ -244,16 +87,16 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedForDependencyException">
-        /// The operation you attempted requires you to have the <code>iam:CreateServiceLinkedRole</code>
-        /// so that Organizations can create the required service-linked role. You do not have
-        /// that permission.
+        /// The operation that you attempted requires you to have the <code>iam:CreateServiceLinkedRole</code>
+        /// for <code>organizations.amazonaws.com</code> permission so that AWS Organizations
+        /// can create the required service-linked role. You don't have that permission.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -275,42 +118,36 @@ namespace Amazon.Organizations
         ///  </note> <ul> <li> 
         /// <para>
         /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. <b>Note</b>: deleted and closed accounts still count
-        /// toward your limit.
+        /// accounts in an organization. Note that deleted and closed accounts still count toward
+        /// your limit.
         /// </para>
         ///  <important> 
         /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
+        /// If you get this exception immediately after creating the organization, wait one hour
+        /// and try again. If after an hour it continues to fail with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
         /// Support</a>.
         /// </para>
         ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
         /// <para>
         /// ALREADY_IN_AN_ORGANIZATION: The handshake request is invalid because the invited account
         /// is already a member of an organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the
-        /// organization has already enabled all features.
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You cannot issue new invitations to join
-        /// an organization while it is in the process of enabling all features. You can resume
+        /// INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join
+        /// an organization while it's in the process of enabling all features. You can resume
         /// inviting accounts after you finalize the process when all accounts have agreed to
         /// the change.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PAYMENT_INSTRUMENT_REQUIRED: You cannot complete the operation with an account that
-        /// does not have a payment instrument, such as a credit card, associated with it.
+        /// ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the
+        /// organization has already enabled all features.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -324,14 +161,19 @@ namespace Amazon.Organizations
         /// ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership
         /// of an account too quickly after its previous change.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that
+        /// doesn't have a payment instrument, such as a credit card, associated with it.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.HandshakeNotFoundException">
-        /// We can't find a handshake with the HandshakeId that you specified.
+        /// We can't find a handshake with the <code>HandshakeId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidHandshakeTransitionException">
         /// You can't perform the operation on the handshake in its current state. For example,
-        /// you can't cancel a handshake that was already accepted, or accept a handshake that
+        /// you can't cancel a handshake that was already accepted or accept a handshake that
         /// was already declined.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -346,7 +188,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -354,7 +196,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -367,13 +209,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -386,16 +228,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -431,8 +280,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/AcceptHandshake">REST API Reference for AcceptHandshake Operation</seealso>
         AcceptHandshakeResponse AcceptHandshake(AcceptHandshakeRequest request);
@@ -469,8 +324,8 @@ namespace Amazon.Organizations
 
 
         /// <summary>
-        /// Attaches a policy to a root, an organizational unit, or an individual account. How
-        /// the policy affects accounts depends on the type of policy:
+        /// Attaches a policy to a root, an organizational unit (OU), or an individual account.
+        /// How the policy affects accounts depends on the type of policy:
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -489,21 +344,21 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If you attach the policy directly to an account, then it affects only that account.
+        /// If you attach the policy directly to an account, it affects only that account.
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// SCPs essentially are permission "filters". When you attach one SCP to a higher level
-        /// root or OU, and you also attach a different SCP to a child OU or to an account, the
-        /// child policy can further restrict only the permissions that pass through the parent
-        /// filter and are available to the child. An SCP that is attached to a child cannot grant
-        /// a permission that is not already granted by the parent. For example, imagine that
-        /// the parent SCP allows permissions A, B, C, D, and E. The child SCP allows C, D, E,
-        /// F, and G. The result is that the accounts affected by the child SCP are allowed to
-        /// use only C, D, and E. They cannot use A or B because they were filtered out by the
-        /// child OU. They also cannot use F and G because they were filtered out by the parent
-        /// OU. They cannot be granted back by the child SCP; child SCPs can only filter the permissions
-        /// they receive from the parent SCP.
+        /// SCPs are JSON policies that specify the maximum permissions for an organization or
+        /// organizational unit (OU). You can attach one SCP to a higher level root or OU, and
+        /// a different SCP to a child OU or to an account. The child policy can further restrict
+        /// only the permissions that pass through the parent filter and are available to the
+        /// child. An SCP that is attached to a child can't grant a permission that the parent
+        /// hasn't already granted. For example, imagine that the parent SCP allows permissions
+        /// A, B, C, D, and E. The child SCP allows C, D, E, F, and G. The result is that the
+        /// accounts affected by the child SCP are allowed to use only C, D, and E. They can't
+        /// use A or B because the child OU filtered them out. They also can't use F and G because
+        /// the parent OU filtered them out. They can't be granted back by the child SCP; child
+        /// SCPs can only filter the permissions they receive from the parent SCP.
         /// </para>
         ///  
         /// <para>
@@ -515,8 +370,9 @@ namespace Amazon.Organizations
         /// </para>
         ///  
         /// <para>
-        /// For more information about how Organizations policies permissions work, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">Using
-        /// Service Control Policies</a> in the <i>AWS Organizations User Guide</i>.
+        /// For more information about how AWS Organizations policies permissions work, see <a
+        /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html">Using
+        /// Service Control Policies</a> in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -529,11 +385,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -542,108 +398,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -658,6 +487,71 @@ namespace Amazon.Organizations
         /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
         /// </para>
         ///  </li> </ul>
         /// </exception>
@@ -676,7 +570,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -684,7 +578,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -697,13 +591,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -716,16 +610,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -756,25 +657,38 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> </ul>
         /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.PolicyChangesInProgressException">
+        /// Changes to the effective policy are in progress, and its contents can't be returned.
+        /// Try the operation again later.
+        /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyNotFoundException">
-        /// We can't find a policy with the PolicyId that you specified.
+        /// We can't find a policy with the <code>PolicyId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyTypeNotEnabledException">
-        /// The specified policy type is not currently enabled in this root. You cannot attach
-        /// policies of the specified type to entities in a root until you enable that type in
-        /// the root. For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide</i>.
+        /// The specified policy type isn't currently enabled in this root. You can't attach policies
+        /// of the specified type to entities in a root until you enable that type in the root.
+        /// For more information, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
+        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TargetNotFoundException">
-        /// We can't find a root, OU, or account with the TargetId that you specified.
+        /// We can't find a root, OU, or account with the <code>TargetId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/AttachPolicy">REST API Reference for AttachPolicy Operation</seealso>
         AttachPolicyResponse AttachPolicy(AttachPolicyRequest request);
@@ -824,7 +738,7 @@ namespace Amazon.Organizations
         ///  
         /// <para>
         /// After you cancel a handshake, it continues to appear in the results of relevant APIs
-        /// for only 30 days. After that it is deleted.
+        /// for only 30 days. After that, it's deleted.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CancelHandshake service method.</param>
@@ -833,8 +747,8 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
         /// The target of the operation is currently being modified by a different request. Try
@@ -845,11 +759,11 @@ namespace Amazon.Organizations
         /// accept a handshake that was already accepted.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.HandshakeNotFoundException">
-        /// We can't find a handshake with the HandshakeId that you specified.
+        /// We can't find a handshake with the <code>HandshakeId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidHandshakeTransitionException">
         /// You can't perform the operation on the handshake in its current state. For example,
-        /// you can't cancel a handshake that was already accepted, or accept a handshake that
+        /// you can't cancel a handshake that was already accepted or accept a handshake that
         /// was already declined.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -864,7 +778,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -872,7 +786,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -885,13 +799,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -904,16 +818,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -949,8 +870,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CancelHandshake">REST API Reference for CancelHandshake Operation</seealso>
         CancelHandshakeResponse CancelHandshake(CancelHandshakeRequest request);
@@ -989,27 +916,38 @@ namespace Amazon.Organizations
         /// <summary>
         /// Creates an AWS account that is automatically a member of the organization whose credentials
         /// made the request. This is an asynchronous request that AWS performs in the background.
-        /// If you want to check the status of the request later, you need the <code>OperationId</code>
-        /// response element from this operation to provide as a parameter to the <a>DescribeCreateAccountStatus</a>
-        /// operation.
+        /// Because <code>CreateAccount</code> operates asynchronously, it can return a successful
+        /// completion message even though account initialization might still be in progress.
+        /// You might need to wait a few minutes before you can successfully access the account.
+        /// To check the status of the request, do one of the following:
         /// 
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        /// The user who calls the API for an invitation to join must have the <code>organizations:CreateAccount</code>
-        /// permission. If you enabled all features in the organization, then the user must also
-        /// have the <code>iam:CreateServiceLinkedRole</code> permission so that Organizations
-        /// can create the required service-linked role named <i>OrgsServiceLinkedRoleName</i>.
-        /// For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integration_service-linked-roles">AWS
+        /// Use the <code>OperationId</code> response element from this operation to provide as
+        /// a parameter to the <a>DescribeCreateAccountStatus</a> operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Check the AWS CloudTrail log for the <code>CreateAccountResult</code> event. For information
+        /// on using AWS CloudTrail with AWS Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
+        /// the Activity in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
+        /// </para>
+        ///  </li> </ul>  
+        /// <para>
+        /// The user who calls the API to create an account must have the <code>organizations:CreateAccount</code>
+        /// permission. If you enabled all features in the organization, AWS Organizations creates
+        /// the required service-linked role named <code>AWSServiceRoleForOrganizations</code>.
+        /// For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">AWS
         /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// The user in the master account who calls this API must also have the <code>iam:CreateRole</code>
-        /// permission because AWS Organizations preconfigures the new member account with a role
-        /// (named <code>OrganizationAccountAccessRole</code> by default) that grants users in
-        /// the master account administrator permissions in the new member account. Principals
-        /// in the master account can assume the role. AWS Organizations clones the company name
-        /// and address information for the new account from the organization's master account.
+        /// AWS Organizations preconfigures the new member account with a role (named <code>OrganizationAccountAccessRole</code>
+        /// by default) that grants users in the master account administrator permissions in the
+        /// new member account. Principals in the master account can assume the role. AWS Organizations
+        /// clones the company name and address information for the new account from the organization's
+        /// master account.
         /// </para>
         ///  
         /// <para>
@@ -1017,42 +955,52 @@ namespace Amazon.Organizations
         /// </para>
         ///  
         /// <para>
-        /// For more information about creating accounts, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
-        /// an AWS Account in Your Organization</a> in the <i>AWS Organizations User Guide</i>.
+        /// For more information about creating accounts, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
+        /// an AWS Account in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
         /// </para>
-        ///  <important> 
+        ///  <important> <ul> <li> 
         /// <para>
         /// When you create an account in an organization using the AWS Organizations console,
         /// API, or CLI commands, the information required for the account to operate as a standalone
-        /// account, such as a payment method and signing the End User Licence Agreement (EULA)
+        /// account, such as a payment method and signing the end user license agreement (EULA)
         /// is <i>not</i> automatically collected. If you must remove an account from your organization
         /// later, you can do so only after you provide the missing information. Follow the steps
         /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-        /// To leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// To leave an organization as a member account</a> in the <i>AWS Organizations User
+        /// Guide</i>.
         /// </para>
-        ///  </important> <note> 
+        ///  </li> <li> 
+        /// <para>
+        /// If you get an exception that indicates that you exceeded your account limits for the
+        /// organization, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you get an exception that indicates that the operation failed because your organization
+        /// is still initializing, wait one hour and then try again. If the error persists, contact
+        /// <a href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Using <code>CreateAccount</code> to create multiple temporary accounts isn't recommended.
+        /// You can only close an account from the Billing and Cost Management Console, and you
+        /// must be signed in as the root user. For information on the requirements and process
+        /// for closing an account, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
+        /// an AWS Account</a> in the <i>AWS Organizations User Guide</i>.
+        /// </para>
+        ///  </li> </ul> </important> <note> 
         /// <para>
         /// When you create a member account with this operation, you can choose whether to create
         /// the account with the <b>IAM User and Role Access to Billing Information</b> switch
         /// enabled. If you enable it, IAM users and roles that have appropriate permissions can
-        /// view billing information for the account. If you disable this, then only the account
-        /// root user can access billing information. For information about how to disable this
-        /// for an account, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html">Granting
+        /// view billing information for the account. If you disable it, only the account root
+        /// user can access billing information. For information about how to disable this switch
+        /// for an account, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html">Granting
         /// Access to Your Billing Information and Tools</a>.
         /// </para>
-        ///  </note> 
-        /// <para>
-        /// This operation can be called only from the organization's master account.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateAccount service method.</param>
         /// 
@@ -1060,11 +1008,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -1073,108 +1021,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1190,11 +1111,78 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.FinalizingOrganizationException">
-        /// AWS Organizations could not finalize the creation of your organization. Try again
-        /// later. If this persists, contact AWS customer support.
+        /// AWS Organizations couldn't perform the operation because your organization hasn't
+        /// finished initializing. This can take up to an hour. Try again later. If after one
+        /// hour you continue to receive this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -1208,7 +1196,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1216,7 +1204,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1229,13 +1217,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1248,16 +1236,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1293,8 +1288,17 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateAccount">REST API Reference for CreateAccount Operation</seealso>
         CreateAccountResponse CreateAccount(CreateAccountRequest request);
@@ -1327,47 +1331,163 @@ namespace Amazon.Organizations
 
         #endregion
         
-        #region  CreateOrganization
+        #region  CreateGovCloudAccount
 
 
         /// <summary>
-        /// Creates an AWS organization. The account whose user is calling the CreateOrganization
-        /// operation automatically becomes the <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/orgs_getting-started_concepts.html#account">master
-        /// account</a> of the new organization.
+        /// This action is available if all of the following are true:
         /// 
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        /// This operation must be called using credentials from the account that is to become
-        /// the new organization's master account. The principal must also have the relevant IAM
-        /// permissions.
+        /// You're authorized to create accounts in the AWS GovCloud (US) Region. For more information
+        /// on the AWS GovCloud (US) Region, see the <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/welcome.html">
+        /// <i>AWS GovCloud User Guide</i>.</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You already have an account in the AWS GovCloud (US) Region that is associated with
+        /// your master account in the commercial Region. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You call this action from the master account of your organization in the commercial
+        /// Region.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You have the <code>organizations:CreateGovCloudAccount</code> permission. AWS Organizations
+        /// creates the required service-linked role named <code>AWSServiceRoleForOrganizations</code>.
+        /// For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs">AWS
+        /// Organizations and Service-Linked Roles</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// AWS automatically enables AWS CloudTrail for AWS GovCloud (US) accounts, but you should
+        /// also do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Verify that AWS CloudTrail is enabled to store logs.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Create an S3 bucket for AWS CloudTrail log storage.
         /// </para>
         ///  
         /// <para>
-        /// By default (or if you set the <code>FeatureSet</code> parameter to <code>ALL</code>),
-        /// the new organization is created with all features enabled and service control policies
-        /// automatically enabled in the root. If you instead choose to create the organization
-        /// supporting only the consolidated billing features by setting the <code>FeatureSet</code>
-        /// parameter to <code>CONSOLIDATED_BILLING"</code>, then no policy types are enabled
-        /// by default and you cannot use organization policies.
+        /// For more information, see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/verifying-cloudtrail.html">Verifying
+        /// AWS CloudTrail Is Enabled</a> in the <i>AWS GovCloud User Guide</i>. 
         /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You call this action from the master account of your organization in the commercial
+        /// Region to create a standalone AWS account in the AWS GovCloud (US) Region. After the
+        /// account is created, the master account of an organization in the AWS GovCloud (US)
+        /// Region can invite it to that organization. For more information on inviting standalone
+        /// accounts in the AWS GovCloud (US) to join an organization, see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Calling <code>CreateGovCloudAccount</code> is an asynchronous request that AWS performs
+        /// in the background. Because <code>CreateGovCloudAccount</code> operates asynchronously,
+        /// it can return a successful completion message even though account initialization might
+        /// still be in progress. You might need to wait a few minutes before you can successfully
+        /// access the account. To check the status of the request, do one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use the <code>OperationId</code> response element from this operation to provide as
+        /// a parameter to the <a>DescribeCreateAccountStatus</a> operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Check the AWS CloudTrail log for the <code>CreateAccountResult</code> event. For information
+        /// on using AWS CloudTrail with Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
+        /// the Activity in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
+        /// </para>
+        ///  </li> </ul>  
+        /// <para>
+        /// When you call the <code>CreateGovCloudAccount</code> action, you create two accounts:
+        /// a standalone account in the AWS GovCloud (US) Region and an associated account in
+        /// the commercial Region for billing and support purposes. The account in the commercial
+        /// Region is automatically a member of the organization whose credentials made the request.
+        /// Both accounts are associated with the same email address.
+        /// </para>
+        ///  
+        /// <para>
+        /// A role is created in the new account in the commercial Region that allows the master
+        /// account in the organization in the commercial Region to assume it. An AWS GovCloud
+        /// (US) account is then created and associated with the commercial account that you just
+        /// created. A role is created in the new AWS GovCloud (US) account that can be assumed
+        /// by the AWS GovCloud (US) account that is associated with the master account of the
+        /// commercial organization. For more information and to view a diagram that explains
+        /// how account access works, see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about creating accounts, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html">Creating
+        /// an AWS Account in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
+        /// </para>
+        ///  <important> <ul> <li> 
+        /// <para>
+        /// When you create an account in an organization using the AWS Organizations console,
+        /// API, or CLI commands, the information required for the account to operate as a standalone
+        /// account, such as a payment method and signing the end user license agreement (EULA)
+        /// is <i>not</i> automatically collected. If you must remove an account from your organization
+        /// later, you can do so only after you provide the missing information. Follow the steps
+        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
+        /// To leave an organization as a member account</a> in the <i>AWS Organizations User
+        /// Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you get an exception that indicates that you exceeded your account limits for the
+        /// organization, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you get an exception that indicates that the operation failed because your organization
+        /// is still initializing, wait one hour and then try again. If the error persists, contact
+        /// <a href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Using <code>CreateGovCloudAccount</code> to create multiple temporary accounts isn't
+        /// recommended. You can only close an account from the AWS Billing and Cost Management
+        /// console, and you must be signed in as the root user. For information on the requirements
+        /// and process for closing an account, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_close.html">Closing
+        /// an AWS Account</a> in the <i>AWS Organizations User Guide</i>.
+        /// </para>
+        ///  </li> </ul> </important> <note> 
+        /// <para>
+        /// When you create a member account with this operation, you can choose whether to create
+        /// the account with the <b>IAM User and Role Access to Billing Information</b> switch
+        /// enabled. If you enable it, IAM users and roles that have appropriate permissions can
+        /// view billing information for the account. If you disable it, only the account root
+        /// user can access billing information. For information about how to disable this switch
+        /// for an account, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html">Granting
+        /// Access to Your Billing Information and Tools</a>.
+        /// </para>
+        ///  </note>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the CreateOrganization service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateGovCloudAccount service method.</param>
         /// 
-        /// <returns>The response from the CreateOrganization service method, as returned by Organizations.</returns>
+        /// <returns>The response from the CreateGovCloudAccount service method, as returned by Organizations.</returns>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
-        /// <exception cref="Amazon.Organizations.Model.AccessDeniedForDependencyException">
-        /// The operation you attempted requires you to have the <code>iam:CreateServiceLinkedRole</code>
-        /// so that Organizations can create the required service-linked role. You do not have
-        /// that permission.
-        /// </exception>
-        /// <exception cref="Amazon.Organizations.Model.AlreadyInOrganizationException">
-        /// This account is already a member of an organization. An account can belong to only
-        /// one organization at a time.
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
         /// The target of the operation is currently being modified by a different request. Try
@@ -1375,108 +1495,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1492,7 +1585,78 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.FinalizingOrganizationException">
+        /// AWS Organizations couldn't perform the operation because your organization hasn't
+        /// finished initializing. This can take up to an hour. Try again later. If after one
+        /// hour you continue to receive this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -1506,7 +1670,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1514,7 +1678,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1527,13 +1691,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1546,16 +1710,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1591,8 +1762,366 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateGovCloudAccount">REST API Reference for CreateGovCloudAccount Operation</seealso>
+        CreateGovCloudAccountResponse CreateGovCloudAccount(CreateGovCloudAccountRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateGovCloudAccount operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateGovCloudAccount operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateGovCloudAccount
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateGovCloudAccount">REST API Reference for CreateGovCloudAccount Operation</seealso>
+        IAsyncResult BeginCreateGovCloudAccount(CreateGovCloudAccountRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateGovCloudAccount operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateGovCloudAccount.</param>
+        /// 
+        /// <returns>Returns a  CreateGovCloudAccountResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateGovCloudAccount">REST API Reference for CreateGovCloudAccount Operation</seealso>
+        CreateGovCloudAccountResponse EndCreateGovCloudAccount(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateOrganization
+
+
+        /// <summary>
+        /// Creates an AWS organization. The account whose user is calling the <code>CreateOrganization</code>
+        /// operation automatically becomes the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/orgs_getting-started_concepts.html#account">master
+        /// account</a> of the new organization.
+        /// 
+        ///  
+        /// <para>
+        /// This operation must be called using credentials from the account that is to become
+        /// the new organization's master account. The principal must also have the relevant IAM
+        /// permissions.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default (or if you set the <code>FeatureSet</code> parameter to <code>ALL</code>),
+        /// the new organization is created with all features enabled and service control policies
+        /// automatically enabled in the root. If you instead choose to create the organization
+        /// supporting only the consolidated billing features by setting the <code>FeatureSet</code>
+        /// parameter to <code>CONSOLIDATED_BILLING"</code>, no policy types are enabled by default,
+        /// and you can't use organization policies
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateOrganization service method.</param>
+        /// 
+        /// <returns>The response from the CreateOrganization service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedForDependencyException">
+        /// The operation that you attempted requires you to have the <code>iam:CreateServiceLinkedRole</code>
+        /// for <code>organizations.amazonaws.com</code> permission so that AWS Organizations
+        /// can create the required service-linked role. You don't have that permission.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AlreadyInOrganizationException">
+        /// This account is already a member of an organization. An account can belong to only
+        /// one organization at a time.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
+        /// The target of the operation is currently being modified by a different request. Try
+        /// again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateOrganization">REST API Reference for CreateOrganization Operation</seealso>
         CreateOrganizationResponse CreateOrganization(CreateOrganizationRequest request);
@@ -1637,8 +2166,8 @@ namespace Amazon.Organizations
         /// 
         ///  
         /// <para>
-        /// For more information about OUs, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
-        /// Organizational Units</a> in the <i>AWS Organizations User Guide</i>.
+        /// For more information about OUs, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_ous.html">Managing
+        /// Organizational Units</a> in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -1651,11 +2180,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -1664,108 +2193,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1781,10 +2283,75 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.DuplicateOrganizationalUnitException">
-        /// An organizational unit (OU) with the same name already exists.
+        /// An OU with the same name already exists.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -1798,7 +2365,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1806,7 +2373,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1819,13 +2386,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1838,16 +2405,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1879,15 +2453,21 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ParentNotFoundException">
-        /// We can't find a root or organizational unit (OU) with the ParentId that you specified.
+        /// We can't find a root or OU with the <code>ParentId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateOrganizationalUnit">REST API Reference for CreateOrganizationalUnit Operation</seealso>
         CreateOrganizationalUnitResponse CreateOrganizationalUnit(CreateOrganizationalUnitRequest request);
@@ -1929,7 +2509,7 @@ namespace Amazon.Organizations
         /// 
         ///  
         /// <para>
-        /// For more information about policies and their use, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html">Managing
+        /// For more information about policies and their use, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html">Managing
         /// Organization Policies</a>.
         /// </para>
         ///  
@@ -1943,11 +2523,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -1956,108 +2536,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2072,6 +2625,71 @@ namespace Amazon.Organizations
         /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
         /// </para>
         ///  </li> </ul>
         /// </exception>
@@ -2090,7 +2708,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2098,7 +2716,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2111,13 +2729,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2130,16 +2748,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2171,24 +2796,33 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.MalformedPolicyDocumentException">
-        /// The provided policy document does not meet the requirements of the specified policy
+        /// The provided policy document doesn't meet the requirements of the specified policy
         /// type. For example, the syntax might be incorrect. For details about service control
-        /// policy syntax, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
-        /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide</i>.
+        /// policy syntax, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
+        /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyTypeNotAvailableForOrganizationException">
         /// You can't use the specified policy type with the feature set currently enabled for
-        /// this organization. For example, you can enable service control policies (SCPs) only
-        /// after you enable all features in the organization. For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root">Enabling
-        /// and Disabling a Policy Type on a Root</a> in the <i>AWS Organizations User Guide</i>.
+        /// this organization. For example, you can enable SCPs only after you enable all features
+        /// in the organization. For more information, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root">Enabling
+        /// and Disabling a Policy Type on a Root</a> in the <i>AWS Organizations User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreatePolicy">REST API Reference for CreatePolicy Operation</seealso>
         CreatePolicyResponse CreatePolicy(CreatePolicyRequest request);
@@ -2232,13 +2866,13 @@ namespace Amazon.Organizations
         /// <para>
         /// This operation can be called only from the account that received the handshake. The
         /// originator of the handshake can use <a>CancelHandshake</a> instead. The originator
-        /// can't reactivate a declined request, but can re-initiate the process with a new handshake
+        /// can't reactivate a declined request, but can reinitiate the process with a new handshake
         /// request.
         /// </para>
         ///  
         /// <para>
         /// After you decline a handshake, it continues to appear in the results of relevant APIs
-        /// for only 30 days. After that it is deleted.
+        /// for only 30 days. After that, it's deleted.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeclineHandshake service method.</param>
@@ -2247,8 +2881,8 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
         /// The target of the operation is currently being modified by a different request. Try
@@ -2259,11 +2893,11 @@ namespace Amazon.Organizations
         /// accept a handshake that was already accepted.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.HandshakeNotFoundException">
-        /// We can't find a handshake with the HandshakeId that you specified.
+        /// We can't find a handshake with the <code>HandshakeId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidHandshakeTransitionException">
         /// You can't perform the operation on the handshake in its current state. For example,
-        /// you can't cancel a handshake that was already accepted, or accept a handshake that
+        /// you can't cancel a handshake that was already accepted or accept a handshake that
         /// was already declined.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -2278,7 +2912,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2286,7 +2920,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2299,13 +2933,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2318,16 +2952,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2363,8 +3004,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeclineHandshake">REST API Reference for DeclineHandshake Operation</seealso>
         DeclineHandshakeResponse DeclineHandshake(DeclineHandshakeRequest request);
@@ -2402,8 +3049,7 @@ namespace Amazon.Organizations
 
         /// <summary>
         /// Deletes the organization. You can delete an organization only by using credentials
-        /// from the master account. The organization must be empty of member accounts, OUs, and
-        /// policies.
+        /// from the master account. The organization must be empty of member accounts.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteOrganization service method.</param>
         /// 
@@ -2411,11 +3057,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -2434,7 +3080,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2442,7 +3088,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2455,13 +3101,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2474,16 +3120,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2516,16 +3169,21 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.OrganizationNotEmptyException">
         /// The organization isn't empty. To delete an organization, you must first remove all
-        /// accounts except the master account, delete all organizational units (OUs), and delete
-        /// all policies.
+        /// accounts except the master account, delete all OUs, and delete all policies.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeleteOrganization">REST API Reference for DeleteOrganization Operation</seealso>
         DeleteOrganizationResponse DeleteOrganization(DeleteOrganizationRequest request);
@@ -2562,8 +3220,8 @@ namespace Amazon.Organizations
 
 
         /// <summary>
-        /// Deletes an organizational unit from a root or another OU. You must first remove all
-        /// accounts and child OUs from the OU that you want to delete.
+        /// Deletes an organizational unit (OU) from a root or another OU. You must first remove
+        /// all accounts and child OUs from the OU that you want to delete.
         /// 
         ///  
         /// <para>
@@ -2576,11 +3234,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -2599,7 +3257,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2607,7 +3265,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2620,13 +3278,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2639,16 +3297,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2680,19 +3345,25 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.OrganizationalUnitNotEmptyException">
-        /// The specified organizational unit (OU) is not empty. Move all accounts to another
-        /// root or to other OUs, remove all child OUs, and then try the operation again.
+        /// The specified OU is not empty. Move all accounts to another root or to other OUs,
+        /// remove all child OUs, and try the operation again.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.OrganizationalUnitNotFoundException">
-        /// We can't find an organizational unit (OU) with the OrganizationalUnitId that you specified.
+        /// We can't find an OU with the <code>OrganizationalUnitId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeleteOrganizationalUnit">REST API Reference for DeleteOrganizationalUnit Operation</seealso>
         DeleteOrganizationalUnitResponse DeleteOrganizationalUnit(DeleteOrganizationalUnitRequest request);
@@ -2730,7 +3401,7 @@ namespace Amazon.Organizations
 
         /// <summary>
         /// Deletes the specified policy from your organization. Before you perform this operation,
-        /// you must first detach the policy from all OUs, roots, and accounts.
+        /// you must first detach the policy from all organizational units (OUs), roots, and accounts.
         /// 
         ///  
         /// <para>
@@ -2743,11 +3414,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -2766,7 +3437,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2774,7 +3445,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2787,13 +3458,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2806,16 +3477,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2848,18 +3526,27 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyInUseException">
         /// The policy is attached to one or more entities. You must detach it from all roots,
-        /// organizational units (OUs), and accounts before performing this operation.
+        /// OUs, and accounts before performing this operation.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyNotFoundException">
-        /// We can't find a policy with the PolicyId that you specified.
+        /// We can't find a policy with the <code>PolicyId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeletePolicy">REST API Reference for DeletePolicy Operation</seealso>
         DeletePolicyResponse DeletePolicy(DeletePolicyRequest request);
@@ -2892,33 +3579,209 @@ namespace Amazon.Organizations
 
         #endregion
         
-        #region  DescribeAccount
+        #region  DeregisterDelegatedAdministrator
 
 
         /// <summary>
-        /// Retrieves Organizations-related information about the specified account.
+        /// Removes the specified member AWS account as a delegated administrator for the specified
+        /// AWS service.
         /// 
+        ///  
+        /// <para>
+        /// You can run this action only for AWS services that support this feature. For a current
+        /// list of services that support it, see the column <i>Supports Delegated Administrator</i>
+        /// in the table at <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrated-services-list.html">AWS
+        /// Services that you can use with AWS Organizations</a> in the <i>AWS Organizations User
+        /// Guide.</i> 
+        /// </para>
         ///  
         /// <para>
         /// This operation can be called only from the organization's master account.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the DescribeAccount service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterDelegatedAdministrator service method.</param>
         /// 
-        /// <returns>The response from the DescribeAccount service method, as returned by Organizations.</returns>
+        /// <returns>The response from the DeregisterDelegatedAdministrator service method, as returned by Organizations.</returns>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AccountNotFoundException">
-        /// We can't find an AWS account with the AccountId that you specified, or the account
-        /// whose credentials you used to make this request is not a member of an organization.
+        /// We can't find an AWS account with the <code>AccountId</code> that you specified,
+        /// or the account whose credentials you used to make this request isn't a member of an
+        /// organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccountNotRegisteredException">
+        /// The specified account is not a delegated administrator for this AWS service.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
+        /// The target of the operation is currently being modified by a different request. Try
+        /// again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -2932,7 +3795,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2940,7 +3803,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2953,13 +3816,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2972,16 +3835,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3017,8 +3887,191 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeregisterDelegatedAdministrator">REST API Reference for DeregisterDelegatedAdministrator Operation</seealso>
+        DeregisterDelegatedAdministratorResponse DeregisterDelegatedAdministrator(DeregisterDelegatedAdministratorRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeregisterDelegatedAdministrator operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterDelegatedAdministrator operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeregisterDelegatedAdministrator
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeregisterDelegatedAdministrator">REST API Reference for DeregisterDelegatedAdministrator Operation</seealso>
+        IAsyncResult BeginDeregisterDelegatedAdministrator(DeregisterDelegatedAdministratorRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeregisterDelegatedAdministrator operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeregisterDelegatedAdministrator.</param>
+        /// 
+        /// <returns>Returns a  DeregisterDelegatedAdministratorResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeregisterDelegatedAdministrator">REST API Reference for DeregisterDelegatedAdministrator Operation</seealso>
+        DeregisterDelegatedAdministratorResponse EndDeregisterDelegatedAdministrator(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeAccount
+
+
+        /// <summary>
+        /// Retrieves AWS Organizations-related information about the specified account.
+        /// 
+        ///  
+        /// <para>
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccount service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAccount service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccountNotFoundException">
+        /// We can't find an AWS account with the <code>AccountId</code> that you specified,
+        /// or the account whose credentials you used to make this request isn't a member of an
+        /// organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeAccount">REST API Reference for DescribeAccount Operation</seealso>
         DescribeAccountResponse DescribeAccount(DescribeAccountRequest request);
@@ -3059,7 +4112,8 @@ namespace Amazon.Organizations
         /// 
         ///  
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeCreateAccountStatus service method.</param>
@@ -3068,15 +4122,16 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.CreateAccountStatusNotFoundException">
-        /// We can't find an create account request with the CreateAccountRequestId that you specified.
+        /// We can't find an create account request with the <code>CreateAccountRequestId</code>
+        /// that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -3090,7 +4145,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3098,7 +4153,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3111,13 +4166,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3130,16 +4185,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3175,8 +4237,17 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeCreateAccountStatus">REST API Reference for DescribeCreateAccountStatus Operation</seealso>
         DescribeCreateAccountStatusResponse DescribeCreateAccountStatus(DescribeCreateAccountStatusRequest request);
@@ -3209,39 +4280,206 @@ namespace Amazon.Organizations
 
         #endregion
         
-        #region  DescribeHandshake
+        #region  DescribeEffectivePolicy
 
 
         /// <summary>
-        /// Retrieves information about a previously requested handshake. The handshake ID comes
-        /// from the response to the original <a>InviteAccountToOrganization</a> operation that
-        /// generated the handshake.
+        /// Returns the contents of the effective tag policy for the account. The effective tag
+        /// policy is the aggregation of any tag policies the account inherits, plus any policy
+        /// directly that is attached to the account. 
         /// 
         ///  
         /// <para>
-        /// You can access handshakes that are ACCEPTED, DECLINED, or CANCELED for only 30 days
-        /// after they change to that state. They are then deleted and no longer accessible.
+        /// This action returns information on tag policies only.
         /// </para>
         ///  
         /// <para>
-        /// This operation can be called from any account in the organization.
+        /// For more information on policy inheritance, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies-inheritance.html">How
+        /// Policy Inheritance Works</a> in the <i>AWS Organizations User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the DescribeHandshake service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEffectivePolicy service method.</param>
         /// 
-        /// <returns>The response from the DescribeHandshake service method, as returned by Organizations.</returns>
+        /// <returns>The response from the DescribeEffectivePolicy service method, as returned by Organizations.</returns>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
-        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
-        /// The target of the operation is currently being modified by a different request. Try
-        /// again later.
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
         /// </exception>
-        /// <exception cref="Amazon.Organizations.Model.HandshakeNotFoundException">
-        /// We can't find a handshake with the HandshakeId that you specified.
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.EffectivePolicyNotFoundException">
+        /// If you ran this action on the master account, this policy type is not enabled. If
+        /// you ran the action on a member account, the account doesn't have an effective policy
+        /// of this type. Contact the administrator of your organization about attaching a policy
+        /// of this type to the account.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -3255,7 +4493,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3263,7 +4501,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3276,13 +4514,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3295,16 +4533,208 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TargetNotFoundException">
+        /// We can't find a root, OU, or account with the <code>TargetId</code> that you specified.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeEffectivePolicy">REST API Reference for DescribeEffectivePolicy Operation</seealso>
+        DescribeEffectivePolicyResponse DescribeEffectivePolicy(DescribeEffectivePolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeEffectivePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEffectivePolicy operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeEffectivePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeEffectivePolicy">REST API Reference for DescribeEffectivePolicy Operation</seealso>
+        IAsyncResult BeginDescribeEffectivePolicy(DescribeEffectivePolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeEffectivePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeEffectivePolicy.</param>
+        /// 
+        /// <returns>Returns a  DescribeEffectivePolicyResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeEffectivePolicy">REST API Reference for DescribeEffectivePolicy Operation</seealso>
+        DescribeEffectivePolicyResponse EndDescribeEffectivePolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeHandshake
+
+
+        /// <summary>
+        /// Retrieves information about a previously requested handshake. The handshake ID comes
+        /// from the response to the original <a>InviteAccountToOrganization</a> operation that
+        /// generated the handshake.
+        /// 
+        ///  
+        /// <para>
+        /// You can access handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>, or
+        /// <code>CANCELED</code> for only 30 days after they change to that state. They're then
+        /// deleted and no longer accessible.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation can be called from any account in the organization.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHandshake service method.</param>
+        /// 
+        /// <returns>The response from the DescribeHandshake service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
+        /// The target of the operation is currently being modified by a different request. Try
+        /// again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.HandshakeNotFoundException">
+        /// We can't find a handshake with the <code>HandshakeId</code> that you specified.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3340,8 +4770,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeHandshake">REST API Reference for DescribeHandshake Operation</seealso>
         DescribeHandshakeResponse DescribeHandshake(DescribeHandshakeRequest request);
@@ -3386,7 +4822,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  <note> 
         /// <para>
-        /// Even if a policy type is shown as available in the organization, it can be disabled
+        /// Even if a policy type is shown as available in the organization, you can disable it
         /// separately at the root level with <a>DisablePolicyType</a>. Use <a>ListRoots</a> to
         /// see the status of policy types for a specified root.
         /// </para>
@@ -3398,11 +4834,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -3414,8 +4850,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeOrganization">REST API Reference for DescribeOrganization Operation</seealso>
         DescribeOrganizationResponse DescribeOrganization(DescribeOrganizationRequest request);
@@ -3456,7 +4898,8 @@ namespace Amazon.Organizations
         /// 
         ///  
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationalUnit service method.</param>
@@ -3465,11 +4908,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -3484,7 +4927,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3492,7 +4935,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3505,13 +4948,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3524,16 +4967,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3565,15 +5015,21 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.OrganizationalUnitNotFoundException">
-        /// We can't find an organizational unit (OU) with the OrganizationalUnitId that you specified.
+        /// We can't find an OU with the <code>OrganizationalUnitId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeOrganizationalUnit">REST API Reference for DescribeOrganizationalUnit Operation</seealso>
         DescribeOrganizationalUnitResponse DescribeOrganizationalUnit(DescribeOrganizationalUnitRequest request);
@@ -3614,7 +5070,8 @@ namespace Amazon.Organizations
         /// 
         ///  
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribePolicy service method.</param>
@@ -3623,11 +5080,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -3642,7 +5099,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3650,7 +5107,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3663,13 +5120,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3682,16 +5139,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3723,15 +5187,24 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyNotFoundException">
-        /// We can't find a policy with the PolicyId that you specified.
+        /// We can't find a policy with the <code>PolicyId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribePolicy">REST API Reference for DescribePolicy Operation</seealso>
         DescribePolicyResponse DescribePolicy(DescribePolicyRequest request);
@@ -3768,21 +5241,21 @@ namespace Amazon.Organizations
 
 
         /// <summary>
-        /// Detaches a policy from a target root, organizational unit, or account. If the policy
-        /// being detached is a service control policy (SCP), the changes to permissions for IAM
-        /// users and roles in affected accounts are immediate.
+        /// Detaches a policy from a target root, organizational unit (OU), or account. If the
+        /// policy being detached is a service control policy (SCP), the changes to permissions
+        /// for IAM users and roles in affected accounts are immediate.
         /// 
         ///  
         /// <para>
         ///  <b>Note:</b> Every root, OU, and account must have at least one SCP attached. If
         /// you want to replace the default <code>FullAWSAccess</code> policy with one that limits
-        /// the permissions that can be delegated, then you must attach the replacement policy
-        /// before you can remove the default one. This is the authorization strategy of <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_whitelist">whitelisting</a>.
-        /// If you instead attach a second SCP and leave the <code>FullAWSAccess</code> SCP still
-        /// attached, and specify <code>"Effect": "Deny"</code> in the second SCP to override
-        /// the <code>"Effect": "Allow"</code> in the <code>FullAWSAccess</code> policy (or any
-        /// other attached SCP), then you are using the authorization strategy of <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_blacklist">blacklisting</a>.
-        /// 
+        /// the permissions that can be delegated, you must attach the replacement policy before
+        /// you can remove the default one. This is the authorization strategy of an "<a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_whitelist">allow
+        /// list</a>". If you instead attach a second SCP and leave the <code>FullAWSAccess</code>
+        /// SCP still attached, and specify <code>"Effect": "Deny"</code> in the second SCP to
+        /// override the <code>"Effect": "Allow"</code> in the <code>FullAWSAccess</code> policy
+        /// (or any other attached SCP), you're using the authorization strategy of a "<a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_blacklist">deny
+        /// list</a>".
         /// </para>
         ///  
         /// <para>
@@ -3795,11 +5268,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -3808,108 +5281,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3925,6 +5371,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -3939,7 +5450,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3947,7 +5458,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3960,13 +5471,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3979,16 +5490,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4019,22 +5537,35 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> </ul>
         /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.PolicyChangesInProgressException">
+        /// Changes to the effective policy are in progress, and its contents can't be returned.
+        /// Try the operation again later.
+        /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyNotAttachedException">
         /// The policy isn't attached to the specified target in the specified root.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyNotFoundException">
-        /// We can't find a policy with the PolicyId that you specified.
+        /// We can't find a policy with the <code>PolicyId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TargetNotFoundException">
-        /// We can't find a root, OU, or account with the TargetId that you specified.
+        /// We can't find a root, OU, or account with the <code>TargetId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DetachPolicy">REST API Reference for DetachPolicy Operation</seealso>
         DetachPolicyResponse DetachPolicy(DetachPolicyRequest request);
@@ -4093,13 +5624,14 @@ namespace Amazon.Organizations
         /// After you perform the <code>DisableAWSServiceAccess</code> operation, the specified
         /// service can no longer perform operations in your organization's accounts unless the
         /// operations are explicitly permitted by the IAM policies that are attached to your
-        /// roles. 
+        /// roles.
         /// </para>
         ///  
         /// <para>
         /// For more information about integrating other services with AWS Organizations, including
         /// the list of services that work with Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-        /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide</i>.
+        /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
         /// </para>
         ///  
         /// <para>
@@ -4112,11 +5644,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -4125,108 +5657,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4242,6 +5747,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -4256,7 +5826,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4264,7 +5834,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4277,13 +5847,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4296,16 +5866,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4341,8 +5918,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisableAWSServiceAccess">REST API Reference for DisableAWSServiceAccess Operation</seealso>
         DisableAWSServiceAccessResponse DisableAWSServiceAccess(DisableAWSServiceAccessRequest request);
@@ -4382,21 +5965,25 @@ namespace Amazon.Organizations
         /// Disables an organizational control policy type in a root. A policy of a certain type
         /// can be attached to entities in a root only if that type is enabled in the root. After
         /// you perform this operation, you no longer can attach policies of the specified type
-        /// to that root or to any OU or account in that root. You can undo this by using the
-        /// <a>EnablePolicyType</a> operation.
+        /// to that root or to any organizational unit (OU) or account in that root. You can undo
+        /// this by using the <a>EnablePolicyType</a> operation.
         /// 
+        ///  
+        /// <para>
+        /// This is an asynchronous request that AWS performs in the background. If you disable
+        /// a policy for a root, it still appears enabled for the organization if <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+        /// features</a> are enabled for the organization. AWS recommends that you first use <a>ListRoots</a>
+        /// to see the status of policy types for a specified root, and then use this operation.
+        /// 
+        /// </para>
         ///  
         /// <para>
         /// This operation can be called only from the organization's master account.
         /// </para>
-        ///  <note> 
+        ///  
         /// <para>
-        /// If you disable a policy type for a root, it still shows as enabled for the organization
-        /// if all features are enabled in that organization. Use <a>ListRoots</a> to see the
-        /// status of policy types for a specified root. Use <a>DescribeOrganization</a> to see
-        /// the status of policy types in the organization.
+        ///  To view the status of available policy types in the organization, use <a>DescribeOrganization</a>.
         /// </para>
-        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DisablePolicyType service method.</param>
         /// 
@@ -4404,11 +5991,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -4417,108 +6004,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4534,6 +6094,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -4548,7 +6173,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4556,7 +6181,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4569,13 +6194,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4588,16 +6213,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4628,22 +6260,35 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> </ul>
         /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.PolicyChangesInProgressException">
+        /// Changes to the effective policy are in progress, and its contents can't be returned.
+        /// Try the operation again later.
+        /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyTypeNotEnabledException">
-        /// The specified policy type is not currently enabled in this root. You cannot attach
-        /// policies of the specified type to entities in a root until you enable that type in
-        /// the root. For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide</i>.
+        /// The specified policy type isn't currently enabled in this root. You can't attach policies
+        /// of the specified type to entities in a root until you enable that type in the root.
+        /// For more information, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
+        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.RootNotFoundException">
-        /// We can't find a root with the RootId that you specified.
+        /// We can't find a root with the <code>RootId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisablePolicyType">REST API Reference for DisablePolicyType Operation</seealso>
         DisablePolicyTypeResponse DisablePolicyType(DisablePolicyTypeRequest request);
@@ -4684,14 +6329,14 @@ namespace Amazon.Organizations
         /// that can restrict the services and actions that can be called in each account. Until
         /// you enable all features, you have access only to consolidated billing, and you can't
         /// use any of the advanced account administration features that AWS Organizations supports.
-        /// For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
-        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
+        /// All Features in Your Organization</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
         /// 
         ///  <important> 
         /// <para>
         /// This operation is required only for organizations that were created explicitly with
-        /// only the consolidated billing features enabled, or that were migrated from a Consolidated
-        /// Billing account family to Organizations. Calling this operation sends a handshake
+        /// only the consolidated billing features enabled. Calling this operation sends a handshake
         /// to every invited account in the organization. The feature set change can be finalized
         /// and the additional features enabled only after all administrators in the invited accounts
         /// approve the change by accepting the handshake.
@@ -4727,11 +6372,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -4749,42 +6394,36 @@ namespace Amazon.Organizations
         ///  </note> <ul> <li> 
         /// <para>
         /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. <b>Note</b>: deleted and closed accounts still count
-        /// toward your limit.
+        /// accounts in an organization. Note that deleted and closed accounts still count toward
+        /// your limit.
         /// </para>
         ///  <important> 
         /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
+        /// If you get this exception immediately after creating the organization, wait one hour
+        /// and try again. If after an hour it continues to fail with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
         /// Support</a>.
         /// </para>
         ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
         /// <para>
         /// ALREADY_IN_AN_ORGANIZATION: The handshake request is invalid because the invited account
         /// is already a member of an organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the
-        /// organization has already enabled all features.
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You cannot issue new invitations to join
-        /// an organization while it is in the process of enabling all features. You can resume
+        /// INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join
+        /// an organization while it's in the process of enabling all features. You can resume
         /// inviting accounts after you finalize the process when all accounts have agreed to
         /// the change.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PAYMENT_INSTRUMENT_REQUIRED: You cannot complete the operation with an account that
-        /// does not have a payment instrument, such as a credit card, associated with it.
+        /// ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the
+        /// organization has already enabled all features.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4797,6 +6436,11 @@ namespace Amazon.Organizations
         /// <para>
         /// ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership
         /// of an account too quickly after its previous change.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that
+        /// doesn't have a payment instrument, such as a credit card, associated with it.
         /// </para>
         ///  </li> </ul>
         /// </exception>
@@ -4812,7 +6456,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4820,7 +6464,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4833,13 +6477,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4852,16 +6496,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4897,8 +6548,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnableAllFeatures">REST API Reference for EnableAllFeatures Operation</seealso>
         EnableAllFeaturesResponse EnableAllFeatures(EnableAllFeaturesRequest request);
@@ -4954,7 +6611,8 @@ namespace Amazon.Organizations
         /// <para>
         /// For more information about enabling services to integrate with AWS Organizations,
         /// see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-        /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide</i>.
+        /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
         /// </para>
         ///  
         /// <para>
@@ -4969,11 +6627,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -4982,108 +6640,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5099,6 +6730,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -5113,7 +6809,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5121,7 +6817,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5134,13 +6830,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5153,16 +6849,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5198,8 +6901,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnableAWSServiceAccess">REST API Reference for EnableAWSServiceAccess Operation</seealso>
         EnableAWSServiceAccessResponse EnableAWSServiceAccess(EnableAWSServiceAccessRequest request);
@@ -5237,9 +6946,15 @@ namespace Amazon.Organizations
 
         /// <summary>
         /// Enables a policy type in a root. After you enable a policy type in a root, you can
-        /// attach policies of that type to the root, any OU, or account in that root. You can
-        /// undo this by using the <a>DisablePolicyType</a> operation.
+        /// attach policies of that type to the root, any organizational unit (OU), or account
+        /// in that root. You can undo this by using the <a>DisablePolicyType</a> operation.
         /// 
+        ///  
+        /// <para>
+        /// This is an asynchronous request that AWS performs in the background. AWS recommends
+        /// that you first use <a>ListRoots</a> to see the status of policy types for a specified
+        /// root, and then use this operation. 
+        /// </para>
         ///  
         /// <para>
         /// This operation can be called only from the organization's master account.
@@ -5247,12 +6962,8 @@ namespace Amazon.Organizations
         ///  
         /// <para>
         /// You can enable a policy type in a root only if that policy type is available in the
-        /// organization. Use <a>DescribeOrganization</a> to view the status of available policy
-        /// types in the organization.
-        /// </para>
-        ///  
-        /// <para>
-        /// To view the status of policy type in a root, use <a>ListRoots</a>.
+        /// organization. To view the status of available policy types in the organization, use
+        /// <a>DescribeOrganization</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the EnablePolicyType service method.</param>
@@ -5261,11 +6972,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -5274,108 +6985,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5391,6 +7075,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -5405,7 +7154,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5413,7 +7162,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5426,13 +7175,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5445,16 +7194,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5485,25 +7241,38 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> </ul>
         /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.PolicyChangesInProgressException">
+        /// Changes to the effective policy are in progress, and its contents can't be returned.
+        /// Try the operation again later.
+        /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyTypeAlreadyEnabledException">
         /// The specified policy type is already enabled in the specified root.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyTypeNotAvailableForOrganizationException">
         /// You can't use the specified policy type with the feature set currently enabled for
-        /// this organization. For example, you can enable service control policies (SCPs) only
-        /// after you enable all features in the organization. For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root">Enabling
-        /// and Disabling a Policy Type on a Root</a> in the <i>AWS Organizations User Guide</i>.
+        /// this organization. For example, you can enable SCPs only after you enable all features
+        /// in the organization. For more information, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root">Enabling
+        /// and Disabling a Policy Type on a Root</a> in the <i>AWS Organizations User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.RootNotFoundException">
-        /// We can't find a root with the RootId that you specified.
+        /// We can't find a root with the <code>RootId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnablePolicyType">REST API Reference for EnablePolicyType Operation</seealso>
         EnablePolicyTypeResponse EnablePolicyType(EnablePolicyTypeRequest request);
@@ -5541,31 +7310,30 @@ namespace Amazon.Organizations
 
         /// <summary>
         /// Sends an invitation to another account to join your organization as a member account.
-        /// Organizations sends email on your behalf to the email address that is associated with
-        /// the other account's owner. The invitation is implemented as a <a>Handshake</a> whose
-        /// details are in the response.
+        /// AWS Organizations sends email on your behalf to the email address that is associated
+        /// with the other account's owner. The invitation is implemented as a <a>Handshake</a>
+        /// whose details are in the response.
         /// 
-        ///  <important> 
+        ///  <important> <ul> <li> 
         /// <para>
         /// You can invite AWS accounts only from the same seller as the master account. For example,
         /// if your organization's master account was created by Amazon Internet Services Pvt.
-        /// Ltd (AISPL), an AWS seller in India, then you can only invite other AISPL accounts
-        /// to your organization. You can't combine accounts from AISPL and AWS, or any other
-        /// AWS seller. For more information, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilliing-India.html">Consolidated
+        /// Ltd (AISPL), an AWS seller in India, you can invite only other AISPL accounts to your
+        /// organization. You can't combine accounts from AISPL and AWS or from any other AWS
+        /// seller. For more information, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilliing-India.html">Consolidated
         /// Billing in India</a>.
         /// </para>
-        ///  </important> 
+        ///  </li> <li> 
+        /// <para>
+        /// If you receive an exception that indicates that you exceeded your account limits for
+        /// the organization or that the operation failed because your organization is still initializing,
+        /// wait one hour and then try again. If the error persists after an hour, contact <a
+        /// href="https://console.aws.amazon.com/support/home#/">AWS Support</a>.
+        /// </para>
+        ///  </li> </ul> </important> 
         /// <para>
         /// This operation can be called only from the organization's master account.
         /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the InviteAccountToOrganization service method.</param>
         /// 
@@ -5573,11 +7341,17 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccountOwnerNotVerifiedException">
+        /// You can't invite an existing account to your organization until you verify that you
+        /// own the email address associated with the master account. For more information, see
+        /// <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_create.html#about-email-verification">Email
+        /// Address Verification</a> in the <i>AWS Organizations User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -5592,8 +7366,10 @@ namespace Amazon.Organizations
         /// declined.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.FinalizingOrganizationException">
-        /// AWS Organizations could not finalize the creation of your organization. Try again
-        /// later. If this persists, contact AWS customer support.
+        /// AWS Organizations couldn't perform the operation because your organization hasn't
+        /// finished initializing. This can take up to an hour. Try again later. If after one
+        /// hour you continue to receive this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.HandshakeConstraintViolationException">
         /// The requested operation would violate the constraint identified in the reason code.
@@ -5606,42 +7382,36 @@ namespace Amazon.Organizations
         ///  </note> <ul> <li> 
         /// <para>
         /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. <b>Note</b>: deleted and closed accounts still count
-        /// toward your limit.
+        /// accounts in an organization. Note that deleted and closed accounts still count toward
+        /// your limit.
         /// </para>
         ///  <important> 
         /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
+        /// If you get this exception immediately after creating the organization, wait one hour
+        /// and try again. If after an hour it continues to fail with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
         /// Support</a>.
         /// </para>
         ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
         /// <para>
         /// ALREADY_IN_AN_ORGANIZATION: The handshake request is invalid because the invited account
         /// is already a member of an organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the
-        /// organization has already enabled all features.
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You cannot issue new invitations to join
-        /// an organization while it is in the process of enabling all features. You can resume
+        /// INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join
+        /// an organization while it's in the process of enabling all features. You can resume
         /// inviting accounts after you finalize the process when all accounts have agreed to
         /// the change.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PAYMENT_INSTRUMENT_REQUIRED: You cannot complete the operation with an account that
-        /// does not have a payment instrument, such as a credit card, associated with it.
+        /// ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the
+        /// organization has already enabled all features.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5654,6 +7424,11 @@ namespace Amazon.Organizations
         /// <para>
         /// ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership
         /// of an account too quickly after its previous change.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that
+        /// doesn't have a payment instrument, such as a credit card, associated with it.
         /// </para>
         ///  </li> </ul>
         /// </exception>
@@ -5669,7 +7444,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5677,7 +7452,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5690,13 +7465,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5709,16 +7484,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5754,8 +7536,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/InviteAccountToOrganization">REST API Reference for InviteAccountToOrganization Operation</seealso>
         InviteAccountToOrganizationResponse InviteAccountToOrganization(InviteAccountToOrganizationRequest request);
@@ -5803,9 +7591,9 @@ namespace Amazon.Organizations
         ///  <important> <ul> <li> 
         /// <para>
         /// The master account in an organization with all features enabled can set service control
-        /// policies (SCPs) that can restrict what administrators of member accounts can do, including
-        /// preventing them from successfully calling <code>LeaveOrganization</code> and leaving
-        /// the organization. 
+        /// policies (SCPs) that can restrict what administrators of member accounts can do. This
+        /// includes preventing them from successfully calling <code>LeaveOrganization</code>
+        /// and leaving the organization. 
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5813,20 +7601,38 @@ namespace Amazon.Organizations
         /// with the information required to operate as a standalone account. When you create
         /// an account in an organization using the AWS Organizations console, API, or CLI commands,
         /// the information required of standalone accounts is <i>not</i> automatically collected.
-        /// For each account that you want to make standalone, you must accept the End User License
-        /// Agreement (EULA), choose a support plan, provide and verify the required contact information,
-        /// and provide a current payment method. AWS uses the payment method to charge for any
-        /// billable (not free tier) AWS activity that occurs while the account is not attached
-        /// to an organization. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
+        /// For each account that you want to make standalone, you must do the following steps:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Accept the end user license agreement (EULA)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Choose a support plan
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Provide and verify the required contact information
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Provide a current payment method
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// AWS uses the payment method to charge for any billable (not free tier) AWS activity
+        /// that occurs while the account isn't attached to an organization. Follow the steps
+        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
         /// To leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// You can leave an organization only after you enable IAM user access to billing in
         /// your account. For more information, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
         /// Access to the Billing and Cost Management Console</a> in the <i>AWS Billing and Cost
-        /// Management User Guide</i>.
+        /// Management User Guide.</i> 
         /// </para>
         ///  </li> </ul> </important>
         /// </summary>
@@ -5836,15 +7642,16 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AccountNotFoundException">
-        /// We can't find an AWS account with the AccountId that you specified, or the account
-        /// whose credentials you used to make this request is not a member of an organization.
+        /// We can't find an AWS account with the <code>AccountId</code> that you specified,
+        /// or the account whose credentials you used to make this request isn't a member of an
+        /// organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -5853,108 +7660,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5970,6 +7750,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -5984,7 +7829,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -5992,7 +7837,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6005,13 +7850,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6024,16 +7869,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6074,8 +7926,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/LeaveOrganization">REST API Reference for LeaveOrganization Operation</seealso>
         LeaveOrganizationResponse LeaveOrganization(LeaveOrganizationRequest request);
@@ -6113,7 +7971,7 @@ namespace Amazon.Organizations
 
         /// <summary>
         /// Lists all the accounts in the organization. To request only the accounts in a specified
-        /// root or OU, use the <a>ListAccountsForParent</a> operation instead.
+        /// root or organizational unit (OU), use the <a>ListAccountsForParent</a> operation instead.
         /// 
         ///  <note> 
         /// <para>
@@ -6125,7 +7983,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAccounts service method.</param>
@@ -6134,11 +7993,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -6153,7 +8012,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6161,7 +8020,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6174,13 +8033,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6193,16 +8052,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6238,8 +8104,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAccounts">REST API Reference for ListAccounts Operation</seealso>
         ListAccountsResponse ListAccounts(ListAccountsRequest request);
@@ -6278,8 +8150,8 @@ namespace Amazon.Organizations
         /// <summary>
         /// Lists the accounts in an organization that are contained by the specified target root
         /// or organizational unit (OU). If you specify the root, you get a list of all the accounts
-        /// that are not in any OU. If you specify an OU, you get a list of all the accounts in
-        /// only that OU, and not in any child OUs. To get a list of all accounts in the organization,
+        /// that aren't in any OU. If you specify an OU, you get a list of all the accounts in
+        /// only that OU and not in any child OUs. To get a list of all accounts in the organization,
         /// use the <a>ListAccounts</a> operation.
         /// 
         ///  <note> 
@@ -6292,7 +8164,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAccountsForParent service method.</param>
@@ -6301,11 +8174,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -6320,7 +8193,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6328,7 +8201,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6341,13 +8214,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6360,16 +8233,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6401,15 +8281,21 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ParentNotFoundException">
-        /// We can't find a root or organizational unit (OU) with the ParentId that you specified.
+        /// We can't find a root or OU with the <code>ParentId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAccountsForParent">REST API Reference for ListAccountsForParent Operation</seealso>
         ListAccountsForParentResponse ListAccountsForParent(ListAccountsForParentRequest request);
@@ -6454,11 +8340,13 @@ namespace Amazon.Organizations
         /// <para>
         /// For more information about integrating other services with AWS Organizations, including
         /// the list of services that currently work with Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-        /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide</i>.
+        /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide.</i>
+        /// 
         /// </para>
         ///  
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAWSServiceAccessForOrganization service method.</param>
@@ -6467,117 +8355,90 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6593,6 +8454,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -6607,7 +8533,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6615,7 +8541,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6628,13 +8554,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6647,16 +8573,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6692,8 +8625,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAWSServiceAccessForOrganization">REST API Reference for ListAWSServiceAccessForOrganization Operation</seealso>
         ListAWSServiceAccessForOrganizationResponse ListAWSServiceAccessForOrganization(ListAWSServiceAccessForOrganizationRequest request);
@@ -6730,9 +8669,9 @@ namespace Amazon.Organizations
 
 
         /// <summary>
-        /// Lists all of the OUs or accounts that are contained in the specified parent OU or
-        /// root. This operation, along with <a>ListParents</a> enables you to traverse the tree
-        /// structure that makes up this root.
+        /// Lists all of the organizational units (OUs) or accounts that are contained in the
+        /// specified parent OU or root. This operation, along with <a>ListParents</a> enables
+        /// you to traverse the tree structure that makes up this root.
         /// 
         ///  <note> 
         /// <para>
@@ -6744,7 +8683,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListChildren service method.</param>
@@ -6753,11 +8693,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -6772,7 +8712,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6780,7 +8720,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6793,13 +8733,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6812,16 +8752,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6853,15 +8800,21 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ParentNotFoundException">
-        /// We can't find a root or organizational unit (OU) with the ParentId that you specified.
+        /// We can't find a root or OU with the <code>ParentId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListChildren">REST API Reference for ListChildren Operation</seealso>
         ListChildrenResponse ListChildren(ListChildrenRequest request);
@@ -6911,7 +8864,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListCreateAccountStatus service method.</param>
@@ -6920,11 +8874,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -6939,7 +8893,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6947,7 +8901,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6960,13 +8914,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6979,16 +8933,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7024,8 +8985,17 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListCreateAccountStatus">REST API Reference for ListCreateAccountStatus Operation</seealso>
         ListCreateAccountStatusResponse ListCreateAccountStatus(ListCreateAccountStatusRequest request);
@@ -7058,44 +9028,189 @@ namespace Amazon.Organizations
 
         #endregion
         
-        #region  ListHandshakesForAccount
+        #region  ListDelegatedAdministrators
 
 
         /// <summary>
-        /// Lists the current handshakes that are associated with the account of the requesting
-        /// user.
+        /// Lists the AWS accounts that are designated as delegated administrators in this organization.
         /// 
         ///  
         /// <para>
-        /// Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this
-        /// API for only 30 days after changing to that state. After that they are deleted and
-        /// no longer accessible.
-        /// </para>
-        ///  <note> 
-        /// <para>
-        /// Always check the <code>NextToken</code> response parameter for a <code>null</code>
-        /// value when calling a <code>List*</code> operation. These operations can occasionally
-        /// return an empty set of results even when there are more results available. The <code>NextToken</code>
-        /// response parameter value is <code>null</code> <i>only</i> when there are no more results
-        /// to display.
-        /// </para>
-        ///  </note> 
-        /// <para>
-        /// This operation can be called from any account in the organization.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the ListHandshakesForAccount service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListDelegatedAdministrators service method.</param>
         /// 
-        /// <returns>The response from the ListHandshakesForAccount service method, as returned by Organizations.</returns>
+        /// <returns>The response from the ListDelegatedAdministrators service method, as returned by Organizations.</returns>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
-        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
-        /// The target of the operation is currently being modified by a different request. Try
-        /// again later.
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -7109,7 +9224,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7117,7 +9232,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7130,13 +9245,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7149,16 +9264,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7194,8 +9316,541 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListDelegatedAdministrators">REST API Reference for ListDelegatedAdministrators Operation</seealso>
+        ListDelegatedAdministratorsResponse ListDelegatedAdministrators(ListDelegatedAdministratorsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDelegatedAdministrators operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDelegatedAdministrators operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDelegatedAdministrators
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListDelegatedAdministrators">REST API Reference for ListDelegatedAdministrators Operation</seealso>
+        IAsyncResult BeginListDelegatedAdministrators(ListDelegatedAdministratorsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDelegatedAdministrators operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDelegatedAdministrators.</param>
+        /// 
+        /// <returns>Returns a  ListDelegatedAdministratorsResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListDelegatedAdministrators">REST API Reference for ListDelegatedAdministrators Operation</seealso>
+        ListDelegatedAdministratorsResponse EndListDelegatedAdministrators(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListDelegatedServicesForAccount
+
+
+        /// <summary>
+        /// List the AWS services for which the specified account is a delegated administrator.
+        /// 
+        /// 
+        ///  
+        /// <para>
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDelegatedServicesForAccount service method.</param>
+        /// 
+        /// <returns>The response from the ListDelegatedServicesForAccount service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccountNotFoundException">
+        /// We can't find an AWS account with the <code>AccountId</code> that you specified,
+        /// or the account whose credentials you used to make this request isn't a member of an
+        /// organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccountNotRegisteredException">
+        /// The specified account is not a delegated administrator for this AWS service.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListDelegatedServicesForAccount">REST API Reference for ListDelegatedServicesForAccount Operation</seealso>
+        ListDelegatedServicesForAccountResponse ListDelegatedServicesForAccount(ListDelegatedServicesForAccountRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDelegatedServicesForAccount operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDelegatedServicesForAccount operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDelegatedServicesForAccount
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListDelegatedServicesForAccount">REST API Reference for ListDelegatedServicesForAccount Operation</seealso>
+        IAsyncResult BeginListDelegatedServicesForAccount(ListDelegatedServicesForAccountRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDelegatedServicesForAccount operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDelegatedServicesForAccount.</param>
+        /// 
+        /// <returns>Returns a  ListDelegatedServicesForAccountResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListDelegatedServicesForAccount">REST API Reference for ListDelegatedServicesForAccount Operation</seealso>
+        ListDelegatedServicesForAccountResponse EndListDelegatedServicesForAccount(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListHandshakesForAccount
+
+
+        /// <summary>
+        /// Lists the current handshakes that are associated with the account of the requesting
+        /// user.
+        /// 
+        ///  
+        /// <para>
+        /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>, or <code>CANCELED</code>
+        /// appear in the results of this API for only 30 days after changing to that state. After
+        /// that, they're deleted and no longer accessible.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Always check the <code>NextToken</code> response parameter for a <code>null</code>
+        /// value when calling a <code>List*</code> operation. These operations can occasionally
+        /// return an empty set of results even when there are more results available. The <code>NextToken</code>
+        /// response parameter value is <code>null</code> <i>only</i> when there are no more results
+        /// to display.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListHandshakesForAccount service method.</param>
+        /// 
+        /// <returns>The response from the ListHandshakesForAccount service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
+        /// The target of the operation is currently being modified by a different request. Try
+        /// again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListHandshakesForAccount">REST API Reference for ListHandshakesForAccount Operation</seealso>
         ListHandshakesForAccountResponse ListHandshakesForAccount(ListHandshakesForAccountRequest request);
@@ -7239,9 +9894,9 @@ namespace Amazon.Organizations
         /// 
         ///  
         /// <para>
-        /// Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this
-        /// API for only 30 days after changing to that state. After that they are deleted and
-        /// no longer accessible.
+        /// Handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>, or <code>CANCELED</code>
+        /// appear in the results of this API for only 30 days after changing to that state. After
+        /// that, they're deleted and no longer accessible.
         /// </para>
         ///  <note> 
         /// <para>
@@ -7253,7 +9908,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListHandshakesForOrganization service method.</param>
@@ -7262,11 +9918,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -7285,7 +9941,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7293,7 +9949,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7306,13 +9962,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7325,16 +9981,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7370,8 +10033,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListHandshakesForOrganization">REST API Reference for ListHandshakesForOrganization Operation</seealso>
         ListHandshakesForOrganizationResponse ListHandshakesForOrganization(ListHandshakesForOrganizationRequest request);
@@ -7420,7 +10089,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListOrganizationalUnitsForParent service method.</param>
@@ -7429,11 +10099,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -7448,7 +10118,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7456,7 +10126,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7469,13 +10139,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7488,16 +10158,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7529,15 +10206,21 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ParentNotFoundException">
-        /// We can't find a root or organizational unit (OU) with the ParentId that you specified.
+        /// We can't find a root or OU with the <code>ParentId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListOrganizationalUnitsForParent">REST API Reference for ListOrganizationalUnitsForParent Operation</seealso>
         ListOrganizationalUnitsForParentResponse ListOrganizationalUnitsForParent(ListOrganizationalUnitsForParentRequest request);
@@ -7588,7 +10271,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         ///  <note> 
         /// <para>
@@ -7602,16 +10286,16 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ChildNotFoundException">
-        /// We can't find an organizational unit (OU) or AWS account with the ChildId that you
-        /// specified.
+        /// We can't find an organizational unit (OU) or AWS account with the <code>ChildId</code>
+        /// that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -7625,7 +10309,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7633,7 +10317,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7646,13 +10330,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7665,16 +10349,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7710,8 +10401,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListParents">REST API Reference for ListParents Operation</seealso>
         ListParentsResponse ListParents(ListParentsRequest request);
@@ -7760,7 +10457,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListPolicies service method.</param>
@@ -7769,11 +10467,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -7788,7 +10486,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7796,7 +10494,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7809,13 +10507,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7828,16 +10526,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7873,8 +10578,17 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListPolicies">REST API Reference for ListPolicies Operation</seealso>
         ListPoliciesResponse ListPolicies(ListPoliciesRequest request);
@@ -7925,7 +10639,8 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListPoliciesForTarget service method.</param>
@@ -7934,11 +10649,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -7953,7 +10668,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7961,7 +10676,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7974,13 +10689,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7993,16 +10708,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8038,11 +10760,20 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TargetNotFoundException">
-        /// We can't find a root, OU, or account with the TargetId that you specified.
+        /// We can't find a root, OU, or account with the <code>TargetId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListPoliciesForTarget">REST API Reference for ListPoliciesForTarget Operation</seealso>
         ListPoliciesForTargetResponse ListPoliciesForTarget(ListPoliciesForTargetRequest request);
@@ -8091,12 +10822,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> 
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         ///  <note> 
         /// <para>
-        /// Policy types can be enabled and disabled in roots. This is distinct from whether they
-        /// are available in the organization. When you enable all features, you make policy types
+        /// Policy types can be enabled and disabled in roots. This is distinct from whether they're
+        /// available in the organization. When you enable all features, you make policy types
         /// available for use in that organization. Individual policy types can then be enabled
         /// and disabled in a root. To see the availability of a policy type in an organization,
         /// use <a>DescribeOrganization</a>.
@@ -8109,11 +10841,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -8128,7 +10860,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8136,7 +10868,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8149,13 +10881,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8168,16 +10900,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8213,8 +10952,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListRoots">REST API Reference for ListRoots Operation</seealso>
         ListRootsResponse ListRoots(ListRootsRequest request);
@@ -8247,36 +10992,33 @@ namespace Amazon.Organizations
 
         #endregion
         
-        #region  ListTargetsForPolicy
+        #region  ListTagsForResource
 
 
         /// <summary>
-        /// Lists all the roots, OUs, and accounts to which the specified policy is attached.
+        /// Lists tags for the specified resource. 
         /// 
-        ///  <note> 
+        ///  
         /// <para>
-        /// Always check the <code>NextToken</code> response parameter for a <code>null</code>
-        /// value when calling a <code>List*</code> operation. These operations can occasionally
-        /// return an empty set of results even when there are more results available. The <code>NextToken</code>
-        /// response parameter value is <code>null</code> <i>only</i> when there are no more results
-        /// to display.
+        /// Currently, you can list tags on an account in AWS Organizations.
         /// </para>
-        ///  </note> 
+        ///  
         /// <para>
-        /// This operation can be called only from the organization's master account.
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the ListTargetsForPolicy service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
         /// 
-        /// <returns>The response from the ListTargetsForPolicy service method, as returned by Organizations.</returns>
+        /// <returns>The response from the ListTagsForResource service method, as returned by Organizations.</returns>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -8291,7 +11033,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8299,7 +11041,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8312,13 +11054,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8331,16 +11073,204 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TargetNotFoundException">
+        /// We can't find a root, OU, or account with the <code>TargetId</code> that you specified.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTargetsForPolicy
+
+
+        /// <summary>
+        /// Lists all the roots, organizational units (OUs), and accounts that the specified policy
+        /// is attached to.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Always check the <code>NextToken</code> response parameter for a <code>null</code>
+        /// value when calling a <code>List*</code> operation. These operations can occasionally
+        /// return an empty set of results even when there are more results available. The <code>NextToken</code>
+        /// response parameter value is <code>null</code> <i>only</i> when there are no more results
+        /// to display.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This operation can be called only from the organization's master account or by a member
+        /// account that is a delegated administrator for an AWS service.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTargetsForPolicy service method.</param>
+        /// 
+        /// <returns>The response from the ListTargetsForPolicy service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8372,15 +11302,24 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyNotFoundException">
-        /// We can't find a policy with the PolicyId that you specified.
+        /// We can't find a policy with the <code>PolicyId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListTargetsForPolicy">REST API Reference for ListTargetsForPolicy Operation</seealso>
         ListTargetsForPolicyResponse ListTargetsForPolicy(ListTargetsForPolicyRequest request);
@@ -8417,8 +11356,8 @@ namespace Amazon.Organizations
 
 
         /// <summary>
-        /// Moves an account from its current source parent root or OU to the specified destination
-        /// parent root or OU.
+        /// Moves an account from its current source parent root or organizational unit (OU) to
+        /// the specified destination parent root or OU.
         /// 
         ///  
         /// <para>
@@ -8431,15 +11370,16 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AccountNotFoundException">
-        /// We can't find an AWS account with the AccountId that you specified, or the account
-        /// whose credentials you used to make this request is not a member of an organization.
+        /// We can't find an AWS account with the <code>AccountId</code> that you specified,
+        /// or the account whose credentials you used to make this request isn't a member of an
+        /// organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -8447,8 +11387,8 @@ namespace Amazon.Organizations
         /// again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.DestinationParentNotFoundException">
-        /// We can't find the destination container (a root or OU) with the ParentId that you
-        /// specified.
+        /// We can't find the destination container (a root or OU) with the <code>ParentId</code>
+        /// that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.DuplicateAccountException">
         /// That account is already present in the specified destination.
@@ -8465,7 +11405,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8473,7 +11413,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8486,13 +11426,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8505,16 +11445,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8550,11 +11497,17 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.SourceParentNotFoundException">
-        /// We can't find a source root or OU with the ParentId that you specified.
+        /// We can't find a source root or OU with the <code>ParentId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/MoveAccount">REST API Reference for MoveAccount Operation</seealso>
         MoveAccountResponse MoveAccount(MoveAccountRequest request);
@@ -8587,63 +11540,46 @@ namespace Amazon.Organizations
 
         #endregion
         
-        #region  RemoveAccountFromOrganization
+        #region  RegisterDelegatedAdministrator
 
 
         /// <summary>
-        /// Removes the specified account from the organization.
+        /// Enables the specified member account to administer the Organizations features of the
+        /// specified AWS service. It grants read-only access to AWS Organizations service data.
+        /// The account still requires IAM permissions to access and administer the AWS service.
         /// 
         ///  
         /// <para>
-        /// The removed account becomes a stand-alone account that is not a member of any organization.
-        /// It is no longer subject to any policies and is responsible for its own bill payments.
-        /// The organization's master account is no longer charged for any expenses accrued by
-        /// the member account after it is removed from the organization.
+        /// You can run this action only for AWS services that support this feature. For a current
+        /// list of services that support it, see the column <i>Supports Delegated Administrator</i>
+        /// in the table at <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrated-services-list.html">AWS
+        /// Services that you can use with AWS Organizations</a> in the <i>AWS Organizations User
+        /// Guide.</i> 
         /// </para>
         ///  
         /// <para>
-        /// This operation can be called only from the organization's master account. Member accounts
-        /// can remove themselves with <a>LeaveOrganization</a> instead.
+        /// This operation can be called only from the organization's master account.
         /// </para>
-        ///  <important> <ul> <li> 
-        /// <para>
-        /// You can remove an account from your organization only if the account is configured
-        /// with the information required to operate as a standalone account. When you create
-        /// an account in an organization using the AWS Organizations console, API, or CLI commands,
-        /// the information required of standalone accounts is <i>not</i> automatically collected.
-        /// For an account that you want to make standalone, you must accept the End User License
-        /// Agreement (EULA), choose a support plan, provide and verify the required contact information,
-        /// and provide a current payment method. AWS uses the payment method to charge for any
-        /// billable (not free tier) AWS activity that occurs while the account is not attached
-        /// to an organization. To remove an account that does not yet have this information,
-        /// you must sign in as the member account and follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
-        /// To leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You can remove a member account only after you enable IAM user access to billing in
-        /// the member account. For more information, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
-        /// Access to the Billing and Cost Management Console</a> in the <i>AWS Billing and Cost
-        /// Management User Guide</i>.
-        /// </para>
-        ///  </li> </ul> </important>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the RemoveAccountFromOrganization service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the RegisterDelegatedAdministrator service method.</param>
         /// 
-        /// <returns>The response from the RemoveAccountFromOrganization service method, as returned by Organizations.</returns>
+        /// <returns>The response from the RegisterDelegatedAdministrator service method, as returned by Organizations.</returns>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccountAlreadyRegisteredException">
+        /// The specified account is already a delegated administrator for this AWS service.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AccountNotFoundException">
-        /// We can't find an AWS account with the AccountId that you specified, or the account
-        /// whose credentials you used to make this request is not a member of an organization.
+        /// We can't find an AWS account with the <code>AccountId</code> that you specified,
+        /// or the account whose credentials you used to make this request isn't a member of an
+        /// organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -8652,108 +11588,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8769,6 +11678,71 @@ namespace Amazon.Organizations
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
@@ -8783,7 +11757,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8791,7 +11765,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8804,13 +11778,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8823,16 +11797,386 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/RegisterDelegatedAdministrator">REST API Reference for RegisterDelegatedAdministrator Operation</seealso>
+        RegisterDelegatedAdministratorResponse RegisterDelegatedAdministrator(RegisterDelegatedAdministratorRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RegisterDelegatedAdministrator operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RegisterDelegatedAdministrator operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRegisterDelegatedAdministrator
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/RegisterDelegatedAdministrator">REST API Reference for RegisterDelegatedAdministrator Operation</seealso>
+        IAsyncResult BeginRegisterDelegatedAdministrator(RegisterDelegatedAdministratorRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RegisterDelegatedAdministrator operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRegisterDelegatedAdministrator.</param>
+        /// 
+        /// <returns>Returns a  RegisterDelegatedAdministratorResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/RegisterDelegatedAdministrator">REST API Reference for RegisterDelegatedAdministrator Operation</seealso>
+        RegisterDelegatedAdministratorResponse EndRegisterDelegatedAdministrator(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RemoveAccountFromOrganization
+
+
+        /// <summary>
+        /// Removes the specified account from the organization.
+        /// 
+        ///  
+        /// <para>
+        /// The removed account becomes a standalone account that isn't a member of any organization.
+        /// It's no longer subject to any policies and is responsible for its own bill payments.
+        /// The organization's master account is no longer charged for any expenses accrued by
+        /// the member account after it's removed from the organization.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation can be called only from the organization's master account. Member accounts
+        /// can remove themselves with <a>LeaveOrganization</a> instead.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// You can remove an account from your organization only if the account is configured
+        /// with the information required to operate as a standalone account. When you create
+        /// an account in an organization using the AWS Organizations console, API, or CLI commands,
+        /// the information required of standalone accounts is <i>not</i> automatically collected.
+        /// For an account that you want to make standalone, you must accept the end user license
+        /// agreement (EULA), choose a support plan, provide and verify the required contact information,
+        /// and provide a current payment method. AWS uses the payment method to charge for any
+        /// billable (not free tier) AWS activity that occurs while the account isn't attached
+        /// to an organization. To remove an account that doesn't yet have this information, you
+        /// must sign in as the member account and follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">
+        /// To leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RemoveAccountFromOrganization service method.</param>
+        /// 
+        /// <returns>The response from the RemoveAccountFromOrganization service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AccountNotFoundException">
+        /// We can't find an AWS account with the <code>AccountId</code> that you specified,
+        /// or the account whose credentials you used to make this request isn't a member of an
+        /// organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
+        /// The target of the operation is currently being modified by a different request. Try
+        /// again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8873,8 +12217,14 @@ namespace Amazon.Organizations
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/RemoveAccountFromOrganization">REST API Reference for RemoveAccountFromOrganization Operation</seealso>
         RemoveAccountFromOrganizationResponse RemoveAccountFromOrganization(RemoveAccountFromOrganizationRequest request);
@@ -8907,38 +12257,196 @@ namespace Amazon.Organizations
 
         #endregion
         
-        #region  UpdateOrganizationalUnit
+        #region  TagResource
 
 
         /// <summary>
-        /// Renames the specified organizational unit (OU). The ID and ARN do not change. The
-        /// child OUs and accounts remain in place, and any attached policies of the OU remain
-        /// attached. 
+        /// Adds one or more tags to the specified resource.
         /// 
+        ///  
+        /// <para>
+        /// Currently, you can tag and untag accounts in AWS Organizations.
+        /// </para>
         ///  
         /// <para>
         /// This operation can be called only from the organization's master account.
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the UpdateOrganizationalUnit service method.</param>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
         /// 
-        /// <returns>The response from the UpdateOrganizationalUnit service method, as returned by Organizations.</returns>
+        /// <returns>The response from the TagResource service method, as returned by Organizations.</returns>
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
         /// The target of the operation is currently being modified by a different request. Try
         /// again later.
         /// </exception>
-        /// <exception cref="Amazon.Organizations.Model.DuplicateOrganizationalUnitException">
-        /// An organizational unit (OU) with the same name already exists.
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
         /// The requested operation failed because you provided invalid values for one or more
@@ -8952,7 +12460,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8960,7 +12468,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8973,13 +12481,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8992,16 +12500,541 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TargetNotFoundException">
+        /// We can't find a root, OU, or account with the <code>TargetId</code> that you specified.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes a tag from the specified resource. 
+        /// 
+        ///  
+        /// <para>
+        /// Currently, you can tag and untag accounts in AWS Organizations.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation can be called only from the organization's master account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
+        /// The target of the operation is currently being modified by a different request. Try
+        /// again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
+        /// Performing this operation violates a minimum or maximum value limit. For example,
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
+        /// 
+        ///  
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
+        /// from the organization that doesn't yet have enough information to exist as a standalone
+        /// account. This account requires you to first complete phone verification. Follow the
+        /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
+        /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization,
+        /// you first must migrate the organization's master account to the marketplace that corresponds
+        /// to the master account's address. For example, accounts with India addresses must be
+        /// associated with the AISPL marketplace. All accounts in an organization must be associated
+        /// with the same marketplace.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
+        /// contact a valid address and phone number for the master account. Then try the operation
+        /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_FILTER_LIMIT_EXCEEDED: You can specify only one filter parameter for the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_LENGTH_EXCEEDED: You provided a string parameter that is longer than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_VALUE_EXCEEDED: You provided a numeric parameter that has a larger value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_LENGTH_EXCEEDED: You provided a string parameter that is shorter than allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than
+        /// allowed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities
+        /// in the same root.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ServiceException">
+        /// AWS Organizations can't complete your request because of an internal service error.
+        /// Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TargetNotFoundException">
+        /// We can't find a root, OU, or account with the <code>TargetId</code> that you specified.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
+        /// You have sent too many requests in too short a period of time. The limit helps protect
+        /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonOrganizationsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from Organizations.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateOrganizationalUnit
+
+
+        /// <summary>
+        /// Renames the specified organizational unit (OU). The ID and ARN don't change. The child
+        /// OUs and accounts remain in place, and any attached policies of the OU remain attached.
+        /// 
+        /// 
+        ///  
+        /// <para>
+        /// This operation can be called only from the organization's master account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateOrganizationalUnit service method.</param>
+        /// 
+        /// <returns>The response from the UpdateOrganizationalUnit service method, as returned by Organizations.</returns>
+        /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
+        /// You don't have permissions to perform the requested operation. The user or role that
+        /// is making the request must have at least one IAM permissions policy attached that
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
+        /// Your account isn't a member of an organization. To make this request, you must use
+        /// the credentials of an account that belongs to an organization.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
+        /// The target of the operation is currently being modified by a different request. Try
+        /// again later.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.DuplicateOrganizationalUnitException">
+        /// An OU with the same name already exists.
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.InvalidInputException">
+        /// The requested operation failed because you provided invalid values for one or more
+        /// of the request parameters. This exception includes a reason that contains additional
+        /// information about the violated limit:
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Some of the reasons in the following list might not be applicable to this specific
+        /// API or operation:
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INPUT_REQUIRED: You must include a value for all required parameters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ENUM: You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_FULL_NAME_TARGET: You specified a full name that contains invalid characters.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_LIST_MEMBER: You provided a list to a parameter that contains at least one
+        /// invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN: You provided a value that doesn't match the required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the
+        /// required pattern.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9033,15 +13066,21 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.OrganizationalUnitNotFoundException">
-        /// We can't find an organizational unit (OU) with the OrganizationalUnitId that you specified.
+        /// We can't find an OU with the <code>OrganizationalUnitId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UpdateOrganizationalUnit">REST API Reference for UpdateOrganizationalUnit Operation</seealso>
         UpdateOrganizationalUnitResponse UpdateOrganizationalUnit(UpdateOrganizationalUnitRequest request);
@@ -9078,9 +13117,8 @@ namespace Amazon.Organizations
 
 
         /// <summary>
-        /// Updates an existing policy with a new name, description, or content. If any parameter
-        /// is not supplied, that value remains unchanged. Note that you cannot change a policy's
-        /// type.
+        /// Updates an existing policy with a new name, description, or content. If you don't
+        /// supply any parameter, that value remains unchanged. You can't change a policy's type.
         /// 
         ///  
         /// <para>
@@ -9093,11 +13131,11 @@ namespace Amazon.Organizations
         /// <exception cref="Amazon.Organizations.Model.AccessDeniedException">
         /// You don't have permissions to perform the requested operation. The user or role that
         /// is making the request must have at least one IAM permissions policy attached that
-        /// grants the required permissions. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-        /// Management</a> in the <i>IAM User Guide</i>.
+        /// grants the required permissions. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// Management</a> in the <i>IAM User Guide.</i>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.AWSOrganizationsNotInUseException">
-        /// Your account is not a member of an organization. To make this request, you must use
+        /// Your account isn't a member of an organization. To make this request, you must use
         /// the credentials of an account that belongs to an organization.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConcurrentModificationException">
@@ -9106,108 +13144,81 @@ namespace Amazon.Organizations
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ConstraintViolationException">
         /// Performing this operation violates a minimum or maximum value limit. For example,
-        /// attempting to removing the last SCP from an OU or root, inviting or creating too many
-        /// accounts to the organization, or attaching too many policies to an account, OU, or
-        /// root. This exception includes a reason that contains additional information about
-        /// the violated limit:
+        /// attempting to remove the last service control policy (SCP) from an OU or root, inviting
+        /// or creating too many accounts to the organization, or attaching too many policies
+        /// to an account, OU, or root. This exception includes a reason that contains additional
+        /// information about the violated limit.
         /// 
-        ///   <note> 
+        ///  
         /// <para>
         /// Some of the reasons in the following list might not be applicable to this specific
         /// API or operation:
         /// </para>
-        ///  </note> <ul> <li> 
-        /// <para>
-        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
-        /// accounts in an organization. If you need more accounts, contact AWS Support to request
-        /// an increase in your limit. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Or, The number of invitations that you tried to send would cause you to exceed the
-        /// limit of accounts in your organization. Send fewer invitations, or contact AWS Support
-        /// to request an increase in the number of accounts.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <b>Note</b>: deleted and closed accounts still count toward your limit.
-        /// </para>
-        ///  <important> 
-        /// <para>
-        /// If you get an exception that indicates that you exceeded your account limits for the
-        /// organization or that you can"t add an account because your organization is still initializing,
-        /// please contact <a href="https://console.aws.amazon.com/support/home#/"> AWS Customer
-        /// Support</a>.
-        /// </para>
-        ///  </important> </li> <li> 
-        /// <para>
-        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes you
-        /// can send in one day.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of organizational units
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an organizational unit tree that
-        /// is too many levels deep.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
-        /// you can have in an organization.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
-        /// of a certain type that can be attached to an entity at one time.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
-        /// entity that would cause the entity to have fewer than the minimum number of policies
-        /// of a certain type required.
-        /// </para>
-        ///  </li> <li> 
+        ///  <ul> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA: You attempted to remove an account from the organization
-        /// that does not yet have enough information to exist as a stand-alone account. This
-        /// account requires you to first agree to the AWS Customer Agreement. Follow the steps
-        /// at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// that doesn't yet have enough information to exist as a standalone account. This account
+        /// requires you to first agree to the AWS Customer Agreement. Follow the steps at <a
+        /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account
-        /// from the organization that does not yet have enough information to exist as a stand-alone
+        /// from the organization that doesn't yet have enough information to exist as a standalone
         /// account. This account requires you to first complete phone verification. Follow the
         /// steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
         /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this account,
-        /// you first must associate a payment instrument, such as a credit card, with the account.
-        /// Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
-        /// account, you first must associate a payment instrument, such as a credit card, with
-        /// the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
-        /// leave an organization when all required account information has not yet been provided</a>
-        /// in the <i>AWS Organizations User Guide</i>.
+        /// in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts
         /// that you can create in one day.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of
+        /// accounts in an organization. If you need more accounts, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a> to request an increase in your limit. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Or the number of invitations that you tried to send would cause you to exceed the
+        /// limit of accounts in your organization. Send fewer invitations or contact AWS Support
+        /// to request an increase in the number of accounts.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Deleted and closed accounts still count toward your limit.
+        /// </para>
+        ///  </note> <important> 
+        /// <para>
+        /// If you get receive this exception when running a command immediately after creating
+        /// the organization, wait one hour and try again. If after an hour it continues to fail
+        /// with this error, contact <a href="https://console.aws.amazon.com/support/home#/">AWS
+        /// Support</a>.
+        /// </para>
+        ///  </important> </li> <li> 
+        /// <para>
+        /// CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You can designate only a member
+        /// account as a delegated administrator.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: To complete this operation, you must
+        /// first deregister this account as a delegated administrator. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: To complete this operation, you must
+        /// first deregister all delegated administrators for this service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that
+        /// you can send in one day.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9222,6 +13233,71 @@ namespace Amazon.Organizations
         /// MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide
         /// contact a valid address and phone number for the master account. Then try the operation
         /// again.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the master account
+        /// must have an associated account in the AWS GovCloud (US-West) Region. For more information,
+        /// see <a href="http://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html">AWS
+        /// Organizations</a> in the <i>AWS GovCloud User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this master
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register
+        /// more delegated administrators than allowed for the service principal. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies
+        /// of a certain type that can be attached to an entity at one time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member
+        /// account, you first must associate a valid payment instrument, such as a credit card,
+        /// with the account. Follow the steps at <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info">To
+        /// leave an organization when all required account information has not yet been provided</a>
+        /// in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an
+        /// entity that would cause the entity to have fewer than the minimum number of policies
+        /// of a certain type required.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels
+        /// deep.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that
+        /// requires the organization to be configured to support all features. An organization
+        /// that supports only consolidated billing features can't perform this operation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have
+        /// in an organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// POLICY_NUMBER_LIMIT_EXCEEDED. You attempted to exceed the number of policies that
+        /// you can have in an organization.
         /// </para>
         ///  </li> </ul>
         /// </exception>
@@ -9240,7 +13316,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </note> <ul> <li> 
         /// <para>
-        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and cannot be modified.
+        /// IMMUTABLE_POLICY: You specified a policy that is managed by AWS and can't be modified.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9248,7 +13324,7 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ENUM: You specified a value that is not valid for that parameter.
+        /// INVALID_ENUM: You specified an invalid value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9261,13 +13337,13 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
-        /// or email) as a party.
+        /// INVALID_PAGINATION_TOKEN: Get the value for the <code>NextToken</code> parameter from
+        /// the response to a previous call of the operation.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_PAGINATION_TOKEN: Get the value for the NextToken parameter from the response
-        /// to a previous call of the operation.
+        /// INVALID_PARTY_TYPE_TARGET: You specified the wrong type of entity (account, organization,
+        /// or email) as a party.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9280,16 +13356,23 @@ namespace Amazon.Organizations
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_ROLE_NAME: You provided a role name that is not valid. A role name can’t begin
-        /// with the reserved prefix 'AWSServiceRoleFor'.
+        /// INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin
+        /// with the reserved prefix <code>AWSServiceRoleFor</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid ARN for the organization.
+        /// INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN)
+        /// for the organization.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INVALID_SYSTEM_TAGS_PARAMETER: You specified a tag key that is a system tag. You can’t
+        /// add, edit, or delete system tag keys because they're reserved for AWS use. System
+        /// tags don’t count against your tags per resource limit.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9321,21 +13404,34 @@ namespace Amazon.Organizations
         ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.MalformedPolicyDocumentException">
-        /// The provided policy document does not meet the requirements of the specified policy
+        /// The provided policy document doesn't meet the requirements of the specified policy
         /// type. For example, the syntax might be incorrect. For details about service control
-        /// policy syntax, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
-        /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide</i>.
+        /// policy syntax, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
+        /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide.</i>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.PolicyChangesInProgressException">
+        /// Changes to the effective policy are in progress, and its contents can't be returned.
+        /// Try the operation again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.PolicyNotFoundException">
-        /// We can't find a policy with the PolicyId that you specified.
+        /// We can't find a policy with the <code>PolicyId</code> that you specified.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.ServiceException">
         /// AWS Organizations can't complete your request because of an internal service error.
         /// Try again later.
         /// </exception>
         /// <exception cref="Amazon.Organizations.Model.TooManyRequestsException">
-        /// You've sent too many requests in too short a period of time. The limit helps protect
+        /// You have sent too many requests in too short a period of time. The limit helps protect
         /// against denial-of-service attacks. Try again later.
+        /// 
+        ///  
+        /// <para>
+        /// For information on limits that affect AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html">Limits
+        /// of AWS Organizations</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.Organizations.Model.UnsupportedAPIEndpointException">
+        /// This action isn't available in the current Region.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UpdatePolicy">REST API Reference for UpdatePolicy Operation</seealso>
         UpdatePolicyResponse UpdatePolicy(UpdatePolicyRequest request);

@@ -30,7 +30,7 @@ namespace Amazon.Lex.Model
     /// <summary>
     /// This is the response object from the PostContent operation.
     /// </summary>
-    public partial class PostContentResponse : AmazonWebServiceResponse
+    public partial class PostContentResponse : AmazonWebServiceResponse, IDisposable
     {
         private Stream _audioStream;
         private string _contentType;
@@ -39,7 +39,9 @@ namespace Amazon.Lex.Model
         private string _intentName;
         private string _message;
         private MessageFormatType _messageFormat;
+        private string _sentimentResponse;
         private string _sessionAttributes;
+        private string _sessionId;
         private string _slots;
         private string _slotToElicit;
 
@@ -214,7 +216,7 @@ namespace Amazon.Lex.Model
         ///  
         /// <para>
         /// If the intent is not configured with a Lambda function, or if the Lambda function
-        /// returned <code>Delegate</code> as the <code>dialogAction.type</code> its response,
+        /// returned <code>Delegate</code> as the <code>dialogAction.type</code> in its response,
         /// Amazon Lex decides on the next course of action and selects an appropriate message
         /// from the bot's configuration based on the current interaction context. For example,
         /// if Amazon Lex isn't able to understand user input, it uses a clarification prompt
@@ -233,6 +235,7 @@ namespace Amazon.Lex.Model
         /// response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Message
         {
             get { return this._message; }
@@ -283,6 +286,29 @@ namespace Amazon.Lex.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SentimentResponse. 
+        /// <para>
+        /// The sentiment expressed in and utterance.
+        /// </para>
+        ///  
+        /// <para>
+        /// When the bot is configured to send utterances to Amazon Comprehend for sentiment analysis,
+        /// this field contains the result of the analysis.
+        /// </para>
+        /// </summary>
+        public string SentimentResponse
+        {
+            get { return this._sentimentResponse; }
+            set { this._sentimentResponse = value; }
+        }
+
+        // Check to see if SentimentResponse property is set
+        internal bool IsSetSentimentResponse()
+        {
+            return this._sentimentResponse != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SessionAttributes. 
         /// <para>
         ///  Map of key/value pairs representing the session-specific context information. 
@@ -301,10 +327,28 @@ namespace Amazon.Lex.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SessionId. 
+        /// <para>
+        /// The unique identifier for the session.
+        /// </para>
+        /// </summary>
+        public string SessionId
+        {
+            get { return this._sessionId; }
+            set { this._sessionId = value; }
+        }
+
+        // Check to see if SessionId property is set
+        internal bool IsSetSessionId()
+        {
+            return this._sessionId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Slots. 
         /// <para>
         /// Map of zero or more intent slots (name/value pairs) Amazon Lex detected from the user
-        /// input during the conversation.
+        /// input during the conversation. The field is base-64 encoded.
         /// </para>
         ///  
         /// <para>
@@ -349,5 +393,33 @@ namespace Amazon.Lex.Model
             return this._slotToElicit != null;
         }
 
+        #region Dispose Pattern
+
+        private bool _disposed;
+
+        /// <summary>
+        /// Disposes of all managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                this._audioStream?.Dispose();
+                this._audioStream = null;
+            }
+
+            this._disposed = true;
+         }
+
+         #endregion
     }
 }

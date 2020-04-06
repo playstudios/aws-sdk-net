@@ -39,7 +39,7 @@ namespace Amazon.SimpleEmail.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about using notifications with Amazon SES, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
+    /// For more information about using notifications with Amazon SES, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -55,6 +55,7 @@ namespace Amazon.SimpleEmail.Model
         /// <code>example.com</code>, <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Identities
         {
             get { return this._identities; }

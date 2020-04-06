@@ -55,20 +55,52 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateDetectorRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.GuardDuty");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/detector";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/detector";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetClientToken())
+                {
+                    context.Writer.WritePropertyName("clientToken");
+                    context.Writer.Write(publicRequest.ClientToken);
+                }
+
+                else if(!(publicRequest.IsSetClientToken()))
+                {
+                    context.Writer.WritePropertyName("clientToken");
+                    context.Writer.Write(Guid.NewGuid().ToString());                                                
+                }
                 if(publicRequest.IsSetEnable())
                 {
                     context.Writer.WritePropertyName("enable");
                     context.Writer.Write(publicRequest.Enable);
+                }
+
+                if(publicRequest.IsSetFindingPublishingFrequency())
+                {
+                    context.Writer.WritePropertyName("findingPublishingFrequency");
+                    context.Writer.Write(publicRequest.FindingPublishingFrequency);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
         

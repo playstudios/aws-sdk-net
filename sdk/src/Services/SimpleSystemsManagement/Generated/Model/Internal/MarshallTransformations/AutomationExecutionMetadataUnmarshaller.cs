@@ -76,6 +76,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     unmarshalledObject.AutomationExecutionStatus = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("AutomationType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AutomationType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CurrentAction", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -170,6 +176,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Target = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("TargetMaps", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Dictionary<string, List<string>>, DictionaryUnmarshaller<string, List<string>, StringUnmarshaller, ListUnmarshaller<string, StringUnmarshaller>>>(new DictionaryUnmarshaller<string, List<string>, StringUnmarshaller, ListUnmarshaller<string, StringUnmarshaller>>(StringUnmarshaller.Instance, new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance)));
+                    unmarshalledObject.TargetMaps = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("TargetParameterName", targetDepth))

@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ namespace Amazon.CloudDirectory.Model
     {
         private ConsistencyLevel _consistencyLevel;
         private string _directoryArn;
+        private bool? _includeAllLinksToEachParent;
         private int? _maxResults;
         private string _nextToken;
         private ObjectReference _objectReference;
@@ -65,6 +66,7 @@ namespace Amazon.CloudDirectory.Model
         /// the object resides. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -78,12 +80,32 @@ namespace Amazon.CloudDirectory.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IncludeAllLinksToEachParent. 
+        /// <para>
+        /// When set to True, returns all <a>ListObjectParentsResponse$ParentLinks</a>. There
+        /// could be multiple links between a parent-child pair.
+        /// </para>
+        /// </summary>
+        public bool IncludeAllLinksToEachParent
+        {
+            get { return this._includeAllLinksToEachParent.GetValueOrDefault(); }
+            set { this._includeAllLinksToEachParent = value; }
+        }
+
+        // Check to see if IncludeAllLinksToEachParent property is set
+        internal bool IsSetIncludeAllLinksToEachParent()
+        {
+            return this._includeAllLinksToEachParent.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
         /// The maximum number of items to be retrieved in a single call. This is an approximate
         /// number.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -120,6 +142,7 @@ namespace Amazon.CloudDirectory.Model
         /// The reference that identifies the object for which parent objects are being listed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ObjectReference
         {
             get { return this._objectReference; }

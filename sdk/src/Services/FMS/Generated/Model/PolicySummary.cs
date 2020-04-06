@@ -45,6 +45,7 @@ namespace Amazon.FMS.Model
         /// The Amazon Resource Name (ARN) of the specified policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string PolicyArn
         {
             get { return this._policyArn; }
@@ -63,6 +64,7 @@ namespace Amazon.FMS.Model
         /// The ID of the specified policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string PolicyId
         {
             get { return this._policyId; }
@@ -81,6 +83,7 @@ namespace Amazon.FMS.Model
         /// The friendly name of the specified policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -114,12 +117,18 @@ namespace Amazon.FMS.Model
         /// <summary>
         /// Gets and sets the property ResourceType. 
         /// <para>
-        /// The type of resource to protect with the policy, either an Application Load Balancer
-        /// or a CloudFront distribution. This is in the format shown in <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-        /// Resource Types Reference</a>. Valid values are <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>
-        /// or <code>AWS::CloudFront::Distribution</code>.
+        /// The type of resource protected by or in scope of the policy. This is in the format
+        /// shown in the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+        /// Resource Types Reference</a>. For AWS WAF and Shield Advanced, examples include <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>
+        /// and <code>AWS::CloudFront::Distribution</code>. For a security group common policy,
+        /// valid values are <code>AWS::EC2::NetworkInterface</code> and <code>AWS::EC2::Instance</code>.
+        /// For a security group content audit policy, valid values are <code>AWS::EC2::SecurityGroup</code>,
+        /// <code>AWS::EC2::NetworkInterface</code>, and <code>AWS::EC2::Instance</code>. For
+        /// a security group usage audit policy, the value is <code>AWS::EC2::SecurityGroup</code>.
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ResourceType
         {
             get { return this._resourceType; }
@@ -135,7 +144,9 @@ namespace Amazon.FMS.Model
         /// <summary>
         /// Gets and sets the property SecurityServiceType. 
         /// <para>
-        /// The service that the policy is using to protect the resources. This value is <code>WAF</code>.
+        /// The service that the policy is using to protect the resources. This specifies the
+        /// type of policy that is created, either an AWS WAF policy, a Shield Advanced policy,
+        /// or a security group policy.
         /// </para>
         /// </summary>
         public SecurityServiceType SecurityServiceType

@@ -35,6 +35,7 @@ namespace Amazon.DeviceFarm.Model
     {
         private string _arn;
         private string _nextToken;
+        private UploadType _type;
 
         /// <summary>
         /// Gets and sets the property Arn. 
@@ -42,6 +43,7 @@ namespace Amazon.DeviceFarm.Model
         /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -61,6 +63,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -71,6 +74,157 @@ namespace Amazon.DeviceFarm.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Type. 
+        /// <para>
+        /// The type of upload.
+        /// </para>
+        ///  
+        /// <para>
+        /// Must be one of the following values:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// ANDROID_APP
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// IOS_APP
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// WEB_APP
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// EXTERNAL_DATA
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_JUNIT_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_TESTNG_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_PYTHON_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_NODE_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_RUBY_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_PYTHON_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_NODE_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_RUBY_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// CALABASH_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INSTRUMENTATION_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATION_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATOR_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_JUNIT_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_TESTNG_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_PYTHON_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_NODE_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  APPIUM_RUBY_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_PYTHON_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_NODE_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_RUBY_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INSTRUMENTATION_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI_TEST_SPEC
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public UploadType Type
+        {
+            get { return this._type; }
+            set { this._type = value; }
+        }
+
+        // Check to see if Type property is set
+        internal bool IsSetType()
+        {
+            return this._type != null;
         }
 
     }

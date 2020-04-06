@@ -39,6 +39,7 @@ namespace Amazon.AutoScalingPlans.Model
         private long? _scalingPlanVersion;
         private ScalingPlanStatusCode _statusCode;
         private string _statusMessage;
+        private DateTime? _statusStartTime;
 
         /// <summary>
         /// Gets and sets the property ApplicationSource. 
@@ -46,6 +47,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// The application source.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ApplicationSource ApplicationSource
         {
             get { return this._applicationSource; }
@@ -61,7 +63,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// The Unix timestamp when the scaling plan was created.
+        /// The Unix time stamp when the scaling plan was created.
         /// </para>
         /// </summary>
         public DateTime CreationTime
@@ -82,6 +84,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// The scaling instructions.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ScalingInstruction> ScalingInstructions
         {
             get { return this._scalingInstructions; }
@@ -100,6 +103,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// The name of the scaling plan.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ScalingPlanName
         {
             get { return this._scalingPlanName; }
@@ -115,9 +119,10 @@ namespace Amazon.AutoScalingPlans.Model
         /// <summary>
         /// Gets and sets the property ScalingPlanVersion. 
         /// <para>
-        /// The version of the scaling plan.
+        /// The version number of the scaling plan.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long ScalingPlanVersion
         {
             get { return this._scalingPlanVersion.GetValueOrDefault(); }
@@ -160,8 +165,17 @@ namespace Amazon.AutoScalingPlans.Model
         /// <para>
         ///  <code>DeletionFailed</code> - The scaling plan could not be deleted.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>UpdateInProgress</code> - The scaling plan is being updated.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>UpdateFailed</code> - The scaling plan could not be updated.
+        /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScalingPlanStatusCode StatusCode
         {
             get { return this._statusCode; }
@@ -190,6 +204,24 @@ namespace Amazon.AutoScalingPlans.Model
         internal bool IsSetStatusMessage()
         {
             return this._statusMessage != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StatusStartTime. 
+        /// <para>
+        /// The Unix time stamp when the scaling plan entered the current status.
+        /// </para>
+        /// </summary>
+        public DateTime StatusStartTime
+        {
+            get { return this._statusStartTime.GetValueOrDefault(); }
+            set { this._statusStartTime = value; }
+        }
+
+        // Check to see if StatusStartTime property is set
+        internal bool IsSetStatusStartTime()
+        {
+            return this._statusStartTime.HasValue; 
         }
 
     }

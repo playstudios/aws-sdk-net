@@ -29,8 +29,90 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// An array of search criteria that targets instances using a Key,Value combination that
-    /// you specify. <code>Targets</code> is required if you don't provide one or more instance
-    /// IDs in the call.
+    /// you specify. 
+    /// 
+    ///  
+    /// <para>
+    /// Supported formats include the following.
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <code>Key=InstanceIds,Values=<i>instance-id-1</i>,<i>instance-id-2</i>,<i>instance-id-3</i>
+    /// </code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>Key=tag:<i>my-tag-key</i>,Values=<i>my-tag-value-1</i>,<i>my-tag-value-2</i>
+    /// </code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>Key=tag-key,Values=<i>my-tag-key-1</i>,<i>my-tag-key-2</i> </code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// (Maintenance window targets only) <code>Key=resource-groups:Name,Values=<i>resource-group-name</i>
+    /// </code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// (Maintenance window targets only) <code>Key=resource-groups:ResourceTypeFilters,Values=<i>resource-type-1</i>,<i>resource-type-2</i>
+    /// </code> 
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// For example:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <code>Key=InstanceIds,Values=i-02573cafcfEXAMPLE,i-0471e04240EXAMPLE,i-07782c72faEXAMPLE</code>
+    /// 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>Key=tag:CostCenter,Values=CostCenter1,CostCenter2,CostCenter3</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>Key=tag-key,Values=Name,Instance-Type,CostCenter</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// (Maintenance window targets only) <code>Key=resource-groups:Name,Values=ProductionResourceGroup</code>
+    /// 
+    /// </para>
+    ///  
+    /// <para>
+    /// This example demonstrates how to target all resources in the resource group <b>ProductionResourceGroup</b>
+    /// in your maintenance window.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// (Maintenance window targets only) <code>Key=resource-groups:ResourceTypeFilters,Values=<i>AWS::EC2::INSTANCE</i>,<i>AWS::EC2::VPC</i>
+    /// </code> 
+    /// </para>
+    ///  
+    /// <para>
+    /// This example demonstrates how to target only Amazon EC2 instances and VPCs in your
+    /// maintenance window.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// (State Manager association targets only) <code>Key=InstanceIds,Values=<i>*</i> </code>
+    /// 
+    /// </para>
+    ///  
+    /// <para>
+    /// This example demonstrates how to target all managed instances in the AWS Region where
+    /// the association was created.
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// For information about how to send commands that target instances using <code>Key,Value</code>
+    /// parameters, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting">Using
+    /// Targets and Rate Controls to Send Commands to a Fleet</a> in the <i>AWS Systems Manager
+    /// User Guide</i>.
+    /// </para>
     /// </summary>
     public partial class Target
     {
@@ -41,11 +123,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Gets and sets the property Key. 
         /// <para>
         /// User-defined criteria for sending commands that target instances that meet the criteria.
-        /// Key can be tag:&lt;Amazon EC2 tag&gt; or InstanceIds. For more information about how
-        /// to send commands that target instances using Key,Value parameters, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Executing
-        /// a Command Using Systems Manager Run Command</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=163)]
         public string Key
         {
             get { return this._key; }
@@ -61,13 +141,13 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Values. 
         /// <para>
-        /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole,
-        /// you could specify value:WebServer to execute a command on instances that include Amazon
-        /// EC2 tags of ServerRole,WebServer. For more information about how to send commands
-        /// that target instances using Key,Value parameters, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html">Executing
-        /// a Command Using Systems Manager Run Command</a>.
+        /// User-defined criteria that maps to <code>Key</code>. For example, if you specified
+        /// <code>tag:ServerRole</code>, you could specify <code>value:WebServer</code> to run
+        /// a command on instances that include Amazon EC2 tags of <code>ServerRole,WebServer</code>.
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> Values
         {
             get { return this._values; }

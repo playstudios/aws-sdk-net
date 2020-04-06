@@ -35,6 +35,13 @@ namespace Amazon.Lightsail.Model
     /// <para>
     /// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
     /// </para>
+    ///  
+    /// <para>
+    /// The <code>CreateLoadBalancerTlsCertificate</code> operation supports tag-based access
+    /// control via resource tags applied to the resource identified by <code>load balancer
+    /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class CreateLoadBalancerTlsCertificateRequest : AmazonLightsailRequest
     {
@@ -42,6 +49,7 @@ namespace Amazon.Lightsail.Model
         private string _certificateDomainName;
         private string _certificateName;
         private string _loadBalancerName;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property CertificateAlternativeNames. 
@@ -69,6 +77,7 @@ namespace Amazon.Lightsail.Model
         /// The domain name (e.g., <code>example.com</code>) for your SSL/TLS certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CertificateDomainName
         {
             get { return this._certificateDomainName; }
@@ -94,6 +103,7 @@ namespace Amazon.Lightsail.Model
         /// For more information, see <a href="http://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html">Limits</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CertificateName
         {
             get { return this._certificateName; }
@@ -112,6 +122,7 @@ namespace Amazon.Lightsail.Model
         /// The load balancer name where you want to create the SSL/TLS certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }
@@ -122,6 +133,28 @@ namespace Amazon.Lightsail.Model
         internal bool IsSetLoadBalancerName()
         {
             return this._loadBalancerName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tag keys and optional values to add to the resource during create.
+        /// </para>
+        ///  
+        /// <para>
+        /// To tag a resource after it has been created, see the <code>tag resource</code> operation.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

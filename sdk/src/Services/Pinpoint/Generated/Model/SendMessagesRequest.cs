@@ -29,7 +29,7 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the SendMessages operation.
-    /// Send a batch of messages
+    /// Creates and sends a direct message.
     /// </summary>
     public partial class SendMessagesRequest : AmazonPinpointRequest
     {
@@ -37,8 +37,13 @@ namespace Amazon.Pinpoint.Model
         private MessageRequest _messageRequest;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,6 +59,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property MessageRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public MessageRequest MessageRequest
         {
             get { return this._messageRequest; }

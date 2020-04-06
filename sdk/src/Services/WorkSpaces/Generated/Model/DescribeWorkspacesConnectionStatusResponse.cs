@@ -38,10 +38,11 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token to use to retrieve the next set of results, or null if there are no more
-        /// results available.
+        /// The token to use to retrieve the next set of results, or null if no more results are
+        /// available.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string NextToken
         {
             get { return this._nextToken; }

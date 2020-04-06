@@ -35,8 +35,11 @@ namespace Amazon.CodeBuild.Model
         private SourceAuth _auth;
         private string _buildspec;
         private int? _gitCloneDepth;
+        private GitSubmodulesConfig _gitSubmodulesConfig;
         private bool? _insecureSsl;
         private string _location;
+        private bool? _reportBuildStatus;
+        private string _sourceIdentifier;
         private SourceType _type;
 
         /// <summary>
@@ -48,8 +51,7 @@ namespace Amazon.CodeBuild.Model
         ///  
         /// <para>
         /// This information is for the AWS CodeBuild console's use only. Your code should not
-        /// get or set this information directly (unless the build project's source <code>type</code>
-        /// value is <code>BITBUCKET</code> or <code>GITHUB</code>).
+        /// get or set this information directly.
         /// </para>
         /// </summary>
         public SourceAuth Auth
@@ -67,12 +69,18 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property Buildspec. 
         /// <para>
-        /// The build spec declaration to use for the builds in this build project.
+        /// The buildspec file declaration to use for the builds in this build project.
         /// </para>
         ///  
         /// <para>
-        /// If this value is not specified, a build spec must be included along with the source
-        /// code to be built.
+        ///  If this value is set, it can be either an inline buildspec definition, the path to
+        /// an alternate buildspec file relative to the value of the built-in <code>CODEBUILD_SRC_DIR</code>
+        /// environment variable, or the path to an S3 bucket. The bucket must be in the same
+        /// AWS Region as the build project. Specify the buildspec file using its ARN (for example,
+        /// <code>arn:aws:s3:::my-codebuild-sample2/buildspec.yml</code>). If this value is not
+        /// provided or is set to an empty string, the source code must contain a buildspec file
+        /// in its root directory. For more information, see <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage">Buildspec
+        /// File Name and Storage Location</a>. 
         /// </para>
         /// </summary>
         public string Buildspec
@@ -90,9 +98,10 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property GitCloneDepth. 
         /// <para>
-        /// Information about the git clone depth for the build project.
+        /// Information about the Git clone depth for the build project.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int GitCloneDepth
         {
             get { return this._gitCloneDepth.GetValueOrDefault(); }
@@ -103,6 +112,24 @@ namespace Amazon.CodeBuild.Model
         internal bool IsSetGitCloneDepth()
         {
             return this._gitCloneDepth.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property GitSubmodulesConfig. 
+        /// <para>
+        ///  Information about the Git submodules configuration for the build project. 
+        /// </para>
+        /// </summary>
+        public GitSubmodulesConfig GitSubmodulesConfig
+        {
+            get { return this._gitSubmodulesConfig; }
+            set { this._gitSubmodulesConfig = value; }
+        }
+
+        // Check to see if GitSubmodulesConfig property is set
+        internal bool IsSetGitSubmodulesConfig()
+        {
+            return this._gitSubmodulesConfig != null;
         }
 
         /// <summary>
@@ -132,45 +159,54 @@ namespace Amazon.CodeBuild.Model
         /// <para>
         /// For source code settings that are specified in the source action of a pipeline in
         /// AWS CodePipeline, <code>location</code> should not be specified. If it is specified,
-        /// AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings
-        /// in a pipeline's source action instead of this value.
+        /// AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in
+        /// a pipeline's source action instead of this value.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository
-        /// that contains the source code and the build spec (for example, <code>https://git-codecommit.<i>region-ID</i>.amazonaws.com/v1/repos/<i>repo-name</i>
+        /// that contains the source code and the buildspec file (for example, <code>https://git-codecommit.<i>region-ID</i>.amazonaws.com/v1/repos/<i>repo-name</i>
         /// </code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the
-        /// path to the ZIP file that contains the source code (for example, <code> <i>bucket-name</i>/<i>path</i>/<i>to</i>/<i>object-name</i>.zip</code>)
+        /// For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, one
+        /// of the following. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  The path to the ZIP file that contains the source code (for example, <code> <i>bucket-name</i>/<i>path</i>/<i>to</i>/<i>object-name</i>.zip</code>).
+        /// 
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  The path to the folder that contains the source code (for example, <code> <i>bucket-name</i>/<i>path</i>/<i>to</i>/<i>source-code</i>/<i>folder</i>/</code>).
+        /// 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
         /// For source code in a GitHub repository, the HTTPS clone URL to the repository that
-        /// contains the source and the build spec. Also, you must connect your AWS account to
-        /// your GitHub account. To do this, use the AWS CodeBuild console to begin creating a
-        /// build project. When you use the console to connect (or reconnect) with GitHub, on
-        /// the GitHub <b>Authorize application</b> page that displays, for <b>Organization access</b>,
-        /// choose <b>Request access</b> next to each repository you want to allow AWS CodeBuild
-        /// to have access to. Then choose <b>Authorize application</b>. (After you have connected
-        /// to your GitHub account, you do not need to finish creating the build project, and
-        /// you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use
-        /// this connection, in the <code>source</code> object, set the <code>auth</code> object's
-        /// <code>type</code> value to <code>OAUTH</code>.
+        /// contains the source and the buildspec file. You must connect your AWS account to your
+        /// GitHub account. Use the AWS CodeBuild console to start creating a build project. When
+        /// you use the console to connect (or reconnect) with GitHub, on the GitHub <b>Authorize
+        /// application</b> page, for <b>Organization access</b>, choose <b>Request access</b>
+        /// next to each repository you want to allow AWS CodeBuild to have access to, and then
+        /// choose <b>Authorize application</b>. (After you have connected to your GitHub account,
+        /// you do not need to finish creating the build project. You can leave the AWS CodeBuild
+        /// console.) To instruct AWS CodeBuild to use this connection, in the <code>source</code>
+        /// object, set the <code>auth</code> object's <code>type</code> value to <code>OAUTH</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// For source code in a Bitbucket repository, the HTTPS clone URL to the repository that
-        /// contains the source and the build spec. Also, you must connect your AWS account to
-        /// your Bitbucket account. To do this, use the AWS CodeBuild console to begin creating
-        /// a build project. When you use the console to connect (or reconnect) with Bitbucket,
-        /// on the Bitbucket <b>Confirm access to your account</b> page that displays, choose
-        /// <b>Grant access</b>. (After you have connected to your Bitbucket account, you do not
-        /// need to finish creating the build project, and you may then leave the AWS CodeBuild
-        /// console.) To instruct AWS CodeBuild to then use this connection, in the <code>source</code>
-        /// object, set the <code>auth</code> object's <code>type</code> value to <code>OAUTH</code>.
+        /// contains the source and the buildspec file. You must connect your AWS account to your
+        /// Bitbucket account. Use the AWS CodeBuild console to start creating a build project.
+        /// When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket
+        /// <b>Confirm access to your account</b> page, choose <b>Grant access</b>. (After you
+        /// have connected to your Bitbucket account, you do not need to finish creating the build
+        /// project. You can leave the AWS CodeBuild console.) To instruct AWS CodeBuild to use
+        /// this connection, in the <code>source</code> object, set the <code>auth</code> object's
+        /// <code>type</code> value to <code>OAUTH</code>.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -184,6 +220,51 @@ namespace Amazon.CodeBuild.Model
         internal bool IsSetLocation()
         {
             return this._location != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReportBuildStatus. 
+        /// <para>
+        ///  Set to true to report the status of a build's start and finish to your source provider.
+        /// This option is valid only when your source provider is GitHub, GitHub Enterprise,
+        /// or Bitbucket. If this is set and you use a different source provider, an invalidInputException
+        /// is thrown. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  The status of a build triggered by a webhook is always reported to your source provider.
+        /// 
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public bool ReportBuildStatus
+        {
+            get { return this._reportBuildStatus.GetValueOrDefault(); }
+            set { this._reportBuildStatus = value; }
+        }
+
+        // Check to see if ReportBuildStatus property is set
+        internal bool IsSetReportBuildStatus()
+        {
+            return this._reportBuildStatus.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SourceIdentifier. 
+        /// <para>
+        ///  An identifier for this project source. 
+        /// </para>
+        /// </summary>
+        public string SourceIdentifier
+        {
+            get { return this._sourceIdentifier; }
+            set { this._sourceIdentifier = value; }
+        }
+
+        // Check to see if SourceIdentifier property is set
+        internal bool IsSetSourceIdentifier()
+        {
+            return this._sourceIdentifier != null;
         }
 
         /// <summary>
@@ -210,11 +291,20 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>GITHUB_ENTERPRISE</code>: The source code is in a GitHub Enterprise repository.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>NO_SOURCE</code>: The project does not have input source code.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>S3</code>: The source code is in an Amazon Simple Storage Service (Amazon S3)
         /// input bucket.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SourceType Type
         {
             get { return this._type; }

@@ -42,7 +42,9 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Action. 
         /// <para>
-        /// The type of pending maintenance action that is available for the resource.
+        /// The type of pending maintenance action that is available for the resource. Valid actions
+        /// are <code>system-update</code>, <code>db-upgrade</code>, <code>hardware-maintenance</code>,
+        /// and <code>ca-certificate-rotation</code>.
         /// </para>
         /// </summary>
         public string Action
@@ -61,8 +63,7 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property AutoAppliedAfterDate. 
         /// <para>
         /// The date of the maintenance window when the action is applied. The maintenance action
-        /// is applied to the resource during its first maintenance window after this date. If
-        /// this date is specified, any <code>next-maintenance</code> opt-in requests are ignored.
+        /// is applied to the resource during its first maintenance window after this date.
         /// </para>
         /// </summary>
         public DateTime AutoAppliedAfterDate
@@ -81,7 +82,7 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property CurrentApplyDate. 
         /// <para>
         /// The effective date when the pending maintenance action is applied to the resource.
-        /// This date takes into account opt-in requests received from the <a>ApplyPendingMaintenanceAction</a>
+        /// This date takes into account opt-in requests received from the <code>ApplyPendingMaintenanceAction</code>
         /// API, the <code>AutoAppliedAfterDate</code>, and the <code>ForcedApplyDate</code>.
         /// This value is blank if an opt-in request has not been received and nothing has been
         /// specified as <code>AutoAppliedAfterDate</code> or <code>ForcedApplyDate</code>.
@@ -122,8 +123,7 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The date when the maintenance action is automatically applied. The maintenance action
         /// is applied to the resource on this date regardless of the maintenance window for the
-        /// resource. If this date is specified, any <code>immediate</code> opt-in requests are
-        /// ignored.
+        /// resource.
         /// </para>
         /// </summary>
         public DateTime ForcedApplyDate

@@ -37,10 +37,11 @@ namespace Amazon.CloudFormation.Model
         /// <summary>
         /// Gets and sets the property StackPolicyBody. 
         /// <para>
-        /// Structure containing the stack policy body. (For more information, go to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html">
+        /// Structure containing the stack policy body. (For more information, go to <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html">
         /// Prevent Updates to Stack Resources</a> in the AWS CloudFormation User Guide.)
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=16384)]
         public string StackPolicyBody
         {
             get { return this._stackPolicyBody; }

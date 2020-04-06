@@ -72,10 +72,22 @@ namespace Amazon.CloudFormation.Model.Internal.MarshallTransformations
                         unmarshalledObject.CreationTimestamp = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("DeploymentTargets", targetDepth))
+                    {
+                        var unmarshaller = DeploymentTargetsUnmarshaller.Instance;
+                        unmarshalledObject.DeploymentTargets = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("EndTimestamp", targetDepth))
                     {
                         var unmarshaller = DateTimeUnmarshaller.Instance;
                         unmarshalledObject.EndTimestamp = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ExecutionRoleName", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ExecutionRoleName = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("OperationId", targetDepth))
@@ -94,6 +106,12 @@ namespace Amazon.CloudFormation.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
                         unmarshalledObject.RetainStacks = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("StackSetDriftDetectionDetails", targetDepth))
+                    {
+                        var unmarshaller = StackSetDriftDetectionDetailsUnmarshaller.Instance;
+                        unmarshalledObject.StackSetDriftDetectionDetails = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("StackSetId", targetDepth))

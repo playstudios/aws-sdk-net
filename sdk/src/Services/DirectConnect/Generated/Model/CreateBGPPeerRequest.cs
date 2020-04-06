@@ -29,19 +29,24 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateBGPPeer operation.
-    /// Creates a new BGP peer on a specified virtual interface. The BGP peer cannot be in
-    /// the same address family (IPv4/IPv6) of an existing BGP peer on the virtual interface.
+    /// Creates a BGP peer on the specified virtual interface.
     /// 
     ///  
     /// <para>
-    /// You must create a BGP peer for the corresponding address family in order to access
-    /// AWS resources that also use that address family.
+    /// You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order
+    /// to access AWS resources that also use that address family.
     /// </para>
     ///  
     /// <para>
-    /// When creating a IPv6 BGP peer, the Amazon address and customer address fields must
-    /// be left blank. IPv6 addresses are automatically assigned from Amazon's pool of IPv6
-    /// addresses; you cannot specify custom IPv6 addresses.
+    /// If logical redundancy is not supported by the connection, interconnect, or LAG, the
+    /// BGP peer cannot be in the same address family as an existing BGP peer on the virtual
+    /// interface.
+    /// </para>
+    ///  
+    /// <para>
+    /// When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6
+    /// addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot
+    /// specify custom IPv6 addresses.
     /// </para>
     ///  
     /// <para>
@@ -57,11 +62,7 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property NewBGPPeer. 
         /// <para>
-        /// Detailed information for the BGP peer to be created.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// Information about the BGP peer.
         /// </para>
         /// </summary>
         public NewBGPPeer NewBGPPeer
@@ -79,15 +80,7 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property VirtualInterfaceId. 
         /// <para>
-        /// The ID of the virtual interface on which the BGP peer will be provisioned.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: dxvif-456abc78
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the virtual interface.
         /// </para>
         /// </summary>
         public string VirtualInterfaceId

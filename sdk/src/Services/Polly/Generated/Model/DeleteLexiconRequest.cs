@@ -35,7 +35,7 @@ namespace Amazon.Polly.Model
     /// 
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
+    /// For more information, see <a href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
     /// Lexicons</a>.
     /// </para>
     /// </summary>
@@ -49,6 +49,7 @@ namespace Amazon.Polly.Model
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

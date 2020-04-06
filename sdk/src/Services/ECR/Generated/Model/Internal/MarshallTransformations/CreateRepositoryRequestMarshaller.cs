@@ -58,19 +58,53 @@ namespace Amazon.ECR.Model.Internal.MarshallTransformations
             string target = "AmazonEC2ContainerRegistry_V20150921.CreateRepository";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-09-21";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetImageScanningConfiguration())
+                {
+                    context.Writer.WritePropertyName("imageScanningConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ImageScanningConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ImageScanningConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetImageTagMutability())
+                {
+                    context.Writer.WritePropertyName("imageTagMutability");
+                    context.Writer.Write(publicRequest.ImageTagMutability);
+                }
+
                 if(publicRequest.IsSetRepositoryName())
                 {
                     context.Writer.WritePropertyName("repositoryName");
                     context.Writer.Write(publicRequest.RepositoryName);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

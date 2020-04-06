@@ -29,12 +29,25 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the PutFunctionConcurrency operation.
-    /// Sets a limit on the number of concurrent executions available to this function. It
-    /// is a subset of your account's total concurrent execution limit per region. Note that
-    /// Lambda automatically reserves a buffer of 100 concurrent executions for functions
-    /// without any reserved concurrency limit. This means if your account limit is 1000,
-    /// you have a total of 900 available to allocate to individual functions. For more information,
-    /// see <a>concurrent-executions</a>.
+    /// Sets the maximum number of simultaneous executions for a function, and reserves capacity
+    /// for that concurrency level.
+    /// 
+    ///  
+    /// <para>
+    /// Concurrency settings apply to the function as a whole, including all published versions
+    /// and the unpublished version. Reserving concurrency both ensures that your function
+    /// has capacity to process the specified number of events simultaneously, and prevents
+    /// it from scaling beyond that level. Use <a>GetFunction</a> to see the current setting
+    /// for a function.
+    /// </para>
+    ///  
+    /// <para>
+    /// Use <a>GetAccountSettings</a> to see your Regional concurrency limit. You can reserve
+    /// concurrency for as many functions as you like, as long as you leave at least 100 simultaneous
+    /// executions unreserved for functions that aren't configured with a per-function limit.
+    /// For more information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html">Managing
+    /// Concurrency</a>.
+    /// </para>
     /// </summary>
     public partial class PutFunctionConcurrencyRequest : AmazonLambdaRequest
     {
@@ -44,10 +57,29 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// The name of the function you are setting concurrent execution limits on. For more
-        /// information, see <a>concurrent-executions</a>.
+        /// The name of the Lambda function.
+        /// </para>
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Function name</b> - <code>my-function</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it is limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -63,10 +95,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property ReservedConcurrentExecutions. 
         /// <para>
-        /// The concurrent execution limit reserved for this function. For more information, see
-        /// <a>concurrent-executions</a>.
+        /// The number of simultaneous executions to reserve for the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public int ReservedConcurrentExecutions
         {
             get { return this._reservedConcurrentExecutions.GetValueOrDefault(); }

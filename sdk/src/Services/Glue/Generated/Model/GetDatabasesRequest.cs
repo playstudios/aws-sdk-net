@@ -29,7 +29,7 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the GetDatabases operation.
-    /// Retrieves all Databases defined in a given Data Catalog.
+    /// Retrieves all databases defined in a given Data Catalog.
     /// </summary>
     public partial class GetDatabasesRequest : AmazonGlueRequest
     {
@@ -41,9 +41,10 @@ namespace Amazon.Glue.Model
         /// Gets and sets the property CatalogId. 
         /// <para>
         /// The ID of the Data Catalog from which to retrieve <code>Databases</code>. If none
-        /// is supplied, the AWS account ID is used by default.
+        /// is provided, the AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -62,6 +63,7 @@ namespace Amazon.Glue.Model
         /// The maximum number of databases to return in one response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

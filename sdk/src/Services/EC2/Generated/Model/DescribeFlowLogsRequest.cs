@@ -52,6 +52,12 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>log-destination-type</code> - The type of destination to which the flow log
+        /// publishes data. Possible destination types include <code>cloud-watch-logs</code> and
+        /// <code>S3</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>flow-log-id</code> - The ID of the flow log.
         /// </para>
         ///  </li> <li> 
@@ -65,7 +71,20 @@ namespace Amazon.EC2.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>traffic-type</code> - The type of traffic (<code>ACCEPT</code> | <code>REJECT</code>
-        /// | <code>ALL</code>)
+        /// | <code>ALL</code>).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -86,6 +105,10 @@ namespace Amazon.EC2.Model
         /// <para>
         /// One or more flow log IDs.
         /// </para>
+        ///  
+        /// <para>
+        /// Constraint: Maximum of 1000 flow log IDs.
+        /// </para>
         /// </summary>
         public List<string> FlowLogIds
         {
@@ -102,11 +125,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The maximum number of results to return for the request in a single page. The remaining
-        /// results can be seen by sending another request with the returned <code>NextToken</code>
-        /// value. This value can be between 5 and 1000; if <code>MaxResults</code> is given a
-        /// value larger than 1000, only 1000 results are returned. You cannot specify this parameter
-        /// and the flow log IDs parameter in the same request.
+        /// The maximum number of results to return with a single call. To retrieve the remaining
+        /// results, make another call with the returned <code>nextToken</code> value.
         /// </para>
         /// </summary>
         public int MaxResults
@@ -124,7 +144,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token to retrieve the next page of results.
+        /// The token for the next page of results.
         /// </para>
         /// </summary>
         public string NextToken

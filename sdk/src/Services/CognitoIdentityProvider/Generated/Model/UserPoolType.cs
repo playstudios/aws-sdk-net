@@ -32,10 +32,13 @@ namespace Amazon.CognitoIdentityProvider.Model
     /// </summary>
     public partial class UserPoolType
     {
+        private AccountRecoverySettingType _accountRecoverySetting;
         private AdminCreateUserConfigType _adminCreateUserConfig;
         private List<string> _aliasAttributes = new List<string>();
+        private string _arn;
         private List<string> _autoVerifiedAttributes = new List<string>();
         private DateTime? _creationDate;
+        private string _customDomain;
         private DeviceConfigurationType _deviceConfiguration;
         private string _domain;
         private EmailConfigurationType _emailConfiguration;
@@ -56,9 +59,33 @@ namespace Amazon.CognitoIdentityProvider.Model
         private string _smsVerificationMessage;
         private StatusType _status;
         private List<string> _usernameAttributes = new List<string>();
+        private UsernameConfigurationType _usernameConfiguration;
         private UserPoolAddOnsType _userPoolAddOns;
         private Dictionary<string, string> _userPoolTags = new Dictionary<string, string>();
         private VerificationMessageTemplateType _verificationMessageTemplate;
+
+        /// <summary>
+        /// Gets and sets the property AccountRecoverySetting. 
+        /// <para>
+        /// Use this setting to define which verified available method a user can use to recover
+        /// their password when they call <code>ForgotPassword</code>. It allows you to define
+        /// a preferred method when a user has more than one method available. With this setting,
+        /// SMS does not qualify for a valid password recovery mechanism if the user also has
+        /// SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior
+        /// to determine the recovery method where SMS is preferred over email.
+        /// </para>
+        /// </summary>
+        public AccountRecoverySettingType AccountRecoverySetting
+        {
+            get { return this._accountRecoverySetting; }
+            set { this._accountRecoverySetting = value; }
+        }
+
+        // Check to see if AccountRecoverySetting property is set
+        internal bool IsSetAccountRecoverySetting()
+        {
+            return this._accountRecoverySetting != null;
+        }
 
         /// <summary>
         /// Gets and sets the property AdminCreateUserConfig. 
@@ -94,6 +121,25 @@ namespace Amazon.CognitoIdentityProvider.Model
         internal bool IsSetAliasAttributes()
         {
             return this._aliasAttributes != null && this._aliasAttributes.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Arn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) for the user pool.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
+        public string Arn
+        {
+            get { return this._arn; }
+            set { this._arn = value; }
+        }
+
+        // Check to see if Arn property is set
+        internal bool IsSetArn()
+        {
+            return this._arn != null;
         }
 
         /// <summary>
@@ -133,6 +179,32 @@ namespace Amazon.CognitoIdentityProvider.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CustomDomain. 
+        /// <para>
+        /// A custom domain name that you provide to Amazon Cognito. This parameter applies only
+        /// if you use a custom domain to host the sign-up and sign-in pages for your application.
+        /// For example: <code>auth.example.com</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about adding a custom domain to your user pool, see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html">Using
+        /// Your Own Domain for the Hosted UI</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=63)]
+        public string CustomDomain
+        {
+            get { return this._customDomain; }
+            set { this._customDomain = value; }
+        }
+
+        // Check to see if CustomDomain property is set
+        internal bool IsSetCustomDomain()
+        {
+            return this._customDomain != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DeviceConfiguration. 
         /// <para>
         /// The device configuration.
@@ -156,6 +228,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// Holds the domain prefix if the user pool has a domain associated with it.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string Domain
         {
             get { return this._domain; }
@@ -210,6 +283,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The contents of the email verification message.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=20000)]
         public string EmailVerificationMessage
         {
             get { return this._emailVerificationMessage; }
@@ -228,6 +302,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The subject of the email verification message.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=140)]
         public string EmailVerificationSubject
         {
             get { return this._emailVerificationSubject; }
@@ -264,6 +339,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The ID of the user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=55)]
         public string Id
         {
             get { return this._id; }
@@ -279,7 +355,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property LambdaConfig. 
         /// <para>
-        /// The AWS Lambda triggers associated with tue user pool.
+        /// The AWS Lambda triggers associated with the user pool.
         /// </para>
         /// </summary>
         public LambdaConfigType LambdaConfig
@@ -351,6 +427,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The name of the user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -387,6 +464,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// A container with the schema attributes of a user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public List<SchemaAttributeType> SchemaAttributes
         {
             get { return this._schemaAttributes; }
@@ -405,6 +483,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The contents of the SMS authentication message.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=140)]
         public string SmsAuthenticationMessage
         {
             get { return this._smsAuthenticationMessage; }
@@ -459,6 +538,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The contents of the SMS verification message.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=140)]
         public string SmsVerificationMessage
         {
             get { return this._smsVerificationMessage; }
@@ -509,6 +589,27 @@ namespace Amazon.CognitoIdentityProvider.Model
         }
 
         /// <summary>
+        /// Gets and sets the property UsernameConfiguration. 
+        /// <para>
+        /// You can choose to enable case sensitivity on the username input for the selected sign-in
+        /// option. For example, when this is set to <code>False</code>, users will be able to
+        /// sign in using either "username" or "Username". This configuration is immutable once
+        /// it has been set. For more information, see .
+        /// </para>
+        /// </summary>
+        public UsernameConfigurationType UsernameConfiguration
+        {
+            get { return this._usernameConfiguration; }
+            set { this._usernameConfiguration = value; }
+        }
+
+        // Check to see if UsernameConfiguration property is set
+        internal bool IsSetUsernameConfiguration()
+        {
+            return this._usernameConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property UserPoolAddOns. 
         /// <para>
         /// The user pool add-ons.
@@ -529,8 +630,9 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property UserPoolTags. 
         /// <para>
-        /// The cost allocation tags for the user pool. For more information, see <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-cost-allocation-tagging.html">Adding
-        /// Cost Allocation Tags to Your User Pool</a> 
+        /// The tags that are assigned to the user pool. A tag is a label that you can apply to
+        /// user pools to categorize and manage them in different ways, such as by purpose, owner,
+        /// environment, or other criteria.
         /// </para>
         /// </summary>
         public Dictionary<string, string> UserPoolTags

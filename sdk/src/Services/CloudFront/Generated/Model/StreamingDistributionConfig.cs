@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -63,18 +63,22 @@ namespace Amazon.CloudFront.Model
         /// <summary>
         /// Gets and sets the property CallerReference. 
         /// <para>
-        /// A unique number that ensures that the request can't be replayed. If the <code>CallerReference</code>
-        /// is new (no matter the content of the <code>StreamingDistributionConfig</code> object),
-        /// a new streaming distribution is created. If the <code>CallerReference</code> is a
-        /// value that you already sent in a previous request to create a streaming distribution,
-        /// and the content of the <code>StreamingDistributionConfig</code> is identical to the
-        /// original request (ignoring white space), the response includes the same information
-        /// returned to the original request. If the <code>CallerReference</code> is a value that
-        /// you already sent in a previous request to create a streaming distribution but the
-        /// content of the <code>StreamingDistributionConfig</code> is different from the original
-        /// request, CloudFront returns a <code>DistributionAlreadyExists</code> error. 
+        /// A unique value (for example, a date-time stamp) that ensures that the request can't
+        /// be replayed.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the value of <code>CallerReference</code> is new (regardless of the content of
+        /// the <code>StreamingDistributionConfig</code> object), CloudFront creates a new distribution.
+        /// </para>
+        ///  
+        /// <para>
+        /// If <code>CallerReference</code> is a value that you already sent in a previous request
+        /// to create a distribution, CloudFront returns a <code>DistributionAlreadyExists</code>
+        /// error.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CallerReference
         {
             get { return this._callerReference; }
@@ -93,6 +97,7 @@ namespace Amazon.CloudFront.Model
         /// Any comments you want to include about the streaming distribution. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Comment
         {
             get { return this._comment; }
@@ -111,6 +116,7 @@ namespace Amazon.CloudFront.Model
         /// Whether the streaming distribution is enabled to accept user requests for content.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enabled
         {
             get { return this._enabled.GetValueOrDefault(); }
@@ -168,6 +174,7 @@ namespace Amazon.CloudFront.Model
         /// want CloudFront to get your media files for distribution. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public S3Origin S3Origin
         {
             get { return this._s3Origin; }
@@ -186,11 +193,12 @@ namespace Amazon.CloudFront.Model
         /// A complex type that specifies any AWS accounts that you want to permit to create signed
         /// URLs for private content. If you want the distribution to use signed URLs, include
         /// this element; if you want the distribution to use public URLs, remove this element.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
         /// Private Content through CloudFront</a> in the <i>Amazon CloudFront Developer Guide</i>.
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TrustedSigners TrustedSigners
         {
             get { return this._trustedSigners; }

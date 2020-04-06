@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.RDS.Model
 {
     /// <summary>
-    /// This data type is used as a response element in the action <a>DescribeDBEngineVersions</a>.
+    /// This data type is used as a response element in the action <code>DescribeDBEngineVersions</code>.
     /// </summary>
     public partial class DBEngineVersion
     {
@@ -39,7 +39,10 @@ namespace Amazon.RDS.Model
         private string _engine;
         private string _engineVersion;
         private List<string> _exportableLogTypes = new List<string>();
+        private string _status;
         private List<CharacterSet> _supportedCharacterSets = new List<CharacterSet>();
+        private List<string> _supportedEngineModes = new List<string>();
+        private List<string> _supportedFeatureNames = new List<string>();
         private List<Timezone> _supportedTimezones = new List<Timezone>();
         private bool? _supportsLogExportsToCloudwatchLogs;
         private bool? _supportsReadReplica;
@@ -108,7 +111,7 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property DefaultCharacterSet. 
         /// <para>
         ///  The default character set for new instances of this engine version, if the <code>CharacterSetName</code>
-        /// parameter of the CreateDBInstance API is not specified. 
+        /// parameter of the CreateDBInstance API isn't specified. 
         /// </para>
         /// </summary>
         public CharacterSet DefaultCharacterSet
@@ -179,6 +182,24 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Status. 
+        /// <para>
+        /// The status of the DB engine version, either <code>available</code> or <code>deprecated</code>.
+        /// </para>
+        /// </summary>
+        public string Status
+        {
+            get { return this._status; }
+            set { this._status = value; }
+        }
+
+        // Check to see if Status property is set
+        internal bool IsSetStatus()
+        {
+            return this._status != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SupportedCharacterSets. 
         /// <para>
         ///  A list of the character sets supported by this engine for the <code>CharacterSetName</code>
@@ -195,6 +216,55 @@ namespace Amazon.RDS.Model
         internal bool IsSetSupportedCharacterSets()
         {
             return this._supportedCharacterSets != null && this._supportedCharacterSets.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SupportedEngineModes. 
+        /// <para>
+        /// A list of the supported DB engine modes.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>global</code> engine mode only applies for global database clusters created
+        /// with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters
+        /// in a global database use <code>provisioned</code> engine mode. 
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<string> SupportedEngineModes
+        {
+            get { return this._supportedEngineModes; }
+            set { this._supportedEngineModes = value; }
+        }
+
+        // Check to see if SupportedEngineModes property is set
+        internal bool IsSetSupportedEngineModes()
+        {
+            return this._supportedEngineModes != null && this._supportedEngineModes.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SupportedFeatureNames. 
+        /// <para>
+        ///  A list of features supported by the DB engine. Supported feature names include the
+        /// following. 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// s3Import
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public List<string> SupportedFeatureNames
+        {
+            get { return this._supportedFeatureNames; }
+            set { this._supportedFeatureNames = value; }
+        }
+
+        // Check to see if SupportedFeatureNames property is set
+        internal bool IsSetSupportedFeatureNames()
+        {
+            return this._supportedFeatureNames != null && this._supportedFeatureNames.Count > 0; 
         }
 
         /// <summary>

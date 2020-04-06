@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
-    /// Information about a WorkSpace.
+    /// Describes a WorkSpace.
     /// </summary>
     public partial class Workspace
     {
@@ -90,6 +90,7 @@ namespace Amazon.WorkSpaces.Model
         /// The identifier of the AWS Directory Service directory for the WorkSpace.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=65)]
         public string DirectoryId
         {
             get { return this._directoryId; }
@@ -105,7 +106,7 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property ErrorCode. 
         /// <para>
-        /// If the WorkSpace could not be created, contains the error code.
+        /// The error code that is returned if the WorkSpace cannot be created.
         /// </para>
         /// </summary>
         public string ErrorCode
@@ -123,8 +124,7 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property ErrorMessage. 
         /// <para>
-        /// If the WorkSpace could not be created, contains a textual error message that describes
-        /// the failure.
+        /// The text of the error message that is returned if the WorkSpace cannot be created.
         /// </para>
         /// </summary>
         public string ErrorMessage
@@ -217,6 +217,7 @@ namespace Amazon.WorkSpaces.Model
         /// The identifier of the subnet for the WorkSpace.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=15, Max=24)]
         public string SubnetId
         {
             get { return this._subnetId; }
@@ -235,6 +236,7 @@ namespace Amazon.WorkSpaces.Model
         /// The user for the WorkSpace.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string UserName
         {
             get { return this._userName; }
@@ -268,7 +270,8 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property VolumeEncryptionKey. 
         /// <para>
-        /// The KMS key used to encrypt data stored on your WorkSpace.
+        /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored on your
+        /// WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
         /// </para>
         /// </summary>
         public string VolumeEncryptionKey

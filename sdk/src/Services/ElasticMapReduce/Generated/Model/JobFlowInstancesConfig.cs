@@ -80,7 +80,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property AdditionalSlaveSecurityGroups. 
         /// <para>
-        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
+        /// A list of additional Amazon EC2 security group IDs for the core and task nodes.
         /// </para>
         /// </summary>
         public List<string> AdditionalSlaveSecurityGroups
@@ -102,6 +102,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// called "hadoop."
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Ec2KeyName
         {
             get { return this._ec2KeyName; }
@@ -120,17 +121,10 @@ namespace Amazon.ElasticMapReduce.Model
         /// Applies to clusters that use the uniform instance group configuration. To launch the
         /// cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier
         /// of the Amazon VPC subnet where you want the cluster to launch. If you do not specify
-        /// this value, the cluster launches in the normal Amazon Web Services cloud, outside
-        /// of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks
-        /// in the region where the cluster launches.
-        /// </para>
-        ///  
-        /// <para>
-        /// Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge)
-        /// instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched
-        /// in an Amazon VPC.
+        /// this value and your account supports EC2-Classic, the cluster launches in EC2-Classic.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Ec2SubnetId
         {
             get { return this._ec2SubnetId; }
@@ -175,6 +169,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The identifier of the Amazon EC2 security group for the master node.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string EmrManagedMasterSecurityGroup
         {
             get { return this._emrManagedMasterSecurityGroup; }
@@ -190,9 +185,10 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property EmrManagedSlaveSecurityGroup. 
         /// <para>
-        /// The identifier of the Amazon EC2 security group for the slave nodes.
+        /// The identifier of the Amazon EC2 security group for the core and task nodes.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string EmrManagedSlaveSecurityGroup
         {
             get { return this._emrManagedSlaveSecurityGroup; }
@@ -208,12 +204,14 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property HadoopVersion. 
         /// <para>
-        /// The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated),
-        /// "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value,
-        /// the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow
+        /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop version for
+        /// the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205"
+        /// (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default
+        /// of 0.18 is used, unless the <code>AmiVersion</code> parameter is set in the RunJobFlow
         /// call, in which case the default version of Hadoop for that AMI version is used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string HadoopVersion
         {
             get { return this._hadoopVersion; }
@@ -310,6 +308,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The EC2 instance type of the master node.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string MasterInstanceType
         {
             get { return this._masterInstanceType; }
@@ -347,6 +346,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// clusters in VPC private subnets.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string ServiceAccessSecurityGroup
         {
             get { return this._serviceAccessSecurityGroup; }
@@ -362,9 +362,10 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property SlaveInstanceType. 
         /// <para>
-        /// The EC2 instance type of the slave nodes.
+        /// The EC2 instance type of the core and task nodes.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string SlaveInstanceType
         {
             get { return this._slaveInstanceType; }

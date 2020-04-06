@@ -29,12 +29,6 @@ namespace Amazon.AutoScaling.Model
 {
     /// <summary>
     /// Describes a policy adjustment type.
-    /// 
-    ///  
-    /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AutoScaling/latest/DeveloperGuide/as-scale-based-on-demand.html">Dynamic
-    /// Scaling</a> in the <i>Auto Scaling User Guide</i>.
-    /// </para>
     /// </summary>
     public partial class AdjustmentType
     {
@@ -47,6 +41,7 @@ namespace Amazon.AutoScaling.Model
         /// and <code>PercentChangeInCapacity</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Type
         {
             get { return this._type; }

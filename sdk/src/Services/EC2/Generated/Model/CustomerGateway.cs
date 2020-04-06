@@ -33,7 +33,9 @@ namespace Amazon.EC2.Model
     public partial class CustomerGateway
     {
         private string _bgpAsn;
+        private string _certificateArn;
         private string _customerGatewayId;
+        private string _deviceName;
         private string _ipAddress;
         private string _state;
         private List<Tag> _tags = new List<Tag>();
@@ -58,6 +60,24 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CertificateArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) for the customer gateway certificate.
+        /// </para>
+        /// </summary>
+        public string CertificateArn
+        {
+            get { return this._certificateArn; }
+            set { this._certificateArn = value; }
+        }
+
+        // Check to see if CertificateArn property is set
+        internal bool IsSetCertificateArn()
+        {
+            return this._certificateArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CustomerGatewayId. 
         /// <para>
         /// The ID of the customer gateway.
@@ -73,6 +93,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetCustomerGatewayId()
         {
             return this._customerGatewayId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeviceName. 
+        /// <para>
+        /// The name of customer gateway device.
+        /// </para>
+        /// </summary>
+        public string DeviceName
+        {
+            get { return this._deviceName; }
+            set { this._deviceName = value; }
+        }
+
+        // Check to see if DeviceName property is set
+        internal bool IsSetDeviceName()
+        {
+            return this._deviceName != null;
         }
 
         /// <summary>

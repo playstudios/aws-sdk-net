@@ -51,6 +51,12 @@ namespace Amazon.CognitoIdentity.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("AllowClassicFlow", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    response.AllowClassicFlow = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("AllowUnauthenticatedIdentities", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
@@ -79,6 +85,12 @@ namespace Amazon.CognitoIdentity.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.IdentityPoolName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("IdentityPoolTags", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    response.IdentityPoolTags = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("OpenIdConnectProviderARNs", targetDepth))

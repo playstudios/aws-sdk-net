@@ -29,40 +29,57 @@ namespace Amazon.Budgets
     /// <summary>
     /// Interface for accessing Budgets
     ///
-    /// Budgets enable you to plan your service usage, service costs, and your RI utilization.
-    /// You can also track how close your plan is to your budgeted amount or to the free tier
-    /// limits. Budgets provide you with a quick way to see your usage-to-date and current
-    /// estimated charges from AWS and to see how much your predicted usage accrues in charges
-    /// by the end of the month. Budgets also compare current estimates and charges to the
-    /// amount that you indicated you want to use or spend and lets you see how much of your
-    /// budget has been used. AWS updates your budget status several times a day. Budgets
-    /// track your unblended costs, subscriptions, and refunds. You can create the following
-    /// types of budgets:
+    /// The AWS Budgets API enables you to use AWS Budgets to plan your service usage, service
+    /// costs, and instance reservations. The API reference provides descriptions, syntax,
+    /// and usage examples for each of the actions and data types for AWS Budgets. 
     /// 
+    ///  
+    /// <para>
+    /// Budgets provide you with a way to see the following information:
+    /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// Cost budgets allow you to say how much you want to spend on a service.
+    /// How close your plan is to your budgeted amount or to the free tier limits
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Usage budgets allow you to say how many hours you want to use for one or more services.
+    /// Your usage-to-date, including how much you've used of your Reserved Instances (RIs)
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// RI utilization budgets allow you to define a utilization threshold and receive alerts
-    /// when RIs are tracking below that threshold.
+    /// Your current estimated charges from AWS, and how much your predicted usage will accrue
+    /// in charges by the end of the month
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// How much of your budget has been used
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// You can create up to 20,000 budgets per AWS master account. Your first two budgets
-    /// are free of charge. Each additional budget costs $0.02 per day. You can set up optional
-    /// notifications that warn you if you exceed, or are forecasted to exceed, your budgeted
-    /// amount. You can have notifications sent to an Amazon SNS topic, to an email address,
-    /// or to both. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-sns-policy.html">Creating
-    /// an Amazon SNS Topic for Budget Notifications</a>. AWS Free Tier usage alerts via AWS
-    /// Budgets are provided for you, and do not count toward your budget limits.
+    /// AWS updates your budget status several times a day. Budgets track your unblended costs,
+    /// subscriptions, refunds, and RIs. You can create the following types of budgets:
     /// </para>
-    ///  
+    ///  <ul> <li> 
+    /// <para>
+    ///  <b>Cost budgets</b> - Plan how much you want to spend on a service.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <b>Usage budgets</b> - Plan how much you want to use one or more services.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <b>RI utilization budgets</b> - Define a utilization threshold, and receive alerts
+    /// when your RI usage falls below that threshold. This lets you see if your RIs are unused
+    /// or under-utilized.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <b>RI coverage budgets</b> - Define a coverage threshold, and receive alerts when
+    /// the number of your instance hours that are covered by RIs fall below that threshold.
+    /// This lets you see how much of your instance usage is covered by a reservation.
+    /// </para>
+    ///  </li> </ul> 
     /// <para>
     /// Service Endpoint
     /// </para>
@@ -72,9 +89,13 @@ namespace Amazon.Budgets
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// https://budgets.us-east-1.amazonaws.com
+    /// https://budgets.amazonaws.com
     /// </para>
-    ///  </li> </ul>
+    ///  </li> </ul> 
+    /// <para>
+    /// For information about costs that are associated with the AWS Budgets API, see <a href="https://aws.amazon.com/aws-cost-management/pricing/">AWS
+    /// Cost Management Pricing</a>.
+    /// </para>
     /// </summary>
     public partial interface IAmazonBudgets : IAmazonService, IDisposable
     {
@@ -84,11 +105,24 @@ namespace Amazon.Budgets
 
 
         /// <summary>
-        /// Creates a budget and, if included, notifications and subscribers.
+        /// Creates a budget and, if included, notifications and subscribers. 
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Only one of <code>BudgetLimit</code> or <code>PlannedBudgetLimits</code> can be present
+        /// in the syntax at one time. Use the syntax that matches your case. The Request Syntax
+        /// section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateBudget service method.</param>
         /// 
         /// <returns>The response from the CreateBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.CreationLimitExceededException">
         /// You've exceeded the notification or subscriber limit.
         /// </exception>
@@ -139,6 +173,9 @@ namespace Amazon.Budgets
         /// <param name="request">Container for the necessary parameters to execute the CreateNotification service method.</param>
         /// 
         /// <returns>The response from the CreateNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.CreationLimitExceededException">
         /// You've exceeded the notification or subscriber limit.
         /// </exception>
@@ -192,6 +229,9 @@ namespace Amazon.Budgets
         /// <param name="request">Container for the necessary parameters to execute the CreateSubscriber service method.</param>
         /// 
         /// <returns>The response from the CreateSubscriber service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.CreationLimitExceededException">
         /// You've exceeded the notification or subscriber limit.
         /// </exception>
@@ -241,15 +281,19 @@ namespace Amazon.Budgets
         /// <summary>
         /// Deletes a budget. You can delete your budget at any time.
         /// 
-        ///  
+        ///  <important> 
         /// <para>
-        ///  <b>Deleting a budget also deletes the notifications and subscribers associated with
-        /// that budget.</b> 
+        /// Deleting a budget also deletes the notifications and subscribers that are associated
+        /// with that budget.
         /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBudget service method.</param>
         /// 
         /// <returns>The response from the DeleteBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
         /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
@@ -293,15 +337,19 @@ namespace Amazon.Budgets
         /// <summary>
         /// Deletes a notification.
         /// 
-        ///  
+        ///  <important> 
         /// <para>
-        ///  <b>Deleting a notification also deletes the subscribers associated with the notification.</b>
-        /// 
+        /// Deleting a notification also deletes the subscribers that are associated with the
+        /// notification.
         /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteNotification service method.</param>
         /// 
         /// <returns>The response from the DeleteNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
         /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
@@ -345,15 +393,18 @@ namespace Amazon.Budgets
         /// <summary>
         /// Deletes a subscriber.
         /// 
-        ///  
+        ///  <important> 
         /// <para>
-        ///  <b>Deleting the last subscriber to a notification also deletes the notification.</b>
-        /// 
+        /// Deleting the last subscriber to a notification also deletes the notification.
         /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteSubscriber service method.</param>
         /// 
         /// <returns>The response from the DeleteSubscriber service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
         /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
@@ -396,10 +447,21 @@ namespace Amazon.Budgets
 
         /// <summary>
         /// Describes a budget.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// The Request Syntax section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeBudget service method.</param>
         /// 
         /// <returns>The response from the DescribeBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
         /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
@@ -437,15 +499,82 @@ namespace Amazon.Budgets
 
         #endregion
         
+        #region  DescribeBudgetPerformanceHistory
+
+
+        /// <summary>
+        /// Describes the history for <code>DAILY</code>, <code>MONTHLY</code>, and <code>QUARTERLY</code>
+        /// budgets. Budget history isn't available for <code>ANNUAL</code> budgets.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBudgetPerformanceHistory service method.</param>
+        /// 
+        /// <returns>The response from the DescribeBudgetPerformanceHistory service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
+        /// The pagination token expired.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidNextTokenException">
+        /// The pagination token is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
+        DescribeBudgetPerformanceHistoryResponse DescribeBudgetPerformanceHistory(DescribeBudgetPerformanceHistoryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeBudgetPerformanceHistory operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBudgetPerformanceHistory operation on AmazonBudgetsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeBudgetPerformanceHistory
+        ///         operation.</returns>
+        IAsyncResult BeginDescribeBudgetPerformanceHistory(DescribeBudgetPerformanceHistoryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeBudgetPerformanceHistory operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeBudgetPerformanceHistory.</param>
+        /// 
+        /// <returns>Returns a  DescribeBudgetPerformanceHistoryResult from Budgets.</returns>
+        DescribeBudgetPerformanceHistoryResponse EndDescribeBudgetPerformanceHistory(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeBudgets
 
 
         /// <summary>
-        /// Lists the budgets associated with an account.
+        /// Lists the budgets that are associated with an account.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// The Request Syntax section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeBudgets service method.</param>
         /// 
         /// <returns>The response from the DescribeBudgets service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
         /// The pagination token expired.
         /// </exception>
@@ -493,11 +622,14 @@ namespace Amazon.Budgets
 
 
         /// <summary>
-        /// Lists the notifications associated with a budget.
+        /// Lists the notifications that are associated with a budget.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeNotificationsForBudget service method.</param>
         /// 
         /// <returns>The response from the DescribeNotificationsForBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
         /// The pagination token expired.
         /// </exception>
@@ -545,11 +677,14 @@ namespace Amazon.Budgets
 
 
         /// <summary>
-        /// Lists the subscribers associated with a notification.
+        /// Lists the subscribers that are associated with a notification.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeSubscribersForNotification service method.</param>
         /// 
         /// <returns>The response from the DescribeSubscribersForNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
         /// The pagination token expired.
         /// </exception>
@@ -598,12 +733,25 @@ namespace Amazon.Budgets
 
         /// <summary>
         /// Updates a budget. You can change every part of a budget except for the <code>budgetName</code>
-        /// and the <code>calculatedSpend</code>. When a budget is modified, the <code>calculatedSpend</code>
+        /// and the <code>calculatedSpend</code>. When you modify a budget, the <code>calculatedSpend</code>
         /// drops to zero until AWS has new usage data to use for forecasting.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Only one of <code>BudgetLimit</code> or <code>PlannedBudgetLimits</code> can be present
+        /// in the syntax at one time. Use the syntax that matches your case. The Request Syntax
+        /// section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateBudget service method.</param>
         /// 
         /// <returns>The response from the UpdateBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
         /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
@@ -650,6 +798,9 @@ namespace Amazon.Budgets
         /// <param name="request">Container for the necessary parameters to execute the UpdateNotification service method.</param>
         /// 
         /// <returns>The response from the UpdateNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.DuplicateRecordException">
         /// The budget name already exists. Budget names must be unique within an account.
         /// </exception>
@@ -699,6 +850,9 @@ namespace Amazon.Budgets
         /// <param name="request">Container for the necessary parameters to execute the UpdateSubscriber service method.</param>
         /// 
         /// <returns>The response from the UpdateSubscriber service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
         /// <exception cref="Amazon.Budgets.Model.DuplicateRecordException">
         /// The budget name already exists. Budget names must be unique within an account.
         /// </exception>

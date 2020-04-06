@@ -28,17 +28,18 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Describes a region.
+    /// Describes a Region.
     /// </summary>
     public partial class Region
     {
         private string _endpoint;
+        private string _optInStatus;
         private string _regionName;
 
         /// <summary>
         /// Gets and sets the property Endpoint. 
         /// <para>
-        /// The region service endpoint.
+        /// The Region service endpoint.
         /// </para>
         /// </summary>
         public string Endpoint
@@ -54,9 +55,28 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OptInStatus. 
+        /// <para>
+        /// The Region opt-in status. The possible values are <code>opt-in-not-required</code>,
+        /// <code>opted-in</code>, and <code>not-opted-in</code>.
+        /// </para>
+        /// </summary>
+        public string OptInStatus
+        {
+            get { return this._optInStatus; }
+            set { this._optInStatus = value; }
+        }
+
+        // Check to see if OptInStatus property is set
+        internal bool IsSetOptInStatus()
+        {
+            return this._optInStatus != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RegionName. 
         /// <para>
-        /// The name of the region.
+        /// The name of the Region.
         /// </para>
         /// </summary>
         public string RegionName

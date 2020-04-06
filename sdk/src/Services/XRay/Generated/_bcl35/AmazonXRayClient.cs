@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.XRay.Model;
 using Amazon.XRay.Model.Internal.MarshallTransformations;
+using Amazon.XRay.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -38,6 +40,7 @@ namespace Amazon.XRay
     /// </summary>
     public partial class AmazonXRayClient : AmazonServiceClient, IAmazonXRay
     {
+        private static IServiceMetadata serviceMetadata = new AmazonXRayMetadata();
         #region Constructors
 
         /// <summary>
@@ -208,6 +211,16 @@ namespace Amazon.XRay
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -223,7 +236,7 @@ namespace Amazon.XRay
 
         #endregion
 
-        
+
         #region  BatchGetTraces
 
         /// <summary>
@@ -242,10 +255,11 @@ namespace Amazon.XRay
         /// </exception>
         public virtual BatchGetTracesResponse BatchGetTraces(BatchGetTracesRequest request)
         {
-            var marshaller = BatchGetTracesRequestMarshaller.Instance;
-            var unmarshaller = BatchGetTracesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetTracesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetTracesResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetTracesRequest,BatchGetTracesResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetTracesResponse>(request, options);
         }
 
         /// <summary>
@@ -261,11 +275,11 @@ namespace Amazon.XRay
         ///         operation.</returns>
         public virtual IAsyncResult BeginBatchGetTraces(BatchGetTracesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetTracesRequestMarshaller.Instance;
-            var unmarshaller = BatchGetTracesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetTracesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetTracesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetTracesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -282,14 +296,593 @@ namespace Amazon.XRay
 
         #endregion
         
+        #region  CreateGroup
+
+        /// <summary>
+        /// Creates a group resource with a name and a filter expression.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateGroup service method.</param>
+        /// 
+        /// <returns>The response from the CreateGroup service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual CreateGroupResponse CreateGroup(CreateGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGroupResponseUnmarshaller.Instance;
+
+            return Invoke<CreateGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateGroup operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateGroup
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreateGroup(CreateGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateGroup.</param>
+        /// 
+        /// <returns>Returns a  CreateGroupResult from XRay.</returns>
+        public virtual CreateGroupResponse EndCreateGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateSamplingRule
+
+        /// <summary>
+        /// Creates a rule to control sampling behavior for instrumented applications. Services
+        /// retrieve rules with <a>GetSamplingRules</a>, and evaluate each rule in ascending order
+        /// of <i>priority</i> for each request. If a rule matches, the service records a trace,
+        /// borrowing it from the reservoir size. After 10 seconds, the service reports back to
+        /// X-Ray with <a>GetSamplingTargets</a> to get updated versions of each in-use rule.
+        /// The updated rule contains a trace quota that the service can use instead of borrowing
+        /// from the reservoir.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSamplingRule service method.</param>
+        /// 
+        /// <returns>The response from the CreateSamplingRule service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.RuleLimitExceededException">
+        /// You have reached the maximum number of sampling rules.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual CreateSamplingRuleResponse CreateSamplingRule(CreateSamplingRuleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSamplingRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSamplingRuleResponseUnmarshaller.Instance;
+
+            return Invoke<CreateSamplingRuleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateSamplingRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateSamplingRule operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSamplingRule
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreateSamplingRule(CreateSamplingRuleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSamplingRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSamplingRuleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateSamplingRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSamplingRule.</param>
+        /// 
+        /// <returns>Returns a  CreateSamplingRuleResult from XRay.</returns>
+        public virtual CreateSamplingRuleResponse EndCreateSamplingRule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateSamplingRuleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteGroup
+
+        /// <summary>
+        /// Deletes a group resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteGroup service method.</param>
+        /// 
+        /// <returns>The response from the DeleteGroup service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual DeleteGroupResponse DeleteGroup(DeleteGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteGroup operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteGroup
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteGroup(DeleteGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteGroup.</param>
+        /// 
+        /// <returns>Returns a  DeleteGroupResult from XRay.</returns>
+        public virtual DeleteGroupResponse EndDeleteGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteSamplingRule
+
+        /// <summary>
+        /// Deletes a sampling rule.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSamplingRule service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSamplingRule service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual DeleteSamplingRuleResponse DeleteSamplingRule(DeleteSamplingRuleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSamplingRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSamplingRuleResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteSamplingRuleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSamplingRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSamplingRule operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSamplingRule
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteSamplingRule(DeleteSamplingRuleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSamplingRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSamplingRuleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSamplingRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSamplingRule.</param>
+        /// 
+        /// <returns>Returns a  DeleteSamplingRuleResult from XRay.</returns>
+        public virtual DeleteSamplingRuleResponse EndDeleteSamplingRule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteSamplingRuleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetEncryptionConfig
+
+        /// <summary>
+        /// Retrieves the current encryption configuration for X-Ray data.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetEncryptionConfig service method.</param>
+        /// 
+        /// <returns>The response from the GetEncryptionConfig service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual GetEncryptionConfigResponse GetEncryptionConfig(GetEncryptionConfigRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEncryptionConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEncryptionConfigResponseUnmarshaller.Instance;
+
+            return Invoke<GetEncryptionConfigResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetEncryptionConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetEncryptionConfig operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetEncryptionConfig
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetEncryptionConfig(GetEncryptionConfigRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEncryptionConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEncryptionConfigResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetEncryptionConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetEncryptionConfig.</param>
+        /// 
+        /// <returns>Returns a  GetEncryptionConfigResult from XRay.</returns>
+        public virtual GetEncryptionConfigResponse EndGetEncryptionConfig(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetEncryptionConfigResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetGroup
+
+        /// <summary>
+        /// Retrieves group resource details.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetGroup service method.</param>
+        /// 
+        /// <returns>The response from the GetGroup service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual GetGroupResponse GetGroup(GetGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupResponseUnmarshaller.Instance;
+
+            return Invoke<GetGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetGroup operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetGroup
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetGroup(GetGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetGroup.</param>
+        /// 
+        /// <returns>Returns a  GetGroupResult from XRay.</returns>
+        public virtual GetGroupResponse EndGetGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetGroups
+
+        /// <summary>
+        /// Retrieves all active group details.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetGroups service method.</param>
+        /// 
+        /// <returns>The response from the GetGroups service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual GetGroupsResponse GetGroups(GetGroupsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupsResponseUnmarshaller.Instance;
+
+            return Invoke<GetGroupsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetGroups operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetGroups
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetGroups(GetGroupsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetGroups.</param>
+        /// 
+        /// <returns>Returns a  GetGroupsResult from XRay.</returns>
+        public virtual GetGroupsResponse EndGetGroups(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetGroupsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetSamplingRules
+
+        /// <summary>
+        /// Retrieves all sampling rules.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSamplingRules service method.</param>
+        /// 
+        /// <returns>The response from the GetSamplingRules service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual GetSamplingRulesResponse GetSamplingRules(GetSamplingRulesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSamplingRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSamplingRulesResponseUnmarshaller.Instance;
+
+            return Invoke<GetSamplingRulesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSamplingRules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSamplingRules operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSamplingRules
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetSamplingRules(GetSamplingRulesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSamplingRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSamplingRulesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetSamplingRules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSamplingRules.</param>
+        /// 
+        /// <returns>Returns a  GetSamplingRulesResult from XRay.</returns>
+        public virtual GetSamplingRulesResponse EndGetSamplingRules(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetSamplingRulesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetSamplingStatisticSummaries
+
+        /// <summary>
+        /// Retrieves information about recent sampling results for all sampling rules.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSamplingStatisticSummaries service method.</param>
+        /// 
+        /// <returns>The response from the GetSamplingStatisticSummaries service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual GetSamplingStatisticSummariesResponse GetSamplingStatisticSummaries(GetSamplingStatisticSummariesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSamplingStatisticSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSamplingStatisticSummariesResponseUnmarshaller.Instance;
+
+            return Invoke<GetSamplingStatisticSummariesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSamplingStatisticSummaries operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSamplingStatisticSummaries operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSamplingStatisticSummaries
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetSamplingStatisticSummaries(GetSamplingStatisticSummariesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSamplingStatisticSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSamplingStatisticSummariesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetSamplingStatisticSummaries operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSamplingStatisticSummaries.</param>
+        /// 
+        /// <returns>Returns a  GetSamplingStatisticSummariesResult from XRay.</returns>
+        public virtual GetSamplingStatisticSummariesResponse EndGetSamplingStatisticSummaries(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetSamplingStatisticSummariesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetSamplingTargets
+
+        /// <summary>
+        /// Requests a sampling quota for rules that the service is using to sample requests.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSamplingTargets service method.</param>
+        /// 
+        /// <returns>The response from the GetSamplingTargets service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual GetSamplingTargetsResponse GetSamplingTargets(GetSamplingTargetsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSamplingTargetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSamplingTargetsResponseUnmarshaller.Instance;
+
+            return Invoke<GetSamplingTargetsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSamplingTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSamplingTargets operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSamplingTargets
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetSamplingTargets(GetSamplingTargetsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSamplingTargetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSamplingTargetsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetSamplingTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSamplingTargets.</param>
+        /// 
+        /// <returns>Returns a  GetSamplingTargetsResult from XRay.</returns>
+        public virtual GetSamplingTargetsResponse EndGetSamplingTargets(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetSamplingTargetsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetServiceGraph
 
         /// <summary>
         /// Retrieves a document that describes services that process incoming requests, and downstream
         /// services that they call as a result. Root services process incoming requests and make
-        /// calls to downstream services. Root services are applications that use the AWS X-Ray
-        /// SDK. Downstream services can be other applications, AWS resources, HTTP web APIs,
-        /// or SQL databases.
+        /// calls to downstream services. Root services are applications that use the <a href="https://docs.aws.amazon.com/xray/index.html">AWS
+        /// X-Ray SDK</a>. Downstream services can be other applications, AWS resources, HTTP
+        /// web APIs, or SQL databases.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetServiceGraph service method.</param>
         /// 
@@ -302,10 +895,11 @@ namespace Amazon.XRay
         /// </exception>
         public virtual GetServiceGraphResponse GetServiceGraph(GetServiceGraphRequest request)
         {
-            var marshaller = GetServiceGraphRequestMarshaller.Instance;
-            var unmarshaller = GetServiceGraphResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceGraphRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceGraphResponseUnmarshaller.Instance;
 
-            return Invoke<GetServiceGraphRequest,GetServiceGraphResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetServiceGraphResponse>(request, options);
         }
 
         /// <summary>
@@ -321,11 +915,11 @@ namespace Amazon.XRay
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetServiceGraph(GetServiceGraphRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetServiceGraphRequestMarshaller.Instance;
-            var unmarshaller = GetServiceGraphResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceGraphRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceGraphResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetServiceGraphRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -338,6 +932,63 @@ namespace Amazon.XRay
         public virtual GetServiceGraphResponse EndGetServiceGraph(IAsyncResult asyncResult)
         {
             return EndInvoke<GetServiceGraphResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetTimeSeriesServiceStatistics
+
+        /// <summary>
+        /// Get an aggregation of service statistics defined by a specific time range.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTimeSeriesServiceStatistics service method.</param>
+        /// 
+        /// <returns>The response from the GetTimeSeriesServiceStatistics service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual GetTimeSeriesServiceStatisticsResponse GetTimeSeriesServiceStatistics(GetTimeSeriesServiceStatisticsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTimeSeriesServiceStatisticsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTimeSeriesServiceStatisticsResponseUnmarshaller.Instance;
+
+            return Invoke<GetTimeSeriesServiceStatisticsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTimeSeriesServiceStatistics operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTimeSeriesServiceStatistics operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTimeSeriesServiceStatistics
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetTimeSeriesServiceStatistics(GetTimeSeriesServiceStatisticsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTimeSeriesServiceStatisticsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTimeSeriesServiceStatisticsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTimeSeriesServiceStatistics operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTimeSeriesServiceStatistics.</param>
+        /// 
+        /// <returns>Returns a  GetTimeSeriesServiceStatisticsResult from XRay.</returns>
+        public virtual GetTimeSeriesServiceStatisticsResponse EndGetTimeSeriesServiceStatistics(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetTimeSeriesServiceStatisticsResponse>(asyncResult);
         }
 
         #endregion
@@ -358,10 +1009,11 @@ namespace Amazon.XRay
         /// </exception>
         public virtual GetTraceGraphResponse GetTraceGraph(GetTraceGraphRequest request)
         {
-            var marshaller = GetTraceGraphRequestMarshaller.Instance;
-            var unmarshaller = GetTraceGraphResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTraceGraphRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTraceGraphResponseUnmarshaller.Instance;
 
-            return Invoke<GetTraceGraphRequest,GetTraceGraphResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTraceGraphResponse>(request, options);
         }
 
         /// <summary>
@@ -377,11 +1029,11 @@ namespace Amazon.XRay
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetTraceGraph(GetTraceGraphRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTraceGraphRequestMarshaller.Instance;
-            var unmarshaller = GetTraceGraphResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTraceGraphRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTraceGraphResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTraceGraphRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -401,8 +1053,8 @@ namespace Amazon.XRay
         #region  GetTraceSummaries
 
         /// <summary>
-        /// Retrieves IDs and metadata for traces available for a specified time frame using an
-        /// optional filter. To get the full traces, pass the trace IDs to <code>BatchGetTraces</code>.
+        /// Retrieves IDs and annotations for traces available for a specified time frame using
+        /// an optional filter. To get the full traces, pass the trace IDs to <code>BatchGetTraces</code>.
         /// 
         ///  
         /// <para>
@@ -426,7 +1078,7 @@ namespace Amazon.XRay
         ///  
         /// <para>
         /// For a full list of indexed fields and keywords that you can use in filter expressions,
-        /// see <a href="http://docs.aws.amazon.com/xray/latest/devguide/xray-console-filters.html">Using
+        /// see <a href="https://docs.aws.amazon.com/xray/latest/devguide/xray-console-filters.html">Using
         /// Filter Expressions</a> in the <i>AWS X-Ray Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -441,10 +1093,11 @@ namespace Amazon.XRay
         /// </exception>
         public virtual GetTraceSummariesResponse GetTraceSummaries(GetTraceSummariesRequest request)
         {
-            var marshaller = GetTraceSummariesRequestMarshaller.Instance;
-            var unmarshaller = GetTraceSummariesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTraceSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTraceSummariesResponseUnmarshaller.Instance;
 
-            return Invoke<GetTraceSummariesRequest,GetTraceSummariesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTraceSummariesResponse>(request, options);
         }
 
         /// <summary>
@@ -460,11 +1113,11 @@ namespace Amazon.XRay
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetTraceSummaries(GetTraceSummariesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTraceSummariesRequestMarshaller.Instance;
-            var unmarshaller = GetTraceSummariesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTraceSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTraceSummariesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTraceSummariesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -477,6 +1130,63 @@ namespace Amazon.XRay
         public virtual GetTraceSummariesResponse EndGetTraceSummaries(IAsyncResult asyncResult)
         {
             return EndInvoke<GetTraceSummariesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutEncryptionConfig
+
+        /// <summary>
+        /// Updates the encryption configuration for X-Ray data.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutEncryptionConfig service method.</param>
+        /// 
+        /// <returns>The response from the PutEncryptionConfig service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual PutEncryptionConfigResponse PutEncryptionConfig(PutEncryptionConfigRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEncryptionConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEncryptionConfigResponseUnmarshaller.Instance;
+
+            return Invoke<PutEncryptionConfigResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutEncryptionConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutEncryptionConfig operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutEncryptionConfig
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginPutEncryptionConfig(PutEncryptionConfigRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEncryptionConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEncryptionConfigResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutEncryptionConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutEncryptionConfig.</param>
+        /// 
+        /// <returns>Returns a  PutEncryptionConfigResult from XRay.</returns>
+        public virtual PutEncryptionConfigResponse EndPutEncryptionConfig(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutEncryptionConfigResponse>(asyncResult);
         }
 
         #endregion
@@ -497,10 +1207,11 @@ namespace Amazon.XRay
         /// </exception>
         public virtual PutTelemetryRecordsResponse PutTelemetryRecords(PutTelemetryRecordsRequest request)
         {
-            var marshaller = PutTelemetryRecordsRequestMarshaller.Instance;
-            var unmarshaller = PutTelemetryRecordsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutTelemetryRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutTelemetryRecordsResponseUnmarshaller.Instance;
 
-            return Invoke<PutTelemetryRecordsRequest,PutTelemetryRecordsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutTelemetryRecordsResponse>(request, options);
         }
 
         /// <summary>
@@ -516,11 +1227,11 @@ namespace Amazon.XRay
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutTelemetryRecords(PutTelemetryRecordsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutTelemetryRecordsRequestMarshaller.Instance;
-            var unmarshaller = PutTelemetryRecordsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutTelemetryRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutTelemetryRecordsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutTelemetryRecordsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -540,14 +1251,15 @@ namespace Amazon.XRay
         #region  PutTraceSegments
 
         /// <summary>
-        /// Uploads segment documents to AWS X-Ray. The X-Ray SDK generates segment documents
-        /// and sends them to the X-Ray daemon, which uploads them in batches. A segment document
-        /// can be a completed segment, an in-progress segment, or an array of subsegments.
+        /// Uploads segment documents to AWS X-Ray. The <a href="https://docs.aws.amazon.com/xray/index.html">X-Ray
+        /// SDK</a> generates segment documents and sends them to the X-Ray daemon, which uploads
+        /// them in batches. A segment document can be a completed segment, an in-progress segment,
+        /// or an array of subsegments.
         /// 
         ///  
         /// <para>
         /// Segments must include the following fields. For the full segment document schema,
-        /// see <a href="http://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">AWS
+        /// see <a href="https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">AWS
         /// X-Ray Segment Documents</a> in the <i>AWS X-Ray Developer Guide</i>.
         /// </para>
         ///  <p class="title"> <b>Required Segment Document Fields</b> 
@@ -619,10 +1331,11 @@ namespace Amazon.XRay
         /// </exception>
         public virtual PutTraceSegmentsResponse PutTraceSegments(PutTraceSegmentsRequest request)
         {
-            var marshaller = PutTraceSegmentsRequestMarshaller.Instance;
-            var unmarshaller = PutTraceSegmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutTraceSegmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutTraceSegmentsResponseUnmarshaller.Instance;
 
-            return Invoke<PutTraceSegmentsRequest,PutTraceSegmentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutTraceSegmentsResponse>(request, options);
         }
 
         /// <summary>
@@ -638,11 +1351,11 @@ namespace Amazon.XRay
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutTraceSegments(PutTraceSegmentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutTraceSegmentsRequestMarshaller.Instance;
-            var unmarshaller = PutTraceSegmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutTraceSegmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutTraceSegmentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutTraceSegmentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -655,6 +1368,120 @@ namespace Amazon.XRay
         public virtual PutTraceSegmentsResponse EndPutTraceSegments(IAsyncResult asyncResult)
         {
             return EndInvoke<PutTraceSegmentsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateGroup
+
+        /// <summary>
+        /// Updates a group resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateGroup service method.</param>
+        /// 
+        /// <returns>The response from the UpdateGroup service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual UpdateGroupResponse UpdateGroup(UpdateGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGroupResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateGroup operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateGroup
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateGroup(UpdateGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateGroup.</param>
+        /// 
+        /// <returns>Returns a  UpdateGroupResult from XRay.</returns>
+        public virtual UpdateGroupResponse EndUpdateGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateSamplingRule
+
+        /// <summary>
+        /// Modifies a sampling rule's configuration.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSamplingRule service method.</param>
+        /// 
+        /// <returns>The response from the UpdateSamplingRule service method, as returned by XRay.</returns>
+        /// <exception cref="Amazon.XRay.Model.InvalidRequestException">
+        /// The request is missing required parameters or has invalid parameters.
+        /// </exception>
+        /// <exception cref="Amazon.XRay.Model.ThrottledException">
+        /// The request exceeds the maximum number of requests per second.
+        /// </exception>
+        public virtual UpdateSamplingRuleResponse UpdateSamplingRule(UpdateSamplingRuleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSamplingRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSamplingRuleResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateSamplingRuleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateSamplingRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSamplingRule operation on AmazonXRayClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateSamplingRule
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateSamplingRule(UpdateSamplingRuleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSamplingRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSamplingRuleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateSamplingRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateSamplingRule.</param>
+        /// 
+        /// <returns>Returns a  UpdateSamplingRuleResult from XRay.</returns>
+        public virtual UpdateSamplingRuleResponse EndUpdateSamplingRule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateSamplingRuleResponse>(asyncResult);
         }
 
         #endregion

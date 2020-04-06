@@ -32,12 +32,34 @@ namespace Amazon.AppSync.Model
     /// </summary>
     public partial class Resolver
     {
+        private CachingConfig _cachingConfig;
         private string _dataSourceName;
         private string _fieldName;
+        private ResolverKind _kind;
+        private PipelineConfig _pipelineConfig;
         private string _requestMappingTemplate;
         private string _resolverArn;
         private string _responseMappingTemplate;
+        private SyncConfig _syncConfig;
         private string _typeName;
+
+        /// <summary>
+        /// Gets and sets the property CachingConfig. 
+        /// <para>
+        /// The caching configuration for the resolver.
+        /// </para>
+        /// </summary>
+        public CachingConfig CachingConfig
+        {
+            get { return this._cachingConfig; }
+            set { this._cachingConfig = value; }
+        }
+
+        // Check to see if CachingConfig property is set
+        internal bool IsSetCachingConfig()
+        {
+            return this._cachingConfig != null;
+        }
 
         /// <summary>
         /// Gets and sets the property DataSourceName. 
@@ -45,6 +67,7 @@ namespace Amazon.AppSync.Model
         /// The resolver data source name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string DataSourceName
         {
             get { return this._dataSourceName; }
@@ -63,6 +86,7 @@ namespace Amazon.AppSync.Model
         /// The resolver field name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string FieldName
         {
             get { return this._fieldName; }
@@ -76,11 +100,60 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Kind. 
+        /// <para>
+        /// The resolver type.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>UNIT</b>: A UNIT resolver type. A UNIT resolver is the default resolver type.
+        /// A UNIT resolver enables you to execute a GraphQL query against a single data source.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>PIPELINE</b>: A PIPELINE resolver type. A PIPELINE resolver enables you to execute
+        /// a series of <code>Function</code> in a serial manner. You can use a pipeline resolver
+        /// to execute a GraphQL query against multiple data sources.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public ResolverKind Kind
+        {
+            get { return this._kind; }
+            set { this._kind = value; }
+        }
+
+        // Check to see if Kind property is set
+        internal bool IsSetKind()
+        {
+            return this._kind != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PipelineConfig. 
+        /// <para>
+        /// The <code>PipelineConfig</code>.
+        /// </para>
+        /// </summary>
+        public PipelineConfig PipelineConfig
+        {
+            get { return this._pipelineConfig; }
+            set { this._pipelineConfig = value; }
+        }
+
+        // Check to see if PipelineConfig property is set
+        internal bool IsSetPipelineConfig()
+        {
+            return this._pipelineConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RequestMappingTemplate. 
         /// <para>
         /// The request mapping template.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string RequestMappingTemplate
         {
             get { return this._requestMappingTemplate; }
@@ -117,6 +190,7 @@ namespace Amazon.AppSync.Model
         /// The response mapping template.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string ResponseMappingTemplate
         {
             get { return this._responseMappingTemplate; }
@@ -130,11 +204,30 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SyncConfig. 
+        /// <para>
+        /// The <code>SyncConfig</code> for a resolver attached to a versioned datasource.
+        /// </para>
+        /// </summary>
+        public SyncConfig SyncConfig
+        {
+            get { return this._syncConfig; }
+            set { this._syncConfig = value; }
+        }
+
+        // Check to see if SyncConfig property is set
+        internal bool IsSetSyncConfig()
+        {
+            return this._syncConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TypeName. 
         /// <para>
         /// The resolver type name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string TypeName
         {
             get { return this._typeName; }

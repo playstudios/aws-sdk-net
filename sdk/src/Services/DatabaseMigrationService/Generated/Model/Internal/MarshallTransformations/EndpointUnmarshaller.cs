@@ -76,10 +76,22 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     unmarshalledObject.DatabaseName = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("DmsTransferSettings", targetDepth))
+                {
+                    var unmarshaller = DmsTransferSettingsUnmarshaller.Instance;
+                    unmarshalledObject.DmsTransferSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("DynamoDbSettings", targetDepth))
                 {
                     var unmarshaller = DynamoDbSettingsUnmarshaller.Instance;
                     unmarshalledObject.DynamoDbSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ElasticsearchSettings", targetDepth))
+                {
+                    var unmarshaller = ElasticsearchSettingsUnmarshaller.Instance;
+                    unmarshalledObject.ElasticsearchSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("EndpointArn", targetDepth))
@@ -100,6 +112,12 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     unmarshalledObject.EndpointType = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("EngineDisplayName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.EngineDisplayName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("EngineName", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -112,10 +130,28 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     unmarshalledObject.ExternalId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ExternalTableDefinition", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ExternalTableDefinition = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("ExtraConnectionAttributes", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ExtraConnectionAttributes = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("KafkaSettings", targetDepth))
+                {
+                    var unmarshaller = KafkaSettingsUnmarshaller.Instance;
+                    unmarshalledObject.KafkaSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("KinesisSettings", targetDepth))
+                {
+                    var unmarshaller = KinesisSettingsUnmarshaller.Instance;
+                    unmarshalledObject.KinesisSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("KmsKeyId", targetDepth))
@@ -136,6 +172,12 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     unmarshalledObject.Port = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("RedshiftSettings", targetDepth))
+                {
+                    var unmarshaller = RedshiftSettingsUnmarshaller.Instance;
+                    unmarshalledObject.RedshiftSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("S3Settings", targetDepth))
                 {
                     var unmarshaller = S3SettingsUnmarshaller.Instance;
@@ -146,6 +188,12 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ServerName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ServiceAccessRoleArn", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ServiceAccessRoleArn = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("SslMode", targetDepth))

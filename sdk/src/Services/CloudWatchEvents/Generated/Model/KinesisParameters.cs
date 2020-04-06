@@ -29,9 +29,9 @@ namespace Amazon.CloudWatchEvents.Model
 {
     /// <summary>
     /// This object enables you to specify a JSON path to extract from the event and use as
-    /// the partition key for the Amazon Kinesis stream, so that you can control the shard
-    /// to which the event goes. If you do not include this parameter, the default is to use
-    /// the <code>eventId</code> as the partition key.
+    /// the partition key for the Amazon Kinesis data stream, so that you can control the
+    /// shard to which the event goes. If you do not include this parameter, the default is
+    /// to use the <code>eventId</code> as the partition key.
     /// </summary>
     public partial class KinesisParameters
     {
@@ -41,10 +41,11 @@ namespace Amazon.CloudWatchEvents.Model
         /// Gets and sets the property PartitionKeyPath. 
         /// <para>
         /// The JSON path to be extracted from the event and used as the partition key. For more
-        /// information, see <a href="http://docs.aws.amazon.com/streams/latest/dev/key-concepts.html#partition-key">Amazon
+        /// information, see <a href="https://docs.aws.amazon.com/streams/latest/dev/key-concepts.html#partition-key">Amazon
         /// Kinesis Streams Key Concepts</a> in the <i>Amazon Kinesis Streams Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=256)]
         public string PartitionKeyPath
         {
             get { return this._partitionKeyPath; }

@@ -35,6 +35,8 @@ namespace Amazon.IoT.Model
         private Dictionary<string, string> _additionalParameters = new Dictionary<string, string>();
         private string _awsIotJobArn;
         private string _awsIotJobId;
+        private AwsJobExecutionsRolloutConfig _awsJobExecutionsRolloutConfig;
+        private AwsJobPresignedUrlConfig _awsJobPresignedUrlConfig;
         private DateTime? _creationDate;
         private string _description;
         private ErrorInfo _errorInfo;
@@ -43,6 +45,7 @@ namespace Amazon.IoT.Model
         private List<OTAUpdateFile> _otaUpdateFiles = new List<OTAUpdateFile>();
         private string _otaUpdateId;
         private OTAUpdateStatus _otaUpdateStatus;
+        private List<string> _protocols = new List<string>();
         private List<string> _targets = new List<string>();
         private TargetSelection _targetSelection;
 
@@ -101,6 +104,43 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AwsJobExecutionsRolloutConfig. 
+        /// <para>
+        /// Configuration for the rollout of OTA updates.
+        /// </para>
+        /// </summary>
+        public AwsJobExecutionsRolloutConfig AwsJobExecutionsRolloutConfig
+        {
+            get { return this._awsJobExecutionsRolloutConfig; }
+            set { this._awsJobExecutionsRolloutConfig = value; }
+        }
+
+        // Check to see if AwsJobExecutionsRolloutConfig property is set
+        internal bool IsSetAwsJobExecutionsRolloutConfig()
+        {
+            return this._awsJobExecutionsRolloutConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AwsJobPresignedUrlConfig. 
+        /// <para>
+        /// Configuration information for pre-signed URLs. Valid when <code>protocols</code> contains
+        /// HTTP.
+        /// </para>
+        /// </summary>
+        public AwsJobPresignedUrlConfig AwsJobPresignedUrlConfig
+        {
+            get { return this._awsJobPresignedUrlConfig; }
+            set { this._awsJobPresignedUrlConfig = value; }
+        }
+
+        // Check to see if AwsJobPresignedUrlConfig property is set
+        internal bool IsSetAwsJobPresignedUrlConfig()
+        {
+            return this._awsJobPresignedUrlConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreationDate. 
         /// <para>
         /// The date when the OTA update was created.
@@ -124,6 +164,7 @@ namespace Amazon.IoT.Model
         /// A description of the OTA update.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2028)]
         public string Description
         {
             get { return this._description; }
@@ -196,6 +237,7 @@ namespace Amazon.IoT.Model
         /// A list of files associated with the OTA update.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public List<OTAUpdateFile> OtaUpdateFiles
         {
             get { return this._otaUpdateFiles; }
@@ -214,6 +256,7 @@ namespace Amazon.IoT.Model
         /// The OTA update ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string OtaUpdateId
         {
             get { return this._otaUpdateId; }
@@ -245,11 +288,33 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Protocols. 
+        /// <para>
+        /// The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT],
+        /// [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose
+        /// the protocol.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=2)]
+        public List<string> Protocols
+        {
+            get { return this._protocols; }
+            set { this._protocols = value; }
+        }
+
+        // Check to see if Protocols property is set
+        internal bool IsSetProtocols()
+        {
+            return this._protocols != null && this._protocols.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Targets. 
         /// <para>
         /// The targets of the OTA update.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> Targets
         {
             get { return this._targets; }

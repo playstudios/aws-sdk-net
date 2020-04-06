@@ -46,6 +46,7 @@ namespace Amazon.DeviceFarm.Model
         /// The Amazon Resource Name (ARN) of the instance profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -64,6 +65,7 @@ namespace Amazon.DeviceFarm.Model
         /// The updated description for your instance profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=16384)]
         public string Description
         {
             get { return this._description; }
@@ -79,7 +81,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property ExcludeAppPackagesFromCleanup. 
         /// <para>
-        /// An array of strings specifying the list of app packages that should not be cleaned
+        /// An array of strings that specifies the list of app packages that should not be cleaned
         /// up from the device after a test run is over.
         /// </para>
         ///  
@@ -106,6 +108,7 @@ namespace Amazon.DeviceFarm.Model
         /// The updated name for your instance profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }

@@ -55,14 +55,15 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateApiKeyRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/apikeys/{api_Key}";
             if (!publicRequest.IsSetApiKey())
                 throw new AmazonAPIGatewayException("Request object does not have required field ApiKey set");
-            uriResourcePath = uriResourcePath.Replace("{api_Key}", StringUtils.FromString(publicRequest.ApiKey));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{api_Key}", StringUtils.FromString(publicRequest.ApiKey));
+            request.ResourcePath = "/apikeys/{api_Key}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

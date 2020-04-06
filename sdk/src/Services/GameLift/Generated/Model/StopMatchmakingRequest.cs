@@ -29,13 +29,34 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the StopMatchmaking operation.
-    /// Cancels a matchmaking ticket that is currently being processed. To stop the matchmaking
-    /// operation, specify the ticket ID. If successful, work on the ticket is stopped, and
-    /// the ticket status is changed to <code>CANCELLED</code>.
+    /// Cancels a matchmaking ticket or match backfill ticket that is currently being processed.
+    /// To stop the matchmaking operation, specify the ticket ID. If successful, work on the
+    /// ticket is stopped, and the ticket status is changed to <code>CANCELLED</code>.
     /// 
     ///  
     /// <para>
-    /// Matchmaking-related operations include:
+    /// This call is also used to turn off automatic backfill for an individual game session.
+    /// This is for game sessions that are created with a matchmaking configuration that has
+    /// automatic backfill enabled. The ticket ID is included in the <code>MatchmakerData</code>
+    /// of an updated game session object, which is provided to the game server.
+    /// </para>
+    ///  <note> 
+    /// <para>
+    /// If the action is successful, the service sends back an empty JSON struct with the
+    /// HTTP 200 response (not an empty HTTP body).
+    /// </para>
+    ///  </note> 
+    /// <para>
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-client.html">
+    /// Add FlexMatch to a Game Client</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -66,9 +87,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property TicketId. 
         /// <para>
-        /// Unique identifier for a matchmaking ticket.
+        /// A unique identifier for a matchmaking ticket.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=128)]
         public string TicketId
         {
             get { return this._ticketId; }

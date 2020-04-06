@@ -30,27 +30,27 @@ namespace Amazon.SecretsManager.Model
     /// <summary>
     /// Container for the parameters to the DeleteSecret operation.
     /// Deletes an entire secret and all of its versions. You can optionally include a recovery
-    /// window during which you can restore the secret. If you don't provide a recovery window
+    /// window during which you can restore the secret. If you don't specify a recovery window
     /// value, the operation defaults to 30 days. Secrets Manager attaches a <code>DeletionDate</code>
     /// stamp to the secret that specifies the end of the recovery window. At the end of the
     /// recovery window, Secrets Manager deletes the secret permanently.
     /// 
     ///  
     /// <para>
-    /// At any time before recovery period ends, you can use <a>RestoreSecret</a> to remove
+    /// At any time before recovery window ends, you can use <a>RestoreSecret</a> to remove
     /// the <code>DeletionDate</code> and cancel the deletion of the secret.
     /// </para>
     ///  
     /// <para>
     /// You cannot access the encrypted secret information in any secret that is scheduled
-    /// for deletion. If you need to access that information, you can cancel the deletion
+    /// for deletion. If you need to access that information, you must cancel the deletion
     /// with <a>RestoreSecret</a> and then retrieve the information.
     /// </para>
     ///  <note> <ul> <li> 
     /// <para>
     /// There is no explicit operation to delete a version of a secret. Instead, remove all
     /// staging labels from the <code>VersionStage</code> field of a version. That marks the
-    /// version as deprecated and allows AWS Secrets Manager to delete it as needed. Versions
+    /// version as deprecated and allows Secrets Manager to delete it as needed. Versions
     /// that do not have any staging labels do not show up in <a>ListSecretVersionIds</a>
     /// unless you specify <code>IncludeDeprecated</code>.
     /// </para>
@@ -82,21 +82,58 @@ namespace Amazon.SecretsManager.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// To cancel deletion of a version of a secret before the recovery period has expired,
+    /// To cancel deletion of a version of a secret before the recovery window has expired,
     /// use <a>RestoreSecret</a>.
     /// </para>
     ///  </li> </ul>
     /// </summary>
     public partial class DeleteSecretRequest : AmazonSecretsManagerRequest
     {
+        private bool? _forceDeleteWithoutRecovery;
         private long? _recoveryWindowInDays;
         private string _secretId;
 
         /// <summary>
+        /// Gets and sets the property ForceDeleteWithoutRecovery. 
+        /// <para>
+        /// (Optional) Specifies that the secret is to be deleted without any recovery window.
+        /// You can't use both this parameter and the <code>RecoveryWindowInDays</code> parameter
+        /// in the same API call.
+        /// </para>
+        ///  
+        /// <para>
+        /// An asynchronous background process performs the actual deletion, so there can be a
+        /// short delay before the operation completes. If you write code to delete and then immediately
+        /// recreate a secret with the same name, ensure that your code includes appropriate back
+        /// off and retry logic.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Use this parameter with caution. This parameter causes the operation to skip the normal
+        /// waiting period before the permanent deletion that AWS would normally impose with the
+        /// <code>RecoveryWindowInDays</code> parameter. If you delete a secret with the <code>ForceDeleteWithouRecovery</code>
+        /// parameter, then you have no opportunity to recover the secret. It is permanently lost.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        public bool ForceDeleteWithoutRecovery
+        {
+            get { return this._forceDeleteWithoutRecovery.GetValueOrDefault(); }
+            set { this._forceDeleteWithoutRecovery = value; }
+        }
+
+        // Check to see if ForceDeleteWithoutRecovery property is set
+        internal bool IsSetForceDeleteWithoutRecovery()
+        {
+            return this._forceDeleteWithoutRecovery.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property RecoveryWindowInDays. 
         /// <para>
-        /// (Optional) Specifies the number of days that AWS Secrets Manager waits before it can
-        /// delete the secret.
+        /// (Optional) Specifies the number of days that Secrets Manager waits before it can delete
+        /// the secret. You can't use both this parameter and the <code>ForceDeleteWithoutRecovery</code>
+        /// parameter in the same API call.
         /// </para>
         ///  
         /// <para>
@@ -121,7 +158,22 @@ namespace Amazon.SecretsManager.Model
         /// Specifies the secret that you want to delete. You can specify either the Amazon Resource
         /// Name (ARN) or the friendly name of the secret.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you specify an ARN, we generally recommend that you specify a complete ARN. You
+        /// can specify a partial ARN too—for example, if you don’t include the final hyphen and
+        /// six random characters that Secrets Manager adds at the end of the ARN when you created
+        /// the secret. A partial ARN match can work as long as it uniquely matches only one secret.
+        /// However, if your secret has a name that ends in a hyphen followed by six characters
+        /// (before Secrets Manager adds the hyphen and six characters to the ARN) and you try
+        /// to use that as a partial ARN, then those characters cause Secrets Manager to assume
+        /// that you’re specifying a complete ARN. This confusion can cause unexpected results.
+        /// To avoid this situation, we recommend that you don’t create secret names that end
+        /// with a hyphen followed by six characters.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string SecretId
         {
             get { return this._secretId; }

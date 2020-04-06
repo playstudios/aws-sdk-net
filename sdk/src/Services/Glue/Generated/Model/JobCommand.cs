@@ -28,17 +28,19 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Glue.Model
 {
     /// <summary>
-    /// Specifies code that executes a job.
+    /// Specifies code executed when a job is run.
     /// </summary>
     public partial class JobCommand
     {
         private string _name;
+        private string _pythonVersion;
         private string _scriptLocation;
 
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the job command: this must be <code>glueetl</code>.
+        /// The name of the job command. For an Apache Spark ETL job, this must be <code>glueetl</code>.
+        /// For a Python shell job, it must be <code>pythonshell</code>.
         /// </para>
         /// </summary>
         public string Name
@@ -54,9 +56,29 @@ namespace Amazon.Glue.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PythonVersion. 
+        /// <para>
+        /// The Python version being used to execute a Python shell job. Allowed values are 2
+        /// or 3.
+        /// </para>
+        /// </summary>
+        public string PythonVersion
+        {
+            get { return this._pythonVersion; }
+            set { this._pythonVersion = value; }
+        }
+
+        // Check to see if PythonVersion property is set
+        internal bool IsSetPythonVersion()
+        {
+            return this._pythonVersion != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ScriptLocation. 
         /// <para>
-        /// Specifies the S3 path to a script that executes a job (required).
+        /// Specifies the Amazon Simple Storage Service (Amazon S3) path to a script that executes
+        /// a job.
         /// </para>
         /// </summary>
         public string ScriptLocation

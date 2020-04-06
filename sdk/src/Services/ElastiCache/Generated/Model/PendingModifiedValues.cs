@@ -33,6 +33,7 @@ namespace Amazon.ElastiCache.Model
     /// </summary>
     public partial class PendingModifiedValues
     {
+        private AuthTokenUpdateStatus _authTokenStatus;
         private List<string> _cacheNodeIdsToRemove = new List<string>();
         private string _cacheNodeType;
         private string _engineVersion;
@@ -44,10 +45,28 @@ namespace Amazon.ElastiCache.Model
         public PendingModifiedValues() { }
 
         /// <summary>
+        /// Gets and sets the property AuthTokenStatus. 
+        /// <para>
+        /// The auth token status
+        /// </para>
+        /// </summary>
+        public AuthTokenUpdateStatus AuthTokenStatus
+        {
+            get { return this._authTokenStatus; }
+            set { this._authTokenStatus = value; }
+        }
+
+        // Check to see if AuthTokenStatus property is set
+        internal bool IsSetAuthTokenStatus()
+        {
+            return this._authTokenStatus != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CacheNodeIdsToRemove. 
         /// <para>
         /// A list of cache node IDs that are being removed (or will be removed) from the cluster.
-        /// A node ID is a numeric identifier (0001, 0002, etc.).
+        /// A node ID is a 4-digit numeric identifier (0001, 0002, etc.).
         /// </para>
         /// </summary>
         public List<string> CacheNodeIdsToRemove

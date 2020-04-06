@@ -72,7 +72,7 @@ namespace Amazon.RDS.Model
     ///  </li> <li> 
     /// <para>
     ///  <code>DestinationRegion</code> - The name of the AWS Region that the DB cluster snapshot
-    /// will be created in.
+    /// is to be created in.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -84,12 +84,19 @@ namespace Amazon.RDS.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// To learn how to generate a Signature Version 4 signed request, see <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
+    /// To learn how to generate a Signature Version 4 signed request, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
     /// Authenticating Requests: Using Query Parameters (AWS Signature Version 4)</a> and
-    /// <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html"> Signature
-    /// Version 4 Signing Process</a>.
+    /// <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">
+    /// Signature Version 4 Signing Process</a>.
     /// </para>
-    ///  </li> <li> 
+    ///  <note> 
+    /// <para>
+    /// If you are using an AWS SDK tool or the AWS CLI, you can specify <code>SourceRegion</code>
+    /// (or <code>--source-region</code> for the AWS CLI) instead of specifying <code>PreSignedUrl</code>
+    /// manually. Specifying <code>SourceRegion</code> autogenerates a pre-signed URL that
+    /// is a valid request for the operation that can be executed in the source AWS Region.
+    /// </para>
+    ///  </note> </li> <li> 
     /// <para>
     ///  <code>TargetDBClusterSnapshotIdentifier</code> - The identifier for the new copy
     /// of the DB cluster snapshot in the destination AWS Region.
@@ -110,15 +117,19 @@ namespace Amazon.RDS.Model
     ///  
     /// <para>
     /// For more information on copying encrypted DB cluster snapshots from one AWS Region
-    /// to another, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopyDBClusterSnapshot.CrossRegion">
-    /// Copying a DB Cluster Snapshot in the Same Account, Either in the Same Region or Across
-    /// Regions</a> in the Amazon RDS User Guide.
+    /// to another, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html">
+    /// Copying a Snapshot</a> in the <i>Amazon Aurora User Guide.</i> 
     /// </para>
     ///  
     /// <para>
-    /// For more information on Amazon Aurora, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i> 
+    /// For more information on Amazon Aurora, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CopyDBClusterSnapshotRequest : AmazonRDSRequest
     {
@@ -132,8 +143,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property CopyTags. 
         /// <para>
-        /// True to copy all tags from the source DB cluster snapshot to the target DB cluster
-        /// snapshot, and otherwise false. The default is false.
+        /// A value that indicates whether to copy all tags from the source DB cluster snapshot
+        /// to the target DB cluster snapshot. By default, tags are not copied.
         /// </para>
         /// </summary>
         public bool CopyTags
@@ -151,15 +162,9 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// The AWS AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the
-        /// Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption
+        /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon
+        /// Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption
         /// key. 
-        /// </para>
-        ///  
-        /// <para>
-        /// If you copy an unencrypted DB cluster snapshot and specify a value for the <code>KmsKeyId</code>
-        /// parameter, Amazon RDS encrypts the target DB cluster snapshot using the specified
-        /// KMS encryption key. 
         /// </para>
         ///  
         /// <para>
@@ -181,6 +186,11 @@ namespace Amazon.RDS.Model
         /// they are created in, and you can't use encryption keys from one AWS Region in another
         /// AWS Region.
         /// </para>
+        ///  
+        /// <para>
+        /// If you copy an unencrypted DB cluster snapshot and specify a value for the <code>KmsKeyId</code>
+        /// parameter, an error is returned.
+        /// </para>
         /// </summary>
         public string KmsKeyId
         {
@@ -200,11 +210,12 @@ namespace Amazon.RDS.Model
         /// The URL that contains a Signature Version 4 signed request for the <code>CopyDBClusterSnapshot</code>
         /// API action in the AWS Region that contains the source DB cluster snapshot to copy.
         /// The <code>PreSignedUrl</code> parameter must be used when copying an encrypted DB
-        /// cluster snapshot from another AWS Region.
+        /// cluster snapshot from another AWS Region. Don't specify <code>PreSignedUrl</code>
+        /// when you are copying an encrypted DB cluster snapshot in the same AWS Region.
         /// </para>
         ///  
         /// <para>
-        /// The pre-signed URL must be a valid request for the <code>CopyDBSClusterSnapshot</code>
+        /// The pre-signed URL must be a valid request for the <code>CopyDBClusterSnapshot</code>
         /// API action that can be executed in the source AWS Region that contains the encrypted
         /// DB cluster snapshot to be copied. The pre-signed URL request must contain the following
         /// parameter values:
@@ -219,7 +230,7 @@ namespace Amazon.RDS.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>DestinationRegion</code> - The name of the AWS Region that the DB cluster snapshot
-        /// will be created in.
+        /// is to be created in.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -231,11 +242,19 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// To learn how to generate a Signature Version 4 signed request, see <a href="http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
+        /// To learn how to generate a Signature Version 4 signed request, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
         /// Authenticating Requests: Using Query Parameters (AWS Signature Version 4)</a> and
-        /// <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html"> Signature
-        /// Version 4 Signing Process</a>.
+        /// <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">
+        /// Signature Version 4 Signing Process</a>.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are using an AWS SDK tool or the AWS CLI, you can specify <code>SourceRegion</code>
+        /// (or <code>--source-region</code> for the AWS CLI) instead of specifying <code>PreSignedUrl</code>
+        /// manually. Specifying <code>SourceRegion</code> autogenerates a pre-signed URL that
+        /// is a valid request for the operation that can be executed in the source AWS Region.
+        /// </para>
+        ///  </note>
         /// </summary>
         public string PreSignedUrl
         {
@@ -252,7 +271,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property SourceDBClusterSnapshotIdentifier. 
         /// <para>
-        /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive.
+        /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive.
         /// </para>
         ///  
         /// <para>
@@ -274,14 +293,15 @@ namespace Amazon.RDS.Model
         ///  </li> <li> 
         /// <para>
         /// If the source snapshot is in a different AWS Region than the copy, specify a valid
-        /// DB cluster snapshot ARN. For more information, go to <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html">
-        /// Copying a DB Snapshot or DB Cluster Snapshot</a>.
+        /// DB cluster snapshot ARN. For more information, go to <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html#USER_CopySnapshot.AcrossRegions">
+        /// Copying Snapshots Across AWS Regions</a> in the <i>Amazon Aurora User Guide.</i> 
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-cluster-snapshot1</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceDBClusterSnapshotIdentifier
         {
             get { return this._sourceDBClusterSnapshotIdentifier; }
@@ -313,7 +333,7 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property TargetDBClusterSnapshotIdentifier. 
         /// <para>
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster
-        /// snapshot. This parameter is not case-sensitive.
+        /// snapshot. This parameter isn't case-sensitive.
         /// </para>
         ///  
         /// <para>
@@ -329,13 +349,14 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens.
+        /// Can't end with a hyphen or contain two consecutive hyphens.
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-cluster-snapshot2</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetDBClusterSnapshotIdentifier
         {
             get { return this._targetDBClusterSnapshotIdentifier; }

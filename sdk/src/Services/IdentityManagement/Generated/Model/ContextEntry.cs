@@ -36,7 +36,7 @@ namespace Amazon.IdentityManagement.Model
     ///  
     /// <para>
     /// This data type is used as an input parameter to <code> <a>SimulateCustomPolicy</a>
-    /// </code> and <code> <a>SimulateCustomPolicy</a> </code>.
+    /// </code> and <code> <a>SimulatePrincipalPolicy</a> </code>.
     /// </para>
     /// </summary>
     public partial class ContextEntry
@@ -52,6 +52,7 @@ namespace Amazon.IdentityManagement.Model
         /// <code>aws:SourceIp</code> or <code>s3:VersionId</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=256)]
         public string ContextKeyName
         {
             get { return this._contextKeyName; }

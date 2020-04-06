@@ -29,11 +29,24 @@ namespace Amazon.AutoScaling.Model
 {
     /// <summary>
     /// Container for the parameters to the TerminateInstanceInAutoScalingGroup operation.
-    /// Terminates the specified instance and optionally adjusts the desired group size.
+    /// Terminates the specified instance and optionally adjusts the desired group size. This
+    /// call simply makes a termination request. The instance is not terminated immediately.
+    /// When an instance is terminated, the instance status changes to <code>terminated</code>.
+    /// You can't connect to or start an instance after you've terminated it.
     /// 
     ///  
     /// <para>
-    /// This call simply makes a termination request. The instance is not terminated immediately.
+    /// If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto
+    /// Scaling launches instances to replace the ones that are terminated. 
+    /// </para>
+    ///  
+    /// <para>
+    /// By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones.
+    /// If you decrement the desired capacity, your Auto Scaling group can become unbalanced
+    /// between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group,
+    /// and rebalancing might terminate instances in other zones. For more information, see
+    /// <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage">Rebalancing
+    /// Activities</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
     /// </para>
     /// </summary>
     public partial class TerminateInstanceInAutoScalingGroupRequest : AmazonAutoScalingRequest
@@ -47,6 +60,7 @@ namespace Amazon.AutoScaling.Model
         /// The ID of the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=19)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -66,6 +80,7 @@ namespace Amazon.AutoScaling.Model
         /// group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool ShouldDecrementDesiredCapacity
         {
             get { return this._shouldDecrementDesiredCapacity.GetValueOrDefault(); }

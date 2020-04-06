@@ -50,6 +50,7 @@ namespace Amazon.Util
         public const string ConnectionHeader = "Connection";
         public const string StatusHeader = "Status";
         public const string XHttpMethodOverrideHeader = "X-HTTP-Method-Override";
+        public const string TransferEncodingHeader = "transfer-encoding";
 
         public const string RequestIdHeader = "x-amzn-RequestId";
         public const string XAmzId2Header = "x-amz-id-2";
@@ -67,6 +68,8 @@ namespace Amazon.Util
         public const string XAmzServerSideEncryptionHeader = "x-amz-server-side-encryption";
         public const string XAmzServerSideEncryptionAwsKmsKeyIdHeader = "x-amz-server-side-encryption-aws-kms-key-id";
         public const string XAmzBucketRegion = "x-amz-bucket-region";
+        public const string XAmzAccountId = "x-amz-account-id";
+        public const string XAmzApiVersion = "x-amz-api-version";
 
         public const string XAmzSSECustomerAlgorithmHeader = "x-amz-server-side-encryption-customer-algorithm";
         public const string XAmzSSECustomerKeyHeader = "x-amz-server-side-encryption-customer-key";
@@ -93,5 +96,8 @@ namespace Amazon.Util
         public const string XAmzAbortDateHeader = "x-amz-abort-date";
         public const string XAmzAbortRuleIdHeader = "x-amz-abort-rule-id";
         public const string XAmznTraceIdHeader = "x-amzn-trace-id";
+
+        public const string XAwsEc2MetadataTokenTtlSeconds = "x-aws-ec2-metadata-token-ttl-seconds";
+        public const string XAwsEc2MetadataToken = "x-aws-ec2-metadata-token";
     }
 }

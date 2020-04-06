@@ -45,6 +45,22 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(DashIsoGroupSettings requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetAdditionalManifests())
+            {
+                context.Writer.WritePropertyName("additionalManifests");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectAdditionalManifestsListValue in requestObject.AdditionalManifests)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = DashAdditionalManifestMarshaller.Instance;
+                    marshaller.Marshall(requestObjectAdditionalManifestsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetBaseUrl())
             {
                 context.Writer.WritePropertyName("baseUrl");
@@ -55,6 +71,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("destination");
                 context.Writer.Write(requestObject.Destination);
+            }
+
+            if(requestObject.IsSetDestinationSettings())
+            {
+                context.Writer.WritePropertyName("destinationSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = DestinationSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.DestinationSettings, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetEncryption())
@@ -86,6 +113,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.MinBufferTime);
             }
 
+            if(requestObject.IsSetMpdProfile())
+            {
+                context.Writer.WritePropertyName("mpdProfile");
+                context.Writer.Write(requestObject.MpdProfile);
+            }
+
             if(requestObject.IsSetSegmentControl())
             {
                 context.Writer.WritePropertyName("segmentControl");
@@ -96,6 +129,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("segmentLength");
                 context.Writer.Write(requestObject.SegmentLength);
+            }
+
+            if(requestObject.IsSetWriteSegmentTimelineInRepresentation())
+            {
+                context.Writer.WritePropertyName("writeSegmentTimelineInRepresentation");
+                context.Writer.Write(requestObject.WriteSegmentTimelineInRepresentation);
             }
 
         }

@@ -30,8 +30,9 @@ namespace Amazon.ConfigService.Model
     /// <summary>
     /// Container for the parameters to the DescribeConfigurationAggregatorSourcesStatus operation.
     /// Returns status information for sources within an aggregator. The status includes information
-    /// about the last time AWS Config aggregated data from source accounts or AWS Config
-    /// failed to aggregate data from source accounts with the related error code or message.
+    /// about the last time AWS Config verified authorization between the source account and
+    /// an aggregator account. In case of a failure, the status contains the related error
+    /// code or message.
     /// </summary>
     public partial class DescribeConfigurationAggregatorSourcesStatusRequest : AmazonConfigServiceRequest
     {
@@ -46,6 +47,7 @@ namespace Amazon.ConfigService.Model
         /// The name of the configuration aggregator.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ConfigurationAggregatorName
         {
             get { return this._configurationAggregatorName; }
@@ -65,6 +67,7 @@ namespace Amazon.ConfigService.Model
         /// maximum. If you specify 0, AWS Config uses the default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -80,8 +83,8 @@ namespace Amazon.ConfigService.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The nextToken string returned on a previous page that you use to get the next page
-        /// of results in a paginated response.
+        /// The <code>nextToken</code> string returned on a previous page that you use to get
+        /// the next page of results in a paginated response.
         /// </para>
         /// </summary>
         public string NextToken
@@ -115,6 +118,7 @@ namespace Amazon.ConfigService.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> UpdateStatus
         {
             get { return this._updateStatus; }

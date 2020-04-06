@@ -31,8 +31,10 @@ namespace Amazon.OpsWorksCM
     ///
     /// AWS OpsWorks CM 
     /// <para>
-    ///  AWS OpsWorks for configuration management (CM) is a service that runs and manages
-    /// configuration management servers. 
+    /// AWS OpsWorks for configuration management (CM) is a service that runs and manages
+    /// configuration management servers. You can use AWS OpsWorks CM to create and manage
+    /// AWS OpsWorks for Chef Automate and AWS OpsWorks for Puppet Enterprise servers, and
+    /// add or remove nodes for the servers to manage.
     /// </para>
     ///  
     /// <para>
@@ -51,7 +53,7 @@ namespace Amazon.OpsWorksCM
     ///  </li> <li> 
     /// <para>
     ///  <b>Engine</b>: The engine is the specific configuration manager that you want to
-    /// use. Valid values in this release include <code>Chef</code> and <code>Puppet</code>.
+    /// use. Valid values in this release include <code>ChefAutomate</code> and <code>Puppet</code>.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -88,7 +90,31 @@ namespace Amazon.OpsWorksCM
     /// </para>
     ///  </li> <li> 
     /// <para>
+    /// opsworks-cm.us-east-2.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.us-west-1.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     /// opsworks-cm.us-west-2.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.ap-northeast-1.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.ap-southeast-1.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.ap-southeast-2.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.eu-central-1.amazonaws.com
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -306,6 +332,12 @@ namespace Amazon.OpsWorksCM
         /// only. To edit security group rules, open Security Groups in the navigation pane of
         /// the EC2 management console. 
         /// </para>
+        ///  
+        /// <para>
+        /// To specify your own domain for a server, and provide your own self-signed or CA-signed
+        /// certificate and private key, specify values for <code>CustomDomain</code>, <code>CustomCertificate</code>,
+        /// and <code>CustomPrivateKey</code>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateServer service method.</param>
         /// 
@@ -484,8 +516,7 @@ namespace Amazon.OpsWorksCM
 
 
         /// <summary>
-        /// Describes your account attributes, and creates requests to increase limits before
-        /// they are reached or exceeded. 
+        /// Describes your OpsWorks-CM account attributes. 
         /// 
         ///  
         /// <para>
@@ -825,6 +856,116 @@ namespace Amazon.OpsWorksCM
 
         #endregion
         
+        #region  ExportServerEngineAttribute
+
+
+        /// <summary>
+        /// Exports a specified server engine attribute as a base64-encoded string. For example,
+        /// you can export user data that you can use in EC2 to associate nodes with a server.
+        /// 
+        /// 
+        ///  
+        /// <para>
+        ///  This operation is synchronous. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  A <code>ValidationException</code> is raised when parameters of the request are not
+        /// valid. A <code>ResourceNotFoundException</code> is thrown when the server does not
+        /// exist. An <code>InvalidStateException</code> is thrown when the server is in any of
+        /// the following states: CREATING, TERMINATED, FAILED or DELETING. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportServerEngineAttribute service method.</param>
+        /// 
+        /// <returns>The response from the ExportServerEngineAttribute service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.InvalidStateException">
+        /// The resource is in a state that does not allow you to perform a specified action.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ExportServerEngineAttribute">REST API Reference for ExportServerEngineAttribute Operation</seealso>
+        ExportServerEngineAttributeResponse ExportServerEngineAttribute(ExportServerEngineAttributeRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportServerEngineAttribute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportServerEngineAttribute operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportServerEngineAttribute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ExportServerEngineAttribute">REST API Reference for ExportServerEngineAttribute Operation</seealso>
+        IAsyncResult BeginExportServerEngineAttribute(ExportServerEngineAttributeRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportServerEngineAttribute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportServerEngineAttribute.</param>
+        /// 
+        /// <returns>Returns a  ExportServerEngineAttributeResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ExportServerEngineAttribute">REST API Reference for ExportServerEngineAttribute Operation</seealso>
+        ExportServerEngineAttributeResponse EndExportServerEngineAttribute(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// Returns a list of tags that are applied to the specified AWS OpsWorks for Chef Automate
+        /// or AWS OpsWorks for Puppet Enterprise servers or backups.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  RestoreServer
 
 
@@ -835,6 +976,14 @@ namespace Amazon.OpsWorksCM
         /// is configured. RestoreServer maintains the existing server endpoint, so configuration
         /// management of the server's client devices (nodes) should continue to work. 
         /// 
+        ///  
+        /// <para>
+        /// Restoring from a backup is performed by creating a new EC2 instance. If restoration
+        /// is successful, and the server is in a <code>HEALTHY</code> state, AWS OpsWorks CM
+        /// switches traffic over to the new instance. After restoration is finished, the old
+        /// EC2 instance is maintained in a <code>Running</code> or <code>Stopped</code> state,
+        /// but is eventually terminated.
+        /// </para>
         ///  
         /// <para>
         ///  This operation is asynchronous. 
@@ -950,6 +1099,105 @@ namespace Amazon.OpsWorksCM
 
         #endregion
         
+        #region  TagResource
+
+
+        /// <summary>
+        /// Applies tags to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise
+        /// server, or to server backups.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.InvalidStateException">
+        /// The resource is in a state that does not allow you to perform a specified action.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes specified tags from an AWS OpsWorks-CM server or backup.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.InvalidStateException">
+        /// The resource is in a state that does not allow you to perform a specified action.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateServer
 
 
@@ -1010,9 +1258,8 @@ namespace Amazon.OpsWorksCM
         /// <summary>
         /// Updates engine-specific attributes on a specified server. The server enters the <code>MODIFYING</code>
         /// state when this operation is in progress. Only one update can occur at a time. You
-        /// can use this command to reset a Chef server's private key (<code>CHEF_PIVOTAL_KEY</code>),
-        /// a Chef server's admin password (<code>CHEF_DELIVERY_ADMIN_PASSWORD</code>), or a Puppet
-        /// server's admin password (<code>PUPPET_ADMIN_PASSWORD</code>). 
+        /// can use this command to reset a Chef server's public key (<code>CHEF_PIVOTAL_KEY</code>)
+        /// or a Puppet server's admin password (<code>PUPPET_ADMIN_PASSWORD</code>). 
         /// 
         ///  
         /// <para>

@@ -29,7 +29,7 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the ListKeys operation.
-    /// Gets a list of all customer master keys (CMKs) in the caller's AWS account and region.
+    /// Gets a list of all customer master keys (CMKs) in the caller's AWS account and Region.
     /// </summary>
     public partial class ListKeysRequest : AmazonKeyManagementServiceRequest
     {
@@ -49,6 +49,7 @@ namespace Amazon.KeyManagementService.Model
         /// If you do not include a value, it defaults to 100.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -69,6 +70,7 @@ namespace Amazon.KeyManagementService.Model
         /// you just received.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Marker
         {
             get { return this._marker; }

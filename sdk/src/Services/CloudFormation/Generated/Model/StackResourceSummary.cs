@@ -32,6 +32,7 @@ namespace Amazon.CloudFormation.Model
     /// </summary>
     public partial class StackResourceSummary
     {
+        private StackResourceDriftInformationSummary _driftInformation;
         private DateTime? _lastUpdatedTimestamp;
         private string _logicalResourceId;
         private string _physicalResourceId;
@@ -40,11 +41,33 @@ namespace Amazon.CloudFormation.Model
         private string _resourceType;
 
         /// <summary>
+        /// Gets and sets the property DriftInformation. 
+        /// <para>
+        /// Information about whether the resource's actual configuration differs, or has <i>drifted</i>,
+        /// from its expected configuration, as defined in the stack template and any values specified
+        /// as template parameters. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+        /// Unregulated Configuration Changes to Stacks and Resources</a>.
+        /// </para>
+        /// </summary>
+        public StackResourceDriftInformationSummary DriftInformation
+        {
+            get { return this._driftInformation; }
+            set { this._driftInformation = value; }
+        }
+
+        // Check to see if DriftInformation property is set
+        internal bool IsSetDriftInformation()
+        {
+            return this._driftInformation != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property LastUpdatedTimestamp. 
         /// <para>
         /// Time the status was updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime LastUpdatedTimestamp
         {
             get { return this._lastUpdatedTimestamp.GetValueOrDefault(); }
@@ -63,6 +86,7 @@ namespace Amazon.CloudFormation.Model
         /// The logical name of the resource specified in the template.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LogicalResourceId
         {
             get { return this._logicalResourceId; }
@@ -99,6 +123,7 @@ namespace Amazon.CloudFormation.Model
         /// Current status of the resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ResourceStatus ResourceStatus
         {
             get { return this._resourceStatus; }
@@ -132,10 +157,11 @@ namespace Amazon.CloudFormation.Model
         /// <summary>
         /// Gets and sets the property ResourceType. 
         /// <para>
-        /// Type of resource. (For more information, go to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">
+        /// Type of resource. (For more information, go to <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">
         /// AWS Resource Types Reference</a> in the AWS CloudFormation User Guide.)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ResourceType
         {
             get { return this._resourceType; }

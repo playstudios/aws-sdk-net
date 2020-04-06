@@ -29,7 +29,7 @@ namespace Amazon.DynamoDBv2.Model
 {
     /// <summary>
     /// Represents a condition to be compared with an attribute value. This condition can
-    /// be used with <code>DeleteItem</code>, <code>PutItem</code> or <code>UpdateItem</code>
+    /// be used with <code>DeleteItem</code>, <code>PutItem</code>, or <code>UpdateItem</code>
     /// operations; if the comparison evaluates to true, the operation succeeds; if not, the
     /// operation fails. You can use <code>ExpectedAttributeValue</code> in one of two different
     /// ways:
@@ -72,7 +72,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Instantiates ExpectedAttributeValue with the parameterized properties
         /// </summary>
-        /// <param name="value">Represents the data for the expected attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="value">Represents the data for the expected attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         public ExpectedAttributeValue(AttributeValue value)
         {
             _value = value;
@@ -81,7 +81,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Instantiates ExpectedAttributeValue with the parameterized properties
         /// </summary>
-        /// <param name="exists">Causes DynamoDB to evaluate the value before attempting a conditional operation: <ul> <li> If <code>Exists</code> is <code>true</code>, DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the operation succeeds. If it is not found, the operation fails with a <code>ConditionalCheckFailedException</code>. </li> <li> If <code>Exists</code> is <code>false</code>, DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the operation succeeds. If the value is found, despite the assumption that it does not exist, the operation fails with a <code>ConditionalCheckFailedException</code>. </li> </ul> The default setting for <code>Exists</code> is <code>true</code>. If you supply a <code>Value</code> all by itself, DynamoDB assumes the attribute exists: You don't have to set <code>Exists</code> to <code>true</code>, because it is implied. DynamoDB returns a <code>ValidationException</code> if: <ul> <li>  <code>Exists</code> is <code>true</code> but there is no <code>Value</code> to check. (You expect a value to exist, but don't specify what that value is.) </li> <li>  <code>Exists</code> is <code>false</code> but you also provide a <code>Value</code>. (You cannot expect an attribute to have a value, while also expecting it not to exist.) </li> </ul></param>
+        /// <param name="exists">Causes DynamoDB to evaluate the value before attempting a conditional operation: <ul> <li> If <code>Exists</code> is <code>true</code>, DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the operation succeeds. If it is not found, the operation fails with a <code>ConditionCheckFailedException</code>. </li> <li> If <code>Exists</code> is <code>false</code>, DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the operation succeeds. If the value is found, despite the assumption that it does not exist, the operation fails with a <code>ConditionCheckFailedException</code>. </li> </ul> The default setting for <code>Exists</code> is <code>true</code>. If you supply a <code>Value</code> all by itself, DynamoDB assumes the attribute exists: You don't have to set <code>Exists</code> to <code>true</code>, because it is implied. DynamoDB returns a <code>ValidationException</code> if: <ul> <li>  <code>Exists</code> is <code>true</code> but there is no <code>Value</code> to check. (You expect a value to exist, but don't specify what that value is.) </li> <li>  <code>Exists</code> is <code>false</code> but you also provide a <code>Value</code>. (You cannot expect an attribute to have a value, while also expecting it not to exist.) </li> </ul></param>
         public ExpectedAttributeValue(bool exists)
         {
             _exists = exists;
@@ -111,7 +111,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// For information on specifying data types in JSON, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON
+        /// For information on specifying data types in JSON, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON
         /// Data Format</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -351,14 +351,14 @@ namespace Amazon.DynamoDBv2.Model
         /// <para>
         /// If <code>Exists</code> is <code>true</code>, DynamoDB will check to see if that attribute
         /// value already exists in the table. If it is found, then the operation succeeds. If
-        /// it is not found, the operation fails with a <code>ConditionalCheckFailedException</code>.
+        /// it is not found, the operation fails with a <code>ConditionCheckFailedException</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If <code>Exists</code> is <code>false</code>, DynamoDB assumes that the attribute
         /// value does not exist in the table. If in fact the value does not exist, then the assumption
         /// is valid and the operation succeeds. If the value is found, despite the assumption
-        /// that it does not exist, the operation fails with a <code>ConditionalCheckFailedException</code>.
+        /// that it does not exist, the operation fails with a <code>ConditionCheckFailedException</code>.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -406,7 +406,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
         /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>

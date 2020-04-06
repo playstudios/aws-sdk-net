@@ -31,9 +31,10 @@ namespace Amazon.Lightsail
     ///
     /// Amazon Lightsail is the easiest way to get started with AWS for developers who just
     /// need virtual private servers. Lightsail includes everything you need to launch your
-    /// project quickly - a virtual machine, SSD-based storage, data transfer, DNS management,
-    /// and a static IP - for a low, predictable price. You manage those Lightsail servers
-    /// through the Lightsail console or by using the API or command-line interface (CLI).
+    /// project quickly - a virtual machine, a managed database, SSD-based storage, data transfer,
+    /// DNS management, and a static IP - for a low, predictable price. You manage those Lightsail
+    /// servers through the Lightsail console or by using the API or command-line interface
+    /// (CLI).
     /// 
     ///  
     /// <para>
@@ -129,6 +130,14 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes
         /// it to the instance with the specified disk name.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>attach disk</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>disk name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachDisk service method.</param>
         /// 
@@ -205,6 +214,13 @@ namespace Amazon.Lightsail
         /// <para>
         /// After some time, the instances are attached to the load balancer and the health check
         /// status is available.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>attach instances to load balancer</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachInstancesToLoadBalancer service method.</param>
@@ -283,8 +299,15 @@ namespace Amazon.Lightsail
         /// <para>
         /// Once you create and validate your certificate, you can attach it to your load balancer.
         /// You can also use this API to rotate the certificates on your account. Use the <code>AttachLoadBalancerTlsCertificate</code>
-        /// operation with the non-attached certificate, and it will replace the existing one
-        /// and become the attached certificate.
+        /// action with the non-attached certificate, and it will replace the existing one and
+        /// become the attached certificate.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>AttachLoadBalancerTlsCertificate</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancerTlsCertificate service method.</param>
@@ -428,6 +451,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Closes the public ports on a specific Amazon Lightsail instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>close instance public ports</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CloseInstancePublicPorts service method.</param>
         /// 
@@ -494,14 +525,265 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  CopySnapshot
+
+
+        /// <summary>
+        /// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies
+        /// an automatic snapshot of an instance or disk as a manual snapshot. This operation
+        /// can also be used to copy a manual or automatic snapshot of an instance or a disk from
+        /// one AWS Region to another in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// When copying a <i>manual snapshot</i>, be sure to define the <code>source region</code>,
+        /// <code>source snapshot name</code>, and <code>target snapshot name</code> parameters.
+        /// </para>
+        ///  
+        /// <para>
+        /// When copying an <i>automatic snapshot</i>, be sure to define the <code>source region</code>,
+        /// <code>source resource name</code>, <code>target snapshot name</code>, and either the
+        /// <code>restore date</code> or the <code>use latest restorable auto snapshot</code>
+        /// parameters.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CopySnapshot service method.</param>
+        /// 
+        /// <returns>The response from the CopySnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CopySnapshot">REST API Reference for CopySnapshot Operation</seealso>
+        CopySnapshotResponse CopySnapshot(CopySnapshotRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CopySnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CopySnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCopySnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CopySnapshot">REST API Reference for CopySnapshot Operation</seealso>
+        IAsyncResult BeginCopySnapshot(CopySnapshotRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CopySnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCopySnapshot.</param>
+        /// 
+        /// <returns>Returns a  CopySnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CopySnapshot">REST API Reference for CopySnapshot Operation</seealso>
+        CopySnapshotResponse EndCopySnapshot(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateCloudFormationStack
+
+
+        /// <summary>
+        /// Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from
+        /// an exported Amazon Lightsail snapshot. This operation results in a CloudFormation
+        /// stack record that can be used to track the AWS CloudFormation stack created. Use the
+        /// <code>get cloud formation stack records</code> operation to get a list of the CloudFormation
+        /// stacks created.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Wait until after your new Amazon EC2 instance is created before running the <code>create
+        /// cloud formation stack</code> operation again with the same export snapshot record.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCloudFormationStack service method.</param>
+        /// 
+        /// <returns>The response from the CreateCloudFormationStack service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateCloudFormationStack">REST API Reference for CreateCloudFormationStack Operation</seealso>
+        CreateCloudFormationStackResponse CreateCloudFormationStack(CreateCloudFormationStackRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateCloudFormationStack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateCloudFormationStack operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateCloudFormationStack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateCloudFormationStack">REST API Reference for CreateCloudFormationStack Operation</seealso>
+        IAsyncResult BeginCreateCloudFormationStack(CreateCloudFormationStackRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateCloudFormationStack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateCloudFormationStack.</param>
+        /// 
+        /// <returns>Returns a  CreateCloudFormationStackResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateCloudFormationStack">REST API Reference for CreateCloudFormationStack Operation</seealso>
+        CreateCloudFormationStackResponse EndCreateCloudFormationStack(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateContactMethod
+
+
+        /// <summary>
+        /// Creates an email or SMS text message contact method.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateContactMethod service method.</param>
+        /// 
+        /// <returns>The response from the CreateContactMethod service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateContactMethod">REST API Reference for CreateContactMethod Operation</seealso>
+        CreateContactMethodResponse CreateContactMethod(CreateContactMethodRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateContactMethod operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateContactMethod
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateContactMethod">REST API Reference for CreateContactMethod Operation</seealso>
+        IAsyncResult BeginCreateContactMethod(CreateContactMethodRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateContactMethod.</param>
+        /// 
+        /// <returns>Returns a  CreateContactMethodResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateContactMethod">REST API Reference for CreateContactMethod Operation</seealso>
+        CreateContactMethodResponse EndCreateContactMethod(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateDisk
 
 
         /// <summary>
-        /// Creates a block storage disk that can be attached to a Lightsail instance in the same
-        /// Availability Zone (e.g., <code>us-east-2a</code>). The disk is created in the regional
-        /// endpoint that you send the HTTP request to. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/overview/article/understanding-regions-and-availability-zones-in-amazon-lightsail">Regions
-        /// and Availability Zones in Lightsail</a>.
+        /// Creates a block storage disk that can be attached to an Amazon Lightsail instance
+        /// in the same Availability Zone (e.g., <code>us-east-2a</code>).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create disk</code> operation supports tag-based access control via request
+        /// tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDisk service method.</param>
         /// 
@@ -572,11 +854,17 @@ namespace Amazon.Lightsail
 
 
         /// <summary>
-        /// Creates a block storage disk from a disk snapshot that can be attached to a Lightsail
-        /// instance in the same Availability Zone (e.g., <code>us-east-2a</code>). The disk is
-        /// created in the regional endpoint that you send the HTTP request to. For more information,
-        /// see <a href="https://lightsail.aws.amazon.com/ls/docs/overview/article/understanding-regions-and-availability-zones-in-amazon-lightsail">Regions
-        /// and Availability Zones in Lightsail</a>.
+        /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting
+        /// disk can be attached to an Amazon Lightsail instance in the same Availability Zone
+        /// (e.g., <code>us-east-2a</code>).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create disk from snapshot</code> operation supports tag-based access control
+        /// via request tags and resource tags applied to the resource identified by <code>disk
+        /// snapshot name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDiskFromSnapshot service method.</param>
         /// 
@@ -662,6 +950,23 @@ namespace Amazon.Lightsail
         /// and complete snapshot. You may remount and use your disk while the snapshot status
         /// is pending.
         /// </para>
+        ///  
+        /// <para>
+        /// You can also use this operation to create a snapshot of an instance's system volume.
+        /// You might want to do this, for example, to recover data from the system volume of
+        /// a botched instance or to create a backup of the system volume like you would for a
+        /// block storage disk. To create a snapshot of a system volume, just define the <code>instance
+        /// name</code> parameter when issuing the snapshot command, and a snapshot of the defined
+        /// instance's system volume will be created. After the snapshot is available, you can
+        /// create a block storage disk from the snapshot and attach it to a running instance
+        /// to access the data on the disk.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>create disk snapshot</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDiskSnapshot service method.</param>
         /// 
@@ -733,6 +1038,13 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Creates a domain resource for the specified domain (e.g., example.com).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create domain</code> operation supports tag-based access control via request
+        /// tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDomain service method.</param>
         /// 
@@ -803,8 +1115,17 @@ namespace Amazon.Lightsail
 
 
         /// <summary>
-        /// Creates one of the following entry records associated with the domain: A record, CNAME
-        /// record, TXT record, or MX record.
+        /// Creates one of the following entry records associated with the domain: Address (A),
+        /// canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
+        /// (SOA), service locator (SRV), or text (TXT).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create domain entry</code> operation supports tag-based access control via
+        /// resource tags applied to the resource identified by <code>domain name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDomainEntry service method.</param>
         /// 
@@ -875,7 +1196,14 @@ namespace Amazon.Lightsail
 
 
         /// <summary>
-        /// Creates one or more Amazon Lightsail virtual private servers, or <i>instances</i>.
+        /// Creates one or more Amazon Lightsail instances.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create instances</code> operation supports tag-based access control via
+        /// request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateInstances service method.</param>
         /// 
@@ -946,8 +1274,15 @@ namespace Amazon.Lightsail
 
 
         /// <summary>
-        /// Uses a specific snapshot as a blueprint for creating one or more new instances that
-        /// are based on that identical configuration.
+        /// Creates one or more new instances from a manual or automatic snapshot of an instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create instances from snapshot</code> operation supports tag-based access
+        /// control via request tags and resource tags applied to the resource identified by <code>instance
+        /// snapshot name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateInstancesFromSnapshot service method.</param>
         /// 
@@ -1020,6 +1355,13 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Creates a snapshot of a specific virtual private server, or <i>instance</i>. You can
         /// use a snapshot to create a new instance that is based on that snapshot.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create instance snapshot</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateInstanceSnapshot service method.</param>
         /// 
@@ -1090,7 +1432,14 @@ namespace Amazon.Lightsail
 
 
         /// <summary>
-        /// Creates sn SSH key pair.
+        /// Creates an SSH key pair.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create key pair</code> operation supports tag-based access control via request
+        /// tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateKeyPair service method.</param>
         /// 
@@ -1172,6 +1521,12 @@ namespace Amazon.Lightsail
         /// To change additional load balancer settings, use the <code>UpdateLoadBalancerAttribute</code>
         /// operation.
         /// </para>
+        ///  
+        /// <para>
+        /// The <code>create load balancer</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLoadBalancer service method.</param>
         /// 
@@ -1248,6 +1603,13 @@ namespace Amazon.Lightsail
         /// <para>
         /// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
         /// </para>
+        ///  
+        /// <para>
+        /// The <code>CreateLoadBalancerTlsCertificate</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLoadBalancerTlsCertificate service method.</param>
         /// 
@@ -1314,6 +1676,469 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  CreateRelationalDatabase
+
+
+        /// <summary>
+        /// Creates a new database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create relational database</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the CreateRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabase">REST API Reference for CreateRelationalDatabase Operation</seealso>
+        CreateRelationalDatabaseResponse CreateRelationalDatabase(CreateRelationalDatabaseRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabase">REST API Reference for CreateRelationalDatabase Operation</seealso>
+        IAsyncResult BeginCreateRelationalDatabase(CreateRelationalDatabaseRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  CreateRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabase">REST API Reference for CreateRelationalDatabase Operation</seealso>
+        CreateRelationalDatabaseResponse EndCreateRelationalDatabase(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateRelationalDatabaseFromSnapshot
+
+
+        /// <summary>
+        /// Creates a new database from an existing database snapshot in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// You can create a new database from a snapshot in if something goes wrong with your
+        /// original database, or to change it to a different plan, such as a high availability
+        /// or standard plan.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>create relational database from snapshot</code> operation supports tag-based
+        /// access control via request tags and resource tags applied to the resource identified
+        /// by relationalDatabaseSnapshotName. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseFromSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the CreateRelationalDatabaseFromSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseFromSnapshot">REST API Reference for CreateRelationalDatabaseFromSnapshot Operation</seealso>
+        CreateRelationalDatabaseFromSnapshotResponse CreateRelationalDatabaseFromSnapshot(CreateRelationalDatabaseFromSnapshotRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateRelationalDatabaseFromSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseFromSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateRelationalDatabaseFromSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseFromSnapshot">REST API Reference for CreateRelationalDatabaseFromSnapshot Operation</seealso>
+        IAsyncResult BeginCreateRelationalDatabaseFromSnapshot(CreateRelationalDatabaseFromSnapshotRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateRelationalDatabaseFromSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateRelationalDatabaseFromSnapshot.</param>
+        /// 
+        /// <returns>Returns a  CreateRelationalDatabaseFromSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseFromSnapshot">REST API Reference for CreateRelationalDatabaseFromSnapshot Operation</seealso>
+        CreateRelationalDatabaseFromSnapshotResponse EndCreateRelationalDatabaseFromSnapshot(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateRelationalDatabaseSnapshot
+
+
+        /// <summary>
+        /// Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for
+        /// backups, to make copies of a database, and to save data before deleting a database.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create relational database snapshot</code> operation supports tag-based
+        /// access control via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the CreateRelationalDatabaseSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseSnapshot">REST API Reference for CreateRelationalDatabaseSnapshot Operation</seealso>
+        CreateRelationalDatabaseSnapshotResponse CreateRelationalDatabaseSnapshot(CreateRelationalDatabaseSnapshotRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateRelationalDatabaseSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseSnapshot">REST API Reference for CreateRelationalDatabaseSnapshot Operation</seealso>
+        IAsyncResult BeginCreateRelationalDatabaseSnapshot(CreateRelationalDatabaseSnapshotRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateRelationalDatabaseSnapshot.</param>
+        /// 
+        /// <returns>Returns a  CreateRelationalDatabaseSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseSnapshot">REST API Reference for CreateRelationalDatabaseSnapshot Operation</seealso>
+        CreateRelationalDatabaseSnapshotResponse EndCreateRelationalDatabaseSnapshot(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteAlarm
+
+
+        /// <summary>
+        /// Deletes an alarm.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAlarm service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAlarm service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAlarm">REST API Reference for DeleteAlarm Operation</seealso>
+        DeleteAlarmResponse DeleteAlarm(DeleteAlarmRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAlarm operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAlarm
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAlarm">REST API Reference for DeleteAlarm Operation</seealso>
+        IAsyncResult BeginDeleteAlarm(DeleteAlarmRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAlarm.</param>
+        /// 
+        /// <returns>Returns a  DeleteAlarmResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAlarm">REST API Reference for DeleteAlarm Operation</seealso>
+        DeleteAlarmResponse EndDeleteAlarm(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteAutoSnapshot
+
+
+        /// <summary>
+        /// Deletes an automatic snapshot of an instance or disk. For more information, see the
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAutoSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAutoSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAutoSnapshot">REST API Reference for DeleteAutoSnapshot Operation</seealso>
+        DeleteAutoSnapshotResponse DeleteAutoSnapshot(DeleteAutoSnapshotRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAutoSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAutoSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAutoSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAutoSnapshot">REST API Reference for DeleteAutoSnapshot Operation</seealso>
+        IAsyncResult BeginDeleteAutoSnapshot(DeleteAutoSnapshotRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAutoSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAutoSnapshot.</param>
+        /// 
+        /// <returns>Returns a  DeleteAutoSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAutoSnapshot">REST API Reference for DeleteAutoSnapshot Operation</seealso>
+        DeleteAutoSnapshotResponse EndDeleteAutoSnapshot(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteContactMethod
+
+
+        /// <summary>
+        /// Deletes a contact method.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteContactMethod service method.</param>
+        /// 
+        /// <returns>The response from the DeleteContactMethod service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteContactMethod">REST API Reference for DeleteContactMethod Operation</seealso>
+        DeleteContactMethodResponse DeleteContactMethod(DeleteContactMethodRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteContactMethod operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteContactMethod
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteContactMethod">REST API Reference for DeleteContactMethod Operation</seealso>
+        IAsyncResult BeginDeleteContactMethod(DeleteContactMethodRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteContactMethod.</param>
+        /// 
+        /// <returns>Returns a  DeleteContactMethodResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteContactMethod">REST API Reference for DeleteContactMethod Operation</seealso>
+        DeleteContactMethodResponse EndDeleteContactMethod(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteDisk
 
 
@@ -1325,7 +2150,13 @@ namespace Amazon.Lightsail
         /// <para>
         /// The disk may remain in the <code>deleting</code> state for several minutes.
         /// </para>
-        ///  </note>
+        ///  </note> 
+        /// <para>
+        /// The <code>delete disk</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>disk name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDisk service method.</param>
         /// 
@@ -1406,6 +2237,13 @@ namespace Amazon.Lightsail
         /// is removed. So regardless of which prior snapshots have been deleted, all active snapshots
         /// will have access to all the information needed to restore the disk.
         /// </para>
+        ///  
+        /// <para>
+        /// The <code>delete disk snapshot</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>disk snapshot name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDiskSnapshot service method.</param>
         /// 
@@ -1477,6 +2315,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes the specified domain recordset and all of its domain records.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete domain</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>domain name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDomain service method.</param>
         /// 
@@ -1548,6 +2394,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes a specific domain entry.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete domain entry</code> operation supports tag-based access control via
+        /// resource tags applied to the resource identified by <code>domain name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDomainEntry service method.</param>
         /// 
@@ -1618,7 +2472,15 @@ namespace Amazon.Lightsail
 
 
         /// <summary>
-        /// Deletes a specific Amazon Lightsail virtual private server, or <i>instance</i>.
+        /// Deletes an Amazon Lightsail instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteInstance service method.</param>
         /// 
@@ -1690,6 +2552,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes a specific snapshot of a virtual private server (or <i>instance</i>).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete instance snapshot</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance snapshot name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteInstanceSnapshot service method.</param>
         /// 
@@ -1761,6 +2631,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes a specific SSH key pair.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete key pair</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>key pair name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteKeyPair service method.</param>
         /// 
@@ -1827,6 +2705,88 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  DeleteKnownHostKeys
+
+
+        /// <summary>
+        /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based
+        /// SSH or RDP clients to authenticate an instance. This operation enables the Lightsail
+        /// browser-based SSH or RDP clients to connect to the instance after a host key mismatch.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Perform this operation only if you were expecting the host key or certificate mismatch
+        /// or if you are familiar with the new host key or certificate on the instance. For more
+        /// information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection">Troubleshooting
+        /// connection issues when using the Amazon Lightsail browser-based SSH or RDP client</a>.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteKnownHostKeys service method.</param>
+        /// 
+        /// <returns>The response from the DeleteKnownHostKeys service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKnownHostKeys">REST API Reference for DeleteKnownHostKeys Operation</seealso>
+        DeleteKnownHostKeysResponse DeleteKnownHostKeys(DeleteKnownHostKeysRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteKnownHostKeys operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteKnownHostKeys operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteKnownHostKeys
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKnownHostKeys">REST API Reference for DeleteKnownHostKeys Operation</seealso>
+        IAsyncResult BeginDeleteKnownHostKeys(DeleteKnownHostKeysRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteKnownHostKeys operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteKnownHostKeys.</param>
+        /// 
+        /// <returns>Returns a  DeleteKnownHostKeysResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKnownHostKeys">REST API Reference for DeleteKnownHostKeys Operation</seealso>
+        DeleteKnownHostKeysResponse EndDeleteKnownHostKeys(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteLoadBalancer
 
 
@@ -1834,6 +2794,14 @@ namespace Amazon.Lightsail
         /// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once
         /// the load balancer is deleted, you will need to create a new load balancer, create
         /// a new certificate, and verify domain ownership again.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete load balancer</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>load balancer name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLoadBalancer service method.</param>
         /// 
@@ -1905,6 +2873,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>DeleteLoadBalancerTlsCertificate</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLoadBalancerTlsCertificate service method.</param>
         /// 
@@ -1971,6 +2947,164 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  DeleteRelationalDatabase
+
+
+        /// <summary>
+        /// Deletes a database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabase">REST API Reference for DeleteRelationalDatabase Operation</seealso>
+        DeleteRelationalDatabaseResponse DeleteRelationalDatabase(DeleteRelationalDatabaseRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabase">REST API Reference for DeleteRelationalDatabase Operation</seealso>
+        IAsyncResult BeginDeleteRelationalDatabase(DeleteRelationalDatabaseRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  DeleteRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabase">REST API Reference for DeleteRelationalDatabase Operation</seealso>
+        DeleteRelationalDatabaseResponse EndDeleteRelationalDatabase(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteRelationalDatabaseSnapshot
+
+
+        /// <summary>
+        /// Deletes a database snapshot in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete relational database snapshot</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by relationalDatabaseName.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabaseSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRelationalDatabaseSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabaseSnapshot">REST API Reference for DeleteRelationalDatabaseSnapshot Operation</seealso>
+        DeleteRelationalDatabaseSnapshotResponse DeleteRelationalDatabaseSnapshot(DeleteRelationalDatabaseSnapshotRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabaseSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRelationalDatabaseSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabaseSnapshot">REST API Reference for DeleteRelationalDatabaseSnapshot Operation</seealso>
+        IAsyncResult BeginDeleteRelationalDatabaseSnapshot(DeleteRelationalDatabaseSnapshotRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRelationalDatabaseSnapshot.</param>
+        /// 
+        /// <returns>Returns a  DeleteRelationalDatabaseSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabaseSnapshot">REST API Reference for DeleteRelationalDatabaseSnapshot Operation</seealso>
+        DeleteRelationalDatabaseSnapshotResponse EndDeleteRelationalDatabaseSnapshot(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DetachDisk
 
 
@@ -1978,6 +3112,14 @@ namespace Amazon.Lightsail
         /// Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount
         /// any file systems on the device within your operating system before stopping the instance
         /// and detaching the disk.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>detach disk</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>disk name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachDisk service method.</param>
         /// 
@@ -2054,6 +3196,13 @@ namespace Amazon.Lightsail
         /// <para>
         /// This operation waits until the instances are no longer needed before they are detached
         /// from the load balancer.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>detach instances from load balancer</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by <code>load
+        /// balancer name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachInstancesFromLoadBalancer service method.</param>
@@ -2192,6 +3341,75 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  DisableAddOn
+
+
+        /// <summary>
+        /// Disables an add-on for an Amazon Lightsail resource. For more information, see the
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableAddOn service method.</param>
+        /// 
+        /// <returns>The response from the DisableAddOn service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DisableAddOn">REST API Reference for DisableAddOn Operation</seealso>
+        DisableAddOnResponse DisableAddOn(DisableAddOnRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableAddOn operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableAddOn
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DisableAddOn">REST API Reference for DisableAddOn Operation</seealso>
+        IAsyncResult BeginDisableAddOn(DisableAddOnRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableAddOn.</param>
+        /// 
+        /// <returns>Returns a  DisableAddOnResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DisableAddOn">REST API Reference for DisableAddOn Operation</seealso>
+        DisableAddOnResponse EndDisableAddOn(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DownloadDefaultKeyPair
 
 
@@ -2260,6 +3478,171 @@ namespace Amazon.Lightsail
         /// <returns>Returns a  DownloadDefaultKeyPairResult from Lightsail.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DownloadDefaultKeyPair">REST API Reference for DownloadDefaultKeyPair Operation</seealso>
         DownloadDefaultKeyPairResponse EndDownloadDefaultKeyPair(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  EnableAddOn
+
+
+        /// <summary>
+        /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableAddOn service method.</param>
+        /// 
+        /// <returns>The response from the EnableAddOn service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/EnableAddOn">REST API Reference for EnableAddOn Operation</seealso>
+        EnableAddOnResponse EnableAddOn(EnableAddOnRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableAddOn operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableAddOn
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/EnableAddOn">REST API Reference for EnableAddOn Operation</seealso>
+        IAsyncResult BeginEnableAddOn(EnableAddOnRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableAddOn.</param>
+        /// 
+        /// <returns>Returns a  EnableAddOnResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/EnableAddOn">REST API Reference for EnableAddOn Operation</seealso>
+        EnableAddOnResponse EndEnableAddOn(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ExportSnapshot
+
+
+        /// <summary>
+        /// Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic
+        /// Compute Cloud (Amazon EC2). This operation results in an export snapshot record that
+        /// can be used with the <code>create cloud formation stack</code> operation to create
+        /// new Amazon EC2 instances.
+        /// 
+        ///  
+        /// <para>
+        /// Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs),
+        /// and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS)
+        /// volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots
+        /// are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail
+        /// snapshot.
+        /// </para>
+        ///   
+        /// <para>
+        /// The <code>export snapshot</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>source snapshot name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Use the <code>get instance snapshots</code> or <code>get disk snapshots</code> operations
+        /// to get a list of snapshots that you can export to Amazon EC2.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the ExportSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ExportSnapshot">REST API Reference for ExportSnapshot Operation</seealso>
+        ExportSnapshotResponse ExportSnapshot(ExportSnapshotRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ExportSnapshot">REST API Reference for ExportSnapshot Operation</seealso>
+        IAsyncResult BeginExportSnapshot(ExportSnapshotRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportSnapshot.</param>
+        /// 
+        /// <returns>Returns a  ExportSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ExportSnapshot">REST API Reference for ExportSnapshot Operation</seealso>
+        ExportSnapshotResponse EndExportSnapshot(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2334,14 +3717,169 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  GetAlarms
+
+
+        /// <summary>
+        /// Returns information about the configured alarms. Specify an alarm name in your request
+        /// to return information about a specific alarm, or specify a monitored resource name
+        /// to return information about all alarms for a specific resource.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAlarms service method.</param>
+        /// 
+        /// <returns>The response from the GetAlarms service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAlarms">REST API Reference for GetAlarms Operation</seealso>
+        GetAlarmsResponse GetAlarms(GetAlarmsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAlarms operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAlarms operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAlarms
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAlarms">REST API Reference for GetAlarms Operation</seealso>
+        IAsyncResult BeginGetAlarms(GetAlarmsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetAlarms operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAlarms.</param>
+        /// 
+        /// <returns>Returns a  GetAlarmsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAlarms">REST API Reference for GetAlarms Operation</seealso>
+        GetAlarmsResponse EndGetAlarms(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetAutoSnapshots
+
+
+        /// <summary>
+        /// Returns the available automatic snapshots for an instance or disk. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAutoSnapshots service method.</param>
+        /// 
+        /// <returns>The response from the GetAutoSnapshots service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAutoSnapshots">REST API Reference for GetAutoSnapshots Operation</seealso>
+        GetAutoSnapshotsResponse GetAutoSnapshots(GetAutoSnapshotsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAutoSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAutoSnapshots operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAutoSnapshots
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAutoSnapshots">REST API Reference for GetAutoSnapshots Operation</seealso>
+        IAsyncResult BeginGetAutoSnapshots(GetAutoSnapshotsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetAutoSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAutoSnapshots.</param>
+        /// 
+        /// <returns>Returns a  GetAutoSnapshotsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAutoSnapshots">REST API Reference for GetAutoSnapshots Operation</seealso>
+        GetAutoSnapshotsResponse EndGetAutoSnapshots(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetBlueprints
 
 
         /// <summary>
         /// Returns the list of available instance images, or <i>blueprints</i>. You can use a
-        /// blueprint to create a new virtual private server already running a specific operating
-        /// system, as well as a preinstalled app or development stack. The software each instance
-        /// is running depends on the blueprint image you choose.
+        /// blueprint to create a new instance already running a specific operating system, as
+        /// well as a preinstalled app or development stack. The software each instance is running
+        /// depends on the blueprint image you choose.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Use active blueprints when creating new instances. Inactive blueprints are listed
+        /// to support customers with existing instances and are not necessarily available to
+        /// create new instances. Blueprints are marked inactive when they become outdated due
+        /// to operating system updates or new application releases.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBlueprints service method.</param>
         /// 
@@ -2480,6 +4018,162 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  GetCloudFormationStackRecords
+
+
+        /// <summary>
+        /// Returns the CloudFormation stack record created as a result of the <code>create cloud
+        /// formation stack</code> operation.
+        /// 
+        ///  
+        /// <para>
+        /// An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported
+        /// Lightsail snapshot.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCloudFormationStackRecords service method.</param>
+        /// 
+        /// <returns>The response from the GetCloudFormationStackRecords service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetCloudFormationStackRecords">REST API Reference for GetCloudFormationStackRecords Operation</seealso>
+        GetCloudFormationStackRecordsResponse GetCloudFormationStackRecords(GetCloudFormationStackRecordsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCloudFormationStackRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCloudFormationStackRecords operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCloudFormationStackRecords
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetCloudFormationStackRecords">REST API Reference for GetCloudFormationStackRecords Operation</seealso>
+        IAsyncResult BeginGetCloudFormationStackRecords(GetCloudFormationStackRecordsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCloudFormationStackRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCloudFormationStackRecords.</param>
+        /// 
+        /// <returns>Returns a  GetCloudFormationStackRecordsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetCloudFormationStackRecords">REST API Reference for GetCloudFormationStackRecords Operation</seealso>
+        GetCloudFormationStackRecordsResponse EndGetCloudFormationStackRecords(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetContactMethods
+
+
+        /// <summary>
+        /// Returns information about the configured contact methods. Specify a protocol in your
+        /// request to return information about a specific contact method.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetContactMethods service method.</param>
+        /// 
+        /// <returns>The response from the GetContactMethods service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetContactMethods">REST API Reference for GetContactMethods Operation</seealso>
+        GetContactMethodsResponse GetContactMethods(GetContactMethodsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetContactMethods operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetContactMethods operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetContactMethods
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetContactMethods">REST API Reference for GetContactMethods Operation</seealso>
+        IAsyncResult BeginGetContactMethods(GetContactMethodsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetContactMethods operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetContactMethods.</param>
+        /// 
+        /// <returns>Returns a  GetContactMethodsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetContactMethods">REST API Reference for GetContactMethods Operation</seealso>
+        GetContactMethodsResponse EndGetContactMethods(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetDisk
 
 
@@ -2556,13 +4250,6 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Returns information about all block storage disks in your AWS account and region.
-        /// 
-        ///  
-        /// <para>
-        /// If you are describing a long list of disks, you can paginate the output to make the
-        /// list more manageable. You can use the pageToken and nextPageToken values to retrieve
-        /// the next items in the list.
-        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDisks service method.</param>
         /// 
@@ -2706,13 +4393,6 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Returns information about all block storage disk snapshots in your AWS account and
         /// region.
-        /// 
-        ///  
-        /// <para>
-        /// If you are describing a long list of disk snapshots, you can paginate the output to
-        /// make the list more manageable. You can use the pageToken and nextPageToken values
-        /// to retrieve the next items in the list.
-        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDiskSnapshots service method.</param>
         /// 
@@ -2921,6 +4601,84 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  GetExportSnapshotRecords
+
+
+        /// <summary>
+        /// Returns the export snapshot record created as a result of the <code>export snapshot</code>
+        /// operation.
+        /// 
+        ///  
+        /// <para>
+        /// An export snapshot record can be used to create a new Amazon EC2 instance and its
+        /// related resources with the <code>create cloud formation stack</code> operation.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetExportSnapshotRecords service method.</param>
+        /// 
+        /// <returns>The response from the GetExportSnapshotRecords service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetExportSnapshotRecords">REST API Reference for GetExportSnapshotRecords Operation</seealso>
+        GetExportSnapshotRecordsResponse GetExportSnapshotRecords(GetExportSnapshotRecordsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetExportSnapshotRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetExportSnapshotRecords operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetExportSnapshotRecords
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetExportSnapshotRecords">REST API Reference for GetExportSnapshotRecords Operation</seealso>
+        IAsyncResult BeginGetExportSnapshotRecords(GetExportSnapshotRecordsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetExportSnapshotRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetExportSnapshotRecords.</param>
+        /// 
+        /// <returns>Returns a  GetExportSnapshotRecordsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetExportSnapshotRecords">REST API Reference for GetExportSnapshotRecords Operation</seealso>
+        GetExportSnapshotRecordsResponse EndGetExportSnapshotRecords(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetInstance
 
 
@@ -2999,6 +4757,14 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Returns temporary SSH keys you can use to connect to a specific virtual private server,
         /// or <i>instance</i>.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>get instance access details</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetInstanceAccessDetails service method.</param>
         /// 
@@ -3781,13 +5547,6 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Returns information about all load balancers in an account.
-        /// 
-        ///  
-        /// <para>
-        /// If you are describing a long list of load balancers, you can paginate the output to
-        /// make the list more manageable. You can use the pageToken and nextPageToken values
-        /// to retrieve the next items in the list.
-        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLoadBalancers service method.</param>
         /// 
@@ -4162,7 +5921,7 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Returns a list of all valid regions for Amazon Lightsail. Use the <code>include availability
-        /// zones</code> parameter to also return the availability zones in a region.
+        /// zones</code> parameter to also return the Availability Zones in a region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetRegions service method.</param>
         /// 
@@ -4226,6 +5985,886 @@ namespace Amazon.Lightsail
         /// <returns>Returns a  GetRegionsResult from Lightsail.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRegions">REST API Reference for GetRegions Operation</seealso>
         GetRegionsResponse EndGetRegions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabase
+
+
+        /// <summary>
+        /// Returns information about a specific database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabase">REST API Reference for GetRelationalDatabase Operation</seealso>
+        GetRelationalDatabaseResponse GetRelationalDatabase(GetRelationalDatabaseRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabase">REST API Reference for GetRelationalDatabase Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabase(GetRelationalDatabaseRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabase">REST API Reference for GetRelationalDatabase Operation</seealso>
+        GetRelationalDatabaseResponse EndGetRelationalDatabase(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseBlueprints
+
+
+        /// <summary>
+        /// Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes
+        /// the major engine version of a database.
+        /// 
+        ///  
+        /// <para>
+        /// You can use a blueprint ID to create a new database that runs a specific database
+        /// engine.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBlueprints service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseBlueprints service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBlueprints">REST API Reference for GetRelationalDatabaseBlueprints Operation</seealso>
+        GetRelationalDatabaseBlueprintsResponse GetRelationalDatabaseBlueprints(GetRelationalDatabaseBlueprintsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseBlueprints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBlueprints operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseBlueprints
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBlueprints">REST API Reference for GetRelationalDatabaseBlueprints Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseBlueprints(GetRelationalDatabaseBlueprintsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseBlueprints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseBlueprints.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseBlueprintsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBlueprints">REST API Reference for GetRelationalDatabaseBlueprints Operation</seealso>
+        GetRelationalDatabaseBlueprintsResponse EndGetRelationalDatabaseBlueprints(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseBundles
+
+
+        /// <summary>
+        /// Returns the list of bundles that are available in Amazon Lightsail. A bundle describes
+        /// the performance specifications for a database.
+        /// 
+        ///  
+        /// <para>
+        /// You can use a bundle ID to create a new database with explicit performance specifications.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBundles service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseBundles service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBundles">REST API Reference for GetRelationalDatabaseBundles Operation</seealso>
+        GetRelationalDatabaseBundlesResponse GetRelationalDatabaseBundles(GetRelationalDatabaseBundlesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseBundles operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBundles operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseBundles
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBundles">REST API Reference for GetRelationalDatabaseBundles Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseBundles(GetRelationalDatabaseBundlesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseBundles operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseBundles.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseBundlesResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBundles">REST API Reference for GetRelationalDatabaseBundles Operation</seealso>
+        GetRelationalDatabaseBundlesResponse EndGetRelationalDatabaseBundles(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseEvents
+
+
+        /// <summary>
+        /// Returns a list of events for a specific database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseEvents service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseEvents service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseEvents">REST API Reference for GetRelationalDatabaseEvents Operation</seealso>
+        GetRelationalDatabaseEventsResponse GetRelationalDatabaseEvents(GetRelationalDatabaseEventsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseEvents operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseEvents
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseEvents">REST API Reference for GetRelationalDatabaseEvents Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseEvents(GetRelationalDatabaseEventsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseEvents.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseEventsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseEvents">REST API Reference for GetRelationalDatabaseEvents Operation</seealso>
+        GetRelationalDatabaseEventsResponse EndGetRelationalDatabaseEvents(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseLogEvents
+
+
+        /// <summary>
+        /// Returns a list of log events for a database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogEvents service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseLogEvents service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogEvents">REST API Reference for GetRelationalDatabaseLogEvents Operation</seealso>
+        GetRelationalDatabaseLogEventsResponse GetRelationalDatabaseLogEvents(GetRelationalDatabaseLogEventsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseLogEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogEvents operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseLogEvents
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogEvents">REST API Reference for GetRelationalDatabaseLogEvents Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseLogEvents(GetRelationalDatabaseLogEventsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseLogEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseLogEvents.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseLogEventsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogEvents">REST API Reference for GetRelationalDatabaseLogEvents Operation</seealso>
+        GetRelationalDatabaseLogEventsResponse EndGetRelationalDatabaseLogEvents(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseLogStreams
+
+
+        /// <summary>
+        /// Returns a list of available log streams for a specific database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogStreams service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseLogStreams service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogStreams">REST API Reference for GetRelationalDatabaseLogStreams Operation</seealso>
+        GetRelationalDatabaseLogStreamsResponse GetRelationalDatabaseLogStreams(GetRelationalDatabaseLogStreamsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseLogStreams operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogStreams operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseLogStreams
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogStreams">REST API Reference for GetRelationalDatabaseLogStreams Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseLogStreams(GetRelationalDatabaseLogStreamsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseLogStreams operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseLogStreams.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseLogStreamsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogStreams">REST API Reference for GetRelationalDatabaseLogStreams Operation</seealso>
+        GetRelationalDatabaseLogStreamsResponse EndGetRelationalDatabaseLogStreams(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseMasterUserPassword
+
+
+        /// <summary>
+        /// Returns the current, previous, or pending versions of the master user password for
+        /// a Lightsail database.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>GetRelationalDatabaseMasterUserPassword</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by relationalDatabaseName.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMasterUserPassword service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseMasterUserPassword service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMasterUserPassword">REST API Reference for GetRelationalDatabaseMasterUserPassword Operation</seealso>
+        GetRelationalDatabaseMasterUserPasswordResponse GetRelationalDatabaseMasterUserPassword(GetRelationalDatabaseMasterUserPasswordRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseMasterUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMasterUserPassword operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseMasterUserPassword
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMasterUserPassword">REST API Reference for GetRelationalDatabaseMasterUserPassword Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseMasterUserPassword(GetRelationalDatabaseMasterUserPasswordRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseMasterUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseMasterUserPassword.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseMasterUserPasswordResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMasterUserPassword">REST API Reference for GetRelationalDatabaseMasterUserPassword Operation</seealso>
+        GetRelationalDatabaseMasterUserPasswordResponse EndGetRelationalDatabaseMasterUserPassword(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseMetricData
+
+
+        /// <summary>
+        /// Returns the data points of the specified metric for a database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMetricData service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseMetricData service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMetricData">REST API Reference for GetRelationalDatabaseMetricData Operation</seealso>
+        GetRelationalDatabaseMetricDataResponse GetRelationalDatabaseMetricData(GetRelationalDatabaseMetricDataRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseMetricData operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMetricData operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseMetricData
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMetricData">REST API Reference for GetRelationalDatabaseMetricData Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseMetricData(GetRelationalDatabaseMetricDataRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseMetricData operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseMetricData.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseMetricDataResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMetricData">REST API Reference for GetRelationalDatabaseMetricData Operation</seealso>
+        GetRelationalDatabaseMetricDataResponse EndGetRelationalDatabaseMetricData(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseParameters
+
+
+        /// <summary>
+        /// Returns all of the runtime parameters offered by the underlying database software,
+        /// or engine, for a specific database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// In addition to the parameter names and values, this operation returns other information
+        /// about each parameter. This information includes whether changes require a reboot,
+        /// whether the parameter is modifiable, the allowed values, and the data types.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseParameters service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseParameters service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseParameters">REST API Reference for GetRelationalDatabaseParameters Operation</seealso>
+        GetRelationalDatabaseParametersResponse GetRelationalDatabaseParameters(GetRelationalDatabaseParametersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseParameters operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseParameters
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseParameters">REST API Reference for GetRelationalDatabaseParameters Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseParameters(GetRelationalDatabaseParametersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseParameters.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseParametersResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseParameters">REST API Reference for GetRelationalDatabaseParameters Operation</seealso>
+        GetRelationalDatabaseParametersResponse EndGetRelationalDatabaseParameters(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabases
+
+
+        /// <summary>
+        /// Returns information about all of your databases in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabases service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabases service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabases">REST API Reference for GetRelationalDatabases Operation</seealso>
+        GetRelationalDatabasesResponse GetRelationalDatabases(GetRelationalDatabasesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabases operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabases operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabases
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabases">REST API Reference for GetRelationalDatabases Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabases(GetRelationalDatabasesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabases operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabases.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabasesResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabases">REST API Reference for GetRelationalDatabases Operation</seealso>
+        GetRelationalDatabasesResponse EndGetRelationalDatabases(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseSnapshot
+
+
+        /// <summary>
+        /// Returns information about a specific database snapshot in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshot">REST API Reference for GetRelationalDatabaseSnapshot Operation</seealso>
+        GetRelationalDatabaseSnapshotResponse GetRelationalDatabaseSnapshot(GetRelationalDatabaseSnapshotRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshot">REST API Reference for GetRelationalDatabaseSnapshot Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseSnapshot(GetRelationalDatabaseSnapshotRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseSnapshot.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshot">REST API Reference for GetRelationalDatabaseSnapshot Operation</seealso>
+        GetRelationalDatabaseSnapshotResponse EndGetRelationalDatabaseSnapshot(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetRelationalDatabaseSnapshots
+
+
+        /// <summary>
+        /// Returns information about all of your database snapshots in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshots service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseSnapshots service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshots">REST API Reference for GetRelationalDatabaseSnapshots Operation</seealso>
+        GetRelationalDatabaseSnapshotsResponse GetRelationalDatabaseSnapshots(GetRelationalDatabaseSnapshotsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshots operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseSnapshots
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshots">REST API Reference for GetRelationalDatabaseSnapshots Operation</seealso>
+        IAsyncResult BeginGetRelationalDatabaseSnapshots(GetRelationalDatabaseSnapshotsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseSnapshots.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseSnapshotsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshots">REST API Reference for GetRelationalDatabaseSnapshots Operation</seealso>
+        GetRelationalDatabaseSnapshotsResponse EndGetRelationalDatabaseSnapshots(IAsyncResult asyncResult);
 
         #endregion
         
@@ -4518,6 +7157,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Adds public ports to an Amazon Lightsail instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>open instance public ports</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the OpenInstancePublicPorts service method.</param>
         /// 
@@ -4655,12 +7302,107 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  PutAlarm
+
+
+        /// <summary>
+        /// Creates or updates an alarm, and associates it with the specified metric.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When this action creates an alarm, the alarm state is immediately set to <code>INSUFFICIENT_DATA</code>.
+        /// The alarm is then evaluated and its state is set appropriately. Any actions associated
+        /// with the new state are then executed.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you update an existing alarm, its state is left unchanged, but the update completely
+        /// overwrites the previous configuration of the alarm. The alarm is then evaluated with
+        /// the updated configuration.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutAlarm service method.</param>
+        /// 
+        /// <returns>The response from the PutAlarm service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutAlarm">REST API Reference for PutAlarm Operation</seealso>
+        PutAlarmResponse PutAlarm(PutAlarmRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutAlarm operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutAlarm
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutAlarm">REST API Reference for PutAlarm Operation</seealso>
+        IAsyncResult BeginPutAlarm(PutAlarmRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutAlarm.</param>
+        /// 
+        /// <returns>Returns a  PutAlarmResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutAlarm">REST API Reference for PutAlarm Operation</seealso>
+        PutAlarmResponse EndPutAlarm(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutInstancePublicPorts
 
 
         /// <summary>
         /// Sets the specified open ports for an Amazon Lightsail instance, and closes all ports
         /// for every protocol not included in the current request.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>put instance public ports</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutInstancePublicPorts service method.</param>
         /// 
@@ -4731,9 +7473,15 @@ namespace Amazon.Lightsail
 
 
         /// <summary>
-        /// Restarts a specific instance. When your Amazon Lightsail instance is finished rebooting,
-        /// Lightsail assigns a new public IP address. To use the same IP address after restarting,
-        /// create a static IP address and attach it to the instance.
+        /// Restarts a specific instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>reboot instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RebootInstance service method.</param>
         /// 
@@ -4797,6 +7545,85 @@ namespace Amazon.Lightsail
         /// <returns>Returns a  RebootInstanceResult from Lightsail.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootInstance">REST API Reference for RebootInstance Operation</seealso>
         RebootInstanceResponse EndRebootInstance(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RebootRelationalDatabase
+
+
+        /// <summary>
+        /// Restarts a specific database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>reboot relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RebootRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the RebootRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootRelationalDatabase">REST API Reference for RebootRelationalDatabase Operation</seealso>
+        RebootRelationalDatabaseResponse RebootRelationalDatabase(RebootRelationalDatabaseRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RebootRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RebootRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRebootRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootRelationalDatabase">REST API Reference for RebootRelationalDatabase Operation</seealso>
+        IAsyncResult BeginRebootRelationalDatabase(RebootRelationalDatabaseRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RebootRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRebootRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  RebootRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootRelationalDatabase">REST API Reference for RebootRelationalDatabase Operation</seealso>
+        RebootRelationalDatabaseResponse EndRebootRelationalDatabase(IAsyncResult asyncResult);
 
         #endregion
         
@@ -4871,12 +7698,118 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  SendContactMethodVerification
+
+
+        /// <summary>
+        /// Sends a verification request to an email contact method to ensure it’s owned by the
+        /// requester. SMS contact methods don’t need to be verified.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// A verification request is sent to the contact method when you initially create it.
+        /// Use this action to send another verification request if a previous verification request
+        /// was deleted, or has expired.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Notifications are not sent to an email contact method until after it is verified,
+        /// and confirmed as valid.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SendContactMethodVerification service method.</param>
+        /// 
+        /// <returns>The response from the SendContactMethodVerification service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/SendContactMethodVerification">REST API Reference for SendContactMethodVerification Operation</seealso>
+        SendContactMethodVerificationResponse SendContactMethodVerification(SendContactMethodVerificationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SendContactMethodVerification operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SendContactMethodVerification operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSendContactMethodVerification
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/SendContactMethodVerification">REST API Reference for SendContactMethodVerification Operation</seealso>
+        IAsyncResult BeginSendContactMethodVerification(SendContactMethodVerificationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SendContactMethodVerification operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSendContactMethodVerification.</param>
+        /// 
+        /// <returns>Returns a  SendContactMethodVerificationResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/SendContactMethodVerification">REST API Reference for SendContactMethodVerification Operation</seealso>
+        SendContactMethodVerificationResponse EndSendContactMethodVerification(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartInstance
 
 
         /// <summary>
         /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance,
-        /// use the reboot instance operation.
+        /// use the <code>reboot instance</code> operation.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you start a stopped instance, Lightsail assigns a new public IP address to the
+        /// instance. To use the same IP address after stopping and starting an instance, create
+        /// a static IP address and attach it to the instance. For more information, see the <a
+        /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-create-static-ip">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The <code>start instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartInstance service method.</param>
         /// 
@@ -4943,11 +7876,107 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  StartRelationalDatabase
+
+
+        /// <summary>
+        /// Starts a specific database from a stopped state in Amazon Lightsail. To restart a
+        /// database, use the <code>reboot relational database</code> operation.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>start relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the StartRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartRelationalDatabase">REST API Reference for StartRelationalDatabase Operation</seealso>
+        StartRelationalDatabaseResponse StartRelationalDatabase(StartRelationalDatabaseRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartRelationalDatabase">REST API Reference for StartRelationalDatabase Operation</seealso>
+        IAsyncResult BeginStartRelationalDatabase(StartRelationalDatabaseRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  StartRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartRelationalDatabase">REST API Reference for StartRelationalDatabase Operation</seealso>
+        StartRelationalDatabaseResponse EndStartRelationalDatabase(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StopInstance
 
 
         /// <summary>
         /// Stops a specific Amazon Lightsail instance that is currently running.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you start a stopped instance, Lightsail assigns a new public IP address to the
+        /// instance. To use the same IP address after stopping and starting an instance, create
+        /// a static IP address and attach it to the instance. For more information, see the <a
+        /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-create-static-ip">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The <code>stop instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StopInstance service method.</param>
         /// 
@@ -5011,6 +8040,245 @@ namespace Amazon.Lightsail
         /// <returns>Returns a  StopInstanceResult from Lightsail.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopInstance">REST API Reference for StopInstance Operation</seealso>
         StopInstanceResponse EndStopInstance(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StopRelationalDatabase
+
+
+        /// <summary>
+        /// Stops a specific database that is currently running in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>stop relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the StopRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopRelationalDatabase">REST API Reference for StopRelationalDatabase Operation</seealso>
+        StopRelationalDatabaseResponse StopRelationalDatabase(StopRelationalDatabaseRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopRelationalDatabase">REST API Reference for StopRelationalDatabase Operation</seealso>
+        IAsyncResult BeginStopRelationalDatabase(StopRelationalDatabaseRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  StopRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopRelationalDatabase">REST API Reference for StopRelationalDatabase Operation</seealso>
+        StopRelationalDatabaseResponse EndStopRelationalDatabase(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// Adds one or more tags to the specified Amazon Lightsail resource. Each resource can
+        /// have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys
+        /// must be unique per resource. For more information about tags, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+        /// Dev Guide</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>tag resource</code> operation supports tag-based access control via request
+        /// tags and resource tags applied to the resource identified by <code>resource name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TestAlarm
+
+
+        /// <summary>
+        /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification
+        /// trigger is configured for the specified alarm, the test also sends a notification
+        /// to the notification protocol (<code>Email</code> and/or <code>SMS</code>) configured
+        /// for the alarm.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TestAlarm service method.</param>
+        /// 
+        /// <returns>The response from the TestAlarm service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TestAlarm">REST API Reference for TestAlarm Operation</seealso>
+        TestAlarmResponse TestAlarm(TestAlarmRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TestAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TestAlarm operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTestAlarm
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TestAlarm">REST API Reference for TestAlarm Operation</seealso>
+        IAsyncResult BeginTestAlarm(TestAlarmRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TestAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTestAlarm.</param>
+        /// 
+        /// <returns>Returns a  TestAlarmResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TestAlarm">REST API Reference for TestAlarm Operation</seealso>
+        TestAlarmResponse EndTestAlarm(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5085,11 +8353,99 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
+        /// resource.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>untag resource</code> operation supports tag-based access control via request
+        /// tags and resource tags applied to the resource identified by <code>resource name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateDomainEntry
 
 
         /// <summary>
         /// Updates a domain recordset after it is created.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>update domain entry</code> operation supports tag-based access control via
+        /// resource tags applied to the resource identified by <code>domain name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateDomainEntry service method.</param>
         /// 
@@ -5162,6 +8518,14 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Updates the specified attribute for a load balancer. You can only update one attribute
         /// at a time.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>update load balancer attribute</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateLoadBalancerAttribute service method.</param>
         /// 
@@ -5225,6 +8589,178 @@ namespace Amazon.Lightsail
         /// <returns>Returns a  UpdateLoadBalancerAttributeResult from Lightsail.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateLoadBalancerAttribute">REST API Reference for UpdateLoadBalancerAttribute Operation</seealso>
         UpdateLoadBalancerAttributeResponse EndUpdateLoadBalancerAttribute(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateRelationalDatabase
+
+
+        /// <summary>
+        /// Allows the update of one or more attributes of a database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// Updates are applied immediately, or in cases where the updates could result in an
+        /// outage, are applied during the database's predefined maintenance window.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>update relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the UpdateRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabase">REST API Reference for UpdateRelationalDatabase Operation</seealso>
+        UpdateRelationalDatabaseResponse UpdateRelationalDatabase(UpdateRelationalDatabaseRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabase">REST API Reference for UpdateRelationalDatabase Operation</seealso>
+        IAsyncResult BeginUpdateRelationalDatabase(UpdateRelationalDatabaseRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  UpdateRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabase">REST API Reference for UpdateRelationalDatabase Operation</seealso>
+        UpdateRelationalDatabaseResponse EndUpdateRelationalDatabase(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateRelationalDatabaseParameters
+
+
+        /// <summary>
+        /// Allows the update of one or more parameters of a database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// Parameter updates don't cause outages; therefore, their application is not subject
+        /// to the preferred maintenance window. However, there are two ways in which parameter
+        /// updates are applied: <code>dynamic</code> or <code>pending-reboot</code>. Parameters
+        /// marked with a <code>dynamic</code> apply type are applied immediately. Parameters
+        /// marked with a <code>pending-reboot</code> apply type are applied only after the database
+        /// is rebooted using the <code>reboot relational database</code> operation.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>update relational database parameters</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by relationalDatabaseName.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabaseParameters service method.</param>
+        /// 
+        /// <returns>The response from the UpdateRelationalDatabaseParameters service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabaseParameters">REST API Reference for UpdateRelationalDatabaseParameters Operation</seealso>
+        UpdateRelationalDatabaseParametersResponse UpdateRelationalDatabaseParameters(UpdateRelationalDatabaseParametersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabaseParameters operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateRelationalDatabaseParameters
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabaseParameters">REST API Reference for UpdateRelationalDatabaseParameters Operation</seealso>
+        IAsyncResult BeginUpdateRelationalDatabaseParameters(UpdateRelationalDatabaseParametersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateRelationalDatabaseParameters.</param>
+        /// 
+        /// <returns>Returns a  UpdateRelationalDatabaseParametersResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabaseParameters">REST API Reference for UpdateRelationalDatabaseParameters Operation</seealso>
+        UpdateRelationalDatabaseParametersResponse EndUpdateRelationalDatabaseParameters(IAsyncResult asyncResult);
 
         #endregion
         

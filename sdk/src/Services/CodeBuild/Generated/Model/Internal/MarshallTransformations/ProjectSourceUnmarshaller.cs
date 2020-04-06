@@ -82,6 +82,12 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                     unmarshalledObject.GitCloneDepth = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("gitSubmodulesConfig", targetDepth))
+                {
+                    var unmarshaller = GitSubmodulesConfigUnmarshaller.Instance;
+                    unmarshalledObject.GitSubmodulesConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("insecureSsl", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
@@ -92,6 +98,18 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Location = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("reportBuildStatus", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.ReportBuildStatus = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("sourceIdentifier", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SourceIdentifier = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("type", targetDepth))

@@ -40,10 +40,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the
+        /// The ID of the Data Catalog in which the connection resides. If none is provided, the
         /// AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -62,6 +63,7 @@ namespace Amazon.Glue.Model
         /// A <code>ConnectionInput</code> object that redefines the connection in question.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ConnectionInput ConnectionInput
         {
             get { return this._connectionInput; }
@@ -80,6 +82,7 @@ namespace Amazon.Glue.Model
         /// The name of the connection definition to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }

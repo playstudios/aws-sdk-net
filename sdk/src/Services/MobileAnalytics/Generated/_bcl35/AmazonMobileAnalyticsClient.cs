@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MobileAnalytics.Model;
 using Amazon.MobileAnalytics.Model.Internal.MarshallTransformations;
+using Amazon.MobileAnalytics.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -38,6 +40,7 @@ namespace Amazon.MobileAnalytics
     /// </summary>
     public partial class AmazonMobileAnalyticsClient : AmazonServiceClient, IAmazonMobileAnalytics
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMobileAnalyticsMetadata();
         #region Constructors
 
         /// <summary>
@@ -208,6 +211,16 @@ namespace Amazon.MobileAnalytics
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -223,7 +236,7 @@ namespace Amazon.MobileAnalytics
 
         #endregion
 
-        
+
         #region  PutEvents
 
         /// <summary>
@@ -239,10 +252,11 @@ namespace Amazon.MobileAnalytics
         /// </exception>
         public virtual PutEventsResponse PutEvents(PutEventsRequest request)
         {
-            var marshaller = PutEventsRequestMarshaller.Instance;
-            var unmarshaller = PutEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
 
-            return Invoke<PutEventsRequest,PutEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -258,11 +272,11 @@ namespace Amazon.MobileAnalytics
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutEvents(PutEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutEventsRequestMarshaller.Instance;
-            var unmarshaller = PutEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

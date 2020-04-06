@@ -29,7 +29,7 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateExportJob operation.
-    /// Creates an export job.
+    /// Creates an export job for an application.
     /// </summary>
     public partial class CreateExportJobRequest : AmazonPinpointRequest
     {
@@ -37,8 +37,13 @@ namespace Amazon.Pinpoint.Model
         private ExportJobRequest _exportJobRequest;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,6 +59,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property ExportJobRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public ExportJobRequest ExportJobRequest
         {
             get { return this._exportJobRequest; }

@@ -33,8 +33,9 @@ namespace Amazon.AutoScaling.Model
     /// 
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-termination.html#instance-protection">Instance
-    /// Protection</a> in the <i>Auto Scaling User Guide</i>.
+    /// For more information about preventing instances that are part of an Auto Scaling group
+    /// from terminating on scale in, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection">Instance
+    /// Protection</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
     /// </para>
     /// </summary>
     public partial class SetInstanceProtectionRequest : AmazonAutoScalingRequest
@@ -49,6 +50,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -67,6 +69,7 @@ namespace Amazon.AutoScaling.Model
         /// One or more instance IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceIds
         {
             get { return this._instanceIds; }
@@ -82,10 +85,11 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property ProtectedFromScaleIn. 
         /// <para>
-        /// Indicates whether the instance is protected from termination by Auto Scaling when
-        /// scaling in.
+        /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling
+        /// when scaling in.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool ProtectedFromScaleIn
         {
             get { return this._protectedFromScaleIn.GetValueOrDefault(); }

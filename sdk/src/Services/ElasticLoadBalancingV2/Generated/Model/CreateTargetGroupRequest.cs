@@ -53,14 +53,15 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html">Target
+    /// For more information, see <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html">Target
     /// Groups for Your Application Load Balancers</a> in the <i>Application Load Balancers
-    /// Guide</i> or <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html">Target
+    /// Guide</i> or <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html">Target
     /// Groups for Your Network Load Balancers</a> in the <i>Network Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateTargetGroupRequest : AmazonElasticLoadBalancingV2Request
     {
+        private bool? _healthCheckEnabled;
         private int? _healthCheckIntervalSeconds;
         private string _healthCheckPath;
         private string _healthCheckPort;
@@ -76,13 +77,36 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         private string _vpcId;
 
         /// <summary>
+        /// Gets and sets the property HealthCheckEnabled. 
+        /// <para>
+        /// Indicates whether health checks are enabled. If the target type is <code>lambda</code>,
+        /// health checks are disabled by default but can be enabled. If the target type is <code>instance</code>
+        /// or <code>ip</code>, health checks are always enabled and cannot be disabled.
+        /// </para>
+        /// </summary>
+        public bool HealthCheckEnabled
+        {
+            get { return this._healthCheckEnabled.GetValueOrDefault(); }
+            set { this._healthCheckEnabled = value; }
+        }
+
+        // Check to see if HealthCheckEnabled property is set
+        internal bool IsSetHealthCheckEnabled()
+        {
+            return this._healthCheckEnabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property HealthCheckIntervalSeconds. 
         /// <para>
         /// The approximate amount of time, in seconds, between health checks of an individual
-        /// target. For Application Load Balancers, the range is 5 to 300 seconds. For Network
-        /// Load Balancers, the supported values are 10 or 30 seconds. The default is 30 seconds.
+        /// target. For HTTP and HTTPS health checks, the range is 5–300 seconds. For TCP health
+        /// checks, the supported values are 10 and 30 seconds. If the target type is <code>instance</code>
+        /// or <code>ip</code>, the default is 30 seconds. If the target type is <code>lambda</code>,
+        /// the default is 35 seconds.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=300)]
         public int HealthCheckIntervalSeconds
         {
             get { return this._healthCheckIntervalSeconds.GetValueOrDefault(); }
@@ -102,6 +126,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// health checks. The default is /.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string HealthCheckPath
         {
             get { return this._healthCheckPath; }
@@ -137,9 +162,11 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property HealthCheckProtocol. 
         /// <para>
-        /// The protocol the load balancer uses when performing health checks on targets. The
-        /// TCP protocol is supported only if the protocol of the target group is TCP. For Application
-        /// Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP.
+        /// The protocol the load balancer uses when performing health checks on targets. For
+        /// Application Load Balancers, the default is HTTP. For Network Load Balancers, the default
+        /// is TCP. The TCP protocol is supported for health checks only if the protocol of the
+        /// target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are
+        /// not supported for health checks.
         /// </para>
         /// </summary>
         public ProtocolEnum HealthCheckProtocol
@@ -158,11 +185,13 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// Gets and sets the property HealthCheckTimeoutSeconds. 
         /// <para>
         /// The amount of time, in seconds, during which no response from a target means a failed
-        /// health check. For Application Load Balancers, the range is 2 to 60 seconds and the
-        /// default is 5 seconds. For Network Load Balancers, this is 10 seconds for TCP and HTTPS
-        /// health checks and 6 seconds for HTTP health checks.
+        /// health check. For target groups with a protocol of HTTP or HTTPS, the default is 5
+        /// seconds. For target groups with a protocol of TCP or TLS, this value must be 6 seconds
+        /// for HTTP health checks and 10 seconds for TCP and HTTPS health checks. If the target
+        /// type is <code>lambda</code>, the default is 30 seconds.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=120)]
         public int HealthCheckTimeoutSeconds
         {
             get { return this._healthCheckTimeoutSeconds.GetValueOrDefault(); }
@@ -179,10 +208,12 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// Gets and sets the property HealthyThresholdCount. 
         /// <para>
         /// The number of consecutive health checks successes required before considering an unhealthy
-        /// target healthy. For Application Load Balancers, the default is 5. For Network Load
-        /// Balancers, the default is 3.
+        /// target healthy. For target groups with a protocol of HTTP or HTTPS, the default is
+        /// 5. For target groups with a protocol of TCP or TLS, the default is 3. If the target
+        /// type is <code>lambda</code>, the default is 5.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=10)]
         public int HealthyThresholdCount
         {
             get { return this._healthyThresholdCount.GetValueOrDefault(); }
@@ -226,6 +257,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// a hyphen.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -242,9 +274,11 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// Gets and sets the property Port. 
         /// <para>
         /// The port on which the targets receive traffic. This port is used unless you specify
-        /// a port override when registering the target.
+        /// a port override when registering the target. If the target is a Lambda function, this
+        /// parameter does not apply.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65535)]
         public int Port
         {
             get { return this._port.GetValueOrDefault(); }
@@ -262,7 +296,9 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <para>
         /// The protocol to use for routing traffic to the targets. For Application Load Balancers,
         /// the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported
-        /// protocol is TCP.
+        /// protocols are TCP, TLS, UDP, or TCP_UDP. A TCP_UDP listener must be associated with
+        /// a TCP_UDP target group. If the target is a Lambda function, this parameter does not
+        /// apply.
         /// </para>
         /// </summary>
         public ProtocolEnum Protocol
@@ -281,18 +317,25 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// Gets and sets the property TargetType. 
         /// <para>
         /// The type of target that you must specify when registering targets with this target
-        /// group. The possible values are <code>instance</code> (targets are specified by instance
-        /// ID) or <code>ip</code> (targets are specified by IP address). The default is <code>instance</code>.
-        /// Note that you can't specify targets for a target group using both instance IDs and
-        /// IP addresses.
+        /// group. You can't specify targets for a target group using more than one target type.
         /// </para>
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        /// If the target type is <code>ip</code>, specify IP addresses from the subnets of the
-        /// virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8,
-        /// 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't
-        /// specify publicly routable IP addresses.
+        ///  <code>instance</code> - Targets are specified by instance ID. This is the default
+        /// value. If the target group protocol is UDP or TCP_UDP, the target type must be <code>instance</code>.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ip</code> - Targets are specified by IP address. You can specify IP addresses
+        /// from the subnets of the virtual private cloud (VPC) for the target group, the RFC
+        /// 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range
+        /// (100.64.0.0/10). You can't specify publicly routable IP addresses.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>lambda</code> - The target groups contains a single Lambda function.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public TargetTypeEnum TargetType
         {
@@ -310,10 +353,12 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// Gets and sets the property UnhealthyThresholdCount. 
         /// <para>
         /// The number of consecutive health check failures required before considering a target
-        /// unhealthy. For Application Load Balancers, the default is 2. For Network Load Balancers,
-        /// this value must be the same as the healthy threshold count.
+        /// unhealthy. For target groups with a protocol of HTTP or HTTPS, the default is 2. For
+        /// target groups with a protocol of TCP or TLS, this value must be the same as the healthy
+        /// threshold count. If the target type is <code>lambda</code>, the default is 2.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=10)]
         public int UnhealthyThresholdCount
         {
             get { return this._unhealthyThresholdCount.GetValueOrDefault(); }
@@ -329,7 +374,8 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property VpcId. 
         /// <para>
-        /// The identifier of the virtual private cloud (VPC).
+        /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function,
+        /// this parameter does not apply. Otherwise, this parameter is required.
         /// </para>
         /// </summary>
         public string VpcId

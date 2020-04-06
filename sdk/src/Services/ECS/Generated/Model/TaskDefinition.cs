@@ -28,7 +28,10 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ECS.Model
 {
     /// <summary>
-    /// Details of a task definition.
+    /// The details of a task definition which describes the container and volume definitions
+    /// of an Amazon Elastic Container Service task. You can specify which Docker images to
+    /// use, the required resources, and other configurations related to launching the task
+    /// definition through an Amazon ECS service or task.
     /// </summary>
     public partial class TaskDefinition
     {
@@ -37,9 +40,13 @@ namespace Amazon.ECS.Model
         private string _cpu;
         private string _executionRoleArn;
         private string _family;
+        private List<InferenceAccelerator> _inferenceAccelerators = new List<InferenceAccelerator>();
+        private IpcMode _ipcMode;
         private string _memory;
         private NetworkMode _networkMode;
+        private PidMode _pidMode;
         private List<TaskDefinitionPlacementConstraint> _placementConstraints = new List<TaskDefinitionPlacementConstraint>();
+        private ProxyConfiguration _proxyConfiguration;
         private List<Attribute> _requiresAttributes = new List<Attribute>();
         private List<string> _requiresCompatibilities = new List<string>();
         private int? _revision;
@@ -51,7 +58,7 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Compatibilities. 
         /// <para>
-        /// The launch type to use with your task. For more information, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
+        /// The launch type to use with your task. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
         /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -72,7 +79,7 @@ namespace Amazon.ECS.Model
         /// <para>
         /// A list of container definitions in JSON format that describe the different containers
         /// that make up your task. For more information about container definition parameters
-        /// and defaults, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html">Amazon
+        /// and defaults, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html">Amazon
         /// ECS Task Definitions</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -91,10 +98,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Cpu. 
         /// <para>
-        /// The number of <code>cpu</code> units used by the task. If using the EC2 launch type,
-        /// this field is optional and any value can be used. If using the Fargate launch type,
-        /// this field is required and you must use one of the following values, which determines
-        /// your range of valid values for the <code>memory</code> parameter:
+        /// The number of <code>cpu</code> units used by the task. If you are using the EC2 launch
+        /// type, this field is optional and any value can be used. If you are using the Fargate
+        /// launch type, this field is required and you must use one of the following values,
+        /// which determines your range of valid values for the <code>memory</code> parameter:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -138,8 +145,9 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property ExecutionRoleArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the task execution role that the Amazon ECS container
-        /// agent and the Docker daemon can assume.
+        /// The Amazon Resource Name (ARN) of the task execution role that containers in this
+        /// task can assume. All containers in this task are granted the permissions that are
+        /// specified in this role.
         /// </para>
         /// </summary>
         public string ExecutionRoleArn
@@ -157,7 +165,14 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Family. 
         /// <para>
-        /// The family of your task definition, used as the definition name.
+        /// The name of a family that this task definition is registered to. Up to 255 letters
+        /// (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
+        /// </para>
+        ///  
+        /// <para>
+        /// A family groups multiple versions of a task definition. Amazon ECS gives the first
+        /// task definition that you registered to a family a revision number of 1. Amazon ECS
+        /// gives sequential revision numbers to each task definition that you add.
         /// </para>
         /// </summary>
         public string Family
@@ -173,12 +188,95 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property InferenceAccelerators. 
+        /// <para>
+        /// The Elastic Inference accelerator associated with the task.
+        /// </para>
+        /// </summary>
+        public List<InferenceAccelerator> InferenceAccelerators
+        {
+            get { return this._inferenceAccelerators; }
+            set { this._inferenceAccelerators = value; }
+        }
+
+        // Check to see if InferenceAccelerators property is set
+        internal bool IsSetInferenceAccelerators()
+        {
+            return this._inferenceAccelerators != null && this._inferenceAccelerators.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property IpcMode. 
+        /// <para>
+        /// The IPC resource namespace to use for the containers in the task. The valid values
+        /// are <code>host</code>, <code>task</code>, or <code>none</code>. If <code>host</code>
+        /// is specified, then all containers within the tasks that specified the <code>host</code>
+        /// IPC mode on the same container instance share the same IPC resources with the host
+        /// Amazon EC2 instance. If <code>task</code> is specified, all containers within the
+        /// specified task share the same IPC resources. If <code>none</code> is specified, then
+        /// IPC resources within the containers of a task are private and not shared with other
+        /// containers in a task or on the container instance. If no value is specified, then
+        /// the IPC resource namespace sharing depends on the Docker daemon setting on the container
+        /// instance. For more information, see <a href="https://docs.docker.com/engine/reference/run/#ipc-settings---ipc">IPC
+        /// settings</a> in the <i>Docker run reference</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the <code>host</code> IPC mode is used, be aware that there is a heightened risk
+        /// of undesired IPC namespace expose. For more information, see <a href="https://docs.docker.com/engine/security/security/">Docker
+        /// security</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you are setting namespaced kernel parameters using <code>systemControls</code>
+        /// for the containers in the task, the following will apply to your IPC resource namespace.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html">System
+        /// Controls</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For tasks that use the <code>host</code> IPC mode, IPC namespace related <code>systemControls</code>
+        /// are not supported.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For tasks that use the <code>task</code> IPC mode, IPC namespace related <code>systemControls</code>
+        /// will apply to all containers within a task.
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// This parameter is not supported for Windows containers or tasks using the Fargate
+        /// launch type.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public IpcMode IpcMode
+        {
+            get { return this._ipcMode; }
+            set { this._ipcMode = value; }
+        }
+
+        // Check to see if IpcMode property is set
+        internal bool IsSetIpcMode()
+        {
+            return this._ipcMode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Memory. 
         /// <para>
-        /// The amount (in MiB) of memory used by the task. If using the EC2 launch type, this
-        /// field is optional and any value can be used. If using the Fargate launch type, this
-        /// field is required and you must use one of the following values, which determines your
-        /// range of valid values for the <code>cpu</code> parameter:
+        /// The amount (in MiB) of memory used by the task.
+        /// </para>
+        ///  
+        /// <para>
+        /// If using the EC2 launch type, this field is optional and any value can be used. If
+        /// a task-level memory value is specified then the container-level memory value is optional.
+        /// </para>
+        ///  
+        /// <para>
+        /// If using the Fargate launch type, this field is required and you must use one of the
+        /// following values, which determines your range of valid values for the <code>cpu</code>
+        /// parameter:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -224,10 +322,10 @@ namespace Amazon.ECS.Model
         /// <para>
         /// The Docker networking mode to use for the containers in the task. The valid values
         /// are <code>none</code>, <code>bridge</code>, <code>awsvpc</code>, and <code>host</code>.
-        /// The default Docker network mode is <code>bridge</code>. If using the Fargate launch
-        /// type, the <code>awsvpc</code> network mode is required. If using the EC2 launch type,
-        /// any network mode can be used. If the network mode is set to <code>none</code>, you
-        /// can't specify port mappings in your container definitions, and the task's containers
+        /// The default Docker network mode is <code>bridge</code>. If you are using the Fargate
+        /// launch type, the <code>awsvpc</code> network mode is required. If you are using the
+        /// EC2 launch type, any network mode can be used. If the network mode is set to <code>none</code>,
+        /// you cannot specify port mappings in your container definitions, and the tasks containers
         /// do not have external connectivity. The <code>host</code> and <code>awsvpc</code> network
         /// modes offer the highest networking performance for containers because they use the
         /// EC2 network stack instead of the virtualized network stack provided by the <code>bridge</code>
@@ -242,20 +340,20 @@ namespace Amazon.ECS.Model
         /// </para>
         ///  
         /// <para>
-        /// If the network mode is <code>awsvpc</code>, the task is allocated an Elastic Network
-        /// Interface, and you must specify a <a>NetworkConfiguration</a> when you create a service
-        /// or run a task with the task definition. For more information, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Task
+        /// If the network mode is <code>awsvpc</code>, the task is allocated an elastic network
+        /// interface, and you must specify a <a>NetworkConfiguration</a> value when you create
+        /// a service or run a task with the task definition. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html">Task
         /// Networking</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         ///  <note> 
         /// <para>
-        /// Currently, only the Amazon ECS-optimized AMI, other Amazon Linux variants with the
-        /// <code>ecs-init</code> package, or AWS Fargate infrastructure support the <code>awsvpc</code>
-        /// network mode. 
+        /// Currently, only Amazon ECS-optimized AMIs, other Amazon Linux variants with the <code>ecs-init</code>
+        /// package, or AWS Fargate infrastructure support the <code>awsvpc</code> network mode.
+        /// 
         /// </para>
         ///  </note> 
         /// <para>
-        /// If the network mode is <code>host</code>, you can't run multiple instantiations of
+        /// If the network mode is <code>host</code>, you cannot run multiple instantiations of
         /// the same task on a single container instance when port mappings are used.
         /// </para>
         ///  
@@ -284,10 +382,47 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PidMode. 
+        /// <para>
+        /// The process namespace to use for the containers in the task. The valid values are
+        /// <code>host</code> or <code>task</code>. If <code>host</code> is specified, then all
+        /// containers within the tasks that specified the <code>host</code> PID mode on the same
+        /// container instance share the same process namespace with the host Amazon EC2 instance.
+        /// If <code>task</code> is specified, all containers within the specified task share
+        /// the same process namespace. If no value is specified, the default is a private namespace.
+        /// For more information, see <a href="https://docs.docker.com/engine/reference/run/#pid-settings---pid">PID
+        /// settings</a> in the <i>Docker run reference</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the <code>host</code> PID mode is used, be aware that there is a heightened risk
+        /// of undesired process namespace expose. For more information, see <a href="https://docs.docker.com/engine/security/security/">Docker
+        /// security</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This parameter is not supported for Windows containers or tasks using the Fargate
+        /// launch type.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public PidMode PidMode
+        {
+            get { return this._pidMode; }
+            set { this._pidMode = value; }
+        }
+
+        // Check to see if PidMode property is set
+        internal bool IsSetPidMode()
+        {
+            return this._pidMode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property PlacementConstraints. 
         /// <para>
         /// An array of placement constraint objects to use for tasks. This field is not valid
-        /// if using the Fargate launch type for your task.
+        /// if you are using the Fargate launch type for your task.
         /// </para>
         /// </summary>
         public List<TaskDefinitionPlacementConstraint> PlacementConstraints
@@ -303,10 +438,37 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ProxyConfiguration. 
+        /// <para>
+        /// The configuration details for the App Mesh proxy.
+        /// </para>
+        ///  
+        /// <para>
+        /// Your Amazon ECS container instances require at least version 1.26.0 of the container
+        /// agent and at least version 1.26.0-1 of the <code>ecs-init</code> package to enable
+        /// a proxy configuration. If your container instances are launched from the Amazon ECS-optimized
+        /// AMI version <code>20190301</code> or later, then they contain the required versions
+        /// of the container agent and <code>ecs-init</code>. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
+        /// ECS-optimized Linux AMI</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        public ProxyConfiguration ProxyConfiguration
+        {
+            get { return this._proxyConfiguration; }
+            set { this._proxyConfiguration = value; }
+        }
+
+        // Check to see if ProxyConfiguration property is set
+        internal bool IsSetProxyConfiguration()
+        {
+            return this._proxyConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RequiresAttributes. 
         /// <para>
         /// The container instance attributes required by your task. This field is not valid if
-        /// using the Fargate launch type for your task.
+        /// you are using the Fargate launch type for your task.
         /// </para>
         /// </summary>
         public List<Attribute> RequiresAttributes
@@ -324,7 +486,8 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property RequiresCompatibilities. 
         /// <para>
-        /// The launch type the task is using.
+        /// The launch type the task requires. If no value is specified, it will default to <code>EC2</code>.
+        /// Valid values include <code>EC2</code> and <code>FARGATE</code>.
         /// </para>
         /// </summary>
         public List<string> RequiresCompatibilities
@@ -344,9 +507,9 @@ namespace Amazon.ECS.Model
         /// <para>
         /// The revision of the task in a particular family. The revision is a version number
         /// of a task definition in a family. When you register a task definition for the first
-        /// time, the revision is <code>1</code>; each time you register a new revision of a task
-        /// definition in the same family, the revision value always increases by one (even if
-        /// you have deregistered previous revisions in this family).
+        /// time, the revision is <code>1</code>. Each time that you register a new revision of
+        /// a task definition in the same family, the revision value always increases by one,
+        /// even if you have deregistered previous revisions in this family.
         /// </para>
         /// </summary>
         public int Revision
@@ -400,15 +563,17 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property TaskRoleArn. 
         /// <para>
-        /// The ARN of the IAM role that containers in this task can assume. All containers in
-        /// this task are granted the permissions that are specified in this role.
+        /// The short name or full Amazon Resource Name (ARN) of the AWS Identity and Access Management
+        /// (IAM) role that grants containers in the task permission to call AWS APIs on your
+        /// behalf. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_IAM_role.html">Amazon
+        /// ECS Task Role</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// IAM roles for tasks on Windows require that the <code>-EnableTaskIAMRole</code> option
         /// is set when you launch the Amazon ECS-optimized Windows AMI. Your containers must
         /// also run some configuration code in order to take advantage of the feature. For more
-        /// information, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows_task_IAM_roles.html">Windows
+        /// information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows_task_IAM_roles.html">Windows
         /// IAM Roles for Tasks</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -427,16 +592,16 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Volumes. 
         /// <para>
-        /// The list of volumes in a task.
+        /// The list of volume definitions for the task.
         /// </para>
         ///  
         /// <para>
-        /// If you are using the Fargate launch type, the <code>host</code> and <code>sourcePath</code>
+        /// If your tasks are using the Fargate launch type, the <code>host</code> and <code>sourcePath</code>
         /// parameters are not supported.
         /// </para>
         ///  
         /// <para>
-        /// For more information about volume definition parameters and defaults, see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Amazon
+        /// For more information about volume definition parameters and defaults, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html">Amazon
         /// ECS Task Definitions</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>

@@ -39,9 +39,9 @@ namespace Amazon.AutoScaling.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/ASGettingNotifications.html">Getting
-    /// SNS Notifications When Your Auto Scaling Group Scales</a> in the <i>Auto Scaling User
-    /// Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ASGettingNotifications.html">Getting
+    /// Amazon SNS Notifications When Your Auto Scaling Group Scales</a> in the <i>Amazon
+    /// EC2 Auto Scaling User Guide</i>.
     /// </para>
     /// </summary>
     public partial class PutNotificationConfigurationRequest : AmazonAutoScalingRequest
@@ -56,6 +56,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -71,10 +72,11 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property NotificationTypes. 
         /// <para>
-        /// The type of event that will cause the notification to be sent. For details about notification
-        /// types supported by Auto Scaling, see <a>DescribeAutoScalingNotificationTypes</a>.
+        /// The type of event that causes the notification to be sent. For more information about
+        /// notification types supported by Amazon EC2 Auto Scaling, see <a>DescribeAutoScalingNotificationTypes</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> NotificationTypes
         {
             get { return this._notificationTypes; }
@@ -90,9 +92,11 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property TopicARN. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS)
+        /// topic.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string TopicARN
         {
             get { return this._topicARN; }

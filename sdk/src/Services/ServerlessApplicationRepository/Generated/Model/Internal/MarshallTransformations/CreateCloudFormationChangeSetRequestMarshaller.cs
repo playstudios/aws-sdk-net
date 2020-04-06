@@ -55,19 +55,60 @@ namespace Amazon.ServerlessApplicationRepository.Model.Internal.MarshallTransfor
         public IRequest Marshall(CreateCloudFormationChangeSetRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ServerlessApplicationRepository");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-08";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/applications/{applicationId}/changesets";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonServerlessApplicationRepositoryException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.ResourcePath = "/applications/{applicationId}/changesets";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCapabilities())
+                {
+                    context.Writer.WritePropertyName("capabilities");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestCapabilitiesListValue in publicRequest.Capabilities)
+                    {
+                            context.Writer.Write(publicRequestCapabilitiesListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetChangeSetName())
+                {
+                    context.Writer.WritePropertyName("changeSetName");
+                    context.Writer.Write(publicRequest.ChangeSetName);
+                }
+
+                if(publicRequest.IsSetClientToken())
+                {
+                    context.Writer.WritePropertyName("clientToken");
+                    context.Writer.Write(publicRequest.ClientToken);
+                }
+
+                if(publicRequest.IsSetDescription())
+                {
+                    context.Writer.WritePropertyName("description");
+                    context.Writer.Write(publicRequest.Description);
+                }
+
+                if(publicRequest.IsSetNotificationArns())
+                {
+                    context.Writer.WritePropertyName("notificationArns");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestNotificationArnsListValue in publicRequest.NotificationArns)
+                    {
+                            context.Writer.Write(publicRequestNotificationArnsListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetParameterOverrides())
                 {
                     context.Writer.WritePropertyName("parameterOverrides");
@@ -84,6 +125,28 @@ namespace Amazon.ServerlessApplicationRepository.Model.Internal.MarshallTransfor
                     context.Writer.WriteArrayEnd();
                 }
 
+                if(publicRequest.IsSetResourceTypes())
+                {
+                    context.Writer.WritePropertyName("resourceTypes");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestResourceTypesListValue in publicRequest.ResourceTypes)
+                    {
+                            context.Writer.Write(publicRequestResourceTypesListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetRollbackConfiguration())
+                {
+                    context.Writer.WritePropertyName("rollbackConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = RollbackConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.RollbackConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetSemanticVersion())
                 {
                     context.Writer.WritePropertyName("semanticVersion");
@@ -94,6 +157,28 @@ namespace Amazon.ServerlessApplicationRepository.Model.Internal.MarshallTransfor
                 {
                     context.Writer.WritePropertyName("stackName");
                     context.Writer.Write(publicRequest.StackName);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetTemplateId())
+                {
+                    context.Writer.WritePropertyName("templateId");
+                    context.Writer.Write(publicRequest.TemplateId);
                 }
 
         

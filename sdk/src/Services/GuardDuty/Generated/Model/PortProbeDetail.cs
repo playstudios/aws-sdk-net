@@ -28,15 +28,37 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GuardDuty.Model
 {
     /// <summary>
-    /// Details about the port probe finding.
+    /// Contains information about the port probe details.
     /// </summary>
     public partial class PortProbeDetail
     {
+        private LocalIpDetails _localIpDetails;
         private LocalPortDetails _localPortDetails;
         private RemoteIpDetails _remoteIpDetails;
 
         /// <summary>
-        /// Gets and sets the property LocalPortDetails. Local port information of the connection.
+        /// Gets and sets the property LocalIpDetails. 
+        /// <para>
+        /// Local IP information of the connection.
+        /// </para>
+        /// </summary>
+        public LocalIpDetails LocalIpDetails
+        {
+            get { return this._localIpDetails; }
+            set { this._localIpDetails = value; }
+        }
+
+        // Check to see if LocalIpDetails property is set
+        internal bool IsSetLocalIpDetails()
+        {
+            return this._localIpDetails != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LocalPortDetails. 
+        /// <para>
+        /// Local port information of the connection.
+        /// </para>
         /// </summary>
         public LocalPortDetails LocalPortDetails
         {
@@ -51,7 +73,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RemoteIpDetails. Remote IP information of the connection.
+        /// Gets and sets the property RemoteIpDetails. 
+        /// <para>
+        /// Remote IP information of the connection.
+        /// </para>
         /// </summary>
         public RemoteIpDetails RemoteIpDetails
         {

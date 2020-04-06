@@ -58,10 +58,11 @@ namespace Amazon.CloudWatchEvents.Model.Internal.MarshallTransformations
             string target = "AWSEvents.PutPermission";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-10-07";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,23 @@ namespace Amazon.CloudWatchEvents.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("Action");
                     context.Writer.Write(publicRequest.Action);
+                }
+
+                if(publicRequest.IsSetCondition())
+                {
+                    context.Writer.WritePropertyName("Condition");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ConditionMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Condition, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetEventBusName())
+                {
+                    context.Writer.WritePropertyName("EventBusName");
+                    context.Writer.Write(publicRequest.EventBusName);
                 }
 
                 if(publicRequest.IsSetPrincipal())

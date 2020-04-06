@@ -29,7 +29,9 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateDirectoryConfig operation.
-    /// Updates the specified directory configuration.
+    /// Updates the specified Directory Config object in AppStream 2.0. This object includes
+    /// the configuration information required to join fleets and image builders to Microsoft
+    /// Active Directory domains.
     /// </summary>
     public partial class UpdateDirectoryConfigRequest : AmazonAppStreamRequest
     {
@@ -40,9 +42,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DirectoryName. 
         /// <para>
-        /// The name of the directory configuration.
+        /// The name of the Directory Config object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryName
         {
             get { return this._directoryName; }
@@ -76,7 +79,7 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property ServiceAccountCredentials. 
         /// <para>
-        /// The credentials for the service account used by the streaming instance to connect
+        /// The credentials for the service account used by the fleet or image builder to connect
         /// to the directory.
         /// </para>
         /// </summary>

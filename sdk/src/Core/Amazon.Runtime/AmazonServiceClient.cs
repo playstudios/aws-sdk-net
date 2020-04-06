@@ -24,6 +24,8 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Linq;
+using Amazon.Util.Internal;
 
 namespace Amazon.Runtime
 {
@@ -31,11 +33,11 @@ namespace Amazon.Runtime
     {
         private bool _disposed;
         private Logger _logger;
-
+        protected EndpointDiscoveryResolverBase EndpointDiscoveryResolver { get; private set; }
         protected RuntimePipeline RuntimePipeline { get; set; }
         protected internal AWSCredentials Credentials { get; private set; }
         public IClientConfig Config { get; private set; }
-
+        protected virtual IServiceMetadata ServiceMetadata { get; } = new ServiceMetadata();
         protected virtual bool SupportResponseLogging
         {
             get { return true; }
@@ -152,9 +154,8 @@ namespace Amazon.Runtime
             this.Config = config;
             this.Credentials = credentials;
             Signer = CreateSigner();
-
+            EndpointDiscoveryResolver = new EndpointDiscoveryResolver(config, _logger);
             Initialize();
-
             BuildRuntimePipeline();
         }
 
@@ -182,9 +183,19 @@ namespace Amazon.Runtime
 
         #region Invoke methods
 
+        [Obsolete("Invoke taking marshallers is obsolete. Use Invoke taking InvokeOptionsBase instead.")]
         protected TResponse Invoke<TRequest, TResponse>(TRequest request,
             IMarshaller<IRequest, AmazonWebServiceRequest> marshaller, ResponseUnmarshaller unmarshaller)
             where TRequest : AmazonWebServiceRequest
+            where TResponse : AmazonWebServiceResponse
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = marshaller;
+            options.ResponseUnmarshaller = unmarshaller;
+            return Invoke<TResponse>(request, options);
+        }
+
+        protected TResponse Invoke<TResponse>(AmazonWebServiceRequest request, InvokeOptionsBase options)            
             where TResponse : AmazonWebServiceResponse
         {
             ThrowIfDisposed();
@@ -193,23 +204,35 @@ namespace Amazon.Runtime
                 new RequestContext(this.Config.LogMetrics, Signer)
                 {
                     ClientConfig = this.Config,
-                    Marshaller = marshaller,
+                    Marshaller = options.RequestMarshaller,
                     OriginalRequest = request,
-                    Unmarshaller = unmarshaller,
-                    IsAsync = false
+                    Unmarshaller = options.ResponseUnmarshaller,
+                    IsAsync = false,
+                    ServiceMetaData = this.ServiceMetadata,
+                    Options = options
                 },
                 new ResponseContext()
             );
-
+            SetupCSMHandler(executionContext.RequestContext);
             var response = (TResponse)this.RuntimePipeline.InvokeSync(executionContext).Response;
             return response;
         }
 
 #if UNITY
+        [Obsolete("BeginInvoke taking marshallers is obsolete. Use BeginInvoke taking InvokeOptionsBase instead.")]
         protected IAsyncResult BeginInvoke<TRequest>(TRequest request,
            IMarshaller<IRequest, AmazonWebServiceRequest> marshaller, ResponseUnmarshaller unmarshaller, AsyncOptions asyncOptions,
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper)
            where TRequest : AmazonWebServiceRequest
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = marshaller;
+            options.ResponseUnmarshaller = unmarshaller;
+            return BeginInvoke(request, options, asyncOptions, callbackHelper);
+        }
+
+        protected IAsyncResult BeginInvoke(AmazonWebServiceRequest request, InvokeOptionsBase options, AsyncOptions asyncOptions,
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper)
         {
             ThrowIfDisposed();
 
@@ -218,12 +241,14 @@ namespace Amazon.Runtime
                 new AsyncRequestContext(this.Config.LogMetrics, Signer)
                 {
                     ClientConfig = this.Config,
-                    Marshaller = marshaller,
+                    Marshaller = options.RequestMarshaller,
                     OriginalRequest = request,
-                    Unmarshaller = unmarshaller,
+                    Unmarshaller = options.ResponseUnmarshaller,
                     Action = callbackHelper,
                     AsyncOptions = asyncOptions,
-                    IsAsync = true
+                    IsAsync = true,
+                    ServiceMetaData = this.ServiceMetadata,
+                    Options = options
                 },
                 new AsyncResponseContext()
             );
@@ -232,12 +257,23 @@ namespace Amazon.Runtime
         }
 #endif
 
-#if AWS_ASYNC_API 
+#if AWS_ASYNC_API
 
+        [Obsolete("InvokeAsync taking marshallers is obsolete. Use InvokeAsync taking InvokeOptionsBase instead.")]
         protected System.Threading.Tasks.Task<TResponse> InvokeAsync<TRequest, TResponse>(TRequest request, 
             IMarshaller<IRequest, AmazonWebServiceRequest> marshaller, ResponseUnmarshaller unmarshaller,
             System.Threading.CancellationToken cancellationToken)            
             where TRequest: AmazonWebServiceRequest
+            where TResponse : AmazonWebServiceResponse, new()
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = marshaller;
+            options.ResponseUnmarshaller = unmarshaller;
+            return InvokeAsync<TResponse>(request, options, cancellationToken);
+        }
+
+        protected System.Threading.Tasks.Task<TResponse> InvokeAsync<TResponse>(AmazonWebServiceRequest request,
+            InvokeOptionsBase options, System.Threading.CancellationToken cancellationToken)            
             where TResponse : AmazonWebServiceResponse, new()
         {
             ThrowIfDisposed();
@@ -246,23 +282,35 @@ namespace Amazon.Runtime
                 new RequestContext(this.Config.LogMetrics, Signer)
                 {
                     ClientConfig = this.Config,
-                    Marshaller = marshaller,
+                    Marshaller = options.RequestMarshaller,
                     OriginalRequest = request,
-                    Unmarshaller = unmarshaller,
+                    Unmarshaller = options.ResponseUnmarshaller,
                     IsAsync = true,
-                    CancellationToken = cancellationToken
+                    CancellationToken = cancellationToken,
+                    ServiceMetaData = this.ServiceMetadata,
+                    Options = options                    
                 },
                 new ResponseContext()
             );
-
+            SetupCSMHandler(executionContext.RequestContext);
             return this.RuntimePipeline.InvokeAsync<TResponse>(executionContext);
         }
 
 #elif AWS_APM_API
+        [Obsolete("BeginInvoke taking marshallers is obsolete. Use BeginInvoke taking InvokeOptionsBase instead.")]
         protected IAsyncResult BeginInvoke<TRequest>(TRequest request,
             IMarshaller<IRequest, AmazonWebServiceRequest> marshaller, ResponseUnmarshaller unmarshaller,
             AsyncCallback callback, object state)
             where TRequest : AmazonWebServiceRequest
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = marshaller;
+            options.ResponseUnmarshaller = unmarshaller;
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        protected IAsyncResult BeginInvoke(AmazonWebServiceRequest request,
+            InvokeOptionsBase options, AsyncCallback callback, object state)            
         {
             ThrowIfDisposed();
 
@@ -270,16 +318,18 @@ namespace Amazon.Runtime
                 new AsyncRequestContext(this.Config.LogMetrics, Signer)
                 {
                     ClientConfig = this.Config,
-                    Marshaller = marshaller,
+                    Marshaller = options.RequestMarshaller,
                     OriginalRequest = request,
-                    Unmarshaller = unmarshaller,
+                    Unmarshaller = options.ResponseUnmarshaller,
                     Callback = callback,
                     State = state,
-                    IsAsync = true
+                    IsAsync = true,
+                    ServiceMetaData = this.ServiceMetadata,
+                    Options = options
                 },
                 new AsyncResponseContext()
             );
-
+            SetupCSMHandler(executionContext.RequestContext);
             var asyncResult = this.RuntimePipeline.InvokeAsync(executionContext);
             return asyncResult;
         }
@@ -312,6 +362,8 @@ namespace Amazon.Runtime
             }
         }
 #endif
+
+        protected virtual IEnumerable<DiscoveryEndpointBase> EndpointOperation(EndpointOperationContextBase context) { return null; }
 
         #endregion
 
@@ -362,7 +414,7 @@ namespace Amazon.Runtime
             mExceptionEvent(this, args);
         }
 
-        #endregion
+#endregion
 
         #region Dispose methods
 
@@ -392,15 +444,15 @@ namespace Amazon.Runtime
                 throw new ObjectDisposedException(GetType().FullName);
         }
 
-        #endregion
+#endregion
 
         protected abstract AbstractAWSSigner CreateSigner();
         protected virtual void CustomizeRuntimePipeline(RuntimePipeline pipeline) { }
 
         private void BuildRuntimePipeline()
         {
-#if BCL || BCL45
-            var httpRequestFactory = new HttpWebRequestFactory();
+#if BCL
+            var httpRequestFactory = new HttpWebRequestFactory(new AmazonSecurityProtocolManager());
             var httpHandler = new HttpHandler<Stream>(httpRequestFactory, this);
 #elif UNITY
             IHttpRequestFactory<string> httpRequestFactory = null;
@@ -432,6 +484,23 @@ namespace Amazon.Runtime
             var errorCallbackHandler = new ErrorCallbackHandler();
             errorCallbackHandler.OnError = this.ProcessExceptionHandlers;
 
+            //Determine which retry policy to use based on the retry mode
+            RetryPolicy retryPolicy;
+            switch (this.Config.RetryMode)
+            {
+                case RequestRetryMode.Adaptive:
+                    retryPolicy = new AdaptiveRetryPolicy(this.Config);
+                    break;
+                case RequestRetryMode.Standard:
+                    retryPolicy = new StandardRetryPolicy(this.Config);
+                    break;
+                case RequestRetryMode.Legacy:
+                    retryPolicy = new DefaultRetryPolicy(this.Config);
+                    break;
+                default:
+                    throw new InvalidOperationException("Unknown retry mode");
+            }
+
             // Build default runtime pipeline.
             this.RuntimePipeline = new RuntimePipeline(new List<IPipelineHandler>
                 {
@@ -440,8 +509,11 @@ namespace Amazon.Runtime
                     new ErrorHandler(_logger),
                     postUnmarshallHandler,
                     new Signer(),
-                    new CredentialsRetriever(this.Credentials),
-                    new RetryHandler(new DefaultRetryPolicy(this.Config)),
+                    //EndpointDiscoveryResolver must come after CredentialsRetriever, RetryHander, and EndpointResolver as it depends on
+                    //credentials, retrying of requests for 421 web exceptions, and the current set regional endpoint.
+                    new EndpointDiscoveryHandler(), 
+                    new CredentialsRetriever(this.Credentials),                                        
+                    new RetryHandler(retryPolicy),
                     postMarshallHandler,
                     new EndpointResolver(),
                     new Marshaller(),
@@ -455,12 +527,19 @@ namespace Amazon.Runtime
                 _logger
             );
 
+#if BCL || NETSTANDARD
+            if (DeterminedCSMConfiguration.Instance.CSMConfiguration.Enabled && !string.IsNullOrEmpty(ServiceMetadata.ServiceId))
+            {
+                this.RuntimePipeline.AddHandlerBefore<ErrorHandler>(new CSMCallAttemptHandler());
+                this.RuntimePipeline.AddHandlerBefore<MetricsHandler>(new CSMCallEventHandler());
+            }
+#endif
+
             CustomizeRuntimePipeline(this.RuntimePipeline);
 
             // Apply global pipeline customizations
             RuntimePipelineCustomizerRegistry.Instance.ApplyCustomizations(this.GetType(), this.RuntimePipeline);
         }
-
         public static Uri ComposeUrl(IRequest iRequest)
         {
             Uri url = iRequest.Endpoint;
@@ -471,6 +550,19 @@ namespace Amazon.Runtime
             {
                 if (resourcePath.StartsWith("/", StringComparison.Ordinal))
                     resourcePath = resourcePath.Substring(1);
+
+                if(iRequest.MarshallerVersion >= 2)
+                {
+                    if (AWSSDKUtils.HasBidiControlCharacters(resourcePath) || iRequest.PathResources.Any(v => AWSSDKUtils.HasBidiControlCharacters(v.Value)))
+                    {
+                        resourcePath = string.Join("/", AWSSDKUtils.SplitResourcePathIntoSegments(resourcePath, iRequest.PathResources).ToArray());
+                        throw new AmazonClientException(string.Format(CultureInfo.InvariantCulture,
+                            "Target resource path [{0}] has bidirectional characters, which are not supported" +
+                            "by System.Uri and thus cannot be handled by the .NET SDK.", resourcePath));
+                    }                    
+
+                    resourcePath = AWSSDKUtils.ResolveResourcePath(resourcePath, iRequest.PathResources);
+                }                                                
             }
 
             // Construct any sub resource/query parameter additions to append to the
@@ -499,12 +591,21 @@ namespace Amazon.Runtime
             }
 
 
-            if (AWSSDKUtils.HasBidiControlCharacters(resourcePath))
-                throw new AmazonClientException(string.Format(CultureInfo.InvariantCulture,
-                    "Target resource path [{0}] has bidirectional characters, which are not supported" +
-                    "by System.Uri and thus cannot be handled by the .NET SDK.", resourcePath));
+            var parameterizedPath = string.Empty;
+            if(iRequest.MarshallerVersion >= 2)
+            {
+                parameterizedPath = string.Concat(resourcePath, sb);
+            }
+            else
+            {
+                if (AWSSDKUtils.HasBidiControlCharacters(resourcePath))                
+                        throw new AmazonClientException(string.Format(CultureInfo.InvariantCulture,
+                            "Target resource path [{0}] has bidirectional characters, which are not supported" +
+                            "by System.Uri and thus cannot be handled by the .NET SDK.", resourcePath));
 
-            var parameterizedPath = string.Concat(AWSSDKUtils.UrlEncode(resourcePath, true), sb);
+                parameterizedPath = string.Concat(AWSSDKUtils.ProtectEncodedSlashUrlEncode(resourcePath, true), sb);
+            }
+            
             var hasSlash = url.AbsoluteUri.EndsWith("/", StringComparison.Ordinal) || parameterizedPath.StartsWith("/", StringComparison.Ordinal);
             var uri = hasSlash
                 ? new Uri(url.AbsoluteUri + parameterizedPath)
@@ -594,10 +695,20 @@ namespace Amazon.Runtime
 
 
             newConfig.ProxyCredentials = this.Config.ProxyCredentials;
-#if BCL
+#if BCL || NETSTANDARD
             newConfig.ProxyHost = this.Config.ProxyHost;
             newConfig.ProxyPort = this.Config.ProxyPort;
 #endif
         }
+
+        private static void SetupCSMHandler(IRequestContext requestContext)
+        {
+#if BCL || NETSTANDARD
+            if (requestContext.CSMEnabled)
+            {
+                requestContext.CSMCallEvent = new MonitoringAPICallEvent(requestContext);
+            }
+#endif
+        }        
     }
 }

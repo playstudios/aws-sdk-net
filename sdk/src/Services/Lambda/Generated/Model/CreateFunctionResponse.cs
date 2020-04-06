@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lambda.Model
 {
     /// <summary>
-    /// A complex type that describes function metadata.
+    /// Details about a function's configuration.
     /// </summary>
     public partial class CreateFunctionResponse : AmazonWebServiceResponse
     {
@@ -42,11 +42,18 @@ namespace Amazon.Lambda.Model
         private string _handler;
         private string _kmsKeyArn;
         private string _lastModified;
+        private LastUpdateStatus _lastUpdateStatus;
+        private string _lastUpdateStatusReason;
+        private LastUpdateStatusReasonCode _lastUpdateStatusReasonCode;
+        private List<Layer> _layers = new List<Layer>();
         private string _masterArn;
         private int? _memorySize;
         private string _revisionId;
         private string _role;
         private Runtime _runtime;
+        private State _state;
+        private string _stateReason;
+        private StateReasonCode _stateReasonCode;
         private int? _timeout;
         private TracingConfigResponse _tracingConfig;
         private string _version;
@@ -55,7 +62,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property CodeSha256. 
         /// <para>
-        /// It is the SHA256 hash of your function deployment package.
+        /// The SHA256 hash of the function's deployment package.
         /// </para>
         /// </summary>
         public string CodeSha256
@@ -73,7 +80,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property CodeSize. 
         /// <para>
-        /// The size, in bytes, of the function .zip file you uploaded.
+        /// The size of the function's deployment package, in bytes.
         /// </para>
         /// </summary>
         public long CodeSize
@@ -91,8 +98,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property DeadLetterConfig. 
         /// <para>
-        /// The parent object that contains the target ARN (Amazon Resource Name) of an Amazon
-        /// SQS queue or Amazon SNS topic. For more information, see <a>dlq</a>. 
+        /// The function's dead letter queue.
         /// </para>
         /// </summary>
         public DeadLetterConfig DeadLetterConfig
@@ -110,9 +116,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// The user-provided description.
+        /// The function's description.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Description
         {
             get { return this._description; }
@@ -128,7 +135,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Environment. 
         /// <para>
-        /// The parent object that contains your environment's configuration settings.
+        /// The function's environment variables.
         /// </para>
         /// </summary>
         public EnvironmentResponse Environment
@@ -146,7 +153,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) assigned to the function.
+        /// The function's Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
         public string FunctionArn
@@ -164,10 +171,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// The name of the function. Note that the length constraint applies only to the ARN.
-        /// If you specify only the function name, it is limited to 64 characters in length.
+        /// The name of the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=170)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -183,9 +190,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Handler. 
         /// <para>
-        /// The function Lambda calls to begin executing your function.
+        /// The function that Lambda calls to begin executing your function.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string Handler
         {
             get { return this._handler; }
@@ -201,8 +209,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property KMSKeyArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment
-        /// variables. If empty, it means you are using the AWS Lambda default service key.
+        /// The KMS key that's used to encrypt the function's environment variables. This key
+        /// is only returned if you've configured a customer managed CMK.
         /// </para>
         /// </summary>
         public string KMSKeyArn
@@ -220,10 +228,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property LastModified. 
         /// <para>
-        /// The time stamp of the last time you updated the function. The time stamp is conveyed
-        /// as a string complying with ISO-8601 in this way YYYY-MM-DDThh:mm:ssTZD (e.g., 1997-07-16T19:20:30+01:00).
-        /// For more information, see <a href="https://www.w3.org/TR/NOTE-datetime">Date and Time
-        /// Formats</a>.
+        /// The date and time that the function was last updated, in <a href="https://www.w3.org/TR/NOTE-datetime">ISO-8601
+        /// format</a> (YYYY-MM-DDThh:mm:ss.sTZD).
         /// </para>
         /// </summary>
         public string LastModified
@@ -239,9 +245,83 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LastUpdateStatus. 
+        /// <para>
+        /// The status of the last update that was performed on the function. This is first set
+        /// to <code>Successful</code> after function creation completes.
+        /// </para>
+        /// </summary>
+        public LastUpdateStatus LastUpdateStatus
+        {
+            get { return this._lastUpdateStatus; }
+            set { this._lastUpdateStatus = value; }
+        }
+
+        // Check to see if LastUpdateStatus property is set
+        internal bool IsSetLastUpdateStatus()
+        {
+            return this._lastUpdateStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LastUpdateStatusReason. 
+        /// <para>
+        /// The reason for the last update that was performed on the function.
+        /// </para>
+        /// </summary>
+        public string LastUpdateStatusReason
+        {
+            get { return this._lastUpdateStatusReason; }
+            set { this._lastUpdateStatusReason = value; }
+        }
+
+        // Check to see if LastUpdateStatusReason property is set
+        internal bool IsSetLastUpdateStatusReason()
+        {
+            return this._lastUpdateStatusReason != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LastUpdateStatusReasonCode. 
+        /// <para>
+        /// The reason code for the last update that was performed on the function.
+        /// </para>
+        /// </summary>
+        public LastUpdateStatusReasonCode LastUpdateStatusReasonCode
+        {
+            get { return this._lastUpdateStatusReasonCode; }
+            set { this._lastUpdateStatusReasonCode = value; }
+        }
+
+        // Check to see if LastUpdateStatusReasonCode property is set
+        internal bool IsSetLastUpdateStatusReasonCode()
+        {
+            return this._lastUpdateStatusReasonCode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Layers. 
+        /// <para>
+        /// The function's <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">
+        /// layers</a>.
+        /// </para>
+        /// </summary>
+        public List<Layer> Layers
+        {
+            get { return this._layers; }
+            set { this._layers = value; }
+        }
+
+        // Check to see if Layers property is set
+        internal bool IsSetLayers()
+        {
+            return this._layers != null && this._layers.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MasterArn. 
         /// <para>
-        /// Returns the ARN (Amazon Resource Name) of the master function.
+        /// For Lambda@Edge functions, the ARN of the master function.
         /// </para>
         /// </summary>
         public string MasterArn
@@ -259,10 +339,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property MemorySize. 
         /// <para>
-        /// The memory size, in MB, you configured for the function. Must be a multiple of 64
-        /// MB.
+        /// The memory that's allocated to the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=128, Max=3008)]
         public int MemorySize
         {
             get { return this._memorySize.GetValueOrDefault(); }
@@ -278,7 +358,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property RevisionId. 
         /// <para>
-        /// Represents the latest updated revision of the function or alias.
+        /// The latest updated revision of the function or alias.
         /// </para>
         /// </summary>
         public string RevisionId
@@ -296,8 +376,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Role. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the IAM role that Lambda assumes when it executes
-        /// your function to access any other Amazon Web Services (AWS) resources.
+        /// The function's execution role.
         /// </para>
         /// </summary>
         public string Role
@@ -331,13 +410,68 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Timeout. 
+        /// Gets and sets the property State. 
         /// <para>
-        /// The function execution time at which Lambda should terminate the function. Because
-        /// the execution time has cost implications, we recommend you set this value based on
-        /// your expected execution time. The default is 3 seconds.
+        /// The current state of the function. When the state is <code>Inactive</code>, you can
+        /// reactivate the function by invoking it.
         /// </para>
         /// </summary>
+        public State State
+        {
+            get { return this._state; }
+            set { this._state = value; }
+        }
+
+        // Check to see if State property is set
+        internal bool IsSetState()
+        {
+            return this._state != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StateReason. 
+        /// <para>
+        /// The reason for the function's current state.
+        /// </para>
+        /// </summary>
+        public string StateReason
+        {
+            get { return this._stateReason; }
+            set { this._stateReason = value; }
+        }
+
+        // Check to see if StateReason property is set
+        internal bool IsSetStateReason()
+        {
+            return this._stateReason != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StateReasonCode. 
+        /// <para>
+        /// The reason code for the function's current state. When the code is <code>Creating</code>,
+        /// you can't invoke or modify the function.
+        /// </para>
+        /// </summary>
+        public StateReasonCode StateReasonCode
+        {
+            get { return this._stateReasonCode; }
+            set { this._stateReasonCode = value; }
+        }
+
+        // Check to see if StateReasonCode property is set
+        internal bool IsSetStateReasonCode()
+        {
+            return this._stateReasonCode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Timeout. 
+        /// <para>
+        /// The amount of time that Lambda allows a function to run before stopping it.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
         public int Timeout
         {
             get { return this._timeout.GetValueOrDefault(); }
@@ -353,7 +487,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property TracingConfig. 
         /// <para>
-        /// The parent object that contains your function's tracing settings.
+        /// The function's AWS X-Ray tracing configuration.
         /// </para>
         /// </summary>
         public TracingConfigResponse TracingConfig
@@ -374,6 +508,7 @@ namespace Amazon.Lambda.Model
         /// The version of the Lambda function.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Version
         {
             get { return this._version; }
@@ -389,7 +524,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property VpcConfig. 
         /// <para>
-        /// VPC configuration associated with your Lambda function.
+        /// The function's networking configuration.
         /// </para>
         /// </summary>
         public VpcConfigDetail VpcConfig

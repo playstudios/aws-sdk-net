@@ -41,9 +41,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property ContentType. 
         /// <para>
-        /// The upload's content type (for example, "application/octet-stream").
+        /// The upload's content type (for example, <code>application/octet-stream</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=64)]
         public string ContentType
         {
             get { return this._contentType; }
@@ -59,12 +60,14 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The upload's file name. The name should not contain the '/' character. If uploading
-        /// an iOS app, the file name needs to end with the <code>.ipa</code> extension. If uploading
-        /// an Android app, the file name needs to end with the <code>.apk</code> extension. For
-        /// all others, the file name must end with the <code>.zip</code> file extension.
+        /// The upload's file name. The name should not contain any forward slashes (<code>/</code>).
+        /// If you are uploading an iOS app, the file name must end with the <code>.ipa</code>
+        /// extension. If you are uploading an Android app, the file name must end with the <code>.apk</code>
+        /// extension. For all others, the file name must end with the <code>.zip</code> file
+        /// extension.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -83,6 +86,7 @@ namespace Amazon.DeviceFarm.Model
         /// The ARN of the project for the upload.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string ProjectArn
         {
             get { return this._projectArn; }
@@ -106,74 +110,139 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// ANDROID_APP: An Android upload.
+        /// ANDROID_APP
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// IOS_APP: An iOS upload.
+        /// IOS_APP
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// WEB_APP: A web appliction upload.
+        /// WEB_APP
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// EXTERNAL_DATA: An external data upload.
+        /// EXTERNAL_DATA
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.
+        /// APPIUM_JAVA_JUNIT_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.
+        /// APPIUM_JAVA_TESTNG_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.
+        /// APPIUM_PYTHON_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.
+        /// APPIUM_NODE_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.
+        /// APPIUM_RUBY_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.
+        /// APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// CALABASH_TEST_PACKAGE: A Calabash test package upload.
+        /// APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.
+        /// APPIUM_WEB_PYTHON_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.
+        /// APPIUM_WEB_NODE_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.
+        /// APPIUM_WEB_RUBY_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST_TEST_PACKAGE: An XCode test package upload.
+        /// CALABASH_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.
+        /// INSTRUMENTATION_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATION_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATOR_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_JUNIT_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_TESTNG_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_PYTHON_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_NODE_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_RUBY_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_PYTHON_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_NODE_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_RUBY_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INSTRUMENTATION_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI_TEST_SPEC
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        ///  <b>Note</b> If you call <code>CreateUpload</code> with <code>WEB_APP</code> specified,
-        /// AWS Device Farm throws an <code>ArgumentException</code> error.
+        ///  If you call <code>CreateUpload</code> with <code>WEB_APP</code> specified, AWS Device
+        /// Farm throws an <code>ArgumentException</code> error.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public UploadType Type
         {
             get { return this._type; }

@@ -51,7 +51,7 @@ namespace Amazon.EC2.Model
     /// <para>
     /// Some instance types must be launched into a VPC. If you do not have a default VPC,
     /// or if you do not specify a subnet ID, the request fails. For more information, see
-    /// <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html#vpc-only-instance-types">Instance
+    /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html#vpc-only-instance-types">Instance
     /// Types Available Only in a VPC</a>.
     /// </para>
     ///  </li> <li> 
@@ -61,13 +61,13 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Not all instance types support IPv6 addresses. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+    /// Not all instance types support IPv6 addresses. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
     /// Types</a>.
     /// </para>
     ///  </li> <li> 
     /// <para>
     /// If you don't specify a security group ID, we use the default security group. For more
-    /// information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Security
+    /// information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Security
     /// Groups</a>.
     /// </para>
     ///  </li> <li> 
@@ -77,7 +77,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// You can create a <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">launch
+    /// You can create a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">launch
     /// template</a>, which is a resource that contains the parameters to launch an instance.
     /// When you launch an instance using <a>RunInstances</a>, you can specify the launch
     /// template instead of specifying the launch parameters.
@@ -93,20 +93,20 @@ namespace Amazon.EC2.Model
     /// An instance is ready for you to use when it's in the <code>running</code> state. You
     /// can check the state of your instance using <a>DescribeInstances</a>. You can tag instances
     /// and EBS volumes during launch, after launch, or both. For more information, see <a>CreateTags</a>
-    /// and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+    /// and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
     /// Your Amazon EC2 Resources</a>.
     /// </para>
     ///  
     /// <para>
     /// Linux instances have access to the public key of the key pair at boot. You can use
     /// this key to provide secure access to the instance. Amazon EC2 public images use this
-    /// feature to provide secure access without passwords. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
+    /// feature to provide secure access without passwords. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
     /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
-    /// For troubleshooting, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_InstanceStraightToTerminated.html">What
-    /// To Do If An Instance Immediately Terminates</a>, and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html">Troubleshooting
+    /// For troubleshooting, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_InstanceStraightToTerminated.html">What
+    /// To Do If An Instance Immediately Terminates</a>, and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html">Troubleshooting
     /// Connecting to Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -114,11 +114,15 @@ namespace Amazon.EC2.Model
     {
         private string _additionalInfo;
         private List<BlockDeviceMapping> _blockDeviceMappings = new List<BlockDeviceMapping>();
+        private CapacityReservationSpecification _capacityReservationSpecification;
         private string _clientToken;
+        private CpuOptionsRequest _cpuOptions;
         private CreditSpecificationRequest _creditSpecification;
         private bool? _disableApiTermination;
         private bool? _ebsOptimized;
         private List<ElasticGpuSpecification> _elasticGpuSpecification = new List<ElasticGpuSpecification>();
+        private List<ElasticInferenceAccelerator> _elasticInferenceAccelerators = new List<ElasticInferenceAccelerator>();
+        private HibernationOptionsRequest _hibernationOptions;
         private IamInstanceProfileSpecification _iamInstanceProfile;
         private string _imageId;
         private ShutdownBehavior _instanceInitiatedShutdownBehavior;
@@ -129,7 +133,9 @@ namespace Amazon.EC2.Model
         private string _kernelId;
         private string _keyName;
         private LaunchTemplateSpecification _launchTemplate;
+        private List<LicenseConfigurationRequest> _licenseSpecifications = new List<LicenseConfigurationRequest>();
         private int? _maxCount;
+        private InstanceMetadataOptionsRequest _metadataOptions;
         private int? _minCount;
         private bool? _monitoring;
         private List<InstanceNetworkInterfaceSpecification> _networkInterfaces = new List<InstanceNetworkInterfaceSpecification>();
@@ -150,7 +156,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates RunInstancesRequest with the parameterized properties
         /// </summary>
-        /// <param name="imageId">The ID of the AMI, which you can get by calling <a>DescribeImages</a>. An AMI is required to launch an instance and must be specified here or in a launch template.</param>
+        /// <param name="imageId">The ID of the AMI. An AMI ID is required to launch an instance and must be specified here or in a launch template.</param>
         /// <param name="minCount">The minimum number of instances to launch. If you specify a minimum that is more instances than Amazon EC2 can launch in the target Availability Zone, Amazon EC2 launches no instances. Constraints: Between 1 and the maximum number you're allowed for the specified instance type. For more information about the default limits, and how to request an increase, see <a href="http://aws.amazon.com/ec2/faqs/#How_many_instances_can_I_run_in_Amazon_EC2">How many instances can I run in Amazon EC2</a> in the Amazon EC2 General FAQ.</param>
         /// <param name="maxCount">The maximum number of instances to launch. If you specify more instances than Amazon EC2 can launch in the target Availability Zone, Amazon EC2 launches the largest possible number of instances above <code>MinCount</code>. Constraints: Between 1 and the maximum number you're allowed for the specified instance type. For more information about the default limits, and how to request an increase, see <a href="http://aws.amazon.com/ec2/faqs/#How_many_instances_can_I_run_in_Amazon_EC2">How many instances can I run in Amazon EC2</a> in the Amazon EC2 FAQ.</param>
         public RunInstancesRequest(string imageId, int minCount, int maxCount)
@@ -181,10 +187,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property BlockDeviceMappings. 
         /// <para>
-        /// One or more block device mapping entries. You can't specify both a snapshot ID and
-        /// an encryption value. This is because only blank volumes can be encrypted on creation.
-        /// If a snapshot is the basis for a volume, it is not blank and its encryption status
-        /// is used for the volume encryption status.
+        /// The block device mapping entries.
         /// </para>
         /// </summary>
         public List<BlockDeviceMapping> BlockDeviceMappings
@@ -200,10 +203,36 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CapacityReservationSpecification. 
+        /// <para>
+        /// Information about the Capacity Reservation targeting option. If you do not specify
+        /// this parameter, the instance's Capacity Reservation preference defaults to <code>open</code>,
+        /// which enables it to run in any open Capacity Reservation that has matching attributes
+        /// (instance type, platform, Availability Zone).
+        /// </para>
+        /// </summary>
+        public CapacityReservationSpecification CapacityReservationSpecification
+        {
+            get { return this._capacityReservationSpecification; }
+            set { this._capacityReservationSpecification = value; }
+        }
+
+        // Check to see if CapacityReservationSpecification property is set
+        internal bool IsSetCapacityReservationSpecification()
+        {
+            return this._capacityReservationSpecification != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+        /// If you do not specify a client token, a randomly generated token is used for the request
+        /// to ensure idempotency.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
         /// </para>
         ///  
@@ -224,16 +253,36 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CpuOptions. 
+        /// <para>
+        /// The CPU options for the instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html">Optimizing
+        /// CPU Options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        public CpuOptionsRequest CpuOptions
+        {
+            get { return this._cpuOptions; }
+            set { this._cpuOptions = value; }
+        }
+
+        // Check to see if CpuOptions property is set
+        internal bool IsSetCpuOptions()
+        {
+            return this._cpuOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreditSpecification. 
         /// <para>
-        /// The credit option for CPU usage of the instance. Valid values are <code>standard</code>
-        /// and <code>unlimited</code>. To change this attribute after launch, use <a>ModifyInstanceCreditSpecification</a>.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/t2-instances.html">T2
-        /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// The credit option for CPU usage of the burstable performance instance. Valid values
+        /// are <code>standard</code> and <code>unlimited</code>. To change this attribute after
+        /// launch, use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceCreditSpecification.html">
+        /// ModifyInstanceCreditSpecification</a>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+        /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// Default: <code>standard</code> 
+        /// Default: <code>standard</code> (T2 instances) or <code>unlimited</code> (T3/T3a instances)
         /// </para>
         /// </summary>
         public CreditSpecificationRequest CreditSpecification
@@ -253,8 +302,8 @@ namespace Amazon.EC2.Model
         /// <para>
         /// If you set this parameter to <code>true</code>, you can't terminate the instance using
         /// the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute
-        /// to <code>false</code> after launch, use <a>ModifyInstanceAttribute</a>. Alternatively,
-        /// if you set <code>InstanceInitiatedShutdownBehavior</code> to <code>terminate</code>,
+        /// after launch, use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceAttribute.html">ModifyInstanceAttribute</a>.
+        /// Alternatively, if you set <code>InstanceInitiatedShutdownBehavior</code> to <code>terminate</code>,
         /// you can terminate the instance by running the shutdown command from the instance.
         /// </para>
         ///  
@@ -302,7 +351,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ElasticGpuSpecification. 
         /// <para>
-        /// An elastic GPU to associate with the instance.
+        /// An elastic GPU to associate with the instance. An Elastic GPU is a GPU resource that
+        /// you can attach to your Windows instance to accelerate the graphics performance of
+        /// your applications. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/elastic-graphics.html">
+        /// Amazon EC2 Elastic GPUs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
         public List<ElasticGpuSpecification> ElasticGpuSpecification
@@ -315,6 +367,46 @@ namespace Amazon.EC2.Model
         internal bool IsSetElasticGpuSpecification()
         {
             return this._elasticGpuSpecification != null && this._elasticGpuSpecification.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ElasticInferenceAccelerators. 
+        /// <para>
+        /// An elastic inference accelerator to associate with the instance. Elastic inference
+        /// accelerators are a resource you can attach to your Amazon EC2 instances to accelerate
+        /// your Deep Learning (DL) inference workloads.
+        /// </para>
+        /// </summary>
+        public List<ElasticInferenceAccelerator> ElasticInferenceAccelerators
+        {
+            get { return this._elasticInferenceAccelerators; }
+            set { this._elasticInferenceAccelerators = value; }
+        }
+
+        // Check to see if ElasticInferenceAccelerators property is set
+        internal bool IsSetElasticInferenceAccelerators()
+        {
+            return this._elasticInferenceAccelerators != null && this._elasticInferenceAccelerators.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property HibernationOptions. 
+        /// <para>
+        /// Indicates whether an instance is enabled for hibernation. For more information, see
+        /// <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
+        /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        public HibernationOptionsRequest HibernationOptions
+        {
+            get { return this._hibernationOptions; }
+            set { this._hibernationOptions = value; }
+        }
+
+        // Check to see if HibernationOptions property is set
+        internal bool IsSetHibernationOptions()
+        {
+            return this._hibernationOptions != null;
         }
 
         /// <summary>
@@ -338,8 +430,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ImageId. 
         /// <para>
-        /// The ID of the AMI, which you can get by calling <a>DescribeImages</a>. An AMI is required
-        /// to launch an instance and must be specified here or in a launch template.
+        /// The ID of the AMI. An AMI ID is required to launch an instance and must be specified
+        /// here or in a launch template.
         /// </para>
         /// </summary>
         public string ImageId
@@ -382,6 +474,11 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The market (purchasing) option for the instances.
         /// </para>
+        ///  
+        /// <para>
+        /// For <a>RunInstances</a>, persistent Spot Instance requests are only supported when
+        /// <b>InstanceInterruptionBehavior</b> is set to either <code>hibernate</code> or <code>stop</code>.
+        /// </para>
         /// </summary>
         public InstanceMarketOptionsRequest InstanceMarketOptions
         {
@@ -398,7 +495,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        /// The instance type. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+        /// The instance type. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
         /// Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  
@@ -421,10 +518,14 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Ipv6AddressCount. 
         /// <para>
-        /// [EC2-VPC] A number of IPv6 addresses to associate with the primary network interface.
+        /// [EC2-VPC] The number of IPv6 addresses to associate with the primary network interface.
         /// Amazon EC2 chooses the IPv6 addresses from the range of your subnet. You cannot specify
         /// this option and the option to assign specific IPv6 addresses in the same request.
         /// You can specify this option if you've specified a minimum number of instances to launch.
+        /// </para>
+        ///  
+        /// <para>
+        /// You cannot specify this option and the network interfaces option in the same request.
         /// </para>
         /// </summary>
         public int Ipv6AddressCount
@@ -442,10 +543,14 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Ipv6Addresses. 
         /// <para>
-        /// [EC2-VPC] Specify one or more IPv6 addresses from the range of the subnet to associate
-        /// with the primary network interface. You cannot specify this option and the option
-        /// to assign a number of IPv6 addresses in the same request. You cannot specify this
-        /// option if you've specified a minimum number of instances to launch.
+        /// [EC2-VPC] The IPv6 addresses from the range of the subnet to associate with the primary
+        /// network interface. You cannot specify this option and the option to assign a number
+        /// of IPv6 addresses in the same request. You cannot specify this option if you've specified
+        /// a minimum number of instances to launch.
+        /// </para>
+        ///  
+        /// <para>
+        /// You cannot specify this option and the network interfaces option in the same request.
         /// </para>
         /// </summary>
         public List<InstanceIpv6Address> Ipv6Addresses
@@ -468,7 +573,7 @@ namespace Amazon.EC2.Model
         ///  <important> 
         /// <para>
         /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">
         /// PV-GRUB</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </important>
@@ -488,8 +593,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property KeyName. 
         /// <para>
-        /// The name of the key pair. You can create a key pair using <a>CreateKeyPair</a> or
-        /// <a>ImportKeyPair</a>.
+        /// The name of the key pair. You can create a key pair using <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateKeyPair.html">CreateKeyPair</a>
+        /// or <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportKeyPair.html">ImportKeyPair</a>.
         /// </para>
         ///  <important> 
         /// <para>
@@ -514,7 +619,8 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property LaunchTemplate. 
         /// <para>
         /// The launch template to use to launch the instances. Any parameters that you specify
-        /// in <a>RunInstances</a> override the same parameters in the launch template.
+        /// in <a>RunInstances</a> override the same parameters in the launch template. You can
+        /// specify either the name or ID of a launch template, but not both.
         /// </para>
         /// </summary>
         public LaunchTemplateSpecification LaunchTemplate
@@ -527,6 +633,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetLaunchTemplate()
         {
             return this._launchTemplate != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LicenseSpecifications. 
+        /// <para>
+        /// The license configurations.
+        /// </para>
+        /// </summary>
+        public List<LicenseConfigurationRequest> LicenseSpecifications
+        {
+            get { return this._licenseSpecifications; }
+            set { this._licenseSpecifications = value; }
+        }
+
+        // Check to see if LicenseSpecifications property is set
+        internal bool IsSetLicenseSpecifications()
+        {
+            return this._licenseSpecifications != null && this._licenseSpecifications.Count > 0; 
         }
 
         /// <summary>
@@ -544,6 +668,7 @@ namespace Amazon.EC2.Model
         /// many instances can I run in Amazon EC2</a> in the Amazon EC2 FAQ.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int MaxCount
         {
             get { return this._maxCount.GetValueOrDefault(); }
@@ -554,6 +679,25 @@ namespace Amazon.EC2.Model
         internal bool IsSetMaxCount()
         {
             return this._maxCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MetadataOptions. 
+        /// <para>
+        /// The metadata options for the instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
+        /// Metadata and User Data</a>.
+        /// </para>
+        /// </summary>
+        public InstanceMetadataOptionsRequest MetadataOptions
+        {
+            get { return this._metadataOptions; }
+            set { this._metadataOptions = value; }
+        }
+
+        // Check to see if MetadataOptions property is set
+        internal bool IsSetMetadataOptions()
+        {
+            return this._metadataOptions != null;
         }
 
         /// <summary>
@@ -571,6 +715,7 @@ namespace Amazon.EC2.Model
         /// many instances can I run in Amazon EC2</a> in the Amazon EC2 General FAQ.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int MinCount
         {
             get { return this._minCount.GetValueOrDefault(); }
@@ -586,7 +731,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Monitoring. 
         /// <para>
-        /// The monitoring for the instance.
+        /// Specifies whether detailed monitoring is enabled for the instance.
         /// </para>
         /// </summary>
         public bool Monitoring
@@ -604,7 +749,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NetworkInterfaces. 
         /// <para>
-        /// One or more network interfaces.
+        /// The network interfaces to associate with the instance. If you specify a network interface,
+        /// you must specify any security groups and subnets as part of the network interface.
         /// </para>
         /// </summary>
         public List<InstanceNetworkInterfaceSpecification> NetworkInterfaces
@@ -650,6 +796,10 @@ namespace Amazon.EC2.Model
         /// address in a network interface specification. You cannot specify this option if you're
         /// launching more than one instance in the request.
         /// </para>
+        ///  
+        /// <para>
+        /// You cannot specify this option and the network interfaces option in the same request.
+        /// </para>
         /// </summary>
         public string PrivateIpAddress
         {
@@ -666,12 +816,15 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property RamdiskId. 
         /// <para>
-        /// The ID of the RAM disk.
+        /// The ID of the RAM disk to select. Some kernels require additional drivers at launch.
+        /// Check the kernel requirements for information about whether you need to specify a
+        /// RAM disk. To find kernel requirements, go to the AWS Resource Center and search for
+        /// the kernel ID.
         /// </para>
         ///  <important> 
         /// <para>
         /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">
         /// PV-GRUB</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </important>
@@ -691,11 +844,12 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SecurityGroupIds. 
         /// <para>
-        /// One or more security group IDs. You can create a security group using <a>CreateSecurityGroup</a>.
+        /// The IDs of the security groups. You can create a security group using <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateSecurityGroup.html">CreateSecurityGroup</a>.
         /// </para>
         ///  
         /// <para>
-        /// Default: Amazon EC2 uses the default security group.
+        /// If you specify a network interface, you must specify any security groups as part of
+        /// the network interface.
         /// </para>
         /// </summary>
         public List<string> SecurityGroupIds
@@ -713,8 +867,13 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SecurityGroups. 
         /// <para>
-        /// [EC2-Classic, default VPC] One or more security group names. For a nondefault VPC,
+        /// [EC2-Classic, default VPC] The names of the security groups. For a nondefault VPC,
         /// you must use security group IDs instead.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify a network interface, you must specify any security groups as part of
+        /// the network interface.
         /// </para>
         ///  
         /// <para>
@@ -738,6 +897,11 @@ namespace Amazon.EC2.Model
         /// <para>
         /// [EC2-VPC] The ID of the subnet to launch the instance into.
         /// </para>
+        ///  
+        /// <para>
+        /// If you specify a network interface, you must specify any subnets as part of the network
+        /// interface.
+        /// </para>
         /// </summary>
         public string SubnetId
         {
@@ -754,9 +918,9 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property TagSpecifications. 
         /// <para>
-        /// The tags to apply to the resources during launch. You can tag instances and volumes.
-        /// The specified tags are applied to all instances or volumes that are created during
-        /// launch.
+        /// The tags to apply to the resources during launch. You can only tag instances and volumes
+        /// on launch. The specified tags are applied to all instances or volumes that are created
+        /// during launch. To tag a resource after it has been created, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html">CreateTags</a>.
         /// </para>
         /// </summary>
         public List<TagSpecification> TagSpecifications
@@ -774,11 +938,11 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property UserData. 
         /// <para>
-        /// The user data to make available to the instance. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Running
-        /// Commands on Your Linux Instance at Launch</a> (Linux) and <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html#instancedata-add-user-data">Adding
+        /// The user data to make available to the instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Running
+        /// Commands on Your Linux Instance at Launch</a> (Linux) and <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html#instancedata-add-user-data">Adding
         /// User Data</a> (Windows). If you are using a command line tool, base64-encoding is
         /// performed for you, and you can load the text from a file. Otherwise, you must provide
-        /// base64-encoded text.
+        /// base64-encoded text. User data is limited to 16 KB.
         /// </para>
         /// </summary>
         public string UserData

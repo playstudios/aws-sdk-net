@@ -34,6 +34,7 @@ namespace Amazon.LexModelBuildingService.Model
     {
         private string _description;
         private string _name;
+        private ObfuscationSetting _obfuscationSetting;
         private int? _priority;
         private string _responseCard;
         private List<string> _sampleUtterances = new List<string>();
@@ -48,6 +49,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// A description of the slot.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -66,6 +68,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the slot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -76,6 +79,28 @@ namespace Amazon.LexModelBuildingService.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ObfuscationSetting. 
+        /// <para>
+        /// Determines whether a slot is obfuscated in conversation logs and stored utterances.
+        /// When you obfuscate a slot, the value is replaced by the slot name in curly braces
+        /// ({}). For example, if the slot name is "full_name", obfuscated values are replaced
+        /// with "{full_name}". For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/how-obfuscate.html">
+        /// Slot Obfuscation </a>. 
+        /// </para>
+        /// </summary>
+        public ObfuscationSetting ObfuscationSetting
+        {
+            get { return this._obfuscationSetting; }
+            set { this._obfuscationSetting = value; }
+        }
+
+        // Check to see if ObfuscationSetting property is set
+        internal bool IsSetObfuscationSetting()
+        {
+            return this._obfuscationSetting != null;
         }
 
         /// <summary>
@@ -91,6 +116,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// arbitrary.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int Priority
         {
             get { return this._priority.GetValueOrDefault(); }
@@ -110,6 +136,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// chooses an option from the response card, instead of using text to reply. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50000)]
         public string ResponseCard
         {
             get { return this._responseCard; }
@@ -130,6 +157,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// In most cases, Amazon Lex is capable of understanding user utterances. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10)]
         public List<string> SampleUtterances
         {
             get { return this._sampleUtterances; }
@@ -148,6 +176,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// Specifies whether the slot is required or optional. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SlotConstraint SlotConstraint
         {
             get { return this._slotConstraint; }
@@ -167,6 +196,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// slot types.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string SlotType
         {
             get { return this._slotType; }
@@ -185,6 +215,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The version of the slot type.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string SlotTypeVersion
         {
             get { return this._slotTypeVersion; }

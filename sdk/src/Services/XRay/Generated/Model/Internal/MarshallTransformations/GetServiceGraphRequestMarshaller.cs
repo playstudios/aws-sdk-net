@@ -55,11 +55,12 @@ namespace Amazon.XRay.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetServiceGraphRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.XRay");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-04-12";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/ServiceGraph";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/ServiceGraph";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -69,6 +70,18 @@ namespace Amazon.XRay.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("EndTime");
                     context.Writer.Write(publicRequest.EndTime);
+                }
+
+                if(publicRequest.IsSetGroupARN())
+                {
+                    context.Writer.WritePropertyName("GroupARN");
+                    context.Writer.Write(publicRequest.GroupARN);
+                }
+
+                if(publicRequest.IsSetGroupName())
+                {
+                    context.Writer.WritePropertyName("GroupName");
+                    context.Writer.Write(publicRequest.GroupName);
                 }
 
                 if(publicRequest.IsSetNextToken())

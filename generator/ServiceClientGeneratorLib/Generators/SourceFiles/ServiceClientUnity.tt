@@ -10,9 +10,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using <#=this.Config.Namespace#>.Model;
 using <#=this.Config.Namespace#>.Model.Internal.MarshallTransformations;
+using <#=this.Config.Namespace#>.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -23,6 +25,7 @@ namespace <#=this.Config.Namespace#>
 <#    this.FormatServiceClientDocumentation(this.Config.ServiceModel.Documentation); #>
 	public partial class Amazon<#=this.Config.ClassName#>Client : AmazonServiceClient, IAmazon<#=this.Config.ClassName#>
 	{
+        private static IServiceMetadata serviceMetadata = new Amazon<#=this.Config.ClassName#>Metadata();
 <#
     // Creates constructors for the service if the model specifies to do so
 	if(this.Config.GenerateConstructors)
@@ -160,7 +163,29 @@ namespace <#=this.Config.Namespace#>
 			var pipelineOverrides = (unityPipelineOverride != null)?unityPipelineOverride: this.Config.ServiceModel.Customizations.PipelineOverride;
             foreach(var o in pipelineOverrides.Overrides )
             {
+                if(!string.IsNullOrEmpty(o.Condition))
+                {
+#>
+            if(<#=o.Condition#>)
+            {
+<#
                 if(o.OverrideMethod == "remove")
+                {
+#>
+                pipeline.<#=o.FormattedOverrideMethod#>();
+<#
+                }
+                else
+                {
+#>
+                pipeline.<#=o.FormattedOverrideMethod#>(new <#=o.NewType#>(<#=o.ConstructorInput#>));
+<#
+                }
+#>
+            }
+<#
+                }
+                else if(o.OverrideMethod == "remove")
                 {
 #>
             pipeline.<#=o.FormattedOverrideMethod#>();
@@ -170,7 +195,7 @@ namespace <#=this.Config.Namespace#>
                 {
 #>
             pipeline.<#=o.FormattedOverrideMethod#>(new <#=o.NewType#>(<#=o.ConstructorInput#>));
-<#				
+<#
                 }
             }
 #>
@@ -178,6 +203,17 @@ namespace <#=this.Config.Namespace#>
 <#
 		}
 #>
+		/// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
+
         #endregion
 
         #region Dispose
@@ -192,7 +228,55 @@ namespace <#=this.Config.Namespace#>
 
         #endregion
 
-        <#
+<#
+        var endpointOperation = this.Config.ServiceModel.FindEndpointOperation();
+        if(endpointOperation != null)
+        {
+#>
+        #region  EndpointOperation Override
+
+        protected override IEnumerable<DiscoveryEndpointBase> EndpointOperation(EndpointOperationContextBase context)
+        {
+            return EndpointDiscoveryResolver.ResolveEndpoints(context, () =>
+            {
+				var request = new <#=endpointOperation.Name#>Request
+				{
+<#
+        if(endpointOperation.RequestHasOperationEndpointOperationMember)
+        {
+#>
+					Operation = context.OperationName,
+<#
+        }
+        if(endpointOperation.RequestHasIdentifiersEndpointOperationMember)
+        {
+#>
+					Identifiers = new Dictionary<string, string>(context.EndpointDiscoveryData.Identifiers),
+<#
+        }
+#>
+				};				           
+
+				var response = <#=endpointOperation.Name#>(request);
+				if(response.HttpStatusCode != HttpStatusCode.OK || response.Endpoints == null)
+				{
+					return null;
+				}
+
+				var endpoints = new List<DiscoveryEndpointBase>();
+				foreach(var endpoint in response.Endpoints)
+                {
+                    endpoints.Add(new DiscoveryEndpoint(endpoint.Address, endpoint.CachePeriodInMinutes));
+                }
+            
+				return endpoints;
+			});
+        }
+
+        #endregion
+<#
+        }
+
 		// Generates methods for each operation in the model
         foreach(var operation in this.Config.ServiceModel.Operations)
         {
@@ -239,10 +323,20 @@ namespace <#=this.Config.Namespace#>
 <#
 			}
 #>
-            var marshaller = <#=operation.Name#>RequestMarshaller.Instance;
-            var unmarshaller = <#=operation.Name#>ResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = <#=operation.Name#>RequestMarshaller.Instance;
+            options.ResponseUnmarshaller = <#=operation.Name#>ResponseUnmarshaller.Instance;
+<#
+            if(!operation.IsEndpointOperation && operation.EndpointDiscoveryEnabled)
+            {
+#>
+            options.EndpointDiscoveryMarshaller = <#=operation.Name#>EndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+<#
+            }            
+#>
 
-            return Invoke<<#=operation.Name#>Request,<#=operation.Name#>Response>(request, marshaller, unmarshaller);
+            return Invoke<<#=operation.Name#>Response>(request, options);
         }
 <#
 		}
@@ -291,8 +385,18 @@ namespace <#=this.Config.Namespace#>
 			}
 #>
         	options = options == null?new AsyncOptions():options;
-            var marshaller = <#=operation.Name#>RequestMarshaller.Instance;
-            var unmarshaller = <#=operation.Name#>ResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = <#=operation.Name#>RequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = <#=operation.Name#>ResponseUnmarshaller.Instance;
+<#
+            if(!operation.IsEndpointOperation && operation.EndpointDiscoveryEnabled)
+            {
+#>
+            invokeOptions.EndpointDiscoveryMarshaller = <#=operation.Name#>EndpointDiscoveryMarshaller.Instance;
+            invokeOptions.EndpointOperation = EndpointOperation;
+<#
+            }
+#>
 			Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
 			if(callback !=null )
 				callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -300,7 +404,7 @@ namespace <#=this.Config.Namespace#>
 							= new AmazonServiceResult<<#=operation.Name#>Request,<#=operation.Name#>Response>((<#=operation.Name#>Request)req, (<#=operation.Name#>Response)res, ex , ao.State);	
 						callback(responseObject); 
 				};
-            BeginInvoke<<#=operation.Name#>Request>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion

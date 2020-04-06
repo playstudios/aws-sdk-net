@@ -58,10 +58,11 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
             string target = "Transcribe.CreateVocabulary";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-26";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -82,6 +83,12 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestPhrasesListValue);
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetVocabularyFileUri())
+                {
+                    context.Writer.WritePropertyName("VocabularyFileUri");
+                    context.Writer.Write(publicRequest.VocabularyFileUri);
                 }
 
                 if(publicRequest.IsSetVocabularyName())

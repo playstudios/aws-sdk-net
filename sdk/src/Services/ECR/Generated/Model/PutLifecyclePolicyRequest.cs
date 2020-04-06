@@ -29,8 +29,8 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the PutLifecyclePolicy operation.
-    /// Creates or updates a lifecycle policy. For information about lifecycle policy syntax,
-    /// see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html">Lifecycle
+    /// Creates or updates the lifecycle policy for the specified repository. For more information,
+    /// see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html">Lifecycle
     /// Policy Template</a>.
     /// </summary>
     public partial class PutLifecyclePolicyRequest : AmazonECRRequest
@@ -45,6 +45,7 @@ namespace Amazon.ECR.Model
         /// The JSON repository policy text to apply to the repository.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=100, Max=30720)]
         public string LifecyclePolicyText
         {
             get { return this._lifecyclePolicyText; }
@@ -82,6 +83,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository to receive the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

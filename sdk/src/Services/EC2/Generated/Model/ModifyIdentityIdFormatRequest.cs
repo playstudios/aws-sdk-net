@@ -50,7 +50,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
     /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. 
     /// </para>
     ///  
@@ -79,6 +79,7 @@ namespace Amazon.EC2.Model
         /// user of the account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PrincipalArn
         {
             get { return this._principalArn; }
@@ -110,6 +111,7 @@ namespace Amazon.EC2.Model
         /// that are currently within their opt-in period for longer IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Resource
         {
             get { return this._resource; }
@@ -128,6 +130,7 @@ namespace Amazon.EC2.Model
         /// Indicates whether the resource should use longer IDs (17-character IDs)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool UseLongIds
         {
             get { return this._useLongIds.GetValueOrDefault(); }

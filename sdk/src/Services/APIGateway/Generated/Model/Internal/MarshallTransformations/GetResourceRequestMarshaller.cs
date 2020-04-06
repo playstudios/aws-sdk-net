@@ -55,19 +55,20 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetResourceRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/restapis/{restapi_id}/resources/{resource_id}";
             if (!publicRequest.IsSetResourceId())
                 throw new AmazonAPIGatewayException("Request object does not have required field ResourceId set");
-            uriResourcePath = uriResourcePath.Replace("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
+            request.AddPathResource("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
             
             if (publicRequest.IsSetEmbed())
                 request.ParameterCollection.Add("embed", publicRequest.Embed);
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/restapis/{restapi_id}/resources/{resource_id}";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

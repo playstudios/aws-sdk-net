@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// Describes an event notification subscription created by the <code>CreateEventSubscription</code>
+    /// operation.
     /// </summary>
     public partial class EventSubscription
     {
@@ -157,7 +158,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: replication-instance | replication-server | security-group | migration-task
+        /// Valid values: replication-instance | replication-server | security-group | replication-task
         /// </para>
         /// </summary>
         public string SourceType

@@ -32,9 +32,9 @@ namespace Amazon.Rekognition.Model
     /// 
     ///  
     /// <para>
-    /// Rekognition estimates an age-range for faces detected in the input image. Estimated
-    /// age ranges can overlap; a face of a 5 year old may have an estimated range of 4-6
-    /// whilst the face of a 6 year old may have an estimated range of 4-8.
+    /// Amazon Rekognition estimates an age range for faces detected in the input image. Estimated
+    /// age ranges can overlap. A face of a 5-year-old might have an estimated range of 4-6,
+    /// while the face of a 6-year-old might have an estimated range of 4-8.
     /// </para>
     /// </summary>
     public partial class AgeRange
@@ -48,6 +48,7 @@ namespace Amazon.Rekognition.Model
         /// The highest estimated age.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int High
         {
             get { return this._high.GetValueOrDefault(); }
@@ -66,6 +67,7 @@ namespace Amazon.Rekognition.Model
         /// The lowest estimated age.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int Low
         {
             get { return this._low.GetValueOrDefault(); }

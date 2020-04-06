@@ -60,6 +60,13 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.AllocatedStorage = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("AssociatedRoles/DBInstanceRole", targetDepth))
+                    {
+                        var unmarshaller = DBInstanceRoleUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.AssociatedRoles.Add(item);
+                        continue;
+                    }
                     if (context.TestExpression("AutoMinorVersionUpgrade", targetDepth))
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
@@ -164,6 +171,12 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.DBSubnetGroup = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("DeletionProtection", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.DeletionProtection = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("DomainMemberships/DomainMembership", targetDepth))
                     {
                         var unmarshaller = DomainMembershipUnmarshaller.Instance;
@@ -238,10 +251,22 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.LicenseModel = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("ListenerEndpoint", targetDepth))
+                    {
+                        var unmarshaller = EndpointUnmarshaller.Instance;
+                        unmarshalledObject.ListenerEndpoint = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("MasterUsername", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.MasterUsername = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("MaxAllocatedStorage", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.MaxAllocatedStorage = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("MonitoringInterval", targetDepth))
@@ -287,6 +312,12 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.PerformanceInsightsKMSKeyId = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("PerformanceInsightsRetentionPeriod", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.PerformanceInsightsRetentionPeriod = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("PreferredBackupWindow", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -297,6 +328,13 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.PreferredMaintenanceWindow = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ProcessorFeatures/ProcessorFeature", targetDepth))
+                    {
+                        var unmarshaller = ProcessorFeatureUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.ProcessorFeatures.Add(item);
                         continue;
                     }
                     if (context.TestExpression("PromotionTier", targetDepth))

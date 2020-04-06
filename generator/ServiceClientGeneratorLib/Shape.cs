@@ -20,6 +20,9 @@ namespace ServiceClientGenerator
         public const string MembersKey = "members";
         public const string PayloadKey = "payload";
         public const string ExceptionKey = "exception";
+        public const string RetryableKey = "retryable";
+        public const string ThrottlingKey = "throttling";
+        public const string RequiresLengthKey = "requiresLength";
         public const string StreamingKey = "streaming";
         public const string TypeKey = "type";
         public const string FlattenedKey = "flattened";
@@ -29,6 +32,10 @@ namespace ServiceClientGenerator
         public const string PatternKey = "pattern";
         public const string ErrorKey = "error";
         public const string ErrorCodeKey = "code";
+        public const string EventStreamKey = "eventstream";
+        public const string DeprecatedKey = "deprecated";
+        public const string DeprecatedMessageKey = "deprecatedMessage";
+        public const string TimestampFormatKey = "timestampFormat";        
 
         public static readonly HashSet<string> NullableTypes = new HashSet<string> {
             "bool",
@@ -70,7 +77,7 @@ namespace ServiceClientGenerator
         public Shape(ServiceModel model, string name, JsonData data)
             : base(model, data)
         {
-            this._name = ServiceModel.CapitalizeFirstChar(name);
+            this._name = name.ToUpperFirstCharacter();
             var nameOverride = this.model.Customizations.GetOverrideShapeName(this._name);
             if (nameOverride != null)
                 this._name = nameOverride;
@@ -341,6 +348,43 @@ namespace ServiceClientGenerator
         }
 
         /// <summary>
+        /// Determines if the exception is marked retryable
+        /// </summary>
+        public bool IsRetryable
+        {
+            get
+            {
+                return this.data[RetryableKey] != null;
+            }
+        }
+
+        /// <summary>
+        /// Determines if a retryable exception is marked as throttling
+        /// </summary>
+        public bool Throttling
+        {
+            get
+            {
+                var throttling = this.data[RetryableKey]?[ThrottlingKey];
+                return (bool)(throttling ?? false);
+            }
+        }
+
+        public bool IsEventStream
+        {
+            get
+            {
+                var isEventStream = data[EventStreamKey];
+                if (isEventStream != null && isEventStream.IsBoolean)
+                {
+                    return (bool) isEventStream;
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
         /// If this shape is a primitive type this returns true so that the request can show if the member has been set or not
         /// </summary>
         public bool IsNullable
@@ -408,14 +452,6 @@ namespace ServiceClientGenerator
         }
 
         /// <summary>
-        /// Determines if the shape's type is a blob
-        /// </summary>
-        public bool IsBlob
-        {
-            get { return this.Type == "blob"; }
-        }
-
-        /// <summary>
         /// Determines if the shape's type is a map
         /// </summary>
         public bool IsMap
@@ -471,6 +507,17 @@ namespace ServiceClientGenerator
         }
 
         /// <summary>
+        /// Determines if the shape's json has a requiresLength attribute
+        /// </summary>
+        public bool RequiresLength
+        {
+            get
+            {                
+                return (bool)(this.data[RequiresLengthKey] ?? false);
+            }
+        }
+
+        /// <summary>
         /// Determines if the shape's json has a streaming attribute
         /// </summary>
         public bool IsStreaming
@@ -483,7 +530,7 @@ namespace ServiceClientGenerator
 
                 return bool.Parse(streamingNode.ToString());
             }
-        }
+        }        
 
         public long? Min
         {
@@ -656,6 +703,36 @@ namespace ServiceClientGenerator
         }
 
         /// <summary>
+        /// Determines if the shape is Deprecated.
+        /// </summary>
+        public bool IsDeprecated
+        {
+            get
+            {
+                if (data[DeprecatedKey] != null && data[DeprecatedKey].IsBoolean)
+                    return (bool)data[DeprecatedKey];
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns the deprecation message specified in the model or in the customization file.
+        /// </summary>
+        public string DeprecationMessage
+        {
+            get
+            {
+                string message = this.model.Customizations.GetShapeModifier(this._name)?.DeprecationMessage ??
+                                 data[DeprecatedMessageKey].CastToString();
+                if (message == null)
+                    throw new Exception(string.Format("The 'message' property of the 'deprecated' trait is missing for shape {0}.\nFor example: \"ShapeName\":{{ ... \"members\":{{ ... }}, \"deprecated\":true, \"deprecatedMessage\":\"This type is deprecated\"}}", this._name));
+
+                return message;
+            }
+        }
+
+        /// <summary>
         /// If the shape is a request or response type, strips off the suffix
         /// to yield the parent operation. Null is returned if the shape is a
         /// regular model shape.
@@ -680,6 +757,50 @@ namespace ServiceClientGenerator
 
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Returns the marshaller method to use in the generated marshaller code for a
+        /// shape of primitive type. This is used while marshalling lists and maps.
+        /// </summary>
+        public string PrimitiveMarshaller(MarshallLocation marshallLocation)
+        {
+            if (this.IsDateTime)
+            {
+                var timestampFormat = GetTimestampFormat(marshallLocation);
+                return "StringUtils.FromDateTimeTo" + timestampFormat;
+            }
+            else
+            {
+                return "StringUtils.From" + this.GetPrimitiveType();
+            }
+        }
+
+        /// <summary>
+        /// Timestamp format for the shape.
+        /// </summary>
+        public TimestampFormat GetTimestampFormat(MarshallLocation marshallLocation)
+        {
+            var timestampFormat = data.GetTimestampFormat();
+            if (timestampFormat == TimestampFormat.None)
+            {
+                timestampFormat = Member.GetDefaultTimestampFormat(marshallLocation, this.model.Type);
+            }
+            return timestampFormat;
+        }
+
+        public bool IsFieldRequired(string fieldName)
+        {
+            var requiredList = data[RequiredKey];
+            if (requiredList != null && requiredList.IsArray)
+            {
+                foreach (var name in requiredList)
+                {
+                    if (string.Equals(name.ToString(), fieldName))
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -39,10 +39,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog in which to create the connection. If none is supplied,
+        /// The ID of the Data Catalog in which to create the connection. If none is provided,
         /// the AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -61,6 +62,7 @@ namespace Amazon.Glue.Model
         /// A <code>ConnectionInput</code> object defining the connection to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ConnectionInput ConnectionInput
         {
             get { return this._connectionInput; }

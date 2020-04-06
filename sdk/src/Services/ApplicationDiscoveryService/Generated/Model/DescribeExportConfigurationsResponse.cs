@@ -36,11 +36,7 @@ namespace Amazon.ApplicationDiscoveryService.Model
         private string _nextToken;
 
         /// <summary>
-        /// Gets and sets the property ExportsInfo. 
-        /// <para>
-        /// Returns export details. When the status is complete, the response includes a URL for
-        /// an Amazon S3 bucket where you can view the data in a CSV file.
-        /// </para>
+        /// Gets and sets the property ExportsInfo.
         /// </summary>
         public List<ExportInfo> ExportsInfo
         {
@@ -57,9 +53,7 @@ namespace Amazon.ApplicationDiscoveryService.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// A token to get the next set of results. For example, if you specify 100 IDs for <code>DescribeExportConfigurationsRequest$exportIds</code>
-        /// but set <code>DescribeExportConfigurationsRequest$maxResults</code> to 10, you get
-        /// results in a set of 10. Use the token in the query to get the next set of 10.
+        /// The token from the previous call to describe-export-tasks.
         /// </para>
         /// </summary>
         public string NextToken

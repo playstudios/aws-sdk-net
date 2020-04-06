@@ -46,6 +46,7 @@ namespace Amazon.KeyManagementService.Model
         /// operation.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string GrantId
         {
             get { return this._grantId; }
@@ -65,10 +66,11 @@ namespace Amazon.KeyManagementService.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
+        /// For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token">Grant
         /// Tokens</a> in the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=8192)]
         public string GrantToken
         {
             get { return this._grantToken; }

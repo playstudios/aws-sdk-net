@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.AWSMarketplaceCommerceAnalytics.Model;
 using Amazon.AWSMarketplaceCommerceAnalytics.Model.Internal.MarshallTransformations;
+using Amazon.AWSMarketplaceCommerceAnalytics.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -40,10 +42,11 @@ namespace Amazon.AWSMarketplaceCommerceAnalytics
     /// </summary>
     public partial class AmazonAWSMarketplaceCommerceAnalyticsClient : AmazonServiceClient, IAmazonAWSMarketplaceCommerceAnalytics
     {
+        private static IServiceMetadata serviceMetadata = new AmazonAWSMarketplaceCommerceAnalyticsMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonAWSMarketplaceCommerceAnalyticsClient with the credentials loaded from the application's
@@ -214,6 +217,16 @@ namespace Amazon.AWSMarketplaceCommerceAnalytics
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -229,35 +242,48 @@ namespace Amazon.AWSMarketplaceCommerceAnalytics
 
         #endregion
 
-        
+
         #region  GenerateDataSet
 
         internal virtual GenerateDataSetResponse GenerateDataSet(GenerateDataSetRequest request)
         {
-            var marshaller = GenerateDataSetRequestMarshaller.Instance;
-            var unmarshaller = GenerateDataSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateDataSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateDataSetResponseUnmarshaller.Instance;
 
-            return Invoke<GenerateDataSetRequest,GenerateDataSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GenerateDataSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GenerateDataSet operation.
+        /// Given a data set type and data set publication date, asynchronously publishes the
+        /// requested data set to the specified S3 bucket and notifies the specified SNS topic
+        /// once the data is available. Returns a unique request identifier that can be used to
+        /// correlate requests with notifications from the SNS topic. Data sets will be published
+        /// in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD.csv.
+        /// If a file with the same name already exists (e.g. if the same data set is requested
+        /// twice), the original file will be overwritten by the new file. Requires a Role with
+        /// an attached permissions policy providing Allow permissions for the following actions:
+        /// s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GenerateDataSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GenerateDataSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GenerateDataSet service method, as returned by AWSMarketplaceCommerceAnalytics.</returns>
+        /// <exception cref="Amazon.AWSMarketplaceCommerceAnalytics.Model.MarketplaceCommerceAnalyticsException">
+        /// This exception is thrown when an internal service error occurs.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/marketplacecommerceanalytics-2015-07-01/GenerateDataSet">REST API Reference for GenerateDataSet Operation</seealso>
         public virtual Task<GenerateDataSetResponse> GenerateDataSetAsync(GenerateDataSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GenerateDataSetRequestMarshaller.Instance;
-            var unmarshaller = GenerateDataSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateDataSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateDataSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GenerateDataSetRequest,GenerateDataSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GenerateDataSetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -266,30 +292,43 @@ namespace Amazon.AWSMarketplaceCommerceAnalytics
 
         internal virtual StartSupportDataExportResponse StartSupportDataExport(StartSupportDataExportRequest request)
         {
-            var marshaller = StartSupportDataExportRequestMarshaller.Instance;
-            var unmarshaller = StartSupportDataExportResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartSupportDataExportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartSupportDataExportResponseUnmarshaller.Instance;
 
-            return Invoke<StartSupportDataExportRequest,StartSupportDataExportResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartSupportDataExportResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the StartSupportDataExport operation.
+        /// Given a data set type and a from date, asynchronously publishes the requested customer
+        /// support data to the specified S3 bucket and notifies the specified SNS topic once
+        /// the data is available. Returns a unique request identifier that can be used to correlate
+        /// requests with notifications from the SNS topic. Data sets will be published in comma-separated
+        /// values (CSV) format with the file name {data_set_type}_YYYY-MM-DD'T'HH-mm-ss'Z'.csv.
+        /// If a file with the same name already exists (e.g. if the same data set is requested
+        /// twice), the original file will be overwritten by the new file. Requires a Role with
+        /// an attached permissions policy providing Allow permissions for the following actions:
+        /// s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the StartSupportDataExport operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the StartSupportDataExport service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the StartSupportDataExport service method, as returned by AWSMarketplaceCommerceAnalytics.</returns>
+        /// <exception cref="Amazon.AWSMarketplaceCommerceAnalytics.Model.MarketplaceCommerceAnalyticsException">
+        /// This exception is thrown when an internal service error occurs.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/marketplacecommerceanalytics-2015-07-01/StartSupportDataExport">REST API Reference for StartSupportDataExport Operation</seealso>
         public virtual Task<StartSupportDataExportResponse> StartSupportDataExportAsync(StartSupportDataExportRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = StartSupportDataExportRequestMarshaller.Instance;
-            var unmarshaller = StartSupportDataExportResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartSupportDataExportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartSupportDataExportResponseUnmarshaller.Instance;
 
-            return InvokeAsync<StartSupportDataExportRequest,StartSupportDataExportResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<StartSupportDataExportResponse>(request, options, cancellationToken);
         }
 
         #endregion

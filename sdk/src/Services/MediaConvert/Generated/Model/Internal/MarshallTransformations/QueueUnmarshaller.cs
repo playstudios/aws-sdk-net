@@ -94,10 +94,34 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.Name = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("pricingPlan", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.PricingPlan = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("progressingJobsCount", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.ProgressingJobsCount = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("reservationPlan", targetDepth))
+                {
+                    var unmarshaller = ReservationPlanUnmarshaller.Instance;
+                    unmarshalledObject.ReservationPlan = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("status", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Status = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("submittedJobsCount", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.SubmittedJobsCount = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("type", targetDepth))

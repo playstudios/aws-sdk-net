@@ -42,6 +42,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The raw event message.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Message
         {
             get { return this._message; }
@@ -57,10 +58,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// <summary>
         /// Gets and sets the property Timestamp. 
         /// <para>
-        /// The time the event occurred, expressed as the number of milliseconds fter Jan 1, 1970
-        /// 00:00:00 UTC.
+        /// The time the event occurred, expressed as the number of milliseconds after Jan 1,
+        /// 1970 00:00:00 UTC.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public DateTime Timestamp
         {
             get { return this._timestamp.GetValueOrDefault(); }

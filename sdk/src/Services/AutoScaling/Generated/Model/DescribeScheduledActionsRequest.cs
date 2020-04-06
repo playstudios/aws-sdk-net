@@ -29,17 +29,18 @@ namespace Amazon.AutoScaling.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeScheduledActions operation.
-    /// Describes the actions scheduled for your Auto Scaling group that haven't run. To describe
-    /// the actions that have already run, use <a>DescribeScalingActivities</a>.
+    /// Describes the actions scheduled for your Auto Scaling group that haven't run or that
+    /// have not reached their end time. To describe the actions that have already run, use
+    /// <a>DescribeScalingActivities</a>.
     /// </summary>
     public partial class DescribeScheduledActionsRequest : AmazonAutoScalingRequest
     {
         private string _autoScalingGroupName;
-        private DateTime? _endTime;
+        private DateTime? _endTimeUtc;
         private int? _maxRecords;
         private string _nextToken;
         private List<string> _scheduledActionNames = new List<string>();
-        private DateTime? _startTime;
+        private DateTime? _startTimeUtc;
 
         /// <summary>
         /// Gets and sets the property AutoScalingGroupName. 
@@ -47,6 +48,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -60,29 +62,29 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EndTime. 
+        /// Gets and sets the property EndTimeUtc. 
         /// <para>
         /// The latest scheduled start time to return. If scheduled action names are provided,
         /// this parameter is ignored.
         /// </para>
         /// </summary>
-        public DateTime EndTime
+        public DateTime EndTimeUtc
         {
-            get { return this._endTime.GetValueOrDefault(); }
-            set { this._endTime = value; }
+            get { return this._endTimeUtc.GetValueOrDefault(); }
+            set { this._endTime = this._endTimeUtc = value; }
         }
 
-        // Check to see if EndTime property is set
-        internal bool IsSetEndTime()
+        // Check to see if EndTimeUtc property is set
+        internal bool IsSetEndTimeUtc()
         {
-            return this._endTime.HasValue; 
+            return this._endTimeUtc.HasValue; 
         }
 
         /// <summary>
         /// Gets and sets the property MaxRecords. 
         /// <para>
-        /// The maximum number of items to return with this call. The default value is 50 and
-        /// the maximum value is 100.
+        /// The maximum number of items to return with this call. The default value is <code>50</code>
+        /// and the maximum value is <code>100</code>.
         /// </para>
         /// </summary>
         public int MaxRecords
@@ -119,15 +121,9 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property ScheduledActionNames. 
         /// <para>
-        /// Describes one or more scheduled actions. If you omit this parameter, all scheduled
-        /// actions are described. If you specify an unknown scheduled action, it is ignored with
-        /// no error.
-        /// </para>
-        ///  
-        /// <para>
-        /// You can describe up to a maximum of 50 instances with a single call. If there are
-        /// more items to return, the call returns a token. To get the next set of items, repeat
-        /// the call with the returned token.
+        /// The names of one or more scheduled actions. You can specify up to 50 actions. If you
+        /// omit this parameter, all scheduled actions are described. If you specify an unknown
+        /// scheduled action, it is ignored with no error.
         /// </para>
         /// </summary>
         public List<string> ScheduledActionNames
@@ -143,23 +139,88 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartTime. 
+        /// Gets and sets the property StartTimeUtc. 
         /// <para>
         /// The earliest scheduled start time to return. If scheduled action names are provided,
         /// this parameter is ignored.
         /// </para>
         /// </summary>
+        public DateTime StartTimeUtc
+        {
+            get { return this._startTimeUtc.GetValueOrDefault(); }
+            set { this._startTime = this._startTimeUtc = value; }
+        }
+
+        // Check to see if StartTimeUtc property is set
+        internal bool IsSetStartTimeUtc()
+        {
+            return this._startTimeUtc.HasValue; 
+        }
+
+#region Backwards compatible properties
+        private DateTime? _endTime;
+        private DateTime? _startTime;
+
+        /// <summary>
+        /// Gets and sets the property EndTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc
+        /// results in both EndTime and EndTimeUtc being assigned, the latest assignment to either
+        /// one of the two property is reflected in the value of both. EndTime is provided for
+        /// backwards compatibility only and assigning a non-Utc DateTime to it results in the
+        /// wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The latest scheduled start time to return. If scheduled action names are provided,
+        /// this parameter is ignored.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc results in both EndTime and " +
+            "EndTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. EndTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime EndTime
+        {
+            get { return this._endTime.GetValueOrDefault(); }
+            set
+            {
+                this._endTime = value;
+                this._endTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+        /// <summary>
+        /// Gets and sets the property StartTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use StartTimeUtc instead. Setting either StartTime or
+        /// StartTimeUtc results in both StartTime and StartTimeUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. StartTime
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The earliest scheduled start time to return. If scheduled action names are provided,
+        /// this parameter is ignored.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use StartTimeUtc instead. Setting either StartTime or StartTimeUtc results in both StartTime and " +
+            "StartTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. StartTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
         public DateTime StartTime
         {
             get { return this._startTime.GetValueOrDefault(); }
-            set { this._startTime = value; }
+            set
+            {
+                this._startTime = value;
+                this._startTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
         }
-
-        // Check to see if StartTime property is set
-        internal bool IsSetStartTime()
-        {
-            return this._startTime.HasValue; 
-        }
-
+#endregion
     }
 }

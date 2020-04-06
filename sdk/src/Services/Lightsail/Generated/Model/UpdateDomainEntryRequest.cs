@@ -30,6 +30,14 @@ namespace Amazon.Lightsail.Model
     /// <summary>
     /// Container for the parameters to the UpdateDomainEntry operation.
     /// Updates a domain recordset after it is created.
+    /// 
+    ///  
+    /// <para>
+    /// The <code>update domain entry</code> operation supports tag-based access control via
+    /// resource tags applied to the resource identified by <code>domain name</code>. For
+    /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class UpdateDomainEntryRequest : AmazonLightsailRequest
     {
@@ -42,6 +50,7 @@ namespace Amazon.Lightsail.Model
         /// An array of key-value pairs containing information about the domain entry.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DomainEntry DomainEntry
         {
             get { return this._domainEntry; }
@@ -60,6 +69,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the domain recordset to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }

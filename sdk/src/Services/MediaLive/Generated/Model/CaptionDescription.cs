@@ -28,8 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Output groups for this Live Event. Output groups contain information about where streams
-    /// should be distributed.
+    /// Caption Description
     /// </summary>
     public partial class CaptionDescription
     {
@@ -44,6 +43,7 @@ namespace Amazon.MediaLive.Model
         /// to use as a caption source when generating output captions. This field should match
         /// a captionSelector name.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CaptionSelectorName
         {
             get { return this._captionSelectorName; }
@@ -107,6 +107,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property Name. Name of the caption description.  Used to associate
         /// a caption description with an output.  Names must be unique within an event.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

@@ -40,10 +40,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property DependentJobName. 
         /// <para>
-        /// The name of the job for which to retrieve triggers. The trigger that can start this
-        /// job will be returned, and if there is no such trigger, all triggers will be returned.
+        /// The name of the job to retrieve triggers for. The trigger that can start this job
+        /// is returned, and if there is no such trigger, all triggers are returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string DependentJobName
         {
             get { return this._dependentJobName; }
@@ -62,6 +63,7 @@ namespace Amazon.Glue.Model
         /// The maximum size of the response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

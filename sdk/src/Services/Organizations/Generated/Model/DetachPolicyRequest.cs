@@ -29,21 +29,21 @@ namespace Amazon.Organizations.Model
 {
     /// <summary>
     /// Container for the parameters to the DetachPolicy operation.
-    /// Detaches a policy from a target root, organizational unit, or account. If the policy
-    /// being detached is a service control policy (SCP), the changes to permissions for IAM
-    /// users and roles in affected accounts are immediate.
+    /// Detaches a policy from a target root, organizational unit (OU), or account. If the
+    /// policy being detached is a service control policy (SCP), the changes to permissions
+    /// for IAM users and roles in affected accounts are immediate.
     /// 
     ///  
     /// <para>
     ///  <b>Note:</b> Every root, OU, and account must have at least one SCP attached. If
     /// you want to replace the default <code>FullAWSAccess</code> policy with one that limits
-    /// the permissions that can be delegated, then you must attach the replacement policy
-    /// before you can remove the default one. This is the authorization strategy of <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_whitelist">whitelisting</a>.
-    /// If you instead attach a second SCP and leave the <code>FullAWSAccess</code> SCP still
-    /// attached, and specify <code>"Effect": "Deny"</code> in the second SCP to override
-    /// the <code>"Effect": "Allow"</code> in the <code>FullAWSAccess</code> policy (or any
-    /// other attached SCP), then you are using the authorization strategy of <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_blacklist">blacklisting</a>.
-    /// 
+    /// the permissions that can be delegated, you must attach the replacement policy before
+    /// you can remove the default one. This is the authorization strategy of an "<a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_whitelist">allow
+    /// list</a>". If you instead attach a second SCP and leave the <code>FullAWSAccess</code>
+    /// SCP still attached, and specify <code>"Effect": "Deny"</code> in the second SCP to
+    /// override the <code>"Effect": "Allow"</code> in the <code>FullAWSAccess</code> policy
+    /// (or any other attached SCP), you're using the authorization strategy of a "<a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_about-scps.html#orgs_policies_blacklist">deny
+    /// list</a>".
     /// </para>
     ///  
     /// <para>
@@ -64,9 +64,11 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy ID string
-        /// requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or
+        /// the underscore character (_).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PolicyId
         {
             get { return this._policyId; }
@@ -82,8 +84,8 @@ namespace Amazon.Organizations.Model
         /// <summary>
         /// Gets and sets the property TargetId. 
         /// <para>
-        /// The unique identifier (ID) of the root, OU, or account from which you want to detach
-        /// the policy. You can get the ID from the <a>ListRoots</a>, <a>ListOrganizationalUnitsForParent</a>,
+        /// The unique identifier (ID) of the root, OU, or account that you want to detach the
+        /// policy from. You can get the ID from the <a>ListRoots</a>, <a>ListOrganizationalUnitsForParent</a>,
         /// or <a>ListAccounts</a> operations.
         /// </para>
         ///  
@@ -93,21 +95,23 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or
+        ///  <b>Root</b> - A string that begins with "r-" followed by from 4 to 32 lowercase letters
+        /// or digits.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Account</b> - A string that consists of exactly 12 digits.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed by from
+        /// 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string
+        /// is followed by a second "-" dash and from 8 to 32 additional lowercase letters or
         /// digits.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// Account: a string that consists of exactly 12 digits.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32
-        /// lower-case letters or digits (the ID of the root that the OU is in) followed by a
-        /// second "-" dash and from 8 to 32 additional lower-case letters or digits.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetId
         {
             get { return this._targetId; }

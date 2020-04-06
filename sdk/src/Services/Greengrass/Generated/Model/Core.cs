@@ -41,6 +41,7 @@ namespace Amazon.Greengrass.Model
         /// Gets and sets the property CertificateArn. The ARN of the certificate associated with
         /// the core.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CertificateArn
         {
             get { return this._certificateArn; }
@@ -54,8 +55,11 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Id. The ID of the core.
+        /// Gets and sets the property Id. A descriptive or arbitrary ID for the core. This value
+        /// must be unique within the core definition version. Max length is 128 characters with
+        /// pattern ''[a-zA-Z0-9:_-]+''.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -87,6 +91,7 @@ namespace Amazon.Greengrass.Model
         /// <summary>
         /// Gets and sets the property ThingArn. The ARN of the thing which is the core.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ThingArn
         {
             get { return this._thingArn; }

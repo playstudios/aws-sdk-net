@@ -30,7 +30,7 @@ namespace Amazon.ACMPCA.Model
     /// <summary>
     /// Container for the parameters to the ListCertificateAuthorities operation.
     /// Lists the private certificate authorities that you created by using the <a>CreateCertificateAuthority</a>
-    /// function.
+    /// action.
     /// </summary>
     public partial class ListCertificateAuthoritiesRequest : AmazonACMPCARequest
     {
@@ -46,6 +46,7 @@ namespace Amazon.ACMPCA.Model
         /// <code>NextToken</code> value in a subsequent request to retrieve additional items.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -66,6 +67,7 @@ namespace Amazon.ACMPCA.Model
         /// parameter from the response you just received.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=500)]
         public string NextToken
         {
             get { return this._nextToken; }

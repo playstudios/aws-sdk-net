@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.IdentityManagement.Model;
 using Amazon.IdentityManagement.Model.Internal.MarshallTransformations;
+using Amazon.IdentityManagement.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -39,7 +41,7 @@ namespace Amazon.IdentityManagement
     /// users and user permissions under your AWS account. This guide provides descriptions
     /// of IAM actions that you can call programmatically. For general information about IAM,
     /// see <a href="http://aws.amazon.com/iam/">AWS Identity and Access Management (IAM)</a>.
-    /// For the user guide for IAM, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">Using
+    /// For the user guide for IAM, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/">Using
     /// IAM</a>. 
     /// </para>
     ///  <note> 
@@ -56,7 +58,7 @@ namespace Amazon.IdentityManagement
     /// <para>
     /// We recommend that you use the AWS SDKs to make programmatic API calls to IAM. However,
     /// you can also use the IAM Query API to make direct calls to the IAM web service. To
-    /// learn more about the IAM Query API, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+    /// learn more about the IAM Query API, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
     /// Query Requests</a> in the <i>Using IAM</i> guide. IAM supports GET and POST requests
     /// for all actions. That is, the API does not require you to use GET for some actions
     /// and POST for others. However, GET requests are subject to the limitation size of a
@@ -76,7 +78,7 @@ namespace Amazon.IdentityManagement
     /// </para>
     ///  
     /// <para>
-    /// To sign requests, we recommend that you use <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+    /// To sign requests, we recommend that you use <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
     /// Version 4</a>. If you have an existing application that uses Signature Version 2,
     /// you do not have to update it to use Signature Version 4. However, some operations
     /// now require Signature Version 4. The documentation for operations that require version
@@ -92,19 +94,19 @@ namespace Amazon.IdentityManagement
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html">AWS
+    ///  <a href="https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html">AWS
     /// Security Credentials</a>. This topic provides general information about the types
     /// of credentials used for accessing AWS. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html">IAM
+    ///  <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html">IAM
     /// Best Practices</a>. This topic presents a list of suggestions for using the IAM service
     /// to help secure your AWS resources. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
+    ///  <a href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
     /// AWS API Requests</a>. This set of topics walk you through the process of signing a
     /// request using an access key ID and secret access key. 
     /// </para>
@@ -112,6 +114,7 @@ namespace Amazon.IdentityManagement
     /// </summary>
     public partial class AmazonIdentityManagementServiceClient : AmazonServiceClient, IAmazonIdentityManagementService
     {
+        private static IServiceMetadata serviceMetadata = new AmazonIdentityManagementServiceMetadata();
         #region Constructors
 
         /// <summary>
@@ -282,6 +285,16 @@ namespace Amazon.IdentityManagement
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -297,7 +310,7 @@ namespace Amazon.IdentityManagement
 
         #endregion
 
-        
+
         #region  AddClientIDToOpenIDConnectProvider
 
         /// <summary>
@@ -322,8 +335,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -331,10 +344,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddClientIDToOpenIDConnectProvider">REST API Reference for AddClientIDToOpenIDConnectProvider Operation</seealso>
         public virtual AddClientIDToOpenIDConnectProviderResponse AddClientIDToOpenIDConnectProvider(AddClientIDToOpenIDConnectProviderRequest request)
         {
-            var marshaller = AddClientIDToOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = AddClientIDToOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddClientIDToOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddClientIDToOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return Invoke<AddClientIDToOpenIDConnectProviderRequest,AddClientIDToOpenIDConnectProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddClientIDToOpenIDConnectProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -351,11 +365,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddClientIDToOpenIDConnectProvider">REST API Reference for AddClientIDToOpenIDConnectProvider Operation</seealso>
         public virtual IAsyncResult BeginAddClientIDToOpenIDConnectProvider(AddClientIDToOpenIDConnectProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddClientIDToOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = AddClientIDToOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddClientIDToOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddClientIDToOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddClientIDToOpenIDConnectProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -387,12 +401,12 @@ namespace Amazon.IdentityManagement
         ///  <note> 
         /// <para>
         /// The caller of this API must be granted the <code>PassRole</code> permission on the
-        /// IAM role by a permission policy.
+        /// IAM role by a permissions policy.
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information about roles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-        /// with Roles</a>. For more information about instance profiles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        /// For more information about roles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
+        /// with Roles</a>. For more information about instance profiles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a>.
         /// </para>
         /// </summary>
@@ -407,8 +421,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -422,10 +436,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddRoleToInstanceProfile">REST API Reference for AddRoleToInstanceProfile Operation</seealso>
         public virtual AddRoleToInstanceProfileResponse AddRoleToInstanceProfile(AddRoleToInstanceProfileRequest request)
         {
-            var marshaller = AddRoleToInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = AddRoleToInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddRoleToInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddRoleToInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<AddRoleToInstanceProfileRequest,AddRoleToInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddRoleToInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -442,11 +457,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddRoleToInstanceProfile">REST API Reference for AddRoleToInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginAddRoleToInstanceProfile(AddRoleToInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddRoleToInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = AddRoleToInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddRoleToInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddRoleToInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddRoleToInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -477,8 +492,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -486,10 +501,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddUserToGroup">REST API Reference for AddUserToGroup Operation</seealso>
         public virtual AddUserToGroupResponse AddUserToGroup(AddUserToGroupRequest request)
         {
-            var marshaller = AddUserToGroupRequestMarshaller.Instance;
-            var unmarshaller = AddUserToGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddUserToGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddUserToGroupResponseUnmarshaller.Instance;
 
-            return Invoke<AddUserToGroupRequest,AddUserToGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddUserToGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -506,11 +522,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddUserToGroup">REST API Reference for AddUserToGroup Operation</seealso>
         public virtual IAsyncResult BeginAddUserToGroup(AddUserToGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddUserToGroupRequestMarshaller.Instance;
-            var unmarshaller = AddUserToGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddUserToGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddUserToGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddUserToGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -540,7 +556,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -556,8 +572,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.PolicyNotAttachableException">
         /// The request failed because AWS service role policies can only be attached to the service-linked
@@ -569,10 +585,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachGroupPolicy">REST API Reference for AttachGroupPolicy Operation</seealso>
         public virtual AttachGroupPolicyResponse AttachGroupPolicy(AttachGroupPolicyRequest request)
         {
-            var marshaller = AttachGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachGroupPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<AttachGroupPolicyRequest,AttachGroupPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachGroupPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -589,11 +606,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachGroupPolicy">REST API Reference for AttachGroupPolicy Operation</seealso>
         public virtual IAsyncResult BeginAttachGroupPolicy(AttachGroupPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachGroupPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachGroupPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -627,7 +644,7 @@ namespace Amazon.IdentityManagement
         ///  </note> 
         /// <para>
         /// Use this API to attach a <i>managed</i> policy to a role. To embed an inline policy
-        /// in a role, use <a>PutRolePolicy</a>. For more information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// in a role, use <a>PutRolePolicy</a>. For more information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -643,8 +660,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.PolicyNotAttachableException">
         /// The request failed because AWS service role policies can only be attached to the service-linked
@@ -662,10 +679,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachRolePolicy">REST API Reference for AttachRolePolicy Operation</seealso>
         public virtual AttachRolePolicyResponse AttachRolePolicy(AttachRolePolicyRequest request)
         {
-            var marshaller = AttachRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachRolePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<AttachRolePolicyRequest,AttachRolePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachRolePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -682,11 +700,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachRolePolicy">REST API Reference for AttachRolePolicy Operation</seealso>
         public virtual IAsyncResult BeginAttachRolePolicy(AttachRolePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachRolePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachRolePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -716,7 +734,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -732,8 +750,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.PolicyNotAttachableException">
         /// The request failed because AWS service role policies can only be attached to the service-linked
@@ -745,10 +763,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachUserPolicy">REST API Reference for AttachUserPolicy Operation</seealso>
         public virtual AttachUserPolicyResponse AttachUserPolicy(AttachUserPolicyRequest request)
         {
-            var marshaller = AttachUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachUserPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<AttachUserPolicyRequest,AttachUserPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachUserPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -765,11 +784,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachUserPolicy">REST API Reference for AttachUserPolicy Operation</seealso>
         public virtual IAsyncResult BeginAttachUserPolicy(AttachUserPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = AttachUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachUserPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachUserPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -796,7 +815,7 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// To change the password for a different user, see <a>UpdateLoginProfile</a>. For more
-        /// information about modifying passwords, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
+        /// information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
         /// Passwords</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -817,8 +836,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.PasswordPolicyViolationException">
         /// The request was rejected because the provided password did not meet the requirements
@@ -830,10 +849,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ChangePassword">REST API Reference for ChangePassword Operation</seealso>
         public virtual ChangePasswordResponse ChangePassword(ChangePasswordRequest request)
         {
-            var marshaller = ChangePasswordRequestMarshaller.Instance;
-            var unmarshaller = ChangePasswordResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ChangePasswordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ChangePasswordResponseUnmarshaller.Instance;
 
-            return Invoke<ChangePasswordRequest,ChangePasswordResponse>(request, marshaller, unmarshaller);
+            return Invoke<ChangePasswordResponse>(request, options);
         }
 
         /// <summary>
@@ -850,11 +870,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ChangePassword">REST API Reference for ChangePassword Operation</seealso>
         public virtual IAsyncResult BeginChangePassword(ChangePasswordRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ChangePasswordRequestMarshaller.Instance;
-            var unmarshaller = ChangePasswordResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ChangePasswordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ChangePasswordResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ChangePasswordRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -881,13 +901,13 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If you do not specify a user name, IAM determines the user name implicitly based on
-        /// the AWS access key ID signing the request. Because this operation works for access
-        /// keys under the AWS account, you can use this operation to manage AWS account root
+        /// the AWS access key ID signing the request. This operation works for access keys under
+        /// the AWS account. Consequently, you can use this operation to manage AWS account root
         /// user credentials. This is true even if the AWS account has no associated users.
         /// </para>
         ///  
         /// <para>
-        ///  For information about limits on the number of keys you can create, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        ///  For information about limits on the number of keys you can create, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  <important> 
@@ -906,8 +926,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -925,13 +945,13 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If you do not specify a user name, IAM determines the user name implicitly based on
-        /// the AWS access key ID signing the request. Because this operation works for access
-        /// keys under the AWS account, you can use this operation to manage AWS account root
+        /// the AWS access key ID signing the request. This operation works for access keys under
+        /// the AWS account. Consequently, you can use this operation to manage AWS account root
         /// user credentials. This is true even if the AWS account has no associated users.
         /// </para>
         ///  
         /// <para>
-        ///  For information about limits on the number of keys you can create, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        ///  For information about limits on the number of keys you can create, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  <important> 
@@ -951,8 +971,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -960,10 +980,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccessKey">REST API Reference for CreateAccessKey Operation</seealso>
         public virtual CreateAccessKeyResponse CreateAccessKey(CreateAccessKeyRequest request)
         {
-            var marshaller = CreateAccessKeyRequestMarshaller.Instance;
-            var unmarshaller = CreateAccessKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAccessKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAccessKeyResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAccessKeyRequest,CreateAccessKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAccessKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -980,11 +1001,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccessKey">REST API Reference for CreateAccessKey Operation</seealso>
         public virtual IAsyncResult BeginCreateAccessKey(CreateAccessKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateAccessKeyRequestMarshaller.Instance;
-            var unmarshaller = CreateAccessKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAccessKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAccessKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateAccessKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1006,7 +1027,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Creates an alias for your AWS account. For information about using an AWS account
-        /// alias, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
+        /// alias, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
         /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateAccountAlias service method.</param>
@@ -1025,10 +1046,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccountAlias">REST API Reference for CreateAccountAlias Operation</seealso>
         public virtual CreateAccountAliasResponse CreateAccountAlias(CreateAccountAliasRequest request)
         {
-            var marshaller = CreateAccountAliasRequestMarshaller.Instance;
-            var unmarshaller = CreateAccountAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAccountAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAccountAliasResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAccountAliasRequest,CreateAccountAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAccountAliasResponse>(request, options);
         }
 
         /// <summary>
@@ -1045,11 +1067,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccountAlias">REST API Reference for CreateAccountAlias Operation</seealso>
         public virtual IAsyncResult BeginCreateAccountAlias(CreateAccountAliasRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateAccountAliasRequestMarshaller.Instance;
-            var unmarshaller = CreateAccountAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAccountAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAccountAliasResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateAccountAliasRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1074,7 +1096,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        ///  For information about the number of groups you can create, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        ///  For information about the number of groups you can create, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -1089,8 +1111,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -1098,10 +1120,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateGroup">REST API Reference for CreateGroup Operation</seealso>
         public virtual CreateGroupResponse CreateGroup(CreateGroupRequest request)
         {
-            var marshaller = CreateGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateGroupRequest,CreateGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1118,11 +1141,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateGroup">REST API Reference for CreateGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateGroup(CreateGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1144,12 +1167,12 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Creates a new instance profile. For information about instance profiles, go to <a
-        /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a>.
         /// 
         ///  
         /// <para>
-        ///  For information about the number of instance profiles you can create, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        ///  For information about the number of instance profiles you can create, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -1169,10 +1192,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateInstanceProfile">REST API Reference for CreateInstanceProfile Operation</seealso>
         public virtual CreateInstanceProfileResponse CreateInstanceProfile(CreateInstanceProfileRequest request)
         {
-            var marshaller = CreateInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInstanceProfileRequest,CreateInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -1189,11 +1213,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateInstanceProfile">REST API Reference for CreateInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginCreateInstanceProfile(CreateInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1216,7 +1240,7 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Creates a password for the specified user, giving the user the ability to access
         /// AWS services through the AWS Management Console. For more information about managing
-        /// passwords, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
+        /// passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
         /// Passwords</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLoginProfile service method.</param>
@@ -1230,8 +1254,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.PasswordPolicyViolationException">
         /// The request was rejected because the provided password did not meet the requirements
@@ -1243,10 +1267,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateLoginProfile">REST API Reference for CreateLoginProfile Operation</seealso>
         public virtual CreateLoginProfileResponse CreateLoginProfile(CreateLoginProfileRequest request)
         {
-            var marshaller = CreateLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLoginProfileResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLoginProfileRequest,CreateLoginProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLoginProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -1263,11 +1288,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateLoginProfile">REST API Reference for CreateLoginProfile Operation</seealso>
         public virtual IAsyncResult BeginCreateLoginProfile(CreateLoginProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLoginProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateLoginProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1312,7 +1337,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// A list of thumbprints of the server certificate(s) that the IdP uses.
+        /// A list of thumbprints of one or more server certificates that the IdP uses
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -1320,9 +1345,9 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  <note> 
         /// <para>
-        /// Because trust for the OIDC provider is derived from the IAM provider that this operation
-        /// creates, it is best to limit access to the <a>CreateOpenIDConnectProvider</a> operation
-        /// to highly privileged users.
+        /// The trust for the OIDC provider is derived from the IAM provider that this operation
+        /// creates. Therefore, it is best to limit access to the <a>CreateOpenIDConnectProvider</a>
+        /// operation to highly privileged users.
         /// </para>
         ///  </note>
         /// </summary>
@@ -1346,10 +1371,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateOpenIDConnectProvider">REST API Reference for CreateOpenIDConnectProvider Operation</seealso>
         public virtual CreateOpenIDConnectProviderResponse CreateOpenIDConnectProvider(CreateOpenIDConnectProviderRequest request)
         {
-            var marshaller = CreateOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = CreateOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return Invoke<CreateOpenIDConnectProviderRequest,CreateOpenIDConnectProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateOpenIDConnectProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -1366,11 +1392,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateOpenIDConnectProvider">REST API Reference for CreateOpenIDConnectProvider Operation</seealso>
         public virtual IAsyncResult BeginCreateOpenIDConnectProvider(CreateOpenIDConnectProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = CreateOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateOpenIDConnectProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1397,12 +1423,12 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// This operation creates a policy version with a version identifier of <code>v1</code>
         /// and sets v1 as the policy's default version. For more information about policy versions,
-        /// see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
         /// for Managed Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information about managed policies in general, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about managed policies in general, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -1430,10 +1456,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicy">REST API Reference for CreatePolicy Operation</seealso>
         public virtual CreatePolicyResponse CreatePolicy(CreatePolicyRequest request)
         {
-            var marshaller = CreatePolicyRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<CreatePolicyRequest,CreatePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreatePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1450,11 +1477,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicy">REST API Reference for CreatePolicy Operation</seealso>
         public virtual IAsyncResult BeginCreatePolicy(CreatePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreatePolicyRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreatePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1488,7 +1515,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about managed policy versions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+        /// For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
         /// for Managed Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -1508,8 +1535,8 @@ namespace Amazon.IdentityManagement
         /// describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -1517,10 +1544,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicyVersion">REST API Reference for CreatePolicyVersion Operation</seealso>
         public virtual CreatePolicyVersionResponse CreatePolicyVersion(CreatePolicyVersionRequest request)
         {
-            var marshaller = CreatePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<CreatePolicyVersionRequest,CreatePolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreatePolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -1537,11 +1565,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicyVersion">REST API Reference for CreatePolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginCreatePolicyVersion(CreatePolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreatePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreatePolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1563,14 +1591,18 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Creates a new role for your AWS account. For more information about roles, go to <a
-        /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">IAM Roles</a>.
-        /// For information about limitations on role names and the number of roles you can create,
-        /// go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">IAM
+        /// Roles</a>. For information about limitations on role names and the number of roles
+        /// you can create, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRole service method.</param>
         /// 
         /// <returns>The response from the CreateRole service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.EntityAlreadyExistsException">
         /// The request was rejected because it attempted to create a resource that already exists.
         /// </exception>
@@ -1592,10 +1624,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateRole">REST API Reference for CreateRole Operation</seealso>
         public virtual CreateRoleResponse CreateRole(CreateRoleRequest request)
         {
-            var marshaller = CreateRoleRequestMarshaller.Instance;
-            var unmarshaller = CreateRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRoleResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRoleRequest,CreateRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -1612,11 +1645,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateRole">REST API Reference for CreateRole Operation</seealso>
         public virtual IAsyncResult BeginCreateRole(CreateRoleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRoleRequestMarshaller.Instance;
-            var unmarshaller = CreateRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRoleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRoleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1643,7 +1676,7 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// The SAML provider resource that you create with this operation can be used as a principal
-        /// in an IAM role's trust policy. Such a policy can enable federated users who sign-in
+        /// in an IAM role's trust policy. Such a policy can enable federated users who sign in
         /// using the SAML IdP to assume the role. You can create an IAM role that supports Web-based
         /// single sign-on (SSO) to the AWS Management Console or one that supports API access
         /// to AWS.
@@ -1658,13 +1691,13 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  <note> 
         /// <para>
-        ///  This operation requires <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+        ///  This operation requires <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
         /// Version 4</a>.
         /// </para>
         ///  </note> 
         /// <para>
-        ///  For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html">Enabling
-        /// SAML 2.0 Federated Users to Access the AWS Management Console</a> and <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
+        ///  For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html">Enabling
+        /// SAML 2.0 Federated Users to Access the AWS Management Console</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
         /// SAML 2.0-based Federation</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -1688,10 +1721,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateSAMLProvider">REST API Reference for CreateSAMLProvider Operation</seealso>
         public virtual CreateSAMLProviderResponse CreateSAMLProvider(CreateSAMLProviderRequest request)
         {
-            var marshaller = CreateSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = CreateSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSAMLProviderResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSAMLProviderRequest,CreateSAMLProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSAMLProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -1708,11 +1742,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateSAMLProvider">REST API Reference for CreateSAMLProvider Operation</seealso>
         public virtual IAsyncResult BeginCreateSAMLProvider(CreateSAMLProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = CreateSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSAMLProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateSAMLProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1738,14 +1772,9 @@ namespace Amazon.IdentityManagement
         /// service is not broken by an unexpectedly changed or deleted role, which could put
         /// your AWS resources into an unknown state. Allowing the service to control the role
         /// helps improve service stability and proper cleanup when a service and its role are
-        /// no longer needed.
+        /// no longer needed. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">Using
+        /// Service-Linked Roles</a> in the <i>IAM User Guide</i>. 
         /// 
-        ///  
-        /// <para>
-        /// The name of the role is generated by combining the string that you specify for the
-        /// <code>AWSServiceName</code> parameter with the string that you specify for the <code>CustomSuffix</code>
-        /// parameter. The resulting name must be unique in your account or the request fails.
-        /// </para>
         ///  
         /// <para>
         /// To attach a policy to this service-linked role, you must make the request using the
@@ -1764,8 +1793,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -1773,10 +1802,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceLinkedRole">REST API Reference for CreateServiceLinkedRole Operation</seealso>
         public virtual CreateServiceLinkedRoleResponse CreateServiceLinkedRole(CreateServiceLinkedRoleRequest request)
         {
-            var marshaller = CreateServiceLinkedRoleRequestMarshaller.Instance;
-            var unmarshaller = CreateServiceLinkedRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateServiceLinkedRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateServiceLinkedRoleResponseUnmarshaller.Instance;
 
-            return Invoke<CreateServiceLinkedRoleRequest,CreateServiceLinkedRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateServiceLinkedRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -1793,11 +1823,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceLinkedRole">REST API Reference for CreateServiceLinkedRole Operation</seealso>
         public virtual IAsyncResult BeginCreateServiceLinkedRole(CreateServiceLinkedRoleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateServiceLinkedRoleRequestMarshaller.Instance;
-            var unmarshaller = CreateServiceLinkedRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateServiceLinkedRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateServiceLinkedRoleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateServiceLinkedRoleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1837,7 +1867,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about service-specific credentials, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html">Using
+        /// For more information about service-specific credentials, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html">Using
         /// IAM with AWS CodeCommit: Git Credentials, SSH Keys, and AWS Access Keys</a> in the
         /// <i>IAM User Guide</i>.
         /// </para>
@@ -1850,8 +1880,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceNotSupportedException">
         /// The specified service does not support service-specific credentials.
@@ -1859,10 +1889,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceSpecificCredential">REST API Reference for CreateServiceSpecificCredential Operation</seealso>
         public virtual CreateServiceSpecificCredentialResponse CreateServiceSpecificCredential(CreateServiceSpecificCredentialRequest request)
         {
-            var marshaller = CreateServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = CreateServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return Invoke<CreateServiceSpecificCredentialRequest,CreateServiceSpecificCredentialResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateServiceSpecificCredentialResponse>(request, options);
         }
 
         /// <summary>
@@ -1879,11 +1910,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceSpecificCredential">REST API Reference for CreateServiceSpecificCredential Operation</seealso>
         public virtual IAsyncResult BeginCreateServiceSpecificCredential(CreateServiceSpecificCredentialRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = CreateServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateServiceSpecificCredentialRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1909,23 +1940,31 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         ///  For information about limitations on the number of IAM users you can create, see
-        /// <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateUser service method.</param>
         /// 
         /// <returns>The response from the CreateUser service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.EntityAlreadyExistsException">
         /// The request was rejected because it attempted to create a resource that already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.LimitExceededException">
         /// The request was rejected because it attempted to create resources beyond the current
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -1933,10 +1972,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateUser">REST API Reference for CreateUser Operation</seealso>
         public virtual CreateUserResponse CreateUser(CreateUserRequest request)
         {
-            var marshaller = CreateUserRequestMarshaller.Instance;
-            var unmarshaller = CreateUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUserResponseUnmarshaller.Instance;
 
-            return Invoke<CreateUserRequest,CreateUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateUserResponse>(request, options);
         }
 
         /// <summary>
@@ -1953,11 +1993,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateUser">REST API Reference for CreateUser Operation</seealso>
         public virtual IAsyncResult BeginCreateUser(CreateUserRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateUserRequestMarshaller.Instance;
-            var unmarshaller = CreateUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUserResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateUserRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1980,20 +2020,20 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Creates a new virtual MFA device for the AWS account. After creating the virtual MFA,
         /// use <a>EnableMFADevice</a> to attach the MFA device to an IAM user. For more information
-        /// about creating and working with virtual MFA devices, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
+        /// about creating and working with virtual MFA devices, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
         /// a Virtual MFA Device</a> in the <i>IAM User Guide</i>.
         /// 
         ///  
         /// <para>
-        /// For information about limits on the number of MFA devices you can create, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        /// For information about limits on the number of MFA devices you can create, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  <important> 
         /// <para>
         /// The seed information contained in the QR code and the Base32 string should be treated
-        /// like any other secret access information, such as your AWS access keys or your passwords.
-        /// After you provision your virtual device, you should ensure that the information is
-        /// destroyed following secure procedures.
+        /// like any other secret access information. In other words, protect the seed information
+        /// as you would your AWS access keys or your passwords. After you provision your virtual
+        /// device, you should ensure that the information is destroyed following secure procedures.
         /// </para>
         ///  </important>
         /// </summary>
@@ -2013,10 +2053,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateVirtualMFADevice">REST API Reference for CreateVirtualMFADevice Operation</seealso>
         public virtual CreateVirtualMFADeviceResponse CreateVirtualMFADevice(CreateVirtualMFADeviceRequest request)
         {
-            var marshaller = CreateVirtualMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = CreateVirtualMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVirtualMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVirtualMFADeviceResponseUnmarshaller.Instance;
 
-            return Invoke<CreateVirtualMFADeviceRequest,CreateVirtualMFADeviceResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateVirtualMFADeviceResponse>(request, options);
         }
 
         /// <summary>
@@ -2033,11 +2074,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateVirtualMFADevice">REST API Reference for CreateVirtualMFADevice Operation</seealso>
         public virtual IAsyncResult BeginCreateVirtualMFADevice(CreateVirtualMFADeviceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateVirtualMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = CreateVirtualMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVirtualMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVirtualMFADeviceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateVirtualMFADeviceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2064,8 +2105,8 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// For more information about creating and working with virtual MFA devices, go to <a
-        /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
-        /// a Virtual MFA Device</a> in the <i>IAM User Guide</i>.
+        /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Enabling
+        /// a Virtual Multi-factor Authentication (MFA) Device</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeactivateMFADevice service method.</param>
@@ -2082,8 +2123,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2091,10 +2132,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeactivateMFADevice">REST API Reference for DeactivateMFADevice Operation</seealso>
         public virtual DeactivateMFADeviceResponse DeactivateMFADevice(DeactivateMFADeviceRequest request)
         {
-            var marshaller = DeactivateMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = DeactivateMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeactivateMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeactivateMFADeviceResponseUnmarshaller.Instance;
 
-            return Invoke<DeactivateMFADeviceRequest,DeactivateMFADeviceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeactivateMFADeviceResponse>(request, options);
         }
 
         /// <summary>
@@ -2111,11 +2153,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeactivateMFADevice">REST API Reference for DeactivateMFADevice Operation</seealso>
         public virtual IAsyncResult BeginDeactivateMFADevice(DeactivateMFADeviceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeactivateMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = DeactivateMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeactivateMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeactivateMFADeviceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeactivateMFADeviceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2141,8 +2183,8 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If you do not specify a user name, IAM determines the user name implicitly based on
-        /// the AWS access key ID signing the request. Because this operation works for access
-        /// keys under the AWS account, you can use this operation to manage AWS account root
+        /// the AWS access key ID signing the request. This operation works for access keys under
+        /// the AWS account. Consequently, you can use this operation to manage AWS account root
         /// user credentials even if the AWS account has no associated users.
         /// </para>
         /// </summary>
@@ -2154,8 +2196,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2163,10 +2205,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccessKey">REST API Reference for DeleteAccessKey Operation</seealso>
         public virtual DeleteAccessKeyResponse DeleteAccessKey(DeleteAccessKeyRequest request)
         {
-            var marshaller = DeleteAccessKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteAccessKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccessKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccessKeyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAccessKeyRequest,DeleteAccessKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAccessKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -2183,11 +2226,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccessKey">REST API Reference for DeleteAccessKey Operation</seealso>
         public virtual IAsyncResult BeginDeleteAccessKey(DeleteAccessKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteAccessKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteAccessKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccessKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccessKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteAccessKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2209,7 +2252,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Deletes the specified AWS account alias. For information about using an AWS account
-        /// alias, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
+        /// alias, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
         /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteAccountAlias service method.</param>
@@ -2220,8 +2263,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2229,10 +2272,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountAlias">REST API Reference for DeleteAccountAlias Operation</seealso>
         public virtual DeleteAccountAliasResponse DeleteAccountAlias(DeleteAccountAliasRequest request)
         {
-            var marshaller = DeleteAccountAliasRequestMarshaller.Instance;
-            var unmarshaller = DeleteAccountAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccountAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccountAliasResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAccountAliasRequest,DeleteAccountAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAccountAliasResponse>(request, options);
         }
 
         /// <summary>
@@ -2249,11 +2293,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountAlias">REST API Reference for DeleteAccountAlias Operation</seealso>
         public virtual IAsyncResult BeginDeleteAccountAlias(DeleteAccountAliasRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteAccountAliasRequestMarshaller.Instance;
-            var unmarshaller = DeleteAccountAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccountAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccountAliasResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteAccountAliasRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2283,8 +2327,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2306,8 +2350,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2315,10 +2359,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountPasswordPolicy">REST API Reference for DeleteAccountPasswordPolicy Operation</seealso>
         public virtual DeleteAccountPasswordPolicyResponse DeleteAccountPasswordPolicy(DeleteAccountPasswordPolicyRequest request)
         {
-            var marshaller = DeleteAccountPasswordPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteAccountPasswordPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccountPasswordPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccountPasswordPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAccountPasswordPolicyRequest,DeleteAccountPasswordPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAccountPasswordPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2335,11 +2380,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountPasswordPolicy">REST API Reference for DeleteAccountPasswordPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteAccountPasswordPolicy(DeleteAccountPasswordPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteAccountPasswordPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteAccountPasswordPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccountPasswordPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccountPasswordPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteAccountPasswordPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2375,8 +2420,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2384,10 +2429,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroup">REST API Reference for DeleteGroup Operation</seealso>
         public virtual DeleteGroupResponse DeleteGroup(DeleteGroupRequest request)
         {
-            var marshaller = DeleteGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteGroupRequest,DeleteGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -2404,11 +2450,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroup">REST API Reference for DeleteGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteGroup(DeleteGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2435,7 +2481,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// A group can also have managed policies attached to it. To detach a managed policy
         /// from a group, use <a>DetachGroupPolicy</a>. For more information about policies, refer
-        /// to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -2447,8 +2493,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2456,10 +2502,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroupPolicy">REST API Reference for DeleteGroupPolicy Operation</seealso>
         public virtual DeleteGroupPolicyResponse DeleteGroupPolicy(DeleteGroupPolicyRequest request)
         {
-            var marshaller = DeleteGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteGroupPolicyRequest,DeleteGroupPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteGroupPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2476,11 +2523,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroupPolicy">REST API Reference for DeleteGroupPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteGroupPolicy(DeleteGroupPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteGroupPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2512,7 +2559,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  </important> 
         /// <para>
-        /// For more information about instance profiles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        /// For more information about instance profiles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a>.
         /// </para>
         /// </summary>
@@ -2528,8 +2575,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2537,10 +2584,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteInstanceProfile">REST API Reference for DeleteInstanceProfile Operation</seealso>
         public virtual DeleteInstanceProfileResponse DeleteInstanceProfile(DeleteInstanceProfileRequest request)
         {
-            var marshaller = DeleteInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInstanceProfileRequest,DeleteInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -2557,11 +2605,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteInstanceProfile">REST API Reference for DeleteInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginDeleteInstanceProfile(DeleteInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2588,7 +2636,7 @@ namespace Amazon.IdentityManagement
         ///  <important> 
         /// <para>
         ///  Deleting a user's password does not prevent a user from accessing AWS through the
-        /// command line interface or the API. To prevent all user access you must also either
+        /// command line interface or the API. To prevent all user access, you must also either
         /// make any access keys inactive or delete them. For more information about making keys
         /// inactive or deleting them, see <a>UpdateAccessKey</a> and <a>DeleteAccessKey</a>.
         /// 
@@ -2609,8 +2657,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2618,10 +2666,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteLoginProfile">REST API Reference for DeleteLoginProfile Operation</seealso>
         public virtual DeleteLoginProfileResponse DeleteLoginProfile(DeleteLoginProfileRequest request)
         {
-            var marshaller = DeleteLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoginProfileResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLoginProfileRequest,DeleteLoginProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLoginProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -2638,11 +2687,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteLoginProfile">REST API Reference for DeleteLoginProfile Operation</seealso>
         public virtual IAsyncResult BeginDeleteLoginProfile(DeleteLoginProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoginProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLoginProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2685,8 +2734,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2694,10 +2743,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteOpenIDConnectProvider">REST API Reference for DeleteOpenIDConnectProvider Operation</seealso>
         public virtual DeleteOpenIDConnectProviderResponse DeleteOpenIDConnectProvider(DeleteOpenIDConnectProviderRequest request)
         {
-            var marshaller = DeleteOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = DeleteOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteOpenIDConnectProviderRequest,DeleteOpenIDConnectProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteOpenIDConnectProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -2714,11 +2764,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteOpenIDConnectProvider">REST API Reference for DeleteOpenIDConnectProvider Operation</seealso>
         public virtual IAsyncResult BeginDeleteOpenIDConnectProvider(DeleteOpenIDConnectProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = DeleteOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteOpenIDConnectProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2744,8 +2794,8 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// Before you can delete a managed policy, you must first detach the policy from all
-        /// users, groups, and roles that it is attached to. In addition you must delete all the
-        /// policy's versions. The following steps describe the process for deleting a managed
+        /// users, groups, and roles that it is attached to. In addition, you must delete all
+        /// the policy's versions. The following steps describe the process for deleting a managed
         /// policy:
         /// </para>
         ///  <ul> <li> 
@@ -2769,7 +2819,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -2789,8 +2839,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2798,10 +2848,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicy">REST API Reference for DeletePolicy Operation</seealso>
         public virtual DeletePolicyResponse DeletePolicy(DeletePolicyRequest request)
         {
-            var marshaller = DeletePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeletePolicyRequest,DeletePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeletePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2818,11 +2869,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicy">REST API Reference for DeletePolicy Operation</seealso>
         public virtual IAsyncResult BeginDeletePolicy(DeletePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeletePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeletePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2853,7 +2904,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For information about versions for managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+        /// For information about versions for managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
         /// for Managed Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -2873,8 +2924,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2882,10 +2933,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicyVersion">REST API Reference for DeletePolicyVersion Operation</seealso>
         public virtual DeletePolicyVersionResponse DeletePolicyVersion(DeletePolicyVersionRequest request)
         {
-            var marshaller = DeletePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<DeletePolicyVersionRequest,DeletePolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeletePolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -2902,11 +2954,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicyVersion">REST API Reference for DeletePolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginDeletePolicyVersion(DeletePolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeletePolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeletePolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2928,7 +2980,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Deletes the specified role. The role must not have any policies attached. For more
-        /// information about roles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
+        /// information about roles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
         /// with Roles</a>.
         /// 
         ///  <important> 
@@ -2942,6 +2994,10 @@ namespace Amazon.IdentityManagement
         /// <param name="request">Container for the necessary parameters to execute the DeleteRole service method.</param>
         /// 
         /// <returns>The response from the DeleteRole service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.DeleteConflictException">
         /// The request was rejected because it attempted to delete a resource that has attached
         /// subordinate entities. The error message describes these entities.
@@ -2951,8 +3007,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -2966,10 +3022,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRole">REST API Reference for DeleteRole Operation</seealso>
         public virtual DeleteRoleResponse DeleteRole(DeleteRoleRequest request)
         {
-            var marshaller = DeleteRoleRequestMarshaller.Instance;
-            var unmarshaller = DeleteRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRoleResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRoleRequest,DeleteRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -2986,11 +3043,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRole">REST API Reference for DeleteRole Operation</seealso>
         public virtual IAsyncResult BeginDeleteRole(DeleteRoleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRoleRequestMarshaller.Instance;
-            var unmarshaller = DeleteRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRoleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRoleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3008,6 +3065,81 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  DeleteRolePermissionsBoundary
+
+        /// <summary>
+        /// Deletes the permissions boundary for the specified IAM role. 
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Deleting the permissions boundary for a role might increase its permissions. For example,
+        /// it might allow anyone who assumes the role to perform all the actions granted in its
+        /// permissions policies. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRolePermissionsBoundary service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRolePermissionsBoundary service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.UnmodifiableEntityException">
+        /// The request was rejected because only the service that depends on the service-linked
+        /// role can modify or delete the role on your behalf. The error message includes the
+        /// name of the service that depends on this service-linked role. You must request the
+        /// change through that service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePermissionsBoundary">REST API Reference for DeleteRolePermissionsBoundary Operation</seealso>
+        public virtual DeleteRolePermissionsBoundaryResponse DeleteRolePermissionsBoundary(DeleteRolePermissionsBoundaryRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRolePermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRolePermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteRolePermissionsBoundaryResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRolePermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRolePermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRolePermissionsBoundary
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePermissionsBoundary">REST API Reference for DeleteRolePermissionsBoundary Operation</seealso>
+        public virtual IAsyncResult BeginDeleteRolePermissionsBoundary(DeleteRolePermissionsBoundaryRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRolePermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRolePermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRolePermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRolePermissionsBoundary.</param>
+        /// 
+        /// <returns>Returns a  DeleteRolePermissionsBoundaryResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePermissionsBoundary">REST API Reference for DeleteRolePermissionsBoundary Operation</seealso>
+        public virtual DeleteRolePermissionsBoundaryResponse EndDeleteRolePermissionsBoundary(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteRolePermissionsBoundaryResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteRolePolicy
 
         /// <summary>
@@ -3017,7 +3149,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// A role can also have managed policies attached to it. To detach a managed policy from
         /// a role, use <a>DetachRolePolicy</a>. For more information about policies, refer to
-        /// <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -3029,8 +3161,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3044,10 +3176,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePolicy">REST API Reference for DeleteRolePolicy Operation</seealso>
         public virtual DeleteRolePolicyResponse DeleteRolePolicy(DeleteRolePolicyRequest request)
         {
-            var marshaller = DeleteRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRolePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRolePolicyRequest,DeleteRolePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRolePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3064,11 +3197,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePolicy">REST API Reference for DeleteRolePolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteRolePolicy(DeleteRolePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRolePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRolePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3099,7 +3232,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  <note> 
         /// <para>
-        ///  This operation requires <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+        ///  This operation requires <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
         /// Version 4</a>.
         /// </para>
         ///  </note>
@@ -3116,8 +3249,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3125,10 +3258,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSAMLProvider">REST API Reference for DeleteSAMLProvider Operation</seealso>
         public virtual DeleteSAMLProviderResponse DeleteSAMLProvider(DeleteSAMLProviderRequest request)
         {
-            var marshaller = DeleteSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = DeleteSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSAMLProviderResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSAMLProviderRequest,DeleteSAMLProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSAMLProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -3145,11 +3279,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSAMLProvider">REST API Reference for DeleteSAMLProvider Operation</seealso>
         public virtual IAsyncResult BeginDeleteSAMLProvider(DeleteSAMLProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = DeleteSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSAMLProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSAMLProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3174,7 +3308,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        /// For more information about working with server certificates, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+        /// For more information about working with server certificates, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
         /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also includes
         /// a list of AWS services that can use the server certificates that you manage with IAM.
         /// </para>
@@ -3185,7 +3319,7 @@ namespace Amazon.IdentityManagement
         /// the deletion of bound certificates, it may continue to use the certificates. This
         /// could cause Elastic Load Balancing to stop accepting traffic. We recommend that you
         /// remove the reference to the certificate from Elastic Load Balancing before using this
-        /// command to delete the certificate. For more information, go to <a href="http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html">DeleteLoadBalancerListeners</a>
+        /// command to delete the certificate. For more information, go to <a href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html">DeleteLoadBalancerListeners</a>
         /// in the <i>Elastic Load Balancing API Reference</i>.
         /// </para>
         ///  </important>
@@ -3202,8 +3336,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3211,10 +3345,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServerCertificate">REST API Reference for DeleteServerCertificate Operation</seealso>
         public virtual DeleteServerCertificateResponse DeleteServerCertificate(DeleteServerCertificateRequest request)
         {
-            var marshaller = DeleteServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServerCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteServerCertificateRequest,DeleteServerCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteServerCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -3231,11 +3366,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServerCertificate">REST API Reference for DeleteServerCertificate Operation</seealso>
         public virtual IAsyncResult BeginDeleteServerCertificate(DeleteServerCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServerCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteServerCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3276,7 +3411,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about service-linked roles, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">Roles
+        /// For more information about service-linked roles, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">Roles
         /// Terms and Concepts: AWS Service-Linked Role</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -3288,8 +3423,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3297,10 +3432,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceLinkedRole">REST API Reference for DeleteServiceLinkedRole Operation</seealso>
         public virtual DeleteServiceLinkedRoleResponse DeleteServiceLinkedRole(DeleteServiceLinkedRoleRequest request)
         {
-            var marshaller = DeleteServiceLinkedRoleRequestMarshaller.Instance;
-            var unmarshaller = DeleteServiceLinkedRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServiceLinkedRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServiceLinkedRoleResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteServiceLinkedRoleRequest,DeleteServiceLinkedRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteServiceLinkedRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -3317,11 +3453,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceLinkedRole">REST API Reference for DeleteServiceLinkedRole Operation</seealso>
         public virtual IAsyncResult BeginDeleteServiceLinkedRole(DeleteServiceLinkedRoleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteServiceLinkedRoleRequestMarshaller.Instance;
-            var unmarshaller = DeleteServiceLinkedRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServiceLinkedRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServiceLinkedRoleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteServiceLinkedRoleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3348,16 +3484,17 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the DeleteServiceSpecificCredential service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceSpecificCredential">REST API Reference for DeleteServiceSpecificCredential Operation</seealso>
         public virtual DeleteServiceSpecificCredentialResponse DeleteServiceSpecificCredential(DeleteServiceSpecificCredentialRequest request)
         {
-            var marshaller = DeleteServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = DeleteServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteServiceSpecificCredentialRequest,DeleteServiceSpecificCredentialResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteServiceSpecificCredentialResponse>(request, options);
         }
 
         /// <summary>
@@ -3374,11 +3511,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceSpecificCredential">REST API Reference for DeleteServiceSpecificCredential Operation</seealso>
         public virtual IAsyncResult BeginDeleteServiceSpecificCredential(DeleteServiceSpecificCredentialRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = DeleteServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteServiceSpecificCredentialRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3404,8 +3541,8 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If you do not specify a user name, IAM determines the user name implicitly based on
-        /// the AWS access key ID signing the request. Because this operation works for access
-        /// keys under the AWS account, you can use this operation to manage AWS account root
+        /// the AWS access key ID signing the request. This operation works for access keys under
+        /// the AWS account. Consequently, you can use this operation to manage AWS account root
         /// user credentials even if the AWS account has no associated IAM users.
         /// </para>
         /// </summary>
@@ -3417,8 +3554,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3426,10 +3563,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSigningCertificate">REST API Reference for DeleteSigningCertificate Operation</seealso>
         public virtual DeleteSigningCertificateResponse DeleteSigningCertificate(DeleteSigningCertificateRequest request)
         {
-            var marshaller = DeleteSigningCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteSigningCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSigningCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSigningCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSigningCertificateRequest,DeleteSigningCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSigningCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -3446,11 +3584,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSigningCertificate">REST API Reference for DeleteSigningCertificate Operation</seealso>
         public virtual IAsyncResult BeginDeleteSigningCertificate(DeleteSigningCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSigningCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteSigningCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSigningCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSigningCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSigningCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3477,7 +3615,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// The SSH public key deleted by this operation is used only for authenticating the associated
         /// IAM user to an AWS CodeCommit repository. For more information about using SSH keys
-        /// to authenticate to an AWS CodeCommit repository, see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+        /// to authenticate to an AWS CodeCommit repository, see <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
         /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User Guide</i>.
         /// </para>
         /// </summary>
@@ -3485,16 +3623,17 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the DeleteSSHPublicKey service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSSHPublicKey">REST API Reference for DeleteSSHPublicKey Operation</seealso>
         public virtual DeleteSSHPublicKeyResponse DeleteSSHPublicKey(DeleteSSHPublicKeyRequest request)
         {
-            var marshaller = DeleteSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSSHPublicKeyRequest,DeleteSSHPublicKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSSHPublicKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -3511,11 +3650,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSSHPublicKey">REST API Reference for DeleteSSHPublicKey Operation</seealso>
         public virtual IAsyncResult BeginDeleteSSHPublicKey(DeleteSSHPublicKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSSHPublicKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3536,12 +3675,56 @@ namespace Amazon.IdentityManagement
         #region  DeleteUser
 
         /// <summary>
-        /// Deletes the specified IAM user. The user must not belong to any groups or have any
-        /// access keys, signing certificates, or attached policies.
+        /// Deletes the specified IAM user. Unlike the AWS Management Console, when you delete
+        /// a user programmatically, you must delete the items attached to the user manually,
+        /// or the deletion fails. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli">Deleting
+        /// an IAM User</a>. Before attempting to delete a user, remove the following items:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// Password (<a>DeleteLoginProfile</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Access keys (<a>DeleteAccessKey</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Signing certificate (<a>DeleteSigningCertificate</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// SSH public key (<a>DeleteSSHPublicKey</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Git credentials (<a>DeleteServiceSpecificCredential</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Multi-factor authentication (MFA) device (<a>DeactivateMFADevice</a>, <a>DeleteVirtualMFADevice</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Inline policies (<a>DeleteUserPolicy</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Attached managed policies (<a>DetachUserPolicy</a>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Group memberships (<a>RemoveUserFromGroup</a>)
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteUser service method.</param>
         /// 
         /// <returns>The response from the DeleteUser service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.DeleteConflictException">
         /// The request was rejected because it attempted to delete a resource that has attached
         /// subordinate entities. The error message describes these entities.
@@ -3551,8 +3734,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3560,10 +3743,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUser">REST API Reference for DeleteUser Operation</seealso>
         public virtual DeleteUserResponse DeleteUser(DeleteUserRequest request)
         {
-            var marshaller = DeleteUserRequestMarshaller.Instance;
-            var unmarshaller = DeleteUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteUserRequest,DeleteUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteUserResponse>(request, options);
         }
 
         /// <summary>
@@ -3580,11 +3764,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUser">REST API Reference for DeleteUser Operation</seealso>
         public virtual IAsyncResult BeginDeleteUser(DeleteUserRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteUserRequestMarshaller.Instance;
-            var unmarshaller = DeleteUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteUserRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3602,6 +3786,74 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  DeleteUserPermissionsBoundary
+
+        /// <summary>
+        /// Deletes the permissions boundary for the specified IAM user.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Deleting the permissions boundary for a user might increase its permissions by allowing
+        /// the user to perform all the actions granted in its permissions policies. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUserPermissionsBoundary service method.</param>
+        /// 
+        /// <returns>The response from the DeleteUserPermissionsBoundary service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPermissionsBoundary">REST API Reference for DeleteUserPermissionsBoundary Operation</seealso>
+        public virtual DeleteUserPermissionsBoundaryResponse DeleteUserPermissionsBoundary(DeleteUserPermissionsBoundaryRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserPermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserPermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteUserPermissionsBoundaryResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteUserPermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUserPermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteUserPermissionsBoundary
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPermissionsBoundary">REST API Reference for DeleteUserPermissionsBoundary Operation</seealso>
+        public virtual IAsyncResult BeginDeleteUserPermissionsBoundary(DeleteUserPermissionsBoundaryRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserPermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserPermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteUserPermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteUserPermissionsBoundary.</param>
+        /// 
+        /// <returns>Returns a  DeleteUserPermissionsBoundaryResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPermissionsBoundary">REST API Reference for DeleteUserPermissionsBoundary Operation</seealso>
+        public virtual DeleteUserPermissionsBoundaryResponse EndDeleteUserPermissionsBoundary(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteUserPermissionsBoundaryResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteUserPolicy
 
         /// <summary>
@@ -3611,7 +3863,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// A user can also have managed policies attached to it. To detach a managed policy from
         /// a user, use <a>DetachUserPolicy</a>. For more information about policies, refer to
-        /// <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -3623,8 +3875,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3632,10 +3884,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPolicy">REST API Reference for DeleteUserPolicy Operation</seealso>
         public virtual DeleteUserPolicyResponse DeleteUserPolicy(DeleteUserPolicyRequest request)
         {
-            var marshaller = DeleteUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteUserPolicyRequest,DeleteUserPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteUserPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3652,11 +3905,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPolicy">REST API Reference for DeleteUserPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteUserPolicy(DeleteUserPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteUserPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3698,8 +3951,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3707,10 +3960,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteVirtualMFADevice">REST API Reference for DeleteVirtualMFADevice Operation</seealso>
         public virtual DeleteVirtualMFADeviceResponse DeleteVirtualMFADevice(DeleteVirtualMFADeviceRequest request)
         {
-            var marshaller = DeleteVirtualMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = DeleteVirtualMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVirtualMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVirtualMFADeviceResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteVirtualMFADeviceRequest,DeleteVirtualMFADeviceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteVirtualMFADeviceResponse>(request, options);
         }
 
         /// <summary>
@@ -3727,11 +3981,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteVirtualMFADevice">REST API Reference for DeleteVirtualMFADevice Operation</seealso>
         public virtual IAsyncResult BeginDeleteVirtualMFADevice(DeleteVirtualMFADeviceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteVirtualMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = DeleteVirtualMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVirtualMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVirtualMFADeviceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteVirtualMFADeviceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3757,7 +4011,7 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// A group can also have inline policies embedded with it. To delete an inline policy,
-        /// use the <a>DeleteGroupPolicy</a> API. For information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// use the <a>DeleteGroupPolicy</a> API. For information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -3773,8 +4027,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3782,10 +4036,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachGroupPolicy">REST API Reference for DetachGroupPolicy Operation</seealso>
         public virtual DetachGroupPolicyResponse DetachGroupPolicy(DetachGroupPolicyRequest request)
         {
-            var marshaller = DetachGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachGroupPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DetachGroupPolicyRequest,DetachGroupPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachGroupPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3802,11 +4057,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachGroupPolicy">REST API Reference for DetachGroupPolicy Operation</seealso>
         public virtual IAsyncResult BeginDetachGroupPolicy(DetachGroupPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachGroupPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachGroupPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3832,7 +4087,7 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// A role can also have inline policies embedded with it. To delete an inline policy,
-        /// use the <a>DeleteRolePolicy</a> API. For information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// use the <a>DeleteRolePolicy</a> API. For information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -3848,8 +4103,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3863,10 +4118,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachRolePolicy">REST API Reference for DetachRolePolicy Operation</seealso>
         public virtual DetachRolePolicyResponse DetachRolePolicy(DetachRolePolicyRequest request)
         {
-            var marshaller = DetachRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachRolePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DetachRolePolicyRequest,DetachRolePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachRolePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3883,11 +4139,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachRolePolicy">REST API Reference for DetachRolePolicy Operation</seealso>
         public virtual IAsyncResult BeginDetachRolePolicy(DetachRolePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachRolePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachRolePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3913,7 +4169,7 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// A user can also have inline policies embedded with it. To delete an inline policy,
-        /// use the <a>DeleteUserPolicy</a> API. For information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// use the <a>DeleteUserPolicy</a> API. For information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -3929,8 +4185,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -3938,10 +4194,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachUserPolicy">REST API Reference for DetachUserPolicy Operation</seealso>
         public virtual DetachUserPolicyResponse DetachUserPolicy(DetachUserPolicyRequest request)
         {
-            var marshaller = DetachUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachUserPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DetachUserPolicyRequest,DetachUserPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachUserPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3958,11 +4215,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachUserPolicy">REST API Reference for DetachUserPolicy Operation</seealso>
         public virtual IAsyncResult BeginDetachUserPolicy(DetachUserPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = DetachUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachUserPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachUserPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4008,8 +4265,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -4017,10 +4274,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/EnableMFADevice">REST API Reference for EnableMFADevice Operation</seealso>
         public virtual EnableMFADeviceResponse EnableMFADevice(EnableMFADeviceRequest request)
         {
-            var marshaller = EnableMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = EnableMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableMFADeviceResponseUnmarshaller.Instance;
 
-            return Invoke<EnableMFADeviceRequest,EnableMFADeviceResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnableMFADeviceResponse>(request, options);
         }
 
         /// <summary>
@@ -4037,11 +4295,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/EnableMFADevice">REST API Reference for EnableMFADevice Operation</seealso>
         public virtual IAsyncResult BeginEnableMFADevice(EnableMFADeviceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = EnableMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = EnableMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableMFADeviceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<EnableMFADeviceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4063,7 +4321,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Generates a credential report for the AWS account. For more information about the
-        /// credential report, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
+        /// credential report, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
         /// Credential Reports</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// 
@@ -4083,7 +4341,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Generates a credential report for the AWS account. For more information about the
-        /// credential report, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
+        /// credential report, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
         /// Credential Reports</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GenerateCredentialReport service method.</param>
@@ -4099,10 +4357,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateCredentialReport">REST API Reference for GenerateCredentialReport Operation</seealso>
         public virtual GenerateCredentialReportResponse GenerateCredentialReport(GenerateCredentialReportRequest request)
         {
-            var marshaller = GenerateCredentialReportRequestMarshaller.Instance;
-            var unmarshaller = GenerateCredentialReportResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateCredentialReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateCredentialReportResponseUnmarshaller.Instance;
 
-            return Invoke<GenerateCredentialReportRequest,GenerateCredentialReportResponse>(request, marshaller, unmarshaller);
+            return Invoke<GenerateCredentialReportResponse>(request, options);
         }
 
         /// <summary>
@@ -4119,11 +4378,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateCredentialReport">REST API Reference for GenerateCredentialReport Operation</seealso>
         public virtual IAsyncResult BeginGenerateCredentialReport(GenerateCredentialReportRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GenerateCredentialReportRequestMarshaller.Instance;
-            var unmarshaller = GenerateCredentialReportResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateCredentialReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateCredentialReportResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GenerateCredentialReportRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4141,27 +4400,345 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  GenerateOrganizationsAccessReport
+
+        /// <summary>
+        /// Generates a report for service last accessed data for AWS Organizations. You can generate
+        /// a report for any entities (organization root, organizational unit, or account) or
+        /// policies in your organization.
+        /// 
+        ///  
+        /// <para>
+        /// To call this operation, you must be signed in using your AWS Organizations master
+        /// account credentials. You can use your long-term IAM user or root user credentials,
+        /// or temporary credentials from assuming an IAM role. SCPs must be enabled for your
+        /// organization root. You must have the required IAM and AWS Organizations permissions.
+        /// For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Refining
+        /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can generate a service last accessed data report for entities by specifying only
+        /// the entity's path. This data includes a list of services that are allowed by any service
+        /// control policies (SCPs) that apply to the entity.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can generate a service last accessed data report for a policy by specifying an
+        /// entity's path and an optional AWS Organizations policy ID. This data includes a list
+        /// of services that are allowed by the specified SCP.
+        /// </para>
+        ///  
+        /// <para>
+        /// For each service in both report types, the data includes the most recent account activity
+        /// that the policy allows to account principals in the entity or the entity's children.
+        /// For important information about the data, reporting period, permissions required,
+        /// troubleshooting, and supported Regions see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
+        /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// The data includes all attempts to access AWS, not just the successful ones. This includes
+        /// all attempts that were made using the AWS Management Console, the AWS API through
+        /// any of the SDKs, or any of the command line tools. An unexpected entry in the service
+        /// last accessed data does not mean that an account has been compromised, because the
+        /// request might have been denied. Refer to your CloudTrail logs as the authoritative
+        /// source for information about all API calls and whether they were successful or denied
+        /// access. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
+        /// IAM Events with CloudTrail</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// This operation returns a <code>JobId</code>. Use this parameter in the <code> <a>GetOrganizationsAccessReport</a>
+        /// </code> operation to check the status of the report generation. To check the status
+        /// of this request, use the <code>JobId</code> parameter in the <code> <a>GetOrganizationsAccessReport</a>
+        /// </code> operation and test the <code>JobStatus</code> response parameter. When the
+        /// job is complete, you can retrieve the report.
+        /// </para>
+        ///  
+        /// <para>
+        /// To generate a service last accessed data report for entities, specify an entity path
+        /// without specifying the optional AWS Organizations policy ID. The type of entity that
+        /// you specify determines the data returned in the report.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Root</b> – When you specify the organizations root as the entity, the resulting
+        /// report lists all of the services allowed by SCPs that are attached to your root. For
+        /// each service, the report includes data for all accounts in your organization except
+        /// the master account, because the master account is not limited by SCPs.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>OU</b> – When you specify an organizational unit (OU) as the entity, the resulting
+        /// report lists all of the services allowed by SCPs that are attached to the OU and its
+        /// parents. For each service, the report includes data for all accounts in the OU or
+        /// its children. This data excludes the master account, because the master account is
+        /// not limited by SCPs.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Master account</b> – When you specify the master account, the resulting report
+        /// lists all AWS services, because the master account is not limited by SCPs. For each
+        /// service, the report includes data for only the master account.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Account</b> – When you specify another account as the entity, the resulting report
+        /// lists all of the services allowed by SCPs that are attached to the account and its
+        /// parents. For each service, the report includes data for only the specified account.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To generate a service last accessed data report for policies, specify an entity path
+        /// and the optional AWS Organizations policy ID. The type of entity that you specify
+        /// determines the data returned for each service.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Root</b> – When you specify the root entity and a policy ID, the resulting report
+        /// lists all of the services that are allowed by the specified SCP. For each service,
+        /// the report includes data for all accounts in your organization to which the SCP applies.
+        /// This data excludes the master account, because the master account is not limited by
+        /// SCPs. If the SCP is not attached to any entities in the organization, then the report
+        /// will return a list of services with no data.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>OU</b> – When you specify an OU entity and a policy ID, the resulting report lists
+        /// all of the services that are allowed by the specified SCP. For each service, the report
+        /// includes data for all accounts in the OU or its children to which the SCP applies.
+        /// This means that other accounts outside the OU that are affected by the SCP might not
+        /// be included in the data. This data excludes the master account, because the master
+        /// account is not limited by SCPs. If the SCP is not attached to the OU or one of its
+        /// children, the report will return a list of services with no data.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Master account</b> – When you specify the master account, the resulting report
+        /// lists all AWS services, because the master account is not limited by SCPs. If you
+        /// specify a policy ID in the CLI or API, the policy is ignored. For each service, the
+        /// report includes data for only the master account.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Account</b> – When you specify another account entity and a policy ID, the resulting
+        /// report lists all of the services that are allowed by the specified SCP. For each service,
+        /// the report includes data for only the specified account. This means that other accounts
+        /// in the organization that are affected by the SCP might not be included in the data.
+        /// If the SCP is not attached to the account, the report will return a list of services
+        /// with no data.
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// Service last accessed data does not use other policy types when determining whether
+        /// a principal could access a service. These other policy types include identity-based
+        /// policies, resource-based policies, access control lists, IAM permissions boundaries,
+        /// and STS assume role policies. It only applies SCP logic. For more about the evaluation
+        /// of policy types, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
+        /// Policies</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For more information about service last accessed data, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
+        /// Policy Scope by Viewing User Activity</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GenerateOrganizationsAccessReport service method.</param>
+        /// 
+        /// <returns>The response from the GenerateOrganizationsAccessReport service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ReportGenerationLimitExceededException">
+        /// The request failed because the maximum number of concurrent requests for this account
+        /// are already running.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateOrganizationsAccessReport">REST API Reference for GenerateOrganizationsAccessReport Operation</seealso>
+        public virtual GenerateOrganizationsAccessReportResponse GenerateOrganizationsAccessReport(GenerateOrganizationsAccessReportRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateOrganizationsAccessReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateOrganizationsAccessReportResponseUnmarshaller.Instance;
+
+            return Invoke<GenerateOrganizationsAccessReportResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GenerateOrganizationsAccessReport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GenerateOrganizationsAccessReport operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGenerateOrganizationsAccessReport
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateOrganizationsAccessReport">REST API Reference for GenerateOrganizationsAccessReport Operation</seealso>
+        public virtual IAsyncResult BeginGenerateOrganizationsAccessReport(GenerateOrganizationsAccessReportRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateOrganizationsAccessReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateOrganizationsAccessReportResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GenerateOrganizationsAccessReport operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGenerateOrganizationsAccessReport.</param>
+        /// 
+        /// <returns>Returns a  GenerateOrganizationsAccessReportResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateOrganizationsAccessReport">REST API Reference for GenerateOrganizationsAccessReport Operation</seealso>
+        public virtual GenerateOrganizationsAccessReportResponse EndGenerateOrganizationsAccessReport(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GenerateOrganizationsAccessReportResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GenerateServiceLastAccessedDetails
+
+        /// <summary>
+        /// Generates a report that includes details about when an IAM resource (user, group,
+        /// role, or policy) was last used in an attempt to access AWS services. Recent activity
+        /// usually appears within four hours. IAM reports activity for the last 365 days, or
+        /// less if your Region began supporting this feature within the last year. For more information,
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
+        /// Where Data Is Tracked</a>.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// The service last accessed data includes all attempts to access an AWS API, not just
+        /// the successful ones. This includes all attempts that were made using the AWS Management
+        /// Console, the AWS API through any of the SDKs, or any of the command line tools. An
+        /// unexpected entry in the service last accessed data does not mean that your account
+        /// has been compromised, because the request might have been denied. Refer to your CloudTrail
+        /// logs as the authoritative source for information about all API calls and whether they
+        /// were successful or denied access. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
+        /// IAM Events with CloudTrail</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// The <code>GenerateServiceLastAccessedDetails</code> operation returns a <code>JobId</code>.
+        /// Use this parameter in the following operations to retrieve the following details from
+        /// your report: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>GetServiceLastAccessedDetails</a> – Use this operation for users, groups, roles,
+        /// or policies to list every AWS service that the resource could access using permissions
+        /// policies. For each service, the response includes information about the most recent
+        /// access attempt. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>GetServiceLastAccessedDetailsWithEntities</a> – Use this operation for groups
+        /// and policies to list information about the associated entities (users or roles) that
+        /// attempted to access a specific AWS service. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To check the status of the <code>GenerateServiceLastAccessedDetails</code> request,
+        /// use the <code>JobId</code> parameter in the same operations and test the <code>JobStatus</code>
+        /// response parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// For additional information about the permissions policies that allow an identity (user,
+        /// group, or role) to access specific services, use the <a>ListPoliciesGrantingServiceAccess</a>
+        /// operation.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Service last accessed data does not use other policy types when determining whether
+        /// a resource could access a service. These other policy types include resource-based
+        /// policies, access control lists, AWS Organizations policies, IAM permissions boundaries,
+        /// and AWS STS assume role policies. It only applies permissions policy logic. For more
+        /// about the evaluation of policy types, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
+        /// Policies</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For more information about service last accessed data, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
+        /// Policy Scope by Viewing User Activity</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GenerateServiceLastAccessedDetails service method.</param>
+        /// 
+        /// <returns>The response from the GenerateServiceLastAccessedDetails service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateServiceLastAccessedDetails">REST API Reference for GenerateServiceLastAccessedDetails Operation</seealso>
+        public virtual GenerateServiceLastAccessedDetailsResponse GenerateServiceLastAccessedDetails(GenerateServiceLastAccessedDetailsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateServiceLastAccessedDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateServiceLastAccessedDetailsResponseUnmarshaller.Instance;
+
+            return Invoke<GenerateServiceLastAccessedDetailsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GenerateServiceLastAccessedDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GenerateServiceLastAccessedDetails operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGenerateServiceLastAccessedDetails
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateServiceLastAccessedDetails">REST API Reference for GenerateServiceLastAccessedDetails Operation</seealso>
+        public virtual IAsyncResult BeginGenerateServiceLastAccessedDetails(GenerateServiceLastAccessedDetailsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateServiceLastAccessedDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateServiceLastAccessedDetailsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GenerateServiceLastAccessedDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGenerateServiceLastAccessedDetails.</param>
+        /// 
+        /// <returns>Returns a  GenerateServiceLastAccessedDetailsResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateServiceLastAccessedDetails">REST API Reference for GenerateServiceLastAccessedDetails Operation</seealso>
+        public virtual GenerateServiceLastAccessedDetailsResponse EndGenerateServiceLastAccessedDetails(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GenerateServiceLastAccessedDetailsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetAccessKeyLastUsed
 
         /// <summary>
         /// Retrieves information about when the specified access key was last used. The information
-        /// includes the date and time of last use, along with the AWS service and region that
+        /// includes the date and time of last use, along with the AWS service and Region that
         /// were specified in the last request made with that key.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAccessKeyLastUsed service method.</param>
         /// 
         /// <returns>The response from the GetAccessKeyLastUsed service method, as returned by IdentityManagementService.</returns>
-        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
-        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccessKeyLastUsed">REST API Reference for GetAccessKeyLastUsed Operation</seealso>
         public virtual GetAccessKeyLastUsedResponse GetAccessKeyLastUsed(GetAccessKeyLastUsedRequest request)
         {
-            var marshaller = GetAccessKeyLastUsedRequestMarshaller.Instance;
-            var unmarshaller = GetAccessKeyLastUsedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccessKeyLastUsedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccessKeyLastUsedResponseUnmarshaller.Instance;
 
-            return Invoke<GetAccessKeyLastUsedRequest,GetAccessKeyLastUsedResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAccessKeyLastUsedResponse>(request, options);
         }
 
         /// <summary>
@@ -4178,11 +4755,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccessKeyLastUsed">REST API Reference for GetAccessKeyLastUsed Operation</seealso>
         public virtual IAsyncResult BeginGetAccessKeyLastUsed(GetAccessKeyLastUsedRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAccessKeyLastUsedRequestMarshaller.Instance;
-            var unmarshaller = GetAccessKeyLastUsedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccessKeyLastUsedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccessKeyLastUsedResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAccessKeyLastUsedRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4231,10 +4808,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountAuthorizationDetails">REST API Reference for GetAccountAuthorizationDetails Operation</seealso>
         public virtual GetAccountAuthorizationDetailsResponse GetAccountAuthorizationDetails(GetAccountAuthorizationDetailsRequest request)
         {
-            var marshaller = GetAccountAuthorizationDetailsRequestMarshaller.Instance;
-            var unmarshaller = GetAccountAuthorizationDetailsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountAuthorizationDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountAuthorizationDetailsResponseUnmarshaller.Instance;
 
-            return Invoke<GetAccountAuthorizationDetailsRequest,GetAccountAuthorizationDetailsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAccountAuthorizationDetailsResponse>(request, options);
         }
 
         /// <summary>
@@ -4251,11 +4829,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountAuthorizationDetails">REST API Reference for GetAccountAuthorizationDetails Operation</seealso>
         public virtual IAsyncResult BeginGetAccountAuthorizationDetails(GetAccountAuthorizationDetailsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAccountAuthorizationDetailsRequestMarshaller.Instance;
-            var unmarshaller = GetAccountAuthorizationDetailsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountAuthorizationDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountAuthorizationDetailsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAccountAuthorizationDetailsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4277,14 +4855,14 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Retrieves the password policy for the AWS account. For more information about using
-        /// a password policy, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
+        /// a password policy, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
         /// an IAM Password Policy</a>.
         /// </summary>
         /// 
         /// <returns>The response from the GetAccountPasswordPolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -4297,15 +4875,15 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Retrieves the password policy for the AWS account. For more information about using
-        /// a password policy, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
+        /// a password policy, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
         /// an IAM Password Policy</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAccountPasswordPolicy service method.</param>
         /// 
         /// <returns>The response from the GetAccountPasswordPolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -4313,10 +4891,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountPasswordPolicy">REST API Reference for GetAccountPasswordPolicy Operation</seealso>
         public virtual GetAccountPasswordPolicyResponse GetAccountPasswordPolicy(GetAccountPasswordPolicyRequest request)
         {
-            var marshaller = GetAccountPasswordPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetAccountPasswordPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountPasswordPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountPasswordPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetAccountPasswordPolicyRequest,GetAccountPasswordPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAccountPasswordPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -4333,11 +4912,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountPasswordPolicy">REST API Reference for GetAccountPasswordPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetAccountPasswordPolicy(GetAccountPasswordPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAccountPasswordPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetAccountPasswordPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountPasswordPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountPasswordPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAccountPasswordPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4362,7 +4941,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        ///  For information about limitations on IAM entities, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        ///  For information about limitations on IAM entities, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -4382,7 +4961,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        ///  For information about limitations on IAM entities, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        ///  For information about limitations on IAM entities, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -4395,10 +4974,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountSummary">REST API Reference for GetAccountSummary Operation</seealso>
         public virtual GetAccountSummaryResponse GetAccountSummary(GetAccountSummaryRequest request)
         {
-            var marshaller = GetAccountSummaryRequestMarshaller.Instance;
-            var unmarshaller = GetAccountSummaryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountSummaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountSummaryResponseUnmarshaller.Instance;
 
-            return Invoke<GetAccountSummaryRequest,GetAccountSummaryResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAccountSummaryResponse>(request, options);
         }
 
         /// <summary>
@@ -4415,11 +4995,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountSummary">REST API Reference for GetAccountSummary Operation</seealso>
         public virtual IAsyncResult BeginGetAccountSummary(GetAccountSummaryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAccountSummaryRequestMarshaller.Instance;
-            var unmarshaller = GetAccountSummaryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountSummaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountSummaryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAccountSummaryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4454,7 +5034,7 @@ namespace Amazon.IdentityManagement
         /// URL encoded to be included as a part of a real HTML request.
         /// </para>
         /// </summary>
-        /// <param name="policyInputList">A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF) </li> <li> The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D) </li> </ul></param>
+        /// <param name="policyInputList">A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through <code>\u00FF</code>) </li> <li> The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>) </li> </ul></param>
         /// 
         /// <returns>The response from the GetContextKeysForCustomPolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
@@ -4495,10 +5075,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForCustomPolicy">REST API Reference for GetContextKeysForCustomPolicy Operation</seealso>
         public virtual GetContextKeysForCustomPolicyResponse GetContextKeysForCustomPolicy(GetContextKeysForCustomPolicyRequest request)
         {
-            var marshaller = GetContextKeysForCustomPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetContextKeysForCustomPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContextKeysForCustomPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContextKeysForCustomPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetContextKeysForCustomPolicyRequest,GetContextKeysForCustomPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetContextKeysForCustomPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -4515,11 +5096,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForCustomPolicy">REST API Reference for GetContextKeysForCustomPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetContextKeysForCustomPolicy(GetContextKeysForCustomPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetContextKeysForCustomPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetContextKeysForCustomPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContextKeysForCustomPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContextKeysForCustomPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetContextKeysForCustomPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4565,7 +5146,7 @@ namespace Amazon.IdentityManagement
         /// what key names and values you must supply when you call <a>SimulatePrincipalPolicy</a>.
         /// </para>
         /// </summary>
-        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
+        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
         /// 
         /// <returns>The response from the GetContextKeysForPrincipalPolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
@@ -4573,8 +5154,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForPrincipalPolicy">REST API Reference for GetContextKeysForPrincipalPolicy Operation</seealso>
         public virtual GetContextKeysForPrincipalPolicyResponse GetContextKeysForPrincipalPolicy(string policySourceArn)
@@ -4611,8 +5192,8 @@ namespace Amazon.IdentityManagement
         /// what key names and values you must supply when you call <a>SimulatePrincipalPolicy</a>.
         /// </para>
         /// </summary>
-        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
-        /// <param name="policyInputList">An optional list of additional policies for which you want the list of context keys that are referenced. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (\u0020) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF) </li> <li> The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D) </li> </ul></param>
+        /// <param name="policySourceArn">The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.</param>
+        /// <param name="policyInputList">An optional list of additional policies for which you want the list of context keys that are referenced. The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this parameter is a string of characters consisting of the following: <ul> <li> Any printable ASCII character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range </li> <li> The printable characters in the Basic Latin and Latin-1 Supplement character set (through <code>\u00FF</code>) </li> <li> The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>) </li> </ul></param>
         /// 
         /// <returns>The response from the GetContextKeysForPrincipalPolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
@@ -4620,8 +5201,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForPrincipalPolicy">REST API Reference for GetContextKeysForPrincipalPolicy Operation</seealso>
         public virtual GetContextKeysForPrincipalPolicyResponse GetContextKeysForPrincipalPolicy(string policySourceArn, List<string> policyInputList)
@@ -4667,16 +5248,17 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForPrincipalPolicy">REST API Reference for GetContextKeysForPrincipalPolicy Operation</seealso>
         public virtual GetContextKeysForPrincipalPolicyResponse GetContextKeysForPrincipalPolicy(GetContextKeysForPrincipalPolicyRequest request)
         {
-            var marshaller = GetContextKeysForPrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetContextKeysForPrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContextKeysForPrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContextKeysForPrincipalPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetContextKeysForPrincipalPolicyRequest,GetContextKeysForPrincipalPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetContextKeysForPrincipalPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -4693,11 +5275,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForPrincipalPolicy">REST API Reference for GetContextKeysForPrincipalPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetContextKeysForPrincipalPolicy(GetContextKeysForPrincipalPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetContextKeysForPrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetContextKeysForPrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContextKeysForPrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContextKeysForPrincipalPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetContextKeysForPrincipalPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4719,7 +5301,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Retrieves a credential report for the AWS account. For more information about the
-        /// credential report, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
+        /// credential report, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
         /// Credential Reports</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// 
@@ -4727,7 +5309,7 @@ namespace Amazon.IdentityManagement
         /// <exception cref="Amazon.IdentityManagement.Model.CredentialReportExpiredException">
         /// The request was rejected because the most recent credential report has expired. To
         /// generate a new credential report, use <a>GenerateCredentialReport</a>. For more information
-        /// about credential report expiration, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
+        /// about credential report expiration, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
         /// Credential Reports</a> in the <i>IAM User Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.CredentialReportNotPresentException">
@@ -4748,7 +5330,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Retrieves a credential report for the AWS account. For more information about the
-        /// credential report, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
+        /// credential report, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
         /// Credential Reports</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCredentialReport service method.</param>
@@ -4757,7 +5339,7 @@ namespace Amazon.IdentityManagement
         /// <exception cref="Amazon.IdentityManagement.Model.CredentialReportExpiredException">
         /// The request was rejected because the most recent credential report has expired. To
         /// generate a new credential report, use <a>GenerateCredentialReport</a>. For more information
-        /// about credential report expiration, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
+        /// about credential report expiration, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
         /// Credential Reports</a> in the <i>IAM User Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.CredentialReportNotPresentException">
@@ -4773,10 +5355,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetCredentialReport">REST API Reference for GetCredentialReport Operation</seealso>
         public virtual GetCredentialReportResponse GetCredentialReport(GetCredentialReportRequest request)
         {
-            var marshaller = GetCredentialReportRequestMarshaller.Instance;
-            var unmarshaller = GetCredentialReportResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCredentialReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCredentialReportResponseUnmarshaller.Instance;
 
-            return Invoke<GetCredentialReportRequest,GetCredentialReportResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCredentialReportResponse>(request, options);
         }
 
         /// <summary>
@@ -4793,11 +5376,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetCredentialReport">REST API Reference for GetCredentialReport Operation</seealso>
         public virtual IAsyncResult BeginGetCredentialReport(GetCredentialReportRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCredentialReportRequestMarshaller.Instance;
-            var unmarshaller = GetCredentialReportResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCredentialReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCredentialReportResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCredentialReportRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4825,8 +5408,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetGroup service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -4834,10 +5417,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroup">REST API Reference for GetGroup Operation</seealso>
         public virtual GetGroupResponse GetGroup(GetGroupRequest request)
         {
-            var marshaller = GetGroupRequestMarshaller.Instance;
-            var unmarshaller = GetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<GetGroupRequest,GetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -4854,11 +5438,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroup">REST API Reference for GetGroup Operation</seealso>
         public virtual IAsyncResult BeginGetGroup(GetGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetGroupRequestMarshaller.Instance;
-            var unmarshaller = GetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4899,7 +5483,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -4907,8 +5491,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetGroupPolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -4916,10 +5500,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroupPolicy">REST API Reference for GetGroupPolicy Operation</seealso>
         public virtual GetGroupPolicyResponse GetGroupPolicy(GetGroupPolicyRequest request)
         {
-            var marshaller = GetGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetGroupPolicyRequest,GetGroupPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetGroupPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -4936,11 +5521,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroupPolicy">REST API Reference for GetGroupPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetGroupPolicy(GetGroupPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGroupPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetGroupPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4963,15 +5548,15 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Retrieves information about the specified instance profile, including the instance
         /// profile's path, GUID, ARN, and role. For more information about instance profiles,
-        /// see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetInstanceProfile service method.</param>
         /// 
         /// <returns>The response from the GetInstanceProfile service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -4979,10 +5564,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetInstanceProfile">REST API Reference for GetInstanceProfile Operation</seealso>
         public virtual GetInstanceProfileResponse GetInstanceProfile(GetInstanceProfileRequest request)
         {
-            var marshaller = GetInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceProfileRequest,GetInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -4999,11 +5585,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetInstanceProfile">REST API Reference for GetInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginGetInstanceProfile(GetInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5032,8 +5618,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetLoginProfile service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5041,10 +5627,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetLoginProfile">REST API Reference for GetLoginProfile Operation</seealso>
         public virtual GetLoginProfileResponse GetLoginProfile(GetLoginProfileRequest request)
         {
-            var marshaller = GetLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = GetLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoginProfileResponseUnmarshaller.Instance;
 
-            return Invoke<GetLoginProfileRequest,GetLoginProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLoginProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -5061,11 +5648,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetLoginProfile">REST API Reference for GetLoginProfile Operation</seealso>
         public virtual IAsyncResult BeginGetLoginProfile(GetLoginProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = GetLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoginProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLoginProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5097,8 +5684,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5106,10 +5693,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOpenIDConnectProvider">REST API Reference for GetOpenIDConnectProvider Operation</seealso>
         public virtual GetOpenIDConnectProviderResponse GetOpenIDConnectProvider(GetOpenIDConnectProviderRequest request)
         {
-            var marshaller = GetOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = GetOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return Invoke<GetOpenIDConnectProviderRequest,GetOpenIDConnectProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetOpenIDConnectProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -5126,11 +5714,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOpenIDConnectProvider">REST API Reference for GetOpenIDConnectProvider Operation</seealso>
         public virtual IAsyncResult BeginGetOpenIDConnectProvider(GetOpenIDConnectProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = GetOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetOpenIDConnectProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5144,6 +5732,91 @@ namespace Amazon.IdentityManagement
         public virtual GetOpenIDConnectProviderResponse EndGetOpenIDConnectProvider(IAsyncResult asyncResult)
         {
             return EndInvoke<GetOpenIDConnectProviderResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetOrganizationsAccessReport
+
+        /// <summary>
+        /// Retrieves the service last accessed data report for AWS Organizations that was previously
+        /// generated using the <code> <a>GenerateOrganizationsAccessReport</a> </code> operation.
+        /// This operation retrieves the status of your report job and the report contents.
+        /// 
+        ///  
+        /// <para>
+        /// Depending on the parameters that you passed when you generated the report, the data
+        /// returned could include different information. For details, see <a>GenerateOrganizationsAccessReport</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To call this operation, you must be signed in to the master account in your organization.
+        /// SCPs must be enabled for your organization root. You must have permissions to perform
+        /// this operation. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Refining
+        /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For each service that principals in an account (root users, IAM users, or IAM roles)
+        /// could access using SCPs, the operation returns details about the most recent access
+        /// attempt. If there was no attempt, the service is listed without details about the
+        /// most recent attempt to access the service. If the operation fails, it returns the
+        /// reason that it failed.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the list is sorted by service namespace.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetOrganizationsAccessReport service method.</param>
+        /// 
+        /// <returns>The response from the GetOrganizationsAccessReport service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOrganizationsAccessReport">REST API Reference for GetOrganizationsAccessReport Operation</seealso>
+        public virtual GetOrganizationsAccessReportResponse GetOrganizationsAccessReport(GetOrganizationsAccessReportRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOrganizationsAccessReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOrganizationsAccessReportResponseUnmarshaller.Instance;
+
+            return Invoke<GetOrganizationsAccessReportResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetOrganizationsAccessReport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetOrganizationsAccessReport operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetOrganizationsAccessReport
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOrganizationsAccessReport">REST API Reference for GetOrganizationsAccessReport Operation</seealso>
+        public virtual IAsyncResult BeginGetOrganizationsAccessReport(GetOrganizationsAccessReportRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOrganizationsAccessReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOrganizationsAccessReportResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetOrganizationsAccessReport operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetOrganizationsAccessReport.</param>
+        /// 
+        /// <returns>Returns a  GetOrganizationsAccessReportResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOrganizationsAccessReport">REST API Reference for GetOrganizationsAccessReport Operation</seealso>
+        public virtual GetOrganizationsAccessReportResponse EndGetOrganizationsAccessReport(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetOrganizationsAccessReportResponse>(asyncResult);
         }
 
         #endregion
@@ -5166,7 +5839,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -5178,8 +5851,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5187,10 +5860,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicy">REST API Reference for GetPolicy Operation</seealso>
         public virtual GetPolicyResponse GetPolicy(GetPolicyRequest request)
         {
-            var marshaller = GetPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetPolicyRequest,GetPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -5207,11 +5881,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicy">REST API Reference for GetPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetPolicy(GetPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5255,12 +5929,12 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about the types of policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about the types of policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information about managed policy versions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+        /// For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
         /// for Managed Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -5272,8 +5946,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5281,10 +5955,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicyVersion">REST API Reference for GetPolicyVersion Operation</seealso>
         public virtual GetPolicyVersionResponse GetPolicyVersion(GetPolicyVersionRequest request)
         {
-            var marshaller = GetPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<GetPolicyVersionRequest,GetPolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetPolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -5301,11 +5976,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicyVersion">REST API Reference for GetPolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginGetPolicyVersion(GetPolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetPolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5328,7 +6003,7 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Retrieves information about the specified role, including the role's path, GUID, ARN,
         /// and the role's trust policy that grants permission to assume the role. For more information
-        /// about roles, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
+        /// about roles, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
         /// with Roles</a>.
         /// 
         ///  <note> 
@@ -5345,8 +6020,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetRole service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5354,10 +6029,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRole">REST API Reference for GetRole Operation</seealso>
         public virtual GetRoleResponse GetRole(GetRoleRequest request)
         {
-            var marshaller = GetRoleRequestMarshaller.Instance;
-            var unmarshaller = GetRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRoleResponseUnmarshaller.Instance;
 
-            return Invoke<GetRoleRequest,GetRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -5374,11 +6050,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRole">REST API Reference for GetRole Operation</seealso>
         public virtual IAsyncResult BeginGetRole(GetRoleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRoleRequestMarshaller.Instance;
-            var unmarshaller = GetRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRoleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRoleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5418,12 +6094,12 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For more information about roles, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
+        /// For more information about roles, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
         /// Roles to Delegate Permissions and Federate Identities</a>.
         /// </para>
         /// </summary>
@@ -5431,8 +6107,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetRolePolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5440,10 +6116,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRolePolicy">REST API Reference for GetRolePolicy Operation</seealso>
         public virtual GetRolePolicyResponse GetRolePolicy(GetRolePolicyRequest request)
         {
-            var marshaller = GetRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = GetRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRolePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetRolePolicyRequest,GetRolePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRolePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -5460,11 +6137,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRolePolicy">REST API Reference for GetRolePolicy Operation</seealso>
         public virtual IAsyncResult BeginGetRolePolicy(GetRolePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = GetRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRolePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRolePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5490,7 +6167,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  <note> 
         /// <para>
-        /// This operation requires <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+        /// This operation requires <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
         /// Version 4</a>.
         /// </para>
         ///  </note>
@@ -5503,8 +6180,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5512,10 +6189,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSAMLProvider">REST API Reference for GetSAMLProvider Operation</seealso>
         public virtual GetSAMLProviderResponse GetSAMLProvider(GetSAMLProviderRequest request)
         {
-            var marshaller = GetSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = GetSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSAMLProviderResponseUnmarshaller.Instance;
 
-            return Invoke<GetSAMLProviderRequest,GetSAMLProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSAMLProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -5532,11 +6210,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSAMLProvider">REST API Reference for GetSAMLProvider Operation</seealso>
         public virtual IAsyncResult BeginGetSAMLProvider(GetSAMLProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = GetSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSAMLProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSAMLProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5561,7 +6239,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        /// For more information about working with server certificates, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+        /// For more information about working with server certificates, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
         /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic includes a list
         /// of AWS services that can use the server certificates that you manage with IAM.
         /// </para>
@@ -5570,8 +6248,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetServerCertificate service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5579,10 +6257,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServerCertificate">REST API Reference for GetServerCertificate Operation</seealso>
         public virtual GetServerCertificateResponse GetServerCertificate(GetServerCertificateRequest request)
         {
-            var marshaller = GetServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = GetServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServerCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<GetServerCertificateRequest,GetServerCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetServerCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -5599,11 +6278,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServerCertificate">REST API Reference for GetServerCertificate Operation</seealso>
         public virtual IAsyncResult BeginGetServerCertificate(GetServerCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = GetServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServerCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetServerCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5617,6 +6296,210 @@ namespace Amazon.IdentityManagement
         public virtual GetServerCertificateResponse EndGetServerCertificate(IAsyncResult asyncResult)
         {
             return EndInvoke<GetServerCertificateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetServiceLastAccessedDetails
+
+        /// <summary>
+        /// Retrieves a service last accessed report that was created using the <code>GenerateServiceLastAccessedDetails</code>
+        /// operation. You can use the <code>JobId</code> parameter in <code>GetServiceLastAccessedDetails</code>
+        /// to retrieve the status of your report job. When the report is complete, you can retrieve
+        /// the generated report. The report includes a list of AWS services that the resource
+        /// (user, group, role, or managed policy) can access.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Service last accessed data does not use other policy types when determining whether
+        /// a resource could access a service. These other policy types include resource-based
+        /// policies, access control lists, AWS Organizations policies, IAM permissions boundaries,
+        /// and AWS STS assume role policies. It only applies permissions policy logic. For more
+        /// about the evaluation of policy types, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
+        /// Policies</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For each service that the resource could access using permissions policies, the operation
+        /// returns details about the most recent access attempt. If there was no attempt, the
+        /// service is listed without details about the most recent attempt to access the service.
+        /// If the operation fails, the <code>GetServiceLastAccessedDetails</code> operation returns
+        /// the reason that it failed.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>GetServiceLastAccessedDetails</code> operation returns a list of services.
+        /// This list includes the number of entities that have attempted to access the service
+        /// and the date and time of the last attempt. It also returns the ARN of the following
+        /// entity, depending on the resource ARN that you used to generate the report:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>User</b> – Returns the user ARN that you used to generate the report
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Group</b> – Returns the ARN of the group member (user) that last attempted to
+        /// access the service
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Role</b> – Returns the role ARN that you used to generate the report
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Policy</b> – Returns the ARN of the user or role that last used the policy to
+        /// attempt to access the service
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// By default, the list is sorted by service namespace.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceLastAccessedDetails service method.</param>
+        /// 
+        /// <returns>The response from the GetServiceLastAccessedDetails service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetails">REST API Reference for GetServiceLastAccessedDetails Operation</seealso>
+        public virtual GetServiceLastAccessedDetailsResponse GetServiceLastAccessedDetails(GetServiceLastAccessedDetailsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceLastAccessedDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceLastAccessedDetailsResponseUnmarshaller.Instance;
+
+            return Invoke<GetServiceLastAccessedDetailsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetServiceLastAccessedDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceLastAccessedDetails operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetServiceLastAccessedDetails
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetails">REST API Reference for GetServiceLastAccessedDetails Operation</seealso>
+        public virtual IAsyncResult BeginGetServiceLastAccessedDetails(GetServiceLastAccessedDetailsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceLastAccessedDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceLastAccessedDetailsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetServiceLastAccessedDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetServiceLastAccessedDetails.</param>
+        /// 
+        /// <returns>Returns a  GetServiceLastAccessedDetailsResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetails">REST API Reference for GetServiceLastAccessedDetails Operation</seealso>
+        public virtual GetServiceLastAccessedDetailsResponse EndGetServiceLastAccessedDetails(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetServiceLastAccessedDetailsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetServiceLastAccessedDetailsWithEntities
+
+        /// <summary>
+        /// After you generate a group or policy report using the <code>GenerateServiceLastAccessedDetails</code>
+        /// operation, you can use the <code>JobId</code> parameter in <code>GetServiceLastAccessedDetailsWithEntities</code>.
+        /// This operation retrieves the status of your report job and a list of entities that
+        /// could have used group or policy permissions to access the specified service.
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Group</b> – For a group report, this operation returns a list of users in the
+        /// group that could have used the group’s policies in an attempt to access the service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Policy</b> – For a policy report, this operation returns a list of entities (users
+        /// or roles) that could have used the policy in an attempt to access the service.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can also use this operation for user or role reports to retrieve details about
+        /// those entities.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the operation fails, the <code>GetServiceLastAccessedDetailsWithEntities</code>
+        /// operation returns the reason that it failed.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, the list of associated entities is sorted by date, with the most recent
+        /// access listed first.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceLastAccessedDetailsWithEntities service method.</param>
+        /// 
+        /// <returns>The response from the GetServiceLastAccessedDetailsWithEntities service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetailsWithEntities">REST API Reference for GetServiceLastAccessedDetailsWithEntities Operation</seealso>
+        public virtual GetServiceLastAccessedDetailsWithEntitiesResponse GetServiceLastAccessedDetailsWithEntities(GetServiceLastAccessedDetailsWithEntitiesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceLastAccessedDetailsWithEntitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceLastAccessedDetailsWithEntitiesResponseUnmarshaller.Instance;
+
+            return Invoke<GetServiceLastAccessedDetailsWithEntitiesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetServiceLastAccessedDetailsWithEntities operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetServiceLastAccessedDetailsWithEntities operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetServiceLastAccessedDetailsWithEntities
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetailsWithEntities">REST API Reference for GetServiceLastAccessedDetailsWithEntities Operation</seealso>
+        public virtual IAsyncResult BeginGetServiceLastAccessedDetailsWithEntities(GetServiceLastAccessedDetailsWithEntitiesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceLastAccessedDetailsWithEntitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceLastAccessedDetailsWithEntitiesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetServiceLastAccessedDetailsWithEntities operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetServiceLastAccessedDetailsWithEntities.</param>
+        /// 
+        /// <returns>Returns a  GetServiceLastAccessedDetailsWithEntitiesResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLastAccessedDetailsWithEntities">REST API Reference for GetServiceLastAccessedDetailsWithEntities Operation</seealso>
+        public virtual GetServiceLastAccessedDetailsWithEntitiesResponse EndGetServiceLastAccessedDetailsWithEntities(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetServiceLastAccessedDetailsWithEntitiesResponse>(asyncResult);
         }
 
         #endregion
@@ -5638,8 +6521,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5647,10 +6530,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLinkedRoleDeletionStatus">REST API Reference for GetServiceLinkedRoleDeletionStatus Operation</seealso>
         public virtual GetServiceLinkedRoleDeletionStatusResponse GetServiceLinkedRoleDeletionStatus(GetServiceLinkedRoleDeletionStatusRequest request)
         {
-            var marshaller = GetServiceLinkedRoleDeletionStatusRequestMarshaller.Instance;
-            var unmarshaller = GetServiceLinkedRoleDeletionStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceLinkedRoleDeletionStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceLinkedRoleDeletionStatusResponseUnmarshaller.Instance;
 
-            return Invoke<GetServiceLinkedRoleDeletionStatusRequest,GetServiceLinkedRoleDeletionStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetServiceLinkedRoleDeletionStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -5667,11 +6551,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLinkedRoleDeletionStatus">REST API Reference for GetServiceLinkedRoleDeletionStatus Operation</seealso>
         public virtual IAsyncResult BeginGetServiceLinkedRoleDeletionStatus(GetServiceLinkedRoleDeletionStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetServiceLinkedRoleDeletionStatusRequestMarshaller.Instance;
-            var unmarshaller = GetServiceLinkedRoleDeletionStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetServiceLinkedRoleDeletionStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetServiceLinkedRoleDeletionStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetServiceLinkedRoleDeletionStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5698,7 +6582,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// The SSH public key retrieved by this operation is used only for authenticating the
         /// associated IAM user to an AWS CodeCommit repository. For more information about using
-        /// SSH keys to authenticate to an AWS CodeCommit repository, see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+        /// SSH keys to authenticate to an AWS CodeCommit repository, see <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
         /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User Guide</i>.
         /// </para>
         /// </summary>
@@ -5706,8 +6590,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetSSHPublicKey service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.UnrecognizedPublicKeyEncodingException">
         /// The request was rejected because the public key encoding format is unsupported or
@@ -5716,10 +6600,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSSHPublicKey">REST API Reference for GetSSHPublicKey Operation</seealso>
         public virtual GetSSHPublicKeyResponse GetSSHPublicKey(GetSSHPublicKeyRequest request)
         {
-            var marshaller = GetSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = GetSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return Invoke<GetSSHPublicKeyRequest,GetSSHPublicKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSSHPublicKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -5736,11 +6621,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSSHPublicKey">REST API Reference for GetSSHPublicKey Operation</seealso>
         public virtual IAsyncResult BeginGetSSHPublicKey(GetSSHPublicKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = GetSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSSHPublicKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5773,8 +6658,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetUser service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5799,8 +6684,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetUser service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5808,10 +6693,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUser">REST API Reference for GetUser Operation</seealso>
         public virtual GetUserResponse GetUser(GetUserRequest request)
         {
-            var marshaller = GetUserRequestMarshaller.Instance;
-            var unmarshaller = GetUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUserResponseUnmarshaller.Instance;
 
-            return Invoke<GetUserRequest,GetUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUserResponse>(request, options);
         }
 
         /// <summary>
@@ -5828,11 +6714,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUser">REST API Reference for GetUser Operation</seealso>
         public virtual IAsyncResult BeginGetUser(GetUserRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetUserRequestMarshaller.Instance;
-            var unmarshaller = GetUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUserResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetUserRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5868,11 +6754,11 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM user can also have managed policies attached to it. To retrieve a managed policy
         /// document that is attached to a user, use <a>GetPolicy</a> to determine the policy's
-        /// default version, then use <a>GetPolicyVersion</a> to retrieve the policy document.
+        /// default version. Then use <a>GetPolicyVersion</a> to retrieve the policy document.
         /// </para>
         ///  
         /// <para>
-        /// For more information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -5880,8 +6766,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the GetUserPolicy service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5889,10 +6775,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUserPolicy">REST API Reference for GetUserPolicy Operation</seealso>
         public virtual GetUserPolicyResponse GetUserPolicy(GetUserPolicyRequest request)
         {
-            var marshaller = GetUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUserPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetUserPolicyRequest,GetUserPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUserPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -5909,11 +6796,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUserPolicy">REST API Reference for GetUserPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetUserPolicy(GetUserPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUserPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetUserPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5935,7 +6822,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Returns information about the access key IDs associated with the specified IAM user.
-        /// If there are none, the operation returns an empty list.
+        /// If there is none, the operation returns an empty list.
         /// 
         ///  
         /// <para>
@@ -5945,9 +6832,9 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If the <code>UserName</code> field is not specified, the user name is determined implicitly
-        /// based on the AWS access key ID used to sign the request. Because this operation works
-        /// for access keys under the AWS account, you can use this operation to manage AWS account
-        /// root user credentials even if the AWS account has no associated users.
+        /// based on the AWS access key ID used to sign the request. This operation works for
+        /// access keys under the AWS account. Consequently, you can use this operation to manage
+        /// AWS account root user credentials even if the AWS account has no associated users.
         /// </para>
         ///  <note> 
         /// <para>
@@ -5959,8 +6846,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListAccessKeys service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -5973,7 +6860,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Returns information about the access key IDs associated with the specified IAM user.
-        /// If there are none, the operation returns an empty list.
+        /// If there is none, the operation returns an empty list.
         /// 
         ///  
         /// <para>
@@ -5983,9 +6870,9 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If the <code>UserName</code> field is not specified, the user name is determined implicitly
-        /// based on the AWS access key ID used to sign the request. Because this operation works
-        /// for access keys under the AWS account, you can use this operation to manage AWS account
-        /// root user credentials even if the AWS account has no associated users.
+        /// based on the AWS access key ID used to sign the request. This operation works for
+        /// access keys under the AWS account. Consequently, you can use this operation to manage
+        /// AWS account root user credentials even if the AWS account has no associated users.
         /// </para>
         ///  <note> 
         /// <para>
@@ -5998,8 +6885,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListAccessKeys service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6007,10 +6894,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccessKeys">REST API Reference for ListAccessKeys Operation</seealso>
         public virtual ListAccessKeysResponse ListAccessKeys(ListAccessKeysRequest request)
         {
-            var marshaller = ListAccessKeysRequestMarshaller.Instance;
-            var unmarshaller = ListAccessKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAccessKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAccessKeysResponseUnmarshaller.Instance;
 
-            return Invoke<ListAccessKeysRequest,ListAccessKeysResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAccessKeysResponse>(request, options);
         }
 
         /// <summary>
@@ -6027,11 +6915,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccessKeys">REST API Reference for ListAccessKeys Operation</seealso>
         public virtual IAsyncResult BeginListAccessKeys(ListAccessKeysRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAccessKeysRequestMarshaller.Instance;
-            var unmarshaller = ListAccessKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAccessKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAccessKeysResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAccessKeysRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6053,7 +6941,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Lists the account alias associated with the AWS account (Note: you can have only one).
-        /// For information about using an AWS account alias, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
+        /// For information about using an AWS account alias, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
         /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// 
@@ -6069,7 +6957,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Lists the account alias associated with the AWS account (Note: you can have only one).
-        /// For information about using an AWS account alias, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
+        /// For information about using an AWS account alias, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
         /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListAccountAliases service method.</param>
@@ -6081,10 +6969,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccountAliases">REST API Reference for ListAccountAliases Operation</seealso>
         public virtual ListAccountAliasesResponse ListAccountAliases(ListAccountAliasesRequest request)
         {
-            var marshaller = ListAccountAliasesRequestMarshaller.Instance;
-            var unmarshaller = ListAccountAliasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAccountAliasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAccountAliasesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAccountAliasesRequest,ListAccountAliasesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAccountAliasesResponse>(request, options);
         }
 
         /// <summary>
@@ -6101,11 +6990,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccountAliases">REST API Reference for ListAccountAliases Operation</seealso>
         public virtual IAsyncResult BeginListAccountAliases(ListAccountAliasesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAccountAliasesRequestMarshaller.Instance;
-            var unmarshaller = ListAccountAliasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAccountAliasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAccountAliasesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAccountAliasesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6132,7 +7021,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM group can also have inline policies embedded with it. To list the inline policies
         /// for a group, use the <a>ListGroupPolicies</a> API. For information about policies,
-        /// see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -6152,8 +7041,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6161,10 +7050,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedGroupPolicies">REST API Reference for ListAttachedGroupPolicies Operation</seealso>
         public virtual ListAttachedGroupPoliciesResponse ListAttachedGroupPolicies(ListAttachedGroupPoliciesRequest request)
         {
-            var marshaller = ListAttachedGroupPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedGroupPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedGroupPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedGroupPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAttachedGroupPoliciesRequest,ListAttachedGroupPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAttachedGroupPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -6181,11 +7071,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedGroupPolicies">REST API Reference for ListAttachedGroupPolicies Operation</seealso>
         public virtual IAsyncResult BeginListAttachedGroupPolicies(ListAttachedGroupPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAttachedGroupPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedGroupPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedGroupPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedGroupPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAttachedGroupPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6212,7 +7102,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM role can also have inline policies embedded with it. To list the inline policies
         /// for a role, use the <a>ListRolePolicies</a> API. For information about policies, see
-        /// <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -6232,8 +7122,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6241,10 +7131,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedRolePolicies">REST API Reference for ListAttachedRolePolicies Operation</seealso>
         public virtual ListAttachedRolePoliciesResponse ListAttachedRolePolicies(ListAttachedRolePoliciesRequest request)
         {
-            var marshaller = ListAttachedRolePoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedRolePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedRolePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedRolePoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAttachedRolePoliciesRequest,ListAttachedRolePoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAttachedRolePoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -6261,11 +7152,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedRolePolicies">REST API Reference for ListAttachedRolePolicies Operation</seealso>
         public virtual IAsyncResult BeginListAttachedRolePolicies(ListAttachedRolePoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAttachedRolePoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedRolePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedRolePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedRolePoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAttachedRolePoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6292,7 +7183,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM user can also have inline policies embedded with it. To list the inline policies
         /// for a user, use the <a>ListUserPolicies</a> API. For information about policies, see
-        /// <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -6312,8 +7203,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6321,10 +7212,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedUserPolicies">REST API Reference for ListAttachedUserPolicies Operation</seealso>
         public virtual ListAttachedUserPoliciesResponse ListAttachedUserPolicies(ListAttachedUserPoliciesRequest request)
         {
-            var marshaller = ListAttachedUserPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedUserPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedUserPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedUserPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAttachedUserPoliciesRequest,ListAttachedUserPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAttachedUserPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -6341,11 +7233,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedUserPolicies">REST API Reference for ListAttachedUserPolicies Operation</seealso>
         public virtual IAsyncResult BeginListAttachedUserPolicies(ListAttachedUserPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListAttachedUserPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListAttachedUserPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAttachedUserPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAttachedUserPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListAttachedUserPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6390,8 +7282,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6399,10 +7291,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListEntitiesForPolicy">REST API Reference for ListEntitiesForPolicy Operation</seealso>
         public virtual ListEntitiesForPolicyResponse ListEntitiesForPolicy(ListEntitiesForPolicyRequest request)
         {
-            var marshaller = ListEntitiesForPolicyRequestMarshaller.Instance;
-            var unmarshaller = ListEntitiesForPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListEntitiesForPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListEntitiesForPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<ListEntitiesForPolicyRequest,ListEntitiesForPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListEntitiesForPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -6419,11 +7312,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListEntitiesForPolicy">REST API Reference for ListEntitiesForPolicy Operation</seealso>
         public virtual IAsyncResult BeginListEntitiesForPolicy(ListEntitiesForPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListEntitiesForPolicyRequestMarshaller.Instance;
-            var unmarshaller = ListEntitiesForPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListEntitiesForPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListEntitiesForPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListEntitiesForPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6450,7 +7343,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM group can also have managed policies attached to it. To list the managed policies
         /// that are attached to a group, use <a>ListAttachedGroupPolicies</a>. For more information
-        /// about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -6464,8 +7357,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListGroupPolicies service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6473,10 +7366,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupPolicies">REST API Reference for ListGroupPolicies Operation</seealso>
         public virtual ListGroupPoliciesResponse ListGroupPolicies(ListGroupPoliciesRequest request)
         {
-            var marshaller = ListGroupPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListGroupPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListGroupPoliciesRequest,ListGroupPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGroupPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -6493,11 +7387,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupPolicies">REST API Reference for ListGroupPolicies Operation</seealso>
         public virtual IAsyncResult BeginListGroupPolicies(ListGroupPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListGroupPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListGroupPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListGroupPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6555,10 +7449,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroups">REST API Reference for ListGroups Operation</seealso>
         public virtual ListGroupsResponse ListGroups(ListGroupsRequest request)
         {
-            var marshaller = ListGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<ListGroupsRequest,ListGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -6575,11 +7470,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroups">REST API Reference for ListGroups Operation</seealso>
         public virtual IAsyncResult BeginListGroups(ListGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6612,8 +7507,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListGroupsForUser service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6621,10 +7516,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupsForUser">REST API Reference for ListGroupsForUser Operation</seealso>
         public virtual ListGroupsForUserResponse ListGroupsForUser(ListGroupsForUserRequest request)
         {
-            var marshaller = ListGroupsForUserRequestMarshaller.Instance;
-            var unmarshaller = ListGroupsForUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupsForUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupsForUserResponseUnmarshaller.Instance;
 
-            return Invoke<ListGroupsForUserRequest,ListGroupsForUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGroupsForUserResponse>(request, options);
         }
 
         /// <summary>
@@ -6641,11 +7537,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupsForUser">REST API Reference for ListGroupsForUser Operation</seealso>
         public virtual IAsyncResult BeginListGroupsForUser(ListGroupsForUserRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListGroupsForUserRequestMarshaller.Instance;
-            var unmarshaller = ListGroupsForUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupsForUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupsForUserResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListGroupsForUserRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6668,7 +7564,7 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Lists the instance profiles that have the specified path prefix. If there are none,
         /// the operation returns an empty list. For more information about instance profiles,
-        /// go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        /// go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a>.
         /// 
         ///  
@@ -6691,7 +7587,7 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Lists the instance profiles that have the specified path prefix. If there are none,
         /// the operation returns an empty list. For more information about instance profiles,
-        /// go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        /// go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a>.
         /// 
         ///  
@@ -6709,10 +7605,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfiles">REST API Reference for ListInstanceProfiles Operation</seealso>
         public virtual ListInstanceProfilesResponse ListInstanceProfiles(ListInstanceProfilesRequest request)
         {
-            var marshaller = ListInstanceProfilesRequestMarshaller.Instance;
-            var unmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInstanceProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
 
-            return Invoke<ListInstanceProfilesRequest,ListInstanceProfilesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListInstanceProfilesResponse>(request, options);
         }
 
         /// <summary>
@@ -6729,11 +7626,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfiles">REST API Reference for ListInstanceProfiles Operation</seealso>
         public virtual IAsyncResult BeginListInstanceProfiles(ListInstanceProfilesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListInstanceProfilesRequestMarshaller.Instance;
-            var unmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInstanceProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListInstanceProfilesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6756,7 +7653,7 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Lists the instance profiles that have the specified associated IAM role. If there
         /// are none, the operation returns an empty list. For more information about instance
-        /// profiles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        /// profiles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a>.
         /// 
         ///  
@@ -6769,8 +7666,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListInstanceProfilesForRole service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6778,10 +7675,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfilesForRole">REST API Reference for ListInstanceProfilesForRole Operation</seealso>
         public virtual ListInstanceProfilesForRoleResponse ListInstanceProfilesForRole(ListInstanceProfilesForRoleRequest request)
         {
-            var marshaller = ListInstanceProfilesForRoleRequestMarshaller.Instance;
-            var unmarshaller = ListInstanceProfilesForRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInstanceProfilesForRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInstanceProfilesForRoleResponseUnmarshaller.Instance;
 
-            return Invoke<ListInstanceProfilesForRoleRequest,ListInstanceProfilesForRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListInstanceProfilesForRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -6798,11 +7696,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfilesForRole">REST API Reference for ListInstanceProfilesForRole Operation</seealso>
         public virtual IAsyncResult BeginListInstanceProfilesForRole(ListInstanceProfilesForRoleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListInstanceProfilesForRoleRequestMarshaller.Instance;
-            var unmarshaller = ListInstanceProfilesForRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInstanceProfilesForRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInstanceProfilesForRoleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListInstanceProfilesForRoleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6837,8 +7735,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListMFADevices service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6865,8 +7763,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListMFADevices service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -6874,10 +7772,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListMFADevices">REST API Reference for ListMFADevices Operation</seealso>
         public virtual ListMFADevicesResponse ListMFADevices(ListMFADevicesRequest request)
         {
-            var marshaller = ListMFADevicesRequestMarshaller.Instance;
-            var unmarshaller = ListMFADevicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMFADevicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMFADevicesResponseUnmarshaller.Instance;
 
-            return Invoke<ListMFADevicesRequest,ListMFADevicesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListMFADevicesResponse>(request, options);
         }
 
         /// <summary>
@@ -6894,11 +7793,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListMFADevices">REST API Reference for ListMFADevices Operation</seealso>
         public virtual IAsyncResult BeginListMFADevices(ListMFADevicesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListMFADevicesRequestMarshaller.Instance;
-            var unmarshaller = ListMFADevicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMFADevicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMFADevicesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListMFADevicesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6931,10 +7830,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListOpenIDConnectProviders">REST API Reference for ListOpenIDConnectProviders Operation</seealso>
         public virtual ListOpenIDConnectProvidersResponse ListOpenIDConnectProviders(ListOpenIDConnectProvidersRequest request)
         {
-            var marshaller = ListOpenIDConnectProvidersRequestMarshaller.Instance;
-            var unmarshaller = ListOpenIDConnectProvidersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOpenIDConnectProvidersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOpenIDConnectProvidersResponseUnmarshaller.Instance;
 
-            return Invoke<ListOpenIDConnectProvidersRequest,ListOpenIDConnectProvidersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOpenIDConnectProvidersResponse>(request, options);
         }
 
         /// <summary>
@@ -6951,11 +7851,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListOpenIDConnectProviders">REST API Reference for ListOpenIDConnectProviders Operation</seealso>
         public virtual IAsyncResult BeginListOpenIDConnectProviders(ListOpenIDConnectProvidersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOpenIDConnectProvidersRequestMarshaller.Instance;
-            var unmarshaller = ListOpenIDConnectProvidersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOpenIDConnectProvidersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOpenIDConnectProvidersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOpenIDConnectProvidersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6993,7 +7893,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -7026,7 +7926,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -7039,10 +7939,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPolicies">REST API Reference for ListPolicies Operation</seealso>
         public virtual ListPoliciesResponse ListPolicies(ListPoliciesRequest request)
         {
-            var marshaller = ListPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListPoliciesRequest,ListPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -7059,11 +7960,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPolicies">REST API Reference for ListPolicies Operation</seealso>
         public virtual IAsyncResult BeginListPolicies(ListPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7081,6 +7982,115 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  ListPoliciesGrantingServiceAccess
+
+        /// <summary>
+        /// Retrieves a list of policies that the IAM identity (user, group, or role) can use
+        /// to access each specified service.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation does not use other policy types when determining whether a resource
+        /// could access a service. These other policy types include resource-based policies,
+        /// access control lists, AWS Organizations policies, IAM permissions boundaries, and
+        /// AWS STS assume role policies. It only applies permissions policy logic. For more about
+        /// the evaluation of policy types, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
+        /// Policies</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The list of policies returned by the operation depends on the ARN of the identity
+        /// that you provide.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>User</b> – The list of policies includes the managed and inline policies that
+        /// are attached to the user directly. The list also includes any additional managed and
+        /// inline policies that are attached to the group to which the user belongs. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Group</b> – The list of policies includes only the managed and inline policies
+        /// that are attached to the group directly. Policies that are attached to the group’s
+        /// user are not included.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Role</b> – The list of policies includes only the managed and inline policies
+        /// that are attached to the role.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For each managed policy, this operation returns the ARN and policy name. For each
+        /// inline policy, it returns the policy name and the entity to which it is attached.
+        /// Inline policies do not have an ARN. For more information about these policy types,
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
+        /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Policies that are attached to users and roles as permissions boundaries are not returned.
+        /// To view which managed policy is currently used to set the permissions boundary for
+        /// a user or role, use the <a>GetUser</a> or <a>GetRole</a> operations.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListPoliciesGrantingServiceAccess service method.</param>
+        /// 
+        /// <returns>The response from the ListPoliciesGrantingServiceAccess service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPoliciesGrantingServiceAccess">REST API Reference for ListPoliciesGrantingServiceAccess Operation</seealso>
+        public virtual ListPoliciesGrantingServiceAccessResponse ListPoliciesGrantingServiceAccess(ListPoliciesGrantingServiceAccessRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPoliciesGrantingServiceAccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPoliciesGrantingServiceAccessResponseUnmarshaller.Instance;
+
+            return Invoke<ListPoliciesGrantingServiceAccessResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListPoliciesGrantingServiceAccess operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListPoliciesGrantingServiceAccess operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListPoliciesGrantingServiceAccess
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPoliciesGrantingServiceAccess">REST API Reference for ListPoliciesGrantingServiceAccess Operation</seealso>
+        public virtual IAsyncResult BeginListPoliciesGrantingServiceAccess(ListPoliciesGrantingServiceAccessRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPoliciesGrantingServiceAccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPoliciesGrantingServiceAccessResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListPoliciesGrantingServiceAccess operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListPoliciesGrantingServiceAccess.</param>
+        /// 
+        /// <returns>Returns a  ListPoliciesGrantingServiceAccessResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPoliciesGrantingServiceAccess">REST API Reference for ListPoliciesGrantingServiceAccess Operation</seealso>
+        public virtual ListPoliciesGrantingServiceAccessResponse EndListPoliciesGrantingServiceAccess(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListPoliciesGrantingServiceAccessResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  ListPolicyVersions
 
         /// <summary>
@@ -7089,7 +8099,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        /// For more information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -7101,8 +8111,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -7110,10 +8120,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPolicyVersions">REST API Reference for ListPolicyVersions Operation</seealso>
         public virtual ListPolicyVersionsResponse ListPolicyVersions(ListPolicyVersionsRequest request)
         {
-            var marshaller = ListPolicyVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListPolicyVersionsRequest,ListPolicyVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListPolicyVersionsResponse>(request, options);
         }
 
         /// <summary>
@@ -7130,11 +8141,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPolicyVersions">REST API Reference for ListPolicyVersions Operation</seealso>
         public virtual IAsyncResult BeginListPolicyVersions(ListPolicyVersionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListPolicyVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPolicyVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPolicyVersionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListPolicyVersionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7161,7 +8172,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM role can also have managed policies attached to it. To list the managed policies
         /// that are attached to a role, use <a>ListAttachedRolePolicies</a>. For more information
-        /// about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -7175,8 +8186,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListRolePolicies service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -7184,10 +8195,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRolePolicies">REST API Reference for ListRolePolicies Operation</seealso>
         public virtual ListRolePoliciesResponse ListRolePolicies(ListRolePoliciesRequest request)
         {
-            var marshaller = ListRolePoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListRolePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRolePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRolePoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListRolePoliciesRequest,ListRolePoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRolePoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -7204,11 +8216,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRolePolicies">REST API Reference for ListRolePolicies Operation</seealso>
         public virtual IAsyncResult BeginListRolePolicies(ListRolePoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRolePoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListRolePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRolePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRolePoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRolePoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7230,7 +8242,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Lists the IAM roles that have the specified path prefix. If there are none, the operation
-        /// returns an empty list. For more information about roles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
+        /// returns an empty list. For more information about roles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
         /// with Roles</a>.
         /// 
         ///  
@@ -7252,7 +8264,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Lists the IAM roles that have the specified path prefix. If there are none, the operation
-        /// returns an empty list. For more information about roles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
+        /// returns an empty list. For more information about roles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
         /// with Roles</a>.
         /// 
         ///  
@@ -7270,10 +8282,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRoles">REST API Reference for ListRoles Operation</seealso>
         public virtual ListRolesResponse ListRoles(ListRolesRequest request)
         {
-            var marshaller = ListRolesRequestMarshaller.Instance;
-            var unmarshaller = ListRolesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRolesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRolesResponseUnmarshaller.Instance;
 
-            return Invoke<ListRolesRequest,ListRolesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRolesResponse>(request, options);
         }
 
         /// <summary>
@@ -7290,11 +8303,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRoles">REST API Reference for ListRoles Operation</seealso>
         public virtual IAsyncResult BeginListRoles(ListRolesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRolesRequestMarshaller.Instance;
-            var unmarshaller = ListRolesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRolesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRolesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRolesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7312,6 +8325,69 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  ListRoleTags
+
+        /// <summary>
+        /// Lists the tags that are attached to the specified role. The returned list of tags
+        /// is sorted by tag key. For more information about tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+        /// IAM Identities</a> in the <i>IAM User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListRoleTags service method.</param>
+        /// 
+        /// <returns>The response from the ListRoleTags service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRoleTags">REST API Reference for ListRoleTags Operation</seealso>
+        public virtual ListRoleTagsResponse ListRoleTags(ListRoleTagsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRoleTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRoleTagsResponseUnmarshaller.Instance;
+
+            return Invoke<ListRoleTagsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListRoleTags operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListRoleTags operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListRoleTags
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRoleTags">REST API Reference for ListRoleTags Operation</seealso>
+        public virtual IAsyncResult BeginListRoleTags(ListRoleTagsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRoleTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRoleTagsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListRoleTags operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListRoleTags.</param>
+        /// 
+        /// <returns>Returns a  ListRoleTagsResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRoleTags">REST API Reference for ListRoleTags Operation</seealso>
+        public virtual ListRoleTagsResponse EndListRoleTags(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListRoleTagsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  ListSAMLProviders
 
         /// <summary>
@@ -7319,7 +8395,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  <note> 
         /// <para>
-        ///  This operation requires <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+        ///  This operation requires <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
         /// Version 4</a>.
         /// </para>
         ///  </note>
@@ -7340,7 +8416,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  <note> 
         /// <para>
-        ///  This operation requires <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+        ///  This operation requires <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
         /// Version 4</a>.
         /// </para>
         ///  </note>
@@ -7354,10 +8430,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSAMLProviders">REST API Reference for ListSAMLProviders Operation</seealso>
         public virtual ListSAMLProvidersResponse ListSAMLProviders(ListSAMLProvidersRequest request)
         {
-            var marshaller = ListSAMLProvidersRequestMarshaller.Instance;
-            var unmarshaller = ListSAMLProvidersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSAMLProvidersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSAMLProvidersResponseUnmarshaller.Instance;
 
-            return Invoke<ListSAMLProvidersRequest,ListSAMLProvidersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSAMLProvidersResponse>(request, options);
         }
 
         /// <summary>
@@ -7374,11 +8451,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSAMLProviders">REST API Reference for ListSAMLProviders Operation</seealso>
         public virtual IAsyncResult BeginListSAMLProviders(ListSAMLProvidersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSAMLProvidersRequestMarshaller.Instance;
-            var unmarshaller = ListSAMLProvidersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSAMLProvidersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSAMLProvidersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSAMLProvidersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7409,7 +8486,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about working with server certificates, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+        /// For more information about working with server certificates, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
         /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also includes
         /// a list of AWS services that can use the server certificates that you manage with IAM.
         /// </para>
@@ -7436,7 +8513,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For more information about working with server certificates, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+        /// For more information about working with server certificates, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
         /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also includes
         /// a list of AWS services that can use the server certificates that you manage with IAM.
         /// </para>
@@ -7450,10 +8527,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServerCertificates">REST API Reference for ListServerCertificates Operation</seealso>
         public virtual ListServerCertificatesResponse ListServerCertificates(ListServerCertificatesRequest request)
         {
-            var marshaller = ListServerCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListServerCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListServerCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListServerCertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<ListServerCertificatesRequest,ListServerCertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListServerCertificatesResponse>(request, options);
         }
 
         /// <summary>
@@ -7470,11 +8548,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServerCertificates">REST API Reference for ListServerCertificates Operation</seealso>
         public virtual IAsyncResult BeginListServerCertificates(ListServerCertificatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListServerCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListServerCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListServerCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListServerCertificatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListServerCertificatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7496,18 +8574,18 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Returns information about the service-specific credentials associated with the specified
-        /// IAM user. If there are none, the operation returns an empty list. The service-specific
+        /// IAM user. If none exists, the operation returns an empty list. The service-specific
         /// credentials returned by this operation are used only for authenticating the IAM user
         /// to a specific service. For more information about using service-specific credentials
-        /// to authenticate to an AWS service, see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">Set
+        /// to authenticate to an AWS service, see <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">Set
         /// Up service-specific credentials</a> in the AWS CodeCommit User Guide.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListServiceSpecificCredentials service method.</param>
         /// 
         /// <returns>The response from the ListServiceSpecificCredentials service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceNotSupportedException">
         /// The specified service does not support service-specific credentials.
@@ -7515,10 +8593,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServiceSpecificCredentials">REST API Reference for ListServiceSpecificCredentials Operation</seealso>
         public virtual ListServiceSpecificCredentialsResponse ListServiceSpecificCredentials(ListServiceSpecificCredentialsRequest request)
         {
-            var marshaller = ListServiceSpecificCredentialsRequestMarshaller.Instance;
-            var unmarshaller = ListServiceSpecificCredentialsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListServiceSpecificCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListServiceSpecificCredentialsResponseUnmarshaller.Instance;
 
-            return Invoke<ListServiceSpecificCredentialsRequest,ListServiceSpecificCredentialsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListServiceSpecificCredentialsResponse>(request, options);
         }
 
         /// <summary>
@@ -7535,11 +8614,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServiceSpecificCredentials">REST API Reference for ListServiceSpecificCredentials Operation</seealso>
         public virtual IAsyncResult BeginListServiceSpecificCredentials(ListServiceSpecificCredentialsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListServiceSpecificCredentialsRequestMarshaller.Instance;
-            var unmarshaller = ListServiceSpecificCredentialsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListServiceSpecificCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListServiceSpecificCredentialsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListServiceSpecificCredentialsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7561,7 +8640,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Returns information about the signing certificates associated with the specified IAM
-        /// user. If there are none, the operation returns an empty list.
+        /// user. If none exists, the operation returns an empty list.
         /// 
         ///  
         /// <para>
@@ -7571,8 +8650,8 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If the <code>UserName</code> field is not specified, the user name is determined implicitly
-        /// based on the AWS access key ID used to sign the request for this API. Because this
-        /// operation works for access keys under the AWS account, you can use this operation
+        /// based on the AWS access key ID used to sign the request for this API. This operation
+        /// works for access keys under the AWS account. Consequently, you can use this operation
         /// to manage AWS account root user credentials even if the AWS account has no associated
         /// users.
         /// </para>
@@ -7580,8 +8659,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListSigningCertificates service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -7594,7 +8673,7 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Returns information about the signing certificates associated with the specified IAM
-        /// user. If there are none, the operation returns an empty list.
+        /// user. If none exists, the operation returns an empty list.
         /// 
         ///  
         /// <para>
@@ -7604,8 +8683,8 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If the <code>UserName</code> field is not specified, the user name is determined implicitly
-        /// based on the AWS access key ID used to sign the request for this API. Because this
-        /// operation works for access keys under the AWS account, you can use this operation
+        /// based on the AWS access key ID used to sign the request for this API. This operation
+        /// works for access keys under the AWS account. Consequently, you can use this operation
         /// to manage AWS account root user credentials even if the AWS account has no associated
         /// users.
         /// </para>
@@ -7614,8 +8693,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListSigningCertificates service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -7623,10 +8702,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSigningCertificates">REST API Reference for ListSigningCertificates Operation</seealso>
         public virtual ListSigningCertificatesResponse ListSigningCertificates(ListSigningCertificatesRequest request)
         {
-            var marshaller = ListSigningCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListSigningCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSigningCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSigningCertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<ListSigningCertificatesRequest,ListSigningCertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSigningCertificatesResponse>(request, options);
         }
 
         /// <summary>
@@ -7643,11 +8723,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSigningCertificates">REST API Reference for ListSigningCertificates Operation</seealso>
         public virtual IAsyncResult BeginListSigningCertificates(ListSigningCertificatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSigningCertificatesRequestMarshaller.Instance;
-            var unmarshaller = ListSigningCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSigningCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSigningCertificatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSigningCertificatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7669,13 +8749,13 @@ namespace Amazon.IdentityManagement
 
         /// <summary>
         /// Returns information about the SSH public keys associated with the specified IAM user.
-        /// If there are none, the operation returns an empty list.
+        /// If none exists, the operation returns an empty list.
         /// 
         ///  
         /// <para>
         /// The SSH public keys returned by this operation are used only for authenticating the
         /// IAM user to an AWS CodeCommit repository. For more information about using SSH keys
-        /// to authenticate to an AWS CodeCommit repository, see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+        /// to authenticate to an AWS CodeCommit repository, see <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
         /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User Guide</i>.
         /// </para>
         ///  
@@ -7688,16 +8768,17 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListSSHPublicKeys service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSSHPublicKeys">REST API Reference for ListSSHPublicKeys Operation</seealso>
         public virtual ListSSHPublicKeysResponse ListSSHPublicKeys(ListSSHPublicKeysRequest request)
         {
-            var marshaller = ListSSHPublicKeysRequestMarshaller.Instance;
-            var unmarshaller = ListSSHPublicKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSSHPublicKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSSHPublicKeysResponseUnmarshaller.Instance;
 
-            return Invoke<ListSSHPublicKeysRequest,ListSSHPublicKeysResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSSHPublicKeysResponse>(request, options);
         }
 
         /// <summary>
@@ -7714,11 +8795,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSSHPublicKeys">REST API Reference for ListSSHPublicKeys Operation</seealso>
         public virtual IAsyncResult BeginListSSHPublicKeys(ListSSHPublicKeysRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSSHPublicKeysRequestMarshaller.Instance;
-            var unmarshaller = ListSSHPublicKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSSHPublicKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSSHPublicKeysResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSSHPublicKeysRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7745,7 +8826,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM user can also have managed policies attached to it. To list the managed policies
         /// that are attached to a user, use <a>ListAttachedUserPolicies</a>. For more information
-        /// about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -7759,8 +8840,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ListUserPolicies service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -7768,10 +8849,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserPolicies">REST API Reference for ListUserPolicies Operation</seealso>
         public virtual ListUserPoliciesResponse ListUserPolicies(ListUserPoliciesRequest request)
         {
-            var marshaller = ListUserPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListUserPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUserPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUserPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListUserPoliciesRequest,ListUserPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListUserPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -7788,11 +8870,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserPolicies">REST API Reference for ListUserPolicies Operation</seealso>
         public virtual IAsyncResult BeginListUserPolicies(ListUserPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListUserPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListUserPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUserPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUserPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListUserPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7854,10 +8936,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUsers">REST API Reference for ListUsers Operation</seealso>
         public virtual ListUsersResponse ListUsers(ListUsersRequest request)
         {
-            var marshaller = ListUsersRequestMarshaller.Instance;
-            var unmarshaller = ListUsersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUsersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUsersResponseUnmarshaller.Instance;
 
-            return Invoke<ListUsersRequest,ListUsersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListUsersResponse>(request, options);
         }
 
         /// <summary>
@@ -7874,11 +8957,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUsers">REST API Reference for ListUsers Operation</seealso>
         public virtual IAsyncResult BeginListUsers(ListUsersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListUsersRequestMarshaller.Instance;
-            var unmarshaller = ListUsersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUsersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUsersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListUsersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7892,6 +8975,69 @@ namespace Amazon.IdentityManagement
         public virtual ListUsersResponse EndListUsers(IAsyncResult asyncResult)
         {
             return EndInvoke<ListUsersResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListUserTags
+
+        /// <summary>
+        /// Lists the tags that are attached to the specified user. The returned list of tags
+        /// is sorted by tag key. For more information about tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+        /// IAM Identities</a> in the <i>IAM User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListUserTags service method.</param>
+        /// 
+        /// <returns>The response from the ListUserTags service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserTags">REST API Reference for ListUserTags Operation</seealso>
+        public virtual ListUserTagsResponse ListUserTags(ListUserTagsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUserTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUserTagsResponseUnmarshaller.Instance;
+
+            return Invoke<ListUserTagsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListUserTags operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListUserTags operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListUserTags
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserTags">REST API Reference for ListUserTags Operation</seealso>
+        public virtual IAsyncResult BeginListUserTags(ListUserTagsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUserTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUserTagsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListUserTags operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListUserTags.</param>
+        /// 
+        /// <returns>Returns a  ListUserTagsResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserTags">REST API Reference for ListUserTags Operation</seealso>
+        public virtual ListUserTagsResponse EndListUserTags(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListUserTagsResponse>(asyncResult);
         }
 
         #endregion
@@ -7936,10 +9082,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListVirtualMFADevices">REST API Reference for ListVirtualMFADevices Operation</seealso>
         public virtual ListVirtualMFADevicesResponse ListVirtualMFADevices(ListVirtualMFADevicesRequest request)
         {
-            var marshaller = ListVirtualMFADevicesRequestMarshaller.Instance;
-            var unmarshaller = ListVirtualMFADevicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVirtualMFADevicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVirtualMFADevicesResponseUnmarshaller.Instance;
 
-            return Invoke<ListVirtualMFADevicesRequest,ListVirtualMFADevicesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListVirtualMFADevicesResponse>(request, options);
         }
 
         /// <summary>
@@ -7956,11 +9103,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListVirtualMFADevices">REST API Reference for ListVirtualMFADevices Operation</seealso>
         public virtual IAsyncResult BeginListVirtualMFADevices(ListVirtualMFADevicesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListVirtualMFADevicesRequestMarshaller.Instance;
-            var unmarshaller = ListVirtualMFADevicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVirtualMFADevicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVirtualMFADevicesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListVirtualMFADevicesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -7987,20 +9134,20 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// A user can also have managed policies attached to it. To attach a managed policy to
         /// a group, use <a>AttachGroupPolicy</a>. To create a new managed policy, use <a>CreatePolicy</a>.
-        /// For information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// For information about limits on the number of inline policies that you can embed in
-        /// a group, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        /// a group, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  <note> 
         /// <para>
         /// Because policy documents can be large, you should use POST rather than GET when calling
         /// <code>PutGroupPolicy</code>. For general information about using the Query API with
-        /// IAM, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+        /// IAM, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
         /// Query Requests</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </note>
@@ -8017,8 +9164,8 @@ namespace Amazon.IdentityManagement
         /// describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8026,10 +9173,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutGroupPolicy">REST API Reference for PutGroupPolicy Operation</seealso>
         public virtual PutGroupPolicyResponse PutGroupPolicy(PutGroupPolicyRequest request)
         {
-            var marshaller = PutGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutGroupPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutGroupPolicyRequest,PutGroupPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutGroupPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -8046,11 +9194,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutGroupPolicy">REST API Reference for PutGroupPolicy Operation</seealso>
         public virtual IAsyncResult BeginPutGroupPolicy(PutGroupPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutGroupPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutGroupPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutGroupPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutGroupPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutGroupPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8068,6 +9216,98 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  PutRolePermissionsBoundary
+
+        /// <summary>
+        /// Adds or updates the policy that is specified as the IAM role's permissions boundary.
+        /// You can use an AWS managed policy or a customer managed policy to set the boundary
+        /// for a role. Use the boundary to control the maximum permissions that the role can
+        /// have. Setting a permissions boundary is an advanced feature that can affect the permissions
+        /// for the role.
+        /// 
+        ///  
+        /// <para>
+        /// You cannot set the boundary for a service-linked role. 
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Policies used as permissions boundaries do not provide permissions. You must also
+        /// attach a permissions policy to the role. To learn how the effective permissions for
+        /// a role are evaluated, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
+        /// JSON Policy Evaluation Logic</a> in the IAM User Guide. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutRolePermissionsBoundary service method.</param>
+        /// 
+        /// <returns>The response from the PutRolePermissionsBoundary service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.PolicyNotAttachableException">
+        /// The request failed because AWS service role policies can only be attached to the service-linked
+        /// role for that service.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.UnmodifiableEntityException">
+        /// The request was rejected because only the service that depends on the service-linked
+        /// role can modify or delete the role on your behalf. The error message includes the
+        /// name of the service that depends on this service-linked role. You must request the
+        /// change through that service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePermissionsBoundary">REST API Reference for PutRolePermissionsBoundary Operation</seealso>
+        public virtual PutRolePermissionsBoundaryResponse PutRolePermissionsBoundary(PutRolePermissionsBoundaryRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRolePermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRolePermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return Invoke<PutRolePermissionsBoundaryResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutRolePermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutRolePermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutRolePermissionsBoundary
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePermissionsBoundary">REST API Reference for PutRolePermissionsBoundary Operation</seealso>
+        public virtual IAsyncResult BeginPutRolePermissionsBoundary(PutRolePermissionsBoundaryRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRolePermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRolePermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutRolePermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutRolePermissionsBoundary.</param>
+        /// 
+        /// <returns>Returns a  PutRolePermissionsBoundaryResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePermissionsBoundary">REST API Reference for PutRolePermissionsBoundary Operation</seealso>
+        public virtual PutRolePermissionsBoundaryResponse EndPutRolePermissionsBoundary(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutRolePermissionsBoundaryResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutRolePolicy
 
         /// <summary>
@@ -8078,27 +9318,27 @@ namespace Amazon.IdentityManagement
         /// When you embed an inline policy in a role, the inline policy is used as part of the
         /// role's access (permissions) policy. The role's trust policy is created at the same
         /// time as the role, using <a>CreateRole</a>. You can update a role's trust policy using
-        /// <a>UpdateAssumeRolePolicy</a>. For more information about IAM roles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
+        /// <a>UpdateAssumeRolePolicy</a>. For more information about IAM roles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
         /// Roles to Delegate Permissions and Federate Identities</a>.
         /// </para>
         ///  
         /// <para>
         /// A role can also have a managed policy attached to it. To attach a managed policy to
         /// a role, use <a>AttachRolePolicy</a>. To create a new managed policy, use <a>CreatePolicy</a>.
-        /// For information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// For information about limits on the number of inline policies that you can embed with
-        /// a role, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        /// a role, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  <note> 
         /// <para>
         /// Because policy documents can be large, you should use POST rather than GET when calling
         /// <code>PutRolePolicy</code>. For general information about using the Query API with
-        /// IAM, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+        /// IAM, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
         /// Query Requests</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </note>
@@ -8115,8 +9355,8 @@ namespace Amazon.IdentityManagement
         /// describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8130,10 +9370,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePolicy">REST API Reference for PutRolePolicy Operation</seealso>
         public virtual PutRolePolicyResponse PutRolePolicy(PutRolePolicyRequest request)
         {
-            var marshaller = PutRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = PutRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRolePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutRolePolicyRequest,PutRolePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutRolePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -8150,11 +9391,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePolicy">REST API Reference for PutRolePolicy Operation</seealso>
         public virtual IAsyncResult BeginPutRolePolicy(PutRolePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = PutRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRolePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutRolePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8172,6 +9413,88 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  PutUserPermissionsBoundary
+
+        /// <summary>
+        /// Adds or updates the policy that is specified as the IAM user's permissions boundary.
+        /// You can use an AWS managed policy or a customer managed policy to set the boundary
+        /// for a user. Use the boundary to control the maximum permissions that the user can
+        /// have. Setting a permissions boundary is an advanced feature that can affect the permissions
+        /// for the user.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Policies that are used as permissions boundaries do not provide permissions. You must
+        /// also attach a permissions policy to the user. To learn how the effective permissions
+        /// for a user are evaluated, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
+        /// JSON Policy Evaluation Logic</a> in the IAM User Guide. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutUserPermissionsBoundary service method.</param>
+        /// 
+        /// <returns>The response from the PutUserPermissionsBoundary service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.PolicyNotAttachableException">
+        /// The request failed because AWS service role policies can only be attached to the service-linked
+        /// role for that service.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPermissionsBoundary">REST API Reference for PutUserPermissionsBoundary Operation</seealso>
+        public virtual PutUserPermissionsBoundaryResponse PutUserPermissionsBoundary(PutUserPermissionsBoundaryRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutUserPermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutUserPermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return Invoke<PutUserPermissionsBoundaryResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutUserPermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutUserPermissionsBoundary operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutUserPermissionsBoundary
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPermissionsBoundary">REST API Reference for PutUserPermissionsBoundary Operation</seealso>
+        public virtual IAsyncResult BeginPutUserPermissionsBoundary(PutUserPermissionsBoundaryRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutUserPermissionsBoundaryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutUserPermissionsBoundaryResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutUserPermissionsBoundary operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutUserPermissionsBoundary.</param>
+        /// 
+        /// <returns>Returns a  PutUserPermissionsBoundaryResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPermissionsBoundary">REST API Reference for PutUserPermissionsBoundary Operation</seealso>
+        public virtual PutUserPermissionsBoundaryResponse EndPutUserPermissionsBoundary(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutUserPermissionsBoundaryResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutUserPolicy
 
         /// <summary>
@@ -8181,20 +9504,20 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// An IAM user can also have a managed policy attached to it. To attach a managed policy
         /// to a user, use <a>AttachUserPolicy</a>. To create a new managed policy, use <a>CreatePolicy</a>.
-        /// For information about policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For information about policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// For information about limits on the number of inline policies that you can embed in
-        /// a user, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+        /// a user, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
         /// on IAM Entities</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  <note> 
         /// <para>
         /// Because policy documents can be large, you should use POST rather than GET when calling
         /// <code>PutUserPolicy</code>. For general information about using the Query API with
-        /// IAM, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+        /// IAM, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
         /// Query Requests</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </note>
@@ -8211,8 +9534,8 @@ namespace Amazon.IdentityManagement
         /// describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8220,10 +9543,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPolicy">REST API Reference for PutUserPolicy Operation</seealso>
         public virtual PutUserPolicyResponse PutUserPolicy(PutUserPolicyRequest request)
         {
-            var marshaller = PutUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutUserPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutUserPolicyRequest,PutUserPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutUserPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -8240,11 +9564,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPolicy">REST API Reference for PutUserPolicy Operation</seealso>
         public virtual IAsyncResult BeginPutUserPolicy(PutUserPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutUserPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutUserPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutUserPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutUserPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutUserPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8282,8 +9606,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8291,10 +9615,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveClientIDFromOpenIDConnectProvider">REST API Reference for RemoveClientIDFromOpenIDConnectProvider Operation</seealso>
         public virtual RemoveClientIDFromOpenIDConnectProviderResponse RemoveClientIDFromOpenIDConnectProvider(RemoveClientIDFromOpenIDConnectProviderRequest request)
         {
-            var marshaller = RemoveClientIDFromOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = RemoveClientIDFromOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveClientIDFromOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveClientIDFromOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveClientIDFromOpenIDConnectProviderRequest,RemoveClientIDFromOpenIDConnectProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveClientIDFromOpenIDConnectProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -8311,11 +9636,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveClientIDFromOpenIDConnectProvider">REST API Reference for RemoveClientIDFromOpenIDConnectProvider Operation</seealso>
         public virtual IAsyncResult BeginRemoveClientIDFromOpenIDConnectProvider(RemoveClientIDFromOpenIDConnectProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RemoveClientIDFromOpenIDConnectProviderRequestMarshaller.Instance;
-            var unmarshaller = RemoveClientIDFromOpenIDConnectProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveClientIDFromOpenIDConnectProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveClientIDFromOpenIDConnectProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RemoveClientIDFromOpenIDConnectProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8347,8 +9672,8 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  </important> 
         /// <para>
-        ///  For more information about IAM roles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-        /// with Roles</a>. For more information about instance profiles, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
+        ///  For more information about IAM roles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
+        /// with Roles</a>. For more information about instance profiles, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
         /// Instance Profiles</a>.
         /// </para>
         /// </summary>
@@ -8360,8 +9685,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8375,10 +9700,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveRoleFromInstanceProfile">REST API Reference for RemoveRoleFromInstanceProfile Operation</seealso>
         public virtual RemoveRoleFromInstanceProfileResponse RemoveRoleFromInstanceProfile(RemoveRoleFromInstanceProfileRequest request)
         {
-            var marshaller = RemoveRoleFromInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = RemoveRoleFromInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveRoleFromInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveRoleFromInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveRoleFromInstanceProfileRequest,RemoveRoleFromInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveRoleFromInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -8395,11 +9721,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveRoleFromInstanceProfile">REST API Reference for RemoveRoleFromInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginRemoveRoleFromInstanceProfile(RemoveRoleFromInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RemoveRoleFromInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = RemoveRoleFromInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveRoleFromInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveRoleFromInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RemoveRoleFromInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8430,8 +9756,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8439,10 +9765,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveUserFromGroup">REST API Reference for RemoveUserFromGroup Operation</seealso>
         public virtual RemoveUserFromGroupResponse RemoveUserFromGroup(RemoveUserFromGroupRequest request)
         {
-            var marshaller = RemoveUserFromGroupRequestMarshaller.Instance;
-            var unmarshaller = RemoveUserFromGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveUserFromGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveUserFromGroupResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveUserFromGroupRequest,RemoveUserFromGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveUserFromGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -8459,11 +9786,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveUserFromGroup">REST API Reference for RemoveUserFromGroup Operation</seealso>
         public virtual IAsyncResult BeginRemoveUserFromGroup(RemoveUserFromGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RemoveUserFromGroupRequestMarshaller.Instance;
-            var unmarshaller = RemoveUserFromGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveUserFromGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveUserFromGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RemoveUserFromGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8492,16 +9819,17 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the ResetServiceSpecificCredential service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResetServiceSpecificCredential">REST API Reference for ResetServiceSpecificCredential Operation</seealso>
         public virtual ResetServiceSpecificCredentialResponse ResetServiceSpecificCredential(ResetServiceSpecificCredentialRequest request)
         {
-            var marshaller = ResetServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = ResetServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return Invoke<ResetServiceSpecificCredentialRequest,ResetServiceSpecificCredentialResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResetServiceSpecificCredentialResponse>(request, options);
         }
 
         /// <summary>
@@ -8518,11 +9846,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResetServiceSpecificCredential">REST API Reference for ResetServiceSpecificCredential Operation</seealso>
         public virtual IAsyncResult BeginResetServiceSpecificCredential(ResetServiceSpecificCredentialRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ResetServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = ResetServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ResetServiceSpecificCredentialRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8548,7 +9876,7 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// For more information about creating and working with virtual MFA devices, go to <a
-        /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
+        /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
         /// a Virtual MFA Device</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -8564,8 +9892,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8573,10 +9901,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResyncMFADevice">REST API Reference for ResyncMFADevice Operation</seealso>
         public virtual ResyncMFADeviceResponse ResyncMFADevice(ResyncMFADeviceRequest request)
         {
-            var marshaller = ResyncMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = ResyncMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResyncMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResyncMFADeviceResponseUnmarshaller.Instance;
 
-            return Invoke<ResyncMFADeviceRequest,ResyncMFADeviceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResyncMFADeviceResponse>(request, options);
         }
 
         /// <summary>
@@ -8593,11 +9922,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResyncMFADevice">REST API Reference for ResyncMFADevice Operation</seealso>
         public virtual IAsyncResult BeginResyncMFADevice(ResyncMFADeviceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ResyncMFADeviceRequestMarshaller.Instance;
-            var unmarshaller = ResyncMFADeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResyncMFADeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResyncMFADeviceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ResyncMFADeviceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8629,7 +9958,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// For information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+        /// For information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
         /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -8645,8 +9974,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8654,10 +9983,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetDefaultPolicyVersion">REST API Reference for SetDefaultPolicyVersion Operation</seealso>
         public virtual SetDefaultPolicyVersionResponse SetDefaultPolicyVersion(SetDefaultPolicyVersionRequest request)
         {
-            var marshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<SetDefaultPolicyVersionRequest,SetDefaultPolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetDefaultPolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -8674,11 +10004,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetDefaultPolicyVersion">REST API Reference for SetDefaultPolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginSetDefaultPolicyVersion(SetDefaultPolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDefaultPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDefaultPolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SetDefaultPolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8692,6 +10022,90 @@ namespace Amazon.IdentityManagement
         public virtual SetDefaultPolicyVersionResponse EndSetDefaultPolicyVersion(IAsyncResult asyncResult)
         {
             return EndInvoke<SetDefaultPolicyVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  SetSecurityTokenServicePreferences
+
+        /// <summary>
+        /// Sets the specified version of the global endpoint token as the token version used
+        /// for the AWS account.
+        /// 
+        ///  
+        /// <para>
+        /// By default, AWS Security Token Service (STS) is available as a global service, and
+        /// all STS requests go to a single endpoint at <code>https://sts.amazonaws.com</code>.
+        /// AWS recommends using Regional STS endpoints to reduce latency, build in redundancy,
+        /// and increase session token availability. For information about Regional endpoints
+        /// for STS, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#sts_region">AWS
+        /// Regions and Endpoints</a> in the <i>AWS General Reference</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you make an STS call to the global endpoint, the resulting session tokens might
+        /// be valid in some Regions but not others. It depends on the version that is set in
+        /// this operation. Version 1 tokens are valid only in AWS Regions that are available
+        /// by default. These tokens do not work in manually enabled Regions, such as Asia Pacific
+        /// (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens
+        /// are longer and might affect systems where you temporarily store tokens. For information,
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
+        /// and Deactivating STS in an AWS Region</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To view the current session token version, see the <code>GlobalEndpointTokenVersion</code>
+        /// entry in the response of the <a>GetAccountSummary</a> operation.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SetSecurityTokenServicePreferences service method.</param>
+        /// 
+        /// <returns>The response from the SetSecurityTokenServicePreferences service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetSecurityTokenServicePreferences">REST API Reference for SetSecurityTokenServicePreferences Operation</seealso>
+        public virtual SetSecurityTokenServicePreferencesResponse SetSecurityTokenServicePreferences(SetSecurityTokenServicePreferencesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetSecurityTokenServicePreferencesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetSecurityTokenServicePreferencesResponseUnmarshaller.Instance;
+
+            return Invoke<SetSecurityTokenServicePreferencesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SetSecurityTokenServicePreferences operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SetSecurityTokenServicePreferences operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSetSecurityTokenServicePreferences
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetSecurityTokenServicePreferences">REST API Reference for SetSecurityTokenServicePreferences Operation</seealso>
+        public virtual IAsyncResult BeginSetSecurityTokenServicePreferences(SetSecurityTokenServicePreferencesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetSecurityTokenServicePreferencesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetSecurityTokenServicePreferencesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SetSecurityTokenServicePreferences operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSetSecurityTokenServicePreferences.</param>
+        /// 
+        /// <returns>Returns a  SetSecurityTokenServicePreferencesResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetSecurityTokenServicePreferences">REST API Reference for SetSecurityTokenServicePreferences Operation</seealso>
+        public virtual SetSecurityTokenServicePreferencesResponse EndSetSecurityTokenServicePreferences(IAsyncResult asyncResult)
+        {
+            return EndInvoke<SetSecurityTokenServicePreferencesResponse>(asyncResult);
         }
 
         #endregion
@@ -8710,13 +10124,13 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// If you want to simulate existing policies attached to an IAM user, group, or role,
-        /// use <a>SimulatePrincipalPolicy</a> instead.
+        /// If you want to simulate existing policies that are attached to an IAM user, group,
+        /// or role, use <a>SimulatePrincipalPolicy</a> instead.
         /// </para>
         ///  
         /// <para>
-        /// Context keys are variables maintained by AWS and its services that provide details
-        /// about the context of an API query request. You can use the <code>Condition</code>
+        /// Context keys are variables that are maintained by AWS and its services and which provide
+        /// details about the context of an API query request. You can use the <code>Condition</code>
         /// element of an IAM policy to evaluate context keys. To get the list of context keys
         /// that the policies require for correct simulation, use <a>GetContextKeysForCustomPolicy</a>.
         /// </para>
@@ -8740,10 +10154,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulateCustomPolicy">REST API Reference for SimulateCustomPolicy Operation</seealso>
         public virtual SimulateCustomPolicyResponse SimulateCustomPolicy(SimulateCustomPolicyRequest request)
         {
-            var marshaller = SimulateCustomPolicyRequestMarshaller.Instance;
-            var unmarshaller = SimulateCustomPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SimulateCustomPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SimulateCustomPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<SimulateCustomPolicyRequest,SimulateCustomPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<SimulateCustomPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -8760,11 +10175,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulateCustomPolicy">REST API Reference for SimulateCustomPolicy Operation</seealso>
         public virtual IAsyncResult BeginSimulateCustomPolicy(SimulateCustomPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SimulateCustomPolicyRequestMarshaller.Instance;
-            var unmarshaller = SimulateCustomPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SimulateCustomPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SimulateCustomPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SimulateCustomPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8804,7 +10219,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  
         /// <para>
-        /// The simulation does not perform the API operations, it only checks the authorization
+        /// The simulation does not perform the API operations; it only checks the authorization
         /// to determine if the simulated policies allow or deny the operations.
         /// </para>
         ///  
@@ -8834,8 +10249,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.PolicyEvaluationException">
         /// The request failed because a provided policy could not be successfully evaluated.
@@ -8844,10 +10259,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulatePrincipalPolicy">REST API Reference for SimulatePrincipalPolicy Operation</seealso>
         public virtual SimulatePrincipalPolicyResponse SimulatePrincipalPolicy(SimulatePrincipalPolicyRequest request)
         {
-            var marshaller = SimulatePrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = SimulatePrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SimulatePrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SimulatePrincipalPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<SimulatePrincipalPolicyRequest,SimulatePrincipalPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<SimulatePrincipalPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -8864,11 +10280,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulatePrincipalPolicy">REST API Reference for SimulatePrincipalPolicy Operation</seealso>
         public virtual IAsyncResult BeginSimulatePrincipalPolicy(SimulatePrincipalPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SimulatePrincipalPolicyRequestMarshaller.Instance;
-            var unmarshaller = SimulatePrincipalPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SimulatePrincipalPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SimulatePrincipalPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SimulatePrincipalPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8886,6 +10302,377 @@ namespace Amazon.IdentityManagement
 
         #endregion
         
+        #region  TagRole
+
+        /// <summary>
+        /// Adds one or more tags to an IAM role. The role can be a regular role or a service-linked
+        /// role. If a tag with the same key name already exists, then that tag is overwritten
+        /// with the new value.
+        /// 
+        ///  
+        /// <para>
+        /// A tag consists of a key name and an associated value. By assigning tags to your resources,
+        /// you can do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Administrative grouping and discovery</b> - Attach tags to resources to aid in
+        /// organization and search. For example, you could search for all resources with the
+        /// key name <i>Project</i> and the value <i>MyImportantProject</i>. Or search for all
+        /// resources with the key name <i>Cost Center</i> and the value <i>41200</i>. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Access control</b> - Reference tags in IAM user-based and resource-based policies.
+        /// You can use tags to restrict access to only an IAM user or role that has a specified
+        /// tag attached. You can also restrict access to only those resources that have a certain
+        /// tag attached. For examples of policies that show how to use tags to control access,
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+        /// Access Using IAM Tags</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Cost allocation</b> - Use tags to help track which individuals and teams are using
+        /// which AWS resources.
+        /// </para>
+        ///  </li> </ul> <note> <ul> <li> 
+        /// <para>
+        /// Make sure that you have no invalid tags and that you do not exceed the allowed number
+        /// of tags per role. In either case, the entire request fails and <i>no</i> tags are
+        /// added to the role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// AWS always interprets the tag <code>Value</code> as a single string. If you need to
+        /// store an array, you can store comma-separated values in the string. However, you must
+        /// interpret the value in your code.
+        /// </para>
+        ///  </li> </ul> </note> 
+        /// <para>
+        /// For more information about tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+        /// IAM Identities</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagRole service method.</param>
+        /// 
+        /// <returns>The response from the TagRole service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.LimitExceededException">
+        /// The request was rejected because it attempted to create resources beyond the current
+        /// AWS account limits. The error message describes the limit exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagRole">REST API Reference for TagRole Operation</seealso>
+        public virtual TagRoleResponse TagRole(TagRoleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagRoleResponseUnmarshaller.Instance;
+
+            return Invoke<TagRoleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagRole operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagRole operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagRole
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagRole">REST API Reference for TagRole Operation</seealso>
+        public virtual IAsyncResult BeginTagRole(TagRoleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagRoleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagRole operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagRole.</param>
+        /// 
+        /// <returns>Returns a  TagRoleResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagRole">REST API Reference for TagRole Operation</seealso>
+        public virtual TagRoleResponse EndTagRole(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagRoleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TagUser
+
+        /// <summary>
+        /// Adds one or more tags to an IAM user. If a tag with the same key name already exists,
+        /// then that tag is overwritten with the new value.
+        /// 
+        ///  
+        /// <para>
+        /// A tag consists of a key name and an associated value. By assigning tags to your resources,
+        /// you can do the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Administrative grouping and discovery</b> - Attach tags to resources to aid in
+        /// organization and search. For example, you could search for all resources with the
+        /// key name <i>Project</i> and the value <i>MyImportantProject</i>. Or search for all
+        /// resources with the key name <i>Cost Center</i> and the value <i>41200</i>. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Access control</b> - Reference tags in IAM user-based and resource-based policies.
+        /// You can use tags to restrict access to only an IAM requesting user or to a role that
+        /// has a specified tag attached. You can also restrict access to only those resources
+        /// that have a certain tag attached. For examples of policies that show how to use tags
+        /// to control access, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+        /// Access Using IAM Tags</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Cost allocation</b> - Use tags to help track which individuals and teams are using
+        /// which AWS resources.
+        /// </para>
+        ///  </li> </ul> <note> <ul> <li> 
+        /// <para>
+        /// Make sure that you have no invalid tags and that you do not exceed the allowed number
+        /// of tags per role. In either case, the entire request fails and <i>no</i> tags are
+        /// added to the role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// AWS always interprets the tag <code>Value</code> as a single string. If you need to
+        /// store an array, you can store comma-separated values in the string. However, you must
+        /// interpret the value in your code.
+        /// </para>
+        ///  </li> </ul> </note> 
+        /// <para>
+        /// For more information about tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+        /// IAM Identities</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagUser service method.</param>
+        /// 
+        /// <returns>The response from the TagUser service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.InvalidInputException">
+        /// The request was rejected because an invalid or out-of-range value was supplied for
+        /// an input parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.LimitExceededException">
+        /// The request was rejected because it attempted to create resources beyond the current
+        /// AWS account limits. The error message describes the limit exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagUser">REST API Reference for TagUser Operation</seealso>
+        public virtual TagUserResponse TagUser(TagUserRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagUserResponseUnmarshaller.Instance;
+
+            return Invoke<TagUserResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagUser operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagUser
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagUser">REST API Reference for TagUser Operation</seealso>
+        public virtual IAsyncResult BeginTagUser(TagUserRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagUserResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagUser operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagUser.</param>
+        /// 
+        /// <returns>Returns a  TagUserResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/TagUser">REST API Reference for TagUser Operation</seealso>
+        public virtual TagUserResponse EndTagUser(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagUserResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagRole
+
+        /// <summary>
+        /// Removes the specified tags from the role. For more information about tagging, see
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM
+        /// Identities</a> in the <i>IAM User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagRole service method.</param>
+        /// 
+        /// <returns>The response from the UntagRole service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagRole">REST API Reference for UntagRole Operation</seealso>
+        public virtual UntagRoleResponse UntagRole(UntagRoleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagRoleResponseUnmarshaller.Instance;
+
+            return Invoke<UntagRoleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagRole operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagRole operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagRole
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagRole">REST API Reference for UntagRole Operation</seealso>
+        public virtual IAsyncResult BeginUntagRole(UntagRoleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagRoleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagRole operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagRole.</param>
+        /// 
+        /// <returns>Returns a  UntagRoleResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagRole">REST API Reference for UntagRole Operation</seealso>
+        public virtual UntagRoleResponse EndUntagRole(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagRoleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagUser
+
+        /// <summary>
+        /// Removes the specified tags from the user. For more information about tagging, see
+        /// <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM
+        /// Identities</a> in the <i>IAM User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagUser service method.</param>
+        /// 
+        /// <returns>The response from the UntagUser service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
+        /// </exception>
+        /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
+        /// The request processing has failed because of an unknown error, exception or failure.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagUser">REST API Reference for UntagUser Operation</seealso>
+        public virtual UntagUserResponse UntagUser(UntagUserRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagUserResponseUnmarshaller.Instance;
+
+            return Invoke<UntagUserResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagUser operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagUser operation on AmazonIdentityManagementServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagUser
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagUser">REST API Reference for UntagUser Operation</seealso>
+        public virtual IAsyncResult BeginUntagUser(UntagUserRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagUserResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagUser operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagUser.</param>
+        /// 
+        /// <returns>Returns a  UntagUserResult from IdentityManagementService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UntagUser">REST API Reference for UntagUser Operation</seealso>
+        public virtual UntagUserResponse EndUntagUser(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagUserResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateAccessKey
 
         /// <summary>
@@ -8894,14 +10681,14 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        /// If the <code>UserName</code> field is not specified, the user name is determined implicitly
-        /// based on the AWS access key ID used to sign the request. Because this operation works
-        /// for access keys under the AWS account, you can use this operation to manage AWS account
-        /// root user credentials even if the AWS account has no associated users.
+        /// If the <code>UserName</code> is not specified, the user name is determined implicitly
+        /// based on the AWS access key ID used to sign the request. This operation works for
+        /// access keys under the AWS account. Consequently, you can use this operation to manage
+        /// AWS account root user credentials even if the AWS account has no associated users.
         /// </para>
         ///  
         /// <para>
-        /// For information about rotating keys, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html">Managing
+        /// For information about rotating keys, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html">Managing
         /// Keys and Certificates</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -8913,8 +10700,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -8922,10 +10709,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccessKey">REST API Reference for UpdateAccessKey Operation</seealso>
         public virtual UpdateAccessKeyResponse UpdateAccessKey(UpdateAccessKeyRequest request)
         {
-            var marshaller = UpdateAccessKeyRequestMarshaller.Instance;
-            var unmarshaller = UpdateAccessKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccessKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccessKeyResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAccessKeyRequest,UpdateAccessKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAccessKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -8942,11 +10730,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccessKey">REST API Reference for UpdateAccessKey Operation</seealso>
         public virtual IAsyncResult BeginUpdateAccessKey(UpdateAccessKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateAccessKeyRequestMarshaller.Instance;
-            var unmarshaller = UpdateAccessKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccessKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccessKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateAccessKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -8980,7 +10768,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  </li> </ul> </note> 
         /// <para>
-        ///  For more information about using a password policy, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
+        ///  For more information about using a password policy, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
         /// an IAM Password Policy</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -8995,8 +10783,8 @@ namespace Amazon.IdentityManagement
         /// describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9021,7 +10809,7 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  </li> </ul> </note> 
         /// <para>
-        ///  For more information about using a password policy, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
+        ///  For more information about using a password policy, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
         /// an IAM Password Policy</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -9037,8 +10825,8 @@ namespace Amazon.IdentityManagement
         /// describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9046,10 +10834,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccountPasswordPolicy">REST API Reference for UpdateAccountPasswordPolicy Operation</seealso>
         public virtual UpdateAccountPasswordPolicyResponse UpdateAccountPasswordPolicy(UpdateAccountPasswordPolicyRequest request)
         {
-            var marshaller = UpdateAccountPasswordPolicyRequestMarshaller.Instance;
-            var unmarshaller = UpdateAccountPasswordPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccountPasswordPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccountPasswordPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAccountPasswordPolicyRequest,UpdateAccountPasswordPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAccountPasswordPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -9066,11 +10855,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccountPasswordPolicy">REST API Reference for UpdateAccountPasswordPolicy Operation</seealso>
         public virtual IAsyncResult BeginUpdateAccountPasswordPolicy(UpdateAccountPasswordPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateAccountPasswordPolicyRequestMarshaller.Instance;
-            var unmarshaller = UpdateAccountPasswordPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccountPasswordPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccountPasswordPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateAccountPasswordPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9093,7 +10882,7 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Updates the policy that grants an IAM entity permission to assume a role. This is
         /// typically referred to as the "role trust policy". For more information about roles,
-        /// go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
+        /// go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
         /// Roles to Delegate Permissions and Federate Identities</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateAssumeRolePolicy service method.</param>
@@ -9108,8 +10897,8 @@ namespace Amazon.IdentityManagement
         /// describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9123,10 +10912,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAssumeRolePolicy">REST API Reference for UpdateAssumeRolePolicy Operation</seealso>
         public virtual UpdateAssumeRolePolicyResponse UpdateAssumeRolePolicy(UpdateAssumeRolePolicyRequest request)
         {
-            var marshaller = UpdateAssumeRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = UpdateAssumeRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAssumeRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAssumeRolePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAssumeRolePolicyRequest,UpdateAssumeRolePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAssumeRolePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -9143,11 +10933,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAssumeRolePolicy">REST API Reference for UpdateAssumeRolePolicy Operation</seealso>
         public virtual IAsyncResult BeginUpdateAssumeRolePolicy(UpdateAssumeRolePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateAssumeRolePolicyRequestMarshaller.Instance;
-            var unmarshaller = UpdateAssumeRolePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAssumeRolePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAssumeRolePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateAssumeRolePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9173,7 +10963,7 @@ namespace Amazon.IdentityManagement
         ///  <important> 
         /// <para>
         ///  You should understand the implications of changing a group's path or name. For more
-        /// information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html">Renaming
+        /// information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html">Renaming
         /// Users and Groups</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </important> <note> 
@@ -9183,7 +10973,7 @@ namespace Amazon.IdentityManagement
         /// <code>Managers</code> to <code>MGRs</code>, the principal must have a policy that
         /// allows them to update both groups. If the principal has permission to update the <code>Managers</code>
         /// group, but not the <code>MGRs</code> group, then the update fails. For more information
-        /// about permissions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+        /// about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
         /// Management</a>. 
         /// </para>
         ///  </note>
@@ -9199,8 +10989,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9208,10 +10998,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateGroup">REST API Reference for UpdateGroup Operation</seealso>
         public virtual UpdateGroupResponse UpdateGroup(UpdateGroupRequest request)
         {
-            var marshaller = UpdateGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateGroupRequest,UpdateGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -9228,11 +11019,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateGroup">REST API Reference for UpdateGroup Operation</seealso>
         public virtual IAsyncResult BeginUpdateGroup(UpdateGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9258,7 +11049,7 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// IAM users can change their own passwords by calling <a>ChangePassword</a>. For more
-        /// information about modifying passwords, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
+        /// information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
         /// Passwords</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
@@ -9276,8 +11067,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.PasswordPolicyViolationException">
         /// The request was rejected because the provided password did not meet the requirements
@@ -9289,10 +11080,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateLoginProfile">REST API Reference for UpdateLoginProfile Operation</seealso>
         public virtual UpdateLoginProfileResponse UpdateLoginProfile(UpdateLoginProfileRequest request)
         {
-            var marshaller = UpdateLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = UpdateLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLoginProfileResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateLoginProfileRequest,UpdateLoginProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateLoginProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -9309,11 +11101,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateLoginProfile">REST API Reference for UpdateLoginProfile Operation</seealso>
         public virtual IAsyncResult BeginUpdateLoginProfile(UpdateLoginProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateLoginProfileRequestMarshaller.Instance;
-            var unmarshaller = UpdateLoginProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLoginProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLoginProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateLoginProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9351,8 +11143,8 @@ namespace Amazon.IdentityManagement
         /// </para>
         ///  <note> 
         /// <para>
-        /// Because trust for the OIDC provider is derived from the provider's certificate and
-        /// is validated by the thumbprint, it is best to limit access to the <code>UpdateOpenIDConnectProviderThumbprint</code>
+        /// Trust for the OIDC provider is derived from the provider's certificate and is validated
+        /// by the thumbprint. Therefore, it is best to limit access to the <code>UpdateOpenIDConnectProviderThumbprint</code>
         /// operation to highly privileged users.
         /// </para>
         ///  </note>
@@ -9365,8 +11157,8 @@ namespace Amazon.IdentityManagement
         /// an input parameter.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9374,10 +11166,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateOpenIDConnectProviderThumbprint">REST API Reference for UpdateOpenIDConnectProviderThumbprint Operation</seealso>
         public virtual UpdateOpenIDConnectProviderThumbprintResponse UpdateOpenIDConnectProviderThumbprint(UpdateOpenIDConnectProviderThumbprintRequest request)
         {
-            var marshaller = UpdateOpenIDConnectProviderThumbprintRequestMarshaller.Instance;
-            var unmarshaller = UpdateOpenIDConnectProviderThumbprintResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateOpenIDConnectProviderThumbprintRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateOpenIDConnectProviderThumbprintResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateOpenIDConnectProviderThumbprintRequest,UpdateOpenIDConnectProviderThumbprintResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateOpenIDConnectProviderThumbprintResponse>(request, options);
         }
 
         /// <summary>
@@ -9394,11 +11187,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateOpenIDConnectProviderThumbprint">REST API Reference for UpdateOpenIDConnectProviderThumbprint Operation</seealso>
         public virtual IAsyncResult BeginUpdateOpenIDConnectProviderThumbprint(UpdateOpenIDConnectProviderThumbprintRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateOpenIDConnectProviderThumbprintRequestMarshaller.Instance;
-            var unmarshaller = UpdateOpenIDConnectProviderThumbprintResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateOpenIDConnectProviderThumbprintRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateOpenIDConnectProviderThumbprintResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateOpenIDConnectProviderThumbprintRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9425,8 +11218,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the UpdateRole service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9440,10 +11233,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRole">REST API Reference for UpdateRole Operation</seealso>
         public virtual UpdateRoleResponse UpdateRole(UpdateRoleRequest request)
         {
-            var marshaller = UpdateRoleRequestMarshaller.Instance;
-            var unmarshaller = UpdateRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRoleResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRoleRequest,UpdateRoleResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRoleResponse>(request, options);
         }
 
         /// <summary>
@@ -9460,11 +11254,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRole">REST API Reference for UpdateRole Operation</seealso>
         public virtual IAsyncResult BeginUpdateRole(UpdateRoleRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRoleRequestMarshaller.Instance;
-            var unmarshaller = UpdateRoleResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRoleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRoleResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRoleRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9485,7 +11279,7 @@ namespace Amazon.IdentityManagement
         #region  UpdateRoleDescription
 
         /// <summary>
-        /// Use instead.
+        /// Use <a>UpdateRole</a> instead.
         /// 
         ///  
         /// <para>
@@ -9497,8 +11291,8 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the UpdateRoleDescription service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9512,10 +11306,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRoleDescription">REST API Reference for UpdateRoleDescription Operation</seealso>
         public virtual UpdateRoleDescriptionResponse UpdateRoleDescription(UpdateRoleDescriptionRequest request)
         {
-            var marshaller = UpdateRoleDescriptionRequestMarshaller.Instance;
-            var unmarshaller = UpdateRoleDescriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRoleDescriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRoleDescriptionResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRoleDescriptionRequest,UpdateRoleDescriptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRoleDescriptionResponse>(request, options);
         }
 
         /// <summary>
@@ -9532,11 +11327,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRoleDescription">REST API Reference for UpdateRoleDescription Operation</seealso>
         public virtual IAsyncResult BeginUpdateRoleDescription(UpdateRoleDescriptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateRoleDescriptionRequestMarshaller.Instance;
-            var unmarshaller = UpdateRoleDescriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRoleDescriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRoleDescriptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateRoleDescriptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9561,7 +11356,7 @@ namespace Amazon.IdentityManagement
         /// 
         ///  <note> 
         /// <para>
-        /// This operation requires <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+        /// This operation requires <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
         /// Version 4</a>.
         /// </para>
         ///  </note>
@@ -9578,8 +11373,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9587,10 +11382,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSAMLProvider">REST API Reference for UpdateSAMLProvider Operation</seealso>
         public virtual UpdateSAMLProviderResponse UpdateSAMLProvider(UpdateSAMLProviderRequest request)
         {
-            var marshaller = UpdateSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = UpdateSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSAMLProviderResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSAMLProviderRequest,UpdateSAMLProviderResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSAMLProviderResponse>(request, options);
         }
 
         /// <summary>
@@ -9607,11 +11403,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSAMLProvider">REST API Reference for UpdateSAMLProvider Operation</seealso>
         public virtual IAsyncResult BeginUpdateSAMLProvider(UpdateSAMLProviderRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSAMLProviderRequestMarshaller.Instance;
-            var unmarshaller = UpdateSAMLProviderResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSAMLProviderRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSAMLProviderResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSAMLProviderRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9636,14 +11432,14 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        /// For more information about working with server certificates, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+        /// For more information about working with server certificates, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
         /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also includes
         /// a list of AWS services that can use the server certificates that you manage with IAM.
         /// </para>
         ///  <important> 
         /// <para>
         /// You should understand the implications of changing a server certificate's path or
-        /// name. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts">Renaming
+        /// name. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts">Renaming
         /// a Server Certificate</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </important> <note> 
@@ -9654,7 +11450,7 @@ namespace Amazon.IdentityManagement
         /// must have a policy that allows them to update both certificates. If the principal
         /// has permission to update the <code>ProductionCert</code> group, but not the <code>ProdCert</code>
         /// certificate, then the update fails. For more information about permissions, see <a
-        /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access Management</a>
+        /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access Management</a>
         /// in the <i>IAM User Guide</i>.
         /// </para>
         ///  </note>
@@ -9670,8 +11466,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9679,10 +11475,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServerCertificate">REST API Reference for UpdateServerCertificate Operation</seealso>
         public virtual UpdateServerCertificateResponse UpdateServerCertificate(UpdateServerCertificateRequest request)
         {
-            var marshaller = UpdateServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServerCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateServerCertificateRequest,UpdateServerCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateServerCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -9699,11 +11496,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServerCertificate">REST API Reference for UpdateServerCertificate Operation</seealso>
         public virtual IAsyncResult BeginUpdateServerCertificate(UpdateServerCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServerCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateServerCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9726,23 +11523,24 @@ namespace Amazon.IdentityManagement
         /// <summary>
         /// Sets the status of a service-specific credential to <code>Active</code> or <code>Inactive</code>.
         /// Service-specific credentials that are inactive cannot be used for authentication to
-        /// the service. This operation can be used to disable a user’s service-specific credential
+        /// the service. This operation can be used to disable a user's service-specific credential
         /// as part of a credential rotation work flow.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateServiceSpecificCredential service method.</param>
         /// 
         /// <returns>The response from the UpdateServiceSpecificCredential service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServiceSpecificCredential">REST API Reference for UpdateServiceSpecificCredential Operation</seealso>
         public virtual UpdateServiceSpecificCredentialResponse UpdateServiceSpecificCredential(UpdateServiceSpecificCredentialRequest request)
         {
-            var marshaller = UpdateServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = UpdateServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateServiceSpecificCredentialRequest,UpdateServiceSpecificCredentialResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateServiceSpecificCredentialResponse>(request, options);
         }
 
         /// <summary>
@@ -9759,11 +11557,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServiceSpecificCredential">REST API Reference for UpdateServiceSpecificCredential Operation</seealso>
         public virtual IAsyncResult BeginUpdateServiceSpecificCredential(UpdateServiceSpecificCredentialRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateServiceSpecificCredentialRequestMarshaller.Instance;
-            var unmarshaller = UpdateServiceSpecificCredentialResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServiceSpecificCredentialRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServiceSpecificCredentialResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateServiceSpecificCredentialRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9791,9 +11589,9 @@ namespace Amazon.IdentityManagement
         ///  
         /// <para>
         /// If the <code>UserName</code> field is not specified, the user name is determined implicitly
-        /// based on the AWS access key ID used to sign the request. Because this operation works
-        /// for access keys under the AWS account, you can use this operation to manage AWS account
-        /// root user credentials even if the AWS account has no associated users.
+        /// based on the AWS access key ID used to sign the request. This operation works for
+        /// access keys under the AWS account. Consequently, you can use this operation to manage
+        /// AWS account root user credentials even if the AWS account has no associated users.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateSigningCertificate service method.</param>
@@ -9804,8 +11602,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9813,10 +11611,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSigningCertificate">REST API Reference for UpdateSigningCertificate Operation</seealso>
         public virtual UpdateSigningCertificateResponse UpdateSigningCertificate(UpdateSigningCertificateRequest request)
         {
-            var marshaller = UpdateSigningCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateSigningCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSigningCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSigningCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSigningCertificateRequest,UpdateSigningCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSigningCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -9833,11 +11632,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSigningCertificate">REST API Reference for UpdateSigningCertificate Operation</seealso>
         public virtual IAsyncResult BeginUpdateSigningCertificate(UpdateSigningCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSigningCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateSigningCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSigningCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSigningCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSigningCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9866,7 +11665,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// The SSH public key affected by this operation is used only for authenticating the
         /// associated IAM user to an AWS CodeCommit repository. For more information about using
-        /// SSH keys to authenticate to an AWS CodeCommit repository, see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+        /// SSH keys to authenticate to an AWS CodeCommit repository, see <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
         /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User Guide</i>.
         /// </para>
         /// </summary>
@@ -9874,16 +11673,17 @@ namespace Amazon.IdentityManagement
         /// 
         /// <returns>The response from the UpdateSSHPublicKey service method, as returned by IdentityManagementService.</returns>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSSHPublicKey">REST API Reference for UpdateSSHPublicKey Operation</seealso>
         public virtual UpdateSSHPublicKeyResponse UpdateSSHPublicKey(UpdateSSHPublicKeyRequest request)
         {
-            var marshaller = UpdateSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = UpdateSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSSHPublicKeyRequest,UpdateSSHPublicKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSSHPublicKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -9900,11 +11700,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSSHPublicKey">REST API Reference for UpdateSSHPublicKey Operation</seealso>
         public virtual IAsyncResult BeginUpdateSSHPublicKey(UpdateSSHPublicKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = UpdateSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSSHPublicKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -9930,8 +11730,8 @@ namespace Amazon.IdentityManagement
         ///  <important> 
         /// <para>
         ///  You should understand the implications of changing an IAM user's path or name. For
-        /// more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming
-        /// an IAM User</a> and <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming
+        /// more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming
+        /// an IAM User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming
         /// an IAM Group</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </important> <note> 
@@ -9939,7 +11739,7 @@ namespace Amazon.IdentityManagement
         ///  To change a user name, the requester must have appropriate permissions on both the
         /// source object and the target object. For example, to change Bob to Robert, the entity
         /// making the request must have permission on Bob and Robert, or must have permission
-        /// on all (*). For more information about permissions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions
+        /// on all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions
         /// and Policies</a>. 
         /// </para>
         ///  </note>
@@ -9947,6 +11747,10 @@ namespace Amazon.IdentityManagement
         /// <param name="request">Container for the necessary parameters to execute the UpdateUser service method.</param>
         /// 
         /// <returns>The response from the UpdateUser service method, as returned by IdentityManagementService.</returns>
+        /// <exception cref="Amazon.IdentityManagement.Model.ConcurrentModificationException">
+        /// The request was rejected because multiple requests to change this object were submitted
+        /// simultaneously. Wait a few minutes and submit your request again.
+        /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.EntityAlreadyExistsException">
         /// The request was rejected because it attempted to create a resource that already exists.
         /// </exception>
@@ -9961,8 +11765,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -9970,10 +11774,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateUser">REST API Reference for UpdateUser Operation</seealso>
         public virtual UpdateUserResponse UpdateUser(UpdateUserRequest request)
         {
-            var marshaller = UpdateUserRequestMarshaller.Instance;
-            var unmarshaller = UpdateUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUserResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateUserRequest,UpdateUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateUserResponse>(request, options);
         }
 
         /// <summary>
@@ -9990,11 +11795,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateUser">REST API Reference for UpdateUser Operation</seealso>
         public virtual IAsyncResult BeginUpdateUser(UpdateUserRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateUserRequestMarshaller.Instance;
-            var unmarshaller = UpdateUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUserResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateUserRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10021,22 +11826,22 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        /// We recommend that you use <a href="https://aws.amazon.com/certificate-manager/">AWS
-        /// Certificate Manager</a> to provision, manage, and deploy your server certificates.
-        /// With ACM you can request a certificate, deploy it to AWS resources, and let ACM handle
-        /// certificate renewals for you. Certificates provided by ACM are free. For more information
-        /// about using ACM, see the <a href="http://docs.aws.amazon.com/acm/latest/userguide/">AWS
+        /// We recommend that you use <a href="https://docs.aws.amazon.com/acm/">AWS Certificate
+        /// Manager</a> to provision, manage, and deploy your server certificates. With ACM you
+        /// can request a certificate, deploy it to AWS resources, and let ACM handle certificate
+        /// renewals for you. Certificates provided by ACM are free. For more information about
+        /// using ACM, see the <a href="https://docs.aws.amazon.com/acm/latest/userguide/">AWS
         /// Certificate Manager User Guide</a>.
         /// </para>
         ///  
         /// <para>
-        /// For more information about working with server certificates, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+        /// For more information about working with server certificates, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
         /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic includes a list
         /// of AWS services that can use the server certificates that you manage with IAM.
         /// </para>
         ///  
         /// <para>
-        /// For information about the number of server certificates you can upload, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html">Limitations
+        /// For information about the number of server certificates you can upload, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html">Limitations
         /// on IAM Entities and Objects</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  <note> 
@@ -10044,9 +11849,9 @@ namespace Amazon.IdentityManagement
         /// Because the body of the public key certificate, private key, and the certificate chain
         /// can be large, you should use POST rather than GET when calling <code>UploadServerCertificate</code>.
         /// For information about setting up signatures and authorization through the API, go
-        /// to <a href="http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
+        /// to <a href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
         /// AWS API Requests</a> in the <i>AWS General Reference</i>. For general information
-        /// about using the Query API with IAM, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/programming.html">Calling
+        /// about using the Query API with IAM, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/programming.html">Calling
         /// the API by Making HTTP Query Requests</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </note>
@@ -10075,10 +11880,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadServerCertificate">REST API Reference for UploadServerCertificate Operation</seealso>
         public virtual UploadServerCertificateResponse UploadServerCertificate(UploadServerCertificateRequest request)
         {
-            var marshaller = UploadServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = UploadServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadServerCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<UploadServerCertificateRequest,UploadServerCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<UploadServerCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -10095,11 +11901,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadServerCertificate">REST API Reference for UploadServerCertificate Operation</seealso>
         public virtual IAsyncResult BeginUploadServerCertificate(UploadServerCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UploadServerCertificateRequestMarshaller.Instance;
-            var unmarshaller = UploadServerCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadServerCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadServerCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UploadServerCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10127,18 +11933,18 @@ namespace Amazon.IdentityManagement
         /// 
         ///  
         /// <para>
-        /// If the <code>UserName</code> field is not specified, the IAM user name is determined
-        /// implicitly based on the AWS access key ID used to sign the request. Because this operation
-        /// works for access keys under the AWS account, you can use this operation to manage
+        /// If the <code>UserName</code> is not specified, the IAM user name is determined implicitly
+        /// based on the AWS access key ID used to sign the request. This operation works for
+        /// access keys under the AWS account. Consequently, you can use this operation to manage
         /// AWS account root user credentials even if the AWS account has no associated users.
         /// </para>
         ///  <note> 
         /// <para>
         /// Because the body of an X.509 certificate can be large, you should use POST rather
         /// than GET when calling <code>UploadSigningCertificate</code>. For information about
-        /// setting up signatures and authorization through the API, go to <a href="http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
+        /// setting up signatures and authorization through the API, go to <a href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
         /// AWS API Requests</a> in the <i>AWS General Reference</i>. For general information
-        /// about using the Query API with IAM, go to <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
+        /// about using the Query API with IAM, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
         /// Query Requests</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  </note>
@@ -10165,8 +11971,8 @@ namespace Amazon.IdentityManagement
         /// message describes the specific error.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.ServiceFailureException">
         /// The request processing has failed because of an unknown error, exception or failure.
@@ -10174,10 +11980,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSigningCertificate">REST API Reference for UploadSigningCertificate Operation</seealso>
         public virtual UploadSigningCertificateResponse UploadSigningCertificate(UploadSigningCertificateRequest request)
         {
-            var marshaller = UploadSigningCertificateRequestMarshaller.Instance;
-            var unmarshaller = UploadSigningCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadSigningCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadSigningCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<UploadSigningCertificateRequest,UploadSigningCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<UploadSigningCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -10194,11 +12001,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSigningCertificate">REST API Reference for UploadSigningCertificate Operation</seealso>
         public virtual IAsyncResult BeginUploadSigningCertificate(UploadSigningCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UploadSigningCertificateRequestMarshaller.Instance;
-            var unmarshaller = UploadSigningCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadSigningCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadSigningCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UploadSigningCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -10225,7 +12032,7 @@ namespace Amazon.IdentityManagement
         /// <para>
         /// The SSH public key uploaded by this operation can be used only for authenticating
         /// the associated IAM user to an AWS CodeCommit repository. For more information about
-        /// using SSH keys to authenticate to an AWS CodeCommit repository, see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
+        /// using SSH keys to authenticate to an AWS CodeCommit repository, see <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
         /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User Guide</i>.
         /// </para>
         /// </summary>
@@ -10244,8 +12051,8 @@ namespace Amazon.IdentityManagement
         /// AWS account limits. The error message describes the limit exceeded.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.NoSuchEntityException">
-        /// The request was rejected because it referenced an entity that does not exist. The
-        /// error message describes the entity.
+        /// The request was rejected because it referenced a resource entity that does not exist.
+        /// The error message describes the resource.
         /// </exception>
         /// <exception cref="Amazon.IdentityManagement.Model.UnrecognizedPublicKeyEncodingException">
         /// The request was rejected because the public key encoding format is unsupported or
@@ -10254,10 +12061,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSSHPublicKey">REST API Reference for UploadSSHPublicKey Operation</seealso>
         public virtual UploadSSHPublicKeyResponse UploadSSHPublicKey(UploadSSHPublicKeyRequest request)
         {
-            var marshaller = UploadSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = UploadSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return Invoke<UploadSSHPublicKeyRequest,UploadSSHPublicKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<UploadSSHPublicKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -10274,11 +12082,11 @@ namespace Amazon.IdentityManagement
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSSHPublicKey">REST API Reference for UploadSSHPublicKey Operation</seealso>
         public virtual IAsyncResult BeginUploadSSHPublicKey(UploadSSHPublicKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UploadSSHPublicKeyRequestMarshaller.Instance;
-            var unmarshaller = UploadSSHPublicKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadSSHPublicKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadSSHPublicKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UploadSSHPublicKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

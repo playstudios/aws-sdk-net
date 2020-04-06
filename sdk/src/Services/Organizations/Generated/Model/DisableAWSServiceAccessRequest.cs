@@ -51,13 +51,14 @@ namespace Amazon.Organizations.Model
     /// After you perform the <code>DisableAWSServiceAccess</code> operation, the specified
     /// service can no longer perform operations in your organization's accounts unless the
     /// operations are explicitly permitted by the IAM policies that are attached to your
-    /// roles. 
+    /// roles.
     /// </para>
     ///  
     /// <para>
     /// For more information about integrating other services with AWS Organizations, including
     /// the list of services that work with Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">Integrating
-    /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide</i>.
+    /// AWS Organizations with Other AWS Services</a> in the <i>AWS Organizations User Guide.</i>
+    /// 
     /// </para>
     ///  
     /// <para>
@@ -75,6 +76,7 @@ namespace Amazon.Organizations.Model
         /// with your organization. This is typically in the form of a URL, such as <code> <i>service-abbreviation</i>.amazonaws.com</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ServicePrincipal
         {
             get { return this._servicePrincipal; }

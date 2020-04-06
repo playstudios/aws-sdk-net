@@ -28,15 +28,20 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Activities for campaign.
+    /// Provides information about the activities that were performed by a campaign.
     /// </summary>
     public partial class ActivitiesResponse
     {
         private List<ActivityResponse> _item = new List<ActivityResponse>();
+        private string _nextToken;
 
         /// <summary>
-        /// Gets and sets the property Item. List of campaign activities
+        /// Gets and sets the property Item. 
+        /// <para>
+        /// An array of responses, one for each activity that was performed by the campaign.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ActivityResponse> Item
         {
             get { return this._item; }
@@ -47,6 +52,25 @@ namespace Amazon.Pinpoint.Model
         internal bool IsSetItem()
         {
             return this._item != null && this._item.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// The string to use in a subsequent request to get the next page of results in a paginated
+        /// response. This value is null if there are no additional pages.
+        /// </para>
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
         }
 
     }

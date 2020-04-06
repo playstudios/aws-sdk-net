@@ -58,19 +58,42 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
             string target = "OvertureService.CreateDirectConnectGatewayAssociation";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-10-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAddAllowedPrefixesToDirectConnectGateway())
+                {
+                    context.Writer.WritePropertyName("addAllowedPrefixesToDirectConnectGateway");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAddAllowedPrefixesToDirectConnectGatewayListValue in publicRequest.AddAllowedPrefixesToDirectConnectGateway)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = RouteFilterPrefixMarshaller.Instance;
+                        marshaller.Marshall(publicRequestAddAllowedPrefixesToDirectConnectGatewayListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetDirectConnectGatewayId())
                 {
                     context.Writer.WritePropertyName("directConnectGatewayId");
                     context.Writer.Write(publicRequest.DirectConnectGatewayId);
+                }
+
+                if(publicRequest.IsSetGatewayId())
+                {
+                    context.Writer.WritePropertyName("gatewayId");
+                    context.Writer.Write(publicRequest.GatewayId);
                 }
 
                 if(publicRequest.IsSetVirtualGatewayId())

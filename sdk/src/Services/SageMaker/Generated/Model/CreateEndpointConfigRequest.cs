@@ -32,20 +32,19 @@ namespace Amazon.SageMaker.Model
     /// Creates an endpoint configuration that Amazon SageMaker hosting services uses to deploy
     /// models. In the configuration, you identify one or more models, created using the <code>CreateModel</code>
     /// API, to deploy and the resources that you want Amazon SageMaker to provision. Then
-    /// you call the <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html">CreateEndpoint</a>
-    /// API. 
+    /// you call the <a>CreateEndpoint</a> API.
     /// 
     ///  <note> 
     /// <para>
-    ///  Use this API only if you want to use Amazon SageMaker hosting services to deploy
-    /// models into production. 
+    ///  Use this API if you want to use Amazon SageMaker hosting services to deploy models
+    /// into production. 
     /// </para>
     ///  </note> 
     /// <para>
-    /// In the request, you define one or more <code>ProductionVariant</code>s, each of which
-    /// identifies a model. Each <code>ProductionVariant</code> parameter also describes the
-    /// resources that you want Amazon SageMaker to provision. This includes the number and
-    /// type of ML compute instances to deploy. 
+    /// In the request, you define a <code>ProductionVariant</code>, for each model that you
+    /// want to deploy. Each <code>ProductionVariant</code> parameter also describes the resources
+    /// that you want Amazon SageMaker to provision. This includes the number and type of
+    /// ML compute instances to deploy. 
     /// </para>
     ///  
     /// <para>
@@ -55,21 +54,45 @@ namespace Amazon.SageMaker.Model
     /// A and 1 for model B. Amazon SageMaker distributes two-thirds of the traffic to Model
     /// A, and one-third to model B. 
     /// </para>
+    ///  
+    /// <para>
+    /// For an example that calls this method when deploying a model to Amazon SageMaker hosting
+    /// services, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/ex1-deploy-model.html#ex1-deploy-model-boto">Deploy
+    /// the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).</a>
+    /// 
+    /// </para>
     /// </summary>
     public partial class CreateEndpointConfigRequest : AmazonSageMakerRequest
     {
+        private DataCaptureConfig _dataCaptureConfig;
         private string _endpointConfigName;
         private string _kmsKeyId;
         private List<ProductionVariant> _productionVariants = new List<ProductionVariant>();
         private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
+        /// Gets and sets the property DataCaptureConfig.
+        /// </summary>
+        public DataCaptureConfig DataCaptureConfig
+        {
+            get { return this._dataCaptureConfig; }
+            set { this._dataCaptureConfig = value; }
+        }
+
+        // Check to see if DataCaptureConfig property is set
+        internal bool IsSetDataCaptureConfig()
+        {
+            return this._dataCaptureConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EndpointConfigName. 
         /// <para>
-        /// The name of the endpoint configuration. You specify this name in a <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html">CreateEndpoint</a>
+        /// The name of the endpoint configuration. You specify this name in a <a>CreateEndpoint</a>
         /// request. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string EndpointConfigName
         {
             get { return this._endpointConfigName; }
@@ -89,7 +112,58 @@ namespace Amazon.SageMaker.Model
         /// uses to encrypt data on the storage volume attached to the ML compute instance that
         /// hosts the endpoint.
         /// </para>
+        ///  
+        /// <para>
+        /// The KmsKeyId can be any of the following formats: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Key ARN: <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Alias name: <code>alias/ExampleAlias</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Alias name ARN: <code>arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias</code>
+        /// 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The KMS key policy must grant permission to the IAM role that you specify in your
+        /// <code>CreateEndpoint</code>, <code>UpdateEndpoint</code> requests. For more information,
+        /// refer to the AWS Key Management Service section<a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">
+        /// Using Key Policies in AWS KMS </a> 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Certain Nitro-based instances include local storage, dependent on the instance type.
+        /// Local storage volumes are encrypted using a hardware module on the instance. You can't
+        /// request a <code>KmsKeyId</code> when using an instance type with local storage. If
+        /// any of the models that you specify in the <code>ProductionVariants</code> parameter
+        /// use nitro-based instances with local storage, do not specify a value for the <code>KmsKeyId</code>
+        /// parameter. If you specify a value for <code>KmsKeyId</code> when using any nitro-based
+        /// instances with local storage, the call to <code>CreateEndpointConfig</code> fails.
+        /// </para>
+        ///  
+        /// <para>
+        /// For a list of instance types that support local instance storage, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes">Instance
+        /// Store Volumes</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about local instance storage encryption, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html">SSD
+        /// Instance Store Volumes</a>.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string KmsKeyId
         {
             get { return this._kmsKeyId; }
@@ -105,10 +179,11 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property ProductionVariants. 
         /// <para>
-        /// An array of <code>ProductionVariant</code> objects, one for each model that you want
+        /// An list of <code>ProductionVariant</code> objects, one for each model that you want
         /// to host at this endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public List<ProductionVariant> ProductionVariants
         {
             get { return this._productionVariants; }
@@ -124,11 +199,12 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// An array of key-value pairs. For more information, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
-        /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>.
+        /// A list of key-value pairs. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what">Using
+        /// Cost Allocation Tags</a> in the <i> AWS Billing and Cost Management User Guide</i>.
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<Tag> Tags
         {
             get { return this._tags; }

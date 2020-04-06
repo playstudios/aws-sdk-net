@@ -29,7 +29,8 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the ListDocuments operation.
-    /// Describes one or more of your Systems Manager documents.
+    /// Returns all Systems Manager (SSM) documents in the current AWS account and Region.
+    /// You can limit the results of this request by using a filter.
     /// </summary>
     public partial class ListDocumentsRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -58,6 +59,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// One or more filters. Use a filter to return a more specific list of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<DocumentFilter> DocumentFilterList
         {
             get { return this._documentFilterList; }
@@ -76,6 +78,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// One or more filters. Use a filter to return a more specific list of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=6)]
         public List<DocumentKeyValuesFilter> Filters
         {
             get { return this._filters; }
@@ -95,6 +98,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that you can specify in a subsequent call to get the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

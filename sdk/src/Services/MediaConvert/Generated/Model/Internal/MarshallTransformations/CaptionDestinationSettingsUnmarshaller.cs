@@ -82,6 +82,18 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.DvbSubDestinationSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("embeddedDestinationSettings", targetDepth))
+                {
+                    var unmarshaller = EmbeddedDestinationSettingsUnmarshaller.Instance;
+                    unmarshalledObject.EmbeddedDestinationSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("imscDestinationSettings", targetDepth))
+                {
+                    var unmarshaller = ImscDestinationSettingsUnmarshaller.Instance;
+                    unmarshalledObject.ImscDestinationSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("sccDestinationSettings", targetDepth))
                 {
                     var unmarshaller = SccDestinationSettingsUnmarshaller.Instance;

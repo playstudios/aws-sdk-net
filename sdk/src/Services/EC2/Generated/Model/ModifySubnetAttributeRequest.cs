@@ -67,10 +67,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property MapPublicIpOnLaunch. 
         /// <para>
-        /// Specify <code>true</code> to indicate that network interfaces created in the specified
-        /// subnet should be assigned a public IPv4 address. This includes a network interface
-        /// that's created when launching an instance into the subnet (the instance therefore
-        /// receives a public IPv4 address).
+        /// Specify <code>true</code> to indicate that ENIs attached to instances created in the
+        /// specified subnet should be assigned a public IPv4 address.
         /// </para>
         /// </summary>
         public bool MapPublicIpOnLaunch
@@ -91,6 +89,7 @@ namespace Amazon.EC2.Model
         /// The ID of the subnet.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubnetId
         {
             get { return this._subnetId; }

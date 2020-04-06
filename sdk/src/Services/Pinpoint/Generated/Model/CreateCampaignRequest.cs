@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateCampaign operation.
-    /// Creates or updates a campaign.
+    /// Creates a new campaign for an application or updates the settings of an existing campaign
+    /// for an application.
     /// </summary>
     public partial class CreateCampaignRequest : AmazonPinpointRequest
     {
@@ -37,8 +38,13 @@ namespace Amazon.Pinpoint.Model
         private WriteCampaignRequest _writeCampaignRequest;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,6 +60,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property WriteCampaignRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public WriteCampaignRequest WriteCampaignRequest
         {
             get { return this._writeCampaignRequest; }

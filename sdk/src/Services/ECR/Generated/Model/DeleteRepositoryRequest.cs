@@ -29,8 +29,8 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteRepository operation.
-    /// Deletes an existing image repository. If a repository contains images, you must use
-    /// the <code>force</code> option to delete it.
+    /// Deletes a repository. If the repository contains images, you must either delete all
+    /// images in the repository or use the <code>force</code> option to delete the repository.
     /// </summary>
     public partial class DeleteRepositoryRequest : AmazonECRRequest
     {
@@ -81,6 +81,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

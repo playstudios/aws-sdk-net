@@ -55,14 +55,15 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateQueueRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaConvert");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-29";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/2017-08-29/queues/{name}";
             if (!publicRequest.IsSetName())
                 throw new AmazonMediaConvertException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/2017-08-29/queues/{name}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -72,6 +73,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("description");
                     context.Writer.Write(publicRequest.Description);
+                }
+
+                if(publicRequest.IsSetReservationPlanSettings())
+                {
+                    context.Writer.WritePropertyName("reservationPlanSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ReservationPlanSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ReservationPlanSettings, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetStatus())

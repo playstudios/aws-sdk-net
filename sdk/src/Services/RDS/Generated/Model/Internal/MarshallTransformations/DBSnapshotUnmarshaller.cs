@@ -72,6 +72,12 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.DBInstanceIdentifier = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("DbiResourceId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.DbiResourceId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("DBSnapshotArn", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -154,6 +160,13 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = IntUnmarshaller.Instance;
                         unmarshalledObject.Port = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ProcessorFeatures/ProcessorFeature", targetDepth))
+                    {
+                        var unmarshaller = ProcessorFeatureUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.ProcessorFeatures.Add(item);
                         continue;
                     }
                     if (context.TestExpression("SnapshotCreateTime", targetDepth))

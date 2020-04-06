@@ -32,10 +32,13 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// </summary>
     public partial class Command
     {
+        private CloudWatchOutputConfig _cloudWatchOutputConfig;
         private string _commandId;
         private string _comment;
         private int? _completedCount;
+        private int? _deliveryTimedOutCount;
         private string _documentName;
+        private string _documentVersion;
         private int? _errorCount;
         private DateTime? _expiresAfter;
         private List<string> _instanceIds = new List<string>();
@@ -54,11 +57,30 @@ namespace Amazon.SimpleSystemsManagement.Model
         private List<Target> _targets = new List<Target>();
 
         /// <summary>
+        /// Gets and sets the property CloudWatchOutputConfig. 
+        /// <para>
+        /// CloudWatch Logs information where you want Systems Manager to send the command output.
+        /// </para>
+        /// </summary>
+        public CloudWatchOutputConfig CloudWatchOutputConfig
+        {
+            get { return this._cloudWatchOutputConfig; }
+            set { this._cloudWatchOutputConfig = value; }
+        }
+
+        // Check to see if CloudWatchOutputConfig property is set
+        internal bool IsSetCloudWatchOutputConfig()
+        {
+            return this._cloudWatchOutputConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CommandId. 
         /// <para>
         /// A unique identifier for this command.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string CommandId
         {
             get { return this._commandId; }
@@ -78,6 +100,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// the command should do.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string Comment
         {
             get { return this._comment; }
@@ -111,6 +134,24 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeliveryTimedOutCount. 
+        /// <para>
+        /// The number of targets for which the status is Delivery Timed Out.
+        /// </para>
+        /// </summary>
+        public int DeliveryTimedOutCount
+        {
+            get { return this._deliveryTimedOutCount.GetValueOrDefault(); }
+            set { this._deliveryTimedOutCount = value; }
+        }
+
+        // Check to see if DeliveryTimedOutCount property is set
+        internal bool IsSetDeliveryTimedOutCount()
+        {
+            return this._deliveryTimedOutCount.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property DocumentName. 
         /// <para>
         /// The name of the document requested for execution.
@@ -126,6 +167,24 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetDocumentName()
         {
             return this._documentName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DocumentVersion. 
+        /// <para>
+        /// The SSM document version.
+        /// </para>
+        /// </summary>
+        public string DocumentVersion
+        {
+            get { return this._documentVersion; }
+            set { this._documentVersion = value; }
+        }
+
+        // Check to see if DocumentVersion property is set
+        internal bool IsSetDocumentVersion()
+        {
+            return this._documentVersion != null;
         }
 
         /// <summary>
@@ -149,8 +208,8 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ExpiresAfter. 
         /// <para>
-        /// If this time is reached and the command has not already started executing, it will
-        /// not run. Calculated based on the ExpiresAfter user input provided as part of the SendCommand
+        /// If this time is reached and the command has not already started running, it will not
+        /// run. Calculated based on the ExpiresAfter user input provided as part of the SendCommand
         /// API.
         /// </para>
         /// </summary>
@@ -172,6 +231,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The instance IDs against which this command was requested.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> InstanceIds
         {
             get { return this._instanceIds; }
@@ -187,13 +247,15 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property MaxConcurrency. 
         /// <para>
-        /// The maximum number of instances that are allowed to execute the command at the same
-        /// time. You can specify a number of instances, such as 10, or a percentage of instances,
-        /// such as 10%. The default value is 50. For more information about how to use MaxConcurrency,
-        /// see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Executing
-        /// a Command Using Systems Manager Run Command</a>.
+        /// The maximum number of instances that are allowed to run the command at the same time.
+        /// You can specify a number of instances, such as 10, or a percentage of instances, such
+        /// as 10%. The default value is 50. For more information about how to use MaxConcurrency,
+        /// see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
+        /// Commands Using Systems Manager Run Command</a> in the <i>AWS Systems Manager User
+        /// Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxConcurrency
         {
             get { return this._maxConcurrency; }
@@ -212,10 +274,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The maximum number of errors allowed before the system stops sending the command to
         /// additional targets. You can specify a number of errors, such as 10, or a percentage
         /// or errors, such as 10%. The default value is 0. For more information about how to
-        /// use MaxErrors, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Executing
-        /// a Command Using Systems Manager Run Command</a>.
+        /// use MaxErrors, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
+        /// Commands Using Systems Manager Run Command</a> in the <i>AWS Systems Manager User
+        /// Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxErrors
         {
             get { return this._maxErrors; }
@@ -253,6 +317,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// was requested when issuing the command.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=63)]
         public string OutputS3BucketName
         {
             get { return this._outputS3BucketName; }
@@ -272,6 +337,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// should be stored. This was requested when issuing the command.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=500)]
         public string OutputS3KeyPrefix
         {
             get { return this._outputS3KeyPrefix; }
@@ -291,6 +357,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Systems Manager automatically determines the Amazon S3 bucket region.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=20)]
         public string OutputS3Region
         {
             get { return this._outputS3Region; }
@@ -306,7 +373,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
-        /// The parameter values to be inserted in the document when executing the command.
+        /// The parameter values to be inserted in the document when running the command.
         /// </para>
         /// </summary>
         public Dictionary<string, List<string>> Parameters
@@ -382,8 +449,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A detailed status of the command execution. StatusDetails includes more information
         /// than Status because it includes states resulting from error and concurrency control
         /// parameters. StatusDetails can show different results than Status. For more information
-        /// about these statuses, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-about-status.html">Run
-        /// Command Status</a>. StatusDetails can be one of the following values:
+        /// about these statuses, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
+        /// Command Statuses</a> in the <i>AWS Systems Manager User Guide</i>. StatusDetails can
+        /// be one of the following values:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -396,8 +464,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Success: The command successfully executed on all invocations. This is a terminal
-        /// state.
+        /// Success: The command successfully ran on all invocations. This is a terminal state.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -427,11 +494,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  </li> <li> 
         /// <para>
         /// Rate Exceeded: The number of instances targeted by the command exceeded the account
-        /// limit for pending invocations. The system has canceled the command before executing
+        /// limit for pending invocations. The system has canceled the command before running
         /// it on any instance. This is a terminal state.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public string StatusDetails
         {
             get { return this._statusDetails; }
@@ -470,6 +538,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// the call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }

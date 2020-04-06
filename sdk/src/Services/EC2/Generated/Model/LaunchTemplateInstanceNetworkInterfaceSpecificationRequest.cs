@@ -37,6 +37,7 @@ namespace Amazon.EC2.Model
         private string _description;
         private int? _deviceIndex;
         private List<string> _groups = new List<string>();
+        private string _interfaceType;
         private int? _ipv6AddressCount;
         private List<InstanceIpv6AddressRequest> _ipv6Addresses = new List<InstanceIpv6AddressRequest>();
         private string _networkInterfaceId;
@@ -133,6 +134,34 @@ namespace Amazon.EC2.Model
         internal bool IsSetGroups()
         {
             return this._groups != null && this._groups.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property InterfaceType. 
+        /// <para>
+        /// The type of network interface. To create an Elastic Fabric Adapter (EFA), specify
+        /// <code>efa</code>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html">Elastic
+        /// Fabric Adapter</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you are not creating an EFA, specify <code>interface</code> or omit this parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid values: <code>interface</code> | <code>efa</code> 
+        /// </para>
+        /// </summary>
+        public string InterfaceType
+        {
+            get { return this._interfaceType; }
+            set { this._interfaceType = value; }
+        }
+
+        // Check to see if InterfaceType property is set
+        internal bool IsSetInterfaceType()
+        {
+            return this._interfaceType != null;
         }
 
         /// <summary>

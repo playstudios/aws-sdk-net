@@ -64,6 +64,18 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("CatalogTargets", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<CatalogTarget, CatalogTargetUnmarshaller>(CatalogTargetUnmarshaller.Instance);
+                    unmarshalledObject.CatalogTargets = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("DynamoDBTargets", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<DynamoDBTarget, DynamoDBTargetUnmarshaller>(DynamoDBTargetUnmarshaller.Instance);
+                    unmarshalledObject.DynamoDBTargets = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("JdbcTargets", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<JdbcTarget, JdbcTargetUnmarshaller>(JdbcTargetUnmarshaller.Instance);

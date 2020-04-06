@@ -44,6 +44,7 @@ namespace Amazon.CodeDeploy.Model
         private DeploymentStyle _deploymentStyle;
         private List<EC2TagFilter> _ec2TagFilters = new List<EC2TagFilter>();
         private EC2TagSet _ec2TagSet;
+        private List<ECSService> _ecsServices = new List<ECSService>();
         private LastDeploymentInfo _lastAttemptedDeployment;
         private LastDeploymentInfo _lastSuccessfulDeployment;
         private LoadBalancerInfo _loadBalancerInfo;
@@ -77,6 +78,7 @@ namespace Amazon.CodeDeploy.Model
         /// The application name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -147,7 +149,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ComputePlatform. 
         /// <para>
-        /// The destination platform type for the deployment group (<code>Lambda</code> or <code>Server</code>).
+        /// The destination platform type for the deployment (<code>Lambda</code>, <code>Server</code>,
+        /// or <code>ECS</code>).
         /// </para>
         /// </summary>
         public ComputePlatform ComputePlatform
@@ -168,6 +171,7 @@ namespace Amazon.CodeDeploy.Model
         /// The deployment configuration name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentConfigName
         {
             get { return this._deploymentConfigName; }
@@ -204,6 +208,7 @@ namespace Amazon.CodeDeploy.Model
         /// The deployment group name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentGroupName
         {
             get { return this._deploymentGroupName; }
@@ -258,8 +263,8 @@ namespace Amazon.CodeDeploy.Model
         /// Gets and sets the property Ec2TagSet. 
         /// <para>
         /// Information about groups of tags applied to an EC2 instance. The deployment group
-        /// includes only EC2 instances identified by all the tag groups. Cannot be used in the
-        /// same call as ec2TagFilters.
+        /// includes only EC2 instances identified by all of the tag groups. Cannot be used in
+        /// the same call as ec2TagFilters.
         /// </para>
         /// </summary>
         public EC2TagSet Ec2TagSet
@@ -272,6 +277,27 @@ namespace Amazon.CodeDeploy.Model
         internal bool IsSetEc2TagSet()
         {
             return this._ec2TagSet != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EcsServices. 
+        /// <para>
+        ///  The target Amazon ECS services in the deployment group. This applies only to deployment
+        /// groups that use the Amazon ECS compute platform. A target Amazon ECS service is specified
+        /// as an Amazon ECS cluster and service name pair using the format <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
+        /// 
+        /// </para>
+        /// </summary>
+        public List<ECSService> EcsServices
+        {
+            get { return this._ecsServices; }
+            set { this._ecsServices = value; }
+        }
+
+        // Check to see if EcsServices property is set
+        internal bool IsSetEcsServices()
+        {
+            return this._ecsServices != null && this._ecsServices.Count > 0; 
         }
 
         /// <summary>
@@ -370,7 +396,9 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ServiceRoleArn. 
         /// <para>
-        /// A service role ARN.
+        /// A service role Amazon Resource Name (ARN) that grants CodeDeploy permission to make
+        /// calls to AWS services on your behalf. For more information, see <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html">Create
+        /// a Service Role for AWS CodeDeploy</a> in the <i>AWS CodeDeploy User Guide</i>.
         /// </para>
         /// </summary>
         public string ServiceRoleArn

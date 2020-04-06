@@ -28,19 +28,45 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Describes an Availability Zone.
+    /// Describes an Availability Zone or Local Zone.
     /// </summary>
     public partial class AvailabilityZone
     {
+        private string _groupName;
         private List<AvailabilityZoneMessage> _messages = new List<AvailabilityZoneMessage>();
+        private string _networkBorderGroup;
+        private AvailabilityZoneOptInStatus _optInStatus;
         private string _regionName;
         private AvailabilityZoneState _state;
+        private string _zoneId;
         private string _zoneName;
+
+        /// <summary>
+        /// Gets and sets the property GroupName. 
+        /// <para>
+        ///  For Availability Zones, this parameter has the same value as the Region name.
+        /// </para>
+        ///  
+        /// <para>
+        /// For Local Zones, the name of the associated group, for example <code>us-west-2-lax-1</code>.
+        /// </para>
+        /// </summary>
+        public string GroupName
+        {
+            get { return this._groupName; }
+            set { this._groupName = value; }
+        }
+
+        // Check to see if GroupName property is set
+        internal bool IsSetGroupName()
+        {
+            return this._groupName != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Messages. 
         /// <para>
-        /// Any messages about the Availability Zone.
+        /// Any messages about the Availability Zone or Local Zone.
         /// </para>
         /// </summary>
         public List<AvailabilityZoneMessage> Messages
@@ -56,9 +82,50 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NetworkBorderGroup. 
+        /// <para>
+        /// The name of the location from which the address is advertised.
+        /// </para>
+        /// </summary>
+        public string NetworkBorderGroup
+        {
+            get { return this._networkBorderGroup; }
+            set { this._networkBorderGroup = value; }
+        }
+
+        // Check to see if NetworkBorderGroup property is set
+        internal bool IsSetNetworkBorderGroup()
+        {
+            return this._networkBorderGroup != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OptInStatus. 
+        /// <para>
+        ///  For Availability Zones, this parameter always has the value of <code>opt-in-not-required</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For Local Zones, this parameter is the opt in status. The possible values are <code>opted-in</code>,
+        /// and <code>not-opted-in</code>.
+        /// </para>
+        /// </summary>
+        public AvailabilityZoneOptInStatus OptInStatus
+        {
+            get { return this._optInStatus; }
+            set { this._optInStatus = value; }
+        }
+
+        // Check to see if OptInStatus property is set
+        internal bool IsSetOptInStatus()
+        {
+            return this._optInStatus != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RegionName. 
         /// <para>
-        /// The name of the region.
+        /// The name of the Region.
         /// </para>
         /// </summary>
         public string RegionName
@@ -76,7 +143,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property State. 
         /// <para>
-        /// The state of the Availability Zone.
+        /// The state of the Availability Zone or Local Zone.
         /// </para>
         /// </summary>
         public AvailabilityZoneState State
@@ -92,9 +159,27 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ZoneId. 
+        /// <para>
+        /// The ID of the Availability Zone or Local Zone.
+        /// </para>
+        /// </summary>
+        public string ZoneId
+        {
+            get { return this._zoneId; }
+            set { this._zoneId = value; }
+        }
+
+        // Check to see if ZoneId property is set
+        internal bool IsSetZoneId()
+        {
+            return this._zoneId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ZoneName. 
         /// <para>
-        /// The name of the Availability Zone.
+        /// The name of the Availability Zone or Local Zone.
         /// </para>
         /// </summary>
         public string ZoneName

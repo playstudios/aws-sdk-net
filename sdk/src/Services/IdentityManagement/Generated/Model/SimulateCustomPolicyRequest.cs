@@ -40,13 +40,13 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  
     /// <para>
-    /// If you want to simulate existing policies attached to an IAM user, group, or role,
-    /// use <a>SimulatePrincipalPolicy</a> instead.
+    /// If you want to simulate existing policies that are attached to an IAM user, group,
+    /// or role, use <a>SimulatePrincipalPolicy</a> instead.
     /// </para>
     ///  
     /// <para>
-    /// Context keys are variables maintained by AWS and its services that provide details
-    /// about the context of an API query request. You can use the <code>Condition</code>
+    /// Context keys are variables that are maintained by AWS and its services and which provide
+    /// details about the context of an API query request. You can use the <code>Condition</code>
     /// element of an IAM policy to evaluate context keys. To get the list of context keys
     /// that the policies require for correct simulation, use <a>GetContextKeysForCustomPolicy</a>.
     /// </para>
@@ -63,6 +63,7 @@ namespace Amazon.IdentityManagement.Model
         private List<ContextEntry> _contextEntries = new List<ContextEntry>();
         private string _marker;
         private int? _maxItems;
+        private List<string> _permissionsBoundaryPolicyInputList = new List<string>();
         private List<string> _policyInputList = new List<string>();
         private List<string> _resourceArns = new List<string>();
         private string _resourceHandlingOption;
@@ -74,9 +75,11 @@ namespace Amazon.IdentityManagement.Model
         /// <para>
         /// A list of names of API operations to evaluate in the simulation. Each operation is
         /// evaluated against each resource. Each operation must include the service identifier,
-        /// such as <code>iam:CreateUser</code>.
+        /// such as <code>iam:CreateUser</code>. This operation does not support using wildcards
+        /// (*) in an action name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> ActionNames
         {
             get { return this._actionNames; }
@@ -103,6 +106,7 @@ namespace Amazon.IdentityManagement.Model
         /// role, federated user, or a service principal.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string CallerArn
         {
             get { return this._callerArn; }
@@ -119,7 +123,7 @@ namespace Amazon.IdentityManagement.Model
         /// Gets and sets the property ContextEntries. 
         /// <para>
         /// A list of context keys and corresponding values for the simulation to use. Whenever
-        /// a context key is evaluated in one of the simulated IAM permission policies, the corresponding
+        /// a context key is evaluated in one of the simulated IAM permissions policies, the corresponding
         /// value is supplied.
         /// </para>
         /// </summary>
@@ -143,6 +147,7 @@ namespace Amazon.IdentityManagement.Model
         /// element in the response that you received to indicate where the next call should start.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=320)]
         public string Marker
         {
             get { return this._marker; }
@@ -158,18 +163,20 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// (Optional) Use this only when paginating results to indicate the maximum number of
-        /// items you want in the response. If additional items exist beyond the maximum you specify,
-        /// the <code>IsTruncated</code> response element is <code>true</code>.
+        /// Use this only when paginating results to indicate the maximum number of items you
+        /// want in the response. If additional items exist beyond the maximum you specify, the
+        /// <code>IsTruncated</code> response element is <code>true</code>.
         /// </para>
         ///  
         /// <para>
-        /// If you do not include this parameter, it defaults to 100. Note that IAM might return
-        /// fewer results, even when there are more results available. In that case, the <code>IsTruncated</code>
-        /// response element returns <code>true</code> and <code>Marker</code> contains a value
-        /// to include in the subsequent call that tells the service where to continue from.
+        /// If you do not include this parameter, the number of items defaults to 100. Note that
+        /// IAM might return fewer results, even when there are more results available. In that
+        /// case, the <code>IsTruncated</code> response element returns <code>true</code>, and
+        /// <code>Marker</code> contains a value to include in the subsequent call that tells
+        /// the service where to continue from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -183,14 +190,59 @@ namespace Amazon.IdentityManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PermissionsBoundaryPolicyInputList. 
+        /// <para>
+        /// The IAM permissions boundary policy to simulate. The permissions boundary sets the
+        /// maximum permissions that an IAM entity can have. You can input only one permissions
+        /// boundary when you pass a policy to this operation. For more information about permissions
+        /// boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+        /// Boundaries for IAM Entities</a> in the <i>IAM User Guide</i>. The policy input is
+        /// specified as a string that contains the complete, valid JSON text of a permissions
+        /// boundary policy.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this
+        /// parameter is a string of characters consisting of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Any printable ASCII character ranging from the space character (<code>\u0020</code>)
+        /// through the end of the ASCII character range
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The printable characters in the Basic Latin and Latin-1 Supplement character set (through
+        /// <code>\u00FF</code>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>),
+        /// and carriage return (<code>\u000D</code>)
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public List<string> PermissionsBoundaryPolicyInputList
+        {
+            get { return this._permissionsBoundaryPolicyInputList; }
+            set { this._permissionsBoundaryPolicyInputList = value; }
+        }
+
+        // Check to see if PermissionsBoundaryPolicyInputList property is set
+        internal bool IsSetPermissionsBoundaryPolicyInputList()
+        {
+            return this._permissionsBoundaryPolicyInputList != null && this._permissionsBoundaryPolicyInputList.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PolicyInputList. 
         /// <para>
         /// A list of policy documents to include in the simulation. Each document is specified
         /// as a string containing the complete, valid JSON text of an IAM policy. Do not include
         /// any resource-based policies in this parameter. Any resource-based policy must be submitted
         /// with the <code>ResourcePolicy</code> parameter. The policies cannot be "scope-down"
-        /// policies, such as you could include in a call to <a href="http://docs.aws.amazon.com/IAM/latest/APIReference/API_GetFederationToken.html">GetFederationToken</a>
-        /// or one of the <a href="http://docs.aws.amazon.com/IAM/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
+        /// policies, such as you could include in a call to <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetFederationToken.html">GetFederationToken</a>
+        /// or one of the <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
         /// API operations. In other words, do not use policies designed to restrict what a user
         /// can do while using the temporary credentials.
         /// </para>
@@ -201,20 +253,22 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Any printable ASCII character ranging from the space character (\u0020) through the
-        /// end of the ASCII character range
+        /// Any printable ASCII character ranging from the space character (<code>\u0020</code>)
+        /// through the end of the ASCII character range
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// The printable characters in the Basic Latin and Latin-1 Supplement character set (through
-        /// \u00FF)
+        /// <code>\u00FF</code>)
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>),
+        /// and carriage return (<code>\u000D</code>)
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> PolicyInputList
         {
             get { return this._policyInputList; }
@@ -231,8 +285,8 @@ namespace Amazon.IdentityManagement.Model
         /// Gets and sets the property ResourceArns. 
         /// <para>
         /// A list of ARNs of AWS resources to include in the simulation. If this parameter is
-        /// not provided then the value defaults to <code>*</code> (all resources). Each API in
-        /// the <code>ActionNames</code> parameter is evaluated for each resource in this list.
+        /// not provided, then the value defaults to <code>*</code> (all resources). Each API
+        /// in the <code>ActionNames</code> parameter is evaluated for each resource in this list.
         /// The simulation determines the access result (allowed or denied) of each combination
         /// and reports it in the response.
         /// </para>
@@ -249,7 +303,7 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
@@ -282,7 +336,7 @@ namespace Amazon.IdentityManagement.Model
         /// resources. If your scenario includes an EBS volume, then you must specify that volume
         /// as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface
         /// resource. If it includes an IP subnet, then you must specify the subnet resource.
-        /// For more information on the EC2 scenario options, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
+        /// For more information on the EC2 scenario options, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
         /// Platforms</a> in the <i>Amazon EC2 User Guide</i>.
         /// </para>
         ///  <ul> <li> 
@@ -335,6 +389,7 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ResourceHandlingOption
         {
             get { return this._resourceHandlingOption; }
@@ -350,16 +405,24 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property ResourceOwner. 
         /// <para>
-        /// An AWS account ID that specifies the owner of any simulated resource that does not
-        /// identify its owner in the resource ARN, such as an S3 bucket or object. If <code>ResourceOwner</code>
-        /// is specified, it is also used as the account owner of any <code>ResourcePolicy</code>
-        /// included in the simulation. If the <code>ResourceOwner</code> parameter is not specified,
-        /// then the owner of the resources and the resource policy defaults to the account of
-        /// the identity provided in <code>CallerArn</code>. This parameter is required only if
-        /// you specify a resource-based policy and account that owns the resource is different
-        /// from the account that owns the simulated calling user <code>CallerArn</code>.
+        /// An ARN representing the AWS account ID that specifies the owner of any simulated resource
+        /// that does not identify its owner in the resource ARN. Examples of resource ARNs include
+        /// an S3 bucket or object. If <code>ResourceOwner</code> is specified, it is also used
+        /// as the account owner of any <code>ResourcePolicy</code> included in the simulation.
+        /// If the <code>ResourceOwner</code> parameter is not specified, then the owner of the
+        /// resources and the resource policy defaults to the account of the identity provided
+        /// in <code>CallerArn</code>. This parameter is required only if you specify a resource-based
+        /// policy and account that owns the resource is different from the account that owns
+        /// the simulated calling user <code>CallerArn</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The ARN for an account uses the following syntax: <code>arn:aws:iam::<i>AWS-account-ID</i>:root</code>.
+        /// For example, to represent the account with the 112233445566 ID, use the following
+        /// ARN: <code>arn:aws:iam::112233445566-ID:root</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string ResourceOwner
         {
             get { return this._resourceOwner; }
@@ -386,20 +449,22 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Any printable ASCII character ranging from the space character (\u0020) through the
-        /// end of the ASCII character range
+        /// Any printable ASCII character ranging from the space character (<code>\u0020</code>)
+        /// through the end of the ASCII character range
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// The printable characters in the Basic Latin and Latin-1 Supplement character set (through
-        /// \u00FF)
+        /// <code>\u00FF</code>)
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>),
+        /// and carriage return (<code>\u000D</code>)
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=131072)]
         public string ResourcePolicy
         {
             get { return this._resourcePolicy; }

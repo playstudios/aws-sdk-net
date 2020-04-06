@@ -34,12 +34,33 @@ namespace Amazon.CloudWatchEvents.Model
     ///  
     /// <para>
     /// When you enable a rule, incoming events might not immediately start matching to a
-    /// newly enabled rule. Please allow a short period of time for changes to take effect.
+    /// newly enabled rule. Allow a short period of time for changes to take effect.
     /// </para>
     /// </summary>
     public partial class EnableRuleRequest : AmazonCloudWatchEventsRequest
     {
+        private string _eventBusName;
         private string _name;
+
+        /// <summary>
+        /// Gets and sets the property EventBusName. 
+        /// <para>
+        /// The event bus associated with the rule. If you omit this, the default event bus is
+        /// used.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string EventBusName
+        {
+            get { return this._eventBusName; }
+            set { this._eventBusName = value; }
+        }
+
+        // Check to see if EventBusName property is set
+        internal bool IsSetEventBusName()
+        {
+            return this._eventBusName != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Name. 
@@ -47,6 +68,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The name of the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Name
         {
             get { return this._name; }

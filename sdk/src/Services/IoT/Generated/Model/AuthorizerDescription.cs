@@ -37,6 +37,7 @@ namespace Amazon.IoT.Model
         private string _authorizerName;
         private DateTime? _creationDate;
         private DateTime? _lastModifiedDate;
+        private bool? _signingDisabled;
         private AuthorizerStatus _status;
         private string _tokenKeyName;
         private Dictionary<string, string> _tokenSigningPublicKeys = new Dictionary<string, string>();
@@ -83,6 +84,7 @@ namespace Amazon.IoT.Model
         /// The authorizer name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string AuthorizerName
         {
             get { return this._authorizerName; }
@@ -132,6 +134,24 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SigningDisabled. 
+        /// <para>
+        /// Specifies whether AWS IoT validates the token signature in an authorization request.
+        /// </para>
+        /// </summary>
+        public bool SigningDisabled
+        {
+            get { return this._signingDisabled.GetValueOrDefault(); }
+            set { this._signingDisabled = value; }
+        }
+
+        // Check to see if SigningDisabled property is set
+        internal bool IsSetSigningDisabled()
+        {
+            return this._signingDisabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
         /// The status of the authorizer.
@@ -155,6 +175,7 @@ namespace Amazon.IoT.Model
         /// The key used to extract the token from the HTTP headers.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string TokenKeyName
         {
             get { return this._tokenKeyName; }

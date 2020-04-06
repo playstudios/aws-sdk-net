@@ -75,6 +75,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.CodecProfile);
             }
 
+            if(requestObject.IsSetDynamicSubGop())
+            {
+                context.Writer.WritePropertyName("dynamicSubGop");
+                context.Writer.Write(requestObject.DynamicSubGop);
+            }
+
             if(requestObject.IsSetFlickerAdaptiveQuantization())
             {
                 context.Writer.WritePropertyName("flickerAdaptiveQuantization");
@@ -195,6 +201,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.QualityTuningLevel);
             }
 
+            if(requestObject.IsSetQvbrSettings())
+            {
+                context.Writer.WritePropertyName("qvbrSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = H265QvbrSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.QvbrSettings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetRateControlMode())
             {
                 context.Writer.WritePropertyName("rateControlMode");
@@ -259,6 +276,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("unregisteredSeiTimecode");
                 context.Writer.Write(requestObject.UnregisteredSeiTimecode);
+            }
+
+            if(requestObject.IsSetWriteMp4PackagingType())
+            {
+                context.Writer.WritePropertyName("writeMp4PackagingType");
+                context.Writer.Write(requestObject.WriteMp4PackagingType);
             }
 
         }

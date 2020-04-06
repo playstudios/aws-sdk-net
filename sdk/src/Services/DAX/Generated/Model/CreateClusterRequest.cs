@@ -43,15 +43,17 @@ namespace Amazon.DAX.Model
         private string _preferredMaintenanceWindow;
         private int? _replicationFactor;
         private List<string> _securityGroupIds = new List<string>();
+        private SSESpecification _sseSpecification;
         private string _subnetGroupName;
         private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property AvailabilityZones. 
         /// <para>
-        /// The Availability Zones (AZs) in which the cluster nodes will be created. All nodes
-        /// belonging to the cluster are placed in these Availability Zones. Use this parameter
-        /// if you want to distribute the nodes across multiple AZs.
+        /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster
+        /// has been created or updated. If provided, the length of this list must equal the <code>ReplicationFactor</code>
+        /// parameter. If you omit this parameter, DAX will spread the nodes across Availability
+        /// Zones for the highest availability.
         /// </para>
         /// </summary>
         public List<string> AvailabilityZones
@@ -89,6 +91,7 @@ namespace Amazon.DAX.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterName
         {
             get { return this._clusterName; }
@@ -126,6 +129,7 @@ namespace Amazon.DAX.Model
         /// assume this role and use the role's permissions to access DynamoDB on your behalf.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string IamRoleArn
         {
             get { return this._iamRoleArn; }
@@ -144,6 +148,7 @@ namespace Amazon.DAX.Model
         /// The compute and memory capacity of the nodes in the cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NodeType
         {
             get { return this._nodeType; }
@@ -263,8 +268,10 @@ namespace Amazon.DAX.Model
         /// <para>
         /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node
         /// cluster, without any read replicas. For additional fault tolerance, you can create
-        /// a multiple node cluster with one or more read replicas. To do this, set <i>ReplicationFactor</i>
-        /// to 2 or more.
+        /// a multiple node cluster with one or more read replicas. To do this, set <code>ReplicationFactor</code>
+        /// to a number between 3 (one primary and two read replicas) and 10 (one primary and
+        /// nine read replicas). <code>If the AvailabilityZones</code> parameter is provided,
+        /// its length must equal the <code>ReplicationFactor</code>.
         /// </para>
         ///  <note> 
         /// <para>
@@ -272,6 +279,7 @@ namespace Amazon.DAX.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int ReplicationFactor
         {
             get { return this._replicationFactor.GetValueOrDefault(); }
@@ -306,6 +314,24 @@ namespace Amazon.DAX.Model
         internal bool IsSetSecurityGroupIds()
         {
             return this._securityGroupIds != null && this._securityGroupIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SSESpecification. 
+        /// <para>
+        /// Represents the settings used to enable server-side encryption on the cluster.
+        /// </para>
+        /// </summary>
+        public SSESpecification SSESpecification
+        {
+            get { return this._sseSpecification; }
+            set { this._sseSpecification = value; }
+        }
+
+        // Check to see if SSESpecification property is set
+        internal bool IsSetSSESpecification()
+        {
+            return this._sseSpecification != null;
         }
 
         /// <summary>

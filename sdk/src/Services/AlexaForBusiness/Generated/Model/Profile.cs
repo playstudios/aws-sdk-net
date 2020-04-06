@@ -33,8 +33,12 @@ namespace Amazon.AlexaForBusiness.Model
     public partial class Profile
     {
         private string _address;
+        private string _addressBookArn;
         private DistanceUnit _distanceUnit;
+        private bool? _isDefault;
+        private string _locale;
         private int? _maxVolumeLimit;
+        private MeetingRoomConfiguration _meetingRoomConfiguration;
         private string _profileArn;
         private string _profileName;
         private bool? _pstnEnabled;
@@ -49,6 +53,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The address of a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=500)]
         public string Address
         {
             get { return this._address; }
@@ -59,6 +64,24 @@ namespace Amazon.AlexaForBusiness.Model
         internal bool IsSetAddress()
         {
             return this._address != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AddressBookArn. 
+        /// <para>
+        /// The ARN of the address book.
+        /// </para>
+        /// </summary>
+        public string AddressBookArn
+        {
+            get { return this._addressBookArn; }
+            set { this._addressBookArn = value; }
+        }
+
+        // Check to see if AddressBookArn property is set
+        internal bool IsSetAddressBookArn()
+        {
+            return this._addressBookArn != null;
         }
 
         /// <summary>
@@ -80,6 +103,44 @@ namespace Amazon.AlexaForBusiness.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IsDefault. 
+        /// <para>
+        /// Retrieves if the profile is default or not.
+        /// </para>
+        /// </summary>
+        public bool IsDefault
+        {
+            get { return this._isDefault.GetValueOrDefault(); }
+            set { this._isDefault = value; }
+        }
+
+        // Check to see if IsDefault property is set
+        internal bool IsSetIsDefault()
+        {
+            return this._isDefault.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Locale. 
+        /// <para>
+        /// The locale of a room profile. (This is currently available only to a limited preview
+        /// audience.)
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string Locale
+        {
+            get { return this._locale; }
+            set { this._locale = value; }
+        }
+
+        // Check to see if Locale property is set
+        internal bool IsSetLocale()
+        {
+            return this._locale != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MaxVolumeLimit. 
         /// <para>
         /// The max volume limit of a room profile.
@@ -95,6 +156,24 @@ namespace Amazon.AlexaForBusiness.Model
         internal bool IsSetMaxVolumeLimit()
         {
             return this._maxVolumeLimit.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MeetingRoomConfiguration. 
+        /// <para>
+        /// Meeting room settings of a room profile.
+        /// </para>
+        /// </summary>
+        public MeetingRoomConfiguration MeetingRoomConfiguration
+        {
+            get { return this._meetingRoomConfiguration; }
+            set { this._meetingRoomConfiguration = value; }
+        }
+
+        // Check to see if MeetingRoomConfiguration property is set
+        internal bool IsSetMeetingRoomConfiguration()
+        {
+            return this._meetingRoomConfiguration != null;
         }
 
         /// <summary>
@@ -121,6 +200,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The name of a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProfileName
         {
             get { return this._profileName; }
@@ -193,6 +273,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The time zone of a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Timezone
         {
             get { return this._timezone; }

@@ -40,6 +40,7 @@ namespace Amazon.SecretsManager.Model
         private DateTime? _lastChangedDate;
         private DateTime? _lastRotatedDate;
         private string _name;
+        private string _owningService;
         private bool? _rotationEnabled;
         private string _rotationLambdaARN;
         private RotationRulesType _rotationRules;
@@ -52,6 +53,7 @@ namespace Amazon.SecretsManager.Model
         /// The ARN of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string ARN
         {
             get { return this._arn; }
@@ -95,6 +97,7 @@ namespace Amazon.SecretsManager.Model
         /// The user-provided description of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -111,12 +114,13 @@ namespace Amazon.SecretsManager.Model
         /// Gets and sets the property KmsKeyId. 
         /// <para>
         /// The ARN or alias of the AWS KMS customer master key (CMK) that's used to encrypt the
-        /// <code>SecretString</code> and <code>SecretBinary</code> fields in each version of
-        /// the secret. If you don't provide a key, then AWS Secrets Manager defaults to encrypting
-        /// the secret fields with the default KMS CMK (the one named <code>awssecretsmanager</code>)
+        /// <code>SecretString</code> or <code>SecretBinary</code> fields in each version of the
+        /// secret. If you don't provide a key, then Secrets Manager defaults to encrypting the
+        /// secret fields with the default AWS KMS CMK (the one named <code>awssecretsmanager</code>)
         /// for this account.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string KmsKeyId
         {
             get { return this._kmsKeyId; }
@@ -169,8 +173,8 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property LastRotatedDate. 
         /// <para>
-        /// The last date and time that the Secrets Manager rotation process for this secret was
-        /// invoked.
+        /// The most recent date and time that the Secrets Manager rotation process was successfully
+        /// completed. This value is null if the secret has never rotated.
         /// </para>
         /// </summary>
         public DateTime LastRotatedDate
@@ -191,6 +195,7 @@ namespace Amazon.SecretsManager.Model
         /// The user-provided friendly name of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -201,6 +206,25 @@ namespace Amazon.SecretsManager.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OwningService. 
+        /// <para>
+        /// Returns the name of the service that created this secret.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=128)]
+        public string OwningService
+        {
+            get { return this._owningService; }
+            set { this._owningService = value; }
+        }
+
+        // Check to see if OwningService property is set
+        internal bool IsSetOwningService()
+        {
+            return this._owningService != null;
         }
 
         /// <summary>
@@ -229,10 +253,11 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property RotationLambdaARN. 
         /// <para>
-        /// The ARN of a Lambda function that's invoked by AWS Secrets Manager to rotate the secret
+        /// The ARN of a Lambda function that's invoked by Secrets Manager to rotate the secret
         /// either automatically per the schedule or manually by a call to <code>RotateSecret</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string RotationLambdaARN
         {
             get { return this._rotationLambdaARN; }
@@ -286,8 +311,8 @@ namespace Amazon.SecretsManager.Model
         /// Gets and sets the property VersionIdsToStages. 
         /// <para>
         /// A list of all of the currently assigned <code>VersionStage</code> staging labels and
-        /// the <code>SecretVersionId</code> that each is attached to. Staging labels are used
-        /// to keep track of the different versions during the rotation process.
+        /// the <code>VersionId</code> that each is attached to. Staging labels are used to keep
+        /// track of the different versions during the rotation process.
         /// </para>
         ///  <note> 
         /// <para>

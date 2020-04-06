@@ -41,7 +41,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property AssociationIds. 
         /// <para>
-        /// One or more IAM instance profile associations.
+        /// The IAM instance profile associations.
         /// </para>
         /// </summary>
         public List<string> AssociationIds
@@ -59,7 +59,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -91,6 +91,7 @@ namespace Amazon.EC2.Model
         /// results, make another call with the returned <code>NextToken</code> value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

@@ -37,11 +37,13 @@ namespace Amazon.ServerlessApplicationRepository.Model
         private string _creationTime;
         private string _description;
         private string _homePageUrl;
+        private bool? _isVerifiedAuthor;
         private List<string> _labels = new List<string>();
         private string _licenseUrl;
         private string _name;
         private string _readmeUrl;
         private string _spdxLicenseId;
+        private string _verifiedAuthorUrl;
         private Version _version;
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=127.
+        /// Minimum length=1. Maximum length=127.
         /// </para>
         /// 
         /// <para>
@@ -91,7 +93,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// The date/time this resource was created.
+        /// The date and time this resource was created.
         /// </para>
         /// </summary>
         public string CreationTime
@@ -113,7 +115,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=256
+        /// Minimum length=1. Maximum length=256
         /// </para>
         /// </summary>
         public string Description
@@ -148,13 +150,34 @@ namespace Amazon.ServerlessApplicationRepository.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IsVerifiedAuthor. 
+        /// <para>
+        /// Whether the author of this application has been verified. This means means that AWS
+        /// has made a good faith review, as a reasonable and prudent service provider, of the
+        /// information provided by the requester and has confirmed that the requester's identity
+        /// is as claimed.
+        /// </para>
+        /// </summary>
+        public bool IsVerifiedAuthor
+        {
+            get { return this._isVerifiedAuthor.GetValueOrDefault(); }
+            set { this._isVerifiedAuthor = value; }
+        }
+
+        // Check to see if IsVerifiedAuthor property is set
+        internal bool IsSetIsVerifiedAuthor()
+        {
+            return this._isVerifiedAuthor.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Labels. 
         /// <para>
         /// Labels to improve discovery of apps in search results.
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=127. Maximum number of labels: 10
+        /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
         /// </para>
         /// 
         /// <para>
@@ -176,11 +199,11 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property LicenseUrl. 
         /// <para>
-        /// A link to a license file of the app that matches the spdxLicenseID of your application.
+        /// A link to a license file of the app that matches the spdxLicenseID value of your application.
         /// </para>
         /// 
         /// <para>
-        /// Max size 5 MB
+        /// Maximum size 5 MB
         /// </para>
         /// </summary>
         public string LicenseUrl
@@ -202,7 +225,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=140
+        /// Minimum length=1. Maximum length=140
         /// </para>
         /// 
         /// <para>
@@ -224,12 +247,12 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ReadmeUrl. 
         /// <para>
-        /// A link to the readme file that contains a more detailed description of the application
-        /// and how it works in Markdown language.
+        /// A link to the readme file in Markdown language that contains a more detailed description
+        /// of the application and how it works.
         /// </para>
         /// 
         /// <para>
-        /// Max size 5 MB
+        /// Maximum size 5 MB
         /// </para>
         /// </summary>
         public string ReadmeUrl
@@ -260,6 +283,24 @@ namespace Amazon.ServerlessApplicationRepository.Model
         internal bool IsSetSpdxLicenseId()
         {
             return this._spdxLicenseId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VerifiedAuthorUrl. 
+        /// <para>
+        /// The URL to the public profile of a verified author. This URL is submitted by the author.
+        /// </para>
+        /// </summary>
+        public string VerifiedAuthorUrl
+        {
+            get { return this._verifiedAuthorUrl; }
+            set { this._verifiedAuthorUrl = value; }
+        }
+
+        // Check to see if VerifiedAuthorUrl property is set
+        internal bool IsSetVerifiedAuthorUrl()
+        {
+            return this._verifiedAuthorUrl != null;
         }
 
         /// <summary>

@@ -30,14 +30,34 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// <summary>
     /// Container for the parameters to the UpdateAssociation operation.
     /// Updates an association. You can update the association name and version, the document
-    /// version, schedule, parameters, and Amazon S3 output.
+    /// version, schedule, parameters, and Amazon S3 output. 
+    /// 
+    ///  
+    /// <para>
+    /// In order to call this API action, your IAM user account, group, or role must be configured
+    /// with permission to call the <a>DescribeAssociation</a> API action. If you don't have
+    /// permission to call DescribeAssociation, then you receive the following error: <code>An
+    /// error occurred (AccessDeniedException) when calling the UpdateAssociation operation:
+    /// User: &lt;user_arn&gt; is not authorized to perform: ssm:DescribeAssociation on resource:
+    /// &lt;resource_arn&gt;</code> 
+    /// </para>
+    ///  <important> 
+    /// <para>
+    /// When you update an association, the association immediately runs against the specified
+    /// targets.
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class UpdateAssociationRequest : AmazonSimpleSystemsManagementRequest
     {
         private string _associationId;
         private string _associationName;
         private string _associationVersion;
+        private string _automationTargetParameterName;
+        private AssociationComplianceSeverity _complianceSeverity;
         private string _documentVersion;
+        private string _maxConcurrency;
+        private string _maxErrors;
         private string _name;
         private InstanceAssociationOutputLocation _outputLocation;
         private Dictionary<string, List<string>> _parameters = new Dictionary<string, List<string>>();
@@ -50,6 +70,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the association you want to update. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AssociationId
         {
             get { return this._associationId; }
@@ -101,6 +122,44 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AutomationTargetParameterName. 
+        /// <para>
+        /// Specify the target for the association. This target is required for associations that
+        /// use an Automation document and target resources by using rate controls.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=50)]
+        public string AutomationTargetParameterName
+        {
+            get { return this._automationTargetParameterName; }
+            set { this._automationTargetParameterName = value; }
+        }
+
+        // Check to see if AutomationTargetParameterName property is set
+        internal bool IsSetAutomationTargetParameterName()
+        {
+            return this._automationTargetParameterName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ComplianceSeverity. 
+        /// <para>
+        /// The severity level to assign to the association.
+        /// </para>
+        /// </summary>
+        public AssociationComplianceSeverity ComplianceSeverity
+        {
+            get { return this._complianceSeverity; }
+            set { this._complianceSeverity = value; }
+        }
+
+        // Check to see if ComplianceSeverity property is set
+        internal bool IsSetComplianceSeverity()
+        {
+            return this._complianceSeverity != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DocumentVersion. 
         /// <para>
         /// The document version you want update for the association. 
@@ -119,9 +178,100 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaxConcurrency. 
+        /// <para>
+        /// The maximum number of targets allowed to run the association at the same time. You
+        /// can specify a number, for example 10, or a percentage of the target set, for example
+        /// 10%. The default value is 100%, which means all targets run the association at the
+        /// same time.
+        /// </para>
+        ///  
+        /// <para>
+        /// If a new instance starts and attempts to run an association while Systems Manager
+        /// is running MaxConcurrency associations, the association is allowed to run. During
+        /// the next association interval, the new instance will process its association within
+        /// the limit specified for MaxConcurrency.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=7)]
+        public string MaxConcurrency
+        {
+            get { return this._maxConcurrency; }
+            set { this._maxConcurrency = value; }
+        }
+
+        // Check to see if MaxConcurrency property is set
+        internal bool IsSetMaxConcurrency()
+        {
+            return this._maxConcurrency != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaxErrors. 
+        /// <para>
+        /// The number of errors that are allowed before the system stops sending requests to
+        /// run the association on additional targets. You can specify either an absolute number
+        /// of errors, for example 10, or a percentage of the target set, for example 10%. If
+        /// you specify 3, for example, the system stops sending requests when the fourth error
+        /// is received. If you specify 0, then the system stops sending requests after the first
+        /// error is returned. If you run an association on 50 instances and set MaxError to 10%,
+        /// then the system stops sending the request when the sixth error is received.
+        /// </para>
+        ///  
+        /// <para>
+        /// Executions that are already running an association when MaxErrors is reached are allowed
+        /// to complete, but some of these executions may fail as well. If you need to ensure
+        /// that there won't be more than max-errors failed executions, set MaxConcurrency to
+        /// 1 so that executions proceed one at a time.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=7)]
+        public string MaxErrors
+        {
+            get { return this._maxErrors; }
+            set { this._maxErrors = value; }
+        }
+
+        // Check to see if MaxErrors property is set
+        internal bool IsSetMaxErrors()
+        {
+            return this._maxErrors != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the association document.
+        /// The name of the SSM document that contains the configuration information for the instance.
+        /// You can specify Command or Automation documents.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can specify AWS-predefined documents, documents you created, or a document that
+        /// is shared with you from another account.
+        /// </para>
+        ///  
+        /// <para>
+        /// For SSM documents that are shared with you from other AWS accounts, you must specify
+        /// the complete SSM document ARN, in the following format:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>arn:aws:ssm:<i>region</i>:<i>account-id</i>:document/<i>document-name</i> </code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// For example:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// For AWS-predefined documents and SSM documents you created in your account, you only
+        /// need to specify the document name. For example, <code>AWS-ApplyPatchBaseline</code>
+        /// or <code>My-Document</code>.
         /// </para>
         /// </summary>
         public string Name
@@ -179,6 +329,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The cron expression used to schedule the association that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string ScheduleExpression
         {
             get { return this._scheduleExpression; }
@@ -197,6 +348,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The targets of the association.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }

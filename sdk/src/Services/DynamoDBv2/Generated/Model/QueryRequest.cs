@@ -71,7 +71,7 @@ namespace Amazon.DynamoDBv2.Model
     /// set (if using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then
     /// apply any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
     /// is present in the response, you will need to paginate the result set. For more information,
-    /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.Pagination">Paginating
+    /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.Pagination">Paginating
     /// the Results</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
     /// </para>
     ///  
@@ -133,10 +133,11 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property AttributesToGet. 
         /// <para>
         /// This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more
-        /// information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a>
+        /// information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> AttributesToGet
         {
             get { return this._attributesToGet; }
@@ -153,7 +154,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property ConditionalOperator. 
         /// <para>
         /// This is a legacy parameter. Use <code>FilterExpression</code> instead. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html">ConditionalOperator</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -203,7 +204,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// The data type for <code>ExclusiveStartKey</code> must be String, Number or Binary.
+        /// The data type for <code>ExclusiveStartKey</code> must be String, Number, or Binary.
         /// No set data types are allowed.
         /// </para>
         /// </summary>
@@ -250,7 +251,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> </ul> 
         /// <para>
         /// The name of this attribute conflicts with a reserved word, so it cannot be used directly
-        /// in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+        /// in an expression. (For the complete list of reserved words, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
         /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you
         /// could specify the following for <code>ExpressionAttributeNames</code>:
         /// </para>
@@ -273,7 +274,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+        /// For more information on expression attribute names, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
         /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -323,7 +324,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information on expression attribute values, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Specifying
+        /// For more information on expression attribute values, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html">Specifying
         /// Conditions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -358,7 +359,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
         /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -382,6 +383,7 @@ namespace Amazon.DynamoDBv2.Model
         /// you must also provide <code>TableName.</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public string IndexName
         {
             get { return this._indexName; }
@@ -397,7 +399,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property KeyConditionExpression. 
         /// <para>
-        /// The condition that specifies the key value(s) for items to be retrieved by the <code>Query</code>
+        /// The condition that specifies the key values for items to be retrieved by the <code>Query</code>
         /// action.
         /// </para>
         ///  
@@ -501,13 +503,13 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For a list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
+        /// For a list of reserved words, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved
         /// Words</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// For more information on <code>ExpressionAttributeNames</code> and <code>ExpressionAttributeValues</code>,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ExpressionPlaceholders.html">Using
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ExpressionPlaceholders.html">Using
         /// Placeholders for Attribute Names and Values</a> in the <i>Amazon DynamoDB Developer
         /// Guide</i>.
         /// </para>
@@ -528,7 +530,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property KeyConditions. 
         /// <para>
         /// This is a legacy parameter. Use <code>KeyConditionExpression</code> instead. For more
-        /// information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.KeyConditions.html">KeyConditions</a>
+        /// information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.KeyConditions.html">KeyConditions</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -551,13 +553,14 @@ namespace Amazon.DynamoDBv2.Model
         /// If DynamoDB processes the number of items up to the limit while processing the results,
         /// it stops the operation and returns the matching values up to that point, and a key
         /// in <code>LastEvaluatedKey</code> to apply in a subsequent operation, so that you can
-        /// pick up where you left off. Also, if the processed data set size exceeds 1 MB before
+        /// pick up where you left off. Also, if the processed dataset size exceeds 1 MB before
         /// DynamoDB reaches this limit, it stops the operation and returns the matching values
         /// up to the limit, and a key in <code>LastEvaluatedKey</code> to apply in a subsequent
-        /// operation to continue the operation. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html">Query
+        /// operation to continue the operation. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html">Query
         /// and Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -584,7 +587,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
         /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -604,7 +607,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property QueryFilter. 
         /// <para>
         /// This is a legacy parameter. Use <code>FilterExpression</code> instead. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.QueryFilter.html">QueryFilter</a>
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.QueryFilter.html">QueryFilter</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -680,7 +683,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <para>
         ///  <code>ALL_ATTRIBUTES</code> - Returns all of the item attributes from the specified
         /// table or index. If you query a local secondary index, then for each matching item
-        /// in the index DynamoDB will fetch the entire item from the parent table. If the index
+        /// in the index, DynamoDB fetches the entire item from the parent table. If the index
         /// is configured to project all item attributes, then all of the data can be obtained
         /// from the local secondary index, and no fetching is required.
         /// </para>
@@ -706,7 +709,7 @@ namespace Amazon.DynamoDBv2.Model
         /// If you query or scan a local secondary index and request only attributes that are
         /// projected into that index, the operation will read only the index and not the table.
         /// If any of the requested attributes are not projected into the local secondary index,
-        /// DynamoDB will fetch each of these attributes from the parent table. This extra fetching
+        /// DynamoDB fetches each of these attributes from the parent table. This extra fetching
         /// incurs additional throughput cost and latency.
         /// </para>
         ///  
@@ -750,6 +753,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the table containing the requested items.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

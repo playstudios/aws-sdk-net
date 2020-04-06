@@ -32,17 +32,22 @@ namespace Amazon.Rekognition.Model
     /// 
     ///  
     /// <para>
-    /// You pass image bytes to a Rekognition API operation by using the <code>Bytes</code>
+    /// You pass image bytes to an Amazon Rekognition API operation by using the <code>Bytes</code>
     /// property. For example, you would use the <code>Bytes</code> property to pass an image
     /// loaded from a local file system. Image bytes passed by using the <code>Bytes</code>
     /// property must be base64-encoded. Your code may not need to encode image bytes if you
-    /// are using an AWS SDK to call Rekognition API operations. For more information, see
-    /// <a>images-bytes</a>.
+    /// are using an AWS SDK to call Amazon Rekognition API operations. 
     /// </para>
     ///  
     /// <para>
-    ///  You pass images stored in an S3 bucket to a Rekognition API operation by using the
-    /// <code>S3Object</code> property. Images stored in an S3 bucket do not need to be base64-encoded.
+    /// For more information, see Analyzing an Image Loaded from a Local File System in the
+    /// Amazon Rekognition Developer Guide.
+    /// </para>
+    ///  
+    /// <para>
+    ///  You pass images stored in an S3 bucket to an Amazon Rekognition API operation by
+    /// using the <code>S3Object</code> property. Images stored in an S3 bucket do not need
+    /// to be base64-encoded.
     /// </para>
     ///  
     /// <para>
@@ -51,14 +56,15 @@ namespace Amazon.Rekognition.Model
     /// </para>
     ///  
     /// <para>
-    /// If you use the Amazon CLI to call Amazon Rekognition operations, passing image bytes
+    /// If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes
     /// using the Bytes property is not supported. You must first upload the image to an Amazon
     /// S3 bucket and then call the operation using the S3Object property.
     /// </para>
     ///  
     /// <para>
     /// For Amazon Rekognition to process an S3 object, the user must have permission to access
-    /// the S3 object. For more information, see <a>manage-access-resource-policies</a>. 
+    /// the S3 object. For more information, see Resource Based Policies in the Amazon Rekognition
+    /// Developer Guide. 
     /// </para>
     /// </summary>
     public partial class Image
@@ -72,6 +78,7 @@ namespace Amazon.Rekognition.Model
         /// Blob of image bytes up to 5 MBs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=5242880)]
         public MemoryStream Bytes
         {
             get { return this._bytes; }

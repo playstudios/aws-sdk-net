@@ -35,15 +35,18 @@ namespace Amazon.Batch.Model
     {
         private ContainerProperties _containerProperties;
         private string _jobDefinitionName;
+        private NodeProperties _nodeProperties;
         private Dictionary<string, string> _parameters = new Dictionary<string, string>();
         private RetryStrategy _retryStrategy;
+        private JobTimeout _timeout;
         private JobDefinitionType _type;
 
         /// <summary>
         /// Gets and sets the property ContainerProperties. 
         /// <para>
-        /// An object with various properties specific for container-based jobs. This parameter
-        /// is required if the <code>type</code> parameter is <code>container</code>.
+        /// An object with various properties specific to single-node container-based jobs. If
+        /// the job definition's <code>type</code> parameter is <code>container</code>, then you
+        /// must specify either <code>containerProperties</code> or <code>nodeProperties</code>.
         /// </para>
         /// </summary>
         public ContainerProperties ContainerProperties
@@ -65,6 +68,7 @@ namespace Amazon.Batch.Model
         /// numbers, hyphens, and underscores are allowed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobDefinitionName
         {
             get { return this._jobDefinitionName; }
@@ -75,6 +79,29 @@ namespace Amazon.Batch.Model
         internal bool IsSetJobDefinitionName()
         {
             return this._jobDefinitionName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NodeProperties. 
+        /// <para>
+        /// An object with various properties specific to multi-node parallel jobs. If you specify
+        /// node properties for a job, it becomes a multi-node parallel job. For more information,
+        /// see <a href="https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html">Multi-node
+        /// Parallel Jobs</a> in the <i>AWS Batch User Guide</i>. If the job definition's <code>type</code>
+        /// parameter is <code>container</code>, then you must specify either <code>containerProperties</code>
+        /// or <code>nodeProperties</code>.
+        /// </para>
+        /// </summary>
+        public NodeProperties NodeProperties
+        {
+            get { return this._nodeProperties; }
+            set { this._nodeProperties = value; }
+        }
+
+        // Check to see if NodeProperties property is set
+        internal bool IsSetNodeProperties()
+        {
+            return this._nodeProperties != null;
         }
 
         /// <summary>
@@ -102,7 +129,8 @@ namespace Amazon.Batch.Model
         /// <para>
         /// The retry strategy to use for failed jobs that are submitted with this job definition.
         /// Any retry strategy that is specified during a <a>SubmitJob</a> operation overrides
-        /// the retry strategy defined here.
+        /// the retry strategy defined here. If a job is terminated due to a timeout, it is not
+        /// retried.
         /// </para>
         /// </summary>
         public RetryStrategy RetryStrategy
@@ -118,11 +146,35 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Timeout. 
+        /// <para>
+        /// The timeout configuration for jobs that are submitted with this job definition, after
+        /// which AWS Batch terminates your jobs if they have not finished. If a job is terminated
+        /// due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds.
+        /// Any timeout configuration that is specified during a <a>SubmitJob</a> operation overrides
+        /// the timeout configuration defined here. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/job_timeouts.html">Job
+        /// Timeouts</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        public JobTimeout Timeout
+        {
+            get { return this._timeout; }
+            set { this._timeout = value; }
+        }
+
+        // Check to see if Timeout property is set
+        internal bool IsSetTimeout()
+        {
+            return this._timeout != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
         /// The type of job definition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public JobDefinitionType Type
         {
             get { return this._type; }

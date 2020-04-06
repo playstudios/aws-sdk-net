@@ -55,20 +55,21 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(TestInvokeMethodRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}";
             if (!publicRequest.IsSetHttpMethod())
                 throw new AmazonAPIGatewayException("Request object does not have required field HttpMethod set");
-            uriResourcePath = uriResourcePath.Replace("{http_method}", StringUtils.FromString(publicRequest.HttpMethod));
+            request.AddPathResource("{http_method}", StringUtils.FromString(publicRequest.HttpMethod));
             if (!publicRequest.IsSetResourceId())
                 throw new AmazonAPIGatewayException("Request object does not have required field ResourceId set");
-            uriResourcePath = uriResourcePath.Replace("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
+            request.AddPathResource("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.ResourcePath = "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -96,6 +97,25 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
                         var publicRequestHeadersValue = publicRequestHeadersKvp.Value;
 
                             context.Writer.Write(publicRequestHeadersValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetMultiValueHeaders())
+                {
+                    context.Writer.WritePropertyName("multiValueHeaders");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestMultiValueHeadersKvp in publicRequest.MultiValueHeaders)
+                    {
+                        context.Writer.WritePropertyName(publicRequestMultiValueHeadersKvp.Key);
+                        var publicRequestMultiValueHeadersValue = publicRequestMultiValueHeadersKvp.Value;
+
+                        context.Writer.WriteArrayStart();
+                        foreach(var publicRequestMultiValueHeadersValueListValue in publicRequestMultiValueHeadersValue)
+                        {
+                                context.Writer.Write(publicRequestMultiValueHeadersValueListValue);
+                        }
+                        context.Writer.WriteArrayEnd();
                     }
                     context.Writer.WriteObjectEnd();
                 }

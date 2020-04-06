@@ -29,12 +29,12 @@ namespace Amazon.AutoScaling.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeMetricCollectionTypes operation.
-    /// Describes the available CloudWatch metrics for Auto Scaling.
+    /// Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
     /// 
     ///  
     /// <para>
-    /// Note that the <code>GroupStandbyInstances</code> metric is not returned by default.
-    /// You must explicitly request this metric when calling <a>EnableMetricsCollection</a>.
+    /// The <code>GroupStandbyInstances</code> metric is not returned by default. You must
+    /// explicitly request this metric when calling <a>EnableMetricsCollection</a>.
     /// </para>
     /// </summary>
     public partial class DescribeMetricCollectionTypesRequest : AmazonAutoScalingRequest

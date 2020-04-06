@@ -29,16 +29,16 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateTags operation.
-    /// Adds or overwrites one or more tags for the specified Amazon EC2 resource or resources.
+    /// Adds or overwrites the specified tags for the specified Amazon EC2 resource or resources.
     /// Each resource can have a maximum of 50 tags. Each tag consists of a key and optional
     /// value. Tag keys must be unique per resource.
     /// 
     ///  
     /// <para>
-    /// For more information about tags, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+    /// For more information about tags, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
     /// Your Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. For more
     /// information about creating IAM policies that control users' access to resources based
-    /// on tags, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-iam-actions-resources.html">Supported
+    /// on tags, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-iam-actions-resources.html">Supported
     /// Resource-Level Permissions for Amazon EC2 API Actions</a> in the <i>Amazon Elastic
     /// Compute Cloud User Guide</i>.
     /// </para>
@@ -56,8 +56,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates CreateTagsRequest with the parameterized properties
         /// </summary>
-        /// <param name="resources">The IDs of one or more resources to tag. For example, ami-1a2b3c4d.</param>
-        /// <param name="tags">One or more tags. The <code>value</code> parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string. </param>
+        /// <param name="resources">The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.</param>
+        /// <param name="tags">The tags. The <code>value</code> parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string.</param>
         public CreateTagsRequest(List<string> resources, List<Tag> tags)
         {
             _resources = resources;
@@ -67,9 +67,15 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Resources. 
         /// <para>
-        /// The IDs of one or more resources to tag. For example, ami-1a2b3c4d.
+        /// The IDs of the resources, separated by spaces.
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller
+        /// batches.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Resources
         {
             get { return this._resources; }
@@ -85,11 +91,12 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// One or more tags. The <code>value</code> parameter is required, but if you don't want
-        /// the tag to have a value, specify the parameter with no value, and we set the value
-        /// to an empty string. 
+        /// The tags. The <code>value</code> parameter is required, but if you don't want the
+        /// tag to have a value, specify the parameter with no value, and we set the value to
+        /// an empty string.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Tag> Tags
         {
             get { return this._tags; }

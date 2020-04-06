@@ -32,14 +32,37 @@ namespace Amazon.CognitoIdentity.Model
     /// </summary>
     public partial class CreateIdentityPoolResponse : AmazonWebServiceResponse
     {
+        private bool? _allowClassicFlow;
         private bool? _allowUnauthenticatedIdentities;
         private List<CognitoIdentityProviderInfo> _cognitoIdentityProviders = new List<CognitoIdentityProviderInfo>();
         private string _developerProviderName;
         private string _identityPoolId;
         private string _identityPoolName;
+        private Dictionary<string, string> _identityPoolTags = new Dictionary<string, string>();
         private List<string> _openIdConnectProviderARNs = new List<string>();
         private List<string> _samlProviderARNs = new List<string>();
         private Dictionary<string, string> _supportedLoginProviders = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Gets and sets the property AllowClassicFlow. 
+        /// <para>
+        /// Enables or disables the Basic (Classic) authentication flow. For more information,
+        /// see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html">Identity
+        /// Pools (Federated Identities) Authentication Flow</a> in the <i>Amazon Cognito Developer
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool AllowClassicFlow
+        {
+            get { return this._allowClassicFlow.GetValueOrDefault(); }
+            set { this._allowClassicFlow = value; }
+        }
+
+        // Check to see if AllowClassicFlow property is set
+        internal bool IsSetAllowClassicFlow()
+        {
+            return this._allowClassicFlow.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property AllowUnauthenticatedIdentities. 
@@ -47,6 +70,7 @@ namespace Amazon.CognitoIdentity.Model
         /// TRUE if the identity pool supports unauthenticated logins.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool AllowUnauthenticatedIdentities
         {
             get { return this._allowUnauthenticatedIdentities.GetValueOrDefault(); }
@@ -62,7 +86,7 @@ namespace Amazon.CognitoIdentity.Model
         /// <summary>
         /// Gets and sets the property CognitoIdentityProviders. 
         /// <para>
-        /// A list representing an Amazon Cognito Identity User Pool and its client ID.
+        /// A list representing an Amazon Cognito user pool and its client ID.
         /// </para>
         /// </summary>
         public List<CognitoIdentityProviderInfo> CognitoIdentityProviders
@@ -83,6 +107,7 @@ namespace Amazon.CognitoIdentity.Model
         /// The "domain" by which Cognito will refer to your users.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string DeveloperProviderName
         {
             get { return this._developerProviderName; }
@@ -101,6 +126,7 @@ namespace Amazon.CognitoIdentity.Model
         /// An identity pool ID in the format REGION:GUID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string IdentityPoolId
         {
             get { return this._identityPoolId; }
@@ -119,6 +145,7 @@ namespace Amazon.CognitoIdentity.Model
         /// A string that you provide.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string IdentityPoolName
         {
             get { return this._identityPoolName; }
@@ -129,6 +156,26 @@ namespace Amazon.CognitoIdentity.Model
         internal bool IsSetIdentityPoolName()
         {
             return this._identityPoolName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IdentityPoolTags. 
+        /// <para>
+        /// The tags that are assigned to the identity pool. A tag is a label that you can apply
+        /// to identity pools to categorize and manage them in different ways, such as by purpose,
+        /// owner, environment, or other criteria.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> IdentityPoolTags
+        {
+            get { return this._identityPoolTags; }
+            set { this._identityPoolTags = value; }
+        }
+
+        // Check to see if IdentityPoolTags property is set
+        internal bool IsSetIdentityPoolTags()
+        {
+            return this._identityPoolTags != null && this._identityPoolTags.Count > 0; 
         }
 
         /// <summary>
@@ -173,6 +220,7 @@ namespace Amazon.CognitoIdentity.Model
         /// Optional key:value pairs mapping provider names to provider app IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public Dictionary<string, string> SupportedLoginProviders
         {
             get { return this._supportedLoginProviders; }

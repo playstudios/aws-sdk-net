@@ -45,13 +45,14 @@ namespace Amazon.ServiceDiscovery.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// You must specify all <code>DnsRecords</code> configurations (and, optionally, <code>HealthCheckConfig</code>)
-    /// that you want to appear in the updated service. Any current configurations that don't
-    /// appear in an <code>UpdateService</code> request are deleted.
+    /// For public and private DNS namespaces, you must specify all <code>DnsRecords</code>
+    /// configurations (and, optionally, <code>HealthCheckConfig</code>) that you want to
+    /// appear in the updated service. Any current configurations that don't appear in an
+    /// <code>UpdateService</code> request are deleted.
     /// </para>
     ///  
     /// <para>
-    /// When you update the TTL setting for a service, Amazon Route 53 also updates the corresponding
+    /// When you update the TTL setting for a service, AWS Cloud Map also updates the corresponding
     /// settings in all the records and health checks that were created by using the specified
     /// service.
     /// </para>
@@ -67,6 +68,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// The ID of the service that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=64)]
         public string Id
         {
             get { return this._id; }
@@ -85,6 +87,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// A complex type that contains the new settings for the service.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ServiceChange Service
         {
             get { return this._service; }

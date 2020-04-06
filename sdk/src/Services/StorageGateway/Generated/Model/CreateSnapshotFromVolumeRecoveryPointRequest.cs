@@ -57,11 +57,18 @@ namespace Amazon.StorageGateway.Model
     public partial class CreateSnapshotFromVolumeRecoveryPointRequest : AmazonStorageGatewayRequest
     {
         private string _snapshotDescription;
+        private List<Tag> _tags = new List<Tag>();
         private string _volumeARN;
 
         /// <summary>
-        /// Gets and sets the property SnapshotDescription.
+        /// Gets and sets the property SnapshotDescription. 
+        /// <para>
+        /// Textual description of the snapshot that appears in the Amazon EC2 console, Elastic
+        /// Block Store snapshots panel in the <b>Description</b> field, and in the AWS Storage
+        /// Gateway snapshot <b>Details</b> pane, <b>Description</b> field
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string SnapshotDescription
         {
             get { return this._snapshotDescription; }
@@ -75,8 +82,40 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VolumeARN.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value
+        /// pair.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Valid characters for key and value are letters, spaces, and numbers representable
+        /// in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+        /// length of a tag's key is 128 characters, and the maximum length for a tag's value
+        /// is 256.
+        /// </para>
+        ///  </note>
         /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property VolumeARN. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the <a>DescribeStorediSCSIVolumes</a>
+        /// operation to return to retrieve the TargetARN for specified VolumeARN.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string VolumeARN
         {
             get { return this._volumeARN; }

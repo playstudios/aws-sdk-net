@@ -32,11 +32,13 @@ namespace Amazon.Polly.Model
     /// Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must
     /// be valid, well-formed SSML. Some alphabets might not be available with all the voices
     /// (for example, Cyrillic might not be read at all by English voices) unless phoneme
-    /// mapping is used. For more information, see <a href="http://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html">How
+    /// mapping is used. For more information, see <a href="https://docs.aws.amazon.com/polly/latest/dg/how-text-to-speech-works.html">How
     /// it Works</a>.
     /// </summary>
     public partial class SynthesizeSpeechRequest : AmazonPollyRequest
     {
+        private Engine _engine;
+        private LanguageCode _languageCode;
         private List<string> _lexiconNames = new List<string>();
         private OutputFormat _outputFormat;
         private string _sampleRate;
@@ -46,13 +48,62 @@ namespace Amazon.Polly.Model
         private VoiceId _voiceId;
 
         /// <summary>
+        /// Gets and sets the property Engine. 
+        /// <para>
+        /// Specifies the engine (<code>standard</code> or <code>neural</code>) for Amazon Polly
+        /// to use when processing input text for speech synthesis. Using a voice that is not
+        /// supported for the engine selected will result in an error.
+        /// </para>
+        /// </summary>
+        public Engine Engine
+        {
+            get { return this._engine; }
+            set { this._engine = value; }
+        }
+
+        // Check to see if Engine property is set
+        internal bool IsSetEngine()
+        {
+            return this._engine != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LanguageCode. 
+        /// <para>
+        /// Optional language code for the Synthesize Speech request. This is only necessary if
+        /// using a bilingual voice, such as Aditi, which can be used for either Indian English
+        /// (en-IN) or Hindi (hi-IN). 
+        /// </para>
+        ///  
+        /// <para>
+        /// If a bilingual voice is used and no language code is specified, Amazon Polly will
+        /// use the default language of the bilingual voice. The default language for any voice
+        /// is the one returned by the <a href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
+        /// operation for the <code>LanguageCode</code> parameter. For example, if no language
+        /// code is specified, Aditi will use Indian English rather than Hindi.
+        /// </para>
+        /// </summary>
+        public LanguageCode LanguageCode
+        {
+            get { return this._languageCode; }
+            set { this._languageCode = value; }
+        }
+
+        // Check to see if LanguageCode property is set
+        internal bool IsSetLanguageCode()
+        {
+            return this._languageCode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property LexiconNames. 
         /// <para>
         /// List of one or more pronunciation lexicon names you want the service to apply during
         /// synthesis. Lexicons are applied only if the language of the lexicon is the same as
-        /// the language of the voice. For information about storing lexicons, see <a href="http://docs.aws.amazon.com/polly/latest/dg/API_PutLexicon.html">PutLexicon</a>.
+        /// the language of the voice. For information about storing lexicons, see <a href="https://docs.aws.amazon.com/polly/latest/dg/API_PutLexicon.html">PutLexicon</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> LexiconNames
         {
             get { return this._lexiconNames; }
@@ -71,7 +122,13 @@ namespace Amazon.Polly.Model
         ///  The format in which the returned output will be encoded. For audio stream, this will
         /// be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. 
         /// </para>
+        ///  
+        /// <para>
+        /// When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel
+        /// (mono), little-endian format. 
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public OutputFormat OutputFormat
         {
             get { return this._outputFormat; }
@@ -87,17 +144,17 @@ namespace Amazon.Polly.Model
         /// <summary>
         /// Gets and sets the property SampleRate. 
         /// <para>
-        ///  The audio frequency specified in Hz. 
+        /// The audio frequency specified in Hz.
         /// </para>
         ///  
         /// <para>
-        /// The valid values for <code>mp3</code> and <code>ogg_vorbis</code> are "8000", "16000",
-        /// and "22050". The default value is "22050". 
+        /// The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000".
+        /// The default value for standard voices is "22050". The default value for neural voices
+        /// is "24000".
         /// </para>
         ///  
         /// <para>
-        ///  Valid values for <code>pcm</code> are "8000" and "16000" The default value is "16000".
-        /// 
+        /// Valid values for pcm are "8000" and "16000" The default value is "16000". 
         /// </para>
         /// </summary>
         public string SampleRate
@@ -118,6 +175,7 @@ namespace Amazon.Polly.Model
         /// The type of speech marks returned for the input text.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=4)]
         public List<string> SpeechMarkTypes
         {
             get { return this._speechMarkTypes; }
@@ -137,6 +195,7 @@ namespace Amazon.Polly.Model
         /// follow the SSML format for the input text. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Text
         {
             get { return this._text; }
@@ -153,7 +212,7 @@ namespace Amazon.Polly.Model
         /// Gets and sets the property TextType. 
         /// <para>
         ///  Specifies whether the input text is plain text or SSML. The default value is plain
-        /// text. For more information, see <a href="http://docs.aws.amazon.com/polly/latest/dg/ssml.html">Using
+        /// text. For more information, see <a href="https://docs.aws.amazon.com/polly/latest/dg/ssml.html">Using
         /// SSML</a>.
         /// </para>
         /// </summary>
@@ -173,10 +232,11 @@ namespace Amazon.Polly.Model
         /// Gets and sets the property VoiceId. 
         /// <para>
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling
-        /// the <a href="http://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
+        /// the <a href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
         /// operation. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public VoiceId VoiceId
         {
             get { return this._voiceId; }

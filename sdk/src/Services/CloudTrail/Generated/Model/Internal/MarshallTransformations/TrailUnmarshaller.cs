@@ -82,6 +82,12 @@ namespace Amazon.CloudTrail.Model.Internal.MarshallTransformations
                     unmarshalledObject.HasCustomEventSelectors = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("HasInsightSelectors", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.HasInsightSelectors = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("HomeRegion", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -98,6 +104,12 @@ namespace Amazon.CloudTrail.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
                     unmarshalledObject.IsMultiRegionTrail = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("IsOrganizationTrail", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.IsOrganizationTrail = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("KmsKeyId", targetDepth))

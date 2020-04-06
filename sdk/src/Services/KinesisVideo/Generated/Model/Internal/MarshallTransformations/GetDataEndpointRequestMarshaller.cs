@@ -55,11 +55,12 @@ namespace Amazon.KinesisVideo.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetDataEndpointRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.KinesisVideo");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-30";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/getDataEndpoint";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/getDataEndpoint";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

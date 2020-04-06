@@ -26,6 +26,7 @@ using System.Globalization;
 using Amazon.Util;
 using Amazon.Util.Internal;
 using System.Collections.Generic;
+using Amazon.Runtime;
 
 namespace Amazon
 {
@@ -85,7 +86,6 @@ namespace Amazon
         internal static string _awsProfileName = GetConfig(AWSProfileNameKey);
         internal static string _awsAccountsLocation = GetConfig(AWSProfilesLocationKey);
         internal static bool _useSdkCache = GetConfigBool(UseSdkCacheKey, defaultValue: true);
-        
         // for reading from awsconfigs.xml
         private static object _lock = new object();
         private static List<string> standardConfigs = new List<string>() { "region", "logging", "correctForClockSkew" };
@@ -397,7 +397,6 @@ namespace Amazon
 
         #endregion
 
-
         #region AWS Config Sections
 
         /// <summary>
@@ -432,6 +431,22 @@ namespace Amazon
         /// </summary>
         public static ProxyConfig ProxyConfig { get { return _rootConfig.Proxy; } }
 
+#if BCL || NETSTANDARD
+        /// <summary>
+        /// When set to true, the service client will use the  x-amz-user-agent
+        /// header instead of the User-Agent header to report version and
+        /// environment information to the AWS service.
+        ///
+        /// Note: This is especially useful when using a platform like WebAssembly
+        /// which doesn't allow to specify the User-Agent header.
+        /// </summary>
+        public static bool UseAlternateUserAgentHeader
+        {
+            get { return _rootConfig.UseAlternateUserAgentHeader; }
+            set { _rootConfig.UseAlternateUserAgentHeader = value; }
+        }
+#endif
+
         /// <summary>
         /// Configuration for the region endpoint section of AWS configuration.
         /// Changes may not take effect until a new client is constructed.
@@ -450,6 +465,11 @@ namespace Amazon
             set { _rootConfig.RegionEndpoint = value; }
         }
 
+        public static CSMConfig CSMConfig
+        {
+            get { return _rootConfig.CSMConfig; }
+            set { _rootConfig.CSMConfig = value; }
+        }
         #endregion
 
         #region Internal members

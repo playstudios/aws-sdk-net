@@ -28,8 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DirectConnect.Model
 {
     /// <summary>
-    /// A virtual interface (VLAN) transmits the traffic between the AWS Direct Connect location
-    /// and the customer.
+    /// Information about a virtual interface.
     /// </summary>
     public partial class AllocatePrivateVirtualInterfaceResponse : AmazonWebServiceResponse
     {
@@ -38,14 +37,19 @@ namespace Amazon.DirectConnect.Model
         private long? _amazonSideAsn;
         private int? _asn;
         private string _authKey;
+        private string _awsDeviceV2;
         private List<BGPPeer> _bgpPeers = new List<BGPPeer>();
         private string _connectionId;
         private string _customerAddress;
         private string _customerRouterConfig;
         private string _directConnectGatewayId;
+        private bool? _jumboFrameCapable;
         private string _location;
+        private int? _mtu;
         private string _ownerAccount;
+        private string _region;
         private List<RouteFilterPrefix> _routeFilterPrefixes = new List<RouteFilterPrefix>();
+        private List<Tag> _tags = new List<Tag>();
         private string _virtualGatewayId;
         private string _virtualInterfaceId;
         private string _virtualInterfaceName;
@@ -54,7 +58,10 @@ namespace Amazon.DirectConnect.Model
         private int? _vlan;
 
         /// <summary>
-        /// Gets and sets the property AddressFamily.
+        /// Gets and sets the property AddressFamily. 
+        /// <para>
+        /// The address family for the BGP peer.
+        /// </para>
         /// </summary>
         public AddressFamily AddressFamily
         {
@@ -69,7 +76,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property AmazonAddress.
+        /// Gets and sets the property AmazonAddress. 
+        /// <para>
+        /// The IP address assigned to the Amazon interface.
+        /// </para>
         /// </summary>
         public string AmazonAddress
         {
@@ -102,7 +112,14 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Asn.
+        /// Gets and sets the property Asn. 
+        /// <para>
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// </para>
+        ///  
+        /// <para>
+        /// The valid values are 1-2147483647.
+        /// </para>
         /// </summary>
         public int Asn
         {
@@ -117,7 +134,11 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property AuthKey.
+        /// Gets and sets the property AuthKey. 
+        /// <para>
+        /// The authentication key for BGP configuration. This string has a minimum length of
+        /// 6 characters and and a maximun lenth of 80 characters.
+        /// </para>
         /// </summary>
         public string AuthKey
         {
@@ -132,7 +153,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property BgpPeers.
+        /// Gets and sets the property AwsDeviceV2. 
+        /// <para>
+        /// The Direct Connect endpoint on which the virtual interface terminates.
+        /// </para>
+        /// </summary>
+        public string AwsDeviceV2
+        {
+            get { return this._awsDeviceV2; }
+            set { this._awsDeviceV2 = value; }
+        }
+
+        // Check to see if AwsDeviceV2 property is set
+        internal bool IsSetAwsDeviceV2()
+        {
+            return this._awsDeviceV2 != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property BgpPeers. 
+        /// <para>
+        /// The BGP peers configured on this virtual interface.
+        /// </para>
         /// </summary>
         public List<BGPPeer> BgpPeers
         {
@@ -147,7 +189,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ConnectionId.
+        /// Gets and sets the property ConnectionId. 
+        /// <para>
+        /// The ID of the connection.
+        /// </para>
         /// </summary>
         public string ConnectionId
         {
@@ -162,7 +207,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CustomerAddress.
+        /// Gets and sets the property CustomerAddress. 
+        /// <para>
+        /// The IP address assigned to the customer interface.
+        /// </para>
         /// </summary>
         public string CustomerAddress
         {
@@ -179,7 +227,7 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property CustomerRouterConfig. 
         /// <para>
-        /// Information for generating the customer router configuration.
+        /// The customer router configuration.
         /// </para>
         /// </summary>
         public string CustomerRouterConfig
@@ -195,7 +243,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DirectConnectGatewayId.
+        /// Gets and sets the property DirectConnectGatewayId. 
+        /// <para>
+        /// The ID of the Direct Connect gateway.
+        /// </para>
         /// </summary>
         public string DirectConnectGatewayId
         {
@@ -210,7 +261,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Location.
+        /// Gets and sets the property JumboFrameCapable. 
+        /// <para>
+        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// </para>
+        /// </summary>
+        public bool JumboFrameCapable
+        {
+            get { return this._jumboFrameCapable.GetValueOrDefault(); }
+            set { this._jumboFrameCapable = value; }
+        }
+
+        // Check to see if JumboFrameCapable property is set
+        internal bool IsSetJumboFrameCapable()
+        {
+            return this._jumboFrameCapable.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Location. 
+        /// <para>
+        /// The location of the connection.
+        /// </para>
         /// </summary>
         public string Location
         {
@@ -225,9 +297,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Mtu. 
+        /// <para>
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001.
+        /// The default value is 1500.
+        /// </para>
+        /// </summary>
+        public int Mtu
+        {
+            get { return this._mtu.GetValueOrDefault(); }
+            set { this._mtu = value; }
+        }
+
+        // Check to see if Mtu property is set
+        internal bool IsSetMtu()
+        {
+            return this._mtu.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property OwnerAccount. 
         /// <para>
-        /// The AWS account that will own the new virtual interface.
+        /// The ID of the AWS account that owns the virtual interface.
         /// </para>
         /// </summary>
         public string OwnerAccount
@@ -243,7 +334,29 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RouteFilterPrefixes.
+        /// Gets and sets the property Region. 
+        /// <para>
+        /// The AWS Region where the virtual interface is located.
+        /// </para>
+        /// </summary>
+        public string Region
+        {
+            get { return this._region; }
+            set { this._region = value; }
+        }
+
+        // Check to see if Region property is set
+        internal bool IsSetRegion()
+        {
+            return this._region != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RouteFilterPrefixes. 
+        /// <para>
+        /// The routes to be advertised to the AWS network in this Region. Applies to public virtual
+        /// interfaces.
+        /// </para>
         /// </summary>
         public List<RouteFilterPrefix> RouteFilterPrefixes
         {
@@ -258,7 +371,29 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VirtualGatewayId.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags associated with the virtual interface.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property VirtualGatewayId. 
+        /// <para>
+        /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
+        /// </para>
         /// </summary>
         public string VirtualGatewayId
         {
@@ -273,7 +408,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VirtualInterfaceId.
+        /// Gets and sets the property VirtualInterfaceId. 
+        /// <para>
+        /// The ID of the virtual interface.
+        /// </para>
         /// </summary>
         public string VirtualInterfaceId
         {
@@ -288,7 +426,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VirtualInterfaceName.
+        /// Gets and sets the property VirtualInterfaceName. 
+        /// <para>
+        /// The name of the virtual interface assigned by the customer network.
+        /// </para>
         /// </summary>
         public string VirtualInterfaceName
         {
@@ -303,7 +444,56 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VirtualInterfaceState.
+        /// Gets and sets the property VirtualInterfaceState. 
+        /// <para>
+        /// The state of the virtual interface. The following are the possible values:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>confirming</code>: The creation of the virtual interface is pending confirmation
+        /// from the virtual interface owner. If the owner of the virtual interface is different
+        /// from the owner of the connection on which it is provisioned, then the virtual interface
+        /// will remain in this state until it is confirmed by the virtual interface owner.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>verifying</code>: This state only applies to public virtual interfaces. Each
+        /// public virtual interface needs validation before the virtual interface can be created.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>pending</code>: A virtual interface is in this state from the time that it
+        /// is created until the virtual interface is ready to forward traffic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>available</code>: A virtual interface that is able to forward traffic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>down</code>: A virtual interface that is BGP down.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>deleting</code>: A virtual interface is in this state immediately after calling
+        /// <a>DeleteVirtualInterface</a> until it can no longer forward traffic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>deleted</code>: A virtual interface that cannot forward traffic.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>rejected</code>: The virtual interface owner has declined creation of the virtual
+        /// interface. If a virtual interface in the <code>Confirming</code> state is deleted
+        /// by the virtual interface owner, the virtual interface enters the <code>Rejected</code>
+        /// state.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>unknown</code>: The state of the virtual interface is not available.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public VirtualInterfaceState VirtualInterfaceState
         {
@@ -318,7 +508,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VirtualInterfaceType.
+        /// Gets and sets the property VirtualInterfaceType. 
+        /// <para>
+        /// The type of virtual interface. The possible values are <code>private</code> and <code>public</code>.
+        /// </para>
         /// </summary>
         public string VirtualInterfaceType
         {
@@ -333,7 +526,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Vlan.
+        /// Gets and sets the property Vlan. 
+        /// <para>
+        /// The ID of the VLAN.
+        /// </para>
         /// </summary>
         public int Vlan
         {

@@ -36,7 +36,7 @@ namespace Amazon.SimpleNotificationService.Model
     /// <para>
     /// You can override some of these settings for a single message when you use the <code>Publish</code>
     /// action with the <code>MessageAttributes.entry.N</code> parameter. For more information,
-    /// see <a href="http://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html">Sending
+    /// see <a href="https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html">Sending
     /// an SMS Message</a> in the <i>Amazon SNS Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -66,8 +66,10 @@ namespace Amazon.SimpleNotificationService.Model
         ///  </important> 
         /// <para>
         /// By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want
-        /// to exceed the maximum, contact <a href="https://aws.amazon.com/premiumsupport/">AWS
-        /// Support</a> or your AWS sales representative for a service limit increase.
+        /// to raise the limit, submit an <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-sns">SNS
+        /// Limit Increase case</a>. For <b>New limit value</b>, enter your desired monthly spend
+        /// limit. In the <b>Use Case Description</b> field, explain that you are requesting an
+        /// SMS monthly spend limit increase.
         /// </para>
         ///  
         /// <para>
@@ -156,10 +158,11 @@ namespace Amazon.SimpleNotificationService.Model
         /// </para>
         ///  
         /// <para>
-        /// For an example bucket policy and usage report, see <a href="http://docs.aws.amazon.com/sns/latest/dg/sms_stats.html">Monitoring
+        /// For an example bucket policy and usage report, see <a href="https://docs.aws.amazon.com/sns/latest/dg/sms_stats.html">Monitoring
         /// SMS Activity</a> in the <i>Amazon SNS Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Dictionary<string, string> Attributes
         {
             get { return this._attributes; }

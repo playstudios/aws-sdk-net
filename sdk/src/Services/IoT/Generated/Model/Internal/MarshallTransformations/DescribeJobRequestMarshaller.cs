@@ -55,13 +55,14 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeJobRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/jobs/{jobId}";
             if (!publicRequest.IsSetJobId())
                 throw new AmazonIoTException("Request object does not have required field JobId set");
-            uriResourcePath = uriResourcePath.Replace("{jobId}", StringUtils.FromString(publicRequest.JobId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{jobId}", StringUtils.FromString(publicRequest.JobId));
+            request.ResourcePath = "/jobs/{jobId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

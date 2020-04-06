@@ -106,6 +106,12 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     unmarshalledObject.ExecutionProperty = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("GlueVersion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.GlueVersion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("LastModifiedOn", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
@@ -116,6 +122,12 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.LogUri = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("MaxCapacity", targetDepth))
+                {
+                    var unmarshaller = DoubleUnmarshaller.Instance;
+                    unmarshalledObject.MaxCapacity = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("MaxRetries", targetDepth))
@@ -130,10 +142,46 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     unmarshalledObject.Name = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("NonOverridableArguments", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    unmarshalledObject.NonOverridableArguments = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NotificationProperty", targetDepth))
+                {
+                    var unmarshaller = NotificationPropertyUnmarshaller.Instance;
+                    unmarshalledObject.NotificationProperty = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NumberOfWorkers", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.NumberOfWorkers = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("Role", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Role = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("SecurityConfiguration", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SecurityConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("Timeout", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.Timeout = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("WorkerType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.WorkerType = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

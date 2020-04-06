@@ -35,7 +35,7 @@ namespace Amazon.GameLift.Model
     /// 
     ///  
     /// <para>
-    /// Operations related to match configurations and rule sets include:
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -65,6 +65,10 @@ namespace Amazon.GameLift.Model
     /// <para>
     ///  <a>ValidateMatchmakingRuleSet</a> 
     /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DeleteMatchmakingRuleSet</a> 
+    /// </para>
     ///  </li> </ul>
     /// </summary>
     public partial class DeleteMatchmakingConfigurationRequest : AmazonGameLiftRequest
@@ -74,9 +78,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Unique identifier for a matchmaking configuration
+        /// A unique identifier for a matchmaking configuration. You can use either the configuration
+        /// name or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }

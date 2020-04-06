@@ -29,8 +29,30 @@ namespace Amazon.ApplicationDiscoveryService.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeTags operation.
-    /// Retrieves a list of configuration items that are tagged with a specific tag. Or retrieves
-    /// a list of all tags assigned to a specific configuration item.
+    /// Retrieves a list of configuration items that have tags as specified by the key-value
+    /// pairs, name and value, passed to the optional parameter <code>filters</code>.
+    /// 
+    ///  
+    /// <para>
+    /// There are three valid tag filter names:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// tagKey
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// tagValue
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// configurationId
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// Also, all configuration items associated with your user account that have tags can
+    /// be listed if you call <code>DescribeTags</code> as is without passing any parameters.
+    /// </para>
     /// </summary>
     public partial class DescribeTagsRequest : AmazonApplicationDiscoveryServiceRequest
     {

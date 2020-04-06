@@ -43,13 +43,14 @@ namespace Amazon.CostExplorer.Model
     /// </para>
     ///  
     /// <para>
-    /// For example, AWS automatically aggregates your EC2 Linux, shared tenancy, and c4 family
-    /// usage in the US West (Oregon) Region and recommends that you buy size-flexible regional
-    /// reservations to apply to the c4 family usage. AWS recommends the smallest size instance
-    /// in an instance family. This makes it easier to purchase a size-flexible RI. AWS also
-    /// shows the equal number of normalized units so that you can purchase any instance size
-    /// that you want. For this example, your RI recommendation would be for <code>c4.large</code>,
-    /// because that is the smallest size instance in the c4 instance family.
+    /// For example, AWS automatically aggregates your Amazon EC2 Linux, shared tenancy, and
+    /// c4 family usage in the US West (Oregon) Region and recommends that you buy size-flexible
+    /// regional reservations to apply to the c4 family usage. AWS recommends the smallest
+    /// size instance in an instance family. This makes it easier to purchase a size-flexible
+    /// RI. AWS also shows the equal number of normalized units so that you can purchase any
+    /// instance size that you want. For this example, your RI recommendation would be for
+    /// <code>c4.large</code> because that is the smallest size instance in the c4 instance
+    /// family.
     /// </para>
     /// </summary>
     public partial class GetReservationPurchaseRecommendationRequest : AmazonCostExplorerRequest
@@ -85,9 +86,10 @@ namespace Amazon.CostExplorer.Model
         /// <summary>
         /// Gets and sets the property AccountScope. 
         /// <para>
-        /// The account scope that you want recommendations for. The only valid value is <code>Payer</code>.
-        /// This means that AWS includes the master account and any member accounts when it calculates
-        /// its recommendations.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates
+        /// recommendations including the payer account and linked accounts if the value is set
+        /// to <code>PAYER</code>. If the value is <code>LINKED</code>, recommendations are calculated
+        /// for individual linked accounts only.
         /// </para>
         /// </summary>
         public AccountScope AccountScope
@@ -145,6 +147,7 @@ namespace Amazon.CostExplorer.Model
         /// The number of recommendations that you want returned in a single response object.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int PageSize
         {
             get { return this._pageSize.GetValueOrDefault(); }
@@ -181,6 +184,7 @@ namespace Amazon.CostExplorer.Model
         /// The specific service that you want recommendations for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Service
         {
             get { return this._service; }
@@ -196,7 +200,8 @@ namespace Amazon.CostExplorer.Model
         /// <summary>
         /// Gets and sets the property ServiceSpecification. 
         /// <para>
-        /// The specific service, such as EC2, that you want recommendations for.
+        /// The hardware specifications for the service instances that you want recommendations
+        /// for, such as standard or convertible Amazon EC2 instances.
         /// </para>
         /// </summary>
         public ServiceSpecification ServiceSpecification

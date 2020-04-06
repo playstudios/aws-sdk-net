@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CodeBuild.Model;
 using Amazon.CodeBuild.Model.Internal.MarshallTransformations;
+using Amazon.CodeBuild.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -41,8 +43,9 @@ namespace Amazon.CodeBuild
     /// It provides prepackaged build environments for the most popular programming languages
     /// and build tools, such as Apache Maven, Gradle, and more. You can also fully customize
     /// build environments in AWS CodeBuild to use your own build tools. AWS CodeBuild scales
-    /// automatically to meet peak build requests, and you pay only for the build time you
-    /// consume. For more information about AWS CodeBuild, see the <i>AWS CodeBuild User Guide</i>.
+    /// automatically to meet peak build requests. You pay only for the build time you consume.
+    /// For more information about AWS CodeBuild, see the <i> <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/welcome.html">AWS
+    /// CodeBuild User Guide</a>.</i> 
     /// </para>
     ///  
     /// <para>
@@ -54,13 +57,25 @@ namespace Amazon.CodeBuild
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <code>BatchGetBuilds</code>: Gets information about one or more builds.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     ///  <code>BatchGetProjects</code>: Gets information about one or more build projects.
-    /// A <i>build project</i> defines how AWS CodeBuild will run a build. This includes information
+    /// A <i>build project</i> defines how AWS CodeBuild runs a build. This includes information
     /// such as where to get the source code to build, the build environment to use, the build
-    /// commands to run, and where to store the build output. A <i>build environment</i> represents
-    /// a combination of operating system, programming language runtime, and tools that AWS
-    /// CodeBuild will use to run a build. Also, you can add tags to build projects to help
-    /// manage your resources and costs.
+    /// commands to run, and where to store the build output. A <i>build environment</i> is
+    /// a representation of operating system, programming language runtime, and tools that
+    /// AWS CodeBuild uses to run a build. You can add tags to build projects to help manage
+    /// your resources and costs.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>BatchGetReportGroups</code>: Returns an array of report groups. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>BatchGetReports</code>: Returns an array of reports. 
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -68,13 +83,14 @@ namespace Amazon.CodeBuild
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>CreateWebhook</code>: For an existing AWS CodeBuild build project that has
-    /// its source code stored in a GitHub repository, enables AWS CodeBuild to begin automatically
-    /// rebuilding the source code every time a code change is pushed to the repository.
+    ///  <code>CreateReportGroup</code>: Creates a report group. A report group contains a
+    /// collection of reports. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>UpdateWebhook</code>: Changes the settings of an existing webhook.
+    ///  <code>CreateWebhook</code>: For an existing AWS CodeBuild build project that has
+    /// its source code stored in a GitHub or Bitbucket repository, enables AWS CodeBuild
+    /// to start rebuilding the source code every time a code change is pushed to the repository.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -82,22 +98,47 @@ namespace Amazon.CodeBuild
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <code>DeleteReport</code>: Deletes a report. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DeleteReportGroup</code>: Deletes a report group. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DeleteResourcePolicy</code>: Deletes a resource policy that is identified by
+    /// its resource ARN. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DeleteSourceCredentials</code>: Deletes a set of GitHub, GitHub Enterprise,
+    /// or Bitbucket source credentials.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     ///  <code>DeleteWebhook</code>: For an existing AWS CodeBuild build project that has
-    /// its source code stored in a GitHub repository, stops AWS CodeBuild from automatically
+    /// its source code stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from
     /// rebuilding the source code every time a code change is pushed to the repository.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>ListProjects</code>: Gets a list of build project names, with each build project
-    /// name representing a single build project.
+    ///  <code>DescribeTestCases</code>: Returns a list of details about test cases for a
+    /// report. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>UpdateProject</code>: Changes the settings of an existing build project.
+    ///  <code>GetResourcePolicy</code>: Gets a resource policy that is identified by its
+    /// resource ARN. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>BatchGetBuilds</code>: Gets information about one or more builds.
+    ///  <code>ImportSourceCredentials</code>: Imports the source repository credentials for
+    /// an AWS CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise,
+    /// or Bitbucket repository.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>InvalidateProjectCache</code>: Resets the cache for a project.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -111,6 +152,52 @@ namespace Amazon.CodeBuild
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <code>ListCuratedEnvironmentImages</code>: Gets information about Docker images that
+    /// are managed by AWS CodeBuild.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ListProjects</code>: Gets a list of build project names, with each build project
+    /// name representing a single build project.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ListReportGroups</code>: Gets a list ARNs for the report groups in the current
+    /// AWS account. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ListReports</code>: Gets a list ARNs for the reports in the current AWS account.
+    /// 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ListReportsForReportGroup</code>: Returns a list of ARNs for the reports that
+    /// belong to a <code>ReportGroup</code>. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ListSharedProjects</code>: Gets a list of ARNs associated with projects shared
+    /// with the current AWS account or user.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ListSharedReportGroups</code>: Gets a list of ARNs associated with report groups
+    /// shared with the current AWS account or user
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ListSourceCredentials</code>: Returns a list of <code>SourceCredentialsInfo</code>
+    /// objects. Each <code>SourceCredentialsInfo</code> object includes the authentication
+    /// type, token ARN, and type of source provider for one set of credentials.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>PutResourcePolicy</code>: Stores a resource policy for the ARN of a <code>Project</code>
+    /// or <code>ReportGroup</code> object. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     ///  <code>StartBuild</code>: Starts running a build.
     /// </para>
     ///  </li> <li> 
@@ -119,13 +206,21 @@ namespace Amazon.CodeBuild
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>ListCuratedEnvironmentImages</code>: Gets information about Docker images that
-    /// are managed by AWS CodeBuild.
+    ///  <code>UpdateProject</code>: Changes the settings of an existing build project.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>UpdateReportGroup</code>: Changes a report group.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>UpdateWebhook</code>: Changes the settings of an existing webhook.
     /// </para>
     ///  </li> </ul>
     /// </summary>
     public partial class AmazonCodeBuildClient : AmazonServiceClient, IAmazonCodeBuild
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCodeBuildMetadata();
         #region Constructors
 
         /// <summary>
@@ -296,6 +391,16 @@ namespace Amazon.CodeBuild
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -311,7 +416,7 @@ namespace Amazon.CodeBuild
 
         #endregion
 
-        
+
         #region  BatchDeleteBuilds
 
         /// <summary>
@@ -326,10 +431,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchDeleteBuilds">REST API Reference for BatchDeleteBuilds Operation</seealso>
         public virtual BatchDeleteBuildsResponse BatchDeleteBuilds(BatchDeleteBuildsRequest request)
         {
-            var marshaller = BatchDeleteBuildsRequestMarshaller.Instance;
-            var unmarshaller = BatchDeleteBuildsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteBuildsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteBuildsResponseUnmarshaller.Instance;
 
-            return Invoke<BatchDeleteBuildsRequest,BatchDeleteBuildsResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchDeleteBuildsResponse>(request, options);
         }
 
         /// <summary>
@@ -346,11 +452,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchDeleteBuilds">REST API Reference for BatchDeleteBuilds Operation</seealso>
         public virtual IAsyncResult BeginBatchDeleteBuilds(BatchDeleteBuildsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchDeleteBuildsRequestMarshaller.Instance;
-            var unmarshaller = BatchDeleteBuildsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteBuildsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteBuildsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchDeleteBuildsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -371,7 +477,7 @@ namespace Amazon.CodeBuild
         #region  BatchGetBuilds
 
         /// <summary>
-        /// Gets information about builds.
+        /// Gets information about one or more builds.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetBuilds service method.</param>
         /// 
@@ -382,10 +488,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetBuilds">REST API Reference for BatchGetBuilds Operation</seealso>
         public virtual BatchGetBuildsResponse BatchGetBuilds(BatchGetBuildsRequest request)
         {
-            var marshaller = BatchGetBuildsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetBuildsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetBuildsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetBuildsResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetBuildsRequest,BatchGetBuildsResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetBuildsResponse>(request, options);
         }
 
         /// <summary>
@@ -402,11 +509,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetBuilds">REST API Reference for BatchGetBuilds Operation</seealso>
         public virtual IAsyncResult BeginBatchGetBuilds(BatchGetBuildsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetBuildsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetBuildsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetBuildsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetBuildsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetBuildsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -427,7 +534,7 @@ namespace Amazon.CodeBuild
         #region  BatchGetProjects
 
         /// <summary>
-        /// Gets information about build projects.
+        /// Gets information about one or more build projects.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetProjects service method.</param>
         /// 
@@ -438,10 +545,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetProjects">REST API Reference for BatchGetProjects Operation</seealso>
         public virtual BatchGetProjectsResponse BatchGetProjects(BatchGetProjectsRequest request)
         {
-            var marshaller = BatchGetProjectsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetProjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetProjectsResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetProjectsRequest,BatchGetProjectsResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetProjectsResponse>(request, options);
         }
 
         /// <summary>
@@ -458,11 +566,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetProjects">REST API Reference for BatchGetProjects Operation</seealso>
         public virtual IAsyncResult BeginBatchGetProjects(BatchGetProjectsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetProjectsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetProjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetProjectsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetProjectsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -476,6 +584,120 @@ namespace Amazon.CodeBuild
         public virtual BatchGetProjectsResponse EndBatchGetProjects(IAsyncResult asyncResult)
         {
             return EndInvoke<BatchGetProjectsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  BatchGetReportGroups
+
+        /// <summary>
+        /// Returns an array of report groups.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetReportGroups service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetReportGroups service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetReportGroups">REST API Reference for BatchGetReportGroups Operation</seealso>
+        public virtual BatchGetReportGroupsResponse BatchGetReportGroups(BatchGetReportGroupsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetReportGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetReportGroupsResponseUnmarshaller.Instance;
+
+            return Invoke<BatchGetReportGroupsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetReportGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetReportGroups operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetReportGroups
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetReportGroups">REST API Reference for BatchGetReportGroups Operation</seealso>
+        public virtual IAsyncResult BeginBatchGetReportGroups(BatchGetReportGroupsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetReportGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetReportGroupsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetReportGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetReportGroups.</param>
+        /// 
+        /// <returns>Returns a  BatchGetReportGroupsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetReportGroups">REST API Reference for BatchGetReportGroups Operation</seealso>
+        public virtual BatchGetReportGroupsResponse EndBatchGetReportGroups(IAsyncResult asyncResult)
+        {
+            return EndInvoke<BatchGetReportGroupsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  BatchGetReports
+
+        /// <summary>
+        /// Returns an array of reports.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetReports service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetReports service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetReports">REST API Reference for BatchGetReports Operation</seealso>
+        public virtual BatchGetReportsResponse BatchGetReports(BatchGetReportsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetReportsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetReportsResponseUnmarshaller.Instance;
+
+            return Invoke<BatchGetReportsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetReports operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetReports operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetReports
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetReports">REST API Reference for BatchGetReports Operation</seealso>
+        public virtual IAsyncResult BeginBatchGetReports(BatchGetReportsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetReportsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetReportsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetReports operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetReports.</param>
+        /// 
+        /// <returns>Returns a  BatchGetReportsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/BatchGetReports">REST API Reference for BatchGetReports Operation</seealso>
+        public virtual BatchGetReportsResponse EndBatchGetReports(IAsyncResult asyncResult)
+        {
+            return EndInvoke<BatchGetReportsResponse>(asyncResult);
         }
 
         #endregion
@@ -501,10 +723,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/CreateProject">REST API Reference for CreateProject Operation</seealso>
         public virtual CreateProjectResponse CreateProject(CreateProjectRequest request)
         {
-            var marshaller = CreateProjectRequestMarshaller.Instance;
-            var unmarshaller = CreateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectResponseUnmarshaller.Instance;
 
-            return Invoke<CreateProjectRequest,CreateProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -521,11 +744,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/CreateProject">REST API Reference for CreateProject Operation</seealso>
         public virtual IAsyncResult BeginCreateProject(CreateProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateProjectRequestMarshaller.Instance;
-            var unmarshaller = CreateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -543,22 +766,86 @@ namespace Amazon.CodeBuild
 
         #endregion
         
+        #region  CreateReportGroup
+
+        /// <summary>
+        /// Creates a report group. A report group contains a collection of reports.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateReportGroup service method.</param>
+        /// 
+        /// <returns>The response from the CreateReportGroup service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.AccountLimitExceededException">
+        /// An AWS service limit was exceeded for the calling AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceAlreadyExistsException">
+        /// The specified AWS resource cannot be created, because an AWS resource with the same
+        /// settings already exists.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/CreateReportGroup">REST API Reference for CreateReportGroup Operation</seealso>
+        public virtual CreateReportGroupResponse CreateReportGroup(CreateReportGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateReportGroupResponseUnmarshaller.Instance;
+
+            return Invoke<CreateReportGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateReportGroup operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateReportGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/CreateReportGroup">REST API Reference for CreateReportGroup Operation</seealso>
+        public virtual IAsyncResult BeginCreateReportGroup(CreateReportGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateReportGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateReportGroup.</param>
+        /// 
+        /// <returns>Returns a  CreateReportGroupResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/CreateReportGroup">REST API Reference for CreateReportGroup Operation</seealso>
+        public virtual CreateReportGroupResponse EndCreateReportGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateReportGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateWebhook
 
         /// <summary>
         /// For an existing AWS CodeBuild build project that has its source code stored in a GitHub
-        /// repository, enables AWS CodeBuild to begin automatically rebuilding the source code
+        /// or Bitbucket repository, enables AWS CodeBuild to start rebuilding the source code
         /// every time a code change is pushed to the repository.
         /// 
         ///  <important> 
         /// <para>
         /// If you enable webhooks for an AWS CodeBuild project, and the project is used as a
-        /// build step in AWS CodePipeline, then two identical builds will be created for each
-        /// commit. One build is triggered through webhooks, and one through AWS CodePipeline.
-        /// Because billing is on a per-build basis, you will be billed for both builds. Therefore,
-        /// if you are using AWS CodePipeline, we recommend that you disable webhooks in CodeBuild.
+        /// build step in AWS CodePipeline, then two identical builds are created for each commit.
+        /// One build is triggered through webhooks, and one through AWS CodePipeline. Because
+        /// billing is on a per-build basis, you are billed for both builds. Therefore, if you
+        /// are using AWS CodePipeline, we recommend that you disable webhooks in AWS CodeBuild.
         /// In the AWS CodeBuild console, clear the Webhook box. For more information, see step
-        /// 9 in <a href="http://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console">Change
+        /// 5 in <a href="https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console">Change
         /// a Build Project's Settings</a>.
         /// </para>
         ///  </important>
@@ -582,10 +869,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/CreateWebhook">REST API Reference for CreateWebhook Operation</seealso>
         public virtual CreateWebhookResponse CreateWebhook(CreateWebhookRequest request)
         {
-            var marshaller = CreateWebhookRequestMarshaller.Instance;
-            var unmarshaller = CreateWebhookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateWebhookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateWebhookResponseUnmarshaller.Instance;
 
-            return Invoke<CreateWebhookRequest,CreateWebhookResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateWebhookResponse>(request, options);
         }
 
         /// <summary>
@@ -602,11 +890,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/CreateWebhook">REST API Reference for CreateWebhook Operation</seealso>
         public virtual IAsyncResult BeginCreateWebhook(CreateWebhookRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateWebhookRequestMarshaller.Instance;
-            var unmarshaller = CreateWebhookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateWebhookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateWebhookResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateWebhookRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -627,7 +915,7 @@ namespace Amazon.CodeBuild
         #region  DeleteProject
 
         /// <summary>
-        /// Deletes a build project.
+        /// Deletes a build project. When you delete a project, its builds are not deleted.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteProject service method.</param>
         /// 
@@ -638,10 +926,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteProject">REST API Reference for DeleteProject Operation</seealso>
         public virtual DeleteProjectResponse DeleteProject(DeleteProjectRequest request)
         {
-            var marshaller = DeleteProjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteProjectRequest,DeleteProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -658,11 +947,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteProject">REST API Reference for DeleteProject Operation</seealso>
         public virtual IAsyncResult BeginDeleteProject(DeleteProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteProjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -680,11 +969,246 @@ namespace Amazon.CodeBuild
 
         #endregion
         
+        #region  DeleteReport
+
+        /// <summary>
+        /// Deletes a report.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteReport service method.</param>
+        /// 
+        /// <returns>The response from the DeleteReport service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteReport">REST API Reference for DeleteReport Operation</seealso>
+        public virtual DeleteReportResponse DeleteReport(DeleteReportRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReportResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteReportResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteReport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteReport operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteReport
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteReport">REST API Reference for DeleteReport Operation</seealso>
+        public virtual IAsyncResult BeginDeleteReport(DeleteReportRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReportResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteReport operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteReport.</param>
+        /// 
+        /// <returns>Returns a  DeleteReportResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteReport">REST API Reference for DeleteReport Operation</seealso>
+        public virtual DeleteReportResponse EndDeleteReport(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteReportResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteReportGroup
+
+        /// <summary>
+        /// <code>DeleteReportGroup</code>: Deletes a report group. Before you delete a report
+        /// group, you must delete its reports. Use <a href="https://docs.aws.amazon.com/codebuild/latest/APIReference/API_ListReportsForReportGroup.html">ListReportsForReportGroup</a>
+        /// to get the reports in a report group. Use <a href="https://docs.aws.amazon.com/codebuild/latest/APIReference/API_DeleteReport.html">DeleteReport</a>
+        /// to delete the reports. If you call <code>DeleteReportGroup</code> for a report group
+        /// that contains one or more reports, an exception is thrown.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteReportGroup service method.</param>
+        /// 
+        /// <returns>The response from the DeleteReportGroup service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteReportGroup">REST API Reference for DeleteReportGroup Operation</seealso>
+        public virtual DeleteReportGroupResponse DeleteReportGroup(DeleteReportGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReportGroupResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteReportGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteReportGroup operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteReportGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteReportGroup">REST API Reference for DeleteReportGroup Operation</seealso>
+        public virtual IAsyncResult BeginDeleteReportGroup(DeleteReportGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReportGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteReportGroup.</param>
+        /// 
+        /// <returns>Returns a  DeleteReportGroupResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteReportGroup">REST API Reference for DeleteReportGroup Operation</seealso>
+        public virtual DeleteReportGroupResponse EndDeleteReportGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteReportGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteResourcePolicy
+
+        /// <summary>
+        /// Deletes a resource policy that is identified by its resource ARN.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResourcePolicy service method.</param>
+        /// 
+        /// <returns>The response from the DeleteResourcePolicy service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
+        public virtual DeleteResourcePolicyResponse DeleteResourcePolicy(DeleteResourcePolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourcePolicyResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteResourcePolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResourcePolicy operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteResourcePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
+        public virtual IAsyncResult BeginDeleteResourcePolicy(DeleteResourcePolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourcePolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteResourcePolicy.</param>
+        /// 
+        /// <returns>Returns a  DeleteResourcePolicyResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
+        public virtual DeleteResourcePolicyResponse EndDeleteResourcePolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteResourcePolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteSourceCredentials
+
+        /// <summary>
+        /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSourceCredentials service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSourceCredentials service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceNotFoundException">
+        /// The specified AWS resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteSourceCredentials">REST API Reference for DeleteSourceCredentials Operation</seealso>
+        public virtual DeleteSourceCredentialsResponse DeleteSourceCredentials(DeleteSourceCredentialsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSourceCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSourceCredentialsResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteSourceCredentialsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSourceCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSourceCredentials operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSourceCredentials
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteSourceCredentials">REST API Reference for DeleteSourceCredentials Operation</seealso>
+        public virtual IAsyncResult BeginDeleteSourceCredentials(DeleteSourceCredentialsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSourceCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSourceCredentialsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSourceCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSourceCredentials.</param>
+        /// 
+        /// <returns>Returns a  DeleteSourceCredentialsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteSourceCredentials">REST API Reference for DeleteSourceCredentials Operation</seealso>
+        public virtual DeleteSourceCredentialsResponse EndDeleteSourceCredentials(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteSourceCredentialsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteWebhook
 
         /// <summary>
         /// For an existing AWS CodeBuild build project that has its source code stored in a GitHub
-        /// repository, stops AWS CodeBuild from automatically rebuilding the source code every
+        /// or Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every
         /// time a code change is pushed to the repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteWebhook service method.</param>
@@ -702,10 +1226,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteWebhook">REST API Reference for DeleteWebhook Operation</seealso>
         public virtual DeleteWebhookResponse DeleteWebhook(DeleteWebhookRequest request)
         {
-            var marshaller = DeleteWebhookRequestMarshaller.Instance;
-            var unmarshaller = DeleteWebhookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteWebhookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteWebhookResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteWebhookRequest,DeleteWebhookResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteWebhookResponse>(request, options);
         }
 
         /// <summary>
@@ -722,11 +1247,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DeleteWebhook">REST API Reference for DeleteWebhook Operation</seealso>
         public virtual IAsyncResult BeginDeleteWebhook(DeleteWebhookRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteWebhookRequestMarshaller.Instance;
-            var unmarshaller = DeleteWebhookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteWebhookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteWebhookResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteWebhookRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -740,6 +1265,191 @@ namespace Amazon.CodeBuild
         public virtual DeleteWebhookResponse EndDeleteWebhook(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteWebhookResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeTestCases
+
+        /// <summary>
+        /// Returns a list of details about test cases for a report.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTestCases service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTestCases service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceNotFoundException">
+        /// The specified AWS resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DescribeTestCases">REST API Reference for DescribeTestCases Operation</seealso>
+        public virtual DescribeTestCasesResponse DescribeTestCases(DescribeTestCasesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTestCasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTestCasesResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeTestCasesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTestCases operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTestCases operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTestCases
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DescribeTestCases">REST API Reference for DescribeTestCases Operation</seealso>
+        public virtual IAsyncResult BeginDescribeTestCases(DescribeTestCasesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTestCasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTestCasesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTestCases operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTestCases.</param>
+        /// 
+        /// <returns>Returns a  DescribeTestCasesResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/DescribeTestCases">REST API Reference for DescribeTestCases Operation</seealso>
+        public virtual DescribeTestCasesResponse EndDescribeTestCases(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeTestCasesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetResourcePolicy
+
+        /// <summary>
+        /// Gets a resource policy that is identified by its resource ARN.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetResourcePolicy service method.</param>
+        /// 
+        /// <returns>The response from the GetResourcePolicy service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceNotFoundException">
+        /// The specified AWS resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/GetResourcePolicy">REST API Reference for GetResourcePolicy Operation</seealso>
+        public virtual GetResourcePolicyResponse GetResourcePolicy(GetResourcePolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetResourcePolicyResponseUnmarshaller.Instance;
+
+            return Invoke<GetResourcePolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetResourcePolicy operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetResourcePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/GetResourcePolicy">REST API Reference for GetResourcePolicy Operation</seealso>
+        public virtual IAsyncResult BeginGetResourcePolicy(GetResourcePolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetResourcePolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetResourcePolicy.</param>
+        /// 
+        /// <returns>Returns a  GetResourcePolicyResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/GetResourcePolicy">REST API Reference for GetResourcePolicy Operation</seealso>
+        public virtual GetResourcePolicyResponse EndGetResourcePolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetResourcePolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ImportSourceCredentials
+
+        /// <summary>
+        /// Imports the source repository credentials for an AWS CodeBuild project that has its
+        /// source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ImportSourceCredentials service method.</param>
+        /// 
+        /// <returns>The response from the ImportSourceCredentials service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.AccountLimitExceededException">
+        /// An AWS service limit was exceeded for the calling AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceAlreadyExistsException">
+        /// The specified AWS resource cannot be created, because an AWS resource with the same
+        /// settings already exists.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ImportSourceCredentials">REST API Reference for ImportSourceCredentials Operation</seealso>
+        public virtual ImportSourceCredentialsResponse ImportSourceCredentials(ImportSourceCredentialsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportSourceCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportSourceCredentialsResponseUnmarshaller.Instance;
+
+            return Invoke<ImportSourceCredentialsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ImportSourceCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ImportSourceCredentials operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndImportSourceCredentials
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ImportSourceCredentials">REST API Reference for ImportSourceCredentials Operation</seealso>
+        public virtual IAsyncResult BeginImportSourceCredentials(ImportSourceCredentialsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportSourceCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportSourceCredentialsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ImportSourceCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginImportSourceCredentials.</param>
+        /// 
+        /// <returns>Returns a  ImportSourceCredentialsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ImportSourceCredentials">REST API Reference for ImportSourceCredentials Operation</seealso>
+        public virtual ImportSourceCredentialsResponse EndImportSourceCredentials(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ImportSourceCredentialsResponse>(asyncResult);
         }
 
         #endregion
@@ -761,10 +1471,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/InvalidateProjectCache">REST API Reference for InvalidateProjectCache Operation</seealso>
         public virtual InvalidateProjectCacheResponse InvalidateProjectCache(InvalidateProjectCacheRequest request)
         {
-            var marshaller = InvalidateProjectCacheRequestMarshaller.Instance;
-            var unmarshaller = InvalidateProjectCacheResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InvalidateProjectCacheRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InvalidateProjectCacheResponseUnmarshaller.Instance;
 
-            return Invoke<InvalidateProjectCacheRequest,InvalidateProjectCacheResponse>(request, marshaller, unmarshaller);
+            return Invoke<InvalidateProjectCacheResponse>(request, options);
         }
 
         /// <summary>
@@ -781,11 +1492,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/InvalidateProjectCache">REST API Reference for InvalidateProjectCache Operation</seealso>
         public virtual IAsyncResult BeginInvalidateProjectCache(InvalidateProjectCacheRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = InvalidateProjectCacheRequestMarshaller.Instance;
-            var unmarshaller = InvalidateProjectCacheResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InvalidateProjectCacheRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InvalidateProjectCacheResponseUnmarshaller.Instance;
 
-            return BeginInvoke<InvalidateProjectCacheRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -817,10 +1528,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListBuilds">REST API Reference for ListBuilds Operation</seealso>
         public virtual ListBuildsResponse ListBuilds(ListBuildsRequest request)
         {
-            var marshaller = ListBuildsRequestMarshaller.Instance;
-            var unmarshaller = ListBuildsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBuildsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBuildsResponseUnmarshaller.Instance;
 
-            return Invoke<ListBuildsRequest,ListBuildsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListBuildsResponse>(request, options);
         }
 
         /// <summary>
@@ -837,11 +1549,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListBuilds">REST API Reference for ListBuilds Operation</seealso>
         public virtual IAsyncResult BeginListBuilds(ListBuildsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListBuildsRequestMarshaller.Instance;
-            var unmarshaller = ListBuildsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBuildsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBuildsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListBuildsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -877,10 +1589,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListBuildsForProject">REST API Reference for ListBuildsForProject Operation</seealso>
         public virtual ListBuildsForProjectResponse ListBuildsForProject(ListBuildsForProjectRequest request)
         {
-            var marshaller = ListBuildsForProjectRequestMarshaller.Instance;
-            var unmarshaller = ListBuildsForProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBuildsForProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBuildsForProjectResponseUnmarshaller.Instance;
 
-            return Invoke<ListBuildsForProjectRequest,ListBuildsForProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListBuildsForProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -897,11 +1610,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListBuildsForProject">REST API Reference for ListBuildsForProject Operation</seealso>
         public virtual IAsyncResult BeginListBuildsForProject(ListBuildsForProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListBuildsForProjectRequestMarshaller.Instance;
-            var unmarshaller = ListBuildsForProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBuildsForProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBuildsForProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListBuildsForProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -930,10 +1643,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListCuratedEnvironmentImages">REST API Reference for ListCuratedEnvironmentImages Operation</seealso>
         public virtual ListCuratedEnvironmentImagesResponse ListCuratedEnvironmentImages(ListCuratedEnvironmentImagesRequest request)
         {
-            var marshaller = ListCuratedEnvironmentImagesRequestMarshaller.Instance;
-            var unmarshaller = ListCuratedEnvironmentImagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCuratedEnvironmentImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCuratedEnvironmentImagesResponseUnmarshaller.Instance;
 
-            return Invoke<ListCuratedEnvironmentImagesRequest,ListCuratedEnvironmentImagesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListCuratedEnvironmentImagesResponse>(request, options);
         }
 
         /// <summary>
@@ -950,11 +1664,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListCuratedEnvironmentImages">REST API Reference for ListCuratedEnvironmentImages Operation</seealso>
         public virtual IAsyncResult BeginListCuratedEnvironmentImages(ListCuratedEnvironmentImagesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListCuratedEnvironmentImagesRequestMarshaller.Instance;
-            var unmarshaller = ListCuratedEnvironmentImagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCuratedEnvironmentImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCuratedEnvironmentImagesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListCuratedEnvironmentImagesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -987,10 +1701,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListProjects">REST API Reference for ListProjects Operation</seealso>
         public virtual ListProjectsResponse ListProjects(ListProjectsRequest request)
         {
-            var marshaller = ListProjectsRequestMarshaller.Instance;
-            var unmarshaller = ListProjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProjectsResponseUnmarshaller.Instance;
 
-            return Invoke<ListProjectsRequest,ListProjectsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListProjectsResponse>(request, options);
         }
 
         /// <summary>
@@ -1007,11 +1722,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListProjects">REST API Reference for ListProjects Operation</seealso>
         public virtual IAsyncResult BeginListProjects(ListProjectsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListProjectsRequestMarshaller.Instance;
-            var unmarshaller = ListProjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProjectsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListProjectsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1025,6 +1740,409 @@ namespace Amazon.CodeBuild
         public virtual ListProjectsResponse EndListProjects(IAsyncResult asyncResult)
         {
             return EndInvoke<ListProjectsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListReportGroups
+
+        /// <summary>
+        /// Gets a list ARNs for the report groups in the current AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListReportGroups service method.</param>
+        /// 
+        /// <returns>The response from the ListReportGroups service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReportGroups">REST API Reference for ListReportGroups Operation</seealso>
+        public virtual ListReportGroupsResponse ListReportGroups(ListReportGroupsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReportGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReportGroupsResponseUnmarshaller.Instance;
+
+            return Invoke<ListReportGroupsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListReportGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListReportGroups operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListReportGroups
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReportGroups">REST API Reference for ListReportGroups Operation</seealso>
+        public virtual IAsyncResult BeginListReportGroups(ListReportGroupsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReportGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReportGroupsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListReportGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListReportGroups.</param>
+        /// 
+        /// <returns>Returns a  ListReportGroupsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReportGroups">REST API Reference for ListReportGroups Operation</seealso>
+        public virtual ListReportGroupsResponse EndListReportGroups(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListReportGroupsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListReports
+
+        /// <summary>
+        /// Returns a list of ARNs for the reports in the current AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListReports service method.</param>
+        /// 
+        /// <returns>The response from the ListReports service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReports">REST API Reference for ListReports Operation</seealso>
+        public virtual ListReportsResponse ListReports(ListReportsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReportsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReportsResponseUnmarshaller.Instance;
+
+            return Invoke<ListReportsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListReports operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListReports operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListReports
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReports">REST API Reference for ListReports Operation</seealso>
+        public virtual IAsyncResult BeginListReports(ListReportsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReportsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReportsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListReports operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListReports.</param>
+        /// 
+        /// <returns>Returns a  ListReportsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReports">REST API Reference for ListReports Operation</seealso>
+        public virtual ListReportsResponse EndListReports(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListReportsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListReportsForReportGroup
+
+        /// <summary>
+        /// Returns a list of ARNs for the reports that belong to a <code>ReportGroup</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListReportsForReportGroup service method.</param>
+        /// 
+        /// <returns>The response from the ListReportsForReportGroup service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceNotFoundException">
+        /// The specified AWS resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReportsForReportGroup">REST API Reference for ListReportsForReportGroup Operation</seealso>
+        public virtual ListReportsForReportGroupResponse ListReportsForReportGroup(ListReportsForReportGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReportsForReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReportsForReportGroupResponseUnmarshaller.Instance;
+
+            return Invoke<ListReportsForReportGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListReportsForReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListReportsForReportGroup operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListReportsForReportGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReportsForReportGroup">REST API Reference for ListReportsForReportGroup Operation</seealso>
+        public virtual IAsyncResult BeginListReportsForReportGroup(ListReportsForReportGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReportsForReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReportsForReportGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListReportsForReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListReportsForReportGroup.</param>
+        /// 
+        /// <returns>Returns a  ListReportsForReportGroupResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListReportsForReportGroup">REST API Reference for ListReportsForReportGroup Operation</seealso>
+        public virtual ListReportsForReportGroupResponse EndListReportsForReportGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListReportsForReportGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListSharedProjects
+
+        /// <summary>
+        /// Gets a list of projects that are shared with other AWS accounts or users.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListSharedProjects service method.</param>
+        /// 
+        /// <returns>The response from the ListSharedProjects service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSharedProjects">REST API Reference for ListSharedProjects Operation</seealso>
+        public virtual ListSharedProjectsResponse ListSharedProjects(ListSharedProjectsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSharedProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSharedProjectsResponseUnmarshaller.Instance;
+
+            return Invoke<ListSharedProjectsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListSharedProjects operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListSharedProjects operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListSharedProjects
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSharedProjects">REST API Reference for ListSharedProjects Operation</seealso>
+        public virtual IAsyncResult BeginListSharedProjects(ListSharedProjectsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSharedProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSharedProjectsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListSharedProjects operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListSharedProjects.</param>
+        /// 
+        /// <returns>Returns a  ListSharedProjectsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSharedProjects">REST API Reference for ListSharedProjects Operation</seealso>
+        public virtual ListSharedProjectsResponse EndListSharedProjects(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListSharedProjectsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListSharedReportGroups
+
+        /// <summary>
+        /// Gets a list of report groups that are shared with other AWS accounts or users.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListSharedReportGroups service method.</param>
+        /// 
+        /// <returns>The response from the ListSharedReportGroups service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSharedReportGroups">REST API Reference for ListSharedReportGroups Operation</seealso>
+        public virtual ListSharedReportGroupsResponse ListSharedReportGroups(ListSharedReportGroupsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSharedReportGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSharedReportGroupsResponseUnmarshaller.Instance;
+
+            return Invoke<ListSharedReportGroupsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListSharedReportGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListSharedReportGroups operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListSharedReportGroups
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSharedReportGroups">REST API Reference for ListSharedReportGroups Operation</seealso>
+        public virtual IAsyncResult BeginListSharedReportGroups(ListSharedReportGroupsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSharedReportGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSharedReportGroupsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListSharedReportGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListSharedReportGroups.</param>
+        /// 
+        /// <returns>Returns a  ListSharedReportGroupsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSharedReportGroups">REST API Reference for ListSharedReportGroups Operation</seealso>
+        public virtual ListSharedReportGroupsResponse EndListSharedReportGroups(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListSharedReportGroupsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListSourceCredentials
+
+        /// <summary>
+        /// Returns a list of <code>SourceCredentialsInfo</code> objects.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListSourceCredentials service method.</param>
+        /// 
+        /// <returns>The response from the ListSourceCredentials service method, as returned by CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSourceCredentials">REST API Reference for ListSourceCredentials Operation</seealso>
+        public virtual ListSourceCredentialsResponse ListSourceCredentials(ListSourceCredentialsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSourceCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSourceCredentialsResponseUnmarshaller.Instance;
+
+            return Invoke<ListSourceCredentialsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListSourceCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListSourceCredentials operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListSourceCredentials
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSourceCredentials">REST API Reference for ListSourceCredentials Operation</seealso>
+        public virtual IAsyncResult BeginListSourceCredentials(ListSourceCredentialsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSourceCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSourceCredentialsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListSourceCredentials operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListSourceCredentials.</param>
+        /// 
+        /// <returns>Returns a  ListSourceCredentialsResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/ListSourceCredentials">REST API Reference for ListSourceCredentials Operation</seealso>
+        public virtual ListSourceCredentialsResponse EndListSourceCredentials(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListSourceCredentialsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutResourcePolicy
+
+        /// <summary>
+        /// Stores a resource policy for the ARN of a <code>Project</code> or <code>ReportGroup</code>
+        /// object.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutResourcePolicy service method.</param>
+        /// 
+        /// <returns>The response from the PutResourcePolicy service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceNotFoundException">
+        /// The specified AWS resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
+        public virtual PutResourcePolicyResponse PutResourcePolicy(PutResourcePolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutResourcePolicyResponseUnmarshaller.Instance;
+
+            return Invoke<PutResourcePolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutResourcePolicy operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutResourcePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
+        public virtual IAsyncResult BeginPutResourcePolicy(PutResourcePolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutResourcePolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutResourcePolicy.</param>
+        /// 
+        /// <returns>Returns a  PutResourcePolicyResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
+        public virtual PutResourcePolicyResponse EndPutResourcePolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutResourcePolicyResponse>(asyncResult);
         }
 
         #endregion
@@ -1049,10 +2167,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/StartBuild">REST API Reference for StartBuild Operation</seealso>
         public virtual StartBuildResponse StartBuild(StartBuildRequest request)
         {
-            var marshaller = StartBuildRequestMarshaller.Instance;
-            var unmarshaller = StartBuildResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartBuildRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartBuildResponseUnmarshaller.Instance;
 
-            return Invoke<StartBuildRequest,StartBuildResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartBuildResponse>(request, options);
         }
 
         /// <summary>
@@ -1069,11 +2188,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/StartBuild">REST API Reference for StartBuild Operation</seealso>
         public virtual IAsyncResult BeginStartBuild(StartBuildRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartBuildRequestMarshaller.Instance;
-            var unmarshaller = StartBuildResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartBuildRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartBuildResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartBuildRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1108,10 +2227,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/StopBuild">REST API Reference for StopBuild Operation</seealso>
         public virtual StopBuildResponse StopBuild(StopBuildRequest request)
         {
-            var marshaller = StopBuildRequestMarshaller.Instance;
-            var unmarshaller = StopBuildResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopBuildRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopBuildResponseUnmarshaller.Instance;
 
-            return Invoke<StopBuildRequest,StopBuildResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopBuildResponse>(request, options);
         }
 
         /// <summary>
@@ -1128,11 +2248,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/StopBuild">REST API Reference for StopBuild Operation</seealso>
         public virtual IAsyncResult BeginStopBuild(StopBuildRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopBuildRequestMarshaller.Instance;
-            var unmarshaller = StopBuildResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopBuildRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopBuildResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopBuildRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1167,10 +2287,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/UpdateProject">REST API Reference for UpdateProject Operation</seealso>
         public virtual UpdateProjectResponse UpdateProject(UpdateProjectRequest request)
         {
-            var marshaller = UpdateProjectRequestMarshaller.Instance;
-            var unmarshaller = UpdateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateProjectResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateProjectRequest,UpdateProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -1187,11 +2308,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/UpdateProject">REST API Reference for UpdateProject Operation</seealso>
         public virtual IAsyncResult BeginUpdateProject(UpdateProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateProjectRequestMarshaller.Instance;
-            var unmarshaller = UpdateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1209,10 +2330,76 @@ namespace Amazon.CodeBuild
 
         #endregion
         
+        #region  UpdateReportGroup
+
+        /// <summary>
+        /// Updates a report group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateReportGroup service method.</param>
+        /// 
+        /// <returns>The response from the UpdateReportGroup service method, as returned by CodeBuild.</returns>
+        /// <exception cref="Amazon.CodeBuild.Model.InvalidInputException">
+        /// The input value that was provided is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeBuild.Model.ResourceNotFoundException">
+        /// The specified AWS resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/UpdateReportGroup">REST API Reference for UpdateReportGroup Operation</seealso>
+        public virtual UpdateReportGroupResponse UpdateReportGroup(UpdateReportGroupRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateReportGroupResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateReportGroupResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateReportGroup operation on AmazonCodeBuildClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateReportGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/UpdateReportGroup">REST API Reference for UpdateReportGroup Operation</seealso>
+        public virtual IAsyncResult BeginUpdateReportGroup(UpdateReportGroupRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateReportGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateReportGroupResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateReportGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateReportGroup.</param>
+        /// 
+        /// <returns>Returns a  UpdateReportGroupResult from CodeBuild.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/UpdateReportGroup">REST API Reference for UpdateReportGroup Operation</seealso>
+        public virtual UpdateReportGroupResponse EndUpdateReportGroup(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateReportGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateWebhook
 
         /// <summary>
-        /// Updates the webhook associated with an AWS CodeBuild build project.
+        /// Updates the webhook associated with an AWS CodeBuild build project. 
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  If you use Bitbucket for your repository, <code>rotateSecret</code> is ignored. 
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateWebhook service method.</param>
         /// 
@@ -1229,10 +2416,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/UpdateWebhook">REST API Reference for UpdateWebhook Operation</seealso>
         public virtual UpdateWebhookResponse UpdateWebhook(UpdateWebhookRequest request)
         {
-            var marshaller = UpdateWebhookRequestMarshaller.Instance;
-            var unmarshaller = UpdateWebhookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateWebhookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateWebhookResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateWebhookRequest,UpdateWebhookResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateWebhookResponse>(request, options);
         }
 
         /// <summary>
@@ -1249,11 +2437,11 @@ namespace Amazon.CodeBuild
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codebuild-2016-10-06/UpdateWebhook">REST API Reference for UpdateWebhook Operation</seealso>
         public virtual IAsyncResult BeginUpdateWebhook(UpdateWebhookRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateWebhookRequestMarshaller.Instance;
-            var unmarshaller = UpdateWebhookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateWebhookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateWebhookResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateWebhookRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

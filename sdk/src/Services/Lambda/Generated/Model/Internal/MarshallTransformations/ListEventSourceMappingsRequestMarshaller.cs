@@ -55,9 +55,9 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListEventSourceMappingsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lambda");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-03-31";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2015-03-31/event-source-mappings/";
             
             if (publicRequest.IsSetEventSourceArn())
                 request.Parameters.Add("EventSourceArn", StringUtils.FromString(publicRequest.EventSourceArn));
@@ -70,7 +70,8 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetMaxItems())
                 request.Parameters.Add("MaxItems", StringUtils.FromInt(publicRequest.MaxItems));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2015-03-31/event-source-mappings/";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

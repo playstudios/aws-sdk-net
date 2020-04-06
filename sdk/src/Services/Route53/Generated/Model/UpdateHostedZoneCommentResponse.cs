@@ -36,8 +36,13 @@ namespace Amazon.Route53.Model
         private HostedZone _hostedZone;
 
         /// <summary>
-        /// Gets and sets the property HostedZone.
+        /// Gets and sets the property HostedZone. 
+        /// <para>
+        /// A complex type that contains the response to the <code>UpdateHostedZoneComment</code>
+        /// request.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public HostedZone HostedZone
         {
             get { return this._hostedZone; }

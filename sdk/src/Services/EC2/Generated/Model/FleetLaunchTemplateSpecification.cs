@@ -62,6 +62,7 @@ namespace Amazon.EC2.Model
         /// ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string LaunchTemplateName
         {
             get { return this._launchTemplateName; }
@@ -77,7 +78,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Version. 
         /// <para>
-        /// The version number. By default, the default version of the launch template is used.
+        /// The version number of the launch template. You must specify a version number.
         /// </para>
         /// </summary>
         public string Version

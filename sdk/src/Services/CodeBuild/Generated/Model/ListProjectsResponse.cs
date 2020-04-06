@@ -39,7 +39,7 @@ namespace Amazon.CodeBuild.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If there are more than 100 items in the list, only the first 100 items are returned,
-        /// along with a unique string called a <i>next token</i>. To get the next batch of items
+        /// along with a unique string called a <i>nextToken</i>. To get the next batch of items
         /// in the list, call this operation again, adding the next token to the call.
         /// </para>
         /// </summary>
@@ -62,6 +62,7 @@ namespace Amazon.CodeBuild.Model
         /// build project.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> Projects
         {
             get { return this._projects; }

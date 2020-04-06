@@ -32,6 +32,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// </summary>
     public partial class TargetGroup
     {
+        private bool? _healthCheckEnabled;
         private int? _healthCheckIntervalSeconds;
         private string _healthCheckPath;
         private string _healthCheckPort;
@@ -49,12 +50,31 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         private string _vpcId;
 
         /// <summary>
+        /// Gets and sets the property HealthCheckEnabled. 
+        /// <para>
+        /// Indicates whether health checks are enabled.
+        /// </para>
+        /// </summary>
+        public bool HealthCheckEnabled
+        {
+            get { return this._healthCheckEnabled.GetValueOrDefault(); }
+            set { this._healthCheckEnabled = value; }
+        }
+
+        // Check to see if HealthCheckEnabled property is set
+        internal bool IsSetHealthCheckEnabled()
+        {
+            return this._healthCheckEnabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property HealthCheckIntervalSeconds. 
         /// <para>
         /// The approximate amount of time, in seconds, between health checks of an individual
         /// target.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=300)]
         public int HealthCheckIntervalSeconds
         {
             get { return this._healthCheckIntervalSeconds.GetValueOrDefault(); }
@@ -73,6 +93,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The destination for the health check request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string HealthCheckPath
         {
             get { return this._healthCheckPath; }
@@ -127,6 +148,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The amount of time, in seconds, during which no response means a failed health check.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=120)]
         public int HealthCheckTimeoutSeconds
         {
             get { return this._healthCheckTimeoutSeconds.GetValueOrDefault(); }
@@ -146,6 +168,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// target healthy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=10)]
         public int HealthyThresholdCount
         {
             get { return this._healthyThresholdCount.GetValueOrDefault(); }
@@ -198,9 +221,10 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property Port. 
         /// <para>
-        /// The port on which the targets are listening.
+        /// The port on which the targets are listening. Not used if the target is a Lambda function.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65535)]
         public int Port
         {
             get { return this._port.GetValueOrDefault(); }
@@ -294,6 +318,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// unhealthy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=10)]
         public int UnhealthyThresholdCount
         {
             get { return this._unhealthyThresholdCount.GetValueOrDefault(); }

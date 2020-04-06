@@ -55,19 +55,31 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateFunctionDefinitionVersionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/greengrass/definition/functions/{FunctionDefinitionId}/versions";
             if (!publicRequest.IsSetFunctionDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field FunctionDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionDefinitionId}", StringUtils.FromString(publicRequest.FunctionDefinitionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{FunctionDefinitionId}", StringUtils.FromString(publicRequest.FunctionDefinitionId));
+            request.ResourcePath = "/greengrass/definition/functions/{FunctionDefinitionId}/versions";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetDefaultConfig())
+                {
+                    context.Writer.WritePropertyName("DefaultConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = FunctionDefaultConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.DefaultConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetFunctions())
                 {
                     context.Writer.WritePropertyName("Functions");

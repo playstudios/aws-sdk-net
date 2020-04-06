@@ -34,6 +34,7 @@ namespace Amazon.CodeCommit.Model
     {
         private string _afterCommitId;
         private string _beforeCommitId;
+        private string _mergeBase;
         private string _repositoryName;
 
         /// <summary>
@@ -75,11 +76,31 @@ namespace Amazon.CodeCommit.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MergeBase. 
+        /// <para>
+        /// The commit ID of the most recent commit that the source branch and the destination
+        /// branch have in common.
+        /// </para>
+        /// </summary>
+        public string MergeBase
+        {
+            get { return this._mergeBase; }
+            set { this._mergeBase = value; }
+        }
+
+        // Check to see if MergeBase property is set
+        internal bool IsSetMergeBase()
+        {
+            return this._mergeBase != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RepositoryName. 
         /// <para>
         /// The name of the repository where the pull request was updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

@@ -58,10 +58,11 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
             string target = "AWSCognitoIdentityProviderService.CreateUserPoolClient";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-04-18";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -155,6 +156,12 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestLogoutURLsListValue);
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetPreventUserExistenceErrors())
+                {
+                    context.Writer.WritePropertyName("PreventUserExistenceErrors");
+                    context.Writer.Write(publicRequest.PreventUserExistenceErrors);
                 }
 
                 if(publicRequest.IsSetReadAttributes())

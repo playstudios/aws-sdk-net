@@ -55,19 +55,48 @@ namespace Amazon.ResourceGroups.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListGroupResourcesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ResourceGroups");
-            request.HttpMethod = "GET";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
+            request.HttpMethod = "POST";
 
-            string uriResourcePath = "/groups/{GroupName}/resource-identifiers";
             if (!publicRequest.IsSetGroupName())
                 throw new AmazonResourceGroupsException("Request object does not have required field GroupName set");
-            uriResourcePath = uriResourcePath.Replace("{GroupName}", StringUtils.FromString(publicRequest.GroupName));
+            request.AddPathResource("{GroupName}", StringUtils.FromString(publicRequest.GroupName));
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("maxResults", StringUtils.FromInt(publicRequest.MaxResults));
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("nextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/groups/{GroupName}/resource-identifiers-list";
+            request.MarshallerVersion = 2;
+            using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
+            {
+                JsonWriter writer = new JsonWriter(stringWriter);
+                writer.WriteObjectStart();
+                var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetFilters())
+                {
+                    context.Writer.WritePropertyName("Filters");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestFiltersListValue in publicRequest.Filters)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ResourceFilterMarshaller.Instance;
+                        marshaller.Marshall(publicRequestFiltersListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+        
+                writer.WriteObjectEnd();
+                string snippet = stringWriter.ToString();
+                request.Content = System.Text.Encoding.UTF8.GetBytes(snippet);
+            }
+
             request.UseQueryString = true;
 
             return request;

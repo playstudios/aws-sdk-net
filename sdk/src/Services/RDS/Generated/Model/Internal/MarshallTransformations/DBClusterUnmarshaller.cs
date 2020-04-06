@@ -54,6 +54,30 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
             {
                 if (context.IsStartElement || context.IsAttribute)
                 {
+                    if (context.TestExpression("ActivityStreamKinesisStreamName", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ActivityStreamKinesisStreamName = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ActivityStreamKmsKeyId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ActivityStreamKmsKeyId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ActivityStreamMode", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ActivityStreamMode = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ActivityStreamStatus", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ActivityStreamStatus = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("AllocatedStorage", targetDepth))
                     {
                         var unmarshaller = IntUnmarshaller.Instance;
@@ -74,10 +98,28 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.AvailabilityZones.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("BacktrackConsumedChangeRecords", targetDepth))
+                    {
+                        var unmarshaller = LongUnmarshaller.Instance;
+                        unmarshalledObject.BacktrackConsumedChangeRecords = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("BacktrackWindow", targetDepth))
+                    {
+                        var unmarshaller = LongUnmarshaller.Instance;
+                        unmarshalledObject.BacktrackWindow = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("BackupRetentionPeriod", targetDepth))
                     {
                         var unmarshaller = IntUnmarshaller.Instance;
                         unmarshalledObject.BackupRetentionPeriod = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("Capacity", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.Capacity = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("CharacterSetName", targetDepth))
@@ -96,6 +138,25 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = DateTimeUnmarshaller.Instance;
                         unmarshalledObject.ClusterCreateTime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("CopyTagsToSnapshot", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.CopyTagsToSnapshot = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("CrossAccountClone", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.CrossAccountClone = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("CustomEndpoints/member", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.CustomEndpoints.Add(item);
                         continue;
                     }
                     if (context.TestExpression("DatabaseName", targetDepth))
@@ -148,10 +209,36 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.DBSubnetGroup = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("DeletionProtection", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.DeletionProtection = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("DomainMemberships/DomainMembership", targetDepth))
+                    {
+                        var unmarshaller = DomainMembershipUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.DomainMemberships.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("EarliestBacktrackTime", targetDepth))
+                    {
+                        var unmarshaller = DateTimeUnmarshaller.Instance;
+                        unmarshalledObject.EarliestBacktrackTime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("EarliestRestorableTime", targetDepth))
                     {
                         var unmarshaller = DateTimeUnmarshaller.Instance;
                         unmarshalledObject.EarliestRestorableTime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("EnabledCloudwatchLogsExports/member", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.EnabledCloudwatchLogsExports.Add(item);
                         continue;
                     }
                     if (context.TestExpression("Endpoint", targetDepth))
@@ -166,6 +253,12 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                         unmarshalledObject.Engine = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("EngineMode", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.EngineMode = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("EngineVersion", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -176,6 +269,12 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.HostedZoneId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("HttpEndpointEnabled", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.HttpEndpointEnabled = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("IAMDatabaseAuthenticationEnabled", targetDepth))
@@ -249,6 +348,12 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.ReplicationSourceIdentifier = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ScalingConfigurationInfo", targetDepth))
+                    {
+                        var unmarshaller = ScalingConfigurationInfoUnmarshaller.Instance;
+                        unmarshalledObject.ScalingConfigurationInfo = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("Status", targetDepth))

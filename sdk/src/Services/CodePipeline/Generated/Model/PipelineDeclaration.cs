@@ -33,6 +33,7 @@ namespace Amazon.CodePipeline.Model
     public partial class PipelineDeclaration
     {
         private ArtifactStore _artifactStore;
+        private Dictionary<string, ArtifactStore> _artifactStores = new Dictionary<string, ArtifactStore>();
         private string _name;
         private string _roleArn;
         private List<StageDeclaration> _stages = new List<StageDeclaration>();
@@ -41,9 +42,15 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property ArtifactStore. 
         /// <para>
-        /// Represents information about the Amazon S3 bucket where artifacts are stored for the
-        /// pipeline. 
+        /// Represents information about the S3 bucket where artifacts are stored for the pipeline.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// You must include either <code>artifactStore</code> or <code>artifactStores</code>
+        /// in your pipeline, but you cannot use both. If you create a cross-region action in
+        /// your pipeline, you must use <code>artifactStores</code>.
+        /// </para>
+        ///  </note>
         /// </summary>
         public ArtifactStore ArtifactStore
         {
@@ -58,11 +65,39 @@ namespace Amazon.CodePipeline.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ArtifactStores. 
+        /// <para>
+        /// A mapping of <code>artifactStore</code> objects and their corresponding AWS Regions.
+        /// There must be an artifact store for the pipeline Region and for each cross-region
+        /// action in the pipeline.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// You must include either <code>artifactStore</code> or <code>artifactStores</code>
+        /// in your pipeline, but you cannot use both. If you create a cross-region action in
+        /// your pipeline, you must use <code>artifactStores</code>.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public Dictionary<string, ArtifactStore> ArtifactStores
+        {
+            get { return this._artifactStores; }
+            set { this._artifactStores = value; }
+        }
+
+        // Check to see if ArtifactStores property is set
+        internal bool IsSetArtifactStores()
+        {
+            return this._artifactStores != null && this._artifactStores.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the action to be performed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -79,9 +114,11 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property RoleArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions
-        /// with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
+        /// with no <code>actionRoleArn</code>, or to use to assume roles for actions with an
+        /// <code>actionRoleArn</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=1024)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -100,6 +137,7 @@ namespace Amazon.CodePipeline.Model
         /// The stage in which to perform the action.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<StageDeclaration> Stages
         {
             get { return this._stages; }
@@ -116,9 +154,10 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property Version. 
         /// <para>
         /// The version number of the pipeline. A new pipeline always has a version number of
-        /// 1. This number is automatically incremented when a pipeline is updated.
+        /// 1. This number is incremented when a pipeline is updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Version
         {
             get { return this._version.GetValueOrDefault(); }

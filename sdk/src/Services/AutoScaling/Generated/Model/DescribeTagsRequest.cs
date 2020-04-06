@@ -53,7 +53,8 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// A filter used to scope the tags to return.
+        /// One or more filters to scope the tags to return. The maximum number of filters per
+        /// filter type (for example, <code>auto-scaling-group</code>) is 1000.
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -71,8 +72,8 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property MaxRecords. 
         /// <para>
-        /// The maximum number of items to return with this call. The default value is 50 and
-        /// the maximum value is 100.
+        /// The maximum number of items to return with this call. The default value is <code>50</code>
+        /// and the maximum value is <code>100</code>.
         /// </para>
         /// </summary>
         public int MaxRecords

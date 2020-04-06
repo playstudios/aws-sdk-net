@@ -136,6 +136,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user name of the user you wish to describe.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Username
         {
             get { return this._username; }
@@ -172,6 +173,17 @@ namespace Amazon.CognitoIdentityProvider.Model
         ///  </li> <li> 
         /// <para>
         /// UNKNOWN - User status is not known.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// RESET_REQUIRED - User is confirmed, but the user must request a code and reset his
+        /// or her password before he or she can sign in.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary
+        /// password, but on first sign-in, the user must change his or her password to a new
+        /// value before doing anything else. 
         /// </para>
         ///  </li> </ul>
         /// </summary>

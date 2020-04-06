@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.SimpleWorkflow.Model;
 using Amazon.SimpleWorkflow.Model.Internal.MarshallTransformations;
+using Amazon.SimpleWorkflow.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -50,12 +52,13 @@ namespace Amazon.SimpleWorkflow
     ///  
     /// <para>
     /// This documentation serves as reference only. For a broader overview of the Amazon
-    /// SWF programming model, see the <i> <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/">Amazon
+    /// SWF programming model, see the <i> <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/">Amazon
     /// SWF Developer Guide</a> </i>.
     /// </para>
     /// </summary>
     public partial class AmazonSimpleWorkflowClient : AmazonServiceClient, IAmazonSimpleWorkflow
     {
+        private static IServiceMetadata serviceMetadata = new AmazonSimpleWorkflowMetadata();
         #region Constructors
 
         /// <summary>
@@ -226,6 +229,16 @@ namespace Amazon.SimpleWorkflow
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -241,7 +254,7 @@ namespace Amazon.SimpleWorkflow
 
         #endregion
 
-        
+
         #region  CountClosedWorkflowExecutions
 
         /// <summary>
@@ -293,7 +306,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -311,10 +324,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountClosedWorkflowExecutions">REST API Reference for CountClosedWorkflowExecutions Operation</seealso>
         public virtual CountClosedWorkflowExecutionsResponse CountClosedWorkflowExecutions(CountClosedWorkflowExecutionsRequest request)
         {
-            var marshaller = CountClosedWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = CountClosedWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountClosedWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountClosedWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return Invoke<CountClosedWorkflowExecutionsRequest,CountClosedWorkflowExecutionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<CountClosedWorkflowExecutionsResponse>(request, options);
         }
 
         /// <summary>
@@ -331,11 +345,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountClosedWorkflowExecutions">REST API Reference for CountClosedWorkflowExecutions Operation</seealso>
         public virtual IAsyncResult BeginCountClosedWorkflowExecutions(CountClosedWorkflowExecutionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CountClosedWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = CountClosedWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountClosedWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountClosedWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CountClosedWorkflowExecutionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -404,7 +418,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -422,10 +436,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountOpenWorkflowExecutions">REST API Reference for CountOpenWorkflowExecutions Operation</seealso>
         public virtual CountOpenWorkflowExecutionsResponse CountOpenWorkflowExecutions(CountOpenWorkflowExecutionsRequest request)
         {
-            var marshaller = CountOpenWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = CountOpenWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountOpenWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountOpenWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return Invoke<CountOpenWorkflowExecutionsRequest,CountOpenWorkflowExecutionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<CountOpenWorkflowExecutionsResponse>(request, options);
         }
 
         /// <summary>
@@ -442,11 +457,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountOpenWorkflowExecutions">REST API Reference for CountOpenWorkflowExecutions Operation</seealso>
         public virtual IAsyncResult BeginCountOpenWorkflowExecutions(CountOpenWorkflowExecutionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CountOpenWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = CountOpenWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountOpenWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountOpenWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CountOpenWorkflowExecutionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -500,7 +515,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -518,10 +533,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountPendingActivityTasks">REST API Reference for CountPendingActivityTasks Operation</seealso>
         public virtual CountPendingActivityTasksResponse CountPendingActivityTasks(CountPendingActivityTasksRequest request)
         {
-            var marshaller = CountPendingActivityTasksRequestMarshaller.Instance;
-            var unmarshaller = CountPendingActivityTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountPendingActivityTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountPendingActivityTasksResponseUnmarshaller.Instance;
 
-            return Invoke<CountPendingActivityTasksRequest,CountPendingActivityTasksResponse>(request, marshaller, unmarshaller);
+            return Invoke<CountPendingActivityTasksResponse>(request, options);
         }
 
         /// <summary>
@@ -538,11 +554,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountPendingActivityTasks">REST API Reference for CountPendingActivityTasks Operation</seealso>
         public virtual IAsyncResult BeginCountPendingActivityTasks(CountPendingActivityTasksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CountPendingActivityTasksRequestMarshaller.Instance;
-            var unmarshaller = CountPendingActivityTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountPendingActivityTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountPendingActivityTasksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CountPendingActivityTasksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -596,7 +612,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -614,10 +630,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountPendingDecisionTasks">REST API Reference for CountPendingDecisionTasks Operation</seealso>
         public virtual CountPendingDecisionTasksResponse CountPendingDecisionTasks(CountPendingDecisionTasksRequest request)
         {
-            var marshaller = CountPendingDecisionTasksRequestMarshaller.Instance;
-            var unmarshaller = CountPendingDecisionTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountPendingDecisionTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountPendingDecisionTasksResponseUnmarshaller.Instance;
 
-            return Invoke<CountPendingDecisionTasksRequest,CountPendingDecisionTasksResponse>(request, marshaller, unmarshaller);
+            return Invoke<CountPendingDecisionTasksResponse>(request, options);
         }
 
         /// <summary>
@@ -634,11 +651,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/CountPendingDecisionTasks">REST API Reference for CountPendingDecisionTasks Operation</seealso>
         public virtual IAsyncResult BeginCountPendingDecisionTasks(CountPendingDecisionTasksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CountPendingDecisionTasksRequestMarshaller.Instance;
-            var unmarshaller = CountPendingDecisionTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CountPendingDecisionTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CountPendingDecisionTasksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CountPendingDecisionTasksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -704,7 +721,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -725,10 +742,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DeprecateActivityType">REST API Reference for DeprecateActivityType Operation</seealso>
         public virtual DeprecateActivityTypeResponse DeprecateActivityType(DeprecateActivityTypeRequest request)
         {
-            var marshaller = DeprecateActivityTypeRequestMarshaller.Instance;
-            var unmarshaller = DeprecateActivityTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateActivityTypeResponseUnmarshaller.Instance;
 
-            return Invoke<DeprecateActivityTypeRequest,DeprecateActivityTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeprecateActivityTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -745,11 +763,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DeprecateActivityType">REST API Reference for DeprecateActivityType Operation</seealso>
         public virtual IAsyncResult BeginDeprecateActivityType(DeprecateActivityTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeprecateActivityTypeRequestMarshaller.Instance;
-            var unmarshaller = DeprecateActivityTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateActivityTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeprecateActivityTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -808,7 +826,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -829,10 +847,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DeprecateDomain">REST API Reference for DeprecateDomain Operation</seealso>
         public virtual DeprecateDomainResponse DeprecateDomain(DeprecateDomainRequest request)
         {
-            var marshaller = DeprecateDomainRequestMarshaller.Instance;
-            var unmarshaller = DeprecateDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateDomainResponseUnmarshaller.Instance;
 
-            return Invoke<DeprecateDomainRequest,DeprecateDomainResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeprecateDomainResponse>(request, options);
         }
 
         /// <summary>
@@ -849,11 +868,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DeprecateDomain">REST API Reference for DeprecateDomain Operation</seealso>
         public virtual IAsyncResult BeginDeprecateDomain(DeprecateDomainRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeprecateDomainRequestMarshaller.Instance;
-            var unmarshaller = DeprecateDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateDomainResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeprecateDomainRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -920,7 +939,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -941,10 +960,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DeprecateWorkflowType">REST API Reference for DeprecateWorkflowType Operation</seealso>
         public virtual DeprecateWorkflowTypeResponse DeprecateWorkflowType(DeprecateWorkflowTypeRequest request)
         {
-            var marshaller = DeprecateWorkflowTypeRequestMarshaller.Instance;
-            var unmarshaller = DeprecateWorkflowTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateWorkflowTypeResponseUnmarshaller.Instance;
 
-            return Invoke<DeprecateWorkflowTypeRequest,DeprecateWorkflowTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeprecateWorkflowTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -961,11 +981,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DeprecateWorkflowType">REST API Reference for DeprecateWorkflowType Operation</seealso>
         public virtual IAsyncResult BeginDeprecateWorkflowType(DeprecateWorkflowTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeprecateWorkflowTypeRequestMarshaller.Instance;
-            var unmarshaller = DeprecateWorkflowTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeprecateWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeprecateWorkflowTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeprecateWorkflowTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1026,7 +1046,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1044,10 +1064,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeActivityType">REST API Reference for DescribeActivityType Operation</seealso>
         public virtual DescribeActivityTypeResponse DescribeActivityType(DescribeActivityTypeRequest request)
         {
-            var marshaller = DescribeActivityTypeRequestMarshaller.Instance;
-            var unmarshaller = DescribeActivityTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeActivityTypeResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeActivityTypeRequest,DescribeActivityTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeActivityTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -1064,11 +1085,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeActivityType">REST API Reference for DescribeActivityType Operation</seealso>
         public virtual IAsyncResult BeginDescribeActivityType(DescribeActivityTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeActivityTypeRequestMarshaller.Instance;
-            var unmarshaller = DescribeActivityTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeActivityTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeActivityTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1118,7 +1139,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1136,10 +1157,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeDomain">REST API Reference for DescribeDomain Operation</seealso>
         public virtual DescribeDomainResponse DescribeDomain(DescribeDomainRequest request)
         {
-            var marshaller = DescribeDomainRequestMarshaller.Instance;
-            var unmarshaller = DescribeDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDomainResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDomainRequest,DescribeDomainResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDomainResponse>(request, options);
         }
 
         /// <summary>
@@ -1156,11 +1178,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeDomain">REST API Reference for DescribeDomain Operation</seealso>
         public virtual IAsyncResult BeginDescribeDomain(DescribeDomainRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDomainRequestMarshaller.Instance;
-            var unmarshaller = DescribeDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDomainResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDomainRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1216,7 +1238,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1234,10 +1256,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeWorkflowExecution">REST API Reference for DescribeWorkflowExecution Operation</seealso>
         public virtual DescribeWorkflowExecutionResponse DescribeWorkflowExecution(DescribeWorkflowExecutionRequest request)
         {
-            var marshaller = DescribeWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeWorkflowExecutionRequest,DescribeWorkflowExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeWorkflowExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -1254,11 +1277,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeWorkflowExecution">REST API Reference for DescribeWorkflowExecution Operation</seealso>
         public virtual IAsyncResult BeginDescribeWorkflowExecution(DescribeWorkflowExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = DescribeWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeWorkflowExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1319,7 +1342,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1337,10 +1360,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeWorkflowType">REST API Reference for DescribeWorkflowType Operation</seealso>
         public virtual DescribeWorkflowTypeResponse DescribeWorkflowType(DescribeWorkflowTypeRequest request)
         {
-            var marshaller = DescribeWorkflowTypeRequestMarshaller.Instance;
-            var unmarshaller = DescribeWorkflowTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeWorkflowTypeResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeWorkflowTypeRequest,DescribeWorkflowTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeWorkflowTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -1357,11 +1381,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/DescribeWorkflowType">REST API Reference for DescribeWorkflowType Operation</seealso>
         public virtual IAsyncResult BeginDescribeWorkflowType(DescribeWorkflowTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeWorkflowTypeRequestMarshaller.Instance;
-            var unmarshaller = DescribeWorkflowTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeWorkflowTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeWorkflowTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1418,7 +1442,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1436,10 +1460,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/GetWorkflowExecutionHistory">REST API Reference for GetWorkflowExecutionHistory Operation</seealso>
         public virtual GetWorkflowExecutionHistoryResponse GetWorkflowExecutionHistory(GetWorkflowExecutionHistoryRequest request)
         {
-            var marshaller = GetWorkflowExecutionHistoryRequestMarshaller.Instance;
-            var unmarshaller = GetWorkflowExecutionHistoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetWorkflowExecutionHistoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetWorkflowExecutionHistoryResponseUnmarshaller.Instance;
 
-            return Invoke<GetWorkflowExecutionHistoryRequest,GetWorkflowExecutionHistoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetWorkflowExecutionHistoryResponse>(request, options);
         }
 
         /// <summary>
@@ -1456,11 +1481,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/GetWorkflowExecutionHistory">REST API Reference for GetWorkflowExecutionHistory Operation</seealso>
         public virtual IAsyncResult BeginGetWorkflowExecutionHistory(GetWorkflowExecutionHistoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetWorkflowExecutionHistoryRequestMarshaller.Instance;
-            var unmarshaller = GetWorkflowExecutionHistoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetWorkflowExecutionHistoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetWorkflowExecutionHistoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetWorkflowExecutionHistoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1514,7 +1539,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1532,10 +1557,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListActivityTypes">REST API Reference for ListActivityTypes Operation</seealso>
         public virtual ListActivityTypesResponse ListActivityTypes(ListActivityTypesRequest request)
         {
-            var marshaller = ListActivityTypesRequestMarshaller.Instance;
-            var unmarshaller = ListActivityTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActivityTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActivityTypesResponseUnmarshaller.Instance;
 
-            return Invoke<ListActivityTypesRequest,ListActivityTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListActivityTypesResponse>(request, options);
         }
 
         /// <summary>
@@ -1552,11 +1578,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListActivityTypes">REST API Reference for ListActivityTypes Operation</seealso>
         public virtual IAsyncResult BeginListActivityTypes(ListActivityTypesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListActivityTypesRequestMarshaller.Instance;
-            var unmarshaller = ListActivityTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListActivityTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListActivityTypesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListActivityTypesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1626,7 +1652,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1644,10 +1670,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListClosedWorkflowExecutions">REST API Reference for ListClosedWorkflowExecutions Operation</seealso>
         public virtual ListClosedWorkflowExecutionsResponse ListClosedWorkflowExecutions(ListClosedWorkflowExecutionsRequest request)
         {
-            var marshaller = ListClosedWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = ListClosedWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListClosedWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListClosedWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListClosedWorkflowExecutionsRequest,ListClosedWorkflowExecutionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListClosedWorkflowExecutionsResponse>(request, options);
         }
 
         /// <summary>
@@ -1664,11 +1691,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListClosedWorkflowExecutions">REST API Reference for ListClosedWorkflowExecutions Operation</seealso>
         public virtual IAsyncResult BeginListClosedWorkflowExecutions(ListClosedWorkflowExecutionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListClosedWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = ListClosedWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListClosedWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListClosedWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListClosedWorkflowExecutionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1726,7 +1753,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1739,10 +1766,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListDomains">REST API Reference for ListDomains Operation</seealso>
         public virtual ListDomainsResponse ListDomains(ListDomainsRequest request)
         {
-            var marshaller = ListDomainsRequestMarshaller.Instance;
-            var unmarshaller = ListDomainsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDomainsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDomainsResponseUnmarshaller.Instance;
 
-            return Invoke<ListDomainsRequest,ListDomainsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDomainsResponse>(request, options);
         }
 
         /// <summary>
@@ -1759,11 +1787,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListDomains">REST API Reference for ListDomains Operation</seealso>
         public virtual IAsyncResult BeginListDomains(ListDomainsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDomainsRequestMarshaller.Instance;
-            var unmarshaller = ListDomainsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDomainsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDomainsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDomainsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1833,7 +1861,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1851,10 +1879,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListOpenWorkflowExecutions">REST API Reference for ListOpenWorkflowExecutions Operation</seealso>
         public virtual ListOpenWorkflowExecutionsResponse ListOpenWorkflowExecutions(ListOpenWorkflowExecutionsRequest request)
         {
-            var marshaller = ListOpenWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = ListOpenWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOpenWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOpenWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListOpenWorkflowExecutionsRequest,ListOpenWorkflowExecutionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOpenWorkflowExecutionsResponse>(request, options);
         }
 
         /// <summary>
@@ -1871,11 +1900,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListOpenWorkflowExecutions">REST API Reference for ListOpenWorkflowExecutions Operation</seealso>
         public virtual IAsyncResult BeginListOpenWorkflowExecutions(ListOpenWorkflowExecutionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOpenWorkflowExecutionsRequestMarshaller.Instance;
-            var unmarshaller = ListOpenWorkflowExecutionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOpenWorkflowExecutionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOpenWorkflowExecutionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOpenWorkflowExecutionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1889,6 +1918,73 @@ namespace Amazon.SimpleWorkflow
         public virtual ListOpenWorkflowExecutionsResponse EndListOpenWorkflowExecutions(IAsyncResult asyncResult)
         {
             return EndInvoke<ListOpenWorkflowExecutionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// List tags for a given domain.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by SimpleWorkflow.</returns>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.LimitExceededException">
+        /// Returned by any operation if a system imposed limitation has been reached. To address
+        /// this fault you should either clean up unused resources or increase the limit by contacting
+        /// AWS.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.OperationNotPermittedException">
+        /// Returned when the caller doesn't have sufficient permissions to invoke the action.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
+        /// Returned when the named resource cannot be found with in the scope of this operation
+        /// (region or domain). This could happen if the named resource was never created or is
+        /// no longer available for this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonSimpleWorkflowClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from SimpleWorkflow.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -1926,7 +2022,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -1944,10 +2040,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListWorkflowTypes">REST API Reference for ListWorkflowTypes Operation</seealso>
         public virtual ListWorkflowTypesResponse ListWorkflowTypes(ListWorkflowTypesRequest request)
         {
-            var marshaller = ListWorkflowTypesRequestMarshaller.Instance;
-            var unmarshaller = ListWorkflowTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListWorkflowTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListWorkflowTypesResponseUnmarshaller.Instance;
 
-            return Invoke<ListWorkflowTypesRequest,ListWorkflowTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListWorkflowTypesResponse>(request, options);
         }
 
         /// <summary>
@@ -1964,11 +2061,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/ListWorkflowTypes">REST API Reference for ListWorkflowTypes Operation</seealso>
         public virtual IAsyncResult BeginListWorkflowTypes(ListWorkflowTypesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListWorkflowTypesRequestMarshaller.Instance;
-            var unmarshaller = ListWorkflowTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListWorkflowTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListWorkflowTypesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListWorkflowTypesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2031,7 +2128,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2054,10 +2151,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/PollForActivityTask">REST API Reference for PollForActivityTask Operation</seealso>
         public virtual PollForActivityTaskResponse PollForActivityTask(PollForActivityTaskRequest request)
         {
-            var marshaller = PollForActivityTaskRequestMarshaller.Instance;
-            var unmarshaller = PollForActivityTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PollForActivityTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PollForActivityTaskResponseUnmarshaller.Instance;
 
-            return Invoke<PollForActivityTaskRequest,PollForActivityTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<PollForActivityTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -2074,11 +2172,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/PollForActivityTask">REST API Reference for PollForActivityTask Operation</seealso>
         public virtual IAsyncResult BeginPollForActivityTask(PollForActivityTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PollForActivityTaskRequestMarshaller.Instance;
-            var unmarshaller = PollForActivityTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PollForActivityTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PollForActivityTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PollForActivityTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2156,7 +2254,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2179,10 +2277,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/PollForDecisionTask">REST API Reference for PollForDecisionTask Operation</seealso>
         public virtual PollForDecisionTaskResponse PollForDecisionTask(PollForDecisionTaskRequest request)
         {
-            var marshaller = PollForDecisionTaskRequestMarshaller.Instance;
-            var unmarshaller = PollForDecisionTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PollForDecisionTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PollForDecisionTaskResponseUnmarshaller.Instance;
 
-            return Invoke<PollForDecisionTaskRequest,PollForDecisionTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<PollForDecisionTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -2199,11 +2298,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/PollForDecisionTask">REST API Reference for PollForDecisionTask Operation</seealso>
         public virtual IAsyncResult BeginPollForDecisionTask(PollForDecisionTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PollForDecisionTaskRequestMarshaller.Instance;
-            var unmarshaller = PollForDecisionTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PollForDecisionTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PollForDecisionTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PollForDecisionTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2288,7 +2387,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2306,10 +2405,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RecordActivityTaskHeartbeat">REST API Reference for RecordActivityTaskHeartbeat Operation</seealso>
         public virtual RecordActivityTaskHeartbeatResponse RecordActivityTaskHeartbeat(RecordActivityTaskHeartbeatRequest request)
         {
-            var marshaller = RecordActivityTaskHeartbeatRequestMarshaller.Instance;
-            var unmarshaller = RecordActivityTaskHeartbeatResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RecordActivityTaskHeartbeatRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RecordActivityTaskHeartbeatResponseUnmarshaller.Instance;
 
-            return Invoke<RecordActivityTaskHeartbeatRequest,RecordActivityTaskHeartbeatResponse>(request, marshaller, unmarshaller);
+            return Invoke<RecordActivityTaskHeartbeatResponse>(request, options);
         }
 
         /// <summary>
@@ -2326,11 +2426,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RecordActivityTaskHeartbeat">REST API Reference for RecordActivityTaskHeartbeat Operation</seealso>
         public virtual IAsyncResult BeginRecordActivityTaskHeartbeat(RecordActivityTaskHeartbeatRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RecordActivityTaskHeartbeatRequestMarshaller.Instance;
-            var unmarshaller = RecordActivityTaskHeartbeatResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RecordActivityTaskHeartbeatRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RecordActivityTaskHeartbeatResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RecordActivityTaskHeartbeatRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2400,7 +2500,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2416,9 +2516,9 @@ namespace Amazon.SimpleWorkflow
         /// Returned when the caller doesn't have sufficient permissions to invoke the action.
         /// </exception>
         /// <exception cref="Amazon.SimpleWorkflow.Model.TypeAlreadyExistsException">
-        /// Returned if the type already exists in the specified domain. You get this fault even
-        /// if the existing type is in deprecated status. You can specify another version if the
-        /// intent is to create a new distinct version of the type.
+        /// Returned if the type already exists in the specified domain. You may get this fault
+        /// if you are registering a type that is either already registered or deprecated, or
+        /// if you undeprecate a type that is currently registered.
         /// </exception>
         /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
         /// Returned when the named resource cannot be found with in the scope of this operation
@@ -2428,10 +2528,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RegisterActivityType">REST API Reference for RegisterActivityType Operation</seealso>
         public virtual RegisterActivityTypeResponse RegisterActivityType(RegisterActivityTypeRequest request)
         {
-            var marshaller = RegisterActivityTypeRequestMarshaller.Instance;
-            var unmarshaller = RegisterActivityTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterActivityTypeResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterActivityTypeRequest,RegisterActivityTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterActivityTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -2448,11 +2549,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RegisterActivityType">REST API Reference for RegisterActivityType Operation</seealso>
         public virtual IAsyncResult BeginRegisterActivityType(RegisterActivityTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterActivityTypeRequestMarshaller.Instance;
-            var unmarshaller = RegisterActivityTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterActivityTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterActivityTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2502,7 +2603,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2510,8 +2611,9 @@ namespace Amazon.SimpleWorkflow
         /// 
         /// <returns>The response from the RegisterDomain service method, as returned by SimpleWorkflow.</returns>
         /// <exception cref="Amazon.SimpleWorkflow.Model.DomainAlreadyExistsException">
-        /// Returned if the specified domain already exists. You get this fault even if the existing
-        /// domain is in deprecated status.
+        /// Returned if the domain already exists. You may get this fault if you are registering
+        /// a domain that is either already registered or deprecated, or if you undeprecate a
+        /// domain that is currently registered.
         /// </exception>
         /// <exception cref="Amazon.SimpleWorkflow.Model.LimitExceededException">
         /// Returned by any operation if a system imposed limitation has been reached. To address
@@ -2521,13 +2623,17 @@ namespace Amazon.SimpleWorkflow
         /// <exception cref="Amazon.SimpleWorkflow.Model.OperationNotPermittedException">
         /// Returned when the caller doesn't have sufficient permissions to invoke the action.
         /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a domain.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RegisterDomain">REST API Reference for RegisterDomain Operation</seealso>
         public virtual RegisterDomainResponse RegisterDomain(RegisterDomainRequest request)
         {
-            var marshaller = RegisterDomainRequestMarshaller.Instance;
-            var unmarshaller = RegisterDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterDomainResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterDomainRequest,RegisterDomainResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterDomainResponse>(request, options);
         }
 
         /// <summary>
@@ -2544,11 +2650,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RegisterDomain">REST API Reference for RegisterDomain Operation</seealso>
         public virtual IAsyncResult BeginRegisterDomain(RegisterDomainRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterDomainRequestMarshaller.Instance;
-            var unmarshaller = RegisterDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterDomainResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterDomainRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2623,7 +2729,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2639,9 +2745,9 @@ namespace Amazon.SimpleWorkflow
         /// Returned when the caller doesn't have sufficient permissions to invoke the action.
         /// </exception>
         /// <exception cref="Amazon.SimpleWorkflow.Model.TypeAlreadyExistsException">
-        /// Returned if the type already exists in the specified domain. You get this fault even
-        /// if the existing type is in deprecated status. You can specify another version if the
-        /// intent is to create a new distinct version of the type.
+        /// Returned if the type already exists in the specified domain. You may get this fault
+        /// if you are registering a type that is either already registered or deprecated, or
+        /// if you undeprecate a type that is currently registered.
         /// </exception>
         /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
         /// Returned when the named resource cannot be found with in the scope of this operation
@@ -2651,10 +2757,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RegisterWorkflowType">REST API Reference for RegisterWorkflowType Operation</seealso>
         public virtual RegisterWorkflowTypeResponse RegisterWorkflowType(RegisterWorkflowTypeRequest request)
         {
-            var marshaller = RegisterWorkflowTypeRequestMarshaller.Instance;
-            var unmarshaller = RegisterWorkflowTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterWorkflowTypeResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterWorkflowTypeRequest,RegisterWorkflowTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterWorkflowTypeResponse>(request, options);
         }
 
         /// <summary>
@@ -2671,11 +2778,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RegisterWorkflowType">REST API Reference for RegisterWorkflowType Operation</seealso>
         public virtual IAsyncResult BeginRegisterWorkflowType(RegisterWorkflowTypeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterWorkflowTypeRequestMarshaller.Instance;
-            var unmarshaller = RegisterWorkflowTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterWorkflowTypeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterWorkflowTypeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2739,7 +2846,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2757,10 +2864,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RequestCancelWorkflowExecution">REST API Reference for RequestCancelWorkflowExecution Operation</seealso>
         public virtual RequestCancelWorkflowExecutionResponse RequestCancelWorkflowExecution(RequestCancelWorkflowExecutionRequest request)
         {
-            var marshaller = RequestCancelWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = RequestCancelWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RequestCancelWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RequestCancelWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<RequestCancelWorkflowExecutionRequest,RequestCancelWorkflowExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<RequestCancelWorkflowExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -2777,11 +2885,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RequestCancelWorkflowExecution">REST API Reference for RequestCancelWorkflowExecution Operation</seealso>
         public virtual IAsyncResult BeginRequestCancelWorkflowExecution(RequestCancelWorkflowExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RequestCancelWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = RequestCancelWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RequestCancelWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RequestCancelWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RequestCancelWorkflowExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2821,7 +2929,7 @@ namespace Amazon.SimpleWorkflow
         /// A task is considered open from the time that it is scheduled until it is closed. Therefore
         /// a task is reported as open while a worker is processing it. A task is closed after
         /// it has been specified in a call to <a>RespondActivityTaskCompleted</a>, RespondActivityTaskCanceled,
-        /// <a>RespondActivityTaskFailed</a>, or the task has <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-basic.html#swf-dev-timeout-types">timed
+        /// <a>RespondActivityTaskFailed</a>, or the task has <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-basic.html#swf-dev-timeout-types">timed
         /// out</a>.
         /// </para>
         ///  
@@ -2851,7 +2959,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2869,10 +2977,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondActivityTaskCanceled">REST API Reference for RespondActivityTaskCanceled Operation</seealso>
         public virtual RespondActivityTaskCanceledResponse RespondActivityTaskCanceled(RespondActivityTaskCanceledRequest request)
         {
-            var marshaller = RespondActivityTaskCanceledRequestMarshaller.Instance;
-            var unmarshaller = RespondActivityTaskCanceledResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondActivityTaskCanceledRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondActivityTaskCanceledResponseUnmarshaller.Instance;
 
-            return Invoke<RespondActivityTaskCanceledRequest,RespondActivityTaskCanceledResponse>(request, marshaller, unmarshaller);
+            return Invoke<RespondActivityTaskCanceledResponse>(request, options);
         }
 
         /// <summary>
@@ -2889,11 +2998,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondActivityTaskCanceled">REST API Reference for RespondActivityTaskCanceled Operation</seealso>
         public virtual IAsyncResult BeginRespondActivityTaskCanceled(RespondActivityTaskCanceledRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RespondActivityTaskCanceledRequestMarshaller.Instance;
-            var unmarshaller = RespondActivityTaskCanceledResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondActivityTaskCanceledRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondActivityTaskCanceledResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RespondActivityTaskCanceledRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2931,7 +3040,7 @@ namespace Amazon.SimpleWorkflow
         /// A task is considered open from the time that it is scheduled until it is closed. Therefore
         /// a task is reported as open while a worker is processing it. A task is closed after
         /// it has been specified in a call to RespondActivityTaskCompleted, <a>RespondActivityTaskCanceled</a>,
-        /// <a>RespondActivityTaskFailed</a>, or the task has <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-basic.html#swf-dev-timeout-types">timed
+        /// <a>RespondActivityTaskFailed</a>, or the task has <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-basic.html#swf-dev-timeout-types">timed
         /// out</a>.
         /// </para>
         ///  
@@ -2961,7 +3070,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2979,10 +3088,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondActivityTaskCompleted">REST API Reference for RespondActivityTaskCompleted Operation</seealso>
         public virtual RespondActivityTaskCompletedResponse RespondActivityTaskCompleted(RespondActivityTaskCompletedRequest request)
         {
-            var marshaller = RespondActivityTaskCompletedRequestMarshaller.Instance;
-            var unmarshaller = RespondActivityTaskCompletedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondActivityTaskCompletedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondActivityTaskCompletedResponseUnmarshaller.Instance;
 
-            return Invoke<RespondActivityTaskCompletedRequest,RespondActivityTaskCompletedResponse>(request, marshaller, unmarshaller);
+            return Invoke<RespondActivityTaskCompletedResponse>(request, options);
         }
 
         /// <summary>
@@ -2999,11 +3109,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondActivityTaskCompleted">REST API Reference for RespondActivityTaskCompleted Operation</seealso>
         public virtual IAsyncResult BeginRespondActivityTaskCompleted(RespondActivityTaskCompletedRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RespondActivityTaskCompletedRequestMarshaller.Instance;
-            var unmarshaller = RespondActivityTaskCompletedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondActivityTaskCompletedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondActivityTaskCompletedResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RespondActivityTaskCompletedRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3034,7 +3144,7 @@ namespace Amazon.SimpleWorkflow
         /// A task is considered open from the time that it is scheduled until it is closed. Therefore
         /// a task is reported as open while a worker is processing it. A task is closed after
         /// it has been specified in a call to <a>RespondActivityTaskCompleted</a>, <a>RespondActivityTaskCanceled</a>,
-        /// RespondActivityTaskFailed, or the task has <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-basic.html#swf-dev-timeout-types">timed
+        /// RespondActivityTaskFailed, or the task has <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dg-basic.html#swf-dev-timeout-types">timed
         /// out</a>.
         /// </para>
         ///  
@@ -3064,7 +3174,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3082,10 +3192,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondActivityTaskFailed">REST API Reference for RespondActivityTaskFailed Operation</seealso>
         public virtual RespondActivityTaskFailedResponse RespondActivityTaskFailed(RespondActivityTaskFailedRequest request)
         {
-            var marshaller = RespondActivityTaskFailedRequestMarshaller.Instance;
-            var unmarshaller = RespondActivityTaskFailedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondActivityTaskFailedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondActivityTaskFailedResponseUnmarshaller.Instance;
 
-            return Invoke<RespondActivityTaskFailedRequest,RespondActivityTaskFailedResponse>(request, marshaller, unmarshaller);
+            return Invoke<RespondActivityTaskFailedResponse>(request, options);
         }
 
         /// <summary>
@@ -3102,11 +3213,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondActivityTaskFailed">REST API Reference for RespondActivityTaskFailed Operation</seealso>
         public virtual IAsyncResult BeginRespondActivityTaskFailed(RespondActivityTaskFailedRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RespondActivityTaskFailedRequestMarshaller.Instance;
-            var unmarshaller = RespondActivityTaskFailedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondActivityTaskFailedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondActivityTaskFailedResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RespondActivityTaskFailedRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3147,7 +3258,7 @@ namespace Amazon.SimpleWorkflow
         /// parameter. Each of the decisions has one or more parameters, much like a regular API
         /// call. To allow for policies to be as readable as possible, you can express permissions
         /// on decisions as if they were actual API calls, including applying conditions to some
-        /// parameters. For more information, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// parameters. For more information, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3165,10 +3276,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondDecisionTaskCompleted">REST API Reference for RespondDecisionTaskCompleted Operation</seealso>
         public virtual RespondDecisionTaskCompletedResponse RespondDecisionTaskCompleted(RespondDecisionTaskCompletedRequest request)
         {
-            var marshaller = RespondDecisionTaskCompletedRequestMarshaller.Instance;
-            var unmarshaller = RespondDecisionTaskCompletedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondDecisionTaskCompletedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondDecisionTaskCompletedResponseUnmarshaller.Instance;
 
-            return Invoke<RespondDecisionTaskCompletedRequest,RespondDecisionTaskCompletedResponse>(request, marshaller, unmarshaller);
+            return Invoke<RespondDecisionTaskCompletedResponse>(request, options);
         }
 
         /// <summary>
@@ -3185,11 +3297,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/RespondDecisionTaskCompleted">REST API Reference for RespondDecisionTaskCompleted Operation</seealso>
         public virtual IAsyncResult BeginRespondDecisionTaskCompleted(RespondDecisionTaskCompletedRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RespondDecisionTaskCompletedRequestMarshaller.Instance;
-            var unmarshaller = RespondDecisionTaskCompletedResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RespondDecisionTaskCompletedRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RespondDecisionTaskCompletedResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RespondDecisionTaskCompletedRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3252,7 +3364,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3270,10 +3382,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/SignalWorkflowExecution">REST API Reference for SignalWorkflowExecution Operation</seealso>
         public virtual SignalWorkflowExecutionResponse SignalWorkflowExecution(SignalWorkflowExecutionRequest request)
         {
-            var marshaller = SignalWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = SignalWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SignalWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SignalWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<SignalWorkflowExecutionRequest,SignalWorkflowExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<SignalWorkflowExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -3290,11 +3403,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/SignalWorkflowExecution">REST API Reference for SignalWorkflowExecution Operation</seealso>
         public virtual IAsyncResult BeginSignalWorkflowExecution(SignalWorkflowExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SignalWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = SignalWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SignalWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SignalWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SignalWorkflowExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3382,7 +3495,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3431,10 +3544,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/StartWorkflowExecution">REST API Reference for StartWorkflowExecution Operation</seealso>
         public virtual StartWorkflowExecutionResponse StartWorkflowExecution(StartWorkflowExecutionRequest request)
         {
-            var marshaller = StartWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = StartWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<StartWorkflowExecutionRequest,StartWorkflowExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartWorkflowExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -3451,11 +3565,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/StartWorkflowExecution">REST API Reference for StartWorkflowExecution Operation</seealso>
         public virtual IAsyncResult BeginStartWorkflowExecution(StartWorkflowExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = StartWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartWorkflowExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3469,6 +3583,82 @@ namespace Amazon.SimpleWorkflow
         public virtual StartWorkflowExecutionResponse EndStartWorkflowExecution(IAsyncResult asyncResult)
         {
             return EndInvoke<StartWorkflowExecutionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        /// <summary>
+        /// Add a tag to a Amazon SWF domain.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Amazon SWF supports a maximum of 50 tags per resource.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by SimpleWorkflow.</returns>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.LimitExceededException">
+        /// Returned by any operation if a system imposed limitation has been reached. To address
+        /// this fault you should either clean up unused resources or increase the limit by contacting
+        /// AWS.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.OperationNotPermittedException">
+        /// Returned when the caller doesn't have sufficient permissions to invoke the action.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a domain.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
+        /// Returned when the named resource cannot be found with in the scope of this operation
+        /// (region or domain). This could happen if the named resource was never created or is
+        /// no longer available for this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonSimpleWorkflowClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from SimpleWorkflow.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -3524,7 +3714,7 @@ namespace Amazon.SimpleWorkflow
         /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
         /// values fall outside the specified constraints, the action fails. The associated event
         /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-        /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3542,10 +3732,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/TerminateWorkflowExecution">REST API Reference for TerminateWorkflowExecution Operation</seealso>
         public virtual TerminateWorkflowExecutionResponse TerminateWorkflowExecution(TerminateWorkflowExecutionRequest request)
         {
-            var marshaller = TerminateWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = TerminateWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TerminateWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TerminateWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return Invoke<TerminateWorkflowExecutionRequest,TerminateWorkflowExecutionResponse>(request, marshaller, unmarshaller);
+            return Invoke<TerminateWorkflowExecutionResponse>(request, options);
         }
 
         /// <summary>
@@ -3562,11 +3753,11 @@ namespace Amazon.SimpleWorkflow
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/TerminateWorkflowExecution">REST API Reference for TerminateWorkflowExecution Operation</seealso>
         public virtual IAsyncResult BeginTerminateWorkflowExecution(TerminateWorkflowExecutionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TerminateWorkflowExecutionRequestMarshaller.Instance;
-            var unmarshaller = TerminateWorkflowExecutionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TerminateWorkflowExecutionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TerminateWorkflowExecutionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TerminateWorkflowExecutionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3580,6 +3771,403 @@ namespace Amazon.SimpleWorkflow
         public virtual TerminateWorkflowExecutionResponse EndTerminateWorkflowExecution(IAsyncResult asyncResult)
         {
             return EndInvoke<TerminateWorkflowExecutionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UndeprecateActivityType
+
+        /// <summary>
+        /// Undeprecates a previously deprecated <i>activity type</i>. After an activity type
+        /// has been undeprecated, you can create new tasks of that activity type.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not exactly
+        /// reflect recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  <b>Access Control</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use IAM policies to control this action's access to Amazon SWF resources as
+        /// follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use a <code>Resource</code> element with the domain name to limit the action to only
+        /// specified domains.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use an <code>Action</code> element to allow or deny permission to call this action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Constrain the following parameters by using a <code>Condition</code> element with
+        /// the appropriate keys.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>activityType.name</code>: String constraint. The key is <code>swf:activityType.name</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>activityType.version</code>: String constraint. The key is <code>swf:activityType.version</code>.
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
+        /// values fall outside the specified constraints, the action fails. The associated event
+        /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UndeprecateActivityType service method.</param>
+        /// 
+        /// <returns>The response from the UndeprecateActivityType service method, as returned by SimpleWorkflow.</returns>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.OperationNotPermittedException">
+        /// Returned when the caller doesn't have sufficient permissions to invoke the action.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.TypeAlreadyExistsException">
+        /// Returned if the type already exists in the specified domain. You may get this fault
+        /// if you are registering a type that is either already registered or deprecated, or
+        /// if you undeprecate a type that is currently registered.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
+        /// Returned when the named resource cannot be found with in the scope of this operation
+        /// (region or domain). This could happen if the named resource was never created or is
+        /// no longer available for this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateActivityType">REST API Reference for UndeprecateActivityType Operation</seealso>
+        public virtual UndeprecateActivityTypeResponse UndeprecateActivityType(UndeprecateActivityTypeRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UndeprecateActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UndeprecateActivityTypeResponseUnmarshaller.Instance;
+
+            return Invoke<UndeprecateActivityTypeResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UndeprecateActivityType operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UndeprecateActivityType operation on AmazonSimpleWorkflowClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUndeprecateActivityType
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateActivityType">REST API Reference for UndeprecateActivityType Operation</seealso>
+        public virtual IAsyncResult BeginUndeprecateActivityType(UndeprecateActivityTypeRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UndeprecateActivityTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UndeprecateActivityTypeResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UndeprecateActivityType operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUndeprecateActivityType.</param>
+        /// 
+        /// <returns>Returns a  UndeprecateActivityTypeResult from SimpleWorkflow.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateActivityType">REST API Reference for UndeprecateActivityType Operation</seealso>
+        public virtual UndeprecateActivityTypeResponse EndUndeprecateActivityType(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UndeprecateActivityTypeResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UndeprecateDomain
+
+        /// <summary>
+        /// Undeprecates a previously deprecated domain. After a domain has been undeprecated
+        /// it can be used to create new workflow executions or register new types.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not exactly
+        /// reflect recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  <b>Access Control</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use IAM policies to control this action's access to Amazon SWF resources as
+        /// follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use a <code>Resource</code> element with the domain name to limit the action to only
+        /// specified domains.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use an <code>Action</code> element to allow or deny permission to call this action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You cannot use an IAM policy to constrain this action's parameters.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
+        /// values fall outside the specified constraints, the action fails. The associated event
+        /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UndeprecateDomain service method.</param>
+        /// 
+        /// <returns>The response from the UndeprecateDomain service method, as returned by SimpleWorkflow.</returns>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.DomainAlreadyExistsException">
+        /// Returned if the domain already exists. You may get this fault if you are registering
+        /// a domain that is either already registered or deprecated, or if you undeprecate a
+        /// domain that is currently registered.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.OperationNotPermittedException">
+        /// Returned when the caller doesn't have sufficient permissions to invoke the action.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
+        /// Returned when the named resource cannot be found with in the scope of this operation
+        /// (region or domain). This could happen if the named resource was never created or is
+        /// no longer available for this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateDomain">REST API Reference for UndeprecateDomain Operation</seealso>
+        public virtual UndeprecateDomainResponse UndeprecateDomain(UndeprecateDomainRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UndeprecateDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UndeprecateDomainResponseUnmarshaller.Instance;
+
+            return Invoke<UndeprecateDomainResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UndeprecateDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UndeprecateDomain operation on AmazonSimpleWorkflowClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUndeprecateDomain
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateDomain">REST API Reference for UndeprecateDomain Operation</seealso>
+        public virtual IAsyncResult BeginUndeprecateDomain(UndeprecateDomainRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UndeprecateDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UndeprecateDomainResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UndeprecateDomain operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUndeprecateDomain.</param>
+        /// 
+        /// <returns>Returns a  UndeprecateDomainResult from SimpleWorkflow.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateDomain">REST API Reference for UndeprecateDomain Operation</seealso>
+        public virtual UndeprecateDomainResponse EndUndeprecateDomain(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UndeprecateDomainResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UndeprecateWorkflowType
+
+        /// <summary>
+        /// Undeprecates a previously deprecated <i>workflow type</i>. After a workflow type has
+        /// been undeprecated, you can create new executions of that type. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not exactly
+        /// reflect recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  <b>Access Control</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use IAM policies to control this action's access to Amazon SWF resources as
+        /// follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use a <code>Resource</code> element with the domain name to limit the action to only
+        /// specified domains.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use an <code>Action</code> element to allow or deny permission to call this action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Constrain the following parameters by using a <code>Condition</code> element with
+        /// the appropriate keys.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>workflowType.name</code>: String constraint. The key is <code>swf:workflowType.name</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>workflowType.version</code>: String constraint. The key is <code>swf:workflowType.version</code>.
+        /// </para>
+        ///  </li> </ul> </li> </ul> 
+        /// <para>
+        /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
+        /// values fall outside the specified constraints, the action fails. The associated event
+        /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
+        /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UndeprecateWorkflowType service method.</param>
+        /// 
+        /// <returns>The response from the UndeprecateWorkflowType service method, as returned by SimpleWorkflow.</returns>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.OperationNotPermittedException">
+        /// Returned when the caller doesn't have sufficient permissions to invoke the action.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.TypeAlreadyExistsException">
+        /// Returned if the type already exists in the specified domain. You may get this fault
+        /// if you are registering a type that is either already registered or deprecated, or
+        /// if you undeprecate a type that is currently registered.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
+        /// Returned when the named resource cannot be found with in the scope of this operation
+        /// (region or domain). This could happen if the named resource was never created or is
+        /// no longer available for this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateWorkflowType">REST API Reference for UndeprecateWorkflowType Operation</seealso>
+        public virtual UndeprecateWorkflowTypeResponse UndeprecateWorkflowType(UndeprecateWorkflowTypeRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UndeprecateWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UndeprecateWorkflowTypeResponseUnmarshaller.Instance;
+
+            return Invoke<UndeprecateWorkflowTypeResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UndeprecateWorkflowType operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UndeprecateWorkflowType operation on AmazonSimpleWorkflowClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUndeprecateWorkflowType
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateWorkflowType">REST API Reference for UndeprecateWorkflowType Operation</seealso>
+        public virtual IAsyncResult BeginUndeprecateWorkflowType(UndeprecateWorkflowTypeRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UndeprecateWorkflowTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UndeprecateWorkflowTypeResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UndeprecateWorkflowType operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUndeprecateWorkflowType.</param>
+        /// 
+        /// <returns>Returns a  UndeprecateWorkflowTypeResult from SimpleWorkflow.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UndeprecateWorkflowType">REST API Reference for UndeprecateWorkflowType Operation</seealso>
+        public virtual UndeprecateWorkflowTypeResponse EndUndeprecateWorkflowType(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UndeprecateWorkflowTypeResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Remove a tag from a Amazon SWF domain.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by SimpleWorkflow.</returns>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.LimitExceededException">
+        /// Returned by any operation if a system imposed limitation has been reached. To address
+        /// this fault you should either clean up unused resources or increase the limit by contacting
+        /// AWS.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.OperationNotPermittedException">
+        /// Returned when the caller doesn't have sufficient permissions to invoke the action.
+        /// </exception>
+        /// <exception cref="Amazon.SimpleWorkflow.Model.UnknownResourceException">
+        /// Returned when the named resource cannot be found with in the scope of this operation
+        /// (region or domain). This could happen if the named resource was never created or is
+        /// no longer available for this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonSimpleWorkflowClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from SimpleWorkflow.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/swf-2012-01-25/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
         }
 
         #endregion

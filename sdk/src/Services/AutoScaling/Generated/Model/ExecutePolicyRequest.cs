@@ -45,6 +45,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -64,8 +65,8 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter is required if the policy type is <code>StepScaling</code> and not
-        /// supported otherwise.
+        /// Conditional: This parameter is required if the policy type is <code>StepScaling</code>
+        /// and not supported otherwise.
         /// </para>
         /// </summary>
         public double BreachThreshold
@@ -83,17 +84,18 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property HonorCooldown. 
         /// <para>
-        /// Indicates whether Auto Scaling waits for the cooldown period to complete before executing
-        /// the policy.
+        /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete
+        /// before executing the policy.
         /// </para>
         ///  
         /// <para>
-        /// This parameter is not supported if the policy type is <code>StepScaling</code>.
+        /// This parameter is not supported if the policy type is <code>StepScaling</code> or
+        /// <code>TargetTrackingScaling</code>.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/Cooldown.html">Auto
-        /// Scaling Cooldowns</a> in the <i>Auto Scaling User Guide</i>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html">Scaling
+        /// Cooldowns</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         public bool HonorCooldown
@@ -123,8 +125,8 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter is required if the policy type is <code>StepScaling</code> and not
-        /// supported otherwise.
+        /// Conditional: This parameter is required if the policy type is <code>StepScaling</code>
+        /// and not supported otherwise.
         /// </para>
         /// </summary>
         public double MetricValue
@@ -145,6 +147,7 @@ namespace Amazon.AutoScaling.Model
         /// The name or ARN of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string PolicyName
         {
             get { return this._policyName; }

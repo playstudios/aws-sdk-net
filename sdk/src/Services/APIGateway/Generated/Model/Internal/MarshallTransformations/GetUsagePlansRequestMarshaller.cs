@@ -55,9 +55,9 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetUsagePlansRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/usageplans";
             
             if (publicRequest.IsSetKeyId())
                 request.Parameters.Add("keyId", StringUtils.FromString(publicRequest.KeyId));
@@ -67,7 +67,8 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetPosition())
                 request.Parameters.Add("position", StringUtils.FromString(publicRequest.Position));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/usageplans";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

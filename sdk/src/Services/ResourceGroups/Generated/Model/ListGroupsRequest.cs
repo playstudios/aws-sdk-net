@@ -33,8 +33,35 @@ namespace Amazon.ResourceGroups.Model
     /// </summary>
     public partial class ListGroupsRequest : AmazonResourceGroupsRequest
     {
+        private List<GroupFilter> _filters = new List<GroupFilter>();
         private int? _maxResults;
         private string _nextToken;
+
+        /// <summary>
+        /// Gets and sets the property Filters. 
+        /// <para>
+        /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups
+        /// operation.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>resource-type</code> - Filter groups by resource type. Specify up to five resource
+        /// types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance,
+        /// or AWS::S3::Bucket.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public List<GroupFilter> Filters
+        {
+            get { return this._filters; }
+            set { this._filters = value; }
+        }
+
+        // Check to see if Filters property is set
+        internal bool IsSetFilters()
+        {
+            return this._filters != null && this._filters.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property MaxResults. 
@@ -43,6 +70,7 @@ namespace Amazon.ResourceGroups.Model
         /// output. By default, this number is 50.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -63,6 +91,7 @@ namespace Amazon.ResourceGroups.Model
         /// and specify the NextToken value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=8192)]
         public string NextToken
         {
             get { return this._nextToken; }

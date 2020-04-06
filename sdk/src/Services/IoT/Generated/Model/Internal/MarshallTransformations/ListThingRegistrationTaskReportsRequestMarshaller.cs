@@ -55,12 +55,12 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListThingRegistrationTaskReportsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/thing-registration-tasks/{taskId}/reports";
             if (!publicRequest.IsSetTaskId())
                 throw new AmazonIoTException("Request object does not have required field TaskId set");
-            uriResourcePath = uriResourcePath.Replace("{taskId}", StringUtils.FromString(publicRequest.TaskId));
+            request.AddPathResource("{taskId}", StringUtils.FromString(publicRequest.TaskId));
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("maxResults", StringUtils.FromInt(publicRequest.MaxResults));
@@ -70,7 +70,8 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetReportType())
                 request.Parameters.Add("reportType", StringUtils.FromString(publicRequest.ReportType));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/thing-registration-tasks/{taskId}/reports";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

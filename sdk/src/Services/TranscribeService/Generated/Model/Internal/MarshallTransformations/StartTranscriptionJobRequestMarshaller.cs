@@ -58,15 +58,38 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
             string target = "Transcribe.StartTranscriptionJob";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-26";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetContentRedaction())
+                {
+                    context.Writer.WritePropertyName("ContentRedaction");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ContentRedactionMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ContentRedaction, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetJobExecutionSettings())
+                {
+                    context.Writer.WritePropertyName("JobExecutionSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = JobExecutionSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.JobExecutionSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetLanguageCode())
                 {
                     context.Writer.WritePropertyName("LanguageCode");
@@ -94,6 +117,18 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("MediaSampleRateHertz");
                     context.Writer.Write(publicRequest.MediaSampleRateHertz);
+                }
+
+                if(publicRequest.IsSetOutputBucketName())
+                {
+                    context.Writer.WritePropertyName("OutputBucketName");
+                    context.Writer.Write(publicRequest.OutputBucketName);
+                }
+
+                if(publicRequest.IsSetOutputEncryptionKMSKeyId())
+                {
+                    context.Writer.WritePropertyName("OutputEncryptionKMSKeyId");
+                    context.Writer.Write(publicRequest.OutputEncryptionKMSKeyId);
                 }
 
                 if(publicRequest.IsSetSettings())

@@ -49,11 +49,12 @@ namespace Amazon.SimpleWorkflow.Model
         /// <para>
         /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the decision
         /// failed because it lacked sufficient permissions. For details and example IAM policies,
-        /// see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SignalExternalWorkflowExecutionFailedCause Cause
         {
             get { return this._cause; }
@@ -73,6 +74,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// This data isn't sent to the workflow execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32768)]
         public string Control
         {
             get { return this._control; }
@@ -94,6 +96,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// the chain of events leading up to this event.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long DecisionTaskCompletedEventId
         {
             get { return this._decisionTaskCompletedEventId.GetValueOrDefault(); }
@@ -115,6 +118,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// events leading up to this event.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long InitiatedEventId
         {
             get { return this._initiatedEventId.GetValueOrDefault(); }
@@ -134,6 +138,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// delivered to.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=64)]
         public string RunId
         {
             get { return this._runId; }
@@ -153,6 +158,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// being delivered to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string WorkflowId
         {
             get { return this._workflowId; }

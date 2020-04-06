@@ -32,8 +32,29 @@ namespace Amazon.IoT.Model
     /// </summary>
     public partial class RepublishAction
     {
+        private int? _qos;
         private string _roleArn;
         private string _topic;
+
+        /// <summary>
+        /// Gets and sets the property Qos. 
+        /// <para>
+        /// The Quality of Service (QoS) level to use when republishing messages. The default
+        /// value is 0.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=1)]
+        public int Qos
+        {
+            get { return this._qos.GetValueOrDefault(); }
+            set { this._qos = value; }
+        }
+
+        // Check to see if Qos property is set
+        internal bool IsSetQos()
+        {
+            return this._qos.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property RoleArn. 
@@ -41,6 +62,7 @@ namespace Amazon.IoT.Model
         /// The ARN of the IAM role that grants access.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -59,6 +81,7 @@ namespace Amazon.IoT.Model
         /// The name of the MQTT topic.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Topic
         {
             get { return this._topic; }

@@ -73,6 +73,7 @@ namespace Amazon.AWSHealth.Model
         /// only supported value at this time.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=256)]
         public string Locale
         {
             get { return this._locale; }
@@ -91,6 +92,7 @@ namespace Amazon.AWSHealth.Model
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -113,6 +115,7 @@ namespace Amazon.AWSHealth.Model
         /// value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=10000)]
         public string NextToken
         {
             get { return this._nextToken; }

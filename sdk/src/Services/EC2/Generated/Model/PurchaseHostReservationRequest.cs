@@ -45,9 +45,9 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
-        /// to Ensure Idempotency</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+        /// to Ensure Idempotency</a>.
         /// </para>
         /// </summary>
         public string ClientToken
@@ -85,9 +85,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property HostIdSet. 
         /// <para>
-        /// The ID/s of the Dedicated Host/s that the reservation will be associated with.
+        /// The IDs of the Dedicated Hosts with which the reservation will be associated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> HostIdSet
         {
             get { return this._hostIdSet; }
@@ -105,8 +106,8 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The specified limit is checked against the total upfront cost of the reservation (calculated
         /// as the offering's upfront cost multiplied by the host count). If the total upfront
-        /// cost is greater than the specified price limit, the request will fail. This is used
-        /// to ensure that the purchase does not exceed the expected upfront cost of the purchase.
+        /// cost is greater than the specified price limit, the request fails. This is used to
+        /// ensure that the purchase does not exceed the expected upfront cost of the purchase.
         /// At this time, the only supported currency is <code>USD</code>. For example, to indicate
         /// a limit price of USD 100, specify 100.00.
         /// </para>
@@ -129,6 +130,7 @@ namespace Amazon.EC2.Model
         /// The ID of the offering.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string OfferingId
         {
             get { return this._offeringId; }

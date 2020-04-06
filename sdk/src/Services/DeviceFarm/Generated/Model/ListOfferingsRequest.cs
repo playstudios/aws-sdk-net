@@ -32,8 +32,8 @@ namespace Amazon.DeviceFarm.Model
     /// Returns a list of products or offerings that the user can manage through the API.
     /// Each offering record indicates the recurring price per unit and the frequency for
     /// that offering. The API returns a <code>NotEligible</code> error if the user is not
-    /// permitted to invoke the operation. Please contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
-    /// if you believe that you should be able to invoke this operation.
+    /// permitted to invoke the operation. If you must be able to invoke this operation, contact
+    /// <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
     /// </summary>
     public partial class ListOfferingsRequest : AmazonDeviceFarmRequest
     {
@@ -46,6 +46,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

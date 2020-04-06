@@ -38,7 +38,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         private int? _failedCount;
         private int? _installedCount;
         private int? _installedOtherCount;
+        private int? _installedPendingRebootCount;
+        private int? _installedRejectedCount;
+        private string _installOverrideList;
         private string _instanceId;
+        private DateTime? _lastNoRebootInstallOperationTime;
         private int? _missingCount;
         private int? _notApplicableCount;
         private PatchOperationType _operation;
@@ -46,7 +50,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         private DateTime? _operationStartTime;
         private string _ownerInformation;
         private string _patchGroup;
+        private RebootOption _rebootOption;
         private string _snapshotId;
+        private int? _unreportedNotApplicableCount;
 
         /// <summary>
         /// Gets and sets the property BaselineId. 
@@ -54,6 +60,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the patch baseline used to patch the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=128)]
         public string BaselineId
         {
             get { return this._baselineId; }
@@ -123,12 +130,86 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property InstalledPendingRebootCount. 
+        /// <para>
+        /// The number of patches installed by Patch Manager since the last time the instance
+        /// was rebooted.
+        /// </para>
+        /// </summary>
+        public int InstalledPendingRebootCount
+        {
+            get { return this._installedPendingRebootCount.GetValueOrDefault(); }
+            set { this._installedPendingRebootCount = value; }
+        }
+
+        // Check to see if InstalledPendingRebootCount property is set
+        internal bool IsSetInstalledPendingRebootCount()
+        {
+            return this._installedPendingRebootCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property InstalledRejectedCount. 
+        /// <para>
+        /// The number of instances with patches installed that are specified in a RejectedPatches
+        /// list. Patches with a status of <i>InstalledRejected</i> were typically installed before
+        /// they were added to a RejectedPatches list.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value
+        /// of InstalledRejectedCount will always be 0 (zero).
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public int InstalledRejectedCount
+        {
+            get { return this._installedRejectedCount.GetValueOrDefault(); }
+            set { this._installedRejectedCount = value; }
+        }
+
+        // Check to see if InstalledRejectedCount property is set
+        internal bool IsSetInstalledRejectedCount()
+        {
+            return this._installedRejectedCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property InstallOverrideList. 
+        /// <para>
+        /// An https URL or an Amazon S3 path-style URL to a list of patches to be installed.
+        /// This patch installation list, which you maintain in an Amazon S3 bucket in YAML format
+        /// and specify in the SSM document <code>AWS-RunPatchBaseline</code>, overrides the patches
+        /// specified by the default patch baseline.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about the <code>InstallOverrideList</code> parameter, see <a
+        /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-about-aws-runpatchbaseline.html">About
+        /// the SSM Document AWS-RunPatchBaseline</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string InstallOverrideList
+        {
+            get { return this._installOverrideList; }
+            set { this._installOverrideList = value; }
+        }
+
+        // Check to see if InstallOverrideList property is set
+        internal bool IsSetInstallOverrideList()
+        {
+            return this._installOverrideList != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
         /// The ID of the managed instance the high-level patch compliance information was collected
         /// for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -139,6 +220,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetInstanceId()
         {
             return this._instanceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LastNoRebootInstallOperationTime. 
+        /// <para>
+        /// The time of the last attempt to patch the instance with <code>NoReboot</code> specified
+        /// as the reboot option.
+        /// </para>
+        /// </summary>
+        public DateTime LastNoRebootInstallOperationTime
+        {
+            get { return this._lastNoRebootInstallOperationTime.GetValueOrDefault(); }
+            set { this._lastNoRebootInstallOperationTime = value; }
+        }
+
+        // Check to see if LastNoRebootInstallOperationTime property is set
+        internal bool IsSetLastNoRebootInstallOperationTime()
+        {
+            return this._lastNoRebootInstallOperationTime.HasValue; 
         }
 
         /// <summary>
@@ -164,7 +264,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Gets and sets the property NotApplicableCount. 
         /// <para>
         /// The number of patches from the patch baseline that aren't applicable for the instance
-        /// and hence aren't installed on the instance.
+        /// and therefore aren't installed on the instance. This number may be truncated if the
+        /// list of patch names is very large. The number of patches beyond this limit are reported
+        /// in <code>UnreportedNotApplicableCount</code>.
         /// </para>
         /// </summary>
         public int NotApplicableCount
@@ -186,6 +288,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// or INSTALL (install missing patches).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PatchOperationType Operation
         {
             get { return this._operation; }
@@ -204,6 +307,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The time the most recent patching operation completed on the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime OperationEndTime
         {
             get { return this._operationEndTime.GetValueOrDefault(); }
@@ -222,6 +326,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The time the most recent patching operation was started on the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime OperationStartTime
         {
             get { return this._operationStartTime.GetValueOrDefault(); }
@@ -241,6 +346,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// the service.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string OwnerInformation
         {
             get { return this._ownerInformation; }
@@ -259,6 +365,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the patch group the managed instance belongs to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string PatchGroup
         {
             get { return this._patchGroup; }
@@ -272,12 +379,49 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RebootOption. 
+        /// <para>
+        /// Indicates the reboot option specified in the patch baseline.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Reboot options apply to <code>Install</code> operations only. Reboots are not attempted
+        /// for Patch Manager <code>Scan</code> operations.
+        /// </para>
+        ///  </note> <ul> <li> 
+        /// <para>
+        ///  <b>RebootIfNeeded</b>: Patch Manager tries to reboot the instance if it installed
+        /// any patches, or if any patches are detected with a status of <code>InstalledPendingReboot</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>NoReboot</b>: Patch Manager attempts to install missing packages without trying
+        /// to reboot the system. Patches installed with this option are assigned a status of
+        /// <code>InstalledPendingReboot</code>. These patches might not be in effect until a
+        /// reboot is performed.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public RebootOption RebootOption
+        {
+            get { return this._rebootOption; }
+            set { this._rebootOption = value; }
+        }
+
+        // Check to see if RebootOption property is set
+        internal bool IsSetRebootOption()
+        {
+            return this._rebootOption != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SnapshotId. 
         /// <para>
         /// The ID of the patch baseline snapshot used during the patching operation when this
         /// compliance data was collected.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string SnapshotId
         {
             get { return this._snapshotId; }
@@ -288,6 +432,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetSnapshotId()
         {
             return this._snapshotId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property UnreportedNotApplicableCount. 
+        /// <para>
+        /// The number of patches beyond the supported limit of <code>NotApplicableCount</code>
+        /// that are not reported by name to Systems Manager Inventory.
+        /// </para>
+        /// </summary>
+        public int UnreportedNotApplicableCount
+        {
+            get { return this._unreportedNotApplicableCount.GetValueOrDefault(); }
+            set { this._unreportedNotApplicableCount = value; }
+        }
+
+        // Check to see if UnreportedNotApplicableCount property is set
+        internal bool IsSetUnreportedNotApplicableCount()
+        {
+            return this._unreportedNotApplicableCount.HasValue; 
         }
 
     }

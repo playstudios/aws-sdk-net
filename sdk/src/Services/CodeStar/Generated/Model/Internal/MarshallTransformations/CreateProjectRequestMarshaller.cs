@@ -58,10 +58,11 @@ namespace Amazon.CodeStar.Model.Internal.MarshallTransformations
             string target = "CodeStar_20170419.CreateProject";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -89,6 +90,47 @@ namespace Amazon.CodeStar.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetSourceCode())
+                {
+                    context.Writer.WritePropertyName("sourceCode");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSourceCodeListValue in publicRequest.SourceCode)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = CodeMarshaller.Instance;
+                        marshaller.Marshall(publicRequestSourceCodeListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetToolchain())
+                {
+                    context.Writer.WritePropertyName("toolchain");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ToolchainMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Toolchain, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
         

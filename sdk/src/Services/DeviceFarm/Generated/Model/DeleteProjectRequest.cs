@@ -33,7 +33,7 @@ namespace Amazon.DeviceFarm.Model
     /// 
     ///  
     /// <para>
-    ///  <b>Note</b> Deleting this resource does not stop an in-progress run.
+    ///  Deleting this resource does not stop an in-progress run.
     /// </para>
     /// </summary>
     public partial class DeleteProjectRequest : AmazonDeviceFarmRequest
@@ -43,9 +43,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
+        /// Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }

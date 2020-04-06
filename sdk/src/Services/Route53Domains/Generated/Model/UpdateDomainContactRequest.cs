@@ -29,9 +29,8 @@ namespace Amazon.Route53Domains.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateDomainContact operation.
-    /// This operation updates the contact information for a particular domain. Information
-    /// for at least one contact (registrant, administrator, or technical) must be supplied
-    /// for update.
+    /// This operation updates the contact information for a particular domain. You must specify
+    /// information for at least one contact: registrant, administrator, or technical.
     /// 
     ///  
     /// <para>
@@ -71,6 +70,7 @@ namespace Amazon.Route53Domains.Model
         /// The name of the domain that you want to update contact information for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=255)]
         public string DomainName
         {
             get { return this._domainName; }

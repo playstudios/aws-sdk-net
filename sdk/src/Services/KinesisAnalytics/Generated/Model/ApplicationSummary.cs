@@ -28,8 +28,18 @@ using Amazon.Runtime.Internal;
 namespace Amazon.KinesisAnalytics.Model
 {
     /// <summary>
+    /// <note> 
+    /// <para>
+    /// This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which
+    /// only supports SQL applications. Version 2 of the API supports SQL and Java applications.
+    /// For more information about version 2, see <a href="/kinesisanalytics/latest/apiv2/Welcome.html">Amazon
+    /// Kinesis Data Analytics API V2 Documentation</a>.
+    /// </para>
+    ///  </note> 
+    /// <para>
     /// Provides application summary information, including the application Amazon Resource
     /// Name (ARN), name, and status.
+    /// </para>
     /// </summary>
     public partial class ApplicationSummary
     {
@@ -43,6 +53,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// ARN of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string ApplicationARN
         {
             get { return this._applicationARN; }
@@ -61,6 +72,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Name of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -79,6 +91,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Status of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ApplicationStatus ApplicationStatus
         {
             get { return this._applicationStatus; }

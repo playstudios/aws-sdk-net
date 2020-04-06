@@ -29,7 +29,9 @@ namespace Amazon.ServerlessApplicationRepository.Model
 {
     /// <summary>
     /// Container for the parameters to the PutApplicationPolicy operation.
-    /// Puts the policy for the specified application.
+    /// Sets the permission policy for an application. For the list of actions supported for
+    /// this operation, see <a href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
+    ///  Permissions</a> .
     /// </summary>
     public partial class PutApplicationPolicyRequest : AmazonServerlessApplicationRepositoryRequest
     {
@@ -39,9 +41,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ApplicationId. 
         /// <para>
-        /// The ID of the application to get.
+        /// The Amazon Resource Name (ARN) of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -57,9 +60,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property Statements. 
         /// <para>
-        /// Array of policy statements applied to the application.
+        /// An array of policy statements applied to the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ApplicationPolicyStatement> Statements
         {
             get { return this._statements; }

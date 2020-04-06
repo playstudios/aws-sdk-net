@@ -64,10 +64,22 @@ namespace Amazon.FMS.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("ExcludeMap", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, List<string>, StringUnmarshaller, ListUnmarshaller<string, StringUnmarshaller>>(StringUnmarshaller.Instance, new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance));
+                    unmarshalledObject.ExcludeMap = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("ExcludeResourceTags", targetDepth))
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
                     unmarshalledObject.ExcludeResourceTags = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("IncludeMap", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, List<string>, StringUnmarshaller, ListUnmarshaller<string, StringUnmarshaller>>(StringUnmarshaller.Instance, new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance));
+                    unmarshalledObject.IncludeMap = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("PolicyId", targetDepth))
@@ -104,6 +116,12 @@ namespace Amazon.FMS.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ResourceType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ResourceTypeList", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.ResourceTypeList = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("SecurityServicePolicyData", targetDepth))

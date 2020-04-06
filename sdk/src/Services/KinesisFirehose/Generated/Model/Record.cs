@@ -38,9 +38,10 @@ namespace Amazon.KinesisFirehose.Model
         /// Gets and sets the property Data. 
         /// <para>
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size
-        /// of the data blob, before base64-encoding, is 1,000 KB.
+        /// of the data blob, before base64-encoding, is 1,000 KiB.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=1024000)]
         public MemoryStream Data
         {
             get { return this._data; }

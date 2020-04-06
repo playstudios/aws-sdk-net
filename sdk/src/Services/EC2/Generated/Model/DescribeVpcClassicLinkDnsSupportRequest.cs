@@ -33,7 +33,7 @@ namespace Amazon.EC2.Model
     /// DNS hostname of a linked EC2-Classic instance resolves to its private IP address when
     /// addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname
     /// of an instance in a VPC resolves to its private IP address when addressed from a linked
-    /// EC2-Classic instance. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
+    /// EC2-Classic instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
     /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </summary>
     public partial class DescribeVpcClassicLinkDnsSupportRequest : AmazonEC2Request
@@ -45,10 +45,11 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The maximum number of items to return for this request. The request returns a token
-        /// that you can specify in a subsequent call to get the next set of results.
+        /// The maximum number of results to return with a single call. To retrieve the remaining
+        /// results, make another call with the returned <code>nextToken</code> value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=255)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -64,10 +65,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token for the next set of items to return. (You received this token from a prior
-        /// call.)
+        /// The token for the next page of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

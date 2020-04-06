@@ -31,6 +31,10 @@ namespace Amazon.CostExplorer
     {
 
         /// <summary>
+        /// Constant LINKED for AccountScope
+        /// </summary>
+        public static readonly AccountScope LINKED = new AccountScope("LINKED");
+        /// <summary>
         /// Constant PAYER for AccountScope
         /// </summary>
         public static readonly AccountScope PAYER = new AccountScope("PAYER");
@@ -84,6 +88,10 @@ namespace Amazon.CostExplorer
         /// Constant RESERVATIONS for Context
         /// </summary>
         public static readonly Context RESERVATIONS = new Context("RESERVATIONS");
+        /// <summary>
+        /// Constant SAVINGS_PLANS for Context
+        /// </summary>
+        public static readonly Context SAVINGS_PLANS = new Context("SAVINGS_PLANS");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -121,6 +129,52 @@ namespace Amazon.CostExplorer
 
 
     /// <summary>
+    /// Constants used for properties of type CostCategoryRuleVersion.
+    /// </summary>
+    public class CostCategoryRuleVersion : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CostCategoryExpressionV1 for CostCategoryRuleVersion
+        /// </summary>
+        public static readonly CostCategoryRuleVersion CostCategoryExpressionV1 = new CostCategoryRuleVersion("CostCategoryExpression.v1");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public CostCategoryRuleVersion(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static CostCategoryRuleVersion FindValue(string value)
+        {
+            return FindValue<CostCategoryRuleVersion>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator CostCategoryRuleVersion(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type Dimension.
     /// </summary>
     public class Dimension : ConstantClass
@@ -130,6 +184,10 @@ namespace Amazon.CostExplorer
         /// Constant AZ for Dimension
         /// </summary>
         public static readonly Dimension AZ = new Dimension("AZ");
+        /// <summary>
+        /// Constant BILLING_ENTITY for Dimension
+        /// </summary>
+        public static readonly Dimension BILLING_ENTITY = new Dimension("BILLING_ENTITY");
         /// <summary>
         /// Constant CACHE_ENGINE for Dimension
         /// </summary>
@@ -167,6 +225,10 @@ namespace Amazon.CostExplorer
         /// </summary>
         public static readonly Dimension OPERATION = new Dimension("OPERATION");
         /// <summary>
+        /// Constant PAYMENT_OPTION for Dimension
+        /// </summary>
+        public static readonly Dimension PAYMENT_OPTION = new Dimension("PAYMENT_OPTION");
+        /// <summary>
         /// Constant PLATFORM for Dimension
         /// </summary>
         public static readonly Dimension PLATFORM = new Dimension("PLATFORM");
@@ -182,6 +244,26 @@ namespace Amazon.CostExplorer
         /// Constant REGION for Dimension
         /// </summary>
         public static readonly Dimension REGION = new Dimension("REGION");
+        /// <summary>
+        /// Constant RESERVATION_ID for Dimension
+        /// </summary>
+        public static readonly Dimension RESERVATION_ID = new Dimension("RESERVATION_ID");
+        /// <summary>
+        /// Constant RESOURCE_ID for Dimension
+        /// </summary>
+        public static readonly Dimension RESOURCE_ID = new Dimension("RESOURCE_ID");
+        /// <summary>
+        /// Constant RIGHTSIZING_TYPE for Dimension
+        /// </summary>
+        public static readonly Dimension RIGHTSIZING_TYPE = new Dimension("RIGHTSIZING_TYPE");
+        /// <summary>
+        /// Constant SAVINGS_PLAN_ARN for Dimension
+        /// </summary>
+        public static readonly Dimension SAVINGS_PLAN_ARN = new Dimension("SAVINGS_PLAN_ARN");
+        /// <summary>
+        /// Constant SAVINGS_PLANS_TYPE for Dimension
+        /// </summary>
+        public static readonly Dimension SAVINGS_PLANS_TYPE = new Dimension("SAVINGS_PLANS_TYPE");
         /// <summary>
         /// Constant SCOPE for Dimension
         /// </summary>
@@ -253,6 +335,10 @@ namespace Amazon.CostExplorer
         /// </summary>
         public static readonly Granularity DAILY = new Granularity("DAILY");
         /// <summary>
+        /// Constant HOURLY for Granularity
+        /// </summary>
+        public static readonly Granularity HOURLY = new Granularity("HOURLY");
+        /// <summary>
         /// Constant MONTHLY for Granularity
         /// </summary>
         public static readonly Granularity MONTHLY = new Granularity("MONTHLY");
@@ -298,6 +384,10 @@ namespace Amazon.CostExplorer
     public class GroupDefinitionType : ConstantClass
     {
 
+        /// <summary>
+        /// Constant COST_CATEGORY for GroupDefinitionType
+        /// </summary>
+        public static readonly GroupDefinitionType COST_CATEGORY = new GroupDefinitionType("COST_CATEGORY");
         /// <summary>
         /// Constant DIMENSION for GroupDefinitionType
         /// </summary>
@@ -397,6 +487,76 @@ namespace Amazon.CostExplorer
 
 
     /// <summary>
+    /// Constants used for properties of type Metric.
+    /// </summary>
+    public class Metric : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant AMORTIZED_COST for Metric
+        /// </summary>
+        public static readonly Metric AMORTIZED_COST = new Metric("AMORTIZED_COST");
+        /// <summary>
+        /// Constant BLENDED_COST for Metric
+        /// </summary>
+        public static readonly Metric BLENDED_COST = new Metric("BLENDED_COST");
+        /// <summary>
+        /// Constant NET_AMORTIZED_COST for Metric
+        /// </summary>
+        public static readonly Metric NET_AMORTIZED_COST = new Metric("NET_AMORTIZED_COST");
+        /// <summary>
+        /// Constant NET_UNBLENDED_COST for Metric
+        /// </summary>
+        public static readonly Metric NET_UNBLENDED_COST = new Metric("NET_UNBLENDED_COST");
+        /// <summary>
+        /// Constant NORMALIZED_USAGE_AMOUNT for Metric
+        /// </summary>
+        public static readonly Metric NORMALIZED_USAGE_AMOUNT = new Metric("NORMALIZED_USAGE_AMOUNT");
+        /// <summary>
+        /// Constant UNBLENDED_COST for Metric
+        /// </summary>
+        public static readonly Metric UNBLENDED_COST = new Metric("UNBLENDED_COST");
+        /// <summary>
+        /// Constant USAGE_QUANTITY for Metric
+        /// </summary>
+        public static readonly Metric USAGE_QUANTITY = new Metric("USAGE_QUANTITY");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public Metric(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static Metric FindValue(string value)
+        {
+            return FindValue<Metric>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator Metric(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type OfferingClass.
     /// </summary>
     public class OfferingClass : ConstantClass
@@ -457,6 +617,18 @@ namespace Amazon.CostExplorer
         /// </summary>
         public static readonly PaymentOption ALL_UPFRONT = new PaymentOption("ALL_UPFRONT");
         /// <summary>
+        /// Constant HEAVY_UTILIZATION for PaymentOption
+        /// </summary>
+        public static readonly PaymentOption HEAVY_UTILIZATION = new PaymentOption("HEAVY_UTILIZATION");
+        /// <summary>
+        /// Constant LIGHT_UTILIZATION for PaymentOption
+        /// </summary>
+        public static readonly PaymentOption LIGHT_UTILIZATION = new PaymentOption("LIGHT_UTILIZATION");
+        /// <summary>
+        /// Constant MEDIUM_UTILIZATION for PaymentOption
+        /// </summary>
+        public static readonly PaymentOption MEDIUM_UTILIZATION = new PaymentOption("MEDIUM_UTILIZATION");
+        /// <summary>
         /// Constant NO_UPFRONT for PaymentOption
         /// </summary>
         public static readonly PaymentOption NO_UPFRONT = new PaymentOption("NO_UPFRONT");
@@ -494,6 +666,106 @@ namespace Amazon.CostExplorer
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator PaymentOption(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type RightsizingType.
+    /// </summary>
+    public class RightsizingType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant MODIFY for RightsizingType
+        /// </summary>
+        public static readonly RightsizingType MODIFY = new RightsizingType("MODIFY");
+        /// <summary>
+        /// Constant TERMINATE for RightsizingType
+        /// </summary>
+        public static readonly RightsizingType TERMINATE = new RightsizingType("TERMINATE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public RightsizingType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static RightsizingType FindValue(string value)
+        {
+            return FindValue<RightsizingType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator RightsizingType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type SupportedSavingsPlansType.
+    /// </summary>
+    public class SupportedSavingsPlansType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant COMPUTE_SP for SupportedSavingsPlansType
+        /// </summary>
+        public static readonly SupportedSavingsPlansType COMPUTE_SP = new SupportedSavingsPlansType("COMPUTE_SP");
+        /// <summary>
+        /// Constant EC2_INSTANCE_SP for SupportedSavingsPlansType
+        /// </summary>
+        public static readonly SupportedSavingsPlansType EC2_INSTANCE_SP = new SupportedSavingsPlansType("EC2_INSTANCE_SP");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SupportedSavingsPlansType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SupportedSavingsPlansType FindValue(string value)
+        {
+            return FindValue<SupportedSavingsPlansType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SupportedSavingsPlansType(string value)
         {
             return FindValue(value);
         }

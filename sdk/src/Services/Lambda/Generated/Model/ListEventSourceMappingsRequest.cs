@@ -29,26 +29,8 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the ListEventSourceMappings operation.
-    /// Returns a list of event source mappings you created using the <code>CreateEventSourceMapping</code>
-    /// (see <a>CreateEventSourceMapping</a>). 
-    /// 
-    ///  
-    /// <para>
-    /// For each mapping, the API returns configuration information. You can optionally specify
-    /// filters to retrieve specific event source mappings.
-    /// </para>
-    ///  
-    /// <para>
-    /// If you are using the versioning feature, you can get list of event source mappings
-    /// for a specific Lambda function version or an alias as described in the <code>FunctionName</code>
-    /// parameter. For information about the versioning feature, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-    /// Lambda Function Versioning and Aliases</a>. 
-    /// </para>
-    ///  
-    /// <para>
-    /// This operation requires permission for the <code>lambda:ListEventSourceMappings</code>
-    /// action.
-    /// </para>
+    /// Lists event source mappings. Specify an <code>EventSourceArn</code> to only show event
+    /// source mappings for a single event source.
     /// </summary>
     public partial class ListEventSourceMappingsRequest : AmazonLambdaRequest
     {
@@ -60,8 +42,21 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property EventSourceArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream. (This parameter is optional.)
+        /// The Amazon Resource Name (ARN) of the event source.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Amazon Kinesis</b> - The ARN of the data stream or a stream consumer.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon DynamoDB Streams</b> - The ARN of the stream.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon Simple Queue Service</b> - The ARN of the queue.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public string EventSourceArn
         {
@@ -80,18 +75,31 @@ namespace Amazon.Lambda.Model
         /// <para>
         /// The name of the Lambda function.
         /// </para>
-        ///  
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
         /// <para>
-        ///  You can specify the function name (for example, <code>Thumbnail</code>) or you can
-        /// specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>).
-        /// If you are using versioning, you can also provide a qualified function ARN (ARN that
-        /// is qualified with function version or alias name as suffix). AWS Lambda also allows
-        /// you to specify only the function name with the account ID qualifier (for example,
-        /// <code>account-id:Thumbnail</code>). Note that the length constraint applies only to
-        /// the ARN. If you specify only the function name, it is limited to 64 characters in
-        /// length. 
+        ///  <b>Function name</b> - <code>MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Version or Alias ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it's limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -107,9 +115,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Marker. 
         /// <para>
-        /// Optional string. An opaque pagination token returned from a previous <code>ListEventSourceMappings</code>
-        /// operation. If present, specifies to continue the list from where the returning call
-        /// left off. 
+        /// A pagination token returned by a previous call.
         /// </para>
         /// </summary>
         public string Marker
@@ -127,10 +133,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// Optional integer. Specifies the maximum number of event sources to return in response.
-        /// This value must be greater than 0.
+        /// The maximum number of event source mappings to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }

@@ -88,13 +88,12 @@ namespace Amazon.SecurityToken.Model
         /// The temporary security credentials, which include an access key ID, a secret access
         /// key, and a security token.
         /// </para>
-        ///  
+        ///  <note> 
         /// <para>
-        ///  <b>Note:</b> The size of the security token that STS APIs return is not fixed. We
-        /// strongly recommend that you make no assumptions about the maximum size. As of this
-        /// writing, the typical size is less than 4096 bytes, but that can vary. Also, future
-        /// updates to AWS might require larger sizes.
+        /// The size of the security token that STS API operations return is not fixed. We strongly
+        /// recommend that you make no assumptions about the maximum size.
         /// </para>
+        ///  </note>
         /// </summary>
         public Credentials Credentials
         {
@@ -111,11 +110,12 @@ namespace Amazon.SecurityToken.Model
         /// <summary>
         /// Gets and sets the property PackedPolicySize. 
         /// <para>
-        /// A percentage value that indicates the size of the policy in packed form. The service
-        /// rejects any policy with a packed size greater than 100 percent, which means the policy
-        /// exceeded the allowed space.
+        /// A percentage value that indicates the packed size of the session policies and session
+        /// tags combined passed in the request. The request fails if the packed size is greater
+        /// than 100 percent, which means the policies and tags exceeded the allowed space.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int PackedPolicySize
         {
             get { return this._packedPolicySize.GetValueOrDefault(); }
@@ -132,7 +132,7 @@ namespace Amazon.SecurityToken.Model
         /// Gets and sets the property Provider. 
         /// <para>
         ///  The issuing authority of the web identity token presented. For OpenID Connect ID
-        /// Tokens this contains the value of the <code>iss</code> field. For OAuth 2.0 access
+        /// tokens, this contains the value of the <code>iss</code> field. For OAuth 2.0 access
         /// tokens, this contains the value of the <code>ProviderId</code> parameter that was
         /// passed in the <code>AssumeRoleWithWebIdentity</code> request.
         /// </para>
@@ -160,6 +160,7 @@ namespace Amazon.SecurityToken.Model
         /// (Subject) claim. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=255)]
         public string SubjectFromWebIdentityToken
         {
             get { return this._subjectFromWebIdentityToken; }

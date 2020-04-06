@@ -29,7 +29,7 @@ namespace Amazon.ResourceGroupsTaggingAPI.Model
 {
     /// <summary>
     /// Container for the parameters to the GetTagValues operation.
-    /// Returns all tag values for the specified key in the specified region for the AWS account.
+    /// Returns all tag values for the specified key in the specified Region for the AWS account.
     /// </summary>
     public partial class GetTagValuesRequest : AmazonResourceGroupsTaggingAPIRequest
     {
@@ -39,10 +39,11 @@ namespace Amazon.ResourceGroupsTaggingAPI.Model
         /// <summary>
         /// Gets and sets the property Key. 
         /// <para>
-        /// The key for which you want to list all existing values in the specified region for
+        /// The key for which you want to list all existing values in the specified Region for
         /// the AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Key
         {
             get { return this._key; }
@@ -59,10 +60,11 @@ namespace Amazon.ResourceGroupsTaggingAPI.Model
         /// Gets and sets the property PaginationToken. 
         /// <para>
         /// A string that indicates that additional data is available. Leave this value empty
-        /// for your initial request. If the response includes a PaginationToken, use that string
-        /// for this value to request an additional page of data.
+        /// for your initial request. If the response includes a <code>PaginationToken</code>,
+        /// use that string for this value to request an additional page of data.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string PaginationToken
         {
             get { return this._paginationToken; }

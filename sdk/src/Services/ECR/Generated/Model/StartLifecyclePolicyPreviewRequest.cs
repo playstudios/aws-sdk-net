@@ -29,8 +29,8 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the StartLifecyclePolicyPreview operation.
-    /// Starts a preview of the specified lifecycle policy. This allows you to see the results
-    /// before creating the lifecycle policy.
+    /// Starts a preview of a lifecycle policy for the specified repository. This allows you
+    /// to see the results before associating the lifecycle policy with the repository.
     /// </summary>
     public partial class StartLifecyclePolicyPreviewRequest : AmazonECRRequest
     {
@@ -45,6 +45,7 @@ namespace Amazon.ECR.Model
         /// for the repository is used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=100, Max=30720)]
         public string LifecyclePolicyText
         {
             get { return this._lifecyclePolicyText; }
@@ -82,6 +83,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository to be evaluated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

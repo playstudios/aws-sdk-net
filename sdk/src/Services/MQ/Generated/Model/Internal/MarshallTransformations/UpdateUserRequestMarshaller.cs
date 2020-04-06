@@ -55,17 +55,18 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateUserRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MQ");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/v1/brokers/{broker-id}/users/{username}";
             if (!publicRequest.IsSetBrokerId())
                 throw new AmazonMQException("Request object does not have required field BrokerId set");
-            uriResourcePath = uriResourcePath.Replace("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
+            request.AddPathResource("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
             if (!publicRequest.IsSetUsername())
                 throw new AmazonMQException("Request object does not have required field Username set");
-            uriResourcePath = uriResourcePath.Replace("{username}", StringUtils.FromString(publicRequest.Username));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{username}", StringUtils.FromString(publicRequest.Username));
+            request.ResourcePath = "/v1/brokers/{broker-id}/users/{username}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

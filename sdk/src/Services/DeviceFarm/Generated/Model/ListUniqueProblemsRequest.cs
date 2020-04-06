@@ -29,7 +29,15 @@ namespace Amazon.DeviceFarm.Model
 {
     /// <summary>
     /// Container for the parameters to the ListUniqueProblems operation.
-    /// Gets information about unique problems.
+    /// Gets information about unique problems, such as exceptions or crashes.
+    /// 
+    ///  
+    /// <para>
+    /// Unique problems are defined as a single instance of an error across a run, job, or
+    /// suite. For example, if a call in your application consistently raises an exception
+    /// (<code>OutOfBoundsException in MyActivity.java:386</code>), <code>ListUniqueProblems</code>
+    /// returns a single entry instead of many individual entries for that exception.
+    /// </para>
     /// </summary>
     public partial class ListUniqueProblemsRequest : AmazonDeviceFarmRequest
     {
@@ -42,6 +50,7 @@ namespace Amazon.DeviceFarm.Model
         /// The unique problems' ARNs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -61,6 +70,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

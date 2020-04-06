@@ -31,7 +31,7 @@ namespace Amazon.IdentityManagement.Model
     /// Container for the parameters to the UpdateServiceSpecificCredential operation.
     /// Sets the status of a service-specific credential to <code>Active</code> or <code>Inactive</code>.
     /// Service-specific credentials that are inactive cannot be used for authentication to
-    /// the service. This operation can be used to disable a user’s service-specific credential
+    /// the service. This operation can be used to disable a user's service-specific credential
     /// as part of a credential rotation work flow.
     /// </summary>
     public partial class UpdateServiceSpecificCredentialRequest : AmazonIdentityManagementServiceRequest
@@ -47,10 +47,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters that can consist of any upper or lowercased letter or digit.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters that can consist of any upper or lowercased letter
+        /// or digit.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=128)]
         public string ServiceSpecificCredentialId
         {
             get { return this._serviceSpecificCredentialId; }
@@ -69,6 +71,7 @@ namespace Amazon.IdentityManagement.Model
         /// The status to be assigned to the service-specific credential.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StatusType Status
         {
             get { return this._status; }
@@ -90,11 +93,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string UserName
         {
             get { return this._userName; }

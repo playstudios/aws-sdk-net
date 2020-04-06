@@ -30,6 +30,14 @@ namespace Amazon.Lightsail.Model
     /// <summary>
     /// Container for the parameters to the DeleteKeyPair operation.
     /// Deletes a specific SSH key pair.
+    /// 
+    ///  
+    /// <para>
+    /// The <code>delete key pair</code> operation supports tag-based access control via resource
+    /// tags applied to the resource identified by <code>key pair name</code>. For more information,
+    /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class DeleteKeyPairRequest : AmazonLightsailRequest
     {
@@ -41,6 +49,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the key pair to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string KeyPairName
         {
             get { return this._keyPairName; }

@@ -90,6 +90,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.InstanceInterruptionBehavior = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("instancePoolsToUseCount", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.InstancePoolsToUseCount = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("launchSpecifications/item", targetDepth))
                     {
                         var unmarshaller = SpotFleetLaunchSpecificationUnmarshaller.Instance;
@@ -110,16 +116,53 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.LoadBalancersConfig = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("onDemandAllocationStrategy", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.OnDemandAllocationStrategy = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("onDemandFulfilledCapacity", targetDepth))
+                    {
+                        var unmarshaller = DoubleUnmarshaller.Instance;
+                        unmarshalledObject.OnDemandFulfilledCapacity = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("onDemandMaxTotalPrice", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.OnDemandMaxTotalPrice = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("onDemandTargetCapacity", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.OnDemandTargetCapacity = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("replaceUnhealthyInstances", targetDepth))
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
                         unmarshalledObject.ReplaceUnhealthyInstances = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("spotMaxTotalPrice", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.SpotMaxTotalPrice = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("spotPrice", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.SpotPrice = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("tagSpecification/item", targetDepth))
+                    {
+                        var unmarshaller = TagSpecificationUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.TagSpecifications.Add(item);
                         continue;
                     }
                     if (context.TestExpression("targetCapacity", targetDepth))
@@ -143,13 +186,13 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     if (context.TestExpression("validFrom", targetDepth))
                     {
                         var unmarshaller = DateTimeUnmarshaller.Instance;
-                        unmarshalledObject.ValidFrom = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.ValidFromUtc = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("validUntil", targetDepth))
                     {
                         var unmarshaller = DateTimeUnmarshaller.Instance;
-                        unmarshalledObject.ValidUntil = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.ValidUntilUtc = unmarshaller.Unmarshall(context);
                         continue;
                     }
                 }

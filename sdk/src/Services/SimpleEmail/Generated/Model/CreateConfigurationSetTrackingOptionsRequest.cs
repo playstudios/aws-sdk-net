@@ -36,8 +36,7 @@ namespace Amazon.SimpleEmail.Model
     /// <para>
     /// By default, images and links used for tracking open and click events are hosted on
     /// domains operated by Amazon SES. You can configure a subdomain of your own to handle
-    /// these events. For information about using configuration sets, see <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Configuring
-    /// Custom Domains to Handle Open and Click Tracking</a> in the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/Welcome.html">Amazon
+    /// these events. For information about using custom domains, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -52,6 +51,7 @@ namespace Amazon.SimpleEmail.Model
         /// The name of the configuration set that the tracking options should be associated with.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConfigurationSetName
         {
             get { return this._configurationSetName; }
@@ -67,6 +67,7 @@ namespace Amazon.SimpleEmail.Model
         /// <summary>
         /// Gets and sets the property TrackingOptions.
         /// </summary>
+        [AWSProperty(Required=true)]
         public TrackingOptions TrackingOptions
         {
             get { return this._trackingOptions; }

@@ -30,14 +30,10 @@ namespace Amazon.GameLift.Model
     /// <summary>
     /// Queue setting that determines the highest latency allowed for individual players when
     /// placing a game session. When a latency policy is in force, a game session cannot be
-    /// placed at any destination in a region where a player is reporting latency higher than
-    /// the cap. Latency policies are only enforced when the placement request contains player
-    /// latency information.
+    /// placed with any fleet in a Region where a player reports latency higher than the cap.
+    /// Latency policies are only enforced when the placement request contains player latency
+    /// information.
     /// 
-    ///  
-    /// <para>
-    /// Queue-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateGameSessionQueue</a> 
@@ -68,6 +64,7 @@ namespace Amazon.GameLift.Model
         /// must have a value set for this property.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MaximumIndividualPlayerLatencyMilliseconds
         {
             get { return this._maximumIndividualPlayerLatencyMilliseconds.GetValueOrDefault(); }
@@ -88,6 +85,7 @@ namespace Amazon.GameLift.Model
         /// queue times out.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int PolicyDurationSeconds
         {
             get { return this._policyDurationSeconds.GetValueOrDefault(); }

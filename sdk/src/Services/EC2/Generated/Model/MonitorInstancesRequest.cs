@@ -30,7 +30,7 @@ namespace Amazon.EC2.Model
     /// <summary>
     /// Container for the parameters to the MonitorInstances operation.
     /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is
-    /// enabled. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
+    /// enabled. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
     /// Your Instances and Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// 
     ///  
@@ -50,7 +50,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates MonitorInstancesRequest with the parameterized properties
         /// </summary>
-        /// <param name="instanceIds">One or more instance IDs.</param>
+        /// <param name="instanceIds">The IDs of the instances.</param>
         public MonitorInstancesRequest(List<string> instanceIds)
         {
             _instanceIds = instanceIds;
@@ -59,9 +59,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InstanceIds. 
         /// <para>
-        /// One or more instance IDs.
+        /// The IDs of the instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceIds
         {
             get { return this._instanceIds; }

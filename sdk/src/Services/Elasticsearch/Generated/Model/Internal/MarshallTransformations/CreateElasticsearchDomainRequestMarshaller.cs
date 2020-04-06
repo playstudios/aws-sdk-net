@@ -55,11 +55,12 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateElasticsearchDomainRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Elasticsearch");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-01-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/2015-01-01/es/domain";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2015-01-01/es/domain";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -85,6 +86,17 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetAdvancedSecurityOptions())
+                {
+                    context.Writer.WritePropertyName("AdvancedSecurityOptions");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AdvancedSecurityOptionsInputMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.AdvancedSecurityOptions, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetCognitoOptions())
                 {
                     context.Writer.WritePropertyName("CognitoOptions");
@@ -92,6 +104,17 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
 
                     var marshaller = CognitoOptionsMarshaller.Instance;
                     marshaller.Marshall(publicRequest.CognitoOptions, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetDomainEndpointOptions())
+                {
+                    context.Writer.WritePropertyName("DomainEndpointOptions");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = DomainEndpointOptionsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.DomainEndpointOptions, context);
 
                     context.Writer.WriteObjectEnd();
                 }
@@ -157,6 +180,17 @@ namespace Amazon.Elasticsearch.Model.Internal.MarshallTransformations
 
                         context.Writer.WriteObjectEnd();
                     }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetNodeToNodeEncryptionOptions())
+                {
+                    context.Writer.WritePropertyName("NodeToNodeEncryptionOptions");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = NodeToNodeEncryptionOptionsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.NodeToNodeEncryptionOptions, context);
+
                     context.Writer.WriteObjectEnd();
                 }
 

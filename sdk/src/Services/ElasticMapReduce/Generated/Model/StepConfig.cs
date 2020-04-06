@@ -55,7 +55,9 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property ActionOnFailure. 
         /// <para>
-        /// The action to take if the step fails.
+        /// The action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER,
+        /// CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is provided for backward compatibility.
+        /// We recommend using TERMINATE_CLUSTER instead.
         /// </para>
         /// </summary>
         public ActionOnFailure ActionOnFailure
@@ -76,6 +78,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The JAR file used for the step.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public HadoopJarStepConfig HadoopJarStep
         {
             get { return this._hadoopJarStep; }
@@ -94,6 +97,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The name of the step.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }

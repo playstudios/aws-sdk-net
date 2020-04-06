@@ -44,9 +44,10 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail</code> 
+        ///  <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceId
         {
             get { return this._resourceId; }

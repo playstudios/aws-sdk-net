@@ -29,7 +29,8 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the GetParameters operation.
-    /// Get details of a parameter.
+    /// Get details of a parameter. Don't confuse this API action with the <a>GetParameter</a>
+    /// API action.
     /// </summary>
     public partial class GetParametersRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -42,6 +43,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Names of the parameters for which you want to query information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public List<string> Names
         {
             get { return this._names; }

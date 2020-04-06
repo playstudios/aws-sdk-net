@@ -36,6 +36,7 @@ namespace Amazon.DeviceFarm.Model
         private string _appArn;
         private ScheduleRunConfiguration _configuration;
         private string _devicePoolArn;
+        private DeviceSelectionConfiguration _deviceSelectionConfiguration;
         private ExecutionConfiguration _executionConfiguration;
         private string _name;
         private string _projectArn;
@@ -44,9 +45,11 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property AppArn. 
         /// <para>
-        /// The ARN of the app to schedule a run.
+        /// The ARN of an application package to run tests against, created with <a>CreateUpload</a>.
+        /// See <a>ListUploads</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string AppArn
         {
             get { return this._appArn; }
@@ -83,6 +86,7 @@ namespace Amazon.DeviceFarm.Model
         /// The ARN of the device pool for the run to be scheduled.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string DevicePoolArn
         {
             get { return this._devicePoolArn; }
@@ -93,6 +97,30 @@ namespace Amazon.DeviceFarm.Model
         internal bool IsSetDevicePoolArn()
         {
             return this._devicePoolArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeviceSelectionConfiguration. 
+        /// <para>
+        /// The filter criteria used to dynamically select a set of devices for a test run and
+        /// the maximum number of devices to be included in the run.
+        /// </para>
+        ///  
+        /// <para>
+        /// Either <b> <code>devicePoolArn</code> </b> or <b> <code>deviceSelectionConfiguration</code>
+        /// </b> is required in a request.
+        /// </para>
+        /// </summary>
+        public DeviceSelectionConfiguration DeviceSelectionConfiguration
+        {
+            get { return this._deviceSelectionConfiguration; }
+            set { this._deviceSelectionConfiguration = value; }
+        }
+
+        // Check to see if DeviceSelectionConfiguration property is set
+        internal bool IsSetDeviceSelectionConfiguration()
+        {
+            return this._deviceSelectionConfiguration != null;
         }
 
         /// <summary>
@@ -120,6 +148,7 @@ namespace Amazon.DeviceFarm.Model
         /// The name for the run to be scheduled.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -138,6 +167,7 @@ namespace Amazon.DeviceFarm.Model
         /// The ARN of the project for the run to be scheduled.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string ProjectArn
         {
             get { return this._projectArn; }
@@ -156,6 +186,7 @@ namespace Amazon.DeviceFarm.Model
         /// Information about the test for the run to be scheduled.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScheduleRunTest Test
         {
             get { return this._test; }

@@ -42,6 +42,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the filter key.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=200)]
         public string Key
         {
             get { return this._key; }
@@ -57,7 +58,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of filter. Valid values include the following: "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"
+        /// The type of filter.
         /// </para>
         /// </summary>
         public InventoryQueryOperatorType Type
@@ -80,6 +81,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=40)]
         public List<string> Values
         {
             get { return this._values; }

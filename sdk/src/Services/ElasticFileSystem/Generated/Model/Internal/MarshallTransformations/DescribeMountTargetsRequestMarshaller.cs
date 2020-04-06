@@ -55,9 +55,12 @@ namespace Amazon.ElasticFileSystem.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeMountTargetsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ElasticFileSystem");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-02-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2015-02-01/mount-targets";
+            
+            if (publicRequest.IsSetAccessPointId())
+                request.Parameters.Add("AccessPointId", StringUtils.FromString(publicRequest.AccessPointId));
             
             if (publicRequest.IsSetFileSystemId())
                 request.Parameters.Add("FileSystemId", StringUtils.FromString(publicRequest.FileSystemId));
@@ -70,7 +73,8 @@ namespace Amazon.ElasticFileSystem.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetMountTargetId())
                 request.Parameters.Add("MountTargetId", StringUtils.FromString(publicRequest.MountTargetId));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2015-02-01/mount-targets";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

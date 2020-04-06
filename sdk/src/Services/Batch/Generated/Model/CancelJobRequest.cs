@@ -46,6 +46,7 @@ namespace Amazon.Batch.Model
         /// The AWS Batch job ID of the job to cancel.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobId
         {
             get { return this._jobId; }
@@ -63,9 +64,10 @@ namespace Amazon.Batch.Model
         /// <para>
         /// A message to attach to the job that explains the reason for canceling it. This message
         /// is returned by future <a>DescribeJobs</a> operations on the job. This message is also
-        /// recorded in the AWS Batch activity logs. 
+        /// recorded in the AWS Batch activity logs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Reason
         {
             get { return this._reason; }

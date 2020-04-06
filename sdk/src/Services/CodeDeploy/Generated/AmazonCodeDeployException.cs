@@ -28,10 +28,10 @@ namespace Amazon.CodeDeploy
     ///<summary>
     /// Common exception for the CodeDeploy service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonCodeDeployException : AmazonServiceException
+    public partial class AmazonCodeDeployException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonCodeDeployException
@@ -88,7 +88,7 @@ namespace Amazon.CodeDeploy
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonCodeDeployException class with serialized data.
         /// </summary>

@@ -55,9 +55,9 @@ namespace Amazon.CloudSearchDomain.Model.Internal.MarshallTransformations
         public IRequest Marshall(SearchRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.CloudSearchDomain");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2013-01-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2013-01-01/search";
             request.AddSubResource("format", "sdk");
             request.AddSubResource("pretty", "true");
             
@@ -102,7 +102,8 @@ namespace Amazon.CloudSearchDomain.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetStats())
                 request.Parameters.Add("stats", StringUtils.FromString(publicRequest.Stats));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2013-01-01/search";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

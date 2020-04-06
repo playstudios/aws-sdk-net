@@ -36,6 +36,7 @@ namespace Amazon.ConfigService.Model
     {
         private string _authorizedAccountId;
         private string _authorizedAwsRegion;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property AuthorizedAccountId. 
@@ -43,6 +44,7 @@ namespace Amazon.ConfigService.Model
         /// The 12-digit account ID of the account authorized to aggregate data.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AuthorizedAccountId
         {
             get { return this._authorizedAccountId; }
@@ -61,6 +63,7 @@ namespace Amazon.ConfigService.Model
         /// The region authorized to collect aggregated data.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string AuthorizedAwsRegion
         {
             get { return this._authorizedAwsRegion; }
@@ -71,6 +74,25 @@ namespace Amazon.ConfigService.Model
         internal bool IsSetAuthorizedAwsRegion()
         {
             return this._authorizedAwsRegion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// An array of tag object.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

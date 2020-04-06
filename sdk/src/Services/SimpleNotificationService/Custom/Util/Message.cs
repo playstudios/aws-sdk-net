@@ -12,7 +12,7 @@ using Amazon.Util;
 
 using ThirdParty.Json.LitJson;
 
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
 using Amazon.Runtime.Internal.Util;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -63,6 +63,12 @@ namespace Amazon.SimpleNotificationService.Util
                 {
                     if (jsonData[fieldName] != null && jsonData[fieldName].IsString)
                         return (string)jsonData[fieldName];
+
+                    // Check to see if the field can be found with a different case.
+                    var anyCaseKey = jsonData.PropertyNames.FirstOrDefault(x => string.Equals(x, fieldName, StringComparison.OrdinalIgnoreCase));
+                    if (!string.IsNullOrEmpty(anyCaseKey) && jsonData[anyCaseKey].IsString)
+                        return (string)jsonData[anyCaseKey];
+
                     return null;
                 });
 
@@ -158,7 +164,7 @@ namespace Amazon.SimpleNotificationService.Util
                 if (string.IsNullOrEmpty(this.TimestampString))
                     return DateTime.MinValue;
 
-                return DateTime.ParseExact(this.TimestampString, AWSSDKUtils.ISO8601DateFormat, System.Globalization.CultureInfo.InvariantCulture);
+                return DateTime.ParseExact(this.TimestampString, AWSSDKUtils.ISO8601DateFormat, System.Globalization.CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
             }
         }
 
@@ -251,7 +257,7 @@ namespace Amazon.SimpleNotificationService.Util
             throw new AmazonClientException("Signing certificate url is not from a recognised source.");
         }
 
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
 
         #region Message Verification
         /// <summary>

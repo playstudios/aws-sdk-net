@@ -33,8 +33,8 @@ namespace Amazon.WorkSpaces.Model
     /// 
     ///  
     /// <para>
-    /// You can filter the results using bundle ID, directory ID, or owner, but you can specify
-    /// only one filter at a time.
+    /// You can filter the results by using the bundle identifier, directory identifier, or
+    /// owner, but you can specify only one filter at a time.
     /// </para>
     /// </summary>
     public partial class DescribeWorkspacesRequest : AmazonWorkSpacesRequest
@@ -49,8 +49,8 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property BundleId. 
         /// <para>
-        /// The ID of the bundle. All WorkSpaces that are created from this bundle are retrieved.
-        /// This parameter cannot be combined with any other filter.
+        /// The identifier of the bundle. All WorkSpaces that are created from this bundle are
+        /// retrieved. You cannot combine this parameter with any other filter.
         /// </para>
         /// </summary>
         public string BundleId
@@ -68,11 +68,12 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property DirectoryId. 
         /// <para>
-        /// The ID of the directory. In addition, you can optionally specify a specific directory
-        /// user (see <code>UserName</code>). This parameter cannot be combined with any other
-        /// filter.
+        /// The identifier of the directory. In addition, you can optionally specify a specific
+        /// directory user (see <code>UserName</code>). You cannot combine this parameter with
+        /// any other filter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=65)]
         public string DirectoryId
         {
             get { return this._directoryId; }
@@ -91,6 +92,7 @@ namespace Amazon.WorkSpaces.Model
         /// The maximum number of items to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=25)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -106,9 +108,11 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token for the next set of results. (You received this token from a previous call.)
+        /// If you received a <code>NextToken</code> from a previous call that was paginated,
+        /// provide this token to receive the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -127,6 +131,7 @@ namespace Amazon.WorkSpaces.Model
         /// The name of the directory user. You must specify this parameter with <code>DirectoryId</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string UserName
         {
             get { return this._userName; }
@@ -142,7 +147,8 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property WorkspaceIds. 
         /// <para>
-        /// The IDs of the WorkSpaces. This parameter cannot be combined with any other filter.
+        /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other
+        /// filter.
         /// </para>
         ///  
         /// <para>
@@ -151,6 +157,7 @@ namespace Amazon.WorkSpaces.Model
         /// this identifier, no information is returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=25)]
         public List<string> WorkspaceIds
         {
             get { return this._workspaceIds; }

@@ -29,7 +29,8 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateStreamingURL operation.
-    /// Creates a URL to start a streaming session for the specified user.
+    /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified
+    /// user. A streaming URL enables application streaming to be tested without user setup.
     /// </summary>
     public partial class CreateStreamingURLRequest : AmazonAppStreamRequest
     {
@@ -47,6 +48,7 @@ namespace Amazon.AppStream.Model
         /// you specified as <b>Name</b> in the Image Assistant.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -65,6 +67,7 @@ namespace Amazon.AppStream.Model
         /// The name of the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string FleetName
         {
             get { return this._fleetName; }
@@ -80,10 +83,11 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property SessionContext. 
         /// <para>
-        /// The session context. For more information, see <a href="http://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters">Session
-        /// Context</a> in the <i>Amazon AppStream 2.0 Developer Guide</i>.
+        /// The session context. For more information, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters">Session
+        /// Context</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string SessionContext
         {
             get { return this._sessionContext; }
@@ -102,6 +106,7 @@ namespace Amazon.AppStream.Model
         /// The name of the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string StackName
         {
             get { return this._stackName; }
@@ -117,9 +122,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property UserId. 
         /// <para>
-        /// The ID of the user.
+        /// The identifier of the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=32)]
         public string UserId
         {
             get { return this._userId; }

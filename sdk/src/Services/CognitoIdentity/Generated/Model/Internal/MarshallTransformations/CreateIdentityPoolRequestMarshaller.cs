@@ -58,15 +58,22 @@ namespace Amazon.CognitoIdentity.Model.Internal.MarshallTransformations
             string target = "AWSCognitoIdentityService.CreateIdentityPool";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-06-30";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAllowClassicFlow())
+                {
+                    context.Writer.WritePropertyName("AllowClassicFlow");
+                    context.Writer.Write(publicRequest.AllowClassicFlow);
+                }
+
                 if(publicRequest.IsSetAllowUnauthenticatedIdentities())
                 {
                     context.Writer.WritePropertyName("AllowUnauthenticatedIdentities");
@@ -99,6 +106,20 @@ namespace Amazon.CognitoIdentity.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("IdentityPoolName");
                     context.Writer.Write(publicRequest.IdentityPoolName);
+                }
+
+                if(publicRequest.IsSetIdentityPoolTags())
+                {
+                    context.Writer.WritePropertyName("IdentityPoolTags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestIdentityPoolTagsKvp in publicRequest.IdentityPoolTags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestIdentityPoolTagsKvp.Key);
+                        var publicRequestIdentityPoolTagsValue = publicRequestIdentityPoolTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestIdentityPoolTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetOpenIdConnectProviderARNs())

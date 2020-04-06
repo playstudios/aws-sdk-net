@@ -29,7 +29,9 @@ namespace Amazon.Athena.Model
 {
     /// <summary>
     /// Container for the parameters to the ListNamedQueries operation.
-    /// Provides a list of all available query IDs.
+    /// Provides a list of available query IDs only for queries saved in the specified workgroup.
+    /// Requires that you have access to the workgroup. If a workgroup is not specified, lists
+    /// the saved queries for the primary workgroup.
     /// 
     ///  
     /// <para>
@@ -41,6 +43,7 @@ namespace Amazon.Athena.Model
     {
         private int? _maxResults;
         private string _nextToken;
+        private string _workGroup;
 
         /// <summary>
         /// Gets and sets the property MaxResults. 
@@ -48,6 +51,7 @@ namespace Amazon.Athena.Model
         /// The maximum number of queries to return in this request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -66,6 +70,7 @@ namespace Amazon.Athena.Model
         /// The token that specifies where to start pagination if a previous request was truncated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -76,6 +81,25 @@ namespace Amazon.Athena.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WorkGroup. 
+        /// <para>
+        /// The name of the workgroup from which the named queries are returned. If a workgroup
+        /// is not specified, the saved queries for the primary workgroup are returned.
+        /// </para>
+        /// </summary>
+        public string WorkGroup
+        {
+            get { return this._workGroup; }
+            set { this._workGroup = value; }
+        }
+
+        // Check to see if WorkGroup property is set
+        internal bool IsSetWorkGroup()
+        {
+            return this._workGroup != null;
         }
 
     }

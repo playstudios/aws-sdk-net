@@ -36,7 +36,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "DELETE";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(deleteBucketPolicyRequest.BucketName));
+            if (string.IsNullOrEmpty(deleteBucketPolicyRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "DeleteBucketPolicyRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(deleteBucketPolicyRequest.BucketName));
             request.AddSubResource("policy");
             request.UseQueryString = true;
             

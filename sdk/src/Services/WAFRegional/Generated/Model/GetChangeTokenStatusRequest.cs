@@ -44,7 +44,7 @@ namespace Amazon.WAFRegional.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>IN_SYNC</code>: Propagation is complete.
+    ///  <code>INSYNC</code>: Propagation is complete.
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -59,6 +59,7 @@ namespace Amazon.WAFRegional.Model
         /// returned in the <code>GetChangeToken</code> response.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }

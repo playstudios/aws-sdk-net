@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Budgets.Model;
 using Amazon.Budgets.Model.Internal.MarshallTransformations;
+using Amazon.Budgets.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -36,40 +38,57 @@ namespace Amazon.Budgets
     /// <summary>
     /// Implementation for accessing Budgets
     ///
-    /// Budgets enable you to plan your service usage, service costs, and your RI utilization.
-    /// You can also track how close your plan is to your budgeted amount or to the free tier
-    /// limits. Budgets provide you with a quick way to see your usage-to-date and current
-    /// estimated charges from AWS and to see how much your predicted usage accrues in charges
-    /// by the end of the month. Budgets also compare current estimates and charges to the
-    /// amount that you indicated you want to use or spend and lets you see how much of your
-    /// budget has been used. AWS updates your budget status several times a day. Budgets
-    /// track your unblended costs, subscriptions, and refunds. You can create the following
-    /// types of budgets:
+    /// The AWS Budgets API enables you to use AWS Budgets to plan your service usage, service
+    /// costs, and instance reservations. The API reference provides descriptions, syntax,
+    /// and usage examples for each of the actions and data types for AWS Budgets. 
     /// 
+    ///  
+    /// <para>
+    /// Budgets provide you with a way to see the following information:
+    /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// Cost budgets allow you to say how much you want to spend on a service.
+    /// How close your plan is to your budgeted amount or to the free tier limits
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Usage budgets allow you to say how many hours you want to use for one or more services.
+    /// Your usage-to-date, including how much you've used of your Reserved Instances (RIs)
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// RI utilization budgets allow you to define a utilization threshold and receive alerts
-    /// when RIs are tracking below that threshold.
+    /// Your current estimated charges from AWS, and how much your predicted usage will accrue
+    /// in charges by the end of the month
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// How much of your budget has been used
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// You can create up to 20,000 budgets per AWS master account. Your first two budgets
-    /// are free of charge. Each additional budget costs $0.02 per day. You can set up optional
-    /// notifications that warn you if you exceed, or are forecasted to exceed, your budgeted
-    /// amount. You can have notifications sent to an Amazon SNS topic, to an email address,
-    /// or to both. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-sns-policy.html">Creating
-    /// an Amazon SNS Topic for Budget Notifications</a>. AWS Free Tier usage alerts via AWS
-    /// Budgets are provided for you, and do not count toward your budget limits.
+    /// AWS updates your budget status several times a day. Budgets track your unblended costs,
+    /// subscriptions, refunds, and RIs. You can create the following types of budgets:
     /// </para>
-    ///  
+    ///  <ul> <li> 
+    /// <para>
+    ///  <b>Cost budgets</b> - Plan how much you want to spend on a service.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <b>Usage budgets</b> - Plan how much you want to use one or more services.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <b>RI utilization budgets</b> - Define a utilization threshold, and receive alerts
+    /// when your RI usage falls below that threshold. This lets you see if your RIs are unused
+    /// or under-utilized.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <b>RI coverage budgets</b> - Define a coverage threshold, and receive alerts when
+    /// the number of your instance hours that are covered by RIs fall below that threshold.
+    /// This lets you see how much of your instance usage is covered by a reservation.
+    /// </para>
+    ///  </li> </ul> 
     /// <para>
     /// Service Endpoint
     /// </para>
@@ -79,16 +98,21 @@ namespace Amazon.Budgets
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// https://budgets.us-east-1.amazonaws.com
+    /// https://budgets.amazonaws.com
     /// </para>
-    ///  </li> </ul>
+    ///  </li> </ul> 
+    /// <para>
+    /// For information about costs that are associated with the AWS Budgets API, see <a href="https://aws.amazon.com/aws-cost-management/pricing/">AWS
+    /// Cost Management Pricing</a>.
+    /// </para>
     /// </summary>
     public partial class AmazonBudgetsClient : AmazonServiceClient, IAmazonBudgets
     {
+        private static IServiceMetadata serviceMetadata = new AmazonBudgetsMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonBudgetsClient with the credentials loaded from the application's
@@ -259,6 +283,16 @@ namespace Amazon.Budgets
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -274,34 +308,61 @@ namespace Amazon.Budgets
 
         #endregion
 
-        
+
         #region  CreateBudget
 
         internal virtual CreateBudgetResponse CreateBudget(CreateBudgetRequest request)
         {
-            var marshaller = CreateBudgetRequestMarshaller.Instance;
-            var unmarshaller = CreateBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBudgetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateBudgetRequest,CreateBudgetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateBudgetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateBudget operation.
-        /// </summary>
+        /// Creates a budget and, if included, notifications and subscribers. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateBudget operation.</param>
+        ///  <important> 
+        /// <para>
+        /// Only one of <code>BudgetLimit</code> or <code>PlannedBudgetLimits</code> can be present
+        /// in the syntax at one time. Use the syntax that matches your case. The Request Syntax
+        /// section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateBudget service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.CreationLimitExceededException">
+        /// You've exceeded the notification or subscriber limit.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.DuplicateRecordException">
+        /// The budget name already exists. Budget names must be unique within an account.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         public virtual Task<CreateBudgetResponse> CreateBudgetAsync(CreateBudgetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateBudgetRequestMarshaller.Instance;
-            var unmarshaller = CreateBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBudgetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateBudgetRequest,CreateBudgetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateBudgetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -310,29 +371,50 @@ namespace Amazon.Budgets
 
         internal virtual CreateNotificationResponse CreateNotification(CreateNotificationRequest request)
         {
-            var marshaller = CreateNotificationRequestMarshaller.Instance;
-            var unmarshaller = CreateNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateNotificationResponseUnmarshaller.Instance;
 
-            return Invoke<CreateNotificationRequest,CreateNotificationResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateNotificationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateNotification operation.
+        /// Creates a notification. You must create the budget before you create the associated
+        /// notification.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateNotification operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateNotification service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.CreationLimitExceededException">
+        /// You've exceeded the notification or subscriber limit.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.DuplicateRecordException">
+        /// The budget name already exists. Budget names must be unique within an account.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<CreateNotificationResponse> CreateNotificationAsync(CreateNotificationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateNotificationRequestMarshaller.Instance;
-            var unmarshaller = CreateNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateNotificationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateNotificationRequest,CreateNotificationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateNotificationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -341,29 +423,50 @@ namespace Amazon.Budgets
 
         internal virtual CreateSubscriberResponse CreateSubscriber(CreateSubscriberRequest request)
         {
-            var marshaller = CreateSubscriberRequestMarshaller.Instance;
-            var unmarshaller = CreateSubscriberResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSubscriberRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSubscriberResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSubscriberRequest,CreateSubscriberResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSubscriberResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateSubscriber operation.
+        /// Creates a subscriber. You must create the associated budget and notification before
+        /// you create the subscriber.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateSubscriber operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSubscriber service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateSubscriber service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.CreationLimitExceededException">
+        /// You've exceeded the notification or subscriber limit.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.DuplicateRecordException">
+        /// The budget name already exists. Budget names must be unique within an account.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<CreateSubscriberResponse> CreateSubscriberAsync(CreateSubscriberRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateSubscriberRequestMarshaller.Instance;
-            var unmarshaller = CreateSubscriberResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSubscriberRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSubscriberResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateSubscriberRequest,CreateSubscriberResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateSubscriberResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -372,29 +475,50 @@ namespace Amazon.Budgets
 
         internal virtual DeleteBudgetResponse DeleteBudget(DeleteBudgetRequest request)
         {
-            var marshaller = DeleteBudgetRequestMarshaller.Instance;
-            var unmarshaller = DeleteBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBudgetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBudgetRequest,DeleteBudgetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBudgetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteBudget operation.
-        /// </summary>
+        /// Deletes a budget. You can delete your budget at any time.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteBudget operation.</param>
+        ///  <important> 
+        /// <para>
+        /// Deleting a budget also deletes the notifications and subscribers that are associated
+        /// with that budget.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteBudget service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<DeleteBudgetResponse> DeleteBudgetAsync(DeleteBudgetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteBudgetRequestMarshaller.Instance;
-            var unmarshaller = DeleteBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBudgetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteBudgetRequest,DeleteBudgetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteBudgetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -403,29 +527,50 @@ namespace Amazon.Budgets
 
         internal virtual DeleteNotificationResponse DeleteNotification(DeleteNotificationRequest request)
         {
-            var marshaller = DeleteNotificationRequestMarshaller.Instance;
-            var unmarshaller = DeleteNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteNotificationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteNotificationRequest,DeleteNotificationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteNotificationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteNotification operation.
-        /// </summary>
+        /// Deletes a notification.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteNotification operation.</param>
+        ///  <important> 
+        /// <para>
+        /// Deleting a notification also deletes the subscribers that are associated with the
+        /// notification.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteNotification service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<DeleteNotificationResponse> DeleteNotificationAsync(DeleteNotificationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteNotificationRequestMarshaller.Instance;
-            var unmarshaller = DeleteNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteNotificationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteNotificationRequest,DeleteNotificationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteNotificationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -434,29 +579,49 @@ namespace Amazon.Budgets
 
         internal virtual DeleteSubscriberResponse DeleteSubscriber(DeleteSubscriberRequest request)
         {
-            var marshaller = DeleteSubscriberRequestMarshaller.Instance;
-            var unmarshaller = DeleteSubscriberResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSubscriberRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSubscriberResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSubscriberRequest,DeleteSubscriberResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSubscriberResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteSubscriber operation.
-        /// </summary>
+        /// Deletes a subscriber.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteSubscriber operation.</param>
+        ///  <important> 
+        /// <para>
+        /// Deleting the last subscriber to a notification also deletes the notification.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSubscriber service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteSubscriber service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<DeleteSubscriberResponse> DeleteSubscriberAsync(DeleteSubscriberRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteSubscriberRequestMarshaller.Instance;
-            var unmarshaller = DeleteSubscriberResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSubscriberRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSubscriberResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteSubscriberRequest,DeleteSubscriberResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteSubscriberResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -465,29 +630,103 @@ namespace Amazon.Budgets
 
         internal virtual DescribeBudgetResponse DescribeBudget(DescribeBudgetRequest request)
         {
-            var marshaller = DescribeBudgetRequestMarshaller.Instance;
-            var unmarshaller = DescribeBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBudgetResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeBudgetRequest,DescribeBudgetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeBudgetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeBudget operation.
-        /// </summary>
+        /// Describes a budget.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeBudget operation.</param>
+        ///  <important> 
+        /// <para>
+        /// The Request Syntax section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBudget service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<DescribeBudgetResponse> DescribeBudgetAsync(DescribeBudgetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeBudgetRequestMarshaller.Instance;
-            var unmarshaller = DescribeBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBudgetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeBudgetRequest,DescribeBudgetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeBudgetResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DescribeBudgetPerformanceHistory
+
+        internal virtual DescribeBudgetPerformanceHistoryResponse DescribeBudgetPerformanceHistory(DescribeBudgetPerformanceHistoryRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBudgetPerformanceHistoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBudgetPerformanceHistoryResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeBudgetPerformanceHistoryResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Describes the history for <code>DAILY</code>, <code>MONTHLY</code>, and <code>QUARTERLY</code>
+        /// budgets. Budget history isn't available for <code>ANNUAL</code> budgets.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBudgetPerformanceHistory service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DescribeBudgetPerformanceHistory service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
+        /// The pagination token expired.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidNextTokenException">
+        /// The pagination token is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
+        public virtual Task<DescribeBudgetPerformanceHistoryResponse> DescribeBudgetPerformanceHistoryAsync(DescribeBudgetPerformanceHistoryRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBudgetPerformanceHistoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBudgetPerformanceHistoryResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DescribeBudgetPerformanceHistoryResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -496,29 +735,57 @@ namespace Amazon.Budgets
 
         internal virtual DescribeBudgetsResponse DescribeBudgets(DescribeBudgetsRequest request)
         {
-            var marshaller = DescribeBudgetsRequestMarshaller.Instance;
-            var unmarshaller = DescribeBudgetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBudgetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBudgetsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeBudgetsRequest,DescribeBudgetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeBudgetsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeBudgets operation.
-        /// </summary>
+        /// Lists the budgets that are associated with an account.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeBudgets operation.</param>
+        ///  <important> 
+        /// <para>
+        /// The Request Syntax section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBudgets service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeBudgets service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
+        /// The pagination token expired.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidNextTokenException">
+        /// The pagination token is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<DescribeBudgetsResponse> DescribeBudgetsAsync(DescribeBudgetsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeBudgetsRequestMarshaller.Instance;
-            var unmarshaller = DescribeBudgetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBudgetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBudgetsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeBudgetsRequest,DescribeBudgetsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeBudgetsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -527,29 +794,49 @@ namespace Amazon.Budgets
 
         internal virtual DescribeNotificationsForBudgetResponse DescribeNotificationsForBudget(DescribeNotificationsForBudgetRequest request)
         {
-            var marshaller = DescribeNotificationsForBudgetRequestMarshaller.Instance;
-            var unmarshaller = DescribeNotificationsForBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNotificationsForBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNotificationsForBudgetResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeNotificationsForBudgetRequest,DescribeNotificationsForBudgetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeNotificationsForBudgetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeNotificationsForBudget operation.
+        /// Lists the notifications that are associated with a budget.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeNotificationsForBudget operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeNotificationsForBudget service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeNotificationsForBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
+        /// The pagination token expired.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidNextTokenException">
+        /// The pagination token is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<DescribeNotificationsForBudgetResponse> DescribeNotificationsForBudgetAsync(DescribeNotificationsForBudgetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeNotificationsForBudgetRequestMarshaller.Instance;
-            var unmarshaller = DescribeNotificationsForBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNotificationsForBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNotificationsForBudgetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeNotificationsForBudgetRequest,DescribeNotificationsForBudgetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeNotificationsForBudgetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -558,29 +845,49 @@ namespace Amazon.Budgets
 
         internal virtual DescribeSubscribersForNotificationResponse DescribeSubscribersForNotification(DescribeSubscribersForNotificationRequest request)
         {
-            var marshaller = DescribeSubscribersForNotificationRequestMarshaller.Instance;
-            var unmarshaller = DescribeSubscribersForNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSubscribersForNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSubscribersForNotificationResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeSubscribersForNotificationRequest,DescribeSubscribersForNotificationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeSubscribersForNotificationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeSubscribersForNotification operation.
+        /// Lists the subscribers that are associated with a notification.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeSubscribersForNotification operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSubscribersForNotification service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeSubscribersForNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.ExpiredNextTokenException">
+        /// The pagination token expired.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidNextTokenException">
+        /// The pagination token is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<DescribeSubscribersForNotificationResponse> DescribeSubscribersForNotificationAsync(DescribeSubscribersForNotificationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeSubscribersForNotificationRequestMarshaller.Instance;
-            var unmarshaller = DescribeSubscribersForNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSubscribersForNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSubscribersForNotificationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeSubscribersForNotificationRequest,DescribeSubscribersForNotificationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeSubscribersForNotificationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -589,29 +896,55 @@ namespace Amazon.Budgets
 
         internal virtual UpdateBudgetResponse UpdateBudget(UpdateBudgetRequest request)
         {
-            var marshaller = UpdateBudgetRequestMarshaller.Instance;
-            var unmarshaller = UpdateBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBudgetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateBudgetRequest,UpdateBudgetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateBudgetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateBudget operation.
-        /// </summary>
+        /// Updates a budget. You can change every part of a budget except for the <code>budgetName</code>
+        /// and the <code>calculatedSpend</code>. When you modify a budget, the <code>calculatedSpend</code>
+        /// drops to zero until AWS has new usage data to use for forecasting.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateBudget operation.</param>
+        ///  <important> 
+        /// <para>
+        /// Only one of <code>BudgetLimit</code> or <code>PlannedBudgetLimits</code> can be present
+        /// in the syntax at one time. Use the syntax that matches your case. The Request Syntax
+        /// section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+        /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples">Examples</a>
+        /// section. 
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateBudget service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateBudget service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<UpdateBudgetResponse> UpdateBudgetAsync(UpdateBudgetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateBudgetRequestMarshaller.Instance;
-            var unmarshaller = UpdateBudgetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBudgetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBudgetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateBudgetRequest,UpdateBudgetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateBudgetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -620,29 +953,46 @@ namespace Amazon.Budgets
 
         internal virtual UpdateNotificationResponse UpdateNotification(UpdateNotificationRequest request)
         {
-            var marshaller = UpdateNotificationRequestMarshaller.Instance;
-            var unmarshaller = UpdateNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateNotificationResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateNotificationRequest,UpdateNotificationResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateNotificationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateNotification operation.
+        /// Updates a notification.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateNotification operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateNotification service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateNotification service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.DuplicateRecordException">
+        /// The budget name already exists. Budget names must be unique within an account.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<UpdateNotificationResponse> UpdateNotificationAsync(UpdateNotificationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateNotificationRequestMarshaller.Instance;
-            var unmarshaller = UpdateNotificationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateNotificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateNotificationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateNotificationRequest,UpdateNotificationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateNotificationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -651,29 +1001,46 @@ namespace Amazon.Budgets
 
         internal virtual UpdateSubscriberResponse UpdateSubscriber(UpdateSubscriberRequest request)
         {
-            var marshaller = UpdateSubscriberRequestMarshaller.Instance;
-            var unmarshaller = UpdateSubscriberResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSubscriberRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSubscriberResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSubscriberRequest,UpdateSubscriberResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSubscriberResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateSubscriber operation.
+        /// Updates a subscriber.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateSubscriber operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSubscriber service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateSubscriber service method, as returned by Budgets.</returns>
+        /// <exception cref="Amazon.Budgets.Model.AccessDeniedException">
+        /// You are not authorized to use this operation with the given parameters.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.DuplicateRecordException">
+        /// The budget name already exists. Budget names must be unique within an account.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.InvalidParameterException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.Budgets.Model.NotFoundException">
+        /// We can’t locate the resource that you specified.
+        /// </exception>
         public virtual Task<UpdateSubscriberResponse> UpdateSubscriberAsync(UpdateSubscriberRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateSubscriberRequestMarshaller.Instance;
-            var unmarshaller = UpdateSubscriberResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSubscriberRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSubscriberResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateSubscriberRequest,UpdateSubscriberResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateSubscriberResponse>(request, options, cancellationToken);
         }
 
         #endregion

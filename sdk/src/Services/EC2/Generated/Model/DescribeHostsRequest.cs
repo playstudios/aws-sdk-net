@@ -29,13 +29,13 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeHosts operation.
-    /// Describes one or more of your Dedicated Hosts.
+    /// Describes the specified Dedicated Hosts or all your Dedicated Hosts.
     /// 
     ///  
     /// <para>
-    /// The results describe only the Dedicated Hosts in the region you're currently using.
+    /// The results describe only the Dedicated Hosts in the Region you're currently using.
     /// All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that
-    /// have recently been released will be listed with the state <code>released</code>.
+    /// have recently been released are listed with the state <code>released</code>.
     /// </para>
     /// </summary>
     public partial class DescribeHostsRequest : AmazonEC2Request
@@ -48,17 +48,21 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filter. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>instance-type</code> - The instance type size that the Dedicated Host is configured
-        /// to support.
+        ///  <code>auto-placement</code> - Whether auto-placement is enabled or disabled (<code>on</code>
+        /// | <code>off</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>auto-placement</code> - Whether auto-placement is enabled or disabled (<code>on</code>
-        /// | <code>off</code>).
+        ///  <code>availability-zone</code> - The Availability Zone of the host.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>client-token</code> - The idempotency token that you provided when you allocated
+        /// the host.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -66,18 +70,19 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>client-token</code> - The idempotency token you provided when you launched
-        /// the instance
+        ///  <code>instance-type</code> - The instance type size that the Dedicated Host is configured
+        /// to support.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>state</code>- The allocation state of the Dedicated Host (<code>available</code>
+        ///  <code>state</code> - The allocation state of the Dedicated Host (<code>available</code>
         /// | <code>under-assessment</code> | <code>permanent-failure</code> | <code>released</code>
         /// | <code>released-permanent-failure</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>availability-zone</code> - The Availability Zone of the host.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -116,9 +121,12 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The maximum number of results to return for the request in a single page. The remaining
         /// results can be seen by sending another request with the returned <code>nextToken</code>
-        /// value. This value can be between 5 and 500; if <code>maxResults</code> is given a
-        /// larger value than 500, you will receive an error. You cannot specify this parameter
-        /// and the host IDs parameter in the same request.
+        /// value. This value can be between 5 and 500. If <code>maxResults</code> is given a
+        /// larger value than 500, you receive an error.
+        /// </para>
+        ///  
+        /// <para>
+        /// You cannot specify this parameter and the host IDs parameter in the same request.
         /// </para>
         /// </summary>
         public int MaxResults
@@ -136,7 +144,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token to retrieve the next page of results.
+        /// The token to use to retrieve the next page of results.
         /// </para>
         /// </summary>
         public string NextToken

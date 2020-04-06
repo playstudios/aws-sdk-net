@@ -29,21 +29,35 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeFleetAttributes operation.
-    /// Retrieves fleet properties, including metadata, status, and configuration, for one
-    /// or more fleets. You can request attributes for all fleets, or specify a list of one
-    /// or more fleet IDs. When requesting multiple fleets, use the pagination parameters
-    /// to retrieve results as a set of sequential pages. If successful, a <a>FleetAttributes</a>
-    /// object is returned for each requested fleet ID. When specifying a list of fleet IDs,
-    /// attribute objects are returned only for fleets that currently exist. 
+    /// Retrieves core properties, including configuration, status, and metadata, for a fleet.
     /// 
+    /// 
+    ///  
+    /// <para>
+    /// To get attributes for one or more fleets, provide a list of fleet IDs or fleet ARNs.
+    /// To get attributes for all fleets, do not specify a fleet identifier. When requesting
+    /// attributes for multiple fleets, use the pagination parameters to retrieve results
+    /// as a set of sequential pages. If successful, a <a>FleetAttributes</a> object is returned
+    /// for each fleet requested, unless the fleet identifier is not found.
+    /// </para>
     ///  <note> 
     /// <para>
     /// Some API actions may limit the number of fleet IDs allowed in one request. If a request
-    /// exceeds this limit, the request fails and the error message includes the maximum allowed.
+    /// exceeds this limit, the request fails and the error message includes the maximum allowed
+    /// number.
     /// </para>
     ///  </note> 
     /// <para>
-    /// Fleet-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html">Setting
+    /// up GameLift Fleets</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -55,11 +69,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <a>DeleteFleet</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     /// Describe fleets:
     /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DescribeFleetCapacity</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -75,59 +97,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
+    ///  <a>DescribeEC2InstanceLimits</a> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     ///  <a>DescribeFleetEvents</a> 
     /// </para>
     ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Update fleets:
-    /// </para>
-    ///  <ul> <li> 
     /// <para>
     ///  <a>UpdateFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -140,10 +122,13 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetIds. 
         /// <para>
-        /// Unique identifier for a fleet(s) to retrieve attributes for. To request attributes
-        /// for all fleets, leave this parameter empty.
+        /// A list of unique fleet identifiers to retrieve attributes for. You can use either
+        /// the fleet ID or ARN value. To retrieve attributes for all current fleets, do not include
+        /// this parameter. If the list of fleet identifiers includes fleets that don't currently
+        /// exist, the request succeeds but no attributes for that fleet are returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> FleetIds
         {
             get { return this._fleetIds; }
@@ -159,11 +144,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages. This parameter is ignored when the request
         /// specifies one or a list of fleet IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -185,6 +171,7 @@ namespace Amazon.GameLift.Model
         /// specifies one or a list of fleet IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

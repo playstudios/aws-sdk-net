@@ -100,6 +100,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.FontResolution = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("fontScript", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.FontScript = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("fontSize", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
@@ -140,6 +146,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     unmarshalledObject.ShadowYOffset = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("subtitlingType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SubtitlingType = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("teletextSpacing", targetDepth))

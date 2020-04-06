@@ -33,6 +33,7 @@ namespace Amazon.DeviceFarm.Model
     public partial class Device
     {
         private string _arn;
+        private DeviceAvailability _availability;
         private string _carrier;
         private CPU _cpu;
         private string _fleetName;
@@ -59,6 +60,7 @@ namespace Amazon.DeviceFarm.Model
         /// The device's ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -69,6 +71,25 @@ namespace Amazon.DeviceFarm.Model
         internal bool IsSetArn()
         {
             return this._arn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Availability. 
+        /// <para>
+        /// Indicates how likely a device is available for a test run. Currently available in
+        /// the <a>ListDevices</a> and GetDevice API methods.
+        /// </para>
+        /// </summary>
+        public DeviceAvailability Availability
+        {
+            get { return this._availability; }
+            set { this._availability = value; }
+        }
+
+        // Check to see if Availability property is set
+        internal bool IsSetAvailability()
+        {
+            return this._availability != null;
         }
 
         /// <summary>
@@ -128,8 +149,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property FleetType. 
         /// <para>
-        /// The type of fleet to which this device belongs. Possible values for fleet type are
-        /// PRIVATE and PUBLIC.
+        /// The type of fleet to which this device belongs. Possible values are PRIVATE and PUBLIC.
         /// </para>
         /// </summary>
         public string FleetType
@@ -155,11 +175,11 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// PHONE: The phone form factor.
+        /// PHONE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// TABLET: The tablet form factor.
+        /// TABLET
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -214,7 +234,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Instances. 
         /// <para>
-        /// The instances belonging to this device.
+        /// The instances that belong to this device.
         /// </para>
         /// </summary>
         public List<DeviceInstance> Instances
@@ -307,6 +327,7 @@ namespace Amazon.DeviceFarm.Model
         /// The device's display name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -348,11 +369,11 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// ANDROID: The Android platform.
+        /// ANDROID
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// IOS: The iOS platform.
+        /// IOS
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -408,6 +429,11 @@ namespace Amazon.DeviceFarm.Model
         /// Gets and sets the property RemoteDebugEnabled. 
         /// <para>
         /// This flag is set to <code>true</code> if remote debugging is enabled for the device.
+        /// </para>
+        ///  
+        /// <para>
+        /// Remote debugging is <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+        /// longer supported</a>.
         /// </para>
         /// </summary>
         public bool RemoteDebugEnabled

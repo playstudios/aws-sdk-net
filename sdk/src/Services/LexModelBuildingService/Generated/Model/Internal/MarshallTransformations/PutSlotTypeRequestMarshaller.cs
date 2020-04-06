@@ -55,14 +55,15 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
         public IRequest Marshall(PutSlotTypeRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.LexModelBuildingService");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/slottypes/{name}/versions/$LATEST";
             if (!publicRequest.IsSetName())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/slottypes/{name}/versions/$LATEST";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -96,6 +97,28 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
 
                         var marshaller = EnumerationValueMarshaller.Instance;
                         marshaller.Marshall(publicRequestEnumerationValuesListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetParentSlotTypeSignature())
+                {
+                    context.Writer.WritePropertyName("parentSlotTypeSignature");
+                    context.Writer.Write(publicRequest.ParentSlotTypeSignature);
+                }
+
+                if(publicRequest.IsSetSlotTypeConfigurations())
+                {
+                    context.Writer.WritePropertyName("slotTypeConfigurations");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSlotTypeConfigurationsListValue in publicRequest.SlotTypeConfigurations)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = SlotTypeConfigurationMarshaller.Instance;
+                        marshaller.Marshall(publicRequestSlotTypeConfigurationsListValue, context);
 
                         context.Writer.WriteObjectEnd();
                     }

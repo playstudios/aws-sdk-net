@@ -25,6 +25,176 @@ namespace Amazon.SimpleSystemsManagement
 {
 
     /// <summary>
+    /// Constants used for properties of type AssociationComplianceSeverity.
+    /// </summary>
+    public class AssociationComplianceSeverity : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CRITICAL for AssociationComplianceSeverity
+        /// </summary>
+        public static readonly AssociationComplianceSeverity CRITICAL = new AssociationComplianceSeverity("CRITICAL");
+        /// <summary>
+        /// Constant HIGH for AssociationComplianceSeverity
+        /// </summary>
+        public static readonly AssociationComplianceSeverity HIGH = new AssociationComplianceSeverity("HIGH");
+        /// <summary>
+        /// Constant LOW for AssociationComplianceSeverity
+        /// </summary>
+        public static readonly AssociationComplianceSeverity LOW = new AssociationComplianceSeverity("LOW");
+        /// <summary>
+        /// Constant MEDIUM for AssociationComplianceSeverity
+        /// </summary>
+        public static readonly AssociationComplianceSeverity MEDIUM = new AssociationComplianceSeverity("MEDIUM");
+        /// <summary>
+        /// Constant UNSPECIFIED for AssociationComplianceSeverity
+        /// </summary>
+        public static readonly AssociationComplianceSeverity UNSPECIFIED = new AssociationComplianceSeverity("UNSPECIFIED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AssociationComplianceSeverity(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AssociationComplianceSeverity FindValue(string value)
+        {
+            return FindValue<AssociationComplianceSeverity>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AssociationComplianceSeverity(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type AssociationExecutionFilterKey.
+    /// </summary>
+    public class AssociationExecutionFilterKey : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CreatedTime for AssociationExecutionFilterKey
+        /// </summary>
+        public static readonly AssociationExecutionFilterKey CreatedTime = new AssociationExecutionFilterKey("CreatedTime");
+        /// <summary>
+        /// Constant ExecutionId for AssociationExecutionFilterKey
+        /// </summary>
+        public static readonly AssociationExecutionFilterKey ExecutionId = new AssociationExecutionFilterKey("ExecutionId");
+        /// <summary>
+        /// Constant Status for AssociationExecutionFilterKey
+        /// </summary>
+        public static readonly AssociationExecutionFilterKey Status = new AssociationExecutionFilterKey("Status");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AssociationExecutionFilterKey(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AssociationExecutionFilterKey FindValue(string value)
+        {
+            return FindValue<AssociationExecutionFilterKey>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AssociationExecutionFilterKey(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type AssociationExecutionTargetsFilterKey.
+    /// </summary>
+    public class AssociationExecutionTargetsFilterKey : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ResourceId for AssociationExecutionTargetsFilterKey
+        /// </summary>
+        public static readonly AssociationExecutionTargetsFilterKey ResourceId = new AssociationExecutionTargetsFilterKey("ResourceId");
+        /// <summary>
+        /// Constant ResourceType for AssociationExecutionTargetsFilterKey
+        /// </summary>
+        public static readonly AssociationExecutionTargetsFilterKey ResourceType = new AssociationExecutionTargetsFilterKey("ResourceType");
+        /// <summary>
+        /// Constant Status for AssociationExecutionTargetsFilterKey
+        /// </summary>
+        public static readonly AssociationExecutionTargetsFilterKey Status = new AssociationExecutionTargetsFilterKey("Status");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AssociationExecutionTargetsFilterKey(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AssociationExecutionTargetsFilterKey FindValue(string value)
+        {
+            return FindValue<AssociationExecutionTargetsFilterKey>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AssociationExecutionTargetsFilterKey(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type AssociationFilterKey.
     /// </summary>
     public class AssociationFilterKey : ConstantClass
@@ -95,6 +265,60 @@ namespace Amazon.SimpleSystemsManagement
 
 
     /// <summary>
+    /// Constants used for properties of type AssociationFilterOperatorType.
+    /// </summary>
+    public class AssociationFilterOperatorType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant EQUAL for AssociationFilterOperatorType
+        /// </summary>
+        public static readonly AssociationFilterOperatorType EQUAL = new AssociationFilterOperatorType("EQUAL");
+        /// <summary>
+        /// Constant GREATER_THAN for AssociationFilterOperatorType
+        /// </summary>
+        public static readonly AssociationFilterOperatorType GREATER_THAN = new AssociationFilterOperatorType("GREATER_THAN");
+        /// <summary>
+        /// Constant LESS_THAN for AssociationFilterOperatorType
+        /// </summary>
+        public static readonly AssociationFilterOperatorType LESS_THAN = new AssociationFilterOperatorType("LESS_THAN");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AssociationFilterOperatorType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AssociationFilterOperatorType FindValue(string value)
+        {
+            return FindValue<AssociationFilterOperatorType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AssociationFilterOperatorType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type AssociationStatusName.
     /// </summary>
     public class AssociationStatusName : ConstantClass
@@ -149,11 +373,115 @@ namespace Amazon.SimpleSystemsManagement
 
 
     /// <summary>
+    /// Constants used for properties of type AttachmentHashType.
+    /// </summary>
+    public class AttachmentHashType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Sha256 for AttachmentHashType
+        /// </summary>
+        public static readonly AttachmentHashType Sha256 = new AttachmentHashType("Sha256");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AttachmentHashType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AttachmentHashType FindValue(string value)
+        {
+            return FindValue<AttachmentHashType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AttachmentHashType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type AttachmentsSourceKey.
+    /// </summary>
+    public class AttachmentsSourceKey : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant AttachmentReference for AttachmentsSourceKey
+        /// </summary>
+        public static readonly AttachmentsSourceKey AttachmentReference = new AttachmentsSourceKey("AttachmentReference");
+        /// <summary>
+        /// Constant S3FileUrl for AttachmentsSourceKey
+        /// </summary>
+        public static readonly AttachmentsSourceKey S3FileUrl = new AttachmentsSourceKey("S3FileUrl");
+        /// <summary>
+        /// Constant SourceUrl for AttachmentsSourceKey
+        /// </summary>
+        public static readonly AttachmentsSourceKey SourceUrl = new AttachmentsSourceKey("SourceUrl");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AttachmentsSourceKey(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AttachmentsSourceKey FindValue(string value)
+        {
+            return FindValue<AttachmentsSourceKey>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AttachmentsSourceKey(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type AutomationExecutionFilterKey.
     /// </summary>
     public class AutomationExecutionFilterKey : ConstantClass
     {
 
+        /// <summary>
+        /// Constant AutomationType for AutomationExecutionFilterKey
+        /// </summary>
+        public static readonly AutomationExecutionFilterKey AutomationType = new AutomationExecutionFilterKey("AutomationType");
         /// <summary>
         /// Constant CurrentAction for AutomationExecutionFilterKey
         /// </summary>
@@ -182,6 +510,10 @@ namespace Amazon.SimpleSystemsManagement
         /// Constant StartTimeBefore for AutomationExecutionFilterKey
         /// </summary>
         public static readonly AutomationExecutionFilterKey StartTimeBefore = new AutomationExecutionFilterKey("StartTimeBefore");
+        /// <summary>
+        /// Constant TagKey for AutomationExecutionFilterKey
+        /// </summary>
+        public static readonly AutomationExecutionFilterKey TagKey = new AutomationExecutionFilterKey("TagKey");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -293,11 +625,119 @@ namespace Amazon.SimpleSystemsManagement
 
 
     /// <summary>
+    /// Constants used for properties of type AutomationType.
+    /// </summary>
+    public class AutomationType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CrossAccount for AutomationType
+        /// </summary>
+        public static readonly AutomationType CrossAccount = new AutomationType("CrossAccount");
+        /// <summary>
+        /// Constant Local for AutomationType
+        /// </summary>
+        public static readonly AutomationType Local = new AutomationType("Local");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AutomationType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AutomationType FindValue(string value)
+        {
+            return FindValue<AutomationType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AutomationType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type CalendarState.
+    /// </summary>
+    public class CalendarState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CLOSED for CalendarState
+        /// </summary>
+        public static readonly CalendarState CLOSED = new CalendarState("CLOSED");
+        /// <summary>
+        /// Constant OPEN for CalendarState
+        /// </summary>
+        public static readonly CalendarState OPEN = new CalendarState("OPEN");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public CalendarState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static CalendarState FindValue(string value)
+        {
+            return FindValue<CalendarState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator CalendarState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type CommandFilterKey.
     /// </summary>
     public class CommandFilterKey : ConstantClass
     {
 
+        /// <summary>
+        /// Constant DocumentName for CommandFilterKey
+        /// </summary>
+        public static readonly CommandFilterKey DocumentName = new CommandFilterKey("DocumentName");
+        /// <summary>
+        /// Constant ExecutionStage for CommandFilterKey
+        /// </summary>
+        public static readonly CommandFilterKey ExecutionStage = new CommandFilterKey("ExecutionStage");
         /// <summary>
         /// Constant InvokedAfter for CommandFilterKey
         /// </summary>
@@ -735,6 +1175,56 @@ namespace Amazon.SimpleSystemsManagement
 
 
     /// <summary>
+    /// Constants used for properties of type ConnectionStatus.
+    /// </summary>
+    public class ConnectionStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Connected for ConnectionStatus
+        /// </summary>
+        public static readonly ConnectionStatus Connected = new ConnectionStatus("Connected");
+        /// <summary>
+        /// Constant NotConnected for ConnectionStatus
+        /// </summary>
+        public static readonly ConnectionStatus NotConnected = new ConnectionStatus("NotConnected");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ConnectionStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ConnectionStatus FindValue(string value)
+        {
+            return FindValue<ConnectionStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ConnectionStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type DescribeActivationsFilterKeys.
     /// </summary>
     public class DescribeActivationsFilterKeys : ConstantClass
@@ -856,6 +1346,10 @@ namespace Amazon.SimpleSystemsManagement
         /// Constant JSON for DocumentFormat
         /// </summary>
         public static readonly DocumentFormat JSON = new DocumentFormat("JSON");
+        /// <summary>
+        /// Constant TEXT for DocumentFormat
+        /// </summary>
+        public static readonly DocumentFormat TEXT = new DocumentFormat("TEXT");
         /// <summary>
         /// Constant YAML for DocumentFormat
         /// </summary>
@@ -1061,6 +1555,10 @@ namespace Amazon.SimpleSystemsManagement
         /// </summary>
         public static readonly DocumentStatus Deleting = new DocumentStatus("Deleting");
         /// <summary>
+        /// Constant Failed for DocumentStatus
+        /// </summary>
+        public static readonly DocumentStatus Failed = new DocumentStatus("Failed");
+        /// <summary>
         /// Constant Updating for DocumentStatus
         /// </summary>
         public static readonly DocumentStatus Updating = new DocumentStatus("Updating");
@@ -1107,17 +1605,41 @@ namespace Amazon.SimpleSystemsManagement
     {
 
         /// <summary>
+        /// Constant ApplicationConfiguration for DocumentType
+        /// </summary>
+        public static readonly DocumentType ApplicationConfiguration = new DocumentType("ApplicationConfiguration");
+        /// <summary>
+        /// Constant ApplicationConfigurationSchema for DocumentType
+        /// </summary>
+        public static readonly DocumentType ApplicationConfigurationSchema = new DocumentType("ApplicationConfigurationSchema");
+        /// <summary>
         /// Constant Automation for DocumentType
         /// </summary>
         public static readonly DocumentType Automation = new DocumentType("Automation");
+        /// <summary>
+        /// Constant ChangeCalendar for DocumentType
+        /// </summary>
+        public static readonly DocumentType ChangeCalendar = new DocumentType("ChangeCalendar");
         /// <summary>
         /// Constant Command for DocumentType
         /// </summary>
         public static readonly DocumentType Command = new DocumentType("Command");
         /// <summary>
+        /// Constant DeploymentStrategy for DocumentType
+        /// </summary>
+        public static readonly DocumentType DeploymentStrategy = new DocumentType("DeploymentStrategy");
+        /// <summary>
+        /// Constant Package for DocumentType
+        /// </summary>
+        public static readonly DocumentType Package = new DocumentType("Package");
+        /// <summary>
         /// Constant Policy for DocumentType
         /// </summary>
         public static readonly DocumentType Policy = new DocumentType("Policy");
+        /// <summary>
+        /// Constant Session for DocumentType
+        /// </summary>
+        public static readonly DocumentType Session = new DocumentType("Session");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -1441,6 +1963,56 @@ namespace Amazon.SimpleSystemsManagement
 
 
     /// <summary>
+    /// Constants used for properties of type InventoryDeletionStatus.
+    /// </summary>
+    public class InventoryDeletionStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Complete for InventoryDeletionStatus
+        /// </summary>
+        public static readonly InventoryDeletionStatus Complete = new InventoryDeletionStatus("Complete");
+        /// <summary>
+        /// Constant InProgress for InventoryDeletionStatus
+        /// </summary>
+        public static readonly InventoryDeletionStatus InProgress = new InventoryDeletionStatus("InProgress");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public InventoryDeletionStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static InventoryDeletionStatus FindValue(string value)
+        {
+            return FindValue<InventoryDeletionStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator InventoryDeletionStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type InventoryQueryOperatorType.
     /// </summary>
     public class InventoryQueryOperatorType : ConstantClass
@@ -1454,6 +2026,10 @@ namespace Amazon.SimpleSystemsManagement
         /// Constant Equal for InventoryQueryOperatorType
         /// </summary>
         public static readonly InventoryQueryOperatorType Equal = new InventoryQueryOperatorType("Equal");
+        /// <summary>
+        /// Constant Exists for InventoryQueryOperatorType
+        /// </summary>
+        public static readonly InventoryQueryOperatorType Exists = new InventoryQueryOperatorType("Exists");
         /// <summary>
         /// Constant GreaterThan for InventoryQueryOperatorType
         /// </summary>
@@ -1496,6 +2072,56 @@ namespace Amazon.SimpleSystemsManagement
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator InventoryQueryOperatorType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type InventorySchemaDeleteOption.
+    /// </summary>
+    public class InventorySchemaDeleteOption : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant DeleteSchema for InventorySchemaDeleteOption
+        /// </summary>
+        public static readonly InventorySchemaDeleteOption DeleteSchema = new InventorySchemaDeleteOption("DeleteSchema");
+        /// <summary>
+        /// Constant DisableSchema for InventorySchemaDeleteOption
+        /// </summary>
+        public static readonly InventorySchemaDeleteOption DisableSchema = new InventorySchemaDeleteOption("DisableSchema");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public InventorySchemaDeleteOption(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static InventorySchemaDeleteOption FindValue(string value)
+        {
+            return FindValue<InventorySchemaDeleteOption>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator InventorySchemaDeleteOption(string value)
         {
             return FindValue(value);
         }
@@ -1640,6 +2266,10 @@ namespace Amazon.SimpleSystemsManagement
         /// Constant INSTANCE for MaintenanceWindowResourceType
         /// </summary>
         public static readonly MaintenanceWindowResourceType INSTANCE = new MaintenanceWindowResourceType("INSTANCE");
+        /// <summary>
+        /// Constant RESOURCE_GROUP for MaintenanceWindowResourceType
+        /// </summary>
+        public static readonly MaintenanceWindowResourceType RESOURCE_GROUP = new MaintenanceWindowResourceType("RESOURCE_GROUP");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -1861,6 +2491,10 @@ namespace Amazon.SimpleSystemsManagement
         /// </summary>
         public static readonly OperatingSystem AMAZON_LINUX = new OperatingSystem("AMAZON_LINUX");
         /// <summary>
+        /// Constant AMAZON_LINUX_2 for OperatingSystem
+        /// </summary>
+        public static readonly OperatingSystem AMAZON_LINUX_2 = new OperatingSystem("AMAZON_LINUX_2");
+        /// <summary>
         /// Constant CENTOS for OperatingSystem
         /// </summary>
         public static readonly OperatingSystem CENTOS = new OperatingSystem("CENTOS");
@@ -1910,6 +2544,336 @@ namespace Amazon.SimpleSystemsManagement
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator OperatingSystem(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OpsFilterOperatorType.
+    /// </summary>
+    public class OpsFilterOperatorType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant BeginWith for OpsFilterOperatorType
+        /// </summary>
+        public static readonly OpsFilterOperatorType BeginWith = new OpsFilterOperatorType("BeginWith");
+        /// <summary>
+        /// Constant Equal for OpsFilterOperatorType
+        /// </summary>
+        public static readonly OpsFilterOperatorType Equal = new OpsFilterOperatorType("Equal");
+        /// <summary>
+        /// Constant Exists for OpsFilterOperatorType
+        /// </summary>
+        public static readonly OpsFilterOperatorType Exists = new OpsFilterOperatorType("Exists");
+        /// <summary>
+        /// Constant GreaterThan for OpsFilterOperatorType
+        /// </summary>
+        public static readonly OpsFilterOperatorType GreaterThan = new OpsFilterOperatorType("GreaterThan");
+        /// <summary>
+        /// Constant LessThan for OpsFilterOperatorType
+        /// </summary>
+        public static readonly OpsFilterOperatorType LessThan = new OpsFilterOperatorType("LessThan");
+        /// <summary>
+        /// Constant NotEqual for OpsFilterOperatorType
+        /// </summary>
+        public static readonly OpsFilterOperatorType NotEqual = new OpsFilterOperatorType("NotEqual");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OpsFilterOperatorType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OpsFilterOperatorType FindValue(string value)
+        {
+            return FindValue<OpsFilterOperatorType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OpsFilterOperatorType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OpsItemDataType.
+    /// </summary>
+    public class OpsItemDataType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant SearchableString for OpsItemDataType
+        /// </summary>
+        public static readonly OpsItemDataType SearchableString = new OpsItemDataType("SearchableString");
+        /// <summary>
+        /// Constant String for OpsItemDataType
+        /// </summary>
+        public static readonly OpsItemDataType String = new OpsItemDataType("String");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OpsItemDataType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OpsItemDataType FindValue(string value)
+        {
+            return FindValue<OpsItemDataType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OpsItemDataType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OpsItemFilterKey.
+    /// </summary>
+    public class OpsItemFilterKey : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant AutomationId for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey AutomationId = new OpsItemFilterKey("AutomationId");
+        /// <summary>
+        /// Constant Category for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey Category = new OpsItemFilterKey("Category");
+        /// <summary>
+        /// Constant CreatedBy for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey CreatedBy = new OpsItemFilterKey("CreatedBy");
+        /// <summary>
+        /// Constant CreatedTime for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey CreatedTime = new OpsItemFilterKey("CreatedTime");
+        /// <summary>
+        /// Constant LastModifiedTime for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey LastModifiedTime = new OpsItemFilterKey("LastModifiedTime");
+        /// <summary>
+        /// Constant OperationalData for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey OperationalData = new OpsItemFilterKey("OperationalData");
+        /// <summary>
+        /// Constant OperationalDataKey for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey OperationalDataKey = new OpsItemFilterKey("OperationalDataKey");
+        /// <summary>
+        /// Constant OperationalDataValue for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey OperationalDataValue = new OpsItemFilterKey("OperationalDataValue");
+        /// <summary>
+        /// Constant OpsItemId for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey OpsItemId = new OpsItemFilterKey("OpsItemId");
+        /// <summary>
+        /// Constant Priority for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey Priority = new OpsItemFilterKey("Priority");
+        /// <summary>
+        /// Constant ResourceId for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey ResourceId = new OpsItemFilterKey("ResourceId");
+        /// <summary>
+        /// Constant Severity for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey Severity = new OpsItemFilterKey("Severity");
+        /// <summary>
+        /// Constant Source for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey Source = new OpsItemFilterKey("Source");
+        /// <summary>
+        /// Constant Status for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey Status = new OpsItemFilterKey("Status");
+        /// <summary>
+        /// Constant Title for OpsItemFilterKey
+        /// </summary>
+        public static readonly OpsItemFilterKey Title = new OpsItemFilterKey("Title");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OpsItemFilterKey(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OpsItemFilterKey FindValue(string value)
+        {
+            return FindValue<OpsItemFilterKey>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OpsItemFilterKey(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OpsItemFilterOperator.
+    /// </summary>
+    public class OpsItemFilterOperator : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Contains for OpsItemFilterOperator
+        /// </summary>
+        public static readonly OpsItemFilterOperator Contains = new OpsItemFilterOperator("Contains");
+        /// <summary>
+        /// Constant Equal for OpsItemFilterOperator
+        /// </summary>
+        public static readonly OpsItemFilterOperator Equal = new OpsItemFilterOperator("Equal");
+        /// <summary>
+        /// Constant GreaterThan for OpsItemFilterOperator
+        /// </summary>
+        public static readonly OpsItemFilterOperator GreaterThan = new OpsItemFilterOperator("GreaterThan");
+        /// <summary>
+        /// Constant LessThan for OpsItemFilterOperator
+        /// </summary>
+        public static readonly OpsItemFilterOperator LessThan = new OpsItemFilterOperator("LessThan");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OpsItemFilterOperator(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OpsItemFilterOperator FindValue(string value)
+        {
+            return FindValue<OpsItemFilterOperator>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OpsItemFilterOperator(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type OpsItemStatus.
+    /// </summary>
+    public class OpsItemStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant InProgress for OpsItemStatus
+        /// </summary>
+        public static readonly OpsItemStatus InProgress = new OpsItemStatus("InProgress");
+        /// <summary>
+        /// Constant Open for OpsItemStatus
+        /// </summary>
+        public static readonly OpsItemStatus Open = new OpsItemStatus("Open");
+        /// <summary>
+        /// Constant Resolved for OpsItemStatus
+        /// </summary>
+        public static readonly OpsItemStatus Resolved = new OpsItemStatus("Resolved");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public OpsItemStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static OpsItemStatus FindValue(string value)
+        {
+            return FindValue<OpsItemStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator OpsItemStatus(string value)
         {
             return FindValue(value);
         }
@@ -1971,6 +2935,60 @@ namespace Amazon.SimpleSystemsManagement
 
 
     /// <summary>
+    /// Constants used for properties of type ParameterTier.
+    /// </summary>
+    public class ParameterTier : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Advanced for ParameterTier
+        /// </summary>
+        public static readonly ParameterTier Advanced = new ParameterTier("Advanced");
+        /// <summary>
+        /// Constant IntelligentTiering for ParameterTier
+        /// </summary>
+        public static readonly ParameterTier IntelligentTiering = new ParameterTier("Intelligent-Tiering");
+        /// <summary>
+        /// Constant Standard for ParameterTier
+        /// </summary>
+        public static readonly ParameterTier Standard = new ParameterTier("Standard");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ParameterTier(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ParameterTier FindValue(string value)
+        {
+            return FindValue<ParameterTier>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ParameterTier(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ParameterType.
     /// </summary>
     public class ParameterType : ConstantClass
@@ -2025,6 +3043,56 @@ namespace Amazon.SimpleSystemsManagement
 
 
     /// <summary>
+    /// Constants used for properties of type PatchAction.
+    /// </summary>
+    public class PatchAction : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ALLOW_AS_DEPENDENCY for PatchAction
+        /// </summary>
+        public static readonly PatchAction ALLOW_AS_DEPENDENCY = new PatchAction("ALLOW_AS_DEPENDENCY");
+        /// <summary>
+        /// Constant BLOCK for PatchAction
+        /// </summary>
+        public static readonly PatchAction BLOCK = new PatchAction("BLOCK");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public PatchAction(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static PatchAction FindValue(string value)
+        {
+            return FindValue<PatchAction>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator PatchAction(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type PatchComplianceDataState.
     /// </summary>
     public class PatchComplianceDataState : ConstantClass
@@ -2042,6 +3110,14 @@ namespace Amazon.SimpleSystemsManagement
         /// Constant INSTALLED_OTHER for PatchComplianceDataState
         /// </summary>
         public static readonly PatchComplianceDataState INSTALLED_OTHER = new PatchComplianceDataState("INSTALLED_OTHER");
+        /// <summary>
+        /// Constant INSTALLED_PENDING_REBOOT for PatchComplianceDataState
+        /// </summary>
+        public static readonly PatchComplianceDataState INSTALLED_PENDING_REBOOT = new PatchComplianceDataState("INSTALLED_PENDING_REBOOT");
+        /// <summary>
+        /// Constant INSTALLED_REJECTED for PatchComplianceDataState
+        /// </summary>
+        public static readonly PatchComplianceDataState INSTALLED_REJECTED = new PatchComplianceDataState("INSTALLED_REJECTED");
         /// <summary>
         /// Constant MISSING for PatchComplianceDataState
         /// </summary>
@@ -2229,6 +3305,10 @@ namespace Amazon.SimpleSystemsManagement
         /// </summary>
         public static readonly PatchFilterKey PATCH_ID = new PatchFilterKey("PATCH_ID");
         /// <summary>
+        /// Constant PATCH_SET for PatchFilterKey
+        /// </summary>
+        public static readonly PatchFilterKey PATCH_SET = new PatchFilterKey("PATCH_SET");
+        /// <summary>
         /// Constant PRIORITY for PatchFilterKey
         /// </summary>
         public static readonly PatchFilterKey PRIORITY = new PatchFilterKey("PRIORITY");
@@ -2236,6 +3316,10 @@ namespace Amazon.SimpleSystemsManagement
         /// Constant PRODUCT for PatchFilterKey
         /// </summary>
         public static readonly PatchFilterKey PRODUCT = new PatchFilterKey("PRODUCT");
+        /// <summary>
+        /// Constant PRODUCT_FAMILY for PatchFilterKey
+        /// </summary>
+        public static readonly PatchFilterKey PRODUCT_FAMILY = new PatchFilterKey("PRODUCT_FAMILY");
         /// <summary>
         /// Constant SECTION for PatchFilterKey
         /// </summary>
@@ -2324,6 +3408,122 @@ namespace Amazon.SimpleSystemsManagement
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator PatchOperationType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type PatchProperty.
+    /// </summary>
+    public class PatchProperty : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CLASSIFICATION for PatchProperty
+        /// </summary>
+        public static readonly PatchProperty CLASSIFICATION = new PatchProperty("CLASSIFICATION");
+        /// <summary>
+        /// Constant MSRC_SEVERITY for PatchProperty
+        /// </summary>
+        public static readonly PatchProperty MSRC_SEVERITY = new PatchProperty("MSRC_SEVERITY");
+        /// <summary>
+        /// Constant PRIORITY for PatchProperty
+        /// </summary>
+        public static readonly PatchProperty PRIORITY = new PatchProperty("PRIORITY");
+        /// <summary>
+        /// Constant PRODUCT for PatchProperty
+        /// </summary>
+        public static readonly PatchProperty PRODUCT = new PatchProperty("PRODUCT");
+        /// <summary>
+        /// Constant PRODUCT_FAMILY for PatchProperty
+        /// </summary>
+        public static readonly PatchProperty PRODUCT_FAMILY = new PatchProperty("PRODUCT_FAMILY");
+        /// <summary>
+        /// Constant SEVERITY for PatchProperty
+        /// </summary>
+        public static readonly PatchProperty SEVERITY = new PatchProperty("SEVERITY");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public PatchProperty(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static PatchProperty FindValue(string value)
+        {
+            return FindValue<PatchProperty>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator PatchProperty(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type PatchSet.
+    /// </summary>
+    public class PatchSet : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant APPLICATION for PatchSet
+        /// </summary>
+        public static readonly PatchSet APPLICATION = new PatchSet("APPLICATION");
+        /// <summary>
+        /// Constant OS for PatchSet
+        /// </summary>
+        public static readonly PatchSet OS = new PatchSet("OS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public PatchSet(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static PatchSet FindValue(string value)
+        {
+            return FindValue<PatchSet>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator PatchSet(string value)
         {
             return FindValue(value);
         }
@@ -2428,6 +3628,56 @@ namespace Amazon.SimpleSystemsManagement
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator PlatformType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type RebootOption.
+    /// </summary>
+    public class RebootOption : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant NoReboot for RebootOption
+        /// </summary>
+        public static readonly RebootOption NoReboot = new RebootOption("NoReboot");
+        /// <summary>
+        /// Constant RebootIfNeeded for RebootOption
+        /// </summary>
+        public static readonly RebootOption RebootIfNeeded = new RebootOption("RebootIfNeeded");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public RebootOption(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static RebootOption FindValue(string value)
+        {
+            return FindValue<RebootOption>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator RebootOption(string value)
         {
             return FindValue(value);
         }
@@ -2553,6 +3803,10 @@ namespace Amazon.SimpleSystemsManagement
         /// </summary>
         public static readonly ResourceTypeForTagging ManagedInstance = new ResourceTypeForTagging("ManagedInstance");
         /// <summary>
+        /// Constant OpsItem for ResourceTypeForTagging
+        /// </summary>
+        public static readonly ResourceTypeForTagging OpsItem = new ResourceTypeForTagging("OpsItem");
+        /// <summary>
         /// Constant Parameter for ResourceTypeForTagging
         /// </summary>
         public static readonly ResourceTypeForTagging Parameter = new ResourceTypeForTagging("Parameter");
@@ -2590,6 +3844,184 @@ namespace Amazon.SimpleSystemsManagement
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator ResourceTypeForTagging(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type SessionFilterKey.
+    /// </summary>
+    public class SessionFilterKey : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant InvokedAfter for SessionFilterKey
+        /// </summary>
+        public static readonly SessionFilterKey InvokedAfter = new SessionFilterKey("InvokedAfter");
+        /// <summary>
+        /// Constant InvokedBefore for SessionFilterKey
+        /// </summary>
+        public static readonly SessionFilterKey InvokedBefore = new SessionFilterKey("InvokedBefore");
+        /// <summary>
+        /// Constant Owner for SessionFilterKey
+        /// </summary>
+        public static readonly SessionFilterKey Owner = new SessionFilterKey("Owner");
+        /// <summary>
+        /// Constant Status for SessionFilterKey
+        /// </summary>
+        public static readonly SessionFilterKey Status = new SessionFilterKey("Status");
+        /// <summary>
+        /// Constant Target for SessionFilterKey
+        /// </summary>
+        public static readonly SessionFilterKey Target = new SessionFilterKey("Target");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SessionFilterKey(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SessionFilterKey FindValue(string value)
+        {
+            return FindValue<SessionFilterKey>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SessionFilterKey(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type SessionState.
+    /// </summary>
+    public class SessionState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Active for SessionState
+        /// </summary>
+        public static readonly SessionState Active = new SessionState("Active");
+        /// <summary>
+        /// Constant History for SessionState
+        /// </summary>
+        public static readonly SessionState History = new SessionState("History");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SessionState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SessionState FindValue(string value)
+        {
+            return FindValue<SessionState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SessionState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type SessionStatus.
+    /// </summary>
+    public class SessionStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Connected for SessionStatus
+        /// </summary>
+        public static readonly SessionStatus Connected = new SessionStatus("Connected");
+        /// <summary>
+        /// Constant Connecting for SessionStatus
+        /// </summary>
+        public static readonly SessionStatus Connecting = new SessionStatus("Connecting");
+        /// <summary>
+        /// Constant Disconnected for SessionStatus
+        /// </summary>
+        public static readonly SessionStatus Disconnected = new SessionStatus("Disconnected");
+        /// <summary>
+        /// Constant Failed for SessionStatus
+        /// </summary>
+        public static readonly SessionStatus Failed = new SessionStatus("Failed");
+        /// <summary>
+        /// Constant Terminated for SessionStatus
+        /// </summary>
+        public static readonly SessionStatus Terminated = new SessionStatus("Terminated");
+        /// <summary>
+        /// Constant Terminating for SessionStatus
+        /// </summary>
+        public static readonly SessionStatus Terminating = new SessionStatus("Terminating");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SessionStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SessionStatus FindValue(string value)
+        {
+            return FindValue<SessionStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SessionStatus(string value)
         {
             return FindValue(value);
         }

@@ -39,8 +39,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property AutoRollbackEnabled. 
         /// <para>
-        /// Indicates, when a deployment is stopped, whether instances that have been updated
-        /// should be rolled back to the previous version of the application revision.
+        ///  Indicates, when a deployment is stopped, whether instances that have been updated
+        /// should be rolled back to the previous version of the application revision. 
         /// </para>
         /// </summary>
         public bool AutoRollbackEnabled
@@ -58,9 +58,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentId. 
         /// <para>
-        /// The unique ID of a deployment.
+        ///  The unique ID of a deployment. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DeploymentId
         {
             get { return this._deploymentId; }

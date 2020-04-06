@@ -46,8 +46,8 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  <note> 
     /// <para>
-    /// Because trust for the OIDC provider is derived from the provider's certificate and
-    /// is validated by the thumbprint, it is best to limit access to the <code>UpdateOpenIDConnectProviderThumbprint</code>
+    /// Trust for the OIDC provider is derived from the provider's certificate and is validated
+    /// by the thumbprint. Therefore, it is best to limit access to the <code>UpdateOpenIDConnectProviderThumbprint</code>
     /// operation to highly privileged users.
     /// </para>
     ///  </note>
@@ -66,10 +66,11 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string OpenIDConnectProviderArn
         {
             get { return this._openIDConnectProviderArn; }
@@ -89,6 +90,7 @@ namespace Amazon.IdentityManagement.Model
         /// Connect provider. For more information, see <a>CreateOpenIDConnectProvider</a>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> ThumbprintList
         {
             get { return this._thumbprintList; }

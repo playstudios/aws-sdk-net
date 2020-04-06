@@ -28,10 +28,10 @@ namespace Amazon.AlexaForBusiness
     ///<summary>
     /// Common exception for the AlexaForBusiness service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonAlexaForBusinessException : AmazonServiceException
+    public partial class AmazonAlexaForBusinessException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonAlexaForBusinessException
@@ -88,7 +88,7 @@ namespace Amazon.AlexaForBusiness
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonAlexaForBusinessException class with serialized data.
         /// </summary>

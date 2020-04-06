@@ -37,11 +37,7 @@ namespace Amazon.GameLift.Model
     /// <para>
     /// Returned aliases are not listed in any particular order.
     /// </para>
-    ///  </note> 
-    /// <para>
-    /// Alias-related operations include:
-    /// </para>
-    ///  <ul> <li> 
+    ///  </note> <ul> <li> 
     /// <para>
     ///  <a>CreateAlias</a> 
     /// </para>
@@ -77,10 +73,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -96,10 +93,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with an alias. Alias names do not need to be
+        /// A descriptive label that is associated with an alias. Alias names do not need to be
         /// unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Name
         {
             get { return this._name; }
@@ -115,11 +113,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Token that indicates the start of the next sequential page of results. Use the token
+        /// A token that indicates the start of the next sequential page of results. Use the token
         /// that is returned with a previous call to this action. To start at the beginning of
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -135,8 +134,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property RoutingStrategyType. 
         /// <para>
-        /// Type of routing to filter results on. Use this parameter to retrieve only aliases
-        /// of a certain type. To retrieve all aliases, leave this parameter empty.
+        /// The routing type to filter results on. Use this parameter to retrieve only aliases
+        /// with a certain routing type. To retrieve all aliases, leave this parameter empty.
         /// </para>
         ///  
         /// <para>

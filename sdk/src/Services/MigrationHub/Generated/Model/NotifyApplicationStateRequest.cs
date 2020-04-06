@@ -38,13 +38,16 @@ namespace Amazon.MigrationHub.Model
         private string _applicationId;
         private bool? _dryRun;
         private ApplicationStatus _status;
+        private DateTime? _updateDateTime;
 
         /// <summary>
         /// Gets and sets the property ApplicationId. 
         /// <para>
-        /// The configurationId in ADS that uniquely identifies the grouped application.
+        /// The configurationId in Application Discovery Service that uniquely identifies the
+        /// grouped application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -82,6 +85,7 @@ namespace Amazon.MigrationHub.Model
         /// Status of the application - Not Started, In-Progress, Complete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ApplicationStatus Status
         {
             get { return this._status; }
@@ -92,6 +96,24 @@ namespace Amazon.MigrationHub.Model
         internal bool IsSetStatus()
         {
             return this._status != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property UpdateDateTime. 
+        /// <para>
+        /// The timestamp when the application state changed.
+        /// </para>
+        /// </summary>
+        public DateTime UpdateDateTime
+        {
+            get { return this._updateDateTime.GetValueOrDefault(); }
+            set { this._updateDateTime = value; }
+        }
+
+        // Check to see if UpdateDateTime property is set
+        internal bool IsSetUpdateDateTime()
+        {
+            return this._updateDateTime.HasValue; 
         }
 
     }

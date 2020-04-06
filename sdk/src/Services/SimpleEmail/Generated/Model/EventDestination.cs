@@ -42,7 +42,7 @@ namespace Amazon.SimpleEmail.Model
     /// Event destinations are associated with configuration sets, which enable you to publish
     /// email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple
     /// Notification Service (Amazon SNS). For information about using configuration sets,
-    /// see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+    /// see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -120,6 +120,7 @@ namespace Amazon.SimpleEmail.Model
         /// The type of email sending events to publish to the event destination.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> MatchingEventTypes
         {
             get { return this._matchingEventTypes; }
@@ -148,6 +149,7 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

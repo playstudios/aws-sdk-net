@@ -44,6 +44,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the global secondary index.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public string IndexName
         {
             get { return this._indexName; }
@@ -73,7 +74,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> </ul> <note> 
         /// <para>
         /// The partition key of an item is also known as its <i>hash attribute</i>. The term
-        /// "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly
+        /// "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly
         /// distribute data items across partitions, based on their partition key values.
         /// </para>
         ///  
@@ -84,6 +85,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Min=1, Max=2)]
         public List<KeySchemaElement> KeySchema
         {
             get { return this._keySchema; }

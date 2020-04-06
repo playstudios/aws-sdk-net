@@ -58,10 +58,11 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
             string target = "AmazonSSM.UpdateAssociation";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-06";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -85,10 +86,34 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.AssociationVersion);
                 }
 
+                if(publicRequest.IsSetAutomationTargetParameterName())
+                {
+                    context.Writer.WritePropertyName("AutomationTargetParameterName");
+                    context.Writer.Write(publicRequest.AutomationTargetParameterName);
+                }
+
+                if(publicRequest.IsSetComplianceSeverity())
+                {
+                    context.Writer.WritePropertyName("ComplianceSeverity");
+                    context.Writer.Write(publicRequest.ComplianceSeverity);
+                }
+
                 if(publicRequest.IsSetDocumentVersion())
                 {
                     context.Writer.WritePropertyName("DocumentVersion");
                     context.Writer.Write(publicRequest.DocumentVersion);
+                }
+
+                if(publicRequest.IsSetMaxConcurrency())
+                {
+                    context.Writer.WritePropertyName("MaxConcurrency");
+                    context.Writer.Write(publicRequest.MaxConcurrency);
+                }
+
+                if(publicRequest.IsSetMaxErrors())
+                {
+                    context.Writer.WritePropertyName("MaxErrors");
+                    context.Writer.Write(publicRequest.MaxErrors);
                 }
 
                 if(publicRequest.IsSetName())

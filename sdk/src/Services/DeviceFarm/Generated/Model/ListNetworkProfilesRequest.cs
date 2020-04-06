@@ -43,6 +43,7 @@ namespace Amazon.DeviceFarm.Model
         /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -62,6 +63,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -77,8 +79,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of network profile you wish to return information about. Valid values are
-        /// listed below.
+        /// The type of network profile to return information about. Valid values are listed here.
         /// </para>
         /// </summary>
         public NetworkProfileType Type

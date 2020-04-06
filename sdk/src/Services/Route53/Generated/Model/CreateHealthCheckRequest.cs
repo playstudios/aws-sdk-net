@@ -33,8 +33,9 @@ namespace Amazon.Route53.Model
     /// 
     ///  
     /// <para>
-    /// For information about adding health checks to resource record sets, see <a>ResourceRecordSet$HealthCheckId</a>
-    /// in <a>ChangeResourceRecordSets</a>. 
+    /// For information about adding health checks to resource record sets, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResourceRecordSet.html#Route53-Type-ResourceRecordSet-HealthCheckId">HealthCheckId</a>
+    /// in <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html">ChangeResourceRecordSets</a>.
+    /// 
     /// </para>
     ///  
     /// <para>
@@ -45,7 +46,7 @@ namespace Amazon.Route53.Model
     /// If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer,
     /// do not create Amazon Route 53 health checks for the EC2 instances. When you register
     /// an EC2 instance with a load balancer, you configure settings for an ELB health check,
-    /// which performs a similar function to an Amazon Route 53 health check.
+    /// which performs a similar function to a Route 53 health check.
     /// </para>
     ///  
     /// <para>
@@ -58,9 +59,8 @@ namespace Amazon.Route53.Model
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// Amazon Route 53 health checkers are outside the VPC. To check the health of an endpoint
-    /// within a VPC by IP address, you must assign a public IP address to the instance in
-    /// the VPC.
+    /// Route 53 health checkers are outside the VPC. To check the health of an endpoint within
+    /// a VPC by IP address, you must assign a public IP address to the instance in the VPC.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -74,7 +74,7 @@ namespace Amazon.Route53.Model
     /// a CloudWatch metric that checks the status of the Amazon EC2 <code>StatusCheckFailed</code>
     /// metric, add an alarm to the metric, and then create a health check that is based on
     /// the state of the alarm. For information about creating CloudWatch metrics and alarms
-    /// by using the CloudWatch console, see the <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html">Amazon
+    /// by using the CloudWatch console, see the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html">Amazon
     /// CloudWatch User Guide</a>.
     /// </para>
     ///  </li> </ul>
@@ -95,29 +95,29 @@ namespace Amazon.Route53.Model
         /// <para>
         /// If you send a <code>CreateHealthCheck</code> request with the same <code>CallerReference</code>
         /// and settings as a previous request, and if the health check doesn't exist, Amazon
-        /// Route 53 creates the health check. If the health check does exist, Amazon Route 53
-        /// returns the settings for the existing health check.
+        /// Route 53 creates the health check. If the health check does exist, Route 53 returns
+        /// the settings for the existing health check.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If you send a <code>CreateHealthCheck</code> request with the same <code>CallerReference</code>
-        /// as a deleted health check, regardless of the settings, Amazon Route 53 returns a <code>HealthCheckAlreadyExists</code>
+        /// as a deleted health check, regardless of the settings, Route 53 returns a <code>HealthCheckAlreadyExists</code>
         /// error.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If you send a <code>CreateHealthCheck</code> request with the same <code>CallerReference</code>
-        /// as an existing health check but with different settings, Amazon Route 53 returns a
-        /// <code>HealthCheckAlreadyExists</code> error.
+        /// as an existing health check but with different settings, Route 53 returns a <code>HealthCheckAlreadyExists</code>
+        /// error.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// If you send a <code>CreateHealthCheck</code> request with a unique <code>CallerReference</code>
-        /// but settings identical to an existing health check, Amazon Route 53 creates the health
-        /// check.
+        /// but settings identical to an existing health check, Route 53 creates the health check.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string CallerReference
         {
             get { return this._callerReference; }
@@ -133,10 +133,10 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property HealthCheckConfig. 
         /// <para>
-        /// A complex type that contains the response to a <code>CreateHealthCheck</code> request.
-        /// 
+        /// A complex type that contains settings for a new health check.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public HealthCheckConfig HealthCheckConfig
         {
             get { return this._healthCheckConfig; }

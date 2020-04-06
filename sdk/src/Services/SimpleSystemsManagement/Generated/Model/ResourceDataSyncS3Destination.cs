@@ -34,6 +34,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     {
         private string _awskmsKeyARN;
         private string _bucketName;
+        private ResourceDataSyncDestinationDataSharing _destinationDataSharing;
         private string _prefix;
         private string _region;
         private ResourceDataSyncS3Format _syncFormat;
@@ -42,9 +43,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Gets and sets the property AWSKMSKeyARN. 
         /// <para>
         /// The ARN of an encryption key for a destination in Amazon S3. Must belong to the same
-        /// region as the destination Amazon S3 bucket.
+        /// Region as the destination Amazon S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string AWSKMSKeyARN
         {
             get { return this._awskmsKeyARN; }
@@ -63,6 +65,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the Amazon S3 bucket where the aggregated data is stored.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string BucketName
         {
             get { return this._bucketName; }
@@ -76,11 +79,30 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DestinationDataSharing. 
+        /// <para>
+        /// Enables destination data sharing. By default, this field is <code>null</code>.
+        /// </para>
+        /// </summary>
+        public ResourceDataSyncDestinationDataSharing DestinationDataSharing
+        {
+            get { return this._destinationDataSharing; }
+            set { this._destinationDataSharing = value; }
+        }
+
+        // Check to see if DestinationDataSharing property is set
+        internal bool IsSetDestinationDataSharing()
+        {
+            return this._destinationDataSharing != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Prefix. 
         /// <para>
         /// An Amazon S3 prefix for the bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string Prefix
         {
             get { return this._prefix; }
@@ -99,6 +121,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The AWS Region with the Amazon S3 bucket targeted by the Resource Data Sync.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Region
         {
             get { return this._region; }
@@ -117,6 +140,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A supported sync format. The following format is currently supported: JsonSerDe
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ResourceDataSyncS3Format SyncFormat
         {
             get { return this._syncFormat; }

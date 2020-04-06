@@ -29,11 +29,11 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateLag operation.
-    /// Updates the attributes of a link aggregation group (LAG). 
+    /// Updates the attributes of the specified link aggregation group (LAG).
     /// 
     ///  
     /// <para>
-    /// You can update the following attributes: 
+    /// You can update the following attributes:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -47,11 +47,10 @@ namespace Amazon.DirectConnect.Model
     ///  </li> </ul> 
     /// <para>
     /// When you create a LAG, the default value for the minimum number of operational connections
-    /// is zero (0). If you update this value, and the number of operational connections falls
-    /// below the specified value, the LAG will automatically go down to avoid overutilization
-    /// of the remaining connections. Adjusting this value should be done with care as it
-    /// could force the LAG down if the value is set higher than the current number of operational
-    /// connections.
+    /// is zero (0). If you update this value and the number of operational connections falls
+    /// below the specified value, the LAG automatically goes down to avoid over-utilization
+    /// of the remaining connections. Adjust this value with care, as it could force the LAG
+    /// down if it is set higher than the current number of operational connections.
     /// </para>
     /// </summary>
     public partial class UpdateLagRequest : AmazonDirectConnectRequest
@@ -63,17 +62,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property LagId. 
         /// <para>
-        /// The ID of the LAG to update.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: dxlag-abc123
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the LAG.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LagId
         {
             get { return this._lagId; }
@@ -89,15 +81,7 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property LagName. 
         /// <para>
-        /// The name for the LAG.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: "<code>3x10G LAG to AWS</code>"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The name of the LAG.
         /// </para>
         /// </summary>
         public string LagName
@@ -117,10 +101,6 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The minimum number of physical connections that must be operational for the LAG itself
         /// to be operational.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
         /// </para>
         /// </summary>
         public int MinimumLinks

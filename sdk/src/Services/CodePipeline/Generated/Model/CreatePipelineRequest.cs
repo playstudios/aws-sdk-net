@@ -30,10 +30,19 @@ namespace Amazon.CodePipeline.Model
     /// <summary>
     /// Container for the parameters to the CreatePipeline operation.
     /// Creates a pipeline.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// In the pipeline structure, you must include either <code>artifactStore</code> or <code>artifactStores</code>
+    /// in your pipeline, but you cannot use both. If you create a cross-region action in
+    /// your pipeline, you must use <code>artifactStores</code>.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreatePipelineRequest : AmazonCodePipelineRequest
     {
         private PipelineDeclaration _pipeline;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Pipeline. 
@@ -41,6 +50,7 @@ namespace Amazon.CodePipeline.Model
         /// Represents the structure of actions and stages to be performed in the pipeline. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PipelineDeclaration Pipeline
         {
             get { return this._pipeline; }
@@ -51,6 +61,24 @@ namespace Amazon.CodePipeline.Model
         internal bool IsSetPipeline()
         {
             return this._pipeline != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags for the pipeline.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

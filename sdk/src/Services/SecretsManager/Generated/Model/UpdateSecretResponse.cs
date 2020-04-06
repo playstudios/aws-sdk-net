@@ -39,19 +39,19 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property ARN. 
         /// <para>
-        /// The ARN of this secret.
+        /// The ARN of the secret that was updated.
         /// </para>
         ///  <note> 
         /// <para>
-        /// AWS Secrets Manager automatically adds several random characters to the name at the
-        /// end of the ARN when you initially create a secret. This affects only the ARN and not
-        /// the actual friendly name. This ensures that if you create a new secret with the same
-        /// name as an old secret that you previously deleted, then users with access to the old
-        /// secret <i>don't</i> automatically get access to the new secret because the ARNs are
-        /// different.
+        /// Secrets Manager automatically adds several random characters to the name at the end
+        /// of the ARN when you initially create a secret. This affects only the ARN and not the
+        /// actual friendly name. This ensures that if you create a new secret with the same name
+        /// as an old secret that you previously deleted, then users with access to the old secret
+        /// <i>don't</i> automatically get access to the new secret because the ARNs are different.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string ARN
         {
             get { return this._arn; }
@@ -67,9 +67,10 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The friendly name of this secret.
+        /// The friendly name of the secret that was updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -85,10 +86,11 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property VersionId. 
         /// <para>
-        /// If a version of the secret was created or updated by this operation, then its unique
-        /// identifier is returned.
+        /// If a new version of the secret was created by this operation, then <code>VersionId</code>
+        /// contains the unique identifier of the new version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string VersionId
         {
             get { return this._versionId; }

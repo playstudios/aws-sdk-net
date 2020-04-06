@@ -43,10 +43,11 @@ namespace Amazon.WorkDocs.Model
         /// <summary>
         /// Gets and sets the property AuthenticationToken. 
         /// <para>
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative
-        /// API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials
+        /// to access the API.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=8199)]
         public string AuthenticationToken
         {
             get { return this._authenticationToken; }
@@ -65,6 +66,7 @@ namespace Amazon.WorkDocs.Model
         /// The ID of the document.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string DocumentId
         {
             get { return this._documentId; }
@@ -83,6 +85,7 @@ namespace Amazon.WorkDocs.Model
         /// The name of the document.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -101,6 +104,7 @@ namespace Amazon.WorkDocs.Model
         /// The ID of the parent folder.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ParentFolderId
         {
             get { return this._parentFolderId; }

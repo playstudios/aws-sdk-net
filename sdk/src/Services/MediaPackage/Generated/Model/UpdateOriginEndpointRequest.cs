@@ -33,15 +33,48 @@ namespace Amazon.MediaPackage.Model
     /// </summary>
     public partial class UpdateOriginEndpointRequest : AmazonMediaPackageRequest
     {
+        private Authorization _authorization;
+        private CmafPackageCreateOrUpdateParameters _cmafPackage;
         private DashPackage _dashPackage;
         private string _description;
         private HlsPackage _hlsPackage;
         private string _id;
         private string _manifestName;
         private MssPackage _mssPackage;
+        private Origination _origination;
         private int? _startoverWindowSeconds;
         private int? _timeDelaySeconds;
         private List<string> _whitelist = new List<string>();
+
+        /// <summary>
+        /// Gets and sets the property Authorization.
+        /// </summary>
+        public Authorization Authorization
+        {
+            get { return this._authorization; }
+            set { this._authorization = value; }
+        }
+
+        // Check to see if Authorization property is set
+        internal bool IsSetAuthorization()
+        {
+            return this._authorization != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CmafPackage.
+        /// </summary>
+        public CmafPackageCreateOrUpdateParameters CmafPackage
+        {
+            get { return this._cmafPackage; }
+            set { this._cmafPackage = value; }
+        }
+
+        // Check to see if CmafPackage property is set
+        internal bool IsSetCmafPackage()
+        {
+            return this._cmafPackage != null;
+        }
 
         /// <summary>
         /// Gets and sets the property DashPackage.
@@ -91,6 +124,7 @@ namespace Amazon.MediaPackage.Model
         /// <summary>
         /// Gets and sets the property Id. The ID of the OriginEndpoint to update.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -132,6 +166,24 @@ namespace Amazon.MediaPackage.Model
         internal bool IsSetMssPackage()
         {
             return this._mssPackage != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Origination. Control whether origination of video is allowed
+        /// for this OriginEndpoint. If set to ALLOW, the OriginEndpointmay by requested, pursuant
+        /// to any other form of access control. If set to DENY, the OriginEndpoint may not berequested.
+        /// This can be helpful for Live to VOD harvesting, or for temporarily disabling origination
+        /// </summary>
+        public Origination Origination
+        {
+            get { return this._origination; }
+            set { this._origination = value; }
+        }
+
+        // Check to see if Origination property is set
+        internal bool IsSetOrigination()
+        {
+            return this._origination != null;
         }
 
         /// <summary>

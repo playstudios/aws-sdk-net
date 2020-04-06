@@ -37,7 +37,7 @@ namespace Amazon.DynamoDBv2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
+    /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
     /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -172,7 +172,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>"L": ["Cookies", "Coffee", 3.14159]</code> 
+        ///  <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code> 
         /// </para>
         /// </summary>
         public List<AttributeValue> L

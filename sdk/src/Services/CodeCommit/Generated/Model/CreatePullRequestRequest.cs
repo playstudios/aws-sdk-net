@@ -41,15 +41,15 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property ClientRequestToken. 
         /// <para>
-        /// A unique, client-generated idempotency token that when provided in a request, ensures
+        /// A unique, client-generated idempotency token that, when provided in a request, ensures
         /// the request cannot be repeated with a changed parameter. If a request is received
-        /// with the same parameters and a token is included, the request will return information
+        /// with the same parameters and a token is included, the request returns information
         /// about the initial request that used that token.
         /// </para>
         ///  <note> 
         /// <para>
-        /// The AWS SDKs prepopulate client request tokens. If using an AWS SDK, you do not have
-        /// to generate an idempotency token, as this will be done for you.
+        /// The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency
+        /// token is created for you.
         /// </para>
         ///  </note>
         /// </summary>
@@ -71,6 +71,7 @@ namespace Amazon.CodeCommit.Model
         /// A description of the pull request.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10240)]
         public string Description
         {
             get { return this._description; }
@@ -87,10 +88,11 @@ namespace Amazon.CodeCommit.Model
         /// Gets and sets the property Targets. 
         /// <para>
         /// The targets for the pull request, including the source of the code to be reviewed
-        /// (the source branch), and the destination where the creator of the pull request intends
+        /// (the source branch) and the destination where the creator of the pull request intends
         /// the code to be merged after the pull request is closed (the destination branch).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Target> Targets
         {
             get { return this._targets; }
@@ -106,10 +108,11 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property Title. 
         /// <para>
-        /// The title of the pull request. This title will be used to identify the pull request
-        /// to other users in the repository.
+        /// The title of the pull request. This title is used to identify the pull request to
+        /// other users in the repository.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=150)]
         public string Title
         {
             get { return this._title; }

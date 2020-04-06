@@ -34,7 +34,7 @@ namespace Amazon.IdentityManagement.Model
     ///  <important> 
     /// <para>
     ///  You should understand the implications of changing a group's path or name. For more
-    /// information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html">Renaming
+    /// information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html">Renaming
     /// Users and Groups</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  </important> <note> 
@@ -44,7 +44,7 @@ namespace Amazon.IdentityManagement.Model
     /// <code>Managers</code> to <code>MGRs</code>, the principal must have a policy that
     /// allows them to update both groups. If the principal has permission to update the <code>Managers</code>
     /// group, but not the <code>MGRs</code> group, then the update fails. For more information
-    /// about permissions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
+    /// about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
     /// Management</a>. 
     /// </para>
     ///  </note>
@@ -63,7 +63,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Instantiates UpdateGroupRequest with the parameterized properties
         /// </summary>
-        /// <param name="groupName">Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-</param>
+        /// <param name="groupName">Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-</param>
         public UpdateGroupRequest(string groupName)
         {
             _groupName = groupName;
@@ -77,11 +77,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string GroupName
         {
             get { return this._groupName; }
@@ -101,11 +102,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// IAM user, group, role, and policy names must be unique within the account. Names are
+        /// not distinguished by case. For example, you cannot create resources named both "MyResource"
+        /// and "myresource".
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string NewGroupName
         {
             get { return this._newGroupName; }
@@ -125,13 +127,14 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of either a forward slash (/) by itself or a string
-        /// that must begin and end with forward slashes. In addition, it can contain any ASCII
-        /// character from the ! (\u0021) through the DEL character (\u007F), including most punctuation
-        /// characters, digits, and upper and lowercased letters.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of either a forward slash (/) by itself
+        /// or a string that must begin and end with forward slashes. In addition, it can contain
+        /// any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>),
+        /// including most punctuation characters, digits, and upper and lowercased letters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string NewPath
         {
             get { return this._newPath; }

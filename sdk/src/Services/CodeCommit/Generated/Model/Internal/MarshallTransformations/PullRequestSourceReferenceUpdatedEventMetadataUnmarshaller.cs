@@ -76,6 +76,12 @@ namespace Amazon.CodeCommit.Model.Internal.MarshallTransformations
                     unmarshalledObject.BeforeCommitId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("mergeBase", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.MergeBase = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("repositoryName", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;

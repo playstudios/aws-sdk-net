@@ -32,22 +32,66 @@ namespace Amazon.Comprehend.Model
     /// </summary>
     public partial class OutputDataConfig
     {
+        private string _kmsKeyId;
         private string _s3Uri;
+
+        /// <summary>
+        /// Gets and sets the property KmsKeyId. 
+        /// <para>
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt
+        /// the output results from an analysis job. The KmsKeyId can be one of the following
+        /// formats:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Amazon Resource Name (ARN) of a KMS Key: <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// KMS Key Alias: <code>"alias/ExampleAlias"</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ARN of a KMS Key Alias: <code>"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"</code>
+        /// 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Max=2048)]
+        public string KmsKeyId
+        {
+            get { return this._kmsKeyId; }
+            set { this._kmsKeyId = value; }
+        }
+
+        // Check to see if KmsKeyId property is set
+        internal bool IsSetKmsKeyId()
+        {
+            return this._kmsKeyId != null;
+        }
 
         /// <summary>
         /// Gets and sets the property S3Uri. 
         /// <para>
-        /// The Amazon S3 URI where you want to write the output data. The URI must be in the
-        /// same region as the API endpoint that you are calling. 
+        /// When you use the <code>OutputDataConfig</code> object with asynchronous operations,
+        /// you specify the Amazon S3 location where you want to write the output data. The URI
+        /// must be in the same region as the API endpoint that you are calling. The location
+        /// is used as the prefix for the actual location of the output file.
         /// </para>
         ///  
         /// <para>
-        /// The service creates an output file called <code>output.tar.gz</code>. It is a compressed
-        /// archive that contains two files, <code>topic-terms.csv</code> that lists the terms
-        /// associated with each topic, and <code>doc-topics.csv</code> that lists the documents
-        /// associated with each topic. For more information, see <a>topic-modeling</a>.
+        /// When the topic detection job is finished, the service creates an output file in a
+        /// directory specific to the job. The <code>S3Uri</code> field contains the location
+        /// of the output file, called <code>output.tar.gz</code>. It is a compressed archive
+        /// that contains the ouput of the operation.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=1024)]
         public string S3Uri
         {
             get { return this._s3Uri; }

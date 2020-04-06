@@ -29,7 +29,7 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the ListStreamProcessors operation.
-    /// Gets a list of stream processors that you have created with .
+    /// Gets a list of stream processors that you have created with <a>CreateStreamProcessor</a>.
     /// </summary>
     public partial class ListStreamProcessorsRequest : AmazonRekognitionRequest
     {
@@ -39,10 +39,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// Maximum number of stream processors you want Rekognition Video to return in the response.
-        /// The default is 1000. 
+        /// Maximum number of stream processors you want Amazon Rekognition Video to return in
+        /// the response. The default is 1000. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -59,10 +60,11 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If the previous response was incomplete (because there are more stream processors
-        /// to retrieve), Rekognition Video returns a pagination token in the response. You can
-        /// use this pagination token to retrieve the next set of stream processors. 
+        /// to retrieve), Amazon Rekognition Video returns a pagination token in the response.
+        /// You can use this pagination token to retrieve the next set of stream processors. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }

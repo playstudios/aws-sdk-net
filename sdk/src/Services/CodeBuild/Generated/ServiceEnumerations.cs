@@ -179,6 +179,60 @@ namespace Amazon.CodeBuild
 
 
     /// <summary>
+    /// Constants used for properties of type AuthType.
+    /// </summary>
+    public class AuthType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant BASIC_AUTH for AuthType
+        /// </summary>
+        public static readonly AuthType BASIC_AUTH = new AuthType("BASIC_AUTH");
+        /// <summary>
+        /// Constant OAUTH for AuthType
+        /// </summary>
+        public static readonly AuthType OAUTH = new AuthType("OAUTH");
+        /// <summary>
+        /// Constant PERSONAL_ACCESS_TOKEN for AuthType
+        /// </summary>
+        public static readonly AuthType PERSONAL_ACCESS_TOKEN = new AuthType("PERSONAL_ACCESS_TOKEN");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AuthType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AuthType FindValue(string value)
+        {
+            return FindValue<AuthType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AuthType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type BuildPhaseType.
     /// </summary>
     public class BuildPhaseType : ConstantClass
@@ -216,6 +270,10 @@ namespace Amazon.CodeBuild
         /// Constant PROVISIONING for BuildPhaseType
         /// </summary>
         public static readonly BuildPhaseType PROVISIONING = new BuildPhaseType("PROVISIONING");
+        /// <summary>
+        /// Constant QUEUED for BuildPhaseType
+        /// </summary>
+        public static readonly BuildPhaseType QUEUED = new BuildPhaseType("QUEUED");
         /// <summary>
         /// Constant SUBMITTED for BuildPhaseType
         /// </summary>
@@ -261,11 +319,69 @@ namespace Amazon.CodeBuild
 
 
     /// <summary>
+    /// Constants used for properties of type CacheMode.
+    /// </summary>
+    public class CacheMode : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant LOCAL_CUSTOM_CACHE for CacheMode
+        /// </summary>
+        public static readonly CacheMode LOCAL_CUSTOM_CACHE = new CacheMode("LOCAL_CUSTOM_CACHE");
+        /// <summary>
+        /// Constant LOCAL_DOCKER_LAYER_CACHE for CacheMode
+        /// </summary>
+        public static readonly CacheMode LOCAL_DOCKER_LAYER_CACHE = new CacheMode("LOCAL_DOCKER_LAYER_CACHE");
+        /// <summary>
+        /// Constant LOCAL_SOURCE_CACHE for CacheMode
+        /// </summary>
+        public static readonly CacheMode LOCAL_SOURCE_CACHE = new CacheMode("LOCAL_SOURCE_CACHE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public CacheMode(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static CacheMode FindValue(string value)
+        {
+            return FindValue<CacheMode>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator CacheMode(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type CacheType.
     /// </summary>
     public class CacheType : ConstantClass
     {
 
+        /// <summary>
+        /// Constant LOCAL for CacheType
+        /// </summary>
+        public static readonly CacheType LOCAL = new CacheType("LOCAL");
         /// <summary>
         /// Constant NO_CACHE for CacheType
         /// </summary>
@@ -317,6 +433,10 @@ namespace Amazon.CodeBuild
     {
 
         /// <summary>
+        /// Constant BUILD_GENERAL1_2XLARGE for ComputeType
+        /// </summary>
+        public static readonly ComputeType BUILD_GENERAL1_2XLARGE = new ComputeType("BUILD_GENERAL1_2XLARGE");
+        /// <summary>
         /// Constant BUILD_GENERAL1_LARGE for ComputeType
         /// </summary>
         public static readonly ComputeType BUILD_GENERAL1_LARGE = new ComputeType("BUILD_GENERAL1_LARGE");
@@ -365,15 +485,73 @@ namespace Amazon.CodeBuild
 
 
     /// <summary>
+    /// Constants used for properties of type CredentialProviderType.
+    /// </summary>
+    public class CredentialProviderType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant SECRETS_MANAGER for CredentialProviderType
+        /// </summary>
+        public static readonly CredentialProviderType SECRETS_MANAGER = new CredentialProviderType("SECRETS_MANAGER");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public CredentialProviderType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static CredentialProviderType FindValue(string value)
+        {
+            return FindValue<CredentialProviderType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator CredentialProviderType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type EnvironmentType.
     /// </summary>
     public class EnvironmentType : ConstantClass
     {
 
         /// <summary>
+        /// Constant ARM_CONTAINER for EnvironmentType
+        /// </summary>
+        public static readonly EnvironmentType ARM_CONTAINER = new EnvironmentType("ARM_CONTAINER");
+        /// <summary>
         /// Constant LINUX_CONTAINER for EnvironmentType
         /// </summary>
         public static readonly EnvironmentType LINUX_CONTAINER = new EnvironmentType("LINUX_CONTAINER");
+        /// <summary>
+        /// Constant LINUX_GPU_CONTAINER for EnvironmentType
+        /// </summary>
+        public static readonly EnvironmentType LINUX_GPU_CONTAINER = new EnvironmentType("LINUX_GPU_CONTAINER");
+        /// <summary>
+        /// Constant WINDOWS_CONTAINER for EnvironmentType
+        /// </summary>
+        public static readonly EnvironmentType WINDOWS_CONTAINER = new EnvironmentType("WINDOWS_CONTAINER");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -424,6 +602,10 @@ namespace Amazon.CodeBuild
         /// Constant PLAINTEXT for EnvironmentVariableType
         /// </summary>
         public static readonly EnvironmentVariableType PLAINTEXT = new EnvironmentVariableType("PLAINTEXT");
+        /// <summary>
+        /// Constant SECRETS_MANAGER for EnvironmentVariableType
+        /// </summary>
+        public static readonly EnvironmentVariableType SECRETS_MANAGER = new EnvironmentVariableType("SECRETS_MANAGER");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -454,6 +636,102 @@ namespace Amazon.CodeBuild
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator EnvironmentVariableType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type FileSystemType.
+    /// </summary>
+    public class FileSystemType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant EFS for FileSystemType
+        /// </summary>
+        public static readonly FileSystemType EFS = new FileSystemType("EFS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public FileSystemType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static FileSystemType FindValue(string value)
+        {
+            return FindValue<FileSystemType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator FileSystemType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ImagePullCredentialsType.
+    /// </summary>
+    public class ImagePullCredentialsType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CODEBUILD for ImagePullCredentialsType
+        /// </summary>
+        public static readonly ImagePullCredentialsType CODEBUILD = new ImagePullCredentialsType("CODEBUILD");
+        /// <summary>
+        /// Constant SERVICE_ROLE for ImagePullCredentialsType
+        /// </summary>
+        public static readonly ImagePullCredentialsType SERVICE_ROLE = new ImagePullCredentialsType("SERVICE_ROLE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ImagePullCredentialsType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ImagePullCredentialsType FindValue(string value)
+        {
+            return FindValue<ImagePullCredentialsType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ImagePullCredentialsType(string value)
         {
             return FindValue(value);
         }
@@ -494,6 +772,10 @@ namespace Amazon.CodeBuild
         /// Constant NODE_JS for LanguageType
         /// </summary>
         public static readonly LanguageType NODE_JS = new LanguageType("NODE_JS");
+        /// <summary>
+        /// Constant PHP for LanguageType
+        /// </summary>
+        public static readonly LanguageType PHP = new LanguageType("PHP");
         /// <summary>
         /// Constant PYTHON for LanguageType
         /// </summary>
@@ -539,6 +821,56 @@ namespace Amazon.CodeBuild
 
 
     /// <summary>
+    /// Constants used for properties of type LogsConfigStatusType.
+    /// </summary>
+    public class LogsConfigStatusType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant DISABLED for LogsConfigStatusType
+        /// </summary>
+        public static readonly LogsConfigStatusType DISABLED = new LogsConfigStatusType("DISABLED");
+        /// <summary>
+        /// Constant ENABLED for LogsConfigStatusType
+        /// </summary>
+        public static readonly LogsConfigStatusType ENABLED = new LogsConfigStatusType("ENABLED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public LogsConfigStatusType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static LogsConfigStatusType FindValue(string value)
+        {
+            return FindValue<LogsConfigStatusType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator LogsConfigStatusType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type PlatformType.
     /// </summary>
     public class PlatformType : ConstantClass
@@ -556,6 +888,10 @@ namespace Amazon.CodeBuild
         /// Constant UBUNTU for PlatformType
         /// </summary>
         public static readonly PlatformType UBUNTU = new PlatformType("UBUNTU");
+        /// <summary>
+        /// Constant WINDOWS_SERVER for PlatformType
+        /// </summary>
+        public static readonly PlatformType WINDOWS_SERVER = new PlatformType("WINDOWS_SERVER");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -640,6 +976,372 @@ namespace Amazon.CodeBuild
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator ProjectSortByType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ReportExportConfigType.
+    /// </summary>
+    public class ReportExportConfigType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant NO_EXPORT for ReportExportConfigType
+        /// </summary>
+        public static readonly ReportExportConfigType NO_EXPORT = new ReportExportConfigType("NO_EXPORT");
+        /// <summary>
+        /// Constant S3 for ReportExportConfigType
+        /// </summary>
+        public static readonly ReportExportConfigType S3 = new ReportExportConfigType("S3");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReportExportConfigType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReportExportConfigType FindValue(string value)
+        {
+            return FindValue<ReportExportConfigType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReportExportConfigType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ReportGroupSortByType.
+    /// </summary>
+    public class ReportGroupSortByType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CREATED_TIME for ReportGroupSortByType
+        /// </summary>
+        public static readonly ReportGroupSortByType CREATED_TIME = new ReportGroupSortByType("CREATED_TIME");
+        /// <summary>
+        /// Constant LAST_MODIFIED_TIME for ReportGroupSortByType
+        /// </summary>
+        public static readonly ReportGroupSortByType LAST_MODIFIED_TIME = new ReportGroupSortByType("LAST_MODIFIED_TIME");
+        /// <summary>
+        /// Constant NAME for ReportGroupSortByType
+        /// </summary>
+        public static readonly ReportGroupSortByType NAME = new ReportGroupSortByType("NAME");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReportGroupSortByType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReportGroupSortByType FindValue(string value)
+        {
+            return FindValue<ReportGroupSortByType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReportGroupSortByType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ReportPackagingType.
+    /// </summary>
+    public class ReportPackagingType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant NONE for ReportPackagingType
+        /// </summary>
+        public static readonly ReportPackagingType NONE = new ReportPackagingType("NONE");
+        /// <summary>
+        /// Constant ZIP for ReportPackagingType
+        /// </summary>
+        public static readonly ReportPackagingType ZIP = new ReportPackagingType("ZIP");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReportPackagingType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReportPackagingType FindValue(string value)
+        {
+            return FindValue<ReportPackagingType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReportPackagingType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ReportStatusType.
+    /// </summary>
+    public class ReportStatusType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant DELETING for ReportStatusType
+        /// </summary>
+        public static readonly ReportStatusType DELETING = new ReportStatusType("DELETING");
+        /// <summary>
+        /// Constant FAILED for ReportStatusType
+        /// </summary>
+        public static readonly ReportStatusType FAILED = new ReportStatusType("FAILED");
+        /// <summary>
+        /// Constant GENERATING for ReportStatusType
+        /// </summary>
+        public static readonly ReportStatusType GENERATING = new ReportStatusType("GENERATING");
+        /// <summary>
+        /// Constant INCOMPLETE for ReportStatusType
+        /// </summary>
+        public static readonly ReportStatusType INCOMPLETE = new ReportStatusType("INCOMPLETE");
+        /// <summary>
+        /// Constant SUCCEEDED for ReportStatusType
+        /// </summary>
+        public static readonly ReportStatusType SUCCEEDED = new ReportStatusType("SUCCEEDED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReportStatusType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReportStatusType FindValue(string value)
+        {
+            return FindValue<ReportStatusType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReportStatusType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ReportType.
+    /// </summary>
+    public class ReportType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant TEST for ReportType
+        /// </summary>
+        public static readonly ReportType TEST = new ReportType("TEST");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ReportType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ReportType FindValue(string value)
+        {
+            return FindValue<ReportType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ReportType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ServerType.
+    /// </summary>
+    public class ServerType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant BITBUCKET for ServerType
+        /// </summary>
+        public static readonly ServerType BITBUCKET = new ServerType("BITBUCKET");
+        /// <summary>
+        /// Constant GITHUB for ServerType
+        /// </summary>
+        public static readonly ServerType GITHUB = new ServerType("GITHUB");
+        /// <summary>
+        /// Constant GITHUB_ENTERPRISE for ServerType
+        /// </summary>
+        public static readonly ServerType GITHUB_ENTERPRISE = new ServerType("GITHUB_ENTERPRISE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ServerType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ServerType FindValue(string value)
+        {
+            return FindValue<ServerType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ServerType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type SharedResourceSortByType.
+    /// </summary>
+    public class SharedResourceSortByType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ARN for SharedResourceSortByType
+        /// </summary>
+        public static readonly SharedResourceSortByType ARN = new SharedResourceSortByType("ARN");
+        /// <summary>
+        /// Constant MODIFIED_TIME for SharedResourceSortByType
+        /// </summary>
+        public static readonly SharedResourceSortByType MODIFIED_TIME = new SharedResourceSortByType("MODIFIED_TIME");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SharedResourceSortByType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SharedResourceSortByType FindValue(string value)
+        {
+            return FindValue<SharedResourceSortByType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SharedResourceSortByType(string value)
         {
             return FindValue(value);
         }
@@ -769,6 +1471,10 @@ namespace Amazon.CodeBuild
         /// </summary>
         public static readonly SourceType GITHUB_ENTERPRISE = new SourceType("GITHUB_ENTERPRISE");
         /// <summary>
+        /// Constant NO_SOURCE for SourceType
+        /// </summary>
+        public static readonly SourceType NO_SOURCE = new SourceType("NO_SOURCE");
+        /// <summary>
         /// Constant S3 for SourceType
         /// </summary>
         public static readonly SourceType S3 = new SourceType("S3");
@@ -868,6 +1574,68 @@ namespace Amazon.CodeBuild
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator StatusType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type WebhookFilterType.
+    /// </summary>
+    public class WebhookFilterType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACTOR_ACCOUNT_ID for WebhookFilterType
+        /// </summary>
+        public static readonly WebhookFilterType ACTOR_ACCOUNT_ID = new WebhookFilterType("ACTOR_ACCOUNT_ID");
+        /// <summary>
+        /// Constant BASE_REF for WebhookFilterType
+        /// </summary>
+        public static readonly WebhookFilterType BASE_REF = new WebhookFilterType("BASE_REF");
+        /// <summary>
+        /// Constant EVENT for WebhookFilterType
+        /// </summary>
+        public static readonly WebhookFilterType EVENT = new WebhookFilterType("EVENT");
+        /// <summary>
+        /// Constant FILE_PATH for WebhookFilterType
+        /// </summary>
+        public static readonly WebhookFilterType FILE_PATH = new WebhookFilterType("FILE_PATH");
+        /// <summary>
+        /// Constant HEAD_REF for WebhookFilterType
+        /// </summary>
+        public static readonly WebhookFilterType HEAD_REF = new WebhookFilterType("HEAD_REF");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public WebhookFilterType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static WebhookFilterType FindValue(string value)
+        {
+            return FindValue<WebhookFilterType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator WebhookFilterType(string value)
         {
             return FindValue(value);
         }

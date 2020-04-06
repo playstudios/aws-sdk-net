@@ -30,6 +30,13 @@ namespace Amazon.RDS.Model
     /// <summary>
     /// Container for the parameters to the DescribeDBInstances operation.
     /// Returns information about provisioned RDS instances. This API supports pagination.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This operation can also return information for Amazon Neptune DB instances and Amazon
+    /// DocumentDB instances.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DescribeDBInstancesRequest : AmazonRDSRequest
     {
@@ -92,6 +99,22 @@ namespace Amazon.RDS.Model
         /// Resource Names (ARNs). The results list will only include information about the DB
         /// instances identified by these ARNs.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>dbi-resource-id</code> - Accepts DB instance resource identifiers. The results
+        /// list will only include information about the DB instances identified by these DB instance
+        /// resource identifiers.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>domain</code> - Accepts Active Directory directory IDs. The results list will
+        /// only include information about the DB instances associated with these domains.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>engine</code> - Accepts engine names. The results list will only include information
+        /// about the DB instances for these engines.
+        /// </para>
         ///  </li> </ul>
         /// </summary>
         public List<Filter> Filters
@@ -131,7 +154,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The maximum number of records to include in the response. If more records exist than
         /// the specified <code>MaxRecords</code> value, a pagination token called a marker is
-        /// included in the response so that the remaining results can be retrieved. 
+        /// included in the response so that you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>

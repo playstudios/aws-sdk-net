@@ -29,7 +29,24 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteDatabase operation.
-    /// Removes a specified Database from a Data Catalog.
+    /// Removes a specified database from a Data Catalog.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// After completing this operation, you no longer have access to the tables (and all
+    /// table versions and partitions that might belong to the tables) and the user-defined
+    /// functions in the deleted database. AWS Glue deletes these "orphaned" resources asynchronously
+    /// in a timely manner, at the discretion of the service.
+    /// </para>
+    ///  
+    /// <para>
+    /// To ensure the immediate deletion of all related resources, before calling <code>DeleteDatabase</code>,
+    /// use <code>DeleteTableVersion</code> or <code>BatchDeleteTableVersion</code>, <code>DeletePartition</code>
+    /// or <code>BatchDeletePartition</code>, <code>DeleteUserDefinedFunction</code>, and
+    /// <code>DeleteTable</code> or <code>BatchDeleteTable</code>, to delete any resources
+    /// that belong to the database.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DeleteDatabaseRequest : AmazonGlueRequest
     {
@@ -39,10 +56,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog in which the database resides. If none is supplied, the
+        /// The ID of the Data Catalog in which the database resides. If none is provided, the
         /// AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -58,9 +76,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the Database to delete. For Hive compatibility, this must be all lowercase.
+        /// The name of the database to delete. For Hive compatibility, this must be all lowercase.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }

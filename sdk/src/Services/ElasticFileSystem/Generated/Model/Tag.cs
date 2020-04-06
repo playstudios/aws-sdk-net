@@ -28,8 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ElasticFileSystem.Model
 {
     /// <summary>
-    /// A tag is a key-value pair. Allowed characters: letters, whitespace, and numbers, representable
-    /// in UTF-8, and the following characters:<code> + - = . _ : /</code>
+    /// A tag is a key-value pair. Allowed characters are letters, white space, and numbers
+    /// that can be represented in UTF-8, and the following characters:<code> + - = . _ :
+    /// /</code>
     /// </summary>
     public partial class Tag
     {
@@ -39,9 +40,10 @@ namespace Amazon.ElasticFileSystem.Model
         /// <summary>
         /// Gets and sets the property Key. 
         /// <para>
-        /// Tag key (String). The key can't start with <code>aws:</code>.
+        /// The tag key (String). The key can't start with <code>aws:</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Key
         {
             get { return this._key; }
@@ -57,9 +59,10 @@ namespace Amazon.ElasticFileSystem.Model
         /// <summary>
         /// Gets and sets the property Value. 
         /// <para>
-        /// Value of the tag key.
+        /// The value of the tag key.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=256)]
         public string Value
         {
             get { return this._value; }

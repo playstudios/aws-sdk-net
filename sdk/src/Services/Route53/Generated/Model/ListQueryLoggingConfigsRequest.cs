@@ -34,8 +34,8 @@ namespace Amazon.Route53.Model
     /// 
     ///  
     /// <para>
-    /// For more information about DNS query logs, see <a>CreateQueryLoggingConfig</a>. Additional
-    /// information, including the format of DNS query logs, appears in <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
+    /// For more information about DNS query logs, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>.
+    /// Additional information, including the format of DNS query logs, appears in <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
     /// DNS Queries</a> in the <i>Amazon Route 53 Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -57,6 +57,7 @@ namespace Amazon.Route53.Model
         /// all of the configurations that are associated with the current AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32)]
         public string HostedZoneId
         {
             get { return this._hostedZoneId; }
@@ -86,6 +87,7 @@ namespace Amazon.Route53.Model
         /// the previous response and specify that value for <code>NextToken</code> in the request.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -103,13 +105,13 @@ namespace Amazon.Route53.Model
         /// <para>
         /// (Optional) The maximum number of query logging configurations that you want Amazon
         /// Route 53 to return in response to the current request. If the current AWS account
-        /// has more than <code>MaxResults</code> configurations, use the value of <a>ListQueryLoggingConfigsResponse$NextToken</a>
+        /// has more than <code>MaxResults</code> configurations, use the value of <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html#API_ListQueryLoggingConfigs_RequestSyntax">NextToken</a>
         /// in the response to get the next page of results.
         /// </para>
         ///  
         /// <para>
-        /// If you don't specify a value for <code>MaxResults</code>, Amazon Route 53 returns
-        /// up to 100 configurations.
+        /// If you don't specify a value for <code>MaxResults</code>, Route 53 returns up to 100
+        /// configurations.
         /// </para>
         /// </summary>
         public string MaxResults

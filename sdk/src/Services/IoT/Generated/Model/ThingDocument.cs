@@ -33,6 +33,7 @@ namespace Amazon.IoT.Model
     public partial class ThingDocument
     {
         private Dictionary<string, string> _attributes = new Dictionary<string, string>();
+        private ThingConnectivity _connectivity;
         private string _shadow;
         private List<string> _thingGroupNames = new List<string>();
         private string _thingId;
@@ -58,9 +59,27 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Connectivity. 
+        /// <para>
+        /// Indicates whether the thing is connected to the AWS IoT service.
+        /// </para>
+        /// </summary>
+        public ThingConnectivity Connectivity
+        {
+            get { return this._connectivity; }
+            set { this._connectivity = value; }
+        }
+
+        // Check to see if Connectivity property is set
+        internal bool IsSetConnectivity()
+        {
+            return this._connectivity != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Shadow. 
         /// <para>
-        /// The thing shadow.
+        /// The shadow.
         /// </para>
         /// </summary>
         public string Shadow
@@ -117,6 +136,7 @@ namespace Amazon.IoT.Model
         /// The thing name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ThingName
         {
             get { return this._thingName; }
@@ -135,6 +155,7 @@ namespace Amazon.IoT.Model
         /// The thing type name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ThingTypeName
         {
             get { return this._thingTypeName; }

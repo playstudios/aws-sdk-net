@@ -34,7 +34,7 @@ namespace Amazon.SimpleEmail.Model
     ///  
     /// <para>
     /// Configuration sets enable you to publish email sending events. For information about
-    /// using configuration sets, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+    /// using configuration sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     ///  
@@ -52,6 +52,7 @@ namespace Amazon.SimpleEmail.Model
         /// A data structure that contains the name of the configuration set.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ConfigurationSet ConfigurationSet
         {
             get { return this._configurationSet; }

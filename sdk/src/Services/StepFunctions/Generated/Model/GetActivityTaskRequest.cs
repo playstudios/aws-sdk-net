@@ -41,6 +41,12 @@ namespace Amazon.StepFunctions.Model
     /// Workers should set their client side socket timeout to at least 65 seconds (5 seconds
     /// higher than the maximum time the service may hold the poll request).
     /// </para>
+    ///  
+    /// <para>
+    /// Polling with <code>GetActivityTask</code> can cause latency in some implementations.
+    /// See <a href="https://docs.aws.amazon.com/step-functions/latest/dg/bp-activity-pollers.html">Avoid
+    /// Latency When Polling for Activity Tasks</a> in the Step Functions Developer Guide.
+    /// </para>
     ///  </important>
     /// </summary>
     public partial class GetActivityTaskRequest : AmazonStepFunctionsRequest
@@ -55,6 +61,7 @@ namespace Amazon.StepFunctions.Model
         /// you create the task using <a>CreateActivity</a>.)
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ActivityArn
         {
             get { return this._activityArn; }
@@ -74,6 +81,7 @@ namespace Amazon.StepFunctions.Model
         /// assigned to. This name is used when it is logged in the execution history.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=80)]
         public string WorkerName
         {
             get { return this._workerName; }

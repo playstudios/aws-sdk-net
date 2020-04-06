@@ -1335,6 +1335,10 @@ namespace Amazon.WAFRegional
     {
 
         /// <summary>
+        /// Constant ALL_QUERY_ARGS for MatchFieldType
+        /// </summary>
+        public static readonly MatchFieldType ALL_QUERY_ARGS = new MatchFieldType("ALL_QUERY_ARGS");
+        /// <summary>
         /// Constant BODY for MatchFieldType
         /// </summary>
         public static readonly MatchFieldType BODY = new MatchFieldType("BODY");
@@ -1350,6 +1354,10 @@ namespace Amazon.WAFRegional
         /// Constant QUERY_STRING for MatchFieldType
         /// </summary>
         public static readonly MatchFieldType QUERY_STRING = new MatchFieldType("QUERY_STRING");
+        /// <summary>
+        /// Constant SINGLE_QUERY_ARG for MatchFieldType
+        /// </summary>
+        public static readonly MatchFieldType SINGLE_QUERY_ARG = new MatchFieldType("SINGLE_QUERY_ARG");
         /// <summary>
         /// Constant URI for MatchFieldType
         /// </summary>
@@ -1437,6 +1445,10 @@ namespace Amazon.WAFRegional
         /// </summary>
         public static readonly ParameterExceptionField RATE_KEY = new ParameterExceptionField("RATE_KEY");
         /// <summary>
+        /// Constant RESOURCE_ARN for ParameterExceptionField
+        /// </summary>
+        public static readonly ParameterExceptionField RESOURCE_ARN = new ParameterExceptionField("RESOURCE_ARN");
+        /// <summary>
         /// Constant RULE_TYPE for ParameterExceptionField
         /// </summary>
         public static readonly ParameterExceptionField RULE_TYPE = new ParameterExceptionField("RULE_TYPE");
@@ -1448,6 +1460,14 @@ namespace Amazon.WAFRegional
         /// Constant SQL_INJECTION_MATCH_FIELD_TYPE for ParameterExceptionField
         /// </summary>
         public static readonly ParameterExceptionField SQL_INJECTION_MATCH_FIELD_TYPE = new ParameterExceptionField("SQL_INJECTION_MATCH_FIELD_TYPE");
+        /// <summary>
+        /// Constant TAG_KEYS for ParameterExceptionField
+        /// </summary>
+        public static readonly ParameterExceptionField TAG_KEYS = new ParameterExceptionField("TAG_KEYS");
+        /// <summary>
+        /// Constant TAGS for ParameterExceptionField
+        /// </summary>
+        public static readonly ParameterExceptionField TAGS = new ParameterExceptionField("TAGS");
         /// <summary>
         /// Constant WAF_ACTION for ParameterExceptionField
         /// </summary>
@@ -1499,6 +1519,10 @@ namespace Amazon.WAFRegional
     {
 
         /// <summary>
+        /// Constant ILLEGAL_ARGUMENT for ParameterExceptionReason
+        /// </summary>
+        public static readonly ParameterExceptionReason ILLEGAL_ARGUMENT = new ParameterExceptionReason("ILLEGAL_ARGUMENT");
+        /// <summary>
         /// Constant ILLEGAL_COMBINATION for ParameterExceptionReason
         /// </summary>
         public static readonly ParameterExceptionReason ILLEGAL_COMBINATION = new ParameterExceptionReason("ILLEGAL_COMBINATION");
@@ -1506,6 +1530,10 @@ namespace Amazon.WAFRegional
         /// Constant INVALID_OPTION for ParameterExceptionReason
         /// </summary>
         public static readonly ParameterExceptionReason INVALID_OPTION = new ParameterExceptionReason("INVALID_OPTION");
+        /// <summary>
+        /// Constant INVALID_TAG_KEY for ParameterExceptionReason
+        /// </summary>
+        public static readonly ParameterExceptionReason INVALID_TAG_KEY = new ParameterExceptionReason("INVALID_TAG_KEY");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -1714,6 +1742,56 @@ namespace Amazon.WAFRegional
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator RateKey(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ResourceType.
+    /// </summary>
+    public class ResourceType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant API_GATEWAY for ResourceType
+        /// </summary>
+        public static readonly ResourceType API_GATEWAY = new ResourceType("API_GATEWAY");
+        /// <summary>
+        /// Constant APPLICATION_LOAD_BALANCER for ResourceType
+        /// </summary>
+        public static readonly ResourceType APPLICATION_LOAD_BALANCER = new ResourceType("APPLICATION_LOAD_BALANCER");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ResourceType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ResourceType FindValue(string value)
+        {
+            return FindValue<ResourceType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ResourceType(string value)
         {
             return FindValue(value);
         }

@@ -39,10 +39,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// <summary>
         /// Gets and sets the property LastUpdatedTime. 
         /// <para>
-        /// Time stamp showing when this policy was last updated, expressed as the number of milliseconds
+        /// Timestamp showing when this policy was last updated, expressed as the number of milliseconds
         /// after Jan 1, 1970 00:00:00 UTC.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long LastUpdatedTime
         {
             get { return this._lastUpdatedTime.GetValueOrDefault(); }
@@ -61,6 +62,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The details of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=5120)]
         public string PolicyDocument
         {
             get { return this._policyDocument; }

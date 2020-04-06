@@ -33,10 +33,6 @@ namespace Amazon.GameLift.Model
     /// placement, provide the placement ID values. If successful, the placement is moved
     /// to <code>CANCELLED</code> status.
     /// 
-    ///  
-    /// <para>
-    /// Game-session-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateGameSession</a> 
@@ -86,9 +82,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlacementId. 
         /// <para>
-        /// Unique identifier for a game session placement to cancel.
+        /// A unique identifier for a game session placement to cancel.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=48)]
         public string PlacementId
         {
             get { return this._placementId; }

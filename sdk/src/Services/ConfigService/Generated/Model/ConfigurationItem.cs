@@ -72,7 +72,7 @@ namespace Amazon.ConfigService.Model
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the resource.
+        /// accoun
         /// </para>
         /// </summary>
         public string Arn
@@ -111,6 +111,7 @@ namespace Amazon.ConfigService.Model
         /// The region where the resource resides.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string AwsRegion
         {
             get { return this._awsRegion; }
@@ -226,12 +227,15 @@ namespace Amazon.ConfigService.Model
         ///  
         /// <para>
         /// A populated field indicates that the current configuration was initiated by the events
-        /// recorded in the CloudTrail log. For more information about CloudTrail, see <a href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">What
+        /// recorded in the CloudTrail log. For more information about CloudTrail, see <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">What
         /// Is AWS CloudTrail</a>.
         /// </para>
         ///  
         /// <para>
         /// An empty field indicates that the current configuration was not initiated by any event.
+        /// As of Version 1.3, the relatedEvents field is empty. You can access the <a href="https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html">LookupEvents
+        /// API</a> in the <i>AWS CloudTrail API Reference</i> to retrieve the events for the
+        /// resource.
         /// </para>
         /// </summary>
         public List<string> RelatedEvents
@@ -288,6 +292,7 @@ namespace Amazon.ConfigService.Model
         /// The ID of the resource (for example, <code>sg-xxxxxx</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=768)]
         public string ResourceId
         {
             get { return this._resourceId; }

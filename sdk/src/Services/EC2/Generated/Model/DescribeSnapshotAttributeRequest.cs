@@ -34,7 +34,7 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// For more information about EBS snapshots, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
+    /// For more information about EBS snapshots, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
     /// EBS Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -65,6 +65,7 @@ namespace Amazon.EC2.Model
         /// The snapshot attribute you would like to view.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SnapshotAttributeName Attribute
         {
             get { return this._attribute; }
@@ -83,6 +84,7 @@ namespace Amazon.EC2.Model
         /// The ID of the EBS snapshot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SnapshotId
         {
             get { return this._snapshotId; }

@@ -33,6 +33,8 @@ namespace Amazon.MediaLive.Model
     public partial class OutputDestination
     {
         private string _id;
+        private List<MediaPackageOutputDestinationSettings> _mediaPackageSettings = new List<MediaPackageOutputDestinationSettings>();
+        private MultiplexProgramChannelDestinationSettings _multiplexSettings;
         private List<OutputDestinationSettings> _settings = new List<OutputDestinationSettings>();
 
         /// <summary>
@@ -52,8 +54,40 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Settings. Destination settings for output; one for each
-        /// redundant encoder.
+        /// Gets and sets the property MediaPackageSettings. Destination settings for a MediaPackage
+        /// output; one destination for both encoders.
+        /// </summary>
+        public List<MediaPackageOutputDestinationSettings> MediaPackageSettings
+        {
+            get { return this._mediaPackageSettings; }
+            set { this._mediaPackageSettings = value; }
+        }
+
+        // Check to see if MediaPackageSettings property is set
+        internal bool IsSetMediaPackageSettings()
+        {
+            return this._mediaPackageSettings != null && this._mediaPackageSettings.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MultiplexSettings. Destination settings for a Multiplex
+        /// output; one destination for both encoders.
+        /// </summary>
+        public MultiplexProgramChannelDestinationSettings MultiplexSettings
+        {
+            get { return this._multiplexSettings; }
+            set { this._multiplexSettings = value; }
+        }
+
+        // Check to see if MultiplexSettings property is set
+        internal bool IsSetMultiplexSettings()
+        {
+            return this._multiplexSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Settings. Destination settings for a standard output; one
+        /// destination for each redundant encoder.
         /// </summary>
         public List<OutputDestinationSettings> Settings
         {

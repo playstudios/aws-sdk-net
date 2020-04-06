@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Endpoint update request
+    /// Specifies the channel type and other settings for an endpoint.
     /// </summary>
     public partial class EndpointRequest
     {
@@ -45,8 +45,15 @@ namespace Amazon.Pinpoint.Model
         private EndpointUser _user;
 
         /// <summary>
-        /// Gets and sets the property Address. The address or token of the endpoint as provided
-        /// by your push provider (e.g. DeviceToken or RegistrationId).
+        /// Gets and sets the property Address. 
+        /// <para>
+        /// The destination address for messages or push notifications that you send to the endpoint.
+        /// The address varies by channel. For a push-notification channel, use the token provided
+        /// by the push notification service, such as an Apple Push Notification service (APNs)
+        /// device token or a Firebase Cloud Messaging (FCM) registration token. For the SMS channel,
+        /// use a phone number in E.164 format, such as +12065550100. For the email channel, use
+        /// an email address.
+        /// </para>
         /// </summary>
         public string Address
         {
@@ -61,13 +68,21 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Attributes. Custom attributes that describe the endpoint
-        /// by associating a name with an array of values. For example, an attribute named "interests"
-        /// might have the values ["science", "politics", "travel"]. You can use these attributes
-        /// as selection criteria when you create a segment of users to engage with a messaging
-        /// campaign.The following characters are not recommended in attribute names: # : ? \
-        /// /. The Amazon Pinpoint console does not display attributes that include these characters
-        /// in the name. This limitation does not apply to attribute values.
+        /// Gets and sets the property Attributes. 
+        /// <para>
+        /// One or more custom attributes that describe the endpoint by associating a name with
+        /// an array of values. For example, the value of a custom attribute named Interests might
+        /// be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria
+        /// when you create segments. Attribute names are case sensitive.
+        /// </para>
+        ///  
+        /// <para>
+        /// An attribute name can contain up to 50 characters. An attribute value can contain
+        /// up to 100 characters. When you define the name of a custom attribute, avoid using
+        /// the following characters: number sign (#), colon (:), question mark (?), backslash
+        /// (\), and slash (/). The Amazon Pinpoint console can't display attribute names that
+        /// contain these characters. This restriction doesn't apply to attribute values.
+        /// </para>
         /// </summary>
         public Dictionary<string, List<string>> Attributes
         {
@@ -82,8 +97,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ChannelType. The channel type.Valid values: GCM | APNS
-        /// | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX | ADM | SMS | EMAIL | BAIDU
+        /// Gets and sets the property ChannelType. 
+        /// <para>
+        /// The channel to use when sending messages or push notifications to the endpoint.
+        /// </para>
         /// </summary>
         public ChannelType ChannelType
         {
@@ -98,7 +115,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Demographic. The endpoint demographic attributes.
+        /// Gets and sets the property Demographic. 
+        /// <para>
+        /// The demographic information for the endpoint, such as the time zone and platform.
+        /// </para>
         /// </summary>
         public EndpointDemographic Demographic
         {
@@ -113,8 +133,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EffectiveDate. The last time the endpoint was updated.
-        /// Provided in ISO 8601 format.
+        /// Gets and sets the property EffectiveDate. 
+        /// <para>
+        /// The date and time, in ISO 8601 format, when the endpoint is updated.
+        /// </para>
         /// </summary>
         public string EffectiveDate
         {
@@ -129,9 +151,19 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EndpointStatus. The endpoint status. Can be either ACTIVE
-        /// or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if
-        /// the address is updated.
+        /// Gets and sets the property EndpointStatus. 
+        /// <para>
+        /// Specifies whether to send messages or push notifications to the endpoint. Valid values
+        /// are: ACTIVE, messages are sent to the endpoint; and, INACTIVE, messages aren’t sent
+        /// to the endpoint.
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon Pinpoint automatically sets this value to ACTIVE when you create an endpoint
+        /// or update an existing endpoint. Amazon Pinpoint automatically sets this value to INACTIVE
+        /// if you update another endpoint that has the same address specified by the Address
+        /// property.
+        /// </para>
         /// </summary>
         public string EndpointStatus
         {
@@ -146,7 +178,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Location. The endpoint location attributes.
+        /// Gets and sets the property Location. 
+        /// <para>
+        /// The geographic information for the endpoint.
+        /// </para>
         /// </summary>
         public EndpointLocation Location
         {
@@ -161,8 +196,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Metrics. Custom metrics that your app reports to Amazon
-        /// Pinpoint.
+        /// Gets and sets the property Metrics. 
+        /// <para>
+        /// One or more custom metrics that your app reports to Amazon Pinpoint for the endpoint.
+        /// </para>
         /// </summary>
         public Dictionary<string, double> Metrics
         {
@@ -177,9 +214,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property OptOut. Indicates whether a user has opted out of receiving
-        /// messages with one of the following values:ALL - User has opted out of all messages.NONE
-        /// - Users has not opted out and receives all messages.
+        /// Gets and sets the property OptOut. 
+        /// <para>
+        /// Specifies whether the user who's associated with the endpoint has opted out of receiving
+        /// messages and push notifications from you. Possible values are: ALL, the user has opted
+        /// out and doesn't want to receive any messages or push notifications; and, NONE, the
+        /// user hasn't opted out and wants to receive all messages and push notifications.
+        /// </para>
         /// </summary>
         public string OptOut
         {
@@ -194,8 +235,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RequestId. The unique ID for the most recent request to
-        /// update the endpoint.
+        /// Gets and sets the property RequestId. 
+        /// <para>
+        /// The unique identifier for the most recent request to update the endpoint.
+        /// </para>
         /// </summary>
         public string RequestId
         {
@@ -210,8 +253,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property User. Custom user-specific attributes that your app reports
-        /// to Amazon Pinpoint.
+        /// Gets and sets the property User. 
+        /// <para>
+        /// One or more custom user attributes that describe the user who's associated with the
+        /// endpoint.
+        /// </para>
         /// </summary>
         public EndpointUser User
         {

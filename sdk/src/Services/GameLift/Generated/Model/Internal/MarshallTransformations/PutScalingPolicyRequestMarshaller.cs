@@ -58,10 +58,11 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
             string target = "GameLift.PutScalingPolicy";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-10-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -97,6 +98,12 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Name);
                 }
 
+                if(publicRequest.IsSetPolicyType())
+                {
+                    context.Writer.WritePropertyName("PolicyType");
+                    context.Writer.Write(publicRequest.PolicyType);
+                }
+
                 if(publicRequest.IsSetScalingAdjustment())
                 {
                     context.Writer.WritePropertyName("ScalingAdjustment");
@@ -107,6 +114,17 @@ namespace Amazon.GameLift.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("ScalingAdjustmentType");
                     context.Writer.Write(publicRequest.ScalingAdjustmentType);
+                }
+
+                if(publicRequest.IsSetTargetConfiguration())
+                {
+                    context.Writer.WritePropertyName("TargetConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = TargetConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.TargetConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetThreshold())

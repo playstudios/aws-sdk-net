@@ -39,9 +39,12 @@ namespace Amazon.Comprehend.Model
         /// <summary>
         /// Gets and sets the property LanguageCode. 
         /// <para>
-        /// The RFC 5646 language code for the dominant language. 
+        /// The RFC 5646 language code for the dominant language. For more information about RFC
+        /// 5646, see <a href="https://tools.ietf.org/html/rfc5646">Tags for Identifying Languages</a>
+        /// on the <i>IETF Tools</i> web site.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string LanguageCode
         {
             get { return this._languageCode; }

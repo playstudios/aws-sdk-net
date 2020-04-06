@@ -35,8 +35,9 @@ namespace Amazon.Organizations.Model
     /// 
     ///  
     /// <para>
-    /// You can access handshakes that are ACCEPTED, DECLINED, or CANCELED for only 30 days
-    /// after they change to that state. They are then deleted and no longer accessible.
+    /// You can access handshakes that are <code>ACCEPTED</code>, <code>DECLINED</code>, or
+    /// <code>CANCELED</code> for only 30 days after they change to that state. They're then
+    /// deleted and no longer accessible.
     /// </para>
     ///  
     /// <para>
@@ -57,9 +58,10 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for handshake ID string
-        /// requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// requires "h-" followed by from 8 to 32 lowercase letters or digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HandshakeId
         {
             get { return this._handshakeId; }

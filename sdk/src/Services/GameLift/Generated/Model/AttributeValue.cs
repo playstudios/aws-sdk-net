@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GameLift.Model
 {
     /// <summary>
-    /// Values for use in <a>Player</a> attribute key:value pairs. This object lets you specify
-    /// an attribute value using any of the valid data types: string, number, string array
+    /// Values for use in <a>Player</a> attribute key-value pairs. This object lets you specify
+    /// an attribute value using any of the valid data types: string, number, string array,
     /// or data map. Each <code>AttributeValue</code> object can use only one of the available
     /// properties.
     /// </summary>
@@ -64,6 +64,7 @@ namespace Amazon.GameLift.Model
         /// For single string values. Maximum string length is 100 characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string S
         {
             get { return this._s; }

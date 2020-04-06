@@ -32,6 +32,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// </summary>
     public partial class DocumentDescription
     {
+        private List<AttachmentInformation> _attachmentsInformation = new List<AttachmentInformation>();
         private DateTime? _createdDate;
         private string _defaultVersion;
         private string _description;
@@ -45,11 +46,32 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _owner;
         private List<DocumentParameter> _parameters = new List<DocumentParameter>();
         private List<string> _platformTypes = new List<string>();
+        private List<DocumentRequires> _requires = new List<DocumentRequires>();
         private string _schemaVersion;
         private string _sha1;
         private DocumentStatus _status;
+        private string _statusInformation;
         private List<Tag> _tags = new List<Tag>();
         private string _targetType;
+        private string _versionName;
+
+        /// <summary>
+        /// Gets and sets the property AttachmentsInformation. 
+        /// <para>
+        /// Details about the document attachments, including names, locations, sizes, etc.
+        /// </para>
+        /// </summary>
+        public List<AttachmentInformation> AttachmentsInformation
+        {
+            get { return this._attachmentsInformation; }
+            set { this._attachmentsInformation = value; }
+        }
+
+        // Check to see if AttachmentsInformation property is set
+        internal bool IsSetAttachmentsInformation()
+        {
+            return this._attachmentsInformation != null && this._attachmentsInformation.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property CreatedDate. 
@@ -126,7 +148,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property DocumentType. 
         /// <para>
-        /// The type of document. 
+        /// The type of document.
         /// </para>
         /// </summary>
         public DocumentType DocumentType
@@ -170,6 +192,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string Hash
         {
             get { return this._hash; }
@@ -185,7 +208,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property HashType. 
         /// <para>
-        /// Sha256 or Sha1.
+        /// The hash type of the document. Valid values include <code>Sha256</code> or <code>Sha1</code>.
         /// </para>
         ///  <note> 
         /// <para>
@@ -296,6 +319,26 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Requires. 
+        /// <para>
+        /// A list of SSM documents required by a document. For example, an <code>ApplicationConfiguration</code>
+        /// document requires an <code>ApplicationConfigurationSchema</code> document.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<DocumentRequires> Requires
+        {
+            get { return this._requires; }
+            set { this._requires = value; }
+        }
+
+        // Check to see if Requires property is set
+        internal bool IsSetRequires()
+        {
+            return this._requires != null && this._requires.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property SchemaVersion. 
         /// <para>
         /// The schema version.
@@ -350,11 +393,33 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property StatusInformation. 
+        /// <para>
+        /// A message returned by AWS Systems Manager that explains the <code>Status</code> value.
+        /// For example, a <code>Failed</code> status might be explained by the <code>StatusInformation</code>
+        /// message, "The specified S3 bucket does not exist. Verify that the URL of the S3 bucket
+        /// is correct."
+        /// </para>
+        /// </summary>
+        public string StatusInformation
+        {
+            get { return this._statusInformation; }
+            set { this._statusInformation = value; }
+        }
+
+        // Check to see if StatusInformation property is set
+        internal bool IsSetStatusInformation()
+        {
+            return this._statusInformation != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
         /// The tags, or metadata, that have been applied to the document.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1000)]
         public List<Tag> Tags
         {
             get { return this._tags; }
@@ -375,6 +440,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Resource Types Reference</a> in the <i>AWS CloudFormation User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=200)]
         public string TargetType
         {
             get { return this._targetType; }
@@ -385,6 +451,24 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetTargetType()
         {
             return this._targetType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VersionName. 
+        /// <para>
+        /// The version of the artifact associated with the document.
+        /// </para>
+        /// </summary>
+        public string VersionName
+        {
+            get { return this._versionName; }
+            set { this._versionName = value; }
+        }
+
+        // Check to see if VersionName property is set
+        internal bool IsSetVersionName()
+        {
+            return this._versionName != null;
         }
 
     }

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Kinesis.Model;
 using Amazon.Kinesis.Model.Internal.MarshallTransformations;
+using Amazon.Kinesis.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -41,6 +43,7 @@ namespace Amazon.Kinesis
     /// </summary>
     public partial class AmazonKinesisClient : AmazonServiceClient, IAmazonKinesis
     {
+        private static IServiceMetadata serviceMetadata = new AmazonKinesisMetadata();
         #region Constructors
 
         /// <summary>
@@ -154,6 +157,17 @@ namespace Amazon.Kinesis
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
+
         #endregion
 
         #region Dispose
@@ -168,7 +182,7 @@ namespace Amazon.Kinesis
 
         #endregion
 
-        
+
         #region  AddTagsToStream
 
         /// <summary>
@@ -183,8 +197,9 @@ namespace Amazon.Kinesis
         public virtual void AddTagsToStreamAsync(AddTagsToStreamRequest request, AmazonServiceCallback<AddTagsToStreamRequest, AddTagsToStreamResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = AddTagsToStreamRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToStreamResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = AddTagsToStreamRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = AddTagsToStreamResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -192,7 +207,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<AddTagsToStreamRequest,AddTagsToStreamResponse>((AddTagsToStreamRequest)req, (AddTagsToStreamResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<AddTagsToStreamRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -211,8 +226,9 @@ namespace Amazon.Kinesis
         public virtual void CreateStreamAsync(CreateStreamRequest request, AmazonServiceCallback<CreateStreamRequest, CreateStreamResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = CreateStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateStreamResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = CreateStreamRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = CreateStreamResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -220,7 +236,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<CreateStreamRequest,CreateStreamResponse>((CreateStreamRequest)req, (CreateStreamResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<CreateStreamRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -285,8 +301,9 @@ namespace Amazon.Kinesis
         public virtual void DecreaseStreamRetentionPeriodAsync(DecreaseStreamRetentionPeriodRequest request, AmazonServiceCallback<DecreaseStreamRetentionPeriodRequest, DecreaseStreamRetentionPeriodResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = DecreaseStreamRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = DecreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DecreaseStreamRetentionPeriodRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DecreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -294,7 +311,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<DecreaseStreamRetentionPeriodRequest,DecreaseStreamRetentionPeriodResponse>((DecreaseStreamRetentionPeriodRequest)req, (DecreaseStreamRetentionPeriodResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DecreaseStreamRetentionPeriodRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -313,8 +330,9 @@ namespace Amazon.Kinesis
         public virtual void DeleteStreamAsync(DeleteStreamRequest request, AmazonServiceCallback<DeleteStreamRequest, DeleteStreamResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = DeleteStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteStreamResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteStreamRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteStreamResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -322,7 +340,36 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<DeleteStreamRequest,DeleteStreamResponse>((DeleteStreamRequest)req, (DeleteStreamResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DeleteStreamRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  DeregisterStreamConsumer
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeregisterStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterStreamConsumer operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DeregisterStreamConsumer">REST API Reference for DeregisterStreamConsumer Operation</seealso>
+        public virtual void DeregisterStreamConsumerAsync(DeregisterStreamConsumerRequest request, AmazonServiceCallback<DeregisterStreamConsumerRequest, DeregisterStreamConsumerResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeregisterStreamConsumerRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeregisterStreamConsumerResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<DeregisterStreamConsumerRequest,DeregisterStreamConsumerResponse> responseObject 
+                            = new AmazonServiceResult<DeregisterStreamConsumerRequest,DeregisterStreamConsumerResponse>((DeregisterStreamConsumerRequest)req, (DeregisterStreamConsumerResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -341,8 +388,9 @@ namespace Amazon.Kinesis
         public virtual void DescribeLimitsAsync(DescribeLimitsRequest request, AmazonServiceCallback<DescribeLimitsRequest, DescribeLimitsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = DescribeLimitsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DescribeLimitsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -350,7 +398,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<DescribeLimitsRequest,DescribeLimitsResponse>((DescribeLimitsRequest)req, (DescribeLimitsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DescribeLimitsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -369,8 +417,9 @@ namespace Amazon.Kinesis
         public virtual void DescribeStreamAsync(DescribeStreamRequest request, AmazonServiceCallback<DescribeStreamRequest, DescribeStreamResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = DescribeStreamRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DescribeStreamRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DescribeStreamResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -378,7 +427,36 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<DescribeStreamRequest,DescribeStreamResponse>((DescribeStreamRequest)req, (DescribeStreamResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DescribeStreamRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  DescribeStreamConsumer
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStreamConsumer operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DescribeStreamConsumer">REST API Reference for DescribeStreamConsumer Operation</seealso>
+        public virtual void DescribeStreamConsumerAsync(DescribeStreamConsumerRequest request, AmazonServiceCallback<DescribeStreamConsumerRequest, DescribeStreamConsumerResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DescribeStreamConsumerRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DescribeStreamConsumerResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<DescribeStreamConsumerRequest,DescribeStreamConsumerResponse> responseObject 
+                            = new AmazonServiceResult<DescribeStreamConsumerRequest,DescribeStreamConsumerResponse>((DescribeStreamConsumerRequest)req, (DescribeStreamConsumerResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -397,8 +475,9 @@ namespace Amazon.Kinesis
         public virtual void DescribeStreamSummaryAsync(DescribeStreamSummaryRequest request, AmazonServiceCallback<DescribeStreamSummaryRequest, DescribeStreamSummaryResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = DescribeStreamSummaryRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamSummaryResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DescribeStreamSummaryRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DescribeStreamSummaryResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -406,7 +485,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<DescribeStreamSummaryRequest,DescribeStreamSummaryResponse>((DescribeStreamSummaryRequest)req, (DescribeStreamSummaryResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DescribeStreamSummaryRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -425,8 +504,9 @@ namespace Amazon.Kinesis
         public virtual void DisableEnhancedMonitoringAsync(DisableEnhancedMonitoringRequest request, AmazonServiceCallback<DisableEnhancedMonitoringRequest, DisableEnhancedMonitoringResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = DisableEnhancedMonitoringRequestMarshaller.Instance;
-            var unmarshaller = DisableEnhancedMonitoringResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DisableEnhancedMonitoringRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DisableEnhancedMonitoringResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -434,7 +514,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<DisableEnhancedMonitoringRequest,DisableEnhancedMonitoringResponse>((DisableEnhancedMonitoringRequest)req, (DisableEnhancedMonitoringResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DisableEnhancedMonitoringRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -453,8 +533,9 @@ namespace Amazon.Kinesis
         public virtual void EnableEnhancedMonitoringAsync(EnableEnhancedMonitoringRequest request, AmazonServiceCallback<EnableEnhancedMonitoringRequest, EnableEnhancedMonitoringResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = EnableEnhancedMonitoringRequestMarshaller.Instance;
-            var unmarshaller = EnableEnhancedMonitoringResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = EnableEnhancedMonitoringRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = EnableEnhancedMonitoringResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -462,7 +543,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<EnableEnhancedMonitoringRequest,EnableEnhancedMonitoringResponse>((EnableEnhancedMonitoringRequest)req, (EnableEnhancedMonitoringResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<EnableEnhancedMonitoringRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -481,8 +562,9 @@ namespace Amazon.Kinesis
         public virtual void GetRecordsAsync(GetRecordsRequest request, AmazonServiceCallback<GetRecordsRequest, GetRecordsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetRecordsRequestMarshaller.Instance;
-            var unmarshaller = GetRecordsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetRecordsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetRecordsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -490,7 +572,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<GetRecordsRequest,GetRecordsResponse>((GetRecordsRequest)req, (GetRecordsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetRecordsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -509,8 +591,9 @@ namespace Amazon.Kinesis
         public virtual void GetShardIteratorAsync(GetShardIteratorRequest request, AmazonServiceCallback<GetShardIteratorRequest, GetShardIteratorResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetShardIteratorRequestMarshaller.Instance;
-            var unmarshaller = GetShardIteratorResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetShardIteratorRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetShardIteratorResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -518,7 +601,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<GetShardIteratorRequest,GetShardIteratorResponse>((GetShardIteratorRequest)req, (GetShardIteratorResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetShardIteratorRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -586,8 +669,9 @@ namespace Amazon.Kinesis
         public virtual void IncreaseStreamRetentionPeriodAsync(IncreaseStreamRetentionPeriodRequest request, AmazonServiceCallback<IncreaseStreamRetentionPeriodRequest, IncreaseStreamRetentionPeriodResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = IncreaseStreamRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = IncreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = IncreaseStreamRetentionPeriodRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = IncreaseStreamRetentionPeriodResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -595,7 +679,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<IncreaseStreamRetentionPeriodRequest,IncreaseStreamRetentionPeriodResponse>((IncreaseStreamRetentionPeriodRequest)req, (IncreaseStreamRetentionPeriodResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<IncreaseStreamRetentionPeriodRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -614,8 +698,9 @@ namespace Amazon.Kinesis
         public virtual void ListShardsAsync(ListShardsRequest request, AmazonServiceCallback<ListShardsRequest, ListShardsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListShardsRequestMarshaller.Instance;
-            var unmarshaller = ListShardsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListShardsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListShardsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -623,7 +708,36 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<ListShardsRequest,ListShardsResponse>((ListShardsRequest)req, (ListShardsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListShardsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  ListStreamConsumers
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListStreamConsumers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListStreamConsumers operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/ListStreamConsumers">REST API Reference for ListStreamConsumers Operation</seealso>
+        public virtual void ListStreamConsumersAsync(ListStreamConsumersRequest request, AmazonServiceCallback<ListStreamConsumersRequest, ListStreamConsumersResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListStreamConsumersRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListStreamConsumersResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<ListStreamConsumersRequest,ListStreamConsumersResponse> responseObject 
+                            = new AmazonServiceResult<ListStreamConsumersRequest,ListStreamConsumersResponse>((ListStreamConsumersRequest)req, (ListStreamConsumersResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -686,8 +800,9 @@ namespace Amazon.Kinesis
         public virtual void ListStreamsAsync(ListStreamsRequest request, AmazonServiceCallback<ListStreamsRequest, ListStreamsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListStreamsRequestMarshaller.Instance;
-            var unmarshaller = ListStreamsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListStreamsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListStreamsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -695,7 +810,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<ListStreamsRequest,ListStreamsResponse>((ListStreamsRequest)req, (ListStreamsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListStreamsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -714,8 +829,9 @@ namespace Amazon.Kinesis
         public virtual void ListTagsForStreamAsync(ListTagsForStreamRequest request, AmazonServiceCallback<ListTagsForStreamRequest, ListTagsForStreamResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListTagsForStreamRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForStreamResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListTagsForStreamRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListTagsForStreamResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -723,7 +839,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<ListTagsForStreamRequest,ListTagsForStreamResponse>((ListTagsForStreamRequest)req, (ListTagsForStreamResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListTagsForStreamRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -742,8 +858,9 @@ namespace Amazon.Kinesis
         public virtual void MergeShardsAsync(MergeShardsRequest request, AmazonServiceCallback<MergeShardsRequest, MergeShardsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = MergeShardsRequestMarshaller.Instance;
-            var unmarshaller = MergeShardsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = MergeShardsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = MergeShardsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -751,7 +868,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<MergeShardsRequest,MergeShardsResponse>((MergeShardsRequest)req, (MergeShardsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<MergeShardsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -770,8 +887,9 @@ namespace Amazon.Kinesis
         public virtual void PutRecordAsync(PutRecordRequest request, AmazonServiceCallback<PutRecordRequest, PutRecordResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = PutRecordRequestMarshaller.Instance;
-            var unmarshaller = PutRecordResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PutRecordRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PutRecordResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -779,7 +897,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<PutRecordRequest,PutRecordResponse>((PutRecordRequest)req, (PutRecordResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<PutRecordRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -798,8 +916,9 @@ namespace Amazon.Kinesis
         public virtual void PutRecordsAsync(PutRecordsRequest request, AmazonServiceCallback<PutRecordsRequest, PutRecordsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = PutRecordsRequestMarshaller.Instance;
-            var unmarshaller = PutRecordsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PutRecordsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PutRecordsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -807,7 +926,36 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<PutRecordsRequest,PutRecordsResponse>((PutRecordsRequest)req, (PutRecordsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<PutRecordsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  RegisterStreamConsumer
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RegisterStreamConsumer operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RegisterStreamConsumer operation on AmazonKinesisClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/RegisterStreamConsumer">REST API Reference for RegisterStreamConsumer Operation</seealso>
+        public virtual void RegisterStreamConsumerAsync(RegisterStreamConsumerRequest request, AmazonServiceCallback<RegisterStreamConsumerRequest, RegisterStreamConsumerResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = RegisterStreamConsumerRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = RegisterStreamConsumerResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<RegisterStreamConsumerRequest,RegisterStreamConsumerResponse> responseObject 
+                            = new AmazonServiceResult<RegisterStreamConsumerRequest,RegisterStreamConsumerResponse>((RegisterStreamConsumerRequest)req, (RegisterStreamConsumerResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -826,8 +974,9 @@ namespace Amazon.Kinesis
         public virtual void RemoveTagsFromStreamAsync(RemoveTagsFromStreamRequest request, AmazonServiceCallback<RemoveTagsFromStreamRequest, RemoveTagsFromStreamResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = RemoveTagsFromStreamRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromStreamResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = RemoveTagsFromStreamRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = RemoveTagsFromStreamResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -835,7 +984,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<RemoveTagsFromStreamRequest,RemoveTagsFromStreamResponse>((RemoveTagsFromStreamRequest)req, (RemoveTagsFromStreamResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<RemoveTagsFromStreamRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -854,8 +1003,9 @@ namespace Amazon.Kinesis
         public virtual void SplitShardAsync(SplitShardRequest request, AmazonServiceCallback<SplitShardRequest, SplitShardResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = SplitShardRequestMarshaller.Instance;
-            var unmarshaller = SplitShardResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = SplitShardRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = SplitShardResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -863,7 +1013,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<SplitShardRequest,SplitShardResponse>((SplitShardRequest)req, (SplitShardResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<SplitShardRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -882,8 +1032,9 @@ namespace Amazon.Kinesis
         public virtual void StartStreamEncryptionAsync(StartStreamEncryptionRequest request, AmazonServiceCallback<StartStreamEncryptionRequest, StartStreamEncryptionResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = StartStreamEncryptionRequestMarshaller.Instance;
-            var unmarshaller = StartStreamEncryptionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = StartStreamEncryptionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = StartStreamEncryptionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -891,7 +1042,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<StartStreamEncryptionRequest,StartStreamEncryptionResponse>((StartStreamEncryptionRequest)req, (StartStreamEncryptionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<StartStreamEncryptionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -910,8 +1061,9 @@ namespace Amazon.Kinesis
         public virtual void StopStreamEncryptionAsync(StopStreamEncryptionRequest request, AmazonServiceCallback<StopStreamEncryptionRequest, StopStreamEncryptionResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = StopStreamEncryptionRequestMarshaller.Instance;
-            var unmarshaller = StopStreamEncryptionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = StopStreamEncryptionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = StopStreamEncryptionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -919,7 +1071,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<StopStreamEncryptionRequest,StopStreamEncryptionResponse>((StopStreamEncryptionRequest)req, (StopStreamEncryptionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<StopStreamEncryptionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -938,8 +1090,9 @@ namespace Amazon.Kinesis
         public virtual void UpdateShardCountAsync(UpdateShardCountRequest request, AmazonServiceCallback<UpdateShardCountRequest, UpdateShardCountResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = UpdateShardCountRequestMarshaller.Instance;
-            var unmarshaller = UpdateShardCountResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = UpdateShardCountRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = UpdateShardCountResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -947,7 +1100,7 @@ namespace Amazon.Kinesis
                             = new AmazonServiceResult<UpdateShardCountRequest,UpdateShardCountResponse>((UpdateShardCountRequest)req, (UpdateShardCountResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<UpdateShardCountRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion

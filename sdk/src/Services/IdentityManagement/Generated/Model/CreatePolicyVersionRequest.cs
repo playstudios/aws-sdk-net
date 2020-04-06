@@ -42,7 +42,7 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about managed policy versions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+    /// For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
     /// for Managed Policies</a> in the <i>IAM User Guide</i>.
     /// </para>
     /// </summary>
@@ -59,10 +59,11 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string PolicyArn
         {
             get { return this._policyArn; }
@@ -83,25 +84,33 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
+        /// You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates
+        /// formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation
+        /// always converts a YAML policy to JSON format before submitting it to IAM.
+        /// </para>
+        ///  
+        /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to validate this
         /// parameter is a string of characters consisting of the following:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Any printable ASCII character ranging from the space character (\u0020) through the
-        /// end of the ASCII character range
+        /// Any printable ASCII character ranging from the space character (<code>\u0020</code>)
+        /// through the end of the ASCII character range
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// The printable characters in the Basic Latin and Latin-1 Supplement character set (through
-        /// \u00FF)
+        /// <code>\u00FF</code>)
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+        /// The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>),
+        /// and carriage return (<code>\u000D</code>)
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=131072)]
         public string PolicyDocument
         {
             get { return this._policyDocument; }
@@ -127,7 +136,7 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about managed policy versions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+        /// For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
         /// for Managed Policies</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>

@@ -29,12 +29,13 @@ namespace Amazon.RDS.Model
 {
     /// <summary>
     /// Information about valid modifications that you can make to your DB instance. Contains
-    /// the result of a successful call to the <a>DescribeValidDBInstanceModifications</a>
-    /// action. You can use this information when you call <a>ModifyDBInstance</a>.
+    /// the result of a successful call to the <code>DescribeValidDBInstanceModifications</code>
+    /// action. You can use this information when you call <code>ModifyDBInstance</code>.
     /// </summary>
     public partial class ValidDBInstanceModificationsMessage
     {
         private List<ValidStorageOptions> _storage = new List<ValidStorageOptions>();
+        private List<AvailableProcessorFeature> _validProcessorFeatures = new List<AvailableProcessorFeature>();
 
         /// <summary>
         /// Gets and sets the property Storage. 
@@ -52,6 +53,24 @@ namespace Amazon.RDS.Model
         internal bool IsSetStorage()
         {
             return this._storage != null && this._storage.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ValidProcessorFeatures. 
+        /// <para>
+        /// Valid processor features for your DB instance. 
+        /// </para>
+        /// </summary>
+        public List<AvailableProcessorFeature> ValidProcessorFeatures
+        {
+            get { return this._validProcessorFeatures; }
+            set { this._validProcessorFeatures = value; }
+        }
+
+        // Check to see if ValidProcessorFeatures property is set
+        internal bool IsSetValidProcessorFeatures()
+        {
+            return this._validProcessorFeatures != null && this._validProcessorFeatures.Count > 0; 
         }
 
     }

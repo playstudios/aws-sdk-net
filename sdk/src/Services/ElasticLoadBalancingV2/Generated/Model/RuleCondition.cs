@@ -33,14 +33,46 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     public partial class RuleCondition
     {
         private string _field;
+        private HostHeaderConditionConfig _hostHeaderConfig;
+        private HttpHeaderConditionConfig _httpHeaderConfig;
+        private HttpRequestMethodConditionConfig _httpRequestMethodConfig;
+        private PathPatternConditionConfig _pathPatternConfig;
+        private QueryStringConditionConfig _queryStringConfig;
+        private SourceIpConditionConfig _sourceIpConfig;
         private List<string> _values = new List<string>();
 
         /// <summary>
         /// Gets and sets the property Field. 
         /// <para>
-        /// The name of the field. The possible values are <code>host-header</code> and <code>path-pattern</code>.
+        /// The field in the HTTP request. The following are the possible values:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>http-header</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>http-request-method</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>host-header</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>path-pattern</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>query-string</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>source-ip</code> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=64)]
         public string Field
         {
             get { return this._field; }
@@ -54,16 +86,130 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HostHeaderConfig. 
+        /// <para>
+        /// Information for a host header condition. Specify only when <code>Field</code> is <code>host-header</code>.
+        /// </para>
+        /// </summary>
+        public HostHeaderConditionConfig HostHeaderConfig
+        {
+            get { return this._hostHeaderConfig; }
+            set { this._hostHeaderConfig = value; }
+        }
+
+        // Check to see if HostHeaderConfig property is set
+        internal bool IsSetHostHeaderConfig()
+        {
+            return this._hostHeaderConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property HttpHeaderConfig. 
+        /// <para>
+        /// Information for an HTTP header condition. Specify only when <code>Field</code> is
+        /// <code>http-header</code>.
+        /// </para>
+        /// </summary>
+        public HttpHeaderConditionConfig HttpHeaderConfig
+        {
+            get { return this._httpHeaderConfig; }
+            set { this._httpHeaderConfig = value; }
+        }
+
+        // Check to see if HttpHeaderConfig property is set
+        internal bool IsSetHttpHeaderConfig()
+        {
+            return this._httpHeaderConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property HttpRequestMethodConfig. 
+        /// <para>
+        /// Information for an HTTP method condition. Specify only when <code>Field</code> is
+        /// <code>http-request-method</code>.
+        /// </para>
+        /// </summary>
+        public HttpRequestMethodConditionConfig HttpRequestMethodConfig
+        {
+            get { return this._httpRequestMethodConfig; }
+            set { this._httpRequestMethodConfig = value; }
+        }
+
+        // Check to see if HttpRequestMethodConfig property is set
+        internal bool IsSetHttpRequestMethodConfig()
+        {
+            return this._httpRequestMethodConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PathPatternConfig. 
+        /// <para>
+        /// Information for a path pattern condition. Specify only when <code>Field</code> is
+        /// <code>path-pattern</code>.
+        /// </para>
+        /// </summary>
+        public PathPatternConditionConfig PathPatternConfig
+        {
+            get { return this._pathPatternConfig; }
+            set { this._pathPatternConfig = value; }
+        }
+
+        // Check to see if PathPatternConfig property is set
+        internal bool IsSetPathPatternConfig()
+        {
+            return this._pathPatternConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property QueryStringConfig. 
+        /// <para>
+        /// Information for a query string condition. Specify only when <code>Field</code> is
+        /// <code>query-string</code>.
+        /// </para>
+        /// </summary>
+        public QueryStringConditionConfig QueryStringConfig
+        {
+            get { return this._queryStringConfig; }
+            set { this._queryStringConfig = value; }
+        }
+
+        // Check to see if QueryStringConfig property is set
+        internal bool IsSetQueryStringConfig()
+        {
+            return this._queryStringConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SourceIpConfig. 
+        /// <para>
+        /// Information for a source IP condition. Specify only when <code>Field</code> is <code>source-ip</code>.
+        /// </para>
+        /// </summary>
+        public SourceIpConditionConfig SourceIpConfig
+        {
+            get { return this._sourceIpConfig; }
+            set { this._sourceIpConfig = value; }
+        }
+
+        // Check to see if SourceIpConfig property is set
+        internal bool IsSetSourceIpConfig()
+        {
+            return this._sourceIpConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Values. 
         /// <para>
-        /// The condition value.
+        /// The condition value. You can use <code>Values</code> if the rule contains only <code>host-header</code>
+        /// and <code>path-pattern</code> conditions. Otherwise, you can use <code>HostHeaderConfig</code>
+        /// for <code>host-header</code> conditions and <code>PathPatternConfig</code> for <code>path-pattern</code>
+        /// conditions.
         /// </para>
         ///  
         /// <para>
-        /// If the field name is <code>host-header</code>, you can specify a single host name
+        /// If <code>Field</code> is <code>host-header</code>, you can specify a single host name
         /// (for example, my.example.com). A host name is case insensitive, can be up to 128 characters
-        /// in length, and can contain any of the following characters. Note that you can include
-        /// up to three wildcard characters.
+        /// in length, and can contain any of the following characters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -83,10 +229,9 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// If the field name is <code>path-pattern</code>, you can specify a single path pattern
-        /// (for example, /img/*). A path pattern is case sensitive, can be up to 128 characters
-        /// in length, and can contain any of the following characters. Note that you can include
-        /// up to three wildcard characters.
+        /// If <code>Field</code> is <code>path-pattern</code>, you can specify a single path
+        /// pattern (for example, /img/*). A path pattern is case-sensitive, can be up to 128
+        /// characters in length, and can contain any of the following characters.
         /// </para>
         ///  <ul> <li> 
         /// <para>

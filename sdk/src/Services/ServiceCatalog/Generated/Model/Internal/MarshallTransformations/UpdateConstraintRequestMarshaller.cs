@@ -58,10 +58,11 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
             string target = "AWS242ServiceCatalogService.UpdateConstraint";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-12-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -83,6 +84,12 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("Id");
                     context.Writer.Write(publicRequest.Id);
+                }
+
+                if(publicRequest.IsSetParameters())
+                {
+                    context.Writer.WritePropertyName("Parameters");
+                    context.Writer.Write(publicRequest.Parameters);
                 }
 
         

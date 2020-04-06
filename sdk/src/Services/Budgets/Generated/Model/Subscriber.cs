@@ -29,7 +29,7 @@ namespace Amazon.Budgets.Model
 {
     /// <summary>
     /// The subscriber to a budget notification. The subscriber consists of a subscription
-    /// type and either an Amazon Simple Notification Service topic or an email address.
+    /// type and either an Amazon SNS topic or an email address.
     /// 
     ///  
     /// <para>
@@ -55,7 +55,13 @@ namespace Amazon.Budgets.Model
         /// <para>
         /// The address that AWS sends budget notifications to, either an SNS topic or an email.
         /// </para>
+        ///  
+        /// <para>
+        /// When you create a subscriber, the value of <code>Address</code> can't contain line
+        /// breaks.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2147483647)]
         public string Address
         {
             get { return this._address; }
@@ -74,6 +80,7 @@ namespace Amazon.Budgets.Model
         /// The type of notification that AWS sends to a subscriber.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SubscriptionType SubscriptionType
         {
             get { return this._subscriptionType; }

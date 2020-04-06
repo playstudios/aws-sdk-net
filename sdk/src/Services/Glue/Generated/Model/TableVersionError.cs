@@ -39,7 +39,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property ErrorDetail. 
         /// <para>
-        /// Detail about the error.
+        /// The details about the error.
         /// </para>
         /// </summary>
         public ErrorDetail ErrorDetail
@@ -60,6 +60,7 @@ namespace Amazon.Glue.Model
         /// The name of the table in question.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string TableName
         {
             get { return this._tableName; }
@@ -75,9 +76,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property VersionId. 
         /// <para>
-        /// The ID value of the version in question.
+        /// The ID value of the version in question. A <code>VersionID</code> is a string representation
+        /// of an integer. Each version is incremented by 1.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string VersionId
         {
             get { return this._versionId; }

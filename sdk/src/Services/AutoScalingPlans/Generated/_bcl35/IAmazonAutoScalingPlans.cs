@@ -29,16 +29,22 @@ namespace Amazon.AutoScalingPlans
     /// <summary>
     /// Interface for accessing AutoScalingPlans
     ///
+    /// AWS Auto Scaling 
+    /// <para>
     /// Use AWS Auto Scaling to quickly discover all the scalable AWS resources for your application
-    /// and configure dynamic scaling for your scalable resources.
-    /// 
+    /// and configure dynamic scaling and predictive scaling for your resources using scaling
+    /// plans. Use this service in conjunction with the Amazon EC2 Auto Scaling, Application
+    /// Auto Scaling, Amazon CloudWatch, and AWS CloudFormation services. 
+    /// </para>
     ///  
     /// <para>
-    /// To get started, create a scaling plan with a set of instructions used to configure
-    /// dynamic scaling for the scalable resources in your application. AWS Auto Scaling creates
-    /// target tracking scaling policies for the scalable resources in your scaling plan.
-    /// Target tracking scaling policies adjust the capacity of your scalable resource as
-    /// required to maintain resource utilization at the target value that you specified.
+    /// Currently, predictive scaling is only available for Amazon EC2 Auto Scaling groups.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information about AWS Auto Scaling, including information about granting
+    /// IAM users required permissions for AWS Auto Scaling actions, see the <a href="https://docs.aws.amazon.com/autoscaling/plans/userguide/what-is-aws-auto-scaling.html">AWS
+    /// Auto Scaling User Guide</a>.
     /// </para>
     /// </summary>
     public partial interface IAmazonAutoScalingPlans : IAmazonService, IDisposable
@@ -50,13 +56,6 @@ namespace Amazon.AutoScalingPlans
 
         /// <summary>
         /// Creates a scaling plan.
-        /// 
-        ///  
-        /// <para>
-        /// A scaling plan contains a set of instructions used to configure dynamic scaling for
-        /// the scalable resources in your application. AWS Auto Scaling creates target tracking
-        /// scaling policies based on the scaling instructions in your scaling plan.
-        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateScalingPlan service method.</param>
         /// 
@@ -111,6 +110,17 @@ namespace Amazon.AutoScalingPlans
 
         /// <summary>
         /// Deletes the specified scaling plan.
+        /// 
+        ///  
+        /// <para>
+        /// Deleting a scaling plan deletes the underlying <a>ScalingInstruction</a> for all of
+        /// the scalable resources that are covered by the plan.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the plan has launched resources or has scaling activities in progress, you must
+        /// delete those resources separately.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteScalingPlan service method.</param>
         /// 
@@ -216,7 +226,7 @@ namespace Amazon.AutoScalingPlans
 
 
         /// <summary>
-        /// Describes the specified scaling plans or all of your scaling plans.
+        /// Describes one or more of your scaling plans.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeScalingPlans service method.</param>
         /// 
@@ -262,6 +272,118 @@ namespace Amazon.AutoScalingPlans
         /// <returns>Returns a  DescribeScalingPlansResult from AutoScalingPlans.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-plans-2018-01-06/DescribeScalingPlans">REST API Reference for DescribeScalingPlans Operation</seealso>
         DescribeScalingPlansResponse EndDescribeScalingPlans(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetScalingPlanResourceForecastData
+
+
+        /// <summary>
+        /// Retrieves the forecast data for a scalable resource.
+        /// 
+        ///  
+        /// <para>
+        /// Capacity forecasts are represented as predicted values, or data points, that are calculated
+        /// using historical data points from a specified CloudWatch load metric. Data points
+        /// are available for up to 56 days. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetScalingPlanResourceForecastData service method.</param>
+        /// 
+        /// <returns>The response from the GetScalingPlanResourceForecastData service method, as returned by AutoScalingPlans.</returns>
+        /// <exception cref="Amazon.AutoScalingPlans.Model.InternalServiceException">
+        /// The service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScalingPlans.Model.ValidationException">
+        /// An exception was thrown for a validation issue. Review the parameters provided.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-plans-2018-01-06/GetScalingPlanResourceForecastData">REST API Reference for GetScalingPlanResourceForecastData Operation</seealso>
+        GetScalingPlanResourceForecastDataResponse GetScalingPlanResourceForecastData(GetScalingPlanResourceForecastDataRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetScalingPlanResourceForecastData operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetScalingPlanResourceForecastData operation on AmazonAutoScalingPlansClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetScalingPlanResourceForecastData
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-plans-2018-01-06/GetScalingPlanResourceForecastData">REST API Reference for GetScalingPlanResourceForecastData Operation</seealso>
+        IAsyncResult BeginGetScalingPlanResourceForecastData(GetScalingPlanResourceForecastDataRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetScalingPlanResourceForecastData operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetScalingPlanResourceForecastData.</param>
+        /// 
+        /// <returns>Returns a  GetScalingPlanResourceForecastDataResult from AutoScalingPlans.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-plans-2018-01-06/GetScalingPlanResourceForecastData">REST API Reference for GetScalingPlanResourceForecastData Operation</seealso>
+        GetScalingPlanResourceForecastDataResponse EndGetScalingPlanResourceForecastData(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateScalingPlan
+
+
+        /// <summary>
+        /// Updates the specified scaling plan.
+        /// 
+        ///  
+        /// <para>
+        /// You cannot update a scaling plan if it is in the process of being created, updated,
+        /// or deleted.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateScalingPlan service method.</param>
+        /// 
+        /// <returns>The response from the UpdateScalingPlan service method, as returned by AutoScalingPlans.</returns>
+        /// <exception cref="Amazon.AutoScalingPlans.Model.ConcurrentUpdateException">
+        /// Concurrent updates caused an exception, for example, if you request an update to a
+        /// scaling plan that already has a pending update.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScalingPlans.Model.InternalServiceException">
+        /// The service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScalingPlans.Model.ObjectNotFoundException">
+        /// The specified object could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScalingPlans.Model.ValidationException">
+        /// An exception was thrown for a validation issue. Review the parameters provided.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-plans-2018-01-06/UpdateScalingPlan">REST API Reference for UpdateScalingPlan Operation</seealso>
+        UpdateScalingPlanResponse UpdateScalingPlan(UpdateScalingPlanRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateScalingPlan operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateScalingPlan operation on AmazonAutoScalingPlansClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateScalingPlan
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-plans-2018-01-06/UpdateScalingPlan">REST API Reference for UpdateScalingPlan Operation</seealso>
+        IAsyncResult BeginUpdateScalingPlan(UpdateScalingPlanRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateScalingPlan operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateScalingPlan.</param>
+        /// 
+        /// <returns>Returns a  UpdateScalingPlanResult from AutoScalingPlans.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-plans-2018-01-06/UpdateScalingPlan">REST API Reference for UpdateScalingPlan Operation</seealso>
+        UpdateScalingPlanResponse EndUpdateScalingPlan(IAsyncResult asyncResult);
 
         #endregion
         

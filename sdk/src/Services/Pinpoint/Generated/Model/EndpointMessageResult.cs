@@ -28,18 +28,23 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// The result from sending a message to an endpoint.
+    /// Provides information about the delivery status and results of sending a message directly
+    /// to an endpoint.
     /// </summary>
     public partial class EndpointMessageResult
     {
         private string _address;
         private DeliveryStatus _deliveryStatus;
+        private string _messageId;
         private int? _statusCode;
         private string _statusMessage;
         private string _updatedToken;
 
         /// <summary>
-        /// Gets and sets the property Address. Address that endpoint message was delivered to.
+        /// Gets and sets the property Address. 
+        /// <para>
+        /// The endpoint address that the message was delivered to.
+        /// </para>
         /// </summary>
         public string Address
         {
@@ -54,8 +59,49 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DeliveryStatus. Delivery status of message.
+        /// Gets and sets the property DeliveryStatus. 
+        /// <para>
+        /// The delivery status of the message. Possible values are:
+        /// </para>
+        ///  <ul> <li>
+        /// <para>
+        /// DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon
+        /// Pinpoint won't attempt to send the message again.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages
+        /// from you. Amazon Pinpoint won't attempt to send the message again.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint.
+        /// Amazon Pinpoint won't attempt to send the message again.
+        /// </para>
+        /// </li>    <li>
+        /// <para>
+        /// SUCCESSFUL - The message was successfully delivered to the endpoint.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send
+        /// the message again.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// TIMEOUT - The message couldn't be sent within the timeout period.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// UNKNOWN_FAILURE - An unknown error occurred.
+        /// </para>
+        /// </li></ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DeliveryStatus DeliveryStatus
         {
             get { return this._deliveryStatus; }
@@ -69,8 +115,30 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StatusCode. Downstream service status code.
+        /// Gets and sets the property MessageId. 
+        /// <para>
+        /// The unique identifier for the message that was sent.
+        /// </para>
         /// </summary>
+        public string MessageId
+        {
+            get { return this._messageId; }
+            set { this._messageId = value; }
+        }
+
+        // Check to see if MessageId property is set
+        internal bool IsSetMessageId()
+        {
+            return this._messageId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StatusCode. 
+        /// <para>
+        /// The downstream service status code for delivering the message.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public int StatusCode
         {
             get { return this._statusCode.GetValueOrDefault(); }
@@ -84,7 +152,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StatusMessage. Status message for message delivery.
+        /// Gets and sets the property StatusMessage. 
+        /// <para>
+        /// The status message for delivering the message.
+        /// </para>
         /// </summary>
         public string StatusMessage
         {
@@ -99,8 +170,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property UpdatedToken. If token was updated as part of delivery.
-        /// (This is GCM Specific)
+        /// Gets and sets the property UpdatedToken. 
+        /// <para>
+        /// For push notifications that are sent through the GCM channel, specifies whether the
+        /// endpoint's device registration token was updated as part of delivering the message.
+        /// </para>
         /// </summary>
         public string UpdatedToken
         {

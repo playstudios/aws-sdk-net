@@ -40,6 +40,7 @@ namespace Amazon.IoTJobsDataPlane.Model
         private string _jobId;
         private JobExecutionStatus _status;
         private Dictionary<string, string> _statusDetails = new Dictionary<string, string>();
+        private long? _stepTimeoutInMinutes;
         private string _thingName;
 
         /// <summary>
@@ -127,6 +128,7 @@ namespace Amazon.IoTJobsDataPlane.Model
         /// The unique identifier assigned to this job when it was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -146,6 +148,7 @@ namespace Amazon.IoTJobsDataPlane.Model
         /// This must be specified on every update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public JobExecutionStatus Status
         {
             get { return this._status; }
@@ -178,11 +181,37 @@ namespace Amazon.IoTJobsDataPlane.Model
         }
 
         /// <summary>
+        /// Gets and sets the property StepTimeoutInMinutes. 
+        /// <para>
+        /// Specifies the amount of time this device has to finish execution of this job. If the
+        /// job execution status is not set to a terminal state before this timer expires, or
+        /// before the timer is reset (by again calling <code>UpdateJobExecution</code>, setting
+        /// the status to <code>IN_PROGRESS</code> and specifying a new timeout value in this
+        /// field) the job execution status will be automatically set to <code>TIMED_OUT</code>.
+        /// Note that setting or resetting this timeout has no effect on that job execution timeout
+        /// which may have been specified when the job was created (<code>CreateJob</code> using
+        /// field <code>timeoutConfig</code>).
+        /// </para>
+        /// </summary>
+        public long StepTimeoutInMinutes
+        {
+            get { return this._stepTimeoutInMinutes.GetValueOrDefault(); }
+            set { this._stepTimeoutInMinutes = value; }
+        }
+
+        // Check to see if StepTimeoutInMinutes property is set
+        internal bool IsSetStepTimeoutInMinutes()
+        {
+            return this._stepTimeoutInMinutes.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ThingName. 
         /// <para>
         /// The name of the thing associated with the device.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ThingName
         {
             get { return this._thingName; }

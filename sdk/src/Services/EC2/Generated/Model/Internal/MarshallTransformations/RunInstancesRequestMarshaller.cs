@@ -113,9 +113,34 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         publicRequestlistValueIndex++;
                     }
                 }
+                if(publicRequest.IsSetCapacityReservationSpecification())
+                {
+                    if(publicRequest.CapacityReservationSpecification.IsSetCapacityReservationPreference())
+                    {
+                        request.Parameters.Add("CapacityReservationSpecification" + "." + "CapacityReservationPreference", StringUtils.FromString(publicRequest.CapacityReservationSpecification.CapacityReservationPreference));
+                    }
+                    if(publicRequest.CapacityReservationSpecification.IsSetCapacityReservationTarget())
+                    {
+                        if(publicRequest.CapacityReservationSpecification.CapacityReservationTarget.IsSetCapacityReservationId())
+                        {
+                            request.Parameters.Add("CapacityReservationSpecification" + "." + "CapacityReservationTarget" + "." + "CapacityReservationId", StringUtils.FromString(publicRequest.CapacityReservationSpecification.CapacityReservationTarget.CapacityReservationId));
+                        }
+                    }
+                }
                 if(publicRequest.IsSetClientToken())
                 {
                     request.Parameters.Add("ClientToken", StringUtils.FromString(publicRequest.ClientToken));
+                }
+                if(publicRequest.IsSetCpuOptions())
+                {
+                    if(publicRequest.CpuOptions.IsSetCoreCount())
+                    {
+                        request.Parameters.Add("CpuOptions" + "." + "CoreCount", StringUtils.FromInt(publicRequest.CpuOptions.CoreCount));
+                    }
+                    if(publicRequest.CpuOptions.IsSetThreadsPerCore())
+                    {
+                        request.Parameters.Add("CpuOptions" + "." + "ThreadsPerCore", StringUtils.FromInt(publicRequest.CpuOptions.ThreadsPerCore));
+                    }
                 }
                 if(publicRequest.IsSetCreditSpecification())
                 {
@@ -142,6 +167,29 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                             request.Parameters.Add("ElasticGpuSpecification" + "." + publicRequestlistValueIndex + "." + "Type", StringUtils.FromString(publicRequestlistValue.Type));
                         }
                         publicRequestlistValueIndex++;
+                    }
+                }
+                if(publicRequest.IsSetElasticInferenceAccelerators())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.ElasticInferenceAccelerators)
+                    {
+                        if(publicRequestlistValue.IsSetCount())
+                        {
+                            request.Parameters.Add("ElasticInferenceAccelerator" + "." + publicRequestlistValueIndex + "." + "Count", StringUtils.FromInt(publicRequestlistValue.Count));
+                        }
+                        if(publicRequestlistValue.IsSetType())
+                        {
+                            request.Parameters.Add("ElasticInferenceAccelerator" + "." + publicRequestlistValueIndex + "." + "Type", StringUtils.FromString(publicRequestlistValue.Type));
+                        }
+                        publicRequestlistValueIndex++;
+                    }
+                }
+                if(publicRequest.IsSetHibernationOptions())
+                {
+                    if(publicRequest.HibernationOptions.IsSetConfigured())
+                    {
+                        request.Parameters.Add("HibernationOptions" + "." + "Configured", StringUtils.FromBool(publicRequest.HibernationOptions.Configured));
                     }
                 }
                 if(publicRequest.IsSetIamInstanceProfile())
@@ -187,9 +235,9 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         {
                             request.Parameters.Add("InstanceMarketOptions" + "." + "SpotOptions" + "." + "SpotInstanceType", StringUtils.FromString(publicRequest.InstanceMarketOptions.SpotOptions.SpotInstanceType));
                         }
-                        if(publicRequest.InstanceMarketOptions.SpotOptions.IsSetValidUntil())
+                        if(publicRequest.InstanceMarketOptions.SpotOptions.IsSetValidUntilUtc())
                         {
-                            request.Parameters.Add("InstanceMarketOptions" + "." + "SpotOptions" + "." + "ValidUntil", StringUtils.FromDateTime(publicRequest.InstanceMarketOptions.SpotOptions.ValidUntil));
+                            request.Parameters.Add("InstanceMarketOptions" + "." + "SpotOptions" + "." + "ValidUntil", StringUtils.FromDateTimeToISO8601(publicRequest.InstanceMarketOptions.SpotOptions.ValidUntilUtc));
                         }
                     }
                 }
@@ -236,9 +284,36 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         request.Parameters.Add("LaunchTemplate" + "." + "Version", StringUtils.FromString(publicRequest.LaunchTemplate.Version));
                     }
                 }
+                if(publicRequest.IsSetLicenseSpecifications())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.LicenseSpecifications)
+                    {
+                        if(publicRequestlistValue.IsSetLicenseConfigurationArn())
+                        {
+                            request.Parameters.Add("LicenseSpecification" + "." + publicRequestlistValueIndex + "." + "LicenseConfigurationArn", StringUtils.FromString(publicRequestlistValue.LicenseConfigurationArn));
+                        }
+                        publicRequestlistValueIndex++;
+                    }
+                }
                 if(publicRequest.IsSetMaxCount())
                 {
                     request.Parameters.Add("MaxCount", StringUtils.FromInt(publicRequest.MaxCount));
+                }
+                if(publicRequest.IsSetMetadataOptions())
+                {
+                    if(publicRequest.MetadataOptions.IsSetHttpEndpoint())
+                    {
+                        request.Parameters.Add("MetadataOptions" + "." + "HttpEndpoint", StringUtils.FromString(publicRequest.MetadataOptions.HttpEndpoint));
+                    }
+                    if(publicRequest.MetadataOptions.IsSetHttpPutResponseHopLimit())
+                    {
+                        request.Parameters.Add("MetadataOptions" + "." + "HttpPutResponseHopLimit", StringUtils.FromInt(publicRequest.MetadataOptions.HttpPutResponseHopLimit));
+                    }
+                    if(publicRequest.MetadataOptions.IsSetHttpTokens())
+                    {
+                        request.Parameters.Add("MetadataOptions" + "." + "HttpTokens", StringUtils.FromString(publicRequest.MetadataOptions.HttpTokens));
+                    }
                 }
                 if(publicRequest.IsSetMinCount())
                 {
@@ -278,6 +353,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                 publicRequestlistValuelistValueIndex++;
                             }
                         }
+                        if(publicRequestlistValue.IsSetInterfaceType())
+                        {
+                            request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "InterfaceType", StringUtils.FromString(publicRequestlistValue.InterfaceType));
+                        }
                         if(publicRequestlistValue.IsSetIpv6AddressCount())
                         {
                             request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "Ipv6AddressCount", StringUtils.FromInt(publicRequestlistValue.Ipv6AddressCount));
@@ -289,7 +368,7 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                             {
                                 if(publicRequestlistValuelistValue.IsSetIpv6Address())
                                 {
-                                    request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "Ipv6AddressesSet" + "." + publicRequestlistValuelistValueIndex + "." + "Ipv6Address", StringUtils.FromString(publicRequestlistValuelistValue.Ipv6Address));
+                                    request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "Ipv6Addresses" + "." + publicRequestlistValuelistValueIndex + "." + "Ipv6Address", StringUtils.FromString(publicRequestlistValuelistValue.Ipv6Address));
                                 }
                                 publicRequestlistValuelistValueIndex++;
                             }
@@ -309,11 +388,11 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                             {
                                 if(publicRequestlistValuelistValue.IsSetPrimary())
                                 {
-                                    request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "PrivateIpAddressesSet" + "." + publicRequestlistValuelistValueIndex + "." + "Primary", StringUtils.FromBool(publicRequestlistValuelistValue.Primary));
+                                    request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "PrivateIpAddresses" + "." + publicRequestlistValuelistValueIndex + "." + "Primary", StringUtils.FromBool(publicRequestlistValuelistValue.Primary));
                                 }
                                 if(publicRequestlistValuelistValue.IsSetPrivateIpAddress())
                                 {
-                                    request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "PrivateIpAddressesSet" + "." + publicRequestlistValuelistValueIndex + "." + "PrivateIpAddress", StringUtils.FromString(publicRequestlistValuelistValue.PrivateIpAddress));
+                                    request.Parameters.Add("NetworkInterface" + "." + publicRequestlistValueIndex + "." + "PrivateIpAddresses" + "." + publicRequestlistValuelistValueIndex + "." + "PrivateIpAddress", StringUtils.FromString(publicRequestlistValuelistValue.PrivateIpAddress));
                                 }
                                 publicRequestlistValuelistValueIndex++;
                             }
@@ -346,6 +425,14 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     if(publicRequest.Placement.IsSetHostId())
                     {
                         request.Parameters.Add("Placement" + "." + "HostId", StringUtils.FromString(publicRequest.Placement.HostId));
+                    }
+                    if(publicRequest.Placement.IsSetHostResourceGroupArn())
+                    {
+                        request.Parameters.Add("Placement" + "." + "HostResourceGroupArn", StringUtils.FromString(publicRequest.Placement.HostResourceGroupArn));
+                    }
+                    if(publicRequest.Placement.IsSetPartitionNumber())
+                    {
+                        request.Parameters.Add("Placement" + "." + "PartitionNumber", StringUtils.FromInt(publicRequest.Placement.PartitionNumber));
                     }
                     if(publicRequest.Placement.IsSetSpreadDomain())
                     {

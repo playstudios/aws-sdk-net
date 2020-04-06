@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.DirectConnect.Model;
 using Amazon.DirectConnect.Model.Internal.MarshallTransformations;
+using Amazon.DirectConnect.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -34,19 +36,17 @@ namespace Amazon.DirectConnect
     /// Implementation for accessing DirectConnect
     ///
     /// AWS Direct Connect links your internal network to an AWS Direct Connect location over
-    /// a standard 1 gigabit or 10 gigabit Ethernet fiber-optic cable. One end of the cable
-    /// is connected to your router, the other to an AWS Direct Connect router. With this
-    /// connection in place, you can create virtual interfaces directly to the AWS cloud (for
-    /// example, to Amazon Elastic Compute Cloud (Amazon EC2) and Amazon Simple Storage Service
-    /// (Amazon S3)) and to Amazon Virtual Private Cloud (Amazon VPC), bypassing Internet
-    /// service providers in your network path. An AWS Direct Connect location provides access
-    /// to AWS in the region it is associated with, as well as access to other US regions.
-    /// For example, you can provision a single connection to any AWS Direct Connect location
-    /// in the US and use it to access public AWS services in all US Regions and AWS GovCloud
-    /// (US).
+    /// a standard Ethernet fiber-optic cable. One end of the cable is connected to your router,
+    /// the other to an AWS Direct Connect router. With this connection in place, you can
+    /// create virtual interfaces directly to the AWS cloud (for example, to Amazon EC2 and
+    /// Amazon S3) and to Amazon VPC, bypassing Internet service providers in your network
+    /// path. A connection provides access to all AWS Regions except the China (Beijing) and
+    /// (China) Ningxia Regions. AWS resources in the China Regions can only be accessed through
+    /// locations associated with those Regions.
     /// </summary>
     public partial class AmazonDirectConnectClient : AmazonServiceClient, IAmazonDirectConnect
     {
+        private static IServiceMetadata serviceMetadata = new AmazonDirectConnectMetadata();
         #region Constructors
 
         /// <summary>
@@ -217,6 +217,16 @@ namespace Amazon.DirectConnect
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -232,11 +242,72 @@ namespace Amazon.DirectConnect
 
         #endregion
 
+
+        #region  AcceptDirectConnectGatewayAssociationProposal
+
+        /// <summary>
+        /// Accepts a proposal request to attach a virtual private gateway or transit gateway
+        /// to a Direct Connect gateway.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AcceptDirectConnectGatewayAssociationProposal service method.</param>
+        /// 
+        /// <returns>The response from the AcceptDirectConnectGatewayAssociationProposal service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AcceptDirectConnectGatewayAssociationProposal">REST API Reference for AcceptDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual AcceptDirectConnectGatewayAssociationProposalResponse AcceptDirectConnectGatewayAssociationProposal(AcceptDirectConnectGatewayAssociationProposalRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptDirectConnectGatewayAssociationProposalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptDirectConnectGatewayAssociationProposalResponseUnmarshaller.Instance;
+
+            return Invoke<AcceptDirectConnectGatewayAssociationProposalResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AcceptDirectConnectGatewayAssociationProposal operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AcceptDirectConnectGatewayAssociationProposal operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAcceptDirectConnectGatewayAssociationProposal
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AcceptDirectConnectGatewayAssociationProposal">REST API Reference for AcceptDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual IAsyncResult BeginAcceptDirectConnectGatewayAssociationProposal(AcceptDirectConnectGatewayAssociationProposalRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptDirectConnectGatewayAssociationProposalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptDirectConnectGatewayAssociationProposalResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AcceptDirectConnectGatewayAssociationProposal operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAcceptDirectConnectGatewayAssociationProposal.</param>
+        /// 
+        /// <returns>Returns a  AcceptDirectConnectGatewayAssociationProposalResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AcceptDirectConnectGatewayAssociationProposal">REST API Reference for AcceptDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual AcceptDirectConnectGatewayAssociationProposalResponse EndAcceptDirectConnectGatewayAssociationProposal(IAsyncResult asyncResult)
+        {
+            return EndInvoke<AcceptDirectConnectGatewayAssociationProposalResponse>(asyncResult);
+        }
+
+        #endregion
         
         #region  AllocateConnectionOnInterconnect
 
         /// <summary>
-        /// Deprecated in favor of <a>AllocateHostedConnection</a>.
+        /// Deprecated. Use <a>AllocateHostedConnection</a> instead.
         /// 
         ///  
         /// <para>
@@ -245,11 +316,11 @@ namespace Amazon.DirectConnect
         ///  
         /// <para>
         /// Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection
-        /// on the given interconnect.
+        /// on the specified interconnect.
         /// </para>
         ///  <note> 
         /// <para>
-        /// This is intended for use by AWS Direct Connect partners only.
+        /// Intended for use by AWS Direct Connect Partners only.
         /// </para>
         ///  </note>
         /// </summary>
@@ -257,21 +328,20 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the AllocateConnectionOnInterconnect service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateConnectionOnInterconnect">REST API Reference for AllocateConnectionOnInterconnect Operation</seealso>
         [Obsolete("Deprecated in favor of AllocateHostedConnection.")]
         public virtual AllocateConnectionOnInterconnectResponse AllocateConnectionOnInterconnect(AllocateConnectionOnInterconnectRequest request)
         {
-            var marshaller = AllocateConnectionOnInterconnectRequestMarshaller.Instance;
-            var unmarshaller = AllocateConnectionOnInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateConnectionOnInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateConnectionOnInterconnectResponseUnmarshaller.Instance;
 
-            return Invoke<AllocateConnectionOnInterconnectRequest,AllocateConnectionOnInterconnectResponse>(request, marshaller, unmarshaller);
+            return Invoke<AllocateConnectionOnInterconnectResponse>(request, options);
         }
 
         /// <summary>
@@ -289,11 +359,11 @@ namespace Amazon.DirectConnect
         [Obsolete("Deprecated in favor of AllocateHostedConnection.")]
         public virtual IAsyncResult BeginAllocateConnectionOnInterconnect(AllocateConnectionOnInterconnectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AllocateConnectionOnInterconnectRequestMarshaller.Instance;
-            var unmarshaller = AllocateConnectionOnInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateConnectionOnInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateConnectionOnInterconnectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AllocateConnectionOnInterconnectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -315,16 +385,19 @@ namespace Amazon.DirectConnect
         #region  AllocateHostedConnection
 
         /// <summary>
-        /// Creates a hosted connection on an interconnect or a link aggregation group (LAG).
+        /// Creates a hosted connection on the specified interconnect or a link aggregation group
+        /// (LAG) of interconnects.
         /// 
         ///  
         /// <para>
-        /// Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection
-        /// on the given interconnect or LAG.
+        /// Allocates a VLAN number and a specified amount of capacity (bandwidth) for use by
+        /// a hosted connection on the specified interconnect or LAG of interconnects. AWS polices
+        /// the hosted connection for the specified capacity and the AWS Direct Connect Partner
+        /// must also police the hosted connection for the specified capacity.
         /// </para>
         ///  <note> 
         /// <para>
-        /// This is intended for use by AWS Direct Connect partners only.
+        /// Intended for use by AWS Direct Connect Partners only.
         /// </para>
         ///  </note>
         /// </summary>
@@ -332,20 +405,25 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the AllocateHostedConnection service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateHostedConnection">REST API Reference for AllocateHostedConnection Operation</seealso>
         public virtual AllocateHostedConnectionResponse AllocateHostedConnection(AllocateHostedConnectionRequest request)
         {
-            var marshaller = AllocateHostedConnectionRequestMarshaller.Instance;
-            var unmarshaller = AllocateHostedConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateHostedConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateHostedConnectionResponseUnmarshaller.Instance;
 
-            return Invoke<AllocateHostedConnectionRequest,AllocateHostedConnectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<AllocateHostedConnectionResponse>(request, options);
         }
 
         /// <summary>
@@ -362,11 +440,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateHostedConnection">REST API Reference for AllocateHostedConnection Operation</seealso>
         public virtual IAsyncResult BeginAllocateHostedConnection(AllocateHostedConnectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AllocateHostedConnectionRequestMarshaller.Instance;
-            var unmarshaller = AllocateHostedConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateHostedConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateHostedConnectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AllocateHostedConnectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -387,33 +465,38 @@ namespace Amazon.DirectConnect
         #region  AllocatePrivateVirtualInterface
 
         /// <summary>
-        /// Provisions a private virtual interface to be owned by another AWS customer.
+        /// Provisions a private virtual interface to be owned by the specified AWS account.
         /// 
         ///  
         /// <para>
-        /// Virtual interfaces created using this action must be confirmed by the virtual interface
-        /// owner by using the <a>ConfirmPrivateVirtualInterface</a> action. Until then, the virtual
-        /// interface will be in 'Confirming' state, and will not be available for handling traffic.
+        /// Virtual interfaces created using this action must be confirmed by the owner using
+        /// <a>ConfirmPrivateVirtualInterface</a>. Until then, the virtual interface is in the
+        /// <code>Confirming</code> state and is not available to handle traffic.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AllocatePrivateVirtualInterface service method.</param>
         /// 
         /// <returns>The response from the AllocatePrivateVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocatePrivateVirtualInterface">REST API Reference for AllocatePrivateVirtualInterface Operation</seealso>
         public virtual AllocatePrivateVirtualInterfaceResponse AllocatePrivateVirtualInterface(AllocatePrivateVirtualInterfaceRequest request)
         {
-            var marshaller = AllocatePrivateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = AllocatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocatePrivateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<AllocatePrivateVirtualInterfaceRequest,AllocatePrivateVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<AllocatePrivateVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -430,11 +513,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocatePrivateVirtualInterface">REST API Reference for AllocatePrivateVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginAllocatePrivateVirtualInterface(AllocatePrivateVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AllocatePrivateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = AllocatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocatePrivateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AllocatePrivateVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -455,45 +538,49 @@ namespace Amazon.DirectConnect
         #region  AllocatePublicVirtualInterface
 
         /// <summary>
-        /// Provisions a public virtual interface to be owned by a different customer.
+        /// Provisions a public virtual interface to be owned by the specified AWS account.
         /// 
         ///  
         /// <para>
         /// The owner of a connection calls this function to provision a public virtual interface
-        /// which will be owned by another AWS customer.
+        /// to be owned by the specified AWS account.
         /// </para>
         ///  
         /// <para>
-        /// Virtual interfaces created using this function must be confirmed by the virtual interface
-        /// owner by calling ConfirmPublicVirtualInterface. Until this step has been completed,
-        /// the virtual interface will be in 'Confirming' state, and will not be available for
-        /// handling traffic.
+        /// Virtual interfaces created using this function must be confirmed by the owner using
+        /// <a>ConfirmPublicVirtualInterface</a>. Until this step has been completed, the virtual
+        /// interface is in the <code>confirming</code> state and is not available to handle traffic.
         /// </para>
         ///  
         /// <para>
-        /// When creating an IPv6 public virtual interface (addressFamily is 'ipv6'), the customer
-        /// and amazon address fields should be left blank to use auto-assigned IPv6 space. Custom
-        /// IPv6 Addresses are currently not supported.
+        /// When creating an IPv6 public virtual interface, omit the Amazon address and customer
+        /// address. IPv6 addresses are automatically assigned from the Amazon pool of IPv6 addresses;
+        /// you cannot specify custom IPv6 addresses.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AllocatePublicVirtualInterface service method.</param>
         /// 
         /// <returns>The response from the AllocatePublicVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocatePublicVirtualInterface">REST API Reference for AllocatePublicVirtualInterface Operation</seealso>
         public virtual AllocatePublicVirtualInterfaceResponse AllocatePublicVirtualInterface(AllocatePublicVirtualInterfaceRequest request)
         {
-            var marshaller = AllocatePublicVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = AllocatePublicVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocatePublicVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocatePublicVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<AllocatePublicVirtualInterfaceRequest,AllocatePublicVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<AllocatePublicVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -510,11 +597,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocatePublicVirtualInterface">REST API Reference for AllocatePublicVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginAllocatePublicVirtualInterface(AllocatePublicVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AllocatePublicVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = AllocatePublicVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocatePublicVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocatePublicVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AllocatePublicVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -532,16 +619,96 @@ namespace Amazon.DirectConnect
 
         #endregion
         
+        #region  AllocateTransitVirtualInterface
+
+        /// <summary>
+        /// Provisions a transit virtual interface to be owned by the specified AWS account. Use
+        /// this type of interface to connect a transit gateway to your Direct Connect gateway.
+        /// 
+        ///  
+        /// <para>
+        /// The owner of a connection provisions a transit virtual interface to be owned by the
+        /// specified AWS account.
+        /// </para>
+        ///  
+        /// <para>
+        /// After you create a transit virtual interface, it must be confirmed by the owner using
+        /// <a>ConfirmTransitVirtualInterface</a>. Until this step has been completed, the transit
+        /// virtual interface is in the <code>requested</code> state and is not available to handle
+        /// traffic.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AllocateTransitVirtualInterface service method.</param>
+        /// 
+        /// <returns>The response from the AllocateTransitVirtualInterface service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateTransitVirtualInterface">REST API Reference for AllocateTransitVirtualInterface Operation</seealso>
+        public virtual AllocateTransitVirtualInterfaceResponse AllocateTransitVirtualInterface(AllocateTransitVirtualInterfaceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateTransitVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateTransitVirtualInterfaceResponseUnmarshaller.Instance;
+
+            return Invoke<AllocateTransitVirtualInterfaceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AllocateTransitVirtualInterface operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AllocateTransitVirtualInterface operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAllocateTransitVirtualInterface
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateTransitVirtualInterface">REST API Reference for AllocateTransitVirtualInterface Operation</seealso>
+        public virtual IAsyncResult BeginAllocateTransitVirtualInterface(AllocateTransitVirtualInterfaceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateTransitVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateTransitVirtualInterfaceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AllocateTransitVirtualInterface operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAllocateTransitVirtualInterface.</param>
+        /// 
+        /// <returns>Returns a  AllocateTransitVirtualInterfaceResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AllocateTransitVirtualInterface">REST API Reference for AllocateTransitVirtualInterface Operation</seealso>
+        public virtual AllocateTransitVirtualInterfaceResponse EndAllocateTransitVirtualInterface(IAsyncResult asyncResult)
+        {
+            return EndInvoke<AllocateTransitVirtualInterfaceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  AssociateConnectionWithLag
 
         /// <summary>
         /// Associates an existing connection with a link aggregation group (LAG). The connection
-        /// is interrupted and re-established as a member of the LAG (connectivity to AWS will
-        /// be interrupted). The connection must be hosted on the same AWS Direct Connect endpoint
-        /// as the LAG, and its bandwidth must match the bandwidth for the LAG. You can reassociate
-        /// a connection that's currently associated with a different LAG; however, if removing
-        /// the connection will cause the original LAG to fall below its setting for minimum number
-        /// of operational connections, the request fails.
+        /// is interrupted and re-established as a member of the LAG (connectivity to AWS is interrupted).
+        /// The connection must be hosted on the same AWS Direct Connect endpoint as the LAG,
+        /// and its bandwidth must match the bandwidth for the LAG. You can re-associate a connection
+        /// that's currently associated with a different LAG; however, if removing the connection
+        /// would cause the original LAG to fall below its setting for minimum number of operational
+        /// connections, the request fails.
         /// 
         ///  
         /// <para>
@@ -560,20 +727,19 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the AssociateConnectionWithLag service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateConnectionWithLag">REST API Reference for AssociateConnectionWithLag Operation</seealso>
         public virtual AssociateConnectionWithLagResponse AssociateConnectionWithLag(AssociateConnectionWithLagRequest request)
         {
-            var marshaller = AssociateConnectionWithLagRequestMarshaller.Instance;
-            var unmarshaller = AssociateConnectionWithLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateConnectionWithLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateConnectionWithLagResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateConnectionWithLagRequest,AssociateConnectionWithLagResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateConnectionWithLagResponse>(request, options);
         }
 
         /// <summary>
@@ -590,11 +756,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateConnectionWithLag">REST API Reference for AssociateConnectionWithLag Operation</seealso>
         public virtual IAsyncResult BeginAssociateConnectionWithLag(AssociateConnectionWithLagRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateConnectionWithLagRequestMarshaller.Instance;
-            var unmarshaller = AssociateConnectionWithLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateConnectionWithLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateConnectionWithLagResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateConnectionWithLagRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -623,7 +789,7 @@ namespace Amazon.DirectConnect
         /// 
         ///  <note> 
         /// <para>
-        /// This is intended for use by AWS Direct Connect partners only.
+        /// Intended for use by AWS Direct Connect Partners only.
         /// </para>
         ///  </note>
         /// </summary>
@@ -631,20 +797,19 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the AssociateHostedConnection service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateHostedConnection">REST API Reference for AssociateHostedConnection Operation</seealso>
         public virtual AssociateHostedConnectionResponse AssociateHostedConnection(AssociateHostedConnectionRequest request)
         {
-            var marshaller = AssociateHostedConnectionRequestMarshaller.Instance;
-            var unmarshaller = AssociateHostedConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateHostedConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateHostedConnectionResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateHostedConnectionRequest,AssociateHostedConnectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateHostedConnectionResponse>(request, options);
         }
 
         /// <summary>
@@ -661,11 +826,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateHostedConnection">REST API Reference for AssociateHostedConnection Operation</seealso>
         public virtual IAsyncResult BeginAssociateHostedConnection(AssociateHostedConnectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateHostedConnectionRequestMarshaller.Instance;
-            var unmarshaller = AssociateHostedConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateHostedConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateHostedConnectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateHostedConnectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -689,7 +854,7 @@ namespace Amazon.DirectConnect
         /// Associates a virtual interface with a specified link aggregation group (LAG) or connection.
         /// Connectivity to AWS is temporarily interrupted as the virtual interface is being migrated.
         /// If the target connection or LAG has an associated virtual interface with a conflicting
-        /// VLAN number or a conflicting IP address, the operation fails. 
+        /// VLAN number or a conflicting IP address, the operation fails.
         /// 
         ///  
         /// <para>
@@ -699,30 +864,29 @@ namespace Amazon.DirectConnect
         /// </para>
         ///  
         /// <para>
-        /// In order to reassociate a virtual interface to a new connection or LAG, the requester
-        /// must own either the virtual interface itself or the connection to which the virtual
-        /// interface is currently associated. Additionally, the requester must own the connection
-        /// or LAG to which the virtual interface will be newly associated.
+        /// To reassociate a virtual interface to a new connection or LAG, the requester must
+        /// own either the virtual interface itself or the connection to which the virtual interface
+        /// is currently associated. Additionally, the requester must own the connection or LAG
+        /// for the association.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AssociateVirtualInterface service method.</param>
         /// 
         /// <returns>The response from the AssociateVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateVirtualInterface">REST API Reference for AssociateVirtualInterface Operation</seealso>
         public virtual AssociateVirtualInterfaceResponse AssociateVirtualInterface(AssociateVirtualInterfaceRequest request)
         {
-            var marshaller = AssociateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = AssociateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateVirtualInterfaceRequest,AssociateVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -739,11 +903,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/AssociateVirtualInterface">REST API Reference for AssociateVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginAssociateVirtualInterface(AssociateVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = AssociateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -764,33 +928,31 @@ namespace Amazon.DirectConnect
         #region  ConfirmConnection
 
         /// <summary>
-        /// Confirm the creation of a hosted connection on an interconnect.
+        /// Confirms the creation of the specified hosted connection on an interconnect.
         /// 
         ///  
         /// <para>
-        /// Upon creation, the hosted connection is initially in the 'Ordering' state, and will
-        /// remain in this state until the owner calls ConfirmConnection to confirm creation of
-        /// the hosted connection.
+        /// Upon creation, the hosted connection is initially in the <code>Ordering</code> state,
+        /// and remains in this state until the owner confirms creation of the hosted connection.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ConfirmConnection service method.</param>
         /// 
         /// <returns>The response from the ConfirmConnection service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmConnection">REST API Reference for ConfirmConnection Operation</seealso>
         public virtual ConfirmConnectionResponse ConfirmConnection(ConfirmConnectionRequest request)
         {
-            var marshaller = ConfirmConnectionRequestMarshaller.Instance;
-            var unmarshaller = ConfirmConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmConnectionResponseUnmarshaller.Instance;
 
-            return Invoke<ConfirmConnectionRequest,ConfirmConnectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<ConfirmConnectionResponse>(request, options);
         }
 
         /// <summary>
@@ -807,11 +969,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmConnection">REST API Reference for ConfirmConnection Operation</seealso>
         public virtual IAsyncResult BeginConfirmConnection(ConfirmConnectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ConfirmConnectionRequestMarshaller.Instance;
-            var unmarshaller = ConfirmConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmConnectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ConfirmConnectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -832,33 +994,32 @@ namespace Amazon.DirectConnect
         #region  ConfirmPrivateVirtualInterface
 
         /// <summary>
-        /// Accept ownership of a private virtual interface created by another customer.
+        /// Accepts ownership of a private virtual interface created by another AWS account.
         /// 
         ///  
         /// <para>
-        /// After the virtual interface owner calls this function, the virtual interface will
-        /// be created and attached to the given virtual private gateway or direct connect gateway,
-        /// and will be available for handling traffic.
+        /// After the virtual interface owner makes this call, the virtual interface is created
+        /// and attached to the specified virtual private gateway or Direct Connect gateway, and
+        /// is made available to handle traffic.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ConfirmPrivateVirtualInterface service method.</param>
         /// 
         /// <returns>The response from the ConfirmPrivateVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmPrivateVirtualInterface">REST API Reference for ConfirmPrivateVirtualInterface Operation</seealso>
         public virtual ConfirmPrivateVirtualInterfaceResponse ConfirmPrivateVirtualInterface(ConfirmPrivateVirtualInterfaceRequest request)
         {
-            var marshaller = ConfirmPrivateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = ConfirmPrivateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmPrivateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmPrivateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<ConfirmPrivateVirtualInterfaceRequest,ConfirmPrivateVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ConfirmPrivateVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -875,11 +1036,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmPrivateVirtualInterface">REST API Reference for ConfirmPrivateVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginConfirmPrivateVirtualInterface(ConfirmPrivateVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ConfirmPrivateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = ConfirmPrivateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmPrivateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmPrivateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ConfirmPrivateVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -900,32 +1061,31 @@ namespace Amazon.DirectConnect
         #region  ConfirmPublicVirtualInterface
 
         /// <summary>
-        /// Accept ownership of a public virtual interface created by another customer.
+        /// Accepts ownership of a public virtual interface created by another AWS account.
         /// 
         ///  
         /// <para>
-        /// After the virtual interface owner calls this function, the specified virtual interface
-        /// will be created and made available for handling traffic.
+        /// After the virtual interface owner makes this call, the specified virtual interface
+        /// is created and made available to handle traffic.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ConfirmPublicVirtualInterface service method.</param>
         /// 
         /// <returns>The response from the ConfirmPublicVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmPublicVirtualInterface">REST API Reference for ConfirmPublicVirtualInterface Operation</seealso>
         public virtual ConfirmPublicVirtualInterfaceResponse ConfirmPublicVirtualInterface(ConfirmPublicVirtualInterfaceRequest request)
         {
-            var marshaller = ConfirmPublicVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = ConfirmPublicVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmPublicVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmPublicVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<ConfirmPublicVirtualInterfaceRequest,ConfirmPublicVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ConfirmPublicVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -942,11 +1102,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmPublicVirtualInterface">REST API Reference for ConfirmPublicVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginConfirmPublicVirtualInterface(ConfirmPublicVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ConfirmPublicVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = ConfirmPublicVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmPublicVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmPublicVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ConfirmPublicVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -964,22 +1124,93 @@ namespace Amazon.DirectConnect
 
         #endregion
         
-        #region  CreateBGPPeer
+        #region  ConfirmTransitVirtualInterface
 
         /// <summary>
-        /// Creates a new BGP peer on a specified virtual interface. The BGP peer cannot be in
-        /// the same address family (IPv4/IPv6) of an existing BGP peer on the virtual interface.
+        /// Accepts ownership of a transit virtual interface created by another AWS account.
         /// 
         ///  
         /// <para>
-        /// You must create a BGP peer for the corresponding address family in order to access
-        /// AWS resources that also use that address family.
+        ///  After the owner of the transit virtual interface makes this call, the specified transit
+        /// virtual interface is created and made available to handle traffic.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ConfirmTransitVirtualInterface service method.</param>
+        /// 
+        /// <returns>The response from the ConfirmTransitVirtualInterface service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmTransitVirtualInterface">REST API Reference for ConfirmTransitVirtualInterface Operation</seealso>
+        public virtual ConfirmTransitVirtualInterfaceResponse ConfirmTransitVirtualInterface(ConfirmTransitVirtualInterfaceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmTransitVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmTransitVirtualInterfaceResponseUnmarshaller.Instance;
+
+            return Invoke<ConfirmTransitVirtualInterfaceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ConfirmTransitVirtualInterface operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ConfirmTransitVirtualInterface operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndConfirmTransitVirtualInterface
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmTransitVirtualInterface">REST API Reference for ConfirmTransitVirtualInterface Operation</seealso>
+        public virtual IAsyncResult BeginConfirmTransitVirtualInterface(ConfirmTransitVirtualInterfaceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ConfirmTransitVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ConfirmTransitVirtualInterfaceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ConfirmTransitVirtualInterface operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginConfirmTransitVirtualInterface.</param>
+        /// 
+        /// <returns>Returns a  ConfirmTransitVirtualInterfaceResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/ConfirmTransitVirtualInterface">REST API Reference for ConfirmTransitVirtualInterface Operation</seealso>
+        public virtual ConfirmTransitVirtualInterfaceResponse EndConfirmTransitVirtualInterface(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ConfirmTransitVirtualInterfaceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateBGPPeer
+
+        /// <summary>
+        /// Creates a BGP peer on the specified virtual interface.
+        /// 
+        ///  
+        /// <para>
+        /// You must create a BGP peer for the corresponding address family (IPv4/IPv6) in order
+        /// to access AWS resources that also use that address family.
         /// </para>
         ///  
         /// <para>
-        /// When creating a IPv6 BGP peer, the Amazon address and customer address fields must
-        /// be left blank. IPv6 addresses are automatically assigned from Amazon's pool of IPv6
-        /// addresses; you cannot specify custom IPv6 addresses.
+        /// If logical redundancy is not supported by the connection, interconnect, or LAG, the
+        /// BGP peer cannot be in the same address family as an existing BGP peer on the virtual
+        /// interface.
+        /// </para>
+        ///  
+        /// <para>
+        /// When creating a IPv6 BGP peer, omit the Amazon address and customer address. IPv6
+        /// addresses are automatically assigned from the Amazon pool of IPv6 addresses; you cannot
+        /// specify custom IPv6 addresses.
         /// </para>
         ///  
         /// <para>
@@ -991,20 +1222,19 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the CreateBGPPeer service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateBGPPeer">REST API Reference for CreateBGPPeer Operation</seealso>
         public virtual CreateBGPPeerResponse CreateBGPPeer(CreateBGPPeerRequest request)
         {
-            var marshaller = CreateBGPPeerRequestMarshaller.Instance;
-            var unmarshaller = CreateBGPPeerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBGPPeerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBGPPeerResponseUnmarshaller.Instance;
 
-            return Invoke<CreateBGPPeerRequest,CreateBGPPeerResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateBGPPeerResponse>(request, options);
         }
 
         /// <summary>
@@ -1021,11 +1251,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateBGPPeer">REST API Reference for CreateBGPPeer Operation</seealso>
         public virtual IAsyncResult BeginCreateBGPPeer(CreateBGPPeerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateBGPPeerRequestMarshaller.Instance;
-            var unmarshaller = CreateBGPPeerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBGPPeerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBGPPeerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateBGPPeerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1046,48 +1276,50 @@ namespace Amazon.DirectConnect
         #region  CreateConnection
 
         /// <summary>
-        /// Creates a new connection between the customer network and a specific AWS Direct Connect
+        /// Creates a connection between a customer network and a specific AWS Direct Connect
         /// location.
         /// 
         ///  
         /// <para>
         /// A connection links your internal network to an AWS Direct Connect location over a
-        /// standard 1 gigabit or 10 gigabit Ethernet fiber-optic cable. One end of the cable
-        /// is connected to your router, the other to an AWS Direct Connect router. An AWS Direct
-        /// Connect location provides access to Amazon Web Services in the region it is associated
-        /// with. You can establish connections with AWS Direct Connect locations in multiple
-        /// regions, but a connection in one region does not provide connectivity to other regions.
+        /// standard Ethernet fiber-optic cable. One end of the cable is connected to your router,
+        /// the other to an AWS Direct Connect router.
         /// </para>
         ///  
         /// <para>
-        /// To find the locations for your region, use <a>DescribeLocations</a>.
+        /// To find the locations for your Region, use <a>DescribeLocations</a>.
         /// </para>
         ///  
         /// <para>
         /// You can automatically add the new connection to a link aggregation group (LAG) by
         /// specifying a LAG ID in the request. This ensures that the new connection is allocated
         /// on the same AWS Direct Connect endpoint that hosts the specified LAG. If there are
-        /// no available ports on the endpoint, the request fails and no connection will be created.
+        /// no available ports on the endpoint, the request fails and no connection is created.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateConnection service method.</param>
         /// 
         /// <returns>The response from the CreateConnection service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateConnection">REST API Reference for CreateConnection Operation</seealso>
         public virtual CreateConnectionResponse CreateConnection(CreateConnectionRequest request)
         {
-            var marshaller = CreateConnectionRequestMarshaller.Instance;
-            var unmarshaller = CreateConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateConnectionResponseUnmarshaller.Instance;
 
-            return Invoke<CreateConnectionRequest,CreateConnectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateConnectionResponse>(request, options);
         }
 
         /// <summary>
@@ -1104,11 +1336,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateConnection">REST API Reference for CreateConnection Operation</seealso>
         public virtual IAsyncResult BeginCreateConnection(CreateConnectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateConnectionRequestMarshaller.Instance;
-            var unmarshaller = CreateConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateConnectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateConnectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1129,32 +1361,31 @@ namespace Amazon.DirectConnect
         #region  CreateDirectConnectGateway
 
         /// <summary>
-        /// Creates a new direct connect gateway. A direct connect gateway is an intermediate
-        /// object that enables you to connect a set of virtual interfaces and virtual private
-        /// gateways. direct connect gateways are global and visible in any AWS region after they
-        /// are created. The virtual interfaces and virtual private gateways that are connected
-        /// through a direct connect gateway can be in different regions. This enables you to
-        /// connect to a VPC in any region, regardless of the region in which the virtual interfaces
-        /// are located, and pass traffic between them.
+        /// Creates a Direct Connect gateway, which is an intermediate object that enables you
+        /// to connect a set of virtual interfaces and virtual private gateways. A Direct Connect
+        /// gateway is global and visible in any AWS Region after it is created. The virtual interfaces
+        /// and virtual private gateways that are connected through a Direct Connect gateway can
+        /// be in different AWS Regions. This enables you to connect to a VPC in any Region, regardless
+        /// of the Region in which the virtual interfaces are located, and pass traffic between
+        /// them.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDirectConnectGateway service method.</param>
         /// 
         /// <returns>The response from the CreateDirectConnectGateway service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateDirectConnectGateway">REST API Reference for CreateDirectConnectGateway Operation</seealso>
         public virtual CreateDirectConnectGatewayResponse CreateDirectConnectGateway(CreateDirectConnectGatewayRequest request)
         {
-            var marshaller = CreateDirectConnectGatewayRequestMarshaller.Instance;
-            var unmarshaller = CreateDirectConnectGatewayResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectConnectGatewayRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectConnectGatewayResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDirectConnectGatewayRequest,CreateDirectConnectGatewayResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDirectConnectGatewayResponse>(request, options);
         }
 
         /// <summary>
@@ -1171,11 +1402,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateDirectConnectGateway">REST API Reference for CreateDirectConnectGateway Operation</seealso>
         public virtual IAsyncResult BeginCreateDirectConnectGateway(CreateDirectConnectGatewayRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDirectConnectGatewayRequestMarshaller.Instance;
-            var unmarshaller = CreateDirectConnectGatewayResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectConnectGatewayRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectConnectGatewayResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDirectConnectGatewayRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1196,28 +1427,27 @@ namespace Amazon.DirectConnect
         #region  CreateDirectConnectGatewayAssociation
 
         /// <summary>
-        /// Creates an association between a direct connect gateway and a virtual private gateway
-        /// (VGW). The VGW must be attached to a VPC and must not be associated with another direct
-        /// connect gateway.
+        /// Creates an association between a Direct Connect gateway and a virtual private gateway.
+        /// The virtual private gateway must be attached to a VPC and must not be associated with
+        /// another Direct Connect gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDirectConnectGatewayAssociation service method.</param>
         /// 
         /// <returns>The response from the CreateDirectConnectGatewayAssociation service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateDirectConnectGatewayAssociation">REST API Reference for CreateDirectConnectGatewayAssociation Operation</seealso>
         public virtual CreateDirectConnectGatewayAssociationResponse CreateDirectConnectGatewayAssociation(CreateDirectConnectGatewayAssociationRequest request)
         {
-            var marshaller = CreateDirectConnectGatewayAssociationRequestMarshaller.Instance;
-            var unmarshaller = CreateDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectConnectGatewayAssociationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDirectConnectGatewayAssociationRequest,CreateDirectConnectGatewayAssociationResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDirectConnectGatewayAssociationResponse>(request, options);
         }
 
         /// <summary>
@@ -1234,11 +1464,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateDirectConnectGatewayAssociation">REST API Reference for CreateDirectConnectGatewayAssociation Operation</seealso>
         public virtual IAsyncResult BeginCreateDirectConnectGatewayAssociation(CreateDirectConnectGatewayAssociationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDirectConnectGatewayAssociationRequestMarshaller.Instance;
-            var unmarshaller = CreateDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectConnectGatewayAssociationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDirectConnectGatewayAssociationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1256,40 +1486,106 @@ namespace Amazon.DirectConnect
 
         #endregion
         
+        #region  CreateDirectConnectGatewayAssociationProposal
+
+        /// <summary>
+        /// Creates a proposal to associate the specified virtual private gateway or transit gateway
+        /// with the specified Direct Connect gateway.
+        /// 
+        ///  
+        /// <para>
+        /// You can only associate a Direct Connect gateway and virtual private gateway or transit
+        /// gateway when the account that owns the Direct Connect gateway and the account that
+        /// owns the virtual private gateway or transit gateway have the same AWS Payer ID.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDirectConnectGatewayAssociationProposal service method.</param>
+        /// 
+        /// <returns>The response from the CreateDirectConnectGatewayAssociationProposal service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateDirectConnectGatewayAssociationProposal">REST API Reference for CreateDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual CreateDirectConnectGatewayAssociationProposalResponse CreateDirectConnectGatewayAssociationProposal(CreateDirectConnectGatewayAssociationProposalRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectConnectGatewayAssociationProposalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectConnectGatewayAssociationProposalResponseUnmarshaller.Instance;
+
+            return Invoke<CreateDirectConnectGatewayAssociationProposalResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateDirectConnectGatewayAssociationProposal operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateDirectConnectGatewayAssociationProposal operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDirectConnectGatewayAssociationProposal
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateDirectConnectGatewayAssociationProposal">REST API Reference for CreateDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual IAsyncResult BeginCreateDirectConnectGatewayAssociationProposal(CreateDirectConnectGatewayAssociationProposalRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDirectConnectGatewayAssociationProposalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDirectConnectGatewayAssociationProposalResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateDirectConnectGatewayAssociationProposal operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDirectConnectGatewayAssociationProposal.</param>
+        /// 
+        /// <returns>Returns a  CreateDirectConnectGatewayAssociationProposalResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateDirectConnectGatewayAssociationProposal">REST API Reference for CreateDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual CreateDirectConnectGatewayAssociationProposalResponse EndCreateDirectConnectGatewayAssociationProposal(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateDirectConnectGatewayAssociationProposalResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateInterconnect
 
         /// <summary>
-        /// Creates a new interconnect between a AWS Direct Connect partner's network and a specific
+        /// Creates an interconnect between an AWS Direct Connect Partner's network and a specific
         /// AWS Direct Connect location.
         /// 
         ///  
         /// <para>
-        /// An interconnect is a connection which is capable of hosting other connections. The
-        /// AWS Direct Connect partner can use an interconnect to provide sub-1Gbps AWS Direct
-        /// Connect service to tier 2 customers who do not have their own connections. Like a
-        /// standard connection, an interconnect links the AWS Direct Connect partner's network
-        /// to an AWS Direct Connect location over a standard 1 Gbps or 10 Gbps Ethernet fiber-optic
-        /// cable. One end is connected to the partner's router, the other to an AWS Direct Connect
-        /// router.
+        /// An interconnect is a connection that is capable of hosting other connections. The
+        /// AWS Direct Connect partner can use an interconnect to provide AWS Direct Connect hosted
+        /// connections to customers through their own network services. Like a standard connection,
+        /// an interconnect links the partner's network to an AWS Direct Connect location over
+        /// a standard Ethernet fiber-optic cable. One end is connected to the partner's router,
+        /// the other to an AWS Direct Connect router.
         /// </para>
         ///  
         /// <para>
         /// You can automatically add the new interconnect to a link aggregation group (LAG) by
         /// specifying a LAG ID in the request. This ensures that the new interconnect is allocated
         /// on the same AWS Direct Connect endpoint that hosts the specified LAG. If there are
-        /// no available ports on the endpoint, the request fails and no interconnect will be
-        /// created.
+        /// no available ports on the endpoint, the request fails and no interconnect is created.
         /// </para>
         ///  
         /// <para>
-        /// For each end customer, the AWS Direct Connect partner provisions a connection on their
-        /// interconnect by calling AllocateConnectionOnInterconnect. The end customer can then
+        /// For each end customer, the AWS Direct Connect Partner provisions a connection on their
+        /// interconnect by calling <a>AllocateHostedConnection</a>. The end customer can then
         /// connect to AWS resources by creating a virtual interface on their connection, using
-        /// the VLAN assigned to them by the AWS Direct Connect partner.
+        /// the VLAN assigned to them by the AWS Direct Connect Partner.
         /// </para>
         ///  <note> 
         /// <para>
-        /// This is intended for use by AWS Direct Connect partners only.
+        /// Intended for use by AWS Direct Connect Partners only.
         /// </para>
         ///  </note>
         /// </summary>
@@ -1297,20 +1593,25 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the CreateInterconnect service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateInterconnect">REST API Reference for CreateInterconnect Operation</seealso>
         public virtual CreateInterconnectResponse CreateInterconnect(CreateInterconnectRequest request)
         {
-            var marshaller = CreateInterconnectRequestMarshaller.Instance;
-            var unmarshaller = CreateInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInterconnectResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInterconnectRequest,CreateInterconnectResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInterconnectResponse>(request, options);
         }
 
         /// <summary>
@@ -1327,11 +1628,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateInterconnect">REST API Reference for CreateInterconnect Operation</seealso>
         public virtual IAsyncResult BeginCreateInterconnect(CreateInterconnectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInterconnectRequestMarshaller.Instance;
-            var unmarshaller = CreateInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInterconnectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInterconnectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1352,16 +1653,15 @@ namespace Amazon.DirectConnect
         #region  CreateLag
 
         /// <summary>
-        /// Creates a new link aggregation group (LAG) with the specified number of bundled physical
+        /// Creates a link aggregation group (LAG) with the specified number of bundled physical
         /// connections between the customer network and a specific AWS Direct Connect location.
         /// A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP)
-        /// to aggregate multiple 1 gigabit or 10 gigabit interfaces, allowing you to treat them
-        /// as a single interface.
+        /// to aggregate multiple interfaces, enabling you to treat them as a single interface.
         /// 
         ///  
         /// <para>
-        /// All connections in a LAG must use the same bandwidth (for example, 10 Gbps), and must
-        /// terminate at the same AWS Direct Connect endpoint.
+        /// All connections in a LAG must use the same bandwidth and must terminate at the same
+        /// AWS Direct Connect endpoint.
         /// </para>
         ///  
         /// <para>
@@ -1381,7 +1681,7 @@ namespace Amazon.DirectConnect
         /// </para>
         ///  
         /// <para>
-        /// If the AWS account used to create a LAG is a registered AWS Direct Connect partner,
+        /// If the AWS account used to create a LAG is a registered AWS Direct Connect Partner,
         /// the LAG is automatically enabled to host sub-connections. For a LAG owned by a partner,
         /// any associated virtual interfaces cannot be directly configured.
         /// </para>
@@ -1390,20 +1690,25 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the CreateLag service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateLag">REST API Reference for CreateLag Operation</seealso>
         public virtual CreateLagResponse CreateLag(CreateLagRequest request)
         {
-            var marshaller = CreateLagRequestMarshaller.Instance;
-            var unmarshaller = CreateLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLagResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLagRequest,CreateLagResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLagResponse>(request, options);
         }
 
         /// <summary>
@@ -1420,11 +1725,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateLag">REST API Reference for CreateLag Operation</seealso>
         public virtual IAsyncResult BeginCreateLag(CreateLagRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateLagRequestMarshaller.Instance;
-            var unmarshaller = CreateLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLagResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateLagRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1445,28 +1750,36 @@ namespace Amazon.DirectConnect
         #region  CreatePrivateVirtualInterface
 
         /// <summary>
-        /// Creates a new private virtual interface. A virtual interface is the VLAN that transports
-        /// AWS Direct Connect traffic. A private virtual interface supports sending traffic to
-        /// a single virtual private cloud (VPC).
+        /// Creates a private virtual interface. A virtual interface is the VLAN that transports
+        /// AWS Direct Connect traffic. A private virtual interface can be connected to either
+        /// a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private
+        /// virtual interface to a Direct Connect gateway enables the possibility for connecting
+        /// to multiple VPCs, including VPCs in different AWS Regions. Connecting the private
+        /// virtual interface to a VGW only provides access to a single VPC within the same Region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreatePrivateVirtualInterface service method.</param>
         /// 
         /// <returns>The response from the CreatePrivateVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreatePrivateVirtualInterface">REST API Reference for CreatePrivateVirtualInterface Operation</seealso>
         public virtual CreatePrivateVirtualInterfaceResponse CreatePrivateVirtualInterface(CreatePrivateVirtualInterfaceRequest request)
         {
-            var marshaller = CreatePrivateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = CreatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePrivateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<CreatePrivateVirtualInterfaceRequest,CreatePrivateVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreatePrivateVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -1483,11 +1796,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreatePrivateVirtualInterface">REST API Reference for CreatePrivateVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginCreatePrivateVirtualInterface(CreatePrivateVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreatePrivateVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = CreatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePrivateVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePrivateVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreatePrivateVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1508,35 +1821,40 @@ namespace Amazon.DirectConnect
         #region  CreatePublicVirtualInterface
 
         /// <summary>
-        /// Creates a new public virtual interface. A virtual interface is the VLAN that transports
+        /// Creates a public virtual interface. A virtual interface is the VLAN that transports
         /// AWS Direct Connect traffic. A public virtual interface supports sending traffic to
-        /// public services of AWS such as Amazon Simple Storage Service (Amazon S3).
+        /// public services of AWS such as Amazon S3.
         /// 
         ///  
         /// <para>
-        /// When creating an IPv6 public virtual interface (addressFamily is 'ipv6'), the customer
-        /// and amazon address fields should be left blank to use auto-assigned IPv6 space. Custom
-        /// IPv6 Addresses are currently not supported.
+        /// When creating an IPv6 public virtual interface (<code>addressFamily</code> is <code>ipv6</code>),
+        /// leave the <code>customer</code> and <code>amazon</code> address fields blank to use
+        /// auto-assigned IPv6 space. Custom IPv6 addresses are not supported.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreatePublicVirtualInterface service method.</param>
         /// 
         /// <returns>The response from the CreatePublicVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreatePublicVirtualInterface">REST API Reference for CreatePublicVirtualInterface Operation</seealso>
         public virtual CreatePublicVirtualInterfaceResponse CreatePublicVirtualInterface(CreatePublicVirtualInterfaceRequest request)
         {
-            var marshaller = CreatePublicVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = CreatePublicVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePublicVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePublicVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<CreatePublicVirtualInterfaceRequest,CreatePublicVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreatePublicVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -1553,11 +1871,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreatePublicVirtualInterface">REST API Reference for CreatePublicVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginCreatePublicVirtualInterface(CreatePublicVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreatePublicVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = CreatePublicVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePublicVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePublicVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreatePublicVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1575,30 +1893,112 @@ namespace Amazon.DirectConnect
 
         #endregion
         
+        #region  CreateTransitVirtualInterface
+
+        /// <summary>
+        /// Creates a transit virtual interface. A transit virtual interface should be used to
+        /// access one or more transit gateways associated with Direct Connect gateways. A transit
+        /// virtual interface enables the connection of multiple VPCs attached to a transit gateway
+        /// to a Direct Connect gateway.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// If you associate your transit gateway with one or more Direct Connect gateways, the
+        /// Autonomous System Number (ASN) used by the transit gateway and the Direct Connect
+        /// gateway must be different. For example, if you use the default ASN 64512 for both
+        /// your the transit gateway and Direct Connect gateway, the association request fails.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitVirtualInterface service method.</param>
+        /// 
+        /// <returns>The response from the CreateTransitVirtualInterface service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
+        /// A tag key was specified more than once.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
+        /// You have reached the limit on the number of tags that can be assigned.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateTransitVirtualInterface">REST API Reference for CreateTransitVirtualInterface Operation</seealso>
+        public virtual CreateTransitVirtualInterfaceResponse CreateTransitVirtualInterface(CreateTransitVirtualInterfaceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTransitVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTransitVirtualInterfaceResponseUnmarshaller.Instance;
+
+            return Invoke<CreateTransitVirtualInterfaceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTransitVirtualInterface operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTransitVirtualInterface operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTransitVirtualInterface
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateTransitVirtualInterface">REST API Reference for CreateTransitVirtualInterface Operation</seealso>
+        public virtual IAsyncResult BeginCreateTransitVirtualInterface(CreateTransitVirtualInterfaceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTransitVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTransitVirtualInterfaceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTransitVirtualInterface operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTransitVirtualInterface.</param>
+        /// 
+        /// <returns>Returns a  CreateTransitVirtualInterfaceResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/CreateTransitVirtualInterface">REST API Reference for CreateTransitVirtualInterface Operation</seealso>
+        public virtual CreateTransitVirtualInterfaceResponse EndCreateTransitVirtualInterface(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateTransitVirtualInterfaceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteBGPPeer
 
         /// <summary>
-        /// Deletes a BGP peer on the specified virtual interface that matches the specified customer
-        /// address and ASN. You cannot delete the last BGP peer from a virtual interface.
+        /// Deletes the specified BGP peer on the specified virtual interface with the specified
+        /// customer address and ASN.
+        /// 
+        ///  
+        /// <para>
+        /// You cannot delete the last BGP peer from a virtual interface.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBGPPeer service method.</param>
         /// 
         /// <returns>The response from the DeleteBGPPeer service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteBGPPeer">REST API Reference for DeleteBGPPeer Operation</seealso>
         public virtual DeleteBGPPeerResponse DeleteBGPPeer(DeleteBGPPeerRequest request)
         {
-            var marshaller = DeleteBGPPeerRequestMarshaller.Instance;
-            var unmarshaller = DeleteBGPPeerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBGPPeerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBGPPeerResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBGPPeerRequest,DeleteBGPPeerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBGPPeerResponse>(request, options);
         }
 
         /// <summary>
@@ -1615,11 +2015,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteBGPPeer">REST API Reference for DeleteBGPPeer Operation</seealso>
         public virtual IAsyncResult BeginDeleteBGPPeer(DeleteBGPPeerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBGPPeerRequestMarshaller.Instance;
-            var unmarshaller = DeleteBGPPeerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBGPPeerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBGPPeerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBGPPeerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1640,34 +2040,32 @@ namespace Amazon.DirectConnect
         #region  DeleteConnection
 
         /// <summary>
-        /// Deletes the connection.
+        /// Deletes the specified connection.
         /// 
         ///  
         /// <para>
         /// Deleting a connection only stops the AWS Direct Connect port hour and data transfer
-        /// charges. You need to cancel separately with the providers any services or charges
-        /// for cross-connects or network circuits that connect you to the AWS Direct Connect
-        /// location.
+        /// charges. If you are partnering with any third parties to connect with the AWS Direct
+        /// Connect location, you must cancel your service with them separately.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteConnection service method.</param>
         /// 
         /// <returns>The response from the DeleteConnection service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteConnection">REST API Reference for DeleteConnection Operation</seealso>
         public virtual DeleteConnectionResponse DeleteConnection(DeleteConnectionRequest request)
         {
-            var marshaller = DeleteConnectionRequestMarshaller.Instance;
-            var unmarshaller = DeleteConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteConnectionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteConnectionRequest,DeleteConnectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteConnectionResponse>(request, options);
         }
 
         /// <summary>
@@ -1684,11 +2082,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteConnection">REST API Reference for DeleteConnection Operation</seealso>
         public virtual IAsyncResult BeginDeleteConnection(DeleteConnectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteConnectionRequestMarshaller.Instance;
-            var unmarshaller = DeleteConnectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteConnectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteConnectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteConnectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1709,28 +2107,27 @@ namespace Amazon.DirectConnect
         #region  DeleteDirectConnectGateway
 
         /// <summary>
-        /// Deletes a direct connect gateway. You must first delete all virtual interfaces that
-        /// are attached to the direct connect gateway and disassociate all virtual private gateways
-        /// that are associated with the direct connect gateway.
+        /// Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces
+        /// that are attached to the Direct Connect gateway and disassociate all virtual private
+        /// gateways associated with the Direct Connect gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDirectConnectGateway service method.</param>
         /// 
         /// <returns>The response from the DeleteDirectConnectGateway service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteDirectConnectGateway">REST API Reference for DeleteDirectConnectGateway Operation</seealso>
         public virtual DeleteDirectConnectGatewayResponse DeleteDirectConnectGateway(DeleteDirectConnectGatewayRequest request)
         {
-            var marshaller = DeleteDirectConnectGatewayRequestMarshaller.Instance;
-            var unmarshaller = DeleteDirectConnectGatewayResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectConnectGatewayRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectConnectGatewayResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDirectConnectGatewayRequest,DeleteDirectConnectGatewayResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDirectConnectGatewayResponse>(request, options);
         }
 
         /// <summary>
@@ -1747,11 +2144,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteDirectConnectGateway">REST API Reference for DeleteDirectConnectGateway Operation</seealso>
         public virtual IAsyncResult BeginDeleteDirectConnectGateway(DeleteDirectConnectGatewayRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDirectConnectGatewayRequestMarshaller.Instance;
-            var unmarshaller = DeleteDirectConnectGatewayResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectConnectGatewayRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectConnectGatewayResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDirectConnectGatewayRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1772,26 +2169,34 @@ namespace Amazon.DirectConnect
         #region  DeleteDirectConnectGatewayAssociation
 
         /// <summary>
-        /// Deletes the association between a direct connect gateway and a virtual private gateway.
+        /// Deletes the association between the specified Direct Connect gateway and virtual private
+        /// gateway.
+        /// 
+        ///  
+        /// <para>
+        /// We recommend that you specify the <code>associationID</code> to delete the association.
+        /// Alternatively, if you own virtual gateway and a Direct Connect gateway association,
+        /// you can specify the <code>virtualGatewayId</code> and <code>directConnectGatewayId</code>
+        /// to delete an association.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDirectConnectGatewayAssociation service method.</param>
         /// 
         /// <returns>The response from the DeleteDirectConnectGatewayAssociation service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteDirectConnectGatewayAssociation">REST API Reference for DeleteDirectConnectGatewayAssociation Operation</seealso>
         public virtual DeleteDirectConnectGatewayAssociationResponse DeleteDirectConnectGatewayAssociation(DeleteDirectConnectGatewayAssociationRequest request)
         {
-            var marshaller = DeleteDirectConnectGatewayAssociationRequestMarshaller.Instance;
-            var unmarshaller = DeleteDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectConnectGatewayAssociationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDirectConnectGatewayAssociationRequest,DeleteDirectConnectGatewayAssociationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDirectConnectGatewayAssociationResponse>(request, options);
         }
 
         /// <summary>
@@ -1808,11 +2213,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteDirectConnectGatewayAssociation">REST API Reference for DeleteDirectConnectGatewayAssociation Operation</seealso>
         public virtual IAsyncResult BeginDeleteDirectConnectGatewayAssociation(DeleteDirectConnectGatewayAssociationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDirectConnectGatewayAssociationRequestMarshaller.Instance;
-            var unmarshaller = DeleteDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectConnectGatewayAssociationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDirectConnectGatewayAssociationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1830,6 +2235,67 @@ namespace Amazon.DirectConnect
 
         #endregion
         
+        #region  DeleteDirectConnectGatewayAssociationProposal
+
+        /// <summary>
+        /// Deletes the association proposal request between the specified Direct Connect gateway
+        /// and virtual private gateway or transit gateway.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDirectConnectGatewayAssociationProposal service method.</param>
+        /// 
+        /// <returns>The response from the DeleteDirectConnectGatewayAssociationProposal service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteDirectConnectGatewayAssociationProposal">REST API Reference for DeleteDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual DeleteDirectConnectGatewayAssociationProposalResponse DeleteDirectConnectGatewayAssociationProposal(DeleteDirectConnectGatewayAssociationProposalRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectConnectGatewayAssociationProposalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectConnectGatewayAssociationProposalResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteDirectConnectGatewayAssociationProposalResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteDirectConnectGatewayAssociationProposal operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDirectConnectGatewayAssociationProposal operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDirectConnectGatewayAssociationProposal
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteDirectConnectGatewayAssociationProposal">REST API Reference for DeleteDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual IAsyncResult BeginDeleteDirectConnectGatewayAssociationProposal(DeleteDirectConnectGatewayAssociationProposalRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDirectConnectGatewayAssociationProposalRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDirectConnectGatewayAssociationProposalResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteDirectConnectGatewayAssociationProposal operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDirectConnectGatewayAssociationProposal.</param>
+        /// 
+        /// <returns>Returns a  DeleteDirectConnectGatewayAssociationProposalResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteDirectConnectGatewayAssociationProposal">REST API Reference for DeleteDirectConnectGatewayAssociationProposal Operation</seealso>
+        public virtual DeleteDirectConnectGatewayAssociationProposalResponse EndDeleteDirectConnectGatewayAssociationProposal(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteDirectConnectGatewayAssociationProposalResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteInterconnect
 
         /// <summary>
@@ -1837,7 +2303,7 @@ namespace Amazon.DirectConnect
         /// 
         ///  <note> 
         /// <para>
-        /// This is intended for use by AWS Direct Connect partners only.
+        /// Intended for use by AWS Direct Connect Partners only.
         /// </para>
         ///  </note>
         /// </summary>
@@ -1845,20 +2311,19 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the DeleteInterconnect service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteInterconnect">REST API Reference for DeleteInterconnect Operation</seealso>
         public virtual DeleteInterconnectResponse DeleteInterconnect(DeleteInterconnectRequest request)
         {
-            var marshaller = DeleteInterconnectRequestMarshaller.Instance;
-            var unmarshaller = DeleteInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInterconnectResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInterconnectRequest,DeleteInterconnectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInterconnectResponse>(request, options);
         }
 
         /// <summary>
@@ -1875,11 +2340,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteInterconnect">REST API Reference for DeleteInterconnect Operation</seealso>
         public virtual IAsyncResult BeginDeleteInterconnect(DeleteInterconnectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteInterconnectRequestMarshaller.Instance;
-            var unmarshaller = DeleteInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInterconnectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteInterconnectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1900,27 +2365,26 @@ namespace Amazon.DirectConnect
         #region  DeleteLag
 
         /// <summary>
-        /// Deletes a link aggregation group (LAG). You cannot delete a LAG if it has active virtual
-        /// interfaces or hosted connections.
+        /// Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it
+        /// has active virtual interfaces or hosted connections.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLag service method.</param>
         /// 
         /// <returns>The response from the DeleteLag service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteLag">REST API Reference for DeleteLag Operation</seealso>
         public virtual DeleteLagResponse DeleteLag(DeleteLagRequest request)
         {
-            var marshaller = DeleteLagRequestMarshaller.Instance;
-            var unmarshaller = DeleteLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLagResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLagRequest,DeleteLagResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLagResponse>(request, options);
         }
 
         /// <summary>
@@ -1937,11 +2401,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteLag">REST API Reference for DeleteLag Operation</seealso>
         public virtual IAsyncResult BeginDeleteLag(DeleteLagRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLagRequestMarshaller.Instance;
-            var unmarshaller = DeleteLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLagResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLagRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1968,20 +2432,19 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the DeleteVirtualInterface service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteVirtualInterface">REST API Reference for DeleteVirtualInterface Operation</seealso>
         public virtual DeleteVirtualInterfaceResponse DeleteVirtualInterface(DeleteVirtualInterfaceRequest request)
         {
-            var marshaller = DeleteVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = DeleteVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteVirtualInterfaceRequest,DeleteVirtualInterfaceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteVirtualInterfaceResponse>(request, options);
         }
 
         /// <summary>
@@ -1998,11 +2461,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DeleteVirtualInterface">REST API Reference for DeleteVirtualInterface Operation</seealso>
         public virtual IAsyncResult BeginDeleteVirtualInterface(DeleteVirtualInterfaceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteVirtualInterfaceRequestMarshaller.Instance;
-            var unmarshaller = DeleteVirtualInterfaceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVirtualInterfaceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVirtualInterfaceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteVirtualInterfaceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2023,40 +2486,39 @@ namespace Amazon.DirectConnect
         #region  DescribeConnectionLoa
 
         /// <summary>
-        /// Deprecated in favor of <a>DescribeLoa</a>.
+        /// Deprecated. Use <a>DescribeLoa</a> instead.
         /// 
         ///  
         /// <para>
-        /// Returns the LOA-CFA for a Connection.
+        /// Gets the LOA-CFA for a connection.
         /// </para>
         ///  
         /// <para>
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document
         /// that your APN partner or service provider uses when establishing your cross connect
-        /// to AWS at the colocation facility. For more information, see <a href="http://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
-        /// Cross Connects at AWS Direct Connect Locations</a> in the AWS Direct Connect user
-        /// guide.
+        /// to AWS at the colocation facility. For more information, see <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
+        /// Cross Connects at AWS Direct Connect Locations</a> in the <i>AWS Direct Connect User
+        /// Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeConnectionLoa service method.</param>
         /// 
         /// <returns>The response from the DescribeConnectionLoa service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeConnectionLoa">REST API Reference for DescribeConnectionLoa Operation</seealso>
         [Obsolete("Deprecated in favor of DescribeLoa.")]
         public virtual DescribeConnectionLoaResponse DescribeConnectionLoa(DescribeConnectionLoaRequest request)
         {
-            var marshaller = DescribeConnectionLoaRequestMarshaller.Instance;
-            var unmarshaller = DescribeConnectionLoaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeConnectionLoaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeConnectionLoaResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeConnectionLoaRequest,DescribeConnectionLoaResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeConnectionLoaResponse>(request, options);
         }
 
         /// <summary>
@@ -2074,11 +2536,11 @@ namespace Amazon.DirectConnect
         [Obsolete("Deprecated in favor of DescribeLoa.")]
         public virtual IAsyncResult BeginDescribeConnectionLoa(DescribeConnectionLoaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeConnectionLoaRequestMarshaller.Instance;
-            var unmarshaller = DescribeConnectionLoaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeConnectionLoaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeConnectionLoaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeConnectionLoaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2100,22 +2562,15 @@ namespace Amazon.DirectConnect
         #region  DescribeConnections
 
         /// <summary>
-        /// Displays all connections in this region.
-        /// 
-        ///  
-        /// <para>
-        /// If a connection ID is provided, the call returns only that particular connection.
-        /// </para>
+        /// Displays the specified connection or all connections in this Region.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeConnections service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeConnections">REST API Reference for DescribeConnections Operation</seealso>
         public virtual DescribeConnectionsResponse DescribeConnections()
@@ -2124,31 +2579,25 @@ namespace Amazon.DirectConnect
         }
 
         /// <summary>
-        /// Displays all connections in this region.
-        /// 
-        ///  
-        /// <para>
-        /// If a connection ID is provided, the call returns only that particular connection.
-        /// </para>
+        /// Displays the specified connection or all connections in this Region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeConnections service method.</param>
         /// 
         /// <returns>The response from the DescribeConnections service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeConnections">REST API Reference for DescribeConnections Operation</seealso>
         public virtual DescribeConnectionsResponse DescribeConnections(DescribeConnectionsRequest request)
         {
-            var marshaller = DescribeConnectionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeConnectionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeConnectionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeConnectionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeConnectionsRequest,DescribeConnectionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeConnectionsResponse>(request, options);
         }
 
         /// <summary>
@@ -2165,11 +2614,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeConnections">REST API Reference for DescribeConnections Operation</seealso>
         public virtual IAsyncResult BeginDescribeConnections(DescribeConnectionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeConnectionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeConnectionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeConnectionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeConnectionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeConnectionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2190,15 +2639,15 @@ namespace Amazon.DirectConnect
         #region  DescribeConnectionsOnInterconnect
 
         /// <summary>
-        /// Deprecated in favor of <a>DescribeHostedConnections</a>.
+        /// Deprecated. Use <a>DescribeHostedConnections</a> instead.
         /// 
         ///  
         /// <para>
-        /// Returns a list of connections that have been provisioned on the given interconnect.
+        /// Lists the connections that have been provisioned on the specified interconnect.
         /// </para>
         ///  <note> 
         /// <para>
-        /// This is intended for use by AWS Direct Connect partners only.
+        /// Intended for use by AWS Direct Connect Partners only.
         /// </para>
         ///  </note>
         /// </summary>
@@ -2206,21 +2655,20 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the DescribeConnectionsOnInterconnect service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeConnectionsOnInterconnect">REST API Reference for DescribeConnectionsOnInterconnect Operation</seealso>
         [Obsolete("Deprecated in favor of DescribeHostedConnections.")]
         public virtual DescribeConnectionsOnInterconnectResponse DescribeConnectionsOnInterconnect(DescribeConnectionsOnInterconnectRequest request)
         {
-            var marshaller = DescribeConnectionsOnInterconnectRequestMarshaller.Instance;
-            var unmarshaller = DescribeConnectionsOnInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeConnectionsOnInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeConnectionsOnInterconnectResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeConnectionsOnInterconnectRequest,DescribeConnectionsOnInterconnectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeConnectionsOnInterconnectResponse>(request, options);
         }
 
         /// <summary>
@@ -2238,11 +2686,11 @@ namespace Amazon.DirectConnect
         [Obsolete("Deprecated in favor of DescribeHostedConnections.")]
         public virtual IAsyncResult BeginDescribeConnectionsOnInterconnect(DescribeConnectionsOnInterconnectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeConnectionsOnInterconnectRequestMarshaller.Instance;
-            var unmarshaller = DescribeConnectionsOnInterconnectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeConnectionsOnInterconnectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeConnectionsOnInterconnectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeConnectionsOnInterconnectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2261,35 +2709,95 @@ namespace Amazon.DirectConnect
 
         #endregion
         
+        #region  DescribeDirectConnectGatewayAssociationProposals
+
+        /// <summary>
+        /// Describes one or more association proposals for connection between a virtual private
+        /// gateway or transit gateway and a Direct Connect gateway.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDirectConnectGatewayAssociationProposals service method.</param>
+        /// 
+        /// <returns>The response from the DescribeDirectConnectGatewayAssociationProposals service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGatewayAssociationProposals">REST API Reference for DescribeDirectConnectGatewayAssociationProposals Operation</seealso>
+        public virtual DescribeDirectConnectGatewayAssociationProposalsResponse DescribeDirectConnectGatewayAssociationProposals(DescribeDirectConnectGatewayAssociationProposalsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewayAssociationProposalsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewayAssociationProposalsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeDirectConnectGatewayAssociationProposalsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeDirectConnectGatewayAssociationProposals operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDirectConnectGatewayAssociationProposals operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeDirectConnectGatewayAssociationProposals
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGatewayAssociationProposals">REST API Reference for DescribeDirectConnectGatewayAssociationProposals Operation</seealso>
+        public virtual IAsyncResult BeginDescribeDirectConnectGatewayAssociationProposals(DescribeDirectConnectGatewayAssociationProposalsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewayAssociationProposalsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewayAssociationProposalsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeDirectConnectGatewayAssociationProposals operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeDirectConnectGatewayAssociationProposals.</param>
+        /// 
+        /// <returns>Returns a  DescribeDirectConnectGatewayAssociationProposalsResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGatewayAssociationProposals">REST API Reference for DescribeDirectConnectGatewayAssociationProposals Operation</seealso>
+        public virtual DescribeDirectConnectGatewayAssociationProposalsResponse EndDescribeDirectConnectGatewayAssociationProposals(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeDirectConnectGatewayAssociationProposalsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeDirectConnectGatewayAssociations
 
         /// <summary>
-        /// Returns a list of all direct connect gateway and virtual private gateway (VGW) associations.
-        /// Either a direct connect gateway ID or a VGW ID must be provided in the request. If
-        /// a direct connect gateway ID is provided, the response returns all VGWs associated
-        /// with the direct connect gateway. If a VGW ID is provided, the response returns all
-        /// direct connect gateways associated with the VGW. If both are provided, the response
-        /// only returns the association that matches both the direct connect gateway and the
-        /// VGW.
+        /// Lists the associations between your Direct Connect gateways and virtual private gateways.
+        /// You must specify a Direct Connect gateway, a virtual private gateway, or both. If
+        /// you specify a Direct Connect gateway, the response contains all virtual private gateways
+        /// associated with the Direct Connect gateway. If you specify a virtual private gateway,
+        /// the response contains all Direct Connect gateways associated with the virtual private
+        /// gateway. If you specify both, the response contains the association between the Direct
+        /// Connect gateway and the virtual private gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeDirectConnectGatewayAssociations service method.</param>
         /// 
         /// <returns>The response from the DescribeDirectConnectGatewayAssociations service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGatewayAssociations">REST API Reference for DescribeDirectConnectGatewayAssociations Operation</seealso>
         public virtual DescribeDirectConnectGatewayAssociationsResponse DescribeDirectConnectGatewayAssociations(DescribeDirectConnectGatewayAssociationsRequest request)
         {
-            var marshaller = DescribeDirectConnectGatewayAssociationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeDirectConnectGatewayAssociationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewayAssociationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewayAssociationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDirectConnectGatewayAssociationsRequest,DescribeDirectConnectGatewayAssociationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDirectConnectGatewayAssociationsResponse>(request, options);
         }
 
         /// <summary>
@@ -2306,11 +2814,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGatewayAssociations">REST API Reference for DescribeDirectConnectGatewayAssociations Operation</seealso>
         public virtual IAsyncResult BeginDescribeDirectConnectGatewayAssociations(DescribeDirectConnectGatewayAssociationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDirectConnectGatewayAssociationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeDirectConnectGatewayAssociationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewayAssociationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewayAssociationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDirectConnectGatewayAssociationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2331,31 +2839,31 @@ namespace Amazon.DirectConnect
         #region  DescribeDirectConnectGatewayAttachments
 
         /// <summary>
-        /// Returns a list of all direct connect gateway and virtual interface (VIF) attachments.
-        /// Either a direct connect gateway ID or a VIF ID must be provided in the request. If
-        /// a direct connect gateway ID is provided, the response returns all VIFs attached to
-        /// the direct connect gateway. If a VIF ID is provided, the response returns all direct
-        /// connect gateways attached to the VIF. If both are provided, the response only returns
-        /// the attachment that matches both the direct connect gateway and the VIF.
+        /// Lists the attachments between your Direct Connect gateways and virtual interfaces.
+        /// You must specify a Direct Connect gateway, a virtual interface, or both. If you specify
+        /// a Direct Connect gateway, the response contains all virtual interfaces attached to
+        /// the Direct Connect gateway. If you specify a virtual interface, the response contains
+        /// all Direct Connect gateways attached to the virtual interface. If you specify both,
+        /// the response contains the attachment between the Direct Connect gateway and the virtual
+        /// interface.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeDirectConnectGatewayAttachments service method.</param>
         /// 
         /// <returns>The response from the DescribeDirectConnectGatewayAttachments service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGatewayAttachments">REST API Reference for DescribeDirectConnectGatewayAttachments Operation</seealso>
         public virtual DescribeDirectConnectGatewayAttachmentsResponse DescribeDirectConnectGatewayAttachments(DescribeDirectConnectGatewayAttachmentsRequest request)
         {
-            var marshaller = DescribeDirectConnectGatewayAttachmentsRequestMarshaller.Instance;
-            var unmarshaller = DescribeDirectConnectGatewayAttachmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewayAttachmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewayAttachmentsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDirectConnectGatewayAttachmentsRequest,DescribeDirectConnectGatewayAttachmentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDirectConnectGatewayAttachmentsResponse>(request, options);
         }
 
         /// <summary>
@@ -2372,11 +2880,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGatewayAttachments">REST API Reference for DescribeDirectConnectGatewayAttachments Operation</seealso>
         public virtual IAsyncResult BeginDescribeDirectConnectGatewayAttachments(DescribeDirectConnectGatewayAttachmentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDirectConnectGatewayAttachmentsRequestMarshaller.Instance;
-            var unmarshaller = DescribeDirectConnectGatewayAttachmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewayAttachmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewayAttachmentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDirectConnectGatewayAttachmentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2397,30 +2905,26 @@ namespace Amazon.DirectConnect
         #region  DescribeDirectConnectGateways
 
         /// <summary>
-        /// Returns a list of direct connect gateways in your account. Deleted direct connect
-        /// gateways are not returned. You can provide a direct connect gateway ID in the request
-        /// to return information about the specific direct connect gateway only. Otherwise, if
-        /// a direct connect gateway ID is not provided, information about all of your direct
-        /// connect gateways is returned.
+        /// Lists all your Direct Connect gateways or only the specified Direct Connect gateway.
+        /// Deleted Direct Connect gateways are not returned.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeDirectConnectGateways service method.</param>
         /// 
         /// <returns>The response from the DescribeDirectConnectGateways service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGateways">REST API Reference for DescribeDirectConnectGateways Operation</seealso>
         public virtual DescribeDirectConnectGatewaysResponse DescribeDirectConnectGateways(DescribeDirectConnectGatewaysRequest request)
         {
-            var marshaller = DescribeDirectConnectGatewaysRequestMarshaller.Instance;
-            var unmarshaller = DescribeDirectConnectGatewaysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewaysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewaysResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDirectConnectGatewaysRequest,DescribeDirectConnectGatewaysResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDirectConnectGatewaysResponse>(request, options);
         }
 
         /// <summary>
@@ -2437,11 +2941,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeDirectConnectGateways">REST API Reference for DescribeDirectConnectGateways Operation</seealso>
         public virtual IAsyncResult BeginDescribeDirectConnectGateways(DescribeDirectConnectGatewaysRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDirectConnectGatewaysRequestMarshaller.Instance;
-            var unmarshaller = DescribeDirectConnectGatewaysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDirectConnectGatewaysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDirectConnectGatewaysResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDirectConnectGatewaysRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2462,12 +2966,12 @@ namespace Amazon.DirectConnect
         #region  DescribeHostedConnections
 
         /// <summary>
-        /// Returns a list of hosted connections that have been provisioned on the given interconnect
+        /// Lists the hosted connections that have been provisioned on the specified interconnect
         /// or link aggregation group (LAG).
         /// 
         ///  <note> 
         /// <para>
-        /// This is intended for use by AWS Direct Connect partners only.
+        /// Intended for use by AWS Direct Connect Partners only.
         /// </para>
         ///  </note>
         /// </summary>
@@ -2475,20 +2979,19 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the DescribeHostedConnections service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeHostedConnections">REST API Reference for DescribeHostedConnections Operation</seealso>
         public virtual DescribeHostedConnectionsResponse DescribeHostedConnections(DescribeHostedConnectionsRequest request)
         {
-            var marshaller = DescribeHostedConnectionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeHostedConnectionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHostedConnectionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHostedConnectionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeHostedConnectionsRequest,DescribeHostedConnectionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeHostedConnectionsResponse>(request, options);
         }
 
         /// <summary>
@@ -2505,11 +3008,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeHostedConnections">REST API Reference for DescribeHostedConnections Operation</seealso>
         public virtual IAsyncResult BeginDescribeHostedConnections(DescribeHostedConnectionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeHostedConnectionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeHostedConnectionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHostedConnectionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHostedConnectionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeHostedConnectionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2530,40 +3033,39 @@ namespace Amazon.DirectConnect
         #region  DescribeInterconnectLoa
 
         /// <summary>
-        /// Deprecated in favor of <a>DescribeLoa</a>.
+        /// Deprecated. Use <a>DescribeLoa</a> instead.
         /// 
         ///  
         /// <para>
-        /// Returns the LOA-CFA for an Interconnect.
+        /// Gets the LOA-CFA for the specified interconnect.
         /// </para>
         ///  
         /// <para>
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document
         /// that is used when establishing your cross connect to AWS at the colocation facility.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
-        /// Cross Connects at AWS Direct Connect Locations</a> in the AWS Direct Connect user
-        /// guide.
+        /// For more information, see <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
+        /// Cross Connects at AWS Direct Connect Locations</a> in the <i>AWS Direct Connect User
+        /// Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeInterconnectLoa service method.</param>
         /// 
         /// <returns>The response from the DescribeInterconnectLoa service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeInterconnectLoa">REST API Reference for DescribeInterconnectLoa Operation</seealso>
         [Obsolete("Deprecated in favor of DescribeLoa.")]
         public virtual DescribeInterconnectLoaResponse DescribeInterconnectLoa(DescribeInterconnectLoaRequest request)
         {
-            var marshaller = DescribeInterconnectLoaRequestMarshaller.Instance;
-            var unmarshaller = DescribeInterconnectLoaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInterconnectLoaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInterconnectLoaResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeInterconnectLoaRequest,DescribeInterconnectLoaResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeInterconnectLoaResponse>(request, options);
         }
 
         /// <summary>
@@ -2581,11 +3083,11 @@ namespace Amazon.DirectConnect
         [Obsolete("Deprecated in favor of DescribeLoa.")]
         public virtual IAsyncResult BeginDescribeInterconnectLoa(DescribeInterconnectLoaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeInterconnectLoaRequestMarshaller.Instance;
-            var unmarshaller = DescribeInterconnectLoaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInterconnectLoaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInterconnectLoaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeInterconnectLoaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2607,22 +3109,15 @@ namespace Amazon.DirectConnect
         #region  DescribeInterconnects
 
         /// <summary>
-        /// Returns a list of interconnects owned by the AWS account.
-        /// 
-        ///  
-        /// <para>
-        /// If an interconnect ID is provided, it will only return this particular interconnect.
-        /// </para>
+        /// Lists the interconnects owned by the AWS account or only the specified interconnect.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeInterconnects service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeInterconnects">REST API Reference for DescribeInterconnects Operation</seealso>
         public virtual DescribeInterconnectsResponse DescribeInterconnects()
@@ -2631,31 +3126,25 @@ namespace Amazon.DirectConnect
         }
 
         /// <summary>
-        /// Returns a list of interconnects owned by the AWS account.
-        /// 
-        ///  
-        /// <para>
-        /// If an interconnect ID is provided, it will only return this particular interconnect.
-        /// </para>
+        /// Lists the interconnects owned by the AWS account or only the specified interconnect.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeInterconnects service method.</param>
         /// 
         /// <returns>The response from the DescribeInterconnects service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeInterconnects">REST API Reference for DescribeInterconnects Operation</seealso>
         public virtual DescribeInterconnectsResponse DescribeInterconnects(DescribeInterconnectsRequest request)
         {
-            var marshaller = DescribeInterconnectsRequestMarshaller.Instance;
-            var unmarshaller = DescribeInterconnectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInterconnectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInterconnectsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeInterconnectsRequest,DescribeInterconnectsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeInterconnectsResponse>(request, options);
         }
 
         /// <summary>
@@ -2672,11 +3161,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeInterconnects">REST API Reference for DescribeInterconnects Operation</seealso>
         public virtual IAsyncResult BeginDescribeInterconnects(DescribeInterconnectsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeInterconnectsRequestMarshaller.Instance;
-            var unmarshaller = DescribeInterconnectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInterconnectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInterconnectsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeInterconnectsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2697,31 +3186,25 @@ namespace Amazon.DirectConnect
         #region  DescribeLags
 
         /// <summary>
-        /// Describes the link aggregation groups (LAGs) in your account. 
-        /// 
-        ///  
-        /// <para>
-        /// If a LAG ID is provided, only information about the specified LAG is returned.
-        /// </para>
+        /// Describes all your link aggregation groups (LAG) or the specified LAG.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeLags service method.</param>
         /// 
         /// <returns>The response from the DescribeLags service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLags">REST API Reference for DescribeLags Operation</seealso>
         public virtual DescribeLagsResponse DescribeLags(DescribeLagsRequest request)
         {
-            var marshaller = DescribeLagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLagsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLagsRequest,DescribeLagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLagsResponse>(request, options);
         }
 
         /// <summary>
@@ -2738,11 +3221,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLags">REST API Reference for DescribeLags Operation</seealso>
         public virtual IAsyncResult BeginDescribeLags(DescribeLagsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLagsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeLagsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2763,35 +3246,34 @@ namespace Amazon.DirectConnect
         #region  DescribeLoa
 
         /// <summary>
-        /// Returns the LOA-CFA for a connection, interconnect, or link aggregation group (LAG).
+        /// Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG).
         /// 
         ///  
         /// <para>
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document
         /// that is used when establishing your cross connect to AWS at the colocation facility.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
-        /// Cross Connects at AWS Direct Connect Locations</a> in the AWS Direct Connect user
-        /// guide.
+        /// For more information, see <a href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/Colocation.html">Requesting
+        /// Cross Connects at AWS Direct Connect Locations</a> in the <i>AWS Direct Connect User
+        /// Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeLoa service method.</param>
         /// 
         /// <returns>The response from the DescribeLoa service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLoa">REST API Reference for DescribeLoa Operation</seealso>
         public virtual DescribeLoaResponse DescribeLoa(DescribeLoaRequest request)
         {
-            var marshaller = DescribeLoaRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoaResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLoaRequest,DescribeLoaResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLoaResponse>(request, options);
         }
 
         /// <summary>
@@ -2808,11 +3290,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLoa">REST API Reference for DescribeLoa Operation</seealso>
         public virtual IAsyncResult BeginDescribeLoa(DescribeLoaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLoaRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeLoaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2833,18 +3315,16 @@ namespace Amazon.DirectConnect
         #region  DescribeLocations
 
         /// <summary>
-        /// Returns the list of AWS Direct Connect locations in the current AWS region. These
-        /// are the locations that may be selected when calling <a>CreateConnection</a> or <a>CreateInterconnect</a>.
+        /// Lists the AWS Direct Connect locations in the current AWS Region. These are the locations
+        /// that can be selected when calling <a>CreateConnection</a> or <a>CreateInterconnect</a>.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeLocations service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLocations">REST API Reference for DescribeLocations Operation</seealso>
         public virtual DescribeLocationsResponse DescribeLocations()
@@ -2853,27 +3333,26 @@ namespace Amazon.DirectConnect
         }
 
         /// <summary>
-        /// Returns the list of AWS Direct Connect locations in the current AWS region. These
-        /// are the locations that may be selected when calling <a>CreateConnection</a> or <a>CreateInterconnect</a>.
+        /// Lists the AWS Direct Connect locations in the current AWS Region. These are the locations
+        /// that can be selected when calling <a>CreateConnection</a> or <a>CreateInterconnect</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeLocations service method.</param>
         /// 
         /// <returns>The response from the DescribeLocations service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLocations">REST API Reference for DescribeLocations Operation</seealso>
         public virtual DescribeLocationsResponse DescribeLocations(DescribeLocationsRequest request)
         {
-            var marshaller = DescribeLocationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLocationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLocationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLocationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLocationsRequest,DescribeLocationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLocationsResponse>(request, options);
         }
 
         /// <summary>
@@ -2890,11 +3369,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeLocations">REST API Reference for DescribeLocations Operation</seealso>
         public virtual IAsyncResult BeginDescribeLocations(DescribeLocationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLocationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLocationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLocationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLocationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeLocationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2915,26 +3394,25 @@ namespace Amazon.DirectConnect
         #region  DescribeTags
 
         /// <summary>
-        /// Describes the tags associated with the specified Direct Connect resources.
+        /// Describes the tags associated with the specified AWS Direct Connect resources.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeTags service method.</param>
         /// 
         /// <returns>The response from the DescribeTags service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         public virtual DescribeTagsResponse DescribeTags(DescribeTagsRequest request)
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTagsRequest,DescribeTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTagsResponse>(request, options);
         }
 
         /// <summary>
@@ -2951,11 +3429,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         public virtual IAsyncResult BeginDescribeTags(DescribeTagsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeTagsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2976,25 +3454,21 @@ namespace Amazon.DirectConnect
         #region  DescribeVirtualGateways
 
         /// <summary>
-        /// Returns a list of virtual private gateways owned by the AWS account.
+        /// Lists the virtual private gateways owned by the AWS account.
         /// 
         ///  
         /// <para>
-        /// You can create one or more AWS Direct Connect private virtual interfaces linking to
-        /// a virtual private gateway. A virtual private gateway can be managed via Amazon Virtual
-        /// Private Cloud (VPC) console or the <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVpnGateway.html">EC2
-        /// CreateVpnGateway</a> action.
+        /// You can create one or more AWS Direct Connect private virtual interfaces linked to
+        /// a virtual private gateway.
         /// </para>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeVirtualGateways service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeVirtualGateways">REST API Reference for DescribeVirtualGateways Operation</seealso>
         public virtual DescribeVirtualGatewaysResponse DescribeVirtualGateways()
@@ -3003,34 +3477,31 @@ namespace Amazon.DirectConnect
         }
 
         /// <summary>
-        /// Returns a list of virtual private gateways owned by the AWS account.
+        /// Lists the virtual private gateways owned by the AWS account.
         /// 
         ///  
         /// <para>
-        /// You can create one or more AWS Direct Connect private virtual interfaces linking to
-        /// a virtual private gateway. A virtual private gateway can be managed via Amazon Virtual
-        /// Private Cloud (VPC) console or the <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVpnGateway.html">EC2
-        /// CreateVpnGateway</a> action.
+        /// You can create one or more AWS Direct Connect private virtual interfaces linked to
+        /// a virtual private gateway.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeVirtualGateways service method.</param>
         /// 
         /// <returns>The response from the DescribeVirtualGateways service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeVirtualGateways">REST API Reference for DescribeVirtualGateways Operation</seealso>
         public virtual DescribeVirtualGatewaysResponse DescribeVirtualGateways(DescribeVirtualGatewaysRequest request)
         {
-            var marshaller = DescribeVirtualGatewaysRequestMarshaller.Instance;
-            var unmarshaller = DescribeVirtualGatewaysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeVirtualGatewaysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeVirtualGatewaysResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeVirtualGatewaysRequest,DescribeVirtualGatewaysResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeVirtualGatewaysResponse>(request, options);
         }
 
         /// <summary>
@@ -3047,11 +3518,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeVirtualGateways">REST API Reference for DescribeVirtualGateways Operation</seealso>
         public virtual IAsyncResult BeginDescribeVirtualGateways(DescribeVirtualGatewaysRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeVirtualGatewaysRequestMarshaller.Instance;
-            var unmarshaller = DescribeVirtualGatewaysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeVirtualGatewaysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeVirtualGatewaysResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeVirtualGatewaysRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3080,18 +3551,16 @@ namespace Amazon.DirectConnect
         ///  
         /// <para>
         /// A virtual interface (VLAN) transmits the traffic between the AWS Direct Connect location
-        /// and the customer.
+        /// and the customer network.
         /// </para>
         /// </summary>
         /// 
         /// <returns>The response from the DescribeVirtualInterfaces service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeVirtualInterfaces">REST API Reference for DescribeVirtualInterfaces Operation</seealso>
         public virtual DescribeVirtualInterfacesResponse DescribeVirtualInterfaces()
@@ -3108,27 +3577,26 @@ namespace Amazon.DirectConnect
         ///  
         /// <para>
         /// A virtual interface (VLAN) transmits the traffic between the AWS Direct Connect location
-        /// and the customer.
+        /// and the customer network.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeVirtualInterfaces service method.</param>
         /// 
         /// <returns>The response from the DescribeVirtualInterfaces service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeVirtualInterfaces">REST API Reference for DescribeVirtualInterfaces Operation</seealso>
         public virtual DescribeVirtualInterfacesResponse DescribeVirtualInterfaces(DescribeVirtualInterfacesRequest request)
         {
-            var marshaller = DescribeVirtualInterfacesRequestMarshaller.Instance;
-            var unmarshaller = DescribeVirtualInterfacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeVirtualInterfacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeVirtualInterfacesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeVirtualInterfacesRequest,DescribeVirtualInterfacesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeVirtualInterfacesResponse>(request, options);
         }
 
         /// <summary>
@@ -3145,11 +3613,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DescribeVirtualInterfaces">REST API Reference for DescribeVirtualInterfaces Operation</seealso>
         public virtual IAsyncResult BeginDescribeVirtualInterfaces(DescribeVirtualInterfacesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeVirtualInterfacesRequestMarshaller.Instance;
-            var unmarshaller = DescribeVirtualInterfacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeVirtualInterfacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeVirtualInterfacesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeVirtualInterfacesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3174,12 +3642,12 @@ namespace Amazon.DirectConnect
         /// interrupted and re-established as a standalone connection (the connection is not deleted;
         /// to delete the connection, use the <a>DeleteConnection</a> request). If the LAG has
         /// associated virtual interfaces or hosted connections, they remain associated with the
-        /// LAG. A disassociated connection owned by an AWS Direct Connect partner is automatically
+        /// LAG. A disassociated connection owned by an AWS Direct Connect Partner is automatically
         /// converted to an interconnect.
         /// 
         ///  
         /// <para>
-        /// If disassociating the connection will cause the LAG to fall below its setting for
+        /// If disassociating the connection would cause the LAG to fall below its setting for
         /// minimum number of operational connections, the request fails, except when it's the
         /// last member of the LAG. If all connections are disassociated, the LAG continues to
         /// exist as an empty LAG with no physical connections. 
@@ -3189,20 +3657,19 @@ namespace Amazon.DirectConnect
         /// 
         /// <returns>The response from the DisassociateConnectionFromLag service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DisassociateConnectionFromLag">REST API Reference for DisassociateConnectionFromLag Operation</seealso>
         public virtual DisassociateConnectionFromLagResponse DisassociateConnectionFromLag(DisassociateConnectionFromLagRequest request)
         {
-            var marshaller = DisassociateConnectionFromLagRequestMarshaller.Instance;
-            var unmarshaller = DisassociateConnectionFromLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateConnectionFromLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateConnectionFromLagResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateConnectionFromLagRequest,DisassociateConnectionFromLagResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateConnectionFromLagResponse>(request, options);
         }
 
         /// <summary>
@@ -3219,11 +3686,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/DisassociateConnectionFromLag">REST API Reference for DisassociateConnectionFromLag Operation</seealso>
         public virtual IAsyncResult BeginDisassociateConnectionFromLag(DisassociateConnectionFromLagRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisassociateConnectionFromLagRequestMarshaller.Instance;
-            var unmarshaller = DisassociateConnectionFromLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateConnectionFromLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateConnectionFromLagResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisassociateConnectionFromLagRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3244,40 +3711,38 @@ namespace Amazon.DirectConnect
         #region  TagResource
 
         /// <summary>
-        /// Adds the specified tags to the specified Direct Connect resource. Each Direct Connect
-        /// resource can have a maximum of 50 tags.
+        /// Adds the specified tags to the specified AWS Direct Connect resource. Each resource
+        /// can have a maximum of 50 tags.
         /// 
         ///  
         /// <para>
         /// Each tag consists of a key and an optional value. If a tag with the same key is already
-        /// associated with the Direct Connect resource, this action updates its value.
+        /// associated with the resource, this action updates its value.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
         /// 
         /// <returns>The response from the TagResource service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DuplicateTagKeysException">
         /// A tag key was specified more than once.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.TooManyTagsException">
-        /// You have reached the limit on the number of tags that can be assigned to a Direct
-        /// Connect resource.
+        /// You have reached the limit on the number of tags that can be assigned.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual TagResourceResponse TagResource(TagResourceRequest request)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<TagResourceRequest,TagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<TagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -3294,11 +3759,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3319,26 +3784,25 @@ namespace Amazon.DirectConnect
         #region  UntagResource
 
         /// <summary>
-        /// Removes one or more tags from the specified Direct Connect resource.
+        /// Removes one or more tags from the specified AWS Direct Connect resource.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
         /// 
         /// <returns>The response from the UntagResource service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<UntagResourceRequest,UntagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UntagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -3355,11 +3819,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UntagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3377,14 +3841,79 @@ namespace Amazon.DirectConnect
 
         #endregion
         
-        #region  UpdateLag
+        #region  UpdateDirectConnectGatewayAssociation
 
         /// <summary>
-        /// Updates the attributes of a link aggregation group (LAG). 
+        /// Updates the specified attributes of the Direct Connect gateway association.
         /// 
         ///  
         /// <para>
-        /// You can update the following attributes: 
+        /// Add or remove prefixes from the association.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDirectConnectGatewayAssociation service method.</param>
+        /// 
+        /// <returns>The response from the UpdateDirectConnectGatewayAssociation service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateDirectConnectGatewayAssociation">REST API Reference for UpdateDirectConnectGatewayAssociation Operation</seealso>
+        public virtual UpdateDirectConnectGatewayAssociationResponse UpdateDirectConnectGatewayAssociation(UpdateDirectConnectGatewayAssociationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDirectConnectGatewayAssociationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateDirectConnectGatewayAssociationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateDirectConnectGatewayAssociation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDirectConnectGatewayAssociation operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateDirectConnectGatewayAssociation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateDirectConnectGatewayAssociation">REST API Reference for UpdateDirectConnectGatewayAssociation Operation</seealso>
+        public virtual IAsyncResult BeginUpdateDirectConnectGatewayAssociation(UpdateDirectConnectGatewayAssociationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDirectConnectGatewayAssociationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDirectConnectGatewayAssociationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateDirectConnectGatewayAssociation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateDirectConnectGatewayAssociation.</param>
+        /// 
+        /// <returns>Returns a  UpdateDirectConnectGatewayAssociationResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateDirectConnectGatewayAssociation">REST API Reference for UpdateDirectConnectGatewayAssociation Operation</seealso>
+        public virtual UpdateDirectConnectGatewayAssociationResponse EndUpdateDirectConnectGatewayAssociation(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateDirectConnectGatewayAssociationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateLag
+
+        /// <summary>
+        /// Updates the attributes of the specified link aggregation group (LAG).
+        /// 
+        ///  
+        /// <para>
+        /// You can update the following attributes:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -3398,31 +3927,29 @@ namespace Amazon.DirectConnect
         ///  </li> </ul> 
         /// <para>
         /// When you create a LAG, the default value for the minimum number of operational connections
-        /// is zero (0). If you update this value, and the number of operational connections falls
-        /// below the specified value, the LAG will automatically go down to avoid overutilization
-        /// of the remaining connections. Adjusting this value should be done with care as it
-        /// could force the LAG down if the value is set higher than the current number of operational
-        /// connections.
+        /// is zero (0). If you update this value and the number of operational connections falls
+        /// below the specified value, the LAG automatically goes down to avoid over-utilization
+        /// of the remaining connections. Adjust this value with care, as it could force the LAG
+        /// down if it is set higher than the current number of operational connections.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateLag service method.</param>
         /// 
         /// <returns>The response from the UpdateLag service method, as returned by DirectConnect.</returns>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
-        /// The API was called with invalid parameters. The error message will contain additional
-        /// details about the cause.
+        /// One or more parameters are not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
-        /// A server-side error occurred during the API call. The error message will contain additional
-        /// details about the cause.
+        /// A server-side error occurred.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateLag">REST API Reference for UpdateLag Operation</seealso>
         public virtual UpdateLagResponse UpdateLag(UpdateLagRequest request)
         {
-            var marshaller = UpdateLagRequestMarshaller.Instance;
-            var unmarshaller = UpdateLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLagResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateLagRequest,UpdateLagResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateLagResponse>(request, options);
         }
 
         /// <summary>
@@ -3439,11 +3966,11 @@ namespace Amazon.DirectConnect
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateLag">REST API Reference for UpdateLag Operation</seealso>
         public virtual IAsyncResult BeginUpdateLag(UpdateLagRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateLagRequestMarshaller.Instance;
-            var unmarshaller = UpdateLagResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLagRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLagResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateLagRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3457,6 +3984,76 @@ namespace Amazon.DirectConnect
         public virtual UpdateLagResponse EndUpdateLag(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateLagResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateVirtualInterfaceAttributes
+
+        /// <summary>
+        /// Updates the specified attributes of the specified virtual private interface.
+        /// 
+        ///  
+        /// <para>
+        /// Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update
+        /// to the underlying physical connection if it wasn't updated to support jumbo frames.
+        /// Updating the connection disrupts network connectivity for all virtual interfaces associated
+        /// with the connection for up to 30 seconds. To check whether your connection supports
+        /// jumbo frames, call <a>DescribeConnections</a>. To check whether your virtual interface
+        /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVirtualInterfaceAttributes service method.</param>
+        /// 
+        /// <returns>The response from the UpdateVirtualInterfaceAttributes service method, as returned by DirectConnect.</returns>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectClientException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectConnect.Model.DirectConnectServerException">
+        /// A server-side error occurred.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateVirtualInterfaceAttributes">REST API Reference for UpdateVirtualInterfaceAttributes Operation</seealso>
+        public virtual UpdateVirtualInterfaceAttributesResponse UpdateVirtualInterfaceAttributes(UpdateVirtualInterfaceAttributesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVirtualInterfaceAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVirtualInterfaceAttributesResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateVirtualInterfaceAttributesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateVirtualInterfaceAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVirtualInterfaceAttributes operation on AmazonDirectConnectClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateVirtualInterfaceAttributes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateVirtualInterfaceAttributes">REST API Reference for UpdateVirtualInterfaceAttributes Operation</seealso>
+        public virtual IAsyncResult BeginUpdateVirtualInterfaceAttributes(UpdateVirtualInterfaceAttributesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVirtualInterfaceAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVirtualInterfaceAttributesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateVirtualInterfaceAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateVirtualInterfaceAttributes.</param>
+        /// 
+        /// <returns>Returns a  UpdateVirtualInterfaceAttributesResult from DirectConnect.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/directconnect-2012-10-25/UpdateVirtualInterfaceAttributes">REST API Reference for UpdateVirtualInterfaceAttributes Operation</seealso>
+        public virtual UpdateVirtualInterfaceAttributesResponse EndUpdateVirtualInterfaceAttributes(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateVirtualInterfaceAttributesResponse>(asyncResult);
         }
 
         #endregion

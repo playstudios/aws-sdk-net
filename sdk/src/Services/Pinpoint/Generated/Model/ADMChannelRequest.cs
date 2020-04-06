@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Amazon Device Messaging channel definition.
+    /// Specifies the status and settings of the ADM (Amazon Device Messaging) channel for
+    /// an application.
     /// </summary>
     public partial class ADMChannelRequest
     {
@@ -37,8 +38,12 @@ namespace Amazon.Pinpoint.Model
         private bool? _enabled;
 
         /// <summary>
-        /// Gets and sets the property ClientId. Client ID as gotten from Amazon
+        /// Gets and sets the property ClientId. 
+        /// <para>
+        /// The Client ID that you received from Amazon to send messages by using ADM.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClientId
         {
             get { return this._clientId; }
@@ -52,8 +57,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ClientSecret. Client secret as gotten from Amazon
+        /// Gets and sets the property ClientSecret. 
+        /// <para>
+        /// The Client Secret that you received from Amazon to send messages by using ADM.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClientSecret
         {
             get { return this._clientSecret; }
@@ -67,7 +76,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Enabled. If the channel is enabled for sending messages.
+        /// Gets and sets the property Enabled. 
+        /// <para>
+        /// Specifies whether to enable the ADM channel for the application.
+        /// </para>
         /// </summary>
         public bool Enabled
         {

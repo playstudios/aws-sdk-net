@@ -28,10 +28,10 @@ namespace Amazon.Rekognition
     ///<summary>
     /// Common exception for the Rekognition service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonRekognitionException : AmazonServiceException
+    public partial class AmazonRekognitionException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonRekognitionException
@@ -88,7 +88,7 @@ namespace Amazon.Rekognition
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonRekognitionException class with serialized data.
         /// </summary>

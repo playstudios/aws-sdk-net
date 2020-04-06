@@ -87,6 +87,12 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         response.AvgResizeRateInMegaBytesPerSecond = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("DataTransferProgressPercent", targetDepth))
+                    {
+                        var unmarshaller = DoubleUnmarshaller.Instance;
+                        response.DataTransferProgressPercent = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("ElapsedTimeInSeconds", targetDepth))
                     {
                         var unmarshaller = LongUnmarshaller.Instance;
@@ -120,10 +126,22 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                         response.ImportTablesNotStarted.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("Message", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        response.Message = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("ProgressInMegaBytes", targetDepth))
                     {
                         var unmarshaller = LongUnmarshaller.Instance;
                         response.ProgressInMegaBytes = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ResizeType", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        response.ResizeType = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("Status", targetDepth))
@@ -136,6 +154,12 @@ namespace Amazon.Redshift.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         response.TargetClusterType = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("TargetEncryptionType", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        response.TargetEncryptionType = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("TargetNodeType", targetDepth))

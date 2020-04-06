@@ -35,6 +35,7 @@ namespace Amazon.ServiceCatalog.Model
     {
         private DateTime? _createdTime;
         private string _description;
+        private ProvisioningArtifactGuidance _guidance;
         private string _id;
         private string _name;
 
@@ -75,11 +76,31 @@ namespace Amazon.ServiceCatalog.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Guidance. 
+        /// <para>
+        /// Information set by the administrator to provide guidance to end users about which
+        /// provisioning artifacts to use.
+        /// </para>
+        /// </summary>
+        public ProvisioningArtifactGuidance Guidance
+        {
+            get { return this._guidance; }
+            set { this._guidance = value; }
+        }
+
+        // Check to see if Guidance property is set
+        internal bool IsSetGuidance()
+        {
+            return this._guidance != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Id. 
         /// <para>
         /// The identifier of the provisioning artifact.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Id
         {
             get { return this._id; }

@@ -44,7 +44,7 @@ namespace Amazon.OpsWorks.Model
         /// Gets and sets the property Encrypted. 
         /// <para>
         /// Specifies whether an Amazon EBS volume is encrypted. For more information, see <a
-        /// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
+        /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
         /// EBS Encryption</a>.
         /// </para>
         /// </summary>
@@ -84,6 +84,7 @@ namespace Amazon.OpsWorks.Model
         /// The volume mount point. For example "/dev/sdh".
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MountPoint
         {
             get { return this._mountPoint; }
@@ -102,6 +103,7 @@ namespace Amazon.OpsWorks.Model
         /// The number of disks in the volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int NumberOfDisks
         {
             get { return this._numberOfDisks.GetValueOrDefault(); }
@@ -138,6 +140,7 @@ namespace Amazon.OpsWorks.Model
         /// The volume size.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Size
         {
             get { return this._size.GetValueOrDefault(); }
@@ -153,28 +156,33 @@ namespace Amazon.OpsWorks.Model
         /// <summary>
         /// Gets and sets the property VolumeType. 
         /// <para>
-        /// The volume type. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">
+        /// The volume type. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">
         /// Amazon EBS Volume Types</a>.
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>standard</code> - Magnetic
+        ///  <code>standard</code> - Magnetic. Magnetic volumes must have a minimum size of 1
+        /// GiB and a maximum size of 1024 GiB.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>io1</code> - Provisioned IOPS (SSD)
+        ///  <code>io1</code> - Provisioned IOPS (SSD). PIOPS volumes must have a minimum size
+        /// of 4 GiB and a maximum size of 16384 GiB.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>gp2</code> - General Purpose (SSD)
+        ///  <code>gp2</code> - General Purpose (SSD). General purpose volumes must have a minimum
+        /// size of 1 GiB and a maximum size of 16384 GiB.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>st1</code> - Throughput Optimized hard disk drive (HDD)
+        ///  <code>st1</code> - Throughput Optimized hard disk drive (HDD). Throughput optimized
+        /// HDD volumes must have a minimum size of 500 GiB and a maximum size of 16384 GiB.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>sc1</code> - Cold HDD
+        ///  <code>sc1</code> - Cold HDD. Cold HDD volumes must have a minimum size of 500 GiB
+        /// and a maximum size of 16384 GiB.
         /// </para>
         ///  </li> </ul>
         /// </summary>

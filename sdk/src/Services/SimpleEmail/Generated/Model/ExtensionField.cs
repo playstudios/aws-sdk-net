@@ -33,7 +33,7 @@ namespace Amazon.SimpleEmail.Model
     /// 
     ///  
     /// <para>
-    /// For information about receiving email through Amazon SES, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
+    /// For information about receiving email through Amazon SES, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -49,6 +49,7 @@ namespace Amazon.SimpleEmail.Model
         /// consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -68,6 +69,7 @@ namespace Amazon.SimpleEmail.Model
         /// newline characters ("\r" or "\n").
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Value
         {
             get { return this._value; }

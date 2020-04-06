@@ -34,7 +34,7 @@ namespace Amazon.EC2.Model
     ///  
     /// <para>
     /// To list the current tags, use <a>DescribeTags</a>. For more information about tags,
-    /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
+    /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
     /// Your Resources</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -51,7 +51,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates DeleteTagsRequest with the parameterized properties
         /// </summary>
-        /// <param name="resources">The IDs of one or more resources.</param>
+        /// <param name="resources">The IDs of the resources, separated by spaces. Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller batches.</param>
         public DeleteTagsRequest(List<string> resources)
         {
             _resources = resources;
@@ -60,9 +60,15 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Resources. 
         /// <para>
-        /// The IDs of one or more resources.
+        /// The IDs of the resources, separated by spaces.
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints: Up to 1000 resource IDs. We recommend breaking up this request into smaller
+        /// batches.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Resources
         {
             get { return this._resources; }
@@ -78,10 +84,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// One or more tags to delete. Specify a tag key and an optional tag value to delete
-        /// specific tags. If you specify a tag key without a tag value, we delete any tag with
-        /// this key regardless of its value. If you specify a tag key with an empty string as
-        /// the tag value, we delete the tag only if its value is an empty string.
+        /// The tags to delete. Specify a tag key and an optional tag value to delete specific
+        /// tags. If you specify a tag key without a tag value, we delete any tag with this key
+        /// regardless of its value. If you specify a tag key with an empty string as the tag
+        /// value, we delete the tag only if its value is an empty string.
         /// </para>
         ///  
         /// <para>

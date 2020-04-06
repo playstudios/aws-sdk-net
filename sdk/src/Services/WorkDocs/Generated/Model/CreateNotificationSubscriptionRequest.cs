@@ -29,13 +29,13 @@ namespace Amazon.WorkDocs.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateNotificationSubscription operation.
-    /// Configure WorkDocs to use Amazon SNS notifications.
+    /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a
+    /// confirmation message, and must confirm the subscription.
     /// 
     ///  
     /// <para>
-    /// The endpoint receives a confirmation message, and must confirm the subscription. For
-    /// more information, see <a href="http://docs.aws.amazon.com/sns/latest/dg/SendMessageToHttp.html#SendMessageToHttp.confirm">Confirm
-    /// the Subscription</a> in the <i>Amazon Simple Notification Service Developer Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/workdocs/latest/developerguide/subscribe-notifications.html">Subscribe
+    /// to Notifications</a> in the <i>Amazon WorkDocs Developer Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateNotificationSubscriptionRequest : AmazonWorkDocsRequest
@@ -49,9 +49,10 @@ namespace Amazon.WorkDocs.Model
         /// Gets and sets the property Endpoint. 
         /// <para>
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint
-        /// is a URL that begins with "https://".
+        /// is a URL that begins with <code>https</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Endpoint
         {
             get { return this._endpoint; }
@@ -70,6 +71,7 @@ namespace Amazon.WorkDocs.Model
         /// The ID of the organization.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string OrganizationId
         {
             get { return this._organizationId; }
@@ -89,6 +91,7 @@ namespace Amazon.WorkDocs.Model
         /// using HTTPS POST.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SubscriptionProtocolType Protocol
         {
             get { return this._protocol; }
@@ -107,6 +110,7 @@ namespace Amazon.WorkDocs.Model
         /// The notification type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SubscriptionType SubscriptionType
         {
             get { return this._subscriptionType; }

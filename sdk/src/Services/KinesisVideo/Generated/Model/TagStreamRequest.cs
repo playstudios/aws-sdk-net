@@ -32,7 +32,7 @@ namespace Amazon.KinesisVideo.Model
     /// Adds one or more tags to a stream. A <i>tag</i> is a key-value pair (the value is
     /// optional) that you can define and assign to AWS resources. If you specify a tag that
     /// already exists, the tag value is replaced with the value that you specify in the request.
-    /// For more information, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+    /// For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
     /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>.
     /// 
     /// 
@@ -62,6 +62,7 @@ namespace Amazon.KinesisVideo.Model
         /// to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string StreamARN
         {
             get { return this._streamARN; }
@@ -80,6 +81,7 @@ namespace Amazon.KinesisVideo.Model
         /// The name of the stream that you want to add the tag or tags to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string StreamName
         {
             get { return this._streamName; }
@@ -99,6 +101,7 @@ namespace Amazon.KinesisVideo.Model
         /// (the value is optional).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public Dictionary<string, string> Tags
         {
             get { return this._tags; }

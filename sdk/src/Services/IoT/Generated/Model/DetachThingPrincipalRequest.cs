@@ -29,7 +29,15 @@ namespace Amazon.IoT.Model
 {
     /// <summary>
     /// Container for the parameters to the DetachThingPrincipal operation.
-    /// Detaches the specified principal from the specified thing.
+    /// Detaches the specified principal from the specified thing. A principal can be X.509
+    /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+    /// identities.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This call is asynchronous. It might take several seconds for the detachment to propagate.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DetachThingPrincipalRequest : AmazonIoTRequest
     {
@@ -44,6 +52,7 @@ namespace Amazon.IoT.Model
         /// identity.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Principal
         {
             get { return this._principal; }
@@ -62,6 +71,7 @@ namespace Amazon.IoT.Model
         /// The name of the thing.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ThingName
         {
             get { return this._thingName; }

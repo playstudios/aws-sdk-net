@@ -33,7 +33,7 @@ namespace Amazon.SimpleEmail.Model
     /// 
     ///  
     /// <para>
-    /// For information about setting up IP address filters, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
+    /// For information about setting up IP address filters, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -49,6 +49,7 @@ namespace Amazon.SimpleEmail.Model
         /// or allow incoming mail from them.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ReceiptIpFilter IpFilter
         {
             get { return this._ipFilter; }
@@ -81,6 +82,7 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

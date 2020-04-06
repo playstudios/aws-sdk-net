@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace Amazon.CloudDirectory.Model
         /// Gets and sets the property AttributeDefinition. 
         /// <para>
         /// A facet attribute consists of either a definition or a reference. This structure contains
-        /// the attribute definition. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
+        /// the attribute definition. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
         /// References</a> for more information.
         /// </para>
         /// </summary>
@@ -60,7 +60,7 @@ namespace Amazon.CloudDirectory.Model
         /// <summary>
         /// Gets and sets the property AttributeReference. 
         /// <para>
-        /// An attribute reference that is associated with the attribute. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences">Attribute
+        /// An attribute reference that is associated with the attribute. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
         /// References</a> for more information.
         /// </para>
         /// </summary>
@@ -82,6 +82,7 @@ namespace Amazon.CloudDirectory.Model
         /// The name of the facet attribute.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=230)]
         public string Name
         {
             get { return this._name; }

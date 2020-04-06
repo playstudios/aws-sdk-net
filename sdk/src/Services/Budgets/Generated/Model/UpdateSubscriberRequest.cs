@@ -46,6 +46,7 @@ namespace Amazon.Budgets.Model
         /// want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=12, Max=12)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -64,6 +65,7 @@ namespace Amazon.Budgets.Model
         /// The name of the budget whose subscriber you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string BudgetName
         {
             get { return this._budgetName; }
@@ -79,9 +81,10 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property NewSubscriber. 
         /// <para>
-        /// The updated subscriber associated with a budget notification.
+        /// The updated subscriber that is associated with a budget notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Subscriber NewSubscriber
         {
             get { return this._newSubscriber; }
@@ -100,6 +103,7 @@ namespace Amazon.Budgets.Model
         /// The notification whose subscriber you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Notification Notification
         {
             get { return this._notification; }
@@ -115,9 +119,10 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property OldSubscriber. 
         /// <para>
-        /// The previous subscriber associated with a budget notification.
+        /// The previous subscriber that is associated with a budget notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Subscriber OldSubscriber
         {
             get { return this._oldSubscriber; }

@@ -39,6 +39,7 @@ namespace Amazon.EC2.Model
         private List<VpnStaticRoute> _routes = new List<VpnStaticRoute>();
         private VpnState _state;
         private List<Tag> _tags = new List<Tag>();
+        private string _transitGatewayId;
         private GatewayType _type;
         private List<VgwTelemetry> _vgwTelemetry = new List<VgwTelemetry>();
         private string _vpnConnectionId;
@@ -49,8 +50,6 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The category of the VPN connection. A value of <code>VPN</code> indicates an AWS VPN
         /// connection. A value of <code>VPN-Classic</code> indicates an AWS Classic VPN connection.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html#vpn-categories">AWS
-        /// Managed VPN Categories</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>
         public string Category
@@ -174,6 +173,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetTags()
         {
             return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TransitGatewayId. 
+        /// <para>
+        /// The ID of the transit gateway associated with the VPN connection.
+        /// </para>
+        /// </summary>
+        public string TransitGatewayId
+        {
+            get { return this._transitGatewayId; }
+            set { this._transitGatewayId = value; }
+        }
+
+        // Check to see if TransitGatewayId property is set
+        internal bool IsSetTransitGatewayId()
+        {
+            return this._transitGatewayId != null;
         }
 
         /// <summary>

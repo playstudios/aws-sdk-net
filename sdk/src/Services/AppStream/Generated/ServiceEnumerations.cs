@@ -25,6 +25,114 @@ namespace Amazon.AppStream
 {
 
     /// <summary>
+    /// Constants used for properties of type AccessEndpointType.
+    /// </summary>
+    public class AccessEndpointType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant STREAMING for AccessEndpointType
+        /// </summary>
+        public static readonly AccessEndpointType STREAMING = new AccessEndpointType("STREAMING");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AccessEndpointType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AccessEndpointType FindValue(string value)
+        {
+            return FindValue<AccessEndpointType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AccessEndpointType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type Action.
+    /// </summary>
+    public class Action : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CLIPBOARD_COPY_FROM_LOCAL_DEVICE for Action
+        /// </summary>
+        public static readonly Action CLIPBOARD_COPY_FROM_LOCAL_DEVICE = new Action("CLIPBOARD_COPY_FROM_LOCAL_DEVICE");
+        /// <summary>
+        /// Constant CLIPBOARD_COPY_TO_LOCAL_DEVICE for Action
+        /// </summary>
+        public static readonly Action CLIPBOARD_COPY_TO_LOCAL_DEVICE = new Action("CLIPBOARD_COPY_TO_LOCAL_DEVICE");
+        /// <summary>
+        /// Constant FILE_DOWNLOAD for Action
+        /// </summary>
+        public static readonly Action FILE_DOWNLOAD = new Action("FILE_DOWNLOAD");
+        /// <summary>
+        /// Constant FILE_UPLOAD for Action
+        /// </summary>
+        public static readonly Action FILE_UPLOAD = new Action("FILE_UPLOAD");
+        /// <summary>
+        /// Constant PRINTING_TO_LOCAL_DEVICE for Action
+        /// </summary>
+        public static readonly Action PRINTING_TO_LOCAL_DEVICE = new Action("PRINTING_TO_LOCAL_DEVICE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public Action(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static Action FindValue(string value)
+        {
+            return FindValue<Action>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator Action(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type AuthenticationType.
     /// </summary>
     public class AuthenticationType : ConstantClass
@@ -88,6 +196,10 @@ namespace Amazon.AppStream
         /// Constant DOMAIN_JOIN_INFO for FleetAttribute
         /// </summary>
         public static readonly FleetAttribute DOMAIN_JOIN_INFO = new FleetAttribute("DOMAIN_JOIN_INFO");
+        /// <summary>
+        /// Constant IAM_ROLE_ARN for FleetAttribute
+        /// </summary>
+        public static readonly FleetAttribute IAM_ROLE_ARN = new FleetAttribute("IAM_ROLE_ARN");
         /// <summary>
         /// Constant VPC_CONFIGURATION for FleetAttribute
         /// </summary>
@@ -227,6 +339,10 @@ namespace Amazon.AppStream
         /// </summary>
         public static readonly FleetErrorCode INVALID_SUBNET_CONFIGURATION = new FleetErrorCode("INVALID_SUBNET_CONFIGURATION");
         /// <summary>
+        /// Constant MACHINE_ROLE_IS_MISSING for FleetErrorCode
+        /// </summary>
+        public static readonly FleetErrorCode MACHINE_ROLE_IS_MISSING = new FleetErrorCode("MACHINE_ROLE_IS_MISSING");
+        /// <summary>
         /// Constant NETWORK_INTERFACE_LIMIT_EXCEEDED for FleetErrorCode
         /// </summary>
         public static readonly FleetErrorCode NETWORK_INTERFACE_LIMIT_EXCEEDED = new FleetErrorCode("NETWORK_INTERFACE_LIMIT_EXCEEDED");
@@ -234,6 +350,10 @@ namespace Amazon.AppStream
         /// Constant SECURITY_GROUPS_NOT_FOUND for FleetErrorCode
         /// </summary>
         public static readonly FleetErrorCode SECURITY_GROUPS_NOT_FOUND = new FleetErrorCode("SECURITY_GROUPS_NOT_FOUND");
+        /// <summary>
+        /// Constant STS_DISABLED_IN_REGION for FleetErrorCode
+        /// </summary>
+        public static readonly FleetErrorCode STS_DISABLED_IN_REGION = new FleetErrorCode("STS_DISABLED_IN_REGION");
         /// <summary>
         /// Constant SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES for FleetErrorCode
         /// </summary>
@@ -631,6 +751,106 @@ namespace Amazon.AppStream
 
 
     /// <summary>
+    /// Constants used for properties of type MessageAction.
+    /// </summary>
+    public class MessageAction : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant RESEND for MessageAction
+        /// </summary>
+        public static readonly MessageAction RESEND = new MessageAction("RESEND");
+        /// <summary>
+        /// Constant SUPPRESS for MessageAction
+        /// </summary>
+        public static readonly MessageAction SUPPRESS = new MessageAction("SUPPRESS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public MessageAction(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static MessageAction FindValue(string value)
+        {
+            return FindValue<MessageAction>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator MessageAction(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type Permission.
+    /// </summary>
+    public class Permission : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant DISABLED for Permission
+        /// </summary>
+        public static readonly Permission DISABLED = new Permission("DISABLED");
+        /// <summary>
+        /// Constant ENABLED for Permission
+        /// </summary>
+        public static readonly Permission ENABLED = new Permission("ENABLED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public Permission(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static Permission FindValue(string value)
+        {
+            return FindValue<Permission>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator Permission(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type PlatformType.
     /// </summary>
     public class PlatformType : ConstantClass
@@ -640,6 +860,14 @@ namespace Amazon.AppStream
         /// Constant WINDOWS for PlatformType
         /// </summary>
         public static readonly PlatformType WINDOWS = new PlatformType("WINDOWS");
+        /// <summary>
+        /// Constant WINDOWS_SERVER_2016 for PlatformType
+        /// </summary>
+        public static readonly PlatformType WINDOWS_SERVER_2016 = new PlatformType("WINDOWS_SERVER_2016");
+        /// <summary>
+        /// Constant WINDOWS_SERVER_2019 for PlatformType
+        /// </summary>
+        public static readonly PlatformType WINDOWS_SERVER_2019 = new PlatformType("WINDOWS_SERVER_2019");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -677,19 +905,93 @@ namespace Amazon.AppStream
 
 
     /// <summary>
+    /// Constants used for properties of type SessionConnectionState.
+    /// </summary>
+    public class SessionConnectionState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant CONNECTED for SessionConnectionState
+        /// </summary>
+        public static readonly SessionConnectionState CONNECTED = new SessionConnectionState("CONNECTED");
+        /// <summary>
+        /// Constant NOT_CONNECTED for SessionConnectionState
+        /// </summary>
+        public static readonly SessionConnectionState NOT_CONNECTED = new SessionConnectionState("NOT_CONNECTED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SessionConnectionState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SessionConnectionState FindValue(string value)
+        {
+            return FindValue<SessionConnectionState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SessionConnectionState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type StackAttribute.
     /// </summary>
     public class StackAttribute : ConstantClass
     {
 
         /// <summary>
+        /// Constant ACCESS_ENDPOINTS for StackAttribute
+        /// </summary>
+        public static readonly StackAttribute ACCESS_ENDPOINTS = new StackAttribute("ACCESS_ENDPOINTS");
+        /// <summary>
+        /// Constant EMBED_HOST_DOMAINS for StackAttribute
+        /// </summary>
+        public static readonly StackAttribute EMBED_HOST_DOMAINS = new StackAttribute("EMBED_HOST_DOMAINS");
+        /// <summary>
         /// Constant FEEDBACK_URL for StackAttribute
         /// </summary>
         public static readonly StackAttribute FEEDBACK_URL = new StackAttribute("FEEDBACK_URL");
         /// <summary>
+        /// Constant IAM_ROLE_ARN for StackAttribute
+        /// </summary>
+        public static readonly StackAttribute IAM_ROLE_ARN = new StackAttribute("IAM_ROLE_ARN");
+        /// <summary>
         /// Constant REDIRECT_URL for StackAttribute
         /// </summary>
         public static readonly StackAttribute REDIRECT_URL = new StackAttribute("REDIRECT_URL");
+        /// <summary>
+        /// Constant STORAGE_CONNECTOR_GOOGLE_DRIVE for StackAttribute
+        /// </summary>
+        public static readonly StackAttribute STORAGE_CONNECTOR_GOOGLE_DRIVE = new StackAttribute("STORAGE_CONNECTOR_GOOGLE_DRIVE");
+        /// <summary>
+        /// Constant STORAGE_CONNECTOR_HOMEFOLDERS for StackAttribute
+        /// </summary>
+        public static readonly StackAttribute STORAGE_CONNECTOR_HOMEFOLDERS = new StackAttribute("STORAGE_CONNECTOR_HOMEFOLDERS");
+        /// <summary>
+        /// Constant STORAGE_CONNECTOR_ONE_DRIVE for StackAttribute
+        /// </summary>
+        public static readonly StackAttribute STORAGE_CONNECTOR_ONE_DRIVE = new StackAttribute("STORAGE_CONNECTOR_ONE_DRIVE");
         /// <summary>
         /// Constant STORAGE_CONNECTORS for StackAttribute
         /// </summary>
@@ -698,6 +1000,10 @@ namespace Amazon.AppStream
         /// Constant THEME_NAME for StackAttribute
         /// </summary>
         public static readonly StackAttribute THEME_NAME = new StackAttribute("THEME_NAME");
+        /// <summary>
+        /// Constant USER_SETTINGS for StackAttribute
+        /// </summary>
+        public static readonly StackAttribute USER_SETTINGS = new StackAttribute("USER_SETTINGS");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -791,9 +1097,17 @@ namespace Amazon.AppStream
     {
 
         /// <summary>
+        /// Constant GOOGLE_DRIVE for StorageConnectorType
+        /// </summary>
+        public static readonly StorageConnectorType GOOGLE_DRIVE = new StorageConnectorType("GOOGLE_DRIVE");
+        /// <summary>
         /// Constant HOMEFOLDERS for StorageConnectorType
         /// </summary>
         public static readonly StorageConnectorType HOMEFOLDERS = new StorageConnectorType("HOMEFOLDERS");
+        /// <summary>
+        /// Constant ONE_DRIVE for StorageConnectorType
+        /// </summary>
+        public static readonly StorageConnectorType ONE_DRIVE = new StorageConnectorType("ONE_DRIVE");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -885,6 +1199,160 @@ namespace Amazon.AppStream
 
 
     /// <summary>
+    /// Constants used for properties of type UsageReportExecutionErrorCode.
+    /// </summary>
+    public class UsageReportExecutionErrorCode : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACCESS_DENIED for UsageReportExecutionErrorCode
+        /// </summary>
+        public static readonly UsageReportExecutionErrorCode ACCESS_DENIED = new UsageReportExecutionErrorCode("ACCESS_DENIED");
+        /// <summary>
+        /// Constant INTERNAL_SERVICE_ERROR for UsageReportExecutionErrorCode
+        /// </summary>
+        public static readonly UsageReportExecutionErrorCode INTERNAL_SERVICE_ERROR = new UsageReportExecutionErrorCode("INTERNAL_SERVICE_ERROR");
+        /// <summary>
+        /// Constant RESOURCE_NOT_FOUND for UsageReportExecutionErrorCode
+        /// </summary>
+        public static readonly UsageReportExecutionErrorCode RESOURCE_NOT_FOUND = new UsageReportExecutionErrorCode("RESOURCE_NOT_FOUND");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public UsageReportExecutionErrorCode(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static UsageReportExecutionErrorCode FindValue(string value)
+        {
+            return FindValue<UsageReportExecutionErrorCode>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator UsageReportExecutionErrorCode(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type UsageReportSchedule.
+    /// </summary>
+    public class UsageReportSchedule : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant DAILY for UsageReportSchedule
+        /// </summary>
+        public static readonly UsageReportSchedule DAILY = new UsageReportSchedule("DAILY");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public UsageReportSchedule(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static UsageReportSchedule FindValue(string value)
+        {
+            return FindValue<UsageReportSchedule>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator UsageReportSchedule(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type UserStackAssociationErrorCode.
+    /// </summary>
+    public class UserStackAssociationErrorCode : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant INTERNAL_ERROR for UserStackAssociationErrorCode
+        /// </summary>
+        public static readonly UserStackAssociationErrorCode INTERNAL_ERROR = new UserStackAssociationErrorCode("INTERNAL_ERROR");
+        /// <summary>
+        /// Constant STACK_NOT_FOUND for UserStackAssociationErrorCode
+        /// </summary>
+        public static readonly UserStackAssociationErrorCode STACK_NOT_FOUND = new UserStackAssociationErrorCode("STACK_NOT_FOUND");
+        /// <summary>
+        /// Constant USER_NAME_NOT_FOUND for UserStackAssociationErrorCode
+        /// </summary>
+        public static readonly UserStackAssociationErrorCode USER_NAME_NOT_FOUND = new UserStackAssociationErrorCode("USER_NAME_NOT_FOUND");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public UserStackAssociationErrorCode(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static UserStackAssociationErrorCode FindValue(string value)
+        {
+            return FindValue<UserStackAssociationErrorCode>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator UserStackAssociationErrorCode(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type VisibilityType.
     /// </summary>
     public class VisibilityType : ConstantClass
@@ -898,6 +1366,10 @@ namespace Amazon.AppStream
         /// Constant PUBLIC for VisibilityType
         /// </summary>
         public static readonly VisibilityType PUBLIC = new VisibilityType("PUBLIC");
+        /// <summary>
+        /// Constant SHARED for VisibilityType
+        /// </summary>
+        public static readonly VisibilityType SHARED = new VisibilityType("SHARED");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant

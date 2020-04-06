@@ -41,7 +41,13 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "GET";
 
-            request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
+            if (string.IsNullOrEmpty(listPartsRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "ListPartsRequest.BucketName");
+            if (string.IsNullOrEmpty(listPartsRequest.Key))
+                throw new System.ArgumentException("Key is a required property and must be set before making this call.", "ListPartsRequest.Key");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
                                                  S3Transforms.ToStringValue(listPartsRequest.BucketName),
                                                  S3Transforms.ToStringValue(listPartsRequest.Key));
 

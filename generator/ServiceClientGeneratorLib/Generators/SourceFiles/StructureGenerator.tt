@@ -41,7 +41,27 @@ namespace <#=this.Config.Namespace#>.Model
 	else
 	    this.FormatClassDocumentation(this.Structure);  
 #>
-	public partial class <#=this.ClassName#><#=this.BaseClassString#>
+<#		
+		if(this.Structure != null && this.Structure.IsDeprecated)
+		{
+#>
+    [Obsolete("<#=this.Structure.DeprecationMessage#>")]
+<#
+		}
+        bool hasStreamingMember = this.Structure?.Members.Any(member => member.IsStreaming) ?? false;
+        if (this.StructureType == StructureType.Response && hasStreamingMember) 
+        {
+#>
+    public partial class <#=this.ClassName#><#=this.BaseClassString#>, IDisposable
+<#
+        }
+        else
+        {
+#>
+    public partial class <#=this.ClassName#><#=this.BaseClassString#>
+<#
+        }
+#>
 	{
 <#
         if(this.Structure != null)
@@ -50,28 +70,7 @@ namespace <#=this.Config.Namespace#>.Model
             {
 #>
         private <#=this.Structure.Name#> _response;
-<#
-            }
-            else
-            {
-		        foreach(var member in this.Structure.Members)
-                {
-					if (member.IsExcluded)
-						continue;
-#>
-        private <#=member.DetermineType()#><#= member.IsNullable ? "?" : "" #> <#=member.VariableName#><#= member.ShouldInstantiate ? string.Format(" = new {0}();", member.DetermineType()) : ";"#>
-<#
-                }
-            }
-        }
-#>
 
-<#
-        if(this.Structure != null)
-        {
-            if(this.IsWrapped)
-            {
-#>
         /// <summary>
         /// Gets and sets the <#=this.Structure.Name#> property.
         /// </summary>
@@ -84,13 +83,53 @@ namespace <#=this.Config.Namespace#>.Model
             }
             else
             {
-        AddSimpleRequestConstructors(this.ClassName, this.Structure, this.Config.Namespace);
+		        foreach(var member in this.Structure.Members)
+                {
+					if (member.IsExcluded)
+						continue;
+#>
+        private <#=member.DetermineType()#><#= member.IsNullable ? "?" : "" #> <#=member.VariableName#><#= member.ShouldInstantiate ? string.Format(" = new {0}();", member.DetermineType()) : ";"#>
+<#
+                }
+#>
+
+<#
+		        AddSimpleRequestConstructors(this.ClassName, this.Structure, this.Config.Namespace);
+
 		        foreach(var member in this.Structure.Members)
                 {
 					if (member.IsExcluded)
 						continue;
 #>
 <# this.FormatPropertyDocumentation(member); #>
+<#		
+					if(member.IsDeprecated)
+					{
+#>
+		[Obsolete("<#=member.DeprecationMessage#>")]
+<#
+					}
+
+					var propertyAttributes = new List<string>();
+					if(member.IsRequired && !member.IsIdempotent)
+					{
+						propertyAttributes.Add("Required=true");
+					}
+					if (member.Shape.Min.HasValue)
+					{
+						propertyAttributes.Add("Min=" + member.Shape.Min);
+					}
+					if (member.Shape.Max.HasValue)
+					{
+						propertyAttributes.Add("Max=" + member.Shape.Max);
+					}
+					if (propertyAttributes.Count > 0)
+					{
+#>
+		[AWSProperty(<#=string.Join(", ", propertyAttributes)#>)]
+<#
+					}
+#>
         <#=member.AccessModifier#> <#=member.DetermineType()#><#=member.UseNullable ? "?" : ""#> <#=member.PropertyName#>
         {
 <#
@@ -107,7 +146,7 @@ namespace <#=this.Config.Namespace#>.Model
 <#
                     }
 #>
-            set { this.<#=member.VariableName#> = value; }
+            set { <#=member.IsBackwardsCompatibleDateTimeProperty ? "this." + member.BackwardCompatibilityVariableName + " = " : ""#>this.<#=member.VariableName#> = value; }
         }
 
 <#
@@ -124,6 +163,14 @@ namespace <#=this.Config.Namespace#>.Model
         /// <returns>
         /// True if the related property was set or will be sent to a service; false otherwise.
         /// </returns>
+<#		
+						if(member.IsDeprecated)
+						{
+#>
+		[Obsolete("<#=member.DeprecationMessage#>")]
+<#
+						}
+#>
         public bool Is<#=member.PropertyName#>Set
         {
             get
@@ -133,6 +180,14 @@ namespace <#=this.Config.Namespace#>.Model
             set
             {
                 Amazon.Util.Internal.InternalSDKUtils.SetIsSet(value, ref this.<#=member.VariableName#>);
+<#
+                        if(member.IsBackwardsCompatibleDateTimeProperty)
+                        {
+#>  
+                Amazon.Util.Internal.InternalSDKUtils.SetIsSet(value, ref this.<#=member.BackwardCompatibilityVariableName#>);
+<#
+                        }
+#>
             }
         }
 
@@ -143,30 +198,30 @@ namespace <#=this.Config.Namespace#>.Model
         internal bool IsSet<#=member.PropertyName#>()
         {
 <#
-                    if (member.EmitIsSetProperties)
-                    {
+					if (member.EmitIsSetProperties)
+					{
 #>
             return this.Is<#=member.PropertyName#>Set; 
 <#
-                    }
-                    else if (member.IsNullable)
-                    {
+					}
+					else if (member.IsNullable)
+					{
 #>
             return this.<#=member.VariableName#>.HasValue; 
 <#
-                    }
-                    else if (member.IsMap || member.IsList)
-                    {
+					}
+					else if (member.IsMap || member.IsList)
+					{
 #>
             return this.<#=member.VariableName#> != null && this.<#=member.VariableName#>.Count > 0; 
 <#
-                    }
-                    else
-                    {
+					}
+					else
+					{
 #>
             return this.<#=member.VariableName#> != null;
 <#
-                    }
+					}
 #>
         }
 
@@ -207,8 +262,135 @@ namespace <#=this.Config.Namespace#>.Model
         }
 <#
                 }
+		        if (this.Structure.Members.Any(m => !m.IsExcluded && m.IsBackwardsCompatibleDateTimeProperty))
+		        {
+#>
+#region Backwards compatible properties
+<#
+		            foreach(var member in this.Structure.Members)
+                    {
+				        if (member.IsExcluded || !member.IsBackwardsCompatibleDateTimeProperty)
+				        	continue;
+#>
+        private <#=member.DetermineType()#><#= member.IsNullable ? "?" : "" #> <#=member.BackwardCompatibilityVariableName#><#= member.ShouldInstantiate ? string.Format(" = new {0}();", member.DetermineType()) : ";"#>
+<#
+                    }
+#>
 
+<#
+		            foreach(var member in this.Structure.Members)
+                    {
+				        if (member.IsExcluded || !member.IsBackwardsCompatibleDateTimeProperty)
+				        	continue;
+#>
+<# this.FormatPropertyDocumentation(member, "This property is deprecated. Setting this property results in non-UTC DateTimes " +
+        "not being marshalled correctly. Use " + member.PropertyName + " instead. Setting either " + member.BackwardCompatibilityPropertyName +
+        " or " + member.PropertyName + " results in both " + member.BackwardCompatibilityPropertyName + " and " + 
+        member.PropertyName + " being assigned, the latest assignment to either one of the two property is reflected in " +
+        "the value of both. " + member.BackwardCompatibilityPropertyName + " is provided for backwards compatibility only " +
+        "and assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.");#>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use <#=member.PropertyName#> instead. Setting either <#=member.BackwardCompatibilityPropertyName#> or <#=member.PropertyName#> results in both <#=member.BackwardCompatibilityPropertyName#> and " +
+            "<#=member.PropertyName#> being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. <#=member.BackwardCompatibilityPropertyName#> is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        <#=member.AccessModifier#> <#=member.DetermineType()#><#=member.UseNullable ? "?" : ""#> <#=member.BackwardCompatibilityPropertyName#>
+        {
+            get { return this.<#=member.BackwardCompatibilityVariableName#>.GetValueOrDefault(); }
+            set
+            {
+                this.<#=member.BackwardCompatibilityVariableName#> = value;
+                this.<#=member.VariableName#> = new DateTime(value.Ticks, DateTimeKind.Utc);
             }
+        }
+<#
+                        if (member.EmitIsSetProperties)
+                        {
+#>
+		/// <summary>
+        /// This property is set to true if the property <seealso cref="<#=member.BackwardCompatibilityPropertyName#>"/>
+        /// is set; false otherwise.
+        /// This property can be used to determine if the related property
+        /// was returned by a service response or if the related property
+        /// should be sent to the service during a service call.
+        /// </summary>
+        /// <returns>
+        /// True if the related property was set or will be sent to a service; false otherwise.
+        /// </returns>
+		[Obsolete("Setting <#=member.BackwardCompatibilityPropertyName#> results in non-UTC DateTimes not being marshalled correctly. Use <#=member.PropertyName#> instead.", false)]
+		public bool Is<#=member.BackwardCompatibilityPropertyName#>Set
+        {
+            get
+            {
+                return this.Is<#=member.PropertyName#>Set;
+            }
+            set
+            {
+                this.Is<#=member.PropertyName#>Set = value;;
+            }
+        }
+<#
+                        }
+                    }
+
+#>
+#endregion
+<#
+		        }
+            }
+
+        }
+        else //TODO: remove this else clause. It was added just to preserve whitespaces
+        {
+#>
+
+<#
+        }
+        if (this.StructureType == StructureType.Response && hasStreamingMember) 
+        {
+#>
+        #region Dispose Pattern
+
+        private bool _disposed;
+
+        /// <summary>
+        /// Disposes of all managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+<#
+                if (this.Structure != null) 
+                {
+                    foreach (var member in this.Structure.Members) 
+                    {
+                        if (member.IsStreaming) 
+                        {
+#>
+                this.<#=member.VariableName#>?.Dispose();
+                this.<#=member.VariableName#> = null;
+<#
+                        }
+                    }
+                }
+#>
+            }
+
+            this._disposed = true;
+         }
+
+         #endregion
+<#
         }
 #>
     }

@@ -100,6 +100,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     unmarshalledObject.PlatformTypes = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("Requires", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<DocumentRequires, DocumentRequiresUnmarshaller>(DocumentRequiresUnmarshaller.Instance);
+                    unmarshalledObject.Requires = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("SchemaVersion", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -116,6 +122,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.TargetType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("VersionName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.VersionName = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

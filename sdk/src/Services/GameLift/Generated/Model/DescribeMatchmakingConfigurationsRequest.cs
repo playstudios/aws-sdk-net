@@ -29,7 +29,7 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeMatchmakingConfigurations operation.
-    /// Retrieves the details of FlexMatch matchmaking configurations. with this operation,
+    /// Retrieves the details of FlexMatch matchmaking configurations. With this operation,
     /// you have the following options: (1) retrieve all existing configurations, (2) provide
     /// the names of one or more configurations to retrieve, or (3) retrieve all configurations
     /// that use a specified rule set name. When requesting multiple items, use the pagination
@@ -39,7 +39,16 @@ namespace Amazon.GameLift.Model
     /// 
     ///  
     /// <para>
-    /// Operations related to match configurations and rule sets include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/matchmaker-build.html">
+    /// Setting Up FlexMatch Matchmakers</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -69,6 +78,10 @@ namespace Amazon.GameLift.Model
     /// <para>
     ///  <a>ValidateMatchmakingRuleSet</a> 
     /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DeleteMatchmakingRuleSet</a> 
+    /// </para>
     ///  </li> </ul>
     /// </summary>
     public partial class DescribeMatchmakingConfigurationsRequest : AmazonGameLiftRequest
@@ -81,10 +94,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages. This parameter is limited to 10.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -100,8 +114,9 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Names. 
         /// <para>
-        /// Unique identifier for a matchmaking configuration(s) to retrieve. To request all existing
-        /// configurations, leave this parameter empty.
+        /// A unique identifier for a matchmaking configuration(s) to retrieve. You can use either
+        /// the configuration name or ARN value. To request all existing configurations, leave
+        /// this parameter empty.
         /// </para>
         /// </summary>
         public List<string> Names
@@ -119,11 +134,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Token that indicates the start of the next sequential page of results. Use the token
+        /// A token that indicates the start of the next sequential page of results. Use the token
         /// that is returned with a previous call to this action. To start at the beginning of
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -139,10 +155,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property RuleSetName. 
         /// <para>
-        /// Unique identifier for a matchmaking rule set. Use this parameter to retrieve all matchmaking
-        /// configurations that use this rule set.
+        /// A unique identifier for a matchmaking rule set. You can use either the rule set name
+        /// or ARN value. Use this parameter to retrieve all matchmaking configurations that use
+        /// this rule set.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string RuleSetName
         {
             get { return this._ruleSetName; }

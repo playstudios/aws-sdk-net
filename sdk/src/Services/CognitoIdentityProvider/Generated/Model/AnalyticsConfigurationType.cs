@@ -29,6 +29,14 @@ namespace Amazon.CognitoIdentityProvider.Model
 {
     /// <summary>
     /// The Amazon Pinpoint analytics configuration for collecting metrics for a user pool.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// Cognito User Pools only supports sending events to Amazon Pinpoint projects in the
+    /// US East (N. Virginia) us-east-1 Region, regardless of the region in which the user
+    /// pool resides.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class AnalyticsConfigurationType
     {
@@ -43,6 +51,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The application ID for an Amazon Pinpoint application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -61,6 +70,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The external ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ExternalId
         {
             get { return this._externalId; }
@@ -80,6 +90,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// Pinpoint analytics.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string RoleArn
         {
             get { return this._roleArn; }

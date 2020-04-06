@@ -41,9 +41,9 @@ namespace Amazon.Rekognition.Model
     /// </para>
     ///  
     /// <para>
-    /// The <code>DetectText</code> operation returns text in an array of elements, <code>TextDetections</code>.
-    /// Each <code>TextDetection</code> element provides information about a single word or
-    /// line of text that was detected in the image. 
+    /// The <code>DetectText</code> operation returns text in an array of <a>TextDetection</a>
+    /// elements, <code>TextDetections</code>. Each <code>TextDetection</code> element provides
+    /// information about a single word or line of text that was detected in the image. 
     /// </para>
     ///  
     /// <para>
@@ -67,16 +67,36 @@ namespace Amazon.Rekognition.Model
     /// </para>
     ///  
     /// <para>
-    /// To be detected, text must be within +/- 30 degrees orientation of the horizontal axis.
+    /// To be detected, text must be within +/- 90 degrees orientation of the horizontal axis.
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a>text-detection</a>.
+    /// For more information, see DetectText in the Amazon Rekognition Developer Guide.
     /// </para>
     /// </summary>
     public partial class DetectTextRequest : AmazonRekognitionRequest
     {
+        private DetectTextFilters _filters;
         private Image _image;
+
+        /// <summary>
+        /// Gets and sets the property Filters. 
+        /// <para>
+        /// Optional parameters that let you set the criteria that the text must meet to be included
+        /// in your response.
+        /// </para>
+        /// </summary>
+        public DetectTextFilters Filters
+        {
+            get { return this._filters; }
+            set { this._filters = value; }
+        }
+
+        // Check to see if Filters property is set
+        internal bool IsSetFilters()
+        {
+            return this._filters != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Image. 
@@ -84,7 +104,14 @@ namespace Amazon.Rekognition.Model
         /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS
         /// CLI to call Amazon Rekognition operations, you can't pass image bytes. 
         /// </para>
+        ///  
+        /// <para>
+        /// If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode
+        /// image bytes passed using the <code>Bytes</code> field. For more information, see Images
+        /// in the Amazon Rekognition developer guide.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Image Image
         {
             get { return this._image; }

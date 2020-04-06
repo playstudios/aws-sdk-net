@@ -28,10 +28,10 @@ namespace Amazon.LexModelBuildingService
     ///<summary>
     /// Common exception for the LexModelBuildingService service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonLexModelBuildingServiceException : AmazonServiceException
+    public partial class AmazonLexModelBuildingServiceException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonLexModelBuildingServiceException
@@ -88,7 +88,7 @@ namespace Amazon.LexModelBuildingService
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonLexModelBuildingServiceException class with serialized data.
         /// </summary>

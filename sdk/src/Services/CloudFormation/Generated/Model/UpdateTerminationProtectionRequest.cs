@@ -31,12 +31,12 @@ namespace Amazon.CloudFormation.Model
     /// Container for the parameters to the UpdateTerminationProtection operation.
     /// Updates termination protection for the specified stack. If a user attempts to delete
     /// a stack with termination protection enabled, the operation fails and the stack remains
-    /// unchanged. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
+    /// unchanged. For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
     /// a Stack From Being Deleted</a> in the <i>AWS CloudFormation User Guide</i>.
     /// 
     ///  
     /// <para>
-    ///  For <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
+    ///  For <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
     /// stacks</a>, termination protection is set on the root stack and cannot be changed
     /// directly on the nested stack.
     /// </para>
@@ -52,6 +52,7 @@ namespace Amazon.CloudFormation.Model
         /// Whether to enable termination protection on the specified stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool EnableTerminationProtection
         {
             get { return this._enableTerminationProtection.GetValueOrDefault(); }
@@ -70,6 +71,7 @@ namespace Amazon.CloudFormation.Model
         /// The name or unique ID of the stack for which you want to set termination protection.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string StackName
         {
             get { return this._stackName; }

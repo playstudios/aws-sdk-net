@@ -39,7 +39,8 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// An integer specifying the maximum number of items you want to return in the API response.
+        /// An integer that specifies the maximum number of items you want to return in the API
+        /// response.
         /// </para>
         /// </summary>
         public int MaxResults
@@ -61,6 +62,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

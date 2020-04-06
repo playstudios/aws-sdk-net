@@ -32,10 +32,10 @@ namespace Amazon.WAFRegional
     /// This is the <i>AWS WAF Regional API Reference</i> for using AWS WAF with Elastic Load
     /// Balancing (ELB) Application Load Balancers. The AWS WAF actions and data types listed
     /// in the reference are available for protecting Application Load Balancers. You can
-    /// use these actions and data types by means of the endpoints listed in <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#waf_region">AWS
+    /// use these actions and data types by means of the endpoints listed in <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#waf_region">AWS
     /// Regions and Endpoints</a>. This guide is for developers who need detailed information
     /// about the AWS WAF API actions, data types, and errors. For detailed information about
-    /// AWS WAF features and an overview of how to use the AWS WAF API, see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS
+    /// AWS WAF features and an overview of how to use the AWS WAF API, see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS
     /// WAF Developer Guide</a>.
     /// </summary>
     public partial interface IAmazonWAFRegional : IAmazonService, IDisposable
@@ -46,7 +46,8 @@ namespace Amazon.WAFRegional
 
 
         /// <summary>
-        /// Associates a web ACL with a resource.
+        /// Associates a web ACL with a resource, either an application load balancer or Amazon
+        /// API Gateway stage.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AssociateWebACL service method.</param>
         /// 
@@ -184,7 +185,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -254,7 +255,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -299,7 +300,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -368,7 +369,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -442,7 +443,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -511,7 +512,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -553,12 +554,12 @@ namespace Amazon.WAFRegional
 
 
         /// <summary>
-        /// Creates an <a>IPSet</a>, which you use to specify which web requests you want to allow
-        /// or block based on the IP addresses that the requests originate from. For example,
-        /// if you're receiving a lot of requests from one or more individual IP addresses or
-        /// one or more ranges of IP addresses and you want to block the requests, you can create
-        /// an <code>IPSet</code> that contains those IP addresses and then configure AWS WAF
-        /// to block the requests. 
+        /// Creates an <a>IPSet</a>, which you use to specify which web requests that you want
+        /// to allow or block based on the IP addresses that the requests originate from. For
+        /// example, if you're receiving a lot of requests from one or more individual IP addresses
+        /// or one or more ranges of IP addresses and you want to block the requests, you can
+        /// create an <code>IPSet</code> that contains those IP addresses and then configure AWS
+        /// WAF to block the requests. 
         /// 
         ///  
         /// <para>
@@ -586,7 +587,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -656,7 +657,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -667,12 +668,12 @@ namespace Amazon.WAFRegional
         CreateIPSetResponse CreateIPSet(string name, string changeToken);
 
         /// <summary>
-        /// Creates an <a>IPSet</a>, which you use to specify which web requests you want to allow
-        /// or block based on the IP addresses that the requests originate from. For example,
-        /// if you're receiving a lot of requests from one or more individual IP addresses or
-        /// one or more ranges of IP addresses and you want to block the requests, you can create
-        /// an <code>IPSet</code> that contains those IP addresses and then configure AWS WAF
-        /// to block the requests. 
+        /// Creates an <a>IPSet</a>, which you use to specify which web requests that you want
+        /// to allow or block based on the IP addresses that the requests originate from. For
+        /// example, if you're receiving a lot of requests from one or more individual IP addresses
+        /// or one or more ranges of IP addresses and you want to block the requests, you can
+        /// create an <code>IPSet</code> that contains those IP addresses and then configure AWS
+        /// WAF to block the requests. 
         /// 
         ///  
         /// <para>
@@ -700,7 +701,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -769,7 +770,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -910,13 +911,16 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRateBasedRule service method.</param>
         /// 
         /// <returns>The response from the CreateRateBasedRule service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -975,12 +979,18 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/CreateRateBasedRule">REST API Reference for CreateRateBasedRule Operation</seealso>
         CreateRateBasedRuleResponse CreateRateBasedRule(CreateRateBasedRuleRequest request);
@@ -1052,7 +1062,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1068,7 +1078,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -1141,7 +1151,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1157,7 +1167,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -1202,8 +1212,8 @@ namespace Amazon.WAFRegional
         /// Creates a <code>Rule</code>, which contains the <code>IPSet</code> objects, <code>ByteMatchSet</code>
         /// objects, and other predicates that identify the requests that you want to block. If
         /// you add more than one predicate to a <code>Rule</code>, a request must match all of
-        /// the specifications to be allowed or blocked. For example, suppose you add the following
-        /// to a <code>Rule</code>:
+        /// the specifications to be allowed or blocked. For example, suppose that you add the
+        /// following to a <code>Rule</code>:
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -1257,15 +1267,18 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="name">A friendly name or description of the <a>Rule</a>. You can't change the name of a <code>Rule</code> after you create it.</param>
         /// <param name="changeToken">The value returned by the most recent call to <a>GetChangeToken</a>.</param>
-        /// <param name="metricName">A friendly name or description for the metrics for this <code>Rule</code>. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change the name of the metric after you create the <code>Rule</code>.</param>
+        /// <param name="metricName">A friendly name or description for the metrics for this <code>Rule</code>. The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum length one. It can't contain whitespace or metric names reserved for AWS WAF, including "All" and "Default_Action." You can't change the name of the metric after you create the <code>Rule</code>.</param>
         /// 
         /// <returns>The response from the CreateRule service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -1324,12 +1337,18 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/CreateRule">REST API Reference for CreateRule Operation</seealso>
         CreateRuleResponse CreateRule(string name, string changeToken, string metricName);
@@ -1338,8 +1357,8 @@ namespace Amazon.WAFRegional
         /// Creates a <code>Rule</code>, which contains the <code>IPSet</code> objects, <code>ByteMatchSet</code>
         /// objects, and other predicates that identify the requests that you want to block. If
         /// you add more than one predicate to a <code>Rule</code>, a request must match all of
-        /// the specifications to be allowed or blocked. For example, suppose you add the following
-        /// to a <code>Rule</code>:
+        /// the specifications to be allowed or blocked. For example, suppose that you add the
+        /// following to a <code>Rule</code>:
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -1393,13 +1412,16 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRule service method.</param>
         /// 
         /// <returns>The response from the CreateRule service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -1458,12 +1480,18 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/CreateRule">REST API Reference for CreateRule Operation</seealso>
         CreateRuleResponse CreateRule(CreateRuleRequest request);
@@ -1524,13 +1552,16 @@ namespace Amazon.WAFRegional
         ///  </li> </ul> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRuleGroup service method.</param>
         /// 
         /// <returns>The response from the CreateRuleGroup service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -1540,12 +1571,18 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/CreateRuleGroup">REST API Reference for CreateRuleGroup Operation</seealso>
         CreateRuleGroupResponse CreateRuleGroup(CreateRuleGroupRequest request);
@@ -1616,7 +1653,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1685,7 +1722,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -1758,7 +1795,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1828,7 +1865,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -1870,7 +1907,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -1939,7 +1976,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -2029,13 +2066,16 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> </ol> 
         /// <para>
-        /// For more information about how to use the AWS WAF API, see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS
+        /// For more information about how to use the AWS WAF API, see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS
         /// WAF Developer Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateWebACL service method.</param>
         /// 
         /// <returns>The response from the CreateWebACL service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFDisallowedNameException">
         /// The name specified is invalid.
         /// </exception>
@@ -2098,12 +2138,18 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/CreateWebACL">REST API Reference for CreateWebACL Operation</seealso>
         CreateWebACLResponse CreateWebACL(CreateWebACLRequest request);
@@ -2170,7 +2216,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -2239,7 +2285,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
@@ -2813,6 +2859,57 @@ namespace Amazon.WAFRegional
 
         #endregion
         
+        #region  DeleteLoggingConfiguration
+
+
+        /// <summary>
+        /// Permanently deletes the <a>LoggingConfiguration</a> from the specified web ACL.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLoggingConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteLoggingConfiguration service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
+        /// The operation failed because you tried to create, update, or delete an object by using
+        /// a change token that has already been used.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteLoggingConfiguration">REST API Reference for DeleteLoggingConfiguration Operation</seealso>
+        DeleteLoggingConfigurationResponse DeleteLoggingConfiguration(DeleteLoggingConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLoggingConfiguration operation on AmazonWAFRegionalClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteLoggingConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteLoggingConfiguration">REST API Reference for DeleteLoggingConfiguration Operation</seealso>
+        IAsyncResult BeginDeleteLoggingConfiguration(DeleteLoggingConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteLoggingConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteLoggingConfigurationResult from WAFRegional.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteLoggingConfiguration">REST API Reference for DeleteLoggingConfiguration Operation</seealso>
+        DeleteLoggingConfigurationResponse EndDeleteLoggingConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeletePermissionPolicy
 
 
@@ -2957,6 +3054,12 @@ namespace Amazon.WAFRegional
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteRateBasedRule">REST API Reference for DeleteRateBasedRule Operation</seealso>
         DeleteRateBasedRuleResponse DeleteRateBasedRule(DeleteRateBasedRuleRequest request);
@@ -3293,6 +3396,12 @@ namespace Amazon.WAFRegional
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteRule">REST API Reference for DeleteRule Operation</seealso>
         DeleteRuleResponse DeleteRule(string ruleId, string changeToken);
 
@@ -3381,6 +3490,12 @@ namespace Amazon.WAFRegional
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteRule">REST API Reference for DeleteRule Operation</seealso>
         DeleteRuleResponse DeleteRule(DeleteRuleRequest request);
 
@@ -3453,6 +3568,36 @@ namespace Amazon.WAFRegional
         /// The operation failed because of a system problem, even though the request was valid.
         /// Retry your request.
         /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInvalidOperationException">
+        /// The operation failed because there was nothing to do. For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You tried to remove a <code>Rule</code> from a <code>WebACL</code>, but the <code>Rule</code>
+        /// isn't in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to remove an IP address from an <code>IPSet</code>, but the IP address isn't
+        /// in the specified <code>IPSet</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to remove a <code>ByteMatchTuple</code> from a <code>ByteMatchSet</code>,
+        /// but the <code>ByteMatchTuple</code> isn't in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
+        /// already exists in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
+        /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonEmptyEntityException">
         /// The operation failed because you tried to delete an object that isn't empty. For example:
         /// 
@@ -3497,6 +3642,12 @@ namespace Amazon.WAFRegional
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteRuleGroup">REST API Reference for DeleteRuleGroup Operation</seealso>
         DeleteRuleGroupResponse DeleteRuleGroup(DeleteRuleGroupRequest request);
@@ -3945,6 +4096,12 @@ namespace Amazon.WAFRegional
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
         /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteWebACL">REST API Reference for DeleteWebACL Operation</seealso>
         DeleteWebACLResponse DeleteWebACL(string webACLId, string changeToken);
 
@@ -4027,6 +4184,12 @@ namespace Amazon.WAFRegional
         /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// a change token that has already been used.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/DeleteWebACL">REST API Reference for DeleteWebACL Operation</seealso>
         DeleteWebACLResponse DeleteWebACL(DeleteWebACLRequest request);
@@ -4184,7 +4347,8 @@ namespace Amazon.WAFRegional
 
 
         /// <summary>
-        /// Removes a web ACL from the specified resource.
+        /// Removes a web ACL from the specified resource, either an application load balancer
+        /// or Amazon API Gateway stage.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DisassociateWebACL service method.</param>
         /// 
@@ -4460,7 +4624,7 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>IN_SYNC</code>: Propagation is complete.
+        ///  <code>INSYNC</code>: Propagation is complete.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -4493,7 +4657,7 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>IN_SYNC</code>: Propagation is complete.
+        ///  <code>INSYNC</code>: Propagation is complete.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -4657,6 +4821,53 @@ namespace Amazon.WAFRegional
         /// <returns>Returns a  GetIPSetResult from WAFRegional.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/GetIPSet">REST API Reference for GetIPSet Operation</seealso>
         GetIPSetResponse EndGetIPSet(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetLoggingConfiguration
+
+
+        /// <summary>
+        /// Returns the <a>LoggingConfiguration</a> for the specified web ACL.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLoggingConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the GetLoggingConfiguration service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/GetLoggingConfiguration">REST API Reference for GetLoggingConfiguration Operation</seealso>
+        GetLoggingConfigurationResponse GetLoggingConfiguration(GetLoggingConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLoggingConfiguration operation on AmazonWAFRegionalClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLoggingConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/GetLoggingConfiguration">REST API Reference for GetLoggingConfiguration Operation</seealso>
+        IAsyncResult BeginGetLoggingConfiguration(GetLoggingConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLoggingConfiguration.</param>
+        /// 
+        /// <returns>Returns a  GetLoggingConfigurationResult from WAFRegional.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/GetLoggingConfiguration">REST API Reference for GetLoggingConfiguration Operation</seealso>
+        GetLoggingConfigurationResponse EndGetLoggingConfiguration(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5346,7 +5557,8 @@ namespace Amazon.WAFRegional
 
 
         /// <summary>
-        /// Returns the web ACL for the specified resource.
+        /// Returns the web ACL for the specified resource, either an application load balancer
+        /// or Amazon API Gateway stage.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetWebACLForResource service method.</param>
         /// 
@@ -5737,6 +5949,102 @@ namespace Amazon.WAFRegional
 
         #endregion
         
+        #region  ListLoggingConfigurations
+
+
+        /// <summary>
+        /// Returns an array of <a>LoggingConfiguration</a> objects.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListLoggingConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the ListLoggingConfigurations service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/ListLoggingConfigurations">REST API Reference for ListLoggingConfigurations Operation</seealso>
+        ListLoggingConfigurationsResponse ListLoggingConfigurations(ListLoggingConfigurationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLoggingConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLoggingConfigurations operation on AmazonWAFRegionalClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListLoggingConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/ListLoggingConfigurations">REST API Reference for ListLoggingConfigurations Operation</seealso>
+        IAsyncResult BeginListLoggingConfigurations(ListLoggingConfigurationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListLoggingConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListLoggingConfigurations.</param>
+        /// 
+        /// <returns>Returns a  ListLoggingConfigurationsResult from WAFRegional.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/ListLoggingConfigurations">REST API Reference for ListLoggingConfigurations Operation</seealso>
+        ListLoggingConfigurationsResponse EndListLoggingConfigurations(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListRateBasedRules
 
 
@@ -5897,6 +6205,55 @@ namespace Amazon.WAFRegional
         /// <exception cref="Amazon.WAFRegional.Model.WAFInvalidAccountException">
         /// The operation failed because you tried to create, update, or delete an object by using
         /// an invalid account identifier.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
         /// The operation failed because the referenced object doesn't exist.
@@ -6167,6 +6524,111 @@ namespace Amazon.WAFRegional
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonWAFRegionalClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from WAFRegional.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListWebACLs
 
 
@@ -6263,6 +6725,98 @@ namespace Amazon.WAFRegional
 
         #endregion
         
+        #region  PutLoggingConfiguration
+
+
+        /// <summary>
+        /// Associates a <a>LoggingConfiguration</a> with a specified web ACL.
+        /// 
+        ///  
+        /// <para>
+        /// You can access information about all traffic that AWS WAF inspects using the following
+        /// steps:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// Create an Amazon Kinesis Data Firehose. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Create the data firehose with a PUT source and in the region that you are operating.
+        /// However, if you are capturing logs for Amazon CloudFront, always create the firehose
+        /// in US East (N. Virginia). 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Do not create the data firehose using a <code>Kinesis stream</code> as your source.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        /// Associate that firehose to your web ACL using a <code>PutLoggingConfiguration</code>
+        /// request.
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// When you successfully enable logging using a <code>PutLoggingConfiguration</code>
+        /// request, AWS WAF will create a service linked role with the necessary permissions
+        /// to write logs to the Amazon Kinesis Data Firehose. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+        /// Web ACL Traffic Information</a> in the <i>AWS WAF Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutLoggingConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutLoggingConfiguration service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFServiceLinkedRoleErrorException">
+        /// AWS WAF is not able to access the service linked role. This can be caused by a previous
+        /// <code>PutLoggingConfiguration</code> request, which can lock the service linked role
+        /// for about 20 seconds. Please try your request again. The service linked role can also
+        /// be locked by a previous <code>DeleteServiceLinkedRole</code> request, which can lock
+        /// the role for 15 minutes or more. If you recently made a <code>DeleteServiceLinkedRole</code>,
+        /// wait at least 15 minutes and try the request again. If you receive this same exception
+        /// again, you will have to wait additional time until the role is unlocked.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFStaleDataException">
+        /// The operation failed because you tried to create, update, or delete an object by using
+        /// a change token that has already been used.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/PutLoggingConfiguration">REST API Reference for PutLoggingConfiguration Operation</seealso>
+        PutLoggingConfigurationResponse PutLoggingConfiguration(PutLoggingConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutLoggingConfiguration operation on AmazonWAFRegionalClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutLoggingConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/PutLoggingConfiguration">REST API Reference for PutLoggingConfiguration Operation</seealso>
+        IAsyncResult BeginPutLoggingConfiguration(PutLoggingConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutLoggingConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutLoggingConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutLoggingConfigurationResult from WAFRegional.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/PutLoggingConfiguration">REST API Reference for PutLoggingConfiguration Operation</seealso>
+        PutLoggingConfigurationResponse EndPutLoggingConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutPermissionPolicy
 
 
@@ -6289,8 +6843,9 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code> and <code>waf-regional:UpdateWebACL</code>.
-        /// Any extra or wildcard actions in the policy will be rejected.
+        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code>, <code>waf-regional:UpdateWebACL</code>,
+        /// <code>waf:GetRuleGroup</code> and <code>waf-regional:GetRuleGroup</code> . Any extra
+        /// or wildcard actions in the policy will be rejected.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6348,8 +6903,9 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code> or <code>waf-regional:UpdateWebACL</code>.
-        /// Any extra or wildcard actions in the policy will be rejected.
+        /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code>, <code>waf-regional:UpdateWebACL</code>,
+        /// <code>waf:GetRuleGroup</code> and <code>waf-regional:GetRuleGroup</code> . Any extra
+        /// or wildcard actions in the policy will be rejected.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6405,6 +6961,221 @@ namespace Amazon.WAFRegional
         /// <returns>Returns a  PutPermissionPolicyResult from WAFRegional.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/PutPermissionPolicy">REST API Reference for PutPermissionPolicy Operation</seealso>
         PutPermissionPolicyResponse EndPutPermissionPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
+        /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// in the <i>AWS WAF Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonWAFRegionalClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from WAFRegional.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by WAFRegional.</returns>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFBadRequestException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInternalErrorException">
+        /// The operation failed because of a system problem, even though the request was valid.
+        /// Retry your request.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFInvalidParameterException">
+        /// The operation failed because AWS WAF didn't recognize a parameter in the request.
+        /// For example:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// You specified an invalid parameter name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You specified an invalid value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update an object (<code>ByteMatchSet</code>, <code>IPSet</code>, <code>Rule</code>,
+        /// or <code>WebACL</code>) using an action other than <code>INSERT</code> or <code>DELETE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>WebACL</code> with a <code>DefaultAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to create a <code>RateBasedRule</code> with a <code>RateKey</code> value
+        /// other than <code>IP</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>WebACL</code> with a <code>WafAction</code> <code>Type</code>
+        /// other than <code>ALLOW</code>, <code>BLOCK</code>, or <code>COUNT</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>FieldToMatch</code> <code>Type</code>
+        /// other than HEADER, METHOD, QUERY_STRING, URI, or BODY.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You tried to update a <code>ByteMatchSet</code> with a <code>Field</code> of <code>HEADER</code>
+        /// but no value for <code>Data</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Your request references an ARN that is malformed, or corresponds to a resource with
+        /// which a web ACL cannot be associated.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentItemException">
+        /// The operation failed because the referenced object doesn't exist.
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.WAFRegional.Model.WAFTagOperationInternalErrorException">
+        /// 
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonWAFRegionalClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from WAFRegional.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/waf-regional-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
 
         #endregion
         
@@ -6469,7 +7240,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -6508,11 +7279,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6572,7 +7338,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -6669,7 +7435,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -6706,11 +7472,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6770,7 +7531,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -6886,7 +7647,7 @@ namespace Amazon.WAFRegional
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -6923,11 +7684,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -6987,7 +7743,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -7092,9 +7848,9 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// AWS WAF supports /8, /16, /24, and /32 IP address ranges for IPv4, and /24, /32, /48,
-        /// /56, /64 and /128 for IPv6. For more information about CIDR notation, see the Wikipedia
-        /// entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+        /// AWS WAF supports IPv4 address ranges: /8 and any range between /16 through /32. AWS
+        /// WAF supports IPv6 address ranges: /24, /32, /48, /56, /64, and /128. For more information
+        /// about CIDR notation, see the Wikipedia entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
         /// Inter-Domain Routing</a>.
         /// </para>
         ///  
@@ -7151,13 +7907,17 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  
         /// <para>
+        /// You can insert a maximum of 1000 addresses in a single request.
+        /// </para>
+        ///  
+        /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="ipSetId">The <code>IPSetId</code> of the <a>IPSet</a> that you want to update. <code>IPSetId</code> is returned by <a>CreateIPSet</a> and by <a>ListIPSets</a>.</param>
-        /// <param name="updates">An array of <code>IPSetUpdate</code> objects that you want to insert into or delete from an <a>IPSet</a>. For more information, see the applicable data types: <ul> <li>  <a>IPSetUpdate</a>: Contains <code>Action</code> and <code>IPSetDescriptor</code>  </li> <li>  <a>IPSetDescriptor</a>: Contains <code>Type</code> and <code>Value</code>  </li> </ul></param>
+        /// <param name="updates">An array of <code>IPSetUpdate</code> objects that you want to insert into or delete from an <a>IPSet</a>. For more information, see the applicable data types: <ul> <li>  <a>IPSetUpdate</a>: Contains <code>Action</code> and <code>IPSetDescriptor</code>  </li> <li>  <a>IPSetDescriptor</a>: Contains <code>Type</code> and <code>Value</code>  </li> </ul> You can insert a maximum of 1000 addresses in a single request.</param>
         /// <param name="changeToken">The value returned by the most recent call to <a>GetChangeToken</a>.</param>
         /// 
         /// <returns>The response from the UpdateIPSet service method, as returned by WAFRegional.</returns>
@@ -7191,11 +7951,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7255,7 +8010,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -7329,9 +8084,9 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// AWS WAF supports /8, /16, /24, and /32 IP address ranges for IPv4, and /24, /32, /48,
-        /// /56, /64 and /128 for IPv6. For more information about CIDR notation, see the Wikipedia
-        /// entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
+        /// AWS WAF supports IPv4 address ranges: /8 and any range between /16 through /32. AWS
+        /// WAF supports IPv6 address ranges: /24, /32, /48, /56, /64, and /128. For more information
+        /// about CIDR notation, see the Wikipedia entry <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
         /// Inter-Domain Routing</a>.
         /// </para>
         ///  
@@ -7388,8 +8143,12 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  
         /// <para>
+        /// You can insert a maximum of 1000 addresses in a single request.
+        /// </para>
+        ///  
+        /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -7426,11 +8185,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -7490,7 +8244,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -7676,11 +8430,6 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -7737,7 +8486,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -7875,7 +8624,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -7918,11 +8667,6 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -7930,7 +8674,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -8056,7 +8800,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8096,11 +8840,6 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
         /// You tried to add a <code>ByteMatchTuple</code> to a <code>ByteMatchSet</code>, but
         /// the <code>ByteMatchTuple</code> already exists in the specified <code>WebACL</code>.
         /// </para>
@@ -8112,7 +8851,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -8187,8 +8926,8 @@ namespace Amazon.WAFRegional
         /// object identifies a predicate, such as a <a>ByteMatchSet</a> or an <a>IPSet</a>, that
         /// specifies the web requests that you want to allow, block, or count. If you add more
         /// than one predicate to a <code>Rule</code>, a request must match all of the specifications
-        /// to be allowed, blocked, or counted. For example, suppose you add the following to
-        /// a <code>Rule</code>: 
+        /// to be allowed, blocked, or counted. For example, suppose that you add the following
+        /// to a <code>Rule</code>: 
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -8239,7 +8978,7 @@ namespace Amazon.WAFRegional
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8278,11 +9017,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8342,7 +9076,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -8400,8 +9134,8 @@ namespace Amazon.WAFRegional
         /// object identifies a predicate, such as a <a>ByteMatchSet</a> or an <a>IPSet</a>, that
         /// specifies the web requests that you want to allow, block, or count. If you add more
         /// than one predicate to a <code>Rule</code>, a request must match all of the specifications
-        /// to be allowed, blocked, or counted. For example, suppose you add the following to
-        /// a <code>Rule</code>: 
+        /// to be allowed, blocked, or counted. For example, suppose that you add the following
+        /// to a <code>Rule</code>: 
         /// 
         ///  <ul> <li> 
         /// <para>
@@ -8452,7 +9186,7 @@ namespace Amazon.WAFRegional
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8489,11 +9223,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8553,7 +9282,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -8679,7 +9408,7 @@ namespace Amazon.WAFRegional
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8712,11 +9441,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -8776,7 +9500,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -8867,6 +9591,10 @@ namespace Amazon.WAFRegional
         /// supported because the AWS resource forwards only the first <code>8192</code> bytes
         /// of your request to AWS WAF.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> <li> 
         /// <para>
         /// A <code>ComparisonOperator</code> used for evaluating the selected part of the request
@@ -8906,7 +9634,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -8943,11 +9671,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9007,7 +9730,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -9104,18 +9827,23 @@ namespace Amazon.WAFRegional
         ///  </li> <li> 
         /// <para>
         ///  <code>FieldToMatch</code>: The part of web requests that you want AWS WAF to inspect
-        /// and, if you want AWS WAF to inspect a header, the name of the header.
+        /// and, if you want AWS WAF to inspect a header or custom query parameter, the name of
+        /// the header or parameter.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>TextTransformation</code>: Which text transformation, if any, to perform on
         /// the web request before inspecting the request for snippets of malicious SQL code.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> </ul> 
         /// <para>
         /// You use <code>SqlInjectionMatchSet</code> objects to specify which CloudFront requests
-        /// you want to allow, block, or count. For example, if you're receiving requests that
-        /// contain snippets of SQL code in the query string and you want to block the requests,
+        /// that you want to allow, block, or count. For example, if you're receiving requests
+        /// that contain snippets of SQL code in the query string and you want to block the requests,
         /// you can create a <code>SqlInjectionMatchSet</code> with the applicable settings, and
         /// then configure AWS WAF to block the requests. 
         /// </para>
@@ -9141,7 +9869,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9180,11 +9908,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9244,7 +9967,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -9296,18 +10019,23 @@ namespace Amazon.WAFRegional
         ///  </li> <li> 
         /// <para>
         ///  <code>FieldToMatch</code>: The part of web requests that you want AWS WAF to inspect
-        /// and, if you want AWS WAF to inspect a header, the name of the header.
+        /// and, if you want AWS WAF to inspect a header or custom query parameter, the name of
+        /// the header or parameter.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>TextTransformation</code>: Which text transformation, if any, to perform on
         /// the web request before inspecting the request for snippets of malicious SQL code.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> </ul> 
         /// <para>
         /// You use <code>SqlInjectionMatchSet</code> objects to specify which CloudFront requests
-        /// you want to allow, block, or count. For example, if you're receiving requests that
-        /// contain snippets of SQL code in the query string and you want to block the requests,
+        /// that you want to allow, block, or count. For example, if you're receiving requests
+        /// that contain snippets of SQL code in the query string and you want to block the requests,
         /// you can create a <code>SqlInjectionMatchSet</code> with the applicable settings, and
         /// then configure AWS WAF to block the requests. 
         /// </para>
@@ -9333,7 +10061,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9370,11 +10098,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9434,7 +10157,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -9517,9 +10240,9 @@ namespace Amazon.WAFRegional
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The <code>Rules</code> that you want to add and/or delete. If you want to replace
-        /// one <code>Rule</code> with another, you delete the existing <code>Rule</code> and
-        /// add the new one.
+        /// The <code>Rules</code> that you want to add or delete. If you want to replace one
+        /// <code>Rule</code> with another, you delete the existing <code>Rule</code> and add
+        /// the new one.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9532,7 +10255,7 @@ namespace Amazon.WAFRegional
         /// If you add more than one <code>Rule</code> to a <code>WebACL</code>, AWS WAF evaluates
         /// each request against the <code>Rules</code> in order based on the value of <code>Priority</code>.
         /// (The <code>Rule</code> that has the lowest value for <code>Priority</code> is evaluated
-        /// first.) When a web request matches all of the predicates (such as <code>ByteMatchSets</code>
+        /// first.) When a web request matches all the predicates (such as <code>ByteMatchSets</code>
         /// and <code>IPSets</code>) in a <code>Rule</code>, AWS WAF immediately takes the corresponding
         /// action, allow or block, and doesn't evaluate the request against the remaining <code>Rules</code>
         /// in the <code>WebACL</code>, if any. 
@@ -9567,6 +10290,18 @@ namespace Amazon.WAFRegional
         /// you want to include in the <code>WebACL</code>, to specify the default action, and
         /// to associate the <code>WebACL</code> with a CloudFront distribution. 
         /// </para>
+        ///  
+        /// <para>
+        /// The <code>ActivatedRule</code> can be a rule group. If you specify a rule group as
+        /// your <code>ActivatedRule</code>, you can exclude specific rules from that rule group.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you already have a rule group associated with a web ACL and want to submit an <code>UpdateWebACL</code>
+        /// request to exclude certain rules from that rule group, you must first remove the rule
+        /// group from the web ACL, the re-insert it again, specifying the excluded rules. For
+        /// details, see <a>ActivatedRule$ExcludedRules</a>. 
+        /// </para>
         ///  </li> </ol> 
         /// <para>
         /// Be aware that if you try to add a RATE_BASED rule to a web ACL without setting the
@@ -9577,7 +10312,7 @@ namespace Amazon.WAFRegional
         ///  
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9614,11 +10349,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9678,7 +10408,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">
@@ -9772,26 +10502,31 @@ namespace Amazon.WAFRegional
         ///  <ul> <li> 
         /// <para>
         ///  <code>Action</code>: Whether to insert the object into or delete the object from
-        /// the array. To change a <code>XssMatchTuple</code>, you delete the existing object
+        /// the array. To change an <code>XssMatchTuple</code>, you delete the existing object
         /// and add a new one.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>FieldToMatch</code>: The part of web requests that you want AWS WAF to inspect
-        /// and, if you want AWS WAF to inspect a header, the name of the header.
+        /// and, if you want AWS WAF to inspect a header or custom query parameter, the name of
+        /// the header or parameter.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>TextTransformation</code>: Which text transformation, if any, to perform on
         /// the web request before inspecting the request for cross-site scripting attacks.
         /// </para>
+        ///  
+        /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// You use <code>XssMatchSet</code> objects to specify which CloudFront requests you
-        /// want to allow, block, or count. For example, if you're receiving requests that contain
-        /// cross-site scripting attacks in the request body and you want to block the requests,
-        /// you can create an <code>XssMatchSet</code> with the applicable settings, and then
-        /// configure AWS WAF to block the requests. 
+        /// You use <code>XssMatchSet</code> objects to specify which CloudFront requests that
+        /// you want to allow, block, or count. For example, if you're receiving requests that
+        /// contain cross-site scripting attacks in the request body and you want to block the
+        /// requests, you can create an <code>XssMatchSet</code> with the applicable settings,
+        /// and then configure AWS WAF to block the requests. 
         /// </para>
         ///  
         /// <para>
@@ -9814,7 +10549,7 @@ namespace Amazon.WAFRegional
         ///  </li> </ol> 
         /// <para>
         /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-        /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+        /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
         /// Guide</a>.
         /// </para>
         /// </summary>
@@ -9851,11 +10586,6 @@ namespace Amazon.WAFRegional
         /// <para>
         /// You tried to add a <code>Rule</code> to a <code>WebACL</code>, but the <code>Rule</code>
         /// already exists in the specified <code>WebACL</code>.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// You tried to add an IP address to an <code>IPSet</code>, but the IP address already
-        /// exists in the specified <code>IPSet</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -9915,7 +10645,7 @@ namespace Amazon.WAFRegional
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFLimitsExceededException">
         /// The operation exceeds a resource limit, for example, the maximum number of <code>WebACL</code>
-        /// objects that you can create for an AWS account. For more information, see <a href="http://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
+        /// objects that you can create for an AWS account. For more information, see <a href="https://docs.aws.amazon.com/waf/latest/developerguide/limits.html">Limits</a>
         /// in the <i>AWS WAF Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.WAFRegional.Model.WAFNonexistentContainerException">

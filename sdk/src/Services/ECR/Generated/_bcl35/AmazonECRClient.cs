@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.ECR.Model;
 using Amazon.ECR.Model.Internal.MarshallTransformations;
+using Amazon.ECR.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -33,15 +35,19 @@ namespace Amazon.ECR
     /// <summary>
     /// Implementation for accessing ECR
     ///
+    /// Amazon Elastic Container Registry 
+    /// <para>
     /// Amazon Elastic Container Registry (Amazon ECR) is a managed Docker registry service.
     /// Customers can use the familiar Docker CLI to push, pull, and manage images. Amazon
     /// ECR provides a secure, scalable, and reliable registry. Amazon ECR supports private
     /// Docker repositories with resource-based permissions using IAM so that specific users
     /// or Amazon EC2 instances can access repositories and images. Developers can use the
     /// Docker CLI to author and manage images.
+    /// </para>
     /// </summary>
     public partial class AmazonECRClient : AmazonServiceClient, IAmazonECR
     {
+        private static IServiceMetadata serviceMetadata = new AmazonECRMetadata();
         #region Constructors
 
         /// <summary>
@@ -212,6 +218,16 @@ namespace Amazon.ECR
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -227,12 +243,22 @@ namespace Amazon.ECR
 
         #endregion
 
-        
+
         #region  BatchCheckLayerAvailability
 
         /// <summary>
-        /// Check the availability of multiple image layers in a specified registry and repository.
+        /// Checks the availability of one or more image layers in a repository.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed to a repository, each image layer is checked to verify if
+        /// it has been uploaded before. If it is, then the image layer is skipped.
+        /// </para>
+        ///  
+        /// <para>
+        /// When an image is pulled from a repository, each image layer is checked once to verify
+        /// it is available to be pulled.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -257,10 +283,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchCheckLayerAvailability">REST API Reference for BatchCheckLayerAvailability Operation</seealso>
         public virtual BatchCheckLayerAvailabilityResponse BatchCheckLayerAvailability(BatchCheckLayerAvailabilityRequest request)
         {
-            var marshaller = BatchCheckLayerAvailabilityRequestMarshaller.Instance;
-            var unmarshaller = BatchCheckLayerAvailabilityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchCheckLayerAvailabilityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchCheckLayerAvailabilityResponseUnmarshaller.Instance;
 
-            return Invoke<BatchCheckLayerAvailabilityRequest,BatchCheckLayerAvailabilityResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchCheckLayerAvailabilityResponse>(request, options);
         }
 
         /// <summary>
@@ -277,11 +304,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchCheckLayerAvailability">REST API Reference for BatchCheckLayerAvailability Operation</seealso>
         public virtual IAsyncResult BeginBatchCheckLayerAvailability(BatchCheckLayerAvailabilityRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchCheckLayerAvailabilityRequestMarshaller.Instance;
-            var unmarshaller = BatchCheckLayerAvailabilityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchCheckLayerAvailabilityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchCheckLayerAvailabilityResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchCheckLayerAvailabilityRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -302,8 +329,8 @@ namespace Amazon.ECR
         #region  BatchDeleteImage
 
         /// <summary>
-        /// Deletes a list of specified images within a specified repository. Images are specified
-        /// with either <code>imageTag</code> or <code>imageDigest</code>.
+        /// Deletes a list of specified images within a repository. Images are specified with
+        /// either an <code>imageTag</code> or <code>imageDigest</code>.
         /// 
         ///  
         /// <para>
@@ -332,10 +359,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchDeleteImage">REST API Reference for BatchDeleteImage Operation</seealso>
         public virtual BatchDeleteImageResponse BatchDeleteImage(BatchDeleteImageRequest request)
         {
-            var marshaller = BatchDeleteImageRequestMarshaller.Instance;
-            var unmarshaller = BatchDeleteImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteImageResponseUnmarshaller.Instance;
 
-            return Invoke<BatchDeleteImageRequest,BatchDeleteImageResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchDeleteImageResponse>(request, options);
         }
 
         /// <summary>
@@ -352,11 +380,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchDeleteImage">REST API Reference for BatchDeleteImage Operation</seealso>
         public virtual IAsyncResult BeginBatchDeleteImage(BatchDeleteImageRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchDeleteImageRequestMarshaller.Instance;
-            var unmarshaller = BatchDeleteImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteImageResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchDeleteImageRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -377,8 +405,14 @@ namespace Amazon.ECR
         #region  BatchGetImage
 
         /// <summary>
-        /// Gets detailed information for specified images within a specified repository. Images
-        /// are specified with either <code>imageTag</code> or <code>imageDigest</code>.
+        /// Gets detailed information for an image. Images are specified with either an <code>imageTag</code>
+        /// or <code>imageDigest</code>.
+        /// 
+        ///  
+        /// <para>
+        /// When an image is pulled, the BatchGetImage API is called once to retrieve the image
+        /// manifest.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetImage service method.</param>
         /// 
@@ -396,10 +430,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchGetImage">REST API Reference for BatchGetImage Operation</seealso>
         public virtual BatchGetImageResponse BatchGetImage(BatchGetImageRequest request)
         {
-            var marshaller = BatchGetImageRequestMarshaller.Instance;
-            var unmarshaller = BatchGetImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetImageResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetImageRequest,BatchGetImageResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetImageResponse>(request, options);
         }
 
         /// <summary>
@@ -416,11 +451,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchGetImage">REST API Reference for BatchGetImage Operation</seealso>
         public virtual IAsyncResult BeginBatchGetImage(BatchGetImageRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetImageRequestMarshaller.Instance;
-            var unmarshaller = BatchGetImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetImageResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetImageRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -445,6 +480,11 @@ namespace Amazon.ECR
         /// repository name, and upload ID. You can optionally provide a <code>sha256</code> digest
         /// of the image layer for data validation purposes.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed, the CompleteLayerUpload API is called once per each new image
+        /// layer to verify that the upload has completed.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -485,10 +525,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CompleteLayerUpload">REST API Reference for CompleteLayerUpload Operation</seealso>
         public virtual CompleteLayerUploadResponse CompleteLayerUpload(CompleteLayerUploadRequest request)
         {
-            var marshaller = CompleteLayerUploadRequestMarshaller.Instance;
-            var unmarshaller = CompleteLayerUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteLayerUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteLayerUploadResponseUnmarshaller.Instance;
 
-            return Invoke<CompleteLayerUploadRequest,CompleteLayerUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<CompleteLayerUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -505,11 +546,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CompleteLayerUpload">REST API Reference for CompleteLayerUpload Operation</seealso>
         public virtual IAsyncResult BeginCompleteLayerUpload(CompleteLayerUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CompleteLayerUploadRequestMarshaller.Instance;
-            var unmarshaller = CompleteLayerUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteLayerUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteLayerUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CompleteLayerUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -530,7 +571,8 @@ namespace Amazon.ECR
         #region  CreateRepository
 
         /// <summary>
-        /// Creates an image repository.
+        /// Creates a repository. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html">Amazon
+        /// ECR Repositories</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateRepository service method.</param>
         /// 
@@ -538,9 +580,13 @@ namespace Amazon.ECR
         /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
         /// The specified parameter is invalid. Review the available parameters for the API request.
         /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidTagParameterException">
+        /// An invalid parameter has been specified. Tag keys can have a maximum character length
+        /// of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// </exception>
         /// <exception cref="Amazon.ECR.Model.LimitExceededException">
         /// The operation did not succeed because it would have exceeded a service limit for your
-        /// account. For more information, see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
+        /// account. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
         /// ECR Default Service Limits</a> in the Amazon Elastic Container Registry User Guide.
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.RepositoryAlreadyExistsException">
@@ -549,13 +595,18 @@ namespace Amazon.ECR
         /// <exception cref="Amazon.ECR.Model.ServerException">
         /// These errors are usually caused by a server-side issue.
         /// </exception>
+        /// <exception cref="Amazon.ECR.Model.TooManyTagsException">
+        /// The list of tags on the repository is over the limit. The maximum number of tags that
+        /// can be applied to a repository is 50.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CreateRepository">REST API Reference for CreateRepository Operation</seealso>
         public virtual CreateRepositoryResponse CreateRepository(CreateRepositoryRequest request)
         {
-            var marshaller = CreateRepositoryRequestMarshaller.Instance;
-            var unmarshaller = CreateRepositoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRepositoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRepositoryResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRepositoryRequest,CreateRepositoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRepositoryResponse>(request, options);
         }
 
         /// <summary>
@@ -572,11 +623,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CreateRepository">REST API Reference for CreateRepository Operation</seealso>
         public virtual IAsyncResult BeginCreateRepository(CreateRepositoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRepositoryRequestMarshaller.Instance;
-            var unmarshaller = CreateRepositoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRepositoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRepositoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRepositoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -597,7 +648,7 @@ namespace Amazon.ECR
         #region  DeleteLifecyclePolicy
 
         /// <summary>
-        /// Deletes the specified lifecycle policy.
+        /// Deletes the lifecycle policy associated with the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLifecyclePolicy service method.</param>
         /// 
@@ -618,10 +669,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteLifecyclePolicy">REST API Reference for DeleteLifecyclePolicy Operation</seealso>
         public virtual DeleteLifecyclePolicyResponse DeleteLifecyclePolicy(DeleteLifecyclePolicyRequest request)
         {
-            var marshaller = DeleteLifecyclePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteLifecyclePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecyclePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLifecyclePolicyRequest,DeleteLifecyclePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLifecyclePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -638,11 +690,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteLifecyclePolicy">REST API Reference for DeleteLifecyclePolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteLifecyclePolicy(DeleteLifecyclePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLifecyclePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteLifecyclePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecyclePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLifecyclePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -663,8 +715,8 @@ namespace Amazon.ECR
         #region  DeleteRepository
 
         /// <summary>
-        /// Deletes an existing image repository. If a repository contains images, you must use
-        /// the <code>force</code> option to delete it.
+        /// Deletes a repository. If the repository contains images, you must either delete all
+        /// images in the repository or use the <code>force</code> option to delete the repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteRepository service method.</param>
         /// 
@@ -686,10 +738,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepository">REST API Reference for DeleteRepository Operation</seealso>
         public virtual DeleteRepositoryResponse DeleteRepository(DeleteRepositoryRequest request)
         {
-            var marshaller = DeleteRepositoryRequestMarshaller.Instance;
-            var unmarshaller = DeleteRepositoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRepositoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRepositoryResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRepositoryRequest,DeleteRepositoryResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRepositoryResponse>(request, options);
         }
 
         /// <summary>
@@ -706,11 +759,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepository">REST API Reference for DeleteRepository Operation</seealso>
         public virtual IAsyncResult BeginDeleteRepository(DeleteRepositoryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRepositoryRequestMarshaller.Instance;
-            var unmarshaller = DeleteRepositoryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRepositoryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRepositoryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRepositoryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -731,7 +784,7 @@ namespace Amazon.ECR
         #region  DeleteRepositoryPolicy
 
         /// <summary>
-        /// Deletes the repository policy from a specified repository.
+        /// Deletes the repository policy associated with the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteRepositoryPolicy service method.</param>
         /// 
@@ -753,10 +806,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepositoryPolicy">REST API Reference for DeleteRepositoryPolicy Operation</seealso>
         public virtual DeleteRepositoryPolicyResponse DeleteRepositoryPolicy(DeleteRepositoryPolicyRequest request)
         {
-            var marshaller = DeleteRepositoryPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteRepositoryPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRepositoryPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRepositoryPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRepositoryPolicyRequest,DeleteRepositoryPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRepositoryPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -773,11 +827,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepositoryPolicy">REST API Reference for DeleteRepositoryPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteRepositoryPolicy(DeleteRepositoryPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRepositoryPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteRepositoryPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRepositoryPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRepositoryPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRepositoryPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -798,8 +852,7 @@ namespace Amazon.ECR
         #region  DescribeImages
 
         /// <summary>
-        /// Returns metadata about the images in a repository, including image size, image tags,
-        /// and creation date.
+        /// Returns metadata about the images in a repository.
         /// 
         ///  <note> 
         /// <para>
@@ -829,10 +882,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImages">REST API Reference for DescribeImages Operation</seealso>
         public virtual DescribeImagesResponse DescribeImages(DescribeImagesRequest request)
         {
-            var marshaller = DescribeImagesRequestMarshaller.Instance;
-            var unmarshaller = DescribeImagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeImagesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeImagesRequest,DescribeImagesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeImagesResponse>(request, options);
         }
 
         /// <summary>
@@ -849,11 +903,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImages">REST API Reference for DescribeImages Operation</seealso>
         public virtual IAsyncResult BeginDescribeImages(DescribeImagesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeImagesRequestMarshaller.Instance;
-            var unmarshaller = DescribeImagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeImagesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeImagesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -867,6 +921,77 @@ namespace Amazon.ECR
         public virtual DescribeImagesResponse EndDescribeImages(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeImagesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeImageScanFindings
+
+        /// <summary>
+        /// Returns the scan findings for the specified image.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImageScanFindings service method.</param>
+        /// 
+        /// <returns>The response from the DescribeImageScanFindings service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.ImageNotFoundException">
+        /// The image requested does not exist in the specified repository.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ScanNotFoundException">
+        /// The specified image scan could not be found. Ensure that image scanning is enabled
+        /// on the repository and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImageScanFindings">REST API Reference for DescribeImageScanFindings Operation</seealso>
+        public virtual DescribeImageScanFindingsResponse DescribeImageScanFindings(DescribeImageScanFindingsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeImageScanFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeImageScanFindingsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeImageScanFindingsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeImageScanFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImageScanFindings operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeImageScanFindings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImageScanFindings">REST API Reference for DescribeImageScanFindings Operation</seealso>
+        public virtual IAsyncResult BeginDescribeImageScanFindings(DescribeImageScanFindingsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeImageScanFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeImageScanFindingsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeImageScanFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeImageScanFindings.</param>
+        /// 
+        /// <returns>Returns a  DescribeImageScanFindingsResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImageScanFindings">REST API Reference for DescribeImageScanFindings Operation</seealso>
+        public virtual DescribeImageScanFindingsResponse EndDescribeImageScanFindings(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeImageScanFindingsResponse>(asyncResult);
         }
 
         #endregion
@@ -892,10 +1017,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeRepositories">REST API Reference for DescribeRepositories Operation</seealso>
         public virtual DescribeRepositoriesResponse DescribeRepositories(DescribeRepositoriesRequest request)
         {
-            var marshaller = DescribeRepositoriesRequestMarshaller.Instance;
-            var unmarshaller = DescribeRepositoriesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeRepositoriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeRepositoriesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeRepositoriesRequest,DescribeRepositoriesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeRepositoriesResponse>(request, options);
         }
 
         /// <summary>
@@ -912,11 +1038,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeRepositories">REST API Reference for DescribeRepositories Operation</seealso>
         public virtual IAsyncResult BeginDescribeRepositories(DescribeRepositoriesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeRepositoriesRequestMarshaller.Instance;
-            var unmarshaller = DescribeRepositoriesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeRepositoriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeRepositoriesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeRepositoriesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -937,16 +1063,17 @@ namespace Amazon.ECR
         #region  GetAuthorizationToken
 
         /// <summary>
-        /// Retrieves a token that is valid for a specified registry for 12 hours. This command
-        /// allows you to use the <code>docker</code> CLI to push and pull images with Amazon
-        /// ECR. If you do not specify a registry, the default registry is assumed.
+        /// Retrieves an authorization token. An authorization token represents your IAM authentication
+        /// credentials and can be used to access any Amazon ECR registry that your IAM principal
+        /// has access to. The authorization token is valid for 12 hours.
         /// 
         ///  
         /// <para>
-        /// The <code>authorizationToken</code> returned for each registry specified is a base64
-        /// encoded string that can be decoded and used in a <code>docker login</code> command
-        /// to authenticate to a registry. The AWS CLI offers an <code>aws ecr get-login</code>
-        /// command that simplifies the login process.
+        /// The <code>authorizationToken</code> returned is a base64 encoded string that can be
+        /// decoded and used in a <code>docker login</code> command to authenticate to a registry.
+        /// The AWS CLI offers an <code>get-login-password</code> command that simplifies the
+        /// login process. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth">Registry
+        /// Authentication</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAuthorizationToken service method.</param>
@@ -961,10 +1088,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetAuthorizationToken">REST API Reference for GetAuthorizationToken Operation</seealso>
         public virtual GetAuthorizationTokenResponse GetAuthorizationToken(GetAuthorizationTokenRequest request)
         {
-            var marshaller = GetAuthorizationTokenRequestMarshaller.Instance;
-            var unmarshaller = GetAuthorizationTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAuthorizationTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAuthorizationTokenResponseUnmarshaller.Instance;
 
-            return Invoke<GetAuthorizationTokenRequest,GetAuthorizationTokenResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAuthorizationTokenResponse>(request, options);
         }
 
         /// <summary>
@@ -981,11 +1109,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetAuthorizationToken">REST API Reference for GetAuthorizationToken Operation</seealso>
         public virtual IAsyncResult BeginGetAuthorizationToken(GetAuthorizationTokenRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAuthorizationTokenRequestMarshaller.Instance;
-            var unmarshaller = GetAuthorizationTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAuthorizationTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAuthorizationTokenResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAuthorizationTokenRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1009,6 +1137,10 @@ namespace Amazon.ECR
         /// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You
         /// can only get URLs for image layers that are referenced in an image.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -1041,10 +1173,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetDownloadUrlForLayer">REST API Reference for GetDownloadUrlForLayer Operation</seealso>
         public virtual GetDownloadUrlForLayerResponse GetDownloadUrlForLayer(GetDownloadUrlForLayerRequest request)
         {
-            var marshaller = GetDownloadUrlForLayerRequestMarshaller.Instance;
-            var unmarshaller = GetDownloadUrlForLayerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDownloadUrlForLayerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDownloadUrlForLayerResponseUnmarshaller.Instance;
 
-            return Invoke<GetDownloadUrlForLayerRequest,GetDownloadUrlForLayerResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDownloadUrlForLayerResponse>(request, options);
         }
 
         /// <summary>
@@ -1061,11 +1194,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetDownloadUrlForLayer">REST API Reference for GetDownloadUrlForLayer Operation</seealso>
         public virtual IAsyncResult BeginGetDownloadUrlForLayer(GetDownloadUrlForLayerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDownloadUrlForLayerRequestMarshaller.Instance;
-            var unmarshaller = GetDownloadUrlForLayerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDownloadUrlForLayerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDownloadUrlForLayerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDownloadUrlForLayerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1086,7 +1219,7 @@ namespace Amazon.ECR
         #region  GetLifecyclePolicy
 
         /// <summary>
-        /// Retrieves the specified lifecycle policy.
+        /// Retrieves the lifecycle policy for the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLifecyclePolicy service method.</param>
         /// 
@@ -1107,10 +1240,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicy">REST API Reference for GetLifecyclePolicy Operation</seealso>
         public virtual GetLifecyclePolicyResponse GetLifecyclePolicy(GetLifecyclePolicyRequest request)
         {
-            var marshaller = GetLifecyclePolicyRequestMarshaller.Instance;
-            var unmarshaller = GetLifecyclePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecyclePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetLifecyclePolicyRequest,GetLifecyclePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLifecyclePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1127,11 +1261,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicy">REST API Reference for GetLifecyclePolicy Operation</seealso>
         public virtual IAsyncResult BeginGetLifecyclePolicy(GetLifecyclePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLifecyclePolicyRequestMarshaller.Instance;
-            var unmarshaller = GetLifecyclePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecyclePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLifecyclePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1152,7 +1286,7 @@ namespace Amazon.ECR
         #region  GetLifecyclePolicyPreview
 
         /// <summary>
-        /// Retrieves the results of the specified lifecycle policy preview request.
+        /// Retrieves the results of the lifecycle policy preview request for the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLifecyclePolicyPreview service method.</param>
         /// 
@@ -1173,10 +1307,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicyPreview">REST API Reference for GetLifecyclePolicyPreview Operation</seealso>
         public virtual GetLifecyclePolicyPreviewResponse GetLifecyclePolicyPreview(GetLifecyclePolicyPreviewRequest request)
         {
-            var marshaller = GetLifecyclePolicyPreviewRequestMarshaller.Instance;
-            var unmarshaller = GetLifecyclePolicyPreviewResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecyclePolicyPreviewRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecyclePolicyPreviewResponseUnmarshaller.Instance;
 
-            return Invoke<GetLifecyclePolicyPreviewRequest,GetLifecyclePolicyPreviewResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLifecyclePolicyPreviewResponse>(request, options);
         }
 
         /// <summary>
@@ -1193,11 +1328,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicyPreview">REST API Reference for GetLifecyclePolicyPreview Operation</seealso>
         public virtual IAsyncResult BeginGetLifecyclePolicyPreview(GetLifecyclePolicyPreviewRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLifecyclePolicyPreviewRequestMarshaller.Instance;
-            var unmarshaller = GetLifecyclePolicyPreviewResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecyclePolicyPreviewRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecyclePolicyPreviewResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLifecyclePolicyPreviewRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1218,7 +1353,7 @@ namespace Amazon.ECR
         #region  GetRepositoryPolicy
 
         /// <summary>
-        /// Retrieves the repository policy for a specified repository.
+        /// Retrieves the repository policy for the specified repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetRepositoryPolicy service method.</param>
         /// 
@@ -1240,10 +1375,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetRepositoryPolicy">REST API Reference for GetRepositoryPolicy Operation</seealso>
         public virtual GetRepositoryPolicyResponse GetRepositoryPolicy(GetRepositoryPolicyRequest request)
         {
-            var marshaller = GetRepositoryPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetRepositoryPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRepositoryPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRepositoryPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetRepositoryPolicyRequest,GetRepositoryPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRepositoryPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1260,11 +1396,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetRepositoryPolicy">REST API Reference for GetRepositoryPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetRepositoryPolicy(GetRepositoryPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRepositoryPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetRepositoryPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRepositoryPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRepositoryPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRepositoryPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1285,8 +1421,14 @@ namespace Amazon.ECR
         #region  InitiateLayerUpload
 
         /// <summary>
-        /// Notify Amazon ECR that you intend to upload an image layer.
+        /// Notifies Amazon ECR that you intend to upload an image layer.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed, the InitiateLayerUpload API is called once per image layer
+        /// that has not already been uploaded. Whether an image layer has been uploaded before
+        /// is determined by the <a>BatchCheckLayerAvailability</a> API action.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -1311,10 +1453,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/InitiateLayerUpload">REST API Reference for InitiateLayerUpload Operation</seealso>
         public virtual InitiateLayerUploadResponse InitiateLayerUpload(InitiateLayerUploadRequest request)
         {
-            var marshaller = InitiateLayerUploadRequestMarshaller.Instance;
-            var unmarshaller = InitiateLayerUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InitiateLayerUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InitiateLayerUploadResponseUnmarshaller.Instance;
 
-            return Invoke<InitiateLayerUploadRequest,InitiateLayerUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<InitiateLayerUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -1331,11 +1474,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/InitiateLayerUpload">REST API Reference for InitiateLayerUpload Operation</seealso>
         public virtual IAsyncResult BeginInitiateLayerUpload(InitiateLayerUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = InitiateLayerUploadRequestMarshaller.Instance;
-            var unmarshaller = InitiateLayerUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InitiateLayerUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InitiateLayerUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<InitiateLayerUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1356,15 +1499,16 @@ namespace Amazon.ECR
         #region  ListImages
 
         /// <summary>
-        /// Lists all the image IDs for a given repository.
+        /// Lists all the image IDs for the specified repository.
         /// 
         ///  
         /// <para>
-        /// You can filter images based on whether or not they are tagged by setting the <code>tagStatus</code>
-        /// parameter to <code>TAGGED</code> or <code>UNTAGGED</code>. For example, you can filter
-        /// your results to return only <code>UNTAGGED</code> images and then pipe that result
-        /// to a <a>BatchDeleteImage</a> operation to delete them. Or, you can filter your results
-        /// to return only <code>TAGGED</code> images to list all of the tags in your repository.
+        /// You can filter images based on whether or not they are tagged by using the <code>tagStatus</code>
+        /// filter and specifying either <code>TAGGED</code>, <code>UNTAGGED</code> or <code>ANY</code>.
+        /// For example, you can filter your results to return only <code>UNTAGGED</code> images
+        /// and then pipe that result to a <a>BatchDeleteImage</a> operation to delete them. Or,
+        /// you can filter your results to return only <code>TAGGED</code> images to list all
+        /// of the tags in your repository.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListImages service method.</param>
@@ -1383,10 +1527,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListImages">REST API Reference for ListImages Operation</seealso>
         public virtual ListImagesResponse ListImages(ListImagesRequest request)
         {
-            var marshaller = ListImagesRequestMarshaller.Instance;
-            var unmarshaller = ListImagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListImagesResponseUnmarshaller.Instance;
 
-            return Invoke<ListImagesRequest,ListImagesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListImagesResponse>(request, options);
         }
 
         /// <summary>
@@ -1403,11 +1548,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListImages">REST API Reference for ListImages Operation</seealso>
         public virtual IAsyncResult BeginListImages(ListImagesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListImagesRequestMarshaller.Instance;
-            var unmarshaller = ListImagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListImagesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListImagesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1425,11 +1570,81 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// List the tags for an Amazon ECR resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutImage
 
         /// <summary>
         /// Creates or updates the image manifest and tags associated with an image.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed and all new image layers have been uploaded, the PutImage
+        /// API is called once to create or update the image manifest and tags associated with
+        /// the image.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -1445,6 +1660,10 @@ namespace Amazon.ECR
         /// The specified image has already been pushed, and there were no changes to the manifest
         /// or image tag after the last push.
         /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ImageTagAlreadyExistsException">
+        /// The specified image is tagged with a tag that already exists. The repository is configured
+        /// for tag immutability.
+        /// </exception>
         /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
         /// The specified parameter is invalid. Review the available parameters for the API request.
         /// </exception>
@@ -1454,7 +1673,7 @@ namespace Amazon.ECR
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.LimitExceededException">
         /// The operation did not succeed because it would have exceeded a service limit for your
-        /// account. For more information, see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
+        /// account. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
         /// ECR Default Service Limits</a> in the Amazon Elastic Container Registry User Guide.
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
@@ -1467,10 +1686,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImage">REST API Reference for PutImage Operation</seealso>
         public virtual PutImageResponse PutImage(PutImageRequest request)
         {
-            var marshaller = PutImageRequestMarshaller.Instance;
-            var unmarshaller = PutImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutImageResponseUnmarshaller.Instance;
 
-            return Invoke<PutImageRequest,PutImageResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutImageResponse>(request, options);
         }
 
         /// <summary>
@@ -1487,11 +1707,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImage">REST API Reference for PutImage Operation</seealso>
         public virtual IAsyncResult BeginPutImage(PutImageRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutImageRequestMarshaller.Instance;
-            var unmarshaller = PutImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutImageResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutImageRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1509,11 +1729,141 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  PutImageScanningConfiguration
+
+        /// <summary>
+        /// Updates the image scanning configuration for the specified repository.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutImageScanningConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutImageScanningConfiguration service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageScanningConfiguration">REST API Reference for PutImageScanningConfiguration Operation</seealso>
+        public virtual PutImageScanningConfigurationResponse PutImageScanningConfiguration(PutImageScanningConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutImageScanningConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutImageScanningConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<PutImageScanningConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutImageScanningConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutImageScanningConfiguration operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutImageScanningConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageScanningConfiguration">REST API Reference for PutImageScanningConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginPutImageScanningConfiguration(PutImageScanningConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutImageScanningConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutImageScanningConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutImageScanningConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutImageScanningConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutImageScanningConfigurationResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageScanningConfiguration">REST API Reference for PutImageScanningConfiguration Operation</seealso>
+        public virtual PutImageScanningConfigurationResponse EndPutImageScanningConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutImageScanningConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutImageTagMutability
+
+        /// <summary>
+        /// Updates the image tag mutability settings for the specified repository. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html">Image
+        /// Tag Mutability</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutImageTagMutability service method.</param>
+        /// 
+        /// <returns>The response from the PutImageTagMutability service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageTagMutability">REST API Reference for PutImageTagMutability Operation</seealso>
+        public virtual PutImageTagMutabilityResponse PutImageTagMutability(PutImageTagMutabilityRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutImageTagMutabilityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutImageTagMutabilityResponseUnmarshaller.Instance;
+
+            return Invoke<PutImageTagMutabilityResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutImageTagMutability operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutImageTagMutability operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutImageTagMutability
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageTagMutability">REST API Reference for PutImageTagMutability Operation</seealso>
+        public virtual IAsyncResult BeginPutImageTagMutability(PutImageTagMutabilityRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutImageTagMutabilityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutImageTagMutabilityResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutImageTagMutability operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutImageTagMutability.</param>
+        /// 
+        /// <returns>Returns a  PutImageTagMutabilityResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageTagMutability">REST API Reference for PutImageTagMutability Operation</seealso>
+        public virtual PutImageTagMutabilityResponse EndPutImageTagMutability(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutImageTagMutabilityResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutLifecyclePolicy
 
         /// <summary>
-        /// Creates or updates a lifecycle policy. For information about lifecycle policy syntax,
-        /// see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html">Lifecycle
+        /// Creates or updates the lifecycle policy for the specified repository. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html">Lifecycle
         /// Policy Template</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutLifecyclePolicy service method.</param>
@@ -1532,10 +1882,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutLifecyclePolicy">REST API Reference for PutLifecyclePolicy Operation</seealso>
         public virtual PutLifecyclePolicyResponse PutLifecyclePolicy(PutLifecyclePolicyRequest request)
         {
-            var marshaller = PutLifecyclePolicyRequestMarshaller.Instance;
-            var unmarshaller = PutLifecyclePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecyclePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutLifecyclePolicyRequest,PutLifecyclePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutLifecyclePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1552,11 +1903,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutLifecyclePolicy">REST API Reference for PutLifecyclePolicy Operation</seealso>
         public virtual IAsyncResult BeginPutLifecyclePolicy(PutLifecyclePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutLifecyclePolicyRequestMarshaller.Instance;
-            var unmarshaller = PutLifecyclePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecyclePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutLifecyclePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1577,7 +1928,9 @@ namespace Amazon.ECR
         #region  SetRepositoryPolicy
 
         /// <summary>
-        /// Applies a repository policy on a specified repository to control access permissions.
+        /// Applies a repository policy to the specified repository to control access permissions.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/RepositoryPolicies.html">Amazon
+        /// ECR Repository Policies</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetRepositoryPolicy service method.</param>
         /// 
@@ -1595,10 +1948,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/SetRepositoryPolicy">REST API Reference for SetRepositoryPolicy Operation</seealso>
         public virtual SetRepositoryPolicyResponse SetRepositoryPolicy(SetRepositoryPolicyRequest request)
         {
-            var marshaller = SetRepositoryPolicyRequestMarshaller.Instance;
-            var unmarshaller = SetRepositoryPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetRepositoryPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetRepositoryPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<SetRepositoryPolicyRequest,SetRepositoryPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetRepositoryPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1615,11 +1969,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/SetRepositoryPolicy">REST API Reference for SetRepositoryPolicy Operation</seealso>
         public virtual IAsyncResult BeginSetRepositoryPolicy(SetRepositoryPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SetRepositoryPolicyRequestMarshaller.Instance;
-            var unmarshaller = SetRepositoryPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetRepositoryPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetRepositoryPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SetRepositoryPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1637,11 +1991,81 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  StartImageScan
+
+        /// <summary>
+        /// Starts an image vulnerability scan. An image scan can only be started once per day
+        /// on an individual image. This limit includes if an image was scanned on initial push.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html">Image
+        /// Scanning</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartImageScan service method.</param>
+        /// 
+        /// <returns>The response from the StartImageScan service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.ImageNotFoundException">
+        /// The image requested does not exist in the specified repository.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartImageScan">REST API Reference for StartImageScan Operation</seealso>
+        public virtual StartImageScanResponse StartImageScan(StartImageScanRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartImageScanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartImageScanResponseUnmarshaller.Instance;
+
+            return Invoke<StartImageScanResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartImageScan operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartImageScan operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartImageScan
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartImageScan">REST API Reference for StartImageScan Operation</seealso>
+        public virtual IAsyncResult BeginStartImageScan(StartImageScanRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartImageScanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartImageScanResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartImageScan operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartImageScan.</param>
+        /// 
+        /// <returns>Returns a  StartImageScanResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartImageScan">REST API Reference for StartImageScan Operation</seealso>
+        public virtual StartImageScanResponse EndStartImageScan(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartImageScanResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  StartLifecyclePolicyPreview
 
         /// <summary>
-        /// Starts a preview of the specified lifecycle policy. This allows you to see the results
-        /// before creating the lifecycle policy.
+        /// Starts a preview of a lifecycle policy for the specified repository. This allows you
+        /// to see the results before associating the lifecycle policy with the repository.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartLifecyclePolicyPreview service method.</param>
         /// 
@@ -1666,10 +2090,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartLifecyclePolicyPreview">REST API Reference for StartLifecyclePolicyPreview Operation</seealso>
         public virtual StartLifecyclePolicyPreviewResponse StartLifecyclePolicyPreview(StartLifecyclePolicyPreviewRequest request)
         {
-            var marshaller = StartLifecyclePolicyPreviewRequestMarshaller.Instance;
-            var unmarshaller = StartLifecyclePolicyPreviewResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartLifecyclePolicyPreviewRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartLifecyclePolicyPreviewResponseUnmarshaller.Instance;
 
-            return Invoke<StartLifecyclePolicyPreviewRequest,StartLifecyclePolicyPreviewResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartLifecyclePolicyPreviewResponse>(request, options);
         }
 
         /// <summary>
@@ -1686,11 +2111,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartLifecyclePolicyPreview">REST API Reference for StartLifecyclePolicyPreview Operation</seealso>
         public virtual IAsyncResult BeginStartLifecyclePolicyPreview(StartLifecyclePolicyPreviewRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartLifecyclePolicyPreviewRequestMarshaller.Instance;
-            var unmarshaller = StartLifecyclePolicyPreviewResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartLifecyclePolicyPreviewRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartLifecyclePolicyPreviewResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartLifecyclePolicyPreviewRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1708,11 +2133,162 @@ namespace Amazon.ECR
 
         #endregion
         
+        #region  TagResource
+
+        /// <summary>
+        /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource
+        /// are not changed if they are not specified in the request parameters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidTagParameterException">
+        /// An invalid parameter has been specified. Tag keys can have a maximum character length
+        /// of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.TooManyTagsException">
+        /// The list of tags on the repository is over the limit. The maximum number of tags that
+        /// can be applied to a repository is 50.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Deletes specified tags from a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by ECR.</returns>
+        /// <exception cref="Amazon.ECR.Model.InvalidParameterException">
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.InvalidTagParameterException">
+        /// An invalid parameter has been specified. Tag keys can have a maximum character length
+        /// of 128 characters, and tag values can have a maximum length of 256 characters.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
+        /// The specified repository could not be found. Check the spelling of the specified repository
+        /// and ensure that you are performing operations on the correct registry.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.ServerException">
+        /// These errors are usually caused by a server-side issue.
+        /// </exception>
+        /// <exception cref="Amazon.ECR.Model.TooManyTagsException">
+        /// The list of tags on the repository is over the limit. The maximum number of tags that
+        /// can be applied to a repository is 50.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonECRClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from ECR.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UploadLayerPart
 
         /// <summary>
         /// Uploads an image layer part to Amazon ECR.
         /// 
+        ///  
+        /// <para>
+        /// When an image is pushed, each new image layer is uploaded in parts. The maximum size
+        /// of each image layer part can be 20971520 bytes (or about 20MB). The UploadLayerPart
+        /// API is called once per each new image layer part.
+        /// </para>
         ///  <note> 
         /// <para>
         /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -1733,7 +2309,7 @@ namespace Amazon.ECR
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.LimitExceededException">
         /// The operation did not succeed because it would have exceeded a service limit for your
-        /// account. For more information, see <a href="http://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
+        /// account. For more information, see <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/service_limits.html">Amazon
         /// ECR Default Service Limits</a> in the Amazon Elastic Container Registry User Guide.
         /// </exception>
         /// <exception cref="Amazon.ECR.Model.RepositoryNotFoundException">
@@ -1749,10 +2325,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UploadLayerPart">REST API Reference for UploadLayerPart Operation</seealso>
         public virtual UploadLayerPartResponse UploadLayerPart(UploadLayerPartRequest request)
         {
-            var marshaller = UploadLayerPartRequestMarshaller.Instance;
-            var unmarshaller = UploadLayerPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadLayerPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadLayerPartResponseUnmarshaller.Instance;
 
-            return Invoke<UploadLayerPartRequest,UploadLayerPartResponse>(request, marshaller, unmarshaller);
+            return Invoke<UploadLayerPartResponse>(request, options);
         }
 
         /// <summary>
@@ -1769,11 +2346,11 @@ namespace Amazon.ECR
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UploadLayerPart">REST API Reference for UploadLayerPart Operation</seealso>
         public virtual IAsyncResult BeginUploadLayerPart(UploadLayerPartRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UploadLayerPartRequestMarshaller.Instance;
-            var unmarshaller = UploadLayerPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadLayerPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadLayerPartResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UploadLayerPartRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

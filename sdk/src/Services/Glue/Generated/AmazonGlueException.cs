@@ -28,10 +28,10 @@ namespace Amazon.Glue
     ///<summary>
     /// Common exception for the Glue service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonGlueException : AmazonServiceException
+    public partial class AmazonGlueException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonGlueException
@@ -88,7 +88,7 @@ namespace Amazon.Glue
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonGlueException class with serialized data.
         /// </summary>

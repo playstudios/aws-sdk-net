@@ -38,8 +38,10 @@ namespace Amazon.MediaConvert.Model
         private int? _y;
 
         /// <summary>
-        /// Gets and sets the property Height. Height of rectangle in pixels.
+        /// Gets and sets the property Height. Height of rectangle in pixels. Specify only even
+        /// numbers.
         /// </summary>
+        [AWSProperty(Min=2, Max=2147483647)]
         public int Height
         {
             get { return this._height.GetValueOrDefault(); }
@@ -53,8 +55,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Width. Width of rectangle in pixels.
+        /// Gets and sets the property Width. Width of rectangle in pixels. Specify only even
+        /// numbers.
         /// </summary>
+        [AWSProperty(Min=2, Max=2147483647)]
         public int Width
         {
             get { return this._width.GetValueOrDefault(); }
@@ -69,8 +73,9 @@ namespace Amazon.MediaConvert.Model
 
         /// <summary>
         /// Gets and sets the property X. The distance, in pixels, between the rectangle and the
-        /// left edge of the video frame.
+        /// left edge of the video frame. Specify only even numbers.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int X
         {
             get { return this._x.GetValueOrDefault(); }
@@ -85,8 +90,9 @@ namespace Amazon.MediaConvert.Model
 
         /// <summary>
         /// Gets and sets the property Y. The distance, in pixels, between the rectangle and the
-        /// top edge of the video frame.
+        /// top edge of the video frame. Specify only even numbers.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int Y
         {
             get { return this._y.GetValueOrDefault(); }

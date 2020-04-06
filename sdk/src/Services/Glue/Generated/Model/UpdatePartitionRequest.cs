@@ -42,10 +42,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog where the partition to be updated resides. If none is supplied,
+        /// The ID of the Data Catalog where the partition to be updated resides. If none is provided,
         /// the AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -64,6 +65,7 @@ namespace Amazon.Glue.Model
         /// The name of the catalog database in which the table in question resides.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string DatabaseName
         {
             get { return this._databaseName; }
@@ -79,9 +81,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property PartitionInput. 
         /// <para>
-        /// The new partition object to which to update the partition.
+        /// The new partition object to update the partition to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PartitionInput PartitionInput
         {
             get { return this._partitionInput; }
@@ -100,6 +103,7 @@ namespace Amazon.Glue.Model
         /// A list of the values defining the partition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=100)]
         public List<string> PartitionValueList
         {
             get { return this._partitionValueList; }
@@ -115,9 +119,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property TableName. 
         /// <para>
-        /// The name of the table where the partition to be updated is located.
+        /// The name of the table in which the partition to be updated is located.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

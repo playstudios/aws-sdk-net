@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateApnsChannel operation.
-    /// Use to update the APNs channel for an app.
+    /// Enables the APNs channel for an application or updates the status and settings of
+    /// the APNs channel for an application.
     /// </summary>
     public partial class UpdateApnsChannelRequest : AmazonPinpointRequest
     {
@@ -39,6 +40,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property APNSChannelRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public APNSChannelRequest APNSChannelRequest
         {
             get { return this._apnsChannelRequest; }
@@ -52,8 +54,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

@@ -33,21 +33,45 @@ namespace Amazon.WorkDocs.Model
     /// </summary>
     public partial class DescribeActivitiesRequest : AmazonWorkDocsRequest
     {
+        private string _activityTypes;
         private string _authenticationToken;
-        private DateTime? _endTime;
+        private DateTime? _endTimeUtc;
+        private bool? _includeIndirectActivities;
         private int? _limit;
         private string _marker;
         private string _organizationId;
-        private DateTime? _startTime;
+        private string _resourceId;
+        private DateTime? _startTimeUtc;
         private string _userId;
+
+        /// <summary>
+        /// Gets and sets the property ActivityTypes. 
+        /// <para>
+        /// Specifies which activity types to include in the response. If this field is left empty,
+        /// all activity types are returned.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
+        public string ActivityTypes
+        {
+            get { return this._activityTypes; }
+            set { this._activityTypes = value; }
+        }
+
+        // Check to see if ActivityTypes property is set
+        internal bool IsSetActivityTypes()
+        {
+            return this._activityTypes != null;
+        }
 
         /// <summary>
         /// Gets and sets the property AuthenticationToken. 
         /// <para>
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative
-        /// API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials
+        /// to access the API.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=8199)]
         public string AuthenticationToken
         {
             get { return this._authenticationToken; }
@@ -61,22 +85,43 @@ namespace Amazon.WorkDocs.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EndTime. 
+        /// Gets and sets the property EndTimeUtc. 
         /// <para>
         /// The timestamp that determines the end time of the activities. The response includes
         /// the activities performed before the specified timestamp.
         /// </para>
         /// </summary>
-        public DateTime EndTime
+        public DateTime EndTimeUtc
         {
-            get { return this._endTime.GetValueOrDefault(); }
-            set { this._endTime = value; }
+            get { return this._endTimeUtc.GetValueOrDefault(); }
+            set { this._endTime = this._endTimeUtc = value; }
         }
 
-        // Check to see if EndTime property is set
-        internal bool IsSetEndTime()
+        // Check to see if EndTimeUtc property is set
+        internal bool IsSetEndTimeUtc()
         {
-            return this._endTime.HasValue; 
+            return this._endTimeUtc.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property IncludeIndirectActivities. 
+        /// <para>
+        /// Includes indirect activities. An indirect activity results from a direct activity
+        /// performed on a parent resource. For example, sharing a parent folder (the direct activity)
+        /// shares all of the subfolders and documents within the parent folder (the indirect
+        /// activity).
+        /// </para>
+        /// </summary>
+        public bool IncludeIndirectActivities
+        {
+            get { return this._includeIndirectActivities.GetValueOrDefault(); }
+            set { this._includeIndirectActivities = value; }
+        }
+
+        // Check to see if IncludeIndirectActivities property is set
+        internal bool IsSetIncludeIndirectActivities()
+        {
+            return this._includeIndirectActivities.HasValue; 
         }
 
         /// <summary>
@@ -85,6 +130,7 @@ namespace Amazon.WorkDocs.Model
         /// The maximum number of items to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=999)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -103,6 +149,7 @@ namespace Amazon.WorkDocs.Model
         /// The marker for the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string Marker
         {
             get { return this._marker; }
@@ -122,6 +169,7 @@ namespace Amazon.WorkDocs.Model
         /// API (SigV4) requests.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string OrganizationId
         {
             get { return this._organizationId; }
@@ -135,22 +183,41 @@ namespace Amazon.WorkDocs.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartTime. 
+        /// Gets and sets the property ResourceId. 
+        /// <para>
+        /// The document or folder ID for which to describe activity types.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string ResourceId
+        {
+            get { return this._resourceId; }
+            set { this._resourceId = value; }
+        }
+
+        // Check to see if ResourceId property is set
+        internal bool IsSetResourceId()
+        {
+            return this._resourceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StartTimeUtc. 
         /// <para>
         /// The timestamp that determines the starting time of the activities. The response includes
         /// the activities performed after the specified timestamp.
         /// </para>
         /// </summary>
-        public DateTime StartTime
+        public DateTime StartTimeUtc
         {
-            get { return this._startTime.GetValueOrDefault(); }
-            set { this._startTime = value; }
+            get { return this._startTimeUtc.GetValueOrDefault(); }
+            set { this._startTime = this._startTimeUtc = value; }
         }
 
-        // Check to see if StartTime property is set
-        internal bool IsSetStartTime()
+        // Check to see if StartTimeUtc property is set
+        internal bool IsSetStartTimeUtc()
         {
-            return this._startTime.HasValue; 
+            return this._startTimeUtc.HasValue; 
         }
 
         /// <summary>
@@ -161,6 +228,7 @@ namespace Amazon.WorkDocs.Model
         /// API (SigV4) requests.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string UserId
         {
             get { return this._userId; }
@@ -173,5 +241,70 @@ namespace Amazon.WorkDocs.Model
             return this._userId != null;
         }
 
+#region Backwards compatible properties
+        private DateTime? _endTime;
+        private DateTime? _startTime;
+
+        /// <summary>
+        /// Gets and sets the property EndTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc
+        /// results in both EndTime and EndTimeUtc being assigned, the latest assignment to either
+        /// one of the two property is reflected in the value of both. EndTime is provided for
+        /// backwards compatibility only and assigning a non-Utc DateTime to it results in the
+        /// wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The timestamp that determines the end time of the activities. The response includes
+        /// the activities performed before the specified timestamp.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc results in both EndTime and " +
+            "EndTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. EndTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime EndTime
+        {
+            get { return this._endTime.GetValueOrDefault(); }
+            set
+            {
+                this._endTime = value;
+                this._endTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+        /// <summary>
+        /// Gets and sets the property StartTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use StartTimeUtc instead. Setting either StartTime or
+        /// StartTimeUtc results in both StartTime and StartTimeUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. StartTime
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The timestamp that determines the starting time of the activities. The response includes
+        /// the activities performed after the specified timestamp.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use StartTimeUtc instead. Setting either StartTime or StartTimeUtc results in both StartTime and " +
+            "StartTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. StartTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime StartTime
+        {
+            get { return this._startTime.GetValueOrDefault(); }
+            set
+            {
+                this._startTime = value;
+                this._startTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+#endregion
     }
 }

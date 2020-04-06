@@ -30,10 +30,10 @@ namespace Amazon.ACMPCA.Model
     /// <summary>
     /// Container for the parameters to the GetCertificate operation.
     /// Retrieves a certificate from your private CA. The ARN of the certificate is returned
-    /// when you call the <a>IssueCertificate</a> function. You must specify both the ARN
-    /// of your private CA and the ARN of the issued certificate when calling the <b>GetCertificate</b>
-    /// function. You can retrieve the certificate if it is in the <b>ISSUED</b> state. You
-    /// can call the <a>CreateCertificateAuthorityAuditReport</a> function to create a report
+    /// when you call the <a>IssueCertificate</a> action. You must specify both the ARN of
+    /// your private CA and the ARN of the issued certificate when calling the <b>GetCertificate</b>
+    /// action. You can retrieve the certificate if it is in the <b>ISSUED</b> state. You
+    /// can call the <a>CreateCertificateAuthorityAuditReport</a> action to create a report
     /// that contains information about all of the certificates issued and revoked by your
     /// private CA.
     /// </summary>
@@ -50,10 +50,11 @@ namespace Amazon.ACMPCA.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:acm:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>/certificate/<i>286535153982981100925020015808220737245</i>
+        ///  <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>/certificate/<i>286535153982981100925020015808220737245</i>
         /// </code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=200)]
         public string CertificateArn
         {
             get { return this._certificateArn; }
@@ -74,10 +75,11 @@ namespace Amazon.ACMPCA.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:acm:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+        ///  <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
         /// </code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=200)]
         public string CertificateAuthorityArn
         {
             get { return this._certificateAuthorityArn; }

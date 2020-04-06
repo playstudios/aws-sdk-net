@@ -58,10 +58,11 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
             string target = "AWSGlue.CreateJob";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -126,10 +127,22 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetGlueVersion())
+                {
+                    context.Writer.WritePropertyName("GlueVersion");
+                    context.Writer.Write(publicRequest.GlueVersion);
+                }
+
                 if(publicRequest.IsSetLogUri())
                 {
                     context.Writer.WritePropertyName("LogUri");
                     context.Writer.Write(publicRequest.LogUri);
+                }
+
+                if(publicRequest.IsSetMaxCapacity())
+                {
+                    context.Writer.WritePropertyName("MaxCapacity");
+                    context.Writer.Write(publicRequest.MaxCapacity);
                 }
 
                 if(publicRequest.IsSetMaxRetries())
@@ -144,10 +157,73 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.Name);
                 }
 
+                if(publicRequest.IsSetNonOverridableArguments())
+                {
+                    context.Writer.WritePropertyName("NonOverridableArguments");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestNonOverridableArgumentsKvp in publicRequest.NonOverridableArguments)
+                    {
+                        context.Writer.WritePropertyName(publicRequestNonOverridableArgumentsKvp.Key);
+                        var publicRequestNonOverridableArgumentsValue = publicRequestNonOverridableArgumentsKvp.Value;
+
+                            context.Writer.Write(publicRequestNonOverridableArgumentsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetNotificationProperty())
+                {
+                    context.Writer.WritePropertyName("NotificationProperty");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = NotificationPropertyMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.NotificationProperty, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetNumberOfWorkers())
+                {
+                    context.Writer.WritePropertyName("NumberOfWorkers");
+                    context.Writer.Write(publicRequest.NumberOfWorkers);
+                }
+
                 if(publicRequest.IsSetRole())
                 {
                     context.Writer.WritePropertyName("Role");
                     context.Writer.Write(publicRequest.Role);
+                }
+
+                if(publicRequest.IsSetSecurityConfiguration())
+                {
+                    context.Writer.WritePropertyName("SecurityConfiguration");
+                    context.Writer.Write(publicRequest.SecurityConfiguration);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetTimeout())
+                {
+                    context.Writer.WritePropertyName("Timeout");
+                    context.Writer.Write(publicRequest.Timeout);
+                }
+
+                if(publicRequest.IsSetWorkerType())
+                {
+                    context.Writer.WritePropertyName("WorkerType");
+                    context.Writer.Write(publicRequest.WorkerType);
                 }
 
         

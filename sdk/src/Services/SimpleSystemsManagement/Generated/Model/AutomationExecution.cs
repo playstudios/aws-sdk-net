@@ -48,10 +48,13 @@ namespace Amazon.SimpleSystemsManagement.Model
         private Dictionary<string, List<string>> _outputs = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> _parameters = new Dictionary<string, List<string>>();
         private string _parentAutomationExecutionId;
+        private ProgressCounters _progressCounters;
         private ResolvedTargets _resolvedTargets;
         private List<StepExecution> _stepExecutions = new List<StepExecution>();
         private bool? _stepExecutionsTruncated;
         private string _target;
+        private List<TargetLocation> _targetLocations = new List<TargetLocation>();
+        private List<Dictionary<string, List<string>>> _targetMaps = new List<Dictionary<string, List<string>>>();
         private string _targetParameterName;
         private List<Target> _targets = new List<Target>();
 
@@ -61,6 +64,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The execution ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string AutomationExecutionId
         {
             get { return this._automationExecutionId; }
@@ -94,7 +98,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property CurrentAction. 
         /// <para>
-        /// The action of the currently executing step.
+        /// The action of the step that is currently running.
         /// </para>
         /// </summary>
         public string CurrentAction
@@ -112,7 +116,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property CurrentStepName. 
         /// <para>
-        /// The name of the currently executing step.
+        /// The name of the step that is currently running.
         /// </para>
         /// </summary>
         public string CurrentStepName
@@ -166,7 +170,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ExecutedBy. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the user who executed the automation.
+        /// The Amazon Resource Name (ARN) of the user who ran the automation.
         /// </para>
         /// </summary>
         public string ExecutedBy
@@ -241,6 +245,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The MaxConcurrency value specified by the user when the execution started.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxConcurrency
         {
             get { return this._maxConcurrency; }
@@ -259,6 +264,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The MaxErrors value specified by the user when the execution started.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxErrors
         {
             get { return this._maxErrors; }
@@ -295,6 +301,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The list of execution outputs as defined in the automation document.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public Dictionary<string, List<string>> Outputs
         {
             get { return this._outputs; }
@@ -313,6 +320,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The key-value map of execution parameters, which were supplied when calling StartAutomationExecution.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public Dictionary<string, List<string>> Parameters
         {
             get { return this._parameters; }
@@ -331,6 +339,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The AutomationExecutionId of the parent automation.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string ParentAutomationExecutionId
         {
             get { return this._parentAutomationExecutionId; }
@@ -341,6 +350,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetParentAutomationExecutionId()
         {
             return this._parentAutomationExecutionId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ProgressCounters. 
+        /// <para>
+        /// An aggregate of step execution statuses displayed in the AWS Console for a multi-Region
+        /// and multi-account Automation execution.
+        /// </para>
+        /// </summary>
+        public ProgressCounters ProgressCounters
+        {
+            get { return this._progressCounters; }
+            set { this._progressCounters = value; }
+        }
+
+        // Check to see if ProgressCounters property is set
+        internal bool IsSetProgressCounters()
+        {
+            return this._progressCounters != null;
         }
 
         /// <summary>
@@ -365,7 +393,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Gets and sets the property StepExecutions. 
         /// <para>
         /// A list of details about the current state of all steps that comprise an execution.
-        /// An Automation document contains a list of steps that are executed in order.
+        /// An Automation document contains a list of steps that are run in order.
         /// </para>
         /// </summary>
         public List<StepExecution> StepExecutions
@@ -419,11 +447,50 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TargetLocations. 
+        /// <para>
+        /// The combination of AWS Regions and/or AWS accounts where you want to run the Automation.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public List<TargetLocation> TargetLocations
+        {
+            get { return this._targetLocations; }
+            set { this._targetLocations = value; }
+        }
+
+        // Check to see if TargetLocations property is set
+        internal bool IsSetTargetLocations()
+        {
+            return this._targetLocations != null && this._targetLocations.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TargetMaps. 
+        /// <para>
+        /// The specified key-value mapping of document parameters to target resources.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=300)]
+        public List<Dictionary<string, List<string>>> TargetMaps
+        {
+            get { return this._targetMaps; }
+            set { this._targetMaps = value; }
+        }
+
+        // Check to see if TargetMaps property is set
+        internal bool IsSetTargetMaps()
+        {
+            return this._targetMaps != null && this._targetMaps.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TargetParameterName. 
         /// <para>
         /// The parameter name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string TargetParameterName
         {
             get { return this._targetParameterName; }
@@ -442,6 +509,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The specified targets.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }

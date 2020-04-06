@@ -29,7 +29,7 @@ namespace Amazon.CodeBuild.Model
 {
     /// <summary>
     /// Container for the parameters to the BatchGetProjects operation.
-    /// Gets information about build projects.
+    /// Gets information about one or more build projects.
     /// </summary>
     public partial class BatchGetProjectsRequest : AmazonCodeBuildRequest
     {
@@ -38,9 +38,12 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property Names. 
         /// <para>
-        /// The names of the build projects.
+        /// The names or ARNs of the build projects. To get information about a project shared
+        /// with your AWS account, its ARN must be specified. You cannot specify a shared project
+        /// using its name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<string> Names
         {
             get { return this._names; }

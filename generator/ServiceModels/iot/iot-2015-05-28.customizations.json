@@ -1,44 +1,67 @@
 {
-	"shapeModifiers": {
+    "shapeModifiers": {
+        "ListAuditTasksRequest": {
+            "backwardsCompatibleDateTimeProperties": [
+                "EndTime",
+                "StartTime"
+            ]
+        },
         "ListPrincipalThingsRequest": {
             "modify": [
                 {
                     "nextToken": { "emitPropertyName": "marker" }
                 }
             ]
-		},
+        },
         "ListPrincipalThingsResponse": {
             "modify": [
                 {
                     "nextToken": { "emitPropertyName": "nextMarker" }
                 }
             ]
-        },"ListThingsRequest": {
+        },
+        "ListThingsRequest": {
             "modify": [
                 {
                     "nextToken": { "emitPropertyName": "marker" }
                 }
             ]
-        },"ListThingsResponse": {
+        },
+        "ListThingsResponse": {
             "modify": [
                 {
                     "nextToken": { "emitPropertyName": "nextMarker" }
                 }
             ]
-        },"ListTopicRulesRequest": {
+        },
+        "ListTopicRulesRequest": {
             "modify": [
                 {
                     "nextToken": { "emitPropertyName": "marker" }
                 }
             ]
-        },"ListTopicRulesResponse": {
+        },
+        "ListTopicRulesResponse": {
             "modify": [
                 {
                     "nextToken": { "emitPropertyName": "nextMarker" }
+                }
+            ]
+        },
+        "ListViolationEventsRequest": {
+            "backwardsCompatibleDateTimeProperties": [
+                "EndTime",
+                "StartTime"
+            ]
+        },
+        "RegisterCertificateRequest": {
+            "modify": [
+                {
+                    "setAsActive": { "deprecatedMessage": "This property is deprecated" }
                 }
             ]
         }
-	},
+    },
     "simpleMethods" : {
 		"operations" : {
 			"AttachPrincipalPolicy" : {
@@ -282,20 +305,18 @@
 
 		}
 	},
-    "deprecatedOverrides": {
-    "operation": {
+    "operationModifiers": {
       "AttachPrincipalPolicy": {
-        "message": "Deprecated in favor of AttachPolicy."
+            "deprecatedMessage": "Deprecated in favor of AttachPolicy."
       },
       "DetachPrincipalPolicy":  { 
-        "message": "Deprecated in favor of DetachPolicy."
+            "deprecatedMessage": "Deprecated in favor of DetachPolicy."
       },
       "ListPolicyPrincipals":{
-        "message": "Deprecated in favor of ListTargetsForPolicy."
+            "deprecatedMessage": "Deprecated in favor of ListTargetsForPolicy."
       },
       "ListPrincipalPolicies": {
-        "message" : "Deprecated in favor of ListAttachedPolicies."
+            "deprecatedMessage": "Deprecated in favor of ListAttachedPolicies."
       }
     }
   }
-}

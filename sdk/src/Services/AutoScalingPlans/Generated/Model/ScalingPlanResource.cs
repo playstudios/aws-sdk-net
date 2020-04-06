@@ -58,8 +58,8 @@ namespace Amazon.AutoScalingPlans.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Spot fleet request - The resource type is <code>spot-fleet-request</code> and the
-        /// unique identifier is the Spot fleet request ID. Example: <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+        /// Spot Fleet request - The resource type is <code>spot-fleet-request</code> and the
+        /// unique identifier is the Spot Fleet request ID. Example: <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -78,6 +78,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -107,7 +108,7 @@ namespace Amazon.AutoScalingPlans.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of a Spot
-        /// fleet request.
+        /// Fleet request.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -132,10 +133,12 @@ namespace Amazon.AutoScalingPlans.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in an Aurora
-        /// DB cluster. Available for Aurora MySQL-compatible edition.
+        /// DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible
+        /// edition.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScalableDimension ScalableDimension
         {
             get { return this._scalableDimension; }
@@ -154,6 +157,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// The name of the scaling plan.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ScalingPlanName
         {
             get { return this._scalingPlanName; }
@@ -169,9 +173,10 @@ namespace Amazon.AutoScalingPlans.Model
         /// <summary>
         /// Gets and sets the property ScalingPlanVersion. 
         /// <para>
-        /// The version of the scaling plan.
+        /// The version number of the scaling plan.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long ScalingPlanVersion
         {
             get { return this._scalingPlanVersion.GetValueOrDefault(); }
@@ -225,6 +230,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScalingStatusCode ScalingStatusCode
         {
             get { return this._scalingStatusCode; }
@@ -261,6 +267,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// The namespace of the AWS service.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ServiceNamespace ServiceNamespace
         {
             get { return this._serviceNamespace; }

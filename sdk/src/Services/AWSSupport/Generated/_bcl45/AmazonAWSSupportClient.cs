@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.AWSSupport.Model;
 using Amazon.AWSSupport.Model.Internal.MarshallTransformations;
+using Amazon.AWSSupport.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -47,7 +49,7 @@ namespace Amazon.AWSSupport
     /// <para>
     /// The AWS Support service also exposes a set of <a href="http://aws.amazon.com/premiumsupport/trustedadvisor/">Trusted
     /// Advisor</a> features. You can retrieve a list of checks and their descriptions, get
-    /// check results, specify checks to refresh, and get the refresh status of checks. 
+    /// check results, specify checks to refresh, and get the refresh status of checks.
     /// </para>
     ///  
     /// <para>
@@ -58,7 +60,7 @@ namespace Amazon.AWSSupport
     ///  <b>Service names, issue categories, and available severity levels. </b>The <a>DescribeServices</a>
     /// and <a>DescribeSeverityLevels</a> operations return AWS service names, service codes,
     /// service categories, and problem severity levels. You use these values when you call
-    /// the <a>CreateCase</a> operation. 
+    /// the <a>CreateCase</a> operation.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -70,7 +72,7 @@ namespace Amazon.AWSSupport
     /// <para>
     ///  <b>Case communication.</b> The <a>DescribeCommunications</a>, <a>AddCommunicationToCase</a>,
     /// and <a>AddAttachmentsToSet</a> operations retrieve and add communications and attachments
-    /// to AWS Support cases. 
+    /// to AWS Support cases.
     /// </para>
     ///  </li> </ul> 
     /// <para>
@@ -96,28 +98,29 @@ namespace Amazon.AWSSupport
     ///  </li> <li> 
     /// <para>
     ///  <a>RefreshTrustedAdvisorCheck</a> requests that Trusted Advisor rerun a specified
-    /// check. 
+    /// check.
     /// </para>
     ///  </li> <li> 
     /// <para>
     ///  <a>DescribeTrustedAdvisorCheckRefreshStatuses</a> reports the refresh status of one
-    /// or more checks. 
+    /// or more checks.
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// For authentication of requests, AWS Support uses <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+    /// For authentication of requests, AWS Support uses <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
     /// Version 4 Signing Process</a>.
     /// </para>
     ///  
     /// <para>
-    /// See <a href="http://docs.aws.amazon.com/awssupport/latest/user/Welcome.html">About
+    /// See <a href="https://docs.aws.amazon.com/awssupport/latest/user/Welcome.html">About
     /// the AWS Support API</a> in the <i>AWS Support User Guide</i> for information about
     /// how to use this service to create and manage your support cases, and how to call Trusted
-    /// Advisor for results of checks on your resources. 
+    /// Advisor for results of checks on your resources.
     /// </para>
     /// </summary>
     public partial class AmazonAWSSupportClient : AmazonServiceClient, IAmazonAWSSupport
     {
+        private static IServiceMetadata serviceMetadata = new AmazonAWSSupportMetadata();
         #region Constructors
 
         /// <summary>
@@ -287,6 +290,16 @@ namespace Amazon.AWSSupport
             return new AWS4Signer();
         }    
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -302,7 +315,7 @@ namespace Amazon.AWSSupport
 
         #endregion
 
-        
+
         #region  AddAttachmentsToSet
 
 
@@ -345,29 +358,61 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddAttachmentsToSet">REST API Reference for AddAttachmentsToSet Operation</seealso>
         public virtual AddAttachmentsToSetResponse AddAttachmentsToSet(AddAttachmentsToSetRequest request)
         {
-            var marshaller = AddAttachmentsToSetRequestMarshaller.Instance;
-            var unmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddAttachmentsToSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
 
-            return Invoke<AddAttachmentsToSetRequest,AddAttachmentsToSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddAttachmentsToSetResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AddAttachmentsToSet operation.
-        /// </summary>
+        /// Adds one or more attachments to an attachment set. If an <code>attachmentSetId</code>
+        /// is not specified, a new attachment set is created, and the ID of the set is returned
+        /// in the response. If an <code>attachmentSetId</code> is specified, the attachments
+        /// are added to the specified set, if it exists.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AddAttachmentsToSet operation.</param>
+        ///  
+        /// <para>
+        /// An attachment set is a temporary container for attachments that are to be added to
+        /// a case or case communication. The set is available for one hour after it is created;
+        /// the <code>expiryTime</code> returned in the response indicates when the set expires.
+        /// The maximum number of attachments in a set is 3, and the maximum size of any attachment
+        /// in the set is 5 MB.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AddAttachmentsToSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AddAttachmentsToSet service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentLimitExceededException">
+        /// The limit for the number of attachment sets created in a short period of time has
+        /// been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentSetExpiredException">
+        /// The expiration time of the attachment set has passed. The set expires 1 hour after
+        /// it is created.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentSetIdNotFoundException">
+        /// An attachment set with the specified ID could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentSetSizeLimitExceededException">
+        /// A limit for the size of an attachment set has been exceeded. The limits are 3 attachments
+        /// and 5 MB per attachment.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddAttachmentsToSet">REST API Reference for AddAttachmentsToSet Operation</seealso>
         public virtual Task<AddAttachmentsToSetResponse> AddAttachmentsToSetAsync(AddAttachmentsToSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AddAttachmentsToSetRequestMarshaller.Instance;
-            var unmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
-
-            return InvokeAsync<AddAttachmentsToSetRequest,AddAttachmentsToSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddAttachmentsToSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddAttachmentsToSetResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<AddAttachmentsToSetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -409,29 +454,56 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddCommunicationToCase">REST API Reference for AddCommunicationToCase Operation</seealso>
         public virtual AddCommunicationToCaseResponse AddCommunicationToCase(AddCommunicationToCaseRequest request)
         {
-            var marshaller = AddCommunicationToCaseRequestMarshaller.Instance;
-            var unmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddCommunicationToCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
 
-            return Invoke<AddCommunicationToCaseRequest,AddCommunicationToCaseResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddCommunicationToCaseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AddCommunicationToCase operation.
-        /// </summary>
+        /// Adds additional customer communication to an AWS Support case. You use the <code>caseId</code>
+        /// value to identify the case to add communication to. You can list a set of email addresses
+        /// to copy on the communication using the <code>ccEmailAddresses</code> value. The <code>communicationBody</code>
+        /// value contains the text of the communication.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AddCommunicationToCase operation.</param>
+        ///  
+        /// <para>
+        /// The response indicates the success or failure of the request.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation implements a subset of the features of the AWS Support Center.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AddCommunicationToCase service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AddCommunicationToCase service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentSetExpiredException">
+        /// The expiration time of the attachment set has passed. The set expires 1 hour after
+        /// it is created.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentSetIdNotFoundException">
+        /// An attachment set with the specified ID could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.CaseIdNotFoundException">
+        /// The requested <code>caseId</code> could not be located.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/AddCommunicationToCase">REST API Reference for AddCommunicationToCase Operation</seealso>
         public virtual Task<AddCommunicationToCaseResponse> AddCommunicationToCaseAsync(AddCommunicationToCaseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AddCommunicationToCaseRequestMarshaller.Instance;
-            var unmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<AddCommunicationToCaseRequest,AddCommunicationToCaseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddCommunicationToCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddCommunicationToCaseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<AddCommunicationToCaseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -442,29 +514,43 @@ namespace Amazon.AWSSupport
         /// <summary>
         /// Creates a new case in the AWS Support Center. This operation is modeled on the behavior
         /// of the AWS Support Center <a href="https://console.aws.amazon.com/support/home#/case/create">Create
-        /// Case</a> page. Its parameters require you to specify the following information: 
+        /// Case</a> page. Its parameters require you to specify the following information:
         /// 
         ///  <ul> <li> 
         /// <para>
         ///  <b>issueType.</b> The type of issue for the case. You can specify either "customer-service"
-        /// or "technical." If you do not indicate a value, the default is "technical." 
+        /// or "technical." If you do not indicate a value, the default is "technical."
         /// </para>
-        ///  </li> <li> 
+        ///  <note> 
         /// <para>
-        ///  <b>serviceCode.</b> The code for an AWS service. You obtain the <code>serviceCode</code>
-        /// by calling <a>DescribeServices</a>. 
+        /// Service limit increases are not supported by the Support API; you must submit service
+        /// limit increase requests in <a href="https://console.aws.amazon.com/support">Support
+        /// Center</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>caseId</code> is not the <code>displayId</code> that appears in <a href="https://console.aws.amazon.com/support">Support
+        /// Center</a>. You can use the <a>DescribeCases</a> API to get the <code>displayId</code>.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        ///  <b>serviceCode.</b> The code for an AWS service. You can get the possible <code>serviceCode</code>
+        /// values by calling <a>DescribeServices</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <b>categoryCode.</b> The category for the service defined for the <code>serviceCode</code>
-        /// value. You also obtain the category code for a service by calling <a>DescribeServices</a>.
-        /// Each AWS service defines its own set of category codes. 
+        /// value. You also get the category code for a service by calling <a>DescribeServices</a>.
+        /// Each AWS service defines its own set of category codes.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <b>severityCode.</b> A value that indicates the urgency of the case, which in turn
         /// determines the response time according to your service level agreement with AWS Support.
-        /// You obtain the SeverityCode by calling <a>DescribeSeverityLevels</a>.
+        /// You can get the possible <code>severityCode</code> values by calling <a>DescribeSeverityLevels</a>.
+        /// For more information about the meaning of the codes, see <a>SeverityLevel</a> and
+        /// <a href="https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity">Choosing
+        /// a Severity</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -504,7 +590,6 @@ namespace Amazon.AWSSupport
         /// <para>
         /// A successful <a>CreateCase</a> request returns an AWS Support case number. Case numbers
         /// are used by the <a>DescribeCases</a> operation to retrieve existing AWS Support cases.
-        /// 
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateCase service method.</param>
@@ -526,29 +611,122 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/CreateCase">REST API Reference for CreateCase Operation</seealso>
         public virtual CreateCaseResponse CreateCase(CreateCaseRequest request)
         {
-            var marshaller = CreateCaseRequestMarshaller.Instance;
-            var unmarshaller = CreateCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCaseResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCaseRequest,CreateCaseResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCaseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateCase operation.
-        /// </summary>
+        /// Creates a new case in the AWS Support Center. This operation is modeled on the behavior
+        /// of the AWS Support Center <a href="https://console.aws.amazon.com/support/home#/case/create">Create
+        /// Case</a> page. Its parameters require you to specify the following information:
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateCase operation.</param>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>issueType.</b> The type of issue for the case. You can specify either "customer-service"
+        /// or "technical." If you do not indicate a value, the default is "technical."
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Service limit increases are not supported by the Support API; you must submit service
+        /// limit increase requests in <a href="https://console.aws.amazon.com/support">Support
+        /// Center</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>caseId</code> is not the <code>displayId</code> that appears in <a href="https://console.aws.amazon.com/support">Support
+        /// Center</a>. You can use the <a>DescribeCases</a> API to get the <code>displayId</code>.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        ///  <b>serviceCode.</b> The code for an AWS service. You can get the possible <code>serviceCode</code>
+        /// values by calling <a>DescribeServices</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>categoryCode.</b> The category for the service defined for the <code>serviceCode</code>
+        /// value. You also get the category code for a service by calling <a>DescribeServices</a>.
+        /// Each AWS service defines its own set of category codes.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>severityCode.</b> A value that indicates the urgency of the case, which in turn
+        /// determines the response time according to your service level agreement with AWS Support.
+        /// You can get the possible <code>severityCode</code> values by calling <a>DescribeSeverityLevels</a>.
+        /// For more information about the meaning of the codes, see <a>SeverityLevel</a> and
+        /// <a href="https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#choosing-severity">Choosing
+        /// a Severity</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>subject.</b> The <b>Subject</b> field on the AWS Support Center <a href="https://console.aws.amazon.com/support/home#/case/create">Create
+        /// Case</a> page.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>communicationBody.</b> The <b>Description</b> field on the AWS Support Center
+        /// <a href="https://console.aws.amazon.com/support/home#/case/create">Create Case</a>
+        /// page.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>attachmentSetId.</b> The ID of a set of attachments that has been created by using
+        /// <a>AddAttachmentsToSet</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>language.</b> The human language in which AWS Support handles the case. English
+        /// and Japanese are currently supported.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>ccEmailAddresses.</b> The AWS Support Center <b>CC</b> field on the <a href="https://console.aws.amazon.com/support/home#/case/create">Create
+        /// Case</a> page. You can list email addresses to be copied on any correspondence about
+        /// the case. The account that opens the case is already identified by passing the AWS
+        /// Credentials in the HTTP POST method or in a method or function call from one of the
+        /// programming languages supported by an <a href="http://aws.amazon.com/tools/">AWS SDK</a>.
+        /// 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// To add additional communication or attachments to an existing case, use <a>AddCommunicationToCase</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// A successful <a>CreateCase</a> request returns an AWS Support case number. Case numbers
+        /// are used by the <a>DescribeCases</a> operation to retrieve existing AWS Support cases.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCase service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateCase service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentSetExpiredException">
+        /// The expiration time of the attachment set has passed. The set expires 1 hour after
+        /// it is created.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentSetIdNotFoundException">
+        /// An attachment set with the specified ID could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.CaseCreationLimitExceededException">
+        /// The case creation limit for the account has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/CreateCase">REST API Reference for CreateCase Operation</seealso>
         public virtual Task<CreateCaseResponse> CreateCaseAsync(CreateCaseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateCaseRequestMarshaller.Instance;
-            var unmarshaller = CreateCaseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateCaseRequest,CreateCaseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCaseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateCaseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -578,29 +756,44 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeAttachment">REST API Reference for DescribeAttachment Operation</seealso>
         public virtual DescribeAttachmentResponse DescribeAttachment(DescribeAttachmentRequest request)
         {
-            var marshaller = DescribeAttachmentRequestMarshaller.Instance;
-            var unmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAttachmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAttachmentRequest,DescribeAttachmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAttachmentResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeAttachment operation.
+        /// Returns the attachment that has the specified ID. Attachment IDs are generated by
+        /// the case management system when you add an attachment to a case or case communication.
+        /// Attachment IDs are returned in the <a>AttachmentDetails</a> objects that are returned
+        /// by the <a>DescribeCommunications</a> operation.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeAttachment operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAttachment service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeAttachment service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.AttachmentIdNotFoundException">
+        /// An attachment with the specified ID could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.DescribeAttachmentLimitExceededException">
+        /// The limit for the number of <a>DescribeAttachment</a> requests in a short period of
+        /// time has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeAttachment">REST API Reference for DescribeAttachment Operation</seealso>
         public virtual Task<DescribeAttachmentResponse> DescribeAttachmentAsync(DescribeAttachmentRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeAttachmentRequestMarshaller.Instance;
-            var unmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeAttachmentRequest,DescribeAttachmentResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAttachmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAttachmentResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeAttachmentResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -613,7 +806,7 @@ namespace Amazon.AWSSupport
         /// you can filter the cases by date by setting values for the <code>afterTime</code>
         /// and <code>beforeTime</code> request parameters. You can set values for the <code>includeResolvedCases</code>
         /// and <code>includeCommunications</code> request parameters to control how much information
-        /// is returned. 
+        /// is returned.
         /// 
         ///  
         /// <para>
@@ -626,7 +819,7 @@ namespace Amazon.AWSSupport
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// One or more <a>CaseDetails</a> data types. 
+        /// One or more <a>CaseDetails</a> data types.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -647,29 +840,61 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCases">REST API Reference for DescribeCases Operation</seealso>
         public virtual DescribeCasesResponse DescribeCases(DescribeCasesRequest request)
         {
-            var marshaller = DescribeCasesRequestMarshaller.Instance;
-            var unmarshaller = DescribeCasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCasesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCasesRequest,DescribeCasesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCasesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCases operation.
-        /// </summary>
+        /// Returns a list of cases that you specify by passing one or more case IDs. In addition,
+        /// you can filter the cases by date by setting values for the <code>afterTime</code>
+        /// and <code>beforeTime</code> request parameters. You can set values for the <code>includeResolvedCases</code>
+        /// and <code>includeCommunications</code> request parameters to control how much information
+        /// is returned.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCases operation.</param>
+        ///  
+        /// <para>
+        /// Case data is available for 12 months after creation. If a case was created more than
+        /// 12 months ago, a request for data might cause an error.
+        /// </para>
+        ///  
+        /// <para>
+        /// The response returns the following in JSON format:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// One or more <a>CaseDetails</a> data types.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// One or more <code>nextToken</code> values, which specify where to paginate the returned
+        /// records represented by the <code>CaseDetails</code> objects.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCases service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCases service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.CaseIdNotFoundException">
+        /// The requested <code>caseId</code> could not be located.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCases">REST API Reference for DescribeCases Operation</seealso>
         public virtual Task<DescribeCasesResponse> DescribeCasesAsync(DescribeCasesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCasesRequestMarshaller.Instance;
-            var unmarshaller = DescribeCasesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeCasesRequest,DescribeCasesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCasesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeCasesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -708,29 +933,53 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCommunications">REST API Reference for DescribeCommunications Operation</seealso>
         public virtual DescribeCommunicationsResponse DescribeCommunications(DescribeCommunicationsRequest request)
         {
-            var marshaller = DescribeCommunicationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCommunicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeCommunicationsRequest,DescribeCommunicationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeCommunicationsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeCommunications operation.
-        /// </summary>
+        /// Returns communications (and attachments) for one or more support cases. You can use
+        /// the <code>afterTime</code> and <code>beforeTime</code> parameters to filter by date.
+        /// You can use the <code>caseId</code> parameter to restrict the results to a particular
+        /// case.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeCommunications operation.</param>
+        ///  
+        /// <para>
+        /// Case data is available for 12 months after creation. If a case was created more than
+        /// 12 months ago, a request for data might cause an error.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use the <code>maxResults</code> and <code>nextToken</code> parameters to control
+        /// the pagination of the result set. Set <code>maxResults</code> to the number of cases
+        /// you want displayed on each page, and use <code>nextToken</code> to specify the resumption
+        /// of pagination.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCommunications service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeCommunications service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.CaseIdNotFoundException">
+        /// The requested <code>caseId</code> could not be located.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeCommunications">REST API Reference for DescribeCommunications Operation</seealso>
         public virtual Task<DescribeCommunicationsResponse> DescribeCommunicationsAsync(DescribeCommunicationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeCommunicationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeCommunicationsRequest,DescribeCommunicationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCommunicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCommunicationsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeCommunicationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -791,10 +1040,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeServices">REST API Reference for DescribeServices Operation</seealso>
         public virtual DescribeServicesResponse DescribeServices(DescribeServicesRequest request)
         {
-            var marshaller = DescribeServicesRequestMarshaller.Instance;
-            var unmarshaller = DescribeServicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServicesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeServicesRequest,DescribeServicesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeServicesResponse>(request, options);
         }
 
 
@@ -827,23 +1077,40 @@ namespace Amazon.AWSSupport
         {
             return DescribeServicesAsync(new DescribeServicesRequest(), cancellationToken);
         }
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeServices operation.
-        /// </summary>
+        /// Returns the current list of AWS services and a list of service categories that applies
+        /// to each one. You then use service names and categories in your <a>CreateCase</a> requests.
+        /// Each AWS service has its own set of categories.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeServices operation.</param>
+        ///  
+        /// <para>
+        /// The service codes and category codes correspond to the values that are displayed in
+        /// the <b>Service</b> and <b>Category</b> drop-down lists on the AWS Support Center <a
+        /// href="https://console.aws.amazon.com/support/home#/case/create">Create Case</a> page.
+        /// The values in those fields, however, do not necessarily match the service codes and
+        /// categories returned by the <code>DescribeServices</code> request. Always use the service
+        /// codes and categories obtained programmatically. This practice ensures that you always
+        /// have the most recent set of service and category codes.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeServices service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeServices service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeServices">REST API Reference for DescribeServices Operation</seealso>
         public virtual Task<DescribeServicesResponse> DescribeServicesAsync(DescribeServicesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeServicesRequestMarshaller.Instance;
-            var unmarshaller = DescribeServicesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeServicesRequest,DescribeServicesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServicesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeServicesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -882,10 +1149,11 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeSeverityLevels">REST API Reference for DescribeSeverityLevels Operation</seealso>
         public virtual DescribeSeverityLevelsResponse DescribeSeverityLevels(DescribeSeverityLevelsRequest request)
         {
-            var marshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeSeverityLevelsRequest,DescribeSeverityLevelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeSeverityLevelsResponse>(request, options);
         }
 
 
@@ -907,23 +1175,29 @@ namespace Amazon.AWSSupport
         {
             return DescribeSeverityLevelsAsync(new DescribeSeverityLevelsRequest(), cancellationToken);
         }
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeSeverityLevels operation.
+        /// Returns the list of severity levels that you can assign to an AWS Support case. The
+        /// severity level for a case is also a field in the <a>CaseDetails</a> data type included
+        /// in any <a>CreateCase</a> request.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeSeverityLevels operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSeverityLevels service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeSeverityLevels service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeSeverityLevels">REST API Reference for DescribeSeverityLevels Operation</seealso>
         public virtual Task<DescribeSeverityLevelsResponse> DescribeSeverityLevelsAsync(DescribeSeverityLevelsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeSeverityLevelsRequest,DescribeSeverityLevelsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSeverityLevelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSeverityLevelsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeSeverityLevelsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -952,29 +1226,43 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckRefreshStatuses">REST API Reference for DescribeTrustedAdvisorCheckRefreshStatuses Operation</seealso>
         public virtual DescribeTrustedAdvisorCheckRefreshStatusesResponse DescribeTrustedAdvisorCheckRefreshStatuses(DescribeTrustedAdvisorCheckRefreshStatusesRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorCheckRefreshStatusesRequest,DescribeTrustedAdvisorCheckRefreshStatusesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorCheckRefreshStatusesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeTrustedAdvisorCheckRefreshStatuses operation.
-        /// </summary>
+        /// Returns the refresh status of the Trusted Advisor checks that have the specified check
+        /// IDs. Check IDs can be obtained by calling <a>DescribeTrustedAdvisorChecks</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorCheckRefreshStatuses operation.</param>
+        ///  <note> 
+        /// <para>
+        /// Some checks are refreshed automatically, and their refresh statuses cannot be retrieved
+        /// by using this operation. Use of the <code>DescribeTrustedAdvisorCheckRefreshStatuses</code>
+        /// operation for these checks causes an <code>InvalidParameterValue</code> error.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorCheckRefreshStatuses service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeTrustedAdvisorCheckRefreshStatuses service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckRefreshStatuses">REST API Reference for DescribeTrustedAdvisorCheckRefreshStatuses Operation</seealso>
         public virtual Task<DescribeTrustedAdvisorCheckRefreshStatusesResponse> DescribeTrustedAdvisorCheckRefreshStatusesAsync(DescribeTrustedAdvisorCheckRefreshStatusesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeTrustedAdvisorCheckRefreshStatusesRequest,DescribeTrustedAdvisorCheckRefreshStatusesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckRefreshStatusesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckRefreshStatusesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeTrustedAdvisorCheckRefreshStatusesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1031,29 +1319,71 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckResult">REST API Reference for DescribeTrustedAdvisorCheckResult Operation</seealso>
         public virtual DescribeTrustedAdvisorCheckResultResponse DescribeTrustedAdvisorCheckResult(DescribeTrustedAdvisorCheckResultRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorCheckResultRequest,DescribeTrustedAdvisorCheckResultResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorCheckResultResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeTrustedAdvisorCheckResult operation.
-        /// </summary>
+        /// Returns the results of the Trusted Advisor check that has the specified check ID.
+        /// Check IDs can be obtained by calling <a>DescribeTrustedAdvisorChecks</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorCheckResult operation.</param>
+        ///  
+        /// <para>
+        /// The response contains a <a>TrustedAdvisorCheckResult</a> object, which contains these
+        /// three objects:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>TrustedAdvisorCategorySpecificSummary</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>TrustedAdvisorResourceDetail</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>TrustedAdvisorResourcesSummary</a> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// In addition, the response contains these fields:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>status.</b> The alert status of the check: "ok" (green), "warning" (yellow), "error"
+        /// (red), or "not_available".
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>timestamp.</b> The time of the last refresh of the check.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>checkId.</b> The unique identifier for the check.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorCheckResult service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeTrustedAdvisorCheckResult service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckResult">REST API Reference for DescribeTrustedAdvisorCheckResult Operation</seealso>
         public virtual Task<DescribeTrustedAdvisorCheckResultResponse> DescribeTrustedAdvisorCheckResultAsync(DescribeTrustedAdvisorCheckResultRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeTrustedAdvisorCheckResultRequest,DescribeTrustedAdvisorCheckResultResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckResultRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckResultResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeTrustedAdvisorCheckResultResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1065,7 +1395,7 @@ namespace Amazon.AWSSupport
         /// Returns information about all available Trusted Advisor checks, including name, ID,
         /// category, description, and metadata. You must specify a language code; English ("en")
         /// and Japanese ("ja") are currently supported. The response contains a <a>TrustedAdvisorCheckDescription</a>
-        /// for each check.
+        /// for each check. The region must be set to us-east-1.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorChecks service method.</param>
         /// 
@@ -1076,29 +1406,37 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorChecks">REST API Reference for DescribeTrustedAdvisorChecks Operation</seealso>
         public virtual DescribeTrustedAdvisorChecksResponse DescribeTrustedAdvisorChecks(DescribeTrustedAdvisorChecksRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorChecksRequest,DescribeTrustedAdvisorChecksResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorChecksResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeTrustedAdvisorChecks operation.
+        /// Returns information about all available Trusted Advisor checks, including name, ID,
+        /// category, description, and metadata. You must specify a language code; English ("en")
+        /// and Japanese ("ja") are currently supported. The response contains a <a>TrustedAdvisorCheckDescription</a>
+        /// for each check. The region must be set to us-east-1.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorChecks operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorChecks service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeTrustedAdvisorChecks service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorChecks">REST API Reference for DescribeTrustedAdvisorChecks Operation</seealso>
         public virtual Task<DescribeTrustedAdvisorChecksResponse> DescribeTrustedAdvisorChecksAsync(DescribeTrustedAdvisorChecksRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeTrustedAdvisorChecksRequest,DescribeTrustedAdvisorChecksResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorChecksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorChecksResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeTrustedAdvisorChecksResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1124,29 +1462,40 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckSummaries">REST API Reference for DescribeTrustedAdvisorCheckSummaries Operation</seealso>
         public virtual DescribeTrustedAdvisorCheckSummariesResponse DescribeTrustedAdvisorCheckSummaries(DescribeTrustedAdvisorCheckSummariesRequest request)
         {
-            var marshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTrustedAdvisorCheckSummariesRequest,DescribeTrustedAdvisorCheckSummariesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTrustedAdvisorCheckSummariesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeTrustedAdvisorCheckSummaries operation.
-        /// </summary>
+        /// Returns the summaries of the results of the Trusted Advisor checks that have the specified
+        /// check IDs. Check IDs can be obtained by calling <a>DescribeTrustedAdvisorChecks</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorCheckSummaries operation.</param>
+        ///  
+        /// <para>
+        /// The response contains an array of <a>TrustedAdvisorCheckSummary</a> objects.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTrustedAdvisorCheckSummaries service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeTrustedAdvisorCheckSummaries service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/DescribeTrustedAdvisorCheckSummaries">REST API Reference for DescribeTrustedAdvisorCheckSummaries Operation</seealso>
         public virtual Task<DescribeTrustedAdvisorCheckSummariesResponse> DescribeTrustedAdvisorCheckSummariesAsync(DescribeTrustedAdvisorCheckSummariesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DescribeTrustedAdvisorCheckSummariesRequest,DescribeTrustedAdvisorCheckSummariesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTrustedAdvisorCheckSummariesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTrustedAdvisorCheckSummariesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DescribeTrustedAdvisorCheckSummariesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1171,10 +1520,31 @@ namespace Amazon.AWSSupport
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <b>status.</b> The refresh status of the check: "none", "enqueued", "processing",
-        /// "success", or "abandoned".
+        ///  <b>status.</b> The refresh status of the check: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>none:</code> The check is not refreshed or the non-success status exceeds the
+        /// timeout
         /// </para>
         ///  </li> <li> 
+        /// <para>
+        ///  <code>enqueued:</code> The check refresh requests has entered the refresh queue
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>processing:</code> The check refresh request is picked up by the rule processing
+        /// engine
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>success:</code> The check is successfully refreshed
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>abandoned:</code> The check refresh has failed
+        /// </para>
+        ///  </li> </ul> </li> <li> 
         /// <para>
         ///  <b>millisUntilNextRefreshable.</b> The amount of time, in milliseconds, until the
         /// check is eligible for refresh.
@@ -1194,29 +1564,83 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/RefreshTrustedAdvisorCheck">REST API Reference for RefreshTrustedAdvisorCheck Operation</seealso>
         public virtual RefreshTrustedAdvisorCheckResponse RefreshTrustedAdvisorCheck(RefreshTrustedAdvisorCheckRequest request)
         {
-            var marshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
-            var unmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
 
-            return Invoke<RefreshTrustedAdvisorCheckRequest,RefreshTrustedAdvisorCheckResponse>(request, marshaller, unmarshaller);
+            return Invoke<RefreshTrustedAdvisorCheckResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RefreshTrustedAdvisorCheck operation.
-        /// </summary>
+        /// Requests a refresh of the Trusted Advisor check that has the specified check ID. Check
+        /// IDs can be obtained by calling <a>DescribeTrustedAdvisorChecks</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the RefreshTrustedAdvisorCheck operation.</param>
+        ///  <note> 
+        /// <para>
+        /// Some checks are refreshed automatically, and they cannot be refreshed by using this
+        /// operation. Use of the <code>RefreshTrustedAdvisorCheck</code> operation for these
+        /// checks causes an <code>InvalidParameterValue</code> error.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The response contains a <a>TrustedAdvisorCheckRefreshStatus</a> object, which contains
+        /// these fields:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>status.</b> The refresh status of the check: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>none:</code> The check is not refreshed or the non-success status exceeds the
+        /// timeout
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>enqueued:</code> The check refresh requests has entered the refresh queue
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>processing:</code> The check refresh request is picked up by the rule processing
+        /// engine
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>success:</code> The check is successfully refreshed
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>abandoned:</code> The check refresh has failed
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        ///  <b>millisUntilNextRefreshable.</b> The amount of time, in milliseconds, until the
+        /// check is eligible for refresh.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>checkId.</b> The unique identifier for the check.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RefreshTrustedAdvisorCheck service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RefreshTrustedAdvisorCheck service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/RefreshTrustedAdvisorCheck">REST API Reference for RefreshTrustedAdvisorCheck Operation</seealso>
         public virtual Task<RefreshTrustedAdvisorCheckResponse> RefreshTrustedAdvisorCheckAsync(RefreshTrustedAdvisorCheckRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
-            var unmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
-
-            return InvokeAsync<RefreshTrustedAdvisorCheckRequest,RefreshTrustedAdvisorCheckResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RefreshTrustedAdvisorCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RefreshTrustedAdvisorCheckResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<RefreshTrustedAdvisorCheckResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1240,29 +1664,38 @@ namespace Amazon.AWSSupport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/ResolveCase">REST API Reference for ResolveCase Operation</seealso>
         public virtual ResolveCaseResponse ResolveCase(ResolveCaseRequest request)
         {
-            var marshaller = ResolveCaseRequestMarshaller.Instance;
-            var unmarshaller = ResolveCaseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResolveCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResolveCaseResponseUnmarshaller.Instance;
 
-            return Invoke<ResolveCaseRequest,ResolveCaseResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResolveCaseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ResolveCase operation.
+        /// Takes a <code>caseId</code> and returns the initial state of the case along with the
+        /// state of the case after the call to <a>ResolveCase</a> completed.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ResolveCase operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ResolveCase service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ResolveCase service method, as returned by AWSSupport.</returns>
+        /// <exception cref="Amazon.AWSSupport.Model.CaseIdNotFoundException">
+        /// The requested <code>caseId</code> could not be located.
+        /// </exception>
+        /// <exception cref="Amazon.AWSSupport.Model.InternalServerErrorException">
+        /// An internal server error occurred.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/support-2013-04-15/ResolveCase">REST API Reference for ResolveCase Operation</seealso>
         public virtual Task<ResolveCaseResponse> ResolveCaseAsync(ResolveCaseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ResolveCaseRequestMarshaller.Instance;
-            var unmarshaller = ResolveCaseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<ResolveCaseRequest,ResolveCaseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResolveCaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResolveCaseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<ResolveCaseResponse>(request, options, cancellationToken);
         }
 
         #endregion

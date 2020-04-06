@@ -29,7 +29,7 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the AllocateConnectionOnInterconnect operation.
-    /// Deprecated in favor of <a>AllocateHostedConnection</a>.
+    /// Deprecated. Use <a>AllocateHostedConnection</a> instead.
     /// 
     ///  
     /// <para>
@@ -38,11 +38,11 @@ namespace Amazon.DirectConnect.Model
     ///  
     /// <para>
     /// Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection
-    /// on the given interconnect.
+    /// on the specified interconnect.
     /// </para>
     ///  <note> 
     /// <para>
-    /// This is intended for use by AWS Direct Connect partners only.
+    /// Intended for use by AWS Direct Connect Partners only.
     /// </para>
     ///  </note>
     /// </summary>
@@ -57,21 +57,13 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property Bandwidth. 
         /// <para>
-        /// Bandwidth of the connection.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: "<i>500Mbps</i>"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
-        ///  
-        /// <para>
-        /// Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
+        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps,
+        /// 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS
+        /// Direct Connect Partners who have met specific requirements are allowed to create a
+        /// 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Bandwidth
         {
             get { return this._bandwidth; }
@@ -87,17 +79,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property ConnectionName. 
         /// <para>
-        /// Name of the provisioned connection.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: "<i>500M Connection to AWS</i>"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The name of the provisioned connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConnectionName
         {
             get { return this._connectionName; }
@@ -113,17 +98,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property InterconnectId. 
         /// <para>
-        /// ID of the interconnect on which the connection will be provisioned.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: dxcon-456abc78
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the interconnect on which the connection will be provisioned.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InterconnectId
         {
             get { return this._interconnectId; }
@@ -139,17 +117,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property OwnerAccount. 
         /// <para>
-        /// Numeric account Id of the customer for whom the connection will be provisioned.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: 123443215678
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the AWS account of the customer for whom the connection will be provisioned.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string OwnerAccount
         {
             get { return this._ownerAccount; }
@@ -167,15 +138,8 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The dedicated VLAN provisioned to the connection.
         /// </para>
-        ///  
-        /// <para>
-        /// Example: 101
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Vlan
         {
             get { return this._vlan.GetValueOrDefault(); }

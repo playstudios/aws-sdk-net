@@ -55,14 +55,15 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateInputRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaLive");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-14";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/prod/inputs/{inputId}";
             if (!publicRequest.IsSetInputId())
                 throw new AmazonMediaLiveException("Request object does not have required field InputId set");
-            uriResourcePath = uriResourcePath.Replace("{inputId}", StringUtils.FromString(publicRequest.InputId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{inputId}", StringUtils.FromString(publicRequest.InputId));
+            request.ResourcePath = "/prod/inputs/{inputId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -95,10 +96,32 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     context.Writer.WriteArrayEnd();
                 }
 
+                if(publicRequest.IsSetMediaConnectFlows())
+                {
+                    context.Writer.WritePropertyName("mediaConnectFlows");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestMediaConnectFlowsListValue in publicRequest.MediaConnectFlows)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = MediaConnectFlowRequestMarshaller.Instance;
+                        marshaller.Marshall(publicRequestMediaConnectFlowsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetName())
                 {
                     context.Writer.WritePropertyName("name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetRoleArn())
+                {
+                    context.Writer.WritePropertyName("roleArn");
+                    context.Writer.Write(publicRequest.RoleArn);
                 }
 
                 if(publicRequest.IsSetSources())

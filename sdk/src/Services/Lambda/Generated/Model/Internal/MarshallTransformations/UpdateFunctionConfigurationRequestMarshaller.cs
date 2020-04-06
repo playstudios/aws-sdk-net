@@ -55,14 +55,15 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateFunctionConfigurationRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lambda");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-03-31";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/2015-03-31/functions/{FunctionName}/configuration";
             if (!publicRequest.IsSetFunctionName())
                 throw new AmazonLambdaException("Request object does not have required field FunctionName set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
+            request.ResourcePath = "/2015-03-31/functions/{FunctionName}/configuration";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -106,6 +107,17 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("KMSKeyArn");
                     context.Writer.Write(publicRequest.KMSKeyArn);
+                }
+
+                if(publicRequest.IsSetLayers())
+                {
+                    context.Writer.WritePropertyName("Layers");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestLayersListValue in publicRequest.Layers)
+                    {
+                            context.Writer.Write(publicRequestLayersListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetMemorySize())

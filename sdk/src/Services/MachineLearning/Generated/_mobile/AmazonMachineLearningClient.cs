@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MachineLearning.Model;
 using Amazon.MachineLearning.Model.Internal.MarshallTransformations;
+using Amazon.MachineLearning.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -40,10 +42,11 @@ namespace Amazon.MachineLearning
     /// </summary>
     public partial class AmazonMachineLearningClient : AmazonServiceClient, IAmazonMachineLearning
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMachineLearningMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonMachineLearningClient with the credentials loaded from the application's
@@ -223,6 +226,16 @@ namespace Amazon.MachineLearning
             pipeline.AddHandlerAfter<Amazon.Runtime.Internal.Marshaller>(new Amazon.MachineLearning.Internal.ProcessRequestHandler());
             pipeline.AddHandlerBefore<Amazon.Runtime.Internal.Marshaller>(new Amazon.MachineLearning.Internal.IdempotencyHandler());
         }
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -238,35 +251,54 @@ namespace Amazon.MachineLearning
 
         #endregion
 
-        
+
         #region  AddTags
 
         internal virtual AddTagsResponse AddTags(AddTagsRequest request)
         {
-            var marshaller = AddTagsRequestMarshaller.Instance;
-            var unmarshaller = AddTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsResponseUnmarshaller.Instance;
 
-            return Invoke<AddTagsRequest,AddTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddTagsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AddTags operation.
+        /// Adds one or more tags to an object, up to a limit of 10. Each tag consists of a key
+        /// and an optional value. If you add a tag using a key that is already associated with
+        /// the ML object, <code>AddTags</code> updates the tag's value.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the AddTags operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AddTags service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AddTags service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidTagException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.TagLimitExceededException">
+        /// 
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/AddTags">REST API Reference for AddTags Operation</seealso>
         public virtual Task<AddTagsResponse> AddTagsAsync(AddTagsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AddTagsRequestMarshaller.Instance;
-            var unmarshaller = AddTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AddTagsRequest,AddTagsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AddTagsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -275,30 +307,60 @@ namespace Amazon.MachineLearning
 
         internal virtual CreateBatchPredictionResponse CreateBatchPrediction(CreateBatchPredictionRequest request)
         {
-            var marshaller = CreateBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = CreateBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBatchPredictionResponseUnmarshaller.Instance;
 
-            return Invoke<CreateBatchPredictionRequest,CreateBatchPredictionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateBatchPredictionResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateBatchPrediction operation.
-        /// </summary>
+        /// Generates predictions for a group of observations. The observations to process exist
+        /// in one or more data files referenced by a <code>DataSource</code>. This operation
+        /// creates a new <code>BatchPrediction</code>, and uses an <code>MLModel</code> and the
+        /// data files referenced by the <code>DataSource</code> as information sources. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateBatchPrediction operation.</param>
+        ///  
+        /// <para>
+        /// <code>CreateBatchPrediction</code> is an asynchronous operation. In response to <code>CreateBatchPrediction</code>,
+        /// Amazon Machine Learning (Amazon ML) immediately returns and sets the <code>BatchPrediction</code>
+        /// status to <code>PENDING</code>. After the <code>BatchPrediction</code> completes,
+        /// Amazon ML sets the status to <code>COMPLETED</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can poll for status updates by using the <a>GetBatchPrediction</a> operation and
+        /// checking the <code>Status</code> parameter of the result. After the <code>COMPLETED</code>
+        /// status appears, the results are available in the location specified by the <code>OutputUri</code>
+        /// parameter.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateBatchPrediction service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateBatchPrediction service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.IdempotentParameterMismatchException">
+        /// A second request to use or change an object was not allowed. This can result from
+        /// retrying a request using a parameter that was not present in the original request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/CreateBatchPrediction">REST API Reference for CreateBatchPrediction Operation</seealso>
         public virtual Task<CreateBatchPredictionResponse> CreateBatchPredictionAsync(CreateBatchPredictionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = CreateBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBatchPredictionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateBatchPredictionRequest,CreateBatchPredictionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateBatchPredictionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -307,30 +369,62 @@ namespace Amazon.MachineLearning
 
         internal virtual CreateDataSourceFromRDSResponse CreateDataSourceFromRDS(CreateDataSourceFromRDSRequest request)
         {
-            var marshaller = CreateDataSourceFromRDSRequestMarshaller.Instance;
-            var unmarshaller = CreateDataSourceFromRDSResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDataSourceFromRDSRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDataSourceFromRDSResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDataSourceFromRDSRequest,CreateDataSourceFromRDSResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDataSourceFromRDSResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDataSourceFromRDS operation.
-        /// </summary>
+        /// Creates a <code>DataSource</code> object from an <a href="http://aws.amazon.com/rds/">
+        /// Amazon Relational Database Service</a> (Amazon RDS). A <code>DataSource</code> references
+        /// data that can be used to perform <code>CreateMLModel</code>, <code>CreateEvaluation</code>,
+        /// or <code>CreateBatchPrediction</code> operations.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDataSourceFromRDS operation.</param>
+        ///  
+        /// <para>
+        /// <code>CreateDataSourceFromRDS</code> is an asynchronous operation. In response to
+        /// <code>CreateDataSourceFromRDS</code>, Amazon Machine Learning (Amazon ML) immediately
+        /// returns and sets the <code>DataSource</code> status to <code>PENDING</code>. After
+        /// the <code>DataSource</code> is created and ready for use, Amazon ML sets the <code>Status</code>
+        /// parameter to <code>COMPLETED</code>. <code>DataSource</code> in the <code>COMPLETED</code>
+        /// or <code>PENDING</code> state can be used only to perform <code>&gt;CreateMLModel</code>&gt;,
+        /// <code>CreateEvaluation</code>, or <code>CreateBatchPrediction</code> operations. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  If Amazon ML cannot accept the input source, it sets the <code>Status</code> parameter
+        /// to <code>FAILED</code> and includes an error message in the <code>Message</code> attribute
+        /// of the <code>GetDataSource</code> operation response. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDataSourceFromRDS service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDataSourceFromRDS service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.IdempotentParameterMismatchException">
+        /// A second request to use or change an object was not allowed. This can result from
+        /// retrying a request using a parameter that was not present in the original request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/CreateDataSourceFromRDS">REST API Reference for CreateDataSourceFromRDS Operation</seealso>
         public virtual Task<CreateDataSourceFromRDSResponse> CreateDataSourceFromRDSAsync(CreateDataSourceFromRDSRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDataSourceFromRDSRequestMarshaller.Instance;
-            var unmarshaller = CreateDataSourceFromRDSResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDataSourceFromRDSRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDataSourceFromRDSResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateDataSourceFromRDSRequest,CreateDataSourceFromRDSResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateDataSourceFromRDSResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -339,30 +433,87 @@ namespace Amazon.MachineLearning
 
         internal virtual CreateDataSourceFromRedshiftResponse CreateDataSourceFromRedshift(CreateDataSourceFromRedshiftRequest request)
         {
-            var marshaller = CreateDataSourceFromRedshiftRequestMarshaller.Instance;
-            var unmarshaller = CreateDataSourceFromRedshiftResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDataSourceFromRedshiftRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDataSourceFromRedshiftResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDataSourceFromRedshiftRequest,CreateDataSourceFromRedshiftResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDataSourceFromRedshiftResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDataSourceFromRedshift operation.
-        /// </summary>
+        /// Creates a <code>DataSource</code> from a database hosted on an Amazon Redshift cluster.
+        /// A <code>DataSource</code> references data that can be used to perform either <code>CreateMLModel</code>,
+        /// <code>CreateEvaluation</code>, or <code>CreateBatchPrediction</code> operations.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDataSourceFromRedshift operation.</param>
+        ///  
+        /// <para>
+        /// <code>CreateDataSourceFromRedshift</code> is an asynchronous operation. In response
+        /// to <code>CreateDataSourceFromRedshift</code>, Amazon Machine Learning (Amazon ML)
+        /// immediately returns and sets the <code>DataSource</code> status to <code>PENDING</code>.
+        /// After the <code>DataSource</code> is created and ready for use, Amazon ML sets the
+        /// <code>Status</code> parameter to <code>COMPLETED</code>. <code>DataSource</code> in
+        /// <code>COMPLETED</code> or <code>PENDING</code> states can be used to perform only
+        /// <code>CreateMLModel</code>, <code>CreateEvaluation</code>, or <code>CreateBatchPrediction</code>
+        /// operations. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  If Amazon ML can't accept the input source, it sets the <code>Status</code> parameter
+        /// to <code>FAILED</code> and includes an error message in the <code>Message</code> attribute
+        /// of the <code>GetDataSource</code> operation response. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The observations should be contained in the database hosted on an Amazon Redshift
+        /// cluster and should be specified by a <code>SelectSqlQuery</code> query. Amazon ML
+        /// executes an <code>Unload</code> command in Amazon Redshift to transfer the result
+        /// set of the <code>SelectSqlQuery</code> query to <code>S3StagingLocation</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// After the <code>DataSource</code> has been created, it's ready for use in evaluations
+        /// and batch predictions. If you plan to use the <code>DataSource</code> to train an
+        /// <code>MLModel</code>, the <code>DataSource</code> also requires a recipe. A recipe
+        /// describes how each input variable will be used in training an <code>MLModel</code>.
+        /// Will the variable be included or excluded from training? Will the variable be manipulated;
+        /// for example, will it be combined with another variable or will it be split apart into
+        /// word combinations? The recipe provides answers to these questions.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can't change an existing datasource, but you can copy and modify the settings
+        /// from an existing Amazon Redshift datasource to create a new datasource. To do so,
+        /// call <code>GetDataSource</code> for an existing datasource and copy the values to
+        /// a <code>CreateDataSource</code> call. Change the settings that you want to change
+        /// and make sure that all required fields have the appropriate values.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDataSourceFromRedshift service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDataSourceFromRedshift service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.IdempotentParameterMismatchException">
+        /// A second request to use or change an object was not allowed. This can result from
+        /// retrying a request using a parameter that was not present in the original request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/CreateDataSourceFromRedshift">REST API Reference for CreateDataSourceFromRedshift Operation</seealso>
         public virtual Task<CreateDataSourceFromRedshiftResponse> CreateDataSourceFromRedshiftAsync(CreateDataSourceFromRedshiftRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDataSourceFromRedshiftRequestMarshaller.Instance;
-            var unmarshaller = CreateDataSourceFromRedshiftResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDataSourceFromRedshiftRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDataSourceFromRedshiftResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateDataSourceFromRedshiftRequest,CreateDataSourceFromRedshiftResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateDataSourceFromRedshiftResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -371,30 +522,80 @@ namespace Amazon.MachineLearning
 
         internal virtual CreateDataSourceFromS3Response CreateDataSourceFromS3(CreateDataSourceFromS3Request request)
         {
-            var marshaller = CreateDataSourceFromS3RequestMarshaller.Instance;
-            var unmarshaller = CreateDataSourceFromS3ResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDataSourceFromS3RequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDataSourceFromS3ResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDataSourceFromS3Request,CreateDataSourceFromS3Response>(request, marshaller, unmarshaller);
+            return Invoke<CreateDataSourceFromS3Response>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDataSourceFromS3 operation.
-        /// </summary>
+        /// Creates a <code>DataSource</code> object. A <code>DataSource</code> references data
+        /// that can be used to perform <code>CreateMLModel</code>, <code>CreateEvaluation</code>,
+        /// or <code>CreateBatchPrediction</code> operations.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDataSourceFromS3 operation.</param>
+        ///  
+        /// <para>
+        /// <code>CreateDataSourceFromS3</code> is an asynchronous operation. In response to <code>CreateDataSourceFromS3</code>,
+        /// Amazon Machine Learning (Amazon ML) immediately returns and sets the <code>DataSource</code>
+        /// status to <code>PENDING</code>. After the <code>DataSource</code> has been created
+        /// and is ready for use, Amazon ML sets the <code>Status</code> parameter to <code>COMPLETED</code>.
+        /// <code>DataSource</code> in the <code>COMPLETED</code> or <code>PENDING</code> state
+        /// can be used to perform only <code>CreateMLModel</code>, <code>CreateEvaluation</code>
+        /// or <code>CreateBatchPrediction</code> operations. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  If Amazon ML can't accept the input source, it sets the <code>Status</code> parameter
+        /// to <code>FAILED</code> and includes an error message in the <code>Message</code> attribute
+        /// of the <code>GetDataSource</code> operation response. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The observation data used in a <code>DataSource</code> should be ready to use; that
+        /// is, it should have a consistent structure, and missing data values should be kept
+        /// to a minimum. The observation data must reside in one or more .csv files in an Amazon
+        /// Simple Storage Service (Amazon S3) location, along with a schema that describes the
+        /// data items by name and type. The same schema must be used for all of the data files
+        /// referenced by the <code>DataSource</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// After the <code>DataSource</code> has been created, it's ready to use in evaluations
+        /// and batch predictions. If you plan to use the <code>DataSource</code> to train an
+        /// <code>MLModel</code>, the <code>DataSource</code> also needs a recipe. A recipe describes
+        /// how each input variable will be used in training an <code>MLModel</code>. Will the
+        /// variable be included or excluded from training? Will the variable be manipulated;
+        /// for example, will it be combined with another variable or will it be split apart into
+        /// word combinations? The recipe provides answers to these questions.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDataSourceFromS3 service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDataSourceFromS3 service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.IdempotentParameterMismatchException">
+        /// A second request to use or change an object was not allowed. This can result from
+        /// retrying a request using a parameter that was not present in the original request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/CreateDataSourceFromS3">REST API Reference for CreateDataSourceFromS3 Operation</seealso>
         public virtual Task<CreateDataSourceFromS3Response> CreateDataSourceFromS3Async(CreateDataSourceFromS3Request request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDataSourceFromS3RequestMarshaller.Instance;
-            var unmarshaller = CreateDataSourceFromS3ResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDataSourceFromS3RequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDataSourceFromS3ResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateDataSourceFromS3Request,CreateDataSourceFromS3Response>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateDataSourceFromS3Response>(request, options, cancellationToken);
         }
 
         #endregion
@@ -403,30 +604,63 @@ namespace Amazon.MachineLearning
 
         internal virtual CreateEvaluationResponse CreateEvaluation(CreateEvaluationRequest request)
         {
-            var marshaller = CreateEvaluationRequestMarshaller.Instance;
-            var unmarshaller = CreateEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEvaluationResponseUnmarshaller.Instance;
 
-            return Invoke<CreateEvaluationRequest,CreateEvaluationResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateEvaluationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateEvaluation operation.
-        /// </summary>
+        /// Creates a new <code>Evaluation</code> of an <code>MLModel</code>. An <code>MLModel</code>
+        /// is evaluated on a set of observations associated to a <code>DataSource</code>. Like
+        /// a <code>DataSource</code> for an <code>MLModel</code>, the <code>DataSource</code>
+        /// for an <code>Evaluation</code> contains values for the <code>Target Variable</code>.
+        /// The <code>Evaluation</code> compares the predicted result for each observation to
+        /// the actual outcome and provides a summary so that you know how effective the <code>MLModel</code>
+        /// functions on the test data. Evaluation generates a relevant performance metric, such
+        /// as BinaryAUC, RegressionRMSE or MulticlassAvgFScore based on the corresponding <code>MLModelType</code>:
+        /// <code>BINARY</code>, <code>REGRESSION</code> or <code>MULTICLASS</code>. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateEvaluation operation.</param>
+        ///  
+        /// <para>
+        /// <code>CreateEvaluation</code> is an asynchronous operation. In response to <code>CreateEvaluation</code>,
+        /// Amazon Machine Learning (Amazon ML) immediately returns and sets the evaluation status
+        /// to <code>PENDING</code>. After the <code>Evaluation</code> is created and ready for
+        /// use, Amazon ML sets the status to <code>COMPLETED</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use the <code>GetEvaluation</code> operation to check progress of the evaluation
+        /// during the creation operation.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateEvaluation service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateEvaluation service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.IdempotentParameterMismatchException">
+        /// A second request to use or change an object was not allowed. This can result from
+        /// retrying a request using a parameter that was not present in the original request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/CreateEvaluation">REST API Reference for CreateEvaluation Operation</seealso>
         public virtual Task<CreateEvaluationResponse> CreateEvaluationAsync(CreateEvaluationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateEvaluationRequestMarshaller.Instance;
-            var unmarshaller = CreateEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEvaluationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateEvaluationRequest,CreateEvaluationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateEvaluationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -435,30 +669,69 @@ namespace Amazon.MachineLearning
 
         internal virtual CreateMLModelResponse CreateMLModel(CreateMLModelRequest request)
         {
-            var marshaller = CreateMLModelRequestMarshaller.Instance;
-            var unmarshaller = CreateMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMLModelResponseUnmarshaller.Instance;
 
-            return Invoke<CreateMLModelRequest,CreateMLModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateMLModelResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateMLModel operation.
-        /// </summary>
+        /// Creates a new <code>MLModel</code> using the <code>DataSource</code> and the recipe
+        /// as information sources. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateMLModel operation.</param>
+        ///  
+        /// <para>
+        /// An <code>MLModel</code> is nearly immutable. Users can update only the <code>MLModelName</code>
+        /// and the <code>ScoreThreshold</code> in an <code>MLModel</code> without creating a
+        /// new <code>MLModel</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// <code>CreateMLModel</code> is an asynchronous operation. In response to <code>CreateMLModel</code>,
+        /// Amazon Machine Learning (Amazon ML) immediately returns and sets the <code>MLModel</code>
+        /// status to <code>PENDING</code>. After the <code>MLModel</code> has been created and
+        /// ready is for use, Amazon ML sets the status to <code>COMPLETED</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use the <code>GetMLModel</code> operation to check the progress of the <code>MLModel</code>
+        /// during the creation operation.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>CreateMLModel</code> requires a <code>DataSource</code> with computed statistics,
+        /// which can be created by setting <code>ComputeStatistics</code> to <code>true</code>
+        /// in <code>CreateDataSourceFromRDS</code>, <code>CreateDataSourceFromS3</code>, or <code>CreateDataSourceFromRedshift</code>
+        /// operations. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateMLModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateMLModel service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.IdempotentParameterMismatchException">
+        /// A second request to use or change an object was not allowed. This can result from
+        /// retrying a request using a parameter that was not present in the original request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/CreateMLModel">REST API Reference for CreateMLModel Operation</seealso>
         public virtual Task<CreateMLModelResponse> CreateMLModelAsync(CreateMLModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateMLModelRequestMarshaller.Instance;
-            var unmarshaller = CreateMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMLModelResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateMLModelRequest,CreateMLModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateMLModelResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -467,10 +740,11 @@ namespace Amazon.MachineLearning
 
         internal virtual CreateRealtimeEndpointResponse CreateRealtimeEndpoint(CreateRealtimeEndpointRequest request)
         {
-            var marshaller = CreateRealtimeEndpointRequestMarshaller.Instance;
-            var unmarshaller = CreateRealtimeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRealtimeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRealtimeEndpointResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRealtimeEndpointRequest,CreateRealtimeEndpointResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRealtimeEndpointResponse>(request, options);
         }
 
 
@@ -503,23 +777,35 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateRealtimeEndpoint operation.
+        /// Creates a real-time endpoint for the <code>MLModel</code>. The endpoint contains the
+        /// URI of the <code>MLModel</code>; that is, the location to send real-time prediction
+        /// requests for the specified <code>MLModel</code>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateRealtimeEndpoint operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRealtimeEndpoint service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateRealtimeEndpoint service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/CreateRealtimeEndpoint">REST API Reference for CreateRealtimeEndpoint Operation</seealso>
         public virtual Task<CreateRealtimeEndpointResponse> CreateRealtimeEndpointAsync(CreateRealtimeEndpointRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateRealtimeEndpointRequestMarshaller.Instance;
-            var unmarshaller = CreateRealtimeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRealtimeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRealtimeEndpointResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateRealtimeEndpointRequest,CreateRealtimeEndpointResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateRealtimeEndpointResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -528,10 +814,11 @@ namespace Amazon.MachineLearning
 
         internal virtual DeleteBatchPredictionResponse DeleteBatchPrediction(DeleteBatchPredictionRequest request)
         {
-            var marshaller = DeleteBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = DeleteBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBatchPredictionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBatchPredictionRequest,DeleteBatchPredictionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBatchPredictionResponse>(request, options);
         }
 
 
@@ -574,23 +861,45 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteBatchPrediction operation.
-        /// </summary>
+        /// Assigns the DELETED status to a <code>BatchPrediction</code>, rendering it unusable.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteBatchPrediction operation.</param>
+        ///  
+        /// <para>
+        /// After using the <code>DeleteBatchPrediction</code> operation, you can use the <a>GetBatchPrediction</a>
+        /// operation to verify that the status of the <code>BatchPrediction</code> changed to
+        /// DELETED.
+        /// </para>
+        ///  
+        /// <para>
+        /// <b>Caution:</b> The result of the <code>DeleteBatchPrediction</code> operation is
+        /// irreversible.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteBatchPrediction service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteBatchPrediction service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DeleteBatchPrediction">REST API Reference for DeleteBatchPrediction Operation</seealso>
         public virtual Task<DeleteBatchPredictionResponse> DeleteBatchPredictionAsync(DeleteBatchPredictionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = DeleteBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBatchPredictionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteBatchPredictionRequest,DeleteBatchPredictionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteBatchPredictionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -599,10 +908,11 @@ namespace Amazon.MachineLearning
 
         internal virtual DeleteDataSourceResponse DeleteDataSource(DeleteDataSourceRequest request)
         {
-            var marshaller = DeleteDataSourceRequestMarshaller.Instance;
-            var unmarshaller = DeleteDataSourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDataSourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDataSourceResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDataSourceRequest,DeleteDataSourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDataSourceResponse>(request, options);
         }
 
 
@@ -643,23 +953,43 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteDataSource operation.
-        /// </summary>
+        /// Assigns the DELETED status to a <code>DataSource</code>, rendering it unusable.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteDataSource operation.</param>
+        ///  
+        /// <para>
+        /// After using the <code>DeleteDataSource</code> operation, you can use the <a>GetDataSource</a>
+        /// operation to verify that the status of the <code>DataSource</code> changed to DELETED.
+        /// </para>
+        ///  
+        /// <para>
+        /// <b>Caution:</b> The results of the <code>DeleteDataSource</code> operation are irreversible.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDataSource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteDataSource service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DeleteDataSource">REST API Reference for DeleteDataSource Operation</seealso>
         public virtual Task<DeleteDataSourceResponse> DeleteDataSourceAsync(DeleteDataSourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteDataSourceRequestMarshaller.Instance;
-            var unmarshaller = DeleteDataSourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDataSourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDataSourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteDataSourceRequest,DeleteDataSourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteDataSourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -668,10 +998,11 @@ namespace Amazon.MachineLearning
 
         internal virtual DeleteEvaluationResponse DeleteEvaluation(DeleteEvaluationRequest request)
         {
-            var marshaller = DeleteEvaluationRequestMarshaller.Instance;
-            var unmarshaller = DeleteEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEvaluationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteEvaluationRequest,DeleteEvaluationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteEvaluationResponse>(request, options);
         }
 
 
@@ -714,23 +1045,45 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteEvaluation operation.
-        /// </summary>
+        /// Assigns the <code>DELETED</code> status to an <code>Evaluation</code>, rendering it
+        /// unusable.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteEvaluation operation.</param>
+        ///  
+        /// <para>
+        /// After invoking the <code>DeleteEvaluation</code> operation, you can use the <code>GetEvaluation</code>
+        /// operation to verify that the status of the <code>Evaluation</code> changed to <code>DELETED</code>.
+        /// </para>
+        ///  <caution><title>Caution</title> 
+        /// <para>
+        /// The results of the <code>DeleteEvaluation</code> operation are irreversible.
+        /// </para>
+        /// </caution>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteEvaluation service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteEvaluation service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DeleteEvaluation">REST API Reference for DeleteEvaluation Operation</seealso>
         public virtual Task<DeleteEvaluationResponse> DeleteEvaluationAsync(DeleteEvaluationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteEvaluationRequestMarshaller.Instance;
-            var unmarshaller = DeleteEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEvaluationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteEvaluationRequest,DeleteEvaluationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteEvaluationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -739,10 +1092,11 @@ namespace Amazon.MachineLearning
 
         internal virtual DeleteMLModelResponse DeleteMLModel(DeleteMLModelRequest request)
         {
-            var marshaller = DeleteMLModelRequestMarshaller.Instance;
-            var unmarshaller = DeleteMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMLModelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteMLModelRequest,DeleteMLModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteMLModelResponse>(request, options);
         }
 
 
@@ -783,23 +1137,43 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteMLModel operation.
-        /// </summary>
+        /// Assigns the <code>DELETED</code> status to an <code>MLModel</code>, rendering it unusable.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteMLModel operation.</param>
+        ///  
+        /// <para>
+        /// After using the <code>DeleteMLModel</code> operation, you can use the <code>GetMLModel</code>
+        /// operation to verify that the status of the <code>MLModel</code> changed to DELETED.
+        /// </para>
+        ///  
+        /// <para>
+        /// <b>Caution:</b> The result of the <code>DeleteMLModel</code> operation is irreversible.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMLModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteMLModel service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DeleteMLModel">REST API Reference for DeleteMLModel Operation</seealso>
         public virtual Task<DeleteMLModelResponse> DeleteMLModelAsync(DeleteMLModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteMLModelRequestMarshaller.Instance;
-            var unmarshaller = DeleteMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMLModelResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteMLModelRequest,DeleteMLModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteMLModelResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -808,10 +1182,11 @@ namespace Amazon.MachineLearning
 
         internal virtual DeleteRealtimeEndpointResponse DeleteRealtimeEndpoint(DeleteRealtimeEndpointRequest request)
         {
-            var marshaller = DeleteRealtimeEndpointRequestMarshaller.Instance;
-            var unmarshaller = DeleteRealtimeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRealtimeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRealtimeEndpointResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRealtimeEndpointRequest,DeleteRealtimeEndpointResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRealtimeEndpointResponse>(request, options);
         }
 
 
@@ -842,23 +1217,33 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteRealtimeEndpoint operation.
+        /// Deletes a real time endpoint of an <code>MLModel</code>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteRealtimeEndpoint operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRealtimeEndpoint service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteRealtimeEndpoint service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DeleteRealtimeEndpoint">REST API Reference for DeleteRealtimeEndpoint Operation</seealso>
         public virtual Task<DeleteRealtimeEndpointResponse> DeleteRealtimeEndpointAsync(DeleteRealtimeEndpointRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteRealtimeEndpointRequestMarshaller.Instance;
-            var unmarshaller = DeleteRealtimeEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRealtimeEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRealtimeEndpointResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteRealtimeEndpointRequest,DeleteRealtimeEndpointResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteRealtimeEndpointResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -867,30 +1252,50 @@ namespace Amazon.MachineLearning
 
         internal virtual DeleteTagsResponse DeleteTags(DeleteTagsRequest request)
         {
-            var marshaller = DeleteTagsRequestMarshaller.Instance;
-            var unmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteTagsRequest,DeleteTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTagsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteTags operation.
-        /// </summary>
+        /// Deletes the specified tags associated with an ML object. After this operation is complete,
+        /// you can't recover deleted tags.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteTags operation.</param>
+        ///  
+        /// <para>
+        /// If you specify a tag that doesn't exist, Amazon ML ignores it.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTags service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteTags service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidTagException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
         public virtual Task<DeleteTagsResponse> DeleteTagsAsync(DeleteTagsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteTagsRequestMarshaller.Instance;
-            var unmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteTagsRequest,DeleteTagsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteTagsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -899,30 +1304,39 @@ namespace Amazon.MachineLearning
 
         internal virtual DescribeBatchPredictionsResponse DescribeBatchPredictions(DescribeBatchPredictionsRequest request)
         {
-            var marshaller = DescribeBatchPredictionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeBatchPredictionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBatchPredictionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBatchPredictionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeBatchPredictionsRequest,DescribeBatchPredictionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeBatchPredictionsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeBatchPredictions operation.
+        /// Returns a list of <code>BatchPrediction</code> operations that match the search criteria
+        /// in the request.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeBatchPredictions operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBatchPredictions service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeBatchPredictions service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DescribeBatchPredictions">REST API Reference for DescribeBatchPredictions Operation</seealso>
         public virtual Task<DescribeBatchPredictionsResponse> DescribeBatchPredictionsAsync(DescribeBatchPredictionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeBatchPredictionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeBatchPredictionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBatchPredictionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBatchPredictionsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeBatchPredictionsRequest,DescribeBatchPredictionsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeBatchPredictionsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -931,30 +1345,38 @@ namespace Amazon.MachineLearning
 
         internal virtual DescribeDataSourcesResponse DescribeDataSources(DescribeDataSourcesRequest request)
         {
-            var marshaller = DescribeDataSourcesRequestMarshaller.Instance;
-            var unmarshaller = DescribeDataSourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDataSourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDataSourcesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDataSourcesRequest,DescribeDataSourcesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDataSourcesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeDataSources operation.
+        /// Returns a list of <code>DataSource</code> that match the search criteria in the request.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeDataSources operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDataSources service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeDataSources service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DescribeDataSources">REST API Reference for DescribeDataSources Operation</seealso>
         public virtual Task<DescribeDataSourcesResponse> DescribeDataSourcesAsync(DescribeDataSourcesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeDataSourcesRequestMarshaller.Instance;
-            var unmarshaller = DescribeDataSourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDataSourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDataSourcesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeDataSourcesRequest,DescribeDataSourcesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeDataSourcesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -963,30 +1385,39 @@ namespace Amazon.MachineLearning
 
         internal virtual DescribeEvaluationsResponse DescribeEvaluations(DescribeEvaluationsRequest request)
         {
-            var marshaller = DescribeEvaluationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEvaluationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEvaluationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEvaluationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEvaluationsRequest,DescribeEvaluationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEvaluationsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeEvaluations operation.
+        /// Returns a list of <code>DescribeEvaluations</code> that match the search criteria
+        /// in the request.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeEvaluations operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEvaluations service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeEvaluations service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DescribeEvaluations">REST API Reference for DescribeEvaluations Operation</seealso>
         public virtual Task<DescribeEvaluationsResponse> DescribeEvaluationsAsync(DescribeEvaluationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeEvaluationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEvaluationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEvaluationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEvaluationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeEvaluationsRequest,DescribeEvaluationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeEvaluationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -995,30 +1426,38 @@ namespace Amazon.MachineLearning
 
         internal virtual DescribeMLModelsResponse DescribeMLModels(DescribeMLModelsRequest request)
         {
-            var marshaller = DescribeMLModelsRequestMarshaller.Instance;
-            var unmarshaller = DescribeMLModelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMLModelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMLModelsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeMLModelsRequest,DescribeMLModelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeMLModelsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeMLModels operation.
+        /// Returns a list of <code>MLModel</code> that match the search criteria in the request.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeMLModels operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMLModels service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeMLModels service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DescribeMLModels">REST API Reference for DescribeMLModels Operation</seealso>
         public virtual Task<DescribeMLModelsResponse> DescribeMLModelsAsync(DescribeMLModelsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeMLModelsRequestMarshaller.Instance;
-            var unmarshaller = DescribeMLModelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMLModelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMLModelsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeMLModelsRequest,DescribeMLModelsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeMLModelsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1027,30 +1466,41 @@ namespace Amazon.MachineLearning
 
         internal virtual DescribeTagsResponse DescribeTags(DescribeTagsRequest request)
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTagsRequest,DescribeTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTagsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeTags operation.
+        /// Describes one or more of the tags for your Amazon ML object.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeTags operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTags service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeTags service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         public virtual Task<DescribeTagsResponse> DescribeTagsAsync(DescribeTagsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeTagsRequest,DescribeTagsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeTagsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1059,10 +1509,11 @@ namespace Amazon.MachineLearning
 
         internal virtual GetBatchPredictionResponse GetBatchPrediction(GetBatchPredictionRequest request)
         {
-            var marshaller = GetBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = GetBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBatchPredictionResponseUnmarshaller.Instance;
 
-            return Invoke<GetBatchPredictionRequest,GetBatchPredictionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBatchPredictionResponse>(request, options);
         }
 
 
@@ -1094,23 +1545,34 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetBatchPrediction operation.
+        /// Returns a <code>BatchPrediction</code> that includes detailed metadata, status, and
+        /// data file information for a <code>Batch Prediction</code> request.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetBatchPrediction operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetBatchPrediction service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetBatchPrediction service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/GetBatchPrediction">REST API Reference for GetBatchPrediction Operation</seealso>
         public virtual Task<GetBatchPredictionResponse> GetBatchPredictionAsync(GetBatchPredictionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = GetBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBatchPredictionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetBatchPredictionRequest,GetBatchPredictionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetBatchPredictionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1119,10 +1581,11 @@ namespace Amazon.MachineLearning
 
         internal virtual GetDataSourceResponse GetDataSource(GetDataSourceRequest request)
         {
-            var marshaller = GetDataSourceRequestMarshaller.Instance;
-            var unmarshaller = GetDataSourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDataSourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDataSourceResponseUnmarshaller.Instance;
 
-            return Invoke<GetDataSourceRequest,GetDataSourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDataSourceResponse>(request, options);
         }
 
 
@@ -1198,23 +1661,41 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDataSource operation.
-        /// </summary>
+        /// Returns a <code>DataSource</code> that includes metadata and data file information,
+        /// as well as the current status of the <code>DataSource</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDataSource operation.</param>
+        ///  
+        /// <para>
+        /// <code>GetDataSource</code> provides results in normal or verbose format. The verbose
+        /// format adds the schema description and the list of files pointed to by the DataSource
+        /// to the normal format.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDataSource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDataSource service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/GetDataSource">REST API Reference for GetDataSource Operation</seealso>
         public virtual Task<GetDataSourceResponse> GetDataSourceAsync(GetDataSourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDataSourceRequestMarshaller.Instance;
-            var unmarshaller = GetDataSourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDataSourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDataSourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetDataSourceRequest,GetDataSourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetDataSourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1223,10 +1704,11 @@ namespace Amazon.MachineLearning
 
         internal virtual GetEvaluationResponse GetEvaluation(GetEvaluationRequest request)
         {
-            var marshaller = GetEvaluationRequestMarshaller.Instance;
-            var unmarshaller = GetEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEvaluationResponseUnmarshaller.Instance;
 
-            return Invoke<GetEvaluationRequest,GetEvaluationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetEvaluationResponse>(request, options);
         }
 
 
@@ -1258,23 +1740,34 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetEvaluation operation.
+        /// Returns an <code>Evaluation</code> that includes metadata as well as the current status
+        /// of the <code>Evaluation</code>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetEvaluation operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetEvaluation service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetEvaluation service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/GetEvaluation">REST API Reference for GetEvaluation Operation</seealso>
         public virtual Task<GetEvaluationResponse> GetEvaluationAsync(GetEvaluationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetEvaluationRequestMarshaller.Instance;
-            var unmarshaller = GetEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEvaluationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetEvaluationRequest,GetEvaluationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetEvaluationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1283,10 +1776,11 @@ namespace Amazon.MachineLearning
 
         internal virtual GetMLModelResponse GetMLModel(GetMLModelRequest request)
         {
-            var marshaller = GetMLModelRequestMarshaller.Instance;
-            var unmarshaller = GetMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMLModelResponseUnmarshaller.Instance;
 
-            return Invoke<GetMLModelRequest,GetMLModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetMLModelResponse>(request, options);
         }
 
 
@@ -1358,23 +1852,39 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetMLModel operation.
-        /// </summary>
+        /// Returns an <code>MLModel</code> that includes detailed metadata, data source information,
+        /// and the current status of the <code>MLModel</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetMLModel operation.</param>
+        ///  
+        /// <para>
+        /// <code>GetMLModel</code> provides results in normal or verbose format. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMLModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetMLModel service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/GetMLModel">REST API Reference for GetMLModel Operation</seealso>
         public virtual Task<GetMLModelResponse> GetMLModelAsync(GetMLModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetMLModelRequestMarshaller.Instance;
-            var unmarshaller = GetMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMLModelResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetMLModelRequest,GetMLModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetMLModelResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1383,10 +1893,11 @@ namespace Amazon.MachineLearning
 
         internal virtual PredictResponse Predict(PredictRequest request)
         {
-            var marshaller = PredictRequestMarshaller.Instance;
-            var unmarshaller = PredictResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PredictRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PredictResponseUnmarshaller.Instance;
 
-            return Invoke<PredictRequest,PredictResponse>(request, marshaller, unmarshaller);
+            return Invoke<PredictResponse>(request, options);
         }
 
 
@@ -1435,23 +1946,47 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the Predict operation.
-        /// </summary>
+        /// Generates a prediction for the observation using the specified <code>ML Model</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the Predict operation.</param>
+        ///  <note><title>Note</title> 
+        /// <para>
+        /// Not all response parameters will be populated. Whether a response parameter is populated
+        /// depends on the type of model requested.
+        /// </para>
+        /// </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the Predict service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the Predict service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.LimitExceededException">
+        /// The subscriber exceeded the maximum number of operations. This exception can occur
+        /// when listing objects such as <code>DataSource</code>.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.PredictorNotMountedException">
+        /// The exception is thrown when a predict request is made to an unmounted <code>MLModel</code>.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/Predict">REST API Reference for Predict Operation</seealso>
         public virtual Task<PredictResponse> PredictAsync(PredictRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PredictRequestMarshaller.Instance;
-            var unmarshaller = PredictResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PredictRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PredictResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PredictRequest,PredictResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PredictResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1460,10 +1995,11 @@ namespace Amazon.MachineLearning
 
         internal virtual UpdateBatchPredictionResponse UpdateBatchPrediction(UpdateBatchPredictionRequest request)
         {
-            var marshaller = UpdateBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = UpdateBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBatchPredictionResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateBatchPredictionRequest,UpdateBatchPredictionResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateBatchPredictionResponse>(request, options);
         }
 
 
@@ -1502,23 +2038,39 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateBatchPrediction operation.
-        /// </summary>
+        /// Updates the <code>BatchPredictionName</code> of a <code>BatchPrediction</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateBatchPrediction operation.</param>
+        ///  
+        /// <para>
+        /// You can use the <code>GetBatchPrediction</code> operation to view the contents of
+        /// the updated data element.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateBatchPrediction service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateBatchPrediction service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/UpdateBatchPrediction">REST API Reference for UpdateBatchPrediction Operation</seealso>
         public virtual Task<UpdateBatchPredictionResponse> UpdateBatchPredictionAsync(UpdateBatchPredictionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateBatchPredictionRequestMarshaller.Instance;
-            var unmarshaller = UpdateBatchPredictionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBatchPredictionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBatchPredictionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateBatchPredictionRequest,UpdateBatchPredictionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateBatchPredictionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1527,10 +2079,11 @@ namespace Amazon.MachineLearning
 
         internal virtual UpdateDataSourceResponse UpdateDataSource(UpdateDataSourceRequest request)
         {
-            var marshaller = UpdateDataSourceRequestMarshaller.Instance;
-            var unmarshaller = UpdateDataSourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDataSourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDataSourceResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDataSourceRequest,UpdateDataSourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDataSourceResponse>(request, options);
         }
 
 
@@ -1569,23 +2122,39 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateDataSource operation.
-        /// </summary>
+        /// Updates the <code>DataSourceName</code> of a <code>DataSource</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateDataSource operation.</param>
+        ///  
+        /// <para>
+        /// You can use the <code>GetDataSource</code> operation to view the contents of the updated
+        /// data element.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDataSource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateDataSource service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/UpdateDataSource">REST API Reference for UpdateDataSource Operation</seealso>
         public virtual Task<UpdateDataSourceResponse> UpdateDataSourceAsync(UpdateDataSourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateDataSourceRequestMarshaller.Instance;
-            var unmarshaller = UpdateDataSourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDataSourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDataSourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateDataSourceRequest,UpdateDataSourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateDataSourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1594,10 +2163,11 @@ namespace Amazon.MachineLearning
 
         internal virtual UpdateEvaluationResponse UpdateEvaluation(UpdateEvaluationRequest request)
         {
-            var marshaller = UpdateEvaluationRequestMarshaller.Instance;
-            var unmarshaller = UpdateEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEvaluationResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateEvaluationRequest,UpdateEvaluationResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateEvaluationResponse>(request, options);
         }
 
 
@@ -1636,23 +2206,39 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateEvaluation operation.
-        /// </summary>
+        /// Updates the <code>EvaluationName</code> of an <code>Evaluation</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateEvaluation operation.</param>
+        ///  
+        /// <para>
+        /// You can use the <code>GetEvaluation</code> operation to view the contents of the updated
+        /// data element.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateEvaluation service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateEvaluation service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/UpdateEvaluation">REST API Reference for UpdateEvaluation Operation</seealso>
         public virtual Task<UpdateEvaluationResponse> UpdateEvaluationAsync(UpdateEvaluationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateEvaluationRequestMarshaller.Instance;
-            var unmarshaller = UpdateEvaluationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEvaluationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEvaluationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateEvaluationRequest,UpdateEvaluationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateEvaluationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1661,10 +2247,11 @@ namespace Amazon.MachineLearning
 
         internal virtual UpdateMLModelResponse UpdateMLModel(UpdateMLModelRequest request)
         {
-            var marshaller = UpdateMLModelRequestMarshaller.Instance;
-            var unmarshaller = UpdateMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMLModelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateMLModelRequest,UpdateMLModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateMLModelResponse>(request, options);
         }
 
 
@@ -1705,23 +2292,39 @@ namespace Amazon.MachineLearning
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateMLModel operation.
-        /// </summary>
+        /// Updates the <code>MLModelName</code> and the <code>ScoreThreshold</code> of an <code>MLModel</code>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateMLModel operation.</param>
+        ///  
+        /// <para>
+        /// You can use the <code>GetMLModel</code> operation to view the contents of the updated
+        /// data element.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMLModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateMLModel service method, as returned by MachineLearning.</returns>
+        /// <exception cref="Amazon.MachineLearning.Model.InternalServerException">
+        /// An error on the server occurred when trying to process a request.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.InvalidInputException">
+        /// An error on the client occurred. Typically, the cause is an invalid input value.
+        /// </exception>
+        /// <exception cref="Amazon.MachineLearning.Model.ResourceNotFoundException">
+        /// A specified resource cannot be located.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/machinelearning-2014-12-12/UpdateMLModel">REST API Reference for UpdateMLModel Operation</seealso>
         public virtual Task<UpdateMLModelResponse> UpdateMLModelAsync(UpdateMLModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateMLModelRequestMarshaller.Instance;
-            var unmarshaller = UpdateMLModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMLModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMLModelResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateMLModelRequest,UpdateMLModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateMLModelResponse>(request, options, cancellationToken);
         }
 
         #endregion

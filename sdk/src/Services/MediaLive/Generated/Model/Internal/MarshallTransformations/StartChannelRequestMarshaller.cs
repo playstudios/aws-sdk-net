@@ -55,14 +55,15 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         public IRequest Marshall(StartChannelRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaLive");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-14";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/prod/channels/{channelId}/start";
             if (!publicRequest.IsSetChannelId())
                 throw new AmazonMediaLiveException("Request object does not have required field ChannelId set");
-            uriResourcePath = uriResourcePath.Replace("{channelId}", StringUtils.FromString(publicRequest.ChannelId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{channelId}", StringUtils.FromString(publicRequest.ChannelId));
+            request.ResourcePath = "/prod/channels/{channelId}/start";
+            request.MarshallerVersion = 2;
 
             return request;
         }

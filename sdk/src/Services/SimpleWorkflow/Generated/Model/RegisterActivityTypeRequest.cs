@@ -78,7 +78,7 @@ namespace Amazon.SimpleWorkflow.Model
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
     /// values fall outside the specified constraints, the action fails. The associated event
     /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-    /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+    /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
     /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -113,6 +113,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// You can use <code>NONE</code> to specify unlimited duration.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8)]
         public string DefaultTaskHeartbeatTimeout
         {
             get { return this._defaultTaskHeartbeatTimeout; }
@@ -155,7 +156,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about setting task priority, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+        /// For more information about setting task priority, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
         /// Task Priority</a> in the <i>in the <i>Amazon SWF Developer Guide</i>.</i>.
         /// </para>
         /// </summary>
@@ -184,6 +185,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// You can use <code>NONE</code> to specify unlimited duration.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8)]
         public string DefaultTaskScheduleToCloseTimeout
         {
             get { return this._defaultTaskScheduleToCloseTimeout; }
@@ -209,6 +211,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// You can use <code>NONE</code> to specify unlimited duration.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8)]
         public string DefaultTaskScheduleToStartTimeout
         {
             get { return this._defaultTaskScheduleToStartTimeout; }
@@ -234,6 +237,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// You can use <code>NONE</code> to specify unlimited duration.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8)]
         public string DefaultTaskStartToCloseTimeout
         {
             get { return this._defaultTaskStartToCloseTimeout; }
@@ -252,6 +256,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// A textual description of the activity type.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -270,6 +275,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The name of the domain in which this activity is to be registered.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Domain
         {
             get { return this._domain; }
@@ -292,9 +298,10 @@ namespace Amazon.SimpleWorkflow.Model
         /// The specified string must not start or end with whitespace. It must not contain a
         /// <code>:</code> (colon), <code>/</code> (slash), <code>|</code> (vertical bar), or
         /// any control characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
-        /// Also, it must not contain the literal string <code>arn</code>.
+        /// Also, it must not <i>be</i> the literal string <code>arn</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -322,9 +329,10 @@ namespace Amazon.SimpleWorkflow.Model
         /// The specified string must not start or end with whitespace. It must not contain a
         /// <code>:</code> (colon), <code>/</code> (slash), <code>|</code> (vertical bar), or
         /// any control characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>).
-        /// Also, it must not contain the literal string <code>arn</code>.
+        /// Also, it must not <i>be</i> the literal string <code>arn</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Version
         {
             get { return this._version; }

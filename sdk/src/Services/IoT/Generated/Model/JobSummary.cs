@@ -44,7 +44,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property CompletedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job completed.
+        /// The time, in seconds since the epoch, when the job completed.
         /// </para>
         /// </summary>
         public DateTime CompletedAt
@@ -62,7 +62,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property CreatedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job was created.
+        /// The time, in seconds since the epoch, when the job was created.
         /// </para>
         /// </summary>
         public DateTime CreatedAt
@@ -101,6 +101,7 @@ namespace Amazon.IoT.Model
         /// The unique identifier you assigned to this job when it was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -116,7 +117,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property LastUpdatedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job was last updated.
+        /// The time, in seconds since the epoch, when the job was last updated.
         /// </para>
         /// </summary>
         public DateTime LastUpdatedAt
@@ -177,6 +178,7 @@ namespace Amazon.IoT.Model
         /// The ID of the thing group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ThingGroupId
         {
             get { return this._thingGroupId; }

@@ -55,19 +55,20 @@ namespace Amazon.CognitoSync.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeDatasetRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.CognitoSync");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-06-30";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}";
             if (!publicRequest.IsSetDatasetName())
                 throw new AmazonCognitoSyncException("Request object does not have required field DatasetName set");
-            uriResourcePath = uriResourcePath.Replace("{DatasetName}", StringUtils.FromString(publicRequest.DatasetName));
+            request.AddPathResource("{DatasetName}", StringUtils.FromString(publicRequest.DatasetName));
             if (!publicRequest.IsSetIdentityId())
                 throw new AmazonCognitoSyncException("Request object does not have required field IdentityId set");
-            uriResourcePath = uriResourcePath.Replace("{IdentityId}", StringUtils.FromString(publicRequest.IdentityId));
+            request.AddPathResource("{IdentityId}", StringUtils.FromString(publicRequest.IdentityId));
             if (!publicRequest.IsSetIdentityPoolId())
                 throw new AmazonCognitoSyncException("Request object does not have required field IdentityPoolId set");
-            uriResourcePath = uriResourcePath.Replace("{IdentityPoolId}", StringUtils.FromString(publicRequest.IdentityPoolId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{IdentityPoolId}", StringUtils.FromString(publicRequest.IdentityPoolId));
+            request.ResourcePath = "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

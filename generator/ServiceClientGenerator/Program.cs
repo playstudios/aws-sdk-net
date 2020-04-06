@@ -40,7 +40,7 @@ namespace ServiceClientGenerator
                 if (string.IsNullOrEmpty(options.SelfServiceModel))
                 {
                     ConcurrentDictionary<string, string> generatedFiles = new ConcurrentDictionary<string, string>();
-					GeneratorDriver.GenerateCoreProjects(generationManifest, options);
+                    GeneratorDriver.GenerateCoreProjects(generationManifest, options);
                     Parallel.ForEach(generationManifest.ServiceConfigurations, new ParallelOptions { MaxDegreeOfParallelism = 16 }, (serviceConfig, state) =>
                     {
                         if (modelsToProcess.Any() && !modelsToProcess.Contains(serviceConfig.ModelName))
@@ -58,10 +58,11 @@ namespace ServiceClientGenerator
                         {
                             generatedFiles.TryAdd(file, file);
                         }
+                        GeneratorDriver.UpdateUnitTestProjects(generationManifest, options, driver.ServiceUnitTestFilesRoot, serviceConfig);
                     });
 
                     var files = new HashSet<string>(generatedFiles.Values);
-                    GeneratorDriver.RemoveOrphanedShapes(files, Path.Combine(options.SdkRootFolder, @"src\Services"));
+                    GeneratorDriver.RemoveOrphanedShapesAndServices(files, options.SdkRootFolder);
                     GeneratorDriver.UpdateUnitTestProjects(generationManifest, options);
                     GeneratorDriver.UpdateSolutionFiles(generationManifest, options);
                     GeneratorDriver.UpdateAssemblyVersionInfo(generationManifest, options);
@@ -108,6 +109,7 @@ namespace ServiceClientGenerator
                     returnCode = -1;
                 }
                 else
+
                     throw;
             }
 
@@ -120,6 +122,5 @@ namespace ServiceClientGenerator
 
             return returnCode;
         }
-
     }
 }

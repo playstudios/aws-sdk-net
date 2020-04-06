@@ -1,4 +1,18 @@
-﻿using Amazon;
+﻿/*
+ * Copyright 2015-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * A copy of the License is located at
+ * 
+ *  http://aws.amazon.com/apache2.0
+ * 
+ * or in the "license" file accompanying this file. This file is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+using Amazon;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -23,18 +37,32 @@ namespace AWSSDK.UnitTests
 
         protected virtual IExecutionContext CreateTestContext(AbstractAWSSigner signer)
         {
+            return CreateTestContext(signer, null);
+        }
+
+        protected virtual IExecutionContext CreateTestContext(AbstractAWSSigner signer, ResponseUnmarshaller responseUnmarshaller)
+        {
+            return CreateTestContext(signer, responseUnmarshaller, null);
+        }
+        
+        protected virtual IExecutionContext CreateTestContext(AbstractAWSSigner signer, ResponseUnmarshaller responseUnmarshaller, ClientConfig config)
+        {
             var putObjectRequest = new PutObjectRequest
             {
                 Key = "TestKey",
                 BucketName = "TestBucket",
                 ContentBody = "Test Content"
             };
+
+            if (responseUnmarshaller == null)
+                responseUnmarshaller = PutObjectResponseUnmarshaller.Instance;
+
             var requestContext = new RequestContext(true, signer == null ? new NullSigner() : signer)
             {
                 OriginalRequest = putObjectRequest,
                 Request = new PutObjectRequestMarshaller().Marshall(putObjectRequest),
-                Unmarshaller = PutObjectResponseUnmarshaller.Instance,
-                ClientConfig = new AmazonS3Config
+                Unmarshaller = responseUnmarshaller,
+                ClientConfig = config ?? new AmazonS3Config
                 {
                     RegionEndpoint = RegionEndpoint.USEast1
                 }

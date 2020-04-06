@@ -40,9 +40,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ServiceId. 
         /// <para>
-        /// The ID of the endpoint service.
+        /// The ID of the VPC endpoint service.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ServiceId
         {
             get { return this._serviceId; }
@@ -61,6 +62,7 @@ namespace Amazon.EC2.Model
         /// The IDs of one or more interface VPC endpoints.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> VpcEndpointIds
         {
             get { return this._vpcEndpointIds; }

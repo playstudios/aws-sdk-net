@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.WorkMail.Model;
 using Amazon.WorkMail.Model.Internal.MarshallTransformations;
+using Amazon.WorkMail.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -38,14 +40,14 @@ namespace Amazon.WorkMail
     ///
     /// Amazon WorkMail is a secure, managed business email and calendaring service with support
     /// for existing desktop and mobile email clients. You can access your email, contacts,
-    /// and calendars using Microsoft Outlook, your browser, or their native iOS and Android
-    /// email applications. You can integrate Amazon WorkMail with your existing corporate
-    /// directory and control both the keys that encrypt your data and the location in which
-    /// your data is stored.
+    /// and calendars using Microsoft Outlook, your browser, or other native iOS and Android
+    /// email applications. You can integrate WorkMail with your existing corporate directory
+    /// and control both the keys that encrypt your data and the location in which your data
+    /// is stored.
     /// 
     ///  
     /// <para>
-    /// The Amazon WorkMail API is designed for the following scenarios:
+    /// The WorkMail API is designed for the following scenarios:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -65,23 +67,24 @@ namespace Amazon.WorkMail
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// All Amazon WorkMail API actions are Amazon-authenticated and certificate-signed. They
-    /// not only require the use of the AWS SDK, but also allow for the exclusive use of IAM
-    /// users and roles to help facilitate access, trust, and permission policies. By creating
-    /// a role and allowing an IAM user to access the Amazon WorkMail site, the IAM user gains
-    /// full administrative visibility into the entire Amazon WorkMail organization (or as
-    /// set in the IAM policy). This includes, but is not limited to, the ability to create,
-    /// update, and delete users, groups, and resources. This allows developers to perform
-    /// the scenarios listed above, as well as give users the ability to grant access on a
-    /// selective basis using the IAM model.
+    /// All WorkMail API operations are Amazon-authenticated and certificate-signed. They
+    /// not only require the use of the AWS SDK, but also allow for the exclusive use of AWS
+    /// Identity and Access Management users and roles to help facilitate access, trust, and
+    /// permission policies. By creating a role and allowing an IAM user to access the WorkMail
+    /// site, the IAM user gains full administrative visibility into the entire WorkMail organization
+    /// (or as set in the IAM policy). This includes, but is not limited to, the ability to
+    /// create, update, and delete users, groups, and resources. This allows developers to
+    /// perform the scenarios listed above, as well as give users the ability to grant access
+    /// on a selective basis using the IAM model.
     /// </para>
     /// </summary>
     public partial class AmazonWorkMailClient : AmazonServiceClient, IAmazonWorkMail
     {
+        private static IServiceMetadata serviceMetadata = new AmazonWorkMailMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonWorkMailClient with the credentials loaded from the application's
@@ -252,6 +255,16 @@ namespace Amazon.WorkMail
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -267,35 +280,55 @@ namespace Amazon.WorkMail
 
         #endregion
 
-        
+
         #region  AssociateDelegateToResource
 
         internal virtual AssociateDelegateToResourceResponse AssociateDelegateToResource(AssociateDelegateToResourceRequest request)
         {
-            var marshaller = AssociateDelegateToResourceRequestMarshaller.Instance;
-            var unmarshaller = AssociateDelegateToResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateDelegateToResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateDelegateToResourceResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateDelegateToResourceRequest,AssociateDelegateToResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateDelegateToResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AssociateDelegateToResource operation.
+        /// Adds a member (user or group) to the resource's set of delegates.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the AssociateDelegateToResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AssociateDelegateToResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AssociateDelegateToResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/AssociateDelegateToResource">REST API Reference for AssociateDelegateToResource Operation</seealso>
         public virtual Task<AssociateDelegateToResourceResponse> AssociateDelegateToResourceAsync(AssociateDelegateToResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AssociateDelegateToResourceRequestMarshaller.Instance;
-            var unmarshaller = AssociateDelegateToResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateDelegateToResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateDelegateToResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AssociateDelegateToResourceRequest,AssociateDelegateToResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AssociateDelegateToResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -304,30 +337,59 @@ namespace Amazon.WorkMail
 
         internal virtual AssociateMemberToGroupResponse AssociateMemberToGroup(AssociateMemberToGroupRequest request)
         {
-            var marshaller = AssociateMemberToGroupRequestMarshaller.Instance;
-            var unmarshaller = AssociateMemberToGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateMemberToGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateMemberToGroupResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateMemberToGroupRequest,AssociateMemberToGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateMemberToGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AssociateMemberToGroup operation.
+        /// Adds a member (user or group) to the group's set.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the AssociateMemberToGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AssociateMemberToGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AssociateMemberToGroup service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/AssociateMemberToGroup">REST API Reference for AssociateMemberToGroup Operation</seealso>
         public virtual Task<AssociateMemberToGroupResponse> AssociateMemberToGroupAsync(AssociateMemberToGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AssociateMemberToGroupRequestMarshaller.Instance;
-            var unmarshaller = AssociateMemberToGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateMemberToGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateMemberToGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AssociateMemberToGroupRequest,AssociateMemberToGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AssociateMemberToGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -336,30 +398,65 @@ namespace Amazon.WorkMail
 
         internal virtual CreateAliasResponse CreateAlias(CreateAliasRequest request)
         {
-            var marshaller = CreateAliasRequestMarshaller.Instance;
-            var unmarshaller = CreateAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAliasResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAliasRequest,CreateAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAliasResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateAlias operation.
+        /// Adds an alias to the set of a given member (user or group) of Amazon WorkMail.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateAlias operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateAlias service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateAlias service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EmailAddressInUseException">
+        /// The email address that you're trying to assign is already created for a different
+        /// user, group, or resource.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.LimitExceededException">
+        /// The request exceeds the limit of the resource.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainNotFoundException">
+        /// For an email or alias to be created in Amazon WorkMail, the included domain must be
+        /// defined in the organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainStateException">
+        /// After a domain has been added to the organization, it must be verified. The domain
+        /// is not yet verified.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/CreateAlias">REST API Reference for CreateAlias Operation</seealso>
         public virtual Task<CreateAliasResponse> CreateAliasAsync(CreateAliasRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateAliasRequestMarshaller.Instance;
-            var unmarshaller = CreateAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAliasResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateAliasRequest,CreateAliasResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateAliasResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -368,30 +465,59 @@ namespace Amazon.WorkMail
 
         internal virtual CreateGroupResponse CreateGroup(CreateGroupRequest request)
         {
-            var marshaller = CreateGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateGroupRequest,CreateGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateGroup operation.
+        /// Creates a group that can be used in Amazon WorkMail by calling the <a>RegisterToWorkMail</a>
+        /// operation.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateGroup service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.NameAvailabilityException">
+        /// The user, group, or resource name isn't unique in Amazon WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.ReservedNameException">
+        /// This user, group, or resource name is not allowed in Amazon WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/CreateGroup">REST API Reference for CreateGroup Operation</seealso>
         public virtual Task<CreateGroupResponse> CreateGroupAsync(CreateGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateGroupRequest,CreateGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -400,30 +526,55 @@ namespace Amazon.WorkMail
 
         internal virtual CreateResourceResponse CreateResource(CreateResourceRequest request)
         {
-            var marshaller = CreateResourceRequestMarshaller.Instance;
-            var unmarshaller = CreateResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateResourceResponseUnmarshaller.Instance;
 
-            return Invoke<CreateResourceRequest,CreateResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateResource operation.
+        /// Creates a new Amazon WorkMail resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.NameAvailabilityException">
+        /// The user, group, or resource name isn't unique in Amazon WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.ReservedNameException">
+        /// This user, group, or resource name is not allowed in Amazon WorkMail.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/CreateResource">REST API Reference for CreateResource Operation</seealso>
         public virtual Task<CreateResourceResponse> CreateResourceAsync(CreateResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateResourceRequestMarshaller.Instance;
-            var unmarshaller = CreateResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateResourceRequest,CreateResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -432,30 +583,105 @@ namespace Amazon.WorkMail
 
         internal virtual CreateUserResponse CreateUser(CreateUserRequest request)
         {
-            var marshaller = CreateUserRequestMarshaller.Instance;
-            var unmarshaller = CreateUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUserResponseUnmarshaller.Instance;
 
-            return Invoke<CreateUserRequest,CreateUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateUserResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateUser operation.
+        /// Creates a user who can be used in Amazon WorkMail by calling the <a>RegisterToWorkMail</a>
+        /// operation.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateUser operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateUser service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateUser service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidPasswordException">
+        /// The supplied password doesn't match the minimum security constraints, such as length
+        /// or use of special characters.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.NameAvailabilityException">
+        /// The user, group, or resource name isn't unique in Amazon WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.ReservedNameException">
+        /// This user, group, or resource name is not allowed in Amazon WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/CreateUser">REST API Reference for CreateUser Operation</seealso>
         public virtual Task<CreateUserResponse> CreateUserAsync(CreateUserRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateUserRequestMarshaller.Instance;
-            var unmarshaller = CreateUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUserResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateUserRequest,CreateUserResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateUserResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DeleteAccessControlRule
+
+        internal virtual DeleteAccessControlRuleResponse DeleteAccessControlRule(DeleteAccessControlRuleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccessControlRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccessControlRuleResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteAccessControlRuleResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Deletes an access control rule for the specified WorkMail organization.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAccessControlRule service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DeleteAccessControlRule service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DeleteAccessControlRule">REST API Reference for DeleteAccessControlRule Operation</seealso>
+        public virtual Task<DeleteAccessControlRuleResponse> DeleteAccessControlRuleAsync(DeleteAccessControlRuleRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAccessControlRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAccessControlRuleResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DeleteAccessControlRuleResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -464,30 +690,50 @@ namespace Amazon.WorkMail
 
         internal virtual DeleteAliasResponse DeleteAlias(DeleteAliasRequest request)
         {
-            var marshaller = DeleteAliasRequestMarshaller.Instance;
-            var unmarshaller = DeleteAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAliasResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAliasRequest,DeleteAliasResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAliasResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteAlias operation.
+        /// Remove one or more specified aliases from a set of aliases for a given user.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteAlias operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAlias service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteAlias service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DeleteAlias">REST API Reference for DeleteAlias Operation</seealso>
         public virtual Task<DeleteAliasResponse> DeleteAliasAsync(DeleteAliasRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteAliasRequestMarshaller.Instance;
-            var unmarshaller = DeleteAliasResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAliasRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAliasResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteAliasRequest,DeleteAliasResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteAliasResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -496,30 +742,108 @@ namespace Amazon.WorkMail
 
         internal virtual DeleteGroupResponse DeleteGroup(DeleteGroupRequest request)
         {
-            var marshaller = DeleteGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteGroupRequest,DeleteGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteGroup operation.
+        /// Deletes a group from Amazon WorkMail.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteGroup service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DeleteGroup">REST API Reference for DeleteGroup Operation</seealso>
         public virtual Task<DeleteGroupResponse> DeleteGroupAsync(DeleteGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteGroupRequest,DeleteGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DeleteMailboxPermissions
+
+        internal virtual DeleteMailboxPermissionsResponse DeleteMailboxPermissions(DeleteMailboxPermissionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMailboxPermissionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMailboxPermissionsResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteMailboxPermissionsResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Deletes permissions granted to a member (user or group).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMailboxPermissions service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DeleteMailboxPermissions service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DeleteMailboxPermissions">REST API Reference for DeleteMailboxPermissions Operation</seealso>
+        public virtual Task<DeleteMailboxPermissionsResponse> DeleteMailboxPermissionsAsync(DeleteMailboxPermissionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMailboxPermissionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMailboxPermissionsResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DeleteMailboxPermissionsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -528,30 +852,47 @@ namespace Amazon.WorkMail
 
         internal virtual DeleteResourceResponse DeleteResource(DeleteResourceRequest request)
         {
-            var marshaller = DeleteResourceRequestMarshaller.Instance;
-            var unmarshaller = DeleteResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourceResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteResourceRequest,DeleteResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteResource operation.
+        /// Deletes the specified resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DeleteResource">REST API Reference for DeleteResource Operation</seealso>
         public virtual Task<DeleteResourceResponse> DeleteResourceAsync(DeleteResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteResourceRequestMarshaller.Instance;
-            var unmarshaller = DeleteResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteResourceRequest,DeleteResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -560,30 +901,64 @@ namespace Amazon.WorkMail
 
         internal virtual DeleteUserResponse DeleteUser(DeleteUserRequest request)
         {
-            var marshaller = DeleteUserRequestMarshaller.Instance;
-            var unmarshaller = DeleteUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteUserRequest,DeleteUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteUserResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteUser operation.
-        /// </summary>
+        /// Deletes a user from Amazon WorkMail and all subsequent systems. Before you can delete
+        /// a user, the user state must be <code>DISABLED</code>. Use the <a>DescribeUser</a>
+        /// action to confirm the user state.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteUser operation.</param>
+        ///  
+        /// <para>
+        /// Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes
+        /// for 30 days before they are permanently removed.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUser service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteUser service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DeleteUser">REST API Reference for DeleteUser Operation</seealso>
         public virtual Task<DeleteUserResponse> DeleteUserAsync(DeleteUserRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteUserRequestMarshaller.Instance;
-            var unmarshaller = DeleteUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteUserRequest,DeleteUserResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteUserResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -592,30 +967,53 @@ namespace Amazon.WorkMail
 
         internal virtual DeregisterFromWorkMailResponse DeregisterFromWorkMail(DeregisterFromWorkMailRequest request)
         {
-            var marshaller = DeregisterFromWorkMailRequestMarshaller.Instance;
-            var unmarshaller = DeregisterFromWorkMailResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeregisterFromWorkMailRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeregisterFromWorkMailResponseUnmarshaller.Instance;
 
-            return Invoke<DeregisterFromWorkMailRequest,DeregisterFromWorkMailResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeregisterFromWorkMailResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeregisterFromWorkMail operation.
+        /// Mark a user, group, or resource as no longer used in Amazon WorkMail. This action
+        /// disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes
+        /// for 30 days before they are permanently removed. The functionality in the console
+        /// is <i>Disable</i>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeregisterFromWorkMail operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterFromWorkMail service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeregisterFromWorkMail service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DeregisterFromWorkMail">REST API Reference for DeregisterFromWorkMail Operation</seealso>
         public virtual Task<DeregisterFromWorkMailResponse> DeregisterFromWorkMailAsync(DeregisterFromWorkMailRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeregisterFromWorkMailRequestMarshaller.Instance;
-            var unmarshaller = DeregisterFromWorkMailResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeregisterFromWorkMailRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeregisterFromWorkMailResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeregisterFromWorkMailRequest,DeregisterFromWorkMailResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeregisterFromWorkMailResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -624,30 +1022,46 @@ namespace Amazon.WorkMail
 
         internal virtual DescribeGroupResponse DescribeGroup(DescribeGroupRequest request)
         {
-            var marshaller = DescribeGroupRequestMarshaller.Instance;
-            var unmarshaller = DescribeGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeGroupRequest,DescribeGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeGroup operation.
+        /// Returns the data available for the group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeGroup service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DescribeGroup">REST API Reference for DescribeGroup Operation</seealso>
         public virtual Task<DescribeGroupResponse> DescribeGroupAsync(DescribeGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeGroupRequestMarshaller.Instance;
-            var unmarshaller = DescribeGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeGroupRequest,DescribeGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -656,30 +1070,39 @@ namespace Amazon.WorkMail
 
         internal virtual DescribeOrganizationResponse DescribeOrganization(DescribeOrganizationRequest request)
         {
-            var marshaller = DescribeOrganizationRequestMarshaller.Instance;
-            var unmarshaller = DescribeOrganizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeOrganizationResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeOrganizationRequest,DescribeOrganizationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeOrganizationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeOrganization operation.
+        /// Provides more information regarding a given organization based on its identifier.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganization operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganization service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeOrganization service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DescribeOrganization">REST API Reference for DescribeOrganization Operation</seealso>
         public virtual Task<DescribeOrganizationResponse> DescribeOrganizationAsync(DescribeOrganizationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeOrganizationRequestMarshaller.Instance;
-            var unmarshaller = DescribeOrganizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeOrganizationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeOrganizationRequest,DescribeOrganizationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeOrganizationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -688,30 +1111,46 @@ namespace Amazon.WorkMail
 
         internal virtual DescribeResourceResponse DescribeResource(DescribeResourceRequest request)
         {
-            var marshaller = DescribeResourceRequestMarshaller.Instance;
-            var unmarshaller = DescribeResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeResourceResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeResourceRequest,DescribeResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeResource operation.
+        /// Returns the data available for the resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DescribeResource">REST API Reference for DescribeResource Operation</seealso>
         public virtual Task<DescribeResourceResponse> DescribeResourceAsync(DescribeResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeResourceRequestMarshaller.Instance;
-            var unmarshaller = DescribeResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeResourceRequest,DescribeResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -720,30 +1159,46 @@ namespace Amazon.WorkMail
 
         internal virtual DescribeUserResponse DescribeUser(DescribeUserRequest request)
         {
-            var marshaller = DescribeUserRequestMarshaller.Instance;
-            var unmarshaller = DescribeUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeUserResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeUserRequest,DescribeUserResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeUserResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeUser operation.
+        /// Provides information regarding the user.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeUser operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeUser service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeUser service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DescribeUser">REST API Reference for DescribeUser Operation</seealso>
         public virtual Task<DescribeUserResponse> DescribeUserAsync(DescribeUserRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeUserRequestMarshaller.Instance;
-            var unmarshaller = DescribeUserResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeUserRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeUserResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeUserRequest,DescribeUserResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeUserResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -752,30 +1207,50 @@ namespace Amazon.WorkMail
 
         internal virtual DisassociateDelegateFromResourceResponse DisassociateDelegateFromResource(DisassociateDelegateFromResourceRequest request)
         {
-            var marshaller = DisassociateDelegateFromResourceRequestMarshaller.Instance;
-            var unmarshaller = DisassociateDelegateFromResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateDelegateFromResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateDelegateFromResourceResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateDelegateFromResourceRequest,DisassociateDelegateFromResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateDelegateFromResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DisassociateDelegateFromResource operation.
+        /// Removes a member from the resource's set of delegates.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DisassociateDelegateFromResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateDelegateFromResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DisassociateDelegateFromResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DisassociateDelegateFromResource">REST API Reference for DisassociateDelegateFromResource Operation</seealso>
         public virtual Task<DisassociateDelegateFromResourceResponse> DisassociateDelegateFromResourceAsync(DisassociateDelegateFromResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DisassociateDelegateFromResourceRequestMarshaller.Instance;
-            var unmarshaller = DisassociateDelegateFromResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateDelegateFromResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateDelegateFromResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DisassociateDelegateFromResourceRequest,DisassociateDelegateFromResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DisassociateDelegateFromResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -784,30 +1259,195 @@ namespace Amazon.WorkMail
 
         internal virtual DisassociateMemberFromGroupResponse DisassociateMemberFromGroup(DisassociateMemberFromGroupRequest request)
         {
-            var marshaller = DisassociateMemberFromGroupRequestMarshaller.Instance;
-            var unmarshaller = DisassociateMemberFromGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateMemberFromGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateMemberFromGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateMemberFromGroupRequest,DisassociateMemberFromGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateMemberFromGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DisassociateMemberFromGroup operation.
+        /// Removes a member from a group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DisassociateMemberFromGroup operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateMemberFromGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DisassociateMemberFromGroup service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/DisassociateMemberFromGroup">REST API Reference for DisassociateMemberFromGroup Operation</seealso>
         public virtual Task<DisassociateMemberFromGroupResponse> DisassociateMemberFromGroupAsync(DisassociateMemberFromGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DisassociateMemberFromGroupRequestMarshaller.Instance;
-            var unmarshaller = DisassociateMemberFromGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateMemberFromGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateMemberFromGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DisassociateMemberFromGroupRequest,DisassociateMemberFromGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DisassociateMemberFromGroupResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  GetAccessControlEffect
+
+        internal virtual GetAccessControlEffectResponse GetAccessControlEffect(GetAccessControlEffectRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccessControlEffectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccessControlEffectResponseUnmarshaller.Instance;
+
+            return Invoke<GetAccessControlEffectResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Gets the effects of an organization's access control rules as they apply to a specified
+        /// IPv4 address, access protocol action, or user ID.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAccessControlEffect service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the GetAccessControlEffect service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/GetAccessControlEffect">REST API Reference for GetAccessControlEffect Operation</seealso>
+        public virtual Task<GetAccessControlEffectResponse> GetAccessControlEffectAsync(GetAccessControlEffectRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccessControlEffectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccessControlEffectResponseUnmarshaller.Instance;
+
+            return InvokeAsync<GetAccessControlEffectResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  GetMailboxDetails
+
+        internal virtual GetMailboxDetailsResponse GetMailboxDetails(GetMailboxDetailsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMailboxDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMailboxDetailsResponseUnmarshaller.Instance;
+
+            return Invoke<GetMailboxDetailsResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Requests a user's mailbox details for a specified organization and user.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMailboxDetails service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the GetMailboxDetails service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/GetMailboxDetails">REST API Reference for GetMailboxDetails Operation</seealso>
+        public virtual Task<GetMailboxDetailsResponse> GetMailboxDetailsAsync(GetMailboxDetailsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMailboxDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMailboxDetailsResponseUnmarshaller.Instance;
+
+            return InvokeAsync<GetMailboxDetailsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  ListAccessControlRules
+
+        internal virtual ListAccessControlRulesResponse ListAccessControlRules(ListAccessControlRulesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAccessControlRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAccessControlRulesResponseUnmarshaller.Instance;
+
+            return Invoke<ListAccessControlRulesResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Lists the access control rules for the specified organization.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAccessControlRules service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListAccessControlRules service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListAccessControlRules">REST API Reference for ListAccessControlRules Operation</seealso>
+        public virtual Task<ListAccessControlRulesResponse> ListAccessControlRulesAsync(ListAccessControlRulesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAccessControlRulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAccessControlRulesResponseUnmarshaller.Instance;
+
+            return InvokeAsync<ListAccessControlRulesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -816,30 +1456,50 @@ namespace Amazon.WorkMail
 
         internal virtual ListAliasesResponse ListAliases(ListAliasesRequest request)
         {
-            var marshaller = ListAliasesRequestMarshaller.Instance;
-            var unmarshaller = ListAliasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAliasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAliasesResponseUnmarshaller.Instance;
 
-            return Invoke<ListAliasesRequest,ListAliasesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListAliasesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListAliases operation.
+        /// Creates a paginated call to list the aliases associated with a given entity.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListAliases operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListAliases service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListAliases service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListAliases">REST API Reference for ListAliases Operation</seealso>
         public virtual Task<ListAliasesResponse> ListAliasesAsync(ListAliasesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListAliasesRequestMarshaller.Instance;
-            var unmarshaller = ListAliasesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListAliasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListAliasesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListAliasesRequest,ListAliasesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListAliasesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -848,30 +1508,51 @@ namespace Amazon.WorkMail
 
         internal virtual ListGroupMembersResponse ListGroupMembers(ListGroupMembersRequest request)
         {
-            var marshaller = ListGroupMembersRequestMarshaller.Instance;
-            var unmarshaller = ListGroupMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupMembersResponseUnmarshaller.Instance;
 
-            return Invoke<ListGroupMembersRequest,ListGroupMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGroupMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListGroupMembers operation.
+        /// Returns an overview of the members of a group. Users and groups can be members of
+        /// a group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListGroupMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListGroupMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListGroupMembers service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListGroupMembers">REST API Reference for ListGroupMembers Operation</seealso>
         public virtual Task<ListGroupMembersResponse> ListGroupMembersAsync(ListGroupMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListGroupMembersRequestMarshaller.Instance;
-            var unmarshaller = ListGroupMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListGroupMembersRequest,ListGroupMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListGroupMembersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -880,30 +1561,94 @@ namespace Amazon.WorkMail
 
         internal virtual ListGroupsResponse ListGroups(ListGroupsRequest request)
         {
-            var marshaller = ListGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<ListGroupsRequest,ListGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGroupsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListGroups operation.
+        /// Returns summaries of the organization's groups.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListGroups operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListGroups service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListGroups">REST API Reference for ListGroups Operation</seealso>
         public virtual Task<ListGroupsResponse> ListGroupsAsync(ListGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListGroupsRequest,ListGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListGroupsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  ListMailboxPermissions
+
+        internal virtual ListMailboxPermissionsResponse ListMailboxPermissions(ListMailboxPermissionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMailboxPermissionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMailboxPermissionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListMailboxPermissionsResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListMailboxPermissions service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListMailboxPermissions service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListMailboxPermissions">REST API Reference for ListMailboxPermissions Operation</seealso>
+        public virtual Task<ListMailboxPermissionsResponse> ListMailboxPermissionsAsync(ListMailboxPermissionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMailboxPermissionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMailboxPermissionsResponseUnmarshaller.Instance;
+
+            return InvokeAsync<ListMailboxPermissionsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -912,30 +1657,35 @@ namespace Amazon.WorkMail
 
         internal virtual ListOrganizationsResponse ListOrganizations(ListOrganizationsRequest request)
         {
-            var marshaller = ListOrganizationsRequestMarshaller.Instance;
-            var unmarshaller = ListOrganizationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOrganizationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOrganizationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListOrganizationsRequest,ListOrganizationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOrganizationsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListOrganizations operation.
+        /// Returns summaries of the customer's non-deleted organizations.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListOrganizations operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListOrganizations service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListOrganizations service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListOrganizations">REST API Reference for ListOrganizations Operation</seealso>
         public virtual Task<ListOrganizationsResponse> ListOrganizationsAsync(ListOrganizationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListOrganizationsRequestMarshaller.Instance;
-            var unmarshaller = ListOrganizationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOrganizationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOrganizationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListOrganizationsRequest,ListOrganizationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListOrganizationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -944,30 +1694,51 @@ namespace Amazon.WorkMail
 
         internal virtual ListResourceDelegatesResponse ListResourceDelegates(ListResourceDelegatesRequest request)
         {
-            var marshaller = ListResourceDelegatesRequestMarshaller.Instance;
-            var unmarshaller = ListResourceDelegatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListResourceDelegatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListResourceDelegatesResponseUnmarshaller.Instance;
 
-            return Invoke<ListResourceDelegatesRequest,ListResourceDelegatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListResourceDelegatesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListResourceDelegates operation.
+        /// Lists the delegates associated with a resource. Users and groups can be resource delegates
+        /// and answer requests on behalf of the resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListResourceDelegates operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListResourceDelegates service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListResourceDelegates service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListResourceDelegates">REST API Reference for ListResourceDelegates Operation</seealso>
         public virtual Task<ListResourceDelegatesResponse> ListResourceDelegatesAsync(ListResourceDelegatesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListResourceDelegatesRequestMarshaller.Instance;
-            var unmarshaller = ListResourceDelegatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListResourceDelegatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListResourceDelegatesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListResourceDelegatesRequest,ListResourceDelegatesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListResourceDelegatesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -976,30 +1747,80 @@ namespace Amazon.WorkMail
 
         internal virtual ListResourcesResponse ListResources(ListResourcesRequest request)
         {
-            var marshaller = ListResourcesRequestMarshaller.Instance;
-            var unmarshaller = ListResourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListResourcesResponseUnmarshaller.Instance;
 
-            return Invoke<ListResourcesRequest,ListResourcesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListResourcesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListResources operation.
+        /// Returns summaries of the organization's resources.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListResources operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListResources service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListResources service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListResources">REST API Reference for ListResources Operation</seealso>
         public virtual Task<ListResourcesResponse> ListResourcesAsync(ListResourcesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListResourcesRequestMarshaller.Instance;
-            var unmarshaller = ListResourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListResourcesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListResourcesRequest,ListResourcesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListResourcesResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        internal virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Lists the tags applied to an Amazon WorkMail organization resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.ResourceNotFoundException">
+        /// The resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual Task<ListTagsForResourceResponse> ListTagsForResourceAsync(ListTagsForResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return InvokeAsync<ListTagsForResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1008,30 +1829,149 @@ namespace Amazon.WorkMail
 
         internal virtual ListUsersResponse ListUsers(ListUsersRequest request)
         {
-            var marshaller = ListUsersRequestMarshaller.Instance;
-            var unmarshaller = ListUsersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUsersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUsersResponseUnmarshaller.Instance;
 
-            return Invoke<ListUsersRequest,ListUsersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListUsersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListUsers operation.
+        /// Returns summaries of the organization's users.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListUsers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListUsers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListUsers service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ListUsers">REST API Reference for ListUsers Operation</seealso>
         public virtual Task<ListUsersResponse> ListUsersAsync(ListUsersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListUsersRequestMarshaller.Instance;
-            var unmarshaller = ListUsersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUsersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUsersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListUsersRequest,ListUsersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListUsersResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  PutAccessControlRule
+
+        internal virtual PutAccessControlRuleResponse PutAccessControlRule(PutAccessControlRuleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutAccessControlRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutAccessControlRuleResponseUnmarshaller.Instance;
+
+            return Invoke<PutAccessControlRuleResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Adds a new access control rule for the specified organization. The rule allows or
+        /// denies access to the organization for the specified IPv4 addresses, access protocol
+        /// actions, and user IDs. Adding a new rule with the same name as an existing rule replaces
+        /// the older rule.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutAccessControlRule service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the PutAccessControlRule service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.LimitExceededException">
+        /// The request exceeds the limit of the resource.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/PutAccessControlRule">REST API Reference for PutAccessControlRule Operation</seealso>
+        public virtual Task<PutAccessControlRuleResponse> PutAccessControlRuleAsync(PutAccessControlRuleRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutAccessControlRuleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutAccessControlRuleResponseUnmarshaller.Instance;
+
+            return InvokeAsync<PutAccessControlRuleResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  PutMailboxPermissions
+
+        internal virtual PutMailboxPermissionsResponse PutMailboxPermissions(PutMailboxPermissionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMailboxPermissionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMailboxPermissionsResponseUnmarshaller.Instance;
+
+            return Invoke<PutMailboxPermissionsResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutMailboxPermissions service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the PutMailboxPermissions service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/PutMailboxPermissions">REST API Reference for PutMailboxPermissions Operation</seealso>
+        public virtual Task<PutMailboxPermissionsResponse> PutMailboxPermissionsAsync(PutMailboxPermissionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMailboxPermissionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMailboxPermissionsResponseUnmarshaller.Instance;
+
+            return InvokeAsync<PutMailboxPermissionsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1040,30 +1980,82 @@ namespace Amazon.WorkMail
 
         internal virtual RegisterToWorkMailResponse RegisterToWorkMail(RegisterToWorkMailRequest request)
         {
-            var marshaller = RegisterToWorkMailRequestMarshaller.Instance;
-            var unmarshaller = RegisterToWorkMailResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterToWorkMailRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterToWorkMailResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterToWorkMailRequest,RegisterToWorkMailResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterToWorkMailResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RegisterToWorkMail operation.
-        /// </summary>
+        /// Registers an existing and disabled user, group, or resource for Amazon WorkMail use
+        /// by associating a mailbox and calendaring capabilities. It performs no change if the
+        /// user, group, or resource is enabled and fails if the user, group, or resource is deleted.
+        /// This operation results in the accumulation of costs. For more information, see <a
+        /// href="https://aws.amazon.com/workmail/pricing">Pricing</a>. The equivalent console
+        /// functionality for this operation is <i>Enable</i>. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the RegisterToWorkMail operation.</param>
+        ///  
+        /// <para>
+        /// Users can either be created by calling the <a>CreateUser</a> API operation or they
+        /// can be synchronized from your directory. For more information, see <a>DeregisterFromWorkMail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RegisterToWorkMail service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RegisterToWorkMail service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EmailAddressInUseException">
+        /// The email address that you're trying to assign is already created for a different
+        /// user, group, or resource.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityAlreadyRegisteredException">
+        /// The user, group, or resource that you're trying to register is already registered.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainNotFoundException">
+        /// For an email or alias to be created in Amazon WorkMail, the included domain must be
+        /// defined in the organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainStateException">
+        /// After a domain has been added to the organization, it must be verified. The domain
+        /// is not yet verified.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/RegisterToWorkMail">REST API Reference for RegisterToWorkMail Operation</seealso>
         public virtual Task<RegisterToWorkMailResponse> RegisterToWorkMailAsync(RegisterToWorkMailRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = RegisterToWorkMailRequestMarshaller.Instance;
-            var unmarshaller = RegisterToWorkMailResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterToWorkMailRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterToWorkMailResponseUnmarshaller.Instance;
 
-            return InvokeAsync<RegisterToWorkMailRequest,RegisterToWorkMailResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<RegisterToWorkMailResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1072,30 +2064,196 @@ namespace Amazon.WorkMail
 
         internal virtual ResetPasswordResponse ResetPassword(ResetPasswordRequest request)
         {
-            var marshaller = ResetPasswordRequestMarshaller.Instance;
-            var unmarshaller = ResetPasswordResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetPasswordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetPasswordResponseUnmarshaller.Instance;
 
-            return Invoke<ResetPasswordRequest,ResetPasswordResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResetPasswordResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ResetPassword operation.
+        /// Allows the administrator to reset the password for a user.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ResetPassword operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ResetPassword service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ResetPassword service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidPasswordException">
+        /// The supplied password doesn't match the minimum security constraints, such as length
+        /// or use of special characters.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/ResetPassword">REST API Reference for ResetPassword Operation</seealso>
         public virtual Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ResetPasswordRequestMarshaller.Instance;
-            var unmarshaller = ResetPasswordResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetPasswordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetPasswordResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ResetPasswordRequest,ResetPasswordResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ResetPasswordResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        internal virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Applies the specified tags to the specified Amazon WorkMail organization resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.ResourceNotFoundException">
+        /// The resource cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.TooManyTagsException">
+        /// The resource can have up to 50 user-applied tags.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual Task<TagResourceResponse> TagResourceAsync(TagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return InvokeAsync<TagResourceResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        internal virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Untags the specified tags from the specified Amazon WorkMail organization resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.ResourceNotFoundException">
+        /// The resource cannot be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual Task<UntagResourceResponse> UntagResourceAsync(UntagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return InvokeAsync<UntagResourceResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  UpdateMailboxQuota
+
+        internal virtual UpdateMailboxQuotaResponse UpdateMailboxQuota(UpdateMailboxQuotaRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMailboxQuotaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMailboxQuotaResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateMailboxQuotaResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Updates a user's current mailbox quota for a specified organization and user.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMailboxQuota service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the UpdateMailboxQuota service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/UpdateMailboxQuota">REST API Reference for UpdateMailboxQuota Operation</seealso>
+        public virtual Task<UpdateMailboxQuotaResponse> UpdateMailboxQuotaAsync(UpdateMailboxQuotaRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMailboxQuotaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMailboxQuotaResponseUnmarshaller.Instance;
+
+            return InvokeAsync<UpdateMailboxQuotaResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1104,30 +2262,76 @@ namespace Amazon.WorkMail
 
         internal virtual UpdatePrimaryEmailAddressResponse UpdatePrimaryEmailAddress(UpdatePrimaryEmailAddressRequest request)
         {
-            var marshaller = UpdatePrimaryEmailAddressRequestMarshaller.Instance;
-            var unmarshaller = UpdatePrimaryEmailAddressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdatePrimaryEmailAddressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdatePrimaryEmailAddressResponseUnmarshaller.Instance;
 
-            return Invoke<UpdatePrimaryEmailAddressRequest,UpdatePrimaryEmailAddressResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdatePrimaryEmailAddressResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdatePrimaryEmailAddress operation.
+        /// Updates the primary email for a user, group, or resource. The current email is moved
+        /// into the list of aliases (or swapped between an existing alias and the current primary
+        /// email), and the email provided in the input is promoted as the primary.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdatePrimaryEmailAddress operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdatePrimaryEmailAddress service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdatePrimaryEmailAddress service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryServiceAuthenticationFailedException">
+        /// The directory service doesn't recognize the credentials supplied by WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EmailAddressInUseException">
+        /// The email address that you're trying to assign is already created for a different
+        /// user, group, or resource.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidParameterException">
+        /// One or more of the input parameters don't match the service's restrictions.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainNotFoundException">
+        /// For an email or alias to be created in Amazon WorkMail, the included domain must be
+        /// defined in the organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainStateException">
+        /// After a domain has been added to the organization, it must be verified. The domain
+        /// is not yet verified.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.UnsupportedOperationException">
+        /// You can't perform a write operation against a read-only directory.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/UpdatePrimaryEmailAddress">REST API Reference for UpdatePrimaryEmailAddress Operation</seealso>
         public virtual Task<UpdatePrimaryEmailAddressResponse> UpdatePrimaryEmailAddressAsync(UpdatePrimaryEmailAddressRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdatePrimaryEmailAddressRequestMarshaller.Instance;
-            var unmarshaller = UpdatePrimaryEmailAddressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdatePrimaryEmailAddressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdatePrimaryEmailAddressResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdatePrimaryEmailAddressRequest,UpdatePrimaryEmailAddressResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdatePrimaryEmailAddressResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1136,30 +2340,71 @@ namespace Amazon.WorkMail
 
         internal virtual UpdateResourceResponse UpdateResource(UpdateResourceRequest request)
         {
-            var marshaller = UpdateResourceRequestMarshaller.Instance;
-            var unmarshaller = UpdateResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateResourceResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateResourceRequest,UpdateResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateResourceResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateResource operation.
+        /// Updates data for the resource. To have the latest information, it must be preceded
+        /// by a <a>DescribeResource</a> call. The dataset in the request should be the one expected
+        /// when performing another <code>DescribeResource</code> call.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateResource service method, as returned by WorkMail.</returns>
+        /// <exception cref="Amazon.WorkMail.Model.DirectoryUnavailableException">
+        /// The directory on which you are trying to perform operations isn't available.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EmailAddressInUseException">
+        /// The email address that you're trying to assign is already created for a different
+        /// user, group, or resource.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityNotFoundException">
+        /// The identifier supplied for the user, group, or resource does not exist in your organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.EntityStateException">
+        /// You are performing an operation on a user, group, or resource that isn't in the expected
+        /// state, such as trying to delete an active user.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.InvalidConfigurationException">
+        /// The configuration for a resource isn't valid. A resource must either be able to auto-respond
+        /// to requests or have at least one delegate associated that can do so on its behalf.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainNotFoundException">
+        /// For an email or alias to be created in Amazon WorkMail, the included domain must be
+        /// defined in the organization.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.MailDomainStateException">
+        /// After a domain has been added to the organization, it must be verified. The domain
+        /// is not yet verified.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.NameAvailabilityException">
+        /// The user, group, or resource name isn't unique in Amazon WorkMail.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationNotFoundException">
+        /// An operation received a valid organization identifier that either doesn't belong or
+        /// exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.WorkMail.Model.OrganizationStateException">
+        /// The organization must have a valid state (Active or Synchronizing) to perform certain
+        /// operations on the organization or its members.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/workmail-2017-10-01/UpdateResource">REST API Reference for UpdateResource Operation</seealso>
         public virtual Task<UpdateResourceResponse> UpdateResourceAsync(UpdateResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateResourceRequestMarshaller.Instance;
-            var unmarshaller = UpdateResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateResourceResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateResourceRequest,UpdateResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion

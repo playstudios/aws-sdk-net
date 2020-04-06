@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MobileAnalytics.Model;
 using Amazon.MobileAnalytics.Model.Internal.MarshallTransformations;
+using Amazon.MobileAnalytics.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -38,6 +40,7 @@ namespace Amazon.MobileAnalytics
     /// </summary>
     public partial class AmazonMobileAnalyticsClient : AmazonServiceClient, IAmazonMobileAnalytics
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMobileAnalyticsMetadata();
         #region Constructors
 
         /// <summary>
@@ -151,6 +154,17 @@ namespace Amazon.MobileAnalytics
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
+
         #endregion
 
         #region Dispose
@@ -165,14 +179,15 @@ namespace Amazon.MobileAnalytics
 
         #endregion
 
-        
+
         #region  PutEvents
         internal virtual PutEventsResponse PutEvents(PutEventsRequest request)
         {
-            var marshaller = PutEventsRequestMarshaller.Instance;
-            var unmarshaller = PutEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
 
-            return Invoke<PutEventsRequest,PutEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -186,8 +201,9 @@ namespace Amazon.MobileAnalytics
         public virtual void PutEventsAsync(PutEventsRequest request, AmazonServiceCallback<PutEventsRequest, PutEventsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = PutEventsRequestMarshaller.Instance;
-            var unmarshaller = PutEventsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -195,7 +211,7 @@ namespace Amazon.MobileAnalytics
                             = new AmazonServiceResult<PutEventsRequest,PutEventsResponse>((PutEventsRequest)req, (PutEventsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<PutEventsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion

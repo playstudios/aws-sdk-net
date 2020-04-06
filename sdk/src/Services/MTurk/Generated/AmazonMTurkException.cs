@@ -28,10 +28,10 @@ namespace Amazon.MTurk
     ///<summary>
     /// Common exception for the MTurk service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonMTurkException : AmazonServiceException
+    public partial class AmazonMTurkException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonMTurkException
@@ -88,7 +88,7 @@ namespace Amazon.MTurk
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonMTurkException class with serialized data.
         /// </summary>

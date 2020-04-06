@@ -29,7 +29,7 @@ namespace Amazon.Route53.Model
 {
     /// <summary>
     /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53
-    /// health checkers to use to determine whether this health check is healthy.
+    /// health checkers to use to determine whether the specified health check is healthy.
     /// </summary>
     public partial class AlarmIdentifier
     {
@@ -39,16 +39,17 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property Region. 
         /// <para>
-        /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53
-        /// health checkers to use to determine whether this health check is healthy.
+        /// For the CloudWatch alarm that you want Route 53 health checkers to use to determine
+        /// whether this health check is healthy, the region that the alarm was created in.
         /// </para>
         ///  
         /// <para>
-        /// For the current list of CloudWatch regions, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#cw_region">Amazon
-        /// CloudWatch</a> in the <i>AWS Regions and Endpoints</i> chapter of the <i>Amazon Web
-        /// Services General Reference</i>.
+        /// For the current list of CloudWatch regions, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#cw_region">Amazon
+        /// CloudWatch</a> in the <i>AWS Service Endpoints</i> chapter of the <i>Amazon Web Services
+        /// General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public CloudWatchRegion Region
         {
             get { return this._region; }
@@ -67,7 +68,24 @@ namespace Amazon.Route53.Model
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to
         /// use to determine whether this health check is healthy.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// Route 53 supports CloudWatch alarms with the following features:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Standard-resolution metrics. High-resolution metrics aren't supported. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/publishingMetrics.html#high-resolution-metrics">High-Resolution
+        /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Statistics: Average, Minimum, Maximum, Sum, and SampleCount. Extended statistics aren't
+        /// supported.
+        /// </para>
+        ///  </li> </ul> </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }

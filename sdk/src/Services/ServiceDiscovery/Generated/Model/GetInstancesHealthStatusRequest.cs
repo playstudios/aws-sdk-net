@@ -54,8 +54,8 @@ namespace Amazon.ServiceDiscovery.Model
         /// </para>
         ///  
         /// <para>
-        /// If you omit <code>Instances</code>, Amazon Route 53 returns the health status for
-        /// all the instances that are associated with the specified service.
+        /// If you omit <code>Instances</code>, AWS Cloud Map returns the health status for all
+        /// the instances that are associated with the specified service.
         /// </para>
         ///  <note> 
         /// <para>
@@ -64,6 +64,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> Instances
         {
             get { return this._instances; }
@@ -79,11 +80,12 @@ namespace Amazon.ServiceDiscovery.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The maximum number of instances that you want Route 53 to return in the response to
-        /// a <code>GetInstancesHealthStatus</code> request. If you don't specify a value for
-        /// <code>MaxResults</code>, Route 53 returns up to 100 instances.
+        /// The maximum number of instances that you want AWS Cloud Map to return in the response
+        /// to a <code>GetInstancesHealthStatus</code> request. If you don't specify a value for
+        /// <code>MaxResults</code>, AWS Cloud Map returns up to 100 instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -109,6 +111,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// in the next request.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=4096)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -127,6 +130,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// The ID of the service that the instance is associated with.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=64)]
         public string ServiceId
         {
             get { return this._serviceId; }

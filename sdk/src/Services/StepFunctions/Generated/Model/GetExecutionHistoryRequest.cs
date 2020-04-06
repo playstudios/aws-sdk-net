@@ -35,9 +35,15 @@ namespace Amazon.StepFunctions.Model
     /// 
     ///  
     /// <para>
-    /// If a <code>nextToken</code> is returned by a previous call, there are more results
-    /// available. To retrieve the next page of results, make the call again using the returned
-    /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+    /// If <code>nextToken</code> is returned, there are more results available. The value
+    /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+    /// again using the returned token to retrieve the next page. Keep all other arguments
+    /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+    /// token will return an <i>HTTP 400 InvalidToken</i> error.
+    /// </para>
+    ///  
+    /// <para>
+    /// This API action is not supported by <code>EXPRESS</code> state machines.
     /// </para>
     /// </summary>
     public partial class GetExecutionHistoryRequest : AmazonStepFunctionsRequest
@@ -53,6 +59,7 @@ namespace Amazon.StepFunctions.Model
         /// The Amazon Resource Name (ARN) of the execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ExecutionArn
         {
             get { return this._executionArn; }
@@ -70,7 +77,7 @@ namespace Amazon.StepFunctions.Model
         /// <para>
         /// The maximum number of results that are returned per call. You can use <code>nextToken</code>
         /// to obtain further pages of results. The default is 100 and the maximum allowed page
-        /// size is 100. A value of 0 uses the default.
+        /// size is 1000. A value of 0 uses the default.
         /// </para>
         ///  
         /// <para>
@@ -78,6 +85,7 @@ namespace Amazon.StepFunctions.Model
         /// be fewer than the specified maximum.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -93,16 +101,14 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
-        /// </para>
-        ///  
-        /// <para>
-        /// The configured <code>maxResults</code> determines how many results can be returned
-        /// in a single call.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

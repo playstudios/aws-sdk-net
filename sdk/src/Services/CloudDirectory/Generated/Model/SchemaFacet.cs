@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -41,6 +41,7 @@ namespace Amazon.CloudDirectory.Model
         /// The name of the facet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string FacetName
         {
             get { return this._facetName; }
@@ -57,7 +58,7 @@ namespace Amazon.CloudDirectory.Model
         /// Gets and sets the property SchemaArn. 
         /// <para>
         /// The ARN of the schema that contains the facet with no minor component. See <a>arns</a>
-        /// and <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/inplaceschemaupgrade.html">In-Place
+        /// and <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_inplaceschemaupgrade.html">In-Place
         /// Schema Upgrade</a> for a description of when to provide minor versions.
         /// </para>
         /// </summary>

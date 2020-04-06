@@ -37,6 +37,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         private bool? _requireNumbers;
         private bool? _requireSymbols;
         private bool? _requireUppercase;
+        private int? _temporaryPasswordValidityDays;
 
         /// <summary>
         /// Gets and sets the property MinimumLength. 
@@ -44,6 +45,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The minimum length of the password policy that you have set. Cannot be less than 6.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=99)]
         public int MinimumLength
         {
             get { return this._minimumLength.GetValueOrDefault(); }
@@ -130,6 +132,34 @@ namespace Amazon.CognitoIdentityProvider.Model
         internal bool IsSetRequireUppercase()
         {
             return this._requireUppercase.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TemporaryPasswordValidityDays. 
+        /// <para>
+        /// In the password policy you have set, refers to the number of days a temporary password
+        /// is valid. If the user does not sign-in during this time, their password will need
+        /// to be reset by an administrator.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// When you set <code>TemporaryPasswordValidityDays</code> for a user pool, you will
+        /// no longer be able to set the deprecated <code>UnusedAccountValidityDays</code> value
+        /// for that user pool.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Min=0, Max=365)]
+        public int TemporaryPasswordValidityDays
+        {
+            get { return this._temporaryPasswordValidityDays.GetValueOrDefault(); }
+            set { this._temporaryPasswordValidityDays = value; }
+        }
+
+        // Check to see if TemporaryPasswordValidityDays property is set
+        internal bool IsSetTemporaryPasswordValidityDays()
+        {
+            return this._temporaryPasswordValidityDays.HasValue; 
         }
 
     }

@@ -43,6 +43,7 @@ namespace Amazon.AppSync.Model
         /// The API ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApiId
         {
             get { return this._apiId; }
@@ -61,6 +62,7 @@ namespace Amazon.AppSync.Model
         /// The maximum number of results you want the request to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=25)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -80,6 +82,7 @@ namespace Amazon.AppSync.Model
         /// be used to return the next set of items in the list. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string NextToken
         {
             get { return this._nextToken; }

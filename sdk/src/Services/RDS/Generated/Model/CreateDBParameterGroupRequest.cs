@@ -70,8 +70,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Instantiates CreateDBParameterGroupRequest with the parameterized properties
         /// </summary>
-        /// <param name="dbParameterGroupName">The name of the DB parameter group. Constraints: <ul> <li> Must be 1 to 255 letters, numbers, or hyphens. </li> <li> First character must be a letter </li> <li> Cannot end with a hyphen or contain two consecutive hyphens </li> </ul> <note> This value is stored as a lowercase string. </note></param>
-        /// <param name="dbParameterGroupFamily">The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.</param>
+        /// <param name="dbParameterGroupName">The name of the DB parameter group. Constraints: <ul> <li> Must be 1 to 255 letters, numbers, or hyphens. </li> <li> First character must be a letter </li> <li> Can't end with a hyphen or contain two consecutive hyphens </li> </ul> <note> This value is stored as a lowercase string. </note></param>
+        /// <param name="dbParameterGroupFamily">The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families, use the following command:  <code>aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily"</code>  <note> The output contains duplicates. </note></param>
         /// <param name="description">The description for the DB parameter group.</param>
         public CreateDBParameterGroupRequest(string dbParameterGroupName, string dbParameterGroupFamily, string description)
         {
@@ -87,7 +87,22 @@ namespace Amazon.RDS.Model
         /// and only one DB parameter group family, and can be applied only to a DB instance running
         /// a database engine and engine version compatible with that DB parameter group family.
         /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available parameter group families, use the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily"</code>
+        /// 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// The output contains duplicates.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBParameterGroupFamily
         {
             get { return this._dbParameterGroupFamily; }
@@ -119,7 +134,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> </ul> <note> 
         /// <para>
@@ -127,6 +142,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBParameterGroupName
         {
             get { return this._dbParameterGroupName; }
@@ -145,6 +161,7 @@ namespace Amazon.RDS.Model
         /// The description for the DB parameter group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Description
         {
             get { return this._description; }
@@ -158,7 +175,10 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Tags.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Tags to assign to the DB parameter group.
+        /// </para>
         /// </summary>
         public List<Tag> Tags
         {

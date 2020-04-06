@@ -35,10 +35,14 @@ namespace Amazon.EC2.Model
         private bool? _acceptanceRequired;
         private List<string> _availabilityZones = new List<string>();
         private List<string> _baseEndpointDnsNames = new List<string>();
+        private bool? _managesVpcEndpoints;
         private string _owner;
         private string _privateDnsName;
+        private DnsNameState _privateDnsNameVerificationState;
+        private string _serviceId;
         private string _serviceName;
         private List<ServiceTypeDetail> _serviceType = new List<ServiceTypeDetail>();
+        private List<Tag> _tags = new List<Tag>();
         private bool? _vpcEndpointPolicySupported;
 
         /// <summary>
@@ -97,6 +101,25 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ManagesVpcEndpoints. 
+        /// <para>
+        /// Indicates whether the service manages its VPC endpoints. Management of the service
+        /// VPC endpoints using the VPC endpoint API is restricted.
+        /// </para>
+        /// </summary>
+        public bool ManagesVpcEndpoints
+        {
+            get { return this._managesVpcEndpoints.GetValueOrDefault(); }
+            set { this._managesVpcEndpoints = value; }
+        }
+
+        // Check to see if ManagesVpcEndpoints property is set
+        internal bool IsSetManagesVpcEndpoints()
+        {
+            return this._managesVpcEndpoints.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Owner. 
         /// <para>
         /// The AWS account ID of the service owner.
@@ -133,6 +156,47 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PrivateDnsNameVerificationState. 
+        /// <para>
+        /// The verification state of the VPC endpoint service.
+        /// </para>
+        ///  
+        /// <para>
+        /// Consumers of the endpoint service cannot use the private name when the state is not
+        /// <code>verified</code>.
+        /// </para>
+        /// </summary>
+        public DnsNameState PrivateDnsNameVerificationState
+        {
+            get { return this._privateDnsNameVerificationState; }
+            set { this._privateDnsNameVerificationState = value; }
+        }
+
+        // Check to see if PrivateDnsNameVerificationState property is set
+        internal bool IsSetPrivateDnsNameVerificationState()
+        {
+            return this._privateDnsNameVerificationState != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ServiceId. 
+        /// <para>
+        /// The ID of the endpoint service.
+        /// </para>
+        /// </summary>
+        public string ServiceId
+        {
+            get { return this._serviceId; }
+            set { this._serviceId = value; }
+        }
+
+        // Check to see if ServiceId property is set
+        internal bool IsSetServiceId()
+        {
+            return this._serviceId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ServiceName. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the service.
@@ -166,6 +230,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetServiceType()
         {
             return this._serviceType != null && this._serviceType.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Any tags assigned to the service.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

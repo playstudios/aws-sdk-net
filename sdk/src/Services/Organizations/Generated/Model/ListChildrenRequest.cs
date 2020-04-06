@@ -29,9 +29,9 @@ namespace Amazon.Organizations.Model
 {
     /// <summary>
     /// Container for the parameters to the ListChildren operation.
-    /// Lists all of the OUs or accounts that are contained in the specified parent OU or
-    /// root. This operation, along with <a>ListParents</a> enables you to traverse the tree
-    /// structure that makes up this root.
+    /// Lists all of the organizational units (OUs) or accounts that are contained in the
+    /// specified parent OU or root. This operation, along with <a>ListParents</a> enables
+    /// you to traverse the tree structure that makes up this root.
     /// 
     ///  <note> 
     /// <para>
@@ -43,7 +43,8 @@ namespace Amazon.Organizations.Model
     /// </para>
     ///  </note> 
     /// <para>
-    /// This operation can be called only from the organization's master account.
+    /// This operation can be called only from the organization's master account or by a member
+    /// account that is a delegated administrator for an AWS service.
     /// </para>
     /// </summary>
     public partial class ListChildrenRequest : AmazonOrganizationsRequest
@@ -59,6 +60,7 @@ namespace Amazon.Organizations.Model
         /// Filters the output to include only the specified child type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ChildType ChildType
         {
             get { return this._childType; }
@@ -74,8 +76,8 @@ namespace Amazon.Organizations.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// (Optional) Use this to limit the number of results you want included in the response.
-        /// If you do not include this parameter, it defaults to a value that is specific to the
+        /// The total number of results that you want included on each page of the response. If
+        /// you do not include this parameter, it defaults to a value that is specific to the
         /// operation. If additional items exist beyond the maximum you specify, the <code>NextToken</code>
         /// response element is present and has a value (is not null). Include that value as the
         /// <code>NextToken</code> request parameter in the next call to the operation to get
@@ -84,6 +86,7 @@ namespace Amazon.Organizations.Model
         /// after every operation to ensure that you receive all of the results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -99,10 +102,10 @@ namespace Amazon.Organizations.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Use this parameter if you receive a <code>NextToken</code> response in a previous
-        /// request that indicates that there is more output available. Set it to the value of
-        /// the previous call's <code>NextToken</code> response to indicate where the output should
-        /// continue from.
+        /// The parameter for receiving additional results if you receive a <code>NextToken</code>
+        /// response in a previous request. A <code>NextToken</code> response indicates that more
+        /// output is available. Set this parameter to the value of the previous call's <code>NextToken</code>
+        /// response to indicate where the output should continue from.
         /// </para>
         /// </summary>
         public string NextToken
@@ -129,17 +132,19 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or
-        /// digits.
+        ///  <b>Root</b> - A string that begins with "r-" followed by from 4 to 32 lowercase letters
+        /// or digits.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32
-        /// lower-case letters or digits (the ID of the root that the OU is in) followed by a
-        /// second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        ///  <b>Organizational unit (OU)</b> - A string that begins with "ou-" followed by from
+        /// 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string
+        /// is followed by a second "-" dash and from 8 to 32 additional lowercase letters or
+        /// digits.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ParentId
         {
             get { return this._parentId; }

@@ -29,15 +29,21 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteApnsVoipSandboxChannel operation.
-    /// Delete an APNS VoIP sandbox channel
+    /// Disables the APNs VoIP sandbox channel for an application and deletes any existing
+    /// settings for the channel.
     /// </summary>
     public partial class DeleteApnsVoipSandboxChannelRequest : AmazonPinpointRequest
     {
         private string _applicationId;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

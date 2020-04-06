@@ -55,14 +55,15 @@ namespace Amazon.WorkDocs.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateFolderRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.WorkDocs");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-05-01";            
             request.HttpMethod = "PATCH";
 
-            string uriResourcePath = "/api/v1/folders/{FolderId}";
             if (!publicRequest.IsSetFolderId())
                 throw new AmazonWorkDocsException("Request object does not have required field FolderId set");
-            uriResourcePath = uriResourcePath.Replace("{FolderId}", StringUtils.FromString(publicRequest.FolderId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{FolderId}", StringUtils.FromString(publicRequest.FolderId));
+            request.ResourcePath = "/api/v1/folders/{FolderId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

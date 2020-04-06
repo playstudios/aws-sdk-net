@@ -30,7 +30,7 @@ namespace Amazon.IdentityManagement.Model
     /// <summary>
     /// Container for the parameters to the DeleteAccountAlias operation.
     /// Deletes the specified AWS account alias. For information about using an AWS account
-    /// alias, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
+    /// alias, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
     /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
     /// </summary>
     public partial class DeleteAccountAliasRequest : AmazonIdentityManagementServiceRequest
@@ -45,7 +45,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Instantiates DeleteAccountAliasRequest with the parameterized properties
         /// </summary>
-        /// <param name="accountAlias">The name of the account alias to delete. This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.</param>
+        /// <param name="accountAlias">The name of the account alias to delete. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.</param>
         public DeleteAccountAliasRequest(string accountAlias)
         {
             _accountAlias = accountAlias;
@@ -58,11 +58,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of lowercase letters, digits, and dashes. You cannot
-        /// start or finish with a dash, nor can you have two dashes in a row.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of lowercase letters, digits, and dashes.
+        /// You cannot start or finish with a dash, nor can you have two dashes in a row.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=63)]
         public string AccountAlias
         {
             get { return this._accountAlias; }

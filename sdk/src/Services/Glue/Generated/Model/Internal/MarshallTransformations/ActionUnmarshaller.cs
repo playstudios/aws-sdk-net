@@ -70,10 +70,34 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     unmarshalledObject.Arguments = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("CrawlerName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.CrawlerName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("JobName", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.JobName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NotificationProperty", targetDepth))
+                {
+                    var unmarshaller = NotificationPropertyUnmarshaller.Instance;
+                    unmarshalledObject.NotificationProperty = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("SecurityConfiguration", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SecurityConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("Timeout", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.Timeout = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

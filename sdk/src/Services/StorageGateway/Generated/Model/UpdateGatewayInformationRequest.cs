@@ -43,13 +43,40 @@ namespace Amazon.StorageGateway.Model
     /// </summary>
     public partial class UpdateGatewayInformationRequest : AmazonStorageGatewayRequest
     {
+        private string _cloudWatchLogGroupARN;
         private string _gatewayARN;
         private string _gatewayName;
         private string _gatewayTimezone;
 
         /// <summary>
+        /// Gets and sets the property CloudWatchLogGroupARN. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to
+        /// use to monitor and log events in the gateway. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html">What
+        /// Is Amazon CloudWatch Logs?</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=562)]
+        public string CloudWatchLogGroupARN
+        {
+            get { return this._cloudWatchLogGroupARN; }
+            set { this._cloudWatchLogGroupARN = value; }
+        }
+
+        // Check to see if CloudWatchLogGroupARN property is set
+        internal bool IsSetCloudWatchLogGroupARN()
+        {
+            return this._cloudWatchLogGroupARN != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property GatewayARN.
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }
@@ -65,6 +92,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayName.
         /// </summary>
+        [AWSProperty(Min=2, Max=255)]
         public string GatewayName
         {
             get { return this._gatewayName; }
@@ -78,8 +106,12 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GatewayTimezone.
+        /// Gets and sets the property GatewayTimezone. 
+        /// <para>
+        /// A value that indicates the time zone of the gateway.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=10)]
         public string GatewayTimezone
         {
             get { return this._gatewayTimezone; }

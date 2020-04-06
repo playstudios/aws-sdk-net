@@ -46,9 +46,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlayerId. 
         /// <para>
-        /// Unique identifier for a player 
+        /// A unique identifier for a player 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string PlayerId
         {
             get { return this._playerId; }
@@ -64,7 +65,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlayerSessionId. 
         /// <para>
-        /// Unique identifier for a player session
+        /// A unique identifier for a player session
         /// </para>
         /// </summary>
         public string PlayerSessionId

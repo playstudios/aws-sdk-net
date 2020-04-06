@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -45,6 +45,7 @@ namespace Amazon.CloudDirectory.Model
         /// ARN. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AppliedSchemaArn
         {
             get { return this._appliedSchemaArn; }
@@ -63,6 +64,7 @@ namespace Amazon.CloudDirectory.Model
         /// The ARN that is associated with the <a>Directory</a>. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -81,6 +83,7 @@ namespace Amazon.CloudDirectory.Model
         /// The name of the <a>Directory</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Name
         {
             get { return this._name; }
@@ -99,6 +102,7 @@ namespace Amazon.CloudDirectory.Model
         /// The root object node of the created directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ObjectIdentifier
         {
             get { return this._objectIdentifier; }

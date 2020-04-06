@@ -82,6 +82,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                     unmarshalledObject.JobDefinitionName = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("nodeProperties", targetDepth))
+                {
+                    var unmarshaller = NodePropertiesUnmarshaller.Instance;
+                    unmarshalledObject.NodeProperties = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("parameters", targetDepth))
                 {
                     var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
@@ -104,6 +110,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Status = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("timeout", targetDepth))
+                {
+                    var unmarshaller = JobTimeoutUnmarshaller.Instance;
+                    unmarshalledObject.Timeout = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("type", targetDepth))

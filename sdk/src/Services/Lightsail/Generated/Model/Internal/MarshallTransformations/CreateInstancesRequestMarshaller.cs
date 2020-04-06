@@ -58,15 +58,32 @@ namespace Amazon.Lightsail.Model.Internal.MarshallTransformations
             string target = "Lightsail_20161128.CreateInstances";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-11-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAddOns())
+                {
+                    context.Writer.WritePropertyName("addOns");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAddOnsListValue in publicRequest.AddOns)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = AddOnRequestMarshaller.Instance;
+                        marshaller.Marshall(publicRequestAddOnsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetAvailabilityZone())
                 {
                     context.Writer.WritePropertyName("availabilityZone");
@@ -106,6 +123,22 @@ namespace Amazon.Lightsail.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("keyPairName");
                     context.Writer.Write(publicRequest.KeyPairName);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetUserData())

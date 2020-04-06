@@ -31,7 +31,7 @@ namespace Amazon.APIGateway.Model
     /// Container for the parameters to the UpdateAuthorizer operation.
     /// Updates an existing <a>Authorizer</a> resource.
     /// 
-    ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS
+    ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS
     /// CLI</a></div>
     /// </summary>
     public partial class UpdateAuthorizerRequest : AmazonAPIGatewayRequest
@@ -46,6 +46,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The identifier of the <a>Authorizer</a> resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AuthorizerId
         {
             get { return this._authorizerId; }
@@ -83,6 +84,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }

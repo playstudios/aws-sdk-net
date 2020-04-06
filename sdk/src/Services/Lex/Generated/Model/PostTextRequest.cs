@@ -29,9 +29,9 @@ namespace Amazon.Lex.Model
 {
     /// <summary>
     /// Container for the parameters to the PostText operation.
-    /// Sends user input (text-only) to Amazon Lex. Client applications can use this API to
-    /// send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input
-    /// using the machine learning model it built for the bot. 
+    /// Sends user input to Amazon Lex. Client applications can use this API to send requests
+    /// to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine
+    /// learning model it built for the bot. 
     /// 
     ///  
     /// <para>
@@ -102,7 +102,7 @@ namespace Amazon.Lex.Model
     ///  </li> </ul> 
     /// <para>
     ///  In addition, Amazon Lex also returns your application-specific <code>sessionAttributes</code>.
-    /// For more information, see <a href="http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html">Managing
+    /// For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html">Managing
     /// Conversation Context</a>. 
     /// </para>
     /// </summary>
@@ -121,6 +121,7 @@ namespace Amazon.Lex.Model
         /// The alias of the Amazon Lex bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BotAlias
         {
             get { return this._botAlias; }
@@ -139,6 +140,7 @@ namespace Amazon.Lex.Model
         /// The name of the Amazon Lex bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BotName
         {
             get { return this._botName; }
@@ -157,6 +159,7 @@ namespace Amazon.Lex.Model
         /// The text that the user entered (Amazon Lex interprets this text).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1024)]
         public string InputText
         {
             get { return this._inputText; }
@@ -181,7 +184,7 @@ namespace Amazon.Lex.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-request-attribs">Setting
+        /// For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-request-attribs">Setting
         /// Request Attributes</a>.
         /// </para>
         /// </summary>
@@ -204,7 +207,7 @@ namespace Amazon.Lex.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs">Setting
+        /// For more information, see <a href="https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs">Setting
         /// Session Attributes</a>.
         /// </para>
         /// </summary>
@@ -256,6 +259,7 @@ namespace Amazon.Lex.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=100)]
         public string UserId
         {
             get { return this._userId; }

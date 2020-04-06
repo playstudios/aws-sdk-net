@@ -147,6 +147,10 @@ namespace Amazon.DirectConnect
         /// </summary>
         public static readonly BGPStatus Down = new BGPStatus("down");
         /// <summary>
+        /// Constant Unknown for BGPStatus
+        /// </summary>
+        public static readonly BGPStatus Unknown = new BGPStatus("unknown");
+        /// <summary>
         /// Constant Up for BGPStatus
         /// </summary>
         public static readonly BGPStatus Up = new BGPStatus("up");
@@ -224,6 +228,10 @@ namespace Amazon.DirectConnect
         /// Constant Requested for ConnectionState
         /// </summary>
         public static readonly ConnectionState Requested = new ConnectionState("requested");
+        /// <summary>
+        /// Constant Unknown for ConnectionState
+        /// </summary>
+        public static readonly ConnectionState Unknown = new ConnectionState("unknown");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -261,6 +269,60 @@ namespace Amazon.DirectConnect
 
 
     /// <summary>
+    /// Constants used for properties of type DirectConnectGatewayAssociationProposalState.
+    /// </summary>
+    public class DirectConnectGatewayAssociationProposalState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Accepted for DirectConnectGatewayAssociationProposalState
+        /// </summary>
+        public static readonly DirectConnectGatewayAssociationProposalState Accepted = new DirectConnectGatewayAssociationProposalState("accepted");
+        /// <summary>
+        /// Constant Deleted for DirectConnectGatewayAssociationProposalState
+        /// </summary>
+        public static readonly DirectConnectGatewayAssociationProposalState Deleted = new DirectConnectGatewayAssociationProposalState("deleted");
+        /// <summary>
+        /// Constant Requested for DirectConnectGatewayAssociationProposalState
+        /// </summary>
+        public static readonly DirectConnectGatewayAssociationProposalState Requested = new DirectConnectGatewayAssociationProposalState("requested");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DirectConnectGatewayAssociationProposalState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DirectConnectGatewayAssociationProposalState FindValue(string value)
+        {
+            return FindValue<DirectConnectGatewayAssociationProposalState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DirectConnectGatewayAssociationProposalState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type DirectConnectGatewayAssociationState.
     /// </summary>
     public class DirectConnectGatewayAssociationState : ConstantClass
@@ -282,6 +344,10 @@ namespace Amazon.DirectConnect
         /// Constant Disassociating for DirectConnectGatewayAssociationState
         /// </summary>
         public static readonly DirectConnectGatewayAssociationState Disassociating = new DirectConnectGatewayAssociationState("disassociating");
+        /// <summary>
+        /// Constant Updating for DirectConnectGatewayAssociationState
+        /// </summary>
+        public static readonly DirectConnectGatewayAssociationState Updating = new DirectConnectGatewayAssociationState("updating");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -377,6 +443,56 @@ namespace Amazon.DirectConnect
 
 
     /// <summary>
+    /// Constants used for properties of type DirectConnectGatewayAttachmentType.
+    /// </summary>
+    public class DirectConnectGatewayAttachmentType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant PrivateVirtualInterface for DirectConnectGatewayAttachmentType
+        /// </summary>
+        public static readonly DirectConnectGatewayAttachmentType PrivateVirtualInterface = new DirectConnectGatewayAttachmentType("PrivateVirtualInterface");
+        /// <summary>
+        /// Constant TransitVirtualInterface for DirectConnectGatewayAttachmentType
+        /// </summary>
+        public static readonly DirectConnectGatewayAttachmentType TransitVirtualInterface = new DirectConnectGatewayAttachmentType("TransitVirtualInterface");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DirectConnectGatewayAttachmentType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DirectConnectGatewayAttachmentType FindValue(string value)
+        {
+            return FindValue<DirectConnectGatewayAttachmentType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DirectConnectGatewayAttachmentType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type DirectConnectGatewayState.
     /// </summary>
     public class DirectConnectGatewayState : ConstantClass
@@ -435,6 +551,110 @@ namespace Amazon.DirectConnect
 
 
     /// <summary>
+    /// Constants used for properties of type GatewayType.
+    /// </summary>
+    public class GatewayType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant TransitGateway for GatewayType
+        /// </summary>
+        public static readonly GatewayType TransitGateway = new GatewayType("transitGateway");
+        /// <summary>
+        /// Constant VirtualPrivateGateway for GatewayType
+        /// </summary>
+        public static readonly GatewayType VirtualPrivateGateway = new GatewayType("virtualPrivateGateway");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public GatewayType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static GatewayType FindValue(string value)
+        {
+            return FindValue<GatewayType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator GatewayType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type HasLogicalRedundancy.
+    /// </summary>
+    public class HasLogicalRedundancy : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant No for HasLogicalRedundancy
+        /// </summary>
+        public static readonly HasLogicalRedundancy No = new HasLogicalRedundancy("no");
+        /// <summary>
+        /// Constant Unknown for HasLogicalRedundancy
+        /// </summary>
+        public static readonly HasLogicalRedundancy Unknown = new HasLogicalRedundancy("unknown");
+        /// <summary>
+        /// Constant Yes for HasLogicalRedundancy
+        /// </summary>
+        public static readonly HasLogicalRedundancy Yes = new HasLogicalRedundancy("yes");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public HasLogicalRedundancy(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static HasLogicalRedundancy FindValue(string value)
+        {
+            return FindValue<HasLogicalRedundancy>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator HasLogicalRedundancy(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type InterconnectState.
     /// </summary>
     public class InterconnectState : ConstantClass
@@ -464,6 +684,10 @@ namespace Amazon.DirectConnect
         /// Constant Requested for InterconnectState
         /// </summary>
         public static readonly InterconnectState Requested = new InterconnectState("requested");
+        /// <summary>
+        /// Constant Unknown for InterconnectState
+        /// </summary>
+        public static readonly InterconnectState Unknown = new InterconnectState("unknown");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -530,6 +754,10 @@ namespace Amazon.DirectConnect
         /// Constant Requested for LagState
         /// </summary>
         public static readonly LagState Requested = new LagState("requested");
+        /// <summary>
+        /// Constant Unknown for LagState
+        /// </summary>
+        public static readonly LagState Unknown = new LagState("unknown");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -646,6 +874,10 @@ namespace Amazon.DirectConnect
         /// Constant Rejected for VirtualInterfaceState
         /// </summary>
         public static readonly VirtualInterfaceState Rejected = new VirtualInterfaceState("rejected");
+        /// <summary>
+        /// Constant Unknown for VirtualInterfaceState
+        /// </summary>
+        public static readonly VirtualInterfaceState Unknown = new VirtualInterfaceState("unknown");
         /// <summary>
         /// Constant Verifying for VirtualInterfaceState
         /// </summary>

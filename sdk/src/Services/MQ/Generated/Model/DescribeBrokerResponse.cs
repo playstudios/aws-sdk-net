@@ -39,14 +39,22 @@ namespace Amazon.MQ.Model
         private string _brokerName;
         private BrokerState _brokerState;
         private Configurations _configurations;
+        private DateTime? _created;
         private DeploymentMode _deploymentMode;
+        private EncryptionOptions _encryptionOptions;
         private EngineType _engineType;
         private string _engineVersion;
         private string _hostInstanceType;
+        private LogsSummary _logs;
         private WeeklyStartTime _maintenanceWindowStartTime;
+        private string _pendingEngineVersion;
+        private string _pendingHostInstanceType;
+        private List<string> _pendingSecurityGroups = new List<string>();
         private bool? _publiclyAccessible;
         private List<string> _securityGroups = new List<string>();
+        private BrokerStorageType _storageType;
         private List<string> _subnetIds = new List<string>();
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private List<UserSummary> _users = new List<UserSummary>();
 
         /// <summary>
@@ -133,8 +141,7 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
-        /// Gets and sets the property BrokerState. The status of the broker. Possible values:
-        /// CREATION_IN_PROGRESS, CREATION_FAILED, DELETION_IN_PROGRESS, RUNNING, REBOOT_IN_PROGRESS
+        /// Gets and sets the property BrokerState. The status of the broker.
         /// </summary>
         public BrokerState BrokerState
         {
@@ -165,10 +172,22 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Created. The time when the broker was created.
+        /// </summary>
+        public DateTime Created
+        {
+            get { return this._created.GetValueOrDefault(); }
+            set { this._created = value; }
+        }
+
+        // Check to see if Created property is set
+        internal bool IsSetCreated()
+        {
+            return this._created.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property DeploymentMode. Required. The deployment mode of the broker.
-        /// Possible values: SINGLE_INSTANCE, ACTIVE_STANDBY_MULTI_AZ SINGLE_INSTANCE creates
-        /// a single-instance broker in a single Availability Zone. ACTIVE_STANDBY_MULTI_AZ creates
-        /// an active/standby broker for high availability.
         /// </summary>
         public DeploymentMode DeploymentMode
         {
@@ -180,6 +199,21 @@ namespace Amazon.MQ.Model
         internal bool IsSetDeploymentMode()
         {
             return this._deploymentMode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EncryptionOptions. Encryption options for the broker.
+        /// </summary>
+        public EncryptionOptions EncryptionOptions
+        {
+            get { return this._encryptionOptions; }
+            set { this._encryptionOptions = value; }
+        }
+
+        // Check to see if EncryptionOptions property is set
+        internal bool IsSetEncryptionOptions()
+        {
+            return this._encryptionOptions != null;
         }
 
         /// <summary>
@@ -199,8 +233,8 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EngineVersion. The version of the broker engine. Note:
-        /// Currently, Amazon MQ supports only 5.15.0.
+        /// Gets and sets the property EngineVersion. The version of the broker engine. For a
+        /// list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         /// </summary>
         public string EngineVersion
         {
@@ -215,8 +249,7 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
-        /// Gets and sets the property HostInstanceType. The broker's instance type. Possible
-        /// values: mq.t2.micro, mq.m4.large
+        /// Gets and sets the property HostInstanceType. The broker's instance type.
         /// </summary>
         public string HostInstanceType
         {
@@ -228,6 +261,22 @@ namespace Amazon.MQ.Model
         internal bool IsSetHostInstanceType()
         {
             return this._hostInstanceType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Logs. The list of information about logs currently enabled
+        /// and pending to be deployed for the specified broker.
+        /// </summary>
+        public LogsSummary Logs
+        {
+            get { return this._logs; }
+            set { this._logs = value; }
+        }
+
+        // Check to see if Logs property is set
+        internal bool IsSetLogs()
+        {
+            return this._logs != null;
         }
 
         /// <summary>
@@ -247,6 +296,54 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PendingEngineVersion. The version of the broker engine
+        /// to upgrade to. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+        /// </summary>
+        public string PendingEngineVersion
+        {
+            get { return this._pendingEngineVersion; }
+            set { this._pendingEngineVersion = value; }
+        }
+
+        // Check to see if PendingEngineVersion property is set
+        internal bool IsSetPendingEngineVersion()
+        {
+            return this._pendingEngineVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PendingHostInstanceType. The host instance type of the
+        /// broker to upgrade to. For a list of supported instance types, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
+        /// </summary>
+        public string PendingHostInstanceType
+        {
+            get { return this._pendingHostInstanceType; }
+            set { this._pendingHostInstanceType = value; }
+        }
+
+        // Check to see if PendingHostInstanceType property is set
+        internal bool IsSetPendingHostInstanceType()
+        {
+            return this._pendingHostInstanceType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PendingSecurityGroups. The list of pending security groups
+        /// to authorize connections to brokers.
+        /// </summary>
+        public List<string> PendingSecurityGroups
+        {
+            get { return this._pendingSecurityGroups; }
+            set { this._pendingSecurityGroups = value; }
+        }
+
+        // Check to see if PendingSecurityGroups property is set
+        internal bool IsSetPendingSecurityGroups()
+        {
+            return this._pendingSecurityGroups != null && this._pendingSecurityGroups.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PubliclyAccessible. Required. Enables connections from
         /// applications outside of the VPC that hosts the broker's subnets.
         /// </summary>
@@ -263,8 +360,8 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SecurityGroups. Required. The list of rules (1 minimum,
-        /// 125 maximum) that authorize connections to brokers.
+        /// Gets and sets the property SecurityGroups. The list of security groups (1 minimum,
+        /// 5 maximum) that authorizes connections to brokers.
         /// </summary>
         public List<string> SecurityGroups
         {
@@ -276,6 +373,21 @@ namespace Amazon.MQ.Model
         internal bool IsSetSecurityGroups()
         {
             return this._securityGroups != null && this._securityGroups.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property StorageType. The broker's storage type.
+        /// </summary>
+        public BrokerStorageType StorageType
+        {
+            get { return this._storageType; }
+            set { this._storageType = value; }
+        }
+
+        // Check to see if StorageType property is set
+        internal bool IsSetStorageType()
+        {
+            return this._storageType != null;
         }
 
         /// <summary>
@@ -294,6 +406,21 @@ namespace Amazon.MQ.Model
         internal bool IsSetSubnetIds()
         {
             return this._subnetIds != null && this._subnetIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. The list of all tags associated with this broker.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

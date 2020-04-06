@@ -76,10 +76,28 @@ namespace Amazon.KeyManagementService.Model.Internal.MarshallTransformations
                     unmarshalledObject.AWSAccountId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("CloudHsmClusterId", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.CloudHsmClusterId = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CreationDate", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.CreationDate = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("CustomerMasterKeySpec", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.CustomerMasterKeySpec = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("CustomKeyStoreId", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.CustomKeyStoreId = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("DeletionDate", targetDepth))
@@ -98,6 +116,12 @@ namespace Amazon.KeyManagementService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = BoolUnmarshaller.Instance;
                     unmarshalledObject.Enabled = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("EncryptionAlgorithms", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.EncryptionAlgorithms = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ExpirationModel", targetDepth))
@@ -134,6 +158,12 @@ namespace Amazon.KeyManagementService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Origin = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("SigningAlgorithms", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.SigningAlgorithms = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ValidTo", targetDepth))

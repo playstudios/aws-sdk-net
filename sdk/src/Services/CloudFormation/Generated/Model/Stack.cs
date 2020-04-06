@@ -38,6 +38,7 @@ namespace Amazon.CloudFormation.Model
         private DateTime? _deletionTime;
         private string _description;
         private bool? _disableRollback;
+        private StackDriftInformation _driftInformation;
         private bool? _enableTerminationProtection;
         private DateTime? _lastUpdatedTime;
         private List<string> _notificationARNs = new List<string>();
@@ -78,6 +79,7 @@ namespace Amazon.CloudFormation.Model
         /// The unique ID of the change set.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ChangeSetId
         {
             get { return this._changeSetId; }
@@ -96,6 +98,7 @@ namespace Amazon.CloudFormation.Model
         /// The time at which the stack was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreationTime
         {
             get { return this._creationTime.GetValueOrDefault(); }
@@ -132,6 +135,7 @@ namespace Amazon.CloudFormation.Model
         /// A user-defined description associated with the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -169,6 +173,27 @@ namespace Amazon.CloudFormation.Model
         internal bool IsSetDisableRollback()
         {
             return this._disableRollback.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DriftInformation. 
+        /// <para>
+        /// Information on whether a stack's actual configuration differs, or has <i>drifted</i>,
+        /// from it's expected configuration, as defined in the stack template and any values
+        /// specified as template parameters. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+        /// Unregulated Configuration Changes to Stacks and Resources</a>.
+        /// </para>
+        /// </summary>
+        public StackDriftInformation DriftInformation
+        {
+            get { return this._driftInformation; }
+            set { this._driftInformation = value; }
+        }
+
+        // Check to see if DriftInformation property is set
+        internal bool IsSetDriftInformation()
+        {
+            return this._driftInformation != null;
         }
 
         /// <summary>
@@ -221,6 +246,7 @@ namespace Amazon.CloudFormation.Model
         /// SNS topic ARNs to which stack related events are published.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> NotificationARNs
         {
             get { return this._notificationARNs; }
@@ -302,6 +328,7 @@ namespace Amazon.CloudFormation.Model
         /// this role's credentials to make calls on your behalf.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string RoleARN
         {
             get { return this._roleARN; }
@@ -337,7 +364,7 @@ namespace Amazon.CloudFormation.Model
         /// Gets and sets the property RootId. 
         /// <para>
         /// For nested stacks--stacks created as resources for another stack--the stack ID of
-        /// the the top-level stack to which the nested stack ultimately belongs.
+        /// the top-level stack to which the nested stack ultimately belongs.
         /// </para>
         ///  
         /// <para>
@@ -381,6 +408,7 @@ namespace Amazon.CloudFormation.Model
         /// The name associated with the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackName
         {
             get { return this._stackName; }
@@ -399,6 +427,7 @@ namespace Amazon.CloudFormation.Model
         /// Current status of the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StackStatus StackStatus
         {
             get { return this._stackStatus; }
@@ -435,6 +464,7 @@ namespace Amazon.CloudFormation.Model
         /// A list of <code>Tag</code>s that specify information about the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<Tag> Tags
         {
             get { return this._tags; }
@@ -453,6 +483,7 @@ namespace Amazon.CloudFormation.Model
         /// The amount of time within which stack creation should complete.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int TimeoutInMinutes
         {
             get { return this._timeoutInMinutes.GetValueOrDefault(); }

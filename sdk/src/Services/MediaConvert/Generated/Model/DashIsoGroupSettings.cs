@@ -32,14 +32,36 @@ namespace Amazon.MediaConvert.Model
     /// </summary>
     public partial class DashIsoGroupSettings
     {
+        private List<DashAdditionalManifest> _additionalManifests = new List<DashAdditionalManifest>();
         private string _baseUrl;
         private string _destination;
+        private DestinationSettings _destinationSettings;
         private DashIsoEncryptionSettings _encryption;
         private int? _fragmentLength;
         private DashIsoHbbtvCompliance _hbbtvCompliance;
         private int? _minBufferTime;
+        private DashIsoMpdProfile _mpdProfile;
         private DashIsoSegmentControl _segmentControl;
         private int? _segmentLength;
+        private DashIsoWriteSegmentTimelineInRepresentation _writeSegmentTimelineInRepresentation;
+
+        /// <summary>
+        /// Gets and sets the property AdditionalManifests. By default, the service creates one
+        /// .mpd DASH manifest for each DASH ISO output group in your job. This default manifest
+        /// references every output in the output group. To create additional DASH manifests that
+        /// reference a subset of the outputs in the output group, specify a list of them here.
+        /// </summary>
+        public List<DashAdditionalManifest> AdditionalManifests
+        {
+            get { return this._additionalManifests; }
+            set { this._additionalManifests = value; }
+        }
+
+        // Check to see if AdditionalManifests property is set
+        internal bool IsSetAdditionalManifests()
+        {
+            return this._additionalManifests != null && this._additionalManifests.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property BaseUrl. A partial URI prefix that will be put in the manifest
@@ -78,6 +100,22 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DestinationSettings. Settings associated with the destination.
+        /// Will vary based on the type of destination
+        /// </summary>
+        public DestinationSettings DestinationSettings
+        {
+            get { return this._destinationSettings; }
+            set { this._destinationSettings = value; }
+        }
+
+        // Check to see if DestinationSettings property is set
+        internal bool IsSetDestinationSettings()
+        {
+            return this._destinationSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Encryption. DRM settings.
         /// </summary>
         public DashIsoEncryptionSettings Encryption
@@ -100,6 +138,7 @@ namespace Amazon.MediaConvert.Model
         /// a single output file and it does not cause the creation of many output files as in
         /// other output types.
         /// </summary>
+        [AWSProperty(Min=1, Max=2147483647)]
         public int FragmentLength
         {
             get { return this._fragmentLength.GetValueOrDefault(); }
@@ -113,7 +152,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property HbbtvCompliance.
+        /// Gets and sets the property HbbtvCompliance. Supports HbbTV specification as indicated
         /// </summary>
         public DashIsoHbbtvCompliance HbbtvCompliance
         {
@@ -131,6 +170,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property MinBufferTime. Minimum time of initially buffered media
         /// that is needed to ensure smooth playout.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int MinBufferTime
         {
             get { return this._minBufferTime.GetValueOrDefault(); }
@@ -144,7 +184,29 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentControl.
+        /// Gets and sets the property MpdProfile. Specify whether your DASH profile is on-demand
+        /// or main. When you choose Main profile (MAIN_PROFILE), the service signals  urn:mpeg:dash:profile:isoff-main:2011
+        /// in your .mpd DASH manifest. When you choose On-demand (ON_DEMAND_PROFILE), the service
+        /// signals urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you choose On-demand,
+        /// you must also set the output group setting Segment control (SegmentControl) to Single
+        /// file (SINGLE_FILE).
+        /// </summary>
+        public DashIsoMpdProfile MpdProfile
+        {
+            get { return this._mpdProfile; }
+            set { this._mpdProfile = value; }
+        }
+
+        // Check to see if MpdProfile property is set
+        internal bool IsSetMpdProfile()
+        {
+            return this._mpdProfile != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SegmentControl. When set to SINGLE_FILE, a single output
+        /// file is generated, which is internally segmented using the Fragment Length and Segment
+        /// Length. When set to SEGMENTED_FILES, separate segment files will be created.
         /// </summary>
         public DashIsoSegmentControl SegmentControl
         {
@@ -165,6 +227,7 @@ namespace Amazon.MediaConvert.Model
         /// is internal to a single output file and it does not cause the creation of many output
         /// files as in other output types.
         /// </summary>
+        [AWSProperty(Min=1, Max=2147483647)]
         public int SegmentLength
         {
             get { return this._segmentLength.GetValueOrDefault(); }
@@ -175,6 +238,27 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetSegmentLength()
         {
             return this._segmentLength.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property WriteSegmentTimelineInRepresentation. If you get an HTTP
+        /// error in the 400 range when you play back your DASH output, enable this setting and
+        /// run your transcoding job again. When you enable this setting, the service writes precise
+        /// segment durations in the DASH manifest. The segment duration information appears inside
+        /// the SegmentTimeline element, inside SegmentTemplate at the Representation level. When
+        /// you don't enable this setting, the service writes approximate segment durations in
+        /// your DASH manifest.
+        /// </summary>
+        public DashIsoWriteSegmentTimelineInRepresentation WriteSegmentTimelineInRepresentation
+        {
+            get { return this._writeSegmentTimelineInRepresentation; }
+            set { this._writeSegmentTimelineInRepresentation = value; }
+        }
+
+        // Check to see if WriteSegmentTimelineInRepresentation property is set
+        internal bool IsSetWriteSegmentTimelineInRepresentation()
+        {
+            return this._writeSegmentTimelineInRepresentation != null;
         }
 
     }

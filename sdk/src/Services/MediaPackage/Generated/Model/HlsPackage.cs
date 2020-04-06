@@ -33,6 +33,8 @@ namespace Amazon.MediaPackage.Model
     public partial class HlsPackage
     {
         private AdMarkers _adMarkers;
+        private AdsOnDeliveryRestrictions _adsOnDeliveryRestrictions;
+        private List<string> _adTriggers = new List<string>();
         private HlsEncryption _encryption;
         private bool? _includeIframeOnlyStream;
         private PlaylistType _playlistType;
@@ -59,6 +61,36 @@ namespace Amazon.MediaPackage.Model
         internal bool IsSetAdMarkers()
         {
             return this._adMarkers != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AdsOnDeliveryRestrictions.
+        /// </summary>
+        public AdsOnDeliveryRestrictions AdsOnDeliveryRestrictions
+        {
+            get { return this._adsOnDeliveryRestrictions; }
+            set { this._adsOnDeliveryRestrictions = value; }
+        }
+
+        // Check to see if AdsOnDeliveryRestrictions property is set
+        internal bool IsSetAdsOnDeliveryRestrictions()
+        {
+            return this._adsOnDeliveryRestrictions != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AdTriggers.
+        /// </summary>
+        public List<string> AdTriggers
+        {
+            get { return this._adTriggers; }
+            set { this._adTriggers = value; }
+        }
+
+        // Check to see if AdTriggers property is set
+        internal bool IsSetAdTriggers()
+        {
+            return this._adTriggers != null && this._adTriggers.Count > 0; 
         }
 
         /// <summary>
@@ -129,7 +161,7 @@ namespace Amazon.MediaPackage.Model
         /// Gets and sets the property ProgramDateTimeIntervalSeconds. The interval (in seconds)
         /// between each EXT-X-PROGRAM-DATE-TIME taginserted into manifests. Additionally, when
         /// an interval is specifiedID3Timed Metadata messages will be generated every 5 seconds
-        /// using the ingest time of the content.If the interval is not specified, or set to 0,
+        /// using theingest time of the content.If the interval is not specified, or set to 0,
         /// thenno EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and noID3Timed
         /// Metadata messages will be generated. Note that irrespectiveof this parameter, if any
         /// ID3 Timed Metadata is found in HTTP Live Streaming (HLS) input,it will be passed through

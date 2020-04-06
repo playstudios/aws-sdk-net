@@ -103,6 +103,23 @@ namespace Amazon.Runtime.Internal.Util
         }
 
         /// <summary>
+        /// Evicts a specific key out of the cache if it exists
+        /// </summary>
+        /// <param name="key">the key to evict from the cache</param>        
+        public void Evict(TKey key)
+        {
+            lock (cacheLock)
+            {
+                LruListItem<TKey, TValue> existingLruListItem;
+                if (cache.TryGetValue(key, out existingLruListItem))
+                {
+                    lruList.Remove(existingLruListItem);
+                    cache.Remove(key);
+                }
+            }
+        }
+
+        /// <summary>
         /// Try to get the value associated with the key.
         /// </summary>
         /// <param name="key">the key to look up</param>
@@ -125,6 +142,25 @@ namespace Amazon.Runtime.Internal.Util
                     return false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Try to get the value associated with the key, if it doesn't exist, use the provided factory method to 
+        /// create a new value and tries adding it to the cache.
+        /// </summary>
+        /// <param name="key">the key to look up</param>
+        /// <param name="factory">the factory method used in case the key is not present in the cache</param>
+        /// <returns>the looked up value or the value created by the factory</returns>
+        public TValue GetOrAdd(TKey key, Func<TKey, TValue> factory)
+        {
+            TValue value;
+            if (TryGetValue(key, out value))
+            {
+                return value;
+            }
+            value = factory(key);
+            AddOrUpdate(key, value);
+            return value;
         }
 
         /// <summary>

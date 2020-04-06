@@ -28,17 +28,18 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Describes an egress-only Internet gateway.
+    /// Describes an egress-only internet gateway.
     /// </summary>
     public partial class EgressOnlyInternetGateway
     {
         private List<InternetGatewayAttachment> _attachments = new List<InternetGatewayAttachment>();
         private string _egressOnlyInternetGatewayId;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Attachments. 
         /// <para>
-        /// Information about the attachment of the egress-only Internet gateway.
+        /// Information about the attachment of the egress-only internet gateway.
         /// </para>
         /// </summary>
         public List<InternetGatewayAttachment> Attachments
@@ -56,7 +57,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property EgressOnlyInternetGatewayId. 
         /// <para>
-        /// The ID of the egress-only Internet gateway.
+        /// The ID of the egress-only internet gateway.
         /// </para>
         /// </summary>
         public string EgressOnlyInternetGatewayId
@@ -69,6 +70,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetEgressOnlyInternetGatewayId()
         {
             return this._egressOnlyInternetGatewayId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags assigned to the egress-only internet gateway.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

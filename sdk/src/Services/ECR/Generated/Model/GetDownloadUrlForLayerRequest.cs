@@ -32,6 +32,10 @@ namespace Amazon.ECR.Model
     /// Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You
     /// can only get URLs for image layers that are referenced in an image.
     /// 
+    ///  
+    /// <para>
+    /// When an image is pulled, the GetDownloadUrlForLayer API is called once per image layer.
+    /// </para>
     ///  <note> 
     /// <para>
     /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -52,6 +56,7 @@ namespace Amazon.ECR.Model
         /// The digest of the image layer to download.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LayerDigest
         {
             get { return this._layerDigest; }
@@ -89,6 +94,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository that is associated with the image layer to download.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

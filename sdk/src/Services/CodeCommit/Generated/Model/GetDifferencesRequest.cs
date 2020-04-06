@@ -30,8 +30,8 @@ namespace Amazon.CodeCommit.Model
     /// <summary>
     /// Container for the parameters to the GetDifferences operation.
     /// Returns information about the differences in a valid commit specifier (such as a branch,
-    /// tag, HEAD, commit ID or other fully qualified reference). Results can be limited to
-    /// a specified path.
+    /// tag, HEAD, commit ID, or other fully qualified reference). Results can be limited
+    /// to a specified path.
     /// </summary>
     public partial class GetDifferencesRequest : AmazonCodeCommitRequest
     {
@@ -49,6 +49,7 @@ namespace Amazon.CodeCommit.Model
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AfterCommitSpecifier
         {
             get { return this._afterCommitSpecifier; }
@@ -66,7 +67,7 @@ namespace Amazon.CodeCommit.Model
         /// <para>
         /// The file path in which to check differences. Limits the results to this path. Can
         /// also be used to specify the changed name of a directory or folder, if it has changed.
-        /// If not specified, differences will be shown for all paths.
+        /// If not specified, differences are shown for all paths.
         /// </para>
         /// </summary>
         public string AfterPath
@@ -84,9 +85,9 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property BeforeCommitSpecifier. 
         /// <para>
-        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
-        /// For example, the full commit ID. Optional. If not specified, all changes prior to
-        /// the <code>afterCommitSpecifier</code> value will be shown. If you do not use <code>beforeCommitSpecifier</code>
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit
+        /// (for example, the full commit ID). Optional. If not specified, all changes before
+        /// the <code>afterCommitSpecifier</code> value are shown. If you do not use <code>beforeCommitSpecifier</code>
         /// in your request, consider limiting the results with <code>maxResults</code>.
         /// </para>
         /// </summary>
@@ -107,7 +108,7 @@ namespace Amazon.CodeCommit.Model
         /// <para>
         /// The file path in which to check for differences. Limits the results to this path.
         /// Can also be used to specify the previous name of a directory or folder. If <code>beforePath</code>
-        /// and <code>afterPath</code> are not specified, differences will be shown for all paths.
+        /// and <code>afterPath</code> are not specified, differences are shown for all paths.
         /// </para>
         /// </summary>
         public string BeforePath
@@ -125,7 +126,7 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// A non-negative integer used to limit the number of returned results.
+        /// A non-zero, non-negative integer used to limit the number of returned results.
         /// </para>
         /// </summary>
         public int MaxResults
@@ -143,7 +144,7 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// An enumeration token that when provided in a request, returns the next batch of the
+        /// An enumeration token that, when provided in a request, returns the next batch of the
         /// results.
         /// </para>
         /// </summary>
@@ -165,6 +166,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository where you want to get differences.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

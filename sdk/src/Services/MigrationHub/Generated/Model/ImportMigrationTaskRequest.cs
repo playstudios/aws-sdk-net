@@ -66,9 +66,11 @@ namespace Amazon.MigrationHub.Model
         /// <summary>
         /// Gets and sets the property MigrationTaskName. 
         /// <para>
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. <i>Do not store personal data
+        /// in this field.</i> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string MigrationTaskName
         {
             get { return this._migrationTaskName; }
@@ -84,9 +86,10 @@ namespace Amazon.MigrationHub.Model
         /// <summary>
         /// Gets and sets the property ProgressUpdateStream. 
         /// <para>
-        /// The name of the ProgressUpdateStream. 
+        /// The name of the ProgressUpdateStream. &gt;
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string ProgressUpdateStream
         {
             get { return this._progressUpdateStream; }

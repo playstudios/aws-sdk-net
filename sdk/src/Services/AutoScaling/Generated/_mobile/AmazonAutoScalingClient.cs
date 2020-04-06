@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.AutoScaling.Model;
 using Amazon.AutoScaling.Model.Internal.MarshallTransformations;
+using Amazon.AutoScaling.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -39,17 +41,23 @@ namespace Amazon.AutoScaling
     /// Amazon EC2 Auto Scaling 
     /// <para>
     /// Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2 instances
-    /// based on user-defined policies, schedules, and health checks. Use this service in
-    /// conjunction with the AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing
-    /// services.
+    /// based on user-defined scaling policies, scheduled actions, and health checks. Use
+    /// this service with AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, including information about granting IAM users required permissions
+    /// for Amazon EC2 Auto Scaling actions, see the <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html">Amazon
+    /// EC2 Auto Scaling User Guide</a>.
     /// </para>
     /// </summary>
     public partial class AmazonAutoScalingClient : AmazonServiceClient, IAmazonAutoScaling
     {
+        private static IServiceMetadata serviceMetadata = new AmazonAutoScalingMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonAutoScalingClient with the credentials loaded from the application's
@@ -220,6 +228,16 @@ namespace Amazon.AutoScaling
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -235,35 +253,64 @@ namespace Amazon.AutoScaling
 
         #endregion
 
-        
+
         #region  AttachInstances
 
         internal virtual AttachInstancesResponse AttachInstances(AttachInstancesRequest request)
         {
-            var marshaller = AttachInstancesRequestMarshaller.Instance;
-            var unmarshaller = AttachInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<AttachInstancesRequest,AttachInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachInstancesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AttachInstances operation.
-        /// </summary>
+        /// Attaches one or more EC2 instances to the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AttachInstances operation.</param>
+        ///  
+        /// <para>
+        /// When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity
+        /// of the group by the number of instances being attached. If the number of instances
+        /// being attached plus the desired capacity of the group exceeds the maximum size of
+        /// the group, the operation fails.
+        /// </para>
+        ///  
+        /// <para>
+        /// If there is a Classic Load Balancer attached to your Auto Scaling group, the instances
+        /// are also registered with the load balancer. If there are target groups attached to
+        /// your Auto Scaling group, the instances are also registered with the target groups.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-instance-asg.html">Attach
+        /// EC2 Instances to Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AttachInstances service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AttachInstances service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachInstances">REST API Reference for AttachInstances Operation</seealso>
         public virtual Task<AttachInstancesResponse> AttachInstancesAsync(AttachInstancesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AttachInstancesRequestMarshaller.Instance;
-            var unmarshaller = AttachInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachInstancesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AttachInstancesRequest,AttachInstancesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AttachInstancesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -272,30 +319,55 @@ namespace Amazon.AutoScaling
 
         internal virtual AttachLoadBalancersResponse AttachLoadBalancers(AttachLoadBalancersRequest request)
         {
-            var marshaller = AttachLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = AttachLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachLoadBalancersResponseUnmarshaller.Instance;
 
-            return Invoke<AttachLoadBalancersRequest,AttachLoadBalancersResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachLoadBalancersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AttachLoadBalancers operation.
-        /// </summary>
+        /// Attaches one or more Classic Load Balancers to the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancers operation.</param>
+        ///  
+        /// <para>
+        /// To attach an Application Load Balancer or a Network Load Balancer instead, see <a>AttachLoadBalancerTargetGroups</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To describe the load balancers for an Auto Scaling group, use <a>DescribeLoadBalancers</a>.
+        /// To detach the load balancer from the Auto Scaling group, use <a>DetachLoadBalancers</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-load-balancer-asg.html">Attaching
+        /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AttachLoadBalancers service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachLoadBalancers">REST API Reference for AttachLoadBalancers Operation</seealso>
         public virtual Task<AttachLoadBalancersResponse> AttachLoadBalancersAsync(AttachLoadBalancersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AttachLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = AttachLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachLoadBalancersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AttachLoadBalancersRequest,AttachLoadBalancersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AttachLoadBalancersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -304,30 +376,139 @@ namespace Amazon.AutoScaling
 
         internal virtual AttachLoadBalancerTargetGroupsResponse AttachLoadBalancerTargetGroups(AttachLoadBalancerTargetGroupsRequest request)
         {
-            var marshaller = AttachLoadBalancerTargetGroupsRequestMarshaller.Instance;
-            var unmarshaller = AttachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachLoadBalancerTargetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<AttachLoadBalancerTargetGroupsRequest,AttachLoadBalancerTargetGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachLoadBalancerTargetGroupsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AttachLoadBalancerTargetGroups operation.
-        /// </summary>
+        /// Attaches one or more target groups to the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancerTargetGroups operation.</param>
+        ///  
+        /// <para>
+        /// To describe the target groups for an Auto Scaling group, use <a>DescribeLoadBalancerTargetGroups</a>.
+        /// To detach the target group from the Auto Scaling group, use <a>DetachLoadBalancerTargetGroups</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// With Application Load Balancers and Network Load Balancers, instances are registered
+        /// as targets with a target group. With Classic Load Balancers, instances are registered
+        /// with the load balancer. For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-load-balancer-asg.html">Attaching
+        /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancerTargetGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AttachLoadBalancerTargetGroups service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachLoadBalancerTargetGroups">REST API Reference for AttachLoadBalancerTargetGroups Operation</seealso>
         public virtual Task<AttachLoadBalancerTargetGroupsResponse> AttachLoadBalancerTargetGroupsAsync(AttachLoadBalancerTargetGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AttachLoadBalancerTargetGroupsRequestMarshaller.Instance;
-            var unmarshaller = AttachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachLoadBalancerTargetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AttachLoadBalancerTargetGroupsRequest,AttachLoadBalancerTargetGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AttachLoadBalancerTargetGroupsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  BatchDeleteScheduledAction
+
+        internal virtual BatchDeleteScheduledActionResponse BatchDeleteScheduledAction(BatchDeleteScheduledActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteScheduledActionResponseUnmarshaller.Instance;
+
+            return Invoke<BatchDeleteScheduledActionResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Deletes one or more scheduled actions for the specified Auto Scaling group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchDeleteScheduledAction service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the BatchDeleteScheduledAction service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchDeleteScheduledAction">REST API Reference for BatchDeleteScheduledAction Operation</seealso>
+        public virtual Task<BatchDeleteScheduledActionResponse> BatchDeleteScheduledActionAsync(BatchDeleteScheduledActionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteScheduledActionResponseUnmarshaller.Instance;
+
+            return InvokeAsync<BatchDeleteScheduledActionResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  BatchPutScheduledUpdateGroupAction
+
+        internal virtual BatchPutScheduledUpdateGroupActionResponse BatchPutScheduledUpdateGroupAction(BatchPutScheduledUpdateGroupActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchPutScheduledUpdateGroupActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchPutScheduledUpdateGroupActionResponseUnmarshaller.Instance;
+
+            return Invoke<BatchPutScheduledUpdateGroupActionResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
+        /// If you leave a parameter unspecified when updating a scheduled scaling action, the
+        /// corresponding value remains unchanged.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchPutScheduledUpdateGroupAction service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the BatchPutScheduledUpdateGroupAction service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.AlreadyExistsException">
+        /// You already have an Auto Scaling group or launch configuration with this name.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/BatchPutScheduledUpdateGroupAction">REST API Reference for BatchPutScheduledUpdateGroupAction Operation</seealso>
+        public virtual Task<BatchPutScheduledUpdateGroupActionResponse> BatchPutScheduledUpdateGroupActionAsync(BatchPutScheduledUpdateGroupActionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchPutScheduledUpdateGroupActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchPutScheduledUpdateGroupActionResponseUnmarshaller.Instance;
+
+            return InvokeAsync<BatchPutScheduledUpdateGroupActionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -336,30 +517,74 @@ namespace Amazon.AutoScaling
 
         internal virtual CompleteLifecycleActionResponse CompleteLifecycleAction(CompleteLifecycleActionRequest request)
         {
-            var marshaller = CompleteLifecycleActionRequestMarshaller.Instance;
-            var unmarshaller = CompleteLifecycleActionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteLifecycleActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteLifecycleActionResponseUnmarshaller.Instance;
 
-            return Invoke<CompleteLifecycleActionRequest,CompleteLifecycleActionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CompleteLifecycleActionResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CompleteLifecycleAction operation.
-        /// </summary>
+        /// Completes the lifecycle action for the specified token or instance with the specified
+        /// result.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CompleteLifecycleAction operation.</param>
+        ///  
+        /// <para>
+        /// This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
+        /// group:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke
+        /// your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// (Optional) Create a notification target and an IAM role. The target can be either
+        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
+        /// to publish lifecycle notifications to the target.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Create the lifecycle hook. Specify whether the hook is used when the instances launch
+        /// or terminate.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you need more time, record the lifecycle action heartbeat to keep the instance
+        /// in a pending state.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>If you finish before the timeout period ends, complete the lifecycle action.</b>
+        /// 
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
+        /// EC2 Auto Scaling Lifecycle Hooks</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CompleteLifecycleAction service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CompleteLifecycleAction service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CompleteLifecycleAction">REST API Reference for CompleteLifecycleAction Operation</seealso>
         public virtual Task<CompleteLifecycleActionResponse> CompleteLifecycleActionAsync(CompleteLifecycleActionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CompleteLifecycleActionRequestMarshaller.Instance;
-            var unmarshaller = CompleteLifecycleActionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompleteLifecycleActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompleteLifecycleActionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CompleteLifecycleActionRequest,CompleteLifecycleActionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CompleteLifecycleActionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -368,30 +593,55 @@ namespace Amazon.AutoScaling
 
         internal virtual CreateAutoScalingGroupResponse CreateAutoScalingGroup(CreateAutoScalingGroupRequest request)
         {
-            var marshaller = CreateAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAutoScalingGroupRequest,CreateAutoScalingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAutoScalingGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateAutoScalingGroup operation.
-        /// </summary>
+        /// Creates an Auto Scaling group with the specified name and attributes.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateAutoScalingGroup operation.</param>
+        ///  
+        /// <para>
+        /// If you exceed your maximum limit of Auto Scaling groups, the call fails. For information
+        /// about viewing this limit, see <a>DescribeAccountLimits</a>. For information about
+        /// updating this limit, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateAutoScalingGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateAutoScalingGroup service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.AlreadyExistsException">
+        /// You already have an Auto Scaling group or launch configuration with this name.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateAutoScalingGroup">REST API Reference for CreateAutoScalingGroup Operation</seealso>
         public virtual Task<CreateAutoScalingGroupResponse> CreateAutoScalingGroupAsync(CreateAutoScalingGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateAutoScalingGroupRequest,CreateAutoScalingGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateAutoScalingGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -400,30 +650,57 @@ namespace Amazon.AutoScaling
 
         internal virtual CreateLaunchConfigurationResponse CreateLaunchConfiguration(CreateLaunchConfigurationRequest request)
         {
-            var marshaller = CreateLaunchConfigurationRequestMarshaller.Instance;
-            var unmarshaller = CreateLaunchConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLaunchConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLaunchConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLaunchConfigurationRequest,CreateLaunchConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLaunchConfigurationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateLaunchConfiguration operation.
-        /// </summary>
+        /// Creates a launch configuration.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateLaunchConfiguration operation.</param>
+        ///  
+        /// <para>
+        /// If you exceed your maximum limit of launch configurations, the call fails. For information
+        /// about viewing this limit, see <a>DescribeAccountLimits</a>. For information about
+        /// updating this limit, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html">Launch
+        /// Configurations</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateLaunchConfiguration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateLaunchConfiguration service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.AlreadyExistsException">
+        /// You already have an Auto Scaling group or launch configuration with this name.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateLaunchConfiguration">REST API Reference for CreateLaunchConfiguration Operation</seealso>
         public virtual Task<CreateLaunchConfigurationResponse> CreateLaunchConfigurationAsync(CreateLaunchConfigurationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateLaunchConfigurationRequestMarshaller.Instance;
-            var unmarshaller = CreateLaunchConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLaunchConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLaunchConfigurationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateLaunchConfigurationRequest,CreateLaunchConfigurationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateLaunchConfigurationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -432,30 +709,58 @@ namespace Amazon.AutoScaling
 
         internal virtual CreateOrUpdateTagsResponse CreateOrUpdateTags(CreateOrUpdateTagsRequest request)
         {
-            var marshaller = CreateOrUpdateTagsRequestMarshaller.Instance;
-            var unmarshaller = CreateOrUpdateTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateOrUpdateTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateOrUpdateTagsResponseUnmarshaller.Instance;
 
-            return Invoke<CreateOrUpdateTagsRequest,CreateOrUpdateTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateOrUpdateTagsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateOrUpdateTags operation.
-        /// </summary>
+        /// Creates or updates tags for the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateOrUpdateTags operation.</param>
+        ///  
+        /// <para>
+        /// When you specify a tag with a key that already exists, the operation overwrites the
+        /// previous tag definition, and you do not get an error message.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-tagging.html">Tagging
+        /// Auto Scaling Groups and Instances</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateOrUpdateTags service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateOrUpdateTags service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.AlreadyExistsException">
+        /// You already have an Auto Scaling group or launch configuration with this name.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
+        /// The operation can't be performed because the resource is in use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateOrUpdateTags">REST API Reference for CreateOrUpdateTags Operation</seealso>
         public virtual Task<CreateOrUpdateTagsResponse> CreateOrUpdateTagsAsync(CreateOrUpdateTagsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateOrUpdateTagsRequestMarshaller.Instance;
-            var unmarshaller = CreateOrUpdateTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateOrUpdateTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateOrUpdateTagsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateOrUpdateTagsRequest,CreateOrUpdateTagsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateOrUpdateTagsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -464,30 +769,64 @@ namespace Amazon.AutoScaling
 
         internal virtual DeleteAutoScalingGroupResponse DeleteAutoScalingGroup(DeleteAutoScalingGroupRequest request)
         {
-            var marshaller = DeleteAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAutoScalingGroupRequest,DeleteAutoScalingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAutoScalingGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteAutoScalingGroup operation.
-        /// </summary>
+        /// Deletes the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteAutoScalingGroup operation.</param>
+        ///  
+        /// <para>
+        /// If the group has instances or scaling activities in progress, you must specify the
+        /// option to force the deletion in order for it to succeed.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the group has policies, deleting the group deletes the policies, the underlying
+        /// alarm actions, and any alarm that no longer has an associated action.
+        /// </para>
+        ///  
+        /// <para>
+        /// To remove instances from the Auto Scaling group before deleting it, call <a>DetachInstances</a>
+        /// with the list of instances and the option to decrement the desired capacity. This
+        /// ensures that Amazon EC2 Auto Scaling does not launch replacement instances.
+        /// </para>
+        ///  
+        /// <para>
+        /// To terminate all instances before deleting the Auto Scaling group, call <a>UpdateAutoScalingGroup</a>
+        /// and set the minimum size and desired capacity of the Auto Scaling group to zero.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAutoScalingGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteAutoScalingGroup service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
+        /// The operation can't be performed because the resource is in use.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
+        /// The operation can't be performed because there are scaling activities in progress.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteAutoScalingGroup">REST API Reference for DeleteAutoScalingGroup Operation</seealso>
         public virtual Task<DeleteAutoScalingGroupResponse> DeleteAutoScalingGroupAsync(DeleteAutoScalingGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteAutoScalingGroupRequest,DeleteAutoScalingGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteAutoScalingGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -496,30 +835,45 @@ namespace Amazon.AutoScaling
 
         internal virtual DeleteLaunchConfigurationResponse DeleteLaunchConfiguration(DeleteLaunchConfigurationRequest request)
         {
-            var marshaller = DeleteLaunchConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteLaunchConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLaunchConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLaunchConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLaunchConfigurationRequest,DeleteLaunchConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLaunchConfigurationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteLaunchConfiguration operation.
-        /// </summary>
+        /// Deletes the specified launch configuration.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteLaunchConfiguration operation.</param>
+        ///  
+        /// <para>
+        /// The launch configuration must not be attached to an Auto Scaling group. When this
+        /// call completes, the launch configuration is no longer available for use.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLaunchConfiguration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteLaunchConfiguration service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
+        /// The operation can't be performed because the resource is in use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteLaunchConfiguration">REST API Reference for DeleteLaunchConfiguration Operation</seealso>
         public virtual Task<DeleteLaunchConfigurationResponse> DeleteLaunchConfigurationAsync(DeleteLaunchConfigurationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteLaunchConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteLaunchConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLaunchConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLaunchConfigurationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteLaunchConfigurationRequest,DeleteLaunchConfigurationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteLaunchConfigurationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -528,30 +882,42 @@ namespace Amazon.AutoScaling
 
         internal virtual DeleteLifecycleHookResponse DeleteLifecycleHook(DeleteLifecycleHookRequest request)
         {
-            var marshaller = DeleteLifecycleHookRequestMarshaller.Instance;
-            var unmarshaller = DeleteLifecycleHookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecycleHookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecycleHookResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLifecycleHookRequest,DeleteLifecycleHookResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLifecycleHookResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteLifecycleHook operation.
-        /// </summary>
+        /// Deletes the specified lifecycle hook.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteLifecycleHook operation.</param>
+        ///  
+        /// <para>
+        /// If there are any outstanding lifecycle actions, they are completed first (<code>ABANDON</code>
+        /// for launching instances, <code>CONTINUE</code> for terminating instances).
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLifecycleHook service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteLifecycleHook service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteLifecycleHook">REST API Reference for DeleteLifecycleHook Operation</seealso>
         public virtual Task<DeleteLifecycleHookResponse> DeleteLifecycleHookAsync(DeleteLifecycleHookRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteLifecycleHookRequestMarshaller.Instance;
-            var unmarshaller = DeleteLifecycleHookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecycleHookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecycleHookResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteLifecycleHookRequest,DeleteLifecycleHookResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteLifecycleHookResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -560,30 +926,36 @@ namespace Amazon.AutoScaling
 
         internal virtual DeleteNotificationConfigurationResponse DeleteNotificationConfiguration(DeleteNotificationConfigurationRequest request)
         {
-            var marshaller = DeleteNotificationConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteNotificationConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteNotificationConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteNotificationConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteNotificationConfigurationRequest,DeleteNotificationConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteNotificationConfigurationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteNotificationConfiguration operation.
+        /// Deletes the specified notification.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteNotificationConfiguration operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteNotificationConfiguration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteNotificationConfiguration service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteNotificationConfiguration">REST API Reference for DeleteNotificationConfiguration Operation</seealso>
         public virtual Task<DeleteNotificationConfigurationResponse> DeleteNotificationConfigurationAsync(DeleteNotificationConfigurationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteNotificationConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteNotificationConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteNotificationConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteNotificationConfigurationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteNotificationConfigurationRequest,DeleteNotificationConfigurationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteNotificationConfigurationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -592,30 +964,51 @@ namespace Amazon.AutoScaling
 
         internal virtual DeletePolicyResponse DeletePolicy(DeletePolicyRequest request)
         {
-            var marshaller = DeletePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeletePolicyRequest,DeletePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeletePolicyResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeletePolicy operation.
-        /// </summary>
+        /// Deletes the specified scaling policy.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeletePolicy operation.</param>
+        ///  
+        /// <para>
+        /// Deleting either a step scaling policy or a simple scaling policy deletes the underlying
+        /// alarm action, but does not delete the alarm, even if it no longer has an associated
+        /// action.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/deleting-scaling-policy.html">Deleting
+        /// a Scaling Policy</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeletePolicy service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeletePolicy service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeletePolicy">REST API Reference for DeletePolicy Operation</seealso>
         public virtual Task<DeletePolicyResponse> DeletePolicyAsync(DeletePolicyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeletePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeletePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePolicyResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeletePolicyRequest,DeletePolicyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeletePolicyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -624,30 +1017,36 @@ namespace Amazon.AutoScaling
 
         internal virtual DeleteScheduledActionResponse DeleteScheduledAction(DeleteScheduledActionRequest request)
         {
-            var marshaller = DeleteScheduledActionRequestMarshaller.Instance;
-            var unmarshaller = DeleteScheduledActionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduledActionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteScheduledActionRequest,DeleteScheduledActionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteScheduledActionResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteScheduledAction operation.
+        /// Deletes the specified scheduled action.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAction operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAction service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteScheduledAction service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteScheduledAction">REST API Reference for DeleteScheduledAction Operation</seealso>
         public virtual Task<DeleteScheduledActionResponse> DeleteScheduledActionAsync(DeleteScheduledActionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteScheduledActionRequestMarshaller.Instance;
-            var unmarshaller = DeleteScheduledActionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduledActionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteScheduledActionRequest,DeleteScheduledActionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteScheduledActionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -656,30 +1055,39 @@ namespace Amazon.AutoScaling
 
         internal virtual DeleteTagsResponse DeleteTags(DeleteTagsRequest request)
         {
-            var marshaller = DeleteTagsRequestMarshaller.Instance;
-            var unmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteTagsRequest,DeleteTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTagsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteTags operation.
+        /// Deletes the specified tags.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteTags operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTags service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteTags service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
+        /// The operation can't be performed because the resource is in use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
         public virtual Task<DeleteTagsResponse> DeleteTagsAsync(DeleteTagsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteTagsRequestMarshaller.Instance;
-            var unmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteTagsRequest,DeleteTagsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteTagsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -692,20 +1100,21 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeAccountLimitsResponse DescribeAccountLimits(DescribeAccountLimitsRequest request)
         {
-            var marshaller = DescribeAccountLimitsRequestMarshaller.Instance;
-            var unmarshaller = DescribeAccountLimitsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountLimitsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountLimitsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAccountLimitsRequest,DescribeAccountLimitsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAccountLimitsResponse>(request, options);
         }
 
 
         /// <summary>
-        /// Describes the current Auto Scaling resource limits for your AWS account.
+        /// Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS account.
         /// 
         ///  
         /// <para>
-        /// For information about requesting an increase in these limits, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html">Auto
-        /// Scaling Limits</a> in the <i>Auto Scaling User Guide</i>.
+        /// For information about requesting an increase, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="cancellationToken">
@@ -714,8 +1123,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeAccountLimits service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAccountLimits">REST API Reference for DescribeAccountLimits Operation</seealso>
         public virtual Task<DescribeAccountLimitsResponse> DescribeAccountLimitsAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -724,23 +1133,34 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeAccountLimits operation.
-        /// </summary>
+        /// Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS account.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountLimits operation.</param>
+        ///  
+        /// <para>
+        /// For information about requesting an increase, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-account-limits.html">Amazon
+        /// EC2 Auto Scaling Service Quotas</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountLimits service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeAccountLimits service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAccountLimits">REST API Reference for DescribeAccountLimits Operation</seealso>
         public virtual Task<DescribeAccountLimitsResponse> DescribeAccountLimitsAsync(DescribeAccountLimitsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeAccountLimitsRequestMarshaller.Instance;
-            var unmarshaller = DescribeAccountLimitsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountLimitsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountLimitsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeAccountLimitsRequest,DescribeAccountLimitsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeAccountLimitsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -753,10 +1173,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeAdjustmentTypesResponse DescribeAdjustmentTypes(DescribeAdjustmentTypesRequest request)
         {
-            var marshaller = DescribeAdjustmentTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAdjustmentTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAdjustmentTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAdjustmentTypesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAdjustmentTypesRequest,DescribeAdjustmentTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAdjustmentTypesResponse>(request, options);
         }
 
 
@@ -769,8 +1190,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeAdjustmentTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAdjustmentTypes">REST API Reference for DescribeAdjustmentTypes Operation</seealso>
         public virtual Task<DescribeAdjustmentTypesResponse> DescribeAdjustmentTypesAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -779,23 +1200,28 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeAdjustmentTypes operation.
+        /// Describes the policy adjustment types for use with <a>PutScalingPolicy</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeAdjustmentTypes operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAdjustmentTypes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeAdjustmentTypes service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAdjustmentTypes">REST API Reference for DescribeAdjustmentTypes Operation</seealso>
         public virtual Task<DescribeAdjustmentTypesResponse> DescribeAdjustmentTypesAsync(DescribeAdjustmentTypesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeAdjustmentTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAdjustmentTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAdjustmentTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAdjustmentTypesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeAdjustmentTypesRequest,DescribeAdjustmentTypesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeAdjustmentTypesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -808,10 +1234,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeAutoScalingGroupsResponse DescribeAutoScalingGroups(DescribeAutoScalingGroupsRequest request)
         {
-            var marshaller = DescribeAutoScalingGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeAutoScalingGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAutoScalingGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAutoScalingGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAutoScalingGroupsRequest,DescribeAutoScalingGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAutoScalingGroupsResponse>(request, options);
         }
 
 
@@ -827,8 +1254,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingGroups">REST API Reference for DescribeAutoScalingGroups Operation</seealso>
         public virtual Task<DescribeAutoScalingGroupsResponse> DescribeAutoScalingGroupsAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -837,23 +1264,31 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeAutoScalingGroups operation.
+        /// Describes one or more Auto Scaling groups.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeAutoScalingGroups operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAutoScalingGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeAutoScalingGroups service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingGroups">REST API Reference for DescribeAutoScalingGroups Operation</seealso>
         public virtual Task<DescribeAutoScalingGroupsResponse> DescribeAutoScalingGroupsAsync(DescribeAutoScalingGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeAutoScalingGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeAutoScalingGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAutoScalingGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAutoScalingGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeAutoScalingGroupsRequest,DescribeAutoScalingGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeAutoScalingGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -866,10 +1301,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeAutoScalingInstancesResponse DescribeAutoScalingInstances(DescribeAutoScalingInstancesRequest request)
         {
-            var marshaller = DescribeAutoScalingInstancesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAutoScalingInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAutoScalingInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAutoScalingInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAutoScalingInstancesRequest,DescribeAutoScalingInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAutoScalingInstancesResponse>(request, options);
         }
 
 
@@ -885,8 +1321,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingInstances">REST API Reference for DescribeAutoScalingInstances Operation</seealso>
         public virtual Task<DescribeAutoScalingInstancesResponse> DescribeAutoScalingInstancesAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -895,23 +1331,31 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeAutoScalingInstances operation.
+        /// Describes one or more Auto Scaling instances.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeAutoScalingInstances operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAutoScalingInstances service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeAutoScalingInstances service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingInstances">REST API Reference for DescribeAutoScalingInstances Operation</seealso>
         public virtual Task<DescribeAutoScalingInstancesResponse> DescribeAutoScalingInstancesAsync(DescribeAutoScalingInstancesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeAutoScalingInstancesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAutoScalingInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAutoScalingInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAutoScalingInstancesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeAutoScalingInstancesRequest,DescribeAutoScalingInstancesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeAutoScalingInstancesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -924,15 +1368,16 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeAutoScalingNotificationTypesResponse DescribeAutoScalingNotificationTypes(DescribeAutoScalingNotificationTypesRequest request)
         {
-            var marshaller = DescribeAutoScalingNotificationTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAutoScalingNotificationTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAutoScalingNotificationTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAutoScalingNotificationTypesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAutoScalingNotificationTypesRequest,DescribeAutoScalingNotificationTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAutoScalingNotificationTypesResponse>(request, options);
         }
 
 
         /// <summary>
-        /// Describes the notification types that are supported by Auto Scaling.
+        /// Describes the notification types that are supported by Amazon EC2 Auto Scaling.
         /// </summary>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -940,8 +1385,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeAutoScalingNotificationTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingNotificationTypes">REST API Reference for DescribeAutoScalingNotificationTypes Operation</seealso>
         public virtual Task<DescribeAutoScalingNotificationTypesResponse> DescribeAutoScalingNotificationTypesAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -950,23 +1395,28 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeAutoScalingNotificationTypes operation.
+        /// Describes the notification types that are supported by Amazon EC2 Auto Scaling.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeAutoScalingNotificationTypes operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAutoScalingNotificationTypes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeAutoScalingNotificationTypes service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingNotificationTypes">REST API Reference for DescribeAutoScalingNotificationTypes Operation</seealso>
         public virtual Task<DescribeAutoScalingNotificationTypesResponse> DescribeAutoScalingNotificationTypesAsync(DescribeAutoScalingNotificationTypesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeAutoScalingNotificationTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAutoScalingNotificationTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAutoScalingNotificationTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAutoScalingNotificationTypesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeAutoScalingNotificationTypesRequest,DescribeAutoScalingNotificationTypesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeAutoScalingNotificationTypesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -979,10 +1429,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeLaunchConfigurationsResponse DescribeLaunchConfigurations(DescribeLaunchConfigurationsRequest request)
         {
-            var marshaller = DescribeLaunchConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLaunchConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLaunchConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLaunchConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLaunchConfigurationsRequest,DescribeLaunchConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLaunchConfigurationsResponse>(request, options);
         }
 
 
@@ -998,8 +1449,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLaunchConfigurations">REST API Reference for DescribeLaunchConfigurations Operation</seealso>
         public virtual Task<DescribeLaunchConfigurationsResponse> DescribeLaunchConfigurationsAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1008,23 +1459,31 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeLaunchConfigurations operation.
+        /// Describes one or more launch configurations.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeLaunchConfigurations operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLaunchConfigurations service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeLaunchConfigurations service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLaunchConfigurations">REST API Reference for DescribeLaunchConfigurations Operation</seealso>
         public virtual Task<DescribeLaunchConfigurationsResponse> DescribeLaunchConfigurationsAsync(DescribeLaunchConfigurationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeLaunchConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLaunchConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLaunchConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLaunchConfigurationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeLaunchConfigurationsRequest,DescribeLaunchConfigurationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeLaunchConfigurationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1033,30 +1492,36 @@ namespace Amazon.AutoScaling
 
         internal virtual DescribeLifecycleHooksResponse DescribeLifecycleHooks(DescribeLifecycleHooksRequest request)
         {
-            var marshaller = DescribeLifecycleHooksRequestMarshaller.Instance;
-            var unmarshaller = DescribeLifecycleHooksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLifecycleHooksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLifecycleHooksResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLifecycleHooksRequest,DescribeLifecycleHooksResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLifecycleHooksResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeLifecycleHooks operation.
+        /// Describes the lifecycle hooks for the specified Auto Scaling group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeLifecycleHooks operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLifecycleHooks service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeLifecycleHooks service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLifecycleHooks">REST API Reference for DescribeLifecycleHooks Operation</seealso>
         public virtual Task<DescribeLifecycleHooksResponse> DescribeLifecycleHooksAsync(DescribeLifecycleHooksRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeLifecycleHooksRequestMarshaller.Instance;
-            var unmarshaller = DescribeLifecycleHooksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLifecycleHooksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLifecycleHooksResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeLifecycleHooksRequest,DescribeLifecycleHooksResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeLifecycleHooksResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1065,30 +1530,50 @@ namespace Amazon.AutoScaling
 
         internal virtual DescribeLifecycleHookTypesResponse DescribeLifecycleHookTypes(DescribeLifecycleHookTypesRequest request)
         {
-            var marshaller = DescribeLifecycleHookTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeLifecycleHookTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLifecycleHookTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLifecycleHookTypesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLifecycleHookTypesRequest,DescribeLifecycleHookTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLifecycleHookTypesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeLifecycleHookTypes operation.
-        /// </summary>
+        /// Describes the available types of lifecycle hooks.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeLifecycleHookTypes operation.</param>
+        ///  
+        /// <para>
+        /// The following hook types are supported:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// autoscaling:EC2_INSTANCE_LAUNCHING
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// autoscaling:EC2_INSTANCE_TERMINATING
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLifecycleHookTypes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeLifecycleHookTypes service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLifecycleHookTypes">REST API Reference for DescribeLifecycleHookTypes Operation</seealso>
         public virtual Task<DescribeLifecycleHookTypesResponse> DescribeLifecycleHookTypesAsync(DescribeLifecycleHookTypesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeLifecycleHookTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeLifecycleHookTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLifecycleHookTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLifecycleHookTypesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeLifecycleHookTypesRequest,DescribeLifecycleHookTypesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeLifecycleHookTypesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1097,30 +1582,42 @@ namespace Amazon.AutoScaling
 
         internal virtual DescribeLoadBalancersResponse DescribeLoadBalancers(DescribeLoadBalancersRequest request)
         {
-            var marshaller = DescribeLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoadBalancersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLoadBalancersRequest,DescribeLoadBalancersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLoadBalancersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeLoadBalancers operation.
-        /// </summary>
+        /// Describes the load balancers for the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeLoadBalancers operation.</param>
+        ///  
+        /// <para>
+        /// This operation describes only Classic Load Balancers. If you have Application Load
+        /// Balancers or Network Load Balancers, use <a>DescribeLoadBalancerTargetGroups</a> instead.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLoadBalancers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeLoadBalancers service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancers">REST API Reference for DescribeLoadBalancers Operation</seealso>
         public virtual Task<DescribeLoadBalancersResponse> DescribeLoadBalancersAsync(DescribeLoadBalancersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoadBalancersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeLoadBalancersRequest,DescribeLoadBalancersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeLoadBalancersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1129,30 +1626,36 @@ namespace Amazon.AutoScaling
 
         internal virtual DescribeLoadBalancerTargetGroupsResponse DescribeLoadBalancerTargetGroups(DescribeLoadBalancerTargetGroupsRequest request)
         {
-            var marshaller = DescribeLoadBalancerTargetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoadBalancerTargetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLoadBalancerTargetGroupsRequest,DescribeLoadBalancerTargetGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLoadBalancerTargetGroupsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeLoadBalancerTargetGroups operation.
+        /// Describes the target groups for the specified Auto Scaling group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeLoadBalancerTargetGroups operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLoadBalancerTargetGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeLoadBalancerTargetGroups service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancerTargetGroups">REST API Reference for DescribeLoadBalancerTargetGroups Operation</seealso>
         public virtual Task<DescribeLoadBalancerTargetGroupsResponse> DescribeLoadBalancerTargetGroupsAsync(DescribeLoadBalancerTargetGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeLoadBalancerTargetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoadBalancerTargetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeLoadBalancerTargetGroupsRequest,DescribeLoadBalancerTargetGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeLoadBalancerTargetGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1165,20 +1668,21 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeMetricCollectionTypesResponse DescribeMetricCollectionTypes(DescribeMetricCollectionTypesRequest request)
         {
-            var marshaller = DescribeMetricCollectionTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeMetricCollectionTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMetricCollectionTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMetricCollectionTypesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeMetricCollectionTypesRequest,DescribeMetricCollectionTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeMetricCollectionTypesResponse>(request, options);
         }
 
 
         /// <summary>
-        /// Describes the available CloudWatch metrics for Auto Scaling.
+        /// Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
         /// 
         ///  
         /// <para>
-        /// Note that the <code>GroupStandbyInstances</code> metric is not returned by default.
-        /// You must explicitly request this metric when calling <a>EnableMetricsCollection</a>.
+        /// The <code>GroupStandbyInstances</code> metric is not returned by default. You must
+        /// explicitly request this metric when calling <a>EnableMetricsCollection</a>.
         /// </para>
         /// </summary>
         /// <param name="cancellationToken">
@@ -1187,8 +1691,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeMetricCollectionTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeMetricCollectionTypes">REST API Reference for DescribeMetricCollectionTypes Operation</seealso>
         public virtual Task<DescribeMetricCollectionTypesResponse> DescribeMetricCollectionTypesAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1197,23 +1701,34 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeMetricCollectionTypes operation.
-        /// </summary>
+        /// Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeMetricCollectionTypes operation.</param>
+        ///  
+        /// <para>
+        /// The <code>GroupStandbyInstances</code> metric is not returned by default. You must
+        /// explicitly request this metric when calling <a>EnableMetricsCollection</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMetricCollectionTypes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeMetricCollectionTypes service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeMetricCollectionTypes">REST API Reference for DescribeMetricCollectionTypes Operation</seealso>
         public virtual Task<DescribeMetricCollectionTypesResponse> DescribeMetricCollectionTypesAsync(DescribeMetricCollectionTypesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeMetricCollectionTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeMetricCollectionTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMetricCollectionTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMetricCollectionTypesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeMetricCollectionTypesRequest,DescribeMetricCollectionTypesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeMetricCollectionTypesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1226,10 +1741,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeNotificationConfigurationsResponse DescribeNotificationConfigurations(DescribeNotificationConfigurationsRequest request)
         {
-            var marshaller = DescribeNotificationConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeNotificationConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNotificationConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNotificationConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeNotificationConfigurationsRequest,DescribeNotificationConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeNotificationConfigurationsResponse>(request, options);
         }
 
 
@@ -1245,8 +1761,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeNotificationConfigurations">REST API Reference for DescribeNotificationConfigurations Operation</seealso>
         public virtual Task<DescribeNotificationConfigurationsResponse> DescribeNotificationConfigurationsAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1255,23 +1771,31 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeNotificationConfigurations operation.
+        /// Describes the notification actions associated with the specified Auto Scaling group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeNotificationConfigurations operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeNotificationConfigurations service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeNotificationConfigurations service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeNotificationConfigurations">REST API Reference for DescribeNotificationConfigurations Operation</seealso>
         public virtual Task<DescribeNotificationConfigurationsResponse> DescribeNotificationConfigurationsAsync(DescribeNotificationConfigurationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeNotificationConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeNotificationConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNotificationConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNotificationConfigurationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeNotificationConfigurationsRequest,DescribeNotificationConfigurationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeNotificationConfigurationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1284,10 +1808,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribePoliciesResponse DescribePolicies(DescribePoliciesRequest request)
         {
-            var marshaller = DescribePoliciesRequestMarshaller.Instance;
-            var unmarshaller = DescribePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribePoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribePoliciesRequest,DescribePoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribePoliciesResponse>(request, options);
         }
 
 
@@ -1303,8 +1828,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
         /// The service-linked role is not yet ready for use.
@@ -1316,23 +1841,34 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribePolicies operation.
+        /// Describes the policies for the specified Auto Scaling group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribePolicies operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribePolicies service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribePolicies service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribePolicies">REST API Reference for DescribePolicies Operation</seealso>
         public virtual Task<DescribePoliciesResponse> DescribePoliciesAsync(DescribePoliciesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribePoliciesRequestMarshaller.Instance;
-            var unmarshaller = DescribePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribePoliciesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribePoliciesRequest,DescribePoliciesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribePoliciesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1345,10 +1881,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeScalingActivitiesResponse DescribeScalingActivities(DescribeScalingActivitiesRequest request)
         {
-            var marshaller = DescribeScalingActivitiesRequestMarshaller.Instance;
-            var unmarshaller = DescribeScalingActivitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScalingActivitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScalingActivitiesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeScalingActivitiesRequest,DescribeScalingActivitiesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeScalingActivitiesResponse>(request, options);
         }
 
 
@@ -1364,8 +1901,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingActivities">REST API Reference for DescribeScalingActivities Operation</seealso>
         public virtual Task<DescribeScalingActivitiesResponse> DescribeScalingActivitiesAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1374,23 +1911,31 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeScalingActivities operation.
+        /// Describes one or more scaling activities for the specified Auto Scaling group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeScalingActivities operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScalingActivities service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeScalingActivities service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingActivities">REST API Reference for DescribeScalingActivities Operation</seealso>
         public virtual Task<DescribeScalingActivitiesResponse> DescribeScalingActivitiesAsync(DescribeScalingActivitiesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeScalingActivitiesRequestMarshaller.Instance;
-            var unmarshaller = DescribeScalingActivitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScalingActivitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScalingActivitiesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeScalingActivitiesRequest,DescribeScalingActivitiesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeScalingActivitiesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1403,10 +1948,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeScalingProcessTypesResponse DescribeScalingProcessTypes(DescribeScalingProcessTypesRequest request)
         {
-            var marshaller = DescribeScalingProcessTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeScalingProcessTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScalingProcessTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScalingProcessTypesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeScalingProcessTypesRequest,DescribeScalingProcessTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeScalingProcessTypesResponse>(request, options);
         }
 
 
@@ -1419,8 +1965,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeScalingProcessTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingProcessTypes">REST API Reference for DescribeScalingProcessTypes Operation</seealso>
         public virtual Task<DescribeScalingProcessTypesResponse> DescribeScalingProcessTypesAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1429,23 +1975,28 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeScalingProcessTypes operation.
+        /// Describes the scaling process types for use with <a>ResumeProcesses</a> and <a>SuspendProcesses</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeScalingProcessTypes operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScalingProcessTypes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeScalingProcessTypes service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingProcessTypes">REST API Reference for DescribeScalingProcessTypes Operation</seealso>
         public virtual Task<DescribeScalingProcessTypesResponse> DescribeScalingProcessTypesAsync(DescribeScalingProcessTypesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeScalingProcessTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeScalingProcessTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScalingProcessTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScalingProcessTypesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeScalingProcessTypesRequest,DescribeScalingProcessTypesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeScalingProcessTypesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1458,16 +2009,18 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeScheduledActionsResponse DescribeScheduledActions(DescribeScheduledActionsRequest request)
         {
-            var marshaller = DescribeScheduledActionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeScheduledActionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduledActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduledActionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeScheduledActionsRequest,DescribeScheduledActionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeScheduledActionsResponse>(request, options);
         }
 
 
         /// <summary>
-        /// Describes the actions scheduled for your Auto Scaling group that haven't run. To describe
-        /// the actions that have already run, use <a>DescribeScalingActivities</a>.
+        /// Describes the actions scheduled for your Auto Scaling group that haven't run or that
+        /// have not reached their end time. To describe the actions that have already run, use
+        /// <a>DescribeScalingActivities</a>.
         /// </summary>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -1478,8 +2031,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScheduledActions">REST API Reference for DescribeScheduledActions Operation</seealso>
         public virtual Task<DescribeScheduledActionsResponse> DescribeScheduledActionsAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1488,23 +2041,33 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeScheduledActions operation.
+        /// Describes the actions scheduled for your Auto Scaling group that haven't run or that
+        /// have not reached their end time. To describe the actions that have already run, use
+        /// <a>DescribeScalingActivities</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledActions operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledActions service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeScheduledActions service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScheduledActions">REST API Reference for DescribeScheduledActions Operation</seealso>
         public virtual Task<DescribeScheduledActionsResponse> DescribeScheduledActionsAsync(DescribeScheduledActionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeScheduledActionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeScheduledActionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduledActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduledActionsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeScheduledActionsRequest,DescribeScheduledActionsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeScheduledActionsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1517,10 +2080,11 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeTagsResponse DescribeTags(DescribeTagsRequest request)
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTagsRequest,DescribeTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTagsResponse>(request, options);
         }
 
 
@@ -1549,8 +2113,8 @@ namespace Amazon.AutoScaling
         /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         public virtual Task<DescribeTagsResponse> DescribeTagsAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1559,23 +2123,44 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeTags operation.
-        /// </summary>
+        /// Describes the specified tags.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeTags operation.</param>
+        ///  
+        /// <para>
+        /// You can use filters to limit the results. For example, you can query for the tags
+        /// for a specific Auto Scaling group. You can specify multiple values for a filter. A
+        /// tag must match at least one of the specified values for it to be included in the results.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can also specify multiple filters. The result includes information for a particular
+        /// tag only if it matches all the filters. If there's no match, no special message is
+        /// returned.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTags service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeTags service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         public virtual Task<DescribeTagsResponse> DescribeTagsAsync(DescribeTagsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeTagsRequest,DescribeTagsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeTagsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1588,15 +2173,23 @@ namespace Amazon.AutoScaling
         }
         internal virtual DescribeTerminationPolicyTypesResponse DescribeTerminationPolicyTypes(DescribeTerminationPolicyTypesRequest request)
         {
-            var marshaller = DescribeTerminationPolicyTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTerminationPolicyTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTerminationPolicyTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTerminationPolicyTypesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTerminationPolicyTypesRequest,DescribeTerminationPolicyTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTerminationPolicyTypesResponse>(request, options);
         }
 
 
         /// <summary>
-        /// Describes the termination policies supported by Auto Scaling.
+        /// Describes the termination policies supported by Amazon EC2 Auto Scaling.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html">Controlling
+        /// Which Auto Scaling Instances Terminate During Scale In</a> in the <i>Amazon EC2 Auto
+        /// Scaling User Guide</i>.
+        /// </para>
         /// </summary>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
@@ -1604,8 +2197,8 @@ namespace Amazon.AutoScaling
         /// 
         /// <returns>The response from the DescribeTerminationPolicyTypes service method, as returned by AutoScaling.</returns>
         /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
-        /// You already have a pending update to an Auto Scaling resource (for example, a group,
-        /// instance, or load balancer).
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTerminationPolicyTypes">REST API Reference for DescribeTerminationPolicyTypes Operation</seealso>
         public virtual Task<DescribeTerminationPolicyTypesResponse> DescribeTerminationPolicyTypesAsync(System.Threading.CancellationToken cancellationToken = default(CancellationToken))
@@ -1614,23 +2207,35 @@ namespace Amazon.AutoScaling
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeTerminationPolicyTypes operation.
-        /// </summary>
+        /// Describes the termination policies supported by Amazon EC2 Auto Scaling.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeTerminationPolicyTypes operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html">Controlling
+        /// Which Auto Scaling Instances Terminate During Scale In</a> in the <i>Amazon EC2 Auto
+        /// Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTerminationPolicyTypes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeTerminationPolicyTypes service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTerminationPolicyTypes">REST API Reference for DescribeTerminationPolicyTypes Operation</seealso>
         public virtual Task<DescribeTerminationPolicyTypesResponse> DescribeTerminationPolicyTypesAsync(DescribeTerminationPolicyTypesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DescribeTerminationPolicyTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeTerminationPolicyTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTerminationPolicyTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTerminationPolicyTypesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DescribeTerminationPolicyTypesRequest,DescribeTerminationPolicyTypesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DescribeTerminationPolicyTypesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1639,30 +2244,59 @@ namespace Amazon.AutoScaling
 
         internal virtual DetachInstancesResponse DetachInstances(DetachInstancesRequest request)
         {
-            var marshaller = DetachInstancesRequestMarshaller.Instance;
-            var unmarshaller = DetachInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<DetachInstancesRequest,DetachInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachInstancesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DetachInstances operation.
-        /// </summary>
+        /// Removes one or more instances from the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DetachInstances operation.</param>
+        ///  
+        /// <para>
+        /// After the instances are detached, you can manage them independent of the Auto Scaling
+        /// group.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto
+        /// Scaling launches instances to replace the ones that are detached.
+        /// </para>
+        ///  
+        /// <para>
+        /// If there is a Classic Load Balancer attached to the Auto Scaling group, the instances
+        /// are deregistered from the load balancer. If there are target groups attached to the
+        /// Auto Scaling group, the instances are deregistered from the target groups.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html">Detach
+        /// EC2 Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetachInstances service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DetachInstances service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachInstances">REST API Reference for DetachInstances Operation</seealso>
         public virtual Task<DetachInstancesResponse> DetachInstancesAsync(DetachInstancesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DetachInstancesRequestMarshaller.Instance;
-            var unmarshaller = DetachInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachInstancesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DetachInstancesRequest,DetachInstancesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DetachInstancesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1671,30 +2305,49 @@ namespace Amazon.AutoScaling
 
         internal virtual DetachLoadBalancersResponse DetachLoadBalancers(DetachLoadBalancersRequest request)
         {
-            var marshaller = DetachLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = DetachLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachLoadBalancersResponseUnmarshaller.Instance;
 
-            return Invoke<DetachLoadBalancersRequest,DetachLoadBalancersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachLoadBalancersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DetachLoadBalancers operation.
-        /// </summary>
+        /// Detaches one or more Classic Load Balancers from the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DetachLoadBalancers operation.</param>
+        ///  
+        /// <para>
+        /// This operation detaches only Classic Load Balancers. If you have Application Load
+        /// Balancers or Network Load Balancers, use <a>DetachLoadBalancerTargetGroups</a> instead.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you detach a load balancer, it enters the <code>Removing</code> state while deregistering
+        /// the instances in the group. When all instances are deregistered, then you can no longer
+        /// describe the load balancer using <a>DescribeLoadBalancers</a>. The instances remain
+        /// running.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetachLoadBalancers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DetachLoadBalancers service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancers">REST API Reference for DetachLoadBalancers Operation</seealso>
         public virtual Task<DetachLoadBalancersResponse> DetachLoadBalancersAsync(DetachLoadBalancersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DetachLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = DetachLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachLoadBalancersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DetachLoadBalancersRequest,DetachLoadBalancersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DetachLoadBalancersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1703,30 +2356,36 @@ namespace Amazon.AutoScaling
 
         internal virtual DetachLoadBalancerTargetGroupsResponse DetachLoadBalancerTargetGroups(DetachLoadBalancerTargetGroupsRequest request)
         {
-            var marshaller = DetachLoadBalancerTargetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DetachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachLoadBalancerTargetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DetachLoadBalancerTargetGroupsRequest,DetachLoadBalancerTargetGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachLoadBalancerTargetGroupsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DetachLoadBalancerTargetGroups operation.
+        /// Detaches one or more target groups from the specified Auto Scaling group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DetachLoadBalancerTargetGroups operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DetachLoadBalancerTargetGroups service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DetachLoadBalancerTargetGroups service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancerTargetGroups">REST API Reference for DetachLoadBalancerTargetGroups Operation</seealso>
         public virtual Task<DetachLoadBalancerTargetGroupsResponse> DetachLoadBalancerTargetGroupsAsync(DetachLoadBalancerTargetGroupsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DetachLoadBalancerTargetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DetachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachLoadBalancerTargetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachLoadBalancerTargetGroupsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DetachLoadBalancerTargetGroupsRequest,DetachLoadBalancerTargetGroupsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DetachLoadBalancerTargetGroupsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1735,30 +2394,36 @@ namespace Amazon.AutoScaling
 
         internal virtual DisableMetricsCollectionResponse DisableMetricsCollection(DisableMetricsCollectionRequest request)
         {
-            var marshaller = DisableMetricsCollectionRequestMarshaller.Instance;
-            var unmarshaller = DisableMetricsCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableMetricsCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableMetricsCollectionResponseUnmarshaller.Instance;
 
-            return Invoke<DisableMetricsCollectionRequest,DisableMetricsCollectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisableMetricsCollectionResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DisableMetricsCollection operation.
+        /// Disables group metrics for the specified Auto Scaling group.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DisableMetricsCollection operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DisableMetricsCollection service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DisableMetricsCollection service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DisableMetricsCollection">REST API Reference for DisableMetricsCollection Operation</seealso>
         public virtual Task<DisableMetricsCollectionResponse> DisableMetricsCollectionAsync(DisableMetricsCollectionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DisableMetricsCollectionRequestMarshaller.Instance;
-            var unmarshaller = DisableMetricsCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableMetricsCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableMetricsCollectionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DisableMetricsCollectionRequest,DisableMetricsCollectionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DisableMetricsCollectionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1767,30 +2432,39 @@ namespace Amazon.AutoScaling
 
         internal virtual EnableMetricsCollectionResponse EnableMetricsCollection(EnableMetricsCollectionRequest request)
         {
-            var marshaller = EnableMetricsCollectionRequestMarshaller.Instance;
-            var unmarshaller = EnableMetricsCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableMetricsCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableMetricsCollectionResponseUnmarshaller.Instance;
 
-            return Invoke<EnableMetricsCollectionRequest,EnableMetricsCollectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnableMetricsCollectionResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the EnableMetricsCollection operation.
+        /// Enables group metrics for the specified Auto Scaling group. For more information,
+        /// see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html">Monitoring
+        /// Your Auto Scaling Groups and Instances</a> in the <i>Amazon EC2 Auto Scaling User
+        /// Guide</i>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the EnableMetricsCollection operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the EnableMetricsCollection service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the EnableMetricsCollection service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnableMetricsCollection">REST API Reference for EnableMetricsCollection Operation</seealso>
         public virtual Task<EnableMetricsCollectionResponse> EnableMetricsCollectionAsync(EnableMetricsCollectionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = EnableMetricsCollectionRequestMarshaller.Instance;
-            var unmarshaller = EnableMetricsCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableMetricsCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableMetricsCollectionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<EnableMetricsCollectionRequest,EnableMetricsCollectionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<EnableMetricsCollectionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1799,30 +2473,55 @@ namespace Amazon.AutoScaling
 
         internal virtual EnterStandbyResponse EnterStandby(EnterStandbyRequest request)
         {
-            var marshaller = EnterStandbyRequestMarshaller.Instance;
-            var unmarshaller = EnterStandbyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnterStandbyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnterStandbyResponseUnmarshaller.Instance;
 
-            return Invoke<EnterStandbyRequest,EnterStandbyResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnterStandbyResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the EnterStandby operation.
-        /// </summary>
+        /// Moves the specified instances into the standby state.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the EnterStandby operation.</param>
+        ///  
+        /// <para>
+        /// If you choose to decrement the desired capacity of the Auto Scaling group, the instances
+        /// can enter standby as long as the desired capacity of the Auto Scaling group after
+        /// the instances are placed into standby is equal to or greater than the minimum capacity
+        /// of the group.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you choose not to decrement the desired capacity of the Auto Scaling group, the
+        /// Auto Scaling group launches new instances to replace the instances on standby.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enter-exit-standby.html">Temporarily
+        /// Removing Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling
+        /// User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnterStandby service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the EnterStandby service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnterStandby">REST API Reference for EnterStandby Operation</seealso>
         public virtual Task<EnterStandbyResponse> EnterStandbyAsync(EnterStandbyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = EnterStandbyRequestMarshaller.Instance;
-            var unmarshaller = EnterStandbyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnterStandbyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnterStandbyResponseUnmarshaller.Instance;
 
-            return InvokeAsync<EnterStandbyRequest,EnterStandbyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<EnterStandbyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1831,30 +2530,39 @@ namespace Amazon.AutoScaling
 
         internal virtual ExecutePolicyResponse ExecutePolicy(ExecutePolicyRequest request)
         {
-            var marshaller = ExecutePolicyRequestMarshaller.Instance;
-            var unmarshaller = ExecutePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExecutePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExecutePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<ExecutePolicyRequest,ExecutePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<ExecutePolicyResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ExecutePolicy operation.
+        /// Executes the specified policy.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ExecutePolicy operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ExecutePolicy service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ExecutePolicy service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
+        /// The operation can't be performed because there are scaling activities in progress.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ExecutePolicy">REST API Reference for ExecutePolicy Operation</seealso>
         public virtual Task<ExecutePolicyResponse> ExecutePolicyAsync(ExecutePolicyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ExecutePolicyRequestMarshaller.Instance;
-            var unmarshaller = ExecutePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExecutePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExecutePolicyResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ExecutePolicyRequest,ExecutePolicyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ExecutePolicyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1863,30 +2571,47 @@ namespace Amazon.AutoScaling
 
         internal virtual ExitStandbyResponse ExitStandby(ExitStandbyRequest request)
         {
-            var marshaller = ExitStandbyRequestMarshaller.Instance;
-            var unmarshaller = ExitStandbyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExitStandbyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExitStandbyResponseUnmarshaller.Instance;
 
-            return Invoke<ExitStandbyRequest,ExitStandbyResponse>(request, marshaller, unmarshaller);
+            return Invoke<ExitStandbyResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ExitStandby operation.
-        /// </summary>
+        /// Moves the specified instances out of the standby state.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ExitStandby operation.</param>
+        ///  
+        /// <para>
+        /// After you put the instances back in service, the desired capacity is incremented.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-enter-exit-standby.html">Temporarily
+        /// Removing Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling
+        /// User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExitStandby service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ExitStandby service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ExitStandby">REST API Reference for ExitStandby Operation</seealso>
         public virtual Task<ExitStandbyResponse> ExitStandbyAsync(ExitStandbyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ExitStandbyRequestMarshaller.Instance;
-            var unmarshaller = ExitStandbyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExitStandbyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExitStandbyResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ExitStandbyRequest,ExitStandbyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ExitStandbyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1895,30 +2620,94 @@ namespace Amazon.AutoScaling
 
         internal virtual PutLifecycleHookResponse PutLifecycleHook(PutLifecycleHookRequest request)
         {
-            var marshaller = PutLifecycleHookRequestMarshaller.Instance;
-            var unmarshaller = PutLifecycleHookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecycleHookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecycleHookResponseUnmarshaller.Instance;
 
-            return Invoke<PutLifecycleHookRequest,PutLifecycleHookResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutLifecycleHookResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutLifecycleHook operation.
-        /// </summary>
+        /// Creates or updates a lifecycle hook for the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutLifecycleHook operation.</param>
+        ///  
+        /// <para>
+        /// A lifecycle hook tells Amazon EC2 Auto Scaling to perform an action on an instance
+        /// when the instance launches (before it is put into service) or as the instance terminates
+        /// (before it is fully terminated).
+        /// </para>
+        ///  
+        /// <para>
+        /// This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
+        /// group:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke
+        /// your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// (Optional) Create a notification target and an IAM role. The target can be either
+        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
+        /// to publish lifecycle notifications to the target.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Create the lifecycle hook. Specify whether the hook is used when the instances
+        /// launch or terminate.</b> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you need more time, record the lifecycle action heartbeat to keep the instance
+        /// in a pending state using <a>RecordLifecycleActionHeartbeat</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you finish before the timeout period ends, complete the lifecycle action using
+        /// <a>CompleteLifecycleAction</a>.
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
+        /// EC2 Auto Scaling Lifecycle Hooks</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto
+        /// Scaling group, the call fails.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can view the lifecycle hooks for an Auto Scaling group using <a>DescribeLifecycleHooks</a>.
+        /// If you are no longer using a lifecycle hook, you can delete it using <a>DeleteLifecycleHook</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutLifecycleHook service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutLifecycleHook service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutLifecycleHook">REST API Reference for PutLifecycleHook Operation</seealso>
         public virtual Task<PutLifecycleHookResponse> PutLifecycleHookAsync(PutLifecycleHookRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutLifecycleHookRequestMarshaller.Instance;
-            var unmarshaller = PutLifecycleHookResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecycleHookRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecycleHookResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PutLifecycleHookRequest,PutLifecycleHookResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PutLifecycleHookResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1927,30 +2716,57 @@ namespace Amazon.AutoScaling
 
         internal virtual PutNotificationConfigurationResponse PutNotificationConfiguration(PutNotificationConfigurationRequest request)
         {
-            var marshaller = PutNotificationConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutNotificationConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutNotificationConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutNotificationConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<PutNotificationConfigurationRequest,PutNotificationConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutNotificationConfigurationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutNotificationConfiguration operation.
-        /// </summary>
+        /// Configures an Auto Scaling group to send notifications when specified events take
+        /// place. Subscribers to the specified topic can have messages delivered to an endpoint
+        /// such as a web server or an email address.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutNotificationConfiguration operation.</param>
+        ///  
+        /// <para>
+        /// This configuration overwrites any existing configuration.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ASGettingNotifications.html">Getting
+        /// Amazon SNS Notifications When Your Auto Scaling Group Scales</a> in the <i>Amazon
+        /// EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutNotificationConfiguration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutNotificationConfiguration service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutNotificationConfiguration">REST API Reference for PutNotificationConfiguration Operation</seealso>
         public virtual Task<PutNotificationConfigurationResponse> PutNotificationConfigurationAsync(PutNotificationConfigurationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutNotificationConfigurationRequestMarshaller.Instance;
-            var unmarshaller = PutNotificationConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutNotificationConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutNotificationConfigurationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PutNotificationConfigurationRequest,PutNotificationConfigurationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PutNotificationConfigurationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1959,30 +2775,51 @@ namespace Amazon.AutoScaling
 
         internal virtual PutScalingPolicyResponse PutScalingPolicy(PutScalingPolicyRequest request)
         {
-            var marshaller = PutScalingPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutScalingPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutScalingPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutScalingPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutScalingPolicyRequest,PutScalingPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutScalingPolicyResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutScalingPolicy operation.
-        /// </summary>
+        /// Creates or updates a scaling policy for an Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutScalingPolicy operation.</param>
+        ///  
+        /// <para>
+        /// For more information about using scaling policies to scale your Auto Scaling group
+        /// automatically, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scale-based-on-demand.html">Dynamic
+        /// Scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutScalingPolicy service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutScalingPolicy service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutScalingPolicy">REST API Reference for PutScalingPolicy Operation</seealso>
         public virtual Task<PutScalingPolicyResponse> PutScalingPolicyAsync(PutScalingPolicyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutScalingPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutScalingPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutScalingPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutScalingPolicyResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PutScalingPolicyRequest,PutScalingPolicyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PutScalingPolicyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1991,30 +2828,52 @@ namespace Amazon.AutoScaling
 
         internal virtual PutScheduledUpdateGroupActionResponse PutScheduledUpdateGroupAction(PutScheduledUpdateGroupActionRequest request)
         {
-            var marshaller = PutScheduledUpdateGroupActionRequestMarshaller.Instance;
-            var unmarshaller = PutScheduledUpdateGroupActionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutScheduledUpdateGroupActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutScheduledUpdateGroupActionResponseUnmarshaller.Instance;
 
-            return Invoke<PutScheduledUpdateGroupActionRequest,PutScheduledUpdateGroupActionResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutScheduledUpdateGroupActionResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutScheduledUpdateGroupAction operation.
-        /// </summary>
+        /// Creates or updates a scheduled scaling action for an Auto Scaling group. If you leave
+        /// a parameter unspecified when updating a scheduled scaling action, the corresponding
+        /// value remains unchanged.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutScheduledUpdateGroupAction operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html">Scheduled
+        /// Scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutScheduledUpdateGroupAction service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutScheduledUpdateGroupAction service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.AlreadyExistsException">
+        /// You already have an Auto Scaling group or launch configuration with this name.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutScheduledUpdateGroupAction">REST API Reference for PutScheduledUpdateGroupAction Operation</seealso>
         public virtual Task<PutScheduledUpdateGroupActionResponse> PutScheduledUpdateGroupActionAsync(PutScheduledUpdateGroupActionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutScheduledUpdateGroupActionRequestMarshaller.Instance;
-            var unmarshaller = PutScheduledUpdateGroupActionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutScheduledUpdateGroupActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutScheduledUpdateGroupActionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PutScheduledUpdateGroupActionRequest,PutScheduledUpdateGroupActionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PutScheduledUpdateGroupActionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2023,30 +2882,73 @@ namespace Amazon.AutoScaling
 
         internal virtual RecordLifecycleActionHeartbeatResponse RecordLifecycleActionHeartbeat(RecordLifecycleActionHeartbeatRequest request)
         {
-            var marshaller = RecordLifecycleActionHeartbeatRequestMarshaller.Instance;
-            var unmarshaller = RecordLifecycleActionHeartbeatResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RecordLifecycleActionHeartbeatRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RecordLifecycleActionHeartbeatResponseUnmarshaller.Instance;
 
-            return Invoke<RecordLifecycleActionHeartbeatRequest,RecordLifecycleActionHeartbeatResponse>(request, marshaller, unmarshaller);
+            return Invoke<RecordLifecycleActionHeartbeatResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RecordLifecycleActionHeartbeat operation.
-        /// </summary>
+        /// Records a heartbeat for the lifecycle action associated with the specified token or
+        /// instance. This extends the timeout by the length of time defined using <a>PutLifecycleHook</a>.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the RecordLifecycleActionHeartbeat operation.</param>
+        ///  
+        /// <para>
+        /// This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
+        /// group:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke
+        /// your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// (Optional) Create a notification target and an IAM role. The target can be either
+        /// an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling
+        /// to publish lifecycle notifications to the target.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Create the lifecycle hook. Specify whether the hook is used when the instances launch
+        /// or terminate.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>If you need more time, record the lifecycle action heartbeat to keep the instance
+        /// in a pending state.</b> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you finish before the timeout period ends, complete the lifecycle action.
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroupLifecycle.html">Auto
+        /// Scaling Lifecycle</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RecordLifecycleActionHeartbeat service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RecordLifecycleActionHeartbeat service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/RecordLifecycleActionHeartbeat">REST API Reference for RecordLifecycleActionHeartbeat Operation</seealso>
         public virtual Task<RecordLifecycleActionHeartbeatResponse> RecordLifecycleActionHeartbeatAsync(RecordLifecycleActionHeartbeatRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = RecordLifecycleActionHeartbeatRequestMarshaller.Instance;
-            var unmarshaller = RecordLifecycleActionHeartbeatResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RecordLifecycleActionHeartbeatRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RecordLifecycleActionHeartbeatResponseUnmarshaller.Instance;
 
-            return InvokeAsync<RecordLifecycleActionHeartbeatRequest,RecordLifecycleActionHeartbeatResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<RecordLifecycleActionHeartbeatResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2055,30 +2957,46 @@ namespace Amazon.AutoScaling
 
         internal virtual ResumeProcessesResponse ResumeProcesses(ResumeProcessesRequest request)
         {
-            var marshaller = ResumeProcessesRequestMarshaller.Instance;
-            var unmarshaller = ResumeProcessesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResumeProcessesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResumeProcessesResponseUnmarshaller.Instance;
 
-            return Invoke<ResumeProcessesRequest,ResumeProcessesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResumeProcessesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ResumeProcesses operation.
-        /// </summary>
+        /// Resumes the specified suspended automatic scaling processes, or all suspended process,
+        /// for the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ResumeProcesses operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html">Suspending
+        /// and Resuming Scaling Processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ResumeProcesses service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ResumeProcesses service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
+        /// The operation can't be performed because the resource is in use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ResumeProcesses">REST API Reference for ResumeProcesses Operation</seealso>
         public virtual Task<ResumeProcessesResponse> ResumeProcessesAsync(ResumeProcessesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ResumeProcessesRequestMarshaller.Instance;
-            var unmarshaller = ResumeProcessesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResumeProcessesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResumeProcessesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ResumeProcessesRequest,ResumeProcessesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ResumeProcessesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2087,30 +3005,45 @@ namespace Amazon.AutoScaling
 
         internal virtual SetDesiredCapacityResponse SetDesiredCapacity(SetDesiredCapacityRequest request)
         {
-            var marshaller = SetDesiredCapacityRequestMarshaller.Instance;
-            var unmarshaller = SetDesiredCapacityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDesiredCapacityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDesiredCapacityResponseUnmarshaller.Instance;
 
-            return Invoke<SetDesiredCapacityRequest,SetDesiredCapacityResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetDesiredCapacityResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the SetDesiredCapacity operation.
-        /// </summary>
+        /// Sets the size of the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the SetDesiredCapacity operation.</param>
+        ///  
+        /// <para>
+        /// For more information about desired capacity, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html">What
+        /// Is Amazon EC2 Auto Scaling?</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SetDesiredCapacity service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the SetDesiredCapacity service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
+        /// The operation can't be performed because there are scaling activities in progress.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetDesiredCapacity">REST API Reference for SetDesiredCapacity Operation</seealso>
         public virtual Task<SetDesiredCapacityResponse> SetDesiredCapacityAsync(SetDesiredCapacityRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = SetDesiredCapacityRequestMarshaller.Instance;
-            var unmarshaller = SetDesiredCapacityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetDesiredCapacityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetDesiredCapacityResponseUnmarshaller.Instance;
 
-            return InvokeAsync<SetDesiredCapacityRequest,SetDesiredCapacityResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<SetDesiredCapacityResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2119,30 +3052,42 @@ namespace Amazon.AutoScaling
 
         internal virtual SetInstanceHealthResponse SetInstanceHealth(SetInstanceHealthRequest request)
         {
-            var marshaller = SetInstanceHealthRequestMarshaller.Instance;
-            var unmarshaller = SetInstanceHealthResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetInstanceHealthRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetInstanceHealthResponseUnmarshaller.Instance;
 
-            return Invoke<SetInstanceHealthRequest,SetInstanceHealthResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetInstanceHealthResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the SetInstanceHealth operation.
-        /// </summary>
+        /// Sets the health status of the specified instance.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the SetInstanceHealth operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html">Health
+        /// Checks for Auto Scaling Instances</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SetInstanceHealth service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the SetInstanceHealth service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceHealth">REST API Reference for SetInstanceHealth Operation</seealso>
         public virtual Task<SetInstanceHealthResponse> SetInstanceHealthAsync(SetInstanceHealthRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = SetInstanceHealthRequestMarshaller.Instance;
-            var unmarshaller = SetInstanceHealthResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetInstanceHealthRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetInstanceHealthResponseUnmarshaller.Instance;
 
-            return InvokeAsync<SetInstanceHealthRequest,SetInstanceHealthResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<SetInstanceHealthResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2151,30 +3096,48 @@ namespace Amazon.AutoScaling
 
         internal virtual SetInstanceProtectionResponse SetInstanceProtection(SetInstanceProtectionRequest request)
         {
-            var marshaller = SetInstanceProtectionRequestMarshaller.Instance;
-            var unmarshaller = SetInstanceProtectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetInstanceProtectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetInstanceProtectionResponseUnmarshaller.Instance;
 
-            return Invoke<SetInstanceProtectionRequest,SetInstanceProtectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<SetInstanceProtectionResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the SetInstanceProtection operation.
-        /// </summary>
+        /// Updates the instance protection settings of the specified instances.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the SetInstanceProtection operation.</param>
+        ///  
+        /// <para>
+        /// For more information about preventing instances that are part of an Auto Scaling group
+        /// from terminating on scale in, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection">Instance
+        /// Protection</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SetInstanceProtection service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the SetInstanceProtection service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.LimitExceededException">
+        /// You have already reached a limit for your Amazon EC2 Auto Scaling resources (for example,
+        /// Auto Scaling groups, launch configurations, or lifecycle hooks). For more information,
+        /// see <a>DescribeAccountLimits</a>.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceProtection">REST API Reference for SetInstanceProtection Operation</seealso>
         public virtual Task<SetInstanceProtectionResponse> SetInstanceProtectionAsync(SetInstanceProtectionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = SetInstanceProtectionRequestMarshaller.Instance;
-            var unmarshaller = SetInstanceProtectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SetInstanceProtectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SetInstanceProtectionResponseUnmarshaller.Instance;
 
-            return InvokeAsync<SetInstanceProtectionRequest,SetInstanceProtectionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<SetInstanceProtectionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2183,30 +3146,55 @@ namespace Amazon.AutoScaling
 
         internal virtual SuspendProcessesResponse SuspendProcesses(SuspendProcessesRequest request)
         {
-            var marshaller = SuspendProcessesRequestMarshaller.Instance;
-            var unmarshaller = SuspendProcessesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SuspendProcessesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SuspendProcessesResponseUnmarshaller.Instance;
 
-            return Invoke<SuspendProcessesRequest,SuspendProcessesResponse>(request, marshaller, unmarshaller);
+            return Invoke<SuspendProcessesResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the SuspendProcesses operation.
-        /// </summary>
+        /// Suspends the specified automatic scaling processes, or all processes, for the specified
+        /// Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the SuspendProcesses operation.</param>
+        ///  
+        /// <para>
+        /// If you suspend either the <code>Launch</code> or <code>Terminate</code> process types,
+        /// it can prevent other process types from functioning properly.
+        /// </para>
+        ///  
+        /// <para>
+        /// To resume processes that have been suspended, use <a>ResumeProcesses</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html">Suspending
+        /// and Resuming Scaling Processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SuspendProcesses service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the SuspendProcesses service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceInUseException">
+        /// The operation can't be performed because the resource is in use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SuspendProcesses">REST API Reference for SuspendProcesses Operation</seealso>
         public virtual Task<SuspendProcessesResponse> SuspendProcessesAsync(SuspendProcessesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = SuspendProcessesRequestMarshaller.Instance;
-            var unmarshaller = SuspendProcessesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SuspendProcessesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SuspendProcessesResponseUnmarshaller.Instance;
 
-            return InvokeAsync<SuspendProcessesRequest,SuspendProcessesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<SuspendProcessesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2215,30 +3203,57 @@ namespace Amazon.AutoScaling
 
         internal virtual TerminateInstanceInAutoScalingGroupResponse TerminateInstanceInAutoScalingGroup(TerminateInstanceInAutoScalingGroupRequest request)
         {
-            var marshaller = TerminateInstanceInAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = TerminateInstanceInAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TerminateInstanceInAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TerminateInstanceInAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<TerminateInstanceInAutoScalingGroupRequest,TerminateInstanceInAutoScalingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<TerminateInstanceInAutoScalingGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the TerminateInstanceInAutoScalingGroup operation.
-        /// </summary>
+        /// Terminates the specified instance and optionally adjusts the desired group size. This
+        /// call simply makes a termination request. The instance is not terminated immediately.
+        /// When an instance is terminated, the instance status changes to <code>terminated</code>.
+        /// You can't connect to or start an instance after you've terminated it.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the TerminateInstanceInAutoScalingGroup operation.</param>
+        ///  
+        /// <para>
+        /// If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto
+        /// Scaling launches instances to replace the ones that are terminated. 
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones.
+        /// If you decrement the desired capacity, your Auto Scaling group can become unbalanced
+        /// between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group,
+        /// and rebalancing might terminate instances in other zones. For more information, see
+        /// <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.InstanceUsage">Rebalancing
+        /// Activities</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TerminateInstanceInAutoScalingGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the TerminateInstanceInAutoScalingGroup service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
+        /// The operation can't be performed because there are scaling activities in progress.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/TerminateInstanceInAutoScalingGroup">REST API Reference for TerminateInstanceInAutoScalingGroup Operation</seealso>
         public virtual Task<TerminateInstanceInAutoScalingGroupResponse> TerminateInstanceInAutoScalingGroupAsync(TerminateInstanceInAutoScalingGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = TerminateInstanceInAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = TerminateInstanceInAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TerminateInstanceInAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TerminateInstanceInAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<TerminateInstanceInAutoScalingGroupRequest,TerminateInstanceInAutoScalingGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<TerminateInstanceInAutoScalingGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2247,30 +3262,95 @@ namespace Amazon.AutoScaling
 
         internal virtual UpdateAutoScalingGroupResponse UpdateAutoScalingGroup(UpdateAutoScalingGroupRequest request)
         {
-            var marshaller = UpdateAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAutoScalingGroupRequest,UpdateAutoScalingGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAutoScalingGroupResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateAutoScalingGroup operation.
-        /// </summary>
+        /// Updates the configuration for the specified Auto Scaling group.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateAutoScalingGroup operation.</param>
+        ///  
+        /// <para>
+        /// To update an Auto Scaling group, specify the name of the group and the parameter that
+        /// you want to change. Any parameters that you don't specify are not changed by this
+        /// update request. The new settings take effect on any scaling activities after this
+        /// call returns. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you associate a new launch configuration or template with an Auto Scaling group,
+        /// all new instances will get the updated configuration. Existing instances continue
+        /// to run with the configuration that they were originally launched with. When you update
+        /// a group to specify a mixed instances policy instead of a launch configuration or template,
+        /// existing instances may be replaced to match the new purchasing options that you specified
+        /// in the policy. For example, if the group currently has 100% On-Demand capacity and
+        /// the policy specifies 50% Spot capacity, this means that half of your instances will
+        /// be gradually terminated and relaunched as Spot Instances. When replacing instances,
+        /// Amazon EC2 Auto Scaling launches new instances before terminating the old ones, so
+        /// that updating your group does not compromise the performance or availability of your
+        /// application.
+        /// </para>
+        ///  
+        /// <para>
+        /// Note the following about changing <code>DesiredCapacity</code>, <code>MaxSize</code>,
+        /// or <code>MinSize</code>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If a scale-in event occurs as a result of a new <code>DesiredCapacity</code> value
+        /// that is lower than the current size of the group, the Auto Scaling group uses its
+        /// termination policy to determine which instances to terminate.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you specify a new value for <code>MinSize</code> without specifying a value for
+        /// <code>DesiredCapacity</code>, and the new <code>MinSize</code> is larger than the
+        /// current size of the group, this sets the group's <code>DesiredCapacity</code> to the
+        /// new <code>MinSize</code> value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you specify a new value for <code>MaxSize</code> without specifying a value for
+        /// <code>DesiredCapacity</code>, and the new <code>MaxSize</code> is smaller than the
+        /// current size of the group, this sets the group's <code>DesiredCapacity</code> to the
+        /// new <code>MaxSize</code> value.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// To see which parameters have been set, use <a>DescribeAutoScalingGroups</a>. You can
+        /// also view the scaling policies for an Auto Scaling group using <a>DescribePolicies</a>.
+        /// If the group has scaling policies, you can update them using <a>PutScalingPolicy</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateAutoScalingGroup service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateAutoScalingGroup service method, as returned by AutoScaling.</returns>
+        /// <exception cref="Amazon.AutoScaling.Model.ResourceContentionException">
+        /// You already have a pending update to an Amazon EC2 Auto Scaling resource (for example,
+        /// an Auto Scaling group, instance, or load balancer).
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ScalingActivityInProgressException">
+        /// The operation can't be performed because there are scaling activities in progress.
+        /// </exception>
+        /// <exception cref="Amazon.AutoScaling.Model.ServiceLinkedRoleFailureException">
+        /// The service-linked role is not yet ready for use.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/UpdateAutoScalingGroup">REST API Reference for UpdateAutoScalingGroup Operation</seealso>
         public virtual Task<UpdateAutoScalingGroupResponse> UpdateAutoScalingGroupAsync(UpdateAutoScalingGroupRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateAutoScalingGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateAutoScalingGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAutoScalingGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAutoScalingGroupResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateAutoScalingGroupRequest,UpdateAutoScalingGroupResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateAutoScalingGroupResponse>(request, options, cancellationToken);
         }
 
         #endregion

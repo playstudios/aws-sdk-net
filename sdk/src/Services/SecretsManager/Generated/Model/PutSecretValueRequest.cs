@@ -31,13 +31,14 @@ namespace Amazon.SecretsManager.Model
     /// Container for the parameters to the PutSecretValue operation.
     /// Stores a new encrypted secret value in the specified secret. To do this, the operation
     /// creates a new version and attaches it to the secret. The version can contain a new
-    /// <code>SecretString</code> value or a new <code>SecretBinary</code> value.
+    /// <code>SecretString</code> value or a new <code>SecretBinary</code> value. You can
+    /// also specify the staging labels that are initially attached to the new version.
     /// 
     ///  <note> 
     /// <para>
-    /// The AWS Secrets Manager console uses only the <code>SecretString</code> field. To
-    /// add binary data to a secret with the <code>SecretBinary</code> field you must use
-    /// the AWS CLI or one of the AWS SDKs.
+    /// The Secrets Manager console uses only the <code>SecretString</code> field. To add
+    /// binary data to a secret with the <code>SecretBinary</code> field you must use the
+    /// AWS CLI or one of the AWS SDKs.
     /// </para>
     ///  </note> <ul> <li> 
     /// <para>
@@ -47,48 +48,49 @@ namespace Amazon.SecretsManager.Model
     ///  </li> <li> 
     /// <para>
     /// If another version of this secret already exists, then this operation does not automatically
-    /// move any staging labels other than those that you specify in the <code>VersionStages</code>
+    /// move any staging labels other than those that you explicitly specify in the <code>VersionStages</code>
     /// parameter.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// This operation is idempotent. If a version with a <code>SecretVersionId</code> with
-    /// the same value as the <code>ClientRequestToken</code> parameter already exists and
-    /// you specify the same secret data, the operation succeeds but does nothing. However,
-    /// if the secret data is different, then the operation fails because you cannot modify
-    /// an existing version; you can only create new ones.
+    /// If this operation moves the staging label <code>AWSCURRENT</code> from another version
+    /// to this version (because you included it in the <code>StagingLabels</code> parameter)
+    /// then Secrets Manager also automatically moves the staging label <code>AWSPREVIOUS</code>
+    /// to the version that <code>AWSCURRENT</code> was removed from.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// If this operation moves the staging label <code>AWSCURRENT</code> to this version
-    /// (because you included it in the <code>StagingLabels</code> parameter) then Secrets
-    /// Manager also automatically moves the staging label <code>AWSPREVIOUS</code> to the
-    /// version that <code>AWSCURRENT</code> was removed from.
+    /// This operation is idempotent. If a version with a <code>VersionId</code> with the
+    /// same value as the <code>ClientRequestToken</code> parameter already exists and you
+    /// specify the same secret data, the operation succeeds but does nothing. However, if
+    /// the secret data is different, then the operation fails because you cannot modify an
+    /// existing version; you can only create new ones.
     /// </para>
-    ///  </li> </ul> <important> <ul> <li> 
+    ///  </li> </ul> <note> <ul> <li> 
     /// <para>
     /// If you call an operation that needs to encrypt or decrypt the <code>SecretString</code>
-    /// and <code>SecretBinary</code> for a secret in the same account as the calling user
-    /// and that secret doesn't specify a KMS encryption key, AWS Secrets Manager uses the
+    /// or <code>SecretBinary</code> for a secret in the same account as the calling user
+    /// and that secret doesn't specify a AWS KMS encryption key, Secrets Manager uses the
     /// account's default AWS managed customer master key (CMK) with the alias <code>aws/secretsmanager</code>.
-    /// If this key doesn't already exist in your account then AWS Secrets Manager creates
-    /// it for you automatically. All users in the same AWS account automatically have access
-    /// to use the default CMK. Note that if an AWS Secrets Manager API call results in AWS
-    /// having to create the account's AWS-managed CMK, it can result in a one-time significant
+    /// If this key doesn't already exist in your account then Secrets Manager creates it
+    /// for you automatically. All users and roles in the same AWS account automatically have
+    /// access to use the default CMK. Note that if an Secrets Manager API call results in
+    /// AWS having to create the account's AWS-managed CMK, it can result in a one-time significant
     /// delay in returning the result.
     /// </para>
     ///  </li> <li> 
     /// <para>
     /// If the secret is in a different AWS account from the credentials calling an API that
     /// requires encryption or decryption of the secret value then you must create and use
-    /// a custom KMS CMK because you can't access the default CMK for the account using credentials
-    /// from a different AWS account. Store the ARN of the CMK in the secret when you create
-    /// the secret or when you update it by including it in the <code>KMSKeyId</code>. If
-    /// you call an API that must encrypt or decrypt <code>SecretString</code> or <code>SecretBinary</code>
-    /// using credentials from a different account then the KMS key policy must grant cross-account
-    /// access to that other account's user or role.
+    /// a custom AWS KMS CMK because you can't access the default CMK for the account using
+    /// credentials from a different AWS account. Store the ARN of the CMK in the secret when
+    /// you create the secret or when you update it by including it in the <code>KMSKeyId</code>.
+    /// If you call an API that must encrypt or decrypt <code>SecretString</code> or <code>SecretBinary</code>
+    /// using credentials from a different account then the AWS KMS key policy must grant
+    /// cross-account access to that other account's user or role for both the kms:GenerateDataKey
+    /// and kms:Decrypt operations.
     /// </para>
-    ///  </li> </ul> </important> 
+    ///  </li> </ul> </note> 
     /// <para>
     ///  <b>Minimum permissions</b> 
     /// </para>
@@ -102,14 +104,9 @@ namespace Amazon.SecretsManager.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// kms:GenerateDataKey - needed only if you use a customer-created KMS key to encrypt
-    /// the secret. You do not need this permission to use the account's AWS managed CMK for
-    /// Secrets Manager.
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// kms:Encrypt - needed only if you use a customer-created KMS key to encrypt the secret.
-    /// You do not need this permission to use the account's AWS managed CMK for Secrets Manager.
+    /// kms:GenerateDataKey - needed only if you use a customer-managed AWS KMS key to encrypt
+    /// the secret. You do not need this permission to use the account's default AWS managed
+    /// CMK for Secrets Manager.
     /// </para>
     ///  </li> </ul> 
     /// <para>
@@ -151,7 +148,7 @@ namespace Amazon.SecretsManager.Model
         /// If you use the AWS CLI or one of the AWS SDK to call this operation, then you can
         /// leave this parameter empty. The CLI or SDK generates a random UUID for you and includes
         /// that in the request. If you don't use the SDK and instead generate a raw HTTP request
-        /// to the AWS Secrets Manager service endpoint, then you must generate a <code>ClientRequestToken</code>
+        /// to the Secrets Manager service endpoint, then you must generate a <code>ClientRequestToken</code>
         /// yourself for new versions and include that value in the request. 
         /// </para>
         ///  </note> 
@@ -181,9 +178,10 @@ namespace Amazon.SecretsManager.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// This value becomes the <code>SecretVersionId</code> of the new version.
+        /// This value becomes the <code>VersionId</code> of the new version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -203,13 +201,15 @@ namespace Amazon.SecretsManager.Model
         /// of the secret. To use this parameter in the command-line tools, we recommend that
         /// you store your binary data in a file and then use the appropriate technique for your
         /// tool to pass the contents of the file as a parameter. Either <code>SecretBinary</code>
-        /// or <code>SecretString</code> must have a value. They cannot both be empty.
+        /// or <code>SecretString</code> must have a value, but not both. They cannot both be
+        /// empty.
         /// </para>
         ///  
         /// <para>
         /// This parameter is not accessible if the secret using the Secrets Manager console.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=65536)]
         public MemoryStream SecretBinary
         {
             get { return this._secretBinary; }
@@ -229,12 +229,22 @@ namespace Amazon.SecretsManager.Model
         /// the Amazon Resource Name (ARN) or the friendly name of the secret. The secret must
         /// already exist.
         /// </para>
-        ///  
+        ///  <note> 
         /// <para>
-        /// The secret name can consist of uppercase letters, lowercase letters, digits, and any
-        /// of the following characters: /_+=.@-    Spaces are not permitted.
+        /// If you specify an ARN, we generally recommend that you specify a complete ARN. You
+        /// can specify a partial ARN too—for example, if you don’t include the final hyphen and
+        /// six random characters that Secrets Manager adds at the end of the ARN when you created
+        /// the secret. A partial ARN match can work as long as it uniquely matches only one secret.
+        /// However, if your secret has a name that ends in a hyphen followed by six characters
+        /// (before Secrets Manager adds the hyphen and six characters to the ARN) and you try
+        /// to use that as a partial ARN, then those characters cause Secrets Manager to assume
+        /// that you’re specifying a complete ARN. This confusion can cause unexpected results.
+        /// To avoid this situation, we recommend that you don’t create secret names that end
+        /// with a hyphen followed by six characters.
         /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string SecretId
         {
             get { return this._secretId; }
@@ -252,7 +262,7 @@ namespace Amazon.SecretsManager.Model
         /// <para>
         /// (Optional) Specifies text data that you want to encrypt and store in this new version
         /// of the secret. Either <code>SecretString</code> or <code>SecretBinary</code> must
-        /// have a value. They cannot both be empty.
+        /// have a value, but not both. They cannot both be empty.
         /// </para>
         ///  
         /// <para>
@@ -265,10 +275,25 @@ namespace Amazon.SecretsManager.Model
         /// <para>
         /// For storing multiple values, we recommend that you use a JSON text string argument
         /// and specify key/value pairs. For information on how to format a JSON parameter for
-        /// the various command line tool environments, see <a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+        /// the various command line tool environments, see <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
         /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
         /// </para>
+        ///  
+        /// <para>
+        ///  For example:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>[{"username":"bob"},{"password":"abc123xyz456"}]</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If your command-line tool or SDK requires quotation marks around the parameter, you
+        /// should use single quotes to avoid confusion with the double quotes required in the
+        /// JSON text.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=65536)]
         public string SecretString
         {
             get { return this._secretString; }
@@ -297,10 +322,11 @@ namespace Amazon.SecretsManager.Model
         /// </para>
         ///  
         /// <para>
-        /// If you do not specify a value for <code>VersionStages</code> then AWS Secrets Manager
+        /// If you do not specify a value for <code>VersionStages</code> then Secrets Manager
         /// automatically moves the staging label <code>AWSCURRENT</code> to this new version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public List<string> VersionStages
         {
             get { return this._versionStages; }

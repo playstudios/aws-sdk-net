@@ -61,7 +61,7 @@ namespace Amazon.CloudFormation.Model
         /// If you specify a monitoring period but do not specify any rollback triggers, CloudFormation
         /// still waits the specified period of time before cleaning up old resources after update
         /// operations. You can use this monitoring period to perform any manual stack validation
-        /// desired, and manually cancel the stack creation or update (using <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CancelUpdateStack.html">CancelUpdateStack</a>,
+        /// desired, and manually cancel the stack creation or update (using <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CancelUpdateStack.html">CancelUpdateStack</a>,
         /// for example) as necessary.
         /// </para>
         ///  
@@ -71,6 +71,7 @@ namespace Amazon.CloudFormation.Model
         /// it begins disposing of old resources immediately once the operation completes.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=180)]
         public int MonitoringTimeInMinutes
         {
             get { return this._monitoringTimeInMinutes.GetValueOrDefault(); }
@@ -117,6 +118,7 @@ namespace Amazon.CloudFormation.Model
         /// back. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<RollbackTrigger> RollbackTriggers
         {
             get { return this._rollbackTriggers; }

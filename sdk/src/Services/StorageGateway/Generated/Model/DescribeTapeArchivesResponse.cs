@@ -44,6 +44,7 @@ namespace Amazon.StorageGateway.Model
         /// tapes to describe, this field does not appear in the response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public string Marker
         {
             get { return this._marker; }
@@ -60,7 +61,7 @@ namespace Amazon.StorageGateway.Model
         /// Gets and sets the property TapeArchives. 
         /// <para>
         /// An array of virtual tape objects in the virtual tape shelf (VTS). The description
-        /// includes of the Amazon Resource Name(ARN) of the virtual tapes. The information returned
+        /// includes of the Amazon Resource Name (ARN) of the virtual tapes. The information returned
         /// includes the Amazon Resource Names (ARNs) of the tapes, size of the tapes, status
         /// of the tapes, progress of the description and tape barcode.
         /// </para>

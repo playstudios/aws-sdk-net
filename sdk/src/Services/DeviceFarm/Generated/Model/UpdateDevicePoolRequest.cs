@@ -36,16 +36,19 @@ namespace Amazon.DeviceFarm.Model
     public partial class UpdateDevicePoolRequest : AmazonDeviceFarmRequest
     {
         private string _arn;
+        private bool? _clearMaxDevices;
         private string _description;
+        private int? _maxDevices;
         private string _name;
         private List<Rule> _rules = new List<Rule>();
 
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// The Amazon Resourc Name (ARN) of the Device Farm device pool you wish to update.
+        /// The Amazon Resource Name (ARN) of the Device Farm device pool to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -59,11 +62,39 @@ namespace Amazon.DeviceFarm.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Description. 
+        /// Gets and sets the property ClearMaxDevices. 
         /// <para>
-        /// A description of the device pool you wish to update.
+        /// Sets whether the <code>maxDevices</code> parameter applies to your device pool. If
+        /// you set this parameter to <code>true</code>, the <code>maxDevices</code> parameter
+        /// does not apply, and Device Farm does not limit the number of devices that it adds
+        /// to your device pool. In this case, Device Farm adds all available devices that meet
+        /// the criteria specified in the <code>rules</code> parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you use this parameter in your request, you cannot use the <code>maxDevices</code>
+        /// parameter in the same request.
         /// </para>
         /// </summary>
+        public bool ClearMaxDevices
+        {
+            get { return this._clearMaxDevices.GetValueOrDefault(); }
+            set { this._clearMaxDevices = value; }
+        }
+
+        // Check to see if ClearMaxDevices property is set
+        internal bool IsSetClearMaxDevices()
+        {
+            return this._clearMaxDevices.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Description. 
+        /// <para>
+        /// A description of the device pool to update.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=16384)]
         public string Description
         {
             get { return this._description; }
@@ -77,11 +108,43 @@ namespace Amazon.DeviceFarm.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Name. 
+        /// Gets and sets the property MaxDevices. 
         /// <para>
-        /// A string representing the name of the device pool you wish to update.
+        /// The number of devices that Device Farm can add to your device pool. Device Farm adds
+        /// devices that are available and that meet the criteria that you assign for the <code>rules</code>
+        /// parameter. Depending on how many devices meet these constraints, your device pool
+        /// might contain fewer devices than the value for this parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// By specifying the maximum number of devices, you can control the costs that you incur
+        /// by running tests.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you use this parameter in your request, you cannot use the <code>clearMaxDevices</code>
+        /// parameter in the same request.
         /// </para>
         /// </summary>
+        public int MaxDevices
+        {
+            get { return this._maxDevices.GetValueOrDefault(); }
+            set { this._maxDevices = value; }
+        }
+
+        // Check to see if MaxDevices property is set
+        internal bool IsSetMaxDevices()
+        {
+            return this._maxDevices.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Name. 
+        /// <para>
+        /// A string that represents the name of the device pool to update.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -97,9 +160,8 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Rules. 
         /// <para>
-        /// Represents the rules you wish to modify for the device pool. Updating rules is optional;
-        /// however, if you choose to update rules for your request, the update will replace the
-        /// existing rules.
+        /// Represents the rules to modify for the device pool. Updating rules is optional. If
+        /// you update rules for your request, the update replaces the existing rules.
         /// </para>
         /// </summary>
         public List<Rule> Rules

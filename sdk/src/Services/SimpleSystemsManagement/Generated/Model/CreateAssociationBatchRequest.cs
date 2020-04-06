@@ -35,13 +35,13 @@ namespace Amazon.SimpleSystemsManagement.Model
     ///  
     /// <para>
     /// When you associate a document with one or more instances using instance IDs or tags,
-    /// the SSM Agent running on the instance processes the document and configures the instance
+    /// SSM Agent running on the instance processes the document and configures the instance
     /// as specified.
     /// </para>
     ///  
     /// <para>
     /// If you associate a document with an instance that already has an associated document,
-    /// the system throws the AssociationAlreadyExists exception.
+    /// the system returns the AssociationAlreadyExists exception.
     /// </para>
     /// </summary>
     public partial class CreateAssociationBatchRequest : AmazonSimpleSystemsManagementRequest
@@ -68,6 +68,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// One or more associations.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<CreateAssociationBatchRequestEntry> Entries
         {
             get { return this._entries; }

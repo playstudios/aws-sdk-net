@@ -43,7 +43,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "PUT";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketAccelerateRequest.BucketName));
+            if (string.IsNullOrEmpty(putBucketAccelerateRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutBucketAccelerateConfigurationRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketAccelerateRequest.BucketName));
 
             request.AddSubResource("accelerate");
 

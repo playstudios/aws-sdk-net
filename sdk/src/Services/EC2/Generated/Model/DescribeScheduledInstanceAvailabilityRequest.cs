@@ -57,7 +57,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -96,6 +96,7 @@ namespace Amazon.EC2.Model
         /// The time period for the first schedule to start.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SlotDateTimeRangeRequest FirstSlotStartTimeRange
         {
             get { return this._firstSlotStartTimeRange; }
@@ -116,6 +117,7 @@ namespace Amazon.EC2.Model
         /// call with the returned <code>NextToken</code> value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=300)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -191,6 +193,7 @@ namespace Amazon.EC2.Model
         /// The schedule recurrence.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScheduledInstanceRecurrenceRequest Recurrence
         {
             get { return this._recurrence; }

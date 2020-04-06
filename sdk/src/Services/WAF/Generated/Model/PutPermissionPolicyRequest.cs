@@ -51,8 +51,9 @@ namespace Amazon.WAF.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code> and <code>waf-regional:UpdateWebACL</code>.
-    /// Any extra or wildcard actions in the policy will be rejected.
+    /// The <code>Action</code> in the policy must be <code>waf:UpdateWebACL</code>, <code>waf-regional:UpdateWebACL</code>,
+    /// <code>waf:GetRuleGroup</code> and <code>waf-regional:GetRuleGroup</code> . Any extra
+    /// or wildcard actions in the policy will be rejected.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -92,6 +93,7 @@ namespace Amazon.WAF.Model
         /// The policy to attach to the specified RuleGroup.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Policy
         {
             get { return this._policy; }
@@ -110,6 +112,7 @@ namespace Amazon.WAF.Model
         /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1224)]
         public string ResourceArn
         {
             get { return this._resourceArn; }

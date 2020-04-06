@@ -93,7 +93,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// This parameter isn't currently supported.
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -133,7 +133,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The maximum number of records to include in the response. If more than the <code>MaxRecords</code>
         /// value is available, a pagination token called a marker is included in the response
-        /// so that the following results can be retrieved. 
+        /// so you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>
@@ -159,8 +159,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        /// The Multi-AZ filter value. Specify this parameter to show only the available offerings
-        /// matching the specified Multi-AZ parameter.
+        /// A value that indicates whether to show only those reservations that support Multi-AZ.
         /// </para>
         /// </summary>
         public bool MultiAZ
@@ -202,8 +201,13 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property ProductDescription. 
         /// <para>
         /// Product description filter value. Specify this parameter to show only the available
-        /// offerings matching the specified product description.
+        /// offerings that contain the specified product description.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// The results show offerings that partially match the filter value.
+        /// </para>
+        ///  </note>
         /// </summary>
         public string ProductDescription
         {

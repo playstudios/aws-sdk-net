@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -42,6 +42,7 @@ namespace Amazon.CloudDirectory.Model
         /// The child object reference that is to be attached to the object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ChildReference
         {
             get { return this._childReference; }
@@ -60,6 +61,7 @@ namespace Amazon.CloudDirectory.Model
         /// The name of the link.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string LinkName
         {
             get { return this._linkName; }
@@ -78,6 +80,7 @@ namespace Amazon.CloudDirectory.Model
         /// The parent object reference.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ParentReference
         {
             get { return this._parentReference; }

@@ -54,6 +54,8 @@ namespace Amazon.IdentityManagement.Model
         private DateTime? _createDate;
         private DateTime? _passwordLastUsed;
         private string _path;
+        private AttachedPermissionsBoundary _permissionsBoundary;
+        private List<Tag> _tags = new List<Tag>();
         private string _userId;
         private string _userName;
 
@@ -65,10 +67,10 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Instantiates User with the parameterized properties
         /// </summary>
-        /// <param name="path">The path to the user. For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the <i>Using IAM</i> guide.</param>
+        /// <param name="path">The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the <i>IAM User Guide</i>.</param>
         /// <param name="userName">The friendly name identifying the user.</param>
-        /// <param name="userId">The stable and unique string identifying the user. For more information about IDs, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the <i>Using IAM</i> guide.</param>
-        /// <param name="arn">The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the <i>Using IAM</i> guide. </param>
+        /// <param name="userId">The stable and unique string identifying the user. For more information about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the <i>IAM User Guide</i>.</param>
+        /// <param name="arn">The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the <i>IAM User Guide</i>. </param>
         /// <param name="createDate">The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time format</a>, when the user was created.</param>
         public User(string path, string userName, string userId, string arn, DateTime createDate)
         {
@@ -83,10 +85,11 @@ namespace Amazon.IdentityManagement.Model
         /// Gets and sets the property Arn. 
         /// <para>
         /// The Amazon Resource Name (ARN) that identifies the user. For more information about
-        /// ARNs and how to use ARNs in policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide. 
+        /// ARNs and how to use ARNs in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string Arn
         {
             get { return this._arn; }
@@ -106,6 +109,7 @@ namespace Amazon.IdentityManagement.Model
         /// format</a>, when the user was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreateDate
         {
             get { return this._createDate.GetValueOrDefault(); }
@@ -123,10 +127,10 @@ namespace Amazon.IdentityManagement.Model
         /// <para>
         /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
         /// format</a>, when the user's password was last used to sign in to an AWS website. For
-        /// a list of AWS websites that capture a user's last sign-in time, see the <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Credential
-        /// Reports</a> topic in the <i>Using IAM</i> guide. If a password is used more than once
+        /// a list of AWS websites that capture a user's last sign-in time, see the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Credential
+        /// Reports</a> topic in the <i>IAM User Guide</i>. If a password is used more than once
         /// in a five-minute span, only the first use is returned in this field. If the field
-        /// is null (no value) then it indicates that they never signed in with a password. This
+        /// is null (no value), then it indicates that they never signed in with a password. This
         /// can be because:
         /// </para>
         ///  <ul> <li> 
@@ -136,12 +140,12 @@ namespace Amazon.IdentityManagement.Model
         ///  </li> <li> 
         /// <para>
         /// A password exists but has not been used since IAM started tracking this information
-        /// on October 20th, 2014.
+        /// on October 20, 2014.
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// A null does not mean that the user <i>never</i> had a password. Also, if the user
-        /// does not currently have a password, but had one in the past, then this field contains
+        /// A null value does not mean that the user <i>never</i> had a password. Also, if the
+        /// user does not currently have a password but had one in the past, then this field contains
         /// the date and time the most recent password was used.
         /// </para>
         ///  
@@ -165,10 +169,11 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Path. 
         /// <para>
-        /// The path to the user. For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide.
+        /// The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string Path
         {
             get { return this._path; }
@@ -182,13 +187,58 @@ namespace Amazon.IdentityManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PermissionsBoundary. 
+        /// <para>
+        /// The ARN of the policy used to set the permissions boundary for the user.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+        /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        public AttachedPermissionsBoundary PermissionsBoundary
+        {
+            get { return this._permissionsBoundary; }
+            set { this._permissionsBoundary = value; }
+        }
+
+        // Check to see if PermissionsBoundary property is set
+        internal bool IsSetPermissionsBoundary()
+        {
+            return this._permissionsBoundary != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of tags that are associated with the specified user. For more information about
+        /// tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+        /// IAM Identities</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property UserId. 
         /// <para>
         /// The stable and unique string identifying the user. For more information about IDs,
-        /// see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide.
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=16, Max=128)]
         public string UserId
         {
             get { return this._userId; }
@@ -207,6 +257,7 @@ namespace Amazon.IdentityManagement.Model
         /// The friendly name identifying the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string UserName
         {
             get { return this._userName; }

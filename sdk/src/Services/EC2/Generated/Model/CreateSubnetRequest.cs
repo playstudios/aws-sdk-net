@@ -33,13 +33,12 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// When you create each subnet, you provide the VPC ID and the IPv4 CIDR block you want
-    /// for the subnet. After you create a subnet, you can't change its CIDR block. The size
-    /// of the subnet's IPv4 CIDR block can be the same as a VPC's IPv4 CIDR block, or a subset
-    /// of a VPC's IPv4 CIDR block. If you create more than one subnet in a VPC, the subnets'
-    /// CIDR blocks must not overlap. The smallest IPv4 subnet (and VPC) you can create uses
-    /// a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
-    /// addresses).
+    /// When you create each subnet, you provide the VPC ID and IPv4 CIDR block for the subnet.
+    /// After you create a subnet, you can't change its CIDR block. The size of the subnet's
+    /// IPv4 CIDR block can be the same as a VPC's IPv4 CIDR block, or a subset of a VPC's
+    /// IPv4 CIDR block. If you create more than one subnet in a VPC, the subnets' CIDR blocks
+    /// must not overlap. The smallest IPv4 subnet (and VPC) you can create uses a /28 netmask
+    /// (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses).
     /// </para>
     ///  
     /// <para>
@@ -66,15 +65,17 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about subnets, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html">Your
+    /// For more information about subnets, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
     /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateSubnetRequest : AmazonEC2Request
     {
         private string _availabilityZone;
+        private string _availabilityZoneId;
         private string _cidrBlock;
         private string _ipv6CidrBlock;
+        private string _outpostArn;
         private string _vpcId;
 
         /// <summary>
@@ -96,12 +97,19 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZone. 
         /// <para>
-        /// The Availability Zone for the subnet.
+        /// The Availability Zone or Local Zone for the subnet.
         /// </para>
         ///  
         /// <para>
         /// Default: AWS selects one for you. If you create more than one subnet in your VPC,
-        /// we may not necessarily select a different zone for each subnet.
+        /// we do not necessarily select a different zone for each subnet.
+        /// </para>
+        ///  
+        /// <para>
+        /// To create a subnet in a Local Zone, set this value to the Local Zone ID, for example
+        /// <code>us-west-2-lax-1a</code>. For information about the Regions that support Local
+        /// Zones, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions">Available
+        /// Regions</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
         public string AvailabilityZone
@@ -117,11 +125,30 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AvailabilityZoneId. 
+        /// <para>
+        /// The AZ ID or the Local Zone ID of the subnet.
+        /// </para>
+        /// </summary>
+        public string AvailabilityZoneId
+        {
+            get { return this._availabilityZoneId; }
+            set { this._availabilityZoneId = value; }
+        }
+
+        // Check to see if AvailabilityZoneId property is set
+        internal bool IsSetAvailabilityZoneId()
+        {
+            return this._availabilityZoneId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CidrBlock. 
         /// <para>
         /// The IPv4 network range for the subnet, in CIDR notation. For example, <code>10.0.0.0/24</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CidrBlock
         {
             get { return this._cidrBlock; }
@@ -154,11 +181,30 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OutpostArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the Outpost.
+        /// </para>
+        /// </summary>
+        public string OutpostArn
+        {
+            get { return this._outpostArn; }
+            set { this._outpostArn = value; }
+        }
+
+        // Check to see if OutpostArn property is set
+        internal bool IsSetOutpostArn()
+        {
+            return this._outpostArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property VpcId. 
         /// <para>
         /// The ID of the VPC.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VpcId
         {
             get { return this._vpcId; }

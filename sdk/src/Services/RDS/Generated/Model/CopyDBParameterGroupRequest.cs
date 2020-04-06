@@ -42,8 +42,8 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property SourceDBParameterGroupIdentifier. 
         /// <para>
         ///  The identifier or ARN for the source DB parameter group. For information about creating
-        /// an ARN, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing">
-        /// Constructing an RDS Amazon Resource Name (ARN)</a>. 
+        /// an ARN, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing">
+        /// Constructing an ARN for Amazon RDS</a> in the <i>Amazon RDS User Guide</i>. 
         /// </para>
         ///  
         /// <para>
@@ -60,6 +60,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceDBParameterGroupIdentifier
         {
             get { return this._sourceDBParameterGroupIdentifier; }
@@ -93,6 +94,7 @@ namespace Amazon.RDS.Model
         /// A description for the copied DB parameter group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetDBParameterGroupDescription
         {
             get { return this._targetDBParameterGroupDescription; }
@@ -116,7 +118,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Cannot be null, empty, or blank
+        /// Can't be null, empty, or blank
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -128,13 +130,14 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-db-parameter-group</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetDBParameterGroupIdentifier
         {
             get { return this._targetDBParameterGroupIdentifier; }

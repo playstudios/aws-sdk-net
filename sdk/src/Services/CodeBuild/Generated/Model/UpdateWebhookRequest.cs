@@ -29,22 +29,34 @@ namespace Amazon.CodeBuild.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateWebhook operation.
-    /// Updates the webhook associated with an AWS CodeBuild build project.
+    /// Updates the webhook associated with an AWS CodeBuild build project. 
+    /// 
+    ///  <note> 
+    /// <para>
+    ///  If you use Bitbucket for your repository, <code>rotateSecret</code> is ignored. 
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class UpdateWebhookRequest : AmazonCodeBuildRequest
     {
         private string _branchFilter;
+        private List<List<WebhookFilter>> _filterGroups = new List<List<WebhookFilter>>();
         private string _projectName;
         private bool? _rotateSecret;
 
         /// <summary>
         /// Gets and sets the property BranchFilter. 
         /// <para>
-        /// A regular expression used to determine which branches in a repository are built when
-        /// a webhook is triggered. If the name of a branch matches the regular expression, then
-        /// it is built. If it doesn't match, then it is not. If branchFilter is empty, then all
-        /// branches are built.
+        /// A regular expression used to determine which repository branches are built when a
+        /// webhook is triggered. If the name of a branch matches the regular expression, then
+        /// it is built. If <code>branchFilter</code> is empty, then all branches are built.
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  It is recommended that you use <code>filterGroups</code> instead of <code>branchFilter</code>.
+        /// 
+        /// </para>
+        ///  </note>
         /// </summary>
         public string BranchFilter
         {
@@ -59,11 +71,32 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FilterGroups. 
+        /// <para>
+        ///  An array of arrays of <code>WebhookFilter</code> objects used to determine if a webhook
+        /// event can trigger a build. A filter group must contain at least one <code>EVENT</code>
+        /// <code>WebhookFilter</code>. 
+        /// </para>
+        /// </summary>
+        public List<List<WebhookFilter>> FilterGroups
+        {
+            get { return this._filterGroups; }
+            set { this._filterGroups = value; }
+        }
+
+        // Check to see if FilterGroups property is set
+        internal bool IsSetFilterGroups()
+        {
+            return this._filterGroups != null && this._filterGroups.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ProjectName. 
         /// <para>
         /// The name of the AWS CodeBuild project.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=255)]
         public string ProjectName
         {
             get { return this._projectName; }
@@ -79,8 +112,9 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property RotateSecret. 
         /// <para>
-        ///  A boolean value that specifies whether the associated repository's secret token should
-        /// be updated. 
+        ///  A boolean value that specifies whether the associated GitHub repository's secret
+        /// token should be updated. If you use Bitbucket for your repository, <code>rotateSecret</code>
+        /// is ignored. 
         /// </para>
         /// </summary>
         public bool RotateSecret

@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lambda.Model
 {
     /// <summary>
-    /// Contains a list of AWS Lambda function configurations (see <a>FunctionConfiguration</a>.
+    /// A list of Lambda functions.
     /// </summary>
     public partial class ListFunctionsResponse : AmazonWebServiceResponse
     {
@@ -56,7 +56,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property NextMarker. 
         /// <para>
-        /// A string, present if there are more functions.
+        /// The pagination token that's included if more results are available.
         /// </para>
         /// </summary>
         public string NextMarker

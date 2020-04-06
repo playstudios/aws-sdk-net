@@ -45,10 +45,48 @@ namespace Amazon.FMS.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(Policy requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetExcludeMap())
+            {
+                context.Writer.WritePropertyName("ExcludeMap");
+                context.Writer.WriteObjectStart();
+                foreach (var requestObjectExcludeMapKvp in requestObject.ExcludeMap)
+                {
+                    context.Writer.WritePropertyName(requestObjectExcludeMapKvp.Key);
+                    var requestObjectExcludeMapValue = requestObjectExcludeMapKvp.Value;
+
+                    context.Writer.WriteArrayStart();
+                    foreach(var requestObjectExcludeMapValueListValue in requestObjectExcludeMapValue)
+                    {
+                            context.Writer.Write(requestObjectExcludeMapValueListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetExcludeResourceTags())
             {
                 context.Writer.WritePropertyName("ExcludeResourceTags");
                 context.Writer.Write(requestObject.ExcludeResourceTags);
+            }
+
+            if(requestObject.IsSetIncludeMap())
+            {
+                context.Writer.WritePropertyName("IncludeMap");
+                context.Writer.WriteObjectStart();
+                foreach (var requestObjectIncludeMapKvp in requestObject.IncludeMap)
+                {
+                    context.Writer.WritePropertyName(requestObjectIncludeMapKvp.Key);
+                    var requestObjectIncludeMapValue = requestObjectIncludeMapKvp.Value;
+
+                    context.Writer.WriteArrayStart();
+                    foreach(var requestObjectIncludeMapValueListValue in requestObjectIncludeMapValue)
+                    {
+                            context.Writer.Write(requestObjectIncludeMapValueListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetPolicyId())
@@ -95,6 +133,17 @@ namespace Amazon.FMS.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("ResourceType");
                 context.Writer.Write(requestObject.ResourceType);
+            }
+
+            if(requestObject.IsSetResourceTypeList())
+            {
+                context.Writer.WritePropertyName("ResourceTypeList");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectResourceTypeListListValue in requestObject.ResourceTypeList)
+                {
+                        context.Writer.Write(requestObjectResourceTypeListListValue);
+                }
+                context.Writer.WriteArrayEnd();
             }
 
             if(requestObject.IsSetSecurityServicePolicyData())

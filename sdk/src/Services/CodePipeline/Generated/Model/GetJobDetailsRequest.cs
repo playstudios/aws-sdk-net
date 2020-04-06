@@ -29,14 +29,14 @@ namespace Amazon.CodePipeline.Model
 {
     /// <summary>
     /// Container for the parameters to the GetJobDetails operation.
-    /// Returns information about a job. Only used for custom actions.
+    /// Returns information about a job. Used for custom actions only.
     /// 
     ///  <important> 
     /// <para>
-    /// When this API is called, AWS CodePipeline returns temporary credentials for the Amazon
-    /// S3 bucket used to store artifacts for the pipeline, if the action requires access
-    /// to that Amazon S3 bucket for input or output artifacts. Additionally, this API returns
-    /// any secret values defined for the action.
+    /// When this API is called, AWS CodePipeline returns temporary credentials for the S3
+    /// bucket used to store artifacts for the pipeline, if the action requires access to
+    /// that S3 bucket for input or output artifacts. This API also returns any secret values
+    /// defined for the action.
     /// </para>
     ///  </important>
     /// </summary>
@@ -50,6 +50,7 @@ namespace Amazon.CodePipeline.Model
         /// The unique system-generated ID for the job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobId
         {
             get { return this._jobId; }

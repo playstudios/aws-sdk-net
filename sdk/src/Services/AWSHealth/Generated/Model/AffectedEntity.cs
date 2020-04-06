@@ -34,6 +34,7 @@ namespace Amazon.AWSHealth.Model
     {
         private string _awsAccountId;
         private string _entityArn;
+        private string _entityUrl;
         private string _entityValue;
         private string _eventArn;
         private DateTime? _lastUpdatedTime;
@@ -46,6 +47,7 @@ namespace Amazon.AWSHealth.Model
         /// The 12-digit AWS account number that contains the affected entity.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=12)]
         public string AwsAccountId
         {
             get { return this._awsAccountId; }
@@ -66,6 +68,7 @@ namespace Amazon.AWSHealth.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1600)]
         public string EntityArn
         {
             get { return this._entityArn; }
@@ -79,11 +82,30 @@ namespace Amazon.AWSHealth.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EntityUrl. 
+        /// <para>
+        /// The URL of the affected entity.
+        /// </para>
+        /// </summary>
+        public string EntityUrl
+        {
+            get { return this._entityUrl; }
+            set { this._entityUrl = value; }
+        }
+
+        // Check to see if EntityUrl property is set
+        internal bool IsSetEntityUrl()
+        {
+            return this._entityUrl != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EntityValue. 
         /// <para>
         /// The ID of the affected entity.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string EntityValue
         {
             get { return this._entityValue; }
@@ -99,11 +121,12 @@ namespace Amazon.AWSHealth.Model
         /// <summary>
         /// Gets and sets the property EventArn. 
         /// <para>
-        /// The unique identifier for the event. Format: <code>arn:aws:health:<i>event-region</i>::event/<i>EVENT_TYPE_PLUS_ID</i>
-        /// </code>. Example: <code>arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331</code>
+        /// The unique identifier for the event. Format: <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+        /// </code>. Example: <code>Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1600)]
         public string EventArn
         {
             get { return this._eventArn; }
@@ -159,6 +182,7 @@ namespace Amazon.AWSHealth.Model
         /// A map of entity tags attached to the affected entity.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public Dictionary<string, string> Tags
         {
             get { return this._tags; }

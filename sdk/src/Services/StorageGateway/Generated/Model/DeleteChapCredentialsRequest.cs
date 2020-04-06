@@ -30,7 +30,8 @@ namespace Amazon.StorageGateway.Model
     /// <summary>
     /// Container for the parameters to the DeleteChapCredentials operation.
     /// Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified
-    /// iSCSI target and initiator pair.
+    /// iSCSI target and initiator pair. This operation is supported in volume and tape gateway
+    /// types.
     /// </summary>
     public partial class DeleteChapCredentialsRequest : AmazonStorageGatewayRequest
     {
@@ -43,6 +44,7 @@ namespace Amazon.StorageGateway.Model
         /// The iSCSI initiator that connects to the target.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string InitiatorName
         {
             get { return this._initiatorName; }
@@ -62,6 +64,7 @@ namespace Amazon.StorageGateway.Model
         /// operation to return to retrieve the TargetARN for specified VolumeARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=800)]
         public string TargetARN
         {
             get { return this._targetARN; }

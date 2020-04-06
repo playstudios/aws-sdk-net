@@ -112,16 +112,52 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                     unmarshalledObject.Environment = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("fileSystemLocations", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ProjectFileSystemLocation, ProjectFileSystemLocationUnmarshaller>(ProjectFileSystemLocationUnmarshaller.Instance);
+                    unmarshalledObject.FileSystemLocations = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("lastModified", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.LastModified = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("logsConfig", targetDepth))
+                {
+                    var unmarshaller = LogsConfigUnmarshaller.Instance;
+                    unmarshalledObject.LogsConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("name", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Name = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("queuedTimeoutInMinutes", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.QueuedTimeoutInMinutes = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("secondaryArtifacts", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ProjectArtifacts, ProjectArtifactsUnmarshaller>(ProjectArtifactsUnmarshaller.Instance);
+                    unmarshalledObject.SecondaryArtifacts = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("secondarySources", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ProjectSource, ProjectSourceUnmarshaller>(ProjectSourceUnmarshaller.Instance);
+                    unmarshalledObject.SecondarySources = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("secondarySourceVersions", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ProjectSourceVersion, ProjectSourceVersionUnmarshaller>(ProjectSourceVersionUnmarshaller.Instance);
+                    unmarshalledObject.SecondarySourceVersions = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("serviceRole", targetDepth))
@@ -134,6 +170,12 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = ProjectSourceUnmarshaller.Instance;
                     unmarshalledObject.Source = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("sourceVersion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SourceVersion = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("tags", targetDepth))

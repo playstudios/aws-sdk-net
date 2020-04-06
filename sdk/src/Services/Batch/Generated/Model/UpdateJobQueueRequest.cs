@@ -43,7 +43,7 @@ namespace Amazon.Batch.Model
         /// <para>
         /// Details the set of compute environments mapped to a job queue and their order relative
         /// to each other. This is one of the parameters used by the job scheduler to determine
-        /// which compute environment should execute a given job. 
+        /// which compute environment should execute a given job.
         /// </para>
         /// </summary>
         public List<ComputeEnvironmentOrder> ComputeEnvironmentOrder
@@ -64,6 +64,7 @@ namespace Amazon.Batch.Model
         /// The name or the Amazon Resource Name (ARN) of the job queue.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobQueue
         {
             get { return this._jobQueue; }
@@ -81,9 +82,9 @@ namespace Amazon.Batch.Model
         /// <para>
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer
         /// value for the <code>priority</code> parameter) are evaluated first when associated
-        /// with same compute environment. Priority is determined in descending order, for example,
-        /// a job queue with a priority value of <code>10</code> is given scheduling preference
-        /// over a job queue with a priority value of <code>1</code>.
+        /// with the same compute environment. Priority is determined in descending order, for
+        /// example, a job queue with a priority value of <code>10</code> is given scheduling
+        /// preference over a job queue with a priority value of <code>1</code>.
         /// </para>
         /// </summary>
         public int Priority

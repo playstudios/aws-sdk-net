@@ -58,10 +58,11 @@ namespace Amazon.CloudTrail.Model.Internal.MarshallTransformations
             string target = "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.CreateTrail";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2013-11-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -97,6 +98,12 @@ namespace Amazon.CloudTrail.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.IsMultiRegionTrail);
                 }
 
+                if(publicRequest.IsSetIsOrganizationTrail())
+                {
+                    context.Writer.WritePropertyName("IsOrganizationTrail");
+                    context.Writer.Write(publicRequest.IsOrganizationTrail);
+                }
+
                 if(publicRequest.IsSetKmsKeyId())
                 {
                     context.Writer.WritePropertyName("KmsKeyId");
@@ -125,6 +132,22 @@ namespace Amazon.CloudTrail.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("SnsTopicName");
                     context.Writer.Write(publicRequest.SnsTopicName);
+                }
+
+                if(publicRequest.IsSetTagsList())
+                {
+                    context.Writer.WritePropertyName("TagsList");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListListValue in publicRequest.TagsList)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

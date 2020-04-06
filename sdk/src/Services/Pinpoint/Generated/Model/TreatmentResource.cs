@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Treatment resource
+    /// Specifies the settings for a campaign treatment. A treatment is a variation of a campaign
+    /// that's used for A/B testing of a campaign.
     /// </summary>
     public partial class TreatmentResource
     {
@@ -37,12 +38,17 @@ namespace Amazon.Pinpoint.Model
         private Schedule _schedule;
         private int? _sizePercent;
         private CampaignState _state;
+        private TemplateConfiguration _templateConfiguration;
         private string _treatmentDescription;
         private string _treatmentName;
 
         /// <summary>
-        /// Gets and sets the property Id. The unique treatment ID.
+        /// Gets and sets the property Id. 
+        /// <para>
+        /// The unique identifier for the treatment.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -56,7 +62,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MessageConfiguration. The message configuration settings.
+        /// Gets and sets the property MessageConfiguration. 
+        /// <para>
+        /// The message configuration settings for the treatment.
+        /// </para>
         /// </summary>
         public MessageConfiguration MessageConfiguration
         {
@@ -71,7 +80,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Schedule. The campaign schedule.
+        /// Gets and sets the property Schedule. 
+        /// <para>
+        /// The schedule settings for the treatment.
+        /// </para>
         /// </summary>
         public Schedule Schedule
         {
@@ -86,9 +98,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SizePercent. The allocated percentage of users for this
-        /// treatment.
+        /// Gets and sets the property SizePercent. 
+        /// <para>
+        /// The allocated percentage of users (segment members) that the treatment is sent to.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int SizePercent
         {
             get { return this._sizePercent.GetValueOrDefault(); }
@@ -102,7 +117,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property State. The treatment status.
+        /// Gets and sets the property State. 
+        /// <para>
+        /// The current status of the treatment.
+        /// </para>
         /// </summary>
         public CampaignState State
         {
@@ -117,7 +135,28 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TreatmentDescription. A custom description for the treatment.
+        /// Gets and sets the property TemplateConfiguration. 
+        /// <para>
+        /// The message template to use for the treatment.
+        /// </para>
+        /// </summary>
+        public TemplateConfiguration TemplateConfiguration
+        {
+            get { return this._templateConfiguration; }
+            set { this._templateConfiguration = value; }
+        }
+
+        // Check to see if TemplateConfiguration property is set
+        internal bool IsSetTemplateConfiguration()
+        {
+            return this._templateConfiguration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TreatmentDescription. 
+        /// <para>
+        /// The custom description of the treatment.
+        /// </para>
         /// </summary>
         public string TreatmentDescription
         {
@@ -132,8 +171,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TreatmentName. The custom name of a variation of the campaign
-        /// used for A/B testing.
+        /// Gets and sets the property TreatmentName. 
+        /// <para>
+        /// The custom name of the treatment. A treatment is a variation of a campaign that's
+        /// used for A/B testing of a campaign.
+        /// </para>
         /// </summary>
         public string TreatmentName
         {

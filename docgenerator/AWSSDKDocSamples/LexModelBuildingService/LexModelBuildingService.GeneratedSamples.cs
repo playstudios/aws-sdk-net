@@ -30,7 +30,7 @@ namespace AWSSDKDocSamples.Amazon.LexModelBuildingService.Generated
             Prompt clarificationPrompt = response.ClarificationPrompt;
             DateTime createdDate = response.CreatedDate;
             string description = response.Description;
-            integer idleSessionTTLInSeconds = response.IdleSessionTTLInSeconds;
+            int idleSessionTTLInSeconds = response.IdleSessionTTLInSeconds;
             List<Intent> intents = response.Intents;
             DateTime lastUpdatedDate = response.LastUpdatedDate;
             string locale = response.Locale;
@@ -153,7 +153,7 @@ namespace AWSSDKDocSamples.Amazon.LexModelBuildingService.Generated
                     MaxAttempts = 1,
                     Messages = new List<Message> {
                         new Message {
-                            Content = "I'm sorry, I didn't hear that. Can you repeate what you just said?",
+                            Content = "I'm sorry, I didn't hear that. Can you repeat what you just said?",
                             ContentType = "PlainText"
                         },
                         new Message {
@@ -182,7 +182,7 @@ namespace AWSSDKDocSamples.Amazon.LexModelBuildingService.Generated
             Prompt clarificationPrompt = response.ClarificationPrompt;
             DateTime createdDate = response.CreatedDate;
             string description = response.Description;
-            integer idleSessionTTLInSeconds = response.IdleSessionTTLInSeconds;
+            int idleSessionTTLInSeconds = response.IdleSessionTTLInSeconds;
             List<Intent> intents = response.Intents;
             DateTime lastUpdatedDate = response.LastUpdatedDate;
             string locale = response.Locale;

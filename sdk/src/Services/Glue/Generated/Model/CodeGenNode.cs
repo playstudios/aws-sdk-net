@@ -43,6 +43,7 @@ namespace Amazon.Glue.Model
         /// Properties of the node, in the form of name-value pairs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=50)]
         public List<CodeGenNodeArg> Args
         {
             get { return this._args; }
@@ -61,6 +62,7 @@ namespace Amazon.Glue.Model
         /// A node identifier that is unique within the node's graph.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Id
         {
             get { return this._id; }
@@ -94,9 +96,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property NodeType. 
         /// <para>
-        /// The type of node this is.
+        /// The type of node that this is.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NodeType
         {
             get { return this._nodeType; }

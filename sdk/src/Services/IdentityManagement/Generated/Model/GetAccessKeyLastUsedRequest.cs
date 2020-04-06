@@ -30,7 +30,7 @@ namespace Amazon.IdentityManagement.Model
     /// <summary>
     /// Container for the parameters to the GetAccessKeyLastUsed operation.
     /// Retrieves information about when the specified access key was last used. The information
-    /// includes the date and time of last use, along with the AWS service and region that
+    /// includes the date and time of last use, along with the AWS service and Region that
     /// were specified in the last request made with that key.
     /// </summary>
     public partial class GetAccessKeyLastUsedRequest : AmazonIdentityManagementServiceRequest
@@ -44,10 +44,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters that can consist of any upper or lowercased letter or digit.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters that can consist of any upper or lowercased letter
+        /// or digit.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=16, Max=128)]
         public string AccessKeyId
         {
             get { return this._accessKeyId; }

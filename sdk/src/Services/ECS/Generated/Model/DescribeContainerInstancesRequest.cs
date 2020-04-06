@@ -36,12 +36,15 @@ namespace Amazon.ECS.Model
     {
         private string _cluster;
         private List<string> _containerInstances = new List<string>();
+        private List<string> _include = new List<string>();
 
         /// <summary>
         /// Gets and sets the property Cluster. 
         /// <para>
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container
         /// instances to describe. If you do not specify a cluster, the default cluster is assumed.
+        /// This parameter is required if the container instance or container instances you are
+        /// describing were launched in any cluster other than the default cluster.
         /// </para>
         /// </summary>
         public string Cluster
@@ -59,9 +62,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property ContainerInstances. 
         /// <para>
-        /// A list of container instance IDs or full ARN entries.
+        /// A list of up to 100 container instance IDs or full Amazon Resource Name (ARN) entries.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> ContainerInstances
         {
             get { return this._containerInstances; }
@@ -72,6 +76,26 @@ namespace Amazon.ECS.Model
         internal bool IsSetContainerInstances()
         {
             return this._containerInstances != null && this._containerInstances.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Include. 
+        /// <para>
+        /// Specifies whether you want to see the resource tags for the container instance. If
+        /// <code>TAGS</code> is specified, the tags are included in the response. If this field
+        /// is omitted, tags are not included in the response.
+        /// </para>
+        /// </summary>
+        public List<string> Include
+        {
+            get { return this._include; }
+            set { this._include = value; }
+        }
+
+        // Check to see if Include property is set
+        internal bool IsSetInclude()
+        {
+            return this._include != null && this._include.Count > 0; 
         }
 
     }

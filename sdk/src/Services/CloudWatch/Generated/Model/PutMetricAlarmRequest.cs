@@ -29,14 +29,18 @@ namespace Amazon.CloudWatch.Model
 {
     /// <summary>
     /// Container for the parameters to the PutMetricAlarm operation.
-    /// Creates or updates an alarm and associates it with the specified metric. Optionally,
-    /// this operation can associate one or more Amazon SNS resources with the alarm.
+    /// Creates or updates an alarm and associates it with the specified metric, metric math
+    /// expression, or anomaly detection model.
     /// 
     ///  
     /// <para>
+    /// Alarms based on anomaly detection models cannot have Auto Scaling actions.
+    /// </para>
+    ///  
+    /// <para>
     /// When this operation creates an alarm, the alarm state is immediately set to <code>INSUFFICIENT_DATA</code>.
-    /// The alarm is evaluated and its state is set appropriately. Any actions associated
-    /// with the state are then executed.
+    /// The alarm is then evaluated and its state is set appropriately. Any actions associated
+    /// with the new state are then executed.
     /// </para>
     ///  
     /// <para>
@@ -45,7 +49,7 @@ namespace Amazon.CloudWatch.Model
     /// </para>
     ///  
     /// <para>
-    /// If you are an IAM user, you must have Amazon EC2 permissions for some operations:
+    /// If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -66,8 +70,7 @@ namespace Amazon.CloudWatch.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>ec2:DescribeInstanceRecoveryAttribute</code> and <code>ec2:RecoverInstances</code>
-    /// for alarms with recover actions
+    /// No specific permissions are needed for alarms with recover actions
     /// </para>
     ///  </li> </ul> 
     /// <para>
@@ -90,10 +93,11 @@ namespace Amazon.CloudWatch.Model
     /// </para>
     ///  
     /// <para>
-    /// You must create at least one stop, terminate, or reboot alarm using either the Amazon
-    /// EC2 or CloudWatch consoles to create the <b>EC2ActionsAccess</b> IAM role. After this
-    /// IAM role is created, you can create stop, terminate, or reboot alarms using a command-line
-    /// interface or API.
+    /// The first time you create an alarm in the AWS Management Console, the CLI, or by using
+    /// the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you.
+    /// The service-linked role is called <code>AWSServiceRoleForCloudWatchEvents</code>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">AWS
+    /// service-linked role</a>.
     /// </para>
     /// </summary>
     public partial class PutMetricAlarmRequest : AmazonCloudWatchRequest
@@ -110,11 +114,14 @@ namespace Amazon.CloudWatch.Model
         private string _extendedStatistic;
         private List<string> _insufficientDataActions = new List<string>();
         private string _metricName;
+        private List<MetricDataQuery> _metrics = new List<MetricDataQuery>();
         private string _awsNamespace;
         private List<string> _okActions = new List<string>();
         private int? _period;
         private Statistic _statistic;
+        private List<Tag> _tags = new List<Tag>();
         private double? _threshold;
+        private string _thresholdMetricId;
         private string _treatMissingData;
         private StandardUnit _unit;
 
@@ -122,6 +129,7 @@ namespace Amazon.CloudWatch.Model
         /// Gets and sets the property ActionsEnabled. 
         /// <para>
         /// Indicates whether actions should be executed during any changes to the alarm state.
+        /// The default is <code>TRUE</code>.
         /// </para>
         /// </summary>
         public bool ActionsEnabled
@@ -144,19 +152,21 @@ namespace Amazon.CloudWatch.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid Values: arn:aws:automate:<i>region</i>:ec2:stop | arn:aws:automate:<i>region</i>:ec2:terminate
-        /// | arn:aws:automate:<i>region</i>:ec2:recover | arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
-        /// | arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>
-        /// autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
-        /// 
+        /// Valid Values: <code>arn:aws:automate:<i>region</i>:ec2:stop</code> | <code>arn:aws:automate:<i>region</i>:ec2:terminate</code>
+        /// | <code>arn:aws:automate:<i>region</i>:ec2:recover</code> | <code>arn:aws:automate:<i>region</i>:ec2:reboot</code>
+        /// | <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i> </code>
+        /// | <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+        /// </code> 
         /// </para>
         ///  
         /// <para>
-        /// Valid Values (for use with IAM roles): arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Stop/1.0
-        /// | arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Terminate/1.0
-        /// | arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        /// Valid Values (for use with IAM roles): <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Stop/1.0</code>
+        /// | <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Terminate/1.0</code>
+        /// | <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Reboot/1.0</code>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> AlarmActions
         {
             get { return this._alarmActions; }
@@ -175,6 +185,7 @@ namespace Amazon.CloudWatch.Model
         /// The description for the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string AlarmDescription
         {
             get { return this._alarmDescription; }
@@ -190,9 +201,10 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property AlarmName. 
         /// <para>
-        /// The name for the alarm. This name must be unique within the AWS account.
+        /// The name for the alarm. This name must be unique within your AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string AlarmName
         {
             get { return this._alarmName; }
@@ -211,7 +223,14 @@ namespace Amazon.CloudWatch.Model
         ///  The arithmetic operation to use when comparing the specified statistic and threshold.
         /// The specified statistic value is used as the first operand.
         /// </para>
+        ///  
+        /// <para>
+        /// The values <code>LessThanLowerOrGreaterThanUpperThreshold</code>, <code>LessThanLowerThreshold</code>,
+        /// and <code>GreaterThanUpperThreshold</code> are used only for alarms based on anomaly
+        /// detection models.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ComparisonOperator ComparisonOperator
         {
             get { return this._comparisonOperator; }
@@ -227,12 +246,13 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property DatapointsToAlarm. 
         /// <para>
-        /// The number of datapoints that must be breaching to trigger the alarm. This is used
+        /// The number of data points that must be breaching to trigger the alarm. This is used
         /// only if you are setting an "M out of N" alarm. In that case, this value is the M.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarm-evaluation">Evaluating
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarm-evaluation">Evaluating
         /// an Alarm</a> in the <i>Amazon CloudWatch User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int DatapointsToAlarm
         {
             get { return this._datapointsToAlarm.GetValueOrDefault(); }
@@ -248,9 +268,10 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property Dimensions. 
         /// <para>
-        /// The dimensions for the metric associated with the alarm.
+        /// The dimensions for the metric specified in <code>MetricName</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<Dimension> Dimensions
         {
             get { return this._dimensions; }
@@ -270,7 +291,7 @@ namespace Amazon.CloudWatch.Model
         /// alarm state does not change during periods with too few data points to be statistically
         /// significant. If you specify <code>evaluate</code> or omit this parameter, the alarm
         /// is always evaluated and possibly changes state no matter how many data points are
-        /// available. For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#percentiles-with-low-samples">Percentile-Based
+        /// available. For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#percentiles-with-low-samples">Percentile-Based
         /// CloudWatch Alarms and Low Data Samples</a>.
         /// </para>
         ///  
@@ -278,6 +299,7 @@ namespace Amazon.CloudWatch.Model
         /// Valid Values: <code>evaluate | ignore</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string EvaluateLowSampleCountPercentile
         {
             get { return this._evaluateLowSampleCountPercentile; }
@@ -294,7 +316,7 @@ namespace Amazon.CloudWatch.Model
         /// Gets and sets the property EvaluationPeriods. 
         /// <para>
         /// The number of periods over which data is compared to the specified threshold. If you
-        /// are setting an alarm which requires that a number of consecutive data points be breaching
+        /// are setting an alarm that requires that a number of consecutive data points be breaching
         /// to trigger the alarm, this value specifies that number. If you are setting an "M out
         /// of N" alarm, this value is the N.
         /// </para>
@@ -304,6 +326,7 @@ namespace Amazon.CloudWatch.Model
         /// number multiplied by <code>Period</code> cannot be more than 86,400 seconds.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public int EvaluationPeriods
         {
             get { return this._evaluationPeriods.GetValueOrDefault(); }
@@ -319,9 +342,10 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property ExtendedStatistic. 
         /// <para>
-        /// The percentile statistic for the metric associated with the alarm. Specify a value
-        /// between p0.0 and p100. When you call <code>PutMetricAlarm</code>, you must specify
-        /// either <code>Statistic</code> or <code>ExtendedStatistic,</code> but not both.
+        /// The percentile statistic for the metric specified in <code>MetricName</code>. Specify
+        /// a value between p0.0 and p100. When you call <code>PutMetricAlarm</code> and specify
+        /// a <code>MetricName</code>, you must specify either <code>Statistic</code> or <code>ExtendedStatistic,</code>
+        /// but not both.
         /// </para>
         /// </summary>
         public string ExtendedStatistic
@@ -344,19 +368,21 @@ namespace Amazon.CloudWatch.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid Values: arn:aws:automate:<i>region</i>:ec2:stop | arn:aws:automate:<i>region</i>:ec2:terminate
-        /// | arn:aws:automate:<i>region</i>:ec2:recover | arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
-        /// | arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>
-        /// autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
-        /// 
+        /// Valid Values: <code>arn:aws:automate:<i>region</i>:ec2:stop</code> | <code>arn:aws:automate:<i>region</i>:ec2:terminate</code>
+        /// | <code>arn:aws:automate:<i>region</i>:ec2:recover</code> | <code>arn:aws:automate:<i>region</i>:ec2:reboot</code>
+        /// | <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i> </code>
+        /// | <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+        /// </code> 
         /// </para>
         ///  
         /// <para>
-        /// Valid Values (for use with IAM roles): arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Stop/1.0
-        /// | arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Terminate/1.0
-        /// | arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        /// Valid Values (for use with IAM roles): <code>&gt;arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Stop/1.0</code>
+        /// | <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Terminate/1.0</code>
+        /// | <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Reboot/1.0</code>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> InsufficientDataActions
         {
             get { return this._insufficientDataActions; }
@@ -372,9 +398,19 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property MetricName. 
         /// <para>
-        /// The name for the metric associated with the alarm.
+        /// The name for the metric associated with the alarm. For each <code>PutMetricAlarm</code>
+        /// operation, you must specify either <code>MetricName</code> or a <code>Metrics</code>
+        /// array.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you are creating an alarm based on a math expression, you cannot specify this parameter,
+        /// or any of the <code>Dimensions</code>, <code>Period</code>, <code>Namespace</code>,
+        /// <code>Statistic</code>, or <code>ExtendedStatistic</code> parameters. Instead, you
+        /// specify all this information in the <code>Metrics</code> array.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -388,11 +424,52 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Namespace. 
+        /// Gets and sets the property Metrics. 
         /// <para>
-        /// The namespace for the metric associated with the alarm.
+        /// An array of <code>MetricDataQuery</code> structures that enable you to create an alarm
+        /// based on the result of a metric math expression. For each <code>PutMetricAlarm</code>
+        /// operation, you must specify either <code>MetricName</code> or a <code>Metrics</code>
+        /// array.
+        /// </para>
+        ///  
+        /// <para>
+        /// Each item in the <code>Metrics</code> array either retrieves a metric or performs
+        /// a math expression.
+        /// </para>
+        ///  
+        /// <para>
+        /// One item in the <code>Metrics</code> array is the expression that the alarm watches.
+        /// You designate this expression by setting <code>ReturnValue</code> to true for this
+        /// object in the array. For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html">MetricDataQuery</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you use the <code>Metrics</code> parameter, you cannot include the <code>MetricName</code>,
+        /// <code>Dimensions</code>, <code>Period</code>, <code>Namespace</code>, <code>Statistic</code>,
+        /// or <code>ExtendedStatistic</code> parameters of <code>PutMetricAlarm</code> in the
+        /// same operation. Instead, you retrieve the metrics you are using in your math expression
+        /// as part of the <code>Metrics</code> array.
         /// </para>
         /// </summary>
+        public List<MetricDataQuery> Metrics
+        {
+            get { return this._metrics; }
+            set { this._metrics = value; }
+        }
+
+        // Check to see if Metrics property is set
+        internal bool IsSetMetrics()
+        {
+            return this._metrics != null && this._metrics.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Namespace. 
+        /// <para>
+        /// The namespace for the metric associated specified in <code>MetricName</code>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Namespace
         {
             get { return this._awsNamespace; }
@@ -413,19 +490,21 @@ namespace Amazon.CloudWatch.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid Values: arn:aws:automate:<i>region</i>:ec2:stop | arn:aws:automate:<i>region</i>:ec2:terminate
-        /// | arn:aws:automate:<i>region</i>:ec2:recover | arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
-        /// | arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>
-        /// autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
-        /// 
+        /// Valid Values: <code>arn:aws:automate:<i>region</i>:ec2:stop</code> | <code>arn:aws:automate:<i>region</i>:ec2:terminate</code>
+        /// | <code>arn:aws:automate:<i>region</i>:ec2:recover</code> | <code>arn:aws:automate:<i>region</i>:ec2:reboot</code>
+        /// | <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i> </code>
+        /// | <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+        /// </code> 
         /// </para>
         ///  
         /// <para>
-        /// Valid Values (for use with IAM roles): arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Stop/1.0
-        /// | arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Terminate/1.0
-        /// | arn:aws:swf:<i>region</i>:{<i>account-id</i>}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+        /// Valid Values (for use with IAM roles): <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Stop/1.0</code>
+        /// | <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Terminate/1.0</code>
+        /// | <code>arn:aws:swf:<i>region</i>:<i>account-id</i>:action/actions/AWS_EC2.InstanceId.Reboot/1.0</code>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> OKActions
         {
             get { return this._okActions; }
@@ -441,8 +520,14 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property Period. 
         /// <para>
-        /// The period, in seconds, over which the specified statistic is applied. Valid values
-        /// are 10, 30, and any multiple of 60.
+        /// The length, in seconds, used each time the metric specified in <code>MetricName</code>
+        /// is evaluated. Valid values are 10, 30, and any multiple of 60.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>Period</code> is required for alarms based on static thresholds. If you are
+        /// creating an alarm based on a metric math expression, you specify the period for each
+        /// metric within the objects in the <code>Metrics</code> array.
         /// </para>
         ///  
         /// <para>
@@ -462,6 +547,7 @@ namespace Amazon.CloudWatch.Model
         /// multiplied by <code>EvaluationPeriods</code> cannot be more than 86,400 seconds.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Period
         {
             get { return this._period.GetValueOrDefault(); }
@@ -477,10 +563,10 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property Statistic. 
         /// <para>
-        /// The statistic for the metric associated with the alarm, other than percentile. For
-        /// percentile statistics, use <code>ExtendedStatistic</code>. When you call <code>PutMetricAlarm</code>,
-        /// you must specify either <code>Statistic</code> or <code>ExtendedStatistic,</code>
-        /// but not both.
+        /// The statistic for the metric specified in <code>MetricName</code>, other than percentile.
+        /// For percentile statistics, use <code>ExtendedStatistic</code>. When you call <code>PutMetricAlarm</code>
+        /// and specify a <code>MetricName</code>, you must specify either <code>Statistic</code>
+        /// or <code>ExtendedStatistic,</code> but not both.
         /// </para>
         /// </summary>
         public Statistic Statistic
@@ -496,9 +582,39 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of key-value pairs to associate with the alarm. You can associate as many as
+        /// 50 tags with an alarm.
+        /// </para>
+        ///  
+        /// <para>
+        /// Tags can help you organize and categorize your resources. You can also use them to
+        /// scope user permissions, by granting a user permission to access or change only resources
+        /// with certain tag values.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Threshold. 
         /// <para>
         /// The value against which the specified statistic is compared.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is required for alarms based on static thresholds, but should not be
+        /// used for alarms based on anomaly detection models.
         /// </para>
         /// </summary>
         public double Threshold
@@ -514,11 +630,40 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ThresholdMetricId. 
+        /// <para>
+        /// If this is an alarm based on an anomaly detection model, make this value match the
+        /// ID of the <code>ANOMALY_DETECTION_BAND</code> function.
+        /// </para>
+        ///  
+        /// <para>
+        /// For an example of how to use this parameter, see the <b>Anomaly Detection Model Alarm</b>
+        /// example on this page.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your alarm uses this parameter, it cannot have Auto Scaling actions.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=255)]
+        public string ThresholdMetricId
+        {
+            get { return this._thresholdMetricId; }
+            set { this._thresholdMetricId = value; }
+        }
+
+        // Check to see if ThresholdMetricId property is set
+        internal bool IsSetThresholdMetricId()
+        {
+            return this._thresholdMetricId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TreatMissingData. 
         /// <para>
         ///  Sets how this alarm is to handle missing data points. If <code>TreatMissingData</code>
         /// is omitted, the default behavior of <code>missing</code> is used. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data">Configuring
+        /// see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data">Configuring
         /// How CloudWatch Alarms Treats Missing Data</a>.
         /// </para>
         ///  
@@ -526,6 +671,7 @@ namespace Amazon.CloudWatch.Model
         /// Valid Values: <code>breaching | notBreaching | ignore | missing</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string TreatMissingData
         {
             get { return this._treatMissingData; }
@@ -549,8 +695,20 @@ namespace Amazon.CloudWatch.Model
         /// </para>
         ///  
         /// <para>
-        /// If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise,
-        /// the CloudWatch alarm can get stuck in the <code>INSUFFICIENT DATA</code> state. 
+        /// If you don't specify <code>Unit</code>, CloudWatch retrieves all unit types that have
+        /// been published for the metric and attempts to evaluate the alarm. Usually metrics
+        /// are published with only one unit, so the alarm will work as intended.
+        /// </para>
+        ///  
+        /// <para>
+        /// However, if the metric is published with multiple types of units and you don't specify
+        /// a unit, the alarm's behavior is not defined and will behave un-predictably.
+        /// </para>
+        ///  
+        /// <para>
+        /// We recommend omitting <code>Unit</code> so that you don't inadvertently specify an
+        /// incorrect unit that is not published for this metric. Doing so causes the alarm to
+        /// be stuck in the <code>INSUFFICIENT DATA</code> state.
         /// </para>
         /// </summary>
         public StandardUnit Unit

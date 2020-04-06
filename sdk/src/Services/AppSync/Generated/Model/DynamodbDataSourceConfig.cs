@@ -28,20 +28,23 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AppSync.Model
 {
     /// <summary>
-    /// Describes a DynamoDB data source configuration.
+    /// Describes an Amazon DynamoDB data source configuration.
     /// </summary>
     public partial class DynamodbDataSourceConfig
     {
         private string _awsRegion;
+        private DeltaSyncConfig _deltaSyncConfig;
         private string _tableName;
         private bool? _useCallerCredentials;
+        private bool? _versioned;
 
         /// <summary>
         /// Gets and sets the property AwsRegion. 
         /// <para>
-        /// The AWS region.
+        /// The AWS Region.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AwsRegion
         {
             get { return this._awsRegion; }
@@ -55,11 +58,30 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeltaSyncConfig. 
+        /// <para>
+        /// The <code>DeltaSyncConfig</code> for a versioned datasource.
+        /// </para>
+        /// </summary>
+        public DeltaSyncConfig DeltaSyncConfig
+        {
+            get { return this._deltaSyncConfig; }
+            set { this._deltaSyncConfig = value; }
+        }
+
+        // Check to see if DeltaSyncConfig property is set
+        internal bool IsSetDeltaSyncConfig()
+        {
+            return this._deltaSyncConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TableName. 
         /// <para>
         /// The table name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TableName
         {
             get { return this._tableName; }
@@ -88,6 +110,24 @@ namespace Amazon.AppSync.Model
         internal bool IsSetUseCallerCredentials()
         {
             return this._useCallerCredentials.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Versioned. 
+        /// <para>
+        /// Set to TRUE to use Conflict Detection and Resolution with this data source.
+        /// </para>
+        /// </summary>
+        public bool Versioned
+        {
+            get { return this._versioned.GetValueOrDefault(); }
+            set { this._versioned = value; }
+        }
+
+        // Check to see if Versioned property is set
+        internal bool IsSetVersioned()
+        {
+            return this._versioned.HasValue; 
         }
 
     }

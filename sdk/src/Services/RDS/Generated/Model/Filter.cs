@@ -28,7 +28,40 @@ using Amazon.Runtime.Internal;
 namespace Amazon.RDS.Model
 {
     /// <summary>
-    /// This type is not currently supported.
+    /// A filter name and value pair that is used to return a more specific list of results
+    /// from a describe operation. Filters can be used to match a set of resources by specific
+    /// criteria, such as IDs. The filters supported by a describe operation are documented
+    /// with the describe operation.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// Currently, wildcards are not supported in filters.
+    /// </para>
+    ///  </note> 
+    /// <para>
+    /// The following actions can be filtered:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <code>DescribeDBClusterBacktracks</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DescribeDBClusterEndpoints</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DescribeDBClusters</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DescribeDBInstances</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DescribePendingMaintenanceActions</code> 
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class Filter
     {
@@ -38,9 +71,10 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// The name of the filter. Filter names are case-sensitive.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -56,9 +90,10 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Values. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// One or more filter values. Filter values are case-sensitive.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Values
         {
             get { return this._values; }

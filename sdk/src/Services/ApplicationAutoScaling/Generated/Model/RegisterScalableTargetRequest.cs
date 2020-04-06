@@ -30,16 +30,32 @@ namespace Amazon.ApplicationAutoScaling.Model
     /// <summary>
     /// Container for the parameters to the RegisterScalableTarget operation.
     /// Registers or updates a scalable target. A scalable target is a resource that Application
-    /// Auto Scaling can scale out or scale in. After you have registered a scalable target,
-    /// you can use this operation to update the minimum and maximum values for its scalable
-    /// dimension.
+    /// Auto Scaling can scale out and scale in. Scalable targets are uniquely identified
+    /// by the combination of resource ID, scalable dimension, and namespace. 
     /// 
     ///  
     /// <para>
-    /// After you register a scalable target, you can create and apply scaling policies using
-    /// <a>PutScalingPolicy</a>. You can view the scaling policies for a service namespace
-    /// using <a>DescribeScalableTargets</a>. If you no longer need a scalable target, you
-    /// can deregister it using <a>DeregisterScalableTarget</a>.
+    /// When you register a new scalable target, you must specify values for minimum and maximum
+    /// capacity. Application Auto Scaling will not scale capacity to values that are outside
+    /// of this range. 
+    /// </para>
+    ///  
+    /// <para>
+    /// To update a scalable target, specify the parameter that you want to change as well
+    /// as the following parameters that identify the scalable target: resource ID, scalable
+    /// dimension, and namespace. Any parameters that you don't specify are not changed by
+    /// this update request. 
+    /// </para>
+    ///  
+    /// <para>
+    /// After you register a scalable target, you do not need to register it again to use
+    /// other Application Auto Scaling operations. To see which resources have been registered,
+    /// use <a>DescribeScalableTargets</a>. You can also view the scaling policies for a service
+    /// namespace by using <a>DescribeScalableTargets</a>. 
+    /// </para>
+    ///  
+    /// <para>
+    /// If you no longer need a scalable target, you can deregister it by using <a>DeregisterScalableTarget</a>.
     /// </para>
     /// </summary>
     public partial class RegisterScalableTargetRequest : AmazonApplicationAutoScalingRequest
@@ -50,12 +66,13 @@ namespace Amazon.ApplicationAutoScaling.Model
         private string _roleARN;
         private ScalableDimension _scalableDimension;
         private ServiceNamespace _serviceNamespace;
+        private SuspendedState _suspendedState;
 
         /// <summary>
         /// Gets and sets the property MaxCapacity. 
         /// <para>
-        /// The maximum value to scale to in response to a scale out event. This parameter is
-        /// required if you are registering a scalable target.
+        /// The maximum value to scale to in response to a scale-out event. <code>MaxCapacity</code>
+        /// is required to register a scalable target.
         /// </para>
         /// </summary>
         public int MaxCapacity
@@ -73,8 +90,8 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// <summary>
         /// Gets and sets the property MinCapacity. 
         /// <para>
-        /// The minimum value to scale to in response to a scale in event. This parameter is required
-        /// if you are registering a scalable target.
+        /// The minimum value to scale to in response to a scale-in event. <code>MinCapacity</code>
+        /// is required to register a scalable target.
         /// </para>
         /// </summary>
         public int MinCapacity
@@ -92,8 +109,8 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// <summary>
         /// Gets and sets the property ResourceId. 
         /// <para>
-        /// The identifier of the resource associated with the scalable target. This string consists
-        /// of the resource type and unique identifier.
+        /// The identifier of the resource that is associated with the scalable target. This string
+        /// consists of the resource type and unique identifier.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -102,8 +119,8 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Spot fleet request - The resource type is <code>spot-fleet-request</code> and the
-        /// unique identifier is the Spot fleet request ID. Example: <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+        /// Spot Fleet request - The resource type is <code>spot-fleet-request</code> and the
+        /// unique identifier is the Spot Fleet request ID. Example: <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -118,12 +135,12 @@ namespace Amazon.ApplicationAutoScaling.Model
         ///  </li> <li> 
         /// <para>
         /// DynamoDB table - The resource type is <code>table</code> and the unique identifier
-        /// is the resource ID. Example: <code>table/my-table</code>.
+        /// is the table name. Example: <code>table/my-table</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// DynamoDB global secondary index - The resource type is <code>index</code> and the
-        /// unique identifier is the resource ID. Example: <code>table/my-table/index/my-table-index</code>.
+        /// unique identifier is the index name. Example: <code>table/my-table/index/my-table-index</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -132,11 +149,32 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Amazon SageMaker endpoint variants - The resource type is <code>variant</code> and
+        /// Amazon SageMaker endpoint variant - The resource type is <code>variant</code> and
         /// the unique identifier is the resource ID. Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Custom resources are not supported with a resource type. This parameter must specify
+        /// the <code>OutputValue</code> from the CloudFormation template stack used to access
+        /// the resources. The unique identifier is defined by the service provider. More information
+        /// is available in our <a href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+        /// repository</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Amazon Comprehend document classification endpoint - The resource type and unique
+        /// identifier are specified using the endpoint ARN. Example: <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Lambda provisioned concurrency - The resource type is <code>function</code> and the
+        /// unique identifier is the function name with a function version or alias name suffix
+        /// that is not <code>$LATEST</code>. Example: <code>function:my-function:prod</code>
+        /// or <code>function:my-function:1</code>.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -153,16 +191,16 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// Gets and sets the property RoleARN. 
         /// <para>
         /// Application Auto Scaling creates a service-linked role that grants it permissions
-        /// to modify the scalable target on your behalf. For more information, see <a href="http://docs.aws.amazon.com/ApplicationAutoScaling/latest/APIReference/application-autoscaling-service-linked-roles.html">Service-Linked
+        /// to modify the scalable target on your behalf. For more information, see <a href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-service-linked-roles.html">Service-Linked
         /// Roles for Application Auto Scaling</a>.
         /// </para>
         ///  
         /// <para>
-        /// For resources that are not supported using a service-linked role, this parameter is
-        /// required and must specify the ARN of an IAM role that allows Application Auto Scaling
-        /// to modify the scalable target on your behalf.
+        /// For Amazon EMR, this parameter is required, and it must specify the ARN of an IAM
+        /// role that allows Application Auto Scaling to modify the scalable target on your behalf.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string RoleARN
         {
             get { return this._roleARN; }
@@ -188,7 +226,7 @@ namespace Amazon.ApplicationAutoScaling.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of a Spot
-        /// fleet request.
+        /// Fleet request.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -223,15 +261,32 @@ namespace Amazon.ApplicationAutoScaling.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in an Aurora
-        /// DB cluster. Available for Aurora MySQL-compatible edition.
+        /// DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible
+        /// edition.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2 instances
         /// for an Amazon SageMaker model endpoint variant.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>custom-resource:ResourceType:Property</code> - The scalable dimension for a
+        /// custom resource provided by your own application or service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> - The
+        /// number of inference units for an Amazon Comprehend document classification endpoint.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>lambda:function:ProvisionedConcurrency</code> - The provisioned concurrency
+        /// for a Lambda function.
+        /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScalableDimension ScalableDimension
         {
             get { return this._scalableDimension; }
@@ -247,10 +302,13 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// <summary>
         /// Gets and sets the property ServiceNamespace. 
         /// <para>
-        /// The namespace of the AWS service. For more information, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-        /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
+        /// The namespace of the AWS service that provides the resource or <code>custom-resource</code>
+        /// for a resource provided by your own application or service. For more information,
+        /// see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+        /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ServiceNamespace ServiceNamespace
         {
             get { return this._serviceNamespace; }
@@ -261,6 +319,51 @@ namespace Amazon.ApplicationAutoScaling.Model
         internal bool IsSetServiceNamespace()
         {
             return this._serviceNamespace != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SuspendedState. 
+        /// <para>
+        /// An embedded object that contains attributes and attribute values that are used to
+        /// suspend and resume automatic scaling. Setting the value of an attribute to <code>true</code>
+        /// suspends the specified scaling activities. Setting it to <code>false</code> (default)
+        /// resumes the specified scaling activities. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Suspension Outcomes</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For <code>DynamicScalingInSuspended</code>, while a suspension is in effect, all scale-in
+        /// activities that are triggered by a scaling policy are suspended.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For <code>DynamicScalingOutSuspended</code>, while a suspension is in effect, all
+        /// scale-out activities that are triggered by a scaling policy are suspended.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For <code>ScheduledScalingSuspended</code>, while a suspension is in effect, all scaling
+        /// activities that involve scheduled actions are suspended. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html">Suspending
+        /// and Resuming Scaling</a> in the <i>Application Auto Scaling User Guide</i>.
+        /// </para>
+        /// </summary>
+        public SuspendedState SuspendedState
+        {
+            get { return this._suspendedState; }
+            set { this._suspendedState = value; }
+        }
+
+        // Check to see if SuspendedState property is set
+        internal bool IsSetSuspendedState()
+        {
+            return this._suspendedState != null;
         }
 
     }

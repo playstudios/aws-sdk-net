@@ -35,6 +35,7 @@ namespace Amazon.Route53Domains.Model
     {
         private string _marker;
         private int? _maxItems;
+        private DateTime? _submittedSince;
 
         /// <summary>
         /// Gets and sets the property Marker. 
@@ -47,6 +48,7 @@ namespace Amazon.Route53Domains.Model
         /// element.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=4096)]
         public string Marker
         {
             get { return this._marker; }
@@ -69,6 +71,7 @@ namespace Amazon.Route53Domains.Model
         /// Default: 20
         /// </para>
         /// </summary>
+        [AWSProperty(Max=100)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -79,6 +82,26 @@ namespace Amazon.Route53Domains.Model
         internal bool IsSetMaxItems()
         {
             return this._maxItems.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SubmittedSince. 
+        /// <para>
+        /// An optional parameter that lets you get information about all the operations that
+        /// you submitted after a specified date and time. Specify the date and time in Coordinated
+        /// Universal time (UTC).
+        /// </para>
+        /// </summary>
+        public DateTime SubmittedSince
+        {
+            get { return this._submittedSince.GetValueOrDefault(); }
+            set { this._submittedSince = value; }
+        }
+
+        // Check to see if SubmittedSince property is set
+        internal bool IsSetSubmittedSince()
+        {
+            return this._submittedSince.HasValue; 
         }
 
     }

@@ -37,10 +37,12 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property ReservedConcurrentExecutions. 
         /// <para>
-        /// The number of concurrent executions reserved for this function. For more information,
-        /// see <a>concurrent-executions</a>.
+        /// The number of concurrent executions that are reserved for this function. For more
+        /// information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html">Managing
+        /// Concurrency</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int ReservedConcurrentExecutions
         {
             get { return this._reservedConcurrentExecutions.GetValueOrDefault(); }

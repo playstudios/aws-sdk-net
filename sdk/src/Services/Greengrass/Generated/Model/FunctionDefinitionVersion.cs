@@ -32,7 +32,25 @@ namespace Amazon.Greengrass.Model
     /// </summary>
     public partial class FunctionDefinitionVersion
     {
+        private FunctionDefaultConfig _defaultConfig;
         private List<Function> _functions = new List<Function>();
+
+        /// <summary>
+        /// Gets and sets the property DefaultConfig. The default configuration that applies to
+        /// all Lambda functions in this function definition version. Individual Lambda functions
+        /// can override these settings.
+        /// </summary>
+        public FunctionDefaultConfig DefaultConfig
+        {
+            get { return this._defaultConfig; }
+            set { this._defaultConfig = value; }
+        }
+
+        // Check to see if DefaultConfig property is set
+        internal bool IsSetDefaultConfig()
+        {
+            return this._defaultConfig != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Functions. A list of Lambda functions in this function

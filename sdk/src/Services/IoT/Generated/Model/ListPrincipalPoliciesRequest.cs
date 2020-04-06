@@ -30,7 +30,7 @@ namespace Amazon.IoT.Model
     /// <summary>
     /// Container for the parameters to the ListPrincipalPolicies operation.
     /// Lists the policies attached to the specified principal. If you use an Cognito identity,
-    /// the ID must be in <a href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
+    /// the ID must be in <a href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
     /// Identity format</a>.
     /// 
     ///  
@@ -88,6 +88,7 @@ namespace Amazon.IoT.Model
         /// The result page size.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=250)]
         public int PageSize
         {
             get { return this._pageSize.GetValueOrDefault(); }
@@ -106,6 +107,7 @@ namespace Amazon.IoT.Model
         /// The principal.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Principal
         {
             get { return this._principal; }

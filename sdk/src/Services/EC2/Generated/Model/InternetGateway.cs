@@ -28,18 +28,19 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Describes an Internet gateway.
+    /// Describes an internet gateway.
     /// </summary>
     public partial class InternetGateway
     {
         private List<InternetGatewayAttachment> _attachments = new List<InternetGatewayAttachment>();
         private string _internetGatewayId;
+        private string _ownerId;
         private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Attachments. 
         /// <para>
-        /// Any VPCs attached to the Internet gateway.
+        /// Any VPCs attached to the internet gateway.
         /// </para>
         /// </summary>
         public List<InternetGatewayAttachment> Attachments
@@ -57,7 +58,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InternetGatewayId. 
         /// <para>
-        /// The ID of the Internet gateway.
+        /// The ID of the internet gateway.
         /// </para>
         /// </summary>
         public string InternetGatewayId
@@ -73,9 +74,27 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OwnerId. 
+        /// <para>
+        /// The ID of the AWS account that owns the internet gateway.
+        /// </para>
+        /// </summary>
+        public string OwnerId
+        {
+            get { return this._ownerId; }
+            set { this._ownerId = value; }
+        }
+
+        // Check to see if OwnerId property is set
+        internal bool IsSetOwnerId()
+        {
+            return this._ownerId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// Any tags assigned to the Internet gateway.
+        /// Any tags assigned to the internet gateway.
         /// </para>
         /// </summary>
         public List<Tag> Tags

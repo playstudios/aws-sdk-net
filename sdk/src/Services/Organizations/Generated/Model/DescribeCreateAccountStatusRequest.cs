@@ -33,7 +33,8 @@ namespace Amazon.Organizations.Model
     /// 
     ///  
     /// <para>
-    /// This operation can be called only from the organization's master account.
+    /// This operation can be called only from the organization's master account or by a member
+    /// account that is a delegated administrator for an AWS service.
     /// </para>
     /// </summary>
     public partial class DescribeCreateAccountStatusRequest : AmazonOrganizationsRequest
@@ -49,10 +50,11 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  
         /// <para>
-        /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an create account
-        /// request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
+        /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a create account
+        /// request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CreateAccountRequestId
         {
             get { return this._createAccountRequestId; }

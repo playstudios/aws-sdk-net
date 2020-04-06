@@ -28,7 +28,15 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// The Amazon S3 bucket where artifacts are stored for the pipeline.
+    /// The S3 bucket where artifacts for the pipeline are stored.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// You must include either <code>artifactStore</code> or <code>artifactStores</code>
+    /// in your pipeline, but you cannot use both. If you create a cross-region action in
+    /// your pipeline, you must use <code>artifactStores</code>.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class ArtifactStore
     {
@@ -59,13 +67,13 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Location. 
         /// <para>
-        /// The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify
-        /// the name of an S3 bucket but not a folder within the bucket. A folder to contain the
-        /// pipeline artifacts is created for you based on the name of the pipeline. You can use
-        /// any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline
-        /// artifacts.
+        /// The S3 bucket used for storing the artifacts for a pipeline. You can specify the name
+        /// of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts
+        /// is created for you based on the name of the pipeline. You can use any S3 bucket in
+        /// the same AWS Region as the pipeline to store your pipeline artifacts.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=63)]
         public string Location
         {
             get { return this._location; }
@@ -84,6 +92,7 @@ namespace Amazon.CodePipeline.Model
         /// The type of the artifact store, such as S3.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ArtifactStoreType Type
         {
             get { return this._type; }

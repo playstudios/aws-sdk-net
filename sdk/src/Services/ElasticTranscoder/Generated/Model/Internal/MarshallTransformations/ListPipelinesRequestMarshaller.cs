@@ -55,16 +55,17 @@ namespace Amazon.ElasticTranscoder.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListPipelinesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ElasticTranscoder");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-09-25";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2012-09-25/pipelines";
             
             if (publicRequest.IsSetAscending())
                 request.Parameters.Add("Ascending", StringUtils.FromString(publicRequest.Ascending));
             
             if (publicRequest.IsSetPageToken())
                 request.Parameters.Add("PageToken", StringUtils.FromString(publicRequest.PageToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2012-09-25/pipelines";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

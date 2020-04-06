@@ -29,7 +29,14 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the ArchiveFindings operation.
-    /// Archives Amazon GuardDuty findings specified by the list of finding IDs.
+    /// Archives GuardDuty findings specified by the list of finding IDs.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// Only the master account can archive findings. Member accounts do not have permission
+    /// to archive findings from their accounts.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class ArchiveFindingsRequest : AmazonGuardDutyRequest
     {
@@ -37,9 +44,13 @@ namespace Amazon.GuardDuty.Model
         private List<string> _findingIds = new List<string>();
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The ID of the detector that specifies the GuardDuty
-        /// service whose findings you want to archive.
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want
+        /// to archive.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }
@@ -53,8 +64,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FindingIds. IDs of the findings that you want to archive.
+        /// Gets and sets the property FindingIds. 
+        /// <para>
+        /// IDs of the findings that you want to archive.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=50)]
         public List<string> FindingIds
         {
             get { return this._findingIds; }

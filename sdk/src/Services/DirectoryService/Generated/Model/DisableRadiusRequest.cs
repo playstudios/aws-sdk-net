@@ -30,7 +30,7 @@ namespace Amazon.DirectoryService.Model
     /// <summary>
     /// Container for the parameters to the DisableRadius operation.
     /// Disables multi-factor authentication (MFA) with the Remote Authentication Dial In
-    /// User Service (RADIUS) server for an AD Connector directory.
+    /// User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     /// </summary>
     public partial class DisableRadiusRequest : AmazonDirectoryServiceRequest
     {
@@ -42,6 +42,7 @@ namespace Amazon.DirectoryService.Model
         /// The identifier of the directory for which to disable MFA.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryId
         {
             get { return this._directoryId; }

@@ -29,9 +29,9 @@ namespace Amazon.CodeCommit.Model
 {
     /// <summary>
     /// Container for the parameters to the MergePullRequestByFastForward operation.
-    /// Closes a pull request and attempts to merge the source commit of a pull request into
-    /// the specified destination branch for that pull request at the specified commit using
-    /// the fast-forward merge option.
+    /// Attempts to merge the source commit of a pull request into the specified destination
+    /// branch for that pull request at the specified commit using the fast-forward merge
+    /// strategy. If the merge is successful, it closes the pull request.
     /// </summary>
     public partial class MergePullRequestByFastForwardRequest : AmazonCodeCommitRequest
     {
@@ -45,6 +45,7 @@ namespace Amazon.CodeCommit.Model
         /// The system-generated ID of the pull request. To get this ID, use <a>ListPullRequests</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PullRequestId
         {
             get { return this._pullRequestId; }
@@ -63,6 +64,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository where the pull request was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

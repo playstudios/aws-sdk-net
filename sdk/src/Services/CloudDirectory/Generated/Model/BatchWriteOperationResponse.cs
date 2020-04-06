@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -45,6 +45,7 @@ namespace Amazon.CloudDirectory.Model
         private BatchDetachPolicyResponse _detachPolicy;
         private BatchDetachTypedLinkResponse _detachTypedLink;
         private BatchRemoveFacetFromObjectResponse _removeFacetFromObject;
+        private BatchUpdateLinkAttributesResponse _updateLinkAttributes;
         private BatchUpdateObjectAttributesResponse _updateObjectAttributes;
 
         /// <summary>
@@ -124,8 +125,8 @@ namespace Amazon.CloudDirectory.Model
         /// Gets and sets the property AttachTypedLink. 
         /// <para>
         /// Attaches a typed link to a specified source and target object. For more information,
-        /// see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </para>
         /// </summary>
         public BatchAttachTypedLinkResponse AttachTypedLink
@@ -143,8 +144,8 @@ namespace Amazon.CloudDirectory.Model
         /// <summary>
         /// Gets and sets the property CreateIndex. 
         /// <para>
-        /// Creates an index object. See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_indexing.html">Indexing</a>
-        /// for more information.
+        /// Creates an index object. See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.htm">Indexing
+        /// and search</a> for more information.
         /// </para>
         /// </summary>
         public BatchCreateIndexResponse CreateIndex
@@ -253,8 +254,8 @@ namespace Amazon.CloudDirectory.Model
         /// Gets and sets the property DetachTypedLink. 
         /// <para>
         /// Detaches a typed link from a specified source and target object. For more information,
-        /// see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </para>
         /// </summary>
         public BatchDetachTypedLinkResponse DetachTypedLink
@@ -285,6 +286,24 @@ namespace Amazon.CloudDirectory.Model
         internal bool IsSetRemoveFacetFromObject()
         {
             return this._removeFacetFromObject != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property UpdateLinkAttributes. 
+        /// <para>
+        /// Represents the output of a <code>BatchWrite</code> response operation.
+        /// </para>
+        /// </summary>
+        public BatchUpdateLinkAttributesResponse UpdateLinkAttributes
+        {
+            get { return this._updateLinkAttributes; }
+            set { this._updateLinkAttributes = value; }
+        }
+
+        // Check to see if UpdateLinkAttributes property is set
+        internal bool IsSetUpdateLinkAttributes()
+        {
+            return this._updateLinkAttributes != null;
         }
 
         /// <summary>

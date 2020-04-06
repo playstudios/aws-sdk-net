@@ -55,17 +55,18 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateThreatIntelSetRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.GuardDuty");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/detector/{detectorId}/threatintelset/{threatIntelSetId}";
             if (!publicRequest.IsSetDetectorId())
                 throw new AmazonGuardDutyException("Request object does not have required field DetectorId set");
-            uriResourcePath = uriResourcePath.Replace("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
+            request.AddPathResource("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
             if (!publicRequest.IsSetThreatIntelSetId())
                 throw new AmazonGuardDutyException("Request object does not have required field ThreatIntelSetId set");
-            uriResourcePath = uriResourcePath.Replace("{threatIntelSetId}", StringUtils.FromString(publicRequest.ThreatIntelSetId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{threatIntelSetId}", StringUtils.FromString(publicRequest.ThreatIntelSetId));
+            request.ResourcePath = "/detector/{detectorId}/threatintelset/{threatIntelSetId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

@@ -58,15 +58,22 @@ namespace Amazon.WAFRegional.Model.Internal.MarshallTransformations
             string target = "AWSWAF_Regional_20161128.ListResourcesForWebACL";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-11-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetResourceType())
+                {
+                    context.Writer.WritePropertyName("ResourceType");
+                    context.Writer.Write(publicRequest.ResourceType);
+                }
+
                 if(publicRequest.IsSetWebACLId())
                 {
                     context.Writer.WritePropertyName("WebACLId");

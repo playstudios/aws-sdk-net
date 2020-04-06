@@ -28,10 +28,10 @@ namespace Amazon.Athena
     ///<summary>
     /// Common exception for the Athena service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonAthenaException : AmazonServiceException
+    public partial class AmazonAthenaException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonAthenaException
@@ -88,7 +88,7 @@ namespace Amazon.Athena
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonAthenaException class with serialized data.
         /// </summary>

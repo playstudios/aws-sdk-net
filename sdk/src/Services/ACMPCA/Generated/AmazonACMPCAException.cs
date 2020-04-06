@@ -28,10 +28,10 @@ namespace Amazon.ACMPCA
     ///<summary>
     /// Common exception for the ACMPCA service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonACMPCAException : AmazonServiceException
+    public partial class AmazonACMPCAException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonACMPCAException
@@ -88,7 +88,7 @@ namespace Amazon.ACMPCA
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonACMPCAException class with serialized data.
         /// </summary>

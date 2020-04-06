@@ -69,6 +69,12 @@
     <pattern>^([A-Za-z]_?)+$</pattern>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.CreateSlotTypeVersionResponse.ParentSlotTypeSignature</property>
+    <min>1</min>
+    <max>100</max>
+    <pattern>^((AMAZON\.)_?|[A-Za-z]_?)+</pattern>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.CreateSlotTypeVersionResponse.Version</property>
     <min>1</min>
     <max>64</max>
@@ -450,6 +456,12 @@
     <pattern>^([A-Za-z]_?)+$</pattern>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.GetSlotTypeResponse.ParentSlotTypeSignature</property>
+    <min>1</min>
+    <max>100</max>
+    <pattern>^((AMAZON\.)_?|[A-Za-z]_?)+</pattern>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.GetSlotTypeResponse.Version</property>
     <min>1</min>
     <max>64</max>
@@ -488,6 +500,11 @@
     <min>2</min>
     <max>50</max>
     <pattern>^([A-Za-z]_?)+$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.ListTagsForResourceRequest.ResourceArn</property>
+    <min>1</min>
+    <max>1011</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.PutBotRequest.Description</property>
@@ -613,6 +630,12 @@
     <pattern>^([A-Za-z]_?)+$</pattern>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.PutSlotTypeRequest.ParentSlotTypeSignature</property>
+    <min>1</min>
+    <max>100</max>
+    <pattern>^((AMAZON\.)_?|[A-Za-z]_?)+</pattern>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.PutSlotTypeResponse.Description</property>
     <min>0</min>
     <max>200</max>
@@ -622,6 +645,12 @@
     <min>1</min>
     <max>100</max>
     <pattern>^([A-Za-z]_?)+$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.PutSlotTypeResponse.ParentSlotTypeSignature</property>
+    <min>1</min>
+    <max>100</max>
+    <pattern>^((AMAZON\.)_?|[A-Za-z]_?)+</pattern>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.PutSlotTypeResponse.Version</property>
@@ -634,6 +663,16 @@
     <min>1</min>
     <max>100</max>
     <pattern>[a-zA-Z_]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.TagResourceRequest.ResourceArn</property>
+    <min>1</min>
+    <max>1011</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.UntagResourceRequest.ResourceArn</property>
+    <min>1</min>
+    <max>1011</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.BotAliasMetadata.BotName</property>
@@ -710,6 +749,18 @@
     <pattern>arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?</pattern>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.ConversationLogsRequest.IamRoleArn</property>
+    <min>20</min>
+    <max>2048</max>
+    <pattern>^arn:[\w\-]+:iam::[\d]{12}:role\/[\w+=,\.@\-]{1,64}$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.ConversationLogsResponse.IamRoleArn</property>
+    <min>20</min>
+    <max>2048</max>
+    <pattern>^arn:[\w\-]+:iam::[\d]{12}:role\/[\w+=,\.@\-]{1,64}$</pattern>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.EnumerationValue.Value</property>
     <min>1</min>
     <max>140</max>
@@ -742,6 +793,34 @@
     <min>1</min>
     <max>64</max>
     <pattern>\$LATEST|[0-9]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.LogSettingsRequest.KmsKeyArn</property>
+    <min>20</min>
+    <max>2048</max>
+    <pattern>^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.LogSettingsRequest.ResourceArn</property>
+    <min>1</min>
+    <max>2048</max>
+    <pattern>^arn:[\w\-]+:(?:logs:[\w\-]+:[\d]{12}:log-group:[\.\-_/#A-Za-z0-9]{1,512}(?::\*)?|s3:::[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9])$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.LogSettingsResponse.KmsKeyArn</property>
+    <min>20</min>
+    <max>2048</max>
+    <pattern>^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.LogSettingsResponse.ResourceArn</property>
+    <min>1</min>
+    <max>2048</max>
+    <pattern>^arn:[\w\-]+:(?:logs:[\w\-]+:[\d]{12}:log-group:[\.\-_/#A-Za-z0-9]{1,512}(?::\*)?|s3:::[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9])$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.LogSettingsResponse.ResourcePrefix</property>
+    <max>1024</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.Message.Content</property>
@@ -826,9 +905,24 @@
     <pattern>\$LATEST|[0-9]+</pattern>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.SlotTypeRegexConfiguration.Pattern</property>
+    <min>1</min>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.Statement.ResponseCard</property>
     <min>1</min>
     <max>50000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.Tag.Key</property>
+    <min>1</min>
+    <max>128</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.LexModelBuildingService.Model.Tag.Value</property>
+    <min>0</min>
+    <max>256</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.LexModelBuildingService.Model.UtteranceData.UtteranceString</property>

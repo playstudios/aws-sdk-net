@@ -35,8 +35,10 @@ namespace Amazon.AppStream.Model
     /// <para>
     /// If the fleet is in the <code>STOPPED</code> state, you can update any attribute except
     /// the fleet name. If the fleet is in the <code>RUNNING</code> state, you can update
-    /// the <code>DisplayName</code> and <code>ComputeCapacity</code> attributes. If the fleet
-    /// is in the <code>STARTING</code> or <code>STOPPING</code> state, you can't update it.
+    /// the <code>DisplayName</code>, <code>ComputeCapacity</code>, <code>ImageARN</code>,
+    /// <code>ImageName</code>, <code>IdleDisconnectTimeoutInSeconds</code>, and <code>DisconnectTimeoutInSeconds</code>
+    /// attributes. If the fleet is in the <code>STARTING</code> or <code>STOPPING</code>
+    /// state, you can't update it.
     /// </para>
     /// </summary>
     public partial class UpdateFleetRequest : AmazonAppStreamRequest
@@ -49,6 +51,9 @@ namespace Amazon.AppStream.Model
         private string _displayName;
         private DomainJoinInfo _domainJoinInfo;
         private bool? _enableDefaultInternetAccess;
+        private string _iamRoleArn;
+        private int? _idleDisconnectTimeoutInSeconds;
+        private string _imageArn;
         private string _imageName;
         private string _instanceType;
         private int? _maxUserDurationInSeconds;
@@ -97,6 +102,7 @@ namespace Amazon.AppStream.Model
         /// Deletes the VPC association for the specified fleet.
         /// </para>
         /// </summary>
+        [Obsolete("This property is deprecated")]
         public bool DeleteVpcConfig
         {
             get { return this._deleteVpcConfig.GetValueOrDefault(); }
@@ -112,9 +118,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// The description for display.
+        /// The description to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string Description
         {
             get { return this._description; }
@@ -130,9 +137,14 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DisconnectTimeoutInSeconds. 
         /// <para>
-        /// The time after disconnection when a session is considered to have ended, in seconds.
-        /// If a user who was disconnected reconnects within this time interval, the user is connected
-        /// to their previous session. Specify a value between 60 and 57600.
+        /// The amount of time that a streaming session remains active after users disconnect.
+        /// If users try to reconnect to the streaming session after a disconnection or network
+        /// interruption within this time interval, they are connected to their previous session.
+        /// Otherwise, they are connected to a new session with a new streaming instance. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Specify a value between 60 and 360000.
         /// </para>
         /// </summary>
         public int DisconnectTimeoutInSeconds
@@ -150,9 +162,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DisplayName. 
         /// <para>
-        /// The fleet name for display.
+        /// The fleet name to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string DisplayName
         {
             get { return this._displayName; }
@@ -168,7 +181,8 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DomainJoinInfo. 
         /// <para>
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the fleet to
+        /// a Microsoft Active Directory domain. 
         /// </para>
         /// </summary>
         public DomainJoinInfo DomainJoinInfo
@@ -202,11 +216,101 @@ namespace Amazon.AppStream.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IamRoleArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a
+        /// role, a fleet instance calls the AWS Security Token Service (STS) <code>AssumeRole</code>
+        /// API operation and passes the ARN of the role to use. The operation creates a new session
+        /// with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
+        /// creates the <b>AppStream_Machine_Role</b> credential profile on the instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+        /// an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream
+        /// 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+        /// </para>
+        /// </summary>
+        public string IamRoleArn
+        {
+            get { return this._iamRoleArn; }
+            set { this._iamRoleArn = value; }
+        }
+
+        // Check to see if IamRoleArn property is set
+        internal bool IsSetIamRoleArn()
+        {
+            return this._iamRoleArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IdleDisconnectTimeoutInSeconds. 
+        /// <para>
+        /// The amount of time that users can be idle (inactive) before they are disconnected
+        /// from their streaming session and the <code>DisconnectTimeoutInSeconds</code> time
+        /// interval begins. Users are notified before they are disconnected due to inactivity.
+        /// If users try to reconnect to the streaming session before the time interval specified
+        /// in <code>DisconnectTimeoutInSeconds</code> elapses, they are connected to their previous
+        /// session. Users are considered idle when they stop providing keyboard or mouse input
+        /// during their streaming session. File uploads and downloads, audio in, audio out, and
+        /// pixels changing do not qualify as user activity. If users continue to be idle after
+        /// the time interval in <code>IdleDisconnectTimeoutInSeconds</code> elapses, they are
+        /// disconnected. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To prevent users from being disconnected due to inactivity, specify a value of 0.
+        /// Otherwise, specify a value between 60 and 3600. The default value is 0.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you enable this feature, we recommend that you specify a value that corresponds
+        /// exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't
+        /// do this, the value is rounded to the nearest minute. For example, if you specify a
+        /// value of 70, users are disconnected after 1 minute of inactivity. If you specify a
+        /// value that is at the midpoint between two different minutes, the value is rounded
+        /// up. For example, if you specify a value of 90, users are disconnected after 2 minutes
+        /// of inactivity. 
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public int IdleDisconnectTimeoutInSeconds
+        {
+            get { return this._idleDisconnectTimeoutInSeconds.GetValueOrDefault(); }
+            set { this._idleDisconnectTimeoutInSeconds = value; }
+        }
+
+        // Check to see if IdleDisconnectTimeoutInSeconds property is set
+        internal bool IsSetIdleDisconnectTimeoutInSeconds()
+        {
+            return this._idleDisconnectTimeoutInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ImageArn. 
+        /// <para>
+        /// The ARN of the public, private, or shared image to use.
+        /// </para>
+        /// </summary>
+        public string ImageArn
+        {
+            get { return this._imageArn; }
+            set { this._imageArn = value; }
+        }
+
+        // Check to see if ImageArn property is set
+        internal bool IsSetImageArn()
+        {
+            return this._imageArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ImageName. 
         /// <para>
         /// The name of the image used to create the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ImageName
         {
             get { return this._imageName; }
@@ -307,6 +411,7 @@ namespace Amazon.AppStream.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string InstanceType
         {
             get { return this._instanceType; }
@@ -322,8 +427,14 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property MaxUserDurationInSeconds. 
         /// <para>
-        /// The maximum time that a streaming session can run, in seconds. Specify a value between
-        /// 600 and 57600.
+        /// The maximum amount of time that a streaming session can remain active, in seconds.
+        /// If users are still connected to a streaming instance five minutes before this limit
+        /// is reached, they are prompted to save any open documents before being disconnected.
+        /// After this time elapses, the instance is terminated and replaced by a new instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// Specify a value between 600 and 360000.
         /// </para>
         /// </summary>
         public int MaxUserDurationInSeconds
@@ -344,6 +455,7 @@ namespace Amazon.AppStream.Model
         /// A unique name for the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Name
         {
             get { return this._name; }

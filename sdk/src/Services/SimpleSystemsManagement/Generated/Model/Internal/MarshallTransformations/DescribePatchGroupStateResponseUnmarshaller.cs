@@ -75,6 +75,18 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                     response.InstancesWithInstalledPatches = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("InstancesWithInstalledPendingRebootPatches", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    response.InstancesWithInstalledPendingRebootPatches = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("InstancesWithInstalledRejectedPatches", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    response.InstancesWithInstalledRejectedPatches = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("InstancesWithMissingPatches", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
@@ -85,6 +97,12 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     response.InstancesWithNotApplicablePatches = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("InstancesWithUnreportedNotApplicablePatches", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    response.InstancesWithUnreportedNotApplicablePatches = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

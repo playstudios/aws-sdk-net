@@ -55,11 +55,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateInputRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaLive");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-14";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/prod/inputs";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/prod/inputs";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -92,6 +93,22 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     context.Writer.WriteArrayEnd();
                 }
 
+                if(publicRequest.IsSetMediaConnectFlows())
+                {
+                    context.Writer.WritePropertyName("mediaConnectFlows");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestMediaConnectFlowsListValue in publicRequest.MediaConnectFlows)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = MediaConnectFlowRequestMarshaller.Instance;
+                        marshaller.Marshall(publicRequestMediaConnectFlowsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetName())
                 {
                     context.Writer.WritePropertyName("name");
@@ -109,6 +126,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     context.Writer.WritePropertyName("requestId");
                     context.Writer.Write(Guid.NewGuid().ToString());                                                
                 }
+                if(publicRequest.IsSetRoleArn())
+                {
+                    context.Writer.WritePropertyName("roleArn");
+                    context.Writer.Write(publicRequest.RoleArn);
+                }
+
                 if(publicRequest.IsSetSources())
                 {
                     context.Writer.WritePropertyName("sources");
@@ -125,10 +148,35 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     context.Writer.WriteArrayEnd();
                 }
 
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetType())
                 {
                     context.Writer.WritePropertyName("type");
                     context.Writer.Write(publicRequest.Type);
+                }
+
+                if(publicRequest.IsSetVpc())
+                {
+                    context.Writer.WritePropertyName("vpc");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = InputVpcRequestMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Vpc, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
         

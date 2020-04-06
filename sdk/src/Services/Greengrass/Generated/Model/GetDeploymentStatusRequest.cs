@@ -39,6 +39,7 @@ namespace Amazon.Greengrass.Model
         /// <summary>
         /// Gets and sets the property DeploymentId. The ID of the deployment.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DeploymentId
         {
             get { return this._deploymentId; }
@@ -52,8 +53,9 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GroupId. The ID of the AWS Greengrass group.
+        /// Gets and sets the property GroupId. The ID of the Greengrass group.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string GroupId
         {
             get { return this._groupId; }

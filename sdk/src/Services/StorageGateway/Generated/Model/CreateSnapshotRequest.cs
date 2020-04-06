@@ -36,8 +36,8 @@ namespace Amazon.StorageGateway.Model
     /// AWS Storage Gateway provides the ability to back up point-in-time snapshots of your
     /// data to Amazon Simple Storage (S3) for durable off-site recovery, as well as import
     /// the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud
-    /// (EC2). You can take snapshots of your gateway volume on a scheduled or ad-hoc basis.
-    /// This API enables you to take ad-hoc snapshot. For more information, see <a href="http://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#SchedulingSnapshot">Editing
+    /// (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis.
+    /// This API enables you to take ad-hoc snapshot. For more information, see <a href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#SchedulingSnapshot">Editing
     /// a Snapshot Schedule</a>.
     /// </para>
     ///  
@@ -53,13 +53,13 @@ namespace Amazon.StorageGateway.Model
     ///  <note> 
     /// <para>
     /// To list or delete a snapshot, you must use the Amazon EC2 API. For more information,
-    /// see DescribeSnapshots or DeleteSnapshot in the <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html">EC2
+    /// see DescribeSnapshots or DeleteSnapshot in the <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html">EC2
     /// API reference</a>.
     /// </para>
     ///  </note> <important> 
     /// <para>
     /// Volume and snapshot IDs are changing to a longer length ID format. For more information,
-    /// see the important note on the <a href="http://docs.aws.amazon.com/storagegateway/latest/APIReference/Welcome.html">Welcome</a>
+    /// see the important note on the <a href="https://docs.aws.amazon.com/storagegateway/latest/APIReference/Welcome.html">Welcome</a>
     /// page.
     /// </para>
     ///  </important>
@@ -67,6 +67,7 @@ namespace Amazon.StorageGateway.Model
     public partial class CreateSnapshotRequest : AmazonStorageGatewayRequest
     {
         private string _snapshotDescription;
+        private List<Tag> _tags = new List<Tag>();
         private string _volumeARN;
 
         /// <summary>
@@ -77,6 +78,7 @@ namespace Amazon.StorageGateway.Model
         /// Gateway snapshot <b>Details</b> pane, <b>Description</b> field
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string SnapshotDescription
         {
             get { return this._snapshotDescription; }
@@ -90,12 +92,40 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value
+        /// pair.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Valid characters for key and value are letters, spaces, and numbers representable
+        /// in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+        /// length of a tag's key is 128 characters, and the maximum length for a tag's value
+        /// is 256.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property VolumeARN. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a> operation
         /// to return a list of gateway volumes.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string VolumeARN
         {
             get { return this._volumeARN; }

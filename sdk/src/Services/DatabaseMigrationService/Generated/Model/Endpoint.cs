@@ -28,24 +28,51 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
+    /// Describes an endpoint of a database instance in response to operations such as the
+    /// following:
     /// 
+    ///  <ul> <li> 
+    /// <para>
+    ///  <code>CreateEndpoint</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DescribeEndpoint</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DescribeEndpointTypes</code> 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ModifyEndpoint</code> 
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class Endpoint
     {
         private string _certificateArn;
         private string _databaseName;
+        private DmsTransferSettings _dmsTransferSettings;
         private DynamoDbSettings _dynamoDbSettings;
+        private ElasticsearchSettings _elasticsearchSettings;
         private string _endpointArn;
         private string _endpointIdentifier;
         private ReplicationEndpointTypeValue _endpointType;
+        private string _engineDisplayName;
         private string _engineName;
         private string _externalId;
+        private string _externalTableDefinition;
         private string _extraConnectionAttributes;
+        private KafkaSettings _kafkaSettings;
+        private KinesisSettings _kinesisSettings;
         private string _kmsKeyId;
         private MongoDbSettings _mongoDbSettings;
         private int? _port;
+        private RedshiftSettings _redshiftSettings;
         private S3Settings _s3Settings;
         private string _serverName;
+        private string _serviceAccessRoleArn;
         private DmsSslModeValue _sslMode;
         private string _status;
         private string _username;
@@ -87,6 +114,53 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DmsTransferSettings. 
+        /// <para>
+        /// The settings in JSON format for the DMS transfer type of source endpoint. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Possible settings include the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>ServiceAccessRoleArn</code> - The IAM role that has permission to access the
+        /// Amazon S3 bucket.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>BucketName</code> - The name of the S3 bucket to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>CompressionType</code> - An optional parameter to use GZIP to compress the
+        /// target files. To use GZIP, set this value to <code>NONE</code> (the default). To keep
+        /// the files uncompressed, don't use this value.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Shorthand syntax for these settings is as follows: <code>ServiceAccessRoleArn=string,BucketName=string,CompressionType=string</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// JSON syntax for these settings is as follows: <code>{ "ServiceAccessRoleArn": "string",
+        /// "BucketName": "string", "CompressionType": "none"|"gzip" } </code> 
+        /// </para>
+        /// </summary>
+        public DmsTransferSettings DmsTransferSettings
+        {
+            get { return this._dmsTransferSettings; }
+            set { this._dmsTransferSettings = value; }
+        }
+
+        // Check to see if DmsTransferSettings property is set
+        internal bool IsSetDmsTransferSettings()
+        {
+            return this._dmsTransferSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DynamoDbSettings. 
         /// <para>
         /// The settings for the target DynamoDB database. For more information, see the <code>DynamoDBSettings</code>
@@ -103,6 +177,25 @@ namespace Amazon.DatabaseMigrationService.Model
         internal bool IsSetDynamoDbSettings()
         {
             return this._dynamoDbSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ElasticsearchSettings. 
+        /// <para>
+        /// The settings for the Elasticsearch source endpoint. For more information, see the
+        /// <code>ElasticsearchSettings</code> structure.
+        /// </para>
+        /// </summary>
+        public ElasticsearchSettings ElasticsearchSettings
+        {
+            get { return this._elasticsearchSettings; }
+            set { this._elasticsearchSettings = value; }
+        }
+
+        // Check to see if ElasticsearchSettings property is set
+        internal bool IsSetElasticsearchSettings()
+        {
+            return this._elasticsearchSettings != null;
         }
 
         /// <summary>
@@ -126,9 +219,9 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property EndpointIdentifier. 
         /// <para>
-        /// The database endpoint identifier. Identifiers must begin with a letter; must contain
-        /// only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain
-        /// two consecutive hyphens.
+        /// The database endpoint identifier. Identifiers must begin with a letter and must contain
+        /// only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two
+        /// consecutive hyphens.
         /// </para>
         /// </summary>
         public string EndpointIdentifier
@@ -146,7 +239,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property EndpointType. 
         /// <para>
-        /// The type of endpoint.
+        /// The type of endpoint. Valid values are <code>source</code> and <code>target</code>.
         /// </para>
         /// </summary>
         public ReplicationEndpointTypeValue EndpointType
@@ -162,10 +255,33 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EngineDisplayName. 
+        /// <para>
+        /// The expanded name for the engine name. For example, if the <code>EngineName</code>
+        /// parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        /// </para>
+        /// </summary>
+        public string EngineDisplayName
+        {
+            get { return this._engineDisplayName; }
+            set { this._engineDisplayName = value; }
+        }
+
+        // Check to see if EngineDisplayName property is set
+        internal bool IsSetEngineDisplayName()
+        {
+            return this._engineDisplayName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EngineName. 
         /// <para>
-        /// The database engine name. Valid values, depending on the EndPointType, include mysql,
-        /// oracle, postgres, mariadb, aurora, redshift, S3, sybase, dynamodb, mongodb, and sqlserver.
+        /// The database engine name. Valid values, depending on the EndpointType, include <code>"mysql"</code>,
+        /// <code>"oracle"</code>, <code>"postgres"</code>, <code>"mariadb"</code>, <code>"aurora"</code>,
+        /// <code>"aurora-postgresql"</code>, <code>"redshift"</code>, <code>"s3"</code>, <code>"db2"</code>,
+        /// <code>"azuredb"</code>, <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
+        /// <code>"kinesis"</code>, <code>"kafka"</code>, <code>"elasticsearch"</code>, <code>"documentdb"</code>,
+        /// and <code>"sqlserver"</code>.
         /// </para>
         /// </summary>
         public string EngineName
@@ -201,6 +317,24 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ExternalTableDefinition. 
+        /// <para>
+        /// The external table definition.
+        /// </para>
+        /// </summary>
+        public string ExternalTableDefinition
+        {
+            get { return this._externalTableDefinition; }
+            set { this._externalTableDefinition = value; }
+        }
+
+        // Check to see if ExternalTableDefinition property is set
+        internal bool IsSetExternalTableDefinition()
+        {
+            return this._externalTableDefinition != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ExtraConnectionAttributes. 
         /// <para>
         /// Additional connection attributes used to connect to the endpoint.
@@ -219,12 +353,58 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property KafkaSettings. 
+        /// <para>
+        /// The settings for the Apache Kafka target endpoint. For more information, see the <code>KafkaSettings</code>
+        /// structure.
+        /// </para>
+        /// </summary>
+        public KafkaSettings KafkaSettings
+        {
+            get { return this._kafkaSettings; }
+            set { this._kafkaSettings = value; }
+        }
+
+        // Check to see if KafkaSettings property is set
+        internal bool IsSetKafkaSettings()
+        {
+            return this._kafkaSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KinesisSettings. 
+        /// <para>
+        /// The settings for the Amazon Kinesis target endpoint. For more information, see the
+        /// <code>KinesisSettings</code> structure.
+        /// </para>
+        /// </summary>
+        public KinesisSettings KinesisSettings
+        {
+            get { return this._kinesisSettings; }
+            set { this._kinesisSettings = value; }
+        }
+
+        // Check to see if KinesisSettings property is set
+        internal bool IsSetKinesisSettings()
+        {
+            return this._kinesisSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// The KMS key identifier that will be used to encrypt the connection parameters. If
-        /// you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your
-        /// default encryption key. AWS KMS creates the default encryption key for your AWS account.
-        /// Your AWS account has a different default encryption key for each AWS region.
+        /// An AWS KMS key identifier that is used to encrypt the connection parameters for the
+        /// endpoint.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then AWS DMS
+        /// uses your default encryption key.
+        /// </para>
+        ///  
+        /// <para>
+        /// AWS KMS creates the default encryption key for your AWS account. Your AWS account
+        /// has a different default encryption key for each AWS Region.
         /// </para>
         /// </summary>
         public string KmsKeyId
@@ -277,6 +457,24 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RedshiftSettings. 
+        /// <para>
+        /// Settings for the Amazon Redshift endpoint.
+        /// </para>
+        /// </summary>
+        public RedshiftSettings RedshiftSettings
+        {
+            get { return this._redshiftSettings; }
+            set { this._redshiftSettings = value; }
+        }
+
+        // Check to see if RedshiftSettings property is set
+        internal bool IsSetRedshiftSettings()
+        {
+            return this._redshiftSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property S3Settings. 
         /// <para>
         /// The settings for the S3 target endpoint. For more information, see the <code>S3Settings</code>
@@ -314,17 +512,27 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ServiceAccessRoleArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) used by the service access IAM role.
+        /// </para>
+        /// </summary>
+        public string ServiceAccessRoleArn
+        {
+            get { return this._serviceAccessRoleArn; }
+            set { this._serviceAccessRoleArn = value; }
+        }
+
+        // Check to see if ServiceAccessRoleArn property is set
+        internal bool IsSetServiceAccessRoleArn()
+        {
+            return this._serviceAccessRoleArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SslMode. 
         /// <para>
-        /// The SSL mode used to connect to the endpoint.
-        /// </para>
-        ///  
-        /// <para>
-        /// SSL mode can be one of four values: none, require, verify-ca, verify-full. 
-        /// </para>
-        ///  
-        /// <para>
-        /// The default value is none.
+        /// The SSL mode used to connect to the endpoint. The default value is <code>none</code>.
         /// </para>
         /// </summary>
         public DmsSslModeValue SslMode

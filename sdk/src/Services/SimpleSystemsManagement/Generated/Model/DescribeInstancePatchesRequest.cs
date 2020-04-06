@@ -42,17 +42,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// Each entry in the array is a structure containing:
-        /// </para>
-        ///  
-        /// <para>
-        /// Key (string, between 1 and 128 characters)
-        /// </para>
-        ///  
-        /// <para>
-        /// Values (array of strings, each string between 1 and 256 characters)
+        /// An array of structures. Each entry in the array is a structure containing a Key, Value
+        /// combination. Valid values for Key are <code>Classification</code> | <code>KBId</code>
+        /// | <code>Severity</code> | <code>State</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<PatchOrchestratorFilter> Filters
         {
             get { return this._filters; }
@@ -71,6 +66,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the instance whose patch state information should be retrieved.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -89,6 +85,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The maximum number of patches to return (per page).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=10, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

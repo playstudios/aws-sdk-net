@@ -19,17 +19,24 @@ namespace AWSSDKDocSamples.Amazon.ElasticFileSystem.Generated
             var response = client.CreateFileSystem(new CreateFileSystemRequest 
             {
                 CreationToken = "tokenstring",
-                PerformanceMode = "generalPurpose"
+                PerformanceMode = "generalPurpose",
+                Tags = new List<Tag> {
+                    new Tag {
+                        Key = "Name",
+                        Value = "MyFileSystem"
+                    }
+                }
             });
 
             DateTime creationTime = response.CreationTime;
             string creationToken = response.CreationToken;
             string fileSystemId = response.FileSystemId;
             string lifeCycleState = response.LifeCycleState;
-            integer numberOfMountTargets = response.NumberOfMountTargets;
+            int numberOfMountTargets = response.NumberOfMountTargets;
             string ownerId = response.OwnerId;
             string performanceMode = response.PerformanceMode;
             FileSystemSize sizeInBytes = response.SizeInBytes;
+            List<Tag> tags = response.Tags;
 
             #endregion
         }
@@ -129,6 +136,20 @@ namespace AWSSDKDocSamples.Amazon.ElasticFileSystem.Generated
             #endregion
         }
 
+        public void ElasticFileSystemDescribeLifecycleConfiguration()
+        {
+            #region to-describe-the-lifecycle-configuration-for-a-file-system-1551200664502
+
+            var response = client.DescribeLifecycleConfiguration(new DescribeLifecycleConfigurationRequest 
+            {
+                FileSystemId = "fs-01234567"
+            });
+
+            List<LifecyclePolicy> lifecyclePolicies = response.LifecyclePolicies;
+
+            #endregion
+        }
+
         public void ElasticFileSystemDescribeMountTargets()
         {
             #region to-describe-the-mount-targets-for-a-file-system-1481849958584
@@ -183,6 +204,23 @@ namespace AWSSDKDocSamples.Amazon.ElasticFileSystem.Generated
                 }
             });
 
+
+            #endregion
+        }
+
+        public void ElasticFileSystemPutLifecycleConfiguration()
+        {
+            #region creates-a-new-lifecycleconfiguration-object-for-a-file-system-1551201594692
+
+            var response = client.PutLifecycleConfiguration(new PutLifecycleConfigurationRequest 
+            {
+                FileSystemId = "fs-01234567",
+                LifecyclePolicies = new List<LifecyclePolicy> {
+                    new LifecyclePolicy { TransitionToIA = "AFTER_30_DAYS" }
+                }
+            });
+
+            List<LifecyclePolicy> lifecyclePolicies = response.LifecyclePolicies;
 
             #endregion
         }

@@ -44,10 +44,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog where the partitions in question reside. If none is supplied,
+        /// The ID of the Data Catalog where the partitions in question reside. If none is provided,
         /// the AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -66,6 +67,7 @@ namespace Amazon.Glue.Model
         /// The name of the catalog database where the partitions reside.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string DatabaseName
         {
             get { return this._databaseName; }
@@ -81,9 +83,137 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Expression. 
         /// <para>
-        /// An expression filtering the partitions to be returned.
+        /// An expression that filters the partitions to be returned.
+        /// </para>
+        ///  
+        /// <para>
+        /// The expression uses SQL syntax similar to the SQL <code>WHERE</code> filter clause.
+        /// The SQL statement parser <a href="http://jsqlparser.sourceforge.net/home.php">JSQLParser</a>
+        /// parses the expression. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <i>Operators</i>: The following are the operators that you can use in the <code>Expression</code>
+        /// API call:
+        /// </para>
+        ///  <dl> <dt>=</dt> <dd> 
+        /// <para>
+        /// Checks whether the values of the two operands are equal; if yes, then the condition
+        /// becomes true.
+        /// </para>
+        ///  
+        /// <para>
+        /// Example: Assume 'variable a' holds 10 and 'variable b' holds 20. 
+        /// </para>
+        ///  
+        /// <para>
+        /// (a = b) is not true.
+        /// </para>
+        ///  </dd> <dt>&lt; &gt;</dt> <dd> 
+        /// <para>
+        /// Checks whether the values of two operands are equal; if the values are not equal,
+        /// then the condition becomes true.
+        /// </para>
+        ///  
+        /// <para>
+        /// Example: (a &lt; &gt; b) is true.
+        /// </para>
+        ///  </dd> <dt>&gt;</dt> <dd> 
+        /// <para>
+        /// Checks whether the value of the left operand is greater than the value of the right
+        /// operand; if yes, then the condition becomes true.
+        /// </para>
+        ///  
+        /// <para>
+        /// Example: (a &gt; b) is not true.
+        /// </para>
+        ///  </dd> <dt>&lt;</dt> <dd> 
+        /// <para>
+        /// Checks whether the value of the left operand is less than the value of the right operand;
+        /// if yes, then the condition becomes true.
+        /// </para>
+        ///  
+        /// <para>
+        /// Example: (a &lt; b) is true.
+        /// </para>
+        ///  </dd> <dt>&gt;=</dt> <dd> 
+        /// <para>
+        /// Checks whether the value of the left operand is greater than or equal to the value
+        /// of the right operand; if yes, then the condition becomes true.
+        /// </para>
+        ///  
+        /// <para>
+        /// Example: (a &gt;= b) is not true.
+        /// </para>
+        ///  </dd> <dt>&lt;=</dt> <dd> 
+        /// <para>
+        /// Checks whether the value of the left operand is less than or equal to the value of
+        /// the right operand; if yes, then the condition becomes true.
+        /// </para>
+        ///  
+        /// <para>
+        /// Example: (a &lt;= b) is true.
+        /// </para>
+        ///  </dd> <dt>AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL</dt> <dd> 
+        /// <para>
+        /// Logical operators.
+        /// </para>
+        ///  </dd> </dl> 
+        /// <para>
+        ///  <i>Supported Partition Key Types</i>: The following are the supported partition keys.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>string</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>date</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>timestamp</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>int</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>bigint</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>long</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>tinyint</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>smallint</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>decimal</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If an invalid type is encountered, an exception is thrown. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The following list shows the valid operators on each type. When you define a crawler,
+        /// the <code>partitionKey</code> type is created as a <code>STRING</code>, to be compatible
+        /// with the catalog partitions. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <i>Sample API Call</i>: 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Expression
         {
             get { return this._expression; }
@@ -102,6 +232,7 @@ namespace Amazon.Glue.Model
         /// The maximum number of partitions to return in a single response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -156,6 +287,7 @@ namespace Amazon.Glue.Model
         /// The name of the partitions' table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

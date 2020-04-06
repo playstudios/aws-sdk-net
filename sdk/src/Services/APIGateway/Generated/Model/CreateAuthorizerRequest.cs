@@ -31,7 +31,7 @@ namespace Amazon.APIGateway.Model
     /// Container for the parameters to the CreateAuthorizer operation.
     /// Adds a new <a>Authorizer</a> resource to an existing <a>RestApi</a> resource.
     /// 
-    ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS
+    ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS
     /// CLI</a></div>
     /// </summary>
     public partial class CreateAuthorizerRequest : AmazonAPIGatewayRequest
@@ -116,7 +116,7 @@ namespace Amazon.APIGateway.Model
         /// <summary>
         /// Gets and sets the property AuthType. 
         /// <para>
-        /// Optional customer-defined field, used in Swagger imports and exports without functional
+        /// Optional customer-defined field, used in OpenAPI imports and exports without functional
         /// impact.
         /// </para>
         /// </summary>
@@ -170,11 +170,12 @@ namespace Amazon.APIGateway.Model
         /// Gets and sets the property IdentityValidationExpression. 
         /// <para>
         /// A validation expression for the incoming identity token. For <code>TOKEN</code> authorizers,
-        /// this value is a regular expression. API Gateway will match the <code>aud</code> field
-        /// of the incoming token from the client against the specified regular expression. It
-        /// will invoke the authorizer's Lambda function when there is a match. Otherwise, it
-        /// will return a 401 Unauthorized response without calling the Lambda function. The validation
-        /// expression does not apply to the <code>REQUEST</code> authorizer.
+        /// this value is a regular expression. For <code>COGNITO_USER_POOLS</code> authorizers,
+        /// API Gateway will match the <code>aud</code> field of the incoming token from the client
+        /// against the specified regular expression. It will invoke the authorizer's Lambda function
+        /// when there is a match. Otherwise, it will return a 401 Unauthorized response without
+        /// calling the Lambda function. The validation expression does not apply to the <code>REQUEST</code>
+        /// authorizer.
         /// </para>
         /// </summary>
         public string IdentityValidationExpression
@@ -195,6 +196,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The name of the authorizer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -234,6 +236,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }
@@ -255,6 +258,7 @@ namespace Amazon.APIGateway.Model
         /// for using an Amazon Cognito user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public AuthorizerType Type
         {
             get { return this._type; }

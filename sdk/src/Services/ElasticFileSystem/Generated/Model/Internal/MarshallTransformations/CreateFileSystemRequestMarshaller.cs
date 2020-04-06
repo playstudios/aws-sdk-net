@@ -55,11 +55,12 @@ namespace Amazon.ElasticFileSystem.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateFileSystemRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ElasticFileSystem");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-02-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/2015-02-01/file-systems";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2015-02-01/file-systems";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,11 @@ namespace Amazon.ElasticFileSystem.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.CreationToken);
                 }
 
+                else if(!(publicRequest.IsSetCreationToken()))
+                {
+                    context.Writer.WritePropertyName("CreationToken");
+                    context.Writer.Write(Guid.NewGuid().ToString());                                                
+                }
                 if(publicRequest.IsSetEncrypted())
                 {
                     context.Writer.WritePropertyName("Encrypted");
@@ -87,6 +93,34 @@ namespace Amazon.ElasticFileSystem.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("PerformanceMode");
                     context.Writer.Write(publicRequest.PerformanceMode);
+                }
+
+                if(publicRequest.IsSetProvisionedThroughputInMibps())
+                {
+                    context.Writer.WritePropertyName("ProvisionedThroughputInMibps");
+                    context.Writer.Write(publicRequest.ProvisionedThroughputInMibps);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetThroughputMode())
+                {
+                    context.Writer.WritePropertyName("ThroughputMode");
+                    context.Writer.Write(publicRequest.ThroughputMode);
                 }
 
         

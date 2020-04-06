@@ -33,14 +33,18 @@ namespace Amazon.MediaPackage.Model
     public partial class OriginEndpoint
     {
         private string _arn;
+        private Authorization _authorization;
         private string _channelId;
+        private CmafPackage _cmafPackage;
         private DashPackage _dashPackage;
         private string _description;
         private HlsPackage _hlsPackage;
         private string _id;
         private string _manifestName;
         private MssPackage _mssPackage;
+        private Origination _origination;
         private int? _startoverWindowSeconds;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private int? _timeDelaySeconds;
         private string _url;
         private List<string> _whitelist = new List<string>();
@@ -61,6 +65,21 @@ namespace Amazon.MediaPackage.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Authorization.
+        /// </summary>
+        public Authorization Authorization
+        {
+            get { return this._authorization; }
+            set { this._authorization = value; }
+        }
+
+        // Check to see if Authorization property is set
+        internal bool IsSetAuthorization()
+        {
+            return this._authorization != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ChannelId. The ID of the Channel the OriginEndpoint is
         /// associated with.
         /// </summary>
@@ -74,6 +93,21 @@ namespace Amazon.MediaPackage.Model
         internal bool IsSetChannelId()
         {
             return this._channelId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CmafPackage.
+        /// </summary>
+        public CmafPackage CmafPackage
+        {
+            get { return this._cmafPackage; }
+            set { this._cmafPackage = value; }
+        }
+
+        // Check to see if CmafPackage property is set
+        internal bool IsSetCmafPackage()
+        {
+            return this._cmafPackage != null;
         }
 
         /// <summary>
@@ -168,6 +202,24 @@ namespace Amazon.MediaPackage.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Origination. Control whether origination of video is allowed
+        /// for this OriginEndpoint. If set to ALLOW, the OriginEndpointmay by requested, pursuant
+        /// to any other form of access control. If set to DENY, the OriginEndpoint may not berequested.
+        /// This can be helpful for Live to VOD harvesting, or for temporarily disabling origination
+        /// </summary>
+        public Origination Origination
+        {
+            get { return this._origination; }
+            set { this._origination = value; }
+        }
+
+        // Check to see if Origination property is set
+        internal bool IsSetOrigination()
+        {
+            return this._origination != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StartoverWindowSeconds. Maximum duration (seconds) of content
         /// to retain for startover playback.If not specified, startover playback will be disabled
         /// for the OriginEndpoint.
@@ -182,6 +234,21 @@ namespace Amazon.MediaPackage.Model
         internal bool IsSetStartoverWindowSeconds()
         {
             return this._startoverWindowSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

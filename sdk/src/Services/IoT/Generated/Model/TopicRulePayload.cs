@@ -45,6 +45,7 @@ namespace Amazon.IoT.Model
         /// The actions associated with the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=10)]
         public List<Action> Actions
         {
             get { return this._actions; }
@@ -132,10 +133,11 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Sql. 
         /// <para>
-        /// The SQL statement used to query the topic. For more information, see <a href="http://docs.aws.amazon.com/iot/latest/developerguide/iot-rules.html#aws-iot-sql-reference">AWS
+        /// The SQL statement used to query the topic. For more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rules.html#aws-iot-sql-reference">AWS
         /// IoT SQL Reference</a> in the <i>AWS IoT Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Sql
         {
             get { return this._sql; }

@@ -33,15 +33,19 @@ namespace Amazon.Rekognition.Model
     /// 
     ///  
     /// <para>
-    /// Rekognition Video can detect faces in a video stored in an Amazon S3 bucket. Use <a>Video</a>
-    /// to specify the bucket name and the filename of the video. <code>StartFaceDetection</code>
+    /// Amazon Rekognition Video can detect faces in a video stored in an Amazon S3 bucket.
+    /// Use <a>Video</a> to specify the bucket name and the filename of the video. <code>StartFaceDetection</code>
     /// returns a job identifier (<code>JobId</code>) that you use to get the results of the
-    /// operation. When face detection is finished, Rekognition Video publishes a completion
+    /// operation. When face detection is finished, Amazon Rekognition Video publishes a completion
     /// status to the Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
-    /// To get the results of the label detection operation, first check that the status value
-    /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and pass
-    /// the job identifier (<code>JobId</code>) from the initial call to <code>StartFaceDetection</code>.
-    /// For more information, see <a>faces-video</a>.
+    /// To get the results of the face detection operation, first check that the status value
+    /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetFaceDetection</a>
+    /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartFaceDetection</code>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see Detecting Faces in a Stored Video in the Amazon Rekognition
+    /// Developer Guide.
     /// </para>
     /// </summary>
     public partial class StartFaceDetectionRequest : AmazonRekognitionRequest
@@ -61,6 +65,7 @@ namespace Amazon.Rekognition.Model
         /// started more than once. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -103,10 +108,12 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property JobTag. 
         /// <para>
-        /// Unique identifier you specify to identify the job in the completion status published
-        /// to the Amazon Simple Notification Service topic. 
+        /// An identifier you specify that's returned in the completion notification that's published
+        /// to your Amazon Simple Notification Service topic. For example, you can use <code>JobTag</code>
+        /// to group related jobs and identify them in the completion notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string JobTag
         {
             get { return this._jobTag; }
@@ -122,8 +129,8 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property NotificationChannel. 
         /// <para>
-        /// The ARN of the Amazon SNS topic to which you want Rekognition Video to publish the
-        /// completion status of the face detection operation.
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish
+        /// the completion status of the face detection operation.
         /// </para>
         /// </summary>
         public NotificationChannel NotificationChannel
@@ -145,6 +152,7 @@ namespace Amazon.Rekognition.Model
         /// S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Video Video
         {
             get { return this._video; }

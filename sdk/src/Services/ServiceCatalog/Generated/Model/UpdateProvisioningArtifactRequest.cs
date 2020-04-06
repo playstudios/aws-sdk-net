@@ -42,6 +42,7 @@ namespace Amazon.ServiceCatalog.Model
         private string _acceptLanguage;
         private bool? _active;
         private string _description;
+        private ProvisioningArtifactGuidance _guidance;
         private string _name;
         private string _productId;
         private string _provisioningArtifactId;
@@ -65,6 +66,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string AcceptLanguage
         {
             get { return this._acceptLanguage; }
@@ -81,6 +83,11 @@ namespace Amazon.ServiceCatalog.Model
         /// Gets and sets the property Active. 
         /// <para>
         /// Indicates whether the product version is active.
+        /// </para>
+        ///  
+        /// <para>
+        /// Inactive provisioning artifacts are invisible to end users. End users cannot launch
+        /// or update a provisioned product from an inactive provisioning artifact.
         /// </para>
         /// </summary>
         public bool Active
@@ -114,6 +121,36 @@ namespace Amazon.ServiceCatalog.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Guidance. 
+        /// <para>
+        /// Information set by the administrator to provide guidance to end users about which
+        /// provisioning artifacts to use.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>DEFAULT</code> value indicates that the product version is active.
+        /// </para>
+        ///  
+        /// <para>
+        /// The administrator can set the guidance to <code>DEPRECATED</code> to inform users
+        /// that the product version is deprecated. Users are able to make updates to a provisioned
+        /// product of a deprecated version but cannot launch new provisioned products using a
+        /// deprecated version.
+        /// </para>
+        /// </summary>
+        public ProvisioningArtifactGuidance Guidance
+        {
+            get { return this._guidance; }
+            set { this._guidance = value; }
+        }
+
+        // Check to see if Guidance property is set
+        internal bool IsSetGuidance()
+        {
+            return this._guidance != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The updated name of the provisioning artifact.
@@ -137,6 +174,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The product identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ProductId
         {
             get { return this._productId; }
@@ -155,6 +193,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The identifier of the provisioning artifact.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ProvisioningArtifactId
         {
             get { return this._provisioningArtifactId; }

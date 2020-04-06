@@ -78,10 +78,27 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Image);
             }
 
+            if(requestObject.IsSetInstanceType())
+            {
+                context.Writer.WritePropertyName("instanceType");
+                context.Writer.Write(requestObject.InstanceType);
+            }
+
             if(requestObject.IsSetJobRoleArn())
             {
                 context.Writer.WritePropertyName("jobRoleArn");
                 context.Writer.Write(requestObject.JobRoleArn);
+            }
+
+            if(requestObject.IsSetLinuxParameters())
+            {
+                context.Writer.WritePropertyName("linuxParameters");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = LinuxParametersMarshaller.Instance;
+                marshaller.Marshall(requestObject.LinuxParameters, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetMemory())
@@ -116,6 +133,22 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("readonlyRootFilesystem");
                 context.Writer.Write(requestObject.ReadonlyRootFilesystem);
+            }
+
+            if(requestObject.IsSetResourceRequirements())
+            {
+                context.Writer.WritePropertyName("resourceRequirements");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectResourceRequirementsListValue in requestObject.ResourceRequirements)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ResourceRequirementMarshaller.Instance;
+                    marshaller.Marshall(requestObjectResourceRequirementsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
             }
 
             if(requestObject.IsSetUlimits())

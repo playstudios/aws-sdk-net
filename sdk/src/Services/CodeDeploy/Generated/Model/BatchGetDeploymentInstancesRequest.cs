@@ -29,7 +29,18 @@ namespace Amazon.CodeDeploy.Model
 {
     /// <summary>
     /// Container for the parameters to the BatchGetDeploymentInstances operation.
-    /// Gets information about one or more instance that are part of a deployment group.
+    /// <note> 
+    /// <para>
+    ///  This method works, but is deprecated. Use <code>BatchGetDeploymentTargets</code>
+    /// instead. 
+    /// </para>
+    ///  </note> 
+    /// <para>
+    ///  Returns an array of one or more instances associated with a deployment. This method
+    /// works with EC2/On-premises and AWS Lambda compute platforms. The newer <code>BatchGetDeploymentTargets</code>
+    /// works with all compute platforms. The maximum number of instances that can be returned
+    /// is 25.
+    /// </para>
     /// </summary>
     public partial class BatchGetDeploymentInstancesRequest : AmazonCodeDeployRequest
     {
@@ -39,9 +50,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentId. 
         /// <para>
-        /// The unique ID of a deployment.
+        ///  The unique ID of a deployment. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DeploymentId
         {
             get { return this._deploymentId; }
@@ -57,9 +69,11 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property InstanceIds. 
         /// <para>
-        /// The unique IDs of instances in the deployment group.
+        /// The unique IDs of instances used in the deployment. The maximum number of instance
+        /// IDs you can specify is 25.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceIds
         {
             get { return this._instanceIds; }

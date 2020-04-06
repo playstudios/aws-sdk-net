@@ -36,11 +36,14 @@ namespace Amazon.ElasticMapReduce.Model
         private AutoScalingPolicyDescription _autoScalingPolicy;
         private string _bidPrice;
         private List<Configuration> _configurations = new List<Configuration>();
+        private long? _configurationsVersion;
         private List<EbsBlockDevice> _ebsBlockDevices = new List<EbsBlockDevice>();
         private bool? _ebsOptimized;
         private string _id;
         private InstanceGroupType _instanceGroupType;
         private string _instanceType;
+        private List<Configuration> _lastSuccessfullyAppliedConfigurations = new List<Configuration>();
+        private long? _lastSuccessfullyAppliedConfigurationsVersion;
         private MarketType _market;
         private string _name;
         private int? _requestedInstanceCount;
@@ -72,8 +75,9 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property BidPrice. 
         /// <para>
-        /// The bid price for each EC2 instance in the instance group when launching nodes as
-        /// Spot Instances, expressed in USD.
+        /// The bid price for each EC2 Spot instance type as defined by <code>InstanceType</code>.
+        /// Expressed in USD. If neither <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
+        /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to 100%.
         /// </para>
         /// </summary>
         public string BidPrice
@@ -109,6 +113,25 @@ namespace Amazon.ElasticMapReduce.Model
         internal bool IsSetConfigurations()
         {
             return this._configurations != null && this._configurations.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ConfigurationsVersion. 
+        /// <para>
+        /// The version number of the requested configuration specification for this instance
+        /// group.
+        /// </para>
+        /// </summary>
+        public long ConfigurationsVersion
+        {
+            get { return this._configurationsVersion.GetValueOrDefault(); }
+            set { this._configurationsVersion = value; }
+        }
+
+        // Check to see if ConfigurationsVersion property is set
+        internal bool IsSetConfigurationsVersion()
+        {
+            return this._configurationsVersion.HasValue; 
         }
 
         /// <summary>
@@ -190,6 +213,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The EC2 instance type for all instances in the instance group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string InstanceType
         {
             get { return this._instanceType; }
@@ -200,6 +224,44 @@ namespace Amazon.ElasticMapReduce.Model
         internal bool IsSetInstanceType()
         {
             return this._instanceType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LastSuccessfullyAppliedConfigurations. 
+        /// <para>
+        /// A list of configurations that were successfully applied for an instance group last
+        /// time.
+        /// </para>
+        /// </summary>
+        public List<Configuration> LastSuccessfullyAppliedConfigurations
+        {
+            get { return this._lastSuccessfullyAppliedConfigurations; }
+            set { this._lastSuccessfullyAppliedConfigurations = value; }
+        }
+
+        // Check to see if LastSuccessfullyAppliedConfigurations property is set
+        internal bool IsSetLastSuccessfullyAppliedConfigurations()
+        {
+            return this._lastSuccessfullyAppliedConfigurations != null && this._lastSuccessfullyAppliedConfigurations.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property LastSuccessfullyAppliedConfigurationsVersion. 
+        /// <para>
+        /// The version number of a configuration specification that was successfully applied
+        /// for an instance group last time. 
+        /// </para>
+        /// </summary>
+        public long LastSuccessfullyAppliedConfigurationsVersion
+        {
+            get { return this._lastSuccessfullyAppliedConfigurationsVersion.GetValueOrDefault(); }
+            set { this._lastSuccessfullyAppliedConfigurationsVersion = value; }
+        }
+
+        // Check to see if LastSuccessfullyAppliedConfigurationsVersion property is set
+        internal bool IsSetLastSuccessfullyAppliedConfigurationsVersion()
+        {
+            return this._lastSuccessfullyAppliedConfigurationsVersion.HasValue; 
         }
 
         /// <summary>

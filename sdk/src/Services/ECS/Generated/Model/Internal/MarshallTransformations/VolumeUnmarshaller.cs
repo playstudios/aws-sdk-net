@@ -64,6 +64,18 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("dockerVolumeConfiguration", targetDepth))
+                {
+                    var unmarshaller = DockerVolumeConfigurationUnmarshaller.Instance;
+                    unmarshalledObject.DockerVolumeConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("efsVolumeConfiguration", targetDepth))
+                {
+                    var unmarshaller = EFSVolumeConfigurationUnmarshaller.Instance;
+                    unmarshalledObject.EfsVolumeConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("host", targetDepth))
                 {
                     var unmarshaller = HostVolumePropertiesUnmarshaller.Instance;

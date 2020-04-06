@@ -35,14 +35,20 @@ namespace Amazon.CodeDeploy.Model
     {
         private List<ELBInfo> _elbInfoList = new List<ELBInfo>();
         private List<TargetGroupInfo> _targetGroupInfoList = new List<TargetGroupInfo>();
+        private List<TargetGroupPairInfo> _targetGroupPairInfoList = new List<TargetGroupPairInfo>();
 
         /// <summary>
         /// Gets and sets the property ElbInfoList. 
         /// <para>
-        /// An array containing information about the load balancer to use for load balancing
+        /// An array that contains information about the load balancer to use for load balancing
         /// in a deployment. In Elastic Load Balancing, load balancers are used with Classic Load
         /// Balancers.
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  Adding more than one load balancer to the array is not supported. 
+        /// </para>
+        ///  </note>
         /// </summary>
         public List<ELBInfo> ElbInfoList
         {
@@ -59,10 +65,15 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property TargetGroupInfoList. 
         /// <para>
-        /// An array containing information about the target group to use for load balancing in
-        /// a deployment. In Elastic Load Balancing, target groups are used with Application Load
-        /// Balancers.
+        /// An array that contains information about the target group to use for load balancing
+        /// in a deployment. In Elastic Load Balancing, target groups are used with Application
+        /// Load Balancers.
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  Adding more than one target group to the array is not supported. 
+        /// </para>
+        ///  </note>
         /// </summary>
         public List<TargetGroupInfo> TargetGroupInfoList
         {
@@ -74,6 +85,25 @@ namespace Amazon.CodeDeploy.Model
         internal bool IsSetTargetGroupInfoList()
         {
             return this._targetGroupInfoList != null && this._targetGroupInfoList.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TargetGroupPairInfoList. 
+        /// <para>
+        ///  The target group pair information. This is an array of <code>TargeGroupPairInfo</code>
+        /// objects with a maximum size of one. 
+        /// </para>
+        /// </summary>
+        public List<TargetGroupPairInfo> TargetGroupPairInfoList
+        {
+            get { return this._targetGroupPairInfoList; }
+            set { this._targetGroupPairInfoList = value; }
+        }
+
+        // Check to see if TargetGroupPairInfoList property is set
+        internal bool IsSetTargetGroupPairInfoList()
+        {
+            return this._targetGroupPairInfoList != null && this._targetGroupPairInfoList.Count > 0; 
         }
 
     }

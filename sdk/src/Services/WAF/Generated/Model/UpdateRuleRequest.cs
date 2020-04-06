@@ -33,8 +33,8 @@ namespace Amazon.WAF.Model
     /// object identifies a predicate, such as a <a>ByteMatchSet</a> or an <a>IPSet</a>, that
     /// specifies the web requests that you want to allow, block, or count. If you add more
     /// than one predicate to a <code>Rule</code>, a request must match all of the specifications
-    /// to be allowed, blocked, or counted. For example, suppose you add the following to
-    /// a <code>Rule</code>: 
+    /// to be allowed, blocked, or counted. For example, suppose that you add the following
+    /// to a <code>Rule</code>: 
     /// 
     ///  <ul> <li> 
     /// <para>
@@ -85,7 +85,7 @@ namespace Amazon.WAF.Model
     ///  
     /// <para>
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-    /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+    /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
     /// Guide</a>.
     /// </para>
     /// </summary>
@@ -101,6 +101,7 @@ namespace Amazon.WAF.Model
         /// The value returned by the most recent call to <a>GetChangeToken</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }
@@ -120,6 +121,7 @@ namespace Amazon.WAF.Model
         /// is returned by <code>CreateRule</code> and by <a>ListRules</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string RuleId
         {
             get { return this._ruleId; }
@@ -153,6 +155,7 @@ namespace Amazon.WAF.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<RuleUpdate> Updates
         {
             get { return this._updates; }

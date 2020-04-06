@@ -32,8 +32,8 @@ namespace Amazon.RDS.Model
     /// 
     ///  
     /// <para>
-    /// This data type is used as a response element in the <a>DescribeDBSnapshots</a> action.
-    /// 
+    /// This data type is used as a response element in the <code>DescribeDBSnapshots</code>
+    /// action. 
     /// </para>
     /// </summary>
     public partial class DBSnapshot
@@ -41,6 +41,7 @@ namespace Amazon.RDS.Model
         private int? _allocatedStorage;
         private string _availabilityZone;
         private string _dbInstanceIdentifier;
+        private string _dbiResourceId;
         private string _dbSnapshotArn;
         private string _dbSnapshotIdentifier;
         private bool? _encrypted;
@@ -55,6 +56,7 @@ namespace Amazon.RDS.Model
         private string _optionGroupName;
         private int? _percentProgress;
         private int? _port;
+        private List<ProcessorFeature> _processorFeatures = new List<ProcessorFeature>();
         private DateTime? _snapshotCreateTime;
         private string _snapshotType;
         private string _sourceDBSnapshotIdentifier;
@@ -119,6 +121,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetDBInstanceIdentifier()
         {
             return this._dbInstanceIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DbiResourceId. 
+        /// <para>
+        /// The identifier for the source DB instance, which can't be changed and which is unique
+        /// to an AWS Region.
+        /// </para>
+        /// </summary>
+        public string DbiResourceId
+        {
+            get { return this._dbiResourceId; }
+            set { this._dbiResourceId = value; }
+        }
+
+        // Check to see if DbiResourceId property is set
+        internal bool IsSetDbiResourceId()
+        {
+            return this._dbiResourceId != null;
         }
 
         /// <summary>
@@ -374,6 +395,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetPort()
         {
             return this._port.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ProcessorFeatures. 
+        /// <para>
+        /// The number of CPU cores and the number of threads per core for the DB instance class
+        /// of the DB instance when the DB snapshot was created.
+        /// </para>
+        /// </summary>
+        public List<ProcessorFeature> ProcessorFeatures
+        {
+            get { return this._processorFeatures; }
+            set { this._processorFeatures = value; }
+        }
+
+        // Check to see if ProcessorFeatures property is set
+        internal bool IsSetProcessorFeatures()
+        {
+            return this._processorFeatures != null && this._processorFeatures.Count > 0; 
         }
 
         /// <summary>

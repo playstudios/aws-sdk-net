@@ -29,7 +29,8 @@ namespace Amazon.CloudTrail.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeTrails operation.
-    /// Retrieves settings for the trail associated with the current region for your account.
+    /// Retrieves settings for one or more trails associated with the current region for your
+    /// account.
     /// </summary>
     public partial class DescribeTrailsRequest : AmazonCloudTrailRequest
     {
@@ -40,8 +41,10 @@ namespace Amazon.CloudTrail.Model
         /// Gets and sets the property IncludeShadowTrails. 
         /// <para>
         /// Specifies whether to include shadow trails in the response. A shadow trail is the
-        /// replication in a region of a trail that was created in a different region. The default
-        /// is true.
+        /// replication in a region of a trail that was created in a different region, or in the
+        /// case of an organization trail, the replication of an organization trail in member
+        /// accounts. If you do not include shadow trails, organization trails in a member account
+        /// and region replication trails will not be returned. The default is true.
         /// </para>
         /// </summary>
         public bool IncludeShadowTrails
@@ -64,7 +67,7 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail</code> 
+        ///  <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> 
         /// </para>
         ///  
         /// <para>

@@ -34,6 +34,7 @@ namespace Amazon.CodeCommit.Model
     {
         private string _destinationCommit;
         private string _destinationReference;
+        private string _mergeBase;
         private MergeMetadata _mergeMetadata;
         private string _repositoryName;
         private string _sourceCommit;
@@ -61,8 +62,8 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property DestinationReference. 
         /// <para>
-        /// The branch of the repository where the pull request changes will be merged into. Also
-        /// known as the destination branch. 
+        /// The branch of the repository where the pull request changes are merged. Also known
+        /// as the destination branch. 
         /// </para>
         /// </summary>
         public string DestinationReference
@@ -75,6 +76,25 @@ namespace Amazon.CodeCommit.Model
         internal bool IsSetDestinationReference()
         {
             return this._destinationReference != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MergeBase. 
+        /// <para>
+        /// The commit ID of the most recent commit that the source branch and the destination
+        /// branch have in common.
+        /// </para>
+        /// </summary>
+        public string MergeBase
+        {
+            get { return this._mergeBase; }
+            set { this._mergeBase = value; }
+        }
+
+        // Check to see if MergeBase property is set
+        internal bool IsSetMergeBase()
+        {
+            return this._mergeBase != null;
         }
 
         /// <summary>
@@ -102,6 +122,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository that contains the pull request source and destination branches.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }
@@ -119,7 +140,7 @@ namespace Amazon.CodeCommit.Model
         /// <para>
         /// The full commit ID of the tip of the source branch used to create the pull request.
         /// If the pull request branch is updated by a push while the pull request is open, the
-        /// commit ID will change to reflect the new tip of the branch.
+        /// commit ID changes to reflect the new tip of the branch.
         /// </para>
         /// </summary>
         public string SourceCommit

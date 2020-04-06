@@ -55,9 +55,9 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListOriginEndpointsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaPackage");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-12";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/origin_endpoints";
             
             if (publicRequest.IsSetChannelId())
                 request.Parameters.Add("channelId", StringUtils.FromString(publicRequest.ChannelId));
@@ -67,7 +67,8 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("nextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/origin_endpoints";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

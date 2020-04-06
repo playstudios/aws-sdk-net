@@ -29,7 +29,9 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the ListAssociations operation.
-    /// Lists the associations for the specified Systems Manager document or instance.
+    /// Returns all State Manager associations in the current AWS account and Region. You
+    /// can limit the results to a specific State Manager association document or instance
+    /// by specifying a filter.
     /// </summary>
     public partial class ListAssociationsRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -57,6 +59,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// One or more filters. Use a filter to return a more specific list of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<AssociationFilter> AssociationFilterList
         {
             get { return this._associationFilterList; }
@@ -76,6 +79,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that you can specify in a subsequent call to get the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

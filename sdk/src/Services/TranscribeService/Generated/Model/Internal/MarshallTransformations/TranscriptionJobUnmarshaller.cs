@@ -70,6 +70,12 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
                     unmarshalledObject.CompletionTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ContentRedaction", targetDepth))
+                {
+                    var unmarshaller = ContentRedactionUnmarshaller.Instance;
+                    unmarshalledObject.ContentRedaction = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CreationTime", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
@@ -80,6 +86,12 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.FailureReason = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("JobExecutionSettings", targetDepth))
+                {
+                    var unmarshaller = JobExecutionSettingsUnmarshaller.Instance;
+                    unmarshalledObject.JobExecutionSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("LanguageCode", targetDepth))
@@ -110,6 +122,12 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = SettingsUnmarshaller.Instance;
                     unmarshalledObject.Settings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("StartTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.StartTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("Transcript", targetDepth))

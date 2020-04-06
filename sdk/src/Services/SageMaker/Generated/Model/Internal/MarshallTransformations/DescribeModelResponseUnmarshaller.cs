@@ -51,10 +51,22 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("Containers", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ContainerDefinition, ContainerDefinitionUnmarshaller>(ContainerDefinitionUnmarshaller.Instance);
+                    response.Containers = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CreationTime", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     response.CreationTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("EnableNetworkIsolation", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    response.EnableNetworkIsolation = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ExecutionRoleArn", targetDepth))
@@ -79,6 +91,12 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = ContainerDefinitionUnmarshaller.Instance;
                     response.PrimaryContainer = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("VpcConfig", targetDepth))
+                {
+                    var unmarshaller = VpcConfigUnmarshaller.Instance;
+                    response.VpcConfig = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

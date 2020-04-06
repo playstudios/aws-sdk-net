@@ -55,13 +55,14 @@ namespace Amazon.ResourceGroups.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetGroupRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ResourceGroups");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/groups/{GroupName}";
             if (!publicRequest.IsSetGroupName())
                 throw new AmazonResourceGroupsException("Request object does not have required field GroupName set");
-            uriResourcePath = uriResourcePath.Replace("{GroupName}", StringUtils.FromString(publicRequest.GroupName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{GroupName}", StringUtils.FromString(publicRequest.GroupName));
+            request.ResourcePath = "/groups/{GroupName}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

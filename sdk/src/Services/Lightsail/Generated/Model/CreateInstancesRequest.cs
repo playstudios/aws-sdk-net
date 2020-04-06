@@ -29,28 +29,56 @@ namespace Amazon.Lightsail.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateInstances operation.
-    /// Creates one or more Amazon Lightsail virtual private servers, or <i>instances</i>.
+    /// Creates one or more Amazon Lightsail instances.
+    /// 
+    ///  
+    /// <para>
+    /// The <code>create instances</code> operation supports tag-based access control via
+    /// request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class CreateInstancesRequest : AmazonLightsailRequest
     {
+        private List<AddOnRequest> _addOns = new List<AddOnRequest>();
         private string _availabilityZone;
         private string _blueprintId;
         private string _bundleId;
         private string _customImageName;
         private List<string> _instanceNames = new List<string>();
         private string _keyPairName;
+        private List<Tag> _tags = new List<Tag>();
         private string _userData;
+
+        /// <summary>
+        /// Gets and sets the property AddOns. 
+        /// <para>
+        /// An array of objects representing the add-ons to enable for the new instance.
+        /// </para>
+        /// </summary>
+        public List<AddOnRequest> AddOns
+        {
+            get { return this._addOns; }
+            set { this._addOns = value; }
+        }
+
+        // Check to see if AddOns property is set
+        internal bool IsSetAddOns()
+        {
+            return this._addOns != null && this._addOns.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property AvailabilityZone. 
         /// <para>
         /// The Availability Zone in which to create your instance. Use the following format:
-        /// <code>us-east-2a</code> (case sensitive). You can get a list of availability zones
+        /// <code>us-east-2a</code> (case sensitive). You can get a list of Availability Zones
         /// by using the <a href="http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html">get
-        /// regions</a> operation. Be sure to add the <code>include availability zones</code>
+        /// regions</a> operation. Be sure to add the <code>include Availability Zones</code>
         /// parameter to your request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AvailabilityZone
         {
             get { return this._availabilityZone; }
@@ -67,10 +95,19 @@ namespace Amazon.Lightsail.Model
         /// Gets and sets the property BlueprintId. 
         /// <para>
         /// The ID for a virtual private server image (e.g., <code>app_wordpress_4_4</code> or
-        /// <code>app_lamp_7_0</code>). Use the get blueprints operation to return a list of available
-        /// images (or <i>blueprints</i>).
+        /// <code>app_lamp_7_0</code>). Use the <code>get blueprints</code> operation to return
+        /// a list of available images (or <i>blueprints</i>).
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// Use active blueprints when creating new instances. Inactive blueprints are listed
+        /// to support customers with existing instances and are not necessarily available to
+        /// create new instances. Blueprints are marked inactive when they become outdated due
+        /// to operating system updates or new application releases.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BlueprintId
         {
             get { return this._blueprintId; }
@@ -90,6 +127,7 @@ namespace Amazon.Lightsail.Model
         /// including the pricing plan (e.g., <code>micro_1_0</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BundleId
         {
             get { return this._bundleId; }
@@ -114,6 +152,7 @@ namespace Amazon.Lightsail.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [Obsolete("In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated.")]
         public string CustomImageName
         {
             get { return this._customImageName; }
@@ -134,6 +173,7 @@ namespace Amazon.Lightsail.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceNames
         {
             get { return this._instanceNames; }
@@ -162,6 +202,28 @@ namespace Amazon.Lightsail.Model
         internal bool IsSetKeyPairName()
         {
             return this._keyPairName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tag keys and optional values to add to the resource during create.
+        /// </para>
+        ///  
+        /// <para>
+        /// To tag a resource after it has been created, see the <code>tag resource</code> operation.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

@@ -23,7 +23,7 @@
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.CreateTargetGroupRequest.HealthCheckTimeoutSeconds</property>
     <min>2</min>
-    <max>60</max>
+    <max>120</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.CreateTargetGroupRequest.HealthyThresholdCount</property>
@@ -93,7 +93,7 @@
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.ModifyTargetGroupRequest.HealthCheckTimeoutSeconds</property>
     <min>2</min>
-    <max>60</max>
+    <max>120</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.ModifyTargetGroupRequest.HealthyThresholdCount</property>
@@ -104,6 +104,25 @@
     <property>Amazon.ElasticLoadBalancingV2.Model.ModifyTargetGroupRequest.UnhealthyThresholdCount</property>
     <min>2</min>
     <max>10</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.Action.Order</property>
+    <min>1</min>
+    <max>50000</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.FixedResponseActionConfig.ContentType</property>
+    <min>0</min>
+    <max>32</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.FixedResponseActionConfig.MessageBody</property>
+    <min>0</min>
+    <max>1024</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.FixedResponseActionConfig.StatusCode</property>
+    <pattern>^(2|4|5)\d\d$</pattern>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.Listener.Port</property>
@@ -118,6 +137,25 @@
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.LoadBalancerAttribute.Value</property>
     <max>1024</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.RedirectActionConfig.Host</property>
+    <min>1</min>
+    <max>128</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.RedirectActionConfig.Path</property>
+    <min>1</min>
+    <max>128</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.RedirectActionConfig.Protocol</property>
+    <pattern>^(HTTPS?|#\{protocol\})$</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticLoadBalancingV2.Model.RedirectActionConfig.Query</property>
+    <min>0</min>
+    <max>128</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.RuleCondition.Field</property>
@@ -158,7 +196,7 @@
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.TargetGroup.HealthCheckTimeoutSeconds</property>
     <min>2</min>
-    <max>60</max>
+    <max>120</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticLoadBalancingV2.Model.TargetGroup.HealthyThresholdCount</property>

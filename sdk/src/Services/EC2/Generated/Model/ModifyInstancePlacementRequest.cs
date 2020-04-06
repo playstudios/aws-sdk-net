@@ -33,7 +33,7 @@ namespace Amazon.EC2.Model
     /// 
     ///  <ul> <li> 
     /// <para>
-    /// Modify the affinity between an instance and a <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html">Dedicated
+    /// Modify the affinity between an instance and a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html">Dedicated
     /// Host</a>. When affinity is set to <code>host</code> and the instance is not associated
     /// with a specific Dedicated Host, the next time the instance is launched, it is automatically
     /// associated with the host on which it lands. If the instance is restarted or rebooted,
@@ -50,7 +50,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Move an instance to or from a <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">placement
+    /// Move an instance to or from a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">placement
     /// group</a>.
     /// </para>
     ///  </li> </ul> 
@@ -60,8 +60,8 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// To modify the host ID, tenancy, or placement group for an instance, the instance must
-    /// be in the <code>stopped</code> state.
+    /// To modify the host ID, tenancy, placement group, or partition for an instance, the
+    /// instance must be in the <code>stopped</code> state.
     /// </para>
     /// </summary>
     public partial class ModifyInstancePlacementRequest : AmazonEC2Request
@@ -69,7 +69,9 @@ namespace Amazon.EC2.Model
         private Affinity _affinity;
         private string _groupName;
         private string _hostId;
+        private string _hostResourceGroupArn;
         private string _instanceId;
+        private int? _partitionNumber;
         private HostTenancy _tenancy;
 
         /// <summary>
@@ -94,8 +96,9 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property GroupName. 
         /// <para>
         /// The name of the placement group in which to place the instance. For spread placement
-        /// groups, the instance must have a tenancy of <code>default</code>. For cluster placement
-        /// groups, the instance must have a tenancy of <code>default</code> or <code>dedicated</code>.
+        /// groups, the instance must have a tenancy of <code>default</code>. For cluster and
+        /// partition placement groups, the instance must have a tenancy of <code>default</code>
+        /// or <code>dedicated</code>.
         /// </para>
         ///  
         /// <para>
@@ -133,11 +136,30 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HostResourceGroupArn. 
+        /// <para>
+        /// The ARN of the host resource group in which to place the instance.
+        /// </para>
+        /// </summary>
+        public string HostResourceGroupArn
+        {
+            get { return this._hostResourceGroupArn; }
+            set { this._hostResourceGroupArn = value; }
+        }
+
+        // Check to see if HostResourceGroupArn property is set
+        internal bool IsSetHostResourceGroupArn()
+        {
+            return this._hostResourceGroupArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
         /// The ID of the instance that you are modifying.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -148,6 +170,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetInstanceId()
         {
             return this._instanceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PartitionNumber. 
+        /// <para>
+        /// Reserved for future use.
+        /// </para>
+        /// </summary>
+        public int PartitionNumber
+        {
+            get { return this._partitionNumber.GetValueOrDefault(); }
+            set { this._partitionNumber = value; }
+        }
+
+        // Check to see if PartitionNumber property is set
+        internal bool IsSetPartitionNumber()
+        {
+            return this._partitionNumber.HasValue; 
         }
 
         /// <summary>

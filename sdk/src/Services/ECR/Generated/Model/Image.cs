@@ -61,6 +61,7 @@ namespace Amazon.ECR.Model
         /// The image manifest associated with the image.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4194304)]
         public string ImageManifest
         {
             get { return this._imageManifest; }
@@ -97,6 +98,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository associated with the image.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

@@ -30,6 +30,12 @@ namespace Amazon.IoT.Model
     /// <summary>
     /// Container for the parameters to the SetLoggingOptions operation.
     /// Sets the logging options.
+    /// 
+    ///  
+    /// <para>
+    /// NOTE: use of this command is not recommended. Use <code>SetV2LoggingOptions</code>
+    /// instead.
+    /// </para>
     /// </summary>
     public partial class SetLoggingOptionsRequest : AmazonIoTRequest
     {
@@ -41,6 +47,7 @@ namespace Amazon.IoT.Model
         /// The logging options payload.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public LoggingOptionsPayload LoggingOptionsPayload
         {
             get { return this._loggingOptionsPayload; }

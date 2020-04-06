@@ -38,9 +38,10 @@ namespace Amazon.CertificateManager.Model
         /// <summary>
         /// Gets and sets the property Certificate. 
         /// <para>
-        /// String that contains the ACM certificate represented by the ARN specified at input.
+        /// The ACM-issued certificate corresponding to the ARN specified as input.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32768)]
         public string Certificate
         {
             get { return this._certificate; }
@@ -56,10 +57,12 @@ namespace Amazon.CertificateManager.Model
         /// <summary>
         /// Gets and sets the property CertificateChain. 
         /// <para>
-        /// The certificate chain that contains the root certificate issued by the certificate
-        /// authority (CA).
+        /// Certificates forming the requested certificate's chain of trust. The chain consists
+        /// of the certificate of the issuing CA and the intermediate certificates of any other
+        /// subordinate CAs. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2097152)]
         public string CertificateChain
         {
             get { return this._certificateChain; }

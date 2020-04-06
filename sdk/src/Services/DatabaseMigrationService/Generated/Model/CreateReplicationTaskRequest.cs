@@ -33,7 +33,9 @@ namespace Amazon.DatabaseMigrationService.Model
     /// </summary>
     public partial class CreateReplicationTaskRequest : AmazonDatabaseMigrationServiceRequest
     {
+        private string _cdcStartPosition;
         private DateTime? _cdcStartTime;
+        private string _cdcStopPosition;
         private MigrationTypeValue _migrationType;
         private string _replicationInstanceArn;
         private string _replicationTaskIdentifier;
@@ -44,9 +46,60 @@ namespace Amazon.DatabaseMigrationService.Model
         private string _targetEndpointArn;
 
         /// <summary>
+        /// Gets and sets the property CdcStartPosition. 
+        /// <para>
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either
+        /// CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start.
+        /// Specifying both values results in an error.
+        /// </para>
+        ///  
+        /// <para>
+        ///  The value can be in date, checkpoint, or LSN/SCN format.
+        /// </para>
+        ///  
+        /// <para>
+        /// Date Example: --cdc-start-position “2018-03-08T12:12:12”
+        /// </para>
+        ///  
+        /// <para>
+        /// Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
+        /// </para>
+        ///  
+        /// <para>
+        /// LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// When you use this task setting with a source PostgreSQL database, a logical replication
+        /// slot should already be created and associated with the source endpoint. You can verify
+        /// this by setting the <code>slotName</code> extra connection attribute to the name of
+        /// this logical replication slot. For more information, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib">Extra
+        /// Connection Attributes When Using PostgreSQL as a Source for AWS DMS</a>.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public string CdcStartPosition
+        {
+            get { return this._cdcStartPosition; }
+            set { this._cdcStartPosition = value; }
+        }
+
+        // Check to see if CdcStartPosition property is set
+        internal bool IsSetCdcStartPosition()
+        {
+            return this._cdcStartPosition != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CdcStartTime. 
         /// <para>
-        /// The start time for the Change Data Capture (CDC) operation.
+        /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime
+        /// or CdcStartPosition to specify when you want a CDC operation to start. Specifying
+        /// both values results in an error.
+        /// </para>
+        ///  
+        /// <para>
+        /// Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
         /// </para>
         /// </summary>
         public DateTime CdcStartTime
@@ -62,11 +115,40 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MigrationType. 
+        /// Gets and sets the property CdcStopPosition. 
         /// <para>
-        /// The migration type.
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can
+        /// be either server time or commit time.
+        /// </para>
+        ///  
+        /// <para>
+        /// Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12”
+        /// </para>
+        ///  
+        /// <para>
+        /// Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
         /// </para>
         /// </summary>
+        public string CdcStopPosition
+        {
+            get { return this._cdcStopPosition; }
+            set { this._cdcStopPosition = value; }
+        }
+
+        // Check to see if CdcStopPosition property is set
+        internal bool IsSetCdcStopPosition()
+        {
+            return this._cdcStopPosition != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MigrationType. 
+        /// <para>
+        /// The migration type. Valid values: <code>full-load</code> | <code>cdc</code> | <code>full-load-and-cdc</code>
+        /// 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public MigrationTypeValue MigrationType
         {
             get { return this._migrationType; }
@@ -82,9 +164,10 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ReplicationInstanceArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the replication instance.
+        /// The Amazon Resource Name (ARN) of a replication instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReplicationInstanceArn
         {
             get { return this._replicationInstanceArn; }
@@ -100,7 +183,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ReplicationTaskIdentifier. 
         /// <para>
-        /// The replication task identifier.
+        /// An identifier for the replication task.
         /// </para>
         ///  
         /// <para>
@@ -120,6 +203,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReplicationTaskIdentifier
         {
             get { return this._replicationTaskIdentifier; }
@@ -135,9 +219,8 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ReplicationTaskSettings. 
         /// <para>
-        /// Settings for the task, such as target metadata settings. For a complete list of task
-        /// settings, see <a href="http://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html">Task
-        /// Settings for AWS Database Migration Service Tasks</a>.
+        /// Overall settings for the task, in JSON format. For more information, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html">Task
+        /// Settings</a> in the <i>AWS Database Migration User Guide.</i> 
         /// </para>
         /// </summary>
         public string ReplicationTaskSettings
@@ -155,9 +238,10 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property SourceEndpointArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        /// An Amazon Resource Name (ARN) that uniquely identifies the source endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceEndpointArn
         {
             get { return this._sourceEndpointArn; }
@@ -173,15 +257,11 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property TableMappings. 
         /// <para>
-        /// When using the AWS CLI or boto3, provide the path of the JSON file that contains the
-        /// table mappings. Precede the path with "file://". When working with the DMS API, provide
-        /// the JSON as the parameter value.
-        /// </para>
-        ///  
-        /// <para>
-        /// For example, --table-mappings file://mappingfile.json
+        /// The table mappings for the task, in JSON format. For more information, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html">Table
+        /// Mapping</a> in the <i>AWS Database Migration User Guide.</i> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TableMappings
         {
             get { return this._tableMappings; }
@@ -197,7 +277,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// Tags to be added to the replication instance.
+        /// One or more tags to be assigned to the replication task.
         /// </para>
         /// </summary>
         public List<Tag> Tags
@@ -215,9 +295,10 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property TargetEndpointArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+        /// An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetEndpointArn
         {
             get { return this._targetEndpointArn; }

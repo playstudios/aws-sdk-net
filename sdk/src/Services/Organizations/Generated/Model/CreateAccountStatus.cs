@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Organizations.Model
 {
     /// <summary>
-    /// Contains the status about a <a>CreateAccount</a> request to create an AWS account
-    /// in an organization.
+    /// Contains the status about a <a>CreateAccount</a> or <a>CreateGovCloudAccount</a> request
+    /// to create an AWS account or an AWS GovCloud (US) account in an organization.
     /// </summary>
     public partial class CreateAccountStatus
     {
@@ -37,6 +37,7 @@ namespace Amazon.Organizations.Model
         private string _accountName;
         private DateTime? _completedTimestamp;
         private CreateAccountFailureReason _failureReason;
+        private string _govCloudAccountId;
         private string _id;
         private DateTime? _requestedTimestamp;
         private CreateAccountState _state;
@@ -70,6 +71,7 @@ namespace Amazon.Organizations.Model
         /// The account name given to the account when it was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string AccountName
         {
             get { return this._accountName; }
@@ -117,6 +119,11 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        /// GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could
+        /// not be created because this Region already includes an account with that email address.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         /// INVALID_ADDRESS: The account could not be created because the address you provided
         /// is not valid.
         /// </para>
@@ -145,6 +152,25 @@ namespace Amazon.Organizations.Model
         }
 
         /// <summary>
+        /// Gets and sets the property GovCloudAccountId. 
+        /// <para>
+        /// If the account was created successfully, the unique identifier (ID) of the new account
+        /// in the AWS GovCloud (US) Region.
+        /// </para>
+        /// </summary>
+        public string GovCloudAccountId
+        {
+            get { return this._govCloudAccountId; }
+            set { this._govCloudAccountId = value; }
+        }
+
+        // Check to see if GovCloudAccountId property is set
+        internal bool IsSetGovCloudAccountId()
+        {
+            return this._govCloudAccountId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Id. 
         /// <para>
         /// The unique identifier (ID) that references this request. You get this value from the
@@ -152,7 +178,7 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  
         /// <para>
-        /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an create account
+        /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a create account
         /// request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         /// </para>
         /// </summary>

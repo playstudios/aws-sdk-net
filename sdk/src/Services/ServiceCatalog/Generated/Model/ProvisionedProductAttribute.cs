@@ -54,6 +54,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The ARN of the provisioned product.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1224)]
         public string Arn
         {
             get { return this._arn; }
@@ -90,6 +91,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The identifier of the provisioned product.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Id
         {
             get { return this._id; }
@@ -109,6 +111,7 @@ namespace Amazon.ServiceCatalog.Model
         /// only by the idempotency token, the same response is returned for each repeated request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string IdempotencyToken
         {
             get { return this._idempotencyToken; }
@@ -127,6 +130,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The record identifier of the last request performed on this provisioned product.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string LastRecordId
         {
             get { return this._lastRecordId; }
@@ -145,6 +149,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The user-friendly name of the provisioned product.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1224)]
         public string Name
         {
             get { return this._name; }
@@ -182,6 +187,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The product identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProductId
         {
             get { return this._productId; }
@@ -200,6 +206,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The identifier of the provisioning artifact.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProvisioningArtifactId
         {
             get { return this._provisioningArtifactId; }
@@ -224,7 +231,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>UNDER_CHANGE</code> - Transitive state, operations performed might not have
+        ///  <code>UNDER_CHANGE</code> - Transitive state. Operations performed might not have
         /// valid results. Wait for an <code>AVAILABLE</code> status before performing operations.
         /// </para>
         ///  </li> <li> 
@@ -236,9 +243,16 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>ERROR</code> - An unexpected error occurred, the provisioned product exists
+        ///  <code>ERROR</code> - An unexpected error occurred. The provisioned product exists
         /// but the stack is not running. For example, CloudFormation received a parameter value
         /// that was not valid and could not launch the stack.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PLAN_IN_PROGRESS</code> - Transitive state. The plan operations were performed
+        /// to provision a new product, but resources have not yet been created. After reviewing
+        /// the list of resources to be created, execute the plan. Wait for an <code>AVAILABLE</code>
+        /// status before performing operations.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -278,6 +292,7 @@ namespace Amazon.ServiceCatalog.Model
         /// One or more tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<Tag> Tags
         {
             get { return this._tags; }
@@ -293,7 +308,8 @@ namespace Amazon.ServiceCatalog.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of provisioned product. The supported value is <code>CFN_STACK</code>.
+        /// The type of provisioned product. The supported values are <code>CFN_STACK</code> and
+        /// <code>CFN_STACKSET</code>.
         /// </para>
         /// </summary>
         public string Type

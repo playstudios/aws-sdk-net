@@ -29,7 +29,7 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeVolumes operation.
-    /// Describes the specified EBS volumes.
+    /// Describes the specified EBS volumes or all of your EBS volumes.
     /// 
     ///  
     /// <para>
@@ -42,7 +42,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about EBS volumes, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
+    /// For more information about EBS volumes, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
     /// EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -61,7 +61,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates DescribeVolumesRequest with the parameterized properties
         /// </summary>
-        /// <param name="volumeIds">One or more volume IDs.</param>
+        /// <param name="volumeIds">The volume IDs.</param>
         public DescribeVolumesRequest(List<string> volumeIds)
         {
             _volumeIds = volumeIds;
@@ -70,7 +70,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -94,7 +94,7 @@ namespace Amazon.EC2.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>attachment.status</code> - The attachment state (<code>attaching</code> | <code>attached</code>
-        /// | <code>detaching</code> | <code>detached</code>).
+        /// | <code>detaching</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -106,7 +106,18 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>encrypted</code> - The encryption status of the volume.
+        ///  <code>encrypted</code> - Indicates whether the volume is encrypted (<code>true</code>
+        /// | <code>false</code>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>multi-attach-enabled</code> - Indicates whether the volume is enabled for Multi-Attach
+        /// (<code>true</code> | <code>false</code>)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>fast-restored</code> - Indicates whether the volume was created from a snapshot
+        /// that is enabled for fast snapshot restore (<code>true</code> | <code>false</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -123,24 +134,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of what the tag's key is). If you want to list only resources where
-        /// Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -218,7 +221,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property VolumeIds. 
         /// <para>
-        /// One or more volume IDs.
+        /// The volume IDs.
         /// </para>
         /// </summary>
         public List<string> VolumeIds

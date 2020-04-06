@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Glue.Model
 {
     /// <summary>
-    /// Specifies a table definition in the Data Catalog.
+    /// Specifies a table definition in the AWS Glue Data Catalog.
     /// </summary>
     public partial class CatalogEntry
     {
@@ -41,6 +41,7 @@ namespace Amazon.Glue.Model
         /// The database in which the table metadata resides.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string DatabaseName
         {
             get { return this._databaseName; }
@@ -59,6 +60,7 @@ namespace Amazon.Glue.Model
         /// The name of the table in question.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.KinesisVideoMedia.Model;
 using Amazon.KinesisVideoMedia.Model.Internal.MarshallTransformations;
+using Amazon.KinesisVideoMedia.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -37,6 +39,7 @@ namespace Amazon.KinesisVideoMedia
     /// </summary>
     public partial class AmazonKinesisVideoMediaClient : AmazonServiceClient, IAmazonKinesisVideoMedia
     {
+        private static IServiceMetadata serviceMetadata = new AmazonKinesisVideoMediaMetadata();
 
         #region Overrides
 
@@ -49,6 +52,16 @@ namespace Amazon.KinesisVideoMedia
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -64,25 +77,28 @@ namespace Amazon.KinesisVideoMedia
 
         #endregion
 
-        
+
         #region  GetMedia
 
         /// <summary>
         /// Use this API to retrieve media content from a Kinesis video stream. In the request,
-        /// you identify stream name or stream Amazon Resource Name (ARN), and the starting chunk.
-        /// Kinesis Video Streams then returns a stream of chunks in order by fragment number.
+        /// you identify the stream name or stream Amazon Resource Name (ARN), and the starting
+        /// chunk. Kinesis Video Streams then returns a stream of chunks in order by fragment
+        /// number.
         /// 
         ///  <note> 
         /// <para>
-        ///  You must first call the <code>GetDataEndpoint</code> API to get an endpoint to which
-        /// you can then send the <code>GetMedia</code> requests. 
+        /// You must first call the <code>GetDataEndpoint</code> API to get an endpoint. Then
+        /// send the <code>GetMedia</code> requests to this endpoint using the <a href="https://docs.aws.amazon.com/cli/latest/reference/">--endpoint-url
+        /// parameter</a>. 
         /// </para>
         ///  </note> 
         /// <para>
         /// When you put media data (fragments) on a stream, Kinesis Video Streams stores each
         /// incoming fragment and related metadata in what is called a "chunk." For more information,
-        /// see . The <code>GetMedia</code> API returns a stream of these chunks starting from
-        /// the chunk that you specify in the request. 
+        /// see <a href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_dataplane_PutMedia.html">PutMedia</a>.
+        /// The <code>GetMedia</code> API returns a stream of these chunks starting from the chunk
+        /// that you specify in the request. 
         /// </para>
         ///  
         /// <para>
@@ -97,7 +113,36 @@ namespace Amazon.KinesisVideoMedia
         /// Kinesis Video Streams sends media data at a rate of up to 25 megabytes per second
         /// (or 200 megabits per second) during a <code>GetMedia</code> session. 
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If an error is thrown after invoking a Kinesis Video Streams media API, in addition
+        /// to the HTTP status code and the response body, it includes the following pieces of
+        /// information: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>x-amz-ErrorType</code> HTTP header – contains a more specific error type in
+        /// addition to what the HTTP status code provides. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>x-amz-RequestId</code> HTTP header – if you want to report an issue to AWS,
+        /// the support team can better diagnose the problem if given the Request Id.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic
+        /// decisions about whether errors are retry-able and under what conditions, as well as
+        /// provide information on what actions the client programmer might need to take in order
+        /// to successfully try again.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see the <b>Errors</b> section at the bottom of this topic, as
+        /// well as <a href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html">Common
+        /// Errors</a>. 
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetMedia service method.</param>
         /// 
@@ -129,10 +174,11 @@ namespace Amazon.KinesisVideoMedia
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-video-media-2017-09-30/GetMedia">REST API Reference for GetMedia Operation</seealso>
         public virtual GetMediaResponse GetMedia(GetMediaRequest request)
         {
-            var marshaller = GetMediaRequestMarshaller.Instance;
-            var unmarshaller = GetMediaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMediaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMediaResponseUnmarshaller.Instance;
 
-            return Invoke<GetMediaRequest,GetMediaResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetMediaResponse>(request, options);
         }
 
         /// <summary>
@@ -149,11 +195,11 @@ namespace Amazon.KinesisVideoMedia
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/kinesis-video-media-2017-09-30/GetMedia">REST API Reference for GetMedia Operation</seealso>
         public virtual IAsyncResult BeginGetMedia(GetMediaRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetMediaRequestMarshaller.Instance;
-            var unmarshaller = GetMediaResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMediaRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMediaResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetMediaRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

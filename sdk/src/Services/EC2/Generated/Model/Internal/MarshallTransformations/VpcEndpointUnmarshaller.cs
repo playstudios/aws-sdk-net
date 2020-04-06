@@ -74,11 +74,23 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.Groups.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("lastError", targetDepth))
+                    {
+                        var unmarshaller = LastErrorUnmarshaller.Instance;
+                        unmarshalledObject.LastError = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("networkInterfaceIdSet/item", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         var item = unmarshaller.Unmarshall(context);
                         unmarshalledObject.NetworkInterfaceIds.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("ownerId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.OwnerId = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("policyDocument", targetDepth))
@@ -91,6 +103,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = BoolUnmarshaller.Instance;
                         unmarshalledObject.PrivateDnsEnabled = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("requesterManaged", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.RequesterManaged = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("routeTableIdSet/item", targetDepth))
@@ -117,6 +135,13 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         var unmarshaller = StringUnmarshaller.Instance;
                         var item = unmarshaller.Unmarshall(context);
                         unmarshalledObject.SubnetIds.Add(item);
+                        continue;
+                    }
+                    if (context.TestExpression("tagSet/item", targetDepth))
+                    {
+                        var unmarshaller = TagUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.Tags.Add(item);
                         continue;
                     }
                     if (context.TestExpression("vpcEndpointId", targetDepth))

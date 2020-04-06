@@ -51,6 +51,24 @@ namespace Amazon.StorageGateway.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("CloudWatchLogGroupARN", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.CloudWatchLogGroupARN = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("Ec2InstanceId", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.Ec2InstanceId = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("Ec2InstanceRegion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.Ec2InstanceRegion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("GatewayARN", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -93,6 +111,12 @@ namespace Amazon.StorageGateway.Model.Internal.MarshallTransformations
                     response.GatewayType = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("HostEnvironment", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.HostEnvironment = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("LastSoftwareUpdate", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -103,6 +127,18 @@ namespace Amazon.StorageGateway.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.NextUpdateAvailabilityDate = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("Tags", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Tag, TagUnmarshaller>(TagUnmarshaller.Instance);
+                    response.Tags = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("VPCEndpoint", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.VPCEndpoint = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

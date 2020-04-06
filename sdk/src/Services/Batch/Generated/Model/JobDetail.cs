@@ -41,12 +41,15 @@ namespace Amazon.Batch.Model
         private string _jobId;
         private string _jobName;
         private string _jobQueue;
+        private NodeDetails _nodeDetails;
+        private NodeProperties _nodeProperties;
         private Dictionary<string, string> _parameters = new Dictionary<string, string>();
         private RetryStrategy _retryStrategy;
         private long? _startedAt;
         private JobStatus _status;
         private string _statusReason;
         private long? _stoppedAt;
+        private JobTimeout _timeout;
 
         /// <summary>
         /// Gets and sets the property ArrayProperties. 
@@ -105,10 +108,10 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property CreatedAt. 
         /// <para>
-        /// The Unix time stamp for when the job was created. For non-array jobs and parent array
-        /// jobs, this is when the job entered the <code>SUBMITTED</code> state (at the time <a>SubmitJob</a>
-        /// was called). For array child jobs, this is when the child job was spawned by its parent
-        /// and entered the <code>PENDING</code> state.
+        /// The Unix timestamp (in seconds and milliseconds) for when the job was created. For
+        /// non-array jobs and parent array jobs, this is when the job entered the <code>SUBMITTED</code>
+        /// state (at the time <a>SubmitJob</a> was called). For array child jobs, this is when
+        /// the child job was spawned by its parent and entered the <code>PENDING</code> state.
         /// </para>
         /// </summary>
         public long CreatedAt
@@ -126,7 +129,7 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property DependsOn. 
         /// <para>
-        /// A list of job names or IDs on which this job depends.
+        /// A list of job IDs on which this job depends.
         /// </para>
         /// </summary>
         public List<JobDependency> DependsOn
@@ -147,6 +150,7 @@ namespace Amazon.Batch.Model
         /// The job definition that is used by this job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobDefinition
         {
             get { return this._jobDefinition; }
@@ -165,6 +169,7 @@ namespace Amazon.Batch.Model
         /// The ID for the job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobId
         {
             get { return this._jobId; }
@@ -183,6 +188,7 @@ namespace Amazon.Batch.Model
         /// The name of the job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobName
         {
             get { return this._jobName; }
@@ -201,6 +207,7 @@ namespace Amazon.Batch.Model
         /// The Amazon Resource Name (ARN) of the job queue with which the job is associated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string JobQueue
         {
             get { return this._jobQueue; }
@@ -214,10 +221,47 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NodeDetails. 
+        /// <para>
+        /// An object representing the details of a node that is associated with a multi-node
+        /// parallel job.
+        /// </para>
+        /// </summary>
+        public NodeDetails NodeDetails
+        {
+            get { return this._nodeDetails; }
+            set { this._nodeDetails = value; }
+        }
+
+        // Check to see if NodeDetails property is set
+        internal bool IsSetNodeDetails()
+        {
+            return this._nodeDetails != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NodeProperties. 
+        /// <para>
+        /// An object representing the node properties of a multi-node parallel job.
+        /// </para>
+        /// </summary>
+        public NodeProperties NodeProperties
+        {
+            get { return this._nodeProperties; }
+            set { this._nodeProperties = value; }
+        }
+
+        // Check to see if NodeProperties property is set
+        internal bool IsSetNodeProperties()
+        {
+            return this._nodeProperties != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
         /// Additional parameters passed to the job that replace parameter substitution placeholders
-        /// or override any corresponding parameter defaults from the job definition. 
+        /// or override any corresponding parameter defaults from the job definition.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Parameters
@@ -253,10 +297,12 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property StartedAt. 
         /// <para>
-        /// The Unix time stamp for when the job was started (when the job transitioned from the
-        /// <code>STARTING</code> state to the <code>RUNNING</code> state).
+        /// The Unix timestamp (in seconds and milliseconds) for when the job was started (when
+        /// the job transitioned from the <code>STARTING</code> state to the <code>RUNNING</code>
+        /// state).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long StartedAt
         {
             get { return this._startedAt.GetValueOrDefault(); }
@@ -274,7 +320,15 @@ namespace Amazon.Batch.Model
         /// <para>
         /// The current status for the job.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If your jobs do not progress to <code>STARTING</code>, see <a href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#job_stuck_in_runnable">Jobs
+        /// Stuck in RUNNABLE Status</a> in the troubleshooting section of the <i>AWS Batch User
+        /// Guide</i>.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public JobStatus Status
         {
             get { return this._status; }
@@ -291,7 +345,7 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property StatusReason. 
         /// <para>
         /// A short, human-readable string to provide additional details about the current status
-        /// of the job. 
+        /// of the job.
         /// </para>
         /// </summary>
         public string StatusReason
@@ -309,9 +363,9 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property StoppedAt. 
         /// <para>
-        /// The Unix time stamp for when the job was stopped (when the job transitioned from the
-        /// <code>RUNNING</code> state to a terminal state, such as <code>SUCCEEDED</code> or
-        /// <code>FAILED</code>).
+        /// The Unix timestamp (in seconds and milliseconds) for when the job was stopped (when
+        /// the job transitioned from the <code>RUNNING</code> state to a terminal state, such
+        /// as <code>SUCCEEDED</code> or <code>FAILED</code>).
         /// </para>
         /// </summary>
         public long StoppedAt
@@ -324,6 +378,24 @@ namespace Amazon.Batch.Model
         internal bool IsSetStoppedAt()
         {
             return this._stoppedAt.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Timeout. 
+        /// <para>
+        /// The timeout configuration for the job.
+        /// </para>
+        /// </summary>
+        public JobTimeout Timeout
+        {
+            get { return this._timeout; }
+            set { this._timeout = value; }
+        }
+
+        // Check to see if Timeout property is set
+        internal bool IsSetTimeout()
+        {
+            return this._timeout != null;
         }
 
     }

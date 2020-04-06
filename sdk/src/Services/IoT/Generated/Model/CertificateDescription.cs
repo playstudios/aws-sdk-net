@@ -44,6 +44,7 @@ namespace Amazon.IoT.Model
         private string _previousOwnedBy;
         private CertificateStatus _status;
         private TransferData _transferData;
+        private CertificateValidity _validity;
 
         /// <summary>
         /// Gets and sets the property CaCertificateId. 
@@ -51,6 +52,7 @@ namespace Amazon.IoT.Model
         /// The certificate ID of the CA certificate used to sign this certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=64, Max=64)]
         public string CaCertificateId
         {
             get { return this._caCertificateId; }
@@ -87,6 +89,7 @@ namespace Amazon.IoT.Model
         /// The ID of the certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=64, Max=64)]
         public string CertificateId
         {
             get { return this._certificateId; }
@@ -105,6 +108,7 @@ namespace Amazon.IoT.Model
         /// The certificate data, in PEM format.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string CertificatePem
         {
             get { return this._certificatePem; }
@@ -136,8 +140,12 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CustomerVersion.
+        /// Gets and sets the property CustomerVersion. 
+        /// <para>
+        /// The customer version of the certificate.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int CustomerVersion
         {
             get { return this._customerVersion.GetValueOrDefault(); }
@@ -151,7 +159,10 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GenerationId.
+        /// Gets and sets the property GenerationId. 
+        /// <para>
+        /// The generation ID of the certificate.
+        /// </para>
         /// </summary>
         public string GenerationId
         {
@@ -189,6 +200,7 @@ namespace Amazon.IoT.Model
         /// The ID of the AWS account that owns the certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=12)]
         public string OwnedBy
         {
             get { return this._ownedBy; }
@@ -207,6 +219,7 @@ namespace Amazon.IoT.Model
         /// The ID of the AWS account of the previous owner of the certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=12)]
         public string PreviousOwnedBy
         {
             get { return this._previousOwnedBy; }
@@ -253,6 +266,24 @@ namespace Amazon.IoT.Model
         internal bool IsSetTransferData()
         {
             return this._transferData != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Validity. 
+        /// <para>
+        /// When the certificate is valid.
+        /// </para>
+        /// </summary>
+        public CertificateValidity Validity
+        {
+            get { return this._validity; }
+            set { this._validity = value; }
+        }
+
+        // Check to see if Validity property is set
+        internal bool IsSetValidity()
+        {
+            return this._validity != null;
         }
 
     }

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Redshift.Model;
 using Amazon.Redshift.Model.Internal.MarshallTransformations;
+using Amazon.Redshift.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -46,7 +48,7 @@ namespace Amazon.Redshift
     /// when a command has been applied. In this reference, the parameter descriptions indicate
     /// whether a change is applied immediately, on the next instance reboot, or during the
     /// next maintenance window. For a summary of the Amazon Redshift cluster management interfaces,
-    /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/using-aws-sdk.html">Using
+    /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/using-aws-sdk.html">Using
     /// the Amazon Redshift Management Interfaces</a>.
     /// </para>
     ///  
@@ -59,18 +61,19 @@ namespace Amazon.Redshift
     ///  
     /// <para>
     /// If you are a first-time user of Amazon Redshift, we recommend that you begin by reading
-    /// the <a href="http://docs.aws.amazon.com/redshift/latest/gsg/getting-started.html">Amazon
+    /// the <a href="https://docs.aws.amazon.com/redshift/latest/gsg/getting-started.html">Amazon
     /// Redshift Getting Started Guide</a>.
     /// </para>
     ///  
     /// <para>
-    /// If you are a database developer, the <a href="http://docs.aws.amazon.com/redshift/latest/dg/welcome.html">Amazon
+    /// If you are a database developer, the <a href="https://docs.aws.amazon.com/redshift/latest/dg/welcome.html">Amazon
     /// Redshift Database Developer Guide</a> explains how to design, build, query, and maintain
     /// the databases that make up your data warehouse. 
     /// </para>
     /// </summary>
     public partial class AmazonRedshiftClient : AmazonServiceClient, IAmazonRedshift
     {
+        private static IServiceMetadata serviceMetadata = new AmazonRedshiftMetadata();
         #region Constructors
 
         /// <summary>
@@ -241,6 +244,16 @@ namespace Amazon.Redshift
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -256,6 +269,83 @@ namespace Amazon.Redshift
 
         #endregion
 
+
+        #region  AcceptReservedNodeExchange
+
+        /// <summary>
+        /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration
+        /// (term, payment type, or number of nodes) and no additional costs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AcceptReservedNodeExchange service method.</param>
+        /// 
+        /// <returns>The response from the AcceptReservedNodeExchange service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.DependentServiceUnavailableException">
+        /// Your request cannot be completed because a dependent internal service is temporarily
+        /// unavailable. Wait 30 to 60 seconds and try again.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidReservedNodeStateException">
+        /// Indicates that the Reserved Node being exchanged is not in an active state.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ReservedNodeAlreadyExistsException">
+        /// User already has a reservation with the given identifier.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ReservedNodeAlreadyMigratedException">
+        /// Indicates that the reserved node has already been exchanged.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ReservedNodeNotFoundException">
+        /// The specified reserved compute node not found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ReservedNodeOfferingNotFoundException">
+        /// Specified offering does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnsupportedOperationException">
+        /// The requested operation isn't supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AcceptReservedNodeExchange">REST API Reference for AcceptReservedNodeExchange Operation</seealso>
+        public virtual AcceptReservedNodeExchangeResponse AcceptReservedNodeExchange(AcceptReservedNodeExchangeRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptReservedNodeExchangeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptReservedNodeExchangeResponseUnmarshaller.Instance;
+
+            return Invoke<AcceptReservedNodeExchangeResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AcceptReservedNodeExchange operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AcceptReservedNodeExchange operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAcceptReservedNodeExchange
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AcceptReservedNodeExchange">REST API Reference for AcceptReservedNodeExchange Operation</seealso>
+        public virtual IAsyncResult BeginAcceptReservedNodeExchange(AcceptReservedNodeExchangeRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptReservedNodeExchangeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptReservedNodeExchangeResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AcceptReservedNodeExchange operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAcceptReservedNodeExchange.</param>
+        /// 
+        /// <returns>Returns a  AcceptReservedNodeExchangeResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AcceptReservedNodeExchange">REST API Reference for AcceptReservedNodeExchange Operation</seealso>
+        public virtual AcceptReservedNodeExchangeResponse EndAcceptReservedNodeExchange(IAsyncResult asyncResult)
+        {
+            return EndInvoke<AcceptReservedNodeExchangeResponse>(asyncResult);
+        }
+
+        #endregion
         
         #region  AuthorizeClusterSecurityGroupIngress
 
@@ -270,7 +360,7 @@ namespace Amazon.Redshift
         /// <para>
         /// If you authorize access to an Amazon EC2 security group, specify <i>EC2SecurityGroupName</i>
         /// and <i>EC2SecurityGroupOwnerId</i>. The Amazon EC2 security group and Amazon Redshift
-        /// cluster must be in the same AWS region. 
+        /// cluster must be in the same AWS Region. 
         /// </para>
         ///  
         /// <para>
@@ -282,7 +372,7 @@ namespace Amazon.Redshift
         /// <para>
         /// You must also associate the security group with a cluster so that clients running
         /// on these IP addresses or the EC2 instance are authorized to connect to the cluster.
-        /// For information about managing security groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Working
+        /// For information about managing security groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Working
         /// with Security Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -305,10 +395,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeClusterSecurityGroupIngress">REST API Reference for AuthorizeClusterSecurityGroupIngress Operation</seealso>
         public virtual AuthorizeClusterSecurityGroupIngressResponse AuthorizeClusterSecurityGroupIngress(AuthorizeClusterSecurityGroupIngressRequest request)
         {
-            var marshaller = AuthorizeClusterSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = AuthorizeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AuthorizeClusterSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AuthorizeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return Invoke<AuthorizeClusterSecurityGroupIngressRequest,AuthorizeClusterSecurityGroupIngressResponse>(request, marshaller, unmarshaller);
+            return Invoke<AuthorizeClusterSecurityGroupIngressResponse>(request, options);
         }
 
         /// <summary>
@@ -325,11 +416,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeClusterSecurityGroupIngress">REST API Reference for AuthorizeClusterSecurityGroupIngress Operation</seealso>
         public virtual IAsyncResult BeginAuthorizeClusterSecurityGroupIngress(AuthorizeClusterSecurityGroupIngressRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AuthorizeClusterSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = AuthorizeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AuthorizeClusterSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AuthorizeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AuthorizeClusterSecurityGroupIngressRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -354,7 +445,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+        ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
         /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -385,10 +476,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeSnapshotAccess">REST API Reference for AuthorizeSnapshotAccess Operation</seealso>
         public virtual AuthorizeSnapshotAccessResponse AuthorizeSnapshotAccess(AuthorizeSnapshotAccessRequest request)
         {
-            var marshaller = AuthorizeSnapshotAccessRequestMarshaller.Instance;
-            var unmarshaller = AuthorizeSnapshotAccessResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AuthorizeSnapshotAccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AuthorizeSnapshotAccessResponseUnmarshaller.Instance;
 
-            return Invoke<AuthorizeSnapshotAccessRequest,AuthorizeSnapshotAccessResponse>(request, marshaller, unmarshaller);
+            return Invoke<AuthorizeSnapshotAccessResponse>(request, options);
         }
 
         /// <summary>
@@ -405,11 +497,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeSnapshotAccess">REST API Reference for AuthorizeSnapshotAccess Operation</seealso>
         public virtual IAsyncResult BeginAuthorizeSnapshotAccess(AuthorizeSnapshotAccessRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AuthorizeSnapshotAccessRequestMarshaller.Instance;
-            var unmarshaller = AuthorizeSnapshotAccessResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AuthorizeSnapshotAccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AuthorizeSnapshotAccessResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AuthorizeSnapshotAccessRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -423,6 +515,195 @@ namespace Amazon.Redshift
         public virtual AuthorizeSnapshotAccessResponse EndAuthorizeSnapshotAccess(IAsyncResult asyncResult)
         {
             return EndInvoke<AuthorizeSnapshotAccessResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  BatchDeleteClusterSnapshots
+
+        /// <summary>
+        /// Deletes a set of cluster snapshots.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchDeleteClusterSnapshots service method.</param>
+        /// 
+        /// <returns>The response from the BatchDeleteClusterSnapshots service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.BatchDeleteRequestSizeExceededException">
+        /// The maximum number for a batch delete of snapshots has been reached. The limit is
+        /// 100.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/BatchDeleteClusterSnapshots">REST API Reference for BatchDeleteClusterSnapshots Operation</seealso>
+        public virtual BatchDeleteClusterSnapshotsResponse BatchDeleteClusterSnapshots(BatchDeleteClusterSnapshotsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteClusterSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteClusterSnapshotsResponseUnmarshaller.Instance;
+
+            return Invoke<BatchDeleteClusterSnapshotsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchDeleteClusterSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchDeleteClusterSnapshots operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchDeleteClusterSnapshots
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/BatchDeleteClusterSnapshots">REST API Reference for BatchDeleteClusterSnapshots Operation</seealso>
+        public virtual IAsyncResult BeginBatchDeleteClusterSnapshots(BatchDeleteClusterSnapshotsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchDeleteClusterSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchDeleteClusterSnapshotsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchDeleteClusterSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchDeleteClusterSnapshots.</param>
+        /// 
+        /// <returns>Returns a  BatchDeleteClusterSnapshotsResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/BatchDeleteClusterSnapshots">REST API Reference for BatchDeleteClusterSnapshots Operation</seealso>
+        public virtual BatchDeleteClusterSnapshotsResponse EndBatchDeleteClusterSnapshots(IAsyncResult asyncResult)
+        {
+            return EndInvoke<BatchDeleteClusterSnapshotsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  BatchModifyClusterSnapshots
+
+        /// <summary>
+        /// Modifies the settings for a set of cluster snapshots.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchModifyClusterSnapshots service method.</param>
+        /// 
+        /// <returns>The response from the BatchModifyClusterSnapshots service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.BatchModifyClusterSnapshotsLimitExceededException">
+        /// The maximum number for snapshot identifiers has been reached. The limit is 100.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/BatchModifyClusterSnapshots">REST API Reference for BatchModifyClusterSnapshots Operation</seealso>
+        public virtual BatchModifyClusterSnapshotsResponse BatchModifyClusterSnapshots(BatchModifyClusterSnapshotsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchModifyClusterSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchModifyClusterSnapshotsResponseUnmarshaller.Instance;
+
+            return Invoke<BatchModifyClusterSnapshotsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchModifyClusterSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchModifyClusterSnapshots operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchModifyClusterSnapshots
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/BatchModifyClusterSnapshots">REST API Reference for BatchModifyClusterSnapshots Operation</seealso>
+        public virtual IAsyncResult BeginBatchModifyClusterSnapshots(BatchModifyClusterSnapshotsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchModifyClusterSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchModifyClusterSnapshotsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchModifyClusterSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchModifyClusterSnapshots.</param>
+        /// 
+        /// <returns>Returns a  BatchModifyClusterSnapshotsResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/BatchModifyClusterSnapshots">REST API Reference for BatchModifyClusterSnapshots Operation</seealso>
+        public virtual BatchModifyClusterSnapshotsResponse EndBatchModifyClusterSnapshots(IAsyncResult asyncResult)
+        {
+            return EndInvoke<BatchModifyClusterSnapshotsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CancelResize
+
+        /// <summary>
+        /// Cancels a resize operation for a cluster.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelResize service method.</param>
+        /// 
+        /// <returns>The response from the CancelResize service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ResizeNotFoundException">
+        /// A resize operation for the specified cluster is not found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnsupportedOperationException">
+        /// The requested operation isn't supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CancelResize">REST API Reference for CancelResize Operation</seealso>
+        public virtual CancelResizeResponse CancelResize(CancelResizeRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelResizeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelResizeResponseUnmarshaller.Instance;
+
+            return Invoke<CancelResizeResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelResize operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelResize operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelResize
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CancelResize">REST API Reference for CancelResize Operation</seealso>
+        public virtual IAsyncResult BeginCancelResize(CancelResizeRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelResizeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelResizeResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelResize operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelResize.</param>
+        /// 
+        /// <returns>Returns a  CancelResizeResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CancelResize">REST API Reference for CancelResize Operation</seealso>
+        public virtual CancelResizeResponse EndCancelResize(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CancelResizeResponse>(asyncResult);
         }
 
         #endregion
@@ -443,7 +724,7 @@ namespace Amazon.Redshift
         /// </para>
         ///  
         /// <para>
-        ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+        ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
         /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -463,13 +744,22 @@ namespace Amazon.Redshift
         /// The specified cluster snapshot is not in the <code>available</code> state, or other
         /// accounts are authorized to access the snapshot.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CopyClusterSnapshot">REST API Reference for CopyClusterSnapshot Operation</seealso>
         public virtual CopyClusterSnapshotResponse CopyClusterSnapshot(CopyClusterSnapshotRequest request)
         {
-            var marshaller = CopyClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CopyClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopyClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopyClusterSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CopyClusterSnapshotRequest,CopyClusterSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CopyClusterSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -486,11 +776,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CopyClusterSnapshot">REST API Reference for CopyClusterSnapshot Operation</seealso>
         public virtual IAsyncResult BeginCopyClusterSnapshot(CopyClusterSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CopyClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CopyClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopyClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopyClusterSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CopyClusterSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -511,14 +801,14 @@ namespace Amazon.Redshift
         #region  CreateCluster
 
         /// <summary>
-        /// Creates a new cluster.
+        /// Creates a new cluster with the specified parameters.
         /// 
         ///  
         /// <para>
-        /// To create the cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet
+        /// To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet
         /// group name. The cluster subnet group identifies the subnets of your VPC that Amazon
         /// Redshift uses when creating the cluster. For more information about managing clusters,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -533,7 +823,7 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterQuotaExceededException">
         /// The request would exceed the allowed number of cluster instances for this account.
-        /// For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterSecurityGroupNotFoundException">
@@ -558,8 +848,19 @@ namespace Amazon.Redshift
         /// <exception cref="Amazon.Redshift.Model.InvalidClusterSubnetGroupStateException">
         /// The cluster subnet group cannot be deleted because it is in use.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterTrackException">
+        /// The provided cluster track name is not valid.
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidElasticIpException">
         /// The Elastic IP (EIP) is invalid or cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidSubnetException">
         /// The requested subnet is not valid, or not all of the subnets are in the same VPC.
@@ -578,11 +879,14 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.NumberOfNodesQuotaExceededException">
         /// The operation would exceed the number of nodes allotted to the account. For information
-        /// about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleNotFoundException">
+        /// We could not find the specified snapshot schedule.
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
         /// Your account is not authorized to perform the requested operation.
@@ -590,10 +894,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateCluster">REST API Reference for CreateCluster Operation</seealso>
         public virtual CreateClusterResponse CreateCluster(CreateClusterRequest request)
         {
-            var marshaller = CreateClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterResponseUnmarshaller.Instance;
 
-            return Invoke<CreateClusterRequest,CreateClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -610,11 +915,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateCluster">REST API Reference for CreateCluster Operation</seealso>
         public virtual IAsyncResult BeginCreateCluster(CreateClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -648,7 +953,7 @@ namespace Amazon.Redshift
         /// <para>
         /// Parameters in the parameter group define specific behavior that applies to the databases
         /// you create on the cluster. For more information about parameters and parameter groups,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
         /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -660,22 +965,23 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterParameterGroupQuotaExceededException">
         /// The request would result in the user exceeding the allowed number of cluster parameter
-        /// groups. For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// groups. For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidTagException">
         /// The tag is invalid.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterParameterGroup">REST API Reference for CreateClusterParameterGroup Operation</seealso>
         public virtual CreateClusterParameterGroupResponse CreateClusterParameterGroup(CreateClusterParameterGroupRequest request)
         {
-            var marshaller = CreateClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateClusterParameterGroupRequest,CreateClusterParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateClusterParameterGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -692,11 +998,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterParameterGroup">REST API Reference for CreateClusterParameterGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateClusterParameterGroup(CreateClusterParameterGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateClusterParameterGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -722,7 +1028,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For information about managing security groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
+        ///  For information about managing security groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
         /// Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster Management
         /// Guide</i>.
         /// </para>
@@ -735,22 +1041,23 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterSecurityGroupQuotaExceededException">
         /// The request would result in the user exceeding the allowed number of cluster security
-        /// groups. For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// groups. For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidTagException">
         /// The tag is invalid.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSecurityGroup">REST API Reference for CreateClusterSecurityGroup Operation</seealso>
         public virtual CreateClusterSecurityGroupResponse CreateClusterSecurityGroup(CreateClusterSecurityGroupRequest request)
         {
-            var marshaller = CreateClusterSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateClusterSecurityGroupRequest,CreateClusterSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateClusterSecurityGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -767,11 +1074,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSecurityGroup">REST API Reference for CreateClusterSecurityGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateClusterSecurityGroup(CreateClusterSecurityGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateClusterSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterSecurityGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateClusterSecurityGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -797,7 +1104,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+        ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
         /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -816,19 +1123,28 @@ namespace Amazon.Redshift
         /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
         /// The specified cluster is not in the <code>available</code> state.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidTagException">
         /// The tag is invalid.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSnapshot">REST API Reference for CreateClusterSnapshot Operation</seealso>
         public virtual CreateClusterSnapshotResponse CreateClusterSnapshot(CreateClusterSnapshotRequest request)
         {
-            var marshaller = CreateClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CreateClusterSnapshotRequest,CreateClusterSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateClusterSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -845,11 +1161,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSnapshot">REST API Reference for CreateClusterSnapshot Operation</seealso>
         public virtual IAsyncResult BeginCreateClusterSnapshot(CreateClusterSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateClusterSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -876,7 +1192,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For information about subnet groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-cluster-subnet-groups.html">Amazon
+        ///  For information about subnet groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-cluster-subnet-groups.html">Amazon
         /// Redshift Cluster Subnet Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -888,12 +1204,12 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterSubnetGroupQuotaExceededException">
         /// The request would result in user exceeding the allowed number of cluster subnet groups.
-        /// For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterSubnetQuotaExceededException">
         /// The request would result in user exceeding the allowed number of subnets in a cluster
-        /// subnet groups. For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// subnet groups. For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.DependentServiceRequestThrottlingException">
@@ -907,7 +1223,7 @@ namespace Amazon.Redshift
         /// The tag is invalid.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
         /// Your account is not authorized to perform the requested operation.
@@ -915,10 +1231,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSubnetGroup">REST API Reference for CreateClusterSubnetGroup Operation</seealso>
         public virtual CreateClusterSubnetGroupResponse CreateClusterSubnetGroup(CreateClusterSubnetGroupRequest request)
         {
-            var marshaller = CreateClusterSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateClusterSubnetGroupRequest,CreateClusterSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateClusterSubnetGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -935,11 +1252,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSubnetGroup">REST API Reference for CreateClusterSubnetGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateClusterSubnetGroup(CreateClusterSubnetGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateClusterSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterSubnetGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateClusterSubnetGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -991,7 +1308,7 @@ namespace Amazon.Redshift
         /// <returns>The response from the CreateEventSubscription service method, as returned by Redshift.</returns>
         /// <exception cref="Amazon.Redshift.Model.EventSubscriptionQuotaExceededException">
         /// The request would exceed the allowed number of event subscriptions for this account.
-        /// For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidTagException">
@@ -1026,15 +1343,16 @@ namespace Amazon.Redshift
         /// values are ERROR and INFO.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateEventSubscription">REST API Reference for CreateEventSubscription Operation</seealso>
         public virtual CreateEventSubscriptionResponse CreateEventSubscription(CreateEventSubscriptionRequest request)
         {
-            var marshaller = CreateEventSubscriptionRequestMarshaller.Instance;
-            var unmarshaller = CreateEventSubscriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEventSubscriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEventSubscriptionResponseUnmarshaller.Instance;
 
-            return Invoke<CreateEventSubscriptionRequest,CreateEventSubscriptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateEventSubscriptionResponse>(request, options);
         }
 
         /// <summary>
@@ -1051,11 +1369,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateEventSubscription">REST API Reference for CreateEventSubscription Operation</seealso>
         public virtual IAsyncResult BeginCreateEventSubscription(CreateEventSubscriptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateEventSubscriptionRequestMarshaller.Instance;
-            var unmarshaller = CreateEventSubscriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEventSubscriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEventSubscriptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateEventSubscriptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1085,7 +1403,7 @@ namespace Amazon.Redshift
         /// The command returns a public key, which you must store in the HSM. In addition to
         /// creating the HSM certificate, you must create an Amazon Redshift HSM configuration
         /// that provides a cluster the information needed to store and use encryption keys in
-        /// the HSM. For more information, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html">Hardware
+        /// the HSM. For more information, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html">Hardware
         /// Security Modules</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         /// </summary>
@@ -1098,22 +1416,23 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.HsmClientCertificateQuotaExceededException">
         /// The quota for HSM client certificates has been reached. For information about increasing
-        /// your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidTagException">
         /// The tag is invalid.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmClientCertificate">REST API Reference for CreateHsmClientCertificate Operation</seealso>
         public virtual CreateHsmClientCertificateResponse CreateHsmClientCertificate(CreateHsmClientCertificateRequest request)
         {
-            var marshaller = CreateHsmClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = CreateHsmClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHsmClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHsmClientCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<CreateHsmClientCertificateRequest,CreateHsmClientCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateHsmClientCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -1130,11 +1449,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmClientCertificate">REST API Reference for CreateHsmClientCertificate Operation</seealso>
         public virtual IAsyncResult BeginCreateHsmClientCertificate(CreateHsmClientCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateHsmClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = CreateHsmClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHsmClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHsmClientCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateHsmClientCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1163,7 +1482,7 @@ namespace Amazon.Redshift
         ///  
         /// <para>
         /// In addition to creating an HSM configuration, you must also create an HSM client certificate.
-        /// For more information, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html">Hardware
+        /// For more information, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html">Hardware
         /// Security Modules</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         /// </summary>
@@ -1176,22 +1495,23 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.HsmConfigurationQuotaExceededException">
         /// The quota for HSM configurations has been reached. For information about increasing
-        /// your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidTagException">
         /// The tag is invalid.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmConfiguration">REST API Reference for CreateHsmConfiguration Operation</seealso>
         public virtual CreateHsmConfigurationResponse CreateHsmConfiguration(CreateHsmConfigurationRequest request)
         {
-            var marshaller = CreateHsmConfigurationRequestMarshaller.Instance;
-            var unmarshaller = CreateHsmConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHsmConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHsmConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<CreateHsmConfigurationRequest,CreateHsmConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateHsmConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1208,11 +1528,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmConfiguration">REST API Reference for CreateHsmConfiguration Operation</seealso>
         public virtual IAsyncResult BeginCreateHsmConfiguration(CreateHsmConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateHsmConfigurationRequestMarshaller.Instance;
-            var unmarshaller = CreateHsmConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHsmConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHsmConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateHsmConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1230,6 +1550,80 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  CreateScheduledAction
+
+        /// <summary>
+        /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift
+        /// API action. For example, you can create a schedule of when to run the <code>ResizeCluster</code>
+        /// API operation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateScheduledAction service method.</param>
+        /// 
+        /// <returns>The response from the CreateScheduledAction service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.InvalidScheduledActionException">
+        /// The scheduled action is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidScheduleException">
+        /// The schedule you submitted isn't valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ScheduledActionAlreadyExistsException">
+        /// The scheduled action already exists.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ScheduledActionQuotaExceededException">
+        /// The quota for scheduled actions exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ScheduledActionTypeUnsupportedException">
+        /// The action type specified for a scheduled action is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
+        /// Your account is not authorized to perform the requested operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateScheduledAction">REST API Reference for CreateScheduledAction Operation</seealso>
+        public virtual CreateScheduledActionResponse CreateScheduledAction(CreateScheduledActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateScheduledActionResponseUnmarshaller.Instance;
+
+            return Invoke<CreateScheduledActionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateScheduledAction operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateScheduledAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateScheduledAction">REST API Reference for CreateScheduledAction Operation</seealso>
+        public virtual IAsyncResult BeginCreateScheduledAction(CreateScheduledActionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateScheduledActionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateScheduledAction.</param>
+        /// 
+        /// <returns>Returns a  CreateScheduledActionResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateScheduledAction">REST API Reference for CreateScheduledAction Operation</seealso>
+        public virtual CreateScheduledActionResponse EndCreateScheduledAction(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateScheduledActionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateSnapshotCopyGrant
 
         /// <summary>
@@ -1239,7 +1633,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about managing snapshot copy grants, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
+        ///  For more information about managing snapshot copy grants, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
         /// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         /// </para>
@@ -1265,15 +1659,16 @@ namespace Amazon.Redshift
         /// The AWS account has exceeded the maximum number of snapshot copy grants in this region.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateSnapshotCopyGrant">REST API Reference for CreateSnapshotCopyGrant Operation</seealso>
         public virtual CreateSnapshotCopyGrantResponse CreateSnapshotCopyGrant(CreateSnapshotCopyGrantRequest request)
         {
-            var marshaller = CreateSnapshotCopyGrantRequestMarshaller.Instance;
-            var unmarshaller = CreateSnapshotCopyGrantResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSnapshotCopyGrantRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSnapshotCopyGrantResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSnapshotCopyGrantRequest,CreateSnapshotCopyGrantResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSnapshotCopyGrantResponse>(request, options);
         }
 
         /// <summary>
@@ -1290,11 +1685,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateSnapshotCopyGrant">REST API Reference for CreateSnapshotCopyGrant Operation</seealso>
         public virtual IAsyncResult BeginCreateSnapshotCopyGrant(CreateSnapshotCopyGrantRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateSnapshotCopyGrantRequestMarshaller.Instance;
-            var unmarshaller = CreateSnapshotCopyGrantResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSnapshotCopyGrantRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSnapshotCopyGrantResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateSnapshotCopyGrantRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1312,14 +1707,84 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  CreateSnapshotSchedule
+
+        /// <summary>
+        /// Create a snapshot schedule that can be associated to a cluster and which overrides
+        /// the default system backup schedule.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSnapshotSchedule service method.</param>
+        /// 
+        /// <returns>The response from the CreateSnapshotSchedule service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.InvalidScheduleException">
+        /// The schedule you submitted isn't valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ScheduleDefinitionTypeUnsupportedException">
+        /// The definition you submitted is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleAlreadyExistsException">
+        /// The specified snapshot schedule already exists.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleQuotaExceededException">
+        /// You have exceeded the quota of snapshot schedules.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
+        /// You have exceeded the number of tags allowed.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateSnapshotSchedule">REST API Reference for CreateSnapshotSchedule Operation</seealso>
+        public virtual CreateSnapshotScheduleResponse CreateSnapshotSchedule(CreateSnapshotScheduleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSnapshotScheduleResponseUnmarshaller.Instance;
+
+            return Invoke<CreateSnapshotScheduleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateSnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateSnapshotSchedule operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSnapshotSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateSnapshotSchedule">REST API Reference for CreateSnapshotSchedule Operation</seealso>
+        public virtual IAsyncResult BeginCreateSnapshotSchedule(CreateSnapshotScheduleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSnapshotScheduleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateSnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSnapshotSchedule.</param>
+        /// 
+        /// <returns>Returns a  CreateSnapshotScheduleResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateSnapshotSchedule">REST API Reference for CreateSnapshotSchedule Operation</seealso>
+        public virtual CreateSnapshotScheduleResponse EndCreateSnapshotSchedule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateSnapshotScheduleResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateTags
 
         /// <summary>
-        /// Adds one or more tags to a specified resource.
+        /// Adds tags to a cluster.
         /// 
         ///  
         /// <para>
-        /// A resource can have up to 10 tags. If you try to create more than 10 tags for a resource,
+        /// A resource can have up to 50 tags. If you try to create more than 50 tags for a resource,
         /// you will receive an error and the attempt will fail.
         /// </para>
         ///  
@@ -1338,15 +1803,16 @@ namespace Amazon.Redshift
         /// The resource could not be found.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
-        /// The request exceeds the limit of 10 tags for the resource.
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateTags">REST API Reference for CreateTags Operation</seealso>
         public virtual CreateTagsResponse CreateTags(CreateTagsRequest request)
         {
-            var marshaller = CreateTagsRequestMarshaller.Instance;
-            var unmarshaller = CreateTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTagsResponseUnmarshaller.Instance;
 
-            return Invoke<CreateTagsRequest,CreateTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateTagsResponse>(request, options);
         }
 
         /// <summary>
@@ -1363,11 +1829,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateTags">REST API Reference for CreateTags Operation</seealso>
         public virtual IAsyncResult BeginCreateTags(CreateTagsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateTagsRequestMarshaller.Instance;
-            var unmarshaller = CreateTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTagsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateTagsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1388,10 +1854,11 @@ namespace Amazon.Redshift
         #region  DeleteCluster
 
         /// <summary>
-        /// Deletes a previously provisioned cluster. A successful response from the web service
-        /// indicates that the request was received correctly. Use <a>DescribeClusters</a> to
-        /// monitor the status of the deletion. The delete operation cannot be canceled or reverted
-        /// once submitted. For more information about managing clusters, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// Deletes a previously provisioned cluster without its final snapshot being created.
+        /// A successful response from the web service indicates that the request was received
+        /// correctly. Use <a>DescribeClusters</a> to monitor the status of the deletion. The
+        /// delete operation cannot be canceled or reverted once submitted. For more information
+        /// about managing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         ///  
@@ -1405,7 +1872,7 @@ namespace Amazon.Redshift
         /// </para>
         ///  
         /// <para>
-        ///  For more information about managing clusters, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        ///  For more information about managing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -1424,13 +1891,22 @@ namespace Amazon.Redshift
         /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
         /// The specified cluster is not in the <code>available</code> state.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteCluster">REST API Reference for DeleteCluster Operation</seealso>
         public virtual DeleteClusterResponse DeleteCluster(DeleteClusterRequest request)
         {
-            var marshaller = DeleteClusterRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteClusterRequest,DeleteClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -1447,11 +1923,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteCluster">REST API Reference for DeleteCluster Operation</seealso>
         public virtual IAsyncResult BeginDeleteCluster(DeleteClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteClusterRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1494,10 +1970,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterParameterGroup">REST API Reference for DeleteClusterParameterGroup Operation</seealso>
         public virtual DeleteClusterParameterGroupResponse DeleteClusterParameterGroup(DeleteClusterParameterGroupRequest request)
         {
-            var marshaller = DeleteClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteClusterParameterGroupRequest,DeleteClusterParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteClusterParameterGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1514,11 +1991,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterParameterGroup">REST API Reference for DeleteClusterParameterGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteClusterParameterGroup(DeleteClusterParameterGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteClusterParameterGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1548,7 +2025,7 @@ namespace Amazon.Redshift
         /// </para>
         ///  </note> 
         /// <para>
-        ///  For information about managing security groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
+        ///  For information about managing security groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
         /// Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster Management
         /// Guide</i>.
         /// </para>
@@ -1565,10 +2042,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSecurityGroup">REST API Reference for DeleteClusterSecurityGroup Operation</seealso>
         public virtual DeleteClusterSecurityGroupResponse DeleteClusterSecurityGroup(DeleteClusterSecurityGroupRequest request)
         {
-            var marshaller = DeleteClusterSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteClusterSecurityGroupRequest,DeleteClusterSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteClusterSecurityGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1585,11 +2063,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSecurityGroup">REST API Reference for DeleteClusterSecurityGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteClusterSecurityGroup(DeleteClusterSecurityGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteClusterSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterSecurityGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteClusterSecurityGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1635,10 +2113,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSnapshot">REST API Reference for DeleteClusterSnapshot Operation</seealso>
         public virtual DeleteClusterSnapshotResponse DeleteClusterSnapshot(DeleteClusterSnapshotRequest request)
         {
-            var marshaller = DeleteClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteClusterSnapshotRequest,DeleteClusterSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteClusterSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -1655,11 +2134,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSnapshot">REST API Reference for DeleteClusterSnapshot Operation</seealso>
         public virtual IAsyncResult BeginDeleteClusterSnapshot(DeleteClusterSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteClusterSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1697,10 +2176,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSubnetGroup">REST API Reference for DeleteClusterSubnetGroup Operation</seealso>
         public virtual DeleteClusterSubnetGroupResponse DeleteClusterSubnetGroup(DeleteClusterSubnetGroupRequest request)
         {
-            var marshaller = DeleteClusterSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteClusterSubnetGroupRequest,DeleteClusterSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteClusterSubnetGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1717,11 +2197,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSubnetGroup">REST API Reference for DeleteClusterSubnetGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteClusterSubnetGroup(DeleteClusterSubnetGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteClusterSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteClusterSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClusterSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClusterSubnetGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteClusterSubnetGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1758,10 +2238,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteEventSubscription">REST API Reference for DeleteEventSubscription Operation</seealso>
         public virtual DeleteEventSubscriptionResponse DeleteEventSubscription(DeleteEventSubscriptionRequest request)
         {
-            var marshaller = DeleteEventSubscriptionRequestMarshaller.Instance;
-            var unmarshaller = DeleteEventSubscriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEventSubscriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEventSubscriptionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteEventSubscriptionRequest,DeleteEventSubscriptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteEventSubscriptionResponse>(request, options);
         }
 
         /// <summary>
@@ -1778,11 +2259,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteEventSubscription">REST API Reference for DeleteEventSubscription Operation</seealso>
         public virtual IAsyncResult BeginDeleteEventSubscription(DeleteEventSubscriptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteEventSubscriptionRequestMarshaller.Instance;
-            var unmarshaller = DeleteEventSubscriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEventSubscriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEventSubscriptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteEventSubscriptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1818,10 +2299,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmClientCertificate">REST API Reference for DeleteHsmClientCertificate Operation</seealso>
         public virtual DeleteHsmClientCertificateResponse DeleteHsmClientCertificate(DeleteHsmClientCertificateRequest request)
         {
-            var marshaller = DeleteHsmClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteHsmClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHsmClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHsmClientCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteHsmClientCertificateRequest,DeleteHsmClientCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteHsmClientCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -1838,11 +2320,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmClientCertificate">REST API Reference for DeleteHsmClientCertificate Operation</seealso>
         public virtual IAsyncResult BeginDeleteHsmClientCertificate(DeleteHsmClientCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteHsmClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteHsmClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHsmClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHsmClientCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteHsmClientCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1878,10 +2360,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmConfiguration">REST API Reference for DeleteHsmConfiguration Operation</seealso>
         public virtual DeleteHsmConfigurationResponse DeleteHsmConfiguration(DeleteHsmConfigurationRequest request)
         {
-            var marshaller = DeleteHsmConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteHsmConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHsmConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHsmConfigurationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteHsmConfigurationRequest,DeleteHsmConfigurationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteHsmConfigurationResponse>(request, options);
         }
 
         /// <summary>
@@ -1898,11 +2381,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmConfiguration">REST API Reference for DeleteHsmConfiguration Operation</seealso>
         public virtual IAsyncResult BeginDeleteHsmConfiguration(DeleteHsmConfigurationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteHsmConfigurationRequestMarshaller.Instance;
-            var unmarshaller = DeleteHsmConfigurationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHsmConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHsmConfigurationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteHsmConfigurationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1916,6 +2399,66 @@ namespace Amazon.Redshift
         public virtual DeleteHsmConfigurationResponse EndDeleteHsmConfiguration(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteHsmConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteScheduledAction
+
+        /// <summary>
+        /// Deletes a scheduled action.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAction service method.</param>
+        /// 
+        /// <returns>The response from the DeleteScheduledAction service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ScheduledActionNotFoundException">
+        /// The scheduled action cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
+        /// Your account is not authorized to perform the requested operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteScheduledAction">REST API Reference for DeleteScheduledAction Operation</seealso>
+        public virtual DeleteScheduledActionResponse DeleteScheduledAction(DeleteScheduledActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduledActionResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteScheduledActionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAction operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteScheduledAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteScheduledAction">REST API Reference for DeleteScheduledAction Operation</seealso>
+        public virtual IAsyncResult BeginDeleteScheduledAction(DeleteScheduledActionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduledActionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteScheduledAction.</param>
+        /// 
+        /// <returns>Returns a  DeleteScheduledActionResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteScheduledAction">REST API Reference for DeleteScheduledAction Operation</seealso>
+        public virtual DeleteScheduledActionResponse EndDeleteScheduledAction(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteScheduledActionResponse>(asyncResult);
         }
 
         #endregion
@@ -1938,10 +2481,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteSnapshotCopyGrant">REST API Reference for DeleteSnapshotCopyGrant Operation</seealso>
         public virtual DeleteSnapshotCopyGrantResponse DeleteSnapshotCopyGrant(DeleteSnapshotCopyGrantRequest request)
         {
-            var marshaller = DeleteSnapshotCopyGrantRequestMarshaller.Instance;
-            var unmarshaller = DeleteSnapshotCopyGrantResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSnapshotCopyGrantRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSnapshotCopyGrantResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSnapshotCopyGrantRequest,DeleteSnapshotCopyGrantResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSnapshotCopyGrantResponse>(request, options);
         }
 
         /// <summary>
@@ -1958,11 +2502,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteSnapshotCopyGrant">REST API Reference for DeleteSnapshotCopyGrant Operation</seealso>
         public virtual IAsyncResult BeginDeleteSnapshotCopyGrant(DeleteSnapshotCopyGrantRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSnapshotCopyGrantRequestMarshaller.Instance;
-            var unmarshaller = DeleteSnapshotCopyGrantResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSnapshotCopyGrantRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSnapshotCopyGrantResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSnapshotCopyGrantRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1980,11 +2524,71 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  DeleteSnapshotSchedule
+
+        /// <summary>
+        /// Deletes a snapshot schedule.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSnapshotSchedule service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSnapshotSchedule service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterSnapshotScheduleStateException">
+        /// The cluster snapshot schedule state is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleNotFoundException">
+        /// We could not find the specified snapshot schedule.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteSnapshotSchedule">REST API Reference for DeleteSnapshotSchedule Operation</seealso>
+        public virtual DeleteSnapshotScheduleResponse DeleteSnapshotSchedule(DeleteSnapshotScheduleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSnapshotScheduleResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteSnapshotScheduleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSnapshotSchedule operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSnapshotSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteSnapshotSchedule">REST API Reference for DeleteSnapshotSchedule Operation</seealso>
+        public virtual IAsyncResult BeginDeleteSnapshotSchedule(DeleteSnapshotScheduleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSnapshotScheduleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSnapshotSchedule.</param>
+        /// 
+        /// <returns>Returns a  DeleteSnapshotScheduleResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteSnapshotSchedule">REST API Reference for DeleteSnapshotSchedule Operation</seealso>
+        public virtual DeleteSnapshotScheduleResponse EndDeleteSnapshotSchedule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteSnapshotScheduleResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteTags
 
         /// <summary>
-        /// Deletes a tag or tags from a resource. You must provide the ARN of the resource from
-        /// which you want to delete the tag or tags.
+        /// Deletes tags from a resource. You must provide the ARN of the resource from which
+        /// you want to delete the tag or tags.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteTags service method.</param>
         /// 
@@ -1998,10 +2602,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
         public virtual DeleteTagsResponse DeleteTags(DeleteTagsRequest request)
         {
-            var marshaller = DeleteTagsRequestMarshaller.Instance;
-            var unmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteTagsRequest,DeleteTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTagsResponse>(request, options);
         }
 
         /// <summary>
@@ -2018,11 +2623,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
         public virtual IAsyncResult BeginDeleteTags(DeleteTagsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteTagsRequestMarshaller.Instance;
-            var unmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteTagsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2040,6 +2645,120 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  DescribeAccountAttributes
+
+        /// <summary>
+        /// Returns a list of attributes attached to an account
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountAttributes service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAccountAttributes service method, as returned by Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeAccountAttributes">REST API Reference for DescribeAccountAttributes Operation</seealso>
+        public virtual DescribeAccountAttributesResponse DescribeAccountAttributes(DescribeAccountAttributesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountAttributesResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeAccountAttributesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAccountAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountAttributes operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAccountAttributes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeAccountAttributes">REST API Reference for DescribeAccountAttributes Operation</seealso>
+        public virtual IAsyncResult BeginDescribeAccountAttributes(DescribeAccountAttributesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountAttributesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAccountAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAccountAttributes.</param>
+        /// 
+        /// <returns>Returns a  DescribeAccountAttributesResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeAccountAttributes">REST API Reference for DescribeAccountAttributes Operation</seealso>
+        public virtual DescribeAccountAttributesResponse EndDescribeAccountAttributes(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeAccountAttributesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeClusterDbRevisions
+
+        /// <summary>
+        /// Returns an array of <code>ClusterDbRevision</code> objects.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClusterDbRevisions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeClusterDbRevisions service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterDbRevisions">REST API Reference for DescribeClusterDbRevisions Operation</seealso>
+        public virtual DescribeClusterDbRevisionsResponse DescribeClusterDbRevisions(DescribeClusterDbRevisionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterDbRevisionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterDbRevisionsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeClusterDbRevisionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeClusterDbRevisions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClusterDbRevisions operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeClusterDbRevisions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterDbRevisions">REST API Reference for DescribeClusterDbRevisions Operation</seealso>
+        public virtual IAsyncResult BeginDescribeClusterDbRevisions(DescribeClusterDbRevisionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterDbRevisionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterDbRevisionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeClusterDbRevisions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeClusterDbRevisions.</param>
+        /// 
+        /// <returns>Returns a  DescribeClusterDbRevisionsResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterDbRevisions">REST API Reference for DescribeClusterDbRevisions Operation</seealso>
+        public virtual DescribeClusterDbRevisionsResponse EndDescribeClusterDbRevisions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeClusterDbRevisionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeClusterParameterGroups
 
         /// <summary>
@@ -2050,7 +2769,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about parameters and parameter groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+        ///  For more information about parameters and parameter groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
         /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         ///  
@@ -2089,7 +2808,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about parameters and parameter groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+        ///  For more information about parameters and parameter groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
         /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         ///  
@@ -2118,10 +2837,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterParameterGroups">REST API Reference for DescribeClusterParameterGroups Operation</seealso>
         public virtual DescribeClusterParameterGroupsResponse DescribeClusterParameterGroups(DescribeClusterParameterGroupsRequest request)
         {
-            var marshaller = DescribeClusterParameterGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterParameterGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterParameterGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterParameterGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClusterParameterGroupsRequest,DescribeClusterParameterGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClusterParameterGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -2138,11 +2858,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterParameterGroups">REST API Reference for DescribeClusterParameterGroups Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusterParameterGroups(DescribeClusterParameterGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClusterParameterGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterParameterGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterParameterGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterParameterGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClusterParameterGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2176,7 +2896,7 @@ namespace Amazon.Redshift
         /// </para>
         ///  
         /// <para>
-        ///  For more information about parameters and parameter groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+        ///  For more information about parameters and parameter groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
         /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -2189,10 +2909,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterParameters">REST API Reference for DescribeClusterParameters Operation</seealso>
         public virtual DescribeClusterParametersResponse DescribeClusterParameters(DescribeClusterParametersRequest request)
         {
-            var marshaller = DescribeClusterParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterParametersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClusterParametersRequest,DescribeClusterParametersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClusterParametersResponse>(request, options);
         }
 
         /// <summary>
@@ -2209,11 +2930,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterParameters">REST API Reference for DescribeClusterParameters Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusterParameters(DescribeClusterParametersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClusterParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterParametersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClusterParametersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2237,7 +2958,7 @@ namespace Amazon.Redshift
         /// Returns properties of provisioned clusters including general cluster properties, cluster
         /// database properties, maintenance and backup properties, and security and access properties.
         /// This operation supports pagination. For more information about managing clusters,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         ///  
@@ -2272,7 +2993,7 @@ namespace Amazon.Redshift
         /// Returns properties of provisioned clusters including general cluster properties, cluster
         /// database properties, maintenance and backup properties, and security and access properties.
         /// This operation supports pagination. For more information about managing clusters,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         ///  
@@ -2301,10 +3022,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusters">REST API Reference for DescribeClusters Operation</seealso>
         public virtual DescribeClustersResponse DescribeClusters(DescribeClustersRequest request)
         {
-            var marshaller = DescribeClustersRequestMarshaller.Instance;
-            var unmarshaller = DescribeClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClustersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClustersRequest,DescribeClustersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClustersResponse>(request, options);
         }
 
         /// <summary>
@@ -2321,11 +3043,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusters">REST API Reference for DescribeClusters Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusters(DescribeClustersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClustersRequestMarshaller.Instance;
-            var unmarshaller = DescribeClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClustersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClustersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2352,7 +3074,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For information about managing security groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
+        ///  For information about managing security groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
         /// Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster Management
         /// Guide</i>.
         /// </para>
@@ -2391,7 +3113,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For information about managing security groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
+        ///  For information about managing security groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
         /// Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster Management
         /// Guide</i>.
         /// </para>
@@ -2421,10 +3143,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSecurityGroups">REST API Reference for DescribeClusterSecurityGroups Operation</seealso>
         public virtual DescribeClusterSecurityGroupsResponse DescribeClusterSecurityGroups(DescribeClusterSecurityGroupsRequest request)
         {
-            var marshaller = DescribeClusterSecurityGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterSecurityGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterSecurityGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterSecurityGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClusterSecurityGroupsRequest,DescribeClusterSecurityGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClusterSecurityGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -2441,11 +3164,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSecurityGroups">REST API Reference for DescribeClusterSecurityGroups Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusterSecurityGroups(DescribeClusterSecurityGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClusterSecurityGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterSecurityGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterSecurityGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterSecurityGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClusterSecurityGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2539,10 +3262,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSnapshots">REST API Reference for DescribeClusterSnapshots Operation</seealso>
         public virtual DescribeClusterSnapshotsResponse DescribeClusterSnapshots(DescribeClusterSnapshotsRequest request)
         {
-            var marshaller = DescribeClusterSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterSnapshotsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClusterSnapshotsRequest,DescribeClusterSnapshotsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClusterSnapshotsResponse>(request, options);
         }
 
         /// <summary>
@@ -2559,11 +3283,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSnapshots">REST API Reference for DescribeClusterSnapshots Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusterSnapshots(DescribeClusterSnapshotsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClusterSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterSnapshotsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClusterSnapshotsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2647,10 +3371,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSubnetGroups">REST API Reference for DescribeClusterSubnetGroups Operation</seealso>
         public virtual DescribeClusterSubnetGroupsResponse DescribeClusterSubnetGroups(DescribeClusterSubnetGroupsRequest request)
         {
-            var marshaller = DescribeClusterSubnetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterSubnetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterSubnetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterSubnetGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClusterSubnetGroupsRequest,DescribeClusterSubnetGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClusterSubnetGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -2667,11 +3392,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSubnetGroups">REST API Reference for DescribeClusterSubnetGroups Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusterSubnetGroups(DescribeClusterSubnetGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClusterSubnetGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterSubnetGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterSubnetGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterSubnetGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClusterSubnetGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2689,12 +3414,72 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  DescribeClusterTracks
+
+        /// <summary>
+        /// Returns a list of all the available maintenance tracks.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClusterTracks service method.</param>
+        /// 
+        /// <returns>The response from the DescribeClusterTracks service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterTrackException">
+        /// The provided cluster track name is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
+        /// Your account is not authorized to perform the requested operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterTracks">REST API Reference for DescribeClusterTracks Operation</seealso>
+        public virtual DescribeClusterTracksResponse DescribeClusterTracks(DescribeClusterTracksRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterTracksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterTracksResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeClusterTracksResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeClusterTracks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeClusterTracks operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeClusterTracks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterTracks">REST API Reference for DescribeClusterTracks Operation</seealso>
+        public virtual IAsyncResult BeginDescribeClusterTracks(DescribeClusterTracksRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterTracksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterTracksResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeClusterTracks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeClusterTracks.</param>
+        /// 
+        /// <returns>Returns a  DescribeClusterTracksResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterTracks">REST API Reference for DescribeClusterTracks Operation</seealso>
+        public virtual DescribeClusterTracksResponse EndDescribeClusterTracks(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeClusterTracksResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeClusterVersions
 
         /// <summary>
         /// Returns descriptions of the available Amazon Redshift cluster versions. You can call
         /// this operation even before creating any clusters to learn more about the Amazon Redshift
-        /// versions. For more information about managing clusters, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// versions. For more information about managing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </summary>
         /// 
@@ -2708,7 +3493,7 @@ namespace Amazon.Redshift
         /// <summary>
         /// Returns descriptions of the available Amazon Redshift cluster versions. You can call
         /// this operation even before creating any clusters to learn more about the Amazon Redshift
-        /// versions. For more information about managing clusters, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// versions. For more information about managing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeClusterVersions service method.</param>
@@ -2717,10 +3502,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterVersions">REST API Reference for DescribeClusterVersions Operation</seealso>
         public virtual DescribeClusterVersionsResponse DescribeClusterVersions(DescribeClusterVersionsRequest request)
         {
-            var marshaller = DescribeClusterVersionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClusterVersionsRequest,DescribeClusterVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClusterVersionsResponse>(request, options);
         }
 
         /// <summary>
@@ -2737,11 +3523,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterVersions">REST API Reference for DescribeClusterVersions Operation</seealso>
         public virtual IAsyncResult BeginDescribeClusterVersions(DescribeClusterVersionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClusterVersionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterVersionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClusterVersionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2766,7 +3552,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about parameters and parameter groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+        ///  For more information about parameters and parameter groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
         /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -2776,10 +3562,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeDefaultClusterParameters">REST API Reference for DescribeDefaultClusterParameters Operation</seealso>
         public virtual DescribeDefaultClusterParametersResponse DescribeDefaultClusterParameters(DescribeDefaultClusterParametersRequest request)
         {
-            var marshaller = DescribeDefaultClusterParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeDefaultClusterParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDefaultClusterParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDefaultClusterParametersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDefaultClusterParametersRequest,DescribeDefaultClusterParametersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDefaultClusterParametersResponse>(request, options);
         }
 
         /// <summary>
@@ -2796,11 +3583,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeDefaultClusterParameters">REST API Reference for DescribeDefaultClusterParameters Operation</seealso>
         public virtual IAsyncResult BeginDescribeDefaultClusterParameters(DescribeDefaultClusterParametersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDefaultClusterParametersRequestMarshaller.Instance;
-            var unmarshaller = DescribeDefaultClusterParametersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDefaultClusterParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDefaultClusterParametersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDefaultClusterParametersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2822,7 +3609,7 @@ namespace Amazon.Redshift
 
         /// <summary>
         /// Displays a list of event categories for all event source types, or for a specified
-        /// source type. For a list of the event categories and source types, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html">Amazon
+        /// source type. For a list of the event categories and source types, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html">Amazon
         /// Redshift Event Notifications</a>.
         /// </summary>
         /// 
@@ -2835,7 +3622,7 @@ namespace Amazon.Redshift
 
         /// <summary>
         /// Displays a list of event categories for all event source types, or for a specified
-        /// source type. For a list of the event categories and source types, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html">Amazon
+        /// source type. For a list of the event categories and source types, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html">Amazon
         /// Redshift Event Notifications</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeEventCategories service method.</param>
@@ -2844,10 +3631,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEventCategories">REST API Reference for DescribeEventCategories Operation</seealso>
         public virtual DescribeEventCategoriesResponse DescribeEventCategories(DescribeEventCategoriesRequest request)
         {
-            var marshaller = DescribeEventCategoriesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventCategoriesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventCategoriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventCategoriesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventCategoriesRequest,DescribeEventCategoriesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventCategoriesResponse>(request, options);
         }
 
         /// <summary>
@@ -2864,11 +3652,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEventCategories">REST API Reference for DescribeEventCategories Operation</seealso>
         public virtual IAsyncResult BeginDescribeEventCategories(DescribeEventCategoriesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventCategoriesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventCategoriesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventCategoriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventCategoriesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventCategoriesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2914,10 +3702,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual DescribeEventsResponse DescribeEvents(DescribeEventsRequest request)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventsRequest,DescribeEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -2934,11 +3723,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual IAsyncResult BeginDescribeEvents(DescribeEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3024,10 +3813,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEventSubscriptions">REST API Reference for DescribeEventSubscriptions Operation</seealso>
         public virtual DescribeEventSubscriptionsResponse DescribeEventSubscriptions(DescribeEventSubscriptionsRequest request)
         {
-            var marshaller = DescribeEventSubscriptionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventSubscriptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventSubscriptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventSubscriptionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventSubscriptionsRequest,DescribeEventSubscriptionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventSubscriptionsResponse>(request, options);
         }
 
         /// <summary>
@@ -3044,11 +3834,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEventSubscriptions">REST API Reference for DescribeEventSubscriptions Operation</seealso>
         public virtual IAsyncResult BeginDescribeEventSubscriptions(DescribeEventSubscriptionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventSubscriptionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventSubscriptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventSubscriptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventSubscriptionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventSubscriptionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3132,10 +3922,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeHsmClientCertificates">REST API Reference for DescribeHsmClientCertificates Operation</seealso>
         public virtual DescribeHsmClientCertificatesResponse DescribeHsmClientCertificates(DescribeHsmClientCertificatesRequest request)
         {
-            var marshaller = DescribeHsmClientCertificatesRequestMarshaller.Instance;
-            var unmarshaller = DescribeHsmClientCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHsmClientCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHsmClientCertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeHsmClientCertificatesRequest,DescribeHsmClientCertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeHsmClientCertificatesResponse>(request, options);
         }
 
         /// <summary>
@@ -3152,11 +3943,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeHsmClientCertificates">REST API Reference for DescribeHsmClientCertificates Operation</seealso>
         public virtual IAsyncResult BeginDescribeHsmClientCertificates(DescribeHsmClientCertificatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeHsmClientCertificatesRequestMarshaller.Instance;
-            var unmarshaller = DescribeHsmClientCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHsmClientCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHsmClientCertificatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeHsmClientCertificatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3240,10 +4031,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeHsmConfigurations">REST API Reference for DescribeHsmConfigurations Operation</seealso>
         public virtual DescribeHsmConfigurationsResponse DescribeHsmConfigurations(DescribeHsmConfigurationsRequest request)
         {
-            var marshaller = DescribeHsmConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeHsmConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHsmConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHsmConfigurationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeHsmConfigurationsRequest,DescribeHsmConfigurationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeHsmConfigurationsResponse>(request, options);
         }
 
         /// <summary>
@@ -3260,11 +4052,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeHsmConfigurations">REST API Reference for DescribeHsmConfigurations Operation</seealso>
         public virtual IAsyncResult BeginDescribeHsmConfigurations(DescribeHsmConfigurationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeHsmConfigurationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeHsmConfigurationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHsmConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHsmConfigurationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeHsmConfigurationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3297,10 +4089,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeLoggingStatus">REST API Reference for DescribeLoggingStatus Operation</seealso>
         public virtual DescribeLoggingStatusResponse DescribeLoggingStatus(DescribeLoggingStatusRequest request)
         {
-            var marshaller = DescribeLoggingStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoggingStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoggingStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoggingStatusResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLoggingStatusRequest,DescribeLoggingStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLoggingStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -3317,11 +4110,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeLoggingStatus">REST API Reference for DescribeLoggingStatus Operation</seealso>
         public virtual IAsyncResult BeginDescribeLoggingStatus(DescribeLoggingStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLoggingStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeLoggingStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLoggingStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLoggingStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeLoggingStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3339,16 +4132,85 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  DescribeNodeConfigurationOptions
+
+        /// <summary>
+        /// Returns properties of possible node configurations such as node type, number of nodes,
+        /// and disk usage for the specified action type.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeNodeConfigurationOptions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeNodeConfigurationOptions service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.AccessToSnapshotDeniedException">
+        /// The owner of the specified snapshot has not authorized your account to access the
+        /// snapshot.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ClusterSnapshotNotFoundException">
+        /// The snapshot identifier does not refer to an existing cluster snapshot.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterSnapshotStateException">
+        /// The specified cluster snapshot is not in the <code>available</code> state, or other
+        /// accounts are authorized to access the snapshot.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeNodeConfigurationOptions">REST API Reference for DescribeNodeConfigurationOptions Operation</seealso>
+        public virtual DescribeNodeConfigurationOptionsResponse DescribeNodeConfigurationOptions(DescribeNodeConfigurationOptionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNodeConfigurationOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNodeConfigurationOptionsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeNodeConfigurationOptionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeNodeConfigurationOptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeNodeConfigurationOptions operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeNodeConfigurationOptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeNodeConfigurationOptions">REST API Reference for DescribeNodeConfigurationOptions Operation</seealso>
+        public virtual IAsyncResult BeginDescribeNodeConfigurationOptions(DescribeNodeConfigurationOptionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNodeConfigurationOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNodeConfigurationOptionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeNodeConfigurationOptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeNodeConfigurationOptions.</param>
+        /// 
+        /// <returns>Returns a  DescribeNodeConfigurationOptionsResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeNodeConfigurationOptions">REST API Reference for DescribeNodeConfigurationOptions Operation</seealso>
+        public virtual DescribeNodeConfigurationOptionsResponse EndDescribeNodeConfigurationOptions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeNodeConfigurationOptionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeOrderableClusterOptions
 
         /// <summary>
         /// Returns a list of orderable cluster options. Before you create a new cluster you can
         /// use this operation to find what options are available, such as the EC2 Availability
-        /// Zones (AZ) in the specific AWS region that you can specify, and the node types you
+        /// Zones (AZ) in the specific AWS Region that you can specify, and the node types you
         /// can request. The node types differ by available storage, memory, CPU and price. With
         /// the cost involved you might want to obtain a list of cluster options in the specific
         /// region and specify values when creating a cluster. For more information about managing
-        /// clusters, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </summary>
         /// 
@@ -3362,11 +4224,11 @@ namespace Amazon.Redshift
         /// <summary>
         /// Returns a list of orderable cluster options. Before you create a new cluster you can
         /// use this operation to find what options are available, such as the EC2 Availability
-        /// Zones (AZ) in the specific AWS region that you can specify, and the node types you
+        /// Zones (AZ) in the specific AWS Region that you can specify, and the node types you
         /// can request. The node types differ by available storage, memory, CPU and price. With
         /// the cost involved you might want to obtain a list of cluster options in the specific
         /// region and specify values when creating a cluster. For more information about managing
-        /// clusters, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeOrderableClusterOptions service method.</param>
@@ -3375,10 +4237,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeOrderableClusterOptions">REST API Reference for DescribeOrderableClusterOptions Operation</seealso>
         public virtual DescribeOrderableClusterOptionsResponse DescribeOrderableClusterOptions(DescribeOrderableClusterOptionsRequest request)
         {
-            var marshaller = DescribeOrderableClusterOptionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeOrderableClusterOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeOrderableClusterOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeOrderableClusterOptionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeOrderableClusterOptionsRequest,DescribeOrderableClusterOptionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeOrderableClusterOptionsResponse>(request, options);
         }
 
         /// <summary>
@@ -3395,11 +4258,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeOrderableClusterOptions">REST API Reference for DescribeOrderableClusterOptions Operation</seealso>
         public virtual IAsyncResult BeginDescribeOrderableClusterOptions(DescribeOrderableClusterOptionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeOrderableClusterOptionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeOrderableClusterOptionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeOrderableClusterOptionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeOrderableClusterOptionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeOrderableClusterOptionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3429,7 +4292,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about reserved node offerings, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
+        ///  For more information about reserved node offerings, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
         /// Reserved Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -3461,7 +4324,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about reserved node offerings, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
+        ///  For more information about reserved node offerings, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
         /// Reserved Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -3481,10 +4344,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeReservedNodeOfferings">REST API Reference for DescribeReservedNodeOfferings Operation</seealso>
         public virtual DescribeReservedNodeOfferingsResponse DescribeReservedNodeOfferings(DescribeReservedNodeOfferingsRequest request)
         {
-            var marshaller = DescribeReservedNodeOfferingsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedNodeOfferingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedNodeOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedNodeOfferingsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeReservedNodeOfferingsRequest,DescribeReservedNodeOfferingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeReservedNodeOfferingsResponse>(request, options);
         }
 
         /// <summary>
@@ -3501,11 +4365,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeReservedNodeOfferings">REST API Reference for DescribeReservedNodeOfferings Operation</seealso>
         public virtual IAsyncResult BeginDescribeReservedNodeOfferings(DescribeReservedNodeOfferingsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeReservedNodeOfferingsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedNodeOfferingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedNodeOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedNodeOfferingsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeReservedNodeOfferingsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3559,10 +4423,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeReservedNodes">REST API Reference for DescribeReservedNodes Operation</seealso>
         public virtual DescribeReservedNodesResponse DescribeReservedNodes(DescribeReservedNodesRequest request)
         {
-            var marshaller = DescribeReservedNodesRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedNodesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedNodesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedNodesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeReservedNodesRequest,DescribeReservedNodesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeReservedNodesResponse>(request, options);
         }
 
         /// <summary>
@@ -3579,11 +4444,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeReservedNodes">REST API Reference for DescribeReservedNodes Operation</seealso>
         public virtual IAsyncResult BeginDescribeReservedNodes(DescribeReservedNodesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeReservedNodesRequestMarshaller.Instance;
-            var unmarshaller = DescribeReservedNodesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservedNodesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservedNodesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeReservedNodesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3627,10 +4492,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeResize">REST API Reference for DescribeResize Operation</seealso>
         public virtual DescribeResizeResponse DescribeResize(DescribeResizeRequest request)
         {
-            var marshaller = DescribeResizeRequestMarshaller.Instance;
-            var unmarshaller = DescribeResizeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeResizeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeResizeResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeResizeRequest,DescribeResizeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeResizeResponse>(request, options);
         }
 
         /// <summary>
@@ -3647,11 +4513,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeResize">REST API Reference for DescribeResize Operation</seealso>
         public virtual IAsyncResult BeginDescribeResize(DescribeResizeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeResizeRequestMarshaller.Instance;
-            var unmarshaller = DescribeResizeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeResizeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeResizeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeResizeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3669,6 +4535,66 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  DescribeScheduledActions
+
+        /// <summary>
+        /// Describes properties of scheduled actions.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledActions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeScheduledActions service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ScheduledActionNotFoundException">
+        /// The scheduled action cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
+        /// Your account is not authorized to perform the requested operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeScheduledActions">REST API Reference for DescribeScheduledActions Operation</seealso>
+        public virtual DescribeScheduledActionsResponse DescribeScheduledActions(DescribeScheduledActionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduledActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduledActionsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeScheduledActionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeScheduledActions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledActions operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeScheduledActions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeScheduledActions">REST API Reference for DescribeScheduledActions Operation</seealso>
+        public virtual IAsyncResult BeginDescribeScheduledActions(DescribeScheduledActionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduledActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduledActionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeScheduledActions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeScheduledActions.</param>
+        /// 
+        /// <returns>Returns a  DescribeScheduledActionsResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeScheduledActions">REST API Reference for DescribeScheduledActions Operation</seealso>
+        public virtual DescribeScheduledActionsResponse EndDescribeScheduledActions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeScheduledActionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeSnapshotCopyGrants
 
         /// <summary>
@@ -3677,7 +4603,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about managing snapshot copy grants, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
+        ///  For more information about managing snapshot copy grants, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
         /// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         /// </para>
@@ -3695,10 +4621,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeSnapshotCopyGrants">REST API Reference for DescribeSnapshotCopyGrants Operation</seealso>
         public virtual DescribeSnapshotCopyGrantsResponse DescribeSnapshotCopyGrants(DescribeSnapshotCopyGrantsRequest request)
         {
-            var marshaller = DescribeSnapshotCopyGrantsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSnapshotCopyGrantsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSnapshotCopyGrantsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSnapshotCopyGrantsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeSnapshotCopyGrantsRequest,DescribeSnapshotCopyGrantsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeSnapshotCopyGrantsResponse>(request, options);
         }
 
         /// <summary>
@@ -3715,11 +4642,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeSnapshotCopyGrants">REST API Reference for DescribeSnapshotCopyGrants Operation</seealso>
         public virtual IAsyncResult BeginDescribeSnapshotCopyGrants(DescribeSnapshotCopyGrantsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeSnapshotCopyGrantsRequestMarshaller.Instance;
-            var unmarshaller = DescribeSnapshotCopyGrantsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSnapshotCopyGrantsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSnapshotCopyGrantsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeSnapshotCopyGrantsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3733,6 +4660,114 @@ namespace Amazon.Redshift
         public virtual DescribeSnapshotCopyGrantsResponse EndDescribeSnapshotCopyGrants(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeSnapshotCopyGrantsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeSnapshotSchedules
+
+        /// <summary>
+        /// Returns a list of snapshot schedules.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSnapshotSchedules service method.</param>
+        /// 
+        /// <returns>The response from the DescribeSnapshotSchedules service method, as returned by Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeSnapshotSchedules">REST API Reference for DescribeSnapshotSchedules Operation</seealso>
+        public virtual DescribeSnapshotSchedulesResponse DescribeSnapshotSchedules(DescribeSnapshotSchedulesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSnapshotSchedulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSnapshotSchedulesResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeSnapshotSchedulesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeSnapshotSchedules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSnapshotSchedules operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeSnapshotSchedules
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeSnapshotSchedules">REST API Reference for DescribeSnapshotSchedules Operation</seealso>
+        public virtual IAsyncResult BeginDescribeSnapshotSchedules(DescribeSnapshotSchedulesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSnapshotSchedulesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSnapshotSchedulesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeSnapshotSchedules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeSnapshotSchedules.</param>
+        /// 
+        /// <returns>Returns a  DescribeSnapshotSchedulesResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeSnapshotSchedules">REST API Reference for DescribeSnapshotSchedules Operation</seealso>
+        public virtual DescribeSnapshotSchedulesResponse EndDescribeSnapshotSchedules(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeSnapshotSchedulesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeStorage
+
+        /// <summary>
+        /// Returns account level backups storage size and provisional storage.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStorage service method.</param>
+        /// 
+        /// <returns>The response from the DescribeStorage service method, as returned by Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeStorage">REST API Reference for DescribeStorage Operation</seealso>
+        public virtual DescribeStorageResponse DescribeStorage(DescribeStorageRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStorageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStorageResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeStorageResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeStorage operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStorage operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeStorage
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeStorage">REST API Reference for DescribeStorage Operation</seealso>
+        public virtual IAsyncResult BeginDescribeStorage(DescribeStorageRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStorageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStorageResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeStorage operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeStorage.</param>
+        /// 
+        /// <returns>Returns a  DescribeStorageResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeStorage">REST API Reference for DescribeStorage Operation</seealso>
+        public virtual DescribeStorageResponse EndDescribeStorage(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeStorageResponse>(asyncResult);
         }
 
         #endregion
@@ -3759,10 +4794,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeTableRestoreStatus">REST API Reference for DescribeTableRestoreStatus Operation</seealso>
         public virtual DescribeTableRestoreStatusResponse DescribeTableRestoreStatus(DescribeTableRestoreStatusRequest request)
         {
-            var marshaller = DescribeTableRestoreStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeTableRestoreStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTableRestoreStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTableRestoreStatusResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTableRestoreStatusRequest,DescribeTableRestoreStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTableRestoreStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -3779,11 +4815,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeTableRestoreStatus">REST API Reference for DescribeTableRestoreStatus Operation</seealso>
         public virtual IAsyncResult BeginDescribeTableRestoreStatus(DescribeTableRestoreStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTableRestoreStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeTableRestoreStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTableRestoreStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTableRestoreStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeTableRestoreStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3852,10 +4888,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         public virtual DescribeTagsResponse DescribeTags(DescribeTagsRequest request)
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeTagsRequest,DescribeTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTagsResponse>(request, options);
         }
 
         /// <summary>
@@ -3872,11 +4909,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
         public virtual IAsyncResult BeginDescribeTags(DescribeTagsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTagsRequestMarshaller.Instance;
-            var unmarshaller = DescribeTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTagsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeTagsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3909,10 +4946,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableLogging">REST API Reference for DisableLogging Operation</seealso>
         public virtual DisableLoggingResponse DisableLogging(DisableLoggingRequest request)
         {
-            var marshaller = DisableLoggingRequestMarshaller.Instance;
-            var unmarshaller = DisableLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableLoggingResponseUnmarshaller.Instance;
 
-            return Invoke<DisableLoggingRequest,DisableLoggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisableLoggingResponse>(request, options);
         }
 
         /// <summary>
@@ -3929,11 +4967,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableLogging">REST API Reference for DisableLogging Operation</seealso>
         public virtual IAsyncResult BeginDisableLogging(DisableLoggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisableLoggingRequestMarshaller.Instance;
-            var unmarshaller = DisableLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableLoggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisableLoggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3982,10 +5020,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableSnapshotCopy">REST API Reference for DisableSnapshotCopy Operation</seealso>
         public virtual DisableSnapshotCopyResponse DisableSnapshotCopy(DisableSnapshotCopyRequest request)
         {
-            var marshaller = DisableSnapshotCopyRequestMarshaller.Instance;
-            var unmarshaller = DisableSnapshotCopyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableSnapshotCopyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableSnapshotCopyResponseUnmarshaller.Instance;
 
-            return Invoke<DisableSnapshotCopyRequest,DisableSnapshotCopyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisableSnapshotCopyResponse>(request, options);
         }
 
         /// <summary>
@@ -4002,11 +5041,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableSnapshotCopy">REST API Reference for DisableSnapshotCopy Operation</seealso>
         public virtual IAsyncResult BeginDisableSnapshotCopy(DisableSnapshotCopyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisableSnapshotCopyRequestMarshaller.Instance;
-            var unmarshaller = DisableSnapshotCopyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableSnapshotCopyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableSnapshotCopyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisableSnapshotCopyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4043,8 +5082,11 @@ namespace Amazon.Redshift
         /// The cluster does not have read bucket or put object permissions on the S3 bucket specified
         /// when enabling logging.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidS3BucketNameException">
-        /// The S3 bucket name is invalid. For more information about naming rules, go to <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">Bucket
+        /// The S3 bucket name is invalid. For more information about naming rules, go to <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">Bucket
         /// Restrictions and Limitations</a> in the Amazon Simple Storage Service (S3) Developer
         /// Guide.
         /// </exception>
@@ -4055,10 +5097,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableLogging">REST API Reference for EnableLogging Operation</seealso>
         public virtual EnableLoggingResponse EnableLogging(EnableLoggingRequest request)
         {
-            var marshaller = EnableLoggingRequestMarshaller.Instance;
-            var unmarshaller = EnableLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableLoggingResponseUnmarshaller.Instance;
 
-            return Invoke<EnableLoggingRequest,EnableLoggingResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnableLoggingResponse>(request, options);
         }
 
         /// <summary>
@@ -4075,11 +5118,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableLogging">REST API Reference for EnableLogging Operation</seealso>
         public virtual IAsyncResult BeginEnableLogging(EnableLoggingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = EnableLoggingRequestMarshaller.Instance;
-            var unmarshaller = EnableLoggingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableLoggingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<EnableLoggingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4122,6 +5165,14 @@ namespace Amazon.Redshift
         /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
         /// The specified cluster is not in the <code>available</code> state.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.LimitExceededException">
         /// The encryption key has exceeded its grant limit in AWS KMS.
         /// </exception>
@@ -4141,10 +5192,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableSnapshotCopy">REST API Reference for EnableSnapshotCopy Operation</seealso>
         public virtual EnableSnapshotCopyResponse EnableSnapshotCopy(EnableSnapshotCopyRequest request)
         {
-            var marshaller = EnableSnapshotCopyRequestMarshaller.Instance;
-            var unmarshaller = EnableSnapshotCopyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableSnapshotCopyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableSnapshotCopyResponseUnmarshaller.Instance;
 
-            return Invoke<EnableSnapshotCopyRequest,EnableSnapshotCopyResponse>(request, marshaller, unmarshaller);
+            return Invoke<EnableSnapshotCopyResponse>(request, options);
         }
 
         /// <summary>
@@ -4161,11 +5213,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableSnapshotCopy">REST API Reference for EnableSnapshotCopy Operation</seealso>
         public virtual IAsyncResult BeginEnableSnapshotCopy(EnableSnapshotCopyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = EnableSnapshotCopyRequestMarshaller.Instance;
-            var unmarshaller = EnableSnapshotCopyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableSnapshotCopyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableSnapshotCopyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<EnableSnapshotCopyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4192,7 +5244,7 @@ namespace Amazon.Redshift
         /// if <code>AutoCreate</code> is <code>True</code>. You can optionally specify one or
         /// more database user groups that the user will join at log on. By default, the temporary
         /// credentials expire in 900 seconds. You can optionally specify a duration between 900
-        /// seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/generating-user-credentials.html">Using
+        /// seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/generating-user-credentials.html">Using
         /// IAM Authentication to Generate Database User Credentials</a> in the Amazon Redshift
         /// Cluster Management Guide.
         /// 
@@ -4200,7 +5252,7 @@ namespace Amazon.Redshift
         /// <para>
         /// The AWS Identity and Access Management (IAM)user or role that executes GetClusterCredentials
         /// must have an IAM policy attached that allows access to all necessary actions and resources.
-        /// For more information about permissions, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html#redshift-policy-resources.getclustercredentials-resources">Resource
+        /// For more information about permissions, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html#redshift-policy-resources.getclustercredentials-resources">Resource
         /// Policies for GetClusterCredentials</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         ///  
@@ -4232,10 +5284,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetClusterCredentials">REST API Reference for GetClusterCredentials Operation</seealso>
         public virtual GetClusterCredentialsResponse GetClusterCredentials(GetClusterCredentialsRequest request)
         {
-            var marshaller = GetClusterCredentialsRequestMarshaller.Instance;
-            var unmarshaller = GetClusterCredentialsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetClusterCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetClusterCredentialsResponseUnmarshaller.Instance;
 
-            return Invoke<GetClusterCredentialsRequest,GetClusterCredentialsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetClusterCredentialsResponse>(request, options);
         }
 
         /// <summary>
@@ -4252,11 +5305,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetClusterCredentials">REST API Reference for GetClusterCredentials Operation</seealso>
         public virtual IAsyncResult BeginGetClusterCredentials(GetClusterCredentialsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetClusterCredentialsRequestMarshaller.Instance;
-            var unmarshaller = GetClusterCredentialsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetClusterCredentialsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetClusterCredentialsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetClusterCredentialsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4274,22 +5327,98 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  GetReservedNodeExchangeOfferings
+
+        /// <summary>
+        /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term,
+        /// and usage price of the given DC1 reserved node.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetReservedNodeExchangeOfferings service method.</param>
+        /// 
+        /// <returns>The response from the GetReservedNodeExchangeOfferings service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.DependentServiceUnavailableException">
+        /// Your request cannot be completed because a dependent internal service is temporarily
+        /// unavailable. Wait 30 to 60 seconds and try again.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidReservedNodeStateException">
+        /// Indicates that the Reserved Node being exchanged is not in an active state.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ReservedNodeAlreadyMigratedException">
+        /// Indicates that the reserved node has already been exchanged.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ReservedNodeNotFoundException">
+        /// The specified reserved compute node not found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ReservedNodeOfferingNotFoundException">
+        /// Specified offering does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnsupportedOperationException">
+        /// The requested operation isn't supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetReservedNodeExchangeOfferings">REST API Reference for GetReservedNodeExchangeOfferings Operation</seealso>
+        public virtual GetReservedNodeExchangeOfferingsResponse GetReservedNodeExchangeOfferings(GetReservedNodeExchangeOfferingsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetReservedNodeExchangeOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetReservedNodeExchangeOfferingsResponseUnmarshaller.Instance;
+
+            return Invoke<GetReservedNodeExchangeOfferingsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetReservedNodeExchangeOfferings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetReservedNodeExchangeOfferings operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetReservedNodeExchangeOfferings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetReservedNodeExchangeOfferings">REST API Reference for GetReservedNodeExchangeOfferings Operation</seealso>
+        public virtual IAsyncResult BeginGetReservedNodeExchangeOfferings(GetReservedNodeExchangeOfferingsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetReservedNodeExchangeOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetReservedNodeExchangeOfferingsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetReservedNodeExchangeOfferings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetReservedNodeExchangeOfferings.</param>
+        /// 
+        /// <returns>Returns a  GetReservedNodeExchangeOfferingsResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetReservedNodeExchangeOfferings">REST API Reference for GetReservedNodeExchangeOfferings Operation</seealso>
+        public virtual GetReservedNodeExchangeOfferingsResponse EndGetReservedNodeExchangeOfferings(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetReservedNodeExchangeOfferingsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  ModifyCluster
 
         /// <summary>
-        /// Modifies the settings for a cluster. For example, you can add another security or
-        /// parameter group, update the preferred maintenance window, or change the master user
-        /// password. Resetting a cluster password or modifying the security groups associated
-        /// with a cluster do not need a reboot. However, modifying a parameter group requires
-        /// a reboot for parameters to take effect. For more information about managing clusters,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
-        /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
+        /// Modifies the settings for a cluster.
         /// 
         ///  
         /// <para>
         /// You can also change node type and the number of nodes to scale up or down the cluster.
         /// When resizing a cluster, you must specify both the number of nodes and the node type
         /// even if one of the parameters does not change.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can add another security or parameter group, or change the master user password.
+        /// Resetting a cluster password or modifying the security groups associated with a cluster
+        /// do not need a reboot. However, modifying a parameter group requires a reboot for parameters
+        /// to take effect. For more information about managing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifyCluster service method.</param>
@@ -4326,8 +5455,19 @@ namespace Amazon.Redshift
         /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
         /// The specified cluster is not in the <code>available</code> state.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterTrackException">
+        /// The provided cluster track name is not valid.
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidElasticIpException">
         /// The Elastic IP (EIP) is invalid or cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.LimitExceededException">
         /// The encryption key has exceeded its grant limit in AWS KMS.
@@ -4337,8 +5477,12 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.NumberOfNodesQuotaExceededException">
         /// The operation would exceed the number of nodes allotted to the account. For information
-        /// about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.TableLimitExceededException">
+        /// The number of tables in the cluster exceeds the limit for the requested new cluster
+        /// node type.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
         /// Your account is not authorized to perform the requested operation.
@@ -4349,10 +5493,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyCluster">REST API Reference for ModifyCluster Operation</seealso>
         public virtual ModifyClusterResponse ModifyCluster(ModifyClusterRequest request)
         {
-            var marshaller = ModifyClusterRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyClusterRequest,ModifyClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -4369,11 +5514,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyCluster">REST API Reference for ModifyCluster Operation</seealso>
         public virtual IAsyncResult BeginModifyCluster(ModifyClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ModifyClusterRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ModifyClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4387,6 +5532,70 @@ namespace Amazon.Redshift
         public virtual ModifyClusterResponse EndModifyCluster(IAsyncResult asyncResult)
         {
             return EndInvoke<ModifyClusterResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ModifyClusterDbRevision
+
+        /// <summary>
+        /// Modifies the database revision of a cluster. The database revision is a unique revision
+        /// of the database running in a cluster.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterDbRevision service method.</param>
+        /// 
+        /// <returns>The response from the ModifyClusterDbRevision service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ClusterOnLatestRevisionException">
+        /// Cluster is already on the latest database revision.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterDbRevision">REST API Reference for ModifyClusterDbRevision Operation</seealso>
+        public virtual ModifyClusterDbRevisionResponse ModifyClusterDbRevision(ModifyClusterDbRevisionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterDbRevisionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterDbRevisionResponseUnmarshaller.Instance;
+
+            return Invoke<ModifyClusterDbRevisionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyClusterDbRevision operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterDbRevision operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyClusterDbRevision
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterDbRevision">REST API Reference for ModifyClusterDbRevision Operation</seealso>
+        public virtual IAsyncResult BeginModifyClusterDbRevision(ModifyClusterDbRevisionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterDbRevisionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterDbRevisionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyClusterDbRevision operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyClusterDbRevision.</param>
+        /// 
+        /// <returns>Returns a  ModifyClusterDbRevisionResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterDbRevision">REST API Reference for ModifyClusterDbRevision Operation</seealso>
+        public virtual ModifyClusterDbRevisionResponse EndModifyClusterDbRevision(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ModifyClusterDbRevisionResponse>(asyncResult);
         }
 
         #endregion
@@ -4414,10 +5623,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterIamRoles">REST API Reference for ModifyClusterIamRoles Operation</seealso>
         public virtual ModifyClusterIamRolesResponse ModifyClusterIamRoles(ModifyClusterIamRolesRequest request)
         {
-            var marshaller = ModifyClusterIamRolesRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterIamRolesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterIamRolesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterIamRolesResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyClusterIamRolesRequest,ModifyClusterIamRolesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyClusterIamRolesResponse>(request, options);
         }
 
         /// <summary>
@@ -4434,11 +5644,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterIamRoles">REST API Reference for ModifyClusterIamRoles Operation</seealso>
         public virtual IAsyncResult BeginModifyClusterIamRoles(ModifyClusterIamRolesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ModifyClusterIamRolesRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterIamRolesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterIamRolesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterIamRolesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ModifyClusterIamRolesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4456,6 +5666,66 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  ModifyClusterMaintenance
+
+        /// <summary>
+        /// Modifies the maintenance settings of a cluster.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterMaintenance service method.</param>
+        /// 
+        /// <returns>The response from the ModifyClusterMaintenance service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterMaintenance">REST API Reference for ModifyClusterMaintenance Operation</seealso>
+        public virtual ModifyClusterMaintenanceResponse ModifyClusterMaintenance(ModifyClusterMaintenanceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterMaintenanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterMaintenanceResponseUnmarshaller.Instance;
+
+            return Invoke<ModifyClusterMaintenanceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyClusterMaintenance operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterMaintenance operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyClusterMaintenance
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterMaintenance">REST API Reference for ModifyClusterMaintenance Operation</seealso>
+        public virtual IAsyncResult BeginModifyClusterMaintenance(ModifyClusterMaintenanceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterMaintenanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterMaintenanceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyClusterMaintenance operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyClusterMaintenance.</param>
+        /// 
+        /// <returns>Returns a  ModifyClusterMaintenanceResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterMaintenance">REST API Reference for ModifyClusterMaintenance Operation</seealso>
+        public virtual ModifyClusterMaintenanceResponse EndModifyClusterMaintenance(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ModifyClusterMaintenanceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  ModifyClusterParameterGroup
 
         /// <summary>
@@ -4463,7 +5733,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about parameters and parameter groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+        ///  For more information about parameters and parameter groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
         /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -4481,10 +5751,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterParameterGroup">REST API Reference for ModifyClusterParameterGroup Operation</seealso>
         public virtual ModifyClusterParameterGroupResponse ModifyClusterParameterGroup(ModifyClusterParameterGroupRequest request)
         {
-            var marshaller = ModifyClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyClusterParameterGroupRequest,ModifyClusterParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyClusterParameterGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -4501,11 +5772,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterParameterGroup">REST API Reference for ModifyClusterParameterGroup Operation</seealso>
         public virtual IAsyncResult BeginModifyClusterParameterGroup(ModifyClusterParameterGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ModifyClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ModifyClusterParameterGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4519,6 +5790,143 @@ namespace Amazon.Redshift
         public virtual ModifyClusterParameterGroupResponse EndModifyClusterParameterGroup(IAsyncResult asyncResult)
         {
             return EndInvoke<ModifyClusterParameterGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ModifyClusterSnapshot
+
+        /// <summary>
+        /// Modifies the settings for a snapshot.
+        /// 
+        ///  
+        /// <para>
+        /// This exanmple modifies the manual retention period setting for a cluster snapshot.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the ModifyClusterSnapshot service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterSnapshotNotFoundException">
+        /// The snapshot identifier does not refer to an existing cluster snapshot.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterSnapshotStateException">
+        /// The specified cluster snapshot is not in the <code>available</code> state, or other
+        /// accounts are authorized to access the snapshot.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSnapshot">REST API Reference for ModifyClusterSnapshot Operation</seealso>
+        public virtual ModifyClusterSnapshotResponse ModifyClusterSnapshot(ModifyClusterSnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterSnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<ModifyClusterSnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyClusterSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterSnapshot operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyClusterSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSnapshot">REST API Reference for ModifyClusterSnapshot Operation</seealso>
+        public virtual IAsyncResult BeginModifyClusterSnapshot(ModifyClusterSnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterSnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyClusterSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyClusterSnapshot.</param>
+        /// 
+        /// <returns>Returns a  ModifyClusterSnapshotResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSnapshot">REST API Reference for ModifyClusterSnapshot Operation</seealso>
+        public virtual ModifyClusterSnapshotResponse EndModifyClusterSnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ModifyClusterSnapshotResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ModifyClusterSnapshotSchedule
+
+        /// <summary>
+        /// Modifies a snapshot schedule for a cluster.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterSnapshotSchedule service method.</param>
+        /// 
+        /// <returns>The response from the ModifyClusterSnapshotSchedule service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterSnapshotScheduleStateException">
+        /// The cluster snapshot schedule state is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleNotFoundException">
+        /// We could not find the specified snapshot schedule.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSnapshotSchedule">REST API Reference for ModifyClusterSnapshotSchedule Operation</seealso>
+        public virtual ModifyClusterSnapshotScheduleResponse ModifyClusterSnapshotSchedule(ModifyClusterSnapshotScheduleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterSnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterSnapshotScheduleResponseUnmarshaller.Instance;
+
+            return Invoke<ModifyClusterSnapshotScheduleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyClusterSnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyClusterSnapshotSchedule operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyClusterSnapshotSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSnapshotSchedule">REST API Reference for ModifyClusterSnapshotSchedule Operation</seealso>
+        public virtual IAsyncResult BeginModifyClusterSnapshotSchedule(ModifyClusterSnapshotScheduleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterSnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterSnapshotScheduleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyClusterSnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyClusterSnapshotSchedule.</param>
+        /// 
+        /// <returns>Returns a  ModifyClusterSnapshotScheduleResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSnapshotSchedule">REST API Reference for ModifyClusterSnapshotSchedule Operation</seealso>
+        public virtual ModifyClusterSnapshotScheduleResponse EndModifyClusterSnapshotSchedule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ModifyClusterSnapshotScheduleResponse>(asyncResult);
         }
 
         #endregion
@@ -4537,7 +5945,7 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterSubnetQuotaExceededException">
         /// The request would result in user exceeding the allowed number of subnets in a cluster
-        /// subnet groups. For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// subnet groups. For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.DependentServiceRequestThrottlingException">
@@ -4556,10 +5964,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSubnetGroup">REST API Reference for ModifyClusterSubnetGroup Operation</seealso>
         public virtual ModifyClusterSubnetGroupResponse ModifyClusterSubnetGroup(ModifyClusterSubnetGroupRequest request)
         {
-            var marshaller = ModifyClusterSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterSubnetGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyClusterSubnetGroupRequest,ModifyClusterSubnetGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyClusterSubnetGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -4576,11 +5985,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSubnetGroup">REST API Reference for ModifyClusterSubnetGroup Operation</seealso>
         public virtual IAsyncResult BeginModifyClusterSubnetGroup(ModifyClusterSubnetGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ModifyClusterSubnetGroupRequestMarshaller.Instance;
-            var unmarshaller = ModifyClusterSubnetGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyClusterSubnetGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyClusterSubnetGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ModifyClusterSubnetGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4642,10 +6051,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyEventSubscription">REST API Reference for ModifyEventSubscription Operation</seealso>
         public virtual ModifyEventSubscriptionResponse ModifyEventSubscription(ModifyEventSubscriptionRequest request)
         {
-            var marshaller = ModifyEventSubscriptionRequestMarshaller.Instance;
-            var unmarshaller = ModifyEventSubscriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyEventSubscriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyEventSubscriptionResponseUnmarshaller.Instance;
 
-            return Invoke<ModifyEventSubscriptionRequest,ModifyEventSubscriptionResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifyEventSubscriptionResponse>(request, options);
         }
 
         /// <summary>
@@ -4662,11 +6072,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyEventSubscription">REST API Reference for ModifyEventSubscription Operation</seealso>
         public virtual IAsyncResult BeginModifyEventSubscription(ModifyEventSubscriptionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ModifyEventSubscriptionRequestMarshaller.Instance;
-            var unmarshaller = ModifyEventSubscriptionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyEventSubscriptionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyEventSubscriptionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ModifyEventSubscriptionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4684,11 +6094,85 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  ModifyScheduledAction
+
+        /// <summary>
+        /// Modifies a scheduled action.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyScheduledAction service method.</param>
+        /// 
+        /// <returns>The response from the ModifyScheduledAction service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.InvalidScheduledActionException">
+        /// The scheduled action is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidScheduleException">
+        /// The schedule you submitted isn't valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ScheduledActionNotFoundException">
+        /// The scheduled action cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.ScheduledActionTypeUnsupportedException">
+        /// The action type specified for a scheduled action is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
+        /// Your account is not authorized to perform the requested operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyScheduledAction">REST API Reference for ModifyScheduledAction Operation</seealso>
+        public virtual ModifyScheduledActionResponse ModifyScheduledAction(ModifyScheduledActionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyScheduledActionResponseUnmarshaller.Instance;
+
+            return Invoke<ModifyScheduledActionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyScheduledAction operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyScheduledAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyScheduledAction">REST API Reference for ModifyScheduledAction Operation</seealso>
+        public virtual IAsyncResult BeginModifyScheduledAction(ModifyScheduledActionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyScheduledActionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyScheduledActionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyScheduledAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyScheduledAction.</param>
+        /// 
+        /// <returns>Returns a  ModifyScheduledActionResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyScheduledAction">REST API Reference for ModifyScheduledAction Operation</seealso>
+        public virtual ModifyScheduledActionResponse EndModifyScheduledAction(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ModifyScheduledActionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  ModifySnapshotCopyRetentionPeriod
 
         /// <summary>
-        /// Modifies the number of days to retain automated snapshots in the destination region
-        /// after they are copied from the source region.
+        /// Modifies the number of days to retain snapshots in the destination AWS Region after
+        /// they are copied from the source AWS Region. By default, this operation only changes
+        /// the retention period of copied automated snapshots. The retention periods for both
+        /// new and existing copied automated snapshots are updated with the new retention period.
+        /// You can set the manual option to change only the retention periods of copied manual
+        /// snapshots. If you set this option, only newly copied manual snapshots have the new
+        /// retention period.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ModifySnapshotCopyRetentionPeriod service method.</param>
         /// 
@@ -4699,6 +6183,14 @@ namespace Amazon.Redshift
         /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
         /// The specified cluster is not in the <code>available</code> state.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidRetentionPeriodException">
+        /// The retention period specified is either in the past or is not a valid value.
+        /// 
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.SnapshotCopyDisabledException">
         /// Cross-region snapshot copy was temporarily disabled. Try your request again.
         /// </exception>
@@ -4708,10 +6200,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotCopyRetentionPeriod">REST API Reference for ModifySnapshotCopyRetentionPeriod Operation</seealso>
         public virtual ModifySnapshotCopyRetentionPeriodResponse ModifySnapshotCopyRetentionPeriod(ModifySnapshotCopyRetentionPeriodRequest request)
         {
-            var marshaller = ModifySnapshotCopyRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = ModifySnapshotCopyRetentionPeriodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifySnapshotCopyRetentionPeriodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifySnapshotCopyRetentionPeriodResponseUnmarshaller.Instance;
 
-            return Invoke<ModifySnapshotCopyRetentionPeriodRequest,ModifySnapshotCopyRetentionPeriodResponse>(request, marshaller, unmarshaller);
+            return Invoke<ModifySnapshotCopyRetentionPeriodResponse>(request, options);
         }
 
         /// <summary>
@@ -4728,11 +6221,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotCopyRetentionPeriod">REST API Reference for ModifySnapshotCopyRetentionPeriod Operation</seealso>
         public virtual IAsyncResult BeginModifySnapshotCopyRetentionPeriod(ModifySnapshotCopyRetentionPeriodRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ModifySnapshotCopyRetentionPeriodRequestMarshaller.Instance;
-            var unmarshaller = ModifySnapshotCopyRetentionPeriodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifySnapshotCopyRetentionPeriodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifySnapshotCopyRetentionPeriodResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ModifySnapshotCopyRetentionPeriodRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4750,6 +6243,129 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  ModifySnapshotSchedule
+
+        /// <summary>
+        /// Modifies a snapshot schedule. Any schedule associated with a cluster is modified asynchronously.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifySnapshotSchedule service method.</param>
+        /// 
+        /// <returns>The response from the ModifySnapshotSchedule service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.InvalidScheduleException">
+        /// The schedule you submitted isn't valid.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleNotFoundException">
+        /// We could not find the specified snapshot schedule.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleUpdateInProgressException">
+        /// The specified snapshot schedule is already being updated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotSchedule">REST API Reference for ModifySnapshotSchedule Operation</seealso>
+        public virtual ModifySnapshotScheduleResponse ModifySnapshotSchedule(ModifySnapshotScheduleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifySnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifySnapshotScheduleResponseUnmarshaller.Instance;
+
+            return Invoke<ModifySnapshotScheduleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifySnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifySnapshotSchedule operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifySnapshotSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotSchedule">REST API Reference for ModifySnapshotSchedule Operation</seealso>
+        public virtual IAsyncResult BeginModifySnapshotSchedule(ModifySnapshotScheduleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifySnapshotScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifySnapshotScheduleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifySnapshotSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifySnapshotSchedule.</param>
+        /// 
+        /// <returns>Returns a  ModifySnapshotScheduleResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotSchedule">REST API Reference for ModifySnapshotSchedule Operation</seealso>
+        public virtual ModifySnapshotScheduleResponse EndModifySnapshotSchedule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ModifySnapshotScheduleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PauseCluster
+
+        /// <summary>
+        /// Pauses a cluster.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PauseCluster service method.</param>
+        /// 
+        /// <returns>The response from the PauseCluster service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PauseCluster">REST API Reference for PauseCluster Operation</seealso>
+        public virtual PauseClusterResponse PauseCluster(PauseClusterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PauseClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PauseClusterResponseUnmarshaller.Instance;
+
+            return Invoke<PauseClusterResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PauseCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PauseCluster operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPauseCluster
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PauseCluster">REST API Reference for PauseCluster Operation</seealso>
+        public virtual IAsyncResult BeginPauseCluster(PauseClusterRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PauseClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PauseClusterResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PauseCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPauseCluster.</param>
+        /// 
+        /// <returns>Returns a  PauseClusterResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PauseCluster">REST API Reference for PauseCluster Operation</seealso>
+        public virtual PauseClusterResponse EndPauseCluster(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PauseClusterResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PurchaseReservedNodeOffering
 
         /// <summary>
@@ -4761,7 +6377,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about reserved node offerings, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
+        ///  For more information about reserved node offerings, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
         /// Reserved Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -4776,7 +6392,7 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ReservedNodeQuotaExceededException">
         /// Request would exceed the user's compute node quota. For information about increasing
-        /// your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.UnsupportedOperationException">
@@ -4785,10 +6401,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PurchaseReservedNodeOffering">REST API Reference for PurchaseReservedNodeOffering Operation</seealso>
         public virtual PurchaseReservedNodeOfferingResponse PurchaseReservedNodeOffering(PurchaseReservedNodeOfferingRequest request)
         {
-            var marshaller = PurchaseReservedNodeOfferingRequestMarshaller.Instance;
-            var unmarshaller = PurchaseReservedNodeOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseReservedNodeOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseReservedNodeOfferingResponseUnmarshaller.Instance;
 
-            return Invoke<PurchaseReservedNodeOfferingRequest,PurchaseReservedNodeOfferingResponse>(request, marshaller, unmarshaller);
+            return Invoke<PurchaseReservedNodeOfferingResponse>(request, options);
         }
 
         /// <summary>
@@ -4805,11 +6422,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PurchaseReservedNodeOffering">REST API Reference for PurchaseReservedNodeOffering Operation</seealso>
         public virtual IAsyncResult BeginPurchaseReservedNodeOffering(PurchaseReservedNodeOfferingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PurchaseReservedNodeOfferingRequestMarshaller.Instance;
-            var unmarshaller = PurchaseReservedNodeOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseReservedNodeOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseReservedNodeOfferingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PurchaseReservedNodeOfferingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4834,7 +6451,7 @@ namespace Amazon.Redshift
         /// outage to the cluster, during which the cluster status is set to <code>rebooting</code>.
         /// A cluster event is created when the reboot is completed. Any pending cluster modifications
         /// (see <a>ModifyCluster</a>) are applied at this reboot. For more information about
-        /// managing clusters, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+        /// managing clusters, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
         /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RebootCluster service method.</param>
@@ -4849,10 +6466,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RebootCluster">REST API Reference for RebootCluster Operation</seealso>
         public virtual RebootClusterResponse RebootCluster(RebootClusterRequest request)
         {
-            var marshaller = RebootClusterRequestMarshaller.Instance;
-            var unmarshaller = RebootClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootClusterResponseUnmarshaller.Instance;
 
-            return Invoke<RebootClusterRequest,RebootClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<RebootClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -4869,11 +6487,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RebootCluster">REST API Reference for RebootCluster Operation</seealso>
         public virtual IAsyncResult BeginRebootCluster(RebootClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RebootClusterRequestMarshaller.Instance;
-            var unmarshaller = RebootClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RebootClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4913,10 +6531,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResetClusterParameterGroup">REST API Reference for ResetClusterParameterGroup Operation</seealso>
         public virtual ResetClusterParameterGroupResponse ResetClusterParameterGroup(ResetClusterParameterGroupRequest request)
         {
-            var marshaller = ResetClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ResetClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ResetClusterParameterGroupRequest,ResetClusterParameterGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ResetClusterParameterGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -4933,11 +6552,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResetClusterParameterGroup">REST API Reference for ResetClusterParameterGroup Operation</seealso>
         public virtual IAsyncResult BeginResetClusterParameterGroup(ResetClusterParameterGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ResetClusterParameterGroupRequestMarshaller.Instance;
-            var unmarshaller = ResetClusterParameterGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResetClusterParameterGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResetClusterParameterGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ResetClusterParameterGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4951,6 +6570,130 @@ namespace Amazon.Redshift
         public virtual ResetClusterParameterGroupResponse EndResetClusterParameterGroup(IAsyncResult asyncResult)
         {
             return EndInvoke<ResetClusterParameterGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ResizeCluster
+
+        /// <summary>
+        /// Changes the size of the cluster. You can change the cluster's type, or change the
+        /// number or type of nodes. The default behavior is to use the elastic resize method.
+        /// With an elastic resize, your cluster is available for read and write operations more
+        /// quickly than with the classic resize method. 
+        /// 
+        ///  
+        /// <para>
+        /// Elastic resize operations have the following restrictions:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// You can only resize clusters of the following types:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// dc2.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// dc2.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ds2.xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ds2.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ra3.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ra3.16xlarge
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// The type of nodes that you add must match the node type for the cluster.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ResizeCluster service method.</param>
+        /// 
+        /// <returns>The response from the ResizeCluster service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InsufficientClusterCapacityException">
+        /// The number of nodes specified exceeds the allotted capacity of the cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.LimitExceededException">
+        /// The encryption key has exceeded its grant limit in AWS KMS.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.NumberOfNodesPerClusterLimitExceededException">
+        /// The operation would exceed the number of nodes allowed for a cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.NumberOfNodesQuotaExceededException">
+        /// The operation would exceed the number of nodes allotted to the account. For information
+        /// about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
+        /// Your account is not authorized to perform the requested operation.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnsupportedOperationException">
+        /// The requested operation isn't supported.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.UnsupportedOptionException">
+        /// A request option was specified that is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResizeCluster">REST API Reference for ResizeCluster Operation</seealso>
+        public virtual ResizeClusterResponse ResizeCluster(ResizeClusterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResizeClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResizeClusterResponseUnmarshaller.Instance;
+
+            return Invoke<ResizeClusterResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ResizeCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ResizeCluster operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndResizeCluster
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResizeCluster">REST API Reference for ResizeCluster Operation</seealso>
+        public virtual IAsyncResult BeginResizeCluster(ResizeClusterRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResizeClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResizeClusterResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ResizeCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginResizeCluster.</param>
+        /// 
+        /// <returns>Returns a  ResizeClusterResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResizeCluster">REST API Reference for ResizeCluster Operation</seealso>
+        public virtual ResizeClusterResponse EndResizeCluster(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ResizeClusterResponse>(asyncResult);
         }
 
         #endregion
@@ -4973,7 +6716,7 @@ namespace Amazon.Redshift
         /// </para>
         ///  
         /// <para>
-        ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+        ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
         /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -4992,7 +6735,7 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterQuotaExceededException">
         /// The request would exceed the allowed number of cluster instances for this account.
-        /// For information about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// For information about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.ClusterSecurityGroupNotFoundException">
@@ -5024,6 +6767,9 @@ namespace Amazon.Redshift
         /// <exception cref="Amazon.Redshift.Model.InvalidClusterSubnetGroupStateException">
         /// The cluster subnet group cannot be deleted because it is in use.
         /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterTrackException">
+        /// The provided cluster track name is not valid.
+        /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidElasticIpException">
         /// The Elastic IP (EIP) is invalid or cannot be found.
         /// </exception>
@@ -5032,6 +6778,9 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidSubnetException">
         /// The requested subnet is not valid, or not all of the subnets are in the same VPC.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidTagException">
+        /// The tag is invalid.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.InvalidVPCNetworkStateException">
         /// The cluster subnet group does not cover all Availability Zones.
@@ -5044,8 +6793,14 @@ namespace Amazon.Redshift
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.NumberOfNodesQuotaExceededException">
         /// The operation would exceed the number of nodes allotted to the account. For information
-        /// about increasing your quota, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
+        /// about increasing your quota, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Limits
         /// in Amazon Redshift</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.SnapshotScheduleNotFoundException">
+        /// We could not find the specified snapshot schedule.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.TagLimitExceededException">
+        /// You have exceeded the number of tags allowed.
         /// </exception>
         /// <exception cref="Amazon.Redshift.Model.UnauthorizedOperationException">
         /// Your account is not authorized to perform the requested operation.
@@ -5053,10 +6808,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreFromClusterSnapshot">REST API Reference for RestoreFromClusterSnapshot Operation</seealso>
         public virtual RestoreFromClusterSnapshotResponse RestoreFromClusterSnapshot(RestoreFromClusterSnapshotRequest request)
         {
-            var marshaller = RestoreFromClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = RestoreFromClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreFromClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreFromClusterSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<RestoreFromClusterSnapshotRequest,RestoreFromClusterSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<RestoreFromClusterSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -5073,11 +6829,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreFromClusterSnapshot">REST API Reference for RestoreFromClusterSnapshot Operation</seealso>
         public virtual IAsyncResult BeginRestoreFromClusterSnapshot(RestoreFromClusterSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RestoreFromClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = RestoreFromClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreFromClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreFromClusterSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RestoreFromClusterSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5145,10 +6901,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreTableFromClusterSnapshot">REST API Reference for RestoreTableFromClusterSnapshot Operation</seealso>
         public virtual RestoreTableFromClusterSnapshotResponse RestoreTableFromClusterSnapshot(RestoreTableFromClusterSnapshotRequest request)
         {
-            var marshaller = RestoreTableFromClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = RestoreTableFromClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreTableFromClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreTableFromClusterSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<RestoreTableFromClusterSnapshotRequest,RestoreTableFromClusterSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<RestoreTableFromClusterSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -5165,11 +6922,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreTableFromClusterSnapshot">REST API Reference for RestoreTableFromClusterSnapshot Operation</seealso>
         public virtual IAsyncResult BeginRestoreTableFromClusterSnapshot(RestoreTableFromClusterSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RestoreTableFromClusterSnapshotRequestMarshaller.Instance;
-            var unmarshaller = RestoreTableFromClusterSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreTableFromClusterSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreTableFromClusterSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RestoreTableFromClusterSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5187,12 +6944,72 @@ namespace Amazon.Redshift
 
         #endregion
         
+        #region  ResumeCluster
+
+        /// <summary>
+        /// Resumes a paused cluster.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ResumeCluster service method.</param>
+        /// 
+        /// <returns>The response from the ResumeCluster service method, as returned by Redshift.</returns>
+        /// <exception cref="Amazon.Redshift.Model.ClusterNotFoundException">
+        /// The <code>ClusterIdentifier</code> parameter does not refer to an existing cluster.
+        /// </exception>
+        /// <exception cref="Amazon.Redshift.Model.InvalidClusterStateException">
+        /// The specified cluster is not in the <code>available</code> state.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResumeCluster">REST API Reference for ResumeCluster Operation</seealso>
+        public virtual ResumeClusterResponse ResumeCluster(ResumeClusterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResumeClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResumeClusterResponseUnmarshaller.Instance;
+
+            return Invoke<ResumeClusterResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ResumeCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ResumeCluster operation on AmazonRedshiftClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndResumeCluster
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResumeCluster">REST API Reference for ResumeCluster Operation</seealso>
+        public virtual IAsyncResult BeginResumeCluster(ResumeClusterRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ResumeClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ResumeClusterResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ResumeCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginResumeCluster.</param>
+        /// 
+        /// <returns>Returns a  ResumeClusterResult from Redshift.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResumeCluster">REST API Reference for ResumeCluster Operation</seealso>
+        public virtual ResumeClusterResponse EndResumeCluster(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ResumeClusterResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  RevokeClusterSecurityGroupIngress
 
         /// <summary>
         /// Revokes an ingress rule in an Amazon Redshift security group for a previously authorized
         /// IP range or Amazon EC2 security group. To add an ingress rule, see <a>AuthorizeClusterSecurityGroupIngress</a>.
-        /// For information about managing security groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
+        /// For information about managing security groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html">Amazon
         /// Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster Management
         /// Guide</i>.
         /// </summary>
@@ -5212,10 +7029,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeClusterSecurityGroupIngress">REST API Reference for RevokeClusterSecurityGroupIngress Operation</seealso>
         public virtual RevokeClusterSecurityGroupIngressResponse RevokeClusterSecurityGroupIngress(RevokeClusterSecurityGroupIngressRequest request)
         {
-            var marshaller = RevokeClusterSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = RevokeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RevokeClusterSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RevokeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return Invoke<RevokeClusterSecurityGroupIngressRequest,RevokeClusterSecurityGroupIngressResponse>(request, marshaller, unmarshaller);
+            return Invoke<RevokeClusterSecurityGroupIngressResponse>(request, options);
         }
 
         /// <summary>
@@ -5232,11 +7050,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeClusterSecurityGroupIngress">REST API Reference for RevokeClusterSecurityGroupIngress Operation</seealso>
         public virtual IAsyncResult BeginRevokeClusterSecurityGroupIngress(RevokeClusterSecurityGroupIngressRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RevokeClusterSecurityGroupIngressRequestMarshaller.Instance;
-            var unmarshaller = RevokeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RevokeClusterSecurityGroupIngressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RevokeClusterSecurityGroupIngressResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RevokeClusterSecurityGroupIngressRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5263,7 +7081,7 @@ namespace Amazon.Redshift
         /// 
         ///  
         /// <para>
-        ///  For more information about working with snapshots, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
+        ///  For more information about working with snapshots, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
         /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// </para>
         /// </summary>
@@ -5284,10 +7102,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeSnapshotAccess">REST API Reference for RevokeSnapshotAccess Operation</seealso>
         public virtual RevokeSnapshotAccessResponse RevokeSnapshotAccess(RevokeSnapshotAccessRequest request)
         {
-            var marshaller = RevokeSnapshotAccessRequestMarshaller.Instance;
-            var unmarshaller = RevokeSnapshotAccessResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RevokeSnapshotAccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RevokeSnapshotAccessResponseUnmarshaller.Instance;
 
-            return Invoke<RevokeSnapshotAccessRequest,RevokeSnapshotAccessResponse>(request, marshaller, unmarshaller);
+            return Invoke<RevokeSnapshotAccessResponse>(request, options);
         }
 
         /// <summary>
@@ -5304,11 +7123,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeSnapshotAccess">REST API Reference for RevokeSnapshotAccess Operation</seealso>
         public virtual IAsyncResult BeginRevokeSnapshotAccess(RevokeSnapshotAccessRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RevokeSnapshotAccessRequestMarshaller.Instance;
-            var unmarshaller = RevokeSnapshotAccessResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RevokeSnapshotAccessRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RevokeSnapshotAccessResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RevokeSnapshotAccessRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5347,10 +7166,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RotateEncryptionKey">REST API Reference for RotateEncryptionKey Operation</seealso>
         public virtual RotateEncryptionKeyResponse RotateEncryptionKey(RotateEncryptionKeyRequest request)
         {
-            var marshaller = RotateEncryptionKeyRequestMarshaller.Instance;
-            var unmarshaller = RotateEncryptionKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RotateEncryptionKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RotateEncryptionKeyResponseUnmarshaller.Instance;
 
-            return Invoke<RotateEncryptionKeyRequest,RotateEncryptionKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<RotateEncryptionKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -5367,11 +7187,11 @@ namespace Amazon.Redshift
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RotateEncryptionKey">REST API Reference for RotateEncryptionKey Operation</seealso>
         public virtual IAsyncResult BeginRotateEncryptionKey(RotateEncryptionKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RotateEncryptionKeyRequestMarshaller.Instance;
-            var unmarshaller = RotateEncryptionKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RotateEncryptionKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RotateEncryptionKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RotateEncryptionKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

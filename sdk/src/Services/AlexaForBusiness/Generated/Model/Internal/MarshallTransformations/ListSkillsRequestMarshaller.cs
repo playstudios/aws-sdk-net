@@ -58,15 +58,22 @@ namespace Amazon.AlexaForBusiness.Model.Internal.MarshallTransformations
             string target = "AlexaForBusiness.ListSkills";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetEnablementType())
+                {
+                    context.Writer.WritePropertyName("EnablementType");
+                    context.Writer.Write(publicRequest.EnablementType);
+                }
+
                 if(publicRequest.IsSetMaxResults())
                 {
                     context.Writer.WritePropertyName("MaxResults");
@@ -83,6 +90,12 @@ namespace Amazon.AlexaForBusiness.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("SkillGroupArn");
                     context.Writer.Write(publicRequest.SkillGroupArn);
+                }
+
+                if(publicRequest.IsSetSkillType())
+                {
+                    context.Writer.WritePropertyName("SkillType");
+                    context.Writer.Write(publicRequest.SkillType);
                 }
 
         

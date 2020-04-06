@@ -29,28 +29,25 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateConnection operation.
-    /// Creates a new connection between the customer network and a specific AWS Direct Connect
+    /// Creates a connection between a customer network and a specific AWS Direct Connect
     /// location.
     /// 
     ///  
     /// <para>
     /// A connection links your internal network to an AWS Direct Connect location over a
-    /// standard 1 gigabit or 10 gigabit Ethernet fiber-optic cable. One end of the cable
-    /// is connected to your router, the other to an AWS Direct Connect router. An AWS Direct
-    /// Connect location provides access to Amazon Web Services in the region it is associated
-    /// with. You can establish connections with AWS Direct Connect locations in multiple
-    /// regions, but a connection in one region does not provide connectivity to other regions.
+    /// standard Ethernet fiber-optic cable. One end of the cable is connected to your router,
+    /// the other to an AWS Direct Connect router.
     /// </para>
     ///  
     /// <para>
-    /// To find the locations for your region, use <a>DescribeLocations</a>.
+    /// To find the locations for your Region, use <a>DescribeLocations</a>.
     /// </para>
     ///  
     /// <para>
     /// You can automatically add the new connection to a link aggregation group (LAG) by
     /// specifying a LAG ID in the request. This ensures that the new connection is allocated
     /// on the same AWS Direct Connect endpoint that hosts the specified LAG. If there are
-    /// no available ports on the endpoint, the request fails and no connection will be created.
+    /// no available ports on the endpoint, the request fails and no connection is created.
     /// </para>
     /// </summary>
     public partial class CreateConnectionRequest : AmazonDirectConnectRequest
@@ -59,10 +56,16 @@ namespace Amazon.DirectConnect.Model
         private string _connectionName;
         private string _lagId;
         private string _location;
+        private string _providerName;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
-        /// Gets and sets the property Bandwidth.
+        /// Gets and sets the property Bandwidth. 
+        /// <para>
+        /// The bandwidth of the connection.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Bandwidth
         {
             get { return this._bandwidth; }
@@ -76,8 +79,12 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ConnectionName.
+        /// Gets and sets the property ConnectionName. 
+        /// <para>
+        /// The name of the connection.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConnectionName
         {
             get { return this._connectionName; }
@@ -91,7 +98,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LagId.
+        /// Gets and sets the property LagId. 
+        /// <para>
+        /// The ID of the LAG.
+        /// </para>
         /// </summary>
         public string LagId
         {
@@ -106,8 +116,12 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Location.
+        /// Gets and sets the property Location. 
+        /// <para>
+        /// The location of the connection.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Location
         {
             get { return this._location; }
@@ -118,6 +132,43 @@ namespace Amazon.DirectConnect.Model
         internal bool IsSetLocation()
         {
             return this._location != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ProviderName. 
+        /// <para>
+        /// The name of the service provider associated with the requested connection.
+        /// </para>
+        /// </summary>
+        public string ProviderName
+        {
+            get { return this._providerName; }
+            set { this._providerName = value; }
+        }
+
+        // Check to see if ProviderName property is set
+        internal bool IsSetProviderName()
+        {
+            return this._providerName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to associate with the lag.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

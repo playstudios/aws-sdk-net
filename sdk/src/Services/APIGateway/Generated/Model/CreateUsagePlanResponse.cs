@@ -36,7 +36,7 @@ namespace Amazon.APIGateway.Model
     /// In a usage plan, you associate an API by specifying the API's Id and a stage name
     /// of the specified API. You add plan customers by adding API keys to the plan. 
     /// </para>
-    ///  </div> <div class="seeAlso"> <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create
+    ///  </div> <div class="seeAlso"> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create
     /// and Use Usage Plans</a> </div>
     /// </summary>
     public partial class CreateUsagePlanResponse : AmazonWebServiceResponse
@@ -47,6 +47,7 @@ namespace Amazon.APIGateway.Model
         private string _name;
         private string _productCode;
         private QuotaSettings _quota;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private ThrottleSettings _throttle;
 
         /// <summary>
@@ -156,6 +157,24 @@ namespace Amazon.APIGateway.Model
         internal bool IsSetQuota()
         {
             return this._quota != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The collection of tags. Each tag element is associated with a given resource.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

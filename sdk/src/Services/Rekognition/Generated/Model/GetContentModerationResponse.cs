@@ -34,6 +34,7 @@ namespace Amazon.Rekognition.Model
     {
         private VideoJobStatus _jobStatus;
         private List<ContentModerationDetection> _moderationLabels = new List<ContentModerationDetection>();
+        private string _moderationModelVersion;
         private string _nextToken;
         private string _statusMessage;
         private VideoMetadata _videoMetadata;
@@ -41,7 +42,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property JobStatus. 
         /// <para>
-        /// The current status of the content moderation job.
+        /// The current status of the unsafe content analysis job.
         /// </para>
         /// </summary>
         public VideoJobStatus JobStatus
@@ -59,7 +60,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property ModerationLabels. 
         /// <para>
-        /// The detected moderation labels and the time(s) they were detected.
+        /// The detected unsafe content labels and the time(s) they were detected.
         /// </para>
         /// </summary>
         public List<ContentModerationDetection> ModerationLabels
@@ -75,12 +76,32 @@ namespace Amazon.Rekognition.Model
         }
 
         /// <summary>
-        /// Gets and sets the property NextToken. 
+        /// Gets and sets the property ModerationModelVersion. 
         /// <para>
-        /// If the response is truncated, Rekognition Video returns this token that you can use
-        /// in the subsequent request to retrieve the next set of moderation labels. 
+        /// Version number of the moderation detection model that was used to detect unsafe content.
         /// </para>
         /// </summary>
+        public string ModerationModelVersion
+        {
+            get { return this._moderationModelVersion; }
+            set { this._moderationModelVersion = value; }
+        }
+
+        // Check to see if ModerationModelVersion property is set
+        internal bool IsSetModerationModelVersion()
+        {
+            return this._moderationModelVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you
+        /// can use in the subsequent request to retrieve the next set of unsafe content labels.
+        /// 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }

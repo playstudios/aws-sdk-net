@@ -35,10 +35,13 @@ namespace Amazon.CloudFormation.Model
         private StackSetOperationAction _action;
         private string _administrationRoleARN;
         private DateTime? _creationTimestamp;
+        private DeploymentTargets _deploymentTargets;
         private DateTime? _endTimestamp;
+        private string _executionRoleName;
         private string _operationId;
         private StackSetOperationPreferences _operationPreferences;
         private bool? _retainStacks;
+        private StackSetDriftDetectionDetails _stackSetDriftDetectionDetails;
         private string _stackSetId;
         private StackSetOperationStatus _status;
 
@@ -76,6 +79,7 @@ namespace Amazon.CloudFormation.Model
         /// Permissions for Multiple Administrators</a> in the <i>AWS CloudFormation User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string AdministrationRoleARN
         {
             get { return this._administrationRoleARN; }
@@ -111,6 +115,25 @@ namespace Amazon.CloudFormation.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeploymentTargets. 
+        /// <para>
+        /// [<code>Service-managed</code> permissions] The AWS Organizations accounts affected
+        /// by the stack operation.
+        /// </para>
+        /// </summary>
+        public DeploymentTargets DeploymentTargets
+        {
+            get { return this._deploymentTargets; }
+            set { this._deploymentTargets = value; }
+        }
+
+        // Check to see if DeploymentTargets property is set
+        internal bool IsSetDeploymentTargets()
+        {
+            return this._deploymentTargets != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EndTimestamp. 
         /// <para>
         /// The time at which the stack set operation ended, across all accounts and regions specified.
@@ -131,11 +154,36 @@ namespace Amazon.CloudFormation.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ExecutionRoleName. 
+        /// <para>
+        /// The name of the IAM execution role used to create or update the stack set.
+        /// </para>
+        ///  
+        /// <para>
+        /// Use customized execution roles to control which stack resources users and groups can
+        /// include in their stack sets. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=64)]
+        public string ExecutionRoleName
+        {
+            get { return this._executionRoleName; }
+            set { this._executionRoleName = value; }
+        }
+
+        // Check to see if ExecutionRoleName property is set
+        internal bool IsSetExecutionRoleName()
+        {
+            return this._executionRoleName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property OperationId. 
         /// <para>
         /// The unique ID of a stack set operation.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string OperationId
         {
             get { return this._operationId; }
@@ -188,6 +236,35 @@ namespace Amazon.CloudFormation.Model
         }
 
         /// <summary>
+        /// Gets and sets the property StackSetDriftDetectionDetails. 
+        /// <para>
+        /// Detailed information about the drift status of the stack set. This includes information
+        /// about drift operations currently being performed on the stack set.
+        /// </para>
+        ///  
+        /// <para>
+        /// this information will only be present for stack set operations whose <code>Action</code>
+        /// type is <code>DETECT_DRIFT</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html">Detecting
+        /// Unmanaged Changes in Stack Sets</a> in the AWS CloudFormation User Guide.
+        /// </para>
+        /// </summary>
+        public StackSetDriftDetectionDetails StackSetDriftDetectionDetails
+        {
+            get { return this._stackSetDriftDetectionDetails; }
+            set { this._stackSetDriftDetectionDetails = value; }
+        }
+
+        // Check to see if StackSetDriftDetectionDetails property is set
+        internal bool IsSetStackSetDriftDetectionDetails()
+        {
+            return this._stackSetDriftDetectionDetails != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StackSetId. 
         /// <para>
         /// The ID of the stack set.
@@ -219,6 +296,13 @@ namespace Amazon.CloudFormation.Model
         /// set to <code>FAILED</code>. This in turn sets the status of the operation as a whole
         /// to <code>FAILED</code>, and AWS CloudFormation cancels the operation in any remaining
         /// regions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>QUEUED</code>: [Service-managed permissions] For automatic deployments that
+        /// require a sequence of operations. The operation is queued to be performed. For more
+        /// information, see the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes">stack
+        /// set operation status codes</a> in the AWS CloudFormation User Guide.
         /// </para>
         ///  </li> <li> 
         /// <para>

@@ -66,6 +66,7 @@ namespace Amazon.Snowball.Model
         /// 2016-08-11</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Description
         {
             get { return this._description; }
@@ -106,6 +107,7 @@ namespace Amazon.Snowball.Model
         /// The automatically generated ID for a job, for example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string JobId
         {
             get { return this._jobId; }
@@ -157,7 +159,7 @@ namespace Amazon.Snowball.Model
         /// <summary>
         /// Gets and sets the property SnowballType. 
         /// <para>
-        /// The type of appliance used with this job.
+        /// The type of device used with this job.
         /// </para>
         /// </summary>
         public SnowballType SnowballType

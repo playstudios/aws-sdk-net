@@ -29,7 +29,7 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the CopyFpgaImage operation.
-    /// Copies the specified Amazon FPGA Image (AFI) to the current region.
+    /// Copies the specified Amazon FPGA Image (AFI) to the current Region.
     /// </summary>
     public partial class CopyFpgaImageRequest : AmazonEC2Request
     {
@@ -43,7 +43,7 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-        /// request. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">Ensuring
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
         /// </para>
         /// </summary>
@@ -101,6 +101,7 @@ namespace Amazon.EC2.Model
         /// The ID of the source AFI.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceFpgaImageId
         {
             get { return this._sourceFpgaImageId; }
@@ -116,9 +117,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SourceRegion. 
         /// <para>
-        /// The region that contains the source AFI.
+        /// The Region that contains the source AFI.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceRegion
         {
             get { return this._sourceRegion; }

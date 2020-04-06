@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Endpoint user specific custom userAttributes
+    /// Specifies data for one or more attributes that describe the user who's associated
+    /// with an endpoint.
     /// </summary>
     public partial class EndpointUser
     {
@@ -36,13 +37,21 @@ namespace Amazon.Pinpoint.Model
         private string _userId;
 
         /// <summary>
-        /// Gets and sets the property UserAttributes. Custom attributes that describe an end
-        /// user by associating a name with an array of values. For example, an attribute named
-        /// "interests" might have the values ["science", "politics", "travel"]. You can use these
-        /// attributes as selection criteria when you create a segment of users to engage with
-        /// a messaging campaign.The following characters are not recommended in attribute names:
-        /// # : ? \ /. The Amazon Pinpoint console does not display attributes that include these
-        /// characters in the name. This limitation does not apply to attribute values.
+        /// Gets and sets the property UserAttributes. 
+        /// <para>
+        /// One or more custom attributes that describe the user by associating a name with an
+        /// array of values. For example, the value of an attribute named Interests might be:
+        /// ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when
+        /// you create segments. Attribute names are case sensitive.
+        /// </para>
+        ///  
+        /// <para>
+        /// An attribute name can contain up to 50 characters. An attribute value can contain
+        /// up to 100 characters. When you define the name of a custom attribute, avoid using
+        /// the following characters: number sign (#), colon (:), question mark (?), backslash
+        /// (\), and slash (/). The Amazon Pinpoint console can't display attribute names that
+        /// contain these characters. This restriction doesn't apply to attribute values.
+        /// </para>
         /// </summary>
         public Dictionary<string, List<string>> UserAttributes
         {
@@ -57,7 +66,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property UserId. The unique ID of the user.
+        /// Gets and sets the property UserId. 
+        /// <para>
+        /// The unique identifier for the user.
+        /// </para>
         /// </summary>
         public string UserId
         {

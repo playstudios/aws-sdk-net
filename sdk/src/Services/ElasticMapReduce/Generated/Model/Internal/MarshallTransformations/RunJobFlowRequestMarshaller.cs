@@ -58,10 +58,11 @@ namespace Amazon.ElasticMapReduce.Model.Internal.MarshallTransformations
             string target = "ElasticMapReduce.RunJobFlow";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2009-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -229,6 +230,12 @@ namespace Amazon.ElasticMapReduce.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("ServiceRole");
                     context.Writer.Write(publicRequest.ServiceRole);
+                }
+
+                if(publicRequest.IsSetStepConcurrencyLevel())
+                {
+                    context.Writer.WritePropertyName("StepConcurrencyLevel");
+                    context.Writer.Write(publicRequest.StepConcurrencyLevel);
                 }
 
                 if(publicRequest.IsSetSteps())

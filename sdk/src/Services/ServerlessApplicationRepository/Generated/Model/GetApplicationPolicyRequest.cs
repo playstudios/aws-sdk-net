@@ -29,7 +29,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
 {
     /// <summary>
     /// Container for the parameters to the GetApplicationPolicy operation.
-    /// Gets the policy for the specified application.
+    /// Retrieves the policy for the application.
     /// </summary>
     public partial class GetApplicationPolicyRequest : AmazonServerlessApplicationRepositoryRequest
     {
@@ -38,9 +38,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ApplicationId. 
         /// <para>
-        /// The ID of the application to get.
+        /// The Amazon Resource Name (ARN) of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

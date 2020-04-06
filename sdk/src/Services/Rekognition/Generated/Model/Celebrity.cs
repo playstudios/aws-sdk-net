@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Rekognition.Model
 {
     /// <summary>
-    /// Provides information about a celebrity recognized by the operation.
+    /// Provides information about a celebrity recognized by the <a>RecognizeCelebrities</a>
+    /// operation.
     /// </summary>
     public partial class Celebrity
     {
@@ -77,10 +78,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property MatchConfidence. 
         /// <para>
-        /// The confidence, in percentage, that Rekognition has that the recognized face is the
-        /// celebrity.
+        /// The confidence, in percentage, that Amazon Rekognition has that the recognized face
+        /// is the celebrity.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float MatchConfidence
         {
             get { return this._matchConfidence.GetValueOrDefault(); }

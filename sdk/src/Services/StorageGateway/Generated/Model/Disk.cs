@@ -28,12 +28,13 @@ using Amazon.Runtime.Internal;
 namespace Amazon.StorageGateway.Model
 {
     /// <summary>
-    /// 
+    /// Represents a gateway's local disk.
     /// </summary>
     public partial class Disk
     {
         private string _diskAllocationResource;
         private string _diskAllocationType;
+        private List<string> _diskAttributeList = new List<string>();
         private string _diskId;
         private string _diskNode;
         private string _diskPath;
@@ -41,7 +42,12 @@ namespace Amazon.StorageGateway.Model
         private string _diskStatus;
 
         /// <summary>
-        /// Gets and sets the property DiskAllocationResource.
+        /// Gets and sets the property DiskAllocationResource. 
+        /// <para>
+        /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not included
+        /// in the response if the local disk is not defined as an iSCSI target. The format of
+        /// this field is <i>targetIqn::LUNNumber::region-volumeId</i>. 
+        /// </para>
         /// </summary>
         public string DiskAllocationResource
         {
@@ -58,6 +64,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property DiskAllocationType.
         /// </summary>
+        [AWSProperty(Min=3, Max=100)]
         public string DiskAllocationType
         {
             get { return this._diskAllocationType; }
@@ -71,8 +78,28 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DiskId.
+        /// Gets and sets the property DiskAttributeList.
         /// </summary>
+        [AWSProperty(Min=0, Max=10)]
+        public List<string> DiskAttributeList
+        {
+            get { return this._diskAttributeList; }
+            set { this._diskAttributeList = value; }
+        }
+
+        // Check to see if DiskAttributeList property is set
+        internal bool IsSetDiskAttributeList()
+        {
+            return this._diskAttributeList != null && this._diskAttributeList.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DiskId. 
+        /// <para>
+        /// The unique device ID or other distinguishing data that identifies a local disk.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=300)]
         public string DiskId
         {
             get { return this._diskId; }
@@ -86,7 +113,10 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DiskNode.
+        /// Gets and sets the property DiskNode. 
+        /// <para>
+        /// The device node of a local disk as assigned by the virtualization environment.
+        /// </para>
         /// </summary>
         public string DiskNode
         {
@@ -101,7 +131,10 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DiskPath.
+        /// Gets and sets the property DiskPath. 
+        /// <para>
+        /// The path of a local disk in the gateway virtual machine (VM).
+        /// </para>
         /// </summary>
         public string DiskPath
         {
@@ -116,7 +149,10 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DiskSizeInBytes.
+        /// Gets and sets the property DiskSizeInBytes. 
+        /// <para>
+        /// The local disk size in bytes.
+        /// </para>
         /// </summary>
         public long DiskSizeInBytes
         {
@@ -131,7 +167,10 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DiskStatus.
+        /// Gets and sets the property DiskStatus. 
+        /// <para>
+        /// A value that represents the status of a local disk.
+        /// </para>
         /// </summary>
         public string DiskStatus
         {

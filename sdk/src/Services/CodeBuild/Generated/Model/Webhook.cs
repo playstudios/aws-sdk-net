@@ -28,12 +28,13 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodeBuild.Model
 {
     /// <summary>
-    /// Information about a webhook in GitHub that connects repository events to a build project
-    /// in AWS CodeBuild.
+    /// Information about a webhook that connects repository events to a build project in
+    /// AWS CodeBuild.
     /// </summary>
     public partial class Webhook
     {
         private string _branchFilter;
+        private List<List<WebhookFilter>> _filterGroups = new List<List<WebhookFilter>>();
         private DateTime? _lastModifiedSecret;
         private string _payloadUrl;
         private string _secret;
@@ -42,11 +43,16 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property BranchFilter. 
         /// <para>
-        /// A regular expression used to determine which branches in a repository are built when
-        /// a webhook is triggered. If the name of a branch matches the regular expression, then
-        /// it is built. If it doesn't match, then it is not. If branchFilter is empty, then all
-        /// branches are built.
+        /// A regular expression used to determine which repository branches are built when a
+        /// webhook is triggered. If the name of a branch matches the regular expression, then
+        /// it is built. If <code>branchFilter</code> is empty, then all branches are built.
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  It is recommended that you use <code>filterGroups</code> instead of <code>branchFilter</code>.
+        /// 
+        /// </para>
+        ///  </note>
         /// </summary>
         public string BranchFilter
         {
@@ -61,9 +67,35 @@ namespace Amazon.CodeBuild.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FilterGroups. 
+        /// <para>
+        ///  An array of arrays of <code>WebhookFilter</code> objects used to determine which
+        /// webhooks are triggered. At least one <code>WebhookFilter</code> in the array must
+        /// specify <code>EVENT</code> as its <code>type</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  For a build to be triggered, at least one filter group in the <code>filterGroups</code>
+        /// array must pass. For a filter group to pass, each of its filters must pass. 
+        /// </para>
+        /// </summary>
+        public List<List<WebhookFilter>> FilterGroups
+        {
+            get { return this._filterGroups; }
+            set { this._filterGroups = value; }
+        }
+
+        // Check to see if FilterGroups property is set
+        internal bool IsSetFilterGroups()
+        {
+            return this._filterGroups != null && this._filterGroups.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property LastModifiedSecret. 
         /// <para>
-        ///  A timestamp indicating the last time a repository's secret token was modified. 
+        ///  A timestamp that indicates the last time a repository's secret token was modified.
+        /// 
         /// </para>
         /// </summary>
         public DateTime LastModifiedSecret
@@ -81,9 +113,10 @@ namespace Amazon.CodeBuild.Model
         /// <summary>
         /// Gets and sets the property PayloadUrl. 
         /// <para>
-        ///  The CodeBuild endpoint where webhook events are sent.
+        ///  The AWS CodeBuild endpoint where webhook events are sent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string PayloadUrl
         {
             get { return this._payloadUrl; }
@@ -101,7 +134,13 @@ namespace Amazon.CodeBuild.Model
         /// <para>
         ///  The secret token of the associated repository. 
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  A Bitbucket webhook does not support <code>secret</code>. 
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Secret
         {
             get { return this._secret; }
@@ -120,6 +159,7 @@ namespace Amazon.CodeBuild.Model
         /// The URL to the webhook.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Url
         {
             get { return this._url; }

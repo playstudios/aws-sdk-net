@@ -45,6 +45,38 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(CrawlerTargets requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetCatalogTargets())
+            {
+                context.Writer.WritePropertyName("CatalogTargets");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectCatalogTargetsListValue in requestObject.CatalogTargets)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CatalogTargetMarshaller.Instance;
+                    marshaller.Marshall(requestObjectCatalogTargetsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
+            if(requestObject.IsSetDynamoDBTargets())
+            {
+                context.Writer.WritePropertyName("DynamoDBTargets");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectDynamoDBTargetsListValue in requestObject.DynamoDBTargets)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = DynamoDBTargetMarshaller.Instance;
+                    marshaller.Marshall(requestObjectDynamoDBTargetsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetJdbcTargets())
             {
                 context.Writer.WritePropertyName("JdbcTargets");

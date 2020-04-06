@@ -241,6 +241,60 @@ namespace Amazon.Batch
 
 
     /// <summary>
+    /// Constants used for properties of type CRAllocationStrategy.
+    /// </summary>
+    public class CRAllocationStrategy : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant BEST_FIT for CRAllocationStrategy
+        /// </summary>
+        public static readonly CRAllocationStrategy BEST_FIT = new CRAllocationStrategy("BEST_FIT");
+        /// <summary>
+        /// Constant BEST_FIT_PROGRESSIVE for CRAllocationStrategy
+        /// </summary>
+        public static readonly CRAllocationStrategy BEST_FIT_PROGRESSIVE = new CRAllocationStrategy("BEST_FIT_PROGRESSIVE");
+        /// <summary>
+        /// Constant SPOT_CAPACITY_OPTIMIZED for CRAllocationStrategy
+        /// </summary>
+        public static readonly CRAllocationStrategy SPOT_CAPACITY_OPTIMIZED = new CRAllocationStrategy("SPOT_CAPACITY_OPTIMIZED");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public CRAllocationStrategy(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static CRAllocationStrategy FindValue(string value)
+        {
+            return FindValue<CRAllocationStrategy>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator CRAllocationStrategy(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type CRType.
     /// </summary>
     public class CRType : ConstantClass
@@ -291,6 +345,60 @@ namespace Amazon.Batch
 
 
     /// <summary>
+    /// Constants used for properties of type DeviceCgroupPermission.
+    /// </summary>
+    public class DeviceCgroupPermission : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant MKNOD for DeviceCgroupPermission
+        /// </summary>
+        public static readonly DeviceCgroupPermission MKNOD = new DeviceCgroupPermission("MKNOD");
+        /// <summary>
+        /// Constant READ for DeviceCgroupPermission
+        /// </summary>
+        public static readonly DeviceCgroupPermission READ = new DeviceCgroupPermission("READ");
+        /// <summary>
+        /// Constant WRITE for DeviceCgroupPermission
+        /// </summary>
+        public static readonly DeviceCgroupPermission WRITE = new DeviceCgroupPermission("WRITE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DeviceCgroupPermission(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DeviceCgroupPermission FindValue(string value)
+        {
+            return FindValue<DeviceCgroupPermission>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DeviceCgroupPermission(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type JobDefinitionType.
     /// </summary>
     public class JobDefinitionType : ConstantClass
@@ -300,6 +408,10 @@ namespace Amazon.Batch
         /// Constant Container for JobDefinitionType
         /// </summary>
         public static readonly JobDefinitionType Container = new JobDefinitionType("container");
+        /// <summary>
+        /// Constant Multinode for JobDefinitionType
+        /// </summary>
+        public static readonly JobDefinitionType Multinode = new JobDefinitionType("multinode");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant
@@ -516,6 +628,52 @@ namespace Amazon.Batch
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator JQStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ResourceType.
+    /// </summary>
+    public class ResourceType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant GPU for ResourceType
+        /// </summary>
+        public static readonly ResourceType GPU = new ResourceType("GPU");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ResourceType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ResourceType FindValue(string value)
+        {
+            return FindValue<ResourceType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ResourceType(string value)
         {
             return FindValue(value);
         }

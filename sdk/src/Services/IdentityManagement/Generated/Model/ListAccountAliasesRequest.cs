@@ -30,7 +30,7 @@ namespace Amazon.IdentityManagement.Model
     /// <summary>
     /// Container for the parameters to the ListAccountAliases operation.
     /// Lists the account alias associated with the AWS account (Note: you can have only one).
-    /// For information about using an AWS account alias, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
+    /// For information about using an AWS account alias, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
     /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
     /// </summary>
     public partial class ListAccountAliasesRequest : AmazonIdentityManagementServiceRequest
@@ -51,6 +51,7 @@ namespace Amazon.IdentityManagement.Model
         /// element in the response that you received to indicate where the next call should start.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=320)]
         public string Marker
         {
             get { return this._marker; }
@@ -66,18 +67,20 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// (Optional) Use this only when paginating results to indicate the maximum number of
-        /// items you want in the response. If additional items exist beyond the maximum you specify,
-        /// the <code>IsTruncated</code> response element is <code>true</code>.
+        /// Use this only when paginating results to indicate the maximum number of items you
+        /// want in the response. If additional items exist beyond the maximum you specify, the
+        /// <code>IsTruncated</code> response element is <code>true</code>.
         /// </para>
         ///  
         /// <para>
-        /// If you do not include this parameter, it defaults to 100. Note that IAM might return
-        /// fewer results, even when there are more results available. In that case, the <code>IsTruncated</code>
-        /// response element returns <code>true</code> and <code>Marker</code> contains a value
-        /// to include in the subsequent call that tells the service where to continue from.
+        /// If you do not include this parameter, the number of items defaults to 100. Note that
+        /// IAM might return fewer results, even when there are more results available. In that
+        /// case, the <code>IsTruncated</code> response element returns <code>true</code>, and
+        /// <code>Marker</code> contains a value to include in the subsequent call that tells
+        /// the service where to continue from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }

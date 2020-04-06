@@ -29,8 +29,14 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the BatchGetImage operation.
-    /// Gets detailed information for specified images within a specified repository. Images
-    /// are specified with either <code>imageTag</code> or <code>imageDigest</code>.
+    /// Gets detailed information for an image. Images are specified with either an <code>imageTag</code>
+    /// or <code>imageDigest</code>.
+    /// 
+    ///  
+    /// <para>
+    /// When an image is pulled, the BatchGetImage API is called once to retrieve the image
+    /// manifest.
+    /// </para>
     /// </summary>
     public partial class BatchGetImageRequest : AmazonECRRequest
     {
@@ -51,6 +57,7 @@ namespace Amazon.ECR.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> AcceptedMediaTypes
         {
             get { return this._acceptedMediaTypes; }
@@ -70,6 +77,7 @@ namespace Amazon.ECR.Model
         /// the <code>imageIds</code> reference is <code>imageTag=tag</code> or <code>imageDigest=digest</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<ImageIdentifier> ImageIds
         {
             get { return this._imageIds; }
@@ -107,6 +115,7 @@ namespace Amazon.ECR.Model
         /// The repository that contains the images to describe.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

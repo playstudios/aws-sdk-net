@@ -28,10 +28,10 @@ namespace Amazon.ServiceDiscovery
     ///<summary>
     /// Common exception for the ServiceDiscovery service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonServiceDiscoveryException : AmazonServiceException
+    public partial class AmazonServiceDiscoveryException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonServiceDiscoveryException
@@ -88,7 +88,7 @@ namespace Amazon.ServiceDiscovery
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonServiceDiscoveryException class with serialized data.
         /// </summary>

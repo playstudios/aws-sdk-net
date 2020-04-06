@@ -34,7 +34,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             request.Suppress404Exceptions = true;
             request.HttpMethod = "GET";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketReplicationConfigurationRequest.BucketName));
+            if (string.IsNullOrEmpty(getBucketReplicationConfigurationRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "GetBucketReplicationRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketReplicationConfigurationRequest.BucketName));
             request.AddSubResource("replication");
             request.UseQueryString = true;
 

@@ -42,7 +42,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "PUT";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putLifecycleConfigurationRequest.BucketName));
+            if (string.IsNullOrEmpty(putLifecycleConfigurationRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutLifecycleConfigurationRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putLifecycleConfigurationRequest.BucketName));
 
             request.AddSubResource("lifecycle");
 
@@ -68,9 +72,9 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                                     if (expiration != null)
                                     {
                                         xmlWriter.WriteStartElement("Expiration", "");
-                                        if (expiration.IsSetDate())
+                                        if (expiration.IsSetDateUtc())
                                         {
-                                            xmlWriter.WriteElementString("Date", "", S3Transforms.ToXmlStringValue(expiration.Date));
+                                            xmlWriter.WriteElementString("Date", "", S3Transforms.ToXmlStringValue(expiration.DateUtc));
                                         }
                                         if (expiration.IsSetDays())
                                         {
@@ -78,7 +82,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                                         }
                                         if (expiration.IsSetExpiredObjectDeleteMarker())
                                         {
-                                            xmlWriter.WriteElementString("ExpiredObjectDeleteMarker", "", expiration.ExpiredObjectDeleteMarker.ToString().ToLowerInvariant());
+                                            xmlWriter.WriteElementString("ExpiredObjectDeleteMarker", "", S3Transforms.ToXmlStringValue(expiration.ExpiredObjectDeleteMarker));
                                         }
                                         xmlWriter.WriteEndElement();
                                     }
@@ -91,9 +95,9 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                                             if (transition != null)
                                             {
                                                 xmlWriter.WriteStartElement("Transition", "");
-                                                if (transition.IsSetDate())
+                                                if (transition.IsSetDateUtc())
                                                 {
-                                                    xmlWriter.WriteElementString("Date", "", S3Transforms.ToXmlStringValue(transition.Date));
+                                                    xmlWriter.WriteElementString("Date", "", S3Transforms.ToXmlStringValue(transition.DateUtc));
                                                 }
                                                 if (transition.IsSetDays())
                                                 {

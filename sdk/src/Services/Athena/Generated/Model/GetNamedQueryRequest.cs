@@ -29,7 +29,8 @@ namespace Amazon.Athena.Model
 {
     /// <summary>
     /// Container for the parameters to the GetNamedQuery operation.
-    /// Returns information about a single query.
+    /// Returns information about a single query. Requires that you have access to the workgroup
+    /// in which the query was saved.
     /// </summary>
     public partial class GetNamedQueryRequest : AmazonAthenaRequest
     {
@@ -41,6 +42,7 @@ namespace Amazon.Athena.Model
         /// The unique ID of the query. Use <a>ListNamedQueries</a> to get query IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NamedQueryId
         {
             get { return this._namedQueryId; }

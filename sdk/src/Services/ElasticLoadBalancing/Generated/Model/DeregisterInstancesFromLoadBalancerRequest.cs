@@ -40,7 +40,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     ///  
     /// <para>
     /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html">Register
-    /// or De-Register EC2 Instances</a> in the <i>Classic Load Balancer Guide</i>.
+    /// or De-Register EC2 Instances</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class DeregisterInstancesFromLoadBalancerRequest : AmazonElasticLoadBalancingRequest
@@ -70,6 +70,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The IDs of the instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Instance> Instances
         {
             get { return this._instances; }
@@ -88,6 +89,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }

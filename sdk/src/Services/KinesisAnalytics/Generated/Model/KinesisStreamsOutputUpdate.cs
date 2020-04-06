@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.KinesisAnalytics.Model
 {
     /// <summary>
-    /// When updating an output configuration using the <a>UpdateApplication</a> operation,
-    /// provides information about an Amazon Kinesis stream configured as the destination.
+    /// When updating an output configuration using the <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
+    /// operation, provides information about an Amazon Kinesis stream configured as the destination.
     /// </summary>
     public partial class KinesisStreamsOutputUpdate
     {
@@ -43,6 +43,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// output.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string ResourceARNUpdate
         {
             get { return this._resourceARNUpdate; }
@@ -62,6 +63,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// on your behalf. You need to grant the necessary permissions to this role.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string RoleARNUpdate
         {
             get { return this._roleARNUpdate; }

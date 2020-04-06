@@ -58,10 +58,11 @@ namespace Amazon.Rekognition.Model.Internal.MarshallTransformations
             string target = "RekognitionService.IndexFaces";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-06-27";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -99,6 +100,18 @@ namespace Amazon.Rekognition.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.Image, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetMaxFaces())
+                {
+                    context.Writer.WritePropertyName("MaxFaces");
+                    context.Writer.Write(publicRequest.MaxFaces);
+                }
+
+                if(publicRequest.IsSetQualityFilter())
+                {
+                    context.Writer.WritePropertyName("QualityFilter");
+                    context.Writer.Write(publicRequest.QualityFilter);
                 }
 
         

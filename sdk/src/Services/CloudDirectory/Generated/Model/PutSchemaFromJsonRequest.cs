@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace Amazon.CloudDirectory.Model
     /// <summary>
     /// Container for the parameters to the PutSchemaFromJson operation.
     /// Allows a schema to be updated using JSON upload. Only available for development schemas.
-    /// See <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_schemas.html#jsonformat">JSON
+    /// See <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json">JSON
     /// Schema Format</a> for more information.
     /// </summary>
     public partial class PutSchemaFromJsonRequest : AmazonCloudDirectoryRequest
@@ -44,6 +44,7 @@ namespace Amazon.CloudDirectory.Model
         /// The replacement JSON schema.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Document
         {
             get { return this._document; }
@@ -62,6 +63,7 @@ namespace Amazon.CloudDirectory.Model
         /// The ARN of the schema to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SchemaArn
         {
             get { return this._schemaArn; }

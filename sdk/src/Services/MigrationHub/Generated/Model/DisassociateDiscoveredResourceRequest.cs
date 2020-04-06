@@ -29,7 +29,7 @@ namespace Amazon.MigrationHub.Model
 {
     /// <summary>
     /// Container for the parameters to the DisassociateDiscoveredResource operation.
-    /// Disassociate an Application Discovery Service (ADS) discovered resource from a migration
+    /// Disassociate an Application Discovery Service discovered resource from a migration
     /// task.
     /// </summary>
     public partial class DisassociateDiscoveredResourceRequest : AmazonMigrationHubRequest
@@ -42,9 +42,10 @@ namespace Amazon.MigrationHub.Model
         /// <summary>
         /// Gets and sets the property ConfigurationId. 
         /// <para>
-        /// ConfigurationId of the ADS resource to be disassociated.
+        /// ConfigurationId of the Application Discovery Service resource to be disassociated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ConfigurationId
         {
             get { return this._configurationId; }
@@ -79,9 +80,11 @@ namespace Amazon.MigrationHub.Model
         /// <summary>
         /// Gets and sets the property MigrationTaskName. 
         /// <para>
-        /// The identifier given to the MigrationTask.
+        /// The identifier given to the MigrationTask. <i>Do not store personal data in this field.</i>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string MigrationTaskName
         {
             get { return this._migrationTaskName; }
@@ -100,6 +103,7 @@ namespace Amazon.MigrationHub.Model
         /// The name of the ProgressUpdateStream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string ProgressUpdateStream
         {
             get { return this._progressUpdateStream; }

@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -46,6 +46,7 @@ namespace Amazon.CloudFront.Model
         /// you can't have both ABC* and AB*. Note that field patterns are case-sensitive. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FieldPatterns FieldPatterns
         {
             get { return this._fieldPatterns; }
@@ -66,6 +67,7 @@ namespace Amazon.CloudFront.Model
         /// data.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ProviderId
         {
             get { return this._providerId; }
@@ -85,6 +87,7 @@ namespace Amazon.CloudFront.Model
         /// when encrypting the fields that match the patterns. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PublicKeyId
         {
             get { return this._publicKeyId; }

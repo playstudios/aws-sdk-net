@@ -42,10 +42,11 @@ namespace Amazon.APIGateway.Model
         /// Gets and sets the property Body. 
         /// <para>
         /// [Required] The POST request body containing external API definitions. Currently, only
-        /// Swagger definition JSON files are supported. The maximum size of the API definition
+        /// OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition
         /// file is 2MB.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public MemoryStream Body
         {
             get { return this._body; }
@@ -91,25 +92,26 @@ namespace Amazon.APIGateway.Model
         /// </para>
         ///  
         /// <para>
-        ///  To configure the endpoint type, set <code>parameters</code> as <code>endpointConfigurationTypes=EDGE</code>
-        /// or<code>endpointConfigurationTypes=REGIONAL</code>. The default endpoint type is <code>EDGE</code>.
+        ///  To configure the endpoint type, set <code>parameters</code> as <code>endpointConfigurationTypes=EDGE</code>,
+        /// <code>endpointConfigurationTypes=REGIONAL</code>, or <code>endpointConfigurationTypes=PRIVATE</code>.
+        /// The default endpoint type is <code>EDGE</code>.
         /// </para>
         ///  
         /// <para>
-        ///  To handle imported <code>basePath</code>, set <code>parameters</code> as <code>basePath=ignore</code>,
-        /// <code>basePath=prepend</code> or <code>basePath=split</code>.
+        ///  To handle imported <code>basepath</code>, set <code>parameters</code> as <code>basepath=ignore</code>,
+        /// <code>basepath=prepend</code> or <code>basepath=split</code>.
         /// </para>
         ///  
         /// <para>
         /// For example, the AWS CLI command to exclude documentation from the imported API is:
         /// </para>
         ///  <pre><code>aws apigateway import-rest-api --parameters ignore=documentation --body
-        /// 'file:///path/to/imported-api-body.json</code></pre> 
+        /// 'file:///path/to/imported-api-body.json'</code></pre> 
         /// <para>
         /// The AWS CLI command to set the regional endpoint on the imported API is:
         /// </para>
         ///  <pre><code>aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL
-        /// --body 'file:///path/to/imported-api-body.json</code></pre>
+        /// --body 'file:///path/to/imported-api-body.json'</code></pre>
         /// </summary>
         public Dictionary<string, string> Parameters
         {

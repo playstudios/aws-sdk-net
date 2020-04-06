@@ -55,16 +55,17 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteDeploymentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/restapis/{restapi_id}/deployments/{deployment_id}";
             if (!publicRequest.IsSetDeploymentId())
                 throw new AmazonAPIGatewayException("Request object does not have required field DeploymentId set");
-            uriResourcePath = uriResourcePath.Replace("{deployment_id}", StringUtils.FromString(publicRequest.DeploymentId));
+            request.AddPathResource("{deployment_id}", StringUtils.FromString(publicRequest.DeploymentId));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.ResourcePath = "/restapis/{restapi_id}/deployments/{deployment_id}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

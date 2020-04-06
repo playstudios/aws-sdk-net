@@ -30,7 +30,7 @@ namespace Amazon.MigrationHub.Model
     /// <summary>
     /// Container for the parameters to the PutResourceAttributes operation.
     /// Provides identifying details of the resource being migrated so that it can be associated
-    /// in the Application Discovery Service (ADS)'s repository. This association occurs asynchronously
+    /// in the Application Discovery Service repository. This association occurs asynchronously
     /// after <code>PutResourceAttributes</code> returns.
     /// 
     ///  <important> <ul> <li> 
@@ -38,12 +38,13 @@ namespace Amazon.MigrationHub.Model
     /// Keep in mind that subsequent calls to PutResourceAttributes will override previously
     /// stored attributes. For example, if it is first called with a MAC address, but later,
     /// it is desired to <i>add</i> an IP address, it will then be required to call it with
-    /// <i>both</i> the IP and MAC addresses to prevent overiding the MAC address.
+    /// <i>both</i> the IP and MAC addresses to prevent overriding the MAC address.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Note the instructions regarding the special use case of the <code>ResourceAttributeList</code>
-    /// parameter when specifying any "VM" related value.
+    /// Note the instructions regarding the special use case of the <a href="https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#migrationhub-PutResourceAttributes-request-ResourceAttributeList">
+    /// <code>ResourceAttributeList</code> </a> parameter when specifying any "VM" related
+    /// value.
     /// </para>
     ///  </li> </ul> </important> <note> 
     /// <para>
@@ -82,9 +83,11 @@ namespace Amazon.MigrationHub.Model
         /// <summary>
         /// Gets and sets the property MigrationTaskName. 
         /// <para>
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. <i>Do not store personal data
+        /// in this field.</i> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string MigrationTaskName
         {
             get { return this._migrationTaskName; }
@@ -103,6 +106,7 @@ namespace Amazon.MigrationHub.Model
         /// The name of the ProgressUpdateStream. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string ProgressUpdateStream
         {
             get { return this._progressUpdateStream; }
@@ -119,26 +123,34 @@ namespace Amazon.MigrationHub.Model
         /// Gets and sets the property ResourceAttributeList. 
         /// <para>
         /// Information about the resource that is being migrated. This data will be used to map
-        /// the task to a resource in the Application Discovery Service (ADS)'s repository.
+        /// the task to a resource in the Application Discovery Service repository.
         /// </para>
         ///  <note> 
         /// <para>
-        /// In the <code>ResourceAttribute</code> object array, the <code>Type</code> field is
-        /// reserved for the following values: <code>IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS
+        /// Takes the object array of <code>ResourceAttribute</code> where the <code>Type</code>
+        /// field is reserved for the following values: <code>IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS
         /// | FQDN | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID
-        /// | MOTHERBOARD_SERIAL_NUMBER</code>, and the identifying value can be a string up to
-        /// 256 characters.
+        /// | MOTHERBOARD_SERIAL_NUMBER</code> where the identifying value can be a string up
+        /// to 256 characters.
         /// </para>
-        ///  </note> <important> 
+        ///  </note> <important> <ul> <li> 
         /// <para>
-        /// If any "VM" related value is used for a <code>ResourceAttribute</code> object, it
-        /// is required that <code>VM_MANAGER_ID</code>, as a minimum, is always used. If it is
-        /// not used, the server will not be associated in the Application Discovery Service (ADS)'s
-        /// repository using any of the other "VM" related values, and you will experience data
-        /// loss. See the Example section below for a use case of specifying "VM" related values.
+        /// If any "VM" related value is set for a <code>ResourceAttribute</code> object, it is
+        /// required that <code>VM_MANAGER_ID</code>, as a minimum, is always set. If <code>VM_MANAGER_ID</code>
+        /// is not set, then all "VM" fields will be discarded and "VM" fields will not be used
+        /// for matching the migration task to a server in Application Discovery Service repository.
+        /// See the <a href="https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#API_PutResourceAttributes_Examples">Example</a>
+        /// section below for a use case of specifying "VM" related values.
         /// </para>
-        ///  </important>
+        ///  </li> <li> 
+        /// <para>
+        ///  If a server you are trying to match has multiple IP or MAC addresses, you should
+        /// provide as many as you know in separate type/value pairs passed to the <code>ResourceAttributeList</code>
+        /// parameter to maximize the chances of matching.
+        /// </para>
+        ///  </li> </ul> </important>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<ResourceAttribute> ResourceAttributeList
         {
             get { return this._resourceAttributeList; }

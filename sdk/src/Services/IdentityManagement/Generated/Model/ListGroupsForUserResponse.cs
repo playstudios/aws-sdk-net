@@ -42,6 +42,7 @@ namespace Amazon.IdentityManagement.Model
         /// A list of groups.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Group> Groups
         {
             get { return this._groups; }
@@ -62,7 +63,7 @@ namespace Amazon.IdentityManagement.Model
         /// request parameter to retrieve more items. Note that IAM might return fewer than the
         /// <code>MaxItems</code> number of results even when there are more results available.
         /// We recommend that you check <code>IsTruncated</code> after every call to ensure that
-        /// you receive all of your results.
+        /// you receive all your results.
         /// </para>
         /// </summary>
         public bool IsTruncated

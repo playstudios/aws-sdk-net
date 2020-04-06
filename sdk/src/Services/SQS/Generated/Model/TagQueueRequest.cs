@@ -30,8 +30,8 @@ namespace Amazon.SQS.Model
     /// <summary>
     /// Container for the parameters to the TagQueue operation.
     /// Add cost allocation tags to the specified Amazon SQS queue. For an overview, see <a
-    /// href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-tagging-queues.html">Tagging
-    /// Amazon SQS Queues</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
+    /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-tags.html">Tagging
+    /// Your Amazon SQS Queues</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
     /// 
     ///  
     /// <para>
@@ -54,17 +54,19 @@ namespace Amazon.SQS.Model
     /// A new tag with a key identical to that of an existing tag overwrites the existing
     /// tag.
     /// </para>
-    ///  </li> <li> 
-    /// <para>
-    /// Tagging API actions are limited to 5 TPS per AWS account. If your application requires
-    /// a higher throughput, file a <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=technical">technical
-    /// support request</a>.
-    /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// For a full list of tag restrictions, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/limits-queues.html">Limits
+    /// For a full list of tag restrictions, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-limits.html#limits-queues">Limits
     /// Related to Queues</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// Cross-account permissions don't apply to this action. For more information, see <a
+    /// href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-customer-managed-policy-examples.html#grant-cross-account-permissions-to-role-and-user-name">Grant
+    /// Cross-Account Permissions to a Role and a User Name</a> in the <i>Amazon Simple Queue
+    /// Service Developer Guide</i>.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class TagQueueRequest : AmazonSQSRequest
     {
@@ -77,6 +79,7 @@ namespace Amazon.SQS.Model
         /// The URL of the queue.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string QueueUrl
         {
             get { return this._queueUrl; }
@@ -95,6 +98,7 @@ namespace Amazon.SQS.Model
         /// The list of tags to be added to the specified queue.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Dictionary<string, string> Tags
         {
             get { return this._tags; }

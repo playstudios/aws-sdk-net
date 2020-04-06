@@ -42,6 +42,7 @@ namespace Amazon.CodeDeploy.Model
         /// The application name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -57,7 +58,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentGroups. 
         /// <para>
-        /// A list of corresponding deployment group names.
+        /// A list of deployment group names.
         /// </para>
         /// </summary>
         public List<string> DeploymentGroups

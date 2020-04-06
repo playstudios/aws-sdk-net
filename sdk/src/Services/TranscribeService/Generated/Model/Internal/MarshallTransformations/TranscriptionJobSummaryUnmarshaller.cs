@@ -70,6 +70,12 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
                     unmarshalledObject.CompletionTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ContentRedaction", targetDepth))
+                {
+                    var unmarshaller = ContentRedactionUnmarshaller.Instance;
+                    unmarshalledObject.ContentRedaction = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CreationTime", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
@@ -86,6 +92,18 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.LanguageCode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("OutputLocationType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.OutputLocationType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("StartTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.StartTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("TranscriptionJobName", targetDepth))

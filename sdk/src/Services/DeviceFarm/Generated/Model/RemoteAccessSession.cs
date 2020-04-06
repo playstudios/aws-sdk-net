@@ -60,6 +60,7 @@ namespace Amazon.DeviceFarm.Model
         /// The Amazon Resource Name (ARN) of the remote access session.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -76,8 +77,8 @@ namespace Amazon.DeviceFarm.Model
         /// Gets and sets the property BillingMethod. 
         /// <para>
         /// The billing method of the remote access session. Possible values include <code>METERED</code>
-        /// or <code>UNMETERED</code>. For more information about metered devices, see <a href="http://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology">AWS
-        /// Device Farm terminology</a>."
+        /// or <code>UNMETERED</code>. For more information about metered devices, see <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology">AWS
+        /// Device Farm terminology</a>.
         /// </para>
         /// </summary>
         public BillingMethod BillingMethod
@@ -98,7 +99,13 @@ namespace Amazon.DeviceFarm.Model
         /// Unique identifier of your client for the remote access session. Only returned if remote
         /// debugging is enabled for the remote access session.
         /// </para>
+        ///  
+        /// <para>
+        /// Remote debugging is <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+        /// longer supported</a>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=64)]
         public string ClientId
         {
             get { return this._clientId; }
@@ -150,7 +157,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property DeviceMinutes. 
         /// <para>
-        /// The number of minutes a device is used in a remote access sesssion (including setup
+        /// The number of minutes a device is used in a remote access session (including setup
         /// and teardown minutes).
         /// </para>
         /// </summary>
@@ -171,6 +178,11 @@ namespace Amazon.DeviceFarm.Model
         /// <para>
         /// Unique device identifier for the remote device. Only returned if remote debugging
         /// is enabled for the remote access session.
+        /// </para>
+        ///  
+        /// <para>
+        /// Remote debugging is <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+        /// longer supported</a>.
         /// </para>
         /// </summary>
         public string DeviceUdid
@@ -209,7 +221,13 @@ namespace Amazon.DeviceFarm.Model
         /// IP address of the EC2 host where you need to connect to remotely debug devices. Only
         /// returned if remote debugging is enabled for the remote access session.
         /// </para>
+        ///  
+        /// <para>
+        /// Remote debugging is <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+        /// longer supported</a>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string HostAddress
         {
             get { return this._hostAddress; }
@@ -225,9 +243,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property InstanceArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the instance.
+        /// The ARN of the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string InstanceArn
         {
             get { return this._instanceArn; }
@@ -248,21 +267,22 @@ namespace Amazon.DeviceFarm.Model
         ///  <ul> <li> 
         /// <para>
         /// INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating
-        /// the screen. You <b>cannot</b> run XCUITest framework-based tests in this mode.
+        /// the screen. You cannot run XCUITest framework-based tests in this mode.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// NO_VIDEO: You are connected to the device but cannot interact with it or view the
-        /// screen. This mode has the fastest test execution speed. You <b>can</b> run XCUITest
-        /// framework-based tests in this mode.
+        /// NO_VIDEO: You are connected to the device, but cannot interact with it or view the
+        /// screen. This mode has the fastest test execution speed. You can run XCUITest framework-based
+        /// tests in this mode.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// VIDEO_ONLY: You can view the screen but cannot touch or rotate it. You <b>can</b>
-        /// run XCUITest framework-based tests and watch the screen in this mode.
+        /// VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest
+        /// framework-based tests and watch the screen in this mode.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=0, Max=64)]
         public InteractionMode InteractionMode
         {
             get { return this._interactionMode; }
@@ -281,6 +301,7 @@ namespace Amazon.DeviceFarm.Model
         /// A message about the remote access session.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=16384)]
         public string Message
         {
             get { return this._message; }
@@ -299,6 +320,7 @@ namespace Amazon.DeviceFarm.Model
         /// The name of the remote access session.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -317,6 +339,11 @@ namespace Amazon.DeviceFarm.Model
         /// This flag is set to <code>true</code> if remote debugging is enabled for the remote
         /// access session.
         /// </para>
+        ///  
+        /// <para>
+        /// Remote debugging is <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html">no
+        /// longer supported</a>.
+        /// </para>
         /// </summary>
         public bool RemoteDebugEnabled
         {
@@ -333,9 +360,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property RemoteRecordAppArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) for the app to be recorded in the remote access session.
+        /// The ARN for the app to be recorded in the remote access session.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string RemoteRecordAppArn
         {
             get { return this._remoteRecordAppArn; }
@@ -374,31 +402,31 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// PENDING: A pending condition.
+        /// PENDING.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PASSED: A passing condition.
+        /// PASSED.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// WARNED: A warning condition.
+        /// WARNED.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// FAILED: A failed condition.
+        /// FAILED.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SKIPPED: A skipped condition.
+        /// SKIPPED.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ERRORED: An error condition.
+        /// ERRORED.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// STOPPED: A stopped condition.
+        /// STOPPED.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -417,13 +445,12 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property SkipAppResign. 
         /// <para>
-        /// When set to <code>true</code>, for private devices, Device Farm will not sign your
-        /// app again. For public devices, Device Farm always signs your apps again and this parameter
-        /// has no effect.
+        /// When set to <code>true</code>, for private devices, Device Farm does not sign your
+        /// app again. For public devices, Device Farm always signs your apps again.
         /// </para>
         ///  
         /// <para>
-        /// For more information about how Device Farm re-signs your app(s), see <a href="https://aws.amazon.com/device-farm/faq/">Do
+        /// For more information about how Device Farm re-signs your apps, see <a href="https://aws.amazon.com/device-farm/faq/">Do
         /// you modify my app?</a> in the <i>AWS Device Farm FAQs</i>.
         /// </para>
         /// </summary>
@@ -464,39 +491,39 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// PENDING: A pending status.
+        /// PENDING.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PENDING_CONCURRENCY: A pending concurrency status.
+        /// PENDING_CONCURRENCY.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PENDING_DEVICE: A pending device status.
+        /// PENDING_DEVICE.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PROCESSING: A processing status.
+        /// PROCESSING.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SCHEDULING: A scheduling status.
+        /// SCHEDULING.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PREPARING: A preparing status.
+        /// PREPARING.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// RUNNING: A running status.
+        /// RUNNING.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// COMPLETED: A completed status.
+        /// COMPLETED.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// STOPPING: A stopping status.
+        /// STOPPING.
         /// </para>
         ///  </li> </ul>
         /// </summary>

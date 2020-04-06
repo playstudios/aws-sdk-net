@@ -41,9 +41,9 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
-        /// to Ensure Idempotency</a> in the <i>Amazon Elastic Compute Cloud User Guide</i> 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+        /// to Ensure Idempotency</a>.
         /// </para>
         /// </summary>
         public string ClientToken
@@ -116,7 +116,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property TotalUpfrontPrice. 
         /// <para>
-        /// The total amount that will be charged to your account when you purchase the reservation.
+        /// The total amount charged to your account when you purchase the reservation.
         /// </para>
         /// </summary>
         public string TotalUpfrontPrice

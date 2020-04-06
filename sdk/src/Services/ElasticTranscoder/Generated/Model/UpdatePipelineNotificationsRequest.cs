@@ -49,6 +49,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// The identifier of the pipeline for which you want to change notification settings.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -81,9 +82,9 @@ namespace Amazon.ElasticTranscoder.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <b>Completed</b>: The topic ARN for the Amazon SNS topic that you want to notify
-        /// when Elastic Transcoder has finished processing a job. This is the ARN that Amazon
-        /// SNS returned when you created the topic.
+        ///  <b>Complete</b>: The topic ARN for the Amazon SNS topic that you want to notify when
+        /// Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS
+        /// returned when you created the topic.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -99,6 +100,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Notifications Notifications
         {
             get { return this._notifications; }

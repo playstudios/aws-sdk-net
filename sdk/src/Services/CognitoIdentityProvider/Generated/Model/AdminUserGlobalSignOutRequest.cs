@@ -29,11 +29,13 @@ namespace Amazon.CognitoIdentityProvider.Model
 {
     /// <summary>
     /// Container for the parameters to the AdminUserGlobalSignOut operation.
-    /// Signs out users from all devices, as an administrator.
+    /// Signs out users from all devices, as an administrator. It also invalidates all refresh
+    /// tokens issued to a user. The user's current access and Id tokens remain valid until
+    /// their expiry. Access and Id tokens expire one hour after they are issued.
     /// 
     ///  
     /// <para>
-    /// Requires developer credentials.
+    /// Calling this action requires developer credentials.
     /// </para>
     /// </summary>
     public partial class AdminUserGlobalSignOutRequest : AmazonCognitoIdentityProviderRequest
@@ -47,6 +49,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Username
         {
             get { return this._username; }
@@ -65,6 +68,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }

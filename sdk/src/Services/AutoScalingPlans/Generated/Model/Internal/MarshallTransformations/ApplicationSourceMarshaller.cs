@@ -51,6 +51,22 @@ namespace Amazon.AutoScalingPlans.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.CloudFormationStackARN);
             }
 
+            if(requestObject.IsSetTagFilters())
+            {
+                context.Writer.WritePropertyName("TagFilters");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectTagFiltersListValue in requestObject.TagFilters)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = TagFilterMarshaller.Instance;
+                    marshaller.Marshall(requestObjectTagFiltersListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
         }
 
         /// <summary>

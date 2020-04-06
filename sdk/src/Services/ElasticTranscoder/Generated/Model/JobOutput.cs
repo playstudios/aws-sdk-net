@@ -197,6 +197,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// object cannot be null.
         /// </para>
         /// </summary>
+        [Obsolete("This property is deprecated")]
         public List<Clip> Composition
         {
             get { return this._composition; }
@@ -347,6 +348,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// that is specified by the pipeline ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Key
         {
             get { return this._key; }
@@ -507,6 +509,7 @@ namespace Amazon.ElasticTranscoder.Model
         /// Information that further explains <code>Status</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=255)]
         public string StatusDetail
         {
             get { return this._statusDetail; }

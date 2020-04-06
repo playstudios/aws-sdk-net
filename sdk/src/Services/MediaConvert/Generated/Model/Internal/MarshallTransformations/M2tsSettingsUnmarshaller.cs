@@ -142,6 +142,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.EsRateInPes = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("forceTsVideoEbpOrder", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ForceTsVideoEbpOrder = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("fragmentTime", targetDepth))
                 {
                     var unmarshaller = DoubleUnmarshaller.Instance;
@@ -218,6 +224,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.RateMode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("scte35Esam", targetDepth))
+                {
+                    var unmarshaller = M2tsScte35EsamUnmarshaller.Instance;
+                    unmarshalledObject.Scte35Esam = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("scte35Pid", targetDepth))

@@ -41,7 +41,7 @@ namespace Amazon.SimpleEmail.Model
     /// <para>
     /// Sending authorization is a feature that enables an identity owner to authorize other
     /// senders to use its identities. For information about using sending authorization,
-    /// see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+    /// see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     ///  
@@ -67,6 +67,7 @@ namespace Amazon.SimpleEmail.Model
         /// To successfully call this API, you must own the identity.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Identity
         {
             get { return this._identity; }
@@ -86,10 +87,11 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  
         /// <para>
-        /// For information about the syntax of sending authorization policies, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html">Amazon
+        /// For information about the syntax of sending authorization policies, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html">Amazon
         /// SES Developer Guide</a>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Policy
         {
             get { return this._policy; }
@@ -113,6 +115,7 @@ namespace Amazon.SimpleEmail.Model
         /// dashes, and underscores.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string PolicyName
         {
             get { return this._policyName; }

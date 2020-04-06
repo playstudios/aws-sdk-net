@@ -30,13 +30,14 @@ namespace Amazon.MediaConvert.Model
     /// <summary>
     /// Video codec settings, (CodecSettings) under (VideoDescription), contains the group
     /// of settings related to video encoding. The settings in this group vary depending on
-    /// the value you choose for Video codec (Codec). For each codec enum you choose, define
-    /// the corresponding settings object. The following lists the codec enum, settings object
-    /// pairs. * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES,
-    /// ProresSettings * FRAME_CAPTURE, FrameCaptureSettings
+    /// the value that you choose for Video codec (Codec). For each codec enum that you choose,
+    /// define the corresponding settings object. The following lists the codec enum, settings
+    /// object pairs. * FRAME_CAPTURE, FrameCaptureSettings * AV1, Av1Settings * H_264, H264Settings
+    /// * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings
     /// </summary>
     public partial class VideoCodecSettings
     {
+        private Av1Settings _av1Settings;
         private VideoCodec _codec;
         private FrameCaptureSettings _frameCaptureSettings;
         private H264Settings _h264Settings;
@@ -45,7 +46,24 @@ namespace Amazon.MediaConvert.Model
         private ProresSettings _proresSettings;
 
         /// <summary>
-        /// Gets and sets the property Codec.
+        /// Gets and sets the property Av1Settings. Required when you set Codec, under VideoDescription>CodecSettings
+        /// to the value AV1.
+        /// </summary>
+        public Av1Settings Av1Settings
+        {
+            get { return this._av1Settings; }
+            set { this._av1Settings = value; }
+        }
+
+        // Check to see if Av1Settings property is set
+        internal bool IsSetAv1Settings()
+        {
+            return this._av1Settings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Codec. Specifies the video codec. This must be equal to
+        /// one of the enum values defined by the object  VideoCodec.
         /// </summary>
         public VideoCodec Codec
         {
@@ -60,7 +78,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FrameCaptureSettings.
+        /// Gets and sets the property FrameCaptureSettings. Required when you set (Codec) under
+        /// (VideoDescription)>(CodecSettings) to the value FRAME_CAPTURE.
         /// </summary>
         public FrameCaptureSettings FrameCaptureSettings
         {
@@ -75,7 +94,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property H264Settings.
+        /// Gets and sets the property H264Settings. Required when you set (Codec) under (VideoDescription)>(CodecSettings)
+        /// to the value H_264.
         /// </summary>
         public H264Settings H264Settings
         {
@@ -90,7 +110,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property H265Settings.
+        /// Gets and sets the property H265Settings. Settings for H265 codec
         /// </summary>
         public H265Settings H265Settings
         {
@@ -105,7 +125,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Mpeg2Settings.
+        /// Gets and sets the property Mpeg2Settings. Required when you set (Codec) under (VideoDescription)>(CodecSettings)
+        /// to the value MPEG2.
         /// </summary>
         public Mpeg2Settings Mpeg2Settings
         {
@@ -120,7 +141,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ProresSettings.
+        /// Gets and sets the property ProresSettings. Required when you set (Codec) under (VideoDescription)>(CodecSettings)
+        /// to the value PRORES.
         /// </summary>
         public ProresSettings ProresSettings
         {

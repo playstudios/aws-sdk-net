@@ -55,14 +55,15 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
         public IRequest Marshall(RebootBrokerRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MQ");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/brokers/{broker-id}/reboot";
             if (!publicRequest.IsSetBrokerId())
                 throw new AmazonMQException("Request object does not have required field BrokerId set");
-            uriResourcePath = uriResourcePath.Replace("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
+            request.ResourcePath = "/v1/brokers/{broker-id}/reboot";
+            request.MarshallerVersion = 2;
 
             return request;
         }

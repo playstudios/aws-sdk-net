@@ -33,11 +33,16 @@ namespace Amazon.IoT.Model
     public partial class Action
     {
         private CloudwatchAlarmAction _cloudwatchAlarm;
+        private CloudwatchLogsAction _cloudwatchLogs;
         private CloudwatchMetricAction _cloudwatchMetric;
         private DynamoDBAction _dynamodb;
         private DynamoDBv2Action _dynamodBv2;
         private ElasticsearchAction _elasticsearch;
         private FirehoseAction _firehose;
+        private HttpAction _http;
+        private IotAnalyticsAction _iotAnalytics;
+        private IotEventsAction _iotEvents;
+        private IotSiteWiseAction _iotSiteWise;
         private KinesisAction _kinesis;
         private LambdaAction _lambda;
         private RepublishAction _republish;
@@ -45,6 +50,7 @@ namespace Amazon.IoT.Model
         private SalesforceAction _salesforce;
         private SnsAction _sns;
         private SqsAction _sqs;
+        private StepFunctionsAction _stepFunctions;
 
         /// <summary>
         /// Gets and sets the property CloudwatchAlarm. 
@@ -62,6 +68,24 @@ namespace Amazon.IoT.Model
         internal bool IsSetCloudwatchAlarm()
         {
             return this._cloudwatchAlarm != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CloudwatchLogs. 
+        /// <para>
+        /// Send data to CloudWatch Logs.
+        /// </para>
+        /// </summary>
+        public CloudwatchLogsAction CloudwatchLogs
+        {
+            get { return this._cloudwatchLogs; }
+            set { this._cloudwatchLogs = value; }
+        }
+
+        // Check to see if CloudwatchLogs property is set
+        internal bool IsSetCloudwatchLogs()
+        {
+            return this._cloudwatchLogs != null;
         }
 
         /// <summary>
@@ -153,6 +177,79 @@ namespace Amazon.IoT.Model
         internal bool IsSetFirehose()
         {
             return this._firehose != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Http. 
+        /// <para>
+        /// Send data to an HTTPS endpoint.
+        /// </para>
+        /// </summary>
+        public HttpAction Http
+        {
+            get { return this._http; }
+            set { this._http = value; }
+        }
+
+        // Check to see if Http property is set
+        internal bool IsSetHttp()
+        {
+            return this._http != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IotAnalytics. 
+        /// <para>
+        /// Sends message data to an AWS IoT Analytics channel.
+        /// </para>
+        /// </summary>
+        public IotAnalyticsAction IotAnalytics
+        {
+            get { return this._iotAnalytics; }
+            set { this._iotAnalytics = value; }
+        }
+
+        // Check to see if IotAnalytics property is set
+        internal bool IsSetIotAnalytics()
+        {
+            return this._iotAnalytics != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IotEvents. 
+        /// <para>
+        /// Sends an input to an AWS IoT Events detector.
+        /// </para>
+        /// </summary>
+        public IotEventsAction IotEvents
+        {
+            get { return this._iotEvents; }
+            set { this._iotEvents = value; }
+        }
+
+        // Check to see if IotEvents property is set
+        internal bool IsSetIotEvents()
+        {
+            return this._iotEvents != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IotSiteWise. 
+        /// <para>
+        /// Sends data from the MQTT message that triggered the rule to AWS IoT SiteWise asset
+        /// properties.
+        /// </para>
+        /// </summary>
+        public IotSiteWiseAction IotSiteWise
+        {
+            get { return this._iotSiteWise; }
+            set { this._iotSiteWise = value; }
+        }
+
+        // Check to see if IotSiteWise property is set
+        internal bool IsSetIotSiteWise()
+        {
+            return this._iotSiteWise != null;
         }
 
         /// <summary>
@@ -279,6 +376,24 @@ namespace Amazon.IoT.Model
         internal bool IsSetSqs()
         {
             return this._sqs != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StepFunctions. 
+        /// <para>
+        /// Starts execution of a Step Functions state machine.
+        /// </para>
+        /// </summary>
+        public StepFunctionsAction StepFunctions
+        {
+            get { return this._stepFunctions; }
+            set { this._stepFunctions = value; }
+        }
+
+        // Check to see if StepFunctions property is set
+        internal bool IsSetStepFunctions()
+        {
+            return this._stepFunctions != null;
         }
 
     }

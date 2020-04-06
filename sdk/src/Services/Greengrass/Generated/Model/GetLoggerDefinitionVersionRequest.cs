@@ -35,10 +35,12 @@ namespace Amazon.Greengrass.Model
     {
         private string _loggerDefinitionId;
         private string _loggerDefinitionVersionId;
+        private string _nextToken;
 
         /// <summary>
         /// Gets and sets the property LoggerDefinitionId. The ID of the logger definition.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoggerDefinitionId
         {
             get { return this._loggerDefinitionId; }
@@ -53,8 +55,12 @@ namespace Amazon.Greengrass.Model
 
         /// <summary>
         /// Gets and sets the property LoggerDefinitionVersionId. The ID of the logger definition
-        /// version.
+        /// version. This value maps to the ''Version'' property of the corresponding ''VersionInformation''
+        /// object, which is returned by ''ListLoggerDefinitionVersions'' requests. If the version
+        /// is the last one that was associated with a logger definition, the value also maps
+        /// to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoggerDefinitionVersionId
         {
             get { return this._loggerDefinitionVersionId; }
@@ -65,6 +71,22 @@ namespace Amazon.Greengrass.Model
         internal bool IsSetLoggerDefinitionVersionId()
         {
             return this._loggerDefinitionVersionId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. The token for the next set of results, or ''null''
+        /// if there are no additional results.
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
         }
 
     }

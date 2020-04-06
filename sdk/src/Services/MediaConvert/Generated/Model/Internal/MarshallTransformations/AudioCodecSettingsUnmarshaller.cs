@@ -88,6 +88,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.Codec = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("eac3AtmosSettings", targetDepth))
+                {
+                    var unmarshaller = Eac3AtmosSettingsUnmarshaller.Instance;
+                    unmarshalledObject.Eac3AtmosSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("eac3Settings", targetDepth))
                 {
                     var unmarshaller = Eac3SettingsUnmarshaller.Instance;
@@ -98,6 +104,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = Mp2SettingsUnmarshaller.Instance;
                     unmarshalledObject.Mp2Settings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("mp3Settings", targetDepth))
+                {
+                    var unmarshaller = Mp3SettingsUnmarshaller.Instance;
+                    unmarshalledObject.Mp3Settings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("wavSettings", targetDepth))

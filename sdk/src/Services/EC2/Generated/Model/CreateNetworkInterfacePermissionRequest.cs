@@ -29,8 +29,8 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateNetworkInterfacePermission operation.
-    /// Grants an AWS authorized partner account permission to attach the specified network
-    /// interface to an instance in their account.
+    /// Grants an AWS-authorized account permission to attach the specified network interface
+    /// to an instance in their account.
     /// 
     ///  
     /// <para>
@@ -86,6 +86,7 @@ namespace Amazon.EC2.Model
         /// The ID of the network interface.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NetworkInterfaceId
         {
             get { return this._networkInterfaceId; }
@@ -104,6 +105,7 @@ namespace Amazon.EC2.Model
         /// The type of permission to grant.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public InterfacePermissionType Permission
         {
             get { return this._permission; }

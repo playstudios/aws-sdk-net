@@ -55,20 +55,43 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateOriginEndpointRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaPackage");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-12";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/origin_endpoints";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/origin_endpoints";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAuthorization())
+                {
+                    context.Writer.WritePropertyName("authorization");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AuthorizationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Authorization, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetChannelId())
                 {
                     context.Writer.WritePropertyName("channelId");
                     context.Writer.Write(publicRequest.ChannelId);
+                }
+
+                if(publicRequest.IsSetCmafPackage())
+                {
+                    context.Writer.WritePropertyName("cmafPackage");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CmafPackageCreateOrUpdateParametersMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.CmafPackage, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetDashPackage())
@@ -122,10 +145,30 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetOrigination())
+                {
+                    context.Writer.WritePropertyName("origination");
+                    context.Writer.Write(publicRequest.Origination);
+                }
+
                 if(publicRequest.IsSetStartoverWindowSeconds())
                 {
                     context.Writer.WritePropertyName("startoverWindowSeconds");
                     context.Writer.Write(publicRequest.StartoverWindowSeconds);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetTimeDelaySeconds())

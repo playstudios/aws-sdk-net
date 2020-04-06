@@ -29,26 +29,8 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the RemovePermission operation.
-    /// You can remove individual permissions from an resource policy associated with a Lambda
-    /// function by providing a statement ID that you provided when you added the permission.
-    /// 
-    ///  
-    /// <para>
-    /// If you are using versioning, the permissions you remove are specific to the Lambda
-    /// function version or alias you specify in the <code>AddPermission</code> request via
-    /// the <code>Qualifier</code> parameter. For more information about versioning, see <a
-    /// href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS Lambda
-    /// Function Versioning and Aliases</a>. 
-    /// </para>
-    ///  
-    /// <para>
-    /// Note that removal of a permission will cause an active event source to lose permission
-    /// to the function.
-    /// </para>
-    ///  
-    /// <para>
-    /// You need permission for the <code>lambda:RemovePermission</code> action.
-    /// </para>
+    /// Revokes function-use permission from an AWS service or another account. You can get
+    /// the ID of the statement from the output of <a>GetPolicy</a>.
     /// </summary>
     public partial class RemovePermissionRequest : AmazonLambdaRequest
     {
@@ -60,17 +42,31 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// Lambda function whose resource policy you want to remove a permission from.
+        /// The name of the Lambda function, version, or alias.
         /// </para>
-        ///  
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
         /// <para>
-        ///  You can specify a function name (for example, <code>Thumbnail</code>) or you can
-        /// specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>).
-        /// AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>).
-        /// Note that the length constraint applies only to the ARN. If you specify only the function
-        /// name, it is limited to 64 characters in length. 
+        ///  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:v1</code>
+        /// (with alias).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// You can append a version number or alias to any of the formats. The length constraint
+        /// applies only to the full ARN. If you specify only the function name, it is limited
+        /// to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -86,11 +82,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Qualifier. 
         /// <para>
-        /// You can specify this optional parameter to remove permission associated with a specific
-        /// function version or function alias. If you don't specify this parameter, the API removes
-        /// permission associated with the unqualified function ARN.
+        /// Specify a version or alias to remove permissions from a published version of the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Qualifier
         {
             get { return this._qualifier; }
@@ -106,11 +101,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property RevisionId. 
         /// <para>
-        /// An optional value you can use to ensure you are updating the latest update of the
-        /// function version or alias. If the <code>RevisionID</code> you pass doesn't match the
-        /// latest <code>RevisionId</code> of the function or alias, it will fail with an error
-        /// message, advising you to retrieve the latest function version or alias <code>RevisionID</code>
-        /// using either or .
+        /// Only update the policy if the revision ID matches the ID that's specified. Use this
+        /// option to avoid modifying a policy that has changed since you last read it.
         /// </para>
         /// </summary>
         public string RevisionId
@@ -131,6 +123,7 @@ namespace Amazon.Lambda.Model
         /// Statement ID of the permission to remove.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string StatementId
         {
             get { return this._statementId; }

@@ -29,7 +29,15 @@ namespace Amazon.Budgets.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeBudgets operation.
-    /// Lists the budgets associated with an account.
+    /// Lists the budgets that are associated with an account.
+    /// 
+    ///  <important> 
+    /// <para>
+    /// The Request Syntax section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+    /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples">Examples</a>
+    /// section. 
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class DescribeBudgetsRequest : AmazonBudgetsRequest
     {
@@ -44,6 +52,7 @@ namespace Amazon.Budgets.Model
         /// of.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=12, Max=12)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -59,9 +68,11 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// Optional integer. Specifies the maximum number of results to return in response.
+        /// An optional integer that represents how many entries a paginated response contains.
+        /// The maximum is 100.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -77,9 +88,11 @@ namespace Amazon.Budgets.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The pagination token that indicates the next set of results to retrieve.
+        /// The pagination token that you include in your request to indicate the next set of
+        /// results that you want to retrieve.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public string NextToken
         {
             get { return this._nextToken; }

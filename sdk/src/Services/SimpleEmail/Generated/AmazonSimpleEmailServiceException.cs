@@ -28,10 +28,10 @@ namespace Amazon.SimpleEmail
     ///<summary>
     /// Common exception for the SimpleEmailService service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonSimpleEmailServiceException : AmazonServiceException
+    public partial class AmazonSimpleEmailServiceException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonSimpleEmailServiceException
@@ -88,7 +88,7 @@ namespace Amazon.SimpleEmail
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonSimpleEmailServiceException class with serialized data.
         /// </summary>

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Lambda.Model;
 using Amazon.Lambda.Model.Internal.MarshallTransformations;
+using Amazon.Lambda.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -40,13 +42,14 @@ namespace Amazon.Lambda
     ///  
     /// <para>
     /// This is the <i>AWS Lambda API Reference</i>. The AWS Lambda Developer Guide provides
-    /// additional information. For the service overview, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What
-    /// is AWS Lambda</a>, and for information about how the service works, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
+    /// additional information. For the service overview, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What
+    /// is AWS Lambda</a>, and for information about how the service works, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
     /// Lambda: How it Works</a> in the <b>AWS Lambda Developer Guide</b>.
     /// </para>
     /// </summary>
     public partial class AmazonLambdaClient : AmazonServiceClient, IAmazonLambda
     {
+        private static IServiceMetadata serviceMetadata = new AmazonLambdaMetadata();
         #region Constructors
 
         /// <summary>
@@ -160,6 +163,17 @@ namespace Amazon.Lambda
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
+
         #endregion
 
         #region Dispose
@@ -174,6 +188,35 @@ namespace Amazon.Lambda
 
         #endregion
 
+
+        #region  AddLayerVersionPermission
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AddLayerVersionPermission operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AddLayerVersionPermission operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddLayerVersionPermission">REST API Reference for AddLayerVersionPermission Operation</seealso>
+        public virtual void AddLayerVersionPermissionAsync(AddLayerVersionPermissionRequest request, AmazonServiceCallback<AddLayerVersionPermissionRequest, AddLayerVersionPermissionResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = AddLayerVersionPermissionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = AddLayerVersionPermissionResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<AddLayerVersionPermissionRequest,AddLayerVersionPermissionResponse> responseObject 
+                            = new AmazonServiceResult<AddLayerVersionPermissionRequest,AddLayerVersionPermissionResponse>((AddLayerVersionPermissionRequest)req, (AddLayerVersionPermissionResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
         
         #region  AddPermission
 
@@ -189,8 +232,9 @@ namespace Amazon.Lambda
         public virtual void AddPermissionAsync(AddPermissionRequest request, AmazonServiceCallback<AddPermissionRequest, AddPermissionResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = AddPermissionRequestMarshaller.Instance;
-            var unmarshaller = AddPermissionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = AddPermissionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = AddPermissionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -198,7 +242,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<AddPermissionRequest,AddPermissionResponse>((AddPermissionRequest)req, (AddPermissionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<AddPermissionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -217,8 +261,9 @@ namespace Amazon.Lambda
         public virtual void CreateAliasAsync(CreateAliasRequest request, AmazonServiceCallback<CreateAliasRequest, CreateAliasResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = CreateAliasRequestMarshaller.Instance;
-            var unmarshaller = CreateAliasResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = CreateAliasRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = CreateAliasResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -226,7 +271,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<CreateAliasRequest,CreateAliasResponse>((CreateAliasRequest)req, (CreateAliasResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<CreateAliasRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -245,8 +290,9 @@ namespace Amazon.Lambda
         public virtual void CreateEventSourceMappingAsync(CreateEventSourceMappingRequest request, AmazonServiceCallback<CreateEventSourceMappingRequest, CreateEventSourceMappingResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = CreateEventSourceMappingRequestMarshaller.Instance;
-            var unmarshaller = CreateEventSourceMappingResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = CreateEventSourceMappingRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = CreateEventSourceMappingResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -254,7 +300,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<CreateEventSourceMappingRequest,CreateEventSourceMappingResponse>((CreateEventSourceMappingRequest)req, (CreateEventSourceMappingResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<CreateEventSourceMappingRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -273,8 +319,9 @@ namespace Amazon.Lambda
         public virtual void CreateFunctionAsync(CreateFunctionRequest request, AmazonServiceCallback<CreateFunctionRequest, CreateFunctionResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = CreateFunctionRequestMarshaller.Instance;
-            var unmarshaller = CreateFunctionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = CreateFunctionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = CreateFunctionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -282,7 +329,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<CreateFunctionRequest,CreateFunctionResponse>((CreateFunctionRequest)req, (CreateFunctionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<CreateFunctionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -306,8 +353,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("DeleteAlias is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = DeleteAliasRequestMarshaller.Instance;
-            var unmarshaller = DeleteAliasResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteAliasRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteAliasResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -315,7 +363,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<DeleteAliasRequest,DeleteAliasResponse>((DeleteAliasRequest)req, (DeleteAliasResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DeleteAliasRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -339,8 +387,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("DeleteEventSourceMapping is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = DeleteEventSourceMappingRequestMarshaller.Instance;
-            var unmarshaller = DeleteEventSourceMappingResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteEventSourceMappingRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteEventSourceMappingResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -348,7 +397,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<DeleteEventSourceMappingRequest,DeleteEventSourceMappingResponse>((DeleteEventSourceMappingRequest)req, (DeleteEventSourceMappingResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DeleteEventSourceMappingRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -356,29 +405,18 @@ namespace Amazon.Lambda
         #region  DeleteFunction
 
         /// <summary>
-        /// Deletes the specified Lambda function code and configuration.
+        /// Deletes a Lambda function. To delete a specific function version, use the <code>Qualifier</code>
+        /// parameter. Otherwise, all versions and aliases are deleted.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature and you don't specify a function version in
-        /// your <code>DeleteFunction</code> request, AWS Lambda will delete the function, including
-        /// all its versions, and any aliases pointing to the function versions. To delete a specific
-        /// function version, you must provide the function version via the <code>Qualifier</code>
-        /// parameter. For information about function versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// When you delete a function the associated resource policy is also deleted. You will
-        /// need to delete the event source mappings explicitly.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:DeleteFunction</code> action.
+        /// To delete Lambda event source mappings that invoke a function, use <a>DeleteEventSourceMapping</a>.
+        /// For AWS services and resources that invoke your function directly, delete the trigger
+        /// in the service where you originally configured it.
         /// </para>
         /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value of this configuration option is AWSConfigs.HttpClientOption.UnityWWW
         /// </summary>
-        /// <param name="functionName">The Lambda function to delete.  You can specify the function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function or version. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:1</code> (with version). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -387,22 +425,19 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the DeleteFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunction">REST API Reference for DeleteFunction Operation</seealso>
         public virtual void DeleteFunctionAsync(string functionName,  AmazonServiceCallback<DeleteFunctionRequest, DeleteFunctionResponse> callback, AsyncOptions options = null)
@@ -430,8 +465,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("DeleteFunction is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = DeleteFunctionRequestMarshaller.Instance;
-            var unmarshaller = DeleteFunctionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteFunctionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteFunctionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -439,7 +475,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<DeleteFunctionRequest,DeleteFunctionResponse>((DeleteFunctionRequest)req, (DeleteFunctionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DeleteFunctionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -463,8 +499,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("DeleteFunctionConcurrency is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = DeleteFunctionConcurrencyRequestMarshaller.Instance;
-            var unmarshaller = DeleteFunctionConcurrencyResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteFunctionConcurrencyRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteFunctionConcurrencyResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -472,7 +509,109 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<DeleteFunctionConcurrencyRequest,DeleteFunctionConcurrencyResponse>((DeleteFunctionConcurrencyRequest)req, (DeleteFunctionConcurrencyResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DeleteFunctionConcurrencyRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  DeleteFunctionEventInvokeConfig
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteFunctionEventInvokeConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionEventInvokeConfig">REST API Reference for DeleteFunctionEventInvokeConfig Operation</seealso>
+        public virtual void DeleteFunctionEventInvokeConfigAsync(DeleteFunctionEventInvokeConfigRequest request, AmazonServiceCallback<DeleteFunctionEventInvokeConfigRequest, DeleteFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null)
+        {
+            if (AWSConfigs.HttpClient == AWSConfigs.HttpClientOption.UnityWWW)
+            {
+                throw new InvalidOperationException("DeleteFunctionEventInvokeConfig is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
+            }
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteFunctionEventInvokeConfigRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteFunctionEventInvokeConfigResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<DeleteFunctionEventInvokeConfigRequest,DeleteFunctionEventInvokeConfigResponse> responseObject 
+                            = new AmazonServiceResult<DeleteFunctionEventInvokeConfigRequest,DeleteFunctionEventInvokeConfigResponse>((DeleteFunctionEventInvokeConfigRequest)req, (DeleteFunctionEventInvokeConfigResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  DeleteLayerVersion
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLayerVersion operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteLayerVersion">REST API Reference for DeleteLayerVersion Operation</seealso>
+        public virtual void DeleteLayerVersionAsync(DeleteLayerVersionRequest request, AmazonServiceCallback<DeleteLayerVersionRequest, DeleteLayerVersionResponse> callback, AsyncOptions options = null)
+        {
+            if (AWSConfigs.HttpClient == AWSConfigs.HttpClientOption.UnityWWW)
+            {
+                throw new InvalidOperationException("DeleteLayerVersion is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
+            }
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteLayerVersionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteLayerVersionResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<DeleteLayerVersionRequest,DeleteLayerVersionResponse> responseObject 
+                            = new AmazonServiceResult<DeleteLayerVersionRequest,DeleteLayerVersionResponse>((DeleteLayerVersionRequest)req, (DeleteLayerVersionResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  DeleteProvisionedConcurrencyConfig
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProvisionedConcurrencyConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteProvisionedConcurrencyConfig">REST API Reference for DeleteProvisionedConcurrencyConfig Operation</seealso>
+        public virtual void DeleteProvisionedConcurrencyConfigAsync(DeleteProvisionedConcurrencyConfigRequest request, AmazonServiceCallback<DeleteProvisionedConcurrencyConfigRequest, DeleteProvisionedConcurrencyConfigResponse> callback, AsyncOptions options = null)
+        {
+            if (AWSConfigs.HttpClient == AWSConfigs.HttpClientOption.UnityWWW)
+            {
+                throw new InvalidOperationException("DeleteProvisionedConcurrencyConfig is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
+            }
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = DeleteProvisionedConcurrencyConfigRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = DeleteProvisionedConcurrencyConfigResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<DeleteProvisionedConcurrencyConfigRequest,DeleteProvisionedConcurrencyConfigResponse> responseObject 
+                            = new AmazonServiceResult<DeleteProvisionedConcurrencyConfigRequest,DeleteProvisionedConcurrencyConfigResponse>((DeleteProvisionedConcurrencyConfigRequest)req, (DeleteProvisionedConcurrencyConfigResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -491,8 +630,9 @@ namespace Amazon.Lambda
         public virtual void GetAccountSettingsAsync(GetAccountSettingsRequest request, AmazonServiceCallback<GetAccountSettingsRequest, GetAccountSettingsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetAccountSettingsRequestMarshaller.Instance;
-            var unmarshaller = GetAccountSettingsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetAccountSettingsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetAccountSettingsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -500,7 +640,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<GetAccountSettingsRequest,GetAccountSettingsResponse>((GetAccountSettingsRequest)req, (GetAccountSettingsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetAccountSettingsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -519,8 +659,9 @@ namespace Amazon.Lambda
         public virtual void GetAliasAsync(GetAliasRequest request, AmazonServiceCallback<GetAliasRequest, GetAliasResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetAliasRequestMarshaller.Instance;
-            var unmarshaller = GetAliasResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetAliasRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetAliasResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -528,7 +669,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<GetAliasRequest,GetAliasResponse>((GetAliasRequest)req, (GetAliasResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetAliasRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -547,8 +688,9 @@ namespace Amazon.Lambda
         public virtual void GetEventSourceMappingAsync(GetEventSourceMappingRequest request, AmazonServiceCallback<GetEventSourceMappingRequest, GetEventSourceMappingResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetEventSourceMappingRequestMarshaller.Instance;
-            var unmarshaller = GetEventSourceMappingResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetEventSourceMappingRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetEventSourceMappingResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -556,7 +698,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<GetEventSourceMappingRequest,GetEventSourceMappingResponse>((GetEventSourceMappingRequest)req, (GetEventSourceMappingResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetEventSourceMappingRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -564,25 +706,11 @@ namespace Amazon.Lambda
         #region  GetFunction
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function and a presigned URL link
-        /// to the .zip file you uploaded with <a>CreateFunction</a> so you can download the .zip
-        /// file. Note that the URL is valid for up to 10 minutes. The configuration information
-        /// is the same information you provided as parameters when uploading the function.
-        /// 
-        ///  
-        /// <para>
-        /// Using the optional <code>Qualifier</code> parameter, you can specify a specific function
-        /// version for which you want this information. If you don't specify this parameter,
-        /// the API uses unqualified function ARN which return information about the <code>$LATEST</code>
-        /// version of the Lambda function. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunction</code> action.
-        /// </para>
+        /// Returns information about the function or function version, with a link to download
+        /// the deployment package that's valid for 10 minutes. If you specify a function version,
+        /// only details that are specific to that version are returned.
         /// </summary>
-        /// <param name="functionName">The Lambda function name.  You can specify a function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function, version, or alias. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:v1</code> (with alias). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -591,19 +719,16 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the GetFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunction">REST API Reference for GetFunction Operation</seealso>
         public virtual void GetFunctionAsync(string functionName,  AmazonServiceCallback<GetFunctionRequest, GetFunctionResponse> callback, AsyncOptions options = null)
@@ -626,8 +751,9 @@ namespace Amazon.Lambda
         public virtual void GetFunctionAsync(GetFunctionRequest request, AmazonServiceCallback<GetFunctionRequest, GetFunctionResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetFunctionRequestMarshaller.Instance;
-            var unmarshaller = GetFunctionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetFunctionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetFunctionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -635,7 +761,36 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<GetFunctionRequest,GetFunctionResponse>((GetFunctionRequest)req, (GetFunctionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetFunctionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  GetFunctionConcurrency
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetFunctionConcurrency operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionConcurrency operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConcurrency">REST API Reference for GetFunctionConcurrency Operation</seealso>
+        public virtual void GetFunctionConcurrencyAsync(GetFunctionConcurrencyRequest request, AmazonServiceCallback<GetFunctionConcurrencyRequest, GetFunctionConcurrencyResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetFunctionConcurrencyRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetFunctionConcurrencyResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetFunctionConcurrencyRequest,GetFunctionConcurrencyResponse> responseObject 
+                            = new AmazonServiceResult<GetFunctionConcurrencyRequest,GetFunctionConcurrencyResponse>((GetFunctionConcurrencyRequest)req, (GetFunctionConcurrencyResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -643,25 +798,16 @@ namespace Amazon.Lambda
         #region  GetFunctionConfiguration
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function. This the same information
-        /// you provided as parameters when uploading the function by using <a>CreateFunction</a>.
+        /// Returns the version-specific settings of a Lambda function or version. The output
+        /// includes only options that can vary between versions of a function. To modify these
+        /// settings, use <a>UpdateFunctionConfiguration</a>.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature, you can retrieve this information for a specific
-        /// function version by using the optional <code>Qualifier</code> parameter and specifying
-        /// the function version or alias that points to it. If you don't provide it, the API
-        /// returns information about the $LATEST version of the function. For more information
-        /// about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunctionConfiguration</code>
-        /// operation.
+        /// To get all of a function's details, including function-level settings, use <a>GetFunction</a>.
         /// </para>
         /// </summary>
-        /// <param name="functionName">The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function, version, or alias. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:v1</code> (with alias). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -670,19 +816,16 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the GetFunctionConfiguration service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfiguration">REST API Reference for GetFunctionConfiguration Operation</seealso>
         public virtual void GetFunctionConfigurationAsync(string functionName,  AmazonServiceCallback<GetFunctionConfigurationRequest, GetFunctionConfigurationResponse> callback, AsyncOptions options = null)
@@ -705,8 +848,9 @@ namespace Amazon.Lambda
         public virtual void GetFunctionConfigurationAsync(GetFunctionConfigurationRequest request, AmazonServiceCallback<GetFunctionConfigurationRequest, GetFunctionConfigurationResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetFunctionConfigurationRequestMarshaller.Instance;
-            var unmarshaller = GetFunctionConfigurationResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetFunctionConfigurationRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetFunctionConfigurationResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -714,7 +858,123 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<GetFunctionConfigurationRequest,GetFunctionConfigurationResponse>((GetFunctionConfigurationRequest)req, (GetFunctionConfigurationResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetFunctionConfigurationRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  GetFunctionEventInvokeConfig
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionEventInvokeConfig">REST API Reference for GetFunctionEventInvokeConfig Operation</seealso>
+        public virtual void GetFunctionEventInvokeConfigAsync(GetFunctionEventInvokeConfigRequest request, AmazonServiceCallback<GetFunctionEventInvokeConfigRequest, GetFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetFunctionEventInvokeConfigRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetFunctionEventInvokeConfigResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetFunctionEventInvokeConfigRequest,GetFunctionEventInvokeConfigResponse> responseObject 
+                            = new AmazonServiceResult<GetFunctionEventInvokeConfigRequest,GetFunctionEventInvokeConfigResponse>((GetFunctionEventInvokeConfigRequest)req, (GetFunctionEventInvokeConfigResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  GetLayerVersion
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersion">REST API Reference for GetLayerVersion Operation</seealso>
+        public virtual void GetLayerVersionAsync(GetLayerVersionRequest request, AmazonServiceCallback<GetLayerVersionRequest, GetLayerVersionResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetLayerVersionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetLayerVersionResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetLayerVersionRequest,GetLayerVersionResponse> responseObject 
+                            = new AmazonServiceResult<GetLayerVersionRequest,GetLayerVersionResponse>((GetLayerVersionRequest)req, (GetLayerVersionResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  GetLayerVersionByArn
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersionByArn operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionByArn operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionByArn">REST API Reference for GetLayerVersionByArn Operation</seealso>
+        public virtual void GetLayerVersionByArnAsync(GetLayerVersionByArnRequest request, AmazonServiceCallback<GetLayerVersionByArnRequest, GetLayerVersionByArnResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetLayerVersionByArnRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetLayerVersionByArnResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetLayerVersionByArnRequest,GetLayerVersionByArnResponse> responseObject 
+                            = new AmazonServiceResult<GetLayerVersionByArnRequest,GetLayerVersionByArnResponse>((GetLayerVersionByArnRequest)req, (GetLayerVersionByArnResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  GetLayerVersionPolicy
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersionPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionPolicy operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionPolicy">REST API Reference for GetLayerVersionPolicy Operation</seealso>
+        public virtual void GetLayerVersionPolicyAsync(GetLayerVersionPolicyRequest request, AmazonServiceCallback<GetLayerVersionPolicyRequest, GetLayerVersionPolicyResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetLayerVersionPolicyRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetLayerVersionPolicyResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetLayerVersionPolicyRequest,GetLayerVersionPolicyResponse> responseObject 
+                            = new AmazonServiceResult<GetLayerVersionPolicyRequest,GetLayerVersionPolicyResponse>((GetLayerVersionPolicyRequest)req, (GetLayerVersionPolicyResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -733,8 +993,9 @@ namespace Amazon.Lambda
         public virtual void GetPolicyAsync(GetPolicyRequest request, AmazonServiceCallback<GetPolicyRequest, GetPolicyResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = GetPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetPolicyResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetPolicyRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetPolicyResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -742,7 +1003,36 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<GetPolicyRequest,GetPolicyResponse>((GetPolicyRequest)req, (GetPolicyResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetPolicyRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  GetProvisionedConcurrencyConfig
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetProvisionedConcurrencyConfig">REST API Reference for GetProvisionedConcurrencyConfig Operation</seealso>
+        public virtual void GetProvisionedConcurrencyConfigAsync(GetProvisionedConcurrencyConfigRequest request, AmazonServiceCallback<GetProvisionedConcurrencyConfigRequest, GetProvisionedConcurrencyConfigResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = GetProvisionedConcurrencyConfigRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = GetProvisionedConcurrencyConfigResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetProvisionedConcurrencyConfigRequest,GetProvisionedConcurrencyConfigResponse> responseObject 
+                            = new AmazonServiceResult<GetProvisionedConcurrencyConfigRequest,GetProvisionedConcurrencyConfigResponse>((GetProvisionedConcurrencyConfigRequest)req, (GetProvisionedConcurrencyConfigResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -761,8 +1051,9 @@ namespace Amazon.Lambda
         public virtual void InvokeAsync(InvokeRequest request, AmazonServiceCallback<InvokeRequest, InvokeResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = InvokeRequestMarshaller.Instance;
-            var unmarshaller = InvokeResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = InvokeRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = InvokeResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -770,7 +1061,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<InvokeRequest,InvokeResponse>((InvokeRequest)req, (InvokeResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<InvokeRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -786,12 +1077,13 @@ namespace Amazon.Lambda
         /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsync">REST API Reference for InvokeAsync Operation</seealso>
-        [Obsolete("This API is deprecated. We recommend that you use Invoke API instead.")]
+        [Obsolete("For .NET 3.5/4.5, API InvokeAsyncResponse InvokeAsync(InvokeAsyncRequest) is deprecated, use InvokeResponse Invoke(InvokeRequest), or Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead. For .NET Core and PCL, Task<InvokeAsyncResponse> InvokeAsyncAsync(InvokeAsyncRequest, CancellationToken) is deprecated, use Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead.")]
         public virtual void InvokeAsyncAsync(InvokeAsyncRequest request, AmazonServiceCallback<InvokeAsyncRequest, InvokeAsyncResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = InvokeAsyncRequestMarshaller.Instance;
-            var unmarshaller = InvokeAsyncResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = InvokeAsyncRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = InvokeAsyncResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -799,7 +1091,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<InvokeAsyncRequest,InvokeAsyncResponse>((InvokeAsyncRequest)req, (InvokeAsyncResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<InvokeAsyncRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -818,8 +1110,9 @@ namespace Amazon.Lambda
         public virtual void ListAliasesAsync(ListAliasesRequest request, AmazonServiceCallback<ListAliasesRequest, ListAliasesResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListAliasesRequestMarshaller.Instance;
-            var unmarshaller = ListAliasesResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListAliasesRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListAliasesResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -827,7 +1120,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<ListAliasesRequest,ListAliasesResponse>((ListAliasesRequest)req, (ListAliasesResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListAliasesRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -846,8 +1139,9 @@ namespace Amazon.Lambda
         public virtual void ListEventSourceMappingsAsync(ListEventSourceMappingsRequest request, AmazonServiceCallback<ListEventSourceMappingsRequest, ListEventSourceMappingsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListEventSourceMappingsRequestMarshaller.Instance;
-            var unmarshaller = ListEventSourceMappingsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListEventSourceMappingsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListEventSourceMappingsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -855,7 +1149,36 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<ListEventSourceMappingsRequest,ListEventSourceMappingsResponse>((ListEventSourceMappingsRequest)req, (ListEventSourceMappingsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListEventSourceMappingsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  ListFunctionEventInvokeConfigs
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListFunctionEventInvokeConfigs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListFunctionEventInvokeConfigs operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionEventInvokeConfigs">REST API Reference for ListFunctionEventInvokeConfigs Operation</seealso>
+        public virtual void ListFunctionEventInvokeConfigsAsync(ListFunctionEventInvokeConfigsRequest request, AmazonServiceCallback<ListFunctionEventInvokeConfigsRequest, ListFunctionEventInvokeConfigsResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListFunctionEventInvokeConfigsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListFunctionEventInvokeConfigsResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<ListFunctionEventInvokeConfigsRequest,ListFunctionEventInvokeConfigsResponse> responseObject 
+                            = new AmazonServiceResult<ListFunctionEventInvokeConfigsRequest,ListFunctionEventInvokeConfigsResponse>((ListFunctionEventInvokeConfigsRequest)req, (ListFunctionEventInvokeConfigsResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -863,20 +1186,14 @@ namespace Amazon.Lambda
         #region  ListFunctions
 
         /// <summary>
-        /// Returns a list of your Lambda functions. For each function, the response includes
-        /// the function configuration information. You must use <a>GetFunction</a> to retrieve
-        /// the code for your function.
+        /// Returns a list of Lambda functions, with the version-specific configuration of each.
+        /// Lambda returns up to 50 functions per call.
         /// 
         ///  
         /// <para>
-        /// This operation requires permission for the <code>lambda:ListFunctions</code> action.
-        /// </para>
-        ///  
-        /// <para>
-        /// If you are using the versioning feature, you can list all of your functions or only
-        /// <code>$LATEST</code> versions. For information about the versioning feature, see <a
-        /// href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS Lambda
-        /// Function Versioning and Aliases</a>. 
+        /// Set <code>FunctionVersion</code> to <code>ALL</code> to include all published versions
+        /// of each function in addition to the unpublished version. To get more information about
+        /// a function or version, use <a>GetFunction</a>.
         /// </para>
         /// </summary>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
@@ -887,15 +1204,13 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the ListFunctions service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctions">REST API Reference for ListFunctions Operation</seealso>
         public virtual void ListFunctionsAsync( AmazonServiceCallback<ListFunctionsRequest, ListFunctionsResponse> callback, AsyncOptions options = null)
@@ -917,8 +1232,9 @@ namespace Amazon.Lambda
         public virtual void ListFunctionsAsync(ListFunctionsRequest request, AmazonServiceCallback<ListFunctionsRequest, ListFunctionsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListFunctionsRequestMarshaller.Instance;
-            var unmarshaller = ListFunctionsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListFunctionsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListFunctionsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -926,7 +1242,94 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<ListFunctionsRequest,ListFunctionsResponse>((ListFunctionsRequest)req, (ListFunctionsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListFunctionsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  ListLayers
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLayers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLayers operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayers">REST API Reference for ListLayers Operation</seealso>
+        public virtual void ListLayersAsync(ListLayersRequest request, AmazonServiceCallback<ListLayersRequest, ListLayersResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListLayersRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListLayersResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<ListLayersRequest,ListLayersResponse> responseObject 
+                            = new AmazonServiceResult<ListLayersRequest,ListLayersResponse>((ListLayersRequest)req, (ListLayersResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  ListLayerVersions
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLayerVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLayerVersions operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayerVersions">REST API Reference for ListLayerVersions Operation</seealso>
+        public virtual void ListLayerVersionsAsync(ListLayerVersionsRequest request, AmazonServiceCallback<ListLayerVersionsRequest, ListLayerVersionsResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListLayerVersionsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListLayerVersionsResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<ListLayerVersionsRequest,ListLayerVersionsResponse> responseObject 
+                            = new AmazonServiceResult<ListLayerVersionsRequest,ListLayerVersionsResponse>((ListLayerVersionsRequest)req, (ListLayerVersionsResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  ListProvisionedConcurrencyConfigs
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListProvisionedConcurrencyConfigs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisionedConcurrencyConfigs operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListProvisionedConcurrencyConfigs">REST API Reference for ListProvisionedConcurrencyConfigs Operation</seealso>
+        public virtual void ListProvisionedConcurrencyConfigsAsync(ListProvisionedConcurrencyConfigsRequest request, AmazonServiceCallback<ListProvisionedConcurrencyConfigsRequest, ListProvisionedConcurrencyConfigsResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListProvisionedConcurrencyConfigsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListProvisionedConcurrencyConfigsResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<ListProvisionedConcurrencyConfigsRequest,ListProvisionedConcurrencyConfigsResponse> responseObject 
+                            = new AmazonServiceResult<ListProvisionedConcurrencyConfigsRequest,ListProvisionedConcurrencyConfigsResponse>((ListProvisionedConcurrencyConfigsRequest)req, (ListProvisionedConcurrencyConfigsResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -945,8 +1348,9 @@ namespace Amazon.Lambda
         public virtual void ListTagsAsync(ListTagsRequest request, AmazonServiceCallback<ListTagsRequest, ListTagsResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListTagsRequestMarshaller.Instance;
-            var unmarshaller = ListTagsResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListTagsRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListTagsResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -954,7 +1358,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<ListTagsRequest,ListTagsResponse>((ListTagsRequest)req, (ListTagsResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListTagsRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -973,8 +1377,9 @@ namespace Amazon.Lambda
         public virtual void ListVersionsByFunctionAsync(ListVersionsByFunctionRequest request, AmazonServiceCallback<ListVersionsByFunctionRequest, ListVersionsByFunctionResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = ListVersionsByFunctionRequestMarshaller.Instance;
-            var unmarshaller = ListVersionsByFunctionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = ListVersionsByFunctionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = ListVersionsByFunctionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -982,7 +1387,36 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<ListVersionsByFunctionRequest,ListVersionsByFunctionResponse>((ListVersionsByFunctionRequest)req, (ListVersionsByFunctionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<ListVersionsByFunctionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  PublishLayerVersion
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PublishLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PublishLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishLayerVersion">REST API Reference for PublishLayerVersion Operation</seealso>
+        public virtual void PublishLayerVersionAsync(PublishLayerVersionRequest request, AmazonServiceCallback<PublishLayerVersionRequest, PublishLayerVersionResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PublishLayerVersionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PublishLayerVersionResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<PublishLayerVersionRequest,PublishLayerVersionResponse> responseObject 
+                            = new AmazonServiceResult<PublishLayerVersionRequest,PublishLayerVersionResponse>((PublishLayerVersionRequest)req, (PublishLayerVersionResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1001,8 +1435,9 @@ namespace Amazon.Lambda
         public virtual void PublishVersionAsync(PublishVersionRequest request, AmazonServiceCallback<PublishVersionRequest, PublishVersionResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = PublishVersionRequestMarshaller.Instance;
-            var unmarshaller = PublishVersionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PublishVersionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PublishVersionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1010,7 +1445,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<PublishVersionRequest,PublishVersionResponse>((PublishVersionRequest)req, (PublishVersionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<PublishVersionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1034,8 +1469,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("PutFunctionConcurrency is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = PutFunctionConcurrencyRequestMarshaller.Instance;
-            var unmarshaller = PutFunctionConcurrencyResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PutFunctionConcurrencyRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PutFunctionConcurrencyResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1043,7 +1479,109 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<PutFunctionConcurrencyRequest,PutFunctionConcurrencyResponse>((PutFunctionConcurrencyRequest)req, (PutFunctionConcurrencyResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<PutFunctionConcurrencyRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  PutFunctionEventInvokeConfig
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutFunctionEventInvokeConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionEventInvokeConfig">REST API Reference for PutFunctionEventInvokeConfig Operation</seealso>
+        public virtual void PutFunctionEventInvokeConfigAsync(PutFunctionEventInvokeConfigRequest request, AmazonServiceCallback<PutFunctionEventInvokeConfigRequest, PutFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null)
+        {
+            if (AWSConfigs.HttpClient == AWSConfigs.HttpClientOption.UnityWWW)
+            {
+                throw new InvalidOperationException("PutFunctionEventInvokeConfig is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
+            }
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PutFunctionEventInvokeConfigRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PutFunctionEventInvokeConfigResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<PutFunctionEventInvokeConfigRequest,PutFunctionEventInvokeConfigResponse> responseObject 
+                            = new AmazonServiceResult<PutFunctionEventInvokeConfigRequest,PutFunctionEventInvokeConfigResponse>((PutFunctionEventInvokeConfigRequest)req, (PutFunctionEventInvokeConfigResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  PutProvisionedConcurrencyConfig
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutProvisionedConcurrencyConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutProvisionedConcurrencyConfig">REST API Reference for PutProvisionedConcurrencyConfig Operation</seealso>
+        public virtual void PutProvisionedConcurrencyConfigAsync(PutProvisionedConcurrencyConfigRequest request, AmazonServiceCallback<PutProvisionedConcurrencyConfigRequest, PutProvisionedConcurrencyConfigResponse> callback, AsyncOptions options = null)
+        {
+            if (AWSConfigs.HttpClient == AWSConfigs.HttpClientOption.UnityWWW)
+            {
+                throw new InvalidOperationException("PutProvisionedConcurrencyConfig is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
+            }
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = PutProvisionedConcurrencyConfigRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = PutProvisionedConcurrencyConfigResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<PutProvisionedConcurrencyConfigRequest,PutProvisionedConcurrencyConfigResponse> responseObject 
+                            = new AmazonServiceResult<PutProvisionedConcurrencyConfigRequest,PutProvisionedConcurrencyConfigResponse>((PutProvisionedConcurrencyConfigRequest)req, (PutProvisionedConcurrencyConfigResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  RemoveLayerVersionPermission
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RemoveLayerVersionPermission operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RemoveLayerVersionPermission operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemoveLayerVersionPermission">REST API Reference for RemoveLayerVersionPermission Operation</seealso>
+        public virtual void RemoveLayerVersionPermissionAsync(RemoveLayerVersionPermissionRequest request, AmazonServiceCallback<RemoveLayerVersionPermissionRequest, RemoveLayerVersionPermissionResponse> callback, AsyncOptions options = null)
+        {
+            if (AWSConfigs.HttpClient == AWSConfigs.HttpClientOption.UnityWWW)
+            {
+                throw new InvalidOperationException("RemoveLayerVersionPermission is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
+            }
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = RemoveLayerVersionPermissionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = RemoveLayerVersionPermissionResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<RemoveLayerVersionPermissionRequest,RemoveLayerVersionPermissionResponse> responseObject 
+                            = new AmazonServiceResult<RemoveLayerVersionPermissionRequest,RemoveLayerVersionPermissionResponse>((RemoveLayerVersionPermissionRequest)req, (RemoveLayerVersionPermissionResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1067,8 +1605,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("RemovePermission is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = RemovePermissionRequestMarshaller.Instance;
-            var unmarshaller = RemovePermissionResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = RemovePermissionRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = RemovePermissionResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1076,7 +1615,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<RemovePermissionRequest,RemovePermissionResponse>((RemovePermissionRequest)req, (RemovePermissionResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<RemovePermissionRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1095,8 +1634,9 @@ namespace Amazon.Lambda
         public virtual void TagResourceAsync(TagResourceRequest request, AmazonServiceCallback<TagResourceRequest, TagResourceResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1104,7 +1644,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<TagResourceRequest,TagResourceResponse>((TagResourceRequest)req, (TagResourceResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<TagResourceRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1128,8 +1668,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("UntagResource is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1137,7 +1678,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<UntagResourceRequest,UntagResourceResponse>((UntagResourceRequest)req, (UntagResourceResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<UntagResourceRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1161,8 +1702,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("UpdateAlias is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = UpdateAliasRequestMarshaller.Instance;
-            var unmarshaller = UpdateAliasResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = UpdateAliasRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = UpdateAliasResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1170,7 +1712,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<UpdateAliasRequest,UpdateAliasResponse>((UpdateAliasRequest)req, (UpdateAliasResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<UpdateAliasRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1194,8 +1736,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("UpdateEventSourceMapping is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = UpdateEventSourceMappingRequestMarshaller.Instance;
-            var unmarshaller = UpdateEventSourceMappingResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = UpdateEventSourceMappingRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = UpdateEventSourceMappingResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1203,7 +1746,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<UpdateEventSourceMappingRequest,UpdateEventSourceMappingResponse>((UpdateEventSourceMappingRequest)req, (UpdateEventSourceMappingResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<UpdateEventSourceMappingRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1227,8 +1770,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("UpdateFunctionCode is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = UpdateFunctionCodeRequestMarshaller.Instance;
-            var unmarshaller = UpdateFunctionCodeResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = UpdateFunctionCodeRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = UpdateFunctionCodeResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1236,7 +1780,7 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<UpdateFunctionCodeRequest,UpdateFunctionCodeResponse>((UpdateFunctionCodeRequest)req, (UpdateFunctionCodeResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<UpdateFunctionCodeRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion
@@ -1260,8 +1804,9 @@ namespace Amazon.Lambda
                 throw new InvalidOperationException("UpdateFunctionConfiguration is only allowed with AWSConfigs.HttpClientOption.UnityWebRequest API option");
             }
             options = options == null?new AsyncOptions():options;
-            var marshaller = UpdateFunctionConfigurationRequestMarshaller.Instance;
-            var unmarshaller = UpdateFunctionConfigurationResponseUnmarshaller.Instance;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = UpdateFunctionConfigurationRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = UpdateFunctionConfigurationResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
@@ -1269,7 +1814,36 @@ namespace Amazon.Lambda
                             = new AmazonServiceResult<UpdateFunctionConfigurationRequest,UpdateFunctionConfigurationResponse>((UpdateFunctionConfigurationRequest)req, (UpdateFunctionConfigurationResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<UpdateFunctionConfigurationRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
+        }
+
+        #endregion
+        
+        #region  UpdateFunctionEventInvokeConfig
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionEventInvokeConfig">REST API Reference for UpdateFunctionEventInvokeConfig Operation</seealso>
+        public virtual void UpdateFunctionEventInvokeConfigAsync(UpdateFunctionEventInvokeConfigRequest request, AmazonServiceCallback<UpdateFunctionEventInvokeConfigRequest, UpdateFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var invokeOptions = new InvokeOptions();
+            invokeOptions.RequestMarshaller = UpdateFunctionEventInvokeConfigRequestMarshaller.Instance;
+            invokeOptions.ResponseUnmarshaller = UpdateFunctionEventInvokeConfigResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<UpdateFunctionEventInvokeConfigRequest,UpdateFunctionEventInvokeConfigResponse> responseObject 
+                            = new AmazonServiceResult<UpdateFunctionEventInvokeConfigRequest,UpdateFunctionEventInvokeConfigResponse>((UpdateFunctionEventInvokeConfigRequest)req, (UpdateFunctionEventInvokeConfigResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke(request, invokeOptions, options, callbackHelper);
         }
 
         #endregion

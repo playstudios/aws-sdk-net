@@ -29,8 +29,8 @@ namespace Amazon.Redshift.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteTags operation.
-    /// Deletes a tag or tags from a resource. You must provide the ARN of the resource from
-    /// which you want to delete the tag or tags.
+    /// Deletes tags from a resource. You must provide the ARN of the resource from which
+    /// you want to delete the tag or tags.
     /// </summary>
     public partial class DeleteTagsRequest : AmazonRedshiftRequest
     {
@@ -41,9 +41,10 @@ namespace Amazon.Redshift.Model
         /// Gets and sets the property ResourceName. 
         /// <para>
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For
-        /// example, <code>arn:aws:redshift:us-east-1:123456789:cluster:t1</code>. 
+        /// example, <code>arn:aws:redshift:us-east-2:123456789:cluster:t1</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceName
         {
             get { return this._resourceName; }
@@ -62,6 +63,7 @@ namespace Amazon.Redshift.Model
         /// The tag key that you want to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

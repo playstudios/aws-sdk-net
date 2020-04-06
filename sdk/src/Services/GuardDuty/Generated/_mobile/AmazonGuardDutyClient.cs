@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.GuardDuty.Model;
 using Amazon.GuardDuty.Model.Internal.MarshallTransformations;
+using Amazon.GuardDuty.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -36,15 +38,28 @@ namespace Amazon.GuardDuty
     /// <summary>
     /// Implementation for accessing GuardDuty
     ///
-    /// Assess, monitor, manage, and remediate security issues across your AWS infrastructure,
-    /// applications, and data.
+    /// Amazon GuardDuty is a continuous security monitoring service that analyzes and processes
+    /// the following data sources: VPC Flow Logs, AWS CloudTrail event logs, and DNS logs.
+    /// It uses threat intelligence feeds, such as lists of malicious IPs and domains, and
+    /// machine learning to identify unexpected and potentially unauthorized and malicious
+    /// activity within your AWS environment. This can include issues like escalations of
+    /// privileges, uses of exposed credentials, or communication with malicious IPs, URLs,
+    /// or domains. For example, GuardDuty can detect compromised EC2 instances serving malware
+    /// or mining bitcoin. It also monitors AWS account access behavior for signs of compromise,
+    /// such as unauthorized infrastructure deployments, like instances deployed in a region
+    /// that has never been used, or unusual API calls, like a password policy change to reduce
+    /// password strength. GuardDuty informs you of the status of your AWS environment by
+    /// producing security findings that you can view in the GuardDuty console or through
+    /// Amazon CloudWatch events. For more information, see <a href="https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html">Amazon
+    /// GuardDuty User Guide</a>.
     /// </summary>
     public partial class AmazonGuardDutyClient : AmazonServiceClient, IAmazonGuardDuty
     {
+        private static IServiceMetadata serviceMetadata = new AmazonGuardDutyMetadata();
         
         #region Constructors
 
-#if CORECLR
+#if NETSTANDARD
     
         /// <summary>
         /// Constructs AmazonGuardDutyClient with the credentials loaded from the application's
@@ -215,6 +230,16 @@ namespace Amazon.GuardDuty
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -230,35 +255,43 @@ namespace Amazon.GuardDuty
 
         #endregion
 
-        
+
         #region  AcceptInvitation
 
         internal virtual AcceptInvitationResponse AcceptInvitation(AcceptInvitationRequest request)
         {
-            var marshaller = AcceptInvitationRequestMarshaller.Instance;
-            var unmarshaller = AcceptInvitationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptInvitationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptInvitationResponseUnmarshaller.Instance;
 
-            return Invoke<AcceptInvitationRequest,AcceptInvitationResponse>(request, marshaller, unmarshaller);
+            return Invoke<AcceptInvitationResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the AcceptInvitation operation.
+        /// Accepts the invitation to be monitored by a master GuardDuty account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the AcceptInvitation operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AcceptInvitation service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the AcceptInvitation service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/AcceptInvitation">REST API Reference for AcceptInvitation Operation</seealso>
         public virtual Task<AcceptInvitationResponse> AcceptInvitationAsync(AcceptInvitationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = AcceptInvitationRequestMarshaller.Instance;
-            var unmarshaller = AcceptInvitationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AcceptInvitationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AcceptInvitationResponseUnmarshaller.Instance;
 
-            return InvokeAsync<AcceptInvitationRequest,AcceptInvitationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<AcceptInvitationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -267,30 +300,45 @@ namespace Amazon.GuardDuty
 
         internal virtual ArchiveFindingsResponse ArchiveFindings(ArchiveFindingsRequest request)
         {
-            var marshaller = ArchiveFindingsRequestMarshaller.Instance;
-            var unmarshaller = ArchiveFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ArchiveFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ArchiveFindingsResponseUnmarshaller.Instance;
 
-            return Invoke<ArchiveFindingsRequest,ArchiveFindingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ArchiveFindingsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ArchiveFindings operation.
-        /// </summary>
+        /// Archives GuardDuty findings specified by the list of finding IDs.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ArchiveFindings operation.</param>
+        ///  <note> 
+        /// <para>
+        /// Only the master account can archive findings. Member accounts do not have permission
+        /// to archive findings from their accounts.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ArchiveFindings service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ArchiveFindings service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ArchiveFindings">REST API Reference for ArchiveFindings Operation</seealso>
         public virtual Task<ArchiveFindingsResponse> ArchiveFindingsAsync(ArchiveFindingsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ArchiveFindingsRequestMarshaller.Instance;
-            var unmarshaller = ArchiveFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ArchiveFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ArchiveFindingsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ArchiveFindingsRequest,ArchiveFindingsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ArchiveFindingsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -299,30 +347,81 @@ namespace Amazon.GuardDuty
 
         internal virtual CreateDetectorResponse CreateDetector(CreateDetectorRequest request)
         {
-            var marshaller = CreateDetectorRequestMarshaller.Instance;
-            var unmarshaller = CreateDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDetectorResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDetectorRequest,CreateDetectorResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDetectorResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDetector operation.
+        /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents
+        /// the GuardDuty service. To start using GuardDuty, you must create a detector in each
+        /// region that you enable the service. You can have only one detector per account per
+        /// region.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDetector operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDetector service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDetector service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateDetector">REST API Reference for CreateDetector Operation</seealso>
         public virtual Task<CreateDetectorResponse> CreateDetectorAsync(CreateDetectorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDetectorRequestMarshaller.Instance;
-            var unmarshaller = CreateDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDetectorResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateDetectorRequest,CreateDetectorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateDetectorResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  CreateFilter
+
+        internal virtual CreateFilterResponse CreateFilter(CreateFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateFilterResponseUnmarshaller.Instance;
+
+            return Invoke<CreateFilterResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Creates a filter using the specified finding criteria.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateFilter service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the CreateFilter service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateFilter">REST API Reference for CreateFilter Operation</seealso>
+        public virtual Task<CreateFilterResponse> CreateFilterAsync(CreateFilterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateFilterResponseUnmarshaller.Instance;
+
+            return InvokeAsync<CreateFilterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -331,30 +430,41 @@ namespace Amazon.GuardDuty
 
         internal virtual CreateIPSetResponse CreateIPSet(CreateIPSetRequest request)
         {
-            var marshaller = CreateIPSetRequestMarshaller.Instance;
-            var unmarshaller = CreateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateIPSetRequest,CreateIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateIPSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateIPSet operation.
+        /// Creates a new IPSet, called Trusted IP list in the consoler user interface. An IPSet
+        /// is a list IP addresses trusted for secure communication with AWS infrastructure and
+        /// applications. GuardDuty does not generate findings for IP addresses included in IPSets.
+        /// Only users from the master account can use this operation.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateIPSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateIPSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateIPSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateIPSet">REST API Reference for CreateIPSet Operation</seealso>
         public virtual Task<CreateIPSetResponse> CreateIPSetAsync(CreateIPSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateIPSetRequestMarshaller.Instance;
-            var unmarshaller = CreateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateIPSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateIPSetRequest,CreateIPSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateIPSetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -363,30 +473,81 @@ namespace Amazon.GuardDuty
 
         internal virtual CreateMembersResponse CreateMembers(CreateMembersRequest request)
         {
-            var marshaller = CreateMembersRequestMarshaller.Instance;
-            var unmarshaller = CreateMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMembersResponseUnmarshaller.Instance;
 
-            return Invoke<CreateMembersRequest,CreateMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateMembers operation.
+        /// Creates member accounts of the current AWS account by specifying a list of AWS account
+        /// IDs. The current AWS account can then invite these members to manage GuardDuty in
+        /// their accounts.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateMembers">REST API Reference for CreateMembers Operation</seealso>
         public virtual Task<CreateMembersResponse> CreateMembersAsync(CreateMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateMembersRequestMarshaller.Instance;
-            var unmarshaller = CreateMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateMembersRequest,CreateMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateMembersResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  CreatePublishingDestination
+
+        internal virtual CreatePublishingDestinationResponse CreatePublishingDestination(CreatePublishingDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePublishingDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<CreatePublishingDestinationResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Creates a publishing destination to send findings to. The resource to send findings
+        /// to must exist before you use this operation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreatePublishingDestination service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the CreatePublishingDestination service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreatePublishingDestination">REST API Reference for CreatePublishingDestination Operation</seealso>
+        public virtual Task<CreatePublishingDestinationResponse> CreatePublishingDestinationAsync(CreatePublishingDestinationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePublishingDestinationResponseUnmarshaller.Instance;
+
+            return InvokeAsync<CreatePublishingDestinationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -395,30 +556,40 @@ namespace Amazon.GuardDuty
 
         internal virtual CreateSampleFindingsResponse CreateSampleFindings(CreateSampleFindingsRequest request)
         {
-            var marshaller = CreateSampleFindingsRequestMarshaller.Instance;
-            var unmarshaller = CreateSampleFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSampleFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSampleFindingsResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSampleFindingsRequest,CreateSampleFindingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSampleFindingsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateSampleFindings operation.
+        /// Generates example findings of types specified by the list of finding types. If 'NULL'
+        /// is specified for <code>findingTypes</code>, the API generates example findings of
+        /// all supported finding types.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateSampleFindings operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSampleFindings service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateSampleFindings service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateSampleFindings">REST API Reference for CreateSampleFindings Operation</seealso>
         public virtual Task<CreateSampleFindingsResponse> CreateSampleFindingsAsync(CreateSampleFindingsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateSampleFindingsRequestMarshaller.Instance;
-            var unmarshaller = CreateSampleFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSampleFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSampleFindingsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateSampleFindingsRequest,CreateSampleFindingsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateSampleFindingsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -427,30 +598,40 @@ namespace Amazon.GuardDuty
 
         internal virtual CreateThreatIntelSetResponse CreateThreatIntelSet(CreateThreatIntelSetRequest request)
         {
-            var marshaller = CreateThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = CreateThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThreatIntelSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateThreatIntelSetRequest,CreateThreatIntelSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateThreatIntelSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateThreatIntelSet operation.
+        /// Create a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses.
+        /// GuardDuty generates findings based on ThreatIntelSets. Only users of the master account
+        /// can use this operation.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateThreatIntelSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateThreatIntelSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateThreatIntelSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/CreateThreatIntelSet">REST API Reference for CreateThreatIntelSet Operation</seealso>
         public virtual Task<CreateThreatIntelSetResponse> CreateThreatIntelSetAsync(CreateThreatIntelSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = CreateThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateThreatIntelSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<CreateThreatIntelSetRequest,CreateThreatIntelSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<CreateThreatIntelSetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -459,30 +640,39 @@ namespace Amazon.GuardDuty
 
         internal virtual DeclineInvitationsResponse DeclineInvitations(DeclineInvitationsRequest request)
         {
-            var marshaller = DeclineInvitationsRequestMarshaller.Instance;
-            var unmarshaller = DeclineInvitationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeclineInvitationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeclineInvitationsResponseUnmarshaller.Instance;
 
-            return Invoke<DeclineInvitationsRequest,DeclineInvitationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeclineInvitationsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeclineInvitations operation.
+        /// Declines invitations sent to the current member account by AWS account specified by
+        /// their account IDs.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeclineInvitations operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeclineInvitations service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeclineInvitations service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeclineInvitations">REST API Reference for DeclineInvitations Operation</seealso>
         public virtual Task<DeclineInvitationsResponse> DeclineInvitationsAsync(DeclineInvitationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeclineInvitationsRequestMarshaller.Instance;
-            var unmarshaller = DeclineInvitationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeclineInvitationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeclineInvitationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeclineInvitationsRequest,DeclineInvitationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeclineInvitationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -491,30 +681,78 @@ namespace Amazon.GuardDuty
 
         internal virtual DeleteDetectorResponse DeleteDetector(DeleteDetectorRequest request)
         {
-            var marshaller = DeleteDetectorRequestMarshaller.Instance;
-            var unmarshaller = DeleteDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDetectorResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDetectorRequest,DeleteDetectorResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDetectorResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteDetector operation.
+        /// Deletes a Amazon GuardDuty detector specified by the detector ID.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteDetector operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDetector service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteDetector service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeleteDetector">REST API Reference for DeleteDetector Operation</seealso>
         public virtual Task<DeleteDetectorResponse> DeleteDetectorAsync(DeleteDetectorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteDetectorRequestMarshaller.Instance;
-            var unmarshaller = DeleteDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDetectorResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteDetectorRequest,DeleteDetectorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteDetectorResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DeleteFilter
+
+        internal virtual DeleteFilterResponse DeleteFilter(DeleteFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteFilterResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteFilterResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Deletes the filter specified by the filter name.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFilter service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DeleteFilter service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeleteFilter">REST API Reference for DeleteFilter Operation</seealso>
+        public virtual Task<DeleteFilterResponse> DeleteFilterAsync(DeleteFilterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteFilterResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DeleteFilterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -523,30 +761,39 @@ namespace Amazon.GuardDuty
 
         internal virtual DeleteInvitationsResponse DeleteInvitations(DeleteInvitationsRequest request)
         {
-            var marshaller = DeleteInvitationsRequestMarshaller.Instance;
-            var unmarshaller = DeleteInvitationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInvitationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInvitationsResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInvitationsRequest,DeleteInvitationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInvitationsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteInvitations operation.
+        /// Deletes invitations sent to the current member account by AWS accounts specified by
+        /// their account IDs.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteInvitations operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteInvitations service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteInvitations service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeleteInvitations">REST API Reference for DeleteInvitations Operation</seealso>
         public virtual Task<DeleteInvitationsResponse> DeleteInvitationsAsync(DeleteInvitationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteInvitationsRequestMarshaller.Instance;
-            var unmarshaller = DeleteInvitationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInvitationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInvitationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteInvitationsRequest,DeleteInvitationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteInvitationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -555,30 +802,39 @@ namespace Amazon.GuardDuty
 
         internal virtual DeleteIPSetResponse DeleteIPSet(DeleteIPSetRequest request)
         {
-            var marshaller = DeleteIPSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteIPSetRequest,DeleteIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteIPSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteIPSet operation.
+        /// Deletes the IPSet specified by the <code>ipSetId</code>. IPSets are called Trusted
+        /// IP lists in the console user interface.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteIPSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteIPSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteIPSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeleteIPSet">REST API Reference for DeleteIPSet Operation</seealso>
         public virtual Task<DeleteIPSetResponse> DeleteIPSetAsync(DeleteIPSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteIPSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIPSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteIPSetRequest,DeleteIPSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteIPSetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -587,30 +843,79 @@ namespace Amazon.GuardDuty
 
         internal virtual DeleteMembersResponse DeleteMembers(DeleteMembersRequest request)
         {
-            var marshaller = DeleteMembersRequestMarshaller.Instance;
-            var unmarshaller = DeleteMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMembersResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteMembersRequest,DeleteMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteMembers operation.
+        /// Deletes GuardDuty member accounts (to the current GuardDuty master account) specified
+        /// by the account IDs.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeleteMembers">REST API Reference for DeleteMembers Operation</seealso>
         public virtual Task<DeleteMembersResponse> DeleteMembersAsync(DeleteMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteMembersRequestMarshaller.Instance;
-            var unmarshaller = DeleteMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteMembersRequest,DeleteMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteMembersResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DeletePublishingDestination
+
+        internal virtual DeletePublishingDestinationResponse DeletePublishingDestination(DeletePublishingDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePublishingDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<DeletePublishingDestinationResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Deletes the publishing definition with the specified <code>destinationId</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeletePublishingDestination service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DeletePublishingDestination service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeletePublishingDestination">REST API Reference for DeletePublishingDestination Operation</seealso>
+        public virtual Task<DeletePublishingDestinationResponse> DeletePublishingDestinationAsync(DeletePublishingDestinationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePublishingDestinationResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DeletePublishingDestinationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -619,30 +924,78 @@ namespace Amazon.GuardDuty
 
         internal virtual DeleteThreatIntelSetResponse DeleteThreatIntelSet(DeleteThreatIntelSetRequest request)
         {
-            var marshaller = DeleteThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThreatIntelSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteThreatIntelSetRequest,DeleteThreatIntelSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteThreatIntelSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteThreatIntelSet operation.
+        /// Deletes ThreatIntelSet specified by the ThreatIntelSet ID.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteThreatIntelSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteThreatIntelSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteThreatIntelSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DeleteThreatIntelSet">REST API Reference for DeleteThreatIntelSet Operation</seealso>
         public virtual Task<DeleteThreatIntelSetResponse> DeleteThreatIntelSetAsync(DeleteThreatIntelSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThreatIntelSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteThreatIntelSetRequest,DeleteThreatIntelSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteThreatIntelSetResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  DescribePublishingDestination
+
+        internal virtual DescribePublishingDestinationResponse DescribePublishingDestination(DescribePublishingDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribePublishingDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribePublishingDestinationResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Returns information about the publishing destination specified by the provided <code>destinationId</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribePublishingDestination service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DescribePublishingDestination service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DescribePublishingDestination">REST API Reference for DescribePublishingDestination Operation</seealso>
+        public virtual Task<DescribePublishingDestinationResponse> DescribePublishingDestinationAsync(DescribePublishingDestinationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribePublishingDestinationResponseUnmarshaller.Instance;
+
+            return InvokeAsync<DescribePublishingDestinationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -651,30 +1004,38 @@ namespace Amazon.GuardDuty
 
         internal virtual DisassociateFromMasterAccountResponse DisassociateFromMasterAccount(DisassociateFromMasterAccountRequest request)
         {
-            var marshaller = DisassociateFromMasterAccountRequestMarshaller.Instance;
-            var unmarshaller = DisassociateFromMasterAccountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateFromMasterAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateFromMasterAccountResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateFromMasterAccountRequest,DisassociateFromMasterAccountResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateFromMasterAccountResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DisassociateFromMasterAccount operation.
+        /// Disassociates the current GuardDuty member account from its master account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DisassociateFromMasterAccount operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateFromMasterAccount service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DisassociateFromMasterAccount service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DisassociateFromMasterAccount">REST API Reference for DisassociateFromMasterAccount Operation</seealso>
         public virtual Task<DisassociateFromMasterAccountResponse> DisassociateFromMasterAccountAsync(DisassociateFromMasterAccountRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DisassociateFromMasterAccountRequestMarshaller.Instance;
-            var unmarshaller = DisassociateFromMasterAccountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateFromMasterAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateFromMasterAccountResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DisassociateFromMasterAccountRequest,DisassociateFromMasterAccountResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DisassociateFromMasterAccountResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -683,30 +1044,39 @@ namespace Amazon.GuardDuty
 
         internal virtual DisassociateMembersResponse DisassociateMembers(DisassociateMembersRequest request)
         {
-            var marshaller = DisassociateMembersRequestMarshaller.Instance;
-            var unmarshaller = DisassociateMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateMembersResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateMembersRequest,DisassociateMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DisassociateMembers operation.
+        /// Disassociates GuardDuty member accounts (to the current GuardDuty master account)
+        /// specified by the account IDs.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DisassociateMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DisassociateMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DisassociateMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/DisassociateMembers">REST API Reference for DisassociateMembers Operation</seealso>
         public virtual Task<DisassociateMembersResponse> DisassociateMembersAsync(DisassociateMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DisassociateMembersRequestMarshaller.Instance;
-            var unmarshaller = DisassociateMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DisassociateMembersRequest,DisassociateMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DisassociateMembersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -715,30 +1085,78 @@ namespace Amazon.GuardDuty
 
         internal virtual GetDetectorResponse GetDetector(GetDetectorRequest request)
         {
-            var marshaller = GetDetectorRequestMarshaller.Instance;
-            var unmarshaller = GetDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDetectorResponseUnmarshaller.Instance;
 
-            return Invoke<GetDetectorRequest,GetDetectorResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDetectorResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDetector operation.
+        /// Retrieves an Amazon GuardDuty detector specified by the detectorId.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDetector operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetDetector service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDetector service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetDetector">REST API Reference for GetDetector Operation</seealso>
         public virtual Task<GetDetectorResponse> GetDetectorAsync(GetDetectorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDetectorRequestMarshaller.Instance;
-            var unmarshaller = GetDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDetectorResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetDetectorRequest,GetDetectorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetDetectorResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  GetFilter
+
+        internal virtual GetFilterResponse GetFilter(GetFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFilterResponseUnmarshaller.Instance;
+
+            return Invoke<GetFilterResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Returns the details of the filter specified by the filter name.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetFilter service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the GetFilter service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetFilter">REST API Reference for GetFilter Operation</seealso>
+        public virtual Task<GetFilterResponse> GetFilterAsync(GetFilterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFilterResponseUnmarshaller.Instance;
+
+            return InvokeAsync<GetFilterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -747,30 +1165,38 @@ namespace Amazon.GuardDuty
 
         internal virtual GetFindingsResponse GetFindings(GetFindingsRequest request)
         {
-            var marshaller = GetFindingsRequestMarshaller.Instance;
-            var unmarshaller = GetFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFindingsResponseUnmarshaller.Instance;
 
-            return Invoke<GetFindingsRequest,GetFindingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetFindingsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetFindings operation.
+        /// Describes Amazon GuardDuty findings specified by finding IDs.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetFindings operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetFindings service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetFindings service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetFindings">REST API Reference for GetFindings Operation</seealso>
         public virtual Task<GetFindingsResponse> GetFindingsAsync(GetFindingsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetFindingsRequestMarshaller.Instance;
-            var unmarshaller = GetFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFindingsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetFindingsRequest,GetFindingsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetFindingsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -779,30 +1205,38 @@ namespace Amazon.GuardDuty
 
         internal virtual GetFindingsStatisticsResponse GetFindingsStatistics(GetFindingsStatisticsRequest request)
         {
-            var marshaller = GetFindingsStatisticsRequestMarshaller.Instance;
-            var unmarshaller = GetFindingsStatisticsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFindingsStatisticsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFindingsStatisticsResponseUnmarshaller.Instance;
 
-            return Invoke<GetFindingsStatisticsRequest,GetFindingsStatisticsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetFindingsStatisticsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetFindingsStatistics operation.
+        /// Lists Amazon GuardDuty findings' statistics for the specified detector ID.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetFindingsStatistics operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetFindingsStatistics service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetFindingsStatistics service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetFindingsStatistics">REST API Reference for GetFindingsStatistics Operation</seealso>
         public virtual Task<GetFindingsStatisticsResponse> GetFindingsStatisticsAsync(GetFindingsStatisticsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetFindingsStatisticsRequestMarshaller.Instance;
-            var unmarshaller = GetFindingsStatisticsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFindingsStatisticsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFindingsStatisticsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetFindingsStatisticsRequest,GetFindingsStatisticsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetFindingsStatisticsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -811,30 +1245,39 @@ namespace Amazon.GuardDuty
 
         internal virtual GetInvitationsCountResponse GetInvitationsCount(GetInvitationsCountRequest request)
         {
-            var marshaller = GetInvitationsCountRequestMarshaller.Instance;
-            var unmarshaller = GetInvitationsCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInvitationsCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInvitationsCountResponseUnmarshaller.Instance;
 
-            return Invoke<GetInvitationsCountRequest,GetInvitationsCountResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInvitationsCountResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetInvitationsCount operation.
+        /// Returns the count of all GuardDuty membership invitations that were sent to the current
+        /// member account except the currently accepted invitation.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetInvitationsCount operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetInvitationsCount service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetInvitationsCount service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetInvitationsCount">REST API Reference for GetInvitationsCount Operation</seealso>
         public virtual Task<GetInvitationsCountResponse> GetInvitationsCountAsync(GetInvitationsCountRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetInvitationsCountRequestMarshaller.Instance;
-            var unmarshaller = GetInvitationsCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInvitationsCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInvitationsCountResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetInvitationsCountRequest,GetInvitationsCountResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetInvitationsCountResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -843,30 +1286,38 @@ namespace Amazon.GuardDuty
 
         internal virtual GetIPSetResponse GetIPSet(GetIPSetRequest request)
         {
-            var marshaller = GetIPSetRequestMarshaller.Instance;
-            var unmarshaller = GetIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetIPSetRequest,GetIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetIPSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetIPSet operation.
+        /// Retrieves the IPSet specified by the <code>ipSetId</code>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetIPSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetIPSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetIPSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetIPSet">REST API Reference for GetIPSet Operation</seealso>
         public virtual Task<GetIPSetResponse> GetIPSetAsync(GetIPSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetIPSetRequestMarshaller.Instance;
-            var unmarshaller = GetIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIPSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetIPSetRequest,GetIPSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetIPSetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -875,30 +1326,39 @@ namespace Amazon.GuardDuty
 
         internal virtual GetMasterAccountResponse GetMasterAccount(GetMasterAccountRequest request)
         {
-            var marshaller = GetMasterAccountRequestMarshaller.Instance;
-            var unmarshaller = GetMasterAccountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMasterAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMasterAccountResponseUnmarshaller.Instance;
 
-            return Invoke<GetMasterAccountRequest,GetMasterAccountResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetMasterAccountResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetMasterAccount operation.
+        /// Provides the details for the GuardDuty master account associated with the current
+        /// GuardDuty member account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetMasterAccount operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetMasterAccount service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetMasterAccount service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetMasterAccount">REST API Reference for GetMasterAccount Operation</seealso>
         public virtual Task<GetMasterAccountResponse> GetMasterAccountAsync(GetMasterAccountRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetMasterAccountRequestMarshaller.Instance;
-            var unmarshaller = GetMasterAccountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMasterAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMasterAccountResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetMasterAccountRequest,GetMasterAccountResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetMasterAccountResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -907,30 +1367,39 @@ namespace Amazon.GuardDuty
 
         internal virtual GetMembersResponse GetMembers(GetMembersRequest request)
         {
-            var marshaller = GetMembersRequestMarshaller.Instance;
-            var unmarshaller = GetMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMembersResponseUnmarshaller.Instance;
 
-            return Invoke<GetMembersRequest,GetMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetMembers operation.
+        /// Retrieves GuardDuty member accounts (to the current GuardDuty master account) specified
+        /// by the account IDs.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetMembers">REST API Reference for GetMembers Operation</seealso>
         public virtual Task<GetMembersResponse> GetMembersAsync(GetMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetMembersRequestMarshaller.Instance;
-            var unmarshaller = GetMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetMembersRequest,GetMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetMembersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -939,30 +1408,38 @@ namespace Amazon.GuardDuty
 
         internal virtual GetThreatIntelSetResponse GetThreatIntelSet(GetThreatIntelSetRequest request)
         {
-            var marshaller = GetThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = GetThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetThreatIntelSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetThreatIntelSetRequest,GetThreatIntelSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetThreatIntelSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetThreatIntelSet operation.
+        /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetThreatIntelSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetThreatIntelSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetThreatIntelSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/GetThreatIntelSet">REST API Reference for GetThreatIntelSet Operation</seealso>
         public virtual Task<GetThreatIntelSetResponse> GetThreatIntelSetAsync(GetThreatIntelSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = GetThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetThreatIntelSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetThreatIntelSetRequest,GetThreatIntelSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetThreatIntelSetResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -971,30 +1448,40 @@ namespace Amazon.GuardDuty
 
         internal virtual InviteMembersResponse InviteMembers(InviteMembersRequest request)
         {
-            var marshaller = InviteMembersRequestMarshaller.Instance;
-            var unmarshaller = InviteMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InviteMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InviteMembersResponseUnmarshaller.Instance;
 
-            return Invoke<InviteMembersRequest,InviteMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<InviteMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the InviteMembers operation.
+        /// Invites other AWS accounts (created as members of the current AWS account by CreateMembers)
+        /// to enable GuardDuty and allow the current AWS account to view and manage these accounts'
+        /// GuardDuty findings on their behalf as the master account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the InviteMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the InviteMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the InviteMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/InviteMembers">REST API Reference for InviteMembers Operation</seealso>
         public virtual Task<InviteMembersResponse> InviteMembersAsync(InviteMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = InviteMembersRequestMarshaller.Instance;
-            var unmarshaller = InviteMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InviteMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InviteMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<InviteMembersRequest,InviteMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<InviteMembersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1003,30 +1490,78 @@ namespace Amazon.GuardDuty
 
         internal virtual ListDetectorsResponse ListDetectors(ListDetectorsRequest request)
         {
-            var marshaller = ListDetectorsRequestMarshaller.Instance;
-            var unmarshaller = ListDetectorsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDetectorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDetectorsResponseUnmarshaller.Instance;
 
-            return Invoke<ListDetectorsRequest,ListDetectorsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDetectorsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListDetectors operation.
+        /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListDetectors operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListDetectors service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListDetectors service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListDetectors">REST API Reference for ListDetectors Operation</seealso>
         public virtual Task<ListDetectorsResponse> ListDetectorsAsync(ListDetectorsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListDetectorsRequestMarshaller.Instance;
-            var unmarshaller = ListDetectorsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDetectorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDetectorsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListDetectorsRequest,ListDetectorsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListDetectorsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  ListFilters
+
+        internal virtual ListFiltersResponse ListFilters(ListFiltersRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFiltersResponseUnmarshaller.Instance;
+
+            return Invoke<ListFiltersResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Returns a paginated list of the current filters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListFilters service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListFilters service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListFilters">REST API Reference for ListFilters Operation</seealso>
+        public virtual Task<ListFiltersResponse> ListFiltersAsync(ListFiltersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFiltersResponseUnmarshaller.Instance;
+
+            return InvokeAsync<ListFiltersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1035,30 +1570,38 @@ namespace Amazon.GuardDuty
 
         internal virtual ListFindingsResponse ListFindings(ListFindingsRequest request)
         {
-            var marshaller = ListFindingsRequestMarshaller.Instance;
-            var unmarshaller = ListFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFindingsResponseUnmarshaller.Instance;
 
-            return Invoke<ListFindingsRequest,ListFindingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListFindingsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListFindings operation.
+        /// Lists Amazon GuardDuty findings for the specified detector ID.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListFindings operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListFindings service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListFindings service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListFindings">REST API Reference for ListFindings Operation</seealso>
         public virtual Task<ListFindingsResponse> ListFindingsAsync(ListFindingsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListFindingsRequestMarshaller.Instance;
-            var unmarshaller = ListFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFindingsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListFindingsRequest,ListFindingsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListFindingsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1067,30 +1610,38 @@ namespace Amazon.GuardDuty
 
         internal virtual ListInvitationsResponse ListInvitations(ListInvitationsRequest request)
         {
-            var marshaller = ListInvitationsRequestMarshaller.Instance;
-            var unmarshaller = ListInvitationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInvitationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInvitationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListInvitationsRequest,ListInvitationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListInvitationsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListInvitations operation.
+        /// Lists all GuardDuty membership invitations that were sent to the current AWS account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListInvitations operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListInvitations service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListInvitations service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListInvitations">REST API Reference for ListInvitations Operation</seealso>
         public virtual Task<ListInvitationsResponse> ListInvitationsAsync(ListInvitationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListInvitationsRequestMarshaller.Instance;
-            var unmarshaller = ListInvitationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInvitationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInvitationsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListInvitationsRequest,ListInvitationsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListInvitationsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1099,30 +1650,40 @@ namespace Amazon.GuardDuty
 
         internal virtual ListIPSetsResponse ListIPSets(ListIPSetsRequest request)
         {
-            var marshaller = ListIPSetsRequestMarshaller.Instance;
-            var unmarshaller = ListIPSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIPSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIPSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListIPSetsRequest,ListIPSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListIPSetsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListIPSets operation.
+        /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use
+        /// this operation from a member account, the IPSets returned are the IPSets from the
+        /// associated master account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListIPSets operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListIPSets service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListIPSets service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListIPSets">REST API Reference for ListIPSets Operation</seealso>
         public virtual Task<ListIPSetsResponse> ListIPSetsAsync(ListIPSetsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListIPSetsRequestMarshaller.Instance;
-            var unmarshaller = ListIPSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListIPSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListIPSetsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListIPSetsRequest,ListIPSetsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListIPSetsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1131,30 +1692,120 @@ namespace Amazon.GuardDuty
 
         internal virtual ListMembersResponse ListMembers(ListMembersRequest request)
         {
-            var marshaller = ListMembersRequestMarshaller.Instance;
-            var unmarshaller = ListMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMembersResponseUnmarshaller.Instance;
 
-            return Invoke<ListMembersRequest,ListMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListMembers operation.
+        /// Lists details about all member accounts for the current GuardDuty master account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListMembers">REST API Reference for ListMembers Operation</seealso>
         public virtual Task<ListMembersResponse> ListMembersAsync(ListMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListMembersRequestMarshaller.Instance;
-            var unmarshaller = ListMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListMembersRequest,ListMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListMembersResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  ListPublishingDestinations
+
+        internal virtual ListPublishingDestinationsResponse ListPublishingDestinations(ListPublishingDestinationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPublishingDestinationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPublishingDestinationsResponseUnmarshaller.Instance;
+
+            return Invoke<ListPublishingDestinationsResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Returns a list of publishing destinations associated with the specified <code>dectectorId</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListPublishingDestinations service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListPublishingDestinations service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListPublishingDestinations">REST API Reference for ListPublishingDestinations Operation</seealso>
+        public virtual Task<ListPublishingDestinationsResponse> ListPublishingDestinationsAsync(ListPublishingDestinationsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListPublishingDestinationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListPublishingDestinationsResponseUnmarshaller.Instance;
+
+            return InvokeAsync<ListPublishingDestinationsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        internal virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters,
+        /// IP sets, and Threat Intel sets, with a limit of 50 tags per resource. When invoked,
+        /// this operation returns all assigned tags for a given resource..
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual Task<ListTagsForResourceResponse> ListTagsForResourceAsync(ListTagsForResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return InvokeAsync<ListTagsForResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1163,30 +1814,40 @@ namespace Amazon.GuardDuty
 
         internal virtual ListThreatIntelSetsResponse ListThreatIntelSets(ListThreatIntelSetsRequest request)
         {
-            var marshaller = ListThreatIntelSetsRequestMarshaller.Instance;
-            var unmarshaller = ListThreatIntelSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThreatIntelSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThreatIntelSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListThreatIntelSetsRequest,ListThreatIntelSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListThreatIntelSetsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListThreatIntelSets operation.
+        /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If
+        /// you use this operation from a member account, the ThreatIntelSets associated with
+        /// the master account are returned.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListThreatIntelSets operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListThreatIntelSets service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListThreatIntelSets service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/ListThreatIntelSets">REST API Reference for ListThreatIntelSets Operation</seealso>
         public virtual Task<ListThreatIntelSetsResponse> ListThreatIntelSetsAsync(ListThreatIntelSetsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ListThreatIntelSetsRequestMarshaller.Instance;
-            var unmarshaller = ListThreatIntelSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListThreatIntelSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListThreatIntelSetsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<ListThreatIntelSetsRequest,ListThreatIntelSetsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<ListThreatIntelSetsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1195,30 +1856,40 @@ namespace Amazon.GuardDuty
 
         internal virtual StartMonitoringMembersResponse StartMonitoringMembers(StartMonitoringMembersRequest request)
         {
-            var marshaller = StartMonitoringMembersRequestMarshaller.Instance;
-            var unmarshaller = StartMonitoringMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMonitoringMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMonitoringMembersResponseUnmarshaller.Instance;
 
-            return Invoke<StartMonitoringMembersRequest,StartMonitoringMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartMonitoringMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the StartMonitoringMembers operation.
+        /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation
+        /// to restart monitoring of accounts that you stopped monitoring with the <code>StopMonitoringMembers</code>
+        /// operation.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the StartMonitoringMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the StartMonitoringMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the StartMonitoringMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/StartMonitoringMembers">REST API Reference for StartMonitoringMembers Operation</seealso>
         public virtual Task<StartMonitoringMembersResponse> StartMonitoringMembersAsync(StartMonitoringMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = StartMonitoringMembersRequestMarshaller.Instance;
-            var unmarshaller = StartMonitoringMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMonitoringMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMonitoringMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<StartMonitoringMembersRequest,StartMonitoringMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<StartMonitoringMembersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1227,30 +1898,79 @@ namespace Amazon.GuardDuty
 
         internal virtual StopMonitoringMembersResponse StopMonitoringMembers(StopMonitoringMembersRequest request)
         {
-            var marshaller = StopMonitoringMembersRequestMarshaller.Instance;
-            var unmarshaller = StopMonitoringMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopMonitoringMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopMonitoringMembersResponseUnmarshaller.Instance;
 
-            return Invoke<StopMonitoringMembersRequest,StopMonitoringMembersResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopMonitoringMembersResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the StopMonitoringMembers operation.
+        /// Stops GuardDuty monitoring for the specified member accounnts. Use the <code>StartMonitoringMembers</code>
+        /// to restart monitoring for those accounts.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the StopMonitoringMembers operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the StopMonitoringMembers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the StopMonitoringMembers service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/StopMonitoringMembers">REST API Reference for StopMonitoringMembers Operation</seealso>
         public virtual Task<StopMonitoringMembersResponse> StopMonitoringMembersAsync(StopMonitoringMembersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = StopMonitoringMembersRequestMarshaller.Instance;
-            var unmarshaller = StopMonitoringMembersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopMonitoringMembersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopMonitoringMembersResponseUnmarshaller.Instance;
 
-            return InvokeAsync<StopMonitoringMembersRequest,StopMonitoringMembersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<StopMonitoringMembersResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        internal virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Adds tags to a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual Task<TagResourceResponse> TagResourceAsync(TagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return InvokeAsync<TagResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1259,30 +1979,78 @@ namespace Amazon.GuardDuty
 
         internal virtual UnarchiveFindingsResponse UnarchiveFindings(UnarchiveFindingsRequest request)
         {
-            var marshaller = UnarchiveFindingsRequestMarshaller.Instance;
-            var unmarshaller = UnarchiveFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UnarchiveFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UnarchiveFindingsResponseUnmarshaller.Instance;
 
-            return Invoke<UnarchiveFindingsRequest,UnarchiveFindingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<UnarchiveFindingsResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UnarchiveFindings operation.
+        /// Unarchives GuardDuty findings specified by the <code>findingIds</code>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UnarchiveFindings operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UnarchiveFindings service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UnarchiveFindings service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UnarchiveFindings">REST API Reference for UnarchiveFindings Operation</seealso>
         public virtual Task<UnarchiveFindingsResponse> UnarchiveFindingsAsync(UnarchiveFindingsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UnarchiveFindingsRequestMarshaller.Instance;
-            var unmarshaller = UnarchiveFindingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UnarchiveFindingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UnarchiveFindingsResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UnarchiveFindingsRequest,UnarchiveFindingsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UnarchiveFindingsResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        internal virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Removes tags from a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual Task<UntagResourceResponse> UntagResourceAsync(UntagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return InvokeAsync<UntagResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1291,30 +2059,78 @@ namespace Amazon.GuardDuty
 
         internal virtual UpdateDetectorResponse UpdateDetector(UpdateDetectorRequest request)
         {
-            var marshaller = UpdateDetectorRequestMarshaller.Instance;
-            var unmarshaller = UpdateDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDetectorResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDetectorRequest,UpdateDetectorResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDetectorResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateDetector operation.
+        /// Updates the Amazon GuardDuty detector specified by the detectorId.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateDetector operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDetector service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateDetector service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UpdateDetector">REST API Reference for UpdateDetector Operation</seealso>
         public virtual Task<UpdateDetectorResponse> UpdateDetectorAsync(UpdateDetectorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateDetectorRequestMarshaller.Instance;
-            var unmarshaller = UpdateDetectorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDetectorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDetectorResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateDetectorRequest,UpdateDetectorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateDetectorResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  UpdateFilter
+
+        internal virtual UpdateFilterResponse UpdateFilter(UpdateFilterRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateFilterResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateFilterResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Updates the filter specified by the filter name.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFilter service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the UpdateFilter service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UpdateFilter">REST API Reference for UpdateFilter Operation</seealso>
+        public virtual Task<UpdateFilterResponse> UpdateFilterAsync(UpdateFilterRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateFilterResponseUnmarshaller.Instance;
+
+            return InvokeAsync<UpdateFilterResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1323,30 +2139,38 @@ namespace Amazon.GuardDuty
 
         internal virtual UpdateFindingsFeedbackResponse UpdateFindingsFeedback(UpdateFindingsFeedbackRequest request)
         {
-            var marshaller = UpdateFindingsFeedbackRequestMarshaller.Instance;
-            var unmarshaller = UpdateFindingsFeedbackResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateFindingsFeedbackRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateFindingsFeedbackResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateFindingsFeedbackRequest,UpdateFindingsFeedbackResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateFindingsFeedbackResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateFindingsFeedback operation.
+        /// Marks the specified GuardDuty findings as useful or not useful.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateFindingsFeedback operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFindingsFeedback service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateFindingsFeedback service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UpdateFindingsFeedback">REST API Reference for UpdateFindingsFeedback Operation</seealso>
         public virtual Task<UpdateFindingsFeedbackResponse> UpdateFindingsFeedbackAsync(UpdateFindingsFeedbackRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateFindingsFeedbackRequestMarshaller.Instance;
-            var unmarshaller = UpdateFindingsFeedbackResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateFindingsFeedbackRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateFindingsFeedbackResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateFindingsFeedbackRequest,UpdateFindingsFeedbackResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateFindingsFeedbackResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1355,30 +2179,78 @@ namespace Amazon.GuardDuty
 
         internal virtual UpdateIPSetResponse UpdateIPSet(UpdateIPSetRequest request)
         {
-            var marshaller = UpdateIPSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateIPSetRequest,UpdateIPSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateIPSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateIPSet operation.
+        /// Updates the IPSet specified by the IPSet ID.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateIPSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateIPSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateIPSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UpdateIPSet">REST API Reference for UpdateIPSet Operation</seealso>
         public virtual Task<UpdateIPSetResponse> UpdateIPSetAsync(UpdateIPSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateIPSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIPSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIPSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateIPSetRequest,UpdateIPSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateIPSetResponse>(request, options, cancellationToken);
+        }
+
+        #endregion
+        
+        #region  UpdatePublishingDestination
+
+        internal virtual UpdatePublishingDestinationResponse UpdatePublishingDestination(UpdatePublishingDestinationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdatePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdatePublishingDestinationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdatePublishingDestinationResponse>(request, options);
+        }
+
+
+
+        /// <summary>
+        /// Updates information about the publishing destination specified by the <code>destinationId</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdatePublishingDestination service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the UpdatePublishingDestination service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UpdatePublishingDestination">REST API Reference for UpdatePublishingDestination Operation</seealso>
+        public virtual Task<UpdatePublishingDestinationResponse> UpdatePublishingDestinationAsync(UpdatePublishingDestinationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdatePublishingDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdatePublishingDestinationResponseUnmarshaller.Instance;
+
+            return InvokeAsync<UpdatePublishingDestinationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1387,30 +2259,38 @@ namespace Amazon.GuardDuty
 
         internal virtual UpdateThreatIntelSetResponse UpdateThreatIntelSet(UpdateThreatIntelSetRequest request)
         {
-            var marshaller = UpdateThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThreatIntelSetResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateThreatIntelSetRequest,UpdateThreatIntelSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateThreatIntelSetResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateThreatIntelSet operation.
+        /// Updates the ThreatIntelSet specified by ThreatIntelSet ID.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateThreatIntelSet operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateThreatIntelSet service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateThreatIntelSet service method, as returned by GuardDuty.</returns>
+        /// <exception cref="Amazon.GuardDuty.Model.BadRequestException">
+        /// Bad request exception object.
+        /// </exception>
+        /// <exception cref="Amazon.GuardDuty.Model.InternalServerErrorException">
+        /// Internal server error exception object.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/guardduty-2017-11-28/UpdateThreatIntelSet">REST API Reference for UpdateThreatIntelSet Operation</seealso>
         public virtual Task<UpdateThreatIntelSetResponse> UpdateThreatIntelSetAsync(UpdateThreatIntelSetRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateThreatIntelSetRequestMarshaller.Instance;
-            var unmarshaller = UpdateThreatIntelSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThreatIntelSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThreatIntelSetResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateThreatIntelSetRequest,UpdateThreatIntelSetResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateThreatIntelSetResponse>(request, options, cancellationToken);
         }
 
         #endregion

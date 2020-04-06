@@ -39,10 +39,10 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property MessageFormat. 
         /// <para>
-        /// The message format of the message to publish. Optional. Accepted values are "JSON"
+        /// (Optional) The message format of the message to publish. Accepted values are "JSON"
         /// and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine
         /// if the payload should be parsed and relevant platform-specific bits of the payload
-        /// should be extracted. To read more about SNS message formats, see <a href="http://docs.aws.amazon.com/sns/latest/dg/json-formats.html">http://docs.aws.amazon.com/sns/latest/dg/json-formats.html</a>
+        /// should be extracted. To read more about SNS message formats, see <a href="https://docs.aws.amazon.com/sns/latest/dg/json-formats.html">https://docs.aws.amazon.com/sns/latest/dg/json-formats.html</a>
         /// refer to their official documentation.
         /// </para>
         /// </summary>
@@ -64,6 +64,7 @@ namespace Amazon.IoT.Model
         /// The ARN of the IAM role that grants access.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -82,6 +83,7 @@ namespace Amazon.IoT.Model
         /// The ARN of the SNS topic.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetArn
         {
             get { return this._targetArn; }

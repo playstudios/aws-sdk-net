@@ -30,16 +30,16 @@ namespace Amazon.CertificateManager.Model
     /// <summary>
     /// Container for the parameters to the ImportCertificate operation.
     /// Imports a certificate into AWS Certificate Manager (ACM) to use with services that
-    /// are integrated with ACM. Note that <a href="http://docs.aws.amazon.com/http:/docs.aws.amazon.comacm/latest/userguide/acm-services.html">integrated
+    /// are integrated with ACM. Note that <a href="https://docs.aws.amazon.com/acm/latest/userguide/acm-services.html">integrated
     /// services</a> allow only certificate types and keys they support to be associated with
     /// their resources. Further, their support differs depending on whether the certificate
     /// is imported into IAM or into ACM. For more information, see the documentation for
-    /// each service. For more information about importing certificates into ACM, see <a href="http://docs.aws.amazon.com/http:/docs.aws.amazon.comacm/latest/userguide/import-certificate.html">Importing
+    /// each service. For more information about importing certificates into ACM, see <a href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
     /// Certificates</a> in the <i>AWS Certificate Manager User Guide</i>. 
     /// 
     ///  <note> 
     /// <para>
-    /// ACM does not provide <a href="http://docs.aws.amazon.com/http:/docs.aws.amazon.comacm/latest/userguide/acm-renewal.html">managed
+    /// ACM does not provide <a href="https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html">managed
     /// renewal</a> for certificates that you import.
     /// </para>
     ///  </note> 
@@ -85,19 +85,31 @@ namespace Amazon.CertificateManager.Model
     ///  </li> <li> 
     /// <para>
     /// To import a new certificate, omit the <code>CertificateArn</code> argument. Include
-    /// this argument only when you want to replace a previously imported certificate.
+    /// this argument only when you want to replace a previously imported certifica
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// When you import a certificate by using the CLI or one of the SDKs, you must specify
-    /// the certificate, the certificate chain, and the private key by their file names preceded
-    /// by <code>file://</code>. For example, you can specify a certificate saved in the <code>C:\temp</code>
-    /// folder as <code>file://C:\temp\certificate_to_import.pem</code>. If you are making
-    /// an HTTP or HTTPS Query request, include these arguments as BLOBs. 
+    /// When you import a certificate by using the CLI, you must specify the certificate,
+    /// the certificate chain, and the private key by their file names preceded by <code>file://</code>.
+    /// For example, you can specify a certificate saved in the <code>C:\temp</code> folder
+    /// as <code>file://C:\temp\certificate_to_import.pem</code>. If you are making an HTTP
+    /// or HTTPS Query request, include these arguments as BLOBs. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// When you import a certificate by using an SDK, you must specify the certificate, the
+    /// certificate chain, and the private key files in the manner required by the programming
+    /// language you're using. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// The cryptographic algorithm of an imported certificate must match the algorithm of
+    /// the signing CA. For example, if the signing CA key type is RSA, then the certificate
+    /// key type must also be RSA.
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// This operation returns the <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+    /// This operation returns the <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
     /// Resource Name (ARN)</a> of the imported certificate.
     /// </para>
     /// </summary>
@@ -107,6 +119,7 @@ namespace Amazon.CertificateManager.Model
         private string _certificateArn;
         private MemoryStream _certificateChain;
         private MemoryStream _privateKey;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Certificate. 
@@ -114,6 +127,7 @@ namespace Amazon.CertificateManager.Model
         /// The certificate to import.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=32768)]
         public MemoryStream Certificate
         {
             get { return this._certificate; }
@@ -129,11 +143,12 @@ namespace Amazon.CertificateManager.Model
         /// <summary>
         /// Gets and sets the property CertificateArn. 
         /// <para>
-        /// The <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// The <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Name (ARN)</a> of an imported certificate to replace. To import a new certificate,
         /// omit this field. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string CertificateArn
         {
             get { return this._certificateArn; }
@@ -152,6 +167,7 @@ namespace Amazon.CertificateManager.Model
         /// The PEM encoded certificate chain.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2097152)]
         public MemoryStream CertificateChain
         {
             get { return this._certificateChain; }
@@ -170,6 +186,7 @@ namespace Amazon.CertificateManager.Model
         /// The private key that matches the public key in the certificate.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=5120)]
         public MemoryStream PrivateKey
         {
             get { return this._privateKey; }
@@ -180,6 +197,29 @@ namespace Amazon.CertificateManager.Model
         internal bool IsSetPrivateKey()
         {
             return this._privateKey != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// One or more resource tags to associate with the imported certificate. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Note: You cannot apply tags when reimporting a certificate.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

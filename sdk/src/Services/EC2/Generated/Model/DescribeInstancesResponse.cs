@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of DescribeInstances.
+    /// This is the response object from the DescribeInstances operation.
     /// </summary>
     public partial class DescribeInstancesResponse : AmazonWebServiceResponse
     {
@@ -57,7 +57,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Reservations. 
         /// <para>
-        /// Zero or more reservations.
+        /// Information about the reservations.
         /// </para>
         /// </summary>
         public List<Reservation> Reservations

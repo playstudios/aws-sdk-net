@@ -172,6 +172,36 @@ namespace Amazon.StepFunctions.Model.Internal.MarshallTransformations
                     unmarshalledObject.LambdaFunctionTimedOutEventDetails = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("mapIterationAbortedEventDetails", targetDepth))
+                {
+                    var unmarshaller = MapIterationEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.MapIterationAbortedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("mapIterationFailedEventDetails", targetDepth))
+                {
+                    var unmarshaller = MapIterationEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.MapIterationFailedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("mapIterationStartedEventDetails", targetDepth))
+                {
+                    var unmarshaller = MapIterationEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.MapIterationStartedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("mapIterationSucceededEventDetails", targetDepth))
+                {
+                    var unmarshaller = MapIterationEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.MapIterationSucceededEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("mapStateStartedEventDetails", targetDepth))
+                {
+                    var unmarshaller = MapStateStartedEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.MapStateStartedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("previousEventId", targetDepth))
                 {
                     var unmarshaller = LongUnmarshaller.Instance;
@@ -188,6 +218,54 @@ namespace Amazon.StepFunctions.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StateExitedEventDetailsUnmarshaller.Instance;
                     unmarshalledObject.StateExitedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskFailedEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskFailedEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskFailedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskScheduledEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskScheduledEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskScheduledEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskStartedEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskStartedEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskStartedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskStartFailedEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskStartFailedEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskStartFailedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskSubmitFailedEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskSubmitFailedEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskSubmitFailedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskSubmittedEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskSubmittedEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskSubmittedEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskSucceededEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskSucceededEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskSucceededEventDetails = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("taskTimedOutEventDetails", targetDepth))
+                {
+                    var unmarshaller = TaskTimedOutEventDetailsUnmarshaller.Instance;
+                    unmarshalledObject.TaskTimedOutEventDetails = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("timestamp", targetDepth))

@@ -33,6 +33,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     public partial class PatchRule
     {
         private int? _approveAfterDays;
+        private string _approveUntilDate;
         private PatchComplianceLevel _complianceLevel;
         private bool? _enableNonSecurity;
         private PatchFilterGroup _patchFilterGroup;
@@ -40,10 +41,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ApproveAfterDays. 
         /// <para>
-        /// The number of days after the release date of each patch matched by the rule the patch
-        /// is marked as approved in the patch baseline.
+        /// The number of days after the release date of each patch matched by the rule that the
+        /// patch is marked as approved in the patch baseline. For example, a value of <code>7</code>
+        /// means that patches are approved seven days after they are released. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int ApproveAfterDays
         {
             get { return this._approveAfterDays.GetValueOrDefault(); }
@@ -54,6 +57,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetApproveAfterDays()
         {
             return this._approveAfterDays.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ApproveUntilDate. 
+        /// <para>
+        /// Example API
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=10)]
+        public string ApproveUntilDate
+        {
+            get { return this._approveUntilDate; }
+            set { this._approveUntilDate = value; }
+        }
+
+        // Check to see if ApproveUntilDate property is set
+        internal bool IsSetApproveUntilDate()
+        {
+            return this._approveUntilDate != null;
         }
 
         /// <summary>
@@ -102,6 +124,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The patch filter group that defines the criteria for the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PatchFilterGroup PatchFilterGroup
         {
             get { return this._patchFilterGroup; }

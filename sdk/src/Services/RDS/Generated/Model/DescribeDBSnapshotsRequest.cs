@@ -34,6 +34,7 @@ namespace Amazon.RDS.Model
     public partial class DescribeDBSnapshotsRequest : AmazonRDSRequest
     {
         private string _dbInstanceIdentifier;
+        private string _dbiResourceId;
         private string _dbSnapshotIdentifier;
         private List<Filter> _filters = new List<Filter>();
         private bool? _includePublic;
@@ -52,7 +53,7 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter
         /// can't be used in conjunction with <code>DBSnapshotIdentifier</code>. This parameter
-        /// is not case-sensitive. 
+        /// isn't case-sensitive. 
         /// </para>
         ///  
         /// <para>
@@ -74,6 +75,24 @@ namespace Amazon.RDS.Model
         internal bool IsSetDBInstanceIdentifier()
         {
             return this._dbInstanceIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DbiResourceId. 
+        /// <para>
+        /// A specific DB resource ID to describe.
+        /// </para>
+        /// </summary>
+        public string DbiResourceId
+        {
+            get { return this._dbiResourceId; }
+            set { this._dbiResourceId = value; }
+        }
+
+        // Check to see if DbiResourceId property is set
+        internal bool IsSetDbiResourceId()
+        {
+            return this._dbiResourceId != null;
         }
 
         /// <summary>
@@ -113,8 +132,34 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// A filter that specifies one or more DB snapshots to describe.
         /// </para>
+        ///  
+        /// <para>
+        /// Supported filters:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>db-instance-id</code> - Accepts DB instance identifiers and DB instance Amazon
+        /// Resource Names (ARNs).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>db-snapshot-id</code> - Accepts DB snapshot identifiers.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>dbi-resource-id</code> - Accepts identifiers of source DB instances.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>snapshot-type</code> - Accepts types of DB snapshots.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>engine</code> - Accepts names of database engines.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public List<Filter> Filters
         {
@@ -131,8 +176,9 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property IncludePublic. 
         /// <para>
-        /// True to include manual DB snapshots that are public and can be copied or restored
-        /// by any AWS account, and otherwise false. The default is false.
+        /// A value that indicates whether to include manual DB cluster snapshots that are public
+        /// and can be copied or restored by any AWS account. By default, the public snapshots
+        /// are not included.
         /// </para>
         ///  
         /// <para>
@@ -155,14 +201,14 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property IncludeShared. 
         /// <para>
-        /// True to include shared manual DB snapshots from other AWS accounts that this AWS account
-        /// has been given permission to copy or restore, and otherwise false. The default is
-        /// <code>false</code>.
+        /// A value that indicates whether to include shared manual DB cluster snapshots from
+        /// other AWS accounts that this AWS account has been given permission to copy or restore.
+        /// By default, these snapshots are not included.
         /// </para>
         ///  
         /// <para>
         /// You can give an AWS account permission to restore a manual DB snapshot from another
-        /// AWS account by using the <a>ModifyDBSnapshotAttribute</a> API action.
+        /// AWS account by using the <code>ModifyDBSnapshotAttribute</code> API action.
         /// </para>
         /// </summary>
         public bool IncludeShared
@@ -202,7 +248,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The maximum number of records to include in the response. If more records exist than
         /// the specified <code>MaxRecords</code> value, a pagination token called a marker is
-        /// included in the response so that the remaining results can be retrieved. 
+        /// included in the response so that you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>
@@ -248,14 +294,26 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  <code>public</code> - Return all DB snapshots that have been marked as public.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>awsbackup</code> - Return the DB snapshots managed by the AWS Backup service.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about AWS Backup, see the <a href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html">
+        /// <i>AWS Backup Developer Guide.</i> </a> 
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>awsbackup</code> type does not apply to Aurora.
+        /// </para>
         ///  </li> </ul> 
         /// <para>
         /// If you don't specify a <code>SnapshotType</code> value, then both automated and manual
         /// snapshots are returned. Shared and public DB snapshots are not included in the returned
-        /// results by default. You can include shared snapshots with these results by setting
-        /// the <code>IncludeShared</code> parameter to <code>true</code>. You can include public
-        /// snapshots with these results by setting the <code>IncludePublic</code> parameter to
-        /// <code>true</code>.
+        /// results by default. You can include shared snapshots with these results by enabling
+        /// the <code>IncludeShared</code> parameter. You can include public snapshots with these
+        /// results by enabling the <code>IncludePublic</code> parameter.
         /// </para>
         ///  
         /// <para>

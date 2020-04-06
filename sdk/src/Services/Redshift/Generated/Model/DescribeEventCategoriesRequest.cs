@@ -30,7 +30,7 @@ namespace Amazon.Redshift.Model
     /// <summary>
     /// Container for the parameters to the DescribeEventCategories operation.
     /// Displays a list of event categories for all event source types, or for a specified
-    /// source type. For a list of the event categories and source types, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html">Amazon
+    /// source type. For a list of the event categories and source types, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html">Amazon
     /// Redshift Event Notifications</a>.
     /// </summary>
     public partial class DescribeEventCategoriesRequest : AmazonRedshiftRequest
@@ -45,7 +45,8 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
+        /// Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group,
+        /// and scheduled-action.
         /// </para>
         /// </summary>
         public string SourceType

@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -30,8 +30,8 @@ namespace Amazon.CloudFront.Model
     /// <summary>
     /// A complex type that specifies whether you want CloudFront to forward cookies to the
     /// origin and, if so, which ones. For more information about forwarding cookies to the
-    /// origin, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Cookies.html">How
-    /// CloudFront Forwards, Caches, and Logs Cookies</a> in the <i>Amazon CloudFront Developer
+    /// origin, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html">
+    /// Caching Content Based on Request Headers</a> in the <i>Amazon CloudFront Developer
     /// Guide</i>.
     /// </summary>
     public partial class CookieNames
@@ -43,7 +43,13 @@ namespace Amazon.CloudFront.Model
         /// Gets and sets the property Items. 
         /// <para>
         /// A complex type that contains one <code>Name</code> element for each cookie that you
-        /// want CloudFront to forward to the origin for this cache behavior.
+        /// want CloudFront to forward to the origin for this cache behavior. It must contain
+        /// the same number of items that is specified in the <code>Quantity</code> field.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you set <code>Forward = whitelist</code> (in the <code>CookiePreferences</code>
+        /// object), this field must contain at least one item.
         /// </para>
         /// </summary>
         public List<string> Items
@@ -62,9 +68,16 @@ namespace Amazon.CloudFront.Model
         /// Gets and sets the property Quantity. 
         /// <para>
         /// The number of different cookies that you want CloudFront to forward to the origin
-        /// for this cache behavior.
+        /// for this cache behavior. The value must equal the number of items that are in the
+        /// <code>Items</code> field.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you set <code>Forward = whitelist</code> (in the <code>CookiePreferences</code>
+        /// object), this value must be <code>1</code> or higher.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Quantity
         {
             get { return this._quantity.GetValueOrDefault(); }

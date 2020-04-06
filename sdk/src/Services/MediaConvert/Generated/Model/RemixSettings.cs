@@ -28,9 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Use Manual audio remixing (RemixSettings) to adjust audio levels for each output channel.
-    /// With audio remixing, you can output more or fewer audio channels than your input audio
-    /// source provides.
+    /// Use Manual audio remixing (RemixSettings) to adjust audio levels for each audio channel
+    /// in each output of your job. With audio remixing, you can output more or fewer audio
+    /// channels than your input audio source provides.
     /// </summary>
     public partial class RemixSettings
     {
@@ -39,7 +39,10 @@ namespace Amazon.MediaConvert.Model
         private int? _channelsOut;
 
         /// <summary>
-        /// Gets and sets the property ChannelMapping.
+        /// Gets and sets the property ChannelMapping. Channel mapping (ChannelMapping) contains
+        /// the group of fields that hold the remixing value for each channel. Units are in dB.
+        /// Acceptable values are within the range from -60 (mute) through 6. A setting of 0 passes
+        /// the input channel unchanged to the output channel (no attenuation or amplification).
         /// </summary>
         public ChannelMapping ChannelMapping
         {
@@ -59,6 +62,7 @@ namespace Amazon.MediaConvert.Model
         /// the data in these channels, so the number of channels in your final output might be
         /// different.
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public int ChannelsIn
         {
             get { return this._channelsIn.GetValueOrDefault(); }
@@ -73,8 +77,9 @@ namespace Amazon.MediaConvert.Model
 
         /// <summary>
         /// Gets and sets the property ChannelsOut. Specify the number of channels in this output
-        /// after remixing. Valid values: 1, 2, 4, 6, 8
+        /// after remixing. Valid values: 1, 2, 4, 6, 8... 64. (1 and even numbers to 64.)
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public int ChannelsOut
         {
             get { return this._channelsOut.GetValueOrDefault(); }

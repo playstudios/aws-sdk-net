@@ -44,9 +44,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ApplicationId. 
         /// <para>
-        /// The ID of the application to get.
+        /// The Amazon Resource Name (ARN) of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -66,7 +67,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=127.
+        /// Minimum length=1. Maximum length=127.
         /// </para>
         /// 
         /// <para>
@@ -92,7 +93,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=256
+        /// Minimum length=1. Maximum length=256
         /// </para>
         /// </summary>
         public string Description
@@ -133,7 +134,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// </para>
         /// 
         /// <para>
-        /// Min Length=1. Max Length=127. Maximum number of labels: 10
+        /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
         /// </para>
         /// 
         /// <para>
@@ -155,12 +156,12 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ReadmeBody. 
         /// <para>
-        /// A raw text Readme file that contains a more detailed description of the application
-        /// and how it works in markdown language.
+        /// A text readme file in Markdown language that contains a more detailed description
+        /// of the application and how it works.
         /// </para>
         /// 
         /// <para>
-        /// Max size 5 MB
+        /// Maximum size 5 MB
         /// </para>
         /// </summary>
         public string ReadmeBody
@@ -178,12 +179,12 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ReadmeUrl. 
         /// <para>
-        /// A link to the Readme file that contains a more detailed description of the application
-        /// and how it works in markdown language.
+        /// A link to the readme file in Markdown language that contains a more detailed description
+        /// of the application and how it works.
         /// </para>
         /// 
         /// <para>
-        /// Max size 5 MB
+        /// Maximum size 5 MB
         /// </para>
         /// </summary>
         public string ReadmeUrl

@@ -28,13 +28,15 @@ using Amazon.Runtime.Internal;
 namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
-    /// Information about a WorkSpace bundle.
+    /// Describes a WorkSpace bundle.
     /// </summary>
     public partial class WorkspaceBundle
     {
         private string _bundleId;
         private ComputeType _computeType;
         private string _description;
+        private string _imageId;
+        private DateTime? _lastUpdatedTime;
         private string _name;
         private string _owner;
         private RootStorage _rootStorage;
@@ -96,11 +98,48 @@ namespace Amazon.WorkSpaces.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ImageId. 
+        /// <para>
+        /// The image identifier of the bundle.
+        /// </para>
+        /// </summary>
+        public string ImageId
+        {
+            get { return this._imageId; }
+            set { this._imageId = value; }
+        }
+
+        // Check to see if ImageId property is set
+        internal bool IsSetImageId()
+        {
+            return this._imageId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LastUpdatedTime. 
+        /// <para>
+        /// The last time that the bundle was updated.
+        /// </para>
+        /// </summary>
+        public DateTime LastUpdatedTime
+        {
+            get { return this._lastUpdatedTime.GetValueOrDefault(); }
+            set { this._lastUpdatedTime = value; }
+        }
+
+        // Check to see if LastUpdatedTime property is set
+        internal bool IsSetLastUpdatedTime()
+        {
+            return this._lastUpdatedTime.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the bundle.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Name
         {
             get { return this._name; }

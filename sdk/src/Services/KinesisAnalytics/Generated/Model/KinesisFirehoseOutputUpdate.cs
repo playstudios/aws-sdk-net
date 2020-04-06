@@ -28,9 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.KinesisAnalytics.Model
 {
     /// <summary>
-    /// When updating an output configuration using the <a>UpdateApplication</a> operation,
-    /// provides information about an Amazon Kinesis Firehose delivery stream configured as
-    /// the destination.
+    /// When updating an output configuration using the <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
+    /// operation, provides information about an Amazon Kinesis Firehose delivery stream configured
+    /// as the destination.
     /// </summary>
     public partial class KinesisFirehoseOutputUpdate
     {
@@ -44,6 +44,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string ResourceARNUpdate
         {
             get { return this._resourceARNUpdate; }
@@ -60,9 +61,10 @@ namespace Amazon.KinesisAnalytics.Model
         /// Gets and sets the property RoleARNUpdate. 
         /// <para>
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream
-        /// on your behalf. You need to grant necessary permissions to this role.
+        /// on your behalf. You need to grant the necessary permissions to this role.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string RoleARNUpdate
         {
             get { return this._roleARNUpdate; }

@@ -17,7 +17,7 @@ using System.Net;
 
 using Amazon.Runtime.Internal.Auth;
 using Amazon.Util;
-#if CORECLR
+#if NETSTANDARD
 using System.Net.Http;
 #endif
 
@@ -146,9 +146,26 @@ namespace Amazon.Runtime
         int BufferSize { get; }
 
         /// <summary>
-        /// Gets the MaxErrorRetry property.
+        /// Returns the flag indicating how many retry HTTP requests an SDK should
+        /// make for a single SDK operation invocation before giving up. This flag will 
+        /// return 4 when the RetryMode is set to "Legacy" which is the default. For
+        /// RetryMode values of "Standard" or "Adaptive" this flag will return 2. In 
+        /// addition to the values returned that are dependant on the RetryMode, the
+        /// value can be set to a specific value by using the AWS_MAX_ATTEMPTS environment
+        /// variable, max_attempts in the shared configuration file, or by setting a
+        /// value directly on this property. When using AWS_MAX_ATTEMPTS or max_attempts
+        /// the value returned from this property will be one less than the value entered
+        /// because this flag is the number of retry requests, not total requests. To 
+        /// learn more about the RetryMode property that affects the values returned by 
+        /// this flag, see <see cref="RetryMode"/>.
         /// </summary>
         int MaxErrorRetry { get; }
+
+
+        /// <summary>
+        /// Determines if MaxErrorRetry has been manually set.
+        /// </summary>
+        bool IsMaxErrorRetrySet { get; }
 
         /// <summary>
         /// Gets the interval at which progress update events are raised
@@ -224,7 +241,53 @@ namespace Amazon.Runtime
         /// </summary>
         TimeSpan ClockOffset { get; }
 
-#if CORECLR
+        /// <summary>
+        /// Gets the DisableHostPrefixInjection flag. If true, host prefix injection will be disabled for this client, the default value of this flag is false. 
+        /// Host prefix injection prefixes the service endpoint with request members from APIs which use this feature. 
+        /// Example: for a hostPrefix of "foo-name." and a endpoint of "service.region.amazonaws.com" the default behavior is to
+        /// prefix the endpoint with the hostPrefix resulting in a final endpoint of "foo-name.service.region.amazonaws.com". Setting 
+        /// DisableHostPrefixInjection to true will disable hostPrefix injection resulting in a final endpoint of
+        /// "service.region.amazonaws.com" regardless of the value of hostPrefix. E.g. You may want to disable host prefix injection for testing against a local mock endpoint.
+        /// </summary>
+        bool DisableHostPrefixInjection { get; }
+
+        /// <summary>
+        /// Returns the flag indicating if endpoint discovery should be enabled or disabled for operations that are not required to use endpoint discovery.
+        /// </summary>
+        bool EndpointDiscoveryEnabled { get; }
+
+        /// <summary>
+        /// Returns the maximum number of discovered endpoints that can be stored within the cache for the client. The default limit is 1000 cache entries.
+        /// </summary>
+        int EndpointDiscoveryCacheLimit { get; }
+
+        /// <summary>
+        /// Returns the flag indicating the current mode in use for request 
+        /// retries and influences the value returned from <see cref="MaxErrorRetry"/>.
+        /// The default value is RequestRetryMode.Legacy. This flag can be configured
+        /// by using the AWS_RETRY_MODE environment variable, retry_mode in the
+        /// shared configuration file, or by setting this value directly.
+        /// </summary>
+        RequestRetryMode RetryMode { get; }
+                
+        /// <summary>
+        /// Under Adaptive retry mode, this flag determines if the client should wait for
+        /// a send token to become available or don't block and fail the request immediately
+        /// if a send token is not available.
+        /// </summary>
+        bool FastFailRequests { get;  }
+
+#if BCL
+        /// <summary>
+        /// Gets the TCP keep-alive values to use for service requests. Enabling TCP keep-alive sends periodic TCP keep-alive probe packets, to prevent disconnection due to 
+        /// network inactivity. This is useful when you make API calls that take a long time to respond. In this case, the connection could be dropped by an intermediate 
+        /// node (e.g. proxy) as the connection is inactive for a long time. Timeout controls the duration of inactivity before a keep-alive probe packet is sent. 
+        /// Interval controls the amount of time to wait before retrying a keep-alive probe packet in the event the server doesn't respond to a keep-alive probe.
+        /// </summary>
+        TcpKeepAlive TcpKeepAlive { get; }                
+#endif
+
+#if NETSTANDARD
         /// <summary>
         /// Get the value to use for <see cref="HttpClientHandler.MaxConnectionsPerServer"/> on requests.
         /// If this property is null, <see cref="HttpClientHandler.MaxConnectionsPerServer"/>
@@ -233,7 +296,7 @@ namespace Amazon.Runtime
         int? MaxConnectionsPerServer { get; }
 #endif
 
-#if CORECLR || PCL
+#if NETSTANDARD || PCL
 
 
         /// <summary>

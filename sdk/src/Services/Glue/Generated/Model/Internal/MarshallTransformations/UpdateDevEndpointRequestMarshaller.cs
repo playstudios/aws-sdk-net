@@ -58,15 +58,41 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
             string target = "AWSGlue.UpdateDevEndpoint";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAddArguments())
+                {
+                    context.Writer.WritePropertyName("AddArguments");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestAddArgumentsKvp in publicRequest.AddArguments)
+                    {
+                        context.Writer.WritePropertyName(publicRequestAddArgumentsKvp.Key);
+                        var publicRequestAddArgumentsValue = publicRequestAddArgumentsKvp.Value;
+
+                            context.Writer.Write(publicRequestAddArgumentsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetAddPublicKeys())
+                {
+                    context.Writer.WritePropertyName("AddPublicKeys");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAddPublicKeysListValue in publicRequest.AddPublicKeys)
+                    {
+                            context.Writer.Write(publicRequestAddPublicKeysListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetCustomLibraries())
                 {
                     context.Writer.WritePropertyName("CustomLibraries");
@@ -76,6 +102,28 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.CustomLibraries, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetDeleteArguments())
+                {
+                    context.Writer.WritePropertyName("DeleteArguments");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestDeleteArgumentsListValue in publicRequest.DeleteArguments)
+                    {
+                            context.Writer.Write(publicRequestDeleteArgumentsListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetDeletePublicKeys())
+                {
+                    context.Writer.WritePropertyName("DeletePublicKeys");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestDeletePublicKeysListValue in publicRequest.DeletePublicKeys)
+                    {
+                            context.Writer.Write(publicRequestDeletePublicKeysListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetEndpointName())

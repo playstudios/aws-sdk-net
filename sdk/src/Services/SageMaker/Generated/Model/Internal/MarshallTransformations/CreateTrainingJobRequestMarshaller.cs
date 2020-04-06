@@ -58,10 +58,11 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
             string target = "SageMaker.CreateTrainingJob";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-24";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -74,6 +75,73 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
 
                     var marshaller = AlgorithmSpecificationMarshaller.Instance;
                     marshaller.Marshall(publicRequest.AlgorithmSpecification, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetCheckpointConfig())
+                {
+                    context.Writer.WritePropertyName("CheckpointConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CheckpointConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.CheckpointConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetDebugHookConfig())
+                {
+                    context.Writer.WritePropertyName("DebugHookConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = DebugHookConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.DebugHookConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetDebugRuleConfigurations())
+                {
+                    context.Writer.WritePropertyName("DebugRuleConfigurations");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestDebugRuleConfigurationsListValue in publicRequest.DebugRuleConfigurations)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = DebugRuleConfigurationMarshaller.Instance;
+                        marshaller.Marshall(publicRequestDebugRuleConfigurationsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetEnableInterContainerTrafficEncryption())
+                {
+                    context.Writer.WritePropertyName("EnableInterContainerTrafficEncryption");
+                    context.Writer.Write(publicRequest.EnableInterContainerTrafficEncryption);
+                }
+
+                if(publicRequest.IsSetEnableManagedSpotTraining())
+                {
+                    context.Writer.WritePropertyName("EnableManagedSpotTraining");
+                    context.Writer.Write(publicRequest.EnableManagedSpotTraining);
+                }
+
+                if(publicRequest.IsSetEnableNetworkIsolation())
+                {
+                    context.Writer.WritePropertyName("EnableNetworkIsolation");
+                    context.Writer.Write(publicRequest.EnableNetworkIsolation);
+                }
+
+                if(publicRequest.IsSetExperimentConfig())
+                {
+                    context.Writer.WritePropertyName("ExperimentConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ExperimentConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ExperimentConfig, context);
 
                     context.Writer.WriteObjectEnd();
                 }
@@ -163,10 +231,32 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                     context.Writer.WriteArrayEnd();
                 }
 
+                if(publicRequest.IsSetTensorBoardOutputConfig())
+                {
+                    context.Writer.WritePropertyName("TensorBoardOutputConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = TensorBoardOutputConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.TensorBoardOutputConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetTrainingJobName())
                 {
                     context.Writer.WritePropertyName("TrainingJobName");
                     context.Writer.Write(publicRequest.TrainingJobName);
+                }
+
+                if(publicRequest.IsSetVpcConfig())
+                {
+                    context.Writer.WritePropertyName("VpcConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = VpcConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.VpcConfig, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
         

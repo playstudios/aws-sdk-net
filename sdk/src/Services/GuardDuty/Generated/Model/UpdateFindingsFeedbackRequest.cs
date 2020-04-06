@@ -29,7 +29,7 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateFindingsFeedback operation.
-    /// Marks specified Amazon GuardDuty findings as useful or not useful.
+    /// Marks the specified GuardDuty findings as useful or not useful.
     /// </summary>
     public partial class UpdateFindingsFeedbackRequest : AmazonGuardDutyRequest
     {
@@ -39,7 +39,10 @@ namespace Amazon.GuardDuty.Model
         private List<string> _findingIds = new List<string>();
 
         /// <summary>
-        /// Gets and sets the property Comments. Additional feedback about the GuardDuty findings.
+        /// Gets and sets the property Comments. 
+        /// <para>
+        /// Additional feedback about the GuardDuty findings.
+        /// </para>
         /// </summary>
         public string Comments
         {
@@ -54,9 +57,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The ID of the detector that specifies the GuardDuty
-        /// service whose findings you want to mark as useful or not useful.
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The ID of the detector associated with the findings to update feedback for.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }
@@ -70,8 +76,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Feedback. Valid values: USEFUL | NOT_USEFUL
+        /// Gets and sets the property Feedback. 
+        /// <para>
+        /// The feedback for the finding.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Feedback Feedback
         {
             get { return this._feedback; }
@@ -85,9 +95,12 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FindingIds. IDs of the findings that you want to mark as
-        /// useful or not useful.
+        /// Gets and sets the property FindingIds. 
+        /// <para>
+        /// IDs of the findings that you want to mark as useful or not useful.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=50)]
         public List<string> FindingIds
         {
             get { return this._findingIds; }

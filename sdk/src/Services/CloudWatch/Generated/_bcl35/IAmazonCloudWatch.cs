@@ -56,7 +56,36 @@ namespace Amazon.CloudWatch
 
 
         /// <summary>
-        /// Deletes the specified alarms. In the event of an error, no alarms are deleted.
+        /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However,
+        /// this total can include no more than one composite alarm. For example, you could delete
+        /// 99 metric alarms and one composite alarms with one operation, but you can't delete
+        /// two composite alarms with one operation.
+        /// 
+        ///  
+        /// <para>
+        ///  In the event of an error, no alarms are deleted.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// It is possible to create a loop or cycle of composite alarms, where composite alarm
+        /// A depends on composite alarm B, and composite alarm B also depends on composite alarm
+        /// A. In this scenario, you can't delete any composite alarm that is part of the cycle
+        /// because there is always still a composite alarm that depends on that alarm that you
+        /// want to delete.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get out of such a situation, you must break the cycle by changing the rule of one
+        /// of the composite alarms in the cycle to remove a dependency that creates the cycle.
+        /// The simplest change to make to break a cycle is to change the <code>AlarmRule</code>
+        /// of one of the alarms to <code>False</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle
+        /// in the evaluation path. 
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteAlarms service method.</param>
         /// 
@@ -92,6 +121,58 @@ namespace Amazon.CloudWatch
         /// <returns>Returns a  DeleteAlarmsResult from CloudWatch.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteAlarms">REST API Reference for DeleteAlarms Operation</seealso>
         DeleteAlarmsResponse EndDeleteAlarms(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteAnomalyDetector
+
+
+        /// <summary>
+        /// Deletes the specified anomaly detection model from your account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAnomalyDetector service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAnomalyDetector service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InternalServiceException">
+        /// Request processing has failed due to some unknown error, exception, or failure.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.MissingRequiredParameterException">
+        /// An input parameter that is required is missing.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.ResourceNotFoundException">
+        /// The named resource does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteAnomalyDetector">REST API Reference for DeleteAnomalyDetector Operation</seealso>
+        DeleteAnomalyDetectorResponse DeleteAnomalyDetector(DeleteAnomalyDetectorRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAnomalyDetector operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAnomalyDetector operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAnomalyDetector
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteAnomalyDetector">REST API Reference for DeleteAnomalyDetector Operation</seealso>
+        IAsyncResult BeginDeleteAnomalyDetector(DeleteAnomalyDetectorRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAnomalyDetector operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAnomalyDetector.</param>
+        /// 
+        /// <returns>Returns a  DeleteAnomalyDetectorResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteAnomalyDetector">REST API Reference for DeleteAnomalyDetector Operation</seealso>
+        DeleteAnomalyDetectorResponse EndDeleteAnomalyDetector(IAsyncResult asyncResult);
 
         #endregion
         
@@ -145,13 +226,65 @@ namespace Amazon.CloudWatch
 
         #endregion
         
+        #region  DeleteInsightRules
+
+
+        /// <summary>
+        /// Permanently deletes the specified Contributor Insights rules.
+        /// 
+        ///  
+        /// <para>
+        /// If you create a rule, delete it, and then re-create it with the same name, historical
+        /// data from the first time the rule was created may or may not be available.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteInsightRules service method.</param>
+        /// 
+        /// <returns>The response from the DeleteInsightRules service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.MissingRequiredParameterException">
+        /// An input parameter that is required is missing.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteInsightRules">REST API Reference for DeleteInsightRules Operation</seealso>
+        DeleteInsightRulesResponse DeleteInsightRules(DeleteInsightRulesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteInsightRules operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteInsightRules
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteInsightRules">REST API Reference for DeleteInsightRules Operation</seealso>
+        IAsyncResult BeginDeleteInsightRules(DeleteInsightRulesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteInsightRules.</param>
+        /// 
+        /// <returns>Returns a  DeleteInsightRulesResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DeleteInsightRules">REST API Reference for DeleteInsightRules Operation</seealso>
+        DeleteInsightRulesResponse EndDeleteInsightRules(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeAlarmHistory
 
 
         /// <summary>
         /// Retrieves the history for the specified alarm. You can filter the results by date
-        /// range or item type. If an alarm name is not specified, the histories for all alarms
-        /// are returned.
+        /// range or item type. If an alarm name is not specified, the histories for either all
+        /// metric alarms or all composite alarms are returned.
         /// 
         ///  
         /// <para>
@@ -168,8 +301,8 @@ namespace Amazon.CloudWatch
 
         /// <summary>
         /// Retrieves the history for the specified alarm. You can filter the results by date
-        /// range or item type. If an alarm name is not specified, the histories for all alarms
-        /// are returned.
+        /// range or item type. If an alarm name is not specified, the histories for either all
+        /// metric alarms or all composite alarms are returned.
         /// 
         ///  
         /// <para>
@@ -217,9 +350,8 @@ namespace Amazon.CloudWatch
 
 
         /// <summary>
-        /// Retrieves the specified alarms. If no alarms are specified, all alarms are returned.
-        /// Alarms can be retrieved by using only a prefix for the alarm name, the alarm state,
-        /// or a prefix for any action.
+        /// Retrieves the specified alarms. You can filter the results by specifying a a prefix
+        /// for the alarm name, the alarm state, or a prefix for any action.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeAlarms service method, as returned by CloudWatch.</returns>
@@ -230,9 +362,8 @@ namespace Amazon.CloudWatch
         DescribeAlarmsResponse DescribeAlarms();
 
         /// <summary>
-        /// Retrieves the specified alarms. If no alarms are specified, all alarms are returned.
-        /// Alarms can be retrieved by using only a prefix for the alarm name, the alarm state,
-        /// or a prefix for any action.
+        /// Retrieves the specified alarms. You can filter the results by specifying a a prefix
+        /// for the alarm name, the alarm state, or a prefix for any action.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeAlarms service method.</param>
         /// 
@@ -312,6 +443,107 @@ namespace Amazon.CloudWatch
 
         #endregion
         
+        #region  DescribeAnomalyDetectors
+
+
+        /// <summary>
+        /// Lists the anomaly detection models that you have created in your account. You can
+        /// list all models in your account or filter the results to only the models that are
+        /// related to a certain namespace, metric name, or metric dimension.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAnomalyDetectors service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAnomalyDetectors service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InternalServiceException">
+        /// Request processing has failed due to some unknown error, exception, or failure.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidNextTokenException">
+        /// The next token specified is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeAnomalyDetectors">REST API Reference for DescribeAnomalyDetectors Operation</seealso>
+        DescribeAnomalyDetectorsResponse DescribeAnomalyDetectors(DescribeAnomalyDetectorsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAnomalyDetectors operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAnomalyDetectors operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAnomalyDetectors
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeAnomalyDetectors">REST API Reference for DescribeAnomalyDetectors Operation</seealso>
+        IAsyncResult BeginDescribeAnomalyDetectors(DescribeAnomalyDetectorsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAnomalyDetectors operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAnomalyDetectors.</param>
+        /// 
+        /// <returns>Returns a  DescribeAnomalyDetectorsResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeAnomalyDetectors">REST API Reference for DescribeAnomalyDetectors Operation</seealso>
+        DescribeAnomalyDetectorsResponse EndDescribeAnomalyDetectors(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeInsightRules
+
+
+        /// <summary>
+        /// Returns a list of all the Contributor Insights rules in your account. All rules in
+        /// your account are returned with a single operation.
+        /// 
+        ///  
+        /// <para>
+        /// For more information about Contributor Insights, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html">Using
+        /// Contributor Insights to Analyze High-Cardinality Data</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInsightRules service method.</param>
+        /// 
+        /// <returns>The response from the DescribeInsightRules service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidNextTokenException">
+        /// The next token specified is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeInsightRules">REST API Reference for DescribeInsightRules Operation</seealso>
+        DescribeInsightRulesResponse DescribeInsightRules(DescribeInsightRulesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeInsightRules operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeInsightRules
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeInsightRules">REST API Reference for DescribeInsightRules Operation</seealso>
+        IAsyncResult BeginDescribeInsightRules(DescribeInsightRulesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeInsightRules.</param>
+        /// 
+        /// <returns>Returns a  DescribeInsightRulesResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DescribeInsightRules">REST API Reference for DescribeInsightRules Operation</seealso>
+        DescribeInsightRulesResponse EndDescribeInsightRules(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DisableAlarmActions
 
 
@@ -353,6 +585,53 @@ namespace Amazon.CloudWatch
 
         #endregion
         
+        #region  DisableInsightRules
+
+
+        /// <summary>
+        /// Disables the specified Contributor Insights rules. When rules are disabled, they do
+        /// not analyze log groups and do not incur costs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableInsightRules service method.</param>
+        /// 
+        /// <returns>The response from the DisableInsightRules service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.MissingRequiredParameterException">
+        /// An input parameter that is required is missing.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DisableInsightRules">REST API Reference for DisableInsightRules Operation</seealso>
+        DisableInsightRulesResponse DisableInsightRules(DisableInsightRulesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableInsightRules operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableInsightRules
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DisableInsightRules">REST API Reference for DisableInsightRules Operation</seealso>
+        IAsyncResult BeginDisableInsightRules(DisableInsightRulesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableInsightRules.</param>
+        /// 
+        /// <returns>Returns a  DisableInsightRulesResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/DisableInsightRules">REST API Reference for DisableInsightRules Operation</seealso>
+        DisableInsightRulesResponse EndDisableInsightRules(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  EnableAlarmActions
 
 
@@ -390,6 +669,56 @@ namespace Amazon.CloudWatch
         /// <returns>Returns a  EnableAlarmActionsResult from CloudWatch.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/EnableAlarmActions">REST API Reference for EnableAlarmActions Operation</seealso>
         EnableAlarmActionsResponse EndEnableAlarmActions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  EnableInsightRules
+
+
+        /// <summary>
+        /// Enables the specified Contributor Insights rules. When rules are enabled, they immediately
+        /// begin analyzing log data.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableInsightRules service method.</param>
+        /// 
+        /// <returns>The response from the EnableInsightRules service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.LimitExceededException">
+        /// The operation exceeded one or more limits.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.MissingRequiredParameterException">
+        /// An input parameter that is required is missing.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/EnableInsightRules">REST API Reference for EnableInsightRules Operation</seealso>
+        EnableInsightRulesResponse EnableInsightRules(EnableInsightRulesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableInsightRules operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableInsightRules
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/EnableInsightRules">REST API Reference for EnableInsightRules Operation</seealso>
+        IAsyncResult BeginEnableInsightRules(EnableInsightRulesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableInsightRules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableInsightRules.</param>
+        /// 
+        /// <returns>Returns a  EnableInsightRulesResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/EnableInsightRules">REST API Reference for EnableInsightRules Operation</seealso>
+        EnableInsightRulesResponse EndEnableInsightRules(IAsyncResult asyncResult);
 
         #endregion
         
@@ -449,17 +778,115 @@ namespace Amazon.CloudWatch
 
         #endregion
         
+        #region  GetInsightRuleReport
+
+
+        /// <summary>
+        /// This operation returns the time series data collected by a Contributor Insights rule.
+        /// The data includes the identity and number of contributors to the log group.
+        /// 
+        ///  
+        /// <para>
+        /// You can also optionally return one or more statistics about each data point in the
+        /// time series. These statistics can include the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>UniqueContributors</code> -- the number of unique contributors for each data
+        /// point.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MaxContributorValue</code> -- the value of the top contributor for each data
+        /// point. The identity of the contributor may change for each data point in the graph.
+        /// </para>
+        ///  
+        /// <para>
+        /// If this rule aggregates by COUNT, the top contributor for each data point is the contributor
+        /// with the most occurrences in that period. If the rule aggregates by SUM, the top contributor
+        /// is the contributor with the highest sum in the log field specified by the rule's <code>Value</code>,
+        /// during that period.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SampleCount</code> -- the number of data points matched by the rule.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Sum</code> -- the sum of the values from all contributors during the time period
+        /// represented by that data point.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Minimum</code> -- the minimum value from a single observation during the time
+        /// period represented by that data point.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Maximum</code> -- the maximum value from a single observation during the time
+        /// period represented by that data point.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Average</code> -- the average value from all contributors during the time period
+        /// represented by that data point.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetInsightRuleReport service method.</param>
+        /// 
+        /// <returns>The response from the GetInsightRuleReport service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.MissingRequiredParameterException">
+        /// An input parameter that is required is missing.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.ResourceNotFoundException">
+        /// The named resource does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetInsightRuleReport">REST API Reference for GetInsightRuleReport Operation</seealso>
+        GetInsightRuleReportResponse GetInsightRuleReport(GetInsightRuleReportRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetInsightRuleReport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetInsightRuleReport operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetInsightRuleReport
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetInsightRuleReport">REST API Reference for GetInsightRuleReport Operation</seealso>
+        IAsyncResult BeginGetInsightRuleReport(GetInsightRuleReportRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetInsightRuleReport operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetInsightRuleReport.</param>
+        /// 
+        /// <returns>Returns a  GetInsightRuleReportResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetInsightRuleReport">REST API Reference for GetInsightRuleReport Operation</seealso>
+        GetInsightRuleReportResponse EndGetInsightRuleReport(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetMetricData
 
 
         /// <summary>
-        /// You can use the <code>GetMetricData</code> API to retrieve as many as 100 different
-        /// metrics in a single request, with a total of as many as 100,800 datapoints. You can
+        /// You can use the <code>GetMetricData</code> API to retrieve as many as 500 different
+        /// metrics in a single request, with a total of as many as 100,800 data points. You can
         /// also optionally perform math expressions on the values of the returned statistics,
         /// to create new time series that represent new insights into your data. For example,
         /// using Lambda metrics, you could divide the Errors metric by the Invocations metric
         /// to get an error rate time series. For more information about metric math expressions,
-        /// see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
+        /// see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
         /// Math Syntax and Functions</a> in the <i>Amazon CloudWatch User Guide</i>.
         /// 
         ///  
@@ -467,6 +894,47 @@ namespace Amazon.CloudWatch
         /// Calls to the <code>GetMetricData</code> API have a different pricing structure than
         /// calls to <code>GetMetricStatistics</code>. For more information about pricing, see
         /// <a href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch Pricing</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon CloudWatch retains metric data as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Data points with a period of less than 60 seconds are available for 3 hours. These
+        /// data points are high-resolution metrics and are available only for custom metrics
+        /// that have been defined with a <code>StorageResolution</code> of 1.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Data points with a period of 60 seconds (1-minute) are available for 15 days.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Data points with a period of 300 seconds (5-minute) are available for 63 days.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Data points with a period of 3600 seconds (1 hour) are available for 455 days (15
+        /// months).
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Data points that are initially published with a shorter period are aggregated together
+        /// for long-term storage. For example, if you collect data using a period of 1 minute,
+        /// the data remains available for 15 days with 1-minute resolution. After 15 days, this
+        /// data is still available, but is aggregated and retrievable only with a resolution
+        /// of 5 minutes. After 63 days, the data is further aggregated and is available with
+        /// a resolution of 1 hour.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you omit <code>Unit</code> in your request, all data that was collected with any
+        /// unit is returned, along with the corresponding units that were specified when the
+        /// data was reported to CloudWatch. If you specify a unit, the operation returns only
+        /// data data that was collected with that unit specified. If you specify a unit that
+        /// does not match the data collected, the results of the operation are null. CloudWatch
+        /// does not perform unit conversions.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetMetricData service method.</param>
@@ -544,6 +1012,11 @@ namespace Amazon.CloudWatch
         /// </para>
         ///  </li> </ul> 
         /// <para>
+        /// Percentile statistics are not available for metrics when any of the metric values
+        /// are negative numbers.
+        /// </para>
+        ///  
+        /// <para>
         /// Amazon CloudWatch retains metric data as follows:
         /// </para>
         ///  <ul> <li> 
@@ -581,7 +1054,7 @@ namespace Amazon.CloudWatch
         ///  
         /// <para>
         /// For information about metrics and dimensions supported by AWS services, see the <a
-        /// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html">Amazon
+        /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html">Amazon
         /// CloudWatch Metrics and Dimensions Reference</a> in the <i>Amazon CloudWatch User Guide</i>.
         /// </para>
         /// </summary>
@@ -631,13 +1104,85 @@ namespace Amazon.CloudWatch
 
         #endregion
         
+        #region  GetMetricWidgetImage
+
+
+        /// <summary>
+        /// You can use the <code>GetMetricWidgetImage</code> API to retrieve a snapshot graph
+        /// of one or more Amazon CloudWatch metrics as a bitmap image. You can then embed this
+        /// image into your services and products, such as wiki pages, reports, and documents.
+        /// You could also retrieve images regularly, such as every minute, and create your own
+        /// custom live dashboard.
+        /// 
+        ///  
+        /// <para>
+        /// The graph you retrieve can include all CloudWatch metric graph features, including
+        /// metric math and horizontal and vertical annotations.
+        /// </para>
+        ///  
+        /// <para>
+        /// There is a limit of 20 transactions per second for this API. Each <code>GetMetricWidgetImage</code>
+        /// action has the following limits:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// As many as 100 metrics in the graph.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Up to 100 KB uncompressed payload.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMetricWidgetImage service method.</param>
+        /// 
+        /// <returns>The response from the GetMetricWidgetImage service method, as returned by CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetMetricWidgetImage">REST API Reference for GetMetricWidgetImage Operation</seealso>
+        GetMetricWidgetImageResponse GetMetricWidgetImage(GetMetricWidgetImageRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetMetricWidgetImage operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetMetricWidgetImage operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetMetricWidgetImage
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetMetricWidgetImage">REST API Reference for GetMetricWidgetImage Operation</seealso>
+        IAsyncResult BeginGetMetricWidgetImage(GetMetricWidgetImageRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetMetricWidgetImage operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetMetricWidgetImage.</param>
+        /// 
+        /// <returns>Returns a  GetMetricWidgetImageResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/GetMetricWidgetImage">REST API Reference for GetMetricWidgetImage Operation</seealso>
+        GetMetricWidgetImageResponse EndGetMetricWidgetImage(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListDashboards
 
 
         /// <summary>
         /// Returns a list of the dashboards for your account. If you include <code>DashboardNamePrefix</code>,
         /// only those dashboards with names starting with the prefix are listed. Otherwise, all
-        /// dashboards in your account are listed.
+        /// dashboards in your account are listed. 
+        /// 
+        ///  
+        /// <para>
+        ///  <code>ListDashboards</code> returns up to 1000 results on one page. If there are
+        /// more than 1000 dashboards, you can call <code>ListDashboards</code> again and include
+        /// the value you received for <code>NextToken</code> in the first call, to receive the
+        /// next 1000 results.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListDashboards service method.</param>
         /// 
@@ -683,7 +1228,8 @@ namespace Amazon.CloudWatch
 
 
         /// <summary>
-        /// List the specified metrics. You can use the returned metrics with <a>GetMetricStatistics</a>
+        /// List the specified metrics. You can use the returned metrics with <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+        /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>
         /// to obtain statistical data.
         /// 
         ///  
@@ -694,7 +1240,8 @@ namespace Amazon.CloudWatch
         ///  
         /// <para>
         /// After you create a metric, allow up to fifteen minutes before the metric appears.
-        /// Statistics about the metric, however, are available sooner using <a>GetMetricStatistics</a>.
+        /// Statistics about the metric, however, are available sooner using <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+        /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
         /// </para>
         /// </summary>
         /// 
@@ -709,7 +1256,8 @@ namespace Amazon.CloudWatch
         ListMetricsResponse ListMetrics();
 
         /// <summary>
-        /// List the specified metrics. You can use the returned metrics with <a>GetMetricStatistics</a>
+        /// List the specified metrics. You can use the returned metrics with <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+        /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>
         /// to obtain statistical data.
         /// 
         ///  
@@ -720,7 +1268,8 @@ namespace Amazon.CloudWatch
         ///  
         /// <para>
         /// After you create a metric, allow up to fifteen minutes before the metric appears.
-        /// Statistics about the metric, however, are available sooner using <a>GetMetricStatistics</a>.
+        /// Statistics about the metric, however, are available sooner using <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+        /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListMetrics service method.</param>
@@ -763,6 +1312,212 @@ namespace Amazon.CloudWatch
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor
+        /// Insights rules support tagging.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InternalServiceException">
+        /// Request processing has failed due to some unknown error, exception, or failure.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.ResourceNotFoundException">
+        /// The named resource does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutAnomalyDetector
+
+
+        /// <summary>
+        /// Creates an anomaly detection model for a CloudWatch metric. You can use the model
+        /// to display a band of expected normal values when the metric is graphed.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Anomaly_Detection.html">CloudWatch
+        /// Anomaly Detection</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutAnomalyDetector service method.</param>
+        /// 
+        /// <returns>The response from the PutAnomalyDetector service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InternalServiceException">
+        /// Request processing has failed due to some unknown error, exception, or failure.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.LimitExceededException">
+        /// The operation exceeded one or more limits.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.MissingRequiredParameterException">
+        /// An input parameter that is required is missing.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutAnomalyDetector">REST API Reference for PutAnomalyDetector Operation</seealso>
+        PutAnomalyDetectorResponse PutAnomalyDetector(PutAnomalyDetectorRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutAnomalyDetector operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutAnomalyDetector operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutAnomalyDetector
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutAnomalyDetector">REST API Reference for PutAnomalyDetector Operation</seealso>
+        IAsyncResult BeginPutAnomalyDetector(PutAnomalyDetectorRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutAnomalyDetector operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutAnomalyDetector.</param>
+        /// 
+        /// <returns>Returns a  PutAnomalyDetectorResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutAnomalyDetector">REST API Reference for PutAnomalyDetector Operation</seealso>
+        PutAnomalyDetectorResponse EndPutAnomalyDetector(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutCompositeAlarm
+
+
+        /// <summary>
+        /// Creates or updates a <i>composite alarm</i>. When you create a composite alarm, you
+        /// specify a rule expression for the alarm that takes into account the alarm states of
+        /// other alarms that you have created. The composite alarm goes into ALARM state only
+        /// if all conditions of the rule are met.
+        /// 
+        ///  
+        /// <para>
+        /// The alarms specified in a composite alarm's rule expression can include metric alarms
+        /// and other composite alarms.
+        /// </para>
+        ///  
+        /// <para>
+        /// Using composite alarms can reduce alarm noise. You can create multiple metric alarms,
+        /// and also create a composite alarm and set up alerts only for the composite alarm.
+        /// For example, you could create a composite alarm that goes into ALARM state only when
+        /// more than one of the underlying metric alarms are in ALARM state.
+        /// </para>
+        ///  
+        /// <para>
+        /// Currently, the only alarm actions that can be taken by composite alarms are notifying
+        /// SNS topics.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// It is possible to create a loop or cycle of composite alarms, where composite alarm
+        /// A depends on composite alarm B, and composite alarm B also depends on composite alarm
+        /// A. In this scenario, you can't delete any composite alarm that is part of the cycle
+        /// because there is always still a composite alarm that depends on that alarm that you
+        /// want to delete.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get out of such a situation, you must break the cycle by changing the rule of one
+        /// of the composite alarms in the cycle to remove a dependency that creates the cycle.
+        /// The simplest change to make to break a cycle is to change the <code>AlarmRule</code>
+        /// of one of the alarms to <code>False</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle
+        /// in the evaluation path. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// When this operation creates an alarm, the alarm state is immediately set to <code>INSUFFICIENT_DATA</code>.
+        /// The alarm is then evaluated and its state is set appropriately. Any actions associated
+        /// with the new state are then executed. For a composite alarm, this initial time after
+        /// creation is the only time that the alarm can be in <code>INSUFFICIENT_DATA</code>
+        /// state.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you update an existing alarm, its state is left unchanged, but the update completely
+        /// overwrites the previous configuration of the alarm.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutCompositeAlarm service method.</param>
+        /// 
+        /// <returns>The response from the PutCompositeAlarm service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.LimitExceededException">
+        /// The quota for alarms for this customer has already been reached.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutCompositeAlarm">REST API Reference for PutCompositeAlarm Operation</seealso>
+        PutCompositeAlarmResponse PutCompositeAlarm(PutCompositeAlarmRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutCompositeAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutCompositeAlarm operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutCompositeAlarm
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutCompositeAlarm">REST API Reference for PutCompositeAlarm Operation</seealso>
+        IAsyncResult BeginPutCompositeAlarm(PutCompositeAlarmRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutCompositeAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutCompositeAlarm.</param>
+        /// 
+        /// <returns>Returns a  PutCompositeAlarmResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutCompositeAlarm">REST API Reference for PutCompositeAlarm Operation</seealso>
+        PutCompositeAlarmResponse EndPutCompositeAlarm(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutDashboard
 
 
@@ -773,8 +1528,7 @@ namespace Amazon.CloudWatch
         /// 
         ///  
         /// <para>
-        /// You can have up to 500 dashboards per account. All dashboards in your account are
-        /// global, not region-specific.
+        /// All dashboards in your account are global, not region-specific.
         /// </para>
         ///  
         /// <para>
@@ -834,18 +1588,80 @@ namespace Amazon.CloudWatch
 
         #endregion
         
+        #region  PutInsightRule
+
+
+        /// <summary>
+        /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs
+        /// log group, enabling you to find contributor data for the log events in that log group.
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html">Using
+        /// Contributor Insights to Analyze High-Cardinality Data</a>.
+        /// 
+        ///  
+        /// <para>
+        /// If you create a rule, delete it, and then re-create it with the same name, historical
+        /// data from the first time the rule was created may or may not be available.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutInsightRule service method.</param>
+        /// 
+        /// <returns>The response from the PutInsightRule service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.LimitExceededException">
+        /// The operation exceeded one or more limits.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.MissingRequiredParameterException">
+        /// An input parameter that is required is missing.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutInsightRule">REST API Reference for PutInsightRule Operation</seealso>
+        PutInsightRuleResponse PutInsightRule(PutInsightRuleRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutInsightRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutInsightRule operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutInsightRule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutInsightRule">REST API Reference for PutInsightRule Operation</seealso>
+        IAsyncResult BeginPutInsightRule(PutInsightRuleRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutInsightRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutInsightRule.</param>
+        /// 
+        /// <returns>Returns a  PutInsightRuleResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/PutInsightRule">REST API Reference for PutInsightRule Operation</seealso>
+        PutInsightRuleResponse EndPutInsightRule(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutMetricAlarm
 
 
         /// <summary>
-        /// Creates or updates an alarm and associates it with the specified metric. Optionally,
-        /// this operation can associate one or more Amazon SNS resources with the alarm.
+        /// Creates or updates an alarm and associates it with the specified metric, metric math
+        /// expression, or anomaly detection model.
         /// 
         ///  
         /// <para>
+        /// Alarms based on anomaly detection models cannot have Auto Scaling actions.
+        /// </para>
+        ///  
+        /// <para>
         /// When this operation creates an alarm, the alarm state is immediately set to <code>INSUFFICIENT_DATA</code>.
-        /// The alarm is evaluated and its state is set appropriately. Any actions associated
-        /// with the state are then executed.
+        /// The alarm is then evaluated and its state is set appropriately. Any actions associated
+        /// with the new state are then executed.
         /// </para>
         ///  
         /// <para>
@@ -854,7 +1670,7 @@ namespace Amazon.CloudWatch
         /// </para>
         ///  
         /// <para>
-        /// If you are an IAM user, you must have Amazon EC2 permissions for some operations:
+        /// If you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -875,8 +1691,7 @@ namespace Amazon.CloudWatch
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>ec2:DescribeInstanceRecoveryAttribute</code> and <code>ec2:RecoverInstances</code>
-        /// for alarms with recover actions
+        /// No specific permissions are needed for alarms with recover actions
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -899,10 +1714,11 @@ namespace Amazon.CloudWatch
         /// </para>
         ///  
         /// <para>
-        /// You must create at least one stop, terminate, or reboot alarm using either the Amazon
-        /// EC2 or CloudWatch consoles to create the <b>EC2ActionsAccess</b> IAM role. After this
-        /// IAM role is created, you can create stop, terminate, or reboot alarms using a command-line
-        /// interface or API.
+        /// The first time you create an alarm in the AWS Management Console, the CLI, or by using
+        /// the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for you.
+        /// The service-linked role is called <code>AWSServiceRoleForCloudWatchEvents</code>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">AWS
+        /// service-linked role</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutMetricAlarm service method.</param>
@@ -949,30 +1765,45 @@ namespace Amazon.CloudWatch
         /// Publishes metric data points to Amazon CloudWatch. CloudWatch associates the data
         /// points with the specified metric. If the specified metric does not exist, CloudWatch
         /// creates the metric. When CloudWatch creates a metric, it can take up to fifteen minutes
-        /// for the metric to appear in calls to <a>ListMetrics</a>.
+        /// for the metric to appear in calls to <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
         /// 
         ///  
         /// <para>
+        /// You can publish either individual data points in the <code>Value</code> field, or
+        /// arrays of values and the number of times each value occurred during the period by
+        /// using the <code>Values</code> and <code>Counts</code> fields in the <code>MetricDatum</code>
+        /// structure. Using the <code>Values</code> and <code>Counts</code> method enables you
+        /// to publish up to 150 values per metric with one <code>PutMetricData</code> request,
+        /// and supports retrieving percentile statistics on this data.
+        /// </para>
+        ///  
+        /// <para>
         /// Each <code>PutMetricData</code> request is limited to 40 KB in size for HTTP POST
-        /// requests.
+        /// requests. You can send a payload compressed by gzip. Each request is also limited
+        /// to no more than 20 different metrics.
         /// </para>
         ///  
         /// <para>
         /// Although the <code>Value</code> parameter accepts numbers of type <code>Double</code>,
         /// CloudWatch rejects values that are either too small or too large. Values must be in
-        /// the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2).
-        /// In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        /// the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity,
+        /// -Infinity) are not supported.
         /// </para>
         ///  
         /// <para>
         /// You can use up to 10 dimensions per metric to further clarify what data the metric
-        /// collects. For more information about specifying dimensions, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publishing
+        /// collects. Each dimension consists of a Name and Value pair. For more information about
+        /// specifying dimensions, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publishing
         /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
         /// </para>
         ///  
         /// <para>
         /// Data points with time stamps from 24 hours ago or longer can take at least 48 hours
-        /// to become available for <a>GetMetricStatistics</a> from the time they are submitted.
+        /// to become available for <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+        /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>
+        /// from the time they are submitted. Data points with time stamps between 3 and 24 hours
+        /// ago can take as much as 2 hours to become available for for <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+        /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
         /// </para>
         ///  
         /// <para>
@@ -982,11 +1813,13 @@ namespace Amazon.CloudWatch
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// The SampleCount value of the statistic set is 1
+        /// The <code>SampleCount</code> value of the statistic set is 1 and <code>Min</code>,
+        /// <code>Max</code>, and <code>Sum</code> are all equal.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The Min and the Max values of the statistic set are equal
+        /// The <code>Min</code> and <code>Max</code> are equal, and <code>Sum</code> is equal
+        /// to <code>Min</code> multiplied by <code>SampleCount</code>.
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -1044,9 +1877,27 @@ namespace Amazon.CloudWatch
         /// differs from the previous value, the action configured for the appropriate state is
         /// invoked. For example, if your alarm is configured to send an Amazon SNS message when
         /// an alarm is triggered, temporarily changing the alarm state to <code>ALARM</code>
-        /// sends an SNS message. The alarm returns to its actual state (often within seconds).
-        /// Because the alarm state change happens quickly, it is typically only visible in the
-        /// alarm's <b>History</b> tab in the Amazon CloudWatch console or through <a>DescribeAlarmHistory</a>.
+        /// sends an SNS message.
+        /// 
+        ///  
+        /// <para>
+        /// Metric alarms returns to their actual state quickly, often within seconds. Because
+        /// the metric alarm state change happens quickly, it is typically only visible in the
+        /// alarm's <b>History</b> tab in the Amazon CloudWatch console or through <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarmHistory.html">DescribeAlarmHistory</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you use <code>SetAlarmState</code> on a composite alarm, the composite alarm is
+        /// not guaranteed to return to its actual state. It will return to its actual state only
+        /// once any of its children alarms change state. It is also re-evaluated if you update
+        /// its configuration.
+        /// </para>
+        ///  
+        /// <para>
+        /// If an alarm triggers EC2 Auto Scaling policies or application Auto Scaling policies,
+        /// you must include information in the <code>StateReasonData</code> parameter to enable
+        /// the policy to take the correct action.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetAlarmState service method.</param>
         /// 
@@ -1085,6 +1936,136 @@ namespace Amazon.CloudWatch
         /// <returns>Returns a  SetAlarmStateResult from CloudWatch.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/SetAlarmState">REST API Reference for SetAlarmState Operation</seealso>
         SetAlarmStateResponse EndSetAlarmState(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently,
+        /// the only CloudWatch resources that can be tagged are alarms and Contributor Insights
+        /// rules.
+        /// 
+        ///  
+        /// <para>
+        /// Tags can help you organize and categorize your resources. You can also use them to
+        /// scope user permissions, by granting a user permission to access or change only resources
+        /// with certain tag values.
+        /// </para>
+        ///  
+        /// <para>
+        /// Tags don't have any semantic meaning to AWS and are interpreted strictly as strings
+        /// of characters.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use the <code>TagResource</code> action with an alarm that already has tags.
+        /// If you specify a new tag key for the alarm, this tag is appended to the list of tags
+        /// associated with the alarm. If you specify a tag key that is already associated with
+        /// the alarm, the new tag value that you specify replaces the previous value for that
+        /// tag.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can associate as many as 50 tags with a CloudWatch resource.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.ConcurrentModificationException">
+        /// More than one process tried to modify a resource at the same time.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InternalServiceException">
+        /// Request processing has failed due to some unknown error, exception, or failure.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.ResourceNotFoundException">
+        /// The named resource does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes one or more tags from the specified resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by CloudWatch.</returns>
+        /// <exception cref="Amazon.CloudWatch.Model.ConcurrentModificationException">
+        /// More than one process tried to modify a resource at the same time.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InternalServiceException">
+        /// Request processing has failed due to some unknown error, exception, or failure.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.InvalidParameterValueException">
+        /// The value of an input parameter is bad or out-of-range.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatch.Model.ResourceNotFoundException">
+        /// The named resource does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonCloudWatchClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from CloudWatch.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/monitoring-2010-08-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
 
         #endregion
         

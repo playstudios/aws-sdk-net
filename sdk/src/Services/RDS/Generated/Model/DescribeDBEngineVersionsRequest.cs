@@ -38,6 +38,7 @@ namespace Amazon.RDS.Model
         private string _engine;
         private string _engineVersion;
         private List<Filter> _filters = new List<Filter>();
+        private bool? _includeAll;
         private bool? _listSupportedCharacterSets;
         private bool? _listSupportedTimezones;
         private string _marker;
@@ -78,8 +79,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property DefaultOnly. 
         /// <para>
-        /// Indicates that only the default version of the specified engine or engine and major
-        /// version combination is returned.
+        /// A value that indicates whether only the default version of the specified engine or
+        /// engine and major version combination is returned.
         /// </para>
         /// </summary>
         public bool DefaultOnly
@@ -137,7 +138,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// Not currently supported.
+        /// This parameter isn't currently supported.
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -153,9 +154,33 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IncludeAll. 
+        /// <para>
+        /// A value that indicates whether to include engine versions that aren't available in
+        /// the list. The default is to list only available engine versions.
+        /// </para>
+        /// </summary>
+        public bool IncludeAll
+        {
+            get { return this._includeAll.GetValueOrDefault(); }
+            set { this._includeAll = value; }
+        }
+
+        // Check to see if IncludeAll property is set
+        internal bool IsSetIncludeAll()
+        {
+            return this._includeAll.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ListSupportedCharacterSets. 
         /// <para>
-        /// If this parameter is specified and the requested engine supports the <code>CharacterSetName</code>
+        /// A value that indicates whether to list the supported character sets for each engine
+        /// version.
+        /// </para>
+        ///  
+        /// <para>
+        /// If this parameter is enabled and the requested engine supports the <code>CharacterSetName</code>
         /// parameter for <code>CreateDBInstance</code>, the response includes a list of supported
         /// character sets for each engine version. 
         /// </para>
@@ -175,7 +200,11 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ListSupportedTimezones. 
         /// <para>
-        /// If this parameter is specified and the requested engine supports the <code>TimeZone</code>
+        /// A value that indicates whether to list the supported time zones for each engine version.
+        /// </para>
+        ///  
+        /// <para>
+        /// If this parameter is enabled and the requested engine supports the <code>TimeZone</code>
         /// parameter for <code>CreateDBInstance</code>, the response includes a list of supported
         /// time zones for each engine version. 
         /// </para>
@@ -217,7 +246,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The maximum number of records to include in the response. If more than the <code>MaxRecords</code>
         /// value is available, a pagination token called a marker is included in the response
-        /// so that the following results can be retrieved. 
+        /// so you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>

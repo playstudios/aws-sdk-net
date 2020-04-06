@@ -39,7 +39,7 @@ namespace Amazon.Glue.Model
         /// Gets and sets the property JsonPath. 
         /// <para>
         /// A <code>JsonPath</code> string defining the JSON data for the classifier to classify.
-        /// AWS Glue supports a subset of JsonPath, as described in <a href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
+        /// AWS Glue supports a subset of <code>JsonPath</code>, as described in <a href="https://docs.aws.amazon.com/glue/latest/dg/custom-classifier.html#custom-classifier-json">Writing
         /// JsonPath Custom Classifiers</a>.
         /// </para>
         /// </summary>
@@ -61,6 +61,7 @@ namespace Amazon.Glue.Model
         /// The name of the classifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }

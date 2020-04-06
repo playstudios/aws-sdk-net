@@ -38,6 +38,7 @@ namespace Amazon.LexModelBuildingService.Model
         private MergeStrategy _mergeStrategy;
         private string _name;
         private ResourceType _resourceType;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property CreatedDate. 
@@ -118,6 +119,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name given to the import job.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -146,6 +148,25 @@ namespace Amazon.LexModelBuildingService.Model
         internal bool IsSetResourceType()
         {
             return this._resourceType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of tags added to the imported bot.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=200)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

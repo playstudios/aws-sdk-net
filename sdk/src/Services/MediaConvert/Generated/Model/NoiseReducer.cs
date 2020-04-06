@@ -38,9 +38,16 @@ namespace Amazon.MediaConvert.Model
         private NoiseReducerFilter _filter;
         private NoiseReducerFilterSettings _filterSettings;
         private NoiseReducerSpatialFilterSettings _spatialFilterSettings;
+        private NoiseReducerTemporalFilterSettings _temporalFilterSettings;
 
         /// <summary>
-        /// Gets and sets the property Filter.
+        /// Gets and sets the property Filter. Use Noise reducer filter (NoiseReducerFilter) to
+        /// select one of the following spatial image filtering functions. To use this setting,
+        /// you must also enable Noise reducer (NoiseReducer). * Bilateral preserves edges while
+        /// reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution
+        /// filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain
+        /// filtering based on JND principles. * Temporal optimizes video quality for complex
+        /// motion.
         /// </summary>
         public NoiseReducerFilter Filter
         {
@@ -55,7 +62,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FilterSettings.
+        /// Gets and sets the property FilterSettings. Settings for a noise reducer filter
         /// </summary>
         public NoiseReducerFilterSettings FilterSettings
         {
@@ -70,7 +77,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SpatialFilterSettings.
+        /// Gets and sets the property SpatialFilterSettings. Noise reducer filter settings for
+        /// spatial filter.
         /// </summary>
         public NoiseReducerSpatialFilterSettings SpatialFilterSettings
         {
@@ -82,6 +90,22 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetSpatialFilterSettings()
         {
             return this._spatialFilterSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TemporalFilterSettings. Noise reducer filter settings for
+        /// temporal filter.
+        /// </summary>
+        public NoiseReducerTemporalFilterSettings TemporalFilterSettings
+        {
+            get { return this._temporalFilterSettings; }
+            set { this._temporalFilterSettings = value; }
+        }
+
+        // Check to see if TemporalFilterSettings property is set
+        internal bool IsSetTemporalFilterSettings()
+        {
+            return this._temporalFilterSettings != null;
         }
 
     }

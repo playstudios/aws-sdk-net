@@ -34,8 +34,8 @@ namespace Amazon.Rekognition.Model
     /// 
     ///  
     /// <para>
-    /// Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. Rekognition
-    /// Video sends analysis results to Amazon Kinesis Data Streams.
+    /// Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams.
+    /// Amazon Rekognition Video sends analysis results to Amazon Kinesis Data Streams.
     /// </para>
     ///  
     /// <para>
@@ -44,12 +44,13 @@ namespace Amazon.Rekognition.Model
     /// in <code>Settings</code>. For example, the collection containing faces that you want
     /// to recognize. Use <code>Name</code> to assign an identifier for the stream processor.
     /// You use <code>Name</code> to manage the stream processor. For example, you can start
-    /// processing the source video by calling with the <code>Name</code> field. 
+    /// processing the source video by calling <a>StartStreamProcessor</a> with the <code>Name</code>
+    /// field. 
     /// </para>
     ///  
     /// <para>
-    /// After you have finished analyzing a streaming video, use to stop processing. You can
-    /// delete the stream processor by calling .
+    /// After you have finished analyzing a streaming video, use <a>StopStreamProcessor</a>
+    /// to stop processing. You can delete the stream processor by calling <a>DeleteStreamProcessor</a>.
     /// </para>
     /// </summary>
     public partial class CreateStreamProcessorRequest : AmazonRekognitionRequest
@@ -67,6 +68,7 @@ namespace Amazon.Rekognition.Model
         /// the AWS CLI, the parameter name is <code>StreamProcessorInput</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StreamProcessorInput Input
         {
             get { return this._input; }
@@ -84,9 +86,11 @@ namespace Amazon.Rekognition.Model
         /// <para>
         /// An identifier you assign to the stream processor. You can use <code>Name</code> to
         /// manage the stream processor. For example, you can get the current status of the stream
-        /// processor by calling . <code>Name</code> is idempotent. 
+        /// processor by calling <a>DescribeStreamProcessor</a>. <code>Name</code> is idempotent.
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -102,10 +106,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property Output. 
         /// <para>
-        /// Kinesis data stream stream to which Rekognition Video puts the analysis results. If
-        /// you are using the AWS CLI, the parameter name is <code>StreamProcessorOutput</code>.
+        /// Kinesis data stream stream to which Amazon Rekognition Video puts the analysis results.
+        /// If you are using the AWS CLI, the parameter name is <code>StreamProcessorOutput</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StreamProcessorOutput Output
         {
             get { return this._output; }
@@ -124,6 +129,7 @@ namespace Amazon.Rekognition.Model
         /// ARN of the IAM role that allows access to the stream processor.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -143,6 +149,7 @@ namespace Amazon.Rekognition.Model
         /// collection to use for face recognition and the face attributes to detect.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StreamProcessorSettings Settings
         {
             get { return this._settings; }

@@ -41,9 +41,9 @@ namespace Amazon.Route53.Model
     /// </para>
     ///  </note> 
     /// <para>
-    /// Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot
-    /// of traffic policy instances, you can use the <code>MaxItems</code> parameter to list
-    /// them in groups of up to 100.
+    /// Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
+    /// policy instances, you can use the <code>MaxItems</code> parameter to list them in
+    /// groups of up to 100.
     /// </para>
     /// </summary>
     public partial class ListTrafficPolicyInstancesByPolicyRequest : AmazonRoute53Request
@@ -61,6 +61,7 @@ namespace Amazon.Route53.Model
         /// The ID of the traffic policy for which you want to list traffic policy instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=36)]
         public string TrafficPolicyId
         {
             get { return this._trafficPolicyId; }
@@ -80,6 +81,7 @@ namespace Amazon.Route53.Model
         /// The version must be associated with the traffic policy that is specified by <code>TrafficPolicyId</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1000)]
         public int TrafficPolicyVersion
         {
             get { return this._trafficPolicyVersion.GetValueOrDefault(); }
@@ -111,6 +113,7 @@ namespace Amazon.Route53.Model
         /// there are no more traffic policy instances to get.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32)]
         public string HostedZoneIdMarker
         {
             get { return this._hostedZoneIdMarker; }
@@ -142,6 +145,7 @@ namespace Amazon.Route53.Model
         /// there are no more traffic policy instances to get.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string TrafficPolicyInstanceNameMarker
         {
             get { return this._trafficPolicyInstanceNameMarker; }

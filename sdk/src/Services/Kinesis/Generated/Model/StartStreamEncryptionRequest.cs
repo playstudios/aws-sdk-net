@@ -49,8 +49,8 @@ namespace Amazon.Kinesis.Model
     /// </para>
     ///  
     /// <para>
-    /// Note: It can take up to five seconds after the stream is in an <code>ACTIVE</code>
-    /// status before all records written to the stream are encrypted. After you enable encryption,
+    /// Note: It can take up to 5 seconds after the stream is in an <code>ACTIVE</code> status
+    /// before all records written to the stream are encrypted. After you enable encryption,
     /// you can verify that encryption is applied by inspecting the API response from <code>PutRecord</code>
     /// or <code>PutRecords</code>.
     /// </para>
@@ -67,6 +67,7 @@ namespace Amazon.Kinesis.Model
         /// The encryption type to use. The only valid value is <code>KMS</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public EncryptionType EncryptionType
         {
             get { return this._encryptionType; }
@@ -112,6 +113,7 @@ namespace Amazon.Kinesis.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -130,6 +132,7 @@ namespace Amazon.Kinesis.Model
         /// The name of the stream for which to start encrypting records.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string StreamName
         {
             get { return this._streamName; }

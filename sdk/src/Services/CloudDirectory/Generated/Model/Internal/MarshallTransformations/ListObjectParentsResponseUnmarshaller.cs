@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -57,6 +57,12 @@ namespace Amazon.CloudDirectory.Model.Internal.MarshallTransformations
                     response.NextToken = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ParentLinks", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<ObjectIdentifierAndLinkNameTuple, ObjectIdentifierAndLinkNameTupleUnmarshaller>(ObjectIdentifierAndLinkNameTupleUnmarshaller.Instance);
+                    response.ParentLinks = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("Parents", targetDepth))
                 {
                     var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
@@ -93,10 +99,6 @@ namespace Amazon.CloudDirectory.Model.Internal.MarshallTransformations
             if (errorResponse.Code != null && errorResponse.Code.Equals("InternalServiceException"))
             {
                 return new InternalServiceException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
-            }
-            if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidArnException"))
-            {
-                return new InvalidArnException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidArnException"))
             {

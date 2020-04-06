@@ -40,8 +40,8 @@ namespace Amazon.Route53.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <code>INSYNC</code> indicates that the changes have propagated to all Amazon Route
-    /// 53 DNS servers. 
+    ///  <code>INSYNC</code> indicates that the changes have propagated to all Route 53 DNS
+    /// servers. 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -71,6 +71,7 @@ namespace Amazon.Route53.Model
         /// you submitted the request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=32)]
         public string Id
         {
             get { return this._id; }

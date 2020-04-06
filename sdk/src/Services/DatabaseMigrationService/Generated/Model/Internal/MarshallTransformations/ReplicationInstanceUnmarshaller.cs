@@ -82,10 +82,22 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     unmarshalledObject.AvailabilityZone = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("DnsNameServers", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.DnsNameServers = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("EngineVersion", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.EngineVersion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("FreeUntil", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.FreeUntil = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("InstanceCreateTime", targetDepth))

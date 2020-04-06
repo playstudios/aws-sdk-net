@@ -33,7 +33,7 @@ namespace Amazon.SimpleEmail.Model
     /// 
     ///  
     /// <para>
-    /// For information about managing receipt rules, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon
+    /// For information about managing receipt rules, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-managing-receipt-rules.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     ///  
@@ -71,6 +71,7 @@ namespace Amazon.SimpleEmail.Model
         /// The name of the receipt rule to reposition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RuleName
         {
             get { return this._ruleName; }
@@ -89,6 +90,7 @@ namespace Amazon.SimpleEmail.Model
         /// The name of the receipt rule set that contains the receipt rule to reposition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RuleSetName
         {
             get { return this._ruleSetName; }

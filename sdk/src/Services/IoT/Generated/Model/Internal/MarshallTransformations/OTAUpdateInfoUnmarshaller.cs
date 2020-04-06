@@ -82,6 +82,18 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                     unmarshalledObject.AwsIotJobId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("awsJobExecutionsRolloutConfig", targetDepth))
+                {
+                    var unmarshaller = AwsJobExecutionsRolloutConfigUnmarshaller.Instance;
+                    unmarshalledObject.AwsJobExecutionsRolloutConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("awsJobPresignedUrlConfig", targetDepth))
+                {
+                    var unmarshaller = AwsJobPresignedUrlConfigUnmarshaller.Instance;
+                    unmarshalledObject.AwsJobPresignedUrlConfig = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("creationDate", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
@@ -128,6 +140,12 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.OtaUpdateStatus = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("protocols", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.Protocols = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("targets", targetDepth))

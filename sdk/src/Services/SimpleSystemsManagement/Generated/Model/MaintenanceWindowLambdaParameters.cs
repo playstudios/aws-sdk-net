@@ -40,7 +40,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     ///  <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to contain
     /// logs, instead use the <code>OutputS3BucketName</code> and <code>OutputS3KeyPrefix</code>
     /// options in the <code>TaskInvocationParameters</code> structure. For information about
-    /// how Systems Manager handles these options for the supported Maintenance Window task
+    /// how Systems Manager handles these options for the supported maintenance window task
     /// types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
     /// </para>
     ///  
@@ -48,7 +48,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     ///  <code>TaskParameters</code> has been deprecated. To specify parameters to pass to
     /// a task when it runs, instead use the <code>Parameters</code> option in the <code>TaskInvocationParameters</code>
     /// structure. For information about how Systems Manager handles these options for the
-    /// supported Maintenance Window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+    /// supported maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
     /// </para>
     ///  
     /// <para>
@@ -71,6 +71,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// the context variable.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=8000)]
         public string ClientContext
         {
             get { return this._clientContext; }
@@ -89,6 +90,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// JSON to provide to your Lambda function as input.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=4096)]
         public MemoryStream Payload
         {
             get { return this._payload; }
@@ -110,6 +112,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// version to which the alias points.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Qualifier
         {
             get { return this._qualifier; }

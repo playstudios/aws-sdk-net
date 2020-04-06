@@ -32,13 +32,13 @@ namespace Amazon.EC2.Model
     /// Deletes the specified EBS volume. The volume must be in the <code>available</code>
     /// state (not attached to an instance).
     /// 
-    ///  <note> 
+    ///  
     /// <para>
-    /// The volume may remain in the <code>deleting</code> state for several minutes.
+    /// The volume can remain in the <code>deleting</code> state for several minutes.
     /// </para>
-    ///  </note> 
+    ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-volume.html">Deleting
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-volume.html">Deleting
     /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -66,6 +66,7 @@ namespace Amazon.EC2.Model
         /// The ID of the volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VolumeId
         {
             get { return this._volumeId; }

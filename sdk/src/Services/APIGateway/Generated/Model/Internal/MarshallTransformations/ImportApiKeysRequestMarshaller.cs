@@ -55,10 +55,10 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(ImportApiKeysRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/apikeys";
             request.AddSubResource("mode", "import");
             
             if (publicRequest.IsSetFailOnWarnings())
@@ -66,7 +66,8 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
             
             if (publicRequest.IsSetFormat())
                 request.Parameters.Add("format", StringUtils.FromString(publicRequest.Format));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/apikeys";
+            request.MarshallerVersion = 2;
             request.ContentStream =  publicRequest.Body ?? new MemoryStream();
             request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
                 request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);

@@ -41,9 +41,10 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property AccountMaxReadCapacityUnits. 
         /// <para>
         /// The maximum total read capacity units that your account allows you to provision across
-        /// all of your tables in this region.
+        /// all of your tables in this Region.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public long AccountMaxReadCapacityUnits
         {
             get { return this._accountMaxReadCapacityUnits.GetValueOrDefault(); }
@@ -60,9 +61,10 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property AccountMaxWriteCapacityUnits. 
         /// <para>
         /// The maximum total write capacity units that your account allows you to provision across
-        /// all of your tables in this region.
+        /// all of your tables in this Region.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public long AccountMaxWriteCapacityUnits
         {
             get { return this._accountMaxWriteCapacityUnits.GetValueOrDefault(); }
@@ -79,10 +81,11 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property TableMaxReadCapacityUnits. 
         /// <para>
         /// The maximum read capacity units that your account allows you to provision for a new
-        /// table that you are creating in this region, including the read capacity units provisioned
+        /// table that you are creating in this Region, including the read capacity units provisioned
         /// for its global secondary indexes (GSIs).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public long TableMaxReadCapacityUnits
         {
             get { return this._tableMaxReadCapacityUnits.GetValueOrDefault(); }
@@ -99,10 +102,11 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property TableMaxWriteCapacityUnits. 
         /// <para>
         /// The maximum write capacity units that your account allows you to provision for a new
-        /// table that you are creating in this region, including the write capacity units provisioned
+        /// table that you are creating in this Region, including the write capacity units provisioned
         /// for its global secondary indexes (GSIs).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public long TableMaxWriteCapacityUnits
         {
             get { return this._tableMaxWriteCapacityUnits.GetValueOrDefault(); }

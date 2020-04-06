@@ -30,9 +30,9 @@ namespace Amazon.DynamoDBv2.Model
     /// <summary>
     /// Container for the parameters to the UpdateGlobalTable operation.
     /// Adds or removes replicas in the specified global table. The global table must already
-    /// exist to be able to use this operation. Any replica to be added must be empty, must
-    /// have the same name as the global table, must have the same key schema, and must have
-    /// DynamoDB Streams enabled.
+    /// exist to be able to use this operation. Any replica to be added must be empty, have
+    /// the same name as the global table, have the same key schema, have DynamoDB Streams
+    /// enabled, and have the same provisioned and maximum write capacity units.
     /// 
     ///  <note> 
     /// <para>
@@ -40,7 +40,26 @@ namespace Amazon.DynamoDBv2.Model
     /// in a single request, for simplicity we recommend that you issue separate requests
     /// for adding or removing replicas.
     /// </para>
-    ///  </note>
+    ///  </note> 
+    /// <para>
+    ///  If global secondary indexes are specified, then the following conditions must also
+    /// be met: 
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  The global secondary indexes must have the same name. 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  The global secondary indexes must have the same hash key and sort key (if present).
+    /// 
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  The global secondary indexes must have the same provisioned and maximum write capacity
+    /// units. 
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class UpdateGlobalTableRequest : AmazonDynamoDBRequest
     {
@@ -53,6 +72,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The global table name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string GlobalTableName
         {
             get { return this._globalTableName; }
@@ -68,9 +88,10 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property ReplicaUpdates. 
         /// <para>
-        /// A list of regions that should be added or removed from the global table.
+        /// A list of Regions that should be added or removed from the global table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ReplicaUpdate> ReplicaUpdates
         {
             get { return this._replicaUpdates; }

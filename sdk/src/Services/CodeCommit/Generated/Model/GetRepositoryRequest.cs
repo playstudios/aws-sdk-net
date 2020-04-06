@@ -35,9 +35,9 @@ namespace Amazon.CodeCommit.Model
     /// <para>
     /// The description field for a repository accepts all HTML characters and all valid Unicode
     /// characters. Applications that do not HTML-encode the description and display it in
-    /// a web page could expose users to potentially malicious code. Make sure that you HTML-encode
+    /// a webpage can expose users to potentially malicious code. Make sure that you HTML-encode
     /// the description field in any application that uses this API to display the repository
-    /// description on a web page.
+    /// description on a webpage.
     /// </para>
     ///  </note>
     /// </summary>
@@ -51,6 +51,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository to get information about.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

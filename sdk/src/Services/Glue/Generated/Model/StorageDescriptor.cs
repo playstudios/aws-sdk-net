@@ -85,7 +85,8 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Compressed. 
         /// <para>
-        /// True if the data in the table is compressed, or False if not.
+        ///  <code>True</code> if the data in the table is compressed, or <code>False</code> if
+        /// not.
         /// </para>
         /// </summary>
         public bool Compressed
@@ -107,6 +108,7 @@ namespace Amazon.Glue.Model
         /// or a custom format.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string InputFormat
         {
             get { return this._inputFormat; }
@@ -122,11 +124,12 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Location. 
         /// <para>
-        /// The physical location of the table. By default this takes the form of the warehouse
+        /// The physical location of the table. By default, this takes the form of the warehouse
         /// location, followed by the database location in the warehouse, followed by the table
         /// name.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2056)]
         public string Location
         {
             get { return this._location; }
@@ -164,6 +167,7 @@ namespace Amazon.Glue.Model
         /// or a custom format.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string OutputFormat
         {
             get { return this._outputFormat; }
@@ -179,7 +183,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
-        /// User-supplied properties in key-value form.
+        /// The user-supplied properties in key-value form.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Parameters
@@ -197,7 +201,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property SerdeInfo. 
         /// <para>
-        /// Serialization/deserialization (SerDe) information.
+        /// The serialization/deserialization (SerDe) information.
         /// </para>
         /// </summary>
         public SerDeInfo SerdeInfo
@@ -215,7 +219,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property SkewedInfo. 
         /// <para>
-        /// Information about values that appear very frequently in a column (skewed values).
+        /// The information about values that appear frequently in a column (skewed values).
         /// </para>
         /// </summary>
         public SkewedInfo SkewedInfo
@@ -251,7 +255,8 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property StoredAsSubDirectories. 
         /// <para>
-        /// True if the table data is stored in subdirectories, or False if not.
+        ///  <code>True</code> if the table data is stored in subdirectories, or <code>False</code>
+        /// if not.
         /// </para>
         /// </summary>
         public bool StoredAsSubDirectories

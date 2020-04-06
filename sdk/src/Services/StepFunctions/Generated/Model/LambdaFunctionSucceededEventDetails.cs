@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.StepFunctions.Model
 {
     /// <summary>
-    /// Contains details about a lambda function which successfully terminated during an execution.
+    /// Contains details about a lambda function that successfully terminated during an execution.
     /// </summary>
     public partial class LambdaFunctionSucceededEventDetails
     {
@@ -40,6 +40,7 @@ namespace Amazon.StepFunctions.Model
         /// The JSON data output by the lambda function.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32768)]
         public string Output
         {
             get { return this._output; }

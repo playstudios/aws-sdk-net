@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -41,6 +41,7 @@ namespace Amazon.CloudFront.Model
         /// ID of profile to use for field-level encryption query argument-profile mapping
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ProfileId
         {
             get { return this._profileId; }
@@ -59,6 +60,7 @@ namespace Amazon.CloudFront.Model
         /// Query argument for field-level encryption query argument-profile mapping.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string QueryArg
         {
             get { return this._queryArg; }

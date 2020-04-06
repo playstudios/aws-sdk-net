@@ -29,7 +29,7 @@ namespace Amazon.CostAndUsageReport.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteReportDefinition operation.
-    /// Delete a specified report definition
+    /// Deletes the specified report.
     /// </summary>
     public partial class DeleteReportDefinitionRequest : AmazonCostAndUsageReportRequest
     {
@@ -38,6 +38,7 @@ namespace Amazon.CostAndUsageReport.Model
         /// <summary>
         /// Gets and sets the property ReportName.
         /// </summary>
+        [AWSProperty(Max=256)]
         public string ReportName
         {
             get { return this._reportName; }

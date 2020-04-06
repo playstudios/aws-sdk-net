@@ -29,7 +29,7 @@ namespace Amazon.AlexaForBusiness.Model
 {
     /// <summary>
     /// Container for the parameters to the ListTags operation.
-    /// Lists all tags for a specific resource.
+    /// Lists all tags for the specified resource.
     /// </summary>
     public partial class ListTagsRequest : AmazonAlexaForBusinessRequest
     {
@@ -40,9 +40,10 @@ namespace Amazon.AlexaForBusiness.Model
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// The ARN of the specific resource for which to list tags. Required.
+        /// The ARN of the specified resource for which to list tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Arn
         {
             get { return this._arn; }
@@ -63,6 +64,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// that the remaining results can be retrieved.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -83,6 +85,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// results beyond the token, up to the value specified by <code>MaxResults</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1100)]
         public string NextToken
         {
             get { return this._nextToken; }

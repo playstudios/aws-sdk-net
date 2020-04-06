@@ -42,6 +42,7 @@ namespace Amazon.ConfigService.Model
         /// The 12-digit account ID of the account being aggregated. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<string> AccountIds
         {
             get { return this._accountIds; }
@@ -57,7 +58,7 @@ namespace Amazon.ConfigService.Model
         /// <summary>
         /// Gets and sets the property AllAwsRegions. 
         /// <para>
-        /// If true, aggreagate existing AWS Config regions and future regions.
+        /// If true, aggregate existing AWS Config regions and future regions.
         /// </para>
         /// </summary>
         public bool AllAwsRegions
@@ -78,6 +79,7 @@ namespace Amazon.ConfigService.Model
         /// The source regions being aggregated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> AwsRegions
         {
             get { return this._awsRegions; }

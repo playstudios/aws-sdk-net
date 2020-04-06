@@ -45,6 +45,7 @@ namespace Amazon.Snowball.Model
         private string _roleARN;
         private ShippingOption _shippingOption;
         private SnowballType _snowballType;
+        private TaxDocuments _taxDocuments;
 
         /// <summary>
         /// Gets and sets the property AddressId. 
@@ -52,6 +53,7 @@ namespace Amazon.Snowball.Model
         /// The automatically generated ID for a specific address.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string AddressId
         {
             get { return this._addressId; }
@@ -70,6 +72,7 @@ namespace Amazon.Snowball.Model
         /// The automatically generated ID for a cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ClusterId
         {
             get { return this._clusterId; }
@@ -124,6 +127,7 @@ namespace Amazon.Snowball.Model
         /// The optional description of the cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Description
         {
             get { return this._description; }
@@ -143,6 +147,7 @@ namespace Amazon.Snowball.Model
         /// to its primary address. This field is not supported in most regions.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=40, Max=40)]
         public string ForwardingAddressId
         {
             get { return this._forwardingAddressId; }
@@ -178,10 +183,11 @@ namespace Amazon.Snowball.Model
         /// Gets and sets the property KmsKeyARN. 
         /// <para>
         /// The <code>KmsKeyARN</code> Amazon Resource Name (ARN) associated with this cluster.
-        /// This ARN was created using the <a href="http://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
+        /// This ARN was created using the <a href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
         /// API action in AWS Key Management Service (AWS KMS).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string KmsKeyARN
         {
             get { return this._kmsKeyARN; }
@@ -235,10 +241,11 @@ namespace Amazon.Snowball.Model
         /// <summary>
         /// Gets and sets the property RoleARN. 
         /// <para>
-        /// The role ARN associated with this cluster. This ARN was created using the <a href="http://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
+        /// The role ARN associated with this cluster. This ARN was created using the <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
         /// API action in AWS Identity and Access Management (IAM).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string RoleARN
         {
             get { return this._roleARN; }
@@ -255,12 +262,12 @@ namespace Amazon.Snowball.Model
         /// Gets and sets the property ShippingOption. 
         /// <para>
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon
-        /// you'll get each Snowball Edge appliance, rather it represents how quickly each appliance
+        /// you'll get each Snowball Edge device, rather it represents how quickly each device
         /// moves to its destination while in transit. Regional shipping speeds are as follows:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// In Australia, you have access to express shipping. Typically, appliances shipped express
+        /// In Australia, you have access to express shipping. Typically, devices shipped express
         /// are delivered in about a day.
         /// </para>
         ///  </li> <li> 
@@ -295,8 +302,13 @@ namespace Amazon.Snowball.Model
         /// <summary>
         /// Gets and sets the property SnowballType. 
         /// <para>
-        /// The type of AWS Snowball appliance to use for this cluster. Currently, the only supported
-        /// appliance type for cluster jobs is <code>EDGE</code>.
+        /// The type of AWS Snowball device to use for this cluster. Currently, the only supported
+        /// device type for cluster jobs is <code>EDGE</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
+        /// Edge Device Options</a> in the Snowball Edge Developer Guide.
         /// </para>
         /// </summary>
         public SnowballType SnowballType
@@ -309,6 +321,24 @@ namespace Amazon.Snowball.Model
         internal bool IsSetSnowballType()
         {
             return this._snowballType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TaxDocuments. 
+        /// <para>
+        /// The tax documents required in your AWS Region.
+        /// </para>
+        /// </summary>
+        public TaxDocuments TaxDocuments
+        {
+            get { return this._taxDocuments; }
+            set { this._taxDocuments = value; }
+        }
+
+        // Check to see if TaxDocuments property is set
+        internal bool IsSetTaxDocuments()
+        {
+            return this._taxDocuments != null;
         }
 
     }

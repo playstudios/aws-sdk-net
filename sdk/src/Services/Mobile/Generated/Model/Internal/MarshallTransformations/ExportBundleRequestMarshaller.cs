@@ -55,20 +55,21 @@ namespace Amazon.Mobile.Model.Internal.MarshallTransformations
         public IRequest Marshall(ExportBundleRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Mobile");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/bundles/{bundleId}";
             if (!publicRequest.IsSetBundleId())
                 throw new AmazonMobileException("Request object does not have required field BundleId set");
-            uriResourcePath = uriResourcePath.Replace("{bundleId}", StringUtils.FromString(publicRequest.BundleId));
+            request.AddPathResource("{bundleId}", StringUtils.FromString(publicRequest.BundleId));
             
             if (publicRequest.IsSetPlatform())
                 request.Parameters.Add("platform", StringUtils.FromString(publicRequest.Platform));
             
             if (publicRequest.IsSetProjectId())
                 request.Parameters.Add("projectId", StringUtils.FromString(publicRequest.ProjectId));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/bundles/{bundleId}";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

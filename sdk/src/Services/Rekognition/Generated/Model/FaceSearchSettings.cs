@@ -29,7 +29,7 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Input face recognition parameters for an Amazon Rekognition stream processor. <code>FaceRecognitionSettings</code>
-    /// is a request parameter for .
+    /// is a request parameter for <a>CreateStreamProcessor</a>.
     /// </summary>
     public partial class FaceSearchSettings
     {
@@ -42,6 +42,7 @@ namespace Amazon.Rekognition.Model
         /// The ID of a collection that contains faces that you want to search for.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CollectionId
         {
             get { return this._collectionId; }
@@ -58,9 +59,10 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property FaceMatchThreshold. 
         /// <para>
         /// Minimum face match confidence score that must be met to return a result for a recognized
-        /// face. Default is 70. 0 is the lowest confidence. 100 is the highest confidence.
+        /// face. Default is 80. 0 is the lowest confidence. 100 is the highest confidence.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float FaceMatchThreshold
         {
             get { return this._faceMatchThreshold.GetValueOrDefault(); }

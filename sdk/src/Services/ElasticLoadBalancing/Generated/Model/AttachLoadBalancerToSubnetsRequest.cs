@@ -35,7 +35,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     /// <para>
     /// The load balancer evenly distributes requests across all registered subnets. For more
     /// information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-manage-subnets.html">Add
-    /// or Remove Subnets for Your Load Balancer in a VPC</a> in the <i>Classic Load Balancer
+    /// or Remove Subnets for Your Load Balancer in a VPC</a> in the <i>Classic Load Balancers
     /// Guide</i>.
     /// </para>
     /// </summary>
@@ -50,6 +50,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }
@@ -68,6 +69,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The IDs of the subnets to add. You can add only one subnet per Availability Zone.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Subnets
         {
             get { return this._subnets; }

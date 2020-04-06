@@ -62,6 +62,7 @@ namespace Amazon.CognitoIdentity.Model
         /// A unique identifier in the format REGION:GUID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=55)]
         public string IdentityId
         {
             get { return this._identityId; }
@@ -80,6 +81,7 @@ namespace Amazon.CognitoIdentity.Model
         /// An identity pool ID in the format REGION:GUID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string IdentityPoolId
         {
             get { return this._identityPoolId; }
@@ -105,6 +107,7 @@ namespace Amazon.CognitoIdentity.Model
         /// identity pool, you can specify the supported logins.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=10)]
         public Dictionary<string, string> Logins
         {
             get { return this._logins; }
@@ -128,7 +131,14 @@ namespace Amazon.CognitoIdentity.Model
         /// time for a token, as there are significant security implications: an attacker could
         /// use a leaked token to access your AWS resources for the token's duration.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// Please provide for a small grace period, usually no more than 5 minutes, to account
+        /// for clock skew.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Min=1, Max=86400)]
         public long TokenDuration
         {
             get { return this._tokenDuration.GetValueOrDefault(); }

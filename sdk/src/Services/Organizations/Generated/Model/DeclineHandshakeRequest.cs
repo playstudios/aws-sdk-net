@@ -36,13 +36,13 @@ namespace Amazon.Organizations.Model
     /// <para>
     /// This operation can be called only from the account that received the handshake. The
     /// originator of the handshake can use <a>CancelHandshake</a> instead. The originator
-    /// can't reactivate a declined request, but can re-initiate the process with a new handshake
+    /// can't reactivate a declined request, but can reinitiate the process with a new handshake
     /// request.
     /// </para>
     ///  
     /// <para>
     /// After you decline a handshake, it continues to appear in the results of relevant APIs
-    /// for only 30 days. After that it is deleted.
+    /// for only 30 days. After that, it's deleted.
     /// </para>
     /// </summary>
     public partial class DeclineHandshakeRequest : AmazonOrganizationsRequest
@@ -58,9 +58,10 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for handshake ID string
-        /// requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// requires "h-" followed by from 8 to 32 lowercase letters or digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HandshakeId
         {
             get { return this._handshakeId; }

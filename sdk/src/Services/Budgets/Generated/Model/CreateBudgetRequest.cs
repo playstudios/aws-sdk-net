@@ -29,7 +29,17 @@ namespace Amazon.Budgets.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateBudget operation.
-    /// Creates a budget and, if included, notifications and subscribers.
+    /// Creates a budget and, if included, notifications and subscribers. 
+    /// 
+    ///  <important> 
+    /// <para>
+    /// Only one of <code>BudgetLimit</code> or <code>PlannedBudgetLimits</code> can be present
+    /// in the syntax at one time. Use the syntax that matches your case. The Request Syntax
+    /// section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+    /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples">Examples</a>
+    /// section. 
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class CreateBudgetRequest : AmazonBudgetsRequest
     {
@@ -43,6 +53,7 @@ namespace Amazon.Budgets.Model
         /// The <code>accountId</code> that is associated with the budget.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=12, Max=12)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -61,6 +72,7 @@ namespace Amazon.Budgets.Model
         /// The budget object that you want to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Budget Budget
         {
             get { return this._budget; }
@@ -77,11 +89,12 @@ namespace Amazon.Budgets.Model
         /// Gets and sets the property NotificationsWithSubscribers. 
         /// <para>
         /// A notification that you want to associate with a budget. A budget can have up to five
-        /// notifications, and each notification can have one SNS subscriber and up to ten email
+        /// notifications, and each notification can have one SNS subscriber and up to 10 email
         /// subscribers. If you include notifications and subscribers in your <code>CreateBudget</code>
         /// call, AWS creates the notifications and subscribers for you.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<NotificationWithSubscribers> NotificationsWithSubscribers
         {
             get { return this._notificationsWithSubscribers; }

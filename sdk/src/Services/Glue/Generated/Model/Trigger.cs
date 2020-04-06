@@ -40,6 +40,7 @@ namespace Amazon.Glue.Model
         private string _schedule;
         private TriggerState _state;
         private TriggerType _type;
+        private string _workflowName;
 
         /// <summary>
         /// Gets and sets the property Actions. 
@@ -65,6 +66,7 @@ namespace Amazon.Glue.Model
         /// A description of this trigger.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -83,6 +85,7 @@ namespace Amazon.Glue.Model
         /// Reserved for future use.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Id
         {
             get { return this._id; }
@@ -98,9 +101,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Name of the trigger.
+        /// The name of the trigger.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -134,7 +138,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Schedule. 
         /// <para>
-        /// A <code>cron</code> expression used to specify the schedule (see <a href="http://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
+        /// A <code>cron</code> expression used to specify the schedule (see <a href="https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html">Time-Based
         /// Schedules for Jobs and Crawlers</a>. For example, to run something every day at 12:15
         /// UTC, you would specify: <code>cron(15 12 * * ? *)</code>.
         /// </para>
@@ -185,6 +189,25 @@ namespace Amazon.Glue.Model
         internal bool IsSetType()
         {
             return this._type != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WorkflowName. 
+        /// <para>
+        /// The name of the workflow associated with the trigger.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=255)]
+        public string WorkflowName
+        {
+            get { return this._workflowName; }
+            set { this._workflowName = value; }
+        }
+
+        // Check to see if WorkflowName property is set
+        internal bool IsSetWorkflowName()
+        {
+            return this._workflowName != null;
         }
 
     }

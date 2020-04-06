@@ -34,7 +34,7 @@ namespace Amazon.KeyManagementService.Model
     /// 
     ///  
     /// <para>
-    /// For more information about key policies, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">Key
+    /// For more information about key policies, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">Key
     /// Policies</a> in the <i>AWS Key Management Service Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -57,7 +57,7 @@ namespace Amazon.KeyManagementService.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, refer to the scenario in the <a href="http://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
+        /// For more information, refer to the scenario in the <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
         /// Key Policy</a> section in the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         ///  </important> 
@@ -109,6 +109,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or <a>DescribeKey</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -136,7 +137,7 @@ namespace Amazon.KeyManagementService.Model
         /// must allow the principal that is making the <code>PutKeyPolicy</code> request to make
         /// a subsequent <code>PutKeyPolicy</code> request on the CMK. This reduces the risk that
         /// the CMK becomes unmanageable. For more information, refer to the scenario in the <a
-        /// href="http://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
+        /// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default-allow-root-enable-iam">Default
         /// Key Policy</a> section of the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         ///  </li> <li> 
@@ -145,15 +146,18 @@ namespace Amazon.KeyManagementService.Model
         /// in the key policy must exist and be visible to AWS KMS. When you create a new AWS
         /// principal (for example, an IAM user or role), you might need to enforce a delay before
         /// including the new principal in a key policy because the new principal might not be
-        /// immediately visible to AWS KMS. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency">Changes
+        /// immediately visible to AWS KMS. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_eventual-consistency">Changes
         /// that I make are not always immediately visible</a> in the <i>AWS Identity and Access
         /// Management User Guide</i>.
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// The key policy size limit is 32 kilobytes (32768 bytes).
+        /// The key policy cannot exceed 32 kilobytes (32768 bytes). For more information, see
+        /// <a href="https://docs.aws.amazon.com/kms/latest/developerguide/resource-limits.html">Resource
+        /// Quotas</a> in the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=131072)]
         public string Policy
         {
             get { return this._policy; }
@@ -172,6 +176,7 @@ namespace Amazon.KeyManagementService.Model
         /// The name of the key policy. The only valid value is <code>default</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }

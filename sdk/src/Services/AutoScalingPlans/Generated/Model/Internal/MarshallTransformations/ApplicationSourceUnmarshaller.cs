@@ -70,6 +70,12 @@ namespace Amazon.AutoScalingPlans.Model.Internal.MarshallTransformations
                     unmarshalledObject.CloudFormationStackARN = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("TagFilters", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<TagFilter, TagFilterUnmarshaller>(TagFilterUnmarshaller.Instance);
+                    unmarshalledObject.TagFilters = unmarshaller.Unmarshall(context);
+                    continue;
+                }
             }
           
             return unmarshalledObject;

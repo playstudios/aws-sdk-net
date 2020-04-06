@@ -33,11 +33,18 @@ namespace Amazon.ECS.Model
     /// 
     ///  
     /// <para>
-    /// You can change the status of a container instance to <code>DRAINING</code> to manually
-    /// remove an instance from a cluster, for example to perform system updates, update the
-    /// Docker daemon, or scale down the cluster size. 
+    /// Once a container instance has reached an <code>ACTIVE</code> state, you can change
+    /// the status of a container instance to <code>DRAINING</code> to manually remove an
+    /// instance from a cluster, for example to perform system updates, update the Docker
+    /// daemon, or scale down the cluster size.
     /// </para>
-    ///  
+    ///  <important> 
+    /// <para>
+    /// A container instance cannot be changed to <code>DRAINING</code> until it has reached
+    /// an <code>ACTIVE</code> status. If the instance is in any other status, an error will
+    /// be received.
+    /// </para>
+    ///  </important> 
     /// <para>
     /// When you set a container instance to <code>DRAINING</code>, Amazon ECS prevents new
     /// tasks from being scheduled for placement on the container instance and replacement
@@ -68,15 +75,15 @@ namespace Amazon.ECS.Model
     /// <para>
     /// The <code>maximumPercent</code> parameter represents an upper limit on the number
     /// of running tasks during task replacement, which enables you to define the replacement
-    /// batch size. For example, if <code>desiredCount</code> of four tasks, a maximum of
-    /// 200% starts four new tasks before stopping the four tasks to be drained (provided
-    /// that the cluster resources required to do this are available). If the maximum is 100%,
+    /// batch size. For example, if <code>desiredCount</code> is four tasks, a maximum of
+    /// 200% starts four new tasks before stopping the four tasks to be drained, provided
+    /// that the cluster resources required to do this are available. If the maximum is 100%,
     /// then replacement tasks can't start until the draining tasks have stopped.
     /// </para>
     ///  </li> </ul> 
     /// <para>
     /// Any <code>PENDING</code> or <code>RUNNING</code> tasks that do not belong to a service
-    /// are not affected; you must wait for them to finish or stop them manually.
+    /// are not affected. You must wait for them to finish or stop them manually.
     /// </para>
     ///  
     /// <para>
@@ -85,8 +92,9 @@ namespace Amazon.ECS.Model
     /// </para>
     ///  
     /// <para>
-    /// When you set a container instance to <code>ACTIVE</code>, the Amazon ECS scheduler
-    /// can begin scheduling tasks on the instance again.
+    /// When a container instance has been drained, you can set a container instance to <code>ACTIVE</code>
+    /// status and once it has reached that status the Amazon ECS scheduler can begin scheduling
+    /// tasks on the instance again.
     /// </para>
     /// </summary>
     public partial class UpdateContainerInstancesStateRequest : AmazonECSRequest
@@ -120,6 +128,7 @@ namespace Amazon.ECS.Model
         /// A list of container instance IDs or full ARN entries.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> ContainerInstances
         {
             get { return this._containerInstances; }
@@ -135,9 +144,15 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The container instance state with which to update the container instance.
+        /// The container instance state with which to update the container instance. The only
+        /// valid values for this action are <code>ACTIVE</code> and <code>DRAINING</code>. A
+        /// container instance can only be updated to <code>DRAINING</code> status once it has
+        /// reached an <code>ACTIVE</code> state. If a container instance is in <code>REGISTERING</code>,
+        /// <code>DEREGISTERING</code>, or <code>REGISTRATION_FAILED</code> state you can describe
+        /// the container instance but will be unable to update the container instance state.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ContainerInstanceStatus Status
         {
             get { return this._status; }

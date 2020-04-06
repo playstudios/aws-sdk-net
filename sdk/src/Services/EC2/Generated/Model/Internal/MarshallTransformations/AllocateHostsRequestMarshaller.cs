@@ -70,6 +70,14 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("ClientToken", StringUtils.FromString(publicRequest.ClientToken));
                 }
+                if(publicRequest.IsSetHostRecovery())
+                {
+                    request.Parameters.Add("HostRecovery", StringUtils.FromString(publicRequest.HostRecovery));
+                }
+                if(publicRequest.IsSetInstanceFamily())
+                {
+                    request.Parameters.Add("InstanceFamily", StringUtils.FromString(publicRequest.InstanceFamily));
+                }
                 if(publicRequest.IsSetInstanceType())
                 {
                     request.Parameters.Add("InstanceType", StringUtils.FromString(publicRequest.InstanceType));
@@ -77,6 +85,34 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetQuantity())
                 {
                     request.Parameters.Add("Quantity", StringUtils.FromInt(publicRequest.Quantity));
+                }
+                if(publicRequest.IsSetTagSpecifications())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.TagSpecifications)
+                    {
+                        if(publicRequestlistValue.IsSetResourceType())
+                        {
+                            request.Parameters.Add("TagSpecification" + "." + publicRequestlistValueIndex + "." + "ResourceType", StringUtils.FromString(publicRequestlistValue.ResourceType));
+                        }
+                        if(publicRequestlistValue.IsSetTags())
+                        {
+                            int publicRequestlistValuelistValueIndex = 1;
+                            foreach(var publicRequestlistValuelistValue in publicRequestlistValue.Tags)
+                            {
+                                if(publicRequestlistValuelistValue.IsSetKey())
+                                {
+                                    request.Parameters.Add("TagSpecification" + "." + publicRequestlistValueIndex + "." + "Tag" + "." + publicRequestlistValuelistValueIndex + "." + "Key", StringUtils.FromString(publicRequestlistValuelistValue.Key));
+                                }
+                                if(publicRequestlistValuelistValue.IsSetValue())
+                                {
+                                    request.Parameters.Add("TagSpecification" + "." + publicRequestlistValueIndex + "." + "Tag" + "." + publicRequestlistValuelistValueIndex + "." + "Value", StringUtils.FromString(publicRequestlistValuelistValue.Value));
+                                }
+                                publicRequestlistValuelistValueIndex++;
+                            }
+                        }
+                        publicRequestlistValueIndex++;
+                    }
                 }
             }
             return request;

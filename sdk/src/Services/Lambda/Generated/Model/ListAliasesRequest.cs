@@ -29,15 +29,8 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the ListAliases operation.
-    /// Returns list of aliases created for a Lambda function. For each alias, the response
-    /// includes information such as the alias ARN, description, alias name, and the function
-    /// version to which it points. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-    /// to AWS Lambda Aliases</a>.
-    /// 
-    ///  
-    /// <para>
-    /// This requires permission for the lambda:ListAliases action.
-    /// </para>
+    /// Returns a list of <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">aliases</a>
+    /// for a Lambda function.
     /// </summary>
     public partial class ListAliasesRequest : AmazonLambdaRequest
     {
@@ -49,11 +42,29 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// Lambda function name for which the alias is created. Note that the length constraint
-        /// applies only to the ARN. If you specify only the function name, it is limited to 64
-        /// characters in length.
+        /// The name of the Lambda function.
+        /// </para>
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Function name</b> - <code>MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it is limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -69,11 +80,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionVersion. 
         /// <para>
-        /// If you specify this optional parameter, the API returns only the aliases that are
-        /// pointing to the specific Lambda function version, otherwise the API returns all of
-        /// the aliases created for the Lambda function.
+        /// Specify a function version to only list aliases that invoke that version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string FunctionVersion
         {
             get { return this._functionVersion; }
@@ -89,8 +99,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Marker. 
         /// <para>
-        /// Optional string. An opaque pagination token returned from a previous <code>ListAliases</code>
-        /// operation. If present, indicates where to continue the listing.
+        /// Specify the pagination token that's returned by a previous request to retrieve the
+        /// next page of results.
         /// </para>
         /// </summary>
         public string Marker
@@ -108,10 +118,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// Optional integer. Specifies the maximum number of aliases to return in response. This
-        /// parameter value must be greater than 0.
+        /// Limit the number of aliases returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }

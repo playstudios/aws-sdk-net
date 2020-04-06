@@ -52,10 +52,11 @@ namespace Amazon.WorkDocs.Model
         /// <summary>
         /// Gets and sets the property AuthenticationToken. 
         /// <para>
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative
-        /// API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials
+        /// to access the API.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=8199)]
         public string AuthenticationToken
         {
             get { return this._authenticationToken; }
@@ -74,6 +75,7 @@ namespace Amazon.WorkDocs.Model
         /// The ID of the folder.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string FolderId
         {
             get { return this._folderId; }
@@ -92,6 +94,7 @@ namespace Amazon.WorkDocs.Model
         /// The contents to include. Specify "INITIALIZED" to include initialized documents.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string Include
         {
             get { return this._include; }
@@ -110,6 +113,7 @@ namespace Amazon.WorkDocs.Model
         /// The maximum number of items to return with this call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=999)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -128,6 +132,7 @@ namespace Amazon.WorkDocs.Model
         /// The marker for the next set of results. This marker was received from a previous call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string Marker
         {
             get { return this._marker; }

@@ -33,14 +33,33 @@ namespace Amazon.MediaLive.Model
     /// </summary>
     public partial class CreateChannelRequest : AmazonMediaLiveRequest
     {
+        private ChannelClass _channelClass;
         private List<OutputDestination> _destinations = new List<OutputDestination>();
         private EncoderSettings _encoderSettings;
         private List<InputAttachment> _inputAttachments = new List<InputAttachment>();
         private InputSpecification _inputSpecification;
+        private LogLevel _logLevel;
         private string _name;
         private string _requestId;
         private string _reserved;
         private string _roleArn;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Gets and sets the property ChannelClass. The class for this channel. STANDARD for
+        /// a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
+        /// </summary>
+        public ChannelClass ChannelClass
+        {
+            get { return this._channelClass; }
+            set { this._channelClass = value; }
+        }
+
+        // Check to see if ChannelClass property is set
+        internal bool IsSetChannelClass()
+        {
+            return this._channelClass != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Destinations.
@@ -104,6 +123,21 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LogLevel. The log level to write to CloudWatch Logs.
+        /// </summary>
+        public LogLevel LogLevel
+        {
+            get { return this._logLevel; }
+            set { this._logLevel = value; }
+        }
+
+        // Check to see if LogLevel property is set
+        internal bool IsSetLogLevel()
+        {
+            return this._logLevel != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. Name of channel.
         /// </summary>
         public string Name
@@ -138,6 +172,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property Reserved. Deprecated field that's only usable by whitelisted
         /// customers.
         /// </summary>
+        [Obsolete("Deprecated field that's only usable by whitelisted customers.")]
         public string Reserved
         {
             get { return this._reserved; }
@@ -164,6 +199,21 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetRoleArn()
         {
             return this._roleArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. A collection of key-value pairs.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

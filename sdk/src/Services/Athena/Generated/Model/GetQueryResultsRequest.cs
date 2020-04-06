@@ -29,9 +29,27 @@ namespace Amazon.Athena.Model
 {
     /// <summary>
     /// Container for the parameters to the GetQueryResults operation.
-    /// Returns the results of a single query execution specified by <code>QueryExecutionId</code>.
-    /// This request does not execute the query but returns results. Use <a>StartQueryExecution</a>
-    /// to run a query.
+    /// Streams the results of a single query execution specified by <code>QueryExecutionId</code>
+    /// from the Athena query results location in Amazon S3. For more information, see <a
+    /// href="https://docs.aws.amazon.com/athena/latest/ug/querying.html">Query Results</a>
+    /// in the <i>Amazon Athena User Guide</i>. This request does not execute the query but
+    /// returns results. Use <a>StartQueryExecution</a> to run a query.
+    /// 
+    ///  
+    /// <para>
+    /// To stream query results successfully, the IAM principal with permission to call <code>GetQueryResults</code>
+    /// also must have permissions to the Amazon S3 <code>GetObject</code> action for the
+    /// Athena query results location.
+    /// </para>
+    ///  <important> 
+    /// <para>
+    /// IAM principals with permission to the Amazon S3 <code>GetObject</code> action for
+    /// the query results location are able to retrieve query results from Amazon S3 even
+    /// if permission to the <code>GetQueryResults</code> action is denied. To restrict user
+    /// or role access, ensure that Amazon S3 permissions to the Athena query location are
+    /// denied.
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class GetQueryResultsRequest : AmazonAthenaRequest
     {
@@ -45,6 +63,7 @@ namespace Amazon.Athena.Model
         /// The maximum number of results (rows) to return in this request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -63,6 +82,7 @@ namespace Amazon.Athena.Model
         /// The token that specifies where to start pagination if a previous request was truncated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -81,6 +101,7 @@ namespace Amazon.Athena.Model
         /// The unique ID of the query execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string QueryExecutionId
         {
             get { return this._queryExecutionId; }

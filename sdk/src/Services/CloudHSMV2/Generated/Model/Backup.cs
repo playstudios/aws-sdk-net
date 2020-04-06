@@ -28,14 +28,24 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CloudHSMV2.Model
 {
     /// <summary>
-    /// Contains information about a backup of an AWS CloudHSM cluster.
+    /// Contains information about a backup of an AWS CloudHSM cluster. All backup objects
+    /// contain the BackupId, BackupState, ClusterId, and CreateTimestamp parameters. Backups
+    /// that were copied into a destination region additionally contain the CopyTimestamp,
+    /// SourceBackup, SourceCluster, and SourceRegion paramters. A backup that is pending
+    /// deletion will include the DeleteTimestamp parameter.
     /// </summary>
     public partial class Backup
     {
         private string _backupId;
         private BackupState _backupState;
         private string _clusterId;
+        private DateTime? _copyTimestamp;
         private DateTime? _createTimestamp;
+        private DateTime? _deleteTimestamp;
+        private string _sourceBackup;
+        private string _sourceCluster;
+        private string _sourceRegion;
+        private List<Tag> _tagList = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property BackupId. 
@@ -43,6 +53,7 @@ namespace Amazon.CloudHSMV2.Model
         /// The identifier (ID) of the backup.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BackupId
         {
             get { return this._backupId; }
@@ -92,6 +103,24 @@ namespace Amazon.CloudHSMV2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CopyTimestamp. 
+        /// <para>
+        /// The date and time when the backup was copied from a source backup.
+        /// </para>
+        /// </summary>
+        public DateTime CopyTimestamp
+        {
+            get { return this._copyTimestamp.GetValueOrDefault(); }
+            set { this._copyTimestamp = value; }
+        }
+
+        // Check to see if CopyTimestamp property is set
+        internal bool IsSetCopyTimestamp()
+        {
+            return this._copyTimestamp.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property CreateTimestamp. 
         /// <para>
         /// The date and time when the backup was created.
@@ -107,6 +136,95 @@ namespace Amazon.CloudHSMV2.Model
         internal bool IsSetCreateTimestamp()
         {
             return this._createTimestamp.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeleteTimestamp. 
+        /// <para>
+        /// The date and time when the backup will be permanently deleted.
+        /// </para>
+        /// </summary>
+        public DateTime DeleteTimestamp
+        {
+            get { return this._deleteTimestamp.GetValueOrDefault(); }
+            set { this._deleteTimestamp = value; }
+        }
+
+        // Check to see if DeleteTimestamp property is set
+        internal bool IsSetDeleteTimestamp()
+        {
+            return this._deleteTimestamp.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SourceBackup. 
+        /// <para>
+        /// The identifier (ID) of the source backup from which the new backup was copied.
+        /// </para>
+        /// </summary>
+        public string SourceBackup
+        {
+            get { return this._sourceBackup; }
+            set { this._sourceBackup = value; }
+        }
+
+        // Check to see if SourceBackup property is set
+        internal bool IsSetSourceBackup()
+        {
+            return this._sourceBackup != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SourceCluster. 
+        /// <para>
+        /// The identifier (ID) of the cluster containing the source backup from which the new
+        /// backup was copied. .
+        /// </para>
+        /// </summary>
+        public string SourceCluster
+        {
+            get { return this._sourceCluster; }
+            set { this._sourceCluster = value; }
+        }
+
+        // Check to see if SourceCluster property is set
+        internal bool IsSetSourceCluster()
+        {
+            return this._sourceCluster != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SourceRegion. 
+        /// <para>
+        /// The AWS region that contains the source backup from which the new backup was copied.
+        /// </para>
+        /// </summary>
+        public string SourceRegion
+        {
+            get { return this._sourceRegion; }
+            set { this._sourceRegion = value; }
+        }
+
+        // Check to see if SourceRegion property is set
+        internal bool IsSetSourceRegion()
+        {
+            return this._sourceRegion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TagList.
+        /// </summary>
+        [AWSProperty(Min=1, Max=50)]
+        public List<Tag> TagList
+        {
+            get { return this._tagList; }
+            set { this._tagList = value; }
+        }
+
+        // Check to see if TagList property is set
+        internal bool IsSetTagList()
+        {
+            return this._tagList != null && this._tagList.Count > 0; 
         }
 
     }

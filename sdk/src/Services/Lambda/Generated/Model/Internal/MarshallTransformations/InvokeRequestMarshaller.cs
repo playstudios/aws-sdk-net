@@ -55,17 +55,18 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
         public IRequest Marshall(InvokeRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lambda");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/2015-03-31/functions/{FunctionName}/invocations";
             if (!publicRequest.IsSetFunctionName())
                 throw new AmazonLambdaException("Request object does not have required field FunctionName set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
+            request.AddPathResource("{FunctionName}", StringUtils.FromString(publicRequest.FunctionName));
             
             if (publicRequest.IsSetQualifier())
                 request.Parameters.Add("Qualifier", StringUtils.FromString(publicRequest.Qualifier));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2015-03-31/functions/{FunctionName}/invocations";
+            request.MarshallerVersion = 2;
             request.ContentStream =  publicRequest.PayloadStream ?? new MemoryStream();
             request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
                 request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);

@@ -30,6 +30,16 @@ namespace Amazon.StepFunctions.Model
     /// <summary>
     /// Container for the parameters to the StartExecution operation.
     /// Starts a state machine execution.
+    /// 
+    ///  <note> 
+    /// <para>
+    ///  <code>StartExecution</code> is idempotent. If <code>StartExecution</code> is called
+    /// with the same name and input as a running execution, the call will succeed and return
+    /// the same response as the original request. If the execution is closed or if the input
+    /// is different, it will return a 400 <code>ExecutionAlreadyExists</code> error. Names
+    /// can be reused after 90 days. 
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class StartExecutionRequest : AmazonStepFunctionsRequest
     {
@@ -53,6 +63,7 @@ namespace Amazon.StepFunctions.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Max=32768)]
         public string Input
         {
             get { return this._input; }
@@ -68,42 +79,18 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the execution. This name must be unique for your AWS account and region
-        /// for 90 days. For more information, see <a href="http://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions">
+        /// The name of the execution. This name must be unique for your AWS account, region,
+        /// and state machine for 90 days. For more information, see <a href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions">
         /// Limits Related to State Machine Executions</a> in the <i>AWS Step Functions Developer
         /// Guide</i>.
         /// </para>
-        ///  <important> 
-        /// <para>
-        /// An execution can't use the name of another execution for 90 days.
-        /// </para>
         ///  
-        /// <para>
-        /// When you make multiple <code>StartExecution</code> calls with the same name, the new
-        /// execution doesn't run and the following rules apply:
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// When the original execution is open and the execution input from the new call is <i>different</i>,
-        /// the <code>ExecutionAlreadyExists</code> message is returned.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// When the original execution is open and the execution input from the new call is <i>identical</i>,
-        /// the <code>Success</code> message is returned.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// When the original execution is closed, the <code>ExecutionAlreadyExists</code> message
-        /// is returned regardless of input.
-        /// </para>
-        ///  </li> </ul> </important> 
         /// <para>
         /// A name must <i>not</i> contain:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// whitespace
+        /// white space
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -121,8 +108,13 @@ namespace Amazon.StepFunctions.Model
         /// <para>
         /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z,
+        /// - and _.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=80)]
         public string Name
         {
             get { return this._name; }
@@ -141,6 +133,7 @@ namespace Amazon.StepFunctions.Model
         /// The Amazon Resource Name (ARN) of the state machine to execute.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string StateMachineArn
         {
             get { return this._stateMachineArn; }

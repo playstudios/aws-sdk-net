@@ -84,6 +84,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Codec);
             }
 
+            if(requestObject.IsSetEac3AtmosSettings())
+            {
+                context.Writer.WritePropertyName("eac3AtmosSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = Eac3AtmosSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.Eac3AtmosSettings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetEac3Settings())
             {
                 context.Writer.WritePropertyName("eac3Settings");
@@ -102,6 +113,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
 
                 var marshaller = Mp2SettingsMarshaller.Instance;
                 marshaller.Marshall(requestObject.Mp2Settings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetMp3Settings())
+            {
+                context.Writer.WritePropertyName("mp3Settings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = Mp3SettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.Mp3Settings, context);
 
                 context.Writer.WriteObjectEnd();
             }

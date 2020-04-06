@@ -55,13 +55,14 @@ namespace Amazon.LexModelBuildingService.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetBuiltinIntentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.LexModelBuildingService");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/builtins/intents/{signature}";
             if (!publicRequest.IsSetSignature())
                 throw new AmazonLexModelBuildingServiceException("Request object does not have required field Signature set");
-            uriResourcePath = uriResourcePath.Replace("{signature}", StringUtils.FromString(publicRequest.Signature));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{signature}", StringUtils.FromString(publicRequest.Signature));
+            request.ResourcePath = "/builtins/intents/{signature}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

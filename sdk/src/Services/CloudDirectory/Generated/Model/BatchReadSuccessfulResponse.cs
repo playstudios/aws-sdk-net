@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -32,6 +32,8 @@ namespace Amazon.CloudDirectory.Model
     /// </summary>
     public partial class BatchReadSuccessfulResponse
     {
+        private BatchGetLinkAttributesResponse _getLinkAttributes;
+        private BatchGetObjectAttributesResponse _getObjectAttributes;
         private BatchGetObjectInformationResponse _getObjectInformation;
         private BatchListAttachedIndicesResponse _listAttachedIndices;
         private BatchListIncomingTypedLinksResponse _listIncomingTypedLinks;
@@ -39,10 +41,47 @@ namespace Amazon.CloudDirectory.Model
         private BatchListObjectAttributesResponse _listObjectAttributes;
         private BatchListObjectChildrenResponse _listObjectChildren;
         private BatchListObjectParentPathsResponse _listObjectParentPaths;
+        private BatchListObjectParentsResponse _listObjectParents;
         private BatchListObjectPoliciesResponse _listObjectPolicies;
         private BatchListOutgoingTypedLinksResponse _listOutgoingTypedLinks;
         private BatchListPolicyAttachmentsResponse _listPolicyAttachments;
         private BatchLookupPolicyResponse _lookupPolicy;
+
+        /// <summary>
+        /// Gets and sets the property GetLinkAttributes. 
+        /// <para>
+        /// The list of attributes to retrieve from the typed link.
+        /// </para>
+        /// </summary>
+        public BatchGetLinkAttributesResponse GetLinkAttributes
+        {
+            get { return this._getLinkAttributes; }
+            set { this._getLinkAttributes = value; }
+        }
+
+        // Check to see if GetLinkAttributes property is set
+        internal bool IsSetGetLinkAttributes()
+        {
+            return this._getLinkAttributes != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property GetObjectAttributes. 
+        /// <para>
+        /// Retrieves attributes within a facet that are associated with an object.
+        /// </para>
+        /// </summary>
+        public BatchGetObjectAttributesResponse GetObjectAttributes
+        {
+            get { return this._getObjectAttributes; }
+            set { this._getObjectAttributes = value; }
+        }
+
+        // Check to see if GetObjectAttributes property is set
+        internal bool IsSetGetObjectAttributes()
+        {
+            return this._getObjectAttributes != null;
+        }
 
         /// <summary>
         /// Gets and sets the property GetObjectInformation. 
@@ -85,8 +124,8 @@ namespace Amazon.CloudDirectory.Model
         /// <para>
         /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a> information
         /// for an object. It also supports filtering by typed link facet and identity attributes.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </para>
         /// </summary>
         public BatchListIncomingTypedLinksResponse ListIncomingTypedLinks
@@ -159,7 +198,7 @@ namespace Amazon.CloudDirectory.Model
         /// Gets and sets the property ListObjectParentPaths. 
         /// <para>
         /// Retrieves all available parent paths for any object type such as node, leaf node,
-        /// policy node, and index node objects. For more information about objects, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#dirstructure">Directory
+        /// policy node, and index node objects. For more information about objects, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
         /// Structure</a>.
         /// </para>
         /// </summary>
@@ -173,6 +212,21 @@ namespace Amazon.CloudDirectory.Model
         internal bool IsSetListObjectParentPaths()
         {
             return this._listObjectParentPaths != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ListObjectParents.
+        /// </summary>
+        public BatchListObjectParentsResponse ListObjectParents
+        {
+            get { return this._listObjectParents; }
+            set { this._listObjectParents = value; }
+        }
+
+        // Check to see if ListObjectParents property is set
+        internal bool IsSetListObjectParents()
+        {
+            return this._listObjectParents != null;
         }
 
         /// <summary>
@@ -198,8 +252,8 @@ namespace Amazon.CloudDirectory.Model
         /// <para>
         /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a> information
         /// for an object. It also supports filtering by typed link facet and identity attributes.
-        /// For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink">Typed
-        /// link</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+        /// Links</a>.
         /// </para>
         /// </summary>
         public BatchListOutgoingTypedLinksResponse ListOutgoingTypedLinks
@@ -240,7 +294,7 @@ namespace Amazon.CloudDirectory.Model
         /// and if some objects don't have the policies attached, it returns the <code>ObjectIdentifier</code>
         /// for such objects. If policies are present, it returns <code>ObjectIdentifier</code>,
         /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to the root
-        /// from the target object are ignored. For more information, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies">Policies</a>.
+        /// from the target object are ignored. For more information, see <a href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
         /// </para>
         /// </summary>
         public BatchLookupPolicyResponse LookupPolicy

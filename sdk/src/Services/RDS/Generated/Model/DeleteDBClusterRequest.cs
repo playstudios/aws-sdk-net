@@ -35,9 +35,14 @@ namespace Amazon.RDS.Model
     /// 
     ///   
     /// <para>
-    /// For more information on Amazon Aurora, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i> 
+    /// For more information on Amazon Aurora, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DeleteDBClusterRequest : AmazonRDSRequest
     {
@@ -60,6 +65,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterIdentifier
         {
             get { return this._dbClusterIdentifier; }
@@ -76,12 +82,12 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property FinalDBSnapshotIdentifier. 
         /// <para>
         ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when <code>SkipFinalSnapshot</code>
-        /// is set to <code>false</code>. 
+        /// is disabled. 
         /// </para>
         ///  <note> 
         /// <para>
-        ///  Specifying this parameter and also setting the <code>SkipFinalShapshot</code> parameter
-        /// to true results in an error. 
+        ///  Specifying this parameter and also skipping the creation of a final DB cluster snapshot
+        /// with the <code>SkipFinalShapshot</code> parameter results in an error.
         /// </para>
         ///  </note> 
         /// <para>
@@ -97,7 +103,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -116,20 +122,18 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property SkipFinalSnapshot. 
         /// <para>
-        ///  Determines whether a final DB cluster snapshot is created before the DB cluster is
-        /// deleted. If <code>true</code> is specified, no DB cluster snapshot is created. If
-        /// <code>false</code> is specified, a DB cluster snapshot is created before the DB cluster
-        /// is deleted. 
+        /// A value that indicates whether to skip the creation of a final DB cluster snapshot
+        /// before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is
+        /// created. If skip isn't specified, a DB cluster snapshot is created before the DB cluster
+        /// is deleted. By default, skip isn't specified, and the DB cluster snapshot is created.
+        /// By default, this parameter is disabled.
         /// </para>
         ///  <note> 
         /// <para>
         /// You must specify a <code>FinalDBSnapshotIdentifier</code> parameter if <code>SkipFinalSnapshot</code>
-        /// is <code>false</code>.
+        /// is disabled.
         /// </para>
-        ///  </note> 
-        /// <para>
-        /// Default: <code>false</code> 
-        /// </para>
+        ///  </note>
         /// </summary>
         public bool SkipFinalSnapshot
         {

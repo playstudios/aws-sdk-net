@@ -148,7 +148,7 @@ namespace Amazon.ElasticMapReduce
         /// require more than 256 steps to process your data. You can bypass the 256-step limitation
         /// in various ways, including using SSH to connect to the master node and submitting
         /// queries directly to the software running on the master node, such as Hive and Hadoop.
-        /// For more information on how to do this, see <a href="http://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html">Add
+        /// For more information on how to do this, see <a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html">Add
         /// More than 256 Steps to a Cluster</a> in the <i>Amazon EMR Management Guide</i>.
         /// </para>
         ///  
@@ -214,7 +214,7 @@ namespace Amazon.ElasticMapReduce
         /// <summary>
         /// Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in
         /// various ways, such as grouping clusters to track your Amazon EMR resource allocation
-        /// costs. For more information, see <a href="http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
+        /// costs. For more information, see <a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
         /// Clusters</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AddTags service method.</param>
@@ -406,7 +406,7 @@ namespace Amazon.ElasticMapReduce
 
         /// <summary>
         /// Provides cluster-level details including status, hardware and software configuration,
-        /// VPC settings, and so on. For information about the cluster steps, see <a>ListSteps</a>.
+        /// VPC settings, and so on.
         /// </summary>
         /// 
         /// <returns>The response from the DescribeCluster service method, as returned by ElasticMapReduce.</returns>
@@ -421,7 +421,7 @@ namespace Amazon.ElasticMapReduce
 
         /// <summary>
         /// Provides cluster-level details including status, hardware and software configuration,
-        /// VPC settings, and so on. For information about the cluster steps, see <a>ListSteps</a>.
+        /// VPC settings, and so on.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeCluster service method.</param>
         /// 
@@ -692,6 +692,54 @@ namespace Amazon.ElasticMapReduce
         /// <returns>Returns a  DescribeStepResult from ElasticMapReduce.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DescribeStep">REST API Reference for DescribeStep Operation</seealso>
         DescribeStepResponse EndDescribeStep(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetBlockPublicAccessConfiguration
+
+
+        /// <summary>
+        /// Returns the Amazon EMR block public access configuration for your AWS account in the
+        /// current Region. For more information see <a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/configure-block-public-access.html">Configure
+        /// Block Public Access for Amazon EMR</a> in the <i>Amazon EMR Management Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetBlockPublicAccessConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the GetBlockPublicAccessConfiguration service method, as returned by ElasticMapReduce.</returns>
+        /// <exception cref="Amazon.ElasticMapReduce.Model.InternalServerException">
+        /// This exception occurs when there is an internal failure in the EMR service.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticMapReduce.Model.InvalidRequestException">
+        /// This exception occurs when there is something wrong with user input.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetBlockPublicAccessConfiguration">REST API Reference for GetBlockPublicAccessConfiguration Operation</seealso>
+        GetBlockPublicAccessConfigurationResponse GetBlockPublicAccessConfiguration(GetBlockPublicAccessConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetBlockPublicAccessConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetBlockPublicAccessConfiguration operation on AmazonElasticMapReduceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetBlockPublicAccessConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetBlockPublicAccessConfiguration">REST API Reference for GetBlockPublicAccessConfiguration Operation</seealso>
+        IAsyncResult BeginGetBlockPublicAccessConfiguration(GetBlockPublicAccessConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetBlockPublicAccessConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetBlockPublicAccessConfiguration.</param>
+        /// 
+        /// <returns>Returns a  GetBlockPublicAccessConfigurationResult from ElasticMapReduce.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/GetBlockPublicAccessConfiguration">REST API Reference for GetBlockPublicAccessConfiguration Operation</seealso>
+        GetBlockPublicAccessConfigurationResponse EndGetBlockPublicAccessConfiguration(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1053,8 +1101,9 @@ namespace Amazon.ElasticMapReduce
 
 
         /// <summary>
-        /// Provides a list of steps for the cluster in reverse order unless you specify stepIds
-        /// with the request.
+        /// Provides a list of steps for the cluster in reverse order unless you specify <code>stepIds</code>
+        /// with the request of filter by <code>StepStates</code>. You can specify a maximum of
+        /// ten <code>stepIDs</code>.
         /// </summary>
         /// 
         /// <returns>The response from the ListSteps service method, as returned by ElasticMapReduce.</returns>
@@ -1068,8 +1117,9 @@ namespace Amazon.ElasticMapReduce
         ListStepsResponse ListSteps();
 
         /// <summary>
-        /// Provides a list of steps for the cluster in reverse order unless you specify stepIds
-        /// with the request.
+        /// Provides a list of steps for the cluster in reverse order unless you specify <code>stepIds</code>
+        /// with the request of filter by <code>StepStates</code>. You can specify a maximum of
+        /// ten <code>stepIDs</code>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListSteps service method.</param>
         /// 
@@ -1108,6 +1158,54 @@ namespace Amazon.ElasticMapReduce
         /// <returns>Returns a  ListStepsResult from ElasticMapReduce.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListSteps">REST API Reference for ListSteps Operation</seealso>
         ListStepsResponse EndListSteps(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ModifyCluster
+
+
+        /// <summary>
+        /// Modifies the number of steps that can be executed concurrently for the cluster specified
+        /// using ClusterID.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyCluster service method.</param>
+        /// 
+        /// <returns>The response from the ModifyCluster service method, as returned by ElasticMapReduce.</returns>
+        /// <exception cref="Amazon.ElasticMapReduce.Model.InternalServerErrorException">
+        /// Indicates that an error occurred while processing the request and that the request
+        /// was not completed.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticMapReduce.Model.InvalidRequestException">
+        /// This exception occurs when there is something wrong with user input.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ModifyCluster">REST API Reference for ModifyCluster Operation</seealso>
+        ModifyClusterResponse ModifyCluster(ModifyClusterRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyCluster operation on AmazonElasticMapReduceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyCluster
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ModifyCluster">REST API Reference for ModifyCluster Operation</seealso>
+        IAsyncResult BeginModifyCluster(ModifyClusterRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyCluster operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyCluster.</param>
+        /// 
+        /// <returns>Returns a  ModifyClusterResult from ElasticMapReduce.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ModifyCluster">REST API Reference for ModifyCluster Operation</seealso>
+        ModifyClusterResponse EndModifyCluster(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1255,6 +1353,54 @@ namespace Amazon.ElasticMapReduce
 
         #endregion
         
+        #region  PutBlockPublicAccessConfiguration
+
+
+        /// <summary>
+        /// Creates or updates an Amazon EMR block public access configuration for your AWS account
+        /// in the current Region. For more information see <a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/configure-block-public-access.html">Configure
+        /// Block Public Access for Amazon EMR</a> in the <i>Amazon EMR Management Guide</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutBlockPublicAccessConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutBlockPublicAccessConfiguration service method, as returned by ElasticMapReduce.</returns>
+        /// <exception cref="Amazon.ElasticMapReduce.Model.InternalServerException">
+        /// This exception occurs when there is an internal failure in the EMR service.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticMapReduce.Model.InvalidRequestException">
+        /// This exception occurs when there is something wrong with user input.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/PutBlockPublicAccessConfiguration">REST API Reference for PutBlockPublicAccessConfiguration Operation</seealso>
+        PutBlockPublicAccessConfigurationResponse PutBlockPublicAccessConfiguration(PutBlockPublicAccessConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutBlockPublicAccessConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutBlockPublicAccessConfiguration operation on AmazonElasticMapReduceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutBlockPublicAccessConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/PutBlockPublicAccessConfiguration">REST API Reference for PutBlockPublicAccessConfiguration Operation</seealso>
+        IAsyncResult BeginPutBlockPublicAccessConfiguration(PutBlockPublicAccessConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutBlockPublicAccessConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutBlockPublicAccessConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutBlockPublicAccessConfigurationResult from ElasticMapReduce.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/PutBlockPublicAccessConfiguration">REST API Reference for PutBlockPublicAccessConfiguration Operation</seealso>
+        PutBlockPublicAccessConfigurationResponse EndPutBlockPublicAccessConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  RemoveAutoScalingPolicy
 
 
@@ -1302,7 +1448,7 @@ namespace Amazon.ElasticMapReduce
         /// <summary>
         /// Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters
         /// in various ways, such as grouping clusters to track your Amazon EMR resource allocation
-        /// costs. For more information, see <a href="http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
+        /// costs. For more information, see <a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
         /// Clusters</a>. 
         /// 
         ///  
@@ -1377,7 +1523,7 @@ namespace Amazon.ElasticMapReduce
         /// require more than 256 steps to process your data. You can bypass the 256-step limitation
         /// in various ways, including using the SSH shell to connect to the master node and submitting
         /// queries directly to the software running on the master node, such as Hive and Hadoop.
-        /// For more information on how to do this, see <a href="http://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html">Add
+        /// For more information on how to do this, see <a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html">Add
         /// More than 256 Steps to a Cluster</a> in the <i>Amazon EMR Management Guide</i>.
         /// </para>
         ///  
@@ -1454,7 +1600,7 @@ namespace Amazon.ElasticMapReduce
         /// </para>
         ///  
         /// <para>
-        ///  For more information, see<a href="http://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html">Managing
+        ///  For more information, see<a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html">Managing
         /// Cluster Termination</a> in the <i>Amazon EMR Management Guide</i>. 
         /// </para>
         /// </summary>
@@ -1500,11 +1646,15 @@ namespace Amazon.ElasticMapReduce
 
 
         /// <summary>
-        /// Sets whether all AWS Identity and Access Management (IAM) users under your account
-        /// can access the specified clusters (job flows). This action works on running clusters.
-        /// You can also set the visibility of a cluster when you launch it using the <code>VisibleToAllUsers</code>
-        /// parameter of <a>RunJobFlow</a>. The SetVisibleToAllUsers action can be called only
-        /// by an IAM user who created the cluster or the AWS account that owns the cluster.
+        /// Sets the <a>Cluster$VisibleToAllUsers</a> value, which determines whether the cluster
+        /// is visible to all IAM users of the AWS account associated with the cluster. Only the
+        /// IAM user who created the cluster or the AWS account root user can call this action.
+        /// The default value, <code>true</code>, indicates that all IAM users in the AWS account
+        /// can perform cluster actions if they have the proper IAM policy permissions. If set
+        /// to <code>false</code>, only the IAM user that created the cluster can perform actions.
+        /// This action works on running clusters. You can override the default <code>true</code>
+        /// setting when you create a cluster by using the <code>VisibleToAllUsers</code> parameter
+        /// with <code>RunJobFlow</code>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetVisibleToAllUsers service method.</param>
         /// 

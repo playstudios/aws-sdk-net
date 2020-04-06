@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -41,6 +41,7 @@ namespace Amazon.CloudDirectory.Model
         /// Lists all directories that are associated with your account in pagination fashion.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Directory> Directories
         {
             get { return this._directories; }

@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model
     ///  
     /// <para>
     /// To change the password for a different user, see <a>UpdateLoginProfile</a>. For more
-    /// information about modifying passwords, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
+    /// information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
     /// Passwords</a> in the <i>IAM User Guide</i>.
     /// </para>
     /// </summary>
@@ -54,13 +54,15 @@ namespace Amazon.IdentityManagement.Model
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used to validate
         /// this parameter is a string of characters. That string can include almost any printable
-        /// ASCII character from the space (\u0020) through the end of the ASCII character range
-        /// (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage
-        /// return (\u000D) characters. Any of these characters are valid in a password. However,
-        /// many tools, such as the AWS Management Console, might restrict the ability to type
-        /// certain characters because they have special meaning within that tool.
+        /// ASCII character from the space (<code>\u0020</code>) through the end of the ASCII
+        /// character range (<code>\u00FF</code>). You can also include the tab (<code>\u0009</code>),
+        /// line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>) characters.
+        /// Any of these characters are valid in a password. However, many tools, such as the
+        /// AWS Management Console, might restrict the ability to type certain characters because
+        /// they have special meaning within that tool.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string NewPassword
         {
             get { return this._newPassword; }
@@ -79,6 +81,7 @@ namespace Amazon.IdentityManagement.Model
         /// The IAM user's current password.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string OldPassword
         {
             get { return this._oldPassword; }

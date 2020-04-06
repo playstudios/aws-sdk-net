@@ -36,7 +36,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     ///  
     /// <para>
     /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
-    /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancer Guide</i>.
+    /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateLoadBalancerListenersRequest : AmazonElasticLoadBalancingRequest
@@ -66,6 +66,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The listeners.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Listener> Listeners
         {
             get { return this._listeners; }
@@ -84,6 +85,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }

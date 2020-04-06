@@ -34,6 +34,7 @@ namespace Amazon.CloudFormation.Model
     {
         private DateTime? _creationTime;
         private DateTime? _deletionTime;
+        private StackDriftInformationSummary _driftInformation;
         private DateTime? _lastUpdatedTime;
         private string _parentId;
         private string _rootId;
@@ -49,6 +50,7 @@ namespace Amazon.CloudFormation.Model
         /// The time the stack was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreationTime
         {
             get { return this._creationTime.GetValueOrDefault(); }
@@ -77,6 +79,27 @@ namespace Amazon.CloudFormation.Model
         internal bool IsSetDeletionTime()
         {
             return this._deletionTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DriftInformation. 
+        /// <para>
+        /// Summarizes information on whether a stack's actual configuration differs, or has <i>drifted</i>,
+        /// from it's expected configuration, as defined in the stack template and any values
+        /// specified as template parameters. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+        /// Unregulated Configuration Changes to Stacks and Resources</a>.
+        /// </para>
+        /// </summary>
+        public StackDriftInformationSummary DriftInformation
+        {
+            get { return this._driftInformation; }
+            set { this._driftInformation = value; }
+        }
+
+        // Check to see if DriftInformation property is set
+        internal bool IsSetDriftInformation()
+        {
+            return this._driftInformation != null;
         }
 
         /// <summary>
@@ -127,7 +150,7 @@ namespace Amazon.CloudFormation.Model
         /// Gets and sets the property RootId. 
         /// <para>
         /// For nested stacks--stacks created as resources for another stack--the stack ID of
-        /// the the top-level stack to which the nested stack ultimately belongs.
+        /// the top-level stack to which the nested stack ultimately belongs.
         /// </para>
         ///  
         /// <para>
@@ -171,6 +194,7 @@ namespace Amazon.CloudFormation.Model
         /// The name associated with the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackName
         {
             get { return this._stackName; }
@@ -189,6 +213,7 @@ namespace Amazon.CloudFormation.Model
         /// The current status of the stack.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StackStatus StackStatus
         {
             get { return this._stackStatus; }

@@ -29,8 +29,48 @@ namespace Amazon.IdentityManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteUser operation.
-    /// Deletes the specified IAM user. The user must not belong to any groups or have any
-    /// access keys, signing certificates, or attached policies.
+    /// Deletes the specified IAM user. Unlike the AWS Management Console, when you delete
+    /// a user programmatically, you must delete the items attached to the user manually,
+    /// or the deletion fails. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli">Deleting
+    /// an IAM User</a>. Before attempting to delete a user, remove the following items:
+    /// 
+    ///  <ul> <li> 
+    /// <para>
+    /// Password (<a>DeleteLoginProfile</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Access keys (<a>DeleteAccessKey</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Signing certificate (<a>DeleteSigningCertificate</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// SSH public key (<a>DeleteSSHPublicKey</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Git credentials (<a>DeleteServiceSpecificCredential</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Multi-factor authentication (MFA) device (<a>DeactivateMFADevice</a>, <a>DeleteVirtualMFADevice</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Inline policies (<a>DeleteUserPolicy</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Attached managed policies (<a>DetachUserPolicy</a>)
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Group memberships (<a>RemoveUserFromGroup</a>)
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class DeleteUserRequest : AmazonIdentityManagementServiceRequest
     {
@@ -44,7 +84,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Instantiates DeleteUserRequest with the parameterized properties
         /// </summary>
-        /// <param name="userName">The name of the user to delete. This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-</param>
+        /// <param name="userName">The name of the user to delete. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-</param>
         public DeleteUserRequest(string userName)
         {
             _userName = userName;
@@ -57,11 +97,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string UserName
         {
             get { return this._userName; }

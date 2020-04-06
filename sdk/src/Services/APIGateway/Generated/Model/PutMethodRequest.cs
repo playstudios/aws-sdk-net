@@ -96,6 +96,7 @@ namespace Amazon.APIGateway.Model
         /// user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AuthorizationType
         {
             get { return this._authorizationType; }
@@ -134,6 +135,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] Specifies the method request's HTTP method type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HttpMethod
         {
             get { return this._httpMethod; }
@@ -151,8 +153,7 @@ namespace Amazon.APIGateway.Model
         /// <para>
         /// A human-friendly operation identifier for the method. For example, you can assign
         /// the <code>operationName</code> of <code>ListPets</code> for the <code>GET /pets</code>
-        /// method in <a href="http://petstore-demo-endpoint.execute-api.com/petstore/pets">PetStore</a>
-        /// example.
+        /// method in the <code>PetStore</code> example.
         /// </para>
         /// </summary>
         public string OperationName
@@ -237,6 +238,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The <a>Resource</a> identifier for the new <a>Method</a> resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -255,6 +257,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }

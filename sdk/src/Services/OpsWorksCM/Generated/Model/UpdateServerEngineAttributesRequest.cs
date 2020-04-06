@@ -31,9 +31,8 @@ namespace Amazon.OpsWorksCM.Model
     /// Container for the parameters to the UpdateServerEngineAttributes operation.
     /// Updates engine-specific attributes on a specified server. The server enters the <code>MODIFYING</code>
     /// state when this operation is in progress. Only one update can occur at a time. You
-    /// can use this command to reset a Chef server's private key (<code>CHEF_PIVOTAL_KEY</code>),
-    /// a Chef server's admin password (<code>CHEF_DELIVERY_ADMIN_PASSWORD</code>), or a Puppet
-    /// server's admin password (<code>PUPPET_ADMIN_PASSWORD</code>). 
+    /// can use this command to reset a Chef server's public key (<code>CHEF_PIVOTAL_KEY</code>)
+    /// or a Puppet server's admin password (<code>PUPPET_ADMIN_PASSWORD</code>). 
     /// 
     ///  
     /// <para>
@@ -59,6 +58,7 @@ namespace Amazon.OpsWorksCM.Model
         /// The name of the engine attribute to update. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string AttributeName
         {
             get { return this._attributeName; }
@@ -77,6 +77,7 @@ namespace Amazon.OpsWorksCM.Model
         /// The value to set for the attribute. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string AttributeValue
         {
             get { return this._attributeValue; }
@@ -95,6 +96,7 @@ namespace Amazon.OpsWorksCM.Model
         /// The name of the server to update. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=40)]
         public string ServerName
         {
             get { return this._serverName; }

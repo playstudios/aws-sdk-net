@@ -45,6 +45,7 @@ namespace Amazon.IoT.Model
         /// The CA certificate identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=64, Max=64)]
         public string CertificateId
         {
             get { return this._certificateId; }
@@ -118,7 +119,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property RemoveAutoRegistration. 
         /// <para>
-        /// If true, remove auto registration.
+        /// If true, removes auto registration.
         /// </para>
         /// </summary>
         public bool RemoveAutoRegistration

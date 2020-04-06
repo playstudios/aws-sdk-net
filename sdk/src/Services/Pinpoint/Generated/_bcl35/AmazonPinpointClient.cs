@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Pinpoint.Model;
 using Amazon.Pinpoint.Model.Internal.MarshallTransformations;
+using Amazon.Pinpoint.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -33,10 +35,11 @@ namespace Amazon.Pinpoint
     /// <summary>
     /// Implementation for accessing Pinpoint
     ///
-    /// 
+    /// Doc Engage API - Amazon Pinpoint API
     /// </summary>
     public partial class AmazonPinpointClient : AmazonServiceClient, IAmazonPinpoint
     {
+        private static IServiceMetadata serviceMetadata = new AmazonPinpointMetadata();
         #region Constructors
 
         /// <summary>
@@ -207,6 +210,16 @@ namespace Amazon.Pinpoint
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -222,39 +235,43 @@ namespace Amazon.Pinpoint
 
         #endregion
 
-        
+
         #region  CreateApp
 
         /// <summary>
-        /// Creates or updates an app.
+        /// Creates an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateApp service method.</param>
         /// 
         /// <returns>The response from the CreateApp service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual CreateAppResponse CreateApp(CreateAppRequest request)
         {
-            var marshaller = CreateAppRequestMarshaller.Instance;
-            var unmarshaller = CreateAppResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAppRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAppResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAppRequest,CreateAppResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAppResponse>(request, options);
         }
 
         /// <summary>
@@ -270,11 +287,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginCreateApp(CreateAppRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateAppRequestMarshaller.Instance;
-            var unmarshaller = CreateAppResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAppRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAppResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateAppRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -294,35 +311,40 @@ namespace Amazon.Pinpoint
         #region  CreateCampaign
 
         /// <summary>
-        /// Creates or updates a campaign.
+        /// Creates a new campaign for an application or updates the settings of an existing campaign
+        /// for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateCampaign service method.</param>
         /// 
         /// <returns>The response from the CreateCampaign service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual CreateCampaignResponse CreateCampaign(CreateCampaignRequest request)
         {
-            var marshaller = CreateCampaignRequestMarshaller.Instance;
-            var unmarshaller = CreateCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCampaignResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCampaignRequest,CreateCampaignResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCampaignResponse>(request, options);
         }
 
         /// <summary>
@@ -338,11 +360,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginCreateCampaign(CreateCampaignRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateCampaignRequestMarshaller.Instance;
-            var unmarshaller = CreateCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCampaignResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateCampaignRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -359,38 +381,108 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  CreateEmailTemplate
+
+        /// <summary>
+        /// Creates a message template for messages that are sent through the email channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateEmailTemplate service method.</param>
+        /// 
+        /// <returns>The response from the CreateEmailTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual CreateEmailTemplateResponse CreateEmailTemplate(CreateEmailTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEmailTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<CreateEmailTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateEmailTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateEmailTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreateEmailTemplate(CreateEmailTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateEmailTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateEmailTemplate.</param>
+        /// 
+        /// <returns>Returns a  CreateEmailTemplateResult from Pinpoint.</returns>
+        public virtual CreateEmailTemplateResponse EndCreateEmailTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateEmailTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateExportJob
 
         /// <summary>
-        /// Creates an export job.
+        /// Creates an export job for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateExportJob service method.</param>
         /// 
         /// <returns>The response from the CreateExportJob service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual CreateExportJobResponse CreateExportJob(CreateExportJobRequest request)
         {
-            var marshaller = CreateExportJobRequestMarshaller.Instance;
-            var unmarshaller = CreateExportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateExportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateExportJobResponseUnmarshaller.Instance;
 
-            return Invoke<CreateExportJobRequest,CreateExportJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateExportJobResponse>(request, options);
         }
 
         /// <summary>
@@ -406,11 +498,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginCreateExportJob(CreateExportJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateExportJobRequestMarshaller.Instance;
-            var unmarshaller = CreateExportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateExportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateExportJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateExportJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -430,35 +522,39 @@ namespace Amazon.Pinpoint
         #region  CreateImportJob
 
         /// <summary>
-        /// Creates or updates an import job.
+        /// Creates an import job for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateImportJob service method.</param>
         /// 
         /// <returns>The response from the CreateImportJob service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual CreateImportJobResponse CreateImportJob(CreateImportJobRequest request)
         {
-            var marshaller = CreateImportJobRequestMarshaller.Instance;
-            var unmarshaller = CreateImportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateImportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateImportJobResponseUnmarshaller.Instance;
 
-            return Invoke<CreateImportJobRequest,CreateImportJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateImportJobResponse>(request, options);
         }
 
         /// <summary>
@@ -474,11 +570,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginCreateImportJob(CreateImportJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateImportJobRequestMarshaller.Instance;
-            var unmarshaller = CreateImportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateImportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateImportJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateImportJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -495,38 +591,254 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  CreateJourney
+
+        /// <summary>
+        /// Creates a journey for an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateJourney service method.</param>
+        /// 
+        /// <returns>The response from the CreateJourney service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual CreateJourneyResponse CreateJourney(CreateJourneyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateJourneyResponseUnmarshaller.Instance;
+
+            return Invoke<CreateJourneyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateJourney operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateJourney
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreateJourney(CreateJourneyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateJourneyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateJourney.</param>
+        /// 
+        /// <returns>Returns a  CreateJourneyResult from Pinpoint.</returns>
+        public virtual CreateJourneyResponse EndCreateJourney(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateJourneyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreatePushTemplate
+
+        /// <summary>
+        /// Creates a message template for messages that are sent through a push notification
+        /// channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreatePushTemplate service method.</param>
+        /// 
+        /// <returns>The response from the CreatePushTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual CreatePushTemplateResponse CreatePushTemplate(CreatePushTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePushTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<CreatePushTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreatePushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreatePushTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreatePushTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreatePushTemplate(CreatePushTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreatePushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreatePushTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreatePushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreatePushTemplate.</param>
+        /// 
+        /// <returns>Returns a  CreatePushTemplateResult from Pinpoint.</returns>
+        public virtual CreatePushTemplateResponse EndCreatePushTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreatePushTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateRecommenderConfiguration
+
+        /// <summary>
+        /// Creates an Amazon Pinpoint configuration for a recommender model.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRecommenderConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the CreateRecommenderConfiguration service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual CreateRecommenderConfigurationResponse CreateRecommenderConfiguration(CreateRecommenderConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<CreateRecommenderConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateRecommenderConfiguration operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateRecommenderConfiguration
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreateRecommenderConfiguration(CreateRecommenderConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateRecommenderConfiguration.</param>
+        /// 
+        /// <returns>Returns a  CreateRecommenderConfigurationResult from Pinpoint.</returns>
+        public virtual CreateRecommenderConfigurationResponse EndCreateRecommenderConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateRecommenderConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateSegment
 
         /// <summary>
-        /// Used to create or update a segment.
+        /// Creates a new segment for an application or updates the configuration, dimension,
+        /// and other settings for an existing segment that's associated with an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateSegment service method.</param>
         /// 
         /// <returns>The response from the CreateSegment service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual CreateSegmentResponse CreateSegment(CreateSegmentRequest request)
         {
-            var marshaller = CreateSegmentRequestMarshaller.Instance;
-            var unmarshaller = CreateSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSegmentResponseUnmarshaller.Instance;
 
-            return Invoke<CreateSegmentRequest,CreateSegmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateSegmentResponse>(request, options);
         }
 
         /// <summary>
@@ -542,11 +854,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginCreateSegment(CreateSegmentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateSegmentRequestMarshaller.Instance;
-            var unmarshaller = CreateSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSegmentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateSegmentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -563,38 +875,175 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  CreateSmsTemplate
+
+        /// <summary>
+        /// Creates a message template for messages that are sent through the SMS channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSmsTemplate service method.</param>
+        /// 
+        /// <returns>The response from the CreateSmsTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual CreateSmsTemplateResponse CreateSmsTemplate(CreateSmsTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSmsTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<CreateSmsTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateSmsTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSmsTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreateSmsTemplate(CreateSmsTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateSmsTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSmsTemplate.</param>
+        /// 
+        /// <returns>Returns a  CreateSmsTemplateResult from Pinpoint.</returns>
+        public virtual CreateSmsTemplateResponse EndCreateSmsTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateSmsTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateVoiceTemplate
+
+        /// <summary>
+        /// Creates a message template for messages that are sent through the voice channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateVoiceTemplate service method.</param>
+        /// 
+        /// <returns>The response from the CreateVoiceTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual CreateVoiceTemplateResponse CreateVoiceTemplate(CreateVoiceTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVoiceTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<CreateVoiceTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateVoiceTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateVoiceTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginCreateVoiceTemplate(CreateVoiceTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVoiceTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateVoiceTemplate.</param>
+        /// 
+        /// <returns>Returns a  CreateVoiceTemplateResult from Pinpoint.</returns>
+        public virtual CreateVoiceTemplateResponse EndCreateVoiceTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateVoiceTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteAdmChannel
 
         /// <summary>
-        /// Delete an ADM channel
+        /// Disables the ADM channel for an application and deletes any existing settings for
+        /// the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteAdmChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteAdmChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteAdmChannelResponse DeleteAdmChannel(DeleteAdmChannelRequest request)
         {
-            var marshaller = DeleteAdmChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteAdmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAdmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAdmChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAdmChannelRequest,DeleteAdmChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAdmChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -610,11 +1059,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteAdmChannel(DeleteAdmChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteAdmChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteAdmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAdmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAdmChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteAdmChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -634,35 +1083,40 @@ namespace Amazon.Pinpoint
         #region  DeleteApnsChannel
 
         /// <summary>
-        /// Deletes the APNs channel for an app.
+        /// Disables the APNs channel for an application and deletes any existing settings for
+        /// the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteApnsChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteApnsChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteApnsChannelResponse DeleteApnsChannel(DeleteApnsChannelRequest request)
         {
-            var marshaller = DeleteApnsChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteApnsChannelRequest,DeleteApnsChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteApnsChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -678,11 +1132,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteApnsChannel(DeleteApnsChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteApnsChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteApnsChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -702,35 +1156,40 @@ namespace Amazon.Pinpoint
         #region  DeleteApnsSandboxChannel
 
         /// <summary>
-        /// Delete an APNS sandbox channel
+        /// Disables the APNs sandbox channel for an application and deletes any existing settings
+        /// for the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteApnsSandboxChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteApnsSandboxChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteApnsSandboxChannelResponse DeleteApnsSandboxChannel(DeleteApnsSandboxChannelRequest request)
         {
-            var marshaller = DeleteApnsSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsSandboxChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteApnsSandboxChannelRequest,DeleteApnsSandboxChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteApnsSandboxChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -746,11 +1205,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteApnsSandboxChannel(DeleteApnsSandboxChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteApnsSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsSandboxChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteApnsSandboxChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -770,35 +1229,40 @@ namespace Amazon.Pinpoint
         #region  DeleteApnsVoipChannel
 
         /// <summary>
-        /// Delete an APNS VoIP channel
+        /// Disables the APNs VoIP channel for an application and deletes any existing settings
+        /// for the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteApnsVoipChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteApnsVoipChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteApnsVoipChannelResponse DeleteApnsVoipChannel(DeleteApnsVoipChannelRequest request)
         {
-            var marshaller = DeleteApnsVoipChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsVoipChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsVoipChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsVoipChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteApnsVoipChannelRequest,DeleteApnsVoipChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteApnsVoipChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -814,11 +1278,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteApnsVoipChannel(DeleteApnsVoipChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteApnsVoipChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsVoipChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsVoipChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsVoipChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteApnsVoipChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -838,35 +1302,40 @@ namespace Amazon.Pinpoint
         #region  DeleteApnsVoipSandboxChannel
 
         /// <summary>
-        /// Delete an APNS VoIP sandbox channel
+        /// Disables the APNs VoIP sandbox channel for an application and deletes any existing
+        /// settings for the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteApnsVoipSandboxChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteApnsVoipSandboxChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteApnsVoipSandboxChannelResponse DeleteApnsVoipSandboxChannel(DeleteApnsVoipSandboxChannelRequest request)
         {
-            var marshaller = DeleteApnsVoipSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsVoipSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsVoipSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsVoipSandboxChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteApnsVoipSandboxChannelRequest,DeleteApnsVoipSandboxChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteApnsVoipSandboxChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -882,11 +1351,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteApnsVoipSandboxChannel(DeleteApnsVoipSandboxChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteApnsVoipSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteApnsVoipSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApnsVoipSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApnsVoipSandboxChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteApnsVoipSandboxChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -906,35 +1375,39 @@ namespace Amazon.Pinpoint
         #region  DeleteApp
 
         /// <summary>
-        /// Deletes an app.
+        /// Deletes an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteApp service method.</param>
         /// 
         /// <returns>The response from the DeleteApp service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteAppResponse DeleteApp(DeleteAppRequest request)
         {
-            var marshaller = DeleteAppRequestMarshaller.Instance;
-            var unmarshaller = DeleteAppResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAppRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAppResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAppRequest,DeleteAppResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAppResponse>(request, options);
         }
 
         /// <summary>
@@ -950,11 +1423,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteApp(DeleteAppRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteAppRequestMarshaller.Instance;
-            var unmarshaller = DeleteAppResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAppRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAppResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteAppRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -974,35 +1447,40 @@ namespace Amazon.Pinpoint
         #region  DeleteBaiduChannel
 
         /// <summary>
-        /// Delete a BAIDU GCM channel
+        /// Disables the Baidu channel for an application and deletes any existing settings for
+        /// the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteBaiduChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteBaiduChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteBaiduChannelResponse DeleteBaiduChannel(DeleteBaiduChannelRequest request)
         {
-            var marshaller = DeleteBaiduChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteBaiduChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBaiduChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBaiduChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBaiduChannelRequest,DeleteBaiduChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBaiduChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1018,11 +1496,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteBaiduChannel(DeleteBaiduChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBaiduChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteBaiduChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBaiduChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBaiduChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBaiduChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1042,35 +1520,39 @@ namespace Amazon.Pinpoint
         #region  DeleteCampaign
 
         /// <summary>
-        /// Deletes a campaign.
+        /// Deletes a campaign from an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteCampaign service method.</param>
         /// 
         /// <returns>The response from the DeleteCampaign service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteCampaignResponse DeleteCampaign(DeleteCampaignRequest request)
         {
-            var marshaller = DeleteCampaignRequestMarshaller.Instance;
-            var unmarshaller = DeleteCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCampaignResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCampaignRequest,DeleteCampaignResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCampaignResponse>(request, options);
         }
 
         /// <summary>
@@ -1086,11 +1568,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteCampaign(DeleteCampaignRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteCampaignRequestMarshaller.Instance;
-            var unmarshaller = DeleteCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCampaignResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteCampaignRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1110,35 +1592,40 @@ namespace Amazon.Pinpoint
         #region  DeleteEmailChannel
 
         /// <summary>
-        /// Delete an email channel
+        /// Disables the email channel for an application and deletes any existing settings for
+        /// the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteEmailChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteEmailChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteEmailChannelResponse DeleteEmailChannel(DeleteEmailChannelRequest request)
         {
-            var marshaller = DeleteEmailChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteEmailChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEmailChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEmailChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteEmailChannelRequest,DeleteEmailChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteEmailChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1154,11 +1641,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteEmailChannel(DeleteEmailChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteEmailChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteEmailChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEmailChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEmailChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteEmailChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1175,38 +1662,114 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  DeleteEmailTemplate
+
+        /// <summary>
+        /// Deletes a message template for messages that were sent through the email channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteEmailTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DeleteEmailTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeleteEmailTemplateResponse DeleteEmailTemplate(DeleteEmailTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEmailTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteEmailTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteEmailTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteEmailTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteEmailTemplate(DeleteEmailTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEmailTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteEmailTemplate.</param>
+        /// 
+        /// <returns>Returns a  DeleteEmailTemplateResult from Pinpoint.</returns>
+        public virtual DeleteEmailTemplateResponse EndDeleteEmailTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteEmailTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteEndpoint
 
         /// <summary>
-        /// Deletes an endpoint.
+        /// Deletes an endpoint from an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteEndpoint service method.</param>
         /// 
         /// <returns>The response from the DeleteEndpoint service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteEndpointResponse DeleteEndpoint(DeleteEndpointRequest request)
         {
-            var marshaller = DeleteEndpointRequestMarshaller.Instance;
-            var unmarshaller = DeleteEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEndpointResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteEndpointRequest,DeleteEndpointResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteEndpointResponse>(request, options);
         }
 
         /// <summary>
@@ -1222,11 +1785,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteEndpoint(DeleteEndpointRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteEndpointRequestMarshaller.Instance;
-            var unmarshaller = DeleteEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEndpointResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteEndpointRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1246,35 +1809,39 @@ namespace Amazon.Pinpoint
         #region  DeleteEventStream
 
         /// <summary>
-        /// Deletes the event stream for an app.
+        /// Deletes the event stream for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteEventStream service method.</param>
         /// 
         /// <returns>The response from the DeleteEventStream service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteEventStreamResponse DeleteEventStream(DeleteEventStreamRequest request)
         {
-            var marshaller = DeleteEventStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteEventStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEventStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEventStreamResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteEventStreamRequest,DeleteEventStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteEventStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -1290,11 +1857,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteEventStream(DeleteEventStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteEventStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteEventStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteEventStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteEventStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteEventStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1314,35 +1881,40 @@ namespace Amazon.Pinpoint
         #region  DeleteGcmChannel
 
         /// <summary>
-        /// Deletes the GCM channel for an app.
+        /// Disables the GCM channel for an application and deletes any existing settings for
+        /// the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteGcmChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteGcmChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteGcmChannelResponse DeleteGcmChannel(DeleteGcmChannelRequest request)
         {
-            var marshaller = DeleteGcmChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteGcmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGcmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGcmChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteGcmChannelRequest,DeleteGcmChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteGcmChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1358,11 +1930,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteGcmChannel(DeleteGcmChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteGcmChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteGcmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGcmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGcmChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteGcmChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1379,38 +1951,259 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  DeleteJourney
+
+        /// <summary>
+        /// Deletes a journey from an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJourney service method.</param>
+        /// 
+        /// <returns>The response from the DeleteJourney service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeleteJourneyResponse DeleteJourney(DeleteJourneyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteJourneyResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteJourneyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJourney operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteJourney
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteJourney(DeleteJourneyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteJourneyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteJourney.</param>
+        /// 
+        /// <returns>Returns a  DeleteJourneyResult from Pinpoint.</returns>
+        public virtual DeleteJourneyResponse EndDeleteJourney(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteJourneyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeletePushTemplate
+
+        /// <summary>
+        /// Deletes a message template for messages that were sent through a push notification
+        /// channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeletePushTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DeletePushTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeletePushTemplateResponse DeletePushTemplate(DeletePushTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePushTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<DeletePushTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeletePushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeletePushTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeletePushTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeletePushTemplate(DeletePushTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeletePushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeletePushTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeletePushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeletePushTemplate.</param>
+        /// 
+        /// <returns>Returns a  DeletePushTemplateResult from Pinpoint.</returns>
+        public virtual DeletePushTemplateResponse EndDeletePushTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeletePushTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteRecommenderConfiguration
+
+        /// <summary>
+        /// Deletes an Amazon Pinpoint configuration for a recommender model.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRecommenderConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRecommenderConfiguration service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeleteRecommenderConfigurationResponse DeleteRecommenderConfiguration(DeleteRecommenderConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteRecommenderConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRecommenderConfiguration operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRecommenderConfiguration
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteRecommenderConfiguration(DeleteRecommenderConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRecommenderConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteRecommenderConfigurationResult from Pinpoint.</returns>
+        public virtual DeleteRecommenderConfigurationResponse EndDeleteRecommenderConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteRecommenderConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteSegment
 
         /// <summary>
-        /// Deletes a segment.
+        /// Deletes a segment from an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteSegment service method.</param>
         /// 
         /// <returns>The response from the DeleteSegment service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteSegmentResponse DeleteSegment(DeleteSegmentRequest request)
         {
-            var marshaller = DeleteSegmentRequestMarshaller.Instance;
-            var unmarshaller = DeleteSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSegmentResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSegmentRequest,DeleteSegmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSegmentResponse>(request, options);
         }
 
         /// <summary>
@@ -1426,11 +2219,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteSegment(DeleteSegmentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSegmentRequestMarshaller.Instance;
-            var unmarshaller = DeleteSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSegmentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSegmentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1450,35 +2243,40 @@ namespace Amazon.Pinpoint
         #region  DeleteSmsChannel
 
         /// <summary>
-        /// Delete an SMS channel
+        /// Disables the SMS channel for an application and deletes any existing settings for
+        /// the channel.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteSmsChannel service method.</param>
         /// 
         /// <returns>The response from the DeleteSmsChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual DeleteSmsChannelResponse DeleteSmsChannel(DeleteSmsChannelRequest request)
         {
-            var marshaller = DeleteSmsChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteSmsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSmsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSmsChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSmsChannelRequest,DeleteSmsChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSmsChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1494,11 +2292,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginDeleteSmsChannel(DeleteSmsChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSmsChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteSmsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSmsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSmsChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSmsChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1515,38 +2313,331 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  DeleteSmsTemplate
+
+        /// <summary>
+        /// Deletes a message template for messages that were sent through the SMS channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSmsTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSmsTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeleteSmsTemplateResponse DeleteSmsTemplate(DeleteSmsTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSmsTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteSmsTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSmsTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSmsTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteSmsTemplate(DeleteSmsTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSmsTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSmsTemplate.</param>
+        /// 
+        /// <returns>Returns a  DeleteSmsTemplateResult from Pinpoint.</returns>
+        public virtual DeleteSmsTemplateResponse EndDeleteSmsTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteSmsTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteUserEndpoints
+
+        /// <summary>
+        /// Deletes all the endpoints that are associated with a specific user ID.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUserEndpoints service method.</param>
+        /// 
+        /// <returns>The response from the DeleteUserEndpoints service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeleteUserEndpointsResponse DeleteUserEndpoints(DeleteUserEndpointsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserEndpointsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserEndpointsResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteUserEndpointsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteUserEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUserEndpoints operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteUserEndpoints
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteUserEndpoints(DeleteUserEndpointsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUserEndpointsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUserEndpointsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteUserEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteUserEndpoints.</param>
+        /// 
+        /// <returns>Returns a  DeleteUserEndpointsResult from Pinpoint.</returns>
+        public virtual DeleteUserEndpointsResponse EndDeleteUserEndpoints(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteUserEndpointsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteVoiceChannel
+
+        /// <summary>
+        /// Disables the voice channel for an application and deletes any existing settings for
+        /// the channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVoiceChannel service method.</param>
+        /// 
+        /// <returns>The response from the DeleteVoiceChannel service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeleteVoiceChannelResponse DeleteVoiceChannel(DeleteVoiceChannelRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVoiceChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVoiceChannelResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteVoiceChannelResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteVoiceChannel operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVoiceChannel operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteVoiceChannel
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteVoiceChannel(DeleteVoiceChannelRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVoiceChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVoiceChannelResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteVoiceChannel operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteVoiceChannel.</param>
+        /// 
+        /// <returns>Returns a  DeleteVoiceChannelResult from Pinpoint.</returns>
+        public virtual DeleteVoiceChannelResponse EndDeleteVoiceChannel(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteVoiceChannelResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteVoiceTemplate
+
+        /// <summary>
+        /// Deletes a message template for messages that were sent through the voice channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVoiceTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DeleteVoiceTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual DeleteVoiceTemplateResponse DeleteVoiceTemplate(DeleteVoiceTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVoiceTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteVoiceTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVoiceTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteVoiceTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginDeleteVoiceTemplate(DeleteVoiceTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVoiceTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteVoiceTemplate.</param>
+        /// 
+        /// <returns>Returns a  DeleteVoiceTemplateResult from Pinpoint.</returns>
+        public virtual DeleteVoiceTemplateResponse EndDeleteVoiceTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteVoiceTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetAdmChannel
 
         /// <summary>
-        /// Get an ADM channel
+        /// Retrieves information about the status and settings of the ADM channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAdmChannel service method.</param>
         /// 
         /// <returns>The response from the GetAdmChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetAdmChannelResponse GetAdmChannel(GetAdmChannelRequest request)
         {
-            var marshaller = GetAdmChannelRequestMarshaller.Instance;
-            var unmarshaller = GetAdmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAdmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAdmChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetAdmChannelRequest,GetAdmChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAdmChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1562,11 +2653,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetAdmChannel(GetAdmChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAdmChannelRequestMarshaller.Instance;
-            var unmarshaller = GetAdmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAdmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAdmChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAdmChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1586,35 +2677,39 @@ namespace Amazon.Pinpoint
         #region  GetApnsChannel
 
         /// <summary>
-        /// Returns information about the APNs channel for an app.
+        /// Retrieves information about the status and settings of the APNs channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApnsChannel service method.</param>
         /// 
         /// <returns>The response from the GetApnsChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetApnsChannelResponse GetApnsChannel(GetApnsChannelRequest request)
         {
-            var marshaller = GetApnsChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetApnsChannelRequest,GetApnsChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApnsChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1630,11 +2725,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetApnsChannel(GetApnsChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetApnsChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetApnsChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1654,35 +2749,40 @@ namespace Amazon.Pinpoint
         #region  GetApnsSandboxChannel
 
         /// <summary>
-        /// Get an APNS sandbox channel
+        /// Retrieves information about the status and settings of the APNs sandbox channel for
+        /// an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApnsSandboxChannel service method.</param>
         /// 
         /// <returns>The response from the GetApnsSandboxChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetApnsSandboxChannelResponse GetApnsSandboxChannel(GetApnsSandboxChannelRequest request)
         {
-            var marshaller = GetApnsSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsSandboxChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetApnsSandboxChannelRequest,GetApnsSandboxChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApnsSandboxChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1698,11 +2798,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetApnsSandboxChannel(GetApnsSandboxChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetApnsSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsSandboxChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetApnsSandboxChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1722,35 +2822,40 @@ namespace Amazon.Pinpoint
         #region  GetApnsVoipChannel
 
         /// <summary>
-        /// Get an APNS VoIP channel
+        /// Retrieves information about the status and settings of the APNs VoIP channel for an
+        /// application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApnsVoipChannel service method.</param>
         /// 
         /// <returns>The response from the GetApnsVoipChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetApnsVoipChannelResponse GetApnsVoipChannel(GetApnsVoipChannelRequest request)
         {
-            var marshaller = GetApnsVoipChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsVoipChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsVoipChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsVoipChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetApnsVoipChannelRequest,GetApnsVoipChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApnsVoipChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1766,11 +2871,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetApnsVoipChannel(GetApnsVoipChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetApnsVoipChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsVoipChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsVoipChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsVoipChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetApnsVoipChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1790,35 +2895,40 @@ namespace Amazon.Pinpoint
         #region  GetApnsVoipSandboxChannel
 
         /// <summary>
-        /// Get an APNS VoIPSandbox channel
+        /// Retrieves information about the status and settings of the APNs VoIP sandbox channel
+        /// for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApnsVoipSandboxChannel service method.</param>
         /// 
         /// <returns>The response from the GetApnsVoipSandboxChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetApnsVoipSandboxChannelResponse GetApnsVoipSandboxChannel(GetApnsVoipSandboxChannelRequest request)
         {
-            var marshaller = GetApnsVoipSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsVoipSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsVoipSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsVoipSandboxChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetApnsVoipSandboxChannelRequest,GetApnsVoipSandboxChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApnsVoipSandboxChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1834,11 +2944,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetApnsVoipSandboxChannel(GetApnsVoipSandboxChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetApnsVoipSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = GetApnsVoipSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApnsVoipSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApnsVoipSandboxChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetApnsVoipSandboxChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1858,35 +2968,39 @@ namespace Amazon.Pinpoint
         #region  GetApp
 
         /// <summary>
-        /// Returns information about an app.
+        /// Retrieves information about an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApp service method.</param>
         /// 
         /// <returns>The response from the GetApp service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetAppResponse GetApp(GetAppRequest request)
         {
-            var marshaller = GetAppRequestMarshaller.Instance;
-            var unmarshaller = GetAppResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAppRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAppResponseUnmarshaller.Instance;
 
-            return Invoke<GetAppRequest,GetAppResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAppResponse>(request, options);
         }
 
         /// <summary>
@@ -1902,11 +3016,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetApp(GetAppRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAppRequestMarshaller.Instance;
-            var unmarshaller = GetAppResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAppRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAppResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAppRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1923,38 +3037,114 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  GetApplicationDateRangeKpi
+
+        /// <summary>
+        /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetApplicationDateRangeKpi service method.</param>
+        /// 
+        /// <returns>The response from the GetApplicationDateRangeKpi service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetApplicationDateRangeKpiResponse GetApplicationDateRangeKpi(GetApplicationDateRangeKpiRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationDateRangeKpiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationDateRangeKpiResponseUnmarshaller.Instance;
+
+            return Invoke<GetApplicationDateRangeKpiResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetApplicationDateRangeKpi operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetApplicationDateRangeKpi operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetApplicationDateRangeKpi
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetApplicationDateRangeKpi(GetApplicationDateRangeKpiRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationDateRangeKpiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationDateRangeKpiResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetApplicationDateRangeKpi operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetApplicationDateRangeKpi.</param>
+        /// 
+        /// <returns>Returns a  GetApplicationDateRangeKpiResult from Pinpoint.</returns>
+        public virtual GetApplicationDateRangeKpiResponse EndGetApplicationDateRangeKpi(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetApplicationDateRangeKpiResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetApplicationSettings
 
         /// <summary>
-        /// Used to request the settings for an app.
+        /// Retrieves information about the settings for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApplicationSettings service method.</param>
         /// 
         /// <returns>The response from the GetApplicationSettings service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetApplicationSettingsResponse GetApplicationSettings(GetApplicationSettingsRequest request)
         {
-            var marshaller = GetApplicationSettingsRequestMarshaller.Instance;
-            var unmarshaller = GetApplicationSettingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationSettingsResponseUnmarshaller.Instance;
 
-            return Invoke<GetApplicationSettingsRequest,GetApplicationSettingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApplicationSettingsResponse>(request, options);
         }
 
         /// <summary>
@@ -1970,11 +3160,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetApplicationSettings(GetApplicationSettingsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetApplicationSettingsRequestMarshaller.Instance;
-            var unmarshaller = GetApplicationSettingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationSettingsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetApplicationSettingsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1994,35 +3184,40 @@ namespace Amazon.Pinpoint
         #region  GetApps
 
         /// <summary>
-        /// Returns information about your apps.
+        /// Retrieves information about all the applications that are associated with your Amazon
+        /// Pinpoint account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApps service method.</param>
         /// 
         /// <returns>The response from the GetApps service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetAppsResponse GetApps(GetAppsRequest request)
         {
-            var marshaller = GetAppsRequestMarshaller.Instance;
-            var unmarshaller = GetAppsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAppsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAppsResponseUnmarshaller.Instance;
 
-            return Invoke<GetAppsRequest,GetAppsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAppsResponse>(request, options);
         }
 
         /// <summary>
@@ -2038,11 +3233,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetApps(GetAppsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAppsRequestMarshaller.Instance;
-            var unmarshaller = GetAppsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAppsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAppsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAppsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2062,35 +3257,39 @@ namespace Amazon.Pinpoint
         #region  GetBaiduChannel
 
         /// <summary>
-        /// Get a BAIDU GCM channel
+        /// Retrieves information about the status and settings of the Baidu channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBaiduChannel service method.</param>
         /// 
         /// <returns>The response from the GetBaiduChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetBaiduChannelResponse GetBaiduChannel(GetBaiduChannelRequest request)
         {
-            var marshaller = GetBaiduChannelRequestMarshaller.Instance;
-            var unmarshaller = GetBaiduChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBaiduChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBaiduChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetBaiduChannelRequest,GetBaiduChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBaiduChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -2106,11 +3305,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetBaiduChannel(GetBaiduChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBaiduChannelRequestMarshaller.Instance;
-            var unmarshaller = GetBaiduChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBaiduChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBaiduChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBaiduChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2130,35 +3329,39 @@ namespace Amazon.Pinpoint
         #region  GetCampaign
 
         /// <summary>
-        /// Returns information about a campaign.
+        /// Retrieves information about the status, configuration, and other settings for a campaign.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCampaign service method.</param>
         /// 
         /// <returns>The response from the GetCampaign service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetCampaignResponse GetCampaign(GetCampaignRequest request)
         {
-            var marshaller = GetCampaignRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignResponseUnmarshaller.Instance;
 
-            return Invoke<GetCampaignRequest,GetCampaignResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCampaignResponse>(request, options);
         }
 
         /// <summary>
@@ -2174,11 +3377,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetCampaign(GetCampaignRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCampaignRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCampaignRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2198,35 +3401,39 @@ namespace Amazon.Pinpoint
         #region  GetCampaignActivities
 
         /// <summary>
-        /// Returns information about the activity performed by a campaign.
+        /// Retrieves information about all the activities for a campaign.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCampaignActivities service method.</param>
         /// 
         /// <returns>The response from the GetCampaignActivities service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetCampaignActivitiesResponse GetCampaignActivities(GetCampaignActivitiesRequest request)
         {
-            var marshaller = GetCampaignActivitiesRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignActivitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignActivitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignActivitiesResponseUnmarshaller.Instance;
 
-            return Invoke<GetCampaignActivitiesRequest,GetCampaignActivitiesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCampaignActivitiesResponse>(request, options);
         }
 
         /// <summary>
@@ -2242,11 +3449,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetCampaignActivities(GetCampaignActivitiesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCampaignActivitiesRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignActivitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignActivitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignActivitiesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCampaignActivitiesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2263,38 +3470,115 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  GetCampaignDateRangeKpi
+
+        /// <summary>
+        /// Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCampaignDateRangeKpi service method.</param>
+        /// 
+        /// <returns>The response from the GetCampaignDateRangeKpi service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetCampaignDateRangeKpiResponse GetCampaignDateRangeKpi(GetCampaignDateRangeKpiRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignDateRangeKpiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignDateRangeKpiResponseUnmarshaller.Instance;
+
+            return Invoke<GetCampaignDateRangeKpiResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCampaignDateRangeKpi operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCampaignDateRangeKpi operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCampaignDateRangeKpi
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetCampaignDateRangeKpi(GetCampaignDateRangeKpiRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignDateRangeKpiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignDateRangeKpiResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCampaignDateRangeKpi operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCampaignDateRangeKpi.</param>
+        /// 
+        /// <returns>Returns a  GetCampaignDateRangeKpiResult from Pinpoint.</returns>
+        public virtual GetCampaignDateRangeKpiResponse EndGetCampaignDateRangeKpi(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetCampaignDateRangeKpiResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetCampaigns
 
         /// <summary>
-        /// Returns information about your campaigns.
+        /// Retrieves information about the status, configuration, and other settings for all
+        /// the campaigns that are associated with an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCampaigns service method.</param>
         /// 
         /// <returns>The response from the GetCampaigns service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetCampaignsResponse GetCampaigns(GetCampaignsRequest request)
         {
-            var marshaller = GetCampaignsRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignsResponseUnmarshaller.Instance;
 
-            return Invoke<GetCampaignsRequest,GetCampaignsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCampaignsResponse>(request, options);
         }
 
         /// <summary>
@@ -2310,11 +3594,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetCampaigns(GetCampaignsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCampaignsRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCampaignsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2334,35 +3618,40 @@ namespace Amazon.Pinpoint
         #region  GetCampaignVersion
 
         /// <summary>
-        /// Returns information about a specific version of a campaign.
+        /// Retrieves information about the status, configuration, and other settings for a specific
+        /// version of a campaign.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCampaignVersion service method.</param>
         /// 
         /// <returns>The response from the GetCampaignVersion service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetCampaignVersionResponse GetCampaignVersion(GetCampaignVersionRequest request)
         {
-            var marshaller = GetCampaignVersionRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignVersionResponseUnmarshaller.Instance;
 
-            return Invoke<GetCampaignVersionRequest,GetCampaignVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCampaignVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -2378,11 +3667,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetCampaignVersion(GetCampaignVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCampaignVersionRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCampaignVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2402,35 +3691,40 @@ namespace Amazon.Pinpoint
         #region  GetCampaignVersions
 
         /// <summary>
-        /// Returns information about your campaign versions.
+        /// Retrieves information about the status, configuration, and other settings for all
+        /// versions of a campaign.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCampaignVersions service method.</param>
         /// 
         /// <returns>The response from the GetCampaignVersions service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetCampaignVersionsResponse GetCampaignVersions(GetCampaignVersionsRequest request)
         {
-            var marshaller = GetCampaignVersionsRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<GetCampaignVersionsRequest,GetCampaignVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCampaignVersionsResponse>(request, options);
         }
 
         /// <summary>
@@ -2446,11 +3740,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetCampaignVersions(GetCampaignVersionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCampaignVersionsRequestMarshaller.Instance;
-            var unmarshaller = GetCampaignVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCampaignVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCampaignVersionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCampaignVersionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2467,38 +3761,114 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  GetChannels
+
+        /// <summary>
+        /// Retrieves information about the history and status of each channel for an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetChannels service method.</param>
+        /// 
+        /// <returns>The response from the GetChannels service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetChannelsResponse GetChannels(GetChannelsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChannelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChannelsResponseUnmarshaller.Instance;
+
+            return Invoke<GetChannelsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetChannels operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetChannels operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetChannels
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetChannels(GetChannelsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChannelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChannelsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetChannels operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetChannels.</param>
+        /// 
+        /// <returns>Returns a  GetChannelsResult from Pinpoint.</returns>
+        public virtual GetChannelsResponse EndGetChannels(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetChannelsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetEmailChannel
 
         /// <summary>
-        /// Get an email channel
+        /// Retrieves information about the status and settings of the email channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetEmailChannel service method.</param>
         /// 
         /// <returns>The response from the GetEmailChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetEmailChannelResponse GetEmailChannel(GetEmailChannelRequest request)
         {
-            var marshaller = GetEmailChannelRequestMarshaller.Instance;
-            var unmarshaller = GetEmailChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEmailChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEmailChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetEmailChannelRequest,GetEmailChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetEmailChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -2514,11 +3884,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetEmailChannel(GetEmailChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetEmailChannelRequestMarshaller.Instance;
-            var unmarshaller = GetEmailChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEmailChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEmailChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetEmailChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2535,38 +3905,116 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  GetEmailTemplate
+
+        /// <summary>
+        /// Retrieves the content and settings of a message template for messages that are sent
+        /// through the email channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetEmailTemplate service method.</param>
+        /// 
+        /// <returns>The response from the GetEmailTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetEmailTemplateResponse GetEmailTemplate(GetEmailTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEmailTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<GetEmailTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetEmailTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetEmailTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetEmailTemplate(GetEmailTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEmailTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetEmailTemplate.</param>
+        /// 
+        /// <returns>Returns a  GetEmailTemplateResult from Pinpoint.</returns>
+        public virtual GetEmailTemplateResponse EndGetEmailTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetEmailTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetEndpoint
 
         /// <summary>
-        /// Returns information about an endpoint.
+        /// Retrieves information about the settings and attributes of a specific endpoint for
+        /// an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetEndpoint service method.</param>
         /// 
         /// <returns>The response from the GetEndpoint service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetEndpointResponse GetEndpoint(GetEndpointRequest request)
         {
-            var marshaller = GetEndpointRequestMarshaller.Instance;
-            var unmarshaller = GetEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEndpointResponseUnmarshaller.Instance;
 
-            return Invoke<GetEndpointRequest,GetEndpointResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetEndpointResponse>(request, options);
         }
 
         /// <summary>
@@ -2582,11 +4030,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetEndpoint(GetEndpointRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetEndpointRequestMarshaller.Instance;
-            var unmarshaller = GetEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEndpointResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetEndpointRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2606,35 +4054,39 @@ namespace Amazon.Pinpoint
         #region  GetEventStream
 
         /// <summary>
-        /// Returns the event stream for an app.
+        /// Retrieves information about the event stream settings for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetEventStream service method.</param>
         /// 
         /// <returns>The response from the GetEventStream service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetEventStreamResponse GetEventStream(GetEventStreamRequest request)
         {
-            var marshaller = GetEventStreamRequestMarshaller.Instance;
-            var unmarshaller = GetEventStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEventStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEventStreamResponseUnmarshaller.Instance;
 
-            return Invoke<GetEventStreamRequest,GetEventStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetEventStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -2650,11 +4102,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetEventStream(GetEventStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetEventStreamRequestMarshaller.Instance;
-            var unmarshaller = GetEventStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetEventStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetEventStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetEventStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2674,35 +4126,40 @@ namespace Amazon.Pinpoint
         #region  GetExportJob
 
         /// <summary>
-        /// Returns information about an export job.
+        /// Retrieves information about the status and settings of a specific export job for an
+        /// application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetExportJob service method.</param>
         /// 
         /// <returns>The response from the GetExportJob service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetExportJobResponse GetExportJob(GetExportJobRequest request)
         {
-            var marshaller = GetExportJobRequestMarshaller.Instance;
-            var unmarshaller = GetExportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportJobResponseUnmarshaller.Instance;
 
-            return Invoke<GetExportJobRequest,GetExportJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetExportJobResponse>(request, options);
         }
 
         /// <summary>
@@ -2718,11 +4175,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetExportJob(GetExportJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetExportJobRequestMarshaller.Instance;
-            var unmarshaller = GetExportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetExportJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2742,35 +4199,40 @@ namespace Amazon.Pinpoint
         #region  GetExportJobs
 
         /// <summary>
-        /// Returns information about your export jobs.
+        /// Retrieves information about the status and settings of all the export jobs for an
+        /// application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetExportJobs service method.</param>
         /// 
         /// <returns>The response from the GetExportJobs service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetExportJobsResponse GetExportJobs(GetExportJobsRequest request)
         {
-            var marshaller = GetExportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetExportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportJobsResponseUnmarshaller.Instance;
 
-            return Invoke<GetExportJobsRequest,GetExportJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetExportJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -2786,11 +4248,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetExportJobs(GetExportJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetExportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetExportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetExportJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2810,35 +4272,39 @@ namespace Amazon.Pinpoint
         #region  GetGcmChannel
 
         /// <summary>
-        /// Returns information about the GCM channel for an app.
+        /// Retrieves information about the status and settings of the GCM channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetGcmChannel service method.</param>
         /// 
         /// <returns>The response from the GetGcmChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetGcmChannelResponse GetGcmChannel(GetGcmChannelRequest request)
         {
-            var marshaller = GetGcmChannelRequestMarshaller.Instance;
-            var unmarshaller = GetGcmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGcmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGcmChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetGcmChannelRequest,GetGcmChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetGcmChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -2854,11 +4320,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetGcmChannel(GetGcmChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetGcmChannelRequestMarshaller.Instance;
-            var unmarshaller = GetGcmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGcmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGcmChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetGcmChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2878,35 +4344,40 @@ namespace Amazon.Pinpoint
         #region  GetImportJob
 
         /// <summary>
-        /// Returns information about an import job.
+        /// Retrieves information about the status and settings of a specific import job for an
+        /// application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetImportJob service method.</param>
         /// 
         /// <returns>The response from the GetImportJob service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetImportJobResponse GetImportJob(GetImportJobRequest request)
         {
-            var marshaller = GetImportJobRequestMarshaller.Instance;
-            var unmarshaller = GetImportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetImportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetImportJobResponseUnmarshaller.Instance;
 
-            return Invoke<GetImportJobRequest,GetImportJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetImportJobResponse>(request, options);
         }
 
         /// <summary>
@@ -2922,11 +4393,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetImportJob(GetImportJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetImportJobRequestMarshaller.Instance;
-            var unmarshaller = GetImportJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetImportJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetImportJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetImportJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2946,35 +4417,40 @@ namespace Amazon.Pinpoint
         #region  GetImportJobs
 
         /// <summary>
-        /// Returns information about your import jobs.
+        /// Retrieves information about the status and settings of all the import jobs for an
+        /// application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetImportJobs service method.</param>
         /// 
         /// <returns>The response from the GetImportJobs service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetImportJobsResponse GetImportJobs(GetImportJobsRequest request)
         {
-            var marshaller = GetImportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetImportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetImportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetImportJobsResponseUnmarshaller.Instance;
 
-            return Invoke<GetImportJobsRequest,GetImportJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetImportJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -2990,11 +4466,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetImportJobs(GetImportJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetImportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetImportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetImportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetImportJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetImportJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3011,38 +4487,552 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  GetJourney
+
+        /// <summary>
+        /// Retrieves information about the status, configuration, and other settings for a journey.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetJourney service method.</param>
+        /// 
+        /// <returns>The response from the GetJourney service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetJourneyResponse GetJourney(GetJourneyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyResponseUnmarshaller.Instance;
+
+            return Invoke<GetJourneyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetJourney operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetJourney
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetJourney(GetJourneyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetJourney.</param>
+        /// 
+        /// <returns>Returns a  GetJourneyResult from Pinpoint.</returns>
+        public virtual GetJourneyResponse EndGetJourney(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetJourneyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetJourneyDateRangeKpi
+
+        /// <summary>
+        /// Retrieves (queries) pre-aggregated data for a standard engagement metric that applies
+        /// to a journey.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetJourneyDateRangeKpi service method.</param>
+        /// 
+        /// <returns>The response from the GetJourneyDateRangeKpi service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetJourneyDateRangeKpiResponse GetJourneyDateRangeKpi(GetJourneyDateRangeKpiRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyDateRangeKpiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyDateRangeKpiResponseUnmarshaller.Instance;
+
+            return Invoke<GetJourneyDateRangeKpiResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetJourneyDateRangeKpi operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetJourneyDateRangeKpi operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetJourneyDateRangeKpi
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetJourneyDateRangeKpi(GetJourneyDateRangeKpiRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyDateRangeKpiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyDateRangeKpiResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetJourneyDateRangeKpi operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetJourneyDateRangeKpi.</param>
+        /// 
+        /// <returns>Returns a  GetJourneyDateRangeKpiResult from Pinpoint.</returns>
+        public virtual GetJourneyDateRangeKpiResponse EndGetJourneyDateRangeKpi(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetJourneyDateRangeKpiResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetJourneyExecutionActivityMetrics
+
+        /// <summary>
+        /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies
+        /// to a journey activity.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetJourneyExecutionActivityMetrics service method.</param>
+        /// 
+        /// <returns>The response from the GetJourneyExecutionActivityMetrics service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetJourneyExecutionActivityMetricsResponse GetJourneyExecutionActivityMetrics(GetJourneyExecutionActivityMetricsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyExecutionActivityMetricsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyExecutionActivityMetricsResponseUnmarshaller.Instance;
+
+            return Invoke<GetJourneyExecutionActivityMetricsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetJourneyExecutionActivityMetrics operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetJourneyExecutionActivityMetrics operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetJourneyExecutionActivityMetrics
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetJourneyExecutionActivityMetrics(GetJourneyExecutionActivityMetricsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyExecutionActivityMetricsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyExecutionActivityMetricsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetJourneyExecutionActivityMetrics operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetJourneyExecutionActivityMetrics.</param>
+        /// 
+        /// <returns>Returns a  GetJourneyExecutionActivityMetricsResult from Pinpoint.</returns>
+        public virtual GetJourneyExecutionActivityMetricsResponse EndGetJourneyExecutionActivityMetrics(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetJourneyExecutionActivityMetricsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetJourneyExecutionMetrics
+
+        /// <summary>
+        /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies
+        /// to a journey.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetJourneyExecutionMetrics service method.</param>
+        /// 
+        /// <returns>The response from the GetJourneyExecutionMetrics service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetJourneyExecutionMetricsResponse GetJourneyExecutionMetrics(GetJourneyExecutionMetricsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyExecutionMetricsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyExecutionMetricsResponseUnmarshaller.Instance;
+
+            return Invoke<GetJourneyExecutionMetricsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetJourneyExecutionMetrics operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetJourneyExecutionMetrics operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetJourneyExecutionMetrics
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetJourneyExecutionMetrics(GetJourneyExecutionMetricsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJourneyExecutionMetricsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJourneyExecutionMetricsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetJourneyExecutionMetrics operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetJourneyExecutionMetrics.</param>
+        /// 
+        /// <returns>Returns a  GetJourneyExecutionMetricsResult from Pinpoint.</returns>
+        public virtual GetJourneyExecutionMetricsResponse EndGetJourneyExecutionMetrics(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetJourneyExecutionMetricsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetPushTemplate
+
+        /// <summary>
+        /// Retrieves the content and settings of a message template for messages that are sent
+        /// through a push notification channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetPushTemplate service method.</param>
+        /// 
+        /// <returns>The response from the GetPushTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetPushTemplateResponse GetPushTemplate(GetPushTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPushTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<GetPushTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetPushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetPushTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetPushTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetPushTemplate(GetPushTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPushTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetPushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetPushTemplate.</param>
+        /// 
+        /// <returns>Returns a  GetPushTemplateResult from Pinpoint.</returns>
+        public virtual GetPushTemplateResponse EndGetPushTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetPushTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRecommenderConfiguration
+
+        /// <summary>
+        /// Retrieves information about an Amazon Pinpoint configuration for a recommender model.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRecommenderConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the GetRecommenderConfiguration service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetRecommenderConfigurationResponse GetRecommenderConfiguration(GetRecommenderConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<GetRecommenderConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRecommenderConfiguration operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRecommenderConfiguration
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetRecommenderConfiguration(GetRecommenderConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRecommenderConfiguration.</param>
+        /// 
+        /// <returns>Returns a  GetRecommenderConfigurationResult from Pinpoint.</returns>
+        public virtual GetRecommenderConfigurationResponse EndGetRecommenderConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRecommenderConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRecommenderConfigurations
+
+        /// <summary>
+        /// Retrieves information about all the recommender model configurations that are associated
+        /// with your Amazon Pinpoint account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRecommenderConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the GetRecommenderConfigurations service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetRecommenderConfigurationsResponse GetRecommenderConfigurations(GetRecommenderConfigurationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRecommenderConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRecommenderConfigurationsResponseUnmarshaller.Instance;
+
+            return Invoke<GetRecommenderConfigurationsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRecommenderConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRecommenderConfigurations operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRecommenderConfigurations
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetRecommenderConfigurations(GetRecommenderConfigurationsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRecommenderConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRecommenderConfigurationsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRecommenderConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRecommenderConfigurations.</param>
+        /// 
+        /// <returns>Returns a  GetRecommenderConfigurationsResult from Pinpoint.</returns>
+        public virtual GetRecommenderConfigurationsResponse EndGetRecommenderConfigurations(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRecommenderConfigurationsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetSegment
 
         /// <summary>
-        /// Returns information about a segment.
+        /// Retrieves information about the configuration, dimension, and other settings for a
+        /// specific segment that's associated with an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSegment service method.</param>
         /// 
         /// <returns>The response from the GetSegment service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetSegmentResponse GetSegment(GetSegmentRequest request)
         {
-            var marshaller = GetSegmentRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentResponseUnmarshaller.Instance;
 
-            return Invoke<GetSegmentRequest,GetSegmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSegmentResponse>(request, options);
         }
 
         /// <summary>
@@ -3058,11 +5048,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetSegment(GetSegmentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSegmentRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSegmentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3082,35 +5072,39 @@ namespace Amazon.Pinpoint
         #region  GetSegmentExportJobs
 
         /// <summary>
-        /// Returns a list of export jobs for a specific segment.
+        /// Retrieves information about the status and settings of the export jobs for a segment.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSegmentExportJobs service method.</param>
         /// 
         /// <returns>The response from the GetSegmentExportJobs service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetSegmentExportJobsResponse GetSegmentExportJobs(GetSegmentExportJobsRequest request)
         {
-            var marshaller = GetSegmentExportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentExportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentExportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentExportJobsResponseUnmarshaller.Instance;
 
-            return Invoke<GetSegmentExportJobsRequest,GetSegmentExportJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSegmentExportJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -3126,11 +5120,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetSegmentExportJobs(GetSegmentExportJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSegmentExportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentExportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentExportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentExportJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSegmentExportJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3150,35 +5144,39 @@ namespace Amazon.Pinpoint
         #region  GetSegmentImportJobs
 
         /// <summary>
-        /// Returns a list of import jobs for a specific segment.
+        /// Retrieves information about the status and settings of the import jobs for a segment.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSegmentImportJobs service method.</param>
         /// 
         /// <returns>The response from the GetSegmentImportJobs service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetSegmentImportJobsResponse GetSegmentImportJobs(GetSegmentImportJobsRequest request)
         {
-            var marshaller = GetSegmentImportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentImportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentImportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentImportJobsResponseUnmarshaller.Instance;
 
-            return Invoke<GetSegmentImportJobsRequest,GetSegmentImportJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSegmentImportJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -3194,11 +5192,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetSegmentImportJobs(GetSegmentImportJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSegmentImportJobsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentImportJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentImportJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentImportJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSegmentImportJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3218,35 +5216,40 @@ namespace Amazon.Pinpoint
         #region  GetSegments
 
         /// <summary>
-        /// Used to get information about your segments.
+        /// Retrieves information about the configuration, dimension, and other settings for all
+        /// the segments that are associated with an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSegments service method.</param>
         /// 
         /// <returns>The response from the GetSegments service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetSegmentsResponse GetSegments(GetSegmentsRequest request)
         {
-            var marshaller = GetSegmentsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentsResponseUnmarshaller.Instance;
 
-            return Invoke<GetSegmentsRequest,GetSegmentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSegmentsResponse>(request, options);
         }
 
         /// <summary>
@@ -3262,11 +5265,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetSegments(GetSegmentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSegmentsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSegmentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3286,35 +5289,40 @@ namespace Amazon.Pinpoint
         #region  GetSegmentVersion
 
         /// <summary>
-        /// Returns information about a segment version.
+        /// Retrieves information about the configuration, dimension, and other settings for a
+        /// specific version of a segment that's associated with an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSegmentVersion service method.</param>
         /// 
         /// <returns>The response from the GetSegmentVersion service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetSegmentVersionResponse GetSegmentVersion(GetSegmentVersionRequest request)
         {
-            var marshaller = GetSegmentVersionRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentVersionResponseUnmarshaller.Instance;
 
-            return Invoke<GetSegmentVersionRequest,GetSegmentVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSegmentVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -3330,11 +5338,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetSegmentVersion(GetSegmentVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSegmentVersionRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSegmentVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3354,35 +5362,40 @@ namespace Amazon.Pinpoint
         #region  GetSegmentVersions
 
         /// <summary>
-        /// Returns information about your segment versions.
+        /// Retrieves information about the configuration, dimension, and other settings for all
+        /// the versions of a specific segment that's associated with an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSegmentVersions service method.</param>
         /// 
         /// <returns>The response from the GetSegmentVersions service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetSegmentVersionsResponse GetSegmentVersions(GetSegmentVersionsRequest request)
         {
-            var marshaller = GetSegmentVersionsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<GetSegmentVersionsRequest,GetSegmentVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSegmentVersionsResponse>(request, options);
         }
 
         /// <summary>
@@ -3398,11 +5411,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetSegmentVersions(GetSegmentVersionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSegmentVersionsRequestMarshaller.Instance;
-            var unmarshaller = GetSegmentVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSegmentVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSegmentVersionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSegmentVersionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3422,35 +5435,39 @@ namespace Amazon.Pinpoint
         #region  GetSmsChannel
 
         /// <summary>
-        /// Get an SMS channel
+        /// Retrieves information about the status and settings of the SMS channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetSmsChannel service method.</param>
         /// 
         /// <returns>The response from the GetSmsChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual GetSmsChannelResponse GetSmsChannel(GetSmsChannelRequest request)
         {
-            var marshaller = GetSmsChannelRequestMarshaller.Instance;
-            var unmarshaller = GetSmsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSmsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSmsChannelResponseUnmarshaller.Instance;
 
-            return Invoke<GetSmsChannelRequest,GetSmsChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSmsChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -3466,11 +5483,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginGetSmsChannel(GetSmsChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSmsChannelRequestMarshaller.Instance;
-            var unmarshaller = GetSmsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSmsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSmsChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSmsChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3487,38 +5504,743 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  GetSmsTemplate
+
+        /// <summary>
+        /// Retrieves the content and settings of a message template for messages that are sent
+        /// through the SMS channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSmsTemplate service method.</param>
+        /// 
+        /// <returns>The response from the GetSmsTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetSmsTemplateResponse GetSmsTemplate(GetSmsTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSmsTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<GetSmsTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSmsTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSmsTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetSmsTemplate(GetSmsTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSmsTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSmsTemplate.</param>
+        /// 
+        /// <returns>Returns a  GetSmsTemplateResult from Pinpoint.</returns>
+        public virtual GetSmsTemplateResponse EndGetSmsTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetSmsTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetUserEndpoints
+
+        /// <summary>
+        /// Retrieves information about all the endpoints that are associated with a specific
+        /// user ID.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetUserEndpoints service method.</param>
+        /// 
+        /// <returns>The response from the GetUserEndpoints service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetUserEndpointsResponse GetUserEndpoints(GetUserEndpointsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUserEndpointsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUserEndpointsResponseUnmarshaller.Instance;
+
+            return Invoke<GetUserEndpointsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetUserEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetUserEndpoints operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetUserEndpoints
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetUserEndpoints(GetUserEndpointsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUserEndpointsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUserEndpointsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetUserEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetUserEndpoints.</param>
+        /// 
+        /// <returns>Returns a  GetUserEndpointsResult from Pinpoint.</returns>
+        public virtual GetUserEndpointsResponse EndGetUserEndpoints(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetUserEndpointsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetVoiceChannel
+
+        /// <summary>
+        /// Retrieves information about the status and settings of the voice channel for an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetVoiceChannel service method.</param>
+        /// 
+        /// <returns>The response from the GetVoiceChannel service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetVoiceChannelResponse GetVoiceChannel(GetVoiceChannelRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVoiceChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVoiceChannelResponseUnmarshaller.Instance;
+
+            return Invoke<GetVoiceChannelResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetVoiceChannel operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetVoiceChannel operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetVoiceChannel
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetVoiceChannel(GetVoiceChannelRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVoiceChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVoiceChannelResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetVoiceChannel operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetVoiceChannel.</param>
+        /// 
+        /// <returns>Returns a  GetVoiceChannelResult from Pinpoint.</returns>
+        public virtual GetVoiceChannelResponse EndGetVoiceChannel(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetVoiceChannelResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetVoiceTemplate
+
+        /// <summary>
+        /// Retrieves the content and settings of a message template for messages that are sent
+        /// through the voice channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetVoiceTemplate service method.</param>
+        /// 
+        /// <returns>The response from the GetVoiceTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual GetVoiceTemplateResponse GetVoiceTemplate(GetVoiceTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVoiceTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<GetVoiceTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetVoiceTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetVoiceTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginGetVoiceTemplate(GetVoiceTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVoiceTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetVoiceTemplate.</param>
+        /// 
+        /// <returns>Returns a  GetVoiceTemplateResult from Pinpoint.</returns>
+        public virtual GetVoiceTemplateResponse EndGetVoiceTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetVoiceTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListJourneys
+
+        /// <summary>
+        /// Retrieves information about the status, configuration, and other settings for all
+        /// the journeys that are associated with an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListJourneys service method.</param>
+        /// 
+        /// <returns>The response from the ListJourneys service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual ListJourneysResponse ListJourneys(ListJourneysRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJourneysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJourneysResponseUnmarshaller.Instance;
+
+            return Invoke<ListJourneysResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListJourneys operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListJourneys operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListJourneys
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginListJourneys(ListJourneysRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJourneysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJourneysResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListJourneys operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListJourneys.</param>
+        /// 
+        /// <returns>Returns a  ListJourneysResult from Pinpoint.</returns>
+        public virtual ListJourneysResponse EndListJourneys(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListJourneysResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// Retrieves all the tags (keys and values) that are associated with an application,
+        /// campaign, message template, or segment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by Pinpoint.</returns>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from Pinpoint.</returns>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTemplates
+
+        /// <summary>
+        /// Retrieves information about all the message templates that are associated with your
+        /// Amazon Pinpoint account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTemplates service method.</param>
+        /// 
+        /// <returns>The response from the ListTemplates service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual ListTemplatesResponse ListTemplates(ListTemplatesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTemplatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTemplatesResponseUnmarshaller.Instance;
+
+            return Invoke<ListTemplatesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTemplates operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTemplates operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTemplates
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginListTemplates(ListTemplatesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTemplatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTemplatesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTemplates operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTemplates.</param>
+        /// 
+        /// <returns>Returns a  ListTemplatesResult from Pinpoint.</returns>
+        public virtual ListTemplatesResponse EndListTemplates(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTemplatesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTemplateVersions
+
+        /// <summary>
+        /// Retrieves information about all the versions of a specific message template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTemplateVersions service method.</param>
+        /// 
+        /// <returns>The response from the ListTemplateVersions service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual ListTemplateVersionsResponse ListTemplateVersions(ListTemplateVersionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTemplateVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTemplateVersionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListTemplateVersionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTemplateVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTemplateVersions operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTemplateVersions
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginListTemplateVersions(ListTemplateVersionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTemplateVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTemplateVersionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTemplateVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTemplateVersions.</param>
+        /// 
+        /// <returns>Returns a  ListTemplateVersionsResult from Pinpoint.</returns>
+        public virtual ListTemplateVersionsResponse EndListTemplateVersions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTemplateVersionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PhoneNumberValidate
+
+        /// <summary>
+        /// Retrieves information about a phone number.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PhoneNumberValidate service method.</param>
+        /// 
+        /// <returns>The response from the PhoneNumberValidate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual PhoneNumberValidateResponse PhoneNumberValidate(PhoneNumberValidateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PhoneNumberValidateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PhoneNumberValidateResponseUnmarshaller.Instance;
+
+            return Invoke<PhoneNumberValidateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PhoneNumberValidate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PhoneNumberValidate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPhoneNumberValidate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginPhoneNumberValidate(PhoneNumberValidateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PhoneNumberValidateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PhoneNumberValidateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PhoneNumberValidate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPhoneNumberValidate.</param>
+        /// 
+        /// <returns>Returns a  PhoneNumberValidateResult from Pinpoint.</returns>
+        public virtual PhoneNumberValidateResponse EndPhoneNumberValidate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PhoneNumberValidateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutEvents
+
+        /// <summary>
+        /// Creates a new event to record for endpoints, or creates or updates endpoint data that
+        /// existing events are associated with.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutEvents service method.</param>
+        /// 
+        /// <returns>The response from the PutEvents service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual PutEventsResponse PutEvents(PutEventsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
+
+            return Invoke<PutEventsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutEvents operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutEvents
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginPutEvents(PutEventsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutEvents.</param>
+        /// 
+        /// <returns>Returns a  PutEventsResult from Pinpoint.</returns>
+        public virtual PutEventsResponse EndPutEvents(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutEventsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutEventStream
 
         /// <summary>
-        /// Use to create or update the event stream for an app.
+        /// Creates a new event stream for an application or updates the settings of an existing
+        /// event stream for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutEventStream service method.</param>
         /// 
         /// <returns>The response from the PutEventStream service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual PutEventStreamResponse PutEventStream(PutEventStreamRequest request)
         {
-            var marshaller = PutEventStreamRequestMarshaller.Instance;
-            var unmarshaller = PutEventStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventStreamResponseUnmarshaller.Instance;
 
-            return Invoke<PutEventStreamRequest,PutEventStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutEventStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -3534,11 +6256,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginPutEventStream(PutEventStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutEventStreamRequestMarshaller.Instance;
-            var unmarshaller = PutEventStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutEventStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutEventStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutEventStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3555,38 +6277,115 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  RemoveAttributes
+
+        /// <summary>
+        /// Removes one or more attributes, of the same attribute type, from all the endpoints
+        /// that are associated with an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RemoveAttributes service method.</param>
+        /// 
+        /// <returns>The response from the RemoveAttributes service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual RemoveAttributesResponse RemoveAttributes(RemoveAttributesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveAttributesResponseUnmarshaller.Instance;
+
+            return Invoke<RemoveAttributesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RemoveAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RemoveAttributes operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRemoveAttributes
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginRemoveAttributes(RemoveAttributesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveAttributesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RemoveAttributes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRemoveAttributes.</param>
+        /// 
+        /// <returns>Returns a  RemoveAttributesResult from Pinpoint.</returns>
+        public virtual RemoveAttributesResponse EndRemoveAttributes(IAsyncResult asyncResult)
+        {
+            return EndInvoke<RemoveAttributesResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  SendMessages
 
         /// <summary>
-        /// Send a batch of messages
+        /// Creates and sends a direct message.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SendMessages service method.</param>
         /// 
         /// <returns>The response from the SendMessages service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual SendMessagesResponse SendMessages(SendMessagesRequest request)
         {
-            var marshaller = SendMessagesRequestMarshaller.Instance;
-            var unmarshaller = SendMessagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendMessagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendMessagesResponseUnmarshaller.Instance;
 
-            return Invoke<SendMessagesRequest,SendMessagesResponse>(request, marshaller, unmarshaller);
+            return Invoke<SendMessagesResponse>(request, options);
         }
 
         /// <summary>
@@ -3602,11 +6401,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginSendMessages(SendMessagesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SendMessagesRequestMarshaller.Instance;
-            var unmarshaller = SendMessagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendMessagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendMessagesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SendMessagesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3626,35 +6425,39 @@ namespace Amazon.Pinpoint
         #region  SendUsersMessages
 
         /// <summary>
-        /// Send a batch of messages to users
+        /// Creates and sends a message to a list of users.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SendUsersMessages service method.</param>
         /// 
         /// <returns>The response from the SendUsersMessages service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual SendUsersMessagesResponse SendUsersMessages(SendUsersMessagesRequest request)
         {
-            var marshaller = SendUsersMessagesRequestMarshaller.Instance;
-            var unmarshaller = SendUsersMessagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendUsersMessagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendUsersMessagesResponseUnmarshaller.Instance;
 
-            return Invoke<SendUsersMessagesRequest,SendUsersMessagesResponse>(request, marshaller, unmarshaller);
+            return Invoke<SendUsersMessagesResponse>(request, options);
         }
 
         /// <summary>
@@ -3670,11 +6473,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginSendUsersMessages(SendUsersMessagesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SendUsersMessagesRequestMarshaller.Instance;
-            var unmarshaller = SendUsersMessagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendUsersMessagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendUsersMessagesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SendUsersMessagesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3691,38 +6494,147 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  TagResource
+
+        /// <summary>
+        /// Adds one or more tags (keys and values) to an application, campaign, message template,
+        /// or segment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by Pinpoint.</returns>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from Pinpoint.</returns>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Removes one or more tags (keys and values) from an application, campaign, message
+        /// template, or segment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by Pinpoint.</returns>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from Pinpoint.</returns>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateAdmChannel
 
         /// <summary>
-        /// Update an ADM channel
+        /// Enables the ADM channel for an application or updates the status and settings of the
+        /// ADM channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateAdmChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateAdmChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateAdmChannelResponse UpdateAdmChannel(UpdateAdmChannelRequest request)
         {
-            var marshaller = UpdateAdmChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateAdmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAdmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAdmChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAdmChannelRequest,UpdateAdmChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAdmChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -3738,11 +6650,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateAdmChannel(UpdateAdmChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateAdmChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateAdmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAdmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAdmChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateAdmChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3762,35 +6674,40 @@ namespace Amazon.Pinpoint
         #region  UpdateApnsChannel
 
         /// <summary>
-        /// Use to update the APNs channel for an app.
+        /// Enables the APNs channel for an application or updates the status and settings of
+        /// the APNs channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateApnsChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateApnsChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateApnsChannelResponse UpdateApnsChannel(UpdateApnsChannelRequest request)
         {
-            var marshaller = UpdateApnsChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateApnsChannelRequest,UpdateApnsChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateApnsChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -3806,11 +6723,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateApnsChannel(UpdateApnsChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateApnsChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateApnsChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3830,35 +6747,40 @@ namespace Amazon.Pinpoint
         #region  UpdateApnsSandboxChannel
 
         /// <summary>
-        /// Update an APNS sandbox channel
+        /// Enables the APNs sandbox channel for an application or updates the status and settings
+        /// of the APNs sandbox channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateApnsSandboxChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateApnsSandboxChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateApnsSandboxChannelResponse UpdateApnsSandboxChannel(UpdateApnsSandboxChannelRequest request)
         {
-            var marshaller = UpdateApnsSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsSandboxChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateApnsSandboxChannelRequest,UpdateApnsSandboxChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateApnsSandboxChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -3874,11 +6796,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateApnsSandboxChannel(UpdateApnsSandboxChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateApnsSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsSandboxChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateApnsSandboxChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3898,35 +6820,40 @@ namespace Amazon.Pinpoint
         #region  UpdateApnsVoipChannel
 
         /// <summary>
-        /// Update an APNS VoIP channel
+        /// Enables the APNs VoIP channel for an application or updates the status and settings
+        /// of the APNs VoIP channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateApnsVoipChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateApnsVoipChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateApnsVoipChannelResponse UpdateApnsVoipChannel(UpdateApnsVoipChannelRequest request)
         {
-            var marshaller = UpdateApnsVoipChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsVoipChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsVoipChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsVoipChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateApnsVoipChannelRequest,UpdateApnsVoipChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateApnsVoipChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -3942,11 +6869,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateApnsVoipChannel(UpdateApnsVoipChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateApnsVoipChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsVoipChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsVoipChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsVoipChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateApnsVoipChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3966,35 +6893,40 @@ namespace Amazon.Pinpoint
         #region  UpdateApnsVoipSandboxChannel
 
         /// <summary>
-        /// Update an APNS VoIP sandbox channel
+        /// Enables the APNs VoIP sandbox channel for an application or updates the status and
+        /// settings of the APNs VoIP sandbox channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateApnsVoipSandboxChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateApnsVoipSandboxChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateApnsVoipSandboxChannelResponse UpdateApnsVoipSandboxChannel(UpdateApnsVoipSandboxChannelRequest request)
         {
-            var marshaller = UpdateApnsVoipSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsVoipSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsVoipSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsVoipSandboxChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateApnsVoipSandboxChannelRequest,UpdateApnsVoipSandboxChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateApnsVoipSandboxChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -4010,11 +6942,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateApnsVoipSandboxChannel(UpdateApnsVoipSandboxChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateApnsVoipSandboxChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateApnsVoipSandboxChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApnsVoipSandboxChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApnsVoipSandboxChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateApnsVoipSandboxChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4034,35 +6966,39 @@ namespace Amazon.Pinpoint
         #region  UpdateApplicationSettings
 
         /// <summary>
-        /// Used to update the settings for an app.
+        /// Updates the settings for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateApplicationSettings service method.</param>
         /// 
         /// <returns>The response from the UpdateApplicationSettings service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateApplicationSettingsResponse UpdateApplicationSettings(UpdateApplicationSettingsRequest request)
         {
-            var marshaller = UpdateApplicationSettingsRequestMarshaller.Instance;
-            var unmarshaller = UpdateApplicationSettingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApplicationSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApplicationSettingsResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateApplicationSettingsRequest,UpdateApplicationSettingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateApplicationSettingsResponse>(request, options);
         }
 
         /// <summary>
@@ -4078,11 +7014,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateApplicationSettings(UpdateApplicationSettingsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateApplicationSettingsRequestMarshaller.Instance;
-            var unmarshaller = UpdateApplicationSettingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApplicationSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApplicationSettingsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateApplicationSettingsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4102,35 +7038,40 @@ namespace Amazon.Pinpoint
         #region  UpdateBaiduChannel
 
         /// <summary>
-        /// Update a BAIDU GCM channel
+        /// Enables the Baidu channel for an application or updates the status and settings of
+        /// the Baidu channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateBaiduChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateBaiduChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateBaiduChannelResponse UpdateBaiduChannel(UpdateBaiduChannelRequest request)
         {
-            var marshaller = UpdateBaiduChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateBaiduChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBaiduChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBaiduChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateBaiduChannelRequest,UpdateBaiduChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateBaiduChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -4146,11 +7087,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateBaiduChannel(UpdateBaiduChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateBaiduChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateBaiduChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBaiduChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBaiduChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateBaiduChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4170,35 +7111,39 @@ namespace Amazon.Pinpoint
         #region  UpdateCampaign
 
         /// <summary>
-        /// Use to update a campaign.
+        /// Updates the configuration and other settings for a campaign.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateCampaign service method.</param>
         /// 
         /// <returns>The response from the UpdateCampaign service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateCampaignResponse UpdateCampaign(UpdateCampaignRequest request)
         {
-            var marshaller = UpdateCampaignRequestMarshaller.Instance;
-            var unmarshaller = UpdateCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateCampaignResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateCampaignRequest,UpdateCampaignResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateCampaignResponse>(request, options);
         }
 
         /// <summary>
@@ -4214,11 +7159,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateCampaign(UpdateCampaignRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateCampaignRequestMarshaller.Instance;
-            var unmarshaller = UpdateCampaignResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateCampaignRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateCampaignResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateCampaignRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4238,35 +7183,40 @@ namespace Amazon.Pinpoint
         #region  UpdateEmailChannel
 
         /// <summary>
-        /// Update an email channel
+        /// Enables the email channel for an application or updates the status and settings of
+        /// the email channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateEmailChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateEmailChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateEmailChannelResponse UpdateEmailChannel(UpdateEmailChannelRequest request)
         {
-            var marshaller = UpdateEmailChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateEmailChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEmailChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEmailChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateEmailChannelRequest,UpdateEmailChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateEmailChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -4282,11 +7232,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateEmailChannel(UpdateEmailChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateEmailChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateEmailChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEmailChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEmailChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateEmailChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4303,38 +7253,117 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  UpdateEmailTemplate
+
+        /// <summary>
+        /// Updates an existing message template for messages that are sent through the email
+        /// channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateEmailTemplate service method.</param>
+        /// 
+        /// <returns>The response from the UpdateEmailTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateEmailTemplateResponse UpdateEmailTemplate(UpdateEmailTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEmailTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateEmailTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateEmailTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateEmailTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateEmailTemplate(UpdateEmailTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEmailTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEmailTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateEmailTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateEmailTemplate.</param>
+        /// 
+        /// <returns>Returns a  UpdateEmailTemplateResult from Pinpoint.</returns>
+        public virtual UpdateEmailTemplateResponse EndUpdateEmailTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateEmailTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateEndpoint
 
         /// <summary>
-        /// Use to update an endpoint.
+        /// Creates a new endpoint for an application or updates the settings and attributes of
+        /// an existing endpoint for an application. You can also use this operation to define
+        /// custom attributes (Attributes, Metrics, and UserAttributes properties) for an endpoint.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateEndpoint service method.</param>
         /// 
         /// <returns>The response from the UpdateEndpoint service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateEndpointResponse UpdateEndpoint(UpdateEndpointRequest request)
         {
-            var marshaller = UpdateEndpointRequestMarshaller.Instance;
-            var unmarshaller = UpdateEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEndpointResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateEndpointRequest,UpdateEndpointResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateEndpointResponse>(request, options);
         }
 
         /// <summary>
@@ -4350,11 +7379,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateEndpoint(UpdateEndpointRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateEndpointRequestMarshaller.Instance;
-            var unmarshaller = UpdateEndpointResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEndpointRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEndpointResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateEndpointRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4374,35 +7403,42 @@ namespace Amazon.Pinpoint
         #region  UpdateEndpointsBatch
 
         /// <summary>
-        /// Use to update a batch of endpoints.
+        /// Creates a new batch of endpoints for an application or updates the settings and attributes
+        /// of a batch of existing endpoints for an application. You can also use this operation
+        /// to define custom attributes (Attributes, Metrics, and UserAttributes properties) for
+        /// a batch of endpoints.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateEndpointsBatch service method.</param>
         /// 
         /// <returns>The response from the UpdateEndpointsBatch service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateEndpointsBatchResponse UpdateEndpointsBatch(UpdateEndpointsBatchRequest request)
         {
-            var marshaller = UpdateEndpointsBatchRequestMarshaller.Instance;
-            var unmarshaller = UpdateEndpointsBatchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEndpointsBatchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEndpointsBatchResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateEndpointsBatchRequest,UpdateEndpointsBatchResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateEndpointsBatchResponse>(request, options);
         }
 
         /// <summary>
@@ -4418,11 +7454,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateEndpointsBatch(UpdateEndpointsBatchRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateEndpointsBatchRequestMarshaller.Instance;
-            var unmarshaller = UpdateEndpointsBatchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateEndpointsBatchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateEndpointsBatchResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateEndpointsBatchRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4442,35 +7478,40 @@ namespace Amazon.Pinpoint
         #region  UpdateGcmChannel
 
         /// <summary>
-        /// Use to update the GCM channel for an app.
+        /// Enables the GCM channel for an application or updates the status and settings of the
+        /// GCM channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateGcmChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateGcmChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateGcmChannelResponse UpdateGcmChannel(UpdateGcmChannelRequest request)
         {
-            var marshaller = UpdateGcmChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateGcmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGcmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGcmChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateGcmChannelRequest,UpdateGcmChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateGcmChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -4486,11 +7527,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateGcmChannel(UpdateGcmChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateGcmChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateGcmChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGcmChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGcmChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateGcmChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4507,38 +7548,332 @@ namespace Amazon.Pinpoint
 
         #endregion
         
+        #region  UpdateJourney
+
+        /// <summary>
+        /// Updates the configuration and other settings for a journey.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJourney service method.</param>
+        /// 
+        /// <returns>The response from the UpdateJourney service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateJourneyResponse UpdateJourney(UpdateJourneyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJourneyResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateJourneyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJourney operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateJourney
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateJourney(UpdateJourneyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJourneyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJourneyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateJourney operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateJourney.</param>
+        /// 
+        /// <returns>Returns a  UpdateJourneyResult from Pinpoint.</returns>
+        public virtual UpdateJourneyResponse EndUpdateJourney(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateJourneyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateJourneyState
+
+        /// <summary>
+        /// Cancels (stops) an active journey.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJourneyState service method.</param>
+        /// 
+        /// <returns>The response from the UpdateJourneyState service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateJourneyStateResponse UpdateJourneyState(UpdateJourneyStateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJourneyStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJourneyStateResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateJourneyStateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateJourneyState operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJourneyState operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateJourneyState
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateJourneyState(UpdateJourneyStateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJourneyStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJourneyStateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateJourneyState operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateJourneyState.</param>
+        /// 
+        /// <returns>Returns a  UpdateJourneyStateResult from Pinpoint.</returns>
+        public virtual UpdateJourneyStateResponse EndUpdateJourneyState(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateJourneyStateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdatePushTemplate
+
+        /// <summary>
+        /// Updates an existing message template for messages that are sent through a push notification
+        /// channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdatePushTemplate service method.</param>
+        /// 
+        /// <returns>The response from the UpdatePushTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdatePushTemplateResponse UpdatePushTemplate(UpdatePushTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdatePushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdatePushTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<UpdatePushTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdatePushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdatePushTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdatePushTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdatePushTemplate(UpdatePushTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdatePushTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdatePushTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdatePushTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdatePushTemplate.</param>
+        /// 
+        /// <returns>Returns a  UpdatePushTemplateResult from Pinpoint.</returns>
+        public virtual UpdatePushTemplateResponse EndUpdatePushTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdatePushTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateRecommenderConfiguration
+
+        /// <summary>
+        /// Updates an Amazon Pinpoint configuration for a recommender model.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRecommenderConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the UpdateRecommenderConfiguration service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateRecommenderConfigurationResponse UpdateRecommenderConfiguration(UpdateRecommenderConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateRecommenderConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRecommenderConfiguration operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateRecommenderConfiguration
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateRecommenderConfiguration(UpdateRecommenderConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRecommenderConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRecommenderConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateRecommenderConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateRecommenderConfiguration.</param>
+        /// 
+        /// <returns>Returns a  UpdateRecommenderConfigurationResult from Pinpoint.</returns>
+        public virtual UpdateRecommenderConfigurationResponse EndUpdateRecommenderConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateRecommenderConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateSegment
 
         /// <summary>
-        /// Use to update a segment.
+        /// Creates a new segment for an application or updates the configuration, dimension,
+        /// and other settings for an existing segment that's associated with an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateSegment service method.</param>
         /// 
         /// <returns>The response from the UpdateSegment service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateSegmentResponse UpdateSegment(UpdateSegmentRequest request)
         {
-            var marshaller = UpdateSegmentRequestMarshaller.Instance;
-            var unmarshaller = UpdateSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSegmentResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSegmentRequest,UpdateSegmentResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSegmentResponse>(request, options);
         }
 
         /// <summary>
@@ -4554,11 +7889,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateSegment(UpdateSegmentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSegmentRequestMarshaller.Instance;
-            var unmarshaller = UpdateSegmentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSegmentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSegmentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSegmentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4578,35 +7913,40 @@ namespace Amazon.Pinpoint
         #region  UpdateSmsChannel
 
         /// <summary>
-        /// Update an SMS channel
+        /// Enables the SMS channel for an application or updates the status and settings of the
+        /// SMS channel for an application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateSmsChannel service method.</param>
         /// 
         /// <returns>The response from the UpdateSmsChannel service method, as returned by Pinpoint.</returns>
         /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
         /// </exception>
         /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
-        /// Simple message object.
+        /// Provides information about an API request or response.
         /// </exception>
         public virtual UpdateSmsChannelResponse UpdateSmsChannel(UpdateSmsChannelRequest request)
         {
-            var marshaller = UpdateSmsChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateSmsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSmsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSmsChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateSmsChannelRequest,UpdateSmsChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateSmsChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -4622,11 +7962,11 @@ namespace Amazon.Pinpoint
         ///         operation.</returns>
         public virtual IAsyncResult BeginUpdateSmsChannel(UpdateSmsChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateSmsChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateSmsChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSmsChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSmsChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateSmsChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4639,6 +7979,296 @@ namespace Amazon.Pinpoint
         public virtual UpdateSmsChannelResponse EndUpdateSmsChannel(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateSmsChannelResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateSmsTemplate
+
+        /// <summary>
+        /// Updates an existing message template for messages that are sent through the SMS channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSmsTemplate service method.</param>
+        /// 
+        /// <returns>The response from the UpdateSmsTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateSmsTemplateResponse UpdateSmsTemplate(UpdateSmsTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSmsTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateSmsTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSmsTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateSmsTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateSmsTemplate(UpdateSmsTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateSmsTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateSmsTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateSmsTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateSmsTemplate.</param>
+        /// 
+        /// <returns>Returns a  UpdateSmsTemplateResult from Pinpoint.</returns>
+        public virtual UpdateSmsTemplateResponse EndUpdateSmsTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateSmsTemplateResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateTemplateActiveVersion
+
+        /// <summary>
+        /// Changes the status of a specific version of a message template to <i>active</i>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTemplateActiveVersion service method.</param>
+        /// 
+        /// <returns>The response from the UpdateTemplateActiveVersion service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateTemplateActiveVersionResponse UpdateTemplateActiveVersion(UpdateTemplateActiveVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTemplateActiveVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTemplateActiveVersionResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateTemplateActiveVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateTemplateActiveVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTemplateActiveVersion operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateTemplateActiveVersion
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateTemplateActiveVersion(UpdateTemplateActiveVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTemplateActiveVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTemplateActiveVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateTemplateActiveVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateTemplateActiveVersion.</param>
+        /// 
+        /// <returns>Returns a  UpdateTemplateActiveVersionResult from Pinpoint.</returns>
+        public virtual UpdateTemplateActiveVersionResponse EndUpdateTemplateActiveVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateTemplateActiveVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateVoiceChannel
+
+        /// <summary>
+        /// Enables the voice channel for an application or updates the status and settings of
+        /// the voice channel for an application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVoiceChannel service method.</param>
+        /// 
+        /// <returns>The response from the UpdateVoiceChannel service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateVoiceChannelResponse UpdateVoiceChannel(UpdateVoiceChannelRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVoiceChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVoiceChannelResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateVoiceChannelResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateVoiceChannel operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVoiceChannel operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateVoiceChannel
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateVoiceChannel(UpdateVoiceChannelRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVoiceChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVoiceChannelResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateVoiceChannel operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateVoiceChannel.</param>
+        /// 
+        /// <returns>Returns a  UpdateVoiceChannelResult from Pinpoint.</returns>
+        public virtual UpdateVoiceChannelResponse EndUpdateVoiceChannel(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateVoiceChannelResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateVoiceTemplate
+
+        /// <summary>
+        /// Updates an existing message template for messages that are sent through the voice
+        /// channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVoiceTemplate service method.</param>
+        /// 
+        /// <returns>The response from the UpdateVoiceTemplate service method, as returned by Pinpoint.</returns>
+        /// <exception cref="Amazon.Pinpoint.Model.BadRequestException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.ForbiddenException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.InternalServerErrorException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.MethodNotAllowedException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.NotFoundException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.PayloadTooLargeException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        /// <exception cref="Amazon.Pinpoint.Model.TooManyRequestsException">
+        /// Provides information about an API request or response.
+        /// </exception>
+        public virtual UpdateVoiceTemplateResponse UpdateVoiceTemplate(UpdateVoiceTemplateRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVoiceTemplateResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateVoiceTemplateResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVoiceTemplate operation on AmazonPinpointClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateVoiceTemplate
+        ///         operation.</returns>
+        public virtual IAsyncResult BeginUpdateVoiceTemplate(UpdateVoiceTemplateRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVoiceTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVoiceTemplateResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateVoiceTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateVoiceTemplate.</param>
+        /// 
+        /// <returns>Returns a  UpdateVoiceTemplateResult from Pinpoint.</returns>
+        public virtual UpdateVoiceTemplateResponse EndUpdateVoiceTemplate(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateVoiceTemplateResponse>(asyncResult);
         }
 
         #endregion

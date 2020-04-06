@@ -76,6 +76,12 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                     unmarshalledObject.AwsDevice = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("awsDeviceV2", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AwsDeviceV2 = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("connections", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<Connection, ConnectionUnmarshaller>(ConnectionUnmarshaller.Instance);
@@ -86,6 +92,18 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ConnectionsBandwidth = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("hasLogicalRedundancy", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.HasLogicalRedundancy = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("jumboFrameCapable", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.JumboFrameCapable = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("lagId", targetDepth))
@@ -130,10 +148,22 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
                     unmarshalledObject.OwnerAccount = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("providerName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ProviderName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("region", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Region = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Tag, TagUnmarshaller>(TagUnmarshaller.Instance);
+                    unmarshalledObject.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

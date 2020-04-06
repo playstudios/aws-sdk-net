@@ -51,15 +51,29 @@ namespace Amazon.GameLift.Model
     /// <para>
     /// If any player rejects the match, or if acceptances are not received before a specified
     /// timeout, the proposed match is dropped. The matchmaking tickets are then handled in
-    /// one of two ways: For tickets where all players accepted the match, the ticket status
-    /// is returned to <code>SEARCHING</code> to find a new match. For tickets where one or
-    /// more players failed to accept the match, the ticket status is set to <code>FAILED</code>,
+    /// one of two ways: For tickets where one or more players rejected the match, the ticket
+    /// status is returned to <code>SEARCHING</code> to find a new match. For tickets where
+    /// one or more players failed to respond, the ticket status is set to <code>CANCELLED</code>,
     /// and processing is terminated. A new matchmaking request for these players can be submitted
     /// as needed. 
     /// </para>
     ///  
     /// <para>
-    /// Matchmaking-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-client.html">
+    /// Add FlexMatch to a Game Client</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-events.html">
+    /// FlexMatch Events Reference</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -95,6 +109,7 @@ namespace Amazon.GameLift.Model
         /// Player response to the proposed match.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public AcceptanceType AcceptanceType
         {
             get { return this._acceptanceType; }
@@ -110,10 +125,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlayerIds. 
         /// <para>
-        /// Unique identifier for a player delivering the response. This parameter can include
+        /// A unique identifier for a player delivering the response. This parameter can include
         /// one or multiple player IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> PlayerIds
         {
             get { return this._playerIds; }
@@ -129,10 +145,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property TicketId. 
         /// <para>
-        /// Unique identifier for a matchmaking ticket. The ticket must be in status <code>REQUIRES_ACCEPTANCE</code>;
+        /// A unique identifier for a matchmaking ticket. The ticket must be in status <code>REQUIRES_ACCEPTANCE</code>;
         /// otherwise this request will fail.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=128)]
         public string TicketId
         {
             get { return this._ticketId; }

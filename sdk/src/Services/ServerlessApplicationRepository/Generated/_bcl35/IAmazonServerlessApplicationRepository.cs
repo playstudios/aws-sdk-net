@@ -99,7 +99,7 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/CreateApplication">REST API Reference for CreateApplication Operation</seealso>
         CreateApplicationResponse CreateApplication(CreateApplicationRequest request);
@@ -154,7 +154,7 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/CreateApplicationVersion">REST API Reference for CreateApplicationVersion Operation</seealso>
         CreateApplicationVersionResponse CreateApplicationVersion(CreateApplicationVersionRequest request);
@@ -191,7 +191,7 @@ namespace Amazon.ServerlessApplicationRepository
 
 
         /// <summary>
-        /// Creates an AWS CloudFormation ChangeSet for the given application.
+        /// Creates an AWS CloudFormation change set for the given application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateCloudFormationChangeSet service method.</param>
         /// 
@@ -206,7 +206,7 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/CreateCloudFormationChangeSet">REST API Reference for CreateCloudFormationChangeSet Operation</seealso>
         CreateCloudFormationChangeSetResponse CreateCloudFormationChangeSet(CreateCloudFormationChangeSetRequest request);
@@ -239,6 +239,62 @@ namespace Amazon.ServerlessApplicationRepository
 
         #endregion
         
+        #region  CreateCloudFormationTemplate
+
+
+        /// <summary>
+        /// Creates an AWS CloudFormation template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCloudFormationTemplate service method.</param>
+        /// 
+        /// <returns>The response from the CreateCloudFormationTemplate service method, as returned by ServerlessApplicationRepository.</returns>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.BadRequestException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.ForbiddenException">
+        /// The client is not authenticated.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.InternalServerErrorException">
+        /// The AWS Serverless Application Repository service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
+        /// The client is sending more than the allowed number of requests per unit of time.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/CreateCloudFormationTemplate">REST API Reference for CreateCloudFormationTemplate Operation</seealso>
+        CreateCloudFormationTemplateResponse CreateCloudFormationTemplate(CreateCloudFormationTemplateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateCloudFormationTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateCloudFormationTemplate operation on AmazonServerlessApplicationRepositoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateCloudFormationTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/CreateCloudFormationTemplate">REST API Reference for CreateCloudFormationTemplate Operation</seealso>
+        IAsyncResult BeginCreateCloudFormationTemplate(CreateCloudFormationTemplateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateCloudFormationTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateCloudFormationTemplate.</param>
+        /// 
+        /// <returns>Returns a  CreateCloudFormationTemplateResult from ServerlessApplicationRepository.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/CreateCloudFormationTemplate">REST API Reference for CreateCloudFormationTemplate Operation</seealso>
+        CreateCloudFormationTemplateResponse EndCreateCloudFormationTemplate(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteApplication
 
 
@@ -261,11 +317,11 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
-        /// The resource (for example, an access policy statement) specified in the request does
-        /// not exist.
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/DeleteApplication">REST API Reference for DeleteApplication Operation</seealso>
         DeleteApplicationResponse DeleteApplication(DeleteApplicationRequest request);
@@ -317,11 +373,11 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
-        /// The resource (for example, an access policy statement) specified in the request does
-        /// not exist.
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/GetApplication">REST API Reference for GetApplication Operation</seealso>
         GetApplicationResponse GetApplication(GetApplicationRequest request);
@@ -358,7 +414,7 @@ namespace Amazon.ServerlessApplicationRepository
 
 
         /// <summary>
-        /// Gets the policy for the specified application.
+        /// Retrieves the policy for the application.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetApplicationPolicy service method.</param>
         /// 
@@ -373,11 +429,11 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
-        /// The resource (for example, an access policy statement) specified in the request does
-        /// not exist.
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/GetApplicationPolicy">REST API Reference for GetApplicationPolicy Operation</seealso>
         GetApplicationPolicyResponse GetApplicationPolicy(GetApplicationPolicyRequest request);
@@ -410,6 +466,118 @@ namespace Amazon.ServerlessApplicationRepository
 
         #endregion
         
+        #region  GetCloudFormationTemplate
+
+
+        /// <summary>
+        /// Gets the specified AWS CloudFormation template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCloudFormationTemplate service method.</param>
+        /// 
+        /// <returns>The response from the GetCloudFormationTemplate service method, as returned by ServerlessApplicationRepository.</returns>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.BadRequestException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.ForbiddenException">
+        /// The client is not authenticated.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.InternalServerErrorException">
+        /// The AWS Serverless Application Repository service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
+        /// The client is sending more than the allowed number of requests per unit of time.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/GetCloudFormationTemplate">REST API Reference for GetCloudFormationTemplate Operation</seealso>
+        GetCloudFormationTemplateResponse GetCloudFormationTemplate(GetCloudFormationTemplateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCloudFormationTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCloudFormationTemplate operation on AmazonServerlessApplicationRepositoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCloudFormationTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/GetCloudFormationTemplate">REST API Reference for GetCloudFormationTemplate Operation</seealso>
+        IAsyncResult BeginGetCloudFormationTemplate(GetCloudFormationTemplateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCloudFormationTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCloudFormationTemplate.</param>
+        /// 
+        /// <returns>Returns a  GetCloudFormationTemplateResult from ServerlessApplicationRepository.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/GetCloudFormationTemplate">REST API Reference for GetCloudFormationTemplate Operation</seealso>
+        GetCloudFormationTemplateResponse EndGetCloudFormationTemplate(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListApplicationDependencies
+
+
+        /// <summary>
+        /// Retrieves the list of applications nested in the containing application.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListApplicationDependencies service method.</param>
+        /// 
+        /// <returns>The response from the ListApplicationDependencies service method, as returned by ServerlessApplicationRepository.</returns>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.BadRequestException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.ForbiddenException">
+        /// The client is not authenticated.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.InternalServerErrorException">
+        /// The AWS Serverless Application Repository service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
+        /// The client is sending more than the allowed number of requests per unit of time.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/ListApplicationDependencies">REST API Reference for ListApplicationDependencies Operation</seealso>
+        ListApplicationDependenciesResponse ListApplicationDependencies(ListApplicationDependenciesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListApplicationDependencies operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListApplicationDependencies operation on AmazonServerlessApplicationRepositoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListApplicationDependencies
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/ListApplicationDependencies">REST API Reference for ListApplicationDependencies Operation</seealso>
+        IAsyncResult BeginListApplicationDependencies(ListApplicationDependenciesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListApplicationDependencies operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListApplicationDependencies.</param>
+        /// 
+        /// <returns>Returns a  ListApplicationDependenciesResult from ServerlessApplicationRepository.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/ListApplicationDependencies">REST API Reference for ListApplicationDependencies Operation</seealso>
+        ListApplicationDependenciesResponse EndListApplicationDependencies(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListApplications
 
 
@@ -429,8 +597,8 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
-        /// The resource (for example, an access policy statement) specified in the request does
-        /// not exist.
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/ListApplications">REST API Reference for ListApplications Operation</seealso>
         ListApplicationsResponse ListApplications(ListApplicationsRequest request);
@@ -482,11 +650,11 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
-        /// The resource (for example, an access policy statement) specified in the request does
-        /// not exist.
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/ListApplicationVersions">REST API Reference for ListApplicationVersions Operation</seealso>
         ListApplicationVersionsResponse ListApplicationVersions(ListApplicationVersionsRequest request);
@@ -523,7 +691,9 @@ namespace Amazon.ServerlessApplicationRepository
 
 
         /// <summary>
-        /// Puts the policy for the specified application.
+        /// Sets the permission policy for an application. For the list of actions supported for
+        /// this operation, see <a href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
+        ///  Permissions</a> .
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutApplicationPolicy service method.</param>
         /// 
@@ -538,11 +708,11 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
-        /// The resource (for example, an access policy statement) specified in the request does
-        /// not exist.
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/PutApplicationPolicy">REST API Reference for PutApplicationPolicy Operation</seealso>
         PutApplicationPolicyResponse PutApplicationPolicy(PutApplicationPolicyRequest request);
@@ -575,6 +745,67 @@ namespace Amazon.ServerlessApplicationRepository
 
         #endregion
         
+        #region  UnshareApplication
+
+
+        /// <summary>
+        /// Unshares an application from an AWS Organization.
+        /// 
+        /// 
+        /// <para>
+        /// This operation can be called only from the organization's master account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UnshareApplication service method.</param>
+        /// 
+        /// <returns>The response from the UnshareApplication service method, as returned by ServerlessApplicationRepository.</returns>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.BadRequestException">
+        /// One of the parameters in the request is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.ForbiddenException">
+        /// The client is not authenticated.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.InternalServerErrorException">
+        /// The AWS Serverless Application Repository service encountered an internal error.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
+        /// </exception>
+        /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
+        /// The client is sending more than the allowed number of requests per unit of time.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/UnshareApplication">REST API Reference for UnshareApplication Operation</seealso>
+        UnshareApplicationResponse UnshareApplication(UnshareApplicationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UnshareApplication operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UnshareApplication operation on AmazonServerlessApplicationRepositoryClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUnshareApplication
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/UnshareApplication">REST API Reference for UnshareApplication Operation</seealso>
+        IAsyncResult BeginUnshareApplication(UnshareApplicationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UnshareApplication operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUnshareApplication.</param>
+        /// 
+        /// <returns>Returns a  UnshareApplicationResult from ServerlessApplicationRepository.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/UnshareApplication">REST API Reference for UnshareApplication Operation</seealso>
+        UnshareApplicationResponse EndUnshareApplication(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateApplication
 
 
@@ -597,11 +828,11 @@ namespace Amazon.ServerlessApplicationRepository
         /// The AWS Serverless Application Repository service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.NotFoundException">
-        /// The resource (for example, an access policy statement) specified in the request does
-        /// not exist.
+        /// The resource (for example, an access policy statement) specified in the request doesn't
+        /// exist.
         /// </exception>
         /// <exception cref="Amazon.ServerlessApplicationRepository.Model.TooManyRequestsException">
-        /// The client is sending more than the allowed number of requests per unit time.
+        /// The client is sending more than the allowed number of requests per unit of time.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/serverlessrepo-2017-09-08/UpdateApplication">REST API Reference for UpdateApplication Operation</seealso>
         UpdateApplicationResponse UpdateApplication(UpdateApplicationRequest request);

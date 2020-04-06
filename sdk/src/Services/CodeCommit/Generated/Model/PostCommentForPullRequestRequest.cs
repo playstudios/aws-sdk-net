@@ -48,6 +48,7 @@ namespace Amazon.CodeCommit.Model
         /// branch for the pull request when you post the comment.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AfterCommitId
         {
             get { return this._afterCommitId; }
@@ -67,6 +68,7 @@ namespace Amazon.CodeCommit.Model
         /// branch at the time the pull request was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BeforeCommitId
         {
             get { return this._beforeCommitId; }
@@ -82,9 +84,9 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property ClientRequestToken. 
         /// <para>
-        /// A unique, client-generated idempotency token that when provided in a request, ensures
+        /// A unique, client-generated idempotency token that, when provided in a request, ensures
         /// the request cannot be repeated with a changed parameter. If a request is received
-        /// with the same parameters and a token is included, the request will return information
+        /// with the same parameters and a token is included, the request returns information
         /// about the initial request that used that token.
         /// </para>
         /// </summary>
@@ -106,6 +108,7 @@ namespace Amazon.CodeCommit.Model
         /// The content of your comment on the change.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Content
         {
             get { return this._content; }
@@ -122,7 +125,7 @@ namespace Amazon.CodeCommit.Model
         /// Gets and sets the property Location. 
         /// <para>
         /// The location of the change where you want to post your comment. If no location is
-        /// provided, the comment will be posted as a general comment on the pull request difference
+        /// provided, the comment is posted as a general comment on the pull request difference
         /// between the before commit ID and the after commit ID.
         /// </para>
         /// </summary>
@@ -144,6 +147,7 @@ namespace Amazon.CodeCommit.Model
         /// The system-generated ID of the pull request. To get this ID, use <a>ListPullRequests</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PullRequestId
         {
             get { return this._pullRequestId; }
@@ -162,6 +166,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository where you want to post a comment on a pull request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

@@ -58,10 +58,11 @@ namespace Amazon.StepFunctions.Model.Internal.MarshallTransformations
             string target = "AWSStepFunctions.UpdateStateMachine";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.0";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-11-23";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,17 @@ namespace Amazon.StepFunctions.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("definition");
                     context.Writer.Write(publicRequest.Definition);
+                }
+
+                if(publicRequest.IsSetLoggingConfiguration())
+                {
+                    context.Writer.WritePropertyName("loggingConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = LoggingConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.LoggingConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetRoleArn())

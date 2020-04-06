@@ -55,22 +55,23 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteMethodResponseRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}";
             if (!publicRequest.IsSetHttpMethod())
                 throw new AmazonAPIGatewayException("Request object does not have required field HttpMethod set");
-            uriResourcePath = uriResourcePath.Replace("{http_method}", StringUtils.FromString(publicRequest.HttpMethod));
+            request.AddPathResource("{http_method}", StringUtils.FromString(publicRequest.HttpMethod));
             if (!publicRequest.IsSetResourceId())
                 throw new AmazonAPIGatewayException("Request object does not have required field ResourceId set");
-            uriResourcePath = uriResourcePath.Replace("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
+            request.AddPathResource("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
             if (!publicRequest.IsSetStatusCode())
                 throw new AmazonAPIGatewayException("Request object does not have required field StatusCode set");
-            uriResourcePath = uriResourcePath.Replace("{status_code}", StringUtils.FromString(publicRequest.StatusCode));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{status_code}", StringUtils.FromString(publicRequest.StatusCode));
+            request.ResourcePath = "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

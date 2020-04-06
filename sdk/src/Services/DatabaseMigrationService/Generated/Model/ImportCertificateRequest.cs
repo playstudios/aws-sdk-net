@@ -41,9 +41,12 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property CertificateIdentifier. 
         /// <para>
-        /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
+        /// A customer-assigned name for the certificate. Identifiers must begin with a letter
+        /// and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen
+        /// or contain two consecutive hyphens.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CertificateIdentifier
         {
             get { return this._certificateIdentifier; }
@@ -59,7 +62,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property CertificatePem. 
         /// <para>
-        /// The contents of the .pem X.509 certificate file for the certificate.
+        /// The contents of a <code>.pem</code> file, which contains an X.509 certificate.
         /// </para>
         /// </summary>
         public string CertificatePem
@@ -77,7 +80,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property CertificateWallet. 
         /// <para>
-        /// The location of the imported Oracle Wallet certificate for use with SSL.
+        /// The location of an imported Oracle Wallet certificate for use with SSL.
         /// </para>
         /// </summary>
         public MemoryStream CertificateWallet

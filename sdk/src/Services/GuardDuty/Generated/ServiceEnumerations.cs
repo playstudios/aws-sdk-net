@@ -25,6 +25,52 @@ namespace Amazon.GuardDuty
 {
 
     /// <summary>
+    /// Constants used for properties of type DestinationType.
+    /// </summary>
+    public class DestinationType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant S3 for DestinationType
+        /// </summary>
+        public static readonly DestinationType S3 = new DestinationType("S3");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public DestinationType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static DestinationType FindValue(string value)
+        {
+            return FindValue<DestinationType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator DestinationType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type DetectorStatus.
     /// </summary>
     public class DetectorStatus : ConstantClass
@@ -118,6 +164,110 @@ namespace Amazon.GuardDuty
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator Feedback(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type FilterAction.
+    /// </summary>
+    public class FilterAction : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ARCHIVE for FilterAction
+        /// </summary>
+        public static readonly FilterAction ARCHIVE = new FilterAction("ARCHIVE");
+        /// <summary>
+        /// Constant NOOP for FilterAction
+        /// </summary>
+        public static readonly FilterAction NOOP = new FilterAction("NOOP");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public FilterAction(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static FilterAction FindValue(string value)
+        {
+            return FindValue<FilterAction>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator FilterAction(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type FindingPublishingFrequency.
+    /// </summary>
+    public class FindingPublishingFrequency : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant FIFTEEN_MINUTES for FindingPublishingFrequency
+        /// </summary>
+        public static readonly FindingPublishingFrequency FIFTEEN_MINUTES = new FindingPublishingFrequency("FIFTEEN_MINUTES");
+        /// <summary>
+        /// Constant ONE_HOUR for FindingPublishingFrequency
+        /// </summary>
+        public static readonly FindingPublishingFrequency ONE_HOUR = new FindingPublishingFrequency("ONE_HOUR");
+        /// <summary>
+        /// Constant SIX_HOURS for FindingPublishingFrequency
+        /// </summary>
+        public static readonly FindingPublishingFrequency SIX_HOURS = new FindingPublishingFrequency("SIX_HOURS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public FindingPublishingFrequency(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static FindingPublishingFrequency FindValue(string value)
+        {
+            return FindValue<FindingPublishingFrequency>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator FindingPublishingFrequency(string value)
         {
             return FindValue(value);
         }
@@ -350,6 +500,64 @@ namespace Amazon.GuardDuty
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator OrderBy(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type PublishingStatus.
+    /// </summary>
+    public class PublishingStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant PENDING_VERIFICATION for PublishingStatus
+        /// </summary>
+        public static readonly PublishingStatus PENDING_VERIFICATION = new PublishingStatus("PENDING_VERIFICATION");
+        /// <summary>
+        /// Constant PUBLISHING for PublishingStatus
+        /// </summary>
+        public static readonly PublishingStatus PUBLISHING = new PublishingStatus("PUBLISHING");
+        /// <summary>
+        /// Constant STOPPED for PublishingStatus
+        /// </summary>
+        public static readonly PublishingStatus STOPPED = new PublishingStatus("STOPPED");
+        /// <summary>
+        /// Constant UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY for PublishingStatus
+        /// </summary>
+        public static readonly PublishingStatus UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY = new PublishingStatus("UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public PublishingStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static PublishingStatus FindValue(string value)
+        {
+            return FindValue<PublishingStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator PublishingStatus(string value)
         {
             return FindValue(value);
         }

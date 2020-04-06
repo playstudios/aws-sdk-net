@@ -59,12 +59,12 @@ namespace Amazon.Athena.Model
         /// <summary>
         /// Gets and sets the property State. 
         /// <para>
-        /// The state of query execution. <code>SUBMITTED</code> indicates that the query is queued
-        /// for execution. <code>RUNNING</code> indicates that the query is scanning data and
-        /// returning results. <code>SUCCEEDED</code> indicates that the query completed without
-        /// error. <code>FAILED</code> indicates that the query experienced an error and did not
-        /// complete processing. <code>CANCELLED</code> indicates that user input interrupted
-        /// query execution.
+        /// The state of query execution. <code>QUEUED</code> indicates that the query has been
+        /// submitted to the service, and Athena will execute the query as soon as resources are
+        /// available. <code>RUNNING</code> indicates that the query is in execution phase. <code>SUCCEEDED</code>
+        /// indicates that the query completed without errors. <code>FAILED</code> indicates that
+        /// the query experienced an error and did not complete processing. <code>CANCELLED</code>
+        /// indicates that a user input interrupted query execution. 
         /// </para>
         /// </summary>
         public QueryExecutionState State

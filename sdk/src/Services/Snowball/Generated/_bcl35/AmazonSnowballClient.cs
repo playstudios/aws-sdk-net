@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Snowball.Model;
 using Amazon.Snowball.Model.Internal.MarshallTransformations;
+using Amazon.Snowball.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -33,17 +35,18 @@ namespace Amazon.Snowball
     /// <summary>
     /// Implementation for accessing Snowball
     ///
-    /// AWS Snowball is a petabyte-scale data transport solution that uses secure appliances
+    /// AWS Snowball is a petabyte-scale data transport solution that uses secure devices
     /// to transfer large amounts of data between your on-premises data centers and Amazon
     /// Simple Storage Service (Amazon S3). The Snowball commands described here provide access
     /// to the same functionality that is available in the AWS Snowball Management Console,
     /// which enables you to create and manage jobs for Snowball. To transfer data locally
-    /// with a Snowball appliance, you'll need to use the Snowball client or the Amazon S3
-    /// API adapter for Snowball. For more information, see the <a href="http://docs.aws.amazon.com/AWSImportExport/latest/ug/api-reference.html">User
+    /// with a Snowball device, you'll need to use the Snowball client or the Amazon S3 API
+    /// adapter for Snowball. For more information, see the <a href="https://docs.aws.amazon.com/AWSImportExport/latest/ug/api-reference.html">User
     /// Guide</a>.
     /// </summary>
     public partial class AmazonSnowballClient : AmazonServiceClient, IAmazonSnowball
     {
+        private static IServiceMetadata serviceMetadata = new AmazonSnowballMetadata();
         #region Constructors
 
         /// <summary>
@@ -214,6 +217,16 @@ namespace Amazon.Snowball
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -229,7 +242,7 @@ namespace Amazon.Snowball
 
         #endregion
 
-        
+
         #region  CancelCluster
 
         /// <summary>
@@ -254,10 +267,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelCluster">REST API Reference for CancelCluster Operation</seealso>
         public virtual CancelClusterResponse CancelCluster(CancelClusterRequest request)
         {
-            var marshaller = CancelClusterRequestMarshaller.Instance;
-            var unmarshaller = CancelClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelClusterResponseUnmarshaller.Instance;
 
-            return Invoke<CancelClusterRequest,CancelClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<CancelClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -274,11 +288,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelCluster">REST API Reference for CancelCluster Operation</seealso>
         public virtual IAsyncResult BeginCancelCluster(CancelClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CancelClusterRequestMarshaller.Instance;
-            var unmarshaller = CancelClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CancelClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -301,8 +315,8 @@ namespace Amazon.Snowball
         /// <summary>
         /// Cancels the specified job. You can only cancel a job before its <code>JobState</code>
         /// value changes to <code>PreparingAppliance</code>. Requesting the <code>ListJobs</code>
-        /// or <code>DescribeJob</code> action will return a job's <code>JobState</code> as part
-        /// of the response element data returned.
+        /// or <code>DescribeJob</code> action returns a job's <code>JobState</code> as part of
+        /// the response element data returned.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CancelJob service method.</param>
         /// 
@@ -322,10 +336,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelJob">REST API Reference for CancelJob Operation</seealso>
         public virtual CancelJobResponse CancelJob(CancelJobRequest request)
         {
-            var marshaller = CancelJobRequestMarshaller.Instance;
-            var unmarshaller = CancelJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelJobResponseUnmarshaller.Instance;
 
-            return Invoke<CancelJobRequest,CancelJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<CancelJobResponse>(request, options);
         }
 
         /// <summary>
@@ -342,11 +357,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelJob">REST API Reference for CancelJob Operation</seealso>
         public virtual IAsyncResult BeginCancelJob(CancelJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CancelJobRequestMarshaller.Instance;
-            var unmarshaller = CancelJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CancelJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -387,10 +402,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateAddress">REST API Reference for CreateAddress Operation</seealso>
         public virtual CreateAddressResponse CreateAddress(CreateAddressRequest request)
         {
-            var marshaller = CreateAddressRequestMarshaller.Instance;
-            var unmarshaller = CreateAddressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAddressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAddressResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAddressRequest,CreateAddressResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAddressResponse>(request, options);
         }
 
         /// <summary>
@@ -407,11 +423,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateAddress">REST API Reference for CreateAddress Operation</seealso>
         public virtual IAsyncResult BeginCreateAddress(CreateAddressRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateAddressRequestMarshaller.Instance;
-            var unmarshaller = CreateAddressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAddressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAddressResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateAddressRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -439,6 +455,10 @@ namespace Amazon.Snowball
         /// <param name="request">Container for the necessary parameters to execute the CreateCluster service method.</param>
         /// 
         /// <returns>The response from the CreateCluster service method, as returned by Snowball.</returns>
+        /// <exception cref="Amazon.Snowball.Model.Ec2RequestFailedException">
+        /// Your IAM user lacks the necessary Amazon EC2 permissions to perform the attempted
+        /// action.
+        /// </exception>
         /// <exception cref="Amazon.Snowball.Model.InvalidInputCombinationException">
         /// Job or cluster creation failed. One ore more inputs were invalid. Confirm that the
         /// <a>CreateClusterRequest$SnowballType</a> value supports your <a>CreateJobRequest$JobType</a>,
@@ -455,10 +475,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateCluster">REST API Reference for CreateCluster Operation</seealso>
         public virtual CreateClusterResponse CreateCluster(CreateClusterRequest request)
         {
-            var marshaller = CreateClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterResponseUnmarshaller.Instance;
 
-            return Invoke<CreateClusterRequest,CreateClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -475,11 +496,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateCluster">REST API Reference for CreateCluster Operation</seealso>
         public virtual IAsyncResult BeginCreateCluster(CreateClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateClusterRequestMarshaller.Instance;
-            var unmarshaller = CreateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -514,6 +535,10 @@ namespace Amazon.Snowball
         /// five nodes for your cluster and you have more nodes to create for this cluster, try
         /// again and create jobs until your cluster has exactly five notes.
         /// </exception>
+        /// <exception cref="Amazon.Snowball.Model.Ec2RequestFailedException">
+        /// Your IAM user lacks the necessary Amazon EC2 permissions to perform the attempted
+        /// action.
+        /// </exception>
         /// <exception cref="Amazon.Snowball.Model.InvalidInputCombinationException">
         /// Job or cluster creation failed. One ore more inputs were invalid. Confirm that the
         /// <a>CreateClusterRequest$SnowballType</a> value supports your <a>CreateJobRequest$JobType</a>,
@@ -530,10 +555,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateJob">REST API Reference for CreateJob Operation</seealso>
         public virtual CreateJobResponse CreateJob(CreateJobRequest request)
         {
-            var marshaller = CreateJobRequestMarshaller.Instance;
-            var unmarshaller = CreateJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateJobResponseUnmarshaller.Instance;
 
-            return Invoke<CreateJobRequest,CreateJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateJobResponse>(request, options);
         }
 
         /// <summary>
@@ -550,11 +576,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateJob">REST API Reference for CreateJob Operation</seealso>
         public virtual IAsyncResult BeginCreateJob(CreateJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateJobRequestMarshaller.Instance;
-            var unmarshaller = CreateJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -588,10 +614,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddress">REST API Reference for DescribeAddress Operation</seealso>
         public virtual DescribeAddressResponse DescribeAddress(DescribeAddressRequest request)
         {
-            var marshaller = DescribeAddressRequestMarshaller.Instance;
-            var unmarshaller = DescribeAddressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAddressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAddressResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAddressRequest,DescribeAddressResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAddressResponse>(request, options);
         }
 
         /// <summary>
@@ -608,11 +635,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddress">REST API Reference for DescribeAddress Operation</seealso>
         public virtual IAsyncResult BeginDescribeAddress(DescribeAddressRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeAddressRequestMarshaller.Instance;
-            var unmarshaller = DescribeAddressResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAddressRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAddressResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeAddressRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -652,10 +679,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddresses">REST API Reference for DescribeAddresses Operation</seealso>
         public virtual DescribeAddressesResponse DescribeAddresses(DescribeAddressesRequest request)
         {
-            var marshaller = DescribeAddressesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAddressesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAddressesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAddressesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAddressesRequest,DescribeAddressesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAddressesResponse>(request, options);
         }
 
         /// <summary>
@@ -672,11 +700,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddresses">REST API Reference for DescribeAddresses Operation</seealso>
         public virtual IAsyncResult BeginDescribeAddresses(DescribeAddressesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeAddressesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAddressesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAddressesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAddressesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeAddressesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -710,10 +738,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeCluster">REST API Reference for DescribeCluster Operation</seealso>
         public virtual DescribeClusterResponse DescribeCluster(DescribeClusterRequest request)
         {
-            var marshaller = DescribeClusterRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeClusterRequest,DescribeClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -730,11 +759,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeCluster">REST API Reference for DescribeCluster Operation</seealso>
         public virtual IAsyncResult BeginDescribeCluster(DescribeClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeClusterRequestMarshaller.Instance;
-            var unmarshaller = DescribeClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -768,10 +797,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeJob">REST API Reference for DescribeJob Operation</seealso>
         public virtual DescribeJobResponse DescribeJob(DescribeJobRequest request)
         {
-            var marshaller = DescribeJobRequestMarshaller.Instance;
-            var unmarshaller = DescribeJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeJobResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeJobRequest,DescribeJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeJobResponse>(request, options);
         }
 
         /// <summary>
@@ -788,11 +818,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeJob">REST API Reference for DescribeJob Operation</seealso>
         public virtual IAsyncResult BeginDescribeJob(DescribeJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeJobRequestMarshaller.Instance;
-            var unmarshaller = DescribeJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -853,10 +883,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobManifest">REST API Reference for GetJobManifest Operation</seealso>
         public virtual GetJobManifestResponse GetJobManifest(GetJobManifestRequest request)
         {
-            var marshaller = GetJobManifestRequestMarshaller.Instance;
-            var unmarshaller = GetJobManifestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobManifestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobManifestResponseUnmarshaller.Instance;
 
-            return Invoke<GetJobManifestRequest,GetJobManifestResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetJobManifestResponse>(request, options);
         }
 
         /// <summary>
@@ -873,11 +904,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobManifest">REST API Reference for GetJobManifest Operation</seealso>
         public virtual IAsyncResult BeginGetJobManifest(GetJobManifestRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetJobManifestRequestMarshaller.Instance;
-            var unmarshaller = GetJobManifestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobManifestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobManifestResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetJobManifestRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -931,10 +962,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobUnlockCode">REST API Reference for GetJobUnlockCode Operation</seealso>
         public virtual GetJobUnlockCodeResponse GetJobUnlockCode(GetJobUnlockCodeRequest request)
         {
-            var marshaller = GetJobUnlockCodeRequestMarshaller.Instance;
-            var unmarshaller = GetJobUnlockCodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobUnlockCodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobUnlockCodeResponseUnmarshaller.Instance;
 
-            return Invoke<GetJobUnlockCodeRequest,GetJobUnlockCodeResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetJobUnlockCodeResponse>(request, options);
         }
 
         /// <summary>
@@ -951,11 +983,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobUnlockCode">REST API Reference for GetJobUnlockCode Operation</seealso>
         public virtual IAsyncResult BeginGetJobUnlockCode(GetJobUnlockCodeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetJobUnlockCodeRequestMarshaller.Instance;
-            var unmarshaller = GetJobUnlockCodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobUnlockCodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobUnlockCodeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetJobUnlockCodeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -991,10 +1023,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetSnowballUsage">REST API Reference for GetSnowballUsage Operation</seealso>
         public virtual GetSnowballUsageResponse GetSnowballUsage(GetSnowballUsageRequest request)
         {
-            var marshaller = GetSnowballUsageRequestMarshaller.Instance;
-            var unmarshaller = GetSnowballUsageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSnowballUsageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSnowballUsageResponseUnmarshaller.Instance;
 
-            return Invoke<GetSnowballUsageRequest,GetSnowballUsageResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSnowballUsageResponse>(request, options);
         }
 
         /// <summary>
@@ -1011,11 +1044,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetSnowballUsage">REST API Reference for GetSnowballUsage Operation</seealso>
         public virtual IAsyncResult BeginGetSnowballUsage(GetSnowballUsageRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSnowballUsageRequestMarshaller.Instance;
-            var unmarshaller = GetSnowballUsageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSnowballUsageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSnowballUsageResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSnowballUsageRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1029,6 +1062,69 @@ namespace Amazon.Snowball
         public virtual GetSnowballUsageResponse EndGetSnowballUsage(IAsyncResult asyncResult)
         {
             return EndInvoke<GetSnowballUsageResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetSoftwareUpdates
+
+        /// <summary>
+        /// Returns an Amazon S3 presigned URL for an update file associated with a specified
+        /// <code>JobId</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSoftwareUpdates service method.</param>
+        /// 
+        /// <returns>The response from the GetSoftwareUpdates service method, as returned by Snowball.</returns>
+        /// <exception cref="Amazon.Snowball.Model.InvalidJobStateException">
+        /// The action can't be performed because the job's current state doesn't allow that action
+        /// to be performed.
+        /// </exception>
+        /// <exception cref="Amazon.Snowball.Model.InvalidResourceException">
+        /// The specified resource can't be found. Check the information you provided in your
+        /// last request, and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetSoftwareUpdates">REST API Reference for GetSoftwareUpdates Operation</seealso>
+        public virtual GetSoftwareUpdatesResponse GetSoftwareUpdates(GetSoftwareUpdatesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSoftwareUpdatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSoftwareUpdatesResponseUnmarshaller.Instance;
+
+            return Invoke<GetSoftwareUpdatesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSoftwareUpdates operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSoftwareUpdates operation on AmazonSnowballClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSoftwareUpdates
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetSoftwareUpdates">REST API Reference for GetSoftwareUpdates Operation</seealso>
+        public virtual IAsyncResult BeginGetSoftwareUpdates(GetSoftwareUpdatesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSoftwareUpdatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSoftwareUpdatesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetSoftwareUpdates operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSoftwareUpdates.</param>
+        /// 
+        /// <returns>Returns a  GetSoftwareUpdatesResult from Snowball.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetSoftwareUpdates">REST API Reference for GetSoftwareUpdates Operation</seealso>
+        public virtual GetSoftwareUpdatesResponse EndGetSoftwareUpdates(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetSoftwareUpdatesResponse>(asyncResult);
         }
 
         #endregion
@@ -1055,10 +1151,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClusterJobs">REST API Reference for ListClusterJobs Operation</seealso>
         public virtual ListClusterJobsResponse ListClusterJobs(ListClusterJobsRequest request)
         {
-            var marshaller = ListClusterJobsRequestMarshaller.Instance;
-            var unmarshaller = ListClusterJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListClusterJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListClusterJobsResponseUnmarshaller.Instance;
 
-            return Invoke<ListClusterJobsRequest,ListClusterJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListClusterJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -1075,11 +1172,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClusterJobs">REST API Reference for ListClusterJobs Operation</seealso>
         public virtual IAsyncResult BeginListClusterJobs(ListClusterJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListClusterJobsRequestMarshaller.Instance;
-            var unmarshaller = ListClusterJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListClusterJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListClusterJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListClusterJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1115,10 +1212,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClusters">REST API Reference for ListClusters Operation</seealso>
         public virtual ListClustersResponse ListClusters(ListClustersRequest request)
         {
-            var marshaller = ListClustersRequestMarshaller.Instance;
-            var unmarshaller = ListClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListClustersResponseUnmarshaller.Instance;
 
-            return Invoke<ListClustersRequest,ListClustersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListClustersResponse>(request, options);
         }
 
         /// <summary>
@@ -1135,11 +1233,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClusters">REST API Reference for ListClusters Operation</seealso>
         public virtual IAsyncResult BeginListClusters(ListClustersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListClustersRequestMarshaller.Instance;
-            var unmarshaller = ListClustersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListClustersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListClustersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListClustersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1153,6 +1251,73 @@ namespace Amazon.Snowball
         public virtual ListClustersResponse EndListClusters(IAsyncResult asyncResult)
         {
             return EndInvoke<ListClustersResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListCompatibleImages
+
+        /// <summary>
+        /// This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs)
+        /// that are owned by your AWS account that would be supported for use on a Snowball Edge
+        /// device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates
+        /// HVM, Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available
+        /// on the AWS Marketplace.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListCompatibleImages service method.</param>
+        /// 
+        /// <returns>The response from the ListCompatibleImages service method, as returned by Snowball.</returns>
+        /// <exception cref="Amazon.Snowball.Model.Ec2RequestFailedException">
+        /// Your IAM user lacks the necessary Amazon EC2 permissions to perform the attempted
+        /// action.
+        /// </exception>
+        /// <exception cref="Amazon.Snowball.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> string was altered unexpectedly, and the operation has
+        /// stopped. Run the operation without changing the <code>NextToken</code> string, and
+        /// try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListCompatibleImages">REST API Reference for ListCompatibleImages Operation</seealso>
+        public virtual ListCompatibleImagesResponse ListCompatibleImages(ListCompatibleImagesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCompatibleImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCompatibleImagesResponseUnmarshaller.Instance;
+
+            return Invoke<ListCompatibleImagesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListCompatibleImages operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListCompatibleImages operation on AmazonSnowballClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListCompatibleImages
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListCompatibleImages">REST API Reference for ListCompatibleImages Operation</seealso>
+        public virtual IAsyncResult BeginListCompatibleImages(ListCompatibleImagesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCompatibleImagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCompatibleImagesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListCompatibleImages operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListCompatibleImages.</param>
+        /// 
+        /// <returns>Returns a  ListCompatibleImagesResult from Snowball.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListCompatibleImages">REST API Reference for ListCompatibleImages Operation</seealso>
+        public virtual ListCompatibleImagesResponse EndListCompatibleImages(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListCompatibleImagesResponse>(asyncResult);
         }
 
         #endregion
@@ -1177,10 +1342,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListJobs">REST API Reference for ListJobs Operation</seealso>
         public virtual ListJobsResponse ListJobs(ListJobsRequest request)
         {
-            var marshaller = ListJobsRequestMarshaller.Instance;
-            var unmarshaller = ListJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobsResponseUnmarshaller.Instance;
 
-            return Invoke<ListJobsRequest,ListJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -1197,11 +1363,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListJobs">REST API Reference for ListJobs Operation</seealso>
         public virtual IAsyncResult BeginListJobs(ListJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListJobsRequestMarshaller.Instance;
-            var unmarshaller = ListJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1230,6 +1396,10 @@ namespace Amazon.Snowball
         /// <param name="request">Container for the necessary parameters to execute the UpdateCluster service method.</param>
         /// 
         /// <returns>The response from the UpdateCluster service method, as returned by Snowball.</returns>
+        /// <exception cref="Amazon.Snowball.Model.Ec2RequestFailedException">
+        /// Your IAM user lacks the necessary Amazon EC2 permissions to perform the attempted
+        /// action.
+        /// </exception>
         /// <exception cref="Amazon.Snowball.Model.InvalidInputCombinationException">
         /// Job or cluster creation failed. One ore more inputs were invalid. Confirm that the
         /// <a>CreateClusterRequest$SnowballType</a> value supports your <a>CreateJobRequest$JobType</a>,
@@ -1250,10 +1420,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateCluster">REST API Reference for UpdateCluster Operation</seealso>
         public virtual UpdateClusterResponse UpdateCluster(UpdateClusterRequest request)
         {
-            var marshaller = UpdateClusterRequestMarshaller.Instance;
-            var unmarshaller = UpdateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateClusterResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateClusterRequest,UpdateClusterResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateClusterResponse>(request, options);
         }
 
         /// <summary>
@@ -1270,11 +1441,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateCluster">REST API Reference for UpdateCluster Operation</seealso>
         public virtual IAsyncResult BeginUpdateCluster(UpdateClusterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateClusterRequestMarshaller.Instance;
-            var unmarshaller = UpdateClusterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateClusterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateClusterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateClusterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1308,6 +1479,10 @@ namespace Amazon.Snowball
         /// five nodes for your cluster and you have more nodes to create for this cluster, try
         /// again and create jobs until your cluster has exactly five notes.
         /// </exception>
+        /// <exception cref="Amazon.Snowball.Model.Ec2RequestFailedException">
+        /// Your IAM user lacks the necessary Amazon EC2 permissions to perform the attempted
+        /// action.
+        /// </exception>
         /// <exception cref="Amazon.Snowball.Model.InvalidInputCombinationException">
         /// Job or cluster creation failed. One ore more inputs were invalid. Confirm that the
         /// <a>CreateClusterRequest$SnowballType</a> value supports your <a>CreateJobRequest$JobType</a>,
@@ -1328,10 +1503,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
         public virtual UpdateJobResponse UpdateJob(UpdateJobRequest request)
         {
-            var marshaller = UpdateJobRequestMarshaller.Instance;
-            var unmarshaller = UpdateJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJobResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateJobRequest,UpdateJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateJobResponse>(request, options);
         }
 
         /// <summary>
@@ -1348,11 +1524,11 @@ namespace Amazon.Snowball
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
         public virtual IAsyncResult BeginUpdateJob(UpdateJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateJobRequestMarshaller.Instance;
-            var unmarshaller = UpdateJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

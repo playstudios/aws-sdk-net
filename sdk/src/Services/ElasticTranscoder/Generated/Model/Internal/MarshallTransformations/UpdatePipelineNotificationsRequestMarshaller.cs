@@ -55,14 +55,15 @@ namespace Amazon.ElasticTranscoder.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdatePipelineNotificationsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ElasticTranscoder");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-09-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/2012-09-25/pipelines/{Id}/notifications";
             if (!publicRequest.IsSetId())
                 throw new AmazonElasticTranscoderException("Request object does not have required field Id set");
-            uriResourcePath = uriResourcePath.Replace("{Id}", StringUtils.FromString(publicRequest.Id));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Id}", StringUtils.FromString(publicRequest.Id));
+            request.ResourcePath = "/2012-09-25/pipelines/{Id}/notifications";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

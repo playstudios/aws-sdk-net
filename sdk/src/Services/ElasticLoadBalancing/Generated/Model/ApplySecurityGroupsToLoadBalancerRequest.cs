@@ -36,7 +36,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     ///  
     /// <para>
     /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-security-groups.html#elb-vpc-security-groups">Security
-    /// Groups for Load Balancers in a VPC</a> in the <i>Classic Load Balancer Guide</i>.
+    /// Groups for Load Balancers in a VPC</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class ApplySecurityGroupsToLoadBalancerRequest : AmazonElasticLoadBalancingRequest
@@ -50,6 +50,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }
@@ -69,6 +70,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// cannot specify the name of the security group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> SecurityGroups
         {
             get { return this._securityGroups; }

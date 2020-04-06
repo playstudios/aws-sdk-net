@@ -33,9 +33,36 @@ namespace Amazon.ResourceGroups.Model
     /// </summary>
     public partial class ListGroupResourcesRequest : AmazonResourceGroupsRequest
     {
+        private List<ResourceFilter> _filters = new List<ResourceFilter>();
         private string _groupName;
         private int? _maxResults;
         private string _nextToken;
+
+        /// <summary>
+        /// Gets and sets the property Filters. 
+        /// <para>
+        /// Filters, formatted as ResourceFilter objects, that you want to apply to a ListGroupResources
+        /// operation.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>resource-type</code> - Filter resources by their type. Specify up to five resource
+        /// types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance,
+        /// or AWS::S3::Bucket.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public List<ResourceFilter> Filters
+        {
+            get { return this._filters; }
+            set { this._filters = value; }
+        }
+
+        // Check to see if Filters property is set
+        internal bool IsSetFilters()
+        {
+            return this._filters != null && this._filters.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property GroupName. 
@@ -43,6 +70,7 @@ namespace Amazon.ResourceGroups.Model
         /// The name of the resource group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string GroupName
         {
             get { return this._groupName; }
@@ -62,6 +90,7 @@ namespace Amazon.ResourceGroups.Model
         /// in paginated output. By default, this number is 50.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -82,6 +111,7 @@ namespace Amazon.ResourceGroups.Model
         /// specify the NextToken value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=8192)]
         public string NextToken
         {
             get { return this._nextToken; }

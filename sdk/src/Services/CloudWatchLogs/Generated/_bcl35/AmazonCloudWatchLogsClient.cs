@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CloudWatchLogs.Model;
 using Amazon.CloudWatchLogs.Model.Internal.MarshallTransformations;
+using Amazon.CloudWatchLogs.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -72,6 +74,7 @@ namespace Amazon.CloudWatchLogs
     /// </summary>
     public partial class AmazonCloudWatchLogsClient : AmazonServiceClient, IAmazonCloudWatchLogs
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCloudWatchLogsMetadata();
         #region Constructors
 
         /// <summary>
@@ -242,6 +245,16 @@ namespace Amazon.CloudWatchLogs
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -257,7 +270,7 @@ namespace Amazon.CloudWatchLogs
 
         #endregion
 
-        
+
         #region  AssociateKmsKey
 
         /// <summary>
@@ -272,7 +285,13 @@ namespace Amazon.CloudWatchLogs
         /// as the data encrypted with the CMK is still within Amazon CloudWatch Logs. This enables
         /// Amazon CloudWatch Logs to decrypt this data whenever it is requested.
         /// </para>
-        ///  
+        ///  <note> 
+        /// <para>
+        ///  <b>Important:</b> CloudWatch Logs supports only symmetric CMKs. Do not use an associate
+        /// an asymmetric CMK with your log group. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a>.
+        /// </para>
+        ///  </note> 
         /// <para>
         /// Note that it can take up to 5 minutes for this operation to take effect.
         /// </para>
@@ -301,10 +320,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/AssociateKmsKey">REST API Reference for AssociateKmsKey Operation</seealso>
         public virtual AssociateKmsKeyResponse AssociateKmsKey(AssociateKmsKeyRequest request)
         {
-            var marshaller = AssociateKmsKeyRequestMarshaller.Instance;
-            var unmarshaller = AssociateKmsKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateKmsKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateKmsKeyResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateKmsKeyRequest,AssociateKmsKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateKmsKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -321,11 +341,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/AssociateKmsKey">REST API Reference for AssociateKmsKey Operation</seealso>
         public virtual IAsyncResult BeginAssociateKmsKey(AssociateKmsKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateKmsKeyRequestMarshaller.Instance;
-            var unmarshaller = AssociateKmsKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateKmsKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateKmsKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateKmsKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -371,10 +391,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CancelExportTask">REST API Reference for CancelExportTask Operation</seealso>
         public virtual CancelExportTaskResponse CancelExportTask(CancelExportTaskRequest request)
         {
-            var marshaller = CancelExportTaskRequestMarshaller.Instance;
-            var unmarshaller = CancelExportTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelExportTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelExportTaskResponseUnmarshaller.Instance;
 
-            return Invoke<CancelExportTaskRequest,CancelExportTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<CancelExportTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -391,11 +412,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CancelExportTask">REST API Reference for CancelExportTask Operation</seealso>
         public virtual IAsyncResult BeginCancelExportTask(CancelExportTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CancelExportTaskRequestMarshaller.Instance;
-            var unmarshaller = CancelExportTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CancelExportTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CancelExportTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CancelExportTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -433,6 +454,11 @@ namespace Amazon.CloudWatchLogs
         /// bucket. To separate out log data for each export task, you can specify a prefix to
         /// be used as the Amazon S3 key prefix for all exported objects.
         /// </para>
+        ///  
+        /// <para>
+        /// Exporting to S3 buckets that are encrypted with AES-256 is supported. Exporting to
+        /// S3 buckets encrypted with SSE-KMS is not supported. 
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateExportTask service method.</param>
         /// 
@@ -458,10 +484,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateExportTask">REST API Reference for CreateExportTask Operation</seealso>
         public virtual CreateExportTaskResponse CreateExportTask(CreateExportTaskRequest request)
         {
-            var marshaller = CreateExportTaskRequestMarshaller.Instance;
-            var unmarshaller = CreateExportTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateExportTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateExportTaskResponseUnmarshaller.Instance;
 
-            return Invoke<CreateExportTaskRequest,CreateExportTaskResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateExportTaskResponse>(request, options);
         }
 
         /// <summary>
@@ -478,11 +505,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateExportTask">REST API Reference for CreateExportTask Operation</seealso>
         public virtual IAsyncResult BeginCreateExportTask(CreateExportTaskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateExportTaskRequestMarshaller.Instance;
-            var unmarshaller = CreateExportTaskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateExportTaskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateExportTaskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateExportTaskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -507,7 +534,7 @@ namespace Amazon.CloudWatchLogs
         /// 
         ///  
         /// <para>
-        /// You can create up to 5000 log groups per account.
+        /// You can create up to 20,000 log groups per account.
         /// </para>
         ///  
         /// <para>
@@ -524,7 +551,7 @@ namespace Amazon.CloudWatchLogs
         ///  </li> <li> 
         /// <para>
         /// Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore),
-        /// '-' (hyphen), '/' (forward slash), and '.' (period).
+        /// '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign)
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -539,6 +566,13 @@ namespace Amazon.CloudWatchLogs
         /// the CMK is disabled, you will receive an <code>InvalidParameterException</code> error.
         /// 
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <b>Important:</b> CloudWatch Logs supports only symmetric CMKs. Do not associate
+        /// an asymmetric CMK with your log group. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a>.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLogGroup service method.</param>
         /// 
@@ -561,10 +595,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogGroup">REST API Reference for CreateLogGroup Operation</seealso>
         public virtual CreateLogGroupResponse CreateLogGroup(CreateLogGroupRequest request)
         {
-            var marshaller = CreateLogGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLogGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLogGroupRequest,CreateLogGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLogGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -581,11 +616,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogGroup">REST API Reference for CreateLogGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateLogGroup(CreateLogGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateLogGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLogGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateLogGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -611,6 +646,8 @@ namespace Amazon.CloudWatchLogs
         ///  
         /// <para>
         /// There is no limit on the number of log streams that you can create for a log group.
+        /// There is a limit of 50 TPS on <code>CreateLogStream</code> operations, after which
+        /// transactions are throttled.
         /// </para>
         ///  
         /// <para>
@@ -648,10 +685,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogStream">REST API Reference for CreateLogStream Operation</seealso>
         public virtual CreateLogStreamResponse CreateLogStream(CreateLogStreamRequest request)
         {
-            var marshaller = CreateLogStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateLogStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLogStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLogStreamResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLogStreamRequest,CreateLogStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLogStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -668,11 +706,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogStream">REST API Reference for CreateLogStream Operation</seealso>
         public virtual IAsyncResult BeginCreateLogStream(CreateLogStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateLogStreamRequestMarshaller.Instance;
-            var unmarshaller = CreateLogStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLogStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLogStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateLogStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -715,10 +753,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDestination">REST API Reference for DeleteDestination Operation</seealso>
         public virtual DeleteDestinationResponse DeleteDestination(DeleteDestinationRequest request)
         {
-            var marshaller = DeleteDestinationRequestMarshaller.Instance;
-            var unmarshaller = DeleteDestinationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDestinationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDestinationRequest,DeleteDestinationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDestinationResponse>(request, options);
         }
 
         /// <summary>
@@ -735,11 +774,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDestination">REST API Reference for DeleteDestination Operation</seealso>
         public virtual IAsyncResult BeginDeleteDestination(DeleteDestinationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDestinationRequestMarshaller.Instance;
-            var unmarshaller = DeleteDestinationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDestinationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDestinationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -781,10 +820,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogGroup">REST API Reference for DeleteLogGroup Operation</seealso>
         public virtual DeleteLogGroupResponse DeleteLogGroup(DeleteLogGroupRequest request)
         {
-            var marshaller = DeleteLogGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLogGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLogGroupRequest,DeleteLogGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLogGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -801,11 +841,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogGroup">REST API Reference for DeleteLogGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteLogGroup(DeleteLogGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLogGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLogGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLogGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -847,10 +887,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogStream">REST API Reference for DeleteLogStream Operation</seealso>
         public virtual DeleteLogStreamResponse DeleteLogStream(DeleteLogStreamRequest request)
         {
-            var marshaller = DeleteLogStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteLogStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLogStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLogStreamResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLogStreamRequest,DeleteLogStreamResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLogStreamResponse>(request, options);
         }
 
         /// <summary>
@@ -867,11 +908,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogStream">REST API Reference for DeleteLogStream Operation</seealso>
         public virtual IAsyncResult BeginDeleteLogStream(DeleteLogStreamRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLogStreamRequestMarshaller.Instance;
-            var unmarshaller = DeleteLogStreamResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLogStreamRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLogStreamResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLogStreamRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -912,10 +953,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteMetricFilter">REST API Reference for DeleteMetricFilter Operation</seealso>
         public virtual DeleteMetricFilterResponse DeleteMetricFilter(DeleteMetricFilterRequest request)
         {
-            var marshaller = DeleteMetricFilterRequestMarshaller.Instance;
-            var unmarshaller = DeleteMetricFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMetricFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMetricFilterResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteMetricFilterRequest,DeleteMetricFilterResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteMetricFilterResponse>(request, options);
         }
 
         /// <summary>
@@ -932,11 +974,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteMetricFilter">REST API Reference for DeleteMetricFilter Operation</seealso>
         public virtual IAsyncResult BeginDeleteMetricFilter(DeleteMetricFilterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteMetricFilterRequestMarshaller.Instance;
-            var unmarshaller = DeleteMetricFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMetricFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMetricFilterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteMetricFilterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -975,10 +1017,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
         public virtual DeleteResourcePolicyResponse DeleteResourcePolicy(DeleteResourcePolicyRequest request)
         {
-            var marshaller = DeleteResourcePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteResourcePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourcePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteResourcePolicyRequest,DeleteResourcePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteResourcePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -995,11 +1038,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteResourcePolicy(DeleteResourcePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteResourcePolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteResourcePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourcePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteResourcePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1045,10 +1088,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteRetentionPolicy">REST API Reference for DeleteRetentionPolicy Operation</seealso>
         public virtual DeleteRetentionPolicyResponse DeleteRetentionPolicy(DeleteRetentionPolicyRequest request)
         {
-            var marshaller = DeleteRetentionPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteRetentionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRetentionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRetentionPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRetentionPolicyRequest,DeleteRetentionPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRetentionPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1065,11 +1109,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteRetentionPolicy">REST API Reference for DeleteRetentionPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteRetentionPolicy(DeleteRetentionPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRetentionPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteRetentionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRetentionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRetentionPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRetentionPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1110,10 +1154,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteSubscriptionFilter">REST API Reference for DeleteSubscriptionFilter Operation</seealso>
         public virtual DeleteSubscriptionFilterResponse DeleteSubscriptionFilter(DeleteSubscriptionFilterRequest request)
         {
-            var marshaller = DeleteSubscriptionFilterRequestMarshaller.Instance;
-            var unmarshaller = DeleteSubscriptionFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSubscriptionFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSubscriptionFilterResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteSubscriptionFilterRequest,DeleteSubscriptionFilterResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteSubscriptionFilterResponse>(request, options);
         }
 
         /// <summary>
@@ -1130,11 +1175,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteSubscriptionFilter">REST API Reference for DeleteSubscriptionFilter Operation</seealso>
         public virtual IAsyncResult BeginDeleteSubscriptionFilter(DeleteSubscriptionFilterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteSubscriptionFilterRequestMarshaller.Instance;
-            var unmarshaller = DeleteSubscriptionFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteSubscriptionFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteSubscriptionFilterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteSubscriptionFilterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1169,10 +1214,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeDestinations">REST API Reference for DescribeDestinations Operation</seealso>
         public virtual DescribeDestinationsResponse DescribeDestinations(DescribeDestinationsRequest request)
         {
-            var marshaller = DescribeDestinationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeDestinationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDestinationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDestinationsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeDestinationsRequest,DescribeDestinationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeDestinationsResponse>(request, options);
         }
 
         /// <summary>
@@ -1189,11 +1235,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeDestinations">REST API Reference for DescribeDestinations Operation</seealso>
         public virtual IAsyncResult BeginDescribeDestinations(DescribeDestinationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeDestinationsRequestMarshaller.Instance;
-            var unmarshaller = DescribeDestinationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeDestinationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeDestinationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeDestinationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1229,10 +1275,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeExportTasks">REST API Reference for DescribeExportTasks Operation</seealso>
         public virtual DescribeExportTasksResponse DescribeExportTasks(DescribeExportTasksRequest request)
         {
-            var marshaller = DescribeExportTasksRequestMarshaller.Instance;
-            var unmarshaller = DescribeExportTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeExportTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeExportTasksResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeExportTasksRequest,DescribeExportTasksResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeExportTasksResponse>(request, options);
         }
 
         /// <summary>
@@ -1249,11 +1296,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeExportTasks">REST API Reference for DescribeExportTasks Operation</seealso>
         public virtual IAsyncResult BeginDescribeExportTasks(DescribeExportTasksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeExportTasksRequestMarshaller.Instance;
-            var unmarshaller = DescribeExportTasksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeExportTasksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeExportTasksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeExportTasksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1307,10 +1354,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogGroups">REST API Reference for DescribeLogGroups Operation</seealso>
         public virtual DescribeLogGroupsResponse DescribeLogGroups(DescribeLogGroupsRequest request)
         {
-            var marshaller = DescribeLogGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLogGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLogGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLogGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLogGroupsRequest,DescribeLogGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLogGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -1327,11 +1375,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogGroups">REST API Reference for DescribeLogGroups Operation</seealso>
         public virtual IAsyncResult BeginDescribeLogGroups(DescribeLogGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLogGroupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLogGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLogGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLogGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeLogGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1376,10 +1424,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogStreams">REST API Reference for DescribeLogStreams Operation</seealso>
         public virtual DescribeLogStreamsResponse DescribeLogStreams(DescribeLogStreamsRequest request)
         {
-            var marshaller = DescribeLogStreamsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLogStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLogStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLogStreamsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeLogStreamsRequest,DescribeLogStreamsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLogStreamsResponse>(request, options);
         }
 
         /// <summary>
@@ -1396,11 +1445,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogStreams">REST API Reference for DescribeLogStreams Operation</seealso>
         public virtual IAsyncResult BeginDescribeLogStreams(DescribeLogStreamsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLogStreamsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLogStreamsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLogStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLogStreamsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeLogStreamsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1440,10 +1489,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeMetricFilters">REST API Reference for DescribeMetricFilters Operation</seealso>
         public virtual DescribeMetricFiltersResponse DescribeMetricFilters(DescribeMetricFiltersRequest request)
         {
-            var marshaller = DescribeMetricFiltersRequestMarshaller.Instance;
-            var unmarshaller = DescribeMetricFiltersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMetricFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMetricFiltersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeMetricFiltersRequest,DescribeMetricFiltersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeMetricFiltersResponse>(request, options);
         }
 
         /// <summary>
@@ -1460,11 +1510,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeMetricFilters">REST API Reference for DescribeMetricFilters Operation</seealso>
         public virtual IAsyncResult BeginDescribeMetricFilters(DescribeMetricFiltersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeMetricFiltersRequestMarshaller.Instance;
-            var unmarshaller = DescribeMetricFiltersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMetricFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMetricFiltersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeMetricFiltersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1478,6 +1528,71 @@ namespace Amazon.CloudWatchLogs
         public virtual DescribeMetricFiltersResponse EndDescribeMetricFilters(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeMetricFiltersResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeQueries
+
+        /// <summary>
+        /// Returns a list of CloudWatch Logs Insights queries that are scheduled, executing,
+        /// or have been executed recently in this account. You can request all queries, or limit
+        /// it to queries of a specific log group or queries with a certain status.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeQueries service method.</param>
+        /// 
+        /// <returns>The response from the DescribeQueries service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueries">REST API Reference for DescribeQueries Operation</seealso>
+        public virtual DescribeQueriesResponse DescribeQueries(DescribeQueriesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeQueriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeQueriesResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeQueriesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeQueries operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeQueries operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeQueries
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueries">REST API Reference for DescribeQueries Operation</seealso>
+        public virtual IAsyncResult BeginDescribeQueries(DescribeQueriesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeQueriesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeQueriesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeQueries operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeQueries.</param>
+        /// 
+        /// <returns>Returns a  DescribeQueriesResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueries">REST API Reference for DescribeQueries Operation</seealso>
+        public virtual DescribeQueriesResponse EndDescribeQueries(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeQueriesResponse>(asyncResult);
         }
 
         #endregion
@@ -1499,10 +1614,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeResourcePolicies">REST API Reference for DescribeResourcePolicies Operation</seealso>
         public virtual DescribeResourcePoliciesResponse DescribeResourcePolicies(DescribeResourcePoliciesRequest request)
         {
-            var marshaller = DescribeResourcePoliciesRequestMarshaller.Instance;
-            var unmarshaller = DescribeResourcePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeResourcePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeResourcePoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeResourcePoliciesRequest,DescribeResourcePoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeResourcePoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -1519,11 +1635,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeResourcePolicies">REST API Reference for DescribeResourcePolicies Operation</seealso>
         public virtual IAsyncResult BeginDescribeResourcePolicies(DescribeResourcePoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeResourcePoliciesRequestMarshaller.Instance;
-            var unmarshaller = DescribeResourcePoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeResourcePoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeResourcePoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeResourcePoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1562,10 +1678,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeSubscriptionFilters">REST API Reference for DescribeSubscriptionFilters Operation</seealso>
         public virtual DescribeSubscriptionFiltersResponse DescribeSubscriptionFilters(DescribeSubscriptionFiltersRequest request)
         {
-            var marshaller = DescribeSubscriptionFiltersRequestMarshaller.Instance;
-            var unmarshaller = DescribeSubscriptionFiltersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSubscriptionFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSubscriptionFiltersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeSubscriptionFiltersRequest,DescribeSubscriptionFiltersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeSubscriptionFiltersResponse>(request, options);
         }
 
         /// <summary>
@@ -1582,11 +1699,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeSubscriptionFilters">REST API Reference for DescribeSubscriptionFilters Operation</seealso>
         public virtual IAsyncResult BeginDescribeSubscriptionFilters(DescribeSubscriptionFiltersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeSubscriptionFiltersRequestMarshaller.Instance;
-            var unmarshaller = DescribeSubscriptionFiltersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeSubscriptionFiltersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeSubscriptionFiltersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeSubscriptionFiltersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1640,10 +1757,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DisassociateKmsKey">REST API Reference for DisassociateKmsKey Operation</seealso>
         public virtual DisassociateKmsKeyResponse DisassociateKmsKey(DisassociateKmsKeyRequest request)
         {
-            var marshaller = DisassociateKmsKeyRequestMarshaller.Instance;
-            var unmarshaller = DisassociateKmsKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateKmsKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateKmsKeyResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateKmsKeyRequest,DisassociateKmsKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateKmsKeyResponse>(request, options);
         }
 
         /// <summary>
@@ -1660,11 +1778,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DisassociateKmsKey">REST API Reference for DisassociateKmsKey Operation</seealso>
         public virtual IAsyncResult BeginDisassociateKmsKey(DisassociateKmsKeyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisassociateKmsKeyRequestMarshaller.Instance;
-            var unmarshaller = DisassociateKmsKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateKmsKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateKmsKeyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisassociateKmsKeyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1711,10 +1829,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/FilterLogEvents">REST API Reference for FilterLogEvents Operation</seealso>
         public virtual FilterLogEventsResponse FilterLogEvents(FilterLogEventsRequest request)
         {
-            var marshaller = FilterLogEventsRequestMarshaller.Instance;
-            var unmarshaller = FilterLogEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FilterLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FilterLogEventsResponseUnmarshaller.Instance;
 
-            return Invoke<FilterLogEventsRequest,FilterLogEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<FilterLogEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -1731,11 +1850,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/FilterLogEvents">REST API Reference for FilterLogEvents Operation</seealso>
         public virtual IAsyncResult BeginFilterLogEvents(FilterLogEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = FilterLogEventsRequestMarshaller.Instance;
-            var unmarshaller = FilterLogEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FilterLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FilterLogEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<FilterLogEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1781,10 +1900,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogEvents">REST API Reference for GetLogEvents Operation</seealso>
         public virtual GetLogEventsResponse GetLogEvents(GetLogEventsRequest request)
         {
-            var marshaller = GetLogEventsRequestMarshaller.Instance;
-            var unmarshaller = GetLogEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLogEventsResponseUnmarshaller.Instance;
 
-            return Invoke<GetLogEventsRequest,GetLogEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLogEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -1801,11 +1921,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogEvents">REST API Reference for GetLogEvents Operation</seealso>
         public virtual IAsyncResult BeginGetLogEvents(GetLogEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLogEventsRequestMarshaller.Instance;
-            var unmarshaller = GetLogEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLogEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLogEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1819,6 +1939,240 @@ namespace Amazon.CloudWatchLogs
         public virtual GetLogEventsResponse EndGetLogEvents(IAsyncResult asyncResult)
         {
             return EndInvoke<GetLogEventsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetLogGroupFields
+
+        /// <summary>
+        /// Returns a list of the fields that are included in log events in the specified log
+        /// group, along with the percentage of log events that contain each field. The search
+        /// is limited to a time period that you specify.
+        /// 
+        ///  
+        /// <para>
+        /// In the results, fields that start with @ are fields generated by CloudWatch Logs.
+        /// For example, <code>@timestamp</code> is the timestamp of each log event.
+        /// </para>
+        ///  
+        /// <para>
+        /// The response results are sorted by the frequency percentage, starting with the highest
+        /// percentage.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLogGroupFields service method.</param>
+        /// 
+        /// <returns>The response from the GetLogGroupFields service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.LimitExceededException">
+        /// You have reached the maximum number of resources that can be created.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogGroupFields">REST API Reference for GetLogGroupFields Operation</seealso>
+        public virtual GetLogGroupFieldsResponse GetLogGroupFields(GetLogGroupFieldsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLogGroupFieldsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLogGroupFieldsResponseUnmarshaller.Instance;
+
+            return Invoke<GetLogGroupFieldsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLogGroupFields operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLogGroupFields operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLogGroupFields
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogGroupFields">REST API Reference for GetLogGroupFields Operation</seealso>
+        public virtual IAsyncResult BeginGetLogGroupFields(GetLogGroupFieldsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLogGroupFieldsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLogGroupFieldsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLogGroupFields operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLogGroupFields.</param>
+        /// 
+        /// <returns>Returns a  GetLogGroupFieldsResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogGroupFields">REST API Reference for GetLogGroupFields Operation</seealso>
+        public virtual GetLogGroupFieldsResponse EndGetLogGroupFields(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetLogGroupFieldsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetLogRecord
+
+        /// <summary>
+        /// Retrieves all the fields and values of a single log event. All fields are retrieved,
+        /// even if the original query that produced the <code>logRecordPointer</code> retrieved
+        /// only a subset of fields. Fields are returned as field name/field value pairs.
+        /// 
+        ///  
+        /// <para>
+        /// Additionally, the entire unparsed log event is returned within <code>@message</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLogRecord service method.</param>
+        /// 
+        /// <returns>The response from the GetLogRecord service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.LimitExceededException">
+        /// You have reached the maximum number of resources that can be created.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogRecord">REST API Reference for GetLogRecord Operation</seealso>
+        public virtual GetLogRecordResponse GetLogRecord(GetLogRecordRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLogRecordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLogRecordResponseUnmarshaller.Instance;
+
+            return Invoke<GetLogRecordResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLogRecord operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLogRecord operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLogRecord
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogRecord">REST API Reference for GetLogRecord Operation</seealso>
+        public virtual IAsyncResult BeginGetLogRecord(GetLogRecordRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLogRecordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLogRecordResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLogRecord operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLogRecord.</param>
+        /// 
+        /// <returns>Returns a  GetLogRecordResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogRecord">REST API Reference for GetLogRecord Operation</seealso>
+        public virtual GetLogRecordResponse EndGetLogRecord(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetLogRecordResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetQueryResults
+
+        /// <summary>
+        /// Returns the results from the specified query.
+        /// 
+        ///  
+        /// <para>
+        /// Only the fields requested in the query are returned, along with a <code>@ptr</code>
+        /// field which is the identifier for the log record. You can use the value of <code>@ptr</code>
+        /// in a operation to get the full log record.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetQueryResults</code> does not start a query execution. To run a query, use
+        /// .
+        /// </para>
+        ///  
+        /// <para>
+        /// If the value of the <code>Status</code> field in the output is <code>Running</code>,
+        /// this operation returns only partial results. If you see a value of <code>Scheduled</code>
+        /// or <code>Running</code> for the status, you can retry the operation later to see the
+        /// final results. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetQueryResults service method.</param>
+        /// 
+        /// <returns>The response from the GetQueryResults service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults">REST API Reference for GetQueryResults Operation</seealso>
+        public virtual GetQueryResultsResponse GetQueryResults(GetQueryResultsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetQueryResultsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetQueryResultsResponseUnmarshaller.Instance;
+
+            return Invoke<GetQueryResultsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetQueryResults operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetQueryResults operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetQueryResults
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults">REST API Reference for GetQueryResults Operation</seealso>
+        public virtual IAsyncResult BeginGetQueryResults(GetQueryResultsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetQueryResultsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetQueryResultsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetQueryResults operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetQueryResults.</param>
+        /// 
+        /// <returns>Returns a  GetQueryResultsResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults">REST API Reference for GetQueryResults Operation</seealso>
+        public virtual GetQueryResultsResponse EndGetQueryResults(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetQueryResultsResponse>(asyncResult);
         }
 
         #endregion
@@ -1840,10 +2194,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListTagsLogGroup">REST API Reference for ListTagsLogGroup Operation</seealso>
         public virtual ListTagsLogGroupResponse ListTagsLogGroup(ListTagsLogGroupRequest request)
         {
-            var marshaller = ListTagsLogGroupRequestMarshaller.Instance;
-            var unmarshaller = ListTagsLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsLogGroupResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsLogGroupRequest,ListTagsLogGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsLogGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1860,11 +2215,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListTagsLogGroup">REST API Reference for ListTagsLogGroup Operation</seealso>
         public virtual IAsyncResult BeginListTagsLogGroup(ListTagsLogGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTagsLogGroupRequestMarshaller.Instance;
-            var unmarshaller = ListTagsLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsLogGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTagsLogGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1885,19 +2240,22 @@ namespace Amazon.CloudWatchLogs
         #region  PutDestination
 
         /// <summary>
-        /// Creates or updates a destination. A destination encapsulates a physical resource (such
-        /// as an Amazon Kinesis stream) and enables you to subscribe to a real-time stream of
-        /// log events for a different account, ingested using <a>PutLogEvents</a>. Currently,
-        /// the only supported physical resource is a Kinesis stream belonging to the same account
-        /// as the destination.
+        /// Creates or updates a destination. This operation is used only to create destinations
+        /// for cross-account subscriptions.
         /// 
         ///  
         /// <para>
-        /// Through an access policy, a destination controls what is written to its Kinesis stream.
-        /// By default, <code>PutDestination</code> does not set any access policy with the destination,
-        /// which means a cross-account user cannot call <a>PutSubscriptionFilter</a> against
-        /// this destination. To enable this, the destination owner must call <a>PutDestinationPolicy</a>
-        /// after <code>PutDestination</code>.
+        /// A destination encapsulates a physical resource (such as an Amazon Kinesis stream)
+        /// and enables you to subscribe to a real-time stream of log events for a different account,
+        /// ingested using <a>PutLogEvents</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Through an access policy, a destination controls what is written to it. By default,
+        /// <code>PutDestination</code> does not set any access policy with the destination, which
+        /// means a cross-account user cannot call <a>PutSubscriptionFilter</a> against this destination.
+        /// To enable this, the destination owner must call <a>PutDestinationPolicy</a> after
+        /// <code>PutDestination</code>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutDestination service method.</param>
@@ -1915,10 +2273,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestination">REST API Reference for PutDestination Operation</seealso>
         public virtual PutDestinationResponse PutDestination(PutDestinationRequest request)
         {
-            var marshaller = PutDestinationRequestMarshaller.Instance;
-            var unmarshaller = PutDestinationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutDestinationResponseUnmarshaller.Instance;
 
-            return Invoke<PutDestinationRequest,PutDestinationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutDestinationResponse>(request, options);
         }
 
         /// <summary>
@@ -1935,11 +2294,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestination">REST API Reference for PutDestination Operation</seealso>
         public virtual IAsyncResult BeginPutDestination(PutDestinationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutDestinationRequestMarshaller.Instance;
-            var unmarshaller = PutDestinationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutDestinationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutDestinationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutDestinationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1961,7 +2320,7 @@ namespace Amazon.CloudWatchLogs
 
         /// <summary>
         /// Creates or updates an access policy associated with an existing destination. An access
-        /// policy is an <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies_overview.html">IAM
+        /// policy is an <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies_overview.html">IAM
         /// policy document</a> that is used to authorize claims to register a subscription filter
         /// against a given destination.
         /// </summary>
@@ -1980,10 +2339,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestinationPolicy">REST API Reference for PutDestinationPolicy Operation</seealso>
         public virtual PutDestinationPolicyResponse PutDestinationPolicy(PutDestinationPolicyRequest request)
         {
-            var marshaller = PutDestinationPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutDestinationPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutDestinationPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutDestinationPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutDestinationPolicyRequest,PutDestinationPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutDestinationPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2000,11 +2360,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestinationPolicy">REST API Reference for PutDestinationPolicy Operation</seealso>
         public virtual IAsyncResult BeginPutDestinationPolicy(PutDestinationPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutDestinationPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutDestinationPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutDestinationPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutDestinationPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutDestinationPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2031,9 +2391,10 @@ namespace Amazon.CloudWatchLogs
         /// <para>
         /// You must include the sequence token obtained from the response of the previous call.
         /// An upload in a newly created log stream does not require a sequence token. You can
-        /// also get the sequence token using <a>DescribeLogStreams</a>. If you call <code>PutLogEvents</code>
-        /// twice within a narrow time period using the same value for <code>sequenceToken</code>,
-        /// both calls may be successful, or one may be rejected.
+        /// also get the sequence token in the <code>expectedSequenceToken</code> field from <code>InvalidSequenceTokenException</code>.
+        /// If you call <code>PutLogEvents</code> twice within a narrow time period using the
+        /// same value for <code>sequenceToken</code>, both calls may be successful, or one may
+        /// be rejected.
         /// </para>
         ///  
         /// <para>
@@ -2050,14 +2411,21 @@ namespace Amazon.CloudWatchLogs
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// None of the log events in the batch can be older than 14 days or the retention period
-        /// of the log group.
+        /// None of the log events in the batch can be older than 14 days or older than the retention
+        /// period of the log group.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The log events in the batch must be in chronological ordered by their time stamp (the
-        /// time the event occurred, expressed as the number of milliseconds after Jan 1, 1970
-        /// 00:00:00 UTC).
+        /// The log events in the batch must be in chronological ordered by their timestamp. The
+        /// timestamp is the time the event occurred, expressed as the number of milliseconds
+        /// after Jan 1, 1970 00:00:00 UTC. (In AWS Tools for PowerShell and the AWS SDK for .NET,
+        /// the timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example, 2017-09-15T13:45:30.)
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A batch of log events in a single request cannot span more than 24 hours. Otherwise,
+        /// the operation fails.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -2065,10 +2433,14 @@ namespace Amazon.CloudWatchLogs
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// A batch of log events in a single request cannot span more than 24 hours. Otherwise,
-        /// the operation fails.
+        /// There is a quota of 5 requests per second per log stream. Additional requests are
+        /// throttled. This quota can't be changed.
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        /// If a call to PutLogEvents returns "UnrecognizedClientException" the most likely cause
+        /// is an invalid AWS access key ID or secret key. 
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutLogEvents service method.</param>
         /// 
@@ -2080,7 +2452,8 @@ namespace Amazon.CloudWatchLogs
         /// A parameter is specified incorrectly.
         /// </exception>
         /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidSequenceTokenException">
-        /// The sequence token is not valid.
+        /// The sequence token is not valid. You can get the correct sequence token in the <code>expectedSequenceToken</code>
+        /// field in the <code>InvalidSequenceTokenException</code> message.
         /// </exception>
         /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -2088,13 +2461,17 @@ namespace Amazon.CloudWatchLogs
         /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
         /// The service cannot complete the request.
         /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.UnrecognizedClientException">
+        /// The most likely cause is an invalid AWS access key ID or secret key.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutLogEvents">REST API Reference for PutLogEvents Operation</seealso>
         public virtual PutLogEventsResponse PutLogEvents(PutLogEventsRequest request)
         {
-            var marshaller = PutLogEventsRequestMarshaller.Instance;
-            var unmarshaller = PutLogEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLogEventsResponseUnmarshaller.Instance;
 
-            return Invoke<PutLogEventsRequest,PutLogEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutLogEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -2111,11 +2488,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutLogEvents">REST API Reference for PutLogEvents Operation</seealso>
         public virtual IAsyncResult BeginPutLogEvents(PutLogEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutLogEventsRequestMarshaller.Instance;
-            var unmarshaller = PutLogEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLogEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutLogEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2166,10 +2543,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutMetricFilter">REST API Reference for PutMetricFilter Operation</seealso>
         public virtual PutMetricFilterResponse PutMetricFilter(PutMetricFilterRequest request)
         {
-            var marshaller = PutMetricFilterRequestMarshaller.Instance;
-            var unmarshaller = PutMetricFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMetricFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMetricFilterResponseUnmarshaller.Instance;
 
-            return Invoke<PutMetricFilterRequest,PutMetricFilterResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutMetricFilterResponse>(request, options);
         }
 
         /// <summary>
@@ -2186,11 +2564,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutMetricFilter">REST API Reference for PutMetricFilter Operation</seealso>
         public virtual IAsyncResult BeginPutMetricFilter(PutMetricFilterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutMetricFilterRequestMarshaller.Instance;
-            var unmarshaller = PutMetricFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMetricFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMetricFilterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutMetricFilterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2212,7 +2590,7 @@ namespace Amazon.CloudWatchLogs
 
         /// <summary>
         /// Creates or updates a resource policy allowing other AWS services to put log events
-        /// to this account, such as Amazon Route 53. An account can have up to 50 resource policies
+        /// to this account, such as Amazon Route 53. An account can have up to 10 resource policies
         /// per region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutResourcePolicy service method.</param>
@@ -2230,10 +2608,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
         public virtual PutResourcePolicyResponse PutResourcePolicy(PutResourcePolicyRequest request)
         {
-            var marshaller = PutResourcePolicyRequestMarshaller.Instance;
-            var unmarshaller = PutResourcePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutResourcePolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutResourcePolicyRequest,PutResourcePolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutResourcePolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2250,11 +2629,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
         public virtual IAsyncResult BeginPutResourcePolicy(PutResourcePolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutResourcePolicyRequestMarshaller.Instance;
-            var unmarshaller = PutResourcePolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutResourcePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutResourcePolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutResourcePolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2296,10 +2675,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutRetentionPolicy">REST API Reference for PutRetentionPolicy Operation</seealso>
         public virtual PutRetentionPolicyResponse PutRetentionPolicy(PutRetentionPolicyRequest request)
         {
-            var marshaller = PutRetentionPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutRetentionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRetentionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRetentionPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutRetentionPolicyRequest,PutRetentionPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutRetentionPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2316,11 +2696,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutRetentionPolicy">REST API Reference for PutRetentionPolicy Operation</seealso>
         public virtual IAsyncResult BeginPutRetentionPolicy(PutRetentionPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutRetentionPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutRetentionPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRetentionPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRetentionPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutRetentionPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2394,10 +2774,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSubscriptionFilter">REST API Reference for PutSubscriptionFilter Operation</seealso>
         public virtual PutSubscriptionFilterResponse PutSubscriptionFilter(PutSubscriptionFilterRequest request)
         {
-            var marshaller = PutSubscriptionFilterRequestMarshaller.Instance;
-            var unmarshaller = PutSubscriptionFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutSubscriptionFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutSubscriptionFilterResponseUnmarshaller.Instance;
 
-            return Invoke<PutSubscriptionFilterRequest,PutSubscriptionFilterResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutSubscriptionFilterResponse>(request, options);
         }
 
         /// <summary>
@@ -2414,11 +2795,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSubscriptionFilter">REST API Reference for PutSubscriptionFilter Operation</seealso>
         public virtual IAsyncResult BeginPutSubscriptionFilter(PutSubscriptionFilterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutSubscriptionFilterRequestMarshaller.Instance;
-            var unmarshaller = PutSubscriptionFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutSubscriptionFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutSubscriptionFilterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutSubscriptionFilterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2436,6 +2817,158 @@ namespace Amazon.CloudWatchLogs
 
         #endregion
         
+        #region  StartQuery
+
+        /// <summary>
+        /// Schedules a query of a log group using CloudWatch Logs Insights. You specify the log
+        /// group and time range to query, and the query string to use.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
+        /// Logs Insights Query Syntax</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Queries time out after 15 minutes of execution. If your queries are timing out, reduce
+        /// the time range being searched, or partition your query into a number of queries.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartQuery service method.</param>
+        /// 
+        /// <returns>The response from the StartQuery service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.LimitExceededException">
+        /// You have reached the maximum number of resources that can be created.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.MalformedQueryException">
+        /// The query string is not valid. Details about this error are displayed in a <code>QueryCompileError</code>
+        /// object. For more information, see .
+        /// 
+        ///  
+        /// <para>
+        /// For more information about valid query syntax, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
+        /// Logs Insights Query Syntax</a>.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartQuery">REST API Reference for StartQuery Operation</seealso>
+        public virtual StartQueryResponse StartQuery(StartQueryRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartQueryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartQueryResponseUnmarshaller.Instance;
+
+            return Invoke<StartQueryResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartQuery operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartQuery
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartQuery">REST API Reference for StartQuery Operation</seealso>
+        public virtual IAsyncResult BeginStartQuery(StartQueryRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartQueryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartQueryResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartQuery.</param>
+        /// 
+        /// <returns>Returns a  StartQueryResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartQuery">REST API Reference for StartQuery Operation</seealso>
+        public virtual StartQueryResponse EndStartQuery(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartQueryResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StopQuery
+
+        /// <summary>
+        /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already
+        /// ended, the operation returns an error indicating that the specified query is not running.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopQuery service method.</param>
+        /// 
+        /// <returns>The response from the StopQuery service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StopQuery">REST API Reference for StopQuery Operation</seealso>
+        public virtual StopQueryResponse StopQuery(StopQueryRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopQueryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopQueryResponseUnmarshaller.Instance;
+
+            return Invoke<StopQueryResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopQuery operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopQuery
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StopQuery">REST API Reference for StopQuery Operation</seealso>
+        public virtual IAsyncResult BeginStopQuery(StopQueryRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopQueryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopQueryResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopQuery.</param>
+        /// 
+        /// <returns>Returns a  StopQueryResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StopQuery">REST API Reference for StopQuery Operation</seealso>
+        public virtual StopQueryResponse EndStopQuery(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StopQueryResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  TagLogGroup
 
         /// <summary>
@@ -2448,7 +2981,7 @@ namespace Amazon.CloudWatchLogs
         /// </para>
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/log-group-tagging.html">Tag
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/log-group-tagging.html">Tag
         /// Log Groups in Amazon CloudWatch Logs</a> in the <i>Amazon CloudWatch Logs User Guide</i>.
         /// </para>
         /// </summary>
@@ -2464,10 +2997,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TagLogGroup">REST API Reference for TagLogGroup Operation</seealso>
         public virtual TagLogGroupResponse TagLogGroup(TagLogGroupRequest request)
         {
-            var marshaller = TagLogGroupRequestMarshaller.Instance;
-            var unmarshaller = TagLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagLogGroupResponseUnmarshaller.Instance;
 
-            return Invoke<TagLogGroupRequest,TagLogGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<TagLogGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -2484,11 +3018,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TagLogGroup">REST API Reference for TagLogGroup Operation</seealso>
         public virtual IAsyncResult BeginTagLogGroup(TagLogGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TagLogGroupRequestMarshaller.Instance;
-            var unmarshaller = TagLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagLogGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TagLogGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2524,10 +3058,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TestMetricFilter">REST API Reference for TestMetricFilter Operation</seealso>
         public virtual TestMetricFilterResponse TestMetricFilter(TestMetricFilterRequest request)
         {
-            var marshaller = TestMetricFilterRequestMarshaller.Instance;
-            var unmarshaller = TestMetricFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestMetricFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestMetricFilterResponseUnmarshaller.Instance;
 
-            return Invoke<TestMetricFilterRequest,TestMetricFilterResponse>(request, marshaller, unmarshaller);
+            return Invoke<TestMetricFilterResponse>(request, options);
         }
 
         /// <summary>
@@ -2544,11 +3079,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TestMetricFilter">REST API Reference for TestMetricFilter Operation</seealso>
         public virtual IAsyncResult BeginTestMetricFilter(TestMetricFilterRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TestMetricFilterRequestMarshaller.Instance;
-            var unmarshaller = TestMetricFilterResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestMetricFilterRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestMetricFilterResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TestMetricFilterRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2585,10 +3120,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UntagLogGroup">REST API Reference for UntagLogGroup Operation</seealso>
         public virtual UntagLogGroupResponse UntagLogGroup(UntagLogGroupRequest request)
         {
-            var marshaller = UntagLogGroupRequestMarshaller.Instance;
-            var unmarshaller = UntagLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagLogGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UntagLogGroupRequest,UntagLogGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UntagLogGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -2605,11 +3141,11 @@ namespace Amazon.CloudWatchLogs
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UntagLogGroup">REST API Reference for UntagLogGroup Operation</seealso>
         public virtual IAsyncResult BeginUntagLogGroup(UntagLogGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UntagLogGroupRequestMarshaller.Instance;
-            var unmarshaller = UntagLogGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagLogGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagLogGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UntagLogGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

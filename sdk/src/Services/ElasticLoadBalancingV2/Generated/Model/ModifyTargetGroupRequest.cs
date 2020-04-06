@@ -39,6 +39,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// </summary>
     public partial class ModifyTargetGroupRequest : AmazonElasticLoadBalancingV2Request
     {
+        private bool? _healthCheckEnabled;
         private int? _healthCheckIntervalSeconds;
         private string _healthCheckPath;
         private string _healthCheckPort;
@@ -50,13 +51,36 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         private int? _unhealthyThresholdCount;
 
         /// <summary>
+        /// Gets and sets the property HealthCheckEnabled. 
+        /// <para>
+        /// Indicates whether health checks are enabled.
+        /// </para>
+        /// </summary>
+        public bool HealthCheckEnabled
+        {
+            get { return this._healthCheckEnabled.GetValueOrDefault(); }
+            set { this._healthCheckEnabled = value; }
+        }
+
+        // Check to see if HealthCheckEnabled property is set
+        internal bool IsSetHealthCheckEnabled()
+        {
+            return this._healthCheckEnabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property HealthCheckIntervalSeconds. 
         /// <para>
         /// The approximate amount of time, in seconds, between health checks of an individual
         /// target. For Application Load Balancers, the range is 5 to 300 seconds. For Network
         /// Load Balancers, the supported values are 10 or 30 seconds.
         /// </para>
+        ///  
+        /// <para>
+        /// With Network Load Balancers, you can't modify this setting.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=300)]
         public int HealthCheckIntervalSeconds
         {
             get { return this._healthCheckIntervalSeconds.GetValueOrDefault(); }
@@ -76,6 +100,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string HealthCheckPath
         {
             get { return this._healthCheckPath; }
@@ -110,7 +135,13 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// Gets and sets the property HealthCheckProtocol. 
         /// <para>
         /// The protocol the load balancer uses when performing health checks on targets. The
-        /// TCP protocol is supported only if the protocol of the target group is TCP.
+        /// TCP protocol is supported for health checks only if the protocol of the target group
+        /// is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported
+        /// for health checks.
+        /// </para>
+        ///  
+        /// <para>
+        /// With Network Load Balancers, you can't modify this setting.
         /// </para>
         /// </summary>
         public ProtocolEnum HealthCheckProtocol
@@ -131,7 +162,12 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response
         /// means a failed health check.
         /// </para>
+        ///  
+        /// <para>
+        /// With Network Load Balancers, you can't modify this setting.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=120)]
         public int HealthCheckTimeoutSeconds
         {
             get { return this._healthCheckTimeoutSeconds.GetValueOrDefault(); }
@@ -151,6 +187,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// target healthy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=10)]
         public int HealthyThresholdCount
         {
             get { return this._healthyThresholdCount.GetValueOrDefault(); }
@@ -168,6 +205,10 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <para>
         /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response
         /// from a target.
+        /// </para>
+        ///  
+        /// <para>
+        /// With Network Load Balancers, you can't modify this setting.
         /// </para>
         /// </summary>
         public Matcher Matcher
@@ -188,6 +229,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The Amazon Resource Name (ARN) of the target group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetGroupArn
         {
             get { return this._targetGroupArn; }
@@ -208,6 +250,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// threshold count.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=10)]
         public int UnhealthyThresholdCount
         {
             get { return this._unhealthyThresholdCount.GetValueOrDefault(); }

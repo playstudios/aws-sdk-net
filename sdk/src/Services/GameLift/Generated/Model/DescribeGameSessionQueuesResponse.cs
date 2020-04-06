@@ -38,7 +38,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionQueues. 
         /// <para>
-        /// Collection of objects that describes the requested game session queues.
+        /// A collection of objects that describe the requested game session queues.
         /// </para>
         /// </summary>
         public List<GameSessionQueue> GameSessionQueues
@@ -56,10 +56,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Token that indicates where to resume retrieving results on the next call to this action.
-        /// If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this
+        /// action. If no token is returned, these results represent the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

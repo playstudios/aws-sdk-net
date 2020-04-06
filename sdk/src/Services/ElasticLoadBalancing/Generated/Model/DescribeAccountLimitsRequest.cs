@@ -34,7 +34,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     ///  
     /// <para>
     /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html">Limits
-    /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancer Guide</i>.
+    /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class DescribeAccountLimitsRequest : AmazonElasticLoadBalancingRequest
@@ -67,6 +67,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The maximum number of results to return with this call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=400)]
         public int PageSize
         {
             get { return this._pageSize.GetValueOrDefault(); }

@@ -136,6 +136,12 @@ namespace Amazon.AutoScaling.Model.Internal.MarshallTransformations
                         unmarshalledObject.LoadBalancerNames.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("MaxInstanceLifetime", targetDepth))
+                    {
+                        var unmarshaller = IntUnmarshaller.Instance;
+                        unmarshalledObject.MaxInstanceLifetime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("MaxSize", targetDepth))
                     {
                         var unmarshaller = IntUnmarshaller.Instance;
@@ -146,6 +152,12 @@ namespace Amazon.AutoScaling.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = IntUnmarshaller.Instance;
                         unmarshalledObject.MinSize = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("MixedInstancesPolicy", targetDepth))
+                    {
+                        var unmarshaller = MixedInstancesPolicyUnmarshaller.Instance;
+                        unmarshalledObject.MixedInstancesPolicy = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("NewInstancesProtectedFromScaleIn", targetDepth))

@@ -49,7 +49,8 @@ namespace Amazon.Rekognition.Model
     /// </para>
     ///  
     /// <para>
-    /// For an example, see <a>search-face-with-id-procedure</a>.
+    /// For an example, see Searching for a Face Using Its Face ID in the Amazon Rekognition
+    /// Developer Guide.
     /// </para>
     ///  
     /// <para>
@@ -70,6 +71,7 @@ namespace Amazon.Rekognition.Model
         /// ID of the collection the face belongs to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string CollectionId
         {
             get { return this._collectionId; }
@@ -88,6 +90,7 @@ namespace Amazon.Rekognition.Model
         /// ID of a face to find matches for in the collection.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FaceId
         {
             get { return this._faceId; }
@@ -104,9 +107,11 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property FaceMatchThreshold. 
         /// <para>
         /// Optional value specifying the minimum confidence in the face match to return. For
-        /// example, don't return any matches where confidence in matches is less than 70%.
+        /// example, don't return any matches where confidence in matches is less than 70%. The
+        /// default value is 80%. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float FaceMatchThreshold
         {
             get { return this._faceMatchThreshold.GetValueOrDefault(); }
@@ -126,6 +131,7 @@ namespace Amazon.Rekognition.Model
         /// with the highest confidence in the match.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
         public int MaxFaces
         {
             get { return this._maxFaces.GetValueOrDefault(); }

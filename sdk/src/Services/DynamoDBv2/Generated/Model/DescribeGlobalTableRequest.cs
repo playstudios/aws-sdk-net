@@ -30,6 +30,13 @@ namespace Amazon.DynamoDBv2.Model
     /// <summary>
     /// Container for the parameters to the DescribeGlobalTable operation.
     /// Returns information about the specified global table.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+    /// 2017.11.29</a> of global tables.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DescribeGlobalTableRequest : AmazonDynamoDBRequest
     {
@@ -41,6 +48,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the global table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string GlobalTableName
         {
             get { return this._globalTableName; }

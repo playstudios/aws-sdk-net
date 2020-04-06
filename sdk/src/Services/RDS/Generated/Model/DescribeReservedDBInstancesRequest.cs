@@ -37,6 +37,7 @@ namespace Amazon.RDS.Model
         private string _dbInstanceClass;
         private string _duration;
         private List<Filter> _filters = new List<Filter>();
+        private string _leaseId;
         private string _marker;
         private int? _maxRecords;
         private bool? _multiAZ;
@@ -95,7 +96,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// This parameter is not currently supported.
+        /// This parameter isn't currently supported.
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -108,6 +109,30 @@ namespace Amazon.RDS.Model
         internal bool IsSetFilters()
         {
             return this._filters != null && this._filters.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property LeaseId. 
+        /// <para>
+        /// The lease identifier filter value. Specify this parameter to show only the reservation
+        /// that matches the specified lease ID.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// AWS Support might request the lease ID for an issue related to a reserved DB instance.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public string LeaseId
+        {
+            get { return this._leaseId; }
+            set { this._leaseId = value; }
+        }
+
+        // Check to see if LeaseId property is set
+        internal bool IsSetLeaseId()
+        {
+            return this._leaseId != null;
         }
 
         /// <summary>
@@ -135,7 +160,7 @@ namespace Amazon.RDS.Model
         /// <para>
         ///  The maximum number of records to include in the response. If more than the <code>MaxRecords</code>
         /// value is available, a pagination token called a marker is included in the response
-        /// so that the following results can be retrieved. 
+        /// so you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>
@@ -161,8 +186,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        /// The Multi-AZ filter value. Specify this parameter to show only those reservations
-        /// matching the specified Multi-AZ parameter.
+        /// A value that indicates whether to show only those reservations that support Multi-AZ.
         /// </para>
         /// </summary>
         public bool MultiAZ

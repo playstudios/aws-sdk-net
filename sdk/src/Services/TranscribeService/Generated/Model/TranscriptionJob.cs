@@ -34,13 +34,16 @@ namespace Amazon.TranscribeService.Model
     public partial class TranscriptionJob
     {
         private DateTime? _completionTime;
+        private ContentRedaction _contentRedaction;
         private DateTime? _creationTime;
         private string _failureReason;
+        private JobExecutionSettings _jobExecutionSettings;
         private LanguageCode _languageCode;
         private Media _media;
         private MediaFormat _mediaFormat;
         private int? _mediaSampleRateHertz;
         private Settings _settings;
+        private DateTime? _startTime;
         private Transcript _transcript;
         private string _transcriptionJobName;
         private TranscriptionJobStatus _transcriptionJobStatus;
@@ -48,7 +51,7 @@ namespace Amazon.TranscribeService.Model
         /// <summary>
         /// Gets and sets the property CompletionTime. 
         /// <para>
-        /// Timestamp of the date and time that the job completed.
+        /// A timestamp that shows when the job was completed.
         /// </para>
         /// </summary>
         public DateTime CompletionTime
@@ -64,9 +67,27 @@ namespace Amazon.TranscribeService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ContentRedaction. 
+        /// <para>
+        /// An object that describes content redaction settings for the transcription job.
+        /// </para>
+        /// </summary>
+        public ContentRedaction ContentRedaction
+        {
+            get { return this._contentRedaction; }
+            set { this._contentRedaction = value; }
+        }
+
+        // Check to see if ContentRedaction property is set
+        internal bool IsSetContentRedaction()
+        {
+            return this._contentRedaction != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// Timestamp of the date and time that the job was created.
+        /// A timestamp that shows when the job was created.
         /// </para>
         /// </summary>
         public DateTime CreationTime
@@ -87,6 +108,50 @@ namespace Amazon.TranscribeService.Model
         /// If the <code>TranscriptionJobStatus</code> field is <code>FAILED</code>, this field
         /// contains information about why the job failed.
         /// </para>
+        ///  
+        /// <para>
+        /// The <code>FailureReason</code> field can contain one of the following values:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Unsupported media format</code> - The media format specified in the <code>MediaFormat</code>
+        /// field of the request isn't valid. See the description of the <code>MediaFormat</code>
+        /// field for a list of valid values.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>The media format provided does not match the detected media format</code> -
+        /// The media format of the audio file doesn't match the format specified in the <code>MediaFormat</code>
+        /// field in the request. Check the media format of your media file and make sure that
+        /// the two values match.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Invalid sample rate for audio file</code> - The sample rate specified in the
+        /// <code>MediaSampleRateHertz</code> of the request isn't valid. The sample rate must
+        /// be between 8000 and 48000 Hertz.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>The sample rate provided does not match the detected sample rate</code> - The
+        /// sample rate in the audio file doesn't match the sample rate specified in the <code>MediaSampleRateHertz</code>
+        /// field in the request. Check the sample rate of your media file and make sure that
+        /// the two values match.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Invalid file size: file size too large</code> - The size of your audio file
+        /// is larger than Amazon Transcribe can process. For more information, see <a href="https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits">Limits</a>
+        /// in the <i>Amazon Transcribe Developer Guide</i>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Invalid number of channels: number of channels too large</code> - Your audio
+        /// contains more channels than Amazon Transcribe is configured to process. To request
+        /// additional channels, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits-amazon-transcribe">Amazon
+        /// Transcribe Limits</a> in the <i>Amazon Web Services General Reference</i>.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public string FailureReason
         {
@@ -98,6 +163,24 @@ namespace Amazon.TranscribeService.Model
         internal bool IsSetFailureReason()
         {
             return this._failureReason != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property JobExecutionSettings. 
+        /// <para>
+        /// Provides information about how a transcription job is executed.
+        /// </para>
+        /// </summary>
+        public JobExecutionSettings JobExecutionSettings
+        {
+            get { return this._jobExecutionSettings; }
+            set { this._jobExecutionSettings = value; }
+        }
+
+        // Check to see if JobExecutionSettings property is set
+        internal bool IsSetJobExecutionSettings()
+        {
+            return this._jobExecutionSettings != null;
         }
 
         /// <summary>
@@ -121,7 +204,7 @@ namespace Amazon.TranscribeService.Model
         /// <summary>
         /// Gets and sets the property Media. 
         /// <para>
-        /// An object that describes the input media for a transcription job.
+        /// An object that describes the input media for the transcription job.
         /// </para>
         /// </summary>
         public Media Media
@@ -160,6 +243,7 @@ namespace Amazon.TranscribeService.Model
         /// The sample rate, in Hertz, of the audio track in the input media file. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=8000, Max=48000)]
         public int MediaSampleRateHertz
         {
             get { return this._mediaSampleRateHertz.GetValueOrDefault(); }
@@ -175,7 +259,9 @@ namespace Amazon.TranscribeService.Model
         /// <summary>
         /// Gets and sets the property Settings. 
         /// <para>
-        /// Optional settings for the transcription job.
+        /// Optional settings for the transcription job. Use these settings to turn on speaker
+        /// recognition, to set the maximum number of speakers that should be identified and to
+        /// specify a custom vocabulary to use when processing the transcription job.
         /// </para>
         /// </summary>
         public Settings Settings
@@ -188,6 +274,24 @@ namespace Amazon.TranscribeService.Model
         internal bool IsSetSettings()
         {
             return this._settings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StartTime. 
+        /// <para>
+        /// A timestamp that shows with the job was started processing.
+        /// </para>
+        /// </summary>
+        public DateTime StartTime
+        {
+            get { return this._startTime.GetValueOrDefault(); }
+            set { this._startTime = value; }
+        }
+
+        // Check to see if StartTime property is set
+        internal bool IsSetStartTime()
+        {
+            return this._startTime.HasValue; 
         }
 
         /// <summary>
@@ -211,9 +315,10 @@ namespace Amazon.TranscribeService.Model
         /// <summary>
         /// Gets and sets the property TranscriptionJobName. 
         /// <para>
-        /// A name to identify the transcription job.
+        /// The name of the transcription job.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public string TranscriptionJobName
         {
             get { return this._transcriptionJobName; }

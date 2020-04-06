@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of CreateFlowLogs.
+    /// This is the response object from the CreateFlowLogs operation.
     /// </summary>
     public partial class CreateFlowLogsResponse : AmazonWebServiceResponse
     {
@@ -39,7 +39,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request.
         /// </para>
         /// </summary>
         public string ClientToken

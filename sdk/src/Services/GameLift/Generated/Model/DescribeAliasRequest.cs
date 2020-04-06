@@ -37,10 +37,6 @@ namespace Amazon.GameLift.Model
     /// To get alias properties, specify the alias ID. If successful, the requested alias
     /// record is returned.
     /// </para>
-    ///  
-    /// <para>
-    /// Alias-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateAlias</a> 
@@ -74,9 +70,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
+        /// The unique identifier for the fleet alias that you want to retrieve. You can use either
+        /// the alias ID or ARN value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AliasId
         {
             get { return this._aliasId; }

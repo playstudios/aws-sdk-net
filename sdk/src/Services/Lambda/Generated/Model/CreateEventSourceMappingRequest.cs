@@ -29,55 +29,94 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateEventSourceMapping operation.
-    /// Identifies a stream as an event source for a Lambda function. It can be either an
-    /// Amazon Kinesis stream or an Amazon DynamoDB stream. AWS Lambda invokes the specified
-    /// function when records are posted to the stream.
+    /// Creates a mapping between an event source and an AWS Lambda function. Lambda reads
+    /// items from the event source and triggers the function.
     /// 
     ///  
     /// <para>
-    /// This association between a stream source and a Lambda function is called the event
-    /// source mapping.
+    /// For details about each event source type, see the following topics.
     /// </para>
-    ///  
+    ///  <ul> <li> 
     /// <para>
-    /// You provide mapping information (for example, which stream to read from and which
-    /// Lambda function to invoke) in the request body.
+    ///  <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html">Using AWS Lambda
+    /// with Amazon DynamoDB</a> 
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be associated
-    /// with multiple AWS Lambda functions. A given Lambda function can be associated with
-    /// multiple AWS event sources.
+    ///  <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html">Using AWS
+    /// Lambda with Amazon Kinesis</a> 
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// If you are using versioning, you can specify a specific function version or an alias
-    /// via the function name parameter. For more information about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-    /// Lambda Function Versioning and Aliases</a>. 
+    ///  <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html">Using AWS Lambda
+    /// with Amazon SQS</a> 
     /// </para>
-    ///  
+    ///  </li> </ul> 
     /// <para>
-    /// This operation requires permission for the <code>lambda:CreateEventSourceMapping</code>
-    /// action.
+    /// The following error handling options are only available for stream sources (DynamoDB
+    /// and Kinesis):
     /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <code>BisectBatchOnFunctionError</code> - If the function returns an error, split
+    /// the batch in two and retry.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>DestinationConfig</code> - Send discarded records to an Amazon SQS queue or
+    /// Amazon SNS topic.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>MaximumRecordAgeInSeconds</code> - Discard records older than the specified
+    /// age.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>MaximumRetryAttempts</code> - Discard records after the specified number of
+    /// retries.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ParallelizationFactor</code> - Process multiple batches from each shard concurrently.
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class CreateEventSourceMappingRequest : AmazonLambdaRequest
     {
         private int? _batchSize;
+        private bool? _bisectBatchOnFunctionError;
+        private DestinationConfig _destinationConfig;
         private bool? _enabled;
         private string _eventSourceArn;
         private string _functionName;
+        private int? _maximumBatchingWindowInSeconds;
+        private int? _maximumRecordAgeInSeconds;
+        private int? _maximumRetryAttempts;
+        private int? _parallelizationFactor;
         private EventSourcePosition _startingPosition;
         private DateTime? _startingPositionTimestamp;
 
         /// <summary>
         /// Gets and sets the property BatchSize. 
         /// <para>
-        /// The largest number of records that AWS Lambda will retrieve from your event source
-        /// at the time of invoking your function. Your function receives an event with all the
-        /// retrieved records. The default is 100 records.
+        /// The maximum number of items to retrieve in a single batch.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Amazon Kinesis</b> - Default 100. Max 10,000.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon Simple Queue Service</b> - Default 10. Max 10.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int BatchSize
         {
             get { return this._batchSize.GetValueOrDefault(); }
@@ -91,10 +130,45 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BisectBatchOnFunctionError. 
+        /// <para>
+        /// (Streams) If the function returns an error, split the batch in two and retry.
+        /// </para>
+        /// </summary>
+        public bool BisectBatchOnFunctionError
+        {
+            get { return this._bisectBatchOnFunctionError.GetValueOrDefault(); }
+            set { this._bisectBatchOnFunctionError = value; }
+        }
+
+        // Check to see if BisectBatchOnFunctionError property is set
+        internal bool IsSetBisectBatchOnFunctionError()
+        {
+            return this._bisectBatchOnFunctionError.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DestinationConfig. 
+        /// <para>
+        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// </para>
+        /// </summary>
+        public DestinationConfig DestinationConfig
+        {
+            get { return this._destinationConfig; }
+            set { this._destinationConfig = value; }
+        }
+
+        // Check to see if DestinationConfig property is set
+        internal bool IsSetDestinationConfig()
+        {
+            return this._destinationConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Enabled. 
         /// <para>
-        /// Indicates whether AWS Lambda should begin polling the event source. By default, <code>Enabled</code>
-        /// is true. 
+        /// Disables the event source mapping to pause polling and invocation.
         /// </para>
         /// </summary>
         public bool Enabled
@@ -112,12 +186,23 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property EventSourceArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the Amazon Kinesis or the Amazon DynamoDB stream
-        /// that is the event source. Any record added to this stream could cause AWS Lambda to
-        /// invoke your Lambda function, it depends on the <code>BatchSize</code>. AWS Lambda
-        /// POSTs the Amazon Kinesis event, containing records, to your Lambda function as JSON.
+        /// The Amazon Resource Name (ARN) of the event source.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Amazon Kinesis</b> - The ARN of the data stream or a stream consumer.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon DynamoDB Streams</b> - The ARN of the stream.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon Simple Queue Service</b> - The ARN of the queue.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EventSourceArn
         {
             get { return this._eventSourceArn; }
@@ -133,32 +218,33 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// The Lambda function to invoke when AWS Lambda detects an event on the stream.
+        /// The name of the Lambda function.
         /// </para>
-        ///  
-        /// <para>
-        ///  You can specify the function name (for example, <code>Thumbnail</code>) or you can
-        /// specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>).
-        /// 
+        ///  <p class="title"> <b>Name formats</b> 
         /// </para>
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        ///  If you are using versioning, you can also provide a qualified function ARN (ARN that
-        /// is qualified with function version or alias name as suffix). For more information
-        /// about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a> 
+        ///  <b>Function name</b> - <code>MyFunction</code>.
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// AWS Lambda also allows you to specify only the function name with the account ID qualifier
-        /// (for example, <code>account-id:Thumbnail</code>). 
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// Note that the length constraint applies only to the ARN. If you specify only the function
-        /// name, it is limited to 64 characters in length.
+        ///  <b>Version or Alias ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it's limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -172,14 +258,88 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaximumBatchingWindowInSeconds. 
+        /// <para>
+        /// (Streams) The maximum amount of time to gather records before invoking the function,
+        /// in seconds.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=300)]
+        public int MaximumBatchingWindowInSeconds
+        {
+            get { return this._maximumBatchingWindowInSeconds.GetValueOrDefault(); }
+            set { this._maximumBatchingWindowInSeconds = value; }
+        }
+
+        // Check to see if MaximumBatchingWindowInSeconds property is set
+        internal bool IsSetMaximumBatchingWindowInSeconds()
+        {
+            return this._maximumBatchingWindowInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaximumRecordAgeInSeconds. 
+        /// <para>
+        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=60, Max=604800)]
+        public int MaximumRecordAgeInSeconds
+        {
+            get { return this._maximumRecordAgeInSeconds.GetValueOrDefault(); }
+            set { this._maximumRecordAgeInSeconds = value; }
+        }
+
+        // Check to see if MaximumRecordAgeInSeconds property is set
+        internal bool IsSetMaximumRecordAgeInSeconds()
+        {
+            return this._maximumRecordAgeInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaximumRetryAttempts. 
+        /// <para>
+        /// (Streams) The maximum number of times to retry when the function returns an error.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=10000)]
+        public int MaximumRetryAttempts
+        {
+            get { return this._maximumRetryAttempts.GetValueOrDefault(); }
+            set { this._maximumRetryAttempts = value; }
+        }
+
+        // Check to see if MaximumRetryAttempts property is set
+        internal bool IsSetMaximumRetryAttempts()
+        {
+            return this._maximumRetryAttempts.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ParallelizationFactor. 
+        /// <para>
+        /// (Streams) The number of batches to process from each shard concurrently.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=10)]
+        public int ParallelizationFactor
+        {
+            get { return this._parallelizationFactor.GetValueOrDefault(); }
+            set { this._parallelizationFactor = value; }
+        }
+
+        // Check to see if ParallelizationFactor property is set
+        internal bool IsSetParallelizationFactor()
+        {
+            return this._parallelizationFactor.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property StartingPosition. 
         /// <para>
-        /// The position in the DynamoDB or Kinesis stream where AWS Lambda should start reading.
-        /// For more information, see <a href="http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html#Kinesis-GetShardIterator-request-ShardIteratorType">GetShardIterator</a>
-        /// in the <i>Amazon Kinesis API Reference Guide</i> or <a href="http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetShardIterator.html">GetShardIterator</a>
-        /// in the <i>Amazon DynamoDB API Reference Guide</i>. The <code>AT_TIMESTAMP</code> value
-        /// is supported only for <a href="http://docs.aws.amazon.com/streams/latest/dev/amazon-kinesis-streams.html">Kinesis
-        /// streams</a>. 
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis
+        /// and Amazon DynamoDB Streams sources. <code>AT_TIMESTAMP</code> is only supported for
+        /// Amazon Kinesis streams.
         /// </para>
         /// </summary>
         public EventSourcePosition StartingPosition
@@ -197,12 +357,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property StartingPositionTimestamp. 
         /// <para>
-        /// The timestamp of the data record from which to start reading. Used with <a href="http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html#Kinesis-GetShardIterator-request-ShardIteratorType">shard
-        /// iterator type</a> AT_TIMESTAMP. If a record with this exact timestamp does not exist,
-        /// the iterator returned is for the next (later) record. If the timestamp is older than
-        /// the current trim horizon, the iterator returned is for the oldest untrimmed data record
-        /// (TRIM_HORIZON). Valid only for <a href="http://docs.aws.amazon.com/streams/latest/dev/amazon-kinesis-streams.html">Kinesis
-        /// streams</a>. 
+        /// With <code>StartingPosition</code> set to <code>AT_TIMESTAMP</code>, the time from
+        /// which to start reading.
         /// </para>
         /// </summary>
         public DateTime StartingPositionTimestamp

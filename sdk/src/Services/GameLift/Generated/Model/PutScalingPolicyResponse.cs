@@ -37,10 +37,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with a scaling policy. Policy names do not need
-        /// to be unique.
+        /// A descriptive label that is associated with a scaling policy. Policy names do not
+        /// need to be unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }

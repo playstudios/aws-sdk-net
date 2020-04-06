@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.IoT.Model
 {
     /// <summary>
-    /// The location in S3 the contains the files to stream.
+    /// The S3 location.
     /// </summary>
     public partial class S3Location
     {
@@ -39,9 +39,10 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Bucket. 
         /// <para>
-        /// The S3 bucket that contains the file to stream.
+        /// The S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Bucket
         {
             get { return this._bucket; }
@@ -57,9 +58,10 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Key. 
         /// <para>
-        /// The name of the file within the S3 bucket to stream.
+        /// The S3 key.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Key
         {
             get { return this._key; }
@@ -75,7 +77,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Version. 
         /// <para>
-        /// The file version.
+        /// The S3 bucket version.
         /// </para>
         /// </summary>
         public string Version

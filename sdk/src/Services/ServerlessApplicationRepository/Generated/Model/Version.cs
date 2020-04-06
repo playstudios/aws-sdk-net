@@ -35,7 +35,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         private string _applicationId;
         private string _creationTime;
         private List<ParameterDefinition> _parameterDefinitions = new List<ParameterDefinition>();
+        private List<string> _requiredCapabilities = new List<string>();
+        private bool? _resourcesSupported;
         private string _semanticVersion;
+        private string _sourceCodeArchiveUrl;
         private string _sourceCodeUrl;
         private string _templateUrl;
 
@@ -45,6 +48,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// The application Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -60,9 +64,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// The date/time this resource was created.
+        /// The date and time this resource was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CreationTime
         {
             get { return this._creationTime; }
@@ -78,9 +83,10 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// <summary>
         /// Gets and sets the property ParameterDefinitions. 
         /// <para>
-        /// Array of parameter types supported by the application.
+        /// An array of parameter types supported by the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ParameterDefinition> ParameterDefinitions
         {
             get { return this._parameterDefinitions; }
@@ -94,6 +100,85 @@ namespace Amazon.ServerlessApplicationRepository.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RequiredCapabilities. 
+        /// <para>
+        /// A list of values that you must specify before you can deploy certain applications.
+        /// Some applications might include resources that can affect permissions in your AWS
+        /// account, for example, by creating new AWS Identity and Access Management (IAM) users.
+        /// For those applications, you must explicitly acknowledge their capabilities by specifying
+        /// this parameter.
+        /// </para>
+        /// 
+        /// <para>
+        /// The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CAPABILITY_RESOURCE_POLICY,
+        /// and CAPABILITY_AUTO_EXPAND.
+        /// </para>
+        /// 
+        /// <para>
+        /// The following resources require you to specify CAPABILITY_IAM or CAPABILITY_NAMED_IAM:
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>,
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">AWS::IAM::InstanceProfile</a>,
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html">AWS::IAM::Policy</a>,
+        /// and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>.
+        /// If the application contains IAM resources, you can specify either CAPABILITY_IAM or
+        /// CAPABILITY_NAMED_IAM. If the application contains IAM resources with custom names,
+        /// you must specify CAPABILITY_NAMED_IAM.
+        /// </para>
+        /// 
+        /// <para>
+        /// The following resources require you to specify CAPABILITY_RESOURCE_POLICY: <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html">AWS::Lambda::Permission</a>,
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html">AWS::IAM:Policy</a>,
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html">AWS::ApplicationAutoScaling::ScalingPolicy</a>,
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html">AWS::S3::BucketPolicy</a>,
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html">AWS::SQS::QueuePolicy</a>,
+        /// and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html">AWS::SNS::TopicPolicy</a>.
+        /// </para>
+        /// 
+        /// <para>
+        /// Applications that contain one or more nested applications require you to specify CAPABILITY_AUTO_EXPAND.
+        /// </para>
+        /// 
+        /// <para>
+        /// If your application template contains any of the above resources, we recommend that
+        /// you review all permissions associated with the application before deploying. If you
+        /// don't specify this parameter for an application that requires capabilities, the call
+        /// will fail.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
+        public List<string> RequiredCapabilities
+        {
+            get { return this._requiredCapabilities; }
+            set { this._requiredCapabilities = value; }
+        }
+
+        // Check to see if RequiredCapabilities property is set
+        internal bool IsSetRequiredCapabilities()
+        {
+            return this._requiredCapabilities != null && this._requiredCapabilities.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ResourcesSupported. 
+        /// <para>
+        /// Whether all of the AWS resources contained in this application are supported in the
+        /// region in which it is being retrieved.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
+        public bool ResourcesSupported
+        {
+            get { return this._resourcesSupported.GetValueOrDefault(); }
+            set { this._resourcesSupported = value; }
+        }
+
+        // Check to see if ResourcesSupported property is set
+        internal bool IsSetResourcesSupported()
+        {
+            return this._resourcesSupported.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property SemanticVersion. 
         /// <para>
         /// The semantic version of the application:
@@ -103,6 +188,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         ///  <a href="https://semver.org/">https://semver.org/</a> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SemanticVersion
         {
             get { return this._semanticVersion; }
@@ -116,9 +202,33 @@ namespace Amazon.ServerlessApplicationRepository.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SourceCodeArchiveUrl. 
+        /// <para>
+        /// A link to the S3 object that contains the ZIP archive of the source code for this
+        /// version of your application.
+        /// </para>
+        /// 
+        /// <para>
+        /// Maximum size 50 MB
+        /// </para>
+        /// </summary>
+        public string SourceCodeArchiveUrl
+        {
+            get { return this._sourceCodeArchiveUrl; }
+            set { this._sourceCodeArchiveUrl = value; }
+        }
+
+        // Check to see if SourceCodeArchiveUrl property is set
+        internal bool IsSetSourceCodeArchiveUrl()
+        {
+            return this._sourceCodeArchiveUrl != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SourceCodeUrl. 
         /// <para>
-        /// A link to a public repository for the source code of your application.
+        /// A link to a public repository for the source code of your application, for example
+        /// the URL of a specific GitHub commit.
         /// </para>
         /// </summary>
         public string SourceCodeUrl
@@ -139,6 +249,7 @@ namespace Amazon.ServerlessApplicationRepository.Model
         /// A link to the packaged AWS SAM template of your application.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TemplateUrl
         {
             get { return this._templateUrl; }

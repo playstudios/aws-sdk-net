@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ServiceDiscovery.Model
 {
     /// <summary>
-    /// A complex type that contains the ID for the hosted zone that Route 53 creates when
-    /// you create a namespace.
+    /// A complex type that contains the ID for the Route 53 hosted zone that AWS Cloud Map
+    /// creates when you create a namespace.
     /// </summary>
     public partial class DnsProperties
     {
@@ -38,9 +38,10 @@ namespace Amazon.ServiceDiscovery.Model
         /// <summary>
         /// Gets and sets the property HostedZoneId. 
         /// <para>
-        /// The ID for the hosted zone that Route 53 creates when you create a namespace.
+        /// The ID for the Route 53 hosted zone that AWS Cloud Map creates when you create a namespace.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=64)]
         public string HostedZoneId
         {
             get { return this._hostedZoneId; }

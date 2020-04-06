@@ -55,19 +55,31 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateJobTemplateRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaConvert");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-29";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/2017-08-29/jobTemplates/{name}";
             if (!publicRequest.IsSetName())
                 throw new AmazonMediaConvertException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{name}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{name}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/2017-08-29/jobTemplates/{name}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAccelerationSettings())
+                {
+                    context.Writer.WritePropertyName("accelerationSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AccelerationSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.AccelerationSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetCategory())
                 {
                     context.Writer.WritePropertyName("category");
@@ -78,6 +90,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("description");
                     context.Writer.Write(publicRequest.Description);
+                }
+
+                if(publicRequest.IsSetPriority())
+                {
+                    context.Writer.WritePropertyName("priority");
+                    context.Writer.Write(publicRequest.Priority);
                 }
 
                 if(publicRequest.IsSetQueue())
@@ -95,6 +113,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.Settings, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetStatusUpdateInterval())
+                {
+                    context.Writer.WritePropertyName("statusUpdateInterval");
+                    context.Writer.Write(publicRequest.StatusUpdateInterval);
                 }
 
         

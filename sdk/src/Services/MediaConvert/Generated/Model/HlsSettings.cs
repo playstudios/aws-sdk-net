@@ -33,6 +33,7 @@ namespace Amazon.MediaConvert.Model
     public partial class HlsSettings
     {
         private string _audioGroupId;
+        private HlsAudioOnlyContainer _audioOnlyContainer;
         private string _audioRenditionSets;
         private HlsAudioTrackType _audioTrackType;
         private HlsIFrameOnlyManifest _iFrameOnlyManifest;
@@ -55,6 +56,25 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AudioOnlyContainer. Use this setting only in audio-only
+        /// outputs. Choose MPEG-2 Transport Stream (M2TS) to create a file in an MPEG2-TS container.
+        /// Keep the default value Automatic (AUTOMATIC) to create an audio-only file in a raw
+        /// container. Regardless of the value that you specify here, if this output has video,
+        /// the service will place the output into an MPEG2-TS container.
+        /// </summary>
+        public HlsAudioOnlyContainer AudioOnlyContainer
+        {
+            get { return this._audioOnlyContainer; }
+            set { this._audioOnlyContainer = value; }
+        }
+
+        // Check to see if AudioOnlyContainer property is set
+        internal bool IsSetAudioOnlyContainer()
+        {
+            return this._audioOnlyContainer != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property AudioRenditionSets. List all the audio groups that are
         /// used with the video output stream. Input all the audio GROUP-IDs that are associated
         /// to the video, separate by ','.
@@ -72,7 +92,16 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property AudioTrackType.
+        /// Gets and sets the property AudioTrackType. Four types of audio-only tracks are supported:
+        /// Audio-Only Variant Stream The client can play back this audio-only stream instead
+        /// of video in low-bandwidth scenarios. Represented as an EXT-X-STREAM-INF in the HLS
+        /// manifest. Alternate Audio, Auto Select, Default Alternate rendition that the client
+        /// should try to play back by default. Represented as an EXT-X-MEDIA in the HLS manifest
+        /// with DEFAULT=YES, AUTOSELECT=YES Alternate Audio, Auto Select, Not Default Alternate
+        /// rendition that the client may try to play back by default. Represented as an EXT-X-MEDIA
+        /// in the HLS manifest with DEFAULT=NO, AUTOSELECT=YES Alternate Audio, not Auto Select
+        /// Alternate rendition that the client will not try to play back by default. Represented
+        /// as an EXT-X-MEDIA in the HLS manifest with DEFAULT=NO, AUTOSELECT=NO
         /// </summary>
         public HlsAudioTrackType AudioTrackType
         {
@@ -87,7 +116,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property IFrameOnlyManifest.
+        /// Gets and sets the property IFrameOnlyManifest. When set to INCLUDE, writes I-Frame
+        /// Only Manifest in addition to the HLS manifest
         /// </summary>
         public HlsIFrameOnlyManifest IFrameOnlyManifest
         {
@@ -102,8 +132,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentModifier. String concatenated to end of segment
-        /// filenames. Accepts "Format Identifiers":#format_identifier_parameters.
+        /// Gets and sets the property SegmentModifier. Use this setting to add an identifying
+        /// string to the filename of each segment. The service adds this string between the name
+        /// modifier and segment index number. You can use format identifiers in the string. For
+        /// more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html
         /// </summary>
         public string SegmentModifier
         {

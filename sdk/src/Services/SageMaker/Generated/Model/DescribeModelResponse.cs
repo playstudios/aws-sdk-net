@@ -32,11 +32,33 @@ namespace Amazon.SageMaker.Model
     /// </summary>
     public partial class DescribeModelResponse : AmazonWebServiceResponse
     {
+        private List<ContainerDefinition> _containers = new List<ContainerDefinition>();
         private DateTime? _creationTime;
+        private bool? _enableNetworkIsolation;
         private string _executionRoleArn;
         private string _modelArn;
         private string _modelName;
         private ContainerDefinition _primaryContainer;
+        private VpcConfig _vpcConfig;
+
+        /// <summary>
+        /// Gets and sets the property Containers. 
+        /// <para>
+        /// The containers in the inference pipeline.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=5)]
+        public List<ContainerDefinition> Containers
+        {
+            get { return this._containers; }
+            set { this._containers = value; }
+        }
+
+        // Check to see if Containers property is set
+        internal bool IsSetContainers()
+        {
+            return this._containers != null && this._containers.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property CreationTime. 
@@ -44,6 +66,7 @@ namespace Amazon.SageMaker.Model
         /// A timestamp that shows when the model was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreationTime
         {
             get { return this._creationTime.GetValueOrDefault(); }
@@ -57,11 +80,31 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EnableNetworkIsolation. 
+        /// <para>
+        /// If <code>True</code>, no inbound or outbound network calls can be made to or from
+        /// the model container.
+        /// </para>
+        /// </summary>
+        public bool EnableNetworkIsolation
+        {
+            get { return this._enableNetworkIsolation.GetValueOrDefault(); }
+            set { this._enableNetworkIsolation = value; }
+        }
+
+        // Check to see if EnableNetworkIsolation property is set
+        internal bool IsSetEnableNetworkIsolation()
+        {
+            return this._enableNetworkIsolation.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ExecutionRoleArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the IAM role that you specified for the model.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string ExecutionRoleArn
         {
             get { return this._executionRoleArn; }
@@ -80,6 +123,7 @@ namespace Amazon.SageMaker.Model
         /// The Amazon Resource Name (ARN) of the model.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string ModelArn
         {
             get { return this._modelArn; }
@@ -98,6 +142,7 @@ namespace Amazon.SageMaker.Model
         /// Name of the Amazon SageMaker model.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string ModelName
         {
             get { return this._modelName; }
@@ -127,6 +172,26 @@ namespace Amazon.SageMaker.Model
         internal bool IsSetPrimaryContainer()
         {
             return this._primaryContainer != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VpcConfig. 
+        /// <para>
+        /// A <a>VpcConfig</a> object that specifies the VPC that this model has access to. For
+        /// more information, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/host-vpc.html">Protect
+        /// Endpoints by Using an Amazon Virtual Private Cloud</a> 
+        /// </para>
+        /// </summary>
+        public VpcConfig VpcConfig
+        {
+            get { return this._vpcConfig; }
+            set { this._vpcConfig = value; }
+        }
+
+        // Check to see if VpcConfig property is set
+        internal bool IsSetVpcConfig()
+        {
+            return this._vpcConfig != null;
         }
 
     }

@@ -25,6 +25,130 @@ namespace Amazon.StorageGateway
 {
 
     /// <summary>
+    /// Constants used for properties of type ActiveDirectoryStatus.
+    /// </summary>
+    public class ActiveDirectoryStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACCESS_DENIED for ActiveDirectoryStatus
+        /// </summary>
+        public static readonly ActiveDirectoryStatus ACCESS_DENIED = new ActiveDirectoryStatus("ACCESS_DENIED");
+        /// <summary>
+        /// Constant DETACHED for ActiveDirectoryStatus
+        /// </summary>
+        public static readonly ActiveDirectoryStatus DETACHED = new ActiveDirectoryStatus("DETACHED");
+        /// <summary>
+        /// Constant JOINED for ActiveDirectoryStatus
+        /// </summary>
+        public static readonly ActiveDirectoryStatus JOINED = new ActiveDirectoryStatus("JOINED");
+        /// <summary>
+        /// Constant JOINING for ActiveDirectoryStatus
+        /// </summary>
+        public static readonly ActiveDirectoryStatus JOINING = new ActiveDirectoryStatus("JOINING");
+        /// <summary>
+        /// Constant NETWORK_ERROR for ActiveDirectoryStatus
+        /// </summary>
+        public static readonly ActiveDirectoryStatus NETWORK_ERROR = new ActiveDirectoryStatus("NETWORK_ERROR");
+        /// <summary>
+        /// Constant TIMEOUT for ActiveDirectoryStatus
+        /// </summary>
+        public static readonly ActiveDirectoryStatus TIMEOUT = new ActiveDirectoryStatus("TIMEOUT");
+        /// <summary>
+        /// Constant UNKNOWN_ERROR for ActiveDirectoryStatus
+        /// </summary>
+        public static readonly ActiveDirectoryStatus UNKNOWN_ERROR = new ActiveDirectoryStatus("UNKNOWN_ERROR");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ActiveDirectoryStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ActiveDirectoryStatus FindValue(string value)
+        {
+            return FindValue<ActiveDirectoryStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ActiveDirectoryStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type AvailabilityMonitorTestStatus.
+    /// </summary>
+    public class AvailabilityMonitorTestStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant COMPLETE for AvailabilityMonitorTestStatus
+        /// </summary>
+        public static readonly AvailabilityMonitorTestStatus COMPLETE = new AvailabilityMonitorTestStatus("COMPLETE");
+        /// <summary>
+        /// Constant FAILED for AvailabilityMonitorTestStatus
+        /// </summary>
+        public static readonly AvailabilityMonitorTestStatus FAILED = new AvailabilityMonitorTestStatus("FAILED");
+        /// <summary>
+        /// Constant PENDING for AvailabilityMonitorTestStatus
+        /// </summary>
+        public static readonly AvailabilityMonitorTestStatus PENDING = new AvailabilityMonitorTestStatus("PENDING");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public AvailabilityMonitorTestStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static AvailabilityMonitorTestStatus FindValue(string value)
+        {
+            return FindValue<AvailabilityMonitorTestStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator AvailabilityMonitorTestStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ErrorCode.
     /// </summary>
     public class ErrorCode : ConstantClass
@@ -142,6 +266,10 @@ namespace Amazon.StorageGateway
         /// Constant InvalidSchedule for ErrorCode
         /// </summary>
         public static readonly ErrorCode InvalidSchedule = new ErrorCode("InvalidSchedule");
+        /// <summary>
+        /// Constant JoinDomainInProgress for ErrorCode
+        /// </summary>
+        public static readonly ErrorCode JoinDomainInProgress = new ErrorCode("JoinDomainInProgress");
         /// <summary>
         /// Constant LocalStorageLimitExceeded for ErrorCode
         /// </summary>
@@ -311,6 +439,118 @@ namespace Amazon.StorageGateway
 
 
     /// <summary>
+    /// Constants used for properties of type FileShareType.
+    /// </summary>
+    public class FileShareType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant NFS for FileShareType
+        /// </summary>
+        public static readonly FileShareType NFS = new FileShareType("NFS");
+        /// <summary>
+        /// Constant SMB for FileShareType
+        /// </summary>
+        public static readonly FileShareType SMB = new FileShareType("SMB");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public FileShareType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static FileShareType FindValue(string value)
+        {
+            return FindValue<FileShareType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator FileShareType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type HostEnvironment.
+    /// </summary>
+    public class HostEnvironment : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant EC2 for HostEnvironment
+        /// </summary>
+        public static readonly HostEnvironment EC2 = new HostEnvironment("EC2");
+        /// <summary>
+        /// Constant HYPERV for HostEnvironment
+        /// </summary>
+        public static readonly HostEnvironment HYPERV = new HostEnvironment("HYPER-V");
+        /// <summary>
+        /// Constant KVM for HostEnvironment
+        /// </summary>
+        public static readonly HostEnvironment KVM = new HostEnvironment("KVM");
+        /// <summary>
+        /// Constant OTHER for HostEnvironment
+        /// </summary>
+        public static readonly HostEnvironment OTHER = new HostEnvironment("OTHER");
+        /// <summary>
+        /// Constant VMWARE for HostEnvironment
+        /// </summary>
+        public static readonly HostEnvironment VMWARE = new HostEnvironment("VMWARE");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public HostEnvironment(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static HostEnvironment FindValue(string value)
+        {
+            return FindValue<HostEnvironment>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator HostEnvironment(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type ObjectACL.
     /// </summary>
     public class ObjectACL : ConstantClass
@@ -374,6 +614,60 @@ namespace Amazon.StorageGateway
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator ObjectACL(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type SMBSecurityStrategy.
+    /// </summary>
+    public class SMBSecurityStrategy : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ClientSpecified for SMBSecurityStrategy
+        /// </summary>
+        public static readonly SMBSecurityStrategy ClientSpecified = new SMBSecurityStrategy("ClientSpecified");
+        /// <summary>
+        /// Constant MandatoryEncryption for SMBSecurityStrategy
+        /// </summary>
+        public static readonly SMBSecurityStrategy MandatoryEncryption = new SMBSecurityStrategy("MandatoryEncryption");
+        /// <summary>
+        /// Constant MandatorySigning for SMBSecurityStrategy
+        /// </summary>
+        public static readonly SMBSecurityStrategy MandatorySigning = new SMBSecurityStrategy("MandatorySigning");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SMBSecurityStrategy(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SMBSecurityStrategy FindValue(string value)
+        {
+            return FindValue<SMBSecurityStrategy>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SMBSecurityStrategy(string value)
         {
             return FindValue(value);
         }

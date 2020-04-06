@@ -58,10 +58,11 @@ namespace Amazon.DAX.Model.Internal.MarshallTransformations
             string target = "AmazonDAXV3.CreateCluster";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-19";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -135,6 +136,17 @@ namespace Amazon.DAX.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestSecurityGroupIdsListValue);
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetSSESpecification())
+                {
+                    context.Writer.WritePropertyName("SSESpecification");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = SSESpecificationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.SSESpecification, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetSubnetGroupName())

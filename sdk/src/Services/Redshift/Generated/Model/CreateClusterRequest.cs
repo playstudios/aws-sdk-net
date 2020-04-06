@@ -29,14 +29,14 @@ namespace Amazon.Redshift.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateCluster operation.
-    /// Creates a new cluster.
+    /// Creates a new cluster with the specified parameters.
     /// 
     ///  
     /// <para>
-    /// To create the cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet
+    /// To create a cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet
     /// group name. The cluster subnet group identifies the subnets of your VPC that Amazon
     /// Redshift uses when creating the cluster. For more information about managing clusters,
-    /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+    /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
     /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
@@ -60,6 +60,8 @@ namespace Amazon.Redshift.Model
         private string _hsmConfigurationIdentifier;
         private List<string> _iamRoles = new List<string>();
         private string _kmsKeyId;
+        private string _maintenanceTrackName;
+        private int? _manualSnapshotRetentionPeriod;
         private string _masterUsername;
         private string _masterUserPassword;
         private string _nodeType;
@@ -67,6 +69,7 @@ namespace Amazon.Redshift.Model
         private int? _port;
         private string _preferredMaintenanceWindow;
         private bool? _publiclyAccessible;
+        private string _snapshotScheduleIdentifier;
         private List<Tag> _tags = new List<Tag>();
         private List<string> _vpcSecurityGroupIds = new List<string>();
 
@@ -160,7 +163,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// Example: <code>us-east-1d</code> 
+        /// Example: <code>us-east-2d</code> 
         /// </para>
         ///  
         /// <para>
@@ -216,6 +219,7 @@ namespace Amazon.Redshift.Model
         /// Example: <code>myexamplecluster</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterIdentifier
         {
             get { return this._clusterIdentifier; }
@@ -236,7 +240,7 @@ namespace Amazon.Redshift.Model
         ///  
         /// <para>
         /// Default: The default Amazon Redshift cluster parameter group. For information about
-        /// the default parameter group, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Working
+        /// the default parameter group, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Working
         /// with Amazon Redshift Parameter Groups</a> 
         /// </para>
         ///  
@@ -388,7 +392,7 @@ namespace Amazon.Redshift.Model
         /// <para>
         /// To create additional databases after the cluster is created, connect to the cluster
         /// with a SQL client and use SQL commands to create a database. For more information,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/dg/t_creating_database.html">Create
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/dg/t_creating_database.html">Create
         /// a Database</a> in the Amazon Redshift Database Developer Guide. 
         /// </para>
         ///  
@@ -410,7 +414,7 @@ namespace Amazon.Redshift.Model
         ///  </li> <li> 
         /// <para>
         /// Cannot be a word that is reserved by the service. A list of reserved words can be
-        /// found in <a href="http://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html">Reserved
+        /// found in <a href="https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html">Reserved
         /// Words</a> in the Amazon Redshift Database Developer Guide. 
         /// </para>
         ///  </li> </ul>
@@ -436,7 +440,7 @@ namespace Amazon.Redshift.Model
         /// <para>
         /// Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through
         /// an Internet gateway. For more information about provisioning clusters in EC2-VPC,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms">Supported
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms">Supported
         /// Platforms to Launch Your Cluster</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         /// </summary>
@@ -479,7 +483,7 @@ namespace Amazon.Redshift.Model
         /// <para>
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled.
         /// To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC.
-        /// For more information, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
+        /// For more information, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
         /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         ///  
@@ -585,6 +589,50 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaintenanceTrackName. 
+        /// <para>
+        /// An optional parameter for the name of the maintenance track for the cluster. If you
+        /// don't provide a maintenance track name, the cluster is assigned to the <code>current</code>
+        /// track.
+        /// </para>
+        /// </summary>
+        public string MaintenanceTrackName
+        {
+            get { return this._maintenanceTrackName; }
+            set { this._maintenanceTrackName = value; }
+        }
+
+        // Check to see if MaintenanceTrackName property is set
+        internal bool IsSetMaintenanceTrackName()
+        {
+            return this._maintenanceTrackName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManualSnapshotRetentionPeriod. 
+        /// <para>
+        /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot
+        /// is retained indefinitely. This setting doesn't change the retention period of existing
+        /// snapshots.
+        /// </para>
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </summary>
+        public int ManualSnapshotRetentionPeriod
+        {
+            get { return this._manualSnapshotRetentionPeriod.GetValueOrDefault(); }
+            set { this._manualSnapshotRetentionPeriod = value; }
+        }
+
+        // Check to see if ManualSnapshotRetentionPeriod property is set
+        internal bool IsSetManualSnapshotRetentionPeriod()
+        {
+            return this._manualSnapshotRetentionPeriod.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MasterUsername. 
         /// <para>
         /// The user name associated with the master user account for the cluster that is being
@@ -604,11 +652,12 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot be a reserved word. A list of reserved words can be found in <a href="http://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html">Reserved
+        /// Cannot be a reserved word. A list of reserved words can be found in <a href="https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html">Reserved
         /// Words</a> in the Amazon Redshift Database Developer Guide. 
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MasterUsername
         {
             get { return this._masterUsername; }
@@ -654,6 +703,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MasterUserPassword
         {
             get { return this._masterUserPassword; }
@@ -670,17 +720,18 @@ namespace Amazon.Redshift.Model
         /// Gets and sets the property NodeType. 
         /// <para>
         /// The node type to be provisioned for the cluster. For information about node types,
-        /// go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes">
+        /// go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes">
         /// Working with Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         /// </para>
         ///  
         /// <para>
-        /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> | <code>ds2.xlarge</code>
-        /// | <code>ds2.8xlarge</code> | <code>dc1.large</code> | <code>dc1.8xlarge</code> | <code>dc2.large</code>
-        /// | <code>dc2.8xlarge</code> 
+        /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> | <code>dc1.large</code>
+        /// | <code>dc1.8xlarge</code> | <code>dc2.large</code> | <code>dc2.8xlarge</code> | <code>ra3.4xlarge</code>
+        /// | <code>ra3.16xlarge</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NodeType
         {
             get { return this._nodeType; }
@@ -701,7 +752,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// For information about determining how many nodes you need, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes">
+        /// For information about determining how many nodes you need, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes">
         /// Working with Clusters</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
         /// 
         /// </para>
@@ -776,7 +827,7 @@ namespace Amazon.Redshift.Model
         /// <para>
         ///  Default: A 30-minute window selected at random from an 8-hour block of time per region,
         /// occurring on a random day of the week. For more information about the time blocks
-        /// for each region, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows">Maintenance
+        /// for each region, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows">Maintenance
         /// Windows</a> in Amazon Redshift Cluster Management Guide.
         /// </para>
         ///  
@@ -816,6 +867,24 @@ namespace Amazon.Redshift.Model
         internal bool IsSetPubliclyAccessible()
         {
             return this._publiclyAccessible.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SnapshotScheduleIdentifier. 
+        /// <para>
+        /// A unique identifier for the snapshot schedule.
+        /// </para>
+        /// </summary>
+        public string SnapshotScheduleIdentifier
+        {
+            get { return this._snapshotScheduleIdentifier; }
+            set { this._snapshotScheduleIdentifier = value; }
+        }
+
+        // Check to see if SnapshotScheduleIdentifier property is set
+        internal bool IsSetSnapshotScheduleIdentifier()
+        {
+            return this._snapshotScheduleIdentifier != null;
         }
 
         /// <summary>

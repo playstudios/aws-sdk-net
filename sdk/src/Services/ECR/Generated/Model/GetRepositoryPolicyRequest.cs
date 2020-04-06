@@ -29,7 +29,7 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the GetRepositoryPolicy operation.
-    /// Retrieves the repository policy for a specified repository.
+    /// Retrieves the repository policy for the specified repository.
     /// </summary>
     public partial class GetRepositoryPolicyRequest : AmazonECRRequest
     {
@@ -61,6 +61,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository with the policy to retrieve.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

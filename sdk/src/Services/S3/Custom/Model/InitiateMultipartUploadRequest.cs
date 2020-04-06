@@ -42,7 +42,12 @@ namespace Amazon.S3.Model
         private string serverSideEncryptionCustomerProvidedKey;
         private string serverSideEncryptionCustomerProvidedKeyMD5;
         private string serverSideEncryptionKeyManagementServiceKeyId;
+        private string serverSideEncryptionKeyManagementServiceEncryptionContext;
         private RequestPayer requestPayer;
+
+        private ObjectLockLegalHoldStatus objectLockLegalHoldStatus;
+        private ObjectLockMode objectLockMode;
+        private DateTime? objectLockRetainUntilDate;
         
         private List<Tag> tagset = new List<Tag>();
 
@@ -61,7 +66,7 @@ namespace Amazon.S3.Model
         /// </summary>
         internal byte[] IV { get; set; }
 
-#if BCL || CORECLR
+#if BCL || NETSTANDARD
         /// <summary>
         /// Storage mode for encryption information.
         /// </summary>
@@ -292,6 +297,25 @@ namespace Amazon.S3.Model
         }
 
         /// <summary>
+        /// Specifies the AWS KMS Encryption Context to use for object encryption.
+        /// The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        /// </summary>
+        public string ServerSideEncryptionKeyManagementServiceEncryptionContext
+        {
+            get { return this.serverSideEncryptionKeyManagementServiceEncryptionContext; }
+            set { this.serverSideEncryptionKeyManagementServiceEncryptionContext = value; }
+        }
+
+        /// <summary>
+        /// Checks if ServerSideEncryptionKeyManagementServiceEncryptionContext property is set.
+        /// </summary>
+        /// <returns>true if ServerSideEncryptionKeyManagementServiceEncryptionContext property is set.</returns>
+        internal bool IsSetServerSideEncryptionKeyManagementServiceEncryptionContext()
+        {
+            return !System.String.IsNullOrEmpty(this.serverSideEncryptionKeyManagementServiceEncryptionContext);
+        }
+
+        /// <summary>
         /// Confirms that the requester knows that she or he will be charged for the list objects request.
         /// Bucket owners need not specify this parameter in their requests.
         /// </summary>
@@ -308,6 +332,60 @@ namespace Amazon.S3.Model
         internal bool IsSetRequestPayer()
         {
             return requestPayer != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ObjectLockLegalHoldStatus. 
+        /// <para>
+        /// Specifies whether you want to apply a Legal Hold to the uploaded object.
+        /// </para>
+        /// </summary>
+        public ObjectLockLegalHoldStatus ObjectLockLegalHoldStatus
+        {
+            get { return this.objectLockLegalHoldStatus; }
+            set { this.objectLockLegalHoldStatus = value; }
+        }
+
+        // Check to see if ObjectLockLegalHoldStatus property is set
+        internal bool IsSetObjectLockLegalHoldStatus()
+        {
+            return this.objectLockLegalHoldStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ObjectLockMode. 
+        /// <para>
+        /// Specifies the Object Lock mode that you want to apply to the uploaded object.
+        /// </para>
+        /// </summary>
+        public ObjectLockMode ObjectLockMode
+        {
+            get { return this.objectLockMode; }
+            set { this.objectLockMode = value; }
+        }
+
+        // Check to see if ObjectLockMode property is set
+        internal bool IsSetObjectLockMode()
+        {
+            return this.objectLockMode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ObjectLockRetainUntilDate. 
+        /// <para>
+        /// Specifies the date and time when you want the Object Lock to expire.
+        /// </para>
+        /// </summary>
+        public DateTime ObjectLockRetainUntilDate
+        {
+            get { return this.objectLockRetainUntilDate.GetValueOrDefault(); }
+            set { this.objectLockRetainUntilDate = value; }
+        }
+
+        // Check to see if ObjectLockRetainUntilDate property is set
+        internal bool IsSetObjectLockRetainUntilDate()
+        {
+            return this.objectLockRetainUntilDate.HasValue; 
         }
 
         /// <summary>

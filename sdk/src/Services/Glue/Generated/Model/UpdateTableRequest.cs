@@ -41,10 +41,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog where the table resides. If none is supplied, the AWS account
+        /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account
         /// ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -64,6 +65,7 @@ namespace Amazon.Glue.Model
         /// this name is entirely lowercase.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string DatabaseName
         {
             get { return this._databaseName; }
@@ -80,7 +82,7 @@ namespace Amazon.Glue.Model
         /// Gets and sets the property SkipArchive. 
         /// <para>
         /// By default, <code>UpdateTable</code> always creates an archived version of the table
-        /// before updating it. If <code>skipArchive</code> is set to true, however, <code>UpdateTable</code>
+        /// before updating it. However, if <code>skipArchive</code> is set to true, <code>UpdateTable</code>
         /// does not create the archived version.
         /// </para>
         /// </summary>
@@ -102,6 +104,7 @@ namespace Amazon.Glue.Model
         /// An updated <code>TableInput</code> object to define the metadata table in the catalog.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TableInput TableInput
         {
             get { return this._tableInput; }

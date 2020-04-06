@@ -37,6 +37,7 @@ namespace Amazon.MediaConvert.Model
         private int? _bitrate;
         private H264CodecLevel _codecLevel;
         private H264CodecProfile _codecProfile;
+        private H264DynamicSubGop _dynamicSubGop;
         private H264EntropyEncoding _entropyEncoding;
         private H264FieldEncoding _fieldEncoding;
         private H264FlickerAdaptiveQuantization _flickerAdaptiveQuantization;
@@ -59,6 +60,7 @@ namespace Amazon.MediaConvert.Model
         private int? _parDenominator;
         private int? _parNumerator;
         private H264QualityTuningLevel _qualityTuningLevel;
+        private H264QvbrSettings _qvbrSettings;
         private H264RateControlMode _rateControlMode;
         private H264RepeatPps _repeatPps;
         private H264SceneChangeDetect _sceneChangeDetect;
@@ -72,7 +74,8 @@ namespace Amazon.MediaConvert.Model
         private H264UnregisteredSeiTimecode _unregisteredSeiTimecode;
 
         /// <summary>
-        /// Gets and sets the property AdaptiveQuantization.
+        /// Gets and sets the property AdaptiveQuantization. Adaptive quantization. Allows intra-frame
+        /// quantizers to vary to improve visual quality.
         /// </summary>
         public H264AdaptiveQuantization AdaptiveQuantization
         {
@@ -87,11 +90,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Bitrate. Average bitrate in bits/second. Required for VBR,
-        /// CBR, and ABR. Five megabits can be entered as 5000000 or 5m. Five hundred kilobits
-        /// can be entered as 500000 or 0.5m. For MS Smooth outputs, bitrates must be unique when
-        /// rounded down to the nearest multiple of 1000.
+        /// Gets and sets the property Bitrate. Specify the average bitrate in bits per second.
+        /// Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded
+        /// down to the nearest multiple of 1000.
         /// </summary>
+        [AWSProperty(Min=1000, Max=1152000000)]
         public int Bitrate
         {
             get { return this._bitrate.GetValueOrDefault(); }
@@ -105,7 +108,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CodecLevel.
+        /// Gets and sets the property CodecLevel. Specify an H.264 level that is consistent with
+        /// your output video settings. If you aren't sure what level to specify, choose Auto
+        /// (AUTO).
         /// </summary>
         public H264CodecLevel CodecLevel
         {
@@ -120,7 +125,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CodecProfile.
+        /// Gets and sets the property CodecProfile. H.264 Profile. High 4:2:2 and 10-bit profiles
+        /// are only available with the AVC-I License.
         /// </summary>
         public H264CodecProfile CodecProfile
         {
@@ -135,7 +141,27 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EntropyEncoding.
+        /// Gets and sets the property DynamicSubGop. Choose Adaptive to improve subjective video
+        /// quality for high-motion content. This will cause the service to use fewer B-frames
+        /// (which infer information based on other frames) for high-motion portions of the video
+        /// and more B-frames for low-motion portions. The maximum number of B-frames is limited
+        /// by the value you provide for the setting B frames between reference frames (numberBFramesBetweenReferenceFrames).
+        /// </summary>
+        public H264DynamicSubGop DynamicSubGop
+        {
+            get { return this._dynamicSubGop; }
+            set { this._dynamicSubGop = value; }
+        }
+
+        // Check to see if DynamicSubGop property is set
+        internal bool IsSetDynamicSubGop()
+        {
+            return this._dynamicSubGop != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EntropyEncoding. Entropy encoding mode. Use CABAC (must
+        /// be in Main or High profile) or CAVLC.
         /// </summary>
         public H264EntropyEncoding EntropyEncoding
         {
@@ -150,7 +176,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FieldEncoding.
+        /// Gets and sets the property FieldEncoding. Choosing FORCE_FIELD disables PAFF encoding
+        /// for interlaced outputs.
         /// </summary>
         public H264FieldEncoding FieldEncoding
         {
@@ -165,7 +192,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FlickerAdaptiveQuantization.
+        /// Gets and sets the property FlickerAdaptiveQuantization. Adjust quantization within
+        /// each frame to reduce flicker or 'pop' on I-frames.
         /// </summary>
         public H264FlickerAdaptiveQuantization FlickerAdaptiveQuantization
         {
@@ -180,7 +208,17 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FramerateControl.
+        /// Gets and sets the property FramerateControl. If you are using the console, use the
+        /// Framerate setting to specify the frame rate for this output. If you want to keep the
+        /// same frame rate as the input video, choose Follow source. If you want to do frame
+        /// rate conversion, choose a frame rate from the dropdown list or choose Custom. The
+        /// framerates shown in the dropdown list are decimal approximations of fractions. If
+        /// you choose Custom, specify your frame rate as a fraction. If you are creating your
+        /// transcoding job specification as a JSON file without the console, use FramerateControl
+        /// to specify which value the service uses for the frame rate for this output. Choose
+        /// INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input.
+        /// Choose SPECIFIED if you want the service to use the frame rate you specify in the
+        /// settings FramerateNumerator and FramerateDenominator.
         /// </summary>
         public H264FramerateControl FramerateControl
         {
@@ -195,7 +233,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FramerateConversionAlgorithm.
+        /// Gets and sets the property FramerateConversionAlgorithm. When set to INTERPOLATE,
+        /// produces smoother motion during frame rate conversion.
         /// </summary>
         public H264FramerateConversionAlgorithm FramerateConversionAlgorithm
         {
@@ -211,12 +250,13 @@ namespace Amazon.MediaConvert.Model
 
         /// <summary>
         /// Gets and sets the property FramerateDenominator. When you use the API for transcode
-        /// jobs that use framerate conversion, specify the framerate as a fraction. For example,
+        /// jobs that use frame rate conversion, specify the frame rate as a fraction. For example,
         ///  24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of
         /// this fraction. In this example, use 1001 for the value of FramerateDenominator. When
-        /// you use the console for transcode jobs that use framerate conversion, provide the
+        /// you use the console for transcode jobs that use frame rate conversion, provide the
         /// value as a decimal number for Framerate. In this example, specify 23.976.
         /// </summary>
+        [AWSProperty(Min=1, Max=2147483647)]
         public int FramerateDenominator
         {
             get { return this._framerateDenominator.GetValueOrDefault(); }
@@ -230,9 +270,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FramerateNumerator. Framerate numerator - framerate is
+        /// Gets and sets the property FramerateNumerator. Frame rate numerator - frame rate is
         /// a fraction, e.g. 24000 / 1001 = 23.976 fps.
         /// </summary>
+        [AWSProperty(Min=1, Max=2147483647)]
         public int FramerateNumerator
         {
             get { return this._framerateNumerator.GetValueOrDefault(); }
@@ -246,7 +287,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GopBReference.
+        /// Gets and sets the property GopBReference. If enable, use reference B frames for GOP
+        /// structures that have B frames > 1.
         /// </summary>
         public H264GopBReference GopBReference
         {
@@ -266,6 +308,7 @@ namespace Amazon.MediaConvert.Model
         /// will receive an IDR frame as quickly as possible. Setting this value to 0 will break
         /// output segmenting.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int GopClosedCadence
         {
             get { return this._gopClosedCadence.GetValueOrDefault(); }
@@ -295,7 +338,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GopSizeUnits.
+        /// Gets and sets the property GopSizeUnits. Indicates if the GOP Size in H264 is specified
+        /// in frames or seconds. If seconds the system will convert the GOP Size into a frame
+        /// count at run time.
         /// </summary>
         public H264GopSizeUnits GopSizeUnits
         {
@@ -313,6 +358,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property HrdBufferInitialFillPercentage. Percentage of the buffer
         /// that should initially be filled (HRD buffer model).
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int HrdBufferInitialFillPercentage
         {
             get { return this._hrdBufferInitialFillPercentage.GetValueOrDefault(); }
@@ -326,10 +372,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property HrdBufferSize. Size of buffer (HRD buffer model). Five
-        /// megabits can be entered as 5000000 or 5m. Five hundred kilobits can be entered as
-        /// 500000 or 0.5m.
+        /// Gets and sets the property HrdBufferSize. Size of buffer (HRD buffer model) in bits.
+        /// For example, enter five megabits as 5000000.
         /// </summary>
+        [AWSProperty(Min=0, Max=1152000000)]
         public int HrdBufferSize
         {
             get { return this._hrdBufferSize.GetValueOrDefault(); }
@@ -343,7 +389,17 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InterlaceMode.
+        /// Gets and sets the property InterlaceMode. Use Interlace mode (InterlaceMode) to choose
+        /// the scan line type for the output. * Top Field First (TOP_FIELD) and Bottom Field
+        /// First (BOTTOM_FIELD) produce interlaced output with the entire output having the same
+        /// field polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and
+        /// Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as the source.
+        /// Therefore, behavior depends on the input scan type, as follows.  - If the source is
+        /// interlaced, the output will be interlaced with the same polarity as the source (it
+        /// will follow the source). The output could therefore be a mix of "top field first"
+        /// and "bottom field first".  - If the source is progressive, the output will be interlaced
+        /// with "top field first" or "bottom field first" polarity, depending on which of the
+        /// Follow options you chose.
         /// </summary>
         public H264InterlaceMode InterlaceMode
         {
@@ -358,10 +414,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MaxBitrate. Maximum bitrate in bits/second (for VBR mode
-        /// only). Five megabits can be entered as 5000000 or 5m. Five hundred kilobits can be
-        /// entered as 500000 or 0.5m.
+        /// Gets and sets the property MaxBitrate. Maximum bitrate in bits/second. For example,
+        /// enter five megabits per second as 5000000. Required when Rate control mode is QVBR.
         /// </summary>
+        [AWSProperty(Min=1000, Max=1152000000)]
         public int MaxBitrate
         {
             get { return this._maxBitrate.GetValueOrDefault(); }
@@ -383,6 +439,7 @@ namespace Amazon.MediaConvert.Model
         /// when Scene Change Detect is enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval
         /// - 1
         /// </summary>
+        [AWSProperty(Min=0, Max=30)]
         public int MinIInterval
         {
             get { return this._minIInterval.GetValueOrDefault(); }
@@ -399,6 +456,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property NumberBFramesBetweenReferenceFrames. Number of B-frames
         /// between reference frames.
         /// </summary>
+        [AWSProperty(Min=0, Max=7)]
         public int NumberBFramesBetweenReferenceFrames
         {
             get { return this._numberBFramesBetweenReferenceFrames.GetValueOrDefault(); }
@@ -415,6 +473,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property NumberReferenceFrames. Number of reference frames to use.
         /// The encoder may use more than requested if using B-frames and/or interlaced encoding.
         /// </summary>
+        [AWSProperty(Min=1, Max=6)]
         public int NumberReferenceFrames
         {
             get { return this._numberReferenceFrames.GetValueOrDefault(); }
@@ -428,7 +487,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ParControl.
+        /// Gets and sets the property ParControl. Using the API, enable ParFollowSource if you
+        /// want the service to use the pixel aspect ratio from the input. Using the console,
+        /// do this by choosing Follow source for Pixel aspect ratio.
         /// </summary>
         public H264ParControl ParControl
         {
@@ -445,6 +506,7 @@ namespace Amazon.MediaConvert.Model
         /// <summary>
         /// Gets and sets the property ParDenominator. Pixel Aspect Ratio denominator.
         /// </summary>
+        [AWSProperty(Min=1, Max=2147483647)]
         public int ParDenominator
         {
             get { return this._parDenominator.GetValueOrDefault(); }
@@ -460,6 +522,7 @@ namespace Amazon.MediaConvert.Model
         /// <summary>
         /// Gets and sets the property ParNumerator. Pixel Aspect Ratio numerator.
         /// </summary>
+        [AWSProperty(Min=1, Max=2147483647)]
         public int ParNumerator
         {
             get { return this._parNumerator.GetValueOrDefault(); }
@@ -473,7 +536,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property QualityTuningLevel.
+        /// Gets and sets the property QualityTuningLevel. Use Quality tuning level (H264QualityTuningLevel)
+        /// to specifiy whether to use fast single-pass, high-quality singlepass, or high-quality
+        /// multipass video encoding.
         /// </summary>
         public H264QualityTuningLevel QualityTuningLevel
         {
@@ -488,7 +553,27 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RateControlMode.
+        /// Gets and sets the property QvbrSettings. Settings for quality-defined variable bitrate
+        /// encoding with the H.264 codec. Required when you set Rate control mode to QVBR. Not
+        /// valid when you set Rate control mode to a value other than QVBR, or when you don't
+        /// define Rate control mode.
+        /// </summary>
+        public H264QvbrSettings QvbrSettings
+        {
+            get { return this._qvbrSettings; }
+            set { this._qvbrSettings = value; }
+        }
+
+        // Check to see if QvbrSettings property is set
+        internal bool IsSetQvbrSettings()
+        {
+            return this._qvbrSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RateControlMode. Use this setting to specify whether this
+        /// output has a variable bitrate (VBR), constant bitrate (CBR) or quality-defined variable
+        /// bitrate (QVBR).
         /// </summary>
         public H264RateControlMode RateControlMode
         {
@@ -503,7 +588,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RepeatPps.
+        /// Gets and sets the property RepeatPps. Places a PPS header on each encoded picture,
+        /// even if repeated.
         /// </summary>
         public H264RepeatPps RepeatPps
         {
@@ -518,7 +604,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SceneChangeDetect.
+        /// Gets and sets the property SceneChangeDetect. Enable this setting to insert I-frames
+        /// at scene changes that the service automatically detects. This improves video quality
+        /// and is enabled by default. If this output uses QVBR, choose Transition detection (TRANSITION_DETECTION)
+        /// for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
         /// </summary>
         public H264SceneChangeDetect SceneChangeDetect
         {
@@ -537,6 +626,7 @@ namespace Amazon.MediaConvert.Model
         /// or equal to the number of macroblock rows for progressive pictures, and less than
         /// or equal to half the number of macroblock rows for interlaced pictures.
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public int Slices
         {
             get { return this._slices.GetValueOrDefault(); }
@@ -550,7 +640,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SlowPal.
+        /// Gets and sets the property SlowPal. Enables Slow PAL rate conversion. 23.976fps and
+        /// 24fps input is relabeled as 25fps, and audio is sped up correspondingly.
         /// </summary>
         public H264SlowPal SlowPal
         {
@@ -568,6 +659,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property Softness. Softness. Selects quantizer matrix, larger values
         /// reduce high-frequency content in the encoded image.
         /// </summary>
+        [AWSProperty(Min=0, Max=128)]
         public int Softness
         {
             get { return this._softness.GetValueOrDefault(); }
@@ -581,7 +673,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SpatialAdaptiveQuantization.
+        /// Gets and sets the property SpatialAdaptiveQuantization. Adjust quantization within
+        /// each frame based on spatial variation of content complexity.
         /// </summary>
         public H264SpatialAdaptiveQuantization SpatialAdaptiveQuantization
         {
@@ -596,7 +689,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Syntax.
+        /// Gets and sets the property Syntax. Produces a bitstream compliant with SMPTE RP-2027.
         /// </summary>
         public H264Syntax Syntax
         {
@@ -611,7 +704,13 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Telecine.
+        /// Gets and sets the property Telecine. This field applies only if the Streams > Advanced
+        /// > Framerate (framerate) field  is set to 29.970. This field works with the Streams
+        /// > Advanced > Preprocessors > Deinterlacer  field (deinterlace_mode) and the Streams
+        /// > Advanced > Interlaced Mode field (interlace_mode)  to identify the scan type for
+        /// the output: Progressive, Interlaced, Hard Telecine or Soft Telecine. - Hard: produces
+        /// 29.97i output from 23.976 input. - Soft: produces 23.976; the player converts this
+        /// output to 29.97i.
         /// </summary>
         public H264Telecine Telecine
         {
@@ -626,7 +725,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TemporalAdaptiveQuantization.
+        /// Gets and sets the property TemporalAdaptiveQuantization. Adjust quantization within
+        /// each frame based on temporal variation of content complexity.
         /// </summary>
         public H264TemporalAdaptiveQuantization TemporalAdaptiveQuantization
         {
@@ -641,7 +741,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property UnregisteredSeiTimecode.
+        /// Gets and sets the property UnregisteredSeiTimecode. Inserts timecode for each frame
+        /// as 4 bytes of an unregistered SEI message.
         /// </summary>
         public H264UnregisteredSeiTimecode UnregisteredSeiTimecode
         {

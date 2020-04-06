@@ -29,37 +29,38 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateMaintenanceWindowTarget operation.
-    /// Modifies the target of an existing Maintenance Window. You can't change the target
-    /// type, but you can change the following:
+    /// Modifies the target of an existing maintenance window. You can change the following:
     /// 
-    ///  
+    ///  <ul> <li> 
     /// <para>
-    /// The target from being an ID target to a Tag target, or a Tag target to an ID target.
+    /// Name
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// IDs for an ID target.
+    /// Description
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// Tags for a Tag target.
+    /// Owner
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// Owner.
+    /// IDs for an ID target
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// Name.
+    /// Tags for a Tag target
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// Description.
+    /// From any supported tag type to another. The three supported tag types are ID target,
+    /// Tag target, and resource group. For more information, see <a>Target</a>.
     /// </para>
-    ///  
+    ///  </li> </ul> <note> 
     /// <para>
     /// If a parameter is null, then the corresponding field is not modified.
     /// </para>
+    ///  </note>
     /// </summary>
     public partial class UpdateMaintenanceWindowTargetRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -77,6 +78,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// An optional description for the update.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Description
         {
             get { return this._description; }
@@ -95,6 +97,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A name for the update.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -111,9 +114,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Gets and sets the property OwnerInformation. 
         /// <para>
         /// User-provided value that will be included in any CloudWatch events raised while running
-        /// tasks for these targets in this Maintenance Window.
+        /// tasks for these targets in this maintenance window.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string OwnerInformation
         {
             get { return this._ownerInformation; }
@@ -152,6 +156,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The targets to add or replace.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }
@@ -167,9 +172,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowId. 
         /// <para>
-        /// The Maintenance Window ID with which to modify the target.
+        /// The maintenance window ID with which to modify the target.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=20)]
         public string WindowId
         {
             get { return this._windowId; }
@@ -188,6 +194,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The target ID to modify.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=36, Max=36)]
         public string WindowTargetId
         {
             get { return this._windowTargetId; }

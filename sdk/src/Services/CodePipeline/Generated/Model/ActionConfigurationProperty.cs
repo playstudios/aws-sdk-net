@@ -43,9 +43,10 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// The description of the action configuration property that will be displayed to users.
+        /// The description of the action configuration property that is displayed to users.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=160)]
         public string Description
         {
             get { return this._description; }
@@ -64,6 +65,7 @@ namespace Amazon.CodePipeline.Model
         /// Whether the configuration property is a key.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Key
         {
             get { return this._key.GetValueOrDefault(); }
@@ -82,6 +84,7 @@ namespace Amazon.CodePipeline.Model
         /// The name of the action configuration property.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string Name
         {
             get { return this._name; }
@@ -97,14 +100,14 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Queryable. 
         /// <para>
-        /// Indicates that the property will be used in conjunction with PollForJobs. When creating
-        /// a custom action, an action can have up to one queryable property. If it has one, that
+        /// Indicates that the property is used with <code>PollForJobs</code>. When creating a
+        /// custom action, an action can have up to one queryable property. If it has one, that
         /// property must be both required and not secret.
         /// </para>
         ///  
         /// <para>
         /// If you create a pipeline with a custom action type, and that custom action contains
-        /// a queryable property, the value for that configuration property is subject to additional
+        /// a queryable property, the value for that configuration property is subject to other
         /// restrictions. The value must be less than or equal to twenty (20) characters. The
         /// value can contain only alphanumeric characters, underscores, and hyphens.
         /// </para>
@@ -127,6 +130,7 @@ namespace Amazon.CodePipeline.Model
         /// Whether the configuration property is a required value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Required
         {
             get { return this._required.GetValueOrDefault(); }
@@ -143,14 +147,16 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property Secret. 
         /// <para>
         /// Whether the configuration property is secret. Secrets are hidden from all calls except
-        /// for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs.
+        /// for <code>GetJobDetails</code>, <code>GetThirdPartyJobDetails</code>, <code>PollForJobs</code>,
+        /// and <code>PollForThirdPartyJobs</code>.
         /// </para>
         ///  
         /// <para>
         /// When updating a pipeline, passing * * * * * without changing any other values of the
-        /// action will preserve the prior value of the secret.
+        /// action preserves the previous value of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Secret
         {
             get { return this._secret.GetValueOrDefault(); }

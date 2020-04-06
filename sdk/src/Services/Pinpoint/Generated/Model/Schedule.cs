@@ -28,11 +28,12 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Shcedule that defines when a campaign is run.
+    /// Specifies the schedule settings for a campaign.
     /// </summary>
     public partial class Schedule
     {
         private string _endTime;
+        private CampaignEventFilter _eventFilter;
         private Frequency _frequency;
         private bool? _isLocalTime;
         private QuietTime _quietTime;
@@ -40,8 +41,10 @@ namespace Amazon.Pinpoint.Model
         private string _timezone;
 
         /// <summary>
-        /// Gets and sets the property EndTime. The scheduled time that the campaign ends in ISO
-        /// 8601 format.
+        /// Gets and sets the property EndTime. 
+        /// <para>
+        /// The scheduled time, in ISO 8601 format, when the campaign ended or will end.
+        /// </para>
         /// </summary>
         public string EndTime
         {
@@ -56,8 +59,30 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Frequency. How often the campaign delivers messages.Valid
-        /// values: ONCE, HOURLY, DAILY, WEEKLY, MONTHLY
+        /// Gets and sets the property EventFilter. 
+        /// <para>
+        /// The type of event that causes the campaign to be sent, if the value of the Frequency
+        /// property is EVENT.
+        /// </para>
+        /// </summary>
+        public CampaignEventFilter EventFilter
+        {
+            get { return this._eventFilter; }
+            set { this._eventFilter = value; }
+        }
+
+        // Check to see if EventFilter property is set
+        internal bool IsSetEventFilter()
+        {
+            return this._eventFilter != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Frequency. 
+        /// <para>
+        /// Specifies how often the campaign is sent or whether the campaign is sent in response
+        /// to a specific event.
+        /// </para>
         /// </summary>
         public Frequency Frequency
         {
@@ -72,8 +97,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property IsLocalTime. Indicates whether the campaign schedule takes
-        /// effect according to each user's local time.
+        /// Gets and sets the property IsLocalTime. 
+        /// <para>
+        /// Specifies whether the start and end times for the campaign schedule use each recipient's
+        /// local time. To base the schedule on each recipient's local time, set this value to
+        /// true.
+        /// </para>
         /// </summary>
         public bool IsLocalTime
         {
@@ -88,8 +117,31 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property QuietTime. The time during which the campaign sends no
-        /// messages.
+        /// Gets and sets the property QuietTime. 
+        /// <para>
+        /// The default quiet time for the campaign. Quiet time is a specific time range when
+        /// a campaign doesn't send messages to endpoints, if all the following conditions are
+        /// met:
+        /// </para>
+        ///  <ul><li>
+        /// <para>
+        /// The EndpointDemographic.Timezone property of the endpoint is set to a valid value.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// The current time in the endpoint's time zone is later than or equal to the time specified
+        /// by the QuietTime.Start property for the campaign.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// The current time in the endpoint's time zone is earlier than or equal to the time
+        /// specified by the QuietTime.End property for the campaign.
+        /// </para>
+        /// </li></ul> 
+        /// <para>
+        /// If any of the preceding conditions isn't met, the endpoint will receive messages from
+        /// the campaign, even if quiet time is enabled.
+        /// </para>
         /// </summary>
         public QuietTime QuietTime
         {
@@ -104,9 +156,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartTime. The scheduled time that the campaign begins
-        /// in ISO 8601 format.
+        /// Gets and sets the property StartTime. 
+        /// <para>
+        /// The scheduled time when the campaign began or will begin. Valid values are: IMMEDIATE,
+        /// to start the campaign immediately; or, a specific time in ISO 8601 format.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StartTime
         {
             get { return this._startTime; }
@@ -120,8 +176,15 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Timezone. The starting UTC offset for the schedule if the
-        /// value for isLocalTime is trueValid values: UTCUTC+01UTC+02UTC+03UTC+03:30UTC+04UTC+04:30UTC+05UTC+05:30UTC+05:45UTC+06UTC+06:30UTC+07UTC+08UTC+09UTC+09:30UTC+10UTC+10:30UTC+11UTC+12UTC+13UTC-02UTC-03UTC-04UTC-05UTC-06UTC-07UTC-08UTC-09UTC-10UTC-11
+        /// Gets and sets the property Timezone. 
+        /// <para>
+        /// The starting UTC offset for the campaign schedule, if the value of the IsLocalTime
+        /// property is true. Valid values are: UTC, UTC+01, UTC+02, UTC+03, UTC+03:30, UTC+04,
+        /// UTC+04:30, UTC+05,                  UTC+05:30, UTC+05:45, UTC+06, UTC+06:30, UTC+07,
+        /// UTC+08, UTC+09, UTC+09:30,                  UTC+10, UTC+10:30, UTC+11, UTC+12, UTC+13,
+        /// UTC-02, UTC-03, UTC-04, UTC-05, UTC-06,                  UTC-07, UTC-08, UTC-09, UTC-10,
+        /// and UTC-11.
+        /// </para>
         /// </summary>
         public string Timezone
         {

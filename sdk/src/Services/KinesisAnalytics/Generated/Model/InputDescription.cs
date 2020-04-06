@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.KinesisAnalytics.Model
 {
     /// <summary>
-    /// Describes the application input configuration. For more information, see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
+    /// Describes the application input configuration. For more information, see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
     /// Application Input</a>.
     /// </summary>
     public partial class InputDescription
@@ -68,6 +68,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Analytics assigns to each input configuration you add to your application. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string InputId
         {
             get { return this._inputId; }
@@ -202,6 +203,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// In-application name prefix.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public string NamePrefix
         {
             get { return this._namePrefix; }

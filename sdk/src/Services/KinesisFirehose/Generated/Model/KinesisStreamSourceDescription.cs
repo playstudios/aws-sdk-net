@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.KinesisFirehose.Model
 {
     /// <summary>
-    /// Details about a Kinesis stream used as the source for a Kinesis Firehose delivery
-    /// stream.
+    /// Details about a Kinesis data stream used as the source for a Kinesis Data Firehose
+    /// delivery stream.
     /// </summary>
     public partial class KinesisStreamSourceDescription
     {
@@ -40,8 +40,8 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property DeliveryStartTimestamp. 
         /// <para>
-        /// Kinesis Firehose starts retrieving records from the Kinesis stream starting with this
-        /// time stamp.
+        /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream starting
+        /// with this timestamp.
         /// </para>
         /// </summary>
         public DateTime DeliveryStartTimestamp
@@ -59,9 +59,12 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property KinesisStreamARN. 
         /// <para>
-        /// The ARN of the source Kinesis stream.
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more information,
+        /// see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
+        /// Kinesis Data Streams ARN Format</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string KinesisStreamARN
         {
             get { return this._kinesisStreamARN; }
@@ -77,9 +80,12 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property RoleARN. 
         /// <para>
-        /// The ARN of the role used by the source Kinesis stream.
+        /// The ARN of the role used by the source Kinesis data stream. For more information,
+        /// see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">AWS
+        /// Identity and Access Management (IAM) ARN Format</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string RoleARN
         {
             get { return this._roleARN; }

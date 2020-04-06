@@ -283,8 +283,16 @@ namespace Amazon.LexModelBuildingService
 
         /// <summary>
         /// Deletes all versions of the bot, including the <code>$LATEST</code> version. To delete
-        /// a specific version of the bot, use the <a>DeleteBotVersion</a> operation.
+        /// a specific version of the bot, use the <a>DeleteBotVersion</a> operation. The <code>DeleteBot</code>
+        /// operation doesn't immediately remove the bot schema. Instead, it is marked for deletion
+        /// and removed later.
         /// 
+        ///  
+        /// <para>
+        /// Amazon Lex stores utterances indefinitely for improving the ability of your bot to
+        /// respond to user inputs. These utterances are not removed when the bot is deleted.
+        /// To remove the utterances, use the <a>DeleteUtterances</a> operation.
+        /// </para>
         ///  
         /// <para>
         /// If a bot has an alias, you can't delete it. Instead, the <code>DeleteBot</code> operation
@@ -980,8 +988,11 @@ namespace Amazon.LexModelBuildingService
         /// </para>
         ///  
         /// <para>
-        /// Use the <code>DeleteStoredUtterances</code> operation to manually delete stored utterances
-        /// for a specific user.
+        /// Use the <code>DeleteUtterances</code> operation to manually delete stored utterances
+        /// for a specific user. When you use the <code>DeleteUtterances</code> operation, utterances
+        /// stored for improving your bot's ability to respond to user input are deleted immediately.
+        /// Utterances stored for use with the <code>GetUtterancesView</code> operation are deleted
+        /// after 15 days.
         /// </para>
         ///  
         /// <para>
@@ -2162,13 +2173,19 @@ namespace Amazon.LexModelBuildingService
         /// After you publish a new version of a bot, you can get information about the old version
         /// and the new so that you can compare the performance across the two versions. 
         /// </para>
-        ///  <note> 
+        ///  
         /// <para>
         /// Utterance statistics are generated once a day. Data is available for the last 15 days.
-        /// You can request information for up to 5 versions in each request. The response contains
-        /// information about a maximum of 100 utterances for each version.
+        /// You can request information for up to 5 versions of your bot in each request. Amazon
+        /// Lex returns the most frequent utterances received by the bot in the last 15 days.
+        /// The response contains information about a maximum of 100 utterances for each version.
         /// </para>
-        ///  </note> 
+        ///  
+        /// <para>
+        /// If you set <code>childDirected</code> field to true when you created your bot, or
+        /// if you opted out of participating in improving Amazon Lex, utterances are not available.
+        /// </para>
+        ///  
         /// <para>
         /// This operation requires permissions for the <code>lex:GetUtterancesView</code> action.
         /// </para>
@@ -2217,6 +2234,60 @@ namespace Amazon.LexModelBuildingService
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// Gets a list of tags associated with the specified resource. Only bots, bot aliases,
+        /// and bot channels can have tags associated with them.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by LexModelBuildingService.</returns>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.BadRequestException">
+        /// The request is not well formed. For example, a value is invalid or a required field
+        /// is missing. Check the field values, and try again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.InternalFailureException">
+        /// An internal Amazon Lex error occurred. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.LimitExceededException">
+        /// The request exceeded a limit. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.NotFoundException">
+        /// The resource specified in the request was not found. Check the resource and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonLexModelBuildingServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from LexModelBuildingService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutBot
 
 
@@ -2240,7 +2311,7 @@ namespace Amazon.LexModelBuildingService
         ///  
         /// <para>
         /// This operation requires permissions for the <code>lex:PutBot</code> action. For more
-        /// information, see <a>auth-and-access-control</a>.
+        /// information, see <a>security-iam</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutBot service method.</param>
@@ -2609,6 +2680,119 @@ namespace Amazon.LexModelBuildingService
         /// <returns>Returns a  StartImportResult from LexModelBuildingService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/StartImport">REST API Reference for StartImport Operation</seealso>
         StartImportResponse EndStartImport(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// Adds the specified tags to the specified resource. If a tag key already exists, the
+        /// existing value is replaced with the new value.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by LexModelBuildingService.</returns>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.BadRequestException">
+        /// The request is not well formed. For example, a value is invalid or a required field
+        /// is missing. Check the field values, and try again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.ConflictException">
+        /// There was a conflict processing the request. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.InternalFailureException">
+        /// An internal Amazon Lex error occurred. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.LimitExceededException">
+        /// The request exceeded a limit. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.NotFoundException">
+        /// The resource specified in the request was not found. Check the resource and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonLexModelBuildingServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from LexModelBuildingService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes tags from a bot, bot alias or bot channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by LexModelBuildingService.</returns>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.BadRequestException">
+        /// The request is not well formed. For example, a value is invalid or a required field
+        /// is missing. Check the field values, and try again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.ConflictException">
+        /// There was a conflict processing the request. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.InternalFailureException">
+        /// An internal Amazon Lex error occurred. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.LimitExceededException">
+        /// The request exceeded a limit. Try your request again.
+        /// </exception>
+        /// <exception cref="Amazon.LexModelBuildingService.Model.NotFoundException">
+        /// The resource specified in the request was not found. Check the resource and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonLexModelBuildingServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from LexModelBuildingService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
 
         #endregion
         

@@ -29,7 +29,8 @@ namespace Amazon.WAFRegional.Model
 {
     /// <summary>
     /// Container for the parameters to the DisassociateWebACL operation.
-    /// Removes a web ACL from the specified resource.
+    /// Removes a web ACL from the specified resource, either an application load balancer
+    /// or Amazon API Gateway stage.
     /// </summary>
     public partial class DisassociateWebACLRequest : AmazonWAFRegionalRequest
     {
@@ -38,9 +39,26 @@ namespace Amazon.WAFRegional.Model
         /// <summary>
         /// Gets and sets the property ResourceArn. 
         /// <para>
-        /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed.
+        /// The ARN (Amazon Resource Name) of the resource from which the web ACL is being removed,
+        /// either an application load balancer or Amazon API Gateway stage.
         /// </para>
+        ///  
+        /// <para>
+        /// The ARN should be in one of the following formats:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For an Application Load Balancer: <code>arn:aws:elasticloadbalancing:<i>region</i>:<i>account-id</i>:loadbalancer/app/<i>load-balancer-name</i>/<i>load-balancer-id</i>
+        /// </code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For an Amazon API Gateway stage: <code>arn:aws:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+        /// </code> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1224)]
         public string ResourceArn
         {
             get { return this._resourceArn; }

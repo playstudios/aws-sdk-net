@@ -29,15 +29,24 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateAlias operation.
-    /// Associates an existing alias with a different customer master key (CMK). Each CMK
-    /// can have multiple aliases, but the aliases must be unique within the account and region.
-    /// You cannot perform this operation on an alias in a different AWS account.
+    /// Associates an existing AWS KMS alias with a different customer master key (CMK). Each
+    /// alias is associated with only one CMK at a time, although a CMK can have multiple
+    /// aliases. The alias and the CMK must be in the same AWS account and region. You cannot
+    /// perform this operation on an alias in a different AWS account. 
     /// 
     ///  
     /// <para>
-    /// This operation works only on existing aliases. To change the alias of a CMK to a new
-    /// value, use <a>CreateAlias</a> to create a new alias and <a>DeleteAlias</a> to delete
-    /// the old alias.
+    /// The current and new CMK must be the same type (both symmetric or both asymmetric),
+    /// and they must have the same key usage (<code>ENCRYPT_DECRYPT</code> or <code>SIGN_VERIFY</code>).
+    /// This restriction prevents errors in code that uses aliases. If you must assign an
+    /// alias to a different type of CMK, use <a>DeleteAlias</a> to delete the old alias and
+    /// <a>CreateAlias</a> to create a new alias.
+    /// </para>
+    ///  
+    /// <para>
+    /// You cannot use <code>UpdateAlias</code> to change an alias name. To change an alias
+    /// name, use <a>DeleteAlias</a> to delete the old alias and <a>CreateAlias</a> to create
+    /// a new alias.
     /// </para>
     ///  
     /// <para>
@@ -48,12 +57,10 @@ namespace Amazon.KeyManagementService.Model
     /// </para>
     ///  
     /// <para>
-    /// An alias name can contain only alphanumeric characters, forward slashes (/), underscores
-    /// (_), and dashes (-). An alias must start with the word <code>alias</code> followed
-    /// by a forward slash (<code>alias/</code>). The alias name can contain only alphanumeric
-    /// characters, forward slashes (/), underscores (_), and dashes (-). Alias names cannot
-    /// begin with <code>aws</code>; that alias name prefix is reserved by Amazon Web Services
-    /// (AWS).
+    /// The CMK that you use for this operation must be in a compatible key state. For details,
+    /// see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+    /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key Management Service
+    /// Developer Guide</i>.
     /// </para>
     /// </summary>
     public partial class UpdateAliasRequest : AmazonKeyManagementServiceRequest
@@ -64,11 +71,12 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property AliasName. 
         /// <para>
-        /// String that contains the name of the alias to be modified. The name must start with
-        /// the word "alias" followed by a forward slash (alias/). Aliases that begin with "alias/aws"
-        /// are reserved.
+        /// Identifies the alias that is changing its CMK. This value must begin with <code>alias/</code>
+        /// followed by the alias name, such as <code>alias/ExampleAlias</code>. You cannot use
+        /// UpdateAlias to change the alias name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string AliasName
         {
             get { return this._aliasName; }
@@ -84,7 +92,14 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property TargetKeyId. 
         /// <para>
-        /// Unique identifier of the customer master key to be mapped to the alias.
+        /// Identifies the CMK to associate with the alias. When the update operation completes,
+        /// the alias will point to this CMK. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The CMK must be in the same AWS account and Region as the alias. Also, the new target
+        /// CMK must be the same type as the current target CMK (both symmetric or both asymmetric)
+        /// and they must have the same key usage. 
         /// </para>
         ///  
         /// <para>
@@ -112,6 +127,7 @@ namespace Amazon.KeyManagementService.Model
         /// To verify that the alias is mapped to the correct CMK, use <a>ListAliases</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string TargetKeyId
         {
             get { return this._targetKeyId; }

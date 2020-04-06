@@ -58,10 +58,11 @@ namespace Amazon.AlexaForBusiness.Model.Internal.MarshallTransformations
             string target = "AlexaForBusiness.UpdateContact";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-09";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -95,6 +96,38 @@ namespace Amazon.AlexaForBusiness.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("PhoneNumber");
                     context.Writer.Write(publicRequest.PhoneNumber);
+                }
+
+                if(publicRequest.IsSetPhoneNumbers())
+                {
+                    context.Writer.WritePropertyName("PhoneNumbers");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestPhoneNumbersListValue in publicRequest.PhoneNumbers)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = PhoneNumberMarshaller.Instance;
+                        marshaller.Marshall(publicRequestPhoneNumbersListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetSipAddresses())
+                {
+                    context.Writer.WritePropertyName("SipAddresses");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSipAddressesListValue in publicRequest.SipAddresses)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = SipAddressMarshaller.Instance;
+                        marshaller.Marshall(publicRequestSipAddressesListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

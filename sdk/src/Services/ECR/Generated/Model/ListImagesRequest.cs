@@ -29,15 +29,16 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the ListImages operation.
-    /// Lists all the image IDs for a given repository.
+    /// Lists all the image IDs for the specified repository.
     /// 
     ///  
     /// <para>
-    /// You can filter images based on whether or not they are tagged by setting the <code>tagStatus</code>
-    /// parameter to <code>TAGGED</code> or <code>UNTAGGED</code>. For example, you can filter
-    /// your results to return only <code>UNTAGGED</code> images and then pipe that result
-    /// to a <a>BatchDeleteImage</a> operation to delete them. Or, you can filter your results
-    /// to return only <code>TAGGED</code> images to list all of the tags in your repository.
+    /// You can filter images based on whether or not they are tagged by using the <code>tagStatus</code>
+    /// filter and specifying either <code>TAGGED</code>, <code>UNTAGGED</code> or <code>ANY</code>.
+    /// For example, you can filter your results to return only <code>UNTAGGED</code> images
+    /// and then pipe that result to a <a>BatchDeleteImage</a> operation to delete them. Or,
+    /// you can filter your results to return only <code>TAGGED</code> images to list all
+    /// of the tags in your repository.
     /// </para>
     /// </summary>
     public partial class ListImagesRequest : AmazonECRRequest
@@ -74,10 +75,11 @@ namespace Amazon.ECR.Model
         /// results in a single page along with a <code>nextToken</code> response element. The
         /// remaining results of the initial request can be seen by sending another <code>ListImages</code>
         /// request with the returned <code>nextToken</code> value. This value can be between
-        /// 1 and 100. If this parameter is not used, then <code>ListImages</code> returns up
+        /// 1 and 1000. If this parameter is not used, then <code>ListImages</code> returns up
         /// to 100 results and a <code>nextToken</code> value, if applicable.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -143,6 +145,7 @@ namespace Amazon.ECR.Model
         /// The repository with image IDs to be listed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

@@ -32,6 +32,7 @@ namespace Amazon.AlexaForBusiness.Model
     /// </summary>
     public partial class DeviceData
     {
+        private DateTime? _createdTime;
         private string _deviceArn;
         private string _deviceName;
         private string _deviceSerialNumber;
@@ -39,9 +40,29 @@ namespace Amazon.AlexaForBusiness.Model
         private DeviceStatusInfo _deviceStatusInfo;
         private string _deviceType;
         private string _macAddress;
+        private string _networkProfileArn;
+        private string _networkProfileName;
         private string _roomArn;
         private string _roomName;
         private string _softwareVersion;
+
+        /// <summary>
+        /// Gets and sets the property CreatedTime. 
+        /// <para>
+        /// The time (in epoch) when the device data was created.
+        /// </para>
+        /// </summary>
+        public DateTime CreatedTime
+        {
+            get { return this._createdTime.GetValueOrDefault(); }
+            set { this._createdTime = value; }
+        }
+
+        // Check to see if CreatedTime property is set
+        internal bool IsSetCreatedTime()
+        {
+            return this._createdTime.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property DeviceArn. 
@@ -67,6 +88,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The name of a device.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=100)]
         public string DeviceName
         {
             get { return this._deviceName; }
@@ -170,6 +192,43 @@ namespace Amazon.AlexaForBusiness.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NetworkProfileArn. 
+        /// <para>
+        /// The ARN of the network profile associated with a device.
+        /// </para>
+        /// </summary>
+        public string NetworkProfileArn
+        {
+            get { return this._networkProfileArn; }
+            set { this._networkProfileArn = value; }
+        }
+
+        // Check to see if NetworkProfileArn property is set
+        internal bool IsSetNetworkProfileArn()
+        {
+            return this._networkProfileArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NetworkProfileName. 
+        /// <para>
+        /// The name of the network profile associated with a device.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public string NetworkProfileName
+        {
+            get { return this._networkProfileName; }
+            set { this._networkProfileName = value; }
+        }
+
+        // Check to see if NetworkProfileName property is set
+        internal bool IsSetNetworkProfileName()
+        {
+            return this._networkProfileName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RoomArn. 
         /// <para>
         /// The room ARN associated with a device.
@@ -193,6 +252,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The name of the room associated with a device.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string RoomName
         {
             get { return this._roomName; }

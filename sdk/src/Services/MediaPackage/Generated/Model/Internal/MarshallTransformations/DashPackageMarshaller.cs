@@ -45,6 +45,23 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(DashPackage requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetAdsOnDeliveryRestrictions())
+            {
+                context.Writer.WritePropertyName("adsOnDeliveryRestrictions");
+                context.Writer.Write(requestObject.AdsOnDeliveryRestrictions);
+            }
+
+            if(requestObject.IsSetAdTriggers())
+            {
+                context.Writer.WritePropertyName("adTriggers");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectAdTriggersListValue in requestObject.AdTriggers)
+                {
+                        context.Writer.Write(requestObjectAdTriggersListValue);
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetEncryption())
             {
                 context.Writer.WritePropertyName("encryption");
@@ -54,6 +71,12 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                 marshaller.Marshall(requestObject.Encryption, context);
 
                 context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetManifestLayout())
+            {
+                context.Writer.WritePropertyName("manifestLayout");
+                context.Writer.Write(requestObject.ManifestLayout);
             }
 
             if(requestObject.IsSetManifestWindowSeconds())
@@ -74,6 +97,17 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.MinUpdatePeriodSeconds);
             }
 
+            if(requestObject.IsSetPeriodTriggers())
+            {
+                context.Writer.WritePropertyName("periodTriggers");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectPeriodTriggersListValue in requestObject.PeriodTriggers)
+                {
+                        context.Writer.Write(requestObjectPeriodTriggersListValue);
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetProfile())
             {
                 context.Writer.WritePropertyName("profile");
@@ -84,6 +118,12 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("segmentDurationSeconds");
                 context.Writer.Write(requestObject.SegmentDurationSeconds);
+            }
+
+            if(requestObject.IsSetSegmentTemplateFormat())
+            {
+                context.Writer.WritePropertyName("segmentTemplateFormat");
+                context.Writer.Write(requestObject.SegmentTemplateFormat);
             }
 
             if(requestObject.IsSetStreamSelection())

@@ -33,9 +33,30 @@ namespace Amazon.CloudWatchEvents.Model
     /// </summary>
     public partial class ListTargetsByRuleRequest : AmazonCloudWatchEventsRequest
     {
+        private string _eventBusName;
         private int? _limit;
         private string _nextToken;
         private string _rule;
+
+        /// <summary>
+        /// Gets and sets the property EventBusName. 
+        /// <para>
+        /// The event bus associated with the rule. If you omit this, the default event bus is
+        /// used.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string EventBusName
+        {
+            get { return this._eventBusName; }
+            set { this._eventBusName = value; }
+        }
+
+        // Check to see if EventBusName property is set
+        internal bool IsSetEventBusName()
+        {
+            return this._eventBusName != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Limit. 
@@ -43,6 +64,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The maximum number of results to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -61,6 +83,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The token returned by a previous call to retrieve the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -79,6 +102,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The name of the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Rule
         {
             get { return this._rule; }

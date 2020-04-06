@@ -58,15 +58,28 @@ namespace Amazon.DirectConnect.Model.Internal.MarshallTransformations
             string target = "OvertureService.DescribeDirectConnectGatewayAssociations";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-10-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAssociatedGatewayId())
+                {
+                    context.Writer.WritePropertyName("associatedGatewayId");
+                    context.Writer.Write(publicRequest.AssociatedGatewayId);
+                }
+
+                if(publicRequest.IsSetAssociationId())
+                {
+                    context.Writer.WritePropertyName("associationId");
+                    context.Writer.Write(publicRequest.AssociationId);
+                }
+
                 if(publicRequest.IsSetDirectConnectGatewayId())
                 {
                     context.Writer.WritePropertyName("directConnectGatewayId");

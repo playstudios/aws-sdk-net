@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.AWSHealth.Model;
 using Amazon.AWSHealth.Model.Internal.MarshallTransformations;
+using Amazon.AWSHealth.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -74,18 +76,63 @@ namespace Amazon.AWSHealth
     /// </para>
     ///  </li> </ul> 
     /// <para>
+    /// AWS Health integrates with AWS Organizations to provide a centralized view of AWS
+    /// Health events across all accounts in your organization.
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <a>DescribeEventsForOrganization</a>: Summary information about events across the
+    /// organization.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DescribeAffectedAccountsForOrganization</a>: List of accounts in your organization
+    /// impacted by an event.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DescribeEventDetailsForOrganization</a>: Detailed information about events in
+    /// your organization.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DescribeAffectedEntitiesForOrganization</a>: Information about AWS resources in
+    /// your organization that are affected by events.
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
+    /// You can use the following operations to enable or disable AWS Health from working
+    /// with AWS Organizations.
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  <a>EnableHealthServiceAccessForOrganization</a>: Enables AWS Health to work with
+    /// AWS Organizations.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DisableHealthServiceAccessForOrganization</a>: Disables AWS Health from working
+    /// with AWS Organizations.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <a>DescribeHealthServiceStatusForOrganization</a>: Status information about enabling
+    /// or disabling AWS Health from working with AWS Organizations.
+    /// </para>
+    ///  </li> </ul> 
+    /// <para>
     /// The Health API requires a Business or Enterprise support plan from <a href="http://aws.amazon.com/premiumsupport/">AWS
     /// Support</a>. Calling the Health API from an account that does not have a Business
-    /// or Enterprise support plan causes a <code>SubscriptionRequiredException</code>. 
+    /// or Enterprise support plan causes a <code>SubscriptionRequiredException</code>.
     /// </para>
     ///  
     /// <para>
-    /// For authentication of requests, AWS Health uses the <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+    /// For authentication of requests, AWS Health uses the <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
     /// Version 4 Signing Process</a>.
     /// </para>
     ///  
     /// <para>
-    /// See the <a href="http://docs.aws.amazon.com/health/latest/ug/what-is-aws-health.html">AWS
+    /// See the <a href="https://docs.aws.amazon.com/health/latest/ug/what-is-aws-health.html">AWS
     /// Health User Guide</a> for information about how to use the API.
     /// </para>
     ///  
@@ -104,6 +151,7 @@ namespace Amazon.AWSHealth
     /// </summary>
     public partial class AmazonAWSHealthClient : AmazonServiceClient, IAmazonAWSHealth
     {
+        private static IServiceMetadata serviceMetadata = new AmazonAWSHealthMetadata();
         #region Constructors
 
         /// <summary>
@@ -274,6 +322,16 @@ namespace Amazon.AWSHealth
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -289,6 +347,71 @@ namespace Amazon.AWSHealth
 
         #endregion
 
+
+        #region  DescribeAffectedAccountsForOrganization
+
+        /// <summary>
+        /// Returns a list of accounts in the organization from AWS Organizations that are affected
+        /// by the provided event.
+        /// 
+        ///  
+        /// <para>
+        /// Before you can call this operation, you must first enable AWS Health to work with
+        /// AWS Organizations. To do this, call the <a>EnableHealthServiceAccessForOrganization</a>
+        /// operation from your organization's master account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAffectedAccountsForOrganization service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAffectedAccountsForOrganization service method, as returned by AWSHealth.</returns>
+        /// <exception cref="Amazon.AWSHealth.Model.InvalidPaginationTokenException">
+        /// The specified pagination token (<code>nextToken</code>) is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedAccountsForOrganization">REST API Reference for DescribeAffectedAccountsForOrganization Operation</seealso>
+        public virtual DescribeAffectedAccountsForOrganizationResponse DescribeAffectedAccountsForOrganization(DescribeAffectedAccountsForOrganizationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAffectedAccountsForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAffectedAccountsForOrganizationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeAffectedAccountsForOrganizationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAffectedAccountsForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAffectedAccountsForOrganization operation on AmazonAWSHealthClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAffectedAccountsForOrganization
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedAccountsForOrganization">REST API Reference for DescribeAffectedAccountsForOrganization Operation</seealso>
+        public virtual IAsyncResult BeginDescribeAffectedAccountsForOrganization(DescribeAffectedAccountsForOrganizationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAffectedAccountsForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAffectedAccountsForOrganizationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAffectedAccountsForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAffectedAccountsForOrganization.</param>
+        /// 
+        /// <returns>Returns a  DescribeAffectedAccountsForOrganizationResult from AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedAccountsForOrganization">REST API Reference for DescribeAffectedAccountsForOrganization Operation</seealso>
+        public virtual DescribeAffectedAccountsForOrganizationResponse EndDescribeAffectedAccountsForOrganization(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeAffectedAccountsForOrganizationResponse>(asyncResult);
+        }
+
+        #endregion
         
         #region  DescribeAffectedEntities
 
@@ -317,10 +440,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedEntities">REST API Reference for DescribeAffectedEntities Operation</seealso>
         public virtual DescribeAffectedEntitiesResponse DescribeAffectedEntities(DescribeAffectedEntitiesRequest request)
         {
-            var marshaller = DescribeAffectedEntitiesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAffectedEntitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAffectedEntitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAffectedEntitiesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAffectedEntitiesRequest,DescribeAffectedEntitiesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAffectedEntitiesResponse>(request, options);
         }
 
         /// <summary>
@@ -337,11 +461,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedEntities">REST API Reference for DescribeAffectedEntities Operation</seealso>
         public virtual IAsyncResult BeginDescribeAffectedEntities(DescribeAffectedEntitiesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeAffectedEntitiesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAffectedEntitiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAffectedEntitiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAffectedEntitiesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeAffectedEntitiesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -359,6 +483,81 @@ namespace Amazon.AWSHealth
 
         #endregion
         
+        #region  DescribeAffectedEntitiesForOrganization
+
+        /// <summary>
+        /// Returns a list of entities that have been affected by one or more events for one or
+        /// more accounts in your organization in AWS Organizations, based on the filter criteria.
+        /// Entities can refer to individual customer resources, groups of customer resources,
+        /// or any other construct, depending on the AWS service.
+        /// 
+        ///  
+        /// <para>
+        /// At least one event ARN and account ID are required. Results are sorted by the <code>lastUpdatedTime</code>
+        /// of the entity, starting with the most recent.
+        /// </para>
+        ///  
+        /// <para>
+        /// Before you can call this operation, you must first enable AWS Health to work with
+        /// AWS Organizations. To do this, call the <a>EnableHealthServiceAccessForOrganization</a>
+        /// operation from your organization's master account. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAffectedEntitiesForOrganization service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAffectedEntitiesForOrganization service method, as returned by AWSHealth.</returns>
+        /// <exception cref="Amazon.AWSHealth.Model.InvalidPaginationTokenException">
+        /// The specified pagination token (<code>nextToken</code>) is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AWSHealth.Model.UnsupportedLocaleException">
+        /// The specified locale is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedEntitiesForOrganization">REST API Reference for DescribeAffectedEntitiesForOrganization Operation</seealso>
+        public virtual DescribeAffectedEntitiesForOrganizationResponse DescribeAffectedEntitiesForOrganization(DescribeAffectedEntitiesForOrganizationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAffectedEntitiesForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAffectedEntitiesForOrganizationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeAffectedEntitiesForOrganizationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAffectedEntitiesForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAffectedEntitiesForOrganization operation on AmazonAWSHealthClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAffectedEntitiesForOrganization
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedEntitiesForOrganization">REST API Reference for DescribeAffectedEntitiesForOrganization Operation</seealso>
+        public virtual IAsyncResult BeginDescribeAffectedEntitiesForOrganization(DescribeAffectedEntitiesForOrganizationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAffectedEntitiesForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAffectedEntitiesForOrganizationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAffectedEntitiesForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAffectedEntitiesForOrganization.</param>
+        /// 
+        /// <returns>Returns a  DescribeAffectedEntitiesForOrganizationResult from AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedEntitiesForOrganization">REST API Reference for DescribeAffectedEntitiesForOrganization Operation</seealso>
+        public virtual DescribeAffectedEntitiesForOrganizationResponse EndDescribeAffectedEntitiesForOrganization(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeAffectedEntitiesForOrganizationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeEntityAggregates
 
         /// <summary>
@@ -371,10 +570,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEntityAggregates">REST API Reference for DescribeEntityAggregates Operation</seealso>
         public virtual DescribeEntityAggregatesResponse DescribeEntityAggregates(DescribeEntityAggregatesRequest request)
         {
-            var marshaller = DescribeEntityAggregatesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEntityAggregatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEntityAggregatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEntityAggregatesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEntityAggregatesRequest,DescribeEntityAggregatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEntityAggregatesResponse>(request, options);
         }
 
         /// <summary>
@@ -391,11 +591,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEntityAggregates">REST API Reference for DescribeEntityAggregates Operation</seealso>
         public virtual IAsyncResult BeginDescribeEntityAggregates(DescribeEntityAggregatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEntityAggregatesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEntityAggregatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEntityAggregatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEntityAggregatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEntityAggregatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -429,10 +629,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventAggregates">REST API Reference for DescribeEventAggregates Operation</seealso>
         public virtual DescribeEventAggregatesResponse DescribeEventAggregates(DescribeEventAggregatesRequest request)
         {
-            var marshaller = DescribeEventAggregatesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventAggregatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventAggregatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventAggregatesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventAggregatesRequest,DescribeEventAggregatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventAggregatesResponse>(request, options);
         }
 
         /// <summary>
@@ -449,11 +650,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventAggregates">REST API Reference for DescribeEventAggregates Operation</seealso>
         public virtual IAsyncResult BeginDescribeEventAggregates(DescribeEventAggregatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventAggregatesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventAggregatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventAggregatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventAggregatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventAggregatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -475,7 +676,7 @@ namespace Amazon.AWSHealth
 
         /// <summary>
         /// Returns detailed information about one or more specified events. Information includes
-        /// standard event data (region, service, etc., as returned by <a>DescribeEvents</a>),
+        /// standard event data (region, service, and so on, as returned by <a>DescribeEvents</a>),
         /// a detailed event description, and possible additional metadata that depends upon the
         /// nature of the event. Affected entities are not included; to retrieve those, use the
         /// <a>DescribeAffectedEntities</a> operation.
@@ -494,10 +695,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventDetails">REST API Reference for DescribeEventDetails Operation</seealso>
         public virtual DescribeEventDetailsResponse DescribeEventDetails(DescribeEventDetailsRequest request)
         {
-            var marshaller = DescribeEventDetailsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventDetailsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventDetailsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventDetailsRequest,DescribeEventDetailsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventDetailsResponse>(request, options);
         }
 
         /// <summary>
@@ -514,11 +716,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventDetails">REST API Reference for DescribeEventDetails Operation</seealso>
         public virtual IAsyncResult BeginDescribeEventDetails(DescribeEventDetailsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventDetailsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventDetailsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventDetailsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventDetailsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -532,6 +734,75 @@ namespace Amazon.AWSHealth
         public virtual DescribeEventDetailsResponse EndDescribeEventDetails(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeEventDetailsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeEventDetailsForOrganization
+
+        /// <summary>
+        /// Returns detailed information about one or more specified events for one or more accounts
+        /// in your organization. Information includes standard event data (Region, service, and
+        /// so on, as returned by <a>DescribeEventsForOrganization</a>, a detailed event description,
+        /// and possible additional metadata that depends upon the nature of the event. Affected
+        /// entities are not included; to retrieve those, use the <a>DescribeAffectedEntitiesForOrganization</a>
+        /// operation.
+        /// 
+        ///  
+        /// <para>
+        /// Before you can call this operation, you must first enable AWS Health to work with
+        /// AWS Organizations. To do this, call the <a>EnableHealthServiceAccessForOrganization</a>
+        /// operation from your organization's master account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEventDetailsForOrganization service method.</param>
+        /// 
+        /// <returns>The response from the DescribeEventDetailsForOrganization service method, as returned by AWSHealth.</returns>
+        /// <exception cref="Amazon.AWSHealth.Model.UnsupportedLocaleException">
+        /// The specified locale is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventDetailsForOrganization">REST API Reference for DescribeEventDetailsForOrganization Operation</seealso>
+        public virtual DescribeEventDetailsForOrganizationResponse DescribeEventDetailsForOrganization(DescribeEventDetailsForOrganizationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventDetailsForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventDetailsForOrganizationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeEventDetailsForOrganizationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeEventDetailsForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEventDetailsForOrganization operation on AmazonAWSHealthClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeEventDetailsForOrganization
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventDetailsForOrganization">REST API Reference for DescribeEventDetailsForOrganization Operation</seealso>
+        public virtual IAsyncResult BeginDescribeEventDetailsForOrganization(DescribeEventDetailsForOrganizationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventDetailsForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventDetailsForOrganizationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeEventDetailsForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeEventDetailsForOrganization.</param>
+        /// 
+        /// <returns>Returns a  DescribeEventDetailsForOrganizationResult from AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventDetailsForOrganization">REST API Reference for DescribeEventDetailsForOrganization Operation</seealso>
+        public virtual DescribeEventDetailsForOrganizationResponse EndDescribeEventDetailsForOrganization(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeEventDetailsForOrganizationResponse>(asyncResult);
         }
 
         #endregion
@@ -563,10 +834,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual DescribeEventsResponse DescribeEvents(DescribeEventsRequest request)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventsRequest,DescribeEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -583,11 +855,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual IAsyncResult BeginDescribeEvents(DescribeEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -601,6 +873,83 @@ namespace Amazon.AWSHealth
         public virtual DescribeEventsResponse EndDescribeEvents(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeEventsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeEventsForOrganization
+
+        /// <summary>
+        /// Returns information about events across your organization in AWS Organizations, meeting
+        /// the specified filter criteria. Events are returned in a summary form and do not include
+        /// the accounts impacted, detailed description, any additional metadata that depends
+        /// on the event type, or any affected resources. To retrieve that information, use the
+        /// <a>DescribeAffectedAccountsForOrganization</a>, <a>DescribeEventDetailsForOrganization</a>,
+        /// and <a>DescribeAffectedEntitiesForOrganization</a> operations.
+        /// 
+        ///  
+        /// <para>
+        /// If no filter criteria are specified, all events across your organization are returned.
+        /// Results are sorted by <code>lastModifiedTime</code>, starting with the most recent.
+        /// </para>
+        ///  
+        /// <para>
+        /// Before you can call this operation, you must first enable Health to work with AWS
+        /// Organizations. To do this, call the <a>EnableHealthServiceAccessForOrganization</a>
+        /// operation from your organization's master account.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEventsForOrganization service method.</param>
+        /// 
+        /// <returns>The response from the DescribeEventsForOrganization service method, as returned by AWSHealth.</returns>
+        /// <exception cref="Amazon.AWSHealth.Model.InvalidPaginationTokenException">
+        /// The specified pagination token (<code>nextToken</code>) is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.AWSHealth.Model.UnsupportedLocaleException">
+        /// The specified locale is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventsForOrganization">REST API Reference for DescribeEventsForOrganization Operation</seealso>
+        public virtual DescribeEventsForOrganizationResponse DescribeEventsForOrganization(DescribeEventsForOrganizationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsForOrganizationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeEventsForOrganizationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeEventsForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEventsForOrganization operation on AmazonAWSHealthClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeEventsForOrganization
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventsForOrganization">REST API Reference for DescribeEventsForOrganization Operation</seealso>
+        public virtual IAsyncResult BeginDescribeEventsForOrganization(DescribeEventsForOrganizationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsForOrganizationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeEventsForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeEventsForOrganization.</param>
+        /// 
+        /// <returns>Returns a  DescribeEventsForOrganizationResult from AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventsForOrganization">REST API Reference for DescribeEventsForOrganization Operation</seealso>
+        public virtual DescribeEventsForOrganizationResponse EndDescribeEventsForOrganization(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeEventsForOrganizationResponse>(asyncResult);
         }
 
         #endregion
@@ -623,10 +972,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventTypes">REST API Reference for DescribeEventTypes Operation</seealso>
         public virtual DescribeEventTypesResponse DescribeEventTypes(DescribeEventTypesRequest request)
         {
-            var marshaller = DescribeEventTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventTypesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventTypesRequest,DescribeEventTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventTypesResponse>(request, options);
         }
 
         /// <summary>
@@ -643,11 +993,11 @@ namespace Amazon.AWSHealth
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventTypes">REST API Reference for DescribeEventTypes Operation</seealso>
         public virtual IAsyncResult BeginDescribeEventTypes(DescribeEventTypesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventTypesRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventTypesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventTypesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -661,6 +1011,190 @@ namespace Amazon.AWSHealth
         public virtual DescribeEventTypesResponse EndDescribeEventTypes(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeEventTypesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeHealthServiceStatusForOrganization
+
+        /// <summary>
+        /// This operation provides status information on enabling or disabling AWS Health to
+        /// work with your organization. To call this operation, you must sign in as an IAM user,
+        /// assume an IAM role, or sign in as the root user (not recommended) in the organization's
+        /// master account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHealthServiceStatusForOrganization service method.</param>
+        /// 
+        /// <returns>The response from the DescribeHealthServiceStatusForOrganization service method, as returned by AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeHealthServiceStatusForOrganization">REST API Reference for DescribeHealthServiceStatusForOrganization Operation</seealso>
+        public virtual DescribeHealthServiceStatusForOrganizationResponse DescribeHealthServiceStatusForOrganization(DescribeHealthServiceStatusForOrganizationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHealthServiceStatusForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHealthServiceStatusForOrganizationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeHealthServiceStatusForOrganizationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeHealthServiceStatusForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHealthServiceStatusForOrganization operation on AmazonAWSHealthClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeHealthServiceStatusForOrganization
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeHealthServiceStatusForOrganization">REST API Reference for DescribeHealthServiceStatusForOrganization Operation</seealso>
+        public virtual IAsyncResult BeginDescribeHealthServiceStatusForOrganization(DescribeHealthServiceStatusForOrganizationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeHealthServiceStatusForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeHealthServiceStatusForOrganizationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeHealthServiceStatusForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeHealthServiceStatusForOrganization.</param>
+        /// 
+        /// <returns>Returns a  DescribeHealthServiceStatusForOrganizationResult from AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeHealthServiceStatusForOrganization">REST API Reference for DescribeHealthServiceStatusForOrganization Operation</seealso>
+        public virtual DescribeHealthServiceStatusForOrganizationResponse EndDescribeHealthServiceStatusForOrganization(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeHealthServiceStatusForOrganizationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DisableHealthServiceAccessForOrganization
+
+        /// <summary>
+        /// Calling this operation disables Health from working with AWS Organizations. This does
+        /// not remove the Service Linked Role (SLR) from the the master account in your organization.
+        /// Use the IAM console, API, or AWS CLI to remove the SLR if desired. To call this operation,
+        /// you must sign in as an IAM user, assume an IAM role, or sign in as the root user (not
+        /// recommended) in the organization's master account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableHealthServiceAccessForOrganization service method.</param>
+        /// 
+        /// <returns>The response from the DisableHealthServiceAccessForOrganization service method, as returned by AWSHealth.</returns>
+        /// <exception cref="Amazon.AWSHealth.Model.ConcurrentModificationException">
+        /// <a>EnableHealthServiceAccessForOrganization</a> is already in progress. Wait for
+        /// the action to complete before trying again. To get the current status, use the <a>DescribeHealthServiceStatusForOrganization</a>
+        /// operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DisableHealthServiceAccessForOrganization">REST API Reference for DisableHealthServiceAccessForOrganization Operation</seealso>
+        public virtual DisableHealthServiceAccessForOrganizationResponse DisableHealthServiceAccessForOrganization(DisableHealthServiceAccessForOrganizationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableHealthServiceAccessForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableHealthServiceAccessForOrganizationResponseUnmarshaller.Instance;
+
+            return Invoke<DisableHealthServiceAccessForOrganizationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableHealthServiceAccessForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableHealthServiceAccessForOrganization operation on AmazonAWSHealthClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableHealthServiceAccessForOrganization
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DisableHealthServiceAccessForOrganization">REST API Reference for DisableHealthServiceAccessForOrganization Operation</seealso>
+        public virtual IAsyncResult BeginDisableHealthServiceAccessForOrganization(DisableHealthServiceAccessForOrganizationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableHealthServiceAccessForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableHealthServiceAccessForOrganizationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableHealthServiceAccessForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableHealthServiceAccessForOrganization.</param>
+        /// 
+        /// <returns>Returns a  DisableHealthServiceAccessForOrganizationResult from AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DisableHealthServiceAccessForOrganization">REST API Reference for DisableHealthServiceAccessForOrganization Operation</seealso>
+        public virtual DisableHealthServiceAccessForOrganizationResponse EndDisableHealthServiceAccessForOrganization(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DisableHealthServiceAccessForOrganizationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  EnableHealthServiceAccessForOrganization
+
+        /// <summary>
+        /// Calling this operation enables AWS Health to work with AWS Organizations. This applies
+        /// a Service Linked Role (SLR) to the master account in the organization. To learn more
+        /// about the steps in this process, visit enabling service access for AWS Health in AWS
+        /// Organizations. To call this operation, you must sign in as an IAM user, assume an
+        /// IAM role, or sign in as the root user (not recommended) in the organization's master
+        /// account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableHealthServiceAccessForOrganization service method.</param>
+        /// 
+        /// <returns>The response from the EnableHealthServiceAccessForOrganization service method, as returned by AWSHealth.</returns>
+        /// <exception cref="Amazon.AWSHealth.Model.ConcurrentModificationException">
+        /// <a>EnableHealthServiceAccessForOrganization</a> is already in progress. Wait for
+        /// the action to complete before trying again. To get the current status, use the <a>DescribeHealthServiceStatusForOrganization</a>
+        /// operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/EnableHealthServiceAccessForOrganization">REST API Reference for EnableHealthServiceAccessForOrganization Operation</seealso>
+        public virtual EnableHealthServiceAccessForOrganizationResponse EnableHealthServiceAccessForOrganization(EnableHealthServiceAccessForOrganizationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableHealthServiceAccessForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableHealthServiceAccessForOrganizationResponseUnmarshaller.Instance;
+
+            return Invoke<EnableHealthServiceAccessForOrganizationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableHealthServiceAccessForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableHealthServiceAccessForOrganization operation on AmazonAWSHealthClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableHealthServiceAccessForOrganization
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/EnableHealthServiceAccessForOrganization">REST API Reference for EnableHealthServiceAccessForOrganization Operation</seealso>
+        public virtual IAsyncResult BeginEnableHealthServiceAccessForOrganization(EnableHealthServiceAccessForOrganizationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableHealthServiceAccessForOrganizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableHealthServiceAccessForOrganizationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableHealthServiceAccessForOrganization operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableHealthServiceAccessForOrganization.</param>
+        /// 
+        /// <returns>Returns a  EnableHealthServiceAccessForOrganizationResult from AWSHealth.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/EnableHealthServiceAccessForOrganization">REST API Reference for EnableHealthServiceAccessForOrganization Operation</seealso>
+        public virtual EnableHealthServiceAccessForOrganizationResponse EndEnableHealthServiceAccessForOrganization(IAsyncResult asyncResult)
+        {
+            return EndInvoke<EnableHealthServiceAccessForOrganizationResponse>(asyncResult);
         }
 
         #endregion

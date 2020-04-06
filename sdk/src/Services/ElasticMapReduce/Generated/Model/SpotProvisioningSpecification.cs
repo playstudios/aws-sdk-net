@@ -56,6 +56,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// a two-minute warning before it terminates. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int BlockDurationMinutes
         {
             get { return this._blockDurationMinutes.GetValueOrDefault(); }
@@ -72,13 +73,14 @@ namespace Amazon.ElasticMapReduce.Model
         /// Gets and sets the property TimeoutAction. 
         /// <para>
         /// The action to take when <code>TargetSpotCapacity</code> has not been fulfilled when
-        /// the <code>TimeoutDurationMinutes</code> has expired. Spot instances are not uprovisioned
-        /// within the Spot provisioining timeout. Valid values are <code>TERMINATE_CLUSTER</code>
+        /// the <code>TimeoutDurationMinutes</code> has expired; that is, when all Spot instances
+        /// could not be provisioned within the Spot provisioning timeout. Valid values are <code>TERMINATE_CLUSTER</code>
         /// and <code>SWITCH_TO_ON_DEMAND</code>. SWITCH_TO_ON_DEMAND specifies that if no Spot
         /// instances are available, On-Demand Instances should be provisioned to fulfill any
         /// remaining Spot capacity.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SpotProvisioningTimeoutAction TimeoutAction
         {
             get { return this._timeoutAction; }
@@ -100,6 +102,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// when the cluster is first created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public int TimeoutDurationMinutes
         {
             get { return this._timeoutDurationMinutes.GetValueOrDefault(); }

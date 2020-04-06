@@ -38,8 +38,8 @@ namespace Amazon.AutoScaling.Model
     /// </para>
     ///  
     /// <para>
-    /// If you do not specify the option to decrement the desired capacity, Auto Scaling launches
-    /// instances to replace the ones that are detached.
+    /// If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto
+    /// Scaling launches instances to replace the ones that are detached.
     /// </para>
     ///  
     /// <para>
@@ -49,8 +49,9 @@ namespace Amazon.AutoScaling.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/detach-instance-asg.html">Detach
-    /// EC2 Instances from Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html">Detach
+    /// EC2 Instances from Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+    /// Guide</i>.
     /// </para>
     /// </summary>
     public partial class DetachInstancesRequest : AmazonAutoScalingRequest
@@ -65,6 +66,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -102,6 +104,7 @@ namespace Amazon.AutoScaling.Model
         /// the number of instances detached.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool ShouldDecrementDesiredCapacity
         {
             get { return this._shouldDecrementDesiredCapacity.GetValueOrDefault(); }

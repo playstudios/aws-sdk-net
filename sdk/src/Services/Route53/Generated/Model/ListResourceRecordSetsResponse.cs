@@ -45,6 +45,7 @@ namespace Amazon.Route53.Model
         /// Information about multiple resource record sets.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ResourceRecordSet> ResourceRecordSets
         {
             get { return this._resourceRecordSets; }
@@ -65,6 +66,7 @@ namespace Amazon.Route53.Model
         /// element.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool IsTruncated
         {
             get { return this._isTruncated.GetValueOrDefault(); }
@@ -87,6 +89,7 @@ namespace Amazon.Route53.Model
         /// This element is present only if <code>IsTruncated</code> is true. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string NextRecordName
         {
             get { return this._nextRecordName; }
@@ -124,11 +127,17 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property NextRecordIdentifier. 
         /// <para>
-        ///  <i>Weighted, latency, geolocation, and failover resource record sets only</i>: If
-        /// results were truncated for a given DNS name and type, the value of <code>SetIdentifier</code>
+        ///  <i>Resource record sets that have a routing policy other than simple:</i> If results
+        /// were truncated for a given DNS name and type, the value of <code>SetIdentifier</code>
         /// for the next resource record set that has the current DNS name and type.
         /// </para>
+        ///  
+        /// <para>
+        /// For information about routing policies, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html">Choosing
+        /// a Routing Policy</a> in the <i>Amazon Route 53 Developer Guide</i>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string NextRecordIdentifier
         {
             get { return this._nextRecordIdentifier; }
@@ -147,6 +156,7 @@ namespace Amazon.Route53.Model
         /// The maximum number of records you requested.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MaxItems
         {
             get { return this._maxItems; }

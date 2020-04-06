@@ -29,7 +29,7 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the ModifyIdFormat operation.
-    /// Modifies the ID format for the specified resource on a per-region basis. You can specify
+    /// Modifies the ID format for the specified resource on a per-Region basis. You can specify
     /// that resources should receive longer IDs (17-character IDs) when they are created.
     /// 
     ///  
@@ -52,8 +52,8 @@ namespace Amazon.EC2.Model
     /// entire AWS account. By default, an IAM user defaults to the same settings as the root
     /// user. If you're using this action as the root user, then these settings apply to the
     /// entire account, unless an IAM user explicitly overrides these settings for themselves.
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
-    /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. 
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html">Resource
+    /// IDs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -86,6 +86,7 @@ namespace Amazon.EC2.Model
         /// that are currently within their opt-in period for longer IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Resource
         {
             get { return this._resource; }
@@ -104,6 +105,7 @@ namespace Amazon.EC2.Model
         /// Indicate whether the resource should use longer IDs (17-character IDs).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool UseLongIds
         {
             get { return this._useLongIds.GetValueOrDefault(); }

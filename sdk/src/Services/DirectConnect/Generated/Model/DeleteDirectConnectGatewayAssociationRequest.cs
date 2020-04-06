@@ -29,25 +29,45 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteDirectConnectGatewayAssociation operation.
-    /// Deletes the association between a direct connect gateway and a virtual private gateway.
+    /// Deletes the association between the specified Direct Connect gateway and virtual private
+    /// gateway.
+    /// 
+    ///  
+    /// <para>
+    /// We recommend that you specify the <code>associationID</code> to delete the association.
+    /// Alternatively, if you own virtual gateway and a Direct Connect gateway association,
+    /// you can specify the <code>virtualGatewayId</code> and <code>directConnectGatewayId</code>
+    /// to delete an association.
+    /// </para>
     /// </summary>
     public partial class DeleteDirectConnectGatewayAssociationRequest : AmazonDirectConnectRequest
     {
+        private string _associationId;
         private string _directConnectGatewayId;
         private string _virtualGatewayId;
 
         /// <summary>
+        /// Gets and sets the property AssociationId. 
+        /// <para>
+        /// The ID of the Direct Connect gateway association.
+        /// </para>
+        /// </summary>
+        public string AssociationId
+        {
+            get { return this._associationId; }
+            set { this._associationId = value; }
+        }
+
+        // Check to see if AssociationId property is set
+        internal bool IsSetAssociationId()
+        {
+            return this._associationId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DirectConnectGatewayId. 
         /// <para>
-        /// The ID of the direct connect gateway.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: "abcd1234-dcba-5678-be23-cdef9876ab45"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the Direct Connect gateway.
         /// </para>
         /// </summary>
         public string DirectConnectGatewayId
@@ -66,14 +86,6 @@ namespace Amazon.DirectConnect.Model
         /// Gets and sets the property VirtualGatewayId. 
         /// <para>
         /// The ID of the virtual private gateway.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: "vgw-abc123ef"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
         /// </para>
         /// </summary>
         public string VirtualGatewayId

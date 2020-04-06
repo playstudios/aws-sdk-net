@@ -29,7 +29,7 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the GetJobs operation.
-    /// Retrieves all current jobs.
+    /// Retrieves all current job definitions.
     /// </summary>
     public partial class GetJobsRequest : AmazonGlueRequest
     {
@@ -42,6 +42,7 @@ namespace Amazon.Glue.Model
         /// The maximum size of the response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Glue.Model
 {
     /// <summary>
-    /// Information about a serialization/deserialization program (SerDe) which serves as
-    /// an extractor and loader.
+    /// Information about a serialization/deserialization program (SerDe) that serves as an
+    /// extractor and loader.
     /// </summary>
     public partial class SerDeInfo
     {
@@ -43,6 +43,7 @@ namespace Amazon.Glue.Model
         /// Name of the SerDe.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -58,7 +59,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
-        /// A list of initialization parameters for the SerDe, in key-value form.
+        /// These key-value pairs define initialization parameters for the SerDe.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Parameters
@@ -76,9 +77,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property SerializationLibrary. 
         /// <para>
-        /// Usually the class that implements the SerDe. An example is: <code>org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe</code>.
+        /// Usually the class that implements the SerDe. An example is <code>org.apache.hadoop.hive.serde2.columnar.ColumnarSerDe</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string SerializationLibrary
         {
             get { return this._serializationLibrary; }

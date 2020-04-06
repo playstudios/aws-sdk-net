@@ -28,19 +28,102 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CostExplorer.Model
 {
     /// <summary>
-    /// The aggregated numbers for your RI usage.
+    /// The aggregated numbers for your reservation usage.
     /// </summary>
     public partial class ReservationAggregates
     {
+        private string _amortizedRecurringFee;
+        private string _amortizedUpfrontFee;
+        private string _netRISavings;
+        private string _onDemandCostOfRIHoursUsed;
         private string _purchasedHours;
+        private string _purchasedUnits;
         private string _totalActualHours;
+        private string _totalActualUnits;
+        private string _totalAmortizedFee;
+        private string _totalPotentialRISavings;
         private string _unusedHours;
+        private string _unusedUnits;
         private string _utilizationPercentage;
+        private string _utilizationPercentageInUnits;
+
+        /// <summary>
+        /// Gets and sets the property AmortizedRecurringFee. 
+        /// <para>
+        /// The monthly cost of your reservation, amortized over the reservation period.
+        /// </para>
+        /// </summary>
+        public string AmortizedRecurringFee
+        {
+            get { return this._amortizedRecurringFee; }
+            set { this._amortizedRecurringFee = value; }
+        }
+
+        // Check to see if AmortizedRecurringFee property is set
+        internal bool IsSetAmortizedRecurringFee()
+        {
+            return this._amortizedRecurringFee != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AmortizedUpfrontFee. 
+        /// <para>
+        /// The upfront cost of your reservation, amortized over the reservation period.
+        /// </para>
+        /// </summary>
+        public string AmortizedUpfrontFee
+        {
+            get { return this._amortizedUpfrontFee; }
+            set { this._amortizedUpfrontFee = value; }
+        }
+
+        // Check to see if AmortizedUpfrontFee property is set
+        internal bool IsSetAmortizedUpfrontFee()
+        {
+            return this._amortizedUpfrontFee != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NetRISavings. 
+        /// <para>
+        /// How much you saved due to purchasing and utilizing reservation. AWS calculates this
+        /// by subtracting <code>TotalAmortizedFee</code> from <code>OnDemandCostOfRIHoursUsed</code>.
+        /// </para>
+        /// </summary>
+        public string NetRISavings
+        {
+            get { return this._netRISavings; }
+            set { this._netRISavings = value; }
+        }
+
+        // Check to see if NetRISavings property is set
+        internal bool IsSetNetRISavings()
+        {
+            return this._netRISavings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OnDemandCostOfRIHoursUsed. 
+        /// <para>
+        /// How much your reservation would cost if charged On-Demand rates.
+        /// </para>
+        /// </summary>
+        public string OnDemandCostOfRIHoursUsed
+        {
+            get { return this._onDemandCostOfRIHoursUsed; }
+            set { this._onDemandCostOfRIHoursUsed = value; }
+        }
+
+        // Check to see if OnDemandCostOfRIHoursUsed property is set
+        internal bool IsSetOnDemandCostOfRIHoursUsed()
+        {
+            return this._onDemandCostOfRIHoursUsed != null;
+        }
 
         /// <summary>
         /// Gets and sets the property PurchasedHours. 
         /// <para>
-        /// How many RI hours that you purchased.
+        /// How many reservation hours that you purchased.
         /// </para>
         /// </summary>
         public string PurchasedHours
@@ -56,9 +139,29 @@ namespace Amazon.CostExplorer.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PurchasedUnits. 
+        /// <para>
+        /// How many Amazon EC2 reservation hours that you purchased, converted to normalized
+        /// units. Normalized units are available only for Amazon EC2 usage after November 11,
+        /// 2017.
+        /// </para>
+        /// </summary>
+        public string PurchasedUnits
+        {
+            get { return this._purchasedUnits; }
+            set { this._purchasedUnits = value; }
+        }
+
+        // Check to see if PurchasedUnits property is set
+        internal bool IsSetPurchasedUnits()
+        {
+            return this._purchasedUnits != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TotalActualHours. 
         /// <para>
-        /// The total number of RI hours that you used.
+        /// The total number of reservation hours that you used.
         /// </para>
         /// </summary>
         public string TotalActualHours
@@ -74,9 +177,65 @@ namespace Amazon.CostExplorer.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TotalActualUnits. 
+        /// <para>
+        /// The total number of Amazon EC2 reservation hours that you used, converted to normalized
+        /// units. Normalized units are available only for Amazon EC2 usage after November 11,
+        /// 2017.
+        /// </para>
+        /// </summary>
+        public string TotalActualUnits
+        {
+            get { return this._totalActualUnits; }
+            set { this._totalActualUnits = value; }
+        }
+
+        // Check to see if TotalActualUnits property is set
+        internal bool IsSetTotalActualUnits()
+        {
+            return this._totalActualUnits != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TotalAmortizedFee. 
+        /// <para>
+        /// The total cost of your reservation, amortized over the reservation period.
+        /// </para>
+        /// </summary>
+        public string TotalAmortizedFee
+        {
+            get { return this._totalAmortizedFee; }
+            set { this._totalAmortizedFee = value; }
+        }
+
+        // Check to see if TotalAmortizedFee property is set
+        internal bool IsSetTotalAmortizedFee()
+        {
+            return this._totalAmortizedFee != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TotalPotentialRISavings. 
+        /// <para>
+        /// How much you could save if you use your entire reservation.
+        /// </para>
+        /// </summary>
+        public string TotalPotentialRISavings
+        {
+            get { return this._totalPotentialRISavings; }
+            set { this._totalPotentialRISavings = value; }
+        }
+
+        // Check to see if TotalPotentialRISavings property is set
+        internal bool IsSetTotalPotentialRISavings()
+        {
+            return this._totalPotentialRISavings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property UnusedHours. 
         /// <para>
-        /// The number of RI hours that you didn't use.
+        /// The number of reservation hours that you didn't use.
         /// </para>
         /// </summary>
         public string UnusedHours
@@ -92,9 +251,29 @@ namespace Amazon.CostExplorer.Model
         }
 
         /// <summary>
+        /// Gets and sets the property UnusedUnits. 
+        /// <para>
+        /// The number of Amazon EC2 reservation hours that you didn't use, converted to normalized
+        /// units. Normalized units are available only for Amazon EC2 usage after November 11,
+        /// 2017.
+        /// </para>
+        /// </summary>
+        public string UnusedUnits
+        {
+            get { return this._unusedUnits; }
+            set { this._unusedUnits = value; }
+        }
+
+        // Check to see if UnusedUnits property is set
+        internal bool IsSetUnusedUnits()
+        {
+            return this._unusedUnits != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property UtilizationPercentage. 
         /// <para>
-        /// The percentage of RI time that you used.
+        /// The percentage of reservation time that you used.
         /// </para>
         /// </summary>
         public string UtilizationPercentage
@@ -107,6 +286,26 @@ namespace Amazon.CostExplorer.Model
         internal bool IsSetUtilizationPercentage()
         {
             return this._utilizationPercentage != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property UtilizationPercentageInUnits. 
+        /// <para>
+        /// The percentage of Amazon EC2 reservation time that you used, converted to normalized
+        /// units. Normalized units are available only for Amazon EC2 usage after November 11,
+        /// 2017.
+        /// </para>
+        /// </summary>
+        public string UtilizationPercentageInUnits
+        {
+            get { return this._utilizationPercentageInUnits; }
+            set { this._utilizationPercentageInUnits = value; }
+        }
+
+        // Check to see if UtilizationPercentageInUnits property is set
+        internal bool IsSetUtilizationPercentageInUnits()
+        {
+            return this._utilizationPercentageInUnits != null;
         }
 
     }

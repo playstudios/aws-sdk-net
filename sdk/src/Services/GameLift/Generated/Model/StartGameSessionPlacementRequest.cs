@@ -49,11 +49,11 @@ namespace Amazon.GameLift.Model
     ///  
     /// <para>
     /// Alternatively, when requesting a game session with players, you can also provide latency
-    /// data for each player in relevant regions. Latency data indicates the performance lag
-    /// a player experiences when connected to a fleet in the region. Amazon GameLift uses
-    /// latency data to reorder the list of destinations to place the game session in a region
+    /// data for each player in relevant Regions. Latency data indicates the performance lag
+    /// a player experiences when connected to a fleet in the Region. Amazon GameLift uses
+    /// latency data to reorder the list of destinations to place the game session in a Region
     /// with minimal lag. If latency data is provided for multiple players, Amazon GameLift
-    /// calculates each region's average lag for all players and reorders to get the best
+    /// calculates each Region's average lag for all players and reorders to get the best
     /// game play across all players. 
     /// </para>
     ///  
@@ -71,8 +71,9 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// (Optional) A set of IDs and player data for each player you want to join to the new
-    /// game session
+    /// (Optional) A set of player data and a unique player ID for each player that you are
+    /// joining to the new game session (player data is optional, but if you include it, you
+    /// must also provide a unique ID for each player)
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -86,13 +87,9 @@ namespace Amazon.GameLift.Model
     /// <para>
     /// To track the status of a placement request, call <a>DescribeGameSessionPlacement</a>
     /// and check the request's status. If the status is <code>FULFILLED</code>, a new game
-    /// session has been created and a game session ARN and region are referenced. If the
+    /// session has been created and a game session ARN and Region are referenced. If the
     /// placement request times out, you can resubmit the request or retry it with a different
     /// queue. 
-    /// </para>
-    ///  
-    /// <para>
-    /// Game-session-related operations include:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -170,10 +167,11 @@ namespace Amazon.GameLift.Model
         /// <para>
         /// Set of custom properties for a game session, formatted as key:value pairs. These properties
         /// are passed to a game server process in the <a>GameSession</a> object with a request
-        /// to start a new game session (see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+        /// to start a new game session (see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
         /// a Game Session</a>).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=16)]
         public List<GameProperty> GameProperties
         {
             get { return this._gameProperties; }
@@ -191,10 +189,11 @@ namespace Amazon.GameLift.Model
         /// <para>
         /// Set of custom game session properties, formatted as a single string value. This data
         /// is passed to a game server process in the <a>GameSession</a> object with a request
-        /// to start a new game session (see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+        /// to start a new game session (see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
         /// a Game Session</a>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
         public string GameSessionData
         {
             get { return this._gameSessionData; }
@@ -210,10 +209,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionName. 
         /// <para>
-        /// Descriptive label that is associated with a game session. Session names do not need
+        /// A descriptive label that is associated with a game session. Session names do not need
         /// to be unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string GameSessionName
         {
             get { return this._gameSessionName; }
@@ -229,9 +229,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionQueueName. 
         /// <para>
-        /// Name of the queue to use to place the new game session.
+        /// Name of the queue to use to place the new game session. You can use either the queue
+        /// name or ARN value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string GameSessionQueueName
         {
             get { return this._gameSessionQueueName; }
@@ -247,9 +249,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MaximumPlayerSessionCount. 
         /// <para>
-        /// Maximum number of players that can be connected simultaneously to the game session.
+        /// The maximum number of players that can be connected simultaneously to the game session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public int MaximumPlayerSessionCount
         {
             get { return this._maximumPlayerSessionCount.GetValueOrDefault(); }
@@ -265,11 +268,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlacementId. 
         /// <para>
-        /// Unique identifier to assign to the new game session placement. This value is developer-defined.
-        /// The value must be unique across all regions and cannot be reused unless you are resubmitting
+        /// A unique identifier to assign to the new game session placement. This value is developer-defined.
+        /// The value must be unique across all Regions and cannot be reused unless you are resubmitting
         /// a canceled or timed-out placement request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=48)]
         public string PlacementId
         {
             get { return this._placementId; }
@@ -286,7 +290,7 @@ namespace Amazon.GameLift.Model
         /// Gets and sets the property PlayerLatencies. 
         /// <para>
         /// Set of values, expressed in milliseconds, indicating the amount of latency that a
-        /// player experiences when connected to AWS regions. This information is used to try
+        /// player experiences when connected to AWS Regions. This information is used to try
         /// to place the new game session where it can offer the best possible gameplay experience
         /// for the players. 
         /// </para>

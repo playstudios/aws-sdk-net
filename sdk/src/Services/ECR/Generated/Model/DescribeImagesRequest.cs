@@ -29,8 +29,7 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeImages operation.
-    /// Returns metadata about the images in a repository, including image size, image tags,
-    /// and creation date.
+    /// Returns metadata about the images in a repository.
     /// 
     ///  <note> 
     /// <para>
@@ -74,6 +73,7 @@ namespace Amazon.ECR.Model
         /// The list of image IDs for the requested repository.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<ImageIdentifier> ImageIds
         {
             get { return this._imageIds; }
@@ -94,11 +94,12 @@ namespace Amazon.ECR.Model
         /// <code>maxResults</code> results in a single page along with a <code>nextToken</code>
         /// response element. The remaining results of the initial request can be seen by sending
         /// another <code>DescribeImages</code> request with the returned <code>nextToken</code>
-        /// value. This value can be between 1 and 100. If this parameter is not used, then <code>DescribeImages</code>
+        /// value. This value can be between 1 and 1000. If this parameter is not used, then <code>DescribeImages</code>
         /// returns up to 100 results and a <code>nextToken</code> value, if applicable. This
         /// option cannot be used when you specify images with <code>imageIds</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -156,10 +157,10 @@ namespace Amazon.ECR.Model
         /// <summary>
         /// Gets and sets the property RepositoryName. 
         /// <para>
-        /// A list of repositories to describe. If this parameter is omitted, then all repositories
-        /// in a registry are described.
+        /// The repository that contains the images to describe.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

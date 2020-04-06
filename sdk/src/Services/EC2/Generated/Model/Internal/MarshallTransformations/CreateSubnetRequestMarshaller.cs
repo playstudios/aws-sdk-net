@@ -62,6 +62,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("AvailabilityZone", StringUtils.FromString(publicRequest.AvailabilityZone));
                 }
+                if(publicRequest.IsSetAvailabilityZoneId())
+                {
+                    request.Parameters.Add("AvailabilityZoneId", StringUtils.FromString(publicRequest.AvailabilityZoneId));
+                }
                 if(publicRequest.IsSetCidrBlock())
                 {
                     request.Parameters.Add("CidrBlock", StringUtils.FromString(publicRequest.CidrBlock));
@@ -69,6 +73,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetIpv6CidrBlock())
                 {
                     request.Parameters.Add("Ipv6CidrBlock", StringUtils.FromString(publicRequest.Ipv6CidrBlock));
+                }
+                if(publicRequest.IsSetOutpostArn())
+                {
+                    request.Parameters.Add("OutpostArn", StringUtils.FromString(publicRequest.OutpostArn));
                 }
                 if(publicRequest.IsSetVpcId())
                 {

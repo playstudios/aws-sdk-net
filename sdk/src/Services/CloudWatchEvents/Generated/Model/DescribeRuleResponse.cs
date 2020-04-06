@@ -34,7 +34,9 @@ namespace Amazon.CloudWatchEvents.Model
     {
         private string _arn;
         private string _description;
+        private string _eventBusName;
         private string _eventPattern;
+        private string _managedBy;
         private string _name;
         private string _roleArn;
         private string _scheduleExpression;
@@ -46,6 +48,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The Amazon Resource Name (ARN) of the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string Arn
         {
             get { return this._arn; }
@@ -64,6 +67,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The description of the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=512)]
         public string Description
         {
             get { return this._description; }
@@ -77,10 +81,29 @@ namespace Amazon.CloudWatchEvents.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EventBusName. 
+        /// <para>
+        /// The event bus associated with the rule.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string EventBusName
+        {
+            get { return this._eventBusName; }
+            set { this._eventBusName = value; }
+        }
+
+        // Check to see if EventBusName property is set
+        internal bool IsSetEventBusName()
+        {
+            return this._eventBusName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EventPattern. 
         /// <para>
-        /// The event pattern. For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html">Events
-        /// and Event Patterns</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+        /// The event pattern. For more information, see <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
+        /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
         /// </para>
         /// </summary>
         public string EventPattern
@@ -96,11 +119,32 @@ namespace Amazon.CloudWatchEvents.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ManagedBy. 
+        /// <para>
+        /// If this is a managed rule, created by an AWS service on your behalf, this field displays
+        /// the principal name of the AWS service that created the rule.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=128)]
+        public string ManagedBy
+        {
+            get { return this._managedBy; }
+            set { this._managedBy = value; }
+        }
+
+        // Check to see if ManagedBy property is set
+        internal bool IsSetManagedBy()
+        {
+            return this._managedBy != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string Name
         {
             get { return this._name; }
@@ -119,6 +163,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -137,6 +182,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string ScheduleExpression
         {
             get { return this._scheduleExpression; }

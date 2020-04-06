@@ -37,7 +37,7 @@ namespace Amazon.ConfigService
     /// between the resources. An AWS resource can be an Amazon Compute Cloud (Amazon EC2)
     /// instance, an Elastic Block Store (EBS) volume, an elastic network Interface (ENI),
     /// or a security group. For a complete list of resources currently supported by AWS Config,
-    /// see <a href="http://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
+    /// see <a href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
     /// AWS Resources</a>.
     /// </para>
     ///  
@@ -47,20 +47,75 @@ namespace Amazon.ConfigService
     /// reference guide contains documentation for the AWS Config API and the AWS CLI commands
     /// that you can use to manage AWS Config. The AWS Config API uses the Signature Version
     /// 4 protocol for signing requests. For more information about how to sign a request
-    /// with this protocol, see <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+    /// with this protocol, see <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
     /// Version 4 Signing Process</a>. For detailed information about AWS Config features
     /// and their associated actions or commands, as well as how to work with AWS Management
-    /// Console, see <a href="http://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html">What
+    /// Console, see <a href="https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html">What
     /// Is AWS Config</a> in the <i>AWS Config Developer Guide</i>.
     /// </para>
-    ///  <ul> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/>
-    /// <li/> </ul> <ul> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/>
-    /// <li/> <li/> </ul> <ul> <li> </li> <li/> <li/> <li/> <li/> <li/> <li/> <li/> <li/>
-    /// <li/> <li/> <li/> </ul>
     /// </summary>
     public partial interface IAmazonConfigService : IAmazonService, IDisposable
     {
 
+        
+        #region  BatchGetAggregateResourceConfig
+
+
+        /// <summary>
+        /// Returns the current configuration items for resources that are present in your AWS
+        /// Config aggregator. The operation also returns a list of resources that are not processed
+        /// in the current request. If there are no unprocessed resources, the operation returns
+        /// an empty <code>unprocessedResourceIdentifiers</code> list. 
+        /// 
+        ///  <note> <ul> <li> 
+        /// <para>
+        /// The API does not return results for deleted resources.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  The API does not return tags and relationships.
+        /// </para>
+        ///  </li> </ul> </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetAggregateResourceConfig service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetAggregateResourceConfig service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigurationAggregatorException">
+        /// You have specified a configuration aggregator that does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/BatchGetAggregateResourceConfig">REST API Reference for BatchGetAggregateResourceConfig Operation</seealso>
+        BatchGetAggregateResourceConfigResponse BatchGetAggregateResourceConfig(BatchGetAggregateResourceConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetAggregateResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetAggregateResourceConfig operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetAggregateResourceConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/BatchGetAggregateResourceConfig">REST API Reference for BatchGetAggregateResourceConfig Operation</seealso>
+        IAsyncResult BeginBatchGetAggregateResourceConfig(BatchGetAggregateResourceConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetAggregateResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetAggregateResourceConfig.</param>
+        /// 
+        /// <returns>Returns a  BatchGetAggregateResourceConfigResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/BatchGetAggregateResourceConfig">REST API Reference for BatchGetAggregateResourceConfig Operation</seealso>
+        BatchGetAggregateResourceConfigResponse EndBatchGetAggregateResourceConfig(IAsyncResult asyncResult);
+
+        #endregion
         
         #region  BatchGetResourceConfig
 
@@ -193,8 +248,44 @@ namespace Amazon.ConfigService
         /// are correct and try again.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
-        /// The rule is currently being deleted or the rule is deleting your evaluation results.
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
         /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteConfigRule">REST API Reference for DeleteConfigRule Operation</seealso>
         DeleteConfigRuleResponse DeleteConfigRule(DeleteConfigRuleRequest request);
@@ -327,6 +418,96 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  DeleteConformancePack
+
+
+        /// <summary>
+        /// Deletes the specified conformance pack and all the AWS Config rules, remediation actions,
+        /// and all evaluation results within that conformance pack.
+        /// 
+        ///  
+        /// <para>
+        /// AWS Config sets the conformance pack to <code>DELETE_IN_PROGRESS</code> until the
+        /// deletion is complete. You cannot update a conformance pack while it is in this state.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteConformancePack service method.</param>
+        /// 
+        /// <returns>The response from the DeleteConformancePack service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConformancePackException">
+        /// You specified one or more conformance packs that do not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
+        /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteConformancePack">REST API Reference for DeleteConformancePack Operation</seealso>
+        DeleteConformancePackResponse DeleteConformancePack(DeleteConformancePackRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteConformancePack operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteConformancePack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteConformancePack">REST API Reference for DeleteConformancePack Operation</seealso>
+        IAsyncResult BeginDeleteConformancePack(DeleteConformancePackRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteConformancePack.</param>
+        /// 
+        /// <returns>Returns a  DeleteConformancePackResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteConformancePack">REST API Reference for DeleteConformancePack Operation</seealso>
+        DeleteConformancePackResponse EndDeleteConformancePack(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteDeliveryChannel
 
 
@@ -419,8 +600,44 @@ namespace Amazon.ConfigService
         /// are correct and try again.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
-        /// The rule is currently being deleted or the rule is deleting your evaluation results.
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
         /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteEvaluationResults">REST API Reference for DeleteEvaluationResults Operation</seealso>
         DeleteEvaluationResultsResponse DeleteEvaluationResults(DeleteEvaluationResultsRequest request);
@@ -450,6 +667,214 @@ namespace Amazon.ConfigService
         /// <returns>Returns a  DeleteEvaluationResultsResult from ConfigService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteEvaluationResults">REST API Reference for DeleteEvaluationResults Operation</seealso>
         DeleteEvaluationResultsResponse EndDeleteEvaluationResults(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteOrganizationConfigRule
+
+
+        /// <summary>
+        /// Deletes the specified organization config rule and all of its evaluation results from
+        /// all member accounts in that organization. Only a master account can delete an organization
+        /// config rule.
+        /// 
+        ///  
+        /// <para>
+        /// AWS Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete.
+        /// You cannot update a rule while it is in this state.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteOrganizationConfigRule service method.</param>
+        /// 
+        /// <returns>The response from the DeleteOrganizationConfigRule service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConfigRuleException">
+        /// You specified one or more organization config rules that do not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
+        /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteOrganizationConfigRule">REST API Reference for DeleteOrganizationConfigRule Operation</seealso>
+        DeleteOrganizationConfigRuleResponse DeleteOrganizationConfigRule(DeleteOrganizationConfigRuleRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteOrganizationConfigRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteOrganizationConfigRule operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteOrganizationConfigRule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteOrganizationConfigRule">REST API Reference for DeleteOrganizationConfigRule Operation</seealso>
+        IAsyncResult BeginDeleteOrganizationConfigRule(DeleteOrganizationConfigRuleRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteOrganizationConfigRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteOrganizationConfigRule.</param>
+        /// 
+        /// <returns>Returns a  DeleteOrganizationConfigRuleResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteOrganizationConfigRule">REST API Reference for DeleteOrganizationConfigRule Operation</seealso>
+        DeleteOrganizationConfigRuleResponse EndDeleteOrganizationConfigRule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteOrganizationConformancePack
+
+
+        /// <summary>
+        /// Deletes the specified organization conformance pack and all of the config rules and
+        /// remediation actions from all member accounts in that organization. Only a master account
+        /// can delete an organization conformance pack.
+        /// 
+        ///  
+        /// <para>
+        /// AWS Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion
+        /// is complete. You cannot update a conformance pack while it is in this state. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteOrganizationConformancePack service method.</param>
+        /// 
+        /// <returns>The response from the DeleteOrganizationConformancePack service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConformancePackException">
+        /// AWS Config organization conformance pack that you passed in the filter does not exist.
+        /// 
+        ///  
+        /// <para>
+        /// For DeleteOrganizationConformancePack, you tried to delete an organization conformance
+        /// pack that does not exist.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
+        /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteOrganizationConformancePack">REST API Reference for DeleteOrganizationConformancePack Operation</seealso>
+        DeleteOrganizationConformancePackResponse DeleteOrganizationConformancePack(DeleteOrganizationConformancePackRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteOrganizationConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteOrganizationConformancePack operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteOrganizationConformancePack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteOrganizationConformancePack">REST API Reference for DeleteOrganizationConformancePack Operation</seealso>
+        IAsyncResult BeginDeleteOrganizationConformancePack(DeleteOrganizationConformancePackRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteOrganizationConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteOrganizationConformancePack.</param>
+        /// 
+        /// <returns>Returns a  DeleteOrganizationConformancePackResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteOrganizationConformancePack">REST API Reference for DeleteOrganizationConformancePack Operation</seealso>
+        DeleteOrganizationConformancePackResponse EndDeleteOrganizationConformancePack(IAsyncResult asyncResult);
 
         #endregion
         
@@ -495,6 +920,225 @@ namespace Amazon.ConfigService
         /// <returns>Returns a  DeletePendingAggregationRequestResult from ConfigService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeletePendingAggregationRequest">REST API Reference for DeletePendingAggregationRequest Operation</seealso>
         DeletePendingAggregationRequestResponse EndDeletePendingAggregationRequest(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteRemediationConfiguration
+
+
+        /// <summary>
+        /// Deletes the remediation configuration.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRemediationConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRemediationConfiguration service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InsufficientPermissionsException">
+        /// Indicates one of the following errors:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchRemediationConfigurationException">
+        /// You specified an AWS Config rule without a remediation configuration.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.RemediationInProgressException">
+        /// Remediation action is in progress. You can either cancel execution in AWS Systems
+        /// Manager or wait and try again later.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRemediationConfiguration">REST API Reference for DeleteRemediationConfiguration Operation</seealso>
+        DeleteRemediationConfigurationResponse DeleteRemediationConfiguration(DeleteRemediationConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRemediationConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRemediationConfiguration operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRemediationConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRemediationConfiguration">REST API Reference for DeleteRemediationConfiguration Operation</seealso>
+        IAsyncResult BeginDeleteRemediationConfiguration(DeleteRemediationConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRemediationConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRemediationConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteRemediationConfigurationResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRemediationConfiguration">REST API Reference for DeleteRemediationConfiguration Operation</seealso>
+        DeleteRemediationConfigurationResponse EndDeleteRemediationConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteRemediationExceptions
+
+
+        /// <summary>
+        /// Deletes one or more remediation exceptions mentioned in the resource keys.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRemediationExceptions service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRemediationExceptions service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchRemediationExceptionException">
+        /// You tried to delete a remediation exception that does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRemediationExceptions">REST API Reference for DeleteRemediationExceptions Operation</seealso>
+        DeleteRemediationExceptionsResponse DeleteRemediationExceptions(DeleteRemediationExceptionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRemediationExceptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRemediationExceptions operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRemediationExceptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRemediationExceptions">REST API Reference for DeleteRemediationExceptions Operation</seealso>
+        IAsyncResult BeginDeleteRemediationExceptions(DeleteRemediationExceptionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRemediationExceptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRemediationExceptions.</param>
+        /// 
+        /// <returns>Returns a  DeleteRemediationExceptionsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRemediationExceptions">REST API Reference for DeleteRemediationExceptions Operation</seealso>
+        DeleteRemediationExceptionsResponse EndDeleteRemediationExceptions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteResourceConfig
+
+
+        /// <summary>
+        /// Records the configuration state for a custom resource that has been deleted. This
+        /// API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve
+        /// the ConfigurationItems recorded for this resource in your AWS Config History.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResourceConfig service method.</param>
+        /// 
+        /// <returns>The response from the DeleteResourceConfig service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.NoRunningConfigurationRecorderException">
+        /// There is no configuration recorder running.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteResourceConfig">REST API Reference for DeleteResourceConfig Operation</seealso>
+        DeleteResourceConfigResponse DeleteResourceConfig(DeleteResourceConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResourceConfig operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteResourceConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteResourceConfig">REST API Reference for DeleteResourceConfig Operation</seealso>
+        IAsyncResult BeginDeleteResourceConfig(DeleteResourceConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteResourceConfig.</param>
+        /// 
+        /// <returns>Returns a  DeleteResourceConfigResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteResourceConfig">REST API Reference for DeleteResourceConfig Operation</seealso>
+        DeleteResourceConfigResponse EndDeleteResourceConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteRetentionConfiguration
+
+
+        /// <summary>
+        /// Deletes the retention configuration.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRetentionConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRetentionConfiguration service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchRetentionConfigurationException">
+        /// You have specified a retention configuration that does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRetentionConfiguration">REST API Reference for DeleteRetentionConfiguration Operation</seealso>
+        DeleteRetentionConfigurationResponse DeleteRetentionConfiguration(DeleteRetentionConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRetentionConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRetentionConfiguration operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRetentionConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRetentionConfiguration">REST API Reference for DeleteRetentionConfiguration Operation</seealso>
+        IAsyncResult BeginDeleteRetentionConfiguration(DeleteRetentionConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRetentionConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRetentionConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteRetentionConfigurationResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DeleteRetentionConfiguration">REST API Reference for DeleteRetentionConfiguration Operation</seealso>
+        DeleteRetentionConfigurationResponse EndDeleteRetentionConfiguration(IAsyncResult asyncResult);
 
         #endregion
         
@@ -608,8 +1252,8 @@ namespace Amazon.ConfigService
         /// 
         ///  <note> 
         /// <para>
-        /// The results can return an empty result page, but if you have a nextToken, the results
-        /// are displayed on the next page.
+        /// The results can return an empty result page, but if you have a <code>nextToken</code>,
+        /// the results are displayed on the next page.
         /// </para>
         ///  </note>
         /// </summary>
@@ -1039,8 +1683,9 @@ namespace Amazon.ConfigService
 
         /// <summary>
         /// Returns status information for sources within an aggregator. The status includes information
-        /// about the last time AWS Config aggregated data from source accounts or AWS Config
-        /// failed to aggregate data from source accounts with the related error code or message.
+        /// about the last time AWS Config verified authorization between the source account and
+        /// an aggregator account. In case of a failure, the status contains the related error
+        /// code or message.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeConfigurationAggregatorSourcesStatus service method.</param>
         /// 
@@ -1230,6 +1875,172 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  DescribeConformancePackCompliance
+
+
+        /// <summary>
+        /// Returns compliance details for each rule in that conformance pack.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// You must provide exact rule names.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeConformancePackCompliance service method.</param>
+        /// 
+        /// <returns>The response from the DescribeConformancePackCompliance service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigRuleInConformancePackException">
+        /// AWS Config rule that you passed in the filter does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConformancePackException">
+        /// You specified one or more conformance packs that do not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePackCompliance">REST API Reference for DescribeConformancePackCompliance Operation</seealso>
+        DescribeConformancePackComplianceResponse DescribeConformancePackCompliance(DescribeConformancePackComplianceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeConformancePackCompliance operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeConformancePackCompliance operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeConformancePackCompliance
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePackCompliance">REST API Reference for DescribeConformancePackCompliance Operation</seealso>
+        IAsyncResult BeginDescribeConformancePackCompliance(DescribeConformancePackComplianceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeConformancePackCompliance operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeConformancePackCompliance.</param>
+        /// 
+        /// <returns>Returns a  DescribeConformancePackComplianceResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePackCompliance">REST API Reference for DescribeConformancePackCompliance Operation</seealso>
+        DescribeConformancePackComplianceResponse EndDescribeConformancePackCompliance(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeConformancePacks
+
+
+        /// <summary>
+        /// Returns a list of one or more conformance packs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeConformancePacks service method.</param>
+        /// 
+        /// <returns>The response from the DescribeConformancePacks service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConformancePackException">
+        /// You specified one or more conformance packs that do not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePacks">REST API Reference for DescribeConformancePacks Operation</seealso>
+        DescribeConformancePacksResponse DescribeConformancePacks(DescribeConformancePacksRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeConformancePacks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeConformancePacks operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeConformancePacks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePacks">REST API Reference for DescribeConformancePacks Operation</seealso>
+        IAsyncResult BeginDescribeConformancePacks(DescribeConformancePacksRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeConformancePacks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeConformancePacks.</param>
+        /// 
+        /// <returns>Returns a  DescribeConformancePacksResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePacks">REST API Reference for DescribeConformancePacks Operation</seealso>
+        DescribeConformancePacksResponse EndDescribeConformancePacks(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeConformancePackStatus
+
+
+        /// <summary>
+        /// Provides one or more conformance packs deployment status.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// If there are no conformance packs then you will see an empty result.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeConformancePackStatus service method.</param>
+        /// 
+        /// <returns>The response from the DescribeConformancePackStatus service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePackStatus">REST API Reference for DescribeConformancePackStatus Operation</seealso>
+        DescribeConformancePackStatusResponse DescribeConformancePackStatus(DescribeConformancePackStatusRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeConformancePackStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeConformancePackStatus operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeConformancePackStatus
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePackStatus">REST API Reference for DescribeConformancePackStatus Operation</seealso>
+        IAsyncResult BeginDescribeConformancePackStatus(DescribeConformancePackStatusRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeConformancePackStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeConformancePackStatus.</param>
+        /// 
+        /// <returns>Returns a  DescribeConformancePackStatusResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeConformancePackStatus">REST API Reference for DescribeConformancePackStatus Operation</seealso>
+        DescribeConformancePackStatusResponse EndDescribeConformancePackStatus(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeDeliveryChannels
 
 
@@ -1370,6 +2181,320 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  DescribeOrganizationConfigRules
+
+
+        /// <summary>
+        /// Returns a list of organization config rules.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you specify the limit and the next token, you receive a paginated response. Limit
+        /// and next token are not applicable if you specify organization config rule names. It
+        /// is only applicable, when you request all the organization config rules.
+        /// </para>
+        ///  
+        /// <para>
+        /// Only a master account can call this API.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConfigRules service method.</param>
+        /// 
+        /// <returns>The response from the DescribeOrganizationConfigRules service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConfigRuleException">
+        /// You specified one or more organization config rules that do not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConfigRules">REST API Reference for DescribeOrganizationConfigRules Operation</seealso>
+        DescribeOrganizationConfigRulesResponse DescribeOrganizationConfigRules(DescribeOrganizationConfigRulesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeOrganizationConfigRules operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConfigRules operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeOrganizationConfigRules
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConfigRules">REST API Reference for DescribeOrganizationConfigRules Operation</seealso>
+        IAsyncResult BeginDescribeOrganizationConfigRules(DescribeOrganizationConfigRulesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeOrganizationConfigRules operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeOrganizationConfigRules.</param>
+        /// 
+        /// <returns>Returns a  DescribeOrganizationConfigRulesResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConfigRules">REST API Reference for DescribeOrganizationConfigRules Operation</seealso>
+        DescribeOrganizationConfigRulesResponse EndDescribeOrganizationConfigRules(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeOrganizationConfigRuleStatuses
+
+
+        /// <summary>
+        /// Provides organization config rule deployment status for an organization.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The status is not considered successful until organization config rule is successfully
+        /// deployed in all the member accounts with an exception of excluded accounts.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you specify the limit and the next token, you receive a paginated response. Limit
+        /// and next token are not applicable if you specify organization config rule names. It
+        /// is only applicable, when you request all the organization config rules.
+        /// </para>
+        ///  
+        /// <para>
+        /// Only a master account can call this API.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConfigRuleStatuses service method.</param>
+        /// 
+        /// <returns>The response from the DescribeOrganizationConfigRuleStatuses service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConfigRuleException">
+        /// You specified one or more organization config rules that do not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConfigRuleStatuses">REST API Reference for DescribeOrganizationConfigRuleStatuses Operation</seealso>
+        DescribeOrganizationConfigRuleStatusesResponse DescribeOrganizationConfigRuleStatuses(DescribeOrganizationConfigRuleStatusesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeOrganizationConfigRuleStatuses operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConfigRuleStatuses operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeOrganizationConfigRuleStatuses
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConfigRuleStatuses">REST API Reference for DescribeOrganizationConfigRuleStatuses Operation</seealso>
+        IAsyncResult BeginDescribeOrganizationConfigRuleStatuses(DescribeOrganizationConfigRuleStatusesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeOrganizationConfigRuleStatuses operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeOrganizationConfigRuleStatuses.</param>
+        /// 
+        /// <returns>Returns a  DescribeOrganizationConfigRuleStatusesResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConfigRuleStatuses">REST API Reference for DescribeOrganizationConfigRuleStatuses Operation</seealso>
+        DescribeOrganizationConfigRuleStatusesResponse EndDescribeOrganizationConfigRuleStatuses(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeOrganizationConformancePacks
+
+
+        /// <summary>
+        /// Returns a list of organization conformance packs.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you specify the limit and the next token, you receive a paginated response. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Limit and next token are not applicable if you specify organization conformance packs
+        /// names. They are only applicable, when you request all the organization conformance
+        /// packs. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Only a master account can call this API.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConformancePacks service method.</param>
+        /// 
+        /// <returns>The response from the DescribeOrganizationConformancePacks service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConformancePackException">
+        /// AWS Config organization conformance pack that you passed in the filter does not exist.
+        /// 
+        ///  
+        /// <para>
+        /// For DeleteOrganizationConformancePack, you tried to delete an organization conformance
+        /// pack that does not exist.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConformancePacks">REST API Reference for DescribeOrganizationConformancePacks Operation</seealso>
+        DescribeOrganizationConformancePacksResponse DescribeOrganizationConformancePacks(DescribeOrganizationConformancePacksRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeOrganizationConformancePacks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConformancePacks operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeOrganizationConformancePacks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConformancePacks">REST API Reference for DescribeOrganizationConformancePacks Operation</seealso>
+        IAsyncResult BeginDescribeOrganizationConformancePacks(DescribeOrganizationConformancePacksRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeOrganizationConformancePacks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeOrganizationConformancePacks.</param>
+        /// 
+        /// <returns>Returns a  DescribeOrganizationConformancePacksResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConformancePacks">REST API Reference for DescribeOrganizationConformancePacks Operation</seealso>
+        DescribeOrganizationConformancePacksResponse EndDescribeOrganizationConformancePacks(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeOrganizationConformancePackStatuses
+
+
+        /// <summary>
+        /// Provides organization conformance pack deployment status for an organization.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The status is not considered successful until organization conformance pack is successfully
+        /// deployed in all the member accounts with an exception of excluded accounts.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you specify the limit and the next token, you receive a paginated response. Limit
+        /// and next token are not applicable if you specify organization conformance pack names.
+        /// They are only applicable, when you request all the organization conformance packs.
+        /// </para>
+        ///  
+        /// <para>
+        /// Only a master account can call this API.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConformancePackStatuses service method.</param>
+        /// 
+        /// <returns>The response from the DescribeOrganizationConformancePackStatuses service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConformancePackException">
+        /// AWS Config organization conformance pack that you passed in the filter does not exist.
+        /// 
+        ///  
+        /// <para>
+        /// For DeleteOrganizationConformancePack, you tried to delete an organization conformance
+        /// pack that does not exist.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConformancePackStatuses">REST API Reference for DescribeOrganizationConformancePackStatuses Operation</seealso>
+        DescribeOrganizationConformancePackStatusesResponse DescribeOrganizationConformancePackStatuses(DescribeOrganizationConformancePackStatusesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeOrganizationConformancePackStatuses operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOrganizationConformancePackStatuses operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeOrganizationConformancePackStatuses
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConformancePackStatuses">REST API Reference for DescribeOrganizationConformancePackStatuses Operation</seealso>
+        IAsyncResult BeginDescribeOrganizationConformancePackStatuses(DescribeOrganizationConformancePackStatusesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeOrganizationConformancePackStatuses operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeOrganizationConformancePackStatuses.</param>
+        /// 
+        /// <returns>Returns a  DescribeOrganizationConformancePackStatusesResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeOrganizationConformancePackStatuses">REST API Reference for DescribeOrganizationConformancePackStatuses Operation</seealso>
+        DescribeOrganizationConformancePackStatusesResponse EndDescribeOrganizationConformancePackStatuses(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribePendingAggregationRequests
 
 
@@ -1421,6 +2546,218 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  DescribeRemediationConfigurations
+
+
+        /// <summary>
+        /// Returns the details of one or more remediation configurations.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRemediationConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the DescribeRemediationConfigurations service method, as returned by ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationConfigurations">REST API Reference for DescribeRemediationConfigurations Operation</seealso>
+        DescribeRemediationConfigurationsResponse DescribeRemediationConfigurations(DescribeRemediationConfigurationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeRemediationConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRemediationConfigurations operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeRemediationConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationConfigurations">REST API Reference for DescribeRemediationConfigurations Operation</seealso>
+        IAsyncResult BeginDescribeRemediationConfigurations(DescribeRemediationConfigurationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeRemediationConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeRemediationConfigurations.</param>
+        /// 
+        /// <returns>Returns a  DescribeRemediationConfigurationsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationConfigurations">REST API Reference for DescribeRemediationConfigurations Operation</seealso>
+        DescribeRemediationConfigurationsResponse EndDescribeRemediationConfigurations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeRemediationExceptions
+
+
+        /// <summary>
+        /// Returns the details of one or more remediation exceptions. A detailed view of a remediation
+        /// exception for a set of resources that includes an explanation of an exception and
+        /// the time when the exception will be deleted. When you specify the limit and the next
+        /// token, you receive a paginated response. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you specify the limit and the next token, you receive a paginated response. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Limit and next token are not applicable if you request resources in batch. It is only
+        /// applicable, when you request all resources.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRemediationExceptions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeRemediationExceptions service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationExceptions">REST API Reference for DescribeRemediationExceptions Operation</seealso>
+        DescribeRemediationExceptionsResponse DescribeRemediationExceptions(DescribeRemediationExceptionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeRemediationExceptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRemediationExceptions operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeRemediationExceptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationExceptions">REST API Reference for DescribeRemediationExceptions Operation</seealso>
+        IAsyncResult BeginDescribeRemediationExceptions(DescribeRemediationExceptionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeRemediationExceptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeRemediationExceptions.</param>
+        /// 
+        /// <returns>Returns a  DescribeRemediationExceptionsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationExceptions">REST API Reference for DescribeRemediationExceptions Operation</seealso>
+        DescribeRemediationExceptionsResponse EndDescribeRemediationExceptions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeRemediationExecutionStatus
+
+
+        /// <summary>
+        /// Provides a detailed view of a Remediation Execution for a set of resources including
+        /// state, timestamps for when steps for the remediation execution occur, and any error
+        /// messages for steps that have failed. When you specify the limit and the next token,
+        /// you receive a paginated response.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRemediationExecutionStatus service method.</param>
+        /// 
+        /// <returns>The response from the DescribeRemediationExecutionStatus service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchRemediationConfigurationException">
+        /// You specified an AWS Config rule without a remediation configuration.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationExecutionStatus">REST API Reference for DescribeRemediationExecutionStatus Operation</seealso>
+        DescribeRemediationExecutionStatusResponse DescribeRemediationExecutionStatus(DescribeRemediationExecutionStatusRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeRemediationExecutionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRemediationExecutionStatus operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeRemediationExecutionStatus
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationExecutionStatus">REST API Reference for DescribeRemediationExecutionStatus Operation</seealso>
+        IAsyncResult BeginDescribeRemediationExecutionStatus(DescribeRemediationExecutionStatusRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeRemediationExecutionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeRemediationExecutionStatus.</param>
+        /// 
+        /// <returns>Returns a  DescribeRemediationExecutionStatusResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRemediationExecutionStatus">REST API Reference for DescribeRemediationExecutionStatus Operation</seealso>
+        DescribeRemediationExecutionStatusResponse EndDescribeRemediationExecutionStatus(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeRetentionConfigurations
+
+
+        /// <summary>
+        /// Returns the details of one or more retention configurations. If the retention configuration
+        /// name is not specified, this action returns the details for all the retention configurations
+        /// for that account.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Currently, AWS Config supports only one retention configuration per region in your
+        /// account.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRetentionConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the DescribeRetentionConfigurations service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchRetentionConfigurationException">
+        /// You have specified a retention configuration that does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRetentionConfigurations">REST API Reference for DescribeRetentionConfigurations Operation</seealso>
+        DescribeRetentionConfigurationsResponse DescribeRetentionConfigurations(DescribeRetentionConfigurationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeRetentionConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeRetentionConfigurations operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeRetentionConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRetentionConfigurations">REST API Reference for DescribeRetentionConfigurations Operation</seealso>
+        IAsyncResult BeginDescribeRetentionConfigurations(DescribeRetentionConfigurationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeRetentionConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeRetentionConfigurations.</param>
+        /// 
+        /// <returns>Returns a  DescribeRetentionConfigurationsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/DescribeRetentionConfigurations">REST API Reference for DescribeRetentionConfigurations Operation</seealso>
+        DescribeRetentionConfigurationsResponse EndDescribeRetentionConfigurations(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetAggregateComplianceDetailsByConfigRule
 
 
@@ -1432,8 +2769,8 @@ namespace Amazon.ConfigService
         /// 
         ///  <note> 
         /// <para>
-        /// The results can return an empty result page. But if you have a nextToken, the results
-        /// are displayed on the next page.
+        /// The results can return an empty result page. But if you have a <code>nextToken</code>,
+        /// the results are displayed on the next page.
         /// </para>
         ///  </note>
         /// </summary>
@@ -1542,6 +2879,121 @@ namespace Amazon.ConfigService
         /// <returns>Returns a  GetAggregateConfigRuleComplianceSummaryResult from ConfigService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetAggregateConfigRuleComplianceSummary">REST API Reference for GetAggregateConfigRuleComplianceSummary Operation</seealso>
         GetAggregateConfigRuleComplianceSummaryResponse EndGetAggregateConfigRuleComplianceSummary(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetAggregateDiscoveredResourceCounts
+
+
+        /// <summary>
+        /// Returns the resource counts across accounts and regions that are present in your AWS
+        /// Config aggregator. You can request the resource counts by providing filters and GroupByKey.
+        /// 
+        ///  
+        /// <para>
+        /// For example, if the input contains accountID 12345678910 and region us-east-1 in filters,
+        /// the API returns the count of resources in account ID 12345678910 and region us-east-1.
+        /// If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts
+        /// for all source accounts that are present in your aggregator.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAggregateDiscoveredResourceCounts service method.</param>
+        /// 
+        /// <returns>The response from the GetAggregateDiscoveredResourceCounts service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigurationAggregatorException">
+        /// You have specified a configuration aggregator that does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetAggregateDiscoveredResourceCounts">REST API Reference for GetAggregateDiscoveredResourceCounts Operation</seealso>
+        GetAggregateDiscoveredResourceCountsResponse GetAggregateDiscoveredResourceCounts(GetAggregateDiscoveredResourceCountsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAggregateDiscoveredResourceCounts operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAggregateDiscoveredResourceCounts operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAggregateDiscoveredResourceCounts
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetAggregateDiscoveredResourceCounts">REST API Reference for GetAggregateDiscoveredResourceCounts Operation</seealso>
+        IAsyncResult BeginGetAggregateDiscoveredResourceCounts(GetAggregateDiscoveredResourceCountsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetAggregateDiscoveredResourceCounts operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAggregateDiscoveredResourceCounts.</param>
+        /// 
+        /// <returns>Returns a  GetAggregateDiscoveredResourceCountsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetAggregateDiscoveredResourceCounts">REST API Reference for GetAggregateDiscoveredResourceCounts Operation</seealso>
+        GetAggregateDiscoveredResourceCountsResponse EndGetAggregateDiscoveredResourceCounts(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetAggregateResourceConfig
+
+
+        /// <summary>
+        /// Returns configuration item that is aggregated for your specific resource in a specific
+        /// source account and region.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAggregateResourceConfig service method.</param>
+        /// 
+        /// <returns>The response from the GetAggregateResourceConfig service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigurationAggregatorException">
+        /// You have specified a configuration aggregator that does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OversizedConfigurationItemException">
+        /// The configuration item size is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceNotDiscoveredException">
+        /// You have specified a resource that is either unknown or has not been discovered.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetAggregateResourceConfig">REST API Reference for GetAggregateResourceConfig Operation</seealso>
+        GetAggregateResourceConfigResponse GetAggregateResourceConfig(GetAggregateResourceConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAggregateResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAggregateResourceConfig operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAggregateResourceConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetAggregateResourceConfig">REST API Reference for GetAggregateResourceConfig Operation</seealso>
+        IAsyncResult BeginGetAggregateResourceConfig(GetAggregateResourceConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetAggregateResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAggregateResourceConfig.</param>
+        /// 
+        /// <returns>Returns a  GetAggregateResourceConfigResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetAggregateResourceConfig">REST API Reference for GetAggregateResourceConfig Operation</seealso>
+        GetAggregateResourceConfigResponse EndGetAggregateResourceConfig(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1732,6 +3184,115 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  GetConformancePackComplianceDetails
+
+
+        /// <summary>
+        /// Returns compliance details of a conformance pack for all AWS resources that are monitered
+        /// by conformance pack.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetConformancePackComplianceDetails service method.</param>
+        /// 
+        /// <returns>The response from the GetConformancePackComplianceDetails service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigRuleInConformancePackException">
+        /// AWS Config rule that you passed in the filter does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConformancePackException">
+        /// You specified one or more conformance packs that do not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetConformancePackComplianceDetails">REST API Reference for GetConformancePackComplianceDetails Operation</seealso>
+        GetConformancePackComplianceDetailsResponse GetConformancePackComplianceDetails(GetConformancePackComplianceDetailsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetConformancePackComplianceDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetConformancePackComplianceDetails operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetConformancePackComplianceDetails
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetConformancePackComplianceDetails">REST API Reference for GetConformancePackComplianceDetails Operation</seealso>
+        IAsyncResult BeginGetConformancePackComplianceDetails(GetConformancePackComplianceDetailsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetConformancePackComplianceDetails operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetConformancePackComplianceDetails.</param>
+        /// 
+        /// <returns>Returns a  GetConformancePackComplianceDetailsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetConformancePackComplianceDetails">REST API Reference for GetConformancePackComplianceDetails Operation</seealso>
+        GetConformancePackComplianceDetailsResponse EndGetConformancePackComplianceDetails(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetConformancePackComplianceSummary
+
+
+        /// <summary>
+        /// Returns compliance details for the conformance pack based on the cumulative compliance
+        /// results of all the rules in that conformance pack.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetConformancePackComplianceSummary service method.</param>
+        /// 
+        /// <returns>The response from the GetConformancePackComplianceSummary service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConformancePackException">
+        /// You specified one or more conformance packs that do not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetConformancePackComplianceSummary">REST API Reference for GetConformancePackComplianceSummary Operation</seealso>
+        GetConformancePackComplianceSummaryResponse GetConformancePackComplianceSummary(GetConformancePackComplianceSummaryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetConformancePackComplianceSummary operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetConformancePackComplianceSummary operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetConformancePackComplianceSummary
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetConformancePackComplianceSummary">REST API Reference for GetConformancePackComplianceSummary Operation</seealso>
+        IAsyncResult BeginGetConformancePackComplianceSummary(GetConformancePackComplianceSummaryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetConformancePackComplianceSummary operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetConformancePackComplianceSummary.</param>
+        /// 
+        /// <returns>Returns a  GetConformancePackComplianceSummaryResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetConformancePackComplianceSummary">REST API Reference for GetConformancePackComplianceSummary Operation</seealso>
+        GetConformancePackComplianceSummaryResponse EndGetConformancePackComplianceSummary(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetDiscoveredResourceCounts
 
 
@@ -1838,12 +3399,154 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  GetOrganizationConfigRuleDetailedStatus
+
+
+        /// <summary>
+        /// Returns detailed status for each member account within an organization for a given
+        /// organization config rule.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Only a master account can call this API.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetOrganizationConfigRuleDetailedStatus service method.</param>
+        /// 
+        /// <returns>The response from the GetOrganizationConfigRuleDetailedStatus service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConfigRuleException">
+        /// You specified one or more organization config rules that do not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetOrganizationConfigRuleDetailedStatus">REST API Reference for GetOrganizationConfigRuleDetailedStatus Operation</seealso>
+        GetOrganizationConfigRuleDetailedStatusResponse GetOrganizationConfigRuleDetailedStatus(GetOrganizationConfigRuleDetailedStatusRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetOrganizationConfigRuleDetailedStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetOrganizationConfigRuleDetailedStatus operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetOrganizationConfigRuleDetailedStatus
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetOrganizationConfigRuleDetailedStatus">REST API Reference for GetOrganizationConfigRuleDetailedStatus Operation</seealso>
+        IAsyncResult BeginGetOrganizationConfigRuleDetailedStatus(GetOrganizationConfigRuleDetailedStatusRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetOrganizationConfigRuleDetailedStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetOrganizationConfigRuleDetailedStatus.</param>
+        /// 
+        /// <returns>Returns a  GetOrganizationConfigRuleDetailedStatusResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetOrganizationConfigRuleDetailedStatus">REST API Reference for GetOrganizationConfigRuleDetailedStatus Operation</seealso>
+        GetOrganizationConfigRuleDetailedStatusResponse EndGetOrganizationConfigRuleDetailedStatus(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetOrganizationConformancePackDetailedStatus
+
+
+        /// <summary>
+        /// Returns detailed status for each member account within an organization for a given
+        /// organization conformance pack.
+        /// 
+        ///  
+        /// <para>
+        /// Only a master account can call this API.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetOrganizationConformancePackDetailedStatus service method.</param>
+        /// 
+        /// <returns>The response from the GetOrganizationConformancePackDetailedStatus service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchOrganizationConformancePackException">
+        /// AWS Config organization conformance pack that you passed in the filter does not exist.
+        /// 
+        ///  
+        /// <para>
+        /// For DeleteOrganizationConformancePack, you tried to delete an organization conformance
+        /// pack that does not exist.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetOrganizationConformancePackDetailedStatus">REST API Reference for GetOrganizationConformancePackDetailedStatus Operation</seealso>
+        GetOrganizationConformancePackDetailedStatusResponse GetOrganizationConformancePackDetailedStatus(GetOrganizationConformancePackDetailedStatusRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetOrganizationConformancePackDetailedStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetOrganizationConformancePackDetailedStatus operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetOrganizationConformancePackDetailedStatus
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetOrganizationConformancePackDetailedStatus">REST API Reference for GetOrganizationConformancePackDetailedStatus Operation</seealso>
+        IAsyncResult BeginGetOrganizationConformancePackDetailedStatus(GetOrganizationConformancePackDetailedStatusRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetOrganizationConformancePackDetailedStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetOrganizationConformancePackDetailedStatus.</param>
+        /// 
+        /// <returns>Returns a  GetOrganizationConformancePackDetailedStatusResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetOrganizationConformancePackDetailedStatus">REST API Reference for GetOrganizationConformancePackDetailedStatus Operation</seealso>
+        GetOrganizationConformancePackDetailedStatusResponse EndGetOrganizationConformancePackDetailedStatus(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetResourceConfigHistory
 
 
         /// <summary>
         /// Returns a list of configuration items for the specified resource. The list contains
-        /// details about each state of the resource during the specified time interval.
+        /// details about each state of the resource during the specified time interval. If you
+        /// specified a retention period to retain your <code>ConfigurationItems</code> between
+        /// a minimum of 30 days and a maximum of 7 years (2557 days), AWS Config returns the
+        /// <code>ConfigurationItems</code> for the specified retention period. 
         /// 
         ///  
         /// <para>
@@ -1912,6 +3615,70 @@ namespace Amazon.ConfigService
         /// <returns>Returns a  GetResourceConfigHistoryResult from ConfigService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/GetResourceConfigHistory">REST API Reference for GetResourceConfigHistory Operation</seealso>
         GetResourceConfigHistoryResponse EndGetResourceConfigHistory(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListAggregateDiscoveredResources
+
+
+        /// <summary>
+        /// Accepts a resource type and returns a list of resource identifiers that are aggregated
+        /// for a specific resource type across accounts and regions. A resource identifier includes
+        /// the resource type, ID, (if available) the custom resource name, source account, and
+        /// source region. You can narrow the results to include only resources that have specific
+        /// resource IDs, or a resource name, or source account ID, or source region.
+        /// 
+        ///  
+        /// <para>
+        /// For example, if the input consists of accountID 12345678910 and the region is us-east-1
+        /// for resource type <code>AWS::EC2::Instance</code> then the API returns all the EC2
+        /// instance identifiers of accountID 12345678910 and region us-east-1.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAggregateDiscoveredResources service method.</param>
+        /// 
+        /// <returns>The response from the ListAggregateDiscoveredResources service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigurationAggregatorException">
+        /// You have specified a configuration aggregator that does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListAggregateDiscoveredResources">REST API Reference for ListAggregateDiscoveredResources Operation</seealso>
+        ListAggregateDiscoveredResourcesResponse ListAggregateDiscoveredResources(ListAggregateDiscoveredResourcesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAggregateDiscoveredResources operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAggregateDiscoveredResources operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAggregateDiscoveredResources
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListAggregateDiscoveredResources">REST API Reference for ListAggregateDiscoveredResources Operation</seealso>
+        IAsyncResult BeginListAggregateDiscoveredResources(ListAggregateDiscoveredResourcesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAggregateDiscoveredResources operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAggregateDiscoveredResources.</param>
+        /// 
+        /// <returns>Returns a  ListAggregateDiscoveredResourcesResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListAggregateDiscoveredResources">REST API Reference for ListAggregateDiscoveredResources Operation</seealso>
+        ListAggregateDiscoveredResourcesResponse EndListAggregateDiscoveredResources(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1986,6 +3753,59 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// List the tags for AWS Config resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceNotFoundException">
+        /// You have specified a resource that does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutAggregationAuthorization
 
 
@@ -2057,7 +3877,7 @@ namespace Amazon.ConfigService
         /// <para>
         /// If you are adding an AWS managed Config rule, specify the rule's identifier for the
         /// <code>SourceIdentifier</code> key. To reference AWS managed Config rule identifiers,
-        /// see <a href="http://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">About
+        /// see <a href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">About
         /// AWS Managed Config Rules</a>.
         /// </para>
         ///  
@@ -2074,7 +3894,7 @@ namespace Amazon.ConfigService
         /// </para>
         ///  
         /// <para>
-        /// The maximum number of rules that AWS Config supports is 50.
+        /// The maximum number of rules that AWS Config supports is 150.
         /// </para>
         ///  
         /// <para>
@@ -2083,7 +3903,7 @@ namespace Amazon.ConfigService
         /// </para>
         ///  
         /// <para>
-        /// For more information about developing and using AWS Config rules, see <a href="http://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
+        /// For more information about developing and using AWS Config rules, see <a href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
         /// AWS Resource Configurations with AWS Config</a> in the <i>AWS Config Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2095,15 +3915,34 @@ namespace Amazon.ConfigService
         /// 
         ///  <ul> <li> 
         /// <para>
-        /// The rule cannot be created because the IAM role assigned to AWS Config lacks permissions
-        /// to perform the config:Put* action.
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The AWS Lambda function cannot be invoked. Check the function ARN, and check the function's
-        /// permissions.
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
         /// </para>
-        ///  </li> </ul>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
         /// One or more of the specified parameters are invalid. Verify that your parameters are
@@ -2111,15 +3950,51 @@ namespace Amazon.ConfigService
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.MaxNumberOfConfigRulesExceededException">
         /// Failed to add the AWS Config rule because the account already contains the maximum
-        /// number of 50 rules. Consider deleting any deactivated rules before you add new rules.
+        /// number of 150 rules. Consider deleting any deactivated rules before you add new rules.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.NoAvailableConfigurationRecorderException">
         /// There are no configuration recorders available to provide the role needed to describe
         /// your resources. Create a configuration recorder.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
-        /// The rule is currently being deleted or the rule is deleting your evaluation results.
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
         /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConfigRule">REST API Reference for PutConfigRule Operation</seealso>
         PutConfigRuleResponse PutConfigRule(PutConfigRuleRequest request);
@@ -2157,11 +4032,17 @@ namespace Amazon.ConfigService
 
         /// <summary>
         /// Creates and updates the configuration aggregator with the selected source accounts
-        /// and regions.
+        /// and regions. The source account can be individual account(s) or an organization.
         /// 
         ///  <note> 
         /// <para>
-        /// AWS Config should be enabled in accounts and regions you want to aggreagate.
+        /// AWS Config should be enabled in source accounts and regions you want to aggregate.
+        /// </para>
+        ///  
+        /// <para>
+        /// If your source type is an organization, you must be signed in to the master account
+        /// and all features must be enabled in your organization. AWS Config calls <code>EnableAwsServiceAccess</code>
+        /// API to enable integration between AWS Config and AWS Organizations. 
         /// </para>
         ///  </note>
         /// </summary>
@@ -2176,18 +4057,32 @@ namespace Amazon.ConfigService
         /// You have provided a null or empty role ARN.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.LimitExceededException">
-        /// This exception is thrown if an evaluation is in progress or if you call the <a>StartConfigRulesEvaluation</a>
-        /// API more than once per minute.
+        /// For <code>StartConfigRulesEvaluation</code> API, this exception is thrown if an evaluation
+        /// is in progress or if you call the <a>StartConfigRulesEvaluation</a> API more than
+        /// once per minute.
+        /// 
+        ///  
+        /// <para>
+        /// For <code>PutConfigurationAggregator</code> API, this exception is thrown if the number
+        /// of accounts and aggregators exceeds the limit.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.NoAvailableOrganizationException">
-        /// Organization does is no longer available.
+        /// Organization is no longer available.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
-        /// No permission to call the EnableAWSServiceAccess API.
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.OrganizationAllFeaturesNotEnabledException">
-        /// The configuration aggregator cannot be created because organization does not have
-        /// all features enabled.
+        /// AWS Config resource cannot be created because your organization does not have all
+        /// features enabled.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConfigurationAggregator">REST API Reference for PutConfigurationAggregator Operation</seealso>
         PutConfigurationAggregatorResponse PutConfigurationAggregator(PutConfigurationAggregatorRequest request);
@@ -2287,6 +4182,147 @@ namespace Amazon.ConfigService
         /// <returns>Returns a  PutConfigurationRecorderResult from ConfigService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConfigurationRecorder">REST API Reference for PutConfigurationRecorder Operation</seealso>
         PutConfigurationRecorderResponse EndPutConfigurationRecorder(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutConformancePack
+
+
+        /// <summary>
+        /// Creates or updates a conformance pack. A conformance pack is a collection of AWS Config
+        /// rules that can be easily deployed in an account and a region and across AWS Organization.
+        /// 
+        ///  
+        /// <para>
+        /// This API creates a service linked role <code>AWSServiceRoleForConfigConforms</code>
+        /// in your account. The service linked role is created only when the role does not exist
+        /// in your account. AWS Config verifies the existence of role with <code>GetRole</code>
+        /// action.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// You must specify either the <code>TemplateS3Uri</code> or the <code>TemplateBody</code>
+        /// parameter, but not both. If you provide both AWS Config uses the <code>TemplateS3Uri</code>
+        /// parameter and ignores the <code>TemplateBody</code> parameter.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutConformancePack service method.</param>
+        /// 
+        /// <returns>The response from the PutConformancePack service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.ConformancePackTemplateValidationException">
+        /// You have specified a template that is not valid or supported.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InsufficientPermissionsException">
+        /// Indicates one of the following errors:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.MaxNumberOfConformancePacksExceededException">
+        /// You have reached the limit (6) of the number of conformance packs in an account (6
+        /// conformance pack with 25 AWS Config rules per pack).
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
+        /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConformancePack">REST API Reference for PutConformancePack Operation</seealso>
+        PutConformancePackResponse PutConformancePack(PutConformancePackRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutConformancePack operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutConformancePack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConformancePack">REST API Reference for PutConformancePack Operation</seealso>
+        IAsyncResult BeginPutConformancePack(PutConformancePackRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutConformancePack.</param>
+        /// 
+        /// <returns>Returns a  PutConformancePackResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutConformancePack">REST API Reference for PutConformancePack Operation</seealso>
+        PutConformancePackResponse EndPutConformancePack(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2423,6 +4459,750 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  PutOrganizationConfigRule
+
+
+        /// <summary>
+        /// Adds or updates organization config rule for your entire organization evaluating whether
+        /// your AWS resources comply with your desired configurations. Only a master account
+        /// can create or update an organization config rule.
+        /// 
+        ///  
+        /// <para>
+        /// This API enables organization service access through the <code>EnableAWSServiceAccess</code>
+        /// action and creates a service linked role <code>AWSServiceRoleForConfigMultiAccountSetup</code>
+        /// in the master account of your organization. The service linked role is created only
+        /// when the role does not exist in the master account. AWS Config verifies the existence
+        /// of role with <code>GetRole</code> action.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use this action to create both custom AWS Config rules and AWS managed Config
+        /// rules. If you are adding a new custom AWS Config rule, you must first create AWS Lambda
+        /// function in the master account that the rule invokes to evaluate your resources. When
+        /// you use the <code>PutOrganizationConfigRule</code> action to add the rule to AWS Config,
+        /// you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function.
+        /// If you are adding an AWS managed Config rule, specify the rule's identifier for the
+        /// <code>RuleIdentifier</code> key.
+        /// </para>
+        ///  
+        /// <para>
+        /// The maximum number of organization config rules that AWS Config supports is 150.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Specify either <code>OrganizationCustomRuleMetadata</code> or <code>OrganizationManagedRuleMetadata</code>.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutOrganizationConfigRule service method.</param>
+        /// 
+        /// <returns>The response from the PutOrganizationConfigRule service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InsufficientPermissionsException">
+        /// Indicates one of the following errors:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.MaxNumberOfOrganizationConfigRulesExceededException">
+        /// You have reached the limit of the number of organization config rules you can create.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoAvailableOrganizationException">
+        /// Organization is no longer available.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAllFeaturesNotEnabledException">
+        /// AWS Config resource cannot be created because your organization does not have all
+        /// features enabled.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
+        /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConfigRule">REST API Reference for PutOrganizationConfigRule Operation</seealso>
+        PutOrganizationConfigRuleResponse PutOrganizationConfigRule(PutOrganizationConfigRuleRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutOrganizationConfigRule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutOrganizationConfigRule operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutOrganizationConfigRule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConfigRule">REST API Reference for PutOrganizationConfigRule Operation</seealso>
+        IAsyncResult BeginPutOrganizationConfigRule(PutOrganizationConfigRuleRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutOrganizationConfigRule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutOrganizationConfigRule.</param>
+        /// 
+        /// <returns>Returns a  PutOrganizationConfigRuleResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConfigRule">REST API Reference for PutOrganizationConfigRule Operation</seealso>
+        PutOrganizationConfigRuleResponse EndPutOrganizationConfigRule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutOrganizationConformancePack
+
+
+        /// <summary>
+        /// Deploys conformance packs across member accounts in an AWS Organization.
+        /// 
+        ///  
+        /// <para>
+        /// This API enables organization service access for <code>config-multiaccountsetup.amazonaws.com</code>
+        /// through the <code>EnableAWSServiceAccess</code> action and creates a service linked
+        /// role <code>AWSServiceRoleForConfigMultiAccountSetup</code> in the master account of
+        /// your organization. The service linked role is created only when the role does not
+        /// exist in the master account. AWS Config verifies the existence of role with GetRole
+        /// action.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// You must specify either the <code>TemplateS3Uri</code> or the <code>TemplateBody</code>
+        /// parameter, but not both. If you provide both AWS Config uses the <code>TemplateS3Uri</code>
+        /// parameter and ignores the <code>TemplateBody</code> parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// AWS Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS
+        /// until the confomance pack is created or updated. You cannot update a conformance pack
+        /// while it is in this state.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can create 6 conformance packs with 25 AWS Config rules in each pack.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutOrganizationConformancePack service method.</param>
+        /// 
+        /// <returns>The response from the PutOrganizationConformancePack service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InsufficientPermissionsException">
+        /// Indicates one of the following errors:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.MaxNumberOfOrganizationConformancePacksExceededException">
+        /// You have reached the limit (6) of the number of organization conformance packs in
+        /// an account (6 conformance pack with 25 AWS Config rules per pack per account).
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoAvailableOrganizationException">
+        /// Organization is no longer available.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAccessDeniedException">
+        /// For PutConfigAggregator API, no permission to call EnableAWSServiceAccess API.
+        /// 
+        ///  
+        /// <para>
+        /// For all OrganizationConfigRule and OrganizationConformancePack APIs, AWS Config throws
+        /// an exception if APIs are called from member accounts. All APIs must be called from
+        /// organization master account.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationAllFeaturesNotEnabledException">
+        /// AWS Config resource cannot be created because your organization does not have all
+        /// features enabled.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.OrganizationConformancePackTemplateValidationException">
+        /// You have specified a template that is not valid or supported.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
+        /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConformancePack">REST API Reference for PutOrganizationConformancePack Operation</seealso>
+        PutOrganizationConformancePackResponse PutOrganizationConformancePack(PutOrganizationConformancePackRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutOrganizationConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutOrganizationConformancePack operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutOrganizationConformancePack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConformancePack">REST API Reference for PutOrganizationConformancePack Operation</seealso>
+        IAsyncResult BeginPutOrganizationConformancePack(PutOrganizationConformancePackRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutOrganizationConformancePack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutOrganizationConformancePack.</param>
+        /// 
+        /// <returns>Returns a  PutOrganizationConformancePackResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutOrganizationConformancePack">REST API Reference for PutOrganizationConformancePack Operation</seealso>
+        PutOrganizationConformancePackResponse EndPutOrganizationConformancePack(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutRemediationConfigurations
+
+
+        /// <summary>
+        /// Adds or updates the remediation configuration with a specific AWS Config rule with
+        /// the selected target or action. The API creates the <code>RemediationConfiguration</code>
+        /// object for the AWS Config rule. The AWS Config rule must already exist for you to
+        /// add a remediation configuration. The target (SSM document) must exist and have permissions
+        /// to use the target.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutRemediationConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the PutRemediationConfigurations service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InsufficientPermissionsException">
+        /// Indicates one of the following errors:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRemediationConfigurations">REST API Reference for PutRemediationConfigurations Operation</seealso>
+        PutRemediationConfigurationsResponse PutRemediationConfigurations(PutRemediationConfigurationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutRemediationConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutRemediationConfigurations operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutRemediationConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRemediationConfigurations">REST API Reference for PutRemediationConfigurations Operation</seealso>
+        IAsyncResult BeginPutRemediationConfigurations(PutRemediationConfigurationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutRemediationConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutRemediationConfigurations.</param>
+        /// 
+        /// <returns>Returns a  PutRemediationConfigurationsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRemediationConfigurations">REST API Reference for PutRemediationConfigurations Operation</seealso>
+        PutRemediationConfigurationsResponse EndPutRemediationConfigurations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutRemediationExceptions
+
+
+        /// <summary>
+        /// A remediation exception is when a specific resource is no longer considered for auto-remediation.
+        /// This API adds a new exception or updates an exisiting exception for a specific resource
+        /// with a specific AWS Config rule.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutRemediationExceptions service method.</param>
+        /// 
+        /// <returns>The response from the PutRemediationExceptions service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRemediationExceptions">REST API Reference for PutRemediationExceptions Operation</seealso>
+        PutRemediationExceptionsResponse PutRemediationExceptions(PutRemediationExceptionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutRemediationExceptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutRemediationExceptions operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutRemediationExceptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRemediationExceptions">REST API Reference for PutRemediationExceptions Operation</seealso>
+        IAsyncResult BeginPutRemediationExceptions(PutRemediationExceptionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutRemediationExceptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutRemediationExceptions.</param>
+        /// 
+        /// <returns>Returns a  PutRemediationExceptionsResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRemediationExceptions">REST API Reference for PutRemediationExceptions Operation</seealso>
+        PutRemediationExceptionsResponse EndPutRemediationExceptions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutResourceConfig
+
+
+        /// <summary>
+        /// Records the configuration state for the resource provided in the request. The configuration
+        /// state of a resource is represented in AWS Config as Configuration Items. Once this
+        /// API records the configuration item, you can retrieve the list of configuration items
+        /// for the custom resource type using existing AWS Config APIs. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The custom resource type must be registered with AWS CloudFormation. This API accepts
+        /// the configuration item registered with AWS CloudFormation.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you call this API, AWS Config only stores configuration state of the resource
+        /// provided in the request. This API does not change or remediate the configuration of
+        /// the resource. 
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutResourceConfig service method.</param>
+        /// 
+        /// <returns>The response from the PutResourceConfig service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InsufficientPermissionsException">
+        /// Indicates one of the following errors:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.MaxActiveResourcesExceededException">
+        /// You have reached the limit (100,000) of active custom resource types in your account.
+        /// Delete unused resources using <code>DeleteResourceConfig</code>.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoRunningConfigurationRecorderException">
+        /// There is no configuration recorder running.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutResourceConfig">REST API Reference for PutResourceConfig Operation</seealso>
+        PutResourceConfigResponse PutResourceConfig(PutResourceConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutResourceConfig operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutResourceConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutResourceConfig">REST API Reference for PutResourceConfig Operation</seealso>
+        IAsyncResult BeginPutResourceConfig(PutResourceConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutResourceConfig.</param>
+        /// 
+        /// <returns>Returns a  PutResourceConfigResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutResourceConfig">REST API Reference for PutResourceConfig Operation</seealso>
+        PutResourceConfigResponse EndPutResourceConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutRetentionConfiguration
+
+
+        /// <summary>
+        /// Creates and updates the retention configuration with details about retention period
+        /// (number of days) that AWS Config stores your historical information. The API creates
+        /// the <code>RetentionConfiguration</code> object and names the object as <b>default</b>.
+        /// When you have a <code>RetentionConfiguration</code> object named <b>default</b>, calling
+        /// the API modifies the default object. 
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Currently, AWS Config supports only one retention configuration per region in your
+        /// account.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutRetentionConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutRetentionConfiguration service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.MaxNumberOfRetentionConfigurationsExceededException">
+        /// Failed to add the retention configuration because a retention configuration with that
+        /// name already exists.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRetentionConfiguration">REST API Reference for PutRetentionConfiguration Operation</seealso>
+        PutRetentionConfigurationResponse PutRetentionConfiguration(PutRetentionConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutRetentionConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutRetentionConfiguration operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutRetentionConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRetentionConfiguration">REST API Reference for PutRetentionConfiguration Operation</seealso>
+        IAsyncResult BeginPutRetentionConfiguration(PutRetentionConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutRetentionConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutRetentionConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutRetentionConfigurationResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/PutRetentionConfiguration">REST API Reference for PutRetentionConfiguration Operation</seealso>
+        PutRetentionConfigurationResponse EndPutRetentionConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  SelectAggregateResourceConfig
+
+
+        /// <summary>
+        /// Accepts a structured query language (SQL) SELECT command and an aggregator to query
+        /// configuration state of AWS resources across multiple accounts and regions, performs
+        /// the corresponding search, and returns resource configurations matching the properties.
+        /// 
+        ///  
+        /// <para>
+        /// For more information about query components, see the <a href="https://docs.aws.amazon.com/config/latest/developerguide/query-components.html">
+        /// <b>Query Components</b> </a> section in the AWS Config Developer Guide.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SelectAggregateResourceConfig service method.</param>
+        /// 
+        /// <returns>The response from the SelectAggregateResourceConfig service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidExpressionException">
+        /// The syntax of the query is incorrect.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigurationAggregatorException">
+        /// You have specified a configuration aggregator that does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/SelectAggregateResourceConfig">REST API Reference for SelectAggregateResourceConfig Operation</seealso>
+        SelectAggregateResourceConfigResponse SelectAggregateResourceConfig(SelectAggregateResourceConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SelectAggregateResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SelectAggregateResourceConfig operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSelectAggregateResourceConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/SelectAggregateResourceConfig">REST API Reference for SelectAggregateResourceConfig Operation</seealso>
+        IAsyncResult BeginSelectAggregateResourceConfig(SelectAggregateResourceConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SelectAggregateResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSelectAggregateResourceConfig.</param>
+        /// 
+        /// <returns>Returns a  SelectAggregateResourceConfigResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/SelectAggregateResourceConfig">REST API Reference for SelectAggregateResourceConfig Operation</seealso>
+        SelectAggregateResourceConfigResponse EndSelectAggregateResourceConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  SelectResourceConfig
+
+
+        /// <summary>
+        /// Accepts a structured query language (SQL) <code>SELECT</code> command, performs the
+        /// corresponding search, and returns resource configurations matching the properties.
+        /// 
+        ///  
+        /// <para>
+        /// For more information about query components, see the <a href="https://docs.aws.amazon.com/config/latest/developerguide/query-components.html">
+        /// <b>Query Components</b> </a> section in the AWS Config Developer Guide.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SelectResourceConfig service method.</param>
+        /// 
+        /// <returns>The response from the SelectResourceConfig service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidExpressionException">
+        /// The syntax of the query is incorrect.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidLimitException">
+        /// The specified limit is outside the allowable range.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidNextTokenException">
+        /// The specified next token is invalid. Specify the <code>nextToken</code> string that
+        /// was returned in the previous response to get the next page of results.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/SelectResourceConfig">REST API Reference for SelectResourceConfig Operation</seealso>
+        SelectResourceConfigResponse SelectResourceConfig(SelectResourceConfigRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SelectResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SelectResourceConfig operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSelectResourceConfig
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/SelectResourceConfig">REST API Reference for SelectResourceConfig Operation</seealso>
+        IAsyncResult BeginSelectResourceConfig(SelectResourceConfigRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SelectResourceConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSelectResourceConfig.</param>
+        /// 
+        /// <returns>Returns a  SelectResourceConfigResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/SelectResourceConfig">REST API Reference for SelectResourceConfig Operation</seealso>
+        SelectResourceConfigResponse EndSelectResourceConfig(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartConfigRulesEvaluation
 
 
@@ -2486,16 +5266,59 @@ namespace Amazon.ConfigService
         /// valid and try again.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.LimitExceededException">
-        /// This exception is thrown if an evaluation is in progress or if you call the <a>StartConfigRulesEvaluation</a>
-        /// API more than once per minute.
+        /// For <code>StartConfigRulesEvaluation</code> API, this exception is thrown if an evaluation
+        /// is in progress or if you call the <a>StartConfigRulesEvaluation</a> API more than
+        /// once per minute.
+        /// 
+        ///  
+        /// <para>
+        /// For <code>PutConfigurationAggregator</code> API, this exception is thrown if the number
+        /// of accounts and aggregators exceeds the limit.
+        /// </para>
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.NoSuchConfigRuleException">
         /// One or more AWS Config rules in the request are invalid. Verify that the rule names
         /// are correct and try again.
         /// </exception>
         /// <exception cref="Amazon.ConfigService.Model.ResourceInUseException">
-        /// The rule is currently being deleted or the rule is deleting your evaluation results.
+        /// You see this exception in the following cases: 
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For DeleteConfigRule, AWS Config is deleting this rule. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, the rule is deleting your evaluation results. Try your request
+        /// again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConfigRule, a remediation action is associated with the rule and AWS Config
+        /// cannot delete this rule. Delete the remediation action associated with the rule before
+        /// deleting the rule and try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigOrganizationRule, organization config rule deletion is in progress. Try
+        /// your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteOrganizationConfigRule, organization config rule creation is in progress.
         /// Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation,
+        /// update, and deletion is in progress. Try your request again later.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For DeleteConformancePack, a conformance pack creation, update, and deletion is in
+        /// progress. Try your request again later.
+        /// </para>
+        ///  </li> </ul>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/StartConfigRulesEvaluation">REST API Reference for StartConfigRulesEvaluation Operation</seealso>
         StartConfigRulesEvaluationResponse StartConfigRulesEvaluation(StartConfigRulesEvaluationRequest request);
@@ -2603,6 +5426,95 @@ namespace Amazon.ConfigService
 
         #endregion
         
+        #region  StartRemediationExecution
+
+
+        /// <summary>
+        /// Runs an on-demand remediation for the specified AWS Config rules against the last
+        /// known remediation configuration. It runs an execution against the current state of
+        /// your resources. Remediation execution is asynchronous.
+        /// 
+        ///  
+        /// <para>
+        /// You can specify up to 100 resource keys per request. An existing StartRemediationExecution
+        /// call for the specified resource keys must complete before you can call the API again.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartRemediationExecution service method.</param>
+        /// 
+        /// <returns>The response from the StartRemediationExecution service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.InsufficientPermissionsException">
+        /// Indicates one of the following errors:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// For PutConfigRule, the rule cannot be created because the IAM role assigned to AWS
+        /// Config lacks permissions to perform the config:Put* action.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConfigRule, the AWS Lambda function cannot be invoked. Check the function ARN,
+        /// and check the function's permissions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutOrganizationConfigRule, organization config rule cannot be created because
+        /// you do not have permissions to call IAM <code>GetRole</code> action or create a service
+        /// linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot
+        /// be created because you do not have permissions: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To call IAM <code>GetRole</code> action or create a service linked role.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To read Amazon S3 bucket.
+        /// </para>
+        ///  </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.InvalidParameterValueException">
+        /// One or more of the specified parameters are invalid. Verify that your parameters are
+        /// valid and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.NoSuchRemediationConfigurationException">
+        /// You specified an AWS Config rule without a remediation configuration.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/StartRemediationExecution">REST API Reference for StartRemediationExecution Operation</seealso>
+        StartRemediationExecutionResponse StartRemediationExecution(StartRemediationExecutionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartRemediationExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartRemediationExecution operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartRemediationExecution
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/StartRemediationExecution">REST API Reference for StartRemediationExecution Operation</seealso>
+        IAsyncResult BeginStartRemediationExecution(StartRemediationExecutionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartRemediationExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartRemediationExecution.</param>
+        /// 
+        /// <returns>Returns a  StartRemediationExecutionResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/StartRemediationExecution">REST API Reference for StartRemediationExecution Operation</seealso>
+        StartRemediationExecutionResponse EndStartRemediationExecution(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StopConfigurationRecorder
 
 
@@ -2657,6 +5569,105 @@ namespace Amazon.ConfigService
         /// <returns>Returns a  StopConfigurationRecorderResult from ConfigService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/StopConfigurationRecorder">REST API Reference for StopConfigurationRecorder Operation</seealso>
         StopConfigurationRecorderResponse EndStopConfigurationRecorder(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// Associates the specified tags to a resource with the specified resourceArn. If existing
+        /// tags on a resource are not specified in the request parameters, they are not changed.
+        /// When a resource is deleted, the tags associated with that resource are deleted as
+        /// well.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceNotFoundException">
+        /// You have specified a resource that does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.TooManyTagsException">
+        /// You have reached the limit of the number of tags you can use. You have more than 50
+        /// tags.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Deletes specified tags from a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by ConfigService.</returns>
+        /// <exception cref="Amazon.ConfigService.Model.ResourceNotFoundException">
+        /// You have specified a resource that does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.ConfigService.Model.ValidationException">
+        /// The requested action is not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonConfigServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from ConfigService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/config-2014-11-12/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
 
         #endregion
         

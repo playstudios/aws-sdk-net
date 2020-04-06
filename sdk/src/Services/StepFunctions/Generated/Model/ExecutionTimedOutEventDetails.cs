@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.StepFunctions.Model
 {
     /// <summary>
-    /// Contains details about the execution timeout which occurred during the execution.
+    /// Contains details about the execution timeout that occurred during the execution.
     /// </summary>
     public partial class ExecutionTimedOutEventDetails
     {
@@ -41,6 +41,7 @@ namespace Amazon.StepFunctions.Model
         /// A more detailed explanation of the cause of the timeout.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=32768)]
         public string Cause
         {
             get { return this._cause; }
@@ -59,6 +60,7 @@ namespace Amazon.StepFunctions.Model
         /// The error code of the failure.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Error
         {
             get { return this._error; }

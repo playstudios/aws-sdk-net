@@ -29,7 +29,7 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateApplicationSettings operation.
-    /// Used to update the settings for an app.
+    /// Updates the settings for an application.
     /// </summary>
     public partial class UpdateApplicationSettingsRequest : AmazonPinpointRequest
     {
@@ -37,8 +37,13 @@ namespace Amazon.Pinpoint.Model
         private WriteApplicationSettingsRequest _writeApplicationSettingsRequest;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,6 +59,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property WriteApplicationSettingsRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public WriteApplicationSettingsRequest WriteApplicationSettingsRequest
         {
             get { return this._writeApplicationSettingsRequest; }

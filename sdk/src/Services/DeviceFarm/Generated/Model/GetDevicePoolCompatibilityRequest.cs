@@ -34,6 +34,7 @@ namespace Amazon.DeviceFarm.Model
     public partial class GetDevicePoolCompatibilityRequest : AmazonDeviceFarmRequest
     {
         private string _appArn;
+        private ScheduleRunConfiguration _configuration;
         private string _devicePoolArn;
         private ScheduleRunTest _test;
         private TestType _testType;
@@ -44,6 +45,7 @@ namespace Amazon.DeviceFarm.Model
         /// The ARN of the app that is associated with the specified device pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string AppArn
         {
             get { return this._appArn; }
@@ -57,11 +59,30 @@ namespace Amazon.DeviceFarm.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Configuration. 
+        /// <para>
+        /// An object that contains information about the settings for a run.
+        /// </para>
+        /// </summary>
+        public ScheduleRunConfiguration Configuration
+        {
+            get { return this._configuration; }
+            set { this._configuration = value; }
+        }
+
+        // Check to see if Configuration property is set
+        internal bool IsSetConfiguration()
+        {
+            return this._configuration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DevicePoolArn. 
         /// <para>
         /// The device pool's ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string DevicePoolArn
         {
             get { return this._devicePoolArn; }
@@ -103,60 +124,76 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// BUILTIN_FUZZ: The built-in fuzz type.
+        /// BUILTIN_FUZZ.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app,
-        /// interacting with it and capturing screenshots at the same time.
+        /// BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android app, interacting
+        /// with it and capturing screenshots at the same time.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_JUNIT: The Appium Java JUnit type.
+        /// APPIUM_JAVA_JUNIT.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_TESTNG: The Appium Java TestNG type.
+        /// APPIUM_JAVA_TESTNG.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_PYTHON: The Appium Python type.
+        /// APPIUM_PYTHON.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.
+        /// APPIUM_NODE.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.
+        /// APPIUM_RUBY.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_PYTHON: The Appium Python type for Web apps.
+        /// APPIUM_WEB_JAVA_JUNIT.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// CALABASH: The Calabash type.
+        /// APPIUM_WEB_JAVA_TESTNG.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INSTRUMENTATION: The Instrumentation type.
+        /// APPIUM_WEB_PYTHON.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATION: The uiautomation type.
+        /// APPIUM_WEB_NODE.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATOR: The uiautomator type.
+        /// APPIUM_WEB_RUBY.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST: The XCode test type.
+        /// CALABASH.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST_UI: The XCode UI test type.
+        /// INSTRUMENTATION.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATION.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATOR.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI.
         /// </para>
         ///  </li> </ul>
         /// </summary>

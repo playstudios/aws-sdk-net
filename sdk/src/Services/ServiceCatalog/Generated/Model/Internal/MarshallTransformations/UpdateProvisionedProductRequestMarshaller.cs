@@ -58,10 +58,11 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
             string target = "AWS242ServiceCatalogService.UpdateProvisionedProduct";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-12-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -113,6 +114,33 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
 
                         var marshaller = UpdateProvisioningParameterMarshaller.Instance;
                         marshaller.Marshall(publicRequestProvisioningParametersListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetProvisioningPreferences())
+                {
+                    context.Writer.WritePropertyName("ProvisioningPreferences");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = UpdateProvisioningPreferencesMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ProvisioningPreferences, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
 
                         context.Writer.WriteObjectEnd();
                     }

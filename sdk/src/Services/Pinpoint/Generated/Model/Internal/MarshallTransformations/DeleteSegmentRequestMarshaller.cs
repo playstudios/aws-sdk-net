@@ -55,16 +55,17 @@ namespace Amazon.Pinpoint.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteSegmentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Pinpoint");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-12-01";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/v1/apps/{application-id}/segments/{segment-id}";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonPinpointException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.AddPathResource("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
             if (!publicRequest.IsSetSegmentId())
                 throw new AmazonPinpointException("Request object does not have required field SegmentId set");
-            uriResourcePath = uriResourcePath.Replace("{segment-id}", StringUtils.FromString(publicRequest.SegmentId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{segment-id}", StringUtils.FromString(publicRequest.SegmentId));
+            request.ResourcePath = "/v1/apps/{application-id}/segments/{segment-id}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

@@ -45,6 +45,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(ContainerSettings requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetCmfcSettings())
+            {
+                context.Writer.WritePropertyName("cmfcSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = CmfcSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.CmfcSettings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetContainer())
             {
                 context.Writer.WritePropertyName("container");
@@ -102,6 +113,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
 
                 var marshaller = Mp4SettingsMarshaller.Instance;
                 marshaller.Marshall(requestObject.Mp4Settings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetMpdSettings())
+            {
+                context.Writer.WritePropertyName("mpdSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = MpdSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.MpdSettings, context);
 
                 context.Writer.WriteObjectEnd();
             }

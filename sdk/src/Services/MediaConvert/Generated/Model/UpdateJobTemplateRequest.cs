@@ -33,11 +33,32 @@ namespace Amazon.MediaConvert.Model
     /// </summary>
     public partial class UpdateJobTemplateRequest : AmazonMediaConvertRequest
     {
+        private AccelerationSettings _accelerationSettings;
         private string _category;
         private string _description;
         private string _name;
+        private int? _priority;
         private string _queue;
         private JobTemplateSettings _settings;
+        private StatusUpdateInterval _statusUpdateInterval;
+
+        /// <summary>
+        /// Gets and sets the property AccelerationSettings. Accelerated transcoding can significantly
+        /// speed up jobs with long, visually complex content. Outputs that use this feature incur
+        /// pro-tier pricing. For information about feature limitations, see the AWS Elemental
+        /// MediaConvert User Guide.
+        /// </summary>
+        public AccelerationSettings AccelerationSettings
+        {
+            get { return this._accelerationSettings; }
+            set { this._accelerationSettings = value; }
+        }
+
+        // Check to see if AccelerationSettings property is set
+        internal bool IsSetAccelerationSettings()
+        {
+            return this._accelerationSettings != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Category. The new category for the job template, if you
@@ -74,6 +95,7 @@ namespace Amazon.MediaConvert.Model
         /// <summary>
         /// Gets and sets the property Name. The name of the job template you are modifying
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -84,6 +106,26 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Priority. Specify the relative priority for this job. In
+        /// any given queue, the service begins processing the job with the highest value first.
+        /// When more than one job has the same priority, the service begins processing the job
+        /// that you submitted first. If you don't specify a priority, the service uses the default
+        /// value 0.
+        /// </summary>
+        [AWSProperty(Min=-50, Max=50)]
+        public int Priority
+        {
+            get { return this._priority.GetValueOrDefault(); }
+            set { this._priority = value; }
+        }
+
+        // Check to see if Priority property is set
+        internal bool IsSetPriority()
+        {
+            return this._priority.HasValue; 
         }
 
         /// <summary>
@@ -103,7 +145,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Settings.
+        /// Gets and sets the property Settings. JobTemplateSettings contains all the transcode
+        /// settings saved in the template that will be applied to jobs created from it.
         /// </summary>
         public JobTemplateSettings Settings
         {
@@ -115,6 +158,25 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetSettings()
         {
             return this._settings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StatusUpdateInterval. Specify how often MediaConvert sends
+        /// STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between
+        /// status updates. MediaConvert sends an update at this interval from the time the service
+        /// begins processing your job to the time it completes the transcode or encounters an
+        /// error.
+        /// </summary>
+        public StatusUpdateInterval StatusUpdateInterval
+        {
+            get { return this._statusUpdateInterval; }
+            set { this._statusUpdateInterval = value; }
+        }
+
+        // Check to see if StatusUpdateInterval property is set
+        internal bool IsSetStatusUpdateInterval()
+        {
+            return this._statusUpdateInterval != null;
         }
 
     }

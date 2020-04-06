@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -45,6 +45,7 @@ namespace Amazon.CloudDirectory.Model
         /// more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DevelopmentSchemaArn
         {
             get { return this._developmentSchemaArn; }
@@ -64,6 +65,7 @@ namespace Amazon.CloudDirectory.Model
         /// Schemas have both a major and minor version associated with them.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public string MinorVersion
         {
             get { return this._minorVersion; }
@@ -83,6 +85,7 @@ namespace Amazon.CloudDirectory.Model
         /// development schema is considered.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public string Name
         {
             get { return this._name; }
@@ -102,6 +105,7 @@ namespace Amazon.CloudDirectory.Model
         /// and minor version associated with them.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public string Version
         {
             get { return this._version; }

@@ -58,15 +58,22 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
             string target = "DynamoDB_20120810.ListBackups";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.0";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-08-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetBackupType())
+                {
+                    context.Writer.WritePropertyName("BackupType");
+                    context.Writer.Write(publicRequest.BackupType);
+                }
+
                 if(publicRequest.IsSetExclusiveStartBackupArn())
                 {
                     context.Writer.WritePropertyName("ExclusiveStartBackupArn");

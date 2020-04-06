@@ -82,10 +82,22 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                     unmarshalledObject.Image = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("Mode", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.Mode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("ModelDataUrl", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ModelDataUrl = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ModelPackageName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ModelPackageName = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

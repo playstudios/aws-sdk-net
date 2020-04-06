@@ -58,13 +58,46 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
 
             if(publicRequest != null)
             {
+                if(publicRequest.IsSetAllowMajorVersionUpgrade())
+                {
+                    request.Parameters.Add("AllowMajorVersionUpgrade", StringUtils.FromBool(publicRequest.AllowMajorVersionUpgrade));
+                }
                 if(publicRequest.IsSetApplyImmediately())
                 {
                     request.Parameters.Add("ApplyImmediately", StringUtils.FromBool(publicRequest.ApplyImmediately));
                 }
+                if(publicRequest.IsSetBacktrackWindow())
+                {
+                    request.Parameters.Add("BacktrackWindow", StringUtils.FromLong(publicRequest.BacktrackWindow));
+                }
                 if(publicRequest.IsSetBackupRetentionPeriod())
                 {
                     request.Parameters.Add("BackupRetentionPeriod", StringUtils.FromInt(publicRequest.BackupRetentionPeriod));
+                }
+                if(publicRequest.IsSetCloudwatchLogsExportConfiguration())
+                {
+                    if(publicRequest.CloudwatchLogsExportConfiguration.IsSetDisableLogTypes())
+                    {
+                        int publicRequestCloudwatchLogsExportConfigurationlistValueIndex = 1;
+                        foreach(var publicRequestCloudwatchLogsExportConfigurationlistValue in publicRequest.CloudwatchLogsExportConfiguration.DisableLogTypes)
+                        {
+                            request.Parameters.Add("CloudwatchLogsExportConfiguration" + "." + "DisableLogTypes" + "." + "member" + "." + publicRequestCloudwatchLogsExportConfigurationlistValueIndex, StringUtils.FromString(publicRequestCloudwatchLogsExportConfigurationlistValue));
+                            publicRequestCloudwatchLogsExportConfigurationlistValueIndex++;
+                        }
+                    }
+                    if(publicRequest.CloudwatchLogsExportConfiguration.IsSetEnableLogTypes())
+                    {
+                        int publicRequestCloudwatchLogsExportConfigurationlistValueIndex = 1;
+                        foreach(var publicRequestCloudwatchLogsExportConfigurationlistValue in publicRequest.CloudwatchLogsExportConfiguration.EnableLogTypes)
+                        {
+                            request.Parameters.Add("CloudwatchLogsExportConfiguration" + "." + "EnableLogTypes" + "." + "member" + "." + publicRequestCloudwatchLogsExportConfigurationlistValueIndex, StringUtils.FromString(publicRequestCloudwatchLogsExportConfigurationlistValue));
+                            publicRequestCloudwatchLogsExportConfigurationlistValueIndex++;
+                        }
+                    }
+                }
+                if(publicRequest.IsSetCopyTagsToSnapshot())
+                {
+                    request.Parameters.Add("CopyTagsToSnapshot", StringUtils.FromBool(publicRequest.CopyTagsToSnapshot));
                 }
                 if(publicRequest.IsSetDBClusterIdentifier())
                 {
@@ -74,9 +107,33 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("DBClusterParameterGroupName", StringUtils.FromString(publicRequest.DBClusterParameterGroupName));
                 }
+                if(publicRequest.IsSetDBInstanceParameterGroupName())
+                {
+                    request.Parameters.Add("DBInstanceParameterGroupName", StringUtils.FromString(publicRequest.DBInstanceParameterGroupName));
+                }
+                if(publicRequest.IsSetDeletionProtection())
+                {
+                    request.Parameters.Add("DeletionProtection", StringUtils.FromBool(publicRequest.DeletionProtection));
+                }
+                if(publicRequest.IsSetDomain())
+                {
+                    request.Parameters.Add("Domain", StringUtils.FromString(publicRequest.Domain));
+                }
+                if(publicRequest.IsSetDomainIAMRoleName())
+                {
+                    request.Parameters.Add("DomainIAMRoleName", StringUtils.FromString(publicRequest.DomainIAMRoleName));
+                }
+                if(publicRequest.IsSetEnableHttpEndpoint())
+                {
+                    request.Parameters.Add("EnableHttpEndpoint", StringUtils.FromBool(publicRequest.EnableHttpEndpoint));
+                }
                 if(publicRequest.IsSetEnableIAMDatabaseAuthentication())
                 {
                     request.Parameters.Add("EnableIAMDatabaseAuthentication", StringUtils.FromBool(publicRequest.EnableIAMDatabaseAuthentication));
+                }
+                if(publicRequest.IsSetEngineVersion())
+                {
+                    request.Parameters.Add("EngineVersion", StringUtils.FromString(publicRequest.EngineVersion));
                 }
                 if(publicRequest.IsSetMasterUserPassword())
                 {
@@ -101,6 +158,29 @@ namespace Amazon.RDS.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetPreferredMaintenanceWindow())
                 {
                     request.Parameters.Add("PreferredMaintenanceWindow", StringUtils.FromString(publicRequest.PreferredMaintenanceWindow));
+                }
+                if(publicRequest.IsSetScalingConfiguration())
+                {
+                    if(publicRequest.ScalingConfiguration.IsSetAutoPause())
+                    {
+                        request.Parameters.Add("ScalingConfiguration" + "." + "AutoPause", StringUtils.FromBool(publicRequest.ScalingConfiguration.AutoPause));
+                    }
+                    if(publicRequest.ScalingConfiguration.IsSetMaxCapacity())
+                    {
+                        request.Parameters.Add("ScalingConfiguration" + "." + "MaxCapacity", StringUtils.FromInt(publicRequest.ScalingConfiguration.MaxCapacity));
+                    }
+                    if(publicRequest.ScalingConfiguration.IsSetMinCapacity())
+                    {
+                        request.Parameters.Add("ScalingConfiguration" + "." + "MinCapacity", StringUtils.FromInt(publicRequest.ScalingConfiguration.MinCapacity));
+                    }
+                    if(publicRequest.ScalingConfiguration.IsSetSecondsUntilAutoPause())
+                    {
+                        request.Parameters.Add("ScalingConfiguration" + "." + "SecondsUntilAutoPause", StringUtils.FromInt(publicRequest.ScalingConfiguration.SecondsUntilAutoPause));
+                    }
+                    if(publicRequest.ScalingConfiguration.IsSetTimeoutAction())
+                    {
+                        request.Parameters.Add("ScalingConfiguration" + "." + "TimeoutAction", StringUtils.FromString(publicRequest.ScalingConfiguration.TimeoutAction));
+                    }
                 }
                 if(publicRequest.IsSetVpcSecurityGroupIds())
                 {

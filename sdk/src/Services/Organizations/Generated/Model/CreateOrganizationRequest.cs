@@ -29,8 +29,8 @@ namespace Amazon.Organizations.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateOrganization operation.
-    /// Creates an AWS organization. The account whose user is calling the CreateOrganization
-    /// operation automatically becomes the <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/orgs_getting-started_concepts.html#account">master
+    /// Creates an AWS organization. The account whose user is calling the <code>CreateOrganization</code>
+    /// operation automatically becomes the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/orgs_getting-started_concepts.html#account">master
     /// account</a> of the new organization.
     /// 
     ///  
@@ -45,8 +45,8 @@ namespace Amazon.Organizations.Model
     /// the new organization is created with all features enabled and service control policies
     /// automatically enabled in the root. If you instead choose to create the organization
     /// supporting only the consolidated billing features by setting the <code>FeatureSet</code>
-    /// parameter to <code>CONSOLIDATED_BILLING"</code>, then no policy types are enabled
-    /// by default and you cannot use organization policies.
+    /// parameter to <code>CONSOLIDATED_BILLING"</code>, no policy types are enabled by default,
+    /// and you can't use organization policies
     /// </para>
     /// </summary>
     public partial class CreateOrganizationRequest : AmazonOrganizationsRequest
@@ -61,16 +61,21 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <i>CONSOLIDATED_BILLING</i>: All member accounts have their bills consolidated to
-        /// and paid by the master account. For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-cb-only">Consolidated
-        /// Billing</a> in the <i>AWS Organizations User Guide</i>.
+        ///  <code>CONSOLIDATED_BILLING</code>: All member accounts have their bills consolidated
+        /// to and paid by the master account. For more information, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-cb-only">Consolidated
+        /// billing</a> in the <i>AWS Organizations User Guide.</i> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  The consolidated billing feature subset isn't available for organizations in the
+        /// AWS GovCloud (US) Region.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <i>ALL</i>: In addition to all the features supported by the consolidated billing
-        /// feature set, the master account can also apply any type of policy to any member account
-        /// in the organization. For more information, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-all">All
-        /// features</a> in the <i>AWS Organizations User Guide</i>.
+        ///  <code>ALL</code>: In addition to all the features supported by the consolidated billing
+        /// feature set, the master account can also apply any policy type to any member account
+        /// in the organization. For more information, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-all">All
+        /// features</a> in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         ///  </li> </ul>
         /// </summary>

@@ -28,10 +28,10 @@ namespace Amazon.Pricing
     ///<summary>
     /// Common exception for the Pricing service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonPricingException : AmazonServiceException
+    public partial class AmazonPricingException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonPricingException
@@ -88,7 +88,7 @@ namespace Amazon.Pricing
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonPricingException class with serialized data.
         /// </summary>

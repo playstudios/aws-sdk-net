@@ -32,7 +32,7 @@ namespace Amazon.SimpleEmail.Model
     /// 
     ///  
     /// <para>
-    /// For information about adding a header using a receipt rule, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-add-header.html">Amazon
+    /// For information about adding a header using a receipt rule, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-add-header.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -48,6 +48,7 @@ namespace Amazon.SimpleEmail.Model
         /// consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HeaderName
         {
             get { return this._headerName; }
@@ -67,6 +68,7 @@ namespace Amazon.SimpleEmail.Model
         /// "\n").
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HeaderValue
         {
             get { return this._headerValue; }

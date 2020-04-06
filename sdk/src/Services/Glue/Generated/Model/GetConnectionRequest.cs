@@ -34,15 +34,17 @@ namespace Amazon.Glue.Model
     public partial class GetConnectionRequest : AmazonGlueRequest
     {
         private string _catalogId;
+        private bool? _hidePassword;
         private string _name;
 
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog in which the connection resides. If none is supplied, the
+        /// The ID of the Data Catalog in which the connection resides. If none is provided, the
         /// AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -56,11 +58,34 @@ namespace Amazon.Glue.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HidePassword. 
+        /// <para>
+        /// Allows you to retrieve the connection metadata without returning the password. For
+        /// instance, the AWS Glue console uses this flag to retrieve the connection, and does
+        /// not display the password. Set this parameter when the caller might not have permission
+        /// to use the AWS KMS key to decrypt the password, but it does have permission to access
+        /// the rest of the connection properties.
+        /// </para>
+        /// </summary>
+        public bool HidePassword
+        {
+            get { return this._hidePassword.GetValueOrDefault(); }
+            set { this._hidePassword = value; }
+        }
+
+        // Check to see if HidePassword property is set
+        internal bool IsSetHidePassword()
+        {
+            return this._hidePassword.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the connection definition to retrieve.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }

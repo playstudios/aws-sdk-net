@@ -29,12 +29,21 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeBuild operation.
-    /// Retrieves properties for a build. To request a build record, specify a build ID. If
-    /// successful, an object containing the build properties is returned.
+    /// Retrieves properties for a custom game build. To request a build resource, specify
+    /// a build ID. If successful, an object containing the build properties is returned.
     /// 
     ///  
     /// <para>
-    /// Build-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-intro.html">
+    /// Upload a Custom Server Build</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -65,9 +74,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property BuildId. 
         /// <para>
-        /// Unique identifier for a build to retrieve properties for.
+        /// A unique identifier for a build to retrieve properties for. You can use either the
+        /// build ID or ARN value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BuildId
         {
             get { return this._buildId; }

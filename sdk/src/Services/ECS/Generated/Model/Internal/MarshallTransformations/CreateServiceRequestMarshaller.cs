@@ -58,15 +58,32 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
             string target = "AmazonEC2ContainerServiceV20141113.CreateService";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-13";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCapacityProviderStrategy())
+                {
+                    context.Writer.WritePropertyName("capacityProviderStrategy");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestCapacityProviderStrategyListValue in publicRequest.CapacityProviderStrategy)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = CapacityProviderStrategyItemMarshaller.Instance;
+                        marshaller.Marshall(publicRequestCapacityProviderStrategyListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetClientToken())
                 {
                     context.Writer.WritePropertyName("clientToken");
@@ -90,10 +107,27 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetDeploymentController())
+                {
+                    context.Writer.WritePropertyName("deploymentController");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = DeploymentControllerMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.DeploymentController, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetDesiredCount())
                 {
                     context.Writer.WritePropertyName("desiredCount");
                     context.Writer.Write(publicRequest.DesiredCount);
+                }
+
+                if(publicRequest.IsSetEnableECSManagedTags())
+                {
+                    context.Writer.WritePropertyName("enableECSManagedTags");
+                    context.Writer.Write(publicRequest.EnableECSManagedTags);
                 }
 
                 if(publicRequest.IsSetHealthCheckGracePeriodSeconds())
@@ -173,10 +207,22 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.PlatformVersion);
                 }
 
+                if(publicRequest.IsSetPropagateTags())
+                {
+                    context.Writer.WritePropertyName("propagateTags");
+                    context.Writer.Write(publicRequest.PropagateTags);
+                }
+
                 if(publicRequest.IsSetRole())
                 {
                     context.Writer.WritePropertyName("role");
                     context.Writer.Write(publicRequest.Role);
+                }
+
+                if(publicRequest.IsSetSchedulingStrategy())
+                {
+                    context.Writer.WritePropertyName("schedulingStrategy");
+                    context.Writer.Write(publicRequest.SchedulingStrategy);
                 }
 
                 if(publicRequest.IsSetServiceName())
@@ -195,6 +241,22 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
 
                         var marshaller = ServiceRegistryMarshaller.Instance;
                         marshaller.Marshall(publicRequestServiceRegistriesListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
 
                         context.Writer.WriteObjectEnd();
                     }

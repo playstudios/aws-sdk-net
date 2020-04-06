@@ -43,6 +43,7 @@ namespace Amazon.StorageGateway.Model
         /// The Amazon Resource Name (ARN) of the virtual tape.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string TapeARN
         {
             get { return this._tapeARN; }
@@ -63,8 +64,8 @@ namespace Amazon.StorageGateway.Model
         /// </para>
         ///  
         /// <para>
-        /// The string format of the tape recovery point time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z'
-        /// format.
+        /// The default time stamp format of the tape recovery point time is in the ISO8601 extended
+        /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
         /// </para>
         /// </summary>
         public DateTime TapeRecoveryPointTime
@@ -98,7 +99,10 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TapeStatus.
+        /// Gets and sets the property TapeStatus. 
+        /// <para>
+        /// The status of the virtual tapes.
+        /// </para>
         /// </summary>
         public string TapeStatus
         {

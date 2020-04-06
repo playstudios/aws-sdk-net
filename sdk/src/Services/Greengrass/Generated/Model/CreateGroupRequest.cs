@@ -30,13 +30,15 @@ namespace Amazon.Greengrass.Model
     /// <summary>
     /// Container for the parameters to the CreateGroup operation.
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion''
-    /// at a later time.
+    /// at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup)
+    /// as a library or command-line application to create and deploy Greengrass groups.
     /// </summary>
     public partial class CreateGroupRequest : AmazonGreengrassRequest
     {
         private string _amznClientToken;
         private GroupVersion _initialVersion;
         private string _name;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets and sets the property AmznClientToken. A client token used to correlate requests
@@ -83,6 +85,21 @@ namespace Amazon.Greengrass.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. Tag(s) to add to the new resource.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

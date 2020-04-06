@@ -58,19 +58,79 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
             string target = "AmazonEC2ContainerServiceV20141113.CreateCluster";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-11-13";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCapacityProviders())
+                {
+                    context.Writer.WritePropertyName("capacityProviders");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestCapacityProvidersListValue in publicRequest.CapacityProviders)
+                    {
+                            context.Writer.Write(publicRequestCapacityProvidersListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetClusterName())
                 {
                     context.Writer.WritePropertyName("clusterName");
                     context.Writer.Write(publicRequest.ClusterName);
+                }
+
+                if(publicRequest.IsSetDefaultCapacityProviderStrategy())
+                {
+                    context.Writer.WritePropertyName("defaultCapacityProviderStrategy");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestDefaultCapacityProviderStrategyListValue in publicRequest.DefaultCapacityProviderStrategy)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = CapacityProviderStrategyItemMarshaller.Instance;
+                        marshaller.Marshall(publicRequestDefaultCapacityProviderStrategyListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetSettings())
+                {
+                    context.Writer.WritePropertyName("settings");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSettingsListValue in publicRequest.Settings)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ClusterSettingMarshaller.Instance;
+                        marshaller.Marshall(publicRequestSettingsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

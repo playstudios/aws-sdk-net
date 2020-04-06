@@ -30,7 +30,7 @@ namespace Amazon.EC2.Model
     /// <summary>
     /// Container for the parameters to the DescribeClassicLinkInstances operation.
     /// Describes one or more of your linked EC2-Classic instances. This request only returns
-    /// information about EC2-Classic instances linked to a VPC through ClassicLink; you cannot
+    /// information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot
     /// use this request to return information about other instances.
     /// </summary>
     public partial class DescribeClassicLinkInstancesRequest : AmazonEC2Request
@@ -56,24 +56,22 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the <code>tag-value</code> filter. For example, if you use both the
-        /// filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned
-        /// both the tag key Purpose (regardless of what the tag's value is), and the tag value
-        /// X (regardless of what the tag's key is). If you want to list only resources where
-        /// Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>vpc-id</code> - The ID of the VPC to which the instance is linked.
         /// </para>
-        ///  </li> <li> 
+        ///  
         /// <para>
         ///  <code>vpc-id</code> - The ID of the VPC that the instance is linked to.
         /// </para>
@@ -112,17 +110,15 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The maximum number of results to return for the request in a single page. The remaining
-        /// results of the initial request can be seen by sending another request with the returned
-        /// <code>NextToken</code> value. This value can be between 5 and 1000; if <code>MaxResults</code>
-        /// is given a value larger than 1000, only 1000 results are returned. You cannot specify
-        /// this parameter and the instance IDs parameter in the same request.
+        /// The maximum number of results to return with a single call. To retrieve the remaining
+        /// results, make another call with the returned <code>nextToken</code> value.
         /// </para>
         ///  
         /// <para>
         /// Constraint: If the value is greater than 1000, we return only 1000 items.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -138,7 +134,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token to retrieve the next page of results.
+        /// The token for the next page of results.
         /// </para>
         /// </summary>
         public string NextToken

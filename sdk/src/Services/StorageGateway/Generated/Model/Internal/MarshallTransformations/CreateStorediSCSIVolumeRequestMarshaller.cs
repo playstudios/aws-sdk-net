@@ -58,10 +58,11 @@ namespace Amazon.StorageGateway.Model.Internal.MarshallTransformations
             string target = "StorageGateway_20130630.CreateStorediSCSIVolume";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2013-06-30";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -77,6 +78,18 @@ namespace Amazon.StorageGateway.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("GatewayARN");
                     context.Writer.Write(publicRequest.GatewayARN);
+                }
+
+                if(publicRequest.IsSetKMSEncrypted())
+                {
+                    context.Writer.WritePropertyName("KMSEncrypted");
+                    context.Writer.Write(publicRequest.KMSEncrypted);
+                }
+
+                if(publicRequest.IsSetKMSKey())
+                {
+                    context.Writer.WritePropertyName("KMSKey");
+                    context.Writer.Write(publicRequest.KMSKey);
                 }
 
                 if(publicRequest.IsSetNetworkInterfaceId())
@@ -95,6 +108,22 @@ namespace Amazon.StorageGateway.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("SnapshotId");
                     context.Writer.Write(publicRequest.SnapshotId);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetTargetName())

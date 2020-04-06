@@ -36,15 +36,14 @@ namespace Amazon.DynamoDBv2.Model
     /// 
     ///  
     /// <para>
-    ///  Once continuous backups and point in time recovery are enabled, you can restore to
-    /// any point in time within <code>EarliestRestorableDateTime</code> and <code>LatestRestorableDateTime</code>.
+    ///  After continuous backups and point in time recovery are enabled, you can restore
+    /// to any point in time within <code>EarliestRestorableDateTime</code> and <code>LatestRestorableDateTime</code>.
     /// 
     /// </para>
     ///  
     /// <para>
     ///  <code>LatestRestorableDateTime</code> is typically 5 minutes before the current time.
-    /// You can restore your table to any point in time during the last 35 days with a 1-minute
-    /// granularity. 
+    /// You can restore your table to any point in time during the last 35 days. 
     /// </para>
     ///  
     /// <para>
@@ -63,6 +62,7 @@ namespace Amazon.DynamoDBv2.Model
         /// point in time recovery settings.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

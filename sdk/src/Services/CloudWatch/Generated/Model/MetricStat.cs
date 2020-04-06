@@ -44,6 +44,7 @@ namespace Amazon.CloudWatch.Model
         /// The metric to return, including the metric name, namespace, and dimensions.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Metric Metric
         {
             get { return this._metric; }
@@ -59,9 +60,34 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property Period. 
         /// <para>
-        /// The period to use when retrieving the metric.
+        /// The granularity, in seconds, of the returned data points. For metrics with regular
+        /// resolution, a period can be as short as one minute (60 seconds) and must be a multiple
+        /// of 60. For high-resolution metrics that are collected at intervals of less than one
+        /// minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution
+        /// metrics are those metrics stored by a <code>PutMetricData</code> call that includes
+        /// a <code>StorageResolution</code> of 1 second.
         /// </para>
+        ///  
+        /// <para>
+        /// If the <code>StartTime</code> parameter specifies a time stamp that is greater than
+        /// 3 hours ago, you must specify the period as follows or no data points in that time
+        /// range is returned:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1 minute).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public int Period
         {
             get { return this._period.GetValueOrDefault(); }
@@ -80,6 +106,7 @@ namespace Amazon.CloudWatch.Model
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Stat
         {
             get { return this._stat; }
@@ -95,7 +122,17 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property Unit. 
         /// <para>
-        /// The unit to use for the returned data points.
+        /// When you are using a <code>Put</code> operation, this defines what unit you want to
+        /// use when storing the metric.
+        /// </para>
+        ///  
+        /// <para>
+        /// In a <code>Get</code> operation, if you omit <code>Unit</code> then all data that
+        /// was collected with any unit is returned, along with the corresponding units that were
+        /// specified when the data was reported to CloudWatch. If you specify a unit, the operation
+        /// returns only data data that was collected with that unit specified. If you specify
+        /// a unit that does not match the data collected, the results of the operation are null.
+        /// CloudWatch does not perform unit conversions.
         /// </para>
         /// </summary>
         public StandardUnit Unit

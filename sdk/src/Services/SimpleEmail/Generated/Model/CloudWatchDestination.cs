@@ -35,7 +35,7 @@ namespace Amazon.SimpleEmail.Model
     /// <para>
     /// Event destinations, such as Amazon CloudWatch, are associated with configuration sets,
     /// which enable you to publish email sending events. For information about using configuration
-    /// sets, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+    /// sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -50,6 +50,7 @@ namespace Amazon.SimpleEmail.Model
         /// events to Amazon CloudWatch.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<CloudWatchDimensionConfiguration> DimensionConfigurations
         {
             get { return this._dimensionConfigurations; }

@@ -42,7 +42,7 @@ namespace Amazon.RDS.Model
     ///  
     /// <para>
     /// To add or remove access for an AWS account to copy or restore a manual DB snapshot,
-    /// or to make the manual DB snapshot public or private, use the <a>ModifyDBSnapshotAttribute</a>
+    /// or to make the manual DB snapshot public or private, use the <code>ModifyDBSnapshotAttribute</code>
     /// API action.
     /// </para>
     /// </summary>
@@ -56,6 +56,7 @@ namespace Amazon.RDS.Model
         /// The identifier for the DB snapshot to describe the attributes for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBSnapshotIdentifier
         {
             get { return this._dbSnapshotIdentifier; }

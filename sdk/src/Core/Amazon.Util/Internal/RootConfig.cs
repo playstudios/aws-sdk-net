@@ -12,6 +12,7 @@ namespace Amazon.Util.Internal
     /// </summary>
     public partial class RootConfig
     {
+        public CSMConfig CSMConfig { get; set; }
         public LoggingConfig Logging { get; private set; }
         public ProxyConfig Proxy { get; private set; }
         public string EndpointDefinition { get; set; }
@@ -38,11 +39,20 @@ namespace Amazon.Util.Internal
 
         public bool CorrectForClockSkew { get; set; }
 
+#if BCL || NETSTANDARD
+        public bool UseAlternateUserAgentHeader { get; set; }
+#endif
+
         public string ApplicationName { get; set; }
+
+        public bool? CSMEnabled { get; set; }
+        public string CSMClientId { get; set; }
+        public int? CSMPort { get; set; }
 
         private const string _rootAwsSectionName = "aws";
         public RootConfig()
         {
+            CSMConfig = new CSMConfig();
             Logging = new LoggingConfig();
             Proxy = new ProxyConfig();
 
@@ -53,12 +63,12 @@ namespace Amazon.Util.Internal
             UseSdkCache = AWSConfigs._useSdkCache;
             CorrectForClockSkew = true;
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
             var root = AWSConfigs.GetSection<AWSSection>(_rootAwsSectionName);
 
             Logging.Configure(root.Logging);
             Proxy.Configure(root.Proxy);
-
+            CSMConfig.Configure(root.CSMConfig);
             ServiceSections = root.ServiceSections;
             if (root.UseSdkCache.HasValue)
                 UseSdkCache = root.UseSdkCache.Value;

@@ -128,7 +128,7 @@ namespace Amazon.WAFRegional.Model
     ///  </li> </ol> 
     /// <para>
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-    /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+    /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
     /// Guide</a>.
     /// </para>
     /// </summary>
@@ -139,6 +139,7 @@ namespace Amazon.WAFRegional.Model
         private string _name;
         private RateKey _rateKey;
         private long? _rateLimit;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ChangeToken. 
@@ -148,6 +149,7 @@ namespace Amazon.WAFRegional.Model
         /// information, see <a>GetChangeTokenStatus</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }
@@ -164,10 +166,13 @@ namespace Amazon.WAFRegional.Model
         /// Gets and sets the property MetricName. 
         /// <para>
         /// A friendly name or description for the metrics for this <code>RateBasedRule</code>.
-        /// The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't
-        /// contain whitespace. You can't change the name of the metric after you create the <code>RateBasedRule</code>.
+        /// The name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length
+        /// 128 and minimum length one. It can't contain whitespace or metric names reserved for
+        /// AWS WAF, including "All" and "Default_Action." You can't change the name of the metric
+        /// after you create the <code>RateBasedRule</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -187,6 +192,7 @@ namespace Amazon.WAFRegional.Model
         /// of a <code>RateBasedRule</code> after you create it.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -208,6 +214,7 @@ namespace Amazon.WAFRegional.Model
         /// IP address are subject to the <code>RateLimit</code> that is specified in the <code>RateBasedRule</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RateKey RateKey
         {
             get { return this._rateKey; }
@@ -229,6 +236,7 @@ namespace Amazon.WAFRegional.Model
         /// in the rule are also met, AWS WAF triggers the action that is specified for this rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=100, Max=2000000000)]
         public long RateLimit
         {
             get { return this._rateLimit.GetValueOrDefault(); }
@@ -239,6 +247,22 @@ namespace Amazon.WAFRegional.Model
         internal bool IsSetRateLimit()
         {
             return this._rateLimit.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags.
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

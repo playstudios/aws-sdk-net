@@ -29,7 +29,7 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateMaintenanceWindowTask operation.
-    /// Modifies a task assigned to a Maintenance Window. You can't change the task type,
+    /// Modifies a task assigned to a maintenance window. You can't change the task type,
     /// but you can change the following values:
     /// 
     ///  <ul> <li> 
@@ -88,6 +88,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The new task description to specify.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Description
         {
             get { return this._description; }
@@ -110,7 +111,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to contain
         /// logs, instead use the <code>OutputS3BucketName</code> and <code>OutputS3KeyPrefix</code>
         /// options in the <code>TaskInvocationParameters</code> structure. For information about
-        /// how Systems Manager handles these options for the supported Maintenance Window task
+        /// how Systems Manager handles these options for the supported maintenance window task
         /// types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
         /// </para>
         ///  </note>
@@ -134,6 +135,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// is the number of targets that are allowed to run this task in parallel.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxConcurrency
         {
             get { return this._maxConcurrency; }
@@ -153,6 +155,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// number of errors that are allowed before the task stops being scheduled.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxErrors
         {
             get { return this._maxErrors; }
@@ -171,6 +174,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The new task name to specify.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -190,6 +194,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// that have the same priority are scheduled in parallel.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int Priority
         {
             get { return this._priority.GetValueOrDefault(); }
@@ -225,9 +230,28 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ServiceRoleArn. 
         /// <para>
-        /// The IAM service role ARN to modify. The system assumes this role during task execution.
-        /// 
+        /// The ARN of the IAM service role for Systems Manager to assume when running a maintenance
+        /// window task. If you do not specify a service role ARN, Systems Manager uses your account's
+        /// service-linked role. If no service-linked role for Systems Manager exists in your
+        /// account, it is created when you run <code>RegisterTaskWithMaintenanceWindow</code>.
         /// </para>
+        ///  
+        /// <para>
+        /// For more information, see the following topics in the in the <i>AWS Systems Manager
+        /// User Guide</i>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions">Service-Linked
+        /// Role Permissions for Systems Manager</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role">Should
+        /// I Use a Service-Linked Role or a Custom Service Role to Run Maintenance Window Tasks?
+        /// </a> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public string ServiceRoleArn
         {
@@ -248,6 +272,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Tags are specified using Key=tag_name,Values=tag_value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }
@@ -266,6 +291,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The task ARN to modify.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string TaskArn
         {
             get { return this._taskArn; }
@@ -307,7 +333,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  <code>TaskParameters</code> has been deprecated. To specify parameters to pass to
         /// a task when it runs, instead use the <code>Parameters</code> option in the <code>TaskInvocationParameters</code>
         /// structure. For information about how Systems Manager handles these options for the
-        /// supported Maintenance Window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+        /// supported maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
         /// </para>
         ///  </note> 
         /// <para>
@@ -337,9 +363,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowId. 
         /// <para>
-        /// The Maintenance Window ID that contains the task to modify.
+        /// The maintenance window ID that contains the task to modify.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=20)]
         public string WindowId
         {
             get { return this._windowId; }
@@ -358,6 +385,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The task ID to modify.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=36, Max=36)]
         public string WindowTaskId
         {
             get { return this._windowTaskId; }

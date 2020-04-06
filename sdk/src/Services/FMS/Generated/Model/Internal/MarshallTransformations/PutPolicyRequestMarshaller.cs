@@ -58,10 +58,11 @@ namespace Amazon.FMS.Model.Internal.MarshallTransformations
             string target = "AWSFMS_20180101.PutPolicy";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2018-01-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -76,6 +77,22 @@ namespace Amazon.FMS.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.Policy, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetTagList())
+                {
+                    context.Writer.WritePropertyName("TagList");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagListListValue in publicRequest.TagList)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagListListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

@@ -25,6 +25,72 @@ namespace Amazon.DirectoryService
 {
 
     /// <summary>
+    /// Constants used for properties of type CertificateState.
+    /// </summary>
+    public class CertificateState : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Deregistered for CertificateState
+        /// </summary>
+        public static readonly CertificateState Deregistered = new CertificateState("Deregistered");
+        /// <summary>
+        /// Constant DeregisterFailed for CertificateState
+        /// </summary>
+        public static readonly CertificateState DeregisterFailed = new CertificateState("DeregisterFailed");
+        /// <summary>
+        /// Constant Deregistering for CertificateState
+        /// </summary>
+        public static readonly CertificateState Deregistering = new CertificateState("Deregistering");
+        /// <summary>
+        /// Constant Registered for CertificateState
+        /// </summary>
+        public static readonly CertificateState Registered = new CertificateState("Registered");
+        /// <summary>
+        /// Constant RegisterFailed for CertificateState
+        /// </summary>
+        public static readonly CertificateState RegisterFailed = new CertificateState("RegisterFailed");
+        /// <summary>
+        /// Constant Registering for CertificateState
+        /// </summary>
+        public static readonly CertificateState Registering = new CertificateState("Registering");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public CertificateState(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static CertificateState FindValue(string value)
+        {
+            return FindValue<CertificateState>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator CertificateState(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type DirectoryEdition.
     /// </summary>
     public class DirectoryEdition : ConstantClass
@@ -225,6 +291,10 @@ namespace Amazon.DirectoryService
         /// </summary>
         public static readonly DirectoryType MicrosoftAD = new DirectoryType("MicrosoftAD");
         /// <summary>
+        /// Constant SharedMicrosoftAD for DirectoryType
+        /// </summary>
+        public static readonly DirectoryType SharedMicrosoftAD = new DirectoryType("SharedMicrosoftAD");
+        /// <summary>
         /// Constant SimpleAD for DirectoryType
         /// </summary>
         public static readonly DirectoryType SimpleAD = new DirectoryType("SimpleAD");
@@ -394,6 +464,110 @@ namespace Amazon.DirectoryService
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator IpRouteStatusMsg(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type LDAPSStatus.
+    /// </summary>
+    public class LDAPSStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Disabled for LDAPSStatus
+        /// </summary>
+        public static readonly LDAPSStatus Disabled = new LDAPSStatus("Disabled");
+        /// <summary>
+        /// Constant Enabled for LDAPSStatus
+        /// </summary>
+        public static readonly LDAPSStatus Enabled = new LDAPSStatus("Enabled");
+        /// <summary>
+        /// Constant EnableFailed for LDAPSStatus
+        /// </summary>
+        public static readonly LDAPSStatus EnableFailed = new LDAPSStatus("EnableFailed");
+        /// <summary>
+        /// Constant Enabling for LDAPSStatus
+        /// </summary>
+        public static readonly LDAPSStatus Enabling = new LDAPSStatus("Enabling");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public LDAPSStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static LDAPSStatus FindValue(string value)
+        {
+            return FindValue<LDAPSStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator LDAPSStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type LDAPSType.
+    /// </summary>
+    public class LDAPSType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Client for LDAPSType
+        /// </summary>
+        public static readonly LDAPSType Client = new LDAPSType("Client");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public LDAPSType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static LDAPSType FindValue(string value)
+        {
+            return FindValue<LDAPSType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator LDAPSType(string value)
         {
             return FindValue(value);
         }
@@ -637,6 +811,184 @@ namespace Amazon.DirectoryService
 
 
     /// <summary>
+    /// Constants used for properties of type SelectiveAuth.
+    /// </summary>
+    public class SelectiveAuth : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Disabled for SelectiveAuth
+        /// </summary>
+        public static readonly SelectiveAuth Disabled = new SelectiveAuth("Disabled");
+        /// <summary>
+        /// Constant Enabled for SelectiveAuth
+        /// </summary>
+        public static readonly SelectiveAuth Enabled = new SelectiveAuth("Enabled");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public SelectiveAuth(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static SelectiveAuth FindValue(string value)
+        {
+            return FindValue<SelectiveAuth>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator SelectiveAuth(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ShareMethod.
+    /// </summary>
+    public class ShareMethod : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant HANDSHAKE for ShareMethod
+        /// </summary>
+        public static readonly ShareMethod HANDSHAKE = new ShareMethod("HANDSHAKE");
+        /// <summary>
+        /// Constant ORGANIZATIONS for ShareMethod
+        /// </summary>
+        public static readonly ShareMethod ORGANIZATIONS = new ShareMethod("ORGANIZATIONS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ShareMethod(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ShareMethod FindValue(string value)
+        {
+            return FindValue<ShareMethod>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ShareMethod(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type ShareStatus.
+    /// </summary>
+    public class ShareStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Deleted for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus Deleted = new ShareStatus("Deleted");
+        /// <summary>
+        /// Constant Deleting for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus Deleting = new ShareStatus("Deleting");
+        /// <summary>
+        /// Constant PendingAcceptance for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus PendingAcceptance = new ShareStatus("PendingAcceptance");
+        /// <summary>
+        /// Constant Rejected for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus Rejected = new ShareStatus("Rejected");
+        /// <summary>
+        /// Constant RejectFailed for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus RejectFailed = new ShareStatus("RejectFailed");
+        /// <summary>
+        /// Constant Rejecting for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus Rejecting = new ShareStatus("Rejecting");
+        /// <summary>
+        /// Constant Shared for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus Shared = new ShareStatus("Shared");
+        /// <summary>
+        /// Constant ShareFailed for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus ShareFailed = new ShareStatus("ShareFailed");
+        /// <summary>
+        /// Constant Sharing for ShareStatus
+        /// </summary>
+        public static readonly ShareStatus Sharing = new ShareStatus("Sharing");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public ShareStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static ShareStatus FindValue(string value)
+        {
+            return FindValue<ShareStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator ShareStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type SnapshotStatus.
     /// </summary>
     public class SnapshotStatus : ConstantClass
@@ -734,6 +1086,52 @@ namespace Amazon.DirectoryService
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator SnapshotType(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type TargetType.
+    /// </summary>
+    public class TargetType : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant ACCOUNT for TargetType
+        /// </summary>
+        public static readonly TargetType ACCOUNT = new TargetType("ACCOUNT");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TargetType(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TargetType FindValue(string value)
+        {
+            return FindValue<TargetType>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TargetType(string value)
         {
             return FindValue(value);
         }
@@ -879,6 +1277,18 @@ namespace Amazon.DirectoryService
         /// </summary>
         public static readonly TrustState Failed = new TrustState("Failed");
         /// <summary>
+        /// Constant Updated for TrustState
+        /// </summary>
+        public static readonly TrustState Updated = new TrustState("Updated");
+        /// <summary>
+        /// Constant UpdateFailed for TrustState
+        /// </summary>
+        public static readonly TrustState UpdateFailed = new TrustState("UpdateFailed");
+        /// <summary>
+        /// Constant Updating for TrustState
+        /// </summary>
+        public static readonly TrustState Updating = new TrustState("Updating");
+        /// <summary>
         /// Constant Verified for TrustState
         /// </summary>
         public static readonly TrustState Verified = new TrustState("Verified");
@@ -932,6 +1342,10 @@ namespace Amazon.DirectoryService
     public class TrustType : ConstantClass
     {
 
+        /// <summary>
+        /// Constant External for TrustType
+        /// </summary>
+        public static readonly TrustType External = new TrustType("External");
         /// <summary>
         /// Constant Forest for TrustType
         /// </summary>

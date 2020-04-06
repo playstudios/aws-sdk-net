@@ -35,10 +35,14 @@ namespace Amazon.MediaLive.Model
     {
         private List<InputDestinationRequest> _destinations = new List<InputDestinationRequest>();
         private List<string> _inputSecurityGroups = new List<string>();
+        private List<MediaConnectFlowRequest> _mediaConnectFlows = new List<MediaConnectFlowRequest>();
         private string _name;
         private string _requestId;
+        private string _roleArn;
         private List<InputSourceRequest> _sources = new List<InputSourceRequest>();
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private InputType _type;
+        private InputVpcRequest _vpc;
 
         /// <summary>
         /// Gets and sets the property Destinations. Destination settings for PUSH type inputs.
@@ -69,6 +73,25 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetInputSecurityGroups()
         {
             return this._inputSecurityGroups != null && this._inputSecurityGroups.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MediaConnectFlows. A list of the MediaConnect Flows that
+        /// you want to use in this input. You can specify as few as oneFlow and presently, as
+        /// many as two. The only requirement is when you have more than one is that each Flow
+        /// is in aseparate Availability Zone as this ensures your EML input is redundant to AZ
+        /// issues.
+        /// </summary>
+        public List<MediaConnectFlowRequest> MediaConnectFlows
+        {
+            get { return this._mediaConnectFlows; }
+            set { this._mediaConnectFlows = value; }
+        }
+
+        // Check to see if MediaConnectFlows property is set
+        internal bool IsSetMediaConnectFlows()
+        {
+            return this._mediaConnectFlows != null && this._mediaConnectFlows.Count > 0; 
         }
 
         /// <summary>
@@ -103,6 +126,22 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RoleArn. The Amazon Resource Name (ARN) of the role this
+        /// input assumes during and after creation.
+        /// </summary>
+        public string RoleArn
+        {
+            get { return this._roleArn; }
+            set { this._roleArn = value; }
+        }
+
+        // Check to see if RoleArn property is set
+        internal bool IsSetRoleArn()
+        {
+            return this._roleArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Sources. The source URLs for a PULL-type input. Every PULL
         /// type input needsexactly two source URLs for redundancy.Only specify sources for PULL
         /// type Inputs. Leave Destinations empty.
@@ -120,6 +159,21 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. A collection of key-value pairs.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Type.
         /// </summary>
         public InputType Type
@@ -132,6 +186,21 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetType()
         {
             return this._type != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Vpc.
+        /// </summary>
+        public InputVpcRequest Vpc
+        {
+            get { return this._vpc; }
+            set { this._vpc = value; }
+        }
+
+        // Check to see if Vpc property is set
+        internal bool IsSetVpc()
+        {
+            return this._vpc != null;
         }
 
     }

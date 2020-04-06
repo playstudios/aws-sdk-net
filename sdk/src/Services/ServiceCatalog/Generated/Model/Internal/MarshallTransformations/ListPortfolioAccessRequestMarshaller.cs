@@ -58,10 +58,11 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
             string target = "AWS242ServiceCatalogService.ListPortfolioAccess";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-12-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,24 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("AcceptLanguage");
                     context.Writer.Write(publicRequest.AcceptLanguage);
+                }
+
+                if(publicRequest.IsSetOrganizationParentId())
+                {
+                    context.Writer.WritePropertyName("OrganizationParentId");
+                    context.Writer.Write(publicRequest.OrganizationParentId);
+                }
+
+                if(publicRequest.IsSetPageSize())
+                {
+                    context.Writer.WritePropertyName("PageSize");
+                    context.Writer.Write(publicRequest.PageSize);
+                }
+
+                if(publicRequest.IsSetPageToken())
+                {
+                    context.Writer.WritePropertyName("PageToken");
+                    context.Writer.Write(publicRequest.PageToken);
                 }
 
                 if(publicRequest.IsSetPortfolioId())

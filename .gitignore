@@ -3,6 +3,7 @@
 ######################################
 *.suo
 *.user
+**/.idea/**
 
 ####################
 # Build/Test folders
@@ -28,6 +29,7 @@ sdk/.vs/**
 docgenerator/.vs/**
 
 Deployment/**
+NuGetDownloads/**
 DocDeployment/**
 DocBuildAssemblies/**
 Include/**

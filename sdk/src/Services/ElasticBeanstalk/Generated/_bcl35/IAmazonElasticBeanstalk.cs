@@ -50,7 +50,7 @@ namespace Amazon.ElasticBeanstalk
     ///  
     /// <para>
     /// For a list of region-specific endpoints that AWS Elastic Beanstalk supports, go to
-    /// <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region">Regions
+    /// <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region">Regions
     /// and Endpoints</a> in the <i>Amazon Web Services Glossary</i>.
     /// </para>
     /// </summary>
@@ -197,7 +197,7 @@ namespace Amazon.ElasticBeanstalk
         /// application. Takes a list of version labels that specify application source bundles
         /// for each of the environments to create or update. The name of each environment and
         /// other required information must be included in the source bundles in an environment
-        /// manifest named <code>env.yaml</code>. See <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-mgmt-compose.html">Compose
+        /// manifest named <code>env.yaml</code>. See <a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-mgmt-compose.html">Compose
         /// Environments</a> for details.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ComposeEnvironments service method.</param>
@@ -390,6 +390,11 @@ namespace Amazon.ElasticBeanstalk
         /// and are used to deploy different versions of the application with the same configuration
         /// settings.
         /// 
+        ///  
+        /// <para>
+        /// Templates aren't associated with any environment. The <code>EnvironmentName</code>
+        /// response element is always <code>null</code>.
+        /// </para>
         ///  
         /// <para>
         /// Related Topics
@@ -1458,8 +1463,8 @@ namespace Amazon.ElasticBeanstalk
 
 
         /// <summary>
-        /// Retrives detailed information about the health of instances in your AWS Elastic Beanstalk.
-        /// This operation requires <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html">enhanced
+        /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk.
+        /// This operation requires <a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html">enhanced
         /// health reporting</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeInstancesHealth service method.</param>
@@ -1655,7 +1660,7 @@ namespace Amazon.ElasticBeanstalk
         ///  
         /// <para>
         /// Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments.
-        /// For details about environment tagging, see <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html">Tagging
+        /// For details about environment tagging, see <a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html">Tagging
         /// Resources in Your Elastic Beanstalk Environment</a>.
         /// </para>
         /// </summary>
@@ -2256,7 +2261,7 @@ namespace Amazon.ElasticBeanstalk
         ///  
         /// <para>
         /// Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments.
-        /// For details about environment tagging, see <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html">Tagging
+        /// For details about environment tagging, see <a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html">Tagging
         /// Resources in Your Elastic Beanstalk Environment</a>.
         /// </para>
         ///  
@@ -2276,7 +2281,7 @@ namespace Amazon.ElasticBeanstalk
         /// </para>
         ///  </dd> </dl> 
         /// <para>
-        /// For details about creating a custom user policy, see <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies">Creating
+        /// For details about creating a custom user policy, see <a href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies">Creating
         /// a Custom User Policy</a>.
         /// </para>
         /// </summary>

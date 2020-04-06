@@ -28,10 +28,10 @@ namespace Amazon.MQ
     ///<summary>
     /// Common exception for the MQ service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonMQException : AmazonServiceException
+    public partial class AmazonMQException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonMQException
@@ -88,7 +88,7 @@ namespace Amazon.MQ
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonMQException class with serialized data.
         /// </summary>

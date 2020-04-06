@@ -42,6 +42,7 @@ namespace Amazon.IoT.Model
         /// The name of the policy to attach.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -57,9 +58,11 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Target. 
         /// <para>
-        /// The identity to which the policy is attached.
+        /// The <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-security-identity.html">identity</a>
+        /// to which the policy is attached.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Target
         {
             get { return this._target; }

@@ -70,12 +70,11 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property AmiVersion. 
         /// <para>
-        /// Used only for version 2.x and 3.x of Amazon EMR. The version of the AMI used to initialize
-        /// Amazon EC2 instances in the job flow. For a list of AMI versions supported by Amazon
-        /// EMR, see <a href="http://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf#nameddest=ami-versions-supported">AMI
-        /// Versions Supported in EMR</a> in the <i>Amazon EMR Developer Guide.</i> 
+        /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and
+        /// later, <code>ReleaseLabel</code> is used. To specify a custom AMI, use <code>CustomAmiID</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string AmiVersion
         {
             get { return this._amiVersion; }
@@ -96,6 +95,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// permissions it needs to launch and terminate EC2 instances in an instance group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10280)]
         public string AutoScalingRole
         {
             get { return this._autoScalingRole; }
@@ -132,6 +132,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// Describes the execution status of the job flow.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public JobFlowExecutionStatusDetail ExecutionStatusDetail
         {
             get { return this._executionStatusDetail; }
@@ -150,6 +151,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// Describes the Amazon EC2 instances of the job flow.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public JobFlowInstancesDetail Instances
         {
             get { return this._instances; }
@@ -168,6 +170,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The job flow identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string JobFlowId
         {
             get { return this._jobFlowId; }
@@ -187,6 +190,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// of the job flow assume this role.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10280)]
         public string JobFlowRole
         {
             get { return this._jobFlowRole; }
@@ -205,6 +209,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The location in Amazon S3 where log files for the job are stored.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10280)]
         public string LogUri
         {
             get { return this._logUri; }
@@ -223,6 +228,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The name of the job flow.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -270,6 +276,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// on your behalf.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10280)]
         public string ServiceRole
         {
             get { return this._serviceRole; }
@@ -322,12 +329,14 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property VisibleToAllUsers. 
         /// <para>
-        /// Specifies whether the cluster is visible to all IAM users of the AWS account associated
-        /// with the cluster. If this value is set to <code>true</code>, all IAM users of that
-        /// AWS account can view and (if they have the proper policy permissions set) manage the
-        /// cluster. If it is set to <code>false</code>, only the IAM user that created the cluster
-        /// can view and manage it. This value can be changed using the <a>SetVisibleToAllUsers</a>
-        /// action.
+        /// Indicates whether the cluster is visible to all IAM users of the AWS account associated
+        /// with the cluster. The default value, <code>true</code>, indicates that all IAM users
+        /// in the AWS account can perform cluster actions if they have the proper IAM policy
+        /// permissions. If this value is <code>false</code>, only the IAM user that created the
+        /// cluster can perform actions. This value can be changed on a running cluster by using
+        /// the <a>SetVisibleToAllUsers</a> action. You can override the default value of <code>true</code>
+        /// when you create a cluster by using the <code>VisibleToAllUsers</code> parameter of
+        /// the <code>RunJobFlow</code> action.
         /// </para>
         /// </summary>
         public bool VisibleToAllUsers

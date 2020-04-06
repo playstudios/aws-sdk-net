@@ -35,14 +35,18 @@ namespace Amazon.MediaConvert.Model
         private Dictionary<string, AudioSelectorGroup> _audioSelectorGroups = new Dictionary<string, AudioSelectorGroup>();
         private Dictionary<string, AudioSelector> _audioSelectors = new Dictionary<string, AudioSelector>();
         private Dictionary<string, CaptionSelector> _captionSelectors = new Dictionary<string, CaptionSelector>();
+        private Rectangle _crop;
         private InputDeblockFilter _deblockFilter;
         private InputDenoiseFilter _denoiseFilter;
         private InputFilterEnable _filterEnable;
         private int? _filterStrength;
+        private ImageInserter _imageInserter;
         private List<InputClipping> _inputClippings = new List<InputClipping>();
+        private Rectangle _position;
         private int? _programNumber;
         private InputPsiControl _psiControl;
         private InputTimecodeSource _timecodeSource;
+        private string _timecodeStart;
         private VideoSelector _videoSelector;
 
         /// <summary>
@@ -97,7 +101,27 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DeblockFilter.
+        /// Gets and sets the property Crop. Use Cropping selection (crop) to specify the video
+        /// area that the service will include in the output video frame. If you specify a value
+        /// here, it will override any value that you specify in the output setting Cropping selection
+        /// (crop).
+        /// </summary>
+        public Rectangle Crop
+        {
+            get { return this._crop; }
+            set { this._crop = value; }
+        }
+
+        // Check to see if Crop property is set
+        internal bool IsSetCrop()
+        {
+            return this._crop != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeblockFilter. Enable Deblock (InputDeblockFilter) to produce
+        /// smoother motion in the output. Default is disabled. Only manaully controllable for
+        /// MPEG2 and uncompressed video inputs.
         /// </summary>
         public InputDeblockFilter DeblockFilter
         {
@@ -112,7 +136,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DenoiseFilter.
+        /// Gets and sets the property DenoiseFilter. Enable Denoise (InputDenoiseFilter) to filter
+        /// noise from the input.  Default is disabled. Only applicable to MPEG2, H.264, H.265,
+        /// and uncompressed video inputs.
         /// </summary>
         public InputDenoiseFilter DenoiseFilter
         {
@@ -127,7 +153,13 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FilterEnable.
+        /// Gets and sets the property FilterEnable. Use Filter enable (InputFilterEnable) to
+        /// specify how the transcoding service applies the denoise and deblock filters. You must
+        /// also enable the filters separately, with Denoise (InputDenoiseFilter) and Deblock
+        /// (InputDeblockFilter). * Auto - The transcoding service determines whether to apply
+        /// filtering, depending on input type and quality. * Disable - The input is not filtered.
+        /// This is true even if you use the API to enable them in (InputDeblockFilter) and (InputDeblockFilter).
+        /// * Force - The in put is filtered regardless of input type.
         /// </summary>
         public InputFilterEnable FilterEnable
         {
@@ -146,6 +178,7 @@ namespace Amazon.MediaConvert.Model
         /// adjust the magnitude the input filter settings (Deblock and Denoise). The range is
         /// -5 to 5. Default is 0.
         /// </summary>
+        [AWSProperty(Min=-5, Max=5)]
         public int FilterStrength
         {
             get { return this._filterStrength.GetValueOrDefault(); }
@@ -156,6 +189,23 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetFilterStrength()
         {
             return this._filterStrength.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ImageInserter. Enable the image inserter feature to include
+        /// a graphic overlay on your video. Enable or disable this feature for each input individually.
+        /// This setting is disabled by default.
+        /// </summary>
+        public ImageInserter ImageInserter
+        {
+            get { return this._imageInserter; }
+            set { this._imageInserter = value; }
+        }
+
+        // Check to see if ImageInserter property is set
+        internal bool IsSetImageInserter()
+        {
+            return this._imageInserter != null;
         }
 
         /// <summary>
@@ -179,11 +229,33 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Position. Use Selection placement (position) to define
+        /// the video area in your output frame. The area outside of the rectangle that you specify
+        /// here is black. If you specify a value here, it will override any value that you specify
+        /// in the output setting Selection placement (position). If you specify a value here,
+        /// this will override any AFD values in your input, even if you set Respond to AFD (RespondToAfd)
+        /// to Respond (RESPOND). If you specify a value here, this will ignore anything that
+        /// you specify for the setting Scaling Behavior (scalingBehavior).
+        /// </summary>
+        public Rectangle Position
+        {
+            get { return this._position; }
+            set { this._position = value; }
+        }
+
+        // Check to see if Position property is set
+        internal bool IsSetPosition()
+        {
+            return this._position != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ProgramNumber. Use Program (programNumber) to select a
         /// specific program from within a multi-program transport stream. Note that Quad 4K is
         /// not currently supported. Default is the first program within the transport stream.
         /// If the program you specify doesn't exist, the transcoding service will use this default.
         /// </summary>
+        [AWSProperty(Min=1, Max=2147483647)]
         public int ProgramNumber
         {
             get { return this._programNumber.GetValueOrDefault(); }
@@ -197,7 +269,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PsiControl.
+        /// Gets and sets the property PsiControl. Set PSI control (InputPsiControl) for transport
+        /// stream inputs to specify which data the demux process to scans. * Ignore PSI - Scan
+        /// all PIDs for audio and video. * Use PSI - Scan only PSI data.
         /// </summary>
         public InputPsiControl PsiControl
         {
@@ -212,7 +286,16 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TimecodeSource.
+        /// Gets and sets the property TimecodeSource. Use this Timecode source setting, located
+        /// under the input settings (InputTimecodeSource), to specify how the service counts
+        /// input video frames. This input frame count affects only the behavior of features that
+        /// apply to a single input at a time, such as input clipping and synchronizing some captions
+        /// formats. Choose Embedded (EMBEDDED) to use the timecodes in your input video. Choose
+        /// Start at zero (ZEROBASED) to start the first frame at zero. Choose Specified start
+        /// (SPECIFIEDSTART) to start the first frame at the timecode that you specify in the
+        /// setting Start timecode (timecodeStart). If you don't specify a value for Timecode
+        /// source, the service will use Embedded by default. For more information about timecodes,
+        /// see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         /// </summary>
         public InputTimecodeSource TimecodeSource
         {
@@ -227,7 +310,26 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VideoSelector.
+        /// Gets and sets the property TimecodeStart. Specify the timecode that you want the service
+        /// to use for this input's initial frame. To use this setting, you must set the Timecode
+        /// source setting, located under the input settings (InputTimecodeSource), to Specified
+        /// start (SPECIFIEDSTART). For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
+        /// </summary>
+        [AWSProperty(Min=11, Max=11)]
+        public string TimecodeStart
+        {
+            get { return this._timecodeStart; }
+            set { this._timecodeStart = value; }
+        }
+
+        // Check to see if TimecodeStart property is set
+        internal bool IsSetTimecodeStart()
+        {
+            return this._timecodeStart != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VideoSelector. Selector for video.
         /// </summary>
         public VideoSelector VideoSelector
         {

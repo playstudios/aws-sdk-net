@@ -58,15 +58,44 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
             string target = "SageMaker.CreateNotebookInstance";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-24";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAcceleratorTypes())
+                {
+                    context.Writer.WritePropertyName("AcceleratorTypes");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAcceleratorTypesListValue in publicRequest.AcceleratorTypes)
+                    {
+                            context.Writer.Write(publicRequestAcceleratorTypesListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetAdditionalCodeRepositories())
+                {
+                    context.Writer.WritePropertyName("AdditionalCodeRepositories");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAdditionalCodeRepositoriesListValue in publicRequest.AdditionalCodeRepositories)
+                    {
+                            context.Writer.Write(publicRequestAdditionalCodeRepositoriesListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetDefaultCodeRepository())
+                {
+                    context.Writer.WritePropertyName("DefaultCodeRepository");
+                    context.Writer.Write(publicRequest.DefaultCodeRepository);
+                }
+
                 if(publicRequest.IsSetDirectInternetAccess())
                 {
                     context.Writer.WritePropertyName("DirectInternetAccess");
@@ -103,6 +132,12 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.RoleArn);
                 }
 
+                if(publicRequest.IsSetRootAccess())
+                {
+                    context.Writer.WritePropertyName("RootAccess");
+                    context.Writer.Write(publicRequest.RootAccess);
+                }
+
                 if(publicRequest.IsSetSecurityGroupIds())
                 {
                     context.Writer.WritePropertyName("SecurityGroupIds");
@@ -134,6 +169,12 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                         context.Writer.WriteObjectEnd();
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetVolumeSizeInGB())
+                {
+                    context.Writer.WritePropertyName("VolumeSizeInGB");
+                    context.Writer.Write(publicRequest.VolumeSizeInGB);
                 }
 
         

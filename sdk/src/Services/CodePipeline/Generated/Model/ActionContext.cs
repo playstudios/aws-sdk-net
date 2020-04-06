@@ -28,18 +28,38 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// Represents the context of an action within the stage of a pipeline to a job worker.
+    /// Represents the context of an action in the stage of a pipeline to a job worker.
     /// </summary>
     public partial class ActionContext
     {
+        private string _actionExecutionId;
         private string _name;
+
+        /// <summary>
+        /// Gets and sets the property ActionExecutionId. 
+        /// <para>
+        /// The system-generated unique ID that corresponds to an action's execution.
+        /// </para>
+        /// </summary>
+        public string ActionExecutionId
+        {
+            get { return this._actionExecutionId; }
+            set { this._actionExecutionId = value; }
+        }
+
+        // Check to see if ActionExecutionId property is set
+        internal bool IsSetActionExecutionId()
+        {
+            return this._actionExecutionId != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the action within the context of a job.
+        /// The name of the action in the context of a job.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }

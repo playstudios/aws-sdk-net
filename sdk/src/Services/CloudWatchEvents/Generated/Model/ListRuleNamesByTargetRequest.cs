@@ -30,13 +30,33 @@ namespace Amazon.CloudWatchEvents.Model
     /// <summary>
     /// Container for the parameters to the ListRuleNamesByTarget operation.
     /// Lists the rules for the specified target. You can see which of the rules in Amazon
-    /// CloudWatch Events can invoke a specific target in your account.
+    /// EventBridge can invoke a specific target in your account.
     /// </summary>
     public partial class ListRuleNamesByTargetRequest : AmazonCloudWatchEventsRequest
     {
+        private string _eventBusName;
         private int? _limit;
         private string _nextToken;
         private string _targetArn;
+
+        /// <summary>
+        /// Gets and sets the property EventBusName. 
+        /// <para>
+        /// Limits the results to show only the rules associated with the specified event bus.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string EventBusName
+        {
+            get { return this._eventBusName; }
+            set { this._eventBusName = value; }
+        }
+
+        // Check to see if EventBusName property is set
+        internal bool IsSetEventBusName()
+        {
+            return this._eventBusName != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Limit. 
@@ -44,6 +64,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The maximum number of results to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -62,6 +83,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The token returned by a previous call to retrieve the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -80,6 +102,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The Amazon Resource Name (ARN) of the target resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string TargetArn
         {
             get { return this._targetArn; }

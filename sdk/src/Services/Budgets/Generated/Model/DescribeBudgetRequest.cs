@@ -30,6 +30,14 @@ namespace Amazon.Budgets.Model
     /// <summary>
     /// Container for the parameters to the DescribeBudget operation.
     /// Describes a budget.
+    /// 
+    ///  <important> 
+    /// <para>
+    /// The Request Syntax section shows the <code>BudgetLimit</code> syntax. For <code>PlannedBudgetLimits</code>,
+    /// see the <a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples">Examples</a>
+    /// section. 
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class DescribeBudgetRequest : AmazonBudgetsRequest
     {
@@ -43,6 +51,7 @@ namespace Amazon.Budgets.Model
         /// of.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=12, Max=12)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -61,6 +70,7 @@ namespace Amazon.Budgets.Model
         /// The name of the budget that you want a description of.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string BudgetName
         {
             get { return this._budgetName; }

@@ -43,8 +43,10 @@ namespace Amazon.LexModelBuildingService.Model
         private string _botName;
         private string _botVersion;
         private string _checksum;
+        private ConversationLogsRequest _conversationLogs;
         private string _description;
         private string _name;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property BotName. 
@@ -52,6 +54,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=50)]
         public string BotName
         {
             get { return this._botName; }
@@ -70,6 +73,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The version of the bot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string BotVersion
         {
             get { return this._botVersion; }
@@ -113,11 +117,30 @@ namespace Amazon.LexModelBuildingService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ConversationLogs. 
+        /// <para>
+        /// Settings for conversation logs for the alias.
+        /// </para>
+        /// </summary>
+        public ConversationLogsRequest ConversationLogs
+        {
+            get { return this._conversationLogs; }
+            set { this._conversationLogs = value; }
+        }
+
+        // Check to see if ConversationLogs property is set
+        internal bool IsSetConversationLogs()
+        {
+            return this._conversationLogs != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
         /// A description of the alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -136,6 +159,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the alias. The name is <i>not</i> case sensitive.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -146,6 +170,27 @@ namespace Amazon.LexModelBuildingService.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of tags to add to the bot alias. You can only add tags when you create an alias,
+        /// you can't use the <code>PutBotAlias</code> operation to update the tags on a bot alias.
+        /// To update tags, use the <code>TagResource</code> operation.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=200)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

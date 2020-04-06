@@ -55,14 +55,15 @@ namespace Amazon.IoTJobsDataPlane.Model.Internal.MarshallTransformations
         public IRequest Marshall(StartNextPendingJobExecutionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoTJobsDataPlane");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-29";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/things/{thingName}/jobs/$next";
             if (!publicRequest.IsSetThingName())
                 throw new AmazonIoTJobsDataPlaneException("Request object does not have required field ThingName set");
-            uriResourcePath = uriResourcePath.Replace("{thingName}", StringUtils.FromString(publicRequest.ThingName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{thingName}", StringUtils.FromString(publicRequest.ThingName));
+            request.ResourcePath = "/things/{thingName}/jobs/$next";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -80,6 +81,12 @@ namespace Amazon.IoTJobsDataPlane.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestStatusDetailsValue);
                     }
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetStepTimeoutInMinutes())
+                {
+                    context.Writer.WritePropertyName("stepTimeoutInMinutes");
+                    context.Writer.Write(publicRequest.StepTimeoutInMinutes);
                 }
 
         

@@ -53,7 +53,7 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// A list of thumbprints of the server certificate(s) that the IdP uses.
+    /// A list of thumbprints of one or more server certificates that the IdP uses
     /// </para>
     ///  </li> </ul> 
     /// <para>
@@ -61,9 +61,9 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  <note> 
     /// <para>
-    /// Because trust for the OIDC provider is derived from the IAM provider that this operation
-    /// creates, it is best to limit access to the <a>CreateOpenIDConnectProvider</a> operation
-    /// to highly privileged users.
+    /// The trust for the OIDC provider is derived from the IAM provider that this operation
+    /// creates. Therefore, it is best to limit access to the <a>CreateOpenIDConnectProvider</a>
+    /// operation to highly privileged users.
     /// </para>
     ///  </note>
     /// </summary>
@@ -128,10 +128,11 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about obtaining the OIDC provider's thumbprint, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html">Obtaining
+        /// For more information about obtaining the OIDC provider's thumbprint, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html">Obtaining
         /// the Thumbprint for an OpenID Connect Provider</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> ThumbprintList
         {
             get { return this._thumbprintList; }
@@ -160,6 +161,7 @@ namespace Amazon.IdentityManagement.Model
         /// AWS account, you will get an error.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Url
         {
             get { return this._url; }

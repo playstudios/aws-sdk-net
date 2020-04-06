@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Rekognition.Model
 {
     /// <summary>
-    /// Provides face metadata for target image faces that are analysed by <code>CompareFaces</code>
+    /// Provides face metadata for target image faces that are analyzed by <code>CompareFaces</code>
     /// and <code>RecognizeCelebrities</code>.
     /// </summary>
     public partial class ComparedFace
@@ -63,6 +63,7 @@ namespace Amazon.Rekognition.Model
         /// Level of confidence that what the bounding box contains is a face.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float Confidence
         {
             get { return this._confidence.GetValueOrDefault(); }

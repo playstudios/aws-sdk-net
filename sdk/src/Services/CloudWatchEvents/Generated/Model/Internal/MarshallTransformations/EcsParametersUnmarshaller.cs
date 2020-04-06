@@ -64,6 +64,30 @@ namespace Amazon.CloudWatchEvents.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("Group", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.Group = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("LaunchType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.LaunchType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NetworkConfiguration", targetDepth))
+                {
+                    var unmarshaller = NetworkConfigurationUnmarshaller.Instance;
+                    unmarshalledObject.NetworkConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("PlatformVersion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.PlatformVersion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("TaskCount", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;

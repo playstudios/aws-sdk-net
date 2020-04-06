@@ -32,6 +32,27 @@ namespace Amazon.CognitoIdentityProvider.Model
     /// </summary>
     public partial class CreateUserPoolDomainResponse : AmazonWebServiceResponse
     {
+        private string _cloudFrontDomain;
+
+        /// <summary>
+        /// Gets and sets the property CloudFrontDomain. 
+        /// <para>
+        /// The Amazon CloudFront endpoint that you use as the target of the alias that you set
+        /// up with your Domain Name Service (DNS) provider.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=63)]
+        public string CloudFrontDomain
+        {
+            get { return this._cloudFrontDomain; }
+            set { this._cloudFrontDomain = value; }
+        }
+
+        // Check to see if CloudFrontDomain property is set
+        internal bool IsSetCloudFrontDomain()
+        {
+            return this._cloudFrontDomain != null;
+        }
 
     }
 }

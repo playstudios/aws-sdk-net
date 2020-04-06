@@ -55,11 +55,12 @@ namespace Amazon.ResourceGroups.Model.Internal.MarshallTransformations
         public IRequest Marshall(SearchResourcesRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ResourceGroups");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/resources/search";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/resources/search";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

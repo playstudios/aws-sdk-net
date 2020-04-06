@@ -39,9 +39,10 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property CommitId. 
         /// <para>
-        /// The commit ID. Commit IDs are the full SHA of the commit.
+        /// The commit ID. Commit IDs are the full SHA ID of the commit.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CommitId
         {
             get { return this._commitId; }
@@ -60,6 +61,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository to which the commit was made.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

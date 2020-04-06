@@ -34,7 +34,7 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// For more information about EBS volumes, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
+    /// For more information about EBS volumes, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
     /// EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -49,6 +49,7 @@ namespace Amazon.EC2.Model
         /// The attribute of the volume. This parameter is required.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public VolumeAttributeName Attribute
         {
             get { return this._attribute; }
@@ -67,6 +68,7 @@ namespace Amazon.EC2.Model
         /// The ID of the volume.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VolumeId
         {
             get { return this._volumeId; }

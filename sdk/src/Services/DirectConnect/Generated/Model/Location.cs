@@ -28,17 +28,56 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DirectConnect.Model
 {
     /// <summary>
-    /// An AWS Direct Connect location where connections and interconnects can be requested.
+    /// Information about an AWS Direct Connect location.
     /// </summary>
     public partial class Location
     {
+        private List<string> _availablePortSpeeds = new List<string>();
+        private List<string> _availableProviders = new List<string>();
         private string _locationCode;
         private string _locationName;
+        private string _region;
+
+        /// <summary>
+        /// Gets and sets the property AvailablePortSpeeds. 
+        /// <para>
+        /// The available port speeds for the location.
+        /// </para>
+        /// </summary>
+        public List<string> AvailablePortSpeeds
+        {
+            get { return this._availablePortSpeeds; }
+            set { this._availablePortSpeeds = value; }
+        }
+
+        // Check to see if AvailablePortSpeeds property is set
+        internal bool IsSetAvailablePortSpeeds()
+        {
+            return this._availablePortSpeeds != null && this._availablePortSpeeds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AvailableProviders. 
+        /// <para>
+        /// The name of the service provider for the location.
+        /// </para>
+        /// </summary>
+        public List<string> AvailableProviders
+        {
+            get { return this._availableProviders; }
+            set { this._availableProviders = value; }
+        }
+
+        // Check to see if AvailableProviders property is set
+        internal bool IsSetAvailableProviders()
+        {
+            return this._availableProviders != null && this._availableProviders.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property LocationCode. 
         /// <para>
-        /// The code used to indicate the AWS Direct Connect location.
+        /// The code for the location.
         /// </para>
         /// </summary>
         public string LocationCode
@@ -56,8 +95,8 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property LocationName. 
         /// <para>
-        /// The name of the AWS Direct Connect location. The name includes the colocation partner
-        /// name and the physical site of the lit building.
+        /// The name of the location. This includes the name of the colocation partner and the
+        /// physical site of the building.
         /// </para>
         /// </summary>
         public string LocationName
@@ -70,6 +109,24 @@ namespace Amazon.DirectConnect.Model
         internal bool IsSetLocationName()
         {
             return this._locationName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Region. 
+        /// <para>
+        /// The AWS Region for the location.
+        /// </para>
+        /// </summary>
+        public string Region
+        {
+            get { return this._region; }
+            set { this._region = value; }
+        }
+
+        // Check to see if Region property is set
+        internal bool IsSetRegion()
+        {
+            return this._region != null;
         }
 
     }

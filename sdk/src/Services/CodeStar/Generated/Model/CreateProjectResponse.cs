@@ -40,9 +40,10 @@ namespace Amazon.CodeStar.Model
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// Reserved for future use.
+        /// The Amazon Resource Name (ARN) of the created project.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Arn
         {
             get { return this._arn; }
@@ -58,9 +59,11 @@ namespace Amazon.CodeStar.Model
         /// <summary>
         /// Gets and sets the property ClientRequestToken. 
         /// <para>
-        /// Reserved for future use.
+        /// A user- or system-generated token that identifies the entity that requested project
+        /// creation.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -76,9 +79,10 @@ namespace Amazon.CodeStar.Model
         /// <summary>
         /// Gets and sets the property Id. 
         /// <para>
-        /// Reserved for future use.
+        /// The ID of the project.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=15)]
         public string Id
         {
             get { return this._id; }
@@ -97,6 +101,7 @@ namespace Amazon.CodeStar.Model
         /// Reserved for future use.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string ProjectTemplateId
         {
             get { return this._projectTemplateId; }

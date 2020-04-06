@@ -32,6 +32,7 @@ namespace Amazon.ElasticBeanstalk.Model
     /// </summary>
     public partial class ApplicationDescription
     {
+        private string _applicationArn;
         private string _applicationName;
         private List<string> _configurationTemplates = new List<string>();
         private DateTime? _dateCreated;
@@ -46,11 +47,30 @@ namespace Amazon.ElasticBeanstalk.Model
         public ApplicationDescription() { }
 
         /// <summary>
+        /// Gets and sets the property ApplicationArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the application.
+        /// </para>
+        /// </summary>
+        public string ApplicationArn
+        {
+            get { return this._applicationArn; }
+            set { this._applicationArn = value; }
+        }
+
+        // Check to see if ApplicationArn property is set
+        internal bool IsSetApplicationArn()
+        {
+            return this._applicationArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ApplicationName. 
         /// <para>
         /// The name of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -123,6 +143,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// User-defined description of the application.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=200)]
         public string Description
         {
             get { return this._description; }

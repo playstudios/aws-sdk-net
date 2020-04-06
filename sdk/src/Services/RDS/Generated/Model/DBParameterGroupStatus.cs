@@ -36,27 +36,27 @@ namespace Amazon.RDS.Model
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    ///  <a>CreateDBInstance</a> 
+    ///  <code>CreateDBInstance</code> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>CreateDBInstanceReadReplica</a> 
+    ///  <code>CreateDBInstanceReadReplica</code> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>DeleteDBInstance</a> 
+    ///  <code>DeleteDBInstance</code> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>ModifyDBInstance</a> 
+    ///  <code>ModifyDBInstance</code> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>RebootDBInstance</a> 
+    ///  <code>RebootDBInstance</code> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>RestoreDBInstanceFromDBSnapshot</a> 
+    ///  <code>RestoreDBInstanceFromDBSnapshot</code> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -73,7 +73,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property DBParameterGroupName. 
         /// <para>
-        /// The name of the DP parameter group.
+        /// The name of the DB parameter group.
         /// </para>
         /// </summary>
         public string DBParameterGroupName

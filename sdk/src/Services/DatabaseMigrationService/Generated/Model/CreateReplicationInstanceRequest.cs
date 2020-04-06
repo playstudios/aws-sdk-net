@@ -30,12 +30,23 @@ namespace Amazon.DatabaseMigrationService.Model
     /// <summary>
     /// Container for the parameters to the CreateReplicationInstance operation.
     /// Creates the replication instance using the specified parameters.
+    /// 
+    ///  
+    /// <para>
+    /// AWS DMS requires that your account have certain roles with appropriate permissions
+    /// before you can create a replication instance. For information on the required roles,
+    /// see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.APIRole.html">Creating
+    /// the IAM Roles to Use With the AWS CLI and AWS DMS API</a>. For information on the
+    /// required permissions, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.IAMPermissions.html">IAM
+    /// Permissions Needed to Use AWS DMS</a>.
+    /// </para>
     /// </summary>
     public partial class CreateReplicationInstanceRequest : AmazonDatabaseMigrationServiceRequest
     {
         private int? _allocatedStorage;
         private bool? _autoMinorVersionUpgrade;
         private string _availabilityZone;
+        private string _dnsNameServers;
         private string _engineVersion;
         private string _kmsKeyId;
         private bool? _multiAZ;
@@ -69,8 +80,9 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property AutoMinorVersionUpgrade. 
         /// <para>
-        /// Indicates that minor engine upgrades will be applied automatically to the replication
-        /// instance during the maintenance window.
+        /// A value that indicates whether minor engine upgrades are applied automatically to
+        /// the replication instance during the maintenance window. This parameter defaults to
+        /// <code>true</code>.
         /// </para>
         ///  
         /// <para>
@@ -92,15 +104,9 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZone. 
         /// <para>
-        /// The EC2 Availability Zone that the replication instance will be created in.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: A random, system-chosen Availability Zone in the endpoint's region.
-        /// </para>
-        ///  
-        /// <para>
-        ///  Example: <code>us-east-1d</code> 
+        /// The Availability Zone where the replication instance will be created. The default
+        /// value is a random, system-chosen Availability Zone in the endpoint's AWS Region, for
+        /// example: <code>us-east-1d</code> 
         /// </para>
         /// </summary>
         public string AvailabilityZone
@@ -113,6 +119,24 @@ namespace Amazon.DatabaseMigrationService.Model
         internal bool IsSetAvailabilityZone()
         {
             return this._availabilityZone != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DnsNameServers. 
+        /// <para>
+        /// A list of DNS name servers supported for the replication instance.
+        /// </para>
+        /// </summary>
+        public string DnsNameServers
+        {
+            get { return this._dnsNameServers; }
+            set { this._dnsNameServers = value; }
+        }
+
+        // Check to see if DnsNameServers property is set
+        internal bool IsSetDnsNameServers()
+        {
+            return this._dnsNameServers != null;
         }
 
         /// <summary>
@@ -136,11 +160,17 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        /// The KMS key identifier that will be used to encrypt the content on the replication
-        /// instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will
-        /// use your default encryption key. AWS KMS creates the default encryption key for your
-        /// AWS account. Your AWS account has a different default encryption key for each AWS
-        /// region.
+        /// An AWS KMS key identifier that is used to encrypt the data on the replication instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then AWS DMS
+        /// uses your default encryption key.
+        /// </para>
+        ///  
+        /// <para>
+        /// AWS KMS creates the default encryption key for your AWS account. Your AWS account
+        /// has a different default encryption key for each AWS Region.
         /// </para>
         /// </summary>
         public string KmsKeyId
@@ -158,8 +188,8 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the
-        /// <code>AvailabilityZone</code> parameter if the Multi-AZ parameter is set to <code>true</code>.
+        ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set
+        /// the <code>AvailabilityZone</code> parameter if the Multi-AZ parameter is set to <code>true</code>.
         /// 
         /// </para>
         /// </summary>
@@ -187,8 +217,8 @@ namespace Amazon.DatabaseMigrationService.Model
         /// </para>
         ///  
         /// <para>
-        /// Default: A 30-minute window selected at random from an 8-hour block of time per region,
-        /// occurring on a random day of the week.
+        /// Default: A 30-minute window selected at random from an 8-hour block of time per AWS
+        /// Region, occurring on a random day of the week.
         /// </para>
         ///  
         /// <para>
@@ -243,6 +273,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge </code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReplicationInstanceClass
         {
             get { return this._replicationInstanceClass; }
@@ -274,13 +305,14 @@ namespace Amazon.DatabaseMigrationService.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens.
+        /// Can't end with a hyphen or contain two consecutive hyphens.
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>myrepinstance</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReplicationInstanceIdentifier
         {
             get { return this._replicationInstanceIdentifier; }
@@ -314,7 +346,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// Tags to be associated with the replication instance.
+        /// One or more tags to be assigned to the replication instance.
         /// </para>
         /// </summary>
         public List<Tag> Tags

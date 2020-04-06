@@ -44,7 +44,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
                 MemorySize = 128,
                 Publish = true,
                 Role = "arn:aws:iam::123456789012:role/service-role/role-name", // replace with the actual arn of the execution role you created
-                Runtime = "nodejs4.3",
+                Runtime = "nodejs12.x",
                 Timeout = 15,
                 VpcConfig = new VpcConfig {  }
             });
@@ -56,10 +56,10 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             string functionName = response.FunctionName;
             string handler = response.Handler;
             string lastModified = response.LastModified;
-            integer memorySize = response.MemorySize;
+            int memorySize = response.MemorySize;
             string role = response.Role;
             string runtime = response.Runtime;
-            integer timeout = response.Timeout;
+            int timeout = response.Timeout;
             string version = response.Version;
             VpcConfigDetail vpcConfig = response.VpcConfig;
 
@@ -89,7 +89,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
                 UUID = "12345kxodurf3443"
             });
 
-            integer batchSize = response.BatchSize;
+            int batchSize = response.BatchSize;
             string eventSourceArn = response.EventSourceArn;
             string functionArn = response.FunctionArn;
             DateTime lastModified = response.LastModified;
@@ -156,7 +156,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
                 UUID = "123489-xxxxx-kdla8d89d7"
             });
 
-            integer batchSize = response.BatchSize;
+            int batchSize = response.BatchSize;
             string eventSourceArn = response.EventSourceArn;
             string functionArn = response.FunctionArn;
             DateTime lastModified = response.LastModified;
@@ -204,10 +204,10 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             string handler = response.Handler;
             string kmsKeyArn = response.KMSKeyArn;
             string lastModified = response.LastModified;
-            integer memorySize = response.MemorySize;
+            int memorySize = response.MemorySize;
             string role = response.Role;
             string runtime = response.Runtime;
-            integer timeout = response.Timeout;
+            int timeout = response.Timeout;
             string version = response.Version;
             VpcConfigDetail vpcConfig = response.VpcConfig;
 
@@ -244,7 +244,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             string functionError = response.FunctionError;
             string logResult = response.LogResult;
             MemoryStream payload = response.Payload;
-            integer statusCode = response.StatusCode;
+            int statusCode = response.StatusCode;
 
             #endregion
         }
@@ -258,7 +258,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
                 FunctionName = "myFunction",
             });
 
-            integer status = response.Status;
+            int status = response.Status;
 
             #endregion
         }
@@ -288,7 +288,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             var response = client.ListFunctions(new ListFunctionsRequest 
             {
                 Marker = "",
-                MaxItems = 123
+                MaxItems = 25
             });
 
             List<FunctionConfiguration> functions = response.Functions;
@@ -305,7 +305,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             {
                 FunctionName = "myFunction",
                 Marker = "",
-                MaxItems = 123
+                MaxItems = 25
             });
 
             string nextMarker = response.NextMarker;
@@ -332,10 +332,10 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             string functionName = response.FunctionName;
             string handler = response.Handler;
             string lastModified = response.LastModified;
-            integer memorySize = response.MemorySize;
+            int memorySize = response.MemorySize;
             string role = response.Role;
             string runtime = response.Runtime;
-            integer timeout = response.Timeout;
+            int timeout = response.Timeout;
             string version = response.Version;
             VpcConfigDetail vpcConfig = response.VpcConfig;
 
@@ -389,7 +389,7 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
                 UUID = "1234xCy789012"
             });
 
-            integer batchSize = response.BatchSize;
+            int batchSize = response.BatchSize;
             string eventSourceArn = response.EventSourceArn;
             string functionArn = response.FunctionArn;
             DateTime lastModified = response.LastModified;
@@ -422,10 +422,10 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             string functionName = response.FunctionName;
             string handler = response.Handler;
             string lastModified = response.LastModified;
-            integer memorySize = response.MemorySize;
+            int memorySize = response.MemorySize;
             string role = response.Role;
             string runtime = response.Runtime;
-            integer timeout = response.Timeout;
+            int timeout = response.Timeout;
             string version = response.Version;
             VpcConfigDetail vpcConfig = response.VpcConfig;
 
@@ -455,10 +455,10 @@ namespace AWSSDKDocSamples.Amazon.Lambda.Generated
             string functionName = response.FunctionName;
             string handler = response.Handler;
             string lastModified = response.LastModified;
-            integer memorySize = response.MemorySize;
+            int memorySize = response.MemorySize;
             string role = response.Role;
             string runtime = response.Runtime;
-            integer timeout = response.Timeout;
+            int timeout = response.Timeout;
             string version = response.Version;
             VpcConfigDetail vpcConfig = response.VpcConfig;
 

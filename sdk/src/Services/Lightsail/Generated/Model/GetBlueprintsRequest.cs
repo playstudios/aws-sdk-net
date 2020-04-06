@@ -30,9 +30,18 @@ namespace Amazon.Lightsail.Model
     /// <summary>
     /// Container for the parameters to the GetBlueprints operation.
     /// Returns the list of available instance images, or <i>blueprints</i>. You can use a
-    /// blueprint to create a new virtual private server already running a specific operating
-    /// system, as well as a preinstalled app or development stack. The software each instance
-    /// is running depends on the blueprint image you choose.
+    /// blueprint to create a new instance already running a specific operating system, as
+    /// well as a preinstalled app or development stack. The software each instance is running
+    /// depends on the blueprint image you choose.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// Use active blueprints when creating new instances. Inactive blueprints are listed
+    /// to support customers with existing instances and are not necessarily available to
+    /// create new instances. Blueprints are marked inactive when they become outdated due
+    /// to operating system updates or new application releases.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class GetBlueprintsRequest : AmazonLightsailRequest
     {
@@ -60,7 +69,13 @@ namespace Amazon.Lightsail.Model
         /// <summary>
         /// Gets and sets the property PageToken. 
         /// <para>
-        /// A token used for advancing to the next page of results from your get blueprints request.
+        /// The token to advance to the next page of results from your request.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get a page token, perform an initial <code>GetBlueprints</code> request. If your
+        /// results are paginated, the response will return a next page token that you can specify
+        /// as the page token in a subsequent request.
         /// </para>
         /// </summary>
         public string PageToken

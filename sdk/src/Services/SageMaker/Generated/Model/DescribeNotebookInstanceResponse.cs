@@ -32,7 +32,10 @@ namespace Amazon.SageMaker.Model
     /// </summary>
     public partial class DescribeNotebookInstanceResponse : AmazonWebServiceResponse
     {
+        private List<string> _acceleratorTypes = new List<string>();
+        private List<string> _additionalCodeRepositories = new List<string>();
         private DateTime? _creationTime;
+        private string _defaultCodeRepository;
         private DirectInternetAccess _directInternetAccess;
         private string _failureReason;
         private InstanceType _instanceType;
@@ -44,9 +47,57 @@ namespace Amazon.SageMaker.Model
         private string _notebookInstanceName;
         private NotebookInstanceStatus _notebookInstanceStatus;
         private string _roleArn;
+        private RootAccess _rootAccess;
         private List<string> _securityGroups = new List<string>();
         private string _subnetId;
         private string _url;
+        private int? _volumeSizeInGB;
+
+        /// <summary>
+        /// Gets and sets the property AcceleratorTypes. 
+        /// <para>
+        /// A list of the Elastic Inference (EI) instance types associated with this notebook
+        /// instance. Currently only one EI instance type can be associated with a notebook instance.
+        /// For more information, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html">Using
+        /// Elastic Inference in Amazon SageMaker</a>.
+        /// </para>
+        /// </summary>
+        public List<string> AcceleratorTypes
+        {
+            get { return this._acceleratorTypes; }
+            set { this._acceleratorTypes = value; }
+        }
+
+        // Check to see if AcceleratorTypes property is set
+        internal bool IsSetAcceleratorTypes()
+        {
+            return this._acceleratorTypes != null && this._acceleratorTypes.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AdditionalCodeRepositories. 
+        /// <para>
+        /// An array of up to three Git repositories associated with the notebook instance. These
+        /// can be either the names of Git repositories stored as resources in your account, or
+        /// the URL of Git repositories in <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+        /// CodeCommit</a> or in any other Git repository. These repositories are cloned at the
+        /// same level as the default repository of your notebook instance. For more information,
+        /// see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+        /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=3)]
+        public List<string> AdditionalCodeRepositories
+        {
+            get { return this._additionalCodeRepositories; }
+            set { this._additionalCodeRepositories = value; }
+        }
+
+        // Check to see if AdditionalCodeRepositories property is set
+        internal bool IsSetAdditionalCodeRepositories()
+        {
+            return this._additionalCodeRepositories != null && this._additionalCodeRepositories.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property CreationTime. 
@@ -68,15 +119,41 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DefaultCodeRepository. 
+        /// <para>
+        /// The Git repository associated with the notebook instance as its default code repository.
+        /// This can be either the name of a Git repository stored as a resource in your account,
+        /// or the URL of a Git repository in <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html">AWS
+        /// CodeCommit</a> or in any other Git repository. When you open a notebook instance,
+        /// it opens in the directory that contains this repository. For more information, see
+        /// <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html">Associating
+        /// Git Repositories with Amazon SageMaker Notebook Instances</a>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
+        public string DefaultCodeRepository
+        {
+            get { return this._defaultCodeRepository; }
+            set { this._defaultCodeRepository = value; }
+        }
+
+        // Check to see if DefaultCodeRepository property is set
+        internal bool IsSetDefaultCodeRepository()
+        {
+            return this._defaultCodeRepository != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DirectInternetAccess. 
         /// <para>
         /// Describes whether Amazon SageMaker provides internet access to the notebook instance.
-        /// If this value is set to <i>Disabled, he notebook instance does not have internet access,
-        /// and cannot connect to Amazon SageMaker training and endpoint services</i>.
+        /// If this value is set to <i>Disabled</i>, the notebook instance does not have internet
+        /// access, and cannot connect to Amazon SageMaker training and endpoint services.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a>appendix-notebook-and-internet-access</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access">Notebook
+        /// Instances Are Internet-Enabled by Default</a>.
         /// </para>
         /// </summary>
         public DirectInternetAccess DirectInternetAccess
@@ -94,9 +171,10 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property FailureReason. 
         /// <para>
-        /// If status is failed, the reason it failed.
+        /// If status is <code>Failed</code>, the reason it failed.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string FailureReason
         {
             get { return this._failureReason; }
@@ -130,10 +208,11 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property KmsKeyId. 
         /// <para>
-        ///  AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage
-        /// volume attached to the instance. 
+        /// The AWS KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML
+        /// storage volume attached to the instance. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string KmsKeyId
         {
             get { return this._kmsKeyId; }
@@ -168,8 +247,8 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property NetworkInterfaceId. 
         /// <para>
-        ///  Network interface IDs that Amazon SageMaker created at the time of creating the instance.
-        /// 
+        /// The network interface IDs that Amazon SageMaker created at the time of creating the
+        /// instance. 
         /// </para>
         /// </summary>
         public string NetworkInterfaceId
@@ -190,6 +269,7 @@ namespace Amazon.SageMaker.Model
         /// The Amazon Resource Name (ARN) of the notebook instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string NotebookInstanceArn
         {
             get { return this._notebookInstanceArn; }
@@ -209,9 +289,11 @@ namespace Amazon.SageMaker.Model
         /// </para>
         ///  
         /// <para>
-        /// For information about notebook instance lifestyle configurations, see <a>notebook-lifecycle-config</a>.
+        /// For information about notebook instance lifestyle configurations, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html">Step
+        /// 2.1: (Optional) Customize a Notebook Instance</a> 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NotebookInstanceLifecycleConfigName
         {
             get { return this._notebookInstanceLifecycleConfigName; }
@@ -227,9 +309,10 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property NotebookInstanceName. 
         /// <para>
-        ///  Name of the Amazon SageMaker notebook instance. 
+        /// The name of the Amazon SageMaker notebook instance. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NotebookInstanceName
         {
             get { return this._notebookInstanceName; }
@@ -263,9 +346,10 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property RoleArn. 
         /// <para>
-        ///  Amazon Resource Name (ARN) of the IAM role associated with the instance. 
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the instance. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -279,11 +363,37 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RootAccess. 
+        /// <para>
+        /// Whether root access is enabled or disabled for users of the notebook instance.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Lifecycle configurations need root access to be able to set up a notebook instance.
+        /// Because of this, lifecycle configurations associated with a notebook instance always
+        /// run with root access even if you disable root access for users.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public RootAccess RootAccess
+        {
+            get { return this._rootAccess; }
+            set { this._rootAccess = value; }
+        }
+
+        // Check to see if RootAccess property is set
+        internal bool IsSetRootAccess()
+        {
+            return this._rootAccess != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SecurityGroups. 
         /// <para>
         /// The IDs of the VPC security groups.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> SecurityGroups
         {
             get { return this._securityGroups; }
@@ -302,6 +412,7 @@ namespace Amazon.SageMaker.Model
         /// The ID of the VPC subnet.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32)]
         public string SubnetId
         {
             get { return this._subnetId; }
@@ -331,6 +442,25 @@ namespace Amazon.SageMaker.Model
         internal bool IsSetUrl()
         {
             return this._url != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VolumeSizeInGB. 
+        /// <para>
+        /// The size, in GB, of the ML storage volume attached to the notebook instance.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=5, Max=16384)]
+        public int VolumeSizeInGB
+        {
+            get { return this._volumeSizeInGB.GetValueOrDefault(); }
+            set { this._volumeSizeInGB = value; }
+        }
+
+        // Check to see if VolumeSizeInGB property is set
+        internal bool IsSetVolumeSizeInGB()
+        {
+            return this._volumeSizeInGB.HasValue; 
         }
 
     }

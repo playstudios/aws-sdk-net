@@ -32,7 +32,8 @@ namespace Amazon.EC2.Model
     /// Describes available AWS services in a prefix list format, which includes the prefix
     /// list name and prefix list ID of the service and the IP address range for the service.
     /// A prefix list ID is required for creating an outbound security group rule that allows
-    /// traffic from a VPC to access an AWS service through a gateway VPC endpoint.
+    /// traffic from a VPC to access an AWS service through a gateway VPC endpoint. Currently,
+    /// the services that support this action are Amazon S3 and Amazon DynamoDB.
     /// </summary>
     public partial class DescribePrefixListsRequest : AmazonEC2Request
     {
@@ -71,12 +72,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// The maximum number of items to return for this request. The request returns a token
-        /// that you can specify in a subsequent call to get the next set of results.
-        /// </para>
-        ///  
-        /// <para>
-        /// Constraint: If the value specified is greater than 1000, we return only 1000 items.
+        /// The maximum number of results to return with a single call. To retrieve the remaining
+        /// results, make another call with the returned <code>nextToken</code> value.
         /// </para>
         /// </summary>
         public int MaxResults
@@ -94,8 +91,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token for the next set of items to return. (You received this token from a prior
-        /// call.)
+        /// The token for the next page of results.
         /// </para>
         /// </summary>
         public string NextToken

@@ -37,13 +37,15 @@ namespace Amazon.MediaConvert.Model
         private int? _audioType;
         private AudioTypeControl _audioTypeControl;
         private AudioCodecSettings _codecSettings;
+        private string _customLanguageCode;
         private LanguageCode _languageCode;
         private AudioLanguageCodeControl _languageCodeControl;
         private RemixSettings _remixSettings;
         private string _streamName;
 
         /// <summary>
-        /// Gets and sets the property AudioNormalizationSettings.
+        /// Gets and sets the property AudioNormalizationSettings. Advanced audio normalization
+        /// settings. Ignore these settings unless you need to comply with a loudness standard.
         /// </summary>
         public AudioNormalizationSettings AudioNormalizationSettings
         {
@@ -86,6 +88,7 @@ namespace Amazon.MediaConvert.Model
         /// 0 = Undefined, 1 = Clean Effects, 2 = Hearing Impaired, 3 = Visually Impaired Commentary,
         /// 4-255 = Reserved.
         /// </summary>
+        [AWSProperty(Min=0, Max=255)]
         public int AudioType
         {
             get { return this._audioType.GetValueOrDefault(); }
@@ -99,7 +102,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property AudioTypeControl.
+        /// Gets and sets the property AudioTypeControl. When set to FOLLOW_INPUT, if the input
+        /// contains an ISO 639 audio_type, then that value is passed through to the output. If
+        /// the input contains no ISO 639 audio_type, the value in Audio Type is included in the
+        /// output. Otherwise the value in Audio Type is included in the output. Note that this
+        /// field and audioType are both ignored if audioDescriptionBroadcasterMix is set to BROADCASTER_MIXED_AD.
         /// </summary>
         public AudioTypeControl AudioTypeControl
         {
@@ -114,7 +121,13 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CodecSettings.
+        /// Gets and sets the property CodecSettings. Audio codec settings (CodecSettings) under
+        /// (AudioDescriptions) contains the group of settings related to audio encoding. The
+        /// settings in this group vary depending on the value that you choose for Audio codec
+        /// (Codec). For each codec enum that you choose, define the corresponding settings object.
+        /// The following lists the codec enum, settings object pairs. * AAC, AacSettings * MP2,
+        /// Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings * AC3, Ac3Settings
+        /// * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
         /// </summary>
         public AudioCodecSettings CodecSettings
         {
@@ -126,6 +139,29 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetCodecSettings()
         {
             return this._codecSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CustomLanguageCode. Specify the language for this audio
+        /// output track. The service puts this language code into your output audio track when
+        /// you set Language code control (AudioLanguageCodeControl) to Use configured (USE_CONFIGURED).
+        /// The service also uses your specified custom language code when you set Language code
+        /// control (AudioLanguageCodeControl) to Follow input (FOLLOW_INPUT), but your input
+        /// file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or
+        /// ISO 639-3 code. For streaming outputs, you can also use any other code in the full
+        /// RFC-5646 specification. Streaming outputs are those that are in one of the following
+        /// output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
+        /// </summary>
+        public string CustomLanguageCode
+        {
+            get { return this._customLanguageCode; }
+            set { this._customLanguageCode = value; }
+        }
+
+        // Check to see if CustomLanguageCode property is set
+        internal bool IsSetCustomLanguageCode()
+        {
+            return this._customLanguageCode != null;
         }
 
         /// <summary>
@@ -147,7 +183,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LanguageCodeControl.
+        /// Gets and sets the property LanguageCodeControl. Specify which source for language
+        /// code takes precedence for this audio track. When you choose Follow input (FOLLOW_INPUT),
+        /// the service uses the language code from the input track if it's present. If there's
+        /// no languge code on the input track, the service uses the code that you specify in
+        /// the setting Language code (languageCode or customLanguageCode). When you choose Use
+        /// configured (USE_CONFIGURED), the service uses the language code that you specify.
         /// </summary>
         public AudioLanguageCodeControl LanguageCodeControl
         {
@@ -177,9 +218,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StreamName. Used for MS Smooth and Apple HLS outputs. Indicates
-        /// the name displayed by the player (eg. English, or Director Commentary). Alphanumeric
-        /// characters, spaces, and underscore are legal.
+        /// Gets and sets the property StreamName. Specify a label for this output audio stream.
+        /// For example, "English", "Director commentary", or "track_2". For streaming outputs,
+        /// MediaConvert passes this information into destination manifests for display on the
+        /// end-viewer's player device. For outputs in other output groups, the service ignores
+        /// this setting.
         /// </summary>
         public string StreamName
         {

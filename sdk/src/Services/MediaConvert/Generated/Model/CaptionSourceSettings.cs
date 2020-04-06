@@ -28,8 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Source settings (SourceSettings) contains the group of settings for captions in the
-    /// input.
+    /// If your input captions are SCC, TTML, STL, SMI, SRT, or IMSC in an xml file, specify
+    /// the URI of the input captions source file. If your input captions are IMSC in an IMF
+    /// package, use TrackSourceSettings instead of FileSoureSettings.
     /// </summary>
     public partial class CaptionSourceSettings
     {
@@ -39,9 +40,11 @@ namespace Amazon.MediaConvert.Model
         private FileSourceSettings _fileSourceSettings;
         private CaptionSourceType _sourceType;
         private TeletextSourceSettings _teletextSourceSettings;
+        private TrackSourceSettings _trackSourceSettings;
 
         /// <summary>
-        /// Gets and sets the property AncillarySourceSettings.
+        /// Gets and sets the property AncillarySourceSettings. Settings for ancillary captions
+        /// source.
         /// </summary>
         public AncillarySourceSettings AncillarySourceSettings
         {
@@ -56,7 +59,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DvbSubSourceSettings.
+        /// Gets and sets the property DvbSubSourceSettings. DVB Sub Source Settings
         /// </summary>
         public DvbSubSourceSettings DvbSubSourceSettings
         {
@@ -71,7 +74,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EmbeddedSourceSettings.
+        /// Gets and sets the property EmbeddedSourceSettings. Settings for embedded captions
+        /// Source
         /// </summary>
         public EmbeddedSourceSettings EmbeddedSourceSettings
         {
@@ -86,7 +90,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FileSourceSettings.
+        /// Gets and sets the property FileSourceSettings. If your input captions are SCC, SMI,
+        /// SRT, STL, TTML, or IMSC 1.1 in an xml file, specify the URI of the input caption source
+        /// file. If your caption source is IMSC in an IMF package, use TrackSourceSettings instead
+        /// of FileSoureSettings.
         /// </summary>
         public FileSourceSettings FileSourceSettings
         {
@@ -101,7 +108,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SourceType.
+        /// Gets and sets the property SourceType. Use Source (SourceType) to identify the format
+        /// of your input captions.  The service cannot auto-detect caption format.
         /// </summary>
         public CaptionSourceType SourceType
         {
@@ -116,7 +124,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TeletextSourceSettings.
+        /// Gets and sets the property TeletextSourceSettings. Settings specific to Teletext caption
+        /// sources, including Page number.
         /// </summary>
         public TeletextSourceSettings TeletextSourceSettings
         {
@@ -128,6 +137,24 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetTeletextSourceSettings()
         {
             return this._teletextSourceSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TrackSourceSettings. Settings specific to caption sources
+        /// that are specified by track number. Currently, this is only IMSC captions in an IMF
+        /// package. If your caption source is IMSC 1.1 in a separate xml file, use FileSourceSettings
+        /// instead of TrackSourceSettings.
+        /// </summary>
+        public TrackSourceSettings TrackSourceSettings
+        {
+            get { return this._trackSourceSettings; }
+            set { this._trackSourceSettings = value; }
+        }
+
+        // Check to see if TrackSourceSettings property is set
+        internal bool IsSetTrackSourceSettings()
+        {
+            return this._trackSourceSettings != null;
         }
 
     }

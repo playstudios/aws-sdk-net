@@ -33,7 +33,7 @@ namespace Amazon.CognitoIdentityProvider.Model
     /// 
     ///  
     /// <para>
-    /// Requires developer credentials.
+    /// Calling this action requires developer credentials.
     /// </para>
     /// </summary>
     public partial class DeleteGroupRequest : AmazonCognitoIdentityProviderRequest
@@ -47,6 +47,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The name of the group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string GroupName
         {
             get { return this._groupName; }
@@ -65,6 +66,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID for the user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }

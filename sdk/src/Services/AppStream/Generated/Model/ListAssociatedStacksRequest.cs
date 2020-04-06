@@ -29,7 +29,7 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the ListAssociatedStacks operation.
-    /// Lists the stacks associated with the specified fleet.
+    /// Retrieves the name of the stack with which the specified fleet is associated.
     /// </summary>
     public partial class ListAssociatedStacksRequest : AmazonAppStreamRequest
     {
@@ -42,6 +42,7 @@ namespace Amazon.AppStream.Model
         /// The name of the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string FleetName
         {
             get { return this._fleetName; }
@@ -61,6 +62,7 @@ namespace Amazon.AppStream.Model
         /// If this value is null, it retrieves the first page.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }

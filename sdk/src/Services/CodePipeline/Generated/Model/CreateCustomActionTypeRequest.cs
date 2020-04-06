@@ -40,6 +40,7 @@ namespace Amazon.CodePipeline.Model
         private ArtifactDetails _outputArtifactDetails;
         private string _provider;
         private ActionTypeSettings _settings;
+        private List<Tag> _tags = new List<Tag>();
         private string _version;
 
         /// <summary>
@@ -49,11 +50,12 @@ namespace Amazon.CodePipeline.Model
         /// </para>
         ///  <note> 
         /// <para>
-        /// Although Source and Approval are listed as valid values, they are not currently functional.
-        /// These values are reserved for future use.
+        /// Although <code>Source</code> and <code>Approval</code> are listed as valid values,
+        /// they are not currently functional. These values are reserved for future use.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActionCategory Category
         {
             get { return this._category; }
@@ -75,11 +77,12 @@ namespace Amazon.CodePipeline.Model
         /// <para>
         /// You can refer to a name in the configuration properties of the custom action within
         /// the URL templates by following the format of {Config:name}, as long as the configuration
-        /// property is both required and not secret. For more information, see <a href="http://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html">Create
+        /// property is both required and not secret. For more information, see <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html">Create
         /// a Custom Action for a Pipeline</a>.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<ActionConfigurationProperty> ConfigurationProperties
         {
             get { return this._configurationProperties; }
@@ -98,6 +101,7 @@ namespace Amazon.CodePipeline.Model
         /// The details of the input artifact for the action, such as its commit ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ArtifactDetails InputArtifactDetails
         {
             get { return this._inputArtifactDetails; }
@@ -116,6 +120,7 @@ namespace Amazon.CodePipeline.Model
         /// The details of the output artifact of the action, such as its commit ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ArtifactDetails OutputArtifactDetails
         {
             get { return this._outputArtifactDetails; }
@@ -134,6 +139,7 @@ namespace Amazon.CodePipeline.Model
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=25)]
         public string Provider
         {
             get { return this._provider; }
@@ -149,7 +155,7 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Settings. 
         /// <para>
-        /// Returns information about the settings for an action type.
+        /// URLs that provide users information about this custom action.
         /// </para>
         /// </summary>
         public ActionTypeSettings Settings
@@ -165,11 +171,30 @@ namespace Amazon.CodePipeline.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags for the custom action.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Version. 
         /// <para>
         /// The version identifier of the custom action.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=9)]
         public string Version
         {
             get { return this._version; }

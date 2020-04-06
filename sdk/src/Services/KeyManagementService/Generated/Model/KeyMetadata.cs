@@ -40,26 +40,32 @@ namespace Amazon.KeyManagementService.Model
     {
         private string _arn;
         private string _awsAccountId;
+        private string _cloudHsmClusterId;
         private DateTime? _creationDate;
+        private CustomerMasterKeySpec _customerMasterKeySpec;
+        private string _customKeyStoreId;
         private DateTime? _deletionDate;
         private string _description;
         private bool? _enabled;
+        private List<string> _encryptionAlgorithms = new List<string>();
         private ExpirationModelType _expirationModel;
         private string _keyId;
         private KeyManagerType _keyManager;
         private KeyState _keyState;
         private KeyUsageType _keyUsage;
         private OriginType _origin;
+        private List<string> _signingAlgorithms = new List<string>();
         private DateTime? _validTo;
 
         /// <summary>
         /// Gets and sets the property Arn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the CMK. For examples, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">AWS
+        /// The Amazon Resource Name (ARN) of the CMK. For examples, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms">AWS
         /// Key Management Service (AWS KMS)</a> in the Example ARNs section of the <i>AWS General
         /// Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string Arn
         {
             get { return this._arn; }
@@ -91,6 +97,29 @@ namespace Amazon.KeyManagementService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CloudHsmClusterId. 
+        /// <para>
+        /// The cluster ID of the AWS CloudHSM cluster that contains the key material for the
+        /// CMK. When you create a CMK in a <a href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+        /// key store</a>, AWS KMS creates the key material for the CMK in the associated AWS
+        /// CloudHSM cluster. This value is present only when the CMK is created in a custom key
+        /// store.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=19, Max=24)]
+        public string CloudHsmClusterId
+        {
+            get { return this._cloudHsmClusterId; }
+            set { this._cloudHsmClusterId = value; }
+        }
+
+        // Check to see if CloudHsmClusterId property is set
+        internal bool IsSetCloudHsmClusterId()
+        {
+            return this._cloudHsmClusterId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreationDate. 
         /// <para>
         /// The date and time when the CMK was created.
@@ -109,11 +138,49 @@ namespace Amazon.KeyManagementService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CustomerMasterKeySpec. 
+        /// <para>
+        /// Describes the type of key material in the CMK.
+        /// </para>
+        /// </summary>
+        public CustomerMasterKeySpec CustomerMasterKeySpec
+        {
+            get { return this._customerMasterKeySpec; }
+            set { this._customerMasterKeySpec = value; }
+        }
+
+        // Check to see if CustomerMasterKeySpec property is set
+        internal bool IsSetCustomerMasterKeySpec()
+        {
+            return this._customerMasterKeySpec != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CustomKeyStoreId. 
+        /// <para>
+        /// A unique identifier for the <a href="https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html">custom
+        /// key store</a> that contains the CMK. This value is present only when the CMK is created
+        /// in a custom key store.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=64)]
+        public string CustomKeyStoreId
+        {
+            get { return this._customKeyStoreId; }
+            set { this._customKeyStoreId = value; }
+        }
+
+        // Check to see if CustomKeyStoreId property is set
+        internal bool IsSetCustomKeyStoreId()
+        {
+            return this._customKeyStoreId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DeletionDate. 
         /// <para>
         /// The date and time after which AWS KMS deletes the CMK. This value is present only
-        /// when <code>KeyState</code> is <code>PendingDeletion</code>, otherwise this value is
-        /// omitted.
+        /// when <code>KeyState</code> is <code>PendingDeletion</code>.
         /// </para>
         /// </summary>
         public DateTime DeletionDate
@@ -134,6 +201,7 @@ namespace Amazon.KeyManagementService.Model
         /// The description of the CMK.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=8192)]
         public string Description
         {
             get { return this._description; }
@@ -166,6 +234,29 @@ namespace Amazon.KeyManagementService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EncryptionAlgorithms. 
+        /// <para>
+        /// A list of encryption algorithms that the CMK supports. You cannot use the CMK with
+        /// other encryption algorithms within AWS KMS.
+        /// </para>
+        ///  
+        /// <para>
+        /// This field appears only when the <code>KeyUsage</code> of the CMK is <code>ENCRYPT_DECRYPT</code>.
+        /// </para>
+        /// </summary>
+        public List<string> EncryptionAlgorithms
+        {
+            get { return this._encryptionAlgorithms; }
+            set { this._encryptionAlgorithms = value; }
+        }
+
+        // Check to see if EncryptionAlgorithms property is set
+        internal bool IsSetEncryptionAlgorithms()
+        {
+            return this._encryptionAlgorithms != null && this._encryptionAlgorithms.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ExpirationModel. 
         /// <para>
         /// Specifies whether the CMK's key material expires. This value is present only when
@@ -190,6 +281,7 @@ namespace Amazon.KeyManagementService.Model
         /// The globally unique identifier for the CMK.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -205,8 +297,8 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property KeyManager. 
         /// <para>
-        /// The CMK's manager. CMKs are either customer-managed or AWS-managed. For more information
-        /// about the difference, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
+        /// The manager of the CMK. CMKs in your AWS account are either customer managed or AWS
+        /// managed. For more information about the difference, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
         /// Master Keys</a> in the <i>AWS Key Management Service Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -229,7 +321,7 @@ namespace Amazon.KeyManagementService.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about how key state affects the use of a CMK, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+        /// For more information about how key state affects the use of a CMK, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
         /// Key State Affects the Use of a Customer Master Key</a> in the <i>AWS Key Management
         /// Service Developer Guide</i>.
         /// </para>
@@ -249,9 +341,7 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property KeyUsage. 
         /// <para>
-        /// The cryptographic operations for which you can use the CMK. Currently the only allowed
-        /// value is <code>ENCRYPT_DECRYPT</code>, which means you can use the CMK for the <a>Encrypt</a>
-        /// and <a>Decrypt</a> operations.
+        /// The cryptographic operations for which you can use the CMK.
         /// </para>
         /// </summary>
         public KeyUsageType KeyUsage
@@ -272,7 +362,8 @@ namespace Amazon.KeyManagementService.Model
         /// The source of the CMK's key material. When this value is <code>AWS_KMS</code>, AWS
         /// KMS created the key material. When this value is <code>EXTERNAL</code>, the key material
         /// was imported from your existing key management infrastructure or the CMK lacks key
-        /// material.
+        /// material. When this value is <code>AWS_CLOUDHSM</code>, the key material was created
+        /// in the AWS CloudHSM cluster associated with a custom key store.
         /// </para>
         /// </summary>
         public OriginType Origin
@@ -285,6 +376,29 @@ namespace Amazon.KeyManagementService.Model
         internal bool IsSetOrigin()
         {
             return this._origin != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SigningAlgorithms. 
+        /// <para>
+        /// A list of signing algorithms that the CMK supports. You cannot use the CMK with other
+        /// signing algorithms within AWS KMS.
+        /// </para>
+        ///  
+        /// <para>
+        /// This field appears only when the <code>KeyUsage</code> of the CMK is <code>SIGN_VERIFY</code>.
+        /// </para>
+        /// </summary>
+        public List<string> SigningAlgorithms
+        {
+            get { return this._signingAlgorithms; }
+            set { this._signingAlgorithms = value; }
+        }
+
+        // Check to see if SigningAlgorithms property is set
+        internal bool IsSetSigningAlgorithms()
+        {
+            return this._signingAlgorithms != null && this._signingAlgorithms.Count > 0; 
         }
 
         /// <summary>

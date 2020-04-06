@@ -30,7 +30,7 @@ namespace Amazon.CloudWatch.Model
     /// <summary>
     /// A <code>GetMetricData</code> call returns an array of <code>MetricDataResult</code>
     /// structures. Each of these structures includes the data points for that metric, along
-    /// with the time stamps of those data points and other identifying information.
+    /// with the timestamps of those data points and other identifying information.
     /// </summary>
     public partial class MetricDataResult
     {
@@ -47,6 +47,7 @@ namespace Amazon.CloudWatch.Model
         /// The short name you specified to represent this metric.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Id
         {
             get { return this._id; }
@@ -122,8 +123,8 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property Timestamps. 
         /// <para>
-        /// The time stamps for the data points, formatted in Unix timestamp format. The number
-        /// of time stamps always matches the number of values and the value for Timestamps[x]
+        /// The timestamps for the data points, formatted in Unix timestamp format. The number
+        /// of timestamps always matches the number of values and the value for Timestamps[x]
         /// is Values[x].
         /// </para>
         /// </summary>
@@ -143,7 +144,7 @@ namespace Amazon.CloudWatch.Model
         /// Gets and sets the property Values. 
         /// <para>
         /// The data points for the metric corresponding to <code>Timestamps</code>. The number
-        /// of values always matches the number of time stamps and the time stamp for Values[x]
+        /// of values always matches the number of timestamps and the timestamp for Values[x]
         /// is Timestamps[x].
         /// </para>
         /// </summary>

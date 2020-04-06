@@ -36,8 +36,9 @@ namespace Amazon.MediaConvert.Model
         private string _name;
 
         /// <summary>
-        /// Gets and sets the property Name. The name of the queue to be deleted.
+        /// Gets and sets the property Name. The name of the queue that you want to delete.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

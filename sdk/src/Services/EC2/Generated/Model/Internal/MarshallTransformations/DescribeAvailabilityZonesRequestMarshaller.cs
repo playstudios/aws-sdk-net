@@ -58,6 +58,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
 
             if(publicRequest != null)
             {
+                if(publicRequest.IsSetAllAvailabilityZones())
+                {
+                    request.Parameters.Add("AllAvailabilityZones", StringUtils.FromBool(publicRequest.AllAvailabilityZones));
+                }
                 if(publicRequest.IsSetFilters())
                 {
                     int publicRequestlistValueIndex = 1;
@@ -76,6 +80,15 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                 publicRequestlistValuelistValueIndex++;
                             }
                         }
+                        publicRequestlistValueIndex++;
+                    }
+                }
+                if(publicRequest.IsSetZoneIds())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.ZoneIds)
+                    {
+                        request.Parameters.Add("ZoneId" + "." + publicRequestlistValueIndex, StringUtils.FromString(publicRequestlistValue));
                         publicRequestlistValueIndex++;
                     }
                 }

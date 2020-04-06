@@ -38,8 +38,11 @@ namespace Amazon.AutoScaling.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/attach-load-balancer-asg.html">Attach
-    /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Auto Scaling User Guide</i>.
+    /// With Application Load Balancers and Network Load Balancers, instances are registered
+    /// as targets with a target group. With Classic Load Balancers, instances are registered
+    /// with the load balancer. For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/attach-load-balancer-asg.html">Attaching
+    /// a Load Balancer to Your Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling User
+    /// Guide</i>.
     /// </para>
     /// </summary>
     public partial class AttachLoadBalancerTargetGroupsRequest : AmazonAutoScalingRequest
@@ -53,6 +56,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -72,6 +76,7 @@ namespace Amazon.AutoScaling.Model
         /// groups.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TargetGroupARNs
         {
             get { return this._targetGroupARNs; }

@@ -63,6 +63,7 @@ namespace Amazon.CodeDeploy.Model
         /// The application name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -133,7 +134,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property LinkedToGitHub. 
         /// <para>
-        /// True if the user has authenticated with GitHub for the specified application; otherwise,
+        /// True if the user has authenticated with GitHub for the specified application. Otherwise,
         /// false.
         /// </para>
         /// </summary>

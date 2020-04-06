@@ -29,7 +29,8 @@ namespace Amazon.Organizations.Model
 {
     /// <summary>
     /// Container for the parameters to the ListTargetsForPolicy operation.
-    /// Lists all the roots, OUs, and accounts to which the specified policy is attached.
+    /// Lists all the roots, organizational units (OUs), and accounts that the specified policy
+    /// is attached to.
     /// 
     ///  <note> 
     /// <para>
@@ -41,7 +42,8 @@ namespace Amazon.Organizations.Model
     /// </para>
     ///  </note> 
     /// <para>
-    /// This operation can be called only from the organization's master account.
+    /// This operation can be called only from the organization's master account or by a member
+    /// account that is a delegated administrator for an AWS service.
     /// </para>
     /// </summary>
     public partial class ListTargetsForPolicyRequest : AmazonOrganizationsRequest
@@ -53,8 +55,8 @@ namespace Amazon.Organizations.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// (Optional) Use this to limit the number of results you want included in the response.
-        /// If you do not include this parameter, it defaults to a value that is specific to the
+        /// The total number of results that you want included on each page of the response. If
+        /// you do not include this parameter, it defaults to a value that is specific to the
         /// operation. If additional items exist beyond the maximum you specify, the <code>NextToken</code>
         /// response element is present and has a value (is not null). Include that value as the
         /// <code>NextToken</code> request parameter in the next call to the operation to get
@@ -63,6 +65,7 @@ namespace Amazon.Organizations.Model
         /// after every operation to ensure that you receive all of the results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -78,10 +81,10 @@ namespace Amazon.Organizations.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Use this parameter if you receive a <code>NextToken</code> response in a previous
-        /// request that indicates that there is more output available. Set it to the value of
-        /// the previous call's <code>NextToken</code> response to indicate where the output should
-        /// continue from.
+        /// The parameter for receiving additional results if you receive a <code>NextToken</code>
+        /// response in a previous request. A <code>NextToken</code> response indicates that more
+        /// output is available. Set this parameter to the value of the previous call's <code>NextToken</code>
+        /// response to indicate where the output should continue from.
         /// </para>
         /// </summary>
         public string NextToken
@@ -99,14 +102,16 @@ namespace Amazon.Organizations.Model
         /// <summary>
         /// Gets and sets the property PolicyId. 
         /// <para>
-        /// The unique identifier (ID) of the policy for which you want to know its attachments.
+        /// The unique identifier (ID) of the policy whose attachments you want to know.
         /// </para>
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy ID string
-        /// requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or
+        /// the underscore character (_).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PolicyId
         {
             get { return this._policyId; }

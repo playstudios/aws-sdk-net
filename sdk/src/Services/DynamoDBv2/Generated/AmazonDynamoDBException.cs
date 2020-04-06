@@ -28,10 +28,10 @@ namespace Amazon.DynamoDBv2
     ///<summary>
     /// Common exception for the DynamoDB service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonDynamoDBException : AmazonServiceException
+    public partial class AmazonDynamoDBException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonDynamoDBException
@@ -88,7 +88,7 @@ namespace Amazon.DynamoDBv2
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonDynamoDBException class with serialized data.
         /// </summary>

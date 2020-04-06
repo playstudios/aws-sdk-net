@@ -55,23 +55,24 @@ namespace Amazon.Glacier.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListPartsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Glacier");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-06-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}";
-            uriResourcePath = uriResourcePath.Replace("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
+            request.AddPathResource("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
             if (!publicRequest.IsSetUploadId())
                 throw new AmazonGlacierException("Request object does not have required field UploadId set");
-            uriResourcePath = uriResourcePath.Replace("{uploadId}", StringUtils.FromString(publicRequest.UploadId));
+            request.AddPathResource("{uploadId}", StringUtils.FromString(publicRequest.UploadId));
             if (!publicRequest.IsSetVaultName())
                 throw new AmazonGlacierException("Request object does not have required field VaultName set");
-            uriResourcePath = uriResourcePath.Replace("{vaultName}", StringUtils.FromString(publicRequest.VaultName));
+            request.AddPathResource("{vaultName}", StringUtils.FromString(publicRequest.VaultName));
             
             if (publicRequest.IsSetLimit())
                 request.Parameters.Add("limit", Amazon.Runtime.Internal.Util.StringUtils.FromInt(publicRequest.Limit));
             
             if (publicRequest.IsSetMarker())
                 request.Parameters.Add("marker", StringUtils.FromString(publicRequest.Marker));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

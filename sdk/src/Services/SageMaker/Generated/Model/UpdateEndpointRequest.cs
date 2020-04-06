@@ -37,14 +37,23 @@ namespace Amazon.SageMaker.Model
     /// <para>
     /// When Amazon SageMaker receives the request, it sets the endpoint status to <code>Updating</code>.
     /// After updating the endpoint, it sets the status to <code>InService</code>. To check
-    /// the status of an endpoint, use the <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/API_DescribeEndpoint.html">DescribeEndpoint</a>
-    /// API. 
+    /// the status of an endpoint, use the <a>DescribeEndpoint</a> API. 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// You must not delete an <code>EndpointConfig</code> in use by an endpoint that is live
+    /// or while the <code>UpdateEndpoint</code> or <code>CreateEndpoint</code> operations
+    /// are being performed on the endpoint. To update an endpoint, you must create a new
+    /// <code>EndpointConfig</code>.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class UpdateEndpointRequest : AmazonSageMakerRequest
     {
         private string _endpointConfigName;
         private string _endpointName;
+        private List<VariantProperty> _excludeRetainedVariantProperties = new List<VariantProperty>();
+        private bool? _retainAllVariantProperties;
 
         /// <summary>
         /// Gets and sets the property EndpointConfigName. 
@@ -52,6 +61,7 @@ namespace Amazon.SageMaker.Model
         /// The name of the new endpoint configuration.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string EndpointConfigName
         {
             get { return this._endpointConfigName; }
@@ -70,6 +80,7 @@ namespace Amazon.SageMaker.Model
         /// The name of the endpoint whose configuration you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string EndpointName
         {
             get { return this._endpointName; }
@@ -80,6 +91,51 @@ namespace Amazon.SageMaker.Model
         internal bool IsSetEndpointName()
         {
             return this._endpointName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ExcludeRetainedVariantProperties. 
+        /// <para>
+        /// When you are updating endpoint resources with <a>UpdateEndpointInput$RetainAllVariantProperties</a>,
+        /// whose value is set to <code>true</code>, <code>ExcludeRetainedVariantProperties</code>
+        /// specifies the list of type <a>VariantProperty</a> to override with the values provided
+        /// by <code>EndpointConfig</code>. If you don't specify a value for <code>ExcludeAllVariantProperties</code>,
+        /// no variant properties are overridden. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=3)]
+        public List<VariantProperty> ExcludeRetainedVariantProperties
+        {
+            get { return this._excludeRetainedVariantProperties; }
+            set { this._excludeRetainedVariantProperties = value; }
+        }
+
+        // Check to see if ExcludeRetainedVariantProperties property is set
+        internal bool IsSetExcludeRetainedVariantProperties()
+        {
+            return this._excludeRetainedVariantProperties != null && this._excludeRetainedVariantProperties.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property RetainAllVariantProperties. 
+        /// <para>
+        /// When updating endpoint resources, enables or disables the retention of variant properties,
+        /// such as the instance count or the variant weight. To retain the variant properties
+        /// of an endpoint when updating it, set <code>RetainAllVariantProperties</code> to <code>true</code>.
+        /// To use the variant properties specified in a new <code>EndpointConfig</code> call
+        /// when updating an endpoint, set <code>RetainAllVariantProperties</code> to <code>false</code>.
+        /// </para>
+        /// </summary>
+        public bool RetainAllVariantProperties
+        {
+            get { return this._retainAllVariantProperties.GetValueOrDefault(); }
+            set { this._retainAllVariantProperties = value; }
+        }
+
+        // Check to see if RetainAllVariantProperties property is set
+        internal bool IsSetRetainAllVariantProperties()
+        {
+            return this._retainAllVariantProperties.HasValue; 
         }
 
     }

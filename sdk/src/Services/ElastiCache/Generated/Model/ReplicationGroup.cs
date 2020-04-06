@@ -34,11 +34,14 @@ namespace Amazon.ElastiCache.Model
     {
         private bool? _atRestEncryptionEnabled;
         private bool? _authTokenEnabled;
+        private DateTime? _authTokenLastModifiedDate;
         private AutomaticFailoverStatus _automaticFailover;
         private string _cacheNodeType;
         private bool? _clusterEnabled;
         private Endpoint _configurationEndpoint;
         private string _description;
+        private GlobalReplicationGroupInfo _globalReplicationGroupInfo;
+        private string _kmsKeyId;
         private List<string> _memberClusters = new List<string>();
         private List<NodeGroup> _nodeGroups = new List<NodeGroup>();
         private ReplicationGroupPendingModifiedValues _pendingModifiedValues;
@@ -59,6 +62,11 @@ namespace Amazon.ElastiCache.Model
         /// You cannot modify the value of <code>AtRestEncryptionEnabled</code> after the cluster
         /// is created. To enable encryption at-rest on a cluster you must set <code>AtRestEncryptionEnabled</code>
         /// to <code>true</code> when you create a cluster.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Required:</b> Only available when creating a replication group in an Amazon VPC
+        /// using redis version <code>3.2.6</code>, <code>4.x</code> or later.
         /// </para>
         ///  
         /// <para>
@@ -101,6 +109,24 @@ namespace Amazon.ElastiCache.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AuthTokenLastModifiedDate. 
+        /// <para>
+        /// The date the auth token was last modified
+        /// </para>
+        /// </summary>
+        public DateTime AuthTokenLastModifiedDate
+        {
+            get { return this._authTokenLastModifiedDate.GetValueOrDefault(); }
+            set { this._authTokenLastModifiedDate = value; }
+        }
+
+        // Check to see if AuthTokenLastModifiedDate property is set
+        internal bool IsSetAuthTokenLastModifiedDate()
+        {
+            return this._authTokenLastModifiedDate.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property AutomaticFailover. 
         /// <para>
         /// Indicates the status of Multi-AZ with automatic failover for this Redis replication
@@ -116,7 +142,7 @@ namespace Amazon.ElastiCache.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Redis (cluster mode disabled): T1 and T2 cache node types.
+        /// Redis (cluster mode disabled): T1 node types.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -216,9 +242,46 @@ namespace Amazon.ElastiCache.Model
         }
 
         /// <summary>
+        /// Gets and sets the property GlobalReplicationGroupInfo. 
+        /// <para>
+        /// The name of the Global Datastore and role of this replication group in the Global
+        /// Datastore.
+        /// </para>
+        /// </summary>
+        public GlobalReplicationGroupInfo GlobalReplicationGroupInfo
+        {
+            get { return this._globalReplicationGroupInfo; }
+            set { this._globalReplicationGroupInfo = value; }
+        }
+
+        // Check to see if GlobalReplicationGroupInfo property is set
+        internal bool IsSetGlobalReplicationGroupInfo()
+        {
+            return this._globalReplicationGroupInfo != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KmsKeyId. 
+        /// <para>
+        /// The ID of the KMS key used to encrypt the disk in the cluster.
+        /// </para>
+        /// </summary>
+        public string KmsKeyId
+        {
+            get { return this._kmsKeyId; }
+            set { this._kmsKeyId = value; }
+        }
+
+        // Check to see if KmsKeyId property is set
+        internal bool IsSetKmsKeyId()
+        {
+            return this._kmsKeyId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MemberClusters. 
         /// <para>
-        /// The identifiers of all the nodes that are part of this replication group.
+        /// The names of all the cache clusters that are part of this replication group.
         /// </para>
         /// </summary>
         public List<string> MemberClusters
@@ -396,6 +459,11 @@ namespace Amazon.ElastiCache.Model
         /// You cannot modify the value of <code>TransitEncryptionEnabled</code> after the cluster
         /// is created. To enable in-transit encryption on a cluster you must set <code>TransitEncryptionEnabled</code>
         /// to <code>true</code> when you create a cluster.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Required:</b> Only available when creating a replication group in an Amazon VPC
+        /// using redis version <code>3.2.6</code>, <code>4.x</code> or later.
         /// </para>
         ///  
         /// <para>

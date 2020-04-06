@@ -38,6 +38,7 @@ namespace Amazon.CloudFormation.Model
         private string _description;
         private string _metadata;
         private List<ParameterDeclaration> _parameters = new List<ParameterDeclaration>();
+        private List<ResourceIdentifierSummary> _resourceIdentifierSummaries = new List<ResourceIdentifierSummary>();
         private List<string> _resourceTypes = new List<string>();
         private string _version;
 
@@ -51,7 +52,7 @@ namespace Amazon.CloudFormation.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
         /// IAM Resources in AWS CloudFormation Templates</a>.
         /// </para>
         /// </summary>
@@ -110,6 +111,7 @@ namespace Amazon.CloudFormation.Model
         /// The value that is defined in the <code>Description</code> property of the template.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -156,6 +158,27 @@ namespace Amazon.CloudFormation.Model
         internal bool IsSetParameters()
         {
             return this._parameters != null && this._parameters.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ResourceIdentifierSummaries. 
+        /// <para>
+        /// A list of resource identifier summaries that describe the target resources of an import
+        /// operation and the properties you can provide during the import to identify the target
+        /// resources. For example, <code>BucketName</code> is a possible identifier property
+        /// for an <code>AWS::S3::Bucket</code> resource. 
+        /// </para>
+        /// </summary>
+        public List<ResourceIdentifierSummary> ResourceIdentifierSummaries
+        {
+            get { return this._resourceIdentifierSummaries; }
+            set { this._resourceIdentifierSummaries = value; }
+        }
+
+        // Check to see if ResourceIdentifierSummaries property is set
+        internal bool IsSetResourceIdentifierSummaries()
+        {
+            return this._resourceIdentifierSummaries != null && this._resourceIdentifierSummaries.Count > 0; 
         }
 
         /// <summary>

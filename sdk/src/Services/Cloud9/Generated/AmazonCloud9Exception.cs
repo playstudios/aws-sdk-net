@@ -28,10 +28,10 @@ namespace Amazon.Cloud9
     ///<summary>
     /// Common exception for the Cloud9 service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonCloud9Exception : AmazonServiceException
+    public partial class AmazonCloud9Exception : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonCloud9Exception
@@ -88,7 +88,7 @@ namespace Amazon.Cloud9
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonCloud9Exception class with serialized data.
         /// </summary>

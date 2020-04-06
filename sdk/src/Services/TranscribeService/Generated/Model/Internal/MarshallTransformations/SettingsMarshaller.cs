@@ -45,16 +45,46 @@ namespace Amazon.TranscribeService.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(Settings requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetChannelIdentification())
+            {
+                context.Writer.WritePropertyName("ChannelIdentification");
+                context.Writer.Write(requestObject.ChannelIdentification);
+            }
+
+            if(requestObject.IsSetMaxAlternatives())
+            {
+                context.Writer.WritePropertyName("MaxAlternatives");
+                context.Writer.Write(requestObject.MaxAlternatives);
+            }
+
             if(requestObject.IsSetMaxSpeakerLabels())
             {
                 context.Writer.WritePropertyName("MaxSpeakerLabels");
                 context.Writer.Write(requestObject.MaxSpeakerLabels);
             }
 
+            if(requestObject.IsSetShowAlternatives())
+            {
+                context.Writer.WritePropertyName("ShowAlternatives");
+                context.Writer.Write(requestObject.ShowAlternatives);
+            }
+
             if(requestObject.IsSetShowSpeakerLabels())
             {
                 context.Writer.WritePropertyName("ShowSpeakerLabels");
                 context.Writer.Write(requestObject.ShowSpeakerLabels);
+            }
+
+            if(requestObject.IsSetVocabularyFilterMethod())
+            {
+                context.Writer.WritePropertyName("VocabularyFilterMethod");
+                context.Writer.Write(requestObject.VocabularyFilterMethod);
+            }
+
+            if(requestObject.IsSetVocabularyFilterName())
+            {
+                context.Writer.WritePropertyName("VocabularyFilterName");
+                context.Writer.Write(requestObject.VocabularyFilterName);
             }
 
             if(requestObject.IsSetVocabularyName())

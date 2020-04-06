@@ -80,7 +80,22 @@ namespace Amazon.SecretsManager.Model
         /// The identifier for the secret that you want to remove tags from. You can specify either
         /// the Amazon Resource Name (ARN) or the friendly name of the secret.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you specify an ARN, we generally recommend that you specify a complete ARN. You
+        /// can specify a partial ARN too—for example, if you don’t include the final hyphen and
+        /// six random characters that Secrets Manager adds at the end of the ARN when you created
+        /// the secret. A partial ARN match can work as long as it uniquely matches only one secret.
+        /// However, if your secret has a name that ends in a hyphen followed by six characters
+        /// (before Secrets Manager adds the hyphen and six characters to the ARN) and you try
+        /// to use that as a partial ARN, then those characters cause Secrets Manager to assume
+        /// that you’re specifying a complete ARN. This confusion can cause unexpected results.
+        /// To avoid this situation, we recommend that you don’t create secret names that end
+        /// with a hyphen followed by six characters.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string SecretId
         {
             get { return this._secretId; }
@@ -103,10 +118,11 @@ namespace Amazon.SecretsManager.Model
         /// <para>
         /// This parameter to the API requires a JSON text string argument. For information on
         /// how to format a JSON parameter for the various command line tool environments, see
-        /// <a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
+        /// <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
         /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

@@ -32,15 +32,62 @@ namespace Amazon.EC2.Model
     /// </summary>
     public partial class Host
     {
+        private DateTime? _allocationTime;
+        private AllowsMultipleInstanceTypes _allowsMultipleInstanceTypes;
         private AutoPlacement _autoPlacement;
         private string _availabilityZone;
+        private string _availabilityZoneId;
         private AvailableCapacity _availableCapacity;
         private string _clientToken;
         private string _hostId;
         private HostProperties _hostProperties;
+        private HostRecovery _hostRecovery;
         private string _hostReservationId;
         private List<HostInstance> _instances = new List<HostInstance>();
+        private bool? _memberOfServiceLinkedResourceGroup;
+        private string _ownerId;
+        private DateTime? _releaseTime;
         private AllocationState _state;
+        private List<Tag> _tags = new List<Tag>();
+
+        /// <summary>
+        /// Gets and sets the property AllocationTime. 
+        /// <para>
+        /// The time that the Dedicated Host was allocated.
+        /// </para>
+        /// </summary>
+        public DateTime AllocationTime
+        {
+            get { return this._allocationTime.GetValueOrDefault(); }
+            set { this._allocationTime = value; }
+        }
+
+        // Check to see if AllocationTime property is set
+        internal bool IsSetAllocationTime()
+        {
+            return this._allocationTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AllowsMultipleInstanceTypes. 
+        /// <para>
+        /// Indicates whether the Dedicated Host supports multiple instance types of the same
+        /// instance family, or a specific instance type only. <code>one</code> indicates that
+        /// the Dedicated Host supports multiple instance types in the instance family. <code>off</code>
+        /// indicates that the Dedicated Host supports a single instance type only.
+        /// </para>
+        /// </summary>
+        public AllowsMultipleInstanceTypes AllowsMultipleInstanceTypes
+        {
+            get { return this._allowsMultipleInstanceTypes; }
+            set { this._allowsMultipleInstanceTypes = value; }
+        }
+
+        // Check to see if AllowsMultipleInstanceTypes property is set
+        internal bool IsSetAllowsMultipleInstanceTypes()
+        {
+            return this._allowsMultipleInstanceTypes != null;
+        }
 
         /// <summary>
         /// Gets and sets the property AutoPlacement. 
@@ -79,9 +126,27 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AvailabilityZoneId. 
+        /// <para>
+        /// The ID of the Availability Zone in which the Dedicated Host is allocated.
+        /// </para>
+        /// </summary>
+        public string AvailabilityZoneId
+        {
+            get { return this._availabilityZoneId; }
+            set { this._availabilityZoneId = value; }
+        }
+
+        // Check to see if AvailabilityZoneId property is set
+        internal bool IsSetAvailabilityZoneId()
+        {
+            return this._availabilityZoneId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property AvailableCapacity. 
         /// <para>
-        /// The number of new instances that can be launched onto the Dedicated Host.
+        /// Information about the instances running on the Dedicated Host.
         /// </para>
         /// </summary>
         public AvailableCapacity AvailableCapacity
@@ -99,9 +164,9 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
-        /// to Ensure Idempotency</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>. 
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+        /// to Ensure Idempotency</a>.
         /// </para>
         /// </summary>
         public string ClientToken
@@ -153,6 +218,24 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HostRecovery. 
+        /// <para>
+        /// Indicates whether host recovery is enabled or disabled for the Dedicated Host.
+        /// </para>
+        /// </summary>
+        public HostRecovery HostRecovery
+        {
+            get { return this._hostRecovery; }
+            set { this._hostRecovery = value; }
+        }
+
+        // Check to see if HostRecovery property is set
+        internal bool IsSetHostRecovery()
+        {
+            return this._hostRecovery != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property HostReservationId. 
         /// <para>
         /// The reservation ID of the Dedicated Host. This returns a <code>null</code> response
@@ -190,6 +273,61 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MemberOfServiceLinkedResourceGroup. 
+        /// <para>
+        /// Indicates whether the Dedicated Host is in a host resource group. If <b>memberOfServiceLinkedResourceGroup</b>
+        /// is <code>true</code>, the host is in a host resource group; otherwise, it is not.
+        /// </para>
+        /// </summary>
+        public bool MemberOfServiceLinkedResourceGroup
+        {
+            get { return this._memberOfServiceLinkedResourceGroup.GetValueOrDefault(); }
+            set { this._memberOfServiceLinkedResourceGroup = value; }
+        }
+
+        // Check to see if MemberOfServiceLinkedResourceGroup property is set
+        internal bool IsSetMemberOfServiceLinkedResourceGroup()
+        {
+            return this._memberOfServiceLinkedResourceGroup.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property OwnerId. 
+        /// <para>
+        /// The ID of the AWS account that owns the Dedicated Host.
+        /// </para>
+        /// </summary>
+        public string OwnerId
+        {
+            get { return this._ownerId; }
+            set { this._ownerId = value; }
+        }
+
+        // Check to see if OwnerId property is set
+        internal bool IsSetOwnerId()
+        {
+            return this._ownerId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReleaseTime. 
+        /// <para>
+        /// The time that the Dedicated Host was released.
+        /// </para>
+        /// </summary>
+        public DateTime ReleaseTime
+        {
+            get { return this._releaseTime.GetValueOrDefault(); }
+            set { this._releaseTime = value; }
+        }
+
+        // Check to see if ReleaseTime property is set
+        internal bool IsSetReleaseTime()
+        {
+            return this._releaseTime.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property State. 
         /// <para>
         /// The Dedicated Host's state.
@@ -205,6 +343,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetState()
         {
             return this._state != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Any tags assigned to the Dedicated Host.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

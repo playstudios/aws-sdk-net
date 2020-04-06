@@ -94,6 +94,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.CodecProfile = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("dynamicSubGop", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.DynamicSubGop = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("flickerAdaptiveQuantization", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -214,6 +220,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.QualityTuningLevel = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("qvbrSettings", targetDepth))
+                {
+                    var unmarshaller = H265QvbrSettingsUnmarshaller.Instance;
+                    unmarshalledObject.QvbrSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("rateControlMode", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -278,6 +290,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.UnregisteredSeiTimecode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("writeMp4PackagingType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.WriteMp4PackagingType = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

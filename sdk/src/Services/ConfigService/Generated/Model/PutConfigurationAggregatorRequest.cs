@@ -30,11 +30,17 @@ namespace Amazon.ConfigService.Model
     /// <summary>
     /// Container for the parameters to the PutConfigurationAggregator operation.
     /// Creates and updates the configuration aggregator with the selected source accounts
-    /// and regions.
+    /// and regions. The source account can be individual account(s) or an organization.
     /// 
     ///  <note> 
     /// <para>
-    /// AWS Config should be enabled in accounts and regions you want to aggreagate.
+    /// AWS Config should be enabled in source accounts and regions you want to aggregate.
+    /// </para>
+    ///  
+    /// <para>
+    /// If your source type is an organization, you must be signed in to the master account
+    /// and all features must be enabled in your organization. AWS Config calls <code>EnableAwsServiceAccess</code>
+    /// API to enable integration between AWS Config and AWS Organizations. 
     /// </para>
     ///  </note>
     /// </summary>
@@ -43,6 +49,7 @@ namespace Amazon.ConfigService.Model
         private List<AccountAggregationSource> _accountAggregationSources = new List<AccountAggregationSource>();
         private string _configurationAggregatorName;
         private OrganizationAggregationSource _organizationAggregationSource;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property AccountAggregationSources. 
@@ -50,6 +57,7 @@ namespace Amazon.ConfigService.Model
         /// A list of AccountAggregationSource object. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1)]
         public List<AccountAggregationSource> AccountAggregationSources
         {
             get { return this._accountAggregationSources; }
@@ -68,6 +76,7 @@ namespace Amazon.ConfigService.Model
         /// The name of the configuration aggregator.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ConfigurationAggregatorName
         {
             get { return this._configurationAggregatorName; }
@@ -96,6 +105,25 @@ namespace Amazon.ConfigService.Model
         internal bool IsSetOrganizationAggregationSource()
         {
             return this._organizationAggregationSource != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// An array of tag object.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

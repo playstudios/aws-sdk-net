@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MediaStore.Model;
 using Amazon.MediaStore.Model.Internal.MarshallTransformations;
+using Amazon.MediaStore.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -38,6 +40,7 @@ namespace Amazon.MediaStore
     /// </summary>
     public partial class AmazonMediaStoreClient : AmazonServiceClient, IAmazonMediaStore
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMediaStoreMetadata();
         #region Constructors
 
         /// <summary>
@@ -208,6 +211,16 @@ namespace Amazon.MediaStore
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -223,7 +236,7 @@ namespace Amazon.MediaStore
 
         #endregion
 
-        
+
         #region  CreateContainer
 
         /// <summary>
@@ -234,7 +247,7 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the CreateContainer service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
@@ -245,10 +258,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/CreateContainer">REST API Reference for CreateContainer Operation</seealso>
         public virtual CreateContainerResponse CreateContainer(CreateContainerRequest request)
         {
-            var marshaller = CreateContainerRequestMarshaller.Instance;
-            var unmarshaller = CreateContainerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateContainerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateContainerResponseUnmarshaller.Instance;
 
-            return Invoke<CreateContainerRequest,CreateContainerResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateContainerResponse>(request, options);
         }
 
         /// <summary>
@@ -265,11 +279,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/CreateContainer">REST API Reference for CreateContainer Operation</seealso>
         public virtual IAsyncResult BeginCreateContainer(CreateContainerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateContainerRequestMarshaller.Instance;
-            var unmarshaller = CreateContainerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateContainerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateContainerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateContainerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -298,10 +312,10 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the DeleteContainer service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
@@ -309,10 +323,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteContainer">REST API Reference for DeleteContainer Operation</seealso>
         public virtual DeleteContainerResponse DeleteContainer(DeleteContainerRequest request)
         {
-            var marshaller = DeleteContainerRequestMarshaller.Instance;
-            var unmarshaller = DeleteContainerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteContainerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteContainerResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteContainerRequest,DeleteContainerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteContainerResponse>(request, options);
         }
 
         /// <summary>
@@ -329,11 +344,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteContainer">REST API Reference for DeleteContainer Operation</seealso>
         public virtual IAsyncResult BeginDeleteContainer(DeleteContainerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteContainerRequestMarshaller.Instance;
-            var unmarshaller = DeleteContainerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteContainerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteContainerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteContainerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -360,24 +375,25 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the DeleteContainerPolicy service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.PolicyNotFoundException">
-        /// Could not perform an operation on a policy that does not exist.
+        /// The policy that you specified in the request does not exist.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteContainerPolicy">REST API Reference for DeleteContainerPolicy Operation</seealso>
         public virtual DeleteContainerPolicyResponse DeleteContainerPolicy(DeleteContainerPolicyRequest request)
         {
-            var marshaller = DeleteContainerPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteContainerPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteContainerPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteContainerPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteContainerPolicyRequest,DeleteContainerPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteContainerPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -394,11 +410,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteContainerPolicy">REST API Reference for DeleteContainerPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteContainerPolicy(DeleteContainerPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteContainerPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteContainerPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteContainerPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteContainerPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteContainerPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -433,13 +449,13 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the DeleteCorsPolicy service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.CorsPolicyNotFoundException">
-        /// Could not perform an operation on a policy that does not exist.
+        /// The CORS policy that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
@@ -447,10 +463,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteCorsPolicy">REST API Reference for DeleteCorsPolicy Operation</seealso>
         public virtual DeleteCorsPolicyResponse DeleteCorsPolicy(DeleteCorsPolicyRequest request)
         {
-            var marshaller = DeleteCorsPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteCorsPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCorsPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCorsPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCorsPolicyRequest,DeleteCorsPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCorsPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -467,11 +484,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteCorsPolicy">REST API Reference for DeleteCorsPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteCorsPolicy(DeleteCorsPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteCorsPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteCorsPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCorsPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCorsPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteCorsPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -485,6 +502,141 @@ namespace Amazon.MediaStore
         public virtual DeleteCorsPolicyResponse EndDeleteCorsPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteCorsPolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteLifecyclePolicy
+
+        /// <summary>
+        /// Removes an object lifecycle policy from a container. It takes up to 20 minutes for
+        /// the change to take effect.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLifecyclePolicy service method.</param>
+        /// 
+        /// <returns>The response from the DeleteLifecyclePolicy service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.PolicyNotFoundException">
+        /// The policy that you specified in the request does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteLifecyclePolicy">REST API Reference for DeleteLifecyclePolicy Operation</seealso>
+        public virtual DeleteLifecyclePolicyResponse DeleteLifecyclePolicy(DeleteLifecyclePolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecyclePolicyResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteLifecyclePolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLifecyclePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLifecyclePolicy operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteLifecyclePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteLifecyclePolicy">REST API Reference for DeleteLifecyclePolicy Operation</seealso>
+        public virtual IAsyncResult BeginDeleteLifecyclePolicy(DeleteLifecyclePolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLifecyclePolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteLifecyclePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteLifecyclePolicy.</param>
+        /// 
+        /// <returns>Returns a  DeleteLifecyclePolicyResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteLifecyclePolicy">REST API Reference for DeleteLifecyclePolicy Operation</seealso>
+        public virtual DeleteLifecyclePolicyResponse EndDeleteLifecyclePolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteLifecyclePolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteMetricPolicy
+
+        /// <summary>
+        /// Deletes the metric policy that is associated with the specified container. If there
+        /// is no metric policy associated with the container, MediaStore doesn't send metrics
+        /// to CloudWatch.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMetricPolicy service method.</param>
+        /// 
+        /// <returns>The response from the DeleteMetricPolicy service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.PolicyNotFoundException">
+        /// The policy that you specified in the request does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteMetricPolicy">REST API Reference for DeleteMetricPolicy Operation</seealso>
+        public virtual DeleteMetricPolicyResponse DeleteMetricPolicy(DeleteMetricPolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMetricPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMetricPolicyResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteMetricPolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteMetricPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMetricPolicy operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteMetricPolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteMetricPolicy">REST API Reference for DeleteMetricPolicy Operation</seealso>
+        public virtual IAsyncResult BeginDeleteMetricPolicy(DeleteMetricPolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMetricPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMetricPolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteMetricPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteMetricPolicy.</param>
+        /// 
+        /// <returns>Returns a  DeleteMetricPolicyResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DeleteMetricPolicy">REST API Reference for DeleteMetricPolicy Operation</seealso>
+        public virtual DeleteMetricPolicyResponse EndDeleteMetricPolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteMetricPolicyResponse>(asyncResult);
         }
 
         #endregion
@@ -503,7 +655,7 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the DescribeContainer service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
@@ -511,10 +663,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DescribeContainer">REST API Reference for DescribeContainer Operation</seealso>
         public virtual DescribeContainerResponse DescribeContainer(DescribeContainerRequest request)
         {
-            var marshaller = DescribeContainerRequestMarshaller.Instance;
-            var unmarshaller = DescribeContainerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeContainerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeContainerResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeContainerRequest,DescribeContainerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeContainerResponse>(request, options);
         }
 
         /// <summary>
@@ -531,11 +684,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/DescribeContainer">REST API Reference for DescribeContainer Operation</seealso>
         public virtual IAsyncResult BeginDescribeContainer(DescribeContainerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeContainerRequestMarshaller.Instance;
-            var unmarshaller = DescribeContainerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeContainerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeContainerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeContainerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -564,24 +717,25 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the GetContainerPolicy service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.PolicyNotFoundException">
-        /// Could not perform an operation on a policy that does not exist.
+        /// The policy that you specified in the request does not exist.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetContainerPolicy">REST API Reference for GetContainerPolicy Operation</seealso>
         public virtual GetContainerPolicyResponse GetContainerPolicy(GetContainerPolicyRequest request)
         {
-            var marshaller = GetContainerPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetContainerPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContainerPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContainerPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetContainerPolicyRequest,GetContainerPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetContainerPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -598,11 +752,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetContainerPolicy">REST API Reference for GetContainerPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetContainerPolicy(GetContainerPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetContainerPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetContainerPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContainerPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContainerPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetContainerPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -636,13 +790,13 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the GetCorsPolicy service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.CorsPolicyNotFoundException">
-        /// Could not perform an operation on a policy that does not exist.
+        /// The CORS policy that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
@@ -650,10 +804,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetCorsPolicy">REST API Reference for GetCorsPolicy Operation</seealso>
         public virtual GetCorsPolicyResponse GetCorsPolicy(GetCorsPolicyRequest request)
         {
-            var marshaller = GetCorsPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetCorsPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCorsPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCorsPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetCorsPolicyRequest,GetCorsPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCorsPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -670,11 +825,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetCorsPolicy">REST API Reference for GetCorsPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetCorsPolicy(GetCorsPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCorsPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetCorsPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCorsPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCorsPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCorsPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -688,6 +843,138 @@ namespace Amazon.MediaStore
         public virtual GetCorsPolicyResponse EndGetCorsPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<GetCorsPolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetLifecyclePolicy
+
+        /// <summary>
+        /// Retrieves the object lifecycle policy that is assigned to a container.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLifecyclePolicy service method.</param>
+        /// 
+        /// <returns>The response from the GetLifecyclePolicy service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.PolicyNotFoundException">
+        /// The policy that you specified in the request does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetLifecyclePolicy">REST API Reference for GetLifecyclePolicy Operation</seealso>
+        public virtual GetLifecyclePolicyResponse GetLifecyclePolicy(GetLifecyclePolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecyclePolicyResponseUnmarshaller.Instance;
+
+            return Invoke<GetLifecyclePolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLifecyclePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLifecyclePolicy operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLifecyclePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetLifecyclePolicy">REST API Reference for GetLifecyclePolicy Operation</seealso>
+        public virtual IAsyncResult BeginGetLifecyclePolicy(GetLifecyclePolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLifecyclePolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLifecyclePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLifecyclePolicy.</param>
+        /// 
+        /// <returns>Returns a  GetLifecyclePolicyResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetLifecyclePolicy">REST API Reference for GetLifecyclePolicy Operation</seealso>
+        public virtual GetLifecyclePolicyResponse EndGetLifecyclePolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetLifecyclePolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetMetricPolicy
+
+        /// <summary>
+        /// Returns the metric policy for the specified container.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMetricPolicy service method.</param>
+        /// 
+        /// <returns>The response from the GetMetricPolicy service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.PolicyNotFoundException">
+        /// The policy that you specified in the request does not exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetMetricPolicy">REST API Reference for GetMetricPolicy Operation</seealso>
+        public virtual GetMetricPolicyResponse GetMetricPolicy(GetMetricPolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMetricPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMetricPolicyResponseUnmarshaller.Instance;
+
+            return Invoke<GetMetricPolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetMetricPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetMetricPolicy operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetMetricPolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetMetricPolicy">REST API Reference for GetMetricPolicy Operation</seealso>
+        public virtual IAsyncResult BeginGetMetricPolicy(GetMetricPolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMetricPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMetricPolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetMetricPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetMetricPolicy.</param>
+        /// 
+        /// <returns>Returns a  GetMetricPolicyResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/GetMetricPolicy">REST API Reference for GetMetricPolicy Operation</seealso>
+        public virtual GetMetricPolicyResponse EndGetMetricPolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetMetricPolicyResponse>(asyncResult);
         }
 
         #endregion
@@ -720,10 +1007,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/ListContainers">REST API Reference for ListContainers Operation</seealso>
         public virtual ListContainersResponse ListContainers(ListContainersRequest request)
         {
-            var marshaller = ListContainersRequestMarshaller.Instance;
-            var unmarshaller = ListContainersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListContainersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListContainersResponseUnmarshaller.Instance;
 
-            return Invoke<ListContainersRequest,ListContainersResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListContainersResponse>(request, options);
         }
 
         /// <summary>
@@ -740,11 +1028,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/ListContainers">REST API Reference for ListContainers Operation</seealso>
         public virtual IAsyncResult BeginListContainers(ListContainersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListContainersRequestMarshaller.Instance;
-            var unmarshaller = ListContainersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListContainersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListContainersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListContainersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -758,6 +1046,69 @@ namespace Amazon.MediaStore
         public virtual ListContainersResponse EndListContainers(IAsyncResult asyncResult)
         {
             return EndInvoke<ListContainersResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// Returns a list of the tags assigned to the specified container.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -781,10 +1132,10 @@ namespace Amazon.MediaStore
         /// 
         /// <returns>The response from the PutContainerPolicy service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
@@ -792,10 +1143,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutContainerPolicy">REST API Reference for PutContainerPolicy Operation</seealso>
         public virtual PutContainerPolicyResponse PutContainerPolicy(PutContainerPolicyRequest request)
         {
-            var marshaller = PutContainerPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutContainerPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutContainerPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutContainerPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutContainerPolicyRequest,PutContainerPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutContainerPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -812,11 +1164,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutContainerPolicy">REST API Reference for PutContainerPolicy Operation</seealso>
         public virtual IAsyncResult BeginPutContainerPolicy(PutContainerPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutContainerPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutContainerPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutContainerPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutContainerPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutContainerPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -850,15 +1202,20 @@ namespace Amazon.MediaStore
         /// add up to 100 rules to a CORS policy. If more than one rule applies, the service uses
         /// the first applicable rule listed.
         /// </para>
+        ///  
+        /// <para>
+        /// To learn more about CORS, see <a href="https://docs.aws.amazon.com/mediastore/latest/ug/cors-policy.html">Cross-Origin
+        /// Resource Sharing (CORS) in AWS Elemental MediaStore</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutCorsPolicy service method.</param>
         /// 
         /// <returns>The response from the PutCorsPolicy service method, as returned by MediaStore.</returns>
         /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
-        /// Resource already exists or is being updated.
+        /// The container that you specified in the request already exists or is being updated.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
-        /// Could not perform an operation on a container that does not exist.
+        /// The container that you specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
         /// The service is temporarily unavailable.
@@ -866,10 +1223,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutCorsPolicy">REST API Reference for PutCorsPolicy Operation</seealso>
         public virtual PutCorsPolicyResponse PutCorsPolicy(PutCorsPolicyRequest request)
         {
-            var marshaller = PutCorsPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutCorsPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutCorsPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutCorsPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<PutCorsPolicyRequest,PutCorsPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutCorsPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -886,11 +1244,11 @@ namespace Amazon.MediaStore
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutCorsPolicy">REST API Reference for PutCorsPolicy Operation</seealso>
         public virtual IAsyncResult BeginPutCorsPolicy(PutCorsPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutCorsPolicyRequestMarshaller.Instance;
-            var unmarshaller = PutCorsPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutCorsPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutCorsPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutCorsPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -904,6 +1262,403 @@ namespace Amazon.MediaStore
         public virtual PutCorsPolicyResponse EndPutCorsPolicy(IAsyncResult asyncResult)
         {
             return EndInvoke<PutCorsPolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutLifecyclePolicy
+
+        /// <summary>
+        /// Writes an object lifecycle policy to a container. If the container already has an
+        /// object lifecycle policy, the service replaces the existing policy with the new policy.
+        /// It takes up to 20 minutes for the change to take effect.
+        /// 
+        ///  
+        /// <para>
+        /// For information about how to construct an object lifecycle policy, see <a href="https://docs.aws.amazon.com/mediastore/latest/ug/policies-object-lifecycle-components.html">Components
+        /// of an Object Lifecycle Policy</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutLifecyclePolicy service method.</param>
+        /// 
+        /// <returns>The response from the PutLifecyclePolicy service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutLifecyclePolicy">REST API Reference for PutLifecyclePolicy Operation</seealso>
+        public virtual PutLifecyclePolicyResponse PutLifecyclePolicy(PutLifecyclePolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecyclePolicyResponseUnmarshaller.Instance;
+
+            return Invoke<PutLifecyclePolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutLifecyclePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutLifecyclePolicy operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutLifecyclePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutLifecyclePolicy">REST API Reference for PutLifecyclePolicy Operation</seealso>
+        public virtual IAsyncResult BeginPutLifecyclePolicy(PutLifecyclePolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecyclePolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecyclePolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutLifecyclePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutLifecyclePolicy.</param>
+        /// 
+        /// <returns>Returns a  PutLifecyclePolicyResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutLifecyclePolicy">REST API Reference for PutLifecyclePolicy Operation</seealso>
+        public virtual PutLifecyclePolicyResponse EndPutLifecyclePolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutLifecyclePolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PutMetricPolicy
+
+        /// <summary>
+        /// The metric policy that you want to add to the container. A metric policy allows AWS
+        /// Elemental MediaStore to send metrics to Amazon CloudWatch. It takes up to 20 minutes
+        /// for the new policy to take effect.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutMetricPolicy service method.</param>
+        /// 
+        /// <returns>The response from the PutMetricPolicy service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutMetricPolicy">REST API Reference for PutMetricPolicy Operation</seealso>
+        public virtual PutMetricPolicyResponse PutMetricPolicy(PutMetricPolicyRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMetricPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMetricPolicyResponseUnmarshaller.Instance;
+
+            return Invoke<PutMetricPolicyResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutMetricPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutMetricPolicy operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutMetricPolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutMetricPolicy">REST API Reference for PutMetricPolicy Operation</seealso>
+        public virtual IAsyncResult BeginPutMetricPolicy(PutMetricPolicyRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMetricPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMetricPolicyResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutMetricPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutMetricPolicy.</param>
+        /// 
+        /// <returns>Returns a  PutMetricPolicyResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/PutMetricPolicy">REST API Reference for PutMetricPolicy Operation</seealso>
+        public virtual PutMetricPolicyResponse EndPutMetricPolicy(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutMetricPolicyResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StartAccessLogging
+
+        /// <summary>
+        /// Starts access logging on the specified container. When you enable access logging on
+        /// a container, MediaStore delivers access logs for objects stored in that container
+        /// to Amazon CloudWatch Logs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartAccessLogging service method.</param>
+        /// 
+        /// <returns>The response from the StartAccessLogging service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/StartAccessLogging">REST API Reference for StartAccessLogging Operation</seealso>
+        public virtual StartAccessLoggingResponse StartAccessLogging(StartAccessLoggingRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartAccessLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartAccessLoggingResponseUnmarshaller.Instance;
+
+            return Invoke<StartAccessLoggingResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartAccessLogging operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartAccessLogging operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartAccessLogging
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/StartAccessLogging">REST API Reference for StartAccessLogging Operation</seealso>
+        public virtual IAsyncResult BeginStartAccessLogging(StartAccessLoggingRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartAccessLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartAccessLoggingResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartAccessLogging operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartAccessLogging.</param>
+        /// 
+        /// <returns>Returns a  StartAccessLoggingResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/StartAccessLogging">REST API Reference for StartAccessLogging Operation</seealso>
+        public virtual StartAccessLoggingResponse EndStartAccessLogging(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartAccessLoggingResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StopAccessLogging
+
+        /// <summary>
+        /// Stops access logging on the specified container. When you stop access logging on a
+        /// container, MediaStore stops sending access logs to Amazon CloudWatch Logs. These access
+        /// logs are not saved and are not retrievable.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopAccessLogging service method.</param>
+        /// 
+        /// <returns>The response from the StopAccessLogging service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/StopAccessLogging">REST API Reference for StopAccessLogging Operation</seealso>
+        public virtual StopAccessLoggingResponse StopAccessLogging(StopAccessLoggingRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopAccessLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopAccessLoggingResponseUnmarshaller.Instance;
+
+            return Invoke<StopAccessLoggingResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopAccessLogging operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopAccessLogging operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopAccessLogging
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/StopAccessLogging">REST API Reference for StopAccessLogging Operation</seealso>
+        public virtual IAsyncResult BeginStopAccessLogging(StopAccessLoggingRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopAccessLoggingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopAccessLoggingResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopAccessLogging operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopAccessLogging.</param>
+        /// 
+        /// <returns>Returns a  StopAccessLoggingResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/StopAccessLogging">REST API Reference for StopAccessLogging Operation</seealso>
+        public virtual StopAccessLoggingResponse EndStopAccessLogging(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StopAccessLoggingResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        /// <summary>
+        /// Adds tags to the specified AWS Elemental MediaStore container. Tags are key:value
+        /// pairs that you can associate with AWS resources. For example, the tag key might be
+        /// "customer" and the tag value might be "companyA." You can specify one or more tags
+        /// to add to each container. You can add up to 50 tags to each container. For more information
+        /// about tagging, including naming and usage conventions, see <a href="https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html">Tagging
+        /// Resources in MediaStore</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Removes tags from the specified container. You can specify one or more tags to remove.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by MediaStore.</returns>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerInUseException">
+        /// The container that you specified in the request already exists or is being updated.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.ContainerNotFoundException">
+        /// The container that you specified in the request does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaStore.Model.InternalServerErrorException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonMediaStoreClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from MediaStore.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediastore-2017-09-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
         }
 
         #endregion

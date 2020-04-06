@@ -28,18 +28,23 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Used to create a campaign treatment.
+    /// Specifies the settings for a campaign treatment. A treatment is a variation of a campaign
+    /// that's used for A/B testing of a campaign.
     /// </summary>
     public partial class WriteTreatmentResource
     {
         private MessageConfiguration _messageConfiguration;
         private Schedule _schedule;
         private int? _sizePercent;
+        private TemplateConfiguration _templateConfiguration;
         private string _treatmentDescription;
         private string _treatmentName;
 
         /// <summary>
-        /// Gets and sets the property MessageConfiguration. The message configuration settings.
+        /// Gets and sets the property MessageConfiguration. 
+        /// <para>
+        /// The message configuration settings for the treatment.
+        /// </para>
         /// </summary>
         public MessageConfiguration MessageConfiguration
         {
@@ -54,7 +59,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Schedule. The campaign schedule.
+        /// Gets and sets the property Schedule. 
+        /// <para>
+        /// The schedule settings for the treatment.
+        /// </para>
         /// </summary>
         public Schedule Schedule
         {
@@ -69,9 +77,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SizePercent. The allocated percentage of users for this
-        /// treatment.
+        /// Gets and sets the property SizePercent. 
+        /// <para>
+        /// The allocated percentage of users (segment members) to send the treatment to.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int SizePercent
         {
             get { return this._sizePercent.GetValueOrDefault(); }
@@ -85,7 +96,28 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TreatmentDescription. A custom description for the treatment.
+        /// Gets and sets the property TemplateConfiguration. 
+        /// <para>
+        /// The message template to use for the treatment.
+        /// </para>
+        /// </summary>
+        public TemplateConfiguration TemplateConfiguration
+        {
+            get { return this._templateConfiguration; }
+            set { this._templateConfiguration = value; }
+        }
+
+        // Check to see if TemplateConfiguration property is set
+        internal bool IsSetTemplateConfiguration()
+        {
+            return this._templateConfiguration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TreatmentDescription. 
+        /// <para>
+        /// A custom description of the treatment.
+        /// </para>
         /// </summary>
         public string TreatmentDescription
         {
@@ -100,8 +132,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TreatmentName. The custom name of a variation of the campaign
-        /// used for A/B testing.
+        /// Gets and sets the property TreatmentName. 
+        /// <para>
+        /// A custom name for the treatment. A treatment is a variation of a campaign that's used
+        /// for A/B testing of a campaign.
+        /// </para>
         /// </summary>
         public string TreatmentName
         {

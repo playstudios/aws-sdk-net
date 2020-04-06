@@ -128,6 +128,76 @@ namespace Amazon.CloudWatch.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("MetricName", StringUtils.FromString(publicRequest.MetricName));
                 }
+                if(publicRequest.IsSetMetrics())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.Metrics)
+                    {
+                        if(publicRequestlistValue.IsSetExpression())
+                        {
+                            request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Expression", StringUtils.FromString(publicRequestlistValue.Expression));
+                        }
+                        if(publicRequestlistValue.IsSetId())
+                        {
+                            request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Id", StringUtils.FromString(publicRequestlistValue.Id));
+                        }
+                        if(publicRequestlistValue.IsSetLabel())
+                        {
+                            request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Label", StringUtils.FromString(publicRequestlistValue.Label));
+                        }
+                        if(publicRequestlistValue.IsSetMetricStat())
+                        {
+                            if(publicRequestlistValue.MetricStat.IsSetMetric())
+                            {
+                                if(publicRequestlistValue.MetricStat.Metric.IsSetDimensions())
+                                {
+                                    int publicRequestlistValueMetricStatMetriclistValueIndex = 1;
+                                    foreach(var publicRequestlistValueMetricStatMetriclistValue in publicRequestlistValue.MetricStat.Metric.Dimensions)
+                                    {
+                                        if(publicRequestlistValueMetricStatMetriclistValue.IsSetName())
+                                        {
+                                            request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "MetricStat" + "." + "Metric" + "." + "Dimensions" + "." + "member" + "." + publicRequestlistValueMetricStatMetriclistValueIndex + "." + "Name", StringUtils.FromString(publicRequestlistValueMetricStatMetriclistValue.Name));
+                                        }
+                                        if(publicRequestlistValueMetricStatMetriclistValue.IsSetValue())
+                                        {
+                                            request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "MetricStat" + "." + "Metric" + "." + "Dimensions" + "." + "member" + "." + publicRequestlistValueMetricStatMetriclistValueIndex + "." + "Value", StringUtils.FromString(publicRequestlistValueMetricStatMetriclistValue.Value));
+                                        }
+                                        publicRequestlistValueMetricStatMetriclistValueIndex++;
+                                    }
+                                }
+                                if(publicRequestlistValue.MetricStat.Metric.IsSetMetricName())
+                                {
+                                    request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "MetricStat" + "." + "Metric" + "." + "MetricName", StringUtils.FromString(publicRequestlistValue.MetricStat.Metric.MetricName));
+                                }
+                                if(publicRequestlistValue.MetricStat.Metric.IsSetNamespace())
+                                {
+                                    request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "MetricStat" + "." + "Metric" + "." + "Namespace", StringUtils.FromString(publicRequestlistValue.MetricStat.Metric.Namespace));
+                                }
+                            }
+                            if(publicRequestlistValue.MetricStat.IsSetPeriod())
+                            {
+                                request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "MetricStat" + "." + "Period", StringUtils.FromInt(publicRequestlistValue.MetricStat.Period));
+                            }
+                            if(publicRequestlistValue.MetricStat.IsSetStat())
+                            {
+                                request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "MetricStat" + "." + "Stat", StringUtils.FromString(publicRequestlistValue.MetricStat.Stat));
+                            }
+                            if(publicRequestlistValue.MetricStat.IsSetUnit())
+                            {
+                                request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "MetricStat" + "." + "Unit", StringUtils.FromString(publicRequestlistValue.MetricStat.Unit));
+                            }
+                        }
+                        if(publicRequestlistValue.IsSetPeriod())
+                        {
+                            request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Period", StringUtils.FromInt(publicRequestlistValue.Period));
+                        }
+                        if(publicRequestlistValue.IsSetReturnData())
+                        {
+                            request.Parameters.Add("Metrics" + "." + "member" + "." + publicRequestlistValueIndex + "." + "ReturnData", StringUtils.FromBool(publicRequestlistValue.ReturnData));
+                        }
+                        publicRequestlistValueIndex++;
+                    }
+                }
                 if(publicRequest.IsSetNamespace())
                 {
                     request.Parameters.Add("Namespace", StringUtils.FromString(publicRequest.Namespace));
@@ -149,9 +219,29 @@ namespace Amazon.CloudWatch.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("Statistic", StringUtils.FromString(publicRequest.Statistic));
                 }
+                if(publicRequest.IsSetTags())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.Tags)
+                    {
+                        if(publicRequestlistValue.IsSetKey())
+                        {
+                            request.Parameters.Add("Tags" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Key", StringUtils.FromString(publicRequestlistValue.Key));
+                        }
+                        if(publicRequestlistValue.IsSetValue())
+                        {
+                            request.Parameters.Add("Tags" + "." + "member" + "." + publicRequestlistValueIndex + "." + "Value", StringUtils.FromString(publicRequestlistValue.Value));
+                        }
+                        publicRequestlistValueIndex++;
+                    }
+                }
                 if(publicRequest.IsSetThreshold())
                 {
                     request.Parameters.Add("Threshold", StringUtils.FromDouble(publicRequest.Threshold));
+                }
+                if(publicRequest.IsSetThresholdMetricId())
+                {
+                    request.Parameters.Add("ThresholdMetricId", StringUtils.FromString(publicRequest.ThresholdMetricId));
                 }
                 if(publicRequest.IsSetTreatMissingData())
                 {

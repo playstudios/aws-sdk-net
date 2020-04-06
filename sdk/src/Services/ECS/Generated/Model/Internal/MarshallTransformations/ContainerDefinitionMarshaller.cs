@@ -62,6 +62,22 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Cpu);
             }
 
+            if(requestObject.IsSetDependsOn())
+            {
+                context.Writer.WritePropertyName("dependsOn");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectDependsOnListValue in requestObject.DependsOn)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ContainerDependencyMarshaller.Instance;
+                    marshaller.Marshall(requestObjectDependsOnListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetDisableNetworking())
             {
                 context.Writer.WritePropertyName("disableNetworking");
@@ -164,6 +180,17 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 context.Writer.WriteArrayEnd();
             }
 
+            if(requestObject.IsSetFirelensConfiguration())
+            {
+                context.Writer.WritePropertyName("firelensConfiguration");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = FirelensConfigurationMarshaller.Instance;
+                marshaller.Marshall(requestObject.FirelensConfiguration, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetHealthCheck())
             {
                 context.Writer.WritePropertyName("healthCheck");
@@ -185,6 +212,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("image");
                 context.Writer.Write(requestObject.Image);
+            }
+
+            if(requestObject.IsSetInteractive())
+            {
+                context.Writer.WritePropertyName("interactive");
+                context.Writer.Write(requestObject.Interactive);
             }
 
             if(requestObject.IsSetLinks())
@@ -276,10 +309,87 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.Privileged);
             }
 
+            if(requestObject.IsSetPseudoTerminal())
+            {
+                context.Writer.WritePropertyName("pseudoTerminal");
+                context.Writer.Write(requestObject.PseudoTerminal);
+            }
+
             if(requestObject.IsSetReadonlyRootFilesystem())
             {
                 context.Writer.WritePropertyName("readonlyRootFilesystem");
                 context.Writer.Write(requestObject.ReadonlyRootFilesystem);
+            }
+
+            if(requestObject.IsSetRepositoryCredentials())
+            {
+                context.Writer.WritePropertyName("repositoryCredentials");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = RepositoryCredentialsMarshaller.Instance;
+                marshaller.Marshall(requestObject.RepositoryCredentials, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetResourceRequirements())
+            {
+                context.Writer.WritePropertyName("resourceRequirements");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectResourceRequirementsListValue in requestObject.ResourceRequirements)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ResourceRequirementMarshaller.Instance;
+                    marshaller.Marshall(requestObjectResourceRequirementsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
+            if(requestObject.IsSetSecrets())
+            {
+                context.Writer.WritePropertyName("secrets");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectSecretsListValue in requestObject.Secrets)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = SecretMarshaller.Instance;
+                    marshaller.Marshall(requestObjectSecretsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
+            if(requestObject.IsSetStartTimeout())
+            {
+                context.Writer.WritePropertyName("startTimeout");
+                context.Writer.Write(requestObject.StartTimeout);
+            }
+
+            if(requestObject.IsSetStopTimeout())
+            {
+                context.Writer.WritePropertyName("stopTimeout");
+                context.Writer.Write(requestObject.StopTimeout);
+            }
+
+            if(requestObject.IsSetSystemControls())
+            {
+                context.Writer.WritePropertyName("systemControls");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectSystemControlsListValue in requestObject.SystemControls)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = SystemControlMarshaller.Instance;
+                    marshaller.Marshall(requestObjectSystemControlsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
             }
 
             if(requestObject.IsSetUlimits())

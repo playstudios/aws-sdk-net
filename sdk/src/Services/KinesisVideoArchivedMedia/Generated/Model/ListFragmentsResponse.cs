@@ -38,7 +38,8 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// <summary>
         /// Gets and sets the property Fragments. 
         /// <para>
-        /// A list of fragment numbers that correspond to the time stamp range provided.
+        /// A list of archived <a>Fragment</a> objects from the stream that meet the selector
+        /// criteria. Results are in no specific order, even across pages.
         /// </para>
         /// </summary>
         public List<Fragment> Fragments
@@ -61,6 +62,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }

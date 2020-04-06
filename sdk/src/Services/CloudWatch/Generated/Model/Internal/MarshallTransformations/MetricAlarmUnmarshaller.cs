@@ -141,6 +141,13 @@ namespace Amazon.CloudWatch.Model.Internal.MarshallTransformations
                         unmarshalledObject.MetricName = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("Metrics/member", targetDepth))
+                    {
+                        var unmarshaller = MetricDataQueryUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.Metrics.Add(item);
+                        continue;
+                    }
                     if (context.TestExpression("Namespace", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -194,6 +201,12 @@ namespace Amazon.CloudWatch.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = DoubleUnmarshaller.Instance;
                         unmarshalledObject.Threshold = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ThresholdMetricId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.ThresholdMetricId = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("TreatMissingData", targetDepth))

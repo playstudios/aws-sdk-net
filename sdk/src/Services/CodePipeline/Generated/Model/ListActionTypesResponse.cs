@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// Represents the output of a ListActionTypes action.
+    /// Represents the output of a <code>ListActionTypes</code> action.
     /// </summary>
     public partial class ListActionTypesResponse : AmazonWebServiceResponse
     {
@@ -41,6 +41,7 @@ namespace Amazon.CodePipeline.Model
         /// Provides details of the action types.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<ActionType> ActionTypes
         {
             get { return this._actionTypes; }
@@ -57,10 +58,11 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If the amount of returned information is significantly large, an identifier is also
-        /// returned which can be used in a subsequent list action types call to return the next
+        /// returned. It can be used in a subsequent list action types call to return the next
         /// set of action types in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string NextToken
         {
             get { return this._nextToken; }

@@ -93,10 +93,22 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                     response.Configurations = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("created", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    response.Created = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("deploymentMode", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.DeploymentMode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("encryptionOptions", targetDepth))
+                {
+                    var unmarshaller = EncryptionOptionsUnmarshaller.Instance;
+                    response.EncryptionOptions = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("engineType", targetDepth))
@@ -117,10 +129,34 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                     response.HostInstanceType = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("logs", targetDepth))
+                {
+                    var unmarshaller = LogsSummaryUnmarshaller.Instance;
+                    response.Logs = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("maintenanceWindowStartTime", targetDepth))
                 {
                     var unmarshaller = WeeklyStartTimeUnmarshaller.Instance;
                     response.MaintenanceWindowStartTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("pendingEngineVersion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.PendingEngineVersion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("pendingHostInstanceType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.PendingHostInstanceType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("pendingSecurityGroups", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    response.PendingSecurityGroups = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("publiclyAccessible", targetDepth))
@@ -135,10 +171,22 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                     response.SecurityGroups = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("storageType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.StorageType = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("subnetIds", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
                     response.SubnetIds = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    response.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("users", targetDepth))

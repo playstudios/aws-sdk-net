@@ -35,6 +35,7 @@ namespace Amazon.Redshift.Model
         private bool? _allowVersionUpgrade;
         private int? _automatedSnapshotRetentionPeriod;
         private string _availabilityZone;
+        private string _clusterAvailabilityStatus;
         private DateTime? _clusterCreateTime;
         private string _clusterIdentifier;
         private List<ClusterNode> _clusterNodes = new List<ClusterNode>();
@@ -46,22 +47,34 @@ namespace Amazon.Redshift.Model
         private string _clusterStatus;
         private string _clusterSubnetGroupName;
         private string _clusterVersion;
+        private DataTransferProgress _dataTransferProgress;
         private string _dbName;
+        private List<DeferredMaintenanceWindow> _deferredMaintenanceWindows = new List<DeferredMaintenanceWindow>();
         private ElasticIpStatus _elasticIpStatus;
+        private string _elasticResizeNumberOfNodeOptions;
         private bool? _encrypted;
         private Endpoint _endpoint;
         private bool? _enhancedVpcRouting;
+        private DateTime? _expectedNextSnapshotScheduleTime;
+        private string _expectedNextSnapshotScheduleTimeStatus;
         private HsmStatus _hsmStatus;
         private List<ClusterIamRole> _iamRoles = new List<ClusterIamRole>();
         private string _kmsKeyId;
+        private string _maintenanceTrackName;
+        private int? _manualSnapshotRetentionPeriod;
         private string _masterUsername;
         private string _modifyStatus;
+        private DateTime? _nextMaintenanceWindowStartTime;
         private string _nodeType;
         private int? _numberOfNodes;
+        private List<string> _pendingActions = new List<string>();
         private PendingModifiedValues _pendingModifiedValues;
         private string _preferredMaintenanceWindow;
         private bool? _publiclyAccessible;
+        private ResizeInfo _resizeInfo;
         private RestoreStatus _restoreStatus;
+        private string _snapshotScheduleIdentifier;
+        private ScheduleState _snapshotScheduleState;
         private List<Tag> _tags = new List<Tag>();
         private string _vpcId;
         private List<VpcSecurityGroupMembership> _vpcSecurityGroups = new List<VpcSecurityGroupMembership>();
@@ -69,7 +82,7 @@ namespace Amazon.Redshift.Model
         /// <summary>
         /// Gets and sets the property AllowVersionUpgrade. 
         /// <para>
-        /// A Boolean value that, if <code>true</code>, indicates that major version upgrades
+        /// A boolean value that, if <code>true</code>, indicates that major version upgrades
         /// will be applied automatically to the cluster during the maintenance window. 
         /// </para>
         /// </summary>
@@ -119,6 +132,47 @@ namespace Amazon.Redshift.Model
         internal bool IsSetAvailabilityZone()
         {
             return this._availabilityZone != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ClusterAvailabilityStatus. 
+        /// <para>
+        /// The availability status of the cluster for queries. Possible values are the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Available - The cluster is available for queries. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Unavailable - The cluster is not available for queries.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Maintenance - The cluster is intermittently available for queries due to maintenance
+        /// activities.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Modifying - The cluster is intermittently available for queries due to changes that
+        /// modify the cluster.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Failed - The cluster failed and is not available for queries.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public string ClusterAvailabilityStatus
+        {
+            get { return this._clusterAvailabilityStatus; }
+            set { this._clusterAvailabilityStatus = value; }
+        }
+
+        // Check to see if ClusterAvailabilityStatus property is set
+        internal bool IsSetClusterAvailabilityStatus()
+        {
+            return this._clusterAvailabilityStatus != null;
         }
 
         /// <summary>
@@ -286,6 +340,18 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>available, prep-for-resize</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>available, resize-cleanup</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>cancelling-resize</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>creating</code> 
         /// </para>
         ///  </li> <li> 
@@ -319,6 +385,10 @@ namespace Amazon.Redshift.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>modifying</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>paused</code> 
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -396,6 +466,21 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DataTransferProgress.
+        /// </summary>
+        public DataTransferProgress DataTransferProgress
+        {
+            get { return this._dataTransferProgress; }
+            set { this._dataTransferProgress = value; }
+        }
+
+        // Check to see if DataTransferProgress property is set
+        internal bool IsSetDataTransferProgress()
+        {
+            return this._dataTransferProgress != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DBName. 
         /// <para>
         /// The name of the initial database that was created when the cluster was created. This
@@ -413,6 +498,24 @@ namespace Amazon.Redshift.Model
         internal bool IsSetDBName()
         {
             return this._dbName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeferredMaintenanceWindows. 
+        /// <para>
+        /// Describes a group of <code>DeferredMaintenanceWindow</code> objects.
+        /// </para>
+        /// </summary>
+        public List<DeferredMaintenanceWindow> DeferredMaintenanceWindows
+        {
+            get { return this._deferredMaintenanceWindows; }
+            set { this._deferredMaintenanceWindows = value; }
+        }
+
+        // Check to see if DeferredMaintenanceWindows property is set
+        internal bool IsSetDeferredMaintenanceWindows()
+        {
+            return this._deferredMaintenanceWindows != null && this._deferredMaintenanceWindows.Count > 0; 
         }
 
         /// <summary>
@@ -434,9 +537,28 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ElasticResizeNumberOfNodeOptions. 
+        /// <para>
+        /// The number of nodes that you can resize the cluster to with the elastic resize method.
+        /// 
+        /// </para>
+        /// </summary>
+        public string ElasticResizeNumberOfNodeOptions
+        {
+            get { return this._elasticResizeNumberOfNodeOptions; }
+            set { this._elasticResizeNumberOfNodeOptions = value; }
+        }
+
+        // Check to see if ElasticResizeNumberOfNodeOptions property is set
+        internal bool IsSetElasticResizeNumberOfNodeOptions()
+        {
+            return this._elasticResizeNumberOfNodeOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Encrypted. 
         /// <para>
-        /// A Boolean value that, if <code>true</code>, indicates that data in the cluster is
+        /// A boolean value that, if <code>true</code>, indicates that data in the cluster is
         /// encrypted at rest.
         /// </para>
         /// </summary>
@@ -475,7 +597,7 @@ namespace Amazon.Redshift.Model
         /// <para>
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled.
         /// To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC.
-        /// For more information, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
+        /// For more information, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
         /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         ///  
@@ -497,6 +619,53 @@ namespace Amazon.Redshift.Model
         internal bool IsSetEnhancedVpcRouting()
         {
             return this._enhancedVpcRouting.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ExpectedNextSnapshotScheduleTime. 
+        /// <para>
+        /// The date and time when the next snapshot is expected to be taken for clusters with
+        /// a valid snapshot schedule and backups enabled. 
+        /// </para>
+        /// </summary>
+        public DateTime ExpectedNextSnapshotScheduleTime
+        {
+            get { return this._expectedNextSnapshotScheduleTime.GetValueOrDefault(); }
+            set { this._expectedNextSnapshotScheduleTime = value; }
+        }
+
+        // Check to see if ExpectedNextSnapshotScheduleTime property is set
+        internal bool IsSetExpectedNextSnapshotScheduleTime()
+        {
+            return this._expectedNextSnapshotScheduleTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ExpectedNextSnapshotScheduleTimeStatus. 
+        /// <para>
+        ///  The status of next expected snapshot for clusters having a valid snapshot schedule
+        /// and backups enabled. Possible values are the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// OnTrack - The next snapshot is expected to be taken on time. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Pending - The next snapshot is pending to be taken. 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public string ExpectedNextSnapshotScheduleTimeStatus
+        {
+            get { return this._expectedNextSnapshotScheduleTimeStatus; }
+            set { this._expectedNextSnapshotScheduleTimeStatus = value; }
+        }
+
+        // Check to see if ExpectedNextSnapshotScheduleTimeStatus property is set
+        internal bool IsSetExpectedNextSnapshotScheduleTimeStatus()
+        {
+            return this._expectedNextSnapshotScheduleTimeStatus != null;
         }
 
         /// <summary>
@@ -561,6 +730,48 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MaintenanceTrackName. 
+        /// <para>
+        /// The name of the maintenance track for the cluster.
+        /// </para>
+        /// </summary>
+        public string MaintenanceTrackName
+        {
+            get { return this._maintenanceTrackName; }
+            set { this._maintenanceTrackName = value; }
+        }
+
+        // Check to see if MaintenanceTrackName property is set
+        internal bool IsSetMaintenanceTrackName()
+        {
+            return this._maintenanceTrackName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManualSnapshotRetentionPeriod. 
+        /// <para>
+        /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot
+        /// is retained indefinitely. This setting doesn't change the retention period of existing
+        /// snapshots.
+        /// </para>
+        ///  
+        /// <para>
+        /// The value must be either -1 or an integer between 1 and 3,653.
+        /// </para>
+        /// </summary>
+        public int ManualSnapshotRetentionPeriod
+        {
+            get { return this._manualSnapshotRetentionPeriod.GetValueOrDefault(); }
+            set { this._manualSnapshotRetentionPeriod = value; }
+        }
+
+        // Check to see if ManualSnapshotRetentionPeriod property is set
+        internal bool IsSetManualSnapshotRetentionPeriod()
+        {
+            return this._manualSnapshotRetentionPeriod.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property MasterUsername. 
         /// <para>
         /// The master user name for the cluster. This name is used to connect to the database
@@ -598,6 +809,24 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NextMaintenanceWindowStartTime. 
+        /// <para>
+        /// The date and time in UTC when system maintenance can begin.
+        /// </para>
+        /// </summary>
+        public DateTime NextMaintenanceWindowStartTime
+        {
+            get { return this._nextMaintenanceWindowStartTime.GetValueOrDefault(); }
+            set { this._nextMaintenanceWindowStartTime = value; }
+        }
+
+        // Check to see if NextMaintenanceWindowStartTime property is set
+        internal bool IsSetNextMaintenanceWindowStartTime()
+        {
+            return this._nextMaintenanceWindowStartTime.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property NodeType. 
         /// <para>
         /// The node type for the nodes in the cluster.
@@ -631,6 +860,24 @@ namespace Amazon.Redshift.Model
         internal bool IsSetNumberOfNodes()
         {
             return this._numberOfNodes.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property PendingActions. 
+        /// <para>
+        /// Cluster operations that are waiting to be started.
+        /// </para>
+        /// </summary>
+        public List<string> PendingActions
+        {
+            get { return this._pendingActions; }
+            set { this._pendingActions = value; }
+        }
+
+        // Check to see if PendingActions property is set
+        internal bool IsSetPendingActions()
+        {
+            return this._pendingActions != null && this._pendingActions.Count > 0; 
         }
 
         /// <summary>
@@ -674,7 +921,7 @@ namespace Amazon.Redshift.Model
         /// <summary>
         /// Gets and sets the property PubliclyAccessible. 
         /// <para>
-        /// A Boolean value that, if <code>true</code>, indicates that the cluster can be accessed
+        /// A boolean value that, if <code>true</code>, indicates that the cluster can be accessed
         /// from a public network.
         /// </para>
         /// </summary>
@@ -688,6 +935,33 @@ namespace Amazon.Redshift.Model
         internal bool IsSetPubliclyAccessible()
         {
             return this._publiclyAccessible.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ResizeInfo. 
+        /// <para>
+        /// Returns the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// AllowCancelResize: a boolean value indicating if the resize operation can be cancelled.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// ResizeType: Returns ClassicResize
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public ResizeInfo ResizeInfo
+        {
+            get { return this._resizeInfo; }
+            set { this._resizeInfo = value; }
+        }
+
+        // Check to see if ResizeInfo property is set
+        internal bool IsSetResizeInfo()
+        {
+            return this._resizeInfo != null;
         }
 
         /// <summary>
@@ -707,6 +981,42 @@ namespace Amazon.Redshift.Model
         internal bool IsSetRestoreStatus()
         {
             return this._restoreStatus != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SnapshotScheduleIdentifier. 
+        /// <para>
+        /// A unique identifier for the cluster snapshot schedule.
+        /// </para>
+        /// </summary>
+        public string SnapshotScheduleIdentifier
+        {
+            get { return this._snapshotScheduleIdentifier; }
+            set { this._snapshotScheduleIdentifier = value; }
+        }
+
+        // Check to see if SnapshotScheduleIdentifier property is set
+        internal bool IsSetSnapshotScheduleIdentifier()
+        {
+            return this._snapshotScheduleIdentifier != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SnapshotScheduleState. 
+        /// <para>
+        /// The current state of the cluster snapshot schedule.
+        /// </para>
+        /// </summary>
+        public ScheduleState SnapshotScheduleState
+        {
+            get { return this._snapshotScheduleState; }
+            set { this._snapshotScheduleState = value; }
+        }
+
+        // Check to see if SnapshotScheduleState property is set
+        internal bool IsSetSnapshotScheduleState()
+        {
+            return this._snapshotScheduleState != null;
         }
 
         /// <summary>

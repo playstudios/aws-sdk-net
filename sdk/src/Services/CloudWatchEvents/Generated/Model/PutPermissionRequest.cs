@@ -29,28 +29,40 @@ namespace Amazon.CloudWatchEvents.Model
 {
     /// <summary>
     /// Container for the parameters to the PutPermission operation.
-    /// Running <code>PutPermission</code> permits the specified AWS account to put events
-    /// to your account's default <i>event bus</i>. CloudWatch Events rules in your account
-    /// are triggered by these events arriving to your default event bus. 
+    /// Running <code>PutPermission</code> permits the specified AWS account or AWS organization
+    /// to put events to the specified <i>event bus</i>. CloudWatch Events rules in your account
+    /// are triggered by these events arriving to an event bus in your account. 
     /// 
     ///  
     /// <para>
     /// For another account to send events to your account, that external account must have
-    /// a CloudWatch Events rule with your account's default event bus as a target.
+    /// an EventBridge rule with your account's event bus as a target.
     /// </para>
     ///  
     /// <para>
-    /// To enable multiple AWS accounts to put events to your default event bus, run <code>PutPermission</code>
-    /// once for each of these accounts.
+    /// To enable multiple AWS accounts to put events to your event bus, run <code>PutPermission</code>
+    /// once for each of these accounts. Or, if all the accounts are members of the same AWS
+    /// organization, you can run <code>PutPermission</code> once specifying <code>Principal</code>
+    /// as "*" and specifying the AWS organization ID in <code>Condition</code>, to grant
+    /// permissions to all accounts in that organization.
     /// </para>
     ///  
     /// <para>
-    /// The permission policy on the default event bus cannot exceed 10KB in size.
+    /// If you grant permissions using an organization, then accounts in that organization
+    /// must specify a <code>RoleArn</code> with proper permissions when they use <code>PutTarget</code>
+    /// to add your account's event bus as a target. For more information, see <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html">Sending
+    /// and Receiving Events Between AWS Accounts</a> in the <i>Amazon EventBridge User Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// The permission policy on the default event bus cannot exceed 10 KB in size.
     /// </para>
     /// </summary>
     public partial class PutPermissionRequest : AmazonCloudWatchEventsRequest
     {
         private string _action;
+        private Condition _condition;
+        private string _eventBusName;
         private string _principal;
         private string _statementId;
 
@@ -61,6 +73,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// be <code>events:PutEvents</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Action
         {
             get { return this._action; }
@@ -74,6 +87,58 @@ namespace Amazon.CloudWatchEvents.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Condition. 
+        /// <para>
+        /// This parameter enables you to limit the permission to accounts that fulfill a certain
+        /// condition, such as being a member of a certain AWS organization. For more information
+        /// about AWS Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">What
+        /// Is AWS Organizations</a> in the <i>AWS Organizations User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify <code>Condition</code> with an AWS organization ID, and specify "*"
+        /// as the value for <code>Principal</code>, you grant permission to all the accounts
+        /// in the named organization.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>Condition</code> is a JSON string which must contain <code>Type</code>,
+        /// <code>Key</code>, and <code>Value</code> fields.
+        /// </para>
+        /// </summary>
+        public Condition Condition
+        {
+            get { return this._condition; }
+            set { this._condition = value; }
+        }
+
+        // Check to see if Condition property is set
+        internal bool IsSetCondition()
+        {
+            return this._condition != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EventBusName. 
+        /// <para>
+        /// The event bus associated with the rule. If you omit this, the default event bus is
+        /// used.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string EventBusName
+        {
+            get { return this._eventBusName; }
+            set { this._eventBusName = value; }
+        }
+
+        // Check to see if EventBusName property is set
+        internal bool IsSetEventBusName()
+        {
+            return this._eventBusName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Principal. 
         /// <para>
         /// The 12-digit AWS account ID that you are permitting to put events to your default
@@ -81,12 +146,14 @@ namespace Amazon.CloudWatchEvents.Model
         /// </para>
         ///  
         /// <para>
-        /// If you specify "*", avoid creating rules that may match undesirable events. To create
-        /// more secure rules, make sure that the event pattern for each rule contains an <code>account</code>
-        /// field with a specific account ID from which to receive events. Rules with an account
-        /// field do not match any events sent from other accounts.
+        /// If you specify "*" without specifying <code>Condition</code>, avoid creating rules
+        /// that may match undesirable events. To create more secure rules, make sure that the
+        /// event pattern for each rule contains an <code>account</code> field with a specific
+        /// account ID from which to receive events. Rules with an account field do not match
+        /// any events sent from other accounts.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=12)]
         public string Principal
         {
             get { return this._principal; }
@@ -107,6 +174,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// <code>StatementId</code> when you run <a>RemovePermission</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string StatementId
         {
             get { return this._statementId; }

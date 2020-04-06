@@ -31,44 +31,85 @@ namespace Amazon.RDS.Model
     /// Container for the parameters to the ModifyDBCluster operation.
     /// Modify a setting for an Amazon Aurora DB cluster. You can change one or more database
     /// configuration parameters by specifying these parameters and the new values in the
-    /// request. For more information on Amazon Aurora, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i>
+    /// request. For more information on Amazon Aurora, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class ModifyDBClusterRequest : AmazonRDSRequest
     {
+        private bool? _allowMajorVersionUpgrade;
         private bool? _applyImmediately;
+        private long? _backtrackWindow;
         private int? _backupRetentionPeriod;
+        private CloudwatchLogsExportConfiguration _cloudwatchLogsExportConfiguration;
+        private bool? _copyTagsToSnapshot;
         private string _dbClusterIdentifier;
         private string _dbClusterParameterGroupName;
+        private string _dbInstanceParameterGroupName;
+        private bool? _deletionProtection;
+        private string _domain;
+        private string _domainIAMRoleName;
+        private bool? _enableHttpEndpoint;
         private bool? _enableIAMDatabaseAuthentication;
+        private string _engineVersion;
         private string _masterUserPassword;
         private string _newDBClusterIdentifier;
         private string _optionGroupName;
         private int? _port;
         private string _preferredBackupWindow;
         private string _preferredMaintenanceWindow;
+        private ScalingConfiguration _scalingConfiguration;
         private List<string> _vpcSecurityGroupIds = new List<string>();
+
+        /// <summary>
+        /// Gets and sets the property AllowMajorVersionUpgrade. 
+        /// <para>
+        /// A value that indicates whether major version upgrades are allowed.
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints: You must allow major version upgrades when specifying a value for the
+        /// <code>EngineVersion</code> parameter that is a different major version than the DB
+        /// cluster's current version.
+        /// </para>
+        /// </summary>
+        public bool AllowMajorVersionUpgrade
+        {
+            get { return this._allowMajorVersionUpgrade.GetValueOrDefault(); }
+            set { this._allowMajorVersionUpgrade = value; }
+        }
+
+        // Check to see if AllowMajorVersionUpgrade property is set
+        internal bool IsSetAllowMajorVersionUpgrade()
+        {
+            return this._allowMajorVersionUpgrade.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property ApplyImmediately. 
         /// <para>
-        /// A value that specifies whether the modifications in this request and any pending modifications
+        /// A value that indicates whether the modifications in this request and any pending modifications
         /// are asynchronously applied as soon as possible, regardless of the <code>PreferredMaintenanceWindow</code>
-        /// setting for the DB cluster. If this parameter is set to <code>false</code>, changes
-        /// to the DB cluster are applied during the next maintenance window.
+        /// setting for the DB cluster. If this parameter is disabled, changes to the DB cluster
+        /// are applied during the next maintenance window.
         /// </para>
         ///  
         /// <para>
-        /// The <code>ApplyImmediately</code> parameter only affects the <code>NewDBClusterIdentifier</code>
-        /// and <code>MasterUserPassword</code> values. If you set the <code>ApplyImmediately</code>
-        /// parameter value to false, then changes to the <code>NewDBClusterIdentifier</code>
-        /// and <code>MasterUserPassword</code> values are applied during the next maintenance
-        /// window. All other changes are applied immediately, regardless of the value of the
-        /// <code>ApplyImmediately</code> parameter.
+        /// The <code>ApplyImmediately</code> parameter only affects the <code>EnableIAMDatabaseAuthentication</code>,
+        /// <code>MasterUserPassword</code>, and <code>NewDBClusterIdentifier</code> values. If
+        /// the <code>ApplyImmediately</code> parameter is disabled, then changes to the <code>EnableIAMDatabaseAuthentication</code>,
+        /// <code>MasterUserPassword</code>, and <code>NewDBClusterIdentifier</code> values are
+        /// applied during the next maintenance window. All other changes are applied immediately,
+        /// regardless of the value of the <code>ApplyImmediately</code> parameter.
         /// </para>
         ///  
         /// <para>
-        /// Default: <code>false</code> 
+        /// By default, this parameter is disabled.
         /// </para>
         /// </summary>
         public bool ApplyImmediately
@@ -81,6 +122,38 @@ namespace Amazon.RDS.Model
         internal bool IsSetApplyImmediately()
         {
             return this._applyImmediately.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property BacktrackWindow. 
+        /// <para>
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to
+        /// 0.
+        /// </para>
+        ///  
+        /// <para>
+        /// Default: 0
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If specified, this value must be set to a number from 0 to 259,200 (72 hours).
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public long BacktrackWindow
+        {
+            get { return this._backtrackWindow.GetValueOrDefault(); }
+            set { this._backtrackWindow = value; }
+        }
+
+        // Check to see if BacktrackWindow property is set
+        internal bool IsSetBacktrackWindow()
+        {
+            return this._backtrackWindow.HasValue; 
         }
 
         /// <summary>
@@ -116,20 +189,54 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CloudwatchLogsExportConfiguration. 
+        /// <para>
+        /// The configuration setting for the log types to be enabled for export to CloudWatch
+        /// Logs for a specific DB cluster.
+        /// </para>
+        /// </summary>
+        public CloudwatchLogsExportConfiguration CloudwatchLogsExportConfiguration
+        {
+            get { return this._cloudwatchLogsExportConfiguration; }
+            set { this._cloudwatchLogsExportConfiguration = value; }
+        }
+
+        // Check to see if CloudwatchLogsExportConfiguration property is set
+        internal bool IsSetCloudwatchLogsExportConfiguration()
+        {
+            return this._cloudwatchLogsExportConfiguration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CopyTagsToSnapshot. 
+        /// <para>
+        /// A value that indicates whether to copy all tags from the DB cluster to snapshots of
+        /// the DB cluster. The default is not to copy them.
+        /// </para>
+        /// </summary>
+        public bool CopyTagsToSnapshot
+        {
+            get { return this._copyTagsToSnapshot.GetValueOrDefault(); }
+            set { this._copyTagsToSnapshot = value; }
+        }
+
+        // Check to see if CopyTagsToSnapshot property is set
+        internal bool IsSetCopyTagsToSnapshot()
+        {
+            return this._copyTagsToSnapshot.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property DBClusterIdentifier. 
         /// <para>
-        /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive.
+        /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive.
         /// </para>
         ///  
         /// <para>
-        /// Constraints:
+        /// Constraints: This identifier must match the identifier of an existing DB cluster.
         /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// Must match the identifier of an existing DBCluster.
-        /// </para>
-        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterIdentifier
         {
             get { return this._dbClusterIdentifier; }
@@ -161,14 +268,146 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EnableIAMDatabaseAuthentication. 
+        /// Gets and sets the property DBInstanceParameterGroupName. 
         /// <para>
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database
-        /// accounts, and otherwise false.
+        /// The name of the DB parameter group to apply to all instances of the DB cluster. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// When you apply a parameter group using the <code>DBInstanceParameterGroupName</code>
+        /// parameter, the DB cluster isn't rebooted automatically. Also, parameter changes aren't
+        /// applied during the next maintenance window but instead are applied immediately.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Default: The existing name setting
         /// </para>
         ///  
         /// <para>
-        /// Default: <code>false</code> 
+        /// Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The DB parameter group must be in the same DB parameter group family as this DB cluster.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The <code>DBInstanceParameterGroupName</code> parameter is only valid in combination
+        /// with the <code>AllowMajorVersionUpgrade</code> parameter.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public string DBInstanceParameterGroupName
+        {
+            get { return this._dbInstanceParameterGroupName; }
+            set { this._dbInstanceParameterGroupName = value; }
+        }
+
+        // Check to see if DBInstanceParameterGroupName property is set
+        internal bool IsSetDBInstanceParameterGroupName()
+        {
+            return this._dbInstanceParameterGroupName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeletionProtection. 
+        /// <para>
+        /// A value that indicates whether the DB cluster has deletion protection enabled. The
+        /// database can't be deleted when deletion protection is enabled. By default, deletion
+        /// protection is disabled. 
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Domain. 
+        /// <para>
+        /// The Active Directory directory ID to move the DB cluster to. Specify <code>none</code>
+        /// to remove the cluster from its current domain. The domain must be created prior to
+        /// this operation. 
+        /// </para>
+        /// </summary>
+        public string Domain
+        {
+            get { return this._domain; }
+            set { this._domain = value; }
+        }
+
+        // Check to see if Domain property is set
+        internal bool IsSetDomain()
+        {
+            return this._domain != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DomainIAMRoleName. 
+        /// <para>
+        /// Specify the name of the IAM role to be used when making API calls to the Directory
+        /// Service.
+        /// </para>
+        /// </summary>
+        public string DomainIAMRoleName
+        {
+            get { return this._domainIAMRoleName; }
+            set { this._domainIAMRoleName = value; }
+        }
+
+        // Check to see if DomainIAMRoleName property is set
+        internal bool IsSetDomainIAMRoleName()
+        {
+            return this._domainIAMRoleName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableHttpEndpoint. 
+        /// <para>
+        /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless
+        /// DB cluster. By default, the HTTP endpoint is disabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// When enabled, the HTTP endpoint provides a connectionless web service API for running
+        /// SQL queries on the Aurora Serverless DB cluster. You can also query your database
+        /// from inside the RDS console with the query editor.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
+        /// the Data API for Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool EnableHttpEndpoint
+        {
+            get { return this._enableHttpEndpoint.GetValueOrDefault(); }
+            set { this._enableHttpEndpoint = value; }
+        }
+
+        // Check to see if EnableHttpEndpoint property is set
+        internal bool IsSetEnableHttpEndpoint()
+        {
+            return this._enableHttpEndpoint.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableIAMDatabaseAuthentication. 
+        /// <para>
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management
+        /// (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
+        /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i> 
         /// </para>
         /// </summary>
         public bool EnableIAMDatabaseAuthentication
@@ -181,6 +420,56 @@ namespace Amazon.RDS.Model
         internal bool IsSetEnableIAMDatabaseAuthentication()
         {
             return this._enableIAMDatabaseAuthentication.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EngineVersion. 
+        /// <para>
+        /// The version number of the database engine to which you want to upgrade. Changing this
+        /// parameter results in an outage. The change is applied during the next maintenance
+        /// window unless <code>ApplyImmediately</code> is enabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora</code> (for MySQL 5.6-compatible
+        /// Aurora), use the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora-mysql</code> (for MySQL
+        /// 5.7-compatible Aurora), use the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora-postgresql</code>, use
+        /// the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        /// </summary>
+        public string EngineVersion
+        {
+            get { return this._engineVersion; }
+            set { this._engineVersion = value; }
+        }
+
+        // Check to see if EngineVersion property is set
+        internal bool IsSetEngineVersion()
+        {
+            return this._engineVersion != null;
         }
 
         /// <summary>
@@ -226,7 +515,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -251,10 +540,9 @@ namespace Amazon.RDS.Model
         /// A value that indicates that the DB cluster should be associated with the specified
         /// option group. Changing this parameter doesn't result in an outage except in the following
         /// case, and the change is applied during the next maintenance window unless the <code>ApplyImmediately</code>
-        /// parameter is set to <code>true</code> for this request. If the parameter change results
-        /// in an option group that enables OEM, this change can cause a brief (sub-second) period
-        /// during which new connections are rejected but existing connections are not interrupted.
-        /// 
+        /// is enabled for this request. If the parameter change results in an option group that
+        /// enables OEM, this change can cause a brief (sub-second) period during which new connections
+        /// are rejected but existing connections are not interrupted. 
         /// </para>
         ///  
         /// <para>
@@ -309,9 +597,9 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// The default is a 30-minute window selected at random from an 8-hour block of time
-        /// for each AWS Region. To see the time blocks available, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon RDS User Guide.</i>
-        /// 
+        /// for each AWS Region. To see the time blocks available, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
+        /// Adjusting the Preferred DB Cluster Maintenance Window</a> in the <i>Amazon Aurora
+        /// User Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -361,9 +649,9 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The default is a 30-minute window selected at random from an 8-hour block of time
         /// for each AWS Region, occurring on a random day of the week. To see the time blocks
-        /// available, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon RDS User Guide.</i>
-        /// 
+        /// available, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
+        /// Adjusting the Preferred DB Cluster Maintenance Window</a> in the <i>Amazon Aurora
+        /// User Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -384,6 +672,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetPreferredMaintenanceWindow()
         {
             return this._preferredMaintenanceWindow != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ScalingConfiguration. 
+        /// <para>
+        /// The scaling properties of the DB cluster. You can only modify scaling properties for
+        /// DB clusters in <code>serverless</code> DB engine mode.
+        /// </para>
+        /// </summary>
+        public ScalingConfiguration ScalingConfiguration
+        {
+            get { return this._scalingConfiguration; }
+            set { this._scalingConfiguration = value; }
+        }
+
+        // Check to see if ScalingConfiguration property is set
+        internal bool IsSetScalingConfiguration()
+        {
+            return this._scalingConfiguration != null;
         }
 
         /// <summary>

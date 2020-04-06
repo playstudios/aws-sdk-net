@@ -55,10 +55,11 @@ namespace Amazon.Lambda.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetAccountSettingsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lambda");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-03-31";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/2016-08-19/account-settings/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2016-08-19/account-settings/";
+            request.MarshallerVersion = 2;
 
             return request;
         }

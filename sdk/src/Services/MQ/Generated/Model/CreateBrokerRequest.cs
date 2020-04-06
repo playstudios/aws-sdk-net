@@ -38,13 +38,17 @@ namespace Amazon.MQ.Model
         private ConfigurationId _configuration;
         private string _creatorRequestId;
         private DeploymentMode _deploymentMode;
+        private EncryptionOptions _encryptionOptions;
         private EngineType _engineType;
         private string _engineVersion;
         private string _hostInstanceType;
+        private Logs _logs;
         private WeeklyStartTime _maintenanceWindowStartTime;
         private bool? _publiclyAccessible;
         private List<string> _securityGroups = new List<string>();
+        private BrokerStorageType _storageType;
         private List<string> _subnetIds = new List<string>();
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
         private List<User> _users = new List<User>();
 
         /// <summary>
@@ -118,9 +122,6 @@ namespace Amazon.MQ.Model
 
         /// <summary>
         /// Gets and sets the property DeploymentMode. Required. The deployment mode of the broker.
-        /// Possible values: SINGLE_INSTANCE, ACTIVE_STANDBY_MULTI_AZ SINGLE_INSTANCE creates
-        /// a single-instance broker in a single Availability Zone. ACTIVE_STANDBY_MULTI_AZ creates
-        /// an active/standby broker for high availability.
         /// </summary>
         public DeploymentMode DeploymentMode
         {
@@ -132,6 +133,21 @@ namespace Amazon.MQ.Model
         internal bool IsSetDeploymentMode()
         {
             return this._deploymentMode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EncryptionOptions. Encryption options for the broker.
+        /// </summary>
+        public EncryptionOptions EncryptionOptions
+        {
+            get { return this._encryptionOptions; }
+            set { this._encryptionOptions = value; }
+        }
+
+        // Check to see if EncryptionOptions property is set
+        internal bool IsSetEncryptionOptions()
+        {
+            return this._encryptionOptions != null;
         }
 
         /// <summary>
@@ -152,7 +168,7 @@ namespace Amazon.MQ.Model
 
         /// <summary>
         /// Gets and sets the property EngineVersion. Required. The version of the broker engine.
-        /// Note: Currently, Amazon MQ supports only 5.15.0.
+        /// For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
         /// </summary>
         public string EngineVersion
         {
@@ -168,7 +184,6 @@ namespace Amazon.MQ.Model
 
         /// <summary>
         /// Gets and sets the property HostInstanceType. Required. The broker's instance type.
-        /// Possible values: mq.t2.micro, mq.m4.large
         /// </summary>
         public string HostInstanceType
         {
@@ -180,6 +195,21 @@ namespace Amazon.MQ.Model
         internal bool IsSetHostInstanceType()
         {
             return this._hostInstanceType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Logs. Enables Amazon CloudWatch logging for brokers.
+        /// </summary>
+        public Logs Logs
+        {
+            get { return this._logs; }
+            set { this._logs = value; }
+        }
+
+        // Check to see if Logs property is set
+        internal bool IsSetLogs()
+        {
+            return this._logs != null;
         }
 
         /// <summary>
@@ -215,8 +245,8 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SecurityGroups. Required. The list of rules (1 minimum,
-        /// 125 maximum) that authorize connections to brokers.
+        /// Gets and sets the property SecurityGroups. The list of security groups (1 minimum,
+        /// 5 maximum) that authorizes connections to brokers.
         /// </summary>
         public List<string> SecurityGroups
         {
@@ -231,10 +261,25 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SubnetIds. Required. The list of groups (2 maximum) that
-        /// define which subnets and IP ranges the broker can use from different Availability
-        /// Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default
-        /// subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
+        /// Gets and sets the property StorageType. The broker's storage type.
+        /// </summary>
+        public BrokerStorageType StorageType
+        {
+            get { return this._storageType; }
+            set { this._storageType = value; }
+        }
+
+        // Check to see if StorageType property is set
+        internal bool IsSetStorageType()
+        {
+            return this._storageType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SubnetIds. The list of groups (2 maximum) that define which
+        /// subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE
+        /// deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ
+        /// deployment requires two subnets.
         /// </summary>
         public List<string> SubnetIds
         {
@@ -246,6 +291,21 @@ namespace Amazon.MQ.Model
         internal bool IsSetSubnetIds()
         {
             return this._subnetIds != null && this._subnetIds.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. Create tags when creating the broker.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

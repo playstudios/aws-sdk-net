@@ -29,7 +29,20 @@ namespace Amazon.ElasticLoadBalancingV2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeListenerCertificates operation.
-    /// Describes the certificates for the specified secure listener.
+    /// Describes the default certificate and the certificate list for the specified HTTPS
+    /// or TLS listener.
+    /// 
+    ///  
+    /// <para>
+    /// If the default certificate is also in the certificate list, it appears twice in the
+    /// results (once with <code>IsDefault</code> set to true and once with <code>IsDefault</code>
+    /// set to false).
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates">SSL
+    /// Certificates</a> in the <i>Application Load Balancers Guide</i>.
+    /// </para>
     /// </summary>
     public partial class DescribeListenerCertificatesRequest : AmazonElasticLoadBalancingV2Request
     {
@@ -43,6 +56,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The Amazon Resource Names (ARN) of the listener.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ListenerArn
         {
             get { return this._listenerArn; }
@@ -80,6 +94,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The maximum number of results to return with this call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=400)]
         public int PageSize
         {
             get { return this._pageSize.GetValueOrDefault(); }

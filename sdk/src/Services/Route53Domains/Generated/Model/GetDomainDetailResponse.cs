@@ -62,6 +62,7 @@ namespace Amazon.Route53Domains.Model
         /// on a domain name, or report some other type of abuse.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=254)]
         public string AbuseContactEmail
         {
             get { return this._abuseContactEmail; }
@@ -80,6 +81,7 @@ namespace Amazon.Route53Domains.Model
         /// Phone number for reporting abuse.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=30)]
         public string AbuseContactPhone
         {
             get { return this._abuseContactPhone; }
@@ -98,6 +100,7 @@ namespace Amazon.Route53Domains.Model
         /// Provides details about the domain administrative contact.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ContactDetail AdminContact
         {
             get { return this._adminContact; }
@@ -113,10 +116,11 @@ namespace Amazon.Route53Domains.Model
         /// <summary>
         /// Gets and sets the property AdminPrivacy. 
         /// <para>
-        /// Specifies whether contact information for the admin contact is concealed from WHOIS
-        /// queries. If the value is <code>true</code>, WHOIS ("who is") queries will return contact
-        /// information for our registrar partner, Gandi, instead of the contact information that
-        /// you enter.
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value
+        /// is <code>true</code>, WHOIS ("who is") queries return contact information either for
+        /// Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
+        /// Gandi (for all other TLDs). If the value is <code>false</code>, WHOIS queries return
+        /// the information that you entered for the admin contact.
         /// </para>
         /// </summary>
         public bool AdminPrivacy
@@ -153,7 +157,7 @@ namespace Amazon.Route53Domains.Model
         /// Gets and sets the property CreationDate. 
         /// <para>
         /// The date when the domain was created as found in the response to a WHOIS query. The
-        /// date format is Unix time.
+        /// date and time is in Coordinated Universal time (UTC).
         /// </para>
         /// </summary>
         public DateTime CreationDate
@@ -192,6 +196,7 @@ namespace Amazon.Route53Domains.Model
         /// The name of a domain.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=255)]
         public string DomainName
         {
             get { return this._domainName; }
@@ -207,8 +212,8 @@ namespace Amazon.Route53Domains.Model
         /// <summary>
         /// Gets and sets the property ExpirationDate. 
         /// <para>
-        /// The date when the registration for the domain is set to expire. The date format is
-        /// Unix time.
+        /// The date when the registration for the domain is set to expire. The date and time
+        /// is in Coordinated Universal time (UTC).
         /// </para>
         /// </summary>
         public DateTime ExpirationDate
@@ -229,6 +234,7 @@ namespace Amazon.Route53Domains.Model
         /// The name of the domain.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Nameserver> Nameservers
         {
             get { return this._nameservers; }
@@ -247,6 +253,7 @@ namespace Amazon.Route53Domains.Model
         /// Provides details about the domain registrant.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ContactDetail RegistrantContact
         {
             get { return this._registrantContact; }
@@ -262,10 +269,11 @@ namespace Amazon.Route53Domains.Model
         /// <summary>
         /// Gets and sets the property RegistrantPrivacy. 
         /// <para>
-        /// Specifies whether contact information for the registrant contact is concealed from
-        /// WHOIS queries. If the value is <code>true</code>, WHOIS ("who is") queries will return
-        /// contact information for our registrar partner, Gandi, instead of the contact information
-        /// that you enter.
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value
+        /// is <code>true</code>, WHOIS ("who is") queries return contact information either for
+        /// Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
+        /// Gandi (for all other TLDs). If the value is <code>false</code>, WHOIS queries return
+        /// the information that you entered for the registrant contact (domain owner).
         /// </para>
         /// </summary>
         public bool RegistrantPrivacy
@@ -283,9 +291,10 @@ namespace Amazon.Route53Domains.Model
         /// <summary>
         /// Gets and sets the property RegistrarName. 
         /// <para>
-        /// Name of the registrar of the domain as identified in the registry. Amazon Route 53
-        /// domains are registered by registrar Gandi. The value is <code>"GANDI SAS"</code>.
-        /// 
+        /// Name of the registrar of the domain as identified in the registry. Domains with a
+        /// .com, .net, or .org TLD are registered by Amazon Registrar. All other domains are
+        /// registered by our registrar associate, Gandi. The value for domains that are registered
+        /// by Gandi is <code>"GANDI SAS"</code>. 
         /// </para>
         /// </summary>
         public string RegistrarName
@@ -395,6 +404,7 @@ namespace Amazon.Route53Domains.Model
         /// Provides details about the domain technical contact.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ContactDetail TechContact
         {
             get { return this._techContact; }
@@ -410,10 +420,11 @@ namespace Amazon.Route53Domains.Model
         /// <summary>
         /// Gets and sets the property TechPrivacy. 
         /// <para>
-        /// Specifies whether contact information for the tech contact is concealed from WHOIS
-        /// queries. If the value is <code>true</code>, WHOIS ("who is") queries will return contact
-        /// information for our registrar partner, Gandi, instead of the contact information that
-        /// you enter.
+        /// Specifies whether contact information is concealed from WHOIS queries. If the value
+        /// is <code>true</code>, WHOIS ("who is") queries return contact information either for
+        /// Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
+        /// Gandi (for all other TLDs). If the value is <code>false</code>, WHOIS queries return
+        /// the information that you entered for the technical contact.
         /// </para>
         /// </summary>
         public bool TechPrivacy
@@ -432,7 +443,7 @@ namespace Amazon.Route53Domains.Model
         /// Gets and sets the property UpdatedDate. 
         /// <para>
         /// The last updated date of the domain as found in the response to a WHOIS query. The
-        /// date format is Unix time.
+        /// date and time is in Coordinated Universal time (UTC).
         /// </para>
         /// </summary>
         public DateTime UpdatedDate

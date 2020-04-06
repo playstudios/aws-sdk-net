@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
-    /// Information used to terminate a WorkSpace.
+    /// Describes the information used to terminate a WorkSpace.
     /// </summary>
     public partial class TerminateRequest
     {
@@ -40,6 +40,7 @@ namespace Amazon.WorkSpaces.Model
         /// The identifier of the WorkSpace.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string WorkspaceId
         {
             get { return this._workspaceId; }

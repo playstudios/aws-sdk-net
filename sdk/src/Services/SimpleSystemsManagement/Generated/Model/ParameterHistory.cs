@@ -35,9 +35,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _allowedPattern;
         private string _description;
         private string _keyId;
+        private List<string> _labels = new List<string>();
         private DateTime? _lastModifiedDate;
         private string _lastModifiedUser;
         private string _name;
+        private List<ParameterInlinePolicy> _policies = new List<ParameterInlinePolicy>();
+        private ParameterTier _tier;
         private ParameterType _type;
         private string _value;
         private long? _version;
@@ -52,6 +55,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// a-zA-Z0-9_.-
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string AllowedPattern
         {
             get { return this._allowedPattern; }
@@ -70,6 +74,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Information about the parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -88,6 +93,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the query key used for this parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -98,6 +104,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetKeyId()
         {
             return this._keyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Labels. 
+        /// <para>
+        /// Labels assigned to the parameter version.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=10)]
+        public List<string> Labels
+        {
+            get { return this._labels; }
+            set { this._labels = value; }
+        }
+
+        // Check to see if Labels property is set
+        internal bool IsSetLabels()
+        {
+            return this._labels != null && this._labels.Count > 0; 
         }
 
         /// <summary>
@@ -142,6 +167,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string Name
         {
             get { return this._name; }
@@ -152,6 +178,47 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Policies. 
+        /// <para>
+        /// Information about the policies assigned to a parameter.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html">Working
+        /// with Parameter Policies</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// </para>
+        /// </summary>
+        public List<ParameterInlinePolicy> Policies
+        {
+            get { return this._policies; }
+            set { this._policies = value; }
+        }
+
+        // Check to see if Policies property is set
+        internal bool IsSetPolicies()
+        {
+            return this._policies != null && this._policies.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tier. 
+        /// <para>
+        /// The parameter tier.
+        /// </para>
+        /// </summary>
+        public ParameterTier Tier
+        {
+            get { return this._tier; }
+            set { this._tier = value; }
+        }
+
+        // Check to see if Tier property is set
+        internal bool IsSetTier()
+        {
+            return this._tier != null;
         }
 
         /// <summary>

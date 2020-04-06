@@ -29,10 +29,10 @@ namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
     /// Container for the parameters to the AddTagsToResource operation.
-    /// Adds metadata tags to a DMS resource, including replication instance, endpoint, security
-    /// group, and migration task. These tags can also be used with cost allocation reporting
-    /// to track cost associated with DMS resources, or used in a Condition statement in an
-    /// IAM policy for DMS.
+    /// Adds metadata tags to an AWS DMS resource, including replication instance, endpoint,
+    /// security group, and migration task. These tags can also be used with cost allocation
+    /// reporting to track cost associated with DMS resources, or used in a Condition statement
+    /// in an IAM policy for DMS.
     /// </summary>
     public partial class AddTagsToResourceRequest : AmazonDatabaseMigrationServiceRequest
     {
@@ -42,10 +42,15 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ResourceArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to.
-        /// AWS DMS resources include a replication instance, endpoint, and a replication task.
+        /// Identifies the AWS DMS resource to which tags should be added. The value for this
+        /// parameter is an Amazon Resource Name (ARN).
+        /// </para>
+        ///  
+        /// <para>
+        /// For AWS DMS, you can tag a replication instance, an endpoint, or a replication task.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceArn
         {
             get { return this._resourceArn; }
@@ -61,9 +66,10 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// The tag to be assigned to the DMS resource.
+        /// One or more tags to be assigned to the resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Tag> Tags
         {
             get { return this._tags; }

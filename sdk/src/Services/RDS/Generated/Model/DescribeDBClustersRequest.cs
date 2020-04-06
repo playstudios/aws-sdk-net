@@ -33,14 +33,21 @@ namespace Amazon.RDS.Model
     /// 
     ///  
     /// <para>
-    /// For more information on Amazon Aurora, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Aurora.html">Aurora
-    /// on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i> 
+    /// For more information on Amazon Aurora, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
+    /// What Is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i> 
     /// </para>
+    ///  <note> 
+    /// <para>
+    /// This operation can also return information for Amazon Neptune DB instances and Amazon
+    /// DocumentDB instances.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DescribeDBClustersRequest : AmazonRDSRequest
     {
         private string _dbClusterIdentifier;
         private List<Filter> _filters = new List<Filter>();
+        private bool? _includeShared;
         private string _marker;
         private int? _maxRecords;
 
@@ -102,11 +109,30 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IncludeShared. 
+        /// <para>
+        /// Optional Boolean parameter that specifies whether the output includes information
+        /// about clusters shared from other AWS accounts.
+        /// </para>
+        /// </summary>
+        public bool IncludeShared
+        {
+            get { return this._includeShared.GetValueOrDefault(); }
+            set { this._includeShared = value; }
+        }
+
+        // Check to see if IncludeShared property is set
+        internal bool IsSetIncludeShared()
+        {
+            return this._includeShared.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Marker. 
         /// <para>
-        /// An optional pagination token provided by a previous <a>DescribeDBClusters</a> request.
-        /// If this parameter is specified, the response includes only records beyond the marker,
-        /// up to the value specified by <code>MaxRecords</code>. 
+        /// An optional pagination token provided by a previous <code>DescribeDBClusters</code>
+        /// request. If this parameter is specified, the response includes only records beyond
+        /// the marker, up to the value specified by <code>MaxRecords</code>. 
         /// </para>
         /// </summary>
         public string Marker
@@ -126,7 +152,7 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The maximum number of records to include in the response. If more records exist than
         /// the specified <code>MaxRecords</code> value, a pagination token called a marker is
-        /// included in the response so that the remaining results can be retrieved. 
+        /// included in the response so you can retrieve the remaining results. 
         /// </para>
         ///  
         /// <para>

@@ -84,6 +84,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         request.Parameters.Add("SpotFleetRequestConfig" + "." + "InstanceInterruptionBehavior", StringUtils.FromString(publicRequest.SpotFleetRequestConfig.InstanceInterruptionBehavior));
                     }
+                    if(publicRequest.SpotFleetRequestConfig.IsSetInstancePoolsToUseCount())
+                    {
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "InstancePoolsToUseCount", StringUtils.FromInt(publicRequest.SpotFleetRequestConfig.InstancePoolsToUseCount));
+                    }
                     if(publicRequest.SpotFleetRequestConfig.IsSetLaunchSpecifications())
                     {
                         int publicRequestSpotFleetRequestConfiglistValueIndex = 1;
@@ -212,6 +216,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                             publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex++;
                                         }
                                     }
+                                    if(publicRequestSpotFleetRequestConfiglistValuelistValue.IsSetInterfaceType())
+                                    {
+                                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "InterfaceType", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValue.InterfaceType));
+                                    }
                                     if(publicRequestSpotFleetRequestConfiglistValuelistValue.IsSetIpv6AddressCount())
                                     {
                                         request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "Ipv6AddressCount", StringUtils.FromInt(publicRequestSpotFleetRequestConfiglistValuelistValue.Ipv6AddressCount));
@@ -223,7 +231,7 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                         {
                                             if(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.IsSetIpv6Address())
                                             {
-                                                request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "Ipv6AddressesSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex + "." + "Ipv6Address", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.Ipv6Address));
+                                                request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "Ipv6Addresses" + "." + publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex + "." + "Ipv6Address", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.Ipv6Address));
                                             }
                                             publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex++;
                                         }
@@ -243,11 +251,11 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                         {
                                             if(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.IsSetPrimary())
                                             {
-                                                request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "PrivateIpAddressesSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex + "." + "Primary", StringUtils.FromBool(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.Primary));
+                                                request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "PrivateIpAddresses" + "." + publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex + "." + "Primary", StringUtils.FromBool(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.Primary));
                                             }
                                             if(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.IsSetPrivateIpAddress())
                                             {
-                                                request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "PrivateIpAddressesSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex + "." + "PrivateIpAddress", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.PrivateIpAddress));
+                                                request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchSpecifications" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "NetworkInterfaceSet" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "PrivateIpAddresses" + "." + publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex + "." + "PrivateIpAddress", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValuelistValue.PrivateIpAddress));
                                             }
                                             publicRequestSpotFleetRequestConfiglistValuelistValuelistValueIndex++;
                                         }
@@ -378,6 +386,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                                     {
                                         request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchTemplateConfigs" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "Overrides" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "InstanceType", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValue.InstanceType));
                                     }
+                                    if(publicRequestSpotFleetRequestConfiglistValuelistValue.IsSetPriority())
+                                    {
+                                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchTemplateConfigs" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "Overrides" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "Priority", StringUtils.FromDouble(publicRequestSpotFleetRequestConfiglistValuelistValue.Priority));
+                                    }
                                     if(publicRequestSpotFleetRequestConfiglistValuelistValue.IsSetSpotPrice())
                                     {
                                         request.Parameters.Add("SpotFleetRequestConfig" + "." + "LaunchTemplateConfigs" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "Overrides" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "SpotPrice", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValue.SpotPrice));
@@ -429,13 +441,61 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                             }
                         }
                     }
+                    if(publicRequest.SpotFleetRequestConfig.IsSetOnDemandAllocationStrategy())
+                    {
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "OnDemandAllocationStrategy", StringUtils.FromString(publicRequest.SpotFleetRequestConfig.OnDemandAllocationStrategy));
+                    }
+                    if(publicRequest.SpotFleetRequestConfig.IsSetOnDemandFulfilledCapacity())
+                    {
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "OnDemandFulfilledCapacity", StringUtils.FromDouble(publicRequest.SpotFleetRequestConfig.OnDemandFulfilledCapacity));
+                    }
+                    if(publicRequest.SpotFleetRequestConfig.IsSetOnDemandMaxTotalPrice())
+                    {
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "OnDemandMaxTotalPrice", StringUtils.FromString(publicRequest.SpotFleetRequestConfig.OnDemandMaxTotalPrice));
+                    }
+                    if(publicRequest.SpotFleetRequestConfig.IsSetOnDemandTargetCapacity())
+                    {
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "OnDemandTargetCapacity", StringUtils.FromInt(publicRequest.SpotFleetRequestConfig.OnDemandTargetCapacity));
+                    }
                     if(publicRequest.SpotFleetRequestConfig.IsSetReplaceUnhealthyInstances())
                     {
                         request.Parameters.Add("SpotFleetRequestConfig" + "." + "ReplaceUnhealthyInstances", StringUtils.FromBool(publicRequest.SpotFleetRequestConfig.ReplaceUnhealthyInstances));
                     }
+                    if(publicRequest.SpotFleetRequestConfig.IsSetSpotMaxTotalPrice())
+                    {
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "SpotMaxTotalPrice", StringUtils.FromString(publicRequest.SpotFleetRequestConfig.SpotMaxTotalPrice));
+                    }
                     if(publicRequest.SpotFleetRequestConfig.IsSetSpotPrice())
                     {
                         request.Parameters.Add("SpotFleetRequestConfig" + "." + "SpotPrice", StringUtils.FromString(publicRequest.SpotFleetRequestConfig.SpotPrice));
+                    }
+                    if(publicRequest.SpotFleetRequestConfig.IsSetTagSpecifications())
+                    {
+                        int publicRequestSpotFleetRequestConfiglistValueIndex = 1;
+                        foreach(var publicRequestSpotFleetRequestConfiglistValue in publicRequest.SpotFleetRequestConfig.TagSpecifications)
+                        {
+                            if(publicRequestSpotFleetRequestConfiglistValue.IsSetResourceType())
+                            {
+                                request.Parameters.Add("SpotFleetRequestConfig" + "." + "TagSpecification" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "ResourceType", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValue.ResourceType));
+                            }
+                            if(publicRequestSpotFleetRequestConfiglistValue.IsSetTags())
+                            {
+                                int publicRequestSpotFleetRequestConfiglistValuelistValueIndex = 1;
+                                foreach(var publicRequestSpotFleetRequestConfiglistValuelistValue in publicRequestSpotFleetRequestConfiglistValue.Tags)
+                                {
+                                    if(publicRequestSpotFleetRequestConfiglistValuelistValue.IsSetKey())
+                                    {
+                                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "TagSpecification" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "Tag" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "Key", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValue.Key));
+                                    }
+                                    if(publicRequestSpotFleetRequestConfiglistValuelistValue.IsSetValue())
+                                    {
+                                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "TagSpecification" + "." + publicRequestSpotFleetRequestConfiglistValueIndex + "." + "Tag" + "." + publicRequestSpotFleetRequestConfiglistValuelistValueIndex + "." + "Value", StringUtils.FromString(publicRequestSpotFleetRequestConfiglistValuelistValue.Value));
+                                    }
+                                    publicRequestSpotFleetRequestConfiglistValuelistValueIndex++;
+                                }
+                            }
+                            publicRequestSpotFleetRequestConfiglistValueIndex++;
+                        }
                     }
                     if(publicRequest.SpotFleetRequestConfig.IsSetTargetCapacity())
                     {
@@ -449,13 +509,13 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         request.Parameters.Add("SpotFleetRequestConfig" + "." + "Type", StringUtils.FromString(publicRequest.SpotFleetRequestConfig.Type));
                     }
-                    if(publicRequest.SpotFleetRequestConfig.IsSetValidFrom())
+                    if(publicRequest.SpotFleetRequestConfig.IsSetValidFromUtc())
                     {
-                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "ValidFrom", Amazon.EC2.Internal.CustomMarshallTransformations.ConvertDateTimeISOWithoutMilliseconds(publicRequest.SpotFleetRequestConfig.ValidFrom));
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "ValidFrom", Amazon.EC2.Internal.CustomMarshallTransformations.ConvertDateTimeISOWithoutMillisecondsUtc(publicRequest.SpotFleetRequestConfig.ValidFromUtc));
                     }
-                    if(publicRequest.SpotFleetRequestConfig.IsSetValidUntil())
+                    if(publicRequest.SpotFleetRequestConfig.IsSetValidUntilUtc())
                     {
-                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "ValidUntil", Amazon.EC2.Internal.CustomMarshallTransformations.ConvertDateTimeISOWithoutMilliseconds(publicRequest.SpotFleetRequestConfig.ValidUntil));
+                        request.Parameters.Add("SpotFleetRequestConfig" + "." + "ValidUntil", Amazon.EC2.Internal.CustomMarshallTransformations.ConvertDateTimeISOWithoutMillisecondsUtc(publicRequest.SpotFleetRequestConfig.ValidUntilUtc));
                     }
                 }
             }

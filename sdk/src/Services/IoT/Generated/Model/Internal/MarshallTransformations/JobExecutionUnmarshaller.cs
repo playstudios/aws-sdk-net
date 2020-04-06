@@ -64,10 +64,22 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("approximateSecondsBeforeTimedOut", targetDepth))
+                {
+                    var unmarshaller = LongUnmarshaller.Instance;
+                    unmarshalledObject.ApproximateSecondsBeforeTimedOut = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("executionNumber", targetDepth))
                 {
                     var unmarshaller = LongUnmarshaller.Instance;
                     unmarshalledObject.ExecutionNumber = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("forceCanceled", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.ForceCanceled = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("jobId", targetDepth))
@@ -110,6 +122,12 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ThingArn = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("versionNumber", targetDepth))
+                {
+                    var unmarshaller = LongUnmarshaller.Instance;
+                    unmarshalledObject.VersionNumber = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

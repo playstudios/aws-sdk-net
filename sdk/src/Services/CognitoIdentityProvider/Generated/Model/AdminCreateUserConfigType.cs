@@ -62,7 +62,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// </para>
         ///  
         /// <para>
-        /// See also <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-message-customizations.html#cognito-user-pool-settings-user-invitation-message-customization">Customizing
+        /// See also <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-message-customizations.html#cognito-user-pool-settings-user-invitation-message-customization">Customizing
         /// User Invitation Messages</a>.
         /// </para>
         /// </summary>
@@ -84,9 +84,17 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user account expiration limit, in days, after which the account is no longer usable.
         /// To reset the account after that time limit, you must call <code>AdminCreateUser</code>
         /// again, specifying <code>"RESEND"</code> for the <code>MessageAction</code> parameter.
-        /// The default value for this parameter is 7.
+        /// The default value for this parameter is 7. 
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you set a value for <code>TemporaryPasswordValidityDays</code> in <code>PasswordPolicy</code>,
+        /// that value will be used and <code>UnusedAccountValidityDays</code> will be deprecated
+        /// for that user pool. 
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Min=0, Max=365)]
         public int UnusedAccountValidityDays
         {
             get { return this._unusedAccountValidityDays.GetValueOrDefault(); }

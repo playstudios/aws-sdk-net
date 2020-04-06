@@ -37,9 +37,10 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property RegionName. 
         /// <para>
-        /// The region of the replica to be removed.
+        /// The Region of the replica to be removed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RegionName
         {
             get { return this._regionName; }

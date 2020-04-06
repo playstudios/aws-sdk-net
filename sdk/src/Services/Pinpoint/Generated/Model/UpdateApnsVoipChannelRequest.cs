@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateApnsVoipChannel operation.
-    /// Update an APNS VoIP channel
+    /// Enables the APNs VoIP channel for an application or updates the status and settings
+    /// of the APNs VoIP channel for an application.
     /// </summary>
     public partial class UpdateApnsVoipChannelRequest : AmazonPinpointRequest
     {
@@ -39,6 +40,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property APNSVoipChannelRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public APNSVoipChannelRequest APNSVoipChannelRequest
         {
             get { return this._apnsVoipChannelRequest; }
@@ -52,8 +54,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

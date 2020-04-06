@@ -28,28 +28,48 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Glue.Model
 {
     /// <summary>
-    /// Classifiers are written in Python and triggered during a crawl task. You can write
-    /// your own classifiers to best categorize your data sources and specify the appropriate
-    /// schemas to use for them. A classifier checks whether a given file is in a format it
-    /// can handle, and if it is, the classifier creates a schema in the form of a <code>StructType</code>
-    /// object that matches that data format.
+    /// Classifiers are triggered during a crawl task. A classifier checks whether a given
+    /// file is in a format it can handle. If it is, the classifier creates a schema in the
+    /// form of a <code>StructType</code> object that matches that data format.
     /// 
     ///  
     /// <para>
-    /// A classifier can be a <code>grok</code> classifier, an XML classifier, or a JSON classifier,
-    /// asspecified in one of the fields in the <code>Classifier</code> object.
+    /// You can use the standard classifiers that AWS Glue provides, or you can write your
+    /// own classifiers to best categorize your data sources and specify the appropriate schemas
+    /// to use for them. A classifier can be a <code>grok</code> classifier, an <code>XML</code>
+    /// classifier, a <code>JSON</code> classifier, or a custom <code>CSV</code> classifier,
+    /// as specified in one of the fields in the <code>Classifier</code> object.
     /// </para>
     /// </summary>
     public partial class Classifier
     {
+        private CsvClassifier _csvClassifier;
         private GrokClassifier _grokClassifier;
         private JsonClassifier _jsonClassifier;
         private XMLClassifier _xmlClassifier;
 
         /// <summary>
+        /// Gets and sets the property CsvClassifier. 
+        /// <para>
+        /// A classifier for comma-separated values (CSV).
+        /// </para>
+        /// </summary>
+        public CsvClassifier CsvClassifier
+        {
+            get { return this._csvClassifier; }
+            set { this._csvClassifier = value; }
+        }
+
+        // Check to see if CsvClassifier property is set
+        internal bool IsSetCsvClassifier()
+        {
+            return this._csvClassifier != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property GrokClassifier. 
         /// <para>
-        /// A <code>GrokClassifier</code> object.
+        /// A classifier that uses <code>grok</code>.
         /// </para>
         /// </summary>
         public GrokClassifier GrokClassifier
@@ -67,7 +87,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property JsonClassifier. 
         /// <para>
-        /// A <code>JsonClassifier</code> object.
+        /// A classifier for JSON content.
         /// </para>
         /// </summary>
         public JsonClassifier JsonClassifier
@@ -85,7 +105,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property XMLClassifier. 
         /// <para>
-        /// An <code>XMLClassifier</code> object.
+        /// A classifier for XML content.
         /// </para>
         /// </summary>
         public XMLClassifier XMLClassifier

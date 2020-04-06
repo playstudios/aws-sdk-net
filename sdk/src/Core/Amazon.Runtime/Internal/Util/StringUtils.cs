@@ -34,6 +34,11 @@ namespace Amazon.Runtime.Internal.Util
             return value;
         }
 
+        public static string FromStringWithSlashEncoding(String value)
+        {
+            return AWSSDKUtils.UrlEncodeSlash(FromString(value));
+        }
+
         public static string FromString(ConstantClass value)
         {
             return value == null ? "" : value.Intern().Value;
@@ -67,9 +72,35 @@ namespace Amazon.Runtime.Internal.Util
             return value ? "true" : "false";
         }
 
+        [Obsolete("This method doesn't handle correctly non-UTC DateTimes. Use FromDateTimeToISO8601 instead.", false)]
         public static string FromDateTime(DateTime value)
         {
             return value.ToString(AWSSDKUtils.ISO8601DateFormat, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Converts a DateTime to ISO8601 formatted string.
+        /// </summary>
+        public static string FromDateTimeToISO8601(DateTime value)
+        {
+            return value.ToUniversalTime().ToString(AWSSDKUtils.ISO8601DateFormat, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Converts a DateTime to RFC822 formatted string.
+        /// </summary>
+        public static string FromDateTimeToRFC822(DateTime value)
+        {
+            return value.ToUniversalTime().ToString(
+                AWSSDKUtils.RFC822DateFormat, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Converts a DateTime to Unix epoch time formatted string.
+        /// </summary>
+        public static string FromDateTimeToUnixTimestamp(DateTime value)
+        {
+            return AWSSDKUtils.ConvertToUnixEpochSecondsString(value);
         }
 
         public static string FromDouble(double value)

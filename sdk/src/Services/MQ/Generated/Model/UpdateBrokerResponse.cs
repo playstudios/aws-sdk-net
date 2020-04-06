@@ -32,8 +32,29 @@ namespace Amazon.MQ.Model
     /// </summary>
     public partial class UpdateBrokerResponse : AmazonWebServiceResponse
     {
+        private bool? _autoMinorVersionUpgrade;
         private string _brokerId;
         private ConfigurationId _configuration;
+        private string _engineVersion;
+        private string _hostInstanceType;
+        private Logs _logs;
+        private List<string> _securityGroups = new List<string>();
+
+        /// <summary>
+        /// Gets and sets the property AutoMinorVersionUpgrade. The new value of automatic upgrades
+        /// to new minor version for brokers.
+        /// </summary>
+        public bool AutoMinorVersionUpgrade
+        {
+            get { return this._autoMinorVersionUpgrade.GetValueOrDefault(); }
+            set { this._autoMinorVersionUpgrade = value; }
+        }
+
+        // Check to see if AutoMinorVersionUpgrade property is set
+        internal bool IsSetAutoMinorVersionUpgrade()
+        {
+            return this._autoMinorVersionUpgrade.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property BrokerId. Required. The unique ID that Amazon MQ generates
@@ -64,6 +85,70 @@ namespace Amazon.MQ.Model
         internal bool IsSetConfiguration()
         {
             return this._configuration != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EngineVersion. The version of the broker engine to upgrade
+        /// to. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+        /// </summary>
+        public string EngineVersion
+        {
+            get { return this._engineVersion; }
+            set { this._engineVersion = value; }
+        }
+
+        // Check to see if EngineVersion property is set
+        internal bool IsSetEngineVersion()
+        {
+            return this._engineVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property HostInstanceType. The host instance type of the broker
+        /// to upgrade to. For a list of supported instance types, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
+        /// </summary>
+        public string HostInstanceType
+        {
+            get { return this._hostInstanceType; }
+            set { this._hostInstanceType = value; }
+        }
+
+        // Check to see if HostInstanceType property is set
+        internal bool IsSetHostInstanceType()
+        {
+            return this._hostInstanceType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Logs. The list of information about logs to be enabled
+        /// for the specified broker.
+        /// </summary>
+        public Logs Logs
+        {
+            get { return this._logs; }
+            set { this._logs = value; }
+        }
+
+        // Check to see if Logs property is set
+        internal bool IsSetLogs()
+        {
+            return this._logs != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SecurityGroups. The list of security groups (1 minimum,
+        /// 5 maximum) that authorizes connections to brokers.
+        /// </summary>
+        public List<string> SecurityGroups
+        {
+            get { return this._securityGroups; }
+            set { this._securityGroups = value; }
+        }
+
+        // Check to see if SecurityGroups property is set
+        internal bool IsSetSecurityGroups()
+        {
+            return this._securityGroups != null && this._securityGroups.Count > 0; 
         }
 
     }

@@ -30,7 +30,7 @@ namespace Amazon.KinesisVideoMedia.Model
     /// <summary>
     /// This is the response object from the GetMedia operation.
     /// </summary>
-    public partial class GetMediaResponse : AmazonWebServiceResponse
+    public partial class GetMediaResponse : AmazonWebServiceResponse, IDisposable
     {
         private string _contentType;
         private Stream _payload;
@@ -41,6 +41,7 @@ namespace Amazon.KinesisVideoMedia.Model
         /// The content type of the requested media.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ContentType
         {
             get { return this._contentType; }
@@ -79,11 +80,11 @@ namespace Amazon.KinesisVideoMedia.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// AWS_KINESISVIDEO_SERVER_TIMESTAMP - Server time stamp of the fragment.
+        /// AWS_KINESISVIDEO_SERVER_TIMESTAMP - Server timestamp of the fragment.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// AWS_KINESISVIDEO_PRODUCER_TIMESTAMP - Producer time stamp of the fragment.
+        /// AWS_KINESISVIDEO_PRODUCER_TIMESTAMP - Producer timestamp of the fragment.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -120,7 +121,7 @@ namespace Amazon.KinesisVideoMedia.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// 4502 - Validation error on the Stream's KMS key
+        /// 4502 - Validation error on the stream's KMS key
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -156,5 +157,33 @@ namespace Amazon.KinesisVideoMedia.Model
             return this._payload != null;
         }
 
+        #region Dispose Pattern
+
+        private bool _disposed;
+
+        /// <summary>
+        /// Disposes of all managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                this._payload?.Dispose();
+                this._payload = null;
+            }
+
+            this._disposed = true;
+         }
+
+         #endregion
     }
 }

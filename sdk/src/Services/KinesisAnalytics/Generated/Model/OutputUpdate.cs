@@ -43,7 +43,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Gets and sets the property DestinationSchemaUpdate. 
         /// <para>
         /// Describes the data format when records are written to the destination. For more information,
-        /// see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
+        /// see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
         /// Application Output</a>.
         /// </para>
         /// </summary>
@@ -120,6 +120,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// use this field to specify the new in-application stream name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public string NameUpdate
         {
             get { return this._nameUpdate; }
@@ -138,6 +139,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Identifies the specific output configuration that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string OutputId
         {
             get { return this._outputId; }

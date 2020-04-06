@@ -54,6 +54,18 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
             {
                 if (context.IsStartElement || context.IsAttribute)
                 {
+                    if (context.TestExpression("allocationTime", targetDepth))
+                    {
+                        var unmarshaller = DateTimeUnmarshaller.Instance;
+                        unmarshalledObject.AllocationTime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("allowsMultipleInstanceTypes", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.AllowsMultipleInstanceTypes = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("autoPlacement", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -64,6 +76,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.AvailabilityZone = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("availabilityZoneId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.AvailabilityZoneId = unmarshaller.Unmarshall(context);
                         continue;
                     }
                     if (context.TestExpression("availableCapacity", targetDepth))
@@ -90,6 +108,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.HostProperties = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("hostRecovery", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.HostRecovery = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("hostReservationId", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -103,10 +127,35 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.Instances.Add(item);
                         continue;
                     }
+                    if (context.TestExpression("memberOfServiceLinkedResourceGroup", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.MemberOfServiceLinkedResourceGroup = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("ownerId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.OwnerId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("releaseTime", targetDepth))
+                    {
+                        var unmarshaller = DateTimeUnmarshaller.Instance;
+                        unmarshalledObject.ReleaseTime = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("state", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.State = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("tagSet/item", targetDepth))
+                    {
+                        var unmarshaller = TagUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.Tags.Add(item);
                         continue;
                     }
                 }

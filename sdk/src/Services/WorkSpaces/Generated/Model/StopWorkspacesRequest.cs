@@ -45,9 +45,10 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property StopWorkspaceRequests. 
         /// <para>
-        /// The WorkSpaces to stop.
+        /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=25)]
         public List<StopRequest> StopWorkspaceRequests
         {
             get { return this._stopWorkspaceRequests; }

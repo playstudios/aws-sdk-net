@@ -30,15 +30,16 @@ namespace Amazon.DirectoryService.Model
     /// <summary>
     /// Container for the parameters to the CreateTrust operation.
     /// AWS Directory Service for Microsoft Active Directory allows you to configure trust
-    /// relationships. For example, you can establish a trust between your Microsoft AD in
-    /// the AWS cloud, and your existing on-premises Microsoft Active Directory. This would
+    /// relationships. For example, you can establish a trust between your AWS Managed Microsoft
+    /// AD directory, and your existing on-premises Microsoft Active Directory. This would
     /// allow you to provide users and groups access to resources in either domain, with a
     /// single set of credentials.
     /// 
     ///  
     /// <para>
     /// This action initiates the creation of the AWS side of a trust relationship between
-    /// a Microsoft AD in the AWS cloud and an external domain.
+    /// an AWS Managed Microsoft AD directory and an external domain. You can create either
+    /// a forest trust or an external trust.
     /// </para>
     /// </summary>
     public partial class CreateTrustRequest : AmazonDirectoryServiceRequest
@@ -46,6 +47,7 @@ namespace Amazon.DirectoryService.Model
         private List<string> _conditionalForwarderIpAddrs = new List<string>();
         private string _directoryId;
         private string _remoteDomainName;
+        private SelectiveAuth _selectiveAuth;
         private TrustDirection _trustDirection;
         private string _trustPassword;
         private TrustType _trustType;
@@ -71,10 +73,11 @@ namespace Amazon.DirectoryService.Model
         /// <summary>
         /// Gets and sets the property DirectoryId. 
         /// <para>
-        /// The Directory ID of the Microsoft AD in the AWS cloud for which to establish the trust
-        /// relationship.
+        /// The Directory ID of the AWS Managed Microsoft AD directory for which to establish
+        /// the trust relationship.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryId
         {
             get { return this._directoryId; }
@@ -94,6 +97,7 @@ namespace Amazon.DirectoryService.Model
         /// the trust relationship.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RemoteDomainName
         {
             get { return this._remoteDomainName; }
@@ -107,11 +111,30 @@ namespace Amazon.DirectoryService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SelectiveAuth. 
+        /// <para>
+        /// Optional parameter to enable selective authentication for the trust.
+        /// </para>
+        /// </summary>
+        public SelectiveAuth SelectiveAuth
+        {
+            get { return this._selectiveAuth; }
+            set { this._selectiveAuth = value; }
+        }
+
+        // Check to see if SelectiveAuth property is set
+        internal bool IsSetSelectiveAuth()
+        {
+            return this._selectiveAuth != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TrustDirection. 
         /// <para>
         /// The direction of the trust relationship.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TrustDirection TrustDirection
         {
             get { return this._trustDirection; }
@@ -131,6 +154,7 @@ namespace Amazon.DirectoryService.Model
         /// trust relationship on the external domain.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string TrustPassword
         {
             get { return this._trustPassword; }
@@ -146,7 +170,7 @@ namespace Amazon.DirectoryService.Model
         /// <summary>
         /// Gets and sets the property TrustType. 
         /// <para>
-        /// The trust relationship type.
+        /// The trust relationship type. <code>Forest</code> is the default.
         /// </para>
         /// </summary>
         public TrustType TrustType

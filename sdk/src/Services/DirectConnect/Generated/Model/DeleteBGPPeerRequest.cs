@@ -29,17 +29,26 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteBGPPeer operation.
-    /// Deletes a BGP peer on the specified virtual interface that matches the specified customer
-    /// address and ASN. You cannot delete the last BGP peer from a virtual interface.
+    /// Deletes the specified BGP peer on the specified virtual interface with the specified
+    /// customer address and ASN.
+    /// 
+    ///  
+    /// <para>
+    /// You cannot delete the last BGP peer from a virtual interface.
+    /// </para>
     /// </summary>
     public partial class DeleteBGPPeerRequest : AmazonDirectConnectRequest
     {
         private int? _asn;
+        private string _bgpPeerId;
         private string _customerAddress;
         private string _virtualInterfaceId;
 
         /// <summary>
-        /// Gets and sets the property Asn.
+        /// Gets and sets the property Asn. 
+        /// <para>
+        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// </para>
         /// </summary>
         public int Asn
         {
@@ -54,7 +63,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CustomerAddress.
+        /// Gets and sets the property BgpPeerId. 
+        /// <para>
+        /// The ID of the BGP peer.
+        /// </para>
+        /// </summary>
+        public string BgpPeerId
+        {
+            get { return this._bgpPeerId; }
+            set { this._bgpPeerId = value; }
+        }
+
+        // Check to see if BgpPeerId property is set
+        internal bool IsSetBgpPeerId()
+        {
+            return this._bgpPeerId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CustomerAddress. 
+        /// <para>
+        /// The IP address assigned to the customer interface.
+        /// </para>
         /// </summary>
         public string CustomerAddress
         {
@@ -71,15 +101,7 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property VirtualInterfaceId. 
         /// <para>
-        /// The ID of the virtual interface from which the BGP peer will be deleted.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: dxvif-456abc78
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The ID of the virtual interface.
         /// </para>
         /// </summary>
         public string VirtualInterfaceId

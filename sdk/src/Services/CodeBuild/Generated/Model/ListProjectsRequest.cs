@@ -42,12 +42,13 @@ namespace Amazon.CodeBuild.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// During a previous call, if there are more than 100 items in the list, only the first
-        /// 100 items are returned, along with a unique string called a <i>next token</i>. To
-        /// get the next batch of items in the list, call this operation again, adding the next
-        /// token to the call. To get all of the items in the list, keep calling this operation
-        /// with each subsequent next token that is returned, until no more next tokens are returned.
+        /// 100 items are returned, along with a unique string called a <i>nextToken</i>. To get
+        /// the next batch of items in the list, call this operation again, adding the next token
+        /// to the call. To get all of the items in the list, keep calling this operation with
+        /// each subsequent next token that is returned, until no more next tokens are returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -67,17 +68,16 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>CREATED_TIME</code>: List the build project names based on when each build
-        /// project was created.
+        ///  <code>CREATED_TIME</code>: List based on when each build project was created.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>LAST_MODIFIED_TIME</code>: List the build project names based on when information
-        /// about each build project was last changed.
+        ///  <code>LAST_MODIFIED_TIME</code>: List based on when information about each build
+        /// project was last changed.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>NAME</code>: List the build project names based on each build project's name.
+        ///  <code>NAME</code>: List based on each build project's name.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -104,11 +104,11 @@ namespace Amazon.CodeBuild.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>ASCENDING</code>: List the build project names in ascending order.
+        ///  <code>ASCENDING</code>: List in ascending order.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>DESCENDING</code>: List the build project names in descending order.
+        ///  <code>DESCENDING</code>: List in descending order.
         /// </para>
         ///  </li> </ul> 
         /// <para>

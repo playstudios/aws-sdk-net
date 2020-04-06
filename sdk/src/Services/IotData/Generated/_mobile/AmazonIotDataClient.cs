@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.IotData.Model;
 using Amazon.IotData.Model.Internal.MarshallTransformations;
+using Amazon.IotData.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -47,6 +49,7 @@ namespace Amazon.IotData
     /// </summary>
     public partial class AmazonIotDataClient : AmazonServiceClient, IAmazonIotData
     {
+        private static IServiceMetadata serviceMetadata = new AmazonIotDataMetadata();
         
 
         #region Overrides
@@ -59,6 +62,16 @@ namespace Amazon.IotData
             return new AWS4Signer();
         } 
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -74,34 +87,66 @@ namespace Amazon.IotData
 
         #endregion
 
-        
+
         #region  DeleteThingShadow
 
         internal virtual DeleteThingShadowResponse DeleteThingShadow(DeleteThingShadowRequest request)
         {
-            var marshaller = DeleteThingShadowRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingShadowResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingShadowRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingShadowResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteThingShadowRequest,DeleteThingShadowResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteThingShadowResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteThingShadow operation.
-        /// </summary>
+        /// Deletes the thing shadow for the specified thing.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteThingShadow operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="http://docs.aws.amazon.com/iot/latest/developerguide/API_DeleteThingShadow.html">DeleteThingShadow</a>
+        /// in the <i>AWS IoT Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteThingShadow service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteThingShadow service method, as returned by IotData.</returns>
+        /// <exception cref="Amazon.IotData.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.MethodNotAllowedException">
+        /// The specified combination of HTTP verb and URI is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.UnsupportedDocumentEncodingException">
+        /// The document encoding is not supported.
+        /// </exception>
         public virtual Task<DeleteThingShadowResponse> DeleteThingShadowAsync(DeleteThingShadowRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteThingShadowRequestMarshaller.Instance;
-            var unmarshaller = DeleteThingShadowResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteThingShadowRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteThingShadowResponseUnmarshaller.Instance;
 
-            return InvokeAsync<DeleteThingShadowRequest,DeleteThingShadowResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<DeleteThingShadowResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -110,29 +155,61 @@ namespace Amazon.IotData
 
         internal virtual GetThingShadowResponse GetThingShadow(GetThingShadowRequest request)
         {
-            var marshaller = GetThingShadowRequestMarshaller.Instance;
-            var unmarshaller = GetThingShadowResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetThingShadowRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetThingShadowResponseUnmarshaller.Instance;
 
-            return Invoke<GetThingShadowRequest,GetThingShadowResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetThingShadowResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetThingShadow operation.
-        /// </summary>
+        /// Gets the thing shadow for the specified thing.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetThingShadow operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="http://docs.aws.amazon.com/iot/latest/developerguide/API_GetThingShadow.html">GetThingShadow</a>
+        /// in the <i>AWS IoT Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetThingShadow service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetThingShadow service method, as returned by IotData.</returns>
+        /// <exception cref="Amazon.IotData.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.MethodNotAllowedException">
+        /// The specified combination of HTTP verb and URI is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.UnsupportedDocumentEncodingException">
+        /// The document encoding is not supported.
+        /// </exception>
         public virtual Task<GetThingShadowResponse> GetThingShadowAsync(GetThingShadowRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetThingShadowRequestMarshaller.Instance;
-            var unmarshaller = GetThingShadowResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetThingShadowRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetThingShadowResponseUnmarshaller.Instance;
 
-            return InvokeAsync<GetThingShadowRequest,GetThingShadowResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<GetThingShadowResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -141,29 +218,49 @@ namespace Amazon.IotData
 
         internal virtual PublishResponse Publish(PublishRequest request)
         {
-            var marshaller = PublishRequestMarshaller.Instance;
-            var unmarshaller = PublishResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PublishRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PublishResponseUnmarshaller.Instance;
 
-            return Invoke<PublishRequest,PublishResponse>(request, marshaller, unmarshaller);
+            return Invoke<PublishResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the Publish operation.
-        /// </summary>
+        /// Publishes state information.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the Publish operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="http://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#http">HTTP
+        /// Protocol</a> in the <i>AWS IoT Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the Publish service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the Publish service method, as returned by IotData.</returns>
+        /// <exception cref="Amazon.IotData.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.MethodNotAllowedException">
+        /// The specified combination of HTTP verb and URI is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
         public virtual Task<PublishResponse> PublishAsync(PublishRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PublishRequestMarshaller.Instance;
-            var unmarshaller = PublishResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PublishRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PublishResponseUnmarshaller.Instance;
 
-            return InvokeAsync<PublishRequest,PublishResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<PublishResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -172,29 +269,64 @@ namespace Amazon.IotData
 
         internal virtual UpdateThingShadowResponse UpdateThingShadow(UpdateThingShadowRequest request)
         {
-            var marshaller = UpdateThingShadowRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingShadowResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingShadowRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingShadowResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateThingShadowRequest,UpdateThingShadowResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateThingShadowResponse>(request, options);
         }
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateThingShadow operation.
-        /// </summary>
+        /// Updates the thing shadow for the specified thing.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateThingShadow operation.</param>
+        ///  
+        /// <para>
+        /// For more information, see <a href="http://docs.aws.amazon.com/iot/latest/developerguide/API_UpdateThingShadow.html">UpdateThingShadow</a>
+        /// in the <i>AWS IoT Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateThingShadow service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateThingShadow service method, as returned by IotData.</returns>
+        /// <exception cref="Amazon.IotData.Model.ConflictException">
+        /// The specified version does not match the version of the document.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.MethodNotAllowedException">
+        /// The specified combination of HTTP verb and URI is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.RequestEntityTooLargeException">
+        /// The payload exceeds the maximum size allowed.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <exception cref="Amazon.IotData.Model.UnsupportedDocumentEncodingException">
+        /// The document encoding is not supported.
+        /// </exception>
         public virtual Task<UpdateThingShadowResponse> UpdateThingShadowAsync(UpdateThingShadowRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateThingShadowRequestMarshaller.Instance;
-            var unmarshaller = UpdateThingShadowResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateThingShadowRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateThingShadowResponseUnmarshaller.Instance;
 
-            return InvokeAsync<UpdateThingShadowRequest,UpdateThingShadowResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            return InvokeAsync<UpdateThingShadowResponse>(request, options, cancellationToken);
         }
 
         #endregion

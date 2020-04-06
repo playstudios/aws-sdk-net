@@ -42,6 +42,7 @@ namespace Amazon.SecretsManager.Model
         private DateTime? _lastChangedDate;
         private DateTime? _lastRotatedDate;
         private string _name;
+        private string _owningService;
         private bool? _rotationEnabled;
         private string _rotationLambdaARN;
         private RotationRulesType _rotationRules;
@@ -55,10 +56,11 @@ namespace Amazon.SecretsManager.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs in AWS Secrets Manager, see <a href="http://docs.aws.amazon.com/http:/docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources">Policy
+        /// For more information about ARNs in Secrets Manager, see <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources">Policy
         /// Resources</a> in the <i>AWS Secrets Manager User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string ARN
         {
             get { return this._arn; }
@@ -98,6 +100,7 @@ namespace Amazon.SecretsManager.Model
         /// The user-provided description of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -115,11 +118,12 @@ namespace Amazon.SecretsManager.Model
         /// <para>
         /// The ARN or alias of the AWS KMS customer master key (CMK) that's used to encrypt the
         /// <code>SecretString</code> and <code>SecretBinary</code> fields in each version of
-        /// the secret. If you don't provide a key, then AWS Secrets Manager defaults to encrypting
+        /// the secret. If you don't provide a key, then Secrets Manager defaults to encrypting
         /// the secret fields with the default KMS CMK (the one named <code>awssecretsmanager</code>)
         /// for this account.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string KmsKeyId
         {
             get { return this._kmsKeyId; }
@@ -196,6 +200,7 @@ namespace Amazon.SecretsManager.Model
         /// in the folder <code>prod</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -209,9 +214,28 @@ namespace Amazon.SecretsManager.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OwningService. 
+        /// <para>
+        /// Returns the name of the service that created the secret.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=128)]
+        public string OwningService
+        {
+            get { return this._owningService; }
+            set { this._owningService = value; }
+        }
+
+        // Check to see if OwningService property is set
+        internal bool IsSetOwningService()
+        {
+            return this._owningService != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RotationEnabled. 
         /// <para>
-        /// Indicated whether automatic, scheduled rotation is enabled for this secret.
+        /// Indicates whether automatic, scheduled rotation is enabled for this secret.
         /// </para>
         /// </summary>
         public bool RotationEnabled
@@ -229,11 +253,11 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property RotationLambdaARN. 
         /// <para>
-        /// The ARN of an AWS Lambda function that's invoked by AWS Secrets Manager to rotate
-        /// and expire the secret either automatically per the schedule or manually by a call
-        /// to <a>RotateSecret</a>.
+        /// The ARN of an AWS Lambda function that's invoked by Secrets Manager to rotate and
+        /// expire the secret either automatically per the schedule or manually by a call to <a>RotateSecret</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string RotationLambdaARN
         {
             get { return this._rotationLambdaARN; }

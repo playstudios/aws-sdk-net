@@ -33,18 +33,39 @@ namespace Amazon.AlexaForBusiness.Model
     /// </summary>
     public partial class ListSkillsRequest : AmazonAlexaForBusinessRequest
     {
+        private EnablementTypeFilter _enablementType;
         private int? _maxResults;
         private string _nextToken;
         private string _skillGroupArn;
+        private SkillTypeFilter _skillType;
+
+        /// <summary>
+        /// Gets and sets the property EnablementType. 
+        /// <para>
+        /// Whether the skill is enabled under the user's account.
+        /// </para>
+        /// </summary>
+        public EnablementTypeFilter EnablementType
+        {
+            get { return this._enablementType; }
+            set { this._enablementType = value; }
+        }
+
+        // Check to see if EnablementType property is set
+        internal bool IsSetEnablementType()
+        {
+            return this._enablementType != null;
+        }
 
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
         /// The maximum number of results to include in the response. If more results exist than
         /// the specified <code>MaxResults</code> value, a token is included in the response so
-        /// that the remaining results can be retrieved. Required.
+        /// that the remaining results can be retrieved.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -62,9 +83,10 @@ namespace Amazon.AlexaForBusiness.Model
         /// <para>
         /// An optional token returned from a prior request. Use this token for pagination of
         /// results from this action. If this parameter is specified, the response includes only
-        /// results beyond the token, up to the value specified by <code>MaxResults</code>. Required.
+        /// results beyond the token, up to the value specified by <code>MaxResults</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1100)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -80,7 +102,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// <summary>
         /// Gets and sets the property SkillGroupArn. 
         /// <para>
-        /// The ARN of the skill group for which to list enabled skills. Required.
+        /// The ARN of the skill group for which to list enabled skills.
         /// </para>
         /// </summary>
         public string SkillGroupArn
@@ -93,6 +115,24 @@ namespace Amazon.AlexaForBusiness.Model
         internal bool IsSetSkillGroupArn()
         {
             return this._skillGroupArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SkillType. 
+        /// <para>
+        /// Whether the skill is publicly available or is a private skill.
+        /// </para>
+        /// </summary>
+        public SkillTypeFilter SkillType
+        {
+            get { return this._skillType; }
+            set { this._skillType = value; }
+        }
+
+        // Check to see if SkillType property is set
+        internal bool IsSetSkillType()
+        {
+            return this._skillType != null;
         }
 
     }

@@ -79,10 +79,11 @@ namespace Amazon.DynamoDBv2.Model
         /// Gets and sets the property NumberOfDecreasesToday. 
         /// <para>
         /// The number of provisioned throughput decreases for this table during this UTC calendar
-        /// day. For current maximums on provisioned throughput decreases, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
+        /// day. For current maximums on provisioned throughput decreases, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public long NumberOfDecreasesToday
         {
             get { return this._numberOfDecreasesToday.GetValueOrDefault(); }
@@ -104,6 +105,7 @@ namespace Amazon.DynamoDBv2.Model
         /// per second provides 100 eventually consistent <code>ReadCapacityUnits</code> per second.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long ReadCapacityUnits
         {
             get { return this._readCapacityUnits.GetValueOrDefault(); }
@@ -122,6 +124,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The maximum number of writes consumed per second before DynamoDB returns a <code>ThrottlingException</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long WriteCapacityUnits
         {
             get { return this._writeCapacityUnits.GetValueOrDefault(); }

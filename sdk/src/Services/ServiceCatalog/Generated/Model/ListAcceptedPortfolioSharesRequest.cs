@@ -36,6 +36,7 @@ namespace Amazon.ServiceCatalog.Model
         private string _acceptLanguage;
         private int? _pageSize;
         private string _pageToken;
+        private PortfolioShareType _portfolioShareType;
 
         /// <summary>
         /// Gets and sets the property AcceptLanguage. 
@@ -56,6 +57,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string AcceptLanguage
         {
             get { return this._acceptLanguage; }
@@ -74,6 +76,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The maximum number of items to return with this call.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=20)]
         public int PageSize
         {
             get { return this._pageSize.GetValueOrDefault(); }
@@ -93,6 +96,7 @@ namespace Amazon.ServiceCatalog.Model
         /// use null.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2024)]
         public string PageToken
         {
             get { return this._pageToken; }
@@ -103,6 +107,38 @@ namespace Amazon.ServiceCatalog.Model
         internal bool IsSetPageToken()
         {
             return this._pageToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PortfolioShareType. 
+        /// <para>
+        /// The type of shared portfolios to list. The default is to list imported portfolios.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>AWS_ORGANIZATIONS</code> - List portfolios shared by the master account of
+        /// your organization
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>AWS_SERVICECATALOG</code> - List default portfolios
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>IMPORTED</code> - List imported portfolios
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public PortfolioShareType PortfolioShareType
+        {
+            get { return this._portfolioShareType; }
+            set { this._portfolioShareType = value; }
+        }
+
+        // Check to see if PortfolioShareType property is set
+        internal bool IsSetPortfolioShareType()
+        {
+            return this._portfolioShareType != null;
         }
 
     }

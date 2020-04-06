@@ -29,17 +29,21 @@ namespace Amazon.GuardDuty.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateDetector operation.
-    /// Updates an Amazon GuardDuty detector specified by the detectorId.
+    /// Updates the Amazon GuardDuty detector specified by the detectorId.
     /// </summary>
     public partial class UpdateDetectorRequest : AmazonGuardDutyRequest
     {
         private string _detectorId;
         private bool? _enable;
+        private FindingPublishingFrequency _findingPublishingFrequency;
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The unique ID of the detector that you want
-        /// to update.
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The unique ID of the detector to update.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }
@@ -53,8 +57,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Enable. Updated boolean value for the detector that specifies
-        /// whether the detector is enabled.
+        /// Gets and sets the property Enable. 
+        /// <para>
+        /// Specifies whether the detector is enabled or not enabled.
+        /// </para>
         /// </summary>
         public bool Enable
         {
@@ -66,6 +72,25 @@ namespace Amazon.GuardDuty.Model
         internal bool IsSetEnable()
         {
             return this._enable.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property FindingPublishingFrequency. 
+        /// <para>
+        /// A enum value that specifies how frequently findings are exported, such as to CloudWatch
+        /// Events.
+        /// </para>
+        /// </summary>
+        public FindingPublishingFrequency FindingPublishingFrequency
+        {
+            get { return this._findingPublishingFrequency; }
+            set { this._findingPublishingFrequency = value; }
+        }
+
+        // Check to see if FindingPublishingFrequency property is set
+        internal bool IsSetFindingPublishingFrequency()
+        {
+            return this._findingPublishingFrequency != null;
         }
 
     }

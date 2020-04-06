@@ -47,6 +47,7 @@ namespace Amazon.CloudWatchLogs.Model
         private bool? _interleaved;
         private int? _limit;
         private string _logGroupName;
+        private string _logStreamNamePrefix;
         private List<string> _logStreamNames = new List<string>();
         private string _nextToken;
         private long? _startTime;
@@ -55,9 +56,10 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property EndTime. 
         /// <para>
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970
-        /// 00:00:00 UTC. Events with a time stamp later than this time are not returned.
+        /// 00:00:00 UTC. Events with a timestamp later than this time are not returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long EndTime
         {
             get { return this._endTime.GetValueOrDefault(); }
@@ -73,9 +75,15 @@ namespace Amazon.CloudWatchLogs.Model
         /// <summary>
         /// Gets and sets the property FilterPattern. 
         /// <para>
-        /// The filter pattern to use. If not provided, all the events are matched.
+        /// The filter pattern to use. For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html">Filter
+        /// and Pattern Syntax</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// If not provided, all the events are matched.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string FilterPattern
         {
             get { return this._filterPattern; }
@@ -96,7 +104,14 @@ namespace Amazon.CloudWatchLogs.Model
         /// response. If the value is false, all the matched log events in the first log stream
         /// are searched first, then those in the next log stream, and so on. The default is false.
         /// </para>
+        ///  
+        /// <para>
+        ///  <b>IMPORTANT:</b> Starting on June 17, 2019, this parameter will be ignored and the
+        /// value will be assumed to be true. The response from this operation will always interleave
+        /// events from multiple log streams within a log group.
+        /// </para>
         /// </summary>
+        [Obsolete("Starting on June 17, 2019, this parameter will be ignored and the value will be assumed to be true. The response from this operation will always interleave events from multiple log streams within a log group.")]
         public bool Interleaved
         {
             get { return this._interleaved.GetValueOrDefault(); }
@@ -115,6 +130,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The maximum number of events to return. The default is 10,000 events.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -130,9 +146,10 @@ namespace Amazon.CloudWatchLogs.Model
         /// <summary>
         /// Gets and sets the property LogGroupName. 
         /// <para>
-        /// The name of the log group.
+        /// The name of the log group to search.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string LogGroupName
         {
             get { return this._logGroupName; }
@@ -146,11 +163,44 @@ namespace Amazon.CloudWatchLogs.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LogStreamNames. 
+        /// Gets and sets the property LogStreamNamePrefix. 
         /// <para>
-        /// Optional list of log stream names.
+        /// Filters the results to include only events from log streams that have names starting
+        /// with this prefix.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify a value for both <code>logStreamNamePrefix</code> and <code>logStreamNames</code>,
+        /// but the value for <code>logStreamNamePrefix</code> does not match any log stream names
+        /// specified in <code>logStreamNames</code>, the action returns an <code>InvalidParameterException</code>
+        /// error.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
+        public string LogStreamNamePrefix
+        {
+            get { return this._logStreamNamePrefix; }
+            set { this._logStreamNamePrefix = value; }
+        }
+
+        // Check to see if LogStreamNamePrefix property is set
+        internal bool IsSetLogStreamNamePrefix()
+        {
+            return this._logStreamNamePrefix != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LogStreamNames. 
+        /// <para>
+        /// Filters the results to only logs from the log streams in this list.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify a value for both <code>logStreamNamePrefix</code> and <code>logStreamNames</code>,
+        /// the action returns an <code>InvalidParameterException</code> error.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> LogStreamNames
         {
             get { return this._logStreamNames; }
@@ -170,6 +220,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// call.)
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -186,9 +237,10 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property StartTime. 
         /// <para>
         /// The start of the time range, expressed as the number of milliseconds after Jan 1,
-        /// 1970 00:00:00 UTC. Events with a time stamp before this time are not returned.
+        /// 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long StartTime
         {
             get { return this._startTime.GetValueOrDefault(); }

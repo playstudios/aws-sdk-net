@@ -29,9 +29,12 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// A range of IP addresses and port settings that allow inbound traffic to connect to
-    /// server processes on Amazon GameLift. Each game session hosted on a fleet is assigned
-    /// a unique combination of IP address and port number, which must fall into the fleet's
-    /// allowed ranges. This combination is included in the <a>GameSession</a> object.
+    /// server processes on an Amazon GameLift hosting resource. New game sessions that are
+    /// started on the fleet are assigned an IP address/port number combination, which must
+    /// fall into the fleet's allowed ranges. For fleets created with a custom game server,
+    /// the ranges reflect the server's game session assignments. For Realtime Servers fleets,
+    /// Amazon GameLift automatically opens two port ranges, one for TCP messaging and one
+    /// for UDP for use by the Realtime servers.
     /// </summary>
     public partial class IpPermission
     {
@@ -43,9 +46,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FromPort. 
         /// <para>
-        /// Starting value for a range of allowed port numbers.
+        /// A starting value for a range of allowed port numbers.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=60000)]
         public int FromPort
         {
             get { return this._fromPort.GetValueOrDefault(); }
@@ -61,11 +65,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property IpRange. 
         /// <para>
-        /// Range of allowed IP addresses. This value must be expressed in CIDR notation. Example:
+        /// A range of allowed IP addresses. This value must be expressed in CIDR notation. Example:
         /// "<code>000.000.000.000/[subnet mask]</code>" or optionally the shortened version "<code>0.0.0.0/[subnet
         /// mask]</code>".
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string IpRange
         {
             get { return this._ipRange; }
@@ -81,9 +86,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Protocol. 
         /// <para>
-        /// Network communication protocol used by the fleet.
+        /// The network communication protocol used by the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public IpProtocol Protocol
         {
             get { return this._protocol; }
@@ -99,10 +105,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property ToPort. 
         /// <para>
-        /// Ending value for a range of allowed port numbers. Port numbers are end-inclusive.
+        /// An ending value for a range of allowed port numbers. Port numbers are end-inclusive.
         /// This value must be higher than <code>FromPort</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=60000)]
         public int ToPort
         {
             get { return this._toPort.GetValueOrDefault(); }

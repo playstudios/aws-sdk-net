@@ -42,9 +42,10 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property Name. 
         /// <para>
         /// The name of the pipeline for which you want to get information. Pipeline names must
-        /// be unique under an Amazon Web Services (AWS) user account.
+        /// be unique under an AWS user account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -61,9 +62,10 @@ namespace Amazon.CodePipeline.Model
         /// Gets and sets the property Version. 
         /// <para>
         /// The version number of the pipeline. If you do not specify a version, defaults to the
-        /// most current version.
+        /// current version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Version
         {
             get { return this._version.GetValueOrDefault(); }

@@ -30,7 +30,8 @@ namespace Amazon.EC2.Model
     /// <summary>
     /// Container for the parameters to the ModifyNetworkInterfaceAttribute operation.
     /// Modifies the specified network interface attribute. You can specify only one attribute
-    /// at a time.
+    /// at a time. You can use this action to attach and detach security groups from an existing
+    /// EC2 instance.
     /// </summary>
     public partial class ModifyNetworkInterfaceAttributeRequest : AmazonEC2Request
     {
@@ -104,6 +105,7 @@ namespace Amazon.EC2.Model
         /// The ID of the network interface.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NetworkInterfaceId
         {
             get { return this._networkInterfaceId; }
@@ -122,7 +124,7 @@ namespace Amazon.EC2.Model
         /// Indicates whether source/destination checking is enabled. A value of <code>true</code>
         /// means checking is enabled, and <code>false</code> means checking is disabled. This
         /// value must be <code>false</code> for a NAT instance to perform NAT. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html">NAT
+        /// see <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html">NAT
         /// Instances</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
         /// </para>
         /// </summary>

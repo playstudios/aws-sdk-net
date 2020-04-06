@@ -100,6 +100,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     unmarshalledObject.ColorMetadata = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("colorSpaceSettings", targetDepth))
+                {
+                    var unmarshaller = H264ColorSpaceSettingsUnmarshaller.Instance;
+                    unmarshalledObject.ColorSpaceSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("entropyEncoding", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -116,6 +122,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.FlickerAq = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("forceFieldPictures", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ForceFieldPictures = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("framerateControl", targetDepth))
@@ -220,6 +232,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     unmarshalledObject.Profile = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("qvbrQualityLevel", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.QvbrQualityLevel = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("rateControlMode", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -254,6 +272,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.SpatialAq = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("subgopLength", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SubgopLength = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("syntax", targetDepth))

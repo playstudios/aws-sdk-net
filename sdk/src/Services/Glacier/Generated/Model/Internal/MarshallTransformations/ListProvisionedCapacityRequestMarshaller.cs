@@ -55,11 +55,12 @@ namespace Amazon.Glacier.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListProvisionedCapacityRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Glacier");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-06-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/{accountId}/provisioned-capacity";
-            uriResourcePath = uriResourcePath.Replace("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{accountId}", publicRequest.IsSetAccountId() ? StringUtils.FromString(publicRequest.AccountId) : string.Empty);
+            request.ResourcePath = "/{accountId}/provisioned-capacity";
+            request.MarshallerVersion = 2;
 
             return request;
         }

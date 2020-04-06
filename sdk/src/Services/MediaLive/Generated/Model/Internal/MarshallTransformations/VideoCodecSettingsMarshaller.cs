@@ -45,6 +45,17 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(VideoCodecSettings requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetFrameCaptureSettings())
+            {
+                context.Writer.WritePropertyName("frameCaptureSettings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = FrameCaptureSettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.FrameCaptureSettings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetH264Settings())
             {
                 context.Writer.WritePropertyName("h264Settings");
@@ -52,6 +63,17 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
 
                 var marshaller = H264SettingsMarshaller.Instance;
                 marshaller.Marshall(requestObject.H264Settings, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetH265Settings())
+            {
+                context.Writer.WritePropertyName("h265Settings");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = H265SettingsMarshaller.Instance;
+                marshaller.Marshall(requestObject.H265Settings, context);
 
                 context.Writer.WriteObjectEnd();
             }

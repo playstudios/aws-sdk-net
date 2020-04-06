@@ -31,6 +31,13 @@ namespace Amazon.DAX.Model
     /// Container for the parameters to the RebootNode operation.
     /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible.
     /// During the reboot, the node status is set to REBOOTING.
+    /// 
+    ///  <note> 
+    /// <para>
+    ///  <code>RebootNode</code> restarts the DAX engine process and does not remove the contents
+    /// of the cache. 
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class RebootNodeRequest : AmazonDAXRequest
     {
@@ -43,6 +50,7 @@ namespace Amazon.DAX.Model
         /// The name of the DAX cluster containing the node to be rebooted.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ClusterName
         {
             get { return this._clusterName; }
@@ -61,6 +69,7 @@ namespace Amazon.DAX.Model
         /// The system-assigned ID of the node to be rebooted.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string NodeId
         {
             get { return this._nodeId; }

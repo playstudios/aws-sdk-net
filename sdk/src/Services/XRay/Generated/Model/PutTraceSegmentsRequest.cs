@@ -29,14 +29,15 @@ namespace Amazon.XRay.Model
 {
     /// <summary>
     /// Container for the parameters to the PutTraceSegments operation.
-    /// Uploads segment documents to AWS X-Ray. The X-Ray SDK generates segment documents
-    /// and sends them to the X-Ray daemon, which uploads them in batches. A segment document
-    /// can be a completed segment, an in-progress segment, or an array of subsegments.
+    /// Uploads segment documents to AWS X-Ray. The <a href="https://docs.aws.amazon.com/xray/index.html">X-Ray
+    /// SDK</a> generates segment documents and sends them to the X-Ray daemon, which uploads
+    /// them in batches. A segment document can be a completed segment, an in-progress segment,
+    /// or an array of subsegments.
     /// 
     ///  
     /// <para>
     /// Segments must include the following fields. For the full segment document schema,
-    /// see <a href="http://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">AWS
+    /// see <a href="https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html">AWS
     /// X-Ray Segment Documents</a> in the <i>AWS X-Ray Developer Guide</i>.
     /// </para>
     ///  <p class="title"> <b>Required Segment Document Fields</b> 
@@ -107,6 +108,7 @@ namespace Amazon.XRay.Model
         /// A string containing a JSON document defining one or more segments or subsegments.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TraceSegmentDocuments
         {
             get { return this._traceSegmentDocuments; }

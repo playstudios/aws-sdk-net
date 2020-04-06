@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateAdmChannel operation.
-    /// Update an ADM channel
+    /// Enables the ADM channel for an application or updates the status and settings of the
+    /// ADM channel for an application.
     /// </summary>
     public partial class UpdateAdmChannelRequest : AmazonPinpointRequest
     {
@@ -39,6 +40,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property ADMChannelRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public ADMChannelRequest ADMChannelRequest
         {
             get { return this._admChannelRequest; }
@@ -52,8 +54,13 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }

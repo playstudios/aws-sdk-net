@@ -33,9 +33,28 @@ namespace Amazon.ElastiCache.Model
     /// </summary>
     public partial class ReplicationGroupPendingModifiedValues
     {
+        private AuthTokenUpdateStatus _authTokenStatus;
         private PendingAutomaticFailoverStatus _automaticFailoverStatus;
         private string _primaryClusterId;
         private ReshardingStatus _resharding;
+
+        /// <summary>
+        /// Gets and sets the property AuthTokenStatus. 
+        /// <para>
+        /// The auth token status
+        /// </para>
+        /// </summary>
+        public AuthTokenUpdateStatus AuthTokenStatus
+        {
+            get { return this._authTokenStatus; }
+            set { this._authTokenStatus = value; }
+        }
+
+        // Check to see if AuthTokenStatus property is set
+        internal bool IsSetAuthTokenStatus()
+        {
+            return this._authTokenStatus != null;
+        }
 
         /// <summary>
         /// Gets and sets the property AutomaticFailoverStatus. 
@@ -53,7 +72,7 @@ namespace Amazon.ElastiCache.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Redis (cluster mode disabled): T1 and T2 cache node types.
+        /// Redis (cluster mode disabled): T1 node types.
         /// </para>
         ///  </li> <li> 
         /// <para>

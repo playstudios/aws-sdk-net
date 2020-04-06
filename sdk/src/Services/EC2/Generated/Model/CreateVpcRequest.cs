@@ -31,26 +31,26 @@ namespace Amazon.EC2.Model
     /// Container for the parameters to the CreateVpc operation.
     /// Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create
     /// uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536
-    /// IPv4 addresses). To help you decide how big to make your VPC, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html">Your
+    /// IPv4 addresses). For more information about how large to make your VPC, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">Your
     /// VPC and Subnets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// 
     ///  
     /// <para>
-    /// You can optionally request an Amazon-provided IPv6 CIDR block for the VPC. The IPv6
-    /// CIDR block uses a /56 prefix length, and is allocated from Amazon's pool of IPv6 addresses.
-    /// You cannot choose the IPv6 range for your VPC.
+    /// You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided
+    /// IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an
+    /// IPv6 address pool that you provisioned through bring your own IP addresses (<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html">BYOIP</a>).
     /// </para>
     ///  
     /// <para>
     /// By default, each instance you launch in the VPC has the default DHCP options, which
-    /// includes only a default DNS server that we provide (AmazonProvidedDNS). For more information
-    /// about DHCP options, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_DHCP_Options.html">DHCP
+    /// include only a default DNS server that we provide (AmazonProvidedDNS). For more information,
+    /// see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html">DHCP
     /// Options Sets</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </para>
     ///  
     /// <para>
     /// You can specify the instance tenancy value for the VPC when you create it. You can't
-    /// change this value for the VPC after you create it. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
+    /// change this value for the VPC after you create it. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
     /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -59,6 +59,9 @@ namespace Amazon.EC2.Model
         private bool? _amazonProvidedIpv6CidrBlock;
         private string _cidrBlock;
         private Tenancy _instanceTenancy;
+        private string _ipv6CidrBlock;
+        private string _ipv6CidrBlockNetworkBorderGroup;
+        private string _ipv6Pool;
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -99,6 +102,7 @@ namespace Amazon.EC2.Model
         /// The IPv4 network range for the VPC, in CIDR notation. For example, <code>10.0.0.0/16</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CidrBlock
         {
             get { return this._cidrBlock; }
@@ -140,6 +144,71 @@ namespace Amazon.EC2.Model
         internal bool IsSetInstanceTenancy()
         {
             return this._instanceTenancy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Ipv6CidrBlock. 
+        /// <para>
+        /// The IPv6 CIDR block from the IPv6 address pool. You must also specify <code>Ipv6Pool</code>
+        /// in the request.
+        /// </para>
+        ///  
+        /// <para>
+        /// To let Amazon choose the IPv6 CIDR block for you, omit this parameter.
+        /// </para>
+        /// </summary>
+        public string Ipv6CidrBlock
+        {
+            get { return this._ipv6CidrBlock; }
+            set { this._ipv6CidrBlock = value; }
+        }
+
+        // Check to see if Ipv6CidrBlock property is set
+        internal bool IsSetIpv6CidrBlock()
+        {
+            return this._ipv6CidrBlock != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Ipv6CidrBlockNetworkBorderGroup. 
+        /// <para>
+        /// The name of the location from which we advertise the IPV6 CIDR block. Use this parameter
+        /// to limit the address to this location.
+        /// </para>
+        ///  
+        /// <para>
+        ///  You must set <code>AmazonProvidedIpv6CidrBlock</code> to <code>true</code> to use
+        /// this parameter.
+        /// </para>
+        /// </summary>
+        public string Ipv6CidrBlockNetworkBorderGroup
+        {
+            get { return this._ipv6CidrBlockNetworkBorderGroup; }
+            set { this._ipv6CidrBlockNetworkBorderGroup = value; }
+        }
+
+        // Check to see if Ipv6CidrBlockNetworkBorderGroup property is set
+        internal bool IsSetIpv6CidrBlockNetworkBorderGroup()
+        {
+            return this._ipv6CidrBlockNetworkBorderGroup != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Ipv6Pool. 
+        /// <para>
+        /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
+        /// </para>
+        /// </summary>
+        public string Ipv6Pool
+        {
+            get { return this._ipv6Pool; }
+            set { this._ipv6Pool = value; }
+        }
+
+        // Check to see if Ipv6Pool property is set
+        internal bool IsSetIpv6Pool()
+        {
+            return this._ipv6Pool != null;
         }
 
     }

@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Glue.Model
 {
     /// <summary>
-    /// Structure used to create or update the table.
+    /// A structure used to define a table.
     /// </summary>
     public partial class TableInput
     {
@@ -48,9 +48,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// Description of the table.
+        /// A description of the table.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -66,7 +67,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property LastAccessTime. 
         /// <para>
-        /// Last time the table was accessed.
+        /// The last time that the table was accessed.
         /// </para>
         /// </summary>
         public DateTime LastAccessTime
@@ -84,7 +85,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property LastAnalyzedTime. 
         /// <para>
-        /// Last time column statistics were computed for this table.
+        /// The last time that column statistics were computed for this table.
         /// </para>
         /// </summary>
         public DateTime LastAnalyzedTime
@@ -102,10 +103,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Name of the table. For Hive compatibility, this is folded to lowercase when it is
-        /// stored.
+        /// The table name. For Hive compatibility, this is folded to lowercase when it is stored.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -121,9 +122,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Owner. 
         /// <para>
-        /// Owner of the table.
+        /// The table owner.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Owner
         {
             get { return this._owner; }
@@ -139,7 +141,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
-        /// Properties associated with this table, as a list of key-value pairs.
+        /// These key-value pairs define properties associated with the table.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Parameters
@@ -160,6 +162,16 @@ namespace Amazon.Glue.Model
         /// A list of columns by which the table is partitioned. Only primitive types are supported
         /// as partition keys.
         /// </para>
+        ///  
+        /// <para>
+        /// When you create a table used by Amazon Athena, and you do not specify any <code>partitionKeys</code>,
+        /// you must at least set the value of <code>partitionKeys</code> to an empty list. For
+        /// example:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>"PartitionKeys": []</code> 
+        /// </para>
         /// </summary>
         public List<Column> PartitionKeys
         {
@@ -176,9 +188,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Retention. 
         /// <para>
-        /// Retention time for this table.
+        /// The retention time for this table.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int Retention
         {
             get { return this._retention.GetValueOrDefault(); }
@@ -215,6 +228,7 @@ namespace Amazon.Glue.Model
         /// The type of this table (<code>EXTERNAL_TABLE</code>, <code>VIRTUAL_VIEW</code>, etc.).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string TableType
         {
             get { return this._tableType; }
@@ -233,6 +247,7 @@ namespace Amazon.Glue.Model
         /// If the table is a view, the expanded text of the view; otherwise <code>null</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=409600)]
         public string ViewExpandedText
         {
             get { return this._viewExpandedText; }
@@ -251,6 +266,7 @@ namespace Amazon.Glue.Model
         /// If the table is a view, the original text of the view; otherwise <code>null</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=409600)]
         public string ViewOriginalText
         {
             get { return this._viewOriginalText; }

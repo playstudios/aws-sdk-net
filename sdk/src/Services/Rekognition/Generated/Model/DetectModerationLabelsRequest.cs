@@ -29,29 +29,52 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the DetectModerationLabels operation.
-    /// Detects explicit or suggestive adult content in a specified JPEG or PNG format image.
-    /// Use <code>DetectModerationLabels</code> to moderate images depending on your requirements.
-    /// For example, you might want to filter images that contain nudity, but not images containing
-    /// suggestive content.
+    /// Detects unsafe content in a specified JPEG or PNG format image. Use <code>DetectModerationLabels</code>
+    /// to moderate images depending on your requirements. For example, you might want to
+    /// filter images that contain nudity, but not images containing suggestive content.
     /// 
     ///  
     /// <para>
     /// To filter images, use the labels returned by <code>DetectModerationLabels</code> to
-    /// determine which types of content are appropriate. For information about moderation
-    /// labels, see <a>moderation</a>.
+    /// determine which types of content are appropriate.
+    /// </para>
+    ///  
+    /// <para>
+    /// For information about moderation labels, see Detecting Unsafe Content in the Amazon
+    /// Rekognition Developer Guide.
     /// </para>
     ///  
     /// <para>
     /// You pass the input image either as base64-encoded image bytes or as a reference to
-    /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
+    /// an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
     /// operations, passing image bytes is not supported. The image must be either a PNG or
     /// JPEG formatted file. 
     /// </para>
     /// </summary>
     public partial class DetectModerationLabelsRequest : AmazonRekognitionRequest
     {
+        private HumanLoopConfig _humanLoopConfig;
         private Image _image;
         private float? _minConfidence;
+
+        /// <summary>
+        /// Gets and sets the property HumanLoopConfig. 
+        /// <para>
+        /// Sets up the configuration for human evaluation, including the FlowDefinition the image
+        /// will be sent to.
+        /// </para>
+        /// </summary>
+        public HumanLoopConfig HumanLoopConfig
+        {
+            get { return this._humanLoopConfig; }
+            set { this._humanLoopConfig = value; }
+        }
+
+        // Check to see if HumanLoopConfig property is set
+        internal bool IsSetHumanLoopConfig()
+        {
+            return this._humanLoopConfig != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Image. 
@@ -60,7 +83,14 @@ namespace Amazon.Rekognition.Model
         /// call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.
         /// 
         /// </para>
+        ///  
+        /// <para>
+        /// If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode
+        /// image bytes passed using the <code>Bytes</code> field. For more information, see Images
+        /// in the Amazon Rekognition developer guide.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Image Image
         {
             get { return this._image; }
@@ -85,6 +115,7 @@ namespace Amazon.Rekognition.Model
         /// confidence values greater than or equal to 50 percent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float MinConfidence
         {
             get { return this._minConfidence.GetValueOrDefault(); }

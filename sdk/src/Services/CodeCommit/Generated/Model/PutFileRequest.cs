@@ -29,7 +29,8 @@ namespace Amazon.CodeCommit.Model
 {
     /// <summary>
     /// Container for the parameters to the PutFile operation.
-    /// Adds or updates a file in an AWS CodeCommit repository.
+    /// Adds or updates a file in a branch in an AWS CodeCommit repository, and generates
+    /// a commit for the addition in the specified branch.
     /// </summary>
     public partial class PutFileRequest : AmazonCodeCommitRequest
     {
@@ -46,9 +47,11 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property BranchName. 
         /// <para>
-        /// The name of the branch where you want to add or update the file.
+        /// The name of the branch where you want to add or update the file. If this is an empty
+        /// repository, this branch is created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string BranchName
         {
             get { return this._branchName; }
@@ -64,8 +67,8 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property CommitMessage. 
         /// <para>
-        /// A message about why this file was added or updated. While optional, adding a message
-        /// is strongly encouraged in order to provide a more useful commit history for your repository.
+        /// A message about why this file was added or updated. Although it is optional, a message
+        /// makes the commit history for your repository more useful.
         /// </para>
         /// </summary>
         public string CommitMessage
@@ -104,6 +107,7 @@ namespace Amazon.CodeCommit.Model
         /// The content of the file, in binary object format. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=6291456)]
         public MemoryStream FileContent
         {
             get { return this._fileContent; }
@@ -119,7 +123,7 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property FileMode. 
         /// <para>
-        /// The file mode permissions of the blob. Valid file mode permissions are listed below.
+        /// The file mode permissions of the blob. Valid file mode permissions are listed here.
         /// </para>
         /// </summary>
         public FileModeTypeEnum FileMode
@@ -142,11 +146,12 @@ namespace Amazon.CodeCommit.Model
         /// </para>
         ///  <note> 
         /// <para>
-        /// If the path does not currently exist in the repository, the path will be created as
-        /// part of adding the file.
+        /// If the path does not currently exist in the repository, the path is created as part
+        /// of adding the file.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string FilePath
         {
             get { return this._filePath; }
@@ -162,8 +167,8 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the person adding or updating the file. While optional, adding a name
-        /// is strongly encouraged in order to provide a more useful commit history for your repository.
+        /// The name of the person adding or updating the file. Although it is optional, a name
+        /// makes the commit history for your repository more useful.
         /// </para>
         /// </summary>
         public string Name
@@ -182,8 +187,13 @@ namespace Amazon.CodeCommit.Model
         /// Gets and sets the property ParentCommitId. 
         /// <para>
         /// The full commit ID of the head commit in the branch where you want to add or update
-        /// the file. If the commit ID does not match the ID of the head commit at the time of
-        /// the operation, an error will occur, and the file will not be added or updated.
+        /// the file. If this is an empty repository, no commit ID is required. If this is not
+        /// an empty repository, a commit ID is required. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The commit ID must match the ID of the head commit at the time of the operation. Otherwise,
+        /// an error occurs, and the file is not added or updated.
         /// </para>
         /// </summary>
         public string ParentCommitId
@@ -204,6 +214,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository where you want to add or update the file.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

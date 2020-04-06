@@ -44,8 +44,8 @@ namespace Amazon.AutoScaling.Model
     ///  
     /// <para>
     /// To remove instances from the Auto Scaling group before deleting it, call <a>DetachInstances</a>
-    /// with the list of instances and the option to decrement the desired capacity so that
-    /// Auto Scaling does not launch replacement instances.
+    /// with the list of instances and the option to decrement the desired capacity. This
+    /// ensures that Amazon EC2 Auto Scaling does not launch replacement instances.
     /// </para>
     ///  
     /// <para>
@@ -64,6 +64,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -79,7 +80,7 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property ForceDelete. 
         /// <para>
-        /// Specifies that the group will be deleted along with all instances associated with
+        /// Specifies that the group is to be deleted along with all instances associated with
         /// the group, without waiting for all instances to be terminated. This parameter also
         /// deletes any lifecycle actions associated with the group.
         /// </para>

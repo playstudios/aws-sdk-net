@@ -29,45 +29,73 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateEventSourceMapping operation.
-    /// You can update an event source mapping. This is useful if you want to change the parameters
-    /// of the existing mapping without losing your position in the stream. You can change
-    /// which function will receive the stream records, but to change the stream itself, you
-    /// must create a new mapping.
+    /// Updates an event source mapping. You can change the function that AWS Lambda invokes,
+    /// or pause invocation and resume later from the same location.
     /// 
     ///  
     /// <para>
-    /// If you are using the versioning feature, you can update the event source mapping to
-    /// map to a specific Lambda function version or alias as described in the <code>FunctionName</code>
-    /// parameter. For information about the versioning feature, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-    /// Lambda Function Versioning and Aliases</a>. 
+    /// The following error handling options are only available for stream sources (DynamoDB
+    /// and Kinesis):
     /// </para>
-    ///  
+    ///  <ul> <li> 
     /// <para>
-    /// If you disable the event source mapping, AWS Lambda stops polling. If you enable again,
-    /// it will resume polling from the time it had stopped polling, so you don't lose processing
-    /// of any records. However, if you delete event source mapping and create it again, it
-    /// will reset.
+    ///  <code>BisectBatchOnFunctionError</code> - If the function returns an error, split
+    /// the batch in two and retry.
     /// </para>
-    ///  
+    ///  </li> <li> 
     /// <para>
-    /// This operation requires permission for the <code>lambda:UpdateEventSourceMapping</code>
-    /// action.
+    ///  <code>DestinationConfig</code> - Send discarded records to an Amazon SQS queue or
+    /// Amazon SNS topic.
     /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>MaximumRecordAgeInSeconds</code> - Discard records older than the specified
+    /// age.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>MaximumRetryAttempts</code> - Discard records after the specified number of
+    /// retries.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    ///  <code>ParallelizationFactor</code> - Process multiple batches from each shard concurrently.
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class UpdateEventSourceMappingRequest : AmazonLambdaRequest
     {
         private int? _batchSize;
+        private bool? _bisectBatchOnFunctionError;
+        private DestinationConfig _destinationConfig;
         private bool? _enabled;
         private string _functionName;
+        private int? _maximumBatchingWindowInSeconds;
+        private int? _maximumRecordAgeInSeconds;
+        private int? _maximumRetryAttempts;
+        private int? _parallelizationFactor;
         private string _uuid;
 
         /// <summary>
         /// Gets and sets the property BatchSize. 
         /// <para>
-        /// The maximum number of stream records that can be sent to your Lambda function for
-        /// a single invocation.
+        /// The maximum number of items to retrieve in a single batch.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Amazon Kinesis</b> - Default 100. Max 10,000.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon Simple Queue Service</b> - Default 10. Max 10.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int BatchSize
         {
             get { return this._batchSize.GetValueOrDefault(); }
@@ -81,10 +109,45 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BisectBatchOnFunctionError. 
+        /// <para>
+        /// (Streams) If the function returns an error, split the batch in two and retry.
+        /// </para>
+        /// </summary>
+        public bool BisectBatchOnFunctionError
+        {
+            get { return this._bisectBatchOnFunctionError.GetValueOrDefault(); }
+            set { this._bisectBatchOnFunctionError = value; }
+        }
+
+        // Check to see if BisectBatchOnFunctionError property is set
+        internal bool IsSetBisectBatchOnFunctionError()
+        {
+            return this._bisectBatchOnFunctionError.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DestinationConfig. 
+        /// <para>
+        /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// </para>
+        /// </summary>
+        public DestinationConfig DestinationConfig
+        {
+            get { return this._destinationConfig; }
+            set { this._destinationConfig = value; }
+        }
+
+        // Check to see if DestinationConfig property is set
+        internal bool IsSetDestinationConfig()
+        {
+            return this._destinationConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Enabled. 
         /// <para>
-        /// Specifies whether AWS Lambda should actively poll the stream or not. If disabled,
-        /// AWS Lambda will not poll the stream.
+        /// Disables the event source mapping to pause polling and invocation.
         /// </para>
         /// </summary>
         public bool Enabled
@@ -102,29 +165,33 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// The Lambda function to which you want the stream records sent.
+        /// The name of the Lambda function.
         /// </para>
-        ///  
-        /// <para>
-        ///  You can specify a function name (for example, <code>Thumbnail</code>) or you can
-        /// specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>).
-        /// AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>).
-        /// Note that the length constraint applies only to the ARN. If you specify only the function
-        /// name, it is limited to 64 characters in length. 
+        ///  <p class="title"> <b>Name formats</b> 
         /// </para>
-        ///  
+        ///  <ul> <li> 
         /// <para>
-        /// If you are using versioning, you can also provide a qualified function ARN (ARN that
-        /// is qualified with function version or alias name as suffix). For more information
-        /// about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a> 
+        ///  <b>Function name</b> - <code>MyFunction</code>.
         /// </para>
-        ///  
+        ///  </li> <li> 
         /// <para>
-        /// Note that the length constraint applies only to the ARN. If you specify only the function
-        /// name, it is limited to 64 character in length.
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Version or Alias ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it's limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -138,11 +205,89 @@ namespace Amazon.Lambda.Model
         }
 
         /// <summary>
-        /// Gets and sets the property UUID. 
+        /// Gets and sets the property MaximumBatchingWindowInSeconds. 
         /// <para>
-        /// The event source mapping identifier.
+        /// (Streams) The maximum amount of time to gather records before invoking the function,
+        /// in seconds.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=300)]
+        public int MaximumBatchingWindowInSeconds
+        {
+            get { return this._maximumBatchingWindowInSeconds.GetValueOrDefault(); }
+            set { this._maximumBatchingWindowInSeconds = value; }
+        }
+
+        // Check to see if MaximumBatchingWindowInSeconds property is set
+        internal bool IsSetMaximumBatchingWindowInSeconds()
+        {
+            return this._maximumBatchingWindowInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaximumRecordAgeInSeconds. 
+        /// <para>
+        /// (Streams) The maximum age of a record that Lambda sends to a function for processing.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=60, Max=604800)]
+        public int MaximumRecordAgeInSeconds
+        {
+            get { return this._maximumRecordAgeInSeconds.GetValueOrDefault(); }
+            set { this._maximumRecordAgeInSeconds = value; }
+        }
+
+        // Check to see if MaximumRecordAgeInSeconds property is set
+        internal bool IsSetMaximumRecordAgeInSeconds()
+        {
+            return this._maximumRecordAgeInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaximumRetryAttempts. 
+        /// <para>
+        /// (Streams) The maximum number of times to retry when the function returns an error.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=10000)]
+        public int MaximumRetryAttempts
+        {
+            get { return this._maximumRetryAttempts.GetValueOrDefault(); }
+            set { this._maximumRetryAttempts = value; }
+        }
+
+        // Check to see if MaximumRetryAttempts property is set
+        internal bool IsSetMaximumRetryAttempts()
+        {
+            return this._maximumRetryAttempts.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ParallelizationFactor. 
+        /// <para>
+        /// (Streams) The number of batches to process from each shard concurrently.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=10)]
+        public int ParallelizationFactor
+        {
+            get { return this._parallelizationFactor.GetValueOrDefault(); }
+            set { this._parallelizationFactor = value; }
+        }
+
+        // Check to see if ParallelizationFactor property is set
+        internal bool IsSetParallelizationFactor()
+        {
+            return this._parallelizationFactor.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property UUID. 
+        /// <para>
+        /// The identifier of the event source mapping.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public string UUID
         {
             get { return this._uuid; }

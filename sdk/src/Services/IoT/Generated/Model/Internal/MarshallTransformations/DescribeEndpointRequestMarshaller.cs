@@ -55,13 +55,14 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeEndpointRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/endpoint";
             
             if (publicRequest.IsSetEndpointType())
                 request.Parameters.Add("endpointType", StringUtils.FromString(publicRequest.EndpointType));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/endpoint";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

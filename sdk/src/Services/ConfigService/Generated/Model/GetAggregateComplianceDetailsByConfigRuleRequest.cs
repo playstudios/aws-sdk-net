@@ -36,8 +36,8 @@ namespace Amazon.ConfigService.Model
     /// 
     ///  <note> 
     /// <para>
-    /// The results can return an empty result page. But if you have a nextToken, the results
-    /// are displayed on the next page.
+    /// The results can return an empty result page. But if you have a <code>nextToken</code>,
+    /// the results are displayed on the next page.
     /// </para>
     ///  </note>
     /// </summary>
@@ -57,6 +57,7 @@ namespace Amazon.ConfigService.Model
         /// The 12-digit account ID of the source account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AccountId
         {
             get { return this._accountId; }
@@ -75,6 +76,7 @@ namespace Amazon.ConfigService.Model
         /// The source region from where the data is aggregated.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string AwsRegion
         {
             get { return this._awsRegion; }
@@ -119,6 +121,7 @@ namespace Amazon.ConfigService.Model
         /// The name of the AWS Config rule for which you want compliance information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ConfigRuleName
         {
             get { return this._configRuleName; }
@@ -137,6 +140,7 @@ namespace Amazon.ConfigService.Model
         /// The name of the configuration aggregator.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ConfigurationAggregatorName
         {
             get { return this._configurationAggregatorName; }
@@ -157,6 +161,7 @@ namespace Amazon.ConfigService.Model
         /// default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -172,8 +177,8 @@ namespace Amazon.ConfigService.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The nextToken string returned on a previous page that you use to get the next page
-        /// of results in a paginated response.
+        /// The <code>nextToken</code> string returned on a previous page that you use to get
+        /// the next page of results in a paginated response.
         /// </para>
         /// </summary>
         public string NextToken

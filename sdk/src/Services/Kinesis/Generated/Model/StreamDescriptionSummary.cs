@@ -32,6 +32,7 @@ namespace Amazon.Kinesis.Model
     /// </summary>
     public partial class StreamDescriptionSummary
     {
+        private int? _consumerCount;
         private EncryptionType _encryptionType;
         private List<EnhancedMetrics> _enhancedMonitoring = new List<EnhancedMetrics>();
         private string _keyId;
@@ -41,6 +42,25 @@ namespace Amazon.Kinesis.Model
         private DateTime? _streamCreationTimestamp;
         private string _streamName;
         private StreamStatus _streamStatus;
+
+        /// <summary>
+        /// Gets and sets the property ConsumerCount. 
+        /// <para>
+        /// The number of enhanced fan-out consumers registered with the stream.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=1000000)]
+        public int ConsumerCount
+        {
+            get { return this._consumerCount.GetValueOrDefault(); }
+            set { this._consumerCount = value; }
+        }
+
+        // Check to see if ConsumerCount property is set
+        internal bool IsSetConsumerCount()
+        {
+            return this._consumerCount.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property EncryptionType. 
@@ -75,6 +95,7 @@ namespace Amazon.Kinesis.Model
         /// Represents the current enhanced monitoring settings of the stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<EnhancedMetrics> EnhancedMonitoring
         {
             get { return this._enhancedMonitoring; }
@@ -120,6 +141,7 @@ namespace Amazon.Kinesis.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -138,6 +160,7 @@ namespace Amazon.Kinesis.Model
         /// The number of open shards in the stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=1000000)]
         public int OpenShardCount
         {
             get { return this._openShardCount.GetValueOrDefault(); }
@@ -156,6 +179,7 @@ namespace Amazon.Kinesis.Model
         /// The current retention period, in hours.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100000)]
         public int RetentionPeriodHours
         {
             get { return this._retentionPeriodHours.GetValueOrDefault(); }
@@ -174,6 +198,7 @@ namespace Amazon.Kinesis.Model
         /// The Amazon Resource Name (ARN) for the stream being described.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string StreamARN
         {
             get { return this._streamARN; }
@@ -192,6 +217,7 @@ namespace Amazon.Kinesis.Model
         /// The approximate time that the stream was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime StreamCreationTimestamp
         {
             get { return this._streamCreationTimestamp.GetValueOrDefault(); }
@@ -210,6 +236,7 @@ namespace Amazon.Kinesis.Model
         /// The name of the stream being described.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string StreamName
         {
             get { return this._streamName; }
@@ -252,6 +279,7 @@ namespace Amazon.Kinesis.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StreamStatus StreamStatus
         {
             get { return this._streamStatus; }

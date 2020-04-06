@@ -42,10 +42,12 @@ namespace Amazon.AlexaForBusiness.Model
         /// Gets and sets the property Filters. 
         /// <para>
         /// The filters to use to list a specified set of devices. Supported filter keys are DeviceName,
-        /// DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, and
-        /// UnassociatedOnly.
+        /// DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly,
+        /// ConnectionStatus (ONLINE and OFFLINE), NetworkProfileName, NetworkProfileArn, Feature,
+        /// and FailureCode.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=25)]
         public List<Filter> Filters
         {
             get { return this._filters; }
@@ -66,6 +68,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// that the remaining results can be retrieved.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -86,6 +89,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// results beyond the token, up to the value specified by <code>MaxResults</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1100)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -102,9 +106,11 @@ namespace Amazon.AlexaForBusiness.Model
         /// Gets and sets the property SortCriteria. 
         /// <para>
         /// The sort order to use in listing the specified set of devices. Supported sort keys
-        /// are DeviceName, DeviceStatus, RoomName, DeviceType, and DeviceSerialNumber.
+        /// are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, ConnectionStatus,
+        /// NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=25)]
         public List<Sort> SortCriteria
         {
             get { return this._sortCriteria; }

@@ -36,6 +36,9 @@ namespace Amazon.Lightsail.Model
         private DateTime? _createdAt;
         private string _fromDiskArn;
         private string _fromDiskName;
+        private string _fromInstanceArn;
+        private string _fromInstanceName;
+        private bool? _isFromAutoSnapshot;
         private ResourceLocation _location;
         private string _name;
         private string _progress;
@@ -43,6 +46,7 @@ namespace Amazon.Lightsail.Model
         private int? _sizeInGb;
         private DiskSnapshotState _state;
         private string _supportCode;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Arn. 
@@ -83,8 +87,8 @@ namespace Amazon.Lightsail.Model
         /// <summary>
         /// Gets and sets the property FromDiskArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the source disk from which you are creating the
-        /// disk snapshot.
+        /// The Amazon Resource Name (ARN) of the source disk from which the disk snapshot was
+        /// created.
         /// </para>
         /// </summary>
         public string FromDiskArn
@@ -102,7 +106,7 @@ namespace Amazon.Lightsail.Model
         /// <summary>
         /// Gets and sets the property FromDiskName. 
         /// <para>
-        /// The unique name of the source disk from which you are creating the disk snapshot.
+        /// The unique name of the source disk from which the disk snapshot was created.
         /// </para>
         /// </summary>
         public string FromDiskName
@@ -115,6 +119,62 @@ namespace Amazon.Lightsail.Model
         internal bool IsSetFromDiskName()
         {
             return this._fromDiskName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property FromInstanceArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the source instance from which the disk (system
+        /// volume) snapshot was created.
+        /// </para>
+        /// </summary>
+        public string FromInstanceArn
+        {
+            get { return this._fromInstanceArn; }
+            set { this._fromInstanceArn = value; }
+        }
+
+        // Check to see if FromInstanceArn property is set
+        internal bool IsSetFromInstanceArn()
+        {
+            return this._fromInstanceArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property FromInstanceName. 
+        /// <para>
+        /// The unique name of the source instance from which the disk (system volume) snapshot
+        /// was created.
+        /// </para>
+        /// </summary>
+        public string FromInstanceName
+        {
+            get { return this._fromInstanceName; }
+            set { this._fromInstanceName = value; }
+        }
+
+        // Check to see if FromInstanceName property is set
+        internal bool IsSetFromInstanceName()
+        {
+            return this._fromInstanceName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IsFromAutoSnapshot. 
+        /// <para>
+        /// A Boolean value indicating whether the snapshot was created from an automatic snapshot.
+        /// </para>
+        /// </summary>
+        public bool IsFromAutoSnapshot
+        {
+            get { return this._isFromAutoSnapshot.GetValueOrDefault(); }
+            set { this._isFromAutoSnapshot = value; }
+        }
+
+        // Check to see if IsFromAutoSnapshot property is set
+        internal bool IsSetIsFromAutoSnapshot()
+        {
+            return this._isFromAutoSnapshot.HasValue; 
         }
 
         /// <summary>
@@ -243,6 +303,26 @@ namespace Amazon.Lightsail.Model
         internal bool IsSetSupportCode()
         {
             return this._supportCode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tag keys and optional values for the resource. For more information about tags
+        /// in Lightsail, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

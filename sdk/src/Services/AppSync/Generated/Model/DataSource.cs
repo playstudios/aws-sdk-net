@@ -36,8 +36,10 @@ namespace Amazon.AppSync.Model
         private string _description;
         private DynamodbDataSourceConfig _dynamodbConfig;
         private ElasticsearchDataSourceConfig _elasticsearchConfig;
+        private HttpDataSourceConfig _httpConfig;
         private LambdaDataSourceConfig _lambdaConfig;
         private string _name;
+        private RelationalDatabaseDataSourceConfig _relationalDatabaseConfig;
         private string _serviceRoleArn;
         private DataSourceType _type;
 
@@ -80,7 +82,7 @@ namespace Amazon.AppSync.Model
         /// <summary>
         /// Gets and sets the property DynamodbConfig. 
         /// <para>
-        /// DynamoDB settings.
+        /// Amazon DynamoDB settings.
         /// </para>
         /// </summary>
         public DynamodbDataSourceConfig DynamodbConfig
@@ -98,7 +100,7 @@ namespace Amazon.AppSync.Model
         /// <summary>
         /// Gets and sets the property ElasticsearchConfig. 
         /// <para>
-        /// Amazon Elasticsearch settings.
+        /// Amazon Elasticsearch Service settings.
         /// </para>
         /// </summary>
         public ElasticsearchDataSourceConfig ElasticsearchConfig
@@ -114,9 +116,27 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HttpConfig. 
+        /// <para>
+        /// HTTP endpoint settings.
+        /// </para>
+        /// </summary>
+        public HttpDataSourceConfig HttpConfig
+        {
+            get { return this._httpConfig; }
+            set { this._httpConfig = value; }
+        }
+
+        // Check to see if HttpConfig property is set
+        internal bool IsSetHttpConfig()
+        {
+            return this._httpConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property LambdaConfig. 
         /// <para>
-        /// Lambda settings.
+        /// AWS Lambda settings.
         /// </para>
         /// </summary>
         public LambdaDataSourceConfig LambdaConfig
@@ -137,6 +157,7 @@ namespace Amazon.AppSync.Model
         /// The name of the data source.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65536)]
         public string Name
         {
             get { return this._name; }
@@ -150,10 +171,28 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RelationalDatabaseConfig. 
+        /// <para>
+        /// Relational database settings.
+        /// </para>
+        /// </summary>
+        public RelationalDatabaseDataSourceConfig RelationalDatabaseConfig
+        {
+            get { return this._relationalDatabaseConfig; }
+            set { this._relationalDatabaseConfig = value; }
+        }
+
+        // Check to see if RelationalDatabaseConfig property is set
+        internal bool IsSetRelationalDatabaseConfig()
+        {
+            return this._relationalDatabaseConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ServiceRoleArn. 
         /// <para>
-        /// The IAM service role ARN for the data source. The system assumes this role when accessing
-        /// the data source.
+        /// The AWS IAM service role ARN for the data source. The system assumes this role when
+        /// accessing the data source.
         /// </para>
         /// </summary>
         public string ServiceRoleArn
@@ -187,8 +226,17 @@ namespace Amazon.AppSync.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <b>NONE</b>: There is no data source. This type is used when the required information
-        /// can be computed on the fly without connecting to a back-end data source.
+        ///  <b>NONE</b>: There is no data source. This type is used when you wish to invoke a
+        /// GraphQL operation without connecting to a data source, such as performing data transformation
+        /// with resolvers or triggering a subscription to be invoked from a mutation.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>HTTP</b>: The data source is an HTTP endpoint.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>RELATIONAL_DATABASE</b>: The data source is a relational database.
         /// </para>
         ///  </li> </ul>
         /// </summary>

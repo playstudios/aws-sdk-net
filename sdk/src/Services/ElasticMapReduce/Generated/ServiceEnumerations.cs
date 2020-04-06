@@ -763,6 +763,10 @@ namespace Amazon.ElasticMapReduce
         /// </summary>
         public static readonly InstanceGroupState PROVISIONING = new InstanceGroupState("PROVISIONING");
         /// <summary>
+        /// Constant RECONFIGURING for InstanceGroupState
+        /// </summary>
+        public static readonly InstanceGroupState RECONFIGURING = new InstanceGroupState("RECONFIGURING");
+        /// <summary>
         /// Constant RESIZING for InstanceGroupState
         /// </summary>
         public static readonly InstanceGroupState RESIZING = new InstanceGroupState("RESIZING");
@@ -1442,6 +1446,56 @@ namespace Amazon.ElasticMapReduce
         /// <param name="value">The string value to convert to the constant class.</param>
         /// <returns></returns>
         public static implicit operator Statistic(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
+    /// Constants used for properties of type StepCancellationOption.
+    /// </summary>
+    public class StepCancellationOption : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant SEND_INTERRUPT for StepCancellationOption
+        /// </summary>
+        public static readonly StepCancellationOption SEND_INTERRUPT = new StepCancellationOption("SEND_INTERRUPT");
+        /// <summary>
+        /// Constant TERMINATE_PROCESS for StepCancellationOption
+        /// </summary>
+        public static readonly StepCancellationOption TERMINATE_PROCESS = new StepCancellationOption("TERMINATE_PROCESS");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public StepCancellationOption(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static StepCancellationOption FindValue(string value)
+        {
+            return FindValue<StepCancellationOption>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator StepCancellationOption(string value)
         {
             return FindValue(value);
         }

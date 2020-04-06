@@ -58,10 +58,11 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
             string target = "DynamoDB_20120810.CreateTable";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.0";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2012-08-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -81,6 +82,12 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
                         context.Writer.WriteObjectEnd();
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetBillingMode())
+                {
+                    context.Writer.WritePropertyName("BillingMode");
+                    context.Writer.Write(publicRequest.BillingMode);
                 }
 
                 if(publicRequest.IsSetGlobalSecondaryIndexes())
@@ -168,6 +175,22 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("TableName");
                     context.Writer.Write(publicRequest.TableName);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

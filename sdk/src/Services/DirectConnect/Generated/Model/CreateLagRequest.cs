@@ -29,16 +29,15 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateLag operation.
-    /// Creates a new link aggregation group (LAG) with the specified number of bundled physical
+    /// Creates a link aggregation group (LAG) with the specified number of bundled physical
     /// connections between the customer network and a specific AWS Direct Connect location.
     /// A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP)
-    /// to aggregate multiple 1 gigabit or 10 gigabit interfaces, allowing you to treat them
-    /// as a single interface.
+    /// to aggregate multiple interfaces, enabling you to treat them as a single interface.
     /// 
     ///  
     /// <para>
-    /// All connections in a LAG must use the same bandwidth (for example, 10 Gbps), and must
-    /// terminate at the same AWS Direct Connect endpoint.
+    /// All connections in a LAG must use the same bandwidth and must terminate at the same
+    /// AWS Direct Connect endpoint.
     /// </para>
     ///  
     /// <para>
@@ -58,27 +57,45 @@ namespace Amazon.DirectConnect.Model
     /// </para>
     ///  
     /// <para>
-    /// If the AWS account used to create a LAG is a registered AWS Direct Connect partner,
+    /// If the AWS account used to create a LAG is a registered AWS Direct Connect Partner,
     /// the LAG is automatically enabled to host sub-connections. For a LAG owned by a partner,
     /// any associated virtual interfaces cannot be directly configured.
     /// </para>
     /// </summary>
     public partial class CreateLagRequest : AmazonDirectConnectRequest
     {
+        private List<Tag> _childConnectionTags = new List<Tag>();
         private string _connectionId;
         private string _connectionsBandwidth;
         private string _lagName;
         private string _location;
         private int? _numberOfConnections;
+        private string _providerName;
+        private List<Tag> _tags = new List<Tag>();
+
+        /// <summary>
+        /// Gets and sets the property ChildConnectionTags. 
+        /// <para>
+        /// The tags to associate with the automtically created LAGs.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> ChildConnectionTags
+        {
+            get { return this._childConnectionTags; }
+            set { this._childConnectionTags = value; }
+        }
+
+        // Check to see if ChildConnectionTags property is set
+        internal bool IsSetChildConnectionTags()
+        {
+            return this._childConnectionTags != null && this._childConnectionTags.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property ConnectionId. 
         /// <para>
         /// The ID of an existing connection to migrate to the LAG.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
         /// </para>
         /// </summary>
         public string ConnectionId
@@ -96,17 +113,12 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property ConnectionsBandwidth. 
         /// <para>
-        /// The bandwidth of the individual physical connections bundled by the LAG.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
-        ///  
-        /// <para>
-        /// Available values: 1Gbps, 10Gbps
+        /// The bandwidth of the individual physical connections bundled by the LAG. The possible
+        /// values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps,
+        /// and 10Gbps. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConnectionsBandwidth
         {
             get { return this._connectionsBandwidth; }
@@ -124,15 +136,8 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The name of the LAG.
         /// </para>
-        ///  
-        /// <para>
-        /// Example: "<code>3x10G LAG to AWS</code>"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LagName
         {
             get { return this._lagName; }
@@ -148,17 +153,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property Location. 
         /// <para>
-        /// The AWS Direct Connect location in which the LAG should be allocated.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: EqSV5
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The location for the LAG.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Location
         {
             get { return this._location; }
@@ -176,11 +174,8 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The number of physical connections initially provisioned and bundled by the LAG.
         /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int NumberOfConnections
         {
             get { return this._numberOfConnections.GetValueOrDefault(); }
@@ -191,6 +186,43 @@ namespace Amazon.DirectConnect.Model
         internal bool IsSetNumberOfConnections()
         {
             return this._numberOfConnections.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ProviderName. 
+        /// <para>
+        /// The name of the service provider associated with the LAG.
+        /// </para>
+        /// </summary>
+        public string ProviderName
+        {
+            get { return this._providerName; }
+            set { this._providerName = value; }
+        }
+
+        // Check to see if ProviderName property is set
+        internal bool IsSetProviderName()
+        {
+            return this._providerName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to associate with the LAG.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

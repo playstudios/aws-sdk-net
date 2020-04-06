@@ -33,6 +33,11 @@ namespace Amazon.ECR.Model
     /// repository name, and upload ID. You can optionally provide a <code>sha256</code> digest
     /// of the image layer for data validation purposes.
     /// 
+    ///  
+    /// <para>
+    /// When an image is pushed, the CompleteLayerUpload API is called once per each new image
+    /// layer to verify that the upload has completed.
+    /// </para>
     ///  <note> 
     /// <para>
     /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -54,6 +59,7 @@ namespace Amazon.ECR.Model
         /// The <code>sha256</code> digest of the image layer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<string> LayerDigests
         {
             get { return this._layerDigests; }
@@ -91,6 +97,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository to associate with the image layer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }
@@ -110,6 +117,7 @@ namespace Amazon.ECR.Model
         /// the image layer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string UploadId
         {
             get { return this._uploadId; }

@@ -28,10 +28,11 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lightsail.Model
 {
     /// <summary>
-    /// Describes a system disk or an block storage disk.
+    /// Describes a system disk or a block storage disk.
     /// </summary>
     public partial class Disk
     {
+        private List<AddOn> _addOns = new List<AddOn>();
         private string _arn;
         private string _attachedTo;
         private string _attachmentState;
@@ -47,6 +48,25 @@ namespace Amazon.Lightsail.Model
         private int? _sizeInGb;
         private DiskState _state;
         private string _supportCode;
+        private List<Tag> _tags = new List<Tag>();
+
+        /// <summary>
+        /// Gets and sets the property AddOns. 
+        /// <para>
+        /// An array of objects representing the add-ons enabled on the disk.
+        /// </para>
+        /// </summary>
+        public List<AddOn> AddOns
+        {
+            get { return this._addOns; }
+            set { this._addOns = value; }
+        }
+
+        // Check to see if AddOns property is set
+        internal bool IsSetAddOns()
+        {
+            return this._addOns != null && this._addOns.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property Arn. 
@@ -97,6 +117,7 @@ namespace Amazon.Lightsail.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [Obsolete("In releases prior to November 14, 2017, this parameter returned attached for system disks in the API response. It is now deprecated, but still included in the response. Use isAttached instead.")]
         public string AttachmentState
         {
             get { return this._attachmentState; }
@@ -139,6 +160,7 @@ namespace Amazon.Lightsail.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [Obsolete("In releases prior to November 14, 2017, this parameter was not included in the API response. It is now deprecated.")]
         public int GbInUse
         {
             get { return this._gbInUse.GetValueOrDefault(); }
@@ -332,6 +354,26 @@ namespace Amazon.Lightsail.Model
         internal bool IsSetSupportCode()
         {
             return this._supportCode != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tag keys and optional values for the resource. For more information about tags
+        /// in Lightsail, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

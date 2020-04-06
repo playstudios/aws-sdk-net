@@ -34,7 +34,7 @@ namespace Amazon.DirectoryService.Model
     /// 
     ///  
     /// <para>
-    /// This action verifies a trust relationship between your Microsoft AD in the AWS cloud
+    /// This action verifies a trust relationship between your AWS Managed Microsoft AD directory
     /// and an external domain.
     /// </para>
     /// </summary>
@@ -48,6 +48,7 @@ namespace Amazon.DirectoryService.Model
         /// The unique Trust ID of the trust relationship to verify.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TrustId
         {
             get { return this._trustId; }

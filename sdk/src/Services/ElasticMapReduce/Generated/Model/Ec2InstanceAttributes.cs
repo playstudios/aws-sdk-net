@@ -66,7 +66,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property AdditionalSlaveSecurityGroups. 
         /// <para>
-        /// A list of additional Amazon EC2 security group IDs for the slave nodes.
+        /// A list of additional Amazon EC2 security group IDs for the core and task nodes.
         /// </para>
         /// </summary>
         public List<string> AdditionalSlaveSecurityGroups
@@ -121,15 +121,9 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property Ec2SubnetId. 
         /// <para>
-        /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon
-        /// VPC subnet where you want the cluster to launch. If you do not specify this value,
-        /// the cluster is launched in the normal AWS cloud, outside of a VPC.
-        /// </para>
-        ///  
-        /// <para>
-        /// Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge)
-        /// instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster
-        /// launched in a VPC.
+        /// Set this parameter to the identifier of the Amazon VPC subnet where you want the cluster
+        /// to launch. If you do not specify this value, and your account supports EC2-Classic,
+        /// the cluster launches in EC2-Classic.
         /// </para>
         /// </summary>
         public string Ec2SubnetId
@@ -165,7 +159,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property EmrManagedSlaveSecurityGroup. 
         /// <para>
-        /// The identifier of the Amazon EC2 security group for the slave nodes.
+        /// The identifier of the Amazon EC2 security group for the core and task nodes.
         /// </para>
         /// </summary>
         public string EmrManagedSlaveSecurityGroup
@@ -231,7 +225,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// Subnets must exist within the same VPC. Amazon EMR chooses the EC2 subnet with the
         /// best fit from among the list of <code>RequestedEc2SubnetIds</code>, and then launches
         /// all cluster instances within that Subnet. If this value is not specified, and the
-        /// account and region support EC2-Classic networks, the cluster launches instances in
+        /// account and Region support EC2-Classic networks, the cluster launches instances in
         /// the EC2-Classic network and uses <code>RequestedEc2AvailabilityZones</code> instead
         /// of this setting. If EC2-Classic is not supported, and no Subnet is specified, Amazon
         /// EMR chooses the subnet for you. <code>RequestedEc2SubnetIDs</code> and <code>RequestedEc2AvailabilityZones</code>

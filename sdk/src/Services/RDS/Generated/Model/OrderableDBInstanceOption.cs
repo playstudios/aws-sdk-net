@@ -32,13 +32,14 @@ namespace Amazon.RDS.Model
     /// 
     ///  
     /// <para>
-    ///  This data type is used as a response element in the <a>DescribeOrderableDBInstanceOptions</a>
+    ///  This data type is used as a response element in the <code>DescribeOrderableDBInstanceOptions</code>
     /// action. 
     /// </para>
     /// </summary>
     public partial class OrderableDBInstanceOption
     {
         private List<AvailabilityZone> _availabilityZones = new List<AvailabilityZone>();
+        private List<AvailableProcessorFeature> _availableProcessorFeatures = new List<AvailableProcessorFeature>();
         private string _dbInstanceClass;
         private string _engine;
         private string _engineVersion;
@@ -52,10 +53,13 @@ namespace Amazon.RDS.Model
         private bool? _multiAZCapable;
         private bool? _readReplicaCapable;
         private string _storageType;
+        private List<string> _supportedEngineModes = new List<string>();
         private bool? _supportsEnhancedMonitoring;
         private bool? _supportsIAMDatabaseAuthentication;
         private bool? _supportsIops;
+        private bool? _supportsKerberosAuthentication;
         private bool? _supportsPerformanceInsights;
+        private bool? _supportsStorageAutoscaling;
         private bool? _supportsStorageEncryption;
         private bool? _vpc;
 
@@ -75,6 +79,24 @@ namespace Amazon.RDS.Model
         internal bool IsSetAvailabilityZones()
         {
             return this._availabilityZones != null && this._availabilityZones.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AvailableProcessorFeatures. 
+        /// <para>
+        /// A list of the available processor features for the DB instance class of a DB instance.
+        /// </para>
+        /// </summary>
+        public List<AvailableProcessorFeature> AvailableProcessorFeatures
+        {
+            get { return this._availableProcessorFeatures; }
+            set { this._availableProcessorFeatures = value; }
+        }
+
+        // Check to see if AvailableProcessorFeatures property is set
+        internal bool IsSetAvailableProcessorFeatures()
+        {
+            return this._availableProcessorFeatures != null && this._availableProcessorFeatures.Count > 0; 
         }
 
         /// <summary>
@@ -278,7 +300,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ReadReplicaCapable. 
         /// <para>
-        /// Indicates whether a DB instance can have a Read Replica.
+        /// Indicates whether a DB instance can have a read replica.
         /// </para>
         /// </summary>
         public bool ReadReplicaCapable
@@ -309,6 +331,31 @@ namespace Amazon.RDS.Model
         internal bool IsSetStorageType()
         {
             return this._storageType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SupportedEngineModes. 
+        /// <para>
+        /// A list of the supported DB engine modes.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>global</code> engine mode only applies for global database clusters created
+        /// with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters
+        /// in a global database use <code>provisioned</code> engine mode. 
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<string> SupportedEngineModes
+        {
+            get { return this._supportedEngineModes; }
+            set { this._supportedEngineModes = value; }
+        }
+
+        // Check to see if SupportedEngineModes property is set
+        internal bool IsSetSupportedEngineModes()
+        {
+            return this._supportedEngineModes != null && this._supportedEngineModes.Count > 0; 
         }
 
         /// <summary>
@@ -367,6 +414,24 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SupportsKerberosAuthentication. 
+        /// <para>
+        /// Whether a DB instance supports Kerberos Authentication.
+        /// </para>
+        /// </summary>
+        public bool SupportsKerberosAuthentication
+        {
+            get { return this._supportsKerberosAuthentication.GetValueOrDefault(); }
+            set { this._supportsKerberosAuthentication = value; }
+        }
+
+        // Check to see if SupportsKerberosAuthentication property is set
+        internal bool IsSetSupportsKerberosAuthentication()
+        {
+            return this._supportsKerberosAuthentication.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property SupportsPerformanceInsights. 
         /// <para>
         /// True if a DB instance supports Performance Insights, otherwise false.
@@ -382,6 +447,25 @@ namespace Amazon.RDS.Model
         internal bool IsSetSupportsPerformanceInsights()
         {
             return this._supportsPerformanceInsights.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SupportsStorageAutoscaling. 
+        /// <para>
+        /// Whether or not Amazon RDS can automatically scale storage for DB instances that use
+        /// the specified instance class.
+        /// </para>
+        /// </summary>
+        public bool SupportsStorageAutoscaling
+        {
+            get { return this._supportsStorageAutoscaling.GetValueOrDefault(); }
+            set { this._supportsStorageAutoscaling = value; }
+        }
+
+        // Check to see if SupportsStorageAutoscaling property is set
+        internal bool IsSetSupportsStorageAutoscaling()
+        {
+            return this._supportsStorageAutoscaling.HasValue; 
         }
 
         /// <summary>

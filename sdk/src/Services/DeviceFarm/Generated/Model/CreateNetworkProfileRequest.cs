@@ -52,6 +52,7 @@ namespace Amazon.DeviceFarm.Model
         /// The description of the network profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=16384)]
         public string Description
         {
             get { return this._description; }
@@ -126,6 +127,7 @@ namespace Amazon.DeviceFarm.Model
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int DownlinkLossPercent
         {
             get { return this._downlinkLossPercent.GetValueOrDefault(); }
@@ -141,9 +143,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name you wish to specify for the new network profile.
+        /// The name for the new network profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -163,6 +166,7 @@ namespace Amazon.DeviceFarm.Model
         /// profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string ProjectArn
         {
             get { return this._projectArn; }
@@ -178,7 +182,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of network profile you wish to create. Valid values are listed below.
+        /// The type of network profile to create. Valid values are listed here.
         /// </para>
         /// </summary>
         public NetworkProfileType Type
@@ -255,6 +259,7 @@ namespace Amazon.DeviceFarm.Model
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int UplinkLossPercent
         {
             get { return this._uplinkLossPercent.GetValueOrDefault(); }

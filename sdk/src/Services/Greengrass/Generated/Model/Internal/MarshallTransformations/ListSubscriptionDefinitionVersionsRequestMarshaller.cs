@@ -55,19 +55,20 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(ListSubscriptionDefinitionVersionsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions";
             if (!publicRequest.IsSetSubscriptionDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field SubscriptionDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{SubscriptionDefinitionId}", StringUtils.FromString(publicRequest.SubscriptionDefinitionId));
+            request.AddPathResource("{SubscriptionDefinitionId}", StringUtils.FromString(publicRequest.SubscriptionDefinitionId));
             
             if (publicRequest.IsSetMaxResults())
                 request.Parameters.Add("MaxResults", StringUtils.FromString(publicRequest.MaxResults));
             
             if (publicRequest.IsSetNextToken())
                 request.Parameters.Add("NextToken", StringUtils.FromString(publicRequest.NextToken));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

@@ -29,56 +29,62 @@ namespace Amazon.GameLift.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateBuild operation.
-    /// Creates a new Amazon GameLift build record for your game server binary files and points
-    /// to the location of your game server build files in an Amazon Simple Storage Service
-    /// (Amazon S3) location. 
+    /// Creates a new Amazon GameLift build resource for your game server binary files. Game
+    /// server binaries must be combined into a zip file for use with Amazon GameLift. 
     /// 
-    ///  
-    /// <para>
-    /// Game server binaries must be combined into a <code>.zip</code> file for use with Amazon
-    /// GameLift. See <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-intro.html">Uploading
-    /// Your Game</a> for more information. 
-    /// </para>
     ///  <important> 
     /// <para>
-    /// To create new builds quickly and easily, use the AWS CLI command <b> <a href="http://docs.aws.amazon.com/cli/latest/reference/gamelift/upload-build.html">upload-build</a>
-    /// </b>. This helper command uploads your build and creates a new build record in one
-    /// step, and automatically handles the necessary permissions. See <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-cli-uploading.html">
-    /// Upload Build Files to Amazon GameLift</a> for more help.
+    /// When setting up a new game build for GameLift, we recommend using the AWS CLI command
+    /// <b> <a href="https://docs.aws.amazon.com/cli/latest/reference/gamelift/upload-build.html">upload-build</a>
+    /// </b>. This helper command combines two tasks: (1) it uploads your build files from
+    /// a file directory to a GameLift Amazon S3 location, and (2) it creates a new build
+    /// resource. 
     /// </para>
     ///  </important> 
     /// <para>
-    /// The <code>CreateBuild</code> operation should be used only when you need to manually
-    /// upload your build files, as in the following scenarios:
+    /// The <code>CreateBuild</code> operation can used in the following scenarios:
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    /// Store a build file in an Amazon S3 bucket under your own AWS account. To use this
-    /// option, you must first give Amazon GameLift access to that Amazon S3 bucket. See <a
-    /// href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-cli-uploading.html#gamelift-build-cli-uploading-create-build">
-    /// Create a Build with Files in Amazon S3</a> for detailed help. To create a new build
-    /// record using files in your Amazon S3 bucket, call <code>CreateBuild</code> and specify
-    /// a build name, operating system, and the storage location of your game build.
+    /// To create a new game build with build files that are in an S3 location under an AWS
+    /// account that you control. To use this option, you must first give Amazon GameLift
+    /// access to the S3 bucket. With permissions in place, call <code>CreateBuild</code>
+    /// and specify a build name, operating system, and the S3 storage location of your game
+    /// build.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Upload a build file directly to Amazon GameLift's Amazon S3 account. To use this option,
-    /// you first call <code>CreateBuild</code> with a build name and operating system. This
-    /// action creates a new build record and returns an Amazon S3 storage location (bucket
-    /// and key only) and temporary access credentials. Use the credentials to manually upload
-    /// your build file to the storage location (see the Amazon S3 topic <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UploadingObjects.html">Uploading
-    /// Objects</a>). You can upload files to a location only once. 
+    /// To directly upload your build files to a GameLift S3 location. To use this option,
+    /// first call <code>CreateBuild</code> and specify a build name and operating system.
+    /// This action creates a new build resource and also returns an S3 location with temporary
+    /// access credentials. Use the credentials to manually upload your build files to the
+    /// specified S3 location. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadingObjects.html">Uploading
+    /// Objects</a> in the <i>Amazon S3 Developer Guide</i>. Build files can be uploaded to
+    /// the GameLift S3 location once only; that can't be updated. 
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// If successful, this operation creates a new build record with a unique build ID and
-    /// places it in <code>INITIALIZED</code> status. You can use <a>DescribeBuild</a> to
-    /// check the status of your build. A build must be in <code>READY</code> status before
-    /// it can be used to create fleets.
+    /// If successful, this operation creates a new build resource with a unique build ID
+    /// and places it in <code>INITIALIZED</code> status. A build must be in <code>READY</code>
+    /// status before you can create fleets with it.
     /// </para>
     ///  
     /// <para>
-    /// Build-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-intro.html">Uploading
+    /// Your Game</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-cli-uploading.html#gamelift-build-cli-uploading-create-build">
+    /// Create a Build with Files in Amazon S3</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -107,15 +113,17 @@ namespace Amazon.GameLift.Model
         private string _name;
         private OperatingSystem _operatingSystem;
         private S3Location _storageLocation;
+        private List<Tag> _tags = new List<Tag>();
         private string _version;
 
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with a build. Build names do not need to be unique.
-        /// You can use <a>UpdateBuild</a> to change this value later. 
+        /// A descriptive label that is associated with a build. Build names do not need to be
+        /// unique. You can use <a>UpdateBuild</a> to change this value later. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }
@@ -131,11 +139,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property OperatingSystem. 
         /// <para>
-        /// Operating system that the game server binaries are built to run on. This value determines
-        /// the type of fleet resources that you can use for this build. If your game build contains
-        /// multiple executables, they all must run on the same operating system. If an operating
-        /// system is not specified when creating a build, Amazon GameLift uses the default value
-        /// (WINDOWS_2012). This value cannot be changed later.
+        /// The operating system that the game server binaries are built to run on. This value
+        /// determines the type of fleet resources that you can use for this build. If your game
+        /// build contains multiple executables, they all must run on the same operating system.
+        /// If an operating system is not specified when creating a build, Amazon GameLift uses
+        /// the default value (WINDOWS_2012). This value cannot be changed later.
         /// </para>
         /// </summary>
         public OperatingSystem OperatingSystem
@@ -154,10 +162,10 @@ namespace Amazon.GameLift.Model
         /// Gets and sets the property StorageLocation. 
         /// <para>
         /// Information indicating where your game build files are stored. Use this parameter
-        /// only when creating a build with files stored in an Amazon S3 bucket that you own.
-        /// The storage location must specify an Amazon S3 bucket name and key, as well as a role
-        /// ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The
-        /// S3 bucket must be in the same region that you want to create a new build in.
+        /// only when creating a build with files stored in an S3 bucket that you own. The storage
+        /// location must specify an S3 bucket name and key. The location must also specify a
+        /// role ARN that you set up to allow Amazon GameLift to access your S3 bucket. The S3
+        /// bucket and your new build must be in the same Region.
         /// </para>
         /// </summary>
         public S3Location StorageLocation
@@ -173,12 +181,39 @@ namespace Amazon.GameLift.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Version. 
+        /// Gets and sets the property Tags. 
         /// <para>
-        /// Version that is associated with this build. Version strings do not need to be unique.
-        /// You can use <a>UpdateBuild</a> to change this value later. 
+        /// A list of labels to assign to the new build resource. Tags are developer-defined key-value
+        /// pairs. Tagging AWS resources are useful for resource management, access management
+        /// and cost allocation. For more information, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">
+        /// Tagging AWS Resources</a> in the <i>AWS General Reference</i>. Once the resource is
+        /// created, you can use <a>TagResource</a>, <a>UntagResource</a>, and <a>ListTagsForResource</a>
+        /// to add, remove, and view tags. The maximum tag limit may be lower than stated. See
+        /// the AWS General Reference for actual tagging limits.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Version. 
+        /// <para>
+        /// Version information that is associated with a build or script. Version strings do
+        /// not need to be unique. You can use <a>UpdateBuild</a> to change this value later.
+        /// 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Version
         {
             get { return this._version; }

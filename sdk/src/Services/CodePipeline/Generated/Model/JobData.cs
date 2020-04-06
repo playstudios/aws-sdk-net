@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// Represents additional information about a job required for a job worker to complete
-    /// the job.
+    /// Represents other information about a job required for a job worker to complete the
+    /// job.
     /// </summary>
     public partial class JobData
     {
@@ -83,8 +83,8 @@ namespace Amazon.CodePipeline.Model
         /// <para>
         /// Represents an AWS session credentials object. These credentials are temporary credentials
         /// that are issued by AWS Secure Token Service (STS). They can be used to access input
-        /// and output artifacts in the Amazon S3 bucket used to store artifact for the pipeline
-        /// in AWS CodePipeline.
+        /// and output artifacts in the S3 bucket used to store artifacts for the pipeline in
+        /// AWS CodePipeline.
         /// </para>
         /// </summary>
         public AWSSessionCredentials ArtifactCredentials
@@ -102,10 +102,11 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property ContinuationToken. 
         /// <para>
-        /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires
-        /// in order to continue the job asynchronously.
+        /// A system-generated token, such as a AWS CodeDeploy deployment ID, required by a job
+        /// to continue the job asynchronously.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string ContinuationToken
         {
             get { return this._continuationToken; }
@@ -178,6 +179,12 @@ namespace Amazon.CodePipeline.Model
         /// <para>
         /// Represents information about a pipeline to a job worker.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// Includes <code>pipelineArn</code> and <code>pipelineExecutionId</code> for custom
+        /// jobs.
+        /// </para>
+        ///  </note>
         /// </summary>
         public PipelineContext PipelineContext
         {

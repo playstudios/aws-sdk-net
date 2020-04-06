@@ -33,16 +33,20 @@ namespace Amazon.MediaLive.Model
     public partial class DescribeChannelResponse : AmazonWebServiceResponse
     {
         private string _arn;
+        private ChannelClass _channelClass;
         private List<OutputDestination> _destinations = new List<OutputDestination>();
         private List<ChannelEgressEndpoint> _egressEndpoints = new List<ChannelEgressEndpoint>();
         private EncoderSettings _encoderSettings;
         private string _id;
         private List<InputAttachment> _inputAttachments = new List<InputAttachment>();
         private InputSpecification _inputSpecification;
+        private LogLevel _logLevel;
         private string _name;
+        private List<PipelineDetail> _pipelineDetails = new List<PipelineDetail>();
         private int? _pipelinesRunningCount;
         private string _roleArn;
         private ChannelState _state;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets and sets the property Arn. The unique arn of the channel.
@@ -57,6 +61,22 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetArn()
         {
             return this._arn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ChannelClass. The class for this channel. STANDARD for
+        /// a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
+        /// </summary>
+        public ChannelClass ChannelClass
+        {
+            get { return this._channelClass; }
+            set { this._channelClass = value; }
+        }
+
+        // Check to see if ChannelClass property is set
+        internal bool IsSetChannelClass()
+        {
+            return this._channelClass != null;
         }
 
         /// <summary>
@@ -153,6 +173,21 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LogLevel. The log level being written to CloudWatch Logs.
+        /// </summary>
+        public LogLevel LogLevel
+        {
+            get { return this._logLevel; }
+            set { this._logLevel = value; }
+        }
+
+        // Check to see if LogLevel property is set
+        internal bool IsSetLogLevel()
+        {
+            return this._logLevel != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. The name of the channel. (user-mutable)
         /// </summary>
         public string Name
@@ -165,6 +200,22 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PipelineDetails. Runtime details for the pipelines of a
+        /// running channel.
+        /// </summary>
+        public List<PipelineDetail> PipelineDetails
+        {
+            get { return this._pipelineDetails; }
+            set { this._pipelineDetails = value; }
+        }
+
+        // Check to see if PipelineDetails property is set
+        internal bool IsSetPipelineDetails()
+        {
+            return this._pipelineDetails != null && this._pipelineDetails.Count > 0; 
         }
 
         /// <summary>
@@ -212,6 +263,21 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetState()
         {
             return this._state != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. A collection of key-value pairs.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

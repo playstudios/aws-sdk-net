@@ -33,14 +33,33 @@ namespace Amazon.MediaPackage.Model
     /// </summary>
     public partial class SpekeKeyProvider
     {
+        private string _certificateArn;
         private string _resourceId;
         private string _roleArn;
         private List<string> _systemIds = new List<string>();
         private string _url;
 
         /// <summary>
+        /// Gets and sets the property CertificateArn. An Amazon Resource Name (ARN) of a Certificate
+        /// Manager certificatethat MediaPackage will use for enforcing secure end-to-end datatransfer
+        /// with the key provider service.
+        /// </summary>
+        public string CertificateArn
+        {
+            get { return this._certificateArn; }
+            set { this._certificateArn = value; }
+        }
+
+        // Check to see if CertificateArn property is set
+        internal bool IsSetCertificateArn()
+        {
+            return this._certificateArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ResourceId. The resource ID to include in key requests.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -57,6 +76,7 @@ namespace Amazon.MediaPackage.Model
         /// Gets and sets the property RoleArn. An Amazon Resource Name (ARN) of an IAM role that
         /// AWS ElementalMediaPackage will assume when accessing the key provider service.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -72,6 +92,7 @@ namespace Amazon.MediaPackage.Model
         /// <summary>
         /// Gets and sets the property SystemIds. The system IDs to include in key requests.
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> SystemIds
         {
             get { return this._systemIds; }
@@ -87,6 +108,7 @@ namespace Amazon.MediaPackage.Model
         /// <summary>
         /// Gets and sets the property Url. The URL of the external key provider service.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Url
         {
             get { return this._url; }

@@ -39,7 +39,7 @@ namespace Amazon.SimpleEmail.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about using notifications with Amazon SES, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
+    /// For more information about using notifications with Amazon SES, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notifications.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -63,6 +63,7 @@ namespace Amazon.SimpleEmail.Model
         /// a particular Amazon SNS topic.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enabled
         {
             get { return this._enabled.GetValueOrDefault(); }
@@ -82,6 +83,7 @@ namespace Amazon.SimpleEmail.Model
         /// <code>example.com</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Identity
         {
             get { return this._identity; }
@@ -100,6 +102,7 @@ namespace Amazon.SimpleEmail.Model
         /// The notification type for which to enable or disable headers in notifications. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public NotificationType NotificationType
         {
             get { return this._notificationType; }

@@ -33,8 +33,13 @@ namespace Amazon.CognitoIdentityProvider.Model
     /// 
     ///  
     /// <para>
-    /// Requires developer credentials.
+    /// Calling this action requires developer credentials.
     /// </para>
+    ///  <important> 
+    /// <para>
+    /// If you don't provide a value for an attribute, it will be set to the default value.
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class UpdateGroupRequest : AmazonCognitoIdentityProviderRequest
     {
@@ -50,6 +55,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// A string containing the new description of the group.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -68,6 +74,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The name of the group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string GroupName
         {
             get { return this._groupName; }
@@ -87,6 +94,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// see .
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int Precedence
         {
             get { return this._precedence.GetValueOrDefault(); }
@@ -106,6 +114,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// and <code>cognito:preferred_role</code> claims in the token.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -124,6 +133,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID for the user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }

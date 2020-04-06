@@ -28,8 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GameLift.Model
 {
     /// <summary>
-    /// Maximum number of instances allowed based on the Amazon Elastic Compute Cloud (Amazon
-    /// EC2) instance type. Instance limits can be retrieved by calling <a>DescribeEC2InstanceLimits</a>.
+    /// The maximum number of instances allowed based on the Amazon Elastic Compute Cloud
+    /// (Amazon EC2) instance type. Instance limits can be retrieved by calling <a>DescribeEC2InstanceLimits</a>.
     /// </summary>
     public partial class EC2InstanceLimit
     {
@@ -43,6 +43,7 @@ namespace Amazon.GameLift.Model
         /// Number of instances of the specified type that are currently in use by this AWS account.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int CurrentInstances
         {
             get { return this._currentInstances.GetValueOrDefault(); }
@@ -83,6 +84,7 @@ namespace Amazon.GameLift.Model
         /// Number of instances allowed.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int InstanceLimit
         {
             get { return this._instanceLimit.GetValueOrDefault(); }

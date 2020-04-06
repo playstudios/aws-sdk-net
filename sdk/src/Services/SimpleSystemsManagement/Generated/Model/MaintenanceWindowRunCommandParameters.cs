@@ -40,7 +40,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     ///  <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to contain
     /// logs, instead use the <code>OutputS3BucketName</code> and <code>OutputS3KeyPrefix</code>
     /// options in the <code>TaskInvocationParameters</code> structure. For information about
-    /// how Systems Manager handles these options for the supported Maintenance Window task
+    /// how Systems Manager handles these options for the supported maintenance window task
     /// types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
     /// </para>
     ///  
@@ -48,7 +48,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     ///  <code>TaskParameters</code> has been deprecated. To specify parameters to pass to
     /// a task when it runs, instead use the <code>Parameters</code> option in the <code>TaskInvocationParameters</code>
     /// structure. For information about how Systems Manager handles these options for the
-    /// supported Maintenance Window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+    /// supported maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
     /// </para>
     ///  
     /// <para>
@@ -60,9 +60,11 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// </summary>
     public partial class MaintenanceWindowRunCommandParameters
     {
+        private CloudWatchOutputConfig _cloudWatchOutputConfig;
         private string _comment;
         private string _documentHash;
         private DocumentHashType _documentHashType;
+        private string _documentVersion;
         private NotificationConfig _notificationConfig;
         private string _outputS3BucketName;
         private string _outputS3KeyPrefix;
@@ -71,11 +73,27 @@ namespace Amazon.SimpleSystemsManagement.Model
         private int? _timeoutSeconds;
 
         /// <summary>
+        /// Gets and sets the property CloudWatchOutputConfig.
+        /// </summary>
+        public CloudWatchOutputConfig CloudWatchOutputConfig
+        {
+            get { return this._cloudWatchOutputConfig; }
+            set { this._cloudWatchOutputConfig = value; }
+        }
+
+        // Check to see if CloudWatchOutputConfig property is set
+        internal bool IsSetCloudWatchOutputConfig()
+        {
+            return this._cloudWatchOutputConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Comment. 
         /// <para>
-        /// Information about the command(s) to execute.
+        /// Information about the commands to run.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string Comment
         {
             get { return this._comment; }
@@ -95,6 +113,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// hashes have been deprecated.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=256)]
         public string DocumentHash
         {
             get { return this._documentHash; }
@@ -126,6 +145,39 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DocumentVersion. 
+        /// <para>
+        /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST,
+        /// or a specific version number. If you run commands by using the AWS CLI, then you must
+        /// escape the first two options by using a backslash. If you specify a version number,
+        /// then you don't need to use the backslash. For example:
+        /// </para>
+        ///  
+        /// <para>
+        /// --document-version "\$DEFAULT"
+        /// </para>
+        ///  
+        /// <para>
+        /// --document-version "\$LATEST"
+        /// </para>
+        ///  
+        /// <para>
+        /// --document-version "3"
+        /// </para>
+        /// </summary>
+        public string DocumentVersion
+        {
+            get { return this._documentVersion; }
+            set { this._documentVersion = value; }
+        }
+
+        // Check to see if DocumentVersion property is set
+        internal bool IsSetDocumentVersion()
+        {
+            return this._documentVersion != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property NotificationConfig. 
         /// <para>
         /// Configurations for sending notifications about command status changes on a per-instance
@@ -150,6 +202,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the Amazon S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=63)]
         public string OutputS3BucketName
         {
             get { return this._outputS3BucketName; }
@@ -168,6 +221,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The Amazon S3 bucket subfolder.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=500)]
         public string OutputS3KeyPrefix
         {
             get { return this._outputS3KeyPrefix; }
@@ -201,7 +255,8 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ServiceRoleArn. 
         /// <para>
-        /// The IAM service role to assume during task execution.
+        /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service
+        /// (Amazon SNS) notifications for maintenance window Run Command tasks.
         /// </para>
         /// </summary>
         public string ServiceRoleArn
@@ -219,10 +274,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TimeoutSeconds. 
         /// <para>
-        /// If this time is reached and the command has not already started executing, it doesn
-        /// not execute.
+        /// If this time is reached and the command has not already started running, it doesn't
+        /// run.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=30, Max=2592000)]
         public int TimeoutSeconds
         {
             get { return this._timeoutSeconds.GetValueOrDefault(); }

@@ -55,29 +55,68 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateGraphqlApiRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.AppSync");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/apis/{apiId}";
             if (!publicRequest.IsSetApiId())
                 throw new AmazonAppSyncException("Request object does not have required field ApiId set");
-            uriResourcePath = uriResourcePath.Replace("{apiId}", StringUtils.FromString(publicRequest.ApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{apiId}", StringUtils.FromString(publicRequest.ApiId));
+            request.ResourcePath = "/v1/apis/{apiId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAdditionalAuthenticationProviders())
+                {
+                    context.Writer.WritePropertyName("additionalAuthenticationProviders");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAdditionalAuthenticationProvidersListValue in publicRequest.AdditionalAuthenticationProviders)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = AdditionalAuthenticationProviderMarshaller.Instance;
+                        marshaller.Marshall(publicRequestAdditionalAuthenticationProvidersListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetAuthenticationType())
                 {
                     context.Writer.WritePropertyName("authenticationType");
                     context.Writer.Write(publicRequest.AuthenticationType);
                 }
 
+                if(publicRequest.IsSetLogConfig())
+                {
+                    context.Writer.WritePropertyName("logConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = LogConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.LogConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetName())
                 {
                     context.Writer.WritePropertyName("name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetOpenIDConnectConfig())
+                {
+                    context.Writer.WritePropertyName("openIDConnectConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = OpenIDConnectConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.OpenIDConnectConfig, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetUserPoolConfig())
@@ -89,6 +128,12 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.UserPoolConfig, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetXrayEnabled())
+                {
+                    context.Writer.WritePropertyName("xrayEnabled");
+                    context.Writer.Write(publicRequest.XrayEnabled);
                 }
 
         

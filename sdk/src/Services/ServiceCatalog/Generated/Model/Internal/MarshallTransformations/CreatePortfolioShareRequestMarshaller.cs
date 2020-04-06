@@ -58,10 +58,11 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
             string target = "AWS242ServiceCatalogService.CreatePortfolioShare";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-12-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -77,6 +78,17 @@ namespace Amazon.ServiceCatalog.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("AccountId");
                     context.Writer.Write(publicRequest.AccountId);
+                }
+
+                if(publicRequest.IsSetOrganizationNode())
+                {
+                    context.Writer.WritePropertyName("OrganizationNode");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = OrganizationNodeMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.OrganizationNode, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetPortfolioId())

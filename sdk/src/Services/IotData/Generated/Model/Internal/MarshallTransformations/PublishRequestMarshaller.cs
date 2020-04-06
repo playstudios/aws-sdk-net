@@ -55,17 +55,18 @@ namespace Amazon.IotData.Model.Internal.MarshallTransformations
         public IRequest Marshall(PublishRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IotData");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/topics/{topic}";
             if (!publicRequest.IsSetTopic())
                 throw new AmazonIotDataException("Request object does not have required field Topic set");
-            uriResourcePath = uriResourcePath.Replace("{topic}", StringUtils.FromString(publicRequest.Topic));
+            request.AddPathResource("{topic}", StringUtils.FromString(publicRequest.Topic));
             
             if (publicRequest.IsSetQos())
                 request.Parameters.Add("qos", StringUtils.FromInt(publicRequest.Qos));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/topics/{topic}";
+            request.MarshallerVersion = 2;
             request.ContentStream =  publicRequest.Payload ?? new MemoryStream();
             request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
                 request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);

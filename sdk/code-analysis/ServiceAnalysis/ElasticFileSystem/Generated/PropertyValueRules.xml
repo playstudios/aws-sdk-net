@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-16"?>
 <property-value-rules>
   <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.CreateAccessPointRequest.ClientToken</property>
+    <min>1</min>
+    <max>64</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.CreateAccessPointResponse.ClientToken</property>
+    <min>1</min>
+    <max>64</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.CreateFileSystemRequest.CreationToken</property>
     <min>1</min>
     <max>64</max>
@@ -9,6 +19,10 @@
     <property>Amazon.ElasticFileSystem.Model.CreateFileSystemRequest.KmsKeyId</property>
     <min>1</min>
     <max>2048</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.CreateFileSystemRequest.ProvisionedThroughputInMibps</property>
+    <min>1</min>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.CreateFileSystemResponse.CreationToken</property>
@@ -29,6 +43,14 @@
     <min>0</min>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.CreateFileSystemResponse.ProvisionedThroughputInMibps</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.DescribeAccessPointsRequest.MaxResults</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.DescribeFileSystemsRequest.CreationToken</property>
     <min>1</min>
     <max>64</max>
@@ -46,8 +68,64 @@
     <min>1</min>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.ListTagsForResourceRequest.MaxResults</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.UpdateFileSystemRequest.ProvisionedThroughputInMibps</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.UpdateFileSystemResponse.CreationToken</property>
+    <min>1</min>
+    <max>64</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.UpdateFileSystemResponse.KmsKeyId</property>
+    <min>1</min>
+    <max>2048</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.UpdateFileSystemResponse.Name</property>
+    <max>256</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.UpdateFileSystemResponse.NumberOfMountTargets</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.UpdateFileSystemResponse.ProvisionedThroughputInMibps</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.AccessPointAlreadyExists.ErrorCode</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.AccessPointLimitExceeded.ErrorCode</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.AccessPointNotFound.ErrorCode</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.BadRequest.ErrorCode</property>
     <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.CreationInfo.OwnerGid</property>
+    <min>0</min>
+    <max>4294967295</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.CreationInfo.OwnerUid</property>
+    <min>0</min>
+    <max>4294967295</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.CreationInfo.Permissions</property>
+    <pattern>^[0-7]{3,4}$</pattern>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.DependencyTimeout.ErrorCode</property>
@@ -74,6 +152,14 @@
     <min>0</min>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.FileSystemSize.ValueInIA</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.FileSystemSize.ValueInStandard</property>
+    <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.IncorrectFileSystemLifeCycleState.ErrorCode</property>
     <min>1</min>
   </property-value-rule>
@@ -82,7 +168,15 @@
     <min>1</min>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.InsufficientThroughputCapacity.ErrorCode</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.InternalServerError.ErrorCode</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.InvalidPolicyException.ErrorCode</property>
     <min>1</min>
   </property-value-rule>
   <property-value-rule>
@@ -106,6 +200,25 @@
     <min>1</min>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.PolicyNotFound.ErrorCode</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.PosixUser.Gid</property>
+    <min>0</min>
+    <max>4294967295</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.PosixUser.Uid</property>
+    <min>0</min>
+    <max>4294967295</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.RootDirectory.Path</property>
+    <min>1</min>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.SecurityGroupLimitExceeded.ErrorCode</property>
     <min>1</min>
   </property-value-rule>
@@ -125,6 +238,14 @@
   <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.Tag.Value</property>
     <max>256</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.ThroughputLimitExceeded.ErrorCode</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.ElasticFileSystem.Model.TooManyRequests.ErrorCode</property>
+    <min>1</min>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.ElasticFileSystem.Model.UnsupportedAvailabilityZone.ErrorCode</property>

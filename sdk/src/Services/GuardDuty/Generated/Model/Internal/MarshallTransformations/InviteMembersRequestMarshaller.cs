@@ -55,14 +55,15 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
         public IRequest Marshall(InviteMembersRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.GuardDuty");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/detector/{detectorId}/member/invite";
             if (!publicRequest.IsSetDetectorId())
                 throw new AmazonGuardDutyException("Request object does not have required field DetectorId set");
-            uriResourcePath = uriResourcePath.Replace("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
+            request.ResourcePath = "/detector/{detectorId}/member/invite";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -77,6 +78,12 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestAccountIdsListValue);
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetDisableEmailNotification())
+                {
+                    context.Writer.WritePropertyName("disableEmailNotification");
+                    context.Writer.Write(publicRequest.DisableEmailNotification);
                 }
 
                 if(publicRequest.IsSetMessage())

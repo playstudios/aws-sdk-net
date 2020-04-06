@@ -46,6 +46,11 @@ namespace Amazon.CloudWatchLogs.Model
     /// bucket. To separate out log data for each export task, you can specify a prefix to
     /// be used as the Amazon S3 key prefix for all exported objects.
     /// </para>
+    ///  
+    /// <para>
+    /// Exporting to S3 buckets that are encrypted with AES-256 is supported. Exporting to
+    /// S3 buckets encrypted with SSE-KMS is not supported. 
+    /// </para>
     /// </summary>
     public partial class CreateExportTaskRequest : AmazonCloudWatchLogsRequest
     {
@@ -64,6 +69,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// region.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string Destination
         {
             get { return this._destination; }
@@ -99,10 +105,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property From. 
         /// <para>
         /// The start time of the range for the request, expressed as the number of milliseconds
-        /// after Jan 1, 1970 00:00:00 UTC. Events with a time stamp earlier than this time are
+        /// after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are
         /// not exported.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public long From
         {
             get { return this._from.GetValueOrDefault(); }
@@ -121,6 +128,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string LogGroupName
         {
             get { return this._logGroupName; }
@@ -140,6 +148,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// no prefix filter is applied.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string LogStreamNamePrefix
         {
             get { return this._logStreamNamePrefix; }
@@ -158,6 +167,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the export task.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string TaskName
         {
             get { return this._taskName; }
@@ -174,10 +184,11 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property To. 
         /// <para>
         /// The end time of the range for the request, expressed as the number of milliseconds
-        /// after Jan 1, 1970 00:00:00 UTC. Events with a time stamp later than this time are
-        /// not exported.
+        /// after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not
+        /// exported.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public long To
         {
             get { return this._to.GetValueOrDefault(); }

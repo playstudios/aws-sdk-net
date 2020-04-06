@@ -34,6 +34,8 @@ namespace Amazon.AlexaForBusiness.Model
     {
         private string _address;
         private DistanceUnit _distanceUnit;
+        private bool? _isDefault;
+        private string _locale;
         private string _profileArn;
         private string _profileName;
         private TemperatureUnit _temperatureUnit;
@@ -46,6 +48,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The address of a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=500)]
         public string Address
         {
             get { return this._address; }
@@ -77,6 +80,44 @@ namespace Amazon.AlexaForBusiness.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IsDefault. 
+        /// <para>
+        /// Retrieves if the profile data is default or not.
+        /// </para>
+        /// </summary>
+        public bool IsDefault
+        {
+            get { return this._isDefault.GetValueOrDefault(); }
+            set { this._isDefault = value; }
+        }
+
+        // Check to see if IsDefault property is set
+        internal bool IsSetIsDefault()
+        {
+            return this._isDefault.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Locale. 
+        /// <para>
+        /// The locale of a room profile. (This is currently available only to a limited preview
+        /// audience.)
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string Locale
+        {
+            get { return this._locale; }
+            set { this._locale = value; }
+        }
+
+        // Check to see if Locale property is set
+        internal bool IsSetLocale()
+        {
+            return this._locale != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ProfileArn. 
         /// <para>
         /// The ARN of a room profile.
@@ -100,6 +141,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The name of a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProfileName
         {
             get { return this._profileName; }
@@ -133,9 +175,10 @@ namespace Amazon.AlexaForBusiness.Model
         /// <summary>
         /// Gets and sets the property Timezone. 
         /// <para>
-        /// The timezone of a room profile.
+        /// The time zone of a room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Timezone
         {
             get { return this._timezone; }

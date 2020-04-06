@@ -94,6 +94,18 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     unmarshalledObject.ErrorMessage = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("ExecutionTime", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.ExecutionTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("GlueVersion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.GlueVersion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("Id", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -118,6 +130,30 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     unmarshalledObject.LastModifiedOn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("LogGroupName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.LogGroupName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("MaxCapacity", targetDepth))
+                {
+                    var unmarshaller = DoubleUnmarshaller.Instance;
+                    unmarshalledObject.MaxCapacity = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NotificationProperty", targetDepth))
+                {
+                    var unmarshaller = NotificationPropertyUnmarshaller.Instance;
+                    unmarshalledObject.NotificationProperty = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("NumberOfWorkers", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.NumberOfWorkers = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("PredecessorRuns", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<Predecessor, PredecessorUnmarshaller>(PredecessorUnmarshaller.Instance);
@@ -130,16 +166,34 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     unmarshalledObject.PreviousRunId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("SecurityConfiguration", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SecurityConfiguration = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("StartedOn", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.StartedOn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("Timeout", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.Timeout = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("TriggerName", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.TriggerName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("WorkerType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.WorkerType = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

@@ -45,10 +45,6 @@ namespace Amazon.GameLift.Model
     /// <para>
     ///  <i>Available in Amazon GameLift Local.</i> 
     /// </para>
-    ///  
-    /// <para>
-    /// Game-session-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateGameSession</a> 
@@ -103,8 +99,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for an alias associated with the fleet to retrieve all game sessions
-        /// for. 
+        /// A unique identifier for an alias associated with the fleet to retrieve all game sessions
+        /// for. You can use either the alias ID or ARN value.
         /// </para>
         /// </summary>
         public string AliasId
@@ -122,7 +118,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet to retrieve all game sessions for.
+        /// A unique identifier for a fleet to retrieve all game sessions for. You can use either
+        /// the fleet ID or ARN value. 
         /// </para>
         /// </summary>
         public string FleetId
@@ -140,10 +137,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionId. 
         /// <para>
-        /// Unique identifier for the game session to retrieve. You can use either a <code>GameSessionId</code>
-        /// or <code>GameSessionArn</code> value. 
+        /// A unique identifier for the game session to retrieve. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string GameSessionId
         {
             get { return this._gameSessionId; }
@@ -159,10 +156,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Limit. 
         /// <para>
-        /// Maximum number of results to return. Use this parameter with <code>NextToken</code>
+        /// The maximum number of results to return. Use this parameter with <code>NextToken</code>
         /// to get results as a set of sequential pages.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -183,6 +181,7 @@ namespace Amazon.GameLift.Model
         /// the result set, do not specify a value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -203,6 +202,7 @@ namespace Amazon.GameLift.Model
         /// last two are transitory). 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string StatusFilter
         {
             get { return this._statusFilter; }

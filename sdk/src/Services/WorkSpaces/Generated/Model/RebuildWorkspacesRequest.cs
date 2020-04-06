@@ -29,16 +29,17 @@ namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
     /// Container for the parameters to the RebuildWorkspaces operation.
-    /// Rebuilds the specified WorkSpaces.
+    /// Rebuilds the specified WorkSpace.
     /// 
     ///  
     /// <para>
-    /// You cannot rebuild a WorkSpace unless its state is <code>AVAILABLE</code> or <code>ERROR</code>.
+    /// You cannot rebuild a WorkSpace unless its state is <code>AVAILABLE</code>, <code>ERROR</code>,
+    /// <code>UNHEALTHY</code>, or <code>STOPPED</code>.
     /// </para>
     ///  
     /// <para>
     /// Rebuilding a WorkSpace is a potentially destructive action that can result in the
-    /// loss of data. For more information, see <a href="http://docs.aws.amazon.com/workspaces/latest/adminguide/reset-workspace.html">Rebuild
+    /// loss of data. For more information, see <a href="https://docs.aws.amazon.com/workspaces/latest/adminguide/reset-workspace.html">Rebuild
     /// a WorkSpace</a>.
     /// </para>
     ///  
@@ -54,9 +55,10 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property RebuildWorkspaceRequests. 
         /// <para>
-        /// The WorkSpaces to rebuild.
+        /// The WorkSpace to rebuild. You can specify a single WorkSpace.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1)]
         public List<RebuildRequest> RebuildWorkspaceRequests
         {
             get { return this._rebuildWorkspaceRequests; }

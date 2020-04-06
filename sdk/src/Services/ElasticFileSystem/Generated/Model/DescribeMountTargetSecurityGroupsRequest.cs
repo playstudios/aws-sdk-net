@@ -56,9 +56,10 @@ namespace Amazon.ElasticFileSystem.Model
         /// <summary>
         /// Gets and sets the property MountTargetId. 
         /// <para>
-        /// ID of the mount target whose security groups you want to retrieve.
+        /// The ID of the mount target whose security groups you want to retrieve.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MountTargetId
         {
             get { return this._mountTargetId; }

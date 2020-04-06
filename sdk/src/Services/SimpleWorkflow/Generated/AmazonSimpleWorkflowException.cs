@@ -28,10 +28,10 @@ namespace Amazon.SimpleWorkflow
     ///<summary>
     /// Common exception for the SimpleWorkflow service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonSimpleWorkflowException : AmazonServiceException
+    public partial class AmazonSimpleWorkflowException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonSimpleWorkflowException
@@ -88,7 +88,7 @@ namespace Amazon.SimpleWorkflow
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonSimpleWorkflowException class with serialized data.
         /// </summary>

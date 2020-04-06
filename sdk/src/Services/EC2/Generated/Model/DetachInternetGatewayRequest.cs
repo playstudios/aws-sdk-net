@@ -29,7 +29,7 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DetachInternetGateway operation.
-    /// Detaches an Internet gateway from a VPC, disabling connectivity between the Internet
+    /// Detaches an internet gateway from a VPC, disabling connectivity between the internet
     /// and the VPC. The VPC must not contain any running instances with Elastic IP addresses
     /// or public IPv4 addresses.
     /// </summary>
@@ -41,9 +41,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InternetGatewayId. 
         /// <para>
-        /// The ID of the Internet gateway.
+        /// The ID of the internet gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InternetGatewayId
         {
             get { return this._internetGatewayId; }
@@ -62,6 +63,7 @@ namespace Amazon.EC2.Model
         /// The ID of the VPC.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VpcId
         {
             get { return this._vpcId; }

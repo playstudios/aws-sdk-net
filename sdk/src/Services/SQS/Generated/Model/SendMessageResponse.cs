@@ -34,6 +34,7 @@ namespace Amazon.SQS.Model
     {
         private string _md5OfMessageAttributes;
         private string _md5OfMessageBody;
+        private string _md5OfMessageSystemAttributes;
         private string _messageId;
         private string _sequenceNumber;
 
@@ -78,10 +79,30 @@ namespace Amazon.SQS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MD5OfMessageSystemAttributes. 
+        /// <para>
+        /// An MD5 digest of the non-URL-encoded message system attribute string. You can use
+        /// this attribute to verify that Amazon SQS received the message correctly. Amazon SQS
+        /// URL-decodes the message before creating the MD5 digest.
+        /// </para>
+        /// </summary>
+        public string MD5OfMessageSystemAttributes
+        {
+            get { return this._md5OfMessageSystemAttributes; }
+            set { this._md5OfMessageSystemAttributes = value; }
+        }
+
+        // Check to see if MD5OfMessageSystemAttributes property is set
+        internal bool IsSetMD5OfMessageSystemAttributes()
+        {
+            return this._md5OfMessageSystemAttributes != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MessageId. 
         /// <para>
         /// An attribute containing the <code>MessageId</code> of the message sent to the queue.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html">Queue
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-queue-message-identifiers.html">Queue
         /// and Message Identifiers</a> in the <i>Amazon Simple Queue Service Developer Guide</i>.
         /// 
         /// </para>

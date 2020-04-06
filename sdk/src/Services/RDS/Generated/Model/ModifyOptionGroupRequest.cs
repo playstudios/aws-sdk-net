@@ -41,8 +41,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ApplyImmediately. 
         /// <para>
-        /// Indicates whether the changes should be applied immediately, or during the next maintenance
-        /// window for each instance associated with the option group.
+        /// A value that indicates whether to apply the change immediately or during the next
+        /// maintenance window for each instance associated with the option group.
         /// </para>
         /// </summary>
         public bool ApplyImmediately
@@ -69,6 +69,7 @@ namespace Amazon.RDS.Model
         /// instance once it is associated with a DB instance
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string OptionGroupName
         {
             get { return this._optionGroupName; }

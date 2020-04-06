@@ -38,7 +38,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Events. 
         /// <para>
-        /// Collection of objects containing event log entries for the specified fleet.
+        /// A collection of objects containing event log entries for the specified fleet.
         /// </para>
         /// </summary>
         public List<Event> Events
@@ -60,6 +60,7 @@ namespace Amazon.GameLift.Model
         /// If no token is returned, these results represent the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

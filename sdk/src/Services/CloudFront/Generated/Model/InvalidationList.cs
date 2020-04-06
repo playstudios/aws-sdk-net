@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Amazon.CloudFront.Model
 {
     /// <summary>
     /// The <code>InvalidationList</code> complex type describes the list of invalidation
-    /// objects. For more information about invalidation, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html">Invalidating
+    /// objects. For more information about invalidation, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html">Invalidating
     /// Objects (Web Distributions Only)</a> in the <i>Amazon CloudFront Developer Guide</i>.
     /// </summary>
     public partial class InvalidationList
@@ -55,6 +55,7 @@ namespace Amazon.CloudFront.Model
         /// the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool IsTruncated
         {
             get { return this._isTruncated.GetValueOrDefault(); }
@@ -92,6 +93,7 @@ namespace Amazon.CloudFront.Model
         /// The value that you provided for the <code>Marker</code> request parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Marker
         {
             get { return this._marker; }
@@ -110,6 +112,7 @@ namespace Amazon.CloudFront.Model
         /// The value that you provided for the <code>MaxItems</code> request parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -148,6 +151,7 @@ namespace Amazon.CloudFront.Model
         /// The number of invalidation batches that were created by the current AWS account. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int Quantity
         {
             get { return this._quantity.GetValueOrDefault(); }

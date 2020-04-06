@@ -28,13 +28,17 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Placeholder documentation for OutputGroupSettings
+    /// Output Group Settings
     /// </summary>
     public partial class OutputGroupSettings
     {
         private ArchiveGroupSettings _archiveGroupSettings;
+        private FrameCaptureGroupSettings _frameCaptureGroupSettings;
         private HlsGroupSettings _hlsGroupSettings;
+        private MediaPackageGroupSettings _mediaPackageGroupSettings;
         private MsSmoothGroupSettings _msSmoothGroupSettings;
+        private MultiplexGroupSettings _multiplexGroupSettings;
+        private RtmpGroupSettings _rtmpGroupSettings;
         private UdpGroupSettings _udpGroupSettings;
 
         /// <summary>
@@ -53,6 +57,21 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FrameCaptureGroupSettings.
+        /// </summary>
+        public FrameCaptureGroupSettings FrameCaptureGroupSettings
+        {
+            get { return this._frameCaptureGroupSettings; }
+            set { this._frameCaptureGroupSettings = value; }
+        }
+
+        // Check to see if FrameCaptureGroupSettings property is set
+        internal bool IsSetFrameCaptureGroupSettings()
+        {
+            return this._frameCaptureGroupSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property HlsGroupSettings.
         /// </summary>
         public HlsGroupSettings HlsGroupSettings
@@ -68,6 +87,21 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MediaPackageGroupSettings.
+        /// </summary>
+        public MediaPackageGroupSettings MediaPackageGroupSettings
+        {
+            get { return this._mediaPackageGroupSettings; }
+            set { this._mediaPackageGroupSettings = value; }
+        }
+
+        // Check to see if MediaPackageGroupSettings property is set
+        internal bool IsSetMediaPackageGroupSettings()
+        {
+            return this._mediaPackageGroupSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MsSmoothGroupSettings.
         /// </summary>
         public MsSmoothGroupSettings MsSmoothGroupSettings
@@ -80,6 +114,36 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetMsSmoothGroupSettings()
         {
             return this._msSmoothGroupSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MultiplexGroupSettings.
+        /// </summary>
+        public MultiplexGroupSettings MultiplexGroupSettings
+        {
+            get { return this._multiplexGroupSettings; }
+            set { this._multiplexGroupSettings = value; }
+        }
+
+        // Check to see if MultiplexGroupSettings property is set
+        internal bool IsSetMultiplexGroupSettings()
+        {
+            return this._multiplexGroupSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RtmpGroupSettings.
+        /// </summary>
+        public RtmpGroupSettings RtmpGroupSettings
+        {
+            get { return this._rtmpGroupSettings; }
+            set { this._rtmpGroupSettings = value; }
+        }
+
+        // Check to see if RtmpGroupSettings property is set
+        internal bool IsSetRtmpGroupSettings()
+        {
+            return this._rtmpGroupSettings != null;
         }
 
         /// <summary>

@@ -31,18 +31,31 @@ namespace Amazon.RDS.Model
     /// Container for the parameters to the RestoreDBClusterFromS3 operation.
     /// Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon
     /// RDS must be authorized to access the Amazon S3 bucket and the data must be created
-    /// using the Percona XtraBackup utility as described in <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Aurora.Migrate.MySQL.html#Aurora.Migrate.MySQL.S3">Migrating
-    /// Data from MySQL by Using an Amazon S3 Bucket</a>.
+    /// using the Percona XtraBackup utility as described in <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Migrating.html">
+    /// Migrating Data to an Amazon Aurora MySQL DB Cluster</a> in the <i>Amazon Aurora User
+    /// Guide</i>.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class RestoreDBClusterFromS3Request : AmazonRDSRequest
     {
         private List<string> _availabilityZones = new List<string>();
+        private long? _backtrackWindow;
         private int? _backupRetentionPeriod;
         private string _characterSetName;
+        private bool? _copyTagsToSnapshot;
         private string _databaseName;
         private string _dbClusterIdentifier;
         private string _dbClusterParameterGroupName;
         private string _dbSubnetGroupName;
+        private bool? _deletionProtection;
+        private string _domain;
+        private string _domainIAMRoleName;
+        private List<string> _enableCloudwatchLogsExports = new List<string>();
         private bool? _enableIAMDatabaseAuthentication;
         private string _engine;
         private string _engineVersion;
@@ -65,8 +78,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZones. 
         /// <para>
-        /// A list of EC2 Availability Zones that instances in the restored DB cluster can be
-        /// created in.
+        /// A list of Availability Zones (AZs) where instances in the restored DB cluster can
+        /// be created.
         /// </para>
         /// </summary>
         public List<string> AvailabilityZones
@@ -79,6 +92,38 @@ namespace Amazon.RDS.Model
         internal bool IsSetAvailabilityZones()
         {
             return this._availabilityZones != null && this._availabilityZones.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property BacktrackWindow. 
+        /// <para>
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to
+        /// 0.
+        /// </para>
+        ///  
+        /// <para>
+        /// Default: 0
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If specified, this value must be set to a number from 0 to 259,200 (72 hours).
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public long BacktrackWindow
+        {
+            get { return this._backtrackWindow.GetValueOrDefault(); }
+            set { this._backtrackWindow = value; }
+        }
+
+        // Check to see if BacktrackWindow property is set
+        internal bool IsSetBacktrackWindow()
+        {
+            return this._backtrackWindow.HasValue; 
         }
 
         /// <summary>
@@ -133,6 +178,25 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CopyTagsToSnapshot. 
+        /// <para>
+        /// A value that indicates whether to copy all tags from the restored DB cluster to snapshots
+        /// of the restored DB cluster. The default is not to copy them.
+        /// </para>
+        /// </summary>
+        public bool CopyTagsToSnapshot
+        {
+            get { return this._copyTagsToSnapshot.GetValueOrDefault(); }
+            set { this._copyTagsToSnapshot = value; }
+        }
+
+        // Check to see if CopyTagsToSnapshot property is set
+        internal bool IsSetCopyTagsToSnapshot()
+        {
+            return this._copyTagsToSnapshot.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property DatabaseName. 
         /// <para>
         /// The database name for the restored DB cluster.
@@ -170,13 +234,14 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens.
+        /// Can't end with a hyphen or contain two consecutive hyphens.
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-cluster1</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterIdentifier
         {
             get { return this._dbClusterIdentifier; }
@@ -244,14 +309,100 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EnableIAMDatabaseAuthentication. 
+        /// Gets and sets the property DeletionProtection. 
         /// <para>
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database
-        /// accounts, and otherwise false.
+        /// A value that indicates whether the DB cluster has deletion protection enabled. The
+        /// database can't be deleted when deletion protection is enabled. By default, deletion
+        /// protection is disabled. 
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Domain. 
+        /// <para>
+        /// Specify the Active Directory directory ID to restore the DB cluster in. The domain
+        /// must be created prior to this operation. 
         /// </para>
         ///  
         /// <para>
-        /// Default: <code>false</code> 
+        ///  For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate
+        /// users that connect to the DB cluster. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/kerberos-authentication.html">Kerberos
+        /// Authentication</a> in the <i>Amazon Aurora User Guide</i>. 
+        /// </para>
+        /// </summary>
+        public string Domain
+        {
+            get { return this._domain; }
+            set { this._domain = value; }
+        }
+
+        // Check to see if Domain property is set
+        internal bool IsSetDomain()
+        {
+            return this._domain != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DomainIAMRoleName. 
+        /// <para>
+        /// Specify the name of the IAM role to be used when making API calls to the Directory
+        /// Service.
+        /// </para>
+        /// </summary>
+        public string DomainIAMRoleName
+        {
+            get { return this._domainIAMRoleName; }
+            set { this._domainIAMRoleName = value; }
+        }
+
+        // Check to see if DomainIAMRoleName property is set
+        internal bool IsSetDomainIAMRoleName()
+        {
+            return this._domainIAMRoleName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableCloudwatchLogsExports. 
+        /// <para>
+        /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The
+        /// values in the list depend on the DB engine being used. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+        /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User Guide</i>.
+        /// </para>
+        /// </summary>
+        public List<string> EnableCloudwatchLogsExports
+        {
+            get { return this._enableCloudwatchLogsExports; }
+            set { this._enableCloudwatchLogsExports = value; }
+        }
+
+        // Check to see if EnableCloudwatchLogsExports property is set
+        internal bool IsSetEnableCloudwatchLogsExports()
+        {
+            return this._enableCloudwatchLogsExports != null && this._enableCloudwatchLogsExports.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableIAMDatabaseAuthentication. 
+        /// <para>
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management
+        /// (IAM) accounts to database accounts. By default, mapping is disabled.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
+        /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i> 
         /// </para>
         /// </summary>
         public bool EnableIAMDatabaseAuthentication
@@ -276,6 +427,7 @@ namespace Amazon.RDS.Model
         /// Valid Values: <code>aurora</code>, <code>aurora-postgresql</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Engine
         {
             get { return this._engine; }
@@ -295,11 +447,42 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
+        /// To list all of the available engine versions for <code>aurora</code> (for MySQL 5.6-compatible
+        /// Aurora), use the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora-mysql</code> (for MySQL
+        /// 5.7-compatible Aurora), use the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To list all of the available engine versions for <code>aurora-postgresql</code>, use
+        /// the following command:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
         ///  <b>Aurora MySQL</b> 
         /// </para>
         ///  
         /// <para>
-        /// Example: <code>5.6.10a</code> 
+        /// Example: <code>5.6.10a</code>, <code>5.6.mysql_aurora.1.19.2</code>, <code>5.7.12</code>,
+        /// <code>5.7.mysql_aurora.2.04.5</code> 
         /// </para>
         ///  
         /// <para>
@@ -307,7 +490,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// Example: <code>9.6.3</code> 
+        /// Example: <code>9.6.3</code>, <code>10.7</code> 
         /// </para>
         /// </summary>
         public string EngineVersion
@@ -336,8 +519,8 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// If the <code>StorageEncrypted</code> parameter is true, and you do not specify a value
-        /// for the <code>KmsKeyId</code> parameter, then Amazon RDS will use your default encryption
+        /// If the StorageEncrypted parameter is enabled, and you do not specify a value for the
+        /// <code>KmsKeyId</code> parameter, then Amazon RDS will use your default encryption
         /// key. AWS KMS creates the default encryption key for your AWS account. Your AWS account
         /// has a different default encryption key for each AWS Region.
         /// </para>
@@ -373,10 +556,11 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot be a reserved word for the chosen database engine.
+        /// Can't be a reserved word for the chosen database engine.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MasterUsername
         {
             get { return this._masterUsername; }
@@ -400,6 +584,7 @@ namespace Amazon.RDS.Model
         /// Constraints: Must contain from 8 to 41 characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MasterUserPassword
         {
             get { return this._masterUserPassword; }
@@ -467,8 +652,8 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// The default is a 30-minute window selected at random from an 8-hour block of time
-        /// for each AWS Region. To see the time blocks available, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon RDS User Guide.</i>
+        /// for each AWS Region. To see the time blocks available, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
+        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon Aurora User Guide.</i>
         /// 
         /// </para>
         ///  
@@ -519,8 +704,8 @@ namespace Amazon.RDS.Model
         /// <para>
         /// The default is a 30-minute window selected at random from an 8-hour block of time
         /// for each AWS Region, occurring on a random day of the week. To see the time blocks
-        /// available, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html">
-        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon RDS User Guide.</i>
+        /// available, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
+        /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon Aurora User Guide.</i>
         /// 
         /// </para>
         ///  
@@ -551,6 +736,7 @@ namespace Amazon.RDS.Model
         /// Aurora DB cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string S3BucketName
         {
             get { return this._s3BucketName; }
@@ -570,6 +756,7 @@ namespace Amazon.RDS.Model
         /// that authorizes Amazon RDS to access the Amazon S3 bucket on your behalf.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string S3IngestionRoleArn
         {
             get { return this._s3IngestionRoleArn; }
@@ -613,6 +800,7 @@ namespace Amazon.RDS.Model
         /// Valid values: <code>mysql</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceEngine
         {
             get { return this._sourceEngine; }
@@ -639,6 +827,7 @@ namespace Amazon.RDS.Model
         /// Example: <code>5.6.22</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceEngineVersion
         {
             get { return this._sourceEngineVersion; }
@@ -654,7 +843,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property StorageEncrypted. 
         /// <para>
-        /// Specifies whether the restored DB cluster is encrypted.
+        /// A value that indicates whether the restored DB cluster is encrypted.
         /// </para>
         /// </summary>
         public bool StorageEncrypted

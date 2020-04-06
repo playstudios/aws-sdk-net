@@ -35,6 +35,7 @@ namespace Amazon.MediaLive.Model
         private int? _audioFramesPerPes;
         private string _audioPids;
         private string _ecmPid;
+        private M3u8NielsenId3Behavior _nielsenId3Behavior;
         private int? _patInterval;
         private M3u8PcrControl _pcrControl;
         private int? _pcrPeriod;
@@ -45,6 +46,7 @@ namespace Amazon.MediaLive.Model
         private M3u8Scte35Behavior _scte35Behavior;
         private string _scte35Pid;
         private M3u8TimedMetadataBehavior _timedMetadataBehavior;
+        private string _timedMetadataPid;
         private int? _transportStreamId;
         private string _videoPid;
 
@@ -52,6 +54,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property AudioFramesPerPes. The number of audio frames to insert
         /// for each PES packet.
         /// </summary>
+        [AWSProperty(Min=0)]
         public int AudioFramesPerPes
         {
             get { return this._audioFramesPerPes.GetValueOrDefault(); }
@@ -97,10 +100,28 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NielsenId3Behavior. If set to passthrough, Nielsen inaudible
+        /// tones for media tracking will be detected in the input audio and an equivalent ID3
+        /// tag will be inserted in the output.
+        /// </summary>
+        public M3u8NielsenId3Behavior NielsenId3Behavior
+        {
+            get { return this._nielsenId3Behavior; }
+            set { this._nielsenId3Behavior = value; }
+        }
+
+        // Check to see if NielsenId3Behavior property is set
+        internal bool IsSetNielsenId3Behavior()
+        {
+            return this._nielsenId3Behavior != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property PatInterval. The number of milliseconds between instances
         /// of this table in the output transport stream. A value of \"0\" writes out the PMT
         /// once per segment file.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PatInterval
         {
             get { return this._patInterval.GetValueOrDefault(); }
@@ -135,6 +156,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property PcrPeriod. Maximum time in milliseconds between Program
         /// Clock References (PCRs) inserted into the transport stream.
         /// </summary>
+        [AWSProperty(Min=0, Max=500)]
         public int PcrPeriod
         {
             get { return this._pcrPeriod.GetValueOrDefault(); }
@@ -169,6 +191,7 @@ namespace Amazon.MediaLive.Model
         /// of this table in the output transport stream. A value of \"0\" writes out the PMT
         /// once per segment file.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PmtInterval
         {
             get { return this._pmtInterval.GetValueOrDefault(); }
@@ -201,6 +224,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property ProgramNum. The value of the program number field in the
         /// Program Map Table.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int ProgramNum
         {
             get { return this._programNum.GetValueOrDefault(); }
@@ -262,9 +286,27 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TimedMetadataPid. Packet Identifier (PID) of the timed
+        /// metadata stream in the transport stream. Can be entered as a decimal or hexadecimal
+        /// value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
+        /// </summary>
+        public string TimedMetadataPid
+        {
+            get { return this._timedMetadataPid; }
+            set { this._timedMetadataPid = value; }
+        }
+
+        // Check to see if TimedMetadataPid property is set
+        internal bool IsSetTimedMetadataPid()
+        {
+            return this._timedMetadataPid != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TransportStreamId. The value of the transport stream ID
         /// field in the Program Map Table.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int TransportStreamId
         {
             get { return this._transportStreamId.GetValueOrDefault(); }

@@ -38,7 +38,7 @@ namespace Amazon.CloudWatchEvents.Model
     /// </para>
     ///  
     /// <para>
-    /// You can configure the following as targets for CloudWatch Events:
+    /// You can configure the following as targets for Events:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -46,15 +46,23 @@ namespace Amazon.CloudWatchEvents.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
+    /// SSM Run Command
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// SSM Automation
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     /// AWS Lambda functions
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Streams in Amazon Kinesis Streams
+    /// Data streams in Amazon Kinesis Data Streams
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Delivery streams in Amazon Kinesis Firehose
+    /// Data delivery streams in Amazon Kinesis Data Firehose
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -70,7 +78,11 @@ namespace Amazon.CloudWatchEvents.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Pipelines in Amazon Code Pipeline
+    /// AWS CodeBuild projects
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Pipelines in AWS CodePipeline
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -90,38 +102,54 @@ namespace Amazon.CloudWatchEvents.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// Note that creating rules with built-in targets is supported only in the AWS Management
-    /// Console.
+    /// Creating rules with built-in targets is supported only in the AWS Management Console.
+    /// The built-in targets are <code>EC2 CreateSnapshot API call</code>, <code>EC2 RebootInstances
+    /// API call</code>, <code>EC2 StopInstances API call</code>, and <code>EC2 TerminateInstances
+    /// API call</code>. 
     /// </para>
     ///  
     /// <para>
     /// For some target types, <code>PutTargets</code> provides target-specific parameters.
-    /// If the target is an Amazon Kinesis stream, you can optionally specify which shard
-    /// the event goes to by using the <code>KinesisParameters</code> argument. To invoke
-    /// a command on multiple EC2 instances with one rule, you can use the <code>RunCommandParameters</code>
+    /// If the target is a Kinesis data stream, you can optionally specify which shard the
+    /// event goes to by using the <code>KinesisParameters</code> argument. To invoke a command
+    /// on multiple EC2 instances with one rule, you can use the <code>RunCommandParameters</code>
     /// field.
     /// </para>
     ///  
     /// <para>
     /// To be able to make API calls against the resources that you own, Amazon CloudWatch
     /// Events needs the appropriate permissions. For AWS Lambda and Amazon SNS resources,
-    /// CloudWatch Events relies on resource-based policies. For EC2 instances, Amazon Kinesis
-    /// streams, and AWS Step Functions state machines, CloudWatch Events relies on IAM roles
-    /// that you specify in the <code>RoleARN</code> argument in <code>PutTargets</code>.
-    /// For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/auth-and-access-control-cwe.html">Authentication
-    /// and Access Control</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+    /// EventBridge relies on resource-based policies. For EC2 instances, Kinesis data streams,
+    /// and AWS Step Functions state machines, EventBridge relies on IAM roles that you specify
+    /// in the <code>RoleARN</code> argument in <code>PutTargets</code>. For more information,
+    /// see <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html">Authentication
+    /// and Access Control</a> in the <i>Amazon EventBridge User Guide</i>.
     /// </para>
     ///  
     /// <para>
     /// If another AWS account is in the same region and has granted you permission (using
-    /// <code>PutPermission</code>), you can send events to that account by setting that account's
+    /// <code>PutPermission</code>), you can send events to that account. Set that account's
     /// event bus as a target of the rules in your account. To send the matched events to
-    /// the other account, specify that account's event bus as the <code>Arn</code> when you
-    /// run <code>PutTargets</code>. If your account sends events to another account, your
-    /// account is charged for each sent event. Each event sent to antoher account is charged
-    /// as a custom event. The account receiving the event is not charged. For more information
-    /// on pricing, see <a href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
+    /// the other account, specify that account's event bus as the <code>Arn</code> value
+    /// when you run <code>PutTargets</code>. If your account sends events to another account,
+    /// your account is charged for each sent event. Each event sent to another account is
+    /// charged as a custom event. The account receiving the event is not charged. For more
+    /// information, see <a href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
     /// Pricing</a>.
+    /// </para>
+    ///  <note> 
+    /// <para>
+    ///  <code>Input</code>, <code>InputPath</code>, and <code>InputTransformer</code> are
+    /// not available with <code>PutTarget</code> if the target is an event bus of a different
+    /// AWS account.
+    /// </para>
+    ///  </note> 
+    /// <para>
+    /// If you are setting the event bus of another account as the target, and that account
+    /// granted permission to your account through an organization instead of directly by
+    /// the account ID, then you must specify a <code>RoleArn</code> with proper permissions
+    /// in the <code>Target</code> structure. For more information, see <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html">Sending
+    /// and Receiving Events Between AWS Accounts</a> in the <i>Amazon EventBridge User Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -129,13 +157,13 @@ namespace Amazon.CloudWatchEvents.Model
     /// </para>
     ///  
     /// <para>
-    ///  <b>Input</b>, <b>InputPath</b> and <b>InputTransformer</b> are mutually exclusive
+    ///  <b>Input</b>, <b>InputPath</b>, and <b>InputTransformer</b> are mutually exclusive
     /// and optional parameters of a target. When a rule is triggered due to a matched event:
     /// </para>
     ///  <ul> <li> 
     /// <para>
     /// If none of the following arguments are specified for a target, then the entire event
-    /// is passed to the target in JSON form (unless the target is Amazon EC2 Run Command
+    /// is passed to the target in JSON format (unless the target is Amazon EC2 Run Command
     /// or Amazon ECS task, in which case nothing from the event is passed to the target).
     /// </para>
     ///  </li> <li> 
@@ -163,8 +191,8 @@ namespace Amazon.CloudWatchEvents.Model
     ///  
     /// <para>
     /// When you add targets to a rule and the associated rule triggers soon after, new or
-    /// updated targets might not be immediately invoked. Please allow a short period of time
-    /// for changes to take effect.
+    /// updated targets might not be immediately invoked. Allow a short period of time for
+    /// changes to take effect.
     /// </para>
     ///  
     /// <para>
@@ -175,8 +203,29 @@ namespace Amazon.CloudWatchEvents.Model
     /// </summary>
     public partial class PutTargetsRequest : AmazonCloudWatchEventsRequest
     {
+        private string _eventBusName;
         private string _rule;
         private List<Target> _targets = new List<Target>();
+
+        /// <summary>
+        /// Gets and sets the property EventBusName. 
+        /// <para>
+        /// The name of the event bus associated with the rule. If you omit this, the default
+        /// event bus is used.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string EventBusName
+        {
+            get { return this._eventBusName; }
+            set { this._eventBusName = value; }
+        }
+
+        // Check to see if EventBusName property is set
+        internal bool IsSetEventBusName()
+        {
+            return this._eventBusName != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Rule. 
@@ -184,6 +233,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The name of the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string Rule
         {
             get { return this._rule; }
@@ -202,6 +252,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The targets to update or add to the rule.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<Target> Targets
         {
             get { return this._targets; }

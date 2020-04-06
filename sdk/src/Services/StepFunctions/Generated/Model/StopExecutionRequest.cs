@@ -30,6 +30,11 @@ namespace Amazon.StepFunctions.Model
     /// <summary>
     /// Container for the parameters to the StopExecution operation.
     /// Stops an execution.
+    /// 
+    ///  
+    /// <para>
+    /// This API action is not supported by <code>EXPRESS</code> state machines.
+    /// </para>
     /// </summary>
     public partial class StopExecutionRequest : AmazonStepFunctionsRequest
     {
@@ -40,9 +45,10 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property Cause. 
         /// <para>
-        /// A more detailed explanation of the cause of the termination.
+        /// A more detailed explanation of the cause of the failure.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=32768)]
         public string Cause
         {
             get { return this._cause; }
@@ -58,9 +64,10 @@ namespace Amazon.StepFunctions.Model
         /// <summary>
         /// Gets and sets the property Error. 
         /// <para>
-        /// An arbitrary error code that identifies the cause of the termination.
+        /// The error code of the failure.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Error
         {
             get { return this._error; }
@@ -79,6 +86,7 @@ namespace Amazon.StepFunctions.Model
         /// The Amazon Resource Name (ARN) of the execution to stop.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ExecutionArn
         {
             get { return this._executionArn; }

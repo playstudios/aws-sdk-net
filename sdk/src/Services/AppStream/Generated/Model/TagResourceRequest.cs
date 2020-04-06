@@ -44,8 +44,8 @@ namespace Amazon.AppStream.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about tags, see <a href="http://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
-    /// Your Resources</a> in the <i>Amazon AppStream 2.0 Developer Guide</i>.
+    /// For more information about tags, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html">Tagging
+    /// Your Resources</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
     /// </para>
     /// </summary>
     public partial class TagResourceRequest : AmazonAppStreamRequest
@@ -59,6 +59,7 @@ namespace Amazon.AppStream.Model
         /// The Amazon Resource Name (ARN) of the resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceArn
         {
             get { return this._resourceArn; }
@@ -74,15 +75,24 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property Tags. 
         /// <para>
-        /// The tags to associate. A tag is a key-value pair (the value is optional). For example,
-        /// <code>Environment=Test</code>, or, if you do not specify a value, <code>Environment=</code>.
-        /// 
+        /// The tags to associate. A tag is a key-value pair, and the value is optional. For example,
+        /// Environment=Test. If you do not specify a value, Environment=. 
         /// </para>
         ///  
         /// <para>
-        /// If you do not specify a value, we set the value to an empty string.
+        /// If you do not specify a value, the value is set to an empty string.
+        /// </para>
+        ///  
+        /// <para>
+        /// Generally allowed characters are: letters, numbers, and spaces representable in UTF-8,
+        /// and the following special characters: 
+        /// </para>
+        ///  
+        /// <para>
+        /// _ . : / = + \ - @
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public Dictionary<string, string> Tags
         {
             get { return this._tags; }

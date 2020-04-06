@@ -58,10 +58,11 @@ namespace Amazon.OpsWorksCM.Model.Internal.MarshallTransformations
             string target = "OpsWorksCM_V2016_11_01.CreateServer";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-11-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -83,6 +84,24 @@ namespace Amazon.OpsWorksCM.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("BackupRetentionCount");
                     context.Writer.Write(publicRequest.BackupRetentionCount);
+                }
+
+                if(publicRequest.IsSetCustomCertificate())
+                {
+                    context.Writer.WritePropertyName("CustomCertificate");
+                    context.Writer.Write(publicRequest.CustomCertificate);
+                }
+
+                if(publicRequest.IsSetCustomDomain())
+                {
+                    context.Writer.WritePropertyName("CustomDomain");
+                    context.Writer.Write(publicRequest.CustomDomain);
+                }
+
+                if(publicRequest.IsSetCustomPrivateKey())
+                {
+                    context.Writer.WritePropertyName("CustomPrivateKey");
+                    context.Writer.Write(publicRequest.CustomPrivateKey);
                 }
 
                 if(publicRequest.IsSetDisableAutomatedBackup())
@@ -185,6 +204,22 @@ namespace Amazon.OpsWorksCM.Model.Internal.MarshallTransformations
                     foreach(var publicRequestSubnetIdsListValue in publicRequest.SubnetIds)
                     {
                             context.Writer.Write(publicRequestSubnetIdsListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
                     }
                     context.Writer.WriteArrayEnd();
                 }

@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
-    /// Information about a task execution performed as part of a Maintenance Window execution.
+    /// Information about a task execution performed as part of a maintenance window execution.
     /// </summary>
     public partial class MaintenanceWindowExecutionTaskIdentity
     {
@@ -102,6 +102,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// status values.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=250)]
         public string StatusDetails
         {
             get { return this._statusDetails; }
@@ -117,9 +118,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskArn. 
         /// <para>
-        /// The ARN of the executed task.
+        /// The ARN of the task that ran.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string TaskArn
         {
             get { return this._taskArn; }
@@ -135,9 +137,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskExecutionId. 
         /// <para>
-        /// The ID of the specific task execution in the Maintenance Window execution.
+        /// The ID of the specific task execution in the maintenance window execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string TaskExecutionId
         {
             get { return this._taskExecutionId; }
@@ -153,7 +156,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskType. 
         /// <para>
-        /// The type of executed task.
+        /// The type of task that ran.
         /// </para>
         /// </summary>
         public MaintenanceWindowTaskType TaskType
@@ -171,9 +174,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowExecutionId. 
         /// <para>
-        /// The ID of the Maintenance Window execution that ran the task.
+        /// The ID of the maintenance window execution that ran the task.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string WindowExecutionId
         {
             get { return this._windowExecutionId; }

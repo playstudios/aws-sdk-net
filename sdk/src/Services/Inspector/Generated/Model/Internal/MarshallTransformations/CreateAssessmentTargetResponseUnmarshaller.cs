@@ -80,6 +80,10 @@ namespace Amazon.Inspector.Model.Internal.MarshallTransformations
             {
                 return new InternalException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidCrossAccountRoleException"))
+            {
+                return new InvalidCrossAccountRoleException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
             if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidInputException"))
             {
                 return new InvalidInputException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
@@ -91,6 +95,10 @@ namespace Amazon.Inspector.Model.Internal.MarshallTransformations
             if (errorResponse.Code != null && errorResponse.Code.Equals("NoSuchEntityException"))
             {
                 return new NoSuchEntityException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
+            if (errorResponse.Code != null && errorResponse.Code.Equals("ServiceTemporarilyUnavailableException"))
+            {
+                return new ServiceTemporarilyUnavailableException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
             }
             return new AmazonInspectorException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
         }

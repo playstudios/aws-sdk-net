@@ -33,6 +33,13 @@ namespace Amazon.WorkDocs.Model
     /// <code>RecycleBin</code>. <code>RootFolder</code> is the root of user's files and folders
     /// and <code>RecycleBin</code> is the root of recycled items. This is not a valid action
     /// for SigV4 (administrative API) clients.
+    /// 
+    ///  
+    /// <para>
+    /// This action requires an authentication token. To get an authentication token, register
+    /// an application with Amazon WorkDocs. For more information, see <a href="https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html">Authentication
+    /// and Access Control for User Applications</a> in the <i>Amazon WorkDocs Developer Guide</i>.
+    /// </para>
     /// </summary>
     public partial class DescribeRootFoldersRequest : AmazonWorkDocsRequest
     {
@@ -43,10 +50,10 @@ namespace Amazon.WorkDocs.Model
         /// <summary>
         /// Gets and sets the property AuthenticationToken. 
         /// <para>
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative
-        /// API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=8199)]
         public string AuthenticationToken
         {
             get { return this._authenticationToken; }
@@ -65,6 +72,7 @@ namespace Amazon.WorkDocs.Model
         /// The maximum number of items to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=999)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -84,6 +92,7 @@ namespace Amazon.WorkDocs.Model
         /// call.)
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string Marker
         {
             get { return this._marker; }

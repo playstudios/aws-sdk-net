@@ -60,6 +60,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string AcceptLanguage
         {
             get { return this._acceptLanguage; }
@@ -78,6 +79,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The description of the constraint.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2000)]
         public string Description
         {
             get { return this._description; }
@@ -97,6 +99,7 @@ namespace Amazon.ServiceCatalog.Model
         /// only by the idempotency token, the same response is returned for each repeated request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string IdempotencyToken
         {
             get { return this._idempotencyToken; }
@@ -117,11 +120,45 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  <dl> <dt>LAUNCH</dt> <dd> 
         /// <para>
+        /// You are required to specify either the <code>RoleArn</code> or the <code>LocalRoleName</code>
+        /// but can't use both.
+        /// </para>
+        ///  
+        /// <para>
         /// Specify the <code>RoleArn</code> property as follows:
         /// </para>
         ///  
         /// <para>
-        /// \"RoleArn\" : \"arn:aws:iam::123456789012:role/LaunchRole\"
+        ///  <code>{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Specify the <code>LocalRoleName</code> property as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>{"LocalRoleName": "SCBasicLaunchRole"}</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you specify the <code>LocalRoleName</code> property, when an account uses the launch
+        /// constraint, the IAM role with that name in the account will be used. This allows launch-role
+        /// constraints to be account-agnostic so the administrator can create fewer resources
+        /// per shared account.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// The given role name must exist in the account used to create the launch constraint
+        /// and the account of the user who launches a product with this launch constraint.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code> constraint.
+        /// </para>
+        ///  
+        /// <para>
+        /// You also cannot have more than one <code>LAUNCH</code> constraint on a product and
+        /// portfolio.
         /// </para>
         ///  </dd> <dt>NOTIFICATION</dt> <dd> 
         /// <para>
@@ -129,7 +166,45 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  
         /// <para>
-        /// \"NotificationArns\" : [\"arn:aws:sns:us-east-1:123456789012:Topic\"]
+        ///  <code>{"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}</code>
+        /// 
+        /// </para>
+        ///  </dd> <dt>RESOURCE_UPDATE</dt> <dd> 
+        /// <para>
+        /// Specify the <code>TagUpdatesOnProvisionedProduct</code> property as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>{"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}</code>
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>TagUpdatesOnProvisionedProduct</code> property accepts a string value of
+        /// <code>ALLOWED</code> or <code>NOT_ALLOWED</code>.
+        /// </para>
+        ///  </dd> <dt>STACKSET</dt> <dd> 
+        /// <para>
+        /// Specify the <code>Parameters</code> property as follows:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>{"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList":
+        /// [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You cannot have both a <code>LAUNCH</code> and a <code>STACKSET</code> constraint.
+        /// </para>
+        ///  
+        /// <para>
+        /// You also cannot have more than one <code>STACKSET</code> constraint on a product and
+        /// portfolio.
+        /// </para>
+        ///  
+        /// <para>
+        /// Products with a <code>STACKSET</code> constraint will launch an AWS CloudFormation
+        /// stack set.
         /// </para>
         ///  </dd> <dt>TEMPLATE</dt> <dd> 
         /// <para>
@@ -138,6 +213,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </dd> </dl>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Parameters
         {
             get { return this._parameters; }
@@ -156,6 +232,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The portfolio identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string PortfolioId
         {
             get { return this._portfolioId; }
@@ -174,6 +251,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The product identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string ProductId
         {
             get { return this._productId; }
@@ -201,10 +279,19 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        ///  <code>RESOURCE_UPDATE</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>STACKSET</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         ///  <code>TEMPLATE</code> 
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1024)]
         public string Type
         {
             get { return this._type; }

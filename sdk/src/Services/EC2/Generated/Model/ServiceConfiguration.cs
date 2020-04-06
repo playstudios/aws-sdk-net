@@ -35,12 +35,15 @@ namespace Amazon.EC2.Model
         private bool? _acceptanceRequired;
         private List<string> _availabilityZones = new List<string>();
         private List<string> _baseEndpointDnsNames = new List<string>();
+        private bool? _managesVpcEndpoints;
         private List<string> _networkLoadBalancerArns = new List<string>();
         private string _privateDnsName;
+        private PrivateDnsNameConfiguration _privateDnsNameConfiguration;
         private string _serviceId;
         private string _serviceName;
         private ServiceState _serviceState;
         private List<ServiceTypeDetail> _serviceType = new List<ServiceTypeDetail>();
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property AcceptanceRequired. 
@@ -64,7 +67,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZones. 
         /// <para>
-        /// In the Availability Zones in which the service is available.
+        /// The Availability Zones in which the service is available.
         /// </para>
         /// </summary>
         public List<string> AvailabilityZones
@@ -95,6 +98,25 @@ namespace Amazon.EC2.Model
         internal bool IsSetBaseEndpointDnsNames()
         {
             return this._baseEndpointDnsNames != null && this._baseEndpointDnsNames.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManagesVpcEndpoints. 
+        /// <para>
+        /// Indicates whether the service manages its VPC endpoints. Management of the service
+        /// VPC endpoints using the VPC endpoint API is restricted.
+        /// </para>
+        /// </summary>
+        public bool ManagesVpcEndpoints
+        {
+            get { return this._managesVpcEndpoints.GetValueOrDefault(); }
+            set { this._managesVpcEndpoints = value; }
+        }
+
+        // Check to see if ManagesVpcEndpoints property is set
+        internal bool IsSetManagesVpcEndpoints()
+        {
+            return this._managesVpcEndpoints.HasValue; 
         }
 
         /// <summary>
@@ -131,6 +153,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetPrivateDnsName()
         {
             return this._privateDnsName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PrivateDnsNameConfiguration. 
+        /// <para>
+        /// Information about the endpoint service private DNS name configuration.
+        /// </para>
+        /// </summary>
+        public PrivateDnsNameConfiguration PrivateDnsNameConfiguration
+        {
+            get { return this._privateDnsNameConfiguration; }
+            set { this._privateDnsNameConfiguration = value; }
+        }
+
+        // Check to see if PrivateDnsNameConfiguration property is set
+        internal bool IsSetPrivateDnsNameConfiguration()
+        {
+            return this._privateDnsNameConfiguration != null;
         }
 
         /// <summary>
@@ -203,6 +243,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetServiceType()
         {
             return this._serviceType != null && this._serviceType.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Any tags assigned to the service.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

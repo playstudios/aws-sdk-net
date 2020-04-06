@@ -30,8 +30,8 @@ namespace Amazon.DatabaseMigrationService.Model
     /// <summary>
     /// Container for the parameters to the DescribeEvents operation.
     /// Lists events for a given source identifier and source type. You can also specify
-    /// a start and end time. For more information on AWS DMS events, see <a href="http://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html">
-    /// Working with Events and Notifications </a>.
+    /// a start and end time. For more information on AWS DMS events, see <a href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html">Working
+    /// with Events and Notifications</a> in the <i>AWS Database Migration User Guide.</i>
     /// </summary>
     public partial class DescribeEventsRequest : AmazonDatabaseMigrationServiceRequest
     {
@@ -84,7 +84,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property EventCategories. 
         /// <para>
-        /// A list of event categories for a source type that you want to subscribe to.
+        /// A list of event categories for the source type that you've chosen.
         /// </para>
         /// </summary>
         public List<string> EventCategories
@@ -168,9 +168,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property SourceIdentifier. 
         /// <para>
-        ///  The identifier of the event source. An identifier must begin with a letter and must
-        /// contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain
-        /// two consecutive hyphens. 
+        ///  The identifier of an event source.
         /// </para>
         /// </summary>
         public string SourceIdentifier
@@ -192,7 +190,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: replication-instance | migration-task
+        /// Valid values: replication-instance | replication-task
         /// </para>
         /// </summary>
         public SourceType SourceType

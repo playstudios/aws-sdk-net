@@ -55,14 +55,15 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateSubscriptionDefinitionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}";
             if (!publicRequest.IsSetSubscriptionDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field SubscriptionDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{SubscriptionDefinitionId}", StringUtils.FromString(publicRequest.SubscriptionDefinitionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{SubscriptionDefinitionId}", StringUtils.FromString(publicRequest.SubscriptionDefinitionId));
+            request.ResourcePath = "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

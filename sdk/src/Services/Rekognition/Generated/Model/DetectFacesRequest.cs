@@ -34,21 +34,21 @@ namespace Amazon.Rekognition.Model
     ///  
     /// <para>
     ///  <code>DetectFaces</code> detects the 100 largest faces in the image. For each face
-    /// detected, the operation returns face details including a bounding box of the face,
-    /// a confidence value (that the bounding box contains a face), and a fixed set of attributes
-    /// such as facial landmarks (for example, coordinates of eye and mouth), gender, presence
-    /// of beard, sunglasses, etc. 
+    /// detected, the operation returns face details. These details include a bounding box
+    /// of the face, a confidence value (that the bounding box contains a face), and a fixed
+    /// set of attributes such as facial landmarks (for example, coordinates of eye and mouth),
+    /// presence of beard, sunglasses, and so on. 
     /// </para>
     ///  
     /// <para>
     /// The face-detection algorithm is most effective on frontal faces. For non-frontal or
-    /// obscured faces, the algorithm may not detect the faces or might detect faces with
+    /// obscured faces, the algorithm might not detect the faces or might detect faces with
     /// lower confidence. 
     /// </para>
     ///  
     /// <para>
     /// You pass the input image either as base64-encoded image bytes or as a reference to
-    /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
+    /// an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
     /// operations, passing image bytes is not supported. The image must be either a PNG or
     /// JPEG formatted file. 
     /// </para>
@@ -57,10 +57,6 @@ namespace Amazon.Rekognition.Model
     /// This is a stateless API operation. That is, the operation does not persist any data.
     /// </para>
     ///  </note> 
-    /// <para>
-    /// For an example, see <a>procedure-detecting-faces-in-images</a>.
-    /// </para>
-    ///  
     /// <para>
     /// This operation requires permissions to perform the <code>rekognition:DetectFaces</code>
     /// action. 
@@ -78,8 +74,8 @@ namespace Amazon.Rekognition.Model
         /// of attributes or all attributes. If you don't specify a value for <code>Attributes</code>
         /// or if you specify <code>["DEFAULT"]</code>, the API returns the following subset of
         /// facial attributes: <code>BoundingBox</code>, <code>Confidence</code>, <code>Pose</code>,
-        /// <code>Quality</code> and <code>Landmarks</code>. If you provide <code>["ALL"]</code>,
-        /// all facial attributes are returned but the operation will take longer to complete.
+        /// <code>Quality</code>, and <code>Landmarks</code>. If you provide <code>["ALL"]</code>,
+        /// all facial attributes are returned, but the operation takes longer to complete.
         /// </para>
         ///  
         /// <para>
@@ -106,7 +102,14 @@ namespace Amazon.Rekognition.Model
         /// call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.
         /// 
         /// </para>
+        ///  
+        /// <para>
+        /// If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode
+        /// image bytes passed using the <code>Bytes</code> field. For more information, see Images
+        /// in the Amazon Rekognition developer guide.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Image Image
         {
             get { return this._image; }

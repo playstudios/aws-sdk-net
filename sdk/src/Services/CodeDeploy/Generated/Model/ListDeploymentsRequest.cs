@@ -30,7 +30,7 @@ namespace Amazon.CodeDeploy.Model
     /// <summary>
     /// Container for the parameters to the ListDeployments operation.
     /// Lists the deployments in a deployment group for an application registered with the
-    /// applicable IAM user or AWS account.
+    /// IAM user or AWS account.
     /// </summary>
     public partial class ListDeploymentsRequest : AmazonCodeDeployRequest
     {
@@ -43,10 +43,17 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ApplicationName. 
         /// <para>
-        /// The name of an AWS CodeDeploy application associated with the applicable IAM user
-        /// or AWS account.
+        /// The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If <code>applicationName</code> is specified, then <code>deploymentGroupName</code>
+        /// must be specified. If it is not specified, then <code>deploymentGroupName</code> must
+        /// not be specified. 
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -80,9 +87,17 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentGroupName. 
         /// <para>
-        /// The name of an existing deployment group for the specified application.
+        /// The name of a deployment group for the specified application.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If <code>deploymentGroupName</code> is specified, then <code>applicationName</code>
+        /// must be specified. If it is not specified, then <code>applicationName</code> must
+        /// not be specified. 
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentGroupName
         {
             get { return this._deploymentGroupName; }

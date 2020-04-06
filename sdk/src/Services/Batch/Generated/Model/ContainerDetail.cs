@@ -37,13 +37,17 @@ namespace Amazon.Batch.Model
         private List<KeyValuePair> _environment = new List<KeyValuePair>();
         private int? _exitCode;
         private string _image;
+        private string _instanceType;
         private string _jobRoleArn;
+        private LinuxParameters _linuxParameters;
         private string _logStreamName;
         private int? _memory;
         private List<MountPoint> _mountPoints = new List<MountPoint>();
+        private List<NetworkInterface> _networkInterfaces = new List<NetworkInterface>();
         private bool? _privileged;
         private bool? _readonlyRootFilesystem;
         private string _reason;
+        private List<ResourceRequirement> _resourceRequirements = new List<ResourceRequirement>();
         private string _taskArn;
         private List<Ulimit> _ulimits = new List<Ulimit>();
         private string _user;
@@ -53,7 +57,7 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property Command. 
         /// <para>
-        /// The command that is passed to the container. 
+        /// The command that is passed to the container.
         /// </para>
         /// </summary>
         public List<string> Command
@@ -148,9 +152,27 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property InstanceType. 
+        /// <para>
+        /// The instance type of the underlying host infrastructure of a multi-node parallel job.
+        /// </para>
+        /// </summary>
+        public string InstanceType
+        {
+            get { return this._instanceType; }
+            set { this._instanceType = value; }
+        }
+
+        // Check to see if InstanceType property is set
+        internal bool IsSetInstanceType()
+        {
+            return this._instanceType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property JobRoleArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) associated with the job upon execution. 
+        /// The Amazon Resource Name (ARN) associated with the job upon execution.
         /// </para>
         /// </summary>
         public string JobRoleArn
@@ -163,6 +185,25 @@ namespace Amazon.Batch.Model
         internal bool IsSetJobRoleArn()
         {
             return this._jobRoleArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LinuxParameters. 
+        /// <para>
+        /// Linux-specific modifications that are applied to the container, such as details for
+        /// device mappings.
+        /// </para>
+        /// </summary>
+        public LinuxParameters LinuxParameters
+        {
+            get { return this._linuxParameters; }
+            set { this._linuxParameters = value; }
+        }
+
+        // Check to see if LinuxParameters property is set
+        internal bool IsSetLinuxParameters()
+        {
+            return this._linuxParameters != null;
         }
 
         /// <summary>
@@ -222,6 +263,24 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NetworkInterfaces. 
+        /// <para>
+        /// The network interfaces associated with the job.
+        /// </para>
+        /// </summary>
+        public List<NetworkInterface> NetworkInterfaces
+        {
+            get { return this._networkInterfaces; }
+            set { this._networkInterfaces = value; }
+        }
+
+        // Check to see if NetworkInterfaces property is set
+        internal bool IsSetNetworkInterfaces()
+        {
+            return this._networkInterfaces != null && this._networkInterfaces.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Privileged. 
         /// <para>
         /// When this parameter is true, the container is given elevated privileges on the host
@@ -276,6 +335,25 @@ namespace Amazon.Batch.Model
         internal bool IsSetReason()
         {
             return this._reason != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ResourceRequirements. 
+        /// <para>
+        /// The type and amount of a resource to assign to a container. Currently, the only supported
+        /// resource is <code>GPU</code>.
+        /// </para>
+        /// </summary>
+        public List<ResourceRequirement> ResourceRequirements
+        {
+            get { return this._resourceRequirements; }
+            set { this._resourceRequirements = value; }
+        }
+
+        // Check to see if ResourceRequirements property is set
+        internal bool IsSetResourceRequirements()
+        {
+            return this._resourceRequirements != null && this._resourceRequirements.Count > 0; 
         }
 
         /// <summary>
@@ -337,7 +415,7 @@ namespace Amazon.Batch.Model
         /// <summary>
         /// Gets and sets the property Vcpus. 
         /// <para>
-        /// The number of VCPUs allocated for the job. 
+        /// The number of VCPUs allocated for the job.
         /// </para>
         /// </summary>
         public int Vcpus

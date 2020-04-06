@@ -30,6 +30,13 @@ namespace Amazon.RDS.Model
     /// <summary>
     /// Container for the parameters to the CreateDBSecurityGroup operation.
     /// Creates a new DB security group. DB security groups control access to a DB instance.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// A DB security group controls access to EC2-Classic DB instances that are not in a
+    /// VPC.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateDBSecurityGroupRequest : AmazonRDSRequest
     {
@@ -45,7 +52,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Instantiates CreateDBSecurityGroupRequest with the parameterized properties
         /// </summary>
-        /// <param name="dbSecurityGroupName">The name for the DB security group. This value is stored as a lowercase string. Constraints: <ul> <li> Must be 1 to 255 letters, numbers, or hyphens. </li> <li> First character must be a letter </li> <li> Cannot end with a hyphen or contain two consecutive hyphens </li> <li> Must not be "Default" </li> </ul> Example: <code>mysecuritygroup</code> </param>
+        /// <param name="dbSecurityGroupName">The name for the DB security group. This value is stored as a lowercase string. Constraints: <ul> <li> Must be 1 to 255 letters, numbers, or hyphens. </li> <li> First character must be a letter </li> <li> Can't end with a hyphen or contain two consecutive hyphens </li> <li> Must not be "Default" </li> </ul> Example: <code>mysecuritygroup</code> </param>
         /// <param name="dbSecurityGroupDescription">The description for the DB security group.</param>
         public CreateDBSecurityGroupRequest(string dbSecurityGroupName, string dbSecurityGroupDescription)
         {
@@ -59,6 +66,7 @@ namespace Amazon.RDS.Model
         /// The description for the DB security group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBSecurityGroupDescription
         {
             get { return this._dbSecurityGroupDescription; }
@@ -90,7 +98,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -101,6 +109,7 @@ namespace Amazon.RDS.Model
         /// Example: <code>mysecuritygroup</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBSecurityGroupName
         {
             get { return this._dbSecurityGroupName; }
@@ -114,7 +123,10 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Tags.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Tags to assign to the DB security group.
+        /// </para>
         /// </summary>
         public List<Tag> Tags
         {

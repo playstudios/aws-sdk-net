@@ -37,6 +37,7 @@ namespace Amazon.SageMaker.Model
     {
         private int? _currentInstanceCount;
         private float? _currentWeight;
+        private List<DeployedImage> _deployedImages = new List<DeployedImage>();
         private int? _desiredInstanceCount;
         private float? _desiredWeight;
         private string _variantName;
@@ -47,6 +48,7 @@ namespace Amazon.SageMaker.Model
         /// The number of instances associated with the variant.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int CurrentInstanceCount
         {
             get { return this._currentInstanceCount.GetValueOrDefault(); }
@@ -65,6 +67,7 @@ namespace Amazon.SageMaker.Model
         /// The weight associated with the variant.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public float CurrentWeight
         {
             get { return this._currentWeight.GetValueOrDefault(); }
@@ -78,12 +81,32 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeployedImages. 
+        /// <para>
+        /// An array of <code>DeployedImage</code> objects that specify the Amazon EC2 Container
+        /// Registry paths of the inference images deployed on instances of this <code>ProductionVariant</code>.
+        /// </para>
+        /// </summary>
+        public List<DeployedImage> DeployedImages
+        {
+            get { return this._deployedImages; }
+            set { this._deployedImages = value; }
+        }
+
+        // Check to see if DeployedImages property is set
+        internal bool IsSetDeployedImages()
+        {
+            return this._deployedImages != null && this._deployedImages.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property DesiredInstanceCount. 
         /// <para>
         /// The number of instances requested in the <code>UpdateEndpointWeightsAndCapacities</code>
         /// request. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int DesiredInstanceCount
         {
             get { return this._desiredInstanceCount.GetValueOrDefault(); }
@@ -103,6 +126,7 @@ namespace Amazon.SageMaker.Model
         /// request. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public float DesiredWeight
         {
             get { return this._desiredWeight.GetValueOrDefault(); }
@@ -121,6 +145,7 @@ namespace Amazon.SageMaker.Model
         /// The name of the variant.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string VariantName
         {
             get { return this._variantName; }

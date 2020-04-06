@@ -43,6 +43,7 @@ namespace Amazon.IdentityManagement.Model
         /// The new description that you want to apply to the specified role.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1000)]
         public string Description
         {
             get { return this._description; }
@@ -72,10 +73,11 @@ namespace Amazon.IdentityManagement.Model
         /// are valid for one hour by default. This applies when you use the <code>AssumeRole*</code>
         /// API operations or the <code>assume-role*</code> CLI operations but does not apply
         /// when you use those operations to create a console URL. For more information, see <a
-        /// href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html">Using IAM
+        /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html">Using IAM
         /// Roles</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3600, Max=43200)]
         public int MaxSessionDuration
         {
             get { return this._maxSessionDuration.GetValueOrDefault(); }
@@ -94,6 +96,7 @@ namespace Amazon.IdentityManagement.Model
         /// The name of the role that you want to modify.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string RoleName
         {
             get { return this._roleName; }

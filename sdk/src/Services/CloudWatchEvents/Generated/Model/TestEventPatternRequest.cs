@@ -34,9 +34,9 @@ namespace Amazon.CloudWatchEvents.Model
     ///  
     /// <para>
     /// Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs).
-    /// However, CloudWatch Events uses an exact match in event patterns and rules. Be sure
-    /// to use the correct ARN characters when creating event patterns so that they match
-    /// the ARN syntax in the event you want to match.
+    /// However, EventBridge uses an exact match in event patterns and rules. Be sure to use
+    /// the correct ARN characters when creating event patterns so that they match the ARN
+    /// syntax in the event you want to match.
     /// </para>
     /// </summary>
     public partial class TestEventPatternRequest : AmazonCloudWatchEventsRequest
@@ -50,6 +50,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// The event, in JSON format, to test against the event pattern.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Event
         {
             get { return this._event; }
@@ -65,10 +66,11 @@ namespace Amazon.CloudWatchEvents.Model
         /// <summary>
         /// Gets and sets the property EventPattern. 
         /// <para>
-        /// The event pattern. For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/CloudWatchEventsandEventPatterns.html">Events
-        /// and Event Patterns</a> in the <i>Amazon CloudWatch Events User Guide</i>.
+        /// The event pattern. For more information, see <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html">Events
+        /// and Event Patterns</a> in the <i>Amazon EventBridge User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string EventPattern
         {
             get { return this._eventPattern; }

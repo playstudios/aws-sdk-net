@@ -29,8 +29,10 @@ namespace Amazon.MediaPackage.Model
 {
     /// <summary>
     /// Container for the parameters to the RotateChannelCredentials operation.
-    /// Changes the Channel ingest username and password.
+    /// Changes the Channel's first IngestEndpoint's username and password. WARNING - This
+    /// API is deprecated. Please use RotateIngestEndpointCredentials instead
     /// </summary>
+    [Obsolete("This API is deprecated. Please use RotateIngestEndpointCredentials instead")]
     public partial class RotateChannelCredentialsRequest : AmazonMediaPackageRequest
     {
         private string _id;
@@ -38,6 +40,7 @@ namespace Amazon.MediaPackage.Model
         /// <summary>
         /// Gets and sets the property Id. The ID of the channel to update.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }

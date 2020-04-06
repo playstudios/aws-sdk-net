@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
     <DefineConstants>DEBUG;TRACE;;BCL;BCL45;AWS_ASYNC_API;CODE_ANALYSIS;LOCAL_FILE</DefineConstants>
@@ -33,7 +33,8 @@
   </Choose>
 
   <ItemGroup>
-    <Compile Remove="**/_coreclr/**" />
+	  <Compile Remove="**/obj/**" />
+    <Compile Remove="**/_netstandard/**" />
     <Compile Remove="**/_mobile/**" />
     <Compile Remove="**/_pcl/**" />
     <Compile Remove="**/_pcl-sl/**" />

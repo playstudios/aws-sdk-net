@@ -38,7 +38,7 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property Code. 
         /// <para>
-        /// The system ID or error number code of the error.
+        /// The system ID or number code of the error.
         /// </para>
         /// </summary>
         public string Code
@@ -59,6 +59,7 @@ namespace Amazon.CodePipeline.Model
         /// The text of the error message.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=5000)]
         public string Message
         {
             get { return this._message; }

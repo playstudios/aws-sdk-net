@@ -40,10 +40,6 @@ namespace Amazon.GameLift.Model
     /// includes both active and pending connections. Active connections identify the IpV4
     /// CIDR block that the VPC uses to connect. 
     /// </para>
-    ///  
-    /// <para>
-    /// VPC peering connection operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateVpcPeeringAuthorization</a> 
@@ -77,7 +73,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet.
+        /// A unique identifier for a fleet. You can use either the fleet ID or ARN value.
         /// </para>
         /// </summary>
         public string FleetId

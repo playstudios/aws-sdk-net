@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the GetSegmentVersion operation.
-    /// Returns information about a segment version.
+    /// Retrieves information about the configuration, dimension, and other settings for a
+    /// specific version of a segment that's associated with an application.
     /// </summary>
     public partial class GetSegmentVersionRequest : AmazonPinpointRequest
     {
@@ -38,8 +39,13 @@ namespace Amazon.Pinpoint.Model
         private string _version;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -53,8 +59,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentId.
+        /// Gets and sets the property SegmentId. 
+        /// <para>
+        /// The unique identifier for the segment.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SegmentId
         {
             get { return this._segmentId; }
@@ -68,8 +78,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Version.
+        /// Gets and sets the property Version. 
+        /// <para>
+        /// The unique version number (Version property) for the campaign version.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Version
         {
             get { return this._version; }

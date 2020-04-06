@@ -28,10 +28,10 @@ namespace Amazon.SageMaker
     ///<summary>
     /// Common exception for the SageMaker service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonSageMakerException : AmazonServiceException
+    public partial class AmazonSageMakerException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonSageMakerException
@@ -88,7 +88,7 @@ namespace Amazon.SageMaker
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonSageMakerException class with serialized data.
         /// </summary>

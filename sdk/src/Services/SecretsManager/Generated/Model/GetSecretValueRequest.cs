@@ -29,8 +29,8 @@ namespace Amazon.SecretsManager.Model
 {
     /// <summary>
     /// Container for the parameters to the GetSecretValue operation.
-    /// Retrieves the contents of the encrypted fields <code>SecretString</code> and <code>SecretBinary</code>
-    /// from the specified version of a secret.
+    /// Retrieves the contents of the encrypted fields <code>SecretString</code> or <code>SecretBinary</code>
+    /// from the specified version of a secret, whichever contains content.
     /// 
     ///  
     /// <para>
@@ -46,9 +46,9 @@ namespace Amazon.SecretsManager.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// kms:Decrypt - required only if you use a customer-created KMS key to encrypt the secret.
-    /// You do not need this permission to use the account's default AWS managed CMK for Secrets
-    /// Manager.
+    /// kms:Decrypt - required only if you use a customer-managed AWS KMS key to encrypt the
+    /// secret. You do not need this permission to use the account's default AWS managed CMK
+    /// for Secrets Manager.
     /// </para>
     ///  </li> </ul> 
     /// <para>
@@ -76,7 +76,22 @@ namespace Amazon.SecretsManager.Model
         /// Specifies the secret containing the version that you want to retrieve. You can specify
         /// either the Amazon Resource Name (ARN) or the friendly name of the secret.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you specify an ARN, we generally recommend that you specify a complete ARN. You
+        /// can specify a partial ARN too—for example, if you don’t include the final hyphen and
+        /// six random characters that Secrets Manager adds at the end of the ARN when you created
+        /// the secret. A partial ARN match can work as long as it uniquely matches only one secret.
+        /// However, if your secret has a name that ends in a hyphen followed by six characters
+        /// (before Secrets Manager adds the hyphen and six characters to the ARN) and you try
+        /// to use that as a partial ARN, then those characters cause Secrets Manager to assume
+        /// that you’re specifying a complete ARN. This confusion can cause unexpected results.
+        /// To avoid this situation, we recommend that you don’t create secret names that end
+        /// with a hyphen followed by six characters.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string SecretId
         {
             get { return this._secretId; }
@@ -94,8 +109,8 @@ namespace Amazon.SecretsManager.Model
         /// <para>
         /// Specifies the unique identifier of the version of the secret that you want to retrieve.
         /// If you specify this parameter then don't specify <code>VersionStage</code>. If you
-        /// don't specify either a <code>VersionStage</code> or <code>SecretVersionId</code> then
-        /// the default is to perform the operation on the version with the <code>VersionStage</code>
+        /// don't specify either a <code>VersionStage</code> or <code>VersionId</code> then the
+        /// default is to perform the operation on the version with the <code>VersionStage</code>
         /// value of <code>AWSCURRENT</code>.
         /// </para>
         ///  
@@ -104,6 +119,7 @@ namespace Amazon.SecretsManager.Model
         /// value with 32 hexadecimal digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string VersionId
         {
             get { return this._versionId; }
@@ -125,12 +141,13 @@ namespace Amazon.SecretsManager.Model
         ///  
         /// <para>
         /// Staging labels are used to keep track of different versions during the rotation process.
-        /// If you use this parameter then don't specify <code>SecretVersionId</code>. If you
-        /// don't specify either a <code>VersionStage</code> or <code>SecretVersionId</code>,
-        /// then the default is to perform the operation on the version with the <code>VersionStage</code>
-        /// value of <code>AWSCURRENT</code>.
+        /// If you use this parameter then don't specify <code>VersionId</code>. If you don't
+        /// specify either a <code>VersionStage</code> or <code>VersionId</code>, then the default
+        /// is to perform the operation on the version with the <code>VersionStage</code> value
+        /// of <code>AWSCURRENT</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string VersionStage
         {
             get { return this._versionStage; }

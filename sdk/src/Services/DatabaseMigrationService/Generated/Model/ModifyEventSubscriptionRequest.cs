@@ -103,7 +103,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: replication-instance | migration-task
+        /// Valid values: replication-instance | replication-task
         /// </para>
         /// </summary>
         public string SourceType
@@ -124,6 +124,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// The name of the AWS DMS event notification subscription to be modified.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubscriptionName
         {
             get { return this._subscriptionName; }

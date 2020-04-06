@@ -32,10 +32,30 @@ namespace Amazon.CodeDeploy.Model
     /// </summary>
     public partial class RevisionLocation
     {
+        private AppSpecContent _appSpecContent;
         private GitHubLocation _gitHubLocation;
         private RevisionLocationType _revisionType;
         private S3Location _s3Location;
         private RawString _string;
+
+        /// <summary>
+        /// Gets and sets the property AppSpecContent. 
+        /// <para>
+        ///  The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The content
+        /// is formatted as JSON or YAML and stored as a RawString. 
+        /// </para>
+        /// </summary>
+        public AppSpecContent AppSpecContent
+        {
+            get { return this._appSpecContent; }
+            set { this._appSpecContent = value; }
+        }
+
+        // Check to see if AppSpecContent property is set
+        internal bool IsSetAppSpecContent()
+        {
+            return this._appSpecContent != null;
+        }
 
         /// <summary>
         /// Gets and sets the property GitHubLocation. 
@@ -66,11 +86,11 @@ namespace Amazon.CodeDeploy.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// GitHub: An application revision stored in GitHub (EC2/On-premises deployments only)
+        /// GitHub: An application revision stored in GitHub (EC2/On-premises deployments only).
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// String: A YAML-formatted or JSON-formatted string (AWS Lambda deployments only)
+        /// String: A YAML-formatted or JSON-formatted string (AWS Lambda deployments only).
         /// </para>
         ///  </li> </ul>
         /// </summary>

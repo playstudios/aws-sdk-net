@@ -55,13 +55,14 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeThingRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/things/{thingName}";
             if (!publicRequest.IsSetThingName())
                 throw new AmazonIoTException("Request object does not have required field ThingName set");
-            uriResourcePath = uriResourcePath.Replace("{thingName}", StringUtils.FromString(publicRequest.ThingName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{thingName}", StringUtils.FromString(publicRequest.ThingName));
+            request.ResourcePath = "/things/{thingName}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

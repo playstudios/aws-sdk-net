@@ -46,6 +46,7 @@ namespace Amazon.Route53.Model
         /// The two-letter code for the continent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=2)]
         public string ContinentCode
         {
             get { return this._continentCode; }
@@ -64,6 +65,7 @@ namespace Amazon.Route53.Model
         /// The full name of the continent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=32)]
         public string ContinentName
         {
             get { return this._continentName; }
@@ -82,6 +84,7 @@ namespace Amazon.Route53.Model
         /// The two-letter code for the country.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2)]
         public string CountryCode
         {
             get { return this._countryCode; }
@@ -100,6 +103,7 @@ namespace Amazon.Route53.Model
         /// The name of the country.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string CountryName
         {
             get { return this._countryName; }
@@ -115,10 +119,11 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property SubdivisionCode. 
         /// <para>
-        /// The code for the subdivision, for example, a state in the United States or a province
-        /// in Canada.
+        /// The code for the subdivision. Route 53 currently supports only states in the United
+        /// States.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=3)]
         public string SubdivisionCode
         {
             get { return this._subdivisionCode; }
@@ -134,10 +139,11 @@ namespace Amazon.Route53.Model
         /// <summary>
         /// Gets and sets the property SubdivisionName. 
         /// <para>
-        /// The full name of the subdivision, for example, a state in the United States or a province
-        /// in Canada.
+        /// The full name of the subdivision. Route 53 currently supports only states in the United
+        /// States.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string SubdivisionName
         {
             get { return this._subdivisionName; }

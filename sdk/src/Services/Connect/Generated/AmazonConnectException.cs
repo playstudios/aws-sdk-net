@@ -28,10 +28,10 @@ namespace Amazon.Connect
     ///<summary>
     /// Common exception for the Connect service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonConnectException : AmazonServiceException
+    public partial class AmazonConnectException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonConnectException
@@ -88,7 +88,7 @@ namespace Amazon.Connect
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonConnectException class with serialized data.
         /// </summary>

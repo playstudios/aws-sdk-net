@@ -60,7 +60,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Location. 
         /// <para>
-        /// Parameters for the mapping.
+        /// The parameters for the mapping.
         /// </para>
         /// </summary>
         public Location Location
@@ -81,6 +81,7 @@ namespace Amazon.Glue.Model
         /// The list of mappings from a source table to target tables.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<MappingEntry> Mapping
         {
             get { return this._mapping; }
@@ -117,6 +118,7 @@ namespace Amazon.Glue.Model
         /// The source table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public CatalogEntry Source
         {
             get { return this._source; }

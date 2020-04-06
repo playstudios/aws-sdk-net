@@ -36,25 +36,24 @@ namespace Amazon.Route53.Model
     /// <para>
     /// When you update a traffic policy instance, Amazon Route 53 continues to respond to
     /// DNS queries for the root resource record set name (such as example.com) while it replaces
-    /// one group of resource record sets with another. Amazon Route 53 performs the following
-    /// operations:
+    /// one group of resource record sets with another. Route 53 performs the following operations:
     /// </para>
     ///  <ol> <li> 
     /// <para>
-    /// Amazon Route 53 creates a new group of resource record sets based on the specified
-    /// traffic policy. This is true regardless of how significant the differences are between
-    /// the existing resource record sets and the new resource record sets. 
+    /// Route 53 creates a new group of resource record sets based on the specified traffic
+    /// policy. This is true regardless of how significant the differences are between the
+    /// existing resource record sets and the new resource record sets. 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// When all of the new resource record sets have been created, Amazon Route 53 starts
-    /// to respond to DNS queries for the root resource record set name (such as example.com)
-    /// by using the new resource record sets.
+    /// When all of the new resource record sets have been created, Route 53 starts to respond
+    /// to DNS queries for the root resource record set name (such as example.com) by using
+    /// the new resource record sets.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Amazon Route 53 deletes the old group of resource record sets that are associated
-    /// with the root resource record set name.
+    /// Route 53 deletes the old group of resource record sets that are associated with the
+    /// root resource record set name.
     /// </para>
     ///  </li> </ol>
     /// </summary>
@@ -71,6 +70,7 @@ namespace Amazon.Route53.Model
         /// The ID of the traffic policy instance that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=36)]
         public string Id
         {
             get { return this._id; }
@@ -90,6 +90,7 @@ namespace Amazon.Route53.Model
         /// sets.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=2147483647)]
         public long TTL
         {
             get { return this._ttl.GetValueOrDefault(); }
@@ -109,6 +110,7 @@ namespace Amazon.Route53.Model
         /// record sets for the specified traffic policy instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=36)]
         public string TrafficPolicyId
         {
             get { return this._trafficPolicyId; }
@@ -128,6 +130,7 @@ namespace Amazon.Route53.Model
         /// record sets for the specified traffic policy instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1000)]
         public int TrafficPolicyVersion
         {
             get { return this._trafficPolicyVersion.GetValueOrDefault(); }

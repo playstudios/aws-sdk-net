@@ -55,19 +55,31 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateJobRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/jobs/{jobId}";
             if (!publicRequest.IsSetJobId())
                 throw new AmazonIoTException("Request object does not have required field JobId set");
-            uriResourcePath = uriResourcePath.Replace("{jobId}", StringUtils.FromString(publicRequest.JobId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{jobId}", StringUtils.FromString(publicRequest.JobId));
+            request.ResourcePath = "/jobs/{jobId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAbortConfig())
+                {
+                    context.Writer.WritePropertyName("abortConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AbortConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.AbortConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetDescription())
                 {
                     context.Writer.WritePropertyName("description");
@@ -78,20 +90,6 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("document");
                     context.Writer.Write(publicRequest.Document);
-                }
-
-                if(publicRequest.IsSetDocumentParameters())
-                {
-                    context.Writer.WritePropertyName("documentParameters");
-                    context.Writer.WriteObjectStart();
-                    foreach (var publicRequestDocumentParametersKvp in publicRequest.DocumentParameters)
-                    {
-                        context.Writer.WritePropertyName(publicRequestDocumentParametersKvp.Key);
-                        var publicRequestDocumentParametersValue = publicRequestDocumentParametersKvp.Value;
-
-                            context.Writer.Write(publicRequestDocumentParametersValue);
-                    }
-                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetDocumentSource())
@@ -122,6 +120,22 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                     context.Writer.WriteObjectEnd();
                 }
 
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
                 if(publicRequest.IsSetTargets())
                 {
                     context.Writer.WritePropertyName("targets");
@@ -137,6 +151,17 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("targetSelection");
                     context.Writer.Write(publicRequest.TargetSelection);
+                }
+
+                if(publicRequest.IsSetTimeoutConfig())
+                {
+                    context.Writer.WritePropertyName("timeoutConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = TimeoutConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.TimeoutConfig, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
         

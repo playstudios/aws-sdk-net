@@ -35,12 +35,14 @@ namespace Amazon.MediaConvert.Model
     {
         private int? _bitDepth;
         private int? _channels;
+        private WavFormat _format;
         private int? _sampleRate;
 
         /// <summary>
         /// Gets and sets the property BitDepth. Specify Bit depth (BitDepth), in bits per sample,
         /// to choose the encoding quality for this audio track.
         /// </summary>
+        [AWSProperty(Min=16, Max=24)]
         public int BitDepth
         {
             get { return this._bitDepth.GetValueOrDefault(); }
@@ -54,10 +56,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Channels. Set Channels to specify the number of channels
-        /// in this output audio track. With WAV, valid values 1, 2, 4, and 8. In the console,
-        /// these values are Mono, Stereo, 4-Channel, and 8-Channel, respectively.
+        /// Gets and sets the property Channels. Specify the number of channels in this output
+        /// audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6,
+        /// and so on, up to 64.
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public int Channels
         {
             get { return this._channels.GetValueOrDefault(); }
@@ -71,8 +74,26 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Format. The service defaults to using RIFF for WAV outputs.
+        /// If your output audio is likely to exceed 4 GB in file size, or if you otherwise need
+        /// the extended support of the RF64 format, set your output WAV file format to RF64.
+        /// </summary>
+        public WavFormat Format
+        {
+            get { return this._format; }
+            set { this._format = value; }
+        }
+
+        // Check to see if Format property is set
+        internal bool IsSetFormat()
+        {
+            return this._format != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SampleRate. Sample rate in Hz.
         /// </summary>
+        [AWSProperty(Min=8000, Max=192000)]
         public int SampleRate
         {
             get { return this._sampleRate.GetValueOrDefault(); }

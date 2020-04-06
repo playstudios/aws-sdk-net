@@ -44,6 +44,7 @@ namespace Amazon.Inspector.Model
         /// The ARN that specifies the assessment run for which you want to generate a report.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string AssessmentRunArn
         {
             get { return this._assessmentRunArn; }
@@ -63,6 +64,7 @@ namespace Amazon.Inspector.Model
         /// generate.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ReportFileFormat ReportFileFormat
         {
             get { return this._reportFileFormat; }
@@ -80,10 +82,11 @@ namespace Amazon.Inspector.Model
         /// <para>
         /// Specifies the type of the assessment report that you want to generate. There are two
         /// types of assessment reports: a finding report and a full report. For more information,
-        /// see <a href="http://docs.aws.amazon.com/inspector/latest/userguide/inspector_reports.html">Assessment
+        /// see <a href="https://docs.aws.amazon.com/inspector/latest/userguide/inspector_reports.html">Assessment
         /// Reports</a>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ReportType ReportType
         {
             get { return this._reportType; }

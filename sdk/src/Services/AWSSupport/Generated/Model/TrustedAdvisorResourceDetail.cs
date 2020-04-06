@@ -64,9 +64,10 @@ namespace Amazon.AWSSupport.Model
         /// can be obtained by inspecting the <a>TrustedAdvisorCheckDescription</a> object returned
         /// by the call to <a>DescribeTrustedAdvisorChecks</a>. <b>Metadata</b> contains all the
         /// data that is shown in the Excel download, even in those cases where the UI shows just
-        /// summary data. 
+        /// summary data.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> Metadata
         {
             get { return this._metadata; }
@@ -103,6 +104,7 @@ namespace Amazon.AWSSupport.Model
         /// The unique identifier for the identified resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -121,6 +123,7 @@ namespace Amazon.AWSSupport.Model
         /// The status code for the resource identified in the Trusted Advisor check.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Status
         {
             get { return this._status; }

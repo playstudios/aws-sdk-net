@@ -42,6 +42,7 @@ namespace Amazon.DeviceFarm.Model
         /// The sample's ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -153,10 +154,11 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Url. 
         /// <para>
-        /// The pre-signed Amazon S3 URL that can be used with a corresponding GET request to
-        /// download the sample's file.
+        /// The presigned Amazon S3 URL that can be used with a GET request to download the sample's
+        /// file.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Url
         {
             get { return this._url; }

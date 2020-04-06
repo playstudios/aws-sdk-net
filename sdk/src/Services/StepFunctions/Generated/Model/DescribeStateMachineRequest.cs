@@ -30,6 +30,13 @@ namespace Amazon.StepFunctions.Model
     /// <summary>
     /// Container for the parameters to the DescribeStateMachine operation.
     /// Describes a state machine.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This operation is eventually consistent. The results are best effort and may not reflect
+    /// very recent updates and changes.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class DescribeStateMachineRequest : AmazonStepFunctionsRequest
     {
@@ -41,6 +48,7 @@ namespace Amazon.StepFunctions.Model
         /// The Amazon Resource Name (ARN) of the state machine to describe.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string StateMachineArn
         {
             get { return this._stateMachineArn; }

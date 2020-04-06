@@ -28,16 +28,17 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of DescribeInternetGateways.
+    /// This is the response object from the DescribeInternetGateways operation.
     /// </summary>
     public partial class DescribeInternetGatewaysResponse : AmazonWebServiceResponse
     {
         private List<InternetGateway> _internetGateways = new List<InternetGateway>();
+        private string _nextToken;
 
         /// <summary>
         /// Gets and sets the property InternetGateways. 
         /// <para>
-        /// Information about one or more Internet gateways.
+        /// Information about one or more internet gateways.
         /// </para>
         /// </summary>
         public List<InternetGateway> InternetGateways
@@ -50,6 +51,25 @@ namespace Amazon.EC2.Model
         internal bool IsSetInternetGateways()
         {
             return this._internetGateways != null && this._internetGateways.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// The token to use to retrieve the next page of results. This value is <code>null</code>
+        /// when there are no more results to return.
+        /// </para>
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
         }
 
     }

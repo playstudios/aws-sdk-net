@@ -30,7 +30,7 @@ namespace Amazon.MediaStoreData.Model
     /// <summary>
     /// This is the response object from the GetObject operation.
     /// </summary>
-    public partial class GetObjectResponse : AmazonWebServiceResponse
+    public partial class GetObjectResponse : AmazonWebServiceResponse, IDisposable
     {
         private Stream _body;
         private string _cacheControl;
@@ -89,6 +89,7 @@ namespace Amazon.MediaStoreData.Model
         /// The length of the object in bytes.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long ContentLength
         {
             get { return this._contentLength.GetValueOrDefault(); }
@@ -143,6 +144,7 @@ namespace Amazon.MediaStoreData.Model
         /// The ETag that represents a unique instance of the object.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ETag
         {
             get { return this._eTag; }
@@ -180,6 +182,7 @@ namespace Amazon.MediaStoreData.Model
         /// success. All other status codes indicate the type of error that occurred.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int StatusCode
         {
             get { return this._statusCode.GetValueOrDefault(); }
@@ -192,5 +195,33 @@ namespace Amazon.MediaStoreData.Model
             return this._statusCode.HasValue; 
         }
 
+        #region Dispose Pattern
+
+        private bool _disposed;
+
+        /// <summary>
+        /// Disposes of all managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                this._body?.Dispose();
+                this._body = null;
+            }
+
+            this._disposed = true;
+         }
+
+         #endregion
     }
 }

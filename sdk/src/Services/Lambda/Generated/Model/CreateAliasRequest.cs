@@ -29,14 +29,15 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateAlias operation.
-    /// Creates an alias that points to the specified Lambda function version. For more information,
-    /// see <a href="http://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">Introduction
-    /// to AWS Lambda Aliases</a>.
+    /// Creates an <a href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>
+    /// for a Lambda function version. Use aliases to provide clients with a function identifier
+    /// that you can update to invoke a different version.
     /// 
     ///  
     /// <para>
-    /// Alias names are unique for a given function. This requires permission for the lambda:CreateAlias
-    /// action.
+    /// You can also map an alias to split invocation requests between two versions. Use the
+    /// <code>RoutingConfig</code> parameter to specify a second version and the percentage
+    /// of invocation requests that it receives.
     /// </para>
     /// </summary>
     public partial class CreateAliasRequest : AmazonLambdaRequest
@@ -50,9 +51,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// Description of the alias.
+        /// A description of the alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Description
         {
             get { return this._description; }
@@ -68,11 +70,29 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionName. 
         /// <para>
-        /// Name of the Lambda function for which you want to create an alias. Note that the length
-        /// constraint applies only to the ARN. If you specify only the function name, it is limited
-        /// to 64 characters in length.
+        /// The name of the Lambda function.
+        /// </para>
+        ///  <p class="title"> <b>Name formats</b> 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Function name</b> - <code>MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// The length constraint applies only to the full ARN. If you specify only the function
+        /// name, it is limited to 64 characters in length.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string FunctionName
         {
             get { return this._functionName; }
@@ -88,9 +108,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionVersion. 
         /// <para>
-        /// Lambda function version for which you are creating the alias.
+        /// The function version that the alias invokes.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1024)]
         public string FunctionVersion
         {
             get { return this._functionVersion; }
@@ -106,9 +127,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Name for the alias you are creating.
+        /// The name of the alias.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -124,8 +146,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property RoutingConfig. 
         /// <para>
-        /// Specifies an additional version your alias can point to, allowing you to dictate what
-        /// percentage of traffic will invoke each version. For more information, see <a>lambda-traffic-shifting-using-aliases</a>.
+        /// The <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">routing
+        /// configuration</a> of the alias.
         /// </para>
         /// </summary>
         public AliasRoutingConfiguration RoutingConfig

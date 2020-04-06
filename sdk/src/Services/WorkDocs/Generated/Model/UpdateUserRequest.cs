@@ -47,10 +47,11 @@ namespace Amazon.WorkDocs.Model
         /// <summary>
         /// Gets and sets the property AuthenticationToken. 
         /// <para>
-        /// Amazon WorkDocs authentication token. Do not set this field when using administrative
-        /// API actions, as in accessing the API using AWS credentials.
+        /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials
+        /// to access the API.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=8199)]
         public string AuthenticationToken
         {
             get { return this._authenticationToken; }
@@ -69,6 +70,7 @@ namespace Amazon.WorkDocs.Model
         /// The given name of the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string GivenName
         {
             get { return this._givenName; }
@@ -141,6 +143,7 @@ namespace Amazon.WorkDocs.Model
         /// The surname of the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string Surname
         {
             get { return this._surname; }
@@ -159,6 +162,7 @@ namespace Amazon.WorkDocs.Model
         /// The time zone ID of the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string TimeZoneId
         {
             get { return this._timeZoneId; }
@@ -195,6 +199,7 @@ namespace Amazon.WorkDocs.Model
         /// The ID of the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string UserId
         {
             get { return this._userId; }

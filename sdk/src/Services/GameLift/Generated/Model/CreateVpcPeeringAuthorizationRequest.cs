@@ -33,14 +33,14 @@ namespace Amazon.GameLift.Model
     /// Amazon GameLift fleet and a virtual private cloud (VPC) in your AWS account. VPC peering
     /// enables the game servers on your fleet to communicate directly with other AWS resources.
     /// Once you've received authorization, call <a>CreateVpcPeeringConnection</a> to establish
-    /// the peering connection. For more information, see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
+    /// the peering connection. For more information, see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
     /// Peering with Amazon GameLift Fleets</a>.
     /// 
     ///  
     /// <para>
     /// You can peer with VPCs that are owned by any AWS account you have access to, including
     /// the account that you use to manage your Amazon GameLift fleets. You cannot peer with
-    /// VPCs that are in different regions.
+    /// VPCs that are in different Regions.
     /// </para>
     ///  
     /// <para>
@@ -64,10 +64,6 @@ namespace Amazon.GameLift.Model
     /// The authorization remains valid for 24 hours unless it is canceled by a call to <a>DeleteVpcPeeringAuthorization</a>.
     /// You must create or delete the peering connection while the authorization is valid.
     /// 
-    /// </para>
-    ///  
-    /// <para>
-    /// VPC peering connection operations include:
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -103,10 +99,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameLiftAwsAccountId. 
         /// <para>
-        /// Unique identifier for the AWS account that you use to manage your Amazon GameLift
+        /// A unique identifier for the AWS account that you use to manage your Amazon GameLift
         /// fleet. You can find your Account ID in the AWS Management Console under account settings.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1024)]
         public string GameLiftAwsAccountId
         {
             get { return this._gameLiftAwsAccountId; }
@@ -122,12 +119,14 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PeerVpcId. 
         /// <para>
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift
-        /// fleet. The VPC must be in the same region where your fleet is deployed. To get VPC
-        /// information, including IDs, use the Virtual Private Cloud service tools, including
-        /// the VPC Dashboard in the AWS Management Console.
+        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift
+        /// fleet. The VPC must be in the same Region where your fleet is deployed. Look up a
+        /// VPC ID using the <a href="https://console.aws.amazon.com/vpc/">VPC Dashboard</a> in
+        /// the AWS Management Console. Learn more about VPC peering in <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
+        /// Peering with Amazon GameLift Fleets</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1024)]
         public string PeerVpcId
         {
             get { return this._peerVpcId; }

@@ -53,6 +53,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The retrieved task description.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Description
         {
             get { return this._description; }
@@ -75,7 +76,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to contain
         /// logs, instead use the <code>OutputS3BucketName</code> and <code>OutputS3KeyPrefix</code>
         /// options in the <code>TaskInvocationParameters</code> structure. For information about
-        /// how Systems Manager handles these options for the supported Maintenance Window task
+        /// how Systems Manager handles these options for the supported maintenance window task
         /// types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
         /// </para>
         ///  </note>
@@ -98,6 +99,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The maximum number of targets allowed to run this task in parallel.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxConcurrency
         {
             get { return this._maxConcurrency; }
@@ -116,6 +118,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The maximum number of errors allowed before the task stops being scheduled.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=7)]
         public string MaxErrors
         {
             get { return this._maxErrors; }
@@ -134,6 +137,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The retrieved task name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -149,10 +153,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Priority. 
         /// <para>
-        /// The priority of the task when it executes. The lower the number, the higher the priority.
+        /// The priority of the task when it runs. The lower the number, the higher the priority.
         /// Tasks that have the same priority are scheduled in parallel.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int Priority
         {
             get { return this._priority.GetValueOrDefault(); }
@@ -168,7 +173,8 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property ServiceRoleArn. 
         /// <para>
-        /// The IAM service role to assume during task execution.
+        /// The ARN of the IAM service role to use to publish Amazon Simple Notification Service
+        /// (Amazon SNS) notifications for maintenance window Run Command tasks.
         /// </para>
         /// </summary>
         public string ServiceRoleArn
@@ -186,9 +192,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Targets. 
         /// <para>
-        /// The targets where the task should execute.
+        /// The targets where the task should run.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=5)]
         public List<Target> Targets
         {
             get { return this._targets; }
@@ -206,10 +213,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <para>
         /// The resource that the task used during execution. For RUN_COMMAND and AUTOMATION task
         /// types, the TaskArn is the Systems Manager Document name/ARN. For LAMBDA tasks, the
-        /// value is the function name/ARN. For STEP_FUNCTION tasks, the value is the state machine
+        /// value is the function name/ARN. For STEP_FUNCTIONS tasks, the value is the state machine
         /// ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string TaskArn
         {
             get { return this._taskArn; }
@@ -225,7 +233,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskInvocationParameters. 
         /// <para>
-        /// The parameters to pass to the task when it executes.
+        /// The parameters to pass to the task when it runs.
         /// </para>
         /// </summary>
         public MaintenanceWindowTaskInvocationParameters TaskInvocationParameters
@@ -243,14 +251,14 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskParameters. 
         /// <para>
-        /// The parameters to pass to the task when it executes.
+        /// The parameters to pass to the task when it runs.
         /// </para>
         ///  <note> 
         /// <para>
         ///  <code>TaskParameters</code> has been deprecated. To specify parameters to pass to
         /// a task when it runs, instead use the <code>Parameters</code> option in the <code>TaskInvocationParameters</code>
         /// structure. For information about how Systems Manager handles these options for the
-        /// supported Maintenance Window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+        /// supported maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
         /// </para>
         ///  </note>
         /// </summary>
@@ -269,7 +277,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property TaskType. 
         /// <para>
-        /// The type of task to execute.
+        /// The type of task to run.
         /// </para>
         /// </summary>
         public MaintenanceWindowTaskType TaskType
@@ -287,9 +295,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowId. 
         /// <para>
-        /// The retrieved Maintenance Window ID.
+        /// The retrieved maintenance window ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=20)]
         public string WindowId
         {
             get { return this._windowId; }
@@ -305,9 +314,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property WindowTaskId. 
         /// <para>
-        /// The retrieved Maintenance Window task ID.
+        /// The retrieved maintenance window task ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string WindowTaskId
         {
             get { return this._windowTaskId; }

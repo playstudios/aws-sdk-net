@@ -64,16 +64,40 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("accelerationSettings", targetDepth))
+                {
+                    var unmarshaller = AccelerationSettingsUnmarshaller.Instance;
+                    unmarshalledObject.AccelerationSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("accelerationStatus", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AccelerationStatus = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("arn", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Arn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("billingTagsSource", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.BillingTagsSource = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("createdAt", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.CreatedAt = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("currentPhase", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.CurrentPhase = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("errorCode", targetDepth))
@@ -94,10 +118,22 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.Id = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("jobPercentComplete", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.JobPercentComplete = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("jobTemplate", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.JobTemplate = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("messages", targetDepth))
+                {
+                    var unmarshaller = JobMessagesUnmarshaller.Instance;
+                    unmarshalledObject.Messages = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("outputGroupDetails", targetDepth))
@@ -106,10 +142,22 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.OutputGroupDetails = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("priority", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.Priority = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("queue", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Queue = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("retryCount", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    unmarshalledObject.RetryCount = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("role", targetDepth))
@@ -124,10 +172,22 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.Settings = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("simulateReservedQueue", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SimulateReservedQueue = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("status", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Status = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("statusUpdateInterval", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.StatusUpdateInterval = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("timing", targetDepth))

@@ -35,6 +35,7 @@ namespace Amazon.GameLift.Model
     /// </summary>
     public partial class MatchmakingTicket
     {
+        private string _configurationArn;
         private string _configurationName;
         private DateTime? _endTime;
         private int? _estimatedWaitTime;
@@ -47,6 +48,26 @@ namespace Amazon.GameLift.Model
         private string _ticketId;
 
         /// <summary>
+        /// Gets and sets the property ConfigurationArn. 
+        /// <para>
+        /// The Amazon Resource Name (<a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+        /// associated with the GameLift matchmaking configuration resource that is used with
+        /// this ticket.
+        /// </para>
+        /// </summary>
+        public string ConfigurationArn
+        {
+            get { return this._configurationArn; }
+            set { this._configurationArn = value; }
+        }
+
+        // Check to see if ConfigurationArn property is set
+        internal bool IsSetConfigurationArn()
+        {
+            return this._configurationArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ConfigurationName. 
         /// <para>
         /// Name of the <a>MatchmakingConfiguration</a> that is used with this ticket. Matchmaking
@@ -54,6 +75,7 @@ namespace Amazon.GameLift.Model
         /// is created for the match.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string ConfigurationName
         {
             get { return this._configurationName; }
@@ -93,6 +115,7 @@ namespace Amazon.GameLift.Model
         /// If there is not enough recent data, this property may be empty.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int EstimatedWaitTime
         {
             get { return this._estimatedWaitTime.GetValueOrDefault(); }
@@ -198,12 +221,13 @@ namespace Amazon.GameLift.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <b>FAILED</b> -- The matchmaking request was not completed. Tickets with players
-        /// who fail to accept a proposed match are placed in <code>FAILED</code> status.
+        ///  <b>FAILED</b> -- The matchmaking request was not completed.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <b>CANCELLED</b> -- The matchmaking request was canceled with a call to <a>StopMatchmaking</a>.
+        ///  <b>CANCELLED</b> -- The matchmaking request was canceled. This may be the result
+        /// of a call to <a>StopMatchmaking</a> or a proposed match that one or more players failed
+        /// to accept.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -270,9 +294,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property TicketId. 
         /// <para>
-        /// Unique identifier for a matchmaking ticket.
+        /// A unique identifier for a matchmaking ticket.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=128)]
         public string TicketId
         {
             get { return this._ticketId; }

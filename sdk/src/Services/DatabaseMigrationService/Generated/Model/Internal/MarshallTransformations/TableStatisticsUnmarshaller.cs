@@ -82,16 +82,34 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                     unmarshalledObject.FullLoadCondtnlChkFailedRows = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("FullLoadEndTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.FullLoadEndTime = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("FullLoadErrorRows", targetDepth))
                 {
                     var unmarshaller = LongUnmarshaller.Instance;
                     unmarshalledObject.FullLoadErrorRows = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("FullLoadReloaded", targetDepth))
+                {
+                    var unmarshaller = BoolUnmarshaller.Instance;
+                    unmarshalledObject.FullLoadReloaded = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("FullLoadRows", targetDepth))
                 {
                     var unmarshaller = LongUnmarshaller.Instance;
                     unmarshalledObject.FullLoadRows = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("FullLoadStartTime", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.FullLoadStartTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("Inserts", targetDepth))
@@ -146,6 +164,12 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ValidationState = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ValidationStateDetails", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ValidationStateDetails = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("ValidationSuspendedRecords", targetDepth))

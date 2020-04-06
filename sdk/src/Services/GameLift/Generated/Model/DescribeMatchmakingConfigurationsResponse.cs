@@ -38,7 +38,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Configurations. 
         /// <para>
-        /// Collection of requested matchmaking configuration objects.
+        /// A collection of requested matchmaking configurations.
         /// </para>
         /// </summary>
         public List<MatchmakingConfiguration> Configurations
@@ -56,10 +56,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// Token that indicates where to resume retrieving results on the next call to this action.
-        /// If no token is returned, these results represent the end of the list.
+        /// A token that indicates where to resume retrieving results on the next call to this
+        /// action. If no token is returned, these results represent the end of the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

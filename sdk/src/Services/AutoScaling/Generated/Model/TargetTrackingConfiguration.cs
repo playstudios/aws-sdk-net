@@ -28,7 +28,8 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AutoScaling.Model
 {
     /// <summary>
-    /// Represents a target tracking policy configuration.
+    /// Represents a target tracking scaling policy configuration to use with Amazon EC2 Auto
+    /// Scaling.
     /// </summary>
     public partial class TargetTrackingConfiguration
     {
@@ -40,7 +41,7 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property CustomizedMetricSpecification. 
         /// <para>
-        /// A customized metric.
+        /// A customized metric. You must specify either a predefined metric or a customized metric.
         /// </para>
         /// </summary>
         public CustomizedMetricSpecification CustomizedMetricSpecification
@@ -58,10 +59,10 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property DisableScaleIn. 
         /// <para>
-        /// Indicates whether scale in by the target tracking policy is disabled. If scale in
-        /// is disabled, the target tracking policy won't remove instances from the Auto Scaling
-        /// group. Otherwise, the target tracking policy can remove instances from the Auto Scaling
-        /// group. The default is disabled.
+        /// Indicates whether scaling in by the target tracking scaling policy is disabled. If
+        /// scaling in is disabled, the target tracking scaling policy doesn't remove instances
+        /// from the Auto Scaling group. Otherwise, the target tracking scaling policy can remove
+        /// instances from the Auto Scaling group. The default is <code>false</code>.
         /// </para>
         /// </summary>
         public bool DisableScaleIn
@@ -79,7 +80,7 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property PredefinedMetricSpecification. 
         /// <para>
-        /// A predefined metric. You can specify either a predefined metric or a customized metric.
+        /// A predefined metric. You must specify either a predefined metric or a customized metric.
         /// </para>
         /// </summary>
         public PredefinedMetricSpecification PredefinedMetricSpecification
@@ -100,6 +101,7 @@ namespace Amazon.AutoScaling.Model
         /// The target value for the metric.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public double TargetValue
         {
             get { return this._targetValue.GetValueOrDefault(); }

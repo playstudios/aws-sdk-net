@@ -33,6 +33,7 @@ namespace Amazon.CloudWatch.Model
     public partial class AlarmHistoryItem
     {
         private string _alarmName;
+        private AlarmType _alarmType;
         private string _historyData;
         private HistoryItemType _historyItemType;
         private string _historySummary;
@@ -44,6 +45,7 @@ namespace Amazon.CloudWatch.Model
         /// The descriptive name for the alarm.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string AlarmName
         {
             get { return this._alarmName; }
@@ -57,11 +59,30 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AlarmType. 
+        /// <para>
+        /// The type of alarm, either metric alarm or composite alarm.
+        /// </para>
+        /// </summary>
+        public AlarmType AlarmType
+        {
+            get { return this._alarmType; }
+            set { this._alarmType = value; }
+        }
+
+        // Check to see if AlarmType property is set
+        internal bool IsSetAlarmType()
+        {
+            return this._alarmType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property HistoryData. 
         /// <para>
         /// Data about the alarm, in JSON format.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4095)]
         public string HistoryData
         {
             get { return this._historyData; }
@@ -98,6 +119,7 @@ namespace Amazon.CloudWatch.Model
         /// A summary of the alarm history, in text format.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string HistorySummary
         {
             get { return this._historySummary; }

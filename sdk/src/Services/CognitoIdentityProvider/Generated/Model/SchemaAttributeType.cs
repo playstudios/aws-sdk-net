@@ -59,9 +59,18 @@ namespace Amazon.CognitoIdentityProvider.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DeveloperOnlyAttribute. 
+        /// Gets and sets the property DeveloperOnlyAttribute. <note> 
         /// <para>
-        /// Specifies whether the attribute type is developer only.
+        /// We recommend that you use <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UserPoolClientType.html#CognitoUserPools-Type-UserPoolClientType-WriteAttributes">WriteAttributes</a>
+        /// in the user pool client to control how attributes can be mutated for new use cases
+        /// instead of using <code>DeveloperOnlyAttribute</code>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Specifies whether the attribute type is developer only. This attribute can only be
+        /// modified by an administrator. Users will not be able to modify this attribute using
+        /// their access token. For example, <code>DeveloperOnlyAttribute</code> can be modified
+        /// using the API but cannot be updated using the API.
         /// </para>
         /// </summary>
         public bool DeveloperOnlyAttribute
@@ -79,7 +88,16 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property Mutable. 
         /// <para>
-        /// Specifies whether the attribute can be changed once it has been created.
+        /// Specifies whether the value of the attribute can be changed.
+        /// </para>
+        ///  
+        /// <para>
+        /// For any user pool attribute that's mapped to an identity provider attribute, you must
+        /// set this parameter to <code>true</code>. Amazon Cognito updates mapped attributes
+        /// when users sign in to your application through an identity provider. If an attribute
+        /// is immutable, Amazon Cognito throws an error when it attempts to update the attribute.
+        /// For more information, see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html">Specifying
+        /// Identity Provider Attribute Mappings for Your User Pool</a>.
         /// </para>
         /// </summary>
         public bool Mutable
@@ -100,6 +118,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// A schema attribute of the name type.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public string Name
         {
             get { return this._name; }

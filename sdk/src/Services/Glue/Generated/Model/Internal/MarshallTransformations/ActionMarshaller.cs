@@ -59,10 +59,39 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 context.Writer.WriteObjectEnd();
             }
 
+            if(requestObject.IsSetCrawlerName())
+            {
+                context.Writer.WritePropertyName("CrawlerName");
+                context.Writer.Write(requestObject.CrawlerName);
+            }
+
             if(requestObject.IsSetJobName())
             {
                 context.Writer.WritePropertyName("JobName");
                 context.Writer.Write(requestObject.JobName);
+            }
+
+            if(requestObject.IsSetNotificationProperty())
+            {
+                context.Writer.WritePropertyName("NotificationProperty");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = NotificationPropertyMarshaller.Instance;
+                marshaller.Marshall(requestObject.NotificationProperty, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetSecurityConfiguration())
+            {
+                context.Writer.WritePropertyName("SecurityConfiguration");
+                context.Writer.Write(requestObject.SecurityConfiguration);
+            }
+
+            if(requestObject.IsSetTimeout())
+            {
+                context.Writer.WritePropertyName("Timeout");
+                context.Writer.Write(requestObject.Timeout);
             }
 
         }

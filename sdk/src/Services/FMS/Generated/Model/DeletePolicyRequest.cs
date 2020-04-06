@@ -33,7 +33,66 @@ namespace Amazon.FMS.Model
     /// </summary>
     public partial class DeletePolicyRequest : AmazonFMSRequest
     {
+        private bool? _deleteAllPolicyResources;
         private string _policyId;
+
+        /// <summary>
+        /// Gets and sets the property DeleteAllPolicyResources. 
+        /// <para>
+        /// If <code>True</code>, the request performs cleanup according to the policy type. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For AWS WAF and Shield Advanced policies, the cleanup does the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Deletes rule groups created by AWS Firewall Manager
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Removes web ACLs from in-scope resources
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Deletes web ACLs that contain no rules or rule groups
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For security group policies, the cleanup does the following for each security group
+        /// in the policy:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Disassociates the security group from in-scope resources 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Deletes the security group if it was created through Firewall Manager and if it's
+        /// no longer associated with any resources through another policy
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// After the cleanup, in-scope resources are no longer protected by web ACLs in this
+        /// policy. Protection of out-of-scope resources remains unchanged. Scope is determined
+        /// by tags that you create and accounts that you associate with the policy. When creating
+        /// the policy, if you specify that only resources in specific accounts or with specific
+        /// tags are in scope of the policy, those accounts and resources are handled by the policy.
+        /// All others are out of scope. If you don't specify tags or accounts, all resources
+        /// are in scope. 
+        /// </para>
+        /// </summary>
+        public bool DeleteAllPolicyResources
+        {
+            get { return this._deleteAllPolicyResources.GetValueOrDefault(); }
+            set { this._deleteAllPolicyResources = value; }
+        }
+
+        // Check to see if DeleteAllPolicyResources property is set
+        internal bool IsSetDeleteAllPolicyResources()
+        {
+            return this._deleteAllPolicyResources.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property PolicyId. 
@@ -42,6 +101,7 @@ namespace Amazon.FMS.Model
         /// <code>PutPolicy</code> and by <code>ListPolicies</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=36, Max=36)]
         public string PolicyId
         {
             get { return this._policyId; }

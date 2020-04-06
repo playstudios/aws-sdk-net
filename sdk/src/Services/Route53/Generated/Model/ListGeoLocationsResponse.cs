@@ -46,6 +46,7 @@ namespace Amazon.Route53.Model
         /// location that Amazon Route 53 supports for geolocation.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<GeoLocationDetails> GeoLocationDetailsList
         {
             get { return this._geoLocationDetailsList; }
@@ -64,10 +65,11 @@ namespace Amazon.Route53.Model
         /// A value that indicates whether more locations remain to be listed after the last location
         /// in this response. If so, the value of <code>IsTruncated</code> is <code>true</code>.
         /// To get more values, submit another request and include the values of <code>NextContinentCode</code>,
-        /// <code>NextCountryCode</code>, and <code>NextSubdivisionCode</code> in the <code>StartContinentCode</code>,
-        /// <code>StartCountryCode</code>, and <code>StartSubdivisionCode</code>, as applicable.
+        /// <code>NextCountryCode</code>, and <code>NextSubdivisionCode</code> in the <code>startcontinentcode</code>,
+        /// <code>startcountrycode</code>, and <code>startsubdivisioncode</code>, as applicable.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool IsTruncated
         {
             get { return this._isTruncated.GetValueOrDefault(); }
@@ -85,10 +87,11 @@ namespace Amazon.Route53.Model
         /// <para>
         /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up request
         /// to display more locations. Enter the value of <code>NextContinentCode</code> in the
-        /// <code>StartContinentCode</code> parameter in another <code>ListGeoLocations</code>
+        /// <code>startcontinentcode</code> parameter in another <code>ListGeoLocations</code>
         /// request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=2)]
         public string NextContinentCode
         {
             get { return this._nextContinentCode; }
@@ -106,9 +109,10 @@ namespace Amazon.Route53.Model
         /// <para>
         /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up request
         /// to display more locations. Enter the value of <code>NextCountryCode</code> in the
-        /// <code>StartCountryCode</code> parameter in another <code>ListGeoLocations</code> request.
+        /// <code>startcountrycode</code> parameter in another <code>ListGeoLocations</code> request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2)]
         public string NextCountryCode
         {
             get { return this._nextCountryCode; }
@@ -126,10 +130,11 @@ namespace Amazon.Route53.Model
         /// <para>
         /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up request
         /// to display more locations. Enter the value of <code>NextSubdivisionCode</code> in
-        /// the <code>StartSubdivisionCode</code> parameter in another <code>ListGeoLocations</code>
+        /// the <code>startsubdivisioncode</code> parameter in another <code>ListGeoLocations</code>
         /// request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=3)]
         public string NextSubdivisionCode
         {
             get { return this._nextSubdivisionCode; }
@@ -148,6 +153,7 @@ namespace Amazon.Route53.Model
         /// The value that you specified for <code>MaxItems</code> in the request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MaxItems
         {
             get { return this._maxItems; }

@@ -68,8 +68,11 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Id. The ID of the Lambda function.
+        /// Gets and sets the property Id. A descriptive or arbitrary ID for the function. This
+        /// value must be unique within the function definition version. Max length is 128 characters
+        /// with pattern ''[a-zA-Z0-9:_-]+''.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }

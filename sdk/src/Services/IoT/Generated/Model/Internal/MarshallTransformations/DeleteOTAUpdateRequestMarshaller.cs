@@ -55,13 +55,21 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteOTAUpdateRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/otaUpdates/{otaUpdateId}";
             if (!publicRequest.IsSetOtaUpdateId())
                 throw new AmazonIoTException("Request object does not have required field OtaUpdateId set");
-            uriResourcePath = uriResourcePath.Replace("{otaUpdateId}", StringUtils.FromString(publicRequest.OtaUpdateId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{otaUpdateId}", StringUtils.FromString(publicRequest.OtaUpdateId));
+            
+            if (publicRequest.IsSetDeleteStream())
+                request.Parameters.Add("deleteStream", StringUtils.FromBool(publicRequest.DeleteStream));
+            
+            if (publicRequest.IsSetForceDeleteAWSJob())
+                request.Parameters.Add("forceDeleteAWSJob", StringUtils.FromBool(publicRequest.ForceDeleteAWSJob));
+            request.ResourcePath = "/otaUpdates/{otaUpdateId}";
+            request.MarshallerVersion = 2;
+            request.UseQueryString = true;
 
             return request;
         }

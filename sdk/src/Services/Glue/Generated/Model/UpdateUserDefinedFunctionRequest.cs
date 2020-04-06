@@ -42,9 +42,10 @@ namespace Amazon.Glue.Model
         /// Gets and sets the property CatalogId. 
         /// <para>
         /// The ID of the Data Catalog where the function to be updated is located. If none is
-        /// supplied, the AWS account ID is used by default.
+        /// provided, the AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -63,6 +64,7 @@ namespace Amazon.Glue.Model
         /// The name of the catalog database where the function to be updated is located.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string DatabaseName
         {
             get { return this._databaseName; }
@@ -78,9 +80,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property FunctionInput. 
         /// <para>
-        /// A <code>FunctionInput</code> object that re-defines the function in the Data Catalog.
+        /// A <code>FunctionInput</code> object that redefines the function in the Data Catalog.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public UserDefinedFunctionInput FunctionInput
         {
             get { return this._functionInput; }
@@ -99,6 +102,7 @@ namespace Amazon.Glue.Model
         /// The name of the function.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string FunctionName
         {
             get { return this._functionName; }

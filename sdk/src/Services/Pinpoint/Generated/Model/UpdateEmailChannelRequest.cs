@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateEmailChannel operation.
-    /// Update an email channel
+    /// Enables the email channel for an application or updates the status and settings of
+    /// the email channel for an application.
     /// </summary>
     public partial class UpdateEmailChannelRequest : AmazonPinpointRequest
     {
@@ -37,8 +38,13 @@ namespace Amazon.Pinpoint.Model
         private EmailChannelRequest _emailChannelRequest;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,6 +60,7 @@ namespace Amazon.Pinpoint.Model
         /// <summary>
         /// Gets and sets the property EmailChannelRequest.
         /// </summary>
+        [AWSProperty(Required=true)]
         public EmailChannelRequest EmailChannelRequest
         {
             get { return this._emailChannelRequest; }

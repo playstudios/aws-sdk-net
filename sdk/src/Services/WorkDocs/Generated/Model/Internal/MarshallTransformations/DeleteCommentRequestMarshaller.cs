@@ -55,19 +55,20 @@ namespace Amazon.WorkDocs.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteCommentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.WorkDocs");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-05-01";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}";
             if (!publicRequest.IsSetCommentId())
                 throw new AmazonWorkDocsException("Request object does not have required field CommentId set");
-            uriResourcePath = uriResourcePath.Replace("{CommentId}", StringUtils.FromString(publicRequest.CommentId));
+            request.AddPathResource("{CommentId}", StringUtils.FromString(publicRequest.CommentId));
             if (!publicRequest.IsSetDocumentId())
                 throw new AmazonWorkDocsException("Request object does not have required field DocumentId set");
-            uriResourcePath = uriResourcePath.Replace("{DocumentId}", StringUtils.FromString(publicRequest.DocumentId));
+            request.AddPathResource("{DocumentId}", StringUtils.FromString(publicRequest.DocumentId));
             if (!publicRequest.IsSetVersionId())
                 throw new AmazonWorkDocsException("Request object does not have required field VersionId set");
-            uriResourcePath = uriResourcePath.Replace("{VersionId}", StringUtils.FromString(publicRequest.VersionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{VersionId}", StringUtils.FromString(publicRequest.VersionId));
+            request.ResourcePath = "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}";
+            request.MarshallerVersion = 2;
         
             if(publicRequest.IsSetAuthenticationToken())
                 request.Headers["Authentication"] = publicRequest.AuthenticationToken;

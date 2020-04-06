@@ -33,14 +33,20 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
+    /// The Spot Fleet request specifies the total target capacity and the On-Demand target
+    /// capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand
+    /// capacity, and launches the difference as Spot capacity.
+    /// </para>
+    ///  
+    /// <para>
     /// You can submit a single request that includes multiple launch specifications that
     /// vary by instance type, AMI, Availability Zone, or subnet.
     /// </para>
     ///  
     /// <para>
-    /// By default, the Spot Fleet requests Spot Instances in the Spot pool where the price
-    /// per unit is the lowest. Each launch specification can include its own instance weighting
-    /// that reflects the value of the instance type to your application workload.
+    /// By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where
+    /// the price per unit is the lowest. Each launch specification can include its own instance
+    /// weighting that reflects the value of the instance type to your application workload.
     /// </para>
     ///  
     /// <para>
@@ -51,13 +57,14 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// You can specify tags for the Spot Instances. You cannot tag other resource types in
-    /// a Spot Fleet request; only the <code>instance</code> resource type is supported.
+    /// You can specify tags for the Spot Fleet request and instances launched by the fleet.
+    /// You cannot tag other resource types in a Spot Fleet request because only the <code>spot-fleet-request</code>
+    /// and <code>instance</code> resource types are supported.
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html">Spot
-    /// Fleet Requests</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html">Spot
+    /// Fleet Requests</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
     /// </para>
     /// </summary>
     public partial class RequestSpotFleetRequest : AmazonEC2Request
@@ -70,6 +77,7 @@ namespace Amazon.EC2.Model
         /// The configuration for the Spot Fleet request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SpotFleetRequestConfigData SpotFleetRequestConfig
         {
             get { return this._spotFleetRequestConfig; }

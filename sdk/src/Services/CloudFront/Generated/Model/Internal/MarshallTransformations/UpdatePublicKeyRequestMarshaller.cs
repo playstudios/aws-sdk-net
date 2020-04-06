@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -56,39 +56,43 @@ namespace Amazon.CloudFront.Model.Internal.MarshallTransformations
         {
             var request = new DefaultRequest(publicRequest, "Amazon.CloudFront");
             request.HttpMethod = "PUT";
-            string uriResourcePath = "/2017-10-30/public-key/{Id}/config";
         
             if(publicRequest.IsSetIfMatch())
                 request.Headers["If-Match"] = publicRequest.IfMatch;
             if (!publicRequest.IsSetId())
                 throw new AmazonCloudFrontException("Request object does not have required field Id set");
-            uriResourcePath = uriResourcePath.Replace("{Id}", StringUtils.FromString(publicRequest.Id));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Id}", StringUtils.FromString(publicRequest.Id));
+            request.ResourcePath = "/2019-03-26/public-key/{Id}/config";
+            request.MarshallerVersion = 2;
 
             var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Encoding = System.Text.Encoding.UTF8, OmitXmlDeclaration = true }))
             {   
-                xmlWriter.WriteStartElement("PublicKeyConfig", "http://cloudfront.amazonaws.com/doc/2017-10-30/");                                
-                if(publicRequest.PublicKeyConfig.IsSetCallerReference())
-                    xmlWriter.WriteElementString("CallerReference", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequest.PublicKeyConfig.CallerReference));                    
-
-                if(publicRequest.PublicKeyConfig.IsSetComment())
-                    xmlWriter.WriteElementString("Comment", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequest.PublicKeyConfig.Comment));                    
-
-                if(publicRequest.PublicKeyConfig.IsSetEncodedKey())
-                    xmlWriter.WriteElementString("EncodedKey", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequest.PublicKeyConfig.EncodedKey));                    
-
-                if(publicRequest.PublicKeyConfig.IsSetName())
-                    xmlWriter.WriteElementString("Name", "http://cloudfront.amazonaws.com/doc/2017-10-30/", StringUtils.FromString(publicRequest.PublicKeyConfig.Name));                    
-
-
-                xmlWriter.WriteEndElement();
+                if (publicRequest.IsSetPublicKeyConfig())
+                {
+                    xmlWriter.WriteStartElement("PublicKeyConfig", "http://cloudfront.amazonaws.com/doc/2019-03-26/");
+                    if(publicRequest.PublicKeyConfig.IsSetCallerReference())
+                        xmlWriter.WriteElementString("CallerReference", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequest.PublicKeyConfig.CallerReference));                    
+    
+                    if(publicRequest.PublicKeyConfig.IsSetComment())
+                        xmlWriter.WriteElementString("Comment", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequest.PublicKeyConfig.Comment));                    
+    
+                    if(publicRequest.PublicKeyConfig.IsSetEncodedKey())
+                        xmlWriter.WriteElementString("EncodedKey", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequest.PublicKeyConfig.EncodedKey));                    
+    
+                    if(publicRequest.PublicKeyConfig.IsSetName())
+                        xmlWriter.WriteElementString("Name", "http://cloudfront.amazonaws.com/doc/2019-03-26/", StringUtils.FromString(publicRequest.PublicKeyConfig.Name));                    
+    
+    
+                    xmlWriter.WriteEndElement();
+                }
             }
             try 
             {
                 string content = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(content);
                 request.Headers["Content-Type"] = "application/xml";
+                request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2019-03-26";            
             } 
             catch (EncoderFallbackException e) 
             {

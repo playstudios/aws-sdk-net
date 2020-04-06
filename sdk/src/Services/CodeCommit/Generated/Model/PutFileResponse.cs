@@ -42,6 +42,7 @@ namespace Amazon.CodeCommit.Model
         /// The ID of the blob, which is its SHA-1 pointer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BlobId
         {
             get { return this._blobId; }
@@ -57,9 +58,10 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property CommitId. 
         /// <para>
-        /// The full SHA of the commit that contains this file change.
+        /// The full SHA ID of the commit that contains this file change.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CommitId
         {
             get { return this._commitId; }
@@ -75,9 +77,11 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property TreeId. 
         /// <para>
-        /// Tree information for the commit that contains this file change.
+        /// The full SHA-1 pointer of the tree information for the commit that contains this file
+        /// change.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TreeId
         {
             get { return this._treeId; }

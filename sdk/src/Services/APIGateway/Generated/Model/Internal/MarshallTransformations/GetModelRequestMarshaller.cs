@@ -55,19 +55,20 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetModelRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/restapis/{restapi_id}/models/{model_name}";
             if (!publicRequest.IsSetModelName())
                 throw new AmazonAPIGatewayException("Request object does not have required field ModelName set");
-            uriResourcePath = uriResourcePath.Replace("{model_name}", StringUtils.FromString(publicRequest.ModelName));
+            request.AddPathResource("{model_name}", StringUtils.FromString(publicRequest.ModelName));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
             
             if (publicRequest.IsSetFlatten())
                 request.Parameters.Add("flatten", StringUtils.FromBool(publicRequest.Flatten));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/restapis/{restapi_id}/models/{model_name}";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

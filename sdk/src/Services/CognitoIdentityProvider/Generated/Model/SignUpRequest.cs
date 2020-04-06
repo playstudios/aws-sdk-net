@@ -37,6 +37,7 @@ namespace Amazon.CognitoIdentityProvider.Model
     {
         private AnalyticsMetadataType _analyticsMetadata;
         private string _clientId;
+        private Dictionary<string, string> _clientMetadata = new Dictionary<string, string>();
         private string _password;
         private string _secretHash;
         private List<AttributeType> _userAttributes = new List<AttributeType>();
@@ -69,6 +70,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The ID of the client associated with the user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ClientId
         {
             get { return this._clientId; }
@@ -82,11 +84,69 @@ namespace Amazon.CognitoIdentityProvider.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ClientMetadata. 
+        /// <para>
+        /// A map of custom key-value pairs that you can provide as input for any custom workflows
+        /// that this action triggers. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You create custom workflows by assigning AWS Lambda functions to user pool triggers.
+        /// When you use the SignUp API action, Amazon Cognito invokes any functions that are
+        /// assigned to the following triggers: <i>pre sign-up</i>, <i>custom message</i>, and
+        /// <i>post confirmation</i>. When Amazon Cognito invokes any of these functions, it passes
+        /// a JSON payload, which the function receives as input. This payload contains a <code>clientMetadata</code>
+        /// attribute, which provides the data that you assigned to the ClientMetadata parameter
+        /// in your SignUp request. In your function code in AWS Lambda, you can process the <code>clientMetadata</code>
+        /// value to enhance your workflow for your specific needs.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html">Customizing
+        /// User Pool Workflows with Lambda Triggers</a> in the <i>Amazon Cognito Developer Guide</i>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Take the following limitations into consideration when you use the ClientMetadata
+        /// parameter:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Amazon Cognito does not store the ClientMetadata value. This data is available only
+        /// to AWS Lambda triggers that are assigned to a user pool to support custom workflows.
+        /// If your user pool configuration does not include triggers, the ClientMetadata parameter
+        /// serves no purpose.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Amazon Cognito does not validate the ClientMetadata value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide
+        /// sensitive information.
+        /// </para>
+        ///  </li> </ul> </note>
+        /// </summary>
+        public Dictionary<string, string> ClientMetadata
+        {
+            get { return this._clientMetadata; }
+            set { this._clientMetadata = value; }
+        }
+
+        // Check to see if ClientMetadata property is set
+        internal bool IsSetClientMetadata()
+        {
+            return this._clientMetadata != null && this._clientMetadata.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Password. 
         /// <para>
         /// The password of the user you wish to register.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=6, Max=256)]
         public string Password
         {
             get { return this._password; }
@@ -106,6 +166,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// a user pool client and username plus the client ID in the message.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string SecretHash
         {
             get { return this._secretHash; }
@@ -166,6 +227,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user name of the user you wish to register.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Username
         {
             get { return this._username; }

@@ -58,15 +58,27 @@ namespace Amazon.KinesisFirehose.Model.Internal.MarshallTransformations
             string target = "Firehose_20150804.CreateDeliveryStream";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-08-04";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetDeliveryStreamEncryptionConfigurationInput())
+                {
+                    context.Writer.WritePropertyName("DeliveryStreamEncryptionConfigurationInput");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = DeliveryStreamEncryptionConfigurationInputMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.DeliveryStreamEncryptionConfigurationInput, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetDeliveryStreamName())
                 {
                     context.Writer.WritePropertyName("DeliveryStreamName");
@@ -143,6 +155,22 @@ namespace Amazon.KinesisFirehose.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.SplunkDestinationConfiguration, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestTagsListValue in publicRequest.Tags)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = TagMarshaller.Instance;
+                        marshaller.Marshall(publicRequestTagsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

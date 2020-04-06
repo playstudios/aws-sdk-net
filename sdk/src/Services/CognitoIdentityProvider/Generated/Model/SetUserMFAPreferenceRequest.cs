@@ -29,7 +29,11 @@ namespace Amazon.CognitoIdentityProvider.Model
 {
     /// <summary>
     /// Container for the parameters to the SetUserMFAPreference operation.
-    /// Set the user's multi-factor authentication (MFA) method preference.
+    /// Set the user's multi-factor authentication (MFA) method preference, including which
+    /// MFA factors are enabled and if any are preferred. Only one factor can be set as preferred.
+    /// The preferred MFA factor will be used to authenticate a user if multiple factors are
+    /// enabled. If multiple options are enabled and no preference is set, a challenge to
+    /// choose an MFA option will be returned during sign in.
     /// </summary>
     public partial class SetUserMFAPreferenceRequest : AmazonCognitoIdentityProviderRequest
     {
@@ -40,9 +44,10 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property AccessToken. 
         /// <para>
-        /// The access token.
+        /// The access token for the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AccessToken
         {
             get { return this._accessToken; }

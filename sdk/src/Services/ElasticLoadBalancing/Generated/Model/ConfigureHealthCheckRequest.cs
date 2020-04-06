@@ -35,7 +35,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     ///  
     /// <para>
     /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-healthchecks.html">Configure
-    /// Health Checks for Your Load Balancer</a> in the <i>Classic Load Balancer Guide</i>.
+    /// Health Checks for Your Load Balancer</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class ConfigureHealthCheckRequest : AmazonElasticLoadBalancingRequest
@@ -65,6 +65,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The configuration information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public HealthCheck HealthCheck
         {
             get { return this._healthCheck; }
@@ -83,6 +84,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }

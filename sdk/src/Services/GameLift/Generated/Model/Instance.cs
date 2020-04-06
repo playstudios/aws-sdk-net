@@ -34,6 +34,7 @@ namespace Amazon.GameLift.Model
     public partial class Instance
     {
         private DateTime? _creationTime;
+        private string _dnsName;
         private string _fleetId;
         private string _instanceId;
         private string _ipAddress;
@@ -61,9 +62,43 @@ namespace Amazon.GameLift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DnsName. 
+        /// <para>
+        /// DNS identifier assigned to the instance that is running the game session. Values have
+        /// the following format:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// TLS-enabled fleets: <code>&lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Non-TLS-enabled fleets: <code>ec2-&lt;unique identifier&gt;.compute.amazonaws.com</code>.
+        /// (See <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-public-addresses">Amazon
+        /// EC2 Instance IP Addressing</a>.)
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// When connecting to a game session that is running on a TLS-enabled fleet, you must
+        /// use the DNS name, not the IP address.
+        /// </para>
+        /// </summary>
+        public string DnsName
+        {
+            get { return this._dnsName; }
+            set { this._dnsName = value; }
+        }
+
+        // Check to see if DnsName property is set
+        internal bool IsSetDnsName()
+        {
+            return this._dnsName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet that the instance is in.
+        /// A unique identifier for a fleet that the instance is in.
         /// </para>
         /// </summary>
         public string FleetId
@@ -81,7 +116,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
-        /// Unique identifier for an instance.
+        /// A unique identifier for an instance.
         /// </para>
         /// </summary>
         public string InstanceId
@@ -99,7 +134,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property IpAddress. 
         /// <para>
-        /// IP address assigned to the instance.
+        /// IP address that is assigned to the instance.
         /// </para>
         /// </summary>
         public string IpAddress

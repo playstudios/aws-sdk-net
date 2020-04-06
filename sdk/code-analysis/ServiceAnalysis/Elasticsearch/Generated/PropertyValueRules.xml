@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-16"?>
 <property-value-rules>
   <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.AssociatePackageRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.CancelElasticsearchServiceSoftwareUpdateRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.Elasticsearch.Model.CreateElasticsearchDomainRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.CreatePackageRequest.PackageDescription</property>
+    <max>1024</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.CreatePackageRequest.PackageName</property>
     <min>3</min>
     <max>28</max>
     <pattern>[a-z][a-z0-9\-]+</pattern>
@@ -31,6 +53,56 @@
     <pattern>[a-z][a-z0-9\-]+</pattern>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DescribePackagesRequest.MaxResults</property>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DescribeReservedElasticsearchInstanceOfferingsRequest.MaxResults</property>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DescribeReservedElasticsearchInstanceOfferingsRequest.ReservedElasticsearchInstanceOfferingId</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DescribeReservedElasticsearchInstancesRequest.MaxResults</property>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DescribeReservedElasticsearchInstancesRequest.ReservedElasticsearchInstanceId</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DissociatePackageRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.GetCompatibleElasticsearchVersionsRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.GetUpgradeHistoryRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.GetUpgradeHistoryRequest.MaxResults</property>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.GetUpgradeStatusRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.ListDomainsForPackageRequest.MaxResults</property>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.Elasticsearch.Model.ListElasticsearchInstanceTypesRequest.DomainName</property>
     <min>3</min>
     <max>28</max>
@@ -45,7 +117,55 @@
     <max>100</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.ListPackagesForDomainRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.ListPackagesForDomainRequest.MaxResults</property>
+    <max>100</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PurchaseReservedElasticsearchInstanceOfferingRequest.InstanceCount</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PurchaseReservedElasticsearchInstanceOfferingRequest.ReservationName</property>
+    <min>5</min>
+    <max>64</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PurchaseReservedElasticsearchInstanceOfferingRequest.ReservedElasticsearchInstanceOfferingId</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PurchaseReservedElasticsearchInstanceOfferingResponse.ReservationName</property>
+    <min>5</min>
+    <max>64</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PurchaseReservedElasticsearchInstanceOfferingResponse.ReservedElasticsearchInstanceId</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.StartElasticsearchServiceSoftwareUpdateRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.Elasticsearch.Model.UpdateElasticsearchDomainConfigRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.UpgradeElasticsearchDomainRequest.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.UpgradeElasticsearchDomainResponse.DomainName</property>
     <min>3</min>
     <max>28</max>
     <pattern>[a-z][a-z0-9\-]+</pattern>
@@ -74,6 +194,18 @@
     <pattern>[a-z][a-z0-9\-]+</pattern>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DomainPackageDetails.DomainName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.DomainPackageDetails.PackageName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.Elasticsearch.Model.ElasticsearchDomainStatus.DomainId</property>
     <min>1</min>
     <max>64</max>
@@ -90,8 +222,42 @@
     <max>500</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.MasterUserOptions.MasterUserName</property>
+    <min>1</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.MasterUserOptions.MasterUserPassword</property>
+    <min>8</min>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.Elasticsearch.Model.OptionStatus.UpdateVersion</property>
     <min>0</min>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PackageDetails.PackageDescription</property>
+    <max>1024</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PackageDetails.PackageName</property>
+    <min>3</min>
+    <max>28</max>
+    <pattern>[a-z][a-z0-9\-]+</pattern>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.PackageSource.S3BucketName</property>
+    <min>3</min>
+    <max>63</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.ReservedElasticsearchInstance.ReservationName</property>
+    <min>5</min>
+    <max>64</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.ReservedElasticsearchInstance.ReservedElasticsearchInstanceId</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.Elasticsearch.Model.ReservedElasticsearchInstanceOffering.ReservedElasticsearchInstanceOfferingId</property>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.Elasticsearch.Model.Tag.Key</property>

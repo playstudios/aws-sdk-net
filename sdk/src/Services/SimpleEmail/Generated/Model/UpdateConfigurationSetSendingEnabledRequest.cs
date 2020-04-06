@@ -30,9 +30,10 @@ namespace Amazon.SimpleEmail.Model
     /// <summary>
     /// Container for the parameters to the UpdateConfigurationSetSendingEnabled operation.
     /// Enables or disables email sending for messages sent using a specific configuration
-    /// set. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily
-    /// pause email sending for a configuration set when the reputation metrics for that configuration
-    /// set (such as your bounce on complaint rate) reach certain thresholds.
+    /// set in a given AWS Region. You can use this operation in conjunction with Amazon CloudWatch
+    /// alarms to temporarily pause email sending for a configuration set when the reputation
+    /// metrics for that configuration set (such as your bounce on complaint rate) exceed
+    /// certain thresholds.
     /// 
     ///  
     /// <para>
@@ -50,6 +51,7 @@ namespace Amazon.SimpleEmail.Model
         /// The name of the configuration set that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConfigurationSetName
         {
             get { return this._configurationSetName; }
@@ -69,6 +71,7 @@ namespace Amazon.SimpleEmail.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enabled
         {
             get { return this._enabled.GetValueOrDefault(); }

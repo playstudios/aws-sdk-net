@@ -29,13 +29,15 @@ namespace Amazon.CodePipeline.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteCustomActionType operation.
-    /// Marks a custom action as deleted. PollForJobs for the custom action will fail after
-    /// the action is marked for deletion. Only used for custom actions.
+    /// Marks a custom action as deleted. <code>PollForJobs</code> for the custom action fails
+    /// after the action is marked for deletion. Used for custom actions only.
     /// 
     ///  <important> 
     /// <para>
-    /// You cannot recreate a custom action after it has been deleted unless you increase
-    /// the version number of the action.
+    /// To re-create a custom action after it has been deleted you must use a string in the
+    /// version field that has never been used before. This string can be an incremented version
+    /// number, for example. To restore a deleted custom action, use a JSON file that is identical
+    /// to the deleted action, including the original string in the version field.
     /// </para>
     ///  </important>
     /// </summary>
@@ -51,6 +53,7 @@ namespace Amazon.CodePipeline.Model
         /// The category of the custom action that you want to delete, such as source or deploy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ActionCategory Category
         {
             get { return this._category; }
@@ -69,6 +72,7 @@ namespace Amazon.CodePipeline.Model
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=25)]
         public string Provider
         {
             get { return this._provider; }
@@ -87,6 +91,7 @@ namespace Amazon.CodePipeline.Model
         /// The version of the custom action to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=9)]
         public string Version
         {
             get { return this._version; }

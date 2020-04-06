@@ -70,10 +70,22 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.ContainerArn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("cpu", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.Cpu = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("exitCode", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     unmarshalledObject.ExitCode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("gpuIds", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    unmarshalledObject.GpuIds = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("healthStatus", targetDepth))
@@ -82,10 +94,34 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.HealthStatus = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("image", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.Image = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("imageDigest", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.ImageDigest = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("lastStatus", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.LastStatus = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("memory", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.Memory = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("memoryReservation", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.MemoryReservation = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("name", targetDepth))
@@ -110,6 +146,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Reason = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("runtimeId", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.RuntimeId = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("taskArn", targetDepth))

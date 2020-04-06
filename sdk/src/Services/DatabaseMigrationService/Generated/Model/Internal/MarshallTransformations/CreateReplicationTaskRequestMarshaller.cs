@@ -58,19 +58,32 @@ namespace Amazon.DatabaseMigrationService.Model.Internal.MarshallTransformations
             string target = "AmazonDMSv20160101.CreateReplicationTask";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-01-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCdcStartPosition())
+                {
+                    context.Writer.WritePropertyName("CdcStartPosition");
+                    context.Writer.Write(publicRequest.CdcStartPosition);
+                }
+
                 if(publicRequest.IsSetCdcStartTime())
                 {
                     context.Writer.WritePropertyName("CdcStartTime");
                     context.Writer.Write(publicRequest.CdcStartTime);
+                }
+
+                if(publicRequest.IsSetCdcStopPosition())
+                {
+                    context.Writer.WritePropertyName("CdcStopPosition");
+                    context.Writer.Write(publicRequest.CdcStopPosition);
                 }
 
                 if(publicRequest.IsSetMigrationType())

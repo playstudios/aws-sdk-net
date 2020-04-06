@@ -39,7 +39,7 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  <note> 
     /// <para>
-    ///  This operation requires <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+    ///  This operation requires <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
     /// Version 4</a>.
     /// </para>
     ///  </note>
@@ -54,6 +54,7 @@ namespace Amazon.IdentityManagement.Model
         /// The Amazon Resource Name (ARN) of the SAML provider to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string SAMLProviderArn
         {
             get { return this._samlProviderArn; }

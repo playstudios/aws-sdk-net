@@ -55,14 +55,15 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateLoggerDefinitionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/greengrass/definition/loggers/{LoggerDefinitionId}";
             if (!publicRequest.IsSetLoggerDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field LoggerDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{LoggerDefinitionId}", StringUtils.FromString(publicRequest.LoggerDefinitionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{LoggerDefinitionId}", StringUtils.FromString(publicRequest.LoggerDefinitionId));
+            request.ResourcePath = "/greengrass/definition/loggers/{LoggerDefinitionId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

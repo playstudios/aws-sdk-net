@@ -28,10 +28,12 @@ using Amazon.Runtime.Internal;
 namespace Amazon.ECS.Model
 {
     /// <summary>
-    /// The details of an Amazon ECS service deployment.
+    /// The details of an Amazon ECS service deployment. This is used only when a service
+    /// uses the <code>ECS</code> deployment controller type.
     /// </summary>
     public partial class Deployment
     {
+        private List<CapacityProviderStrategyItem> _capacityProviderStrategy = new List<CapacityProviderStrategyItem>();
         private DateTime? _createdAt;
         private int? _desiredCount;
         private string _id;
@@ -45,9 +47,27 @@ namespace Amazon.ECS.Model
         private DateTime? _updatedAt;
 
         /// <summary>
+        /// Gets and sets the property CapacityProviderStrategy. 
+        /// <para>
+        /// The capacity provider strategy that the deployment is using.
+        /// </para>
+        /// </summary>
+        public List<CapacityProviderStrategyItem> CapacityProviderStrategy
+        {
+            get { return this._capacityProviderStrategy; }
+            set { this._capacityProviderStrategy = value; }
+        }
+
+        // Check to see if CapacityProviderStrategy property is set
+        internal bool IsSetCapacityProviderStrategy()
+        {
+            return this._capacityProviderStrategy != null && this._capacityProviderStrategy.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property CreatedAt. 
         /// <para>
-        /// The Unix time stamp for when the service was created.
+        /// The Unix timestamp for when the service deployment was created.
         /// </para>
         /// </summary>
         public DateTime CreatedAt
@@ -102,7 +122,8 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property LaunchType. 
         /// <para>
-        /// The launch type on which your service is running.
+        /// The launch type the tasks in the service are using. For more information, see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
+        /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>
         public LaunchType LaunchType
@@ -120,8 +141,8 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property NetworkConfiguration. 
         /// <para>
-        /// The VPC subnet and security group configuration for tasks that receive their own Elastic
-        /// Network Interface by using the <code>awsvpc</code> networking mode.
+        /// The VPC subnet and security group configuration for tasks that receive their own elastic
+        /// network interface by using the <code>awsvpc</code> networking mode.
         /// </para>
         /// </summary>
         public NetworkConfiguration NetworkConfiguration
@@ -157,7 +178,12 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property PlatformVersion. 
         /// <para>
-        /// The platform version on which your service is running.
+        /// The platform version on which your tasks in the service are running. A platform version
+        /// is only specified for tasks using the Fargate launch type. If one is not specified,
+        /// the <code>LATEST</code> platform version is used by default. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">AWS
+        /// Fargate Platform Versions</a> in the <i>Amazon Elastic Container Service Developer
+        /// Guide</i>.
         /// </para>
         /// </summary>
         public string PlatformVersion
@@ -193,11 +219,22 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The status of the deployment. Valid values are <code>PRIMARY</code> (for the most
-        /// recent deployment), <code>ACTIVE</code> (for previous deployments that still have
-        /// tasks running, but are being replaced with the <code>PRIMARY</code> deployment), and
-        /// <code>INACTIVE</code> (for deployments that have been completely replaced).
+        /// The status of the deployment. The following describes each state:
         /// </para>
+        ///  <dl> <dt>PRIMARY</dt> <dd> 
+        /// <para>
+        /// The most recent deployment of a service.
+        /// </para>
+        ///  </dd> <dt>ACTIVE</dt> <dd> 
+        /// <para>
+        /// A service deployment that still has running tasks, but are in the process of being
+        /// replaced with a new <code>PRIMARY</code> deployment.
+        /// </para>
+        ///  </dd> <dt>INACTIVE</dt> <dd> 
+        /// <para>
+        /// A deployment that has been completely replaced.
+        /// </para>
+        ///  </dd> </dl>
         /// </summary>
         public string Status
         {
@@ -214,7 +251,8 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property TaskDefinition. 
         /// <para>
-        /// The most recent task definition that was specified for the service to use.
+        /// The most recent task definition that was specified for the tasks in the service to
+        /// use.
         /// </para>
         /// </summary>
         public string TaskDefinition
@@ -232,7 +270,7 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property UpdatedAt. 
         /// <para>
-        /// The Unix time stamp for when the service was last updated.
+        /// The Unix timestamp for when the service deployment was last updated.
         /// </para>
         /// </summary>
         public DateTime UpdatedAt

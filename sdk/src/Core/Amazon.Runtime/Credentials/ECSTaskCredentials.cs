@@ -15,6 +15,7 @@
 using Amazon.Util;
 using System;
 using System.Globalization;
+using System.Net;
 
 namespace Amazon.Runtime
 {
@@ -30,17 +31,22 @@ namespace Amazon.Runtime
         /// in the context of ECS container and, especially, AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
         /// environment variable should not be overriden by the client code.
         /// </summary>
-        public const string ContainerCredentialsURIEnvVariable = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI";
+        public const string ContainerCredentialsURIEnvVariable = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI";        
         public const string EndpointAddress = "http://169.254.170.2";
 
         private string Uri = null;
         private string Server = null;
         private static int MaxRetries = 5;
 
-        public ECSTaskCredentials()
+        private IWebProxy Proxy;
+
+        public ECSTaskCredentials() : this(null) { }
+
+        public ECSTaskCredentials(IWebProxy proxy)
         {
             Uri = System.Environment.GetEnvironmentVariable(ECSTaskCredentials.ContainerCredentialsURIEnvVariable);
             Server = EndpointAddress;
+            Proxy = proxy;
         }
 
         protected override CredentialsRefreshState GenerateNewCredentials()
@@ -53,7 +59,7 @@ namespace Amazon.Runtime
             {
                 try
                 {
-                    credentials = GetObjectFromResponse<SecurityCredentials>(ecsEndpointUri);
+                    credentials = GetObjectFromResponse<SecurityCredentials>(ecsEndpointUri, Proxy);
                     if (credentials != null)
                     {
                         break;
@@ -71,11 +77,7 @@ namespace Amazon.Runtime
                 Util.AWSSDKUtils.Sleep(retry.Next());
             }
 
-            return new CredentialsRefreshState
-            {
-                Credentials = new ImmutableCredentials(credentials.AccessKeyId, credentials.SecretAccessKey, credentials.Token),
-                Expiration = credentials.Expiration
-            };
+            return new CredentialsRefreshState(new ImmutableCredentials(credentials.AccessKeyId, credentials.SecretAccessKey, credentials.Token), credentials.Expiration);
         }
     }
 #endif

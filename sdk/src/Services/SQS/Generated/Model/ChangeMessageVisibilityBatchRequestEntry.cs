@@ -39,17 +39,17 @@ namespace Amazon.SQS.Model
     /// </para>
     ///  </important> 
     /// <para>
-    ///  <code>&amp;amp;ChangeMessageVisibilityBatchRequestEntry.1.Id=change_visibility_msg_2</code>
+    ///  <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.Id=change_visibility_msg_2</code>
     /// 
     /// </para>
     ///  
     /// <para>
-    ///  <code>&amp;amp;ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle=&lt;replaceable&gt;Your_Receipt_Handle&lt;/replaceable&gt;</code>
+    ///  <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.ReceiptHandle=your_receipt_handle</code>
     /// 
     /// </para>
     ///  
     /// <para>
-    ///  <code>&amp;amp;ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout=45</code>
+    ///  <code>&amp;ChangeMessageVisibilityBatchRequestEntry.1.VisibilityTimeout=45</code>
     /// 
     /// </para>
     /// </summary>
@@ -86,6 +86,7 @@ namespace Amazon.SQS.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }
@@ -104,6 +105,7 @@ namespace Amazon.SQS.Model
         /// A receipt handle.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReceiptHandle
         {
             get { return this._receiptHandle; }

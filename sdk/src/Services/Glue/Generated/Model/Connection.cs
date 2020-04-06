@@ -45,9 +45,99 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property ConnectionProperties. 
         /// <para>
-        /// A list of key-value pairs used as parameters for this connection.
+        /// These key-value pairs define parameters for the connection:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>HOST</code> - The host URI: either the fully qualified domain name (FQDN) or
+        /// the IPv4 address of the database host.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PORT</code> - The port number, between 1024 and 65535, of the port on which
+        /// the database host is listening for database connections.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>USER_NAME</code> - The name under which to log in to the database. The value
+        /// string for <code>USER_NAME</code> is "<code>USERNAME</code>".
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PASSWORD</code> - A password, if one is used, for the user name.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ENCRYPTED_PASSWORD</code> - When you enable connection password protection
+        /// by setting <code>ConnectionPasswordEncryption</code> in the Data Catalog encryption
+        /// settings, this field stores the encrypted password.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>JDBC_DRIVER_JAR_URI</code> - The Amazon Simple Storage Service (Amazon S3)
+        /// path of the JAR file that contains the JDBC driver to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>JDBC_DRIVER_CLASS_NAME</code> - The class name of the JDBC driver to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>JDBC_ENGINE</code> - The name of the JDBC engine to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>JDBC_ENGINE_VERSION</code> - The version of the JDBC engine to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>CONFIG_FILES</code> - (Reserved for future use.)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>INSTANCE_ID</code> - The instance ID to use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>JDBC_CONNECTION_URL</code> - The URL for connecting to a JDBC data source.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>JDBC_ENFORCE_SSL</code> - A Boolean string (true, false) specifying whether
+        /// Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection
+        /// on the client. The default is false.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>CUSTOM_JDBC_CERT</code> - An Amazon S3 location specifying the customer's root
+        /// certificate. AWS Glue uses this root certificate to validate the customer’s certificate
+        /// when connecting to the customer database. AWS Glue only handles X.509 certificates.
+        /// The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SKIP_CUSTOM_JDBC_CERT_VALIDATION</code> - By default, this is <code>false</code>.
+        /// AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the
+        /// customer certificate. The only permitted algorithms for the Signature algorithm are
+        /// SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm,
+        /// the key length must be at least 2048. You can set the value of this property to <code>true</code>
+        /// to skip AWS Glue’s validation of the customer certificate.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>CUSTOM_JDBC_CERT_STRING</code> - A custom JDBC certificate string which is
+        /// used for domain match or distinguished name match to prevent a man-in-the-middle attack.
+        /// In Oracle database, this is used as the <code>SSL_SERVER_CERT_DN</code>; in Microsoft
+        /// SQL Server, this is used as the <code>hostNameInCertificate</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>CONNECTION_URL</code> - The URL for connecting to a general (non-JDBC) data
+        /// source.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public Dictionary<string, string> ConnectionProperties
         {
             get { return this._connectionProperties; }
@@ -81,7 +171,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
-        /// The time this connection definition was created.
+        /// The time that this connection definition was created.
         /// </para>
         /// </summary>
         public DateTime CreationTime
@@ -99,9 +189,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// Description of the connection.
+        /// The description of the connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -117,9 +208,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property LastUpdatedBy. 
         /// <para>
-        /// The user, group or role that last updated this connection definition.
+        /// The user, group, or role that last updated this connection definition.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string LastUpdatedBy
         {
             get { return this._lastUpdatedBy; }
@@ -135,7 +227,7 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property LastUpdatedTime. 
         /// <para>
-        /// The last time this connection definition was updated.
+        /// The last time that this connection definition was updated.
         /// </para>
         /// </summary>
         public DateTime LastUpdatedTime
@@ -156,6 +248,7 @@ namespace Amazon.Glue.Model
         /// A list of criteria that can be used in selecting this connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10)]
         public List<string> MatchCriteria
         {
             get { return this._matchCriteria; }
@@ -174,6 +267,7 @@ namespace Amazon.Glue.Model
         /// The name of the connection definition.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -189,8 +283,8 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property PhysicalConnectionRequirements. 
         /// <para>
-        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for
-        /// making this connection successfully.
+        /// A map of physical connection requirements, such as virtual private cloud (VPC) and
+        /// <code>SecurityGroup</code>, that are needed to make this connection successfully.
         /// </para>
         /// </summary>
         public PhysicalConnectionRequirements PhysicalConnectionRequirements

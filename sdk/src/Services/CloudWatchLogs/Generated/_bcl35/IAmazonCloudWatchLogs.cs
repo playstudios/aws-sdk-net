@@ -85,7 +85,13 @@ namespace Amazon.CloudWatchLogs
         /// as the data encrypted with the CMK is still within Amazon CloudWatch Logs. This enables
         /// Amazon CloudWatch Logs to decrypt this data whenever it is requested.
         /// </para>
-        ///  
+        ///  <note> 
+        /// <para>
+        ///  <b>Important:</b> CloudWatch Logs supports only symmetric CMKs. Do not use an associate
+        /// an asymmetric CMK with your log group. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a>.
+        /// </para>
+        ///  </note> 
         /// <para>
         /// Note that it can take up to 5 minutes for this operation to take effect.
         /// </para>
@@ -220,6 +226,11 @@ namespace Amazon.CloudWatchLogs
         /// bucket. To separate out log data for each export task, you can specify a prefix to
         /// be used as the Amazon S3 key prefix for all exported objects.
         /// </para>
+        ///  
+        /// <para>
+        /// Exporting to S3 buckets that are encrypted with AES-256 is supported. Exporting to
+        /// S3 buckets encrypted with SSE-KMS is not supported. 
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateExportTask service method.</param>
         /// 
@@ -281,7 +292,7 @@ namespace Amazon.CloudWatchLogs
         /// 
         ///  
         /// <para>
-        /// You can create up to 5000 log groups per account.
+        /// You can create up to 20,000 log groups per account.
         /// </para>
         ///  
         /// <para>
@@ -298,7 +309,7 @@ namespace Amazon.CloudWatchLogs
         ///  </li> <li> 
         /// <para>
         /// Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore),
-        /// '-' (hyphen), '/' (forward slash), and '.' (period).
+        /// '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign)
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -313,6 +324,13 @@ namespace Amazon.CloudWatchLogs
         /// the CMK is disabled, you will receive an <code>InvalidParameterException</code> error.
         /// 
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <b>Important:</b> CloudWatch Logs supports only symmetric CMKs. Do not associate
+        /// an asymmetric CMK with your log group. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+        /// Symmetric and Asymmetric Keys</a>.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLogGroup service method.</param>
         /// 
@@ -372,6 +390,8 @@ namespace Amazon.CloudWatchLogs
         ///  
         /// <para>
         /// There is no limit on the number of log streams that you can create for a log group.
+        /// There is a limit of 50 TPS on <code>CreateLogStream</code> operations, after which
+        /// transactions are throttled.
         /// </para>
         ///  
         /// <para>
@@ -1070,6 +1090,57 @@ namespace Amazon.CloudWatchLogs
 
         #endregion
         
+        #region  DescribeQueries
+
+
+        /// <summary>
+        /// Returns a list of CloudWatch Logs Insights queries that are scheduled, executing,
+        /// or have been executed recently in this account. You can request all queries, or limit
+        /// it to queries of a specific log group or queries with a certain status.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeQueries service method.</param>
+        /// 
+        /// <returns>The response from the DescribeQueries service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueries">REST API Reference for DescribeQueries Operation</seealso>
+        DescribeQueriesResponse DescribeQueries(DescribeQueriesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeQueries operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeQueries operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeQueries
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueries">REST API Reference for DescribeQueries Operation</seealso>
+        IAsyncResult BeginDescribeQueries(DescribeQueriesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeQueries operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeQueries.</param>
+        /// 
+        /// <returns>Returns a  DescribeQueriesResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeQueries">REST API Reference for DescribeQueries Operation</seealso>
+        DescribeQueriesResponse EndDescribeQueries(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeResourcePolicies
 
 
@@ -1346,6 +1417,198 @@ namespace Amazon.CloudWatchLogs
 
         #endregion
         
+        #region  GetLogGroupFields
+
+
+        /// <summary>
+        /// Returns a list of the fields that are included in log events in the specified log
+        /// group, along with the percentage of log events that contain each field. The search
+        /// is limited to a time period that you specify.
+        /// 
+        ///  
+        /// <para>
+        /// In the results, fields that start with @ are fields generated by CloudWatch Logs.
+        /// For example, <code>@timestamp</code> is the timestamp of each log event.
+        /// </para>
+        ///  
+        /// <para>
+        /// The response results are sorted by the frequency percentage, starting with the highest
+        /// percentage.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLogGroupFields service method.</param>
+        /// 
+        /// <returns>The response from the GetLogGroupFields service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.LimitExceededException">
+        /// You have reached the maximum number of resources that can be created.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogGroupFields">REST API Reference for GetLogGroupFields Operation</seealso>
+        GetLogGroupFieldsResponse GetLogGroupFields(GetLogGroupFieldsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLogGroupFields operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLogGroupFields operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLogGroupFields
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogGroupFields">REST API Reference for GetLogGroupFields Operation</seealso>
+        IAsyncResult BeginGetLogGroupFields(GetLogGroupFieldsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLogGroupFields operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLogGroupFields.</param>
+        /// 
+        /// <returns>Returns a  GetLogGroupFieldsResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogGroupFields">REST API Reference for GetLogGroupFields Operation</seealso>
+        GetLogGroupFieldsResponse EndGetLogGroupFields(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetLogRecord
+
+
+        /// <summary>
+        /// Retrieves all the fields and values of a single log event. All fields are retrieved,
+        /// even if the original query that produced the <code>logRecordPointer</code> retrieved
+        /// only a subset of fields. Fields are returned as field name/field value pairs.
+        /// 
+        ///  
+        /// <para>
+        /// Additionally, the entire unparsed log event is returned within <code>@message</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetLogRecord service method.</param>
+        /// 
+        /// <returns>The response from the GetLogRecord service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.LimitExceededException">
+        /// You have reached the maximum number of resources that can be created.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogRecord">REST API Reference for GetLogRecord Operation</seealso>
+        GetLogRecordResponse GetLogRecord(GetLogRecordRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLogRecord operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLogRecord operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetLogRecord
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogRecord">REST API Reference for GetLogRecord Operation</seealso>
+        IAsyncResult BeginGetLogRecord(GetLogRecordRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetLogRecord operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetLogRecord.</param>
+        /// 
+        /// <returns>Returns a  GetLogRecordResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogRecord">REST API Reference for GetLogRecord Operation</seealso>
+        GetLogRecordResponse EndGetLogRecord(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetQueryResults
+
+
+        /// <summary>
+        /// Returns the results from the specified query.
+        /// 
+        ///  
+        /// <para>
+        /// Only the fields requested in the query are returned, along with a <code>@ptr</code>
+        /// field which is the identifier for the log record. You can use the value of <code>@ptr</code>
+        /// in a operation to get the full log record.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetQueryResults</code> does not start a query execution. To run a query, use
+        /// .
+        /// </para>
+        ///  
+        /// <para>
+        /// If the value of the <code>Status</code> field in the output is <code>Running</code>,
+        /// this operation returns only partial results. If you see a value of <code>Scheduled</code>
+        /// or <code>Running</code> for the status, you can retry the operation later to see the
+        /// final results. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetQueryResults service method.</param>
+        /// 
+        /// <returns>The response from the GetQueryResults service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults">REST API Reference for GetQueryResults Operation</seealso>
+        GetQueryResultsResponse GetQueryResults(GetQueryResultsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetQueryResults operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetQueryResults operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetQueryResults
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults">REST API Reference for GetQueryResults Operation</seealso>
+        IAsyncResult BeginGetQueryResults(GetQueryResultsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetQueryResults operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetQueryResults.</param>
+        /// 
+        /// <returns>Returns a  GetQueryResultsResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults">REST API Reference for GetQueryResults Operation</seealso>
+        GetQueryResultsResponse EndGetQueryResults(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListTagsLogGroup
 
 
@@ -1396,19 +1659,22 @@ namespace Amazon.CloudWatchLogs
 
 
         /// <summary>
-        /// Creates or updates a destination. A destination encapsulates a physical resource (such
-        /// as an Amazon Kinesis stream) and enables you to subscribe to a real-time stream of
-        /// log events for a different account, ingested using <a>PutLogEvents</a>. Currently,
-        /// the only supported physical resource is a Kinesis stream belonging to the same account
-        /// as the destination.
+        /// Creates or updates a destination. This operation is used only to create destinations
+        /// for cross-account subscriptions.
         /// 
         ///  
         /// <para>
-        /// Through an access policy, a destination controls what is written to its Kinesis stream.
-        /// By default, <code>PutDestination</code> does not set any access policy with the destination,
-        /// which means a cross-account user cannot call <a>PutSubscriptionFilter</a> against
-        /// this destination. To enable this, the destination owner must call <a>PutDestinationPolicy</a>
-        /// after <code>PutDestination</code>.
+        /// A destination encapsulates a physical resource (such as an Amazon Kinesis stream)
+        /// and enables you to subscribe to a real-time stream of log events for a different account,
+        /// ingested using <a>PutLogEvents</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Through an access policy, a destination controls what is written to it. By default,
+        /// <code>PutDestination</code> does not set any access policy with the destination, which
+        /// means a cross-account user cannot call <a>PutSubscriptionFilter</a> against this destination.
+        /// To enable this, the destination owner must call <a>PutDestinationPolicy</a> after
+        /// <code>PutDestination</code>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutDestination service method.</param>
@@ -1459,7 +1725,7 @@ namespace Amazon.CloudWatchLogs
 
         /// <summary>
         /// Creates or updates an access policy associated with an existing destination. An access
-        /// policy is an <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies_overview.html">IAM
+        /// policy is an <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies_overview.html">IAM
         /// policy document</a> that is used to authorize claims to register a subscription filter
         /// against a given destination.
         /// </summary>
@@ -1516,9 +1782,10 @@ namespace Amazon.CloudWatchLogs
         /// <para>
         /// You must include the sequence token obtained from the response of the previous call.
         /// An upload in a newly created log stream does not require a sequence token. You can
-        /// also get the sequence token using <a>DescribeLogStreams</a>. If you call <code>PutLogEvents</code>
-        /// twice within a narrow time period using the same value for <code>sequenceToken</code>,
-        /// both calls may be successful, or one may be rejected.
+        /// also get the sequence token in the <code>expectedSequenceToken</code> field from <code>InvalidSequenceTokenException</code>.
+        /// If you call <code>PutLogEvents</code> twice within a narrow time period using the
+        /// same value for <code>sequenceToken</code>, both calls may be successful, or one may
+        /// be rejected.
         /// </para>
         ///  
         /// <para>
@@ -1535,14 +1802,21 @@ namespace Amazon.CloudWatchLogs
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// None of the log events in the batch can be older than 14 days or the retention period
-        /// of the log group.
+        /// None of the log events in the batch can be older than 14 days or older than the retention
+        /// period of the log group.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The log events in the batch must be in chronological ordered by their time stamp (the
-        /// time the event occurred, expressed as the number of milliseconds after Jan 1, 1970
-        /// 00:00:00 UTC).
+        /// The log events in the batch must be in chronological ordered by their timestamp. The
+        /// timestamp is the time the event occurred, expressed as the number of milliseconds
+        /// after Jan 1, 1970 00:00:00 UTC. (In AWS Tools for PowerShell and the AWS SDK for .NET,
+        /// the timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example, 2017-09-15T13:45:30.)
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A batch of log events in a single request cannot span more than 24 hours. Otherwise,
+        /// the operation fails.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1550,10 +1824,14 @@ namespace Amazon.CloudWatchLogs
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// A batch of log events in a single request cannot span more than 24 hours. Otherwise,
-        /// the operation fails.
+        /// There is a quota of 5 requests per second per log stream. Additional requests are
+        /// throttled. This quota can't be changed.
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        /// If a call to PutLogEvents returns "UnrecognizedClientException" the most likely cause
+        /// is an invalid AWS access key ID or secret key. 
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutLogEvents service method.</param>
         /// 
@@ -1565,13 +1843,17 @@ namespace Amazon.CloudWatchLogs
         /// A parameter is specified incorrectly.
         /// </exception>
         /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidSequenceTokenException">
-        /// The sequence token is not valid.
+        /// The sequence token is not valid. You can get the correct sequence token in the <code>expectedSequenceToken</code>
+        /// field in the <code>InvalidSequenceTokenException</code> message.
         /// </exception>
         /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
         /// </exception>
         /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
         /// The service cannot complete the request.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.UnrecognizedClientException">
+        /// The most likely cause is an invalid AWS access key ID or secret key.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutLogEvents">REST API Reference for PutLogEvents Operation</seealso>
         PutLogEventsResponse PutLogEvents(PutLogEventsRequest request);
@@ -1671,7 +1953,7 @@ namespace Amazon.CloudWatchLogs
 
         /// <summary>
         /// Creates or updates a resource policy allowing other AWS services to put log events
-        /// to this account, such as Amazon Route 53. An account can have up to 50 resource policies
+        /// to this account, such as Amazon Route 53. An account can have up to 10 resource policies
         /// per region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutResourcePolicy service method.</param>
@@ -1855,6 +2137,130 @@ namespace Amazon.CloudWatchLogs
 
         #endregion
         
+        #region  StartQuery
+
+
+        /// <summary>
+        /// Schedules a query of a log group using CloudWatch Logs Insights. You specify the log
+        /// group and time range to query, and the query string to use.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
+        /// Logs Insights Query Syntax</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Queries time out after 15 minutes of execution. If your queries are timing out, reduce
+        /// the time range being searched, or partition your query into a number of queries.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartQuery service method.</param>
+        /// 
+        /// <returns>The response from the StartQuery service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.LimitExceededException">
+        /// You have reached the maximum number of resources that can be created.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.MalformedQueryException">
+        /// The query string is not valid. Details about this error are displayed in a <code>QueryCompileError</code>
+        /// object. For more information, see .
+        /// 
+        ///  
+        /// <para>
+        /// For more information about valid query syntax, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html">CloudWatch
+        /// Logs Insights Query Syntax</a>.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartQuery">REST API Reference for StartQuery Operation</seealso>
+        StartQueryResponse StartQuery(StartQueryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartQuery operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartQuery
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartQuery">REST API Reference for StartQuery Operation</seealso>
+        IAsyncResult BeginStartQuery(StartQueryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartQuery.</param>
+        /// 
+        /// <returns>Returns a  StartQueryResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartQuery">REST API Reference for StartQuery Operation</seealso>
+        StartQueryResponse EndStartQuery(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StopQuery
+
+
+        /// <summary>
+        /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already
+        /// ended, the operation returns an error indicating that the specified query is not running.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopQuery service method.</param>
+        /// 
+        /// <returns>The response from the StopQuery service method, as returned by CloudWatchLogs.</returns>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.InvalidParameterException">
+        /// A parameter is specified incorrectly.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CloudWatchLogs.Model.ServiceUnavailableException">
+        /// The service cannot complete the request.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StopQuery">REST API Reference for StopQuery Operation</seealso>
+        StopQueryResponse StopQuery(StopQueryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopQuery operation on AmazonCloudWatchLogsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopQuery
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StopQuery">REST API Reference for StopQuery Operation</seealso>
+        IAsyncResult BeginStopQuery(StopQueryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopQuery operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopQuery.</param>
+        /// 
+        /// <returns>Returns a  StopQueryResult from CloudWatchLogs.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StopQuery">REST API Reference for StopQuery Operation</seealso>
+        StopQueryResponse EndStopQuery(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  TagLogGroup
 
 
@@ -1868,7 +2274,7 @@ namespace Amazon.CloudWatchLogs
         /// </para>
         ///  
         /// <para>
-        /// For more information about tags, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/log-group-tagging.html">Tag
+        /// For more information about tags, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/log-group-tagging.html">Tag
         /// Log Groups in Amazon CloudWatch Logs</a> in the <i>Amazon CloudWatch Logs User Guide</i>.
         /// </para>
         /// </summary>

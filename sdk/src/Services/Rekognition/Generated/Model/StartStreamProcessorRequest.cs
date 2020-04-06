@@ -29,9 +29,9 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the StartStreamProcessor operation.
-    /// Starts processing a stream processor. You create a stream processor by calling . To
-    /// tell <code>StartStreamProcessor</code> which stream processor to start, use the value
-    /// of the <code>Name</code> field specified in the call to <code>CreateStreamProcessor</code>.
+    /// Starts processing a stream processor. You create a stream processor by calling <a>CreateStreamProcessor</a>.
+    /// To tell <code>StartStreamProcessor</code> which stream processor to start, use the
+    /// value of the <code>Name</code> field specified in the call to <code>CreateStreamProcessor</code>.
     /// </summary>
     public partial class StartStreamProcessorRequest : AmazonRekognitionRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.Rekognition.Model
         /// The name of the stream processor to start processing.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }

@@ -30,7 +30,10 @@ namespace Amazon.ConfigService.Model
     /// <summary>
     /// Container for the parameters to the GetResourceConfigHistory operation.
     /// Returns a list of configuration items for the specified resource. The list contains
-    /// details about each state of the resource during the specified time interval.
+    /// details about each state of the resource during the specified time interval. If you
+    /// specified a retention period to retain your <code>ConfigurationItems</code> between
+    /// a minimum of 30 days and a maximum of 7 years (2557 days), AWS Config returns the
+    /// <code>ConfigurationItems</code> for the specified retention period. 
     /// 
     ///  
     /// <para>
@@ -122,6 +125,7 @@ namespace Amazon.ConfigService.Model
         /// default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }
@@ -159,6 +163,7 @@ namespace Amazon.ConfigService.Model
         /// The ID of the resource (for example., <code>sg-xxxxxx</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=768)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -177,6 +182,7 @@ namespace Amazon.ConfigService.Model
         /// The resource type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ResourceType ResourceType
         {
             get { return this._resourceType; }

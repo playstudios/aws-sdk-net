@@ -34,8 +34,10 @@ namespace Amazon.SageMaker.Model
     /// </summary>
     public partial class ListNotebookInstancesRequest : AmazonSageMakerRequest
     {
+        private string _additionalCodeRepositoryEquals;
         private DateTime? _creationTimeAfter;
         private DateTime? _creationTimeBefore;
+        private string _defaultCodeRepositoryContains;
         private DateTime? _lastModifiedTimeAfter;
         private DateTime? _lastModifiedTimeBefore;
         private int? _maxResults;
@@ -45,6 +47,26 @@ namespace Amazon.SageMaker.Model
         private NotebookInstanceSortKey _sortBy;
         private NotebookInstanceSortOrder _sortOrder;
         private NotebookInstanceStatus _statusEquals;
+
+        /// <summary>
+        /// Gets and sets the property AdditionalCodeRepositoryEquals. 
+        /// <para>
+        /// A filter that returns only notebook instances with associated with the specified git
+        /// repository.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
+        public string AdditionalCodeRepositoryEquals
+        {
+            get { return this._additionalCodeRepositoryEquals; }
+            set { this._additionalCodeRepositoryEquals = value; }
+        }
+
+        // Check to see if AdditionalCodeRepositoryEquals property is set
+        internal bool IsSetAdditionalCodeRepositoryEquals()
+        {
+            return this._additionalCodeRepositoryEquals != null;
+        }
 
         /// <summary>
         /// Gets and sets the property CreationTimeAfter. 
@@ -82,6 +104,27 @@ namespace Amazon.SageMaker.Model
         internal bool IsSetCreationTimeBefore()
         {
             return this._creationTimeBefore.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DefaultCodeRepositoryContains. 
+        /// <para>
+        /// A string in the name or URL of a Git repository associated with this notebook instance.
+        /// This filter returns only notebook instances associated with a git repository with
+        /// a name that contains the specified string.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=1024)]
+        public string DefaultCodeRepositoryContains
+        {
+            get { return this._defaultCodeRepositoryContains; }
+            set { this._defaultCodeRepositoryContains = value; }
+        }
+
+        // Check to see if DefaultCodeRepositoryContains property is set
+        internal bool IsSetDefaultCodeRepositoryContains()
+        {
+            return this._defaultCodeRepositoryContains != null;
         }
 
         /// <summary>
@@ -128,6 +171,7 @@ namespace Amazon.SageMaker.Model
         /// The maximum number of notebook instances to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -147,6 +191,7 @@ namespace Amazon.SageMaker.Model
         /// whose name contains the specified string.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NameContains
         {
             get { return this._nameContains; }
@@ -169,11 +214,12 @@ namespace Amazon.SageMaker.Model
         /// </para>
         ///  <note> 
         /// <para>
-        ///  You might specify a filter or a sort order in your request. When response is truncated,
+        /// You might specify a filter or a sort order in your request. When response is truncated,
         /// you must use the same values for the filer and sort order in the next request. 
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Max=8192)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -194,6 +240,7 @@ namespace Amazon.SageMaker.Model
         /// a lifecycle configuration with a name that contains the specified string.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=63)]
         public string NotebookInstanceLifecycleConfigNameContains
         {
             get { return this._notebookInstanceLifecycleConfigNameContains; }

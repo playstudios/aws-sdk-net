@@ -32,15 +32,19 @@ namespace Amazon.DynamoDBv2.Model
     /// </summary>
     public partial class TableDescription
     {
+        private ArchivalSummary _archivalSummary;
         private List<AttributeDefinition> _attributeDefinitions = new List<AttributeDefinition>();
+        private BillingModeSummary _billingModeSummary;
         private DateTime? _creationDateTime;
         private List<GlobalSecondaryIndexDescription> _globalSecondaryIndexes = new List<GlobalSecondaryIndexDescription>();
+        private string _globalTableVersion;
         private long? _itemCount;
         private List<KeySchemaElement> _keySchema = new List<KeySchemaElement>();
         private string _latestStreamArn;
         private string _latestStreamLabel;
         private List<LocalSecondaryIndexDescription> _localSecondaryIndexes = new List<LocalSecondaryIndexDescription>();
         private ProvisionedThroughputDescription _provisionedThroughput;
+        private List<ReplicaDescription> _replicas = new List<ReplicaDescription>();
         private RestoreSummary _restoreSummary;
         private SSEDescription _sseDescription;
         private StreamSpecification _streamSpecification;
@@ -54,6 +58,24 @@ namespace Amazon.DynamoDBv2.Model
         /// Empty constructor used to set  properties independently even when a simple constructor is available
         /// </summary>
         public TableDescription() { }
+
+        /// <summary>
+        /// Gets and sets the property ArchivalSummary. 
+        /// <para>
+        /// Contains information about the table archive.
+        /// </para>
+        /// </summary>
+        public ArchivalSummary ArchivalSummary
+        {
+            get { return this._archivalSummary; }
+            set { this._archivalSummary = value; }
+        }
+
+        // Check to see if ArchivalSummary property is set
+        internal bool IsSetArchivalSummary()
+        {
+            return this._archivalSummary != null;
+        }
 
         /// <summary>
         /// Gets and sets the property AttributeDefinitions. 
@@ -88,6 +110,24 @@ namespace Amazon.DynamoDBv2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BillingModeSummary. 
+        /// <para>
+        /// Contains the details for the read/write capacity mode.
+        /// </para>
+        /// </summary>
+        public BillingModeSummary BillingModeSummary
+        {
+            get { return this._billingModeSummary; }
+            set { this._billingModeSummary = value; }
+        }
+
+        // Check to see if BillingModeSummary property is set
+        internal bool IsSetBillingModeSummary()
+        {
+            return this._billingModeSummary != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreationDateTime. 
         /// <para>
         /// The date and time when the table was created, in <a href="http://www.epochconverter.com/">UNIX
@@ -115,10 +155,18 @@ namespace Amazon.DynamoDBv2.Model
         ///  <ul> <li> 
         /// <para>
         ///  <code>Backfilling</code> - If true, then the index is currently in the backfilling
-        /// phase. Backfilling occurs only when a new global secondary index is added to the table;
-        /// it is the process by which DynamoDB populates the new index with data from the table.
+        /// phase. Backfilling occurs only when a new global secondary index is added to the table.
+        /// It is the process by which DynamoDB populates the new index with data from the table.
         /// (This attribute does not appear for indexes that were created during a <code>CreateTable</code>
-        /// operation.)
+        /// operation.) 
+        /// </para>
+        ///  
+        /// <para>
+        ///  You can delete an index that is being created during the <code>Backfilling</code>
+        /// phase when <code>IndexStatus</code> is set to CREATING and <code>Backfilling</code>
+        /// is true. You can't delete the index that is being created when <code>IndexStatus</code>
+        /// is set to CREATING and <code>Backfilling</code> is false. (This attribute does not
+        /// appear for indexes that were created during a <code>CreateTable</code> operation.)
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -180,7 +228,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>INCLUDE</code> - Only the specified table attributes are projected into the
-        /// index. The list of projected attributes are in <code>NonKeyAttributes</code>.
+        /// index. The list of projected attributes is in <code>NonKeyAttributes</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -216,6 +264,25 @@ namespace Amazon.DynamoDBv2.Model
         internal bool IsSetGlobalSecondaryIndexes()
         {
             return this._globalSecondaryIndexes != null && this._globalSecondaryIndexes.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property GlobalTableVersion. 
+        /// <para>
+        /// Represents the version of <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">global
+        /// tables</a> in use, if the table is replicated across AWS Regions.
+        /// </para>
+        /// </summary>
+        public string GlobalTableVersion
+        {
+            get { return this._globalTableVersion; }
+            set { this._globalTableVersion = value; }
+        }
+
+        // Check to see if GlobalTableVersion property is set
+        internal bool IsSetGlobalTableVersion()
+        {
+            return this._globalTableVersion != null;
         }
 
         /// <summary>
@@ -262,7 +329,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> </ul> <note> 
         /// <para>
         /// The partition key of an item is also known as its <i>hash attribute</i>. The term
-        /// "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly
+        /// "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly
         /// distribute data items across partitions, based on their partition key values.
         /// </para>
         ///  
@@ -273,10 +340,11 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  </note> </li> </ul> 
         /// <para>
-        /// For more information about primary keys, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary
+        /// For more information about primary keys, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary
         /// Key</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2)]
         public List<KeySchemaElement> KeySchema
         {
             get { return this._keySchema; }
@@ -296,6 +364,7 @@ namespace Amazon.DynamoDBv2.Model
         /// table.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=37, Max=1024)]
         public string LatestStreamArn
         {
             get { return this._latestStreamArn; }
@@ -321,15 +390,15 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// the AWS customer ID.
+        /// AWS customer ID
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// the table name.
+        /// Table name
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// the <code>StreamLabel</code>.
+        ///  <code>StreamLabel</code> 
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -381,7 +450,7 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>INCLUDE</code> - Only the specified table attributes are projected into the
-        /// index. The list of projected attributes are in <code>NonKeyAttributes</code>.
+        /// index. The list of projected attributes is in <code>NonKeyAttributes</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -442,6 +511,24 @@ namespace Amazon.DynamoDBv2.Model
         internal bool IsSetProvisionedThroughput()
         {
             return this._provisionedThroughput != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Replicas. 
+        /// <para>
+        /// Represents replicas of the table.
+        /// </para>
+        /// </summary>
+        public List<ReplicaDescription> Replicas
+        {
+            get { return this._replicas; }
+            set { this._replicas = value; }
+        }
+
+        // Check to see if Replicas property is set
+        internal bool IsSetReplicas()
+        {
+            return this._replicas != null && this._replicas.Count > 0; 
         }
 
         /// <summary>
@@ -540,6 +627,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the table.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }
@@ -591,6 +679,23 @@ namespace Amazon.DynamoDBv2.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>ACTIVE</code> - The table is ready for use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>INACCESSIBLE_ENCRYPTION_CREDENTIALS</code> - The AWS KMS key used to encrypt
+        /// the table in inaccessible. Table operations may fail due to failure to use the AWS
+        /// KMS key. DynamoDB will initiate the table archival process when a table's AWS KMS
+        /// key remains inaccessible for more than seven days. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ARCHIVING</code> - The table is being archived. Operations are not allowed
+        /// until archival is complete. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ARCHIVED</code> - The table has been archived. See the ArchivalReason for more
+        /// information. 
         /// </para>
         ///  </li> </ul>
         /// </summary>

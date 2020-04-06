@@ -41,7 +41,7 @@ namespace Amazon.CloudFormation.Model
     ///  
     /// <para>
     /// For more information about creating an update template, updating a stack, and monitoring
-    /// the progress of the update, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks.html">Updating
+    /// the progress of the update, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks.html">Updating
     /// a Stack</a>.
     /// </para>
     /// </summary>
@@ -67,38 +67,124 @@ namespace Amazon.CloudFormation.Model
         /// <summary>
         /// Gets and sets the property Capabilities. 
         /// <para>
-        /// A list of values that you must specify before AWS CloudFormation can update certain
-        /// stacks. Some stack templates might include resources that can affect permissions in
-        /// your AWS account, for example, by creating new AWS Identity and Access Management
-        /// (IAM) users. For those stacks, you must explicitly acknowledge their capabilities
-        /// by specifying this parameter.
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain
+        /// capabilities in order for AWS CloudFormation to update the stack.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code> 
         /// </para>
         ///  
         /// <para>
-        /// The only valid values are <code>CAPABILITY_IAM</code> and <code>CAPABILITY_NAMED_IAM</code>.
-        /// The following resources require you to specify this parameter: <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">
-        /// AWS::IAM::AccessKey</a>, <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">
-        /// AWS::IAM::Group</a>, <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">
-        /// AWS::IAM::InstanceProfile</a>, <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">
-        /// AWS::IAM::Policy</a>, <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">
-        /// AWS::IAM::Role</a>, <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">
-        /// AWS::IAM::User</a>, and <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html">
-        /// AWS::IAM::UserToGroupAddition</a>. If your stack template contains these resources,
-        /// we recommend that you review all permissions associated with them and edit their permissions
-        /// if necessary.
+        /// Some stack templates might include resources that can affect permissions in your AWS
+        /// account; for example, by creating new AWS Identity and Access Management (IAM) users.
+        /// For those stacks, you must explicitly acknowledge this by specifying one of these
+        /// capabilities.
         /// </para>
         ///  
         /// <para>
-        /// If you have IAM resources, you can specify either capability. If you have IAM resources
-        /// with custom names, you must specify <code>CAPABILITY_NAMED_IAM</code>. If you don't
-        /// specify this parameter, this action returns an <code>InsufficientCapabilities</code>
+        /// The following IAM resources require you to specify either the <code>CAPABILITY_IAM</code>
+        /// or <code>CAPABILITY_NAMED_IAM</code> capability.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If you have IAM resources, you can specify either capability. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you have IAM resources with custom names, you <i>must</i> specify <code>CAPABILITY_NAMED_IAM</code>.
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If you don't specify either of these capabilities, AWS CloudFormation returns an <code>InsufficientCapabilities</code>
         /// error.
         /// </para>
-        ///  
+        ///  </li> </ul> 
+        /// <para>
+        /// If your stack template contains these resources, we recommend that you review all
+        /// permissions associated with them and edit their permissions if necessary.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html">
+        /// AWS::IAM::AccessKey</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">
+        /// AWS::IAM::Group</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">
+        /// AWS::IAM::InstanceProfile</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html">
+        /// AWS::IAM::Policy</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">
+        /// AWS::IAM::Role</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html">
+        /// AWS::IAM::User</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html">
+        /// AWS::IAM::UserToGroupAddition</a> 
+        /// </para>
+        ///  </li> </ul> 
         /// <para>
         /// For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
         /// IAM Resources in AWS CloudFormation Templates</a>.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>CAPABILITY_AUTO_EXPAND</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// Some template contain macros. Macros perform custom processing on templates; this
+        /// can include simple actions like find-and-replace operations, all the way to extensive
+        /// transformations of entire templates. Because of this, users typically create a change
+        /// set from the processed template, so that they can review the changes resulting from
+        /// the macros before actually updating the stack. If your stack template contains one
+        /// or more macros, and you choose to update a stack directly from the processed template,
+        /// without first reviewing the resulting changes in a change set, you must acknowledge
+        /// this capability. This includes the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html">AWS::Include</a>
+        /// and <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
+        /// transforms, which are macros hosted by AWS CloudFormation.
+        /// </para>
+        ///  
+        /// <para>
+        /// Change sets do not currently support nested stacks. If you want to update a stack
+        /// from a stack template that contains macros <i>and</i> nested stacks, you must update
+        /// the stack directly from the template using this capability.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// You should only update stacks directly from a stack template that contains macros
+        /// if you know what processing the macro performs.
+        /// </para>
+        ///  
+        /// <para>
+        /// Each macro relies on an underlying Lambda service function for processing stack templates.
+        /// Be aware that the Lambda function owner can update the function operation without
+        /// AWS CloudFormation being notified.
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
+        /// AWS CloudFormation Macros to Perform Custom Processing on Templates</a>.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public List<string> Capabilities
         {
@@ -137,6 +223,7 @@ namespace Amazon.CloudFormation.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -156,6 +243,7 @@ namespace Amazon.CloudFormation.Model
         /// associates with the stack. Specify an empty list to remove all notification topics.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> NotificationARNs
         {
             get { return this._notificationARNs; }
@@ -172,7 +260,7 @@ namespace Amazon.CloudFormation.Model
         /// Gets and sets the property Parameters. 
         /// <para>
         /// A list of <code>Parameter</code> structures that specify input parameters for the
-        /// stack. For more information, see the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html">Parameter</a>
+        /// stack. For more information, see the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html">Parameter</a>
         /// data type.
         /// </para>
         /// </summary>
@@ -200,7 +288,7 @@ namespace Amazon.CloudFormation.Model
         /// If the list of resource types doesn't include a resource that you're updating, the
         /// stack update fails. By default, AWS CloudFormation grants permissions to all resource
         /// types. AWS Identity and Access Management (IAM) uses this parameter for AWS CloudFormation-specific
-        /// condition keys in IAM policies. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html">Controlling
+        /// condition keys in IAM policies. For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html">Controlling
         /// Access with AWS Identity and Access Management</a>.
         /// </para>
         /// </summary>
@@ -233,6 +321,7 @@ namespace Amazon.CloudFormation.Model
         /// session that is generated from your user credentials.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string RoleARN
         {
             get { return this._roleARN; }
@@ -270,6 +359,7 @@ namespace Amazon.CloudFormation.Model
         /// The name or unique stack ID of the stack to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string StackName
         {
             get { return this._stackName; }
@@ -295,6 +385,7 @@ namespace Amazon.CloudFormation.Model
         /// current policy that is associated with the stack is unchanged.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=16384)]
         public string StackPolicyBody
         {
             get { return this._stackPolicyBody; }
@@ -321,6 +412,7 @@ namespace Amazon.CloudFormation.Model
         /// is associated with the stack will be used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=16384)]
         public string StackPolicyDuringUpdateBody
         {
             get { return this._stackPolicyDuringUpdateBody; }
@@ -348,6 +440,7 @@ namespace Amazon.CloudFormation.Model
         /// is associated with the stack will be used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1350)]
         public string StackPolicyDuringUpdateURL
         {
             get { return this._stackPolicyDuringUpdateURL; }
@@ -375,6 +468,7 @@ namespace Amazon.CloudFormation.Model
         /// current policy that is associated with the stack is unchanged.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1350)]
         public string StackPolicyURL
         {
             get { return this._stackPolicyURL; }
@@ -399,6 +493,7 @@ namespace Amazon.CloudFormation.Model
         /// tags. If you specify an empty value, AWS CloudFormation removes all associated tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<Tag> Tags
         {
             get { return this._tags; }
@@ -415,7 +510,7 @@ namespace Amazon.CloudFormation.Model
         /// Gets and sets the property TemplateBody. 
         /// <para>
         /// Structure containing the template body with a minimum length of 1 byte and a maximum
-        /// length of 51,200 bytes. (For more information, go to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
+        /// length of 51,200 bytes. (For more information, go to <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
         /// Anatomy</a> in the AWS CloudFormation User Guide.)
         /// </para>
         ///  
@@ -424,6 +519,7 @@ namespace Amazon.CloudFormation.Model
         /// <code>TemplateURL</code>, or set the <code>UsePreviousTemplate</code> to <code>true</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string TemplateBody
         {
             get { return this._templateBody; }
@@ -440,7 +536,7 @@ namespace Amazon.CloudFormation.Model
         /// Gets and sets the property TemplateURL. 
         /// <para>
         /// Location of file containing the template body. The URL must point to a template that
-        /// is located in an Amazon S3 bucket. For more information, go to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
+        /// is located in an Amazon S3 bucket. For more information, go to <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
         /// Anatomy</a> in the AWS CloudFormation User Guide.
         /// </para>
         ///  
@@ -449,6 +545,7 @@ namespace Amazon.CloudFormation.Model
         /// <code>TemplateURL</code>, or set the <code>UsePreviousTemplate</code> to <code>true</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string TemplateURL
         {
             get { return this._templateURL; }

@@ -31,12 +31,12 @@ namespace Amazon.DynamoDBv2.Model
     /// Container for the parameters to the TagResource operation.
     /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these
     /// user-defined tags so that they appear on the Billing and Cost Management console for
-    /// cost allocation tracking. You can call TagResource up to 5 times per second, per account.
-    /// 
+    /// cost allocation tracking. You can call TagResource up to five times per second, per
+    /// account. 
     /// 
     ///  
     /// <para>
-    /// For an overview on tagging DynamoDB resources, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
+    /// For an overview on tagging DynamoDB resources, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
     /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -52,6 +52,7 @@ namespace Amazon.DynamoDBv2.Model
         /// is an Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1283)]
         public string ResourceArn
         {
             get { return this._resourceArn; }
@@ -70,6 +71,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The tags to be assigned to the Amazon DynamoDB resource.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Tag> Tags
         {
             get { return this._tags; }

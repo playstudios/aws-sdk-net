@@ -30,14 +30,14 @@ namespace Amazon.OpsWorks.Model
     /// <summary>
     /// Container for the parameters to the DeregisterInstance operation.
     /// Deregister a registered Amazon EC2 or on-premises instance. This action removes the
-    /// instance from the stack and returns it to your control. This action can not be used
+    /// instance from the stack and returns it to your control. This action cannot be used
     /// with instances that were created with AWS OpsWorks Stacks.
     /// 
     ///  
     /// <para>
     ///  <b>Required Permissions</b>: To use this action, an IAM user must have a Manage permissions
     /// level for the stack or an attached policy that explicitly grants permissions. For
-    /// more information on user permissions, see <a href="http://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
+    /// more information on user permissions, see <a href="https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html">Managing
     /// User Permissions</a>.
     /// </para>
     /// </summary>
@@ -51,6 +51,7 @@ namespace Amazon.OpsWorks.Model
         /// The instance ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }

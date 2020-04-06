@@ -48,7 +48,7 @@ namespace Amazon.Route53.Model
         /// Instantiates HostedZone with the parameterized properties
         /// </summary>
         /// <param name="id">The ID that Amazon Route 53 assigned to the hosted zone when you created it.</param>
-        /// <param name="name">The name of the domain. For public hosted zones, this is the name that you have registered with your DNS registrar. For information about how to specify characters other than <code>a-z</code>, <code>0-9</code>, and <code>-</code> (hyphen) and how to specify internationalized domain names, see <a>CreateHostedZone</a>.</param>
+        /// <param name="name">The name of the domain. For public hosted zones, this is the name that you have registered with your DNS registrar. For information about how to specify characters other than <code>a-z</code>, <code>0-9</code>, and <code>-</code> (hyphen) and how to specify internationalized domain names, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>.</param>
         /// <param name="callerReference">The value that you specified for <code>CallerReference</code> when you created the hosted zone.</param>
         public HostedZone(string id, string name, string callerReference)
         {
@@ -63,6 +63,7 @@ namespace Amazon.Route53.Model
         /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=32)]
         public string Id
         {
             get { return this._id; }
@@ -85,9 +86,10 @@ namespace Amazon.Route53.Model
         /// <para>
         /// For information about how to specify characters other than <code>a-z</code>, <code>0-9</code>,
         /// and <code>-</code> (hyphen) and how to specify internationalized domain names, see
-        /// <a>CreateHostedZone</a>.
+        /// <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html">CreateHostedZone</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=1024)]
         public string Name
         {
             get { return this._name; }
@@ -107,6 +109,7 @@ namespace Amazon.Route53.Model
         /// hosted zone.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string CallerReference
         {
             get { return this._callerReference; }
@@ -163,7 +166,7 @@ namespace Amazon.Route53.Model
         /// <para>
         /// If the hosted zone was created by another service, the service that created the hosted
         /// zone. When a hosted zone is created by another service, you can't edit or delete it
-        /// using Amazon Route 53. 
+        /// using Route 53. 
         /// </para>
         /// </summary>
         public LinkedService LinkedService

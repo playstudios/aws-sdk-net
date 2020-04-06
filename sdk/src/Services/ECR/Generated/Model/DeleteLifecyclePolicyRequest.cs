@@ -29,7 +29,7 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteLifecyclePolicy operation.
-    /// Deletes the specified lifecycle policy.
+    /// Deletes the lifecycle policy associated with the specified repository.
     /// </summary>
     public partial class DeleteLifecyclePolicyRequest : AmazonECRRequest
     {
@@ -61,6 +61,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

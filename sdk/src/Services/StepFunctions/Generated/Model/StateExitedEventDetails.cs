@@ -46,7 +46,7 @@ namespace Amazon.StepFunctions.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// whitespace
+        /// white space
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -64,8 +64,13 @@ namespace Amazon.StepFunctions.Model
         /// <para>
         /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z,
+        /// - and _.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=80)]
         public string Name
         {
             get { return this._name; }
@@ -84,6 +89,7 @@ namespace Amazon.StepFunctions.Model
         /// The JSON output data of the state.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32768)]
         public string Output
         {
             get { return this._output; }

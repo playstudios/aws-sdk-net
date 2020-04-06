@@ -41,10 +41,11 @@ namespace Amazon.APIGateway.Model
         /// <para>
         /// [Required] The base path name that callers of the API must provide as part of the
         /// URL after the domain name. This value must be unique for all of the mappings across
-        /// a single API. Leave this blank if you do not want callers to specify any base path
+        /// a single API. Specify '(none)' if you do not want callers to specify any base path
         /// name after the domain name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BasePath
         {
             get { return this._basePath; }
@@ -63,6 +64,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The domain name of the <a>BasePathMapping</a> resource to be described.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }

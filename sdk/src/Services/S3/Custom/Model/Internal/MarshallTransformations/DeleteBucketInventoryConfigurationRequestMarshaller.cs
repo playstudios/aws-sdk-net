@@ -36,7 +36,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "DELETE";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(deleteInventoryConfigurationRequest.BucketName));
+            if (string.IsNullOrEmpty(deleteInventoryConfigurationRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "DeleteBucketInventoryConfigurationRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(deleteInventoryConfigurationRequest.BucketName));
             request.AddSubResource("inventory");
             request.AddSubResource("id", deleteInventoryConfigurationRequest.InventoryId);
             request.UseQueryString = true;

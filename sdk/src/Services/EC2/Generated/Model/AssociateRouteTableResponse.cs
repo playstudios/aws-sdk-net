@@ -28,16 +28,17 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of AssociateRouteTable.
+    /// This is the response object from the AssociateRouteTable operation.
     /// </summary>
     public partial class AssociateRouteTableResponse : AmazonWebServiceResponse
     {
         private string _associationId;
+        private RouteTableAssociationState _associationState;
 
         /// <summary>
         /// Gets and sets the property AssociationId. 
         /// <para>
-        /// The route table association ID (needed to disassociate the route table).
+        /// The route table association ID. This ID is required for disassociating the route table.
         /// </para>
         /// </summary>
         public string AssociationId
@@ -50,6 +51,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetAssociationId()
         {
             return this._associationId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AssociationState. 
+        /// <para>
+        /// The state of the association.
+        /// </para>
+        /// </summary>
+        public RouteTableAssociationState AssociationState
+        {
+            get { return this._associationState; }
+            set { this._associationState = value; }
+        }
+
+        // Check to see if AssociationState property is set
+        internal bool IsSetAssociationState()
+        {
+            return this._associationState != null;
         }
 
     }

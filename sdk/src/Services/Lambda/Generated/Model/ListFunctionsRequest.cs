@@ -29,20 +29,14 @@ namespace Amazon.Lambda.Model
 {
     /// <summary>
     /// Container for the parameters to the ListFunctions operation.
-    /// Returns a list of your Lambda functions. For each function, the response includes
-    /// the function configuration information. You must use <a>GetFunction</a> to retrieve
-    /// the code for your function.
+    /// Returns a list of Lambda functions, with the version-specific configuration of each.
+    /// Lambda returns up to 50 functions per call.
     /// 
     ///  
     /// <para>
-    /// This operation requires permission for the <code>lambda:ListFunctions</code> action.
-    /// </para>
-    ///  
-    /// <para>
-    /// If you are using the versioning feature, you can list all of your functions or only
-    /// <code>$LATEST</code> versions. For information about the versioning feature, see <a
-    /// href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS Lambda
-    /// Function Versioning and Aliases</a>. 
+    /// Set <code>FunctionVersion</code> to <code>ALL</code> to include all published versions
+    /// of each function in addition to the unpublished version. To get more information about
+    /// a function or version, use <a>GetFunction</a>.
     /// </para>
     /// </summary>
     public partial class ListFunctionsRequest : AmazonLambdaRequest
@@ -55,17 +49,7 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property FunctionVersion. 
         /// <para>
-        /// Optional string. If not specified, only the unqualified functions ARNs (Amazon Resource
-        /// Names) will be returned.
-        /// </para>
-        ///  
-        /// <para>
-        /// Valid value:
-        /// </para>
-        ///  
-        /// <para>
-        ///  <code>ALL</code>: Will return all versions, including <code>$LATEST</code> which
-        /// will have fully qualified ARNs (Amazon Resource Names).
+        /// Set to <code>ALL</code> to include entries for all published versions of each function.
         /// </para>
         /// </summary>
         public FunctionVersion FunctionVersion
@@ -83,8 +67,8 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property Marker. 
         /// <para>
-        /// Optional string. An opaque pagination token returned from a previous <code>ListFunctions</code>
-        /// operation. If present, indicates where to continue the listing. 
+        /// Specify the pagination token that's returned by a previous request to retrieve the
+        /// next page of results.
         /// </para>
         /// </summary>
         public string Marker
@@ -102,22 +86,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property MasterRegion. 
         /// <para>
-        /// Optional string. If not specified, will return only regular function versions (i.e.,
-        /// non-replicated versions).
-        /// </para>
-        ///  
-        /// <para>
-        /// Valid values are:
-        /// </para>
-        ///  
-        /// <para>
-        /// The region from which the functions are replicated. For example, if you specify <code>us-east-1</code>,
-        /// only functions replicated from that region will be returned.
-        /// </para>
-        ///  
-        /// <para>
-        ///  <code>ALL</code>: Will return all functions from any region. If specified, you also
-        /// must specify a valid FunctionVersion parameter.
+        /// For Lambda@Edge functions, the AWS Region of the master function. For example, <code>us-east-1</code>
+        /// filters the list of functions to only include Lambda@Edge functions replicated from
+        /// a master function in US East (N. Virginia). If specified, you must set <code>FunctionVersion</code>
+        /// to <code>ALL</code>.
         /// </para>
         /// </summary>
         public string MasterRegion
@@ -135,10 +107,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// Optional integer. Specifies the maximum number of AWS Lambda functions to return in
-        /// response. This parameter value must be greater than 0.
+        /// The maximum number of functions to return.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }

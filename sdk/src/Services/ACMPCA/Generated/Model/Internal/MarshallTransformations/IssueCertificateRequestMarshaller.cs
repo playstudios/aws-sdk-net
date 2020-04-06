@@ -58,10 +58,11 @@ namespace Amazon.ACMPCA.Model.Internal.MarshallTransformations
             string target = "ACMPrivateCA.IssueCertificate";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-22";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -89,6 +90,12 @@ namespace Amazon.ACMPCA.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("SigningAlgorithm");
                     context.Writer.Write(publicRequest.SigningAlgorithm);
+                }
+
+                if(publicRequest.IsSetTemplateArn())
+                {
+                    context.Writer.WritePropertyName("TemplateArn");
+                    context.Writer.Write(publicRequest.TemplateArn);
                 }
 
                 if(publicRequest.IsSetValidity())

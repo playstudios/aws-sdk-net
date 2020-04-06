@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -43,6 +43,7 @@ namespace Amazon.CloudFront.Model
         private HttpVersion _httpVersion;
         private bool? _isIPV6Enabled;
         private LoggingConfig _logging;
+        private OriginGroups _originGroups;
         private Origins _origins;
         private PriceClass _priceClass;
         private Restrictions _restrictions;
@@ -57,8 +58,8 @@ namespace Amazon.CloudFront.Model
         /// <summary>
         /// Instantiates DistributionConfig with the parameterized properties
         /// </summary>
-        /// <param name="callerReference">A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of <code>CallerReference</code> is new (regardless of the content of the <code>DistributionConfig</code> object), CloudFront creates a new distribution. If <code>CallerReference</code> is a value you already sent in a previous request to create a distribution, and if the content of the <code>DistributionConfig</code> is identical to the original request (ignoring white space), CloudFront returns the same the response that it returned to the original request. If <code>CallerReference</code> is a value you already sent in a previous request to create a distribution but the content of the <code>DistributionConfig</code> is different from the original request, CloudFront returns a <code>DistributionAlreadyExists</code> error.</param>
-        /// <param name="enabled">From this field, you can enable or disable the selected distribution. If you specify <code>false</code> for <code>Enabled</code> but you specify values for <code>Bucket</code> and <code>Prefix</code>, the values are automatically deleted.</param>
+        /// <param name="callerReference">A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of <code>CallerReference</code> is new (regardless of the content of the <code>DistributionConfig</code> object), CloudFront creates a new distribution. If <code>CallerReference</code> is a value that you already sent in a previous request to create a distribution, CloudFront returns a <code>DistributionAlreadyExists</code> error.</param>
+        /// <param name="enabled">From this field, you can enable or disable the selected distribution.</param>
         public DistributionConfig(string callerReference, bool enabled)
         {
             _callerReference = callerReference;
@@ -115,19 +116,12 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  
         /// <para>
-        /// If <code>CallerReference</code> is a value you already sent in a previous request
-        /// to create a distribution, and if the content of the <code>DistributionConfig</code>
-        /// is identical to the original request (ignoring white space), CloudFront returns the
-        /// same the response that it returned to the original request.
-        /// </para>
-        ///  
-        /// <para>
-        /// If <code>CallerReference</code> is a value you already sent in a previous request
-        /// to create a distribution but the content of the <code>DistributionConfig</code> is
-        /// different from the original request, CloudFront returns a <code>DistributionAlreadyExists</code>
+        /// If <code>CallerReference</code> is a value that you already sent in a previous request
+        /// to create a distribution, CloudFront returns a <code>DistributionAlreadyExists</code>
         /// error.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CallerReference
         {
             get { return this._callerReference; }
@@ -160,6 +154,7 @@ namespace Amazon.CloudFront.Model
         /// new comment.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Comment
         {
             get { return this._comment; }
@@ -188,7 +183,7 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For more information about custom error pages, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
+        /// For more information about custom error pages, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
         /// Error Responses</a> in the <i>Amazon CloudFront Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -212,6 +207,7 @@ namespace Amazon.CloudFront.Model
         /// elements. You must create exactly one default cache behavior.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DefaultCacheBehavior DefaultCacheBehavior
         {
             get { return this._defaultCacheBehavior; }
@@ -254,7 +250,7 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about the default root object, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html">Creating
+        /// For more information about the default root object, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html">Creating
         /// a Default Root Object</a> in the <i>Amazon CloudFront Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -275,12 +271,8 @@ namespace Amazon.CloudFront.Model
         /// <para>
         /// From this field, you can enable or disable the selected distribution.
         /// </para>
-        ///  
-        /// <para>
-        /// If you specify <code>false</code> for <code>Enabled</code> but you specify values
-        /// for <code>Bucket</code> and <code>Prefix</code>, the values are automatically deleted.
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool Enabled
         {
             get { return this._enabled.GetValueOrDefault(); }
@@ -341,7 +333,7 @@ namespace Amazon.CloudFront.Model
         /// parameter to restrict the IP addresses that can access your content, don't enable
         /// IPv6. If you want to restrict access to some content by IP address and not restrict
         /// access to other content (or restrict access but not by IP address), you can create
-        /// two distributions. For more information, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-custom-policy.html">Creating
+        /// two distributions. For more information, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-custom-policy.html">Creating
         /// a Signed URL Using a Custom Policy</a> in the <i>Amazon CloudFront Developer Guide</i>.
         /// </para>
         ///  
@@ -360,7 +352,7 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html">Routing
+        /// For more information, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html">Routing
         /// Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name</a> in
         /// the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
@@ -390,7 +382,7 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about logging, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html">Access
+        /// For more information about logging, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html">Access
         /// Logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -407,11 +399,30 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OriginGroups. 
+        /// <para>
+        ///  A complex type that contains information about origin groups for this distribution.
+        /// </para>
+        /// </summary>
+        public OriginGroups OriginGroups
+        {
+            get { return this._originGroups; }
+            set { this._originGroups = value; }
+        }
+
+        // Check to see if OriginGroups property is set
+        internal bool IsSetOriginGroups()
+        {
+            return this._originGroups != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Origins. 
         /// <para>
         /// A complex type that contains information about origins for this distribution. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Origins Origins
         {
             get { return this._origins; }
@@ -440,11 +451,12 @@ namespace Amazon.CloudFront.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about price classes, see <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html">Choosing
+        /// For more information about price classes, see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html">Choosing
         /// the Price Class for a CloudFront Distribution</a> in the <i>Amazon CloudFront Developer
-        /// Guide</i>. For information about CloudFront pricing, including how price classes map
-        /// to CloudFront regions, see <a href="https://aws.amazon.com/cloudfront/pricing/">Amazon
-        /// CloudFront Pricing</a>.
+        /// Guide</i>. For information about CloudFront pricing, including how price classes (such
+        /// as Price Class 100) map to CloudFront regions, see <a href="http://aws.amazon.com/cloudfront/pricing/">Amazon
+        /// CloudFront Pricing</a>. For price class information, scroll down to see the table
+        /// at the bottom of the page.
         /// </para>
         /// </summary>
         public PriceClass PriceClass
@@ -460,7 +472,11 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Restrictions.
+        /// Gets and sets the property Restrictions. 
+        /// <para>
+        /// A complex type that identifies ways in which you want to restrict distribution of
+        /// your content.
+        /// </para>
         /// </summary>
         public Restrictions Restrictions
         {
@@ -475,7 +491,11 @@ namespace Amazon.CloudFront.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ViewerCertificate.
+        /// Gets and sets the property ViewerCertificate. 
+        /// <para>
+        /// A complex type that determines the distribution’s SSL/TLS configuration for communicating
+        /// with viewers.
+        /// </para>
         /// </summary>
         public ViewerCertificate ViewerCertificate
         {
@@ -493,7 +513,9 @@ namespace Amazon.CloudFront.Model
         /// Gets and sets the property WebACLId. 
         /// <para>
         /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with
-        /// this distribution.
+        /// this distribution. To specify a web ACL created using the latest version of AWS WAF,
+        /// use the ACL ARN, for example <code>arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
+        /// To specify a web ACL created using AWS WAF Classic, use the ACL ID, for example <code>473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
         /// </para>
         ///  
         /// <para>
@@ -503,7 +525,7 @@ namespace Amazon.CloudFront.Model
         /// or the values of query strings, CloudFront responds to requests either with the requested
         /// content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront
         /// to return a custom error page when a request is blocked. For more information about
-        /// AWS WAF, see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html">AWS
+        /// AWS WAF, see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html">AWS
         /// WAF Developer Guide</a>. 
         /// </para>
         /// </summary>

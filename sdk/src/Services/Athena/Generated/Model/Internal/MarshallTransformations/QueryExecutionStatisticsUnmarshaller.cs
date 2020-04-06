@@ -64,6 +64,12 @@ namespace Amazon.Athena.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("DataManifestLocation", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.DataManifestLocation = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("DataScannedInBytes", targetDepth))
                 {
                     var unmarshaller = LongUnmarshaller.Instance;
@@ -74,6 +80,30 @@ namespace Amazon.Athena.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = LongUnmarshaller.Instance;
                     unmarshalledObject.EngineExecutionTimeInMillis = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("QueryPlanningTimeInMillis", targetDepth))
+                {
+                    var unmarshaller = LongUnmarshaller.Instance;
+                    unmarshalledObject.QueryPlanningTimeInMillis = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("QueryQueueTimeInMillis", targetDepth))
+                {
+                    var unmarshaller = LongUnmarshaller.Instance;
+                    unmarshalledObject.QueryQueueTimeInMillis = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ServiceProcessingTimeInMillis", targetDepth))
+                {
+                    var unmarshaller = LongUnmarshaller.Instance;
+                    unmarshalledObject.ServiceProcessingTimeInMillis = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("TotalExecutionTimeInMillis", targetDepth))
+                {
+                    var unmarshaller = LongUnmarshaller.Instance;
+                    unmarshalledObject.TotalExecutionTimeInMillis = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

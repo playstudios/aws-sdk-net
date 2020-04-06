@@ -42,6 +42,7 @@ namespace Amazon.MediaStoreData.Model
         /// The SHA256 digest of the object that is persisted.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=64, Max=64)]
         public string ContentSHA256
         {
             get { return this._contentSHA256; }
@@ -60,6 +61,7 @@ namespace Amazon.MediaStoreData.Model
         /// Unique identifier of the object in the container.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ETag
         {
             get { return this._eTag; }
@@ -75,9 +77,10 @@ namespace Amazon.MediaStoreData.Model
         /// <summary>
         /// Gets and sets the property StorageClass. 
         /// <para>
-        /// The storage class where the object was persisted. Should be “Temporal”.
+        /// The storage class where the object was persisted. The class should be “Temporal”.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=16)]
         public StorageClass StorageClass
         {
             get { return this._storageClass; }

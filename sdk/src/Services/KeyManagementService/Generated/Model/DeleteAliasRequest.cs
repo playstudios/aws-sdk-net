@@ -53,10 +53,11 @@ namespace Amazon.KeyManagementService.Model
         /// <summary>
         /// Gets and sets the property AliasName. 
         /// <para>
-        /// The alias to be deleted. The name must start with the word "alias" followed by a forward
-        /// slash (alias/). Aliases that begin with "alias/aws" are reserved.
+        /// The alias to be deleted. The alias name must begin with <code>alias/</code> followed
+        /// by the alias name, such as <code>alias/ExampleAlias</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string AliasName
         {
             get { return this._aliasName; }

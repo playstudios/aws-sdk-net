@@ -39,6 +39,7 @@ namespace Amazon.Greengrass.Model
         private string _latestVersion;
         private string _latestVersionArn;
         private string _name;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets and sets the property Arn. The ARN of the definition.
@@ -103,7 +104,8 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LatestVersion. The latest version of the definition.
+        /// Gets and sets the property LatestVersion. The ID of the latest version associated
+        /// with the definition.
         /// </summary>
         public string LatestVersion
         {
@@ -118,8 +120,8 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LatestVersionArn. The ARN of the latest version of the
-        /// definition.
+        /// Gets and sets the property LatestVersionArn. The ARN of the latest version associated
+        /// with the definition.
         /// </summary>
         public string LatestVersionArn
         {
@@ -146,6 +148,21 @@ namespace Amazon.Greengrass.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. Tag(s) attached to the resource arn.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

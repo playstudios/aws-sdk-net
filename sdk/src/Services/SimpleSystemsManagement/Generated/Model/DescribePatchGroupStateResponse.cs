@@ -36,8 +36,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         private int? _instancesWithFailedPatches;
         private int? _instancesWithInstalledOtherPatches;
         private int? _instancesWithInstalledPatches;
+        private int? _instancesWithInstalledPendingRebootPatches;
+        private int? _instancesWithInstalledRejectedPatches;
         private int? _instancesWithMissingPatches;
         private int? _instancesWithNotApplicablePatches;
+        private int? _instancesWithUnreportedNotApplicablePatches;
 
         /// <summary>
         /// Gets and sets the property Instances. 
@@ -112,6 +115,51 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property InstancesWithInstalledPendingRebootPatches. 
+        /// <para>
+        /// The number of instances with patches installed by Patch Manager that have not been
+        /// rebooted after the patch installation. The status of these instances is NON_COMPLIANT.
+        /// </para>
+        /// </summary>
+        public int InstancesWithInstalledPendingRebootPatches
+        {
+            get { return this._instancesWithInstalledPendingRebootPatches.GetValueOrDefault(); }
+            set { this._instancesWithInstalledPendingRebootPatches = value; }
+        }
+
+        // Check to see if InstancesWithInstalledPendingRebootPatches property is set
+        internal bool IsSetInstancesWithInstalledPendingRebootPatches()
+        {
+            return this._instancesWithInstalledPendingRebootPatches.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property InstancesWithInstalledRejectedPatches. 
+        /// <para>
+        /// The number of instances with patches installed that are specified in a RejectedPatches
+        /// list. Patches with a status of <i>INSTALLED_REJECTED</i> were typically installed
+        /// before they were added to a RejectedPatches list.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value
+        /// of InstancesWithInstalledRejectedPatches will always be 0 (zero).
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public int InstancesWithInstalledRejectedPatches
+        {
+            get { return this._instancesWithInstalledRejectedPatches.GetValueOrDefault(); }
+            set { this._instancesWithInstalledRejectedPatches = value; }
+        }
+
+        // Check to see if InstancesWithInstalledRejectedPatches property is set
+        internal bool IsSetInstancesWithInstalledRejectedPatches()
+        {
+            return this._instancesWithInstalledRejectedPatches.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property InstancesWithMissingPatches. 
         /// <para>
         /// The number of instances with missing patches from the patch baseline.
@@ -145,6 +193,25 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetInstancesWithNotApplicablePatches()
         {
             return this._instancesWithNotApplicablePatches.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property InstancesWithUnreportedNotApplicablePatches. 
+        /// <para>
+        /// The number of instances with <code>NotApplicable</code> patches beyond the supported
+        /// limit, which are not reported by name to Systems Manager Inventory.
+        /// </para>
+        /// </summary>
+        public int InstancesWithUnreportedNotApplicablePatches
+        {
+            get { return this._instancesWithUnreportedNotApplicablePatches.GetValueOrDefault(); }
+            set { this._instancesWithUnreportedNotApplicablePatches = value; }
+        }
+
+        // Check to see if InstancesWithUnreportedNotApplicablePatches property is set
+        internal bool IsSetInstancesWithUnreportedNotApplicablePatches()
+        {
+            return this._instancesWithUnreportedNotApplicablePatches.HasValue; 
         }
 
     }

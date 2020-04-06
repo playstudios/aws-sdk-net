@@ -58,10 +58,11 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
             string target = "DeviceFarm_20150623.GetDevicePoolCompatibility";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-06-23";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,17 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("appArn");
                     context.Writer.Write(publicRequest.AppArn);
+                }
+
+                if(publicRequest.IsSetConfiguration())
+                {
+                    context.Writer.WritePropertyName("configuration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ScheduleRunConfigurationMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Configuration, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetDevicePoolArn())

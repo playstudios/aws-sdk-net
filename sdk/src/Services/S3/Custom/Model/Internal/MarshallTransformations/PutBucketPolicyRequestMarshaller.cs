@@ -44,8 +44,13 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             if (!request.Headers.ContainsKey(HeaderKeys.ContentTypeHeader))
                 request.Headers.Add(HeaderKeys.ContentTypeHeader, "text/plain");
             if (putBucketPolicyRequest.IsSetConfirmRemoveSelfBucketAccess())
-                request.Headers.Add(HeaderKeys.ConfirmSelfBucketAccess, putBucketPolicyRequest.ConfirmRemoveSelfBucketAccess.ToString().ToLowerInvariant());
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketPolicyRequest.BucketName));
+                request.Headers.Add(HeaderKeys.ConfirmSelfBucketAccess, S3Transforms.ToStringValue(putBucketPolicyRequest.ConfirmRemoveSelfBucketAccess));
+
+            if (string.IsNullOrEmpty(putBucketPolicyRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutBucketPolicyRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketPolicyRequest.BucketName));
 
             request.AddSubResource("policy");
 

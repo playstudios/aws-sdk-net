@@ -55,13 +55,14 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetLoggerDefinitionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/greengrass/definition/loggers/{LoggerDefinitionId}";
             if (!publicRequest.IsSetLoggerDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field LoggerDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{LoggerDefinitionId}", StringUtils.FromString(publicRequest.LoggerDefinitionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{LoggerDefinitionId}", StringUtils.FromString(publicRequest.LoggerDefinitionId));
+            request.ResourcePath = "/greengrass/definition/loggers/{LoggerDefinitionId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

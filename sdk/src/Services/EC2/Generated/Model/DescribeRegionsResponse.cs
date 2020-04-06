@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of DescribeRegions.
+    /// This is the response object from the DescribeRegions operation.
     /// </summary>
     public partial class DescribeRegionsResponse : AmazonWebServiceResponse
     {
@@ -37,7 +37,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Regions. 
         /// <para>
-        /// Information about one or more regions.
+        /// Information about the Regions.
         /// </para>
         /// </summary>
         public List<Region> Regions

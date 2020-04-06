@@ -41,7 +41,12 @@ namespace Amazon.APIGateway.Model
         /// <para>
         /// [Required] The base path name of the <a>BasePathMapping</a> resource to delete.
         /// </para>
+        ///  
+        /// <para>
+        /// To specify an empty base path, set this parameter to <code>'(none)'</code>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BasePath
         {
             get { return this._basePath; }
@@ -60,6 +65,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The domain name of the <a>BasePathMapping</a> resource to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Rekognition.Model;
 using Amazon.Rekognition.Model.Internal.MarshallTransformations;
+using Amazon.Rekognition.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -37,6 +39,7 @@ namespace Amazon.Rekognition
     /// </summary>
     public partial class AmazonRekognitionClient : AmazonServiceClient, IAmazonRekognition
     {
+        private static IServiceMetadata serviceMetadata = new AmazonRekognitionMetadata();
         #region Constructors
 
         /// <summary>
@@ -207,6 +210,16 @@ namespace Amazon.Rekognition
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -222,7 +235,7 @@ namespace Amazon.Rekognition
 
         #endregion
 
-        
+
         #region  CompareFaces
 
         /// <summary>
@@ -236,10 +249,10 @@ namespace Amazon.Rekognition
         /// </para>
         ///  </note> 
         /// <para>
-        /// You pass the input and target images either as base64-encoded image bytes or as a
-        /// references to images in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon
-        /// Rekognition operations, passing image bytes is not supported. The image must be either
-        /// a PNG or JPEG formatted file. 
+        /// You pass the input and target images either as base64-encoded image bytes or as references
+        /// to images in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
+        /// operations, passing image bytes isn't supported. The image must be formatted as a
+        /// PNG or JPEG file. 
         /// </para>
         ///  
         /// <para>
@@ -265,6 +278,20 @@ namespace Amazon.Rekognition
         /// </para>
         ///  
         /// <para>
+        /// The <code>QualityFilter</code> input parameter allows you to filter out detected faces
+        /// that don’t meet a required quality bar. The quality bar is based on a variety of common
+        /// use cases. Use <code>QualityFilter</code> to set the quality bar by specifying <code>LOW</code>,
+        /// <code>MEDIUM</code>, or <code>HIGH</code>. If you do not want to filter detected faces,
+        /// specify <code>NONE</code>. The default value is <code>NONE</code>. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// To use quality filtering, you need a collection associated with version 3 of the face
+        /// model or higher. To get the version of the face model associated with a collection,
+        /// call <a>DescribeCollection</a>. 
+        /// </para>
+        ///  </note> 
+        /// <para>
         /// If the image doesn't contain Exif metadata, <code>CompareFaces</code> returns orientation
         /// information for the source and target images. Use these values to display the images
         /// with the correct image orientation.
@@ -281,7 +308,8 @@ namespace Amazon.Rekognition
         /// </para>
         ///  </note> 
         /// <para>
-        /// For an example, see <a>faces-compare-images</a>.
+        /// For an example, see Comparing Faces in Images in the Amazon Rekognition Developer
+        /// Guide.
         /// </para>
         ///  
         /// <para>
@@ -296,7 +324,8 @@ namespace Amazon.Rekognition
         /// You are not authorized to perform the action.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -321,10 +350,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CompareFaces">REST API Reference for CompareFaces Operation</seealso>
         public virtual CompareFacesResponse CompareFaces(CompareFacesRequest request)
         {
-            var marshaller = CompareFacesRequestMarshaller.Instance;
-            var unmarshaller = CompareFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompareFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompareFacesResponseUnmarshaller.Instance;
 
-            return Invoke<CompareFacesRequest,CompareFacesResponse>(request, marshaller, unmarshaller);
+            return Invoke<CompareFacesResponse>(request, options);
         }
 
         /// <summary>
@@ -341,11 +371,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CompareFaces">REST API Reference for CompareFaces Operation</seealso>
         public virtual IAsyncResult BeginCompareFaces(CompareFacesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CompareFacesRequestMarshaller.Instance;
-            var unmarshaller = CompareFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CompareFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CompareFacesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CompareFacesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -367,7 +397,7 @@ namespace Amazon.Rekognition
 
         /// <summary>
         /// Creates a collection in an AWS Region. You can add faces to the collection using the
-        /// operation. 
+        /// <a>IndexFaces</a> operation. 
         /// 
         ///  
         /// <para>
@@ -375,6 +405,11 @@ namespace Amazon.Rekognition
         /// A user can then index faces using the <code>IndexFaces</code> operation and persist
         /// results in a specific collection. Then, a user can search the collection for faces
         /// in the user-specific container. 
+        /// </para>
+        ///  
+        /// <para>
+        /// When you create a collection, it is associated with the latest version of the face
+        /// model version.
         /// </para>
         ///  <note> 
         /// <para>
@@ -412,10 +447,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateCollection">REST API Reference for CreateCollection Operation</seealso>
         public virtual CreateCollectionResponse CreateCollection(CreateCollectionRequest request)
         {
-            var marshaller = CreateCollectionRequestMarshaller.Instance;
-            var unmarshaller = CreateCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCollectionResponseUnmarshaller.Instance;
 
-            return Invoke<CreateCollectionRequest,CreateCollectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateCollectionResponse>(request, options);
         }
 
         /// <summary>
@@ -432,11 +468,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateCollection">REST API Reference for CreateCollection Operation</seealso>
         public virtual IAsyncResult BeginCreateCollection(CreateCollectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateCollectionRequestMarshaller.Instance;
-            var unmarshaller = CreateCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCollectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateCollectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -454,6 +490,201 @@ namespace Amazon.Rekognition
 
         #endregion
         
+        #region  CreateProject
+
+        /// <summary>
+        /// Creates a new Amazon Rekognition Custom Labels project. A project is a logical grouping
+        /// of resources (images, Labels, models) and operations (training, evaluation and detection).
+        /// 
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:CreateProject</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProject service method.</param>
+        /// 
+        /// <returns>The response from the CreateProject service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceInUseException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateProject">REST API Reference for CreateProject Operation</seealso>
+        public virtual CreateProjectResponse CreateProject(CreateProjectRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectResponseUnmarshaller.Instance;
+
+            return Invoke<CreateProjectResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProject operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProject operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProject
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateProject">REST API Reference for CreateProject Operation</seealso>
+        public virtual IAsyncResult BeginCreateProject(CreateProjectRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProject operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProject.</param>
+        /// 
+        /// <returns>Returns a  CreateProjectResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateProject">REST API Reference for CreateProject Operation</seealso>
+        public virtual CreateProjectResponse EndCreateProject(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateProjectResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateProjectVersion
+
+        /// <summary>
+        /// Creates a new version of a model and begins training. Models are managed as part of
+        /// an Amazon Rekognition Custom Labels project. You can specify one training dataset
+        /// and one testing dataset. The response from <code>CreateProjectVersion</code> is an
+        /// Amazon Resource Name (ARN) for the version of the model. 
+        /// 
+        ///  
+        /// <para>
+        /// Training takes a while to complete. You can get the current status by calling <a>DescribeProjectVersions</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Once training has successfully completed, call <a>DescribeProjectVersions</a> to get
+        /// the training results and evaluate the model. 
+        /// </para>
+        ///  
+        /// <para>
+        /// After evaluating the model, you start the model by calling <a>StartProjectVersion</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:CreateProjectVersion</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProjectVersion service method.</param>
+        /// 
+        /// <returns>The response from the CreateProjectVersion service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceInUseException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateProjectVersion">REST API Reference for CreateProjectVersion Operation</seealso>
+        public virtual CreateProjectVersionResponse CreateProjectVersion(CreateProjectVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectVersionResponseUnmarshaller.Instance;
+
+            return Invoke<CreateProjectVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProjectVersion operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProjectVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateProjectVersion">REST API Reference for CreateProjectVersion Operation</seealso>
+        public virtual IAsyncResult BeginCreateProjectVersion(CreateProjectVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProjectVersion.</param>
+        /// 
+        /// <returns>Returns a  CreateProjectVersionResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateProjectVersion">REST API Reference for CreateProjectVersion Operation</seealso>
+        public virtual CreateProjectVersionResponse EndCreateProjectVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateProjectVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateStreamProcessor
 
         /// <summary>
@@ -462,8 +693,8 @@ namespace Amazon.Rekognition
         /// 
         ///  
         /// <para>
-        /// Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. Rekognition
-        /// Video sends analysis results to Amazon Kinesis Data Streams.
+        /// Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams.
+        /// Amazon Rekognition Video sends analysis results to Amazon Kinesis Data Streams.
         /// </para>
         ///  
         /// <para>
@@ -472,12 +703,13 @@ namespace Amazon.Rekognition
         /// in <code>Settings</code>. For example, the collection containing faces that you want
         /// to recognize. Use <code>Name</code> to assign an identifier for the stream processor.
         /// You use <code>Name</code> to manage the stream processor. For example, you can start
-        /// processing the source video by calling with the <code>Name</code> field. 
+        /// processing the source video by calling <a>StartStreamProcessor</a> with the <code>Name</code>
+        /// field. 
         /// </para>
         ///  
         /// <para>
-        /// After you have finished analyzing a streaming video, use to stop processing. You can
-        /// delete the stream processor by calling .
+        /// After you have finished analyzing a streaming video, use <a>StopStreamProcessor</a>
+        /// to stop processing. You can delete the stream processor by calling <a>DeleteStreamProcessor</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStreamProcessor service method.</param>
@@ -494,7 +726,11 @@ namespace Amazon.Rekognition
         /// API operation again.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
-        /// 
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
         /// The number of requests exceeded your throughput limit. If you want to increase this
@@ -509,10 +745,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateStreamProcessor">REST API Reference for CreateStreamProcessor Operation</seealso>
         public virtual CreateStreamProcessorResponse CreateStreamProcessor(CreateStreamProcessorRequest request)
         {
-            var marshaller = CreateStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = CreateStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStreamProcessorResponseUnmarshaller.Instance;
 
-            return Invoke<CreateStreamProcessorRequest,CreateStreamProcessorResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateStreamProcessorResponse>(request, options);
         }
 
         /// <summary>
@@ -529,11 +766,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/CreateStreamProcessor">REST API Reference for CreateStreamProcessor Operation</seealso>
         public virtual IAsyncResult BeginCreateStreamProcessor(CreateStreamProcessorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = CreateStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStreamProcessorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateStreamProcessorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -589,10 +826,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteCollection">REST API Reference for DeleteCollection Operation</seealso>
         public virtual DeleteCollectionResponse DeleteCollection(DeleteCollectionRequest request)
         {
-            var marshaller = DeleteCollectionRequestMarshaller.Instance;
-            var unmarshaller = DeleteCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCollectionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteCollectionRequest,DeleteCollectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteCollectionResponse>(request, options);
         }
 
         /// <summary>
@@ -609,11 +847,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteCollection">REST API Reference for DeleteCollection Operation</seealso>
         public virtual IAsyncResult BeginDeleteCollection(DeleteCollectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteCollectionRequestMarshaller.Instance;
-            var unmarshaller = DeleteCollectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteCollectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteCollectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -669,10 +907,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteFaces">REST API Reference for DeleteFaces Operation</seealso>
         public virtual DeleteFacesResponse DeleteFaces(DeleteFacesRequest request)
         {
-            var marshaller = DeleteFacesRequestMarshaller.Instance;
-            var unmarshaller = DeleteFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteFacesResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteFacesRequest,DeleteFacesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteFacesResponse>(request, options);
         }
 
         /// <summary>
@@ -689,11 +928,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteFaces">REST API Reference for DeleteFaces Operation</seealso>
         public virtual IAsyncResult BeginDeleteFaces(DeleteFacesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteFacesRequestMarshaller.Instance;
-            var unmarshaller = DeleteFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteFacesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteFacesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -711,12 +950,187 @@ namespace Amazon.Rekognition
 
         #endregion
         
+        #region  DeleteProject
+
+        /// <summary>
+        /// Deletes an Amazon Rekognition Custom Labels project. To delete a project you must
+        /// first delete all versions of the model associated with the project. To delete a version
+        /// of a model, see <a>DeleteProjectVersion</a>.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:DeleteProject</code>
+        /// action. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProject service method.</param>
+        /// 
+        /// <returns>The response from the DeleteProject service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceInUseException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteProject">REST API Reference for DeleteProject Operation</seealso>
+        public virtual DeleteProjectResponse DeleteProject(DeleteProjectRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteProjectResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProject operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProject operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteProject
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteProject">REST API Reference for DeleteProject Operation</seealso>
+        public virtual IAsyncResult BeginDeleteProject(DeleteProjectRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteProject operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteProject.</param>
+        /// 
+        /// <returns>Returns a  DeleteProjectResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteProject">REST API Reference for DeleteProject Operation</seealso>
+        public virtual DeleteProjectResponse EndDeleteProject(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteProjectResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteProjectVersion
+
+        /// <summary>
+        /// Deletes a version of a model. 
+        /// 
+        ///  
+        /// <para>
+        /// You must first stop the model before you can delete it. To check if a model is running,
+        /// use the <code>Status</code> field returned from <a>DescribeProjectVersions</a>. To
+        /// stop a running model call <a>StopProjectVersion</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:DeleteProjectVersion</code>
+        /// action. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProjectVersion service method.</param>
+        /// 
+        /// <returns>The response from the DeleteProjectVersion service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceInUseException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteProjectVersion">REST API Reference for DeleteProjectVersion Operation</seealso>
+        public virtual DeleteProjectVersionResponse DeleteProjectVersion(DeleteProjectVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectVersionResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteProjectVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProjectVersion operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteProjectVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteProjectVersion">REST API Reference for DeleteProjectVersion Operation</seealso>
+        public virtual IAsyncResult BeginDeleteProjectVersion(DeleteProjectVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteProjectVersion.</param>
+        /// 
+        /// <returns>Returns a  DeleteProjectVersionResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteProjectVersion">REST API Reference for DeleteProjectVersion Operation</seealso>
+        public virtual DeleteProjectVersionResponse EndDeleteProjectVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteProjectVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteStreamProcessor
 
         /// <summary>
         /// Deletes the stream processor identified by <code>Name</code>. You assign the value
-        /// for <code>Name</code> when you create the stream processor with . You might not be
-        /// able to use the same name for a stream processor for a few seconds after calling <code>DeleteStreamProcessor</code>.
+        /// for <code>Name</code> when you create the stream processor with <a>CreateStreamProcessor</a>.
+        /// You might not be able to use the same name for a stream processor for a few seconds
+        /// after calling <code>DeleteStreamProcessor</code>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteStreamProcessor service method.</param>
         /// 
@@ -747,10 +1161,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteStreamProcessor">REST API Reference for DeleteStreamProcessor Operation</seealso>
         public virtual DeleteStreamProcessorResponse DeleteStreamProcessor(DeleteStreamProcessorRequest request)
         {
-            var marshaller = DeleteStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = DeleteStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStreamProcessorResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteStreamProcessorRequest,DeleteStreamProcessorResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteStreamProcessorResponse>(request, options);
         }
 
         /// <summary>
@@ -767,11 +1182,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DeleteStreamProcessor">REST API Reference for DeleteStreamProcessor Operation</seealso>
         public virtual IAsyncResult BeginDeleteStreamProcessor(DeleteStreamProcessorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = DeleteStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStreamProcessorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteStreamProcessorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -789,12 +1204,259 @@ namespace Amazon.Rekognition
 
         #endregion
         
+        #region  DescribeCollection
+
+        /// <summary>
+        /// Describes the specified collection. You can use <code>DescribeCollection</code> to
+        /// get information, such as the number of faces indexed into a collection and the version
+        /// of the model used by the collection for face detection.
+        /// 
+        ///  
+        /// <para>
+        /// For more information, see Describing a Collection in the Amazon Rekognition Developer
+        /// Guide.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCollection service method.</param>
+        /// 
+        /// <returns>The response from the DescribeCollection service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeCollection">REST API Reference for DescribeCollection Operation</seealso>
+        public virtual DescribeCollectionResponse DescribeCollection(DescribeCollectionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCollectionResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeCollectionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeCollection operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCollection operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeCollection
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeCollection">REST API Reference for DescribeCollection Operation</seealso>
+        public virtual IAsyncResult BeginDescribeCollection(DescribeCollectionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeCollectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeCollectionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeCollection operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeCollection.</param>
+        /// 
+        /// <returns>Returns a  DescribeCollectionResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeCollection">REST API Reference for DescribeCollection Operation</seealso>
+        public virtual DescribeCollectionResponse EndDescribeCollection(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeCollectionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeProjects
+
+        /// <summary>
+        /// Lists and gets information about your Amazon Rekognition Custom Labels projects.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:DescribeProjects</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProjects service method.</param>
+        /// 
+        /// <returns>The response from the DescribeProjects service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidPaginationTokenException">
+        /// Pagination token in the request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeProjects">REST API Reference for DescribeProjects Operation</seealso>
+        public virtual DescribeProjectsResponse DescribeProjects(DescribeProjectsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProjectsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeProjectsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeProjects operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProjects operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeProjects
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeProjects">REST API Reference for DescribeProjects Operation</seealso>
+        public virtual IAsyncResult BeginDescribeProjects(DescribeProjectsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProjectsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeProjects operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeProjects.</param>
+        /// 
+        /// <returns>Returns a  DescribeProjectsResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeProjects">REST API Reference for DescribeProjects Operation</seealso>
+        public virtual DescribeProjectsResponse EndDescribeProjects(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeProjectsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeProjectVersions
+
+        /// <summary>
+        /// Lists and describes the models in an Amazon Rekognition Custom Labels project. You
+        /// can specify up to 10 model versions in <code>ProjectVersionArns</code>. If you don't
+        /// specify a value, descriptions for all models are returned.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:DescribeProjectVersions</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProjectVersions service method.</param>
+        /// 
+        /// <returns>The response from the DescribeProjectVersions service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidPaginationTokenException">
+        /// Pagination token in the request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeProjectVersions">REST API Reference for DescribeProjectVersions Operation</seealso>
+        public virtual DescribeProjectVersionsResponse DescribeProjectVersions(DescribeProjectVersionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProjectVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProjectVersionsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeProjectVersionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeProjectVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProjectVersions operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeProjectVersions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeProjectVersions">REST API Reference for DescribeProjectVersions Operation</seealso>
+        public virtual IAsyncResult BeginDescribeProjectVersions(DescribeProjectVersionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeProjectVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeProjectVersionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeProjectVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeProjectVersions.</param>
+        /// 
+        /// <returns>Returns a  DescribeProjectVersionsResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeProjectVersions">REST API Reference for DescribeProjectVersions Operation</seealso>
+        public virtual DescribeProjectVersionsResponse EndDescribeProjectVersions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeProjectVersionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeStreamProcessor
 
         /// <summary>
-        /// Provides information about a stream processor created by . You can get information
-        /// about the input and output streams, the input parameters for the face recognition
-        /// being performed, and the current status of the stream processor.
+        /// Provides information about a stream processor created by <a>CreateStreamProcessor</a>.
+        /// You can get information about the input and output streams, the input parameters for
+        /// the face recognition being performed, and the current status of the stream processor.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeStreamProcessor service method.</param>
         /// 
@@ -822,10 +1484,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeStreamProcessor">REST API Reference for DescribeStreamProcessor Operation</seealso>
         public virtual DescribeStreamProcessorResponse DescribeStreamProcessor(DescribeStreamProcessorRequest request)
         {
-            var marshaller = DescribeStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamProcessorResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeStreamProcessorRequest,DescribeStreamProcessorResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeStreamProcessorResponse>(request, options);
         }
 
         /// <summary>
@@ -842,11 +1505,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DescribeStreamProcessor">REST API Reference for DescribeStreamProcessor Operation</seealso>
         public virtual IAsyncResult BeginDescribeStreamProcessor(DescribeStreamProcessorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = DescribeStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeStreamProcessorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeStreamProcessorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -864,6 +1527,148 @@ namespace Amazon.Rekognition
 
         #endregion
         
+        #region  DetectCustomLabels
+
+        /// <summary>
+        /// Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels
+        /// model. 
+        /// 
+        ///  
+        /// <para>
+        /// You specify which version of a model version to use by using the <code>ProjectVersionArn</code>
+        /// input parameter. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You pass the input image as base64-encoded image bytes or as a reference to an image
+        /// in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
+        /// passing image bytes is not supported. The image must be either a PNG or JPEG formatted
+        /// file. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  For each object that the model version detects on an image, the API returns a (<code>CustomLabel</code>)
+        /// object in an array (<code>CustomLabels</code>). Each <code>CustomLabel</code> object
+        /// provides the label name (<code>Name</code>), the level of confidence that the image
+        /// contains the object (<code>Confidence</code>), and object location information, if
+        /// it exists, for the label on the image (<code>Geometry</code>). 
+        /// </para>
+        ///  
+        /// <para>
+        /// During training model calculates a threshold value that determines if a prediction
+        /// for a label is true. By default, <code>DetectCustomLabels</code> doesn't return labels
+        /// whose confidence value is below the model's calculated threshold value. To filter
+        /// labels that are returned, specify a value for <code>MinConfidence</code> that is higher
+        /// than the model's calculated threshold. You can get the model's calculated threshold
+        /// from the model's training results shown in the Amazon Rekognition Custom Labels console.
+        /// To get all labels, regardless of confidence, specify a <code>MinConfidence</code>
+        /// value of 0. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can also add the <code>MaxResults</code> parameter to limit the number of labels
+        /// returned. 
+        /// </para>
+        ///  
+        /// <para>
+        /// This is a stateless API operation. That is, the operation does not persist any data.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:DetectCustomLabels</code>
+        /// action. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetectCustomLabels service method.</param>
+        /// 
+        /// <returns>The response from the DetectCustomLabels service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidImageFormatException">
+        /// The provided image format is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidS3ObjectException">
+        /// Amazon Rekognition is unable to access the S3 object specified in the request.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotReadyException">
+        /// The requested resource isn't ready. For example, this exception occurs when you call
+        /// <code>DetectCustomLabels</code> with a model version that isn't deployed.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectCustomLabels">REST API Reference for DetectCustomLabels Operation</seealso>
+        public virtual DetectCustomLabelsResponse DetectCustomLabels(DetectCustomLabelsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectCustomLabelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectCustomLabelsResponseUnmarshaller.Instance;
+
+            return Invoke<DetectCustomLabelsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DetectCustomLabels operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DetectCustomLabels operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetectCustomLabels
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectCustomLabels">REST API Reference for DetectCustomLabels Operation</seealso>
+        public virtual IAsyncResult BeginDetectCustomLabels(DetectCustomLabelsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectCustomLabelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectCustomLabelsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DetectCustomLabels operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetectCustomLabels.</param>
+        /// 
+        /// <returns>Returns a  DetectCustomLabelsResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectCustomLabels">REST API Reference for DetectCustomLabels Operation</seealso>
+        public virtual DetectCustomLabelsResponse EndDetectCustomLabels(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DetectCustomLabelsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DetectFaces
 
         /// <summary>
@@ -872,21 +1677,21 @@ namespace Amazon.Rekognition
         ///  
         /// <para>
         ///  <code>DetectFaces</code> detects the 100 largest faces in the image. For each face
-        /// detected, the operation returns face details including a bounding box of the face,
-        /// a confidence value (that the bounding box contains a face), and a fixed set of attributes
-        /// such as facial landmarks (for example, coordinates of eye and mouth), gender, presence
-        /// of beard, sunglasses, etc. 
+        /// detected, the operation returns face details. These details include a bounding box
+        /// of the face, a confidence value (that the bounding box contains a face), and a fixed
+        /// set of attributes such as facial landmarks (for example, coordinates of eye and mouth),
+        /// presence of beard, sunglasses, and so on. 
         /// </para>
         ///  
         /// <para>
         /// The face-detection algorithm is most effective on frontal faces. For non-frontal or
-        /// obscured faces, the algorithm may not detect the faces or might detect faces with
+        /// obscured faces, the algorithm might not detect the faces or might detect faces with
         /// lower confidence. 
         /// </para>
         ///  
         /// <para>
         /// You pass the input image either as base64-encoded image bytes or as a reference to
-        /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
+        /// an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
         /// operations, passing image bytes is not supported. The image must be either a PNG or
         /// JPEG formatted file. 
         /// </para>
@@ -895,10 +1700,6 @@ namespace Amazon.Rekognition
         /// This is a stateless API operation. That is, the operation does not persist any data.
         /// </para>
         ///  </note> 
-        /// <para>
-        /// For an example, see <a>procedure-detecting-faces-in-images</a>.
-        /// </para>
-        ///  
         /// <para>
         /// This operation requires permissions to perform the <code>rekognition:DetectFaces</code>
         /// action. 
@@ -911,7 +1712,8 @@ namespace Amazon.Rekognition
         /// You are not authorized to perform the action.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -936,10 +1738,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectFaces">REST API Reference for DetectFaces Operation</seealso>
         public virtual DetectFacesResponse DetectFaces(DetectFacesRequest request)
         {
-            var marshaller = DetectFacesRequestMarshaller.Instance;
-            var unmarshaller = DetectFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectFacesResponseUnmarshaller.Instance;
 
-            return Invoke<DetectFacesRequest,DetectFacesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetectFacesResponse>(request, options);
         }
 
         /// <summary>
@@ -956,11 +1759,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectFaces">REST API Reference for DetectFaces Operation</seealso>
         public virtual IAsyncResult BeginDetectFaces(DetectFacesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetectFacesRequestMarshaller.Instance;
-            var unmarshaller = DetectFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectFacesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetectFacesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -983,19 +1786,23 @@ namespace Amazon.Rekognition
         /// <summary>
         /// Detects instances of real-world entities within an image (JPEG or PNG) provided as
         /// input. This includes objects like flower, tree, and table; events like wedding, graduation,
-        /// and birthday party; and concepts like landscape, evening, and nature. For an example,
-        /// see <a>images-s3</a>.
+        /// and birthday party; and concepts like landscape, evening, and nature. 
         /// 
+        ///  
+        /// <para>
+        /// For an example, see Analyzing Images Stored in an Amazon S3 Bucket in the Amazon Rekognition
+        /// Developer Guide.
+        /// </para>
         ///  <note> 
         /// <para>
         ///  <code>DetectLabels</code> does not support the detection of activities. However,
         /// activity detection is supported for label detection in videos. For more information,
-        /// see .
+        /// see StartLabelDetection in the Amazon Rekognition Developer Guide.
         /// </para>
         ///  </note> 
         /// <para>
         /// You pass the input image as base64-encoded image bytes or as a reference to an image
-        /// in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition operations,
+        /// in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
         /// passing image bytes is not supported. The image must be either a PNG or JPEG formatted
         /// file. 
         /// </para>
@@ -1004,7 +1811,7 @@ namespace Amazon.Rekognition
         ///  For each object, scene, and concept the API returns one or more labels. Each label
         /// provides the object name, and the level of confidence that the image contains the
         /// object. For example, suppose the input image has a lighthouse, the sea, and a rock.
-        /// The response will include all three labels, one for each object. 
+        /// The response includes all three labels, one for each object. 
         /// </para>
         ///  
         /// <para>
@@ -1020,7 +1827,7 @@ namespace Amazon.Rekognition
         /// </para>
         ///  
         /// <para>
-        ///  In the preceding example, the operation returns one label for each of the three objects.
+        /// In the preceding example, the operation returns one label for each of the three objects.
         /// The operation can also return multiple labels for the same object in the image. For
         /// example, if the input image shows a flower (for example, a tulip), the operation might
         /// return the following three labels. 
@@ -1046,7 +1853,7 @@ namespace Amazon.Rekognition
         /// <para>
         /// In response, the API returns an array of labels. In addition, the response also includes
         /// the orientation correction. Optionally, you can specify <code>MinConfidence</code>
-        /// to control the confidence threshold for the labels returned. The default is 50%. You
+        /// to control the confidence threshold for the labels returned. The default is 55%. You
         /// can also add the <code>MaxLabels</code> parameter to limit the number of labels returned.
         /// 
         /// </para>
@@ -1056,6 +1863,22 @@ namespace Amazon.Rekognition
         /// details that the <a>DetectFaces</a> operation provides.
         /// </para>
         ///  </note> 
+        /// <para>
+        ///  <code>DetectLabels</code> returns bounding boxes for instances of common object labels
+        /// in an array of <a>Instance</a> objects. An <code>Instance</code> object contains a
+        /// <a>BoundingBox</a> object, for the location of the label on the image. It also includes
+        /// the confidence by which the bounding box was detected.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>DetectLabels</code> also returns a hierarchical taxonomy of detected labels.
+        /// For example, a detected car might be assigned the label <i>car</i>. The label <i>car</i>
+        /// has two parent labels: <i>Vehicle</i> (its parent) and <i>Transportation</i> (its
+        /// grandparent). The response returns the entire list of ancestors for a label. Each
+        /// ancestor is a unique label in the response. In the previous example, <i>Car</i>, <i>Vehicle</i>,
+        /// and <i>Transportation</i> are returned as unique labels in the response. 
+        /// </para>
+        ///  
         /// <para>
         /// This is a stateless API operation. That is, the operation does not persist any data.
         /// </para>
@@ -1072,7 +1895,8 @@ namespace Amazon.Rekognition
         /// You are not authorized to perform the action.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -1097,10 +1921,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectLabels">REST API Reference for DetectLabels Operation</seealso>
         public virtual DetectLabelsResponse DetectLabels(DetectLabelsRequest request)
         {
-            var marshaller = DetectLabelsRequestMarshaller.Instance;
-            var unmarshaller = DetectLabelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectLabelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectLabelsResponseUnmarshaller.Instance;
 
-            return Invoke<DetectLabelsRequest,DetectLabelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetectLabelsResponse>(request, options);
         }
 
         /// <summary>
@@ -1117,11 +1942,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectLabels">REST API Reference for DetectLabels Operation</seealso>
         public virtual IAsyncResult BeginDetectLabels(DetectLabelsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetectLabelsRequestMarshaller.Instance;
-            var unmarshaller = DetectLabelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectLabelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectLabelsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetectLabelsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1142,21 +1967,24 @@ namespace Amazon.Rekognition
         #region  DetectModerationLabels
 
         /// <summary>
-        /// Detects explicit or suggestive adult content in a specified JPEG or PNG format image.
-        /// Use <code>DetectModerationLabels</code> to moderate images depending on your requirements.
-        /// For example, you might want to filter images that contain nudity, but not images containing
-        /// suggestive content.
+        /// Detects unsafe content in a specified JPEG or PNG format image. Use <code>DetectModerationLabels</code>
+        /// to moderate images depending on your requirements. For example, you might want to
+        /// filter images that contain nudity, but not images containing suggestive content.
         /// 
         ///  
         /// <para>
         /// To filter images, use the labels returned by <code>DetectModerationLabels</code> to
-        /// determine which types of content are appropriate. For information about moderation
-        /// labels, see <a>moderation</a>.
+        /// determine which types of content are appropriate.
+        /// </para>
+        ///  
+        /// <para>
+        /// For information about moderation labels, see Detecting Unsafe Content in the Amazon
+        /// Rekognition Developer Guide.
         /// </para>
         ///  
         /// <para>
         /// You pass the input image either as base64-encoded image bytes or as a reference to
-        /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
+        /// an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
         /// operations, passing image bytes is not supported. The image must be either a PNG or
         /// JPEG formatted file. 
         /// </para>
@@ -1167,8 +1995,12 @@ namespace Amazon.Rekognition
         /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
         /// You are not authorized to perform the action.
         /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.HumanLoopQuotaExceededException">
+        /// The number of in-progress human reviews you have has exceeded the number allowed.
+        /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -1193,10 +2025,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectModerationLabels">REST API Reference for DetectModerationLabels Operation</seealso>
         public virtual DetectModerationLabelsResponse DetectModerationLabels(DetectModerationLabelsRequest request)
         {
-            var marshaller = DetectModerationLabelsRequestMarshaller.Instance;
-            var unmarshaller = DetectModerationLabelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectModerationLabelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectModerationLabelsResponseUnmarshaller.Instance;
 
-            return Invoke<DetectModerationLabelsRequest,DetectModerationLabelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetectModerationLabelsResponse>(request, options);
         }
 
         /// <summary>
@@ -1213,11 +2046,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectModerationLabels">REST API Reference for DetectModerationLabels Operation</seealso>
         public virtual IAsyncResult BeginDetectModerationLabels(DetectModerationLabelsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetectModerationLabelsRequestMarshaller.Instance;
-            var unmarshaller = DetectModerationLabelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectModerationLabelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectModerationLabelsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetectModerationLabelsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1250,9 +2083,9 @@ namespace Amazon.Rekognition
         /// </para>
         ///  
         /// <para>
-        /// The <code>DetectText</code> operation returns text in an array of elements, <code>TextDetections</code>.
-        /// Each <code>TextDetection</code> element provides information about a single word or
-        /// line of text that was detected in the image. 
+        /// The <code>DetectText</code> operation returns text in an array of <a>TextDetection</a>
+        /// elements, <code>TextDetections</code>. Each <code>TextDetection</code> element provides
+        /// information about a single word or line of text that was detected in the image. 
         /// </para>
         ///  
         /// <para>
@@ -1276,11 +2109,11 @@ namespace Amazon.Rekognition
         /// </para>
         ///  
         /// <para>
-        /// To be detected, text must be within +/- 30 degrees orientation of the horizontal axis.
+        /// To be detected, text must be within +/- 90 degrees orientation of the horizontal axis.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a>text-detection</a>.
+        /// For more information, see DetectText in the Amazon Rekognition Developer Guide.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetectText service method.</param>
@@ -1290,7 +2123,8 @@ namespace Amazon.Rekognition
         /// You are not authorized to perform the action.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -1315,10 +2149,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectText">REST API Reference for DetectText Operation</seealso>
         public virtual DetectTextResponse DetectText(DetectTextRequest request)
         {
-            var marshaller = DetectTextRequestMarshaller.Instance;
-            var unmarshaller = DetectTextResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectTextRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectTextResponseUnmarshaller.Instance;
 
-            return Invoke<DetectTextRequest,DetectTextResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetectTextResponse>(request, options);
         }
 
         /// <summary>
@@ -1335,11 +2170,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/DetectText">REST API Reference for DetectText Operation</seealso>
         public virtual IAsyncResult BeginDetectText(DetectTextRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetectTextRequestMarshaller.Instance;
-            var unmarshaller = DetectTextResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetectTextRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetectTextResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetectTextRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1360,10 +2195,15 @@ namespace Amazon.Rekognition
         #region  GetCelebrityInfo
 
         /// <summary>
-        /// Gets the name and additional information about a celebrity based on his or her Rekognition
-        /// ID. The additional information is returned as an array of URLs. If there is no additional
-        /// information about the celebrity, this list is empty. For more information, see <a>get-celebrity-info-procedure</a>.
+        /// Gets the name and additional information about a celebrity based on his or her Amazon
+        /// Rekognition ID. The additional information is returned as an array of URLs. If there
+        /// is no additional information about the celebrity, this list is empty.
         /// 
+        ///  
+        /// <para>
+        /// For more information, see Recognizing Celebrities in an Image in the Amazon Rekognition
+        /// Developer Guide.
+        /// </para>
         ///  
         /// <para>
         /// This operation requires permissions to perform the <code>rekognition:GetCelebrityInfo</code>
@@ -1396,10 +2236,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetCelebrityInfo">REST API Reference for GetCelebrityInfo Operation</seealso>
         public virtual GetCelebrityInfoResponse GetCelebrityInfo(GetCelebrityInfoRequest request)
         {
-            var marshaller = GetCelebrityInfoRequestMarshaller.Instance;
-            var unmarshaller = GetCelebrityInfoResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCelebrityInfoRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCelebrityInfoResponseUnmarshaller.Instance;
 
-            return Invoke<GetCelebrityInfoRequest,GetCelebrityInfoResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCelebrityInfoResponse>(request, options);
         }
 
         /// <summary>
@@ -1416,11 +2257,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetCelebrityInfo">REST API Reference for GetCelebrityInfo Operation</seealso>
         public virtual IAsyncResult BeginGetCelebrityInfo(GetCelebrityInfoRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCelebrityInfoRequestMarshaller.Instance;
-            var unmarshaller = GetCelebrityInfoResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCelebrityInfoRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCelebrityInfoResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCelebrityInfoRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1441,28 +2282,43 @@ namespace Amazon.Rekognition
         #region  GetCelebrityRecognition
 
         /// <summary>
-        /// Gets the celebrity recognition results for a Rekognition Video analysis started by
-        /// .
+        /// Gets the celebrity recognition results for a Amazon Rekognition Video analysis started
+        /// by <a>StartCelebrityRecognition</a>.
         /// 
         ///  
         /// <para>
         /// Celebrity recognition in a video is an asynchronous operation. Analysis is started
-        /// by a call to which returns a job identifier (<code>JobId</code>). When the celebrity
-        /// recognition operation finishes, Rekognition Video publishes a completion status to
-        /// the Amazon Simple Notification Service topic registered in the initial call to <code>StartCelebrityRecognition</code>.
-        /// To get the results of the celebrity recognition analysis, first check that the status
-        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <code>GetCelebrityDetection</code>
+        /// by a call to <a>StartCelebrityRecognition</a> which returns a job identifier (<code>JobId</code>).
+        /// When the celebrity recognition operation finishes, Amazon Rekognition Video publishes
+        /// a completion status to the Amazon Simple Notification Service topic registered in
+        /// the initial call to <code>StartCelebrityRecognition</code>. To get the results of
+        /// the celebrity recognition analysis, first check that the status value published to
+        /// the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <code>GetCelebrityDetection</code>
         /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartCelebrityDetection</code>.
-        /// For more information, see <a>video</a>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see Working With Stored Videos in the Amazon Rekognition Developer
+        /// Guide.
         /// </para>
         ///  
         /// <para>
         ///  <code>GetCelebrityRecognition</code> returns detected celebrities and the time(s)
-        /// they are detected in an array (<code>Celebrities</code>) of objects. Each <code>CelebrityRecognition</code>
-        /// contains information about the celebrity in a object and the time, <code>Timestamp</code>,
-        /// the celebrity was detected. 
+        /// they are detected in an array (<code>Celebrities</code>) of <a>CelebrityRecognition</a>
+        /// objects. Each <code>CelebrityRecognition</code> contains information about the celebrity
+        /// in a <a>CelebrityDetail</a> object and the time, <code>Timestamp</code>, the celebrity
+        /// was detected. 
         /// </para>
-        ///  
+        ///  <note> 
+        /// <para>
+        ///  <code>GetCelebrityRecognition</code> only returns the default facial attributes (<code>BoundingBox</code>,
+        /// <code>Confidence</code>, <code>Landmarks</code>, <code>Pose</code>, and <code>Quality</code>).
+        /// The other facial attributes listed in the <code>Face</code> object of the following
+        /// response syntax are not returned. For more information, see FaceDetail in the Amazon
+        /// Rekognition Developer Guide. 
+        /// </para>
+        ///  </note> 
         /// <para>
         /// By default, the <code>Celebrities</code> array is sorted by time (milliseconds from
         /// the start of the video). You can also sort the array by celebrity by specifying the
@@ -1472,7 +2328,7 @@ namespace Amazon.Rekognition
         /// <para>
         /// The <code>CelebrityDetail</code> object includes the celebrity identifer and additional
         /// information urls. If you don't store the additional information urls, you can get
-        /// them later by calling with the celebrity identifer.
+        /// them later by calling <a>GetCelebrityInfo</a> with the celebrity identifer.
         /// </para>
         ///  
         /// <para>
@@ -1517,10 +2373,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetCelebrityRecognition">REST API Reference for GetCelebrityRecognition Operation</seealso>
         public virtual GetCelebrityRecognitionResponse GetCelebrityRecognition(GetCelebrityRecognitionRequest request)
         {
-            var marshaller = GetCelebrityRecognitionRequestMarshaller.Instance;
-            var unmarshaller = GetCelebrityRecognitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCelebrityRecognitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCelebrityRecognitionResponseUnmarshaller.Instance;
 
-            return Invoke<GetCelebrityRecognitionRequest,GetCelebrityRecognitionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCelebrityRecognitionResponse>(request, options);
         }
 
         /// <summary>
@@ -1537,11 +2394,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetCelebrityRecognition">REST API Reference for GetCelebrityRecognition Operation</seealso>
         public virtual IAsyncResult BeginGetCelebrityRecognition(GetCelebrityRecognitionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCelebrityRecognitionRequestMarshaller.Instance;
-            var unmarshaller = GetCelebrityRecognitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCelebrityRecognitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCelebrityRecognitionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCelebrityRecognitionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1562,25 +2419,30 @@ namespace Amazon.Rekognition
         #region  GetContentModeration
 
         /// <summary>
-        /// Gets the content moderation analysis results for a Rekognition Video analysis started
-        /// by .
+        /// Gets the unsafe content analysis results for a Amazon Rekognition Video analysis started
+        /// by <a>StartContentModeration</a>.
         /// 
         ///  
         /// <para>
-        /// Content moderation analysis of a video is an asynchronous operation. You start analysis
-        /// by calling . which returns a job identifier (<code>JobId</code>). When analysis finishes,
-        /// Rekognition Video publishes a completion status to the Amazon Simple Notification
-        /// Service topic registered in the initial call to <code>StartContentModeration</code>.
-        /// To get the results of the content moderation analysis, first check that the status
-        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <code>GetCelebrityDetection</code>
-        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartCelebrityDetection</code>.
-        /// For more information, see <a>video</a>. 
+        /// Unsafe content analysis of a video is an asynchronous operation. You start analysis
+        /// by calling <a>StartContentModeration</a> which returns a job identifier (<code>JobId</code>).
+        /// When analysis finishes, Amazon Rekognition Video publishes a completion status to
+        /// the Amazon Simple Notification Service topic registered in the initial call to <code>StartContentModeration</code>.
+        /// To get the results of the unsafe content analysis, first check that the status value
+        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <code>GetContentModeration</code>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartContentModeration</code>.
+        /// 
         /// </para>
         ///  
         /// <para>
-        ///  <code>GetContentModeration</code> returns detected content moderation labels, and
-        /// the time they are detected, in an array, <code>ModerationLabels</code>, of objects.
-        /// 
+        /// For more information, see Working with Stored Videos in the Amazon Rekognition Devlopers
+        /// Guide.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetContentModeration</code> returns detected unsafe content labels, and the
+        /// time they are detected, in an array, <code>ModerationLabels</code>, of <a>ContentModerationDetection</a>
+        /// objects. 
         /// </para>
         ///  
         /// <para>
@@ -1600,7 +2462,8 @@ namespace Amazon.Rekognition
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a>moderation</a>.
+        /// For more information, see Detecting Unsafe Content in the Amazon Rekognition Developer
+        /// Guide.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetContentModeration service method.</param>
@@ -1632,10 +2495,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetContentModeration">REST API Reference for GetContentModeration Operation</seealso>
         public virtual GetContentModerationResponse GetContentModeration(GetContentModerationRequest request)
         {
-            var marshaller = GetContentModerationRequestMarshaller.Instance;
-            var unmarshaller = GetContentModerationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContentModerationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContentModerationResponseUnmarshaller.Instance;
 
-            return Invoke<GetContentModerationRequest,GetContentModerationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetContentModerationResponse>(request, options);
         }
 
         /// <summary>
@@ -1652,11 +2516,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetContentModeration">REST API Reference for GetContentModeration Operation</seealso>
         public virtual IAsyncResult BeginGetContentModeration(GetContentModerationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetContentModerationRequestMarshaller.Instance;
-            var unmarshaller = GetContentModerationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContentModerationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContentModerationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetContentModerationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1677,18 +2541,18 @@ namespace Amazon.Rekognition
         #region  GetFaceDetection
 
         /// <summary>
-        /// Gets face detection results for a Rekognition Video analysis started by .
+        /// Gets face detection results for a Amazon Rekognition Video analysis started by <a>StartFaceDetection</a>.
         /// 
         ///  
         /// <para>
-        /// Face detection with Rekognition Video is an asynchronous operation. You start face
-        /// detection by calling which returns a job identifier (<code>JobId</code>). When the
-        /// face detection operation finishes, Rekognition Video publishes a completion status
-        /// to the Amazon Simple Notification Service topic registered in the initial call to
-        /// <code>StartFaceDetection</code>. To get the results of the face detection operation,
-        /// first check that the status value published to the Amazon SNS topic is <code>SUCCEEDED</code>.
-        /// If so, call and pass the job identifier (<code>JobId</code>) from the initial call
-        /// to <code>StartFaceDetection</code>.
+        /// Face detection with Amazon Rekognition Video is an asynchronous operation. You start
+        /// face detection by calling <a>StartFaceDetection</a> which returns a job identifier
+        /// (<code>JobId</code>). When the face detection operation finishes, Amazon Rekognition
+        /// Video publishes a completion status to the Amazon Simple Notification Service topic
+        /// registered in the initial call to <code>StartFaceDetection</code>. To get the results
+        /// of the face detection operation, first check that the status value published to the
+        /// Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetFaceDetection</a> and
+        /// pass the job identifier (<code>JobId</code>) from the initial call to <code>StartFaceDetection</code>.
         /// </para>
         ///  
         /// <para>
@@ -1734,10 +2598,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetFaceDetection">REST API Reference for GetFaceDetection Operation</seealso>
         public virtual GetFaceDetectionResponse GetFaceDetection(GetFaceDetectionRequest request)
         {
-            var marshaller = GetFaceDetectionRequestMarshaller.Instance;
-            var unmarshaller = GetFaceDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFaceDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFaceDetectionResponseUnmarshaller.Instance;
 
-            return Invoke<GetFaceDetectionRequest,GetFaceDetectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetFaceDetectionResponse>(request, options);
         }
 
         /// <summary>
@@ -1754,11 +2619,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetFaceDetection">REST API Reference for GetFaceDetection Operation</seealso>
         public virtual IAsyncResult BeginGetFaceDetection(GetFaceDetectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetFaceDetectionRequestMarshaller.Instance;
-            var unmarshaller = GetFaceDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFaceDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFaceDetectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetFaceDetectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1779,28 +2644,42 @@ namespace Amazon.Rekognition
         #region  GetFaceSearch
 
         /// <summary>
-        /// Gets the face search results for Rekognition Video face search started by . The search
-        /// returns faces in a collection that match the faces of persons detected in a video.
-        /// It also includes the time(s) that faces are matched in the video.
+        /// Gets the face search results for Amazon Rekognition Video face search started by <a>StartFaceSearch</a>.
+        /// The search returns faces in a collection that match the faces of persons detected
+        /// in a video. It also includes the time(s) that faces are matched in the video.
         /// 
         ///  
         /// <para>
         /// Face search in a video is an asynchronous operation. You start face search by calling
-        /// to which returns a job identifier (<code>JobId</code>). When the search operation
-        /// finishes, Rekognition Video publishes a completion status to the Amazon Simple Notification
-        /// Service topic registered in the initial call to <code>StartFaceSearch</code>. To get
-        /// the search results, first check that the status value published to the Amazon SNS
-        /// topic is <code>SUCCEEDED</code>. If so, call <code>GetFaceSearch</code> and pass the
-        /// job identifier (<code>JobId</code>) from the initial call to <code>StartFaceSearch</code>.
-        /// For more information, see <a>collections</a>.
+        /// to <a>StartFaceSearch</a> which returns a job identifier (<code>JobId</code>). When
+        /// the search operation finishes, Amazon Rekognition Video publishes a completion status
+        /// to the Amazon Simple Notification Service topic registered in the initial call to
+        /// <code>StartFaceSearch</code>. To get the search results, first check that the status
+        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <code>GetFaceSearch</code>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartFaceSearch</code>.
         /// </para>
         ///  
         /// <para>
-        /// The search results are retured in an array, <code>Persons</code>, of objects. Each<code>PersonMatch</code>
-        /// element contains details about the matching faces in the input collection, person
-        /// information for the matched person, and the time the person was matched in the video.
+        /// For more information, see Searching Faces in a Collection in the Amazon Rekognition
+        /// Developer Guide.
         /// </para>
         ///  
+        /// <para>
+        /// The search results are retured in an array, <code>Persons</code>, of <a>PersonMatch</a>
+        /// objects. Each<code>PersonMatch</code> element contains details about the matching
+        /// faces in the input collection, person information (facial attributes, bounding boxes,
+        /// and person identifer) for the matched person, and the time the person was matched
+        /// in the video.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>GetFaceSearch</code> only returns the default facial attributes (<code>BoundingBox</code>,
+        /// <code>Confidence</code>, <code>Landmarks</code>, <code>Pose</code>, and <code>Quality</code>).
+        /// The other facial attributes listed in the <code>Face</code> object of the following
+        /// response syntax are not returned. For more information, see FaceDetail in the Amazon
+        /// Rekognition Developer Guide. 
+        /// </para>
+        ///  </note> 
         /// <para>
         /// By default, the <code>Persons</code> array is sorted by the time, in milliseconds
         /// from the start of the video, persons are matched. You can also sort by persons by
@@ -1836,10 +2715,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetFaceSearch">REST API Reference for GetFaceSearch Operation</seealso>
         public virtual GetFaceSearchResponse GetFaceSearch(GetFaceSearchRequest request)
         {
-            var marshaller = GetFaceSearchRequestMarshaller.Instance;
-            var unmarshaller = GetFaceSearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFaceSearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFaceSearchResponseUnmarshaller.Instance;
 
-            return Invoke<GetFaceSearchRequest,GetFaceSearchResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetFaceSearchResponse>(request, options);
         }
 
         /// <summary>
@@ -1856,11 +2736,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetFaceSearch">REST API Reference for GetFaceSearch Operation</seealso>
         public virtual IAsyncResult BeginGetFaceSearch(GetFaceSearchRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetFaceSearchRequestMarshaller.Instance;
-            var unmarshaller = GetFaceSearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetFaceSearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetFaceSearchResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetFaceSearchRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1881,17 +2761,18 @@ namespace Amazon.Rekognition
         #region  GetLabelDetection
 
         /// <summary>
-        /// Gets the label detection results of a Rekognition Video analysis started by . 
+        /// Gets the label detection results of a Amazon Rekognition Video analysis started by
+        /// <a>StartLabelDetection</a>. 
         /// 
         ///  
         /// <para>
-        /// The label detection operation is started by a call to which returns a job identifier
-        /// (<code>JobId</code>). When the label detection operation finishes, Amazon Rekognition
-        /// publishes a completion status to the Amazon Simple Notification Service topic registered
-        /// in the initial call to <code>StartlabelDetection</code>. To get the results of the
-        /// label detection operation, first check that the status value published to the Amazon
-        /// SNS topic is <code>SUCCEEDED</code>. If so, call and pass the job identifier (<code>JobId</code>)
-        /// from the initial call to <code>StartLabelDetection</code>.
+        /// The label detection operation is started by a call to <a>StartLabelDetection</a> which
+        /// returns a job identifier (<code>JobId</code>). When the label detection operation
+        /// finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification
+        /// Service topic registered in the initial call to <code>StartlabelDetection</code>.
+        /// To get the results of the label detection operation, first check that the status value
+        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetLabelDetection</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartLabelDetection</code>.
         /// </para>
         ///  
         /// <para>
@@ -1903,6 +2784,11 @@ namespace Amazon.Rekognition
         /// <para>
         /// The labels returned include the label name, the percentage confidence in the accuracy
         /// of the detected label, and the time the label was detected in the video.
+        /// </para>
+        ///  
+        /// <para>
+        /// The returned labels also include bounding box information for common objects, a hierarchical
+        /// taxonomy of detected labels, and the version of the label model used for detection.
         /// </para>
         ///  
         /// <para>
@@ -1943,10 +2829,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetLabelDetection">REST API Reference for GetLabelDetection Operation</seealso>
         public virtual GetLabelDetectionResponse GetLabelDetection(GetLabelDetectionRequest request)
         {
-            var marshaller = GetLabelDetectionRequestMarshaller.Instance;
-            var unmarshaller = GetLabelDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLabelDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLabelDetectionResponseUnmarshaller.Instance;
 
-            return Invoke<GetLabelDetectionRequest,GetLabelDetectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLabelDetectionResponse>(request, options);
         }
 
         /// <summary>
@@ -1963,11 +2850,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetLabelDetection">REST API Reference for GetLabelDetection Operation</seealso>
         public virtual IAsyncResult BeginGetLabelDetection(GetLabelDetectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLabelDetectionRequestMarshaller.Instance;
-            var unmarshaller = GetLabelDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLabelDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLabelDetectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLabelDetectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1988,30 +2875,41 @@ namespace Amazon.Rekognition
         #region  GetPersonTracking
 
         /// <summary>
-        /// Gets the person tracking results of a Rekognition Video analysis started by .
+        /// Gets the path tracking results of a Amazon Rekognition Video analysis started by <a>StartPersonTracking</a>.
         /// 
         ///  
         /// <para>
-        /// The person detection operation is started by a call to <code>StartPersonTracking</code>
-        /// which returns a job identifier (<code>JobId</code>). When the person detection operation
-        /// finishes, Rekognition Video publishes a completion status to the Amazon Simple Notification
+        /// The person path tracking operation is started by a call to <code>StartPersonTracking</code>
+        /// which returns a job identifier (<code>JobId</code>). When the operation finishes,
+        /// Amazon Rekognition Video publishes a completion status to the Amazon Simple Notification
         /// Service topic registered in the initial call to <code>StartPersonTracking</code>.
         /// </para>
         ///  
         /// <para>
-        /// To get the results of the person tracking operation, first check that the status value
-        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and pass
-        /// the job identifier (<code>JobId</code>) from the initial call to <code>StartPersonTracking</code>.
+        /// To get the results of the person path tracking operation, first check that the status
+        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetPersonTracking</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartPersonTracking</code>.
         /// </para>
         ///  
         /// <para>
         ///  <code>GetPersonTracking</code> returns an array, <code>Persons</code>, of tracked
-        /// persons and the time(s) they were tracked in the video. 
+        /// persons and the time(s) their paths were tracked in the video. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>GetPersonTracking</code> only returns the default facial attributes (<code>BoundingBox</code>,
+        /// <code>Confidence</code>, <code>Landmarks</code>, <code>Pose</code>, and <code>Quality</code>).
+        /// The other facial attributes listed in the <code>Face</code> object of the following
+        /// response syntax are not returned. 
         /// </para>
         ///  
         /// <para>
-        /// By default, the array is sorted by the time(s) a person is tracked in the video. You
-        /// can sort by tracked persons by specifying <code>INDEX</code> for the <code>SortBy</code>
+        /// For more information, see FaceDetail in the Amazon Rekognition Developer Guide.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// By default, the array is sorted by the time(s) a person's path is tracked in the video.
+        /// You can sort by tracked persons by specifying <code>INDEX</code> for the <code>SortBy</code>
         /// input parameter.
         /// </para>
         ///  
@@ -2053,10 +2951,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetPersonTracking">REST API Reference for GetPersonTracking Operation</seealso>
         public virtual GetPersonTrackingResponse GetPersonTracking(GetPersonTrackingRequest request)
         {
-            var marshaller = GetPersonTrackingRequestMarshaller.Instance;
-            var unmarshaller = GetPersonTrackingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPersonTrackingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPersonTrackingResponseUnmarshaller.Instance;
 
-            return Invoke<GetPersonTrackingRequest,GetPersonTrackingResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetPersonTrackingResponse>(request, options);
         }
 
         /// <summary>
@@ -2073,11 +2972,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetPersonTracking">REST API Reference for GetPersonTracking Operation</seealso>
         public virtual IAsyncResult BeginGetPersonTracking(GetPersonTrackingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetPersonTrackingRequestMarshaller.Instance;
-            var unmarshaller = GetPersonTrackingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetPersonTrackingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetPersonTrackingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetPersonTrackingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2095,6 +2994,116 @@ namespace Amazon.Rekognition
 
         #endregion
         
+        #region  GetTextDetection
+
+        /// <summary>
+        /// Gets the text detection results of a Amazon Rekognition Video analysis started by
+        /// <a>StartTextDetection</a>.
+        /// 
+        ///  
+        /// <para>
+        /// Text detection with Amazon Rekognition Video is an asynchronous operation. You start
+        /// text detection by calling <a>StartTextDetection</a> which returns a job identifier
+        /// (<code>JobId</code>) When the text detection operation finishes, Amazon Rekognition
+        /// publishes a completion status to the Amazon Simple Notification Service topic registered
+        /// in the initial call to <code>StartTextDetection</code>. To get the results of the
+        /// text detection operation, first check that the status value published to the Amazon
+        /// SNS topic is <code>SUCCEEDED</code>. if so, call <code>GetTextDetection</code> and
+        /// pass the job identifier (<code>JobId</code>) from the initial call of <code>StartLabelDetection</code>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>GetTextDetection</code> returns an array of detected text (<code>TextDetections</code>)
+        /// sorted by the time the text was detected, up to 50 words per frame of video.
+        /// </para>
+        ///  
+        /// <para>
+        /// Each element of the array includes the detected text, the precentage confidence in
+        /// the acuracy of the detected text, the time the text was detected, bounding box information
+        /// for where the text was located, and unique identifiers for words and their lines.
+        /// </para>
+        ///  
+        /// <para>
+        /// Use MaxResults parameter to limit the number of text detections returned. If there
+        /// are more results than specified in <code>MaxResults</code>, the value of <code>NextToken</code>
+        /// in the operation response contains a pagination token for getting the next set of
+        /// results. To get the next page of results, call <code>GetTextDetection</code> and populate
+        /// the <code>NextToken</code> request parameter with the token value returned from the
+        /// previous call to <code>GetTextDetection</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTextDetection service method.</param>
+        /// 
+        /// <returns>The response from the GetTextDetection service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidPaginationTokenException">
+        /// Pagination token in the request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetTextDetection">REST API Reference for GetTextDetection Operation</seealso>
+        public virtual GetTextDetectionResponse GetTextDetection(GetTextDetectionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTextDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTextDetectionResponseUnmarshaller.Instance;
+
+            return Invoke<GetTextDetectionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTextDetection operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTextDetection operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTextDetection
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetTextDetection">REST API Reference for GetTextDetection Operation</seealso>
+        public virtual IAsyncResult BeginGetTextDetection(GetTextDetectionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTextDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTextDetectionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTextDetection operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTextDetection.</param>
+        /// 
+        /// <returns>Returns a  GetTextDetectionResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/GetTextDetection">REST API Reference for GetTextDetection Operation</seealso>
+        public virtual GetTextDetectionResponse EndGetTextDetection(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetTextDetectionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  IndexFaces
 
         /// <summary>
@@ -2102,47 +3111,141 @@ namespace Amazon.Rekognition
         /// 
         ///  
         /// <para>
-        /// Amazon Rekognition does not save the actual faces detected. Instead, the underlying
-        /// detection algorithm first detects the faces in the input image, and for each face
-        /// extracts facial features into a feature vector, and stores it in the back-end database.
-        /// Amazon Rekognition uses feature vectors when performing face match and search operations
-        /// using the and operations.
+        /// Amazon Rekognition doesn't save the actual faces that are detected. Instead, the underlying
+        /// detection algorithm first detects the faces in the input image. For each face, the
+        /// algorithm extracts facial features into a feature vector, and stores it in the backend
+        /// database. Amazon Rekognition uses feature vectors when it performs face match and
+        /// search operations using the <a>SearchFaces</a> and <a>SearchFacesByImage</a> operations.
         /// </para>
         ///  
         /// <para>
-        /// If you are using version 1.0 of the face detection model, <code>IndexFaces</code>
-        /// indexes the 15 largest faces in the input image. Later versions of the face detection
-        /// model index the 100 largest faces in the input image. To determine which version of
-        /// the model you are using, check the the value of <code>FaceModelVersion</code> in the
-        /// response from <code>IndexFaces</code>. For more information, see <a>face-detection-model</a>.
+        /// For more information, see Adding Faces to a Collection in the Amazon Rekognition Developer
+        /// Guide.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get the number of faces in a collection, call <a>DescribeCollection</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you're using version 1.0 of the face detection model, <code>IndexFaces</code> indexes
+        /// the 15 largest faces in the input image. Later versions of the face detection model
+        /// index the 100 largest faces in the input image. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you're using version 4 or later of the face model, image orientation information
+        /// is not returned in the <code>OrientationCorrection</code> field. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To determine which version of the model you're using, call <a>DescribeCollection</a>
+        /// and supply the collection ID. You can also get the model version from the value of
+        /// <code>FaceModelVersion</code> in the response from <code>IndexFaces</code> 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see Model Versioning in the Amazon Rekognition Developer Guide.
         /// </para>
         ///  
         /// <para>
         /// If you provide the optional <code>ExternalImageID</code> for the input image you provided,
         /// Amazon Rekognition associates this ID with all faces that it detects. When you call
-        /// the operation, the response returns the external ID. You can use this external image
-        /// ID to create a client-side index to associate the faces with each image. You can then
-        /// use the index to find all faces in an image. 
+        /// the <a>ListFaces</a> operation, the response returns the external ID. You can use
+        /// this external image ID to create a client-side index to associate the faces with each
+        /// image. You can then use the index to find all faces in an image.
         /// </para>
         ///  
         /// <para>
-        /// In response, the operation returns an array of metadata for all detected faces. This
-        /// includes, the bounding box of the detected face, confidence value (indicating the
-        /// bounding box contains a face), a face ID assigned by the service for each face that
-        /// is detected and stored, and an image ID assigned by the service for the input image.
-        /// If you request all facial attributes (using the <code>detectionAttributes</code> parameter,
-        /// Amazon Rekognition returns detailed facial attributes such as facial landmarks (for
-        /// example, location of eye and mount) and other facial attributes such gender. If you
-        /// provide the same image, specify the same collection, and use the same external ID
-        /// in the <code>IndexFaces</code> operation, Amazon Rekognition doesn't save duplicate
-        /// face metadata. 
+        /// You can specify the maximum number of faces to index with the <code>MaxFaces</code>
+        /// input parameter. This is useful when you want to index the largest faces in an image
+        /// and don't want to index smaller faces, such as those belonging to people standing
+        /// in the background.
         /// </para>
         ///  
         /// <para>
-        /// The input image is passed either as base64-encoded image bytes or as a reference to
-        /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
-        /// operations, passing image bytes is not supported. The image must be either a PNG or
-        /// JPEG formatted file. 
+        /// The <code>QualityFilter</code> input parameter allows you to filter out detected faces
+        /// that don’t meet a required quality bar. The quality bar is based on a variety of common
+        /// use cases. By default, <code>IndexFaces</code> chooses the quality bar that's used
+        /// to filter faces. You can also explicitly choose the quality bar. Use <code>QualityFilter</code>,
+        /// to set the quality bar by specifying <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>.
+        /// If you do not want to filter detected faces, specify <code>NONE</code>. 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// To use quality filtering, you need a collection associated with version 3 of the face
+        /// model or higher. To get the version of the face model associated with a collection,
+        /// call <a>DescribeCollection</a>. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Information about faces detected in an image, but not indexed, is returned in an array
+        /// of <a>UnindexedFace</a> objects, <code>UnindexedFaces</code>. Faces aren't indexed
+        /// for reasons such as:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The number of faces detected exceeds the value of the <code>MaxFaces</code> request
+        /// parameter.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The face is too small compared to the image dimensions.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The face is too blurry.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The image is too dark.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The face has an extreme pose.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The face doesn’t have enough detail to be suitable for face search.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// In response, the <code>IndexFaces</code> operation returns an array of metadata for
+        /// all detected faces, <code>FaceRecords</code>. This includes: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The bounding box, <code>BoundingBox</code>, of the detected face. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A confidence value, <code>Confidence</code>, which indicates the confidence that the
+        /// bounding box contains a face.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A face ID, <code>FaceId</code>, assigned by the service for each face that's detected
+        /// and stored.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An image ID, <code>ImageId</code>, assigned by the service for the input image.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If you request all facial attributes (by using the <code>detectionAttributes</code>
+        /// parameter), Amazon Rekognition returns detailed facial attributes, such as facial
+        /// landmarks (for example, location of eye and mouth) and other facial attributes. If
+        /// you provide the same image, specify the same collection, and use the same external
+        /// ID in the <code>IndexFaces</code> operation, Amazon Rekognition doesn't save duplicate
+        /// face metadata.
+        /// </para>
+        ///   
+        /// <para>
+        /// The input image is passed either as base64-encoded image bytes, or as a reference
+        /// to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
+        /// operations, passing image bytes isn't supported. The image must be formatted as a
+        /// PNG or JPEG file. 
         /// </para>
         ///  
         /// <para>
@@ -2157,7 +3260,8 @@ namespace Amazon.Rekognition
         /// You are not authorized to perform the action.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -2185,10 +3289,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/IndexFaces">REST API Reference for IndexFaces Operation</seealso>
         public virtual IndexFacesResponse IndexFaces(IndexFacesRequest request)
         {
-            var marshaller = IndexFacesRequestMarshaller.Instance;
-            var unmarshaller = IndexFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IndexFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IndexFacesResponseUnmarshaller.Instance;
 
-            return Invoke<IndexFacesRequest,IndexFacesResponse>(request, marshaller, unmarshaller);
+            return Invoke<IndexFacesResponse>(request, options);
         }
 
         /// <summary>
@@ -2205,11 +3310,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/IndexFaces">REST API Reference for IndexFaces Operation</seealso>
         public virtual IAsyncResult BeginIndexFaces(IndexFacesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = IndexFacesRequestMarshaller.Instance;
-            var unmarshaller = IndexFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IndexFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IndexFacesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<IndexFacesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2236,7 +3341,7 @@ namespace Amazon.Rekognition
         /// 
         ///  
         /// <para>
-        /// For an example, see <a>list-collection-procedure</a>.
+        /// For an example, see Listing Collections in the Amazon Rekognition Developer Guide.
         /// </para>
         ///  
         /// <para>
@@ -2273,10 +3378,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/ListCollections">REST API Reference for ListCollections Operation</seealso>
         public virtual ListCollectionsResponse ListCollections(ListCollectionsRequest request)
         {
-            var marshaller = ListCollectionsRequestMarshaller.Instance;
-            var unmarshaller = ListCollectionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCollectionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCollectionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListCollectionsRequest,ListCollectionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListCollectionsResponse>(request, options);
         }
 
         /// <summary>
@@ -2293,11 +3399,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/ListCollections">REST API Reference for ListCollections Operation</seealso>
         public virtual IAsyncResult BeginListCollections(ListCollectionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListCollectionsRequestMarshaller.Instance;
-            var unmarshaller = ListCollectionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListCollectionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListCollectionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListCollectionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2320,8 +3426,8 @@ namespace Amazon.Rekognition
         /// <summary>
         /// Returns metadata for faces in the specified collection. This metadata includes information
         /// such as the bounding box coordinates, the confidence (that the bounding box contains
-        /// a face), and face ID. For an example, see <a>list-faces-in-collection-procedure</a>.
-        /// 
+        /// a face), and face ID. For an example, see Listing Faces in a Collection in the Amazon
+        /// Rekognition Developer Guide.
         /// 
         ///  
         /// <para>
@@ -2358,10 +3464,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/ListFaces">REST API Reference for ListFaces Operation</seealso>
         public virtual ListFacesResponse ListFaces(ListFacesRequest request)
         {
-            var marshaller = ListFacesRequestMarshaller.Instance;
-            var unmarshaller = ListFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFacesResponseUnmarshaller.Instance;
 
-            return Invoke<ListFacesRequest,ListFacesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListFacesResponse>(request, options);
         }
 
         /// <summary>
@@ -2378,11 +3485,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/ListFaces">REST API Reference for ListFaces Operation</seealso>
         public virtual IAsyncResult BeginListFaces(ListFacesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListFacesRequestMarshaller.Instance;
-            var unmarshaller = ListFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListFacesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListFacesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2403,7 +3510,7 @@ namespace Amazon.Rekognition
         #region  ListStreamProcessors
 
         /// <summary>
-        /// Gets a list of stream processors that you have created with .
+        /// Gets a list of stream processors that you have created with <a>CreateStreamProcessor</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListStreamProcessors service method.</param>
         /// 
@@ -2431,10 +3538,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/ListStreamProcessors">REST API Reference for ListStreamProcessors Operation</seealso>
         public virtual ListStreamProcessorsResponse ListStreamProcessors(ListStreamProcessorsRequest request)
         {
-            var marshaller = ListStreamProcessorsRequestMarshaller.Instance;
-            var unmarshaller = ListStreamProcessorsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamProcessorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamProcessorsResponseUnmarshaller.Instance;
 
-            return Invoke<ListStreamProcessorsRequest,ListStreamProcessorsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListStreamProcessorsResponse>(request, options);
         }
 
         /// <summary>
@@ -2451,11 +3559,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/ListStreamProcessors">REST API Reference for ListStreamProcessors Operation</seealso>
         public virtual IAsyncResult BeginListStreamProcessors(ListStreamProcessorsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListStreamProcessorsRequestMarshaller.Instance;
-            var unmarshaller = ListStreamProcessorsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListStreamProcessorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListStreamProcessorsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListStreamProcessorsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2477,41 +3585,42 @@ namespace Amazon.Rekognition
 
         /// <summary>
         /// Returns an array of celebrities recognized in the input image. For more information,
-        /// see <a>celebrities</a>. 
+        /// see Recognizing Celebrities in the Amazon Rekognition Developer Guide. 
         /// 
         ///  
         /// <para>
         ///  <code>RecognizeCelebrities</code> returns the 100 largest faces in the image. It
         /// lists recognized celebrities in the <code>CelebrityFaces</code> array and unrecognized
         /// faces in the <code>UnrecognizedFaces</code> array. <code>RecognizeCelebrities</code>
-        /// doesn't return celebrities whose faces are not amongst the largest 100 faces in the
-        /// image.
+        /// doesn't return celebrities whose faces aren't among the largest 100 faces in the image.
         /// </para>
         ///  
         /// <para>
-        /// For each celebrity recognized, the <code>RecognizeCelebrities</code> returns a <code>Celebrity</code>
+        /// For each celebrity recognized, <code>RecognizeCelebrities</code> returns a <code>Celebrity</code>
         /// object. The <code>Celebrity</code> object contains the celebrity name, ID, URL links
         /// to additional information, match confidence, and a <code>ComparedFace</code> object
         /// that you can use to locate the celebrity's face on the image.
         /// </para>
         ///  
         /// <para>
-        /// Rekognition does not retain information about which images a celebrity has been recognized
-        /// in. Your application must store this information and use the <code>Celebrity</code>
+        /// Amazon Rekognition doesn't retain information about which images a celebrity has been
+        /// recognized in. Your application must store this information and use the <code>Celebrity</code>
         /// ID property as a unique identifier for the celebrity. If you don't store the celebrity
         /// name or additional information URLs returned by <code>RecognizeCelebrities</code>,
-        /// you will need the ID to identify the celebrity in a call to the operation.
+        /// you will need the ID to identify the celebrity in a call to the <a>GetCelebrityInfo</a>
+        /// operation.
         /// </para>
         ///  
         /// <para>
-        /// You pass the imput image either as base64-encoded image bytes or as a reference to
-        /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
+        /// You pass the input image either as base64-encoded image bytes or as a reference to
+        /// an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
         /// operations, passing image bytes is not supported. The image must be either a PNG or
         /// JPEG formatted file. 
         /// </para>
         ///  
         /// <para>
-        /// For an example, see <a>celebrities-procedure-image</a>.
+        /// For an example, see Recognizing Celebrities in an Image in the Amazon Rekognition
+        /// Developer Guide.
         /// </para>
         ///  
         /// <para>
@@ -2526,7 +3635,8 @@ namespace Amazon.Rekognition
         /// You are not authorized to perform the action.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -2554,10 +3664,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/RecognizeCelebrities">REST API Reference for RecognizeCelebrities Operation</seealso>
         public virtual RecognizeCelebritiesResponse RecognizeCelebrities(RecognizeCelebritiesRequest request)
         {
-            var marshaller = RecognizeCelebritiesRequestMarshaller.Instance;
-            var unmarshaller = RecognizeCelebritiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RecognizeCelebritiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RecognizeCelebritiesResponseUnmarshaller.Instance;
 
-            return Invoke<RecognizeCelebritiesRequest,RecognizeCelebritiesResponse>(request, marshaller, unmarshaller);
+            return Invoke<RecognizeCelebritiesResponse>(request, options);
         }
 
         /// <summary>
@@ -2574,11 +3685,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/RecognizeCelebrities">REST API Reference for RecognizeCelebrities Operation</seealso>
         public virtual IAsyncResult BeginRecognizeCelebrities(RecognizeCelebritiesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RecognizeCelebritiesRequestMarshaller.Instance;
-            var unmarshaller = RecognizeCelebritiesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RecognizeCelebritiesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RecognizeCelebritiesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RecognizeCelebritiesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2619,7 +3730,8 @@ namespace Amazon.Rekognition
         /// </para>
         ///  
         /// <para>
-        /// For an example, see <a>search-face-with-id-procedure</a>.
+        /// For an example, see Searching for a Face Using Its Face ID in the Amazon Rekognition
+        /// Developer Guide.
         /// </para>
         ///  
         /// <para>
@@ -2653,10 +3765,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/SearchFaces">REST API Reference for SearchFaces Operation</seealso>
         public virtual SearchFacesResponse SearchFaces(SearchFacesRequest request)
         {
-            var marshaller = SearchFacesRequestMarshaller.Instance;
-            var unmarshaller = SearchFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchFacesResponseUnmarshaller.Instance;
 
-            return Invoke<SearchFacesRequest,SearchFacesResponse>(request, marshaller, unmarshaller);
+            return Invoke<SearchFacesResponse>(request, options);
         }
 
         /// <summary>
@@ -2673,11 +3786,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/SearchFaces">REST API Reference for SearchFaces Operation</seealso>
         public virtual IAsyncResult BeginSearchFaces(SearchFacesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SearchFacesRequestMarshaller.Instance;
-            var unmarshaller = SearchFacesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchFacesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchFacesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SearchFacesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2704,8 +3817,9 @@ namespace Amazon.Rekognition
         /// 
         ///  <note> 
         /// <para>
-        ///  To search for all faces in an input image, you might first call the operation, and
-        /// then use the face IDs returned in subsequent calls to the operation. 
+        /// To search for all faces in an input image, you might first call the <a>IndexFaces</a>
+        /// operation, and then use the face IDs returned in subsequent calls to the <a>SearchFaces</a>
+        /// operation. 
         /// </para>
         ///  
         /// <para>
@@ -2716,7 +3830,7 @@ namespace Amazon.Rekognition
         ///  </note> 
         /// <para>
         /// You pass the input image either as base64-encoded image bytes or as a reference to
-        /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
+        /// an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
         /// operations, passing image bytes is not supported. The image must be either a PNG or
         /// JPEG formatted file. 
         /// </para>
@@ -2731,9 +3845,25 @@ namespace Amazon.Rekognition
         /// </para>
         ///  
         /// <para>
-        /// For an example, see <a>search-face-with-image-procedure</a>.
+        /// For an example, Searching for a Face Using an Image in the Amazon Rekognition Developer
+        /// Guide.
         /// </para>
         ///  
+        /// <para>
+        /// The <code>QualityFilter</code> input parameter allows you to filter out detected faces
+        /// that don’t meet a required quality bar. The quality bar is based on a variety of common
+        /// use cases. Use <code>QualityFilter</code> to set the quality bar for filtering by
+        /// specifying <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>. If you do
+        /// not want to filter detected faces, specify <code>NONE</code>. The default value is
+        /// <code>NONE</code>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// To use quality filtering, you need a collection associated with version 3 of the face
+        /// model or higher. To get the version of the face model associated with a collection,
+        /// call <a>DescribeCollection</a>. 
+        /// </para>
+        ///  </note> 
         /// <para>
         /// This operation requires permissions to perform the <code>rekognition:SearchFacesByImage</code>
         /// action.
@@ -2746,7 +3876,8 @@ namespace Amazon.Rekognition
         /// You are not authorized to perform the action.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ImageTooLargeException">
-        /// The input image size exceeds the allowed limit. For more information, see <a>limits</a>.
+        /// The input image size exceeds the allowed limit. For more information, see Limits in
+        /// Amazon Rekognition in the Amazon Rekognition Developer Guide.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
         /// Amazon Rekognition experienced a service issue. Try your call again.
@@ -2774,10 +3905,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/SearchFacesByImage">REST API Reference for SearchFacesByImage Operation</seealso>
         public virtual SearchFacesByImageResponse SearchFacesByImage(SearchFacesByImageRequest request)
         {
-            var marshaller = SearchFacesByImageRequestMarshaller.Instance;
-            var unmarshaller = SearchFacesByImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchFacesByImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchFacesByImageResponseUnmarshaller.Instance;
 
-            return Invoke<SearchFacesByImageRequest,SearchFacesByImageResponse>(request, marshaller, unmarshaller);
+            return Invoke<SearchFacesByImageResponse>(request, options);
         }
 
         /// <summary>
@@ -2794,11 +3926,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/SearchFacesByImage">REST API Reference for SearchFacesByImage Operation</seealso>
         public virtual IAsyncResult BeginSearchFacesByImage(SearchFacesByImageRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SearchFacesByImageRequestMarshaller.Instance;
-            var unmarshaller = SearchFacesByImageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchFacesByImageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchFacesByImageResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SearchFacesByImageRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2823,16 +3955,21 @@ namespace Amazon.Rekognition
         /// 
         ///  
         /// <para>
-        /// Rekognition Video can detect celebrities in a video must be stored in an Amazon S3
-        /// bucket. Use <a>Video</a> to specify the bucket name and the filename of the video.
+        /// Amazon Rekognition Video can detect celebrities in a video must be stored in an Amazon
+        /// S3 bucket. Use <a>Video</a> to specify the bucket name and the filename of the video.
         /// <code>StartCelebrityRecognition</code> returns a job identifier (<code>JobId</code>)
         /// which you use to get the results of the analysis. When celebrity recognition analysis
-        /// is finished, Rekognition Video publishes a completion status to the Amazon Simple
-        /// Notification Service topic that you specify in <code>NotificationChannel</code>. To
-        /// get the results of the celebrity recognition analysis, first check that the status
-        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and
-        /// pass the job identifier (<code>JobId</code>) from the initial call to <code>StartCelebrityRecognition</code>.
-        /// For more information, see <a>celebrities</a>.
+        /// is finished, Amazon Rekognition Video publishes a completion status to the Amazon
+        /// Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
+        /// To get the results of the celebrity recognition analysis, first check that the status
+        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetCelebrityRecognition</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartCelebrityRecognition</code>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see Recognizing Celebrities in the Amazon Rekognition Developer
+        /// Guide.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartCelebrityRecognition service method.</param>
@@ -2857,7 +3994,11 @@ namespace Amazon.Rekognition
         /// Amazon Rekognition is unable to access the S3 object specified in the request.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
-        /// 
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
         /// The number of requests exceeded your throughput limit. If you want to increase this
@@ -2868,15 +4009,16 @@ namespace Amazon.Rekognition
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.VideoTooLargeException">
         /// The file size or duration of the supplied media is too large. The maximum file size
-        /// is 8GB. The maximum duration is 2 hours.
+        /// is 10GB. The maximum duration is 6 hours.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartCelebrityRecognition">REST API Reference for StartCelebrityRecognition Operation</seealso>
         public virtual StartCelebrityRecognitionResponse StartCelebrityRecognition(StartCelebrityRecognitionRequest request)
         {
-            var marshaller = StartCelebrityRecognitionRequestMarshaller.Instance;
-            var unmarshaller = StartCelebrityRecognitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartCelebrityRecognitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartCelebrityRecognitionResponseUnmarshaller.Instance;
 
-            return Invoke<StartCelebrityRecognitionRequest,StartCelebrityRecognitionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartCelebrityRecognitionResponse>(request, options);
         }
 
         /// <summary>
@@ -2893,11 +4035,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartCelebrityRecognition">REST API Reference for StartCelebrityRecognition Operation</seealso>
         public virtual IAsyncResult BeginStartCelebrityRecognition(StartCelebrityRecognitionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartCelebrityRecognitionRequestMarshaller.Instance;
-            var unmarshaller = StartCelebrityRecognitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartCelebrityRecognitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartCelebrityRecognitionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartCelebrityRecognitionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2918,24 +4060,28 @@ namespace Amazon.Rekognition
         #region  StartContentModeration
 
         /// <summary>
-        /// Starts asynchronous detection of explicit or suggestive adult content in a stored
-        /// video.
+        /// Starts asynchronous detection of unsafe content in a stored video.
         /// 
         ///  
         /// <para>
-        /// Rekognition Video can moderate content in a video stored in an Amazon S3 bucket. Use
-        /// <a>Video</a> to specify the bucket name and the filename of the video. <code>StartContentModeration</code>
+        /// Amazon Rekognition Video can moderate content in a video stored in an Amazon S3 bucket.
+        /// Use <a>Video</a> to specify the bucket name and the filename of the video. <code>StartContentModeration</code>
         /// returns a job identifier (<code>JobId</code>) which you use to get the results of
-        /// the analysis. When content moderation analysis is finished, Rekognition Video publishes
+        /// the analysis. When unsafe content analysis is finished, Amazon Rekognition Video publishes
         /// a completion status to the Amazon Simple Notification Service topic that you specify
         /// in <code>NotificationChannel</code>.
         /// </para>
         ///  
         /// <para>
-        /// To get the results of the content moderation analysis, first check that the status
-        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and
-        /// pass the job identifier (<code>JobId</code>) from the initial call to <code>StartContentModeration</code>.
-        /// For more information, see <a>moderation</a>.
+        /// To get the results of the unsafe content analysis, first check that the status value
+        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetContentModeration</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartContentModeration</code>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see Detecting Unsafe Content in the Amazon Rekognition Developer
+        /// Guide.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartContentModeration service method.</param>
@@ -2960,7 +4106,11 @@ namespace Amazon.Rekognition
         /// Amazon Rekognition is unable to access the S3 object specified in the request.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
-        /// 
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
         /// The number of requests exceeded your throughput limit. If you want to increase this
@@ -2971,15 +4121,16 @@ namespace Amazon.Rekognition
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.VideoTooLargeException">
         /// The file size or duration of the supplied media is too large. The maximum file size
-        /// is 8GB. The maximum duration is 2 hours.
+        /// is 10GB. The maximum duration is 6 hours.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartContentModeration">REST API Reference for StartContentModeration Operation</seealso>
         public virtual StartContentModerationResponse StartContentModeration(StartContentModerationRequest request)
         {
-            var marshaller = StartContentModerationRequestMarshaller.Instance;
-            var unmarshaller = StartContentModerationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartContentModerationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartContentModerationResponseUnmarshaller.Instance;
 
-            return Invoke<StartContentModerationRequest,StartContentModerationResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartContentModerationResponse>(request, options);
         }
 
         /// <summary>
@@ -2996,11 +4147,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartContentModeration">REST API Reference for StartContentModeration Operation</seealso>
         public virtual IAsyncResult BeginStartContentModeration(StartContentModerationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartContentModerationRequestMarshaller.Instance;
-            var unmarshaller = StartContentModerationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartContentModerationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartContentModerationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartContentModerationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3025,15 +4176,19 @@ namespace Amazon.Rekognition
         /// 
         ///  
         /// <para>
-        /// Rekognition Video can detect faces in a video stored in an Amazon S3 bucket. Use <a>Video</a>
-        /// to specify the bucket name and the filename of the video. <code>StartFaceDetection</code>
+        /// Amazon Rekognition Video can detect faces in a video stored in an Amazon S3 bucket.
+        /// Use <a>Video</a> to specify the bucket name and the filename of the video. <code>StartFaceDetection</code>
         /// returns a job identifier (<code>JobId</code>) that you use to get the results of the
-        /// operation. When face detection is finished, Rekognition Video publishes a completion
+        /// operation. When face detection is finished, Amazon Rekognition Video publishes a completion
         /// status to the Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
-        /// To get the results of the label detection operation, first check that the status value
-        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and pass
-        /// the job identifier (<code>JobId</code>) from the initial call to <code>StartFaceDetection</code>.
-        /// For more information, see <a>faces-video</a>.
+        /// To get the results of the face detection operation, first check that the status value
+        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetFaceDetection</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartFaceDetection</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see Detecting Faces in a Stored Video in the Amazon Rekognition
+        /// Developer Guide.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartFaceDetection service method.</param>
@@ -3058,7 +4213,11 @@ namespace Amazon.Rekognition
         /// Amazon Rekognition is unable to access the S3 object specified in the request.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
-        /// 
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
         /// The number of requests exceeded your throughput limit. If you want to increase this
@@ -3069,15 +4228,16 @@ namespace Amazon.Rekognition
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.VideoTooLargeException">
         /// The file size or duration of the supplied media is too large. The maximum file size
-        /// is 8GB. The maximum duration is 2 hours.
+        /// is 10GB. The maximum duration is 6 hours.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartFaceDetection">REST API Reference for StartFaceDetection Operation</seealso>
         public virtual StartFaceDetectionResponse StartFaceDetection(StartFaceDetectionRequest request)
         {
-            var marshaller = StartFaceDetectionRequestMarshaller.Instance;
-            var unmarshaller = StartFaceDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartFaceDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartFaceDetectionResponseUnmarshaller.Instance;
 
-            return Invoke<StartFaceDetectionRequest,StartFaceDetectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartFaceDetectionResponse>(request, options);
         }
 
         /// <summary>
@@ -3094,11 +4254,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartFaceDetection">REST API Reference for StartFaceDetection Operation</seealso>
         public virtual IAsyncResult BeginStartFaceDetection(StartFaceDetectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartFaceDetectionRequestMarshaller.Instance;
-            var unmarshaller = StartFaceDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartFaceDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartFaceDetectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartFaceDetectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3127,11 +4287,12 @@ namespace Amazon.Rekognition
         /// The video must be stored in an Amazon S3 bucket. Use <a>Video</a> to specify the bucket
         /// name and the filename of the video. <code>StartFaceSearch</code> returns a job identifier
         /// (<code>JobId</code>) which you use to get the search results once the search has completed.
-        /// When searching is finished, Rekognition Video publishes a completion status to the
-        /// Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
+        /// When searching is finished, Amazon Rekognition Video publishes a completion status
+        /// to the Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
         /// To get the search results, first check that the status value published to the Amazon
-        /// SNS topic is <code>SUCCEEDED</code>. If so, call and pass the job identifier (<code>JobId</code>)
-        /// from the initial call to <code>StartFaceSearch</code>. For more information, see <a>collections-search-person</a>.
+        /// SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetFaceSearch</a> and pass the
+        /// job identifier (<code>JobId</code>) from the initial call to <code>StartFaceSearch</code>.
+        /// For more information, see <a>procedure-person-search-videos</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartFaceSearch service method.</param>
@@ -3156,7 +4317,11 @@ namespace Amazon.Rekognition
         /// Amazon Rekognition is unable to access the S3 object specified in the request.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
-        /// 
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
         /// The number of requests exceeded your throughput limit. If you want to increase this
@@ -3170,15 +4335,16 @@ namespace Amazon.Rekognition
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.VideoTooLargeException">
         /// The file size or duration of the supplied media is too large. The maximum file size
-        /// is 8GB. The maximum duration is 2 hours.
+        /// is 10GB. The maximum duration is 6 hours.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartFaceSearch">REST API Reference for StartFaceSearch Operation</seealso>
         public virtual StartFaceSearchResponse StartFaceSearch(StartFaceSearchRequest request)
         {
-            var marshaller = StartFaceSearchRequestMarshaller.Instance;
-            var unmarshaller = StartFaceSearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartFaceSearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartFaceSearchResponseUnmarshaller.Instance;
 
-            return Invoke<StartFaceSearchRequest,StartFaceSearchResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartFaceSearchResponse>(request, options);
         }
 
         /// <summary>
@@ -3195,11 +4361,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartFaceSearch">REST API Reference for StartFaceSearch Operation</seealso>
         public virtual IAsyncResult BeginStartFaceSearch(StartFaceSearchRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartFaceSearchRequestMarshaller.Instance;
-            var unmarshaller = StartFaceSearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartFaceSearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartFaceSearchResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartFaceSearchRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3224,7 +4390,7 @@ namespace Amazon.Rekognition
         /// 
         ///  
         /// <para>
-        /// Rekognition Video can detect labels in a video. Labels are instances of real-world
+        /// Amazon Rekognition Video can detect labels in a video. Labels are instances of real-world
         /// entities. This includes objects like flower, tree, and table; events like wedding,
         /// graduation, and birthday party; concepts like landscape, evening, and nature; and
         /// activities like a person getting out of a car or a person skiing.
@@ -3234,14 +4400,14 @@ namespace Amazon.Rekognition
         /// The video must be stored in an Amazon S3 bucket. Use <a>Video</a> to specify the bucket
         /// name and the filename of the video. <code>StartLabelDetection</code> returns a job
         /// identifier (<code>JobId</code>) which you use to get the results of the operation.
-        /// When label detection is finished, Rekognition Video publishes a completion status
-        /// to the Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
+        /// When label detection is finished, Amazon Rekognition Video publishes a completion
+        /// status to the Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
         /// </para>
         ///  
         /// <para>
         /// To get the results of the label detection operation, first check that the status value
-        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and pass
-        /// the job identifier (<code>JobId</code>) from the initial call to <code>StartLabelDetection</code>.
+        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetLabelDetection</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartLabelDetection</code>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartLabelDetection service method.</param>
@@ -3266,7 +4432,11 @@ namespace Amazon.Rekognition
         /// Amazon Rekognition is unable to access the S3 object specified in the request.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
-        /// 
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
         /// The number of requests exceeded your throughput limit. If you want to increase this
@@ -3277,15 +4447,16 @@ namespace Amazon.Rekognition
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.VideoTooLargeException">
         /// The file size or duration of the supplied media is too large. The maximum file size
-        /// is 8GB. The maximum duration is 2 hours.
+        /// is 10GB. The maximum duration is 6 hours.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartLabelDetection">REST API Reference for StartLabelDetection Operation</seealso>
         public virtual StartLabelDetectionResponse StartLabelDetection(StartLabelDetectionRequest request)
         {
-            var marshaller = StartLabelDetectionRequestMarshaller.Instance;
-            var unmarshaller = StartLabelDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartLabelDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartLabelDetectionResponseUnmarshaller.Instance;
 
-            return Invoke<StartLabelDetectionRequest,StartLabelDetectionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartLabelDetectionResponse>(request, options);
         }
 
         /// <summary>
@@ -3302,11 +4473,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartLabelDetection">REST API Reference for StartLabelDetection Operation</seealso>
         public virtual IAsyncResult BeginStartLabelDetection(StartLabelDetectionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartLabelDetectionRequestMarshaller.Instance;
-            var unmarshaller = StartLabelDetectionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartLabelDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartLabelDetectionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartLabelDetectionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3327,22 +4498,22 @@ namespace Amazon.Rekognition
         #region  StartPersonTracking
 
         /// <summary>
-        /// Starts the asynchronous tracking of persons in a stored video.
+        /// Starts the asynchronous tracking of a person's path in a stored video.
         /// 
         ///  
         /// <para>
-        /// Rekognition Video can track persons in a video stored in an Amazon S3 bucket. Use
-        /// <a>Video</a> to specify the bucket name and the filename of the video. <code>StartPersonTracking</code>
-        /// returns a job identifier (<code>JobId</code>) which you use to get the results of
-        /// the operation. When label detection is finished, Amazon Rekognition publishes a completion
-        /// status to the Amazon Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
-        /// 
+        /// Amazon Rekognition Video can track the path of people in a video stored in an Amazon
+        /// S3 bucket. Use <a>Video</a> to specify the bucket name and the filename of the video.
+        /// <code>StartPersonTracking</code> returns a job identifier (<code>JobId</code>) which
+        /// you use to get the results of the operation. When label detection is finished, Amazon
+        /// Rekognition publishes a completion status to the Amazon Simple Notification Service
+        /// topic that you specify in <code>NotificationChannel</code>. 
         /// </para>
         ///  
         /// <para>
         /// To get the results of the person detection operation, first check that the status
-        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and
-        /// pass the job identifier (<code>JobId</code>) from the initial call to <code>StartPersonTracking</code>.
+        /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetPersonTracking</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartPersonTracking</code>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartPersonTracking service method.</param>
@@ -3367,7 +4538,11 @@ namespace Amazon.Rekognition
         /// Amazon Rekognition is unable to access the S3 object specified in the request.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
-        /// 
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
         /// The number of requests exceeded your throughput limit. If you want to increase this
@@ -3378,15 +4553,16 @@ namespace Amazon.Rekognition
         /// </exception>
         /// <exception cref="Amazon.Rekognition.Model.VideoTooLargeException">
         /// The file size or duration of the supplied media is too large. The maximum file size
-        /// is 8GB. The maximum duration is 2 hours.
+        /// is 10GB. The maximum duration is 6 hours.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartPersonTracking">REST API Reference for StartPersonTracking Operation</seealso>
         public virtual StartPersonTrackingResponse StartPersonTracking(StartPersonTrackingRequest request)
         {
-            var marshaller = StartPersonTrackingRequestMarshaller.Instance;
-            var unmarshaller = StartPersonTrackingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartPersonTrackingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartPersonTrackingResponseUnmarshaller.Instance;
 
-            return Invoke<StartPersonTrackingRequest,StartPersonTrackingResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartPersonTrackingResponse>(request, options);
         }
 
         /// <summary>
@@ -3403,11 +4579,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartPersonTracking">REST API Reference for StartPersonTracking Operation</seealso>
         public virtual IAsyncResult BeginStartPersonTracking(StartPersonTrackingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartPersonTrackingRequestMarshaller.Instance;
-            var unmarshaller = StartPersonTrackingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartPersonTrackingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartPersonTrackingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartPersonTrackingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3425,12 +4601,112 @@ namespace Amazon.Rekognition
 
         #endregion
         
+        #region  StartProjectVersion
+
+        /// <summary>
+        /// Starts the running of the version of a model. Starting a model takes a while to complete.
+        /// To check the current state of the model, use <a>DescribeProjectVersions</a>.
+        /// 
+        ///  
+        /// <para>
+        /// Once the model is running, you can detect custom labels in new images by calling <a>DetectCustomLabels</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// You are charged for the amount of time that the model is running. To stop a running
+        /// model, call <a>StopProjectVersion</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This operation requires permissions to perform the <code>rekognition:StartProjectVersion</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartProjectVersion service method.</param>
+        /// 
+        /// <returns>The response from the StartProjectVersion service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceInUseException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartProjectVersion">REST API Reference for StartProjectVersion Operation</seealso>
+        public virtual StartProjectVersionResponse StartProjectVersion(StartProjectVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartProjectVersionResponseUnmarshaller.Instance;
+
+            return Invoke<StartProjectVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartProjectVersion operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartProjectVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartProjectVersion">REST API Reference for StartProjectVersion Operation</seealso>
+        public virtual IAsyncResult BeginStartProjectVersion(StartProjectVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartProjectVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartProjectVersion.</param>
+        /// 
+        /// <returns>Returns a  StartProjectVersionResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartProjectVersion">REST API Reference for StartProjectVersion Operation</seealso>
+        public virtual StartProjectVersionResponse EndStartProjectVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartProjectVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  StartStreamProcessor
 
         /// <summary>
-        /// Starts processing a stream processor. You create a stream processor by calling . To
-        /// tell <code>StartStreamProcessor</code> which stream processor to start, use the value
-        /// of the <code>Name</code> field specified in the call to <code>CreateStreamProcessor</code>.
+        /// Starts processing a stream processor. You create a stream processor by calling <a>CreateStreamProcessor</a>.
+        /// To tell <code>StartStreamProcessor</code> which stream processor to start, use the
+        /// value of the <code>Name</code> field specified in the call to <code>CreateStreamProcessor</code>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartStreamProcessor service method.</param>
         /// 
@@ -3461,10 +4737,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartStreamProcessor">REST API Reference for StartStreamProcessor Operation</seealso>
         public virtual StartStreamProcessorResponse StartStreamProcessor(StartStreamProcessorRequest request)
         {
-            var marshaller = StartStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = StartStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartStreamProcessorResponseUnmarshaller.Instance;
 
-            return Invoke<StartStreamProcessorRequest,StartStreamProcessorResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartStreamProcessorResponse>(request, options);
         }
 
         /// <summary>
@@ -3481,11 +4758,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartStreamProcessor">REST API Reference for StartStreamProcessor Operation</seealso>
         public virtual IAsyncResult BeginStartStreamProcessor(StartStreamProcessorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = StartStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartStreamProcessorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartStreamProcessorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3503,10 +4780,195 @@ namespace Amazon.Rekognition
 
         #endregion
         
+        #region  StartTextDetection
+
+        /// <summary>
+        /// Starts asynchronous detection of text in a stored video.
+        /// 
+        ///  
+        /// <para>
+        /// Amazon Rekognition Video can detect text in a video stored in an Amazon S3 bucket.
+        /// Use <a>Video</a> to specify the bucket name and the filename of the video. <code>StartTextDetection</code>
+        /// returns a job identifier (<code>JobId</code>) which you use to get the results of
+        /// the operation. When text detection is finished, Amazon Rekognition Video publishes
+        /// a completion status to the Amazon Simple Notification Service topic that you specify
+        /// in <code>NotificationChannel</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To get the results of the text detection operation, first check that the status value
+        /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. if so, call <a>GetTextDetection</a>
+        /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartTextDetection</code>.
+        /// 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartTextDetection service method.</param>
+        /// 
+        /// <returns>The response from the StartTextDetection service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.IdempotentParameterMismatchException">
+        /// A <code>ClientRequestToken</code> input parameter was reused with an operation, but
+        /// at least one of the other input parameters is different from the previous call to
+        /// the operation.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidS3ObjectException">
+        /// Amazon Rekognition is unable to access the S3 object specified in the request.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.LimitExceededException">
+        /// An Amazon Rekognition service limit was exceeded. For example, if you start too many
+        /// Amazon Rekognition Video jobs concurrently, calls to start operations (<code>StartLabelDetection</code>,
+        /// for example) will raise a <code>LimitExceededException</code> exception (HTTP status
+        /// code: 400) until the number of concurrently running jobs is below the Amazon Rekognition
+        /// service limit.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.VideoTooLargeException">
+        /// The file size or duration of the supplied media is too large. The maximum file size
+        /// is 10GB. The maximum duration is 6 hours.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartTextDetection">REST API Reference for StartTextDetection Operation</seealso>
+        public virtual StartTextDetectionResponse StartTextDetection(StartTextDetectionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartTextDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartTextDetectionResponseUnmarshaller.Instance;
+
+            return Invoke<StartTextDetectionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartTextDetection operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartTextDetection operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartTextDetection
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartTextDetection">REST API Reference for StartTextDetection Operation</seealso>
+        public virtual IAsyncResult BeginStartTextDetection(StartTextDetectionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartTextDetectionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartTextDetectionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartTextDetection operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartTextDetection.</param>
+        /// 
+        /// <returns>Returns a  StartTextDetectionResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StartTextDetection">REST API Reference for StartTextDetection Operation</seealso>
+        public virtual StartTextDetectionResponse EndStartTextDetection(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartTextDetectionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StopProjectVersion
+
+        /// <summary>
+        /// Stops a running model. The operation might take a while to complete. To check the
+        /// current status, call <a>DescribeProjectVersions</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopProjectVersion service method.</param>
+        /// 
+        /// <returns>The response from the StopProjectVersion service method, as returned by Rekognition.</returns>
+        /// <exception cref="Amazon.Rekognition.Model.AccessDeniedException">
+        /// You are not authorized to perform the action.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InternalServerErrorException">
+        /// Amazon Rekognition experienced a service issue. Try your call again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.InvalidParameterException">
+        /// Input parameter violated a constraint. Validate your parameter before calling the
+        /// API operation again.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ProvisionedThroughputExceededException">
+        /// The number of requests exceeded your throughput limit. If you want to increase this
+        /// limit, contact Amazon Rekognition.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceInUseException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ResourceNotFoundException">
+        /// The collection specified in the request cannot be found.
+        /// </exception>
+        /// <exception cref="Amazon.Rekognition.Model.ThrottlingException">
+        /// Amazon Rekognition is temporarily unable to process the request. Try your call again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StopProjectVersion">REST API Reference for StopProjectVersion Operation</seealso>
+        public virtual StopProjectVersionResponse StopProjectVersion(StopProjectVersionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopProjectVersionResponseUnmarshaller.Instance;
+
+            return Invoke<StopProjectVersionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopProjectVersion operation on AmazonRekognitionClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopProjectVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StopProjectVersion">REST API Reference for StopProjectVersion Operation</seealso>
+        public virtual IAsyncResult BeginStopProjectVersion(StopProjectVersionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopProjectVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopProjectVersionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopProjectVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopProjectVersion.</param>
+        /// 
+        /// <returns>Returns a  StopProjectVersionResult from Rekognition.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StopProjectVersion">REST API Reference for StopProjectVersion Operation</seealso>
+        public virtual StopProjectVersionResponse EndStopProjectVersion(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StopProjectVersionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  StopStreamProcessor
 
         /// <summary>
-        /// Stops a running stream processor that was created by .
+        /// Stops a running stream processor that was created by <a>CreateStreamProcessor</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StopStreamProcessor service method.</param>
         /// 
@@ -3537,10 +4999,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StopStreamProcessor">REST API Reference for StopStreamProcessor Operation</seealso>
         public virtual StopStreamProcessorResponse StopStreamProcessor(StopStreamProcessorRequest request)
         {
-            var marshaller = StopStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = StopStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopStreamProcessorResponseUnmarshaller.Instance;
 
-            return Invoke<StopStreamProcessorRequest,StopStreamProcessorResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopStreamProcessorResponse>(request, options);
         }
 
         /// <summary>
@@ -3557,11 +5020,11 @@ namespace Amazon.Rekognition
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/rekognition-2016-06-27/StopStreamProcessor">REST API Reference for StopStreamProcessor Operation</seealso>
         public virtual IAsyncResult BeginStopStreamProcessor(StopStreamProcessorRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopStreamProcessorRequestMarshaller.Instance;
-            var unmarshaller = StopStreamProcessorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopStreamProcessorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopStreamProcessorResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopStreamProcessorRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

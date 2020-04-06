@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net;
 
 namespace AWSSDK_DotNet35.UnitTests.TestTools
 {
@@ -52,7 +53,7 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
         private static object InstantiateType(TypeCircularReference<Type> tcr, Type type)
         {
             bool pushed = false;
-            if (!type.FullName.StartsWith("System"))
+            if (!type.FullName.StartsWith("System."))
             {
                 pushed = tcr.Push(type);
                 if (!pushed)
@@ -63,25 +64,25 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
             {
                 if (type == typeof(string))
                 {
-                    return "Test_Value";
+                    return "%2FTest-Value/~.$\\&*value";
                 }
-                else if (type == typeof(bool))
+                else if (type == typeof(bool) || type == typeof(bool?))
                 {
                     return true;
                 }
-                else if (type == typeof(int))
+                else if (type == typeof(int) || type == typeof(int?))
                 {
                     return int.MaxValue;
                 }
-                else if (type == typeof(long))
+                else if (type == typeof(long) || type == typeof(long?))
                 {
                     return long.MaxValue;
                 }
-                else if (type == typeof(double))
+                else if (type == typeof(double) || type == typeof(double?))
                 {
                     return double.MaxValue;
                 }
-                else if (type == typeof(DateTime))
+                else if (type == typeof(DateTime) || type == typeof(DateTime?))
                 {
                     return Constants.DEFAULT_DATE;
                 }
@@ -168,37 +169,47 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
 
         public static void ValidateObjectFullyInstantiated(object owningObject)
         {
+            ValidateObjectFullyInstantiated(owningObject, new TypeCircularReference<Type>());
+        }
+
+        private static void ValidateObjectFullyInstantiated(object owningObject, TypeCircularReference<Type> tcr)
+        {
             Assert.IsNotNull(owningObject, "Root object null");
 
             var owningType = owningObject.GetType();
-            foreach (var info in owningType.GetProperties())
+
+            if (tcr?.Push(owningType) == true) // No circular reference found
             {
-                if (info.SetMethod == null || info.Name == "ContentLength")
-                    continue;
-
-                var type = info.PropertyType;
-                var propertyValue = info.GetMethod.Invoke(owningObject, new object[] { });
-
-                if (owningObject.GetType() == typeof(Amazon.Glacier.Model.GetJobOutputResponse) ||
-                    owningObject.GetType() == typeof(Amazon.Lambda.Model.InvokeAsyncResponse) ||
-                    owningObject.GetType() == typeof(Amazon.Lambda.Model.InvokeResponse)||
-                    (owningObject.GetType()== typeof(Amazon.MediaStoreData.Model.GetObjectResponse))) 
+                foreach (var info in owningType.GetProperties())
                 {
-                    if (info.Name == "Status" ||
-                        info.Name == "StatusCode")
-                    {
-						// Special case for GetJobOutputResponse.Status property which is unmarshalled from 
-						// HttpResponse's Status code.
-                        Assert.AreEqual(200, propertyValue);
+                    if (info.SetMethod == null || info.Name == "ContentLength")
                         continue;
-                    }
-                }
 
-                ValidatePropertyValueInstantiated(type, propertyValue, info.Name);
-            }
+                    var type = info.PropertyType;
+                    var propertyValue = info.GetMethod.Invoke(owningObject, new object[] { });
+
+                    if (type == typeof(int))
+                    {
+                        if (info.Name == "Status" ||
+                        info.Name == "StatusCode")
+                        {
+                            if (Enum.IsDefined(typeof(HttpStatusCode), propertyValue))
+                            {
+                                // Special case for GetJobOutputResponse.Status property which is unmarshalled from 
+                                // HttpResponse's Status code.
+                                Assert.AreEqual(200, propertyValue);
+                                continue;
+                            }
+                        }
+                    }
+
+                    ValidatePropertyValueInstantiated(type, propertyValue, info.Name, tcr);
+                }
+                tcr.Pop();
+            } 
         }
 
-        private static void ValidatePropertyValueInstantiated(Type type, object propertyValue, string propertyName)
+        private static void ValidatePropertyValueInstantiated(Type type, object propertyValue, string propertyName, TypeCircularReference<Type> tcr = null)
         {
             if (type == typeof(string))
             {
@@ -229,7 +240,7 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
             {
                 Assert.IsTrue(propertyValue is DateTime, "Invalid value for " + propertyName);
                 Assert.AreEqual(((DateTime)propertyValue).ToUniversalTime(), Constants.DEFAULT_DATE.ToUniversalTime(), "Invalid value for " + propertyName);
-            }                
+            }
             else if (type == typeof(MemoryStream))
             {
                 Assert.IsTrue(propertyValue is MemoryStream, "Invalid value for " + propertyName);
@@ -245,15 +256,15 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
                 Assert.IsTrue(propertyValue is Amazon.Runtime.ConstantClass, "Invalid value for " + propertyName);
             }
             else
-            {                   
+            {
                 if (type.GetInterface("System.Collections.IList") != null)
                 {
                     var list = propertyValue as System.Collections.IList;
 
                     var listType = type.GenericTypeArguments[0];
-                    foreach(var item in list)
+                    foreach (var item in list)
                     {
-                        ValidatePropertyValueInstantiated(listType, item, propertyValue + "_Dictionary");
+                        ValidatePropertyValueInstantiated(listType, item, propertyValue + "_Dictionary", tcr);
                     }
                 }
                 else if (type.GetInterface("System.Collections.IDictionary") != null)
@@ -261,14 +272,19 @@ namespace AWSSDK_DotNet35.UnitTests.TestTools
                     var map = propertyValue as System.Collections.IDictionary;
 
                     var valueType = type.GenericTypeArguments[1];
-                    foreach(var key in map.Keys)
+                    foreach (var key in map.Keys)
                     {
-                        ValidatePropertyValueInstantiated(valueType, map[key], propertyValue + "_Dictionary");
+                        ValidatePropertyValueInstantiated(valueType, map[key], propertyValue + "_Dictionary", tcr);
                     }
                 }
+                else if (propertyValue == null && tcr != null && tcr.Contains(type))
+                {
+                    // Circular reference found, stop here
+                    return;
+                }
                 else
-                {                    
-                    ValidateObjectFullyInstantiated(propertyValue);
+                {
+                    ValidateObjectFullyInstantiated(propertyValue, tcr);
                 }
             }
         }

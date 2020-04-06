@@ -28,18 +28,21 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DatabaseMigrationService.Model
 {
     /// <summary>
-    /// 
+    /// Provides information about types of supported endpoints in response to a request by
+    /// the <code>DescribeEndpointTypes</code> operation. This information includes the type
+    /// of endpoint, the database engine name, and whether change data capture (CDC) is supported.
     /// </summary>
     public partial class SupportedEndpointType
     {
         private ReplicationEndpointTypeValue _endpointType;
+        private string _engineDisplayName;
         private string _engineName;
         private bool? _supportsCDC;
 
         /// <summary>
         /// Gets and sets the property EndpointType. 
         /// <para>
-        /// The type of endpoint.
+        /// The type of endpoint. Valid values are <code>source</code> and <code>target</code>.
         /// </para>
         /// </summary>
         public ReplicationEndpointTypeValue EndpointType
@@ -55,10 +58,33 @@ namespace Amazon.DatabaseMigrationService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EngineDisplayName. 
+        /// <para>
+        /// The expanded name for the engine name. For example, if the <code>EngineName</code>
+        /// parameter is "aurora," this value would be "Amazon Aurora MySQL."
+        /// </para>
+        /// </summary>
+        public string EngineDisplayName
+        {
+            get { return this._engineDisplayName; }
+            set { this._engineDisplayName = value; }
+        }
+
+        // Check to see if EngineDisplayName property is set
+        internal bool IsSetEngineDisplayName()
+        {
+            return this._engineDisplayName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EngineName. 
         /// <para>
-        /// The database engine name. Valid values, depending on the EndPointType, include mysql,
-        /// oracle, postgres, mariadb, aurora, redshift, S3, sybase, dynamodb, mongodb, and sqlserver.
+        /// The database engine name. Valid values, depending on the EndpointType, include <code>"mysql"</code>,
+        /// <code>"oracle"</code>, <code>"postgres"</code>, <code>"mariadb"</code>, <code>"aurora"</code>,
+        /// <code>"aurora-postgresql"</code>, <code>"redshift"</code>, <code>"s3"</code>, <code>"db2"</code>,
+        /// <code>"azuredb"</code>, <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
+        /// <code>"kinesis"</code>, <code>"kafka"</code>, <code>"elasticsearch"</code>, <code>"documentdb"</code>,
+        /// and <code>"sqlserver"</code>.
         /// </para>
         /// </summary>
         public string EngineName

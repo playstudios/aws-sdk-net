@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,8 @@ namespace Amazon.CloudDirectory.Model
 {
     /// <summary>
     /// Container for the parameters to the AddFacetToObject operation.
-    /// Adds a new <a>Facet</a> to an object.
+    /// Adds a new <a>Facet</a> to an object. An object can have more than one facet applied
+    /// on it.
     /// </summary>
     public partial class AddFacetToObjectRequest : AmazonCloudDirectoryRequest
     {
@@ -45,6 +46,7 @@ namespace Amazon.CloudDirectory.Model
         /// the object resides. For more information, see <a>arns</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -81,6 +83,7 @@ namespace Amazon.CloudDirectory.Model
         /// A reference to the object you are adding the specified facet to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference ObjectReference
         {
             get { return this._objectReference; }
@@ -100,6 +103,7 @@ namespace Amazon.CloudDirectory.Model
         /// for details.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SchemaFacet SchemaFacet
         {
             get { return this._schemaFacet; }

@@ -38,8 +38,7 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// An enumeration token that when provided in a request, returns the next batch of the
-        /// results.
+        /// An enumeration token that allows the operation to batch the next results of the operation.
         /// </para>
         /// </summary>
         public string NextToken
@@ -60,6 +59,7 @@ namespace Amazon.CodeCommit.Model
         /// The system-generated IDs of the pull requests.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> PullRequestIds
         {
             get { return this._pullRequestIds; }

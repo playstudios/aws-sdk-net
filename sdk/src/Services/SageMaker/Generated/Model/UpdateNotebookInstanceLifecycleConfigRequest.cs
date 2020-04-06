@@ -29,7 +29,8 @@ namespace Amazon.SageMaker.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateNotebookInstanceLifecycleConfig operation.
-    /// Updates a notebook instance lifecycle configuration created with the API.
+    /// Updates a notebook instance lifecycle configuration created with the <a>CreateNotebookInstanceLifecycleConfig</a>
+    /// API.
     /// </summary>
     public partial class UpdateNotebookInstanceLifecycleConfigRequest : AmazonSageMakerRequest
     {
@@ -43,6 +44,7 @@ namespace Amazon.SageMaker.Model
         /// The name of the lifecycle configuration.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=63)]
         public string NotebookInstanceLifecycleConfigName
         {
             get { return this._notebookInstanceLifecycleConfigName; }
@@ -58,9 +60,11 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property OnCreate. 
         /// <para>
-        /// The shell script that runs only once, when you create a notebook instance
+        /// The shell script that runs only once, when you create a notebook instance. The shell
+        /// script must be a base64-encoded string.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1)]
         public List<NotebookInstanceLifecycleHook> OnCreate
         {
             get { return this._onCreate; }
@@ -77,9 +81,10 @@ namespace Amazon.SageMaker.Model
         /// Gets and sets the property OnStart. 
         /// <para>
         /// The shell script that runs every time you start a notebook instance, including when
-        /// you create the notebook instance.
+        /// you create the notebook instance. The shell script must be a base64-encoded string.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1)]
         public List<NotebookInstanceLifecycleHook> OnStart
         {
             get { return this._onStart; }

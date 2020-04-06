@@ -36,11 +36,14 @@ namespace Amazon.Batch.Model
         private List<string> _command = new List<string>();
         private List<KeyValuePair> _environment = new List<KeyValuePair>();
         private string _image;
+        private string _instanceType;
         private string _jobRoleArn;
+        private LinuxParameters _linuxParameters;
         private int? _memory;
         private List<MountPoint> _mountPoints = new List<MountPoint>();
         private bool? _privileged;
         private bool? _readonlyRootFilesystem;
+        private List<ResourceRequirement> _resourceRequirements = new List<ResourceRequirement>();
         private List<Ulimit> _ulimits = new List<Ulimit>();
         private string _user;
         private int? _vcpus;
@@ -50,8 +53,8 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property Command. 
         /// <para>
         /// The command that is passed to the container. This parameter maps to <code>Cmd</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>COMMAND</code> parameter to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>. For more information, see <a href="https://docs.docker.com/engine/reference/builder/#cmd">https://docs.docker.com/engine/reference/builder/#cmd</a>.
         /// </para>
@@ -72,8 +75,8 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property Environment. 
         /// <para>
         /// The environment variables to pass to a container. This parameter maps to <code>Env</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--env</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
@@ -109,8 +112,8 @@ namespace Amazon.Batch.Model
         /// are specified with <code> <i>repository-url</i>/<i>image</i>:<i>tag</i> </code>. Up
         /// to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods,
         /// forward slashes, and number signs are allowed. This parameter maps to <code>Image</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>IMAGE</code> parameter of <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
@@ -118,7 +121,6 @@ namespace Amazon.Batch.Model
         /// <para>
         /// Images in Amazon ECR repositories use the full registry and repository URI (for example,
         /// <code>012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;</code>).
-        /// 
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -150,6 +152,26 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property InstanceType. 
+        /// <para>
+        /// The instance type to use for a multi-node parallel job. Currently all node groups
+        /// in a multi-node parallel job must use the same instance type. This parameter is not
+        /// valid for single-node container jobs.
+        /// </para>
+        /// </summary>
+        public string InstanceType
+        {
+            get { return this._instanceType; }
+            set { this._instanceType = value; }
+        }
+
+        // Check to see if InstanceType property is set
+        internal bool IsSetInstanceType()
+        {
+            return this._instanceType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property JobRoleArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the IAM role that the container can assume for AWS
@@ -169,15 +191,41 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LinuxParameters. 
+        /// <para>
+        /// Linux-specific modifications that are applied to the container, such as details for
+        /// device mappings.
+        /// </para>
+        /// </summary>
+        public LinuxParameters LinuxParameters
+        {
+            get { return this._linuxParameters; }
+            set { this._linuxParameters = value; }
+        }
+
+        // Check to see if LinuxParameters property is set
+        internal bool IsSetLinuxParameters()
+        {
+            return this._linuxParameters != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Memory. 
         /// <para>
         /// The hard limit (in MiB) of memory to present to the container. If your container attempts
         /// to exceed the memory specified here, the container is killed. This parameter maps
-        /// to <code>Memory</code> in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// to <code>Memory</code> in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--memory</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>. You must specify at least 4 MiB of memory for a job.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you are trying to maximize your resource utilization by providing your jobs as
+        /// much memory as possible for a particular instance type, see <a href="https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html">Memory
+        /// Management</a> in the <i>AWS Batch User Guide</i>.
+        /// </para>
+        ///  </note>
         /// </summary>
         public int Memory
         {
@@ -195,8 +243,8 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property MountPoints. 
         /// <para>
         /// The mount points for data volumes in your container. This parameter maps to <code>Volumes</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--volume</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
@@ -218,8 +266,8 @@ namespace Amazon.Batch.Model
         /// <para>
         /// When this parameter is true, the container is given elevated privileges on the host
         /// container instance (similar to the <code>root</code> user). This parameter maps to
-        /// <code>Privileged</code> in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// <code>Privileged</code> in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--privileged</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
@@ -240,8 +288,8 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property ReadonlyRootFilesystem. 
         /// <para>
         /// When this parameter is true, the container is given read-only access to its root file
-        /// system. This parameter maps to <code>ReadonlyRootfs</code> in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// system. This parameter maps to <code>ReadonlyRootfs</code> in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--read-only</code> option to <code>docker run</code>.
         /// </para>
         /// </summary>
@@ -258,11 +306,30 @@ namespace Amazon.Batch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ResourceRequirements. 
+        /// <para>
+        /// The type and amount of a resource to assign to a container. Currently, the only supported
+        /// resource is <code>GPU</code>.
+        /// </para>
+        /// </summary>
+        public List<ResourceRequirement> ResourceRequirements
+        {
+            get { return this._resourceRequirements; }
+            set { this._resourceRequirements = value; }
+        }
+
+        // Check to see if ResourceRequirements property is set
+        internal bool IsSetResourceRequirements()
+        {
+            return this._resourceRequirements != null && this._resourceRequirements.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Ulimits. 
         /// <para>
         /// A list of <code>ulimits</code> to set in the container. This parameter maps to <code>Ulimits</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--ulimit</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
@@ -283,8 +350,8 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property User. 
         /// <para>
         /// The user name to use inside the container. This parameter maps to <code>User</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--user</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>.
         /// </para>
@@ -305,8 +372,8 @@ namespace Amazon.Batch.Model
         /// Gets and sets the property Vcpus. 
         /// <para>
         /// The number of vCPUs reserved for the container. This parameter maps to <code>CpuShares</code>
-        /// in the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/#create-a-container">Create
-        /// a container</a> section of the <a href="https://docs.docker.com/engine/reference/api/docker_remote_api_v1.23/">Docker
+        /// in the <a href="https://docs.docker.com/engine/api/v1.23/#create-a-container">Create
+        /// a container</a> section of the <a href="https://docs.docker.com/engine/api/v1.23/">Docker
         /// Remote API</a> and the <code>--cpu-shares</code> option to <a href="https://docs.docker.com/engine/reference/run/">docker
         /// run</a>. Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one
         /// vCPU.

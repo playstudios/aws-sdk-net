@@ -137,6 +137,10 @@ namespace Amazon.Snowball
         /// </summary>
         public static readonly JobState WithAWS = new JobState("WithAWS");
         /// <summary>
+        /// Constant WithAWSSortingFacility for JobState
+        /// </summary>
+        public static readonly JobState WithAWSSortingFacility = new JobState("WithAWSSortingFacility");
+        /// <summary>
         /// Constant WithCustomer for JobState
         /// </summary>
         public static readonly JobState WithCustomer = new JobState("WithCustomer");
@@ -303,6 +307,10 @@ namespace Amazon.Snowball
         /// </summary>
         public static readonly SnowballCapacity T100 = new SnowballCapacity("T100");
         /// <summary>
+        /// Constant T42 for SnowballCapacity
+        /// </summary>
+        public static readonly SnowballCapacity T42 = new SnowballCapacity("T42");
+        /// <summary>
         /// Constant T50 for SnowballCapacity
         /// </summary>
         public static readonly SnowballCapacity T50 = new SnowballCapacity("T50");
@@ -356,6 +364,14 @@ namespace Amazon.Snowball
         /// Constant EDGE for SnowballType
         /// </summary>
         public static readonly SnowballType EDGE = new SnowballType("EDGE");
+        /// <summary>
+        /// Constant EDGE_C for SnowballType
+        /// </summary>
+        public static readonly SnowballType EDGE_C = new SnowballType("EDGE_C");
+        /// <summary>
+        /// Constant EDGE_CG for SnowballType
+        /// </summary>
+        public static readonly SnowballType EDGE_CG = new SnowballType("EDGE_CG");
         /// <summary>
         /// Constant STANDARD for SnowballType
         /// </summary>

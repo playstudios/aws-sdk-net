@@ -30,7 +30,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     /// <summary>
     /// Container for the parameters to the AddTagsToResource operation.
     /// Adds or overwrites one or more tags for the specified resource. Tags are metadata
-    /// that you can assign to your documents, managed instances, Maintenance Windows, Parameter
+    /// that you can assign to your documents, managed instances, maintenance windows, Parameter
     /// Store parameters, and patch baselines. Tags enable you to categorize your resources
     /// in different ways, for example, by purpose, owner, or environment. Each tag consists
     /// of a key and an optional value, both of which you define. For example, you could define
@@ -90,11 +90,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  <note> 
         /// <para>
         /// The ManagedInstance type for this API action is only for on-premises managed instances.
-        /// You must specify the the name of the managed instance in the following format: mi-ID_number.
+        /// You must specify the name of the managed instance in the following format: mi-ID_number.
         /// For example, mi-1a2b3c4d5e6f.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -115,11 +116,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  <note> 
         /// <para>
         /// The ManagedInstance type for this API action is for on-premises managed instances.
-        /// You must specify the the name of the managed instance in the following format: mi-ID_number.
+        /// You must specify the name of the managed instance in the following format: mi-ID_number.
         /// For example, mi-1a2b3c4d5e6f.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ResourceTypeForTagging ResourceType
         {
             get { return this._resourceType; }
@@ -145,6 +147,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// </para>
         ///  </important>
         /// </summary>
+        [AWSProperty(Required=true, Max=1000)]
         public List<Tag> Tags
         {
             get { return this._tags; }

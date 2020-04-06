@@ -33,7 +33,6 @@ namespace Amazon.IoT.Model
     public partial class CodeSigningSignature
     {
         private MemoryStream _inlineDocument;
-        private Stream _stream;
 
         /// <summary>
         /// Gets and sets the property InlineDocument. 
@@ -51,24 +50,6 @@ namespace Amazon.IoT.Model
         internal bool IsSetInlineDocument()
         {
             return this._inlineDocument != null;
-        }
-
-        /// <summary>
-        /// Gets and sets the property Stream. 
-        /// <para>
-        /// A stream of the code signing signature.
-        /// </para>
-        /// </summary>
-        public Stream Stream
-        {
-            get { return this._stream; }
-            set { this._stream = value; }
-        }
-
-        // Check to see if Stream property is set
-        internal bool IsSetStream()
-        {
-            return this._stream != null;
         }
 
     }

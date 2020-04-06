@@ -33,7 +33,7 @@ namespace Amazon.EC2.Model
     /// is the appliance at your end of the VPN connection. (The device on the AWS side of
     /// the VPN connection is the virtual private gateway.) You must provide the Internet-routable
     /// IP address of the customer gateway's external interface. The IP address must be static
-    /// and may be behind a device performing network address translation (NAT).
+    /// and can be behind a device performing network address translation (NAT).
     /// 
     ///  
     /// <para>
@@ -45,27 +45,27 @@ namespace Amazon.EC2.Model
     ///  <note> 
     /// <para>
     /// Amazon EC2 supports all 2-byte ASN numbers in the range of 1 - 65534, with the exception
-    /// of 7224, which is reserved in the <code>us-east-1</code> region, and 9059, which is
-    /// reserved in the <code>eu-west-1</code> region.
+    /// of 7224, which is reserved in the <code>us-east-1</code> Region, and 9059, which is
+    /// reserved in the <code>eu-west-1</code> Region.
     /// </para>
     ///  </note> 
     /// <para>
-    /// For more information about VPN customer gateways, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_VPN.html">AWS
-    /// Managed VPN Connections</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
+    /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
     /// </para>
     ///  <important> 
     /// <para>
-    /// You cannot create more than one customer gateway with the same VPN type, IP address,
-    /// and BGP ASN parameter values. If you run an identical request more than one time,
-    /// the first request creates the customer gateway, and subsequent requests return information
-    /// about the existing customer gateway. The subsequent requests do not create new customer
-    /// gateway resources.
+    /// To create more than one customer gateway with the same VPN type, IP address, and BGP
+    /// ASN, specify a unique device name for each customer gateway. Identical requests return
+    /// information about the existing customer gateway and do not create new customer gateways.
     /// </para>
     ///  </important>
     /// </summary>
     public partial class CreateCustomerGatewayRequest : AmazonEC2Request
     {
         private int? _bgpAsn;
+        private string _certificateArn;
+        private string _deviceName;
         private string _publicIp;
         private GatewayType _type;
 
@@ -97,6 +97,7 @@ namespace Amazon.EC2.Model
         /// Default: 65000
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int BgpAsn
         {
             get { return this._bgpAsn.GetValueOrDefault(); }
@@ -107,6 +108,46 @@ namespace Amazon.EC2.Model
         internal bool IsSetBgpAsn()
         {
             return this._bgpAsn.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CertificateArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) for the customer gateway certificate.
+        /// </para>
+        /// </summary>
+        public string CertificateArn
+        {
+            get { return this._certificateArn; }
+            set { this._certificateArn = value; }
+        }
+
+        // Check to see if CertificateArn property is set
+        internal bool IsSetCertificateArn()
+        {
+            return this._certificateArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeviceName. 
+        /// <para>
+        /// A name for the customer gateway device.
+        /// </para>
+        ///  
+        /// <para>
+        /// Length Constraints: Up to 255 characters.
+        /// </para>
+        /// </summary>
+        public string DeviceName
+        {
+            get { return this._deviceName; }
+            set { this._deviceName = value; }
+        }
+
+        // Check to see if DeviceName property is set
+        internal bool IsSetDeviceName()
+        {
+            return this._deviceName != null;
         }
 
         /// <summary>
@@ -134,6 +175,7 @@ namespace Amazon.EC2.Model
         /// The type of VPN connection that this customer gateway supports (<code>ipsec.1</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public GatewayType Type
         {
             get { return this._type; }

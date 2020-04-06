@@ -58,15 +58,28 @@ namespace Amazon.ResourceGroupsTaggingAPI.Model.Internal.MarshallTransformations
             string target = "ResourceGroupsTaggingAPI_20170126.GetResources";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-01-26";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetExcludeCompliantResources())
+                {
+                    context.Writer.WritePropertyName("ExcludeCompliantResources");
+                    context.Writer.Write(publicRequest.ExcludeCompliantResources);
+                }
+
+                if(publicRequest.IsSetIncludeComplianceDetails())
+                {
+                    context.Writer.WritePropertyName("IncludeComplianceDetails");
+                    context.Writer.Write(publicRequest.IncludeComplianceDetails);
+                }
+
                 if(publicRequest.IsSetPaginationToken())
                 {
                     context.Writer.WritePropertyName("PaginationToken");

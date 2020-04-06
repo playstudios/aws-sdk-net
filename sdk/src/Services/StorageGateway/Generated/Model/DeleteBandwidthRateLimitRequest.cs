@@ -32,7 +32,8 @@ namespace Amazon.StorageGateway.Model
     /// Deletes the bandwidth rate limits of a gateway. You can delete either the upload and
     /// download bandwidth rate limit, or you can delete both. If you delete only one of the
     /// limits, the other limit remains unchanged. To specify which gateway to work with,
-    /// use the Amazon Resource Name (ARN) of the gateway in your request.
+    /// use the Amazon Resource Name (ARN) of the gateway in your request. This operation
+    /// is supported for the stored volume, cached volume and tape gateway types.
     /// </summary>
     public partial class DeleteBandwidthRateLimitRequest : AmazonStorageGatewayRequest
     {
@@ -50,6 +51,7 @@ namespace Amazon.StorageGateway.Model
         /// Valid Values: <code>Upload</code>, <code>Download</code>, <code>All</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=25)]
         public string BandwidthType
         {
             get { return this._bandwidthType; }
@@ -65,6 +67,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayARN.
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }

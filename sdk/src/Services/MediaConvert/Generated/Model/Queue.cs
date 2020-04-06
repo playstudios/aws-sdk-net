@@ -28,9 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// MediaConvert jobs are submitted to a queue. Unless specified otherwise jobs are submitted
-    /// to a built-in default queue. User can create additional queues to separate the jobs
-    /// of different categories or priority.
+    /// You can use queues to manage the resources that are available to your AWS account
+    /// for running multiple transcoding jobs at the same time. If you don't specify a queue,
+    /// the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
     /// </summary>
     public partial class Queue
     {
@@ -39,7 +39,11 @@ namespace Amazon.MediaConvert.Model
         private string _description;
         private DateTime? _lastUpdated;
         private string _name;
+        private PricingPlan _pricingPlan;
+        private int? _progressingJobsCount;
+        private ReservationPlan _reservationPlan;
         private QueueStatus _status;
+        private int? _submittedJobsCount;
         private Type _type;
 
         /// <summary>
@@ -59,7 +63,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CreatedAt. The timestamp in epoch seconds for queue creation.
+        /// Gets and sets the property CreatedAt. The timestamp in epoch seconds for when you
+        /// created the queue.
         /// </summary>
         public DateTime CreatedAt
         {
@@ -74,8 +79,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Description. An optional description you create for each
-        /// queue.
+        /// Gets and sets the property Description. An optional description that you create for
+        /// each queue.
         /// </summary>
         public string Description
         {
@@ -90,8 +95,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LastUpdated. The timestamp in epoch seconds when the queue
-        /// was last updated.
+        /// Gets and sets the property LastUpdated. The timestamp in epoch seconds for when you
+        /// most recently updated the queue.
         /// </summary>
         public DateTime LastUpdated
         {
@@ -106,9 +111,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Name. A name you create for each queue. Each name must
-        /// be unique within your account.
+        /// Gets and sets the property Name. A name that you create for each queue. Each name
+        /// must be unique within your account.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -122,7 +128,60 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Status.
+        /// Gets and sets the property PricingPlan. Specifies whether the pricing plan for the
+        /// queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments
+        /// of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue,
+        /// regardless of how much or how little you use it. Reserved pricing requires a 12-month
+        /// commitment.
+        /// </summary>
+        public PricingPlan PricingPlan
+        {
+            get { return this._pricingPlan; }
+            set { this._pricingPlan = value; }
+        }
+
+        // Check to see if PricingPlan property is set
+        internal bool IsSetPricingPlan()
+        {
+            return this._pricingPlan != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ProgressingJobsCount. The estimated number of jobs with
+        /// a PROGRESSING status.
+        /// </summary>
+        public int ProgressingJobsCount
+        {
+            get { return this._progressingJobsCount.GetValueOrDefault(); }
+            set { this._progressingJobsCount = value; }
+        }
+
+        // Check to see if ProgressingJobsCount property is set
+        internal bool IsSetProgressingJobsCount()
+        {
+            return this._progressingJobsCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReservationPlan. Details about the pricing plan for your
+        /// reserved queue. Required for reserved queues and not applicable to on-demand queues.
+        /// </summary>
+        public ReservationPlan ReservationPlan
+        {
+            get { return this._reservationPlan; }
+            set { this._reservationPlan = value; }
+        }
+
+        // Check to see if ReservationPlan property is set
+        internal bool IsSetReservationPlan()
+        {
+            return this._reservationPlan != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Status. Queues can be ACTIVE or PAUSED. If you pause a
+        /// queue, the service won't begin processing jobs in that queue. Jobs that are running
+        /// when you pause the queue continue to run until they finish or result in an error.
         /// </summary>
         public QueueStatus Status
         {
@@ -137,8 +196,25 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Type. A queue can be of two types: system or custom. System
-        /// or built-in queues can't be modified or deleted by the user.
+        /// Gets and sets the property SubmittedJobsCount. The estimated number of jobs with a
+        /// SUBMITTED status.
+        /// </summary>
+        public int SubmittedJobsCount
+        {
+            get { return this._submittedJobsCount.GetValueOrDefault(); }
+            set { this._submittedJobsCount = value; }
+        }
+
+        // Check to see if SubmittedJobsCount property is set
+        internal bool IsSetSubmittedJobsCount()
+        {
+            return this._submittedJobsCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Type. Specifies whether this on-demand queue is system
+        /// or custom. System queues are built in. You can't modify or delete system queues. You
+        /// can create and modify custom queues.
         /// </summary>
         public Type Type
         {

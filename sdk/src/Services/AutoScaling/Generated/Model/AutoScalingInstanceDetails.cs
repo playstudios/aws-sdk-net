@@ -36,10 +36,12 @@ namespace Amazon.AutoScaling.Model
         private string _availabilityZone;
         private string _healthStatus;
         private string _instanceId;
+        private string _instanceType;
         private string _launchConfigurationName;
         private LaunchTemplateSpecification _launchTemplate;
         private string _lifecycleState;
         private bool? _protectedFromScaleIn;
+        private string _weightedCapacity;
 
         /// <summary>
         /// Gets and sets the property AutoScalingGroupName. 
@@ -47,6 +49,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group for the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -65,6 +68,7 @@ namespace Amazon.AutoScaling.Model
         /// The Availability Zone for the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string AvailabilityZone
         {
             get { return this._availabilityZone; }
@@ -82,9 +86,10 @@ namespace Amazon.AutoScaling.Model
         /// <para>
         /// The last reported health status of this instance. "Healthy" means that the instance
         /// is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy
-        /// and Auto Scaling should terminate and replace it.
+        /// and Amazon EC2 Auto Scaling should terminate and replace it.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=32)]
         public string HealthStatus
         {
             get { return this._healthStatus; }
@@ -103,6 +108,7 @@ namespace Amazon.AutoScaling.Model
         /// The ID of the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=19)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -116,12 +122,32 @@ namespace Amazon.AutoScaling.Model
         }
 
         /// <summary>
+        /// Gets and sets the property InstanceType. 
+        /// <para>
+        /// The instance type of the EC2 instance.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=255)]
+        public string InstanceType
+        {
+            get { return this._instanceType; }
+            set { this._instanceType = value; }
+        }
+
+        // Check to see if InstanceType property is set
+        internal bool IsSetInstanceType()
+        {
+            return this._instanceType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property LaunchConfigurationName. 
         /// <para>
         /// The launch configuration used to launch the instance. This value is not available
         /// if you attached the instance to the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string LaunchConfigurationName
         {
             get { return this._launchConfigurationName; }
@@ -155,10 +181,10 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property LifecycleState. 
         /// <para>
-        /// The lifecycle state for the instance. For more information, see <a href="http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroupLifecycle.html">Auto
-        /// Scaling Lifecycle</a> in the <i>Auto Scaling User Guide</i>.
+        /// The lifecycle state for the instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=32)]
         public string LifecycleState
         {
             get { return this._lifecycleState; }
@@ -174,10 +200,11 @@ namespace Amazon.AutoScaling.Model
         /// <summary>
         /// Gets and sets the property ProtectedFromScaleIn. 
         /// <para>
-        /// Indicates whether the instance is protected from termination by Auto Scaling when
-        /// scaling in.
+        /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling
+        /// when scaling in.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool ProtectedFromScaleIn
         {
             get { return this._protectedFromScaleIn.GetValueOrDefault(); }
@@ -188,6 +215,29 @@ namespace Amazon.AutoScaling.Model
         internal bool IsSetProtectedFromScaleIn()
         {
             return this._protectedFromScaleIn.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property WeightedCapacity. 
+        /// <para>
+        /// The number of capacity units contributed by the instance based on its instance type.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid Range: Minimum value of 1. Maximum value of 999.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=32)]
+        public string WeightedCapacity
+        {
+            get { return this._weightedCapacity; }
+            set { this._weightedCapacity = value; }
+        }
+
+        // Check to see if WeightedCapacity property is set
+        internal bool IsSetWeightedCapacity()
+        {
+            return this._weightedCapacity != null;
         }
 
     }

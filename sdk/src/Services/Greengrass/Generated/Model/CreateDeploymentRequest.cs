@@ -29,7 +29,8 @@ namespace Amazon.Greengrass.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDeployment operation.
-    /// Creates a deployment.
+    /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to
+    /// the ''X-Amzn-Client-Token'' token and the request parameters.
     /// </summary>
     public partial class CreateDeploymentRequest : AmazonGreengrassRequest
     {
@@ -72,9 +73,10 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DeploymentType. The type of deployment. When used in ''CreateDeployment'',
+        /// Gets and sets the property DeploymentType. The type of deployment. When used for ''CreateDeployment'',
         /// only ''NewDeployment'' and ''Redeployment'' are valid.
         /// </summary>
+        [AWSProperty(Required=true)]
         public DeploymentType DeploymentType
         {
             get { return this._deploymentType; }
@@ -88,8 +90,9 @@ namespace Amazon.Greengrass.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GroupId. The ID of the AWS Greengrass group.
+        /// Gets and sets the property GroupId. The ID of the Greengrass group.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string GroupId
         {
             get { return this._groupId; }

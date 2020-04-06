@@ -29,13 +29,21 @@ namespace Amazon.RDS.Model
 {
     /// <summary>
     /// Container for the parameters to the RemoveRoleFromDBCluster operation.
-    /// Disassociates an Identity and Access Management (IAM) role from an Aurora DB cluster.
-    /// For more information, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Aurora.Authorizing.AWSServices.html">Authorizing
-    /// Amazon Aurora to Access Other AWS Services On Your Behalf</a>.
+    /// Disassociates an AWS Identity and Access Management (IAM) role from an Amazon Aurora
+    /// DB cluster. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Integrating.Authorizing.html">Authorizing
+    /// Amazon Aurora MySQL to Access Other AWS Services on Your Behalf </a> in the <i>Amazon
+    /// Aurora User Guide</i>.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This action only applies to Aurora DB clusters.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class RemoveRoleFromDBClusterRequest : AmazonRDSRequest
     {
         private string _dbClusterIdentifier;
+        private string _featureName;
         private string _roleArn;
 
         /// <summary>
@@ -44,6 +52,7 @@ namespace Amazon.RDS.Model
         /// The name of the DB cluster to disassociate the IAM role from.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBClusterIdentifier
         {
             get { return this._dbClusterIdentifier; }
@@ -57,12 +66,32 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FeatureName. 
+        /// <para>
+        /// The name of the feature for the DB cluster that the IAM role is to be disassociated
+        /// from. For the list of supported feature names, see <a>DBEngineVersion</a>.
+        /// </para>
+        /// </summary>
+        public string FeatureName
+        {
+            get { return this._featureName; }
+            set { this._featureName = value; }
+        }
+
+        // Check to see if FeatureName property is set
+        internal bool IsSetFeatureName()
+        {
+            return this._featureName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RoleArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB
         /// cluster, for example <code>arn:aws:iam::123456789012:role/AuroraAccessRole</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RoleArn
         {
             get { return this._roleArn; }

@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -28,10 +28,10 @@ namespace Amazon.CloudDirectory
     ///<summary>
     /// Common exception for the CloudDirectory service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonCloudDirectoryException : AmazonServiceException
+    public partial class AmazonCloudDirectoryException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonCloudDirectoryException
@@ -88,7 +88,7 @@ namespace Amazon.CloudDirectory
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonCloudDirectoryException class with serialized data.
         /// </summary>

@@ -28,11 +28,11 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AppStream.Model
 {
     /// <summary>
-    /// Describes a streaming instance used for editing an image. New images are created from
-    /// a snapshot through an image builder.
+    /// Describes a virtual machine that is used to create an image.
     /// </summary>
     public partial class ImageBuilder
     {
+        private List<AccessEndpoint> _accessEndpoints = new List<AccessEndpoint>();
         private string _appstreamAgentVersion;
         private string _arn;
         private DateTime? _createdTime;
@@ -40,22 +40,45 @@ namespace Amazon.AppStream.Model
         private string _displayName;
         private DomainJoinInfo _domainJoinInfo;
         private bool? _enableDefaultInternetAccess;
+        private string _iamRoleArn;
         private string _imageArn;
         private List<ResourceError> _imageBuilderErrors = new List<ResourceError>();
         private string _instanceType;
         private string _name;
+        private NetworkAccessConfiguration _networkAccessConfiguration;
         private PlatformType _platform;
         private ImageBuilderState _state;
         private ImageBuilderStateChangeReason _stateChangeReason;
         private VpcConfig _vpcConfig;
 
         /// <summary>
-        /// Gets and sets the property AppstreamAgentVersion. 
+        /// Gets and sets the property AccessEndpoints. 
         /// <para>
-        /// The version of the AppStream 2.0 agent that is currently being used by this image
-        /// builder. 
+        /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators
+        /// can connect to the image builder only through the specified endpoints.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4)]
+        public List<AccessEndpoint> AccessEndpoints
+        {
+            get { return this._accessEndpoints; }
+            set { this._accessEndpoints = value; }
+        }
+
+        // Check to see if AccessEndpoints property is set
+        internal bool IsSetAccessEndpoints()
+        {
+            return this._accessEndpoints != null && this._accessEndpoints.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property AppstreamAgentVersion. 
+        /// <para>
+        /// The version of the AppStream 2.0 agent that is currently being used by the image builder.
+        /// 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string AppstreamAgentVersion
         {
             get { return this._appstreamAgentVersion; }
@@ -107,9 +130,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// The description for display.
+        /// The description to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Description
         {
             get { return this._description; }
@@ -125,9 +149,10 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DisplayName. 
         /// <para>
-        /// The image builder name for display.
+        /// The image builder name to display.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string DisplayName
         {
             get { return this._displayName; }
@@ -143,7 +168,8 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property DomainJoinInfo. 
         /// <para>
-        /// The information needed to join a Microsoft Active Directory domain.
+        /// The name of the directory and organizational unit (OU) to use to join the image builder
+        /// to a Microsoft Active Directory domain. 
         /// </para>
         /// </summary>
         public DomainJoinInfo DomainJoinInfo
@@ -174,6 +200,34 @@ namespace Amazon.AppStream.Model
         internal bool IsSetEnableDefaultInternetAccess()
         {
             return this._enableDefaultInternetAccess.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property IamRoleArn. 
+        /// <para>
+        /// The ARN of the IAM role that is applied to the image builder. To assume a role, the
+        /// image builder calls the AWS Security Token Service (STS) <code>AssumeRole</code> API
+        /// operation and passes the ARN of the role to use. The operation creates a new session
+        /// with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
+        /// creates the <b>AppStream_Machine_Role</b> credential profile on the instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html">Using
+        /// an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream
+        /// 2.0 Streaming Instances</a> in the <i>Amazon AppStream 2.0 Administration Guide</i>.
+        /// </para>
+        /// </summary>
+        public string IamRoleArn
+        {
+            get { return this._iamRoleArn; }
+            set { this._iamRoleArn = value; }
+        }
+
+        // Check to see if IamRoleArn property is set
+        internal bool IsSetIamRoleArn()
+        {
+            return this._iamRoleArn != null;
         }
 
         /// <summary>
@@ -215,9 +269,91 @@ namespace Amazon.AppStream.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        /// The instance type for the image builder.
+        /// The instance type for the image builder. The following instance types are available:
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// stream.standard.medium
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.standard.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.compute.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.memory.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.large
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-design.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-desktop.2xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-pro.4xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-pro.8xlarge
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// stream.graphics-pro.16xlarge
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string InstanceType
         {
             get { return this._instanceType; }
@@ -236,6 +372,7 @@ namespace Amazon.AppStream.Model
         /// The name of the image builder.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string Name
         {
             get { return this._name; }
@@ -246,6 +383,21 @@ namespace Amazon.AppStream.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NetworkAccessConfiguration.
+        /// </summary>
+        public NetworkAccessConfiguration NetworkAccessConfiguration
+        {
+            get { return this._networkAccessConfiguration; }
+            set { this._networkAccessConfiguration = value; }
+        }
+
+        // Check to see if NetworkAccessConfiguration property is set
+        internal bool IsSetNetworkAccessConfiguration()
+        {
+            return this._networkAccessConfiguration != null;
         }
 
         /// <summary>

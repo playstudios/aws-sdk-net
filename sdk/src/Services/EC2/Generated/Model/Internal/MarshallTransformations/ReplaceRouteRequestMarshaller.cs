@@ -78,6 +78,14 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("InstanceId", StringUtils.FromString(publicRequest.InstanceId));
                 }
+                if(publicRequest.IsSetLocalGatewayId())
+                {
+                    request.Parameters.Add("LocalGatewayId", StringUtils.FromString(publicRequest.LocalGatewayId));
+                }
+                if(publicRequest.IsSetLocalTarget())
+                {
+                    request.Parameters.Add("LocalTarget", StringUtils.FromBool(publicRequest.LocalTarget));
+                }
                 if(publicRequest.IsSetNatGatewayId())
                 {
                     request.Parameters.Add("NatGatewayId", StringUtils.FromString(publicRequest.NatGatewayId));
@@ -89,6 +97,10 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                 if(publicRequest.IsSetRouteTableId())
                 {
                     request.Parameters.Add("RouteTableId", StringUtils.FromString(publicRequest.RouteTableId));
+                }
+                if(publicRequest.IsSetTransitGatewayId())
+                {
+                    request.Parameters.Add("TransitGatewayId", StringUtils.FromString(publicRequest.TransitGatewayId));
                 }
                 if(publicRequest.IsSetVpcPeeringConnectionId())
                 {

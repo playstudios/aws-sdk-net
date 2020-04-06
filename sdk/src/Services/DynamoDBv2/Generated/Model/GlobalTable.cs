@@ -41,6 +41,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The global table name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public string GlobalTableName
         {
             get { return this._globalTableName; }
@@ -56,7 +57,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property ReplicationGroup. 
         /// <para>
-        /// The regions where the global table has replicas.
+        /// The Regions where the global table has replicas.
         /// </para>
         /// </summary>
         public List<Replica> ReplicationGroup

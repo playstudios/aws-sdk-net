@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the clouddirectory-2016-05-10.normal.json service model.
+ * Do not modify this file. This file is generated from the clouddirectory-2017-01-11.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -43,6 +43,7 @@ namespace Amazon.CloudDirectory.Model
         /// The Amazon Resource Name (ARN) of the directory the index and object exist in.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DirectoryArn
         {
             get { return this._directoryArn; }
@@ -61,6 +62,7 @@ namespace Amazon.CloudDirectory.Model
         /// A reference to the index object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference IndexReference
         {
             get { return this._indexReference; }
@@ -79,6 +81,7 @@ namespace Amazon.CloudDirectory.Model
         /// A reference to the object being detached from the index.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ObjectReference TargetReference
         {
             get { return this._targetReference; }

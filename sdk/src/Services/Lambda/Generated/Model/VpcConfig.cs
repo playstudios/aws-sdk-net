@@ -28,9 +28,9 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Lambda.Model
 {
     /// <summary>
-    /// If your Lambda function accesses resources in a VPC, you provide this parameter identifying
-    /// the list of security group IDs and subnet IDs. These must belong to the same VPC.
-    /// You must provide at least one security group and one subnet ID.
+    /// The VPC security groups and subnets that are attached to a Lambda function. For more
+    /// information, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
+    /// Settings</a>.
     /// </summary>
     public partial class VpcConfig
     {
@@ -40,9 +40,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property SecurityGroupIds. 
         /// <para>
-        /// A list of one or more security groups IDs in your VPC.
+        /// A list of VPC security groups IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=5)]
         public List<string> SecurityGroupIds
         {
             get { return this._securityGroupIds; }
@@ -58,9 +59,10 @@ namespace Amazon.Lambda.Model
         /// <summary>
         /// Gets and sets the property SubnetIds. 
         /// <para>
-        /// A list of one or more subnet IDs in your VPC.
+        /// A list of VPC subnet IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=16)]
         public List<string> SubnetIds
         {
             get { return this._subnetIds; }

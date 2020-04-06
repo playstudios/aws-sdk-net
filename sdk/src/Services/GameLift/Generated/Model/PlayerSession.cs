@@ -41,10 +41,6 @@ namespace Amazon.GameLift.Model
     /// Once the session ends, the player session object is retained for 30 days and then
     /// removed.
     /// </para>
-    ///  
-    /// <para>
-    /// Player-session-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreatePlayerSession</a> 
@@ -78,6 +74,8 @@ namespace Amazon.GameLift.Model
     public partial class PlayerSession
     {
         private DateTime? _creationTime;
+        private string _dnsName;
+        private string _fleetArn;
         private string _fleetId;
         private string _gameSessionId;
         private string _ipAddress;
@@ -108,9 +106,62 @@ namespace Amazon.GameLift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DnsName. 
+        /// <para>
+        /// DNS identifier assigned to the instance that is running the game session. Values have
+        /// the following format:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// TLS-enabled fleets: <code>&lt;unique identifier&gt;.&lt;region identifier&gt;.amazongamelift.com</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Non-TLS-enabled fleets: <code>ec2-&lt;unique identifier&gt;.compute.amazonaws.com</code>.
+        /// (See <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-public-addresses">Amazon
+        /// EC2 Instance IP Addressing</a>.)
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// When connecting to a game session that is running on a TLS-enabled fleet, you must
+        /// use the DNS name, not the IP address.
+        /// </para>
+        /// </summary>
+        public string DnsName
+        {
+            get { return this._dnsName; }
+            set { this._dnsName = value; }
+        }
+
+        // Check to see if DnsName property is set
+        internal bool IsSetDnsName()
+        {
+            return this._dnsName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property FleetArn. 
+        /// <para>
+        ///  The Amazon Resource Name (<a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+        /// associated with the GameLift fleet that the player's game session is running on. 
+        /// </para>
+        /// </summary>
+        public string FleetArn
+        {
+            get { return this._fleetArn; }
+            set { this._fleetArn = value; }
+        }
+
+        // Check to see if FleetArn property is set
+        internal bool IsSetFleetArn()
+        {
+            return this._fleetArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet that the player's game session is running on.
+        /// A unique identifier for a fleet that the player's game session is running on.
         /// </para>
         /// </summary>
         public string FleetId
@@ -128,9 +179,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionId. 
         /// <para>
-        /// Unique identifier for the game session that the player session is connected to.
+        /// A unique identifier for the game session that the player session is connected to.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string GameSessionId
         {
             get { return this._gameSessionId; }
@@ -146,8 +198,9 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property IpAddress. 
         /// <para>
-        /// IP address of the game session. To connect to a Amazon GameLift game server, an app
-        /// needs both the IP address and port number.
+        /// IP address of the instance that is running the game session. When connecting to a
+        /// Amazon GameLift game server, a client needs to reference an IP address (or DNS name)
+        /// and port number.
         /// </para>
         /// </summary>
         public string IpAddress
@@ -169,6 +222,7 @@ namespace Amazon.GameLift.Model
         /// data, so it can be formatted as needed for use in the game. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string PlayerData
         {
             get { return this._playerData; }
@@ -184,9 +238,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlayerId. 
         /// <para>
-        /// Unique identifier for a player that is associated with this player session.
+        /// A unique identifier for a player that is associated with this player session.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string PlayerId
         {
             get { return this._playerId; }
@@ -202,7 +257,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PlayerSessionId. 
         /// <para>
-        /// Unique identifier for a player session.
+        /// A unique identifier for a player session.
         /// </para>
         /// </summary>
         public string PlayerSessionId
@@ -224,6 +279,7 @@ namespace Amazon.GameLift.Model
         /// an app needs both the IP address and port number.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=60000)]
         public int Port
         {
             get { return this._port.GetValueOrDefault(); }

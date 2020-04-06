@@ -33,6 +33,8 @@ namespace Amazon.StorageGateway.Model
     public partial class TapeArchive
     {
         private DateTime? _completionTime;
+        private string _kmsKey;
+        private string _poolId;
         private string _retrievedTo;
         private string _tapeARN;
         private string _tapeBarcode;
@@ -48,7 +50,7 @@ namespace Amazon.StorageGateway.Model
         /// </para>
         ///  
         /// <para>
-        /// The string format of the completion time is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z'
+        /// The default time stamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z'
         /// format.
         /// </para>
         /// </summary>
@@ -65,6 +67,46 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property KMSKey.
+        /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
+        public string KMSKey
+        {
+            get { return this._kmsKey; }
+            set { this._kmsKey = value; }
+        }
+
+        // Check to see if KMSKey property is set
+        internal bool IsSetKMSKey()
+        {
+            return this._kmsKey != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PoolId. 
+        /// <para>
+        /// The ID of the pool that was used to archive the tape. The tapes in this pool are archived
+        /// in the S3 storage class that is associated with the pool.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid values: "GLACIER", "DEEP_ARCHIVE"
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public string PoolId
+        {
+            get { return this._poolId; }
+            set { this._poolId = value; }
+        }
+
+        // Check to see if PoolId property is set
+        internal bool IsSetPoolId()
+        {
+            return this._poolId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RetrievedTo. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is being
@@ -75,6 +117,7 @@ namespace Amazon.StorageGateway.Model
         /// The virtual tape is retrieved from the virtual tape shelf (VTS).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string RetrievedTo
         {
             get { return this._retrievedTo; }
@@ -93,6 +136,7 @@ namespace Amazon.StorageGateway.Model
         /// The Amazon Resource Name (ARN) of an archived virtual tape.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string TapeARN
         {
             get { return this._tapeARN; }
@@ -111,6 +155,7 @@ namespace Amazon.StorageGateway.Model
         /// The barcode that identifies the archived virtual tape.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=7, Max=16)]
         public string TapeBarcode
         {
             get { return this._tapeBarcode; }
@@ -124,7 +169,10 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TapeCreatedDate.
+        /// Gets and sets the property TapeCreatedDate. 
+        /// <para>
+        /// The date the virtual tape was created.
+        /// </para>
         /// </summary>
         public DateTime TapeCreatedDate
         {

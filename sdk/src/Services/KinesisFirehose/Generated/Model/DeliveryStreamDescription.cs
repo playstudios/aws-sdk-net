@@ -34,10 +34,12 @@ namespace Amazon.KinesisFirehose.Model
     {
         private DateTime? _createTimestamp;
         private string _deliveryStreamARN;
+        private DeliveryStreamEncryptionConfiguration _deliveryStreamEncryptionConfiguration;
         private string _deliveryStreamName;
         private DeliveryStreamStatus _deliveryStreamStatus;
         private DeliveryStreamType _deliveryStreamType;
         private List<DestinationDescription> _destinations = new List<DestinationDescription>();
+        private FailureDescription _failureDescription;
         private bool? _hasMoreDestinations;
         private DateTime? _lastUpdateTimestamp;
         private SourceDescription _source;
@@ -64,9 +66,12 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property DeliveryStreamARN. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the delivery stream.
+        /// The Amazon Resource Name (ARN) of the delivery stream. For more information, see <a
+        /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// Resource Names (ARNs) and AWS Service Namespaces</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=512)]
         public string DeliveryStreamARN
         {
             get { return this._deliveryStreamARN; }
@@ -80,11 +85,30 @@ namespace Amazon.KinesisFirehose.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeliveryStreamEncryptionConfiguration. 
+        /// <para>
+        /// Indicates the server-side encryption (SSE) status for the delivery stream.
+        /// </para>
+        /// </summary>
+        public DeliveryStreamEncryptionConfiguration DeliveryStreamEncryptionConfiguration
+        {
+            get { return this._deliveryStreamEncryptionConfiguration; }
+            set { this._deliveryStreamEncryptionConfiguration = value; }
+        }
+
+        // Check to see if DeliveryStreamEncryptionConfiguration property is set
+        internal bool IsSetDeliveryStreamEncryptionConfiguration()
+        {
+            return this._deliveryStreamEncryptionConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DeliveryStreamName. 
         /// <para>
         /// The name of the delivery stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string DeliveryStreamName
         {
             get { return this._deliveryStreamName; }
@@ -100,9 +124,13 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property DeliveryStreamStatus. 
         /// <para>
-        /// The status of the delivery stream.
+        /// The status of the delivery stream. If the status of a delivery stream is <code>CREATING_FAILED</code>,
+        /// this status doesn't change, and you can't invoke <code>CreateDeliveryStream</code>
+        /// again on it. However, you can invoke the <a>DeleteDeliveryStream</a> operation to
+        /// delete it.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DeliveryStreamStatus DeliveryStreamStatus
         {
             get { return this._deliveryStreamStatus; }
@@ -126,11 +154,12 @@ namespace Amazon.KinesisFirehose.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis stream as
-        /// a source.
+        ///  <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis data stream
+        /// as a source.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DeliveryStreamType DeliveryStreamType
         {
             get { return this._deliveryStreamType; }
@@ -149,6 +178,7 @@ namespace Amazon.KinesisFirehose.Model
         /// The destinations.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<DestinationDescription> Destinations
         {
             get { return this._destinations; }
@@ -162,11 +192,32 @@ namespace Amazon.KinesisFirehose.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FailureDescription. 
+        /// <para>
+        /// Provides details in case one of the following operations fails due to an error related
+        /// to KMS: <a>CreateDeliveryStream</a>, <a>DeleteDeliveryStream</a>, <a>StartDeliveryStreamEncryption</a>,
+        /// <a>StopDeliveryStreamEncryption</a>.
+        /// </para>
+        /// </summary>
+        public FailureDescription FailureDescription
+        {
+            get { return this._failureDescription; }
+            set { this._failureDescription = value; }
+        }
+
+        // Check to see if FailureDescription property is set
+        internal bool IsSetFailureDescription()
+        {
+            return this._failureDescription != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property HasMoreDestinations. 
         /// <para>
         /// Indicates whether there are more destinations available to list.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool HasMoreDestinations
         {
             get { return this._hasMoreDestinations.GetValueOrDefault(); }
@@ -201,7 +252,7 @@ namespace Amazon.KinesisFirehose.Model
         /// Gets and sets the property Source. 
         /// <para>
         /// If the <code>DeliveryStreamType</code> parameter is <code>KinesisStreamAsSource</code>,
-        /// a <a>SourceDescription</a> object describing the source Kinesis stream.
+        /// a <a>SourceDescription</a> object describing the source Kinesis data stream.
         /// </para>
         /// </summary>
         public SourceDescription Source
@@ -225,6 +276,7 @@ namespace Amazon.KinesisFirehose.Model
         /// stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=50)]
         public string VersionId
         {
             get { return this._versionId; }

@@ -55,13 +55,14 @@ namespace Amazon.Pinpoint.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetEmailChannelRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Pinpoint");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-12-01";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/v1/apps/{application-id}/channels/email";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonPinpointException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.ResourcePath = "/v1/apps/{application-id}/channels/email";
+            request.MarshallerVersion = 2;
 
             return request;
         }

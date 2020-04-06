@@ -42,6 +42,7 @@ namespace Amazon.WAFRegional.Model
         /// Specifies where in a web request to look for cross-site scripting attacks.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public FieldToMatch FieldToMatch
         {
             get { return this._fieldToMatch; }
@@ -64,11 +65,15 @@ namespace Amazon.WAFRegional.Model
         /// </para>
         ///  
         /// <para>
+        /// You can only specify a single type of TextTransformation.
+        /// </para>
+        ///  
+        /// <para>
         ///  <b>CMD_LINE</b> 
         /// </para>
         ///  
         /// <para>
-        /// When you're concerned that attackers are injecting an operating system commandline
+        /// When you're concerned that attackers are injecting an operating system command line
         /// command and using unusual formatting to disguise some or all of the command, use this
         /// option to perform the following transformations:
         /// </para>
@@ -189,6 +194,7 @@ namespace Amazon.WAFRegional.Model
         /// Specify <code>NONE</code> if you don't want to perform any text transformations.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TextTransformation TextTransformation
         {
             get { return this._textTransformation; }

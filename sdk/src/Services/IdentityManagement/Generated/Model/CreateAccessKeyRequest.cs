@@ -35,13 +35,13 @@ namespace Amazon.IdentityManagement.Model
     ///  
     /// <para>
     /// If you do not specify a user name, IAM determines the user name implicitly based on
-    /// the AWS access key ID signing the request. Because this operation works for access
-    /// keys under the AWS account, you can use this operation to manage AWS account root
+    /// the AWS access key ID signing the request. This operation works for access keys under
+    /// the AWS account. Consequently, you can use this operation to manage AWS account root
     /// user credentials. This is true even if the AWS account has no associated users.
     /// </para>
     ///  
     /// <para>
-    ///  For information about limits on the number of keys you can create, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
+    ///  For information about limits on the number of keys you can create, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
     /// on IAM Entities</a> in the <i>IAM User Guide</i>.
     /// </para>
     ///  <important> 
@@ -69,11 +69,12 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of upper and lowercase alphanumeric characters with
-        /// no spaces. You can also include any of the following characters: _+=,.@-
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+        /// characters with no spaces. You can also include any of the following characters: _+=,.@-
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string UserName
         {
             get { return this._userName; }

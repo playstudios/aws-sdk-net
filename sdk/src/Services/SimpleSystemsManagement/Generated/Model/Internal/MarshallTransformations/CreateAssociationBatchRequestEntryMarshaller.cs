@@ -51,6 +51,18 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.AssociationName);
             }
 
+            if(requestObject.IsSetAutomationTargetParameterName())
+            {
+                context.Writer.WritePropertyName("AutomationTargetParameterName");
+                context.Writer.Write(requestObject.AutomationTargetParameterName);
+            }
+
+            if(requestObject.IsSetComplianceSeverity())
+            {
+                context.Writer.WritePropertyName("ComplianceSeverity");
+                context.Writer.Write(requestObject.ComplianceSeverity);
+            }
+
             if(requestObject.IsSetDocumentVersion())
             {
                 context.Writer.WritePropertyName("DocumentVersion");
@@ -61,6 +73,18 @@ namespace Amazon.SimpleSystemsManagement.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("InstanceId");
                 context.Writer.Write(requestObject.InstanceId);
+            }
+
+            if(requestObject.IsSetMaxConcurrency())
+            {
+                context.Writer.WritePropertyName("MaxConcurrency");
+                context.Writer.Write(requestObject.MaxConcurrency);
+            }
+
+            if(requestObject.IsSetMaxErrors())
+            {
+                context.Writer.WritePropertyName("MaxErrors");
+                context.Writer.Write(requestObject.MaxErrors);
             }
 
             if(requestObject.IsSetName())

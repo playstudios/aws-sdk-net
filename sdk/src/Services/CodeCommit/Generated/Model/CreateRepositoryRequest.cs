@@ -35,6 +35,7 @@ namespace Amazon.CodeCommit.Model
     {
         private string _repositoryDescription;
         private string _repositoryName;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets and sets the property RepositoryDescription. 
@@ -45,12 +46,13 @@ namespace Amazon.CodeCommit.Model
         /// <para>
         /// The description field for a repository accepts all HTML characters and all valid Unicode
         /// characters. Applications that do not HTML-encode the description and display it in
-        /// a web page could expose users to potentially malicious code. Make sure that you HTML-encode
+        /// a webpage can expose users to potentially malicious code. Make sure that you HTML-encode
         /// the description field in any application that uses this API to display the repository
-        /// description on a web page.
+        /// description on a webpage.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Max=1000)]
         public string RepositoryDescription
         {
             get { return this._repositoryDescription; }
@@ -70,14 +72,15 @@ namespace Amazon.CodeCommit.Model
         /// </para>
         ///  <note> 
         /// <para>
-        /// The repository name must be unique across the calling AWS account. In addition, repository
-        /// names are limited to 100 alphanumeric, dash, and underscore characters, and cannot
-        /// include certain characters. For a full description of the limits on repository names,
-        /// see <a href="http://docs.aws.amazon.com/codecommit/latest/userguide/limits.html">Limits</a>
-        /// in the AWS CodeCommit User Guide. The suffix ".git" is prohibited.
+        /// The repository name must be unique across the calling AWS account. Repository names
+        /// are limited to 100 alphanumeric, dash, and underscore characters, and cannot include
+        /// certain characters. For more information about the limits on repository names, see
+        /// <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html">Limits</a>
+        /// in the <i>AWS CodeCommit User Guide</i>. The suffix .git is prohibited.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }
@@ -88,6 +91,24 @@ namespace Amazon.CodeCommit.Model
         internal bool IsSetRepositoryName()
         {
             return this._repositoryName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// One or more tag key-value pairs to use when tagging this repository.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Route53.Model;
 using Amazon.Route53.Model.Internal.MarshallTransformations;
+using Amazon.Route53.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -33,10 +35,11 @@ namespace Amazon.Route53
     /// <summary>
     /// Implementation for accessing Route53
     ///
-    /// 
+    /// Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web service.
     /// </summary>
     public partial class AmazonRoute53Client : AmazonServiceClient, IAmazonRoute53
     {
+        private static IServiceMetadata serviceMetadata = new AmazonRoute53Metadata();
         #region Constructors
 
         /// <summary>
@@ -216,6 +219,16 @@ namespace Amazon.Route53
             pipeline.AddHandlerAfter<Amazon.Runtime.Internal.Marshaller>(new Amazon.Route53.Internal.AmazonRoute53PostMarshallHandler());
             pipeline.AddHandlerAfter<Amazon.Runtime.Internal.ErrorCallbackHandler>(new Amazon.Route53.Internal.AmazonRoute53PreMarshallHandler());
         }    
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -231,26 +244,36 @@ namespace Amazon.Route53
 
         #endregion
 
-        
+
         #region  AssociateVPCWithHostedZone
 
         /// <summary>
         /// Associates an Amazon VPC with a private hosted zone. 
         /// 
-        ///  <important> 
+        ///  <note> 
         /// <para>
         /// To perform the association, the VPC and the private hosted zone must already exist.
-        /// You can't convert a public hosted zone into a private hosted zone.
+        /// Also, you can't convert a public hosted zone into a private hosted zone.
         /// </para>
-        ///  </important> <note> 
+        ///  </note> 
         /// <para>
-        /// If you want to associate a VPC that was created by using one AWS account with a private
-        /// hosted zone that was created by using a different account, the AWS account that created
-        /// the private hosted zone must first submit a <code>CreateVPCAssociationAuthorization</code>
-        /// request. Then the account that created the VPC must submit an <code>AssociateVPCWithHostedZone</code>
+        /// If you want to associate a VPC that was created by one AWS account with a private
+        /// hosted zone that was created by a different account, do one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use the AWS account that created the private hosted zone to submit a <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateVPCAssociationAuthorization.html">CreateVPCAssociationAuthorization</a>
+        /// request. Then use the account that created the VPC to submit an <code>AssociateVPCWithHostedZone</code>
         /// request.
         /// </para>
-        ///  </note>
+        ///  </li> <li> 
+        /// <para>
+        /// If a subnet in the VPC was shared with another account, you can use the account that
+        /// the subnet was shared with to submit an <code>AssociateVPCWithHostedZone</code> request.
+        /// For more information about sharing subnets, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html">Working
+        /// with Shared VPCs</a>.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AssociateVPCWithHostedZone service method.</param>
         /// 
@@ -266,7 +289,7 @@ namespace Amazon.Route53
         /// name servers. You tried to create a hosted zone that has the same name as an existing
         /// hosted zone or that's the parent or child of an existing hosted zone, and you specified
         /// a delegation set that shares one or more name servers with the existing hosted zone.
-        /// For more information, see <a>CreateReusableDelegationSet</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -288,11 +311,11 @@ namespace Amazon.Route53
         /// This operation can't be completed either because the current account has reached the
         /// limit on reusable delegation sets that it can create or because you've reached the
         /// limit on the number of Amazon VPCs that you can associate with a private hosted zone.
-        /// To get the current limit on the number of reusable delegation sets, see <a>GetAccountLimit</a>.
+        /// To get the current limit on the number of reusable delegation sets, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html">GetAccountLimit</a>.
         /// To get the current limit on the number of Amazon VPCs that you can associate with
-        /// a private hosted zone, see <a>GetHostedZoneLimit</a>. To request a higher limit, <a
-        /// href="http://aws.amazon.com/route53-request">create a case</a> with the AWS Support
-        /// Center.
+        /// a private hosted zone, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetHostedZoneLimit.html">GetHostedZoneLimit</a>.
+        /// To request a higher limit, <a href="http://aws.amazon.com/route53-request">create
+        /// a case</a> with the AWS Support Center.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHostedZoneException">
         /// No hosted zone exists with the ID that you specified.
@@ -307,10 +330,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/AssociateVPCWithHostedZone">REST API Reference for AssociateVPCWithHostedZone Operation</seealso>
         public virtual AssociateVPCWithHostedZoneResponse AssociateVPCWithHostedZone(AssociateVPCWithHostedZoneRequest request)
         {
-            var marshaller = AssociateVPCWithHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = AssociateVPCWithHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateVPCWithHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateVPCWithHostedZoneResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateVPCWithHostedZoneRequest,AssociateVPCWithHostedZoneResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateVPCWithHostedZoneResponse>(request, options);
         }
 
         /// <summary>
@@ -327,11 +351,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/AssociateVPCWithHostedZone">REST API Reference for AssociateVPCWithHostedZone Operation</seealso>
         public virtual IAsyncResult BeginAssociateVPCWithHostedZone(AssociateVPCWithHostedZoneRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateVPCWithHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = AssociateVPCWithHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateVPCWithHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateVPCWithHostedZoneResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateVPCWithHostedZoneRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -366,16 +390,16 @@ namespace Amazon.Route53
         /// The request body must include a document with a <code>ChangeResourceRecordSetsRequest</code>
         /// element. The request body contains a list of change items, known as a change batch.
         /// Change batches are considered transactional changes. When using the Amazon Route 53
-        /// API to change resource record sets, Amazon Route 53 either makes all or none of the
-        /// changes in a change batch request. This ensures that Amazon Route 53 never partially
-        /// implements the intended changes to the resource record sets in a hosted zone. 
+        /// API to change resource record sets, Route 53 either makes all or none of the changes
+        /// in a change batch request. This ensures that Route 53 never partially implements the
+        /// intended changes to the resource record sets in a hosted zone. 
         /// </para>
         ///  
         /// <para>
         /// For example, a change batch request that deletes the <code>CNAME</code> record for
-        /// www.example.com and creates an alias resource record set for www.example.com. Amazon
-        /// Route 53 deletes the first resource record set and creates the second resource record
-        /// set in a single operation. If either the <code>DELETE</code> or the <code>CREATE</code>
+        /// www.example.com and creates an alias resource record set for www.example.com. Route
+        /// 53 deletes the first resource record set and creates the second resource record set
+        /// in a single operation. If either the <code>DELETE</code> or the <code>CREATE</code>
         /// action fails, then both changes (plus any other changes in the batch) fail, and the
         /// original <code>CNAME</code> record continues to exist.
         /// </para>
@@ -383,7 +407,7 @@ namespace Amazon.Route53
         /// <para>
         /// Due to the nature of transactional changes, you can't delete the same resource record
         /// set more than once in a single change batch. If you attempt to delete the same change
-        /// batch more than once, Amazon Route 53 returns an <code>InvalidChangeBatch</code> error.
+        /// batch more than once, Route 53 returns an <code>InvalidChangeBatch</code> error.
         /// </para>
         ///  </important> 
         /// <para>
@@ -392,12 +416,12 @@ namespace Amazon.Route53
         ///  
         /// <para>
         /// To create resource record sets for complex routing configurations, use either the
-        /// traffic flow visual editor in the Amazon Route 53 console or the API actions for traffic
+        /// traffic flow visual editor in the Route 53 console or the API actions for traffic
         /// policies and traffic policy instances. Save the configuration as a traffic policy,
         /// then associate the traffic policy with one or more domain names (such as example.com)
         /// or subdomain names (such as www.example.com), in the same hosted zone or in multiple
         /// hosted zones. You can roll back the updates if the new configuration isn't performing
-        /// as expected. For more information, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html">Using
+        /// as expected. For more information, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html">Using
         /// Traffic Flow to Route DNS Traffic</a> in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         ///  
@@ -420,8 +444,8 @@ namespace Amazon.Route53
         ///  </li> <li> 
         /// <para>
         ///  <code>UPSERT</code>: If a resource record set does not already exist, AWS creates
-        /// it. If a resource set does exist, Amazon Route 53 updates it with the values in the
-        /// request. 
+        /// it. If a resource set does exist, Route 53 updates it with the values in the request.
+        /// 
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -445,16 +469,16 @@ namespace Amazon.Route53
         /// </para>
         ///  
         /// <para>
-        ///  <b>Change Propagation to Amazon Route 53 DNS Servers</b> 
+        ///  <b>Change Propagation to Route 53 DNS Servers</b> 
         /// </para>
         ///  
         /// <para>
-        /// When you submit a <code>ChangeResourceRecordSets</code> request, Amazon Route 53 propagates
-        /// your changes to all of the Amazon Route 53 authoritative DNS servers. While your changes
+        /// When you submit a <code>ChangeResourceRecordSets</code> request, Route 53 propagates
+        /// your changes to all of the Route 53 authoritative DNS servers. While your changes
         /// are propagating, <code>GetChange</code> returns a status of <code>PENDING</code>.
         /// When propagation is complete, <code>GetChange</code> returns a status of <code>INSYNC</code>.
-        /// Changes generally propagate to all Amazon Route 53 name servers within 60 seconds.
-        /// For more information, see <a>GetChange</a>.
+        /// Changes generally propagate to all Route 53 name servers within 60 seconds. For more
+        /// information, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>.
         /// </para>
         ///  
         /// <para>
@@ -463,7 +487,7 @@ namespace Amazon.Route53
         ///  
         /// <para>
         /// For information about the limits on a <code>ChangeResourceRecordSets</code> request,
-        /// see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -478,8 +502,7 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHostedZoneException">
         /// No hosted zone exists with the ID that you specified.
@@ -487,17 +510,18 @@ namespace Amazon.Route53
         /// <exception cref="Amazon.Route53.Model.PriorRequestNotCompleteException">
         /// If Amazon Route 53 can't process a request before the next request arrives, it will
         /// reject subsequent requests for the same hosted zone and return an <code>HTTP 400 error</code>
-        /// (<code>Bad request</code>). If Amazon Route 53 returns this error repeatedly for the
-        /// same request, we recommend that you wait, in intervals of increasing duration, before
-        /// you try the request again.
+        /// (<code>Bad request</code>). If Route 53 returns this error repeatedly for the same
+        /// request, we recommend that you wait, in intervals of increasing duration, before you
+        /// try the request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ChangeResourceRecordSets">REST API Reference for ChangeResourceRecordSets Operation</seealso>
         public virtual ChangeResourceRecordSetsResponse ChangeResourceRecordSets(ChangeResourceRecordSetsRequest request)
         {
-            var marshaller = ChangeResourceRecordSetsRequestMarshaller.Instance;
-            var unmarshaller = ChangeResourceRecordSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ChangeResourceRecordSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ChangeResourceRecordSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ChangeResourceRecordSetsRequest,ChangeResourceRecordSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ChangeResourceRecordSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -514,11 +538,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ChangeResourceRecordSets">REST API Reference for ChangeResourceRecordSets Operation</seealso>
         public virtual IAsyncResult BeginChangeResourceRecordSets(ChangeResourceRecordSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ChangeResourceRecordSetsRequestMarshaller.Instance;
-            var unmarshaller = ChangeResourceRecordSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ChangeResourceRecordSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ChangeResourceRecordSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ChangeResourceRecordSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -543,7 +567,7 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about using tags for cost allocation, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+        /// For information about using tags for cost allocation, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
         /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>.
         /// </para>
         /// </summary>
@@ -554,8 +578,7 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHostedZoneException">
         /// No hosted zone exists with the ID that you specified.
@@ -563,9 +586,9 @@ namespace Amazon.Route53
         /// <exception cref="Amazon.Route53.Model.PriorRequestNotCompleteException">
         /// If Amazon Route 53 can't process a request before the next request arrives, it will
         /// reject subsequent requests for the same hosted zone and return an <code>HTTP 400 error</code>
-        /// (<code>Bad request</code>). If Amazon Route 53 returns this error repeatedly for the
-        /// same request, we recommend that you wait, in intervals of increasing duration, before
-        /// you try the request again.
+        /// (<code>Bad request</code>). If Route 53 returns this error repeatedly for the same
+        /// request, we recommend that you wait, in intervals of increasing duration, before you
+        /// try the request again.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.ThrottlingException">
         /// The limit on the number of requests per second was exceeded.
@@ -573,10 +596,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ChangeTagsForResource">REST API Reference for ChangeTagsForResource Operation</seealso>
         public virtual ChangeTagsForResourceResponse ChangeTagsForResource(ChangeTagsForResourceRequest request)
         {
-            var marshaller = ChangeTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ChangeTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ChangeTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ChangeTagsForResourceResponseUnmarshaller.Instance;
 
-            return Invoke<ChangeTagsForResourceRequest,ChangeTagsForResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ChangeTagsForResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -593,11 +617,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ChangeTagsForResource">REST API Reference for ChangeTagsForResource Operation</seealso>
         public virtual IAsyncResult BeginChangeTagsForResource(ChangeTagsForResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ChangeTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ChangeTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ChangeTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ChangeTagsForResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ChangeTagsForResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -622,8 +646,9 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about adding health checks to resource record sets, see <a>ResourceRecordSet$HealthCheckId</a>
-        /// in <a>ChangeResourceRecordSets</a>. 
+        /// For information about adding health checks to resource record sets, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResourceRecordSet.html#Route53-Type-ResourceRecordSet-HealthCheckId">HealthCheckId</a>
+        /// in <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html">ChangeResourceRecordSets</a>.
+        /// 
         /// </para>
         ///  
         /// <para>
@@ -634,7 +659,7 @@ namespace Amazon.Route53
         /// If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer,
         /// do not create Amazon Route 53 health checks for the EC2 instances. When you register
         /// an EC2 instance with a load balancer, you configure settings for an ELB health check,
-        /// which performs a similar function to an Amazon Route 53 health check.
+        /// which performs a similar function to a Route 53 health check.
         /// </para>
         ///  
         /// <para>
@@ -647,9 +672,8 @@ namespace Amazon.Route53
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Amazon Route 53 health checkers are outside the VPC. To check the health of an endpoint
-        /// within a VPC by IP address, you must assign a public IP address to the instance in
-        /// the VPC.
+        /// Route 53 health checkers are outside the VPC. To check the health of an endpoint within
+        /// a VPC by IP address, you must assign a public IP address to the instance in the VPC.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -663,7 +687,7 @@ namespace Amazon.Route53
         /// a CloudWatch metric that checks the status of the Amazon EC2 <code>StatusCheckFailed</code>
         /// metric, add an alarm to the metric, and then create a health check that is based on
         /// the state of the alarm. For information about creating CloudWatch metrics and alarms
-        /// by using the CloudWatch console, see the <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html">Amazon
+        /// by using the CloudWatch console, see the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html">Amazon
         /// CloudWatch User Guide</a>.
         /// </para>
         ///  </li> </ul>
@@ -697,12 +721,12 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about default limits, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// For information about default limits, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For information about how to get the current limit for an account, see <a>GetAccountLimit</a>.
+        /// For information about how to get the current limit for an account, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html">GetAccountLimit</a>.
         /// To request a higher limit, <a href="http://aws.amazon.com/route53-request">create
         /// a case</a> with the AWS Support Center.
         /// </para>
@@ -716,10 +740,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateHealthCheck">REST API Reference for CreateHealthCheck Operation</seealso>
         public virtual CreateHealthCheckResponse CreateHealthCheck(CreateHealthCheckRequest request)
         {
-            var marshaller = CreateHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = CreateHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHealthCheckResponseUnmarshaller.Instance;
 
-            return Invoke<CreateHealthCheckRequest,CreateHealthCheckResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateHealthCheckResponse>(request, options);
         }
 
         /// <summary>
@@ -736,11 +761,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateHealthCheck">REST API Reference for CreateHealthCheck Operation</seealso>
         public virtual IAsyncResult BeginCreateHealthCheck(CreateHealthCheckRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = CreateHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHealthCheckResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateHealthCheckRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -761,13 +786,15 @@ namespace Amazon.Route53
         #region  CreateHostedZone
 
         /// <summary>
-        /// Creates a new public hosted zone, which you use to specify how the Domain Name System
-        /// (DNS) routes traffic on the Internet for a domain, such as example.com, and its subdomains.
-        /// 
+        /// Creates a new public or private hosted zone. You create records in a public hosted
+        /// zone to define how you want to route traffic on the internet for a domain, such as
+        /// example.com, and its subdomains (apex.example.com, acme.example.com). You create records
+        /// in a private hosted zone to define how you want to route traffic for a domain and
+        /// its subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs). 
         /// 
         ///  <important> 
         /// <para>
-        /// You can't convert a public hosted zones to a private hosted zone or vice versa. Instead,
+        /// You can't convert a public hosted zone to a private hosted zone or vice versa. Instead,
         /// you must create a new hosted zone with the same name and create new resource record
         /// sets.
         /// </para>
@@ -782,35 +809,35 @@ namespace Amazon.Route53
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// You can't create a hosted zone for a top-level domain (TLD).
+        /// You can't create a hosted zone for a top-level domain (TLD) such as .com.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Amazon Route 53 automatically creates a default SOA record and four NS records for
-        /// the zone. For more information about SOA and NS records, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html">NS
-        /// and SOA Records that Amazon Route 53 Creates for a Hosted Zone</a> in the <i>Amazon
-        /// Route 53 Developer Guide</i>.
+        /// For public hosted zones, Route 53 automatically creates a default SOA record and four
+        /// NS records for the zone. For more information about SOA and NS records, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html">NS
+        /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the <i>Amazon Route
+        /// 53 Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// If you want to use the same name servers for multiple hosted zones, you can optionally
-        /// associate a reusable delegation set with the hosted zone. See the <code>DelegationSetId</code>
+        /// If you want to use the same name servers for multiple public hosted zones, you can
+        /// optionally associate a reusable delegation set with the hosted zone. See the <code>DelegationSetId</code>
         /// element.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// If your domain is registered with a registrar other than Amazon Route 53, you must
-        /// update the name servers with your registrar to make Amazon Route 53 your DNS service.
-        /// For more information, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/creating-migrating.html">Configuring
-        /// Amazon Route 53 as your DNS Service</a> in the <i>Amazon Route 53 Developer Guide</i>.
-        /// 
+        /// If your domain is registered with a registrar other than Route 53, you must update
+        /// the name servers with your registrar to make Route 53 the DNS service for the domain.
+        /// For more information, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">Migrating
+        /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon Route 53
+        /// Developer Guide</i>. 
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// When you submit a <code>CreateHostedZone</code> request, the initial status of the
-        /// hosted zone is <code>PENDING</code>. This means that the NS and SOA records are not
-        /// yet available on all Amazon Route 53 DNS servers. When the NS and SOA records are
-        /// available, the status of the zone changes to <code>INSYNC</code>.
+        /// hosted zone is <code>PENDING</code>. For public hosted zones, this means that the
+        /// NS and SOA records are not yet available on all Route 53 DNS servers. When the NS
+        /// and SOA records are available, the status of the zone changes to <code>INSYNC</code>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateHostedZone service method.</param>
@@ -827,7 +854,7 @@ namespace Amazon.Route53
         /// name servers. You tried to create a hosted zone that has the same name as an existing
         /// hosted zone or that's the parent or child of an existing hosted zone, and you specified
         /// a delegation set that shares one or more name servers with the existing hosted zone.
-        /// For more information, see <a>CreateReusableDelegationSet</a>.
+        /// For more information, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -842,7 +869,7 @@ namespace Amazon.Route53
         /// You can create a hosted zone that has the same name as an existing hosted zone (example.com
         /// is common), but there is a limit to the number of hosted zones that have the same
         /// name. If you get this error, Amazon Route 53 has reached that limit. If you own the
-        /// domain name and Amazon Route 53 generates this error, contact Customer Support.
+        /// domain name and Route 53 generates this error, contact Customer Support.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.DelegationSetNotReusableException">
         /// A reusable delegation set with the specified ID does not exist.
@@ -871,17 +898,18 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about default limits, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// For information about default limits, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// To get the current limit on hosted zones that can be created by an account, see <a>GetAccountLimit</a>.
+        /// To get the current limit on hosted zones that can be created by an account, see <a
+        /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html">GetAccountLimit</a>.
         /// </para>
         ///  
         /// <para>
         /// To get the current limit on hosted zones that can be associated with a reusable delegation
-        /// set, see <a>GetReusableDelegationSetLimit</a>.
+        /// set, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSetLimit.html">GetReusableDelegationSetLimit</a>.
         /// </para>
         ///  
         /// <para>
@@ -892,10 +920,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateHostedZone">REST API Reference for CreateHostedZone Operation</seealso>
         public virtual CreateHostedZoneResponse CreateHostedZone(CreateHostedZoneRequest request)
         {
-            var marshaller = CreateHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = CreateHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHostedZoneResponseUnmarshaller.Instance;
 
-            return Invoke<CreateHostedZoneRequest,CreateHostedZoneResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateHostedZoneResponse>(request, options);
         }
 
         /// <summary>
@@ -912,11 +941,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateHostedZone">REST API Reference for CreateHostedZone Operation</seealso>
         public virtual IAsyncResult BeginCreateHostedZone(CreateHostedZoneRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = CreateHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateHostedZoneResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateHostedZoneRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -942,12 +971,12 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// DNS query logs contain information about the queries that Amazon Route 53 receives
-        /// for a specified public hosted zone, such as the following:
+        /// DNS query logs contain information about the queries that Route 53 receives for a
+        /// specified public hosted zone, such as the following:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Amazon Route 53 edge location that responded to the DNS query
+        /// Route 53 edge location that responded to the DNS query
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -967,8 +996,8 @@ namespace Amazon.Route53
         /// </para>
         ///  <note> 
         /// <para>
-        /// If you create a query logging configuration using the Amazon Route 53 console, Amazon
-        /// Route 53 performs these operations automatically.
+        /// If you create a query logging configuration using the Route 53 console, Route 53 performs
+        /// these operations automatically.
         /// </para>
         ///  </note> <ol> <li> 
         /// <para>
@@ -996,19 +1025,19 @@ namespace Amazon.Route53
         ///  
         /// <para>
         /// In the next step, you'll create a resource policy, which controls access to one or
-        /// more log groups and the associated AWS resources, such as Amazon Route 53 hosted zones.
-        /// There's a limit on the number of resource policies that you can create, so we recommend
-        /// that you use a consistent prefix so you can use the same resource policy for all the
-        /// log groups that you create for query logging.
+        /// more log groups and the associated AWS resources, such as Route 53 hosted zones. There's
+        /// a limit on the number of resource policies that you can create, so we recommend that
+        /// you use a consistent prefix so you can use the same resource policy for all the log
+        /// groups that you create for query logging.
         /// </para>
         ///  </li> </ul> </li> <li> 
         /// <para>
-        /// Create a CloudWatch Logs resource policy, and give it the permissions that Amazon
-        /// Route 53 needs to create log streams and to send query logs to log streams. For the
-        /// value of <code>Resource</code>, specify the ARN for the log group that you created
-        /// in the previous step. To use the same resource policy for all the CloudWatch Logs
-        /// log groups that you created for query logging configurations, replace the hosted zone
-        /// name with <code>*</code>, for example:
+        /// Create a CloudWatch Logs resource policy, and give it the permissions that Route 53
+        /// needs to create log streams and to send query logs to log streams. For the value of
+        /// <code>Resource</code>, specify the ARN for the log group that you created in the previous
+        /// step. To use the same resource policy for all the CloudWatch Logs log groups that
+        /// you created for query logging configurations, replace the hosted zone name with <code>*</code>,
+        /// for example:
         /// </para>
         ///  
         /// <para>
@@ -1021,14 +1050,14 @@ namespace Amazon.Route53
         /// </para>
         ///  </note> </li> </ol> </dd> <dt>Log Streams and Edge Locations</dt> <dd> 
         /// <para>
-        /// When Amazon Route 53 finishes creating the configuration for DNS query logging, it
-        /// does the following:
+        /// When Route 53 finishes creating the configuration for DNS query logging, it does the
+        /// following:
         /// </para>
         ///  <ul> <li> 
         /// <para>
         /// Creates a log stream for an edge location the first time that the edge location responds
         /// to DNS queries for the specified hosted zone. That log stream is used to log all queries
-        /// that Amazon Route 53 responds to for that edge location.
+        /// that Route 53 responds to for that edge location.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1048,26 +1077,25 @@ namespace Amazon.Route53
         /// for example, DFW3. The three-letter code typically corresponds with the International
         /// Air Transport Association airport code for an airport near the edge location. (These
         /// abbreviations might change in the future.) For a list of edge locations, see "The
-        /// Amazon Route 53 Global Network" on the <a href="http://aws.amazon.com/route53/details/">Amazon
-        /// Route 53 Product Details</a> page.
+        /// Route 53 Global Network" on the <a href="http://aws.amazon.com/route53/details/">Route
+        /// 53 Product Details</a> page.
         /// </para>
         ///  </dd> <dt>Queries That Are Logged</dt> <dd> 
         /// <para>
-        /// Query logs contain only the queries that DNS resolvers forward to Amazon Route 53.
-        /// If a DNS resolver has already cached the response to a query (such as the IP address
-        /// for a load balancer for example.com), the resolver will continue to return the cached
-        /// response. It doesn't forward another query to Amazon Route 53 until the TTL for the
-        /// corresponding resource record set expires. Depending on how many DNS queries are submitted
-        /// for a resource record set, and depending on the TTL for that resource record set,
-        /// query logs might contain information about only one query out of every several thousand
-        /// queries that are submitted to DNS. For more information about how DNS works, see <a
-        /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html">Routing
+        /// Query logs contain only the queries that DNS resolvers forward to Route 53. If a DNS
+        /// resolver has already cached the response to a query (such as the IP address for a
+        /// load balancer for example.com), the resolver will continue to return the cached response.
+        /// It doesn't forward another query to Route 53 until the TTL for the corresponding resource
+        /// record set expires. Depending on how many DNS queries are submitted for a resource
+        /// record set, and depending on the TTL for that resource record set, query logs might
+        /// contain information about only one query out of every several thousand queries that
+        /// are submitted to DNS. For more information about how DNS works, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html">Routing
         /// Internet Traffic to Your Website or Web Application</a> in the <i>Amazon Route 53
         /// Developer Guide</i>.
         /// </para>
         ///  </dd> <dt>Log File Format</dt> <dd> 
         /// <para>
-        /// For a list of the values in each query log and the format of each value, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
+        /// For a list of the values in each query log and the format of each value, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
         /// DNS Queries</a> in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         ///  </dd> <dt>Pricing</dt> <dd> 
@@ -1077,8 +1105,8 @@ namespace Amazon.Route53
         /// </para>
         ///  </dd> <dt>How to Stop Logging</dt> <dd> 
         /// <para>
-        /// If you want Amazon Route 53 to stop sending query logs to CloudWatch Logs, delete
-        /// the query logging configuration. For more information, see <a>DeleteQueryLoggingConfig</a>.
+        /// If you want Route 53 to stop sending query logs to CloudWatch Logs, delete the query
+        /// logging configuration. For more information, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteQueryLoggingConfig.html">DeleteQueryLoggingConfig</a>.
         /// </para>
         ///  </dd> </dl>
         /// </summary>
@@ -1124,10 +1152,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateQueryLoggingConfig">REST API Reference for CreateQueryLoggingConfig Operation</seealso>
         public virtual CreateQueryLoggingConfigResponse CreateQueryLoggingConfig(CreateQueryLoggingConfigRequest request)
         {
-            var marshaller = CreateQueryLoggingConfigRequestMarshaller.Instance;
-            var unmarshaller = CreateQueryLoggingConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateQueryLoggingConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateQueryLoggingConfigResponseUnmarshaller.Instance;
 
-            return Invoke<CreateQueryLoggingConfigRequest,CreateQueryLoggingConfigResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateQueryLoggingConfigResponse>(request, options);
         }
 
         /// <summary>
@@ -1144,11 +1173,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateQueryLoggingConfig">REST API Reference for CreateQueryLoggingConfig Operation</seealso>
         public virtual IAsyncResult BeginCreateQueryLoggingConfig(CreateQueryLoggingConfigRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateQueryLoggingConfigRequestMarshaller.Instance;
-            var unmarshaller = CreateQueryLoggingConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateQueryLoggingConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateQueryLoggingConfigResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateQueryLoggingConfigRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1170,9 +1199,14 @@ namespace Amazon.Route53
 
         /// <summary>
         /// Creates a delegation set (a group of four name servers) that can be reused by multiple
-        /// hosted zones. If a hosted zoned ID is specified, <code>CreateReusableDelegationSet</code>
-        /// marks the delegation set associated with that zone as reusable.
+        /// hosted zones that were created by the same AWS account. 
         /// 
+        ///  
+        /// <para>
+        /// You can also create a reusable delegation set that uses the four name servers that
+        /// are associated with an existing hosted zone. Specify the hosted zone ID in the <code>CreateReusableDelegationSet</code>
+        /// request.
+        /// </para>
         ///  <note> 
         /// <para>
         /// You can't associate a reusable delegation set with a private hosted zone.
@@ -1180,7 +1214,7 @@ namespace Amazon.Route53
         ///  </note> 
         /// <para>
         /// For information about using a reusable delegation set to configure white label name
-        /// servers, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.html">Configuring
+        /// servers, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.html">Configuring
         /// White Label Name Servers</a>.
         /// </para>
         ///  
@@ -1253,7 +1287,7 @@ namespace Amazon.Route53
         /// You can create a hosted zone that has the same name as an existing hosted zone (example.com
         /// is common), but there is a limit to the number of hosted zones that have the same
         /// name. If you get this error, Amazon Route 53 has reached that limit. If you own the
-        /// domain name and Amazon Route 53 generates this error, contact Customer Support.
+        /// domain name and Route 53 generates this error, contact Customer Support.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.HostedZoneNotFoundException">
         /// The specified HostedZone can't be found.
@@ -1268,19 +1302,20 @@ namespace Amazon.Route53
         /// This operation can't be completed either because the current account has reached the
         /// limit on reusable delegation sets that it can create or because you've reached the
         /// limit on the number of Amazon VPCs that you can associate with a private hosted zone.
-        /// To get the current limit on the number of reusable delegation sets, see <a>GetAccountLimit</a>.
+        /// To get the current limit on the number of reusable delegation sets, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html">GetAccountLimit</a>.
         /// To get the current limit on the number of Amazon VPCs that you can associate with
-        /// a private hosted zone, see <a>GetHostedZoneLimit</a>. To request a higher limit, <a
-        /// href="http://aws.amazon.com/route53-request">create a case</a> with the AWS Support
-        /// Center.
+        /// a private hosted zone, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetHostedZoneLimit.html">GetHostedZoneLimit</a>.
+        /// To request a higher limit, <a href="http://aws.amazon.com/route53-request">create
+        /// a case</a> with the AWS Support Center.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateReusableDelegationSet">REST API Reference for CreateReusableDelegationSet Operation</seealso>
         public virtual CreateReusableDelegationSetResponse CreateReusableDelegationSet(CreateReusableDelegationSetRequest request)
         {
-            var marshaller = CreateReusableDelegationSetRequestMarshaller.Instance;
-            var unmarshaller = CreateReusableDelegationSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateReusableDelegationSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateReusableDelegationSetResponseUnmarshaller.Instance;
 
-            return Invoke<CreateReusableDelegationSetRequest,CreateReusableDelegationSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateReusableDelegationSetResponse>(request, options);
         }
 
         /// <summary>
@@ -1297,11 +1332,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateReusableDelegationSet">REST API Reference for CreateReusableDelegationSet Operation</seealso>
         public virtual IAsyncResult BeginCreateReusableDelegationSet(CreateReusableDelegationSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateReusableDelegationSetRequestMarshaller.Instance;
-            var unmarshaller = CreateReusableDelegationSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateReusableDelegationSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateReusableDelegationSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateReusableDelegationSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1341,12 +1376,13 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about default limits, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// For information about default limits, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// To get the current limit for an account, see <a>GetAccountLimit</a>. 
+        /// To get the current limit for an account, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html">GetAccountLimit</a>.
+        /// 
         /// </para>
         ///  
         /// <para>
@@ -1360,10 +1396,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateTrafficPolicy">REST API Reference for CreateTrafficPolicy Operation</seealso>
         public virtual CreateTrafficPolicyResponse CreateTrafficPolicy(CreateTrafficPolicyRequest request)
         {
-            var marshaller = CreateTrafficPolicyRequestMarshaller.Instance;
-            var unmarshaller = CreateTrafficPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTrafficPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTrafficPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<CreateTrafficPolicyRequest,CreateTrafficPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateTrafficPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -1380,11 +1417,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateTrafficPolicy">REST API Reference for CreateTrafficPolicy Operation</seealso>
         public virtual IAsyncResult BeginCreateTrafficPolicy(CreateTrafficPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateTrafficPolicyRequestMarshaller.Instance;
-            var unmarshaller = CreateTrafficPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTrafficPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTrafficPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateTrafficPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1430,12 +1467,12 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about default limits, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// For information about default limits, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// For information about how to get the current limit for an account, see <a>GetAccountLimit</a>.
+        /// For information about how to get the current limit for an account, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html">GetAccountLimit</a>.
         /// </para>
         ///  
         /// <para>
@@ -1449,10 +1486,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateTrafficPolicyInstance">REST API Reference for CreateTrafficPolicyInstance Operation</seealso>
         public virtual CreateTrafficPolicyInstanceResponse CreateTrafficPolicyInstance(CreateTrafficPolicyInstanceRequest request)
         {
-            var marshaller = CreateTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = CreateTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<CreateTrafficPolicyInstanceRequest,CreateTrafficPolicyInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateTrafficPolicyInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -1469,11 +1507,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateTrafficPolicyInstance">REST API Reference for CreateTrafficPolicyInstance Operation</seealso>
         public virtual IAsyncResult BeginCreateTrafficPolicyInstance(CreateTrafficPolicyInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = CreateTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateTrafficPolicyInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1525,18 +1563,20 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// To create more traffic policy versions, you can use <a>GetTrafficPolicy</a> to get
-        /// the traffic policy document for a specified traffic policy version, and then use <a>CreateTrafficPolicy</a>
+        /// To create more traffic policy versions, you can use <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html">GetTrafficPolicy</a>
+        /// to get the traffic policy document for a specified traffic policy version, and then
+        /// use <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateTrafficPolicy.html">CreateTrafficPolicy</a>
         /// to create a new traffic policy using the traffic policy document.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateTrafficPolicyVersion">REST API Reference for CreateTrafficPolicyVersion Operation</seealso>
         public virtual CreateTrafficPolicyVersionResponse CreateTrafficPolicyVersion(CreateTrafficPolicyVersionRequest request)
         {
-            var marshaller = CreateTrafficPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = CreateTrafficPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTrafficPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTrafficPolicyVersionResponseUnmarshaller.Instance;
 
-            return Invoke<CreateTrafficPolicyVersionRequest,CreateTrafficPolicyVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateTrafficPolicyVersionResponse>(request, options);
         }
 
         /// <summary>
@@ -1553,11 +1593,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateTrafficPolicyVersion">REST API Reference for CreateTrafficPolicyVersion Operation</seealso>
         public virtual IAsyncResult BeginCreateTrafficPolicyVersion(CreateTrafficPolicyVersionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateTrafficPolicyVersionRequestMarshaller.Instance;
-            var unmarshaller = CreateTrafficPolicyVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTrafficPolicyVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTrafficPolicyVersionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateTrafficPolicyVersionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1620,10 +1660,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateVPCAssociationAuthorization">REST API Reference for CreateVPCAssociationAuthorization Operation</seealso>
         public virtual CreateVPCAssociationAuthorizationResponse CreateVPCAssociationAuthorization(CreateVPCAssociationAuthorizationRequest request)
         {
-            var marshaller = CreateVPCAssociationAuthorizationRequestMarshaller.Instance;
-            var unmarshaller = CreateVPCAssociationAuthorizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVPCAssociationAuthorizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVPCAssociationAuthorizationResponseUnmarshaller.Instance;
 
-            return Invoke<CreateVPCAssociationAuthorizationRequest,CreateVPCAssociationAuthorizationResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateVPCAssociationAuthorizationResponse>(request, options);
         }
 
         /// <summary>
@@ -1640,11 +1681,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/CreateVPCAssociationAuthorization">REST API Reference for CreateVPCAssociationAuthorization Operation</seealso>
         public virtual IAsyncResult BeginCreateVPCAssociationAuthorization(CreateVPCAssociationAuthorizationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateVPCAssociationAuthorizationRequestMarshaller.Instance;
-            var unmarshaller = CreateVPCAssociationAuthorizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVPCAssociationAuthorizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVPCAssociationAuthorizationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateVPCAssociationAuthorizationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1673,10 +1714,17 @@ namespace Amazon.Route53
         /// check is associated with one or more resource record sets. If you delete a health
         /// check and you don't update the associated resource record sets, the future status
         /// of the health check can't be predicted and may change. This will affect the routing
-        /// of DNS queries for your DNS failover configuration. For more information, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html#health-checks-deleting.html">Replacing
+        /// of DNS queries for your DNS failover configuration. For more information, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html#health-checks-deleting.html">Replacing
         /// and Deleting Health Checks</a> in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
-        ///  </important>
+        ///  </important> 
+        /// <para>
+        /// If you're using AWS Cloud Map and you configured Cloud Map to create a Route 53 health
+        /// check when you register an instance, you can't use the Route 53 <code>DeleteHealthCheck</code>
+        /// command to delete the health check. The health check is deleted automatically when
+        /// you deregister the instance; there can be a delay of several hours before the health
+        /// check is deleted from Route 53. 
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteHealthCheck service method.</param>
         /// 
@@ -1688,16 +1736,16 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteHealthCheck">REST API Reference for DeleteHealthCheck Operation</seealso>
         public virtual DeleteHealthCheckResponse DeleteHealthCheck(DeleteHealthCheckRequest request)
         {
-            var marshaller = DeleteHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = DeleteHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHealthCheckResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteHealthCheckRequest,DeleteHealthCheckResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteHealthCheckResponse>(request, options);
         }
 
         /// <summary>
@@ -1714,11 +1762,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteHealthCheck">REST API Reference for DeleteHealthCheck Operation</seealso>
         public virtual IAsyncResult BeginDeleteHealthCheck(DeleteHealthCheckRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = DeleteHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHealthCheckResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteHealthCheckRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1741,30 +1789,47 @@ namespace Amazon.Route53
         /// <summary>
         /// Deletes a hosted zone.
         /// 
-        ///  <important> 
+        ///  
         /// <para>
-        /// If the name servers for the hosted zone are associated with a domain and if you want
-        /// to make the domain unavailable on the Internet, we recommend that you delete the name
-        /// servers from the domain to prevent future DNS queries from possibly being misrouted.
-        /// If the domain is registered with Amazon Route 53, see <code>UpdateDomainNameservers</code>.
-        /// If the domain is registered with another registrar, use the method provided by the
-        /// registrar to delete name servers for the domain.
+        /// If the hosted zone was created by another service, such as AWS Cloud Map, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service">Deleting
+        /// Public Hosted Zones That Were Created by Another Service</a> in the <i>Amazon Route
+        /// 53 Developer Guide</i> for information about how to delete it. (The process is the
+        /// same for public and private hosted zones that were created by another service.)
         /// </para>
         ///  
         /// <para>
-        /// Some domain registries don't allow you to remove all of the name servers for a domain.
-        /// If the registry for your domain requires one or more name servers, we recommend that
-        /// you delete the hosted zone only if you transfer DNS service to another service provider,
-        /// and you replace the name servers for the domain with name servers from the new provider.
+        /// If you want to keep your domain registration but you want to stop routing internet
+        /// traffic to your website or web application, we recommend that you delete resource
+        /// record sets in the hosted zone instead of deleting the hosted zone.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// If you delete a hosted zone, you can't undelete it. You must create a new hosted zone
+        /// and update the name servers for your domain registration, which can require up to
+        /// 48 hours to take effect. (If you delegated responsibility for a subdomain to a hosted
+        /// zone and you delete the child hosted zone, you must update the name servers in the
+        /// parent hosted zone.) In addition, if you delete a hosted zone, someone could hijack
+        /// the domain and route traffic to their own resources using your domain name.
         /// </para>
         ///  </important> 
+        /// <para>
+        /// If you want to avoid the monthly charge for the hosted zone, you can transfer DNS
+        /// service for the domain to a free DNS service. When you transfer DNS service, you have
+        /// to update the name servers for the domain registration. If the domain is registered
+        /// with Route 53, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html">UpdateDomainNameservers</a>
+        /// for information about how to replace Route 53 name servers with name servers for the
+        /// new DNS service. If the domain is registered with another registrar, use the method
+        /// provided by the registrar to update name servers for the domain registration. For
+        /// more information, perform an internet search on "free DNS service."
+        /// </para>
+        ///  
         /// <para>
         /// You can delete a hosted zone only if it contains only the default SOA record and NS
         /// resource record sets. If the hosted zone contains other resource record sets, you
         /// must delete them before you can delete the hosted zone. If you try to delete a hosted
-        /// zone that contains other resource record sets, the request fails, and Amazon Route
-        /// 53 returns a <code>HostedZoneNotEmpty</code> error. For information about deleting
-        /// records from your hosted zone, see <a>ChangeResourceRecordSets</a>.
+        /// zone that contains other resource record sets, the request fails, and Route 53 returns
+        /// a <code>HostedZoneNotEmpty</code> error. For information about deleting records from
+        /// your hosted zone, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html">ChangeResourceRecordSets</a>.
         /// </para>
         ///  
         /// <para>
@@ -1800,17 +1865,18 @@ namespace Amazon.Route53
         /// <exception cref="Amazon.Route53.Model.PriorRequestNotCompleteException">
         /// If Amazon Route 53 can't process a request before the next request arrives, it will
         /// reject subsequent requests for the same hosted zone and return an <code>HTTP 400 error</code>
-        /// (<code>Bad request</code>). If Amazon Route 53 returns this error repeatedly for the
-        /// same request, we recommend that you wait, in intervals of increasing duration, before
-        /// you try the request again.
+        /// (<code>Bad request</code>). If Route 53 returns this error repeatedly for the same
+        /// request, we recommend that you wait, in intervals of increasing duration, before you
+        /// try the request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteHostedZone">REST API Reference for DeleteHostedZone Operation</seealso>
         public virtual DeleteHostedZoneResponse DeleteHostedZone(DeleteHostedZoneRequest request)
         {
-            var marshaller = DeleteHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = DeleteHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHostedZoneResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteHostedZoneRequest,DeleteHostedZoneResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteHostedZoneResponse>(request, options);
         }
 
         /// <summary>
@@ -1827,11 +1893,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteHostedZone">REST API Reference for DeleteHostedZone Operation</seealso>
         public virtual IAsyncResult BeginDeleteHostedZone(DeleteHostedZoneRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = DeleteHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteHostedZoneResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteHostedZoneRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1853,12 +1919,12 @@ namespace Amazon.Route53
 
         /// <summary>
         /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon
-        /// Route 53 stops sending query logs to CloudWatch Logs. Amazon Route 53 doesn't delete
-        /// any logs that are already in CloudWatch Logs.
+        /// Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any
+        /// logs that are already in CloudWatch Logs.
         /// 
         ///  
         /// <para>
-        /// For more information about DNS query logs, see <a>CreateQueryLoggingConfig</a>.
+        /// For more information about DNS query logs, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteQueryLoggingConfig service method.</param>
@@ -1877,10 +1943,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteQueryLoggingConfig">REST API Reference for DeleteQueryLoggingConfig Operation</seealso>
         public virtual DeleteQueryLoggingConfigResponse DeleteQueryLoggingConfig(DeleteQueryLoggingConfigRequest request)
         {
-            var marshaller = DeleteQueryLoggingConfigRequestMarshaller.Instance;
-            var unmarshaller = DeleteQueryLoggingConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteQueryLoggingConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteQueryLoggingConfigResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteQueryLoggingConfigRequest,DeleteQueryLoggingConfigResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteQueryLoggingConfigResponse>(request, options);
         }
 
         /// <summary>
@@ -1897,11 +1964,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteQueryLoggingConfig">REST API Reference for DeleteQueryLoggingConfig Operation</seealso>
         public virtual IAsyncResult BeginDeleteQueryLoggingConfig(DeleteQueryLoggingConfigRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteQueryLoggingConfigRequestMarshaller.Instance;
-            var unmarshaller = DeleteQueryLoggingConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteQueryLoggingConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteQueryLoggingConfigResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteQueryLoggingConfigRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1932,8 +1999,8 @@ namespace Amazon.Route53
         ///  </important> 
         /// <para>
         /// To verify that the reusable delegation set is not associated with any hosted zones,
-        /// submit a <a>GetReusableDelegationSet</a> request and specify the ID of the reusable
-        /// delegation set that you want to delete.
+        /// submit a <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSet.html">GetReusableDelegationSet</a>
+        /// request and specify the ID of the reusable delegation set that you want to delete.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteReusableDelegationSet service method.</param>
@@ -1955,10 +2022,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteReusableDelegationSet">REST API Reference for DeleteReusableDelegationSet Operation</seealso>
         public virtual DeleteReusableDelegationSetResponse DeleteReusableDelegationSet(DeleteReusableDelegationSetRequest request)
         {
-            var marshaller = DeleteReusableDelegationSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteReusableDelegationSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReusableDelegationSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReusableDelegationSetResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteReusableDelegationSetRequest,DeleteReusableDelegationSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteReusableDelegationSetResponse>(request, options);
         }
 
         /// <summary>
@@ -1975,11 +2043,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteReusableDelegationSet">REST API Reference for DeleteReusableDelegationSet Operation</seealso>
         public virtual IAsyncResult BeginDeleteReusableDelegationSet(DeleteReusableDelegationSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteReusableDelegationSetRequestMarshaller.Instance;
-            var unmarshaller = DeleteReusableDelegationSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReusableDelegationSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReusableDelegationSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteReusableDelegationSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2021,10 +2089,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteTrafficPolicy">REST API Reference for DeleteTrafficPolicy Operation</seealso>
         public virtual DeleteTrafficPolicyResponse DeleteTrafficPolicy(DeleteTrafficPolicyRequest request)
         {
-            var marshaller = DeleteTrafficPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteTrafficPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTrafficPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTrafficPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteTrafficPolicyRequest,DeleteTrafficPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTrafficPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -2041,11 +2110,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteTrafficPolicy">REST API Reference for DeleteTrafficPolicy Operation</seealso>
         public virtual IAsyncResult BeginDeleteTrafficPolicy(DeleteTrafficPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteTrafficPolicyRequestMarshaller.Instance;
-            var unmarshaller = DeleteTrafficPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTrafficPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTrafficPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteTrafficPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2071,7 +2140,7 @@ namespace Amazon.Route53
         /// 
         ///  <note> 
         /// <para>
-        /// In the Amazon Route 53 console, traffic policy instances are known as policy records.
+        /// In the Route 53 console, traffic policy instances are known as policy records.
         /// </para>
         ///  </note>
         /// </summary>
@@ -2087,17 +2156,18 @@ namespace Amazon.Route53
         /// <exception cref="Amazon.Route53.Model.PriorRequestNotCompleteException">
         /// If Amazon Route 53 can't process a request before the next request arrives, it will
         /// reject subsequent requests for the same hosted zone and return an <code>HTTP 400 error</code>
-        /// (<code>Bad request</code>). If Amazon Route 53 returns this error repeatedly for the
-        /// same request, we recommend that you wait, in intervals of increasing duration, before
-        /// you try the request again.
+        /// (<code>Bad request</code>). If Route 53 returns this error repeatedly for the same
+        /// request, we recommend that you wait, in intervals of increasing duration, before you
+        /// try the request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteTrafficPolicyInstance">REST API Reference for DeleteTrafficPolicyInstance Operation</seealso>
         public virtual DeleteTrafficPolicyInstanceResponse DeleteTrafficPolicyInstance(DeleteTrafficPolicyInstanceRequest request)
         {
-            var marshaller = DeleteTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = DeleteTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteTrafficPolicyInstanceRequest,DeleteTrafficPolicyInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTrafficPolicyInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -2114,11 +2184,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteTrafficPolicyInstance">REST API Reference for DeleteTrafficPolicyInstance Operation</seealso>
         public virtual IAsyncResult BeginDeleteTrafficPolicyInstance(DeleteTrafficPolicyInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = DeleteTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteTrafficPolicyInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2177,10 +2247,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteVPCAssociationAuthorization">REST API Reference for DeleteVPCAssociationAuthorization Operation</seealso>
         public virtual DeleteVPCAssociationAuthorizationResponse DeleteVPCAssociationAuthorization(DeleteVPCAssociationAuthorizationRequest request)
         {
-            var marshaller = DeleteVPCAssociationAuthorizationRequestMarshaller.Instance;
-            var unmarshaller = DeleteVPCAssociationAuthorizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVPCAssociationAuthorizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVPCAssociationAuthorizationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteVPCAssociationAuthorizationRequest,DeleteVPCAssociationAuthorizationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteVPCAssociationAuthorizationResponse>(request, options);
         }
 
         /// <summary>
@@ -2197,11 +2268,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DeleteVPCAssociationAuthorization">REST API Reference for DeleteVPCAssociationAuthorization Operation</seealso>
         public virtual IAsyncResult BeginDeleteVPCAssociationAuthorization(DeleteVPCAssociationAuthorizationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteVPCAssociationAuthorizationRequestMarshaller.Instance;
-            var unmarshaller = DeleteVPCAssociationAuthorizationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVPCAssociationAuthorizationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVPCAssociationAuthorizationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteVPCAssociationAuthorizationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2222,19 +2293,22 @@ namespace Amazon.Route53
         #region  DisassociateVPCFromHostedZone
 
         /// <summary>
-        /// Disassociates a VPC from a Amazon Route 53 private hosted zone. 
+        /// Disassociates a VPC from a Amazon Route 53 private hosted zone. Note the following:
         /// 
-        ///  <note> 
+        ///  <ul> <li> 
         /// <para>
         /// You can't disassociate the last VPC from a private hosted zone.
         /// </para>
-        ///  </note> <important> 
+        ///  </li> <li> 
         /// <para>
-        /// You can't disassociate a VPC from a private hosted zone when only one VPC is associated
-        /// with the hosted zone. You also can't convert a private hosted zone into a public hosted
-        /// zone.
+        /// You can't convert a private hosted zone into a public hosted zone.
         /// </para>
-        ///  </important>
+        ///  </li> <li> 
+        /// <para>
+        /// You can submit a <code>DisassociateVPCFromHostedZone</code> request using either the
+        /// account that created the hosted zone or the account that created the VPC.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DisassociateVPCFromHostedZone service method.</param>
         /// 
@@ -2260,10 +2334,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DisassociateVPCFromHostedZone">REST API Reference for DisassociateVPCFromHostedZone Operation</seealso>
         public virtual DisassociateVPCFromHostedZoneResponse DisassociateVPCFromHostedZone(DisassociateVPCFromHostedZoneRequest request)
         {
-            var marshaller = DisassociateVPCFromHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = DisassociateVPCFromHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateVPCFromHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateVPCFromHostedZoneResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateVPCFromHostedZoneRequest,DisassociateVPCFromHostedZoneResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateVPCFromHostedZoneResponse>(request, options);
         }
 
         /// <summary>
@@ -2280,11 +2355,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/DisassociateVPCFromHostedZone">REST API Reference for DisassociateVPCFromHostedZone Operation</seealso>
         public virtual IAsyncResult BeginDisassociateVPCFromHostedZone(DisassociateVPCFromHostedZoneRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisassociateVPCFromHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = DisassociateVPCFromHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateVPCFromHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateVPCFromHostedZoneResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisassociateVPCFromHostedZoneRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2310,10 +2385,17 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For the default limit, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// For the default limit, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>. To request a higher limit, <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
         /// a case</a>.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// You can also view account limits in AWS Trusted Advisor. Sign in to the AWS Management
+        /// Console and open the Trusted Advisor console at <a href="https://console.aws.amazon.com/trustedadvisor">https://console.aws.amazon.com/trustedadvisor/</a>.
+        /// Then choose <b>Service limits</b> in the navigation pane.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAccountLimit service method.</param>
         /// 
@@ -2324,10 +2406,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetAccountLimit">REST API Reference for GetAccountLimit Operation</seealso>
         public virtual GetAccountLimitResponse GetAccountLimit(GetAccountLimitRequest request)
         {
-            var marshaller = GetAccountLimitRequestMarshaller.Instance;
-            var unmarshaller = GetAccountLimitResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountLimitRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountLimitResponseUnmarshaller.Instance;
 
-            return Invoke<GetAccountLimitRequest,GetAccountLimitResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAccountLimitResponse>(request, options);
         }
 
         /// <summary>
@@ -2344,11 +2427,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetAccountLimit">REST API Reference for GetAccountLimit Operation</seealso>
         public virtual IAsyncResult BeginGetAccountLimit(GetAccountLimitRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAccountLimitRequestMarshaller.Instance;
-            var unmarshaller = GetAccountLimitResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountLimitRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountLimitResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAccountLimitRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2380,8 +2463,8 @@ namespace Amazon.Route53
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>INSYNC</code> indicates that the changes have propagated to all Amazon Route
-        /// 53 DNS servers. 
+        ///  <code>INSYNC</code> indicates that the changes have propagated to all Route 53 DNS
+        /// servers. 
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -2397,10 +2480,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetChange">REST API Reference for GetChange Operation</seealso>
         public virtual GetChangeResponse GetChange(GetChangeRequest request)
         {
-            var marshaller = GetChangeRequestMarshaller.Instance;
-            var unmarshaller = GetChangeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChangeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChangeResponseUnmarshaller.Instance;
 
-            return Invoke<GetChangeRequest,GetChangeResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetChangeResponse>(request, options);
         }
 
         /// <summary>
@@ -2417,11 +2501,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetChange">REST API Reference for GetChange Operation</seealso>
         public virtual IAsyncResult BeginGetChange(GetChangeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetChangeRequestMarshaller.Instance;
-            var unmarshaller = GetChangeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetChangeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetChangeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetChangeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2442,11 +2526,15 @@ namespace Amazon.Route53
         #region  GetCheckerIpRanges
 
         /// <summary>
-        /// <code>GetCheckerIpRanges</code> still works, but we recommend that you download ip-ranges.json,
+        /// <important> 
+        /// <para>
+        ///  <code>GetCheckerIpRanges</code> still works, but we recommend that you download ip-ranges.json,
         /// which includes IP address ranges for all AWS services. For more information, see <a
-        /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html">IP
+        /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html">IP
         /// Address Ranges of Amazon Route 53 Servers</a> in the <i>Amazon Route 53 Developer
         /// Guide</i>.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetCheckerIpRanges service method.</param>
         /// 
@@ -2454,10 +2542,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetCheckerIpRanges">REST API Reference for GetCheckerIpRanges Operation</seealso>
         public virtual GetCheckerIpRangesResponse GetCheckerIpRanges(GetCheckerIpRangesRequest request)
         {
-            var marshaller = GetCheckerIpRangesRequestMarshaller.Instance;
-            var unmarshaller = GetCheckerIpRangesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCheckerIpRangesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCheckerIpRangesResponseUnmarshaller.Instance;
 
-            return Invoke<GetCheckerIpRangesRequest,GetCheckerIpRangesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetCheckerIpRangesResponse>(request, options);
         }
 
         /// <summary>
@@ -2474,11 +2563,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetCheckerIpRanges">REST API Reference for GetCheckerIpRanges Operation</seealso>
         public virtual IAsyncResult BeginGetCheckerIpRanges(GetCheckerIpRangesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetCheckerIpRangesRequestMarshaller.Instance;
-            var unmarshaller = GetCheckerIpRangesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCheckerIpRangesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCheckerIpRangesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetCheckerIpRangesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2508,7 +2597,7 @@ namespace Amazon.Route53
         /// </para>
         ///  
         /// <para>
-        ///  <code>GET /2013-04-01/geolocation?ContinentCode=<i>two-letter abbreviation for a
+        ///  <code>GET /2013-04-01/geolocation?continentcode=<i>two-letter abbreviation for a
         /// continent</i> </code> 
         /// </para>
         ///  
@@ -2517,7 +2606,7 @@ namespace Amazon.Route53
         /// </para>
         ///  
         /// <para>
-        ///  <code>GET /2013-04-01/geolocation?CountryCode=<i>two-character country code</i> </code>
+        ///  <code>GET /2013-04-01/geolocation?countrycode=<i>two-character country code</i> </code>
         /// 
         /// </para>
         ///  
@@ -2527,7 +2616,7 @@ namespace Amazon.Route53
         /// </para>
         ///  
         /// <para>
-        ///  <code>GET /2013-04-01/geolocation?CountryCode=<i>two-character country code</i>&amp;SubdivisionCode=<i>subdivision
+        ///  <code>GET /2013-04-01/geolocation?countrycode=<i>two-character country code</i>&amp;subdivisioncode=<i>subdivision
         /// code</i> </code> 
         /// </para>
         /// </summary>
@@ -2538,15 +2627,18 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchGeoLocationException">
-        /// Amazon Route 53 doesn't support the specified geolocation.
+        /// Amazon Route 53 doesn't support the specified geographic location. For a list of supported
+        /// geolocation codes, see the <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html">GeoLocation</a>
+        /// data type.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetGeoLocation">REST API Reference for GetGeoLocation Operation</seealso>
         public virtual GetGeoLocationResponse GetGeoLocation(GetGeoLocationRequest request)
         {
-            var marshaller = GetGeoLocationRequestMarshaller.Instance;
-            var unmarshaller = GetGeoLocationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGeoLocationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGeoLocationResponseUnmarshaller.Instance;
 
-            return Invoke<GetGeoLocationRequest,GetGeoLocationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetGeoLocationResponse>(request, options);
         }
 
         /// <summary>
@@ -2563,11 +2655,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetGeoLocation">REST API Reference for GetGeoLocation Operation</seealso>
         public virtual IAsyncResult BeginGetGeoLocation(GetGeoLocationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetGeoLocationRequestMarshaller.Instance;
-            var unmarshaller = GetGeoLocationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGeoLocationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGeoLocationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetGeoLocationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2600,16 +2692,16 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheck">REST API Reference for GetHealthCheck Operation</seealso>
         public virtual GetHealthCheckResponse GetHealthCheck(GetHealthCheckRequest request)
         {
-            var marshaller = GetHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckResponseUnmarshaller.Instance;
 
-            return Invoke<GetHealthCheckRequest,GetHealthCheckResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetHealthCheckResponse>(request, options);
         }
 
         /// <summary>
@@ -2626,11 +2718,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheck">REST API Reference for GetHealthCheck Operation</seealso>
         public virtual IAsyncResult BeginGetHealthCheck(GetHealthCheckRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetHealthCheckRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2659,10 +2751,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheckCount">REST API Reference for GetHealthCheckCount Operation</seealso>
         public virtual GetHealthCheckCountResponse GetHealthCheckCount(GetHealthCheckCountRequest request)
         {
-            var marshaller = GetHealthCheckCountRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckCountResponseUnmarshaller.Instance;
 
-            return Invoke<GetHealthCheckCountRequest,GetHealthCheckCountResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetHealthCheckCountResponse>(request, options);
         }
 
         /// <summary>
@@ -2679,11 +2772,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheckCount">REST API Reference for GetHealthCheckCount Operation</seealso>
         public virtual IAsyncResult BeginGetHealthCheckCount(GetHealthCheckCountRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetHealthCheckCountRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckCountResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetHealthCheckCountRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2713,16 +2806,16 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheckLastFailureReason">REST API Reference for GetHealthCheckLastFailureReason Operation</seealso>
         public virtual GetHealthCheckLastFailureReasonResponse GetHealthCheckLastFailureReason(GetHealthCheckLastFailureReasonRequest request)
         {
-            var marshaller = GetHealthCheckLastFailureReasonRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckLastFailureReasonResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckLastFailureReasonRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckLastFailureReasonResponseUnmarshaller.Instance;
 
-            return Invoke<GetHealthCheckLastFailureReasonRequest,GetHealthCheckLastFailureReasonResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetHealthCheckLastFailureReasonResponse>(request, options);
         }
 
         /// <summary>
@@ -2739,11 +2832,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheckLastFailureReason">REST API Reference for GetHealthCheckLastFailureReason Operation</seealso>
         public virtual IAsyncResult BeginGetHealthCheckLastFailureReason(GetHealthCheckLastFailureReasonRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetHealthCheckLastFailureReasonRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckLastFailureReasonResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckLastFailureReasonRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckLastFailureReasonResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetHealthCheckLastFailureReasonRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2773,16 +2866,16 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheckStatus">REST API Reference for GetHealthCheckStatus Operation</seealso>
         public virtual GetHealthCheckStatusResponse GetHealthCheckStatus(GetHealthCheckStatusRequest request)
         {
-            var marshaller = GetHealthCheckStatusRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckStatusResponseUnmarshaller.Instance;
 
-            return Invoke<GetHealthCheckStatusRequest,GetHealthCheckStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetHealthCheckStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -2799,11 +2892,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHealthCheckStatus">REST API Reference for GetHealthCheckStatus Operation</seealso>
         public virtual IAsyncResult BeginGetHealthCheckStatus(GetHealthCheckStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetHealthCheckStatusRequestMarshaller.Instance;
-            var unmarshaller = GetHealthCheckStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHealthCheckStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHealthCheckStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetHealthCheckStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2839,10 +2932,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHostedZone">REST API Reference for GetHostedZone Operation</seealso>
         public virtual GetHostedZoneResponse GetHostedZone(GetHostedZoneRequest request)
         {
-            var marshaller = GetHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = GetHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHostedZoneResponseUnmarshaller.Instance;
 
-            return Invoke<GetHostedZoneRequest,GetHostedZoneResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetHostedZoneResponse>(request, options);
         }
 
         /// <summary>
@@ -2859,11 +2953,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHostedZone">REST API Reference for GetHostedZone Operation</seealso>
         public virtual IAsyncResult BeginGetHostedZone(GetHostedZoneRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = GetHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHostedZoneResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetHostedZoneRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2909,10 +3003,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHostedZoneCount">REST API Reference for GetHostedZoneCount Operation</seealso>
         public virtual GetHostedZoneCountResponse GetHostedZoneCount(GetHostedZoneCountRequest request)
         {
-            var marshaller = GetHostedZoneCountRequestMarshaller.Instance;
-            var unmarshaller = GetHostedZoneCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHostedZoneCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHostedZoneCountResponseUnmarshaller.Instance;
 
-            return Invoke<GetHostedZoneCountRequest,GetHostedZoneCountResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetHostedZoneCountResponse>(request, options);
         }
 
         /// <summary>
@@ -2929,11 +3024,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHostedZoneCount">REST API Reference for GetHostedZoneCount Operation</seealso>
         public virtual IAsyncResult BeginGetHostedZoneCount(GetHostedZoneCountRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetHostedZoneCountRequestMarshaller.Instance;
-            var unmarshaller = GetHostedZoneCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHostedZoneCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHostedZoneCountResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetHostedZoneCountRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2959,7 +3054,7 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For the default limit, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// For the default limit, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>. To request a higher limit, <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
         /// a case</a>.
         /// </para>
@@ -2979,10 +3074,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHostedZoneLimit">REST API Reference for GetHostedZoneLimit Operation</seealso>
         public virtual GetHostedZoneLimitResponse GetHostedZoneLimit(GetHostedZoneLimitRequest request)
         {
-            var marshaller = GetHostedZoneLimitRequestMarshaller.Instance;
-            var unmarshaller = GetHostedZoneLimitResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHostedZoneLimitRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHostedZoneLimitResponseUnmarshaller.Instance;
 
-            return Invoke<GetHostedZoneLimitRequest,GetHostedZoneLimitResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetHostedZoneLimitResponse>(request, options);
         }
 
         /// <summary>
@@ -2999,11 +3095,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetHostedZoneLimit">REST API Reference for GetHostedZoneLimit Operation</seealso>
         public virtual IAsyncResult BeginGetHostedZoneLimit(GetHostedZoneLimitRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetHostedZoneLimitRequestMarshaller.Instance;
-            var unmarshaller = GetHostedZoneLimitResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetHostedZoneLimitRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetHostedZoneLimitResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetHostedZoneLimitRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3028,8 +3124,8 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For more information about DNS query logs, see <a>CreateQueryLoggingConfig</a> and
-        /// <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
+        /// For more information about DNS query logs, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>
+        /// and <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
         /// DNS Queries</a>.
         /// </para>
         /// </summary>
@@ -3045,10 +3141,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetQueryLoggingConfig">REST API Reference for GetQueryLoggingConfig Operation</seealso>
         public virtual GetQueryLoggingConfigResponse GetQueryLoggingConfig(GetQueryLoggingConfigRequest request)
         {
-            var marshaller = GetQueryLoggingConfigRequestMarshaller.Instance;
-            var unmarshaller = GetQueryLoggingConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetQueryLoggingConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetQueryLoggingConfigResponseUnmarshaller.Instance;
 
-            return Invoke<GetQueryLoggingConfigRequest,GetQueryLoggingConfigResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetQueryLoggingConfigResponse>(request, options);
         }
 
         /// <summary>
@@ -3065,11 +3162,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetQueryLoggingConfig">REST API Reference for GetQueryLoggingConfig Operation</seealso>
         public virtual IAsyncResult BeginGetQueryLoggingConfig(GetQueryLoggingConfigRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetQueryLoggingConfigRequestMarshaller.Instance;
-            var unmarshaller = GetQueryLoggingConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetQueryLoggingConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetQueryLoggingConfigResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetQueryLoggingConfigRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3108,10 +3205,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetReusableDelegationSet">REST API Reference for GetReusableDelegationSet Operation</seealso>
         public virtual GetReusableDelegationSetResponse GetReusableDelegationSet(GetReusableDelegationSetRequest request)
         {
-            var marshaller = GetReusableDelegationSetRequestMarshaller.Instance;
-            var unmarshaller = GetReusableDelegationSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetReusableDelegationSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetReusableDelegationSetResponseUnmarshaller.Instance;
 
-            return Invoke<GetReusableDelegationSetRequest,GetReusableDelegationSetResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetReusableDelegationSetResponse>(request, options);
         }
 
         /// <summary>
@@ -3128,11 +3226,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetReusableDelegationSet">REST API Reference for GetReusableDelegationSet Operation</seealso>
         public virtual IAsyncResult BeginGetReusableDelegationSet(GetReusableDelegationSetRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetReusableDelegationSetRequestMarshaller.Instance;
-            var unmarshaller = GetReusableDelegationSetResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetReusableDelegationSetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetReusableDelegationSetResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetReusableDelegationSetRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3158,7 +3256,7 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For the default limit, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
+        /// For the default limit, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html">Limits</a>
         /// in the <i>Amazon Route 53 Developer Guide</i>. To request a higher limit, <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-route53">open
         /// a case</a>.
         /// </para>
@@ -3175,10 +3273,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetReusableDelegationSetLimit">REST API Reference for GetReusableDelegationSetLimit Operation</seealso>
         public virtual GetReusableDelegationSetLimitResponse GetReusableDelegationSetLimit(GetReusableDelegationSetLimitRequest request)
         {
-            var marshaller = GetReusableDelegationSetLimitRequestMarshaller.Instance;
-            var unmarshaller = GetReusableDelegationSetLimitResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetReusableDelegationSetLimitRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetReusableDelegationSetLimitResponseUnmarshaller.Instance;
 
-            return Invoke<GetReusableDelegationSetLimitRequest,GetReusableDelegationSetLimitResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetReusableDelegationSetLimitResponse>(request, options);
         }
 
         /// <summary>
@@ -3195,11 +3294,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetReusableDelegationSetLimit">REST API Reference for GetReusableDelegationSetLimit Operation</seealso>
         public virtual IAsyncResult BeginGetReusableDelegationSetLimit(GetReusableDelegationSetLimitRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetReusableDelegationSetLimitRequestMarshaller.Instance;
-            var unmarshaller = GetReusableDelegationSetLimitResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetReusableDelegationSetLimitRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetReusableDelegationSetLimitResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetReusableDelegationSetLimitRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3234,10 +3333,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetTrafficPolicy">REST API Reference for GetTrafficPolicy Operation</seealso>
         public virtual GetTrafficPolicyResponse GetTrafficPolicy(GetTrafficPolicyRequest request)
         {
-            var marshaller = GetTrafficPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetTrafficPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTrafficPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTrafficPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<GetTrafficPolicyRequest,GetTrafficPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTrafficPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -3254,11 +3354,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetTrafficPolicy">REST API Reference for GetTrafficPolicy Operation</seealso>
         public virtual IAsyncResult BeginGetTrafficPolicy(GetTrafficPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTrafficPolicyRequestMarshaller.Instance;
-            var unmarshaller = GetTrafficPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTrafficPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTrafficPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTrafficPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3290,7 +3390,7 @@ namespace Amazon.Route53
         /// </para>
         ///  </note> <note> 
         /// <para>
-        /// In the Amazon Route 53 console, traffic policy instances are known as policy records.
+        /// In the Route 53 console, traffic policy instances are known as policy records.
         /// </para>
         ///  </note>
         /// </summary>
@@ -3306,10 +3406,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetTrafficPolicyInstance">REST API Reference for GetTrafficPolicyInstance Operation</seealso>
         public virtual GetTrafficPolicyInstanceResponse GetTrafficPolicyInstance(GetTrafficPolicyInstanceRequest request)
         {
-            var marshaller = GetTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<GetTrafficPolicyInstanceRequest,GetTrafficPolicyInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTrafficPolicyInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -3326,11 +3427,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetTrafficPolicyInstance">REST API Reference for GetTrafficPolicyInstance Operation</seealso>
         public virtual IAsyncResult BeginGetTrafficPolicyInstance(GetTrafficPolicyInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTrafficPolicyInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3360,10 +3461,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetTrafficPolicyInstanceCount">REST API Reference for GetTrafficPolicyInstanceCount Operation</seealso>
         public virtual GetTrafficPolicyInstanceCountResponse GetTrafficPolicyInstanceCount(GetTrafficPolicyInstanceCountRequest request)
         {
-            var marshaller = GetTrafficPolicyInstanceCountRequestMarshaller.Instance;
-            var unmarshaller = GetTrafficPolicyInstanceCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTrafficPolicyInstanceCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTrafficPolicyInstanceCountResponseUnmarshaller.Instance;
 
-            return Invoke<GetTrafficPolicyInstanceCountRequest,GetTrafficPolicyInstanceCountResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTrafficPolicyInstanceCountResponse>(request, options);
         }
 
         /// <summary>
@@ -3380,11 +3482,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/GetTrafficPolicyInstanceCount">REST API Reference for GetTrafficPolicyInstanceCount Operation</seealso>
         public virtual IAsyncResult BeginGetTrafficPolicyInstanceCount(GetTrafficPolicyInstanceCountRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTrafficPolicyInstanceCountRequestMarshaller.Instance;
-            var unmarshaller = GetTrafficPolicyInstanceCountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTrafficPolicyInstanceCountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTrafficPolicyInstanceCountResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTrafficPolicyInstanceCountRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3405,7 +3507,7 @@ namespace Amazon.Route53
         #region  ListGeoLocations
 
         /// <summary>
-        /// Retrieves a list of supported geo locations.
+        /// Retrieves a list of supported geographic locations.
         /// 
         ///  
         /// <para>
@@ -3413,6 +3515,11 @@ namespace Amazon.Route53
         /// subdivisions for a country (for example, states or provinces), the subdivisions for
         /// that country are listed in alphabetical order immediately after the corresponding
         /// country.
+        /// </para>
+        ///  
+        /// <para>
+        /// For a list of supported geolocation codes, see the <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html">GeoLocation</a>
+        /// data type.
         /// </para>
         /// </summary>
         /// 
@@ -3427,7 +3534,7 @@ namespace Amazon.Route53
         }
 
         /// <summary>
-        /// Retrieves a list of supported geo locations.
+        /// Retrieves a list of supported geographic locations.
         /// 
         ///  
         /// <para>
@@ -3435,6 +3542,11 @@ namespace Amazon.Route53
         /// subdivisions for a country (for example, states or provinces), the subdivisions for
         /// that country are listed in alphabetical order immediately after the corresponding
         /// country.
+        /// </para>
+        ///  
+        /// <para>
+        /// For a list of supported geolocation codes, see the <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html">GeoLocation</a>
+        /// data type.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListGeoLocations service method.</param>
@@ -3446,10 +3558,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListGeoLocations">REST API Reference for ListGeoLocations Operation</seealso>
         public virtual ListGeoLocationsResponse ListGeoLocations(ListGeoLocationsRequest request)
         {
-            var marshaller = ListGeoLocationsRequestMarshaller.Instance;
-            var unmarshaller = ListGeoLocationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGeoLocationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGeoLocationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListGeoLocationsRequest,ListGeoLocationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGeoLocationsResponse>(request, options);
         }
 
         /// <summary>
@@ -3466,11 +3579,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListGeoLocations">REST API Reference for ListGeoLocations Operation</seealso>
         public virtual IAsyncResult BeginListGeoLocations(ListGeoLocationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListGeoLocationsRequestMarshaller.Instance;
-            var unmarshaller = ListGeoLocationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGeoLocationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGeoLocationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListGeoLocationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3522,10 +3635,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListHealthChecks">REST API Reference for ListHealthChecks Operation</seealso>
         public virtual ListHealthChecksResponse ListHealthChecks(ListHealthChecksRequest request)
         {
-            var marshaller = ListHealthChecksRequestMarshaller.Instance;
-            var unmarshaller = ListHealthChecksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHealthChecksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHealthChecksResponseUnmarshaller.Instance;
 
-            return Invoke<ListHealthChecksRequest,ListHealthChecksResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListHealthChecksResponse>(request, options);
         }
 
         /// <summary>
@@ -3542,11 +3656,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListHealthChecks">REST API Reference for ListHealthChecks Operation</seealso>
         public virtual IAsyncResult BeginListHealthChecks(ListHealthChecksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListHealthChecksRequestMarshaller.Instance;
-            var unmarshaller = ListHealthChecksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHealthChecksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHealthChecksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListHealthChecksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3622,10 +3736,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListHostedZones">REST API Reference for ListHostedZones Operation</seealso>
         public virtual ListHostedZonesResponse ListHostedZones(ListHostedZonesRequest request)
         {
-            var marshaller = ListHostedZonesRequestMarshaller.Instance;
-            var unmarshaller = ListHostedZonesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHostedZonesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHostedZonesResponseUnmarshaller.Instance;
 
-            return Invoke<ListHostedZonesRequest,ListHostedZonesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListHostedZonesResponse>(request, options);
         }
 
         /// <summary>
@@ -3642,11 +3757,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListHostedZones">REST API Reference for ListHostedZones Operation</seealso>
         public virtual IAsyncResult BeginListHostedZones(ListHostedZonesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListHostedZonesRequestMarshaller.Instance;
-            var unmarshaller = ListHostedZonesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHostedZonesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHostedZonesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListHostedZonesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3700,15 +3815,15 @@ namespace Amazon.Route53
         /// <para>
         /// The labels are reversed and alphabetized using the escaped value. For more information
         /// about valid domain name formats, including internationalized domain names, see <a
-        /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
+        /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
         /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         ///  
         /// <para>
-        /// Amazon Route 53 returns up to 100 items in each response. If you have a lot of hosted
-        /// zones, use the <code>MaxItems</code> parameter to list them in groups of up to 100.
-        /// The response includes values that help navigate from one group of <code>MaxItems</code>
-        /// hosted zones to the next:
+        /// Route 53 returns up to 100 items in each response. If you have a lot of hosted zones,
+        /// use the <code>MaxItems</code> parameter to list them in groups of up to 100. The response
+        /// includes values that help navigate from one group of <code>MaxItems</code> hosted
+        /// zones to the next:
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -3756,10 +3871,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListHostedZonesByName">REST API Reference for ListHostedZonesByName Operation</seealso>
         public virtual ListHostedZonesByNameResponse ListHostedZonesByName(ListHostedZonesByNameRequest request)
         {
-            var marshaller = ListHostedZonesByNameRequestMarshaller.Instance;
-            var unmarshaller = ListHostedZonesByNameResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHostedZonesByNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHostedZonesByNameResponseUnmarshaller.Instance;
 
-            return Invoke<ListHostedZonesByNameRequest,ListHostedZonesByNameResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListHostedZonesByNameResponse>(request, options);
         }
 
         /// <summary>
@@ -3776,11 +3892,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListHostedZonesByName">REST API Reference for ListHostedZonesByName Operation</seealso>
         public virtual IAsyncResult BeginListHostedZonesByName(ListHostedZonesByNameRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListHostedZonesByNameRequestMarshaller.Instance;
-            var unmarshaller = ListHostedZonesByNameResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListHostedZonesByNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListHostedZonesByNameResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListHostedZonesByNameRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3806,8 +3922,8 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For more information about DNS query logs, see <a>CreateQueryLoggingConfig</a>. Additional
-        /// information, including the format of DNS query logs, appears in <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
+        /// For more information about DNS query logs, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>.
+        /// Additional information, including the format of DNS query logs, appears in <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html">Logging
         /// DNS Queries</a> in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3826,10 +3942,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListQueryLoggingConfigs">REST API Reference for ListQueryLoggingConfigs Operation</seealso>
         public virtual ListQueryLoggingConfigsResponse ListQueryLoggingConfigs(ListQueryLoggingConfigsRequest request)
         {
-            var marshaller = ListQueryLoggingConfigsRequestMarshaller.Instance;
-            var unmarshaller = ListQueryLoggingConfigsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListQueryLoggingConfigsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListQueryLoggingConfigsResponseUnmarshaller.Instance;
 
-            return Invoke<ListQueryLoggingConfigsRequest,ListQueryLoggingConfigsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListQueryLoggingConfigsResponse>(request, options);
         }
 
         /// <summary>
@@ -3846,11 +3963,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListQueryLoggingConfigs">REST API Reference for ListQueryLoggingConfigs Operation</seealso>
         public virtual IAsyncResult BeginListQueryLoggingConfigs(ListQueryLoggingConfigsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListQueryLoggingConfigsRequestMarshaller.Instance;
-            var unmarshaller = ListQueryLoggingConfigsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListQueryLoggingConfigsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListQueryLoggingConfigsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListQueryLoggingConfigsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3877,8 +3994,16 @@ namespace Amazon.Route53
         /// <para>
         ///  <code>ListResourceRecordSets</code> returns up to 100 resource record sets at a time
         /// in ASCII order, beginning at a position specified by the <code>name</code> and <code>type</code>
-        /// elements. The action sorts results first by DNS name with the labels reversed, for
-        /// example:
+        /// elements.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Sort order</b> 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>ListResourceRecordSets</code> sorts results first by DNS name with the labels
+        /// reversed, for example:
         /// </para>
         ///  
         /// <para>
@@ -3886,17 +4011,23 @@ namespace Amazon.Route53
         /// </para>
         ///  
         /// <para>
-        /// Note the trailing dot, which can change the sort order in some circumstances.
+        /// Note the trailing dot, which can change the sort order when the record name contains
+        /// characters that appear before <code>.</code> (decimal 46) in the ASCII table. These
+        /// characters include the following: <code>! " # $ % &amp; ' ( ) * + , -</code> 
         /// </para>
         ///  
         /// <para>
-        /// When multiple records have the same DNS name, the action sorts results by the record
-        /// type.
+        /// When multiple records have the same DNS name, <code>ListResourceRecordSets</code>
+        /// sorts results by the record type.
         /// </para>
         ///  
         /// <para>
-        /// You can use the name and type elements to adjust the beginning position of the list
-        /// of resource record sets returned:
+        ///  <b>Specifying where to start listing records</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can use the name and type elements to specify the resource record set that the
+        /// list begins with:
         /// </para>
         ///  <dl> <dt>If you do not specify Name or Type</dt> <dd> 
         /// <para>
@@ -3918,9 +4049,17 @@ namespace Amazon.Route53
         /// </para>
         ///  </dd> </dl> 
         /// <para>
+        ///  <b>Resource record sets that are PENDING</b> 
+        /// </para>
+        ///  
+        /// <para>
         /// This action returns the most current version of the records. This includes records
-        /// that are <code>PENDING</code>, and that are not yet available on all Amazon Route
-        /// 53 DNS servers.
+        /// that are <code>PENDING</code>, and that are not yet available on all Route 53 DNS
+        /// servers.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Changing resource record sets</b> 
         /// </para>
         ///  
         /// <para>
@@ -3929,6 +4068,19 @@ namespace Amazon.Route53
         /// while you're paging through the results of a <code>ListResourceRecordSets</code> request.
         /// If you do, some pages may display results without the latest changes while other pages
         /// display results with the latest changes.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Displaying the next page of results</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// If a <code>ListResourceRecordSets</code> command returns more than one page of results,
+        /// the value of <code>IsTruncated</code> is <code>true</code>. To display the next page
+        /// of results, get the values of <code>NextRecordName</code>, <code>NextRecordType</code>,
+        /// and <code>NextRecordIdentifier</code> (if any) from the response. Then submit another
+        /// <code>ListResourceRecordSets</code> request, and specify those values for <code>StartRecordName</code>,
+        /// <code>StartRecordType</code>, and <code>StartRecordIdentifier</code>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListResourceRecordSets service method.</param>
@@ -3943,10 +4095,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListResourceRecordSets">REST API Reference for ListResourceRecordSets Operation</seealso>
         public virtual ListResourceRecordSetsResponse ListResourceRecordSets(ListResourceRecordSetsRequest request)
         {
-            var marshaller = ListResourceRecordSetsRequestMarshaller.Instance;
-            var unmarshaller = ListResourceRecordSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListResourceRecordSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListResourceRecordSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListResourceRecordSetsRequest,ListResourceRecordSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListResourceRecordSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -3963,11 +4116,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListResourceRecordSets">REST API Reference for ListResourceRecordSets Operation</seealso>
         public virtual IAsyncResult BeginListResourceRecordSets(ListResourceRecordSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListResourceRecordSetsRequestMarshaller.Instance;
-            var unmarshaller = ListResourceRecordSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListResourceRecordSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListResourceRecordSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListResourceRecordSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4015,10 +4168,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListReusableDelegationSets">REST API Reference for ListReusableDelegationSets Operation</seealso>
         public virtual ListReusableDelegationSetsResponse ListReusableDelegationSets(ListReusableDelegationSetsRequest request)
         {
-            var marshaller = ListReusableDelegationSetsRequestMarshaller.Instance;
-            var unmarshaller = ListReusableDelegationSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReusableDelegationSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReusableDelegationSetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListReusableDelegationSetsRequest,ListReusableDelegationSetsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListReusableDelegationSetsResponse>(request, options);
         }
 
         /// <summary>
@@ -4035,11 +4189,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListReusableDelegationSets">REST API Reference for ListReusableDelegationSets Operation</seealso>
         public virtual IAsyncResult BeginListReusableDelegationSets(ListReusableDelegationSetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListReusableDelegationSetsRequestMarshaller.Instance;
-            var unmarshaller = ListReusableDelegationSetsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReusableDelegationSetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReusableDelegationSetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListReusableDelegationSetsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4064,7 +4218,7 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about using tags for cost allocation, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+        /// For information about using tags for cost allocation, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
         /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>.
         /// </para>
         /// </summary>
@@ -4075,8 +4229,7 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHostedZoneException">
         /// No hosted zone exists with the ID that you specified.
@@ -4084,9 +4237,9 @@ namespace Amazon.Route53
         /// <exception cref="Amazon.Route53.Model.PriorRequestNotCompleteException">
         /// If Amazon Route 53 can't process a request before the next request arrives, it will
         /// reject subsequent requests for the same hosted zone and return an <code>HTTP 400 error</code>
-        /// (<code>Bad request</code>). If Amazon Route 53 returns this error repeatedly for the
-        /// same request, we recommend that you wait, in intervals of increasing duration, before
-        /// you try the request again.
+        /// (<code>Bad request</code>). If Route 53 returns this error repeatedly for the same
+        /// request, we recommend that you wait, in intervals of increasing duration, before you
+        /// try the request again.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.ThrottlingException">
         /// The limit on the number of requests per second was exceeded.
@@ -4094,10 +4247,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsForResourceRequest,ListTagsForResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsForResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -4114,11 +4268,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTagsForResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTagsForResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4143,7 +4297,7 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For information about using tags for cost allocation, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+        /// For information about using tags for cost allocation, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
         /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>.
         /// </para>
         /// </summary>
@@ -4154,8 +4308,7 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHostedZoneException">
         /// No hosted zone exists with the ID that you specified.
@@ -4163,9 +4316,9 @@ namespace Amazon.Route53
         /// <exception cref="Amazon.Route53.Model.PriorRequestNotCompleteException">
         /// If Amazon Route 53 can't process a request before the next request arrives, it will
         /// reject subsequent requests for the same hosted zone and return an <code>HTTP 400 error</code>
-        /// (<code>Bad request</code>). If Amazon Route 53 returns this error repeatedly for the
-        /// same request, we recommend that you wait, in intervals of increasing duration, before
-        /// you try the request again.
+        /// (<code>Bad request</code>). If Route 53 returns this error repeatedly for the same
+        /// request, we recommend that you wait, in intervals of increasing duration, before you
+        /// try the request again.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.ThrottlingException">
         /// The limit on the number of requests per second was exceeded.
@@ -4173,10 +4326,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTagsForResources">REST API Reference for ListTagsForResources Operation</seealso>
         public virtual ListTagsForResourcesResponse ListTagsForResources(ListTagsForResourcesRequest request)
         {
-            var marshaller = ListTagsForResourcesRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourcesResponseUnmarshaller.Instance;
 
-            return Invoke<ListTagsForResourcesRequest,ListTagsForResourcesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsForResourcesResponse>(request, options);
         }
 
         /// <summary>
@@ -4193,11 +4347,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTagsForResources">REST API Reference for ListTagsForResources Operation</seealso>
         public virtual IAsyncResult BeginListTagsForResources(ListTagsForResourcesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTagsForResourcesRequestMarshaller.Instance;
-            var unmarshaller = ListTagsForResourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourcesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTagsForResourcesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4219,8 +4373,8 @@ namespace Amazon.Route53
 
         /// <summary>
         /// Gets information about the latest version for every traffic policy that is associated
-        /// with the current AWS account. Policies are listed in the order in which they were
-        /// created.
+        /// with the current AWS account. Policies are listed in the order that they were created
+        /// in.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListTrafficPolicies service method.</param>
         /// 
@@ -4231,10 +4385,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicies">REST API Reference for ListTrafficPolicies Operation</seealso>
         public virtual ListTrafficPoliciesResponse ListTrafficPolicies(ListTrafficPoliciesRequest request)
         {
-            var marshaller = ListTrafficPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPoliciesResponseUnmarshaller.Instance;
 
-            return Invoke<ListTrafficPoliciesRequest,ListTrafficPoliciesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTrafficPoliciesResponse>(request, options);
         }
 
         /// <summary>
@@ -4251,11 +4406,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicies">REST API Reference for ListTrafficPolicies Operation</seealso>
         public virtual IAsyncResult BeginListTrafficPolicies(ListTrafficPoliciesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTrafficPoliciesRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPoliciesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPoliciesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPoliciesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTrafficPoliciesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4288,9 +4443,9 @@ namespace Amazon.Route53
         /// </para>
         ///  </note> 
         /// <para>
-        /// Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot
-        /// of traffic policy instances, you can use the <code>MaxItems</code> parameter to list
-        /// them in groups of up to 100.
+        /// Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
+        /// policy instances, you can use the <code>MaxItems</code> parameter to list them in
+        /// groups of up to 100.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListTrafficPolicyInstances service method.</param>
@@ -4305,10 +4460,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyInstances">REST API Reference for ListTrafficPolicyInstances Operation</seealso>
         public virtual ListTrafficPolicyInstancesResponse ListTrafficPolicyInstances(ListTrafficPolicyInstancesRequest request)
         {
-            var marshaller = ListTrafficPolicyInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<ListTrafficPolicyInstancesRequest,ListTrafficPolicyInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTrafficPolicyInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -4325,11 +4481,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyInstances">REST API Reference for ListTrafficPolicyInstances Operation</seealso>
         public virtual IAsyncResult BeginListTrafficPolicyInstances(ListTrafficPolicyInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTrafficPolicyInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTrafficPolicyInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4362,9 +4518,9 @@ namespace Amazon.Route53
         /// </para>
         ///  </note> 
         /// <para>
-        /// Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot
-        /// of traffic policy instances, you can use the <code>MaxItems</code> parameter to list
-        /// them in groups of up to 100.
+        /// Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
+        /// policy instances, you can use the <code>MaxItems</code> parameter to list them in
+        /// groups of up to 100.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListTrafficPolicyInstancesByHostedZone service method.</param>
@@ -4382,10 +4538,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyInstancesByHostedZone">REST API Reference for ListTrafficPolicyInstancesByHostedZone Operation</seealso>
         public virtual ListTrafficPolicyInstancesByHostedZoneResponse ListTrafficPolicyInstancesByHostedZone(ListTrafficPolicyInstancesByHostedZoneRequest request)
         {
-            var marshaller = ListTrafficPolicyInstancesByHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyInstancesByHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyInstancesByHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyInstancesByHostedZoneResponseUnmarshaller.Instance;
 
-            return Invoke<ListTrafficPolicyInstancesByHostedZoneRequest,ListTrafficPolicyInstancesByHostedZoneResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTrafficPolicyInstancesByHostedZoneResponse>(request, options);
         }
 
         /// <summary>
@@ -4402,11 +4559,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyInstancesByHostedZone">REST API Reference for ListTrafficPolicyInstancesByHostedZone Operation</seealso>
         public virtual IAsyncResult BeginListTrafficPolicyInstancesByHostedZone(ListTrafficPolicyInstancesByHostedZoneRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTrafficPolicyInstancesByHostedZoneRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyInstancesByHostedZoneResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyInstancesByHostedZoneRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyInstancesByHostedZoneResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTrafficPolicyInstancesByHostedZoneRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4439,9 +4596,9 @@ namespace Amazon.Route53
         /// </para>
         ///  </note> 
         /// <para>
-        /// Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot
-        /// of traffic policy instances, you can use the <code>MaxItems</code> parameter to list
-        /// them in groups of up to 100.
+        /// Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic
+        /// policy instances, you can use the <code>MaxItems</code> parameter to list them in
+        /// groups of up to 100.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListTrafficPolicyInstancesByPolicy service method.</param>
@@ -4459,10 +4616,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyInstancesByPolicy">REST API Reference for ListTrafficPolicyInstancesByPolicy Operation</seealso>
         public virtual ListTrafficPolicyInstancesByPolicyResponse ListTrafficPolicyInstancesByPolicy(ListTrafficPolicyInstancesByPolicyRequest request)
         {
-            var marshaller = ListTrafficPolicyInstancesByPolicyRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyInstancesByPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyInstancesByPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyInstancesByPolicyResponseUnmarshaller.Instance;
 
-            return Invoke<ListTrafficPolicyInstancesByPolicyRequest,ListTrafficPolicyInstancesByPolicyResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTrafficPolicyInstancesByPolicyResponse>(request, options);
         }
 
         /// <summary>
@@ -4479,11 +4637,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyInstancesByPolicy">REST API Reference for ListTrafficPolicyInstancesByPolicy Operation</seealso>
         public virtual IAsyncResult BeginListTrafficPolicyInstancesByPolicy(ListTrafficPolicyInstancesByPolicyRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTrafficPolicyInstancesByPolicyRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyInstancesByPolicyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyInstancesByPolicyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyInstancesByPolicyResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTrafficPolicyInstancesByPolicyRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4523,10 +4681,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyVersions">REST API Reference for ListTrafficPolicyVersions Operation</seealso>
         public virtual ListTrafficPolicyVersionsResponse ListTrafficPolicyVersions(ListTrafficPolicyVersionsRequest request)
         {
-            var marshaller = ListTrafficPolicyVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListTrafficPolicyVersionsRequest,ListTrafficPolicyVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTrafficPolicyVersionsResponse>(request, options);
         }
 
         /// <summary>
@@ -4543,11 +4702,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListTrafficPolicyVersions">REST API Reference for ListTrafficPolicyVersions Operation</seealso>
         public virtual IAsyncResult BeginListTrafficPolicyVersions(ListTrafficPolicyVersionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTrafficPolicyVersionsRequestMarshaller.Instance;
-            var unmarshaller = ListTrafficPolicyVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTrafficPolicyVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTrafficPolicyVersionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTrafficPolicyVersionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4593,10 +4752,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListVPCAssociationAuthorizations">REST API Reference for ListVPCAssociationAuthorizations Operation</seealso>
         public virtual ListVPCAssociationAuthorizationsResponse ListVPCAssociationAuthorizations(ListVPCAssociationAuthorizationsRequest request)
         {
-            var marshaller = ListVPCAssociationAuthorizationsRequestMarshaller.Instance;
-            var unmarshaller = ListVPCAssociationAuthorizationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVPCAssociationAuthorizationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVPCAssociationAuthorizationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListVPCAssociationAuthorizationsRequest,ListVPCAssociationAuthorizationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListVPCAssociationAuthorizationsResponse>(request, options);
         }
 
         /// <summary>
@@ -4613,11 +4773,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/ListVPCAssociationAuthorizations">REST API Reference for ListVPCAssociationAuthorizations Operation</seealso>
         public virtual IAsyncResult BeginListVPCAssociationAuthorizations(ListVPCAssociationAuthorizationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListVPCAssociationAuthorizationsRequestMarshaller.Instance;
-            var unmarshaller = ListVPCAssociationAuthorizationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVPCAssociationAuthorizationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVPCAssociationAuthorizationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListVPCAssociationAuthorizationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4654,10 +4814,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/TestDNSAnswer">REST API Reference for TestDNSAnswer Operation</seealso>
         public virtual TestDNSAnswerResponse TestDNSAnswer(TestDNSAnswerRequest request)
         {
-            var marshaller = TestDNSAnswerRequestMarshaller.Instance;
-            var unmarshaller = TestDNSAnswerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestDNSAnswerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestDNSAnswerResponseUnmarshaller.Instance;
 
-            return Invoke<TestDNSAnswerRequest,TestDNSAnswerResponse>(request, marshaller, unmarshaller);
+            return Invoke<TestDNSAnswerResponse>(request, options);
         }
 
         /// <summary>
@@ -4674,11 +4835,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/TestDNSAnswer">REST API Reference for TestDNSAnswer Operation</seealso>
         public virtual IAsyncResult BeginTestDNSAnswer(TestDNSAnswerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TestDNSAnswerRequestMarshaller.Instance;
-            var unmarshaller = TestDNSAnswerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestDNSAnswerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestDNSAnswerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<TestDNSAnswerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4703,7 +4864,7 @@ namespace Amazon.Route53
         /// 
         ///  
         /// <para>
-        /// For more information about updating health checks, see <a href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html">Creating,
+        /// For more information about updating health checks, see <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html">Creating,
         /// Updating, and Deleting Health Checks</a> in the <i>Amazon Route 53 Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -4718,16 +4879,16 @@ namespace Amazon.Route53
         /// The input is not valid.
         /// </exception>
         /// <exception cref="Amazon.Route53.Model.NoSuchHealthCheckException">
-        /// No health check exists with the ID that you specified in the <code>DeleteHealthCheck</code>
-        /// request.
+        /// No health check exists with the specified ID.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateHealthCheck">REST API Reference for UpdateHealthCheck Operation</seealso>
         public virtual UpdateHealthCheckResponse UpdateHealthCheck(UpdateHealthCheckRequest request)
         {
-            var marshaller = UpdateHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = UpdateHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateHealthCheckResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateHealthCheckRequest,UpdateHealthCheckResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateHealthCheckResponse>(request, options);
         }
 
         /// <summary>
@@ -4744,11 +4905,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateHealthCheck">REST API Reference for UpdateHealthCheck Operation</seealso>
         public virtual IAsyncResult BeginUpdateHealthCheck(UpdateHealthCheckRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateHealthCheckRequestMarshaller.Instance;
-            var unmarshaller = UpdateHealthCheckResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateHealthCheckRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateHealthCheckResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateHealthCheckRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4783,10 +4944,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateHostedZoneComment">REST API Reference for UpdateHostedZoneComment Operation</seealso>
         public virtual UpdateHostedZoneCommentResponse UpdateHostedZoneComment(UpdateHostedZoneCommentRequest request)
         {
-            var marshaller = UpdateHostedZoneCommentRequestMarshaller.Instance;
-            var unmarshaller = UpdateHostedZoneCommentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateHostedZoneCommentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateHostedZoneCommentResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateHostedZoneCommentRequest,UpdateHostedZoneCommentResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateHostedZoneCommentResponse>(request, options);
         }
 
         /// <summary>
@@ -4803,11 +4965,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateHostedZoneComment">REST API Reference for UpdateHostedZoneComment Operation</seealso>
         public virtual IAsyncResult BeginUpdateHostedZoneComment(UpdateHostedZoneCommentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateHostedZoneCommentRequestMarshaller.Instance;
-            var unmarshaller = UpdateHostedZoneCommentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateHostedZoneCommentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateHostedZoneCommentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateHostedZoneCommentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4846,10 +5008,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateTrafficPolicyComment">REST API Reference for UpdateTrafficPolicyComment Operation</seealso>
         public virtual UpdateTrafficPolicyCommentResponse UpdateTrafficPolicyComment(UpdateTrafficPolicyCommentRequest request)
         {
-            var marshaller = UpdateTrafficPolicyCommentRequestMarshaller.Instance;
-            var unmarshaller = UpdateTrafficPolicyCommentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTrafficPolicyCommentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTrafficPolicyCommentResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateTrafficPolicyCommentRequest,UpdateTrafficPolicyCommentResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateTrafficPolicyCommentResponse>(request, options);
         }
 
         /// <summary>
@@ -4866,11 +5029,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateTrafficPolicyComment">REST API Reference for UpdateTrafficPolicyComment Operation</seealso>
         public virtual IAsyncResult BeginUpdateTrafficPolicyComment(UpdateTrafficPolicyCommentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateTrafficPolicyCommentRequestMarshaller.Instance;
-            var unmarshaller = UpdateTrafficPolicyCommentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTrafficPolicyCommentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTrafficPolicyCommentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateTrafficPolicyCommentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4898,25 +5061,24 @@ namespace Amazon.Route53
         /// <para>
         /// When you update a traffic policy instance, Amazon Route 53 continues to respond to
         /// DNS queries for the root resource record set name (such as example.com) while it replaces
-        /// one group of resource record sets with another. Amazon Route 53 performs the following
-        /// operations:
+        /// one group of resource record sets with another. Route 53 performs the following operations:
         /// </para>
         ///  <ol> <li> 
         /// <para>
-        /// Amazon Route 53 creates a new group of resource record sets based on the specified
-        /// traffic policy. This is true regardless of how significant the differences are between
-        /// the existing resource record sets and the new resource record sets. 
+        /// Route 53 creates a new group of resource record sets based on the specified traffic
+        /// policy. This is true regardless of how significant the differences are between the
+        /// existing resource record sets and the new resource record sets. 
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// When all of the new resource record sets have been created, Amazon Route 53 starts
-        /// to respond to DNS queries for the root resource record set name (such as example.com)
-        /// by using the new resource record sets.
+        /// When all of the new resource record sets have been created, Route 53 starts to respond
+        /// to DNS queries for the root resource record set name (such as example.com) by using
+        /// the new resource record sets.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Amazon Route 53 deletes the old group of resource record sets that are associated
-        /// with the root resource record set name.
+        /// Route 53 deletes the old group of resource record sets that are associated with the
+        /// root resource record set name.
         /// </para>
         ///  </li> </ol>
         /// </summary>
@@ -4940,17 +5102,18 @@ namespace Amazon.Route53
         /// <exception cref="Amazon.Route53.Model.PriorRequestNotCompleteException">
         /// If Amazon Route 53 can't process a request before the next request arrives, it will
         /// reject subsequent requests for the same hosted zone and return an <code>HTTP 400 error</code>
-        /// (<code>Bad request</code>). If Amazon Route 53 returns this error repeatedly for the
-        /// same request, we recommend that you wait, in intervals of increasing duration, before
-        /// you try the request again.
+        /// (<code>Bad request</code>). If Route 53 returns this error repeatedly for the same
+        /// request, we recommend that you wait, in intervals of increasing duration, before you
+        /// try the request again.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateTrafficPolicyInstance">REST API Reference for UpdateTrafficPolicyInstance Operation</seealso>
         public virtual UpdateTrafficPolicyInstanceResponse UpdateTrafficPolicyInstance(UpdateTrafficPolicyInstanceRequest request)
         {
-            var marshaller = UpdateTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = UpdateTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateTrafficPolicyInstanceRequest,UpdateTrafficPolicyInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateTrafficPolicyInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -4967,11 +5130,11 @@ namespace Amazon.Route53
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/route53-2013-04-01/UpdateTrafficPolicyInstance">REST API Reference for UpdateTrafficPolicyInstance Operation</seealso>
         public virtual IAsyncResult BeginUpdateTrafficPolicyInstance(UpdateTrafficPolicyInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateTrafficPolicyInstanceRequestMarshaller.Instance;
-            var unmarshaller = UpdateTrafficPolicyInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTrafficPolicyInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTrafficPolicyInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateTrafficPolicyInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

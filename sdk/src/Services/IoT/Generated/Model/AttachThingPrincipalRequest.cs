@@ -29,7 +29,9 @@ namespace Amazon.IoT.Model
 {
     /// <summary>
     /// Container for the parameters to the AttachThingPrincipal operation.
-    /// Attaches the specified principal to the specified thing.
+    /// Attaches the specified principal to the specified thing. A principal can be X.509
+    /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+    /// identities.
     /// </summary>
     public partial class AttachThingPrincipalRequest : AmazonIoTRequest
     {
@@ -39,9 +41,11 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Principal. 
         /// <para>
-        /// The principal, such as a certificate or other credential.
+        /// The principal, which can be a certificate ARN (as returned from the CreateCertificate
+        /// operation) or an Amazon Cognito ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Principal
         {
             get { return this._principal; }
@@ -60,6 +64,7 @@ namespace Amazon.IoT.Model
         /// The name of the thing.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ThingName
         {
             get { return this._thingName; }

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.MediaLive.Model;
 using Amazon.MediaLive.Model.Internal.MarshallTransformations;
+using Amazon.MediaLive.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -37,6 +39,7 @@ namespace Amazon.MediaLive
     /// </summary>
     public partial class AmazonMediaLiveClient : AmazonServiceClient, IAmazonMediaLive
     {
+        private static IServiceMetadata serviceMetadata = new AmazonMediaLiveMetadata();
         #region Constructors
 
         /// <summary>
@@ -207,6 +210,16 @@ namespace Amazon.MediaLive
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -222,6 +235,84 @@ namespace Amazon.MediaLive
 
         #endregion
 
+
+        #region  BatchUpdateSchedule
+
+        /// <summary>
+        /// Update a channel schedule
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchUpdateSchedule service method.</param>
+        /// 
+        /// <returns>The response from the BatchUpdateSchedule service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.UnprocessableEntityException">
+        /// Placeholder documentation for UnprocessableEntityException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/BatchUpdateSchedule">REST API Reference for BatchUpdateSchedule Operation</seealso>
+        public virtual BatchUpdateScheduleResponse BatchUpdateSchedule(BatchUpdateScheduleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchUpdateScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchUpdateScheduleResponseUnmarshaller.Instance;
+
+            return Invoke<BatchUpdateScheduleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchUpdateSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchUpdateSchedule operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchUpdateSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/BatchUpdateSchedule">REST API Reference for BatchUpdateSchedule Operation</seealso>
+        public virtual IAsyncResult BeginBatchUpdateSchedule(BatchUpdateScheduleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchUpdateScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchUpdateScheduleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchUpdateSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchUpdateSchedule.</param>
+        /// 
+        /// <returns>Returns a  BatchUpdateScheduleResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/BatchUpdateSchedule">REST API Reference for BatchUpdateSchedule Operation</seealso>
+        public virtual BatchUpdateScheduleResponse EndBatchUpdateSchedule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<BatchUpdateScheduleResponse>(asyncResult);
+        }
+
+        #endregion
         
         #region  CreateChannel
 
@@ -258,10 +349,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateChannel">REST API Reference for CreateChannel Operation</seealso>
         public virtual CreateChannelResponse CreateChannel(CreateChannelRequest request)
         {
-            var marshaller = CreateChannelRequestMarshaller.Instance;
-            var unmarshaller = CreateChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateChannelResponseUnmarshaller.Instance;
 
-            return Invoke<CreateChannelRequest,CreateChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -278,11 +370,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateChannel">REST API Reference for CreateChannel Operation</seealso>
         public virtual IAsyncResult BeginCreateChannel(CreateChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateChannelRequestMarshaller.Instance;
-            var unmarshaller = CreateChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -329,10 +421,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateInput">REST API Reference for CreateInput Operation</seealso>
         public virtual CreateInputResponse CreateInput(CreateInputRequest request)
         {
-            var marshaller = CreateInputRequestMarshaller.Instance;
-            var unmarshaller = CreateInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInputResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInputRequest,CreateInputResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInputResponse>(request, options);
         }
 
         /// <summary>
@@ -349,11 +442,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateInput">REST API Reference for CreateInput Operation</seealso>
         public virtual IAsyncResult BeginCreateInput(CreateInputRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInputRequestMarshaller.Instance;
-            var unmarshaller = CreateInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInputResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInputRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -400,10 +493,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateInputSecurityGroup">REST API Reference for CreateInputSecurityGroup Operation</seealso>
         public virtual CreateInputSecurityGroupResponse CreateInputSecurityGroup(CreateInputSecurityGroupRequest request)
         {
-            var marshaller = CreateInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInputSecurityGroupRequest,CreateInputSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInputSecurityGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -420,11 +514,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateInputSecurityGroup">REST API Reference for CreateInputSecurityGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateInputSecurityGroup(CreateInputSecurityGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInputSecurityGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -438,6 +532,228 @@ namespace Amazon.MediaLive
         public virtual CreateInputSecurityGroupResponse EndCreateInputSecurityGroup(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateInputSecurityGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateMultiplex
+
+        /// <summary>
+        /// Create a new multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateMultiplex service method.</param>
+        /// 
+        /// <returns>The response from the CreateMultiplex service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.UnprocessableEntityException">
+        /// Placeholder documentation for UnprocessableEntityException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateMultiplex">REST API Reference for CreateMultiplex Operation</seealso>
+        public virtual CreateMultiplexResponse CreateMultiplex(CreateMultiplexRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMultiplexResponseUnmarshaller.Instance;
+
+            return Invoke<CreateMultiplexResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateMultiplex operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateMultiplex
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateMultiplex">REST API Reference for CreateMultiplex Operation</seealso>
+        public virtual IAsyncResult BeginCreateMultiplex(CreateMultiplexRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMultiplexResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateMultiplex.</param>
+        /// 
+        /// <returns>Returns a  CreateMultiplexResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateMultiplex">REST API Reference for CreateMultiplex Operation</seealso>
+        public virtual CreateMultiplexResponse EndCreateMultiplex(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateMultiplexResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateMultiplexProgram
+
+        /// <summary>
+        /// Create a new program in the multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateMultiplexProgram service method.</param>
+        /// 
+        /// <returns>The response from the CreateMultiplexProgram service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.UnprocessableEntityException">
+        /// Placeholder documentation for UnprocessableEntityException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateMultiplexProgram">REST API Reference for CreateMultiplexProgram Operation</seealso>
+        public virtual CreateMultiplexProgramResponse CreateMultiplexProgram(CreateMultiplexProgramRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMultiplexProgramResponseUnmarshaller.Instance;
+
+            return Invoke<CreateMultiplexProgramResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateMultiplexProgram operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateMultiplexProgram
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateMultiplexProgram">REST API Reference for CreateMultiplexProgram Operation</seealso>
+        public virtual IAsyncResult BeginCreateMultiplexProgram(CreateMultiplexProgramRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateMultiplexProgramResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateMultiplexProgram.</param>
+        /// 
+        /// <returns>Returns a  CreateMultiplexProgramResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateMultiplexProgram">REST API Reference for CreateMultiplexProgram Operation</seealso>
+        public virtual CreateMultiplexProgramResponse EndCreateMultiplexProgram(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateMultiplexProgramResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateTags
+
+        /// <summary>
+        /// Create tags for a resource
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTags service method.</param>
+        /// 
+        /// <returns>The response from the CreateTags service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateTags">REST API Reference for CreateTags Operation</seealso>
+        public virtual CreateTagsResponse CreateTags(CreateTagsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTagsResponseUnmarshaller.Instance;
+
+            return Invoke<CreateTagsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTags operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTags operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTags
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateTags">REST API Reference for CreateTags Operation</seealso>
+        public virtual IAsyncResult BeginCreateTags(CreateTagsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTagsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTags operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTags.</param>
+        /// 
+        /// <returns>Returns a  CreateTagsResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/CreateTags">REST API Reference for CreateTags Operation</seealso>
+        public virtual CreateTagsResponse EndCreateTags(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateTagsResponse>(asyncResult);
         }
 
         #endregion
@@ -477,10 +793,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteChannel">REST API Reference for DeleteChannel Operation</seealso>
         public virtual DeleteChannelResponse DeleteChannel(DeleteChannelRequest request)
         {
-            var marshaller = DeleteChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteChannelRequest,DeleteChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -497,11 +814,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteChannel">REST API Reference for DeleteChannel Operation</seealso>
         public virtual IAsyncResult BeginDeleteChannel(DeleteChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteChannelRequestMarshaller.Instance;
-            var unmarshaller = DeleteChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -554,10 +871,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteInput">REST API Reference for DeleteInput Operation</seealso>
         public virtual DeleteInputResponse DeleteInput(DeleteInputRequest request)
         {
-            var marshaller = DeleteInputRequestMarshaller.Instance;
-            var unmarshaller = DeleteInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInputResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInputRequest,DeleteInputResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInputResponse>(request, options);
         }
 
         /// <summary>
@@ -574,11 +892,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteInput">REST API Reference for DeleteInput Operation</seealso>
         public virtual IAsyncResult BeginDeleteInput(DeleteInputRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteInputRequestMarshaller.Instance;
-            var unmarshaller = DeleteInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInputResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteInputRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -628,10 +946,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteInputSecurityGroup">REST API Reference for DeleteInputSecurityGroup Operation</seealso>
         public virtual DeleteInputSecurityGroupResponse DeleteInputSecurityGroup(DeleteInputSecurityGroupRequest request)
         {
-            var marshaller = DeleteInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInputSecurityGroupRequest,DeleteInputSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInputSecurityGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -648,11 +967,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteInputSecurityGroup">REST API Reference for DeleteInputSecurityGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteInputSecurityGroup(DeleteInputSecurityGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteInputSecurityGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -666,6 +985,381 @@ namespace Amazon.MediaLive
         public virtual DeleteInputSecurityGroupResponse EndDeleteInputSecurityGroup(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteInputSecurityGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteMultiplex
+
+        /// <summary>
+        /// Delete a multiplex. The multiplex must be idle.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMultiplex service method.</param>
+        /// 
+        /// <returns>The response from the DeleteMultiplex service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteMultiplex">REST API Reference for DeleteMultiplex Operation</seealso>
+        public virtual DeleteMultiplexResponse DeleteMultiplex(DeleteMultiplexRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMultiplexResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteMultiplexResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMultiplex operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteMultiplex
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteMultiplex">REST API Reference for DeleteMultiplex Operation</seealso>
+        public virtual IAsyncResult BeginDeleteMultiplex(DeleteMultiplexRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMultiplexResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteMultiplex.</param>
+        /// 
+        /// <returns>Returns a  DeleteMultiplexResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteMultiplex">REST API Reference for DeleteMultiplex Operation</seealso>
+        public virtual DeleteMultiplexResponse EndDeleteMultiplex(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteMultiplexResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteMultiplexProgram
+
+        /// <summary>
+        /// Delete a program from a multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMultiplexProgram service method.</param>
+        /// 
+        /// <returns>The response from the DeleteMultiplexProgram service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteMultiplexProgram">REST API Reference for DeleteMultiplexProgram Operation</seealso>
+        public virtual DeleteMultiplexProgramResponse DeleteMultiplexProgram(DeleteMultiplexProgramRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMultiplexProgramResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteMultiplexProgramResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMultiplexProgram operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteMultiplexProgram
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteMultiplexProgram">REST API Reference for DeleteMultiplexProgram Operation</seealso>
+        public virtual IAsyncResult BeginDeleteMultiplexProgram(DeleteMultiplexProgramRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMultiplexProgramResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteMultiplexProgram.</param>
+        /// 
+        /// <returns>Returns a  DeleteMultiplexProgramResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteMultiplexProgram">REST API Reference for DeleteMultiplexProgram Operation</seealso>
+        public virtual DeleteMultiplexProgramResponse EndDeleteMultiplexProgram(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteMultiplexProgramResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteReservation
+
+        /// <summary>
+        /// Delete an expired reservation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteReservation service method.</param>
+        /// 
+        /// <returns>The response from the DeleteReservation service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteReservation">REST API Reference for DeleteReservation Operation</seealso>
+        public virtual DeleteReservationResponse DeleteReservation(DeleteReservationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReservationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReservationResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteReservationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteReservation operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteReservation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteReservation">REST API Reference for DeleteReservation Operation</seealso>
+        public virtual IAsyncResult BeginDeleteReservation(DeleteReservationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReservationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReservationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteReservation.</param>
+        /// 
+        /// <returns>Returns a  DeleteReservationResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteReservation">REST API Reference for DeleteReservation Operation</seealso>
+        public virtual DeleteReservationResponse EndDeleteReservation(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteReservationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteSchedule
+
+        /// <summary>
+        /// Delete all schedule actions on a channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSchedule service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSchedule service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteSchedule">REST API Reference for DeleteSchedule Operation</seealso>
+        public virtual DeleteScheduleResponse DeleteSchedule(DeleteScheduleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduleResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteScheduleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSchedule operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteSchedule">REST API Reference for DeleteSchedule Operation</seealso>
+        public virtual IAsyncResult BeginDeleteSchedule(DeleteScheduleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteScheduleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSchedule.</param>
+        /// 
+        /// <returns>Returns a  DeleteScheduleResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteSchedule">REST API Reference for DeleteSchedule Operation</seealso>
+        public virtual DeleteScheduleResponse EndDeleteSchedule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteScheduleResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteTags
+
+        /// <summary>
+        /// Removes tags for a resource
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTags service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTags service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
+        public virtual DeleteTagsResponse DeleteTags(DeleteTagsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteTagsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTags operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTags operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTags
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
+        public virtual IAsyncResult BeginDeleteTags(DeleteTagsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTagsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTags operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTags.</param>
+        /// 
+        /// <returns>Returns a  DeleteTagsResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
+        public virtual DeleteTagsResponse EndDeleteTags(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteTagsResponse>(asyncResult);
         }
 
         #endregion
@@ -702,10 +1396,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeChannel">REST API Reference for DescribeChannel Operation</seealso>
         public virtual DescribeChannelResponse DescribeChannel(DescribeChannelRequest request)
         {
-            var marshaller = DescribeChannelRequestMarshaller.Instance;
-            var unmarshaller = DescribeChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeChannelResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeChannelRequest,DescribeChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -722,11 +1417,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeChannel">REST API Reference for DescribeChannel Operation</seealso>
         public virtual IAsyncResult BeginDescribeChannel(DescribeChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeChannelRequestMarshaller.Instance;
-            var unmarshaller = DescribeChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -776,10 +1471,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeInput">REST API Reference for DescribeInput Operation</seealso>
         public virtual DescribeInputResponse DescribeInput(DescribeInputRequest request)
         {
-            var marshaller = DescribeInputRequestMarshaller.Instance;
-            var unmarshaller = DescribeInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInputResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeInputRequest,DescribeInputResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeInputResponse>(request, options);
         }
 
         /// <summary>
@@ -796,11 +1492,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeInput">REST API Reference for DescribeInput Operation</seealso>
         public virtual IAsyncResult BeginDescribeInput(DescribeInputRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeInputRequestMarshaller.Instance;
-            var unmarshaller = DescribeInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInputResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeInputRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -850,10 +1546,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeInputSecurityGroup">REST API Reference for DescribeInputSecurityGroup Operation</seealso>
         public virtual DescribeInputSecurityGroupResponse DescribeInputSecurityGroup(DescribeInputSecurityGroupRequest request)
         {
-            var marshaller = DescribeInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DescribeInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeInputSecurityGroupRequest,DescribeInputSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeInputSecurityGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -870,11 +1567,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeInputSecurityGroup">REST API Reference for DescribeInputSecurityGroup Operation</seealso>
         public virtual IAsyncResult BeginDescribeInputSecurityGroup(DescribeInputSecurityGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = DescribeInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeInputSecurityGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -888,6 +1585,381 @@ namespace Amazon.MediaLive
         public virtual DescribeInputSecurityGroupResponse EndDescribeInputSecurityGroup(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeInputSecurityGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeMultiplex
+
+        /// <summary>
+        /// Gets details about a multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMultiplex service method.</param>
+        /// 
+        /// <returns>The response from the DescribeMultiplex service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeMultiplex">REST API Reference for DescribeMultiplex Operation</seealso>
+        public virtual DescribeMultiplexResponse DescribeMultiplex(DescribeMultiplexRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMultiplexResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeMultiplexResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMultiplex operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeMultiplex
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeMultiplex">REST API Reference for DescribeMultiplex Operation</seealso>
+        public virtual IAsyncResult BeginDescribeMultiplex(DescribeMultiplexRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMultiplexResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeMultiplex.</param>
+        /// 
+        /// <returns>Returns a  DescribeMultiplexResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeMultiplex">REST API Reference for DescribeMultiplex Operation</seealso>
+        public virtual DescribeMultiplexResponse EndDescribeMultiplex(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeMultiplexResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeMultiplexProgram
+
+        /// <summary>
+        /// Get the details for a program in a multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMultiplexProgram service method.</param>
+        /// 
+        /// <returns>The response from the DescribeMultiplexProgram service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeMultiplexProgram">REST API Reference for DescribeMultiplexProgram Operation</seealso>
+        public virtual DescribeMultiplexProgramResponse DescribeMultiplexProgram(DescribeMultiplexProgramRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMultiplexProgramResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeMultiplexProgramResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMultiplexProgram operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeMultiplexProgram
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeMultiplexProgram">REST API Reference for DescribeMultiplexProgram Operation</seealso>
+        public virtual IAsyncResult BeginDescribeMultiplexProgram(DescribeMultiplexProgramRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeMultiplexProgramResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeMultiplexProgram.</param>
+        /// 
+        /// <returns>Returns a  DescribeMultiplexProgramResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeMultiplexProgram">REST API Reference for DescribeMultiplexProgram Operation</seealso>
+        public virtual DescribeMultiplexProgramResponse EndDescribeMultiplexProgram(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeMultiplexProgramResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeOffering
+
+        /// <summary>
+        /// Get details for an offering.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOffering service method.</param>
+        /// 
+        /// <returns>The response from the DescribeOffering service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeOffering">REST API Reference for DescribeOffering Operation</seealso>
+        public virtual DescribeOfferingResponse DescribeOffering(DescribeOfferingRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeOfferingResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeOfferingResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeOffering operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOffering operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeOffering
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeOffering">REST API Reference for DescribeOffering Operation</seealso>
+        public virtual IAsyncResult BeginDescribeOffering(DescribeOfferingRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeOfferingResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeOffering operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeOffering.</param>
+        /// 
+        /// <returns>Returns a  DescribeOfferingResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeOffering">REST API Reference for DescribeOffering Operation</seealso>
+        public virtual DescribeOfferingResponse EndDescribeOffering(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeOfferingResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeReservation
+
+        /// <summary>
+        /// Get details for a reservation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeReservation service method.</param>
+        /// 
+        /// <returns>The response from the DescribeReservation service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeReservation">REST API Reference for DescribeReservation Operation</seealso>
+        public virtual DescribeReservationResponse DescribeReservation(DescribeReservationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservationResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeReservationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeReservation operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeReservation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeReservation">REST API Reference for DescribeReservation Operation</seealso>
+        public virtual IAsyncResult BeginDescribeReservation(DescribeReservationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReservationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReservationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeReservation.</param>
+        /// 
+        /// <returns>Returns a  DescribeReservationResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeReservation">REST API Reference for DescribeReservation Operation</seealso>
+        public virtual DescribeReservationResponse EndDescribeReservation(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeReservationResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeSchedule
+
+        /// <summary>
+        /// Get a channel schedule
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSchedule service method.</param>
+        /// 
+        /// <returns>The response from the DescribeSchedule service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeSchedule">REST API Reference for DescribeSchedule Operation</seealso>
+        public virtual DescribeScheduleResponse DescribeSchedule(DescribeScheduleRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduleResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeScheduleResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSchedule operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeSchedule
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeSchedule">REST API Reference for DescribeSchedule Operation</seealso>
+        public virtual IAsyncResult BeginDescribeSchedule(DescribeScheduleRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeScheduleRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeScheduleResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeSchedule operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeSchedule.</param>
+        /// 
+        /// <returns>Returns a  DescribeScheduleResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/DescribeSchedule">REST API Reference for DescribeSchedule Operation</seealso>
+        public virtual DescribeScheduleResponse EndDescribeSchedule(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeScheduleResponse>(asyncResult);
         }
 
         #endregion
@@ -921,10 +1993,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListChannels">REST API Reference for ListChannels Operation</seealso>
         public virtual ListChannelsResponse ListChannels(ListChannelsRequest request)
         {
-            var marshaller = ListChannelsRequestMarshaller.Instance;
-            var unmarshaller = ListChannelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListChannelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListChannelsResponseUnmarshaller.Instance;
 
-            return Invoke<ListChannelsRequest,ListChannelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListChannelsResponse>(request, options);
         }
 
         /// <summary>
@@ -941,11 +2014,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListChannels">REST API Reference for ListChannels Operation</seealso>
         public virtual IAsyncResult BeginListChannels(ListChannelsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListChannelsRequestMarshaller.Instance;
-            var unmarshaller = ListChannelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListChannelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListChannelsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListChannelsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -992,10 +2065,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListInputs">REST API Reference for ListInputs Operation</seealso>
         public virtual ListInputsResponse ListInputs(ListInputsRequest request)
         {
-            var marshaller = ListInputsRequestMarshaller.Instance;
-            var unmarshaller = ListInputsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInputsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInputsResponseUnmarshaller.Instance;
 
-            return Invoke<ListInputsRequest,ListInputsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListInputsResponse>(request, options);
         }
 
         /// <summary>
@@ -1012,11 +2086,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListInputs">REST API Reference for ListInputs Operation</seealso>
         public virtual IAsyncResult BeginListInputs(ListInputsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListInputsRequestMarshaller.Instance;
-            var unmarshaller = ListInputsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInputsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInputsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListInputsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1063,10 +2137,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListInputSecurityGroups">REST API Reference for ListInputSecurityGroups Operation</seealso>
         public virtual ListInputSecurityGroupsResponse ListInputSecurityGroups(ListInputSecurityGroupsRequest request)
         {
-            var marshaller = ListInputSecurityGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListInputSecurityGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInputSecurityGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInputSecurityGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<ListInputSecurityGroupsRequest,ListInputSecurityGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListInputSecurityGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -1083,11 +2158,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListInputSecurityGroups">REST API Reference for ListInputSecurityGroups Operation</seealso>
         public virtual IAsyncResult BeginListInputSecurityGroups(ListInputSecurityGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListInputSecurityGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListInputSecurityGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInputSecurityGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInputSecurityGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListInputSecurityGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1101,6 +2176,441 @@ namespace Amazon.MediaLive
         public virtual ListInputSecurityGroupsResponse EndListInputSecurityGroups(IAsyncResult asyncResult)
         {
             return EndInvoke<ListInputSecurityGroupsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListMultiplexes
+
+        /// <summary>
+        /// Retrieve a list of the existing multiplexes.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListMultiplexes service method.</param>
+        /// 
+        /// <returns>The response from the ListMultiplexes service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListMultiplexes">REST API Reference for ListMultiplexes Operation</seealso>
+        public virtual ListMultiplexesResponse ListMultiplexes(ListMultiplexesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMultiplexesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMultiplexesResponseUnmarshaller.Instance;
+
+            return Invoke<ListMultiplexesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListMultiplexes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListMultiplexes operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListMultiplexes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListMultiplexes">REST API Reference for ListMultiplexes Operation</seealso>
+        public virtual IAsyncResult BeginListMultiplexes(ListMultiplexesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMultiplexesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMultiplexesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListMultiplexes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListMultiplexes.</param>
+        /// 
+        /// <returns>Returns a  ListMultiplexesResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListMultiplexes">REST API Reference for ListMultiplexes Operation</seealso>
+        public virtual ListMultiplexesResponse EndListMultiplexes(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListMultiplexesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListMultiplexPrograms
+
+        /// <summary>
+        /// List the programs that currently exist for a specific multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListMultiplexPrograms service method.</param>
+        /// 
+        /// <returns>The response from the ListMultiplexPrograms service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListMultiplexPrograms">REST API Reference for ListMultiplexPrograms Operation</seealso>
+        public virtual ListMultiplexProgramsResponse ListMultiplexPrograms(ListMultiplexProgramsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMultiplexProgramsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMultiplexProgramsResponseUnmarshaller.Instance;
+
+            return Invoke<ListMultiplexProgramsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListMultiplexPrograms operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListMultiplexPrograms operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListMultiplexPrograms
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListMultiplexPrograms">REST API Reference for ListMultiplexPrograms Operation</seealso>
+        public virtual IAsyncResult BeginListMultiplexPrograms(ListMultiplexProgramsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListMultiplexProgramsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListMultiplexProgramsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListMultiplexPrograms operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListMultiplexPrograms.</param>
+        /// 
+        /// <returns>Returns a  ListMultiplexProgramsResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListMultiplexPrograms">REST API Reference for ListMultiplexPrograms Operation</seealso>
+        public virtual ListMultiplexProgramsResponse EndListMultiplexPrograms(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListMultiplexProgramsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListOfferings
+
+        /// <summary>
+        /// List offerings available for purchase.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListOfferings service method.</param>
+        /// 
+        /// <returns>The response from the ListOfferings service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListOfferings">REST API Reference for ListOfferings Operation</seealso>
+        public virtual ListOfferingsResponse ListOfferings(ListOfferingsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingsResponseUnmarshaller.Instance;
+
+            return Invoke<ListOfferingsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListOfferings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListOfferings operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListOfferings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListOfferings">REST API Reference for ListOfferings Operation</seealso>
+        public virtual IAsyncResult BeginListOfferings(ListOfferingsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListOfferings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListOfferings.</param>
+        /// 
+        /// <returns>Returns a  ListOfferingsResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListOfferings">REST API Reference for ListOfferings Operation</seealso>
+        public virtual ListOfferingsResponse EndListOfferings(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListOfferingsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListReservations
+
+        /// <summary>
+        /// List purchased reservations.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListReservations service method.</param>
+        /// 
+        /// <returns>The response from the ListReservations service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListReservations">REST API Reference for ListReservations Operation</seealso>
+        public virtual ListReservationsResponse ListReservations(ListReservationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReservationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReservationsResponseUnmarshaller.Instance;
+
+            return Invoke<ListReservationsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListReservations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListReservations operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListReservations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListReservations">REST API Reference for ListReservations Operation</seealso>
+        public virtual IAsyncResult BeginListReservations(ListReservationsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListReservationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListReservationsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListReservations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListReservations.</param>
+        /// 
+        /// <returns>Returns a  ListReservationsResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListReservations">REST API Reference for ListReservations Operation</seealso>
+        public virtual ListReservationsResponse EndListReservations(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListReservationsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// Produces list of tags that have been created for a resource
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  PurchaseOffering
+
+        /// <summary>
+        /// Purchase an offering and create a reservation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PurchaseOffering service method.</param>
+        /// 
+        /// <returns>The response from the PurchaseOffering service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/PurchaseOffering">REST API Reference for PurchaseOffering Operation</seealso>
+        public virtual PurchaseOfferingResponse PurchaseOffering(PurchaseOfferingRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseOfferingResponseUnmarshaller.Instance;
+
+            return Invoke<PurchaseOfferingResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PurchaseOffering operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PurchaseOffering operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPurchaseOffering
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/PurchaseOffering">REST API Reference for PurchaseOffering Operation</seealso>
+        public virtual IAsyncResult BeginPurchaseOffering(PurchaseOfferingRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseOfferingResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PurchaseOffering operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPurchaseOffering.</param>
+        /// 
+        /// <returns>Returns a  PurchaseOfferingResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/PurchaseOffering">REST API Reference for PurchaseOffering Operation</seealso>
+        public virtual PurchaseOfferingResponse EndPurchaseOffering(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PurchaseOfferingResponse>(asyncResult);
         }
 
         #endregion
@@ -1140,10 +2650,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StartChannel">REST API Reference for StartChannel Operation</seealso>
         public virtual StartChannelResponse StartChannel(StartChannelRequest request)
         {
-            var marshaller = StartChannelRequestMarshaller.Instance;
-            var unmarshaller = StartChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartChannelResponseUnmarshaller.Instance;
 
-            return Invoke<StartChannelRequest,StartChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1160,11 +2671,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StartChannel">REST API Reference for StartChannel Operation</seealso>
         public virtual IAsyncResult BeginStartChannel(StartChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartChannelRequestMarshaller.Instance;
-            var unmarshaller = StartChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1178,6 +2689,85 @@ namespace Amazon.MediaLive
         public virtual StartChannelResponse EndStartChannel(IAsyncResult asyncResult)
         {
             return EndInvoke<StartChannelResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StartMultiplex
+
+        /// <summary>
+        /// Start (run) the multiplex. Starting the multiplex does not start the channels. You
+        /// must explicitly start each channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartMultiplex service method.</param>
+        /// 
+        /// <returns>The response from the StartMultiplex service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StartMultiplex">REST API Reference for StartMultiplex Operation</seealso>
+        public virtual StartMultiplexResponse StartMultiplex(StartMultiplexRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMultiplexResponseUnmarshaller.Instance;
+
+            return Invoke<StartMultiplexResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartMultiplex operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartMultiplex
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StartMultiplex">REST API Reference for StartMultiplex Operation</seealso>
+        public virtual IAsyncResult BeginStartMultiplex(StartMultiplexRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMultiplexResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartMultiplex.</param>
+        /// 
+        /// <returns>Returns a  StartMultiplexResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StartMultiplex">REST API Reference for StartMultiplex Operation</seealso>
+        public virtual StartMultiplexResponse EndStartMultiplex(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartMultiplexResponse>(asyncResult);
         }
 
         #endregion
@@ -1217,10 +2807,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StopChannel">REST API Reference for StopChannel Operation</seealso>
         public virtual StopChannelResponse StopChannel(StopChannelRequest request)
         {
-            var marshaller = StopChannelRequestMarshaller.Instance;
-            var unmarshaller = StopChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopChannelResponseUnmarshaller.Instance;
 
-            return Invoke<StopChannelRequest,StopChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1237,11 +2828,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StopChannel">REST API Reference for StopChannel Operation</seealso>
         public virtual IAsyncResult BeginStopChannel(StopChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopChannelRequestMarshaller.Instance;
-            var unmarshaller = StopChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1255,6 +2846,84 @@ namespace Amazon.MediaLive
         public virtual StopChannelResponse EndStopChannel(IAsyncResult asyncResult)
         {
             return EndInvoke<StopChannelResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StopMultiplex
+
+        /// <summary>
+        /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopMultiplex service method.</param>
+        /// 
+        /// <returns>The response from the StopMultiplex service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StopMultiplex">REST API Reference for StopMultiplex Operation</seealso>
+        public virtual StopMultiplexResponse StopMultiplex(StopMultiplexRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopMultiplexResponseUnmarshaller.Instance;
+
+            return Invoke<StopMultiplexResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopMultiplex operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopMultiplex
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StopMultiplex">REST API Reference for StopMultiplex Operation</seealso>
+        public virtual IAsyncResult BeginStopMultiplex(StopMultiplexRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopMultiplexResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopMultiplex.</param>
+        /// 
+        /// <returns>Returns a  StopMultiplexResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/StopMultiplex">REST API Reference for StopMultiplex Operation</seealso>
+        public virtual StopMultiplexResponse EndStopMultiplex(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StopMultiplexResponse>(asyncResult);
         }
 
         #endregion
@@ -1291,10 +2960,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannel">REST API Reference for UpdateChannel Operation</seealso>
         public virtual UpdateChannelResponse UpdateChannel(UpdateChannelRequest request)
         {
-            var marshaller = UpdateChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateChannelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateChannelRequest,UpdateChannelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateChannelResponse>(request, options);
         }
 
         /// <summary>
@@ -1311,11 +2981,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannel">REST API Reference for UpdateChannel Operation</seealso>
         public virtual IAsyncResult BeginUpdateChannel(UpdateChannelRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateChannelRequestMarshaller.Instance;
-            var unmarshaller = UpdateChannelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateChannelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateChannelResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateChannelRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1329,6 +2999,87 @@ namespace Amazon.MediaLive
         public virtual UpdateChannelResponse EndUpdateChannel(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateChannelResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateChannelClass
+
+        /// <summary>
+        /// Changes the class of the channel.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateChannelClass service method.</param>
+        /// 
+        /// <returns>The response from the UpdateChannelClass service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.UnprocessableEntityException">
+        /// Placeholder documentation for UnprocessableEntityException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannelClass">REST API Reference for UpdateChannelClass Operation</seealso>
+        public virtual UpdateChannelClassResponse UpdateChannelClass(UpdateChannelClassRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateChannelClassRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateChannelClassResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateChannelClassResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateChannelClass operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateChannelClass operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateChannelClass
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannelClass">REST API Reference for UpdateChannelClass Operation</seealso>
+        public virtual IAsyncResult BeginUpdateChannelClass(UpdateChannelClassRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateChannelClassRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateChannelClassResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateChannelClass operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateChannelClass.</param>
+        /// 
+        /// <returns>Returns a  UpdateChannelClassResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateChannelClass">REST API Reference for UpdateChannelClass Operation</seealso>
+        public virtual UpdateChannelClassResponse EndUpdateChannelClass(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateChannelClassResponse>(asyncResult);
         }
 
         #endregion
@@ -1365,10 +3116,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateInput">REST API Reference for UpdateInput Operation</seealso>
         public virtual UpdateInputResponse UpdateInput(UpdateInputRequest request)
         {
-            var marshaller = UpdateInputRequestMarshaller.Instance;
-            var unmarshaller = UpdateInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateInputResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateInputRequest,UpdateInputResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateInputResponse>(request, options);
         }
 
         /// <summary>
@@ -1385,11 +3137,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateInput">REST API Reference for UpdateInput Operation</seealso>
         public virtual IAsyncResult BeginUpdateInput(UpdateInputRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateInputRequestMarshaller.Instance;
-            var unmarshaller = UpdateInputResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateInputRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateInputResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateInputRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1439,10 +3191,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateInputSecurityGroup">REST API Reference for UpdateInputSecurityGroup Operation</seealso>
         public virtual UpdateInputSecurityGroupResponse UpdateInputSecurityGroup(UpdateInputSecurityGroupRequest request)
         {
-            var marshaller = UpdateInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateInputSecurityGroupRequest,UpdateInputSecurityGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateInputSecurityGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1459,11 +3212,11 @@ namespace Amazon.MediaLive
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateInputSecurityGroup">REST API Reference for UpdateInputSecurityGroup Operation</seealso>
         public virtual IAsyncResult BeginUpdateInputSecurityGroup(UpdateInputSecurityGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateInputSecurityGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateInputSecurityGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateInputSecurityGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateInputSecurityGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateInputSecurityGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1477,6 +3230,240 @@ namespace Amazon.MediaLive
         public virtual UpdateInputSecurityGroupResponse EndUpdateInputSecurityGroup(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateInputSecurityGroupResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateMultiplex
+
+        /// <summary>
+        /// Updates a multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMultiplex service method.</param>
+        /// 
+        /// <returns>The response from the UpdateMultiplex service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.UnprocessableEntityException">
+        /// Placeholder documentation for UnprocessableEntityException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateMultiplex">REST API Reference for UpdateMultiplex Operation</seealso>
+        public virtual UpdateMultiplexResponse UpdateMultiplex(UpdateMultiplexRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMultiplexResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateMultiplexResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMultiplex operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateMultiplex
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateMultiplex">REST API Reference for UpdateMultiplex Operation</seealso>
+        public virtual IAsyncResult BeginUpdateMultiplex(UpdateMultiplexRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMultiplexRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMultiplexResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateMultiplex operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateMultiplex.</param>
+        /// 
+        /// <returns>Returns a  UpdateMultiplexResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateMultiplex">REST API Reference for UpdateMultiplex Operation</seealso>
+        public virtual UpdateMultiplexResponse EndUpdateMultiplex(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateMultiplexResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateMultiplexProgram
+
+        /// <summary>
+        /// Update a program in a multiplex.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMultiplexProgram service method.</param>
+        /// 
+        /// <returns>The response from the UpdateMultiplexProgram service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.UnprocessableEntityException">
+        /// Placeholder documentation for UnprocessableEntityException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateMultiplexProgram">REST API Reference for UpdateMultiplexProgram Operation</seealso>
+        public virtual UpdateMultiplexProgramResponse UpdateMultiplexProgram(UpdateMultiplexProgramRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMultiplexProgramResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateMultiplexProgramResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMultiplexProgram operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateMultiplexProgram
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateMultiplexProgram">REST API Reference for UpdateMultiplexProgram Operation</seealso>
+        public virtual IAsyncResult BeginUpdateMultiplexProgram(UpdateMultiplexProgramRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMultiplexProgramRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMultiplexProgramResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateMultiplexProgram operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateMultiplexProgram.</param>
+        /// 
+        /// <returns>Returns a  UpdateMultiplexProgramResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateMultiplexProgram">REST API Reference for UpdateMultiplexProgram Operation</seealso>
+        public virtual UpdateMultiplexProgramResponse EndUpdateMultiplexProgram(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateMultiplexProgramResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateReservation
+
+        /// <summary>
+        /// Update reservation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateReservation service method.</param>
+        /// 
+        /// <returns>The response from the UpdateReservation service method, as returned by MediaLive.</returns>
+        /// <exception cref="Amazon.MediaLive.Model.BadGatewayException">
+        /// Placeholder documentation for BadGatewayException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.BadRequestException">
+        /// Placeholder documentation for BadRequestException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ConflictException">
+        /// Placeholder documentation for ConflictException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.ForbiddenException">
+        /// Placeholder documentation for ForbiddenException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.GatewayTimeoutException">
+        /// Placeholder documentation for GatewayTimeoutException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.InternalServerErrorException">
+        /// Placeholder documentation for InternalServerErrorException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.NotFoundException">
+        /// Placeholder documentation for NotFoundException
+        /// </exception>
+        /// <exception cref="Amazon.MediaLive.Model.TooManyRequestsException">
+        /// Placeholder documentation for TooManyRequestsException
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateReservation">REST API Reference for UpdateReservation Operation</seealso>
+        public virtual UpdateReservationResponse UpdateReservation(UpdateReservationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateReservationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateReservationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateReservationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateReservation operation on AmazonMediaLiveClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateReservation
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateReservation">REST API Reference for UpdateReservation Operation</seealso>
+        public virtual IAsyncResult BeginUpdateReservation(UpdateReservationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateReservationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateReservationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateReservation operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateReservation.</param>
+        /// 
+        /// <returns>Returns a  UpdateReservationResult from MediaLive.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/medialive-2017-10-14/UpdateReservation">REST API Reference for UpdateReservation Operation</seealso>
+        public virtual UpdateReservationResponse EndUpdateReservation(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateReservationResponse>(asyncResult);
         }
 
         #endregion

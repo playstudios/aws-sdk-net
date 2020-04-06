@@ -14,7 +14,7 @@
  */
 
 /*
- * Do not modify this file. This file is generated from the cloudfront-2017-10-30.normal.json service model.
+ * Do not modify this file. This file is generated from the cloudfront-2019-03-26.normal.json service model.
  */
 using System;
 using System.Collections.Generic;
@@ -56,11 +56,11 @@ namespace Amazon.CloudFront.Model.Internal.MarshallTransformations
         {
             var request = new DefaultRequest(publicRequest, "Amazon.CloudFront");
             request.HttpMethod = "GET";
-            string uriResourcePath = "/2017-10-30/tagging";
             
             if (publicRequest.IsSetResource())
                 request.Parameters.Add("Resource", StringUtils.FromString(publicRequest.Resource));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/2019-03-26/tagging";
+            request.MarshallerVersion = 2;
 
 
             request.UseQueryString = true;

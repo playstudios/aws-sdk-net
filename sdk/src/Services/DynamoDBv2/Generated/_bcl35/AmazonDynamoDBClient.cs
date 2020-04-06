@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.Model.Internal.MarshallTransformations;
+using Amazon.DynamoDBv2.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -59,6 +61,7 @@ namespace Amazon.DynamoDBv2
     /// </summary>
     public partial class AmazonDynamoDBClient : AmazonServiceClient, IAmazonDynamoDB
     {
+        private static IServiceMetadata serviceMetadata = new AmazonDynamoDBMetadata();
         #region Constructors
 
         /// <summary>
@@ -235,8 +238,21 @@ namespace Amazon.DynamoDBv2
         /// <param name="pipeline"></param>
         protected override void CustomizeRuntimePipeline(RuntimePipeline pipeline)
         {
-            pipeline.ReplaceHandler<Amazon.Runtime.Internal.RetryHandler>(new Amazon.Runtime.Internal.RetryHandler(new Amazon.DynamoDBv2.Internal.DynamoDBRetryPolicy(this.Config)));
+            if(this.Config.RetryMode == RequestRetryMode.Legacy)
+            {
+                pipeline.ReplaceHandler<Amazon.Runtime.Internal.RetryHandler>(new Amazon.Runtime.Internal.RetryHandler(new Amazon.DynamoDBv2.Internal.DynamoDBRetryPolicy(this.Config)));
+            }
         }    
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -252,7 +268,34 @@ namespace Amazon.DynamoDBv2
 
         #endregion
 
-        
+        #region  EndpointOperation Override
+
+        protected override IEnumerable<DiscoveryEndpointBase> EndpointOperation(EndpointOperationContextBase context)
+        {
+            return EndpointDiscoveryResolver.ResolveEndpoints(context, () =>
+            {
+                var request = new DescribeEndpointsRequest
+                {
+                };                
+
+                var response = DescribeEndpoints(request);
+                if(response.HttpStatusCode != HttpStatusCode.OK || response.Endpoints == null)
+                {
+                    return null;
+                }
+
+                var endpoints = new List<DiscoveryEndpointBase>();
+                foreach(var endpoint in response.Endpoints)
+                {
+                    endpoints.Add(new DiscoveryEndpoint(endpoint.Address, endpoint.CachePeriodInMinutes));
+                }
+            
+                return endpoints;
+            });
+        }
+
+        #endregion
+
         #region  BatchGetItem
 
         /// <summary>
@@ -262,16 +305,16 @@ namespace Amazon.DynamoDBv2
         ///  
         /// <para>
         /// A single operation can retrieve up to 16 MB of data, which can contain as many as
-        /// 100 items. <code>BatchGetItem</code> will return a partial result if the response
-        /// size limit is exceeded, the table's provisioned throughput is exceeded, or an internal
+        /// 100 items. <code>BatchGetItem</code> returns a partial result if the response size
+        /// limit is exceeded, the table's provisioned throughput is exceeded, or an internal
         /// processing failure occurs. If a partial result is returned, the operation returns
         /// a value for <code>UnprocessedKeys</code>. You can use this value to retry the operation
         /// starting with the next item to get.
         /// </para>
         ///  <important> 
         /// <para>
-        /// If you request more than 100 items <code>BatchGetItem</code> will return a <code>ValidationException</code>
-        /// with the message "Too many items requested for the BatchGetItem call".
+        /// If you request more than 100 items, <code>BatchGetItem</code> returns a <code>ValidationException</code>
+        /// with the message "Too many items requested for the BatchGetItem call."
         /// </para>
         ///  </important> 
         /// <para>
@@ -279,15 +322,14 @@ namespace Amazon.DynamoDBv2
         /// in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also
         /// returns an appropriate <code>UnprocessedKeys</code> value so you can get the next
         /// page of results. If desired, your application can include its own logic to assemble
-        /// the pages of results into one data set.
+        /// the pages of results into one dataset.
         /// </para>
         ///  
         /// <para>
         /// If <i>none</i> of the items can be processed due to insufficient provisioned throughput
-        /// on all of the tables in the request, then <code>BatchGetItem</code> will return a
-        /// <code>ProvisionedThroughputExceededException</code>. If <i>at least one</i> of the
-        /// items is successfully processed, then <code>BatchGetItem</code> completes successfully,
-        /// while returning the keys of the unread items in <code>UnprocessedKeys</code>.
+        /// on all of the tables in the request, then <code>BatchGetItem</code> returns a <code>ProvisionedThroughputExceededException</code>.
+        /// If <i>at least one</i> of the items is successfully processed, then <code>BatchGetItem</code>
+        /// completes successfully, while returning the keys of the unread items in <code>UnprocessedKeys</code>.
         /// </para>
         ///  <important> 
         /// <para>
@@ -300,7 +342,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
         /// Operations and Error Handling</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  </important> 
@@ -324,11 +366,11 @@ namespace Amazon.DynamoDBv2
         /// <para>
         /// If a requested item does not exist, it is not returned in the result. Requests for
         /// nonexistent items consume the minimum read capacity units according to the type of
-        /// read. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations">Capacity
-        /// Units Calculations</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// read. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations">Working
+        /// with Tables</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
-        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <code>BatchGetItem</code> request. Each element in the map of items to retrieve consists of the following: <ul> <li>  <code>ConsistentRead</code> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <code>ExpressionAttributeNames</code> - One or more substitution tokens for attribute names in the <code>ProjectionExpression</code> parameter. The following are some use cases for using <code>ExpressionAttributeNames</code>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul> <li>  <code>Percentile</code>  </li> </ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <code>ExpressionAttributeNames</code>: <ul> <li>  <code>{"#P":"Percentile"}</code>  </li> </ul> You could then use this substitution in an expression, as in this example: <ul> <li>  <code>#P = :val</code>  </li> </ul> <note> Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime. </note> For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>Keys</code> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide <i>both</i> the partition key value and the sort key value. </li> <li>  <code>ProjectionExpression</code> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>AttributesToGet</code> - This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.  </li> </ul></param>
+        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <code>BatchGetItem</code> request. Each element in the map of items to retrieve consists of the following: <ul> <li>  <code>ConsistentRead</code> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <code>ExpressionAttributeNames</code> - One or more substitution tokens for attribute names in the <code>ProjectionExpression</code> parameter. The following are some use cases for using <code>ExpressionAttributeNames</code>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul> <li>  <code>Percentile</code>  </li> </ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <code>ExpressionAttributeNames</code>: <ul> <li>  <code>{"#P":"Percentile"}</code>  </li> </ul> You could then use this substitution in an expression, as in this example: <ul> <li>  <code>#P = :val</code>  </li> </ul> <note> Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime. </note> For more information about expression attribute names, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>Keys</code> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide <i>both</i> the partition key value and the sort key value. </li> <li>  <code>ProjectionExpression</code> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes are returned. If any of the requested attributes are not found, they do not appear in the result. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>AttributesToGet</code> - This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.  </li> </ul></param>
         /// <param name="returnConsumedCapacity">A property of BatchGetItemRequest used to execute the BatchGetItem service method.</param>
         /// 
         /// <returns>The response from the BatchGetItem service method, as returned by DynamoDB.</returns>
@@ -339,8 +381,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -363,16 +410,16 @@ namespace Amazon.DynamoDBv2
         ///  
         /// <para>
         /// A single operation can retrieve up to 16 MB of data, which can contain as many as
-        /// 100 items. <code>BatchGetItem</code> will return a partial result if the response
-        /// size limit is exceeded, the table's provisioned throughput is exceeded, or an internal
+        /// 100 items. <code>BatchGetItem</code> returns a partial result if the response size
+        /// limit is exceeded, the table's provisioned throughput is exceeded, or an internal
         /// processing failure occurs. If a partial result is returned, the operation returns
         /// a value for <code>UnprocessedKeys</code>. You can use this value to retry the operation
         /// starting with the next item to get.
         /// </para>
         ///  <important> 
         /// <para>
-        /// If you request more than 100 items <code>BatchGetItem</code> will return a <code>ValidationException</code>
-        /// with the message "Too many items requested for the BatchGetItem call".
+        /// If you request more than 100 items, <code>BatchGetItem</code> returns a <code>ValidationException</code>
+        /// with the message "Too many items requested for the BatchGetItem call."
         /// </para>
         ///  </important> 
         /// <para>
@@ -380,15 +427,14 @@ namespace Amazon.DynamoDBv2
         /// in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also
         /// returns an appropriate <code>UnprocessedKeys</code> value so you can get the next
         /// page of results. If desired, your application can include its own logic to assemble
-        /// the pages of results into one data set.
+        /// the pages of results into one dataset.
         /// </para>
         ///  
         /// <para>
         /// If <i>none</i> of the items can be processed due to insufficient provisioned throughput
-        /// on all of the tables in the request, then <code>BatchGetItem</code> will return a
-        /// <code>ProvisionedThroughputExceededException</code>. If <i>at least one</i> of the
-        /// items is successfully processed, then <code>BatchGetItem</code> completes successfully,
-        /// while returning the keys of the unread items in <code>UnprocessedKeys</code>.
+        /// on all of the tables in the request, then <code>BatchGetItem</code> returns a <code>ProvisionedThroughputExceededException</code>.
+        /// If <i>at least one</i> of the items is successfully processed, then <code>BatchGetItem</code>
+        /// completes successfully, while returning the keys of the unread items in <code>UnprocessedKeys</code>.
         /// </para>
         ///  <important> 
         /// <para>
@@ -401,7 +447,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
         /// Operations and Error Handling</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  </important> 
@@ -425,11 +471,11 @@ namespace Amazon.DynamoDBv2
         /// <para>
         /// If a requested item does not exist, it is not returned in the result. Requests for
         /// nonexistent items consume the minimum read capacity units according to the type of
-        /// read. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations">Capacity
-        /// Units Calculations</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// read. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations">Working
+        /// with Tables</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
-        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <code>BatchGetItem</code> request. Each element in the map of items to retrieve consists of the following: <ul> <li>  <code>ConsistentRead</code> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <code>ExpressionAttributeNames</code> - One or more substitution tokens for attribute names in the <code>ProjectionExpression</code> parameter. The following are some use cases for using <code>ExpressionAttributeNames</code>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul> <li>  <code>Percentile</code>  </li> </ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <code>ExpressionAttributeNames</code>: <ul> <li>  <code>{"#P":"Percentile"}</code>  </li> </ul> You could then use this substitution in an expression, as in this example: <ul> <li>  <code>#P = :val</code>  </li> </ul> <note> Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime. </note> For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>Keys</code> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide <i>both</i> the partition key value and the sort key value. </li> <li>  <code>ProjectionExpression</code> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>AttributesToGet</code> - This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.  </li> </ul></param>
+        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <code>BatchGetItem</code> request. Each element in the map of items to retrieve consists of the following: <ul> <li>  <code>ConsistentRead</code> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <code>ExpressionAttributeNames</code> - One or more substitution tokens for attribute names in the <code>ProjectionExpression</code> parameter. The following are some use cases for using <code>ExpressionAttributeNames</code>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul> <li>  <code>Percentile</code>  </li> </ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <code>ExpressionAttributeNames</code>: <ul> <li>  <code>{"#P":"Percentile"}</code>  </li> </ul> You could then use this substitution in an expression, as in this example: <ul> <li>  <code>#P = :val</code>  </li> </ul> <note> Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime. </note> For more information about expression attribute names, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>Keys</code> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide <i>both</i> the partition key value and the sort key value. </li> <li>  <code>ProjectionExpression</code> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes are returned. If any of the requested attributes are not found, they do not appear in the result. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <code>AttributesToGet</code> - This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.  </li> </ul></param>
         /// 
         /// <returns>The response from the BatchGetItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -439,8 +485,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -462,16 +513,16 @@ namespace Amazon.DynamoDBv2
         ///  
         /// <para>
         /// A single operation can retrieve up to 16 MB of data, which can contain as many as
-        /// 100 items. <code>BatchGetItem</code> will return a partial result if the response
-        /// size limit is exceeded, the table's provisioned throughput is exceeded, or an internal
+        /// 100 items. <code>BatchGetItem</code> returns a partial result if the response size
+        /// limit is exceeded, the table's provisioned throughput is exceeded, or an internal
         /// processing failure occurs. If a partial result is returned, the operation returns
         /// a value for <code>UnprocessedKeys</code>. You can use this value to retry the operation
         /// starting with the next item to get.
         /// </para>
         ///  <important> 
         /// <para>
-        /// If you request more than 100 items <code>BatchGetItem</code> will return a <code>ValidationException</code>
-        /// with the message "Too many items requested for the BatchGetItem call".
+        /// If you request more than 100 items, <code>BatchGetItem</code> returns a <code>ValidationException</code>
+        /// with the message "Too many items requested for the BatchGetItem call."
         /// </para>
         ///  </important> 
         /// <para>
@@ -479,15 +530,14 @@ namespace Amazon.DynamoDBv2
         /// in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also
         /// returns an appropriate <code>UnprocessedKeys</code> value so you can get the next
         /// page of results. If desired, your application can include its own logic to assemble
-        /// the pages of results into one data set.
+        /// the pages of results into one dataset.
         /// </para>
         ///  
         /// <para>
         /// If <i>none</i> of the items can be processed due to insufficient provisioned throughput
-        /// on all of the tables in the request, then <code>BatchGetItem</code> will return a
-        /// <code>ProvisionedThroughputExceededException</code>. If <i>at least one</i> of the
-        /// items is successfully processed, then <code>BatchGetItem</code> completes successfully,
-        /// while returning the keys of the unread items in <code>UnprocessedKeys</code>.
+        /// on all of the tables in the request, then <code>BatchGetItem</code> returns a <code>ProvisionedThroughputExceededException</code>.
+        /// If <i>at least one</i> of the items is successfully processed, then <code>BatchGetItem</code>
+        /// completes successfully, while returning the keys of the unread items in <code>UnprocessedKeys</code>.
         /// </para>
         ///  <important> 
         /// <para>
@@ -500,7 +550,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
         /// Operations and Error Handling</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  </important> 
@@ -524,8 +574,8 @@ namespace Amazon.DynamoDBv2
         /// <para>
         /// If a requested item does not exist, it is not returned in the result. Requests for
         /// nonexistent items consume the minimum read capacity units according to the type of
-        /// read. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations">Capacity
-        /// Units Calculations</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// read. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#CapacityUnitCalculations">Working
+        /// with Tables</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetItem service method.</param>
@@ -538,8 +588,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -548,10 +603,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/BatchGetItem">REST API Reference for BatchGetItem Operation</seealso>
         public virtual BatchGetItemResponse BatchGetItem(BatchGetItemRequest request)
         {
-            var marshaller = BatchGetItemRequestMarshaller.Instance;
-            var unmarshaller = BatchGetItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = BatchGetItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<BatchGetItemRequest,BatchGetItemResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetItemResponse>(request, options);
         }
 
         /// <summary>
@@ -568,11 +626,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/BatchGetItem">REST API Reference for BatchGetItem Operation</seealso>
         public virtual IAsyncResult BeginBatchGetItem(BatchGetItemRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetItemRequestMarshaller.Instance;
-            var unmarshaller = BatchGetItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = BatchGetItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<BatchGetItemRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -616,9 +676,8 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// Note that if <i>none</i> of the items can be processed due to insufficient provisioned
-        /// throughput on all of the tables in the request, then <code>BatchWriteItem</code> will
-        /// return a <code>ProvisionedThroughputExceededException</code>.
+        /// If <i>none</i> of the items can be processed due to insufficient provisioned throughput
+        /// on all of the tables in the request, then <code>BatchWriteItem</code> returns a <code>ProvisionedThroughputExceededException</code>.
         /// </para>
         ///  <important> 
         /// <para>
@@ -631,18 +690,17 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#Programming.Errors.BatchOperations">Batch
         /// Operations and Error Handling</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  </important> 
         /// <para>
         /// With <code>BatchWriteItem</code>, you can efficiently write or delete large amounts
-        /// of data, such as from Amazon Elastic MapReduce (EMR), or copy data from another database
-        /// into DynamoDB. In order to improve performance with these large-scale operations,
-        /// <code>BatchWriteItem</code> does not behave in the same way as individual <code>PutItem</code>
-        /// and <code>DeleteItem</code> calls would. For example, you cannot specify conditions
-        /// on individual put and delete requests, and <code>BatchWriteItem</code> does not return
-        /// deleted items in the response.
+        /// of data, such as from Amazon EMR, or copy data from another database into DynamoDB.
+        /// In order to improve performance with these large-scale operations, <code>BatchWriteItem</code>
+        /// does not behave in the same way as individual <code>PutItem</code> and <code>DeleteItem</code>
+        /// calls would. For example, you cannot specify conditions on individual put and delete
+        /// requests, and <code>BatchWriteItem</code> does not return deleted items in the response.
         /// </para>
         ///  
         /// <para>
@@ -697,7 +755,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> </ul>
         /// </summary>
-        /// <param name="requestItems">A map of one or more table names and, for each table, a list of operations to be performed (<code>DeleteRequest</code> or <code>PutRequest</code>). Each element in the map consists of the following: <ul> <li>  <code>DeleteRequest</code> - Perform a <code>DeleteItem</code> operation on the specified item. The item to be deleted is identified by a <code>Key</code> subelement: <ul> <li>  <code>Key</code> - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for <i>both</i> the partition key and the sort key. </li> </ul> </li> <li>  <code>PutRequest</code> - Perform a <code>PutItem</code> operation on the specified item. The item to be put is identified by an <code>Item</code> subelement: <ul> <li>  <code>Item</code> - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a <code>ValidationException</code> exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. </li> </ul> </li> </ul></param>
+        /// <param name="requestItems">A map of one or more table names and, for each table, a list of operations to be performed (<code>DeleteRequest</code> or <code>PutRequest</code>). Each element in the map consists of the following: <ul> <li>  <code>DeleteRequest</code> - Perform a <code>DeleteItem</code> operation on the specified item. The item to be deleted is identified by a <code>Key</code> subelement: <ul> <li>  <code>Key</code> - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for <i>both</i> the partition key and the sort key. </li> </ul> </li> <li>  <code>PutRequest</code> - Perform a <code>PutItem</code> operation on the specified item. The item to be put is identified by an <code>Item</code> subelement: <ul> <li>  <code>Item</code> - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values are rejected with a <code>ValidationException</code> exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. </li> </ul> </li> </ul></param>
         /// 
         /// <returns>The response from the BatchWriteItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -711,8 +769,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -751,9 +814,8 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// Note that if <i>none</i> of the items can be processed due to insufficient provisioned
-        /// throughput on all of the tables in the request, then <code>BatchWriteItem</code> will
-        /// return a <code>ProvisionedThroughputExceededException</code>.
+        /// If <i>none</i> of the items can be processed due to insufficient provisioned throughput
+        /// on all of the tables in the request, then <code>BatchWriteItem</code> returns a <code>ProvisionedThroughputExceededException</code>.
         /// </para>
         ///  <important> 
         /// <para>
@@ -766,18 +828,17 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations">Batch
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#Programming.Errors.BatchOperations">Batch
         /// Operations and Error Handling</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  </important> 
         /// <para>
         /// With <code>BatchWriteItem</code>, you can efficiently write or delete large amounts
-        /// of data, such as from Amazon Elastic MapReduce (EMR), or copy data from another database
-        /// into DynamoDB. In order to improve performance with these large-scale operations,
-        /// <code>BatchWriteItem</code> does not behave in the same way as individual <code>PutItem</code>
-        /// and <code>DeleteItem</code> calls would. For example, you cannot specify conditions
-        /// on individual put and delete requests, and <code>BatchWriteItem</code> does not return
-        /// deleted items in the response.
+        /// of data, such as from Amazon EMR, or copy data from another database into DynamoDB.
+        /// In order to improve performance with these large-scale operations, <code>BatchWriteItem</code>
+        /// does not behave in the same way as individual <code>PutItem</code> and <code>DeleteItem</code>
+        /// calls would. For example, you cannot specify conditions on individual put and delete
+        /// requests, and <code>BatchWriteItem</code> does not return deleted items in the response.
         /// </para>
         ///  
         /// <para>
@@ -846,8 +907,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -856,10 +922,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/BatchWriteItem">REST API Reference for BatchWriteItem Operation</seealso>
         public virtual BatchWriteItemResponse BatchWriteItem(BatchWriteItemRequest request)
         {
-            var marshaller = BatchWriteItemRequestMarshaller.Instance;
-            var unmarshaller = BatchWriteItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchWriteItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchWriteItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = BatchWriteItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<BatchWriteItemRequest,BatchWriteItemResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchWriteItemResponse>(request, options);
         }
 
         /// <summary>
@@ -876,11 +945,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/BatchWriteItem">REST API Reference for BatchWriteItem Operation</seealso>
         public virtual IAsyncResult BeginBatchWriteItem(BatchWriteItemRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchWriteItemRequestMarshaller.Instance;
-            var unmarshaller = BatchWriteItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchWriteItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchWriteItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = BatchWriteItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<BatchWriteItemRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -905,12 +976,12 @@ namespace Amazon.DynamoDBv2
         /// 
         ///  
         /// <para>
-        ///  Each time you create an On-Demand Backup, the entire table data is backed up. There
+        ///  Each time you create an on-demand backup, the entire table data is backed up. There
         /// is no limit to the number of on-demand backups that can be taken. 
         /// </para>
         ///  
         /// <para>
-        ///  When you create an On-Demand Backup, a time marker of the request is cataloged, and
+        ///  When you create an on-demand backup, a time marker of the request is cataloged, and
         /// the backup is created asynchronously, by applying all changes until the time of the
         /// request to the last full table snapshot. Backup requests are processed instantaneously
         /// and become available for restore within minutes. 
@@ -927,8 +998,8 @@ namespace Amazon.DynamoDBv2
         /// <para>
         ///  If you submit a backup request on 2018-12-14 at 14:25:00, the backup is guaranteed
         /// to contain all data committed to the table up to 14:24:00, and data committed after
-        /// 14:26:00 will not be. The backup may or may not contain data modifications made between
-        /// 14:24:00 and 14:26:00. On-Demand Backup does not support causal consistency. 
+        /// 14:26:00 will not be. The backup might contain data modifications made between 14:24:00
+        /// and 14:26:00. On-demand backup does not support causal consistency. 
         /// </para>
         ///  
         /// <para>
@@ -957,7 +1028,7 @@ namespace Amazon.DynamoDBv2
         /// <returns>The response from the CreateBackup service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.BackupInUseException">
         /// There is another ongoing conflicting backup control plane operation on the table.
-        /// The backups is either being created, deleted or restored to a table.
+        /// The backup is either being created, deleted or restored to a table.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ContinuousBackupsUnavailableException">
         /// Backups have not yet been enabled for this table.
@@ -966,23 +1037,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.TableInUseException">
@@ -995,10 +1067,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/CreateBackup">REST API Reference for CreateBackup Operation</seealso>
         public virtual CreateBackupResponse CreateBackup(CreateBackupRequest request)
         {
-            var marshaller = CreateBackupRequestMarshaller.Instance;
-            var unmarshaller = CreateBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = CreateBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<CreateBackupRequest,CreateBackupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateBackupResponse>(request, options);
         }
 
         /// <summary>
@@ -1015,11 +1090,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/CreateBackup">REST API Reference for CreateBackup Operation</seealso>
         public virtual IAsyncResult BeginCreateBackup(CreateBackupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateBackupRequestMarshaller.Instance;
-            var unmarshaller = CreateBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = CreateBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<CreateBackupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1042,30 +1119,63 @@ namespace Amazon.DynamoDBv2
         /// <summary>
         /// Creates a global table from an existing table. A global table creates a replication
         /// relationship between two or more DynamoDB tables with the same table name in the provided
-        /// regions. 
+        /// Regions. 
         /// 
-        ///  
+        ///  <note> 
         /// <para>
-        ///  Tables can only be added as the replicas of a global table group under the following
-        /// conditions: 
+        /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+        /// 2017.11.29</a> of global tables.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// If you want to add a new replica table to a global table, each of the following conditions
+        /// must be true:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  The tables must have the same name. 
+        /// The table must have the same primary key as all of the other replicas.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  The tables must contain no items. 
+        /// The table must have the same name as all of the other replicas.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  The tables must have the same hash key and sort key (if present). 
+        /// The table must have DynamoDB Streams enabled, with the stream containing both the
+        /// new and the old images of the item.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  The tables must have DynamoDB Streams enabled (NEW_AND_OLD_IMAGES). 
+        /// None of the replica tables in the global table can contain any data.
         /// </para>
-        ///  </li> </ul>
+        ///  </li> </ul> 
+        /// <para>
+        ///  If global secondary indexes are specified, then the following conditions must also
+        /// be met: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  The global secondary indexes must have the same name. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  The global secondary indexes must have the same hash key and sort key (if present).
+        /// 
+        /// </para>
+        ///  </li> </ul> <important> 
+        /// <para>
+        ///  Write capacity settings should be set consistently across your replica tables and
+        /// secondary indexes. DynamoDB strongly recommends enabling auto scaling to manage the
+        /// write capacity settings for all of your global tables replicas and indexes. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  If you prefer to manage write capacity settings manually, you should provision equal
+        /// replicated write capacity units to your replica tables. You should also provision
+        /// equal replicated write capacity units to matching secondary indexes across your global
+        /// table. 
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateGlobalTable service method.</param>
         /// 
@@ -1077,23 +1187,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.TableNotFoundException">
@@ -1103,10 +1214,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/CreateGlobalTable">REST API Reference for CreateGlobalTable Operation</seealso>
         public virtual CreateGlobalTableResponse CreateGlobalTable(CreateGlobalTableRequest request)
         {
-            var marshaller = CreateGlobalTableRequestMarshaller.Instance;
-            var unmarshaller = CreateGlobalTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGlobalTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGlobalTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = CreateGlobalTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<CreateGlobalTableRequest,CreateGlobalTableResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateGlobalTableResponse>(request, options);
         }
 
         /// <summary>
@@ -1123,11 +1237,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/CreateGlobalTable">REST API Reference for CreateGlobalTable Operation</seealso>
         public virtual IAsyncResult BeginCreateGlobalTable(CreateGlobalTableRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateGlobalTableRequestMarshaller.Instance;
-            var unmarshaller = CreateGlobalTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateGlobalTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateGlobalTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = CreateGlobalTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<CreateGlobalTableRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1149,8 +1265,8 @@ namespace Amazon.DynamoDBv2
 
         /// <summary>
         /// The <code>CreateTable</code> operation adds a new table to your account. In an AWS
-        /// account, table names must be unique within each region. That is, you can have two
-        /// tables with same name if you create the tables in different regions.
+        /// account, table names must be unique within each Region. That is, you can have two
+        /// tables with same name if you create the tables in different Regions.
         /// 
         ///  
         /// <para>
@@ -1173,32 +1289,33 @@ namespace Amazon.DynamoDBv2
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table to create.</param>
-        /// <param name="keySchema">Specifies the attributes that make up the primary key for a table or an index. The attributes in <code>KeySchema</code> must also be defined in the <code>AttributeDefinitions</code> array. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html">Data Model</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each <code>KeySchemaElement</code> in the array is composed of: <ul> <li>  <code>AttributeName</code> - The name of this key attribute. </li> <li>  <code>KeyType</code> - The role that the key attribute will assume: <ul> <li>  <code>HASH</code> - partition key </li> <li>  <code>RANGE</code> - sort key </li> </ul> </li> </ul> <note> The partition key of an item is also known as its <i>hash attribute</i>. The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its <i>range attribute</i>. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. </note> For a simple primary key (partition key), you must provide exactly one element with a <code>KeyType</code> of <code>HASH</code>. For a composite primary key (partition key and sort key), you must provide exactly two elements, in this order: The first element must have a <code>KeyType</code> of <code>HASH</code>, and the second element must have a <code>KeyType</code> of <code>RANGE</code>. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#WorkingWithTables.primary.key">Specifying the Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="keySchema">Specifies the attributes that make up the primary key for a table or an index. The attributes in <code>KeySchema</code> must also be defined in the <code>AttributeDefinitions</code> array. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html">Data Model</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each <code>KeySchemaElement</code> in the array is composed of: <ul> <li>  <code>AttributeName</code> - The name of this key attribute. </li> <li>  <code>KeyType</code> - The role that the key attribute will assume: <ul> <li>  <code>HASH</code> - partition key </li> <li>  <code>RANGE</code> - sort key </li> </ul> </li> </ul> <note> The partition key of an item is also known as its <i>hash attribute</i>. The term "hash attribute" derives from the DynamoDB usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its <i>range attribute</i>. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. </note> For a simple primary key (partition key), you must provide exactly one element with a <code>KeyType</code> of <code>HASH</code>. For a composite primary key (partition key and sort key), you must provide exactly two elements, in this order: The first element must have a <code>KeyType</code> of <code>HASH</code>, and the second element must have a <code>KeyType</code> of <code>RANGE</code>. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#WorkingWithTables.primary.key">Working with Tables</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// <param name="attributeDefinitions">An array of attributes that describe the key schema for the table and indexes.</param>
-        /// <param name="provisionedThroughput">Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the <code>UpdateTable</code> operation. For current minimum and maximum provisioned throughput values, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="provisionedThroughput">Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the <code>UpdateTable</code> operation.  If you set BillingMode as <code>PROVISIONED</code>, you must specify this property. If you set BillingMode as <code>PAY_PER_REQUEST</code>, you cannot specify this property.  For current minimum and maximum provisioned throughput values, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the CreateTable service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -1220,8 +1337,8 @@ namespace Amazon.DynamoDBv2
 
         /// <summary>
         /// The <code>CreateTable</code> operation adds a new table to your account. In an AWS
-        /// account, table names must be unique within each region. That is, you can have two
-        /// tables with same name if you create the tables in different regions.
+        /// account, table names must be unique within each Region. That is, you can have two
+        /// tables with same name if you create the tables in different Regions.
         /// 
         ///  
         /// <para>
@@ -1250,23 +1367,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -1277,10 +1395,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/CreateTable">REST API Reference for CreateTable Operation</seealso>
         public virtual CreateTableResponse CreateTable(CreateTableRequest request)
         {
-            var marshaller = CreateTableRequestMarshaller.Instance;
-            var unmarshaller = CreateTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = CreateTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<CreateTableRequest,CreateTableResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateTableResponse>(request, options);
         }
 
         /// <summary>
@@ -1297,11 +1418,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/CreateTable">REST API Reference for CreateTable Operation</seealso>
         public virtual IAsyncResult BeginCreateTable(CreateTableRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateTableRequestMarshaller.Instance;
-            var unmarshaller = CreateTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = CreateTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<CreateTableRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1334,7 +1457,7 @@ namespace Amazon.DynamoDBv2
         /// <returns>The response from the DeleteBackup service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.BackupInUseException">
         /// There is another ongoing conflicting backup control plane operation on the table.
-        /// The backups is either being created, deleted or restored to a table.
+        /// The backup is either being created, deleted or restored to a table.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.BackupNotFoundException">
         /// Backup not found for the given BackupARN.
@@ -1343,32 +1466,36 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteBackup">REST API Reference for DeleteBackup Operation</seealso>
         public virtual DeleteBackupResponse DeleteBackup(DeleteBackupRequest request)
         {
-            var marshaller = DeleteBackupRequestMarshaller.Instance;
-            var unmarshaller = DeleteBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DeleteBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DeleteBackupRequest,DeleteBackupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBackupResponse>(request, options);
         }
 
         /// <summary>
@@ -1385,11 +1512,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteBackup">REST API Reference for DeleteBackup Operation</seealso>
         public virtual IAsyncResult BeginDeleteBackup(DeleteBackupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBackupRequestMarshaller.Instance;
-            var unmarshaller = DeleteBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DeleteBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DeleteBackupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1449,12 +1578,20 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteItem">REST API Reference for DeleteItem Operation</seealso>
         public virtual DeleteItemResponse DeleteItem(string tableName, Dictionary<string, AttributeValue> key)
@@ -1507,12 +1644,20 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteItem">REST API Reference for DeleteItem Operation</seealso>
         public virtual DeleteItemResponse DeleteItem(string tableName, Dictionary<string, AttributeValue> key, ReturnValue returnValues)
@@ -1564,20 +1709,31 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteItem">REST API Reference for DeleteItem Operation</seealso>
         public virtual DeleteItemResponse DeleteItem(DeleteItemRequest request)
         {
-            var marshaller = DeleteItemRequestMarshaller.Instance;
-            var unmarshaller = DeleteItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DeleteItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DeleteItemRequest,DeleteItemResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteItemResponse>(request, options);
         }
 
         /// <summary>
@@ -1594,11 +1750,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteItem">REST API Reference for DeleteItem Operation</seealso>
         public virtual IAsyncResult BeginDeleteItem(DeleteItemRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteItemRequestMarshaller.Instance;
-            var unmarshaller = DeleteItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DeleteItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DeleteItemRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1655,23 +1813,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -1729,23 +1888,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -1760,10 +1920,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteTable">REST API Reference for DeleteTable Operation</seealso>
         public virtual DeleteTableResponse DeleteTable(DeleteTableRequest request)
         {
-            var marshaller = DeleteTableRequestMarshaller.Instance;
-            var unmarshaller = DeleteTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DeleteTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DeleteTableRequest,DeleteTableResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteTableResponse>(request, options);
         }
 
         /// <summary>
@@ -1780,11 +1943,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DeleteTable">REST API Reference for DeleteTable Operation</seealso>
         public virtual IAsyncResult BeginDeleteTable(DeleteTableRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteTableRequestMarshaller.Instance;
-            var unmarshaller = DeleteTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DeleteTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DeleteTableRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1824,10 +1989,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeBackup">REST API Reference for DescribeBackup Operation</seealso>
         public virtual DescribeBackupResponse DescribeBackup(DescribeBackupRequest request)
         {
-            var marshaller = DescribeBackupRequestMarshaller.Instance;
-            var unmarshaller = DescribeBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DescribeBackupRequest,DescribeBackupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeBackupResponse>(request, options);
         }
 
         /// <summary>
@@ -1844,11 +2012,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeBackup">REST API Reference for DescribeBackup Operation</seealso>
         public virtual IAsyncResult BeginDescribeBackup(DescribeBackupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeBackupRequestMarshaller.Instance;
-            var unmarshaller = DescribeBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DescribeBackupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1876,15 +2046,14 @@ namespace Amazon.DynamoDBv2
         /// 
         ///  
         /// <para>
-        ///  Once continuous backups and point in time recovery are enabled, you can restore to
-        /// any point in time within <code>EarliestRestorableDateTime</code> and <code>LatestRestorableDateTime</code>.
+        ///  After continuous backups and point in time recovery are enabled, you can restore
+        /// to any point in time within <code>EarliestRestorableDateTime</code> and <code>LatestRestorableDateTime</code>.
         /// 
         /// </para>
         ///  
         /// <para>
         ///  <code>LatestRestorableDateTime</code> is typically 5 minutes before the current time.
-        /// You can restore your table to any point in time during the last 35 days with a 1-minute
-        /// granularity. 
+        /// You can restore your table to any point in time during the last 35 days. 
         /// </para>
         ///  
         /// <para>
@@ -1905,10 +2074,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeContinuousBackups">REST API Reference for DescribeContinuousBackups Operation</seealso>
         public virtual DescribeContinuousBackupsResponse DescribeContinuousBackups(DescribeContinuousBackupsRequest request)
         {
-            var marshaller = DescribeContinuousBackupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeContinuousBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeContinuousBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeContinuousBackupsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeContinuousBackupsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DescribeContinuousBackupsRequest,DescribeContinuousBackupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeContinuousBackupsResponse>(request, options);
         }
 
         /// <summary>
@@ -1925,11 +2097,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeContinuousBackups">REST API Reference for DescribeContinuousBackups Operation</seealso>
         public virtual IAsyncResult BeginDescribeContinuousBackups(DescribeContinuousBackupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeContinuousBackupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeContinuousBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeContinuousBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeContinuousBackupsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeContinuousBackupsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DescribeContinuousBackupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1947,10 +2121,133 @@ namespace Amazon.DynamoDBv2
 
         #endregion
         
+        #region  DescribeContributorInsights
+
+        /// <summary>
+        /// Returns information about contributor insights, for a given table or global secondary
+        /// index.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeContributorInsights service method.</param>
+        /// 
+        /// <returns>The response from the DescribeContributorInsights service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeContributorInsights">REST API Reference for DescribeContributorInsights Operation</seealso>
+        public virtual DescribeContributorInsightsResponse DescribeContributorInsights(DescribeContributorInsightsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeContributorInsightsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeContributorInsightsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeContributorInsightsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeContributorInsights operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeContributorInsights operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeContributorInsights
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeContributorInsights">REST API Reference for DescribeContributorInsights Operation</seealso>
+        public virtual IAsyncResult BeginDescribeContributorInsights(DescribeContributorInsightsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeContributorInsightsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeContributorInsightsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeContributorInsights operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeContributorInsights.</param>
+        /// 
+        /// <returns>Returns a  DescribeContributorInsightsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeContributorInsights">REST API Reference for DescribeContributorInsights Operation</seealso>
+        public virtual DescribeContributorInsightsResponse EndDescribeContributorInsights(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeContributorInsightsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeEndpoints
+
+        /// <summary>
+        /// Returns the regional endpoint information.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEndpoints service method.</param>
+        /// 
+        /// <returns>The response from the DescribeEndpoints service method, as returned by DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeEndpoints">REST API Reference for DescribeEndpoints Operation</seealso>
+        public virtual DescribeEndpointsResponse DescribeEndpoints(DescribeEndpointsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEndpointsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEndpointsResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeEndpointsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeEndpoints operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeEndpoints
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeEndpoints">REST API Reference for DescribeEndpoints Operation</seealso>
+        public virtual IAsyncResult BeginDescribeEndpoints(DescribeEndpointsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEndpointsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEndpointsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeEndpoints.</param>
+        /// 
+        /// <returns>Returns a  DescribeEndpointsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeEndpoints">REST API Reference for DescribeEndpoints Operation</seealso>
+        public virtual DescribeEndpointsResponse EndDescribeEndpoints(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeEndpointsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeGlobalTable
 
         /// <summary>
         /// Returns information about the specified global table.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+        /// 2017.11.29</a> of global tables.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeGlobalTable service method.</param>
         /// 
@@ -1964,10 +2261,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeGlobalTable">REST API Reference for DescribeGlobalTable Operation</seealso>
         public virtual DescribeGlobalTableResponse DescribeGlobalTable(DescribeGlobalTableRequest request)
         {
-            var marshaller = DescribeGlobalTableRequestMarshaller.Instance;
-            var unmarshaller = DescribeGlobalTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGlobalTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGlobalTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeGlobalTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DescribeGlobalTableRequest,DescribeGlobalTableResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeGlobalTableResponse>(request, options);
         }
 
         /// <summary>
@@ -1984,11 +2284,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeGlobalTable">REST API Reference for DescribeGlobalTable Operation</seealso>
         public virtual IAsyncResult BeginDescribeGlobalTable(DescribeGlobalTableRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeGlobalTableRequestMarshaller.Instance;
-            var unmarshaller = DescribeGlobalTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGlobalTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGlobalTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeGlobalTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DescribeGlobalTableRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2006,18 +2308,89 @@ namespace Amazon.DynamoDBv2
 
         #endregion
         
+        #region  DescribeGlobalTableSettings
+
+        /// <summary>
+        /// Describes Region-specific settings for a global table.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+        /// 2017.11.29</a> of global tables.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeGlobalTableSettings service method.</param>
+        /// 
+        /// <returns>The response from the DescribeGlobalTableSettings service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.GlobalTableNotFoundException">
+        /// The specified global table does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeGlobalTableSettings">REST API Reference for DescribeGlobalTableSettings Operation</seealso>
+        public virtual DescribeGlobalTableSettingsResponse DescribeGlobalTableSettings(DescribeGlobalTableSettingsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGlobalTableSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGlobalTableSettingsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeGlobalTableSettingsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return Invoke<DescribeGlobalTableSettingsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeGlobalTableSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeGlobalTableSettings operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeGlobalTableSettings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeGlobalTableSettings">REST API Reference for DescribeGlobalTableSettings Operation</seealso>
+        public virtual IAsyncResult BeginDescribeGlobalTableSettings(DescribeGlobalTableSettingsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeGlobalTableSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeGlobalTableSettingsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeGlobalTableSettingsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeGlobalTableSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeGlobalTableSettings.</param>
+        /// 
+        /// <returns>Returns a  DescribeGlobalTableSettingsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeGlobalTableSettings">REST API Reference for DescribeGlobalTableSettings Operation</seealso>
+        public virtual DescribeGlobalTableSettingsResponse EndDescribeGlobalTableSettings(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeGlobalTableSettingsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DescribeLimits
 
         /// <summary>
-        /// Returns the current provisioned-capacity limits for your AWS account in a region,
-        /// both for the region as a whole and for any one DynamoDB table that you create there.
+        /// Returns the current provisioned-capacity limits for your AWS account in a Region,
+        /// both for the Region as a whole and for any one DynamoDB table that you create there.
         /// 
         ///  
         /// <para>
         /// When you establish an AWS account, the account has initial limits on the maximum read
         /// capacity units and write capacity units that you can provision across all of your
-        /// DynamoDB tables in a given region. Also, there are per-table limits that apply when
-        /// you create a table there. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
+        /// DynamoDB tables in a given Region. Also, there are per-table limits that apply when
+        /// you create a table there. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
         /// page in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  
@@ -2034,13 +2407,13 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  <ol> <li> 
         /// <para>
-        /// Call <code>DescribeLimits</code> for a particular region to obtain your current account
+        /// Call <code>DescribeLimits</code> for a particular Region to obtain your current account
         /// limits on provisioned capacity there.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// Create a variable to hold the aggregate read capacity units provisioned for all your
-        /// tables in that region, and one to hold the aggregate write capacity units. Zero them
+        /// tables in that Region, and one to hold the aggregate write capacity units. Zero them
         /// both.
         /// </para>
         ///  </li> <li> 
@@ -2067,7 +2440,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> </ul> </li> <li> 
         /// <para>
-        /// Report the account limits for that region returned by <code>DescribeLimits</code>,
+        /// Report the account limits for that Region returned by <code>DescribeLimits</code>,
         /// along with the total current provisioned capacity levels you have calculated.
         /// </para>
         ///  </li> </ol> 
@@ -2082,8 +2455,8 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// For existing tables and their GSIs, DynamoDB will not let you increase provisioned
-        /// capacity extremely rapidly, but the only upper limit that applies is that the aggregate
+        /// For existing tables and their GSIs, DynamoDB doesn't let you increase provisioned
+        /// capacity extremely rapidly. But the only upper limit that applies is that the aggregate
         /// provisioned capacity over all your tables and GSIs cannot exceed either of the per-account
         /// limits.
         /// </para>
@@ -2106,10 +2479,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeLimits">REST API Reference for DescribeLimits Operation</seealso>
         public virtual DescribeLimitsResponse DescribeLimits(DescribeLimitsRequest request)
         {
-            var marshaller = DescribeLimitsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLimitsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeLimitsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DescribeLimitsRequest,DescribeLimitsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeLimitsResponse>(request, options);
         }
 
         /// <summary>
@@ -2126,11 +2502,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeLimits">REST API Reference for DescribeLimits Operation</seealso>
         public virtual IAsyncResult BeginDescribeLimits(DescribeLimitsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeLimitsRequestMarshaller.Instance;
-            var unmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeLimitsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeLimitsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeLimitsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DescribeLimitsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2210,10 +2588,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeTable">REST API Reference for DescribeTable Operation</seealso>
         public virtual DescribeTableResponse DescribeTable(DescribeTableRequest request)
         {
-            var marshaller = DescribeTableRequestMarshaller.Instance;
-            var unmarshaller = DescribeTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DescribeTableRequest,DescribeTableResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTableResponse>(request, options);
         }
 
         /// <summary>
@@ -2230,11 +2611,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeTable">REST API Reference for DescribeTable Operation</seealso>
         public virtual IAsyncResult BeginDescribeTable(DescribeTableRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTableRequestMarshaller.Instance;
-            var unmarshaller = DescribeTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DescribeTableRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2248,6 +2631,74 @@ namespace Amazon.DynamoDBv2
         public virtual DescribeTableResponse EndDescribeTable(IAsyncResult asyncResult)
         {
             return EndInvoke<DescribeTableResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DescribeTableReplicaAutoScaling
+
+        /// <summary>
+        /// Describes auto scaling settings across replicas of the global table at once.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+        /// 2019.11.21</a> of global tables.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTableReplicaAutoScaling service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTableReplicaAutoScaling service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeTableReplicaAutoScaling">REST API Reference for DescribeTableReplicaAutoScaling Operation</seealso>
+        public virtual DescribeTableReplicaAutoScalingResponse DescribeTableReplicaAutoScaling(DescribeTableReplicaAutoScalingRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTableReplicaAutoScalingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTableReplicaAutoScalingResponseUnmarshaller.Instance;
+
+            return Invoke<DescribeTableReplicaAutoScalingResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTableReplicaAutoScaling operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTableReplicaAutoScaling operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTableReplicaAutoScaling
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeTableReplicaAutoScaling">REST API Reference for DescribeTableReplicaAutoScaling Operation</seealso>
+        public virtual IAsyncResult BeginDescribeTableReplicaAutoScaling(DescribeTableReplicaAutoScalingRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTableReplicaAutoScalingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTableReplicaAutoScalingResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTableReplicaAutoScaling operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTableReplicaAutoScaling.</param>
+        /// 
+        /// <returns>Returns a  DescribeTableReplicaAutoScalingResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeTableReplicaAutoScaling">REST API Reference for DescribeTableReplicaAutoScaling Operation</seealso>
+        public virtual DescribeTableReplicaAutoScalingResponse EndDescribeTableReplicaAutoScaling(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DescribeTableReplicaAutoScalingResponse>(asyncResult);
         }
 
         #endregion
@@ -2292,10 +2743,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeTimeToLive">REST API Reference for DescribeTimeToLive Operation</seealso>
         public virtual DescribeTimeToLiveResponse DescribeTimeToLive(DescribeTimeToLiveRequest request)
         {
-            var marshaller = DescribeTimeToLiveRequestMarshaller.Instance;
-            var unmarshaller = DescribeTimeToLiveResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTimeToLiveRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTimeToLiveResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeTimeToLiveEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<DescribeTimeToLiveRequest,DescribeTimeToLiveResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeTimeToLiveResponse>(request, options);
         }
 
         /// <summary>
@@ -2312,11 +2766,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/DescribeTimeToLive">REST API Reference for DescribeTimeToLive Operation</seealso>
         public virtual IAsyncResult BeginDescribeTimeToLive(DescribeTimeToLiveRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeTimeToLiveRequestMarshaller.Instance;
-            var unmarshaller = DescribeTimeToLiveResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeTimeToLiveRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeTimeToLiveResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = DescribeTimeToLiveEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<DescribeTimeToLiveRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2360,8 +2816,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -2402,8 +2863,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -2443,8 +2909,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -2453,10 +2924,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/GetItem">REST API Reference for GetItem Operation</seealso>
         public virtual GetItemResponse GetItem(GetItemRequest request)
         {
-            var marshaller = GetItemRequestMarshaller.Instance;
-            var unmarshaller = GetItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = GetItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<GetItemRequest,GetItemResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetItemResponse>(request, options);
         }
 
         /// <summary>
@@ -2473,11 +2947,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/GetItem">REST API Reference for GetItem Operation</seealso>
         public virtual IAsyncResult BeginGetItem(GetItemRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetItemRequestMarshaller.Instance;
-            var unmarshaller = GetItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = GetItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<GetItemRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2500,17 +2976,17 @@ namespace Amazon.DynamoDBv2
         /// <summary>
         /// List backups associated with an AWS account. To list backups for a given table, specify
         /// <code>TableName</code>. <code>ListBackups</code> returns a paginated list of results
-        /// with at most 1MB worth of items in a page. You can also specify a limit for the maximum
+        /// with at most 1 MB worth of items in a page. You can also specify a limit for the maximum
         /// number of entries to be returned in a page. 
         /// 
         ///  
         /// <para>
-        /// In the request, start time is inclusive but end time is exclusive. Note that these
+        /// In the request, start time is inclusive, but end time is exclusive. Note that these
         /// limits are for the time at which the original backup was requested.
         /// </para>
         ///  
         /// <para>
-        /// You can call <code>ListBackups</code> a maximum of 5 times per second.
+        /// You can call <code>ListBackups</code> a maximum of five times per second.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListBackups service method.</param>
@@ -2522,10 +2998,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListBackups">REST API Reference for ListBackups Operation</seealso>
         public virtual ListBackupsResponse ListBackups(ListBackupsRequest request)
         {
-            var marshaller = ListBackupsRequestMarshaller.Instance;
-            var unmarshaller = ListBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBackupsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListBackupsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<ListBackupsRequest,ListBackupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListBackupsResponse>(request, options);
         }
 
         /// <summary>
@@ -2542,11 +3021,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListBackups">REST API Reference for ListBackups Operation</seealso>
         public virtual IAsyncResult BeginListBackups(ListBackupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListBackupsRequestMarshaller.Instance;
-            var unmarshaller = ListBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListBackupsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListBackupsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<ListBackupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2564,10 +3045,79 @@ namespace Amazon.DynamoDBv2
 
         #endregion
         
+        #region  ListContributorInsights
+
+        /// <summary>
+        /// Returns a list of ContributorInsightsSummary for a table and all its global secondary
+        /// indexes.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListContributorInsights service method.</param>
+        /// 
+        /// <returns>The response from the ListContributorInsights service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListContributorInsights">REST API Reference for ListContributorInsights Operation</seealso>
+        public virtual ListContributorInsightsResponse ListContributorInsights(ListContributorInsightsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListContributorInsightsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListContributorInsightsResponseUnmarshaller.Instance;
+
+            return Invoke<ListContributorInsightsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListContributorInsights operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListContributorInsights operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListContributorInsights
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListContributorInsights">REST API Reference for ListContributorInsights Operation</seealso>
+        public virtual IAsyncResult BeginListContributorInsights(ListContributorInsightsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListContributorInsightsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListContributorInsightsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListContributorInsights operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListContributorInsights.</param>
+        /// 
+        /// <returns>Returns a  ListContributorInsightsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListContributorInsights">REST API Reference for ListContributorInsights Operation</seealso>
+        public virtual ListContributorInsightsResponse EndListContributorInsights(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListContributorInsightsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  ListGlobalTables
 
         /// <summary>
-        /// Lists all global tables that have a replica in the specified region.
+        /// Lists all global tables that have a replica in the specified Region.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V1.html">Version
+        /// 2017.11.29</a> of global tables.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListGlobalTables service method.</param>
         /// 
@@ -2578,10 +3128,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListGlobalTables">REST API Reference for ListGlobalTables Operation</seealso>
         public virtual ListGlobalTablesResponse ListGlobalTables(ListGlobalTablesRequest request)
         {
-            var marshaller = ListGlobalTablesRequestMarshaller.Instance;
-            var unmarshaller = ListGlobalTablesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGlobalTablesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGlobalTablesResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListGlobalTablesEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<ListGlobalTablesRequest,ListGlobalTablesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGlobalTablesResponse>(request, options);
         }
 
         /// <summary>
@@ -2598,11 +3151,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListGlobalTables">REST API Reference for ListGlobalTables Operation</seealso>
         public virtual IAsyncResult BeginListGlobalTables(ListGlobalTablesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListGlobalTablesRequestMarshaller.Instance;
-            var unmarshaller = ListGlobalTablesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGlobalTablesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGlobalTablesResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListGlobalTablesEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<ListGlobalTablesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2714,10 +3269,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListTables">REST API Reference for ListTables Operation</seealso>
         public virtual ListTablesResponse ListTables(ListTablesRequest request)
         {
-            var marshaller = ListTablesRequestMarshaller.Instance;
-            var unmarshaller = ListTablesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTablesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTablesResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListTablesEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<ListTablesRequest,ListTablesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTablesResponse>(request, options);
         }
 
         /// <summary>
@@ -2734,11 +3292,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListTables">REST API Reference for ListTables Operation</seealso>
         public virtual IAsyncResult BeginListTables(ListTablesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTablesRequestMarshaller.Instance;
-            var unmarshaller = ListTablesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTablesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTablesResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListTablesEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<ListTablesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2764,7 +3324,7 @@ namespace Amazon.DynamoDBv2
         /// 
         ///  
         /// <para>
-        /// For an overview on tagging DynamoDB resources, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
+        /// For an overview on tagging DynamoDB resources, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
         /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -2781,10 +3341,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListTagsOfResource">REST API Reference for ListTagsOfResource Operation</seealso>
         public virtual ListTagsOfResourceResponse ListTagsOfResource(ListTagsOfResourceRequest request)
         {
-            var marshaller = ListTagsOfResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsOfResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsOfResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsOfResourceResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListTagsOfResourceEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<ListTagsOfResourceRequest,ListTagsOfResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTagsOfResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -2801,11 +3364,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/ListTagsOfResource">REST API Reference for ListTagsOfResource Operation</seealso>
         public virtual IAsyncResult BeginListTagsOfResource(ListTagsOfResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTagsOfResourceRequestMarshaller.Instance;
-            var unmarshaller = ListTagsOfResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsOfResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsOfResourceResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ListTagsOfResourceEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<ListTagsOfResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2845,51 +3410,51 @@ namespace Amazon.DynamoDBv2
         ///  <ul> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/aws-cli/dynamodb-2012-08-10/PutItem"> PutItem
-        /// in the AWS Command Line Interface </a> 
+        /// in the AWS Command Line Interface</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/DotNetSDKV3/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for .NET </a> 
+        /// PutItem in the AWS SDK for .NET</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForCpp/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for C++ </a> 
+        /// PutItem in the AWS SDK for C++</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForGoV1/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Go </a> 
+        /// PutItem in the AWS SDK for Go</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForJava/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Java </a> 
+        /// PutItem in the AWS SDK for Java</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/AWSJavaScriptSDK/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for JavaScript </a> 
+        /// PutItem in the AWS SDK for JavaScript</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForPHPV3/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for PHP V3 </a> 
+        /// PutItem in the AWS SDK for PHP V3</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/boto3/dynamodb-2012-08-10/PutItem"> PutItem
-        /// in the AWS SDK for Python </a> 
+        /// in the AWS SDK for Python</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForRubyV2/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Ruby V2 </a> 
+        /// PutItem in the AWS SDK for Ruby V2</a> 
         /// </para>
         ///  </li> </ul> </important> 
         /// <para>
-        /// When you add an item, the primary key attribute(s) are the only required attributes.
+        /// When you add an item, the primary key attributes are the only required attributes.
         /// Attribute values cannot be null. String and Binary type attributes must have lengths
         /// greater than zero. Set type attributes cannot be empty. Requests with empty values
         /// will be rejected with a <code>ValidationException</code> exception.
@@ -2904,12 +3469,12 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information about <code>PutItem</code>, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
+        /// For more information about <code>PutItem</code>, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
         /// with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table to contain the item.</param>
-        /// <param name="item">A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each element in the <code>Item</code> map is an <code>AttributeValue</code> object.</param>
+        /// <param name="item">A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.PrimaryKey">Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each element in the <code>Item</code> map is an <code>AttributeValue</code> object.</param>
         /// 
         /// <returns>The response from the PutItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
@@ -2926,12 +3491,20 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/PutItem">REST API Reference for PutItem Operation</seealso>
         public virtual PutItemResponse PutItem(string tableName, Dictionary<string, AttributeValue> item)
@@ -2963,51 +3536,51 @@ namespace Amazon.DynamoDBv2
         ///  <ul> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/aws-cli/dynamodb-2012-08-10/PutItem"> PutItem
-        /// in the AWS Command Line Interface </a> 
+        /// in the AWS Command Line Interface</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/DotNetSDKV3/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for .NET </a> 
+        /// PutItem in the AWS SDK for .NET</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForCpp/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for C++ </a> 
+        /// PutItem in the AWS SDK for C++</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForGoV1/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Go </a> 
+        /// PutItem in the AWS SDK for Go</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForJava/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Java </a> 
+        /// PutItem in the AWS SDK for Java</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/AWSJavaScriptSDK/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for JavaScript </a> 
+        /// PutItem in the AWS SDK for JavaScript</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForPHPV3/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for PHP V3 </a> 
+        /// PutItem in the AWS SDK for PHP V3</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/boto3/dynamodb-2012-08-10/PutItem"> PutItem
-        /// in the AWS SDK for Python </a> 
+        /// in the AWS SDK for Python</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForRubyV2/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Ruby V2 </a> 
+        /// PutItem in the AWS SDK for Ruby V2</a> 
         /// </para>
         ///  </li> </ul> </important> 
         /// <para>
-        /// When you add an item, the primary key attribute(s) are the only required attributes.
+        /// When you add an item, the primary key attributes are the only required attributes.
         /// Attribute values cannot be null. String and Binary type attributes must have lengths
         /// greater than zero. Set type attributes cannot be empty. Requests with empty values
         /// will be rejected with a <code>ValidationException</code> exception.
@@ -3022,12 +3595,12 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information about <code>PutItem</code>, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
+        /// For more information about <code>PutItem</code>, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
         /// with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table to contain the item.</param>
-        /// <param name="item">A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each element in the <code>Item</code> map is an <code>AttributeValue</code> object.</param>
+        /// <param name="item">A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html#HowItWorks.CoreComponents.PrimaryKey">Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each element in the <code>Item</code> map is an <code>AttributeValue</code> object.</param>
         /// <param name="returnValues">Use <code>ReturnValues</code> if you want to get the item attributes as they appeared before they were updated with the <code>PutItem</code> request. For <code>PutItem</code>, the valid values are: <ul> <li>  <code>NONE</code> - If <code>ReturnValues</code> is not specified, or if its value is <code>NONE</code>, then nothing is returned. (This setting is the default for <code>ReturnValues</code>.) </li> <li>  <code>ALL_OLD</code> - If <code>PutItem</code> overwrote an attribute name-value pair, then the content of the old item is returned. </li> </ul> <note> The <code>ReturnValues</code> parameter is used by several DynamoDB operations; however, <code>PutItem</code> does not recognize any values other than <code>NONE</code> or <code>ALL_OLD</code>. </note></param>
         /// 
         /// <returns>The response from the PutItem service method, as returned by DynamoDB.</returns>
@@ -3045,12 +3618,20 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/PutItem">REST API Reference for PutItem Operation</seealso>
         public virtual PutItemResponse PutItem(string tableName, Dictionary<string, AttributeValue> item, ReturnValue returnValues)
@@ -3083,51 +3664,51 @@ namespace Amazon.DynamoDBv2
         ///  <ul> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/aws-cli/dynamodb-2012-08-10/PutItem"> PutItem
-        /// in the AWS Command Line Interface </a> 
+        /// in the AWS Command Line Interface</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/DotNetSDKV3/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for .NET </a> 
+        /// PutItem in the AWS SDK for .NET</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForCpp/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for C++ </a> 
+        /// PutItem in the AWS SDK for C++</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForGoV1/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Go </a> 
+        /// PutItem in the AWS SDK for Go</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForJava/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Java </a> 
+        /// PutItem in the AWS SDK for Java</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/AWSJavaScriptSDK/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for JavaScript </a> 
+        /// PutItem in the AWS SDK for JavaScript</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForPHPV3/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for PHP V3 </a> 
+        /// PutItem in the AWS SDK for PHP V3</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/boto3/dynamodb-2012-08-10/PutItem"> PutItem
-        /// in the AWS SDK for Python </a> 
+        /// in the AWS SDK for Python</a> 
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <a href="http://docs.aws.amazon.com/goto/SdkForRubyV2/dynamodb-2012-08-10/PutItem">
-        /// PutItem in the AWS SDK for Ruby V2 </a> 
+        /// PutItem in the AWS SDK for Ruby V2</a> 
         /// </para>
         ///  </li> </ul> </important> 
         /// <para>
-        /// When you add an item, the primary key attribute(s) are the only required attributes.
+        /// When you add an item, the primary key attributes are the only required attributes.
         /// Attribute values cannot be null. String and Binary type attributes must have lengths
         /// greater than zero. Set type attributes cannot be empty. Requests with empty values
         /// will be rejected with a <code>ValidationException</code> exception.
@@ -3142,7 +3723,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </note> 
         /// <para>
-        /// For more information about <code>PutItem</code>, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
+        /// For more information about <code>PutItem</code>, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
         /// with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3163,20 +3744,31 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/PutItem">REST API Reference for PutItem Operation</seealso>
         public virtual PutItemResponse PutItem(PutItemRequest request)
         {
-            var marshaller = PutItemRequestMarshaller.Instance;
-            var unmarshaller = PutItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = PutItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<PutItemRequest,PutItemResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutItemResponse>(request, options);
         }
 
         /// <summary>
@@ -3193,11 +3785,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/PutItem">REST API Reference for PutItem Operation</seealso>
         public virtual IAsyncResult BeginPutItem(PutItemRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutItemRequestMarshaller.Instance;
-            var unmarshaller = PutItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = PutItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<PutItemRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3260,7 +3854,7 @@ namespace Amazon.DynamoDBv2
         /// set (if using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then
         /// apply any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
         /// is present in the response, you will need to paginate the result set. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.Pagination">Paginating
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html#Query.Pagination">Paginating
         /// the Results</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
         /// </para>
         ///  
@@ -3294,8 +3888,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -3304,10 +3903,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/Query">REST API Reference for Query Operation</seealso>
         public virtual QueryResponse Query(QueryRequest request)
         {
-            var marshaller = QueryRequestMarshaller.Instance;
-            var unmarshaller = QueryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = QueryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = QueryResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = QueryEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<QueryRequest,QueryResponse>(request, marshaller, unmarshaller);
+            return Invoke<QueryResponse>(request, options);
         }
 
         /// <summary>
@@ -3324,11 +3926,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/Query">REST API Reference for Query Operation</seealso>
         public virtual IAsyncResult BeginQuery(QueryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = QueryRequestMarshaller.Instance;
-            var unmarshaller = QueryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = QueryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = QueryResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = QueryEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<QueryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3371,7 +3975,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cloudwatch metrics and alarms
+        /// Amazon CloudWatch metrics and alarms
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3392,7 +3996,7 @@ namespace Amazon.DynamoDBv2
         /// <returns>The response from the RestoreTableFromBackup service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.BackupInUseException">
         /// There is another ongoing conflicting backup control plane operation on the table.
-        /// The backups is either being created, deleted or restored to a table.
+        /// The backup is either being created, deleted or restored to a table.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.BackupNotFoundException">
         /// Backup not found for the given BackupARN.
@@ -3401,23 +4005,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.TableAlreadyExistsException">
@@ -3429,10 +4034,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/RestoreTableFromBackup">REST API Reference for RestoreTableFromBackup Operation</seealso>
         public virtual RestoreTableFromBackupResponse RestoreTableFromBackup(RestoreTableFromBackupRequest request)
         {
-            var marshaller = RestoreTableFromBackupRequestMarshaller.Instance;
-            var unmarshaller = RestoreTableFromBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreTableFromBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreTableFromBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = RestoreTableFromBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<RestoreTableFromBackupRequest,RestoreTableFromBackupResponse>(request, marshaller, unmarshaller);
+            return Invoke<RestoreTableFromBackupResponse>(request, options);
         }
 
         /// <summary>
@@ -3449,11 +4057,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/RestoreTableFromBackup">REST API Reference for RestoreTableFromBackup Operation</seealso>
         public virtual IAsyncResult BeginRestoreTableFromBackup(RestoreTableFromBackupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RestoreTableFromBackupRequestMarshaller.Instance;
-            var unmarshaller = RestoreTableFromBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreTableFromBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreTableFromBackupResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = RestoreTableFromBackupEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<RestoreTableFromBackupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3476,10 +4086,42 @@ namespace Amazon.DynamoDBv2
         /// <summary>
         /// Restores the specified table to the specified point in time within <code>EarliestRestorableDateTime</code>
         /// and <code>LatestRestorableDateTime</code>. You can restore your table to any point
-        /// in time during the last 35 days with a 1-minute granularity. Any number of users can
-        /// execute up to 4 concurrent restores (any type of restore) in a given account. 
+        /// in time during the last 35 days. Any number of users can execute up to 4 concurrent
+        /// restores (any type of restore) in a given account. 
         /// 
         ///  
+        /// <para>
+        ///  When you restore using point in time recovery, DynamoDB restores your table data
+        /// to the state based on the selected date and time (day:hour:minute:second) to a new
+        /// table. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  Along with data, the following are also included on the new restored table using
+        /// point in time recovery: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Global secondary indexes (GSIs)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Local secondary indexes (LSIs)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Provisioned read and write capacity
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Encryption settings
+        /// </para>
+        ///  <important> 
+        /// <para>
+        ///  All these settings come from the current settings of the source table at the time
+        /// of restore. 
+        /// </para>
+        ///  </important> </li> </ul> 
         /// <para>
         /// You must manually set up the following on the restored table:
         /// </para>
@@ -3493,7 +4135,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cloudwatch metrics and alarms
+        /// Amazon CloudWatch metrics and alarms
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3524,23 +4166,24 @@ namespace Amazon.DynamoDBv2
         /// and LatestRestorableDateTime.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.PointInTimeRecoveryUnavailableException">
@@ -3559,10 +4202,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/RestoreTableToPointInTime">REST API Reference for RestoreTableToPointInTime Operation</seealso>
         public virtual RestoreTableToPointInTimeResponse RestoreTableToPointInTime(RestoreTableToPointInTimeRequest request)
         {
-            var marshaller = RestoreTableToPointInTimeRequestMarshaller.Instance;
-            var unmarshaller = RestoreTableToPointInTimeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreTableToPointInTimeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreTableToPointInTimeResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = RestoreTableToPointInTimeEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<RestoreTableToPointInTimeRequest,RestoreTableToPointInTimeResponse>(request, marshaller, unmarshaller);
+            return Invoke<RestoreTableToPointInTimeResponse>(request, options);
         }
 
         /// <summary>
@@ -3579,11 +4225,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/RestoreTableToPointInTime">REST API Reference for RestoreTableToPointInTime Operation</seealso>
         public virtual IAsyncResult BeginRestoreTableToPointInTime(RestoreTableToPointInTimeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RestoreTableToPointInTimeRequestMarshaller.Instance;
-            var unmarshaller = RestoreTableToPointInTimeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreTableToPointInTimeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreTableToPointInTimeResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = RestoreTableToPointInTimeEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<RestoreTableToPointInTimeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3610,19 +4258,19 @@ namespace Amazon.DynamoDBv2
         /// 
         ///  
         /// <para>
-        /// If the total number of scanned items exceeds the maximum data set size limit of 1
-        /// MB, the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
+        /// If the total number of scanned items exceeds the maximum dataset size limit of 1 MB,
+        /// the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
         /// value to continue the scan in a subsequent operation. The results also include the
         /// number of items exceeding the limit. A scan can result in no table data meeting the
         /// filter criteria. 
         /// </para>
         ///  
         /// <para>
-        /// A single <code>Scan</code> operation will read up to the maximum number of items set
-        /// (if using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then
-        /// apply any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
-        /// is present in the response, you will need to paginate the result set. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
+        /// A single <code>Scan</code> operation reads up to the maximum number of items set (if
+        /// using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then apply
+        /// any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
+        /// is present in the response, you need to paginate the result set. For more information,
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
         /// the Results</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
         /// </para>
         ///  
@@ -3630,7 +4278,7 @@ namespace Amazon.DynamoDBv2
         ///  <code>Scan</code> operations proceed sequentially; however, for faster performance
         /// on a large table or secondary index, applications can request a parallel <code>Scan</code>
         /// operation by providing the <code>Segment</code> and <code>TotalSegments</code> parameters.
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
         /// Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  
@@ -3643,7 +4291,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table containing the requested items; or, if you provide <code>IndexName</code>, the name of the table to which that index belongs.</param>
-        /// <param name="attributesToGet">This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="attributesToGet">This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the Scan service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -3653,8 +4301,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -3677,19 +4330,19 @@ namespace Amazon.DynamoDBv2
         /// 
         ///  
         /// <para>
-        /// If the total number of scanned items exceeds the maximum data set size limit of 1
-        /// MB, the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
+        /// If the total number of scanned items exceeds the maximum dataset size limit of 1 MB,
+        /// the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
         /// value to continue the scan in a subsequent operation. The results also include the
         /// number of items exceeding the limit. A scan can result in no table data meeting the
         /// filter criteria. 
         /// </para>
         ///  
         /// <para>
-        /// A single <code>Scan</code> operation will read up to the maximum number of items set
-        /// (if using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then
-        /// apply any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
-        /// is present in the response, you will need to paginate the result set. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
+        /// A single <code>Scan</code> operation reads up to the maximum number of items set (if
+        /// using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then apply
+        /// any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
+        /// is present in the response, you need to paginate the result set. For more information,
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
         /// the Results</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
         /// </para>
         ///  
@@ -3697,7 +4350,7 @@ namespace Amazon.DynamoDBv2
         ///  <code>Scan</code> operations proceed sequentially; however, for faster performance
         /// on a large table or secondary index, applications can request a parallel <code>Scan</code>
         /// operation by providing the <code>Segment</code> and <code>TotalSegments</code> parameters.
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
         /// Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  
@@ -3710,7 +4363,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table containing the requested items; or, if you provide <code>IndexName</code>, the name of the table to which that index belongs.</param>
-        /// <param name="scanFilter">This is a legacy parameter. Use <code>FilterExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ScanFilter.html">ScanFilter</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="scanFilter">This is a legacy parameter. Use <code>FilterExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ScanFilter.html">ScanFilter</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the Scan service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -3720,8 +4373,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -3744,19 +4402,19 @@ namespace Amazon.DynamoDBv2
         /// 
         ///  
         /// <para>
-        /// If the total number of scanned items exceeds the maximum data set size limit of 1
-        /// MB, the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
+        /// If the total number of scanned items exceeds the maximum dataset size limit of 1 MB,
+        /// the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
         /// value to continue the scan in a subsequent operation. The results also include the
         /// number of items exceeding the limit. A scan can result in no table data meeting the
         /// filter criteria. 
         /// </para>
         ///  
         /// <para>
-        /// A single <code>Scan</code> operation will read up to the maximum number of items set
-        /// (if using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then
-        /// apply any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
-        /// is present in the response, you will need to paginate the result set. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
+        /// A single <code>Scan</code> operation reads up to the maximum number of items set (if
+        /// using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then apply
+        /// any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
+        /// is present in the response, you need to paginate the result set. For more information,
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
         /// the Results</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
         /// </para>
         ///  
@@ -3764,7 +4422,7 @@ namespace Amazon.DynamoDBv2
         ///  <code>Scan</code> operations proceed sequentially; however, for faster performance
         /// on a large table or secondary index, applications can request a parallel <code>Scan</code>
         /// operation by providing the <code>Segment</code> and <code>TotalSegments</code> parameters.
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
         /// Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  
@@ -3777,8 +4435,8 @@ namespace Amazon.DynamoDBv2
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table containing the requested items; or, if you provide <code>IndexName</code>, the name of the table to which that index belongs.</param>
-        /// <param name="attributesToGet">This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
-        /// <param name="scanFilter">This is a legacy parameter. Use <code>FilterExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ScanFilter.html">ScanFilter</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="attributesToGet">This is a legacy parameter. Use <code>ProjectionExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributesToGet.html">AttributesToGet</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="scanFilter">This is a legacy parameter. Use <code>FilterExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ScanFilter.html">ScanFilter</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the Scan service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -3788,8 +4446,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -3813,19 +4476,19 @@ namespace Amazon.DynamoDBv2
         /// 
         ///  
         /// <para>
-        /// If the total number of scanned items exceeds the maximum data set size limit of 1
-        /// MB, the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
+        /// If the total number of scanned items exceeds the maximum dataset size limit of 1 MB,
+        /// the scan stops and results are returned to the user as a <code>LastEvaluatedKey</code>
         /// value to continue the scan in a subsequent operation. The results also include the
         /// number of items exceeding the limit. A scan can result in no table data meeting the
         /// filter criteria. 
         /// </para>
         ///  
         /// <para>
-        /// A single <code>Scan</code> operation will read up to the maximum number of items set
-        /// (if using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then
-        /// apply any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
-        /// is present in the response, you will need to paginate the result set. For more information,
-        /// see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
+        /// A single <code>Scan</code> operation reads up to the maximum number of items set (if
+        /// using the <code>Limit</code> parameter) or a maximum of 1 MB of data and then apply
+        /// any filtering to the results using <code>FilterExpression</code>. If <code>LastEvaluatedKey</code>
+        /// is present in the response, you need to paginate the result set. For more information,
+        /// see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.Pagination">Paginating
         /// the Results</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
         /// </para>
         ///  
@@ -3833,7 +4496,7 @@ namespace Amazon.DynamoDBv2
         ///  <code>Scan</code> operations proceed sequentially; however, for faster performance
         /// on a large table or secondary index, applications can request a parallel <code>Scan</code>
         /// operation by providing the <code>Segment</code> and <code>TotalSegments</code> parameters.
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.ParallelScan">Parallel
         /// Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         ///  
@@ -3855,8 +4518,13 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
@@ -3865,10 +4533,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/Scan">REST API Reference for Scan Operation</seealso>
         public virtual ScanResponse Scan(ScanRequest request)
         {
-            var marshaller = ScanRequestMarshaller.Instance;
-            var unmarshaller = ScanResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ScanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ScanResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ScanEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<ScanRequest,ScanResponse>(request, marshaller, unmarshaller);
+            return Invoke<ScanResponse>(request, options);
         }
 
         /// <summary>
@@ -3885,11 +4556,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/Scan">REST API Reference for Scan Operation</seealso>
         public virtual IAsyncResult BeginScan(ScanRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ScanRequestMarshaller.Instance;
-            var unmarshaller = ScanResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ScanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ScanResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = ScanEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<ScanRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3912,12 +4585,12 @@ namespace Amazon.DynamoDBv2
         /// <summary>
         /// Associate a set of tags with an Amazon DynamoDB resource. You can then activate these
         /// user-defined tags so that they appear on the Billing and Cost Management console for
-        /// cost allocation tracking. You can call TagResource up to 5 times per second, per account.
-        /// 
+        /// cost allocation tracking. You can call TagResource up to five times per second, per
+        /// account. 
         /// 
         ///  
         /// <para>
-        /// For an overview on tagging DynamoDB resources, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
+        /// For an overview on tagging DynamoDB resources, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
         /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -3928,23 +4601,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -3959,10 +4633,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual TagResourceResponse TagResource(TagResourceRequest request)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = TagResourceEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<TagResourceRequest,TagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<TagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -3979,11 +4656,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TagResource">REST API Reference for TagResource Operation</seealso>
         public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = TagResourceEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<TagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4001,15 +4680,760 @@ namespace Amazon.DynamoDBv2
 
         #endregion
         
-        #region  UntagResource
+        #region  TransactGetItems
 
         /// <summary>
-        /// Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource
-        /// up to 5 times per second, per account. 
+        /// <code>TransactGetItems</code> is a synchronous operation that atomically retrieves
+        /// multiple items from one or more tables (but not from indexes) in a single account
+        /// and Region. A <code>TransactGetItems</code> call can contain up to 25 <code>TransactGetItem</code>
+        /// objects, each of which contains a <code>Get</code> structure that specifies an item
+        /// to retrieve from a table in the account and Region. A call to <code>TransactGetItems</code>
+        /// cannot retrieve items from tables in more than one AWS account or Region. The aggregate
+        /// size of the items in the transaction cannot exceed 4 MB.
         /// 
         ///  
         /// <para>
-        /// For an overview on tagging DynamoDB resources, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
+        /// DynamoDB rejects the entire <code>TransactGetItems</code> request if any of the following
+        /// is true:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// A conflicting operation is in the process of updating an item to be read.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is insufficient provisioned capacity for the transaction to be completed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is a user error, such as an invalid data format.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The aggregate size of the items in the transaction cannot exceed 4 MB.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TransactGetItems service method.</param>
+        /// 
+        /// <returns>The response from the TransactGetItems service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionCanceledException">
+        /// The entire transaction request was canceled.
+        /// 
+        ///  
+        /// <para>
+        /// DynamoDB cancels a <code>TransactWriteItems</code> request under the following circumstances:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// A condition in one of the condition expressions is not met.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A table in the <code>TransactWriteItems</code> request is in a different account or
+        /// region.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// More than one action in the <code>TransactWriteItems</code> operation targets the
+        /// same item.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is insufficient provisioned capacity for the transaction to be completed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An item size becomes too large (larger than 400 KB), or a local secondary index (LSI)
+        /// becomes too large, or a similar validation error occurs because of changes made by
+        /// the transaction.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is a user error, such as an invalid data format.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// DynamoDB cancels a <code>TransactGetItems</code> request under the following circumstances:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// There is an ongoing <code>TransactGetItems</code> operation that conflicts with a
+        /// concurrent <code>PutItem</code>, <code>UpdateItem</code>, <code>DeleteItem</code>
+        /// or <code>TransactWriteItems</code> request. In this case the <code>TransactGetItems</code>
+        /// operation fails with a <code>TransactionCanceledException</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A table in the <code>TransactGetItems</code> request is in a different account or
+        /// region.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is insufficient provisioned capacity for the transaction to be completed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is a user error, such as an invalid data format.
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If using Java, DynamoDB lists the cancellation reasons on the <code>CancellationReasons</code>
+        /// property. This property is not set for other languages. Transaction cancellation reasons
+        /// are ordered in the order of requested items, if an item has no error it will have
+        /// <code>NONE</code> code and <code>Null</code> message.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Cancellation reason codes and possible error messages:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// No Errors:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>NONE</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: <code>null</code> 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Conditional Check Failed:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ConditionalCheckFailed</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: The conditional request failed. 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Item Collection Size Limit Exceeded:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ItemCollectionSizeLimitExceeded</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: Collection size exceeded.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Transaction Conflict:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>TransactionConflict</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: Transaction is ongoing for the item.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Provisioned Throughput Exceeded:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ProvisionedThroughputExceeded</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Messages: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The level of configured provisioned throughput for the table was exceeded. Consider
+        /// increasing your provisioning level with the UpdateTable API.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This Message is received when provisioned throughput is exceeded is on a provisioned
+        /// DynamoDB table.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        /// The level of configured provisioned throughput for one or more global secondary indexes
+        /// of the table was exceeded. Consider increasing your provisioning level for the under-provisioned
+        /// global secondary indexes with the UpdateTable API.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This message is returned when provisioned throughput is exceeded is on a provisioned
+        /// GSI.
+        /// </para>
+        ///  </note> </li> </ul> </li> </ul> </li> <li> 
+        /// <para>
+        /// Throttling Error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ThrottlingError</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Messages: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Throughput exceeds the current capacity of your table or index. DynamoDB is automatically
+        /// scaling your table or index so please try again shortly. If exceptions persist, check
+        /// if you have a hot key: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This message is returned when writes get throttled on an On-Demand table as DynamoDB
+        /// is automatically scaling the table.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        /// Throughput exceeds the current capacity for one or more global secondary indexes.
+        /// DynamoDB is automatically scaling your index so please try again shortly.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This message is returned when when writes get throttled on an On-Demand GSI as DynamoDB
+        /// is automatically scaling the GSI.
+        /// </para>
+        ///  </note> </li> </ul> </li> </ul> </li> <li> 
+        /// <para>
+        /// Validation Error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ValidationError</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Messages: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// One or more parameter values were invalid.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The update expression attempted to update the secondary index key beyond allowed size
+        /// limits.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The update expression attempted to update the secondary index key to unsupported type.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An operand in the update expression has an incorrect data type.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Item size to update has exceeded the maximum allowed size.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Number overflow. Attempting to store a number with magnitude larger than supported
+        /// range.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Type mismatch for attribute to update.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Nesting Levels have exceeded supported limits.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The document path provided in the update expression is invalid for update.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The provided expression refers to an attribute that does not exist in the item.
+        /// </para>
+        ///  </li> </ul> </li> </ul> </li> </ul>
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TransactGetItems">REST API Reference for TransactGetItems Operation</seealso>
+        public virtual TransactGetItemsResponse TransactGetItems(TransactGetItemsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TransactGetItemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TransactGetItemsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = TransactGetItemsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return Invoke<TransactGetItemsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TransactGetItems operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TransactGetItems operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTransactGetItems
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TransactGetItems">REST API Reference for TransactGetItems Operation</seealso>
+        public virtual IAsyncResult BeginTransactGetItems(TransactGetItemsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TransactGetItemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TransactGetItemsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = TransactGetItemsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TransactGetItems operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTransactGetItems.</param>
+        /// 
+        /// <returns>Returns a  TransactGetItemsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TransactGetItems">REST API Reference for TransactGetItems Operation</seealso>
+        public virtual TransactGetItemsResponse EndTransactGetItems(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TransactGetItemsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TransactWriteItems
+
+        /// <summary>
+        /// <code>TransactWriteItems</code> is a synchronous write operation that groups up to
+        /// 25 action requests. These actions can target items in different tables, but not in
+        /// different AWS accounts or Regions, and no two actions can target the same item. For
+        /// example, you cannot both <code>ConditionCheck</code> and <code>Update</code> the same
+        /// item. The aggregate size of the items in the transaction cannot exceed 4 MB.
+        /// 
+        ///  
+        /// <para>
+        /// The actions are completed atomically so that either all of them succeed, or all of
+        /// them fail. They are defined by the following objects:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Put</code>  &#x97;   Initiates a <code>PutItem</code> operation to write a
+        /// new item. This structure specifies the primary key of the item to be written, the
+        /// name of the table to write it in, an optional condition expression that must be satisfied
+        /// for the write to succeed, a list of the item's attributes, and a field indicating
+        /// whether to retrieve the item's attributes if the condition is not met.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Update</code>  &#x97;   Initiates an <code>UpdateItem</code> operation to update
+        /// an existing item. This structure specifies the primary key of the item to be updated,
+        /// the name of the table where it resides, an optional condition expression that must
+        /// be satisfied for the update to succeed, an expression that defines one or more attributes
+        /// to be updated, and a field indicating whether to retrieve the item's attributes if
+        /// the condition is not met.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Delete</code>  &#x97;   Initiates a <code>DeleteItem</code> operation to delete
+        /// an existing item. This structure specifies the primary key of the item to be deleted,
+        /// the name of the table where it resides, an optional condition expression that must
+        /// be satisfied for the deletion to succeed, and a field indicating whether to retrieve
+        /// the item's attributes if the condition is not met.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ConditionCheck</code>  &#x97;   Applies a condition to an item that is not
+        /// being modified by the transaction. This structure specifies the primary key of the
+        /// item to be checked, the name of the table where it resides, a condition expression
+        /// that must be satisfied for the transaction to succeed, and a field indicating whether
+        /// to retrieve the item's attributes if the condition is not met.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// DynamoDB rejects the entire <code>TransactWriteItems</code> request if any of the
+        /// following is true:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// A condition in one of the condition expressions is not met.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An ongoing operation is in the process of updating the same item.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is insufficient provisioned capacity for the transaction to be completed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An item size becomes too large (bigger than 400 KB), a local secondary index (LSI)
+        /// becomes too large, or a similar validation error occurs because of changes made by
+        /// the transaction.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The aggregate size of the items in the transaction exceeds 4 MB.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is a user error, such as an invalid data format.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TransactWriteItems service method.</param>
+        /// 
+        /// <returns>The response from the TransactWriteItems service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.IdempotentParameterMismatchException">
+        /// DynamoDB rejected the request because you retried a request with a different payload
+        /// but with an idempotent token that was already used.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionCanceledException">
+        /// The entire transaction request was canceled.
+        /// 
+        ///  
+        /// <para>
+        /// DynamoDB cancels a <code>TransactWriteItems</code> request under the following circumstances:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// A condition in one of the condition expressions is not met.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A table in the <code>TransactWriteItems</code> request is in a different account or
+        /// region.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// More than one action in the <code>TransactWriteItems</code> operation targets the
+        /// same item.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is insufficient provisioned capacity for the transaction to be completed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An item size becomes too large (larger than 400 KB), or a local secondary index (LSI)
+        /// becomes too large, or a similar validation error occurs because of changes made by
+        /// the transaction.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is a user error, such as an invalid data format.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// DynamoDB cancels a <code>TransactGetItems</code> request under the following circumstances:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// There is an ongoing <code>TransactGetItems</code> operation that conflicts with a
+        /// concurrent <code>PutItem</code>, <code>UpdateItem</code>, <code>DeleteItem</code>
+        /// or <code>TransactWriteItems</code> request. In this case the <code>TransactGetItems</code>
+        /// operation fails with a <code>TransactionCanceledException</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A table in the <code>TransactGetItems</code> request is in a different account or
+        /// region.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is insufficient provisioned capacity for the transaction to be completed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// There is a user error, such as an invalid data format.
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// If using Java, DynamoDB lists the cancellation reasons on the <code>CancellationReasons</code>
+        /// property. This property is not set for other languages. Transaction cancellation reasons
+        /// are ordered in the order of requested items, if an item has no error it will have
+        /// <code>NONE</code> code and <code>Null</code> message.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// Cancellation reason codes and possible error messages:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// No Errors:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>NONE</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: <code>null</code> 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Conditional Check Failed:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ConditionalCheckFailed</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: The conditional request failed. 
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Item Collection Size Limit Exceeded:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ItemCollectionSizeLimitExceeded</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: Collection size exceeded.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Transaction Conflict:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>TransactionConflict</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Message: Transaction is ongoing for the item.
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// Provisioned Throughput Exceeded:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ProvisionedThroughputExceeded</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Messages: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The level of configured provisioned throughput for the table was exceeded. Consider
+        /// increasing your provisioning level with the UpdateTable API.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This Message is received when provisioned throughput is exceeded is on a provisioned
+        /// DynamoDB table.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        /// The level of configured provisioned throughput for one or more global secondary indexes
+        /// of the table was exceeded. Consider increasing your provisioning level for the under-provisioned
+        /// global secondary indexes with the UpdateTable API.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This message is returned when provisioned throughput is exceeded is on a provisioned
+        /// GSI.
+        /// </para>
+        ///  </note> </li> </ul> </li> </ul> </li> <li> 
+        /// <para>
+        /// Throttling Error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ThrottlingError</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Messages: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Throughput exceeds the current capacity of your table or index. DynamoDB is automatically
+        /// scaling your table or index so please try again shortly. If exceptions persist, check
+        /// if you have a hot key: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This message is returned when writes get throttled on an On-Demand table as DynamoDB
+        /// is automatically scaling the table.
+        /// </para>
+        ///  </note> </li> <li> 
+        /// <para>
+        /// Throughput exceeds the current capacity for one or more global secondary indexes.
+        /// DynamoDB is automatically scaling your index so please try again shortly.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This message is returned when when writes get throttled on an On-Demand GSI as DynamoDB
+        /// is automatically scaling the GSI.
+        /// </para>
+        ///  </note> </li> </ul> </li> </ul> </li> <li> 
+        /// <para>
+        /// Validation Error:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Code: <code>ValidationError</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Messages: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// One or more parameter values were invalid.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The update expression attempted to update the secondary index key beyond allowed size
+        /// limits.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The update expression attempted to update the secondary index key to unsupported type.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// An operand in the update expression has an incorrect data type.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Item size to update has exceeded the maximum allowed size.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Number overflow. Attempting to store a number with magnitude larger than supported
+        /// range.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Type mismatch for attribute to update.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Nesting Levels have exceeded supported limits.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The document path provided in the update expression is invalid for update.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The provided expression refers to an attribute that does not exist in the item.
+        /// </para>
+        ///  </li> </ul> </li> </ul> </li> </ul>
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionInProgressException">
+        /// The transaction with the given request token is already in progress.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TransactWriteItems">REST API Reference for TransactWriteItems Operation</seealso>
+        public virtual TransactWriteItemsResponse TransactWriteItems(TransactWriteItemsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TransactWriteItemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TransactWriteItemsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = TransactWriteItemsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return Invoke<TransactWriteItemsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TransactWriteItems operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TransactWriteItems operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTransactWriteItems
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TransactWriteItems">REST API Reference for TransactWriteItems Operation</seealso>
+        public virtual IAsyncResult BeginTransactWriteItems(TransactWriteItemsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TransactWriteItemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TransactWriteItemsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = TransactWriteItemsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TransactWriteItems operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTransactWriteItems.</param>
+        /// 
+        /// <returns>Returns a  TransactWriteItemsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/TransactWriteItems">REST API Reference for TransactWriteItems Operation</seealso>
+        public virtual TransactWriteItemsResponse EndTransactWriteItems(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TransactWriteItemsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Removes the association of tags from an Amazon DynamoDB resource. You can call <code>UntagResource</code>
+        /// up to five times per second, per account. 
+        /// 
+        ///  
+        /// <para>
+        /// For an overview on tagging DynamoDB resources, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
         /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -4020,23 +5444,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -4051,10 +5476,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UntagResourceEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<UntagResourceRequest,UntagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UntagResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -4071,11 +5499,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UntagResource">REST API Reference for UntagResource Operation</seealso>
         public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UntagResourceEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<UntagResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4111,8 +5541,7 @@ namespace Amazon.DynamoDBv2
         ///  
         /// <para>
         ///  <code>LatestRestorableDateTime</code> is typically 5 minutes before the current time.
-        /// You can restore your table to any point in time during the last 35 days with a 1-minute
-        /// granularity. 
+        /// You can restore your table to any point in time during the last 35 days. 
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateContinuousBackups service method.</param>
@@ -4131,10 +5560,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateContinuousBackups">REST API Reference for UpdateContinuousBackups Operation</seealso>
         public virtual UpdateContinuousBackupsResponse UpdateContinuousBackups(UpdateContinuousBackupsRequest request)
         {
-            var marshaller = UpdateContinuousBackupsRequestMarshaller.Instance;
-            var unmarshaller = UpdateContinuousBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateContinuousBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateContinuousBackupsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateContinuousBackupsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<UpdateContinuousBackupsRequest,UpdateContinuousBackupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateContinuousBackupsResponse>(request, options);
         }
 
         /// <summary>
@@ -4151,11 +5583,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateContinuousBackups">REST API Reference for UpdateContinuousBackups Operation</seealso>
         public virtual IAsyncResult BeginUpdateContinuousBackups(UpdateContinuousBackupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateContinuousBackupsRequestMarshaller.Instance;
-            var unmarshaller = UpdateContinuousBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateContinuousBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateContinuousBackupsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateContinuousBackupsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<UpdateContinuousBackupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4173,13 +5607,74 @@ namespace Amazon.DynamoDBv2
 
         #endregion
         
+        #region  UpdateContributorInsights
+
+        /// <summary>
+        /// Updates the status for contributor insights for a specific table or index.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateContributorInsights service method.</param>
+        /// 
+        /// <returns>The response from the UpdateContributorInsights service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateContributorInsights">REST API Reference for UpdateContributorInsights Operation</seealso>
+        public virtual UpdateContributorInsightsResponse UpdateContributorInsights(UpdateContributorInsightsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateContributorInsightsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateContributorInsightsResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateContributorInsightsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateContributorInsights operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateContributorInsights operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateContributorInsights
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateContributorInsights">REST API Reference for UpdateContributorInsights Operation</seealso>
+        public virtual IAsyncResult BeginUpdateContributorInsights(UpdateContributorInsightsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateContributorInsightsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateContributorInsightsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateContributorInsights operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateContributorInsights.</param>
+        /// 
+        /// <returns>Returns a  UpdateContributorInsightsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateContributorInsights">REST API Reference for UpdateContributorInsights Operation</seealso>
+        public virtual UpdateContributorInsightsResponse EndUpdateContributorInsights(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateContributorInsightsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateGlobalTable
 
         /// <summary>
         /// Adds or removes replicas in the specified global table. The global table must already
-        /// exist to be able to use this operation. Any replica to be added must be empty, must
-        /// have the same name as the global table, must have the same key schema, and must have
-        /// DynamoDB Streams enabled.
+        /// exist to be able to use this operation. Any replica to be added must be empty, have
+        /// the same name as the global table, have the same key schema, have DynamoDB Streams
+        /// enabled, and have the same provisioned and maximum write capacity units.
         /// 
         ///  <note> 
         /// <para>
@@ -4187,7 +5682,26 @@ namespace Amazon.DynamoDBv2
         /// in a single request, for simplicity we recommend that you issue separate requests
         /// for adding or removing replicas.
         /// </para>
-        ///  </note>
+        ///  </note> 
+        /// <para>
+        ///  If global secondary indexes are specified, then the following conditions must also
+        /// be met: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  The global secondary indexes must have the same name. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  The global secondary indexes must have the same hash key and sort key (if present).
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  The global secondary indexes must have the same provisioned and maximum write capacity
+        /// units. 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateGlobalTable service method.</param>
         /// 
@@ -4211,10 +5725,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateGlobalTable">REST API Reference for UpdateGlobalTable Operation</seealso>
         public virtual UpdateGlobalTableResponse UpdateGlobalTable(UpdateGlobalTableRequest request)
         {
-            var marshaller = UpdateGlobalTableRequestMarshaller.Instance;
-            var unmarshaller = UpdateGlobalTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGlobalTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGlobalTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateGlobalTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<UpdateGlobalTableRequest,UpdateGlobalTableResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateGlobalTableResponse>(request, options);
         }
 
         /// <summary>
@@ -4231,11 +5748,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateGlobalTable">REST API Reference for UpdateGlobalTable Operation</seealso>
         public virtual IAsyncResult BeginUpdateGlobalTable(UpdateGlobalTableRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateGlobalTableRequestMarshaller.Instance;
-            var unmarshaller = UpdateGlobalTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGlobalTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGlobalTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateGlobalTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<UpdateGlobalTableRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4249,6 +5768,102 @@ namespace Amazon.DynamoDBv2
         public virtual UpdateGlobalTableResponse EndUpdateGlobalTable(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateGlobalTableResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateGlobalTableSettings
+
+        /// <summary>
+        /// Updates settings for a global table.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateGlobalTableSettings service method.</param>
+        /// 
+        /// <returns>The response from the UpdateGlobalTableSettings service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.GlobalTableNotFoundException">
+        /// The specified global table does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.IndexNotFoundException">
+        /// The operation tried to access a nonexistent index.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
+        /// There is no limit to the number of daily on-demand backups that can be taken. 
+        /// 
+        ///  
+        /// <para>
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
+        /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
+        /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
+        /// </para>
+        ///  
+        /// <para>
+        /// There is a soft account limit of 256 tables.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ReplicaNotFoundException">
+        /// The specified replica is no longer part of the global table.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
+        /// The operation conflicts with the resource's availability. For example, you attempted
+        /// to recreate an existing table, or tried to delete a table currently in the <code>CREATING</code>
+        /// state.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateGlobalTableSettings">REST API Reference for UpdateGlobalTableSettings Operation</seealso>
+        public virtual UpdateGlobalTableSettingsResponse UpdateGlobalTableSettings(UpdateGlobalTableSettingsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGlobalTableSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGlobalTableSettingsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateGlobalTableSettingsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return Invoke<UpdateGlobalTableSettingsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateGlobalTableSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateGlobalTableSettings operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateGlobalTableSettings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateGlobalTableSettings">REST API Reference for UpdateGlobalTableSettings Operation</seealso>
+        public virtual IAsyncResult BeginUpdateGlobalTableSettings(UpdateGlobalTableSettingsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGlobalTableSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGlobalTableSettingsResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateGlobalTableSettingsEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateGlobalTableSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateGlobalTableSettings.</param>
+        /// 
+        /// <returns>Returns a  UpdateGlobalTableSettingsResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateGlobalTableSettings">REST API Reference for UpdateGlobalTableSettings Operation</seealso>
+        public virtual UpdateGlobalTableSettingsResponse EndUpdateGlobalTableSettings(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateGlobalTableSettingsResponse>(asyncResult);
         }
 
         #endregion
@@ -4270,7 +5885,7 @@ namespace Amazon.DynamoDBv2
         /// </summary>
         /// <param name="tableName">The name of the table containing the item to update.</param>
         /// <param name="key">The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.</param>
-        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// 
         /// <returns>The response from the UpdateItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
@@ -4287,12 +5902,20 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateItem">REST API Reference for UpdateItem Operation</seealso>
         public virtual UpdateItemResponse UpdateItem(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates)
@@ -4320,7 +5943,7 @@ namespace Amazon.DynamoDBv2
         /// </summary>
         /// <param name="tableName">The name of the table containing the item to update.</param>
         /// <param name="key">The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute. For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.</param>
-        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
+        /// <param name="attributeUpdates">This is a legacy parameter. Use <code>UpdateExpression</code> instead. For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.AttributeUpdates.html">AttributeUpdates</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// <param name="returnValues">Use <code>ReturnValues</code> if you want to get the item attributes as they appear before or after they are updated. For <code>UpdateItem</code>, the valid values are: <ul> <li>  <code>NONE</code> - If <code>ReturnValues</code> is not specified, or if its value is <code>NONE</code>, then nothing is returned. (This setting is the default for <code>ReturnValues</code>.) </li> <li>  <code>ALL_OLD</code> - Returns all of the attributes of the item, as they appeared before the UpdateItem operation. </li> <li>  <code>UPDATED_OLD</code> - Returns only the updated attributes, as they appeared before the UpdateItem operation. </li> <li>  <code>ALL_NEW</code> - Returns all of the attributes of the item, as they appear after the UpdateItem operation. </li> <li>  <code>UPDATED_NEW</code> - Returns only the updated attributes, as they appear after the UpdateItem operation. </li> </ul> There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The values returned are strongly consistent.</param>
         /// 
         /// <returns>The response from the UpdateItem service method, as returned by DynamoDB.</returns>
@@ -4338,12 +5961,20 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateItem">REST API Reference for UpdateItem Operation</seealso>
         public virtual UpdateItemResponse UpdateItem(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates, ReturnValue returnValues)
@@ -4387,20 +6018,31 @@ namespace Amazon.DynamoDBv2
         /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
         /// that receive this exception. Your request is eventually successful, unless your retry
         /// queue is too large to finish. Reduce the frequency of requests and use exponential
-        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
+        /// backoff. For more information, go to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.RequestLimitExceededException">
+        /// Throughput exceeds the current throughput limit for your account. Please contact AWS
+        /// Support at <a href="https://aws.amazon.com/support">AWS Support</a> to request a limit
+        /// increase.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.TransactionConflictException">
+        /// Operation was rejected because there is an ongoing transaction for the item.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateItem">REST API Reference for UpdateItem Operation</seealso>
         public virtual UpdateItemResponse UpdateItem(UpdateItemRequest request)
         {
-            var marshaller = UpdateItemRequestMarshaller.Instance;
-            var unmarshaller = UpdateItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<UpdateItemRequest,UpdateItemResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateItemResponse>(request, options);
         }
 
         /// <summary>
@@ -4417,11 +6059,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateItem">REST API Reference for UpdateItem Operation</seealso>
         public virtual IAsyncResult BeginUpdateItem(UpdateItemRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateItemRequestMarshaller.Instance;
-            var unmarshaller = UpdateItemResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateItemRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateItemResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateItemEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<UpdateItemRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4455,7 +6099,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Enable or disable Streams on the table.
+        /// Enable or disable DynamoDB Streams on the table.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4463,7 +6107,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Create a new global secondary index on the table. Once the index begins backfilling,
+        /// Create a new global secondary index on the table. After the index begins backfilling,
         /// you can use <code>UpdateTable</code> to perform other operations.
         /// </para>
         ///  </li> </ul> 
@@ -4483,23 +6127,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -4535,7 +6180,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Enable or disable Streams on the table.
+        /// Enable or disable DynamoDB Streams on the table.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -4543,7 +6188,7 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Create a new global secondary index on the table. Once the index begins backfilling,
+        /// Create a new global secondary index on the table. After the index begins backfilling,
         /// you can use <code>UpdateTable</code> to perform other operations.
         /// </para>
         ///  </li> </ul> 
@@ -4562,23 +6207,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -4593,10 +6239,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateTable">REST API Reference for UpdateTable Operation</seealso>
         public virtual UpdateTableResponse UpdateTable(UpdateTableRequest request)
         {
-            var marshaller = UpdateTableRequestMarshaller.Instance;
-            var unmarshaller = UpdateTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<UpdateTableRequest,UpdateTableResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateTableResponse>(request, options);
         }
 
         /// <summary>
@@ -4613,11 +6262,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateTable">REST API Reference for UpdateTable Operation</seealso>
         public virtual IAsyncResult BeginUpdateTable(UpdateTableRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateTableRequestMarshaller.Instance;
-            var unmarshaller = UpdateTableResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTableRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTableResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateTableEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<UpdateTableRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4635,14 +6286,108 @@ namespace Amazon.DynamoDBv2
 
         #endregion
         
+        #region  UpdateTableReplicaAutoScaling
+
+        /// <summary>
+        /// Updates auto scaling settings on your global tables at once.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This method only applies to <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html">Version
+        /// 2019.11.21</a> of global tables.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTableReplicaAutoScaling service method.</param>
+        /// 
+        /// <returns>The response from the UpdateTableReplicaAutoScaling service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
+        /// There is no limit to the number of daily on-demand backups that can be taken. 
+        /// 
+        ///  
+        /// <para>
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
+        /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
+        /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
+        /// </para>
+        ///  
+        /// <para>
+        /// There is a soft account limit of 256 tables.
+        /// </para>
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
+        /// The operation conflicts with the resource's availability. For example, you attempted
+        /// to recreate an existing table, or tried to delete a table currently in the <code>CREATING</code>
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateTableReplicaAutoScaling">REST API Reference for UpdateTableReplicaAutoScaling Operation</seealso>
+        public virtual UpdateTableReplicaAutoScalingResponse UpdateTableReplicaAutoScaling(UpdateTableReplicaAutoScalingRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTableReplicaAutoScalingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTableReplicaAutoScalingResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateTableReplicaAutoScalingResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateTableReplicaAutoScaling operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTableReplicaAutoScaling operation on AmazonDynamoDBClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateTableReplicaAutoScaling
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateTableReplicaAutoScaling">REST API Reference for UpdateTableReplicaAutoScaling Operation</seealso>
+        public virtual IAsyncResult BeginUpdateTableReplicaAutoScaling(UpdateTableReplicaAutoScalingRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTableReplicaAutoScalingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTableReplicaAutoScalingResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateTableReplicaAutoScaling operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateTableReplicaAutoScaling.</param>
+        /// 
+        /// <returns>Returns a  UpdateTableReplicaAutoScalingResult from DynamoDB.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateTableReplicaAutoScaling">REST API Reference for UpdateTableReplicaAutoScaling Operation</seealso>
+        public virtual UpdateTableReplicaAutoScalingResponse EndUpdateTableReplicaAutoScaling(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateTableReplicaAutoScalingResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateTimeToLive
 
         /// <summary>
-        /// The UpdateTimeToLive method will enable or disable TTL for the specified table. A
-        /// successful <code>UpdateTimeToLive</code> call returns the current <code>TimeToLiveSpecification</code>;
-        /// it may take up to one hour for the change to fully process. Any additional <code>UpdateTimeToLive</code>
-        /// calls for the same table during this one hour duration result in a <code>ValidationException</code>.
-        /// 
+        /// The <code>UpdateTimeToLive</code> method enables or disables Time to Live (TTL) for
+        /// the specified table. A successful <code>UpdateTimeToLive</code> call returns the current
+        /// <code>TimeToLiveSpecification</code>. It can take up to one hour for the change to
+        /// fully process. Any additional <code>UpdateTimeToLive</code> calls for the same table
+        /// during this one hour duration result in a <code>ValidationException</code>. 
         /// 
         ///  
         /// <para>
@@ -4653,7 +6398,7 @@ namespace Amazon.DynamoDBv2
         ///  <note> 
         /// <para>
         ///  The epoch time format is the number of seconds elapsed since 12:00:00 AM January
-        /// 1st, 1970 UTC. 
+        /// 1, 1970 UTC. 
         /// </para>
         ///  </note> 
         /// <para>
@@ -4669,12 +6414,12 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  </important> 
         /// <para>
-        /// As items are deleted, they are removed from any Local Secondary Index and Global Secondary
-        /// Index immediately in the same eventually consistent way as a standard delete operation.
+        /// As items are deleted, they are removed from any local secondary index and global secondary
+        /// index immediately in the same eventually consistent way as a standard delete operation.
         /// </para>
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html">Time
+        /// For more information, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html">Time
         /// To Live</a> in the Amazon DynamoDB Developer Guide. 
         /// </para>
         /// </summary>
@@ -4685,23 +6430,24 @@ namespace Amazon.DynamoDBv2
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.LimitExceededException">
-        /// Up to 50 <code>CreateBackup</code> operations are allowed per second, per account.
         /// There is no limit to the number of daily on-demand backups that can be taken. 
         /// 
         ///  
         /// <para>
-        /// Up to 10 simultaneous table operations are allowed per account. These operations include
+        /// Up to 50 simultaneous table operations are allowed per account. These operations include
         /// <code>CreateTable</code>, <code>UpdateTable</code>, <code>DeleteTable</code>,<code>UpdateTimeToLive</code>,
         /// <code>RestoreTableFromBackup</code>, and <code>RestoreTableToPointInTime</code>. 
         /// </para>
         ///  
         /// <para>
-        /// For tables with secondary indexes, only one of those tables can be in the <code>CREATING</code>
-        /// state at any point in time. Do not attempt to create more than one such table simultaneously.
+        /// The only exception is when you are creating a table with one or more secondary indexes.
+        /// You can have up to 25 such requests running at a time; however, if the table or index
+        /// specifications are complex, DynamoDB might temporarily reduce the number of concurrent
+        /// operations.
         /// </para>
         ///  
         /// <para>
-        /// The total limit of tables in the <code>ACTIVE</code> state is 250.
+        /// There is a soft account limit of 256 tables.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceInUseException">
@@ -4716,10 +6462,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateTimeToLive">REST API Reference for UpdateTimeToLive Operation</seealso>
         public virtual UpdateTimeToLiveResponse UpdateTimeToLive(UpdateTimeToLiveRequest request)
         {
-            var marshaller = UpdateTimeToLiveRequestMarshaller.Instance;
-            var unmarshaller = UpdateTimeToLiveResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTimeToLiveRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTimeToLiveResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateTimeToLiveEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return Invoke<UpdateTimeToLiveRequest,UpdateTimeToLiveResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateTimeToLiveResponse>(request, options);
         }
 
         /// <summary>
@@ -4736,11 +6485,13 @@ namespace Amazon.DynamoDBv2
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/dynamodb-2012-08-10/UpdateTimeToLive">REST API Reference for UpdateTimeToLive Operation</seealso>
         public virtual IAsyncResult BeginUpdateTimeToLive(UpdateTimeToLiveRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateTimeToLiveRequestMarshaller.Instance;
-            var unmarshaller = UpdateTimeToLiveResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTimeToLiveRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTimeToLiveResponseUnmarshaller.Instance;
+            options.EndpointDiscoveryMarshaller = UpdateTimeToLiveEndpointDiscoveryMarshaller.Instance;
+            options.EndpointOperation = EndpointOperation;
 
-            return BeginInvoke<UpdateTimeToLiveRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

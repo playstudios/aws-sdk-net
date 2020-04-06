@@ -67,8 +67,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Instantiates ModifyDBParameterGroupRequest with the parameterized properties
         /// </summary>
-        /// <param name="dbParameterGroupName">The name of the DB parameter group. Constraints: <ul> <li> If supplied, must match the name of an existing DBParameterGroup. </li> </ul></param>
-        /// <param name="parameters">An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): <code>immediate | pending-reboot</code>  <note> You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. </note></param>
+        /// <param name="dbParameterGroupName">The name of the DB parameter group. Constraints: <ul> <li> If supplied, must match the name of an existing <code>DBParameterGroup</code>. </li> </ul></param>
+        /// <param name="parameters">An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; later arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): <code>immediate | pending-reboot</code>  <note> You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. </note></param>
         public ModifyDBParameterGroupRequest(string dbParameterGroupName, List<Parameter> parameters)
         {
             _dbParameterGroupName = dbParameterGroupName;
@@ -86,10 +86,11 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// If supplied, must match the name of an existing DBParameterGroup.
+        /// If supplied, must match the name of an existing <code>DBParameterGroup</code>.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBParameterGroupName
         {
             get { return this._dbParameterGroupName; }
@@ -106,8 +107,8 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property Parameters. 
         /// <para>
         /// An array of parameter names, values, and the apply method for the parameter update.
-        /// At least one parameter name, value, and apply method must be supplied; subsequent
-        /// arguments are optional. A maximum of 20 parameters can be modified in a single request.
+        /// At least one parameter name, value, and apply method must be supplied; later arguments
+        /// are optional. A maximum of 20 parameters can be modified in a single request.
         /// </para>
         ///  
         /// <para>
@@ -122,6 +123,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Parameter> Parameters
         {
             get { return this._parameters; }

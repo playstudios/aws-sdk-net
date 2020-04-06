@@ -43,7 +43,7 @@ namespace Amazon.Route53Domains.Model
         /// Gets and sets the property End. 
         /// <para>
         /// The end date and time for the time period for which you want a list of billing records.
-        /// Specify the date in Unix time format.
+        /// Specify the date and time in Coordinated Universal time (UTC).
         /// </para>
         /// </summary>
         public DateTime End
@@ -75,6 +75,7 @@ namespace Amazon.Route53Domains.Model
         /// returned in the previous response.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=4096)]
         public string Marker
         {
             get { return this._marker; }
@@ -97,6 +98,7 @@ namespace Amazon.Route53Domains.Model
         /// Default: 20
         /// </para>
         /// </summary>
+        [AWSProperty(Max=100)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -113,7 +115,7 @@ namespace Amazon.Route53Domains.Model
         /// Gets and sets the property Start. 
         /// <para>
         /// The beginning date and time for the time period for which you want a list of billing
-        /// records. Specify the date in Unix time format.
+        /// records. Specify the date and time in Coordinated Universal time (UTC).
         /// </para>
         /// </summary>
         public DateTime Start

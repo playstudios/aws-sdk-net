@@ -34,7 +34,7 @@ namespace Amazon.SimpleEmail.Model
     ///  
     /// <para>
     /// For information about publishing email sending events to Amazon CloudWatch, see the
-    /// <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+    /// <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
@@ -61,6 +61,7 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DefaultDimensionValue
         {
             get { return this._defaultDimensionValue; }
@@ -90,6 +91,7 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DimensionName
         {
             get { return this._dimensionName; }
@@ -112,6 +114,7 @@ namespace Amazon.SimpleEmail.Model
         /// choose <code>emailHeader</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DimensionValueSource DimensionValueSource
         {
             get { return this._dimensionValueSource; }

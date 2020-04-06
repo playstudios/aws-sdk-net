@@ -29,11 +29,11 @@ namespace Amazon.KinesisFirehose
     /// <summary>
     /// Interface for accessing KinesisFirehose
     ///
-    /// Amazon Kinesis Firehose API Reference 
+    /// Amazon Kinesis Data Firehose API Reference 
     /// <para>
-    /// Amazon Kinesis Firehose is a fully managed service that delivers real-time streaming
+    /// Amazon Kinesis Data Firehose is a fully managed service that delivers real-time streaming
     /// data to destinations such as Amazon Simple Storage Service (Amazon S3), Amazon Elasticsearch
-    /// Service (Amazon ES), and Amazon Redshift.
+    /// Service (Amazon ES), Amazon Redshift, and Splunk.
     /// </para>
     /// </summary>
     public partial interface IAmazonKinesisFirehose : IAmazonService, IDisposable
@@ -44,47 +44,61 @@ namespace Amazon.KinesisFirehose
 
 
         /// <summary>
-        /// Creates a delivery stream.
+        /// Creates a Kinesis Data Firehose delivery stream.
         /// 
         ///  
         /// <para>
-        /// By default, you can create up to 20 delivery streams per region.
+        /// By default, you can create up to 50 delivery streams per AWS Region.
         /// </para>
         ///  
         /// <para>
         /// This is an asynchronous operation that immediately returns. The initial status of
         /// the delivery stream is <code>CREATING</code>. After the delivery stream is created,
-        /// its status is <code>ACTIVE</code> and it now accepts data. Attempts to send data to
-        /// a delivery stream that is not in the <code>ACTIVE</code> state cause an exception.
-        /// To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
+        /// its status is <code>ACTIVE</code> and it now accepts data. If the delivery stream
+        /// creation fails, the status transitions to <code>CREATING_FAILED</code>. Attempts to
+        /// send data to a delivery stream that is not in the <code>ACTIVE</code> state cause
+        /// an exception. To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
         /// </para>
         ///  
         /// <para>
-        /// A Kinesis Firehose delivery stream can be configured to receive records directly from
-        /// providers using <a>PutRecord</a> or <a>PutRecordBatch</a>, or it can be configured
-        /// to use an existing Kinesis stream as its source. To specify a Kinesis stream as input,
-        /// set the <code>DeliveryStreamType</code> parameter to <code>KinesisStreamAsSource</code>,
-        /// and provide the Kinesis stream ARN and role ARN in the <code>KinesisStreamSourceConfiguration</code>
+        /// If the status of a delivery stream is <code>CREATING_FAILED</code>, this status doesn't
+        /// change, and you can't invoke <code>CreateDeliveryStream</code> again on it. However,
+        /// you can invoke the <a>DeleteDeliveryStream</a> operation to delete it.
+        /// </para>
+        ///  
+        /// <para>
+        /// A Kinesis Data Firehose delivery stream can be configured to receive records directly
+        /// from providers using <a>PutRecord</a> or <a>PutRecordBatch</a>, or it can be configured
+        /// to use an existing Kinesis stream as its source. To specify a Kinesis data stream
+        /// as input, set the <code>DeliveryStreamType</code> parameter to <code>KinesisStreamAsSource</code>,
+        /// and provide the Kinesis stream Amazon Resource Name (ARN) and role ARN in the <code>KinesisStreamSourceConfiguration</code>
         /// parameter.
         /// </para>
         ///  
         /// <para>
-        /// A delivery stream is configured with a single destination: Amazon S3, Amazon ES, or
-        /// Amazon Redshift. You must specify only one of the following destination configuration
-        /// parameters: <b>ExtendedS3DestinationConfiguration</b>, <b>S3DestinationConfiguration</b>,
-        /// <b>ElasticsearchDestinationConfiguration</b>, or <b>RedshiftDestinationConfiguration</b>.
+        /// To create a delivery stream with server-side encryption (SSE) enabled, include <a>DeliveryStreamEncryptionConfigurationInput</a>
+        /// in your request. This is optional. You can also invoke <a>StartDeliveryStreamEncryption</a>
+        /// to turn on SSE for an existing delivery stream that doesn't have SSE enabled.
         /// </para>
         ///  
         /// <para>
-        /// When you specify <b>S3DestinationConfiguration</b>, you can also provide the following
-        /// optional values: <b>BufferingHints</b>, <b>EncryptionConfiguration</b>, and <b>CompressionFormat</b>.
-        /// By default, if no <b>BufferingHints</b> value is provided, Kinesis Firehose buffers
-        /// data up to 5 MB or for 5 minutes, whichever condition is satisfied first. Note that
-        /// <b>BufferingHints</b> is a hint, so there are some cases where the service cannot
-        /// adhere to these conditions strictly; for example, record boundaries are such that
-        /// the size is a little over or under the configured buffering size. By default, no encryption
-        /// is performed. We strongly recommend that you enable encryption to ensure secure data
-        /// storage in Amazon S3.
+        /// A delivery stream is configured with a single destination: Amazon S3, Amazon ES, Amazon
+        /// Redshift, or Splunk. You must specify only one of the following destination configuration
+        /// parameters: <code>ExtendedS3DestinationConfiguration</code>, <code>S3DestinationConfiguration</code>,
+        /// <code>ElasticsearchDestinationConfiguration</code>, <code>RedshiftDestinationConfiguration</code>,
+        /// or <code>SplunkDestinationConfiguration</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you specify <code>S3DestinationConfiguration</code>, you can also provide the
+        /// following optional values: BufferingHints, <code>EncryptionConfiguration</code>, and
+        /// <code>CompressionFormat</code>. By default, if no <code>BufferingHints</code> value
+        /// is provided, Kinesis Data Firehose buffers data up to 5 MB or for 5 minutes, whichever
+        /// condition is satisfied first. <code>BufferingHints</code> is a hint, so there are
+        /// some cases where the service cannot adhere to these conditions strictly. For example,
+        /// record boundaries might be such that the size is a little over or under the configured
+        /// buffering size. By default, no encryption is performed. We strongly recommend that
+        /// you enable encryption to ensure secure data storage in Amazon S3.
         /// </para>
         ///  
         /// <para>
@@ -92,31 +106,32 @@ namespace Amazon.KinesisFirehose
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// An Amazon Redshift destination requires an S3 bucket as intermediate location, as
-        /// Kinesis Firehose first delivers data to S3 and then uses <code>COPY</code> syntax
-        /// to load data into an Amazon Redshift table. This is specified in the <b>RedshiftDestinationConfiguration.S3Configuration</b>
+        /// An Amazon Redshift destination requires an S3 bucket as intermediate location. Kinesis
+        /// Data Firehose first delivers data to Amazon S3 and then uses <code>COPY</code> syntax
+        /// to load data into an Amazon Redshift table. This is specified in the <code>RedshiftDestinationConfiguration.S3Configuration</code>
         /// parameter.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be specified
-        /// in <b>RedshiftDestinationConfiguration.S3Configuration</b> because the Amazon Redshift
-        /// <code>COPY</code> operation that reads from the S3 bucket doesn't support these compression
-        /// formats.
+        /// in <code>RedshiftDestinationConfiguration.S3Configuration</code> because the Amazon
+        /// Redshift <code>COPY</code> operation that reads from the S3 bucket doesn't support
+        /// these compression formats.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// We strongly recommend that you use the user name and password you provide exclusively
-        /// with Kinesis Firehose, and that the permissions for the account are restricted for
-        /// Amazon Redshift <code>INSERT</code> permissions.
+        /// with Kinesis Data Firehose, and that the permissions for the account are restricted
+        /// for Amazon Redshift <code>INSERT</code> permissions.
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// Kinesis Firehose assumes the IAM role that is configured as part of the destination.
-        /// The role should allow the Kinesis Firehose principal to assume the role, and the role
-        /// should have permissions that allow the service to deliver the data. For more information,
-        /// see <a href="http://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Amazon
-        /// S3 Bucket Access</a> in the <i>Amazon Kinesis Firehose Developer Guide</i>.
+        /// Kinesis Data Firehose assumes the IAM role that is configured as part of the destination.
+        /// The role should allow the Kinesis Data Firehose principal to assume the role, and
+        /// the role should have permissions that allow the service to deliver the data. For more
+        /// information, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
+        /// Kinesis Data Firehose Access to an Amazon S3 Destination</a> in the <i>Amazon Kinesis
+        /// Data Firehose Developer Guide</i>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDeliveryStream service method.</param>
@@ -124,6 +139,12 @@ namespace Amazon.KinesisFirehose
         /// <returns>The response from the CreateDeliveryStream service method, as returned by KinesisFirehose.</returns>
         /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
         /// The specified input parameter has a value that is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidKMSResourceException">
+        /// Kinesis Data Firehose throws this exception when an attempt to put records or to start
+        /// or stop delivery stream encryption fails. This happens when the KMS service throws
+        /// one of the following exception types: <code>AccessDeniedException</code>, <code>InvalidStateException</code>,
+        /// <code>DisabledException</code>, or <code>NotFoundException</code>.
         /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.LimitExceededException">
         /// You have already reached the limit for a requested resource.
@@ -170,20 +191,19 @@ namespace Amazon.KinesisFirehose
         /// 
         ///  
         /// <para>
-        /// You can delete a delivery stream only if it is in <code>ACTIVE</code> or <code>DELETING</code>
-        /// state, and not in the <code>CREATING</code> state. While the deletion request is in
-        /// process, the delivery stream is in the <code>DELETING</code> state.
+        /// To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>. You can
+        /// delete a delivery stream only if it is in one of the following states: <code>ACTIVE</code>,
+        /// <code>DELETING</code>, <code>CREATING_FAILED</code>, or <code>DELETING_FAILED</code>.
+        /// You can't delete a delivery stream that is in the <code>CREATING</code> state. While
+        /// the deletion request is in process, the delivery stream is in the <code>DELETING</code>
+        /// state.
         /// </para>
         ///  
         /// <para>
-        /// To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// While the delivery stream is <code>DELETING</code> state, the service may continue
-        /// to accept the records, but the service doesn't make any guarantees with respect to
-        /// delivering the data. Therefore, as a best practice, you should first stop any applications
-        /// that are sending records before deleting a delivery stream.
+        /// While the delivery stream is in the <code>DELETING</code> state, the service might
+        /// continue to accept records, but it doesn't make any guarantees with respect to delivering
+        /// the data. Therefore, as a best practice, first stop any applications that are sending
+        /// records before you delete a delivery stream.
         /// </para>
         /// </summary>
         /// <param name="deliveryStreamName">The name of the delivery stream.</param>
@@ -203,20 +223,19 @@ namespace Amazon.KinesisFirehose
         /// 
         ///  
         /// <para>
-        /// You can delete a delivery stream only if it is in <code>ACTIVE</code> or <code>DELETING</code>
-        /// state, and not in the <code>CREATING</code> state. While the deletion request is in
-        /// process, the delivery stream is in the <code>DELETING</code> state.
+        /// To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>. You can
+        /// delete a delivery stream only if it is in one of the following states: <code>ACTIVE</code>,
+        /// <code>DELETING</code>, <code>CREATING_FAILED</code>, or <code>DELETING_FAILED</code>.
+        /// You can't delete a delivery stream that is in the <code>CREATING</code> state. While
+        /// the deletion request is in process, the delivery stream is in the <code>DELETING</code>
+        /// state.
         /// </para>
         ///  
         /// <para>
-        /// To check the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// While the delivery stream is <code>DELETING</code> state, the service may continue
-        /// to accept the records, but the service doesn't make any guarantees with respect to
-        /// delivering the data. Therefore, as a best practice, you should first stop any applications
-        /// that are sending records before deleting a delivery stream.
+        /// While the delivery stream is in the <code>DELETING</code> state, the service might
+        /// continue to accept records, but it doesn't make any guarantees with respect to delivering
+        /// the data. Therefore, as a best practice, first stop any applications that are sending
+        /// records before you delete a delivery stream.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDeliveryStream service method.</param>
@@ -263,9 +282,18 @@ namespace Amazon.KinesisFirehose
 
 
         /// <summary>
-        /// Describes the specified delivery stream and gets the status. For example, after your
-        /// delivery stream is created, call <a>DescribeDeliveryStream</a> to see if the delivery
-        /// stream is <code>ACTIVE</code> and therefore ready for data to be sent to it.
+        /// Describes the specified delivery stream and its status. For example, after your delivery
+        /// stream is created, call <code>DescribeDeliveryStream</code> to see whether the delivery
+        /// stream is <code>ACTIVE</code> and therefore ready for data to be sent to it. 
+        /// 
+        ///  
+        /// <para>
+        /// If the status of a delivery stream is <code>CREATING_FAILED</code>, this status doesn't
+        /// change, and you can't invoke <a>CreateDeliveryStream</a> again on it. However, you
+        /// can invoke the <a>DeleteDeliveryStream</a> operation to delete it. If the status is
+        /// <code>DELETING_FAILED</code>, you can force deletion by invoking <a>DeleteDeliveryStream</a>
+        /// again but with <a>DeleteDeliveryStreamInput$AllowForceDelete</a> set to true.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeDeliveryStream service method.</param>
         /// 
@@ -308,17 +336,17 @@ namespace Amazon.KinesisFirehose
 
 
         /// <summary>
-        /// Lists your delivery streams.
+        /// Lists your delivery streams in alphabetical order of their names.
         /// 
         ///  
         /// <para>
         /// The number of delivery streams might be too large to return using a single call to
-        /// <a>ListDeliveryStreams</a>. You can limit the number of delivery streams returned,
-        /// using the <b>Limit</b> parameter. To determine whether there are more delivery streams
-        /// to list, check the value of <b>HasMoreDeliveryStreams</b> in the output. If there
-        /// are more delivery streams to list, you can request them by specifying the name of
-        /// the last delivery stream returned in the call in the <b>ExclusiveStartDeliveryStreamName</b>
-        /// parameter of a subsequent call.
+        /// <code>ListDeliveryStreams</code>. You can limit the number of delivery streams returned,
+        /// using the <code>Limit</code> parameter. To determine whether there are more delivery
+        /// streams to list, check the value of <code>HasMoreDeliveryStreams</code> in the output.
+        /// If there are more delivery streams to list, you can request them by calling this operation
+        /// again and setting the <code>ExclusiveStartDeliveryStreamName</code> parameter to the
+        /// name of the last delivery stream returned in the last call.
         /// </para>
         /// </summary>
         /// 
@@ -327,17 +355,17 @@ namespace Amazon.KinesisFirehose
         ListDeliveryStreamsResponse ListDeliveryStreams();
 
         /// <summary>
-        /// Lists your delivery streams.
+        /// Lists your delivery streams in alphabetical order of their names.
         /// 
         ///  
         /// <para>
         /// The number of delivery streams might be too large to return using a single call to
-        /// <a>ListDeliveryStreams</a>. You can limit the number of delivery streams returned,
-        /// using the <b>Limit</b> parameter. To determine whether there are more delivery streams
-        /// to list, check the value of <b>HasMoreDeliveryStreams</b> in the output. If there
-        /// are more delivery streams to list, you can request them by specifying the name of
-        /// the last delivery stream returned in the call in the <b>ExclusiveStartDeliveryStreamName</b>
-        /// parameter of a subsequent call.
+        /// <code>ListDeliveryStreams</code>. You can limit the number of delivery streams returned,
+        /// using the <code>Limit</code> parameter. To determine whether there are more delivery
+        /// streams to list, check the value of <code>HasMoreDeliveryStreams</code> in the output.
+        /// If there are more delivery streams to list, you can request them by calling this operation
+        /// again and setting the <code>ExclusiveStartDeliveryStreamName</code> parameter to the
+        /// name of the last delivery stream returned in the last call.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListDeliveryStreams service method.</param>
@@ -374,56 +402,111 @@ namespace Amazon.KinesisFirehose
 
         #endregion
         
+        #region  ListTagsForDeliveryStream
+
+
+        /// <summary>
+        /// Lists the tags for the specified delivery stream. This operation has a limit of five
+        /// transactions per second per account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForDeliveryStream service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForDeliveryStream service method, as returned by KinesisFirehose.</returns>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
+        /// The specified input parameter has a value that is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.LimitExceededException">
+        /// You have already reached the limit for a requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/ListTagsForDeliveryStream">REST API Reference for ListTagsForDeliveryStream Operation</seealso>
+        ListTagsForDeliveryStreamResponse ListTagsForDeliveryStream(ListTagsForDeliveryStreamRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForDeliveryStream operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForDeliveryStream operation on AmazonKinesisFirehoseClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForDeliveryStream
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/ListTagsForDeliveryStream">REST API Reference for ListTagsForDeliveryStream Operation</seealso>
+        IAsyncResult BeginListTagsForDeliveryStream(ListTagsForDeliveryStreamRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForDeliveryStream operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForDeliveryStream.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForDeliveryStreamResult from KinesisFirehose.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/ListTagsForDeliveryStream">REST API Reference for ListTagsForDeliveryStream Operation</seealso>
+        ListTagsForDeliveryStreamResponse EndListTagsForDeliveryStream(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  PutRecord
 
 
         /// <summary>
-        /// Writes a single data record into an Amazon Kinesis Firehose delivery stream. To write
-        /// multiple data records into a delivery stream, use <a>PutRecordBatch</a>. Applications
-        /// using these operations are referred to as producers.
+        /// Writes a single data record into an Amazon Kinesis Data Firehose delivery stream.
+        /// To write multiple data records into a delivery stream, use <a>PutRecordBatch</a>.
+        /// Applications using these operations are referred to as producers.
         /// 
         ///  
         /// <para>
         /// By default, each delivery stream can take in up to 2,000 transactions per second,
-        /// 5,000 records per second, or 5 MB per second. Note that if you use <a>PutRecord</a>
-        /// and <a>PutRecordBatch</a>, the limits are an aggregate across these two operations
-        /// for each delivery stream. For more information about limits and how to request an
-        /// increase, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>. 
+        /// 5,000 records per second, or 5 MB per second. If you use <a>PutRecord</a> and <a>PutRecordBatch</a>,
+        /// the limits are an aggregate across these two operations for each delivery stream.
+        /// For more information about limits and how to request an increase, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>. 
         /// </para>
         ///  
         /// <para>
         /// You must specify the name of the delivery stream and the data record when using <a>PutRecord</a>.
         /// The data record consists of a data blob that can be up to 1,000 KB in size, and any
-        /// kind of data, for example, a segment from a log file, geographic location data, website
-        /// clickstream data, and so on.
+        /// kind of data. For example, it can be a segment from a log file, geographic location
+        /// data, website clickstream data, and so on.
         /// </para>
         ///  
         /// <para>
-        /// Kinesis Firehose buffers records before delivering them to the destination. To disambiguate
-        /// the data blobs at the destination, a common solution is to use delimiters in the data,
-        /// such as a newline (<code>\n</code>) or some other character unique within the data.
-        /// This allows the consumer application to parse individual data items when reading the
-        /// data from the destination.
+        /// Kinesis Data Firehose buffers records before delivering them to the destination. To
+        /// disambiguate the data blobs at the destination, a common solution is to use delimiters
+        /// in the data, such as a newline (<code>\n</code>) or some other character unique within
+        /// the data. This allows the consumer application to parse individual data items when
+        /// reading the data from the destination.
         /// </para>
         ///  
         /// <para>
-        /// The <a>PutRecord</a> operation returns a <b>RecordId</b>, which is a unique string
-        /// assigned to each record. Producer applications can use this ID for purposes such as
-        /// auditability and investigation.
+        /// The <code>PutRecord</code> operation returns a <code>RecordId</code>, which is a unique
+        /// string assigned to each record. Producer applications can use this ID for purposes
+        /// such as auditability and investigation.
         /// </para>
         ///  
         /// <para>
-        /// If the <a>PutRecord</a> operation throws a <b>ServiceUnavailableException</b>, back
-        /// off and retry. If the exception persists, it is possible that the throughput limits
-        /// have been exceeded for the delivery stream. 
+        /// If the <code>PutRecord</code> operation throws a <code>ServiceUnavailableException</code>,
+        /// back off and retry. If the exception persists, it is possible that the throughput
+        /// limits have been exceeded for the delivery stream. 
         /// </para>
         ///  
         /// <para>
-        /// Data records sent to Kinesis Firehose are stored for 24 hours from the time they are
-        /// added to a delivery stream as it attempts to send the records to the destination.
+        /// Data records sent to Kinesis Data Firehose are stored for 24 hours from the time they
+        /// are added to a delivery stream as it tries to send the records to the destination.
         /// If the destination is unreachable for more than 24 hours, the data is no longer available.
         /// </para>
+        ///  <important> 
+        /// <para>
+        /// Don't concatenate two or more base64 strings to form the data fields of your records.
+        /// Instead, concatenate the raw data, then perform base64 encoding.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="deliveryStreamName">The name of the delivery stream.</param>
         /// <param name="record">The record.</param>
@@ -432,65 +515,76 @@ namespace Amazon.KinesisFirehose
         /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
         /// The specified input parameter has a value that is not valid.
         /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidKMSResourceException">
+        /// Kinesis Data Firehose throws this exception when an attempt to put records or to start
+        /// or stop delivery stream encryption fails. This happens when the KMS service throws
+        /// one of the following exception types: <code>AccessDeniedException</code>, <code>InvalidStateException</code>,
+        /// <code>DisabledException</code>, or <code>NotFoundException</code>.
+        /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
         /// The specified resource could not be found.
         /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ServiceUnavailableException">
-        /// The service is unavailable, back off and retry the operation. If you continue to see
+        /// The service is unavailable. Back off and retry the operation. If you continue to see
         /// the exception, throughput limits for the delivery stream may have been exceeded. For
-        /// more information about limits and how to request an increase, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>.
+        /// more information about limits and how to request an increase, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/PutRecord">REST API Reference for PutRecord Operation</seealso>
         PutRecordResponse PutRecord(string deliveryStreamName, Record record);
 
         /// <summary>
-        /// Writes a single data record into an Amazon Kinesis Firehose delivery stream. To write
-        /// multiple data records into a delivery stream, use <a>PutRecordBatch</a>. Applications
-        /// using these operations are referred to as producers.
+        /// Writes a single data record into an Amazon Kinesis Data Firehose delivery stream.
+        /// To write multiple data records into a delivery stream, use <a>PutRecordBatch</a>.
+        /// Applications using these operations are referred to as producers.
         /// 
         ///  
         /// <para>
         /// By default, each delivery stream can take in up to 2,000 transactions per second,
-        /// 5,000 records per second, or 5 MB per second. Note that if you use <a>PutRecord</a>
-        /// and <a>PutRecordBatch</a>, the limits are an aggregate across these two operations
-        /// for each delivery stream. For more information about limits and how to request an
-        /// increase, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>. 
+        /// 5,000 records per second, or 5 MB per second. If you use <a>PutRecord</a> and <a>PutRecordBatch</a>,
+        /// the limits are an aggregate across these two operations for each delivery stream.
+        /// For more information about limits and how to request an increase, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>. 
         /// </para>
         ///  
         /// <para>
         /// You must specify the name of the delivery stream and the data record when using <a>PutRecord</a>.
         /// The data record consists of a data blob that can be up to 1,000 KB in size, and any
-        /// kind of data, for example, a segment from a log file, geographic location data, website
-        /// clickstream data, and so on.
+        /// kind of data. For example, it can be a segment from a log file, geographic location
+        /// data, website clickstream data, and so on.
         /// </para>
         ///  
         /// <para>
-        /// Kinesis Firehose buffers records before delivering them to the destination. To disambiguate
-        /// the data blobs at the destination, a common solution is to use delimiters in the data,
-        /// such as a newline (<code>\n</code>) or some other character unique within the data.
-        /// This allows the consumer application to parse individual data items when reading the
-        /// data from the destination.
+        /// Kinesis Data Firehose buffers records before delivering them to the destination. To
+        /// disambiguate the data blobs at the destination, a common solution is to use delimiters
+        /// in the data, such as a newline (<code>\n</code>) or some other character unique within
+        /// the data. This allows the consumer application to parse individual data items when
+        /// reading the data from the destination.
         /// </para>
         ///  
         /// <para>
-        /// The <a>PutRecord</a> operation returns a <b>RecordId</b>, which is a unique string
-        /// assigned to each record. Producer applications can use this ID for purposes such as
-        /// auditability and investigation.
+        /// The <code>PutRecord</code> operation returns a <code>RecordId</code>, which is a unique
+        /// string assigned to each record. Producer applications can use this ID for purposes
+        /// such as auditability and investigation.
         /// </para>
         ///  
         /// <para>
-        /// If the <a>PutRecord</a> operation throws a <b>ServiceUnavailableException</b>, back
-        /// off and retry. If the exception persists, it is possible that the throughput limits
-        /// have been exceeded for the delivery stream. 
+        /// If the <code>PutRecord</code> operation throws a <code>ServiceUnavailableException</code>,
+        /// back off and retry. If the exception persists, it is possible that the throughput
+        /// limits have been exceeded for the delivery stream. 
         /// </para>
         ///  
         /// <para>
-        /// Data records sent to Kinesis Firehose are stored for 24 hours from the time they are
-        /// added to a delivery stream as it attempts to send the records to the destination.
+        /// Data records sent to Kinesis Data Firehose are stored for 24 hours from the time they
+        /// are added to a delivery stream as it tries to send the records to the destination.
         /// If the destination is unreachable for more than 24 hours, the data is no longer available.
         /// </para>
+        ///  <important> 
+        /// <para>
+        /// Don't concatenate two or more base64 strings to form the data fields of your records.
+        /// Instead, concatenate the raw data, then perform base64 encoding.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutRecord service method.</param>
         /// 
@@ -498,14 +592,20 @@ namespace Amazon.KinesisFirehose
         /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
         /// The specified input parameter has a value that is not valid.
         /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidKMSResourceException">
+        /// Kinesis Data Firehose throws this exception when an attempt to put records or to start
+        /// or stop delivery stream encryption fails. This happens when the KMS service throws
+        /// one of the following exception types: <code>AccessDeniedException</code>, <code>InvalidStateException</code>,
+        /// <code>DisabledException</code>, or <code>NotFoundException</code>.
+        /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
         /// The specified resource could not be found.
         /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ServiceUnavailableException">
-        /// The service is unavailable, back off and retry the operation. If you continue to see
+        /// The service is unavailable. Back off and retry the operation. If you continue to see
         /// the exception, throughput limits for the delivery stream may have been exceeded. For
-        /// more information about limits and how to request an increase, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>.
+        /// more information about limits and how to request an increase, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/PutRecord">REST API Reference for PutRecord Operation</seealso>
         PutRecordResponse PutRecord(PutRecordRequest request);
@@ -552,8 +652,8 @@ namespace Amazon.KinesisFirehose
         /// By default, each delivery stream can take in up to 2,000 transactions per second,
         /// 5,000 records per second, or 5 MB per second. If you use <a>PutRecord</a> and <a>PutRecordBatch</a>,
         /// the limits are an aggregate across these two operations for each delivery stream.
-        /// For more information about limits, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>.
+        /// For more information about limits, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>.
         /// </para>
         ///  
         /// <para>
@@ -566,55 +666,65 @@ namespace Amazon.KinesisFirehose
         /// You must specify the name of the delivery stream and the data record when using <a>PutRecord</a>.
         /// The data record consists of a data blob that can be up to 1,000 KB in size, and any
         /// kind of data. For example, it could be a segment from a log file, geographic location
-        /// data, web site clickstream data, and so on.
+        /// data, website clickstream data, and so on.
         /// </para>
         ///  
         /// <para>
-        /// Kinesis Firehose buffers records before delivering them to the destination. To disambiguate
-        /// the data blobs at the destination, a common solution is to use delimiters in the data,
-        /// such as a newline (<code>\n</code>) or some other character unique within the data.
-        /// This allows the consumer application to parse individual data items when reading the
-        /// data from the destination.
+        /// Kinesis Data Firehose buffers records before delivering them to the destination. To
+        /// disambiguate the data blobs at the destination, a common solution is to use delimiters
+        /// in the data, such as a newline (<code>\n</code>) or some other character unique within
+        /// the data. This allows the consumer application to parse individual data items when
+        /// reading the data from the destination.
         /// </para>
         ///  
         /// <para>
-        /// The <a>PutRecordBatch</a> response includes a count of failed records, <b>FailedPutCount</b>,
-        /// and an array of responses, <b>RequestResponses</b>. Each entry in the <b>RequestResponses</b>
+        /// The <a>PutRecordBatch</a> response includes a count of failed records, <code>FailedPutCount</code>,
+        /// and an array of responses, <code>RequestResponses</code>. Even if the <a>PutRecordBatch</a>
+        /// call succeeds, the value of <code>FailedPutCount</code> may be greater than 0, indicating
+        /// that there are records for which the operation didn't succeed. Each entry in the <code>RequestResponses</code>
         /// array provides additional information about the processed record. It directly correlates
         /// with a record in the request array using the same ordering, from the top to the bottom.
         /// The response array always includes the same number of records as the request array.
-        /// <b>RequestResponses</b> includes both successfully and unsuccessfully processed records.
-        /// Kinesis Firehose attempts to process all records in each <a>PutRecordBatch</a> request.
-        /// A single record failure does not stop the processing of subsequent records.
+        /// <code>RequestResponses</code> includes both successfully and unsuccessfully processed
+        /// records. Kinesis Data Firehose tries to process all records in each <a>PutRecordBatch</a>
+        /// request. A single record failure does not stop the processing of subsequent records.
+        /// 
         /// </para>
         ///  
         /// <para>
-        /// A successfully processed record includes a <b>RecordId</b> value, which is unique
-        /// for the record. An unsuccessfully processed record includes <b>ErrorCode</b> and <b>ErrorMessage</b>
-        /// values. <b>ErrorCode</b> reflects the type of error, and is one of the following values:
-        /// <code>ServiceUnavailable</code> or <code>InternalFailure</code>. <b>ErrorMessage</b>
-        /// provides more detailed information about the error.
+        /// A successfully processed record includes a <code>RecordId</code> value, which is unique
+        /// for the record. An unsuccessfully processed record includes <code>ErrorCode</code>
+        /// and <code>ErrorMessage</code> values. <code>ErrorCode</code> reflects the type of
+        /// error, and is one of the following values: <code>ServiceUnavailableException</code>
+        /// or <code>InternalFailure</code>. <code>ErrorMessage</code> provides more detailed
+        /// information about the error.
         /// </para>
         ///  
         /// <para>
         /// If there is an internal server error or a timeout, the write might have completed
-        /// or it might have failed. If <b>FailedPutCount</b> is greater than 0, retry the request,
-        /// resending only those records that might have failed processing. This minimizes the
-        /// possible duplicate records and also reduces the total bytes sent (and corresponding
+        /// or it might have failed. If <code>FailedPutCount</code> is greater than 0, retry the
+        /// request, resending only those records that might have failed processing. This minimizes
+        /// the possible duplicate records and also reduces the total bytes sent (and corresponding
         /// charges). We recommend that you handle any duplicates at the destination.
         /// </para>
         ///  
         /// <para>
-        /// If <a>PutRecordBatch</a> throws <b>ServiceUnavailableException</b>, back off and retry.
-        /// If the exception persists, it is possible that the throughput limits have been exceeded
-        /// for the delivery stream.
+        /// If <a>PutRecordBatch</a> throws <code>ServiceUnavailableException</code>, back off
+        /// and retry. If the exception persists, it is possible that the throughput limits have
+        /// been exceeded for the delivery stream.
         /// </para>
         ///  
         /// <para>
-        /// Data records sent to Kinesis Firehose are stored for 24 hours from the time they are
-        /// added to a delivery stream as it attempts to send the records to the destination.
+        /// Data records sent to Kinesis Data Firehose are stored for 24 hours from the time they
+        /// are added to a delivery stream as it attempts to send the records to the destination.
         /// If the destination is unreachable for more than 24 hours, the data is no longer available.
         /// </para>
+        ///  <important> 
+        /// <para>
+        /// Don't concatenate two or more base64 strings to form the data fields of your records.
+        /// Instead, concatenate the raw data, then perform base64 encoding.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="deliveryStreamName">The name of the delivery stream.</param>
         /// <param name="records">One or more records.</param>
@@ -623,14 +733,20 @@ namespace Amazon.KinesisFirehose
         /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
         /// The specified input parameter has a value that is not valid.
         /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidKMSResourceException">
+        /// Kinesis Data Firehose throws this exception when an attempt to put records or to start
+        /// or stop delivery stream encryption fails. This happens when the KMS service throws
+        /// one of the following exception types: <code>AccessDeniedException</code>, <code>InvalidStateException</code>,
+        /// <code>DisabledException</code>, or <code>NotFoundException</code>.
+        /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
         /// The specified resource could not be found.
         /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ServiceUnavailableException">
-        /// The service is unavailable, back off and retry the operation. If you continue to see
+        /// The service is unavailable. Back off and retry the operation. If you continue to see
         /// the exception, throughput limits for the delivery stream may have been exceeded. For
-        /// more information about limits and how to request an increase, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>.
+        /// more information about limits and how to request an increase, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/PutRecordBatch">REST API Reference for PutRecordBatch Operation</seealso>
         PutRecordBatchResponse PutRecordBatch(string deliveryStreamName, List<Record> records);
@@ -646,8 +762,8 @@ namespace Amazon.KinesisFirehose
         /// By default, each delivery stream can take in up to 2,000 transactions per second,
         /// 5,000 records per second, or 5 MB per second. If you use <a>PutRecord</a> and <a>PutRecordBatch</a>,
         /// the limits are an aggregate across these two operations for each delivery stream.
-        /// For more information about limits, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>.
+        /// For more information about limits, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>.
         /// </para>
         ///  
         /// <para>
@@ -660,55 +776,65 @@ namespace Amazon.KinesisFirehose
         /// You must specify the name of the delivery stream and the data record when using <a>PutRecord</a>.
         /// The data record consists of a data blob that can be up to 1,000 KB in size, and any
         /// kind of data. For example, it could be a segment from a log file, geographic location
-        /// data, web site clickstream data, and so on.
+        /// data, website clickstream data, and so on.
         /// </para>
         ///  
         /// <para>
-        /// Kinesis Firehose buffers records before delivering them to the destination. To disambiguate
-        /// the data blobs at the destination, a common solution is to use delimiters in the data,
-        /// such as a newline (<code>\n</code>) or some other character unique within the data.
-        /// This allows the consumer application to parse individual data items when reading the
-        /// data from the destination.
+        /// Kinesis Data Firehose buffers records before delivering them to the destination. To
+        /// disambiguate the data blobs at the destination, a common solution is to use delimiters
+        /// in the data, such as a newline (<code>\n</code>) or some other character unique within
+        /// the data. This allows the consumer application to parse individual data items when
+        /// reading the data from the destination.
         /// </para>
         ///  
         /// <para>
-        /// The <a>PutRecordBatch</a> response includes a count of failed records, <b>FailedPutCount</b>,
-        /// and an array of responses, <b>RequestResponses</b>. Each entry in the <b>RequestResponses</b>
+        /// The <a>PutRecordBatch</a> response includes a count of failed records, <code>FailedPutCount</code>,
+        /// and an array of responses, <code>RequestResponses</code>. Even if the <a>PutRecordBatch</a>
+        /// call succeeds, the value of <code>FailedPutCount</code> may be greater than 0, indicating
+        /// that there are records for which the operation didn't succeed. Each entry in the <code>RequestResponses</code>
         /// array provides additional information about the processed record. It directly correlates
         /// with a record in the request array using the same ordering, from the top to the bottom.
         /// The response array always includes the same number of records as the request array.
-        /// <b>RequestResponses</b> includes both successfully and unsuccessfully processed records.
-        /// Kinesis Firehose attempts to process all records in each <a>PutRecordBatch</a> request.
-        /// A single record failure does not stop the processing of subsequent records.
+        /// <code>RequestResponses</code> includes both successfully and unsuccessfully processed
+        /// records. Kinesis Data Firehose tries to process all records in each <a>PutRecordBatch</a>
+        /// request. A single record failure does not stop the processing of subsequent records.
+        /// 
         /// </para>
         ///  
         /// <para>
-        /// A successfully processed record includes a <b>RecordId</b> value, which is unique
-        /// for the record. An unsuccessfully processed record includes <b>ErrorCode</b> and <b>ErrorMessage</b>
-        /// values. <b>ErrorCode</b> reflects the type of error, and is one of the following values:
-        /// <code>ServiceUnavailable</code> or <code>InternalFailure</code>. <b>ErrorMessage</b>
-        /// provides more detailed information about the error.
+        /// A successfully processed record includes a <code>RecordId</code> value, which is unique
+        /// for the record. An unsuccessfully processed record includes <code>ErrorCode</code>
+        /// and <code>ErrorMessage</code> values. <code>ErrorCode</code> reflects the type of
+        /// error, and is one of the following values: <code>ServiceUnavailableException</code>
+        /// or <code>InternalFailure</code>. <code>ErrorMessage</code> provides more detailed
+        /// information about the error.
         /// </para>
         ///  
         /// <para>
         /// If there is an internal server error or a timeout, the write might have completed
-        /// or it might have failed. If <b>FailedPutCount</b> is greater than 0, retry the request,
-        /// resending only those records that might have failed processing. This minimizes the
-        /// possible duplicate records and also reduces the total bytes sent (and corresponding
+        /// or it might have failed. If <code>FailedPutCount</code> is greater than 0, retry the
+        /// request, resending only those records that might have failed processing. This minimizes
+        /// the possible duplicate records and also reduces the total bytes sent (and corresponding
         /// charges). We recommend that you handle any duplicates at the destination.
         /// </para>
         ///  
         /// <para>
-        /// If <a>PutRecordBatch</a> throws <b>ServiceUnavailableException</b>, back off and retry.
-        /// If the exception persists, it is possible that the throughput limits have been exceeded
-        /// for the delivery stream.
+        /// If <a>PutRecordBatch</a> throws <code>ServiceUnavailableException</code>, back off
+        /// and retry. If the exception persists, it is possible that the throughput limits have
+        /// been exceeded for the delivery stream.
         /// </para>
         ///  
         /// <para>
-        /// Data records sent to Kinesis Firehose are stored for 24 hours from the time they are
-        /// added to a delivery stream as it attempts to send the records to the destination.
+        /// Data records sent to Kinesis Data Firehose are stored for 24 hours from the time they
+        /// are added to a delivery stream as it attempts to send the records to the destination.
         /// If the destination is unreachable for more than 24 hours, the data is no longer available.
         /// </para>
+        ///  <important> 
+        /// <para>
+        /// Don't concatenate two or more base64 strings to form the data fields of your records.
+        /// Instead, concatenate the raw data, then perform base64 encoding.
+        /// </para>
+        ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutRecordBatch service method.</param>
         /// 
@@ -716,14 +842,20 @@ namespace Amazon.KinesisFirehose
         /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
         /// The specified input parameter has a value that is not valid.
         /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidKMSResourceException">
+        /// Kinesis Data Firehose throws this exception when an attempt to put records or to start
+        /// or stop delivery stream encryption fails. This happens when the KMS service throws
+        /// one of the following exception types: <code>AccessDeniedException</code>, <code>InvalidStateException</code>,
+        /// <code>DisabledException</code>, or <code>NotFoundException</code>.
+        /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
         /// The specified resource could not be found.
         /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.ServiceUnavailableException">
-        /// The service is unavailable, back off and retry the operation. If you continue to see
+        /// The service is unavailable. Back off and retry the operation. If you continue to see
         /// the exception, throughput limits for the delivery stream may have been exceeded. For
-        /// more information about limits and how to request an increase, see <a href="http://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
-        /// Kinesis Firehose Limits</a>.
+        /// more information about limits and how to request an increase, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
+        /// Kinesis Data Firehose Limits</a>.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/PutRecordBatch">REST API Reference for PutRecordBatch Operation</seealso>
         PutRecordBatchResponse PutRecordBatch(PutRecordBatchRequest request);
@@ -756,6 +888,329 @@ namespace Amazon.KinesisFirehose
 
         #endregion
         
+        #region  StartDeliveryStreamEncryption
+
+
+        /// <summary>
+        /// Enables server-side encryption (SSE) for the delivery stream. 
+        /// 
+        ///  
+        /// <para>
+        /// This operation is asynchronous. It returns immediately. When you invoke it, Kinesis
+        /// Data Firehose first sets the encryption status of the stream to <code>ENABLING</code>,
+        /// and then to <code>ENABLED</code>. The encryption status of a delivery stream is the
+        /// <code>Status</code> property in <a>DeliveryStreamEncryptionConfiguration</a>. If the
+        /// operation fails, the encryption status changes to <code>ENABLING_FAILED</code>. You
+        /// can continue to read and write data to your delivery stream while the encryption status
+        /// is <code>ENABLING</code>, but the data is not encrypted. It can take up to 5 seconds
+        /// after the encryption status changes to <code>ENABLED</code> before all records written
+        /// to the delivery stream are encrypted. To find out whether a record or a batch of records
+        /// was encrypted, check the response elements <a>PutRecordOutput$Encrypted</a> and <a>PutRecordBatchOutput$Encrypted</a>,
+        /// respectively.
+        /// </para>
+        ///  
+        /// <para>
+        /// To check the encryption status of a delivery stream, use <a>DescribeDeliveryStream</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Even if encryption is currently enabled for a delivery stream, you can still invoke
+        /// this operation on it to change the ARN of the CMK or both its type and ARN. In this
+        /// case, Kinesis Data Firehose schedules the grant it had on the old CMK for retirement
+        /// and creates a grant that enables it to use the new CMK to encrypt and decrypt data
+        /// and to manage the grant.
+        /// </para>
+        ///  
+        /// <para>
+        /// If a delivery stream already has encryption enabled and then you invoke this operation
+        /// to change the ARN of the CMK or both its type and ARN and you get <code>ENABLING_FAILED</code>,
+        /// this only means that the attempt to change the CMK failed. In this case, encryption
+        /// remains enabled with the old CMK.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the encryption status of your delivery stream is <code>ENABLING_FAILED</code>,
+        /// you can invoke this operation again. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can only enable SSE for a delivery stream that uses <code>DirectPut</code> as
+        /// its source. 
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>StartDeliveryStreamEncryption</code> and <code>StopDeliveryStreamEncryption</code>
+        /// operations have a combined limit of 25 calls per delivery stream per 24 hours. For
+        /// example, you reach the limit if you call <code>StartDeliveryStreamEncryption</code>
+        /// 13 times and <code>StopDeliveryStreamEncryption</code> 12 times for the same delivery
+        /// stream in a 24-hour period.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartDeliveryStreamEncryption service method.</param>
+        /// 
+        /// <returns>The response from the StartDeliveryStreamEncryption service method, as returned by KinesisFirehose.</returns>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
+        /// The specified input parameter has a value that is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidKMSResourceException">
+        /// Kinesis Data Firehose throws this exception when an attempt to put records or to start
+        /// or stop delivery stream encryption fails. This happens when the KMS service throws
+        /// one of the following exception types: <code>AccessDeniedException</code>, <code>InvalidStateException</code>,
+        /// <code>DisabledException</code>, or <code>NotFoundException</code>.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.LimitExceededException">
+        /// You have already reached the limit for a requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceInUseException">
+        /// The resource is already in use and not available for this operation.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/StartDeliveryStreamEncryption">REST API Reference for StartDeliveryStreamEncryption Operation</seealso>
+        StartDeliveryStreamEncryptionResponse StartDeliveryStreamEncryption(StartDeliveryStreamEncryptionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartDeliveryStreamEncryption operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartDeliveryStreamEncryption operation on AmazonKinesisFirehoseClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartDeliveryStreamEncryption
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/StartDeliveryStreamEncryption">REST API Reference for StartDeliveryStreamEncryption Operation</seealso>
+        IAsyncResult BeginStartDeliveryStreamEncryption(StartDeliveryStreamEncryptionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartDeliveryStreamEncryption operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartDeliveryStreamEncryption.</param>
+        /// 
+        /// <returns>Returns a  StartDeliveryStreamEncryptionResult from KinesisFirehose.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/StartDeliveryStreamEncryption">REST API Reference for StartDeliveryStreamEncryption Operation</seealso>
+        StartDeliveryStreamEncryptionResponse EndStartDeliveryStreamEncryption(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StopDeliveryStreamEncryption
+
+
+        /// <summary>
+        /// Disables server-side encryption (SSE) for the delivery stream. 
+        /// 
+        ///  
+        /// <para>
+        /// This operation is asynchronous. It returns immediately. When you invoke it, Kinesis
+        /// Data Firehose first sets the encryption status of the stream to <code>DISABLING</code>,
+        /// and then to <code>DISABLED</code>. You can continue to read and write data to your
+        /// stream while its status is <code>DISABLING</code>. It can take up to 5 seconds after
+        /// the encryption status changes to <code>DISABLED</code> before all records written
+        /// to the delivery stream are no longer subject to encryption. To find out whether a
+        /// record or a batch of records was encrypted, check the response elements <a>PutRecordOutput$Encrypted</a>
+        /// and <a>PutRecordBatchOutput$Encrypted</a>, respectively.
+        /// </para>
+        ///  
+        /// <para>
+        /// To check the encryption state of a delivery stream, use <a>DescribeDeliveryStream</a>.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// If SSE is enabled using a customer managed CMK and then you invoke <code>StopDeliveryStreamEncryption</code>,
+        /// Kinesis Data Firehose schedules the related KMS grant for retirement and then retires
+        /// it after it ensures that it is finished delivering records to the destination.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>StartDeliveryStreamEncryption</code> and <code>StopDeliveryStreamEncryption</code>
+        /// operations have a combined limit of 25 calls per delivery stream per 24 hours. For
+        /// example, you reach the limit if you call <code>StartDeliveryStreamEncryption</code>
+        /// 13 times and <code>StopDeliveryStreamEncryption</code> 12 times for the same delivery
+        /// stream in a 24-hour period.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopDeliveryStreamEncryption service method.</param>
+        /// 
+        /// <returns>The response from the StopDeliveryStreamEncryption service method, as returned by KinesisFirehose.</returns>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
+        /// The specified input parameter has a value that is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.LimitExceededException">
+        /// You have already reached the limit for a requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceInUseException">
+        /// The resource is already in use and not available for this operation.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/StopDeliveryStreamEncryption">REST API Reference for StopDeliveryStreamEncryption Operation</seealso>
+        StopDeliveryStreamEncryptionResponse StopDeliveryStreamEncryption(StopDeliveryStreamEncryptionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopDeliveryStreamEncryption operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopDeliveryStreamEncryption operation on AmazonKinesisFirehoseClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopDeliveryStreamEncryption
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/StopDeliveryStreamEncryption">REST API Reference for StopDeliveryStreamEncryption Operation</seealso>
+        IAsyncResult BeginStopDeliveryStreamEncryption(StopDeliveryStreamEncryptionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopDeliveryStreamEncryption operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopDeliveryStreamEncryption.</param>
+        /// 
+        /// <returns>Returns a  StopDeliveryStreamEncryptionResult from KinesisFirehose.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/StopDeliveryStreamEncryption">REST API Reference for StopDeliveryStreamEncryption Operation</seealso>
+        StopDeliveryStreamEncryptionResponse EndStopDeliveryStreamEncryption(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagDeliveryStream
+
+
+        /// <summary>
+        /// Adds or updates tags for the specified delivery stream. A tag is a key-value pair
+        /// that you can define and assign to AWS resources. If you specify a tag that already
+        /// exists, the tag value is replaced with the value that you specify in the request.
+        /// Tags are metadata. For example, you can add friendly names and descriptions or other
+        /// types of information that can help you distinguish the delivery stream. For more information
+        /// about tags, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+        /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>.
+        /// 
+        /// 
+        ///  
+        /// <para>
+        /// Each delivery stream can have up to 50 tags. 
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation has a limit of five transactions per second per account. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagDeliveryStream service method.</param>
+        /// 
+        /// <returns>The response from the TagDeliveryStream service method, as returned by KinesisFirehose.</returns>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
+        /// The specified input parameter has a value that is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.LimitExceededException">
+        /// You have already reached the limit for a requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceInUseException">
+        /// The resource is already in use and not available for this operation.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/TagDeliveryStream">REST API Reference for TagDeliveryStream Operation</seealso>
+        TagDeliveryStreamResponse TagDeliveryStream(TagDeliveryStreamRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagDeliveryStream operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagDeliveryStream operation on AmazonKinesisFirehoseClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagDeliveryStream
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/TagDeliveryStream">REST API Reference for TagDeliveryStream Operation</seealso>
+        IAsyncResult BeginTagDeliveryStream(TagDeliveryStreamRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagDeliveryStream operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagDeliveryStream.</param>
+        /// 
+        /// <returns>Returns a  TagDeliveryStreamResult from KinesisFirehose.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/TagDeliveryStream">REST API Reference for TagDeliveryStream Operation</seealso>
+        TagDeliveryStreamResponse EndTagDeliveryStream(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagDeliveryStream
+
+
+        /// <summary>
+        /// Removes tags from the specified delivery stream. Removed tags are deleted, and you
+        /// can't recover them after this operation successfully completes.
+        /// 
+        ///  
+        /// <para>
+        /// If you specify a tag that doesn't exist, the operation ignores it.
+        /// </para>
+        ///  
+        /// <para>
+        /// This operation has a limit of five transactions per second per account. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagDeliveryStream service method.</param>
+        /// 
+        /// <returns>The response from the UntagDeliveryStream service method, as returned by KinesisFirehose.</returns>
+        /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
+        /// The specified input parameter has a value that is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.LimitExceededException">
+        /// You have already reached the limit for a requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceInUseException">
+        /// The resource is already in use and not available for this operation.
+        /// </exception>
+        /// <exception cref="Amazon.KinesisFirehose.Model.ResourceNotFoundException">
+        /// The specified resource could not be found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/UntagDeliveryStream">REST API Reference for UntagDeliveryStream Operation</seealso>
+        UntagDeliveryStreamResponse UntagDeliveryStream(UntagDeliveryStreamRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagDeliveryStream operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagDeliveryStream operation on AmazonKinesisFirehoseClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagDeliveryStream
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/UntagDeliveryStream">REST API Reference for UntagDeliveryStream Operation</seealso>
+        IAsyncResult BeginUntagDeliveryStream(UntagDeliveryStreamRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagDeliveryStream operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagDeliveryStream.</param>
+        /// 
+        /// <returns>Returns a  UntagDeliveryStreamResult from KinesisFirehose.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/firehose-2015-08-04/UntagDeliveryStream">REST API Reference for UntagDeliveryStream Operation</seealso>
+        UntagDeliveryStreamResponse EndUntagDeliveryStream(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateDestination
 
 
@@ -764,48 +1219,49 @@ namespace Amazon.KinesisFirehose
         /// 
         ///  
         /// <para>
-        /// You can use this operation to change the destination type (for example, to replace
-        /// the Amazon S3 destination with Amazon Redshift) or change the parameters associated
-        /// with a destination (for example, to change the bucket name of the Amazon S3 destination).
-        /// The update might not occur immediately. The target delivery stream remains active
-        /// while the configurations are updated, so data writes to the delivery stream can continue
-        /// during this process. The updated configurations are usually effective within a few
-        /// minutes.
+        /// Use this operation to change the destination type (for example, to replace the Amazon
+        /// S3 destination with Amazon Redshift) or change the parameters associated with a destination
+        /// (for example, to change the bucket name of the Amazon S3 destination). The update
+        /// might not occur immediately. The target delivery stream remains active while the configurations
+        /// are updated, so data writes to the delivery stream can continue during this process.
+        /// The updated configurations are usually effective within a few minutes.
         /// </para>
         ///  
         /// <para>
-        /// Note that switching between Amazon ES and other services is not supported. For an
-        /// Amazon ES destination, you can only update to another Amazon ES destination.
+        /// Switching between Amazon ES and other services is not supported. For an Amazon ES
+        /// destination, you can only update to another Amazon ES destination.
         /// </para>
         ///  
         /// <para>
-        /// If the destination type is the same, Kinesis Firehose merges the configuration parameters
-        /// specified with the destination configuration that already exists on the delivery stream.
-        /// If any of the parameters are not specified in the call, the existing values are retained.
-        /// For example, in the Amazon S3 destination, if <a>EncryptionConfiguration</a> is not
-        /// specified, then the existing <a>EncryptionConfiguration</a> is maintained on the destination.
+        /// If the destination type is the same, Kinesis Data Firehose merges the configuration
+        /// parameters specified with the destination configuration that already exists on the
+        /// delivery stream. If any of the parameters are not specified in the call, the existing
+        /// values are retained. For example, in the Amazon S3 destination, if <a>EncryptionConfiguration</a>
+        /// is not specified, then the existing <code>EncryptionConfiguration</code> is maintained
+        /// on the destination.
         /// </para>
         ///  
         /// <para>
         /// If the destination type is not the same, for example, changing the destination from
-        /// Amazon S3 to Amazon Redshift, Kinesis Firehose does not merge any parameters. In this
-        /// case, all parameters must be specified.
+        /// Amazon S3 to Amazon Redshift, Kinesis Data Firehose does not merge any parameters.
+        /// In this case, all parameters must be specified.
         /// </para>
         ///  
         /// <para>
-        /// Kinesis Firehose uses <b>CurrentDeliveryStreamVersionId</b> to avoid race conditions
-        /// and conflicting merges. This is a required field, and the service updates the configuration
-        /// only if the existing configuration has a version ID that matches. After the update
-        /// is applied successfully, the version ID is updated, and can be retrieved using <a>DescribeDeliveryStream</a>.
-        /// Use the new version ID to set <b>CurrentDeliveryStreamVersionId</b> in the next call.
+        /// Kinesis Data Firehose uses <code>CurrentDeliveryStreamVersionId</code> to avoid race
+        /// conditions and conflicting merges. This is a required field, and the service updates
+        /// the configuration only if the existing configuration has a version ID that matches.
+        /// After the update is applied successfully, the version ID is updated, and can be retrieved
+        /// using <a>DescribeDeliveryStream</a>. Use the new version ID to set <code>CurrentDeliveryStreamVersionId</code>
+        /// in the next call.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateDestination service method.</param>
         /// 
         /// <returns>The response from the UpdateDestination service method, as returned by KinesisFirehose.</returns>
         /// <exception cref="Amazon.KinesisFirehose.Model.ConcurrentModificationException">
-        /// Another modification has already happened. Fetch <b>VersionId</b> again and use it
-        /// to update the destination.
+        /// Another modification has already happened. Fetch <code>VersionId</code> again and
+        /// use it to update the destination.
         /// </exception>
         /// <exception cref="Amazon.KinesisFirehose.Model.InvalidArgumentException">
         /// The specified input parameter has a value that is not valid.

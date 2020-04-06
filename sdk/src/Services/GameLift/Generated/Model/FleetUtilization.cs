@@ -31,10 +31,6 @@ namespace Amazon.GameLift.Model
     /// Current status of fleet utilization, including the number of game and player sessions
     /// being hosted.
     /// 
-    ///  
-    /// <para>
-    /// Fleet-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateFleet</a> 
@@ -45,79 +41,19 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// Describe fleets:
+    ///  <a>DeleteFleet</a> 
     /// </para>
-    ///  <ul> <li> 
+    ///  </li> <li> 
     /// <para>
     ///  <a>DescribeFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>DescribeFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetUtilization</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeFleetEvents</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Update fleets:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
     ///  <a>UpdateFleetAttributes</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetPortSettings</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateRuntimeConfiguration</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    /// Manage fleet capacity:
-    /// </para>
-    ///  <ul> <li> 
-    /// <para>
-    ///  <a>DescribeFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>UpdateFleetCapacity</a> 
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>PutScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeScalingPolicies</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DeleteScalingPolicy</a> (automatic scaling)
-    /// </para>
-    ///  </li> <li> 
-    /// <para>
-    ///  <a>DescribeEC2InstanceLimits</a> 
-    /// </para>
-    ///  </li> </ul> </li> <li> 
-    /// <para>
-    ///  <a>DeleteFleet</a> 
+    ///  <a>StartFleetActions</a> or <a>StopFleetActions</a> 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -135,6 +71,7 @@ namespace Amazon.GameLift.Model
         /// Number of active game sessions currently being hosted on all instances in the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int ActiveGameSessionCount
         {
             get { return this._activeGameSessionCount.GetValueOrDefault(); }
@@ -154,6 +91,7 @@ namespace Amazon.GameLift.Model
         /// all instances in the fleet
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int ActiveServerProcessCount
         {
             get { return this._activeServerProcessCount.GetValueOrDefault(); }
@@ -172,6 +110,7 @@ namespace Amazon.GameLift.Model
         /// Number of active player sessions currently being hosted on all instances in the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int CurrentPlayerSessionCount
         {
             get { return this._currentPlayerSessionCount.GetValueOrDefault(); }
@@ -187,7 +126,7 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet.
+        /// A unique identifier for a fleet.
         /// </para>
         /// </summary>
         public string FleetId
@@ -205,10 +144,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MaximumPlayerSessionCount. 
         /// <para>
-        /// Maximum players allowed across all game sessions currently being hosted on all instances
-        /// in the fleet.
+        /// The maximum number of players allowed across all game sessions currently being hosted
+        /// on all instances in the fleet.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public int MaximumPlayerSessionCount
         {
             get { return this._maximumPlayerSessionCount.GetValueOrDefault(); }

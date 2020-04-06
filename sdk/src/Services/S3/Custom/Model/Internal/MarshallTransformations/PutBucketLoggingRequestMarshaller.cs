@@ -42,7 +42,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "PUT";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketLoggingRequest.BucketName));
+            if (string.IsNullOrEmpty(putBucketLoggingRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutBucketLoggingRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(putBucketLoggingRequest.BucketName));
 
             request.AddSubResource("logging");
 

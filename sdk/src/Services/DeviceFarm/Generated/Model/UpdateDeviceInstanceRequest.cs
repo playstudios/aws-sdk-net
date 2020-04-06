@@ -29,7 +29,7 @@ namespace Amazon.DeviceFarm.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateDeviceInstance operation.
-    /// Updates information about an existing private device instance.
+    /// Updates information about a private device instance.
     /// </summary>
     public partial class UpdateDeviceInstanceRequest : AmazonDeviceFarmRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.DeviceFarm.Model
         /// The Amazon Resource Name (ARN) of the device instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -76,10 +77,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property ProfileArn. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of the profile that you want to associate with the
-        /// device instance.
+        /// The ARN of the profile that you want to associate with the device instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string ProfileArn
         {
             get { return this._profileArn; }

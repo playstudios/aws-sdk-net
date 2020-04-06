@@ -58,15 +58,38 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
             string target = "SageMaker.CreateModel";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-24";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetContainers())
+                {
+                    context.Writer.WritePropertyName("Containers");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestContainersListValue in publicRequest.Containers)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ContainerDefinitionMarshaller.Instance;
+                        marshaller.Marshall(publicRequestContainersListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetEnableNetworkIsolation())
+                {
+                    context.Writer.WritePropertyName("EnableNetworkIsolation");
+                    context.Writer.Write(publicRequest.EnableNetworkIsolation);
+                }
+
                 if(publicRequest.IsSetExecutionRoleArn())
                 {
                     context.Writer.WritePropertyName("ExecutionRoleArn");
@@ -104,6 +127,17 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
                         context.Writer.WriteObjectEnd();
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetVpcConfig())
+                {
+                    context.Writer.WritePropertyName("VpcConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = VpcConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.VpcConfig, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
         

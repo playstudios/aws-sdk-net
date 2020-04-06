@@ -29,8 +29,9 @@ namespace Amazon.Route53Domains.Model
 {
     /// <summary>
     /// Container for the parameters to the RegisterDomain operation.
-    /// This operation registers a domain. Domains are registered by the AWS registrar partner,
-    /// Gandi. For some top-level domains (TLDs), this operation requires extra parameters.
+    /// This operation registers a domain. Domains are registered either by Amazon Registrar
+    /// (for .com, .net, and .org domains) or by our registrar associate, Gandi (for all other
+    /// domains). For some top-level domains (TLDs), this operation requires extra parameters.
     /// 
     ///  
     /// <para>
@@ -51,8 +52,10 @@ namespace Amazon.Route53Domains.Model
     ///  </li> <li> 
     /// <para>
     /// Optionally enables privacy protection, so WHOIS queries return contact information
-    /// for our registrar partner, Gandi, instead of the information you entered for registrant,
-    /// admin, and tech contacts.
+    /// either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
+    /// associate, Gandi (for all other TLDs). If you don't enable privacy protection, WHOIS
+    /// queries return the information that you entered for the registrant, admin, and tech
+    /// contacts.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -86,6 +89,7 @@ namespace Amazon.Route53Domains.Model
         /// Provides detailed contact information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ContactDetail AdminContact
         {
             get { return this._adminContact; }
@@ -132,6 +136,7 @@ namespace Amazon.Route53Domains.Model
         /// 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=255)]
         public string DomainName
         {
             get { return this._domainName; }
@@ -158,6 +163,7 @@ namespace Amazon.Route53Domains.Model
         /// Default: 1
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public int DurationInYears
         {
             get { return this._durationInYears.GetValueOrDefault(); }
@@ -176,6 +182,7 @@ namespace Amazon.Route53Domains.Model
         /// Reserved for future use.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=3)]
         public string IdnLangCode
         {
             get { return this._idnLangCode; }
@@ -192,8 +199,10 @@ namespace Amazon.Route53Domains.Model
         /// Gets and sets the property PrivacyProtectAdminContact. 
         /// <para>
         /// Whether you want to conceal contact information from WHOIS queries. If you specify
-        /// <code>true</code>, WHOIS ("who is") queries will return contact information for our
-        /// registrar partner, Gandi, instead of the contact information that you enter.
+        /// <code>true</code>, WHOIS ("who is") queries return contact information either for
+        /// Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
+        /// Gandi (for all other TLDs). If you specify <code>false</code>, WHOIS queries return
+        /// the information that you entered for the admin contact.
         /// </para>
         ///  
         /// <para>
@@ -216,8 +225,10 @@ namespace Amazon.Route53Domains.Model
         /// Gets and sets the property PrivacyProtectRegistrantContact. 
         /// <para>
         /// Whether you want to conceal contact information from WHOIS queries. If you specify
-        /// <code>true</code>, WHOIS ("who is") queries will return contact information for our
-        /// registrar partner, Gandi, instead of the contact information that you enter.
+        /// <code>true</code>, WHOIS ("who is") queries return contact information either for
+        /// Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
+        /// Gandi (for all other TLDs). If you specify <code>false</code>, WHOIS queries return
+        /// the information that you entered for the registrant contact (the domain owner).
         /// </para>
         ///  
         /// <para>
@@ -240,8 +251,10 @@ namespace Amazon.Route53Domains.Model
         /// Gets and sets the property PrivacyProtectTechContact. 
         /// <para>
         /// Whether you want to conceal contact information from WHOIS queries. If you specify
-        /// <code>true</code>, WHOIS ("who is") queries will return contact information for our
-        /// registrar partner, Gandi, instead of the contact information that you enter.
+        /// <code>true</code>, WHOIS ("who is") queries return contact information either for
+        /// Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
+        /// Gandi (for all other TLDs). If you specify <code>false</code>, WHOIS queries return
+        /// the information that you entered for the technical contact.
         /// </para>
         ///  
         /// <para>
@@ -266,6 +279,7 @@ namespace Amazon.Route53Domains.Model
         /// Provides detailed contact information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ContactDetail RegistrantContact
         {
             get { return this._registrantContact; }
@@ -284,6 +298,7 @@ namespace Amazon.Route53Domains.Model
         /// Provides detailed contact information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ContactDetail TechContact
         {
             get { return this._techContact; }

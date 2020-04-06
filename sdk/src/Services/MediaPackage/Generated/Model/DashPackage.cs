@@ -32,14 +32,49 @@ namespace Amazon.MediaPackage.Model
     /// </summary>
     public partial class DashPackage
     {
+        private AdsOnDeliveryRestrictions _adsOnDeliveryRestrictions;
+        private List<string> _adTriggers = new List<string>();
         private DashEncryption _encryption;
+        private ManifestLayout _manifestLayout;
         private int? _manifestWindowSeconds;
         private int? _minBufferTimeSeconds;
         private int? _minUpdatePeriodSeconds;
+        private List<string> _periodTriggers = new List<string>();
         private Profile _profile;
         private int? _segmentDurationSeconds;
+        private SegmentTemplateFormat _segmentTemplateFormat;
         private StreamSelection _streamSelection;
         private int? _suggestedPresentationDelaySeconds;
+
+        /// <summary>
+        /// Gets and sets the property AdsOnDeliveryRestrictions.
+        /// </summary>
+        public AdsOnDeliveryRestrictions AdsOnDeliveryRestrictions
+        {
+            get { return this._adsOnDeliveryRestrictions; }
+            set { this._adsOnDeliveryRestrictions = value; }
+        }
+
+        // Check to see if AdsOnDeliveryRestrictions property is set
+        internal bool IsSetAdsOnDeliveryRestrictions()
+        {
+            return this._adsOnDeliveryRestrictions != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property AdTriggers.
+        /// </summary>
+        public List<string> AdTriggers
+        {
+            get { return this._adTriggers; }
+            set { this._adTriggers = value; }
+        }
+
+        // Check to see if AdTriggers property is set
+        internal bool IsSetAdTriggers()
+        {
+            return this._adTriggers != null && this._adTriggers.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property Encryption.
@@ -54,6 +89,24 @@ namespace Amazon.MediaPackage.Model
         internal bool IsSetEncryption()
         {
             return this._encryption != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManifestLayout. Determines the position of some tags in
+        /// the Media Presentation Description (MPD).  When set to FULL, elements like SegmentTemplate
+        /// and ContentProtection are included in each Representation.  When set to COMPACT, duplicate
+        /// elements are combined and presented at the AdaptationSet level.
+        /// </summary>
+        public ManifestLayout ManifestLayout
+        {
+            get { return this._manifestLayout; }
+            set { this._manifestLayout = value; }
+        }
+
+        // Check to see if ManifestLayout property is set
+        internal bool IsSetManifestLayout()
+        {
+            return this._manifestLayout != null;
         }
 
         /// <summary>
@@ -106,6 +159,25 @@ namespace Amazon.MediaPackage.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PeriodTriggers. A list of triggers that controls when the
+        /// outgoing Dynamic Adaptive Streaming over HTTP (DASH)Media Presentation Description
+        /// (MPD) will be partitioned into multiple periods. If empty, the content will notbe
+        /// partitioned into more than one period. If the list contains "ADS", new periods will
+        /// be created wherethe Channel source contains SCTE-35 ad markers.
+        /// </summary>
+        public List<string> PeriodTriggers
+        {
+            get { return this._periodTriggers; }
+            set { this._periodTriggers = value; }
+        }
+
+        // Check to see if PeriodTriggers property is set
+        internal bool IsSetPeriodTriggers()
+        {
+            return this._periodTriggers != null && this._periodTriggers.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Profile. The Dynamic Adaptive Streaming over HTTP (DASH)
         /// profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         /// </summary>
@@ -135,6 +207,26 @@ namespace Amazon.MediaPackage.Model
         internal bool IsSetSegmentDurationSeconds()
         {
             return this._segmentDurationSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property SegmentTemplateFormat. Determines the type of SegmentTemplate
+        /// included in the Media Presentation Description (MPD).  When set to NUMBER_WITH_TIMELINE,
+        /// a full timeline is presented in each SegmentTemplate, with $Number$ media URLs.  When
+        /// set to TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate, with
+        /// $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is included in
+        /// each SegmentTemplate, with $Number$ media URLs.
+        /// </summary>
+        public SegmentTemplateFormat SegmentTemplateFormat
+        {
+            get { return this._segmentTemplateFormat; }
+            set { this._segmentTemplateFormat = value; }
+        }
+
+        // Check to see if SegmentTemplateFormat property is set
+        internal bool IsSetSegmentTemplateFormat()
+        {
+            return this._segmentTemplateFormat != null;
         }
 
         /// <summary>

@@ -36,7 +36,7 @@ namespace Amazon.ElasticBeanstalk.Model
         private string _applicationName;
         private List<string> _environmentIds = new List<string>();
         private List<string> _environmentNames = new List<string>();
-        private DateTime? _includedDeletedBackTo;
+        private DateTime? _includedDeletedBackToUtc;
         private bool? _includeDeleted;
         private int? _maxRecords;
         private string _nextToken;
@@ -54,6 +54,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// only those that are associated with this application.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -105,22 +106,22 @@ namespace Amazon.ElasticBeanstalk.Model
         }
 
         /// <summary>
-        /// Gets and sets the property IncludedDeletedBackTo. 
+        /// Gets and sets the property IncludedDeletedBackToUtc. 
         /// <para>
         ///  If specified when <code>IncludeDeleted</code> is set to <code>true</code>, then environments
         /// deleted after this date are displayed. 
         /// </para>
         /// </summary>
-        public DateTime IncludedDeletedBackTo
+        public DateTime IncludedDeletedBackToUtc
         {
-            get { return this._includedDeletedBackTo.GetValueOrDefault(); }
-            set { this._includedDeletedBackTo = value; }
+            get { return this._includedDeletedBackToUtc.GetValueOrDefault(); }
+            set { this._includedDeletedBackTo = this._includedDeletedBackToUtc = value; }
         }
 
-        // Check to see if IncludedDeletedBackTo property is set
-        internal bool IsSetIncludedDeletedBackTo()
+        // Check to see if IncludedDeletedBackToUtc property is set
+        internal bool IsSetIncludedDeletedBackToUtc()
         {
-            return this._includedDeletedBackTo.HasValue; 
+            return this._includedDeletedBackToUtc.HasValue; 
         }
 
         /// <summary>
@@ -162,6 +163,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// in a single response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxRecords
         {
             get { return this._maxRecords.GetValueOrDefault(); }
@@ -205,6 +207,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// only those that are associated with this application version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string VersionLabel
         {
             get { return this._versionLabel; }
@@ -217,5 +220,40 @@ namespace Amazon.ElasticBeanstalk.Model
             return this._versionLabel != null;
         }
 
+#region Backwards compatible properties
+        private DateTime? _includedDeletedBackTo;
+
+        /// <summary>
+        /// Gets and sets the property IncludedDeletedBackToUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use IncludedDeletedBackToUtc instead. Setting either IncludedDeletedBackTo
+        /// or IncludedDeletedBackToUtc results in both IncludedDeletedBackTo and IncludedDeletedBackToUtc
+        /// being assigned, the latest assignment to either one of the two property is reflected
+        /// in the value of both. IncludedDeletedBackTo is provided for backwards compatibility
+        /// only and assigning a non-Utc DateTime to it results in the wrong timestamp being passed
+        /// to the service.
+        /// </para>
+        ///  
+        /// <para>
+        ///  If specified when <code>IncludeDeleted</code> is set to <code>true</code>, then environments
+        /// deleted after this date are displayed. 
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use IncludedDeletedBackToUtc instead. Setting either IncludedDeletedBackTo or IncludedDeletedBackToUtc results in both IncludedDeletedBackTo and " +
+            "IncludedDeletedBackToUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. IncludedDeletedBackTo is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime IncludedDeletedBackTo
+        {
+            get { return this._includedDeletedBackTo.GetValueOrDefault(); }
+            set
+            {
+                this._includedDeletedBackTo = value;
+                this._includedDeletedBackToUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+#endregion
     }
 }

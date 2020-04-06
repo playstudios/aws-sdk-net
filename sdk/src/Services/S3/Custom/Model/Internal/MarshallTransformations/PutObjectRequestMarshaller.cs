@@ -77,6 +77,19 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             if (putObjectRequest.IsSetServerSideEncryptionKeyManagementServiceKeyId())
                 request.Headers.Add(HeaderKeys.XAmzServerSideEncryptionAwsKmsKeyIdHeader, putObjectRequest.ServerSideEncryptionKeyManagementServiceKeyId);
+
+            if (putObjectRequest.IsSetServerSideEncryptionKeyManagementServiceEncryptionContext())
+                request.Headers.Add("x-amz-server-side-encryption-context", putObjectRequest.ServerSideEncryptionKeyManagementServiceEncryptionContext);
+
+            if (putObjectRequest.IsSetObjectLockLegalHoldStatus())
+                request.Headers.Add("x-amz-object-lock-legal-hold", S3Transforms.ToStringValue(putObjectRequest.ObjectLockLegalHoldStatus));
+
+            if (putObjectRequest.IsSetObjectLockMode())
+                request.Headers.Add("x-amz-object-lock-mode", S3Transforms.ToStringValue(putObjectRequest.ObjectLockMode));
+
+            if (putObjectRequest.IsSetObjectLockRetainUntilDate())
+                request.Headers.Add("x-amz-object-lock-retain-until-date", S3Transforms.ToStringValue(putObjectRequest.ObjectLockRetainUntilDate, AWSSDKUtils.ISO8601DateFormat));
+
             if (putObjectRequest.IsSetRequestPayer())
                 request.Headers.Add(S3Constants.AmzHeaderRequestPayer, S3Transforms.ToStringValue(putObjectRequest.RequestPayer.ToString()));
 
@@ -85,7 +98,13 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             AmazonS3Util.SetMetadataHeaders(request, putObjectRequest.Metadata);
 
-            request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
+            if (string.IsNullOrEmpty(putObjectRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "PutObjectRequest.BucketName");
+            if (string.IsNullOrEmpty(putObjectRequest.Key))
+                throw new System.ArgumentException("Key is a required property and must be set before making this call.", "PutObjectRequest.Key");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
                                                  S3Transforms.ToStringValue(putObjectRequest.BucketName),
                                                  S3Transforms.ToStringValue(putObjectRequest.Key));
 

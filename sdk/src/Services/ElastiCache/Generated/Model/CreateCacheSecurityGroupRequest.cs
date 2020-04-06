@@ -36,7 +36,7 @@ namespace Amazon.ElastiCache.Model
     /// <para>
     /// Cache security groups are only used when you are creating a cluster outside of an
     /// Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of
-    /// a VPC, use a cache subnet group instead. For more information, see <a href="http://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateCacheSubnetGroup.html">CreateCacheSubnetGroup</a>.
+    /// a VPC, use a cache subnet group instead. For more information, see <a href="https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateCacheSubnetGroup.html">CreateCacheSubnetGroup</a>.
     /// </para>
     /// </summary>
     public partial class CreateCacheSecurityGroupRequest : AmazonElastiCacheRequest
@@ -75,6 +75,7 @@ namespace Amazon.ElastiCache.Model
         /// Example: <code>mysecuritygroup</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string CacheSecurityGroupName
         {
             get { return this._cacheSecurityGroupName; }
@@ -93,6 +94,7 @@ namespace Amazon.ElastiCache.Model
         /// A description for the cache security group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Description
         {
             get { return this._description; }

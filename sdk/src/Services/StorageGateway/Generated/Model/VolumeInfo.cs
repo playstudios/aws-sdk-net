@@ -35,6 +35,7 @@ namespace Amazon.StorageGateway.Model
         private string _gatewayARN;
         private string _gatewayId;
         private string _volumeARN;
+        private string _volumeAttachmentStatus;
         private string _volumeId;
         private long? _volumeSizeInBytes;
         private string _volumeType;
@@ -42,6 +43,7 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayARN.
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }
@@ -65,6 +67,7 @@ namespace Amazon.StorageGateway.Model
         ///  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=30)]
         public string GatewayId
         {
             get { return this._gatewayId; }
@@ -93,6 +96,7 @@ namespace Amazon.StorageGateway.Model
         ///  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string VolumeARN
         {
             get { return this._volumeARN; }
@@ -106,6 +110,25 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property VolumeAttachmentStatus. 
+        /// <para>
+        /// One of the VolumeStatus values that indicates the state of the storage volume. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=3, Max=50)]
+        public string VolumeAttachmentStatus
+        {
+            get { return this._volumeAttachmentStatus; }
+            set { this._volumeAttachmentStatus = value; }
+        }
+
+        // Check to see if VolumeAttachmentStatus property is set
+        internal bool IsSetVolumeAttachmentStatus()
+        {
+            return this._volumeAttachmentStatus != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property VolumeId. 
         /// <para>
         /// The unique identifier assigned to the volume. This ID becomes part of the volume Amazon
@@ -116,6 +139,7 @@ namespace Amazon.StorageGateway.Model
         ///  Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens (-).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=12, Max=30)]
         public string VolumeId
         {
             get { return this._volumeId; }
@@ -151,8 +175,12 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VolumeType.
+        /// Gets and sets the property VolumeType. 
+        /// <para>
+        /// One of the VolumeType enumeration values describing the type of the volume.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=100)]
         public string VolumeType
         {
             get { return this._volumeType; }

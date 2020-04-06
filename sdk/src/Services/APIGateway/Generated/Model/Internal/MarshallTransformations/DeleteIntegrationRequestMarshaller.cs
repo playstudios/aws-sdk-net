@@ -55,19 +55,20 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteIntegrationRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration";
             if (!publicRequest.IsSetHttpMethod())
                 throw new AmazonAPIGatewayException("Request object does not have required field HttpMethod set");
-            uriResourcePath = uriResourcePath.Replace("{http_method}", StringUtils.FromString(publicRequest.HttpMethod));
+            request.AddPathResource("{http_method}", StringUtils.FromString(publicRequest.HttpMethod));
             if (!publicRequest.IsSetResourceId())
                 throw new AmazonAPIGatewayException("Request object does not have required field ResourceId set");
-            uriResourcePath = uriResourcePath.Replace("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
+            request.AddPathResource("{resource_id}", StringUtils.FromString(publicRequest.ResourceId));
             if (!publicRequest.IsSetRestApiId())
                 throw new AmazonAPIGatewayException("Request object does not have required field RestApiId set");
-            uriResourcePath = uriResourcePath.Replace("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{restapi_id}", StringUtils.FromString(publicRequest.RestApiId));
+            request.ResourcePath = "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration";
+            request.MarshallerVersion = 2;
 
             return request;
         }

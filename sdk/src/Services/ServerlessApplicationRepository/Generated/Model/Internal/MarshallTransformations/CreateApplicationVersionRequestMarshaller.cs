@@ -55,22 +55,29 @@ namespace Amazon.ServerlessApplicationRepository.Model.Internal.MarshallTransfor
         public IRequest Marshall(CreateApplicationVersionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ServerlessApplicationRepository");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-08";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/applications/{applicationId}/versions/{semanticVersion}";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonServerlessApplicationRepositoryException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.AddPathResource("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
             if (!publicRequest.IsSetSemanticVersion())
                 throw new AmazonServerlessApplicationRepositoryException("Request object does not have required field SemanticVersion set");
-            uriResourcePath = uriResourcePath.Replace("{semanticVersion}", StringUtils.FromString(publicRequest.SemanticVersion));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{semanticVersion}", StringUtils.FromString(publicRequest.SemanticVersion));
+            request.ResourcePath = "/applications/{applicationId}/versions/{semanticVersion}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetSourceCodeArchiveUrl())
+                {
+                    context.Writer.WritePropertyName("sourceCodeArchiveUrl");
+                    context.Writer.Write(publicRequest.SourceCodeArchiveUrl);
+                }
+
                 if(publicRequest.IsSetSourceCodeUrl())
                 {
                     context.Writer.WritePropertyName("sourceCodeUrl");

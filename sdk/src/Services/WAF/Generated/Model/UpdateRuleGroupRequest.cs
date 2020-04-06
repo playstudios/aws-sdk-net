@@ -70,7 +70,7 @@ namespace Amazon.WAF.Model
     ///  
     /// <para>
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-    /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+    /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
     /// Guide</a>.
     /// </para>
     /// </summary>
@@ -86,6 +86,7 @@ namespace Amazon.WAF.Model
         /// The value returned by the most recent call to <a>GetChangeToken</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }
@@ -105,6 +106,7 @@ namespace Amazon.WAF.Model
         /// is returned by <a>CreateRuleGroup</a> and by <a>ListRuleGroups</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string RuleGroupId
         {
             get { return this._ruleGroupId; }
@@ -135,6 +137,7 @@ namespace Amazon.WAF.Model
         /// <code>ActivatedRule|OverrideAction</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<RuleGroupUpdate> Updates
         {
             get { return this._updates; }

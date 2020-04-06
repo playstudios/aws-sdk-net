@@ -48,6 +48,7 @@ namespace Amazon.Route53.Model
         /// The ID of the hosted zone that you want Amazon Route 53 to simulate a query for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=32)]
         public string HostedZoneId
         {
             get { return this._hostedZoneId; }
@@ -67,6 +68,7 @@ namespace Amazon.Route53.Model
         /// for.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=1024)]
         public string RecordName
         {
             get { return this._recordName; }
@@ -85,6 +87,7 @@ namespace Amazon.Route53.Model
         /// The type of the resource record set.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RRType RecordType
         {
             get { return this._recordType; }
@@ -105,6 +108,7 @@ namespace Amazon.Route53.Model
         /// address of a DNS resolver in the AWS US East (N. Virginia) Region (<code>us-east-1</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=45)]
         public string ResolverIP
         {
             get { return this._resolverIP; }
@@ -125,6 +129,7 @@ namespace Amazon.Route53.Model
         /// or <code>2001:db8:85a3::8a2e:370:7334</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=45)]
         public string EDNS0ClientSubnetIP
         {
             get { return this._edns0ClientSubnetIP; }
@@ -147,7 +152,22 @@ namespace Amazon.Route53.Model
         /// simulate a request from 192.0.2.0/24. The default value is 24 bits for IPv4 addresses
         /// and 64 bits for IPv6 addresses.
         /// </para>
+        ///  
+        /// <para>
+        /// The range of valid values depends on whether <code>edns0clientsubnetip</code> is an
+        /// IPv4 or an IPv6 address:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>IPv4</b>: Specify a value between 0 and 32
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>IPv6</b>: Specify a value between 0 and 128
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=0, Max=3)]
         public string EDNS0ClientSubnetMask
         {
             get { return this._edns0ClientSubnetMask; }

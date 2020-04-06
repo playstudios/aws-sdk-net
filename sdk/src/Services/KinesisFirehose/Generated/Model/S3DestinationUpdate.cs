@@ -37,15 +37,18 @@ namespace Amazon.KinesisFirehose.Model
         private CloudWatchLoggingOptions _cloudWatchLoggingOptions;
         private CompressionFormat _compressionFormat;
         private EncryptionConfiguration _encryptionConfiguration;
+        private string _errorOutputPrefix;
         private string _prefix;
         private string _roleARN;
 
         /// <summary>
         /// Gets and sets the property BucketARN. 
         /// <para>
-        /// The ARN of the S3 bucket.
+        /// The ARN of the S3 bucket. For more information, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// Resource Names (ARNs) and AWS Service Namespaces</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string BucketARN
         {
             get { return this._bucketARN; }
@@ -61,8 +64,8 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property BufferingHints. 
         /// <para>
-        /// The buffering option. If no value is specified, <b>BufferingHints</b> object default
-        /// values are used.
+        /// The buffering option. If no value is specified, <code>BufferingHints</code> object
+        /// default values are used.
         /// </para>
         /// </summary>
         public BufferingHints BufferingHints
@@ -138,13 +141,32 @@ namespace Amazon.KinesisFirehose.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ErrorOutputPrefix. 
+        /// <para>
+        /// A prefix that Kinesis Data Firehose evaluates and adds to failed records before writing
+        /// them to S3. This prefix appears immediately following the bucket name. For information
+        /// about how to specify this prefix, see <a href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+        /// Prefixes for Amazon S3 Objects</a>.
+        /// </para>
+        /// </summary>
+        public string ErrorOutputPrefix
+        {
+            get { return this._errorOutputPrefix; }
+            set { this._errorOutputPrefix = value; }
+        }
+
+        // Check to see if ErrorOutputPrefix property is set
+        internal bool IsSetErrorOutputPrefix()
+        {
+            return this._errorOutputPrefix != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Prefix. 
         /// <para>
-        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files.
-        /// You can specify an extra prefix to be added in front of the time format prefix. If
-        /// the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information,
-        /// see <a href="http://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html">Amazon
-        /// S3 Object Name Format</a> in the <i>Amazon Kinesis Firehose Developer Guide</i>.
+        /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered Amazon
+        /// S3 files. You can also specify a custom prefix, as described in <a href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+        /// Prefixes for Amazon S3 Objects</a>.
         /// </para>
         /// </summary>
         public string Prefix
@@ -162,9 +184,12 @@ namespace Amazon.KinesisFirehose.Model
         /// <summary>
         /// Gets and sets the property RoleARN. 
         /// <para>
-        /// The ARN of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the AWS credentials. For more information, see <a
+        /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// Resource Names (ARNs) and AWS Service Namespaces</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string RoleARN
         {
             get { return this._roleARN; }

@@ -47,6 +47,7 @@ namespace Amazon.ConfigService.Model
         /// Config rules that you use.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=25)]
         public List<string> ConfigRuleNames
         {
             get { return this._configRuleNames; }
@@ -67,7 +68,7 @@ namespace Amazon.ConfigService.Model
         ///  
         /// <para>
         /// This parameter is required if the rule limit for your account is more than the default
-        /// of 50 rules.
+        /// of 150 rules.
         /// </para>
         ///  
         /// <para>
@@ -75,6 +76,7 @@ namespace Amazon.ConfigService.Model
         /// Config Limits</a> in the <i>AWS General Reference Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public int Limit
         {
             get { return this._limit.GetValueOrDefault(); }

@@ -29,7 +29,8 @@ namespace Amazon.Pinpoint.Model
 {
     /// <summary>
     /// Container for the parameters to the GetSegmentVersions operation.
-    /// Returns information about your segment versions.
+    /// Retrieves information about the configuration, dimension, and other settings for all
+    /// the versions of a specific segment that's associated with an application.
     /// </summary>
     public partial class GetSegmentVersionsRequest : AmazonPinpointRequest
     {
@@ -39,8 +40,13 @@ namespace Amazon.Pinpoint.Model
         private string _token;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,8 +60,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PageSize. The number of entries you want on each page in
-        /// the response.
+        /// Gets and sets the property PageSize. 
+        /// <para>
+        /// The maximum number of items to include in each page of a paginated response. This
+        /// parameter is currently not supported for application, campaign, and journey metrics.
+        /// </para>
         /// </summary>
         public string PageSize
         {
@@ -70,8 +79,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentId.
+        /// Gets and sets the property SegmentId. 
+        /// <para>
+        /// The unique identifier for the segment.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SegmentId
         {
             get { return this._segmentId; }
@@ -85,8 +98,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Token. The NextToken string returned on a previous page
-        /// that you use to get the next page of results in a paginated response.
+        /// Gets and sets the property Token. 
+        /// <para>
+        /// The NextToken string that specifies which page of results to return in a paginated
+        /// response.
+        /// </para>
         /// </summary>
         public string Token
         {

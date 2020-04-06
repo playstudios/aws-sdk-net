@@ -45,6 +45,28 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(Volume requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetDockerVolumeConfiguration())
+            {
+                context.Writer.WritePropertyName("dockerVolumeConfiguration");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = DockerVolumeConfigurationMarshaller.Instance;
+                marshaller.Marshall(requestObject.DockerVolumeConfiguration, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
+            if(requestObject.IsSetEfsVolumeConfiguration())
+            {
+                context.Writer.WritePropertyName("efsVolumeConfiguration");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = EFSVolumeConfigurationMarshaller.Instance;
+                marshaller.Marshall(requestObject.EfsVolumeConfiguration, context);
+
+                context.Writer.WriteObjectEnd();
+            }
+
             if(requestObject.IsSetHost())
             {
                 context.Writer.WritePropertyName("host");

@@ -36,8 +36,12 @@ namespace Amazon.DirectConnect.Model
         private string _virtualInterfaceId;
 
         /// <summary>
-        /// Gets and sets the property VirtualInterfaceId.
+        /// Gets and sets the property VirtualInterfaceId. 
+        /// <para>
+        /// The ID of the virtual interface.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VirtualInterfaceId
         {
             get { return this._virtualInterfaceId; }

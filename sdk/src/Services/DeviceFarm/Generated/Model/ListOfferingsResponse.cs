@@ -42,6 +42,7 @@ namespace Amazon.DeviceFarm.Model
         /// be used to return the next set of items in the list.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=4, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -57,7 +58,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Offerings. 
         /// <para>
-        /// A value representing the list offering results.
+        /// A value that represents the list offering results.
         /// </para>
         /// </summary>
         public List<Offering> Offerings

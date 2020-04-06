@@ -28,17 +28,17 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Enable the Image inserter (ImageInserter) feature to include a graphic overlay on
-    /// your video. Enable or disable this feature for each output individually. This setting
-    /// is disabled by default.
+    /// Enable the image inserter feature to include a graphic overlay on your video. Enable
+    /// or disable this feature for each input or output individually. This setting is disabled
+    /// by default.
     /// </summary>
     public partial class ImageInserter
     {
         private List<InsertableImage> _insertableImages = new List<InsertableImage>();
 
         /// <summary>
-        /// Gets and sets the property InsertableImages. Image to insert. Must be 32 bit windows
-        /// BMP, PNG, or TGA file. Must not be  larger than the output frames.
+        /// Gets and sets the property InsertableImages. Specify the images that you want to overlay
+        /// on your video. The images must be PNG or TGA files.
         /// </summary>
         public List<InsertableImage> InsertableImages
         {

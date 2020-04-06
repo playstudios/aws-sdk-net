@@ -42,7 +42,10 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property MFAOptions. 
         /// <para>
-        /// Specifies the options for MFA (e.g., email or phone number).
+        ///  <i>This response parameter is no longer supported.</i> It provides information only
+        /// about SMS MFA configurations. It doesn't provide information about TOTP software token
+        /// MFA configurations. To look up information about either type of MFA configuration,
+        /// use the use the <a>GetUserResponse$UserMFASettingList</a> response instead.
         /// </para>
         /// </summary>
         public List<MFAOptionType> MFAOptions
@@ -86,6 +89,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<AttributeType> UserAttributes
         {
             get { return this._userAttributes; }
@@ -101,7 +105,8 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property UserMFASettingList. 
         /// <para>
-        /// The list of the user's MFA settings.
+        /// The MFA options that are enabled for the user. The possible values in this list are
+        /// <code>SMS_MFA</code> and <code>SOFTWARE_TOKEN_MFA</code>.
         /// </para>
         /// </summary>
         public List<string> UserMFASettingList
@@ -122,6 +127,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user name of the user you wish to retrieve from the get user request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Username
         {
             get { return this._username; }

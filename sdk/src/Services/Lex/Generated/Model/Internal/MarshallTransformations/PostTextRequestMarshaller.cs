@@ -55,20 +55,21 @@ namespace Amazon.Lex.Model.Internal.MarshallTransformations
         public IRequest Marshall(PostTextRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Lex");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-11-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/bot/{botName}/alias/{botAlias}/user/{userId}/text";
             if (!publicRequest.IsSetBotAlias())
                 throw new AmazonLexException("Request object does not have required field BotAlias set");
-            uriResourcePath = uriResourcePath.Replace("{botAlias}", StringUtils.FromString(publicRequest.BotAlias));
+            request.AddPathResource("{botAlias}", StringUtils.FromString(publicRequest.BotAlias));
             if (!publicRequest.IsSetBotName())
                 throw new AmazonLexException("Request object does not have required field BotName set");
-            uriResourcePath = uriResourcePath.Replace("{botName}", StringUtils.FromString(publicRequest.BotName));
+            request.AddPathResource("{botName}", StringUtils.FromString(publicRequest.BotName));
             if (!publicRequest.IsSetUserId())
                 throw new AmazonLexException("Request object does not have required field UserId set");
-            uriResourcePath = uriResourcePath.Replace("{userId}", StringUtils.FromString(publicRequest.UserId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{userId}", StringUtils.FromString(publicRequest.UserId));
+            request.ResourcePath = "/bot/{botName}/alias/{botAlias}/user/{userId}/text";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

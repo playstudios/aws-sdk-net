@@ -29,8 +29,8 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the BatchDeleteImage operation.
-    /// Deletes a list of specified images within a specified repository. Images are specified
-    /// with either <code>imageTag</code> or <code>imageDigest</code>.
+    /// Deletes a list of specified images within a repository. Images are specified with
+    /// either an <code>imageTag</code> or <code>imageDigest</code>.
     /// 
     ///  
     /// <para>
@@ -56,6 +56,7 @@ namespace Amazon.ECR.Model
         /// <code>imageIds</code> reference is <code>imageTag=tag</code> or <code>imageDigest=digest</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<ImageIdentifier> ImageIds
         {
             get { return this._imageIds; }
@@ -93,6 +94,7 @@ namespace Amazon.ECR.Model
         /// The repository that contains the image to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

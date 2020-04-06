@@ -58,10 +58,11 @@ namespace Amazon.ApplicationAutoScaling.Model.Internal.MarshallTransformations
             string target = "AnyScaleFrontendService.RegisterScalableTarget";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-02-06";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -101,6 +102,17 @@ namespace Amazon.ApplicationAutoScaling.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("ServiceNamespace");
                     context.Writer.Write(publicRequest.ServiceNamespace);
+                }
+
+                if(publicRequest.IsSetSuspendedState())
+                {
+                    context.Writer.WritePropertyName("SuspendedState");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = SuspendedStateMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.SuspendedState, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
         

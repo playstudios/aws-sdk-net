@@ -33,10 +33,14 @@ namespace Amazon.EC2.Model
     public partial class RequestLaunchTemplateData
     {
         private List<LaunchTemplateBlockDeviceMappingRequest> _blockDeviceMappings = new List<LaunchTemplateBlockDeviceMappingRequest>();
+        private LaunchTemplateCapacityReservationSpecificationRequest _capacityReservationSpecification;
+        private LaunchTemplateCpuOptionsRequest _cpuOptions;
         private CreditSpecificationRequest _creditSpecification;
         private bool? _disableApiTermination;
         private bool? _ebsOptimized;
         private List<ElasticGpuSpecification> _elasticGpuSpecifications = new List<ElasticGpuSpecification>();
+        private List<LaunchTemplateElasticInferenceAccelerator> _elasticInferenceAccelerators = new List<LaunchTemplateElasticInferenceAccelerator>();
+        private LaunchTemplateHibernationOptionsRequest _hibernationOptions;
         private LaunchTemplateIamInstanceProfileSpecificationRequest _iamInstanceProfile;
         private string _imageId;
         private ShutdownBehavior _instanceInitiatedShutdownBehavior;
@@ -44,6 +48,8 @@ namespace Amazon.EC2.Model
         private InstanceType _instanceType;
         private string _kernelId;
         private string _keyName;
+        private List<LaunchTemplateLicenseConfigurationRequest> _licenseSpecifications = new List<LaunchTemplateLicenseConfigurationRequest>();
+        private LaunchTemplateInstanceMetadataOptionsRequest _metadataOptions;
         private LaunchTemplatesMonitoringRequest _monitoring;
         private List<LaunchTemplateInstanceNetworkInterfaceSpecificationRequest> _networkInterfaces = new List<LaunchTemplateInstanceNetworkInterfaceSpecificationRequest>();
         private LaunchTemplatePlacementRequest _placement;
@@ -58,15 +64,6 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The block device mapping.
         /// </para>
-        ///  <important> 
-        /// <para>
-        /// Supplying both a snapshot ID and an encryption value as arguments for block-device
-        /// mapping results in an error. This is because only blank volumes can be encrypted on
-        /// start, and these are not created from a snapshot. If a snapshot is the basis for the
-        /// volume, it contains data by definition and its encryption status cannot be changed
-        /// using this action.
-        /// </para>
-        ///  </important>
         /// </summary>
         public List<LaunchTemplateBlockDeviceMappingRequest> BlockDeviceMappings
         {
@@ -81,9 +78,49 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CapacityReservationSpecification. 
+        /// <para>
+        /// The Capacity Reservation targeting option. If you do not specify this parameter, the
+        /// instance's Capacity Reservation preference defaults to <code>open</code>, which enables
+        /// it to run in any open Capacity Reservation that has matching attributes (instance
+        /// type, platform, Availability Zone).
+        /// </para>
+        /// </summary>
+        public LaunchTemplateCapacityReservationSpecificationRequest CapacityReservationSpecification
+        {
+            get { return this._capacityReservationSpecification; }
+            set { this._capacityReservationSpecification = value; }
+        }
+
+        // Check to see if CapacityReservationSpecification property is set
+        internal bool IsSetCapacityReservationSpecification()
+        {
+            return this._capacityReservationSpecification != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property CpuOptions. 
+        /// <para>
+        /// The CPU options for the instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html">Optimizing
+        /// CPU Options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        public LaunchTemplateCpuOptionsRequest CpuOptions
+        {
+            get { return this._cpuOptions; }
+            set { this._cpuOptions = value; }
+        }
+
+        // Check to see if CpuOptions property is set
+        internal bool IsSetCpuOptions()
+        {
+            return this._cpuOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreditSpecification. 
         /// <para>
-        /// The credit option for CPU usage of the instance. Valid for T2 instances only.
+        /// The credit option for CPU usage of the instance. Valid for T2 or T3 instances only.
         /// </para>
         /// </summary>
         public CreditSpecificationRequest CreditSpecification
@@ -101,9 +138,11 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property DisableApiTermination. 
         /// <para>
-        /// If set to <code>true</code>, you can't terminate the instance using the Amazon EC2
-        /// console, CLI, or API. To change this attribute to <code>false</code> after launch,
-        /// use <a>ModifyInstanceAttribute</a>.
+        /// If you set this parameter to <code>true</code>, you can't terminate the instance using
+        /// the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute
+        /// after launch, use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceAttribute.html">ModifyInstanceAttribute</a>.
+        /// Alternatively, if you set <code>InstanceInitiatedShutdownBehavior</code> to <code>terminate</code>,
+        /// you can terminate the instance by running the shutdown command from the instance.
         /// </para>
         /// </summary>
         public bool DisableApiTermination
@@ -158,6 +197,45 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ElasticInferenceAccelerators. 
+        /// <para>
+        ///  The elastic inference accelerator for the instance. 
+        /// </para>
+        /// </summary>
+        public List<LaunchTemplateElasticInferenceAccelerator> ElasticInferenceAccelerators
+        {
+            get { return this._elasticInferenceAccelerators; }
+            set { this._elasticInferenceAccelerators = value; }
+        }
+
+        // Check to see if ElasticInferenceAccelerators property is set
+        internal bool IsSetElasticInferenceAccelerators()
+        {
+            return this._elasticInferenceAccelerators != null && this._elasticInferenceAccelerators.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property HibernationOptions. 
+        /// <para>
+        /// Indicates whether an instance is enabled for hibernation. This parameter is valid
+        /// only if the instance meets the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#hibernating-prerequisites">hibernation
+        /// prerequisites</a>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
+        /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        public LaunchTemplateHibernationOptionsRequest HibernationOptions
+        {
+            get { return this._hibernationOptions; }
+            set { this._hibernationOptions = value; }
+        }
+
+        // Check to see if HibernationOptions property is set
+        internal bool IsSetHibernationOptions()
+        {
+            return this._hibernationOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property IamInstanceProfile. 
         /// <para>
         /// The IAM instance profile.
@@ -178,7 +256,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ImageId. 
         /// <para>
-        /// The ID of the AMI, which you can get by using <a>DescribeImages</a>.
+        /// The ID of the AMI.
         /// </para>
         /// </summary>
         public string ImageId
@@ -237,7 +315,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        /// The instance type. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+        /// The instance type. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
         /// Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         /// </summary>
@@ -261,7 +339,7 @@ namespace Amazon.EC2.Model
         ///  <important> 
         /// <para>
         /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">User
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">User
         /// Provided Kernels</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </important>
@@ -281,8 +359,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property KeyName. 
         /// <para>
-        /// The name of the key pair. You can create a key pair using <a>CreateKeyPair</a> or
-        /// <a>ImportKeyPair</a>.
+        /// The name of the key pair. You can create a key pair using <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateKeyPair.html">CreateKeyPair</a>
+        /// or <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportKeyPair.html">ImportKeyPair</a>.
         /// </para>
         ///  <important> 
         /// <para>
@@ -301,6 +379,43 @@ namespace Amazon.EC2.Model
         internal bool IsSetKeyName()
         {
             return this._keyName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LicenseSpecifications. 
+        /// <para>
+        /// The license configurations.
+        /// </para>
+        /// </summary>
+        public List<LaunchTemplateLicenseConfigurationRequest> LicenseSpecifications
+        {
+            get { return this._licenseSpecifications; }
+            set { this._licenseSpecifications = value; }
+        }
+
+        // Check to see if LicenseSpecifications property is set
+        internal bool IsSetLicenseSpecifications()
+        {
+            return this._licenseSpecifications != null && this._licenseSpecifications.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MetadataOptions. 
+        /// <para>
+        /// The metadata options for the instance. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
+        /// Metadata and User Data</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        public LaunchTemplateInstanceMetadataOptionsRequest MetadataOptions
+        {
+            get { return this._metadataOptions; }
+            set { this._metadataOptions = value; }
+        }
+
+        // Check to see if MetadataOptions property is set
+        internal bool IsSetMetadataOptions()
+        {
+            return this._metadataOptions != null;
         }
 
         /// <summary>
@@ -324,7 +439,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property NetworkInterfaces. 
         /// <para>
-        /// One or more network interfaces.
+        /// One or more network interfaces. If you specify a network interface, you must specify
+        /// any security groups and subnets as part of the network interface.
         /// </para>
         /// </summary>
         public List<LaunchTemplateInstanceNetworkInterfaceSpecificationRequest> NetworkInterfaces
@@ -365,7 +481,7 @@ namespace Amazon.EC2.Model
         ///  <important> 
         /// <para>
         /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">User
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedkernels.html">User
         /// Provided Kernels</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
         /// </para>
         ///  </important>
@@ -385,7 +501,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property SecurityGroupIds. 
         /// <para>
-        /// One or more security group IDs. You can create a security group using <a>CreateSecurityGroup</a>.
+        /// One or more security group IDs. You can create a security group using <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateSecurityGroup.html">CreateSecurityGroup</a>.
         /// You cannot specify both a security group ID and security name in the same request.
         /// </para>
         /// </summary>
@@ -424,9 +540,9 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property TagSpecifications. 
         /// <para>
-        /// The tags to apply to the resources during launch. You can tag instances and volumes.
-        /// The specified tags are applied to all instances or volumes that are created during
-        /// launch.
+        /// The tags to apply to the resources during launch. You can only tag instances and volumes
+        /// on launch. The specified tags are applied to all instances or volumes that are created
+        /// during launch. To tag a resource after it has been created, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html">CreateTags</a>.
         /// </para>
         /// </summary>
         public List<LaunchTemplateTagSpecificationRequest> TagSpecifications
@@ -445,8 +561,8 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property UserData. 
         /// <para>
         /// The Base64-encoded user data to make available to the instance. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Running
-        /// Commands on Your Linux Instance at Launch</a> (Linux) and <a href="http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html#instancedata-add-user-data">Adding
+        /// see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Running
+        /// Commands on Your Linux Instance at Launch</a> (Linux) and <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html#instancedata-add-user-data">Adding
         /// User Data</a> (Windows).
         /// </para>
         /// </summary>

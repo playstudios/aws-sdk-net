@@ -29,11 +29,22 @@ namespace Amazon.IoT.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateThing operation.
-    /// Creates a thing record in the thing registry.
+    /// Creates a thing record in the registry. If this call is made multiple times using
+    /// the same thing name and configuration, the call will succeed. If this call is made
+    /// with the same thing name but different configuration a <code>ResourceAlreadyExistsException</code>
+    /// is thrown.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// This is a control plane operation. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
+    /// for information about authorizing control plane actions.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateThingRequest : AmazonIoTRequest
     {
         private AttributePayload _attributePayload;
+        private string _billingGroupName;
         private string _thingName;
         private string _thingTypeName;
 
@@ -61,11 +72,31 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property BillingGroupName. 
+        /// <para>
+        /// The name of the billing group the thing will be added to.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=128)]
+        public string BillingGroupName
+        {
+            get { return this._billingGroupName; }
+            set { this._billingGroupName = value; }
+        }
+
+        // Check to see if BillingGroupName property is set
+        internal bool IsSetBillingGroupName()
+        {
+            return this._billingGroupName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ThingName. 
         /// <para>
         /// The name of the thing to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ThingName
         {
             get { return this._thingName; }
@@ -84,6 +115,7 @@ namespace Amazon.IoT.Model
         /// The name of the thing type associated with the new thing.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ThingTypeName
         {
             get { return this._thingTypeName; }

@@ -35,15 +35,11 @@ namespace Amazon.GameLift.Model
     /// 
     ///  <note> 
     /// <para>
-    /// See the <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_gamelift">AWS
+    /// See the <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_gamelift">AWS
     /// Service Limits</a> page for maximum log file sizes. Log files that exceed this limit
     /// are not saved.
     /// </para>
-    ///  </note> 
-    /// <para>
-    /// Game-session-related operations include:
-    /// </para>
-    ///  <ul> <li> 
+    ///  </note> <ul> <li> 
     /// <para>
     ///  <a>CreateGameSession</a> 
     /// </para>
@@ -92,9 +88,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameSessionId. 
         /// <para>
-        /// Unique identifier for the game session to get logs for.
+        /// A unique identifier for the game session to get logs for. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string GameSessionId
         {
             get { return this._gameSessionId; }

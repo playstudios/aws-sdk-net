@@ -82,10 +82,46 @@ namespace Amazon.CloudHSMV2.Model.Internal.MarshallTransformations
                     unmarshalledObject.ClusterId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("CopyTimestamp", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.CopyTimestamp = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("CreateTimestamp", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.CreateTimestamp = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("DeleteTimestamp", targetDepth))
+                {
+                    var unmarshaller = DateTimeUnmarshaller.Instance;
+                    unmarshalledObject.DeleteTimestamp = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("SourceBackup", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SourceBackup = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("SourceCluster", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SourceCluster = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("SourceRegion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.SourceRegion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("TagList", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Tag, TagUnmarshaller>(TagUnmarshaller.Instance);
+                    unmarshalledObject.TagList = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

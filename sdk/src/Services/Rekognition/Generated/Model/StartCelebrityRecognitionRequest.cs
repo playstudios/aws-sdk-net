@@ -33,16 +33,21 @@ namespace Amazon.Rekognition.Model
     /// 
     ///  
     /// <para>
-    /// Rekognition Video can detect celebrities in a video must be stored in an Amazon S3
-    /// bucket. Use <a>Video</a> to specify the bucket name and the filename of the video.
+    /// Amazon Rekognition Video can detect celebrities in a video must be stored in an Amazon
+    /// S3 bucket. Use <a>Video</a> to specify the bucket name and the filename of the video.
     /// <code>StartCelebrityRecognition</code> returns a job identifier (<code>JobId</code>)
     /// which you use to get the results of the analysis. When celebrity recognition analysis
-    /// is finished, Rekognition Video publishes a completion status to the Amazon Simple
-    /// Notification Service topic that you specify in <code>NotificationChannel</code>. To
-    /// get the results of the celebrity recognition analysis, first check that the status
-    /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call and
-    /// pass the job identifier (<code>JobId</code>) from the initial call to <code>StartCelebrityRecognition</code>.
-    /// For more information, see <a>celebrities</a>.
+    /// is finished, Amazon Rekognition Video publishes a completion status to the Amazon
+    /// Simple Notification Service topic that you specify in <code>NotificationChannel</code>.
+    /// To get the results of the celebrity recognition analysis, first check that the status
+    /// value published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetCelebrityRecognition</a>
+    /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartCelebrityRecognition</code>.
+    /// 
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see Recognizing Celebrities in the Amazon Rekognition Developer
+    /// Guide.
     /// </para>
     /// </summary>
     public partial class StartCelebrityRecognitionRequest : AmazonRekognitionRequest
@@ -61,6 +66,7 @@ namespace Amazon.Rekognition.Model
         /// accidently started more than once. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ClientRequestToken
         {
             get { return this._clientRequestToken; }
@@ -76,10 +82,12 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property JobTag. 
         /// <para>
-        /// Unique identifier you specify to identify the job in the completion status published
-        /// to the Amazon Simple Notification Service topic. 
+        /// An identifier you specify that's returned in the completion notification that's published
+        /// to your Amazon Simple Notification Service topic. For example, you can use <code>JobTag</code>
+        /// to group related jobs and identify them in the completion notification.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string JobTag
         {
             get { return this._jobTag; }
@@ -95,7 +103,7 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property NotificationChannel. 
         /// <para>
-        /// The Amazon SNS topic ARN that you want Rekognition Video to publish the completion
+        /// The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion
         /// status of the celebrity recognition analysis to.
         /// </para>
         /// </summary>
@@ -118,6 +126,7 @@ namespace Amazon.Rekognition.Model
         /// an Amazon S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Video Video
         {
             get { return this._video; }

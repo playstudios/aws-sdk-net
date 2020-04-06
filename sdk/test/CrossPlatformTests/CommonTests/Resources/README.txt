@@ -8,4 +8,17 @@ To provide credentials to the test applications, place a file named "settings.js
 	"RegionEndpoint"  : "us-west-2",
 	"ResultsBucket"   : "",
 	"ResultsTopic"    : ""
+	"UnAuthCognitoPoolId" : "",
+	"UnAuthUnAuthRole" : "",
+	"UnAuthAuthRole" : "",
+	"AuthCognitoPoolId" : "",
+	"AuthUnAuthRole" : "",
+	"AuthAuthRole" : "",
+	"AccountId" : "",
+
+	"AuthProvider" : "",
+	"AuthToken" : ""
+	"AppId":""
+
+
 }

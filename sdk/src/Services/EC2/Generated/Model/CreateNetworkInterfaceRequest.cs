@@ -33,7 +33,7 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// For more information about network interfaces, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html">Elastic
+    /// For more information about network interfaces, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html">Elastic
     /// Network Interfaces</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -41,6 +41,7 @@ namespace Amazon.EC2.Model
     {
         private string _description;
         private List<string> _groups = new List<string>();
+        private NetworkInterfaceCreationType _interfaceType;
         private int? _ipv6AddressCount;
         private List<InstanceIpv6Address> _ipv6Addresses = new List<InstanceIpv6Address>();
         private string _privateIpAddress;
@@ -82,6 +83,26 @@ namespace Amazon.EC2.Model
         internal bool IsSetGroups()
         {
             return this._groups != null && this._groups.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property InterfaceType. 
+        /// <para>
+        /// Indicates the type of network interface. To create an Elastic Fabric Adapter (EFA),
+        /// specify <code>efa</code>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html">
+        /// Elastic Fabric Adapter</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+        /// </para>
+        /// </summary>
+        public NetworkInterfaceCreationType InterfaceType
+        {
+            get { return this._interfaceType; }
+            set { this._interfaceType = value; }
+        }
+
+        // Check to see if InterfaceType property is set
+        internal bool IsSetInterfaceType()
+        {
+            return this._interfaceType != null;
         }
 
         /// <summary>
@@ -175,7 +196,7 @@ namespace Amazon.EC2.Model
         ///  
         /// <para>
         /// The number of IP addresses you can assign to a network interface varies by instance
-        /// type. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI">IP
+        /// type. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI">IP
         /// Addresses Per ENI Per Instance Type</a> in the <i>Amazon Virtual Private Cloud User
         /// Guide</i>.
         /// </para>
@@ -198,6 +219,7 @@ namespace Amazon.EC2.Model
         /// The ID of the subnet to associate with the network interface.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubnetId
         {
             get { return this._subnetId; }

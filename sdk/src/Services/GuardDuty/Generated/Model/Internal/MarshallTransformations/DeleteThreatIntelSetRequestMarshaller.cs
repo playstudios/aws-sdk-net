@@ -55,16 +55,17 @@ namespace Amazon.GuardDuty.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteThreatIntelSetRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.GuardDuty");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-28";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/detector/{detectorId}/threatintelset/{threatIntelSetId}";
             if (!publicRequest.IsSetDetectorId())
                 throw new AmazonGuardDutyException("Request object does not have required field DetectorId set");
-            uriResourcePath = uriResourcePath.Replace("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
+            request.AddPathResource("{detectorId}", StringUtils.FromString(publicRequest.DetectorId));
             if (!publicRequest.IsSetThreatIntelSetId())
                 throw new AmazonGuardDutyException("Request object does not have required field ThreatIntelSetId set");
-            uriResourcePath = uriResourcePath.Replace("{threatIntelSetId}", StringUtils.FromString(publicRequest.ThreatIntelSetId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{threatIntelSetId}", StringUtils.FromString(publicRequest.ThreatIntelSetId));
+            request.ResourcePath = "/detector/{detectorId}/threatintelset/{threatIntelSetId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

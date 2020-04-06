@@ -29,32 +29,36 @@ namespace Amazon.StepFunctions.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateStateMachine operation.
-    /// Updates an existing state machine by modifying its <code>definition</code> and/or
-    /// <code>roleArn</code>. Running executions will continue to use the previous <code>definition</code>
-    /// and <code>roleArn</code>.
+    /// Updates an existing state machine by modifying its <code>definition</code>, <code>roleArn</code>,
+    /// or <code>loggingConfiguration</code>. Running executions will continue to use the
+    /// previous <code>definition</code> and <code>roleArn</code>. You must include at least
+    /// one of <code>definition</code> or <code>roleArn</code> or you will receive a <code>MissingRequiredParameter</code>
+    /// error.
     /// 
     ///  <note> 
     /// <para>
     /// All <code>StartExecution</code> calls within a few seconds will use the updated <code>definition</code>
     /// and <code>roleArn</code>. Executions started immediately after calling <code>UpdateStateMachine</code>
     /// may use the previous state machine <code>definition</code> and <code>roleArn</code>.
-    /// You must include at least one of <code>definition</code> or <code>roleArn</code> or
-    /// you will receive a <code>MissingRequiredParameter</code> error.
+    /// 
     /// </para>
     ///  </note>
     /// </summary>
     public partial class UpdateStateMachineRequest : AmazonStepFunctionsRequest
     {
         private string _definition;
+        private LoggingConfiguration _loggingConfiguration;
         private string _roleArn;
         private string _stateMachineArn;
 
         /// <summary>
         /// Gets and sets the property Definition. 
         /// <para>
-        /// The Amazon States Language definition of the state machine.
+        /// The Amazon States Language definition of the state machine. See <a href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+        /// States Language</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1048576)]
         public string Definition
         {
             get { return this._definition; }
@@ -68,11 +72,30 @@ namespace Amazon.StepFunctions.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LoggingConfiguration. 
+        /// <para>
+        /// The <code>LoggingConfiguration</code> data type is used to set CloudWatch Logs options.
+        /// </para>
+        /// </summary>
+        public LoggingConfiguration LoggingConfiguration
+        {
+            get { return this._loggingConfiguration; }
+            set { this._loggingConfiguration = value; }
+        }
+
+        // Check to see if LoggingConfiguration property is set
+        internal bool IsSetLoggingConfiguration()
+        {
+            return this._loggingConfiguration != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RoleArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the IAM role of the state machine.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -91,6 +114,7 @@ namespace Amazon.StepFunctions.Model
         /// The Amazon Resource Name (ARN) of the state machine.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string StateMachineArn
         {
             get { return this._stateMachineArn; }

@@ -28,10 +28,10 @@ namespace Amazon.SimpleNotificationService
     ///<summary>
     /// Common exception for the SimpleNotificationService service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonSimpleNotificationServiceException : AmazonServiceException
+    public partial class AmazonSimpleNotificationServiceException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonSimpleNotificationServiceException
@@ -88,7 +88,7 @@ namespace Amazon.SimpleNotificationService
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonSimpleNotificationServiceException class with serialized data.
         /// </summary>

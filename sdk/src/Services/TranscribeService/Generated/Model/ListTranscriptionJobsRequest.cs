@@ -45,6 +45,7 @@ namespace Amazon.TranscribeService.Model
         /// the specified string.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=200)]
         public string JobNameContains
         {
             get { return this._jobNameContains; }
@@ -64,6 +65,7 @@ namespace Amazon.TranscribeService.Model
         /// the list, this response contains only the actual results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -83,6 +85,7 @@ namespace Amazon.TranscribeService.Model
         /// include the <code>NextToken</code> to fetch the next set of jobs.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=8192)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -98,7 +101,10 @@ namespace Amazon.TranscribeService.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// When specified, returns only transcription jobs with the specified status.
+        /// When specified, returns only transcription jobs with the specified status. Jobs are
+        /// ordered by creation date, with the newest jobs returned first. If you don’t specify
+        /// a status, Amazon Transcribe returns all transcription jobs ordered by creation date.
+        /// 
         /// </para>
         /// </summary>
         public TranscriptionJobStatus Status

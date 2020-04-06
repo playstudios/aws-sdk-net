@@ -70,10 +70,34 @@ namespace Amazon.CodeCommit.Model.Internal.MarshallTransformations
                     unmarshalledObject.ActorArn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("approvalRuleEventMetadata", targetDepth))
+                {
+                    var unmarshaller = ApprovalRuleEventMetadataUnmarshaller.Instance;
+                    unmarshalledObject.ApprovalRuleEventMetadata = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("approvalRuleOverriddenEventMetadata", targetDepth))
+                {
+                    var unmarshaller = ApprovalRuleOverriddenEventMetadataUnmarshaller.Instance;
+                    unmarshalledObject.ApprovalRuleOverriddenEventMetadata = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("approvalStateChangedEventMetadata", targetDepth))
+                {
+                    var unmarshaller = ApprovalStateChangedEventMetadataUnmarshaller.Instance;
+                    unmarshalledObject.ApprovalStateChangedEventMetadata = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("eventDate", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.EventDate = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("pullRequestCreatedEventMetadata", targetDepth))
+                {
+                    var unmarshaller = PullRequestCreatedEventMetadataUnmarshaller.Instance;
+                    unmarshalledObject.PullRequestCreatedEventMetadata = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("pullRequestEventType", targetDepth))

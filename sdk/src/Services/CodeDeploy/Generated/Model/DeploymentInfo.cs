@@ -85,6 +85,7 @@ namespace Amazon.CodeDeploy.Model
         /// The application name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -136,7 +137,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property CompleteTime. 
         /// <para>
-        /// A timestamp indicating when the deployment was complete.
+        /// A timestamp that indicates when the deployment was complete.
         /// </para>
         /// </summary>
         public DateTime CompleteTime
@@ -154,7 +155,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property ComputePlatform. 
         /// <para>
-        /// The destination platform type for the deployment (<code>Lambda</code> or <code>Server</code>).
+        /// The destination platform type for the deployment (<code>Lambda</code>, <code>Server</code>,
+        /// or <code>ECS</code>).
         /// </para>
         /// </summary>
         public ComputePlatform ComputePlatform
@@ -172,7 +174,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property CreateTime. 
         /// <para>
-        /// A timestamp indicating when the deployment was created.
+        /// A timestamp that indicates when the deployment was created.
         /// </para>
         /// </summary>
         public DateTime CreateTime
@@ -198,7 +200,7 @@ namespace Amazon.CodeDeploy.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// autoscaling: Auto Scaling created the deployment.
+        /// autoscaling: Amazon EC2 Auto Scaling created the deployment.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -221,9 +223,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentConfigName. 
         /// <para>
-        /// The deployment configuration name.
+        ///  The deployment configuration name. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentConfigName
         {
             get { return this._deploymentConfigName; }
@@ -239,9 +242,10 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentGroupName. 
         /// <para>
-        /// The deployment group name.
+        ///  The deployment group name. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string DeploymentGroupName
         {
             get { return this._deploymentGroupName; }
@@ -257,7 +261,7 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property DeploymentId. 
         /// <para>
-        /// The deployment ID.
+        ///  The unique ID of a deployment. 
         /// </para>
         /// </summary>
         public string DeploymentId
@@ -401,16 +405,35 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property IgnoreApplicationStopFailures. 
         /// <para>
-        /// If true, then if the deployment causes the ApplicationStop deployment lifecycle event
-        /// to an instance to fail, the deployment to that instance will not be considered to
-        /// have failed at that point and will continue on to the BeforeInstall deployment lifecycle
-        /// event.
+        ///  If true, then if an <code>ApplicationStop</code>, <code>BeforeBlockTraffic</code>,
+        /// or <code>AfterBlockTraffic</code> deployment lifecycle event to an instance fails,
+        /// then the deployment continues to the next deployment lifecycle event. For example,
+        /// if <code>ApplicationStop</code> fails, the deployment continues with DownloadBundle.
+        /// If <code>BeforeBlockTraffic</code> fails, the deployment continues with <code>BlockTraffic</code>.
+        /// If <code>AfterBlockTraffic</code> fails, the deployment continues with <code>ApplicationStop</code>.
+        /// 
         /// </para>
         ///  
         /// <para>
-        /// If false or not specified, then if the deployment causes the ApplicationStop deployment
-        /// lifecycle event to an instance to fail, the deployment to that instance will stop,
-        /// and the deployment to that instance will be considered to have failed.
+        ///  If false or not specified, then if a lifecycle event fails during a deployment to
+        /// an instance, that deployment fails. If deployment to that instance is part of an overall
+        /// deployment and the number of healthy hosts is not less than the minimum number of
+        /// healthy hosts, then a deployment to the next instance is attempted. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  During a deployment, the AWS CodeDeploy agent runs the scripts specified for <code>ApplicationStop</code>,
+        /// <code>BeforeBlockTraffic</code>, and <code>AfterBlockTraffic</code> in the AppSpec
+        /// file from the previous successful deployment. (All other scripts are run from the
+        /// AppSpec file in the current deployment.) If one of these scripts contains an error
+        /// and does not run successfully, the deployment can fail. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  If the cause of the failure is a script from the last successful deployment that
+        /// will never run successfully, create a new deployment and use <code>ignoreApplicationStopFailures</code>
+        /// to specify that the <code>ApplicationStop</code>, <code>BeforeBlockTraffic</code>,
+        /// and <code>AfterBlockTraffic</code> failures should be ignored. 
         /// </para>
         /// </summary>
         public bool IgnoreApplicationStopFailures
@@ -429,8 +452,8 @@ namespace Amazon.CodeDeploy.Model
         /// Gets and sets the property InstanceTerminationWaitTimeStarted. 
         /// <para>
         /// Indicates whether the wait period set for the termination of instances in the original
-        /// environment has started. Status is 'false' if the KEEP_ALIVE option is specified;
-        /// otherwise, 'true' as soon as the termination wait period starts.
+        /// environment has started. Status is 'false' if the KEEP_ALIVE option is specified.
+        /// Otherwise, 'true' as soon as the termination wait period starts.
         /// </para>
         /// </summary>
         public bool InstanceTerminationWaitTimeStarted
@@ -522,12 +545,12 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property StartTime. 
         /// <para>
-        /// A timestamp indicating when the deployment was deployed to the deployment group.
+        /// A timestamp that indicates when the deployment was deployed to the deployment group.
         /// </para>
         ///  
         /// <para>
-        /// In some cases, the reported value of the start time may be later than the complete
-        /// time. This is due to differences in the clock settings of back-end servers that participate
+        /// In some cases, the reported value of the start time might be later than the complete
+        /// time. This is due to differences in the clock settings of backend servers that participate
         /// in the deployment process.
         /// </para>
         /// </summary>

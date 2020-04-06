@@ -56,6 +56,7 @@ namespace Amazon.OpsWorksCM.Model
         /// Describes a single backup. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=79)]
         public string BackupId
         {
             get { return this._backupId; }
@@ -71,12 +72,10 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// To receive a paginated response, use this parameter to specify the maximum number
-        /// of results to be returned with a single call. If the number of available results exceeds
-        /// this maximum, the response includes a <code>NextToken</code> value that you can assign
-        /// to the <code>NextToken</code> request parameter to get the next set of results. 
+        /// This is not currently implemented for <code>DescribeBackups</code> requests.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -92,16 +91,10 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// NextToken is a string that is returned in some command responses. It indicates that
-        /// not all entries have been returned, and that you must run at least one more request
-        /// to get remaining items. To get remaining results, call <code>DescribeBackups</code>
-        /// again, and assign the token from the previous results as the value of the <code>nextToken</code>
-        /// parameter. If there are no more results, the response object's <code>nextToken</code>
-        /// parameter value is <code>null</code>. Setting a <code>nextToken</code> value that
-        /// was not returned in your previous results causes an <code>InvalidNextTokenException</code>
-        /// to occur.
+        /// This is not currently implemented for <code>DescribeBackups</code> requests.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -120,6 +113,7 @@ namespace Amazon.OpsWorksCM.Model
         /// Returns backups for the server with the specified ServerName. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=40)]
         public string ServerName
         {
             get { return this._serverName; }

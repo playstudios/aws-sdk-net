@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.Lightsail.Model;
 using Amazon.Lightsail.Model.Internal.MarshallTransformations;
+using Amazon.Lightsail.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -35,9 +37,10 @@ namespace Amazon.Lightsail
     ///
     /// Amazon Lightsail is the easiest way to get started with AWS for developers who just
     /// need virtual private servers. Lightsail includes everything you need to launch your
-    /// project quickly - a virtual machine, SSD-based storage, data transfer, DNS management,
-    /// and a static IP - for a low, predictable price. You manage those Lightsail servers
-    /// through the Lightsail console or by using the API or command-line interface (CLI).
+    /// project quickly - a virtual machine, a managed database, SSD-based storage, data transfer,
+    /// DNS management, and a static IP - for a low, predictable price. You manage those Lightsail
+    /// servers through the Lightsail console or by using the API or command-line interface
+    /// (CLI).
     /// 
     ///  
     /// <para>
@@ -54,6 +57,7 @@ namespace Amazon.Lightsail
     /// </summary>
     public partial class AmazonLightsailClient : AmazonServiceClient, IAmazonLightsail
     {
+        private static IServiceMetadata serviceMetadata = new AmazonLightsailMetadata();
         #region Constructors
 
         /// <summary>
@@ -224,6 +228,16 @@ namespace Amazon.Lightsail
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -239,7 +253,7 @@ namespace Amazon.Lightsail
 
         #endregion
 
-        
+
         #region  AllocateStaticIp
 
         /// <summary>
@@ -282,10 +296,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AllocateStaticIp">REST API Reference for AllocateStaticIp Operation</seealso>
         public virtual AllocateStaticIpResponse AllocateStaticIp(AllocateStaticIpRequest request)
         {
-            var marshaller = AllocateStaticIpRequestMarshaller.Instance;
-            var unmarshaller = AllocateStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateStaticIpResponseUnmarshaller.Instance;
 
-            return Invoke<AllocateStaticIpRequest,AllocateStaticIpResponse>(request, marshaller, unmarshaller);
+            return Invoke<AllocateStaticIpResponse>(request, options);
         }
 
         /// <summary>
@@ -302,11 +317,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AllocateStaticIp">REST API Reference for AllocateStaticIp Operation</seealso>
         public virtual IAsyncResult BeginAllocateStaticIp(AllocateStaticIpRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AllocateStaticIpRequestMarshaller.Instance;
-            var unmarshaller = AllocateStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AllocateStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AllocateStaticIpResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AllocateStaticIpRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -329,6 +344,14 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes
         /// it to the instance with the specified disk name.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>attach disk</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>disk name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachDisk service method.</param>
         /// 
@@ -367,10 +390,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachDisk">REST API Reference for AttachDisk Operation</seealso>
         public virtual AttachDiskResponse AttachDisk(AttachDiskRequest request)
         {
-            var marshaller = AttachDiskRequestMarshaller.Instance;
-            var unmarshaller = AttachDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachDiskResponseUnmarshaller.Instance;
 
-            return Invoke<AttachDiskRequest,AttachDiskResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachDiskResponse>(request, options);
         }
 
         /// <summary>
@@ -387,11 +411,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachDisk">REST API Reference for AttachDisk Operation</seealso>
         public virtual IAsyncResult BeginAttachDisk(AttachDiskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachDiskRequestMarshaller.Instance;
-            var unmarshaller = AttachDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachDiskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachDiskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -418,6 +442,13 @@ namespace Amazon.Lightsail
         /// <para>
         /// After some time, the instances are attached to the load balancer and the health check
         /// status is available.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>attach instances to load balancer</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachInstancesToLoadBalancer service method.</param>
@@ -457,10 +488,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachInstancesToLoadBalancer">REST API Reference for AttachInstancesToLoadBalancer Operation</seealso>
         public virtual AttachInstancesToLoadBalancerResponse AttachInstancesToLoadBalancer(AttachInstancesToLoadBalancerRequest request)
         {
-            var marshaller = AttachInstancesToLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = AttachInstancesToLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachInstancesToLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachInstancesToLoadBalancerResponseUnmarshaller.Instance;
 
-            return Invoke<AttachInstancesToLoadBalancerRequest,AttachInstancesToLoadBalancerResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachInstancesToLoadBalancerResponse>(request, options);
         }
 
         /// <summary>
@@ -477,11 +509,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachInstancesToLoadBalancer">REST API Reference for AttachInstancesToLoadBalancer Operation</seealso>
         public virtual IAsyncResult BeginAttachInstancesToLoadBalancer(AttachInstancesToLoadBalancerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachInstancesToLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = AttachInstancesToLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachInstancesToLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachInstancesToLoadBalancerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachInstancesToLoadBalancerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -509,8 +541,15 @@ namespace Amazon.Lightsail
         /// <para>
         /// Once you create and validate your certificate, you can attach it to your load balancer.
         /// You can also use this API to rotate the certificates on your account. Use the <code>AttachLoadBalancerTlsCertificate</code>
-        /// operation with the non-attached certificate, and it will replace the existing one
-        /// and become the attached certificate.
+        /// action with the non-attached certificate, and it will replace the existing one and
+        /// become the attached certificate.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>AttachLoadBalancerTlsCertificate</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachLoadBalancerTlsCertificate service method.</param>
@@ -550,10 +589,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachLoadBalancerTlsCertificate">REST API Reference for AttachLoadBalancerTlsCertificate Operation</seealso>
         public virtual AttachLoadBalancerTlsCertificateResponse AttachLoadBalancerTlsCertificate(AttachLoadBalancerTlsCertificateRequest request)
         {
-            var marshaller = AttachLoadBalancerTlsCertificateRequestMarshaller.Instance;
-            var unmarshaller = AttachLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachLoadBalancerTlsCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<AttachLoadBalancerTlsCertificateRequest,AttachLoadBalancerTlsCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachLoadBalancerTlsCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -570,11 +610,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachLoadBalancerTlsCertificate">REST API Reference for AttachLoadBalancerTlsCertificate Operation</seealso>
         public virtual IAsyncResult BeginAttachLoadBalancerTlsCertificate(AttachLoadBalancerTlsCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachLoadBalancerTlsCertificateRequestMarshaller.Instance;
-            var unmarshaller = AttachLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachLoadBalancerTlsCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachLoadBalancerTlsCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -634,10 +674,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachStaticIp">REST API Reference for AttachStaticIp Operation</seealso>
         public virtual AttachStaticIpResponse AttachStaticIp(AttachStaticIpRequest request)
         {
-            var marshaller = AttachStaticIpRequestMarshaller.Instance;
-            var unmarshaller = AttachStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachStaticIpResponseUnmarshaller.Instance;
 
-            return Invoke<AttachStaticIpRequest,AttachStaticIpResponse>(request, marshaller, unmarshaller);
+            return Invoke<AttachStaticIpResponse>(request, options);
         }
 
         /// <summary>
@@ -654,11 +695,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachStaticIp">REST API Reference for AttachStaticIp Operation</seealso>
         public virtual IAsyncResult BeginAttachStaticIp(AttachStaticIpRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AttachStaticIpRequestMarshaller.Instance;
-            var unmarshaller = AttachStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AttachStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AttachStaticIpResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AttachStaticIpRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -680,6 +721,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Closes the public ports on a specific Amazon Lightsail instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>close instance public ports</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CloseInstancePublicPorts service method.</param>
         /// 
@@ -718,10 +767,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CloseInstancePublicPorts">REST API Reference for CloseInstancePublicPorts Operation</seealso>
         public virtual CloseInstancePublicPortsResponse CloseInstancePublicPorts(CloseInstancePublicPortsRequest request)
         {
-            var marshaller = CloseInstancePublicPortsRequestMarshaller.Instance;
-            var unmarshaller = CloseInstancePublicPortsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CloseInstancePublicPortsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CloseInstancePublicPortsResponseUnmarshaller.Instance;
 
-            return Invoke<CloseInstancePublicPortsRequest,CloseInstancePublicPortsResponse>(request, marshaller, unmarshaller);
+            return Invoke<CloseInstancePublicPortsResponse>(request, options);
         }
 
         /// <summary>
@@ -738,11 +788,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CloseInstancePublicPorts">REST API Reference for CloseInstancePublicPorts Operation</seealso>
         public virtual IAsyncResult BeginCloseInstancePublicPorts(CloseInstancePublicPortsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CloseInstancePublicPortsRequestMarshaller.Instance;
-            var unmarshaller = CloseInstancePublicPortsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CloseInstancePublicPortsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CloseInstancePublicPortsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CloseInstancePublicPortsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -760,13 +810,306 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  CopySnapshot
+
+        /// <summary>
+        /// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies
+        /// an automatic snapshot of an instance or disk as a manual snapshot. This operation
+        /// can also be used to copy a manual or automatic snapshot of an instance or a disk from
+        /// one AWS Region to another in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// When copying a <i>manual snapshot</i>, be sure to define the <code>source region</code>,
+        /// <code>source snapshot name</code>, and <code>target snapshot name</code> parameters.
+        /// </para>
+        ///  
+        /// <para>
+        /// When copying an <i>automatic snapshot</i>, be sure to define the <code>source region</code>,
+        /// <code>source resource name</code>, <code>target snapshot name</code>, and either the
+        /// <code>restore date</code> or the <code>use latest restorable auto snapshot</code>
+        /// parameters.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CopySnapshot service method.</param>
+        /// 
+        /// <returns>The response from the CopySnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CopySnapshot">REST API Reference for CopySnapshot Operation</seealso>
+        public virtual CopySnapshotResponse CopySnapshot(CopySnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopySnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopySnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<CopySnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CopySnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CopySnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCopySnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CopySnapshot">REST API Reference for CopySnapshot Operation</seealso>
+        public virtual IAsyncResult BeginCopySnapshot(CopySnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CopySnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CopySnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CopySnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCopySnapshot.</param>
+        /// 
+        /// <returns>Returns a  CopySnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CopySnapshot">REST API Reference for CopySnapshot Operation</seealso>
+        public virtual CopySnapshotResponse EndCopySnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CopySnapshotResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateCloudFormationStack
+
+        /// <summary>
+        /// Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from
+        /// an exported Amazon Lightsail snapshot. This operation results in a CloudFormation
+        /// stack record that can be used to track the AWS CloudFormation stack created. Use the
+        /// <code>get cloud formation stack records</code> operation to get a list of the CloudFormation
+        /// stacks created.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Wait until after your new Amazon EC2 instance is created before running the <code>create
+        /// cloud formation stack</code> operation again with the same export snapshot record.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateCloudFormationStack service method.</param>
+        /// 
+        /// <returns>The response from the CreateCloudFormationStack service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateCloudFormationStack">REST API Reference for CreateCloudFormationStack Operation</seealso>
+        public virtual CreateCloudFormationStackResponse CreateCloudFormationStack(CreateCloudFormationStackRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCloudFormationStackRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCloudFormationStackResponseUnmarshaller.Instance;
+
+            return Invoke<CreateCloudFormationStackResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateCloudFormationStack operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateCloudFormationStack operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateCloudFormationStack
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateCloudFormationStack">REST API Reference for CreateCloudFormationStack Operation</seealso>
+        public virtual IAsyncResult BeginCreateCloudFormationStack(CreateCloudFormationStackRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateCloudFormationStackRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateCloudFormationStackResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateCloudFormationStack operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateCloudFormationStack.</param>
+        /// 
+        /// <returns>Returns a  CreateCloudFormationStackResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateCloudFormationStack">REST API Reference for CreateCloudFormationStack Operation</seealso>
+        public virtual CreateCloudFormationStackResponse EndCreateCloudFormationStack(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateCloudFormationStackResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateContactMethod
+
+        /// <summary>
+        /// Creates an email or SMS text message contact method.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateContactMethod service method.</param>
+        /// 
+        /// <returns>The response from the CreateContactMethod service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateContactMethod">REST API Reference for CreateContactMethod Operation</seealso>
+        public virtual CreateContactMethodResponse CreateContactMethod(CreateContactMethodRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateContactMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateContactMethodResponseUnmarshaller.Instance;
+
+            return Invoke<CreateContactMethodResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateContactMethod operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateContactMethod
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateContactMethod">REST API Reference for CreateContactMethod Operation</seealso>
+        public virtual IAsyncResult BeginCreateContactMethod(CreateContactMethodRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateContactMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateContactMethodResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateContactMethod.</param>
+        /// 
+        /// <returns>Returns a  CreateContactMethodResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateContactMethod">REST API Reference for CreateContactMethod Operation</seealso>
+        public virtual CreateContactMethodResponse EndCreateContactMethod(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateContactMethodResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  CreateDisk
 
         /// <summary>
-        /// Creates a block storage disk that can be attached to a Lightsail instance in the same
-        /// Availability Zone (e.g., <code>us-east-2a</code>). The disk is created in the regional
-        /// endpoint that you send the HTTP request to. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/overview/article/understanding-regions-and-availability-zones-in-amazon-lightsail">Regions
-        /// and Availability Zones in Lightsail</a>.
+        /// Creates a block storage disk that can be attached to an Amazon Lightsail instance
+        /// in the same Availability Zone (e.g., <code>us-east-2a</code>).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create disk</code> operation supports tag-based access control via request
+        /// tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDisk service method.</param>
         /// 
@@ -805,10 +1148,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDisk">REST API Reference for CreateDisk Operation</seealso>
         public virtual CreateDiskResponse CreateDisk(CreateDiskRequest request)
         {
-            var marshaller = CreateDiskRequestMarshaller.Instance;
-            var unmarshaller = CreateDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDiskResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDiskRequest,CreateDiskResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDiskResponse>(request, options);
         }
 
         /// <summary>
@@ -825,11 +1169,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDisk">REST API Reference for CreateDisk Operation</seealso>
         public virtual IAsyncResult BeginCreateDisk(CreateDiskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDiskRequestMarshaller.Instance;
-            var unmarshaller = CreateDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDiskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDiskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -850,11 +1194,17 @@ namespace Amazon.Lightsail
         #region  CreateDiskFromSnapshot
 
         /// <summary>
-        /// Creates a block storage disk from a disk snapshot that can be attached to a Lightsail
-        /// instance in the same Availability Zone (e.g., <code>us-east-2a</code>). The disk is
-        /// created in the regional endpoint that you send the HTTP request to. For more information,
-        /// see <a href="https://lightsail.aws.amazon.com/ls/docs/overview/article/understanding-regions-and-availability-zones-in-amazon-lightsail">Regions
-        /// and Availability Zones in Lightsail</a>.
+        /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting
+        /// disk can be attached to an Amazon Lightsail instance in the same Availability Zone
+        /// (e.g., <code>us-east-2a</code>).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create disk from snapshot</code> operation supports tag-based access control
+        /// via request tags and resource tags applied to the resource identified by <code>disk
+        /// snapshot name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDiskFromSnapshot service method.</param>
         /// 
@@ -893,10 +1243,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskFromSnapshot">REST API Reference for CreateDiskFromSnapshot Operation</seealso>
         public virtual CreateDiskFromSnapshotResponse CreateDiskFromSnapshot(CreateDiskFromSnapshotRequest request)
         {
-            var marshaller = CreateDiskFromSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateDiskFromSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDiskFromSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDiskFromSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDiskFromSnapshotRequest,CreateDiskFromSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDiskFromSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -913,11 +1264,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskFromSnapshot">REST API Reference for CreateDiskFromSnapshot Operation</seealso>
         public virtual IAsyncResult BeginCreateDiskFromSnapshot(CreateDiskFromSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDiskFromSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateDiskFromSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDiskFromSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDiskFromSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDiskFromSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -952,6 +1303,23 @@ namespace Amazon.Lightsail
         /// issue the create disk snapshot command, and then remount the disk to ensure a consistent
         /// and complete snapshot. You may remount and use your disk while the snapshot status
         /// is pending.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can also use this operation to create a snapshot of an instance's system volume.
+        /// You might want to do this, for example, to recover data from the system volume of
+        /// a botched instance or to create a backup of the system volume like you would for a
+        /// block storage disk. To create a snapshot of a system volume, just define the <code>instance
+        /// name</code> parameter when issuing the snapshot command, and a snapshot of the defined
+        /// instance's system volume will be created. After the snapshot is available, you can
+        /// create a block storage disk from the snapshot and attach it to a running instance
+        /// to access the data on the disk.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>create disk snapshot</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDiskSnapshot service method.</param>
@@ -991,10 +1359,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskSnapshot">REST API Reference for CreateDiskSnapshot Operation</seealso>
         public virtual CreateDiskSnapshotResponse CreateDiskSnapshot(CreateDiskSnapshotRequest request)
         {
-            var marshaller = CreateDiskSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateDiskSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDiskSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDiskSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDiskSnapshotRequest,CreateDiskSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDiskSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -1011,11 +1380,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskSnapshot">REST API Reference for CreateDiskSnapshot Operation</seealso>
         public virtual IAsyncResult BeginCreateDiskSnapshot(CreateDiskSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDiskSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateDiskSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDiskSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDiskSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDiskSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1037,6 +1406,13 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Creates a domain resource for the specified domain (e.g., example.com).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create domain</code> operation supports tag-based access control via request
+        /// tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDomain service method.</param>
         /// 
@@ -1075,10 +1451,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomain">REST API Reference for CreateDomain Operation</seealso>
         public virtual CreateDomainResponse CreateDomain(CreateDomainRequest request)
         {
-            var marshaller = CreateDomainRequestMarshaller.Instance;
-            var unmarshaller = CreateDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDomainRequest,CreateDomainResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDomainResponse>(request, options);
         }
 
         /// <summary>
@@ -1095,11 +1472,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomain">REST API Reference for CreateDomain Operation</seealso>
         public virtual IAsyncResult BeginCreateDomain(CreateDomainRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDomainRequestMarshaller.Instance;
-            var unmarshaller = CreateDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDomainRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1120,8 +1497,17 @@ namespace Amazon.Lightsail
         #region  CreateDomainEntry
 
         /// <summary>
-        /// Creates one of the following entry records associated with the domain: A record, CNAME
-        /// record, TXT record, or MX record.
+        /// Creates one of the following entry records associated with the domain: Address (A),
+        /// canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
+        /// (SOA), service locator (SRV), or text (TXT).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create domain entry</code> operation supports tag-based access control via
+        /// resource tags applied to the resource identified by <code>domain name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDomainEntry service method.</param>
         /// 
@@ -1160,10 +1546,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomainEntry">REST API Reference for CreateDomainEntry Operation</seealso>
         public virtual CreateDomainEntryResponse CreateDomainEntry(CreateDomainEntryRequest request)
         {
-            var marshaller = CreateDomainEntryRequestMarshaller.Instance;
-            var unmarshaller = CreateDomainEntryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainEntryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainEntryResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDomainEntryRequest,CreateDomainEntryResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDomainEntryResponse>(request, options);
         }
 
         /// <summary>
@@ -1180,11 +1567,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomainEntry">REST API Reference for CreateDomainEntry Operation</seealso>
         public virtual IAsyncResult BeginCreateDomainEntry(CreateDomainEntryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDomainEntryRequestMarshaller.Instance;
-            var unmarshaller = CreateDomainEntryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainEntryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainEntryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDomainEntryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1205,7 +1592,14 @@ namespace Amazon.Lightsail
         #region  CreateInstances
 
         /// <summary>
-        /// Creates one or more Amazon Lightsail virtual private servers, or <i>instances</i>.
+        /// Creates one or more Amazon Lightsail instances.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create instances</code> operation supports tag-based access control via
+        /// request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateInstances service method.</param>
         /// 
@@ -1244,10 +1638,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstances">REST API Reference for CreateInstances Operation</seealso>
         public virtual CreateInstancesResponse CreateInstances(CreateInstancesRequest request)
         {
-            var marshaller = CreateInstancesRequestMarshaller.Instance;
-            var unmarshaller = CreateInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInstancesRequest,CreateInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -1264,11 +1659,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstances">REST API Reference for CreateInstances Operation</seealso>
         public virtual IAsyncResult BeginCreateInstances(CreateInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInstancesRequestMarshaller.Instance;
-            var unmarshaller = CreateInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1289,8 +1684,15 @@ namespace Amazon.Lightsail
         #region  CreateInstancesFromSnapshot
 
         /// <summary>
-        /// Uses a specific snapshot as a blueprint for creating one or more new instances that
-        /// are based on that identical configuration.
+        /// Creates one or more new instances from a manual or automatic snapshot of an instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create instances from snapshot</code> operation supports tag-based access
+        /// control via request tags and resource tags applied to the resource identified by <code>instance
+        /// snapshot name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateInstancesFromSnapshot service method.</param>
         /// 
@@ -1329,10 +1731,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstancesFromSnapshot">REST API Reference for CreateInstancesFromSnapshot Operation</seealso>
         public virtual CreateInstancesFromSnapshotResponse CreateInstancesFromSnapshot(CreateInstancesFromSnapshotRequest request)
         {
-            var marshaller = CreateInstancesFromSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateInstancesFromSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstancesFromSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstancesFromSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInstancesFromSnapshotRequest,CreateInstancesFromSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInstancesFromSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -1349,11 +1752,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstancesFromSnapshot">REST API Reference for CreateInstancesFromSnapshot Operation</seealso>
         public virtual IAsyncResult BeginCreateInstancesFromSnapshot(CreateInstancesFromSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInstancesFromSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateInstancesFromSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstancesFromSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstancesFromSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInstancesFromSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1376,6 +1779,13 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Creates a snapshot of a specific virtual private server, or <i>instance</i>. You can
         /// use a snapshot to create a new instance that is based on that snapshot.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create instance snapshot</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateInstanceSnapshot service method.</param>
         /// 
@@ -1414,10 +1824,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstanceSnapshot">REST API Reference for CreateInstanceSnapshot Operation</seealso>
         public virtual CreateInstanceSnapshotResponse CreateInstanceSnapshot(CreateInstanceSnapshotRequest request)
         {
-            var marshaller = CreateInstanceSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateInstanceSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstanceSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstanceSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInstanceSnapshotRequest,CreateInstanceSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInstanceSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -1434,11 +1845,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstanceSnapshot">REST API Reference for CreateInstanceSnapshot Operation</seealso>
         public virtual IAsyncResult BeginCreateInstanceSnapshot(CreateInstanceSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInstanceSnapshotRequestMarshaller.Instance;
-            var unmarshaller = CreateInstanceSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstanceSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstanceSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInstanceSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1459,7 +1870,14 @@ namespace Amazon.Lightsail
         #region  CreateKeyPair
 
         /// <summary>
-        /// Creates sn SSH key pair.
+        /// Creates an SSH key pair.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create key pair</code> operation supports tag-based access control via request
+        /// tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateKeyPair service method.</param>
         /// 
@@ -1498,10 +1916,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateKeyPair">REST API Reference for CreateKeyPair Operation</seealso>
         public virtual CreateKeyPairResponse CreateKeyPair(CreateKeyPairRequest request)
         {
-            var marshaller = CreateKeyPairRequestMarshaller.Instance;
-            var unmarshaller = CreateKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateKeyPairResponseUnmarshaller.Instance;
 
-            return Invoke<CreateKeyPairRequest,CreateKeyPairResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateKeyPairResponse>(request, options);
         }
 
         /// <summary>
@@ -1518,11 +1937,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateKeyPair">REST API Reference for CreateKeyPair Operation</seealso>
         public virtual IAsyncResult BeginCreateKeyPair(CreateKeyPairRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateKeyPairRequestMarshaller.Instance;
-            var unmarshaller = CreateKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateKeyPairResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateKeyPairRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1553,6 +1972,12 @@ namespace Amazon.Lightsail
         /// When you create a load balancer, you can specify a unique name and port settings.
         /// To change additional load balancer settings, use the <code>UpdateLoadBalancerAttribute</code>
         /// operation.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>create load balancer</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLoadBalancer service method.</param>
@@ -1592,10 +2017,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancer">REST API Reference for CreateLoadBalancer Operation</seealso>
         public virtual CreateLoadBalancerResponse CreateLoadBalancer(CreateLoadBalancerRequest request)
         {
-            var marshaller = CreateLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = CreateLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLoadBalancerResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLoadBalancerRequest,CreateLoadBalancerResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLoadBalancerResponse>(request, options);
         }
 
         /// <summary>
@@ -1612,11 +2038,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancer">REST API Reference for CreateLoadBalancer Operation</seealso>
         public virtual IAsyncResult BeginCreateLoadBalancer(CreateLoadBalancerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = CreateLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLoadBalancerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateLoadBalancerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1642,6 +2068,13 @@ namespace Amazon.Lightsail
         ///  
         /// <para>
         /// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>CreateLoadBalancerTlsCertificate</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateLoadBalancerTlsCertificate service method.</param>
@@ -1681,10 +2114,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancerTlsCertificate">REST API Reference for CreateLoadBalancerTlsCertificate Operation</seealso>
         public virtual CreateLoadBalancerTlsCertificateResponse CreateLoadBalancerTlsCertificate(CreateLoadBalancerTlsCertificateRequest request)
         {
-            var marshaller = CreateLoadBalancerTlsCertificateRequestMarshaller.Instance;
-            var unmarshaller = CreateLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLoadBalancerTlsCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<CreateLoadBalancerTlsCertificateRequest,CreateLoadBalancerTlsCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateLoadBalancerTlsCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -1701,11 +2135,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancerTlsCertificate">REST API Reference for CreateLoadBalancerTlsCertificate Operation</seealso>
         public virtual IAsyncResult BeginCreateLoadBalancerTlsCertificate(CreateLoadBalancerTlsCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateLoadBalancerTlsCertificateRequestMarshaller.Instance;
-            var unmarshaller = CreateLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateLoadBalancerTlsCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateLoadBalancerTlsCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1723,6 +2157,553 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  CreateRelationalDatabase
+
+        /// <summary>
+        /// Creates a new database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create relational database</code> operation supports tag-based access control
+        /// via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the CreateRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabase">REST API Reference for CreateRelationalDatabase Operation</seealso>
+        public virtual CreateRelationalDatabaseResponse CreateRelationalDatabase(CreateRelationalDatabaseRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return Invoke<CreateRelationalDatabaseResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabase">REST API Reference for CreateRelationalDatabase Operation</seealso>
+        public virtual IAsyncResult BeginCreateRelationalDatabase(CreateRelationalDatabaseRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  CreateRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabase">REST API Reference for CreateRelationalDatabase Operation</seealso>
+        public virtual CreateRelationalDatabaseResponse EndCreateRelationalDatabase(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateRelationalDatabaseResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateRelationalDatabaseFromSnapshot
+
+        /// <summary>
+        /// Creates a new database from an existing database snapshot in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// You can create a new database from a snapshot in if something goes wrong with your
+        /// original database, or to change it to a different plan, such as a high availability
+        /// or standard plan.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>create relational database from snapshot</code> operation supports tag-based
+        /// access control via request tags and resource tags applied to the resource identified
+        /// by relationalDatabaseSnapshotName. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseFromSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the CreateRelationalDatabaseFromSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseFromSnapshot">REST API Reference for CreateRelationalDatabaseFromSnapshot Operation</seealso>
+        public virtual CreateRelationalDatabaseFromSnapshotResponse CreateRelationalDatabaseFromSnapshot(CreateRelationalDatabaseFromSnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRelationalDatabaseFromSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRelationalDatabaseFromSnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<CreateRelationalDatabaseFromSnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateRelationalDatabaseFromSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseFromSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateRelationalDatabaseFromSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseFromSnapshot">REST API Reference for CreateRelationalDatabaseFromSnapshot Operation</seealso>
+        public virtual IAsyncResult BeginCreateRelationalDatabaseFromSnapshot(CreateRelationalDatabaseFromSnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRelationalDatabaseFromSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRelationalDatabaseFromSnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateRelationalDatabaseFromSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateRelationalDatabaseFromSnapshot.</param>
+        /// 
+        /// <returns>Returns a  CreateRelationalDatabaseFromSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseFromSnapshot">REST API Reference for CreateRelationalDatabaseFromSnapshot Operation</seealso>
+        public virtual CreateRelationalDatabaseFromSnapshotResponse EndCreateRelationalDatabaseFromSnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateRelationalDatabaseFromSnapshotResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateRelationalDatabaseSnapshot
+
+        /// <summary>
+        /// Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for
+        /// backups, to make copies of a database, and to save data before deleting a database.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>create relational database snapshot</code> operation supports tag-based
+        /// access control via request tags. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the CreateRelationalDatabaseSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseSnapshot">REST API Reference for CreateRelationalDatabaseSnapshot Operation</seealso>
+        public virtual CreateRelationalDatabaseSnapshotResponse CreateRelationalDatabaseSnapshot(CreateRelationalDatabaseSnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRelationalDatabaseSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRelationalDatabaseSnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<CreateRelationalDatabaseSnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateRelationalDatabaseSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateRelationalDatabaseSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseSnapshot">REST API Reference for CreateRelationalDatabaseSnapshot Operation</seealso>
+        public virtual IAsyncResult BeginCreateRelationalDatabaseSnapshot(CreateRelationalDatabaseSnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRelationalDatabaseSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRelationalDatabaseSnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateRelationalDatabaseSnapshot.</param>
+        /// 
+        /// <returns>Returns a  CreateRelationalDatabaseSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateRelationalDatabaseSnapshot">REST API Reference for CreateRelationalDatabaseSnapshot Operation</seealso>
+        public virtual CreateRelationalDatabaseSnapshotResponse EndCreateRelationalDatabaseSnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateRelationalDatabaseSnapshotResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteAlarm
+
+        /// <summary>
+        /// Deletes an alarm.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAlarm service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAlarm service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAlarm">REST API Reference for DeleteAlarm Operation</seealso>
+        public virtual DeleteAlarmResponse DeleteAlarm(DeleteAlarmRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAlarmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAlarmResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteAlarmResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAlarm operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAlarm
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAlarm">REST API Reference for DeleteAlarm Operation</seealso>
+        public virtual IAsyncResult BeginDeleteAlarm(DeleteAlarmRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAlarmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAlarmResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAlarm.</param>
+        /// 
+        /// <returns>Returns a  DeleteAlarmResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAlarm">REST API Reference for DeleteAlarm Operation</seealso>
+        public virtual DeleteAlarmResponse EndDeleteAlarm(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteAlarmResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteAutoSnapshot
+
+        /// <summary>
+        /// Deletes an automatic snapshot of an instance or disk. For more information, see the
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAutoSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAutoSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAutoSnapshot">REST API Reference for DeleteAutoSnapshot Operation</seealso>
+        public virtual DeleteAutoSnapshotResponse DeleteAutoSnapshot(DeleteAutoSnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAutoSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAutoSnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteAutoSnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAutoSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAutoSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAutoSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAutoSnapshot">REST API Reference for DeleteAutoSnapshot Operation</seealso>
+        public virtual IAsyncResult BeginDeleteAutoSnapshot(DeleteAutoSnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAutoSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAutoSnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAutoSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAutoSnapshot.</param>
+        /// 
+        /// <returns>Returns a  DeleteAutoSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteAutoSnapshot">REST API Reference for DeleteAutoSnapshot Operation</seealso>
+        public virtual DeleteAutoSnapshotResponse EndDeleteAutoSnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteAutoSnapshotResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteContactMethod
+
+        /// <summary>
+        /// Deletes a contact method.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteContactMethod service method.</param>
+        /// 
+        /// <returns>The response from the DeleteContactMethod service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteContactMethod">REST API Reference for DeleteContactMethod Operation</seealso>
+        public virtual DeleteContactMethodResponse DeleteContactMethod(DeleteContactMethodRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteContactMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteContactMethodResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteContactMethodResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteContactMethod operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteContactMethod
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteContactMethod">REST API Reference for DeleteContactMethod Operation</seealso>
+        public virtual IAsyncResult BeginDeleteContactMethod(DeleteContactMethodRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteContactMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteContactMethodResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteContactMethod operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteContactMethod.</param>
+        /// 
+        /// <returns>Returns a  DeleteContactMethodResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteContactMethod">REST API Reference for DeleteContactMethod Operation</seealso>
+        public virtual DeleteContactMethodResponse EndDeleteContactMethod(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteContactMethodResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteDisk
 
         /// <summary>
@@ -1733,7 +2714,13 @@ namespace Amazon.Lightsail
         /// <para>
         /// The disk may remain in the <code>deleting</code> state for several minutes.
         /// </para>
-        ///  </note>
+        ///  </note> 
+        /// <para>
+        /// The <code>delete disk</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>disk name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDisk service method.</param>
         /// 
@@ -1772,10 +2759,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDisk">REST API Reference for DeleteDisk Operation</seealso>
         public virtual DeleteDiskResponse DeleteDisk(DeleteDiskRequest request)
         {
-            var marshaller = DeleteDiskRequestMarshaller.Instance;
-            var unmarshaller = DeleteDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDiskResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDiskRequest,DeleteDiskResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDiskResponse>(request, options);
         }
 
         /// <summary>
@@ -1792,11 +2780,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDisk">REST API Reference for DeleteDisk Operation</seealso>
         public virtual IAsyncResult BeginDeleteDisk(DeleteDiskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDiskRequestMarshaller.Instance;
-            var unmarshaller = DeleteDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDiskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDiskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1826,6 +2814,13 @@ namespace Amazon.Lightsail
         /// new snapshot. When you delete a snapshot, only the data not needed for any other snapshot
         /// is removed. So regardless of which prior snapshots have been deleted, all active snapshots
         /// will have access to all the information needed to restore the disk.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>delete disk snapshot</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>disk snapshot name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDiskSnapshot service method.</param>
@@ -1865,10 +2860,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDiskSnapshot">REST API Reference for DeleteDiskSnapshot Operation</seealso>
         public virtual DeleteDiskSnapshotResponse DeleteDiskSnapshot(DeleteDiskSnapshotRequest request)
         {
-            var marshaller = DeleteDiskSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteDiskSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDiskSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDiskSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDiskSnapshotRequest,DeleteDiskSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDiskSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -1885,11 +2881,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDiskSnapshot">REST API Reference for DeleteDiskSnapshot Operation</seealso>
         public virtual IAsyncResult BeginDeleteDiskSnapshot(DeleteDiskSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDiskSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteDiskSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDiskSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDiskSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDiskSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1911,6 +2907,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes the specified domain recordset and all of its domain records.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete domain</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>domain name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDomain service method.</param>
         /// 
@@ -1949,10 +2953,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomain">REST API Reference for DeleteDomain Operation</seealso>
         public virtual DeleteDomainResponse DeleteDomain(DeleteDomainRequest request)
         {
-            var marshaller = DeleteDomainRequestMarshaller.Instance;
-            var unmarshaller = DeleteDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDomainRequest,DeleteDomainResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDomainResponse>(request, options);
         }
 
         /// <summary>
@@ -1969,11 +2974,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomain">REST API Reference for DeleteDomain Operation</seealso>
         public virtual IAsyncResult BeginDeleteDomain(DeleteDomainRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDomainRequestMarshaller.Instance;
-            var unmarshaller = DeleteDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDomainRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1995,6 +3000,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes a specific domain entry.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete domain entry</code> operation supports tag-based access control via
+        /// resource tags applied to the resource identified by <code>domain name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDomainEntry service method.</param>
         /// 
@@ -2033,10 +3046,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomainEntry">REST API Reference for DeleteDomainEntry Operation</seealso>
         public virtual DeleteDomainEntryResponse DeleteDomainEntry(DeleteDomainEntryRequest request)
         {
-            var marshaller = DeleteDomainEntryRequestMarshaller.Instance;
-            var unmarshaller = DeleteDomainEntryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainEntryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainEntryResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDomainEntryRequest,DeleteDomainEntryResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDomainEntryResponse>(request, options);
         }
 
         /// <summary>
@@ -2053,11 +3067,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomainEntry">REST API Reference for DeleteDomainEntry Operation</seealso>
         public virtual IAsyncResult BeginDeleteDomainEntry(DeleteDomainEntryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDomainEntryRequestMarshaller.Instance;
-            var unmarshaller = DeleteDomainEntryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainEntryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainEntryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDomainEntryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2078,7 +3092,15 @@ namespace Amazon.Lightsail
         #region  DeleteInstance
 
         /// <summary>
-        /// Deletes a specific Amazon Lightsail virtual private server, or <i>instance</i>.
+        /// Deletes an Amazon Lightsail instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteInstance service method.</param>
         /// 
@@ -2117,10 +3139,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstance">REST API Reference for DeleteInstance Operation</seealso>
         public virtual DeleteInstanceResponse DeleteInstance(DeleteInstanceRequest request)
         {
-            var marshaller = DeleteInstanceRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInstanceRequest,DeleteInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -2137,11 +3160,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstance">REST API Reference for DeleteInstance Operation</seealso>
         public virtual IAsyncResult BeginDeleteInstance(DeleteInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteInstanceRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2163,6 +3186,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes a specific snapshot of a virtual private server (or <i>instance</i>).
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete instance snapshot</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance snapshot name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteInstanceSnapshot service method.</param>
         /// 
@@ -2201,10 +3232,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstanceSnapshot">REST API Reference for DeleteInstanceSnapshot Operation</seealso>
         public virtual DeleteInstanceSnapshotResponse DeleteInstanceSnapshot(DeleteInstanceSnapshotRequest request)
         {
-            var marshaller = DeleteInstanceSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInstanceSnapshotRequest,DeleteInstanceSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInstanceSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -2221,11 +3253,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstanceSnapshot">REST API Reference for DeleteInstanceSnapshot Operation</seealso>
         public virtual IAsyncResult BeginDeleteInstanceSnapshot(DeleteInstanceSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteInstanceSnapshotRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteInstanceSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2247,6 +3279,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes a specific SSH key pair.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete key pair</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>key pair name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteKeyPair service method.</param>
         /// 
@@ -2285,10 +3325,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKeyPair">REST API Reference for DeleteKeyPair Operation</seealso>
         public virtual DeleteKeyPairResponse DeleteKeyPair(DeleteKeyPairRequest request)
         {
-            var marshaller = DeleteKeyPairRequestMarshaller.Instance;
-            var unmarshaller = DeleteKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteKeyPairResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteKeyPairRequest,DeleteKeyPairResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteKeyPairResponse>(request, options);
         }
 
         /// <summary>
@@ -2305,11 +3346,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKeyPair">REST API Reference for DeleteKeyPair Operation</seealso>
         public virtual IAsyncResult BeginDeleteKeyPair(DeleteKeyPairRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteKeyPairRequestMarshaller.Instance;
-            var unmarshaller = DeleteKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteKeyPairResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteKeyPairRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2327,12 +3368,116 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  DeleteKnownHostKeys
+
+        /// <summary>
+        /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based
+        /// SSH or RDP clients to authenticate an instance. This operation enables the Lightsail
+        /// browser-based SSH or RDP clients to connect to the instance after a host key mismatch.
+        /// 
+        ///  <important> 
+        /// <para>
+        /// Perform this operation only if you were expecting the host key or certificate mismatch
+        /// or if you are familiar with the new host key or certificate on the instance. For more
+        /// information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection">Troubleshooting
+        /// connection issues when using the Amazon Lightsail browser-based SSH or RDP client</a>.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteKnownHostKeys service method.</param>
+        /// 
+        /// <returns>The response from the DeleteKnownHostKeys service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKnownHostKeys">REST API Reference for DeleteKnownHostKeys Operation</seealso>
+        public virtual DeleteKnownHostKeysResponse DeleteKnownHostKeys(DeleteKnownHostKeysRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteKnownHostKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteKnownHostKeysResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteKnownHostKeysResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteKnownHostKeys operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteKnownHostKeys operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteKnownHostKeys
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKnownHostKeys">REST API Reference for DeleteKnownHostKeys Operation</seealso>
+        public virtual IAsyncResult BeginDeleteKnownHostKeys(DeleteKnownHostKeysRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteKnownHostKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteKnownHostKeysResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteKnownHostKeys operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteKnownHostKeys.</param>
+        /// 
+        /// <returns>Returns a  DeleteKnownHostKeysResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKnownHostKeys">REST API Reference for DeleteKnownHostKeys Operation</seealso>
+        public virtual DeleteKnownHostKeysResponse EndDeleteKnownHostKeys(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteKnownHostKeysResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DeleteLoadBalancer
 
         /// <summary>
         /// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once
         /// the load balancer is deleted, you will need to create a new load balancer, create
         /// a new certificate, and verify domain ownership again.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete load balancer</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>load balancer name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLoadBalancer service method.</param>
         /// 
@@ -2371,10 +3516,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancer">REST API Reference for DeleteLoadBalancer Operation</seealso>
         public virtual DeleteLoadBalancerResponse DeleteLoadBalancer(DeleteLoadBalancerRequest request)
         {
-            var marshaller = DeleteLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = DeleteLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoadBalancerResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLoadBalancerRequest,DeleteLoadBalancerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLoadBalancerResponse>(request, options);
         }
 
         /// <summary>
@@ -2391,11 +3537,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancer">REST API Reference for DeleteLoadBalancer Operation</seealso>
         public virtual IAsyncResult BeginDeleteLoadBalancer(DeleteLoadBalancerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = DeleteLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoadBalancerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLoadBalancerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2417,6 +3563,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>DeleteLoadBalancerTlsCertificate</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteLoadBalancerTlsCertificate service method.</param>
         /// 
@@ -2455,10 +3609,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancerTlsCertificate">REST API Reference for DeleteLoadBalancerTlsCertificate Operation</seealso>
         public virtual DeleteLoadBalancerTlsCertificateResponse DeleteLoadBalancerTlsCertificate(DeleteLoadBalancerTlsCertificateRequest request)
         {
-            var marshaller = DeleteLoadBalancerTlsCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoadBalancerTlsCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteLoadBalancerTlsCertificateRequest,DeleteLoadBalancerTlsCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteLoadBalancerTlsCertificateResponse>(request, options);
         }
 
         /// <summary>
@@ -2475,11 +3630,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancerTlsCertificate">REST API Reference for DeleteLoadBalancerTlsCertificate Operation</seealso>
         public virtual IAsyncResult BeginDeleteLoadBalancerTlsCertificate(DeleteLoadBalancerTlsCertificateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteLoadBalancerTlsCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteLoadBalancerTlsCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteLoadBalancerTlsCertificateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteLoadBalancerTlsCertificateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2497,12 +3652,206 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  DeleteRelationalDatabase
+
+        /// <summary>
+        /// Deletes a database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabase">REST API Reference for DeleteRelationalDatabase Operation</seealso>
+        public virtual DeleteRelationalDatabaseResponse DeleteRelationalDatabase(DeleteRelationalDatabaseRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteRelationalDatabaseResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabase">REST API Reference for DeleteRelationalDatabase Operation</seealso>
+        public virtual IAsyncResult BeginDeleteRelationalDatabase(DeleteRelationalDatabaseRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  DeleteRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabase">REST API Reference for DeleteRelationalDatabase Operation</seealso>
+        public virtual DeleteRelationalDatabaseResponse EndDeleteRelationalDatabase(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteRelationalDatabaseResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteRelationalDatabaseSnapshot
+
+        /// <summary>
+        /// Deletes a database snapshot in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>delete relational database snapshot</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by relationalDatabaseName.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabaseSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the DeleteRelationalDatabaseSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabaseSnapshot">REST API Reference for DeleteRelationalDatabaseSnapshot Operation</seealso>
+        public virtual DeleteRelationalDatabaseSnapshotResponse DeleteRelationalDatabaseSnapshot(DeleteRelationalDatabaseSnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRelationalDatabaseSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRelationalDatabaseSnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteRelationalDatabaseSnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRelationalDatabaseSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteRelationalDatabaseSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabaseSnapshot">REST API Reference for DeleteRelationalDatabaseSnapshot Operation</seealso>
+        public virtual IAsyncResult BeginDeleteRelationalDatabaseSnapshot(DeleteRelationalDatabaseSnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRelationalDatabaseSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRelationalDatabaseSnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteRelationalDatabaseSnapshot.</param>
+        /// 
+        /// <returns>Returns a  DeleteRelationalDatabaseSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteRelationalDatabaseSnapshot">REST API Reference for DeleteRelationalDatabaseSnapshot Operation</seealso>
+        public virtual DeleteRelationalDatabaseSnapshotResponse EndDeleteRelationalDatabaseSnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteRelationalDatabaseSnapshotResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  DetachDisk
 
         /// <summary>
         /// Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount
         /// any file systems on the device within your operating system before stopping the instance
         /// and detaching the disk.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>detach disk</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>disk name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachDisk service method.</param>
         /// 
@@ -2541,10 +3890,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachDisk">REST API Reference for DetachDisk Operation</seealso>
         public virtual DetachDiskResponse DetachDisk(DetachDiskRequest request)
         {
-            var marshaller = DetachDiskRequestMarshaller.Instance;
-            var unmarshaller = DetachDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachDiskResponseUnmarshaller.Instance;
 
-            return Invoke<DetachDiskRequest,DetachDiskResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachDiskResponse>(request, options);
         }
 
         /// <summary>
@@ -2561,11 +3911,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachDisk">REST API Reference for DetachDisk Operation</seealso>
         public virtual IAsyncResult BeginDetachDisk(DetachDiskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachDiskRequestMarshaller.Instance;
-            var unmarshaller = DetachDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachDiskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachDiskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2592,6 +3942,13 @@ namespace Amazon.Lightsail
         /// <para>
         /// This operation waits until the instances are no longer needed before they are detached
         /// from the load balancer.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>detach instances from load balancer</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by <code>load
+        /// balancer name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachInstancesFromLoadBalancer service method.</param>
@@ -2631,10 +3988,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachInstancesFromLoadBalancer">REST API Reference for DetachInstancesFromLoadBalancer Operation</seealso>
         public virtual DetachInstancesFromLoadBalancerResponse DetachInstancesFromLoadBalancer(DetachInstancesFromLoadBalancerRequest request)
         {
-            var marshaller = DetachInstancesFromLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = DetachInstancesFromLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachInstancesFromLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachInstancesFromLoadBalancerResponseUnmarshaller.Instance;
 
-            return Invoke<DetachInstancesFromLoadBalancerRequest,DetachInstancesFromLoadBalancerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachInstancesFromLoadBalancerResponse>(request, options);
         }
 
         /// <summary>
@@ -2651,11 +4009,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachInstancesFromLoadBalancer">REST API Reference for DetachInstancesFromLoadBalancer Operation</seealso>
         public virtual IAsyncResult BeginDetachInstancesFromLoadBalancer(DetachInstancesFromLoadBalancerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachInstancesFromLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = DetachInstancesFromLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachInstancesFromLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachInstancesFromLoadBalancerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachInstancesFromLoadBalancerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2715,10 +4073,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachStaticIp">REST API Reference for DetachStaticIp Operation</seealso>
         public virtual DetachStaticIpResponse DetachStaticIp(DetachStaticIpRequest request)
         {
-            var marshaller = DetachStaticIpRequestMarshaller.Instance;
-            var unmarshaller = DetachStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachStaticIpResponseUnmarshaller.Instance;
 
-            return Invoke<DetachStaticIpRequest,DetachStaticIpResponse>(request, marshaller, unmarshaller);
+            return Invoke<DetachStaticIpResponse>(request, options);
         }
 
         /// <summary>
@@ -2735,11 +4094,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachStaticIp">REST API Reference for DetachStaticIp Operation</seealso>
         public virtual IAsyncResult BeginDetachStaticIp(DetachStaticIpRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DetachStaticIpRequestMarshaller.Instance;
-            var unmarshaller = DetachStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DetachStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DetachStaticIpResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DetachStaticIpRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2753,6 +4112,89 @@ namespace Amazon.Lightsail
         public virtual DetachStaticIpResponse EndDetachStaticIp(IAsyncResult asyncResult)
         {
             return EndInvoke<DetachStaticIpResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DisableAddOn
+
+        /// <summary>
+        /// Disables an add-on for an Amazon Lightsail resource. For more information, see the
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableAddOn service method.</param>
+        /// 
+        /// <returns>The response from the DisableAddOn service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DisableAddOn">REST API Reference for DisableAddOn Operation</seealso>
+        public virtual DisableAddOnResponse DisableAddOn(DisableAddOnRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableAddOnRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableAddOnResponseUnmarshaller.Instance;
+
+            return Invoke<DisableAddOnResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableAddOn operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableAddOn
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DisableAddOn">REST API Reference for DisableAddOn Operation</seealso>
+        public virtual IAsyncResult BeginDisableAddOn(DisableAddOnRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisableAddOnRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisableAddOnResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableAddOn.</param>
+        /// 
+        /// <returns>Returns a  DisableAddOnResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DisableAddOn">REST API Reference for DisableAddOn Operation</seealso>
+        public virtual DisableAddOnResponse EndDisableAddOn(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DisableAddOnResponse>(asyncResult);
         }
 
         #endregion
@@ -2799,10 +4241,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DownloadDefaultKeyPair">REST API Reference for DownloadDefaultKeyPair Operation</seealso>
         public virtual DownloadDefaultKeyPairResponse DownloadDefaultKeyPair(DownloadDefaultKeyPairRequest request)
         {
-            var marshaller = DownloadDefaultKeyPairRequestMarshaller.Instance;
-            var unmarshaller = DownloadDefaultKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DownloadDefaultKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DownloadDefaultKeyPairResponseUnmarshaller.Instance;
 
-            return Invoke<DownloadDefaultKeyPairRequest,DownloadDefaultKeyPairResponse>(request, marshaller, unmarshaller);
+            return Invoke<DownloadDefaultKeyPairResponse>(request, options);
         }
 
         /// <summary>
@@ -2819,11 +4262,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DownloadDefaultKeyPair">REST API Reference for DownloadDefaultKeyPair Operation</seealso>
         public virtual IAsyncResult BeginDownloadDefaultKeyPair(DownloadDefaultKeyPairRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DownloadDefaultKeyPairRequestMarshaller.Instance;
-            var unmarshaller = DownloadDefaultKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DownloadDefaultKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DownloadDefaultKeyPairResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DownloadDefaultKeyPairRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2837,6 +4280,199 @@ namespace Amazon.Lightsail
         public virtual DownloadDefaultKeyPairResponse EndDownloadDefaultKeyPair(IAsyncResult asyncResult)
         {
             return EndInvoke<DownloadDefaultKeyPairResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  EnableAddOn
+
+        /// <summary>
+        /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableAddOn service method.</param>
+        /// 
+        /// <returns>The response from the EnableAddOn service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/EnableAddOn">REST API Reference for EnableAddOn Operation</seealso>
+        public virtual EnableAddOnResponse EnableAddOn(EnableAddOnRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableAddOnRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableAddOnResponseUnmarshaller.Instance;
+
+            return Invoke<EnableAddOnResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableAddOn operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableAddOn
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/EnableAddOn">REST API Reference for EnableAddOn Operation</seealso>
+        public virtual IAsyncResult BeginEnableAddOn(EnableAddOnRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = EnableAddOnRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = EnableAddOnResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableAddOn operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableAddOn.</param>
+        /// 
+        /// <returns>Returns a  EnableAddOnResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/EnableAddOn">REST API Reference for EnableAddOn Operation</seealso>
+        public virtual EnableAddOnResponse EndEnableAddOn(IAsyncResult asyncResult)
+        {
+            return EndInvoke<EnableAddOnResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ExportSnapshot
+
+        /// <summary>
+        /// Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic
+        /// Compute Cloud (Amazon EC2). This operation results in an export snapshot record that
+        /// can be used with the <code>create cloud formation stack</code> operation to create
+        /// new Amazon EC2 instances.
+        /// 
+        ///  
+        /// <para>
+        /// Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs),
+        /// and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS)
+        /// volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots
+        /// are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail
+        /// snapshot.
+        /// </para>
+        ///   
+        /// <para>
+        /// The <code>export snapshot</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>source snapshot name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Use the <code>get instance snapshots</code> or <code>get disk snapshots</code> operations
+        /// to get a list of snapshots that you can export to Amazon EC2.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the ExportSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ExportSnapshot">REST API Reference for ExportSnapshot Operation</seealso>
+        public virtual ExportSnapshotResponse ExportSnapshot(ExportSnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExportSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExportSnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<ExportSnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ExportSnapshot">REST API Reference for ExportSnapshot Operation</seealso>
+        public virtual IAsyncResult BeginExportSnapshot(ExportSnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExportSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExportSnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportSnapshot.</param>
+        /// 
+        /// <returns>Returns a  ExportSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ExportSnapshot">REST API Reference for ExportSnapshot Operation</seealso>
+        public virtual ExportSnapshotResponse EndExportSnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ExportSnapshotResponse>(asyncResult);
         }
 
         #endregion
@@ -2883,10 +4519,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetActiveNames">REST API Reference for GetActiveNames Operation</seealso>
         public virtual GetActiveNamesResponse GetActiveNames(GetActiveNamesRequest request)
         {
-            var marshaller = GetActiveNamesRequestMarshaller.Instance;
-            var unmarshaller = GetActiveNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetActiveNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetActiveNamesResponseUnmarshaller.Instance;
 
-            return Invoke<GetActiveNamesRequest,GetActiveNamesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetActiveNamesResponse>(request, options);
         }
 
         /// <summary>
@@ -2903,11 +4540,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetActiveNames">REST API Reference for GetActiveNames Operation</seealso>
         public virtual IAsyncResult BeginGetActiveNames(GetActiveNamesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetActiveNamesRequestMarshaller.Instance;
-            var unmarshaller = GetActiveNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetActiveNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetActiveNamesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetActiveNamesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2925,13 +4562,196 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  GetAlarms
+
+        /// <summary>
+        /// Returns information about the configured alarms. Specify an alarm name in your request
+        /// to return information about a specific alarm, or specify a monitored resource name
+        /// to return information about all alarms for a specific resource.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAlarms service method.</param>
+        /// 
+        /// <returns>The response from the GetAlarms service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAlarms">REST API Reference for GetAlarms Operation</seealso>
+        public virtual GetAlarmsResponse GetAlarms(GetAlarmsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAlarmsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAlarmsResponseUnmarshaller.Instance;
+
+            return Invoke<GetAlarmsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAlarms operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAlarms operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAlarms
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAlarms">REST API Reference for GetAlarms Operation</seealso>
+        public virtual IAsyncResult BeginGetAlarms(GetAlarmsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAlarmsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAlarmsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetAlarms operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAlarms.</param>
+        /// 
+        /// <returns>Returns a  GetAlarmsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAlarms">REST API Reference for GetAlarms Operation</seealso>
+        public virtual GetAlarmsResponse EndGetAlarms(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetAlarmsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetAutoSnapshots
+
+        /// <summary>
+        /// Returns the available automatic snapshots for an instance or disk. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots">Lightsail
+        /// Dev Guide</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAutoSnapshots service method.</param>
+        /// 
+        /// <returns>The response from the GetAutoSnapshots service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAutoSnapshots">REST API Reference for GetAutoSnapshots Operation</seealso>
+        public virtual GetAutoSnapshotsResponse GetAutoSnapshots(GetAutoSnapshotsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAutoSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAutoSnapshotsResponseUnmarshaller.Instance;
+
+            return Invoke<GetAutoSnapshotsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetAutoSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetAutoSnapshots operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetAutoSnapshots
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAutoSnapshots">REST API Reference for GetAutoSnapshots Operation</seealso>
+        public virtual IAsyncResult BeginGetAutoSnapshots(GetAutoSnapshotsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAutoSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAutoSnapshotsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetAutoSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetAutoSnapshots.</param>
+        /// 
+        /// <returns>Returns a  GetAutoSnapshotsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetAutoSnapshots">REST API Reference for GetAutoSnapshots Operation</seealso>
+        public virtual GetAutoSnapshotsResponse EndGetAutoSnapshots(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetAutoSnapshotsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetBlueprints
 
         /// <summary>
         /// Returns the list of available instance images, or <i>blueprints</i>. You can use a
-        /// blueprint to create a new virtual private server already running a specific operating
-        /// system, as well as a preinstalled app or development stack. The software each instance
-        /// is running depends on the blueprint image you choose.
+        /// blueprint to create a new instance already running a specific operating system, as
+        /// well as a preinstalled app or development stack. The software each instance is running
+        /// depends on the blueprint image you choose.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Use active blueprints when creating new instances. Inactive blueprints are listed
+        /// to support customers with existing instances and are not necessarily available to
+        /// create new instances. Blueprints are marked inactive when they become outdated due
+        /// to operating system updates or new application releases.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetBlueprints service method.</param>
         /// 
@@ -2970,10 +4790,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBlueprints">REST API Reference for GetBlueprints Operation</seealso>
         public virtual GetBlueprintsResponse GetBlueprints(GetBlueprintsRequest request)
         {
-            var marshaller = GetBlueprintsRequestMarshaller.Instance;
-            var unmarshaller = GetBlueprintsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBlueprintsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBlueprintsResponseUnmarshaller.Instance;
 
-            return Invoke<GetBlueprintsRequest,GetBlueprintsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBlueprintsResponse>(request, options);
         }
 
         /// <summary>
@@ -2990,11 +4811,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBlueprints">REST API Reference for GetBlueprints Operation</seealso>
         public virtual IAsyncResult BeginGetBlueprints(GetBlueprintsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBlueprintsRequestMarshaller.Instance;
-            var unmarshaller = GetBlueprintsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBlueprintsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBlueprintsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBlueprintsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3055,10 +4876,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBundles">REST API Reference for GetBundles Operation</seealso>
         public virtual GetBundlesResponse GetBundles(GetBundlesRequest request)
         {
-            var marshaller = GetBundlesRequestMarshaller.Instance;
-            var unmarshaller = GetBundlesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBundlesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBundlesResponseUnmarshaller.Instance;
 
-            return Invoke<GetBundlesRequest,GetBundlesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBundlesResponse>(request, options);
         }
 
         /// <summary>
@@ -3075,11 +4897,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBundles">REST API Reference for GetBundles Operation</seealso>
         public virtual IAsyncResult BeginGetBundles(GetBundlesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetBundlesRequestMarshaller.Instance;
-            var unmarshaller = GetBundlesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBundlesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBundlesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetBundlesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3093,6 +4915,190 @@ namespace Amazon.Lightsail
         public virtual GetBundlesResponse EndGetBundles(IAsyncResult asyncResult)
         {
             return EndInvoke<GetBundlesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetCloudFormationStackRecords
+
+        /// <summary>
+        /// Returns the CloudFormation stack record created as a result of the <code>create cloud
+        /// formation stack</code> operation.
+        /// 
+        ///  
+        /// <para>
+        /// An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported
+        /// Lightsail snapshot.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCloudFormationStackRecords service method.</param>
+        /// 
+        /// <returns>The response from the GetCloudFormationStackRecords service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetCloudFormationStackRecords">REST API Reference for GetCloudFormationStackRecords Operation</seealso>
+        public virtual GetCloudFormationStackRecordsResponse GetCloudFormationStackRecords(GetCloudFormationStackRecordsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCloudFormationStackRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCloudFormationStackRecordsResponseUnmarshaller.Instance;
+
+            return Invoke<GetCloudFormationStackRecordsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCloudFormationStackRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCloudFormationStackRecords operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCloudFormationStackRecords
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetCloudFormationStackRecords">REST API Reference for GetCloudFormationStackRecords Operation</seealso>
+        public virtual IAsyncResult BeginGetCloudFormationStackRecords(GetCloudFormationStackRecordsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetCloudFormationStackRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetCloudFormationStackRecordsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCloudFormationStackRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCloudFormationStackRecords.</param>
+        /// 
+        /// <returns>Returns a  GetCloudFormationStackRecordsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetCloudFormationStackRecords">REST API Reference for GetCloudFormationStackRecords Operation</seealso>
+        public virtual GetCloudFormationStackRecordsResponse EndGetCloudFormationStackRecords(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetCloudFormationStackRecordsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetContactMethods
+
+        /// <summary>
+        /// Returns information about the configured contact methods. Specify a protocol in your
+        /// request to return information about a specific contact method.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetContactMethods service method.</param>
+        /// 
+        /// <returns>The response from the GetContactMethods service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetContactMethods">REST API Reference for GetContactMethods Operation</seealso>
+        public virtual GetContactMethodsResponse GetContactMethods(GetContactMethodsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContactMethodsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContactMethodsResponseUnmarshaller.Instance;
+
+            return Invoke<GetContactMethodsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetContactMethods operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetContactMethods operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetContactMethods
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetContactMethods">REST API Reference for GetContactMethods Operation</seealso>
+        public virtual IAsyncResult BeginGetContactMethods(GetContactMethodsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetContactMethodsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetContactMethodsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetContactMethods operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetContactMethods.</param>
+        /// 
+        /// <returns>Returns a  GetContactMethodsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetContactMethods">REST API Reference for GetContactMethods Operation</seealso>
+        public virtual GetContactMethodsResponse EndGetContactMethods(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetContactMethodsResponse>(asyncResult);
         }
 
         #endregion
@@ -3139,10 +5145,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisk">REST API Reference for GetDisk Operation</seealso>
         public virtual GetDiskResponse GetDisk(GetDiskRequest request)
         {
-            var marshaller = GetDiskRequestMarshaller.Instance;
-            var unmarshaller = GetDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDiskResponseUnmarshaller.Instance;
 
-            return Invoke<GetDiskRequest,GetDiskResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDiskResponse>(request, options);
         }
 
         /// <summary>
@@ -3159,11 +5166,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisk">REST API Reference for GetDisk Operation</seealso>
         public virtual IAsyncResult BeginGetDisk(GetDiskRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDiskRequestMarshaller.Instance;
-            var unmarshaller = GetDiskResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDiskRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDiskResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDiskRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3185,13 +5192,6 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Returns information about all block storage disks in your AWS account and region.
-        /// 
-        ///  
-        /// <para>
-        /// If you are describing a long list of disks, you can paginate the output to make the
-        /// list more manageable. You can use the pageToken and nextPageToken values to retrieve
-        /// the next items in the list.
-        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDisks service method.</param>
         /// 
@@ -3230,10 +5230,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisks">REST API Reference for GetDisks Operation</seealso>
         public virtual GetDisksResponse GetDisks(GetDisksRequest request)
         {
-            var marshaller = GetDisksRequestMarshaller.Instance;
-            var unmarshaller = GetDisksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDisksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDisksResponseUnmarshaller.Instance;
 
-            return Invoke<GetDisksRequest,GetDisksResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDisksResponse>(request, options);
         }
 
         /// <summary>
@@ -3250,11 +5251,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisks">REST API Reference for GetDisks Operation</seealso>
         public virtual IAsyncResult BeginGetDisks(GetDisksRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDisksRequestMarshaller.Instance;
-            var unmarshaller = GetDisksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDisksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDisksResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDisksRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3314,10 +5315,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshot">REST API Reference for GetDiskSnapshot Operation</seealso>
         public virtual GetDiskSnapshotResponse GetDiskSnapshot(GetDiskSnapshotRequest request)
         {
-            var marshaller = GetDiskSnapshotRequestMarshaller.Instance;
-            var unmarshaller = GetDiskSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDiskSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDiskSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<GetDiskSnapshotRequest,GetDiskSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDiskSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -3334,11 +5336,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshot">REST API Reference for GetDiskSnapshot Operation</seealso>
         public virtual IAsyncResult BeginGetDiskSnapshot(GetDiskSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDiskSnapshotRequestMarshaller.Instance;
-            var unmarshaller = GetDiskSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDiskSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDiskSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDiskSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3361,13 +5363,6 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Returns information about all block storage disk snapshots in your AWS account and
         /// region.
-        /// 
-        ///  
-        /// <para>
-        /// If you are describing a long list of disk snapshots, you can paginate the output to
-        /// make the list more manageable. You can use the pageToken and nextPageToken values
-        /// to retrieve the next items in the list.
-        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDiskSnapshots service method.</param>
         /// 
@@ -3406,10 +5401,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshots">REST API Reference for GetDiskSnapshots Operation</seealso>
         public virtual GetDiskSnapshotsResponse GetDiskSnapshots(GetDiskSnapshotsRequest request)
         {
-            var marshaller = GetDiskSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = GetDiskSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDiskSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDiskSnapshotsResponseUnmarshaller.Instance;
 
-            return Invoke<GetDiskSnapshotsRequest,GetDiskSnapshotsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDiskSnapshotsResponse>(request, options);
         }
 
         /// <summary>
@@ -3426,11 +5422,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshots">REST API Reference for GetDiskSnapshots Operation</seealso>
         public virtual IAsyncResult BeginGetDiskSnapshots(GetDiskSnapshotsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDiskSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = GetDiskSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDiskSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDiskSnapshotsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDiskSnapshotsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3490,10 +5486,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomain">REST API Reference for GetDomain Operation</seealso>
         public virtual GetDomainResponse GetDomain(GetDomainRequest request)
         {
-            var marshaller = GetDomainRequestMarshaller.Instance;
-            var unmarshaller = GetDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainResponseUnmarshaller.Instance;
 
-            return Invoke<GetDomainRequest,GetDomainResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDomainResponse>(request, options);
         }
 
         /// <summary>
@@ -3510,11 +5507,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomain">REST API Reference for GetDomain Operation</seealso>
         public virtual IAsyncResult BeginGetDomain(GetDomainRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDomainRequestMarshaller.Instance;
-            var unmarshaller = GetDomainResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDomainRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3574,10 +5571,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomains">REST API Reference for GetDomains Operation</seealso>
         public virtual GetDomainsResponse GetDomains(GetDomainsRequest request)
         {
-            var marshaller = GetDomainsRequestMarshaller.Instance;
-            var unmarshaller = GetDomainsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainsResponseUnmarshaller.Instance;
 
-            return Invoke<GetDomainsRequest,GetDomainsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDomainsResponse>(request, options);
         }
 
         /// <summary>
@@ -3594,11 +5592,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomains">REST API Reference for GetDomains Operation</seealso>
         public virtual IAsyncResult BeginGetDomains(GetDomainsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDomainsRequestMarshaller.Instance;
-            var unmarshaller = GetDomainsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDomainsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3612,6 +5610,98 @@ namespace Amazon.Lightsail
         public virtual GetDomainsResponse EndGetDomains(IAsyncResult asyncResult)
         {
             return EndInvoke<GetDomainsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetExportSnapshotRecords
+
+        /// <summary>
+        /// Returns the export snapshot record created as a result of the <code>export snapshot</code>
+        /// operation.
+        /// 
+        ///  
+        /// <para>
+        /// An export snapshot record can be used to create a new Amazon EC2 instance and its
+        /// related resources with the <code>create cloud formation stack</code> operation.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetExportSnapshotRecords service method.</param>
+        /// 
+        /// <returns>The response from the GetExportSnapshotRecords service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetExportSnapshotRecords">REST API Reference for GetExportSnapshotRecords Operation</seealso>
+        public virtual GetExportSnapshotRecordsResponse GetExportSnapshotRecords(GetExportSnapshotRecordsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportSnapshotRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportSnapshotRecordsResponseUnmarshaller.Instance;
+
+            return Invoke<GetExportSnapshotRecordsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetExportSnapshotRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetExportSnapshotRecords operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetExportSnapshotRecords
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetExportSnapshotRecords">REST API Reference for GetExportSnapshotRecords Operation</seealso>
+        public virtual IAsyncResult BeginGetExportSnapshotRecords(GetExportSnapshotRecordsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportSnapshotRecordsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportSnapshotRecordsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetExportSnapshotRecords operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetExportSnapshotRecords.</param>
+        /// 
+        /// <returns>Returns a  GetExportSnapshotRecordsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetExportSnapshotRecords">REST API Reference for GetExportSnapshotRecords Operation</seealso>
+        public virtual GetExportSnapshotRecordsResponse EndGetExportSnapshotRecords(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetExportSnapshotRecordsResponse>(asyncResult);
         }
 
         #endregion
@@ -3659,10 +5749,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstance">REST API Reference for GetInstance Operation</seealso>
         public virtual GetInstanceResponse GetInstance(GetInstanceRequest request)
         {
-            var marshaller = GetInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceRequest,GetInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -3679,11 +5770,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstance">REST API Reference for GetInstance Operation</seealso>
         public virtual IAsyncResult BeginGetInstance(GetInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3706,6 +5797,14 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Returns temporary SSH keys you can use to connect to a specific virtual private server,
         /// or <i>instance</i>.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>get instance access details</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetInstanceAccessDetails service method.</param>
         /// 
@@ -3744,10 +5843,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceAccessDetails">REST API Reference for GetInstanceAccessDetails Operation</seealso>
         public virtual GetInstanceAccessDetailsResponse GetInstanceAccessDetails(GetInstanceAccessDetailsRequest request)
         {
-            var marshaller = GetInstanceAccessDetailsRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceAccessDetailsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceAccessDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceAccessDetailsResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceAccessDetailsRequest,GetInstanceAccessDetailsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceAccessDetailsResponse>(request, options);
         }
 
         /// <summary>
@@ -3764,11 +5864,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceAccessDetails">REST API Reference for GetInstanceAccessDetails Operation</seealso>
         public virtual IAsyncResult BeginGetInstanceAccessDetails(GetInstanceAccessDetailsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceAccessDetailsRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceAccessDetailsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceAccessDetailsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceAccessDetailsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceAccessDetailsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3829,10 +5929,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceMetricData">REST API Reference for GetInstanceMetricData Operation</seealso>
         public virtual GetInstanceMetricDataResponse GetInstanceMetricData(GetInstanceMetricDataRequest request)
         {
-            var marshaller = GetInstanceMetricDataRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceMetricDataResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceMetricDataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceMetricDataResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceMetricDataRequest,GetInstanceMetricDataResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceMetricDataResponse>(request, options);
         }
 
         /// <summary>
@@ -3849,11 +5950,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceMetricData">REST API Reference for GetInstanceMetricData Operation</seealso>
         public virtual IAsyncResult BeginGetInstanceMetricData(GetInstanceMetricDataRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceMetricDataRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceMetricDataResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceMetricDataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceMetricDataResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceMetricDataRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3913,10 +6014,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstancePortStates">REST API Reference for GetInstancePortStates Operation</seealso>
         public virtual GetInstancePortStatesResponse GetInstancePortStates(GetInstancePortStatesRequest request)
         {
-            var marshaller = GetInstancePortStatesRequestMarshaller.Instance;
-            var unmarshaller = GetInstancePortStatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstancePortStatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstancePortStatesResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstancePortStatesRequest,GetInstancePortStatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstancePortStatesResponse>(request, options);
         }
 
         /// <summary>
@@ -3933,11 +6035,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstancePortStates">REST API Reference for GetInstancePortStates Operation</seealso>
         public virtual IAsyncResult BeginGetInstancePortStates(GetInstancePortStatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstancePortStatesRequestMarshaller.Instance;
-            var unmarshaller = GetInstancePortStatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstancePortStatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstancePortStatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstancePortStatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3997,10 +6099,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstances">REST API Reference for GetInstances Operation</seealso>
         public virtual GetInstancesResponse GetInstances(GetInstancesRequest request)
         {
-            var marshaller = GetInstancesRequestMarshaller.Instance;
-            var unmarshaller = GetInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstancesRequest,GetInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -4017,11 +6120,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstances">REST API Reference for GetInstances Operation</seealso>
         public virtual IAsyncResult BeginGetInstances(GetInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstancesRequestMarshaller.Instance;
-            var unmarshaller = GetInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4081,10 +6184,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshot">REST API Reference for GetInstanceSnapshot Operation</seealso>
         public virtual GetInstanceSnapshotResponse GetInstanceSnapshot(GetInstanceSnapshotRequest request)
         {
-            var marshaller = GetInstanceSnapshotRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceSnapshotResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceSnapshotRequest,GetInstanceSnapshotResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceSnapshotResponse>(request, options);
         }
 
         /// <summary>
@@ -4101,11 +6205,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshot">REST API Reference for GetInstanceSnapshot Operation</seealso>
         public virtual IAsyncResult BeginGetInstanceSnapshot(GetInstanceSnapshotRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceSnapshotRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceSnapshotResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceSnapshotResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceSnapshotRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4165,10 +6269,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshots">REST API Reference for GetInstanceSnapshots Operation</seealso>
         public virtual GetInstanceSnapshotsResponse GetInstanceSnapshots(GetInstanceSnapshotsRequest request)
         {
-            var marshaller = GetInstanceSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceSnapshotsResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceSnapshotsRequest,GetInstanceSnapshotsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceSnapshotsResponse>(request, options);
         }
 
         /// <summary>
@@ -4185,11 +6290,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshots">REST API Reference for GetInstanceSnapshots Operation</seealso>
         public virtual IAsyncResult BeginGetInstanceSnapshots(GetInstanceSnapshotsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceSnapshotsRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceSnapshotsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceSnapshotsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceSnapshotsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4249,10 +6354,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceState">REST API Reference for GetInstanceState Operation</seealso>
         public virtual GetInstanceStateResponse GetInstanceState(GetInstanceStateRequest request)
         {
-            var marshaller = GetInstanceStateRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceStateResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceStateRequest,GetInstanceStateResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceStateResponse>(request, options);
         }
 
         /// <summary>
@@ -4269,11 +6375,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceState">REST API Reference for GetInstanceState Operation</seealso>
         public virtual IAsyncResult BeginGetInstanceState(GetInstanceStateRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceStateRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceStateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceStateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceStateResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceStateRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4333,10 +6439,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPair">REST API Reference for GetKeyPair Operation</seealso>
         public virtual GetKeyPairResponse GetKeyPair(GetKeyPairRequest request)
         {
-            var marshaller = GetKeyPairRequestMarshaller.Instance;
-            var unmarshaller = GetKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetKeyPairResponseUnmarshaller.Instance;
 
-            return Invoke<GetKeyPairRequest,GetKeyPairResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetKeyPairResponse>(request, options);
         }
 
         /// <summary>
@@ -4353,11 +6460,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPair">REST API Reference for GetKeyPair Operation</seealso>
         public virtual IAsyncResult BeginGetKeyPair(GetKeyPairRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetKeyPairRequestMarshaller.Instance;
-            var unmarshaller = GetKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetKeyPairResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetKeyPairRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4417,10 +6524,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPairs">REST API Reference for GetKeyPairs Operation</seealso>
         public virtual GetKeyPairsResponse GetKeyPairs(GetKeyPairsRequest request)
         {
-            var marshaller = GetKeyPairsRequestMarshaller.Instance;
-            var unmarshaller = GetKeyPairsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetKeyPairsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetKeyPairsResponseUnmarshaller.Instance;
 
-            return Invoke<GetKeyPairsRequest,GetKeyPairsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetKeyPairsResponse>(request, options);
         }
 
         /// <summary>
@@ -4437,11 +6545,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPairs">REST API Reference for GetKeyPairs Operation</seealso>
         public virtual IAsyncResult BeginGetKeyPairs(GetKeyPairsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetKeyPairsRequestMarshaller.Instance;
-            var unmarshaller = GetKeyPairsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetKeyPairsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetKeyPairsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetKeyPairsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4501,10 +6609,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancer">REST API Reference for GetLoadBalancer Operation</seealso>
         public virtual GetLoadBalancerResponse GetLoadBalancer(GetLoadBalancerRequest request)
         {
-            var marshaller = GetLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancerResponseUnmarshaller.Instance;
 
-            return Invoke<GetLoadBalancerRequest,GetLoadBalancerResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLoadBalancerResponse>(request, options);
         }
 
         /// <summary>
@@ -4521,11 +6630,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancer">REST API Reference for GetLoadBalancer Operation</seealso>
         public virtual IAsyncResult BeginGetLoadBalancer(GetLoadBalancerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLoadBalancerRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLoadBalancerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4585,10 +6694,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerMetricData">REST API Reference for GetLoadBalancerMetricData Operation</seealso>
         public virtual GetLoadBalancerMetricDataResponse GetLoadBalancerMetricData(GetLoadBalancerMetricDataRequest request)
         {
-            var marshaller = GetLoadBalancerMetricDataRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancerMetricDataResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancerMetricDataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancerMetricDataResponseUnmarshaller.Instance;
 
-            return Invoke<GetLoadBalancerMetricDataRequest,GetLoadBalancerMetricDataResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLoadBalancerMetricDataResponse>(request, options);
         }
 
         /// <summary>
@@ -4605,11 +6715,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerMetricData">REST API Reference for GetLoadBalancerMetricData Operation</seealso>
         public virtual IAsyncResult BeginGetLoadBalancerMetricData(GetLoadBalancerMetricDataRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLoadBalancerMetricDataRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancerMetricDataResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancerMetricDataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancerMetricDataResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLoadBalancerMetricDataRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4631,13 +6741,6 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Returns information about all load balancers in an account.
-        /// 
-        ///  
-        /// <para>
-        /// If you are describing a long list of load balancers, you can paginate the output to
-        /// make the list more manageable. You can use the pageToken and nextPageToken values
-        /// to retrieve the next items in the list.
-        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLoadBalancers service method.</param>
         /// 
@@ -4676,10 +6779,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancers">REST API Reference for GetLoadBalancers Operation</seealso>
         public virtual GetLoadBalancersResponse GetLoadBalancers(GetLoadBalancersRequest request)
         {
-            var marshaller = GetLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancersResponseUnmarshaller.Instance;
 
-            return Invoke<GetLoadBalancersRequest,GetLoadBalancersResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLoadBalancersResponse>(request, options);
         }
 
         /// <summary>
@@ -4696,11 +6800,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancers">REST API Reference for GetLoadBalancers Operation</seealso>
         public virtual IAsyncResult BeginGetLoadBalancers(GetLoadBalancersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLoadBalancersRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLoadBalancersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4771,10 +6875,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerTlsCertificates">REST API Reference for GetLoadBalancerTlsCertificates Operation</seealso>
         public virtual GetLoadBalancerTlsCertificatesResponse GetLoadBalancerTlsCertificates(GetLoadBalancerTlsCertificatesRequest request)
         {
-            var marshaller = GetLoadBalancerTlsCertificatesRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancerTlsCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancerTlsCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancerTlsCertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<GetLoadBalancerTlsCertificatesRequest,GetLoadBalancerTlsCertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetLoadBalancerTlsCertificatesResponse>(request, options);
         }
 
         /// <summary>
@@ -4791,11 +6896,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerTlsCertificates">REST API Reference for GetLoadBalancerTlsCertificates Operation</seealso>
         public virtual IAsyncResult BeginGetLoadBalancerTlsCertificates(GetLoadBalancerTlsCertificatesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetLoadBalancerTlsCertificatesRequestMarshaller.Instance;
-            var unmarshaller = GetLoadBalancerTlsCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetLoadBalancerTlsCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetLoadBalancerTlsCertificatesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetLoadBalancerTlsCertificatesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4856,10 +6961,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperation">REST API Reference for GetOperation Operation</seealso>
         public virtual GetOperationResponse GetOperation(GetOperationRequest request)
         {
-            var marshaller = GetOperationRequestMarshaller.Instance;
-            var unmarshaller = GetOperationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOperationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOperationResponseUnmarshaller.Instance;
 
-            return Invoke<GetOperationRequest,GetOperationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetOperationResponse>(request, options);
         }
 
         /// <summary>
@@ -4876,11 +6982,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperation">REST API Reference for GetOperation Operation</seealso>
         public virtual IAsyncResult BeginGetOperation(GetOperationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetOperationRequestMarshaller.Instance;
-            var unmarshaller = GetOperationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOperationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOperationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetOperationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4947,10 +7053,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperations">REST API Reference for GetOperations Operation</seealso>
         public virtual GetOperationsResponse GetOperations(GetOperationsRequest request)
         {
-            var marshaller = GetOperationsRequestMarshaller.Instance;
-            var unmarshaller = GetOperationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOperationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOperationsResponseUnmarshaller.Instance;
 
-            return Invoke<GetOperationsRequest,GetOperationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetOperationsResponse>(request, options);
         }
 
         /// <summary>
@@ -4967,11 +7074,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperations">REST API Reference for GetOperations Operation</seealso>
         public virtual IAsyncResult BeginGetOperations(GetOperationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetOperationsRequestMarshaller.Instance;
-            var unmarshaller = GetOperationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOperationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOperationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetOperationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5031,10 +7138,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationsForResource">REST API Reference for GetOperationsForResource Operation</seealso>
         public virtual GetOperationsForResourceResponse GetOperationsForResource(GetOperationsForResourceRequest request)
         {
-            var marshaller = GetOperationsForResourceRequestMarshaller.Instance;
-            var unmarshaller = GetOperationsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOperationsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOperationsForResourceResponseUnmarshaller.Instance;
 
-            return Invoke<GetOperationsForResourceRequest,GetOperationsForResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetOperationsForResourceResponse>(request, options);
         }
 
         /// <summary>
@@ -5051,11 +7159,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationsForResource">REST API Reference for GetOperationsForResource Operation</seealso>
         public virtual IAsyncResult BeginGetOperationsForResource(GetOperationsForResourceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetOperationsForResourceRequestMarshaller.Instance;
-            var unmarshaller = GetOperationsForResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOperationsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOperationsForResourceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetOperationsForResourceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5077,7 +7185,7 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Returns a list of all valid regions for Amazon Lightsail. Use the <code>include availability
-        /// zones</code> parameter to also return the availability zones in a region.
+        /// zones</code> parameter to also return the Availability Zones in a region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetRegions service method.</param>
         /// 
@@ -5116,10 +7224,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRegions">REST API Reference for GetRegions Operation</seealso>
         public virtual GetRegionsResponse GetRegions(GetRegionsRequest request)
         {
-            var marshaller = GetRegionsRequestMarshaller.Instance;
-            var unmarshaller = GetRegionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegionsResponseUnmarshaller.Instance;
 
-            return Invoke<GetRegionsRequest,GetRegionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRegionsResponse>(request, options);
         }
 
         /// <summary>
@@ -5136,11 +7245,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRegions">REST API Reference for GetRegions Operation</seealso>
         public virtual IAsyncResult BeginGetRegions(GetRegionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRegionsRequestMarshaller.Instance;
-            var unmarshaller = GetRegionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRegionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRegionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRegionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5154,6 +7263,1054 @@ namespace Amazon.Lightsail
         public virtual GetRegionsResponse EndGetRegions(IAsyncResult asyncResult)
         {
             return EndInvoke<GetRegionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabase
+
+        /// <summary>
+        /// Returns information about a specific database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabase">REST API Reference for GetRelationalDatabase Operation</seealso>
+        public virtual GetRelationalDatabaseResponse GetRelationalDatabase(GetRelationalDatabaseRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabase">REST API Reference for GetRelationalDatabase Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabase(GetRelationalDatabaseRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabase">REST API Reference for GetRelationalDatabase Operation</seealso>
+        public virtual GetRelationalDatabaseResponse EndGetRelationalDatabase(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseBlueprints
+
+        /// <summary>
+        /// Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes
+        /// the major engine version of a database.
+        /// 
+        ///  
+        /// <para>
+        /// You can use a blueprint ID to create a new database that runs a specific database
+        /// engine.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBlueprints service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseBlueprints service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBlueprints">REST API Reference for GetRelationalDatabaseBlueprints Operation</seealso>
+        public virtual GetRelationalDatabaseBlueprintsResponse GetRelationalDatabaseBlueprints(GetRelationalDatabaseBlueprintsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseBlueprintsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseBlueprintsResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseBlueprintsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseBlueprints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBlueprints operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseBlueprints
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBlueprints">REST API Reference for GetRelationalDatabaseBlueprints Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseBlueprints(GetRelationalDatabaseBlueprintsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseBlueprintsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseBlueprintsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseBlueprints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseBlueprints.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseBlueprintsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBlueprints">REST API Reference for GetRelationalDatabaseBlueprints Operation</seealso>
+        public virtual GetRelationalDatabaseBlueprintsResponse EndGetRelationalDatabaseBlueprints(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseBlueprintsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseBundles
+
+        /// <summary>
+        /// Returns the list of bundles that are available in Amazon Lightsail. A bundle describes
+        /// the performance specifications for a database.
+        /// 
+        ///  
+        /// <para>
+        /// You can use a bundle ID to create a new database with explicit performance specifications.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBundles service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseBundles service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBundles">REST API Reference for GetRelationalDatabaseBundles Operation</seealso>
+        public virtual GetRelationalDatabaseBundlesResponse GetRelationalDatabaseBundles(GetRelationalDatabaseBundlesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseBundlesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseBundlesResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseBundlesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseBundles operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseBundles operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseBundles
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBundles">REST API Reference for GetRelationalDatabaseBundles Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseBundles(GetRelationalDatabaseBundlesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseBundlesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseBundlesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseBundles operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseBundles.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseBundlesResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseBundles">REST API Reference for GetRelationalDatabaseBundles Operation</seealso>
+        public virtual GetRelationalDatabaseBundlesResponse EndGetRelationalDatabaseBundles(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseBundlesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseEvents
+
+        /// <summary>
+        /// Returns a list of events for a specific database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseEvents service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseEvents service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseEvents">REST API Reference for GetRelationalDatabaseEvents Operation</seealso>
+        public virtual GetRelationalDatabaseEventsResponse GetRelationalDatabaseEvents(GetRelationalDatabaseEventsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseEventsResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseEventsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseEvents operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseEvents
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseEvents">REST API Reference for GetRelationalDatabaseEvents Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseEvents(GetRelationalDatabaseEventsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseEventsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseEvents.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseEventsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseEvents">REST API Reference for GetRelationalDatabaseEvents Operation</seealso>
+        public virtual GetRelationalDatabaseEventsResponse EndGetRelationalDatabaseEvents(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseEventsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseLogEvents
+
+        /// <summary>
+        /// Returns a list of log events for a database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogEvents service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseLogEvents service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogEvents">REST API Reference for GetRelationalDatabaseLogEvents Operation</seealso>
+        public virtual GetRelationalDatabaseLogEventsResponse GetRelationalDatabaseLogEvents(GetRelationalDatabaseLogEventsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseLogEventsResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseLogEventsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseLogEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogEvents operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseLogEvents
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogEvents">REST API Reference for GetRelationalDatabaseLogEvents Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseLogEvents(GetRelationalDatabaseLogEventsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseLogEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseLogEventsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseLogEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseLogEvents.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseLogEventsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogEvents">REST API Reference for GetRelationalDatabaseLogEvents Operation</seealso>
+        public virtual GetRelationalDatabaseLogEventsResponse EndGetRelationalDatabaseLogEvents(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseLogEventsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseLogStreams
+
+        /// <summary>
+        /// Returns a list of available log streams for a specific database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogStreams service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseLogStreams service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogStreams">REST API Reference for GetRelationalDatabaseLogStreams Operation</seealso>
+        public virtual GetRelationalDatabaseLogStreamsResponse GetRelationalDatabaseLogStreams(GetRelationalDatabaseLogStreamsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseLogStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseLogStreamsResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseLogStreamsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseLogStreams operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseLogStreams operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseLogStreams
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogStreams">REST API Reference for GetRelationalDatabaseLogStreams Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseLogStreams(GetRelationalDatabaseLogStreamsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseLogStreamsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseLogStreamsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseLogStreams operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseLogStreams.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseLogStreamsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseLogStreams">REST API Reference for GetRelationalDatabaseLogStreams Operation</seealso>
+        public virtual GetRelationalDatabaseLogStreamsResponse EndGetRelationalDatabaseLogStreams(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseLogStreamsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseMasterUserPassword
+
+        /// <summary>
+        /// Returns the current, previous, or pending versions of the master user password for
+        /// a Lightsail database.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>GetRelationalDatabaseMasterUserPassword</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by relationalDatabaseName.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMasterUserPassword service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseMasterUserPassword service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMasterUserPassword">REST API Reference for GetRelationalDatabaseMasterUserPassword Operation</seealso>
+        public virtual GetRelationalDatabaseMasterUserPasswordResponse GetRelationalDatabaseMasterUserPassword(GetRelationalDatabaseMasterUserPasswordRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseMasterUserPasswordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseMasterUserPasswordResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseMasterUserPasswordResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseMasterUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMasterUserPassword operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseMasterUserPassword
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMasterUserPassword">REST API Reference for GetRelationalDatabaseMasterUserPassword Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseMasterUserPassword(GetRelationalDatabaseMasterUserPasswordRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseMasterUserPasswordRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseMasterUserPasswordResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseMasterUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseMasterUserPassword.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseMasterUserPasswordResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMasterUserPassword">REST API Reference for GetRelationalDatabaseMasterUserPassword Operation</seealso>
+        public virtual GetRelationalDatabaseMasterUserPasswordResponse EndGetRelationalDatabaseMasterUserPassword(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseMasterUserPasswordResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseMetricData
+
+        /// <summary>
+        /// Returns the data points of the specified metric for a database in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMetricData service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseMetricData service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMetricData">REST API Reference for GetRelationalDatabaseMetricData Operation</seealso>
+        public virtual GetRelationalDatabaseMetricDataResponse GetRelationalDatabaseMetricData(GetRelationalDatabaseMetricDataRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseMetricDataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseMetricDataResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseMetricDataResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseMetricData operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseMetricData operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseMetricData
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMetricData">REST API Reference for GetRelationalDatabaseMetricData Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseMetricData(GetRelationalDatabaseMetricDataRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseMetricDataRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseMetricDataResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseMetricData operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseMetricData.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseMetricDataResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseMetricData">REST API Reference for GetRelationalDatabaseMetricData Operation</seealso>
+        public virtual GetRelationalDatabaseMetricDataResponse EndGetRelationalDatabaseMetricData(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseMetricDataResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseParameters
+
+        /// <summary>
+        /// Returns all of the runtime parameters offered by the underlying database software,
+        /// or engine, for a specific database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// In addition to the parameter names and values, this operation returns other information
+        /// about each parameter. This information includes whether changes require a reboot,
+        /// whether the parameter is modifiable, the allowed values, and the data types.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseParameters service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseParameters service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseParameters">REST API Reference for GetRelationalDatabaseParameters Operation</seealso>
+        public virtual GetRelationalDatabaseParametersResponse GetRelationalDatabaseParameters(GetRelationalDatabaseParametersRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseParametersResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseParametersResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseParameters operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseParameters
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseParameters">REST API Reference for GetRelationalDatabaseParameters Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseParameters(GetRelationalDatabaseParametersRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseParametersResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseParameters.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseParametersResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseParameters">REST API Reference for GetRelationalDatabaseParameters Operation</seealso>
+        public virtual GetRelationalDatabaseParametersResponse EndGetRelationalDatabaseParameters(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseParametersResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabases
+
+        /// <summary>
+        /// Returns information about all of your databases in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabases service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabases service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabases">REST API Reference for GetRelationalDatabases Operation</seealso>
+        public virtual GetRelationalDatabasesResponse GetRelationalDatabases(GetRelationalDatabasesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabasesResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabasesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabases operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabases operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabases
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabases">REST API Reference for GetRelationalDatabases Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabases(GetRelationalDatabasesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabasesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabasesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabases operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabases.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabasesResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabases">REST API Reference for GetRelationalDatabases Operation</seealso>
+        public virtual GetRelationalDatabasesResponse EndGetRelationalDatabases(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabasesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseSnapshot
+
+        /// <summary>
+        /// Returns information about a specific database snapshot in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshot service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseSnapshot service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshot">REST API Reference for GetRelationalDatabaseSnapshot Operation</seealso>
+        public virtual GetRelationalDatabaseSnapshotResponse GetRelationalDatabaseSnapshot(GetRelationalDatabaseSnapshotRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseSnapshotResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseSnapshotResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshot operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseSnapshot
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshot">REST API Reference for GetRelationalDatabaseSnapshot Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseSnapshot(GetRelationalDatabaseSnapshotRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseSnapshotRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseSnapshotResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseSnapshot operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseSnapshot.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseSnapshotResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshot">REST API Reference for GetRelationalDatabaseSnapshot Operation</seealso>
+        public virtual GetRelationalDatabaseSnapshotResponse EndGetRelationalDatabaseSnapshot(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseSnapshotResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetRelationalDatabaseSnapshots
+
+        /// <summary>
+        /// Returns information about all of your database snapshots in Amazon Lightsail.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshots service method.</param>
+        /// 
+        /// <returns>The response from the GetRelationalDatabaseSnapshots service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshots">REST API Reference for GetRelationalDatabaseSnapshots Operation</seealso>
+        public virtual GetRelationalDatabaseSnapshotsResponse GetRelationalDatabaseSnapshots(GetRelationalDatabaseSnapshotsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseSnapshotsResponseUnmarshaller.Instance;
+
+            return Invoke<GetRelationalDatabaseSnapshotsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetRelationalDatabaseSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetRelationalDatabaseSnapshots operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetRelationalDatabaseSnapshots
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshots">REST API Reference for GetRelationalDatabaseSnapshots Operation</seealso>
+        public virtual IAsyncResult BeginGetRelationalDatabaseSnapshots(GetRelationalDatabaseSnapshotsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRelationalDatabaseSnapshotsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRelationalDatabaseSnapshotsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetRelationalDatabaseSnapshots operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetRelationalDatabaseSnapshots.</param>
+        /// 
+        /// <returns>Returns a  GetRelationalDatabaseSnapshotsResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRelationalDatabaseSnapshots">REST API Reference for GetRelationalDatabaseSnapshots Operation</seealso>
+        public virtual GetRelationalDatabaseSnapshotsResponse EndGetRelationalDatabaseSnapshots(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetRelationalDatabaseSnapshotsResponse>(asyncResult);
         }
 
         #endregion
@@ -5200,10 +8357,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIp">REST API Reference for GetStaticIp Operation</seealso>
         public virtual GetStaticIpResponse GetStaticIp(GetStaticIpRequest request)
         {
-            var marshaller = GetStaticIpRequestMarshaller.Instance;
-            var unmarshaller = GetStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStaticIpResponseUnmarshaller.Instance;
 
-            return Invoke<GetStaticIpRequest,GetStaticIpResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetStaticIpResponse>(request, options);
         }
 
         /// <summary>
@@ -5220,11 +8378,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIp">REST API Reference for GetStaticIp Operation</seealso>
         public virtual IAsyncResult BeginGetStaticIp(GetStaticIpRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetStaticIpRequestMarshaller.Instance;
-            var unmarshaller = GetStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStaticIpResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetStaticIpRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5284,10 +8442,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIps">REST API Reference for GetStaticIps Operation</seealso>
         public virtual GetStaticIpsResponse GetStaticIps(GetStaticIpsRequest request)
         {
-            var marshaller = GetStaticIpsRequestMarshaller.Instance;
-            var unmarshaller = GetStaticIpsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStaticIpsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStaticIpsResponseUnmarshaller.Instance;
 
-            return Invoke<GetStaticIpsRequest,GetStaticIpsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetStaticIpsResponse>(request, options);
         }
 
         /// <summary>
@@ -5304,11 +8463,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIps">REST API Reference for GetStaticIps Operation</seealso>
         public virtual IAsyncResult BeginGetStaticIps(GetStaticIpsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetStaticIpsRequestMarshaller.Instance;
-            var unmarshaller = GetStaticIpsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStaticIpsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStaticIpsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetStaticIpsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5368,10 +8527,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ImportKeyPair">REST API Reference for ImportKeyPair Operation</seealso>
         public virtual ImportKeyPairResponse ImportKeyPair(ImportKeyPairRequest request)
         {
-            var marshaller = ImportKeyPairRequestMarshaller.Instance;
-            var unmarshaller = ImportKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportKeyPairResponseUnmarshaller.Instance;
 
-            return Invoke<ImportKeyPairRequest,ImportKeyPairResponse>(request, marshaller, unmarshaller);
+            return Invoke<ImportKeyPairResponse>(request, options);
         }
 
         /// <summary>
@@ -5388,11 +8548,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ImportKeyPair">REST API Reference for ImportKeyPair Operation</seealso>
         public virtual IAsyncResult BeginImportKeyPair(ImportKeyPairRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ImportKeyPairRequestMarshaller.Instance;
-            var unmarshaller = ImportKeyPairResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportKeyPairRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportKeyPairResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ImportKeyPairRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5452,10 +8612,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/IsVpcPeered">REST API Reference for IsVpcPeered Operation</seealso>
         public virtual IsVpcPeeredResponse IsVpcPeered(IsVpcPeeredRequest request)
         {
-            var marshaller = IsVpcPeeredRequestMarshaller.Instance;
-            var unmarshaller = IsVpcPeeredResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IsVpcPeeredRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IsVpcPeeredResponseUnmarshaller.Instance;
 
-            return Invoke<IsVpcPeeredRequest,IsVpcPeeredResponse>(request, marshaller, unmarshaller);
+            return Invoke<IsVpcPeeredResponse>(request, options);
         }
 
         /// <summary>
@@ -5472,11 +8633,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/IsVpcPeered">REST API Reference for IsVpcPeered Operation</seealso>
         public virtual IAsyncResult BeginIsVpcPeered(IsVpcPeeredRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = IsVpcPeeredRequestMarshaller.Instance;
-            var unmarshaller = IsVpcPeeredResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = IsVpcPeeredRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = IsVpcPeeredResponseUnmarshaller.Instance;
 
-            return BeginInvoke<IsVpcPeeredRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5498,6 +8659,14 @@ namespace Amazon.Lightsail
 
         /// <summary>
         /// Adds public ports to an Amazon Lightsail instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>open instance public ports</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the OpenInstancePublicPorts service method.</param>
         /// 
@@ -5536,10 +8705,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/OpenInstancePublicPorts">REST API Reference for OpenInstancePublicPorts Operation</seealso>
         public virtual OpenInstancePublicPortsResponse OpenInstancePublicPorts(OpenInstancePublicPortsRequest request)
         {
-            var marshaller = OpenInstancePublicPortsRequestMarshaller.Instance;
-            var unmarshaller = OpenInstancePublicPortsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = OpenInstancePublicPortsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = OpenInstancePublicPortsResponseUnmarshaller.Instance;
 
-            return Invoke<OpenInstancePublicPortsRequest,OpenInstancePublicPortsResponse>(request, marshaller, unmarshaller);
+            return Invoke<OpenInstancePublicPortsResponse>(request, options);
         }
 
         /// <summary>
@@ -5556,11 +8726,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/OpenInstancePublicPorts">REST API Reference for OpenInstancePublicPorts Operation</seealso>
         public virtual IAsyncResult BeginOpenInstancePublicPorts(OpenInstancePublicPortsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = OpenInstancePublicPortsRequestMarshaller.Instance;
-            var unmarshaller = OpenInstancePublicPortsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = OpenInstancePublicPortsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = OpenInstancePublicPortsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<OpenInstancePublicPortsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5620,10 +8790,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PeerVpc">REST API Reference for PeerVpc Operation</seealso>
         public virtual PeerVpcResponse PeerVpc(PeerVpcRequest request)
         {
-            var marshaller = PeerVpcRequestMarshaller.Instance;
-            var unmarshaller = PeerVpcResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PeerVpcRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PeerVpcResponseUnmarshaller.Instance;
 
-            return Invoke<PeerVpcRequest,PeerVpcResponse>(request, marshaller, unmarshaller);
+            return Invoke<PeerVpcResponse>(request, options);
         }
 
         /// <summary>
@@ -5640,11 +8811,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PeerVpc">REST API Reference for PeerVpc Operation</seealso>
         public virtual IAsyncResult BeginPeerVpc(PeerVpcRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PeerVpcRequestMarshaller.Instance;
-            var unmarshaller = PeerVpcResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PeerVpcRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PeerVpcResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PeerVpcRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5662,11 +8833,120 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  PutAlarm
+
+        /// <summary>
+        /// Creates or updates an alarm, and associates it with the specified metric.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// When this action creates an alarm, the alarm state is immediately set to <code>INSUFFICIENT_DATA</code>.
+        /// The alarm is then evaluated and its state is set appropriately. Any actions associated
+        /// with the new state are then executed.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you update an existing alarm, its state is left unchanged, but the update completely
+        /// overwrites the previous configuration of the alarm. The alarm is then evaluated with
+        /// the updated configuration.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutAlarm service method.</param>
+        /// 
+        /// <returns>The response from the PutAlarm service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutAlarm">REST API Reference for PutAlarm Operation</seealso>
+        public virtual PutAlarmResponse PutAlarm(PutAlarmRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutAlarmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutAlarmResponseUnmarshaller.Instance;
+
+            return Invoke<PutAlarmResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutAlarm operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutAlarm
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutAlarm">REST API Reference for PutAlarm Operation</seealso>
+        public virtual IAsyncResult BeginPutAlarm(PutAlarmRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutAlarmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutAlarmResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutAlarm.</param>
+        /// 
+        /// <returns>Returns a  PutAlarmResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutAlarm">REST API Reference for PutAlarm Operation</seealso>
+        public virtual PutAlarmResponse EndPutAlarm(IAsyncResult asyncResult)
+        {
+            return EndInvoke<PutAlarmResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutInstancePublicPorts
 
         /// <summary>
         /// Sets the specified open ports for an Amazon Lightsail instance, and closes all ports
         /// for every protocol not included in the current request.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>put instance public ports</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by <code>instance name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutInstancePublicPorts service method.</param>
         /// 
@@ -5705,10 +8985,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutInstancePublicPorts">REST API Reference for PutInstancePublicPorts Operation</seealso>
         public virtual PutInstancePublicPortsResponse PutInstancePublicPorts(PutInstancePublicPortsRequest request)
         {
-            var marshaller = PutInstancePublicPortsRequestMarshaller.Instance;
-            var unmarshaller = PutInstancePublicPortsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutInstancePublicPortsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutInstancePublicPortsResponseUnmarshaller.Instance;
 
-            return Invoke<PutInstancePublicPortsRequest,PutInstancePublicPortsResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutInstancePublicPortsResponse>(request, options);
         }
 
         /// <summary>
@@ -5725,11 +9006,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutInstancePublicPorts">REST API Reference for PutInstancePublicPorts Operation</seealso>
         public virtual IAsyncResult BeginPutInstancePublicPorts(PutInstancePublicPortsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutInstancePublicPortsRequestMarshaller.Instance;
-            var unmarshaller = PutInstancePublicPortsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutInstancePublicPortsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutInstancePublicPortsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutInstancePublicPortsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5750,9 +9031,15 @@ namespace Amazon.Lightsail
         #region  RebootInstance
 
         /// <summary>
-        /// Restarts a specific instance. When your Amazon Lightsail instance is finished rebooting,
-        /// Lightsail assigns a new public IP address. To use the same IP address after restarting,
-        /// create a static IP address and attach it to the instance.
+        /// Restarts a specific instance.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>reboot instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RebootInstance service method.</param>
         /// 
@@ -5791,10 +9078,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootInstance">REST API Reference for RebootInstance Operation</seealso>
         public virtual RebootInstanceResponse RebootInstance(RebootInstanceRequest request)
         {
-            var marshaller = RebootInstanceRequestMarshaller.Instance;
-            var unmarshaller = RebootInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<RebootInstanceRequest,RebootInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<RebootInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -5811,11 +9099,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootInstance">REST API Reference for RebootInstance Operation</seealso>
         public virtual IAsyncResult BeginRebootInstance(RebootInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RebootInstanceRequestMarshaller.Instance;
-            var unmarshaller = RebootInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RebootInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5829,6 +9117,99 @@ namespace Amazon.Lightsail
         public virtual RebootInstanceResponse EndRebootInstance(IAsyncResult asyncResult)
         {
             return EndInvoke<RebootInstanceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  RebootRelationalDatabase
+
+        /// <summary>
+        /// Restarts a specific database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>reboot relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RebootRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the RebootRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootRelationalDatabase">REST API Reference for RebootRelationalDatabase Operation</seealso>
+        public virtual RebootRelationalDatabaseResponse RebootRelationalDatabase(RebootRelationalDatabaseRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return Invoke<RebootRelationalDatabaseResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RebootRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RebootRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRebootRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootRelationalDatabase">REST API Reference for RebootRelationalDatabase Operation</seealso>
+        public virtual IAsyncResult BeginRebootRelationalDatabase(RebootRelationalDatabaseRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RebootRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RebootRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RebootRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRebootRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  RebootRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootRelationalDatabase">REST API Reference for RebootRelationalDatabase Operation</seealso>
+        public virtual RebootRelationalDatabaseResponse EndRebootRelationalDatabase(IAsyncResult asyncResult)
+        {
+            return EndInvoke<RebootRelationalDatabaseResponse>(asyncResult);
         }
 
         #endregion
@@ -5875,10 +9256,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ReleaseStaticIp">REST API Reference for ReleaseStaticIp Operation</seealso>
         public virtual ReleaseStaticIpResponse ReleaseStaticIp(ReleaseStaticIpRequest request)
         {
-            var marshaller = ReleaseStaticIpRequestMarshaller.Instance;
-            var unmarshaller = ReleaseStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ReleaseStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ReleaseStaticIpResponseUnmarshaller.Instance;
 
-            return Invoke<ReleaseStaticIpRequest,ReleaseStaticIpResponse>(request, marshaller, unmarshaller);
+            return Invoke<ReleaseStaticIpResponse>(request, options);
         }
 
         /// <summary>
@@ -5895,11 +9277,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ReleaseStaticIp">REST API Reference for ReleaseStaticIp Operation</seealso>
         public virtual IAsyncResult BeginReleaseStaticIp(ReleaseStaticIpRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ReleaseStaticIpRequestMarshaller.Instance;
-            var unmarshaller = ReleaseStaticIpResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ReleaseStaticIpRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ReleaseStaticIpResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ReleaseStaticIpRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -5917,11 +9299,131 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  SendContactMethodVerification
+
+        /// <summary>
+        /// Sends a verification request to an email contact method to ensure it’s owned by the
+        /// requester. SMS contact methods don’t need to be verified.
+        /// 
+        ///  
+        /// <para>
+        /// A contact method is used to send you notifications about your Amazon Lightsail resources.
+        /// You can add one email address and one mobile phone number contact method in each AWS
+        /// Region. However, SMS text messaging is not supported in some AWS Regions, and SMS
+        /// text messages cannot be sent to some countries/regions. For more information, see
+        /// <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// A verification request is sent to the contact method when you initially create it.
+        /// Use this action to send another verification request if a previous verification request
+        /// was deleted, or has expired.
+        /// </para>
+        ///  <important> 
+        /// <para>
+        /// Notifications are not sent to an email contact method until after it is verified,
+        /// and confirmed as valid.
+        /// </para>
+        ///  </important>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SendContactMethodVerification service method.</param>
+        /// 
+        /// <returns>The response from the SendContactMethodVerification service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/SendContactMethodVerification">REST API Reference for SendContactMethodVerification Operation</seealso>
+        public virtual SendContactMethodVerificationResponse SendContactMethodVerification(SendContactMethodVerificationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendContactMethodVerificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendContactMethodVerificationResponseUnmarshaller.Instance;
+
+            return Invoke<SendContactMethodVerificationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SendContactMethodVerification operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SendContactMethodVerification operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSendContactMethodVerification
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/SendContactMethodVerification">REST API Reference for SendContactMethodVerification Operation</seealso>
+        public virtual IAsyncResult BeginSendContactMethodVerification(SendContactMethodVerificationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SendContactMethodVerificationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SendContactMethodVerificationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SendContactMethodVerification operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSendContactMethodVerification.</param>
+        /// 
+        /// <returns>Returns a  SendContactMethodVerificationResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/SendContactMethodVerification">REST API Reference for SendContactMethodVerification Operation</seealso>
+        public virtual SendContactMethodVerificationResponse EndSendContactMethodVerification(IAsyncResult asyncResult)
+        {
+            return EndInvoke<SendContactMethodVerificationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  StartInstance
 
         /// <summary>
         /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance,
-        /// use the reboot instance operation.
+        /// use the <code>reboot instance</code> operation.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you start a stopped instance, Lightsail assigns a new public IP address to the
+        /// instance. To use the same IP address after stopping and starting an instance, create
+        /// a static IP address and attach it to the instance. For more information, see the <a
+        /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-create-static-ip">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The <code>start instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartInstance service method.</param>
         /// 
@@ -5960,10 +9462,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartInstance">REST API Reference for StartInstance Operation</seealso>
         public virtual StartInstanceResponse StartInstance(StartInstanceRequest request)
         {
-            var marshaller = StartInstanceRequestMarshaller.Instance;
-            var unmarshaller = StartInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<StartInstanceRequest,StartInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -5980,11 +9483,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartInstance">REST API Reference for StartInstance Operation</seealso>
         public virtual IAsyncResult BeginStartInstance(StartInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartInstanceRequestMarshaller.Instance;
-            var unmarshaller = StartInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6002,10 +9505,120 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  StartRelationalDatabase
+
+        /// <summary>
+        /// Starts a specific database from a stopped state in Amazon Lightsail. To restart a
+        /// database, use the <code>reboot relational database</code> operation.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>start relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the StartRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartRelationalDatabase">REST API Reference for StartRelationalDatabase Operation</seealso>
+        public virtual StartRelationalDatabaseResponse StartRelationalDatabase(StartRelationalDatabaseRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return Invoke<StartRelationalDatabaseResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartRelationalDatabase">REST API Reference for StartRelationalDatabase Operation</seealso>
+        public virtual IAsyncResult BeginStartRelationalDatabase(StartRelationalDatabaseRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  StartRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartRelationalDatabase">REST API Reference for StartRelationalDatabase Operation</seealso>
+        public virtual StartRelationalDatabaseResponse EndStartRelationalDatabase(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StartRelationalDatabaseResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  StopInstance
 
         /// <summary>
         /// Stops a specific Amazon Lightsail instance that is currently running.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you start a stopped instance, Lightsail assigns a new public IP address to the
+        /// instance. To use the same IP address after stopping and starting an instance, create
+        /// a static IP address and attach it to the instance. For more information, see the <a
+        /// href="https://lightsail.aws.amazon.com/ls/docs/en/articles/lightsail-create-static-ip">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The <code>stop instance</code> operation supports tag-based access control via resource
+        /// tags applied to the resource identified by <code>instance name</code>. For more information,
+        /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StopInstance service method.</param>
         /// 
@@ -6044,10 +9657,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopInstance">REST API Reference for StopInstance Operation</seealso>
         public virtual StopInstanceResponse StopInstance(StopInstanceRequest request)
         {
-            var marshaller = StopInstanceRequestMarshaller.Instance;
-            var unmarshaller = StopInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<StopInstanceRequest,StopInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -6064,11 +9678,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopInstance">REST API Reference for StopInstance Operation</seealso>
         public virtual IAsyncResult BeginStopInstance(StopInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopInstanceRequestMarshaller.Instance;
-            var unmarshaller = StopInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6082,6 +9696,287 @@ namespace Amazon.Lightsail
         public virtual StopInstanceResponse EndStopInstance(IAsyncResult asyncResult)
         {
             return EndInvoke<StopInstanceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StopRelationalDatabase
+
+        /// <summary>
+        /// Stops a specific database that is currently running in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>stop relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the StopRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopRelationalDatabase">REST API Reference for StopRelationalDatabase Operation</seealso>
+        public virtual StopRelationalDatabaseResponse StopRelationalDatabase(StopRelationalDatabaseRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return Invoke<StopRelationalDatabaseResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopRelationalDatabase">REST API Reference for StopRelationalDatabase Operation</seealso>
+        public virtual IAsyncResult BeginStopRelationalDatabase(StopRelationalDatabaseRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  StopRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopRelationalDatabase">REST API Reference for StopRelationalDatabase Operation</seealso>
+        public virtual StopRelationalDatabaseResponse EndStopRelationalDatabase(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StopRelationalDatabaseResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        /// <summary>
+        /// Adds one or more tags to the specified Amazon Lightsail resource. Each resource can
+        /// have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys
+        /// must be unique per resource. For more information about tags, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags">Lightsail
+        /// Dev Guide</a>.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>tag resource</code> operation supports tag-based access control via request
+        /// tags and resource tags applied to the resource identified by <code>resource name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TestAlarm
+
+        /// <summary>
+        /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification
+        /// trigger is configured for the specified alarm, the test also sends a notification
+        /// to the notification protocol (<code>Email</code> and/or <code>SMS</code>) configured
+        /// for the alarm.
+        /// 
+        ///  
+        /// <para>
+        /// An alarm is used to monitor a single metric for one of your resources. When a metric
+        /// condition is met, the alarm can notify you by email, SMS text message, and a banner
+        /// displayed on the Amazon Lightsail console. For more information, see <a href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms">Alarms
+        /// in Amazon Lightsail</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TestAlarm service method.</param>
+        /// 
+        /// <returns>The response from the TestAlarm service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TestAlarm">REST API Reference for TestAlarm Operation</seealso>
+        public virtual TestAlarmResponse TestAlarm(TestAlarmRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestAlarmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestAlarmResponseUnmarshaller.Instance;
+
+            return Invoke<TestAlarmResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TestAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TestAlarm operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTestAlarm
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TestAlarm">REST API Reference for TestAlarm Operation</seealso>
+        public virtual IAsyncResult BeginTestAlarm(TestAlarmRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestAlarmRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestAlarmResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TestAlarm operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTestAlarm.</param>
+        /// 
+        /// <returns>Returns a  TestAlarmResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/TestAlarm">REST API Reference for TestAlarm Operation</seealso>
+        public virtual TestAlarmResponse EndTestAlarm(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TestAlarmResponse>(asyncResult);
         }
 
         #endregion
@@ -6128,10 +10023,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UnpeerVpc">REST API Reference for UnpeerVpc Operation</seealso>
         public virtual UnpeerVpcResponse UnpeerVpc(UnpeerVpcRequest request)
         {
-            var marshaller = UnpeerVpcRequestMarshaller.Instance;
-            var unmarshaller = UnpeerVpcResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UnpeerVpcRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UnpeerVpcResponseUnmarshaller.Instance;
 
-            return Invoke<UnpeerVpcRequest,UnpeerVpcResponse>(request, marshaller, unmarshaller);
+            return Invoke<UnpeerVpcResponse>(request, options);
         }
 
         /// <summary>
@@ -6148,11 +10044,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UnpeerVpc">REST API Reference for UnpeerVpc Operation</seealso>
         public virtual IAsyncResult BeginUnpeerVpc(UnpeerVpcRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UnpeerVpcRequestMarshaller.Instance;
-            var unmarshaller = UnpeerVpcResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UnpeerVpcRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UnpeerVpcResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UnpeerVpcRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6170,10 +10066,112 @@ namespace Amazon.Lightsail
 
         #endregion
         
+        #region  UntagResource
+
+        /// <summary>
+        /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
+        /// resource.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>untag resource</code> operation supports tag-based access control via request
+        /// tags and resource tags applied to the resource identified by <code>resource name</code>.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateDomainEntry
 
         /// <summary>
         /// Updates a domain recordset after it is created.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>update domain entry</code> operation supports tag-based access control via
+        /// resource tags applied to the resource identified by <code>domain name</code>. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateDomainEntry service method.</param>
         /// 
@@ -6212,10 +10210,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateDomainEntry">REST API Reference for UpdateDomainEntry Operation</seealso>
         public virtual UpdateDomainEntryResponse UpdateDomainEntry(UpdateDomainEntryRequest request)
         {
-            var marshaller = UpdateDomainEntryRequestMarshaller.Instance;
-            var unmarshaller = UpdateDomainEntryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDomainEntryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDomainEntryResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDomainEntryRequest,UpdateDomainEntryResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDomainEntryResponse>(request, options);
         }
 
         /// <summary>
@@ -6232,11 +10231,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateDomainEntry">REST API Reference for UpdateDomainEntry Operation</seealso>
         public virtual IAsyncResult BeginUpdateDomainEntry(UpdateDomainEntryRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateDomainEntryRequestMarshaller.Instance;
-            var unmarshaller = UpdateDomainEntryResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDomainEntryRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDomainEntryResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateDomainEntryRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6259,6 +10258,14 @@ namespace Amazon.Lightsail
         /// <summary>
         /// Updates the specified attribute for a load balancer. You can only update one attribute
         /// at a time.
+        /// 
+        ///  
+        /// <para>
+        /// The <code>update load balancer attribute</code> operation supports tag-based access
+        /// control via resource tags applied to the resource identified by <code>load balancer
+        /// name</code>. For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateLoadBalancerAttribute service method.</param>
         /// 
@@ -6297,10 +10304,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateLoadBalancerAttribute">REST API Reference for UpdateLoadBalancerAttribute Operation</seealso>
         public virtual UpdateLoadBalancerAttributeResponse UpdateLoadBalancerAttribute(UpdateLoadBalancerAttributeRequest request)
         {
-            var marshaller = UpdateLoadBalancerAttributeRequestMarshaller.Instance;
-            var unmarshaller = UpdateLoadBalancerAttributeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLoadBalancerAttributeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLoadBalancerAttributeResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateLoadBalancerAttributeRequest,UpdateLoadBalancerAttributeResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateLoadBalancerAttributeResponse>(request, options);
         }
 
         /// <summary>
@@ -6317,11 +10325,11 @@ namespace Amazon.Lightsail
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateLoadBalancerAttribute">REST API Reference for UpdateLoadBalancerAttribute Operation</seealso>
         public virtual IAsyncResult BeginUpdateLoadBalancerAttribute(UpdateLoadBalancerAttributeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateLoadBalancerAttributeRequestMarshaller.Instance;
-            var unmarshaller = UpdateLoadBalancerAttributeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateLoadBalancerAttributeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateLoadBalancerAttributeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateLoadBalancerAttributeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -6335,6 +10343,206 @@ namespace Amazon.Lightsail
         public virtual UpdateLoadBalancerAttributeResponse EndUpdateLoadBalancerAttribute(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateLoadBalancerAttributeResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateRelationalDatabase
+
+        /// <summary>
+        /// Allows the update of one or more attributes of a database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// Updates are applied immediately, or in cases where the updates could result in an
+        /// outage, are applied during the database's predefined maintenance window.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>update relational database</code> operation supports tag-based access control
+        /// via resource tags applied to the resource identified by relationalDatabaseName. For
+        /// more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabase service method.</param>
+        /// 
+        /// <returns>The response from the UpdateRelationalDatabase service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabase">REST API Reference for UpdateRelationalDatabase Operation</seealso>
+        public virtual UpdateRelationalDatabaseResponse UpdateRelationalDatabase(UpdateRelationalDatabaseRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateRelationalDatabaseResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabase operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateRelationalDatabase
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabase">REST API Reference for UpdateRelationalDatabase Operation</seealso>
+        public virtual IAsyncResult BeginUpdateRelationalDatabase(UpdateRelationalDatabaseRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRelationalDatabaseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRelationalDatabaseResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateRelationalDatabase operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateRelationalDatabase.</param>
+        /// 
+        /// <returns>Returns a  UpdateRelationalDatabaseResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabase">REST API Reference for UpdateRelationalDatabase Operation</seealso>
+        public virtual UpdateRelationalDatabaseResponse EndUpdateRelationalDatabase(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateRelationalDatabaseResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateRelationalDatabaseParameters
+
+        /// <summary>
+        /// Allows the update of one or more parameters of a database in Amazon Lightsail.
+        /// 
+        ///  
+        /// <para>
+        /// Parameter updates don't cause outages; therefore, their application is not subject
+        /// to the preferred maintenance window. However, there are two ways in which parameter
+        /// updates are applied: <code>dynamic</code> or <code>pending-reboot</code>. Parameters
+        /// marked with a <code>dynamic</code> apply type are applied immediately. Parameters
+        /// marked with a <code>pending-reboot</code> apply type are applied only after the database
+        /// is rebooted using the <code>reboot relational database</code> operation.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>update relational database parameters</code> operation supports tag-based
+        /// access control via resource tags applied to the resource identified by relationalDatabaseName.
+        /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+        /// Dev Guide</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabaseParameters service method.</param>
+        /// 
+        /// <returns>The response from the UpdateRelationalDatabaseParameters service method, as returned by Lightsail.</returns>
+        /// <exception cref="Amazon.Lightsail.Model.AccessDeniedException">
+        /// Lightsail throws this exception when the user cannot be authenticated or uses invalid
+        /// credentials to access a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.AccountSetupInProgressException">
+        /// Lightsail throws this exception when an account is still in the setup in progress
+        /// state.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.InvalidInputException">
+        /// Lightsail throws this exception when user input does not conform to the validation
+        /// rules of an input field.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please
+        /// set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
+        /// </para>
+        ///  </note>
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.NotFoundException">
+        /// Lightsail throws this exception when it cannot find a resource.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.OperationFailureException">
+        /// Lightsail throws this exception when an operation fails to execute.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.ServiceException">
+        /// A general service exception.
+        /// </exception>
+        /// <exception cref="Amazon.Lightsail.Model.UnauthenticatedException">
+        /// Lightsail throws this exception when the user has not been authenticated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabaseParameters">REST API Reference for UpdateRelationalDatabaseParameters Operation</seealso>
+        public virtual UpdateRelationalDatabaseParametersResponse UpdateRelationalDatabaseParameters(UpdateRelationalDatabaseParametersRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRelationalDatabaseParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRelationalDatabaseParametersResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateRelationalDatabaseParametersResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRelationalDatabaseParameters operation on AmazonLightsailClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateRelationalDatabaseParameters
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabaseParameters">REST API Reference for UpdateRelationalDatabaseParameters Operation</seealso>
+        public virtual IAsyncResult BeginUpdateRelationalDatabaseParameters(UpdateRelationalDatabaseParametersRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRelationalDatabaseParametersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRelationalDatabaseParametersResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateRelationalDatabaseParameters operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateRelationalDatabaseParameters.</param>
+        /// 
+        /// <returns>Returns a  UpdateRelationalDatabaseParametersResult from Lightsail.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateRelationalDatabaseParameters">REST API Reference for UpdateRelationalDatabaseParameters Operation</seealso>
+        public virtual UpdateRelationalDatabaseParametersResponse EndUpdateRelationalDatabaseParameters(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateRelationalDatabaseParametersResponse>(asyncResult);
         }
 
         #endregion

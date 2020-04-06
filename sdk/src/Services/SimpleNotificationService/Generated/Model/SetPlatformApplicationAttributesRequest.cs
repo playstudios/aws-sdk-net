@@ -30,9 +30,9 @@ namespace Amazon.SimpleNotificationService.Model
     /// <summary>
     /// Container for the parameters to the SetPlatformApplicationAttributes operation.
     /// Sets the attributes of the platform application object for the supported push notification
-    /// services, such as APNS and GCM. For more information, see <a href="http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
+    /// services, such as APNS and FCM. For more information, see <a href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
     /// Amazon SNS Mobile Push Notifications</a>. For information on configuring attributes
-    /// for message delivery status, see <a href="http://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html">Using
+    /// for message delivery status, see <a href="https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html">Using
     /// Amazon SNS Application Attributes for Message Delivery Status</a>.
     /// </summary>
     public partial class SetPlatformApplicationAttributesRequest : AmazonSimpleNotificationServiceRequest
@@ -47,54 +47,55 @@ namespace Amazon.SimpleNotificationService.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>PlatformCredential</code> -- The credential received from the notification
-        /// service. For APNS/APNS_SANDBOX, PlatformCredential is private key. For GCM, PlatformCredential
+        ///  <code>PlatformCredential</code> – The credential received from the notification service.
+        /// For APNS/APNS_SANDBOX, PlatformCredential is private key. For FCM, PlatformCredential
         /// is "API key". For ADM, PlatformCredential is "client secret".
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>PlatformPrincipal</code> -- The principal received from the notification service.
-        /// For APNS/APNS_SANDBOX, PlatformPrincipal is SSL certificate. For GCM, PlatformPrincipal
+        ///  <code>PlatformPrincipal</code> – The principal received from the notification service.
+        /// For APNS/APNS_SANDBOX, PlatformPrincipal is SSL certificate. For FCM, PlatformPrincipal
         /// is not applicable. For ADM, PlatformPrincipal is "client id".
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>EventEndpointCreated</code> -- Topic ARN to which EndpointCreated event notifications
+        ///  <code>EventEndpointCreated</code> – Topic ARN to which EndpointCreated event notifications
         /// should be sent.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>EventEndpointDeleted</code> -- Topic ARN to which EndpointDeleted event notifications
+        ///  <code>EventEndpointDeleted</code> – Topic ARN to which EndpointDeleted event notifications
         /// should be sent.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>EventEndpointUpdated</code> -- Topic ARN to which EndpointUpdate event notifications
+        ///  <code>EventEndpointUpdated</code> – Topic ARN to which EndpointUpdate event notifications
         /// should be sent.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>EventDeliveryFailure</code> -- Topic ARN to which DeliveryFailure event notifications
+        ///  <code>EventDeliveryFailure</code> – Topic ARN to which DeliveryFailure event notifications
         /// should be sent upon Direct Publish delivery failure (permanent) to one of the application's
         /// endpoints.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>SuccessFeedbackRoleArn</code> -- IAM role ARN used to give Amazon SNS write
+        ///  <code>SuccessFeedbackRoleArn</code> – IAM role ARN used to give Amazon SNS write
         /// access to use CloudWatch Logs on your behalf.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>FailureFeedbackRoleArn</code> -- IAM role ARN used to give Amazon SNS write
+        ///  <code>FailureFeedbackRoleArn</code> – IAM role ARN used to give Amazon SNS write
         /// access to use CloudWatch Logs on your behalf.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>SuccessFeedbackSampleRate</code> -- Sample rate percentage (0-100) of successfully
+        ///  <code>SuccessFeedbackSampleRate</code> – Sample rate percentage (0-100) of successfully
         /// delivered messages.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Dictionary<string, string> Attributes
         {
             get { return this._attributes; }
@@ -113,6 +114,7 @@ namespace Amazon.SimpleNotificationService.Model
         /// PlatformApplicationArn for SetPlatformApplicationAttributes action.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PlatformApplicationArn
         {
             get { return this._platformApplicationArn; }

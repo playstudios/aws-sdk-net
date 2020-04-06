@@ -55,16 +55,17 @@ namespace Amazon.ServerlessApplicationRepository.Model.Internal.MarshallTransfor
         public IRequest Marshall(GetApplicationRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ServerlessApplicationRepository");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-08";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/applications/{applicationId}";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonServerlessApplicationRepositoryException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.AddPathResource("{applicationId}", StringUtils.FromString(publicRequest.ApplicationId));
             
             if (publicRequest.IsSetSemanticVersion())
                 request.Parameters.Add("semanticVersion", StringUtils.FromString(publicRequest.SemanticVersion));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/applications/{applicationId}";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

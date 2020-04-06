@@ -33,10 +33,32 @@ namespace Amazon.AppSync.Model
     /// </summary>
     public partial class UpdateGraphqlApiRequest : AmazonAppSyncRequest
     {
+        private List<AdditionalAuthenticationProvider> _additionalAuthenticationProviders = new List<AdditionalAuthenticationProvider>();
         private string _apiId;
         private AuthenticationType _authenticationType;
+        private LogConfig _logConfig;
         private string _name;
+        private OpenIDConnectConfig _openidConnectConfig;
         private UserPoolConfig _userPoolConfig;
+        private bool? _xrayEnabled;
+
+        /// <summary>
+        /// Gets and sets the property AdditionalAuthenticationProviders. 
+        /// <para>
+        /// A list of additional authentication providers for the <code>GraphqlApi</code> API.
+        /// </para>
+        /// </summary>
+        public List<AdditionalAuthenticationProvider> AdditionalAuthenticationProviders
+        {
+            get { return this._additionalAuthenticationProviders; }
+            set { this._additionalAuthenticationProviders = value; }
+        }
+
+        // Check to see if AdditionalAuthenticationProviders property is set
+        internal bool IsSetAdditionalAuthenticationProviders()
+        {
+            return this._additionalAuthenticationProviders != null && this._additionalAuthenticationProviders.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property ApiId. 
@@ -44,6 +66,7 @@ namespace Amazon.AppSync.Model
         /// The API ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApiId
         {
             get { return this._apiId; }
@@ -75,11 +98,30 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property LogConfig. 
+        /// <para>
+        /// The Amazon CloudWatch Logs configuration for the <code>GraphqlApi</code> object.
+        /// </para>
+        /// </summary>
+        public LogConfig LogConfig
+        {
+            get { return this._logConfig; }
+            set { this._logConfig = value; }
+        }
+
+        // Check to see if LogConfig property is set
+        internal bool IsSetLogConfig()
+        {
+            return this._logConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
         /// The new name for the <code>GraphqlApi</code> object.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -93,9 +135,27 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OpenIDConnectConfig. 
+        /// <para>
+        /// The OpenID Connect configuration for the <code>GraphqlApi</code> object.
+        /// </para>
+        /// </summary>
+        public OpenIDConnectConfig OpenIDConnectConfig
+        {
+            get { return this._openidConnectConfig; }
+            set { this._openidConnectConfig = value; }
+        }
+
+        // Check to see if OpenIDConnectConfig property is set
+        internal bool IsSetOpenIDConnectConfig()
+        {
+            return this._openidConnectConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property UserPoolConfig. 
         /// <para>
-        /// The new Amazon Cognito User Pool configuration for the <code>GraphqlApi</code> object.
+        /// The new Amazon Cognito user pool configuration for the <code>GraphqlApi</code> object.
         /// </para>
         /// </summary>
         public UserPoolConfig UserPoolConfig
@@ -108,6 +168,24 @@ namespace Amazon.AppSync.Model
         internal bool IsSetUserPoolConfig()
         {
             return this._userPoolConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property XrayEnabled. 
+        /// <para>
+        /// A flag indicating whether to enable X-Ray tracing for the <code>GraphqlApi</code>.
+        /// </para>
+        /// </summary>
+        public bool XrayEnabled
+        {
+            get { return this._xrayEnabled.GetValueOrDefault(); }
+            set { this._xrayEnabled = value; }
+        }
+
+        // Check to see if XrayEnabled property is set
+        internal bool IsSetXrayEnabled()
+        {
+            return this._xrayEnabled.HasValue; 
         }
 
     }

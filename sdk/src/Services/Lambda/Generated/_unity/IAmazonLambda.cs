@@ -35,14 +35,31 @@ namespace Amazon.Lambda
     ///  
     /// <para>
     /// This is the <i>AWS Lambda API Reference</i>. The AWS Lambda Developer Guide provides
-    /// additional information. For the service overview, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What
-    /// is AWS Lambda</a>, and for information about how the service works, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
+    /// additional information. For the service overview, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What
+    /// is AWS Lambda</a>, and for information about how the service works, see <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
     /// Lambda: How it Works</a> in the <b>AWS Lambda Developer Guide</b>.
     /// </para>
     /// </summary>
     public partial interface IAmazonLambda : IAmazonService, IDisposable
     {
 
+        
+        #region  AddLayerVersionPermission
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AddLayerVersionPermission operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AddLayerVersionPermission operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddLayerVersionPermission">REST API Reference for AddLayerVersionPermission Operation</seealso>
+        void AddLayerVersionPermissionAsync(AddLayerVersionPermissionRequest request, AmazonServiceCallback<AddLayerVersionPermissionRequest, AddLayerVersionPermissionResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
         
         #region  AddPermission
 
@@ -152,29 +169,18 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Deletes the specified Lambda function code and configuration.
+        /// Deletes a Lambda function. To delete a specific function version, use the <code>Qualifier</code>
+        /// parameter. Otherwise, all versions and aliases are deleted.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature and you don't specify a function version in
-        /// your <code>DeleteFunction</code> request, AWS Lambda will delete the function, including
-        /// all its versions, and any aliases pointing to the function versions. To delete a specific
-        /// function version, you must provide the function version via the <code>Qualifier</code>
-        /// parameter. For information about function versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// When you delete a function the associated resource policy is also deleted. You will
-        /// need to delete the event source mappings explicitly.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:DeleteFunction</code> action.
+        /// To delete Lambda event source mappings that invoke a function, use <a>DeleteEventSourceMapping</a>.
+        /// For AWS services and resources that invoke your function directly, delete the trigger
+        /// in the service where you originally configured it.
         /// </para>
         /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value of this configuration option is AWSConfigs.HttpClientOption.UnityWWW
         /// </summary>
-        /// <param name="functionName">The Lambda function to delete.  You can specify the function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function or version. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:1</code> (with version). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -183,22 +189,19 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the DeleteFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceConflictException">
-        /// The resource already exists.
+        /// The resource already exists, or another operation is in progress.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunction">REST API Reference for DeleteFunction Operation</seealso>
         void DeleteFunctionAsync(string functionName,  AmazonServiceCallback<DeleteFunctionRequest, DeleteFunctionResponse> callback, AsyncOptions options = null);
@@ -232,6 +235,60 @@ namespace Amazon.Lambda
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionConcurrency">REST API Reference for DeleteFunctionConcurrency Operation</seealso>
         void DeleteFunctionConcurrencyAsync(DeleteFunctionConcurrencyRequest request, AmazonServiceCallback<DeleteFunctionConcurrencyRequest, DeleteFunctionConcurrencyResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  DeleteFunctionEventInvokeConfig
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteFunctionEventInvokeConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionEventInvokeConfig">REST API Reference for DeleteFunctionEventInvokeConfig Operation</seealso>
+        void DeleteFunctionEventInvokeConfigAsync(DeleteFunctionEventInvokeConfigRequest request, AmazonServiceCallback<DeleteFunctionEventInvokeConfigRequest, DeleteFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  DeleteLayerVersion
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLayerVersion operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteLayerVersion">REST API Reference for DeleteLayerVersion Operation</seealso>
+        void DeleteLayerVersionAsync(DeleteLayerVersionRequest request, AmazonServiceCallback<DeleteLayerVersionRequest, DeleteLayerVersionResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  DeleteProvisionedConcurrencyConfig
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProvisionedConcurrencyConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteProvisionedConcurrencyConfig">REST API Reference for DeleteProvisionedConcurrencyConfig Operation</seealso>
+        void DeleteProvisionedConcurrencyConfigAsync(DeleteProvisionedConcurrencyConfigRequest request, AmazonServiceCallback<DeleteProvisionedConcurrencyConfigRequest, DeleteProvisionedConcurrencyConfigResponse> callback, AsyncOptions options = null);
 
 
         #endregion
@@ -291,25 +348,11 @@ namespace Amazon.Lambda
 
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function and a presigned URL link
-        /// to the .zip file you uploaded with <a>CreateFunction</a> so you can download the .zip
-        /// file. Note that the URL is valid for up to 10 minutes. The configuration information
-        /// is the same information you provided as parameters when uploading the function.
-        /// 
-        ///  
-        /// <para>
-        /// Using the optional <code>Qualifier</code> parameter, you can specify a specific function
-        /// version for which you want this information. If you don't specify this parameter,
-        /// the API uses unqualified function ARN which return information about the <code>$LATEST</code>
-        /// version of the Lambda function. For more information, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunction</code> action.
-        /// </para>
+        /// Returns information about the function or function version, with a link to download
+        /// the deployment package that's valid for 10 minutes. If you specify a function version,
+        /// only details that are specific to that version are returned.
         /// </summary>
-        /// <param name="functionName">The Lambda function name.  You can specify a function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function, version, or alias. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:v1</code> (with alias). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -318,19 +361,16 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the GetFunction service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunction">REST API Reference for GetFunction Operation</seealso>
         void GetFunctionAsync(string functionName,  AmazonServiceCallback<GetFunctionRequest, GetFunctionResponse> callback, AsyncOptions options = null);
@@ -349,29 +389,37 @@ namespace Amazon.Lambda
 
         #endregion
         
+        #region  GetFunctionConcurrency
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetFunctionConcurrency operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionConcurrency operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConcurrency">REST API Reference for GetFunctionConcurrency Operation</seealso>
+        void GetFunctionConcurrencyAsync(GetFunctionConcurrencyRequest request, AmazonServiceCallback<GetFunctionConcurrencyRequest, GetFunctionConcurrencyResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  GetFunctionConfiguration
 
 
         /// <summary>
-        /// Returns the configuration information of the Lambda function. This the same information
-        /// you provided as parameters when uploading the function by using <a>CreateFunction</a>.
+        /// Returns the version-specific settings of a Lambda function or version. The output
+        /// includes only options that can vary between versions of a function. To modify these
+        /// settings, use <a>UpdateFunctionConfiguration</a>.
         /// 
         ///  
         /// <para>
-        /// If you are using the versioning feature, you can retrieve this information for a specific
-        /// function version by using the optional <code>Qualifier</code> parameter and specifying
-        /// the function version or alias that points to it. If you don't provide it, the API
-        /// returns information about the $LATEST version of the function. For more information
-        /// about versioning, see <a href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS
-        /// Lambda Function Versioning and Aliases</a>.
-        /// </para>
-        ///  
-        /// <para>
-        /// This operation requires permission for the <code>lambda:GetFunctionConfiguration</code>
-        /// operation.
+        /// To get all of a function's details, including function-level settings, use <a>GetFunction</a>.
         /// </para>
         /// </summary>
-        /// <param name="functionName">The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, <code>Thumbnail</code>) or you can specify Amazon Resource Name (ARN) of the function (for example, <code>arn:aws:lambda:us-west-2:account-id:function:ThumbNail</code>). AWS Lambda also allows you to specify a partial ARN (for example, <code>account-id:Thumbnail</code>). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 characters in length. </param>
+        /// <param name="functionName">The name of the Lambda function, version, or alias. <p class="title"> <b>Name formats</b>  <ul> <li>  <b>Function name</b> - <code>my-function</code> (name-only), <code>my-function:v1</code> (with alias). </li> <li>  <b>Function ARN</b> - <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>. </li> <li>  <b>Partial ARN</b> - <code>123456789012:function:my-function</code>. </li> </ul> You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">
         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
@@ -380,19 +428,16 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the GetFunctionConfiguration service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ResourceNotFoundException">
-        /// The resource (for example, a Lambda function or access policy statement) specified
-        /// in the request does not exist.
+        /// The resource specified in the request does not exist.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfiguration">REST API Reference for GetFunctionConfiguration Operation</seealso>
         void GetFunctionConfigurationAsync(string functionName,  AmazonServiceCallback<GetFunctionConfigurationRequest, GetFunctionConfigurationResponse> callback, AsyncOptions options = null);
@@ -411,6 +456,74 @@ namespace Amazon.Lambda
 
         #endregion
         
+        #region  GetFunctionEventInvokeConfig
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionEventInvokeConfig">REST API Reference for GetFunctionEventInvokeConfig Operation</seealso>
+        void GetFunctionEventInvokeConfigAsync(GetFunctionEventInvokeConfigRequest request, AmazonServiceCallback<GetFunctionEventInvokeConfigRequest, GetFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  GetLayerVersion
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersion">REST API Reference for GetLayerVersion Operation</seealso>
+        void GetLayerVersionAsync(GetLayerVersionRequest request, AmazonServiceCallback<GetLayerVersionRequest, GetLayerVersionResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  GetLayerVersionByArn
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersionByArn operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionByArn operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionByArn">REST API Reference for GetLayerVersionByArn Operation</seealso>
+        void GetLayerVersionByArnAsync(GetLayerVersionByArnRequest request, AmazonServiceCallback<GetLayerVersionByArnRequest, GetLayerVersionByArnResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  GetLayerVersionPolicy
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetLayerVersionPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetLayerVersionPolicy operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetLayerVersionPolicy">REST API Reference for GetLayerVersionPolicy Operation</seealso>
+        void GetLayerVersionPolicyAsync(GetLayerVersionPolicyRequest request, AmazonServiceCallback<GetLayerVersionPolicyRequest, GetLayerVersionPolicyResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  GetPolicy
 
 
@@ -424,6 +537,23 @@ namespace Amazon.Lambda
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicy">REST API Reference for GetPolicy Operation</seealso>
         void GetPolicyAsync(GetPolicyRequest request, AmazonServiceCallback<GetPolicyRequest, GetPolicyResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  GetProvisionedConcurrencyConfig
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetProvisionedConcurrencyConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetProvisionedConcurrencyConfig">REST API Reference for GetProvisionedConcurrencyConfig Operation</seealso>
+        void GetProvisionedConcurrencyConfigAsync(GetProvisionedConcurrencyConfigRequest request, AmazonServiceCallback<GetProvisionedConcurrencyConfigRequest, GetProvisionedConcurrencyConfigResponse> callback, AsyncOptions options = null);
 
 
         #endregion
@@ -457,7 +587,7 @@ namespace Amazon.Lambda
         /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsync">REST API Reference for InvokeAsync Operation</seealso>
-        [Obsolete("This API is deprecated. We recommend that you use Invoke API instead.")]
+        [Obsolete("For .NET 3.5/4.5, API InvokeAsyncResponse InvokeAsync(InvokeAsyncRequest) is deprecated, use InvokeResponse Invoke(InvokeRequest), or Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead. For .NET Core and PCL, Task<InvokeAsyncResponse> InvokeAsyncAsync(InvokeAsyncRequest, CancellationToken) is deprecated, use Task<InvokeResponse> InvokeAsync(InvokeRequest, CancellationToken) instead.")]
         void InvokeAsyncAsync(InvokeAsyncRequest request, AmazonServiceCallback<InvokeAsyncRequest, InvokeAsyncResponse> callback, AsyncOptions options = null);
 
 
@@ -497,24 +627,35 @@ namespace Amazon.Lambda
 
         #endregion
         
+        #region  ListFunctionEventInvokeConfigs
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListFunctionEventInvokeConfigs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListFunctionEventInvokeConfigs operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionEventInvokeConfigs">REST API Reference for ListFunctionEventInvokeConfigs Operation</seealso>
+        void ListFunctionEventInvokeConfigsAsync(ListFunctionEventInvokeConfigsRequest request, AmazonServiceCallback<ListFunctionEventInvokeConfigsRequest, ListFunctionEventInvokeConfigsResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  ListFunctions
 
 
         /// <summary>
-        /// Returns a list of your Lambda functions. For each function, the response includes
-        /// the function configuration information. You must use <a>GetFunction</a> to retrieve
-        /// the code for your function.
+        /// Returns a list of Lambda functions, with the version-specific configuration of each.
+        /// Lambda returns up to 50 functions per call.
         /// 
         ///  
         /// <para>
-        /// This operation requires permission for the <code>lambda:ListFunctions</code> action.
-        /// </para>
-        ///  
-        /// <para>
-        /// If you are using the versioning feature, you can list all of your functions or only
-        /// <code>$LATEST</code> versions. For information about the versioning feature, see <a
-        /// href="http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">AWS Lambda
-        /// Function Versioning and Aliases</a>. 
+        /// Set <code>FunctionVersion</code> to <code>ALL</code> to include all published versions
+        /// of each function in addition to the unpublished version. To get more information about
+        /// a function or version, use <a>GetFunction</a>.
         /// </para>
         /// </summary>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
@@ -525,15 +666,13 @@ namespace Amazon.Lambda
         /// 
         /// <returns>The response from the ListFunctions service method, as returned by Lambda.</returns>
         /// <exception cref="Amazon.Lambda.Model.InvalidParameterValueException">
-        /// One of the parameters in the request is invalid. For example, if you provided an IAM
-        /// role for AWS Lambda to assume in the <code>CreateFunction</code> or the <code>UpdateFunctionConfiguration</code>
-        /// API, that AWS Lambda is unable to assume you will get this exception.
+        /// One of the parameters in the request is invalid.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.ServiceException">
         /// The AWS Lambda service encountered an internal error.
         /// </exception>
         /// <exception cref="Amazon.Lambda.Model.TooManyRequestsException">
-        /// 
+        /// The request throughput limit was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctions">REST API Reference for ListFunctions Operation</seealso>
         void ListFunctionsAsync( AmazonServiceCallback<ListFunctionsRequest, ListFunctionsResponse> callback, AsyncOptions options = null);
@@ -548,6 +687,57 @@ namespace Amazon.Lambda
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctions">REST API Reference for ListFunctions Operation</seealso>
         void ListFunctionsAsync(ListFunctionsRequest request, AmazonServiceCallback<ListFunctionsRequest, ListFunctionsResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  ListLayers
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLayers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLayers operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayers">REST API Reference for ListLayers Operation</seealso>
+        void ListLayersAsync(ListLayersRequest request, AmazonServiceCallback<ListLayersRequest, ListLayersResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  ListLayerVersions
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLayerVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLayerVersions operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListLayerVersions">REST API Reference for ListLayerVersions Operation</seealso>
+        void ListLayerVersionsAsync(ListLayerVersionsRequest request, AmazonServiceCallback<ListLayerVersionsRequest, ListLayerVersionsResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  ListProvisionedConcurrencyConfigs
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListProvisionedConcurrencyConfigs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisionedConcurrencyConfigs operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListProvisionedConcurrencyConfigs">REST API Reference for ListProvisionedConcurrencyConfigs Operation</seealso>
+        void ListProvisionedConcurrencyConfigsAsync(ListProvisionedConcurrencyConfigsRequest request, AmazonServiceCallback<ListProvisionedConcurrencyConfigsRequest, ListProvisionedConcurrencyConfigsResponse> callback, AsyncOptions options = null);
 
 
         #endregion
@@ -586,6 +776,23 @@ namespace Amazon.Lambda
 
         #endregion
         
+        #region  PublishLayerVersion
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PublishLayerVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PublishLayerVersion operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishLayerVersion">REST API Reference for PublishLayerVersion Operation</seealso>
+        void PublishLayerVersionAsync(PublishLayerVersionRequest request, AmazonServiceCallback<PublishLayerVersionRequest, PublishLayerVersionResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
         #region  PublishVersion
 
 
@@ -617,6 +824,60 @@ namespace Amazon.Lambda
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionConcurrency">REST API Reference for PutFunctionConcurrency Operation</seealso>
         void PutFunctionConcurrencyAsync(PutFunctionConcurrencyRequest request, AmazonServiceCallback<PutFunctionConcurrencyRequest, PutFunctionConcurrencyResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  PutFunctionEventInvokeConfig
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutFunctionEventInvokeConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionEventInvokeConfig">REST API Reference for PutFunctionEventInvokeConfig Operation</seealso>
+        void PutFunctionEventInvokeConfigAsync(PutFunctionEventInvokeConfigRequest request, AmazonServiceCallback<PutFunctionEventInvokeConfigRequest, PutFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  PutProvisionedConcurrencyConfig
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutProvisionedConcurrencyConfig operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutProvisionedConcurrencyConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutProvisionedConcurrencyConfig">REST API Reference for PutProvisionedConcurrencyConfig Operation</seealso>
+        void PutProvisionedConcurrencyConfigAsync(PutProvisionedConcurrencyConfigRequest request, AmazonServiceCallback<PutProvisionedConcurrencyConfigRequest, PutProvisionedConcurrencyConfigResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  RemoveLayerVersionPermission
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RemoveLayerVersionPermission operation.
+        /// This API is supported only when AWSConfigs.HttpClient is set to AWSConfigs.HttpClientOption.UnityWebRequest, the default value for this configuration option is AWSConfigs.HttpClientOption.UnityWWW
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RemoveLayerVersionPermission operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemoveLayerVersionPermission">REST API Reference for RemoveLayerVersionPermission Operation</seealso>
+        void RemoveLayerVersionPermissionAsync(RemoveLayerVersionPermissionRequest request, AmazonServiceCallback<RemoveLayerVersionPermissionRequest, RemoveLayerVersionPermissionResponse> callback, AsyncOptions options = null);
 
 
         #endregion
@@ -742,6 +1003,23 @@ namespace Amazon.Lambda
         ///          procedure using the AsyncState property.</param>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfiguration">REST API Reference for UpdateFunctionConfiguration Operation</seealso>
         void UpdateFunctionConfigurationAsync(UpdateFunctionConfigurationRequest request, AmazonServiceCallback<UpdateFunctionConfigurationRequest, UpdateFunctionConfigurationResponse> callback, AsyncOptions options = null);
+
+
+        #endregion
+        
+        #region  UpdateFunctionEventInvokeConfig
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateFunctionEventInvokeConfig operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFunctionEventInvokeConfig operation on AmazonLambdaClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionEventInvokeConfig">REST API Reference for UpdateFunctionEventInvokeConfig Operation</seealso>
+        void UpdateFunctionEventInvokeConfigAsync(UpdateFunctionEventInvokeConfigRequest request, AmazonServiceCallback<UpdateFunctionEventInvokeConfigRequest, UpdateFunctionEventInvokeConfigResponse> callback, AsyncOptions options = null);
 
 
         #endregion

@@ -29,7 +29,7 @@ namespace Amazon.Glue.Model
 {
     /// <summary>
     /// Container for the parameters to the GetUserDefinedFunctions operation.
-    /// Retrieves a multiple function definitions from the Data Catalog.
+    /// Retrieves multiple function definitions from the Data Catalog.
     /// </summary>
     public partial class GetUserDefinedFunctionsRequest : AmazonGlueRequest
     {
@@ -43,9 +43,10 @@ namespace Amazon.Glue.Model
         /// Gets and sets the property CatalogId. 
         /// <para>
         /// The ID of the Data Catalog where the functions to be retrieved are located. If none
-        /// is supplied, the AWS account ID is used by default.
+        /// is provided, the AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -64,6 +65,7 @@ namespace Amazon.Glue.Model
         /// The name of the catalog database where the functions are located.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string DatabaseName
         {
             get { return this._databaseName; }
@@ -82,6 +84,7 @@ namespace Amazon.Glue.Model
         /// The maximum number of functions to return in one response.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -118,6 +121,7 @@ namespace Amazon.Glue.Model
         /// An optional function-name pattern string that filters the function definitions returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Pattern
         {
             get { return this._pattern; }

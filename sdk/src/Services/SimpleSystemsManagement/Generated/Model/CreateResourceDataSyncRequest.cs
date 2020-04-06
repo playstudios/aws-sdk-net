@@ -29,25 +29,47 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateResourceDataSync operation.
-    /// Creates a resource data sync configuration to a single bucket in Amazon S3. This is
-    /// an asynchronous operation that returns immediately. After a successful initial sync
-    /// is completed, the system continuously syncs data to the Amazon S3 bucket. To check
-    /// the status of the sync, use the <a>ListResourceDataSync</a>.
+    /// A resource data sync helps you view data from multiple sources in a single location.
+    /// Systems Manager offers two types of resource data sync: <code>SyncToDestination</code>
+    /// and <code>SyncFromSource</code>.
     /// 
     ///  
     /// <para>
+    /// You can configure Systems Manager Inventory to use the <code>SyncToDestination</code>
+    /// type to synchronize Inventory data from multiple AWS Regions to a single Amazon S3
+    /// bucket. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-datasync.html">Configuring
+    /// Resource Data Sync for Inventory</a> in the <i>AWS Systems Manager User Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// You can configure Systems Manager Explorer to use the <code>SyncFromSource</code>
+    /// type to synchronize operational work items (OpsItems) and operational data (OpsData)
+    /// from multiple AWS Regions to a single Amazon S3 bucket. This type can synchronize
+    /// OpsItems and OpsData from multiple AWS accounts and Regions or <code>EntireOrganization</code>
+    /// by using AWS Organizations. For more information, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html">Setting
+    /// Up Explorer to Display Data from Multiple Accounts and Regions</a> in the <i>AWS Systems
+    /// Manager User Guide</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// A resource data sync is an asynchronous operation that returns immediately. After
+    /// a successful initial sync is completed, the system continuously syncs data. To check
+    /// the status of a sync, use the <a>ListResourceDataSync</a>.
+    /// </para>
+    ///  <note> 
+    /// <para>
     /// By default, data is not encrypted in Amazon S3. We strongly recommend that you enable
     /// encryption in Amazon S3 to ensure secure data storage. We also recommend that you
-    /// secure access to the Amazon S3 bucket by creating a restrictive bucket policy. To
-    /// view an example of a restrictive Amazon S3 bucket policy for Resource Data Sync, see
-    /// <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-configuring.html#sysman-inventory-datasync">Configuring
-    /// Resource Data Sync for Inventory</a>.
+    /// secure access to the Amazon S3 bucket by creating a restrictive bucket policy. 
     /// </para>
+    ///  </note>
     /// </summary>
     public partial class CreateResourceDataSyncRequest : AmazonSimpleSystemsManagementRequest
     {
         private ResourceDataSyncS3Destination _s3Destination;
         private string _syncName;
+        private ResourceDataSyncSource _syncSource;
+        private string _syncType;
 
         /// <summary>
         /// Gets and sets the property S3Destination. 
@@ -73,6 +95,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A name for the configuration.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string SyncName
         {
             get { return this._syncName; }
@@ -83,6 +106,45 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetSyncName()
         {
             return this._syncName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SyncSource. 
+        /// <para>
+        /// Specify information about the data sources to synchronize.
+        /// </para>
+        /// </summary>
+        public ResourceDataSyncSource SyncSource
+        {
+            get { return this._syncSource; }
+            set { this._syncSource = value; }
+        }
+
+        // Check to see if SyncSource property is set
+        internal bool IsSetSyncSource()
+        {
+            return this._syncSource != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SyncType. 
+        /// <para>
+        /// Specify <code>SyncToDestination</code> to create a resource data sync that synchronizes
+        /// data from multiple AWS Regions to an Amazon S3 bucket. Specify <code>SyncFromSource</code>
+        /// to synchronize data from multiple AWS accounts and Regions, as listed in AWS Organizations.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=64)]
+        public string SyncType
+        {
+            get { return this._syncType; }
+            set { this._syncType = value; }
+        }
+
+        // Check to see if SyncType property is set
+        internal bool IsSetSyncType()
+        {
+            return this._syncType != null;
         }
 
     }

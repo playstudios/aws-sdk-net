@@ -55,14 +55,15 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateFunctionDefinitionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/greengrass/definition/functions/{FunctionDefinitionId}";
             if (!publicRequest.IsSetFunctionDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field FunctionDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{FunctionDefinitionId}", StringUtils.FromString(publicRequest.FunctionDefinitionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{FunctionDefinitionId}", StringUtils.FromString(publicRequest.FunctionDefinitionId));
+            request.ResourcePath = "/greengrass/definition/functions/{FunctionDefinitionId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

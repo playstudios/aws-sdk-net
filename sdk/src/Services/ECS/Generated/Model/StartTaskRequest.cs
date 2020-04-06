@@ -35,7 +35,7 @@ namespace Amazon.ECS.Model
     ///  
     /// <para>
     /// Alternatively, you can use <a>RunTask</a> to place tasks for you. For more information,
-    /// see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html">Scheduling
+    /// see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html">Scheduling
     /// Tasks</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -43,10 +43,14 @@ namespace Amazon.ECS.Model
     {
         private string _cluster;
         private List<string> _containerInstances = new List<string>();
+        private bool? _enableecsManagedTags;
         private string _group;
         private NetworkConfiguration _networkConfiguration;
         private TaskOverride _overrides;
+        private PropagateTags _propagateTags;
+        private string _referenceId;
         private string _startedBy;
+        private List<Tag> _tags = new List<Tag>();
         private string _taskDefinition;
 
         /// <summary>
@@ -75,6 +79,7 @@ namespace Amazon.ECS.Model
         /// you would like to place your task. You can specify up to 10 container instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> ContainerInstances
         {
             get { return this._containerInstances; }
@@ -85,6 +90,27 @@ namespace Amazon.ECS.Model
         internal bool IsSetContainerInstances()
         {
             return this._containerInstances != null && this._containerInstances.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableECSManagedTags. 
+        /// <para>
+        /// Specifies whether to enable Amazon ECS managed tags for the task. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
+        /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service Developer
+        /// Guide</i>.
+        /// </para>
+        /// </summary>
+        public bool EnableECSManagedTags
+        {
+            get { return this._enableecsManagedTags.GetValueOrDefault(); }
+            set { this._enableecsManagedTags = value; }
+        }
+
+        // Check to see if EnableECSManagedTags property is set
+        internal bool IsSetEnableECSManagedTags()
+        {
+            return this._enableecsManagedTags.HasValue; 
         }
 
         /// <summary>
@@ -109,8 +135,8 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property NetworkConfiguration. 
         /// <para>
-        /// The VPC subnet and security group configuration for tasks that receive their own Elastic
-        /// Network Interface by using the <code>awsvpc</code> networking mode.
+        /// The VPC subnet and security group configuration for tasks that receive their own elastic
+        /// network interface by using the <code>awsvpc</code> networking mode.
         /// </para>
         /// </summary>
         public NetworkConfiguration NetworkConfiguration
@@ -155,9 +181,46 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PropagateTags. 
+        /// <para>
+        /// Specifies whether to propagate the tags from the task definition or the service to
+        /// the task. If no value is specified, the tags are not propagated.
+        /// </para>
+        /// </summary>
+        public PropagateTags PropagateTags
+        {
+            get { return this._propagateTags; }
+            set { this._propagateTags = value; }
+        }
+
+        // Check to see if PropagateTags property is set
+        internal bool IsSetPropagateTags()
+        {
+            return this._propagateTags != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReferenceId. 
+        /// <para>
+        /// The reference ID to use for the task.
+        /// </para>
+        /// </summary>
+        public string ReferenceId
+        {
+            get { return this._referenceId; }
+            set { this._referenceId = value; }
+        }
+
+        // Check to see if ReferenceId property is set
+        internal bool IsSetReferenceId()
+        {
+            return this._referenceId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StartedBy. 
         /// <para>
-        /// An optional tag specified when a task is started. For example if you automatically
+        /// An optional tag specified when a task is started. For example, if you automatically
         /// trigger a task to run a batch process job, you could apply a unique identifier for
         /// that job to your task with the <code>startedBy</code> parameter. You can then identify
         /// which tasks belong to that job by filtering the results of a <a>ListTasks</a> call
@@ -183,6 +246,66 @@ namespace Amazon.ECS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The metadata that you apply to the task to help you categorize and organize them.
+        /// Each tag consists of a key and an optional value, both of which you define.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following basic restrictions apply to tags:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Maximum number of tags per resource - 50
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For each resource, each tag key must be unique, and each tag key can have only one
+        /// value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Maximum key length - 128 Unicode characters in UTF-8
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Maximum value length - 256 Unicode characters in UTF-8
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If your tagging schema is used across multiple services and resources, remember that
+        /// other services may have restrictions on allowed characters. Generally allowed characters
+        /// are: letters, numbers, and spaces representable in UTF-8, and the following characters:
+        /// + - = . _ : / @.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Tag keys and values are case-sensitive.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Do not use <code>aws:</code>, <code>AWS:</code>, or any upper or lowercase combination
+        /// of such as a prefix for either keys or values as it is reserved for AWS use. You cannot
+        /// edit or delete tag keys or values with this prefix. Tags with this prefix do not count
+        /// against your tags per resource limit.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Min=0, Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property TaskDefinition. 
         /// <para>
         /// The <code>family</code> and <code>revision</code> (<code>family:revision</code>) or
@@ -190,6 +313,7 @@ namespace Amazon.ECS.Model
         /// the latest <code>ACTIVE</code> revision is used.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TaskDefinition
         {
             get { return this._taskDefinition; }

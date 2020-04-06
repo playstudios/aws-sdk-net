@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Application settings.
+    /// Provides information about an application, including the default settings for an application.
     /// </summary>
     public partial class ApplicationSettingsResource
     {
@@ -39,8 +39,13 @@ namespace Amazon.Pinpoint.Model
         private QuietTime _quietTime;
 
         /// <summary>
-        /// Gets and sets the property ApplicationId. The unique ID for the application.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application. This identifier is displayed as the <b>Project
+        /// ID</b> on the Amazon Pinpoint console.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -54,7 +59,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property CampaignHook. Default campaign hook.
+        /// Gets and sets the property CampaignHook. 
+        /// <para>
+        /// The settings for the AWS Lambda function to use by default as a code hook for campaigns
+        /// in the application.
+        /// </para>
         /// </summary>
         public CampaignHook CampaignHook
         {
@@ -69,8 +78,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LastModifiedDate. The date that the settings were last
-        /// updated in ISO 8601 format.
+        /// Gets and sets the property LastModifiedDate. 
+        /// <para>
+        /// The date and time, in ISO 8601 format, when the application's settings were last modified.
+        /// </para>
         /// </summary>
         public string LastModifiedDate
         {
@@ -85,9 +96,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Limits. The default campaign limits for the app. These
-        /// limits apply to each campaign for the app, unless the campaign overrides the default
-        /// with limits of its own.
+        /// Gets and sets the property Limits. 
+        /// <para>
+        /// The default sending limits for campaigns in the application.
+        /// </para>
         /// </summary>
         public CampaignLimits Limits
         {
@@ -102,9 +114,33 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property QuietTime. The default quiet time for the app. Each campaign
-        /// for this app sends no messages during this time unless the campaign overrides the
-        /// default with a quiet time of its own.
+        /// Gets and sets the property QuietTime. 
+        /// <para>
+        /// The default quiet time for campaigns and journeys in the application. Quiet time is
+        /// a specific time range when messages aren't sent to endpoints, if all the following
+        /// conditions are met:
+        /// </para>
+        ///  <ul><li>
+        /// <para>
+        /// The EndpointDemographic.Timezone property of the endpoint is set to a valid value.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// The current time in the endpoint's time zone is later than or equal to the time specified
+        /// by the QuietTime.Start property for the application (or a campaign or journey that
+        /// has custom quiet time settings).
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// The current time in the endpoint's time zone is earlier than or equal to the time
+        /// specified by the QuietTime.End property for the application (or a campaign or journey
+        /// that has custom quiet time settings).
+        /// </para>
+        /// </li></ul> 
+        /// <para>
+        /// If any of the preceding conditions isn't met, the endpoint will receive messages from
+        /// a campaign or journey, even if quiet time is enabled.
+        /// </para>
         /// </summary>
         public QuietTime QuietTime
         {

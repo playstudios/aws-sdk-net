@@ -55,19 +55,26 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateBrokerRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MQ");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/v1/brokers/{broker-id}";
             if (!publicRequest.IsSetBrokerId())
                 throw new AmazonMQException("Request object does not have required field BrokerId set");
-            uriResourcePath = uriResourcePath.Replace("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{broker-id}", StringUtils.FromString(publicRequest.BrokerId));
+            request.ResourcePath = "/v1/brokers/{broker-id}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAutoMinorVersionUpgrade())
+                {
+                    context.Writer.WritePropertyName("autoMinorVersionUpgrade");
+                    context.Writer.Write(publicRequest.AutoMinorVersionUpgrade);
+                }
+
                 if(publicRequest.IsSetConfiguration())
                 {
                     context.Writer.WritePropertyName("configuration");
@@ -77,6 +84,40 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.Configuration, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetEngineVersion())
+                {
+                    context.Writer.WritePropertyName("engineVersion");
+                    context.Writer.Write(publicRequest.EngineVersion);
+                }
+
+                if(publicRequest.IsSetHostInstanceType())
+                {
+                    context.Writer.WritePropertyName("hostInstanceType");
+                    context.Writer.Write(publicRequest.HostInstanceType);
+                }
+
+                if(publicRequest.IsSetLogs())
+                {
+                    context.Writer.WritePropertyName("logs");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = LogsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Logs, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetSecurityGroups())
+                {
+                    context.Writer.WritePropertyName("securityGroups");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestSecurityGroupsListValue in publicRequest.SecurityGroups)
+                    {
+                            context.Writer.Write(publicRequestSecurityGroupsListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

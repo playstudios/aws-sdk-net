@@ -38,8 +38,9 @@ namespace Amazon.Greengrass.Model
         private string _nextToken;
 
         /// <summary>
-        /// Gets and sets the property GroupId. The ID of the AWS Greengrass group.
+        /// Gets and sets the property GroupId. The ID of the Greengrass group.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string GroupId
         {
             get { return this._groupId; }

@@ -55,13 +55,14 @@ namespace Amazon.Mobile.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteProjectRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Mobile");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-01";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/projects/{projectId}";
             if (!publicRequest.IsSetProjectId())
                 throw new AmazonMobileException("Request object does not have required field ProjectId set");
-            uriResourcePath = uriResourcePath.Replace("{projectId}", StringUtils.FromString(publicRequest.ProjectId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{projectId}", StringUtils.FromString(publicRequest.ProjectId));
+            request.ResourcePath = "/projects/{projectId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

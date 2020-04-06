@@ -37,6 +37,14 @@ namespace Amazon.OpsWorksCM.Model
     /// 
     ///  
     /// <para>
+    /// Restoring from a backup is performed by creating a new EC2 instance. If restoration
+    /// is successful, and the server is in a <code>HEALTHY</code> state, AWS OpsWorks CM
+    /// switches traffic over to the new instance. After restoration is finished, the old
+    /// EC2 instance is maintained in a <code>Running</code> or <code>Stopped</code> state,
+    /// but is eventually terminated.
+    /// </para>
+    ///  
+    /// <para>
     ///  This operation is asynchronous. 
     /// </para>
     ///  
@@ -60,6 +68,7 @@ namespace Amazon.OpsWorksCM.Model
         ///  The ID of the backup that you want to use to restore a server. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=79)]
         public string BackupId
         {
             get { return this._backupId; }
@@ -75,13 +84,14 @@ namespace Amazon.OpsWorksCM.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        ///  The type of the instance to create. Valid values must be specified in the following
-        /// format: <code>^([cm][34]|t2).*</code> For example, <code>m4.large</code>. Valid values
-        /// are <code>t2.medium</code>, <code>m4.large</code>, and <code>m4.2xlarge</code>. If
+        ///  The type of instance to restore. Valid values must be specified in the following
+        /// format: <code>^([cm][34]|t2).*</code> For example, <code>m5.large</code>. Valid values
+        /// are <code>m5.large</code>, <code>r5.xlarge</code>, and <code>r5.2xlarge</code>. If
         /// you do not specify this parameter, RestoreServer uses the instance type from the specified
         /// backup. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string InstanceType
         {
             get { return this._instanceType; }
@@ -101,6 +111,7 @@ namespace Amazon.OpsWorksCM.Model
         /// administrator no longer has the SSH key. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string KeyPair
         {
             get { return this._keyPair; }
@@ -119,6 +130,7 @@ namespace Amazon.OpsWorksCM.Model
         ///  The name of the server that you want to restore. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=40)]
         public string ServerName
         {
             get { return this._serverName; }

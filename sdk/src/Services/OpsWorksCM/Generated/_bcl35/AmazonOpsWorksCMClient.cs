@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.OpsWorksCM.Model;
 using Amazon.OpsWorksCM.Model.Internal.MarshallTransformations;
+using Amazon.OpsWorksCM.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -35,8 +37,10 @@ namespace Amazon.OpsWorksCM
     ///
     /// AWS OpsWorks CM 
     /// <para>
-    ///  AWS OpsWorks for configuration management (CM) is a service that runs and manages
-    /// configuration management servers. 
+    /// AWS OpsWorks for configuration management (CM) is a service that runs and manages
+    /// configuration management servers. You can use AWS OpsWorks CM to create and manage
+    /// AWS OpsWorks for Chef Automate and AWS OpsWorks for Puppet Enterprise servers, and
+    /// add or remove nodes for the servers to manage.
     /// </para>
     ///  
     /// <para>
@@ -55,7 +59,7 @@ namespace Amazon.OpsWorksCM
     ///  </li> <li> 
     /// <para>
     ///  <b>Engine</b>: The engine is the specific configuration manager that you want to
-    /// use. Valid values in this release include <code>Chef</code> and <code>Puppet</code>.
+    /// use. Valid values in this release include <code>ChefAutomate</code> and <code>Puppet</code>.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -92,7 +96,31 @@ namespace Amazon.OpsWorksCM
     /// </para>
     ///  </li> <li> 
     /// <para>
+    /// opsworks-cm.us-east-2.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.us-west-1.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
     /// opsworks-cm.us-west-2.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.ap-northeast-1.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.ap-southeast-1.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.ap-southeast-2.amazonaws.com
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// opsworks-cm.eu-central-1.amazonaws.com
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -110,6 +138,7 @@ namespace Amazon.OpsWorksCM
     /// </summary>
     public partial class AmazonOpsWorksCMClient : AmazonServiceClient, IAmazonOpsWorksCM
     {
+        private static IServiceMetadata serviceMetadata = new AmazonOpsWorksCMMetadata();
         #region Constructors
 
         /// <summary>
@@ -280,6 +309,16 @@ namespace Amazon.OpsWorksCM
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -295,7 +334,7 @@ namespace Amazon.OpsWorksCM
 
         #endregion
 
-        
+
         #region  AssociateNode
 
         /// <summary>
@@ -348,10 +387,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/AssociateNode">REST API Reference for AssociateNode Operation</seealso>
         public virtual AssociateNodeResponse AssociateNode(AssociateNodeRequest request)
         {
-            var marshaller = AssociateNodeRequestMarshaller.Instance;
-            var unmarshaller = AssociateNodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateNodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateNodeResponseUnmarshaller.Instance;
 
-            return Invoke<AssociateNodeRequest,AssociateNodeResponse>(request, marshaller, unmarshaller);
+            return Invoke<AssociateNodeResponse>(request, options);
         }
 
         /// <summary>
@@ -368,11 +408,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/AssociateNode">REST API Reference for AssociateNode Operation</seealso>
         public virtual IAsyncResult BeginAssociateNode(AssociateNodeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AssociateNodeRequestMarshaller.Instance;
-            var unmarshaller = AssociateNodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AssociateNodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AssociateNodeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AssociateNodeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -433,10 +473,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateBackup">REST API Reference for CreateBackup Operation</seealso>
         public virtual CreateBackupResponse CreateBackup(CreateBackupRequest request)
         {
-            var marshaller = CreateBackupRequestMarshaller.Instance;
-            var unmarshaller = CreateBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBackupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateBackupRequest,CreateBackupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateBackupResponse>(request, options);
         }
 
         /// <summary>
@@ -453,11 +494,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateBackup">REST API Reference for CreateBackup Operation</seealso>
         public virtual IAsyncResult BeginCreateBackup(CreateBackupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateBackupRequestMarshaller.Instance;
-            var unmarshaller = CreateBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBackupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateBackupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -519,6 +560,12 @@ namespace Amazon.OpsWorksCM
         /// only. To edit security group rules, open Security Groups in the navigation pane of
         /// the EC2 management console. 
         /// </para>
+        ///  
+        /// <para>
+        /// To specify your own domain for a server, and provide your own self-signed or CA-signed
+        /// certificate and private key, specify values for <code>CustomDomain</code>, <code>CustomCertificate</code>,
+        /// and <code>CustomPrivateKey</code>.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateServer service method.</param>
         /// 
@@ -538,10 +585,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateServer">REST API Reference for CreateServer Operation</seealso>
         public virtual CreateServerResponse CreateServer(CreateServerRequest request)
         {
-            var marshaller = CreateServerRequestMarshaller.Instance;
-            var unmarshaller = CreateServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateServerResponseUnmarshaller.Instance;
 
-            return Invoke<CreateServerRequest,CreateServerResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateServerResponse>(request, options);
         }
 
         /// <summary>
@@ -558,11 +606,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateServer">REST API Reference for CreateServer Operation</seealso>
         public virtual IAsyncResult BeginCreateServer(CreateServerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateServerRequestMarshaller.Instance;
-            var unmarshaller = CreateServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateServerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateServerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -609,10 +657,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteBackup">REST API Reference for DeleteBackup Operation</seealso>
         public virtual DeleteBackupResponse DeleteBackup(DeleteBackupRequest request)
         {
-            var marshaller = DeleteBackupRequestMarshaller.Instance;
-            var unmarshaller = DeleteBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBackupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBackupRequest,DeleteBackupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBackupResponse>(request, options);
         }
 
         /// <summary>
@@ -629,11 +678,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteBackup">REST API Reference for DeleteBackup Operation</seealso>
         public virtual IAsyncResult BeginDeleteBackup(DeleteBackupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteBackupRequestMarshaller.Instance;
-            var unmarshaller = DeleteBackupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBackupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBackupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteBackupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -691,10 +740,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteServer">REST API Reference for DeleteServer Operation</seealso>
         public virtual DeleteServerResponse DeleteServer(DeleteServerRequest request)
         {
-            var marshaller = DeleteServerRequestMarshaller.Instance;
-            var unmarshaller = DeleteServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServerResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteServerRequest,DeleteServerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteServerResponse>(request, options);
         }
 
         /// <summary>
@@ -711,11 +761,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteServer">REST API Reference for DeleteServer Operation</seealso>
         public virtual IAsyncResult BeginDeleteServer(DeleteServerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteServerRequestMarshaller.Instance;
-            var unmarshaller = DeleteServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteServerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteServerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -736,8 +786,7 @@ namespace Amazon.OpsWorksCM
         #region  DescribeAccountAttributes
 
         /// <summary>
-        /// Describes your account attributes, and creates requests to increase limits before
-        /// they are reached or exceeded. 
+        /// Describes your OpsWorks-CM account attributes. 
         /// 
         ///  
         /// <para>
@@ -750,10 +799,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeAccountAttributes">REST API Reference for DescribeAccountAttributes Operation</seealso>
         public virtual DescribeAccountAttributesResponse DescribeAccountAttributes(DescribeAccountAttributesRequest request)
         {
-            var marshaller = DescribeAccountAttributesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAccountAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountAttributesResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeAccountAttributesRequest,DescribeAccountAttributesResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeAccountAttributesResponse>(request, options);
         }
 
         /// <summary>
@@ -770,11 +820,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeAccountAttributes">REST API Reference for DescribeAccountAttributes Operation</seealso>
         public virtual IAsyncResult BeginDescribeAccountAttributes(DescribeAccountAttributesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeAccountAttributesRequestMarshaller.Instance;
-            var unmarshaller = DescribeAccountAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeAccountAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeAccountAttributesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeAccountAttributesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -824,10 +874,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeBackups">REST API Reference for DescribeBackups Operation</seealso>
         public virtual DescribeBackupsResponse DescribeBackups(DescribeBackupsRequest request)
         {
-            var marshaller = DescribeBackupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBackupsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeBackupsRequest,DescribeBackupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeBackupsResponse>(request, options);
         }
 
         /// <summary>
@@ -844,11 +895,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeBackups">REST API Reference for DescribeBackups Operation</seealso>
         public virtual IAsyncResult BeginDescribeBackups(DescribeBackupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeBackupsRequestMarshaller.Instance;
-            var unmarshaller = DescribeBackupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeBackupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeBackupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeBackupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -898,10 +949,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual DescribeEventsResponse DescribeEvents(DescribeEventsRequest request)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeEventsRequest,DescribeEventsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeEventsResponse>(request, options);
         }
 
         /// <summary>
@@ -918,11 +970,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeEvents">REST API Reference for DescribeEvents Operation</seealso>
         public virtual IAsyncResult BeginDescribeEvents(DescribeEventsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeEventsRequestMarshaller.Instance;
-            var unmarshaller = DescribeEventsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeEventsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeEventsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeEventsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -966,10 +1018,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeNodeAssociationStatus">REST API Reference for DescribeNodeAssociationStatus Operation</seealso>
         public virtual DescribeNodeAssociationStatusResponse DescribeNodeAssociationStatus(DescribeNodeAssociationStatusRequest request)
         {
-            var marshaller = DescribeNodeAssociationStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeNodeAssociationStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNodeAssociationStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNodeAssociationStatusResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeNodeAssociationStatusRequest,DescribeNodeAssociationStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeNodeAssociationStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -986,11 +1039,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeNodeAssociationStatus">REST API Reference for DescribeNodeAssociationStatus Operation</seealso>
         public virtual IAsyncResult BeginDescribeNodeAssociationStatus(DescribeNodeAssociationStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeNodeAssociationStatusRequestMarshaller.Instance;
-            var unmarshaller = DescribeNodeAssociationStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeNodeAssociationStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeNodeAssociationStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeNodeAssociationStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1041,10 +1094,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeServers">REST API Reference for DescribeServers Operation</seealso>
         public virtual DescribeServersResponse DescribeServers(DescribeServersRequest request)
         {
-            var marshaller = DescribeServersRequestMarshaller.Instance;
-            var unmarshaller = DescribeServersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServersResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeServersRequest,DescribeServersResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeServersResponse>(request, options);
         }
 
         /// <summary>
@@ -1061,11 +1115,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeServers">REST API Reference for DescribeServers Operation</seealso>
         public virtual IAsyncResult BeginDescribeServers(DescribeServersRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeServersRequestMarshaller.Instance;
-            var unmarshaller = DescribeServersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeServersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeServersResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeServersRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1114,10 +1168,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DisassociateNode">REST API Reference for DisassociateNode Operation</seealso>
         public virtual DisassociateNodeResponse DisassociateNode(DisassociateNodeRequest request)
         {
-            var marshaller = DisassociateNodeRequestMarshaller.Instance;
-            var unmarshaller = DisassociateNodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateNodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateNodeResponseUnmarshaller.Instance;
 
-            return Invoke<DisassociateNodeRequest,DisassociateNodeResponse>(request, marshaller, unmarshaller);
+            return Invoke<DisassociateNodeResponse>(request, options);
         }
 
         /// <summary>
@@ -1134,11 +1189,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DisassociateNode">REST API Reference for DisassociateNode Operation</seealso>
         public virtual IAsyncResult BeginDisassociateNode(DisassociateNodeRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DisassociateNodeRequestMarshaller.Instance;
-            var unmarshaller = DisassociateNodeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DisassociateNodeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DisassociateNodeResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DisassociateNodeRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1156,6 +1211,144 @@ namespace Amazon.OpsWorksCM
 
         #endregion
         
+        #region  ExportServerEngineAttribute
+
+        /// <summary>
+        /// Exports a specified server engine attribute as a base64-encoded string. For example,
+        /// you can export user data that you can use in EC2 to associate nodes with a server.
+        /// 
+        /// 
+        ///  
+        /// <para>
+        ///  This operation is synchronous. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  A <code>ValidationException</code> is raised when parameters of the request are not
+        /// valid. A <code>ResourceNotFoundException</code> is thrown when the server does not
+        /// exist. An <code>InvalidStateException</code> is thrown when the server is in any of
+        /// the following states: CREATING, TERMINATED, FAILED or DELETING. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ExportServerEngineAttribute service method.</param>
+        /// 
+        /// <returns>The response from the ExportServerEngineAttribute service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.InvalidStateException">
+        /// The resource is in a state that does not allow you to perform a specified action.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ExportServerEngineAttribute">REST API Reference for ExportServerEngineAttribute Operation</seealso>
+        public virtual ExportServerEngineAttributeResponse ExportServerEngineAttribute(ExportServerEngineAttributeRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExportServerEngineAttributeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExportServerEngineAttributeResponseUnmarshaller.Instance;
+
+            return Invoke<ExportServerEngineAttributeResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ExportServerEngineAttribute operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ExportServerEngineAttribute operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndExportServerEngineAttribute
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ExportServerEngineAttribute">REST API Reference for ExportServerEngineAttribute Operation</seealso>
+        public virtual IAsyncResult BeginExportServerEngineAttribute(ExportServerEngineAttributeRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ExportServerEngineAttributeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ExportServerEngineAttributeResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ExportServerEngineAttribute operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginExportServerEngineAttribute.</param>
+        /// 
+        /// <returns>Returns a  ExportServerEngineAttributeResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ExportServerEngineAttribute">REST API Reference for ExportServerEngineAttribute Operation</seealso>
+        public virtual ExportServerEngineAttributeResponse EndExportServerEngineAttribute(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ExportServerEngineAttributeResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// Returns a list of tags that are applied to the specified AWS OpsWorks for Chef Automate
+        /// or AWS OpsWorks for Puppet Enterprise servers or backups.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  RestoreServer
 
         /// <summary>
@@ -1165,6 +1358,14 @@ namespace Amazon.OpsWorksCM
         /// is configured. RestoreServer maintains the existing server endpoint, so configuration
         /// management of the server's client devices (nodes) should continue to work. 
         /// 
+        ///  
+        /// <para>
+        /// Restoring from a backup is performed by creating a new EC2 instance. If restoration
+        /// is successful, and the server is in a <code>HEALTHY</code> state, AWS OpsWorks CM
+        /// switches traffic over to the new instance. After restoration is finished, the old
+        /// EC2 instance is maintained in a <code>Running</code> or <code>Stopped</code> state,
+        /// but is eventually terminated.
+        /// </para>
         ///  
         /// <para>
         ///  This operation is asynchronous. 
@@ -1192,10 +1393,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/RestoreServer">REST API Reference for RestoreServer Operation</seealso>
         public virtual RestoreServerResponse RestoreServer(RestoreServerRequest request)
         {
-            var marshaller = RestoreServerRequestMarshaller.Instance;
-            var unmarshaller = RestoreServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreServerResponseUnmarshaller.Instance;
 
-            return Invoke<RestoreServerRequest,RestoreServerResponse>(request, marshaller, unmarshaller);
+            return Invoke<RestoreServerResponse>(request, options);
         }
 
         /// <summary>
@@ -1212,11 +1414,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/RestoreServer">REST API Reference for RestoreServer Operation</seealso>
         public virtual IAsyncResult BeginRestoreServer(RestoreServerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RestoreServerRequestMarshaller.Instance;
-            var unmarshaller = RestoreServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RestoreServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RestoreServerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RestoreServerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1265,10 +1467,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/StartMaintenance">REST API Reference for StartMaintenance Operation</seealso>
         public virtual StartMaintenanceResponse StartMaintenance(StartMaintenanceRequest request)
         {
-            var marshaller = StartMaintenanceRequestMarshaller.Instance;
-            var unmarshaller = StartMaintenanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMaintenanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMaintenanceResponseUnmarshaller.Instance;
 
-            return Invoke<StartMaintenanceRequest,StartMaintenanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<StartMaintenanceResponse>(request, options);
         }
 
         /// <summary>
@@ -1285,11 +1488,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/StartMaintenance">REST API Reference for StartMaintenance Operation</seealso>
         public virtual IAsyncResult BeginStartMaintenance(StartMaintenanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StartMaintenanceRequestMarshaller.Instance;
-            var unmarshaller = StartMaintenanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StartMaintenanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StartMaintenanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StartMaintenanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1303,6 +1506,133 @@ namespace Amazon.OpsWorksCM
         public virtual StartMaintenanceResponse EndStartMaintenance(IAsyncResult asyncResult)
         {
             return EndInvoke<StartMaintenanceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  TagResource
+
+        /// <summary>
+        /// Applies tags to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise
+        /// server, or to server backups.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.InvalidStateException">
+        /// The resource is in a state that does not allow you to perform a specified action.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Removes specified tags from an AWS OpsWorks-CM server or backup.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by OpsWorksCM.</returns>
+        /// <exception cref="Amazon.OpsWorksCM.Model.InvalidStateException">
+        /// The resource is in a state that does not allow you to perform a specified action.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ResourceNotFoundException">
+        /// The requested resource does not exist, or access was denied.
+        /// </exception>
+        /// <exception cref="Amazon.OpsWorksCM.Model.ValidationException">
+        /// One or more of the provided request parameters are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonOpsWorksCMClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from OpsWorksCM.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
         }
 
         #endregion
@@ -1332,10 +1662,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServer">REST API Reference for UpdateServer Operation</seealso>
         public virtual UpdateServerResponse UpdateServer(UpdateServerRequest request)
         {
-            var marshaller = UpdateServerRequestMarshaller.Instance;
-            var unmarshaller = UpdateServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServerResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateServerRequest,UpdateServerResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateServerResponse>(request, options);
         }
 
         /// <summary>
@@ -1352,11 +1683,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServer">REST API Reference for UpdateServer Operation</seealso>
         public virtual IAsyncResult BeginUpdateServer(UpdateServerRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateServerRequestMarshaller.Instance;
-            var unmarshaller = UpdateServerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServerResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateServerRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1379,9 +1710,8 @@ namespace Amazon.OpsWorksCM
         /// <summary>
         /// Updates engine-specific attributes on a specified server. The server enters the <code>MODIFYING</code>
         /// state when this operation is in progress. Only one update can occur at a time. You
-        /// can use this command to reset a Chef server's private key (<code>CHEF_PIVOTAL_KEY</code>),
-        /// a Chef server's admin password (<code>CHEF_DELIVERY_ADMIN_PASSWORD</code>), or a Puppet
-        /// server's admin password (<code>PUPPET_ADMIN_PASSWORD</code>). 
+        /// can use this command to reset a Chef server's public key (<code>CHEF_PIVOTAL_KEY</code>)
+        /// or a Puppet server's admin password (<code>PUPPET_ADMIN_PASSWORD</code>). 
         /// 
         ///  
         /// <para>
@@ -1410,10 +1740,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServerEngineAttributes">REST API Reference for UpdateServerEngineAttributes Operation</seealso>
         public virtual UpdateServerEngineAttributesResponse UpdateServerEngineAttributes(UpdateServerEngineAttributesRequest request)
         {
-            var marshaller = UpdateServerEngineAttributesRequestMarshaller.Instance;
-            var unmarshaller = UpdateServerEngineAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServerEngineAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServerEngineAttributesResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateServerEngineAttributesRequest,UpdateServerEngineAttributesResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateServerEngineAttributesResponse>(request, options);
         }
 
         /// <summary>
@@ -1430,11 +1761,11 @@ namespace Amazon.OpsWorksCM
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServerEngineAttributes">REST API Reference for UpdateServerEngineAttributes Operation</seealso>
         public virtual IAsyncResult BeginUpdateServerEngineAttributes(UpdateServerEngineAttributesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateServerEngineAttributesRequestMarshaller.Instance;
-            var unmarshaller = UpdateServerEngineAttributesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateServerEngineAttributesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateServerEngineAttributesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateServerEngineAttributesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

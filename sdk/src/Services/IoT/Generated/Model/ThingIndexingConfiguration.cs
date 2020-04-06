@@ -28,24 +28,93 @@ using Amazon.Runtime.Internal;
 namespace Amazon.IoT.Model
 {
     /// <summary>
-    /// Thing indexing configuration.
+    /// The thing indexing configuration. For more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/managing-index.html">Managing
+    /// Thing Indexing</a>.
     /// </summary>
     public partial class ThingIndexingConfiguration
     {
+        private List<Field> _customFields = new List<Field>();
+        private List<Field> _managedFields = new List<Field>();
+        private ThingConnectivityIndexingMode _thingConnectivityIndexingMode;
         private ThingIndexingMode _thingIndexingMode;
+
+        /// <summary>
+        /// Gets and sets the property CustomFields. 
+        /// <para>
+        /// Contains custom field names and their data type.
+        /// </para>
+        /// </summary>
+        public List<Field> CustomFields
+        {
+            get { return this._customFields; }
+            set { this._customFields = value; }
+        }
+
+        // Check to see if CustomFields property is set
+        internal bool IsSetCustomFields()
+        {
+            return this._customFields != null && this._customFields.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ManagedFields. 
+        /// <para>
+        /// Contains fields that are indexed and whose types are already known by the Fleet Indexing
+        /// service.
+        /// </para>
+        /// </summary>
+        public List<Field> ManagedFields
+        {
+            get { return this._managedFields; }
+            set { this._managedFields = value; }
+        }
+
+        // Check to see if ManagedFields property is set
+        internal bool IsSetManagedFields()
+        {
+            return this._managedFields != null && this._managedFields.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ThingConnectivityIndexingMode. 
+        /// <para>
+        /// Thing connectivity indexing mode. Valid values are: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// STATUS – Your thing index contains connectivity status. To enable thing connectivity
+        /// indexing, thingIndexMode must not be set to OFF.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// OFF - Thing connectivity status indexing is disabled.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public ThingConnectivityIndexingMode ThingConnectivityIndexingMode
+        {
+            get { return this._thingConnectivityIndexingMode; }
+            set { this._thingConnectivityIndexingMode = value; }
+        }
+
+        // Check to see if ThingConnectivityIndexingMode property is set
+        internal bool IsSetThingConnectivityIndexingMode()
+        {
+            return this._thingConnectivityIndexingMode != null;
+        }
 
         /// <summary>
         /// Gets and sets the property ThingIndexingMode. 
         /// <para>
-        /// Thing indexing mode. Valid values are: 
+        /// Thing indexing mode. Valid values are:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// REGISTRY – Your thing index will contain only registry data.
+        /// REGISTRY – Your thing index contains registry data only.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// REGISTRY_AND_SHADOW - Your thing index will contain registry and shadow data.
+        /// REGISTRY_AND_SHADOW - Your thing index contains registry and shadow data.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -53,6 +122,7 @@ namespace Amazon.IoT.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ThingIndexingMode ThingIndexingMode
         {
             get { return this._thingIndexingMode; }

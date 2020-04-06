@@ -53,6 +53,61 @@ namespace Amazon.DirectoryService
     {
 
         
+        #region  AcceptSharedDirectory
+
+
+        /// <summary>
+        /// Accepts a directory sharing request that was sent from the directory owner account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AcceptSharedDirectory service method.</param>
+        /// 
+        /// <returns>The response from the AcceptSharedDirectory service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryAlreadySharedException">
+        /// The specified directory has already been shared with this AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/AcceptSharedDirectory">REST API Reference for AcceptSharedDirectory Operation</seealso>
+        AcceptSharedDirectoryResponse AcceptSharedDirectory(AcceptSharedDirectoryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AcceptSharedDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AcceptSharedDirectory operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAcceptSharedDirectory
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/AcceptSharedDirectory">REST API Reference for AcceptSharedDirectory Operation</seealso>
+        IAsyncResult BeginAcceptSharedDirectory(AcceptSharedDirectoryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AcceptSharedDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAcceptSharedDirectory.</param>
+        /// 
+        /// <returns>Returns a  AcceptSharedDirectoryResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/AcceptSharedDirectory">REST API Reference for AcceptSharedDirectory Operation</seealso>
+        AcceptSharedDirectoryResponse EndAcceptSharedDirectory(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AddIpRoutes
 
 
@@ -244,9 +299,9 @@ namespace Amazon.DirectoryService
         /// 
         ///  
         /// <para>
-        /// Before you call <i>ConnectDirectory</i>, ensure that all of the required permissions
+        /// Before you call <code>ConnectDirectory</code>, ensure that all of the required permissions
         /// have been explicitly granted through a policy. For details about what permissions
-        /// are required to run the <i>ConnectDirectory</i> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
+        /// are required to run the <code>ConnectDirectory</code> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
         /// Directory Service API Permissions: Actions, Resources, and Conditions Reference</a>.
         /// </para>
         /// </summary>
@@ -492,13 +547,14 @@ namespace Amazon.DirectoryService
 
 
         /// <summary>
-        /// Creates a Simple AD directory.
+        /// Creates a Simple AD directory. For more information, see <a href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html">Simple
+        /// Active Directory</a> in the <i>AWS Directory Service Admin Guide</i>.
         /// 
         ///  
         /// <para>
-        /// Before you call <i>CreateDirectory</i>, ensure that all of the required permissions
+        /// Before you call <code>CreateDirectory</code>, ensure that all of the required permissions
         /// have been explicitly granted through a policy. For details about what permissions
-        /// are required to run the <i>CreateDirectory</i> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
+        /// are required to run the <code>CreateDirectory</code> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
         /// Directory Service API Permissions: Actions, Resources, and Conditions Reference</a>.
         /// </para>
         /// </summary>
@@ -549,11 +605,71 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  CreateLogSubscription
+
+
+        /// <summary>
+        /// Creates a subscription to forward real-time Directory Service domain controller security
+        /// logs to the specified Amazon CloudWatch log group in your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateLogSubscription service method.</param>
+        /// 
+        /// <returns>The response from the CreateLogSubscription service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityAlreadyExistsException">
+        /// The specified entity already exists.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InsufficientPermissionsException">
+        /// The account does not have sufficient permission to perform the operation.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateLogSubscription">REST API Reference for CreateLogSubscription Operation</seealso>
+        CreateLogSubscriptionResponse CreateLogSubscription(CreateLogSubscriptionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateLogSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateLogSubscription operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateLogSubscription
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateLogSubscription">REST API Reference for CreateLogSubscription Operation</seealso>
+        IAsyncResult BeginCreateLogSubscription(CreateLogSubscriptionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateLogSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateLogSubscription.</param>
+        /// 
+        /// <returns>Returns a  CreateLogSubscriptionResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateLogSubscription">REST API Reference for CreateLogSubscription Operation</seealso>
+        CreateLogSubscriptionResponse EndCreateLogSubscription(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateMicrosoftAD
 
 
         /// <summary>
-        /// Creates a Microsoft AD in the AWS cloud.
+        /// Creates a Microsoft AD directory in the AWS Cloud. For more information, see <a href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html">AWS
+        /// Managed Microsoft AD</a> in the <i>AWS Directory Service Admin Guide</i>.
         /// 
         ///  
         /// <para>
@@ -681,15 +797,16 @@ namespace Amazon.DirectoryService
 
         /// <summary>
         /// AWS Directory Service for Microsoft Active Directory allows you to configure trust
-        /// relationships. For example, you can establish a trust between your Microsoft AD in
-        /// the AWS cloud, and your existing on-premises Microsoft Active Directory. This would
+        /// relationships. For example, you can establish a trust between your AWS Managed Microsoft
+        /// AD directory, and your existing on-premises Microsoft Active Directory. This would
         /// allow you to provide users and groups access to resources in either domain, with a
         /// single set of credentials.
         /// 
         ///  
         /// <para>
         /// This action initiates the creation of the AWS side of a trust relationship between
-        /// a Microsoft AD in the AWS cloud and an external domain.
+        /// an AWS Managed Microsoft AD directory and an external domain. You can create either
+        /// a forest trust or an external trust.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateTrust service method.</param>
@@ -810,9 +927,9 @@ namespace Amazon.DirectoryService
         /// 
         ///  
         /// <para>
-        /// Before you call <i>DeleteDirectory</i>, ensure that all of the required permissions
+        /// Before you call <code>DeleteDirectory</code>, ensure that all of the required permissions
         /// have been explicitly granted through a policy. For details about what permissions
-        /// are required to run the <i>DeleteDirectory</i> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
+        /// are required to run the <code>DeleteDirectory</code> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
         /// Directory Service API Permissions: Actions, Resources, and Conditions Reference</a>.
         /// </para>
         /// </summary>
@@ -856,6 +973,58 @@ namespace Amazon.DirectoryService
         /// <returns>Returns a  DeleteDirectoryResult from DirectoryService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteDirectory">REST API Reference for DeleteDirectory Operation</seealso>
         DeleteDirectoryResponse EndDeleteDirectory(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteLogSubscription
+
+
+        /// <summary>
+        /// Deletes the specified log subscription.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLogSubscription service method.</param>
+        /// 
+        /// <returns>The response from the DeleteLogSubscription service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteLogSubscription">REST API Reference for DeleteLogSubscription Operation</seealso>
+        DeleteLogSubscriptionResponse DeleteLogSubscription(DeleteLogSubscriptionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteLogSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteLogSubscription operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteLogSubscription
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteLogSubscription">REST API Reference for DeleteLogSubscription Operation</seealso>
+        IAsyncResult BeginDeleteLogSubscription(DeleteLogSubscriptionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteLogSubscription operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteLogSubscription.</param>
+        /// 
+        /// <returns>Returns a  DeleteLogSubscriptionResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteLogSubscription">REST API Reference for DeleteLogSubscription Operation</seealso>
+        DeleteLogSubscriptionResponse EndDeleteLogSubscription(IAsyncResult asyncResult);
 
         #endregion
         
@@ -915,7 +1084,7 @@ namespace Amazon.DirectoryService
 
 
         /// <summary>
-        /// Deletes an existing trust relationship between your Microsoft AD in the AWS cloud
+        /// Deletes an existing trust relationship between your AWS Managed Microsoft AD directory
         /// and an external domain.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteTrust service method.</param>
@@ -964,6 +1133,71 @@ namespace Amazon.DirectoryService
         /// <returns>Returns a  DeleteTrustResult from DirectoryService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteTrust">REST API Reference for DeleteTrust Operation</seealso>
         DeleteTrustResponse EndDeleteTrust(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeregisterCertificate
+
+
+        /// <summary>
+        /// Deletes from the system the certificate that was registered for a secured LDAP connection.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterCertificate service method.</param>
+        /// 
+        /// <returns>The response from the DeregisterCertificate service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.CertificateDoesNotExistException">
+        /// The certificate is not present in the system for describe or deregister activities.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.CertificateInUseException">
+        /// The certificate is being used for the LDAP security connection and cannot be removed
+        /// without disabling LDAP security.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryDoesNotExistException">
+        /// The specified directory does not exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryUnavailableException">
+        /// The specified directory is unavailable or could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeregisterCertificate">REST API Reference for DeregisterCertificate Operation</seealso>
+        DeregisterCertificateResponse DeregisterCertificate(DeregisterCertificateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeregisterCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterCertificate operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeregisterCertificate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeregisterCertificate">REST API Reference for DeregisterCertificate Operation</seealso>
+        IAsyncResult BeginDeregisterCertificate(DeregisterCertificateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeregisterCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeregisterCertificate.</param>
+        /// 
+        /// <returns>Returns a  DeregisterCertificateResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeregisterCertificate">REST API Reference for DeregisterCertificate Operation</seealso>
+        DeregisterCertificateResponse EndDeregisterCertificate(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1016,6 +1250,64 @@ namespace Amazon.DirectoryService
         /// <returns>Returns a  DeregisterEventTopicResult from DirectoryService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeregisterEventTopic">REST API Reference for DeregisterEventTopic Operation</seealso>
         DeregisterEventTopicResponse EndDeregisterEventTopic(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeCertificate
+
+
+        /// <summary>
+        /// Displays information about the certificate registered for a secured LDAP connection.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCertificate service method.</param>
+        /// 
+        /// <returns>The response from the DescribeCertificate service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.CertificateDoesNotExistException">
+        /// The certificate is not present in the system for describe or deregister activities.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryDoesNotExistException">
+        /// The specified directory does not exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeCertificate">REST API Reference for DescribeCertificate Operation</seealso>
+        DescribeCertificateResponse DescribeCertificate(DescribeCertificateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeCertificate operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeCertificate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeCertificate">REST API Reference for DescribeCertificate Operation</seealso>
+        IAsyncResult BeginDescribeCertificate(DescribeCertificateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeCertificate.</param>
+        /// 
+        /// <returns>Returns a  DescribeCertificateResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeCertificate">REST API Reference for DescribeCertificate Operation</seealso>
+        DescribeCertificateResponse EndDescribeCertificate(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1092,19 +1384,20 @@ namespace Amazon.DirectoryService
         ///  
         /// <para>
         /// You can retrieve information about specific directories by passing the directory identifiers
-        /// in the <i>DirectoryIds</i> parameter. Otherwise, all directories that belong to the
-        /// current account are returned.
+        /// in the <code>DirectoryIds</code> parameter. Otherwise, all directories that belong
+        /// to the current account are returned.
         /// </para>
         ///  
         /// <para>
-        /// This operation supports pagination with the use of the <i>NextToken</i> request and
-        /// response parameters. If more results are available, the <i>DescribeDirectoriesResult.NextToken</i>
+        /// This operation supports pagination with the use of the <code>NextToken</code> request
+        /// and response parameters. If more results are available, the <code>DescribeDirectoriesResult.NextToken</code>
         /// member contains a token that you pass in the next call to <a>DescribeDirectories</a>
         /// to retrieve the next set of items.
         /// </para>
         ///  
         /// <para>
-        /// You can also specify a maximum number of return results with the <i>Limit</i> parameter.
+        /// You can also specify a maximum number of return results with the <code>Limit</code>
+        /// parameter.
         /// </para>
         /// </summary>
         /// 
@@ -1116,7 +1409,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
         /// One or more parameters are not valid.
@@ -1133,19 +1426,20 @@ namespace Amazon.DirectoryService
         ///  
         /// <para>
         /// You can retrieve information about specific directories by passing the directory identifiers
-        /// in the <i>DirectoryIds</i> parameter. Otherwise, all directories that belong to the
-        /// current account are returned.
+        /// in the <code>DirectoryIds</code> parameter. Otherwise, all directories that belong
+        /// to the current account are returned.
         /// </para>
         ///  
         /// <para>
-        /// This operation supports pagination with the use of the <i>NextToken</i> request and
-        /// response parameters. If more results are available, the <i>DescribeDirectoriesResult.NextToken</i>
+        /// This operation supports pagination with the use of the <code>NextToken</code> request
+        /// and response parameters. If more results are available, the <code>DescribeDirectoriesResult.NextToken</code>
         /// member contains a token that you pass in the next call to <a>DescribeDirectories</a>
         /// to retrieve the next set of items.
         /// </para>
         ///  
         /// <para>
-        /// You can also specify a maximum number of return results with the <i>Limit</i> parameter.
+        /// You can also specify a maximum number of return results with the <code>Limit</code>
+        /// parameter.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeDirectories service method.</param>
@@ -1158,7 +1452,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
         /// One or more parameters are not valid.
@@ -1213,7 +1507,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
         /// One or more parameters are not valid.
@@ -1314,6 +1608,122 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  DescribeLDAPSSettings
+
+
+        /// <summary>
+        /// Describes the status of LDAP security for the specified directory.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLDAPSSettings service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLDAPSSettings service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryDoesNotExistException">
+        /// The specified directory does not exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeLDAPSSettings">REST API Reference for DescribeLDAPSSettings Operation</seealso>
+        DescribeLDAPSSettingsResponse DescribeLDAPSSettings(DescribeLDAPSSettingsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLDAPSSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLDAPSSettings operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLDAPSSettings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeLDAPSSettings">REST API Reference for DescribeLDAPSSettings Operation</seealso>
+        IAsyncResult BeginDescribeLDAPSSettings(DescribeLDAPSSettingsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLDAPSSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLDAPSSettings.</param>
+        /// 
+        /// <returns>Returns a  DescribeLDAPSSettingsResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeLDAPSSettings">REST API Reference for DescribeLDAPSSettings Operation</seealso>
+        DescribeLDAPSSettingsResponse EndDescribeLDAPSSettings(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeSharedDirectories
+
+
+        /// <summary>
+        /// Returns the shared directories in your account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSharedDirectories service method.</param>
+        /// 
+        /// <returns>The response from the DescribeSharedDirectories service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeSharedDirectories">REST API Reference for DescribeSharedDirectories Operation</seealso>
+        DescribeSharedDirectoriesResponse DescribeSharedDirectories(DescribeSharedDirectoriesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeSharedDirectories operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSharedDirectories operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeSharedDirectories
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeSharedDirectories">REST API Reference for DescribeSharedDirectories Operation</seealso>
+        IAsyncResult BeginDescribeSharedDirectories(DescribeSharedDirectoriesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeSharedDirectories operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeSharedDirectories.</param>
+        /// 
+        /// <returns>Returns a  DescribeSharedDirectoriesResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeSharedDirectories">REST API Reference for DescribeSharedDirectories Operation</seealso>
+        DescribeSharedDirectoriesResponse EndDescribeSharedDirectories(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeSnapshots
 
 
@@ -1342,7 +1752,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
         /// One or more parameters are not valid.
@@ -1403,7 +1813,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
         /// One or more parameters are not valid.
@@ -1445,12 +1855,73 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  DisableLDAPS
+
+
+        /// <summary>
+        /// Deactivates LDAP secure calls for the specified directory.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DisableLDAPS service method.</param>
+        /// 
+        /// <returns>The response from the DisableLDAPS service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryDoesNotExistException">
+        /// The specified directory does not exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryUnavailableException">
+        /// The specified directory is unavailable or could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidLDAPSStatusException">
+        /// The LDAP activities could not be performed because they are limited by the LDAPS status.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DisableLDAPS">REST API Reference for DisableLDAPS Operation</seealso>
+        DisableLDAPSResponse DisableLDAPS(DisableLDAPSRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DisableLDAPS operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DisableLDAPS operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDisableLDAPS
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DisableLDAPS">REST API Reference for DisableLDAPS Operation</seealso>
+        IAsyncResult BeginDisableLDAPS(DisableLDAPSRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DisableLDAPS operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDisableLDAPS.</param>
+        /// 
+        /// <returns>Returns a  DisableLDAPSResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DisableLDAPS">REST API Reference for DisableLDAPS Operation</seealso>
+        DisableLDAPSResponse EndDisableLDAPS(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DisableRadius
 
 
         /// <summary>
         /// Disables multi-factor authentication (MFA) with the Remote Authentication Dial In
-        /// User Service (RADIUS) server for an AD Connector directory.
+        /// User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DisableRadius service method.</param>
         /// 
@@ -1550,12 +2021,77 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  EnableLDAPS
+
+
+        /// <summary>
+        /// Activates the switch for the specific directory to always use LDAP secure calls.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the EnableLDAPS service method.</param>
+        /// 
+        /// <returns>The response from the EnableLDAPS service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryDoesNotExistException">
+        /// The specified directory does not exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryUnavailableException">
+        /// The specified directory is unavailable or could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidLDAPSStatusException">
+        /// The LDAP activities could not be performed because they are limited by the LDAPS status.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.NoAvailableCertificateException">
+        /// The LDAP activities could not be performed because at least one valid certificate
+        /// must be registered with the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/EnableLDAPS">REST API Reference for EnableLDAPS Operation</seealso>
+        EnableLDAPSResponse EnableLDAPS(EnableLDAPSRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the EnableLDAPS operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the EnableLDAPS operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndEnableLDAPS
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/EnableLDAPS">REST API Reference for EnableLDAPS Operation</seealso>
+        IAsyncResult BeginEnableLDAPS(EnableLDAPSRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  EnableLDAPS operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginEnableLDAPS.</param>
+        /// 
+        /// <returns>Returns a  EnableLDAPSResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/EnableLDAPS">REST API Reference for EnableLDAPS Operation</seealso>
+        EnableLDAPSResponse EndEnableLDAPS(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  EnableRadius
 
 
         /// <summary>
         /// Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User
-        /// Service (RADIUS) server for an AD Connector directory.
+        /// Service (RADIUS) server for an AD Connector or Microsoft AD directory.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the EnableRadius service method.</param>
         /// 
@@ -1610,7 +2146,9 @@ namespace Amazon.DirectoryService
 
 
         /// <summary>
-        /// Enables single sign-on for a directory.
+        /// Enables single sign-on for a directory. Single sign-on allows users in your directory
+        /// to access certain AWS services from a computer joined to the directory without having
+        /// to enter their credentials separately.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the EnableSso service method.</param>
         /// 
@@ -1665,7 +2203,7 @@ namespace Amazon.DirectoryService
 
 
         /// <summary>
-        /// Obtains directory limit information for the current region.
+        /// Obtains directory limit information for the current Region.
         /// </summary>
         /// 
         /// <returns>The response from the GetDirectoryLimits service method, as returned by DirectoryService.</returns>
@@ -1682,7 +2220,7 @@ namespace Amazon.DirectoryService
         GetDirectoryLimitsResponse GetDirectoryLimits();
 
         /// <summary>
-        /// Obtains directory limit information for the current region.
+        /// Obtains directory limit information for the current Region.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDirectoryLimits service method.</param>
         /// 
@@ -1776,6 +2314,65 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  ListCertificates
+
+
+        /// <summary>
+        /// For the specified directory, lists all the certificates registered for a secured LDAP
+        /// connection.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListCertificates service method.</param>
+        /// 
+        /// <returns>The response from the ListCertificates service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryDoesNotExistException">
+        /// The specified directory does not exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListCertificates">REST API Reference for ListCertificates Operation</seealso>
+        ListCertificatesResponse ListCertificates(ListCertificatesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListCertificates operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListCertificates operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListCertificates
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListCertificates">REST API Reference for ListCertificates Operation</seealso>
+        IAsyncResult BeginListCertificates(ListCertificatesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListCertificates operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListCertificates.</param>
+        /// 
+        /// <returns>Returns a  ListCertificatesResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListCertificates">REST API Reference for ListCertificates Operation</seealso>
+        ListCertificatesResponse EndListCertificates(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListIpRoutes
 
 
@@ -1792,7 +2389,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
         /// One or more parameters are not valid.
@@ -1831,6 +2428,58 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  ListLogSubscriptions
+
+
+        /// <summary>
+        /// Lists the active log subscriptions for the AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListLogSubscriptions service method.</param>
+        /// 
+        /// <returns>The response from the ListLogSubscriptions service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
+        /// The <code>NextToken</code> value is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListLogSubscriptions">REST API Reference for ListLogSubscriptions Operation</seealso>
+        ListLogSubscriptionsResponse ListLogSubscriptions(ListLogSubscriptionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListLogSubscriptions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListLogSubscriptions operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListLogSubscriptions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListLogSubscriptions">REST API Reference for ListLogSubscriptions Operation</seealso>
+        IAsyncResult BeginListLogSubscriptions(ListLogSubscriptionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListLogSubscriptions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListLogSubscriptions.</param>
+        /// 
+        /// <returns>Returns a  ListLogSubscriptionsResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListLogSubscriptions">REST API Reference for ListLogSubscriptions Operation</seealso>
+        ListLogSubscriptionsResponse EndListLogSubscriptions(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListSchemaExtensions
 
 
@@ -1847,7 +2496,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
         /// An exception has occurred in AWS Directory Service.
@@ -1899,7 +2548,7 @@ namespace Amazon.DirectoryService
         /// The specified entity could not be found.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidNextTokenException">
-        /// The <i>NextToken</i> value is not valid.
+        /// The <code>NextToken</code> value is not valid.
         /// </exception>
         /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
         /// One or more parameters are not valid.
@@ -1935,6 +2584,73 @@ namespace Amazon.DirectoryService
         /// <returns>Returns a  ListTagsForResourceResult from DirectoryService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
         ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RegisterCertificate
+
+
+        /// <summary>
+        /// Registers a certificate for secured LDAP connection.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RegisterCertificate service method.</param>
+        /// 
+        /// <returns>The response from the RegisterCertificate service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.CertificateAlreadyExistsException">
+        /// The certificate has already been registered into the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.CertificateLimitExceededException">
+        /// The certificate could not be added because the certificate limit has been reached.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryDoesNotExistException">
+        /// The specified directory does not exist in the system.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryUnavailableException">
+        /// The specified directory is unavailable or could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidCertificateException">
+        /// The certificate PEM that was provided has incorrect encoding.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RegisterCertificate">REST API Reference for RegisterCertificate Operation</seealso>
+        RegisterCertificateResponse RegisterCertificate(RegisterCertificateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RegisterCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RegisterCertificate operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRegisterCertificate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RegisterCertificate">REST API Reference for RegisterCertificate Operation</seealso>
+        IAsyncResult BeginRegisterCertificate(RegisterCertificateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RegisterCertificate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRegisterCertificate.</param>
+        /// 
+        /// <returns>Returns a  RegisterCertificateResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RegisterCertificate">REST API Reference for RegisterCertificate Operation</seealso>
+        RegisterCertificateResponse EndRegisterCertificate(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1991,6 +2707,61 @@ namespace Amazon.DirectoryService
         /// <returns>Returns a  RegisterEventTopicResult from DirectoryService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RegisterEventTopic">REST API Reference for RegisterEventTopic Operation</seealso>
         RegisterEventTopicResponse EndRegisterEventTopic(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RejectSharedDirectory
+
+
+        /// <summary>
+        /// Rejects a directory sharing request that was sent from the directory owner account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RejectSharedDirectory service method.</param>
+        /// 
+        /// <returns>The response from the RejectSharedDirectory service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryAlreadySharedException">
+        /// The specified directory has already been shared with this AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RejectSharedDirectory">REST API Reference for RejectSharedDirectory Operation</seealso>
+        RejectSharedDirectoryResponse RejectSharedDirectory(RejectSharedDirectoryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RejectSharedDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RejectSharedDirectory operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRejectSharedDirectory
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RejectSharedDirectory">REST API Reference for RejectSharedDirectory Operation</seealso>
+        IAsyncResult BeginRejectSharedDirectory(RejectSharedDirectoryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RejectSharedDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRejectSharedDirectory.</param>
+        /// 
+        /// <returns>Returns a  RejectSharedDirectoryResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RejectSharedDirectory">REST API Reference for RejectSharedDirectory Operation</seealso>
+        RejectSharedDirectoryResponse EndRejectSharedDirectory(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2101,6 +2872,89 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  ResetUserPassword
+
+
+        /// <summary>
+        /// Resets the password for any user in your AWS Managed Microsoft AD or Simple AD directory.
+        /// 
+        ///  
+        /// <para>
+        /// You can reset the password for any user in your directory with the following exceptions:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// For Simple AD, you cannot reset the password for any user that is a member of either
+        /// the <b>Domain Admins</b> or <b>Enterprise Admins</b> group except for the administrator
+        /// user.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// For AWS Managed Microsoft AD, you can only reset the password for a user that is in
+        /// an OU based off of the NetBIOS name that you typed when you created your directory.
+        /// For example, you cannot reset the password for a user in the <b>AWS Reserved</b> OU.
+        /// For more information about the OU structure for an AWS Managed Microsoft AD directory,
+        /// see <a href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_getting_started_what_gets_created.html">What
+        /// Gets Created</a> in the <i>AWS Directory Service Administration Guide</i>.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ResetUserPassword service method.</param>
+        /// 
+        /// <returns>The response from the ResetUserPassword service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryUnavailableException">
+        /// The specified directory is unavailable or could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidPasswordException">
+        /// The new password provided by the user does not meet the password complexity requirements
+        /// defined in your directory.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UserDoesNotExistException">
+        /// The user provided a username that does not exist in your directory.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ResetUserPassword">REST API Reference for ResetUserPassword Operation</seealso>
+        ResetUserPasswordResponse ResetUserPassword(ResetUserPasswordRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ResetUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ResetUserPassword operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndResetUserPassword
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ResetUserPassword">REST API Reference for ResetUserPassword Operation</seealso>
+        IAsyncResult BeginResetUserPassword(ResetUserPasswordRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ResetUserPassword operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginResetUserPassword.</param>
+        /// 
+        /// <returns>Returns a  ResetUserPasswordResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ResetUserPassword">REST API Reference for ResetUserPassword Operation</seealso>
+        ResetUserPasswordResponse EndResetUserPassword(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  RestoreFromSnapshot
 
 
@@ -2166,6 +3020,99 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  ShareDirectory
+
+
+        /// <summary>
+        /// Shares a specified directory (<code>DirectoryId</code>) in your AWS account (directory
+        /// owner) with another AWS account (directory consumer). With this operation you can
+        /// use your directory from any AWS account and from any Amazon VPC within an AWS Region.
+        /// 
+        ///  
+        /// <para>
+        /// When you share your AWS Managed Microsoft AD directory, AWS Directory Service creates
+        /// a shared directory in the directory consumer account. This shared directory contains
+        /// the metadata to provide access to the directory within the directory owner account.
+        /// The shared directory is visible in all VPCs in the directory consumer account.
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>ShareMethod</code> parameter determines whether the specified directory
+        /// can be shared between AWS accounts inside the same AWS organization (<code>ORGANIZATIONS</code>).
+        /// It also determines whether you can share the directory with any other AWS account
+        /// either inside or outside of the organization (<code>HANDSHAKE</code>).
+        /// </para>
+        ///  
+        /// <para>
+        /// The <code>ShareNotes</code> parameter is only used when <code>HANDSHAKE</code> is
+        /// called, which sends a directory sharing request to the directory consumer. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ShareDirectory service method.</param>
+        /// 
+        /// <returns>The response from the ShareDirectory service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.AccessDeniedException">
+        /// You do not have sufficient access to perform this action.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryAlreadySharedException">
+        /// The specified directory has already been shared with this AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidTargetException">
+        /// The specified shared target is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.OrganizationsException">
+        /// Exception encountered while trying to access your AWS organization.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ShareLimitExceededException">
+        /// The maximum number of AWS accounts that you can share with this directory has been
+        /// reached.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.UnsupportedOperationException">
+        /// The operation is not supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ShareDirectory">REST API Reference for ShareDirectory Operation</seealso>
+        ShareDirectoryResponse ShareDirectory(ShareDirectoryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ShareDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ShareDirectory operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndShareDirectory
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ShareDirectory">REST API Reference for ShareDirectory Operation</seealso>
+        IAsyncResult BeginShareDirectory(ShareDirectoryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ShareDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginShareDirectory.</param>
+        /// 
+        /// <returns>Returns a  ShareDirectoryResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ShareDirectory">REST API Reference for ShareDirectory Operation</seealso>
+        ShareDirectoryResponse EndShareDirectory(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartSchemaExtension
 
 
@@ -2223,6 +3170,61 @@ namespace Amazon.DirectoryService
         /// <returns>Returns a  StartSchemaExtensionResult from DirectoryService.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/StartSchemaExtension">REST API Reference for StartSchemaExtension Operation</seealso>
         StartSchemaExtensionResponse EndStartSchemaExtension(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UnshareDirectory
+
+
+        /// <summary>
+        /// Stops the directory sharing between the directory owner and consumer accounts.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UnshareDirectory service method.</param>
+        /// 
+        /// <returns>The response from the UnshareDirectory service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.DirectoryNotSharedException">
+        /// The specified directory has not been shared with this AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidTargetException">
+        /// The specified shared target is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UnshareDirectory">REST API Reference for UnshareDirectory Operation</seealso>
+        UnshareDirectoryResponse UnshareDirectory(UnshareDirectoryRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UnshareDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UnshareDirectory operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUnshareDirectory
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UnshareDirectory">REST API Reference for UnshareDirectory Operation</seealso>
+        IAsyncResult BeginUnshareDirectory(UnshareDirectoryRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UnshareDirectory operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUnshareDirectory.</param>
+        /// 
+        /// <returns>Returns a  UnshareDirectoryResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UnshareDirectory">REST API Reference for UnshareDirectory Operation</seealso>
+        UnshareDirectoryResponse EndUnshareDirectory(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2355,7 +3357,7 @@ namespace Amazon.DirectoryService
 
         /// <summary>
         /// Updates the Remote Authentication Dial In User Service (RADIUS) server information
-        /// for an AD Connector directory.
+        /// for an AD Connector or Microsoft AD directory.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateRadius service method.</param>
         /// 
@@ -2403,6 +3405,59 @@ namespace Amazon.DirectoryService
 
         #endregion
         
+        #region  UpdateTrust
+
+
+        /// <summary>
+        /// Updates the trust that has been set up between your AWS Managed Microsoft AD directory
+        /// and an on-premises Active Directory.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTrust service method.</param>
+        /// 
+        /// <returns>The response from the UpdateTrust service method, as returned by DirectoryService.</returns>
+        /// <exception cref="Amazon.DirectoryService.Model.ClientException">
+        /// A client exception has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.EntityDoesNotExistException">
+        /// The specified entity could not be found.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.DirectoryService.Model.ServiceException">
+        /// An exception has occurred in AWS Directory Service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UpdateTrust">REST API Reference for UpdateTrust Operation</seealso>
+        UpdateTrustResponse UpdateTrust(UpdateTrustRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateTrust operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTrust operation on AmazonDirectoryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateTrust
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UpdateTrust">REST API Reference for UpdateTrust Operation</seealso>
+        IAsyncResult BeginUpdateTrust(UpdateTrustRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateTrust operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateTrust.</param>
+        /// 
+        /// <returns>Returns a  UpdateTrustResult from DirectoryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UpdateTrust">REST API Reference for UpdateTrust Operation</seealso>
+        UpdateTrustResponse EndUpdateTrust(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  VerifyTrust
 
 
@@ -2412,7 +3467,7 @@ namespace Amazon.DirectoryService
         /// 
         ///  
         /// <para>
-        /// This action verifies a trust relationship between your Microsoft AD in the AWS cloud
+        /// This action verifies a trust relationship between your AWS Managed Microsoft AD directory
         /// and an external domain.
         /// </para>
         /// </summary>

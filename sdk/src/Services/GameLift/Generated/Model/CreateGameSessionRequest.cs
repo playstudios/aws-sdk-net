@@ -71,10 +71,6 @@ namespace Amazon.GameLift.Model
     /// <para>
     ///  <i>Available in Amazon GameLift Local.</i> 
     /// </para>
-    ///  
-    /// <para>
-    /// Game-session-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateGameSession</a> 
@@ -132,8 +128,9 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for an alias associated with the fleet to create a game session
-        /// in. Each request must reference either a fleet ID or alias ID, but not both.
+        /// A unique identifier for an alias associated with the fleet to create a game session
+        /// in. You can use either the alias ID or ARN value. Each request must reference either
+        /// a fleet ID or alias ID, but not both.
         /// </para>
         /// </summary>
         public string AliasId
@@ -151,11 +148,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property CreatorId. 
         /// <para>
-        /// Unique identifier for a player or entity creating the game session. This ID is used
+        /// A unique identifier for a player or entity creating the game session. This ID is used
         /// to enforce a resource protection policy (if one exists) that limits the number of
         /// concurrent active game sessions one player can have.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string CreatorId
         {
             get { return this._creatorId; }
@@ -171,8 +169,9 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet to create a game session in. Each request must reference
-        /// either a fleet ID or alias ID, but not both.
+        /// A unique identifier for a fleet to create a game session in. You can use either the
+        /// fleet ID or ARN value. Each request must reference either a fleet ID or alias ID,
+        /// but not both.
         /// </para>
         /// </summary>
         public string FleetId
@@ -192,10 +191,11 @@ namespace Amazon.GameLift.Model
         /// <para>
         /// Set of custom properties for a game session, formatted as key:value pairs. These properties
         /// are passed to a game server process in the <a>GameSession</a> object with a request
-        /// to start a new game session (see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+        /// to start a new game session (see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
         /// a Game Session</a>).
         /// </para>
         /// </summary>
+        [AWSProperty(Max=16)]
         public List<GameProperty> GameProperties
         {
             get { return this._gameProperties; }
@@ -213,10 +213,11 @@ namespace Amazon.GameLift.Model
         /// <para>
         /// Set of custom game session properties, formatted as a single string value. This data
         /// is passed to a game server process in the <a>GameSession</a> object with a request
-        /// to start a new game session (see <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
+        /// to start a new game session (see <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession">Start
         /// a Game Session</a>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
         public string GameSessionData
         {
             get { return this._gameSessionData; }
@@ -239,6 +240,7 @@ namespace Amazon.GameLift.Model
         /// ID&gt;/&lt;custom ID string or idempotency token&gt;</code>.) 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=48)]
         public string GameSessionId
         {
             get { return this._gameSessionId; }
@@ -262,6 +264,7 @@ namespace Amazon.GameLift.Model
         /// for this time period and then deleted.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=48)]
         public string IdempotencyToken
         {
             get { return this._idempotencyToken; }
@@ -277,9 +280,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property MaximumPlayerSessionCount. 
         /// <para>
-        /// Maximum number of players that can be connected simultaneously to the game session.
+        /// The maximum number of players that can be connected simultaneously to the game session.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0)]
         public int MaximumPlayerSessionCount
         {
             get { return this._maximumPlayerSessionCount.GetValueOrDefault(); }
@@ -295,10 +299,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// Descriptive label that is associated with a game session. Session names do not need
+        /// A descriptive label that is associated with a game session. Session names do not need
         /// to be unique.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }

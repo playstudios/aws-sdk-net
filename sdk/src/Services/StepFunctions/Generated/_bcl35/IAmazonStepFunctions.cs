@@ -50,8 +50,8 @@ namespace Amazon.StepFunctions
     /// is available at any scale. You can run tasks on AWS, your own servers, or any system
     /// that has access to AWS. You can access and use Step Functions using the console, the
     /// AWS SDKs, or an HTTP API. For more information about Step Functions, see the <i> <a
-    /// href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions
-    /// Developer Guide</a> </i>.
+    /// href="https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step
+    /// Functions Developer Guide</a> </i>.
     /// </para>
     /// </summary>
     public partial interface IAmazonStepFunctions : IAmazonService, IDisposable
@@ -62,12 +62,28 @@ namespace Amazon.StepFunctions
 
 
         /// <summary>
-        /// Creates an activity. An activity is a task which you write in any programming language
-        /// and host on any machine which has access to AWS Step Functions. Activities must poll
+        /// Creates an activity. An activity is a task that you write in any programming language
+        /// and host on any machine that has access to AWS Step Functions. Activities must poll
         /// Step Functions using the <code>GetActivityTask</code> API action and respond using
         /// <code>SendTask*</code> API actions. This function lets Step Functions know the existence
         /// of your activity and returns an identifier for use in a state machine and when polling
         /// from the activity.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> <note> 
+        /// <para>
+        ///  <code>CreateActivity</code> is an idempotent API. Subsequent requests won’t create
+        /// a duplicate resource if it was already created. <code>CreateActivity</code>'s idempotency
+        /// check is based on the activity <code>name</code>. If a following request has different
+        /// <code>tags</code> values, Step Functions will ignore these differences and treat it
+        /// as an idempotent request of the previous. In this case, <code>tags</code> will not
+        /// be updated, even if they are different.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateActivity service method.</param>
         /// 
@@ -78,6 +94,10 @@ namespace Amazon.StepFunctions
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.InvalidNameException">
         /// The provided name is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a resource. See the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html">
+        /// Limits Topic</a> in the AWS Step Functions Developer Guide.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateActivity">REST API Reference for CreateActivity Operation</seealso>
         CreateActivityResponse CreateActivity(CreateActivityRequest request);
@@ -117,7 +137,26 @@ namespace Amazon.StepFunctions
         /// Creates a state machine. A state machine consists of a collection of states that can
         /// do work (<code>Task</code> states), determine to which states to transition next (<code>Choice</code>
         /// states), stop an execution with an error (<code>Fail</code> states), and so on. State
-        /// machines are specified using a JSON-based, structured language.
+        /// machines are specified using a JSON-based, structured language. For more information,
+        /// see <a href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+        /// States Language</a> in the AWS Step Functions User Guide.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> <note> 
+        /// <para>
+        ///  <code>CreateStateMachine</code> is an idempotent API. Subsequent requests won’t create
+        /// a duplicate resource if it was already created. <code>CreateStateMachine</code>'s
+        /// idempotency check is based on the state machine <code>name</code>, <code>definition</code>,
+        /// <code>type</code>, and <code>LoggingConfiguration</code>. If a following request has
+        /// a different <code>roleArn</code> or <code>tags</code>, Step Functions will ignore
+        /// these differences and treat it as an idempotent request of the previous. In this case,
+        /// <code>roleArn</code> and <code>tags</code> will not be updated, even if they are different.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStateMachine service method.</param>
         /// 
@@ -127,6 +166,9 @@ namespace Amazon.StepFunctions
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.InvalidDefinitionException">
         /// The provided Amazon States Language definition is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidLoggingConfigurationException">
+        /// 
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.InvalidNameException">
         /// The provided name is invalid.
@@ -141,6 +183,13 @@ namespace Amazon.StepFunctions
         /// <exception cref="Amazon.StepFunctions.Model.StateMachineLimitExceededException">
         /// The maximum number of state machines has been reached. Existing state machines must
         /// be deleted before a new state machine can be created.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.StateMachineTypeNotSupportedException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a resource. See the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html">
+        /// Limits Topic</a> in the AWS Step Functions Developer Guide.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachine">REST API Reference for CreateStateMachine Operation</seealso>
         CreateStateMachineResponse CreateStateMachine(CreateStateMachineRequest request);
@@ -221,12 +270,13 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Deletes a state machine. This is an asynchronous operation: It sets the state machine's
-        /// status to <code>DELETING</code> and begins the deletion process. Each state machine
-        /// execution is deleted the next time it makes a state transition.
+        /// status to <code>DELETING</code> and begins the deletion process. 
         /// 
         ///  <note> 
         /// <para>
-        /// The state machine itself is deleted after all executions are completed or deleted.
+        /// For <code>EXPRESS</code>state machines, the deletion will happen eventually (usually
+        /// less than a minute). Running executions may emit logs after <code>DeleteStateMachine</code>
+        /// API is called.
         /// </para>
         ///  </note>
         /// </summary>
@@ -272,6 +322,13 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes an activity.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeActivity service method.</param>
         /// 
@@ -318,6 +375,16 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes an execution.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeExecution service method.</param>
         /// 
@@ -364,6 +431,13 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes a state machine.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeStateMachine service method.</param>
         /// 
@@ -410,6 +484,16 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Describes the state machine associated with a specific execution.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeStateMachineForExecution service method.</param>
         /// 
@@ -467,6 +551,12 @@ namespace Amazon.StepFunctions
         /// Workers should set their client side socket timeout to at least 65 seconds (5 seconds
         /// higher than the maximum time the service may hold the poll request).
         /// </para>
+        ///  
+        /// <para>
+        /// Polling with <code>GetActivityTask</code> can cause latency in some implementations.
+        /// See <a href="https://docs.aws.amazon.com/step-functions/latest/dg/bp-activity-pollers.html">Avoid
+        /// Latency When Polling for Activity Tasks</a> in the Step Functions Developer Guide.
+        /// </para>
         ///  </important>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetActivityTask service method.</param>
@@ -522,9 +612,15 @@ namespace Amazon.StepFunctions
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
+        /// </para>
+        ///  
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetExecutionHistory service method.</param>
@@ -578,10 +674,18 @@ namespace Amazon.StepFunctions
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListActivities service method.</param>
         /// 
@@ -624,13 +728,25 @@ namespace Amazon.StepFunctions
 
 
         /// <summary>
-        /// Lists the executions of a state machine that meet the filtering criteria.
+        /// Lists the executions of a state machine that meet the filtering criteria. Results
+        /// are sorted by time, with the most recent execution first.
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListExecutions service method.</param>
@@ -644,6 +760,9 @@ namespace Amazon.StepFunctions
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.StateMachineDoesNotExistException">
         /// The specified state machine does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.StateMachineTypeNotSupportedException">
+        /// 
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListExecutions">REST API Reference for ListExecutions Operation</seealso>
         ListExecutionsResponse ListExecutions(ListExecutionsRequest request);
@@ -684,10 +803,18 @@ namespace Amazon.StepFunctions
         /// 
         ///  
         /// <para>
-        /// If a <code>nextToken</code> is returned by a previous call, there are more results
-        /// available. To retrieve the next page of results, make the call again using the returned
-        /// token in <code>nextToken</code>. Keep all other arguments unchanged.
+        /// If <code>nextToken</code> is returned, there are more results available. The value
+        /// of <code>nextToken</code> is a unique pagination token for each page. Make the call
+        /// again using the returned token to retrieve the next page. Keep all other arguments
+        /// unchanged. Each pagination token expires after 24 hours. Using an expired pagination
+        /// token will return an <i>HTTP 400 InvalidToken</i> error.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// This operation is eventually consistent. The results are best effort and may not reflect
+        /// very recent updates and changes.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListStateMachines service method.</param>
         /// 
@@ -726,11 +853,64 @@ namespace Amazon.StepFunctions
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// List tags for a given resource.
+        /// 
+        ///  
+        /// <para>
+        /// Tags may only contain Unicode letters, digits, white space, or these symbols: <code>_
+        /// . : / = + - @</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by StepFunctions.</returns>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidArnException">
+        /// The provided Amazon Resource Name (ARN) is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.ResourceNotFoundException">
+        /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonStepFunctionsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from StepFunctions.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  SendTaskFailure
 
 
         /// <summary>
-        /// Used by workers to report that the task identified by the <code>taskToken</code> failed.
+        /// Used by activity workers and task states using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern to report that the task identified by the <code>taskToken</code> failed.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SendTaskFailure service method.</param>
         /// 
@@ -779,23 +959,23 @@ namespace Amazon.StepFunctions
 
 
         /// <summary>
-        /// Used by workers to report to the service that the task represented by the specified
-        /// <code>taskToken</code> is still making progress. This action resets the <code>Heartbeat</code>
-        /// clock. The <code>Heartbeat</code> threshold is specified in the state machine's Amazon
-        /// States Language definition. This action does not in itself create an event in the
-        /// execution history. However, if the task times out, the execution history contains
-        /// an <code>ActivityTimedOut</code> event.
+        /// Used by activity workers and task states using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern to report to Step Functions that the task represented by the specified <code>taskToken</code>
+        /// is still making progress. This action resets the <code>Heartbeat</code> clock. The
+        /// <code>Heartbeat</code> threshold is specified in the state machine's Amazon States
+        /// Language definition (<code>HeartbeatSeconds</code>). This action does not in itself
+        /// create an event in the execution history. However, if the task times out, the execution
+        /// history contains an <code>ActivityTimedOut</code> entry for activities, or a <code>TaskTimedOut</code>
+        /// entry for for tasks using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync">job
+        /// run</a> or <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern.
         /// 
         ///  <note> 
         /// <para>
         /// The <code>Timeout</code> of a task, defined in the state machine's Amazon States Language
         /// definition, is its maximum allowed duration, regardless of the number of <a>SendTaskHeartbeat</a>
-        /// requests received.
-        /// </para>
-        ///  </note> <note> 
-        /// <para>
-        /// This operation is only useful for long-lived tasks to report the liveliness of the
-        /// task.
+        /// requests received. Use <code>HeartbeatSeconds</code> to configure the timeout interval
+        /// for heartbeats.
         /// </para>
         ///  </note>
         /// </summary>
@@ -846,7 +1026,8 @@ namespace Amazon.StepFunctions
 
 
         /// <summary>
-        /// Used by workers to report that the task identified by the <code>taskToken</code> completed
+        /// Used by activity workers and task states using the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token">callback</a>
+        /// pattern to report that the task identified by the <code>taskToken</code> completed
         /// successfully.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SendTaskSuccess service method.</param>
@@ -900,6 +1081,16 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Starts a state machine execution.
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  <code>StartExecution</code> is idempotent. If <code>StartExecution</code> is called
+        /// with the same name and input as a running execution, the call will succeed and return
+        /// the same response as the original request. If the execution is closed or if the input
+        /// is different, it will return a 400 <code>ExecutionAlreadyExists</code> error. Names
+        /// can be reused after 90 days. 
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartExecution service method.</param>
         /// 
@@ -969,6 +1160,11 @@ namespace Amazon.StepFunctions
 
         /// <summary>
         /// Stops an execution.
+        /// 
+        ///  
+        /// <para>
+        /// This API action is not supported by <code>EXPRESS</code> state machines.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StopExecution service method.</param>
         /// 
@@ -1010,21 +1206,131 @@ namespace Amazon.StepFunctions
 
         #endregion
         
+        #region  TagResource
+
+
+        /// <summary>
+        /// Add a tag to a Step Functions resource.
+        /// 
+        ///  
+        /// <para>
+        /// An array of key-value pairs. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+        /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>,
+        /// and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
+        /// Access Using IAM Tags</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Tags may only contain Unicode letters, digits, white space, or these symbols: <code>_
+        /// . : / = + - @</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by StepFunctions.</returns>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidArnException">
+        /// The provided Amazon Resource Name (ARN) is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.ResourceNotFoundException">
+        /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.TooManyTagsException">
+        /// You've exceeded the number of tags allowed for a resource. See the <a href="https://docs.aws.amazon.com/step-functions/latest/dg/limits.html">
+        /// Limits Topic</a> in the AWS Step Functions Developer Guide.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonStepFunctionsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from StepFunctions.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Remove a tag from a Step Functions resource
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by StepFunctions.</returns>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidArnException">
+        /// The provided Amazon Resource Name (ARN) is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.ResourceNotFoundException">
+        /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonStepFunctionsClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from StepFunctions.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateStateMachine
 
 
         /// <summary>
-        /// Updates an existing state machine by modifying its <code>definition</code> and/or
-        /// <code>roleArn</code>. Running executions will continue to use the previous <code>definition</code>
-        /// and <code>roleArn</code>.
+        /// Updates an existing state machine by modifying its <code>definition</code>, <code>roleArn</code>,
+        /// or <code>loggingConfiguration</code>. Running executions will continue to use the
+        /// previous <code>definition</code> and <code>roleArn</code>. You must include at least
+        /// one of <code>definition</code> or <code>roleArn</code> or you will receive a <code>MissingRequiredParameter</code>
+        /// error.
         /// 
         ///  <note> 
         /// <para>
         /// All <code>StartExecution</code> calls within a few seconds will use the updated <code>definition</code>
         /// and <code>roleArn</code>. Executions started immediately after calling <code>UpdateStateMachine</code>
         /// may use the previous state machine <code>definition</code> and <code>roleArn</code>.
-        /// You must include at least one of <code>definition</code> or <code>roleArn</code> or
-        /// you will receive a <code>MissingRequiredParameter</code> error.
+        /// 
         /// </para>
         ///  </note>
         /// </summary>
@@ -1036,6 +1342,9 @@ namespace Amazon.StepFunctions
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.InvalidDefinitionException">
         /// The provided Amazon States Language definition is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.StepFunctions.Model.InvalidLoggingConfigurationException">
+        /// 
         /// </exception>
         /// <exception cref="Amazon.StepFunctions.Model.MissingRequiredParameterException">
         /// Request is missing a required parameter. This error occurs if both <code>definition</code>

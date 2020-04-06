@@ -30,7 +30,8 @@ namespace Amazon.StorageGateway.Model
     /// <summary>
     /// Container for the parameters to the DescribeChapCredentials operation.
     /// Returns an array of Challenge-Handshake Authentication Protocol (CHAP) credentials
-    /// information for a specified iSCSI target, one for each target-initiator pair.
+    /// information for a specified iSCSI target, one for each target-initiator pair. This
+    /// operation is supported in the volume and tape gateway types.
     /// </summary>
     public partial class DescribeChapCredentialsRequest : AmazonStorageGatewayRequest
     {
@@ -43,6 +44,7 @@ namespace Amazon.StorageGateway.Model
         /// operation to return to retrieve the TargetARN for specified VolumeARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=800)]
         public string TargetARN
         {
             get { return this._targetARN; }

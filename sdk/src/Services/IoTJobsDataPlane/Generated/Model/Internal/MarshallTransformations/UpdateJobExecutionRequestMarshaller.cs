@@ -55,17 +55,18 @@ namespace Amazon.IoTJobsDataPlane.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateJobExecutionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoTJobsDataPlane");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-29";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/things/{thingName}/jobs/{jobId}";
             if (!publicRequest.IsSetJobId())
                 throw new AmazonIoTJobsDataPlaneException("Request object does not have required field JobId set");
-            uriResourcePath = uriResourcePath.Replace("{jobId}", StringUtils.FromString(publicRequest.JobId));
+            request.AddPathResource("{jobId}", StringUtils.FromString(publicRequest.JobId));
             if (!publicRequest.IsSetThingName())
                 throw new AmazonIoTJobsDataPlaneException("Request object does not have required field ThingName set");
-            uriResourcePath = uriResourcePath.Replace("{thingName}", StringUtils.FromString(publicRequest.ThingName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{thingName}", StringUtils.FromString(publicRequest.ThingName));
+            request.ResourcePath = "/things/{thingName}/jobs/{jobId}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -113,6 +114,12 @@ namespace Amazon.IoTJobsDataPlane.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestStatusDetailsValue);
                     }
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetStepTimeoutInMinutes())
+                {
+                    context.Writer.WritePropertyName("stepTimeoutInMinutes");
+                    context.Writer.Write(publicRequest.StepTimeoutInMinutes);
                 }
 
         

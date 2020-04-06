@@ -50,7 +50,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _name;
         private OperatingSystem _operatingSystem;
         private List<string> _rejectedPatches = new List<string>();
+        private PatchAction _rejectedPatchesAction;
         private List<PatchSource> _sources = new List<PatchSource>();
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ApprovalRules. 
@@ -78,11 +80,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  
         /// <para>
         /// For information about accepted formats for lists of approved patches and rejected
-        /// patches, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+        /// patches, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
         /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems Manager
         /// User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> ApprovedPatches
         {
             get { return this._approvedPatches; }
@@ -141,6 +144,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// User-provided idempotency token.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -159,6 +163,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A description of the patch baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -174,7 +179,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property GlobalFilters. 
         /// <para>
-        /// A set of global filters used to exclude patches from the baseline.
+        /// A set of global filters used to include patches in the baseline.
         /// </para>
         /// </summary>
         public PatchFilterGroup GlobalFilters
@@ -195,6 +200,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the patch baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -233,11 +239,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  
         /// <para>
         /// For information about accepted formats for lists of approved patches and rejected
-        /// patches, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+        /// patches, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
         /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems Manager
         /// User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> RejectedPatches
         {
             get { return this._rejectedPatches; }
@@ -251,12 +258,46 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RejectedPatchesAction. 
+        /// <para>
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>ALLOW_AS_DEPENDENCY</b>: A package in the Rejected patches list is installed only
+        /// if it is a dependency of another package. It is considered compliant with the patch
+        /// baseline, and its status is reported as <i>InstalledOther</i>. This is the default
+        /// action if no option is specified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>BLOCK</b>: Packages in the RejectedPatches list, and packages that include them
+        /// as dependencies, are not installed under any circumstances. If a package was installed
+        /// before it was added to the Rejected patches list, it is considered non-compliant with
+        /// the patch baseline, and its status is reported as <i>InstalledRejected</i>.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public PatchAction RejectedPatchesAction
+        {
+            get { return this._rejectedPatchesAction; }
+            set { this._rejectedPatchesAction = value; }
+        }
+
+        // Check to see if RejectedPatchesAction property is set
+        internal bool IsSetRejectedPatchesAction()
+        {
+            return this._rejectedPatchesAction != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Sources. 
         /// <para>
         /// Information about the patches to use to update the instances, including target operating
         /// systems and source repositories. Applies to Linux instances only.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=20)]
         public List<PatchSource> Sources
         {
             get { return this._sources; }
@@ -267,6 +308,42 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetSources()
         {
             return this._sources != null && this._sources.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource
+        /// in different ways, such as by purpose, owner, or environment. For example, you might
+        /// want to tag a patch baseline to identify the severity level of patches it specifies
+        /// and the operating system family it applies to. In this case, you could specify the
+        /// following key name/value pairs:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Key=PatchSeverity,Value=Critical</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key=OS,Value=Windows</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// To add tags to an existing patch baseline, use the <a>AddTagsToResource</a> action.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Max=1000)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

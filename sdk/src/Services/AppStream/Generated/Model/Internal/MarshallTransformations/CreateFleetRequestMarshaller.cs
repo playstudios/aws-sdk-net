@@ -58,10 +58,11 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
             string target = "PhotonAdminProxyService.CreateFleet";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-12-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -119,6 +120,24 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.FleetType);
                 }
 
+                if(publicRequest.IsSetIamRoleArn())
+                {
+                    context.Writer.WritePropertyName("IamRoleArn");
+                    context.Writer.Write(publicRequest.IamRoleArn);
+                }
+
+                if(publicRequest.IsSetIdleDisconnectTimeoutInSeconds())
+                {
+                    context.Writer.WritePropertyName("IdleDisconnectTimeoutInSeconds");
+                    context.Writer.Write(publicRequest.IdleDisconnectTimeoutInSeconds);
+                }
+
+                if(publicRequest.IsSetImageArn())
+                {
+                    context.Writer.WritePropertyName("ImageArn");
+                    context.Writer.Write(publicRequest.ImageArn);
+                }
+
                 if(publicRequest.IsSetImageName())
                 {
                     context.Writer.WritePropertyName("ImageName");
@@ -141,6 +160,20 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("Name");
                     context.Writer.Write(publicRequest.Name);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetVpcConfig())

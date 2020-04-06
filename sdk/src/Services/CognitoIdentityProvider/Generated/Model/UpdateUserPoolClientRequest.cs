@@ -29,7 +29,14 @@ namespace Amazon.CognitoIdentityProvider.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdateUserPoolClient operation.
-    /// Allows the developer to update the specified user pool client and password policy.
+    /// Updates the specified user pool app client with the specified attributes. You can
+    /// get a list of the current user pool app client settings with .
+    /// 
+    ///  <important> 
+    /// <para>
+    /// If you don't provide a value for an attribute, it will be set to the default value.
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial class UpdateUserPoolClientRequest : AmazonCognitoIdentityProviderRequest
     {
@@ -43,6 +50,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         private string _defaultRedirectURI;
         private List<string> _explicitAuthFlows = new List<string>();
         private List<string> _logoutURLs = new List<string>();
+        private PreventUserExistenceErrorTypes _preventUserExistenceErrors;
         private List<string> _readAttributes = new List<string>();
         private int? _refreshTokenValidity;
         private List<string> _supportedIdentityProviders = new List<string>();
@@ -52,16 +60,27 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property AllowedOAuthFlows. 
         /// <para>
+        /// The allowed OAuth flows.
+        /// </para>
+        ///  
+        /// <para>
         /// Set to <code>code</code> to initiate a code grant flow, which provides an authorization
         /// code as the response. This code can be exchanged for access tokens with the token
         /// endpoint.
         /// </para>
         ///  
         /// <para>
-        /// Set to <code>token</code> to specify that the client should get the access token (and,
-        /// optionally, ID token, based on scopes) directly.
+        /// Set to <code>implicit</code> to specify that the client should get the access token
+        /// (and, optionally, ID token, based on scopes) directly.
+        /// </para>
+        ///  
+        /// <para>
+        /// Set to <code>client_credentials</code> to specify that the client should get the access
+        /// token (and, optionally, ID token, based on scopes) from the token endpoint using a
+        /// combination of client and client_secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=3)]
         public List<string> AllowedOAuthFlows
         {
             get { return this._allowedOAuthFlows; }
@@ -77,7 +96,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property AllowedOAuthFlowsUserPoolClient. 
         /// <para>
-        /// Set to TRUE if the client is allowed to follow the OAuth protocol when interacting
+        /// Set to true if the client is allowed to follow the OAuth protocol when interacting
         /// with Cognito user pools.
         /// </para>
         /// </summary>
@@ -96,10 +115,13 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property AllowedOAuthScopes. 
         /// <para>
-        /// A list of allowed <code>OAuth</code> scopes. Currently supported values are <code>"phone"</code>,
-        /// <code>"email"</code>, <code>"openid"</code>, and <code>"Cognito"</code>.
+        /// The allowed OAuth scopes. Possible values provided by OAuth are: <code>phone</code>,
+        /// <code>email</code>, <code>openid</code>, and <code>profile</code>. Possible values
+        /// provided by AWS are: <code>aws.cognito.signin.user.admin</code>. Custom scopes created
+        /// in Resource Servers are also supported.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<string> AllowedOAuthScopes
         {
             get { return this._allowedOAuthScopes; }
@@ -117,6 +139,13 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <para>
         /// The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// Cognito User Pools only supports sending events to Amazon Pinpoint projects in the
+        /// US East (N. Virginia) us-east-1 Region, regardless of the region in which the user
+        /// pool resides.
+        /// </para>
+        ///  </note>
         /// </summary>
         public AnalyticsConfigurationType AnalyticsConfiguration
         {
@@ -133,9 +162,40 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property CallbackURLs. 
         /// <para>
-        /// A list of allowed callback URLs for the identity providers.
+        /// A list of allowed redirect (callback) URLs for the identity providers.
+        /// </para>
+        ///  
+        /// <para>
+        /// A redirect URI must:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Be an absolute URI.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Be registered with the authorization server.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Not include a fragment component.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// See <a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">OAuth 2.0 - Redirection
+        /// Endpoint</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes
+        /// only.
+        /// </para>
+        ///  
+        /// <para>
+        /// App callback URLs such as myapp://example are also supported.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public List<string> CallbackURLs
         {
             get { return this._callbackURLs; }
@@ -154,6 +214,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The ID of the client associated with the user pool.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ClientId
         {
             get { return this._clientId; }
@@ -172,6 +233,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The client name from the update user pool client request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ClientName
         {
             get { return this._clientName; }
@@ -189,7 +251,38 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <para>
         /// The default redirect URI. Must be in the <code>CallbackURLs</code> list.
         /// </para>
+        ///  
+        /// <para>
+        /// A redirect URI must:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Be an absolute URI.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Be registered with the authorization server.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Not include a fragment component.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// See <a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">OAuth 2.0 - Redirection
+        /// Endpoint</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes
+        /// only.
+        /// </para>
+        ///  
+        /// <para>
+        /// App callback URLs such as myapp://example are also supported.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string DefaultRedirectURI
         {
             get { return this._defaultRedirectURI; }
@@ -205,8 +298,41 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// <summary>
         /// Gets and sets the property ExplicitAuthFlows. 
         /// <para>
-        /// Explicit authentication flows.
+        /// The authentication flows that are supported by the user pool clients. Flow names without
+        /// the <code>ALLOW_</code> prefix are deprecated in favor of new names with the <code>ALLOW_</code>
+        /// prefix. Note that values with <code>ALLOW_</code> prefix cannot be used along with
+        /// values without <code>ALLOW_</code> prefix.
         /// </para>
+        ///  
+        /// <para>
+        /// Valid values include:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>ALLOW_ADMIN_USER_PASSWORD_AUTH</code>: Enable admin based user password authentication
+        /// flow <code>ADMIN_USER_PASSWORD_AUTH</code>. This setting replaces the <code>ADMIN_NO_SRP_AUTH</code>
+        /// setting. With this authentication flow, Cognito receives the password in the request
+        /// instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ALLOW_CUSTOM_AUTH</code>: Enable Lambda trigger based authentication.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ALLOW_USER_PASSWORD_AUTH</code>: Enable user password-based authentication.
+        /// In this flow, Cognito receives the password in the request instead of using the SRP
+        /// protocol to verify passwords.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ALLOW_USER_SRP_AUTH</code>: Enable SRP based authentication.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ALLOW_REFRESH_TOKEN_AUTH</code>: Enable authflow to refresh tokens.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public List<string> ExplicitAuthFlows
         {
@@ -226,6 +352,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// A list of allowed logout URLs for the identity providers.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public List<string> LogoutURLs
         {
             get { return this._logoutURLs; }
@@ -236,6 +363,87 @@ namespace Amazon.CognitoIdentityProvider.Model
         internal bool IsSetLogoutURLs()
         {
             return this._logoutURLs != null && this._logoutURLs.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property PreventUserExistenceErrors. 
+        /// <para>
+        /// Use this setting to choose which errors and responses are returned by Cognito APIs
+        /// during authentication, account confirmation, and password recovery when the user does
+        /// not exist in the user pool. When set to <code>ENABLED</code> and the user does not
+        /// exist, authentication returns an error indicating either the username or password
+        /// was incorrect, and account confirmation and password recovery return a response indicating
+        /// a code was sent to a simulated destination. When set to <code>LEGACY</code>, those
+        /// APIs will return a <code>UserNotFoundException</code> exception if the user does not
+        /// exist in the user pool.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid values include:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>ENABLED</code> - This prevents user existence-related errors.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>LEGACY</code> - This represents the old behavior of Cognito where user existence
+        /// related errors are not prevented.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// This setting affects the behavior of following APIs:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <a>AdminInitiateAuth</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>AdminRespondToAuthChallenge</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>InitiateAuth</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>RespondToAuthChallenge</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ForgotPassword</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ConfirmForgotPassword</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ConfirmSignUp</a> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <a>ResendConfirmationCode</a> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// After February 15th 2020, the value of <code>PreventUserExistenceErrors</code> will
+        /// default to <code>ENABLED</code> for newly created user pool clients if no value is
+        /// provided.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public PreventUserExistenceErrorTypes PreventUserExistenceErrors
+        {
+            get { return this._preventUserExistenceErrors; }
+            set { this._preventUserExistenceErrors = value; }
+        }
+
+        // Check to see if PreventUserExistenceErrors property is set
+        internal bool IsSetPreventUserExistenceErrors()
+        {
+            return this._preventUserExistenceErrors != null;
         }
 
         /// <summary>
@@ -263,6 +471,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// be used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=3650)]
         public int RefreshTokenValidity
         {
             get { return this._refreshTokenValidity.GetValueOrDefault(); }
@@ -299,6 +508,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID for the user pool where you want to update the user pool client.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }

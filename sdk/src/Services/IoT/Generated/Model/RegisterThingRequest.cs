@@ -29,7 +29,10 @@ namespace Amazon.IoT.Model
 {
     /// <summary>
     /// Container for the parameters to the RegisterThing operation.
-    /// Provisions a thing.
+    /// Provisions a thing in the device registry. RegisterThing calls other AWS IoT control
+    /// plane APIs. These calls might exceed your account level <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot">
+    /// AWS IoT Throttling Limits</a> and cause throttle errors. Please contact <a href="https://console.aws.amazon.com/support/home">AWS
+    /// Customer Support</a> to raise your throttling limits if necessary.
     /// </summary>
     public partial class RegisterThingRequest : AmazonIoTRequest
     {
@@ -39,7 +42,8 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Parameters. 
         /// <para>
-        /// The parameters for provisioning a thing.
+        /// The parameters for provisioning a thing. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/programmatic-provisioning.html">Programmatic
+        /// Provisioning</a> for more information.
         /// </para>
         /// </summary>
         public Dictionary<string, string> Parameters
@@ -57,9 +61,11 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property TemplateBody. 
         /// <para>
-        /// The provisioning template. 
+        /// The provisioning template. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-w-cert.html">Provisioning
+        /// Devices That Have Device Certificates</a> for more information.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TemplateBody
         {
             get { return this._templateBody; }

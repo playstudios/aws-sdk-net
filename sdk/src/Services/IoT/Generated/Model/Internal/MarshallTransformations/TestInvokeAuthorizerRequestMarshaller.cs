@@ -55,19 +55,53 @@ namespace Amazon.IoT.Model.Internal.MarshallTransformations
         public IRequest Marshall(TestInvokeAuthorizerRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoT");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-05-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/authorizer/{authorizerName}/test";
             if (!publicRequest.IsSetAuthorizerName())
                 throw new AmazonIoTException("Request object does not have required field AuthorizerName set");
-            uriResourcePath = uriResourcePath.Replace("{authorizerName}", StringUtils.FromString(publicRequest.AuthorizerName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{authorizerName}", StringUtils.FromString(publicRequest.AuthorizerName));
+            request.ResourcePath = "/authorizer/{authorizerName}/test";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetHttpContext())
+                {
+                    context.Writer.WritePropertyName("httpContext");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = HttpContextMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.HttpContext, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetMqttContext())
+                {
+                    context.Writer.WritePropertyName("mqttContext");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = MqttContextMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.MqttContext, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetTlsContext())
+                {
+                    context.Writer.WritePropertyName("tlsContext");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = TlsContextMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.TlsContext, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetToken())
                 {
                     context.Writer.WritePropertyName("token");

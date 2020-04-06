@@ -30,6 +30,17 @@ namespace Amazon.AutoScalingPlans.Model
     /// <summary>
     /// Container for the parameters to the DeleteScalingPlan operation.
     /// Deletes the specified scaling plan.
+    /// 
+    ///  
+    /// <para>
+    /// Deleting a scaling plan deletes the underlying <a>ScalingInstruction</a> for all of
+    /// the scalable resources that are covered by the plan.
+    /// </para>
+    ///  
+    /// <para>
+    /// If the plan has launched resources or has scaling activities in progress, you must
+    /// delete those resources separately.
+    /// </para>
     /// </summary>
     public partial class DeleteScalingPlanRequest : AmazonAutoScalingPlansRequest
     {
@@ -42,6 +53,7 @@ namespace Amazon.AutoScalingPlans.Model
         /// The name of the scaling plan.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ScalingPlanName
         {
             get { return this._scalingPlanName; }
@@ -57,9 +69,10 @@ namespace Amazon.AutoScalingPlans.Model
         /// <summary>
         /// Gets and sets the property ScalingPlanVersion. 
         /// <para>
-        /// The version of the scaling plan.
+        /// The version number of the scaling plan.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long ScalingPlanVersion
         {
             get { return this._scalingPlanVersion.GetValueOrDefault(); }

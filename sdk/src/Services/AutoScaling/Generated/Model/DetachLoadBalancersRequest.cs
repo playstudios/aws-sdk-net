@@ -33,15 +33,15 @@ namespace Amazon.AutoScaling.Model
     /// 
     ///  
     /// <para>
-    /// Note that this operation detaches only Classic Load Balancers. If you have Application
-    /// Load Balancers, use <a>DetachLoadBalancerTargetGroups</a> instead.
+    /// This operation detaches only Classic Load Balancers. If you have Application Load
+    /// Balancers or Network Load Balancers, use <a>DetachLoadBalancerTargetGroups</a> instead.
     /// </para>
     ///  
     /// <para>
     /// When you detach a load balancer, it enters the <code>Removing</code> state while deregistering
     /// the instances in the group. When all instances are deregistered, then you can no longer
-    /// describe the load balancer using <a>DescribeLoadBalancers</a>. Note that the instances
-    /// remain running.
+    /// describe the load balancer using <a>DescribeLoadBalancers</a>. The instances remain
+    /// running.
     /// </para>
     /// </summary>
     public partial class DetachLoadBalancersRequest : AmazonAutoScalingRequest
@@ -55,6 +55,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -73,6 +74,7 @@ namespace Amazon.AutoScaling.Model
         /// The names of the load balancers. You can specify up to 10 load balancers.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> LoadBalancerNames
         {
             get { return this._loadBalancerNames; }

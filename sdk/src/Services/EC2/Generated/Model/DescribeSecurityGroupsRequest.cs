@@ -29,14 +29,14 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeSecurityGroups operation.
-    /// Describes one or more of your security groups.
+    /// Describes the specified security groups or all of your security groups.
     /// 
     ///  
     /// <para>
     /// A security group is for use with instances either in the EC2-Classic platform or in
-    /// a specific VPC. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
+    /// a specific VPC. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Amazon
     /// EC2 Security Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i> and
-    /// <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
+    /// <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html">Security
     /// Groups for Your VPC</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -51,9 +51,8 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters. If using multiple filters for rules, the results include security
-        /// groups for which any combination of rules - not necessarily a single rule - match
-        /// all filters.
+        /// The filters. If using multiple filters for rules, the results include security groups
+        /// for which any combination of rules - not necessarily a single rule - match all filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
@@ -164,11 +163,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the security group.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the security group.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -191,7 +195,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property GroupIds. 
         /// <para>
-        /// One or more security group IDs. Required for security groups in a nondefault VPC.
+        /// The IDs of the security groups. Required for security groups in a nondefault VPC.
         /// </para>
         ///  
         /// <para>
@@ -213,7 +217,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property GroupNames. 
         /// <para>
-        /// [EC2-Classic and default VPC only] One or more security group names. You can specify
+        /// [EC2-Classic and default VPC only] The names of the security groups. You can specify
         /// either the security group name or the security group ID. For security groups in a
         /// nondefault VPC, use the <code>group-name</code> filter to describe security groups
         /// by name.
@@ -244,6 +248,7 @@ namespace Amazon.EC2.Model
         /// are returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=1000)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }

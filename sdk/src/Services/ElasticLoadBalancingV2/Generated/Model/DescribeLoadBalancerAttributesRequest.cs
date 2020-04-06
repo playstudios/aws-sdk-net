@@ -31,6 +31,13 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// Container for the parameters to the DescribeLoadBalancerAttributes operation.
     /// Describes the attributes for the specified Application Load Balancer or Network Load
     /// Balancer.
+    /// 
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#load-balancer-attributes">Load
+    /// Balancer Attributes</a> in the <i>Application Load Balancers Guide</i> or <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#load-balancer-attributes">Load
+    /// Balancer Attributes</a> in the <i>Network Load Balancers Guide</i>.
+    /// </para>
     /// </summary>
     public partial class DescribeLoadBalancerAttributesRequest : AmazonElasticLoadBalancingV2Request
     {
@@ -42,6 +49,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The Amazon Resource Name (ARN) of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerArn
         {
             get { return this._loadBalancerArn; }

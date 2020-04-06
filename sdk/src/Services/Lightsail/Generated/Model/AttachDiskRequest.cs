@@ -31,6 +31,14 @@ namespace Amazon.Lightsail.Model
     /// Container for the parameters to the AttachDisk operation.
     /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes
     /// it to the instance with the specified disk name.
+    /// 
+    ///  
+    /// <para>
+    /// The <code>attach disk</code> operation supports tag-based access control via resource
+    /// tags applied to the resource identified by <code>disk name</code>. For more information,
+    /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class AttachDiskRequest : AmazonLightsailRequest
     {
@@ -44,6 +52,7 @@ namespace Amazon.Lightsail.Model
         /// The unique Lightsail disk name (e.g., <code>my-disk</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DiskName
         {
             get { return this._diskName; }
@@ -62,6 +71,7 @@ namespace Amazon.Lightsail.Model
         /// The disk path to expose to the instance (e.g., <code>/dev/xvdf</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DiskPath
         {
             get { return this._diskPath; }
@@ -80,6 +90,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the Lightsail instance where you want to utilize the storage disk.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceName
         {
             get { return this._instanceName; }

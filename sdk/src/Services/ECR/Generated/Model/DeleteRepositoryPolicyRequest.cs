@@ -29,7 +29,7 @@ namespace Amazon.ECR.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteRepositoryPolicy operation.
-    /// Deletes the repository policy from a specified repository.
+    /// Deletes the repository policy associated with the specified repository.
     /// </summary>
     public partial class DeleteRepositoryPolicyRequest : AmazonECRRequest
     {
@@ -61,6 +61,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository that is associated with the repository policy to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

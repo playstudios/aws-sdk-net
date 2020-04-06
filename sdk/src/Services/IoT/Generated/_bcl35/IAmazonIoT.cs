@@ -31,17 +31,33 @@ namespace Amazon.IoT
     ///
     /// AWS IoT 
     /// <para>
-    /// AWS IoT provides secure, bi-directional communication between Internet-connected things
+    /// AWS IoT provides secure, bi-directional communication between Internet-connected devices
     /// (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud.
     /// You can discover your custom IoT-Data endpoint to communicate with, configure rules
     /// for data processing and integration with other services, organize resources associated
-    /// with each thing (Thing Registry), configure logging, and create and manage policies
-    /// and credentials to authenticate things.
+    /// with each device (Registry), configure logging, and create and manage policies and
+    /// credentials to authenticate devices.
     /// </para>
     ///  
     /// <para>
-    /// For more information about how AWS IoT works, see the <a href="http://docs.aws.amazon.com/iot/latest/developerguide/aws-iot-how-it-works.html">Developer
+    /// The service endpoints that expose this API are listed in <a href="https://docs.aws.amazon.com/general/latest/gr/iot-core.html">AWS
+    /// IoT Core Endpoints and Quotas</a>. You must use the endpoint for the region that has
+    /// the resources you want to access.
+    /// </para>
+    ///  
+    /// <para>
+    /// The service name used by <a href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">AWS
+    /// Signature Version 4</a> to sign the request is: <i>execute-api</i>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information about how AWS IoT works, see the <a href="https://docs.aws.amazon.com/iot/latest/developerguide/aws-iot-how-it-works.html">Developer
     /// Guide</a>.
+    /// </para>
+    ///  
+    /// <para>
+    /// For information about how to use the credentials provider for AWS IoT, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/authorizing-direct-aws.html">Authorizing
+    /// Direct Calls to AWS Services</a>.
     /// </para>
     /// </summary>
     public partial interface IAmazonIoT : IAmazonService, IDisposable
@@ -112,6 +128,58 @@ namespace Amazon.IoT
         /// <returns>Returns a  AcceptCertificateTransferResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AcceptCertificateTransfer">REST API Reference for AcceptCertificateTransfer Operation</seealso>
         AcceptCertificateTransferResponse EndAcceptCertificateTransfer(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  AddThingToBillingGroup
+
+
+        /// <summary>
+        /// Adds a thing to a billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AddThingToBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the AddThingToBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToBillingGroup">REST API Reference for AddThingToBillingGroup Operation</seealso>
+        AddThingToBillingGroupResponse AddThingToBillingGroup(AddThingToBillingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AddThingToBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AddThingToBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAddThingToBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToBillingGroup">REST API Reference for AddThingToBillingGroup Operation</seealso>
+        IAsyncResult BeginAddThingToBillingGroup(AddThingToBillingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AddThingToBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAddThingToBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  AddThingToBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AddThingToBillingGroup">REST API Reference for AddThingToBillingGroup Operation</seealso>
+        AddThingToBillingGroupResponse EndAddThingToBillingGroup(IAsyncResult asyncResult);
 
         #endregion
         
@@ -195,7 +263,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -253,7 +321,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -320,7 +388,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -356,7 +424,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -404,14 +472,77 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  AttachSecurityProfile
+
+
+        /// <summary>
+        /// Associates a Device Defender security profile with a thing group or this account.
+        /// Each thing group or account can have up to five security profiles associated with
+        /// it.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the AttachSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the AttachSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachSecurityProfile">REST API Reference for AttachSecurityProfile Operation</seealso>
+        AttachSecurityProfileResponse AttachSecurityProfile(AttachSecurityProfileRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the AttachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the AttachSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndAttachSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachSecurityProfile">REST API Reference for AttachSecurityProfile Operation</seealso>
+        IAsyncResult BeginAttachSecurityProfile(AttachSecurityProfileRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  AttachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginAttachSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  AttachSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/AttachSecurityProfile">REST API Reference for AttachSecurityProfile Operation</seealso>
+        AttachSecurityProfileResponse EndAttachSecurityProfile(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  AttachThingPrincipal
 
 
         /// <summary>
-        /// Attaches the specified principal to the specified thing.
+        /// Attaches the specified principal to the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="thingName">The name of the thing.</param>
-        /// <param name="principal">The principal, such as a certificate or other credential.</param>
+        /// <param name="principal">The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.</param>
         /// 
         /// <returns>The response from the AttachThingPrincipal service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -436,7 +567,9 @@ namespace Amazon.IoT
         AttachThingPrincipalResponse AttachThingPrincipal(string thingName, string principal);
 
         /// <summary>
-        /// Attaches the specified principal to the specified thing.
+        /// Attaches the specified principal to the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the AttachThingPrincipal service method.</param>
         /// 
@@ -490,6 +623,112 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CancelAuditMitigationActionsTask
+
+
+        /// <summary>
+        /// Cancels a mitigation action task that is in progress. If the task is not in progress,
+        /// an InvalidRequestException occurs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditMitigationActionsTask service method.</param>
+        /// 
+        /// <returns>The response from the CancelAuditMitigationActionsTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditMitigationActionsTask">REST API Reference for CancelAuditMitigationActionsTask Operation</seealso>
+        CancelAuditMitigationActionsTaskResponse CancelAuditMitigationActionsTask(CancelAuditMitigationActionsTaskRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditMitigationActionsTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelAuditMitigationActionsTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditMitigationActionsTask">REST API Reference for CancelAuditMitigationActionsTask Operation</seealso>
+        IAsyncResult BeginCancelAuditMitigationActionsTask(CancelAuditMitigationActionsTaskRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelAuditMitigationActionsTask.</param>
+        /// 
+        /// <returns>Returns a  CancelAuditMitigationActionsTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditMitigationActionsTask">REST API Reference for CancelAuditMitigationActionsTask Operation</seealso>
+        CancelAuditMitigationActionsTaskResponse EndCancelAuditMitigationActionsTask(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CancelAuditTask
+
+
+        /// <summary>
+        /// Cancels an audit that is in progress. The audit can be either scheduled or on-demand.
+        /// If the audit is not in progress, an "InvalidRequestException" occurs.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditTask service method.</param>
+        /// 
+        /// <returns>The response from the CancelAuditTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditTask">REST API Reference for CancelAuditTask Operation</seealso>
+        CancelAuditTaskResponse CancelAuditTask(CancelAuditTaskRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelAuditTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelAuditTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditTask">REST API Reference for CancelAuditTask Operation</seealso>
+        IAsyncResult BeginCancelAuditTask(CancelAuditTaskRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelAuditTask.</param>
+        /// 
+        /// <returns>Returns a  CancelAuditTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelAuditTask">REST API Reference for CancelAuditTask Operation</seealso>
+        CancelAuditTaskResponse EndCancelAuditTask(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CancelCertificateTransfer
 
 
@@ -509,7 +748,7 @@ namespace Amazon.IoT
         /// PENDING_TRANSFER to INACTIVE.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the CancelCertificateTransfer service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -659,6 +898,66 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CancelJobExecution
+
+
+        /// <summary>
+        /// Cancels the execution of a job for a given thing.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelJobExecution service method.</param>
+        /// 
+        /// <returns>The response from the CancelJobExecution service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidStateTransitionException">
+        /// An attempt was made to change to an invalid state, for example by deleting a job or
+        /// a job execution which is "IN_PROGRESS" without setting the <code>force</code> parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJobExecution">REST API Reference for CancelJobExecution Operation</seealso>
+        CancelJobExecutionResponse CancelJobExecution(CancelJobExecutionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelJobExecution operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelJobExecution
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJobExecution">REST API Reference for CancelJobExecution Operation</seealso>
+        IAsyncResult BeginCancelJobExecution(CancelJobExecutionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelJobExecution.</param>
+        /// 
+        /// <returns>Returns a  CancelJobExecutionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CancelJobExecution">REST API Reference for CancelJobExecution Operation</seealso>
+        CancelJobExecutionResponse EndCancelJobExecution(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ClearDefaultAuthorizer
 
 
@@ -717,6 +1016,65 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  ConfirmTopicRuleDestination
+
+
+        /// <summary>
+        /// Confirms a topic rule destination. When you create a rule requiring a destination,
+        /// AWS IoT sends a confirmation message to the endpoint or base address you specify.
+        /// The message includes a token which you pass back when calling <code>ConfirmTopicRuleDestination</code>
+        /// to confirm that you own or have access to the endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ConfirmTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the ConfirmTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ConfirmTopicRuleDestination">REST API Reference for ConfirmTopicRuleDestination Operation</seealso>
+        ConfirmTopicRuleDestinationResponse ConfirmTopicRuleDestination(ConfirmTopicRuleDestinationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ConfirmTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ConfirmTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndConfirmTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ConfirmTopicRuleDestination">REST API Reference for ConfirmTopicRuleDestination Operation</seealso>
+        IAsyncResult BeginConfirmTopicRuleDestination(ConfirmTopicRuleDestinationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ConfirmTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginConfirmTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  ConfirmTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ConfirmTopicRuleDestination">REST API Reference for ConfirmTopicRuleDestination Operation</seealso>
+        ConfirmTopicRuleDestinationResponse EndConfirmTopicRuleDestination(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateAuthorizer
 
 
@@ -733,7 +1091,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -775,6 +1133,58 @@ namespace Amazon.IoT
         /// <returns>Returns a  CreateAuthorizerResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateAuthorizer">REST API Reference for CreateAuthorizer Operation</seealso>
         CreateAuthorizerResponse EndCreateAuthorizer(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateBillingGroup
+
+
+        /// <summary>
+        /// Creates a billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the CreateBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateBillingGroup">REST API Reference for CreateBillingGroup Operation</seealso>
+        CreateBillingGroupResponse CreateBillingGroup(CreateBillingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateBillingGroup">REST API Reference for CreateBillingGroup Operation</seealso>
+        IAsyncResult BeginCreateBillingGroup(CreateBillingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  CreateBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateBillingGroup">REST API Reference for CreateBillingGroup Operation</seealso>
+        CreateBillingGroupResponse EndCreateBillingGroup(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1083,6 +1493,195 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CreateDimension
+
+
+        /// <summary>
+        /// Create a dimension that you can use to limit the scope of a metric used in a security
+        /// profile for AWS IoT Device Defender. For example, using a <code>TOPIC_FILTER</code>
+        /// dimension, you can narrow down the scope of the metric only to MQTT topics whose name
+        /// match the pattern specified in the dimension.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDimension service method.</param>
+        /// 
+        /// <returns>The response from the CreateDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDimension">REST API Reference for CreateDimension Operation</seealso>
+        CreateDimensionResponse CreateDimension(CreateDimensionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDimension">REST API Reference for CreateDimension Operation</seealso>
+        IAsyncResult BeginCreateDimension(CreateDimensionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDimension.</param>
+        /// 
+        /// <returns>Returns a  CreateDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDimension">REST API Reference for CreateDimension Operation</seealso>
+        CreateDimensionResponse EndCreateDimension(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateDomainConfiguration
+
+
+        /// <summary>
+        /// Creates a domain configuration.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the CreateDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.CertificateValidationException">
+        /// The certificate is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDomainConfiguration">REST API Reference for CreateDomainConfiguration Operation</seealso>
+        CreateDomainConfigurationResponse CreateDomainConfiguration(CreateDomainConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDomainConfiguration">REST API Reference for CreateDomainConfiguration Operation</seealso>
+        IAsyncResult BeginCreateDomainConfiguration(CreateDomainConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  CreateDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDomainConfiguration">REST API Reference for CreateDomainConfiguration Operation</seealso>
+        CreateDomainConfigurationResponse EndCreateDomainConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateDynamicThingGroup
+
+
+        /// <summary>
+        /// Creates a dynamic thing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDynamicThingGroup service method.</param>
+        /// 
+        /// <returns>The response from the CreateDynamicThingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDynamicThingGroup">REST API Reference for CreateDynamicThingGroup Operation</seealso>
+        CreateDynamicThingGroupResponse CreateDynamicThingGroup(CreateDynamicThingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateDynamicThingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateDynamicThingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDynamicThingGroup">REST API Reference for CreateDynamicThingGroup Operation</seealso>
+        IAsyncResult BeginCreateDynamicThingGroup(CreateDynamicThingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateDynamicThingGroup.</param>
+        /// 
+        /// <returns>Returns a  CreateDynamicThingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateDynamicThingGroup">REST API Reference for CreateDynamicThingGroup Operation</seealso>
+        CreateDynamicThingGroupResponse EndCreateDynamicThingGroup(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateJob
 
 
@@ -1096,7 +1695,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -1146,7 +1745,9 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
-        /// key.
+        /// key. You can also call <code>CreateKeysAndCertificate</code> over MQTT from a device,
+        /// for more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api">Provisioning
+        /// MQTT API</a>.
         /// 
         ///  
         /// <para>
@@ -1176,7 +1777,9 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
-        /// key.
+        /// key. You can also call <code>CreateKeysAndCertificate</code> over MQTT from a device,
+        /// for more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api">Provisioning
+        /// MQTT API</a>.
         /// 
         ///  
         /// <para>
@@ -1207,7 +1810,9 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
-        /// key.
+        /// key. You can also call <code>CreateKeysAndCertificate</code> over MQTT from a device,
+        /// for more information, see <a href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api">Provisioning
+        /// MQTT API</a>.
         /// 
         ///  
         /// <para>
@@ -1264,6 +1869,62 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CreateMitigationAction
+
+
+        /// <summary>
+        /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask.
+        /// Each mitigation action can apply only one type of change.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the CreateMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateMitigationAction">REST API Reference for CreateMitigationAction Operation</seealso>
+        CreateMitigationActionResponse CreateMitigationAction(CreateMitigationActionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateMitigationAction">REST API Reference for CreateMitigationAction Operation</seealso>
+        IAsyncResult BeginCreateMitigationAction(CreateMitigationActionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  CreateMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateMitigationAction">REST API Reference for CreateMitigationAction Operation</seealso>
+        CreateMitigationActionResponse EndCreateMitigationAction(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateOTAUpdate
 
 
@@ -1278,6 +1939,9 @@ namespace Amazon.IoT
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
         /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -1594,6 +2258,184 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CreateProvisioningClaim
+
+
+        /// <summary>
+        /// Creates a provisioning claim.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningClaim service method.</param>
+        /// 
+        /// <returns>The response from the CreateProvisioningClaim service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningClaim">REST API Reference for CreateProvisioningClaim Operation</seealso>
+        CreateProvisioningClaimResponse CreateProvisioningClaim(CreateProvisioningClaimRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProvisioningClaim operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningClaim operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProvisioningClaim
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningClaim">REST API Reference for CreateProvisioningClaim Operation</seealso>
+        IAsyncResult BeginCreateProvisioningClaim(CreateProvisioningClaimRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProvisioningClaim operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProvisioningClaim.</param>
+        /// 
+        /// <returns>Returns a  CreateProvisioningClaimResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningClaim">REST API Reference for CreateProvisioningClaim Operation</seealso>
+        CreateProvisioningClaimResponse EndCreateProvisioningClaim(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateProvisioningTemplate
+
+
+        /// <summary>
+        /// Creates a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the CreateProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplate">REST API Reference for CreateProvisioningTemplate Operation</seealso>
+        CreateProvisioningTemplateResponse CreateProvisioningTemplate(CreateProvisioningTemplateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplate">REST API Reference for CreateProvisioningTemplate Operation</seealso>
+        IAsyncResult BeginCreateProvisioningTemplate(CreateProvisioningTemplateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  CreateProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplate">REST API Reference for CreateProvisioningTemplate Operation</seealso>
+        CreateProvisioningTemplateResponse EndCreateProvisioningTemplate(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateProvisioningTemplateVersion
+
+
+        /// <summary>
+        /// Creates a new version of a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplateVersion service method.</param>
+        /// 
+        /// <returns>The response from the CreateProvisioningTemplateVersion service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionsLimitExceededException">
+        /// The number of policy versions exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplateVersion">REST API Reference for CreateProvisioningTemplateVersion Operation</seealso>
+        CreateProvisioningTemplateVersionResponse CreateProvisioningTemplateVersion(CreateProvisioningTemplateVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateProvisioningTemplateVersion operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateProvisioningTemplateVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplateVersion">REST API Reference for CreateProvisioningTemplateVersion Operation</seealso>
+        IAsyncResult BeginCreateProvisioningTemplateVersion(CreateProvisioningTemplateVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateProvisioningTemplateVersion.</param>
+        /// 
+        /// <returns>Returns a  CreateProvisioningTemplateVersionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateProvisioningTemplateVersion">REST API Reference for CreateProvisioningTemplateVersion Operation</seealso>
+        CreateProvisioningTemplateVersionResponse EndCreateProvisioningTemplateVersion(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateRoleAlias
 
 
@@ -1610,7 +2452,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -1655,17 +2497,120 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  CreateScheduledAudit
+
+
+        /// <summary>
+        /// Creates a scheduled audit that is run at a specified time interval.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the CreateScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateScheduledAudit">REST API Reference for CreateScheduledAudit Operation</seealso>
+        CreateScheduledAuditResponse CreateScheduledAudit(CreateScheduledAuditRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateScheduledAudit">REST API Reference for CreateScheduledAudit Operation</seealso>
+        IAsyncResult BeginCreateScheduledAudit(CreateScheduledAuditRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  CreateScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateScheduledAudit">REST API Reference for CreateScheduledAudit Operation</seealso>
+        CreateScheduledAuditResponse EndCreateScheduledAudit(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateSecurityProfile
+
+
+        /// <summary>
+        /// Creates a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the CreateSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateSecurityProfile">REST API Reference for CreateSecurityProfile Operation</seealso>
+        CreateSecurityProfileResponse CreateSecurityProfile(CreateSecurityProfileRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateSecurityProfile">REST API Reference for CreateSecurityProfile Operation</seealso>
+        IAsyncResult BeginCreateSecurityProfile(CreateSecurityProfileRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  CreateSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateSecurityProfile">REST API Reference for CreateSecurityProfile Operation</seealso>
+        CreateSecurityProfileResponse EndCreateSecurityProfile(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateStream
 
 
         /// <summary>
         /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream
         /// transports data bytes in chunks or blocks packaged as MQTT messages from a source
-        /// like S3. You can have one or more files associated with a stream. The total size of
-        /// a file associated with the stream cannot exceed more than 2 MB. The stream will be
-        /// created with version 0. If a stream is created with the same streamID as a stream
-        /// that existed and was deleted within last 90 days, we will resurrect that old stream
-        /// by incrementing the version by 1.
+        /// like S3. You can have one or more files associated with a stream.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStream service method.</param>
         /// 
@@ -1675,6 +2620,9 @@ namespace Amazon.IoT
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
         /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
         /// The resource already exists.
@@ -1726,7 +2674,17 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Creates a thing record in the thing registry.
+        /// Creates a thing record in the registry. If this call is made multiple times using
+        /// the same thing name and configuration, the call will succeed. If this call is made
+        /// with the same thing name but different configuration a <code>ResourceAlreadyExistsException</code>
+        /// is thrown.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This is a control plane operation. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
+        /// for information about authorizing control plane actions.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateThing service method.</param>
         /// 
@@ -1788,6 +2746,13 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Create a thing group.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This is a control plane operation. See <a href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html">Authorization</a>
+        /// for information about authorizing control plane actions.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateThingGroup service method.</param>
         /// 
@@ -1903,6 +2868,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the CreateTopicRule service method.</param>
         /// 
         /// <returns>The response from the CreateTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -1946,6 +2915,115 @@ namespace Amazon.IoT
         /// <returns>Returns a  CreateTopicRuleResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRule">REST API Reference for CreateTopicRule Operation</seealso>
         CreateTopicRuleResponse EndCreateTopicRule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateTopicRuleDestination
+
+
+        /// <summary>
+        /// Creates a topic rule destination. The destination must be confirmed prior to use.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the CreateTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceAlreadyExistsException">
+        /// The resource already exists.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRuleDestination">REST API Reference for CreateTopicRuleDestination Operation</seealso>
+        CreateTopicRuleDestinationResponse CreateTopicRuleDestination(CreateTopicRuleDestinationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRuleDestination">REST API Reference for CreateTopicRuleDestination Operation</seealso>
+        IAsyncResult BeginCreateTopicRuleDestination(CreateTopicRuleDestinationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  CreateTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/CreateTopicRuleDestination">REST API Reference for CreateTopicRuleDestination Operation</seealso>
+        CreateTopicRuleDestinationResponse EndCreateTopicRuleDestination(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteAccountAuditConfiguration
+
+
+        /// <summary>
+        /// Restores the default settings for Device Defender audits for this account. Any configuration
+        /// data you entered is deleted and all audit checks are reset to disabled.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAccountAuditConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAccountAuditConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAccountAuditConfiguration">REST API Reference for DeleteAccountAuditConfiguration Operation</seealso>
+        DeleteAccountAuditConfigurationResponse DeleteAccountAuditConfiguration(DeleteAccountAuditConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAccountAuditConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAccountAuditConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAccountAuditConfiguration">REST API Reference for DeleteAccountAuditConfiguration Operation</seealso>
+        IAsyncResult BeginDeleteAccountAuditConfiguration(DeleteAccountAuditConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAccountAuditConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteAccountAuditConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAccountAuditConfiguration">REST API Reference for DeleteAccountAuditConfiguration Operation</seealso>
+        DeleteAccountAuditConfigurationResponse EndDeleteAccountAuditConfiguration(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2007,6 +3085,59 @@ namespace Amazon.IoT
         /// <returns>Returns a  DeleteAuthorizerResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteAuthorizer">REST API Reference for DeleteAuthorizer Operation</seealso>
         DeleteAuthorizerResponse EndDeleteAuthorizer(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteBillingGroup
+
+
+        /// <summary>
+        /// Deletes the billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the DeleteBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteBillingGroup">REST API Reference for DeleteBillingGroup Operation</seealso>
+        DeleteBillingGroupResponse DeleteBillingGroup(DeleteBillingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteBillingGroup">REST API Reference for DeleteBillingGroup Operation</seealso>
+        IAsyncResult BeginDeleteBillingGroup(DeleteBillingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  DeleteBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteBillingGroup">REST API Reference for DeleteBillingGroup Operation</seealso>
+        DeleteBillingGroupResponse EndDeleteBillingGroup(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2079,13 +3210,13 @@ namespace Amazon.IoT
         /// 
         ///  
         /// <para>
-        /// A certificate cannot be deleted if it has a policy attached to it or if its status
-        /// is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
+        /// A certificate cannot be deleted if it has a policy or IoT thing attached to it or
+        /// if its status is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
         /// API to detach all policies. Next, use the <a>UpdateCertificate</a> API to set the
         /// certificate to the INACTIVE status.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the DeleteCertificate service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.CertificateStateException">
@@ -2120,8 +3251,8 @@ namespace Amazon.IoT
         /// 
         ///  
         /// <para>
-        /// A certificate cannot be deleted if it has a policy attached to it or if its status
-        /// is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
+        /// A certificate cannot be deleted if it has a policy or IoT thing attached to it or
+        /// if its status is set to ACTIVE. To delete a certificate, first use the <a>DetachPrincipalPolicy</a>
         /// API to detach all policies. Next, use the <a>UpdateCertificate</a> API to set the
         /// certificate to the INACTIVE status.
         /// </para>
@@ -2184,6 +3315,349 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  DeleteDimension
+
+
+        /// <summary>
+        /// Removes the specified dimension from your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDimension service method.</param>
+        /// 
+        /// <returns>The response from the DeleteDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDimension">REST API Reference for DeleteDimension Operation</seealso>
+        DeleteDimensionResponse DeleteDimension(DeleteDimensionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDimension">REST API Reference for DeleteDimension Operation</seealso>
+        IAsyncResult BeginDeleteDimension(DeleteDimensionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDimension.</param>
+        /// 
+        /// <returns>Returns a  DeleteDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDimension">REST API Reference for DeleteDimension Operation</seealso>
+        DeleteDimensionResponse EndDeleteDimension(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteDomainConfiguration
+
+
+        /// <summary>
+        /// Deletes the specified domain configuration.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDomainConfiguration">REST API Reference for DeleteDomainConfiguration Operation</seealso>
+        DeleteDomainConfigurationResponse DeleteDomainConfiguration(DeleteDomainConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDomainConfiguration">REST API Reference for DeleteDomainConfiguration Operation</seealso>
+        IAsyncResult BeginDeleteDomainConfiguration(DeleteDomainConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDomainConfiguration">REST API Reference for DeleteDomainConfiguration Operation</seealso>
+        DeleteDomainConfigurationResponse EndDeleteDomainConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteDynamicThingGroup
+
+
+        /// <summary>
+        /// Deletes a dynamic thing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDynamicThingGroup service method.</param>
+        /// 
+        /// <returns>The response from the DeleteDynamicThingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDynamicThingGroup">REST API Reference for DeleteDynamicThingGroup Operation</seealso>
+        DeleteDynamicThingGroupResponse DeleteDynamicThingGroup(DeleteDynamicThingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDynamicThingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteDynamicThingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDynamicThingGroup">REST API Reference for DeleteDynamicThingGroup Operation</seealso>
+        IAsyncResult BeginDeleteDynamicThingGroup(DeleteDynamicThingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteDynamicThingGroup.</param>
+        /// 
+        /// <returns>Returns a  DeleteDynamicThingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteDynamicThingGroup">REST API Reference for DeleteDynamicThingGroup Operation</seealso>
+        DeleteDynamicThingGroupResponse EndDeleteDynamicThingGroup(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteJob
+
+
+        /// <summary>
+        /// Deletes a job and its related job executions.
+        /// 
+        ///  
+        /// <para>
+        /// Deleting a job may take time, depending on the number of job executions created for
+        /// the job and various other factors. While the job is being deleted, the status of the
+        /// job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job
+        /// whose status is already "DELETION_IN_PROGRESS" will result in an error.
+        /// </para>
+        ///  
+        /// <para>
+        /// Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException
+        /// will occur.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJob service method.</param>
+        /// 
+        /// <returns>The response from the DeleteJob service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidStateTransitionException">
+        /// An attempt was made to change to an invalid state, for example by deleting a job or
+        /// a job execution which is "IN_PROGRESS" without setting the <code>force</code> parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJob">REST API Reference for DeleteJob Operation</seealso>
+        DeleteJobResponse DeleteJob(DeleteJobRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJob operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJob">REST API Reference for DeleteJob Operation</seealso>
+        IAsyncResult BeginDeleteJob(DeleteJobRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteJob.</param>
+        /// 
+        /// <returns>Returns a  DeleteJobResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJob">REST API Reference for DeleteJob Operation</seealso>
+        DeleteJobResponse EndDeleteJob(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteJobExecution
+
+
+        /// <summary>
+        /// Deletes a job execution.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJobExecution service method.</param>
+        /// 
+        /// <returns>The response from the DeleteJobExecution service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidStateTransitionException">
+        /// An attempt was made to change to an invalid state, for example by deleting a job or
+        /// a job execution which is "IN_PROGRESS" without setting the <code>force</code> parameter.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJobExecution">REST API Reference for DeleteJobExecution Operation</seealso>
+        DeleteJobExecutionResponse DeleteJobExecution(DeleteJobExecutionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteJobExecution operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteJobExecution
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJobExecution">REST API Reference for DeleteJobExecution Operation</seealso>
+        IAsyncResult BeginDeleteJobExecution(DeleteJobExecutionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteJobExecution operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteJobExecution.</param>
+        /// 
+        /// <returns>Returns a  DeleteJobExecutionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteJobExecution">REST API Reference for DeleteJobExecution Operation</seealso>
+        DeleteJobExecutionResponse EndDeleteJobExecution(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteMitigationAction
+
+
+        /// <summary>
+        /// Deletes a defined mitigation action from your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the DeleteMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteMitigationAction">REST API Reference for DeleteMitigationAction Operation</seealso>
+        DeleteMitigationActionResponse DeleteMitigationAction(DeleteMitigationActionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteMitigationAction">REST API Reference for DeleteMitigationAction Operation</seealso>
+        IAsyncResult BeginDeleteMitigationAction(DeleteMitigationActionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  DeleteMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteMitigationAction">REST API Reference for DeleteMitigationAction Operation</seealso>
+        DeleteMitigationActionResponse EndDeleteMitigationAction(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteOTAUpdate
 
 
@@ -2210,6 +3684,10 @@ namespace Amazon.IoT
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
         /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteOTAUpdate">REST API Reference for DeleteOTAUpdate Operation</seealso>
         DeleteOTAUpdateResponse DeleteOTAUpdate(DeleteOTAUpdateRequest request);
@@ -2463,6 +3941,122 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  DeleteProvisioningTemplate
+
+
+        /// <summary>
+        /// Deletes a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DeleteProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.DeleteConflictException">
+        /// You can't delete the resource because it is attached to one or more resources.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplate">REST API Reference for DeleteProvisioningTemplate Operation</seealso>
+        DeleteProvisioningTemplateResponse DeleteProvisioningTemplate(DeleteProvisioningTemplateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplate">REST API Reference for DeleteProvisioningTemplate Operation</seealso>
+        IAsyncResult BeginDeleteProvisioningTemplate(DeleteProvisioningTemplateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  DeleteProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplate">REST API Reference for DeleteProvisioningTemplate Operation</seealso>
+        DeleteProvisioningTemplateResponse EndDeleteProvisioningTemplate(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteProvisioningTemplateVersion
+
+
+        /// <summary>
+        /// Deletes a fleet provisioning template version.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplateVersion service method.</param>
+        /// 
+        /// <returns>The response from the DeleteProvisioningTemplateVersion service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.DeleteConflictException">
+        /// You can't delete the resource because it is attached to one or more resources.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplateVersion">REST API Reference for DeleteProvisioningTemplateVersion Operation</seealso>
+        DeleteProvisioningTemplateVersionResponse DeleteProvisioningTemplateVersion(DeleteProvisioningTemplateVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteProvisioningTemplateVersion operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteProvisioningTemplateVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplateVersion">REST API Reference for DeleteProvisioningTemplateVersion Operation</seealso>
+        IAsyncResult BeginDeleteProvisioningTemplateVersion(DeleteProvisioningTemplateVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteProvisioningTemplateVersion.</param>
+        /// 
+        /// <returns>Returns a  DeleteProvisioningTemplateVersionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteProvisioningTemplateVersion">REST API Reference for DeleteProvisioningTemplateVersion Operation</seealso>
+        DeleteProvisioningTemplateVersionResponse EndDeleteProvisioningTemplateVersion(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteRegistrationCode
 
 
@@ -2579,6 +4173,111 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  DeleteScheduledAudit
+
+
+        /// <summary>
+        /// Deletes a scheduled audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the DeleteScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteScheduledAudit">REST API Reference for DeleteScheduledAudit Operation</seealso>
+        DeleteScheduledAuditResponse DeleteScheduledAudit(DeleteScheduledAuditRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteScheduledAudit">REST API Reference for DeleteScheduledAudit Operation</seealso>
+        IAsyncResult BeginDeleteScheduledAudit(DeleteScheduledAuditRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  DeleteScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteScheduledAudit">REST API Reference for DeleteScheduledAudit Operation</seealso>
+        DeleteScheduledAuditResponse EndDeleteScheduledAudit(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteSecurityProfile
+
+
+        /// <summary>
+        /// Deletes a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteSecurityProfile">REST API Reference for DeleteSecurityProfile Operation</seealso>
+        DeleteSecurityProfileResponse DeleteSecurityProfile(DeleteSecurityProfileRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteSecurityProfile">REST API Reference for DeleteSecurityProfile Operation</seealso>
+        IAsyncResult BeginDeleteSecurityProfile(DeleteSecurityProfileRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  DeleteSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteSecurityProfile">REST API Reference for DeleteSecurityProfile Operation</seealso>
+        DeleteSecurityProfileResponse EndDeleteSecurityProfile(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteStream
 
 
@@ -2644,7 +4343,8 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Deletes the specified thing.
+        /// Deletes the specified thing. Returns successfully with no error if the deletion is
+        /// successful or you specify a thing that doesn't exist.
         /// </summary>
         /// <param name="thingName">The name of the thing to delete.</param>
         /// 
@@ -2668,14 +4368,15 @@ namespace Amazon.IoT
         /// You are not authorized to perform this operation.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThing">REST API Reference for DeleteThing Operation</seealso>
         DeleteThingResponse DeleteThing(string thingName);
 
         /// <summary>
-        /// Deletes the specified thing.
+        /// Deletes the specified thing. Returns successfully with no error if the deletion is
+        /// successful or you specify a thing that doesn't exist.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteThing service method.</param>
         /// 
@@ -2699,8 +4400,8 @@ namespace Amazon.IoT
         /// You are not authorized to perform this operation.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThing">REST API Reference for DeleteThing Operation</seealso>
         DeleteThingResponse DeleteThing(DeleteThingRequest request);
@@ -2752,8 +4453,8 @@ namespace Amazon.IoT
         /// The rate exceeds the limit.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteThingGroup">REST API Reference for DeleteThingGroup Operation</seealso>
         DeleteThingGroupResponse DeleteThingGroup(DeleteThingGroupRequest request);
@@ -2790,7 +4491,7 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Deletes the specified thing type . You cannot delete a thing type if it has things
+        /// Deletes the specified thing type. You cannot delete a thing type if it has things
         /// associated with it. To delete a thing type, first mark it as deprecated by calling
         /// <a>DeprecateThingType</a>, then remove any associated things by calling <a>UpdateThing</a>
         /// to change the thing type on any associated thing, and finally use <a>DeleteThingType</a>
@@ -2857,6 +4558,10 @@ namespace Amazon.IoT
         /// <param name="ruleName">The name of the rule.</param>
         /// 
         /// <returns>The response from the DeleteTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -2878,6 +4583,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the DeleteTopicRule service method.</param>
         /// 
         /// <returns>The response from the DeleteTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -2918,6 +4627,62 @@ namespace Amazon.IoT
         /// <returns>Returns a  DeleteTopicRuleResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRule">REST API Reference for DeleteTopicRule Operation</seealso>
         DeleteTopicRuleResponse EndDeleteTopicRule(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteTopicRuleDestination
+
+
+        /// <summary>
+        /// Deletes a topic rule destination.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRuleDestination">REST API Reference for DeleteTopicRuleDestination Operation</seealso>
+        DeleteTopicRuleDestinationResponse DeleteTopicRuleDestination(DeleteTopicRuleDestinationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRuleDestination">REST API Reference for DeleteTopicRuleDestination Operation</seealso>
+        IAsyncResult BeginDeleteTopicRuleDestination(DeleteTopicRuleDestinationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  DeleteTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DeleteTopicRuleDestination">REST API Reference for DeleteTopicRuleDestination Operation</seealso>
+        DeleteTopicRuleDestinationResponse EndDeleteTopicRuleDestination(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3028,6 +4793,212 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  DescribeAccountAuditConfiguration
+
+
+        /// <summary>
+        /// Gets information about the Device Defender audit settings for this account. Settings
+        /// include how audit notifications are sent and which audit checks are enabled or disabled.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountAuditConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAccountAuditConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAccountAuditConfiguration">REST API Reference for DescribeAccountAuditConfiguration Operation</seealso>
+        DescribeAccountAuditConfigurationResponse DescribeAccountAuditConfiguration(DescribeAccountAuditConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccountAuditConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAccountAuditConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAccountAuditConfiguration">REST API Reference for DescribeAccountAuditConfiguration Operation</seealso>
+        IAsyncResult BeginDescribeAccountAuditConfiguration(DescribeAccountAuditConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAccountAuditConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DescribeAccountAuditConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAccountAuditConfiguration">REST API Reference for DescribeAccountAuditConfiguration Operation</seealso>
+        DescribeAccountAuditConfigurationResponse EndDescribeAccountAuditConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeAuditFinding
+
+
+        /// <summary>
+        /// Gets information about a single audit finding. Properties include the reason for noncompliance,
+        /// the severity of the issue, and when the audit that returned the finding was started.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditFinding service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAuditFinding service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditFinding">REST API Reference for DescribeAuditFinding Operation</seealso>
+        DescribeAuditFindingResponse DescribeAuditFinding(DescribeAuditFindingRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAuditFinding operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditFinding operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAuditFinding
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditFinding">REST API Reference for DescribeAuditFinding Operation</seealso>
+        IAsyncResult BeginDescribeAuditFinding(DescribeAuditFindingRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAuditFinding operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAuditFinding.</param>
+        /// 
+        /// <returns>Returns a  DescribeAuditFindingResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditFinding">REST API Reference for DescribeAuditFinding Operation</seealso>
+        DescribeAuditFindingResponse EndDescribeAuditFinding(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeAuditMitigationActionsTask
+
+
+        /// <summary>
+        /// Gets information about an audit mitigation task that is used to apply mitigation actions
+        /// to a set of audit findings. Properties include the actions being applied, the audit
+        /// checks to which they're being applied, the task status, and aggregated task statistics.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditMitigationActionsTask service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAuditMitigationActionsTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditMitigationActionsTask">REST API Reference for DescribeAuditMitigationActionsTask Operation</seealso>
+        DescribeAuditMitigationActionsTaskResponse DescribeAuditMitigationActionsTask(DescribeAuditMitigationActionsTaskRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditMitigationActionsTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAuditMitigationActionsTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditMitigationActionsTask">REST API Reference for DescribeAuditMitigationActionsTask Operation</seealso>
+        IAsyncResult BeginDescribeAuditMitigationActionsTask(DescribeAuditMitigationActionsTaskRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAuditMitigationActionsTask.</param>
+        /// 
+        /// <returns>Returns a  DescribeAuditMitigationActionsTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditMitigationActionsTask">REST API Reference for DescribeAuditMitigationActionsTask Operation</seealso>
+        DescribeAuditMitigationActionsTaskResponse EndDescribeAuditMitigationActionsTask(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeAuditTask
+
+
+        /// <summary>
+        /// Gets information about a Device Defender audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditTask service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAuditTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditTask">REST API Reference for DescribeAuditTask Operation</seealso>
+        DescribeAuditTaskResponse DescribeAuditTask(DescribeAuditTaskRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAuditTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAuditTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditTask">REST API Reference for DescribeAuditTask Operation</seealso>
+        IAsyncResult BeginDescribeAuditTask(DescribeAuditTaskRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAuditTask.</param>
+        /// 
+        /// <returns>Returns a  DescribeAuditTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuditTask">REST API Reference for DescribeAuditTask Operation</seealso>
+        DescribeAuditTaskResponse EndDescribeAuditTask(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeAuthorizer
 
 
@@ -3083,6 +5054,58 @@ namespace Amazon.IoT
         /// <returns>Returns a  DescribeAuthorizerResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeAuthorizer">REST API Reference for DescribeAuthorizer Operation</seealso>
         DescribeAuthorizerResponse EndDescribeAuthorizer(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeBillingGroup
+
+
+        /// <summary>
+        /// Returns information about a billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the DescribeBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeBillingGroup">REST API Reference for DescribeBillingGroup Operation</seealso>
+        DescribeBillingGroupResponse DescribeBillingGroup(DescribeBillingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeBillingGroup">REST API Reference for DescribeBillingGroup Operation</seealso>
+        IAsyncResult BeginDescribeBillingGroup(DescribeBillingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  DescribeBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeBillingGroup">REST API Reference for DescribeBillingGroup Operation</seealso>
+        DescribeBillingGroupResponse EndDescribeBillingGroup(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3150,7 +5173,7 @@ namespace Amazon.IoT
         /// <summary>
         /// Gets information about the specified certificate.
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the DescribeCertificate service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -3284,6 +5307,119 @@ namespace Amazon.IoT
         /// <returns>Returns a  DescribeDefaultAuthorizerResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDefaultAuthorizer">REST API Reference for DescribeDefaultAuthorizer Operation</seealso>
         DescribeDefaultAuthorizerResponse EndDescribeDefaultAuthorizer(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeDimension
+
+
+        /// <summary>
+        /// Provides details about a dimension that is defined in your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDimension service method.</param>
+        /// 
+        /// <returns>The response from the DescribeDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDimension">REST API Reference for DescribeDimension Operation</seealso>
+        DescribeDimensionResponse DescribeDimension(DescribeDimensionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDimension">REST API Reference for DescribeDimension Operation</seealso>
+        IAsyncResult BeginDescribeDimension(DescribeDimensionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeDimension.</param>
+        /// 
+        /// <returns>Returns a  DescribeDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDimension">REST API Reference for DescribeDimension Operation</seealso>
+        DescribeDimensionResponse EndDescribeDimension(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeDomainConfiguration
+
+
+        /// <summary>
+        /// Gets summary information about a domain configuration.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DescribeDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDomainConfiguration">REST API Reference for DescribeDomainConfiguration Operation</seealso>
+        DescribeDomainConfigurationResponse DescribeDomainConfiguration(DescribeDomainConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDomainConfiguration">REST API Reference for DescribeDomainConfiguration Operation</seealso>
+        IAsyncResult BeginDescribeDomainConfiguration(DescribeDomainConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DescribeDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeDomainConfiguration">REST API Reference for DescribeDomainConfiguration Operation</seealso>
+        DescribeDomainConfigurationResponse EndDescribeDomainConfiguration(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3567,6 +5703,168 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  DescribeMitigationAction
+
+
+        /// <summary>
+        /// Gets information about a mitigation action.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the DescribeMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeMitigationAction">REST API Reference for DescribeMitigationAction Operation</seealso>
+        DescribeMitigationActionResponse DescribeMitigationAction(DescribeMitigationActionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeMitigationAction">REST API Reference for DescribeMitigationAction Operation</seealso>
+        IAsyncResult BeginDescribeMitigationAction(DescribeMitigationActionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  DescribeMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeMitigationAction">REST API Reference for DescribeMitigationAction Operation</seealso>
+        DescribeMitigationActionResponse EndDescribeMitigationAction(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeProvisioningTemplate
+
+
+        /// <summary>
+        /// Returns information about a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the DescribeProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplate">REST API Reference for DescribeProvisioningTemplate Operation</seealso>
+        DescribeProvisioningTemplateResponse DescribeProvisioningTemplate(DescribeProvisioningTemplateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplate">REST API Reference for DescribeProvisioningTemplate Operation</seealso>
+        IAsyncResult BeginDescribeProvisioningTemplate(DescribeProvisioningTemplateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  DescribeProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplate">REST API Reference for DescribeProvisioningTemplate Operation</seealso>
+        DescribeProvisioningTemplateResponse EndDescribeProvisioningTemplate(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeProvisioningTemplateVersion
+
+
+        /// <summary>
+        /// Returns information about a fleet provisioning template version.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplateVersion service method.</param>
+        /// 
+        /// <returns>The response from the DescribeProvisioningTemplateVersion service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplateVersion">REST API Reference for DescribeProvisioningTemplateVersion Operation</seealso>
+        DescribeProvisioningTemplateVersionResponse DescribeProvisioningTemplateVersion(DescribeProvisioningTemplateVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeProvisioningTemplateVersion operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeProvisioningTemplateVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplateVersion">REST API Reference for DescribeProvisioningTemplateVersion Operation</seealso>
+        IAsyncResult BeginDescribeProvisioningTemplateVersion(DescribeProvisioningTemplateVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeProvisioningTemplateVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeProvisioningTemplateVersion.</param>
+        /// 
+        /// <returns>Returns a  DescribeProvisioningTemplateVersionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeProvisioningTemplateVersion">REST API Reference for DescribeProvisioningTemplateVersion Operation</seealso>
+        DescribeProvisioningTemplateVersionResponse EndDescribeProvisioningTemplateVersion(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeRoleAlias
 
 
@@ -3622,6 +5920,110 @@ namespace Amazon.IoT
         /// <returns>Returns a  DescribeRoleAliasResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeRoleAlias">REST API Reference for DescribeRoleAlias Operation</seealso>
         DescribeRoleAliasResponse EndDescribeRoleAlias(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeScheduledAudit
+
+
+        /// <summary>
+        /// Gets information about a scheduled audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the DescribeScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeScheduledAudit">REST API Reference for DescribeScheduledAudit Operation</seealso>
+        DescribeScheduledAuditResponse DescribeScheduledAudit(DescribeScheduledAuditRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeScheduledAudit">REST API Reference for DescribeScheduledAudit Operation</seealso>
+        IAsyncResult BeginDescribeScheduledAudit(DescribeScheduledAuditRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  DescribeScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeScheduledAudit">REST API Reference for DescribeScheduledAudit Operation</seealso>
+        DescribeScheduledAuditResponse EndDescribeScheduledAudit(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeSecurityProfile
+
+
+        /// <summary>
+        /// Gets information about a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the DescribeSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeSecurityProfile">REST API Reference for DescribeSecurityProfile Operation</seealso>
+        DescribeSecurityProfileResponse DescribeSecurityProfile(DescribeSecurityProfileRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeSecurityProfile">REST API Reference for DescribeSecurityProfile Operation</seealso>
+        IAsyncResult BeginDescribeSecurityProfile(DescribeSecurityProfileRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  DescribeSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DescribeSecurityProfile">REST API Reference for DescribeSecurityProfile Operation</seealso>
+        DescribeSecurityProfileResponse EndDescribeSecurityProfile(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3949,7 +6351,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
         /// The service is temporarily unavailable.
@@ -4091,11 +6493,71 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  DetachSecurityProfile
+
+
+        /// <summary>
+        /// Disassociates a Device Defender security profile from a thing group or from this account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetachSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the DetachSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachSecurityProfile">REST API Reference for DetachSecurityProfile Operation</seealso>
+        DetachSecurityProfileResponse DetachSecurityProfile(DetachSecurityProfileRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DetachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DetachSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetachSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachSecurityProfile">REST API Reference for DetachSecurityProfile Operation</seealso>
+        IAsyncResult BeginDetachSecurityProfile(DetachSecurityProfileRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DetachSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetachSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  DetachSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/DetachSecurityProfile">REST API Reference for DetachSecurityProfile Operation</seealso>
+        DetachSecurityProfileResponse EndDetachSecurityProfile(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DetachThingPrincipal
 
 
         /// <summary>
-        /// Detaches the specified principal from the specified thing.
+        /// Detaches the specified principal from the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This call is asynchronous. It might take several seconds for the detachment to propagate.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="thingName">The name of the thing.</param>
         /// <param name="principal">If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.</param>
@@ -4123,7 +6585,15 @@ namespace Amazon.IoT
         DetachThingPrincipalResponse DetachThingPrincipal(string thingName, string principal);
 
         /// <summary>
-        /// Detaches the specified principal from the specified thing.
+        /// Detaches the specified principal from the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// This call is asynchronous. It might take several seconds for the detachment to propagate.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DetachThingPrincipal service method.</param>
         /// 
@@ -4186,6 +6656,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the DisableTopicRule service method.</param>
         /// 
         /// <returns>The response from the DisableTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -4238,6 +6712,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the EnableTopicRule service method.</param>
         /// 
         /// <returns>The response from the EnableTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -4281,11 +6759,79 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  GetCardinality
+
+
+        /// <summary>
+        /// Returns the approximate count of unique values that match the query.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCardinality service method.</param>
+        /// 
+        /// <returns>The response from the GetCardinality service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.IndexNotReadyException">
+        /// The index is not ready.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidAggregationException">
+        /// The aggregation is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetCardinality">REST API Reference for GetCardinality Operation</seealso>
+        GetCardinalityResponse GetCardinality(GetCardinalityRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCardinality operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetCardinality operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetCardinality
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetCardinality">REST API Reference for GetCardinality Operation</seealso>
+        IAsyncResult BeginGetCardinality(GetCardinalityRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetCardinality operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetCardinality.</param>
+        /// 
+        /// <returns>Returns a  GetCardinalityResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetCardinality">REST API Reference for GetCardinality Operation</seealso>
+        GetCardinalityResponse EndGetCardinality(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetEffectivePolicies
 
 
         /// <summary>
-        /// Gets effective policies.
+        /// Gets a list of the policies that have an effect on the authorization behavior of the
+        /// specified device when it connects to the AWS IoT device gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetEffectivePolicies service method.</param>
         /// 
@@ -4297,7 +6843,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -4346,7 +6892,7 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Gets the search configuration.
+        /// Gets the indexing configuration.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetIndexingConfiguration service method.</param>
         /// 
@@ -4454,6 +7000,12 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Gets the logging options.
+        /// 
+        ///  
+        /// <para>
+        /// NOTE: use of this command is not recommended. Use <code>GetV2LoggingOptions</code>
+        /// instead.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetLoggingOptions service method.</param>
         /// 
@@ -4553,6 +7105,81 @@ namespace Amazon.IoT
         /// <returns>Returns a  GetOTAUpdateResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetOTAUpdate">REST API Reference for GetOTAUpdate Operation</seealso>
         GetOTAUpdateResponse EndGetOTAUpdate(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetPercentiles
+
+
+        /// <summary>
+        /// Groups the aggregated values that match the query into percentile groupings. The default
+        /// percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when
+        /// you call <code>GetPercentiles</code>. This function returns a value for each percentile
+        /// group specified (or the default percentile groupings). The percentile group "1" contains
+        /// the aggregated field value that occurs in approximately one percent of the values
+        /// that match the query. The percentile group "5" contains the aggregated field value
+        /// that occurs in approximately five percent of the values that match the query, and
+        /// so on. The result is an approximation, the more values that match the query, the more
+        /// accurate the percentile values.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetPercentiles service method.</param>
+        /// 
+        /// <returns>The response from the GetPercentiles service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.IndexNotReadyException">
+        /// The index is not ready.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidAggregationException">
+        /// The aggregation is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPercentiles">REST API Reference for GetPercentiles Operation</seealso>
+        GetPercentilesResponse GetPercentiles(GetPercentilesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetPercentiles operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetPercentiles operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetPercentiles
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPercentiles">REST API Reference for GetPercentiles Operation</seealso>
+        IAsyncResult BeginGetPercentiles(GetPercentilesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetPercentiles operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetPercentiles.</param>
+        /// 
+        /// <returns>Returns a  GetPercentilesResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetPercentiles">REST API Reference for GetPercentiles Operation</seealso>
+        GetPercentilesResponse EndGetPercentiles(IAsyncResult asyncResult);
 
         #endregion
         
@@ -4784,6 +7411,75 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  GetStatistics
+
+
+        /// <summary>
+        /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard
+        /// deviation for the specified aggregated field. If the aggregation field is of type
+        /// <code>String</code>, only the count statistic is returned.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetStatistics service method.</param>
+        /// 
+        /// <returns>The response from the GetStatistics service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.IndexNotReadyException">
+        /// The index is not ready.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidAggregationException">
+        /// The aggregation is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetStatistics">REST API Reference for GetStatistics Operation</seealso>
+        GetStatisticsResponse GetStatistics(GetStatisticsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetStatistics operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetStatistics operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetStatistics
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetStatistics">REST API Reference for GetStatistics Operation</seealso>
+        IAsyncResult BeginGetStatistics(GetStatisticsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetStatistics operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetStatistics.</param>
+        /// 
+        /// <returns>Returns a  GetStatisticsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetStatistics">REST API Reference for GetStatistics Operation</seealso>
+        GetStatisticsResponse EndGetStatistics(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetTopicRule
 
 
@@ -4857,6 +7553,58 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  GetTopicRuleDestination
+
+
+        /// <summary>
+        /// Gets information about a topic rule destination.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the GetTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRuleDestination">REST API Reference for GetTopicRuleDestination Operation</seealso>
+        GetTopicRuleDestinationResponse GetTopicRuleDestination(GetTopicRuleDestinationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRuleDestination">REST API Reference for GetTopicRuleDestination Operation</seealso>
+        IAsyncResult BeginGetTopicRuleDestination(GetTopicRuleDestinationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  GetTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/GetTopicRuleDestination">REST API Reference for GetTopicRuleDestination Operation</seealso>
+        GetTopicRuleDestinationResponse EndGetTopicRuleDestination(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetV2LoggingOptions
 
 
@@ -4869,8 +7617,8 @@ namespace Amazon.IoT
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
-        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
-        /// The request is not valid.
+        /// <exception cref="Amazon.IoT.Model.NotConfiguredException">
+        /// The resource is not configured.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
         /// The service is temporarily unavailable.
@@ -4906,6 +7654,58 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  ListActiveViolations
+
+
+        /// <summary>
+        /// Lists the active violations for a given Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListActiveViolations service method.</param>
+        /// 
+        /// <returns>The response from the ListActiveViolations service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListActiveViolations">REST API Reference for ListActiveViolations Operation</seealso>
+        ListActiveViolationsResponse ListActiveViolations(ListActiveViolationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListActiveViolations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListActiveViolations operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListActiveViolations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListActiveViolations">REST API Reference for ListActiveViolations Operation</seealso>
+        IAsyncResult BeginListActiveViolations(ListActiveViolationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListActiveViolations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListActiveViolations.</param>
+        /// 
+        /// <returns>Returns a  ListActiveViolationsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListActiveViolations">REST API Reference for ListActiveViolations Operation</seealso>
+        ListActiveViolationsResponse EndListActiveViolations(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListAttachedPolicies
 
 
@@ -4922,7 +7722,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -4964,6 +7764,203 @@ namespace Amazon.IoT
         /// <returns>Returns a  ListAttachedPoliciesResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAttachedPolicies">REST API Reference for ListAttachedPolicies Operation</seealso>
         ListAttachedPoliciesResponse EndListAttachedPolicies(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListAuditFindings
+
+
+        /// <summary>
+        /// Lists the findings (results) of a Device Defender audit or of the audits performed
+        /// during a specified time period. (Findings are retained for 180 days.)
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditFindings service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditFindings service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditFindings">REST API Reference for ListAuditFindings Operation</seealso>
+        ListAuditFindingsResponse ListAuditFindings(ListAuditFindingsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditFindings operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditFindings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditFindings">REST API Reference for ListAuditFindings Operation</seealso>
+        IAsyncResult BeginListAuditFindings(ListAuditFindingsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditFindings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditFindings.</param>
+        /// 
+        /// <returns>Returns a  ListAuditFindingsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditFindings">REST API Reference for ListAuditFindings Operation</seealso>
+        ListAuditFindingsResponse EndListAuditFindings(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListAuditMitigationActionsExecutions
+
+
+        /// <summary>
+        /// Gets the status of audit mitigation action tasks that were executed.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsExecutions service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditMitigationActionsExecutions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsExecutions">REST API Reference for ListAuditMitigationActionsExecutions Operation</seealso>
+        ListAuditMitigationActionsExecutionsResponse ListAuditMitigationActionsExecutions(ListAuditMitigationActionsExecutionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditMitigationActionsExecutions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsExecutions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditMitigationActionsExecutions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsExecutions">REST API Reference for ListAuditMitigationActionsExecutions Operation</seealso>
+        IAsyncResult BeginListAuditMitigationActionsExecutions(ListAuditMitigationActionsExecutionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditMitigationActionsExecutions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditMitigationActionsExecutions.</param>
+        /// 
+        /// <returns>Returns a  ListAuditMitigationActionsExecutionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsExecutions">REST API Reference for ListAuditMitigationActionsExecutions Operation</seealso>
+        ListAuditMitigationActionsExecutionsResponse EndListAuditMitigationActionsExecutions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListAuditMitigationActionsTasks
+
+
+        /// <summary>
+        /// Gets a list of audit mitigation action tasks that match the specified filters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsTasks service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditMitigationActionsTasks service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsTasks">REST API Reference for ListAuditMitigationActionsTasks Operation</seealso>
+        ListAuditMitigationActionsTasksResponse ListAuditMitigationActionsTasks(ListAuditMitigationActionsTasksRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditMitigationActionsTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditMitigationActionsTasks operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditMitigationActionsTasks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsTasks">REST API Reference for ListAuditMitigationActionsTasks Operation</seealso>
+        IAsyncResult BeginListAuditMitigationActionsTasks(ListAuditMitigationActionsTasksRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditMitigationActionsTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditMitigationActionsTasks.</param>
+        /// 
+        /// <returns>Returns a  ListAuditMitigationActionsTasksResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditMitigationActionsTasks">REST API Reference for ListAuditMitigationActionsTasks Operation</seealso>
+        ListAuditMitigationActionsTasksResponse EndListAuditMitigationActionsTasks(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListAuditTasks
+
+
+        /// <summary>
+        /// Lists the Device Defender audits that have been performed during a given time period.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditTasks service method.</param>
+        /// 
+        /// <returns>The response from the ListAuditTasks service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditTasks">REST API Reference for ListAuditTasks Operation</seealso>
+        ListAuditTasksResponse ListAuditTasks(ListAuditTasksRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListAuditTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListAuditTasks operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListAuditTasks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditTasks">REST API Reference for ListAuditTasks Operation</seealso>
+        IAsyncResult BeginListAuditTasks(ListAuditTasksRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListAuditTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListAuditTasks.</param>
+        /// 
+        /// <returns>Returns a  ListAuditTasksResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuditTasks">REST API Reference for ListAuditTasks Operation</seealso>
+        ListAuditTasksResponse EndListAuditTasks(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5019,6 +8016,58 @@ namespace Amazon.IoT
         /// <returns>Returns a  ListAuthorizersResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListAuthorizers">REST API Reference for ListAuthorizers Operation</seealso>
         ListAuthorizersResponse EndListAuthorizers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListBillingGroups
+
+
+        /// <summary>
+        /// Lists the billing groups you have created.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListBillingGroups service method.</param>
+        /// 
+        /// <returns>The response from the ListBillingGroups service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListBillingGroups">REST API Reference for ListBillingGroups Operation</seealso>
+        ListBillingGroupsResponse ListBillingGroups(ListBillingGroupsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListBillingGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListBillingGroups operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListBillingGroups
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListBillingGroups">REST API Reference for ListBillingGroups Operation</seealso>
+        IAsyncResult BeginListBillingGroups(ListBillingGroupsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListBillingGroups operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListBillingGroups.</param>
+        /// 
+        /// <returns>Returns a  ListBillingGroupsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListBillingGroups">REST API Reference for ListBillingGroups Operation</seealso>
+        ListBillingGroupsResponse EndListBillingGroups(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5225,6 +8274,117 @@ namespace Amazon.IoT
         /// <returns>Returns a  ListCertificatesByCAResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListCertificatesByCA">REST API Reference for ListCertificatesByCA Operation</seealso>
         ListCertificatesByCAResponse EndListCertificatesByCA(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListDimensions
+
+
+        /// <summary>
+        /// List the set of dimensions that are defined for your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDimensions service method.</param>
+        /// 
+        /// <returns>The response from the ListDimensions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDimensions">REST API Reference for ListDimensions Operation</seealso>
+        ListDimensionsResponse ListDimensions(ListDimensionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDimensions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDimensions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDimensions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDimensions">REST API Reference for ListDimensions Operation</seealso>
+        IAsyncResult BeginListDimensions(ListDimensionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDimensions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDimensions.</param>
+        /// 
+        /// <returns>Returns a  ListDimensionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDimensions">REST API Reference for ListDimensions Operation</seealso>
+        ListDimensionsResponse EndListDimensions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListDomainConfigurations
+
+
+        /// <summary>
+        /// Gets a list of domain configurations for the user. This list is sorted alphabetically
+        /// by domain configuration name.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDomainConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the ListDomainConfigurations service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDomainConfigurations">REST API Reference for ListDomainConfigurations Operation</seealso>
+        ListDomainConfigurationsResponse ListDomainConfigurations(ListDomainConfigurationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDomainConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDomainConfigurations operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDomainConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDomainConfigurations">REST API Reference for ListDomainConfigurations Operation</seealso>
+        IAsyncResult BeginListDomainConfigurations(ListDomainConfigurationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDomainConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDomainConfigurations.</param>
+        /// 
+        /// <returns>Returns a  ListDomainConfigurationsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListDomainConfigurations">REST API Reference for ListDomainConfigurations Operation</seealso>
+        ListDomainConfigurationsResponse EndListDomainConfigurations(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5436,6 +8596,55 @@ namespace Amazon.IoT
         /// <returns>Returns a  ListJobsResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListJobs">REST API Reference for ListJobs Operation</seealso>
         ListJobsResponse EndListJobs(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListMitigationActions
+
+
+        /// <summary>
+        /// Gets a list of all mitigation actions that match the specified filter criteria.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListMitigationActions service method.</param>
+        /// 
+        /// <returns>The response from the ListMitigationActions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListMitigationActions">REST API Reference for ListMitigationActions Operation</seealso>
+        ListMitigationActionsResponse ListMitigationActions(ListMitigationActionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListMitigationActions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListMitigationActions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListMitigationActions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListMitigationActions">REST API Reference for ListMitigationActions Operation</seealso>
+        IAsyncResult BeginListMitigationActions(ListMitigationActionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListMitigationActions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListMitigationActions.</param>
+        /// 
+        /// <returns>Returns a  ListMitigationActionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListMitigationActions">REST API Reference for ListMitigationActions Operation</seealso>
+        ListMitigationActionsResponse EndListMitigationActions(IAsyncResult asyncResult);
 
         #endregion
         
@@ -5783,7 +8992,7 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Lists the policies attached to the specified principal. If you use an Cognito identity,
-        /// the ID must be in <a href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
+        /// the ID must be in <a href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
         /// Identity format</a>.
         /// 
         ///  
@@ -5818,7 +9027,7 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Lists the policies attached to the specified principal. If you use an Cognito identity,
-        /// the ID must be in <a href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
+        /// the ID must be in <a href="https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax">AmazonCognito
         /// Identity format</a>.
         /// 
         ///  
@@ -5885,7 +9094,9 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Lists the things associated with the specified principal.
+        /// Lists the things associated with the specified principal. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="principal">The principal.</param>
         /// 
@@ -5912,7 +9123,9 @@ namespace Amazon.IoT
         ListPrincipalThingsResponse ListPrincipalThings(string principal);
 
         /// <summary>
-        /// Lists the things associated with the specified principal.
+        /// Lists the things associated with the specified principal. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListPrincipalThings service method.</param>
         /// 
@@ -5963,6 +9176,113 @@ namespace Amazon.IoT
         /// <returns>Returns a  ListPrincipalThingsResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListPrincipalThings">REST API Reference for ListPrincipalThings Operation</seealso>
         ListPrincipalThingsResponse EndListPrincipalThings(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListProvisioningTemplates
+
+
+        /// <summary>
+        /// Lists the fleet provisioning templates in your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplates service method.</param>
+        /// 
+        /// <returns>The response from the ListProvisioningTemplates service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplates">REST API Reference for ListProvisioningTemplates Operation</seealso>
+        ListProvisioningTemplatesResponse ListProvisioningTemplates(ListProvisioningTemplatesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListProvisioningTemplates operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplates operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListProvisioningTemplates
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplates">REST API Reference for ListProvisioningTemplates Operation</seealso>
+        IAsyncResult BeginListProvisioningTemplates(ListProvisioningTemplatesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListProvisioningTemplates operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListProvisioningTemplates.</param>
+        /// 
+        /// <returns>Returns a  ListProvisioningTemplatesResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplates">REST API Reference for ListProvisioningTemplates Operation</seealso>
+        ListProvisioningTemplatesResponse EndListProvisioningTemplates(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListProvisioningTemplateVersions
+
+
+        /// <summary>
+        /// A list of fleet provisioning template versions.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplateVersions service method.</param>
+        /// 
+        /// <returns>The response from the ListProvisioningTemplateVersions service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplateVersions">REST API Reference for ListProvisioningTemplateVersions Operation</seealso>
+        ListProvisioningTemplateVersionsResponse ListProvisioningTemplateVersions(ListProvisioningTemplateVersionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListProvisioningTemplateVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListProvisioningTemplateVersions operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListProvisioningTemplateVersions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplateVersions">REST API Reference for ListProvisioningTemplateVersions Operation</seealso>
+        IAsyncResult BeginListProvisioningTemplateVersions(ListProvisioningTemplateVersionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListProvisioningTemplateVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListProvisioningTemplateVersions.</param>
+        /// 
+        /// <returns>Returns a  ListProvisioningTemplateVersionsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListProvisioningTemplateVersions">REST API Reference for ListProvisioningTemplateVersions Operation</seealso>
+        ListProvisioningTemplateVersionsResponse EndListProvisioningTemplateVersions(IAsyncResult asyncResult);
 
         #endregion
         
@@ -6021,6 +9341,161 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  ListScheduledAudits
+
+
+        /// <summary>
+        /// Lists all of your scheduled audits.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListScheduledAudits service method.</param>
+        /// 
+        /// <returns>The response from the ListScheduledAudits service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListScheduledAudits">REST API Reference for ListScheduledAudits Operation</seealso>
+        ListScheduledAuditsResponse ListScheduledAudits(ListScheduledAuditsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListScheduledAudits operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListScheduledAudits operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListScheduledAudits
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListScheduledAudits">REST API Reference for ListScheduledAudits Operation</seealso>
+        IAsyncResult BeginListScheduledAudits(ListScheduledAuditsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListScheduledAudits operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListScheduledAudits.</param>
+        /// 
+        /// <returns>Returns a  ListScheduledAuditsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListScheduledAudits">REST API Reference for ListScheduledAudits Operation</seealso>
+        ListScheduledAuditsResponse EndListScheduledAudits(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListSecurityProfiles
+
+
+        /// <summary>
+        /// Lists the Device Defender security profiles you have created. You can use filters
+        /// to list only those security profiles associated with a thing group or only those associated
+        /// with your account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfiles service method.</param>
+        /// 
+        /// <returns>The response from the ListSecurityProfiles service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfiles">REST API Reference for ListSecurityProfiles Operation</seealso>
+        ListSecurityProfilesResponse ListSecurityProfiles(ListSecurityProfilesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListSecurityProfiles operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfiles operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListSecurityProfiles
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfiles">REST API Reference for ListSecurityProfiles Operation</seealso>
+        IAsyncResult BeginListSecurityProfiles(ListSecurityProfilesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListSecurityProfiles operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListSecurityProfiles.</param>
+        /// 
+        /// <returns>Returns a  ListSecurityProfilesResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfiles">REST API Reference for ListSecurityProfiles Operation</seealso>
+        ListSecurityProfilesResponse EndListSecurityProfiles(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListSecurityProfilesForTarget
+
+
+        /// <summary>
+        /// Lists the Device Defender security profiles attached to a target (thing group).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfilesForTarget service method.</param>
+        /// 
+        /// <returns>The response from the ListSecurityProfilesForTarget service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfilesForTarget">REST API Reference for ListSecurityProfilesForTarget Operation</seealso>
+        ListSecurityProfilesForTargetResponse ListSecurityProfilesForTarget(ListSecurityProfilesForTargetRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListSecurityProfilesForTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListSecurityProfilesForTarget operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListSecurityProfilesForTarget
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfilesForTarget">REST API Reference for ListSecurityProfilesForTarget Operation</seealso>
+        IAsyncResult BeginListSecurityProfilesForTarget(ListSecurityProfilesForTargetRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListSecurityProfilesForTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListSecurityProfilesForTarget.</param>
+        /// 
+        /// <returns>Returns a  ListSecurityProfilesForTargetResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListSecurityProfilesForTarget">REST API Reference for ListSecurityProfilesForTarget Operation</seealso>
+        ListSecurityProfilesForTargetResponse EndListSecurityProfilesForTarget(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListStreams
 
 
@@ -6076,6 +9551,58 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// Lists the tags (metadata) you have assigned to the resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListTargetsForPolicy
 
 
@@ -6092,7 +9619,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -6134,6 +9661,59 @@ namespace Amazon.IoT
         /// <returns>Returns a  ListTargetsForPolicyResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForPolicy">REST API Reference for ListTargetsForPolicy Operation</seealso>
         ListTargetsForPolicyResponse EndListTargetsForPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTargetsForSecurityProfile
+
+
+        /// <summary>
+        /// Lists the targets (thing groups) associated with a given Device Defender security
+        /// profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTargetsForSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the ListTargetsForSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForSecurityProfile">REST API Reference for ListTargetsForSecurityProfile Operation</seealso>
+        ListTargetsForSecurityProfileResponse ListTargetsForSecurityProfile(ListTargetsForSecurityProfileRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTargetsForSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTargetsForSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTargetsForSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForSecurityProfile">REST API Reference for ListTargetsForSecurityProfile Operation</seealso>
+        IAsyncResult BeginListTargetsForSecurityProfile(ListTargetsForSecurityProfileRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTargetsForSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTargetsForSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  ListTargetsForSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTargetsForSecurityProfile">REST API Reference for ListTargetsForSecurityProfile Operation</seealso>
+        ListTargetsForSecurityProfileResponse EndListTargetsForSecurityProfile(IAsyncResult asyncResult);
 
         #endregion
         
@@ -6239,7 +9819,9 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Lists the principals associated with the specified thing.
+        /// Lists the principals associated with the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="thingName">The name of the thing.</param>
         /// 
@@ -6266,7 +9848,9 @@ namespace Amazon.IoT
         ListThingPrincipalsResponse ListThingPrincipals(string thingName);
 
         /// <summary>
-        /// Lists the principals associated with the specified thing.
+        /// Lists the principals associated with the specified thing. A principal can be X.509
+        /// certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+        /// identities.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListThingPrincipals service method.</param>
         /// 
@@ -6508,6 +10092,58 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  ListThingsInBillingGroup
+
+
+        /// <summary>
+        /// Lists the things you have added to the given billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListThingsInBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the ListThingsInBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInBillingGroup">REST API Reference for ListThingsInBillingGroup Operation</seealso>
+        ListThingsInBillingGroupResponse ListThingsInBillingGroup(ListThingsInBillingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListThingsInBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListThingsInBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListThingsInBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInBillingGroup">REST API Reference for ListThingsInBillingGroup Operation</seealso>
+        IAsyncResult BeginListThingsInBillingGroup(ListThingsInBillingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListThingsInBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListThingsInBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  ListThingsInBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingsInBillingGroup">REST API Reference for ListThingsInBillingGroup Operation</seealso>
+        ListThingsInBillingGroupResponse EndListThingsInBillingGroup(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ListThingsInThingGroup
 
 
@@ -6609,6 +10245,58 @@ namespace Amazon.IoT
         /// <returns>Returns a  ListThingTypesResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListThingTypes">REST API Reference for ListThingTypes Operation</seealso>
         ListThingTypesResponse EndListThingTypes(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTopicRuleDestinations
+
+
+        /// <summary>
+        /// Lists all the topic rule destinations in your AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTopicRuleDestinations service method.</param>
+        /// 
+        /// <returns>The response from the ListTopicRuleDestinations service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRuleDestinations">REST API Reference for ListTopicRuleDestinations Operation</seealso>
+        ListTopicRuleDestinationsResponse ListTopicRuleDestinations(ListTopicRuleDestinationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTopicRuleDestinations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTopicRuleDestinations operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTopicRuleDestinations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRuleDestinations">REST API Reference for ListTopicRuleDestinations Operation</seealso>
+        IAsyncResult BeginListTopicRuleDestinations(ListTopicRuleDestinationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTopicRuleDestinations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTopicRuleDestinations.</param>
+        /// 
+        /// <returns>Returns a  ListTopicRuleDestinationsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListTopicRuleDestinations">REST API Reference for ListTopicRuleDestinations Operation</seealso>
+        ListTopicRuleDestinationsResponse EndListTopicRuleDestinations(IAsyncResult asyncResult);
 
         #endregion
         
@@ -6731,6 +10419,57 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  ListViolationEvents
+
+
+        /// <summary>
+        /// Lists the Device Defender security profile violations discovered during the given
+        /// time period. You can use filters to limit the results to those alerts issued for a
+        /// particular security profile, behavior, or thing (device).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListViolationEvents service method.</param>
+        /// 
+        /// <returns>The response from the ListViolationEvents service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListViolationEvents">REST API Reference for ListViolationEvents Operation</seealso>
+        ListViolationEventsResponse ListViolationEvents(ListViolationEventsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListViolationEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListViolationEvents operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListViolationEvents
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListViolationEvents">REST API Reference for ListViolationEvents Operation</seealso>
+        IAsyncResult BeginListViolationEvents(ListViolationEventsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListViolationEvents operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListViolationEvents.</param>
+        /// 
+        /// <returns>Returns a  ListViolationEventsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ListViolationEvents">REST API Reference for ListViolationEvents Operation</seealso>
+        ListViolationEventsResponse EndListViolationEvents(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  RegisterCACertificate
 
 
@@ -6755,7 +10494,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.RegistrationCodeValidationException">
         /// The registration code is invalid.
@@ -6878,7 +10617,10 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Provisions a thing.
+        /// Provisions a thing in the device registry. RegisterThing calls other AWS IoT control
+        /// plane APIs. These calls might exceed your account level <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot">
+        /// AWS IoT Throttling Limits</a> and cause throttle errors. Please contact <a href="https://console.aws.amazon.com/support/home">AWS
+        /// Customer Support</a> to raise your throttling limits if necessary.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RegisterThing service method.</param>
         /// 
@@ -6954,7 +10696,7 @@ namespace Amazon.IoT
         /// the certificate will be returned to the source's account in the INACTIVE state.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// 
         /// <returns>The response from the RejectCertificateTransfer service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.InternalFailureException">
@@ -7051,6 +10793,58 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  RemoveThingFromBillingGroup
+
+
+        /// <summary>
+        /// Removes the given thing from the billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RemoveThingFromBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the RemoveThingFromBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromBillingGroup">REST API Reference for RemoveThingFromBillingGroup Operation</seealso>
+        RemoveThingFromBillingGroupResponse RemoveThingFromBillingGroup(RemoveThingFromBillingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RemoveThingFromBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RemoveThingFromBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRemoveThingFromBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromBillingGroup">REST API Reference for RemoveThingFromBillingGroup Operation</seealso>
+        IAsyncResult BeginRemoveThingFromBillingGroup(RemoveThingFromBillingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RemoveThingFromBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRemoveThingFromBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  RemoveThingFromBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/RemoveThingFromBillingGroup">REST API Reference for RemoveThingFromBillingGroup Operation</seealso>
+        RemoveThingFromBillingGroupResponse EndRemoveThingFromBillingGroup(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  RemoveThingFromThingGroup
 
 
@@ -7114,6 +10908,10 @@ namespace Amazon.IoT
         /// <param name="request">Container for the necessary parameters to execute the ReplaceTopicRule service method.</param>
         /// 
         /// <returns>The response from the ReplaceTopicRule service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
         /// <exception cref="Amazon.IoT.Model.InternalException">
         /// An unexpected error has occurred.
         /// </exception>
@@ -7381,6 +11179,12 @@ namespace Amazon.IoT
 
         /// <summary>
         /// Sets the logging options.
+        /// 
+        ///  
+        /// <para>
+        /// NOTE: use of this command is not recommended. Use <code>SetV2LoggingOptions</code>
+        /// instead.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SetLoggingOptions service method.</param>
         /// 
@@ -7526,6 +11330,114 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  StartAuditMitigationActionsTask
+
+
+        /// <summary>
+        /// Starts a task that applies a set of mitigation actions to the specified target.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartAuditMitigationActionsTask service method.</param>
+        /// 
+        /// <returns>The response from the StartAuditMitigationActionsTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.TaskAlreadyExistsException">
+        /// This exception occurs if you attempt to start a task with the same task-id as an existing
+        /// task but with a different clientRequestToken.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartAuditMitigationActionsTask">REST API Reference for StartAuditMitigationActionsTask Operation</seealso>
+        StartAuditMitigationActionsTaskResponse StartAuditMitigationActionsTask(StartAuditMitigationActionsTaskRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartAuditMitigationActionsTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartAuditMitigationActionsTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartAuditMitigationActionsTask">REST API Reference for StartAuditMitigationActionsTask Operation</seealso>
+        IAsyncResult BeginStartAuditMitigationActionsTask(StartAuditMitigationActionsTaskRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartAuditMitigationActionsTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartAuditMitigationActionsTask.</param>
+        /// 
+        /// <returns>Returns a  StartAuditMitigationActionsTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartAuditMitigationActionsTask">REST API Reference for StartAuditMitigationActionsTask Operation</seealso>
+        StartAuditMitigationActionsTaskResponse EndStartAuditMitigationActionsTask(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StartOnDemandAuditTask
+
+
+        /// <summary>
+        /// Starts an on-demand Device Defender audit.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartOnDemandAuditTask service method.</param>
+        /// 
+        /// <returns>The response from the StartOnDemandAuditTask service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartOnDemandAuditTask">REST API Reference for StartOnDemandAuditTask Operation</seealso>
+        StartOnDemandAuditTaskResponse StartOnDemandAuditTask(StartOnDemandAuditTaskRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartOnDemandAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartOnDemandAuditTask operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartOnDemandAuditTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartOnDemandAuditTask">REST API Reference for StartOnDemandAuditTask Operation</seealso>
+        IAsyncResult BeginStartOnDemandAuditTask(StartOnDemandAuditTaskRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartOnDemandAuditTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartOnDemandAuditTask.</param>
+        /// 
+        /// <returns>Returns a  StartOnDemandAuditTaskResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/StartOnDemandAuditTask">REST API Reference for StartOnDemandAuditTask Operation</seealso>
+        StartOnDemandAuditTaskResponse EndStartOnDemandAuditTask(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartThingRegistrationTask
 
 
@@ -7633,11 +11545,69 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  TagResource
+
+
+        /// <summary>
+        /// Adds to or modifies the tags of the given resource. Tags are metadata which can be
+        /// used to manage a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.LimitExceededException">
+        /// A limit has been exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  TestAuthorization
 
 
         /// <summary>
-        /// Test custom authorization.
+        /// Tests if a specified principal is authorized to perform an AWS IoT action on a specified
+        /// resource. Use this to test and debug the authorization behavior of devices that connect
+        /// to the AWS IoT device gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TestAuthorization service method.</param>
         /// 
@@ -7649,7 +11619,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -7698,7 +11668,9 @@ namespace Amazon.IoT
 
 
         /// <summary>
-        /// Invoke the specified custom authorizer for testing purposes.
+        /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use
+        /// this to test and debug the custom authorization behavior of devices that connect to
+        /// the AWS IoT device gateway.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TestInvokeAuthorizer service method.</param>
         /// 
@@ -7781,7 +11753,7 @@ namespace Amazon.IoT
         /// API to detach them.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
         /// <param name="targetAwsAccount">The AWS account.</param>
         /// 
         /// <returns>The response from the TransferCertificate service method, as returned by IoT.</returns>
@@ -7893,6 +11865,108 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes the given tags (metadata) from the resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateAccountAuditConfiguration
+
+
+        /// <summary>
+        /// Configures or reconfigures the Device Defender audit settings for this account. Settings
+        /// include how audit notifications are sent and which audit checks are enabled or disabled.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateAccountAuditConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the UpdateAccountAuditConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAccountAuditConfiguration">REST API Reference for UpdateAccountAuditConfiguration Operation</seealso>
+        UpdateAccountAuditConfigurationResponse UpdateAccountAuditConfiguration(UpdateAccountAuditConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateAccountAuditConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateAccountAuditConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAccountAuditConfiguration">REST API Reference for UpdateAccountAuditConfiguration Operation</seealso>
+        IAsyncResult BeginUpdateAccountAuditConfiguration(UpdateAccountAuditConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateAccountAuditConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateAccountAuditConfiguration.</param>
+        /// 
+        /// <returns>Returns a  UpdateAccountAuditConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAccountAuditConfiguration">REST API Reference for UpdateAccountAuditConfiguration Operation</seealso>
+        UpdateAccountAuditConfigurationResponse EndUpdateAccountAuditConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateAuthorizer
 
 
@@ -7909,7 +11983,7 @@ namespace Amazon.IoT
         /// The request is not valid.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.LimitExceededException">
-        /// The number of attached entities exceeds the limit.
+        /// A limit has been exceeded.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
         /// The specified resource does not exist.
@@ -7951,6 +12025,62 @@ namespace Amazon.IoT
         /// <returns>Returns a  UpdateAuthorizerResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateAuthorizer">REST API Reference for UpdateAuthorizer Operation</seealso>
         UpdateAuthorizerResponse EndUpdateAuthorizer(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateBillingGroup
+
+
+        /// <summary>
+        /// Updates information about the billing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateBillingGroup service method.</param>
+        /// 
+        /// <returns>The response from the UpdateBillingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateBillingGroup">REST API Reference for UpdateBillingGroup Operation</seealso>
+        UpdateBillingGroupResponse UpdateBillingGroup(UpdateBillingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateBillingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateBillingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateBillingGroup">REST API Reference for UpdateBillingGroup Operation</seealso>
+        IAsyncResult BeginUpdateBillingGroup(UpdateBillingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateBillingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateBillingGroup.</param>
+        /// 
+        /// <returns>Returns a  UpdateBillingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateBillingGroup">REST API Reference for UpdateBillingGroup Operation</seealso>
+        UpdateBillingGroupResponse EndUpdateBillingGroup(IAsyncResult asyncResult);
 
         #endregion
         
@@ -8029,8 +12159,8 @@ namespace Amazon.IoT
         /// certificate.
         /// </para>
         /// </summary>
-        /// <param name="certificateId">The ID of the certificate.</param>
-        /// <param name="newStatus">The new status.  <b>Note:</b> Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use.  <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should not be used.</param>
+        /// <param name="certificateId">The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)</param>
+        /// <param name="newStatus">The new status.  <b>Note:</b> Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for developer use.  <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should not be used.</param>
         /// 
         /// <returns>The response from the UpdateCertificate service method, as returned by IoT.</returns>
         /// <exception cref="Amazon.IoT.Model.CertificateStateException">
@@ -8123,6 +12253,186 @@ namespace Amazon.IoT
         /// <returns>Returns a  UpdateCertificateResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateCertificate">REST API Reference for UpdateCertificate Operation</seealso>
         UpdateCertificateResponse EndUpdateCertificate(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateDimension
+
+
+        /// <summary>
+        /// Updates the definition for a dimension. You cannot change the type of a dimension
+        /// after it is created (you can delete it and re-create it).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDimension service method.</param>
+        /// 
+        /// <returns>The response from the UpdateDimension service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDimension">REST API Reference for UpdateDimension Operation</seealso>
+        UpdateDimensionResponse UpdateDimension(UpdateDimensionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDimension operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateDimension
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDimension">REST API Reference for UpdateDimension Operation</seealso>
+        IAsyncResult BeginUpdateDimension(UpdateDimensionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateDimension operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateDimension.</param>
+        /// 
+        /// <returns>Returns a  UpdateDimensionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDimension">REST API Reference for UpdateDimension Operation</seealso>
+        UpdateDimensionResponse EndUpdateDimension(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateDomainConfiguration
+
+
+        /// <summary>
+        /// Updates values stored in the domain configuration. Domain configurations for default
+        /// endpoints can't be updated.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// The domain configuration feature is in public preview and is subject to change.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDomainConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the UpdateDomainConfiguration service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.CertificateValidationException">
+        /// The certificate is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDomainConfiguration">REST API Reference for UpdateDomainConfiguration Operation</seealso>
+        UpdateDomainConfigurationResponse UpdateDomainConfiguration(UpdateDomainConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDomainConfiguration operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateDomainConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDomainConfiguration">REST API Reference for UpdateDomainConfiguration Operation</seealso>
+        IAsyncResult BeginUpdateDomainConfiguration(UpdateDomainConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateDomainConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateDomainConfiguration.</param>
+        /// 
+        /// <returns>Returns a  UpdateDomainConfigurationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDomainConfiguration">REST API Reference for UpdateDomainConfiguration Operation</seealso>
+        UpdateDomainConfigurationResponse EndUpdateDomainConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateDynamicThingGroup
+
+
+        /// <summary>
+        /// Updates a dynamic thing group.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDynamicThingGroup service method.</param>
+        /// 
+        /// <returns>The response from the UpdateDynamicThingGroup service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidQueryException">
+        /// The query is invalid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDynamicThingGroup">REST API Reference for UpdateDynamicThingGroup Operation</seealso>
+        UpdateDynamicThingGroupResponse UpdateDynamicThingGroup(UpdateDynamicThingGroupRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDynamicThingGroup operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateDynamicThingGroup
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDynamicThingGroup">REST API Reference for UpdateDynamicThingGroup Operation</seealso>
+        IAsyncResult BeginUpdateDynamicThingGroup(UpdateDynamicThingGroupRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateDynamicThingGroup operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateDynamicThingGroup.</param>
+        /// 
+        /// <returns>Returns a  UpdateDynamicThingGroupResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateDynamicThingGroup">REST API Reference for UpdateDynamicThingGroup Operation</seealso>
+        UpdateDynamicThingGroupResponse EndUpdateDynamicThingGroup(IAsyncResult asyncResult);
 
         #endregion
         
@@ -8230,6 +12540,166 @@ namespace Amazon.IoT
 
         #endregion
         
+        #region  UpdateJob
+
+
+        /// <summary>
+        /// Updates supported fields of the specified job.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJob service method.</param>
+        /// 
+        /// <returns>The response from the UpdateJob service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
+        UpdateJobResponse UpdateJob(UpdateJobRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateJob operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
+        IAsyncResult BeginUpdateJob(UpdateJobRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateJob.</param>
+        /// 
+        /// <returns>Returns a  UpdateJobResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateJob">REST API Reference for UpdateJob Operation</seealso>
+        UpdateJobResponse EndUpdateJob(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateMitigationAction
+
+
+        /// <summary>
+        /// Updates the definition for the specified mitigation action.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMitigationAction service method.</param>
+        /// 
+        /// <returns>The response from the UpdateMitigationAction service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateMitigationAction">REST API Reference for UpdateMitigationAction Operation</seealso>
+        UpdateMitigationActionResponse UpdateMitigationAction(UpdateMitigationActionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMitigationAction operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateMitigationAction
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateMitigationAction">REST API Reference for UpdateMitigationAction Operation</seealso>
+        IAsyncResult BeginUpdateMitigationAction(UpdateMitigationActionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateMitigationAction operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateMitigationAction.</param>
+        /// 
+        /// <returns>Returns a  UpdateMitigationActionResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateMitigationAction">REST API Reference for UpdateMitigationAction Operation</seealso>
+        UpdateMitigationActionResponse EndUpdateMitigationAction(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateProvisioningTemplate
+
+
+        /// <summary>
+        /// Updates a fleet provisioning template.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateProvisioningTemplate service method.</param>
+        /// 
+        /// <returns>The response from the UpdateProvisioningTemplate service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateProvisioningTemplate">REST API Reference for UpdateProvisioningTemplate Operation</seealso>
+        UpdateProvisioningTemplateResponse UpdateProvisioningTemplate(UpdateProvisioningTemplateRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateProvisioningTemplate operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateProvisioningTemplate
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateProvisioningTemplate">REST API Reference for UpdateProvisioningTemplate Operation</seealso>
+        IAsyncResult BeginUpdateProvisioningTemplate(UpdateProvisioningTemplateRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateProvisioningTemplate operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateProvisioningTemplate.</param>
+        /// 
+        /// <returns>Returns a  UpdateProvisioningTemplateResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateProvisioningTemplate">REST API Reference for UpdateProvisioningTemplate Operation</seealso>
+        UpdateProvisioningTemplateResponse EndUpdateProvisioningTemplate(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateRoleAlias
 
 
@@ -8285,6 +12755,115 @@ namespace Amazon.IoT
         /// <returns>Returns a  UpdateRoleAliasResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateRoleAlias">REST API Reference for UpdateRoleAlias Operation</seealso>
         UpdateRoleAliasResponse EndUpdateRoleAlias(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateScheduledAudit
+
+
+        /// <summary>
+        /// Updates a scheduled audit, including which checks are performed and how often the
+        /// audit takes place.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateScheduledAudit service method.</param>
+        /// 
+        /// <returns>The response from the UpdateScheduledAudit service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateScheduledAudit">REST API Reference for UpdateScheduledAudit Operation</seealso>
+        UpdateScheduledAuditResponse UpdateScheduledAudit(UpdateScheduledAuditRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateScheduledAudit operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateScheduledAudit
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateScheduledAudit">REST API Reference for UpdateScheduledAudit Operation</seealso>
+        IAsyncResult BeginUpdateScheduledAudit(UpdateScheduledAuditRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateScheduledAudit operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateScheduledAudit.</param>
+        /// 
+        /// <returns>Returns a  UpdateScheduledAuditResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateScheduledAudit">REST API Reference for UpdateScheduledAudit Operation</seealso>
+        UpdateScheduledAuditResponse EndUpdateScheduledAudit(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateSecurityProfile
+
+
+        /// <summary>
+        /// Updates a Device Defender security profile.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSecurityProfile service method.</param>
+        /// 
+        /// <returns>The response from the UpdateSecurityProfile service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ResourceNotFoundException">
+        /// The specified resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.VersionConflictException">
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateSecurityProfile">REST API Reference for UpdateSecurityProfile Operation</seealso>
+        UpdateSecurityProfileResponse UpdateSecurityProfile(UpdateSecurityProfileRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateSecurityProfile operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateSecurityProfile
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateSecurityProfile">REST API Reference for UpdateSecurityProfile Operation</seealso>
+        IAsyncResult BeginUpdateSecurityProfile(UpdateSecurityProfileRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateSecurityProfile operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateSecurityProfile.</param>
+        /// 
+        /// <returns>Returns a  UpdateSecurityProfileResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateSecurityProfile">REST API Reference for UpdateSecurityProfile Operation</seealso>
+        UpdateSecurityProfileResponse EndUpdateSecurityProfile(IAsyncResult asyncResult);
 
         #endregion
         
@@ -8374,8 +12953,8 @@ namespace Amazon.IoT
         /// You are not authorized to perform this operation.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThing">REST API Reference for UpdateThing Operation</seealso>
         UpdateThingResponse UpdateThing(UpdateThingRequest request);
@@ -8430,8 +13009,8 @@ namespace Amazon.IoT
         /// The rate exceeds the limit.
         /// </exception>
         /// <exception cref="Amazon.IoT.Model.VersionConflictException">
-        /// An exception thrown when the version of a thing passed to a command is different than
-        /// the version specified with the --version parameter.
+        /// An exception thrown when the version of an entity specified with the <code>expectedVersion</code>
+        /// parameter does not match the latest version in the system.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThingGroup">REST API Reference for UpdateThingGroup Operation</seealso>
         UpdateThingGroupResponse UpdateThingGroup(UpdateThingGroupRequest request);
@@ -8513,6 +13092,112 @@ namespace Amazon.IoT
         /// <returns>Returns a  UpdateThingGroupsForThingResult from IoT.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateThingGroupsForThing">REST API Reference for UpdateThingGroupsForThing Operation</seealso>
         UpdateThingGroupsForThingResponse EndUpdateThingGroupsForThing(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateTopicRuleDestination
+
+
+        /// <summary>
+        /// Updates a topic rule destination. You use this to change the status, endpoint URL,
+        /// or confirmation URL of the destination.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTopicRuleDestination service method.</param>
+        /// 
+        /// <returns>The response from the UpdateTopicRuleDestination service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.ConflictingResourceUpdateException">
+        /// A conflicting resource update exception. This exception is thrown when two pending
+        /// updates cause a conflict.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InternalException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ServiceUnavailableException">
+        /// The service is temporarily unavailable.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.UnauthorizedException">
+        /// You are not authorized to perform this operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateTopicRuleDestination">REST API Reference for UpdateTopicRuleDestination Operation</seealso>
+        UpdateTopicRuleDestinationResponse UpdateTopicRuleDestination(UpdateTopicRuleDestinationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTopicRuleDestination operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateTopicRuleDestination
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateTopicRuleDestination">REST API Reference for UpdateTopicRuleDestination Operation</seealso>
+        IAsyncResult BeginUpdateTopicRuleDestination(UpdateTopicRuleDestinationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateTopicRuleDestination operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateTopicRuleDestination.</param>
+        /// 
+        /// <returns>Returns a  UpdateTopicRuleDestinationResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/UpdateTopicRuleDestination">REST API Reference for UpdateTopicRuleDestination Operation</seealso>
+        UpdateTopicRuleDestinationResponse EndUpdateTopicRuleDestination(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ValidateSecurityProfileBehaviors
+
+
+        /// <summary>
+        /// Validates a Device Defender security profile behaviors specification.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ValidateSecurityProfileBehaviors service method.</param>
+        /// 
+        /// <returns>The response from the ValidateSecurityProfileBehaviors service method, as returned by IoT.</returns>
+        /// <exception cref="Amazon.IoT.Model.InternalFailureException">
+        /// An unexpected error has occurred.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.InvalidRequestException">
+        /// The request is not valid.
+        /// </exception>
+        /// <exception cref="Amazon.IoT.Model.ThrottlingException">
+        /// The rate exceeds the limit.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ValidateSecurityProfileBehaviors">REST API Reference for ValidateSecurityProfileBehaviors Operation</seealso>
+        ValidateSecurityProfileBehaviorsResponse ValidateSecurityProfileBehaviors(ValidateSecurityProfileBehaviorsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ValidateSecurityProfileBehaviors operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ValidateSecurityProfileBehaviors operation on AmazonIoTClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndValidateSecurityProfileBehaviors
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ValidateSecurityProfileBehaviors">REST API Reference for ValidateSecurityProfileBehaviors Operation</seealso>
+        IAsyncResult BeginValidateSecurityProfileBehaviors(ValidateSecurityProfileBehaviorsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ValidateSecurityProfileBehaviors operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginValidateSecurityProfileBehaviors.</param>
+        /// 
+        /// <returns>Returns a  ValidateSecurityProfileBehaviorsResult from IoT.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/iot-2015-05-28/ValidateSecurityProfileBehaviors">REST API Reference for ValidateSecurityProfileBehaviors Operation</seealso>
+        ValidateSecurityProfileBehaviorsResponse EndValidateSecurityProfileBehaviors(IAsyncResult asyncResult);
 
         #endregion
         

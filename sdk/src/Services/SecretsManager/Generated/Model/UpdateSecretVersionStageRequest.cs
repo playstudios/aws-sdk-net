@@ -34,7 +34,7 @@ namespace Amazon.SecretsManager.Model
     /// can attach a staging label to only one version of a secret at a time. If a staging
     /// label to be added is already attached to another version, then it is moved--removed
     /// from the other version first and then attached to this one. For more information about
-    /// staging labels, see <a href="http://docs.aws.amazon.com/http:/docs.aws.amazon.com/;asm-service-name;/latest/userguide/terms-concepts.html#term_label">Staging
+    /// staging labels, see <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/terms-concepts.html#term_staging-label">Staging
     /// Labels</a> in the <i>AWS Secrets Manager User Guide</i>. 
     /// 
     ///  
@@ -78,7 +78,7 @@ namespace Amazon.SecretsManager.Model
     /// <para>
     /// To get the list of staging labels that are currently associated with a version of
     /// a secret, use <code> <a>DescribeSecret</a> </code> and examine the <code>SecretVersionsToStages</code>
-    /// response value.
+    /// response value. 
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -92,14 +92,16 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property MoveToVersionId. 
         /// <para>
-        /// (Optional) The secret version ID that you want to add the staging labels to.
+        /// (Optional) The secret version ID that you want to add the staging label to. If you
+        /// want to remove a label from a version, then do not specify this parameter.
         /// </para>
         ///  
         /// <para>
-        /// If any of the staging labels are already attached to a different version of the secret,
-        /// then they are removed from that version before adding them to this version.
+        /// If the staging label is already attached to a different version of the secret, then
+        /// you must also specify the <code>RemoveFromVersionId</code> parameter. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string MoveToVersionId
         {
             get { return this._moveToVersionId; }
@@ -115,19 +117,14 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property RemoveFromVersionId. 
         /// <para>
-        /// (Optional) Specifies the secret version ID of the version that the staging labels
-        /// are to be removed from.
-        /// </para>
-        ///  
-        /// <para>
-        /// If you want to move a label to a new version, you do not have to explicitly remove
-        /// it with this parameter. Adding a label using the <code>MoveToVersionId</code> parameter
-        /// automatically removes it from the old version. However, if you do include both the
-        /// "MoveTo" and "RemoveFrom" parameters, then the move is successful only if the staging
-        /// labels are actually present on the "RemoveFrom" version. If a staging label was on
-        /// a different version than "RemoveFrom", then the request fails.
+        /// Specifies the secret version ID of the version that the staging label is to be removed
+        /// from. If the staging label you are trying to attach to one version is already attached
+        /// to a different version, then you must include this parameter and specify the version
+        /// that the label is to be removed from. If the label is attached and you either do not
+        /// specify this parameter, or the version ID does not match, then the operation fails.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string RemoveFromVersionId
         {
             get { return this._removeFromVersionId; }
@@ -147,7 +144,22 @@ namespace Amazon.SecretsManager.Model
         /// You can specify either the Amazon Resource Name (ARN) or the friendly name of the
         /// secret.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you specify an ARN, we generally recommend that you specify a complete ARN. You
+        /// can specify a partial ARN too—for example, if you don’t include the final hyphen and
+        /// six random characters that Secrets Manager adds at the end of the ARN when you created
+        /// the secret. A partial ARN match can work as long as it uniquely matches only one secret.
+        /// However, if your secret has a name that ends in a hyphen followed by six characters
+        /// (before Secrets Manager adds the hyphen and six characters to the ARN) and you try
+        /// to use that as a partial ARN, then those characters cause Secrets Manager to assume
+        /// that you’re specifying a complete ARN. This confusion can cause unexpected results.
+        /// To avoid this situation, we recommend that you don’t create secret names that end
+        /// with a hyphen followed by six characters.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string SecretId
         {
             get { return this._secretId; }
@@ -163,9 +175,10 @@ namespace Amazon.SecretsManager.Model
         /// <summary>
         /// Gets and sets the property VersionStage. 
         /// <para>
-        /// The list of staging labels to add to this version.
+        /// The staging label to add to this version.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string VersionStage
         {
             get { return this._versionStage; }

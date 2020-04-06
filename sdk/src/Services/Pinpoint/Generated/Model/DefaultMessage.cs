@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// Default Message across push notification, email, and sms.
+    /// Specifies the default message for all channels.
     /// </summary>
     public partial class DefaultMessage
     {
@@ -36,8 +36,10 @@ namespace Amazon.Pinpoint.Model
         private Dictionary<string, List<string>> _substitutions = new Dictionary<string, List<string>>();
 
         /// <summary>
-        /// Gets and sets the property Body. The message body of the notification, the email body
-        /// or the text message.
+        /// Gets and sets the property Body. 
+        /// <para>
+        /// The default body of the message.
+        /// </para>
         /// </summary>
         public string Body
         {
@@ -52,8 +54,11 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Substitutions. Default message substitutions. Can be overridden
-        /// by individual address substitutions.
+        /// Gets and sets the property Substitutions. 
+        /// <para>
+        /// The default message variables to use in the message. You can override these default
+        /// variables with individual address variables.
+        /// </para>
         /// </summary>
         public Dictionary<string, List<string>> Substitutions
         {

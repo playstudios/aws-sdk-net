@@ -55,13 +55,14 @@ namespace Amazon.APIGateway.Model.Internal.MarshallTransformations
         public IRequest Marshall(DeleteUsagePlanRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.APIGateway");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-07-09";            
             request.HttpMethod = "DELETE";
 
-            string uriResourcePath = "/usageplans/{usageplanId}";
             if (!publicRequest.IsSetUsagePlanId())
                 throw new AmazonAPIGatewayException("Request object does not have required field UsagePlanId set");
-            uriResourcePath = uriResourcePath.Replace("{usageplanId}", StringUtils.FromString(publicRequest.UsagePlanId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{usageplanId}", StringUtils.FromString(publicRequest.UsagePlanId));
+            request.ResourcePath = "/usageplans/{usageplanId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

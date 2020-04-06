@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
-    /// The parameters for a STEP_FUNCTION task.
+    /// The parameters for a STEP_FUNCTIONS task.
     /// 
     ///  
     /// <para>
@@ -40,7 +40,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     ///  <code>LoggingInfo</code> has been deprecated. To specify an S3 bucket to contain
     /// logs, instead use the <code>OutputS3BucketName</code> and <code>OutputS3KeyPrefix</code>
     /// options in the <code>TaskInvocationParameters</code> structure. For information about
-    /// how Systems Manager handles these options for the supported Maintenance Window task
+    /// how Systems Manager handles these options for the supported maintenance window task
     /// types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
     /// </para>
     ///  
@@ -48,7 +48,7 @@ namespace Amazon.SimpleSystemsManagement.Model
     ///  <code>TaskParameters</code> has been deprecated. To specify parameters to pass to
     /// a task when it runs, instead use the <code>Parameters</code> option in the <code>TaskInvocationParameters</code>
     /// structure. For information about how Systems Manager handles these options for the
-    /// supported Maintenance Window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
+    /// supported maintenance window task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
     /// </para>
     ///  
     /// <para>
@@ -65,9 +65,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Input. 
         /// <para>
-        /// The inputs for the STEP_FUNCTION task.
+        /// The inputs for the STEP_FUNCTIONS task.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=4096)]
         public string Input
         {
             get { return this._input; }
@@ -83,9 +84,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Name. 
         /// <para>
-        /// The name of the STEP_FUNCTION task.
+        /// The name of the STEP_FUNCTIONS task.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=80)]
         public string Name
         {
             get { return this._name; }

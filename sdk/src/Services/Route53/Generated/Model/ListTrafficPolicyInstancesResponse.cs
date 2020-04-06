@@ -46,6 +46,7 @@ namespace Amazon.Route53.Model
         /// policy instance that matches the elements in the request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<TrafficPolicyInstance> TrafficPolicyInstances
         {
             get { return this._trafficPolicyInstances; }
@@ -62,11 +63,11 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property HostedZoneIdMarker. 
         /// <para>
         /// If <code>IsTruncated</code> is <code>true</code>, <code>HostedZoneIdMarker</code>
-        /// is the ID of the hosted zone of the first traffic policy instance that Amazon Route
-        /// 53 will return if you submit another <code>ListTrafficPolicyInstances</code> request.
-        /// 
+        /// is the ID of the hosted zone of the first traffic policy instance that Route 53 will
+        /// return if you submit another <code>ListTrafficPolicyInstances</code> request. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32)]
         public string HostedZoneIdMarker
         {
             get { return this._hostedZoneIdMarker; }
@@ -83,10 +84,11 @@ namespace Amazon.Route53.Model
         /// Gets and sets the property TrafficPolicyInstanceNameMarker. 
         /// <para>
         /// If <code>IsTruncated</code> is <code>true</code>, <code>TrafficPolicyInstanceNameMarker</code>
-        /// is the name of the first traffic policy instance that Amazon Route 53 will return
-        /// if you submit another <code>ListTrafficPolicyInstances</code> request. 
+        /// is the name of the first traffic policy instance that Route 53 will return if you
+        /// submit another <code>ListTrafficPolicyInstances</code> request. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string TrafficPolicyInstanceNameMarker
         {
             get { return this._trafficPolicyInstanceNameMarker; }
@@ -130,6 +132,7 @@ namespace Amazon.Route53.Model
         /// in the corresponding request parameters.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool IsTruncated
         {
             get { return this._isTruncated.GetValueOrDefault(); }
@@ -149,6 +152,7 @@ namespace Amazon.Route53.Model
         /// <code>ListTrafficPolicyInstances</code> that produced the current response.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string MaxItems
         {
             get { return this._maxItems; }

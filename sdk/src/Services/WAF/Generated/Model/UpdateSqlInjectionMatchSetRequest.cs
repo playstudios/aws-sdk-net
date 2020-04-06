@@ -41,18 +41,23 @@ namespace Amazon.WAF.Model
     ///  </li> <li> 
     /// <para>
     ///  <code>FieldToMatch</code>: The part of web requests that you want AWS WAF to inspect
-    /// and, if you want AWS WAF to inspect a header, the name of the header.
+    /// and, if you want AWS WAF to inspect a header or custom query parameter, the name of
+    /// the header or parameter.
     /// </para>
     ///  </li> <li> 
     /// <para>
     ///  <code>TextTransformation</code>: Which text transformation, if any, to perform on
     /// the web request before inspecting the request for snippets of malicious SQL code.
     /// </para>
+    ///  
+    /// <para>
+    /// You can only specify a single type of TextTransformation.
+    /// </para>
     ///  </li> </ul> 
     /// <para>
     /// You use <code>SqlInjectionMatchSet</code> objects to specify which CloudFront requests
-    /// you want to allow, block, or count. For example, if you're receiving requests that
-    /// contain snippets of SQL code in the query string and you want to block the requests,
+    /// that you want to allow, block, or count. For example, if you're receiving requests
+    /// that contain snippets of SQL code in the query string and you want to block the requests,
     /// you can create a <code>SqlInjectionMatchSet</code> with the applicable settings, and
     /// then configure AWS WAF to block the requests. 
     /// </para>
@@ -78,7 +83,7 @@ namespace Amazon.WAF.Model
     ///  </li> </ol> 
     /// <para>
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests,
-    /// see the <a href="http://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
+    /// see the <a href="https://docs.aws.amazon.com/waf/latest/developerguide/">AWS WAF Developer
     /// Guide</a>.
     /// </para>
     /// </summary>
@@ -94,6 +99,7 @@ namespace Amazon.WAF.Model
         /// The value returned by the most recent call to <a>GetChangeToken</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ChangeToken
         {
             get { return this._changeToken; }
@@ -114,6 +120,7 @@ namespace Amazon.WAF.Model
         /// and by <a>ListSqlInjectionMatchSets</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string SqlInjectionMatchSetId
         {
             get { return this._sqlInjectionMatchSetId; }
@@ -149,6 +156,7 @@ namespace Amazon.WAF.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public List<SqlInjectionMatchSetUpdate> Updates
         {
             get { return this._updates; }

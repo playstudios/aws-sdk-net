@@ -29,7 +29,7 @@ namespace Amazon.CodeCommit.Model
 {
     /// <summary>
     /// Container for the parameters to the GetBlob operation.
-    /// Returns the base-64 encoded content of an individual blob within a repository.
+    /// Returns the base-64 encoded content of an individual blob in a repository.
     /// </summary>
     public partial class GetBlobRequest : AmazonCodeCommitRequest
     {
@@ -42,6 +42,7 @@ namespace Amazon.CodeCommit.Model
         /// The ID of the blob, which is its SHA-1 pointer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BlobId
         {
             get { return this._blobId; }
@@ -60,6 +61,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository that contains the blob.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

@@ -33,7 +33,7 @@ namespace Amazon.Route53.Model
     /// 
     ///  
     /// <para>
-    /// For information about using tags for cost allocation, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+    /// For information about using tags for cost allocation, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
     /// Cost Allocation Tags</a> in the <i>AWS Billing and Cost Management User Guide</i>.
     /// </para>
     /// </summary>
@@ -59,6 +59,7 @@ namespace Amazon.Route53.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TagResourceType ResourceType
         {
             get { return this._resourceType; }
@@ -77,6 +78,7 @@ namespace Amazon.Route53.Model
         /// The ID of the resource for which you want to add, change, or delete tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=64)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -101,6 +103,7 @@ namespace Amazon.Route53.Model
         /// You can add a maximum of 10 tags to a health check or a hosted zone.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<Tag> AddTags
         {
             get { return this._addTags; }
@@ -120,6 +123,7 @@ namespace Amazon.Route53.Model
         /// health check or hosted zone. You can specify up to 10 keys.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> RemoveTagKeys
         {
             get { return this._removeTagKeys; }

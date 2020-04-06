@@ -45,6 +45,34 @@ namespace Amazon.SageMaker.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public void Marshall(AlgorithmSpecification requestObject, JsonMarshallerContext context)
         {
+            if(requestObject.IsSetAlgorithmName())
+            {
+                context.Writer.WritePropertyName("AlgorithmName");
+                context.Writer.Write(requestObject.AlgorithmName);
+            }
+
+            if(requestObject.IsSetEnableSageMakerMetricsTimeSeries())
+            {
+                context.Writer.WritePropertyName("EnableSageMakerMetricsTimeSeries");
+                context.Writer.Write(requestObject.EnableSageMakerMetricsTimeSeries);
+            }
+
+            if(requestObject.IsSetMetricDefinitions())
+            {
+                context.Writer.WritePropertyName("MetricDefinitions");
+                context.Writer.WriteArrayStart();
+                foreach(var requestObjectMetricDefinitionsListValue in requestObject.MetricDefinitions)
+                {
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = MetricDefinitionMarshaller.Instance;
+                    marshaller.Marshall(requestObjectMetricDefinitionsListValue, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+                context.Writer.WriteArrayEnd();
+            }
+
             if(requestObject.IsSetTrainingImage())
             {
                 context.Writer.WritePropertyName("TrainingImage");

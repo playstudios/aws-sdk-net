@@ -56,11 +56,11 @@ namespace Amazon.Route53.Model.Internal.MarshallTransformations
         {
             var request = new DefaultRequest(publicRequest, "Amazon.Route53");
             request.HttpMethod = "POST";
-            string uriResourcePath = "/2013-04-01/healthcheck/{HealthCheckId}";
             if (!publicRequest.IsSetHealthCheckId())
                 throw new AmazonRoute53Exception("Request object does not have required field HealthCheckId set");
-            uriResourcePath = uriResourcePath.Replace("{HealthCheckId}", StringUtils.FromString(publicRequest.HealthCheckId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{HealthCheckId}", StringUtils.FromString(publicRequest.HealthCheckId));
+            request.ResourcePath = "/2013-04-01/healthcheck/{HealthCheckId}";
+            request.MarshallerVersion = 2;
 
             var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
             using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Encoding = System.Text.Encoding.UTF8, OmitXmlDeclaration = true }))
@@ -89,6 +89,9 @@ namespace Amazon.Route53.Model.Internal.MarshallTransformations
 
                 if(publicRequest.IsSetInverted())
                     xmlWriter.WriteElementString("Inverted", "https://route53.amazonaws.com/doc/2013-04-01/", StringUtils.FromBool(publicRequest.Inverted));                    
+
+                if(publicRequest.IsSetDisabled())
+                    xmlWriter.WriteElementString("Disabled", "https://route53.amazonaws.com/doc/2013-04-01/", StringUtils.FromBool(publicRequest.Disabled));                    
 
                 if(publicRequest.IsSetHealthThreshold())
                     xmlWriter.WriteElementString("HealthThreshold", "https://route53.amazonaws.com/doc/2013-04-01/", StringUtils.FromInt(publicRequest.HealthThreshold));                    
@@ -155,6 +158,7 @@ namespace Amazon.Route53.Model.Internal.MarshallTransformations
                 string content = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(content);
                 request.Headers["Content-Type"] = "application/xml";
+                request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2013-04-01";            
             } 
             catch (EncoderFallbackException e) 
             {

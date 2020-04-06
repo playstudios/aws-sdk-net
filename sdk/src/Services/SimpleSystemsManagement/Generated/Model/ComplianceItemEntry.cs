@@ -82,6 +82,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// High, Medium, Low, Informational, Unspecified.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ComplianceSeverity Severity
         {
             get { return this._severity; }
@@ -100,6 +101,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The status of the compliance item. An item is either COMPLIANT or NON_COMPLIANT.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ComplianceStatus Status
         {
             get { return this._status; }
@@ -120,6 +122,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Security Update for Active Directory Federation Services. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=500)]
         public string Title
         {
             get { return this._title; }

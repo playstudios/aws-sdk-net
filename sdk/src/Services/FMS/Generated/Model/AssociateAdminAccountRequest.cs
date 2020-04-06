@@ -30,7 +30,7 @@ namespace Amazon.FMS.Model
     /// <summary>
     /// Container for the parameters to the AssociateAdminAccount operation.
     /// Sets the AWS Firewall Manager administrator account. AWS Firewall Manager must be
-    /// associated with a master account in AWS Organizations or associated with a member
+    /// associated with the master account of your AWS organization or associated with a member
     /// account that has the appropriate permissions. If the account ID that you submit is
     /// not an AWS Organizations master account, AWS Firewall Manager will set the appropriate
     /// permissions for the given member account.
@@ -38,7 +38,7 @@ namespace Amazon.FMS.Model
     ///  
     /// <para>
     /// The account that you associate with AWS Firewall Manager is called the AWS Firewall
-    /// manager administrator account. 
+    /// Manager administrator account. 
     /// </para>
     /// </summary>
     public partial class AssociateAdminAccountRequest : AmazonFMSRequest
@@ -52,9 +52,10 @@ namespace Amazon.FMS.Model
         /// administrator account. This can be an AWS Organizations master account or a member
         /// account. For more information about AWS Organizations and master accounts, see <a
         /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html">Managing
-        /// the AWS Accounts in Your Organization</a>.
+        /// the AWS Accounts in Your Organization</a>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1024)]
         public string AdminAccount
         {
             get { return this._adminAccount; }

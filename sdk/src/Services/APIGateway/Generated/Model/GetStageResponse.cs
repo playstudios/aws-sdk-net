@@ -31,7 +31,7 @@ namespace Amazon.APIGateway.Model
     /// Represents a unique identifier for a version of a deployed <a>RestApi</a> that is
     /// callable by users.
     /// 
-    ///  <div class="seeAlso"> <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-deploy-api.html">Deploy
+    ///  <div class="seeAlso"> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-deploy-api.html">Deploy
     /// an API</a> </div>
     /// </summary>
     public partial class GetStageResponse : AmazonWebServiceResponse
@@ -50,7 +50,9 @@ namespace Amazon.APIGateway.Model
         private Dictionary<string, MethodSetting> _methodSettings = new Dictionary<string, MethodSetting>();
         private string _stageName;
         private Dictionary<string, string> _tags = new Dictionary<string, string>();
+        private bool? _tracingEnabled;
         private Dictionary<string, string> _variables = new Dictionary<string, string>();
+        private string _webAclArn;
 
         /// <summary>
         /// Gets and sets the property AccessLogSettings. 
@@ -275,7 +277,8 @@ namespace Amazon.APIGateway.Model
         /// Gets and sets the property StageName. 
         /// <para>
         /// The name of the stage is the first path segment in the Uniform Resource Identifier
-        /// (URI) of a call to API Gateway.
+        /// (URI) of a call to API Gateway. Stage names can only contain alphanumeric characters,
+        /// hyphens, and underscores. Maximum length is 128 characters.
         /// </para>
         /// </summary>
         public string StageName
@@ -309,6 +312,24 @@ namespace Amazon.APIGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TracingEnabled. 
+        /// <para>
+        /// Specifies whether active tracing with X-ray is enabled for the <a>Stage</a>.
+        /// </para>
+        /// </summary>
+        public bool TracingEnabled
+        {
+            get { return this._tracingEnabled.GetValueOrDefault(); }
+            set { this._tracingEnabled = value; }
+        }
+
+        // Check to see if TracingEnabled property is set
+        internal bool IsSetTracingEnabled()
+        {
+            return this._tracingEnabled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Variables. 
         /// <para>
         /// A map that defines the stage variables for a <a>Stage</a> resource. Variable names
@@ -325,6 +346,24 @@ namespace Amazon.APIGateway.Model
         internal bool IsSetVariables()
         {
             return this._variables != null && this._variables.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property WebAclArn. 
+        /// <para>
+        /// The ARN of the WebAcl associated with the <a>Stage</a>.
+        /// </para>
+        /// </summary>
+        public string WebAclArn
+        {
+            get { return this._webAclArn; }
+            set { this._webAclArn = value; }
+        }
+
+        // Check to see if WebAclArn property is set
+        internal bool IsSetWebAclArn()
+        {
+            return this._webAclArn != null;
         }
 
     }

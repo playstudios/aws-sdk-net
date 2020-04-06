@@ -35,8 +35,9 @@ namespace Amazon.Rekognition.Model
     /// 
     ///  <note> 
     /// <para>
-    ///  To search for all faces in an input image, you might first call the operation, and
-    /// then use the face IDs returned in subsequent calls to the operation. 
+    /// To search for all faces in an input image, you might first call the <a>IndexFaces</a>
+    /// operation, and then use the face IDs returned in subsequent calls to the <a>SearchFaces</a>
+    /// operation. 
     /// </para>
     ///  
     /// <para>
@@ -47,7 +48,7 @@ namespace Amazon.Rekognition.Model
     ///  </note> 
     /// <para>
     /// You pass the input image either as base64-encoded image bytes or as a reference to
-    /// an image in an Amazon S3 bucket. If you use the Amazon CLI to call Amazon Rekognition
+    /// an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition
     /// operations, passing image bytes is not supported. The image must be either a PNG or
     /// JPEG formatted file. 
     /// </para>
@@ -62,9 +63,25 @@ namespace Amazon.Rekognition.Model
     /// </para>
     ///  
     /// <para>
-    /// For an example, see <a>search-face-with-image-procedure</a>.
+    /// For an example, Searching for a Face Using an Image in the Amazon Rekognition Developer
+    /// Guide.
     /// </para>
     ///  
+    /// <para>
+    /// The <code>QualityFilter</code> input parameter allows you to filter out detected faces
+    /// that don’t meet a required quality bar. The quality bar is based on a variety of common
+    /// use cases. Use <code>QualityFilter</code> to set the quality bar for filtering by
+    /// specifying <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>. If you do
+    /// not want to filter detected faces, specify <code>NONE</code>. The default value is
+    /// <code>NONE</code>.
+    /// </para>
+    ///  <note> 
+    /// <para>
+    /// To use quality filtering, you need a collection associated with version 3 of the face
+    /// model or higher. To get the version of the face model associated with a collection,
+    /// call <a>DescribeCollection</a>. 
+    /// </para>
+    ///  </note> 
     /// <para>
     /// This operation requires permissions to perform the <code>rekognition:SearchFacesByImage</code>
     /// action.
@@ -76,6 +93,7 @@ namespace Amazon.Rekognition.Model
         private float? _faceMatchThreshold;
         private Image _image;
         private int? _maxFaces;
+        private QualityFilter _qualityFilter;
 
         /// <summary>
         /// Gets and sets the property CollectionId. 
@@ -83,6 +101,7 @@ namespace Amazon.Rekognition.Model
         /// ID of the collection to search.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string CollectionId
         {
             get { return this._collectionId; }
@@ -99,9 +118,11 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property FaceMatchThreshold. 
         /// <para>
         /// (Optional) Specifies the minimum confidence in the face match to return. For example,
-        /// don't return any matches where confidence in matches is less than 70%.
+        /// don't return any matches where confidence in matches is less than 70%. The default
+        /// value is 80%.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public float FaceMatchThreshold
         {
             get { return this._faceMatchThreshold.GetValueOrDefault(); }
@@ -121,7 +142,14 @@ namespace Amazon.Rekognition.Model
         /// call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.
         /// 
         /// </para>
+        ///  
+        /// <para>
+        /// If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode
+        /// image bytes passed using the <code>Bytes</code> field. For more information, see Images
+        /// in the Amazon Rekognition developer guide.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Image Image
         {
             get { return this._image; }
@@ -141,6 +169,7 @@ namespace Amazon.Rekognition.Model
         /// with the highest confidence in the match.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
         public int MaxFaces
         {
             get { return this._maxFaces.GetValueOrDefault(); }
@@ -151,6 +180,37 @@ namespace Amazon.Rekognition.Model
         internal bool IsSetMaxFaces()
         {
             return this._maxFaces.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property QualityFilter. 
+        /// <para>
+        /// A filter that specifies a quality bar for how much filtering is done to identify faces.
+        /// Filtered faces aren't searched for in the collection. If you specify <code>AUTO</code>,
+        /// Amazon Rekognition chooses the quality bar. If you specify <code>LOW</code>, <code>MEDIUM</code>,
+        /// or <code>HIGH</code>, filtering removes all faces that don’t meet the chosen quality
+        /// bar. The quality bar is based on a variety of common use cases. Low-quality detections
+        /// can occur for a number of reasons. Some examples are an object that's misidentified
+        /// as a face, a face that's too blurry, or a face with a pose that's too extreme to use.
+        /// If you specify <code>NONE</code>, no filtering is performed. The default value is
+        /// <code>NONE</code>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// To use quality filtering, the collection you are using must be associated with version
+        /// 3 of the face model or higher.
+        /// </para>
+        /// </summary>
+        public QualityFilter QualityFilter
+        {
+            get { return this._qualityFilter; }
+            set { this._qualityFilter = value; }
+        }
+
+        // Check to see if QualityFilter property is set
+        internal bool IsSetQualityFilter()
+        {
+            return this._qualityFilter != null;
         }
 
     }

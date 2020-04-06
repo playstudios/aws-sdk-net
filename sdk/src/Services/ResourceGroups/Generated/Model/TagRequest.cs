@@ -29,8 +29,8 @@ namespace Amazon.ResourceGroups.Model
 {
     /// <summary>
     /// Container for the parameters to the Tag operation.
-    /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource
-    /// are not changed if they are not specified in the request parameters.
+    /// Adds tags to a resource group with the specified ARN. Existing tags on a resource
+    /// group are not changed if they are not specified in the request parameters.
     /// </summary>
     public partial class TagRequest : AmazonResourceGroupsRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.ResourceGroups.Model
         /// The ARN of the resource to which to add tags.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=12, Max=1600)]
         public string Arn
         {
             get { return this._arn; }
@@ -59,10 +60,11 @@ namespace Amazon.ResourceGroups.Model
         /// Gets and sets the property Tags. 
         /// <para>
         /// The tags to add to the specified resource. A tag is a string-to-string map of key-value
-        /// pairs. Tag keys can have a maximum character length of 127 characters, and tag values
-        /// can have a maximum length of 255 characters.
+        /// pairs. Tag keys can have a maximum character length of 128 characters, and tag values
+        /// can have a maximum length of 256 characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Dictionary<string, string> Tags
         {
             get { return this._tags; }

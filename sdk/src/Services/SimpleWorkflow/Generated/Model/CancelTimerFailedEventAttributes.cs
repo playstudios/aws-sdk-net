@@ -46,11 +46,12 @@ namespace Amazon.SimpleWorkflow.Model
         /// <para>
         /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the decision
         /// failed because it lacked sufficient permissions. For details and example IAM policies,
-        /// see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+        /// see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
         /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public CancelTimerFailedCause Cause
         {
             get { return this._cause; }
@@ -72,6 +73,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// events leading up to this event.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public long DecisionTaskCompletedEventId
         {
             get { return this._decisionTaskCompletedEventId.GetValueOrDefault(); }
@@ -90,6 +92,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The timerId provided in the <code>CancelTimer</code> decision that failed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string TimerId
         {
             get { return this._timerId; }

@@ -32,6 +32,7 @@ namespace Amazon.IoTJobsDataPlane.Model
     /// </summary>
     public partial class JobExecution
     {
+        private long? _approximateSecondsBeforeTimedOut;
         private long? _executionNumber;
         private string _jobDocument;
         private string _jobId;
@@ -42,6 +43,25 @@ namespace Amazon.IoTJobsDataPlane.Model
         private Dictionary<string, string> _statusDetails = new Dictionary<string, string>();
         private string _thingName;
         private long? _versionNumber;
+
+        /// <summary>
+        /// Gets and sets the property ApproximateSecondsBeforeTimedOut. 
+        /// <para>
+        /// The estimated number of seconds that remain before the job execution status will be
+        /// changed to <code>TIMED_OUT</code>.
+        /// </para>
+        /// </summary>
+        public long ApproximateSecondsBeforeTimedOut
+        {
+            get { return this._approximateSecondsBeforeTimedOut.GetValueOrDefault(); }
+            set { this._approximateSecondsBeforeTimedOut = value; }
+        }
+
+        // Check to see if ApproximateSecondsBeforeTimedOut property is set
+        internal bool IsSetApproximateSecondsBeforeTimedOut()
+        {
+            return this._approximateSecondsBeforeTimedOut.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property ExecutionNumber. 
@@ -68,6 +88,7 @@ namespace Amazon.IoTJobsDataPlane.Model
         /// The content of the job document.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32768)]
         public string JobDocument
         {
             get { return this._jobDocument; }
@@ -86,6 +107,7 @@ namespace Amazon.IoTJobsDataPlane.Model
         /// The unique identifier you assigned to this job when it was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -196,6 +218,7 @@ namespace Amazon.IoTJobsDataPlane.Model
         /// The name of the thing that is executing the job.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ThingName
         {
             get { return this._thingName; }

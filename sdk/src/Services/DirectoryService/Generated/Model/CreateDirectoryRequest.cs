@@ -29,13 +29,14 @@ namespace Amazon.DirectoryService.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateDirectory operation.
-    /// Creates a Simple AD directory.
+    /// Creates a Simple AD directory. For more information, see <a href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html">Simple
+    /// Active Directory</a> in the <i>AWS Directory Service Admin Guide</i>.
     /// 
     ///  
     /// <para>
-    /// Before you call <i>CreateDirectory</i>, ensure that all of the required permissions
+    /// Before you call <code>CreateDirectory</code>, ensure that all of the required permissions
     /// have been explicitly granted through a policy. For details about what permissions
-    /// are required to run the <i>CreateDirectory</i> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
+    /// are required to run the <code>CreateDirectory</code> operation, see <a href="http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html">AWS
     /// Directory Service API Permissions: Actions, Resources, and Conditions Reference</a>.
     /// </para>
     /// </summary>
@@ -46,14 +47,16 @@ namespace Amazon.DirectoryService.Model
         private string _password;
         private string _shortName;
         private DirectorySize _size;
+        private List<Tag> _tags = new List<Tag>();
         private DirectoryVpcSettings _vpcSettings;
 
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// A textual description for the directory.
+        /// A description for the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=128)]
         public string Description
         {
             get { return this._description; }
@@ -72,6 +75,7 @@ namespace Amazon.DirectoryService.Model
         /// The fully qualified name for the directory, such as <code>corp.example.com</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -88,10 +92,16 @@ namespace Amazon.DirectoryService.Model
         /// Gets and sets the property Password. 
         /// <para>
         /// The password for the directory administrator. The directory creation process creates
-        /// a directory administrator account with the username <code>Administrator</code> and
+        /// a directory administrator account with the user name <code>Administrator</code> and
         /// this password.
         /// </para>
+        ///  
+        /// <para>
+        /// If you need to change the password for the administrator account, you can use the
+        /// <a>ResetUserPassword</a> API call.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Password
         {
             get { return this._password; }
@@ -107,7 +117,7 @@ namespace Amazon.DirectoryService.Model
         /// <summary>
         /// Gets and sets the property ShortName. 
         /// <para>
-        /// The short name of the directory, such as <code>CORP</code>.
+        /// The NetBIOS name of the directory, such as <code>CORP</code>.
         /// </para>
         /// </summary>
         public string ShortName
@@ -128,6 +138,7 @@ namespace Amazon.DirectoryService.Model
         /// The size of the directory.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DirectorySize Size
         {
             get { return this._size; }
@@ -138,6 +149,24 @@ namespace Amazon.DirectoryService.Model
         internal bool IsSetSize()
         {
             return this._size != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to be assigned to the Simple AD directory.
+        /// </para>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
         /// <summary>

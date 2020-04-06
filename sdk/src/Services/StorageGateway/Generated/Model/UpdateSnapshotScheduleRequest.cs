@@ -50,6 +50,7 @@ namespace Amazon.StorageGateway.Model
         private string _description;
         private int? _recurrenceInHours;
         private int? _startAt;
+        private List<Tag> _tags = new List<Tag>();
         private string _volumeARN;
 
         /// <summary>
@@ -58,6 +59,7 @@ namespace Amazon.StorageGateway.Model
         /// Optional description of the snapshot that overwrites the existing description.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Description
         {
             get { return this._description; }
@@ -76,6 +78,7 @@ namespace Amazon.StorageGateway.Model
         /// Frequency of snapshots. Specify the number of hours between snapshots.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=24)]
         public int RecurrenceInHours
         {
             get { return this._recurrenceInHours.GetValueOrDefault(); }
@@ -96,6 +99,7 @@ namespace Amazon.StorageGateway.Model
         /// the gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=23)]
         public int StartAt
         {
             get { return this._startAt.GetValueOrDefault(); }
@@ -109,12 +113,40 @@ namespace Amazon.StorageGateway.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value
+        /// pair.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Valid characters for key and value are letters, spaces, and numbers representable
+        /// in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+        /// length of a tag's key is 128 characters, and the maximum length for a tag's value
+        /// is 256.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property VolumeARN. 
         /// <para>
         /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a> operation
         /// to return a list of gateway volumes.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string VolumeARN
         {
             get { return this._volumeARN; }

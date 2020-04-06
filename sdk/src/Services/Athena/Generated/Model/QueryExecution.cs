@@ -36,8 +36,10 @@ namespace Amazon.Athena.Model
         private QueryExecutionContext _queryExecutionContext;
         private string _queryExecutionId;
         private ResultConfiguration _resultConfiguration;
+        private StatementType _statementType;
         private QueryExecutionStatistics _statistics;
         private QueryExecutionStatus _status;
+        private string _workGroup;
 
         /// <summary>
         /// Gets and sets the property Query. 
@@ -45,6 +47,7 @@ namespace Amazon.Athena.Model
         /// The SQL query statements which the query execution ran.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=262144)]
         public string Query
         {
             get { return this._query; }
@@ -97,7 +100,9 @@ namespace Amazon.Athena.Model
         /// Gets and sets the property ResultConfiguration. 
         /// <para>
         /// The location in Amazon S3 where query results were stored and the encryption option,
-        /// if any, used for query results.
+        /// if any, used for query results. These are known as "client-side settings". If workgroup
+        /// settings override client-side settings, then the query uses the location for the query
+        /// results and the encryption configuration that are specified for the workgroup.
         /// </para>
         /// </summary>
         public ResultConfiguration ResultConfiguration
@@ -113,10 +118,32 @@ namespace Amazon.Athena.Model
         }
 
         /// <summary>
+        /// Gets and sets the property StatementType. 
+        /// <para>
+        /// The type of query statement that was run. <code>DDL</code> indicates DDL query statements.
+        /// <code>DML</code> indicates DML (Data Manipulation Language) query statements, such
+        /// as <code>CREATE TABLE AS SELECT</code>. <code>UTILITY</code> indicates query statements
+        /// other than DDL and DML, such as <code>SHOW CREATE TABLE</code>, or <code>DESCRIBE
+        /// &lt;table&gt;</code>.
+        /// </para>
+        /// </summary>
+        public StatementType StatementType
+        {
+            get { return this._statementType; }
+            set { this._statementType = value; }
+        }
+
+        // Check to see if StatementType property is set
+        internal bool IsSetStatementType()
+        {
+            return this._statementType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Statistics. 
         /// <para>
-        /// The amount of data scanned during the query execution and the amount of time that
-        /// it took to execute.
+        /// Query execution statistics, such as the amount of data scanned, the amount of time
+        /// that the query took to process, and the type of statement that was run.
         /// </para>
         /// </summary>
         public QueryExecutionStatistics Statistics
@@ -148,6 +175,24 @@ namespace Amazon.Athena.Model
         internal bool IsSetStatus()
         {
             return this._status != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WorkGroup. 
+        /// <para>
+        /// The name of the workgroup in which the query ran.
+        /// </para>
+        /// </summary>
+        public string WorkGroup
+        {
+            get { return this._workGroup; }
+            set { this._workGroup = value; }
+        }
+
+        // Check to see if WorkGroup property is set
+        internal bool IsSetWorkGroup()
+        {
+            return this._workGroup != null;
         }
 
     }

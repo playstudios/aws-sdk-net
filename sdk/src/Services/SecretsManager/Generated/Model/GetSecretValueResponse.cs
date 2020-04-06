@@ -46,6 +46,7 @@ namespace Amazon.SecretsManager.Model
         /// The ARN of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string ARN
         {
             get { return this._arn; }
@@ -82,6 +83,7 @@ namespace Amazon.SecretsManager.Model
         /// The friendly name of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -113,6 +115,7 @@ namespace Amazon.SecretsManager.Model
         /// or <code>SecretBinary</code> fields.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=65536)]
         public MemoryStream SecretBinary
         {
             get { return this._secretBinary; }
@@ -140,11 +143,12 @@ namespace Amazon.SecretsManager.Model
         ///  
         /// <para>
         /// If you store custom information in the secret by using the <a>CreateSecret</a>, <a>UpdateSecret</a>,
-        /// or <a>PutSecretValue</a> API operations instead of the AWS Secrets Manager console,
-        /// or by using the <b>Other secret type</b> in the console, then you must code your Lambda
+        /// or <a>PutSecretValue</a> API operations instead of the Secrets Manager console, or
+        /// by using the <b>Other secret type</b> in the console, then you must code your Lambda
         /// rotation function to parse and interpret those values.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=65536)]
         public string SecretString
         {
             get { return this._secretString; }
@@ -163,6 +167,7 @@ namespace Amazon.SecretsManager.Model
         /// The unique identifier of this version of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=64)]
         public string VersionId
         {
             get { return this._versionId; }
@@ -181,6 +186,7 @@ namespace Amazon.SecretsManager.Model
         /// A list of all of the staging labels currently attached to this version of the secret.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public List<string> VersionStages
         {
             get { return this._versionStages; }

@@ -55,13 +55,14 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetDeviceDefinitionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/greengrass/definition/devices/{DeviceDefinitionId}";
             if (!publicRequest.IsSetDeviceDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field DeviceDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{DeviceDefinitionId}", StringUtils.FromString(publicRequest.DeviceDefinitionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{DeviceDefinitionId}", StringUtils.FromString(publicRequest.DeviceDefinitionId));
+            request.ResourcePath = "/greengrass/definition/devices/{DeviceDefinitionId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

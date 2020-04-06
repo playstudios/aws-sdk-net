@@ -36,12 +36,14 @@ namespace Amazon.MediaConvert.Model
         private BurninDestinationSettings _burninDestinationSettings;
         private CaptionDestinationType _destinationType;
         private DvbSubDestinationSettings _dvbSubDestinationSettings;
+        private EmbeddedDestinationSettings _embeddedDestinationSettings;
+        private ImscDestinationSettings _imscDestinationSettings;
         private SccDestinationSettings _sccDestinationSettings;
         private TeletextDestinationSettings _teletextDestinationSettings;
         private TtmlDestinationSettings _ttmlDestinationSettings;
 
         /// <summary>
-        /// Gets and sets the property BurninDestinationSettings.
+        /// Gets and sets the property BurninDestinationSettings. Burn-In Destination Settings.
         /// </summary>
         public BurninDestinationSettings BurninDestinationSettings
         {
@@ -56,7 +58,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DestinationType.
+        /// Gets and sets the property DestinationType. Specify the format for this set of captions
+        /// on this output. The default format is embedded without SCTE-20. Other options are
+        /// embedded with SCTE-20, burn-in, DVB-sub, IMSC, SCC, SRT, teletext, TTML, and web-VTT.
+        /// If you are using SCTE-20, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED) to create
+        /// an output that complies with the SCTE-43 spec. To create a non-compliant output where
+        /// the embedded captions come first, choose Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
         /// </summary>
         public CaptionDestinationType DestinationType
         {
@@ -71,7 +78,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DvbSubDestinationSettings.
+        /// Gets and sets the property DvbSubDestinationSettings. DVB-Sub Destination Settings
         /// </summary>
         public DvbSubDestinationSettings DvbSubDestinationSettings
         {
@@ -86,7 +93,39 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SccDestinationSettings.
+        /// Gets and sets the property EmbeddedDestinationSettings. Settings specific to embedded/ancillary
+        /// caption outputs, including 608/708 Channel destination number.
+        /// </summary>
+        public EmbeddedDestinationSettings EmbeddedDestinationSettings
+        {
+            get { return this._embeddedDestinationSettings; }
+            set { this._embeddedDestinationSettings = value; }
+        }
+
+        // Check to see if EmbeddedDestinationSettings property is set
+        internal bool IsSetEmbeddedDestinationSettings()
+        {
+            return this._embeddedDestinationSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ImscDestinationSettings. Settings specific to IMSC caption
+        /// outputs.
+        /// </summary>
+        public ImscDestinationSettings ImscDestinationSettings
+        {
+            get { return this._imscDestinationSettings; }
+            set { this._imscDestinationSettings = value; }
+        }
+
+        // Check to see if ImscDestinationSettings property is set
+        internal bool IsSetImscDestinationSettings()
+        {
+            return this._imscDestinationSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SccDestinationSettings. Settings for SCC caption output.
         /// </summary>
         public SccDestinationSettings SccDestinationSettings
         {
@@ -101,7 +140,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TeletextDestinationSettings.
+        /// Gets and sets the property TeletextDestinationSettings. Settings for Teletext caption
+        /// output
         /// </summary>
         public TeletextDestinationSettings TeletextDestinationSettings
         {
@@ -116,7 +156,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TtmlDestinationSettings.
+        /// Gets and sets the property TtmlDestinationSettings. Settings specific to TTML caption
+        /// outputs, including Pass style information (TtmlStylePassthrough).
         /// </summary>
         public TtmlDestinationSettings TtmlDestinationSettings
         {

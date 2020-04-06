@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Glue.Model
 {
     /// <summary>
-    /// A structure used to specify a connection to create or update.
+    /// A structure that is used to specify a connection to create or update.
     /// </summary>
     public partial class ConnectionInput
     {
@@ -42,9 +42,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property ConnectionProperties. 
         /// <para>
-        /// A list of key-value pairs used as parameters for this connection.
+        /// These key-value pairs define parameters for the connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=0, Max=100)]
         public Dictionary<string, string> ConnectionProperties
         {
             get { return this._connectionProperties; }
@@ -60,9 +61,23 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property ConnectionType. 
         /// <para>
-        /// The type of the connection. Currently, only JDBC is supported; SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>JDBC</code> - Designates a connection to a database through Java Database Connectivity
+        /// (JDBC).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MONGODB</code> - Designates a connection to a MongoDB document database.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// SFTP is not supported.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ConnectionType ConnectionType
         {
             get { return this._connectionType; }
@@ -78,9 +93,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// Description of the connection.
+        /// The description of the connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Description
         {
             get { return this._description; }
@@ -99,6 +115,7 @@ namespace Amazon.Glue.Model
         /// A list of criteria that can be used in selecting this connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10)]
         public List<string> MatchCriteria
         {
             get { return this._matchCriteria; }
@@ -117,6 +134,7 @@ namespace Amazon.Glue.Model
         /// The name of the connection.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Name
         {
             get { return this._name; }
@@ -132,8 +150,8 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property PhysicalConnectionRequirements. 
         /// <para>
-        /// A map of physical connection requirements, such as VPC and SecurityGroup, needed for
-        /// making this connection successfully.
+        /// A map of physical connection requirements, such as virtual private cloud (VPC) and
+        /// <code>SecurityGroup</code>, that are needed to successfully make this connection.
         /// </para>
         /// </summary>
         public PhysicalConnectionRequirements PhysicalConnectionRequirements

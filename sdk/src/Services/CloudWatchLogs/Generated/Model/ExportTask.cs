@@ -48,6 +48,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of Amazon S3 bucket to which the log data was exported.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string Destination
         {
             get { return this._destination; }
@@ -100,9 +101,10 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property From. 
         /// <para>
         /// The start time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00
-        /// UTC. Events with a time stamp before this time are not exported.
+        /// UTC. Events with a timestamp before this time are not exported.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long From
         {
             get { return this._from.GetValueOrDefault(); }
@@ -121,6 +123,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log group from which logs data was exported.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string LogGroupName
         {
             get { return this._logGroupName; }
@@ -157,6 +160,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The ID of the export task.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string TaskId
         {
             get { return this._taskId; }
@@ -175,6 +179,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the export task.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string TaskName
         {
             get { return this._taskName; }
@@ -191,9 +196,10 @@ namespace Amazon.CloudWatchLogs.Model
         /// Gets and sets the property To. 
         /// <para>
         /// The end time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        /// Events with a time stamp later than this time are not exported.
+        /// Events with a timestamp later than this time are not exported.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long To
         {
             get { return this._to.GetValueOrDefault(); }

@@ -28,10 +28,10 @@ namespace Amazon.DataPipeline
     ///<summary>
     /// Common exception for the DataPipeline service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonDataPipelineException : AmazonServiceException
+    public partial class AmazonDataPipelineException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonDataPipelineException
@@ -88,7 +88,7 @@ namespace Amazon.DataPipeline
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonDataPipelineException class with serialized data.
         /// </summary>

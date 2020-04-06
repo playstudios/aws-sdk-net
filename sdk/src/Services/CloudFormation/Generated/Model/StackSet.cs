@@ -36,10 +36,15 @@ namespace Amazon.CloudFormation.Model
     public partial class StackSet
     {
         private string _administrationRoleARN;
+        private AutoDeployment _autoDeployment;
         private List<string> _capabilities = new List<string>();
         private string _description;
+        private string _executionRoleName;
+        private List<string> _organizationalUnitIds = new List<string>();
         private List<Parameter> _parameters = new List<Parameter>();
+        private PermissionModels _permissionModel;
         private string _stackSetARN;
+        private StackSetDriftDetectionDetails _stackSetDriftDetectionDetails;
         private string _stackSetId;
         private string _stackSetName;
         private StackSetStatus _status;
@@ -55,10 +60,12 @@ namespace Amazon.CloudFormation.Model
         ///  
         /// <para>
         /// Use customized administrator roles to control which users or groups can manage specific
-        /// stack sets within the same administrator account. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Define
-        /// Permissions for Multiple Administrators</a> in the <i>AWS CloudFormation User Guide</i>.
+        /// stack sets within the same administrator account. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html">Prerequisites:
+        /// Granting Permissions for Stack Set Operations</a> in the <i>AWS CloudFormation User
+        /// Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string AdministrationRoleARN
         {
             get { return this._administrationRoleARN; }
@@ -72,12 +79,32 @@ namespace Amazon.CloudFormation.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AutoDeployment. 
+        /// <para>
+        /// [<code>Service-managed</code> permissions] Describes whether StackSets automatically
+        /// deploys to AWS Organizations accounts that are added to a target organization or organizational
+        /// unit (OU).
+        /// </para>
+        /// </summary>
+        public AutoDeployment AutoDeployment
+        {
+            get { return this._autoDeployment; }
+            set { this._autoDeployment = value; }
+        }
+
+        // Check to see if AutoDeployment property is set
+        internal bool IsSetAutoDeployment()
+        {
+            return this._autoDeployment != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Capabilities. 
         /// <para>
         /// The capabilities that are allowed in the stack set. Some stack set templates might
         /// include resources that can affect permissions in your AWS account—for example, by
         /// creating new AWS Identity and Access Management (IAM) users. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
+        /// see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
         /// IAM Resources in AWS CloudFormation Templates.</a> 
         /// </para>
         /// </summary>
@@ -99,6 +126,7 @@ namespace Amazon.CloudFormation.Model
         /// A description of the stack set that you specify when the stack set is created or updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -109,6 +137,49 @@ namespace Amazon.CloudFormation.Model
         internal bool IsSetDescription()
         {
             return this._description != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ExecutionRoleName. 
+        /// <para>
+        /// The name of the IAM execution role used to create or update the stack set. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Use customized execution roles to control which stack resources users and groups can
+        /// include in their stack sets. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=64)]
+        public string ExecutionRoleName
+        {
+            get { return this._executionRoleName; }
+            set { this._executionRoleName = value; }
+        }
+
+        // Check to see if ExecutionRoleName property is set
+        internal bool IsSetExecutionRoleName()
+        {
+            return this._executionRoleName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OrganizationalUnitIds. 
+        /// <para>
+        /// [<code>Service-managed</code> permissions] The organization root ID or organizational
+        /// unit (OUs) IDs to which stacks in your stack set have been deployed.
+        /// </para>
+        /// </summary>
+        public List<string> OrganizationalUnitIds
+        {
+            get { return this._organizationalUnitIds; }
+            set { this._organizationalUnitIds = value; }
+        }
+
+        // Check to see if OrganizationalUnitIds property is set
+        internal bool IsSetOrganizationalUnitIds()
+        {
+            return this._organizationalUnitIds != null && this._organizationalUnitIds.Count > 0; 
         }
 
         /// <summary>
@@ -130,6 +201,39 @@ namespace Amazon.CloudFormation.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PermissionModel. 
+        /// <para>
+        /// Describes how the IAM roles required for stack set operations are created.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// With <code>self-managed</code> permissions, you must create the administrator and
+        /// execution roles required to deploy to target accounts. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html">Grant
+        /// Self-Managed Stack Set Permissions</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// With <code>service-managed</code> permissions, StackSets automatically creates the
+        /// IAM roles required to deploy to accounts managed by AWS Organizations. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html">Grant
+        /// Service-Managed Stack Set Permissions</a>.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public PermissionModels PermissionModel
+        {
+            get { return this._permissionModel; }
+            set { this._permissionModel = value; }
+        }
+
+        // Check to see if PermissionModel property is set
+        internal bool IsSetPermissionModel()
+        {
+            return this._permissionModel != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StackSetARN. 
         /// <para>
         /// The Amazon Resource Number (ARN) of the stack set.
@@ -145,6 +249,30 @@ namespace Amazon.CloudFormation.Model
         internal bool IsSetStackSetARN()
         {
             return this._stackSetARN != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property StackSetDriftDetectionDetails. 
+        /// <para>
+        /// Detailed information about the drift status of the stack set.
+        /// </para>
+        ///  
+        /// <para>
+        /// For stack sets, contains information about the last <i>completed</i> drift operation
+        /// performed on the stack set. Information about drift operations currently in progress
+        /// is not included.
+        /// </para>
+        /// </summary>
+        public StackSetDriftDetectionDetails StackSetDriftDetectionDetails
+        {
+            get { return this._stackSetDriftDetectionDetails; }
+            set { this._stackSetDriftDetectionDetails = value; }
+        }
+
+        // Check to see if StackSetDriftDetectionDetails property is set
+        internal bool IsSetStackSetDriftDetectionDetails()
+        {
+            return this._stackSetDriftDetectionDetails != null;
         }
 
         /// <summary>
@@ -208,6 +336,7 @@ namespace Amazon.CloudFormation.Model
         /// tags can be specified.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<Tag> Tags
         {
             get { return this._tags; }
@@ -227,6 +356,7 @@ namespace Amazon.CloudFormation.Model
         /// the stack set.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string TemplateBody
         {
             get { return this._templateBody; }

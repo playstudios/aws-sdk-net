@@ -29,14 +29,21 @@ namespace Amazon.ElasticLoadBalancingV2.Model
 {
     /// <summary>
     /// Container for the parameters to the ModifyListener operation.
-    /// Modifies the specified properties of the specified listener.
+    /// Replaces the specified properties of the specified listener. Any properties that you
+    /// do not specify remain unchanged.
     /// 
     ///  
     /// <para>
-    /// Any properties that you do not specify retain their current values. However, changing
-    /// the protocol from HTTPS to HTTP removes the security policy and SSL certificate properties.
-    /// If you change the protocol from HTTP to HTTPS, you must add the security policy and
-    /// server certificate.
+    /// Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security
+    /// policy and default certificate properties. If you change the protocol from HTTP to
+    /// HTTPS, or from TCP to TLS, you must add the security policy and default certificate
+    /// properties.
+    /// </para>
+    ///  
+    /// <para>
+    /// To add an item to a list, remove an item from a list, or update an item in a list,
+    /// you must provide the entire list. For example, to add an action, specify a list with
+    /// the current actions plus the new action.
     /// </para>
     /// </summary>
     public partial class ModifyListenerRequest : AmazonElasticLoadBalancingV2Request
@@ -51,7 +58,13 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property Certificates. 
         /// <para>
-        /// The default SSL server certificate.
+        /// [HTTPS and TLS listeners] The default certificate for the listener. You must provide
+        /// exactly one certificate. Set <code>CertificateArn</code> to the certificate ARN but
+        /// do not set <code>IsDefault</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// To create a certificate list, use <a>AddListenerCertificates</a>.
         /// </para>
         /// </summary>
         public List<Certificate> Certificates
@@ -69,9 +82,35 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property DefaultActions. 
         /// <para>
-        /// The default action. For Application Load Balancers, the protocol of the specified
-        /// target group must be HTTP or HTTPS. For Network Load Balancers, the protocol of the
-        /// specified target group must be TCP.
+        /// The actions for the default rule. The rule must include one forward action or one
+        /// or more fixed-response actions.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the action type is <code>forward</code>, you specify one or more target groups.
+        /// The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer.
+        /// The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load
+        /// Balancer.
+        /// </para>
+        ///  
+        /// <para>
+        /// [HTTPS listeners] If the action type is <code>authenticate-oidc</code>, you authenticate
+        /// users through an identity provider that is OpenID Connect (OIDC) compliant.
+        /// </para>
+        ///  
+        /// <para>
+        /// [HTTPS listeners] If the action type is <code>authenticate-cognito</code>, you authenticate
+        /// users through the user pools supported by Amazon Cognito.
+        /// </para>
+        ///  
+        /// <para>
+        /// [Application Load Balancer] If the action type is <code>redirect</code>, you redirect
+        /// specified client requests from one URL to another.
+        /// </para>
+        ///  
+        /// <para>
+        /// [Application Load Balancer] If the action type is <code>fixed-response</code>, you
+        /// drop specified client requests and return a custom HTTP response.
         /// </para>
         /// </summary>
         public List<Action> DefaultActions
@@ -92,6 +131,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The Amazon Resource Name (ARN) of the listener.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ListenerArn
         {
             get { return this._listenerArn; }
@@ -110,6 +150,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The port for connections from clients to the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=65535)]
         public int Port
         {
             get { return this._port.GetValueOrDefault(); }
@@ -126,7 +167,8 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// Gets and sets the property Protocol. 
         /// <para>
         /// The protocol for connections from clients to the load balancer. Application Load Balancers
-        /// support HTTP and HTTPS and Network Load Balancers support TCP.
+        /// support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS,
+        /// UDP, and TCP_UDP protocols.
         /// </para>
         /// </summary>
         public ProtocolEnum Protocol
@@ -144,9 +186,50 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property SslPolicy. 
         /// <para>
-        /// The security policy that defines which protocols and ciphers are supported. For more
-        /// information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
-        /// Policies</a> in the <i>Application Load Balancers Guide</i>.
+        /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers
+        /// are supported. The following are the possible values:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-2016-08</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-TLS-1-0-2015-04</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-TLS-1-1-2017-01</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-TLS-1-2-2017-01</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-TLS-1-2-Ext-2018-06</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-FS-2018-06</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-FS-1-1-2019-08</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-FS-1-2-2019-08</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>ELBSecurityPolicy-FS-1-2-Res-2019-08</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information, see <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
+        /// Policies</a> in the <i>Application Load Balancers Guide</i> and <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
+        /// Policies</a> in the <i>Network Load Balancers Guide</i>.
         /// </para>
         /// </summary>
         public string SslPolicy

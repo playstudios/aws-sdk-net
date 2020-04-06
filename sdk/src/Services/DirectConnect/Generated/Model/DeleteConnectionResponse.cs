@@ -28,28 +28,32 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DirectConnect.Model
 {
     /// <summary>
-    /// A connection represents the physical network connection between the AWS Direct Connect
-    /// location and the customer.
+    /// Information about an AWS Direct Connect connection.
     /// </summary>
     public partial class DeleteConnectionResponse : AmazonWebServiceResponse
     {
         private string _awsDevice;
+        private string _awsDeviceV2;
         private string _bandwidth;
         private string _connectionId;
         private string _connectionName;
         private ConnectionState _connectionState;
+        private HasLogicalRedundancy _hasLogicalRedundancy;
+        private bool? _jumboFrameCapable;
         private string _lagId;
         private DateTime? _loaIssueTime;
         private string _location;
         private string _ownerAccount;
         private string _partnerName;
+        private string _providerName;
         private string _region;
+        private List<Tag> _tags = new List<Tag>();
         private int? _vlan;
 
         /// <summary>
         /// Gets and sets the property AwsDevice. 
         /// <para>
-        /// The Direct Connection endpoint which the physical connection terminates on.
+        /// The Direct Connect endpoint on which the physical connection terminates.
         /// </para>
         /// </summary>
         public string AwsDevice
@@ -65,17 +69,27 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AwsDeviceV2. 
+        /// <para>
+        /// The Direct Connect endpoint on which the physical connection terminates.
+        /// </para>
+        /// </summary>
+        public string AwsDeviceV2
+        {
+            get { return this._awsDeviceV2; }
+            set { this._awsDeviceV2 = value; }
+        }
+
+        // Check to see if AwsDeviceV2 property is set
+        internal bool IsSetAwsDeviceV2()
+        {
+            return this._awsDeviceV2 != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Bandwidth. 
         /// <para>
-        /// Bandwidth of the connection.
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections)
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The bandwidth of the connection.
         /// </para>
         /// </summary>
         public string Bandwidth
@@ -91,7 +105,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ConnectionId.
+        /// Gets and sets the property ConnectionId. 
+        /// <para>
+        /// The ID of the connection.
+        /// </para>
         /// </summary>
         public string ConnectionId
         {
@@ -106,7 +123,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ConnectionName.
+        /// Gets and sets the property ConnectionName. 
+        /// <para>
+        /// The name of the connection.
+        /// </para>
         /// </summary>
         public string ConnectionName
         {
@@ -121,7 +141,52 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ConnectionState.
+        /// Gets and sets the property ConnectionState. 
+        /// <para>
+        /// The state of the connection. The following are the possible values:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>ordering</code>: The initial state of a hosted connection provisioned on an
+        /// interconnect. The connection stays in the ordering state until the owner of the hosted
+        /// connection confirms or declines the connection order.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>requested</code>: The initial state of a standard connection. The connection
+        /// stays in the requested state until the Letter of Authorization (LOA) is sent to the
+        /// customer.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>pending</code>: The connection has been approved and is being initialized.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>available</code>: The network link is up and the connection is ready for use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>down</code>: The network link is down.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>deleting</code>: The connection is being deleted.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>deleted</code>: The connection has been deleted.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>rejected</code>: A hosted connection in the <code>ordering</code> state enters
+        /// the <code>rejected</code> state if it is deleted by the customer.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>unknown</code>: The state of the connection is not available.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public ConnectionState ConnectionState
         {
@@ -136,7 +201,47 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LagId.
+        /// Gets and sets the property HasLogicalRedundancy. 
+        /// <para>
+        /// Indicates whether the connection supports a secondary BGP peer in the same address
+        /// family (IPv4/IPv6).
+        /// </para>
+        /// </summary>
+        public HasLogicalRedundancy HasLogicalRedundancy
+        {
+            get { return this._hasLogicalRedundancy; }
+            set { this._hasLogicalRedundancy = value; }
+        }
+
+        // Check to see if HasLogicalRedundancy property is set
+        internal bool IsSetHasLogicalRedundancy()
+        {
+            return this._hasLogicalRedundancy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property JumboFrameCapable. 
+        /// <para>
+        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// </para>
+        /// </summary>
+        public bool JumboFrameCapable
+        {
+            get { return this._jumboFrameCapable.GetValueOrDefault(); }
+            set { this._jumboFrameCapable = value; }
+        }
+
+        // Check to see if JumboFrameCapable property is set
+        internal bool IsSetJumboFrameCapable()
+        {
+            return this._jumboFrameCapable.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property LagId. 
+        /// <para>
+        /// The ID of the LAG.
+        /// </para>
         /// </summary>
         public string LagId
         {
@@ -169,7 +274,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Location.
+        /// Gets and sets the property Location. 
+        /// <para>
+        /// The location of the connection.
+        /// </para>
         /// </summary>
         public string Location
         {
@@ -186,7 +294,7 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property OwnerAccount. 
         /// <para>
-        /// The AWS account that will own the new connection.
+        /// The ID of the AWS account that owns the connection.
         /// </para>
         /// </summary>
         public string OwnerAccount
@@ -220,7 +328,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Region.
+        /// Gets and sets the property ProviderName. 
+        /// <para>
+        /// The name of the service provider associated with the connection.
+        /// </para>
+        /// </summary>
+        public string ProviderName
+        {
+            get { return this._providerName; }
+            set { this._providerName = value; }
+        }
+
+        // Check to see if ProviderName property is set
+        internal bool IsSetProviderName()
+        {
+            return this._providerName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Region. 
+        /// <para>
+        /// The AWS Region where the connection is located.
+        /// </para>
         /// </summary>
         public string Region
         {
@@ -235,7 +364,29 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Vlan.
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags associated with the connection.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Vlan. 
+        /// <para>
+        /// The ID of the VLAN.
+        /// </para>
         /// </summary>
         public int Vlan
         {

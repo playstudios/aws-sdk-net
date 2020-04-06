@@ -34,7 +34,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// 
     ///  
     /// <para>
-    /// Note that you can't specify a security group for a Network Load Balancer.
+    /// You can't specify a security group for a Network Load Balancer.
     /// </para>
     /// </summary>
     public partial class SetSecurityGroupsRequest : AmazonElasticLoadBalancingV2Request
@@ -48,6 +48,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The Amazon Resource Name (ARN) of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerArn
         {
             get { return this._loadBalancerArn; }
@@ -66,6 +67,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The IDs of the security groups.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> SecurityGroups
         {
             get { return this._securityGroups; }

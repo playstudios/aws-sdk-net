@@ -41,6 +41,7 @@ namespace Amazon.CodeBuild.Model
         /// A list of build IDs, with each build ID representing a single build.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> Ids
         {
             get { return this._ids; }
@@ -57,7 +58,7 @@ namespace Amazon.CodeBuild.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If there are more than 100 items in the list, only the first 100 items are returned,
-        /// along with a unique string called a <i>next token</i>. To get the next batch of items
+        /// along with a unique string called a <i>nextToken</i>. To get the next batch of items
         /// in the list, call this operation again, adding the next token to the call.
         /// </para>
         /// </summary>

@@ -32,10 +32,6 @@ namespace Amazon.GameLift.Model
     /// VPC for your Amazon GameLift fleets. This record may be for an active peering connection
     /// or a pending connection that has not yet been established.
     /// 
-    ///  
-    /// <para>
-    /// VPC peering connection operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateVpcPeeringAuthorization</a> 
@@ -64,6 +60,7 @@ namespace Amazon.GameLift.Model
     /// </summary>
     public partial class VpcPeeringConnection
     {
+        private string _fleetArn;
         private string _fleetId;
         private string _gameLiftVpcId;
         private string _ipV4CidrBlock;
@@ -72,10 +69,29 @@ namespace Amazon.GameLift.Model
         private string _vpcPeeringConnectionId;
 
         /// <summary>
+        /// Gets and sets the property FleetArn. 
+        /// <para>
+        ///  The Amazon Resource Name (<a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>)
+        /// associated with the GameLift fleet resource for this connection. 
+        /// </para>
+        /// </summary>
+        public string FleetArn
+        {
+            get { return this._fleetArn; }
+            set { this._fleetArn = value; }
+        }
+
+        // Check to see if FleetArn property is set
+        internal bool IsSetFleetArn()
+        {
+            return this._fleetArn != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property FleetId. 
         /// <para>
-        /// Unique identifier for a fleet. This ID determines the ID of the Amazon GameLift VPC
-        /// for your fleet.
+        /// A unique identifier for a fleet. This ID determines the ID of the Amazon GameLift
+        /// VPC for your fleet.
         /// </para>
         /// </summary>
         public string FleetId
@@ -93,10 +109,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property GameLiftVpcId. 
         /// <para>
-        /// Unique identifier for the VPC that contains the Amazon GameLift fleet for this connection.
+        /// A unique identifier for the VPC that contains the Amazon GameLift fleet for this connection.
         /// This VPC is managed by Amazon GameLift and does not appear in your AWS account. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string GameLiftVpcId
         {
             get { return this._gameLiftVpcId; }
@@ -117,6 +134,7 @@ namespace Amazon.GameLift.Model
         /// overlap or the peering connection cannot be created. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string IpV4CidrBlock
         {
             get { return this._ipV4CidrBlock; }
@@ -132,12 +150,14 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property PeerVpcId. 
         /// <para>
-        /// Unique identifier for a VPC with resources to be accessed by your Amazon GameLift
-        /// fleet. The VPC must be in the same region where your fleet is deployed. To get VPC
-        /// information, including IDs, use the Virtual Private Cloud service tools, including
-        /// the VPC Dashboard in the AWS Management Console.
+        /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift
+        /// fleet. The VPC must be in the same Region where your fleet is deployed. Look up a
+        /// VPC ID using the <a href="https://console.aws.amazon.com/vpc/">VPC Dashboard</a> in
+        /// the AWS Management Console. Learn more about VPC peering in <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html">VPC
+        /// Peering with Amazon GameLift Fleets</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string PeerVpcId
         {
             get { return this._peerVpcId; }
@@ -153,8 +173,8 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// Object that contains status information about the connection. Status indicates if
-        /// a connection is pending, successful, or failed.
+        /// The status information about the connection. Status indicates if a connection is pending,
+        /// successful, or failed.
         /// </para>
         /// </summary>
         public VpcPeeringConnectionStatus Status
@@ -172,11 +192,12 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property VpcPeeringConnectionId. 
         /// <para>
-        /// Unique identifier that is automatically assigned to the connection record. This ID
-        /// is referenced in VPC peering connection events, and is used when deleting a connection
+        /// A unique identifier that is automatically assigned to the connection record. This
+        /// ID is referenced in VPC peering connection events, and is used when deleting a connection
         /// with <a>DeleteVpcPeeringConnection</a>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string VpcPeeringConnectionId
         {
             get { return this._vpcPeeringConnectionId; }

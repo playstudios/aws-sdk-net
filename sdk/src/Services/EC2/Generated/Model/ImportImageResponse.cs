@@ -28,15 +28,18 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output for ImportImage.
+    /// This is the response object from the ImportImage operation.
     /// </summary>
     public partial class ImportImageResponse : AmazonWebServiceResponse
     {
         private string _architecture;
         private string _description;
+        private bool? _encrypted;
         private string _hypervisor;
         private string _imageId;
         private string _importTaskId;
+        private string _kmsKeyId;
+        private List<ImportImageLicenseConfigurationResponse> _licenseSpecifications = new List<ImportImageLicenseConfigurationResponse>();
         private string _licenseType;
         private string _platform;
         private string _progress;
@@ -78,6 +81,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetDescription()
         {
             return this._description != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Encrypted. 
+        /// <para>
+        /// Indicates whether the AMI is encypted.
+        /// </para>
+        /// </summary>
+        public bool Encrypted
+        {
+            get { return this._encrypted.GetValueOrDefault(); }
+            set { this._encrypted = value; }
+        }
+
+        // Check to see if Encrypted property is set
+        internal bool IsSetEncrypted()
+        {
+            return this._encrypted.HasValue; 
         }
 
         /// <summary>
@@ -132,6 +153,43 @@ namespace Amazon.EC2.Model
         internal bool IsSetImportTaskId()
         {
             return this._importTaskId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property KmsKeyId. 
+        /// <para>
+        /// The identifier for the symmetric AWS Key Management Service (AWS KMS) customer master
+        /// key (CMK) that was used to create the encrypted AMI.
+        /// </para>
+        /// </summary>
+        public string KmsKeyId
+        {
+            get { return this._kmsKeyId; }
+            set { this._kmsKeyId = value; }
+        }
+
+        // Check to see if KmsKeyId property is set
+        internal bool IsSetKmsKeyId()
+        {
+            return this._kmsKeyId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LicenseSpecifications. 
+        /// <para>
+        /// The ARNs of the license configurations.
+        /// </para>
+        /// </summary>
+        public List<ImportImageLicenseConfigurationResponse> LicenseSpecifications
+        {
+            get { return this._licenseSpecifications; }
+            set { this._licenseSpecifications = value; }
+        }
+
+        // Check to see if LicenseSpecifications property is set
+        internal bool IsSetLicenseSpecifications()
+        {
+            return this._licenseSpecifications != null && this._licenseSpecifications.Count > 0; 
         }
 
         /// <summary>

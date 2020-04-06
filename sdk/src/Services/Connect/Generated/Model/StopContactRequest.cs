@@ -29,13 +29,7 @@ namespace Amazon.Connect.Model
 {
     /// <summary>
     /// Container for the parameters to the StopContact operation.
-    /// Ends the contact initiated by the <code>StartOutboundVoiceContact</code> operation.
-    /// 
-    ///  
-    /// <para>
-    /// If you are using an IAM account, it must have permissions to the <code>connect:StopContact</code>
-    /// operation.
-    /// </para>
+    /// Ends the specified contact.
     /// </summary>
     public partial class StopContactRequest : AmazonConnectRequest
     {
@@ -45,10 +39,10 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property ContactId. 
         /// <para>
-        /// The unique identifier of the contact to end. This is the <code>ContactId</code> value
-        /// returned from the <code>StartOutboundVoiceContact</code> operation.
+        /// The ID of the contact.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string ContactId
         {
             get { return this._contactId; }
@@ -64,9 +58,10 @@ namespace Amazon.Connect.Model
         /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
-        /// The identifier of the Amazon Connect instance in which the contact is active.
+        /// The identifier of the Amazon Connect instance.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string InstanceId
         {
             get { return this._instanceId; }

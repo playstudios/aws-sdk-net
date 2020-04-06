@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Settings for Insertable Image
+    /// Settings that specify how your still graphic overlay appears.
     /// </summary>
     public partial class InsertableImage
     {
@@ -45,9 +45,11 @@ namespace Amazon.MediaConvert.Model
         private int? _width;
 
         /// <summary>
-        /// Gets and sets the property Duration. Use Duration (Duration) to set the time, in milliseconds,
-        /// for the image to remain on the output video.
+        /// Gets and sets the property Duration. Specify the time, in milliseconds, for the image
+        /// to remain on the output video. This duration includes fade-in time but not fade-out
+        /// time.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int Duration
         {
             get { return this._duration.GetValueOrDefault(); }
@@ -61,10 +63,13 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FadeIn. Use Fade in (FadeIut) to set the length, in milliseconds,
-        /// of the inserted image fade in. If you don't specify a value for Fade in, the image
-        /// will appear abruptly at the Start time.
+        /// Gets and sets the property FadeIn. Specify the length of time, in milliseconds, between
+        /// the Start time that you specify for the image insertion and the time that the image
+        /// appears at full opacity. Full opacity is the level that you specify for the opacity
+        /// setting. If you don't specify a value for Fade-in, the image will appear abruptly
+        /// at the overlay start time.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int FadeIn
         {
             get { return this._fadeIn.GetValueOrDefault(); }
@@ -78,10 +83,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FadeOut. Use Fade out (FadeOut) to set the length, in milliseconds,
-        /// of the inserted image fade out. If you don't specify a value for Fade out, the image
-        /// will disappear abruptly at the end of the inserted image duration.
+        /// Gets and sets the property FadeOut. Specify the length of time, in milliseconds, between
+        /// the end of the time that you have specified for the image overlay Duration and when
+        /// the overlaid image has faded to total transparency. If you don't specify a value for
+        /// Fade-out, the image will disappear abruptly at the end of the inserted image duration.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int FadeOut
         {
             get { return this._fadeOut.GetValueOrDefault(); }
@@ -95,10 +102,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Height. Specify the Height (Height) of the inserted image.
-        /// Use a value that is less than or equal to the video resolution height. Leave this
-        /// setting blank to use the native height of the image.
+        /// Gets and sets the property Height. Specify the height of the inserted image in pixels.
+        /// If you specify a value that's larger than the video resolution height, the service
+        /// will crop your overlaid image to fit. To use the native height of the image, keep
+        /// this setting blank.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int Height
         {
             get { return this._height.GetValueOrDefault(); }
@@ -112,10 +121,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ImageInserterInput. Use Image location (imageInserterInput)
-        /// to specify the Amazon S3 location of the image to be inserted into the output. Use
-        /// a 32 bit BMP, PNG, or TGA file that fits inside the video frame.
+        /// Gets and sets the property ImageInserterInput. Specify the HTTP, HTTPS, or Amazon
+        /// S3 location of the image that you want to overlay on the video. Use a PNG or TGA file.
         /// </summary>
+        [AWSProperty(Min=14)]
         public string ImageInserterInput
         {
             get { return this._imageInserterInput; }
@@ -129,10 +138,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ImageX. Use Left (ImageX) to set the distance, in pixels,
-        /// between the inserted image and the left edge of the frame. Required for BMP, PNG and
-        /// TGA input.
+        /// Gets and sets the property ImageX. Specify the distance, in pixels, between the inserted
+        /// image and the left edge of the video frame. Required for any image overlay that you
+        /// specify.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int ImageX
         {
             get { return this._imageX.GetValueOrDefault(); }
@@ -146,10 +156,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ImageY. Use Top (ImageY) to set the distance, in pixels,
-        /// between the inserted image and the top edge of the video frame. Required for BMP,
-        /// PNG and TGA input.
+        /// Gets and sets the property ImageY. Specify the distance, in pixels, between the overlaid
+        /// image and the top edge of the video frame. Required for any image overlay that you
+        /// specify.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int ImageY
         {
             get { return this._imageY.GetValueOrDefault(); }
@@ -163,10 +174,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Layer. Use Layer (Layer) to specify how overlapping inserted
-        /// images appear. Images with higher values of layer appear on top of images with lower
-        /// values of layer.
+        /// Gets and sets the property Layer. Specify how overlapping inserted images appear.
+        /// Images with higher values for Layer appear on top of images with lower values for
+        /// Layer.
         /// </summary>
+        [AWSProperty(Min=0, Max=99)]
         public int Layer
         {
             get { return this._layer.GetValueOrDefault(); }
@@ -184,6 +196,7 @@ namespace Amazon.MediaConvert.Model
         /// underlying video shows through the inserted image. 0 is transparent and 100 is fully
         /// opaque. Default is 50.
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public int Opacity
         {
             get { return this._opacity.GetValueOrDefault(); }
@@ -197,9 +210,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartTime. Use Start time (StartTime) to specify the video
-        /// timecode when the image is inserted in the output. This must be in timecode format
-        /// (HH:MM:SS:FF)
+        /// Gets and sets the property StartTime. Specify the timecode of the frame that you want
+        /// the overlay to first appear on. This must be in timecode (HH:MM:SS:FF or HH:MM:SS;FF)
+        /// format. Remember to take into account your timecode source settings.
         /// </summary>
         public string StartTime
         {
@@ -214,10 +227,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Width. Specify the Width (Width) of the inserted image.
-        /// Use a value that is less than or equal to the video resolution width. Leave this setting
-        /// blank to use the native width of the image.
+        /// Gets and sets the property Width. Specify the width of the inserted image in pixels.
+        /// If you specify a value that's larger than the video resolution width, the service
+        /// will crop your overlaid image to fit. To use the native width of the image, keep this
+        /// setting blank.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int Width
         {
             get { return this._width.GetValueOrDefault(); }

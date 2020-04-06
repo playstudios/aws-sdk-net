@@ -44,6 +44,7 @@ namespace Amazon.IoT.Model
         /// The maximum number of results to return at one time.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=250)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -59,8 +60,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token used to get the next set of results, or <b>null</b> if there are no additional
-        /// results.
+        /// The token to retrieve the next set of results.
         /// </para>
         /// </summary>
         public string NextToken
@@ -99,6 +99,7 @@ namespace Amazon.IoT.Model
         /// The thing group name.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ThingGroupName
         {
             get { return this._thingGroupName; }

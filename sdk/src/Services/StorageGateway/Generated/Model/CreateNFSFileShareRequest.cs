@@ -29,18 +29,18 @@ namespace Amazon.StorageGateway.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateNFSFileShare operation.
-    /// Creates a file share on an existing file gateway. In Storage Gateway, a file share
-    /// is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes
-    /// file shares using a Network File System (NFS) interface. This operation is only supported
-    /// in the file gateway type.
+    /// Creates a Network File System (NFS) file share on an existing file gateway. In Storage
+    /// Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage.
+    /// Storage Gateway exposes file shares using a NFS interface. This operation is only
+    /// supported for file gateways.
     /// 
     ///  <important> 
     /// <para>
     /// File gateway requires AWS Security Token Service (AWS STS) to be activated to enable
-    /// you create a file share. Make sure AWS STS is activated in the region you are creating
-    /// your file gateway in. If AWS STS is not activated in the region, activate it. For
-    /// information about how to activate AWS STS, see Activating and Deactivating AWS STS
-    /// in an AWS Region in the AWS Identity and Access Management User Guide. 
+    /// you create a file share. Make sure AWS STS is activated in the AWS Region you are
+    /// creating your file gateway in. If AWS STS is not activated in the AWS Region, activate
+    /// it. For information about how to activate AWS STS, see Activating and Deactivating
+    /// AWS STS in an AWS Region in the AWS Identity and Access Management User Guide. 
     /// </para>
     ///  
     /// <para>
@@ -64,6 +64,7 @@ namespace Amazon.StorageGateway.Model
         private bool? _requesterPays;
         private string _role;
         private string _squash;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property ClientList. 
@@ -72,6 +73,7 @@ namespace Amazon.StorageGateway.Model
         /// either valid IP addresses or valid CIDR blocks. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> ClientList
         {
             get { return this._clientList; }
@@ -91,6 +93,7 @@ namespace Amazon.StorageGateway.Model
         /// file share creation.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=100)]
         public string ClientToken
         {
             get { return this._clientToken; }
@@ -106,11 +109,13 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property DefaultStorageClass. 
         /// <para>
-        /// The default storage class for objects put into an Amazon S3 bucket by file gateway.
-        /// Possible values are S3_STANDARD or S3_STANDARD_IA. If this field is not populated,
-        /// the default value S3_STANDARD is used. Optional.
+        /// The default storage class for objects put into an Amazon S3 bucket by the file gateway.
+        /// Possible values are <code>S3_STANDARD</code>, <code>S3_STANDARD_IA</code>, or <code>S3_ONEZONE_IA</code>.
+        /// If this field is not populated, the default value <code>S3_STANDARD</code> is used.
+        /// Optional.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=5, Max=20)]
         public string DefaultStorageClass
         {
             get { return this._defaultStorageClass; }
@@ -130,6 +135,7 @@ namespace Amazon.StorageGateway.Model
         /// share.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }
@@ -145,9 +151,9 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GuessMIMETypeEnabled. 
         /// <para>
-        /// Enables guessing of the MIME type for uploaded objects based on file extensions. Set
-        /// this value to true to enable MIME type guessing, and otherwise to false. The default
-        /// value is true.
+        /// A value that enables guessing of the MIME type for uploaded objects based on file
+        /// extensions. Set this value to true to enable MIME type guessing, and otherwise to
+        /// false. The default value is true.
         /// </para>
         /// </summary>
         public bool GuessMIMETypeEnabled
@@ -184,10 +190,11 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property KMSKey. 
         /// <para>
-        /// The KMS key used for Amazon S3 server side encryption. This value can only be set
-        /// when KmsEncrypted is true. Optional.
+        /// The Amazon Resource Name (ARN) AWS KMS key used for Amazon S3 server side encryption.
+        /// This value can only be set when KMSEncrypted is true. Optional.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=7, Max=2048)]
         public string KMSKey
         {
             get { return this._kmsKey; }
@@ -206,6 +213,7 @@ namespace Amazon.StorageGateway.Model
         /// The ARN of the backed storage used for storing file data. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=16, Max=310)]
         public string LocationARN
         {
             get { return this._locationARN; }
@@ -239,8 +247,8 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property ObjectACL. 
         /// <para>
-        /// Sets the access control list permission for objects in the Amazon S3 bucket that a
-        /// file gateway puts objects into. The default value is "private".
+        /// A value that sets the access control list permission for objects in the S3 bucket
+        /// that a file gateway puts objects into. The default value is "private".
         /// </para>
         /// </summary>
         public ObjectACL ObjectACL
@@ -258,8 +266,8 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property ReadOnly. 
         /// <para>
-        /// Sets the write status of a file share. This value is true if the write status is read-only,
-        /// and otherwise false.
+        /// A value that sets the write status of a file share. This value is true if the write
+        /// status is read-only, and otherwise false.
         /// </para>
         /// </summary>
         public bool ReadOnly
@@ -277,10 +285,18 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property RequesterPays. 
         /// <para>
-        /// Sets who pays the cost of the request and the data download from the Amazon S3 bucket.
-        /// Set this value to true if you want the requester to pay instead of the bucket owner,
-        /// and otherwise to false.
+        /// A value that sets who pays the cost of the request and the cost associated with data
+        /// download from the S3 bucket. If this value is set to true, the requester pays the
+        /// costs. Otherwise the S3 bucket owner pays. However, the S3 bucket owner always pays
+        /// the cost of storing data.
         /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>RequesterPays</code> is a configuration for the S3 bucket that backs the file
+        /// share, so make sure that the configuration on the file share is the same as the S3
+        /// bucket configuration.
+        /// </para>
+        ///  </note>
         /// </summary>
         public bool RequesterPays
         {
@@ -301,6 +317,7 @@ namespace Amazon.StorageGateway.Model
         /// when it accesses the underlying storage. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string Role
         {
             get { return this._role; }
@@ -316,22 +333,23 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property Squash. 
         /// <para>
-        /// Maps a user to anonymous user. Valid options are the following: 
+        /// A value that maps a user to anonymous user. Valid options are the following: 
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// "RootSquash" - Only root is mapped to anonymous user.
+        ///  <code>RootSquash</code> - Only root is mapped to anonymous user.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// "NoSquash" - No one is mapped to anonymous user.
+        ///  <code>NoSquash</code> - No one is mapped to anonymous user
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// "AllSquash" - Everyone is mapped to anonymous user.
+        ///  <code>AllSquash</code> - Everyone is mapped to anonymous user.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=5, Max=15)]
         public string Squash
         {
             get { return this._squash; }
@@ -342,6 +360,33 @@ namespace Amazon.StorageGateway.Model
         internal bool IsSetSquash()
         {
             return this._squash != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a
+        /// key-value pair.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// Valid characters for key and value are letters, spaces, and numbers representable
+        /// in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum
+        /// length of a tag's key is 128 characters, and the maximum length for a tag's value
+        /// is 256.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

@@ -28,7 +28,15 @@ using Amazon.Runtime.Internal;
 namespace Amazon.AutoScaling.Model
 {
     /// <summary>
-    /// Describes a launch template.
+    /// Describes a launch template and the launch template version.
+    /// 
+    ///  
+    /// <para>
+    /// The launch template that is specified must be configured for use with an Auto Scaling
+    /// group. For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html">Creating
+    /// a Launch Template for an Auto Scaling Group</a> in the <i>Amazon EC2 Auto Scaling
+    /// User Guide</i>.
+    /// </para>
     /// </summary>
     public partial class LaunchTemplateSpecification
     {
@@ -43,6 +51,7 @@ namespace Amazon.AutoScaling.Model
         /// name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string LaunchTemplateId
         {
             get { return this._launchTemplateId; }
@@ -62,6 +71,7 @@ namespace Amazon.AutoScaling.Model
         /// ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string LaunchTemplateName
         {
             get { return this._launchTemplateName; }
@@ -78,12 +88,13 @@ namespace Amazon.AutoScaling.Model
         /// Gets and sets the property Version. 
         /// <para>
         /// The version number, <code>$Latest</code>, or <code>$Default</code>. If the value is
-        /// <code>$Latest</code>, Auto Scaling selects the latest version of the launch template
-        /// when launching instances. If the value is <code>$Default</code>, Auto Scaling selects
-        /// the default version of the launch template when launching instances. The default value
-        /// is <code>$Default</code>.
+        /// <code>$Latest</code>, Amazon EC2 Auto Scaling selects the latest version of the launch
+        /// template when launching instances. If the value is <code>$Default</code>, Amazon EC2
+        /// Auto Scaling selects the default version of the launch template when launching instances.
+        /// The default value is <code>$Default</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Version
         {
             get { return this._version; }

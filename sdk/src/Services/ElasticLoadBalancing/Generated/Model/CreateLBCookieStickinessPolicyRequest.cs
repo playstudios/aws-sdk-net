@@ -51,7 +51,7 @@ namespace Amazon.ElasticLoadBalancing.Model
     ///  
     /// <para>
     /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration">Duration-Based
-    /// Session Stickiness</a> in the <i>Classic Load Balancer Guide</i>.
+    /// Session Stickiness</a> in the <i>Classic Load Balancers Guide</i>.
     /// </para>
     /// </summary>
     public partial class CreateLBCookieStickinessPolicyRequest : AmazonElasticLoadBalancingRequest
@@ -102,6 +102,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// The name of the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string LoadBalancerName
         {
             get { return this._loadBalancerName; }
@@ -122,6 +123,7 @@ namespace Amazon.ElasticLoadBalancing.Model
         /// balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PolicyName
         {
             get { return this._policyName; }

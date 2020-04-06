@@ -39,9 +39,10 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property JobName. 
         /// <para>
-        /// The name of the predecessor job.
+        /// The name of the job definition used by the predecessor job run.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string JobName
         {
             get { return this._jobName; }
@@ -60,6 +61,7 @@ namespace Amazon.Glue.Model
         /// The job-run ID of the predecessor job run.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string RunId
         {
             get { return this._runId; }

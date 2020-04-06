@@ -66,6 +66,7 @@ namespace Amazon.SecretsManager.Model
         /// The default is that all characters from the included sets can be used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=4096)]
         public string ExcludeCharacters
         {
             get { return this._excludeCharacters; }
@@ -122,6 +123,17 @@ namespace Amazon.SecretsManager.Model
         /// Specifies that the generated password should not include punctuation characters. The
         /// default if you do not include this switch parameter is that punctuation characters
         /// can be included.
+        /// </para>
+        ///  
+        /// <para>
+        /// The following are the punctuation characters that <i>can</i> be included in the generated
+        /// password if you don't explicitly exclude them with <code>ExcludeCharacters</code>
+        /// or <code>ExcludePunctuation</code>:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { | } ~</code>
+        /// 
         /// </para>
         /// </summary>
         public bool ExcludePunctuation
@@ -181,6 +193,7 @@ namespace Amazon.SecretsManager.Model
         /// this parameter is 32 characters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
         public long PasswordLength
         {
             get { return this._passwordLength.GetValueOrDefault(); }

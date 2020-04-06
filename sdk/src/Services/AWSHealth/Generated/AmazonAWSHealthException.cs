@@ -28,10 +28,10 @@ namespace Amazon.AWSHealth
     ///<summary>
     /// Common exception for the AWSHealth service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonAWSHealthException : AmazonServiceException
+    public partial class AmazonAWSHealthException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonAWSHealthException
@@ -88,7 +88,7 @@ namespace Amazon.AWSHealth
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonAWSHealthException class with serialized data.
         /// </summary>

@@ -70,6 +70,24 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.Attachments = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("attributes", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Attribute, AttributeUnmarshaller>(AttributeUnmarshaller.Instance);
+                    unmarshalledObject.Attributes = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("availabilityZone", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.AvailabilityZone = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("capacityProviderName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.CapacityProviderName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("clusterArn", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -136,6 +154,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.HealthStatus = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("inferenceAccelerators", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<InferenceAccelerator, InferenceAcceleratorUnmarshaller>(InferenceAcceleratorUnmarshaller.Instance);
+                    unmarshalledObject.InferenceAccelerators = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("lastStatus", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -190,6 +214,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.StartedBy = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("stopCode", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.StopCode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("stoppedAt", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
@@ -206,6 +236,12 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.StoppingAt = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<Tag, TagUnmarshaller>(TagUnmarshaller.Instance);
+                    unmarshalledObject.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("taskArn", targetDepth))

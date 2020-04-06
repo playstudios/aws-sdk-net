@@ -29,7 +29,7 @@ namespace Amazon.CodeDeploy.Model
 {
     /// <summary>
     /// Container for the parameters to the ListDeploymentConfigs operation.
-    /// Lists the deployment configurations with the applicable IAM user or AWS account.
+    /// Lists the deployment configurations with the IAM user or AWS account.
     /// </summary>
     public partial class ListDeploymentConfigsRequest : AmazonCodeDeployRequest
     {
@@ -38,8 +38,8 @@ namespace Amazon.CodeDeploy.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// An identifier returned from the previous list deployment configurations call. It can
-        /// be used to return the next set of deployment configurations in the list. 
+        /// An identifier returned from the previous <code>ListDeploymentConfigs</code> call.
+        /// It can be used to return the next set of deployment configurations in the list. 
         /// </para>
         /// </summary>
         public string NextToken

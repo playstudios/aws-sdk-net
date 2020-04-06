@@ -29,7 +29,7 @@ namespace Amazon.SimpleSystemsManagement.Model
 {
     /// <summary>
     /// Container for the parameters to the PutParameter operation.
-    /// Add one or more parameters to the system.
+    /// Add a parameter to the system.
     /// </summary>
     public partial class PutParameterRequest : AmazonSimpleSystemsManagementRequest
     {
@@ -38,6 +38,9 @@ namespace Amazon.SimpleSystemsManagement.Model
         private string _keyId;
         private string _name;
         private bool? _overwrite;
+        private string _policies;
+        private List<Tag> _tags = new List<Tag>();
+        private ParameterTier _tier;
         private ParameterType _type;
         private string _value;
 
@@ -49,6 +52,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string AllowedPattern
         {
             get { return this._allowedPattern; }
@@ -64,7 +68,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Description. 
         /// <para>
-        /// Information about the parameter that you want to add to the system.
+        /// Information about the parameter that you want to add to the system. Optional but recommended.
         /// </para>
         ///  <important> 
         /// <para>
@@ -72,6 +76,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// </para>
         ///  </important>
         /// </summary>
+        [AWSProperty(Min=0, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -87,11 +92,30 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property KeyId. 
         /// <para>
-        /// The KMS Key ID that you want to use to encrypt a parameter when you choose the SecureString
-        /// data type. If you don't specify a key ID, the system uses the default key associated
-        /// with your AWS account.
+        /// The KMS Key ID that you want to use to encrypt a parameter. Either the default AWS
+        /// Key Management Service (AWS KMS) key automatically assigned to your AWS account or
+        /// a custom key. Required for parameters that use the <code>SecureString</code> data
+        /// type.
         /// </para>
+        ///  
+        /// <para>
+        /// If you don't specify a key ID, the system uses the default key associated with your
+        /// AWS account.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// To use your default AWS KMS key, choose the <code>SecureString</code> data type, and
+        /// do <i>not</i> specify the <code>Key ID</code> when you create the parameter. The system
+        /// automatically populates <code>Key ID</code> with your default KMS key.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// To use a custom KMS key, choose the <code>SecureString</code> data type with the <code>Key
+        /// ID</code> parameter.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -109,21 +133,58 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <para>
         /// The fully qualified name of the parameter that you want to add to the system. The
         /// fully qualified name includes the complete hierarchy of the parameter path and name.
-        /// For example: <code>/Dev/DBServer/MySQL/db-string13</code> 
+        /// For parameters in a hierarchy, you must include a leading forward slash character
+        /// (/) when you create or reference a parameter. For example: <code>/Dev/DBServer/MySQL/db-string13</code>
+        /// 
         /// </para>
         ///  
         /// <para>
-        /// For information about parameter name requirements and restrictions, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html#sysman-paramstore-su-create-about">About
-        /// Creating Systems Manager Parameters</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// Naming Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Parameter names are case sensitive.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A parameter name must be unique within an AWS Region
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Parameter names can include only the following symbols and letters: <code>a-zA-Z0-9_.-/</code>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A parameter name can't include spaces.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Parameter hierarchies are limited to a maximum depth of fifteen levels.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For additional information about valid values for parameter names, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html">Requirements
+        /// and Constraints for Parameter Names</a> in the <i>AWS Systems Manager User Guide</i>.
         /// </para>
         ///  <note> 
         /// <para>
         /// The maximum length constraint listed below includes capacity for additional system
-        /// attributes that are not part of the name. The maximum length for the fully qualified
-        /// parameter name is 1011 characters. 
+        /// attributes that are not part of the name. The maximum length for a parameter name,
+        /// including the full length of the parameter ARN, is 1011 characters. For example, the
+        /// length of the following parameter name is 65 characters, not 20 characters:
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName</code> 
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string Name
         {
             get { return this._name; }
@@ -155,11 +216,220 @@ namespace Amazon.SimpleSystemsManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Policies. 
+        /// <para>
+        /// One or more policies to apply to a parameter. This action takes a JSON array. Parameter
+        /// Store supports the following policy types:
+        /// </para>
+        ///  
+        /// <para>
+        /// Expiration: This policy deletes the parameter after it expires. When you create the
+        /// policy, you specify the expiration date. You can update the expiration date and time
+        /// by updating the policy. Updating the <i>parameter</i> does not affect the expiration
+        /// date and time. When the expiration time is reached, Parameter Store deletes the parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// ExpirationNotification: This policy triggers an event in Amazon CloudWatch Events
+        /// that notifies you about the expiration. By using this policy, you can receive notification
+        /// before or after the expiration time is reached, in units of days or hours.
+        /// </para>
+        ///  
+        /// <para>
+        /// NoChangeNotification: This policy triggers a CloudWatch event if a parameter has not
+        /// been modified for a specified period of time. This policy type is useful when, for
+        /// example, a secret needs to be changed within a period of time, but it has not been
+        /// changed.
+        /// </para>
+        ///  
+        /// <para>
+        /// All existing policies are preserved until you send new policies or an empty policy.
+        /// For more information about parameter policies, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-policies.html">Working
+        /// with Parameter Policies</a>. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
+        public string Policies
+        {
+            get { return this._policies; }
+            set { this._policies = value; }
+        }
+
+        // Check to see if Policies property is set
+        internal bool IsSetPolicies()
+        {
+            return this._policies != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource
+        /// in different ways, such as by purpose, owner, or environment. For example, you might
+        /// want to tag a Systems Manager parameter to identify the type of resource to which
+        /// it applies, the environment, or the type of configuration data referenced by the parameter.
+        /// In this case, you could specify the following key name/value pairs:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Key=Resource,Value=S3bucket</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key=OS,Value=Windows</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Key=ParameterType,Value=LicenseKey</code> 
+        /// </para>
+        ///  </li> </ul> <note> 
+        /// <para>
+        /// To add tags to an existing Systems Manager parameter, use the <a>AddTagsToResource</a>
+        /// action.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        [AWSProperty(Max=1000)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tier. 
+        /// <para>
+        /// The parameter tier to assign to a parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// Parameter Store offers a standard tier and an advanced tier for parameters. Standard
+        /// parameters have a content size limit of 4 KB and can't be configured to use parameter
+        /// policies. You can create a maximum of 10,000 standard parameters for each Region in
+        /// an AWS account. Standard parameters are offered at no additional cost. 
+        /// </para>
+        ///  
+        /// <para>
+        /// Advanced parameters have a content size limit of 8 KB and can be configured to use
+        /// parameter policies. You can create a maximum of 100,000 advanced parameters for each
+        /// Region in an AWS account. Advanced parameters incur a charge. For more information,
+        /// see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html">About
+        /// Advanced Parameters</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can change a standard parameter to an advanced parameter any time. But you can't
+        /// revert an advanced parameter to a standard parameter. Reverting an advanced parameter
+        /// to a standard parameter would result in data loss because the system would truncate
+        /// the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies
+        /// attached to the parameter. Lastly, advanced parameters use a different form of encryption
+        /// than standard parameters. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If you no longer need an advanced parameter, or if you no longer want to incur charges
+        /// for an advanced parameter, you must delete it and recreate it as a new standard parameter.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        ///  <b>Using the Default Tier Configuration</b> 
+        /// </para>
+        ///  
+        /// <para>
+        /// In <code>PutParameter</code> requests, you can specify the tier to create the parameter
+        /// in. Whenever you specify a tier in the request, Parameter Store creates or updates
+        /// the parameter according to that request. However, if you do not specify a tier in
+        /// a request, Parameter Store assigns the tier based on the current Parameter Store default
+        /// tier configuration.
+        /// </para>
+        ///  
+        /// <para>
+        /// The default tier when you begin using Parameter Store is the standard-parameter tier.
+        /// If you use the advanced-parameter tier, you can specify one of the following as the
+        /// default:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>Advanced</b>: With this option, Parameter Store evaluates all requests as advanced
+        /// parameters. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Intelligent-Tiering</b>: With this option, Parameter Store evaluates each request
+        /// to determine if the parameter is standard or advanced. 
+        /// </para>
+        ///  
+        /// <para>
+        /// If the request doesn't include any options that require an advanced parameter, the
+        /// parameter is created in the standard-parameter tier. If one or more options requiring
+        /// an advanced parameter are included in the request, Parameter Store create a parameter
+        /// in the advanced-parameter tier.
+        /// </para>
+        ///  
+        /// <para>
+        /// This approach helps control your parameter-related costs by always creating standard
+        /// parameters unless an advanced parameter is necessary. 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Options that require an advanced parameter include the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The content size of the parameter is more than 4 KB.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The parameter uses a parameter policy.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// More than 10,000 parameters already exist in your AWS account in the current Region.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information about configuring the default tier option, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/ps-default-tier.html">Specifying
+        /// a Default Parameter Tier</a> in the <i>AWS Systems Manager User Guide</i>.
+        /// </para>
+        /// </summary>
+        public ParameterTier Tier
+        {
+            get { return this._tier; }
+            set { this._tier = value; }
+        }
+
+        // Check to see if Tier property is set
+        internal bool IsSetTier()
+        {
+            return this._tier != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
         /// The type of parameter that you want to add to the system.
         /// </para>
+        ///  
+        /// <para>
+        /// Items in a <code>StringList</code> must be separated by a comma (,). You can't use
+        /// other punctuation or special character to escape items in the list. If you have a
+        /// parameter value that requires a comma, then use the <code>String</code> data type.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        ///  <code>SecureString</code> is not currently supported for AWS CloudFormation templates
+        /// or in the China Regions.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ParameterType Type
         {
             get { return this._type; }
@@ -175,9 +445,11 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property Value. 
         /// <para>
-        /// The parameter value that you want to add to the system.
+        /// The parameter value that you want to add to the system. Standard parameters have a
+        /// value limit of 4 KB. Advanced parameters have a value limit of 8 KB.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Value
         {
             get { return this._value; }

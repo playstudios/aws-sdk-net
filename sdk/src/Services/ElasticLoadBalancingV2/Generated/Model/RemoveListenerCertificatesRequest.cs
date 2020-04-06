@@ -29,7 +29,8 @@ namespace Amazon.ElasticLoadBalancingV2.Model
 {
     /// <summary>
     /// Container for the parameters to the RemoveListenerCertificates operation.
-    /// Removes the specified certificate from the specified secure listener.
+    /// Removes the specified certificate from the certificate list for the specified HTTPS
+    /// or TLS listener.
     /// 
     ///  
     /// <para>
@@ -49,9 +50,11 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property Certificates. 
         /// <para>
-        /// The certificate to remove. You can specify one certificate per call.
+        /// The certificate to remove. You can specify one certificate per call. Set <code>CertificateArn</code>
+        /// to the certificate ARN but do not set <code>IsDefault</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Certificate> Certificates
         {
             get { return this._certificates; }
@@ -70,6 +73,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The Amazon Resource Name (ARN) of the listener.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ListenerArn
         {
             get { return this._listenerArn; }

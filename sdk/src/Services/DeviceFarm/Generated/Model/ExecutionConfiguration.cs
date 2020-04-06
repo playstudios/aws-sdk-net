@@ -37,11 +37,12 @@ namespace Amazon.DeviceFarm.Model
         private bool? _appPackagesCleanup;
         private int? _jobTimeoutMinutes;
         private bool? _skipAppResign;
+        private bool? _videoCapture;
 
         /// <summary>
         /// Gets and sets the property AccountsCleanup. 
         /// <para>
-        /// True if account cleanup is enabled at the beginning of the test; otherwise, false.
+        /// True if account cleanup is enabled at the beginning of the test. Otherwise, false.
         /// </para>
         /// </summary>
         public bool AccountsCleanup
@@ -59,7 +60,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property AppPackagesCleanup. 
         /// <para>
-        /// True if app package cleanup is enabled at the beginning of the test; otherwise, false.
+        /// True if app package cleanup is enabled at the beginning of the test. Otherwise, false.
         /// </para>
         /// </summary>
         public bool AppPackagesCleanup
@@ -77,7 +78,7 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property JobTimeoutMinutes. 
         /// <para>
-        /// The number of minutes a test run will execute before it times out.
+        /// The number of minutes a test run executes before it times out.
         /// </para>
         /// </summary>
         public int JobTimeoutMinutes
@@ -95,13 +96,12 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property SkipAppResign. 
         /// <para>
-        /// When set to <code>true</code>, for private devices, Device Farm will not sign your
-        /// app again. For public devices, Device Farm always signs your apps again and this parameter
-        /// has no effect.
+        /// When set to <code>true</code>, for private devices, Device Farm does not sign your
+        /// app again. For public devices, Device Farm always signs your apps again.
         /// </para>
         ///  
         /// <para>
-        /// For more information about how Device Farm re-signs your app(s), see <a href="https://aws.amazon.com/device-farm/faq/">Do
+        /// For more information about how Device Farm re-signs your apps, see <a href="https://aws.amazon.com/device-farm/faq/">Do
         /// you modify my app?</a> in the <i>AWS Device Farm FAQs</i>.
         /// </para>
         /// </summary>
@@ -115,6 +115,24 @@ namespace Amazon.DeviceFarm.Model
         internal bool IsSetSkipAppResign()
         {
             return this._skipAppResign.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property VideoCapture. 
+        /// <para>
+        /// Set to true to enable video capture. Otherwise, set to false. The default is true.
+        /// </para>
+        /// </summary>
+        public bool VideoCapture
+        {
+            get { return this._videoCapture.GetValueOrDefault(); }
+            set { this._videoCapture = value; }
+        }
+
+        // Check to see if VideoCapture property is set
+        internal bool IsSetVideoCapture()
+        {
+            return this._videoCapture.HasValue; 
         }
 
     }

@@ -81,8 +81,8 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// A non-negative integer used to limit the number of returned results. The default is
-        /// 100 comments. You can return up to 500 comments with a single request.
+        /// A non-zero, non-negative integer used to limit the number of returned results. The
+        /// default is 100 comments. You can return up to 500 comments with a single request.
         /// </para>
         /// </summary>
         public int MaxResults
@@ -100,7 +100,7 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// An enumeration token that when provided in a request, returns the next batch of the
+        /// An enumeration token that, when provided in a request, returns the next batch of the
         /// results.
         /// </para>
         /// </summary>
@@ -122,6 +122,7 @@ namespace Amazon.CodeCommit.Model
         /// The system-generated ID of the pull request. To get this ID, use <a>ListPullRequests</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PullRequestId
         {
             get { return this._pullRequestId; }
@@ -140,6 +141,7 @@ namespace Amazon.CodeCommit.Model
         /// The name of the repository that contains the pull request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

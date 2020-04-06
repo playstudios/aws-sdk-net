@@ -29,12 +29,19 @@ namespace Amazon.ApplicationAutoScaling.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteScalingPolicy operation.
-    /// Deletes the specified Application Auto Scaling scaling policy.
+    /// Deletes the specified scaling policy for an Application Auto Scaling scalable target.
     /// 
     ///  
     /// <para>
-    /// Deleting a policy deletes the underlying alarm action, but does not delete the CloudWatch
-    /// alarm associated with the scaling policy, even if it no longer has an associated action.
+    /// Deleting a step scaling policy deletes the underlying alarm action, but does not delete
+    /// the CloudWatch alarm associated with the scaling policy, even if it no longer has
+    /// an associated action.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html#delete-step-scaling-policy">Delete
+    /// a Step Scaling Policy</a> and <a href="https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#delete-target-tracking-policy">Delete
+    /// a Target Tracking Scaling Policy</a> in the <i>Application Auto Scaling User Guide</i>.
     /// </para>
     ///  
     /// <para>
@@ -54,6 +61,7 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// The name of the scaling policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -79,8 +87,8 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Spot fleet request - The resource type is <code>spot-fleet-request</code> and the
-        /// unique identifier is the Spot fleet request ID. Example: <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
+        /// Spot Fleet request - The resource type is <code>spot-fleet-request</code> and the
+        /// unique identifier is the Spot Fleet request ID. Example: <code>spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -95,12 +103,12 @@ namespace Amazon.ApplicationAutoScaling.Model
         ///  </li> <li> 
         /// <para>
         /// DynamoDB table - The resource type is <code>table</code> and the unique identifier
-        /// is the resource ID. Example: <code>table/my-table</code>.
+        /// is the table name. Example: <code>table/my-table</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// DynamoDB global secondary index - The resource type is <code>index</code> and the
-        /// unique identifier is the resource ID. Example: <code>table/my-table/index/my-table-index</code>.
+        /// unique identifier is the index name. Example: <code>table/my-table/index/my-table-index</code>.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -109,11 +117,32 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Amazon SageMaker endpoint variants - The resource type is <code>variant</code> and
+        /// Amazon SageMaker endpoint variant - The resource type is <code>variant</code> and
         /// the unique identifier is the resource ID. Example: <code>endpoint/my-end-point/variant/KMeansClustering</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Custom resources are not supported with a resource type. This parameter must specify
+        /// the <code>OutputValue</code> from the CloudFormation template stack used to access
+        /// the resources. The unique identifier is defined by the service provider. More information
+        /// is available in our <a href="https://github.com/aws/aws-auto-scaling-custom-resource">GitHub
+        /// repository</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Amazon Comprehend document classification endpoint - The resource type and unique
+        /// identifier are specified using the endpoint ARN. Example: <code>arn:aws:comprehend:us-west-2:123456789012:document-classifier-endpoint/EXAMPLE</code>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Lambda provisioned concurrency - The resource type is <code>function</code> and the
+        /// unique identifier is the function name with a function version or alias name suffix
+        /// that is not <code>$LATEST</code>. Example: <code>function:my-function:prod</code>
+        /// or <code>function:my-function:1</code>.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -139,7 +168,7 @@ namespace Amazon.ApplicationAutoScaling.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>ec2:spot-fleet-request:TargetCapacity</code> - The target capacity of a Spot
-        /// fleet request.
+        /// Fleet request.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -174,15 +203,32 @@ namespace Amazon.ApplicationAutoScaling.Model
         ///  </li> <li> 
         /// <para>
         ///  <code>rds:cluster:ReadReplicaCount</code> - The count of Aurora Replicas in an Aurora
-        /// DB cluster. Available for Aurora MySQL-compatible edition.
+        /// DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible
+        /// edition.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>sagemaker:variant:DesiredInstanceCount</code> - The number of EC2 instances
         /// for an Amazon SageMaker model endpoint variant.
         /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>custom-resource:ResourceType:Property</code> - The scalable dimension for a
+        /// custom resource provided by your own application or service.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>comprehend:document-classifier-endpoint:DesiredInferenceUnits</code> - The
+        /// number of inference units for an Amazon Comprehend document classification endpoint.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>lambda:function:ProvisionedConcurrency</code> - The provisioned concurrency
+        /// for a Lambda function.
+        /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScalableDimension ScalableDimension
         {
             get { return this._scalableDimension; }
@@ -198,10 +244,13 @@ namespace Amazon.ApplicationAutoScaling.Model
         /// <summary>
         /// Gets and sets the property ServiceNamespace. 
         /// <para>
-        /// The namespace of the AWS service. For more information, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
+        /// The namespace of the AWS service that provides the resource or <code>custom-resource</code>
+        /// for a resource provided by your own application or service. For more information,
+        /// see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
         /// Service Namespaces</a> in the <i>Amazon Web Services General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ServiceNamespace ServiceNamespace
         {
             get { return this._serviceNamespace; }

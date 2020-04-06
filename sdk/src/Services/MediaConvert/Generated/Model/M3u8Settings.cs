@@ -53,6 +53,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property AudioFramesPerPes. The number of audio frames to insert
         /// for each PES packet.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int AudioFramesPerPes
         {
             get { return this._audioFramesPerPes.GetValueOrDefault(); }
@@ -83,7 +84,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property NielsenId3.
+        /// Gets and sets the property NielsenId3. If INSERT, Nielsen inaudible tones for media
+        /// tracking will be detected in the input audio and an equivalent ID3 tag will be inserted
+        /// in the output.
         /// </summary>
         public M3u8NielsenId3 NielsenId3
         {
@@ -101,6 +104,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property PatInterval. The number of milliseconds between instances
         /// of this table in the output transport stream.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PatInterval
         {
             get { return this._patInterval.GetValueOrDefault(); }
@@ -114,7 +118,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PcrControl.
+        /// Gets and sets the property PcrControl. When set to PCR_EVERY_PES_PACKET a Program
+        /// Clock Reference value is inserted for every Packetized Elementary Stream (PES) header.
+        /// This parameter is effective only when the PCR PID is the same as the video or audio
+        /// elementary stream.
         /// </summary>
         public M3u8PcrControl PcrControl
         {
@@ -133,6 +140,7 @@ namespace Amazon.MediaConvert.Model
         /// (PCR) in the transport stream. When no value is given, the encoder will assign the
         /// same value as the Video PID.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int PcrPid
         {
             get { return this._pcrPid.GetValueOrDefault(); }
@@ -149,6 +157,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property PmtInterval. The number of milliseconds between instances
         /// of this table in the output transport stream.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PmtInterval
         {
             get { return this._pmtInterval.GetValueOrDefault(); }
@@ -165,6 +174,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property PmtPid. Packet Identifier (PID) for the Program Map Table
         /// (PMT) in the transport stream.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int PmtPid
         {
             get { return this._pmtPid.GetValueOrDefault(); }
@@ -181,6 +191,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property PrivateMetadataPid. Packet Identifier (PID) of the private
         /// metadata stream in the transport stream.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int PrivateMetadataPid
         {
             get { return this._privateMetadataPid.GetValueOrDefault(); }
@@ -197,6 +208,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property ProgramNumber. The value of the program number field in
         /// the Program Map Table.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int ProgramNumber
         {
             get { return this._programNumber.GetValueOrDefault(); }
@@ -213,6 +225,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property Scte35Pid. Packet Identifier (PID) of the SCTE-35 stream
         /// in the transport stream.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int Scte35Pid
         {
             get { return this._scte35Pid.GetValueOrDefault(); }
@@ -226,7 +239,13 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Scte35Source.
+        /// Gets and sets the property Scte35Source. For SCTE-35 markers from your input-- Choose
+        /// Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to
+        /// also appear in this output. Choose None (NONE) if you don't want SCTE-35 markers in
+        /// this output. For SCTE-35 markers from an ESAM XML document-- Choose None (NONE) if
+        /// you don't want manifest conditioning. Choose Passthrough (PASSTHROUGH) and choose
+        /// Ad markers (adMarkers) if you do want manifest conditioning. In both cases, also provide
+        /// the ESAM XML as a string in the setting Signal processing notification XML (sccXml).
         /// </summary>
         public M3u8Scte35Source Scte35Source
         {
@@ -241,7 +260,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TimedMetadata.
+        /// Gets and sets the property TimedMetadata. Applies only to HLS outputs. Use this setting
+        /// to specify whether the service inserts the ID3 timed metadata from the input in this
+        /// output.
         /// </summary>
         public TimedMetadata TimedMetadata
         {
@@ -259,6 +280,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property TimedMetadataPid. Packet Identifier (PID) of the timed
         /// metadata stream in the transport stream.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int TimedMetadataPid
         {
             get { return this._timedMetadataPid.GetValueOrDefault(); }
@@ -275,6 +297,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property TransportStreamId. The value of the transport stream ID
         /// field in the Program Map Table.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int TransportStreamId
         {
             get { return this._transportStreamId.GetValueOrDefault(); }
@@ -291,6 +314,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property VideoPid. Packet Identifier (PID) of the elementary video
         /// stream in the transport stream.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int VideoPid
         {
             get { return this._videoPid.GetValueOrDefault(); }

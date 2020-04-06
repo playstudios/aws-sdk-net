@@ -64,6 +64,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("additionalManifests", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<DashAdditionalManifest, DashAdditionalManifestUnmarshaller>(DashAdditionalManifestUnmarshaller.Instance);
+                    unmarshalledObject.AdditionalManifests = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("baseUrl", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -74,6 +80,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Destination = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("destinationSettings", targetDepth))
+                {
+                    var unmarshaller = DestinationSettingsUnmarshaller.Instance;
+                    unmarshalledObject.DestinationSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("encryption", targetDepth))
@@ -100,6 +112,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.MinBufferTime = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("mpdProfile", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.MpdProfile = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("segmentControl", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -110,6 +128,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     unmarshalledObject.SegmentLength = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("writeSegmentTimelineInRepresentation", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.WriteSegmentTimelineInRepresentation = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

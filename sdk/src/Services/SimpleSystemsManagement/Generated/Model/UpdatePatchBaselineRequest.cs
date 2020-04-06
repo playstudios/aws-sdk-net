@@ -50,6 +50,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         private PatchFilterGroup _globalFilters;
         private string _name;
         private List<string> _rejectedPatches = new List<string>();
+        private PatchAction _rejectedPatchesAction;
         private bool? _replace;
         private List<PatchSource> _sources = new List<PatchSource>();
 
@@ -79,11 +80,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  
         /// <para>
         /// For information about accepted formats for lists of approved patches and rejected
-        /// patches, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+        /// patches, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
         /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems Manager
         /// User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> ApprovedPatches
         {
             get { return this._approvedPatches; }
@@ -140,6 +142,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The ID of the patch baseline to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=128)]
         public string BaselineId
         {
             get { return this._baselineId; }
@@ -158,6 +161,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// A description of the patch baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -173,7 +177,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property GlobalFilters. 
         /// <para>
-        /// A set of global filters used to exclude patches from the baseline.
+        /// A set of global filters used to include patches in the baseline.
         /// </para>
         /// </summary>
         public PatchFilterGroup GlobalFilters
@@ -194,6 +198,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The name of the patch baseline.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -214,11 +219,12 @@ namespace Amazon.SimpleSystemsManagement.Model
         ///  
         /// <para>
         /// For information about accepted formats for lists of approved patches and rejected
-        /// patches, see <a href="http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
+        /// patches, see <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">Package
         /// Name Formats for Approved and Rejected Patch Lists</a> in the <i>AWS Systems Manager
         /// User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public List<string> RejectedPatches
         {
             get { return this._rejectedPatches; }
@@ -229,6 +235,39 @@ namespace Amazon.SimpleSystemsManagement.Model
         internal bool IsSetRejectedPatches()
         {
             return this._rejectedPatches != null && this._rejectedPatches.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property RejectedPatchesAction. 
+        /// <para>
+        /// The action for Patch Manager to take on patches included in the RejectedPackages list.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>ALLOW_AS_DEPENDENCY</b>: A package in the Rejected patches list is installed only
+        /// if it is a dependency of another package. It is considered compliant with the patch
+        /// baseline, and its status is reported as <i>InstalledOther</i>. This is the default
+        /// action if no option is specified.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>BLOCK</b>: Packages in the RejectedPatches list, and packages that include them
+        /// as dependencies, are not installed under any circumstances. If a package was installed
+        /// before it was added to the Rejected patches list, it is considered non-compliant with
+        /// the patch baseline, and its status is reported as <i>InstalledRejected</i>.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public PatchAction RejectedPatchesAction
+        {
+            get { return this._rejectedPatchesAction; }
+            set { this._rejectedPatchesAction = value; }
+        }
+
+        // Check to see if RejectedPatchesAction property is set
+        internal bool IsSetRejectedPatchesAction()
+        {
+            return this._rejectedPatchesAction != null;
         }
 
         /// <summary>
@@ -257,6 +296,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// systems and source repositories. Applies to Linux instances only.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=20)]
         public List<PatchSource> Sources
         {
             get { return this._sources; }

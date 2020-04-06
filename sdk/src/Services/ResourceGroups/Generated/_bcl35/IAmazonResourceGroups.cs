@@ -322,7 +322,8 @@ namespace Amazon.ResourceGroups
 
 
         /// <summary>
-        /// Returns a list of tags that are associated with a resource, specified by an ARN.
+        /// Returns a list of tags that are associated with a resource group, specified by an
+        /// ARN.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetTags service method.</param>
         /// 
@@ -561,8 +562,8 @@ namespace Amazon.ResourceGroups
 
 
         /// <summary>
-        /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource
-        /// are not changed if they are not specified in the request parameters.
+        /// Adds tags to a resource group with the specified ARN. Existing tags on a resource
+        /// group are not changed if they are not specified in the request parameters.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the Tag service method.</param>
         /// 

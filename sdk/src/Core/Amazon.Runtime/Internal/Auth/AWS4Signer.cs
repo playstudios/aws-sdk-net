@@ -48,11 +48,11 @@ namespace Amazon.Runtime.Internal.Auth
 
         public const string UnsignedPayload = "UNSIGNED-PAYLOAD";
 
-        static readonly Regex CompressWhitespaceRegex = new Regex("\\s+");
         const SigningAlgorithm SignerAlgorithm = SigningAlgorithm.HmacSHA256;
 
         private static IEnumerable<string> _headersToIgnoreWhenSigning = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {
-            HeaderKeys.XAmznTraceIdHeader
+            HeaderKeys.XAmznTraceIdHeader,
+            HeaderKeys.TransferEncodingHeader
         };
 
         public AWS4Signer()
@@ -151,7 +151,7 @@ namespace Amazon.Runtime.Internal.Auth
         {
             var signedAt = InitializeHeaders(request.Headers, request.Endpoint);
             var service = DetermineService(clientConfig);
-            var region = DetermineSigningRegion(clientConfig, service, request.AlternateEndpoint, request);
+            request.DeterminedSigningRegion = DetermineSigningRegion(clientConfig, service, request.AlternateEndpoint, request);
 
             var parametersToCanonicalize = GetParametersToCanonicalize(request);
             var canonicalParameters = CanonicalizeQueryParameters(parametersToCanonicalize);
@@ -163,13 +163,16 @@ namespace Amazon.Runtime.Internal.Auth
                                                        request.HttpMethod,
                                                        sortedHeaders,
                                                        canonicalParameters,
-                                                       bodyHash);
+                                                       bodyHash,
+                                                       request.PathResources,
+                                                       request.MarshallerVersion,
+                                                       service);
             if (metrics != null)
                 metrics.AddProperty(Metric.CanonicalRequest, canonicalRequest);
 
             return ComputeSignature(awsAccessKeyId,
                                     awsSecretAccessKey,
-                                    region,
+                                    request.DeterminedSigningRegion,
                                     signedAt,
                                     service,
                                     CanonicalizeHeaderNames(sortedHeaders),
@@ -213,7 +216,7 @@ namespace Amazon.Runtime.Internal.Auth
             }
 
             var dt = requestDateTime;
-            headers[HeaderKeys.XAmzDateHeader] = dt.ToString(AWSSDKUtils.ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture);
+            headers[HeaderKeys.XAmzDateHeader] = dt.ToUniversalTime().ToString(AWSSDKUtils.ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture);
 
             return dt;
         }
@@ -335,7 +338,7 @@ namespace Amazon.Runtime.Internal.Auth
         /// <returns>The UTC date/time in the requested format</returns>
         public static string FormatDateTime(DateTime dt, string formatString)
         {
-            return dt.ToString(formatString, CultureInfo.InvariantCulture);
+            return dt.ToUniversalTime().ToString(formatString, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -568,6 +571,11 @@ namespace Amazon.Runtime.Internal.Auth
                 if (!string.IsNullOrEmpty(serviceEndpoint.AuthRegion))
                     return serviceEndpoint.AuthRegion;
 
+                // Check if the region is overridden in the endpoints.json file
+                var overrideRegion = RegionEndpoint.GetRegionEndpointOverride(endpoint);
+                if (overrideRegion != null)
+                    return overrideRegion.SystemName;
+
                 return endpoint.SystemName; 
             }
 
@@ -601,9 +609,94 @@ namespace Amazon.Runtime.Internal.Auth
                                                     string canonicalQueryString,
                                                     string precomputedBodyHash)
         {
+            return CanonicalizeRequest(endpoint, resourcePath, httpMethod, sortedHeaders, canonicalQueryString, precomputedBodyHash, null, 1);
+        }
+
+        /// <summary>
+        /// Computes and returns the canonical request
+        /// </summary>
+        /// <param name="endpoint">The endpoint URL</param>
+        /// <param name="resourcePath">the path of the resource being operated on</param>
+        /// <param name="httpMethod">The http method used for the request</param>
+        /// <param name="sortedHeaders">The full request headers, sorted into canonical order</param>
+        /// <param name="canonicalQueryString">The query parameters for the request</param>
+        /// <param name="precomputedBodyHash">
+        /// <param name="pathResources">The path resource values lookup to use to replace the keys within resourcePath</param>
+        /// The hash of the binary request body if present. If not supplied, the routine
+        /// will look for the hash as a header on the request.
+        /// </param>
+        /// <param name="marshallerVersion">The version of the marshaller that constructed the request object.</param>
+        /// <returns>Canonicalised request as a string</returns>
+        protected static string CanonicalizeRequest(Uri endpoint,
+                                                    string resourcePath,
+                                                    string httpMethod,
+                                                    IDictionary<string, string> sortedHeaders,
+                                                    string canonicalQueryString,
+                                                    string precomputedBodyHash,
+                                                    IDictionary<string, string> pathResources,
+                                                    int marshallerVersion)
+        {
+            return CanonicalizeRequestHelper(endpoint,
+                resourcePath,
+                httpMethod,
+                sortedHeaders,
+                canonicalQueryString,
+                precomputedBodyHash,
+                pathResources,
+                marshallerVersion,
+                true);
+        }
+
+        /// <summary>
+        /// Computes and returns the canonical request
+        /// </summary>
+        /// <param name="endpoint">The endpoint URL</param>
+        /// <param name="resourcePath">the path of the resource being operated on</param>
+        /// <param name="httpMethod">The http method used for the request</param>
+        /// <param name="sortedHeaders">The full request headers, sorted into canonical order</param>
+        /// <param name="canonicalQueryString">The query parameters for the request</param>
+        /// <param name="precomputedBodyHash">
+        /// <param name="pathResources">The path resource values lookup to use to replace the keys within resourcePath</param>
+        /// The hash of the binary request body if present. If not supplied, the routine
+        /// will look for the hash as a header on the request.
+        /// </param>
+        /// <param name="marshallerVersion">The version of the marshaller that constructed the request object.</param>
+        /// <param name="service">The service being called for the request</param>
+        /// <returns>Canonicalised request as a string</returns>
+        protected static string CanonicalizeRequest(Uri endpoint,
+                                                    string resourcePath,
+                                                    string httpMethod,
+                                                    IDictionary<string, string> sortedHeaders,
+                                                    string canonicalQueryString,
+                                                    string precomputedBodyHash,
+                                                    IDictionary<string, string> pathResources,
+                                                    int marshallerVersion,
+                                                    string service)
+        {
+            return CanonicalizeRequestHelper(endpoint,
+                resourcePath,
+                httpMethod,
+                sortedHeaders,
+                canonicalQueryString,
+                precomputedBodyHash,
+                pathResources,
+                marshallerVersion,
+                !(service == "s3"));
+        }
+
+        private static string CanonicalizeRequestHelper(Uri endpoint,
+                                                    string resourcePath,
+                                                    string httpMethod,
+                                                    IDictionary<string, string> sortedHeaders,
+                                                    string canonicalQueryString,
+                                                    string precomputedBodyHash,
+                                                    IDictionary<string, string> pathResources,
+                                                    int marshallerVersion,
+                                                    bool detectPreEncode)
+        {
             var canonicalRequest = new StringBuilder();
             canonicalRequest.AppendFormat("{0}\n", httpMethod);
-            canonicalRequest.AppendFormat("{0}\n", AWSSDKUtils.CanonicalizeResourcePath(endpoint, resourcePath, true));
+            canonicalRequest.AppendFormat("{0}\n", AWSSDKUtils.CanonicalizeResourcePath(endpoint, resourcePath, detectPreEncode, pathResources, marshallerVersion));
             canonicalRequest.AppendFormat("{0}\n", canonicalQueryString);
 
             canonicalRequest.AppendFormat("{0}\n", CanonicalizeHeaders(sortedHeaders));
@@ -622,7 +715,7 @@ namespace Amazon.Runtime.Internal.Auth
 
             return canonicalRequest.ToString();
         }
-        
+
         /// <summary>
         /// Reorders the headers for the request for canonicalization.
         /// </summary>
@@ -666,7 +759,7 @@ namespace Amazon.Runtime.Internal.Auth
                 {
                     builder.Append(entry.Key.ToLowerInvariant());
                     builder.Append(":");
-                    builder.Append(CompressSpaces(entry.Value));
+                    builder.Append(AWSSDKUtils.CompressSpaces(entry.Value));
                     builder.Append("\n");
                 }
                 
@@ -678,7 +771,7 @@ namespace Amazon.Runtime.Internal.Auth
             {
                 builder.Append(entry.Key.ToLowerInvariant());
                 builder.Append(":");
-                builder.Append(CompressSpaces(entry.Value));
+                builder.Append(AWSSDKUtils.CompressSpaces(entry.Value));
                 builder.Append("\n");
             }
             return builder.ToString();
@@ -855,15 +948,6 @@ namespace Amazon.Runtime.Internal.Auth
             }
 
             return canonicalQueryString.ToString();
-        }
-
-        static string CompressSpaces(string data)
-        {
-            if (data == null || !data.Contains(" "))
-                return data;
-
-            var compressed = CompressWhitespaceRegex.Replace(data, " ");
-            return compressed;
         }
 
         /// <summary>
@@ -1057,7 +1141,10 @@ namespace Amazon.Runtime.Internal.Auth
                                                        request.HttpMethod,
                                                        sortedHeaders,
                                                        canonicalQueryParams,
-                                                       service == "s3" ? UnsignedPayload : EmptyBodySha256);
+                                                       service == "s3" ? UnsignedPayload : EmptyBodySha256,
+                                                       request.PathResources,
+                                                       request.MarshallerVersion,
+                                                       service);
             if (metrics != null)
                 metrics.AddProperty(Metric.CanonicalRequest, canonicalRequest);
 

@@ -64,6 +64,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("additionalManifests", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<HlsAdditionalManifest, HlsAdditionalManifestUnmarshaller>(HlsAdditionalManifestUnmarshaller.Instance);
+                    unmarshalledObject.AdditionalManifests = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("adMarkers", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
@@ -106,6 +112,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.Destination = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("destinationSettings", targetDepth))
+                {
+                    var unmarshaller = DestinationSettingsUnmarshaller.Instance;
+                    unmarshalledObject.DestinationSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("directoryStructure", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -128,6 +140,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.ManifestDurationFormat = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("minFinalSegmentLength", targetDepth))
+                {
+                    var unmarshaller = DoubleUnmarshaller.Instance;
+                    unmarshalledObject.MinFinalSegmentLength = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("minSegmentLength", targetDepth))

@@ -58,10 +58,11 @@ namespace Amazon.CloudHSMV2.Model.Internal.MarshallTransformations
             string target = "BaldrApiService.DescribeBackups";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-04-28";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -96,6 +97,12 @@ namespace Amazon.CloudHSMV2.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("NextToken");
                     context.Writer.Write(publicRequest.NextToken);
+                }
+
+                if(publicRequest.IsSetSortAscending())
+                {
+                    context.Writer.WritePropertyName("SortAscending");
+                    context.Writer.Write(publicRequest.SortAscending);
                 }
 
         

@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.DeviceFarm.Model;
 using Amazon.DeviceFarm.Model.Internal.MarshallTransformations;
+using Amazon.DeviceFarm.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -33,11 +35,34 @@ namespace Amazon.DeviceFarm
     /// <summary>
     /// Implementation for accessing DeviceFarm
     ///
-    /// AWS Device Farm is a service that enables mobile app developers to test Android, iOS,
-    /// and Fire OS apps on physical phones, tablets, and other devices in the cloud.
+    /// Welcome to the AWS Device Farm API documentation, which contains APIs for:
+    /// 
+    ///  <ul> <li> 
+    /// <para>
+    /// Testing on desktop browsers
+    /// </para>
+    ///  
+    /// <para>
+    ///  Device Farm makes it possible for you to test your web applications on desktop browsers
+    /// using Selenium. The APIs for desktop browser testing contain <code>TestGrid</code>
+    /// in their names. For more information, see <a href="https://docs.aws.amazon.com/devicefarm/latest/testgrid/">Testing
+    /// Web Applications on Selenium with Device Farm</a>.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Testing on real mobile devices
+    /// </para>
+    ///  
+    /// <para>
+    /// Device Farm makes it possible for you to test apps on physical phones, tablets, and
+    /// other devices in the cloud. For more information, see the <a href="https://docs.aws.amazon.com/devicefarm/latest/developerguide/">Device
+    /// Farm Developer Guide</a>.
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class AmazonDeviceFarmClient : AmazonServiceClient, IAmazonDeviceFarm
     {
+        private static IServiceMetadata serviceMetadata = new AmazonDeviceFarmMetadata();
         #region Constructors
 
         /// <summary>
@@ -208,6 +233,16 @@ namespace Amazon.DeviceFarm
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -223,7 +258,7 @@ namespace Amazon.DeviceFarm
 
         #endregion
 
-        
+
         #region  CreateDevicePool
 
         /// <summary>
@@ -247,10 +282,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateDevicePool">REST API Reference for CreateDevicePool Operation</seealso>
         public virtual CreateDevicePoolResponse CreateDevicePool(CreateDevicePoolRequest request)
         {
-            var marshaller = CreateDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = CreateDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDevicePoolResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDevicePoolRequest,CreateDevicePoolResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDevicePoolResponse>(request, options);
         }
 
         /// <summary>
@@ -267,11 +303,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateDevicePool">REST API Reference for CreateDevicePool Operation</seealso>
         public virtual IAsyncResult BeginCreateDevicePool(CreateDevicePoolRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = CreateDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDevicePoolResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDevicePoolRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -312,10 +348,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateInstanceProfile">REST API Reference for CreateInstanceProfile Operation</seealso>
         public virtual CreateInstanceProfileResponse CreateInstanceProfile(CreateInstanceProfileRequest request)
         {
-            var marshaller = CreateInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<CreateInstanceProfileRequest,CreateInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -332,11 +369,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateInstanceProfile">REST API Reference for CreateInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginCreateInstanceProfile(CreateInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -377,10 +414,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateNetworkProfile">REST API Reference for CreateNetworkProfile Operation</seealso>
         public virtual CreateNetworkProfileResponse CreateNetworkProfile(CreateNetworkProfileRequest request)
         {
-            var marshaller = CreateNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateNetworkProfileResponseUnmarshaller.Instance;
 
-            return Invoke<CreateNetworkProfileRequest,CreateNetworkProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateNetworkProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -397,11 +435,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateNetworkProfile">REST API Reference for CreateNetworkProfile Operation</seealso>
         public virtual IAsyncResult BeginCreateNetworkProfile(CreateNetworkProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = CreateNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateNetworkProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateNetworkProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -422,7 +460,7 @@ namespace Amazon.DeviceFarm
         #region  CreateProject
 
         /// <summary>
-        /// Creates a new project.
+        /// Creates a project.
         /// </summary>
         /// <param name="name">The project's name.</param>
         /// 
@@ -439,6 +477,9 @@ namespace Amazon.DeviceFarm
         /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
         /// There was a problem with the service account.
         /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.TagOperationException">
+        /// The operation was not successful. Try again.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateProject">REST API Reference for CreateProject Operation</seealso>
         public virtual CreateProjectResponse CreateProject(string name)
         {
@@ -449,7 +490,7 @@ namespace Amazon.DeviceFarm
 
 
         /// <summary>
-        /// Creates a new project.
+        /// Creates a project.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateProject service method.</param>
         /// 
@@ -466,13 +507,17 @@ namespace Amazon.DeviceFarm
         /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
         /// There was a problem with the service account.
         /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.TagOperationException">
+        /// The operation was not successful. Try again.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateProject">REST API Reference for CreateProject Operation</seealso>
         public virtual CreateProjectResponse CreateProject(CreateProjectRequest request)
         {
-            var marshaller = CreateProjectRequestMarshaller.Instance;
-            var unmarshaller = CreateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectResponseUnmarshaller.Instance;
 
-            return Invoke<CreateProjectRequest,CreateProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -489,11 +534,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateProject">REST API Reference for CreateProject Operation</seealso>
         public virtual IAsyncResult BeginCreateProject(CreateProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateProjectRequestMarshaller.Instance;
-            var unmarshaller = CreateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -534,10 +579,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateRemoteAccessSession">REST API Reference for CreateRemoteAccessSession Operation</seealso>
         public virtual CreateRemoteAccessSessionResponse CreateRemoteAccessSession(CreateRemoteAccessSessionRequest request)
         {
-            var marshaller = CreateRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = CreateRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRemoteAccessSessionRequest,CreateRemoteAccessSessionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRemoteAccessSessionResponse>(request, options);
         }
 
         /// <summary>
@@ -554,11 +600,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateRemoteAccessSession">REST API Reference for CreateRemoteAccessSession Operation</seealso>
         public virtual IAsyncResult BeginCreateRemoteAccessSession(CreateRemoteAccessSessionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = CreateRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateRemoteAccessSessionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -572,6 +618,130 @@ namespace Amazon.DeviceFarm
         public virtual CreateRemoteAccessSessionResponse EndCreateRemoteAccessSession(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateRemoteAccessSessionResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateTestGridProject
+
+        /// <summary>
+        /// Creates a Selenium testing project. Projects are used to track <a>TestGridSession</a>
+        /// instances.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTestGridProject service method.</param>
+        /// 
+        /// <returns>The response from the CreateTestGridProject service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateTestGridProject">REST API Reference for CreateTestGridProject Operation</seealso>
+        public virtual CreateTestGridProjectResponse CreateTestGridProject(CreateTestGridProjectRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTestGridProjectResponseUnmarshaller.Instance;
+
+            return Invoke<CreateTestGridProjectResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTestGridProject operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTestGridProject
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateTestGridProject">REST API Reference for CreateTestGridProject Operation</seealso>
+        public virtual IAsyncResult BeginCreateTestGridProject(CreateTestGridProjectRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTestGridProjectResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTestGridProject.</param>
+        /// 
+        /// <returns>Returns a  CreateTestGridProjectResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateTestGridProject">REST API Reference for CreateTestGridProject Operation</seealso>
+        public virtual CreateTestGridProjectResponse EndCreateTestGridProject(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateTestGridProjectResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateTestGridUrl
+
+        /// <summary>
+        /// Creates a signed, short-term URL that can be passed to a Selenium <code>RemoteWebDriver</code>
+        /// constructor.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateTestGridUrl service method.</param>
+        /// 
+        /// <returns>The response from the CreateTestGridUrl service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateTestGridUrl">REST API Reference for CreateTestGridUrl Operation</seealso>
+        public virtual CreateTestGridUrlResponse CreateTestGridUrl(CreateTestGridUrlRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTestGridUrlRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTestGridUrlResponseUnmarshaller.Instance;
+
+            return Invoke<CreateTestGridUrlResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateTestGridUrl operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateTestGridUrl operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTestGridUrl
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateTestGridUrl">REST API Reference for CreateTestGridUrl Operation</seealso>
+        public virtual IAsyncResult BeginCreateTestGridUrl(CreateTestGridUrlRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateTestGridUrlRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateTestGridUrlResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateTestGridUrl operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateTestGridUrl.</param>
+        /// 
+        /// <returns>Returns a  CreateTestGridUrlResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateTestGridUrl">REST API Reference for CreateTestGridUrl Operation</seealso>
+        public virtual CreateTestGridUrlResponse EndCreateTestGridUrl(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateTestGridUrlResponse>(asyncResult);
         }
 
         #endregion
@@ -599,10 +769,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateUpload">REST API Reference for CreateUpload Operation</seealso>
         public virtual CreateUploadResponse CreateUpload(CreateUploadRequest request)
         {
-            var marshaller = CreateUploadRequestMarshaller.Instance;
-            var unmarshaller = CreateUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUploadResponseUnmarshaller.Instance;
 
-            return Invoke<CreateUploadRequest,CreateUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -619,11 +790,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateUpload">REST API Reference for CreateUpload Operation</seealso>
         public virtual IAsyncResult BeginCreateUpload(CreateUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateUploadRequestMarshaller.Instance;
-            var unmarshaller = CreateUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -637,6 +808,70 @@ namespace Amazon.DeviceFarm
         public virtual CreateUploadResponse EndCreateUpload(IAsyncResult asyncResult)
         {
             return EndInvoke<CreateUploadResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  CreateVPCEConfiguration
+
+        /// <summary>
+        /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud
+        /// (VPC) endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateVPCEConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the CreateVPCEConfiguration service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.LimitExceededException">
+        /// A limit was exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
+        /// There was a problem with the service account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateVPCEConfiguration">REST API Reference for CreateVPCEConfiguration Operation</seealso>
+        public virtual CreateVPCEConfigurationResponse CreateVPCEConfiguration(CreateVPCEConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<CreateVPCEConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateVPCEConfiguration operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateVPCEConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateVPCEConfiguration">REST API Reference for CreateVPCEConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginCreateVPCEConfiguration(CreateVPCEConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateVPCEConfiguration.</param>
+        /// 
+        /// <returns>Returns a  CreateVPCEConfigurationResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateVPCEConfiguration">REST API Reference for CreateVPCEConfiguration Operation</seealso>
+        public virtual CreateVPCEConfigurationResponse EndCreateVPCEConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<CreateVPCEConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -665,10 +900,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteDevicePool">REST API Reference for DeleteDevicePool Operation</seealso>
         public virtual DeleteDevicePoolResponse DeleteDevicePool(DeleteDevicePoolRequest request)
         {
-            var marshaller = DeleteDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = DeleteDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDevicePoolResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDevicePoolRequest,DeleteDevicePoolResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDevicePoolResponse>(request, options);
         }
 
         /// <summary>
@@ -685,11 +921,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteDevicePool">REST API Reference for DeleteDevicePool Operation</seealso>
         public virtual IAsyncResult BeginDeleteDevicePool(DeleteDevicePoolRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = DeleteDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDevicePoolResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDevicePoolRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -730,10 +966,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteInstanceProfile">REST API Reference for DeleteInstanceProfile Operation</seealso>
         public virtual DeleteInstanceProfileResponse DeleteInstanceProfile(DeleteInstanceProfileRequest request)
         {
-            var marshaller = DeleteInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteInstanceProfileRequest,DeleteInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -750,11 +987,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteInstanceProfile">REST API Reference for DeleteInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginDeleteInstanceProfile(DeleteInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -795,10 +1032,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteNetworkProfile">REST API Reference for DeleteNetworkProfile Operation</seealso>
         public virtual DeleteNetworkProfileResponse DeleteNetworkProfile(DeleteNetworkProfileRequest request)
         {
-            var marshaller = DeleteNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteNetworkProfileResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteNetworkProfileRequest,DeleteNetworkProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteNetworkProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -815,11 +1053,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteNetworkProfile">REST API Reference for DeleteNetworkProfile Operation</seealso>
         public virtual IAsyncResult BeginDeleteNetworkProfile(DeleteNetworkProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = DeleteNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteNetworkProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteNetworkProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -844,7 +1082,7 @@ namespace Amazon.DeviceFarm
         /// 
         ///  
         /// <para>
-        ///  <b>Note</b> Deleting this resource does not stop an in-progress run.
+        ///  Deleting this resource does not stop an in-progress run.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteProject service method.</param>
@@ -865,10 +1103,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteProject">REST API Reference for DeleteProject Operation</seealso>
         public virtual DeleteProjectResponse DeleteProject(DeleteProjectRequest request)
         {
-            var marshaller = DeleteProjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteProjectRequest,DeleteProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -885,11 +1124,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteProject">REST API Reference for DeleteProject Operation</seealso>
         public virtual IAsyncResult BeginDeleteProject(DeleteProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteProjectRequestMarshaller.Instance;
-            var unmarshaller = DeleteProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -930,10 +1169,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteRemoteAccessSession">REST API Reference for DeleteRemoteAccessSession Operation</seealso>
         public virtual DeleteRemoteAccessSessionResponse DeleteRemoteAccessSession(DeleteRemoteAccessSessionRequest request)
         {
-            var marshaller = DeleteRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = DeleteRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRemoteAccessSessionRequest,DeleteRemoteAccessSessionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRemoteAccessSessionResponse>(request, options);
         }
 
         /// <summary>
@@ -950,11 +1190,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteRemoteAccessSession">REST API Reference for DeleteRemoteAccessSession Operation</seealso>
         public virtual IAsyncResult BeginDeleteRemoteAccessSession(DeleteRemoteAccessSessionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = DeleteRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRemoteAccessSessionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -979,7 +1219,7 @@ namespace Amazon.DeviceFarm
         /// 
         ///  
         /// <para>
-        ///  <b>Note</b> Deleting this resource does not stop an in-progress run.
+        ///  Deleting this resource does not stop an in-progress run.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteRun service method.</param>
@@ -1000,10 +1240,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteRun">REST API Reference for DeleteRun Operation</seealso>
         public virtual DeleteRunResponse DeleteRun(DeleteRunRequest request)
         {
-            var marshaller = DeleteRunRequestMarshaller.Instance;
-            var unmarshaller = DeleteRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRunResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRunRequest,DeleteRunResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRunResponse>(request, options);
         }
 
         /// <summary>
@@ -1020,11 +1261,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteRun">REST API Reference for DeleteRun Operation</seealso>
         public virtual IAsyncResult BeginDeleteRun(DeleteRunRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteRunRequestMarshaller.Instance;
-            var unmarshaller = DeleteRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRunResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteRunRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1038,6 +1279,83 @@ namespace Amazon.DeviceFarm
         public virtual DeleteRunResponse EndDeleteRun(IAsyncResult asyncResult)
         {
             return EndInvoke<DeleteRunResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  DeleteTestGridProject
+
+        /// <summary>
+        /// Deletes a Selenium testing project and all content generated under it. 
+        /// 
+        ///  <important> 
+        /// <para>
+        /// You cannot undo this operation.
+        /// </para>
+        ///  </important> <note> 
+        /// <para>
+        /// You cannot delete a project if it has active sessions.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTestGridProject service method.</param>
+        /// 
+        /// <returns>The response from the DeleteTestGridProject service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.CannotDeleteException">
+        /// The requested object could not be deleted.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteTestGridProject">REST API Reference for DeleteTestGridProject Operation</seealso>
+        public virtual DeleteTestGridProjectResponse DeleteTestGridProject(DeleteTestGridProjectRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTestGridProjectResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteTestGridProjectResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteTestGridProject operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTestGridProject
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteTestGridProject">REST API Reference for DeleteTestGridProject Operation</seealso>
+        public virtual IAsyncResult BeginDeleteTestGridProject(DeleteTestGridProjectRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteTestGridProjectResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteTestGridProject.</param>
+        /// 
+        /// <returns>Returns a  DeleteTestGridProjectResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteTestGridProject">REST API Reference for DeleteTestGridProject Operation</seealso>
+        public virtual DeleteTestGridProjectResponse EndDeleteTestGridProject(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteTestGridProjectResponse>(asyncResult);
         }
 
         #endregion
@@ -1065,10 +1383,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteUpload">REST API Reference for DeleteUpload Operation</seealso>
         public virtual DeleteUploadResponse DeleteUpload(DeleteUploadRequest request)
         {
-            var marshaller = DeleteUploadRequestMarshaller.Instance;
-            var unmarshaller = DeleteUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUploadResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteUploadRequest,DeleteUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -1085,11 +1404,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteUpload">REST API Reference for DeleteUpload Operation</seealso>
         public virtual IAsyncResult BeginDeleteUpload(DeleteUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteUploadRequestMarshaller.Instance;
-            var unmarshaller = DeleteUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1107,11 +1426,78 @@ namespace Amazon.DeviceFarm
 
         #endregion
         
+        #region  DeleteVPCEConfiguration
+
+        /// <summary>
+        /// Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVPCEConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteVPCEConfiguration service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InvalidOperationException">
+        /// There was an error with the update request, or you do not have sufficient permissions
+        /// to update this VPC endpoint configuration.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
+        /// There was a problem with the service account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteVPCEConfiguration">REST API Reference for DeleteVPCEConfiguration Operation</seealso>
+        public virtual DeleteVPCEConfigurationResponse DeleteVPCEConfiguration(DeleteVPCEConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<DeleteVPCEConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVPCEConfiguration operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteVPCEConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteVPCEConfiguration">REST API Reference for DeleteVPCEConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginDeleteVPCEConfiguration(DeleteVPCEConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteVPCEConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteVPCEConfigurationResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteVPCEConfiguration">REST API Reference for DeleteVPCEConfiguration Operation</seealso>
+        public virtual DeleteVPCEConfigurationResponse EndDeleteVPCEConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<DeleteVPCEConfigurationResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  GetAccountSettings
 
         /// <summary>
-        /// Returns the number of unmetered iOS and/or unmetered Android devices that have been
-        /// purchased by the account.
+        /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased
+        /// by the account.
         /// </summary>
         /// 
         /// <returns>The response from the GetAccountSettings service method, as returned by DeviceFarm.</returns>
@@ -1134,8 +1520,8 @@ namespace Amazon.DeviceFarm
         }
 
         /// <summary>
-        /// Returns the number of unmetered iOS and/or unmetered Android devices that have been
-        /// purchased by the account.
+        /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased
+        /// by the account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAccountSettings service method.</param>
         /// 
@@ -1155,10 +1541,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetAccountSettings">REST API Reference for GetAccountSettings Operation</seealso>
         public virtual GetAccountSettingsResponse GetAccountSettings(GetAccountSettingsRequest request)
         {
-            var marshaller = GetAccountSettingsRequestMarshaller.Instance;
-            var unmarshaller = GetAccountSettingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountSettingsResponseUnmarshaller.Instance;
 
-            return Invoke<GetAccountSettingsRequest,GetAccountSettingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAccountSettingsResponse>(request, options);
         }
 
         /// <summary>
@@ -1175,11 +1562,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetAccountSettings">REST API Reference for GetAccountSettings Operation</seealso>
         public virtual IAsyncResult BeginGetAccountSettings(GetAccountSettingsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetAccountSettingsRequestMarshaller.Instance;
-            var unmarshaller = GetAccountSettingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountSettingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountSettingsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetAccountSettingsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1247,10 +1634,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevice">REST API Reference for GetDevice Operation</seealso>
         public virtual GetDeviceResponse GetDevice(GetDeviceRequest request)
         {
-            var marshaller = GetDeviceRequestMarshaller.Instance;
-            var unmarshaller = GetDeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeviceResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeviceRequest,GetDeviceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeviceResponse>(request, options);
         }
 
         /// <summary>
@@ -1267,11 +1655,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevice">REST API Reference for GetDevice Operation</seealso>
         public virtual IAsyncResult BeginGetDevice(GetDeviceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDeviceRequestMarshaller.Instance;
-            var unmarshaller = GetDeviceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeviceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeviceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDeviceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1292,7 +1680,7 @@ namespace Amazon.DeviceFarm
         #region  GetDeviceInstance
 
         /// <summary>
-        /// Returns information about a device instance belonging to a private device fleet.
+        /// Returns information about a device instance that belongs to a private device fleet.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDeviceInstance service method.</param>
         /// 
@@ -1312,10 +1700,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDeviceInstance">REST API Reference for GetDeviceInstance Operation</seealso>
         public virtual GetDeviceInstanceResponse GetDeviceInstance(GetDeviceInstanceRequest request)
         {
-            var marshaller = GetDeviceInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetDeviceInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeviceInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeviceInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeviceInstanceRequest,GetDeviceInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeviceInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -1332,11 +1721,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDeviceInstance">REST API Reference for GetDeviceInstance Operation</seealso>
         public virtual IAsyncResult BeginGetDeviceInstance(GetDeviceInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDeviceInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetDeviceInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeviceInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeviceInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDeviceInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1404,10 +1793,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevicePool">REST API Reference for GetDevicePool Operation</seealso>
         public virtual GetDevicePoolResponse GetDevicePool(GetDevicePoolRequest request)
         {
-            var marshaller = GetDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = GetDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDevicePoolResponseUnmarshaller.Instance;
 
-            return Invoke<GetDevicePoolRequest,GetDevicePoolResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDevicePoolResponse>(request, options);
         }
 
         /// <summary>
@@ -1424,11 +1814,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevicePool">REST API Reference for GetDevicePool Operation</seealso>
         public virtual IAsyncResult BeginGetDevicePool(GetDevicePoolRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = GetDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDevicePoolResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDevicePoolRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1469,10 +1859,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevicePoolCompatibility">REST API Reference for GetDevicePoolCompatibility Operation</seealso>
         public virtual GetDevicePoolCompatibilityResponse GetDevicePoolCompatibility(GetDevicePoolCompatibilityRequest request)
         {
-            var marshaller = GetDevicePoolCompatibilityRequestMarshaller.Instance;
-            var unmarshaller = GetDevicePoolCompatibilityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDevicePoolCompatibilityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDevicePoolCompatibilityResponseUnmarshaller.Instance;
 
-            return Invoke<GetDevicePoolCompatibilityRequest,GetDevicePoolCompatibilityResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDevicePoolCompatibilityResponse>(request, options);
         }
 
         /// <summary>
@@ -1489,11 +1880,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevicePoolCompatibility">REST API Reference for GetDevicePoolCompatibility Operation</seealso>
         public virtual IAsyncResult BeginGetDevicePoolCompatibility(GetDevicePoolCompatibilityRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDevicePoolCompatibilityRequestMarshaller.Instance;
-            var unmarshaller = GetDevicePoolCompatibilityResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDevicePoolCompatibilityRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDevicePoolCompatibilityResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDevicePoolCompatibilityRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1534,10 +1925,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetInstanceProfile">REST API Reference for GetInstanceProfile Operation</seealso>
         public virtual GetInstanceProfileResponse GetInstanceProfile(GetInstanceProfileRequest request)
         {
-            var marshaller = GetInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<GetInstanceProfileRequest,GetInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -1554,11 +1946,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetInstanceProfile">REST API Reference for GetInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginGetInstanceProfile(GetInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1626,10 +2018,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetJob">REST API Reference for GetJob Operation</seealso>
         public virtual GetJobResponse GetJob(GetJobRequest request)
         {
-            var marshaller = GetJobRequestMarshaller.Instance;
-            var unmarshaller = GetJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobResponseUnmarshaller.Instance;
 
-            return Invoke<GetJobRequest,GetJobResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetJobResponse>(request, options);
         }
 
         /// <summary>
@@ -1646,11 +2039,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetJob">REST API Reference for GetJob Operation</seealso>
         public virtual IAsyncResult BeginGetJob(GetJobRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetJobRequestMarshaller.Instance;
-            var unmarshaller = GetJobResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetJobResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetJobRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1691,10 +2084,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetNetworkProfile">REST API Reference for GetNetworkProfile Operation</seealso>
         public virtual GetNetworkProfileResponse GetNetworkProfile(GetNetworkProfileRequest request)
         {
-            var marshaller = GetNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = GetNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetNetworkProfileResponseUnmarshaller.Instance;
 
-            return Invoke<GetNetworkProfileRequest,GetNetworkProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetNetworkProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -1711,11 +2105,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetNetworkProfile">REST API Reference for GetNetworkProfile Operation</seealso>
         public virtual IAsyncResult BeginGetNetworkProfile(GetNetworkProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = GetNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetNetworkProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetNetworkProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1739,8 +2133,8 @@ namespace Amazon.DeviceFarm
         /// Gets the current status and future status of all offerings purchased by an AWS account.
         /// The response indicates how many offerings are currently available and the offerings
         /// that will be available in the next period. The API returns a <code>NotEligible</code>
-        /// error if the user is not permitted to invoke the operation. Please contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
-        /// if you believe that you should be able to invoke this operation.
+        /// error if the user is not permitted to invoke the operation. If you must be able to
+        /// invoke this operation, contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetOfferingStatus service method.</param>
         /// 
@@ -1763,10 +2157,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetOfferingStatus">REST API Reference for GetOfferingStatus Operation</seealso>
         public virtual GetOfferingStatusResponse GetOfferingStatus(GetOfferingStatusRequest request)
         {
-            var marshaller = GetOfferingStatusRequestMarshaller.Instance;
-            var unmarshaller = GetOfferingStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOfferingStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOfferingStatusResponseUnmarshaller.Instance;
 
-            return Invoke<GetOfferingStatusRequest,GetOfferingStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetOfferingStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -1783,11 +2178,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetOfferingStatus">REST API Reference for GetOfferingStatus Operation</seealso>
         public virtual IAsyncResult BeginGetOfferingStatus(GetOfferingStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetOfferingStatusRequestMarshaller.Instance;
-            var unmarshaller = GetOfferingStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOfferingStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOfferingStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetOfferingStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1855,10 +2250,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetProject">REST API Reference for GetProject Operation</seealso>
         public virtual GetProjectResponse GetProject(GetProjectRequest request)
         {
-            var marshaller = GetProjectRequestMarshaller.Instance;
-            var unmarshaller = GetProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetProjectResponseUnmarshaller.Instance;
 
-            return Invoke<GetProjectRequest,GetProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -1875,11 +2271,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetProject">REST API Reference for GetProject Operation</seealso>
         public virtual IAsyncResult BeginGetProject(GetProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetProjectRequestMarshaller.Instance;
-            var unmarshaller = GetProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1920,10 +2316,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetRemoteAccessSession">REST API Reference for GetRemoteAccessSession Operation</seealso>
         public virtual GetRemoteAccessSessionResponse GetRemoteAccessSession(GetRemoteAccessSessionRequest request)
         {
-            var marshaller = GetRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = GetRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return Invoke<GetRemoteAccessSessionRequest,GetRemoteAccessSessionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRemoteAccessSessionResponse>(request, options);
         }
 
         /// <summary>
@@ -1940,11 +2337,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetRemoteAccessSession">REST API Reference for GetRemoteAccessSession Operation</seealso>
         public virtual IAsyncResult BeginGetRemoteAccessSession(GetRemoteAccessSessionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = GetRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRemoteAccessSessionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2012,10 +2409,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetRun">REST API Reference for GetRun Operation</seealso>
         public virtual GetRunResponse GetRun(GetRunRequest request)
         {
-            var marshaller = GetRunRequestMarshaller.Instance;
-            var unmarshaller = GetRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRunResponseUnmarshaller.Instance;
 
-            return Invoke<GetRunRequest,GetRunResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRunResponse>(request, options);
         }
 
         /// <summary>
@@ -2032,11 +2430,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetRun">REST API Reference for GetRun Operation</seealso>
         public virtual IAsyncResult BeginGetRun(GetRunRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetRunRequestMarshaller.Instance;
-            var unmarshaller = GetRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRunResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetRunRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2104,10 +2502,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetSuite">REST API Reference for GetSuite Operation</seealso>
         public virtual GetSuiteResponse GetSuite(GetSuiteRequest request)
         {
-            var marshaller = GetSuiteRequestMarshaller.Instance;
-            var unmarshaller = GetSuiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSuiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSuiteResponseUnmarshaller.Instance;
 
-            return Invoke<GetSuiteRequest,GetSuiteResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSuiteResponse>(request, options);
         }
 
         /// <summary>
@@ -2124,11 +2523,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetSuite">REST API Reference for GetSuite Operation</seealso>
         public virtual IAsyncResult BeginGetSuite(GetSuiteRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetSuiteRequestMarshaller.Instance;
-            var unmarshaller = GetSuiteResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSuiteRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSuiteResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetSuiteRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2196,10 +2595,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTest">REST API Reference for GetTest Operation</seealso>
         public virtual GetTestResponse GetTest(GetTestRequest request)
         {
-            var marshaller = GetTestRequestMarshaller.Instance;
-            var unmarshaller = GetTestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTestResponseUnmarshaller.Instance;
 
-            return Invoke<GetTestRequest,GetTestResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTestResponse>(request, options);
         }
 
         /// <summary>
@@ -2216,11 +2616,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTest">REST API Reference for GetTest Operation</seealso>
         public virtual IAsyncResult BeginGetTest(GetTestRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetTestRequestMarshaller.Instance;
-            var unmarshaller = GetTestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTestResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetTestRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2234,6 +2634,147 @@ namespace Amazon.DeviceFarm
         public virtual GetTestResponse EndGetTest(IAsyncResult asyncResult)
         {
             return EndInvoke<GetTestResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetTestGridProject
+
+        /// <summary>
+        /// Retrieves information about a Selenium testing project.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTestGridProject service method.</param>
+        /// 
+        /// <returns>The response from the GetTestGridProject service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTestGridProject">REST API Reference for GetTestGridProject Operation</seealso>
+        public virtual GetTestGridProjectResponse GetTestGridProject(GetTestGridProjectRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTestGridProjectResponseUnmarshaller.Instance;
+
+            return Invoke<GetTestGridProjectResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTestGridProject operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTestGridProject
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTestGridProject">REST API Reference for GetTestGridProject Operation</seealso>
+        public virtual IAsyncResult BeginGetTestGridProject(GetTestGridProjectRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTestGridProjectResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTestGridProject.</param>
+        /// 
+        /// <returns>Returns a  GetTestGridProjectResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTestGridProject">REST API Reference for GetTestGridProject Operation</seealso>
+        public virtual GetTestGridProjectResponse EndGetTestGridProject(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetTestGridProjectResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetTestGridSession
+
+        /// <summary>
+        /// A session is an instance of a browser created through a <code>RemoteWebDriver</code>
+        /// with the URL from <a>CreateTestGridUrlResult$url</a>. You can use the following to
+        /// look up sessions:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// The session ARN (<a>GetTestGridSessionRequest$sessionArn</a>).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The project ARN and a session ID (<a>GetTestGridSessionRequest$projectArn</a> and
+        /// <a>GetTestGridSessionRequest$sessionId</a>).
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTestGridSession service method.</param>
+        /// 
+        /// <returns>The response from the GetTestGridSession service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTestGridSession">REST API Reference for GetTestGridSession Operation</seealso>
+        public virtual GetTestGridSessionResponse GetTestGridSession(GetTestGridSessionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTestGridSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTestGridSessionResponseUnmarshaller.Instance;
+
+            return Invoke<GetTestGridSessionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTestGridSession operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTestGridSession operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTestGridSession
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTestGridSession">REST API Reference for GetTestGridSession Operation</seealso>
+        public virtual IAsyncResult BeginGetTestGridSession(GetTestGridSessionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTestGridSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTestGridSessionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTestGridSession operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTestGridSession.</param>
+        /// 
+        /// <returns>Returns a  GetTestGridSessionResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTestGridSession">REST API Reference for GetTestGridSession Operation</seealso>
+        public virtual GetTestGridSessionResponse EndGetTestGridSession(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetTestGridSessionResponse>(asyncResult);
         }
 
         #endregion
@@ -2288,10 +2829,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetUpload">REST API Reference for GetUpload Operation</seealso>
         public virtual GetUploadResponse GetUpload(GetUploadRequest request)
         {
-            var marshaller = GetUploadRequestMarshaller.Instance;
-            var unmarshaller = GetUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUploadResponseUnmarshaller.Instance;
 
-            return Invoke<GetUploadRequest,GetUploadResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUploadResponse>(request, options);
         }
 
         /// <summary>
@@ -2308,11 +2850,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetUpload">REST API Reference for GetUpload Operation</seealso>
         public virtual IAsyncResult BeginGetUpload(GetUploadRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetUploadRequestMarshaller.Instance;
-            var unmarshaller = GetUploadResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUploadResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetUploadRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2326,6 +2868,70 @@ namespace Amazon.DeviceFarm
         public virtual GetUploadResponse EndGetUpload(IAsyncResult asyncResult)
         {
             return EndInvoke<GetUploadResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetVPCEConfiguration
+
+        /// <summary>
+        /// Returns information about the configuration settings for your Amazon Virtual Private
+        /// Cloud (VPC) endpoint.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetVPCEConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the GetVPCEConfiguration service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
+        /// There was a problem with the service account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetVPCEConfiguration">REST API Reference for GetVPCEConfiguration Operation</seealso>
+        public virtual GetVPCEConfigurationResponse GetVPCEConfiguration(GetVPCEConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<GetVPCEConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetVPCEConfiguration operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetVPCEConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetVPCEConfiguration">REST API Reference for GetVPCEConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginGetVPCEConfiguration(GetVPCEConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetVPCEConfiguration.</param>
+        /// 
+        /// <returns>Returns a  GetVPCEConfigurationResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetVPCEConfiguration">REST API Reference for GetVPCEConfiguration Operation</seealso>
+        public virtual GetVPCEConfigurationResponse EndGetVPCEConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetVPCEConfigurationResponse>(asyncResult);
         }
 
         #endregion
@@ -2354,10 +2960,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/InstallToRemoteAccessSession">REST API Reference for InstallToRemoteAccessSession Operation</seealso>
         public virtual InstallToRemoteAccessSessionResponse InstallToRemoteAccessSession(InstallToRemoteAccessSessionRequest request)
         {
-            var marshaller = InstallToRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = InstallToRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InstallToRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InstallToRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return Invoke<InstallToRemoteAccessSessionRequest,InstallToRemoteAccessSessionResponse>(request, marshaller, unmarshaller);
+            return Invoke<InstallToRemoteAccessSessionResponse>(request, options);
         }
 
         /// <summary>
@@ -2374,11 +2981,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/InstallToRemoteAccessSession">REST API Reference for InstallToRemoteAccessSession Operation</seealso>
         public virtual IAsyncResult BeginInstallToRemoteAccessSession(InstallToRemoteAccessSessionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = InstallToRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = InstallToRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = InstallToRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = InstallToRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<InstallToRemoteAccessSessionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2419,10 +3026,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListArtifacts">REST API Reference for ListArtifacts Operation</seealso>
         public virtual ListArtifactsResponse ListArtifacts(ListArtifactsRequest request)
         {
-            var marshaller = ListArtifactsRequestMarshaller.Instance;
-            var unmarshaller = ListArtifactsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListArtifactsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListArtifactsResponseUnmarshaller.Instance;
 
-            return Invoke<ListArtifactsRequest,ListArtifactsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListArtifactsResponse>(request, options);
         }
 
         /// <summary>
@@ -2439,11 +3047,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListArtifacts">REST API Reference for ListArtifacts Operation</seealso>
         public virtual IAsyncResult BeginListArtifacts(ListArtifactsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListArtifactsRequestMarshaller.Instance;
-            var unmarshaller = ListArtifactsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListArtifactsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListArtifactsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListArtifactsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2485,10 +3093,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDeviceInstances">REST API Reference for ListDeviceInstances Operation</seealso>
         public virtual ListDeviceInstancesResponse ListDeviceInstances(ListDeviceInstancesRequest request)
         {
-            var marshaller = ListDeviceInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListDeviceInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeviceInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeviceInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<ListDeviceInstancesRequest,ListDeviceInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDeviceInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -2505,11 +3114,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDeviceInstances">REST API Reference for ListDeviceInstances Operation</seealso>
         public virtual IAsyncResult BeginListDeviceInstances(ListDeviceInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDeviceInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListDeviceInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeviceInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeviceInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDeviceInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2550,10 +3159,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDevicePools">REST API Reference for ListDevicePools Operation</seealso>
         public virtual ListDevicePoolsResponse ListDevicePools(ListDevicePoolsRequest request)
         {
-            var marshaller = ListDevicePoolsRequestMarshaller.Instance;
-            var unmarshaller = ListDevicePoolsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDevicePoolsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDevicePoolsResponseUnmarshaller.Instance;
 
-            return Invoke<ListDevicePoolsRequest,ListDevicePoolsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDevicePoolsResponse>(request, options);
         }
 
         /// <summary>
@@ -2570,11 +3180,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDevicePools">REST API Reference for ListDevicePools Operation</seealso>
         public virtual IAsyncResult BeginListDevicePools(ListDevicePoolsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDevicePoolsRequestMarshaller.Instance;
-            var unmarshaller = ListDevicePoolsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDevicePoolsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDevicePoolsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDevicePoolsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2615,10 +3225,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDevices">REST API Reference for ListDevices Operation</seealso>
         public virtual ListDevicesResponse ListDevices(ListDevicesRequest request)
         {
-            var marshaller = ListDevicesRequestMarshaller.Instance;
-            var unmarshaller = ListDevicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDevicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDevicesResponseUnmarshaller.Instance;
 
-            return Invoke<ListDevicesRequest,ListDevicesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDevicesResponse>(request, options);
         }
 
         /// <summary>
@@ -2635,11 +3246,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDevices">REST API Reference for ListDevices Operation</seealso>
         public virtual IAsyncResult BeginListDevices(ListDevicesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDevicesRequestMarshaller.Instance;
-            var unmarshaller = ListDevicesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDevicesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDevicesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDevicesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2680,10 +3291,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListInstanceProfiles">REST API Reference for ListInstanceProfiles Operation</seealso>
         public virtual ListInstanceProfilesResponse ListInstanceProfiles(ListInstanceProfilesRequest request)
         {
-            var marshaller = ListInstanceProfilesRequestMarshaller.Instance;
-            var unmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInstanceProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
 
-            return Invoke<ListInstanceProfilesRequest,ListInstanceProfilesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListInstanceProfilesResponse>(request, options);
         }
 
         /// <summary>
@@ -2700,11 +3312,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListInstanceProfiles">REST API Reference for ListInstanceProfiles Operation</seealso>
         public virtual IAsyncResult BeginListInstanceProfiles(ListInstanceProfilesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListInstanceProfilesRequestMarshaller.Instance;
-            var unmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListInstanceProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListInstanceProfilesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListInstanceProfilesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2745,10 +3357,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListJobs">REST API Reference for ListJobs Operation</seealso>
         public virtual ListJobsResponse ListJobs(ListJobsRequest request)
         {
-            var marshaller = ListJobsRequestMarshaller.Instance;
-            var unmarshaller = ListJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobsResponseUnmarshaller.Instance;
 
-            return Invoke<ListJobsRequest,ListJobsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListJobsResponse>(request, options);
         }
 
         /// <summary>
@@ -2765,11 +3378,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListJobs">REST API Reference for ListJobs Operation</seealso>
         public virtual IAsyncResult BeginListJobs(ListJobsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListJobsRequestMarshaller.Instance;
-            var unmarshaller = ListJobsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListJobsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListJobsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListJobsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2810,10 +3423,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListNetworkProfiles">REST API Reference for ListNetworkProfiles Operation</seealso>
         public virtual ListNetworkProfilesResponse ListNetworkProfiles(ListNetworkProfilesRequest request)
         {
-            var marshaller = ListNetworkProfilesRequestMarshaller.Instance;
-            var unmarshaller = ListNetworkProfilesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListNetworkProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListNetworkProfilesResponseUnmarshaller.Instance;
 
-            return Invoke<ListNetworkProfilesRequest,ListNetworkProfilesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListNetworkProfilesResponse>(request, options);
         }
 
         /// <summary>
@@ -2830,11 +3444,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListNetworkProfiles">REST API Reference for ListNetworkProfiles Operation</seealso>
         public virtual IAsyncResult BeginListNetworkProfiles(ListNetworkProfilesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListNetworkProfilesRequestMarshaller.Instance;
-            var unmarshaller = ListNetworkProfilesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListNetworkProfilesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListNetworkProfilesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListNetworkProfilesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2858,7 +3472,7 @@ namespace Amazon.DeviceFarm
         /// Returns a list of offering promotions. Each offering promotion record contains the
         /// ID and description of the promotion. The API returns a <code>NotEligible</code> error
         /// if the caller is not permitted to invoke the operation. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
-        /// if you believe that you should be able to invoke this operation.
+        /// if you must be able to invoke this operation.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListOfferingPromotions service method.</param>
         /// 
@@ -2881,10 +3495,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingPromotions">REST API Reference for ListOfferingPromotions Operation</seealso>
         public virtual ListOfferingPromotionsResponse ListOfferingPromotions(ListOfferingPromotionsRequest request)
         {
-            var marshaller = ListOfferingPromotionsRequestMarshaller.Instance;
-            var unmarshaller = ListOfferingPromotionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingPromotionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingPromotionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListOfferingPromotionsRequest,ListOfferingPromotionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOfferingPromotionsResponse>(request, options);
         }
 
         /// <summary>
@@ -2901,11 +3516,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingPromotions">REST API Reference for ListOfferingPromotions Operation</seealso>
         public virtual IAsyncResult BeginListOfferingPromotions(ListOfferingPromotionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOfferingPromotionsRequestMarshaller.Instance;
-            var unmarshaller = ListOfferingPromotionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingPromotionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingPromotionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOfferingPromotionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2929,8 +3544,8 @@ namespace Amazon.DeviceFarm
         /// Returns a list of products or offerings that the user can manage through the API.
         /// Each offering record indicates the recurring price per unit and the frequency for
         /// that offering. The API returns a <code>NotEligible</code> error if the user is not
-        /// permitted to invoke the operation. Please contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
-        /// if you believe that you should be able to invoke this operation.
+        /// permitted to invoke the operation. If you must be able to invoke this operation, contact
+        /// <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListOfferings service method.</param>
         /// 
@@ -2953,10 +3568,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferings">REST API Reference for ListOfferings Operation</seealso>
         public virtual ListOfferingsResponse ListOfferings(ListOfferingsRequest request)
         {
-            var marshaller = ListOfferingsRequestMarshaller.Instance;
-            var unmarshaller = ListOfferingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingsResponseUnmarshaller.Instance;
 
-            return Invoke<ListOfferingsRequest,ListOfferingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOfferingsResponse>(request, options);
         }
 
         /// <summary>
@@ -2973,11 +3589,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferings">REST API Reference for ListOfferings Operation</seealso>
         public virtual IAsyncResult BeginListOfferings(ListOfferingsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOfferingsRequestMarshaller.Instance;
-            var unmarshaller = ListOfferingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOfferingsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3001,8 +3617,8 @@ namespace Amazon.DeviceFarm
         /// Returns a list of all historical purchases, renewals, and system renewal transactions
         /// for an AWS account. The list is paginated and ordered by a descending timestamp (most
         /// recent transactions are first). The API returns a <code>NotEligible</code> error if
-        /// the user is not permitted to invoke the operation. Please contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
-        /// if you believe that you should be able to invoke this operation.
+        /// the user is not permitted to invoke the operation. If you must be able to invoke this
+        /// operation, contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListOfferingTransactions service method.</param>
         /// 
@@ -3025,10 +3641,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingTransactions">REST API Reference for ListOfferingTransactions Operation</seealso>
         public virtual ListOfferingTransactionsResponse ListOfferingTransactions(ListOfferingTransactionsRequest request)
         {
-            var marshaller = ListOfferingTransactionsRequestMarshaller.Instance;
-            var unmarshaller = ListOfferingTransactionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingTransactionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingTransactionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListOfferingTransactionsRequest,ListOfferingTransactionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOfferingTransactionsResponse>(request, options);
         }
 
         /// <summary>
@@ -3045,11 +3662,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingTransactions">REST API Reference for ListOfferingTransactions Operation</seealso>
         public virtual IAsyncResult BeginListOfferingTransactions(ListOfferingTransactionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOfferingTransactionsRequestMarshaller.Instance;
-            var unmarshaller = ListOfferingTransactionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOfferingTransactionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOfferingTransactionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOfferingTransactionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3090,10 +3707,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListProjects">REST API Reference for ListProjects Operation</seealso>
         public virtual ListProjectsResponse ListProjects(ListProjectsRequest request)
         {
-            var marshaller = ListProjectsRequestMarshaller.Instance;
-            var unmarshaller = ListProjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProjectsResponseUnmarshaller.Instance;
 
-            return Invoke<ListProjectsRequest,ListProjectsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListProjectsResponse>(request, options);
         }
 
         /// <summary>
@@ -3110,11 +3728,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListProjects">REST API Reference for ListProjects Operation</seealso>
         public virtual IAsyncResult BeginListProjects(ListProjectsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListProjectsRequestMarshaller.Instance;
-            var unmarshaller = ListProjectsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListProjectsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListProjectsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3155,10 +3773,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListRemoteAccessSessions">REST API Reference for ListRemoteAccessSessions Operation</seealso>
         public virtual ListRemoteAccessSessionsResponse ListRemoteAccessSessions(ListRemoteAccessSessionsRequest request)
         {
-            var marshaller = ListRemoteAccessSessionsRequestMarshaller.Instance;
-            var unmarshaller = ListRemoteAccessSessionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRemoteAccessSessionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRemoteAccessSessionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListRemoteAccessSessionsRequest,ListRemoteAccessSessionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRemoteAccessSessionsResponse>(request, options);
         }
 
         /// <summary>
@@ -3175,11 +3794,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListRemoteAccessSessions">REST API Reference for ListRemoteAccessSessions Operation</seealso>
         public virtual IAsyncResult BeginListRemoteAccessSessions(ListRemoteAccessSessionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRemoteAccessSessionsRequestMarshaller.Instance;
-            var unmarshaller = ListRemoteAccessSessionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRemoteAccessSessionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRemoteAccessSessionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRemoteAccessSessionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3220,10 +3839,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListRuns">REST API Reference for ListRuns Operation</seealso>
         public virtual ListRunsResponse ListRuns(ListRunsRequest request)
         {
-            var marshaller = ListRunsRequestMarshaller.Instance;
-            var unmarshaller = ListRunsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRunsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRunsResponseUnmarshaller.Instance;
 
-            return Invoke<ListRunsRequest,ListRunsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListRunsResponse>(request, options);
         }
 
         /// <summary>
@@ -3240,11 +3860,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListRuns">REST API Reference for ListRuns Operation</seealso>
         public virtual IAsyncResult BeginListRuns(ListRunsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListRunsRequestMarshaller.Instance;
-            var unmarshaller = ListRunsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListRunsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListRunsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListRunsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3265,7 +3885,7 @@ namespace Amazon.DeviceFarm
         #region  ListSamples
 
         /// <summary>
-        /// Gets information about samples, given an AWS Device Farm project ARN
+        /// Gets information about samples, given an AWS Device Farm job ARN.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListSamples service method.</param>
         /// 
@@ -3285,10 +3905,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListSamples">REST API Reference for ListSamples Operation</seealso>
         public virtual ListSamplesResponse ListSamples(ListSamplesRequest request)
         {
-            var marshaller = ListSamplesRequestMarshaller.Instance;
-            var unmarshaller = ListSamplesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSamplesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSamplesResponseUnmarshaller.Instance;
 
-            return Invoke<ListSamplesRequest,ListSamplesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSamplesResponse>(request, options);
         }
 
         /// <summary>
@@ -3305,11 +3926,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListSamples">REST API Reference for ListSamples Operation</seealso>
         public virtual IAsyncResult BeginListSamples(ListSamplesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSamplesRequestMarshaller.Instance;
-            var unmarshaller = ListSamplesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSamplesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSamplesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSamplesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3350,10 +3971,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListSuites">REST API Reference for ListSuites Operation</seealso>
         public virtual ListSuitesResponse ListSuites(ListSuitesRequest request)
         {
-            var marshaller = ListSuitesRequestMarshaller.Instance;
-            var unmarshaller = ListSuitesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSuitesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSuitesResponseUnmarshaller.Instance;
 
-            return Invoke<ListSuitesRequest,ListSuitesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListSuitesResponse>(request, options);
         }
 
         /// <summary>
@@ -3370,11 +3992,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListSuites">REST API Reference for ListSuites Operation</seealso>
         public virtual IAsyncResult BeginListSuites(ListSuitesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListSuitesRequestMarshaller.Instance;
-            var unmarshaller = ListSuitesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListSuitesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListSuitesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListSuitesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3388,6 +4010,322 @@ namespace Amazon.DeviceFarm
         public virtual ListSuitesResponse EndListSuites(IAsyncResult asyncResult)
         {
             return EndInvoke<ListSuitesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// List the tags for an AWS Device Farm resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.TagOperationException">
+        /// The operation was not successful. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTestGridProjects
+
+        /// <summary>
+        /// Gets a list of all Selenium testing projects in your account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridProjects service method.</param>
+        /// 
+        /// <returns>The response from the ListTestGridProjects service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridProjects">REST API Reference for ListTestGridProjects Operation</seealso>
+        public virtual ListTestGridProjectsResponse ListTestGridProjects(ListTestGridProjectsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridProjectsResponseUnmarshaller.Instance;
+
+            return Invoke<ListTestGridProjectsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTestGridProjects operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridProjects operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTestGridProjects
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridProjects">REST API Reference for ListTestGridProjects Operation</seealso>
+        public virtual IAsyncResult BeginListTestGridProjects(ListTestGridProjectsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridProjectsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridProjectsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTestGridProjects operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTestGridProjects.</param>
+        /// 
+        /// <returns>Returns a  ListTestGridProjectsResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridProjects">REST API Reference for ListTestGridProjects Operation</seealso>
+        public virtual ListTestGridProjectsResponse EndListTestGridProjects(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTestGridProjectsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTestGridSessionActions
+
+        /// <summary>
+        /// Returns a list of the actions taken in a <a>TestGridSession</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridSessionActions service method.</param>
+        /// 
+        /// <returns>The response from the ListTestGridSessionActions service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessionActions">REST API Reference for ListTestGridSessionActions Operation</seealso>
+        public virtual ListTestGridSessionActionsResponse ListTestGridSessionActions(ListTestGridSessionActionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridSessionActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridSessionActionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListTestGridSessionActionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTestGridSessionActions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridSessionActions operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTestGridSessionActions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessionActions">REST API Reference for ListTestGridSessionActions Operation</seealso>
+        public virtual IAsyncResult BeginListTestGridSessionActions(ListTestGridSessionActionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridSessionActionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridSessionActionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTestGridSessionActions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTestGridSessionActions.</param>
+        /// 
+        /// <returns>Returns a  ListTestGridSessionActionsResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessionActions">REST API Reference for ListTestGridSessionActions Operation</seealso>
+        public virtual ListTestGridSessionActionsResponse EndListTestGridSessionActions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTestGridSessionActionsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTestGridSessionArtifacts
+
+        /// <summary>
+        /// Retrieves a list of artifacts created during the session.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridSessionArtifacts service method.</param>
+        /// 
+        /// <returns>The response from the ListTestGridSessionArtifacts service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessionArtifacts">REST API Reference for ListTestGridSessionArtifacts Operation</seealso>
+        public virtual ListTestGridSessionArtifactsResponse ListTestGridSessionArtifacts(ListTestGridSessionArtifactsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridSessionArtifactsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridSessionArtifactsResponseUnmarshaller.Instance;
+
+            return Invoke<ListTestGridSessionArtifactsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTestGridSessionArtifacts operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridSessionArtifacts operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTestGridSessionArtifacts
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessionArtifacts">REST API Reference for ListTestGridSessionArtifacts Operation</seealso>
+        public virtual IAsyncResult BeginListTestGridSessionArtifacts(ListTestGridSessionArtifactsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridSessionArtifactsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridSessionArtifactsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTestGridSessionArtifacts operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTestGridSessionArtifacts.</param>
+        /// 
+        /// <returns>Returns a  ListTestGridSessionArtifactsResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessionArtifacts">REST API Reference for ListTestGridSessionArtifacts Operation</seealso>
+        public virtual ListTestGridSessionArtifactsResponse EndListTestGridSessionArtifacts(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTestGridSessionArtifactsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListTestGridSessions
+
+        /// <summary>
+        /// Retrieves a list of sessions for a <a>TestGridProject</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridSessions service method.</param>
+        /// 
+        /// <returns>The response from the ListTestGridSessions service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessions">REST API Reference for ListTestGridSessions Operation</seealso>
+        public virtual ListTestGridSessionsResponse ListTestGridSessions(ListTestGridSessionsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridSessionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridSessionsResponseUnmarshaller.Instance;
+
+            return Invoke<ListTestGridSessionsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTestGridSessions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTestGridSessions operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTestGridSessions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessions">REST API Reference for ListTestGridSessions Operation</seealso>
+        public virtual IAsyncResult BeginListTestGridSessions(ListTestGridSessionsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestGridSessionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestGridSessionsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTestGridSessions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTestGridSessions.</param>
+        /// 
+        /// <returns>Returns a  ListTestGridSessionsResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestGridSessions">REST API Reference for ListTestGridSessions Operation</seealso>
+        public virtual ListTestGridSessionsResponse EndListTestGridSessions(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTestGridSessionsResponse>(asyncResult);
         }
 
         #endregion
@@ -3415,10 +4353,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTests">REST API Reference for ListTests Operation</seealso>
         public virtual ListTestsResponse ListTests(ListTestsRequest request)
         {
-            var marshaller = ListTestsRequestMarshaller.Instance;
-            var unmarshaller = ListTestsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestsResponseUnmarshaller.Instance;
 
-            return Invoke<ListTestsRequest,ListTestsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListTestsResponse>(request, options);
         }
 
         /// <summary>
@@ -3435,11 +4374,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTests">REST API Reference for ListTests Operation</seealso>
         public virtual IAsyncResult BeginListTests(ListTestsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListTestsRequestMarshaller.Instance;
-            var unmarshaller = ListTestsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTestsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTestsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListTestsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3460,7 +4399,15 @@ namespace Amazon.DeviceFarm
         #region  ListUniqueProblems
 
         /// <summary>
-        /// Gets information about unique problems.
+        /// Gets information about unique problems, such as exceptions or crashes.
+        /// 
+        ///  
+        /// <para>
+        /// Unique problems are defined as a single instance of an error across a run, job, or
+        /// suite. For example, if a call in your application consistently raises an exception
+        /// (<code>OutOfBoundsException in MyActivity.java:386</code>), <code>ListUniqueProblems</code>
+        /// returns a single entry instead of many individual entries for that exception.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListUniqueProblems service method.</param>
         /// 
@@ -3480,10 +4427,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListUniqueProblems">REST API Reference for ListUniqueProblems Operation</seealso>
         public virtual ListUniqueProblemsResponse ListUniqueProblems(ListUniqueProblemsRequest request)
         {
-            var marshaller = ListUniqueProblemsRequestMarshaller.Instance;
-            var unmarshaller = ListUniqueProblemsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUniqueProblemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUniqueProblemsResponseUnmarshaller.Instance;
 
-            return Invoke<ListUniqueProblemsRequest,ListUniqueProblemsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListUniqueProblemsResponse>(request, options);
         }
 
         /// <summary>
@@ -3500,11 +4448,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListUniqueProblems">REST API Reference for ListUniqueProblems Operation</seealso>
         public virtual IAsyncResult BeginListUniqueProblems(ListUniqueProblemsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListUniqueProblemsRequestMarshaller.Instance;
-            var unmarshaller = ListUniqueProblemsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUniqueProblemsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUniqueProblemsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListUniqueProblemsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3545,10 +4493,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListUploads">REST API Reference for ListUploads Operation</seealso>
         public virtual ListUploadsResponse ListUploads(ListUploadsRequest request)
         {
-            var marshaller = ListUploadsRequestMarshaller.Instance;
-            var unmarshaller = ListUploadsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUploadsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUploadsResponseUnmarshaller.Instance;
 
-            return Invoke<ListUploadsRequest,ListUploadsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListUploadsResponse>(request, options);
         }
 
         /// <summary>
@@ -3565,11 +4514,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListUploads">REST API Reference for ListUploads Operation</seealso>
         public virtual IAsyncResult BeginListUploads(ListUploadsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListUploadsRequestMarshaller.Instance;
-            var unmarshaller = ListUploadsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListUploadsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListUploadsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListUploadsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3587,14 +4536,74 @@ namespace Amazon.DeviceFarm
 
         #endregion
         
+        #region  ListVPCEConfigurations
+
+        /// <summary>
+        /// Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations
+        /// in the AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListVPCEConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the ListVPCEConfigurations service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
+        /// There was a problem with the service account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListVPCEConfigurations">REST API Reference for ListVPCEConfigurations Operation</seealso>
+        public virtual ListVPCEConfigurationsResponse ListVPCEConfigurations(ListVPCEConfigurationsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVPCEConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVPCEConfigurationsResponseUnmarshaller.Instance;
+
+            return Invoke<ListVPCEConfigurationsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListVPCEConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListVPCEConfigurations operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListVPCEConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListVPCEConfigurations">REST API Reference for ListVPCEConfigurations Operation</seealso>
+        public virtual IAsyncResult BeginListVPCEConfigurations(ListVPCEConfigurationsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListVPCEConfigurationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListVPCEConfigurationsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListVPCEConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListVPCEConfigurations.</param>
+        /// 
+        /// <returns>Returns a  ListVPCEConfigurationsResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListVPCEConfigurations">REST API Reference for ListVPCEConfigurations Operation</seealso>
+        public virtual ListVPCEConfigurationsResponse EndListVPCEConfigurations(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListVPCEConfigurationsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PurchaseOffering
 
         /// <summary>
         /// Immediately purchases offerings for an AWS account. Offerings renew with the latest
         /// total purchased quantity for an offering, unless the renewal was overridden. The API
         /// returns a <code>NotEligible</code> error if the user is not permitted to invoke the
-        /// operation. Please contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
-        /// if you believe that you should be able to invoke this operation.
+        /// operation. If you must be able to invoke this operation, contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PurchaseOffering service method.</param>
         /// 
@@ -3617,10 +4626,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/PurchaseOffering">REST API Reference for PurchaseOffering Operation</seealso>
         public virtual PurchaseOfferingResponse PurchaseOffering(PurchaseOfferingRequest request)
         {
-            var marshaller = PurchaseOfferingRequestMarshaller.Instance;
-            var unmarshaller = PurchaseOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseOfferingResponseUnmarshaller.Instance;
 
-            return Invoke<PurchaseOfferingRequest,PurchaseOfferingResponse>(request, marshaller, unmarshaller);
+            return Invoke<PurchaseOfferingResponse>(request, options);
         }
 
         /// <summary>
@@ -3637,11 +4647,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/PurchaseOffering">REST API Reference for PurchaseOffering Operation</seealso>
         public virtual IAsyncResult BeginPurchaseOffering(PurchaseOfferingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PurchaseOfferingRequestMarshaller.Instance;
-            var unmarshaller = PurchaseOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PurchaseOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PurchaseOfferingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PurchaseOfferingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3664,8 +4674,8 @@ namespace Amazon.DeviceFarm
         /// <summary>
         /// Explicitly sets the quantity of devices to renew for an offering, starting from the
         /// <code>effectiveDate</code> of the next period. The API returns a <code>NotEligible</code>
-        /// error if the user is not permitted to invoke the operation. Please contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
-        /// if you believe that you should be able to invoke this operation.
+        /// error if the user is not permitted to invoke the operation. If you must be able to
+        /// invoke this operation, contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the RenewOffering service method.</param>
         /// 
@@ -3688,10 +4698,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/RenewOffering">REST API Reference for RenewOffering Operation</seealso>
         public virtual RenewOfferingResponse RenewOffering(RenewOfferingRequest request)
         {
-            var marshaller = RenewOfferingRequestMarshaller.Instance;
-            var unmarshaller = RenewOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RenewOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RenewOfferingResponseUnmarshaller.Instance;
 
-            return Invoke<RenewOfferingRequest,RenewOfferingResponse>(request, marshaller, unmarshaller);
+            return Invoke<RenewOfferingResponse>(request, options);
         }
 
         /// <summary>
@@ -3708,11 +4719,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/RenewOffering">REST API Reference for RenewOffering Operation</seealso>
         public virtual IAsyncResult BeginRenewOffering(RenewOfferingRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RenewOfferingRequestMarshaller.Instance;
-            var unmarshaller = RenewOfferingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RenewOfferingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RenewOfferingResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RenewOfferingRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3756,10 +4767,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ScheduleRun">REST API Reference for ScheduleRun Operation</seealso>
         public virtual ScheduleRunResponse ScheduleRun(ScheduleRunRequest request)
         {
-            var marshaller = ScheduleRunRequestMarshaller.Instance;
-            var unmarshaller = ScheduleRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ScheduleRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ScheduleRunResponseUnmarshaller.Instance;
 
-            return Invoke<ScheduleRunRequest,ScheduleRunResponse>(request, marshaller, unmarshaller);
+            return Invoke<ScheduleRunResponse>(request, options);
         }
 
         /// <summary>
@@ -3776,11 +4788,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ScheduleRun">REST API Reference for ScheduleRun Operation</seealso>
         public virtual IAsyncResult BeginScheduleRun(ScheduleRunRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ScheduleRunRequestMarshaller.Instance;
-            var unmarshaller = ScheduleRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ScheduleRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ScheduleRunResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ScheduleRunRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3794,6 +4806,76 @@ namespace Amazon.DeviceFarm
         public virtual ScheduleRunResponse EndScheduleRun(IAsyncResult asyncResult)
         {
             return EndInvoke<ScheduleRunResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  StopJob
+
+        /// <summary>
+        /// Initiates a stop request for the current job. AWS Device Farm immediately stops the
+        /// job on the device where tests have not started. You are not billed for this device.
+        /// On the device where tests have started, setup suite and teardown suite tests run to
+        /// completion on the device. You are billed for setup, teardown, and any tests that were
+        /// in progress or already completed.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopJob service method.</param>
+        /// 
+        /// <returns>The response from the StopJob service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.LimitExceededException">
+        /// A limit was exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
+        /// There was a problem with the service account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopJob">REST API Reference for StopJob Operation</seealso>
+        public virtual StopJobResponse StopJob(StopJobRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopJobResponseUnmarshaller.Instance;
+
+            return Invoke<StopJobResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopJob operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopJob operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopJob
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopJob">REST API Reference for StopJob Operation</seealso>
+        public virtual IAsyncResult BeginStopJob(StopJobRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopJobRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopJobResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopJob operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopJob.</param>
+        /// 
+        /// <returns>Returns a  StopJobResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopJob">REST API Reference for StopJob Operation</seealso>
+        public virtual StopJobResponse EndStopJob(IAsyncResult asyncResult)
+        {
+            return EndInvoke<StopJobResponse>(asyncResult);
         }
 
         #endregion
@@ -3821,10 +4903,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopRemoteAccessSession">REST API Reference for StopRemoteAccessSession Operation</seealso>
         public virtual StopRemoteAccessSessionResponse StopRemoteAccessSession(StopRemoteAccessSessionRequest request)
         {
-            var marshaller = StopRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = StopRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return Invoke<StopRemoteAccessSessionRequest,StopRemoteAccessSessionResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopRemoteAccessSessionResponse>(request, options);
         }
 
         /// <summary>
@@ -3841,11 +4924,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopRemoteAccessSession">REST API Reference for StopRemoteAccessSession Operation</seealso>
         public virtual IAsyncResult BeginStopRemoteAccessSession(StopRemoteAccessSessionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopRemoteAccessSessionRequestMarshaller.Instance;
-            var unmarshaller = StopRemoteAccessSessionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopRemoteAccessSessionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopRemoteAccessSessionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopRemoteAccessSessionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3866,12 +4949,11 @@ namespace Amazon.DeviceFarm
         #region  StopRun
 
         /// <summary>
-        /// Initiates a stop request for the current test run. AWS Device Farm will immediately
-        /// stop the run on devices where tests have not started executing, and you will not be
-        /// billed for these devices. On devices where tests have started executing, Setup Suite
-        /// and Teardown Suite tests will run to completion before stopping execution on those
-        /// devices. You will be billed for Setup, Teardown, and any tests that were in progress
-        /// or already completed.
+        /// Initiates a stop request for the current test run. AWS Device Farm immediately stops
+        /// the run on devices where tests have not started. You are not billed for these devices.
+        /// On devices where tests have started executing, setup suite and teardown suite tests
+        /// run to completion on those devices. You are billed for setup, teardown, and any tests
+        /// that were in progress or already completed.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StopRun service method.</param>
         /// 
@@ -3891,10 +4973,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopRun">REST API Reference for StopRun Operation</seealso>
         public virtual StopRunResponse StopRun(StopRunRequest request)
         {
-            var marshaller = StopRunRequestMarshaller.Instance;
-            var unmarshaller = StopRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopRunResponseUnmarshaller.Instance;
 
-            return Invoke<StopRunRequest,StopRunResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopRunResponse>(request, options);
         }
 
         /// <summary>
@@ -3911,11 +4994,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopRun">REST API Reference for StopRun Operation</seealso>
         public virtual IAsyncResult BeginStopRun(StopRunRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopRunRequestMarshaller.Instance;
-            var unmarshaller = StopRunResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopRunRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopRunResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopRunRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3933,10 +5016,147 @@ namespace Amazon.DeviceFarm
 
         #endregion
         
+        #region  TagResource
+
+        /// <summary>
+        /// Associates the specified tags to a resource with the specified <code>resourceArn</code>.
+        /// If existing tags on a resource are not specified in the request parameters, they are
+        /// not changed. When a resource is deleted, the tags associated with that resource are
+        /// also deleted.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.TagOperationException">
+        /// The operation was not successful. Try again.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.TagPolicyException">
+        /// The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy.
+        /// Correct your request and then retry it.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.TooManyTagsException">
+        /// The list of tags on the repository is over the limit. The maximum number of tags that
+        /// can be applied to a repository is 50.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Deletes the specified tags from a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.TagOperationException">
+        /// The operation was not successful. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateDeviceInstance
 
         /// <summary>
-        /// Updates information about an existing private device instance.
+        /// Updates information about a private device instance.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateDeviceInstance service method.</param>
         /// 
@@ -3956,10 +5176,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDeviceInstance">REST API Reference for UpdateDeviceInstance Operation</seealso>
         public virtual UpdateDeviceInstanceResponse UpdateDeviceInstance(UpdateDeviceInstanceRequest request)
         {
-            var marshaller = UpdateDeviceInstanceRequestMarshaller.Instance;
-            var unmarshaller = UpdateDeviceInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDeviceInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDeviceInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDeviceInstanceRequest,UpdateDeviceInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDeviceInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -3976,11 +5197,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDeviceInstance">REST API Reference for UpdateDeviceInstance Operation</seealso>
         public virtual IAsyncResult BeginUpdateDeviceInstance(UpdateDeviceInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateDeviceInstanceRequestMarshaller.Instance;
-            var unmarshaller = UpdateDeviceInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDeviceInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDeviceInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateDeviceInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4023,10 +5244,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDevicePool">REST API Reference for UpdateDevicePool Operation</seealso>
         public virtual UpdateDevicePoolResponse UpdateDevicePool(UpdateDevicePoolRequest request)
         {
-            var marshaller = UpdateDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = UpdateDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDevicePoolResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDevicePoolRequest,UpdateDevicePoolResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDevicePoolResponse>(request, options);
         }
 
         /// <summary>
@@ -4043,11 +5265,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDevicePool">REST API Reference for UpdateDevicePool Operation</seealso>
         public virtual IAsyncResult BeginUpdateDevicePool(UpdateDevicePoolRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateDevicePoolRequestMarshaller.Instance;
-            var unmarshaller = UpdateDevicePoolResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDevicePoolRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDevicePoolResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateDevicePoolRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4088,10 +5310,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateInstanceProfile">REST API Reference for UpdateInstanceProfile Operation</seealso>
         public virtual UpdateInstanceProfileResponse UpdateInstanceProfile(UpdateInstanceProfileRequest request)
         {
-            var marshaller = UpdateInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = UpdateInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateInstanceProfileResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateInstanceProfileRequest,UpdateInstanceProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateInstanceProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -4108,11 +5331,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateInstanceProfile">REST API Reference for UpdateInstanceProfile Operation</seealso>
         public virtual IAsyncResult BeginUpdateInstanceProfile(UpdateInstanceProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateInstanceProfileRequestMarshaller.Instance;
-            var unmarshaller = UpdateInstanceProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateInstanceProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateInstanceProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateInstanceProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4133,7 +5356,7 @@ namespace Amazon.DeviceFarm
         #region  UpdateNetworkProfile
 
         /// <summary>
-        /// Updates the network profile with specific settings.
+        /// Updates the network profile.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateNetworkProfile service method.</param>
         /// 
@@ -4153,10 +5376,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateNetworkProfile">REST API Reference for UpdateNetworkProfile Operation</seealso>
         public virtual UpdateNetworkProfileResponse UpdateNetworkProfile(UpdateNetworkProfileRequest request)
         {
-            var marshaller = UpdateNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = UpdateNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateNetworkProfileResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateNetworkProfileRequest,UpdateNetworkProfileResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateNetworkProfileResponse>(request, options);
         }
 
         /// <summary>
@@ -4173,11 +5397,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateNetworkProfile">REST API Reference for UpdateNetworkProfile Operation</seealso>
         public virtual IAsyncResult BeginUpdateNetworkProfile(UpdateNetworkProfileRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateNetworkProfileRequestMarshaller.Instance;
-            var unmarshaller = UpdateNetworkProfileResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateNetworkProfileRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateNetworkProfileResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateNetworkProfileRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4218,10 +5442,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateProject">REST API Reference for UpdateProject Operation</seealso>
         public virtual UpdateProjectResponse UpdateProject(UpdateProjectRequest request)
         {
-            var marshaller = UpdateProjectRequestMarshaller.Instance;
-            var unmarshaller = UpdateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateProjectResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateProjectRequest,UpdateProjectResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateProjectResponse>(request, options);
         }
 
         /// <summary>
@@ -4238,11 +5463,11 @@ namespace Amazon.DeviceFarm
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateProject">REST API Reference for UpdateProject Operation</seealso>
         public virtual IAsyncResult BeginUpdateProject(UpdateProjectRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateProjectRequestMarshaller.Instance;
-            var unmarshaller = UpdateProjectResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateProjectResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateProjectRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -4256,6 +5481,203 @@ namespace Amazon.DeviceFarm
         public virtual UpdateProjectResponse EndUpdateProject(IAsyncResult asyncResult)
         {
             return EndInvoke<UpdateProjectResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateTestGridProject
+
+        /// <summary>
+        /// Change details of a project.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTestGridProject service method.</param>
+        /// 
+        /// <returns>The response from the UpdateTestGridProject service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InternalServiceException">
+        /// An internal exception was raised in the service. Contact <a href="mailto:aws-devicefarm-support@amazon.com">aws-devicefarm-support@amazon.com</a>
+        /// if you see this error.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateTestGridProject">REST API Reference for UpdateTestGridProject Operation</seealso>
+        public virtual UpdateTestGridProjectResponse UpdateTestGridProject(UpdateTestGridProjectRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTestGridProjectResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateTestGridProjectResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateTestGridProject operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateTestGridProject
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateTestGridProject">REST API Reference for UpdateTestGridProject Operation</seealso>
+        public virtual IAsyncResult BeginUpdateTestGridProject(UpdateTestGridProjectRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateTestGridProjectRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateTestGridProjectResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateTestGridProject operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateTestGridProject.</param>
+        /// 
+        /// <returns>Returns a  UpdateTestGridProjectResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateTestGridProject">REST API Reference for UpdateTestGridProject Operation</seealso>
+        public virtual UpdateTestGridProjectResponse EndUpdateTestGridProject(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateTestGridProjectResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateUpload
+
+        /// <summary>
+        /// Updates an uploaded test spec.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateUpload service method.</param>
+        /// 
+        /// <returns>The response from the UpdateUpload service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.LimitExceededException">
+        /// A limit was exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
+        /// There was a problem with the service account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateUpload">REST API Reference for UpdateUpload Operation</seealso>
+        public virtual UpdateUploadResponse UpdateUpload(UpdateUploadRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUploadResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateUploadResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateUpload operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateUpload operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateUpload
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateUpload">REST API Reference for UpdateUpload Operation</seealso>
+        public virtual IAsyncResult BeginUpdateUpload(UpdateUploadRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUploadRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUploadResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateUpload operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateUpload.</param>
+        /// 
+        /// <returns>Returns a  UpdateUploadResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateUpload">REST API Reference for UpdateUpload Operation</seealso>
+        public virtual UpdateUploadResponse EndUpdateUpload(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateUploadResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UpdateVPCEConfiguration
+
+        /// <summary>
+        /// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVPCEConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the UpdateVPCEConfiguration service method, as returned by DeviceFarm.</returns>
+        /// <exception cref="Amazon.DeviceFarm.Model.ArgumentException">
+        /// An invalid argument was specified.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.InvalidOperationException">
+        /// There was an error with the update request, or you do not have sufficient permissions
+        /// to update this VPC endpoint configuration.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.NotFoundException">
+        /// The specified entity was not found.
+        /// </exception>
+        /// <exception cref="Amazon.DeviceFarm.Model.ServiceAccountException">
+        /// There was a problem with the service account.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateVPCEConfiguration">REST API Reference for UpdateVPCEConfiguration Operation</seealso>
+        public virtual UpdateVPCEConfigurationResponse UpdateVPCEConfiguration(UpdateVPCEConfigurationRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return Invoke<UpdateVPCEConfigurationResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVPCEConfiguration operation on AmazonDeviceFarmClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateVPCEConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateVPCEConfiguration">REST API Reference for UpdateVPCEConfiguration Operation</seealso>
+        public virtual IAsyncResult BeginUpdateVPCEConfiguration(UpdateVPCEConfigurationRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVPCEConfigurationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVPCEConfigurationResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateVPCEConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateVPCEConfiguration.</param>
+        /// 
+        /// <returns>Returns a  UpdateVPCEConfigurationResult from DeviceFarm.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateVPCEConfiguration">REST API Reference for UpdateVPCEConfiguration Operation</seealso>
+        public virtual UpdateVPCEConfigurationResponse EndUpdateVPCEConfiguration(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UpdateVPCEConfigurationResponse>(asyncResult);
         }
 
         #endregion

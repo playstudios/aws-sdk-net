@@ -29,12 +29,18 @@ namespace Amazon.AutoScaling.Model
 {
     /// <summary>
     /// Container for the parameters to the DeletePolicy operation.
-    /// Deletes the specified Auto Scaling policy.
+    /// Deletes the specified scaling policy.
     /// 
     ///  
     /// <para>
-    /// Deleting a policy deletes the underlying alarm action, but does not delete the alarm,
-    /// even if it no longer has an associated action.
+    /// Deleting either a step scaling policy or a simple scaling policy deletes the underlying
+    /// alarm action, but does not delete the alarm, even if it no longer has an associated
+    /// action.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/deleting-scaling-policy.html">Deleting
+    /// a Scaling Policy</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
     /// </para>
     /// </summary>
     public partial class DeletePolicyRequest : AmazonAutoScalingRequest
@@ -48,6 +54,7 @@ namespace Amazon.AutoScaling.Model
         /// The name of the Auto Scaling group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
         public string AutoScalingGroupName
         {
             get { return this._autoScalingGroupName; }
@@ -66,6 +73,7 @@ namespace Amazon.AutoScaling.Model
         /// The name or Amazon Resource Name (ARN) of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1600)]
         public string PolicyName
         {
             get { return this._policyName; }

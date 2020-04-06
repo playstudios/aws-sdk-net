@@ -69,8 +69,8 @@ namespace Amazon.Redshift.Model
         /// <summary>
         /// Gets and sets the property Enabled. 
         /// <para>
-        /// A Boolean value; set to <code>true</code> to activate the subscription, set to <code>false</code>
-        /// to create the subscription but not active it. 
+        /// A boolean value; set to <code>true</code> to activate the subscription, and set to
+        /// <code>false</code> to create the subscription but not activate it. 
         /// </para>
         /// </summary>
         public bool Enabled
@@ -93,7 +93,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// Values: Configuration, Management, Monitoring, Security
+        /// Values: configuration, management, monitoring, security
         /// </para>
         /// </summary>
         public List<string> EventCategories
@@ -139,6 +139,7 @@ namespace Amazon.Redshift.Model
         /// to it.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SnsTopicArn
         {
             get { return this._snsTopicArn; }
@@ -190,7 +191,8 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  
         /// <para>
-        /// Valid values: cluster, cluster-parameter-group, cluster-security-group, and cluster-snapshot.
+        /// Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
+        /// and scheduled-action.
         /// </para>
         /// </summary>
         public string SourceType
@@ -232,6 +234,7 @@ namespace Amazon.Redshift.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubscriptionName
         {
             get { return this._subscriptionName; }

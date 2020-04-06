@@ -41,9 +41,11 @@ namespace Amazon.MigrationHub.Model
         /// <summary>
         /// Gets and sets the property MigrationTaskName. 
         /// <para>
-        /// Unique identifier that references the migration task.
+        /// Unique identifier that references the migration task. <i>Do not store personal data
+        /// in this field.</i> 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string MigrationTaskName
         {
             get { return this._migrationTaskName; }
@@ -62,6 +64,7 @@ namespace Amazon.MigrationHub.Model
         /// A name that identifies the vendor of the migration tool being used.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string ProgressUpdateStream
         {
             get { return this._progressUpdateStream; }
@@ -75,8 +78,13 @@ namespace Amazon.MigrationHub.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ResourceAttributeList.
+        /// Gets and sets the property ResourceAttributeList. 
+        /// <para>
+        /// Information about the resource that is being migrated. This data will be used to map
+        /// the task to a resource in the Application Discovery Service repository.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public List<ResourceAttribute> ResourceAttributeList
         {
             get { return this._resourceAttributeList; }

@@ -66,6 +66,12 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                         unmarshalledObject.Description = unmarshaller.Unmarshall(context);
                         continue;
                     }
+                    if (context.TestExpression("encrypted", targetDepth))
+                    {
+                        var unmarshaller = BoolUnmarshaller.Instance;
+                        unmarshalledObject.Encrypted = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
                     if (context.TestExpression("hypervisor", targetDepth))
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
@@ -82,6 +88,19 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.ImportTaskId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("kmsKeyId", targetDepth))
+                    {
+                        var unmarshaller = StringUnmarshaller.Instance;
+                        unmarshalledObject.KmsKeyId = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("licenseSpecifications/item", targetDepth))
+                    {
+                        var unmarshaller = ImportImageLicenseConfigurationResponseUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.LicenseSpecifications.Add(item);
                         continue;
                     }
                     if (context.TestExpression("licenseType", targetDepth))
@@ -119,6 +138,13 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         var unmarshaller = StringUnmarshaller.Instance;
                         unmarshalledObject.StatusMessage = unmarshaller.Unmarshall(context);
+                        continue;
+                    }
+                    if (context.TestExpression("tagSet/item", targetDepth))
+                    {
+                        var unmarshaller = TagUnmarshaller.Instance;
+                        var item = unmarshaller.Unmarshall(context);
+                        unmarshalledObject.Tags.Add(item);
                         continue;
                     }
                 }

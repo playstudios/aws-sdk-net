@@ -33,6 +33,7 @@ namespace Amazon.ElasticBeanstalk.Model
     public partial class ApplicationVersionDescription
     {
         private string _applicationName;
+        private string _applicationVersionArn;
         private string _buildArn;
         private DateTime? _dateCreated;
         private DateTime? _dateUpdated;
@@ -53,6 +54,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// The name of the application to which the application version belongs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ApplicationName
         {
             get { return this._applicationName; }
@@ -63,6 +65,24 @@ namespace Amazon.ElasticBeanstalk.Model
         internal bool IsSetApplicationName()
         {
             return this._applicationName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ApplicationVersionArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the application version.
+        /// </para>
+        /// </summary>
+        public string ApplicationVersionArn
+        {
+            get { return this._applicationVersionArn; }
+            set { this._applicationVersionArn = value; }
+        }
+
+        // Check to see if ApplicationVersionArn property is set
+        internal bool IsSetApplicationVersionArn()
+        {
+            return this._applicationVersionArn != null;
         }
 
         /// <summary>
@@ -125,6 +145,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// The description of the application version.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -177,8 +198,37 @@ namespace Amazon.ElasticBeanstalk.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The processing status of the application version.
+        /// The processing status of the application version. Reflects the state of the application
+        /// version during its creation. Many of the values are only applicable if you specified
+        /// <code>True</code> for the <code>Process</code> parameter of the <code>CreateApplicationVersion</code>
+        /// action. The following list describes the possible values.
         /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Unprocessed</code> – Application version wasn't pre-processed or validated.
+        /// Elastic Beanstalk will validate configuration files during deployment of the application
+        /// version to an environment.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Processing</code> – Elastic Beanstalk is currently processing the application
+        /// version.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Building</code> – Application version is currently undergoing an AWS CodeBuild
+        /// build.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Processed</code> – Elastic Beanstalk was successfully pre-processed and validated.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Failed</code> – Either the AWS CodeBuild build failed or configuration files
+        /// didn't pass validation. This application version isn't usable.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public ApplicationVersionStatus Status
         {
@@ -198,6 +248,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// A unique identifier for the application version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string VersionLabel
         {
             get { return this._versionLabel; }

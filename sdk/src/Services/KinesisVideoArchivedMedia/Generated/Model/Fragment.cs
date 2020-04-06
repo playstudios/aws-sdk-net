@@ -59,9 +59,11 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// <summary>
         /// Gets and sets the property FragmentNumber. 
         /// <para>
-        /// The index value of the fragment.
+        /// The unique identifier of the fragment. This value monotonically increases based on
+        /// the ingestion order.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string FragmentNumber
         {
             get { return this._fragmentNumber; }
@@ -96,7 +98,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// <summary>
         /// Gets and sets the property ProducerTimestamp. 
         /// <para>
-        /// The time stamp from the producer corresponding to the fragment.
+        /// The timestamp from the producer corresponding to the fragment.
         /// </para>
         /// </summary>
         public DateTime ProducerTimestamp
@@ -114,7 +116,7 @@ namespace Amazon.KinesisVideoArchivedMedia.Model
         /// <summary>
         /// Gets and sets the property ServerTimestamp. 
         /// <para>
-        /// The time stamp from the AWS server corresponding to the fragment.
+        /// The timestamp from the AWS server corresponding to the fragment.
         /// </para>
         /// </summary>
         public DateTime ServerTimestamp

@@ -29,10 +29,15 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the GetCelebrityInfo operation.
-    /// Gets the name and additional information about a celebrity based on his or her Rekognition
-    /// ID. The additional information is returned as an array of URLs. If there is no additional
-    /// information about the celebrity, this list is empty. For more information, see <a>get-celebrity-info-procedure</a>.
+    /// Gets the name and additional information about a celebrity based on his or her Amazon
+    /// Rekognition ID. The additional information is returned as an array of URLs. If there
+    /// is no additional information about the celebrity, this list is empty.
     /// 
+    ///  
+    /// <para>
+    /// For more information, see Recognizing Celebrities in an Image in the Amazon Rekognition
+    /// Developer Guide.
+    /// </para>
     ///  
     /// <para>
     /// This operation requires permissions to perform the <code>rekognition:GetCelebrityInfo</code>
@@ -46,10 +51,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property Id. 
         /// <para>
-        /// The ID for the celebrity. You get the celebrity ID from a call to the operation, which
-        /// recognizes celebrities in an image. 
+        /// The ID for the celebrity. You get the celebrity ID from a call to the <a>RecognizeCelebrities</a>
+        /// operation, which recognizes celebrities in an image. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Id
         {
             get { return this._id; }

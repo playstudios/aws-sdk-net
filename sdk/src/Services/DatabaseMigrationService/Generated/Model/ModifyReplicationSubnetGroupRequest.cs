@@ -40,7 +40,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ReplicationSubnetGroupDescription. 
         /// <para>
-        /// The description of the replication instance subnet group.
+        /// A description for the replication instance subnet group.
         /// </para>
         /// </summary>
         public string ReplicationSubnetGroupDescription
@@ -61,6 +61,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// The name of the replication instance subnet group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReplicationSubnetGroupIdentifier
         {
             get { return this._replicationSubnetGroupIdentifier; }
@@ -79,6 +80,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// A list of subnet IDs.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> SubnetIds
         {
             get { return this._subnetIds; }

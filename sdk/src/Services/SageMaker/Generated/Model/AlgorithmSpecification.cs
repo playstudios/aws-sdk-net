@@ -28,27 +28,123 @@ using Amazon.Runtime.Internal;
 namespace Amazon.SageMaker.Model
 {
     /// <summary>
-    /// Specifies the training algorithm to use in a <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateTrainingJob.html">CreateTrainingJob</a>
-    /// request. 
+    /// Specifies the training algorithm to use in a <a>CreateTrainingJob</a> request.
     /// 
     ///  
     /// <para>
-    /// For more information about algorithms provided by Amazon SageMaker, see <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
-    /// For information about using your own algorithms, see <a>your-algorithms</a>. 
+    /// For more information about algorithms provided by Amazon SageMaker, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
+    /// For information about using your own algorithms, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
+    /// Your Own Algorithms with Amazon SageMaker</a>. 
     /// </para>
     /// </summary>
     public partial class AlgorithmSpecification
     {
+        private string _algorithmName;
+        private bool? _enableSageMakerMetricsTimeSeries;
+        private List<MetricDefinition> _metricDefinitions = new List<MetricDefinition>();
         private string _trainingImage;
         private TrainingInputMode _trainingInputMode;
+
+        /// <summary>
+        /// Gets and sets the property AlgorithmName. 
+        /// <para>
+        /// The name of the algorithm resource to use for the training job. This must be an algorithm
+        /// resource that you created or subscribe to on AWS Marketplace. If you specify a value
+        /// for this parameter, you can't specify a value for <code>TrainingImage</code>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=170)]
+        public string AlgorithmName
+        {
+            get { return this._algorithmName; }
+            set { this._algorithmName = value; }
+        }
+
+        // Check to see if AlgorithmName property is set
+        internal bool IsSetAlgorithmName()
+        {
+            return this._algorithmName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableSageMakerMetricsTimeSeries. 
+        /// <para>
+        /// To generate and save time-series metrics during training, set to <code>true</code>.
+        /// The default is <code>false</code> and time-series metrics aren't generated except
+        /// in the following cases:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// You use one of the Amazon SageMaker built-in algorithms
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// You use one of the following <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/pre-built-containers-frameworks-deep-learning.html">Prebuilt
+        /// Amazon SageMaker Docker Images</a>:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Tensorflow (version &gt;= 1.15)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// MXNet (version &gt;= 1.6)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PyTorch (version &gt;= 1.3)
+        /// </para>
+        ///  </li> </ul> </li> <li> 
+        /// <para>
+        /// You specify at least one <a>MetricDefinition</a> 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public bool EnableSageMakerMetricsTimeSeries
+        {
+            get { return this._enableSageMakerMetricsTimeSeries.GetValueOrDefault(); }
+            set { this._enableSageMakerMetricsTimeSeries = value; }
+        }
+
+        // Check to see if EnableSageMakerMetricsTimeSeries property is set
+        internal bool IsSetEnableSageMakerMetricsTimeSeries()
+        {
+            return this._enableSageMakerMetricsTimeSeries.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MetricDefinitions. 
+        /// <para>
+        /// A list of metric definition objects. Each object specifies the metric name and regular
+        /// expressions used to parse algorithm logs. Amazon SageMaker publishes each metric to
+        /// Amazon CloudWatch.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=40)]
+        public List<MetricDefinition> MetricDefinitions
+        {
+            get { return this._metricDefinitions; }
+            set { this._metricDefinitions = value; }
+        }
+
+        // Check to see if MetricDefinitions property is set
+        internal bool IsSetMetricDefinitions()
+        {
+            return this._metricDefinitions != null && this._metricDefinitions.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property TrainingImage. 
         /// <para>
         /// The registry path of the Docker image that contains the training algorithm. For information
-        /// about docker registry paths for built-in algorithms, see <a>sagemaker-algo-docker-registry-paths</a>.
+        /// about docker registry paths for built-in algorithms, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-algo-docker-registry-paths.html">Algorithms
+        /// Provided by Amazon SageMaker: Common Parameters</a>. Amazon SageMaker supports both
+        /// <code>registry/repository[:tag]</code> and <code>registry/repository[@digest]</code>
+        /// image path formats. For more information, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html">Using
+        /// Your Own Algorithms with Amazon SageMaker</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string TrainingImage
         {
             get { return this._trainingImage; }
@@ -65,7 +161,7 @@ namespace Amazon.SageMaker.Model
         /// Gets and sets the property TrainingInputMode. 
         /// <para>
         /// The input mode that the algorithm supports. For the input modes that Amazon SageMaker
-        /// algorithms support, see <a href="http://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
+        /// algorithms support, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html">Algorithms</a>.
         /// If an algorithm supports the <code>File</code> input mode, Amazon SageMaker downloads
         /// the training data from S3 to the provisioned ML storage Volume, and mounts the directory
         /// to docker volume for training container. If an algorithm supports the <code>Pipe</code>
@@ -88,6 +184,7 @@ namespace Amazon.SageMaker.Model
         /// in training. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TrainingInputMode TrainingInputMode
         {
             get { return this._trainingInputMode; }

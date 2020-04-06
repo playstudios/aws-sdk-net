@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CodeDeploy.Model;
 using Amazon.CodeDeploy.Model.Internal.MarshallTransformations;
+using Amazon.CodeDeploy.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -36,16 +38,17 @@ namespace Amazon.CodeDeploy
     /// AWS CodeDeploy 
     /// <para>
     /// AWS CodeDeploy is a deployment service that automates application deployments to Amazon
-    /// EC2 instances, on-premises instances running in your own facility, or serverless AWS
-    /// Lambda functions.
+    /// EC2 instances, on-premises instances running in your own facility, serverless AWS
+    /// Lambda functions, or applications in an Amazon ECS service.
     /// </para>
     ///  
     /// <para>
     /// You can deploy a nearly unlimited variety of application content, such as an updated
-    /// Lambda function, code, web and configuration files, executables, packages, scripts,
-    /// multimedia files, and so on. AWS CodeDeploy can deploy application content stored
-    /// in Amazon S3 buckets, GitHub repositories, or Bitbucket repositories. You do not need
-    /// to make changes to your existing code before you can use AWS CodeDeploy.
+    /// Lambda function, updated applications in an Amazon ECS service, code, web and configuration
+    /// files, executables, packages, scripts, multimedia files, and so on. AWS CodeDeploy
+    /// can deploy application content stored in Amazon S3 buckets, GitHub repositories, or
+    /// Bitbucket repositories. You do not need to make changes to your existing code before
+    /// you can use AWS CodeDeploy.
     /// </para>
     ///  
     /// <para>
@@ -71,10 +74,14 @@ namespace Amazon.CodeDeploy
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <b>Deployment group</b>: A set of individual instances or CodeDeploy Lambda applications.
-    /// A Lambda deployment group contains a group of applications. An EC2/On-premises deployment
-    /// group contains individually tagged instances, Amazon EC2 instances in Auto Scaling
-    /// groups, or both. 
+    ///  <b>Deployment group</b>: A set of individual instances, CodeDeploy Lambda deployment
+    /// configuration settings, or an Amazon ECS service and network details. A Lambda deployment
+    /// group specifies how to route traffic to a new version of a Lambda function. An Amazon
+    /// ECS deployment group specifies the service created in Amazon ECS to deploy, a load
+    /// balancer, and a listener to reroute production traffic to an updated containerized
+    /// application. An EC2/On-premises deployment group contains individually tagged instances,
+    /// Amazon EC2 instances in Amazon EC2 Auto Scaling groups, or both. All deployment groups
+    /// can specify optional trigger, alarm, and rollback settings.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -83,25 +90,29 @@ namespace Amazon.CodeDeploy
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <b>Deployment</b>: The process and the components used in the process of updating
-    /// a Lambda function or of installing content on one or more instances. 
+    ///  <b>Deployment</b>: The process and the components used when updating a Lambda function,
+    /// a containerized application in an Amazon ECS service, or of installing content on
+    /// one or more instances. 
     /// </para>
     ///  </li> <li> 
     /// <para>
     ///  <b>Application revisions</b>: For an AWS Lambda deployment, this is an AppSpec file
-    /// that specifies the Lambda function to update and one or more functions to validate
-    /// deployment lifecycle events. For an EC2/On-premises deployment, this is an archive
-    /// file containing source content—source code, web pages, executable files, and deployment
-    /// scripts—along with an AppSpec file. Revisions are stored in Amazon S3 buckets or GitHub
-    /// repositories. For Amazon S3, a revision is uniquely identified by its Amazon S3 object
-    /// key and its ETag, version, or both. For GitHub, a revision is uniquely identified
-    /// by its commit ID.
+    /// that specifies the Lambda function to be updated and one or more functions to validate
+    /// deployment lifecycle events. For an Amazon ECS deployment, this is an AppSpec file
+    /// that specifies the Amazon ECS task definition, container, and port where production
+    /// traffic is rerouted. For an EC2/On-premises deployment, this is an archive file that
+    /// contains source content—source code, webpages, executable files, and deployment scripts—along
+    /// with an AppSpec file. Revisions are stored in Amazon S3 buckets or GitHub repositories.
+    /// For Amazon S3, a revision is uniquely identified by its Amazon S3 object key and its
+    /// ETag, version, or both. For GitHub, a revision is uniquely identified by its commit
+    /// ID.
     /// </para>
     ///  </li> </ul> 
     /// <para>
     /// This guide also contains information to help you get details about the instances in
     /// your deployments, to make on-premises instances available for AWS CodeDeploy deployments,
-    /// and to get details about a Lambda function deployment.
+    /// to get details about a Lambda function deployment, and to get details about Amazon
+    /// ECS service deployments.
     /// </para>
     ///  
     /// <para>
@@ -109,18 +120,18 @@ namespace Amazon.CodeDeploy
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/codedeploy/latest/userguide">AWS CodeDeploy User
-    /// Guide</a> 
+    ///  <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide">AWS CodeDeploy
+    /// User Guide</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/codedeploy/latest/APIReference/">AWS CodeDeploy
+    ///  <a href="https://docs.aws.amazon.com/codedeploy/latest/APIReference/">AWS CodeDeploy
     /// API Reference Guide</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <a href="http://docs.aws.amazon.com/cli/latest/reference/deploy/index.html">AWS CLI
-    /// Reference for AWS CodeDeploy</a> 
+    ///  <a href="https://docs.aws.amazon.com/cli/latest/reference/deploy/index.html">AWS
+    /// CLI Reference for AWS CodeDeploy</a> 
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -131,6 +142,7 @@ namespace Amazon.CodeDeploy
     /// </summary>
     public partial class AmazonCodeDeployClient : AmazonServiceClient, IAmazonCodeDeploy
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCodeDeployMetadata();
         #region Constructors
 
         /// <summary>
@@ -301,6 +313,16 @@ namespace Amazon.CodeDeploy
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -316,7 +338,7 @@ namespace Amazon.CodeDeploy
 
         #endregion
 
-        
+
         #region  AddTagsToOnPremisesInstances
 
         /// <summary>
@@ -335,10 +357,10 @@ namespace Amazon.CodeDeploy
         /// The specified on-premises instance is not registered.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagException">
-        /// The specified tag was specified in an invalid format.
+        /// The tag was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.TagLimitExceededException">
         /// The maximum allowed number of tags was exceeded.
@@ -349,10 +371,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/AddTagsToOnPremisesInstances">REST API Reference for AddTagsToOnPremisesInstances Operation</seealso>
         public virtual AddTagsToOnPremisesInstancesResponse AddTagsToOnPremisesInstances(AddTagsToOnPremisesInstancesRequest request)
         {
-            var marshaller = AddTagsToOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<AddTagsToOnPremisesInstancesRequest,AddTagsToOnPremisesInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<AddTagsToOnPremisesInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -369,11 +392,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/AddTagsToOnPremisesInstances">REST API Reference for AddTagsToOnPremisesInstances Operation</seealso>
         public virtual IAsyncResult BeginAddTagsToOnPremisesInstances(AddTagsToOnPremisesInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = AddTagsToOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = AddTagsToOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = AddTagsToOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = AddTagsToOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<AddTagsToOnPremisesInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -394,13 +417,14 @@ namespace Amazon.CodeDeploy
         #region  BatchGetApplicationRevisions
 
         /// <summary>
-        /// Gets information about one or more application revisions.
+        /// Gets information about one or more application revisions. The maximum number of application
+        /// revisions that can be returned is 25.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetApplicationRevisions service method.</param>
         /// 
         /// <returns>The response from the BatchGetApplicationRevisions service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -420,10 +444,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetApplicationRevisions">REST API Reference for BatchGetApplicationRevisions Operation</seealso>
         public virtual BatchGetApplicationRevisionsResponse BatchGetApplicationRevisions(BatchGetApplicationRevisionsRequest request)
         {
-            var marshaller = BatchGetApplicationRevisionsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetApplicationRevisionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetApplicationRevisionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetApplicationRevisionsResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetApplicationRevisionsRequest,BatchGetApplicationRevisionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetApplicationRevisionsResponse>(request, options);
         }
 
         /// <summary>
@@ -440,11 +465,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetApplicationRevisions">REST API Reference for BatchGetApplicationRevisions Operation</seealso>
         public virtual IAsyncResult BeginBatchGetApplicationRevisions(BatchGetApplicationRevisionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetApplicationRevisionsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetApplicationRevisionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetApplicationRevisionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetApplicationRevisionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetApplicationRevisionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -465,13 +490,14 @@ namespace Amazon.CodeDeploy
         #region  BatchGetApplications
 
         /// <summary>
-        /// Gets information about one or more applications.
+        /// Gets information about one or more applications. The maximum number of applications
+        /// that can be returned is 25.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetApplications service method.</param>
         /// 
         /// <returns>The response from the BatchGetApplications service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -485,10 +511,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetApplications">REST API Reference for BatchGetApplications Operation</seealso>
         public virtual BatchGetApplicationsResponse BatchGetApplications(BatchGetApplicationsRequest request)
         {
-            var marshaller = BatchGetApplicationsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetApplicationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetApplicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetApplicationsResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetApplicationsRequest,BatchGetApplicationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetApplicationsResponse>(request, options);
         }
 
         /// <summary>
@@ -505,11 +532,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetApplications">REST API Reference for BatchGetApplications Operation</seealso>
         public virtual IAsyncResult BeginBatchGetApplications(BatchGetApplicationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetApplicationsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetApplicationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetApplicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetApplicationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetApplicationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -536,13 +563,16 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the BatchGetDeploymentGroups service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.BatchLimitExceededException">
         /// The maximum number of names or IDs allowed for this request (100) was exceeded.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
+        /// The deployment configuration does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupNameRequiredException">
         /// The deployment group name was not specified.
@@ -556,10 +586,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentGroups">REST API Reference for BatchGetDeploymentGroups Operation</seealso>
         public virtual BatchGetDeploymentGroupsResponse BatchGetDeploymentGroups(BatchGetDeploymentGroupsRequest request)
         {
-            var marshaller = BatchGetDeploymentGroupsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetDeploymentGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetDeploymentGroupsRequest,BatchGetDeploymentGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetDeploymentGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -576,11 +607,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentGroups">REST API Reference for BatchGetDeploymentGroups Operation</seealso>
         public virtual IAsyncResult BeginBatchGetDeploymentGroups(BatchGetDeploymentGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetDeploymentGroupsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetDeploymentGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetDeploymentGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -601,7 +632,18 @@ namespace Amazon.CodeDeploy
         #region  BatchGetDeploymentInstances
 
         /// <summary>
-        /// Gets information about one or more instance that are part of a deployment group.
+        /// <note> 
+        /// <para>
+        ///  This method works, but is deprecated. Use <code>BatchGetDeploymentTargets</code>
+        /// instead. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  Returns an array of one or more instances associated with a deployment. This method
+        /// works with EC2/On-premises and AWS Lambda compute platforms. The newer <code>BatchGetDeploymentTargets</code>
+        /// works with all compute platforms. The maximum number of instances that can be returned
+        /// is 25.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetDeploymentInstances service method.</param>
         /// 
@@ -610,7 +652,7 @@ namespace Amazon.CodeDeploy
         /// The maximum number of names or IDs allowed for this request (100) was exceeded.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -618,19 +660,25 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InstanceIdRequiredException">
         /// The instance ID was not specified.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidComputePlatformException">
+        /// The computePlatform is invalid. The computePlatform should be <code>Lambda</code>
+        /// or <code>Server</code>.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentIdException">
         /// At least one of the deployment IDs was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentInstances">REST API Reference for BatchGetDeploymentInstances Operation</seealso>
+        [Obsolete("This operation is deprecated, use BatchGetDeploymentTargets instead.")]
         public virtual BatchGetDeploymentInstancesResponse BatchGetDeploymentInstances(BatchGetDeploymentInstancesRequest request)
         {
-            var marshaller = BatchGetDeploymentInstancesRequestMarshaller.Instance;
-            var unmarshaller = BatchGetDeploymentInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetDeploymentInstancesRequest,BatchGetDeploymentInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetDeploymentInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -645,13 +693,14 @@ namespace Amazon.CodeDeploy
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetDeploymentInstances
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentInstances">REST API Reference for BatchGetDeploymentInstances Operation</seealso>
+        [Obsolete("This operation is deprecated, use BatchGetDeploymentTargets instead.")]
         public virtual IAsyncResult BeginBatchGetDeploymentInstances(BatchGetDeploymentInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetDeploymentInstancesRequestMarshaller.Instance;
-            var unmarshaller = BatchGetDeploymentInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetDeploymentInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -662,6 +711,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>Returns a  BatchGetDeploymentInstancesResult from CodeDeploy.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentInstances">REST API Reference for BatchGetDeploymentInstances Operation</seealso>
+        [Obsolete("This operation is deprecated, use BatchGetDeploymentTargets instead.")]
         public virtual BatchGetDeploymentInstancesResponse EndBatchGetDeploymentInstances(IAsyncResult asyncResult)
         {
             return EndInvoke<BatchGetDeploymentInstancesResponse>(asyncResult);
@@ -672,7 +722,8 @@ namespace Amazon.CodeDeploy
         #region  BatchGetDeployments
 
         /// <summary>
-        /// Gets information about one or more deployments.
+        /// Gets information about one or more deployments. The maximum number of deployments
+        /// that can be returned is 25.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetDeployments service method.</param>
         /// 
@@ -689,10 +740,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeployments">REST API Reference for BatchGetDeployments Operation</seealso>
         public virtual BatchGetDeploymentsResponse BatchGetDeployments(BatchGetDeploymentsRequest request)
         {
-            var marshaller = BatchGetDeploymentsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetDeploymentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentsResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetDeploymentsRequest,BatchGetDeploymentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetDeploymentsResponse>(request, options);
         }
 
         /// <summary>
@@ -709,11 +761,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeployments">REST API Reference for BatchGetDeployments Operation</seealso>
         public virtual IAsyncResult BeginBatchGetDeployments(BatchGetDeploymentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetDeploymentsRequestMarshaller.Instance;
-            var unmarshaller = BatchGetDeploymentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetDeploymentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -731,10 +783,111 @@ namespace Amazon.CodeDeploy
 
         #endregion
         
+        #region  BatchGetDeploymentTargets
+
+        /// <summary>
+        /// Returns an array of one or more targets associated with a deployment. This method
+        /// works with all compute types and should be used instead of the deprecated <code>BatchGetDeploymentInstances</code>.
+        /// The maximum number of targets that can be returned is 25.
+        /// 
+        ///  
+        /// <para>
+        ///  The type of targets returned depends on the deployment's compute platform: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <b>EC2/On-premises</b>: Information about EC2 instance targets. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>AWS Lambda</b>: Information about Lambda functions targets. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <b>Amazon ECS</b>: Information about Amazon ECS service targets. 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetDeploymentTargets service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetDeploymentTargets service method, as returned by CodeDeploy.</returns>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
+        /// The deployment with the IAM user or AWS account does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
+        /// At least one deployment ID must be specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentNotStartedException">
+        /// The specified deployment has not started.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentTargetDoesNotExistException">
+        /// The provided target ID does not belong to the attempted deployment.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentTargetIdRequiredException">
+        /// A deployment target ID was not provided.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentTargetListSizeExceededException">
+        /// The maximum number of targets that can be associated with an Amazon ECS or AWS Lambda
+        /// deployment was exceeded. The target list of both types of deployments must have exactly
+        /// one item. This exception does not apply to EC2/On-premises deployments.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentIdException">
+        /// At least one of the deployment IDs was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentTargetIdException">
+        /// The target ID provided was not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentTargets">REST API Reference for BatchGetDeploymentTargets Operation</seealso>
+        public virtual BatchGetDeploymentTargetsResponse BatchGetDeploymentTargets(BatchGetDeploymentTargetsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentTargetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentTargetsResponseUnmarshaller.Instance;
+
+            return Invoke<BatchGetDeploymentTargetsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetDeploymentTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetDeploymentTargets operation on AmazonCodeDeployClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetDeploymentTargets
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentTargets">REST API Reference for BatchGetDeploymentTargets Operation</seealso>
+        public virtual IAsyncResult BeginBatchGetDeploymentTargets(BatchGetDeploymentTargetsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetDeploymentTargetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetDeploymentTargetsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetDeploymentTargets operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetDeploymentTargets.</param>
+        /// 
+        /// <returns>Returns a  BatchGetDeploymentTargetsResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentTargets">REST API Reference for BatchGetDeploymentTargets Operation</seealso>
+        public virtual BatchGetDeploymentTargetsResponse EndBatchGetDeploymentTargets(IAsyncResult asyncResult)
+        {
+            return EndInvoke<BatchGetDeploymentTargetsResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  BatchGetOnPremisesInstances
 
         /// <summary>
-        /// Gets information about one or more on-premises instances.
+        /// Gets information about one or more on-premises instances. The maximum number of on-premises
+        /// instances that can be returned is 25.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchGetOnPremisesInstances service method.</param>
         /// 
@@ -746,15 +899,16 @@ namespace Amazon.CodeDeploy
         /// An on-premises instance name was not specified.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetOnPremisesInstances">REST API Reference for BatchGetOnPremisesInstances Operation</seealso>
         public virtual BatchGetOnPremisesInstancesResponse BatchGetOnPremisesInstances(BatchGetOnPremisesInstancesRequest request)
         {
-            var marshaller = BatchGetOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = BatchGetOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<BatchGetOnPremisesInstancesRequest,BatchGetOnPremisesInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<BatchGetOnPremisesInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -771,11 +925,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetOnPremisesInstances">REST API Reference for BatchGetOnPremisesInstances Operation</seealso>
         public virtual IAsyncResult BeginBatchGetOnPremisesInstances(BatchGetOnPremisesInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = BatchGetOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = BatchGetOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = BatchGetOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = BatchGetOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<BatchGetOnPremisesInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -809,7 +963,7 @@ namespace Amazon.CodeDeploy
         /// The deployment is already complete.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -820,16 +974,23 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentIdException">
         /// At least one of the deployment IDs was specified in an invalid format.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentStatusException">
+        /// The specified deployment status doesn't exist or cannot be determined.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentWaitTypeException">
+        /// The wait type is invalid.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.UnsupportedActionForDeploymentTypeException">
         /// A call was submitted that is not supported for the specified deployment type.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ContinueDeployment">REST API Reference for ContinueDeployment Operation</seealso>
         public virtual ContinueDeploymentResponse ContinueDeployment(ContinueDeploymentRequest request)
         {
-            var marshaller = ContinueDeploymentRequestMarshaller.Instance;
-            var unmarshaller = ContinueDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ContinueDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ContinueDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<ContinueDeploymentRequest,ContinueDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<ContinueDeploymentResponse>(request, options);
         }
 
         /// <summary>
@@ -846,11 +1007,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ContinueDeployment">REST API Reference for ContinueDeployment Operation</seealso>
         public virtual IAsyncResult BeginContinueDeployment(ContinueDeploymentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ContinueDeploymentRequestMarshaller.Instance;
-            var unmarshaller = ContinueDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ContinueDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ContinueDeploymentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ContinueDeploymentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -877,8 +1038,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the CreateApplication service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationAlreadyExistsException">
-        /// An application with the specified name already exists with the applicable IAM user
-        /// or AWS account.
+        /// An application with the specified name with the IAM user or AWS account already exists.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationLimitExceededException">
         /// More applications were attempted to be created than are allowed.
@@ -893,13 +1053,17 @@ namespace Amazon.CodeDeploy
         /// The computePlatform is invalid. The computePlatform should be <code>Lambda</code>
         /// or <code>Server</code>.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagsToAddException">
+        /// The specified tags are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateApplication">REST API Reference for CreateApplication Operation</seealso>
         public virtual CreateApplicationResponse CreateApplication(CreateApplicationRequest request)
         {
-            var marshaller = CreateApplicationRequestMarshaller.Instance;
-            var unmarshaller = CreateApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateApplicationResponseUnmarshaller.Instance;
 
-            return Invoke<CreateApplicationRequest,CreateApplicationResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateApplicationResponse>(request, options);
         }
 
         /// <summary>
@@ -916,11 +1080,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateApplication">REST API Reference for CreateApplication Operation</seealso>
         public virtual IAsyncResult BeginCreateApplication(CreateApplicationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateApplicationRequestMarshaller.Instance;
-            var unmarshaller = CreateApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateApplicationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateApplicationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -947,16 +1111,16 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the CreateDeployment service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
-        /// The deployment configuration does not exist with the applicable IAM user or AWS account.
+        /// The deployment configuration does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
-        /// The named deployment group does not exist with the applicable IAM user or AWS account.
+        /// The named deployment group with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupNameRequiredException">
         /// The deployment group name was not specified.
@@ -972,7 +1136,7 @@ namespace Amazon.CodeDeploy
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAutoRollbackConfigException">
         /// The automatic rollback configuration was specified in an invalid format. For example,
-        /// automatic rollback is enabled but an invalid triggering event type or no event types
+        /// automatic rollback is enabled, but an invalid triggering event type or no event types
         /// were listed.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAutoScalingGroupException">
@@ -986,9 +1150,12 @@ namespace Amazon.CodeDeploy
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidFileExistsBehaviorException">
         /// An invalid fileExistsBehavior option was specified to determine how AWS CodeDeploy
-        /// handles files or directories that already exist in a deployment target location but
-        /// weren't part of the previous successful deployment. Valid values include "DISALLOW",
-        /// "OVERWRITE", and "RETAIN".
+        /// handles files or directories that already exist in a deployment target location, but
+        /// weren't part of the previous successful deployment. Valid values include "DISALLOW,"
+        /// "OVERWRITE," and "RETAIN."
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidGitHubAccountTokenException">
+        /// The GitHub token is not valid.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidIgnoreApplicationStopFailuresValueException">
         /// The IgnoreApplicationStopFailures value is invalid. For AWS Lambda deployments, <code>false</code>
@@ -1004,7 +1171,7 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidRoleException">
         /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group
         /// was specified, the specified service role does not grant the appropriate permissions
-        /// to Auto Scaling.
+        /// to Amazon EC2 Auto Scaling.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTargetInstancesException">
         /// The target instance configuration is invalid. Possible causes include:
@@ -1033,7 +1200,7 @@ namespace Amazon.CodeDeploy
         /// is expected.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.RevisionDoesNotExistException">
-        /// The named revision does not exist with the applicable IAM user or AWS account.
+        /// The named revision does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.RevisionRequiredException">
         /// The revision ID was not specified.
@@ -1044,10 +1211,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeployment">REST API Reference for CreateDeployment Operation</seealso>
         public virtual CreateDeploymentResponse CreateDeployment(CreateDeploymentRequest request)
         {
-            var marshaller = CreateDeploymentRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDeploymentRequest,CreateDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDeploymentResponse>(request, options);
         }
 
         /// <summary>
@@ -1064,11 +1232,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeployment">REST API Reference for CreateDeployment Operation</seealso>
         public virtual IAsyncResult BeginCreateDeployment(CreateDeploymentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDeploymentRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDeploymentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1095,8 +1263,8 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the CreateDeploymentConfig service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigAlreadyExistsException">
-        /// A deployment configuration with the specified name already exists with the applicable
-        /// IAM user or AWS account.
+        /// A deployment configuration with the specified name with the IAM user or AWS account
+        /// already exists .
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigLimitExceededException">
         /// The deployment configurations limit was exceeded.
@@ -1120,10 +1288,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeploymentConfig">REST API Reference for CreateDeploymentConfig Operation</seealso>
         public virtual CreateDeploymentConfigResponse CreateDeploymentConfig(CreateDeploymentConfigRequest request)
         {
-            var marshaller = CreateDeploymentConfigRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentConfigResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDeploymentConfigRequest,CreateDeploymentConfigResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDeploymentConfigResponse>(request, options);
         }
 
         /// <summary>
@@ -1140,11 +1309,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeploymentConfig">REST API Reference for CreateDeploymentConfig Operation</seealso>
         public virtual IAsyncResult BeginCreateDeploymentConfig(CreateDeploymentConfigRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDeploymentConfigRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentConfigResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDeploymentConfigRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1165,7 +1334,7 @@ namespace Amazon.CodeDeploy
         #region  CreateDeploymentGroup
 
         /// <summary>
-        /// Creates a deployment group to which application revisions will be deployed.
+        /// Creates a deployment group to which application revisions are deployed.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDeploymentGroup service method.</param>
         /// 
@@ -1174,23 +1343,27 @@ namespace Amazon.CodeDeploy
         /// The maximum number of alarms for a deployment group (10) was exceeded.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
-        /// The deployment configuration does not exist with the applicable IAM user or AWS account.
+        /// The deployment configuration does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupAlreadyExistsException">
-        /// A deployment group with the specified name already exists with the applicable IAM
-        /// user or AWS account.
+        /// A deployment group with the specified name with the IAM user or AWS account already
+        /// exists.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupLimitExceededException">
         /// The deployment groups limit was exceeded.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupNameRequiredException">
         /// The deployment group name was not specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ECSServiceMappingLimitExceededException">
+        /// The Amazon ECS service is associated with more than one deployment groups. An Amazon
+        /// ECS service can be associated with only one deployment group.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAlarmConfigException">
         /// The format of the alarm configuration is invalid. Possible causes include:
@@ -1205,7 +1378,7 @@ namespace Amazon.CodeDeploy
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The alarm name is empty or null or exceeds the 255 character limit.
+        /// The alarm name is empty or null or exceeds the limit of 255 characters.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -1213,7 +1386,7 @@ namespace Amazon.CodeDeploy
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The alarm configuration is enabled but the alarm list is empty.
+        /// The alarm configuration is enabled, but the alarm list is empty.
         /// </para>
         ///  </li> </ul>
         /// </exception>
@@ -1222,7 +1395,7 @@ namespace Amazon.CodeDeploy
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAutoRollbackConfigException">
         /// The automatic rollback configuration was specified in an invalid format. For example,
-        /// automatic rollback is enabled but an invalid triggering event type or no event types
+        /// automatic rollback is enabled, but an invalid triggering event type or no event types
         /// were listed.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAutoScalingGroupException">
@@ -1240,7 +1413,7 @@ namespace Amazon.CodeDeploy
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentStyleException">
         /// An invalid deployment style was specified. Valid deployment types include "IN_PLACE"
-        /// and "BLUE_GREEN". Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL".
+        /// and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidEC2TagCombinationException">
         /// A call was submitted that specified both Ec2TagFilters and Ec2TagSet, but only one
@@ -1249,8 +1422,11 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidEC2TagException">
         /// The tag was specified in an invalid format.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidECSServiceException">
+        /// The Amazon ECS service identifier is not valid.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInputException">
-        /// The specified input was specified in an invalid format.
+        /// The input was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidLoadBalancerInfoException">
         /// An invalid load balancer name, or no load balancer name, was specified.
@@ -1262,10 +1438,16 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidRoleException">
         /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group
         /// was specified, the specified service role does not grant the appropriate permissions
-        /// to Auto Scaling.
+        /// to Amazon EC2 Auto Scaling.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagException">
-        /// The specified tag was specified in an invalid format.
+        /// The tag was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagsToAddException">
+        /// The specified tags are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTargetGroupPairException">
+        /// A target group pair associated with this deployment is not valid.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTriggerConfigException">
         /// The trigger was specified in an invalid format.
@@ -1280,16 +1462,20 @@ namespace Amazon.CodeDeploy
         /// The number of tag groups included in the tag set list exceeded the maximum allowed
         /// limit of 3.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ThrottlingException">
+        /// An API function was called too frequently.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.TriggerTargetsLimitExceededException">
         /// The maximum allowed number of triggers was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeploymentGroup">REST API Reference for CreateDeploymentGroup Operation</seealso>
         public virtual CreateDeploymentGroupResponse CreateDeploymentGroup(CreateDeploymentGroupRequest request)
         {
-            var marshaller = CreateDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentGroupResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDeploymentGroupRequest,CreateDeploymentGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDeploymentGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1306,11 +1492,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeploymentGroup">REST API Reference for CreateDeploymentGroup Operation</seealso>
         public virtual IAsyncResult BeginCreateDeploymentGroup(CreateDeploymentGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = CreateDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<CreateDeploymentGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1342,13 +1528,19 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidApplicationNameException">
         /// The application name was specified in an invalid format.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidRoleException">
+        /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group
+        /// was specified, the specified service role does not grant the appropriate permissions
+        /// to Amazon EC2 Auto Scaling.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteApplication">REST API Reference for DeleteApplication Operation</seealso>
         public virtual DeleteApplicationResponse DeleteApplication(DeleteApplicationRequest request)
         {
-            var marshaller = DeleteApplicationRequestMarshaller.Instance;
-            var unmarshaller = DeleteApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApplicationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteApplicationRequest,DeleteApplicationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteApplicationResponse>(request, options);
         }
 
         /// <summary>
@@ -1365,11 +1557,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteApplication">REST API Reference for DeleteApplication Operation</seealso>
         public virtual IAsyncResult BeginDeleteApplication(DeleteApplicationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteApplicationRequestMarshaller.Instance;
-            var unmarshaller = DeleteApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApplicationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteApplicationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1417,10 +1609,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteDeploymentConfig">REST API Reference for DeleteDeploymentConfig Operation</seealso>
         public virtual DeleteDeploymentConfigResponse DeleteDeploymentConfig(DeleteDeploymentConfigRequest request)
         {
-            var marshaller = DeleteDeploymentConfigRequestMarshaller.Instance;
-            var unmarshaller = DeleteDeploymentConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDeploymentConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDeploymentConfigResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDeploymentConfigRequest,DeleteDeploymentConfigResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDeploymentConfigResponse>(request, options);
         }
 
         /// <summary>
@@ -1437,11 +1630,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteDeploymentConfig">REST API Reference for DeleteDeploymentConfig Operation</seealso>
         public virtual IAsyncResult BeginDeleteDeploymentConfig(DeleteDeploymentConfigRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDeploymentConfigRequestMarshaller.Instance;
-            var unmarshaller = DeleteDeploymentConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDeploymentConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDeploymentConfigResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDeploymentConfigRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1482,15 +1675,16 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidRoleException">
         /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group
         /// was specified, the specified service role does not grant the appropriate permissions
-        /// to Auto Scaling.
+        /// to Amazon EC2 Auto Scaling.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteDeploymentGroup">REST API Reference for DeleteDeploymentGroup Operation</seealso>
         public virtual DeleteDeploymentGroupResponse DeleteDeploymentGroup(DeleteDeploymentGroupRequest request)
         {
-            var marshaller = DeleteDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDeploymentGroupResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDeploymentGroupRequest,DeleteDeploymentGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDeploymentGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1507,11 +1701,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteDeploymentGroup">REST API Reference for DeleteDeploymentGroup Operation</seealso>
         public virtual IAsyncResult BeginDeleteDeploymentGroup(DeleteDeploymentGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = DeleteDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDeploymentGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteDeploymentGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1555,10 +1749,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteGitHubAccountToken">REST API Reference for DeleteGitHubAccountToken Operation</seealso>
         public virtual DeleteGitHubAccountTokenResponse DeleteGitHubAccountToken(DeleteGitHubAccountTokenRequest request)
         {
-            var marshaller = DeleteGitHubAccountTokenRequestMarshaller.Instance;
-            var unmarshaller = DeleteGitHubAccountTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGitHubAccountTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGitHubAccountTokenResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteGitHubAccountTokenRequest,DeleteGitHubAccountTokenResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteGitHubAccountTokenResponse>(request, options);
         }
 
         /// <summary>
@@ -1575,11 +1770,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteGitHubAccountToken">REST API Reference for DeleteGitHubAccountToken Operation</seealso>
         public virtual IAsyncResult BeginDeleteGitHubAccountToken(DeleteGitHubAccountTokenRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteGitHubAccountTokenRequestMarshaller.Instance;
-            var unmarshaller = DeleteGitHubAccountTokenResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGitHubAccountTokenRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGitHubAccountTokenResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteGitHubAccountTokenRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1609,15 +1804,16 @@ namespace Amazon.CodeDeploy
         /// An on-premises instance name was not specified.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeregisterOnPremisesInstance">REST API Reference for DeregisterOnPremisesInstance Operation</seealso>
         public virtual DeregisterOnPremisesInstanceResponse DeregisterOnPremisesInstance(DeregisterOnPremisesInstanceRequest request)
         {
-            var marshaller = DeregisterOnPremisesInstanceRequestMarshaller.Instance;
-            var unmarshaller = DeregisterOnPremisesInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeregisterOnPremisesInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeregisterOnPremisesInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<DeregisterOnPremisesInstanceRequest,DeregisterOnPremisesInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeregisterOnPremisesInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -1634,11 +1830,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeregisterOnPremisesInstance">REST API Reference for DeregisterOnPremisesInstance Operation</seealso>
         public virtual IAsyncResult BeginDeregisterOnPremisesInstance(DeregisterOnPremisesInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeregisterOnPremisesInstanceRequestMarshaller.Instance;
-            var unmarshaller = DeregisterOnPremisesInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeregisterOnPremisesInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeregisterOnPremisesInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeregisterOnPremisesInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1665,7 +1861,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the GetApplication service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -1676,10 +1872,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetApplication">REST API Reference for GetApplication Operation</seealso>
         public virtual GetApplicationResponse GetApplication(GetApplicationRequest request)
         {
-            var marshaller = GetApplicationRequestMarshaller.Instance;
-            var unmarshaller = GetApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationResponseUnmarshaller.Instance;
 
-            return Invoke<GetApplicationRequest,GetApplicationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApplicationResponse>(request, options);
         }
 
         /// <summary>
@@ -1696,11 +1893,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetApplication">REST API Reference for GetApplication Operation</seealso>
         public virtual IAsyncResult BeginGetApplication(GetApplicationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetApplicationRequestMarshaller.Instance;
-            var unmarshaller = GetApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetApplicationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1727,7 +1924,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the GetApplicationRevision service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -1739,7 +1936,7 @@ namespace Amazon.CodeDeploy
         /// The revision was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.RevisionDoesNotExistException">
-        /// The named revision does not exist with the applicable IAM user or AWS account.
+        /// The named revision does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.RevisionRequiredException">
         /// The revision ID was not specified.
@@ -1747,10 +1944,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetApplicationRevision">REST API Reference for GetApplicationRevision Operation</seealso>
         public virtual GetApplicationRevisionResponse GetApplicationRevision(GetApplicationRevisionRequest request)
         {
-            var marshaller = GetApplicationRevisionRequestMarshaller.Instance;
-            var unmarshaller = GetApplicationRevisionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationRevisionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationRevisionResponseUnmarshaller.Instance;
 
-            return Invoke<GetApplicationRevisionRequest,GetApplicationRevisionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApplicationRevisionResponse>(request, options);
         }
 
         /// <summary>
@@ -1767,11 +1965,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetApplicationRevision">REST API Reference for GetApplicationRevision Operation</seealso>
         public virtual IAsyncResult BeginGetApplicationRevision(GetApplicationRevisionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetApplicationRevisionRequestMarshaller.Instance;
-            var unmarshaller = GetApplicationRevisionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApplicationRevisionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApplicationRevisionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetApplicationRevisionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1793,12 +1991,21 @@ namespace Amazon.CodeDeploy
 
         /// <summary>
         /// Gets information about a deployment.
+        /// 
+        ///  <note> 
+        /// <para>
+        ///  The <code>content</code> property of the <code>appSpecContent</code> object in the
+        /// returned revision is always null. Use <code>GetApplicationRevision</code> and the
+        /// <code>sha256</code> property of the returned <code>appSpecContent</code> object to
+        /// get the content of the deployment’s AppSpec file. 
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDeployment service method.</param>
         /// 
         /// <returns>The response from the GetDeployment service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -1809,10 +2016,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeployment">REST API Reference for GetDeployment Operation</seealso>
         public virtual GetDeploymentResponse GetDeployment(GetDeploymentRequest request)
         {
-            var marshaller = GetDeploymentRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeploymentRequest,GetDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeploymentResponse>(request, options);
         }
 
         /// <summary>
@@ -1829,11 +2037,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeployment">REST API Reference for GetDeployment Operation</seealso>
         public virtual IAsyncResult BeginGetDeployment(GetDeploymentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDeploymentRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDeploymentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1860,10 +2068,14 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the GetDeploymentConfig service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
-        /// The deployment configuration does not exist with the applicable IAM user or AWS account.
+        /// The deployment configuration does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigNameRequiredException">
         /// The deployment configuration name was not specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidComputePlatformException">
+        /// The computePlatform is invalid. The computePlatform should be <code>Lambda</code>
+        /// or <code>Server</code>.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentConfigNameException">
         /// The deployment configuration name was specified in an invalid format.
@@ -1871,10 +2083,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentConfig">REST API Reference for GetDeploymentConfig Operation</seealso>
         public virtual GetDeploymentConfigResponse GetDeploymentConfig(GetDeploymentConfigRequest request)
         {
-            var marshaller = GetDeploymentConfigRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentConfigResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeploymentConfigRequest,GetDeploymentConfigResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeploymentConfigResponse>(request, options);
         }
 
         /// <summary>
@@ -1891,11 +2104,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentConfig">REST API Reference for GetDeploymentConfig Operation</seealso>
         public virtual IAsyncResult BeginGetDeploymentConfig(GetDeploymentConfigRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDeploymentConfigRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentConfigResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentConfigRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentConfigResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDeploymentConfigRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1922,13 +2135,16 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the GetDeploymentGroup service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
+        /// The deployment configuration does not exist with the IAM user or AWS account.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
-        /// The named deployment group does not exist with the applicable IAM user or AWS account.
+        /// The named deployment group with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupNameRequiredException">
         /// The deployment group name was not specified.
@@ -1942,10 +2158,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentGroup">REST API Reference for GetDeploymentGroup Operation</seealso>
         public virtual GetDeploymentGroupResponse GetDeploymentGroup(GetDeploymentGroupRequest request)
         {
-            var marshaller = GetDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentGroupResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeploymentGroupRequest,GetDeploymentGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeploymentGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -1962,11 +2179,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentGroup">REST API Reference for GetDeploymentGroup Operation</seealso>
         public virtual IAsyncResult BeginGetDeploymentGroup(GetDeploymentGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDeploymentGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -1993,7 +2210,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the GetDeploymentInstance service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -2004,19 +2221,25 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InstanceIdRequiredException">
         /// The instance ID was not specified.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidComputePlatformException">
+        /// The computePlatform is invalid. The computePlatform should be <code>Lambda</code>
+        /// or <code>Server</code>.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentIdException">
         /// At least one of the deployment IDs was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentInstance">REST API Reference for GetDeploymentInstance Operation</seealso>
+        [Obsolete("This operation is deprecated, use GetDeploymentTarget instead.")]
         public virtual GetDeploymentInstanceResponse GetDeploymentInstance(GetDeploymentInstanceRequest request)
         {
-            var marshaller = GetDeploymentInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeploymentInstanceRequest,GetDeploymentInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeploymentInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -2031,13 +2254,14 @@ namespace Amazon.CodeDeploy
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetDeploymentInstance
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentInstance">REST API Reference for GetDeploymentInstance Operation</seealso>
+        [Obsolete("This operation is deprecated, use GetDeploymentTarget instead.")]
         public virtual IAsyncResult BeginGetDeploymentInstance(GetDeploymentInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetDeploymentInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetDeploymentInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2048,9 +2272,88 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>Returns a  GetDeploymentInstanceResult from CodeDeploy.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentInstance">REST API Reference for GetDeploymentInstance Operation</seealso>
+        [Obsolete("This operation is deprecated, use GetDeploymentTarget instead.")]
         public virtual GetDeploymentInstanceResponse EndGetDeploymentInstance(IAsyncResult asyncResult)
         {
             return EndInvoke<GetDeploymentInstanceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  GetDeploymentTarget
+
+        /// <summary>
+        /// Returns information about a deployment target.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDeploymentTarget service method.</param>
+        /// 
+        /// <returns>The response from the GetDeploymentTarget service method, as returned by CodeDeploy.</returns>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
+        /// The deployment with the IAM user or AWS account does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
+        /// At least one deployment ID must be specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentNotStartedException">
+        /// The specified deployment has not started.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentTargetDoesNotExistException">
+        /// The provided target ID does not belong to the attempted deployment.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentTargetIdRequiredException">
+        /// A deployment target ID was not provided.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentIdException">
+        /// At least one of the deployment IDs was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentTargetIdException">
+        /// The target ID provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
+        /// The on-premises instance name was specified in an invalid format.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentTarget">REST API Reference for GetDeploymentTarget Operation</seealso>
+        public virtual GetDeploymentTargetResponse GetDeploymentTarget(GetDeploymentTargetRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentTargetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentTargetResponseUnmarshaller.Instance;
+
+            return Invoke<GetDeploymentTargetResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetDeploymentTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetDeploymentTarget operation on AmazonCodeDeployClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetDeploymentTarget
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentTarget">REST API Reference for GetDeploymentTarget Operation</seealso>
+        public virtual IAsyncResult BeginGetDeploymentTarget(GetDeploymentTargetRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentTargetRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentTargetResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetDeploymentTarget operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetDeploymentTarget.</param>
+        /// 
+        /// <returns>Returns a  GetDeploymentTargetResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentTarget">REST API Reference for GetDeploymentTarget Operation</seealso>
+        public virtual GetDeploymentTargetResponse EndGetDeploymentTarget(IAsyncResult asyncResult)
+        {
+            return EndInvoke<GetDeploymentTargetResponse>(asyncResult);
         }
 
         #endregion
@@ -2070,15 +2373,16 @@ namespace Amazon.CodeDeploy
         /// The specified on-premises instance is not registered.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetOnPremisesInstance">REST API Reference for GetOnPremisesInstance Operation</seealso>
         public virtual GetOnPremisesInstanceResponse GetOnPremisesInstance(GetOnPremisesInstanceRequest request)
         {
-            var marshaller = GetOnPremisesInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetOnPremisesInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOnPremisesInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOnPremisesInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<GetOnPremisesInstanceRequest,GetOnPremisesInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetOnPremisesInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -2095,11 +2399,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetOnPremisesInstance">REST API Reference for GetOnPremisesInstance Operation</seealso>
         public virtual IAsyncResult BeginGetOnPremisesInstance(GetOnPremisesInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = GetOnPremisesInstanceRequestMarshaller.Instance;
-            var unmarshaller = GetOnPremisesInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetOnPremisesInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetOnPremisesInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<GetOnPremisesInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2126,7 +2430,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the ListApplicationRevisions service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -2158,10 +2462,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListApplicationRevisions">REST API Reference for ListApplicationRevisions Operation</seealso>
         public virtual ListApplicationRevisionsResponse ListApplicationRevisions(ListApplicationRevisionsRequest request)
         {
-            var marshaller = ListApplicationRevisionsRequestMarshaller.Instance;
-            var unmarshaller = ListApplicationRevisionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListApplicationRevisionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListApplicationRevisionsResponseUnmarshaller.Instance;
 
-            return Invoke<ListApplicationRevisionsRequest,ListApplicationRevisionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListApplicationRevisionsResponse>(request, options);
         }
 
         /// <summary>
@@ -2178,11 +2483,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListApplicationRevisions">REST API Reference for ListApplicationRevisions Operation</seealso>
         public virtual IAsyncResult BeginListApplicationRevisions(ListApplicationRevisionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListApplicationRevisionsRequestMarshaller.Instance;
-            var unmarshaller = ListApplicationRevisionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListApplicationRevisionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListApplicationRevisionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListApplicationRevisionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2203,7 +2508,7 @@ namespace Amazon.CodeDeploy
         #region  ListApplications
 
         /// <summary>
-        /// Lists the applications registered with the applicable IAM user or AWS account.
+        /// Lists the applications registered with the IAM user or AWS account.
         /// </summary>
         /// 
         /// <returns>The response from the ListApplications service method, as returned by CodeDeploy.</returns>
@@ -2217,7 +2522,7 @@ namespace Amazon.CodeDeploy
         }
 
         /// <summary>
-        /// Lists the applications registered with the applicable IAM user or AWS account.
+        /// Lists the applications registered with the IAM user or AWS account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListApplications service method.</param>
         /// 
@@ -2228,10 +2533,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListApplications">REST API Reference for ListApplications Operation</seealso>
         public virtual ListApplicationsResponse ListApplications(ListApplicationsRequest request)
         {
-            var marshaller = ListApplicationsRequestMarshaller.Instance;
-            var unmarshaller = ListApplicationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListApplicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListApplicationsResponseUnmarshaller.Instance;
 
-            return Invoke<ListApplicationsRequest,ListApplicationsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListApplicationsResponse>(request, options);
         }
 
         /// <summary>
@@ -2248,11 +2554,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListApplications">REST API Reference for ListApplications Operation</seealso>
         public virtual IAsyncResult BeginListApplications(ListApplicationsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListApplicationsRequestMarshaller.Instance;
-            var unmarshaller = ListApplicationsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListApplicationsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListApplicationsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListApplicationsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2273,7 +2579,7 @@ namespace Amazon.CodeDeploy
         #region  ListDeploymentConfigs
 
         /// <summary>
-        /// Lists the deployment configurations with the applicable IAM user or AWS account.
+        /// Lists the deployment configurations with the IAM user or AWS account.
         /// </summary>
         /// 
         /// <returns>The response from the ListDeploymentConfigs service method, as returned by CodeDeploy.</returns>
@@ -2287,7 +2593,7 @@ namespace Amazon.CodeDeploy
         }
 
         /// <summary>
-        /// Lists the deployment configurations with the applicable IAM user or AWS account.
+        /// Lists the deployment configurations with the IAM user or AWS account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListDeploymentConfigs service method.</param>
         /// 
@@ -2298,10 +2604,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentConfigs">REST API Reference for ListDeploymentConfigs Operation</seealso>
         public virtual ListDeploymentConfigsResponse ListDeploymentConfigs(ListDeploymentConfigsRequest request)
         {
-            var marshaller = ListDeploymentConfigsRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentConfigsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentConfigsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentConfigsResponseUnmarshaller.Instance;
 
-            return Invoke<ListDeploymentConfigsRequest,ListDeploymentConfigsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDeploymentConfigsResponse>(request, options);
         }
 
         /// <summary>
@@ -2318,11 +2625,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentConfigs">REST API Reference for ListDeploymentConfigs Operation</seealso>
         public virtual IAsyncResult BeginListDeploymentConfigs(ListDeploymentConfigsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDeploymentConfigsRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentConfigsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentConfigsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentConfigsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDeploymentConfigsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2343,14 +2650,14 @@ namespace Amazon.CodeDeploy
         #region  ListDeploymentGroups
 
         /// <summary>
-        /// Lists the deployment groups for an application registered with the applicable IAM
-        /// user or AWS account.
+        /// Lists the deployment groups for an application registered with the IAM user or AWS
+        /// account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListDeploymentGroups service method.</param>
         /// 
         /// <returns>The response from the ListDeploymentGroups service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -2364,10 +2671,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentGroups">REST API Reference for ListDeploymentGroups Operation</seealso>
         public virtual ListDeploymentGroupsResponse ListDeploymentGroups(ListDeploymentGroupsRequest request)
         {
-            var marshaller = ListDeploymentGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentGroupsResponseUnmarshaller.Instance;
 
-            return Invoke<ListDeploymentGroupsRequest,ListDeploymentGroupsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDeploymentGroupsResponse>(request, options);
         }
 
         /// <summary>
@@ -2384,11 +2692,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentGroups">REST API Reference for ListDeploymentGroups Operation</seealso>
         public virtual IAsyncResult BeginListDeploymentGroups(ListDeploymentGroupsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDeploymentGroupsRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentGroupsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentGroupsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentGroupsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDeploymentGroupsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2409,14 +2717,195 @@ namespace Amazon.CodeDeploy
         #region  ListDeploymentInstances
 
         /// <summary>
-        /// Lists the instance for a deployment associated with the applicable IAM user or AWS
-        /// account.
+        /// <note> 
+        /// <para>
+        ///  The newer BatchGetDeploymentTargets should be used instead because it works with
+        /// all compute types. <code>ListDeploymentInstances</code> throws an exception if it
+        /// is used with a compute platform other than EC2/On-premises or AWS Lambda. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        ///  Lists the instance for a deployment associated with the IAM user or AWS account.
+        /// 
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListDeploymentInstances service method.</param>
         /// 
         /// <returns>The response from the ListDeploymentInstances service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
+        /// At least one deployment ID must be specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentNotStartedException">
+        /// The specified deployment has not started.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidComputePlatformException">
+        /// The computePlatform is invalid. The computePlatform should be <code>Lambda</code>
+        /// or <code>Server</code>.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentIdException">
+        /// At least one of the deployment IDs was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentInstanceTypeException">
+        /// An instance type was specified for an in-place deployment. Instance types are supported
+        /// for blue/green deployments only.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceStatusException">
+        /// The specified instance status does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceTypeException">
+        /// An invalid instance type was specified for instances in a blue/green deployment. Valid
+        /// values include "Blue" for an original environment and "Green" for a replacement environment.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidNextTokenException">
+        /// The next token was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTargetFilterNameException">
+        /// The target filter name is invalid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentInstances">REST API Reference for ListDeploymentInstances Operation</seealso>
+        [Obsolete("This operation is deprecated, use ListDeploymentTargets instead.")]
+        public virtual ListDeploymentInstancesResponse ListDeploymentInstances(ListDeploymentInstancesRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentInstancesResponseUnmarshaller.Instance;
+
+            return Invoke<ListDeploymentInstancesResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDeploymentInstances operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDeploymentInstances operation on AmazonCodeDeployClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDeploymentInstances
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentInstances">REST API Reference for ListDeploymentInstances Operation</seealso>
+        [Obsolete("This operation is deprecated, use ListDeploymentTargets instead.")]
+        public virtual IAsyncResult BeginListDeploymentInstances(ListDeploymentInstancesRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentInstancesResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDeploymentInstances operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDeploymentInstances.</param>
+        /// 
+        /// <returns>Returns a  ListDeploymentInstancesResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentInstances">REST API Reference for ListDeploymentInstances Operation</seealso>
+        [Obsolete("This operation is deprecated, use ListDeploymentTargets instead.")]
+        public virtual ListDeploymentInstancesResponse EndListDeploymentInstances(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListDeploymentInstancesResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListDeployments
+
+        /// <summary>
+        /// Lists the deployments in a deployment group for an application registered with the
+        /// IAM user or AWS account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDeployments service method.</param>
+        /// 
+        /// <returns>The response from the ListDeployments service method, as returned by CodeDeploy.</returns>
+        /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
+        /// The application does not exist with the IAM user or AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
+        /// The minimum number of required application names was not specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
+        /// The named deployment group with the IAM user or AWS account does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupNameRequiredException">
+        /// The deployment group name was not specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidApplicationNameException">
+        /// The application name was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentGroupNameException">
+        /// The deployment group name was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentStatusException">
+        /// The specified deployment status doesn't exist or cannot be determined.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidNextTokenException">
+        /// The next token was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTimeRangeException">
+        /// The specified time range was specified in an invalid format.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeployments">REST API Reference for ListDeployments Operation</seealso>
+        public virtual ListDeploymentsResponse ListDeployments(ListDeploymentsRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentsResponseUnmarshaller.Instance;
+
+            return Invoke<ListDeploymentsResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDeployments operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDeployments operation on AmazonCodeDeployClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDeployments
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeployments">REST API Reference for ListDeployments Operation</seealso>
+        public virtual IAsyncResult BeginListDeployments(ListDeploymentsRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentsResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDeployments operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDeployments.</param>
+        /// 
+        /// <returns>Returns a  ListDeploymentsResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeployments">REST API Reference for ListDeployments Operation</seealso>
+        public virtual ListDeploymentsResponse EndListDeployments(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListDeploymentsResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  ListDeploymentTargets
+
+        /// <summary>
+        /// Returns an array of target IDs that are associated a deployment.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDeploymentTargets service method.</param>
+        /// 
+        /// <returns>The response from the ListDeploymentTargets service method, as returned by CodeDeploy.</returns>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
+        /// The deployment with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -2441,128 +2930,48 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidNextTokenException">
         /// The next token was specified in an invalid format.
         /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentInstances">REST API Reference for ListDeploymentInstances Operation</seealso>
-        public virtual ListDeploymentInstancesResponse ListDeploymentInstances(ListDeploymentInstancesRequest request)
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentTargets">REST API Reference for ListDeploymentTargets Operation</seealso>
+        public virtual ListDeploymentTargetsResponse ListDeploymentTargets(ListDeploymentTargetsRequest request)
         {
-            var marshaller = ListDeploymentInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentTargetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentTargetsResponseUnmarshaller.Instance;
 
-            return Invoke<ListDeploymentInstancesRequest,ListDeploymentInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListDeploymentTargetsResponse>(request, options);
         }
 
         /// <summary>
-        /// Initiates the asynchronous execution of the ListDeploymentInstances operation.
+        /// Initiates the asynchronous execution of the ListDeploymentTargets operation.
         /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListDeploymentInstances operation on AmazonCodeDeployClient.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListDeploymentTargets operation on AmazonCodeDeployClient.</param>
         /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
         /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
         /// 
-        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDeploymentInstances
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDeploymentTargets
         ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentInstances">REST API Reference for ListDeploymentInstances Operation</seealso>
-        public virtual IAsyncResult BeginListDeploymentInstances(ListDeploymentInstancesRequest request, AsyncCallback callback, object state)
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentTargets">REST API Reference for ListDeploymentTargets Operation</seealso>
+        public virtual IAsyncResult BeginListDeploymentTargets(ListDeploymentTargetsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListDeploymentInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListDeploymentTargetsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListDeploymentTargetsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListDeploymentInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
-        /// Finishes the asynchronous execution of the  ListDeploymentInstances operation.
+        /// Finishes the asynchronous execution of the  ListDeploymentTargets operation.
         /// </summary>
         /// 
-        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDeploymentInstances.</param>
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDeploymentTargets.</param>
         /// 
-        /// <returns>Returns a  ListDeploymentInstancesResult from CodeDeploy.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentInstances">REST API Reference for ListDeploymentInstances Operation</seealso>
-        public virtual ListDeploymentInstancesResponse EndListDeploymentInstances(IAsyncResult asyncResult)
+        /// <returns>Returns a  ListDeploymentTargetsResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeploymentTargets">REST API Reference for ListDeploymentTargets Operation</seealso>
+        public virtual ListDeploymentTargetsResponse EndListDeploymentTargets(IAsyncResult asyncResult)
         {
-            return EndInvoke<ListDeploymentInstancesResponse>(asyncResult);
-        }
-
-        #endregion
-        
-        #region  ListDeployments
-
-        /// <summary>
-        /// Lists the deployments in a deployment group for an application registered with the
-        /// applicable IAM user or AWS account.
-        /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the ListDeployments service method.</param>
-        /// 
-        /// <returns>The response from the ListDeployments service method, as returned by CodeDeploy.</returns>
-        /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
-        /// The minimum number of required application names was not specified.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
-        /// The named deployment group does not exist with the applicable IAM user or AWS account.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupNameRequiredException">
-        /// The deployment group name was not specified.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.InvalidApplicationNameException">
-        /// The application name was specified in an invalid format.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentGroupNameException">
-        /// The deployment group name was specified in an invalid format.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentStatusException">
-        /// The specified deployment status doesn't exist or cannot be determined.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.InvalidNextTokenException">
-        /// The next token was specified in an invalid format.
-        /// </exception>
-        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTimeRangeException">
-        /// The specified time range was specified in an invalid format.
-        /// </exception>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeployments">REST API Reference for ListDeployments Operation</seealso>
-        public virtual ListDeploymentsResponse ListDeployments(ListDeploymentsRequest request)
-        {
-            var marshaller = ListDeploymentsRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentsResponseUnmarshaller.Instance;
-
-            return Invoke<ListDeploymentsRequest,ListDeploymentsResponse>(request, marshaller, unmarshaller);
-        }
-
-        /// <summary>
-        /// Initiates the asynchronous execution of the ListDeployments operation.
-        /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListDeployments operation on AmazonCodeDeployClient.</param>
-        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
-        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
-        ///          procedure using the AsyncState property.</param>
-        /// 
-        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDeployments
-        ///         operation.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeployments">REST API Reference for ListDeployments Operation</seealso>
-        public virtual IAsyncResult BeginListDeployments(ListDeploymentsRequest request, AsyncCallback callback, object state)
-        {
-            var marshaller = ListDeploymentsRequestMarshaller.Instance;
-            var unmarshaller = ListDeploymentsResponseUnmarshaller.Instance;
-
-            return BeginInvoke<ListDeploymentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
-        }
-
-        /// <summary>
-        /// Finishes the asynchronous execution of the  ListDeployments operation.
-        /// </summary>
-        /// 
-        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDeployments.</param>
-        /// 
-        /// <returns>Returns a  ListDeploymentsResult from CodeDeploy.</returns>
-        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListDeployments">REST API Reference for ListDeployments Operation</seealso>
-        public virtual ListDeploymentsResponse EndListDeployments(IAsyncResult asyncResult)
-        {
-            return EndInvoke<ListDeploymentsResponse>(asyncResult);
+            return EndInvoke<ListDeploymentTargetsResponse>(asyncResult);
         }
 
         #endregion
@@ -2587,10 +2996,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListGitHubAccountTokenNames">REST API Reference for ListGitHubAccountTokenNames Operation</seealso>
         public virtual ListGitHubAccountTokenNamesResponse ListGitHubAccountTokenNames(ListGitHubAccountTokenNamesRequest request)
         {
-            var marshaller = ListGitHubAccountTokenNamesRequestMarshaller.Instance;
-            var unmarshaller = ListGitHubAccountTokenNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGitHubAccountTokenNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGitHubAccountTokenNamesResponseUnmarshaller.Instance;
 
-            return Invoke<ListGitHubAccountTokenNamesRequest,ListGitHubAccountTokenNamesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListGitHubAccountTokenNamesResponse>(request, options);
         }
 
         /// <summary>
@@ -2607,11 +3017,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListGitHubAccountTokenNames">REST API Reference for ListGitHubAccountTokenNames Operation</seealso>
         public virtual IAsyncResult BeginListGitHubAccountTokenNames(ListGitHubAccountTokenNamesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListGitHubAccountTokenNamesRequestMarshaller.Instance;
-            var unmarshaller = ListGitHubAccountTokenNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListGitHubAccountTokenNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListGitHubAccountTokenNamesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListGitHubAccountTokenNamesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2637,8 +3047,8 @@ namespace Amazon.CodeDeploy
         ///  
         /// <para>
         /// Unless otherwise specified, both registered and deregistered on-premises instance
-        /// names will be listed. To list only registered or deregistered on-premises instance
-        /// names, use the registration status parameter.
+        /// names are listed. To list only registered or deregistered on-premises instance names,
+        /// use the registration status parameter.
         /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListOnPremisesInstances service method.</param>
@@ -2651,15 +3061,16 @@ namespace Amazon.CodeDeploy
         /// The registration status was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagFilterException">
-        /// The specified tag filter was specified in an invalid format.
+        /// The tag filter was specified in an invalid format.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListOnPremisesInstances">REST API Reference for ListOnPremisesInstances Operation</seealso>
         public virtual ListOnPremisesInstancesResponse ListOnPremisesInstances(ListOnPremisesInstancesRequest request)
         {
-            var marshaller = ListOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<ListOnPremisesInstancesRequest,ListOnPremisesInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<ListOnPremisesInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -2676,11 +3087,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListOnPremisesInstances">REST API Reference for ListOnPremisesInstances Operation</seealso>
         public virtual IAsyncResult BeginListOnPremisesInstances(ListOnPremisesInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = ListOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = ListOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<ListOnPremisesInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2698,6 +3109,71 @@ namespace Amazon.CodeDeploy
 
         #endregion
         
+        #region  ListTagsForResource
+
+        /// <summary>
+        /// Returns a list of tags for the resource identified by a specified ARN. Tags are used
+        /// to organize and categorize your CodeDeploy resources.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by CodeDeploy.</returns>
+        /// <exception cref="Amazon.CodeDeploy.Model.ArnNotSupportedException">
+        /// The specified ARN is not supported. For example, it might be an ARN for a resource
+        /// that is not expected.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidArnException">
+        /// The specified ARN is not in a valid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ResourceArnRequiredException">
+        /// The ARN of a resource is required, but was not found.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return Invoke<ListTagsForResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonCodeDeployClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ListTagsForResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ListTagsForResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        public virtual ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ListTagsForResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutLifecycleEventHookExecutionStatus
 
         /// <summary>
@@ -2709,7 +3185,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the PutLifecycleEventHookExecutionStatus service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -2734,10 +3210,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/PutLifecycleEventHookExecutionStatus">REST API Reference for PutLifecycleEventHookExecutionStatus Operation</seealso>
         public virtual PutLifecycleEventHookExecutionStatusResponse PutLifecycleEventHookExecutionStatus(PutLifecycleEventHookExecutionStatusRequest request)
         {
-            var marshaller = PutLifecycleEventHookExecutionStatusRequestMarshaller.Instance;
-            var unmarshaller = PutLifecycleEventHookExecutionStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecycleEventHookExecutionStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecycleEventHookExecutionStatusResponseUnmarshaller.Instance;
 
-            return Invoke<PutLifecycleEventHookExecutionStatusRequest,PutLifecycleEventHookExecutionStatusResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutLifecycleEventHookExecutionStatusResponse>(request, options);
         }
 
         /// <summary>
@@ -2754,11 +3231,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/PutLifecycleEventHookExecutionStatus">REST API Reference for PutLifecycleEventHookExecutionStatus Operation</seealso>
         public virtual IAsyncResult BeginPutLifecycleEventHookExecutionStatus(PutLifecycleEventHookExecutionStatusRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutLifecycleEventHookExecutionStatusRequestMarshaller.Instance;
-            var unmarshaller = PutLifecycleEventHookExecutionStatusResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutLifecycleEventHookExecutionStatusRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutLifecycleEventHookExecutionStatusResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutLifecycleEventHookExecutionStatusRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2785,7 +3262,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the RegisterApplicationRevision service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -2805,10 +3282,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RegisterApplicationRevision">REST API Reference for RegisterApplicationRevision Operation</seealso>
         public virtual RegisterApplicationRevisionResponse RegisterApplicationRevision(RegisterApplicationRevisionRequest request)
         {
-            var marshaller = RegisterApplicationRevisionRequestMarshaller.Instance;
-            var unmarshaller = RegisterApplicationRevisionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterApplicationRevisionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterApplicationRevisionResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterApplicationRevisionRequest,RegisterApplicationRevisionResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterApplicationRevisionResponse>(request, options);
         }
 
         /// <summary>
@@ -2825,11 +3303,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RegisterApplicationRevision">REST API Reference for RegisterApplicationRevision Operation</seealso>
         public virtual IAsyncResult BeginRegisterApplicationRevision(RegisterApplicationRevisionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterApplicationRevisionRequestMarshaller.Instance;
-            var unmarshaller = RegisterApplicationRevisionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterApplicationRevisionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterApplicationRevisionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterApplicationRevisionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2889,7 +3367,7 @@ namespace Amazon.CodeDeploy
         /// The IAM user ARN was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.MultipleIamArnsProvidedException">
         /// Both an IAM user ARN and an IAM session ARN were included in the request. Use only
@@ -2898,10 +3376,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RegisterOnPremisesInstance">REST API Reference for RegisterOnPremisesInstance Operation</seealso>
         public virtual RegisterOnPremisesInstanceResponse RegisterOnPremisesInstance(RegisterOnPremisesInstanceRequest request)
         {
-            var marshaller = RegisterOnPremisesInstanceRequestMarshaller.Instance;
-            var unmarshaller = RegisterOnPremisesInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterOnPremisesInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterOnPremisesInstanceResponseUnmarshaller.Instance;
 
-            return Invoke<RegisterOnPremisesInstanceRequest,RegisterOnPremisesInstanceResponse>(request, marshaller, unmarshaller);
+            return Invoke<RegisterOnPremisesInstanceResponse>(request, options);
         }
 
         /// <summary>
@@ -2918,11 +3397,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RegisterOnPremisesInstance">REST API Reference for RegisterOnPremisesInstance Operation</seealso>
         public virtual IAsyncResult BeginRegisterOnPremisesInstance(RegisterOnPremisesInstanceRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RegisterOnPremisesInstanceRequestMarshaller.Instance;
-            var unmarshaller = RegisterOnPremisesInstanceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RegisterOnPremisesInstanceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RegisterOnPremisesInstanceResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RegisterOnPremisesInstanceRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -2958,10 +3437,10 @@ namespace Amazon.CodeDeploy
         /// The specified on-premises instance is not registered.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInstanceNameException">
-        /// The specified on-premises instance name was specified in an invalid format.
+        /// The on-premises instance name was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagException">
-        /// The specified tag was specified in an invalid format.
+        /// The tag was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.TagLimitExceededException">
         /// The maximum allowed number of tags was exceeded.
@@ -2972,10 +3451,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RemoveTagsFromOnPremisesInstances">REST API Reference for RemoveTagsFromOnPremisesInstances Operation</seealso>
         public virtual RemoveTagsFromOnPremisesInstancesResponse RemoveTagsFromOnPremisesInstances(RemoveTagsFromOnPremisesInstancesRequest request)
         {
-            var marshaller = RemoveTagsFromOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return Invoke<RemoveTagsFromOnPremisesInstancesRequest,RemoveTagsFromOnPremisesInstancesResponse>(request, marshaller, unmarshaller);
+            return Invoke<RemoveTagsFromOnPremisesInstancesResponse>(request, options);
         }
 
         /// <summary>
@@ -2992,11 +3472,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RemoveTagsFromOnPremisesInstances">REST API Reference for RemoveTagsFromOnPremisesInstances Operation</seealso>
         public virtual IAsyncResult BeginRemoveTagsFromOnPremisesInstances(RemoveTagsFromOnPremisesInstancesRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = RemoveTagsFromOnPremisesInstancesRequestMarshaller.Instance;
-            var unmarshaller = RemoveTagsFromOnPremisesInstancesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = RemoveTagsFromOnPremisesInstancesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = RemoveTagsFromOnPremisesInstancesResponseUnmarshaller.Instance;
 
-            return BeginInvoke<RemoveTagsFromOnPremisesInstancesRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3018,7 +3498,7 @@ namespace Amazon.CodeDeploy
 
         /// <summary>
         /// In a blue/green deployment, overrides any specified wait time and starts terminating
-        /// instances immediately after the traffic routing is completed.
+        /// instances immediately after the traffic routing is complete.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the SkipWaitTimeForInstanceTermination service method.</param>
         /// 
@@ -3027,7 +3507,7 @@ namespace Amazon.CodeDeploy
         /// The deployment is already complete.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -3042,12 +3522,14 @@ namespace Amazon.CodeDeploy
         /// A call was submitted that is not supported for the specified deployment type.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/SkipWaitTimeForInstanceTermination">REST API Reference for SkipWaitTimeForInstanceTermination Operation</seealso>
+        [Obsolete("This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")]
         public virtual SkipWaitTimeForInstanceTerminationResponse SkipWaitTimeForInstanceTermination(SkipWaitTimeForInstanceTerminationRequest request)
         {
-            var marshaller = SkipWaitTimeForInstanceTerminationRequestMarshaller.Instance;
-            var unmarshaller = SkipWaitTimeForInstanceTerminationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SkipWaitTimeForInstanceTerminationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SkipWaitTimeForInstanceTerminationResponseUnmarshaller.Instance;
 
-            return Invoke<SkipWaitTimeForInstanceTerminationRequest,SkipWaitTimeForInstanceTerminationResponse>(request, marshaller, unmarshaller);
+            return Invoke<SkipWaitTimeForInstanceTerminationResponse>(request, options);
         }
 
         /// <summary>
@@ -3062,13 +3544,14 @@ namespace Amazon.CodeDeploy
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSkipWaitTimeForInstanceTermination
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/SkipWaitTimeForInstanceTermination">REST API Reference for SkipWaitTimeForInstanceTermination Operation</seealso>
+        [Obsolete("This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")]
         public virtual IAsyncResult BeginSkipWaitTimeForInstanceTermination(SkipWaitTimeForInstanceTerminationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SkipWaitTimeForInstanceTerminationRequestMarshaller.Instance;
-            var unmarshaller = SkipWaitTimeForInstanceTerminationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SkipWaitTimeForInstanceTerminationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SkipWaitTimeForInstanceTerminationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SkipWaitTimeForInstanceTerminationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3079,6 +3562,7 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>Returns a  SkipWaitTimeForInstanceTerminationResult from CodeDeploy.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/SkipWaitTimeForInstanceTermination">REST API Reference for SkipWaitTimeForInstanceTermination Operation</seealso>
+        [Obsolete("This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")]
         public virtual SkipWaitTimeForInstanceTerminationResponse EndSkipWaitTimeForInstanceTermination(IAsyncResult asyncResult)
         {
             return EndInvoke<SkipWaitTimeForInstanceTerminationResponse>(asyncResult);
@@ -3098,7 +3582,10 @@ namespace Amazon.CodeDeploy
         /// The deployment is already complete.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentDoesNotExistException">
-        /// The deployment does not exist with the applicable IAM user or AWS account.
+        /// The deployment with the IAM user or AWS account does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
+        /// The named deployment group with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentIdRequiredException">
         /// At least one deployment ID must be specified.
@@ -3109,10 +3596,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/StopDeployment">REST API Reference for StopDeployment Operation</seealso>
         public virtual StopDeploymentResponse StopDeployment(StopDeploymentRequest request)
         {
-            var marshaller = StopDeploymentRequestMarshaller.Instance;
-            var unmarshaller = StopDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<StopDeploymentRequest,StopDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<StopDeploymentResponse>(request, options);
         }
 
         /// <summary>
@@ -3129,11 +3617,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/StopDeployment">REST API Reference for StopDeployment Operation</seealso>
         public virtual IAsyncResult BeginStopDeployment(StopDeploymentRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = StopDeploymentRequestMarshaller.Instance;
-            var unmarshaller = StopDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = StopDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = StopDeploymentResponseUnmarshaller.Instance;
 
-            return BeginInvoke<StopDeploymentRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3151,6 +3639,167 @@ namespace Amazon.CodeDeploy
 
         #endregion
         
+        #region  TagResource
+
+        /// <summary>
+        /// Associates the list of tags in the input <code>Tags</code> parameter with the resource
+        /// identified by the <code>ResourceArn</code> input parameter.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by CodeDeploy.</returns>
+        /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
+        /// The application does not exist with the IAM user or AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ArnNotSupportedException">
+        /// The specified ARN is not supported. For example, it might be an ARN for a resource
+        /// that is not expected.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
+        /// The deployment configuration does not exist with the IAM user or AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
+        /// The named deployment group with the IAM user or AWS account does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidArnException">
+        /// The specified ARN is not in a valid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagsToAddException">
+        /// The specified tags are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ResourceArnRequiredException">
+        /// The ARN of a resource is required, but was not found.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.TagRequiredException">
+        /// A tag was not specified.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse TagResource(TagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<TagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonCodeDeployClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/TagResource">REST API Reference for TagResource Operation</seealso>
+        public virtual TagResourceResponse EndTagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<TagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
+        #region  UntagResource
+
+        /// <summary>
+        /// Disassociates a resource from a list of tags. The resource is identified by the <code>ResourceArn</code>
+        /// input parameter. The tags are identfied by the list of keys in the <code>TagKeys</code>
+        /// input parameter.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by CodeDeploy.</returns>
+        /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
+        /// The application does not exist with the IAM user or AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ArnNotSupportedException">
+        /// The specified ARN is not supported. For example, it might be an ARN for a resource
+        /// that is not expected.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
+        /// The deployment configuration does not exist with the IAM user or AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
+        /// The named deployment group with the IAM user or AWS account does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidArnException">
+        /// The specified ARN is not in a valid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagsToAddException">
+        /// The specified tags are not valid.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ResourceArnRequiredException">
+        /// The ARN of a resource is required, but was not found.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.TagRequiredException">
+        /// A tag was not specified.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return Invoke<UntagResourceResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonCodeDeployClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from CodeDeploy.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        public virtual UntagResourceResponse EndUntagResource(IAsyncResult asyncResult)
+        {
+            return EndInvoke<UntagResourceResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  UpdateApplication
 
         /// <summary>
@@ -3160,11 +3809,10 @@ namespace Amazon.CodeDeploy
         /// 
         /// <returns>The response from the UpdateApplication service method, as returned by CodeDeploy.</returns>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationAlreadyExistsException">
-        /// An application with the specified name already exists with the applicable IAM user
-        /// or AWS account.
+        /// An application with the specified name with the IAM user or AWS account already exists.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
@@ -3175,10 +3823,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UpdateApplication">REST API Reference for UpdateApplication Operation</seealso>
         public virtual UpdateApplicationResponse UpdateApplication(UpdateApplicationRequest request)
         {
-            var marshaller = UpdateApplicationRequestMarshaller.Instance;
-            var unmarshaller = UpdateApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApplicationResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateApplicationRequest,UpdateApplicationResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateApplicationResponse>(request, options);
         }
 
         /// <summary>
@@ -3195,11 +3844,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UpdateApplication">REST API Reference for UpdateApplication Operation</seealso>
         public virtual IAsyncResult BeginUpdateApplication(UpdateApplicationRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateApplicationRequestMarshaller.Instance;
-            var unmarshaller = UpdateApplicationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApplicationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApplicationResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateApplicationRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -3229,23 +3878,27 @@ namespace Amazon.CodeDeploy
         /// The maximum number of alarms for a deployment group (10) was exceeded.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationDoesNotExistException">
-        /// The application does not exist with the applicable IAM user or AWS account.
+        /// The application does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.ApplicationNameRequiredException">
         /// The minimum number of required application names was not specified.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentConfigDoesNotExistException">
-        /// The deployment configuration does not exist with the applicable IAM user or AWS account.
+        /// The deployment configuration does not exist with the IAM user or AWS account.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupAlreadyExistsException">
-        /// A deployment group with the specified name already exists with the applicable IAM
-        /// user or AWS account.
+        /// A deployment group with the specified name with the IAM user or AWS account already
+        /// exists.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupDoesNotExistException">
-        /// The named deployment group does not exist with the applicable IAM user or AWS account.
+        /// The named deployment group with the IAM user or AWS account does not exist.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.DeploymentGroupNameRequiredException">
         /// The deployment group name was not specified.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ECSServiceMappingLimitExceededException">
+        /// The Amazon ECS service is associated with more than one deployment groups. An Amazon
+        /// ECS service can be associated with only one deployment group.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAlarmConfigException">
         /// The format of the alarm configuration is invalid. Possible causes include:
@@ -3260,7 +3913,7 @@ namespace Amazon.CodeDeploy
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The alarm name is empty or null or exceeds the 255 character limit.
+        /// The alarm name is empty or null or exceeds the limit of 255 characters.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -3268,7 +3921,7 @@ namespace Amazon.CodeDeploy
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// The alarm configuration is enabled but the alarm list is empty.
+        /// The alarm configuration is enabled, but the alarm list is empty.
         /// </para>
         ///  </li> </ul>
         /// </exception>
@@ -3277,7 +3930,7 @@ namespace Amazon.CodeDeploy
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAutoRollbackConfigException">
         /// The automatic rollback configuration was specified in an invalid format. For example,
-        /// automatic rollback is enabled but an invalid triggering event type or no event types
+        /// automatic rollback is enabled, but an invalid triggering event type or no event types
         /// were listed.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidAutoScalingGroupException">
@@ -3295,7 +3948,7 @@ namespace Amazon.CodeDeploy
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidDeploymentStyleException">
         /// An invalid deployment style was specified. Valid deployment types include "IN_PLACE"
-        /// and "BLUE_GREEN". Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL".
+        /// and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidEC2TagCombinationException">
         /// A call was submitted that specified both Ec2TagFilters and Ec2TagSet, but only one
@@ -3304,8 +3957,11 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidEC2TagException">
         /// The tag was specified in an invalid format.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidECSServiceException">
+        /// The Amazon ECS service identifier is not valid.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidInputException">
-        /// The specified input was specified in an invalid format.
+        /// The input was specified in an invalid format.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidLoadBalancerInfoException">
         /// An invalid load balancer name, or no load balancer name, was specified.
@@ -3317,10 +3973,13 @@ namespace Amazon.CodeDeploy
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidRoleException">
         /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group
         /// was specified, the specified service role does not grant the appropriate permissions
-        /// to Auto Scaling.
+        /// to Amazon EC2 Auto Scaling.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTagException">
-        /// The specified tag was specified in an invalid format.
+        /// The tag was specified in an invalid format.
+        /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.InvalidTargetGroupPairException">
+        /// A target group pair associated with this deployment is not valid.
         /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.InvalidTriggerConfigException">
         /// The trigger was specified in an invalid format.
@@ -3332,16 +3991,20 @@ namespace Amazon.CodeDeploy
         /// The number of tag groups included in the tag set list exceeded the maximum allowed
         /// limit of 3.
         /// </exception>
+        /// <exception cref="Amazon.CodeDeploy.Model.ThrottlingException">
+        /// An API function was called too frequently.
+        /// </exception>
         /// <exception cref="Amazon.CodeDeploy.Model.TriggerTargetsLimitExceededException">
         /// The maximum allowed number of triggers was exceeded.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UpdateDeploymentGroup">REST API Reference for UpdateDeploymentGroup Operation</seealso>
         public virtual UpdateDeploymentGroupResponse UpdateDeploymentGroup(UpdateDeploymentGroupRequest request)
         {
-            var marshaller = UpdateDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDeploymentGroupResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDeploymentGroupRequest,UpdateDeploymentGroupResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDeploymentGroupResponse>(request, options);
         }
 
         /// <summary>
@@ -3358,11 +4021,11 @@ namespace Amazon.CodeDeploy
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UpdateDeploymentGroup">REST API Reference for UpdateDeploymentGroup Operation</seealso>
         public virtual IAsyncResult BeginUpdateDeploymentGroup(UpdateDeploymentGroupRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UpdateDeploymentGroupRequestMarshaller.Instance;
-            var unmarshaller = UpdateDeploymentGroupResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDeploymentGroupRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDeploymentGroupResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UpdateDeploymentGroupRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

@@ -32,7 +32,26 @@ namespace Amazon.KinesisFirehose.Model
     /// </summary>
     public partial class PutRecordResponse : AmazonWebServiceResponse
     {
+        private bool? _encrypted;
         private string _recordId;
+
+        /// <summary>
+        /// Gets and sets the property Encrypted. 
+        /// <para>
+        /// Indicates whether server-side encryption (SSE) was enabled during this operation.
+        /// </para>
+        /// </summary>
+        public bool Encrypted
+        {
+            get { return this._encrypted.GetValueOrDefault(); }
+            set { this._encrypted = value; }
+        }
+
+        // Check to see if Encrypted property is set
+        internal bool IsSetEncrypted()
+        {
+            return this._encrypted.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property RecordId. 
@@ -40,6 +59,7 @@ namespace Amazon.KinesisFirehose.Model
         /// The ID of the record.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string RecordId
         {
             get { return this._recordId; }

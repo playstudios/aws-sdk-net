@@ -53,6 +53,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -199,6 +202,20 @@ namespace Amazon.Glue
 
         /// <summary>
         /// Deletes multiple tables at once.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// After completing this operation, you no longer have access to the table versions and
+        /// partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources
+        /// asynchronously in a timely manner, at the discretion of the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// To ensure the immediate deletion of all related resources, before calling <code>BatchDeleteTable</code>,
+        /// use <code>DeleteTableVersion</code> or <code>BatchDeleteTableVersion</code>, and <code>DeletePartition</code>
+        /// or <code>BatchDeletePartition</code>, to delete any resources that belong to the table.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchDeleteTable service method.</param>
         /// 
@@ -298,6 +315,162 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  BatchGetCrawlers
+
+
+        /// <summary>
+        /// Returns a list of resource metadata for a given list of crawler names. After calling
+        /// the <code>ListCrawlers</code> operation, you can call this operation to access the
+        /// data to which you have been granted permissions. This operation supports all IAM permissions,
+        /// including permission conditions that uses tags.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetCrawlers service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetCrawlers service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetCrawlers">REST API Reference for BatchGetCrawlers Operation</seealso>
+        BatchGetCrawlersResponse BatchGetCrawlers(BatchGetCrawlersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetCrawlers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetCrawlers operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetCrawlers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetCrawlers">REST API Reference for BatchGetCrawlers Operation</seealso>
+        IAsyncResult BeginBatchGetCrawlers(BatchGetCrawlersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetCrawlers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetCrawlers.</param>
+        /// 
+        /// <returns>Returns a  BatchGetCrawlersResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetCrawlers">REST API Reference for BatchGetCrawlers Operation</seealso>
+        BatchGetCrawlersResponse EndBatchGetCrawlers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  BatchGetDevEndpoints
+
+
+        /// <summary>
+        /// Returns a list of resource metadata for a given list of development endpoint names.
+        /// After calling the <code>ListDevEndpoints</code> operation, you can call this operation
+        /// to access the data to which you have been granted permissions. This operation supports
+        /// all IAM permissions, including permission conditions that uses tags.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetDevEndpoints service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetDevEndpoints service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.AccessDeniedException">
+        /// Access to a resource was denied.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetDevEndpoints">REST API Reference for BatchGetDevEndpoints Operation</seealso>
+        BatchGetDevEndpointsResponse BatchGetDevEndpoints(BatchGetDevEndpointsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetDevEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetDevEndpoints operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetDevEndpoints
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetDevEndpoints">REST API Reference for BatchGetDevEndpoints Operation</seealso>
+        IAsyncResult BeginBatchGetDevEndpoints(BatchGetDevEndpointsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetDevEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetDevEndpoints.</param>
+        /// 
+        /// <returns>Returns a  BatchGetDevEndpointsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetDevEndpoints">REST API Reference for BatchGetDevEndpoints Operation</seealso>
+        BatchGetDevEndpointsResponse EndBatchGetDevEndpoints(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  BatchGetJobs
+
+
+        /// <summary>
+        /// Returns a list of resource metadata for a given list of job names. After calling the
+        /// <code>ListJobs</code> operation, you can call this operation to access the data to
+        /// which you have been granted permissions. This operation supports all IAM permissions,
+        /// including permission conditions that uses tags.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetJobs service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetJobs service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetJobs">REST API Reference for BatchGetJobs Operation</seealso>
+        BatchGetJobsResponse BatchGetJobs(BatchGetJobsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetJobs operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetJobs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetJobs">REST API Reference for BatchGetJobs Operation</seealso>
+        IAsyncResult BeginBatchGetJobs(BatchGetJobsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetJobs.</param>
+        /// 
+        /// <returns>Returns a  BatchGetJobsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetJobs">REST API Reference for BatchGetJobs Operation</seealso>
+        BatchGetJobsResponse EndBatchGetJobs(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  BatchGetPartition
 
 
@@ -309,6 +482,9 @@ namespace Amazon.Glue
         /// <returns>The response from the BatchGetPartition service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -350,11 +526,115 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  BatchGetTriggers
+
+
+        /// <summary>
+        /// Returns a list of resource metadata for a given list of trigger names. After calling
+        /// the <code>ListTriggers</code> operation, you can call this operation to access the
+        /// data to which you have been granted permissions. This operation supports all IAM permissions,
+        /// including permission conditions that uses tags.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetTriggers service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetTriggers service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetTriggers">REST API Reference for BatchGetTriggers Operation</seealso>
+        BatchGetTriggersResponse BatchGetTriggers(BatchGetTriggersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetTriggers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetTriggers operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetTriggers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetTriggers">REST API Reference for BatchGetTriggers Operation</seealso>
+        IAsyncResult BeginBatchGetTriggers(BatchGetTriggersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetTriggers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetTriggers.</param>
+        /// 
+        /// <returns>Returns a  BatchGetTriggersResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetTriggers">REST API Reference for BatchGetTriggers Operation</seealso>
+        BatchGetTriggersResponse EndBatchGetTriggers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  BatchGetWorkflows
+
+
+        /// <summary>
+        /// Returns a list of resource metadata for a given list of workflow names. After calling
+        /// the <code>ListWorkflows</code> operation, you can call this operation to access the
+        /// data to which you have been granted permissions. This operation supports all IAM permissions,
+        /// including permission conditions that uses tags.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetWorkflows service method.</param>
+        /// 
+        /// <returns>The response from the BatchGetWorkflows service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetWorkflows">REST API Reference for BatchGetWorkflows Operation</seealso>
+        BatchGetWorkflowsResponse BatchGetWorkflows(BatchGetWorkflowsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchGetWorkflows operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchGetWorkflows operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchGetWorkflows
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetWorkflows">REST API Reference for BatchGetWorkflows Operation</seealso>
+        IAsyncResult BeginBatchGetWorkflows(BatchGetWorkflowsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchGetWorkflows operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchGetWorkflows.</param>
+        /// 
+        /// <returns>Returns a  BatchGetWorkflowsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/BatchGetWorkflows">REST API Reference for BatchGetWorkflows Operation</seealso>
+        BatchGetWorkflowsResponse EndBatchGetWorkflows(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  BatchStopJobRun
 
 
         /// <summary>
-        /// Stops one or more job runs for a specified Job.
+        /// Stops one or more job runs for a specified job definition.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the BatchStopJobRun service method.</param>
         /// 
@@ -399,13 +679,68 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  CancelMLTaskRun
+
+
+        /// <summary>
+        /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that
+        /// AWS Glue runs on your behalf as part of various machine learning workflows. You can
+        /// cancel a machine learning task run at any time by calling <code>CancelMLTaskRun</code>
+        /// with a task run's parent transform's <code>TransformID</code> and the task run's <code>TaskRunId</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CancelMLTaskRun service method.</param>
+        /// 
+        /// <returns>The response from the CancelMLTaskRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CancelMLTaskRun">REST API Reference for CancelMLTaskRun Operation</seealso>
+        CancelMLTaskRunResponse CancelMLTaskRun(CancelMLTaskRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CancelMLTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CancelMLTaskRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCancelMLTaskRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CancelMLTaskRun">REST API Reference for CancelMLTaskRun Operation</seealso>
+        IAsyncResult BeginCancelMLTaskRun(CancelMLTaskRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CancelMLTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCancelMLTaskRun.</param>
+        /// 
+        /// <returns>Returns a  CancelMLTaskRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CancelMLTaskRun">REST API Reference for CancelMLTaskRun Operation</seealso>
+        CancelMLTaskRunResponse EndCancelMLTaskRun(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateClassifier
 
 
         /// <summary>
-        /// Creates a classifier in the user's account. This may be a <code>GrokClassifier</code>,
-        /// an <code>XMLClassifier</code>, or abbrev <code>JsonClassifier</code>, depending on
-        /// which field of the request is present.
+        /// Creates a classifier in the user's account. This can be a <code>GrokClassifier</code>,
+        /// an <code>XMLClassifier</code>, a <code>JsonClassifier</code>, or a <code>CsvClassifier</code>,
+        /// depending on which field of the request is present.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateClassifier service method.</param>
         /// 
@@ -462,6 +797,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.AlreadyExistsException">
         /// A resource to be created or added already exists.
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InvalidInputException">
         /// The input provided was not valid.
         /// </exception>
@@ -507,8 +845,8 @@ namespace Amazon.Glue
 
         /// <summary>
         /// Creates a new crawler with specified targets, role, configuration, and optional schedule.
-        /// At least one crawl target must be specified, in either the <i>s3Targets</i> or the
-        /// <i>jdbcTargets</i> field.
+        /// At least one crawl target must be specified, in the <code>s3Targets</code> field,
+        /// the <code>jdbcTargets</code> field, or the <code>DynamoDBTargets</code> field.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateCrawler service method.</param>
         /// 
@@ -568,6 +906,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.AlreadyExistsException">
         /// A resource to be created or added already exists.
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -615,7 +956,7 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Creates a new DevEndpoint.
+        /// Creates a new development endpoint.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateDevEndpoint service method.</param>
         /// 
@@ -679,7 +1020,7 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Creates a new job.
+        /// Creates a new job definition.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateJob service method.</param>
         /// 
@@ -736,6 +1077,83 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  CreateMLTransform
+
+
+        /// <summary>
+        /// Creates an AWS Glue machine learning transform. This operation creates the transform
+        /// and all the necessary parameters to train it.
+        /// 
+        ///  
+        /// <para>
+        /// Call this operation as the first step in the process of using a machine learning transform
+        /// (such as the <code>FindMatches</code> transform) for deduplicating data. You can provide
+        /// an optional <code>Description</code>, in addition to the parameters that you want
+        /// to use for your algorithm.
+        /// </para>
+        ///  
+        /// <para>
+        /// You must also specify certain parameters for the tasks that AWS Glue runs on your
+        /// behalf as part of learning from your data and creating a high-quality machine learning
+        /// transform. These parameters include <code>Role</code>, and optionally, <code>AllocatedCapacity</code>,
+        /// <code>Timeout</code>, and <code>MaxRetries</code>. For more information, see <a href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html">Jobs</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateMLTransform service method.</param>
+        /// 
+        /// <returns>The response from the CreateMLTransform service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.AccessDeniedException">
+        /// Access to a resource was denied.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.AlreadyExistsException">
+        /// A resource to be created or added already exists.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.IdempotentParameterMismatchException">
+        /// The same unique identifier was associated with two different records.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ResourceNumberLimitExceededException">
+        /// A resource numerical limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateMLTransform">REST API Reference for CreateMLTransform Operation</seealso>
+        CreateMLTransformResponse CreateMLTransform(CreateMLTransformRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateMLTransform operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateMLTransform
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateMLTransform">REST API Reference for CreateMLTransform Operation</seealso>
+        IAsyncResult BeginCreateMLTransform(CreateMLTransformRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateMLTransform.</param>
+        /// 
+        /// <returns>Returns a  CreateMLTransformResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateMLTransform">REST API Reference for CreateMLTransform Operation</seealso>
+        CreateMLTransformResponse EndCreateMLTransform(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreatePartition
 
 
@@ -750,6 +1168,9 @@ namespace Amazon.Glue
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -843,6 +1264,65 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  CreateSecurityConfiguration
+
+
+        /// <summary>
+        /// Creates a new security configuration. A security configuration is a set of security
+        /// properties that can be used by AWS Glue. You can use a security configuration to encrypt
+        /// data at rest. For information about using security configurations in AWS Glue, see
+        /// <a href="https://docs.aws.amazon.com/glue/latest/dg/encryption-security-configuration.html">Encrypting
+        /// Data Written by Crawlers, Jobs, and Development Endpoints</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateSecurityConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the CreateSecurityConfiguration service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.AlreadyExistsException">
+        /// A resource to be created or added already exists.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ResourceNumberLimitExceededException">
+        /// A resource numerical limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateSecurityConfiguration">REST API Reference for CreateSecurityConfiguration Operation</seealso>
+        CreateSecurityConfigurationResponse CreateSecurityConfiguration(CreateSecurityConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateSecurityConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateSecurityConfiguration operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateSecurityConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateSecurityConfiguration">REST API Reference for CreateSecurityConfiguration Operation</seealso>
+        IAsyncResult BeginCreateSecurityConfiguration(CreateSecurityConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateSecurityConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateSecurityConfiguration.</param>
+        /// 
+        /// <returns>Returns a  CreateSecurityConfigurationResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateSecurityConfiguration">REST API Reference for CreateSecurityConfiguration Operation</seealso>
+        CreateSecurityConfigurationResponse EndCreateSecurityConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateTable
 
 
@@ -857,6 +1337,9 @@ namespace Amazon.Glue
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -915,6 +1398,9 @@ namespace Amazon.Glue
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.ConcurrentModificationException">
         /// Two processes are trying to modify a resource simultaneously.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.IdempotentParameterMismatchException">
         /// The same unique identifier was associated with two different records.
@@ -977,6 +1463,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -1017,6 +1506,64 @@ namespace Amazon.Glue
         /// <returns>Returns a  CreateUserDefinedFunctionResult from Glue.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateUserDefinedFunction">REST API Reference for CreateUserDefinedFunction Operation</seealso>
         CreateUserDefinedFunctionResponse EndCreateUserDefinedFunction(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  CreateWorkflow
+
+
+        /// <summary>
+        /// Creates a new workflow.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateWorkflow service method.</param>
+        /// 
+        /// <returns>The response from the CreateWorkflow service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.AlreadyExistsException">
+        /// A resource to be created or added already exists.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ConcurrentModificationException">
+        /// Two processes are trying to modify a resource simultaneously.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ResourceNumberLimitExceededException">
+        /// A resource numerical limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateWorkflow">REST API Reference for CreateWorkflow Operation</seealso>
+        CreateWorkflowResponse CreateWorkflow(CreateWorkflowRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateWorkflow operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateWorkflow
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateWorkflow">REST API Reference for CreateWorkflow Operation</seealso>
+        IAsyncResult BeginCreateWorkflow(CreateWorkflowRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateWorkflow.</param>
+        /// 
+        /// <returns>Returns a  CreateWorkflowResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/CreateWorkflow">REST API Reference for CreateWorkflow Operation</seealso>
+        CreateWorkflowResponse EndCreateWorkflow(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1116,7 +1663,8 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Removes a specified crawler from the Data Catalog, unless the crawler state is <code>RUNNING</code>.
+        /// Removes a specified crawler from the AWS Glue Data Catalog, unless the crawler state
+        /// is <code>RUNNING</code>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteCrawler service method.</param>
         /// 
@@ -1168,7 +1716,24 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Removes a specified Database from a Data Catalog.
+        /// Removes a specified database from a Data Catalog.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// After completing this operation, you no longer have access to the tables (and all
+        /// table versions and partitions that might belong to the tables) and the user-defined
+        /// functions in the deleted database. AWS Glue deletes these "orphaned" resources asynchronously
+        /// in a timely manner, at the discretion of the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// To ensure the immediate deletion of all related resources, before calling <code>DeleteDatabase</code>,
+        /// use <code>DeleteTableVersion</code> or <code>BatchDeleteTableVersion</code>, <code>DeletePartition</code>
+        /// or <code>BatchDeletePartition</code>, <code>DeleteUserDefinedFunction</code>, and
+        /// <code>DeleteTable</code> or <code>BatchDeleteTable</code>, to delete any resources
+        /// that belong to the database.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDatabase service method.</param>
         /// 
@@ -1220,7 +1785,7 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Deletes a specified DevEndpoint.
+        /// Deletes a specified development endpoint.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteDevEndpoint service method.</param>
         /// 
@@ -1272,7 +1837,8 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Deletes a specified job. If the job is not found, no exception is thrown.
+        /// Deletes a specified job definition. If the job definition is not found, no exception
+        /// is thrown.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteJob service method.</param>
         /// 
@@ -1314,6 +1880,63 @@ namespace Amazon.Glue
         /// <returns>Returns a  DeleteJobResult from Glue.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteJob">REST API Reference for DeleteJob Operation</seealso>
         DeleteJobResponse EndDeleteJob(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteMLTransform
+
+
+        /// <summary>
+        /// Deletes an AWS Glue machine learning transform. Machine learning transforms are a
+        /// special type of transform that use machine learning to learn the details of the transformation
+        /// to be performed by learning from examples provided by humans. These transformations
+        /// are then saved by AWS Glue. If you no longer need a transform, you can delete it by
+        /// calling <code>DeleteMLTransforms</code>. However, any AWS Glue jobs that still reference
+        /// the deleted transform will no longer succeed.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMLTransform service method.</param>
+        /// 
+        /// <returns>The response from the DeleteMLTransform service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteMLTransform">REST API Reference for DeleteMLTransform Operation</seealso>
+        DeleteMLTransformResponse DeleteMLTransform(DeleteMLTransformRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMLTransform operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteMLTransform
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteMLTransform">REST API Reference for DeleteMLTransform Operation</seealso>
+        IAsyncResult BeginDeleteMLTransform(DeleteMLTransformRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteMLTransform.</param>
+        /// 
+        /// <returns>Returns a  DeleteMLTransformResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteMLTransform">REST API Reference for DeleteMLTransform Operation</seealso>
+        DeleteMLTransformResponse EndDeleteMLTransform(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1369,11 +1992,132 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  DeleteResourcePolicy
+
+
+        /// <summary>
+        /// Deletes a specified policy.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResourcePolicy service method.</param>
+        /// 
+        /// <returns>The response from the DeleteResourcePolicy service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.ConditionCheckFailureException">
+        /// A specified condition was not satisfied.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
+        DeleteResourcePolicyResponse DeleteResourcePolicy(DeleteResourcePolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResourcePolicy operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteResourcePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
+        IAsyncResult BeginDeleteResourcePolicy(DeleteResourcePolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteResourcePolicy.</param>
+        /// 
+        /// <returns>Returns a  DeleteResourcePolicyResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteResourcePolicy">REST API Reference for DeleteResourcePolicy Operation</seealso>
+        DeleteResourcePolicyResponse EndDeleteResourcePolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteSecurityConfiguration
+
+
+        /// <summary>
+        /// Deletes a specified security configuration.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSecurityConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DeleteSecurityConfiguration service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteSecurityConfiguration">REST API Reference for DeleteSecurityConfiguration Operation</seealso>
+        DeleteSecurityConfigurationResponse DeleteSecurityConfiguration(DeleteSecurityConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteSecurityConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteSecurityConfiguration operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteSecurityConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteSecurityConfiguration">REST API Reference for DeleteSecurityConfiguration Operation</seealso>
+        IAsyncResult BeginDeleteSecurityConfiguration(DeleteSecurityConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteSecurityConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteSecurityConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DeleteSecurityConfigurationResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteSecurityConfiguration">REST API Reference for DeleteSecurityConfiguration Operation</seealso>
+        DeleteSecurityConfigurationResponse EndDeleteSecurityConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteTable
 
 
         /// <summary>
         /// Removes a table definition from the Data Catalog.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// After completing this operation, you no longer have access to the table versions and
+        /// partitions that belong to the deleted table. AWS Glue deletes these "orphaned" resources
+        /// asynchronously in a timely manner, at the discretion of the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// To ensure the immediate deletion of all related resources, before calling <code>DeleteTable</code>,
+        /// use <code>DeleteTableVersion</code> or <code>BatchDeleteTableVersion</code>, and <code>DeletePartition</code>
+        /// or <code>BatchDeletePartition</code>, to delete any resources that belong to the table.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteTable service method.</param>
         /// 
@@ -1577,6 +2321,58 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  DeleteWorkflow
+
+
+        /// <summary>
+        /// Deletes a workflow.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteWorkflow service method.</param>
+        /// 
+        /// <returns>The response from the DeleteWorkflow service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.ConcurrentModificationException">
+        /// Two processes are trying to modify a resource simultaneously.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteWorkflow">REST API Reference for DeleteWorkflow Operation</seealso>
+        DeleteWorkflowResponse DeleteWorkflow(DeleteWorkflowRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteWorkflow operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteWorkflow
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteWorkflow">REST API Reference for DeleteWorkflow Operation</seealso>
+        IAsyncResult BeginDeleteWorkflow(DeleteWorkflowRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteWorkflow.</param>
+        /// 
+        /// <returns>Returns a  DeleteWorkflowResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/DeleteWorkflow">REST API Reference for DeleteWorkflow Operation</seealso>
+        DeleteWorkflowResponse EndDeleteWorkflow(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetCatalogImportStatus
 
 
@@ -1724,6 +2520,12 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
         /// The operation timed out.
         /// </exception>
@@ -1769,6 +2571,12 @@ namespace Amazon.Glue
         /// <returns>The response from the GetConnections service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
         /// The operation timed out.
@@ -1948,6 +2756,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -1992,11 +2803,14 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Retrieves all Databases defined in a given Data Catalog.
+        /// Retrieves all databases defined in a given Data Catalog.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDatabases service method.</param>
         /// 
         /// <returns>The response from the GetDatabases service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -2034,6 +2848,55 @@ namespace Amazon.Glue
         /// <returns>Returns a  GetDatabasesResult from Glue.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDatabases">REST API Reference for GetDatabases Operation</seealso>
         GetDatabasesResponse EndGetDatabases(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetDataCatalogEncryptionSettings
+
+
+        /// <summary>
+        /// Retrieves the security configuration for a specified catalog.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDataCatalogEncryptionSettings service method.</param>
+        /// 
+        /// <returns>The response from the GetDataCatalogEncryptionSettings service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDataCatalogEncryptionSettings">REST API Reference for GetDataCatalogEncryptionSettings Operation</seealso>
+        GetDataCatalogEncryptionSettingsResponse GetDataCatalogEncryptionSettings(GetDataCatalogEncryptionSettingsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetDataCatalogEncryptionSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetDataCatalogEncryptionSettings operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetDataCatalogEncryptionSettings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDataCatalogEncryptionSettings">REST API Reference for GetDataCatalogEncryptionSettings Operation</seealso>
+        IAsyncResult BeginGetDataCatalogEncryptionSettings(GetDataCatalogEncryptionSettingsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetDataCatalogEncryptionSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetDataCatalogEncryptionSettings.</param>
+        /// 
+        /// <returns>Returns a  GetDataCatalogEncryptionSettingsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetDataCatalogEncryptionSettings">REST API Reference for GetDataCatalogEncryptionSettings Operation</seealso>
+        GetDataCatalogEncryptionSettingsResponse EndGetDataCatalogEncryptionSettings(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2090,7 +2953,16 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Retrieves information about a specified DevEndpoint.
+        /// Retrieves information about a specified development endpoint.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you create a development endpoint in a virtual private cloud (VPC), AWS Glue
+        /// returns only a private IP address, and the public IP address field is not populated.
+        /// When you create a non-VPC development endpoint, AWS Glue returns only a public IP
+        /// address.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDevEndpoint service method.</param>
         /// 
@@ -2142,7 +3014,16 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Retrieves all the DevEndpoints in this AWS account.
+        /// Retrieves all the development endpoints in this AWS account.
+        /// 
+        ///  <note> 
+        /// <para>
+        /// When you create a development endpoint in a virtual private cloud (VPC), AWS Glue
+        /// returns only a private IP address and the public IP address field is not populated.
+        /// When you create a non-VPC development endpoint, AWS Glue returns only a public IP
+        /// address.
+        /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDevEndpoints service method.</param>
         /// 
@@ -2242,6 +3123,61 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  GetJobBookmark
+
+
+        /// <summary>
+        /// Returns information on a job bookmark entry.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetJobBookmark service method.</param>
+        /// 
+        /// <returns>The response from the GetJobBookmark service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ValidationException">
+        /// A value could not be validated.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetJobBookmark">REST API Reference for GetJobBookmark Operation</seealso>
+        GetJobBookmarkResponse GetJobBookmark(GetJobBookmarkRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetJobBookmark operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetJobBookmark operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetJobBookmark
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetJobBookmark">REST API Reference for GetJobBookmark Operation</seealso>
+        IAsyncResult BeginGetJobBookmark(GetJobBookmarkRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetJobBookmark operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetJobBookmark.</param>
+        /// 
+        /// <returns>Returns a  GetJobBookmarkResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetJobBookmark">REST API Reference for GetJobBookmark Operation</seealso>
+        GetJobBookmarkResponse EndGetJobBookmark(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetJobRun
 
 
@@ -2298,7 +3234,7 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Retrieves metadata for all runs of a given job.
+        /// Retrieves metadata for all runs of a given job definition.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetJobRuns service method.</param>
         /// 
@@ -2350,7 +3286,7 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Retrieves all current jobs.
+        /// Retrieves all current job definitions.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetJobs service method.</param>
         /// 
@@ -2450,6 +3386,234 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  GetMLTaskRun
+
+
+        /// <summary>
+        /// Gets details for a specific task run on a machine learning transform. Machine learning
+        /// task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various
+        /// machine learning workflows. You can check the stats of any task run by calling <code>GetMLTaskRun</code>
+        /// with the <code>TaskRunID</code> and its parent transform's <code>TransformID</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTaskRun service method.</param>
+        /// 
+        /// <returns>The response from the GetMLTaskRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTaskRun">REST API Reference for GetMLTaskRun Operation</seealso>
+        GetMLTaskRunResponse GetMLTaskRun(GetMLTaskRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetMLTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTaskRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetMLTaskRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTaskRun">REST API Reference for GetMLTaskRun Operation</seealso>
+        IAsyncResult BeginGetMLTaskRun(GetMLTaskRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetMLTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetMLTaskRun.</param>
+        /// 
+        /// <returns>Returns a  GetMLTaskRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTaskRun">REST API Reference for GetMLTaskRun Operation</seealso>
+        GetMLTaskRunResponse EndGetMLTaskRun(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetMLTaskRuns
+
+
+        /// <summary>
+        /// Gets a list of runs for a machine learning transform. Machine learning task runs are
+        /// asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning
+        /// workflows. You can get a sortable, filterable list of machine learning task runs by
+        /// calling <code>GetMLTaskRuns</code> with their parent transform's <code>TransformID</code>
+        /// and other optional parameters as documented in this section.
+        /// 
+        ///  
+        /// <para>
+        /// This operation returns a list of historic runs and must be paginated.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTaskRuns service method.</param>
+        /// 
+        /// <returns>The response from the GetMLTaskRuns service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTaskRuns">REST API Reference for GetMLTaskRuns Operation</seealso>
+        GetMLTaskRunsResponse GetMLTaskRuns(GetMLTaskRunsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetMLTaskRuns operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTaskRuns operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetMLTaskRuns
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTaskRuns">REST API Reference for GetMLTaskRuns Operation</seealso>
+        IAsyncResult BeginGetMLTaskRuns(GetMLTaskRunsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetMLTaskRuns operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetMLTaskRuns.</param>
+        /// 
+        /// <returns>Returns a  GetMLTaskRunsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTaskRuns">REST API Reference for GetMLTaskRuns Operation</seealso>
+        GetMLTaskRunsResponse EndGetMLTaskRuns(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetMLTransform
+
+
+        /// <summary>
+        /// Gets an AWS Glue machine learning transform artifact and all its corresponding metadata.
+        /// Machine learning transforms are a special type of transform that use machine learning
+        /// to learn the details of the transformation to be performed by learning from examples
+        /// provided by humans. These transformations are then saved by AWS Glue. You can retrieve
+        /// their metadata by calling <code>GetMLTransform</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTransform service method.</param>
+        /// 
+        /// <returns>The response from the GetMLTransform service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTransform">REST API Reference for GetMLTransform Operation</seealso>
+        GetMLTransformResponse GetMLTransform(GetMLTransformRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTransform operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetMLTransform
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTransform">REST API Reference for GetMLTransform Operation</seealso>
+        IAsyncResult BeginGetMLTransform(GetMLTransformRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetMLTransform.</param>
+        /// 
+        /// <returns>Returns a  GetMLTransformResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTransform">REST API Reference for GetMLTransform Operation</seealso>
+        GetMLTransformResponse EndGetMLTransform(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetMLTransforms
+
+
+        /// <summary>
+        /// Gets a sortable, filterable list of existing AWS Glue machine learning transforms.
+        /// Machine learning transforms are a special type of transform that use machine learning
+        /// to learn the details of the transformation to be performed by learning from examples
+        /// provided by humans. These transformations are then saved by AWS Glue, and you can
+        /// retrieve their metadata by calling <code>GetMLTransforms</code>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTransforms service method.</param>
+        /// 
+        /// <returns>The response from the GetMLTransforms service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTransforms">REST API Reference for GetMLTransforms Operation</seealso>
+        GetMLTransformsResponse GetMLTransforms(GetMLTransformsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetMLTransforms operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetMLTransforms operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetMLTransforms
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTransforms">REST API Reference for GetMLTransforms Operation</seealso>
+        IAsyncResult BeginGetMLTransforms(GetMLTransformsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetMLTransforms operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetMLTransforms.</param>
+        /// 
+        /// <returns>Returns a  GetMLTransformsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetMLTransforms">REST API Reference for GetMLTransforms Operation</seealso>
+        GetMLTransformsResponse EndGetMLTransforms(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetPartition
 
 
@@ -2461,6 +3625,9 @@ namespace Amazon.Glue
         /// <returns>The response from the GetPartition service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -2513,6 +3680,9 @@ namespace Amazon.Glue
         /// <returns>The response from the GetPartitions service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -2603,6 +3773,162 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  GetResourcePolicy
+
+
+        /// <summary>
+        /// Retrieves a specified resource policy.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetResourcePolicy service method.</param>
+        /// 
+        /// <returns>The response from the GetResourcePolicy service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetResourcePolicy">REST API Reference for GetResourcePolicy Operation</seealso>
+        GetResourcePolicyResponse GetResourcePolicy(GetResourcePolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetResourcePolicy operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetResourcePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetResourcePolicy">REST API Reference for GetResourcePolicy Operation</seealso>
+        IAsyncResult BeginGetResourcePolicy(GetResourcePolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetResourcePolicy.</param>
+        /// 
+        /// <returns>Returns a  GetResourcePolicyResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetResourcePolicy">REST API Reference for GetResourcePolicy Operation</seealso>
+        GetResourcePolicyResponse EndGetResourcePolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetSecurityConfiguration
+
+
+        /// <summary>
+        /// Retrieves a specified security configuration.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSecurityConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the GetSecurityConfiguration service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSecurityConfiguration">REST API Reference for GetSecurityConfiguration Operation</seealso>
+        GetSecurityConfigurationResponse GetSecurityConfiguration(GetSecurityConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSecurityConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSecurityConfiguration operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSecurityConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSecurityConfiguration">REST API Reference for GetSecurityConfiguration Operation</seealso>
+        IAsyncResult BeginGetSecurityConfiguration(GetSecurityConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetSecurityConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSecurityConfiguration.</param>
+        /// 
+        /// <returns>Returns a  GetSecurityConfigurationResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSecurityConfiguration">REST API Reference for GetSecurityConfiguration Operation</seealso>
+        GetSecurityConfigurationResponse EndGetSecurityConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetSecurityConfigurations
+
+
+        /// <summary>
+        /// Retrieves a list of all security configurations.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSecurityConfigurations service method.</param>
+        /// 
+        /// <returns>The response from the GetSecurityConfigurations service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSecurityConfigurations">REST API Reference for GetSecurityConfigurations Operation</seealso>
+        GetSecurityConfigurationsResponse GetSecurityConfigurations(GetSecurityConfigurationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSecurityConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSecurityConfigurations operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetSecurityConfigurations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSecurityConfigurations">REST API Reference for GetSecurityConfigurations Operation</seealso>
+        IAsyncResult BeginGetSecurityConfigurations(GetSecurityConfigurationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetSecurityConfigurations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetSecurityConfigurations.</param>
+        /// 
+        /// <returns>Returns a  GetSecurityConfigurationsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetSecurityConfigurations">REST API Reference for GetSecurityConfigurations Operation</seealso>
+        GetSecurityConfigurationsResponse EndGetSecurityConfigurations(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  GetTable
 
 
@@ -2614,6 +3940,9 @@ namespace Amazon.Glue
         /// <returns>The response from the GetTable service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -2667,6 +3996,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -2718,6 +4050,9 @@ namespace Amazon.Glue
         /// <returns>The response from the GetTableVersion service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -2771,6 +4106,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -2808,6 +4146,58 @@ namespace Amazon.Glue
         /// <returns>Returns a  GetTableVersionsResult from Glue.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetTableVersions">REST API Reference for GetTableVersions Operation</seealso>
         GetTableVersionsResponse EndGetTableVersions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetTags
+
+
+        /// <summary>
+        /// Retrieves a list of tags associated with a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetTags service method.</param>
+        /// 
+        /// <returns>The response from the GetTags service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetTags">REST API Reference for GetTags Operation</seealso>
+        GetTagsResponse GetTags(GetTagsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetTags operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetTags operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetTags
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetTags">REST API Reference for GetTags Operation</seealso>
+        IAsyncResult BeginGetTags(GetTagsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetTags operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetTags.</param>
+        /// 
+        /// <returns>Returns a  GetTagsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetTags">REST API Reference for GetTags Operation</seealso>
+        GetTagsResponse EndGetTags(IAsyncResult asyncResult);
 
         #endregion
         
@@ -2927,6 +4317,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -2971,13 +4364,16 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Retrieves a multiple function definitions from the Data Catalog.
+        /// Retrieves multiple function definitions from the Data Catalog.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetUserDefinedFunctions service method.</param>
         /// 
         /// <returns>The response from the GetUserDefinedFunctions service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -3019,11 +4415,219 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  GetWorkflow
+
+
+        /// <summary>
+        /// Retrieves resource metadata for a workflow.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflow service method.</param>
+        /// 
+        /// <returns>The response from the GetWorkflow service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflow">REST API Reference for GetWorkflow Operation</seealso>
+        GetWorkflowResponse GetWorkflow(GetWorkflowRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflow operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetWorkflow
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflow">REST API Reference for GetWorkflow Operation</seealso>
+        IAsyncResult BeginGetWorkflow(GetWorkflowRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetWorkflow.</param>
+        /// 
+        /// <returns>Returns a  GetWorkflowResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflow">REST API Reference for GetWorkflow Operation</seealso>
+        GetWorkflowResponse EndGetWorkflow(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetWorkflowRun
+
+
+        /// <summary>
+        /// Retrieves the metadata for a given workflow run.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflowRun service method.</param>
+        /// 
+        /// <returns>The response from the GetWorkflowRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRun">REST API Reference for GetWorkflowRun Operation</seealso>
+        GetWorkflowRunResponse GetWorkflowRun(GetWorkflowRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetWorkflowRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflowRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetWorkflowRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRun">REST API Reference for GetWorkflowRun Operation</seealso>
+        IAsyncResult BeginGetWorkflowRun(GetWorkflowRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetWorkflowRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetWorkflowRun.</param>
+        /// 
+        /// <returns>Returns a  GetWorkflowRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRun">REST API Reference for GetWorkflowRun Operation</seealso>
+        GetWorkflowRunResponse EndGetWorkflowRun(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetWorkflowRunProperties
+
+
+        /// <summary>
+        /// Retrieves the workflow run properties which were set during the run.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflowRunProperties service method.</param>
+        /// 
+        /// <returns>The response from the GetWorkflowRunProperties service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRunProperties">REST API Reference for GetWorkflowRunProperties Operation</seealso>
+        GetWorkflowRunPropertiesResponse GetWorkflowRunProperties(GetWorkflowRunPropertiesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetWorkflowRunProperties operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflowRunProperties operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetWorkflowRunProperties
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRunProperties">REST API Reference for GetWorkflowRunProperties Operation</seealso>
+        IAsyncResult BeginGetWorkflowRunProperties(GetWorkflowRunPropertiesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetWorkflowRunProperties operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetWorkflowRunProperties.</param>
+        /// 
+        /// <returns>Returns a  GetWorkflowRunPropertiesResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRunProperties">REST API Reference for GetWorkflowRunProperties Operation</seealso>
+        GetWorkflowRunPropertiesResponse EndGetWorkflowRunProperties(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  GetWorkflowRuns
+
+
+        /// <summary>
+        /// Retrieves metadata for all runs of a given workflow.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflowRuns service method.</param>
+        /// 
+        /// <returns>The response from the GetWorkflowRuns service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRuns">REST API Reference for GetWorkflowRuns Operation</seealso>
+        GetWorkflowRunsResponse GetWorkflowRuns(GetWorkflowRunsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetWorkflowRuns operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetWorkflowRuns operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndGetWorkflowRuns
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRuns">REST API Reference for GetWorkflowRuns Operation</seealso>
+        IAsyncResult BeginGetWorkflowRuns(GetWorkflowRunsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  GetWorkflowRuns operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginGetWorkflowRuns.</param>
+        /// 
+        /// <returns>Returns a  GetWorkflowRunsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/GetWorkflowRuns">REST API Reference for GetWorkflowRuns Operation</seealso>
+        GetWorkflowRunsResponse EndGetWorkflowRuns(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  ImportCatalogToGlue
 
 
         /// <summary>
-        /// Imports an existing Athena Data Catalog to AWS Glue
+        /// Imports an existing Amazon Athena Data Catalog to AWS Glue
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ImportCatalogToGlue service method.</param>
         /// 
@@ -3062,6 +4666,514 @@ namespace Amazon.Glue
         /// <returns>Returns a  ImportCatalogToGlueResult from Glue.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ImportCatalogToGlue">REST API Reference for ImportCatalogToGlue Operation</seealso>
         ImportCatalogToGlueResponse EndImportCatalogToGlue(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListCrawlers
+
+
+        /// <summary>
+        /// Retrieves the names of all crawler resources in this AWS account, or the resources
+        /// with the specified tag. This operation allows you to see which resources are available
+        /// in your account, and their names.
+        /// 
+        ///  
+        /// <para>
+        /// This operation takes the optional <code>Tags</code> field, which you can use as a
+        /// filter on the response so that tagged resources can be retrieved as a group. If you
+        /// choose to use tags filtering, only resources with the tag are retrieved.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListCrawlers service method.</param>
+        /// 
+        /// <returns>The response from the ListCrawlers service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListCrawlers">REST API Reference for ListCrawlers Operation</seealso>
+        ListCrawlersResponse ListCrawlers(ListCrawlersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListCrawlers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListCrawlers operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListCrawlers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListCrawlers">REST API Reference for ListCrawlers Operation</seealso>
+        IAsyncResult BeginListCrawlers(ListCrawlersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListCrawlers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListCrawlers.</param>
+        /// 
+        /// <returns>Returns a  ListCrawlersResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListCrawlers">REST API Reference for ListCrawlers Operation</seealso>
+        ListCrawlersResponse EndListCrawlers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListDevEndpoints
+
+
+        /// <summary>
+        /// Retrieves the names of all <code>DevEndpoint</code> resources in this AWS account,
+        /// or the resources with the specified tag. This operation allows you to see which resources
+        /// are available in your account, and their names.
+        /// 
+        ///  
+        /// <para>
+        /// This operation takes the optional <code>Tags</code> field, which you can use as a
+        /// filter on the response so that tagged resources can be retrieved as a group. If you
+        /// choose to use tags filtering, only resources with the tag are retrieved.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListDevEndpoints service method.</param>
+        /// 
+        /// <returns>The response from the ListDevEndpoints service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListDevEndpoints">REST API Reference for ListDevEndpoints Operation</seealso>
+        ListDevEndpointsResponse ListDevEndpoints(ListDevEndpointsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListDevEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListDevEndpoints operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListDevEndpoints
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListDevEndpoints">REST API Reference for ListDevEndpoints Operation</seealso>
+        IAsyncResult BeginListDevEndpoints(ListDevEndpointsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListDevEndpoints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListDevEndpoints.</param>
+        /// 
+        /// <returns>Returns a  ListDevEndpointsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListDevEndpoints">REST API Reference for ListDevEndpoints Operation</seealso>
+        ListDevEndpointsResponse EndListDevEndpoints(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListJobs
+
+
+        /// <summary>
+        /// Retrieves the names of all job resources in this AWS account, or the resources with
+        /// the specified tag. This operation allows you to see which resources are available
+        /// in your account, and their names.
+        /// 
+        ///  
+        /// <para>
+        /// This operation takes the optional <code>Tags</code> field, which you can use as a
+        /// filter on the response so that tagged resources can be retrieved as a group. If you
+        /// choose to use tags filtering, only resources with the tag are retrieved.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListJobs service method.</param>
+        /// 
+        /// <returns>The response from the ListJobs service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListJobs">REST API Reference for ListJobs Operation</seealso>
+        ListJobsResponse ListJobs(ListJobsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListJobs operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListJobs
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListJobs">REST API Reference for ListJobs Operation</seealso>
+        IAsyncResult BeginListJobs(ListJobsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListJobs operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListJobs.</param>
+        /// 
+        /// <returns>Returns a  ListJobsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListJobs">REST API Reference for ListJobs Operation</seealso>
+        ListJobsResponse EndListJobs(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListMLTransforms
+
+
+        /// <summary>
+        /// Retrieves a sortable, filterable list of existing AWS Glue machine learning transforms
+        /// in this AWS account, or the resources with the specified tag. This operation takes
+        /// the optional <code>Tags</code> field, which you can use as a filter of the responses
+        /// so that tagged resources can be retrieved as a group. If you choose to use tag filtering,
+        /// only resources with the tags are retrieved.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListMLTransforms service method.</param>
+        /// 
+        /// <returns>The response from the ListMLTransforms service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListMLTransforms">REST API Reference for ListMLTransforms Operation</seealso>
+        ListMLTransformsResponse ListMLTransforms(ListMLTransformsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListMLTransforms operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListMLTransforms operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListMLTransforms
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListMLTransforms">REST API Reference for ListMLTransforms Operation</seealso>
+        IAsyncResult BeginListMLTransforms(ListMLTransformsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListMLTransforms operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListMLTransforms.</param>
+        /// 
+        /// <returns>Returns a  ListMLTransformsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListMLTransforms">REST API Reference for ListMLTransforms Operation</seealso>
+        ListMLTransformsResponse EndListMLTransforms(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTriggers
+
+
+        /// <summary>
+        /// Retrieves the names of all trigger resources in this AWS account, or the resources
+        /// with the specified tag. This operation allows you to see which resources are available
+        /// in your account, and their names.
+        /// 
+        ///  
+        /// <para>
+        /// This operation takes the optional <code>Tags</code> field, which you can use as a
+        /// filter on the response so that tagged resources can be retrieved as a group. If you
+        /// choose to use tags filtering, only resources with the tag are retrieved.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTriggers service method.</param>
+        /// 
+        /// <returns>The response from the ListTriggers service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListTriggers">REST API Reference for ListTriggers Operation</seealso>
+        ListTriggersResponse ListTriggers(ListTriggersRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTriggers operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTriggers operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTriggers
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListTriggers">REST API Reference for ListTriggers Operation</seealso>
+        IAsyncResult BeginListTriggers(ListTriggersRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTriggers operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTriggers.</param>
+        /// 
+        /// <returns>Returns a  ListTriggersResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListTriggers">REST API Reference for ListTriggers Operation</seealso>
+        ListTriggersResponse EndListTriggers(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListWorkflows
+
+
+        /// <summary>
+        /// Lists names of workflows created in the account.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListWorkflows service method.</param>
+        /// 
+        /// <returns>The response from the ListWorkflows service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListWorkflows">REST API Reference for ListWorkflows Operation</seealso>
+        ListWorkflowsResponse ListWorkflows(ListWorkflowsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListWorkflows operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListWorkflows operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListWorkflows
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListWorkflows">REST API Reference for ListWorkflows Operation</seealso>
+        IAsyncResult BeginListWorkflows(ListWorkflowsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListWorkflows operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListWorkflows.</param>
+        /// 
+        /// <returns>Returns a  ListWorkflowsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/ListWorkflows">REST API Reference for ListWorkflows Operation</seealso>
+        ListWorkflowsResponse EndListWorkflows(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutDataCatalogEncryptionSettings
+
+
+        /// <summary>
+        /// Sets the security configuration for a specified catalog. After the configuration has
+        /// been set, the specified encryption is applied to every catalog write thereafter.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutDataCatalogEncryptionSettings service method.</param>
+        /// 
+        /// <returns>The response from the PutDataCatalogEncryptionSettings service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataCatalogEncryptionSettings">REST API Reference for PutDataCatalogEncryptionSettings Operation</seealso>
+        PutDataCatalogEncryptionSettingsResponse PutDataCatalogEncryptionSettings(PutDataCatalogEncryptionSettingsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutDataCatalogEncryptionSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutDataCatalogEncryptionSettings operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutDataCatalogEncryptionSettings
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataCatalogEncryptionSettings">REST API Reference for PutDataCatalogEncryptionSettings Operation</seealso>
+        IAsyncResult BeginPutDataCatalogEncryptionSettings(PutDataCatalogEncryptionSettingsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutDataCatalogEncryptionSettings operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutDataCatalogEncryptionSettings.</param>
+        /// 
+        /// <returns>Returns a  PutDataCatalogEncryptionSettingsResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutDataCatalogEncryptionSettings">REST API Reference for PutDataCatalogEncryptionSettings Operation</seealso>
+        PutDataCatalogEncryptionSettingsResponse EndPutDataCatalogEncryptionSettings(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutResourcePolicy
+
+
+        /// <summary>
+        /// Sets the Data Catalog resource policy for access control.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutResourcePolicy service method.</param>
+        /// 
+        /// <returns>The response from the PutResourcePolicy service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.ConditionCheckFailureException">
+        /// A specified condition was not satisfied.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
+        PutResourcePolicyResponse PutResourcePolicy(PutResourcePolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutResourcePolicy operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutResourcePolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
+        IAsyncResult BeginPutResourcePolicy(PutResourcePolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutResourcePolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutResourcePolicy.</param>
+        /// 
+        /// <returns>Returns a  PutResourcePolicyResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutResourcePolicy">REST API Reference for PutResourcePolicy Operation</seealso>
+        PutResourcePolicyResponse EndPutResourcePolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutWorkflowRunProperties
+
+
+        /// <summary>
+        /// Puts the specified workflow run properties for the given workflow run. If a property
+        /// already exists for the specified run, then it overrides the value otherwise adds the
+        /// property to existing properties.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutWorkflowRunProperties service method.</param>
+        /// 
+        /// <returns>The response from the PutWorkflowRunProperties service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.AlreadyExistsException">
+        /// A resource to be created or added already exists.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ConcurrentModificationException">
+        /// Two processes are trying to modify a resource simultaneously.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ResourceNumberLimitExceededException">
+        /// A resource numerical limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutWorkflowRunProperties">REST API Reference for PutWorkflowRunProperties Operation</seealso>
+        PutWorkflowRunPropertiesResponse PutWorkflowRunProperties(PutWorkflowRunPropertiesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutWorkflowRunProperties operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutWorkflowRunProperties operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutWorkflowRunProperties
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutWorkflowRunProperties">REST API Reference for PutWorkflowRunProperties Operation</seealso>
+        IAsyncResult BeginPutWorkflowRunProperties(PutWorkflowRunPropertiesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutWorkflowRunProperties operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutWorkflowRunProperties.</param>
+        /// 
+        /// <returns>Returns a  PutWorkflowRunPropertiesResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/PutWorkflowRunProperties">REST API Reference for PutWorkflowRunProperties Operation</seealso>
+        PutWorkflowRunPropertiesResponse EndPutWorkflowRunProperties(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3117,12 +5229,72 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  SearchTables
+
+
+        /// <summary>
+        /// Searches a set of tables based on properties in the table metadata as well as on the
+        /// parent database. You can search against text or filter conditions. 
+        /// 
+        ///  
+        /// <para>
+        /// You can only get tables that you have access to based on the security policies defined
+        /// in Lake Formation. You need at least a read-only access to the table for it to be
+        /// returned. If you do not have access to all the columns in the table, these columns
+        /// will not be searched against when returning the list of tables back to you. If you
+        /// have access to the columns but not the data in the columns, those columns and the
+        /// associated metadata for those columns will be included in the search. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SearchTables service method.</param>
+        /// 
+        /// <returns>The response from the SearchTables service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchTables">REST API Reference for SearchTables Operation</seealso>
+        SearchTablesResponse SearchTables(SearchTablesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SearchTables operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SearchTables operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSearchTables
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchTables">REST API Reference for SearchTables Operation</seealso>
+        IAsyncResult BeginSearchTables(SearchTablesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SearchTables operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSearchTables.</param>
+        /// 
+        /// <returns>Returns a  SearchTablesResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/SearchTables">REST API Reference for SearchTables Operation</seealso>
+        SearchTablesResponse EndSearchTables(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartCrawler
 
 
         /// <summary>
         /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the
-        /// crawler is already running, does nothing.
+        /// crawler is already running, returns a <a href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-exceptions.html#aws-glue-api-exceptions-CrawlerRunningException">CrawlerRunningException</a>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartCrawler service method.</param>
         /// 
@@ -3223,11 +5395,158 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  StartExportLabelsTaskRun
+
+
+        /// <summary>
+        /// Begins an asynchronous task to export all labeled data for a particular transform.
+        /// This task is the only label-related API call that is not part of the typical active
+        /// learning workflow. You typically use <code>StartExportLabelsTaskRun</code> when you
+        /// want to work with all of your existing labels at the same time, such as when you want
+        /// to remove or change labels that were previously submitted as truth. This API operation
+        /// accepts the <code>TransformId</code> whose labels you want to export and an Amazon
+        /// Simple Storage Service (Amazon S3) path to export the labels to. The operation returns
+        /// a <code>TaskRunId</code>. You can check on the status of your task run by calling
+        /// the <code>GetMLTaskRun</code> API.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartExportLabelsTaskRun service method.</param>
+        /// 
+        /// <returns>The response from the StartExportLabelsTaskRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartExportLabelsTaskRun">REST API Reference for StartExportLabelsTaskRun Operation</seealso>
+        StartExportLabelsTaskRunResponse StartExportLabelsTaskRun(StartExportLabelsTaskRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartExportLabelsTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartExportLabelsTaskRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartExportLabelsTaskRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartExportLabelsTaskRun">REST API Reference for StartExportLabelsTaskRun Operation</seealso>
+        IAsyncResult BeginStartExportLabelsTaskRun(StartExportLabelsTaskRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartExportLabelsTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartExportLabelsTaskRun.</param>
+        /// 
+        /// <returns>Returns a  StartExportLabelsTaskRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartExportLabelsTaskRun">REST API Reference for StartExportLabelsTaskRun Operation</seealso>
+        StartExportLabelsTaskRunResponse EndStartExportLabelsTaskRun(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StartImportLabelsTaskRun
+
+
+        /// <summary>
+        /// Enables you to provide additional labels (examples of truth) to be used to teach the
+        /// machine learning transform and improve its quality. This API operation is generally
+        /// used as part of the active learning workflow that starts with the <code>StartMLLabelingSetGenerationTaskRun</code>
+        /// call and that ultimately results in improving the quality of your machine learning
+        /// transform. 
+        /// 
+        ///  
+        /// <para>
+        /// After the <code>StartMLLabelingSetGenerationTaskRun</code> finishes, AWS Glue machine
+        /// learning will have generated a series of questions for humans to answer. (Answering
+        /// these questions is often called 'labeling' in the machine learning workflows). In
+        /// the case of the <code>FindMatches</code> transform, these questions are of the form,
+        /// “What is the correct way to group these rows together into groups composed entirely
+        /// of matching records?” After the labeling process is finished, users upload their answers/labels
+        /// with a call to <code>StartImportLabelsTaskRun</code>. After <code>StartImportLabelsTaskRun</code>
+        /// finishes, all future runs of the machine learning transform use the new and improved
+        /// labels and perform a higher-quality transformation.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, <code>StartMLLabelingSetGenerationTaskRun</code> continually learns from
+        /// and combines all labels that you upload unless you set <code>Replace</code> to true.
+        /// If you set <code>Replace</code> to true, <code>StartImportLabelsTaskRun</code> deletes
+        /// and forgets all previously uploaded labels and learns only from the exact set that
+        /// you upload. Replacing labels can be helpful if you realize that you previously uploaded
+        /// incorrect labels, and you believe that they are having a negative effect on your transform
+        /// quality.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can check on the status of your task run by calling the <code>GetMLTaskRun</code>
+        /// operation. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartImportLabelsTaskRun service method.</param>
+        /// 
+        /// <returns>The response from the StartImportLabelsTaskRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ResourceNumberLimitExceededException">
+        /// A resource numerical limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartImportLabelsTaskRun">REST API Reference for StartImportLabelsTaskRun Operation</seealso>
+        StartImportLabelsTaskRunResponse StartImportLabelsTaskRun(StartImportLabelsTaskRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartImportLabelsTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartImportLabelsTaskRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartImportLabelsTaskRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartImportLabelsTaskRun">REST API Reference for StartImportLabelsTaskRun Operation</seealso>
+        IAsyncResult BeginStartImportLabelsTaskRun(StartImportLabelsTaskRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartImportLabelsTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartImportLabelsTaskRun.</param>
+        /// 
+        /// <returns>Returns a  StartImportLabelsTaskRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartImportLabelsTaskRun">REST API Reference for StartImportLabelsTaskRun Operation</seealso>
+        StartImportLabelsTaskRunResponse EndStartImportLabelsTaskRun(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartJobRun
 
 
         /// <summary>
-        /// Runs a job.
+        /// Starts a job run using a job definition.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartJobRun service method.</param>
         /// 
@@ -3281,11 +5600,156 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  StartMLEvaluationTaskRun
+
+
+        /// <summary>
+        /// Starts a task to estimate the quality of the transform. 
+        /// 
+        ///  
+        /// <para>
+        /// When you provide label sets as examples of truth, AWS Glue machine learning uses some
+        /// of those examples to learn from them. The rest of the labels are used as a test to
+        /// estimate quality.
+        /// </para>
+        ///  
+        /// <para>
+        /// Returns a unique identifier for the run. You can call <code>GetMLTaskRun</code> to
+        /// get more information about the stats of the <code>EvaluationTaskRun</code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartMLEvaluationTaskRun service method.</param>
+        /// 
+        /// <returns>The response from the StartMLEvaluationTaskRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.ConcurrentRunsExceededException">
+        /// Too many jobs are being run concurrently.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.MLTransformNotReadyException">
+        /// The machine learning transform is not ready to run.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartMLEvaluationTaskRun">REST API Reference for StartMLEvaluationTaskRun Operation</seealso>
+        StartMLEvaluationTaskRunResponse StartMLEvaluationTaskRun(StartMLEvaluationTaskRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartMLEvaluationTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartMLEvaluationTaskRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartMLEvaluationTaskRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartMLEvaluationTaskRun">REST API Reference for StartMLEvaluationTaskRun Operation</seealso>
+        IAsyncResult BeginStartMLEvaluationTaskRun(StartMLEvaluationTaskRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartMLEvaluationTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartMLEvaluationTaskRun.</param>
+        /// 
+        /// <returns>Returns a  StartMLEvaluationTaskRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartMLEvaluationTaskRun">REST API Reference for StartMLEvaluationTaskRun Operation</seealso>
+        StartMLEvaluationTaskRunResponse EndStartMLEvaluationTaskRun(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StartMLLabelingSetGenerationTaskRun
+
+
+        /// <summary>
+        /// Starts the active learning workflow for your machine learning transform to improve
+        /// the transform's quality by generating label sets and adding labels.
+        /// 
+        ///  
+        /// <para>
+        /// When the <code>StartMLLabelingSetGenerationTaskRun</code> finishes, AWS Glue will
+        /// have generated a "labeling set" or a set of questions for humans to answer.
+        /// </para>
+        ///  
+        /// <para>
+        /// In the case of the <code>FindMatches</code> transform, these questions are of the
+        /// form, “What is the correct way to group these rows together into groups composed entirely
+        /// of matching records?” 
+        /// </para>
+        ///  
+        /// <para>
+        /// After the labeling process is finished, you can upload your labels with a call to
+        /// <code>StartImportLabelsTaskRun</code>. After <code>StartImportLabelsTaskRun</code>
+        /// finishes, all future runs of the machine learning transform will use the new and improved
+        /// labels and perform a higher-quality transformation.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartMLLabelingSetGenerationTaskRun service method.</param>
+        /// 
+        /// <returns>The response from the StartMLLabelingSetGenerationTaskRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.ConcurrentRunsExceededException">
+        /// Too many jobs are being run concurrently.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartMLLabelingSetGenerationTaskRun">REST API Reference for StartMLLabelingSetGenerationTaskRun Operation</seealso>
+        StartMLLabelingSetGenerationTaskRunResponse StartMLLabelingSetGenerationTaskRun(StartMLLabelingSetGenerationTaskRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartMLLabelingSetGenerationTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartMLLabelingSetGenerationTaskRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartMLLabelingSetGenerationTaskRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartMLLabelingSetGenerationTaskRun">REST API Reference for StartMLLabelingSetGenerationTaskRun Operation</seealso>
+        IAsyncResult BeginStartMLLabelingSetGenerationTaskRun(StartMLLabelingSetGenerationTaskRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartMLLabelingSetGenerationTaskRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartMLLabelingSetGenerationTaskRun.</param>
+        /// 
+        /// <returns>Returns a  StartMLLabelingSetGenerationTaskRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartMLLabelingSetGenerationTaskRun">REST API Reference for StartMLLabelingSetGenerationTaskRun Operation</seealso>
+        StartMLLabelingSetGenerationTaskRunResponse EndStartMLLabelingSetGenerationTaskRun(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartTrigger
 
 
         /// <summary>
-        /// Starts an existing trigger. See <a href="http://docs.aws.amazon.com/glue/latest/dg/trigger-job.html">Triggering
+        /// Starts an existing trigger. See <a href="https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html">Triggering
         /// Jobs</a> for information about how different types of trigger are started.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the StartTrigger service method.</param>
@@ -3337,6 +5801,64 @@ namespace Amazon.Glue
         /// <returns>Returns a  StartTriggerResult from Glue.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartTrigger">REST API Reference for StartTrigger Operation</seealso>
         StartTriggerResponse EndStartTrigger(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StartWorkflowRun
+
+
+        /// <summary>
+        /// Starts a new run of the specified workflow.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartWorkflowRun service method.</param>
+        /// 
+        /// <returns>The response from the StartWorkflowRun service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.ConcurrentRunsExceededException">
+        /// Too many jobs are being run concurrently.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.ResourceNumberLimitExceededException">
+        /// A resource numerical limit was exceeded.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartWorkflowRun">REST API Reference for StartWorkflowRun Operation</seealso>
+        StartWorkflowRunResponse StartWorkflowRun(StartWorkflowRunRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartWorkflowRun operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartWorkflowRun operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartWorkflowRun
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartWorkflowRun">REST API Reference for StartWorkflowRun Operation</seealso>
+        IAsyncResult BeginStartWorkflowRun(StartWorkflowRunRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartWorkflowRun operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartWorkflowRun.</param>
+        /// 
+        /// <returns>Returns a  StartWorkflowRunResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/StartWorkflowRun">REST API Reference for StartWorkflowRun Operation</seealso>
+        StartWorkflowRunResponse EndStartWorkflowRun(IAsyncResult asyncResult);
 
         #endregion
         
@@ -3500,12 +6022,120 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  TagResource
+
+
+        /// <summary>
+        /// Adds tags to a resource. A tag is a label you can assign to an AWS resource. In AWS
+        /// Glue, you can tag only certain resources. For information about what resources you
+        /// can tag, see <a href="https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html">AWS
+        /// Tags in AWS Glue</a>.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes tags from a resource.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdateClassifier
 
 
         /// <summary>
-        /// Modifies an existing classifier (a <code>GrokClassifier</code>, <code>XMLClassifier</code>,
-        /// or <code>JsonClassifier</code>, depending on which field is present).
+        /// Modifies an existing classifier (a <code>GrokClassifier</code>, an <code>XMLClassifier</code>,
+        /// a <code>JsonClassifier</code>, or a <code>CsvClassifier</code>, depending on which
+        /// field is present).
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateClassifier service method.</param>
         /// 
@@ -3564,6 +6194,12 @@ namespace Amazon.Glue
         /// <returns>The response from the UpdateConnection service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InvalidInputException">
         /// The input provided was not valid.
@@ -3725,6 +6361,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -3769,7 +6408,7 @@ namespace Amazon.Glue
 
 
         /// <summary>
-        /// Updates a specified DevEndpoint.
+        /// Updates a specified development endpoint.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateDevEndpoint service method.</param>
         /// 
@@ -3875,6 +6514,69 @@ namespace Amazon.Glue
 
         #endregion
         
+        #region  UpdateMLTransform
+
+
+        /// <summary>
+        /// Updates an existing machine learning transform. Call this operation to tune the algorithm
+        /// parameters to achieve better results.
+        /// 
+        ///  
+        /// <para>
+        /// After calling this operation, you can call the <code>StartMLEvaluationTaskRun</code>
+        /// operation to assess how well your new parameters achieved your goals (such as improving
+        /// the quality of your machine learning transform, or making it more cost-effective).
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMLTransform service method.</param>
+        /// 
+        /// <returns>The response from the UpdateMLTransform service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.AccessDeniedException">
+        /// Access to a resource was denied.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateMLTransform">REST API Reference for UpdateMLTransform Operation</seealso>
+        UpdateMLTransformResponse UpdateMLTransform(UpdateMLTransformRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMLTransform operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateMLTransform
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateMLTransform">REST API Reference for UpdateMLTransform Operation</seealso>
+        IAsyncResult BeginUpdateMLTransform(UpdateMLTransformRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateMLTransform operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateMLTransform.</param>
+        /// 
+        /// <returns>Returns a  UpdateMLTransformResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateMLTransform">REST API Reference for UpdateMLTransform Operation</seealso>
+        UpdateMLTransformResponse EndUpdateMLTransform(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  UpdatePartition
 
 
@@ -3886,6 +6588,9 @@ namespace Amazon.Glue
         /// <returns>The response from the UpdatePartition service method, as returned by Glue.</returns>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -3941,6 +6646,9 @@ namespace Amazon.Glue
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
         /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
@@ -4052,6 +6760,9 @@ namespace Amazon.Glue
         /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
         /// A specified entity does not exist
         /// </exception>
+        /// <exception cref="Amazon.Glue.Model.GlueEncryptionException">
+        /// An encryption operation failed.
+        /// </exception>
         /// <exception cref="Amazon.Glue.Model.InternalServiceException">
         /// An internal service error occurred.
         /// </exception>
@@ -4089,6 +6800,61 @@ namespace Amazon.Glue
         /// <returns>Returns a  UpdateUserDefinedFunctionResult from Glue.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateUserDefinedFunction">REST API Reference for UpdateUserDefinedFunction Operation</seealso>
         UpdateUserDefinedFunctionResponse EndUpdateUserDefinedFunction(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateWorkflow
+
+
+        /// <summary>
+        /// Updates an existing workflow.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateWorkflow service method.</param>
+        /// 
+        /// <returns>The response from the UpdateWorkflow service method, as returned by Glue.</returns>
+        /// <exception cref="Amazon.Glue.Model.ConcurrentModificationException">
+        /// Two processes are trying to modify a resource simultaneously.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.EntityNotFoundException">
+        /// A specified entity does not exist
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InternalServiceException">
+        /// An internal service error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.InvalidInputException">
+        /// The input provided was not valid.
+        /// </exception>
+        /// <exception cref="Amazon.Glue.Model.OperationTimeoutException">
+        /// The operation timed out.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateWorkflow">REST API Reference for UpdateWorkflow Operation</seealso>
+        UpdateWorkflowResponse UpdateWorkflow(UpdateWorkflowRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateWorkflow operation on AmazonGlueClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateWorkflow
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateWorkflow">REST API Reference for UpdateWorkflow Operation</seealso>
+        IAsyncResult BeginUpdateWorkflow(UpdateWorkflowRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateWorkflow operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateWorkflow.</param>
+        /// 
+        /// <returns>Returns a  UpdateWorkflowResult from Glue.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/glue-2017-03-31/UpdateWorkflow">REST API Reference for UpdateWorkflow Operation</seealso>
+        UpdateWorkflowResponse EndUpdateWorkflow(IAsyncResult asyncResult);
 
         #endregion
         

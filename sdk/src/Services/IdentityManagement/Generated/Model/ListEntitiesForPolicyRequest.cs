@@ -52,6 +52,7 @@ namespace Amazon.IdentityManagement.Model
         private int? _maxItems;
         private string _pathPrefix;
         private string _policyArn;
+        private PolicyUsageType _policyUsageFilter;
 
         /// <summary>
         /// Gets and sets the property EntityFilter. 
@@ -86,6 +87,7 @@ namespace Amazon.IdentityManagement.Model
         /// element in the response that you received to indicate where the next call should start.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=320)]
         public string Marker
         {
             get { return this._marker; }
@@ -101,18 +103,20 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property MaxItems. 
         /// <para>
-        /// (Optional) Use this only when paginating results to indicate the maximum number of
-        /// items you want in the response. If additional items exist beyond the maximum you specify,
-        /// the <code>IsTruncated</code> response element is <code>true</code>.
+        /// Use this only when paginating results to indicate the maximum number of items you
+        /// want in the response. If additional items exist beyond the maximum you specify, the
+        /// <code>IsTruncated</code> response element is <code>true</code>.
         /// </para>
         ///  
         /// <para>
-        /// If you do not include this parameter, it defaults to 100. Note that IAM might return
-        /// fewer results, even when there are more results available. In that case, the <code>IsTruncated</code>
-        /// response element returns <code>true</code> and <code>Marker</code> contains a value
-        /// to include in the subsequent call that tells the service where to continue from.
+        /// If you do not include this parameter, the number of items defaults to 100. Note that
+        /// IAM might return fewer results, even when there are more results available. In that
+        /// case, the <code>IsTruncated</code> response element returns <code>true</code>, and
+        /// <code>Marker</code> contains a value to include in the subsequent call that tells
+        /// the service where to continue from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000)]
         public int MaxItems
         {
             get { return this._maxItems.GetValueOrDefault(); }
@@ -133,13 +137,14 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// This parameter allows (per its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>)
-        /// a string of characters consisting of either a forward slash (/) by itself or a string
-        /// that must begin and end with forward slashes. In addition, it can contain any ASCII
-        /// character from the ! (\u0021) through the DEL character (\u007F), including most punctuation
-        /// characters, digits, and upper and lowercased letters.
+        /// This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex
+        /// pattern</a>) a string of characters consisting of either a forward slash (/) by itself
+        /// or a string that must begin and end with forward slashes. In addition, it can contain
+        /// any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>),
+        /// including most punctuation characters, digits, and upper and lowercased letters.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string PathPrefix
         {
             get { return this._pathPrefix; }
@@ -159,10 +164,11 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string PolicyArn
         {
             get { return this._policyArn; }
@@ -173,6 +179,33 @@ namespace Amazon.IdentityManagement.Model
         internal bool IsSetPolicyArn()
         {
             return this._policyArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PolicyUsageFilter. 
+        /// <para>
+        /// The policy usage method to use for filtering the results.
+        /// </para>
+        ///  
+        /// <para>
+        /// To list only permissions policies, set <code>PolicyUsageFilter</code> to <code>PermissionsPolicy</code>.
+        /// To list only the policies used to set permissions boundaries, set the value to <code>PermissionsBoundary</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is optional. If it is not included, all policies are returned. 
+        /// </para>
+        /// </summary>
+        public PolicyUsageType PolicyUsageFilter
+        {
+            get { return this._policyUsageFilter; }
+            set { this._policyUsageFilter = value; }
+        }
+
+        // Check to see if PolicyUsageFilter property is set
+        internal bool IsSetPolicyUsageFilter()
+        {
+            return this._policyUsageFilter != null;
         }
 
     }

@@ -45,7 +45,7 @@ namespace Amazon.Organizations.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs in Organizations, see <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
+        /// For more information about ARNs in Organizations, see <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
         /// Formats Supported by Organizations</a> in the <i>AWS Organizations User Guide</i>.
         /// </para>
         /// </summary>
@@ -70,8 +70,8 @@ namespace Amazon.Organizations.Model
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an organizational
         /// unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits
-        /// (the ID of the root that contains the OU) followed by a second "-" dash and from 8
-        /// to 32 additional lower-case letters or digits.
+        /// (the ID of the root that contains the OU). This string is followed by a second "-"
+        /// dash and from 8 to 32 additional lower-case letters or digits.
         /// </para>
         /// </summary>
         public string Id
@@ -97,6 +97,7 @@ namespace Amazon.Organizations.Model
         /// this parameter is a string of any of the characters in the ASCII character range.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }

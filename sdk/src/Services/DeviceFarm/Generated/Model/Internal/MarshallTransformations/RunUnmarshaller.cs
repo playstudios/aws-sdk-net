@@ -118,6 +118,12 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
                     unmarshalledObject.DevicePoolArn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("deviceSelectionResult", targetDepth))
+                {
+                    var unmarshaller = DeviceSelectionResultUnmarshaller.Instance;
+                    unmarshalledObject.DeviceSelectionResult = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("eventCount", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
@@ -218,6 +224,12 @@ namespace Amazon.DeviceFarm.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.Stopped = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("testSpecArn", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.TestSpecArn = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("totalJobs", targetDepth))

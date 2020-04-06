@@ -59,8 +59,10 @@ namespace Amazon.WAFRegional.Model
         /// Gets and sets the property MetricName. 
         /// <para>
         /// A friendly name or description for the metrics for this <code>RuleGroup</code>. The
-        /// name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain
-        /// whitespace. You can't change the name of the metric after you create the <code>RuleGroup</code>.
+        /// name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length
+        /// 128 and minimum length one. It can't contain whitespace or metric names reserved for
+        /// AWS WAF, including "All" and "Default_Action." You can't change the name of the metric
+        /// after you create the <code>RuleGroup</code>.
         /// </para>
         /// </summary>
         public string MetricName
@@ -82,6 +84,7 @@ namespace Amazon.WAFRegional.Model
         /// the name of a <code>RuleGroup</code> after you create it.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -108,6 +111,7 @@ namespace Amazon.WAFRegional.Model
         ///  <code>RuleGroupId</code> is returned by <a>CreateRuleGroup</a> and by <a>ListRuleGroups</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string RuleGroupId
         {
             get { return this._ruleGroupId; }

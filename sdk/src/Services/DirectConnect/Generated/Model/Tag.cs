@@ -38,9 +38,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property Key. 
         /// <para>
-        /// The key of the tag.
+        /// The key.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string Key
         {
             get { return this._key; }
@@ -56,9 +57,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property Value. 
         /// <para>
-        /// The value of the tag.
+        /// The value.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Value
         {
             get { return this._value; }

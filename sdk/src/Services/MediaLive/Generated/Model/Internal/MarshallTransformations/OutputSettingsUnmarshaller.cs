@@ -70,16 +70,40 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     unmarshalledObject.ArchiveOutputSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("frameCaptureOutputSettings", targetDepth))
+                {
+                    var unmarshaller = FrameCaptureOutputSettingsUnmarshaller.Instance;
+                    unmarshalledObject.FrameCaptureOutputSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("hlsOutputSettings", targetDepth))
                 {
                     var unmarshaller = HlsOutputSettingsUnmarshaller.Instance;
                     unmarshalledObject.HlsOutputSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("mediaPackageOutputSettings", targetDepth))
+                {
+                    var unmarshaller = MediaPackageOutputSettingsUnmarshaller.Instance;
+                    unmarshalledObject.MediaPackageOutputSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("msSmoothOutputSettings", targetDepth))
                 {
                     var unmarshaller = MsSmoothOutputSettingsUnmarshaller.Instance;
                     unmarshalledObject.MsSmoothOutputSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("multiplexOutputSettings", targetDepth))
+                {
+                    var unmarshaller = MultiplexOutputSettingsUnmarshaller.Instance;
+                    unmarshalledObject.MultiplexOutputSettings = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("rtmpOutputSettings", targetDepth))
+                {
+                    var unmarshaller = RtmpOutputSettingsUnmarshaller.Instance;
+                    unmarshalledObject.RtmpOutputSettings = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("udpOutputSettings", targetDepth))

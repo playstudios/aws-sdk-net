@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.Pinpoint.Model
 {
     /// <summary>
-    /// User send message response.
+    /// Provides information about which users and endpoints a message was sent to.
     /// </summary>
     public partial class SendUsersMessageResponse
     {
@@ -37,8 +37,12 @@ namespace Amazon.Pinpoint.Model
         private Dictionary<string, Dictionary<string, EndpointMessageResult>> _result = new Dictionary<string, Dictionary<string, EndpointMessageResult>>();
 
         /// <summary>
-        /// Gets and sets the property ApplicationId. Application id of the message.
+        /// Gets and sets the property ApplicationId. 
+        /// <para>
+        /// The unique identifier for the application that was used to send the message.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApplicationId
         {
             get { return this._applicationId; }
@@ -52,8 +56,10 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RequestId. Original request Id for which this message was
-        /// delivered.
+        /// Gets and sets the property RequestId. 
+        /// <para>
+        /// The unique identifier that was assigned to the message request.
+        /// </para>
         /// </summary>
         public string RequestId
         {
@@ -68,8 +74,12 @@ namespace Amazon.Pinpoint.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Result. A map containing of UserId to Map of EndpointId
-        /// to Endpoint Message Result.
+        /// Gets and sets the property Result. 
+        /// <para>
+        /// An object that indicates which endpoints the message was sent to, for each user. The
+        /// object lists user IDs and, for each user ID, provides the endpoint IDs that the message
+        /// was sent to. For each endpoint ID, it provides an EndpointMessageResult object.
+        /// </para>
         /// </summary>
         public Dictionary<string, Dictionary<string, EndpointMessageResult>> Result
         {

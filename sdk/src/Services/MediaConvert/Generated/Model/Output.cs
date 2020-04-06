@@ -77,7 +77,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ContainerSettings.
+        /// Gets and sets the property ContainerSettings. Container specific settings.
         /// </summary>
         public ContainerSettings ContainerSettings
         {
@@ -119,6 +119,7 @@ namespace Amazon.MediaConvert.Model
         /// or $Time$ in one output, you must use them in the same way in all outputs of the output
         /// group.
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NameModifier
         {
             get { return this._nameModifier; }
@@ -132,7 +133,7 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property OutputSettings.
+        /// Gets and sets the property OutputSettings. Specific settings for this type of output.
         /// </summary>
         public OutputSettings OutputSettings
         {
@@ -151,6 +152,7 @@ namespace Amazon.MediaConvert.Model
         /// transcoding settings. Provide the system or custom preset name. You can specify either
         /// Preset (Preset) or Container settings (ContainerSettings), but not both.
         /// </summary>
+        [AWSProperty(Min=0)]
         public string Preset
         {
             get { return this._preset; }
@@ -165,9 +167,9 @@ namespace Amazon.MediaConvert.Model
 
         /// <summary>
         /// Gets and sets the property VideoDescription. (VideoDescription) contains a group of
-        /// video encoding settings. The specific video settings depend on the video codec you
-        /// choose when you specify a value for Video codec (codec). Include one instance of (VideoDescription)
-        /// per output.
+        /// video encoding settings. The specific video settings depend on the video codec that
+        /// you choose when you specify a value for Video codec (codec). Include one instance
+        /// of (VideoDescription) per output.
         /// </summary>
         public VideoDescription VideoDescription
         {

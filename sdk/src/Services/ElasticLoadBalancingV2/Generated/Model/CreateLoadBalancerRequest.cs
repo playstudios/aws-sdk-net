@@ -45,9 +45,9 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// </para>
     ///  
     /// <para>
-    /// For limit information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Limits
+    /// For limit information, see <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Limits
     /// for Your Application Load Balancer</a> in the <i>Application Load Balancers Guide</i>
-    /// and <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Limits
+    /// and <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Limits
     /// for Your Network Load Balancer</a> in the <i>Network Load Balancers Guide</i>.
     /// </para>
     ///  
@@ -57,8 +57,8 @@ namespace Amazon.ElasticLoadBalancingV2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html">Application
-    /// Load Balancers</a> in the <i>Application Load Balancers Guide</i> and <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html">Network
+    /// For more information, see <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html">Application
+    /// Load Balancers</a> in the <i>Application Load Balancers Guide</i> and <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html">Network
     /// Load Balancers</a> in the <i>Network Load Balancers Guide</i>.
     /// </para>
     /// </summary>
@@ -102,10 +102,11 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         ///  
         /// <para>
         /// This name must be unique per region per account, can have a maximum of 32 characters,
-        /// must contain only alphanumeric characters or hyphens, and must not begin or end with
-        /// a hyphen.
+        /// must contain only alphanumeric characters or hyphens, must not begin or end with a
+        /// hyphen, and must not begin with "internal-".
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -124,13 +125,13 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name
         /// of an Internet-facing load balancer is publicly resolvable to the public IP addresses
         /// of the nodes. Therefore, Internet-facing load balancers can route requests from clients
-        /// over the Internet.
+        /// over the internet.
         /// </para>
         ///  
         /// <para>
         /// The nodes of an internal load balancer have only private IP addresses. The DNS name
         /// of an internal load balancer is publicly resolvable to the private IP addresses of
-        /// the nodes. Therefore, internal load balancers can only route requests from clients
+        /// the nodes. Therefore, internal load balancers can route requests only from clients
         /// with access to the VPC for the load balancer.
         /// </para>
         ///  
@@ -182,7 +183,9 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         ///  
         /// <para>
         /// [Network Load Balancers] You can specify subnets from one or more Availability Zones.
-        /// You can specify one Elastic IP address per subnet.
+        /// You can specify one Elastic IP address per subnet if you need static IP addresses
+        /// for your internet-facing load balancer. For internal load balancers, you can specify
+        /// one private IP address per subnet from the IPv4 range of the subnet.
         /// </para>
         /// </summary>
         public List<SubnetMapping> SubnetMappings
@@ -231,6 +234,7 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// One or more tags to assign to the load balancer.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<Tag> Tags
         {
             get { return this._tags; }

@@ -29,13 +29,20 @@ namespace Amazon.KeyManagementService.Model
 {
     /// <summary>
     /// Container for the parameters to the UntagResource operation.
-    /// Removes the specified tag or tags from the specified customer master key (CMK). You
-    /// cannot perform this operation on a CMK in a different AWS account.
+    /// Removes the specified tags from the specified customer master key (CMK). You cannot
+    /// perform this operation on a CMK in a different AWS account.
     /// 
     ///  
     /// <para>
-    /// To remove a tag, you specify the tag key for each tag to remove. You do not specify
-    /// the tag value. To overwrite the tag value for an existing tag, use <a>TagResource</a>.
+    /// To remove a tag, specify the tag key. To change the tag value of an existing tag key,
+    /// use <a>TagResource</a>.
+    /// </para>
+    ///  
+    /// <para>
+    /// The CMK that you use for this operation must be in a compatible key state. For details,
+    /// see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+    /// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key Management Service
+    /// Developer Guide</i>.
     /// </para>
     /// </summary>
     public partial class UntagResourceRequest : AmazonKeyManagementServiceRequest
@@ -70,6 +77,7 @@ namespace Amazon.KeyManagementService.Model
         /// To get the key ID and key ARN for a CMK, use <a>ListKeys</a> or <a>DescribeKey</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -88,6 +96,7 @@ namespace Amazon.KeyManagementService.Model
         /// One or more tag keys. Specify only the tag keys, not the tag values.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

@@ -43,6 +43,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the global secondary index to be created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string IndexName
         {
             get { return this._indexName; }
@@ -61,6 +62,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The key schema for the global secondary index.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2)]
         public List<KeySchemaElement> KeySchema
         {
             get { return this._keySchema; }
@@ -81,6 +83,7 @@ namespace Amazon.DynamoDBv2.Model
         /// automatically projected.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public Projection Projection
         {
             get { return this._projection; }
@@ -101,7 +104,7 @@ namespace Amazon.DynamoDBv2.Model
         /// </para>
         ///  
         /// <para>
-        /// For current minimum and maximum provisioned throughput values, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
+        /// For current minimum and maximum provisioned throughput values, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
         /// in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>

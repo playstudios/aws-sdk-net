@@ -34,6 +34,7 @@ namespace Amazon.CognitoIdentityProvider.Model
     {
         private string _awsAccountId;
         private string _cloudFrontDistribution;
+        private CustomDomainConfigType _customDomainConfig;
         private string _domain;
         private string _s3Bucket;
         private DomainStatusType _status;
@@ -77,11 +78,31 @@ namespace Amazon.CognitoIdentityProvider.Model
         }
 
         /// <summary>
+        /// Gets and sets the property CustomDomainConfig. 
+        /// <para>
+        /// The configuration for a custom domain that hosts the sign-up and sign-in webpages
+        /// for your application.
+        /// </para>
+        /// </summary>
+        public CustomDomainConfigType CustomDomainConfig
+        {
+            get { return this._customDomainConfig; }
+            set { this._customDomainConfig = value; }
+        }
+
+        // Check to see if CustomDomainConfig property is set
+        internal bool IsSetCustomDomainConfig()
+        {
+            return this._customDomainConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Domain. 
         /// <para>
         /// The domain string.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string Domain
         {
             get { return this._domain; }
@@ -100,6 +121,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The S3 bucket where the static files for this domain are stored.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=1024)]
         public string S3Bucket
         {
             get { return this._s3Bucket; }
@@ -136,6 +158,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The user pool ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=55)]
         public string UserPoolId
         {
             get { return this._userPoolId; }
@@ -154,6 +177,7 @@ namespace Amazon.CognitoIdentityProvider.Model
         /// The app version.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public string Version
         {
             get { return this._version; }

@@ -35,8 +35,12 @@ namespace Amazon.MediaStore.Model
         private List<CorsRule> _corsPolicy = new List<CorsRule>();
 
         /// <summary>
-        /// Gets and sets the property CorsPolicy.
+        /// Gets and sets the property CorsPolicy. 
+        /// <para>
+        /// The CORS policy assigned to the container.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public List<CorsRule> CorsPolicy
         {
             get { return this._corsPolicy; }

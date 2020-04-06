@@ -33,6 +33,7 @@ namespace Amazon.DeviceFarm.Model
     public partial class Upload
     {
         private string _arn;
+        private UploadCategory _category;
         private string _contentType;
         private DateTime? _created;
         private string _message;
@@ -48,6 +49,7 @@ namespace Amazon.DeviceFarm.Model
         /// The upload's ARN.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=32, Max=1011)]
         public string Arn
         {
             get { return this._arn; }
@@ -61,11 +63,39 @@ namespace Amazon.DeviceFarm.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Category. 
+        /// <para>
+        /// The upload's category. Allowed values include:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// CURATED: An upload managed by AWS Device Farm.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// PRIVATE: An upload managed by the AWS Device Farm customer.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public UploadCategory Category
+        {
+            get { return this._category; }
+            set { this._category = value; }
+        }
+
+        // Check to see if Category property is set
+        internal bool IsSetCategory()
+        {
+            return this._category != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ContentType. 
         /// <para>
-        /// The upload's content type (for example, "application/octet-stream").
+        /// The upload's content type (for example, <code>application/octet-stream</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=64)]
         public string ContentType
         {
             get { return this._contentType; }
@@ -102,6 +132,7 @@ namespace Amazon.DeviceFarm.Model
         /// A message about the upload's result.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=16384)]
         public string Message
         {
             get { return this._message; }
@@ -122,6 +153,7 @@ namespace Amazon.DeviceFarm.Model
         /// associated app is uploaded.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=8192)]
         public string Metadata
         {
             get { return this._metadata; }
@@ -140,6 +172,7 @@ namespace Amazon.DeviceFarm.Model
         /// The upload's file name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -163,19 +196,19 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// FAILED: A failed status.
+        /// FAILED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INITIALIZED: An initialized status.
+        /// INITIALIZED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PROCESSING: A processing status.
+        /// PROCESSING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SUCCEEDED: A succeeded status.
+        /// SUCCEEDED
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -202,67 +235,131 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// ANDROID_APP: An Android upload.
+        /// ANDROID_APP
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// IOS_APP: An iOS upload.
+        /// IOS_APP
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// WEB_APP: A web appliction upload.
+        /// WEB_APP
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// EXTERNAL_DATA: An external data upload.
+        /// EXTERNAL_DATA
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.
+        /// APPIUM_JAVA_JUNIT_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.
+        /// APPIUM_JAVA_TESTNG_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.
+        /// APPIUM_PYTHON_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.
+        /// APPIUM_NODE_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.
+        /// APPIUM_RUBY_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.
+        /// APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// CALABASH_TEST_PACKAGE: A Calabash test package upload.
+        /// APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.
+        /// APPIUM_WEB_PYTHON_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.
+        /// APPIUM_WEB_NODE_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.
+        /// APPIUM_WEB_RUBY_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST_TEST_PACKAGE: An XCode test package upload.
+        /// CALABASH_TEST_PACKAGE
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.
+        /// INSTRUMENTATION_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATION_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// UIAUTOMATOR_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI_TEST_PACKAGE
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_JUNIT_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_JAVA_TESTNG_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_PYTHON_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_NODE_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_RUBY_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_JUNIT_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_JAVA_TESTNG_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_PYTHON_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_NODE_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// APPIUM_WEB_RUBY_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// INSTRUMENTATION_TEST_SPEC
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// XCTEST_UI_TEST_SPEC
         /// </para>
         ///  </li> </ul>
         /// </summary>
@@ -281,10 +378,10 @@ namespace Amazon.DeviceFarm.Model
         /// <summary>
         /// Gets and sets the property Url. 
         /// <para>
-        /// The pre-signed Amazon S3 URL that was used to store a file through a corresponding
-        /// PUT request.
+        /// The presigned Amazon S3 URL that was used to store a file using a PUT request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string Url
         {
             get { return this._url; }

@@ -71,7 +71,7 @@ namespace Amazon.SimpleWorkflow.Model
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter
     /// values fall outside the specified constraints, the action fails. The associated event
     /// attribute's <code>cause</code> parameter is set to <code>OPERATION_NOT_PERMITTED</code>.
-    /// For details and example IAM policies, see <a href="http://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+    /// For details and example IAM policies, see <a href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
     /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -89,6 +89,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The name of the domain containing the workflow execution to signal.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Domain
         {
             get { return this._domain; }
@@ -108,6 +109,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// execution's history.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=32768)]
         public string Input
         {
             get { return this._input; }
@@ -126,6 +128,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The runId of the workflow execution to signal.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=64)]
         public string RunId
         {
             get { return this._runId; }
@@ -144,6 +147,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The name of the signal. This name must be meaningful to the target workflow.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string SignalName
         {
             get { return this._signalName; }
@@ -162,6 +166,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The workflowId of the workflow execution to signal.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string WorkflowId
         {
             get { return this._workflowId; }

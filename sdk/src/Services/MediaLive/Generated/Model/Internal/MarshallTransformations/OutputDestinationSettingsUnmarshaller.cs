@@ -70,6 +70,12 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
                     unmarshalledObject.PasswordParam = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("streamName", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.StreamName = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("url", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;

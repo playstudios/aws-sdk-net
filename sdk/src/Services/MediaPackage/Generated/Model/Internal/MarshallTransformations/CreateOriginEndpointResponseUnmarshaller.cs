@@ -57,10 +57,22 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                     response.Arn = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("authorization", targetDepth))
+                {
+                    var unmarshaller = AuthorizationUnmarshaller.Instance;
+                    response.Authorization = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("channelId", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.ChannelId = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("cmafPackage", targetDepth))
+                {
+                    var unmarshaller = CmafPackageUnmarshaller.Instance;
+                    response.CmafPackage = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("dashPackage", targetDepth))
@@ -99,10 +111,22 @@ namespace Amazon.MediaPackage.Model.Internal.MarshallTransformations
                     response.MssPackage = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("origination", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.Origination = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("startoverWindowSeconds", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     response.StartoverWindowSeconds = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("tags", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    response.Tags = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("timeDelaySeconds", targetDepth))

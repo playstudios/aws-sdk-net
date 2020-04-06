@@ -29,16 +29,21 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeImages operation.
-    /// Describes one or more of the images (AMIs, AKIs, and ARIs) available to you. Images
-    /// available to you include public images, private images that you own, and private images
-    /// owned by other AWS accounts but for which you have explicit launch permissions.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the
+    /// images available to you.
     /// 
-    ///  <note> 
+    ///  
     /// <para>
-    /// Deregistered images are included in the returned results for an unspecified interval
-    /// after deregistration.
+    /// The images available to you include public images, private images that you own, and
+    /// private images owned by other AWS accounts for which you have explicit launch permissions.
     /// </para>
-    ///  </note>
+    ///  
+    /// <para>
+    /// Recently deregistered images appear in the returned results for a short interval and
+    /// then return empty results. After all instances that reference a deregistered AMI are
+    /// terminated, specifying the ID of the image results in an error indicating that the
+    /// AMI ID cannot be found.
+    /// </para>
     /// </summary>
     public partial class DescribeImagesRequest : AmazonEC2Request
     {
@@ -69,11 +74,12 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters.
+        /// The filters.
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        ///  <code>architecture</code> - The image architecture (<code>i386</code> | <code>x86_64</code>).
+        ///  <code>architecture</code> - The image architecture (<code>i386</code> | <code>x86_64</code>
+        /// | <code>arm64</code>).
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -99,6 +105,11 @@ namespace Amazon.EC2.Model
         /// <para>
         ///  <code>block-device-mapping.volume-type</code> - The volume type of the EBS volume
         /// (<code>gp2</code> | <code>io1</code> | <code>st1 </code>| <code>sc1</code> | <code>standard</code>).
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>block-device-mapping.encrypted</code> - A Boolean that indicates whether the
+        /// EBS volume is encrypted.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -196,24 +207,16 @@ namespace Amazon.EC2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag</code>:<i>key</i>=<i>value</i> - The key/value combination of a tag assigned
-        /// to the resource. Specify the key of the tag in the filter name and the value of the
-        /// tag in the filter value. For example, for the tag Purpose=X, specify <code>tag:Purpose</code>
-        /// for the filter name and <code>X</code> for the filter value.
+        ///  <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned to the
+        /// resource. Use the tag key in the filter name and the tag value as the filter value.
+        /// For example, to find all resources that have a tag with the key <code>Owner</code>
+        /// and the value <code>TeamA</code>, specify <code>tag:Owner</code> for the filter name
+        /// and <code>TeamA</code> for the filter value.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>tag-key</code> - The key of a tag assigned to the resource. This filter is
-        /// independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose"
-        /// and the filter "tag-value=X", you get any resources assigned both the tag key Purpose
-        /// (regardless of what the tag's value is), and the tag value X (regardless of what the
-        /// tag's key is). If you want to list only resources where Purpose is X, see the <code>tag</code>:<i>key</i>=<i>value</i>
-        /// filter.
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <code>tag-value</code> - The value of a tag assigned to the resource. This filter
-        /// is independent of the <code>tag-key</code> filter.
+        ///  <code>tag-key</code> - The key of a tag assigned to the resource. Use this filter
+        /// to find all resources assigned a tag with a specific key, regardless of the tag value.
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -237,7 +240,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ImageIds. 
         /// <para>
-        /// One or more image IDs.
+        /// The image IDs.
         /// </para>
         ///  
         /// <para>

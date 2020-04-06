@@ -63,6 +63,11 @@ namespace Amazon.CloudWatch.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
+    /// Percentile statistics are not available for metrics when any of the metric values
+    /// are negative numbers.
+    /// </para>
+    ///  
+    /// <para>
     /// Amazon CloudWatch retains metric data as follows:
     /// </para>
     ///  <ul> <li> 
@@ -100,19 +105,19 @@ namespace Amazon.CloudWatch.Model
     ///  
     /// <para>
     /// For information about metrics and dimensions supported by AWS services, see the <a
-    /// href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html">Amazon
+    /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html">Amazon
     /// CloudWatch Metrics and Dimensions Reference</a> in the <i>Amazon CloudWatch User Guide</i>.
     /// </para>
     /// </summary>
     public partial class GetMetricStatisticsRequest : AmazonCloudWatchRequest
     {
         private List<Dimension> _dimensions = new List<Dimension>();
-        private DateTime? _endTime;
+        private DateTime? _endTimeUtc;
         private List<string> _extendedStatistics = new List<string>();
         private string _metricName;
         private string _awsNamespace;
         private int? _period;
-        private DateTime? _startTime;
+        private DateTime? _startTimeUtc;
         private List<string> _statistics = new List<string>();
         private StandardUnit _unit;
 
@@ -123,12 +128,13 @@ namespace Amazon.CloudWatch.Model
         /// for each dimension. CloudWatch treats each unique combination of dimensions as a separate
         /// metric. If a specific combination of dimensions was not published, you can't retrieve
         /// statistics for it. You must specify the same dimensions that were used when the metrics
-        /// were created. For an example, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#dimension-combinations">Dimension
+        /// were created. For an example, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#dimension-combinations">Dimension
         /// Combinations</a> in the <i>Amazon CloudWatch User Guide</i>. For more information
-        /// about specifying dimensions, see <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publishing
+        /// about specifying dimensions, see <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publishing
         /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<Dimension> Dimensions
         {
             get { return this._dimensions; }
@@ -142,26 +148,28 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EndTime. 
+        /// Gets and sets the property EndTimeUtc. 
         /// <para>
         /// The time stamp that determines the last data point to return.
         /// </para>
         ///  
         /// <para>
         /// The value specified is exclusive; results include data points up to the specified
-        /// time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
+        /// time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for
+        /// example, 2016-10-10T23:00:00Z).
         /// </para>
         /// </summary>
-        public DateTime EndTime
+        [AWSProperty(Required=true)]
+        public DateTime EndTimeUtc
         {
-            get { return this._endTime.GetValueOrDefault(); }
-            set { this._endTime = value; }
+            get { return this._endTimeUtc.GetValueOrDefault(); }
+            set { this._endTime = this._endTimeUtc = value; }
         }
 
-        // Check to see if EndTime property is set
-        internal bool IsSetEndTime()
+        // Check to see if EndTimeUtc property is set
+        internal bool IsSetEndTimeUtc()
         {
-            return this._endTime.HasValue; 
+            return this._endTimeUtc.HasValue; 
         }
 
         /// <summary>
@@ -169,9 +177,11 @@ namespace Amazon.CloudWatch.Model
         /// <para>
         /// The percentile statistics. Specify values between p0.0 and p100. When calling <code>GetMetricStatistics</code>,
         /// you must specify either <code>Statistics</code> or <code>ExtendedStatistics</code>,
-        /// but not both.
+        /// but not both. Percentile statistics are not available for metrics when any of the
+        /// metric values are negative numbers.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> ExtendedStatistics
         {
             get { return this._extendedStatistics; }
@@ -190,6 +200,7 @@ namespace Amazon.CloudWatch.Model
         /// The name of the metric, with or without spaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -208,6 +219,7 @@ namespace Amazon.CloudWatch.Model
         /// The namespace of the metric, with or without spaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string Namespace
         {
             get { return this._awsNamespace; }
@@ -250,6 +262,7 @@ namespace Amazon.CloudWatch.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public int Period
         {
             get { return this._period.GetValueOrDefault(); }
@@ -263,7 +276,7 @@ namespace Amazon.CloudWatch.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StartTime. 
+        /// Gets and sets the property StartTimeUtc. 
         /// <para>
         /// The time stamp that determines the first data point to return. Start times are evaluated
         /// relative to the time that CloudWatch receives the request.
@@ -271,7 +284,8 @@ namespace Amazon.CloudWatch.Model
         ///  
         /// <para>
         /// The value specified is inclusive; results include data points with the specified time
-        /// stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z).
+        /// stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example,
+        /// 2016-10-03T23:00:00Z).
         /// </para>
         ///  
         /// <para>
@@ -303,16 +317,17 @@ namespace Amazon.CloudWatch.Model
         /// and 15:07:15. 
         /// </para>
         /// </summary>
-        public DateTime StartTime
+        [AWSProperty(Required=true)]
+        public DateTime StartTimeUtc
         {
-            get { return this._startTime.GetValueOrDefault(); }
-            set { this._startTime = value; }
+            get { return this._startTimeUtc.GetValueOrDefault(); }
+            set { this._startTime = this._startTimeUtc = value; }
         }
 
-        // Check to see if StartTime property is set
-        internal bool IsSetStartTime()
+        // Check to see if StartTimeUtc property is set
+        internal bool IsSetStartTimeUtc()
         {
-            return this._startTime.HasValue; 
+            return this._startTimeUtc.HasValue; 
         }
 
         /// <summary>
@@ -323,6 +338,7 @@ namespace Amazon.CloudWatch.Model
         /// or <code>ExtendedStatistics</code>, but not both.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=5)]
         public List<string> Statistics
         {
             get { return this._statistics; }
@@ -338,9 +354,12 @@ namespace Amazon.CloudWatch.Model
         /// <summary>
         /// Gets and sets the property Unit. 
         /// <para>
-        /// The unit for a given metric. Metrics may be reported in multiple units. Not supplying
-        /// a unit results in all units being returned. If you specify only a unit that the metric
-        /// does not report, the results of the call are null.
+        /// The unit for a given metric. If you omit <code>Unit</code>, all data that was collected
+        /// with any unit is returned, along with the corresponding units that were specified
+        /// when the data was reported to CloudWatch. If you specify a unit, the operation returns
+        /// only data data that was collected with that unit specified. If you specify a unit
+        /// that does not match the data collected, the results of the operation are null. CloudWatch
+        /// does not perform unit conversions.
         /// </para>
         /// </summary>
         public StandardUnit Unit
@@ -355,5 +374,110 @@ namespace Amazon.CloudWatch.Model
             return this._unit != null;
         }
 
+#region Backwards compatible properties
+        private DateTime? _endTime;
+        private DateTime? _startTime;
+
+        /// <summary>
+        /// Gets and sets the property EndTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc
+        /// results in both EndTime and EndTimeUtc being assigned, the latest assignment to either
+        /// one of the two property is reflected in the value of both. EndTime is provided for
+        /// backwards compatibility only and assigning a non-Utc DateTime to it results in the
+        /// wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time stamp that determines the last data point to return.
+        /// </para>
+        ///  
+        /// <para>
+        /// The value specified is exclusive; results include data points up to the specified
+        /// time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for
+        /// example, 2016-10-10T23:00:00Z).
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use EndTimeUtc instead. Setting either EndTime or EndTimeUtc results in both EndTime and " +
+            "EndTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. EndTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime EndTime
+        {
+            get { return this._endTime.GetValueOrDefault(); }
+            set
+            {
+                this._endTime = value;
+                this._endTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+        /// <summary>
+        /// Gets and sets the property StartTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use StartTimeUtc instead. Setting either StartTime or
+        /// StartTimeUtc results in both StartTime and StartTimeUtc being assigned, the latest
+        /// assignment to either one of the two property is reflected in the value of both. StartTime
+        /// is provided for backwards compatibility only and assigning a non-Utc DateTime to it
+        /// results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The time stamp that determines the first data point to return. Start times are evaluated
+        /// relative to the time that CloudWatch receives the request.
+        /// </para>
+        ///  
+        /// <para>
+        /// The value specified is inclusive; results include data points with the specified time
+        /// stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example,
+        /// 2016-10-03T23:00:00Z).
+        /// </para>
+        ///  
+        /// <para>
+        /// CloudWatch rounds the specified time stamp as follows:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Start time less than 15 days ago - Round down to the nearest whole minute. For example,
+        /// 12:32:34 is rounded down to 12:32:00.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval.
+        /// For example, 12:32:34 is rounded down to 12:30:00.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval.
+        /// For example, 12:32:34 is rounded down to 12:00:00.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If you set <code>Period</code> to 5, 10, or 30, the start time of your request is
+        /// rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions
+        /// of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous
+        /// 10-second period, the start time of your request is rounded down and you receive data
+        /// from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes
+        /// of data, using a period of 5 seconds, you receive data timestamped between 15:02:15
+        /// and 15:07:15. 
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use StartTimeUtc instead. Setting either StartTime or StartTimeUtc results in both StartTime and " +
+            "StartTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. StartTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime StartTime
+        {
+            get { return this._startTime.GetValueOrDefault(); }
+            set
+            {
+                this._startTime = value;
+                this._startTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+#endregion
     }
 }

@@ -55,29 +55,58 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateResolverRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.AppSync");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-25";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}";
             if (!publicRequest.IsSetApiId())
                 throw new AmazonAppSyncException("Request object does not have required field ApiId set");
-            uriResourcePath = uriResourcePath.Replace("{apiId}", StringUtils.FromString(publicRequest.ApiId));
+            request.AddPathResource("{apiId}", StringUtils.FromString(publicRequest.ApiId));
             if (!publicRequest.IsSetFieldName())
                 throw new AmazonAppSyncException("Request object does not have required field FieldName set");
-            uriResourcePath = uriResourcePath.Replace("{fieldName}", StringUtils.FromString(publicRequest.FieldName));
+            request.AddPathResource("{fieldName}", StringUtils.FromString(publicRequest.FieldName));
             if (!publicRequest.IsSetTypeName())
                 throw new AmazonAppSyncException("Request object does not have required field TypeName set");
-            uriResourcePath = uriResourcePath.Replace("{typeName}", StringUtils.FromString(publicRequest.TypeName));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{typeName}", StringUtils.FromString(publicRequest.TypeName));
+            request.ResourcePath = "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetCachingConfig())
+                {
+                    context.Writer.WritePropertyName("cachingConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = CachingConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.CachingConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetDataSourceName())
                 {
                     context.Writer.WritePropertyName("dataSourceName");
                     context.Writer.Write(publicRequest.DataSourceName);
+                }
+
+                if(publicRequest.IsSetKind())
+                {
+                    context.Writer.WritePropertyName("kind");
+                    context.Writer.Write(publicRequest.Kind);
+                }
+
+                if(publicRequest.IsSetPipelineConfig())
+                {
+                    context.Writer.WritePropertyName("pipelineConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = PipelineConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.PipelineConfig, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetRequestMappingTemplate())
@@ -90,6 +119,17 @@ namespace Amazon.AppSync.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("responseMappingTemplate");
                     context.Writer.Write(publicRequest.ResponseMappingTemplate);
+                }
+
+                if(publicRequest.IsSetSyncConfig())
+                {
+                    context.Writer.WritePropertyName("syncConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = SyncConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.SyncConfig, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
         

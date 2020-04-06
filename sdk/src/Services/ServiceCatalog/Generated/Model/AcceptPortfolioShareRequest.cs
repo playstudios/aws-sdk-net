@@ -35,6 +35,7 @@ namespace Amazon.ServiceCatalog.Model
     {
         private string _acceptLanguage;
         private string _portfolioId;
+        private PortfolioShareType _portfolioShareType;
 
         /// <summary>
         /// Gets and sets the property AcceptLanguage. 
@@ -55,6 +56,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string AcceptLanguage
         {
             get { return this._acceptLanguage; }
@@ -73,6 +75,7 @@ namespace Amazon.ServiceCatalog.Model
         /// The portfolio identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string PortfolioId
         {
             get { return this._portfolioId; }
@@ -83,6 +86,42 @@ namespace Amazon.ServiceCatalog.Model
         internal bool IsSetPortfolioId()
         {
             return this._portfolioId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PortfolioShareType. 
+        /// <para>
+        /// The type of shared portfolios to accept. The default is to accept imported portfolios.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>AWS_ORGANIZATIONS</code> - Accept portfolios shared by the master account of
+        /// your organization.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>IMPORTED</code> - Accept imported portfolios.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>AWS_SERVICECATALOG</code> - Not supported. (Throws ResourceNotFoundException.)
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For example, <code>aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk"
+        /// --portfolio-share-type AWS_ORGANIZATIONS</code> 
+        /// </para>
+        /// </summary>
+        public PortfolioShareType PortfolioShareType
+        {
+            get { return this._portfolioShareType; }
+            set { this._portfolioShareType = value; }
+        }
+
+        // Check to see if PortfolioShareType property is set
+        internal bool IsSetPortfolioShareType()
+        {
+            return this._portfolioShareType != null;
         }
 
     }

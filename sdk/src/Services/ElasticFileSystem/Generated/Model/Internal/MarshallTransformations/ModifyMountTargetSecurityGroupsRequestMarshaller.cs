@@ -55,14 +55,15 @@ namespace Amazon.ElasticFileSystem.Model.Internal.MarshallTransformations
         public IRequest Marshall(ModifyMountTargetSecurityGroupsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.ElasticFileSystem");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2015-02-01";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/2015-02-01/mount-targets/{MountTargetId}/security-groups";
             if (!publicRequest.IsSetMountTargetId())
                 throw new AmazonElasticFileSystemException("Request object does not have required field MountTargetId set");
-            uriResourcePath = uriResourcePath.Replace("{MountTargetId}", StringUtils.FromString(publicRequest.MountTargetId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{MountTargetId}", StringUtils.FromString(publicRequest.MountTargetId));
+            request.ResourcePath = "/2015-02-01/mount-targets/{MountTargetId}/security-groups";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

@@ -38,6 +38,10 @@ namespace Amazon.Elasticsearch.Model
         private ESPartitionInstanceType _dedicatedMasterType;
         private int? _instanceCount;
         private ESPartitionInstanceType _instanceType;
+        private int? _warmCount;
+        private bool? _warmEnabled;
+        private ESWarmPartitionInstanceType _warmType;
+        private ZoneAwarenessConfig _zoneAwarenessConfig;
         private bool? _zoneAwarenessEnabled;
 
         /// <summary>
@@ -116,7 +120,8 @@ namespace Amazon.Elasticsearch.Model
         /// <summary>
         /// Gets and sets the property InstanceType. 
         /// <para>
-        /// The instance type for an Elasticsearch cluster.
+        /// The instance type for an Elasticsearch cluster. UltraWarm instance types are not supported
+        /// for data instances.
         /// </para>
         /// </summary>
         public ESPartitionInstanceType InstanceType
@@ -129,6 +134,78 @@ namespace Amazon.Elasticsearch.Model
         internal bool IsSetInstanceType()
         {
             return this._instanceType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WarmCount. 
+        /// <para>
+        /// The number of warm nodes in the cluster.
+        /// </para>
+        /// </summary>
+        public int WarmCount
+        {
+            get { return this._warmCount.GetValueOrDefault(); }
+            set { this._warmCount = value; }
+        }
+
+        // Check to see if WarmCount property is set
+        internal bool IsSetWarmCount()
+        {
+            return this._warmCount.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property WarmEnabled. 
+        /// <para>
+        /// True to enable warm storage.
+        /// </para>
+        /// </summary>
+        public bool WarmEnabled
+        {
+            get { return this._warmEnabled.GetValueOrDefault(); }
+            set { this._warmEnabled = value; }
+        }
+
+        // Check to see if WarmEnabled property is set
+        internal bool IsSetWarmEnabled()
+        {
+            return this._warmEnabled.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property WarmType. 
+        /// <para>
+        /// The instance type for the Elasticsearch cluster's warm nodes.
+        /// </para>
+        /// </summary>
+        public ESWarmPartitionInstanceType WarmType
+        {
+            get { return this._warmType; }
+            set { this._warmType = value; }
+        }
+
+        // Check to see if WarmType property is set
+        internal bool IsSetWarmType()
+        {
+            return this._warmType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ZoneAwarenessConfig. 
+        /// <para>
+        /// Specifies the zone awareness configuration for a domain when zone awareness is enabled.
+        /// </para>
+        /// </summary>
+        public ZoneAwarenessConfig ZoneAwarenessConfig
+        {
+            get { return this._zoneAwarenessConfig; }
+            set { this._zoneAwarenessConfig = value; }
+        }
+
+        // Check to see if ZoneAwarenessConfig property is set
+        internal bool IsSetZoneAwarenessConfig()
+        {
+            return this._zoneAwarenessConfig != null;
         }
 
         /// <summary>

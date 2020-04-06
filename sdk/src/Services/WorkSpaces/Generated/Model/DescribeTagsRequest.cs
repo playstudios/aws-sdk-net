@@ -29,7 +29,7 @@ namespace Amazon.WorkSpaces.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeTags operation.
-    /// Describes the tags for the specified WorkSpace.
+    /// Describes the specified tags for the specified WorkSpaces resource.
     /// </summary>
     public partial class DescribeTagsRequest : AmazonWorkSpacesRequest
     {
@@ -38,9 +38,11 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property ResourceId. 
         /// <para>
-        /// The ID of the resource.
+        /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces,
+        /// registered directories, images, custom bundles, and IP access control groups.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1)]
         public string ResourceId
         {
             get { return this._resourceId; }

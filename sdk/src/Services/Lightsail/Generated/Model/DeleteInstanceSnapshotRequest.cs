@@ -30,6 +30,14 @@ namespace Amazon.Lightsail.Model
     /// <summary>
     /// Container for the parameters to the DeleteInstanceSnapshot operation.
     /// Deletes a specific snapshot of a virtual private server (or <i>instance</i>).
+    /// 
+    ///  
+    /// <para>
+    /// The <code>delete instance snapshot</code> operation supports tag-based access control
+    /// via resource tags applied to the resource identified by <code>instance snapshot name</code>.
+    /// For more information, see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class DeleteInstanceSnapshotRequest : AmazonLightsailRequest
     {
@@ -41,6 +49,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the snapshot to delete.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceSnapshotName
         {
             get { return this._instanceSnapshotName; }

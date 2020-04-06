@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.CodePipeline.Model
 {
     /// <summary>
-    /// The location of the Amazon S3 bucket that contains a revision.
+    /// The location of the S3 bucket that contains a revision.
     /// </summary>
     public partial class S3ArtifactLocation
     {
@@ -38,9 +38,10 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property BucketName. 
         /// <para>
-        /// The name of the Amazon S3 bucket.
+        /// The name of the S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string BucketName
         {
             get { return this._bucketName; }
@@ -56,10 +57,11 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property ObjectKey. 
         /// <para>
-        /// The key of the object in the Amazon S3 bucket, which uniquely identifies the object
-        /// in the bucket.
+        /// The key of the object in the S3 bucket, which uniquely identifies the object in the
+        /// bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ObjectKey
         {
             get { return this._objectKey; }

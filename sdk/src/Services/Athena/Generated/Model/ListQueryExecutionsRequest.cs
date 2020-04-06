@@ -29,7 +29,10 @@ namespace Amazon.Athena.Model
 {
     /// <summary>
     /// Container for the parameters to the ListQueryExecutions operation.
-    /// Provides a list of all available query execution IDs.
+    /// Provides a list of available query execution IDs for the queries in the specified
+    /// workgroup. If a workgroup is not specified, returns a list of query execution IDs
+    /// for the primary workgroup. Requires you to have access to the workgroup in which the
+    /// queries ran.
     /// 
     ///  
     /// <para>
@@ -41,6 +44,7 @@ namespace Amazon.Athena.Model
     {
         private int? _maxResults;
         private string _nextToken;
+        private string _workGroup;
 
         /// <summary>
         /// Gets and sets the property MaxResults. 
@@ -48,6 +52,7 @@ namespace Amazon.Athena.Model
         /// The maximum number of query executions to return in this request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -66,6 +71,7 @@ namespace Amazon.Athena.Model
         /// The token that specifies where to start pagination if a previous request was truncated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -76,6 +82,26 @@ namespace Amazon.Athena.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property WorkGroup. 
+        /// <para>
+        /// The name of the workgroup from which queries are returned. If a workgroup is not specified,
+        /// a list of available query execution IDs for the queries in the primary workgroup is
+        /// returned.
+        /// </para>
+        /// </summary>
+        public string WorkGroup
+        {
+            get { return this._workGroup; }
+            set { this._workGroup = value; }
+        }
+
+        // Check to see if WorkGroup property is set
+        internal bool IsSetWorkGroup()
+        {
+            return this._workGroup != null;
         }
 
     }

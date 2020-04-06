@@ -59,10 +59,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// If the response is truncated, Rekognition Video returns this token that you can use
-        /// in the subsequent request to retrieve the next set of persons. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you
+        /// can use in the subsequent request to retrieve the next set of persons. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -78,8 +79,9 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property Persons. 
         /// <para>
-        /// An array of the persons detected in the video and the times they are tracked throughout
-        /// the video. An array element will exist for each time the person is tracked. 
+        /// An array of the persons detected in the video and the time(s) their path was tracked
+        /// throughout the video. An array element will exist for each time a person's path is
+        /// tracked. 
         /// </para>
         /// </summary>
         public List<PersonDetection> Persons
@@ -115,8 +117,8 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property VideoMetadata. 
         /// <para>
-        /// Information about a video that Rekognition Video analyzed. <code>Videometadata</code>
-        /// is returned in every page of paginated responses from a Rekognition Video operation.
+        /// Information about a video that Amazon Rekognition Video analyzed. <code>Videometadata</code>
+        /// is returned in every page of paginated responses from a Amazon Rekognition Video operation.
         /// </para>
         /// </summary>
         public VideoMetadata VideoMetadata

@@ -25,6 +25,56 @@ namespace Amazon.Polly
 {
 
     /// <summary>
+    /// Constants used for properties of type Engine.
+    /// </summary>
+    public class Engine : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Neural for Engine
+        /// </summary>
+        public static readonly Engine Neural = new Engine("neural");
+        /// <summary>
+        /// Constant Standard for Engine
+        /// </summary>
+        public static readonly Engine Standard = new Engine("standard");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public Engine(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static Engine FindValue(string value)
+        {
+            return FindValue<Engine>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator Engine(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type Gender.
     /// </summary>
     public class Gender : ConstantClass
@@ -81,6 +131,14 @@ namespace Amazon.Polly
     {
 
         /// <summary>
+        /// Constant Arb for LanguageCode
+        /// </summary>
+        public static readonly LanguageCode Arb = new LanguageCode("arb");
+        /// <summary>
+        /// Constant CmnCN for LanguageCode
+        /// </summary>
+        public static readonly LanguageCode CmnCN = new LanguageCode("cmn-CN");
+        /// <summary>
         /// Constant CyGB for LanguageCode
         /// </summary>
         public static readonly LanguageCode CyGB = new LanguageCode("cy-GB");
@@ -117,6 +175,10 @@ namespace Amazon.Polly
         /// </summary>
         public static readonly LanguageCode EsES = new LanguageCode("es-ES");
         /// <summary>
+        /// Constant EsMX for LanguageCode
+        /// </summary>
+        public static readonly LanguageCode EsMX = new LanguageCode("es-MX");
+        /// <summary>
         /// Constant EsUS for LanguageCode
         /// </summary>
         public static readonly LanguageCode EsUS = new LanguageCode("es-US");
@@ -128,6 +190,10 @@ namespace Amazon.Polly
         /// Constant FrFR for LanguageCode
         /// </summary>
         public static readonly LanguageCode FrFR = new LanguageCode("fr-FR");
+        /// <summary>
+        /// Constant HiIN for LanguageCode
+        /// </summary>
+        public static readonly LanguageCode HiIN = new LanguageCode("hi-IN");
         /// <summary>
         /// Constant IsIS for LanguageCode
         /// </summary>
@@ -333,6 +399,64 @@ namespace Amazon.Polly
 
 
     /// <summary>
+    /// Constants used for properties of type TaskStatus.
+    /// </summary>
+    public class TaskStatus : ConstantClass
+    {
+
+        /// <summary>
+        /// Constant Completed for TaskStatus
+        /// </summary>
+        public static readonly TaskStatus Completed = new TaskStatus("completed");
+        /// <summary>
+        /// Constant Failed for TaskStatus
+        /// </summary>
+        public static readonly TaskStatus Failed = new TaskStatus("failed");
+        /// <summary>
+        /// Constant InProgress for TaskStatus
+        /// </summary>
+        public static readonly TaskStatus InProgress = new TaskStatus("inProgress");
+        /// <summary>
+        /// Constant Scheduled for TaskStatus
+        /// </summary>
+        public static readonly TaskStatus Scheduled = new TaskStatus("scheduled");
+
+        /// <summary>
+        /// This constant constructor does not need to be called if the constant
+        /// you are attempting to use is already defined as a static instance of 
+        /// this class.
+        /// This constructor should be used to construct constants that are not
+        /// defined as statics, for instance if attempting to use a feature that is
+        /// newer than the current version of the SDK.
+        /// </summary>
+        public TaskStatus(string value)
+            : base(value)
+        {
+        }
+
+        /// <summary>
+        /// Finds the constant for the unique value.
+        /// </summary>
+        /// <param name="value">The unique value for the constant</param>
+        /// <returns>The constant for the unique value</returns>
+        public static TaskStatus FindValue(string value)
+        {
+            return FindValue<TaskStatus>(value);
+        }
+
+        /// <summary>
+        /// Utility method to convert strings to the constant class.
+        /// </summary>
+        /// <param name="value">The string value to convert to the constant class.</param>
+        /// <returns></returns>
+        public static implicit operator TaskStatus(string value)
+        {
+            return FindValue(value);
+        }
+    }
+
+
+    /// <summary>
     /// Constants used for properties of type TextType.
     /// </summary>
     public class TextType : ConstantClass
@@ -401,9 +525,17 @@ namespace Amazon.Polly
         /// </summary>
         public static readonly VoiceId Astrid = new VoiceId("Astrid");
         /// <summary>
+        /// Constant Bianca for VoiceId
+        /// </summary>
+        public static readonly VoiceId Bianca = new VoiceId("Bianca");
+        /// <summary>
         /// Constant Brian for VoiceId
         /// </summary>
         public static readonly VoiceId Brian = new VoiceId("Brian");
+        /// <summary>
+        /// Constant Camila for VoiceId
+        /// </summary>
+        public static readonly VoiceId Camila = new VoiceId("Camila");
         /// <summary>
         /// Constant Carla for VoiceId
         /// </summary>
@@ -505,6 +637,10 @@ namespace Amazon.Polly
         /// </summary>
         public static readonly VoiceId Kimberly = new VoiceId("Kimberly");
         /// <summary>
+        /// Constant Lea for VoiceId
+        /// </summary>
+        public static readonly VoiceId Lea = new VoiceId("Lea");
+        /// <summary>
         /// Constant Liv for VoiceId
         /// </summary>
         public static readonly VoiceId Liv = new VoiceId("Liv");
@@ -512,6 +648,14 @@ namespace Amazon.Polly
         /// Constant Lotte for VoiceId
         /// </summary>
         public static readonly VoiceId Lotte = new VoiceId("Lotte");
+        /// <summary>
+        /// Constant Lucia for VoiceId
+        /// </summary>
+        public static readonly VoiceId Lucia = new VoiceId("Lucia");
+        /// <summary>
+        /// Constant Lupe for VoiceId
+        /// </summary>
+        public static readonly VoiceId Lupe = new VoiceId("Lupe");
         /// <summary>
         /// Constant Mads for VoiceId
         /// </summary>
@@ -536,6 +680,10 @@ namespace Amazon.Polly
         /// Constant Maxim for VoiceId
         /// </summary>
         public static readonly VoiceId Maxim = new VoiceId("Maxim");
+        /// <summary>
+        /// Constant Mia for VoiceId
+        /// </summary>
+        public static readonly VoiceId Mia = new VoiceId("Mia");
         /// <summary>
         /// Constant Miguel for VoiceId
         /// </summary>
@@ -596,6 +744,14 @@ namespace Amazon.Polly
         /// Constant Vitoria for VoiceId
         /// </summary>
         public static readonly VoiceId Vitoria = new VoiceId("Vitoria");
+        /// <summary>
+        /// Constant Zeina for VoiceId
+        /// </summary>
+        public static readonly VoiceId Zeina = new VoiceId("Zeina");
+        /// <summary>
+        /// Constant Zhiyu for VoiceId
+        /// </summary>
+        public static readonly VoiceId Zhiyu = new VoiceId("Zhiyu");
 
         /// <summary>
         /// This constant constructor does not need to be called if the constant

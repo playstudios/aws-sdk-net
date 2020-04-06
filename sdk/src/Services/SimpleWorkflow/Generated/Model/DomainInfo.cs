@@ -32,9 +32,29 @@ namespace Amazon.SimpleWorkflow.Model
     /// </summary>
     public partial class DomainInfo
     {
+        private string _arn;
         private string _description;
         private string _name;
         private RegistrationStatus _status;
+
+        /// <summary>
+        /// Gets and sets the property Arn. 
+        /// <para>
+        /// The ARN of the domain.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=1600)]
+        public string Arn
+        {
+            get { return this._arn; }
+            set { this._arn = value; }
+        }
+
+        // Check to see if Arn property is set
+        internal bool IsSetArn()
+        {
+            return this._arn != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Description. 
@@ -42,6 +62,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The description of the domain provided through <a>RegisterDomain</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string Description
         {
             get { return this._description; }
@@ -60,6 +81,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// The name of the domain. This name is unique within the account.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string Name
         {
             get { return this._name; }
@@ -90,6 +112,7 @@ namespace Amazon.SimpleWorkflow.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RegistrationStatus Status
         {
             get { return this._status; }

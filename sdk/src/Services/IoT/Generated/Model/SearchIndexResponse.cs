@@ -33,13 +33,14 @@ namespace Amazon.IoT.Model
     public partial class SearchIndexResponse : AmazonWebServiceResponse
     {
         private string _nextToken;
+        private List<ThingGroupDocument> _thingGroups = new List<ThingGroupDocument>();
         private List<ThingDocument> _things = new List<ThingDocument>();
 
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token used to get the next set of results, or <b>null</b> if there are no additional
-        /// results.
+        /// The token used to get the next set of results, or <code>null</code> if there are no
+        /// additional results.
         /// </para>
         /// </summary>
         public string NextToken
@@ -52,6 +53,24 @@ namespace Amazon.IoT.Model
         internal bool IsSetNextToken()
         {
             return this._nextToken != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ThingGroups. 
+        /// <para>
+        /// The thing groups that match the search query.
+        /// </para>
+        /// </summary>
+        public List<ThingGroupDocument> ThingGroups
+        {
+            get { return this._thingGroups; }
+            set { this._thingGroups = value; }
+        }
+
+        // Check to see if ThingGroups property is set
+        internal bool IsSetThingGroups()
+        {
+            return this._thingGroups != null && this._thingGroups.Count > 0; 
         }
 
         /// <summary>

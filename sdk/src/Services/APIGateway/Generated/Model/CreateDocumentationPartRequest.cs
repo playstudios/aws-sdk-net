@@ -44,6 +44,7 @@ namespace Amazon.APIGateway.Model
         /// part.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DocumentationPartLocation Location
         {
             get { return this._location; }
@@ -60,10 +61,11 @@ namespace Amazon.APIGateway.Model
         /// Gets and sets the property Properties. 
         /// <para>
         /// [Required] The new documentation content map of the targeted API entity. Enclosed
-        /// key-value pairs are API-specific, but only Swagger-compliant key-value pairs can be
+        /// key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be
         /// exported and, hence, published.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Properties
         {
             get { return this._properties; }
@@ -82,6 +84,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }

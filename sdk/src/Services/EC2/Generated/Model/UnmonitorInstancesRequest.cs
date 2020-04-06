@@ -30,7 +30,7 @@ namespace Amazon.EC2.Model
     /// <summary>
     /// Container for the parameters to the UnmonitorInstances operation.
     /// Disables detailed monitoring for a running instance. For more information, see <a
-    /// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
+    /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
     /// Your Instances and Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </summary>
     public partial class UnmonitorInstancesRequest : AmazonEC2Request
@@ -45,7 +45,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates UnmonitorInstancesRequest with the parameterized properties
         /// </summary>
-        /// <param name="instanceIds">One or more instance IDs.</param>
+        /// <param name="instanceIds">The IDs of the instances.</param>
         public UnmonitorInstancesRequest(List<string> instanceIds)
         {
             _instanceIds = instanceIds;
@@ -54,9 +54,10 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property InstanceIds. 
         /// <para>
-        /// One or more instance IDs.
+        /// The IDs of the instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> InstanceIds
         {
             get { return this._instanceIds; }

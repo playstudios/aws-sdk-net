@@ -39,10 +39,11 @@ namespace Amazon.DatabaseMigrationService.Model
         /// <summary>
         /// Gets and sets the property ResourceArn. 
         /// <para>
-        /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed
-        /// from.
+        /// An AWS DMS resource from which you want to remove tag(s). The value for this parameter
+        /// is an Amazon Resource Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceArn
         {
             get { return this._resourceArn; }
@@ -61,6 +62,7 @@ namespace Amazon.DatabaseMigrationService.Model
         /// The tag key (name) of the tag to be removed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TagKeys
         {
             get { return this._tagKeys; }

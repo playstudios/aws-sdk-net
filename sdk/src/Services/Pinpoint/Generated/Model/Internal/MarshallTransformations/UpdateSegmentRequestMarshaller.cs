@@ -55,27 +55,28 @@ namespace Amazon.Pinpoint.Model.Internal.MarshallTransformations
         public IRequest Marshall(UpdateSegmentRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Pinpoint");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-12-01";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/v1/apps/{application-id}/segments/{segment-id}";
             if (!publicRequest.IsSetApplicationId())
                 throw new AmazonPinpointException("Request object does not have required field ApplicationId set");
-            uriResourcePath = uriResourcePath.Replace("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
+            request.AddPathResource("{application-id}", StringUtils.FromString(publicRequest.ApplicationId));
             if (!publicRequest.IsSetSegmentId())
                 throw new AmazonPinpointException("Request object does not have required field SegmentId set");
-            uriResourcePath = uriResourcePath.Replace("{segment-id}", StringUtils.FromString(publicRequest.SegmentId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{segment-id}", StringUtils.FromString(publicRequest.SegmentId));
+            request.ResourcePath = "/v1/apps/{application-id}/segments/{segment-id}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
-                writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                context.Writer.WriteObjectStart();
 
                 var marshaller = WriteSegmentRequestMarshaller.Instance;
                 marshaller.Marshall(publicRequest.WriteSegmentRequest, context);
-        
-                writer.WriteObjectEnd();
+
+                context.Writer.WriteObjectEnd();
                 string snippet = stringWriter.ToString();
                 request.Content = System.Text.Encoding.UTF8.GetBytes(snippet);
             }

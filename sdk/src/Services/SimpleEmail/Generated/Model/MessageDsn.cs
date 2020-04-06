@@ -33,33 +33,33 @@ namespace Amazon.SimpleEmail.Model
     /// 
     ///  
     /// <para>
-    /// For information about receiving email through Amazon SES, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
+    /// For information about receiving email through Amazon SES, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     /// </summary>
     public partial class MessageDsn
     {
-        private DateTime? _arrivalDate;
+        private DateTime? _arrivalDateUtc;
         private List<ExtensionField> _extensionFields = new List<ExtensionField>();
         private string _reportingMta;
 
         /// <summary>
-        /// Gets and sets the property ArrivalDate. 
+        /// Gets and sets the property ArrivalDateUtc. 
         /// <para>
         /// When the message was received by the reporting mail transfer agent (MTA), in <a href="https://www.ietf.org/rfc/rfc0822.txt">RFC
         /// 822</a> date-time format.
         /// </para>
         /// </summary>
-        public DateTime ArrivalDate
+        public DateTime ArrivalDateUtc
         {
-            get { return this._arrivalDate.GetValueOrDefault(); }
-            set { this._arrivalDate = value; }
+            get { return this._arrivalDateUtc.GetValueOrDefault(); }
+            set { this._arrivalDate = this._arrivalDateUtc = value; }
         }
 
-        // Check to see if ArrivalDate property is set
-        internal bool IsSetArrivalDate()
+        // Check to see if ArrivalDateUtc property is set
+        internal bool IsSetArrivalDateUtc()
         {
-            return this._arrivalDate.HasValue; 
+            return this._arrivalDateUtc.HasValue; 
         }
 
         /// <summary>
@@ -88,6 +88,7 @@ namespace Amazon.SimpleEmail.Model
         /// The default value is <code>dns; inbound-smtp.[region].amazonaws.com</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReportingMta
         {
             get { return this._reportingMta; }
@@ -100,5 +101,39 @@ namespace Amazon.SimpleEmail.Model
             return this._reportingMta != null;
         }
 
+#region Backwards compatible properties
+        private DateTime? _arrivalDate;
+
+        /// <summary>
+        /// Gets and sets the property ArrivalDateUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use ArrivalDateUtc instead. Setting either ArrivalDate
+        /// or ArrivalDateUtc results in both ArrivalDate and ArrivalDateUtc being assigned, the
+        /// latest assignment to either one of the two property is reflected in the value of both.
+        /// ArrivalDate is provided for backwards compatibility only and assigning a non-Utc DateTime
+        /// to it results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// When the message was received by the reporting mail transfer agent (MTA), in <a href="https://www.ietf.org/rfc/rfc0822.txt">RFC
+        /// 822</a> date-time format.
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use ArrivalDateUtc instead. Setting either ArrivalDate or ArrivalDateUtc results in both ArrivalDate and " +
+            "ArrivalDateUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. ArrivalDate is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime ArrivalDate
+        {
+            get { return this._arrivalDate.GetValueOrDefault(); }
+            set
+            {
+                this._arrivalDate = value;
+                this._arrivalDateUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+#endregion
     }
 }

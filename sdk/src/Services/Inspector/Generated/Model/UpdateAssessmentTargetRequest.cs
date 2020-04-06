@@ -30,6 +30,12 @@ namespace Amazon.Inspector.Model
     /// <summary>
     /// Container for the parameters to the UpdateAssessmentTarget operation.
     /// Updates the assessment target that is specified by the ARN of the assessment target.
+    /// 
+    ///  
+    /// <para>
+    /// If resourceGroupArn is not specified, all EC2 instances in the current AWS account
+    /// and region are included in the assessment target.
+    /// </para>
     /// </summary>
     public partial class UpdateAssessmentTargetRequest : AmazonInspectorRequest
     {
@@ -43,6 +49,7 @@ namespace Amazon.Inspector.Model
         /// The ARN of the assessment target that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string AssessmentTargetArn
         {
             get { return this._assessmentTargetArn; }
@@ -61,6 +68,7 @@ namespace Amazon.Inspector.Model
         /// The name of the assessment target that you want to update.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=140)]
         public string AssessmentTargetName
         {
             get { return this._assessmentTargetName; }
@@ -80,6 +88,7 @@ namespace Amazon.Inspector.Model
         /// with the assessment target.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=300)]
         public string ResourceGroupArn
         {
             get { return this._resourceGroupArn; }

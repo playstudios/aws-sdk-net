@@ -63,6 +63,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// 1, 1970 00:00:00 UTC.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long IngestionTime
         {
             get { return this._ingestionTime.GetValueOrDefault(); }
@@ -78,9 +79,10 @@ namespace Amazon.CloudWatchLogs.Model
         /// <summary>
         /// Gets and sets the property LogStreamName. 
         /// <para>
-        /// The name of the log stream this event belongs to.
+        /// The name of the log stream to which this event belongs.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string LogStreamName
         {
             get { return this._logStreamName; }
@@ -99,6 +101,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The data contained in the log event.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Message
         {
             get { return this._message; }
@@ -118,6 +121,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// 1970 00:00:00 UTC.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long Timestamp
         {
             get { return this._timestamp.GetValueOrDefault(); }

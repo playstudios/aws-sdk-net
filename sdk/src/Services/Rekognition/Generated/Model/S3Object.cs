@@ -38,7 +38,8 @@ namespace Amazon.Rekognition.Model
     ///  
     /// <para>
     /// For Amazon Rekognition to process an S3 object, the user must have permission to access
-    /// the S3 object. For more information, see <a>manage-access-resource-policies</a>. 
+    /// the S3 object. For more information, see Resource-Based Policies in the Amazon Rekognition
+    /// Developer Guide. 
     /// </para>
     /// </summary>
     public partial class S3Object
@@ -53,6 +54,7 @@ namespace Amazon.Rekognition.Model
         /// Name of the S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=3, Max=255)]
         public string Bucket
         {
             get { return this._bucket; }
@@ -71,6 +73,7 @@ namespace Amazon.Rekognition.Model
         /// S3 object key name.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Name
         {
             get { return this._name; }
@@ -89,6 +92,7 @@ namespace Amazon.Rekognition.Model
         /// If the bucket is versioning enabled, you can specify the object version. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string Version
         {
             get { return this._version; }

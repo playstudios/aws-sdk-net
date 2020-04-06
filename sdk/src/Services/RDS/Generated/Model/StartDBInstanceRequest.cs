@@ -29,13 +29,19 @@ namespace Amazon.RDS.Model
 {
     /// <summary>
     /// Container for the parameters to the StartDBInstance operation.
-    /// Starts a DB instance that was stopped using the AWS console, the stop-db-instance
-    /// AWS CLI command, or the StopDBInstance action. For more information, see Stopping
-    /// and Starting a DB instance in the AWS RDS user guide. 
+    /// Starts an Amazon RDS DB instance that was stopped using the AWS console, the stop-db-instance
+    /// AWS CLI command, or the StopDBInstance action. 
     /// 
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StartInstance.html">
+    /// Starting an Amazon RDS DB instance That Was Previously Stopped</a> in the <i>Amazon
+    /// RDS User Guide.</i> 
+    /// </para>
     ///  <note> 
     /// <para>
-    /// This command doesn't apply to Aurora MySQL and Aurora PostgreSQL.
+    ///  This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora DB clusters,
+    /// use <code>StartDBCluster</code> instead. 
     /// </para>
     ///  </note>
     /// </summary>
@@ -49,6 +55,7 @@ namespace Amazon.RDS.Model
         ///  The user-supplied instance identifier. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBInstanceIdentifier
         {
             get { return this._dbInstanceIdentifier; }

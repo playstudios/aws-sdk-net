@@ -34,12 +34,15 @@ namespace Amazon.Elasticsearch.Model
     {
         private AccessPoliciesStatus _accessPolicies;
         private AdvancedOptionsStatus _advancedOptions;
+        private AdvancedSecurityOptionsStatus _advancedSecurityOptions;
         private CognitoOptionsStatus _cognitoOptions;
+        private DomainEndpointOptionsStatus _domainEndpointOptions;
         private EBSOptionsStatus _ebsOptions;
         private ElasticsearchClusterConfigStatus _elasticsearchClusterConfig;
         private ElasticsearchVersionStatus _elasticsearchVersion;
         private EncryptionAtRestOptionsStatus _encryptionAtRestOptions;
         private LogPublishingOptionsStatus _logPublishingOptions;
+        private NodeToNodeEncryptionOptionsStatus _nodeToNodeEncryptionOptions;
         private SnapshotOptionsStatus _snapshotOptions;
         private VPCDerivedInfoStatus _vpcOptions;
 
@@ -81,6 +84,24 @@ namespace Amazon.Elasticsearch.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AdvancedSecurityOptions. 
+        /// <para>
+        /// Specifies <code>AdvancedSecurityOptions</code> for the domain. 
+        /// </para>
+        /// </summary>
+        public AdvancedSecurityOptionsStatus AdvancedSecurityOptions
+        {
+            get { return this._advancedSecurityOptions; }
+            set { this._advancedSecurityOptions = value; }
+        }
+
+        // Check to see if AdvancedSecurityOptions property is set
+        internal bool IsSetAdvancedSecurityOptions()
+        {
+            return this._advancedSecurityOptions != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CognitoOptions. 
         /// <para>
         /// The <code>CognitoOptions</code> for the specified domain. For more information, see
@@ -98,6 +119,24 @@ namespace Amazon.Elasticsearch.Model
         internal bool IsSetCognitoOptions()
         {
             return this._cognitoOptions != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DomainEndpointOptions. 
+        /// <para>
+        /// Specifies the <code>DomainEndpointOptions</code> for the Elasticsearch domain.
+        /// </para>
+        /// </summary>
+        public DomainEndpointOptionsStatus DomainEndpointOptions
+        {
+            get { return this._domainEndpointOptions; }
+            set { this._domainEndpointOptions = value; }
+        }
+
+        // Check to see if DomainEndpointOptions property is set
+        internal bool IsSetDomainEndpointOptions()
+        {
+            return this._domainEndpointOptions != null;
         }
 
         /// <summary>
@@ -188,6 +227,24 @@ namespace Amazon.Elasticsearch.Model
         internal bool IsSetLogPublishingOptions()
         {
             return this._logPublishingOptions != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property NodeToNodeEncryptionOptions. 
+        /// <para>
+        /// Specifies the <code>NodeToNodeEncryptionOptions</code> for the Elasticsearch domain.
+        /// </para>
+        /// </summary>
+        public NodeToNodeEncryptionOptionsStatus NodeToNodeEncryptionOptions
+        {
+            get { return this._nodeToNodeEncryptionOptions; }
+            set { this._nodeToNodeEncryptionOptions = value; }
+        }
+
+        // Check to see if NodeToNodeEncryptionOptions property is set
+        internal bool IsSetNodeToNodeEncryptionOptions()
+        {
+            return this._nodeToNodeEncryptionOptions != null;
         }
 
         /// <summary>

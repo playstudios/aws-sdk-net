@@ -29,7 +29,8 @@ namespace Amazon.CloudWatch.Model
 {
     /// <summary>
     /// Container for the parameters to the ListMetrics operation.
-    /// List the specified metrics. You can use the returned metrics with <a>GetMetricStatistics</a>
+    /// List the specified metrics. You can use the returned metrics with <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+    /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>
     /// to obtain statistical data.
     /// 
     ///  
@@ -40,7 +41,8 @@ namespace Amazon.CloudWatch.Model
     ///  
     /// <para>
     /// After you create a metric, allow up to fifteen minutes before the metric appears.
-    /// Statistics about the metric, however, are available sooner using <a>GetMetricStatistics</a>.
+    /// Statistics about the metric, however, are available sooner using <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+    /// or <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
     /// </para>
     /// </summary>
     public partial class ListMetricsRequest : AmazonCloudWatchRequest
@@ -56,6 +58,7 @@ namespace Amazon.CloudWatch.Model
         /// The dimensions to filter against.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10)]
         public List<DimensionFilter> Dimensions
         {
             get { return this._dimensions; }
@@ -74,6 +77,7 @@ namespace Amazon.CloudWatch.Model
         /// The name of the metric to filter against.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string MetricName
         {
             get { return this._metricName; }
@@ -92,6 +96,7 @@ namespace Amazon.CloudWatch.Model
         /// The namespace to filter against.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string Namespace
         {
             get { return this._awsNamespace; }

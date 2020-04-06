@@ -29,9 +29,15 @@ namespace Amazon.Lightsail.Model
 {
     /// <summary>
     /// Container for the parameters to the RebootInstance operation.
-    /// Restarts a specific instance. When your Amazon Lightsail instance is finished rebooting,
-    /// Lightsail assigns a new public IP address. To use the same IP address after restarting,
-    /// create a static IP address and attach it to the instance.
+    /// Restarts a specific instance.
+    /// 
+    ///  
+    /// <para>
+    /// The <code>reboot instance</code> operation supports tag-based access control via resource
+    /// tags applied to the resource identified by <code>instance name</code>. For more information,
+    /// see the <a href="https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-controlling-access-using-tags">Lightsail
+    /// Dev Guide</a>.
+    /// </para>
     /// </summary>
     public partial class RebootInstanceRequest : AmazonLightsailRequest
     {
@@ -43,6 +49,7 @@ namespace Amazon.Lightsail.Model
         /// The name of the instance to reboot.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceName
         {
             get { return this._instanceName; }

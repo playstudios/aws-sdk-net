@@ -33,22 +33,39 @@ namespace Amazon.SageMaker.Model
     public partial class DescribeTrainingJobResponse : AmazonWebServiceResponse
     {
         private AlgorithmSpecification _algorithmSpecification;
+        private string _autoMLJobArn;
+        private int? _billableTimeInSeconds;
+        private CheckpointConfig _checkpointConfig;
         private DateTime? _creationTime;
+        private DebugHookConfig _debugHookConfig;
+        private List<DebugRuleConfiguration> _debugRuleConfigurations = new List<DebugRuleConfiguration>();
+        private List<DebugRuleEvaluationStatus> _debugRuleEvaluationStatuses = new List<DebugRuleEvaluationStatus>();
+        private bool? _enableInterContainerTrafficEncryption;
+        private bool? _enableManagedSpotTraining;
+        private bool? _enableNetworkIsolation;
+        private ExperimentConfig _experimentConfig;
         private string _failureReason;
+        private List<MetricData> _finalMetricDataList = new List<MetricData>();
         private Dictionary<string, string> _hyperParameters = new Dictionary<string, string>();
         private List<Channel> _inputDataConfig = new List<Channel>();
+        private string _labelingJobArn;
         private DateTime? _lastModifiedTime;
         private ModelArtifacts _modelArtifacts;
         private OutputDataConfig _outputDataConfig;
         private ResourceConfig _resourceConfig;
         private string _roleArn;
         private SecondaryStatus _secondaryStatus;
+        private List<SecondaryStatusTransition> _secondaryStatusTransitions = new List<SecondaryStatusTransition>();
         private StoppingCondition _stoppingCondition;
+        private TensorBoardOutputConfig _tensorBoardOutputConfig;
         private DateTime? _trainingEndTime;
         private string _trainingJobArn;
         private string _trainingJobName;
         private TrainingJobStatus _trainingJobStatus;
         private DateTime? _trainingStartTime;
+        private int? _trainingTimeInSeconds;
+        private string _tuningJobArn;
+        private VpcConfig _vpcConfig;
 
         /// <summary>
         /// Gets and sets the property AlgorithmSpecification. 
@@ -56,6 +73,7 @@ namespace Amazon.SageMaker.Model
         /// Information about the algorithm used for training, and algorithm metadata. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public AlgorithmSpecification AlgorithmSpecification
         {
             get { return this._algorithmSpecification; }
@@ -69,11 +87,68 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property AutoMLJobArn.
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string AutoMLJobArn
+        {
+            get { return this._autoMLJobArn; }
+            set { this._autoMLJobArn = value; }
+        }
+
+        // Check to see if AutoMLJobArn property is set
+        internal bool IsSetAutoMLJobArn()
+        {
+            return this._autoMLJobArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property BillableTimeInSeconds. 
+        /// <para>
+        /// The billable time in seconds.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can calculate the savings from using managed spot training using the formula <code>(1
+        /// - BillableTimeInSeconds / TrainingTimeInSeconds) * 100</code>. For example, if <code>BillableTimeInSeconds</code>
+        /// is 100 and <code>TrainingTimeInSeconds</code> is 500, the savings is 80%.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public int BillableTimeInSeconds
+        {
+            get { return this._billableTimeInSeconds.GetValueOrDefault(); }
+            set { this._billableTimeInSeconds = value; }
+        }
+
+        // Check to see if BillableTimeInSeconds property is set
+        internal bool IsSetBillableTimeInSeconds()
+        {
+            return this._billableTimeInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property CheckpointConfig.
+        /// </summary>
+        public CheckpointConfig CheckpointConfig
+        {
+            get { return this._checkpointConfig; }
+            set { this._checkpointConfig = value; }
+        }
+
+        // Check to see if CheckpointConfig property is set
+        internal bool IsSetCheckpointConfig()
+        {
+            return this._checkpointConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property CreationTime. 
         /// <para>
         /// A timestamp that indicates when the training job was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime CreationTime
         {
             get { return this._creationTime.GetValueOrDefault(); }
@@ -87,11 +162,143 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DebugHookConfig.
+        /// </summary>
+        public DebugHookConfig DebugHookConfig
+        {
+            get { return this._debugHookConfig; }
+            set { this._debugHookConfig = value; }
+        }
+
+        // Check to see if DebugHookConfig property is set
+        internal bool IsSetDebugHookConfig()
+        {
+            return this._debugHookConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DebugRuleConfigurations. 
+        /// <para>
+        /// Configuration information for debugging rules.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=20)]
+        public List<DebugRuleConfiguration> DebugRuleConfigurations
+        {
+            get { return this._debugRuleConfigurations; }
+            set { this._debugRuleConfigurations = value; }
+        }
+
+        // Check to see if DebugRuleConfigurations property is set
+        internal bool IsSetDebugRuleConfigurations()
+        {
+            return this._debugRuleConfigurations != null && this._debugRuleConfigurations.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DebugRuleEvaluationStatuses. 
+        /// <para>
+        /// Status about the debug rule evaluation.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=20)]
+        public List<DebugRuleEvaluationStatus> DebugRuleEvaluationStatuses
+        {
+            get { return this._debugRuleEvaluationStatuses; }
+            set { this._debugRuleEvaluationStatuses = value; }
+        }
+
+        // Check to see if DebugRuleEvaluationStatuses property is set
+        internal bool IsSetDebugRuleEvaluationStatuses()
+        {
+            return this._debugRuleEvaluationStatuses != null && this._debugRuleEvaluationStatuses.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableInterContainerTrafficEncryption. 
+        /// <para>
+        /// To encrypt all communications between ML compute instances in distributed training,
+        /// choose <code>True</code>. Encryption provides greater security for distributed training,
+        /// but training might take longer. How long it takes depends on the amount of communication
+        /// between compute instances, especially if you use a deep learning algorithms in distributed
+        /// training.
+        /// </para>
+        /// </summary>
+        public bool EnableInterContainerTrafficEncryption
+        {
+            get { return this._enableInterContainerTrafficEncryption.GetValueOrDefault(); }
+            set { this._enableInterContainerTrafficEncryption = value; }
+        }
+
+        // Check to see if EnableInterContainerTrafficEncryption property is set
+        internal bool IsSetEnableInterContainerTrafficEncryption()
+        {
+            return this._enableInterContainerTrafficEncryption.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableManagedSpotTraining. 
+        /// <para>
+        /// A Boolean indicating whether managed spot training is enabled (<code>True</code>)
+        /// or not (<code>False</code>).
+        /// </para>
+        /// </summary>
+        public bool EnableManagedSpotTraining
+        {
+            get { return this._enableManagedSpotTraining.GetValueOrDefault(); }
+            set { this._enableManagedSpotTraining = value; }
+        }
+
+        // Check to see if EnableManagedSpotTraining property is set
+        internal bool IsSetEnableManagedSpotTraining()
+        {
+            return this._enableManagedSpotTraining.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property EnableNetworkIsolation. 
+        /// <para>
+        /// If you want to allow inbound or outbound network calls, except for calls between peers
+        /// within a training cluster for distributed training, choose <code>True</code>. If you
+        /// enable network isolation for training jobs that are configured to use a VPC, Amazon
+        /// SageMaker downloads and uploads customer data and model artifacts through the specified
+        /// VPC, but the training container does not have network access.
+        /// </para>
+        /// </summary>
+        public bool EnableNetworkIsolation
+        {
+            get { return this._enableNetworkIsolation.GetValueOrDefault(); }
+            set { this._enableNetworkIsolation = value; }
+        }
+
+        // Check to see if EnableNetworkIsolation property is set
+        internal bool IsSetEnableNetworkIsolation()
+        {
+            return this._enableNetworkIsolation.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property ExperimentConfig.
+        /// </summary>
+        public ExperimentConfig ExperimentConfig
+        {
+            get { return this._experimentConfig; }
+            set { this._experimentConfig = value; }
+        }
+
+        // Check to see if ExperimentConfig property is set
+        internal bool IsSetExperimentConfig()
+        {
+            return this._experimentConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property FailureReason. 
         /// <para>
         /// If the training job failed, the reason it failed. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1024)]
         public string FailureReason
         {
             get { return this._failureReason; }
@@ -105,11 +312,32 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FinalMetricDataList. 
+        /// <para>
+        /// A collection of <code>MetricData</code> objects that specify the names, values, and
+        /// dates and times that the training algorithm emitted to Amazon CloudWatch.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=40)]
+        public List<MetricData> FinalMetricDataList
+        {
+            get { return this._finalMetricDataList; }
+            set { this._finalMetricDataList = value; }
+        }
+
+        // Check to see if FinalMetricDataList property is set
+        internal bool IsSetFinalMetricDataList()
+        {
+            return this._finalMetricDataList != null && this._finalMetricDataList.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property HyperParameters. 
         /// <para>
         /// Algorithm-specific parameters. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=100)]
         public Dictionary<string, string> HyperParameters
         {
             get { return this._hyperParameters; }
@@ -128,6 +356,7 @@ namespace Amazon.SageMaker.Model
         /// An array of <code>Channel</code> objects that describes each data input channel. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=20)]
         public List<Channel> InputDataConfig
         {
             get { return this._inputDataConfig; }
@@ -138,6 +367,26 @@ namespace Amazon.SageMaker.Model
         internal bool IsSetInputDataConfig()
         {
             return this._inputDataConfig != null && this._inputDataConfig.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property LabelingJobArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the Amazon SageMaker Ground Truth labeling job that
+        /// created the transform or training job.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=2048)]
+        public string LabelingJobArn
+        {
+            get { return this._labelingJobArn; }
+            set { this._labelingJobArn = value; }
+        }
+
+        // Check to see if LabelingJobArn property is set
+        internal bool IsSetLabelingJobArn()
+        {
+            return this._labelingJobArn != null;
         }
 
         /// <summary>
@@ -165,6 +414,7 @@ namespace Amazon.SageMaker.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ModelArtifacts ModelArtifacts
         {
             get { return this._modelArtifacts; }
@@ -203,6 +453,7 @@ namespace Amazon.SageMaker.Model
         /// for model training. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ResourceConfig ResourceConfig
         {
             get { return this._resourceConfig; }
@@ -222,6 +473,7 @@ namespace Amazon.SageMaker.Model
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string RoleArn
         {
             get { return this._roleArn; }
@@ -237,10 +489,89 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property SecondaryStatus. 
         /// <para>
-        ///  Provides granular information about the system state. For more information, see <code>TrainingJobStatus</code>.
-        /// 
+        ///  Provides detailed information about the state of the training job. For detailed information
+        /// on the secondary status of the training job, see <code>StatusMessage</code> under
+        /// <a>SecondaryStatusTransition</a>.
         /// </para>
+        ///  
+        /// <para>
+        /// Amazon SageMaker provides primary statuses and secondary statuses that apply to each
+        /// of them:
+        /// </para>
+        ///  <dl> <dt>InProgress</dt> <dd> <ul> <li> 
+        /// <para>
+        ///  <code>Starting</code> - Starting the training job.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Downloading</code> - An optional stage for algorithms that support <code>File</code>
+        /// training input mode. It indicates that data is being downloaded to the ML storage
+        /// volumes.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Training</code> - Training is in progress.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Interrupted</code> - The job stopped because the managed spot training instances
+        /// were interrupted. 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Uploading</code> - Training is complete and the model artifacts are being uploaded
+        /// to the S3 location.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Completed</dt> <dd> <ul> <li> 
+        /// <para>
+        ///  <code>Completed</code> - The training job has completed.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Failed</dt> <dd> <ul> <li> 
+        /// <para>
+        ///  <code>Failed</code> - The training job has failed. The reason for the failure is
+        /// returned in the <code>FailureReason</code> field of <code>DescribeTrainingJobResponse</code>.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Stopped</dt> <dd> <ul> <li> 
+        /// <para>
+        ///  <code>MaxRuntimeExceeded</code> - The job stopped because it exceeded the maximum
+        /// allowed runtime.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MaxWaitTmeExceeded</code> - The job stopped because it exceeded the maximum
+        /// allowed wait time.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Stopped</code> - The training job has stopped.
+        /// </para>
+        ///  </li> </ul> </dd> <dt>Stopping</dt> <dd> <ul> <li> 
+        /// <para>
+        ///  <code>Stopping</code> - Stopping the training job.
+        /// </para>
+        ///  </li> </ul> </dd> </dl> <important> 
+        /// <para>
+        /// Valid values for <code>SecondaryStatus</code> are subject to change. 
+        /// </para>
+        ///  </important> 
+        /// <para>
+        /// We no longer support the following secondary statuses:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>LaunchingMLInstances</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PreparingTrainingStack</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>DownloadingTrainingImage</code> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SecondaryStatus SecondaryStatus
         {
             get { return this._secondaryStatus; }
@@ -254,11 +585,39 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
-        /// Gets and sets the property StoppingCondition. 
+        /// Gets and sets the property SecondaryStatusTransitions. 
         /// <para>
-        /// The condition under which to stop the training job. 
+        /// A history of all of the secondary statuses that the training job has transitioned
+        /// through.
         /// </para>
         /// </summary>
+        public List<SecondaryStatusTransition> SecondaryStatusTransitions
+        {
+            get { return this._secondaryStatusTransitions; }
+            set { this._secondaryStatusTransitions = value; }
+        }
+
+        // Check to see if SecondaryStatusTransitions property is set
+        internal bool IsSetSecondaryStatusTransitions()
+        {
+            return this._secondaryStatusTransitions != null && this._secondaryStatusTransitions.Count > 0; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property StoppingCondition. 
+        /// <para>
+        /// Specifies a limit to how long a model training job can run. It also specifies the
+        /// maximum time to wait for a spot instance. When the job reaches the time limit, Amazon
+        /// SageMaker ends the training job. Use this API to cap model training costs.
+        /// </para>
+        ///  
+        /// <para>
+        /// To stop a job, Amazon SageMaker sends the algorithm the <code>SIGTERM</code> signal,
+        /// which delays job termination for 120 seconds. Algorithms can use this 120-second window
+        /// to save the model artifacts, so the results of training are not lost. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public StoppingCondition StoppingCondition
         {
             get { return this._stoppingCondition; }
@@ -272,9 +631,28 @@ namespace Amazon.SageMaker.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TensorBoardOutputConfig.
+        /// </summary>
+        public TensorBoardOutputConfig TensorBoardOutputConfig
+        {
+            get { return this._tensorBoardOutputConfig; }
+            set { this._tensorBoardOutputConfig = value; }
+        }
+
+        // Check to see if TensorBoardOutputConfig property is set
+        internal bool IsSetTensorBoardOutputConfig()
+        {
+            return this._tensorBoardOutputConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property TrainingEndTime. 
         /// <para>
-        /// A timestamp that indicates when model training ended.
+        /// Indicates the time when the training job ends on training instances. You are billed
+        /// for the time interval between the value of <code>TrainingStartTime</code> and this
+        /// time. For successful jobs and stopped jobs, this is the time after model artifacts
+        /// are uploaded. For failed jobs, this is the time when Amazon SageMaker detects a job
+        /// failure.
         /// </para>
         /// </summary>
         public DateTime TrainingEndTime
@@ -295,6 +673,7 @@ namespace Amazon.SageMaker.Model
         /// The Amazon Resource Name (ARN) of the training job.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=256)]
         public string TrainingJobArn
         {
             get { return this._trainingJobArn; }
@@ -313,6 +692,7 @@ namespace Amazon.SageMaker.Model
         ///  Name of the model training job. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=63)]
         public string TrainingJobName
         {
             get { return this._trainingJobName; }
@@ -328,41 +708,40 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property TrainingJobStatus. 
         /// <para>
-        /// The status of the training job. 
+        /// The status of the training job.
         /// </para>
         ///  
         /// <para>
-        /// For the <code>InProgress</code> status, Amazon SageMaker can return these secondary
-        /// statuses:
+        /// Amazon SageMaker provides the following training job statuses:
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Starting - Preparing for training.
+        ///  <code>InProgress</code> - The training is in progress.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Downloading - Optional stage for algorithms that support File training input mode.
-        /// It indicates data is being downloaded to ML storage volumes.
+        ///  <code>Completed</code> - The training job has completed.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Training - Training is in progress.
+        ///  <code>Failed</code> - The training job has failed. To see the reason for the failure,
+        /// see the <code>FailureReason</code> field in the response to a <code>DescribeTrainingJobResponse</code>
+        /// call.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Uploading - Training is complete and model upload is in progress.
+        ///  <code>Stopping</code> - The training job is stopping.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Stopped</code> - The training job has stopped.
         /// </para>
         ///  </li> </ul> 
         /// <para>
-        /// For the <code>Stopped</code> training status, Amazon SageMaker can return these secondary
-        /// statuses:
+        /// For more detailed information, see <code>SecondaryStatus</code>. 
         /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// MaxRuntimeExceeded - Job stopped as a result of maximum allowed runtime exceeded.
-        /// </para>
-        ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public TrainingJobStatus TrainingJobStatus
         {
             get { return this._trainingJobStatus; }
@@ -378,7 +757,11 @@ namespace Amazon.SageMaker.Model
         /// <summary>
         /// Gets and sets the property TrainingStartTime. 
         /// <para>
-        /// A timestamp that indicates when training started.
+        /// Indicates the time when the training job starts on training instances. You are billed
+        /// for the time interval between this time and the value of <code>TrainingEndTime</code>.
+        /// The start time in CloudWatch Logs might be later than this time. The difference is
+        /// due to the time it takes to download the training data and to the size of the training
+        /// container.
         /// </para>
         /// </summary>
         public DateTime TrainingStartTime
@@ -391,6 +774,65 @@ namespace Amazon.SageMaker.Model
         internal bool IsSetTrainingStartTime()
         {
             return this._trainingStartTime.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TrainingTimeInSeconds. 
+        /// <para>
+        /// The training time in seconds.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public int TrainingTimeInSeconds
+        {
+            get { return this._trainingTimeInSeconds.GetValueOrDefault(); }
+            set { this._trainingTimeInSeconds = value; }
+        }
+
+        // Check to see if TrainingTimeInSeconds property is set
+        internal bool IsSetTrainingTimeInSeconds()
+        {
+            return this._trainingTimeInSeconds.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property TuningJobArn. 
+        /// <para>
+        /// The Amazon Resource Name (ARN) of the associated hyperparameter tuning job if the
+        /// training job was launched by a hyperparameter tuning job.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=256)]
+        public string TuningJobArn
+        {
+            get { return this._tuningJobArn; }
+            set { this._tuningJobArn = value; }
+        }
+
+        // Check to see if TuningJobArn property is set
+        internal bool IsSetTuningJobArn()
+        {
+            return this._tuningJobArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VpcConfig. 
+        /// <para>
+        /// A <a>VpcConfig</a> object that specifies the VPC that this training job has access
+        /// to. For more information, see <a href="https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html">Protect
+        /// Training Jobs by Using an Amazon Virtual Private Cloud</a>.
+        /// </para>
+        /// </summary>
+        public VpcConfig VpcConfig
+        {
+            get { return this._vpcConfig; }
+            set { this._vpcConfig = value; }
+        }
+
+        // Check to see if VpcConfig property is set
+        internal bool IsSetVpcConfig()
+        {
+            return this._vpcConfig != null;
         }
 
     }

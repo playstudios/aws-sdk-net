@@ -40,8 +40,13 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
-    /// Instances</a> and <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
+    /// To queue a purchase for a future date and time, specify a purchase time. If you do
+    /// not specify a purchase time, the default is the current time.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html">Reserved
+    /// Instances</a> and <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html">Reserved
     /// Instance Marketplace</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -49,6 +54,7 @@ namespace Amazon.EC2.Model
     {
         private int? _instanceCount;
         private ReservedInstanceLimitPrice _limitPrice;
+        private DateTime? _purchaseTime;
         private string _reservedInstancesOfferingId;
 
         /// <summary>
@@ -73,6 +79,7 @@ namespace Amazon.EC2.Model
         /// The number of Reserved Instances to purchase.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int InstanceCount
         {
             get { return this._instanceCount.GetValueOrDefault(); }
@@ -105,11 +112,30 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PurchaseTime. 
+        /// <para>
+        /// The time at which to purchase the Reserved Instance, in UTC format (for example, <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+        /// </para>
+        /// </summary>
+        public DateTime PurchaseTime
+        {
+            get { return this._purchaseTime.GetValueOrDefault(); }
+            set { this._purchaseTime = value; }
+        }
+
+        // Check to see if PurchaseTime property is set
+        internal bool IsSetPurchaseTime()
+        {
+            return this._purchaseTime.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property ReservedInstancesOfferingId. 
         /// <para>
         /// The ID of the Reserved Instance offering to purchase.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ReservedInstancesOfferingId
         {
             get { return this._reservedInstancesOfferingId; }

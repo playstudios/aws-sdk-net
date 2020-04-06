@@ -29,9 +29,8 @@ namespace Amazon.Organizations.Model
 {
     /// <summary>
     /// Container for the parameters to the UpdatePolicy operation.
-    /// Updates an existing policy with a new name, description, or content. If any parameter
-    /// is not supplied, that value remains unchanged. Note that you cannot change a policy's
-    /// type.
+    /// Updates an existing policy with a new name, description, or content. If you don't
+    /// supply any parameter, that value remains unchanged. You can't change a policy's type.
     /// 
     ///  
     /// <para>
@@ -50,10 +49,11 @@ namespace Amazon.Organizations.Model
         /// <para>
         /// If provided, the new content for the policy. The text must be correctly formatted
         /// JSON that complies with the syntax for the policy's type. For more information, see
-        /// <a href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
-        /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide</i>.
+        /// <a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html">Service
+        /// Control Policy Syntax</a> in the <i>AWS Organizations User Guide.</i> 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1000000)]
         public string Content
         {
             get { return this._content; }
@@ -72,6 +72,7 @@ namespace Amazon.Organizations.Model
         /// If provided, the new description for the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=512)]
         public string Description
         {
             get { return this._description; }
@@ -95,6 +96,7 @@ namespace Amazon.Organizations.Model
         /// this parameter is a string of any of the characters in the ASCII character range.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string Name
         {
             get { return this._name; }
@@ -115,9 +117,11 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy ID string
-        /// requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or
+        /// the underscore character (_).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string PolicyId
         {
             get { return this._policyId; }

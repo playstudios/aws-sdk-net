@@ -52,8 +52,7 @@ namespace Amazon.MQ.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Revision. The Universally Unique Identifier (UUID) of the
-        /// request.
+        /// Gets and sets the property Revision. The revision number of the configuration.
         /// </summary>
         public int Revision
         {

@@ -36,7 +36,7 @@ namespace Amazon.RDS.Model
     ///  
     /// <para>
     /// The target database is created with most of the original configuration, but in a system-selected
-    /// availability zone, with the default security group, the default subnet group, and
+    /// Availability Zone, with the default security group, the default subnet group, and
     /// the default DB parameter group. By default, the new DB instance is created as a single-AZ
     /// deployment except when the instance is a SQL Server instance that has an option group
     /// that is associated with mirroring; in this case, the instance becomes a mirrored deployment
@@ -45,7 +45,7 @@ namespace Amazon.RDS.Model
     ///  <note> 
     /// <para>
     /// This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use
-    /// <a>RestoreDBClusterToPointInTime</a>.
+    /// <code>RestoreDBClusterToPointInTime</code>.
     /// </para>
     ///  </note>
     /// </summary>
@@ -56,7 +56,9 @@ namespace Amazon.RDS.Model
         private bool? _copyTagsToSnapshot;
         private string _dbInstanceClass;
         private string _dbName;
+        private string _dbParameterGroupName;
         private string _dbSubnetGroupName;
+        private bool? _deletionProtection;
         private string _domain;
         private string _domainIAMRoleName;
         private List<string> _enableCloudwatchLogsExports = new List<string>();
@@ -67,15 +69,19 @@ namespace Amazon.RDS.Model
         private bool? _multiAZ;
         private string _optionGroupName;
         private int? _port;
+        private List<ProcessorFeature> _processorFeatures = new List<ProcessorFeature>();
         private bool? _publiclyAccessible;
-        private DateTime? _restoreTime;
+        private DateTime? _restoreTimeUtc;
         private string _sourceDBInstanceIdentifier;
+        private string _sourceDbiResourceId;
         private string _storageType;
         private List<Tag> _tags = new List<Tag>();
         private string _targetDBInstanceIdentifier;
         private string _tdeCredentialArn;
         private string _tdeCredentialPassword;
+        private bool? _useDefaultProcessorFeatures;
         private bool? _useLatestRestorableTime;
+        private List<string> _vpcSecurityGroupIds = new List<string>();
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -86,7 +92,7 @@ namespace Amazon.RDS.Model
         /// Instantiates RestoreDBInstanceToPointInTimeRequest with the parameterized properties
         /// </summary>
         /// <param name="sourceDBInstanceIdentifier">The identifier of the source DB instance from which to restore. Constraints: <ul> <li> Must match the identifier of an existing DB instance. </li> </ul></param>
-        /// <param name="targetDBInstanceIdentifier">The name of the new DB instance to be created. Constraints: <ul> <li> Must contain from 1 to 63 letters, numbers, or hyphens </li> <li> First character must be a letter </li> <li> Cannot end with a hyphen or contain two consecutive hyphens </li> </ul></param>
+        /// <param name="targetDBInstanceIdentifier">The name of the new DB instance to be created. Constraints: <ul> <li> Must contain from 1 to 63 letters, numbers, or hyphens </li> <li> First character must be a letter </li> <li> Can't end with a hyphen or contain two consecutive hyphens </li> </ul></param>
         public RestoreDBInstanceToPointInTimeRequest(string sourceDBInstanceIdentifier, string targetDBInstanceIdentifier)
         {
             _sourceDBInstanceIdentifier = sourceDBInstanceIdentifier;
@@ -96,8 +102,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AutoMinorVersionUpgrade. 
         /// <para>
-        /// Indicates that minor version upgrades are applied automatically to the DB instance
-        /// during the maintenance window.
+        /// A value that indicates whether minor version upgrades are applied automatically to
+        /// the DB instance during the maintenance window.
         /// </para>
         /// </summary>
         public bool AutoMinorVersionUpgrade
@@ -115,7 +121,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZone. 
         /// <para>
-        /// The EC2 Availability Zone that the DB instance is created in.
+        /// The Availability Zone (AZ) where the DB instance will be created.
         /// </para>
         ///  
         /// <para>
@@ -123,8 +129,8 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter
-        /// is set to true.
+        /// Constraint: You can't specify the <code>AvailabilityZone</code> parameter if the DB
+        /// instance is a Multi-AZ deployment.
         /// </para>
         ///  
         /// <para>
@@ -146,8 +152,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property CopyTagsToSnapshot. 
         /// <para>
-        /// True to copy all tags from the restored DB instance to snapshots of the DB instance,
-        /// and otherwise false. The default is false.
+        /// A value that indicates whether to copy all tags from the restored DB instance to snapshots
+        /// of the DB instance. By default, tags are not copied.
         /// </para>
         /// </summary>
         public bool CopyTagsToSnapshot
@@ -168,8 +174,8 @@ namespace Amazon.RDS.Model
         /// The compute and memory capacity of the Amazon RDS DB instance, for example, <code>db.m4.large</code>.
         /// Not all DB instance classes are available in all AWS Regions, or for all database
         /// engines. For the full list of DB instance classes, and availability for your engine,
-        /// see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-        /// Instance Class</a> in the Amazon RDS User Guide. 
+        /// see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
+        /// Instance Class</a> in the <i>Amazon RDS User Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -195,7 +201,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  <note> 
         /// <para>
-        /// This parameter is not used for the MySQL or MariaDB engines.
+        /// This parameter isn't used for the MySQL or MariaDB engines.
         /// </para>
         ///  </note>
         /// </summary>
@@ -209,6 +215,50 @@ namespace Amazon.RDS.Model
         internal bool IsSetDBName()
         {
             return this._dbName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DBParameterGroupName. 
+        /// <para>
+        /// The name of the DB parameter group to associate with this DB instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do not specify a value for <code>DBParameterGroupName</code>, then the default
+        /// <code>DBParameterGroup</code> for the specified DB engine is used.
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If supplied, must match the name of an existing DBParameterGroup.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Must be 1 to 255 letters, numbers, or hyphens.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// First character must be a letter.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Can't end with a hyphen or contain two consecutive hyphens.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public string DBParameterGroupName
+        {
+            get { return this._dbParameterGroupName; }
+            set { this._dbParameterGroupName = value; }
+        }
+
+        // Check to see if DBParameterGroupName property is set
+        internal bool IsSetDBParameterGroupName()
+        {
+            return this._dbParameterGroupName != null;
         }
 
         /// <summary>
@@ -238,9 +288,46 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeletionProtection. 
+        /// <para>
+        /// A value that indicates whether the DB instance has deletion protection enabled. The
+        /// database can't be deleted when deletion protection is enabled. By default, deletion
+        /// protection is disabled. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html">
+        /// Deleting a DB Instance</a>. 
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Domain. 
         /// <para>
-        /// Specify the Active Directory Domain to restore the instance in.
+        /// Specify the Active Directory directory ID to restore the DB instance in. The domain
+        /// must be created prior to this operation. Currently, only Microsoft SQL Server and
+        /// Oracle DB instances can be created in an Active Directory Domain. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to
+        /// authenticate users that connect to the DB instance. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
+        /// Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL
+        /// Server</a> in the <i>Amazon RDS User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to authenticate
+        /// users that connect to the DB instance. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
+        /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the <i>Amazon RDS
+        /// User Guide</i>.
         /// </para>
         /// </summary>
         public string Domain
@@ -277,7 +364,10 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property EnableCloudwatchLogsExports. 
         /// <para>
-        /// The list of logs that the restored DB instance is to export to CloudWatch Logs.
+        /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The
+        /// values in the list depend on the DB engine being used. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+        /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon RDS User Guide</i>.
         /// </para>
         /// </summary>
         public List<string> EnableCloudwatchLogsExports
@@ -295,24 +385,15 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property EnableIAMDatabaseAuthentication. 
         /// <para>
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database
-        /// accounts, and otherwise false.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management
+        /// (IAM) accounts to database accounts. By default, mapping is disabled. For information
+        /// about the supported DB engines, see <a>CreateDBInstance</a>.
         /// </para>
         ///  
         /// <para>
-        /// You can enable IAM database authentication for the following database engines
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// For MySQL 5.6, minor version 5.6.34 or higher
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// For MySQL 5.7, minor version 5.7.16 or higher
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// Default: <code>false</code> 
+        /// For more information about IAM database authentication, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
+        /// IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon RDS User
+        /// Guide.</i> 
         /// </para>
         /// </summary>
         public bool EnableIAMDatabaseAuthentication
@@ -418,7 +499,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// Setting the IOPS value for the SQL Server database engine is not supported.
+        /// Setting the IOPS value for the SQL Server database engine isn't supported.
         /// </para>
         /// </summary>
         public int Iops
@@ -463,12 +544,12 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        /// Specifies if the DB instance is a Multi-AZ deployment.
+        /// A value that indicates whether the DB instance is a Multi-AZ deployment.
         /// </para>
         ///  
         /// <para>
-        /// Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter
-        /// is set to <code>true</code>.
+        /// Constraint: You can't specify the <code>AvailabilityZone</code> parameter if the DB
+        /// instance is a Multi-AZ deployment.
         /// </para>
         /// </summary>
         public bool MultiAZ
@@ -534,32 +615,32 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ProcessorFeatures. 
+        /// <para>
+        /// The number of CPU cores and the number of threads per core for the DB instance class
+        /// of the DB instance.
+        /// </para>
+        /// </summary>
+        public List<ProcessorFeature> ProcessorFeatures
+        {
+            get { return this._processorFeatures; }
+            set { this._processorFeatures = value; }
+        }
+
+        // Check to see if ProcessorFeatures property is set
+        internal bool IsSetProcessorFeatures()
+        {
+            return this._processorFeatures != null && this._processorFeatures.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PubliclyAccessible. 
         /// <para>
-        /// Specifies the accessibility options for the DB instance. A value of true specifies
-        /// an Internet-facing instance with a publicly resolvable DNS name, which resolves to
-        /// a public IP address. A value of false specifies an internal instance with a DNS name
-        /// that resolves to a private IP address.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: The default behavior varies depending on whether a VPC has been requested
-        /// or not. The following list shows the default behavior in each case.
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        ///  <b>Default VPC:</b>true
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <b>VPC:</b>false
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// If no DB subnet group has been specified as part of the request and the PubliclyAccessible
-        /// value has not been set, the DB instance is publicly accessible. If a specific DB subnet
-        /// group has been specified as part of the request and the PubliclyAccessible value has
-        /// not been set, the DB instance is private.
+        /// A value that indicates whether the DB instance is publicly accessible. When the DB
+        /// instance is publicly accessible, it is an Internet-facing instance with a publicly
+        /// resolvable DNS name, which resolves to a public IP address. When the DB instance isn't
+        /// publicly accessible, it is an internal instance with a DNS name that resolves to a
+        /// private IP address. For more information, see <a>CreateDBInstance</a>.
         /// </para>
         /// </summary>
         public bool PubliclyAccessible
@@ -575,7 +656,7 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RestoreTime. 
+        /// Gets and sets the property RestoreTimeUtc. 
         /// <para>
         /// The date and time to restore from.
         /// </para>
@@ -593,23 +674,23 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot be specified if UseLatestRestorableTime parameter is true
+        /// Can't be specified if the <code>UseLatestRestorableTime</code> parameter is enabled
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>2009-09-07T23:45:00Z</code> 
         /// </para>
         /// </summary>
-        public DateTime RestoreTime
+        public DateTime RestoreTimeUtc
         {
-            get { return this._restoreTime.GetValueOrDefault(); }
-            set { this._restoreTime = value; }
+            get { return this._restoreTimeUtc.GetValueOrDefault(); }
+            set { this._restoreTime = this._restoreTimeUtc = value; }
         }
 
-        // Check to see if RestoreTime property is set
-        internal bool IsSetRestoreTime()
+        // Check to see if RestoreTimeUtc property is set
+        internal bool IsSetRestoreTimeUtc()
         {
-            return this._restoreTime.HasValue; 
+            return this._restoreTimeUtc.HasValue; 
         }
 
         /// <summary>
@@ -640,6 +721,24 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SourceDbiResourceId. 
+        /// <para>
+        /// The resource ID of the source DB instance from which to restore.
+        /// </para>
+        /// </summary>
+        public string SourceDbiResourceId
+        {
+            get { return this._sourceDbiResourceId; }
+            set { this._sourceDbiResourceId = value; }
+        }
+
+        // Check to see if SourceDbiResourceId property is set
+        internal bool IsSetSourceDbiResourceId()
+        {
+            return this._sourceDbiResourceId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property StorageType. 
         /// <para>
         /// Specifies the storage type to be associated with the DB instance.
@@ -656,7 +755,7 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         ///  Default: <code>io1</code> if the <code>Iops</code> parameter is specified, otherwise
-        /// <code>standard</code> 
+        /// <code>gp2</code> 
         /// </para>
         /// </summary>
         public string StorageType
@@ -705,10 +804,11 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TargetDBInstanceIdentifier
         {
             get { return this._targetDBInstanceIdentifier; }
@@ -758,18 +858,33 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property UseDefaultProcessorFeatures. 
+        /// <para>
+        /// A value that indicates whether the DB instance class of the DB instance uses its default
+        /// processor features.
+        /// </para>
+        /// </summary>
+        public bool UseDefaultProcessorFeatures
+        {
+            get { return this._useDefaultProcessorFeatures.GetValueOrDefault(); }
+            set { this._useDefaultProcessorFeatures = value; }
+        }
+
+        // Check to see if UseDefaultProcessorFeatures property is set
+        internal bool IsSetUseDefaultProcessorFeatures()
+        {
+            return this._useDefaultProcessorFeatures.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property UseLatestRestorableTime. 
         /// <para>
-        ///  Specifies whether (<code>true</code>) or not (<code>false</code>) the DB instance
-        /// is restored from the latest backup time. 
+        ///  A value that indicates whether the DB instance is restored from the latest backup
+        /// time. By default, the DB instance isn't restored from the latest backup time. 
         /// </para>
         ///  
         /// <para>
-        /// Default: <code>false</code> 
-        /// </para>
-        ///  
-        /// <para>
-        /// Constraints: Cannot be specified if RestoreTime parameter is provided.
+        /// Constraints: Can't be specified if the <code>RestoreTime</code> parameter is provided.
         /// </para>
         /// </summary>
         public bool UseLatestRestorableTime
@@ -784,5 +899,80 @@ namespace Amazon.RDS.Model
             return this._useLatestRestorableTime.HasValue; 
         }
 
+        /// <summary>
+        /// Gets and sets the property VpcSecurityGroupIds. 
+        /// <para>
+        ///  A list of EC2 VPC security groups to associate with this DB instance. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  Default: The default EC2 VPC security group for the DB subnet group's VPC. 
+        /// </para>
+        /// </summary>
+        public List<string> VpcSecurityGroupIds
+        {
+            get { return this._vpcSecurityGroupIds; }
+            set { this._vpcSecurityGroupIds = value; }
+        }
+
+        // Check to see if VpcSecurityGroupIds property is set
+        internal bool IsSetVpcSecurityGroupIds()
+        {
+            return this._vpcSecurityGroupIds != null && this._vpcSecurityGroupIds.Count > 0; 
+        }
+
+#region Backwards compatible properties
+        private DateTime? _restoreTime;
+
+        /// <summary>
+        /// Gets and sets the property RestoreTimeUtc. 
+        /// <para>
+        /// This property is deprecated. Setting this property results in non-UTC DateTimes not
+        /// being marshalled correctly. Use RestoreTimeUtc instead. Setting either RestoreTime
+        /// or RestoreTimeUtc results in both RestoreTime and RestoreTimeUtc being assigned, the
+        /// latest assignment to either one of the two property is reflected in the value of both.
+        /// RestoreTime is provided for backwards compatibility only and assigning a non-Utc DateTime
+        /// to it results in the wrong timestamp being passed to the service.
+        /// </para>
+        ///  
+        /// <para>
+        /// The date and time to restore from.
+        /// </para>
+        ///  
+        /// <para>
+        /// Valid Values: Value must be a time in Universal Coordinated Time (UTC) format
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Must be before the latest restorable time for the DB instance
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Can't be specified if the <code>UseLatestRestorableTime</code> parameter is enabled
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Example: <code>2009-09-07T23:45:00Z</code> 
+        /// </para>
+        /// </summary>
+        [Obsolete("Setting this property results in non-UTC DateTimes not being marshalled correctly. " +
+            "Use RestoreTimeUtc instead. Setting either RestoreTime or RestoreTimeUtc results in both RestoreTime and " +
+            "RestoreTimeUtc being assigned, the latest assignment to either one of the two property is " + 
+            "reflected in the value of both. RestoreTime is provided for backwards compatibility only and " +
+            "assigning a non-Utc DateTime to it results in the wrong timestamp being passed to the service.", false)]
+        public DateTime RestoreTime
+        {
+            get { return this._restoreTime.GetValueOrDefault(); }
+            set
+            {
+                this._restoreTime = value;
+                this._restoreTimeUtc = new DateTime(value.Ticks, DateTimeKind.Utc);
+            }
+        }
+#endregion
     }
 }

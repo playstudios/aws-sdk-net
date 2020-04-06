@@ -43,6 +43,7 @@ namespace Amazon.IoT.Model
         /// The maximum number of results to return at one time.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=250)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -58,7 +59,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// A token used to retreive the next set of results.
+        /// A token used to retrieve the next set of results.
         /// </para>
         /// </summary>
         public string NextToken

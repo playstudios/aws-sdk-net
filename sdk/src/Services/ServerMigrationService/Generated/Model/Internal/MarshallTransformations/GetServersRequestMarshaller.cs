@@ -58,10 +58,11 @@ namespace Amazon.ServerMigrationService.Model.Internal.MarshallTransformations
             string target = "AWSServerMigrationService_V2016_10_24.GetServers";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-10-24";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -77,6 +78,22 @@ namespace Amazon.ServerMigrationService.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("nextToken");
                     context.Writer.Write(publicRequest.NextToken);
+                }
+
+                if(publicRequest.IsSetVmServerAddressList())
+                {
+                    context.Writer.WritePropertyName("vmServerAddressList");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestVmServerAddressListListValue in publicRequest.VmServerAddressList)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = VmServerAddressMarshaller.Instance;
+                        marshaller.Marshall(publicRequestVmServerAddressListListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
         

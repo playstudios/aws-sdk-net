@@ -32,7 +32,9 @@ namespace Amazon.IoT.Model
     /// </summary>
     public partial class JobExecution
     {
+        private long? _approximateSecondsBeforeTimedOut;
         private long? _executionNumber;
+        private bool? _forceCanceled;
         private string _jobId;
         private DateTime? _lastUpdatedAt;
         private DateTime? _queuedAt;
@@ -40,6 +42,29 @@ namespace Amazon.IoT.Model
         private JobExecutionStatus _status;
         private JobExecutionStatusDetails _statusDetails;
         private string _thingArn;
+        private long? _versionNumber;
+
+        /// <summary>
+        /// Gets and sets the property ApproximateSecondsBeforeTimedOut. 
+        /// <para>
+        /// The estimated number of seconds that remain before the job execution status will be
+        /// changed to <code>TIMED_OUT</code>. The timeout interval can be anywhere between 1
+        /// minute and 7 days (1 to 10080 minutes). The actual job execution timeout can occur
+        /// up to 60 seconds later than the estimated duration. This value will not be included
+        /// if the job execution has reached a terminal status.
+        /// </para>
+        /// </summary>
+        public long ApproximateSecondsBeforeTimedOut
+        {
+            get { return this._approximateSecondsBeforeTimedOut.GetValueOrDefault(); }
+            set { this._approximateSecondsBeforeTimedOut = value; }
+        }
+
+        // Check to see if ApproximateSecondsBeforeTimedOut property is set
+        internal bool IsSetApproximateSecondsBeforeTimedOut()
+        {
+            return this._approximateSecondsBeforeTimedOut.HasValue; 
+        }
 
         /// <summary>
         /// Gets and sets the property ExecutionNumber. 
@@ -62,11 +87,31 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ForceCanceled. 
+        /// <para>
+        /// Will be <code>true</code> if the job execution was canceled with the optional <code>force</code>
+        /// parameter set to <code>true</code>.
+        /// </para>
+        /// </summary>
+        public bool ForceCanceled
+        {
+            get { return this._forceCanceled.GetValueOrDefault(); }
+            set { this._forceCanceled = value; }
+        }
+
+        // Check to see if ForceCanceled property is set
+        internal bool IsSetForceCanceled()
+        {
+            return this._forceCanceled.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property JobId. 
         /// <para>
         /// The unique identifier you assigned to the job when it was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -82,7 +127,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property LastUpdatedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job execution was last updated.
+        /// The time, in seconds since the epoch, when the job execution was last updated.
         /// </para>
         /// </summary>
         public DateTime LastUpdatedAt
@@ -100,7 +145,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property QueuedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job execution was queued.
+        /// The time, in seconds since the epoch, when the job execution was queued.
         /// </para>
         /// </summary>
         public DateTime QueuedAt
@@ -118,7 +163,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property StartedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job execution started.
+        /// The time, in seconds since the epoch, when the job execution started.
         /// </para>
         /// </summary>
         public DateTime StartedAt
@@ -136,8 +181,8 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCESS, CANCELED, or
-        /// REJECTED).
+        /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED, TIMED_OUT,
+        /// CANCELED, or REJECTED).
         /// </para>
         /// </summary>
         public JobExecutionStatus Status
@@ -186,6 +231,25 @@ namespace Amazon.IoT.Model
         internal bool IsSetThingArn()
         {
             return this._thingArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property VersionNumber. 
+        /// <para>
+        /// The version of the job execution. Job execution versions are incremented each time
+        /// they are updated by a device.
+        /// </para>
+        /// </summary>
+        public long VersionNumber
+        {
+            get { return this._versionNumber.GetValueOrDefault(); }
+            set { this._versionNumber = value; }
+        }
+
+        // Check to see if VersionNumber property is set
+        internal bool IsSetVersionNumber()
+        {
+            return this._versionNumber.HasValue; 
         }
 
     }

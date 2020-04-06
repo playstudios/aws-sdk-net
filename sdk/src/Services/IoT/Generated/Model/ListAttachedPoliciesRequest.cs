@@ -62,6 +62,7 @@ namespace Amazon.IoT.Model
         /// The maximum number of results to be returned per request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=250)]
         public int PageSize
         {
             get { return this._pageSize.GetValueOrDefault(); }
@@ -95,9 +96,10 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property Target. 
         /// <para>
-        /// The group for which the policies will be listed.
+        /// The group or principal for which the policies will be listed.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Target
         {
             get { return this._target; }

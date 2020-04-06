@@ -28,13 +28,14 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Placeholder documentation for GlobalConfiguration
+    /// Global Configuration
     /// </summary>
     public partial class GlobalConfiguration
     {
         private int? _initialAudioGain;
         private GlobalConfigurationInputEndAction _inputEndAction;
         private InputLossBehavior _inputLossBehavior;
+        private GlobalConfigurationOutputLockingMode _outputLockingMode;
         private GlobalConfigurationOutputTimingSource _outputTimingSource;
         private GlobalConfigurationLowFramerateInputs _supportLowFramerateInputs;
 
@@ -42,6 +43,7 @@ namespace Amazon.MediaLive.Model
         /// Gets and sets the property InitialAudioGain. Value to set the initial audio gain for
         /// the Live Event.
         /// </summary>
+        [AWSProperty(Min=-60, Max=60)]
         public int InitialAudioGain
         {
             get { return this._initialAudioGain.GetValueOrDefault(); }
@@ -55,12 +57,12 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InputEndAction. Indicates the action to take when an input
-        /// completes (e.g. end-of-file.) Options include immediately switching to the next sequential
-        /// input (via "switchInput"), switching to the next input and looping back to the first
-        /// input when last input ends (via "switchAndLoopInputs") or not switching inputs and
-        /// instead transcoding black / color / slate images per the "Input Loss Behavior" configuration
-        /// until an activateInput REST command is received (via "none").
+        /// Gets and sets the property InputEndAction. Indicates the action to take when the current
+        /// input completes (e.g. end-of-file). When switchAndLoopInputs is configured the encoder
+        /// will restart at the beginning of the first input.  When "none" is configured the encoder
+        /// will transcode either black, a solid color, or a user specified slate images per the
+        /// "Input Loss Behavior" configuration until the next input switch occurs (which is controlled
+        /// through the Channel Schedule API).
         /// </summary>
         public GlobalConfigurationInputEndAction InputEndAction
         {
@@ -88,6 +90,24 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetInputLossBehavior()
         {
             return this._inputLossBehavior != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property OutputLockingMode. Indicates how MediaLive pipelines are
+        /// synchronized.PIPELINELOCKING - MediaLive will attempt to synchronize the output of
+        /// each pipeline to the other.EPOCHLOCKING - MediaLive will attempt to synchronize the
+        /// output of each pipeline to the Unix epoch.
+        /// </summary>
+        public GlobalConfigurationOutputLockingMode OutputLockingMode
+        {
+            get { return this._outputLockingMode; }
+            set { this._outputLockingMode = value; }
+        }
+
+        // Check to see if OutputLockingMode property is set
+        internal bool IsSetOutputLockingMode()
+        {
+            return this._outputLockingMode != null;
         }
 
         /// <summary>

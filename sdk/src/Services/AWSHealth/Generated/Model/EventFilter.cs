@@ -71,6 +71,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of dates and times that the event ended.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<DateTimeRange> EndTimes
         {
             get { return this._endTimes; }
@@ -89,6 +90,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of entity ARNs (unique identifiers).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> EntityArns
         {
             get { return this._entityArns; }
@@ -108,6 +110,7 @@ namespace Amazon.AWSHealth.Model
         /// EBS volumes (<code>vol-426ab23e</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public List<string> EntityValues
         {
             get { return this._entityValues; }
@@ -123,10 +126,12 @@ namespace Amazon.AWSHealth.Model
         /// <summary>
         /// Gets and sets the property EventArns. 
         /// <para>
-        /// A list of event ARNs (unique identifiers). For example: <code>"arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331",
-        /// "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz"</code> 
+        /// A list of event ARNs (unique identifiers). For example: <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+        /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> EventArns
         {
             get { return this._eventArns; }
@@ -145,6 +150,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of event status codes.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=6)]
         public List<string> EventStatusCodes
         {
             get { return this._eventStatusCodes; }
@@ -164,6 +170,7 @@ namespace Amazon.AWSHealth.Model
         /// or <code>accountNotification</code>).
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> EventTypeCategories
         {
             get { return this._eventTypeCategories; }
@@ -179,10 +186,11 @@ namespace Amazon.AWSHealth.Model
         /// <summary>
         /// Gets and sets the property EventTypeCodes. 
         /// <para>
-        /// A list of unique identifiers for event types. For example, <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED"</code>
+        /// A list of unique identifiers for event types. For example, <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".</code>
         /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> EventTypeCodes
         {
             get { return this._eventTypeCodes; }
@@ -201,6 +209,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of dates and times that the event was last updated.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<DateTimeRange> LastUpdatedTimes
         {
             get { return this._lastUpdatedTimes; }
@@ -219,6 +228,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of AWS regions.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> Regions
         {
             get { return this._regions; }
@@ -237,6 +247,7 @@ namespace Amazon.AWSHealth.Model
         /// The AWS services associated with the event. For example, <code>EC2</code>, <code>RDS</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<string> Services
         {
             get { return this._services; }
@@ -255,6 +266,7 @@ namespace Amazon.AWSHealth.Model
         /// A list of dates and times that the event began.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=10)]
         public List<DateTimeRange> StartTimes
         {
             get { return this._startTimes; }
@@ -273,6 +285,7 @@ namespace Amazon.AWSHealth.Model
         /// A map of entity tags attached to the affected entity.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=50)]
         public List<Dictionary<string, string>> Tags
         {
             get { return this._tags; }

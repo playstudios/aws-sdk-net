@@ -34,10 +34,10 @@ namespace Amazon.AutoScaling.Model
     /// <para>
     /// If you attach a target group to an existing Auto Scaling group, the initial state
     /// is <code>Adding</code>. The state transitions to <code>Added</code> after all Auto
-    /// Scaling instances are registered with the target group. If ELB health checks are enabled,
-    /// the state transitions to <code>InService</code> after at least one Auto Scaling instance
-    /// passes the health check. If EC2 health checks are enabled instead, the target group
-    /// remains in the <code>Added</code> state.
+    /// Scaling instances are registered with the target group. If Elastic Load Balancing
+    /// health checks are enabled, the state transitions to <code>InService</code> after at
+    /// least one Auto Scaling instance passes the health check. If EC2 health checks are
+    /// enabled instead, the target group remains in the <code>Added</code> state.
     /// </para>
     /// </summary>
     public partial class LoadBalancerTargetGroupState
@@ -51,6 +51,7 @@ namespace Amazon.AutoScaling.Model
         /// The Amazon Resource Name (ARN) of the target group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=511)]
         public string LoadBalancerTargetGroupARN
         {
             get { return this._loadBalancerTargetGroupARN; }
@@ -95,6 +96,7 @@ namespace Amazon.AutoScaling.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string State
         {
             get { return this._state; }

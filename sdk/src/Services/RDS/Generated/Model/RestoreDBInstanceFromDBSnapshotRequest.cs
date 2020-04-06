@@ -54,7 +54,7 @@ namespace Amazon.RDS.Model
     ///  <note> 
     /// <para>
     /// This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use
-    /// <a>RestoreDBClusterFromSnapshot</a>.
+    /// <code>RestoreDBClusterFromSnapshot</code>.
     /// </para>
     ///  </note>
     /// </summary>
@@ -66,8 +66,10 @@ namespace Amazon.RDS.Model
         private string _dbInstanceClass;
         private string _dbInstanceIdentifier;
         private string _dbName;
+        private string _dbParameterGroupName;
         private string _dbSnapshotIdentifier;
         private string _dbSubnetGroupName;
+        private bool? _deletionProtection;
         private string _domain;
         private string _domainIAMRoleName;
         private List<string> _enableCloudwatchLogsExports = new List<string>();
@@ -78,11 +80,14 @@ namespace Amazon.RDS.Model
         private bool? _multiAZ;
         private string _optionGroupName;
         private int? _port;
+        private List<ProcessorFeature> _processorFeatures = new List<ProcessorFeature>();
         private bool? _publiclyAccessible;
         private string _storageType;
         private List<Tag> _tags = new List<Tag>();
         private string _tdeCredentialArn;
         private string _tdeCredentialPassword;
+        private bool? _useDefaultProcessorFeatures;
+        private List<string> _vpcSecurityGroupIds = new List<string>();
 
         /// <summary>
         /// Empty constructor used to set  properties independently even when a simple constructor is available
@@ -92,7 +97,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Instantiates RestoreDBInstanceFromDBSnapshotRequest with the parameterized properties
         /// </summary>
-        /// <param name="dbInstanceIdentifier">Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints: <ul> <li> Must contain from 1 to 63 numbers, letters, or hyphens </li> <li> First character must be a letter </li> <li> Cannot end with a hyphen or contain two consecutive hyphens </li> </ul> Example: <code>my-snapshot-id</code> </param>
+        /// <param name="dbInstanceIdentifier">Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints: <ul> <li> Must contain from 1 to 63 numbers, letters, or hyphens </li> <li> First character must be a letter </li> <li> Can't end with a hyphen or contain two consecutive hyphens </li> </ul> Example: <code>my-snapshot-id</code> </param>
         /// <param name="dbSnapshotIdentifier">The identifier for the DB snapshot to restore from. Constraints: <ul> <li> Must match the identifier of an existing DBSnapshot. </li> <li> If you are restoring from a shared manual DB snapshot, the <code>DBSnapshotIdentifier</code> must be the ARN of the shared DB snapshot. </li> </ul></param>
         public RestoreDBInstanceFromDBSnapshotRequest(string dbInstanceIdentifier, string dbSnapshotIdentifier)
         {
@@ -103,8 +108,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AutoMinorVersionUpgrade. 
         /// <para>
-        /// Indicates that minor version upgrades are applied automatically to the DB instance
-        /// during the maintenance window.
+        /// A value that indicates whether minor version upgrades are applied automatically to
+        /// the DB instance during the maintenance window.
         /// </para>
         /// </summary>
         public bool AutoMinorVersionUpgrade
@@ -122,7 +127,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property AvailabilityZone. 
         /// <para>
-        /// The EC2 Availability Zone that the DB instance is created in.
+        /// The Availability Zone (AZ) where the DB instance will be created.
         /// </para>
         ///  
         /// <para>
@@ -130,8 +135,8 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  
         /// <para>
-        /// Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter
-        /// is set to <code>true</code>.
+        /// Constraint: You can't specify the <code>AvailabilityZone</code> parameter if the DB
+        /// instance is a Multi-AZ deployment.
         /// </para>
         ///  
         /// <para>
@@ -153,8 +158,8 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property CopyTagsToSnapshot. 
         /// <para>
-        /// True to copy all tags from the restored DB instance to snapshots of the DB instance,
-        /// and otherwise false. The default is false.
+        /// A value that indicates whether to copy all tags from the restored DB instance to snapshots
+        /// of the DB instance. By default, tags are not copied.
         /// </para>
         /// </summary>
         public bool CopyTagsToSnapshot
@@ -175,8 +180,8 @@ namespace Amazon.RDS.Model
         /// The compute and memory capacity of the Amazon RDS DB instance, for example, <code>db.m4.large</code>.
         /// Not all DB instance classes are available in all AWS Regions, or for all database
         /// engines. For the full list of DB instance classes, and availability for your engine,
-        /// see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-        /// Instance Class</a> in the Amazon RDS User Guide. 
+        /// see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
+        /// Instance Class</a> in the <i>Amazon RDS User Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -214,13 +219,14 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// Cannot end with a hyphen or contain two consecutive hyphens
+        /// Can't end with a hyphen or contain two consecutive hyphens
         /// </para>
         ///  </li> </ul> 
         /// <para>
         /// Example: <code>my-snapshot-id</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBInstanceIdentifier
         {
             get { return this._dbInstanceIdentifier; }
@@ -257,6 +263,50 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DBParameterGroupName. 
+        /// <para>
+        /// The name of the DB parameter group to associate with this DB instance.
+        /// </para>
+        ///  
+        /// <para>
+        /// If you do not specify a value for <code>DBParameterGroupName</code>, then the default
+        /// <code>DBParameterGroup</code> for the specified DB engine is used.
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraints:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// If supplied, must match the name of an existing DBParameterGroup.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Must be 1 to 255 letters, numbers, or hyphens.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// First character must be a letter.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Can't end with a hyphen or contain two consecutive hyphens.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public string DBParameterGroupName
+        {
+            get { return this._dbParameterGroupName; }
+            set { this._dbParameterGroupName = value; }
+        }
+
+        // Check to see if DBParameterGroupName property is set
+        internal bool IsSetDBParameterGroupName()
+        {
+            return this._dbParameterGroupName != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property DBSnapshotIdentifier. 
         /// <para>
         /// The identifier for the DB snapshot to restore from.
@@ -276,6 +326,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBSnapshotIdentifier
         {
             get { return this._dbSnapshotIdentifier; }
@@ -315,9 +366,46 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DeletionProtection. 
+        /// <para>
+        /// A value that indicates whether the DB instance has deletion protection enabled. The
+        /// database can't be deleted when deletion protection is enabled. By default, deletion
+        /// protection is disabled. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html">
+        /// Deleting a DB Instance</a>. 
+        /// </para>
+        /// </summary>
+        public bool DeletionProtection
+        {
+            get { return this._deletionProtection.GetValueOrDefault(); }
+            set { this._deletionProtection = value; }
+        }
+
+        // Check to see if DeletionProtection property is set
+        internal bool IsSetDeletionProtection()
+        {
+            return this._deletionProtection.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property Domain. 
         /// <para>
-        /// Specify the Active Directory Domain to restore the instance in.
+        /// Specify the Active Directory directory ID to restore the DB instance in. The domain
+        /// must be created prior to this operation. Currently, only Microsoft SQL Server and
+        /// Oracle DB instances can be created in an Active Directory Domain. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For Microsoft SQL Server DB instances, Amazon RDS can use Windows Authentication to
+        /// authenticate users that connect to the DB instance. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_SQLServerWinAuth.html">
+        /// Using Windows Authentication with an Amazon RDS DB Instance Running Microsoft SQL
+        /// Server</a> in the <i>Amazon RDS User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// For Oracle DB instances, Amazon RDS can use Kerberos Authentication to authenticate
+        /// users that connect to the DB instance. For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-kerberos.html">
+        /// Using Kerberos Authentication with Amazon RDS for Oracle</a> in the <i>Amazon RDS
+        /// User Guide</i>.
         /// </para>
         /// </summary>
         public string Domain
@@ -354,7 +442,10 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property EnableCloudwatchLogsExports. 
         /// <para>
-        /// The list of logs that the restored DB instance is to export to CloudWatch Logs.
+        /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The
+        /// values in the list depend on the DB engine being used. For more information, see <a
+        /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+        /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User Guide</i>.
         /// </para>
         /// </summary>
         public List<string> EnableCloudwatchLogsExports
@@ -372,24 +463,15 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property EnableIAMDatabaseAuthentication. 
         /// <para>
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database
-        /// accounts, and otherwise false.
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management
+        /// (IAM) accounts to database accounts. By default, mapping is disabled. For information
+        /// about the supported DB engines, see <a>CreateDBInstance</a>.
         /// </para>
         ///  
         /// <para>
-        /// You can enable IAM database authentication for the following database engines
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        /// For MySQL 5.6, minor version 5.6.34 or higher
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        /// For MySQL 5.7, minor version 5.7.16 or higher
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// Default: <code>false</code> 
+        /// For more information about IAM database authentication, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
+        /// IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon RDS User
+        /// Guide.</i> 
         /// </para>
         /// </summary>
         public bool EnableIAMDatabaseAuthentication
@@ -484,7 +566,7 @@ namespace Amazon.RDS.Model
         /// Gets and sets the property Iops. 
         /// <para>
         /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations
-        /// per second. If this parameter is not specified, the IOPS value is taken from the backup.
+        /// per second. If this parameter isn't specified, the IOPS value is taken from the backup.
         /// If this parameter is set to 0, the new instance is converted to a non-PIOPS instance.
         /// The conversion takes additional time, though your DB instance is available for connections
         /// before the conversion starts. 
@@ -492,8 +574,9 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         /// The provisioned IOPS value must follow the requirements for your database engine.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS">Amazon
-        /// RDS Provisioned IOPS Storage to Improve Performance</a>. 
+        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS">Amazon
+        /// RDS Provisioned IOPS Storage to Improve Performance</a> in the <i>Amazon RDS User
+        /// Guide.</i> 
         /// </para>
         ///  
         /// <para>
@@ -542,12 +625,12 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property MultiAZ. 
         /// <para>
-        /// Specifies if the DB instance is a Multi-AZ deployment.
+        /// A value that indicates whether the DB instance is a Multi-AZ deployment.
         /// </para>
         ///  
         /// <para>
-        /// Constraint: You can't specify the AvailabilityZone parameter if the MultiAZ parameter
-        /// is set to <code>true</code>.
+        /// Constraint: You can't specify the <code>AvailabilityZone</code> parameter if the DB
+        /// instance is a Multi-AZ deployment.
         /// </para>
         /// </summary>
         public bool MultiAZ
@@ -613,32 +696,32 @@ namespace Amazon.RDS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ProcessorFeatures. 
+        /// <para>
+        /// The number of CPU cores and the number of threads per core for the DB instance class
+        /// of the DB instance.
+        /// </para>
+        /// </summary>
+        public List<ProcessorFeature> ProcessorFeatures
+        {
+            get { return this._processorFeatures; }
+            set { this._processorFeatures = value; }
+        }
+
+        // Check to see if ProcessorFeatures property is set
+        internal bool IsSetProcessorFeatures()
+        {
+            return this._processorFeatures != null && this._processorFeatures.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PubliclyAccessible. 
         /// <para>
-        /// Specifies the accessibility options for the DB instance. A value of true specifies
-        /// an Internet-facing instance with a publicly resolvable DNS name, which resolves to
-        /// a public IP address. A value of false specifies an internal instance with a DNS name
-        /// that resolves to a private IP address.
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: The default behavior varies depending on whether a VPC has been requested
-        /// or not. The following list shows the default behavior in each case.
-        /// </para>
-        ///  <ul> <li> 
-        /// <para>
-        ///  <b>Default VPC:</b> true
-        /// </para>
-        ///  </li> <li> 
-        /// <para>
-        ///  <b>VPC:</b> false
-        /// </para>
-        ///  </li> </ul> 
-        /// <para>
-        /// If no DB subnet group has been specified as part of the request and the PubliclyAccessible
-        /// value has not been set, the DB instance is publicly accessible. If a specific DB subnet
-        /// group has been specified as part of the request and the PubliclyAccessible value has
-        /// not been set, the DB instance is private.
+        /// A value that indicates whether the DB instance is publicly accessible. When the DB
+        /// instance is publicly accessible, it is an Internet-facing instance with a publicly
+        /// resolvable DNS name, which resolves to a public IP address. When the DB instance isn't
+        /// publicly accessible, it is an internal instance with a DNS name that resolves to a
+        /// private IP address. For more information, see <a>CreateDBInstance</a>.
         /// </para>
         /// </summary>
         public bool PubliclyAccessible
@@ -670,7 +753,7 @@ namespace Amazon.RDS.Model
         ///  
         /// <para>
         ///  Default: <code>io1</code> if the <code>Iops</code> parameter is specified, otherwise
-        /// <code>standard</code> 
+        /// <code>gp2</code> 
         /// </para>
         /// </summary>
         public string StorageType
@@ -734,6 +817,47 @@ namespace Amazon.RDS.Model
         internal bool IsSetTdeCredentialPassword()
         {
             return this._tdeCredentialPassword != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property UseDefaultProcessorFeatures. 
+        /// <para>
+        /// A value that indicates whether the DB instance class of the DB instance uses its default
+        /// processor features.
+        /// </para>
+        /// </summary>
+        public bool UseDefaultProcessorFeatures
+        {
+            get { return this._useDefaultProcessorFeatures.GetValueOrDefault(); }
+            set { this._useDefaultProcessorFeatures = value; }
+        }
+
+        // Check to see if UseDefaultProcessorFeatures property is set
+        internal bool IsSetUseDefaultProcessorFeatures()
+        {
+            return this._useDefaultProcessorFeatures.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property VpcSecurityGroupIds. 
+        /// <para>
+        ///  A list of EC2 VPC security groups to associate with this DB instance. 
+        /// </para>
+        ///  
+        /// <para>
+        ///  Default: The default EC2 VPC security group for the DB subnet group's VPC. 
+        /// </para>
+        /// </summary>
+        public List<string> VpcSecurityGroupIds
+        {
+            get { return this._vpcSecurityGroupIds; }
+            set { this._vpcSecurityGroupIds = value; }
+        }
+
+        // Check to see if VpcSecurityGroupIds property is set
+        internal bool IsSetVpcSecurityGroupIds()
+        {
+            return this._vpcSecurityGroupIds != null && this._vpcSecurityGroupIds.Count > 0; 
         }
 
     }

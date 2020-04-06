@@ -58,10 +58,11 @@ namespace Amazon.CodeDeploy.Model.Internal.MarshallTransformations
             string target = "CodeDeploy_20141006.UpdateDeploymentGroup";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2014-10-06";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -165,6 +166,22 @@ namespace Amazon.CodeDeploy.Model.Internal.MarshallTransformations
                     marshaller.Marshall(publicRequest.Ec2TagSet, context);
 
                     context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetEcsServices())
+                {
+                    context.Writer.WritePropertyName("ecsServices");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestEcsServicesListValue in publicRequest.EcsServices)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = ECSServiceMarshaller.Instance;
+                        marshaller.Marshall(publicRequestEcsServicesListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetLoadBalancerInfo())

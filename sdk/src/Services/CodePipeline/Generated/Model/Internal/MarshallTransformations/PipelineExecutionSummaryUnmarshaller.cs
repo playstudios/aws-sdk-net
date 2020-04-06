@@ -76,6 +76,12 @@ namespace Amazon.CodePipeline.Model.Internal.MarshallTransformations
                     unmarshalledObject.PipelineExecutionId = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("sourceRevisions", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<SourceRevision, SourceRevisionUnmarshaller>(SourceRevisionUnmarshaller.Instance);
+                    unmarshalledObject.SourceRevisions = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("startTime", targetDepth))
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
@@ -86,6 +92,18 @@ namespace Amazon.CodePipeline.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     unmarshalledObject.Status = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("stopTrigger", targetDepth))
+                {
+                    var unmarshaller = StopExecutionTriggerUnmarshaller.Instance;
+                    unmarshalledObject.StopTrigger = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("trigger", targetDepth))
+                {
+                    var unmarshaller = ExecutionTriggerUnmarshaller.Instance;
+                    unmarshalledObject.Trigger = unmarshaller.Unmarshall(context);
                     continue;
                 }
             }

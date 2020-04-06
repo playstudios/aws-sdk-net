@@ -28,39 +28,29 @@ using Amazon.Runtime.Internal;
 namespace Amazon.DirectConnect.Model
 {
     /// <summary>
-    /// An interconnect is a connection that can host other connections.
-    /// 
-    ///  
-    /// <para>
-    /// Like a standard AWS Direct Connect connection, an interconnect represents the physical
-    /// connection between an AWS Direct Connect partner's network and a specific Direct Connect
-    /// location. An AWS Direct Connect partner who owns an interconnect can provision hosted
-    /// connections on the interconnect for their end customers, thereby providing the end
-    /// customers with connectivity to AWS services.
-    /// </para>
-    ///  
-    /// <para>
-    /// The resources of the interconnect, including bandwidth and VLAN numbers, are shared
-    /// by all of the hosted connections on the interconnect, and the owner of the interconnect
-    /// determines how these resources are assigned.
-    /// </para>
+    /// Information about an interconnect.
     /// </summary>
     public partial class CreateInterconnectResponse : AmazonWebServiceResponse
     {
         private string _awsDevice;
+        private string _awsDeviceV2;
         private string _bandwidth;
+        private HasLogicalRedundancy _hasLogicalRedundancy;
         private string _interconnectId;
         private string _interconnectName;
         private InterconnectState _interconnectState;
+        private bool? _jumboFrameCapable;
         private string _lagId;
         private DateTime? _loaIssueTime;
         private string _location;
+        private string _providerName;
         private string _region;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property AwsDevice. 
         /// <para>
-        /// The Direct Connection endpoint which the physical connection terminates on.
+        /// The Direct Connect endpoint on which the physical connection terminates.
         /// </para>
         /// </summary>
         public string AwsDevice
@@ -76,7 +66,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Bandwidth.
+        /// Gets and sets the property AwsDeviceV2. 
+        /// <para>
+        /// The Direct Connect endpoint on which the physical connection terminates.
+        /// </para>
+        /// </summary>
+        public string AwsDeviceV2
+        {
+            get { return this._awsDeviceV2; }
+            set { this._awsDeviceV2 = value; }
+        }
+
+        // Check to see if AwsDeviceV2 property is set
+        internal bool IsSetAwsDeviceV2()
+        {
+            return this._awsDeviceV2 != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Bandwidth. 
+        /// <para>
+        /// The bandwidth of the connection.
+        /// </para>
         /// </summary>
         public string Bandwidth
         {
@@ -91,7 +102,29 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InterconnectId.
+        /// Gets and sets the property HasLogicalRedundancy. 
+        /// <para>
+        /// Indicates whether the interconnect supports a secondary BGP in the same address family
+        /// (IPv4/IPv6).
+        /// </para>
+        /// </summary>
+        public HasLogicalRedundancy HasLogicalRedundancy
+        {
+            get { return this._hasLogicalRedundancy; }
+            set { this._hasLogicalRedundancy = value; }
+        }
+
+        // Check to see if HasLogicalRedundancy property is set
+        internal bool IsSetHasLogicalRedundancy()
+        {
+            return this._hasLogicalRedundancy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property InterconnectId. 
+        /// <para>
+        /// The ID of the interconnect.
+        /// </para>
         /// </summary>
         public string InterconnectId
         {
@@ -106,7 +139,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InterconnectName.
+        /// Gets and sets the property InterconnectName. 
+        /// <para>
+        /// The name of the interconnect.
+        /// </para>
         /// </summary>
         public string InterconnectName
         {
@@ -121,7 +157,41 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property InterconnectState.
+        /// Gets and sets the property InterconnectState. 
+        /// <para>
+        /// The state of the interconnect. The following are the possible values:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>requested</code>: The initial state of an interconnect. The interconnect stays
+        /// in the requested state until the Letter of Authorization (LOA) is sent to the customer.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>pending</code>: The interconnect is approved, and is being initialized.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>available</code>: The network link is up, and the interconnect is ready for
+        /// use.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>down</code>: The network link is down.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>deleting</code>: The interconnect is being deleted.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>deleted</code>: The interconnect is deleted.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>unknown</code>: The state of the interconnect is not available.
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public InterconnectState InterconnectState
         {
@@ -136,7 +206,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LagId.
+        /// Gets and sets the property JumboFrameCapable. 
+        /// <para>
+        /// Indicates whether jumbo frames (9001 MTU) are supported.
+        /// </para>
+        /// </summary>
+        public bool JumboFrameCapable
+        {
+            get { return this._jumboFrameCapable.GetValueOrDefault(); }
+            set { this._jumboFrameCapable = value; }
+        }
+
+        // Check to see if JumboFrameCapable property is set
+        internal bool IsSetJumboFrameCapable()
+        {
+            return this._jumboFrameCapable.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property LagId. 
+        /// <para>
+        /// The ID of the LAG.
+        /// </para>
         /// </summary>
         public string LagId
         {
@@ -153,7 +244,7 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property LoaIssueTime. 
         /// <para>
-        /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
+        /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
         /// </para>
         /// </summary>
         public DateTime LoaIssueTime
@@ -169,7 +260,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Location.
+        /// Gets and sets the property Location. 
+        /// <para>
+        /// The location of the connection.
+        /// </para>
         /// </summary>
         public string Location
         {
@@ -184,7 +278,28 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Region.
+        /// Gets and sets the property ProviderName. 
+        /// <para>
+        /// The name of the service provider associated with the interconnect.
+        /// </para>
+        /// </summary>
+        public string ProviderName
+        {
+            get { return this._providerName; }
+            set { this._providerName = value; }
+        }
+
+        // Check to see if ProviderName property is set
+        internal bool IsSetProviderName()
+        {
+            return this._providerName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Region. 
+        /// <para>
+        /// The AWS Region where the connection is located.
+        /// </para>
         /// </summary>
         public string Region
         {
@@ -196,6 +311,25 @@ namespace Amazon.DirectConnect.Model
         internal bool IsSetRegion()
         {
             return this._region != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags associated with the interconnect.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

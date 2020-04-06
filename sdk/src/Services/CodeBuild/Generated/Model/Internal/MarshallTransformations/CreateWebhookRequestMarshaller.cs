@@ -58,10 +58,11 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
             string target = "CodeBuild_20161006.CreateWebhook";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-10-06";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,27 @@ namespace Amazon.CodeBuild.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("branchFilter");
                     context.Writer.Write(publicRequest.BranchFilter);
+                }
+
+                if(publicRequest.IsSetFilterGroups())
+                {
+                    context.Writer.WritePropertyName("filterGroups");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestFilterGroupsListValue in publicRequest.FilterGroups)
+                    {
+                        context.Writer.WriteArrayStart();
+                        foreach(var publicRequestFilterGroupsListValueListValue in publicRequestFilterGroupsListValue)
+                        {
+                            context.Writer.WriteObjectStart();
+
+                            var marshaller = WebhookFilterMarshaller.Instance;
+                            marshaller.Marshall(publicRequestFilterGroupsListValueListValue, context);
+
+                            context.Writer.WriteObjectEnd();
+                        }
+                        context.Writer.WriteArrayEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetProjectName())

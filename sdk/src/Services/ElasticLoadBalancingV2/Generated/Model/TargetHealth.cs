@@ -58,8 +58,11 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <summary>
         /// Gets and sets the property Reason. 
         /// <para>
-        /// The reason code. If the target state is <code>healthy</code>, a reason code is not
-        /// provided.
+        /// The reason code.
+        /// </para>
+        ///  
+        /// <para>
+        /// If the target state is <code>healthy</code>, a reason code is not provided.
         /// </para>
         ///  
         /// <para>
@@ -84,21 +87,22 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         ///  <ul> <li> 
         /// <para>
         ///  <code>Target.ResponseCodeMismatch</code> - The health checks did not return an expected
-        /// HTTP code.
+        /// HTTP code. Applies only to Application Load Balancers.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>Target.Timeout</code> - The health check requests timed out.
+        ///  <code>Target.Timeout</code> - The health check requests timed out. Applies only to
+        /// Application Load Balancers.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>Target.FailedHealthChecks</code> - The health checks failed because the connection
-        /// to the target timed out, the target response was malformed, or the target failed the
-        /// health check for an unknown reason.
+        ///  <code>Target.FailedHealthChecks</code> - The load balancer received an error while
+        /// establishing a connection to the target or the target response was malformed.
         /// </para>
         ///  </li> <li> 
         /// <para>
         ///  <code>Elb.InternalError</code> - The health checks failed due to an internal error.
+        /// Applies only to Application Load Balancers.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -117,12 +121,12 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>Target.IpUnusable</code> - The target IP address is reserved for use by a load
-        /// balancer.
+        ///  <code>Target.InvalidState</code> - The target is in the stopped or terminated state.
         /// </para>
         ///  </li> <li> 
         /// <para>
-        ///  <code>Target.InvalidState</code> - The target is in the stopped or terminated state.
+        ///  <code>Target.IpUnusable</code> - The target IP address is reserved for use by a load
+        /// balancer.
         /// </para>
         ///  </li> </ul> 
         /// <para>
@@ -133,6 +137,21 @@ namespace Amazon.ElasticLoadBalancingV2.Model
         /// <para>
         ///  <code>Target.DeregistrationInProgress</code> - The target is in the process of being
         /// deregistered and the deregistration delay period has not expired.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If the target state is <code>unavailable</code>, the reason code can be the following
+        /// value:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>Target.HealthCheckDisabled</code> - Health checks are disabled for the target
+        /// group. Applies only to Application Load Balancers.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>Elb.InternalError</code> - Target health is unavailable due to an internal
+        /// error. Applies only to Network Load Balancers.
         /// </para>
         ///  </li> </ul>
         /// </summary>

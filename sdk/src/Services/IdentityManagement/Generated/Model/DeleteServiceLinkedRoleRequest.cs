@@ -49,7 +49,7 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about service-linked roles, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">Roles
+    /// For more information about service-linked roles, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">Roles
     /// Terms and Concepts: AWS Service-Linked Role</a> in the <i>IAM User Guide</i>.
     /// </para>
     /// </summary>
@@ -63,6 +63,7 @@ namespace Amazon.IdentityManagement.Model
         /// The name of the service-linked role to be deleted.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string RoleName
         {
             get { return this._roleName; }

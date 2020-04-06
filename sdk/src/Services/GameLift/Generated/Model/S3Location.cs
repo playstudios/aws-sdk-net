@@ -28,23 +28,24 @@ using Amazon.Runtime.Internal;
 namespace Amazon.GameLift.Model
 {
     /// <summary>
-    /// Location in Amazon Simple Storage Service (Amazon S3) where build files can be stored
-    /// for access by Amazon GameLift. This location is specified in a <a>CreateBuild</a>
-    /// request. For more details, see the <a href="http://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-build-cli-uploading.html#gamelift-build-cli-uploading-create-build">Create
-    /// a Build with Files in Amazon S3</a>.
+    /// The location in S3 where build or script files are stored for access by Amazon GameLift.
+    /// This location is specified in <a>CreateBuild</a>, <a>CreateScript</a>, and <a>UpdateScript</a>
+    /// requests.
     /// </summary>
     public partial class S3Location
     {
         private string _bucket;
         private string _key;
+        private string _objectVersion;
         private string _roleArn;
 
         /// <summary>
         /// Gets and sets the property Bucket. 
         /// <para>
-        /// Amazon S3 bucket identifier. This is the name of your S3 bucket.
+        /// An S3 bucket identifier. This is the name of the S3 bucket.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Bucket
         {
             get { return this._bucket; }
@@ -60,9 +61,10 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property Key. 
         /// <para>
-        /// Name of the zip file containing your build files. 
+        /// The name of the zip file that contains the build files or script files. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string Key
         {
             get { return this._key; }
@@ -76,12 +78,35 @@ namespace Amazon.GameLift.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RoleArn. 
+        /// Gets and sets the property ObjectVersion. 
         /// <para>
-        /// Amazon Resource Name (<a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
-        /// for the access role that allows Amazon GameLift to access your S3 bucket.
+        /// The version of the file, if object versioning is turned on for the bucket. Amazon
+        /// GameLift uses this information when retrieving files from an S3 bucket that you own.
+        /// Use this parameter to specify a specific version of the file. If not set, the latest
+        /// version of the file is retrieved. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
+        public string ObjectVersion
+        {
+            get { return this._objectVersion; }
+            set { this._objectVersion = value; }
+        }
+
+        // Check to see if ObjectVersion property is set
+        internal bool IsSetObjectVersion()
+        {
+            return this._objectVersion != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RoleArn. 
+        /// <para>
+        /// The Amazon Resource Name (<a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html">ARN</a>)
+        /// for an IAM role that allows Amazon GameLift to access the S3 bucket.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
         public string RoleArn
         {
             get { return this._roleArn; }

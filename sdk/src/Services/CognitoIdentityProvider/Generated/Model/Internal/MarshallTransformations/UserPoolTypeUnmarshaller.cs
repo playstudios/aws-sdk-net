@@ -64,6 +64,12 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("AccountRecoverySetting", targetDepth))
+                {
+                    var unmarshaller = AccountRecoverySettingTypeUnmarshaller.Instance;
+                    unmarshalledObject.AccountRecoverySetting = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("AdminCreateUserConfig", targetDepth))
                 {
                     var unmarshaller = AdminCreateUserConfigTypeUnmarshaller.Instance;
@@ -76,6 +82,12 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
                     unmarshalledObject.AliasAttributes = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("Arn", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.Arn = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("AutoVerifiedAttributes", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
@@ -86,6 +98,12 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = DateTimeUnmarshaller.Instance;
                     unmarshalledObject.CreationDate = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("CustomDomain", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.CustomDomain = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("DeviceConfiguration", targetDepth))
@@ -206,6 +224,12 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
                     unmarshalledObject.UsernameAttributes = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("UsernameConfiguration", targetDepth))
+                {
+                    var unmarshaller = UsernameConfigurationTypeUnmarshaller.Instance;
+                    unmarshalledObject.UsernameConfiguration = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("UserPoolAddOns", targetDepth))

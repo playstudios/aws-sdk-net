@@ -58,15 +58,43 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
             string target = "PhotonAdminProxyService.UpdateStack";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-12-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAccessEndpoints())
+                {
+                    context.Writer.WritePropertyName("AccessEndpoints");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestAccessEndpointsListValue in publicRequest.AccessEndpoints)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = AccessEndpointMarshaller.Instance;
+                        marshaller.Marshall(publicRequestAccessEndpointsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetApplicationSettings())
+                {
+                    context.Writer.WritePropertyName("ApplicationSettings");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = ApplicationSettingsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.ApplicationSettings, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetAttributesToDelete())
                 {
                     context.Writer.WritePropertyName("AttributesToDelete");
@@ -94,6 +122,17 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("DisplayName");
                     context.Writer.Write(publicRequest.DisplayName);
+                }
+
+                if(publicRequest.IsSetEmbedHostDomains())
+                {
+                    context.Writer.WritePropertyName("EmbedHostDomains");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestEmbedHostDomainsListValue in publicRequest.EmbedHostDomains)
+                    {
+                            context.Writer.Write(publicRequestEmbedHostDomainsListValue);
+                    }
+                    context.Writer.WriteArrayEnd();
                 }
 
                 if(publicRequest.IsSetFeedbackURL())
@@ -124,6 +163,22 @@ namespace Amazon.AppStream.Model.Internal.MarshallTransformations
 
                         var marshaller = StorageConnectorMarshaller.Instance;
                         marshaller.Marshall(publicRequestStorageConnectorsListValue, context);
+
+                        context.Writer.WriteObjectEnd();
+                    }
+                    context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetUserSettings())
+                {
+                    context.Writer.WritePropertyName("UserSettings");
+                    context.Writer.WriteArrayStart();
+                    foreach(var publicRequestUserSettingsListValue in publicRequest.UserSettings)
+                    {
+                        context.Writer.WriteObjectStart();
+
+                        var marshaller = UserSettingMarshaller.Instance;
+                        marshaller.Marshall(publicRequestUserSettingsListValue, context);
 
                         context.Writer.WriteObjectEnd();
                     }

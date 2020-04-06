@@ -55,6 +55,7 @@ namespace Amazon.OpsWorksCM.Model
     {
         private string _description;
         private string _serverName;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Description. 
@@ -62,6 +63,7 @@ namespace Amazon.OpsWorksCM.Model
         ///  A user-defined description of the backup. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=10000)]
         public string Description
         {
             get { return this._description; }
@@ -80,6 +82,7 @@ namespace Amazon.OpsWorksCM.Model
         /// The name of the server that you want to back up. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=40)]
         public string ServerName
         {
             get { return this._serverName; }
@@ -90,6 +93,50 @@ namespace Amazon.OpsWorksCM.Model
         internal bool IsSetServerName()
         {
             return this._serverName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server
+        /// backup.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The key cannot be empty.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The key can be a maximum of 127 characters, and can contain only Unicode letters,
+        /// numbers, or separators, or the following special characters: <code>+ - = . _ : /</code>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// The value can be a maximum 255 characters, and contain only Unicode letters, numbers,
+        /// or separators, or the following special characters: <code>+ - = . _ : /</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Leading and trailing white spaces are trimmed from both the key and value.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        [AWSProperty(Min=0, Max=200)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

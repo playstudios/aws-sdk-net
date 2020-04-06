@@ -55,11 +55,12 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
         public IRequest Marshall(SubmitJobRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Batch");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-08-10";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/submitjob";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/submitjob";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -121,6 +122,17 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.JobQueue);
                 }
 
+                if(publicRequest.IsSetNodeOverrides())
+                {
+                    context.Writer.WritePropertyName("nodeOverrides");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = NodeOverridesMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.NodeOverrides, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetParameters())
                 {
                     context.Writer.WritePropertyName("parameters");
@@ -142,6 +154,17 @@ namespace Amazon.Batch.Model.Internal.MarshallTransformations
 
                     var marshaller = RetryStrategyMarshaller.Instance;
                     marshaller.Marshall(publicRequest.RetryStrategy, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetTimeout())
+                {
+                    context.Writer.WritePropertyName("timeout");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = JobTimeoutMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Timeout, context);
 
                     context.Writer.WriteObjectEnd();
                 }

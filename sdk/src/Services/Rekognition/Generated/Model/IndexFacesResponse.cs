@@ -35,11 +35,13 @@ namespace Amazon.Rekognition.Model
         private string _faceModelVersion;
         private List<FaceRecord> _faceRecords = new List<FaceRecord>();
         private OrientationCorrection _orientationCorrection;
+        private List<UnindexedFace> _unindexedFaces = new List<UnindexedFace>();
 
         /// <summary>
         /// Gets and sets the property FaceModelVersion. 
         /// <para>
-        /// Version number of the face detection model associated with the input collection (<code>CollectionId</code>).
+        /// The version number of the face detection model that's associated with the input collection
+        /// (<code>CollectionId</code>).
         /// </para>
         /// </summary>
         public string FaceModelVersion
@@ -58,7 +60,7 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property FaceRecords. 
         /// <para>
         /// An array of faces detected and added to the collection. For more information, see
-        /// <a>collections-index-faces</a>. 
+        /// Searching Faces in a Collection in the Amazon Rekognition Developer Guide. 
         /// </para>
         /// </summary>
         public List<FaceRecord> FaceRecords
@@ -76,20 +78,37 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property OrientationCorrection. 
         /// <para>
-        /// The orientation of the input image (counterclockwise direction). If your application
-        /// displays the image, you can use this value to correct image orientation. The bounding
-        /// box coordinates returned in <code>FaceRecords</code> represent face locations before
-        /// the image orientation is corrected. 
+        /// If your collection is associated with a face detection model that's later than version
+        /// 3.0, the value of <code>OrientationCorrection</code> is always null and no orientation
+        /// information is returned.
         /// </para>
-        ///  <note> 
+        ///  
         /// <para>
-        /// If the input image is in jpeg format, it might contain exchangeable image (Exif) metadata.
-        /// If so, and the Exif metadata populates the orientation field, the value of <code>OrientationCorrection</code>
-        /// is null and the bounding box coordinates in <code>FaceRecords</code> represent face
-        /// locations after Exif metadata is used to correct the image orientation. Images in
-        /// .png format don't contain Exif metadata.
+        /// If your collection is associated with a face detection model that's version 3.0 or
+        /// earlier, the following applies:
         /// </para>
-        ///  </note>
+        ///  <ul> <li> 
+        /// <para>
+        /// If the input image is in .jpeg format, it might contain exchangeable image file format
+        /// (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this
+        /// orientation information to perform image correction - the bounding box coordinates
+        /// are translated to represent object locations after the orientation information in
+        /// the Exif metadata is used to correct the image orientation. Images in .png format
+        /// don't contain Exif metadata. The value of <code>OrientationCorrection</code> is null.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// If the image doesn't contain orientation information in its Exif metadata, Amazon
+        /// Rekognition returns an estimated orientation (ROTATE_0, ROTATE_90, ROTATE_180, ROTATE_270).
+        /// Amazon Rekognition doesn’t perform image correction for images. The bounding box coordinates
+        /// aren't translated and represent the object locations before the image is rotated.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Bounding box information is returned in the <code>FaceRecords</code> array. You can
+        /// get the version of the face detection model by calling <a>DescribeCollection</a>.
+        /// 
+        /// </para>
         /// </summary>
         public OrientationCorrection OrientationCorrection
         {
@@ -101,6 +120,27 @@ namespace Amazon.Rekognition.Model
         internal bool IsSetOrientationCorrection()
         {
             return this._orientationCorrection != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property UnindexedFaces. 
+        /// <para>
+        /// An array of faces that were detected in the image but weren't indexed. They weren't
+        /// indexed because the quality filter identified them as low quality, or the <code>MaxFaces</code>
+        /// request parameter filtered them out. To use the quality filter, you specify the <code>QualityFilter</code>
+        /// request parameter.
+        /// </para>
+        /// </summary>
+        public List<UnindexedFace> UnindexedFaces
+        {
+            get { return this._unindexedFaces; }
+            set { this._unindexedFaces = value; }
+        }
+
+        // Check to see if UnindexedFaces property is set
+        internal bool IsSetUnindexedFaces()
+        {
+            return this._unindexedFaces != null && this._unindexedFaces.Count > 0; 
         }
 
     }

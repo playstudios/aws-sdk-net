@@ -32,24 +32,53 @@ namespace Amazon.FMS.Model
     /// </summary>
     public partial class Policy
     {
+        private Dictionary<string, List<string>> _excludeMap = new Dictionary<string, List<string>>();
         private bool? _excludeResourceTags;
+        private Dictionary<string, List<string>> _includeMap = new Dictionary<string, List<string>>();
         private string _policyId;
         private string _policyName;
         private string _policyUpdateToken;
         private bool? _remediationEnabled;
         private List<ResourceTag> _resourceTags = new List<ResourceTag>();
         private string _resourceType;
+        private List<string> _resourceTypeList = new List<string>();
         private SecurityServicePolicyData _securityServicePolicyData;
+
+        /// <summary>
+        /// Gets and sets the property ExcludeMap. 
+        /// <para>
+        /// Specifies the AWS account IDs to exclude from the policy. The <code>IncludeMap</code>
+        /// values are evaluated first, with all the appropriate account IDs added to the policy.
+        /// Then the accounts listed in <code>ExcludeMap</code> are removed, resulting in the
+        /// final list of accounts to add to the policy.
+        /// </para>
+        ///  
+        /// <para>
+        /// The key to the map is <code>ACCOUNT</code>. For example, a valid <code>ExcludeMap</code>
+        /// would be <code>{“ACCOUNT” : [“accountID1”, “accountID2”]}</code>.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, List<string>> ExcludeMap
+        {
+            get { return this._excludeMap; }
+            set { this._excludeMap = value; }
+        }
+
+        // Check to see if ExcludeMap property is set
+        internal bool IsSetExcludeMap()
+        {
+            return this._excludeMap != null && this._excludeMap.Count > 0; 
+        }
 
         /// <summary>
         /// Gets and sets the property ExcludeResourceTags. 
         /// <para>
         /// If set to <code>True</code>, resources with the tags that are specified in the <code>ResourceTag</code>
-        /// array are not protected by the policy. If set to <code>False</code>, and the <code>ResourceTag</code>
-        /// array is not null, only resources with the specified tags are associated with the
-        /// policy.
+        /// array are not in scope of the policy. If set to <code>False</code>, and the <code>ResourceTag</code>
+        /// array is not null, only resources with the specified tags are in scope of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool ExcludeResourceTags
         {
             get { return this._excludeResourceTags.GetValueOrDefault(); }
@@ -63,11 +92,38 @@ namespace Amazon.FMS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IncludeMap. 
+        /// <para>
+        /// Specifies the AWS account IDs to include in the policy. If <code>IncludeMap</code>
+        /// is null, all accounts in the organization in AWS Organizations are included in the
+        /// policy. If <code>IncludeMap</code> is not null, only values listed in <code>IncludeMap</code>
+        /// are included in the policy.
+        /// </para>
+        ///  
+        /// <para>
+        /// The key to the map is <code>ACCOUNT</code>. For example, a valid <code>IncludeMap</code>
+        /// would be <code>{“ACCOUNT” : [“accountID1”, “accountID2”]}</code>.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, List<string>> IncludeMap
+        {
+            get { return this._includeMap; }
+            set { this._includeMap = value; }
+        }
+
+        // Check to see if IncludeMap property is set
+        internal bool IsSetIncludeMap()
+        {
+            return this._includeMap != null && this._includeMap.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PolicyId. 
         /// <para>
         /// The ID of the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=36, Max=36)]
         public string PolicyId
         {
             get { return this._policyId; }
@@ -86,6 +142,7 @@ namespace Amazon.FMS.Model
         /// The friendly name of the AWS Firewall Manager policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }
@@ -107,6 +164,7 @@ namespace Amazon.FMS.Model
         /// policy version, use a <code>GetPolicy</code> request.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string PolicyUpdateToken
         {
             get { return this._policyUpdateToken; }
@@ -125,6 +183,7 @@ namespace Amazon.FMS.Model
         /// Indicates if the policy should be automatically applied to new resources.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public bool RemediationEnabled
         {
             get { return this._remediationEnabled.GetValueOrDefault(); }
@@ -143,6 +202,7 @@ namespace Amazon.FMS.Model
         /// An array of <code>ResourceTag</code> objects.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=8)]
         public List<ResourceTag> ResourceTags
         {
             get { return this._resourceTags; }
@@ -158,12 +218,18 @@ namespace Amazon.FMS.Model
         /// <summary>
         /// Gets and sets the property ResourceType. 
         /// <para>
-        /// The type of resource to protect with the policy, either an Application Load Balancer
-        /// or a CloudFront distribution. This is in the format shown in <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
-        /// Resource Types Reference</a>. Valid values are <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>
-        /// or <code>AWS::CloudFront::Distribution</code>.
+        /// The type of resource protected by or in scope of the policy. This is in the format
+        /// shown in the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+        /// Resource Types Reference</a>. For AWS WAF and Shield Advanced, examples include <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>
+        /// and <code>AWS::CloudFront::Distribution</code>. For a security group common policy,
+        /// valid values are <code>AWS::EC2::NetworkInterface</code> and <code>AWS::EC2::Instance</code>.
+        /// For a security group content audit policy, valid values are <code>AWS::EC2::SecurityGroup</code>,
+        /// <code>AWS::EC2::NetworkInterface</code>, and <code>AWS::EC2::Instance</code>. For
+        /// a security group usage audit policy, the value is <code>AWS::EC2::SecurityGroup</code>.
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=128)]
         public string ResourceType
         {
             get { return this._resourceType; }
@@ -177,11 +243,30 @@ namespace Amazon.FMS.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ResourceTypeList. 
+        /// <para>
+        /// An array of <code>ResourceType</code>.
+        /// </para>
+        /// </summary>
+        public List<string> ResourceTypeList
+        {
+            get { return this._resourceTypeList; }
+            set { this._resourceTypeList = value; }
+        }
+
+        // Check to see if ResourceTypeList property is set
+        internal bool IsSetResourceTypeList()
+        {
+            return this._resourceTypeList != null && this._resourceTypeList.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property SecurityServicePolicyData. 
         /// <para>
         /// Details about the security service that is being used to protect the resources.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public SecurityServicePolicyData SecurityServicePolicyData
         {
             get { return this._securityServicePolicyData; }

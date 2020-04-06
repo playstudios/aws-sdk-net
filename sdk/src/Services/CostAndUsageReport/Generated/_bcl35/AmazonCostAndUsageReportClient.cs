@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CostAndUsageReport.Model;
 using Amazon.CostAndUsageReport.Model.Internal.MarshallTransformations;
+using Amazon.CostAndUsageReport.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -33,10 +35,34 @@ namespace Amazon.CostAndUsageReport
     /// <summary>
     /// Implementation for accessing CostAndUsageReport
     ///
-    /// All public APIs for AWS Cost and Usage Report service
+    /// The AWS Cost and Usage Report API enables you to programmatically create, query, and
+    /// delete AWS Cost and Usage report definitions.
+    /// 
+    ///  
+    /// <para>
+    /// AWS Cost and Usage reports track the monthly AWS costs and usage associated with your
+    /// AWS account. The report contains line items for each unique combination of AWS product,
+    /// usage type, and operation that your AWS account uses. You can configure the AWS Cost
+    /// and Usage report to show only the data that you want, using the AWS Cost and Usage
+    /// API.
+    /// </para>
+    ///  
+    /// <para>
+    /// Service Endpoint
+    /// </para>
+    ///  
+    /// <para>
+    /// The AWS Cost and Usage Report API provides the following endpoint:
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// cur.us-east-1.amazonaws.com
+    /// </para>
+    ///  </li> </ul>
     /// </summary>
     public partial class AmazonCostAndUsageReportClient : AmazonServiceClient, IAmazonCostAndUsageReport
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCostAndUsageReportMetadata();
         #region Constructors
 
         /// <summary>
@@ -207,6 +233,16 @@ namespace Amazon.CostAndUsageReport
             return new AWS4Signer();
         }
 
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -222,29 +258,29 @@ namespace Amazon.CostAndUsageReport
 
         #endregion
 
-        
+
         #region  DeleteReportDefinition
 
         /// <summary>
-        /// Delete a specified report definition
+        /// Deletes the specified report.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteReportDefinition service method.</param>
         /// 
         /// <returns>The response from the DeleteReportDefinition service method, as returned by CostAndUsageReport.</returns>
         /// <exception cref="Amazon.CostAndUsageReport.Model.InternalErrorException">
-        /// This exception is thrown on a known dependency failure.
+        /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
         /// <exception cref="Amazon.CostAndUsageReport.Model.ValidationException">
-        /// This exception is thrown when providing an invalid input. eg. Put a report preference
-        /// with an invalid report name, or Delete a report preference with an empty report name.
+        /// The input fails to satisfy the constraints specified by an AWS service.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DeleteReportDefinition">REST API Reference for DeleteReportDefinition Operation</seealso>
         public virtual DeleteReportDefinitionResponse DeleteReportDefinition(DeleteReportDefinitionRequest request)
         {
-            var marshaller = DeleteReportDefinitionRequestMarshaller.Instance;
-            var unmarshaller = DeleteReportDefinitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReportDefinitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReportDefinitionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteReportDefinitionRequest,DeleteReportDefinitionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteReportDefinitionResponse>(request, options);
         }
 
         /// <summary>
@@ -261,11 +297,11 @@ namespace Amazon.CostAndUsageReport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DeleteReportDefinition">REST API Reference for DeleteReportDefinition Operation</seealso>
         public virtual IAsyncResult BeginDeleteReportDefinition(DeleteReportDefinitionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DeleteReportDefinitionRequestMarshaller.Instance;
-            var unmarshaller = DeleteReportDefinitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteReportDefinitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteReportDefinitionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DeleteReportDefinitionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -286,21 +322,22 @@ namespace Amazon.CostAndUsageReport
         #region  DescribeReportDefinitions
 
         /// <summary>
-        /// Describe a list of report definitions owned by the account
+        /// Lists the AWS Cost and Usage reports available to this account.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeReportDefinitions service method.</param>
         /// 
         /// <returns>The response from the DescribeReportDefinitions service method, as returned by CostAndUsageReport.</returns>
         /// <exception cref="Amazon.CostAndUsageReport.Model.InternalErrorException">
-        /// This exception is thrown on a known dependency failure.
+        /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DescribeReportDefinitions">REST API Reference for DescribeReportDefinitions Operation</seealso>
         public virtual DescribeReportDefinitionsResponse DescribeReportDefinitions(DescribeReportDefinitionsRequest request)
         {
-            var marshaller = DescribeReportDefinitionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReportDefinitionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReportDefinitionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReportDefinitionsResponseUnmarshaller.Instance;
 
-            return Invoke<DescribeReportDefinitionsRequest,DescribeReportDefinitionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<DescribeReportDefinitionsResponse>(request, options);
         }
 
         /// <summary>
@@ -317,11 +354,11 @@ namespace Amazon.CostAndUsageReport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DescribeReportDefinitions">REST API Reference for DescribeReportDefinitions Operation</seealso>
         public virtual IAsyncResult BeginDescribeReportDefinitions(DescribeReportDefinitionsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = DescribeReportDefinitionsRequestMarshaller.Instance;
-            var unmarshaller = DescribeReportDefinitionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DescribeReportDefinitionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DescribeReportDefinitionsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<DescribeReportDefinitionsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -339,36 +376,96 @@ namespace Amazon.CostAndUsageReport
 
         #endregion
         
+        #region  ModifyReportDefinition
+
+        /// <summary>
+        /// Allows you to programatically update your report preferences.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ModifyReportDefinition service method.</param>
+        /// 
+        /// <returns>The response from the ModifyReportDefinition service method, as returned by CostAndUsageReport.</returns>
+        /// <exception cref="Amazon.CostAndUsageReport.Model.InternalErrorException">
+        /// An error on the server occurred during the processing of your request. Try again later.
+        /// </exception>
+        /// <exception cref="Amazon.CostAndUsageReport.Model.ValidationException">
+        /// The input fails to satisfy the constraints specified by an AWS service.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/ModifyReportDefinition">REST API Reference for ModifyReportDefinition Operation</seealso>
+        public virtual ModifyReportDefinitionResponse ModifyReportDefinition(ModifyReportDefinitionRequest request)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyReportDefinitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyReportDefinitionResponseUnmarshaller.Instance;
+
+            return Invoke<ModifyReportDefinitionResponse>(request, options);
+        }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ModifyReportDefinition operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ModifyReportDefinition operation on AmazonCostAndUsageReportClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndModifyReportDefinition
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/ModifyReportDefinition">REST API Reference for ModifyReportDefinition Operation</seealso>
+        public virtual IAsyncResult BeginModifyReportDefinition(ModifyReportDefinitionRequest request, AsyncCallback callback, object state)
+        {
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ModifyReportDefinitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ModifyReportDefinitionResponseUnmarshaller.Instance;
+
+            return BeginInvoke(request, options, callback, state);
+        }
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ModifyReportDefinition operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginModifyReportDefinition.</param>
+        /// 
+        /// <returns>Returns a  ModifyReportDefinitionResult from CostAndUsageReport.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/ModifyReportDefinition">REST API Reference for ModifyReportDefinition Operation</seealso>
+        public virtual ModifyReportDefinitionResponse EndModifyReportDefinition(IAsyncResult asyncResult)
+        {
+            return EndInvoke<ModifyReportDefinitionResponse>(asyncResult);
+        }
+
+        #endregion
+        
         #region  PutReportDefinition
 
         /// <summary>
-        /// Create a new report definition
+        /// Creates a new report using the description that you provide.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the PutReportDefinition service method.</param>
         /// 
         /// <returns>The response from the PutReportDefinition service method, as returned by CostAndUsageReport.</returns>
         /// <exception cref="Amazon.CostAndUsageReport.Model.DuplicateReportNameException">
-        /// This exception is thrown when putting a report preference with a name that already
-        /// exists.
+        /// A report with the specified name already exists in the account. Specify a different
+        /// report name.
         /// </exception>
         /// <exception cref="Amazon.CostAndUsageReport.Model.InternalErrorException">
-        /// This exception is thrown on a known dependency failure.
+        /// An error on the server occurred during the processing of your request. Try again later.
         /// </exception>
         /// <exception cref="Amazon.CostAndUsageReport.Model.ReportLimitReachedException">
-        /// This exception is thrown when the number of report preference reaches max limit. The
-        /// max number is 5.
+        /// This account already has five reports defined. To define a new report, you must delete
+        /// an existing report.
         /// </exception>
         /// <exception cref="Amazon.CostAndUsageReport.Model.ValidationException">
-        /// This exception is thrown when providing an invalid input. eg. Put a report preference
-        /// with an invalid report name, or Delete a report preference with an empty report name.
+        /// The input fails to satisfy the constraints specified by an AWS service.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/PutReportDefinition">REST API Reference for PutReportDefinition Operation</seealso>
         public virtual PutReportDefinitionResponse PutReportDefinition(PutReportDefinitionRequest request)
         {
-            var marshaller = PutReportDefinitionRequestMarshaller.Instance;
-            var unmarshaller = PutReportDefinitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutReportDefinitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutReportDefinitionResponseUnmarshaller.Instance;
 
-            return Invoke<PutReportDefinitionRequest,PutReportDefinitionResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutReportDefinitionResponse>(request, options);
         }
 
         /// <summary>
@@ -385,11 +482,11 @@ namespace Amazon.CostAndUsageReport
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/PutReportDefinition">REST API Reference for PutReportDefinition Operation</seealso>
         public virtual IAsyncResult BeginPutReportDefinition(PutReportDefinitionRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = PutReportDefinitionRequestMarshaller.Instance;
-            var unmarshaller = PutReportDefinitionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutReportDefinitionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutReportDefinitionResponseUnmarshaller.Instance;
 
-            return BeginInvoke<PutReportDefinitionRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

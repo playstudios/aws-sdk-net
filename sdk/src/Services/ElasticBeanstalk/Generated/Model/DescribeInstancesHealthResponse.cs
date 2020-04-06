@@ -42,6 +42,11 @@ namespace Amazon.ElasticBeanstalk.Model
         /// <para>
         /// Detailed health information about each instance.
         /// </para>
+        ///  
+        /// <para>
+        /// The output differs slightly between Linux and Windows environments. There is a difference
+        /// in the members that are supported under the <code>&lt;CPUUtilization&gt;</code> type.
+        /// </para>
         /// </summary>
         public List<SingleInstanceHealth> InstanceHealthList
         {
@@ -61,6 +66,7 @@ namespace Amazon.ElasticBeanstalk.Model
         /// Pagination token for the next page of results, if available.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string NextToken
         {
             get { return this._nextToken; }

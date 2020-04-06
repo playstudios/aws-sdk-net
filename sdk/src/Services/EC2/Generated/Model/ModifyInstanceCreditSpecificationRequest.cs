@@ -29,13 +29,13 @@ namespace Amazon.EC2.Model
 {
     /// <summary>
     /// Container for the parameters to the ModifyInstanceCreditSpecification operation.
-    /// Modifies the credit option for CPU usage on a running or stopped T2 instance. The
-    /// credit options are <code>standard</code> and <code>unlimited</code>.
+    /// Modifies the credit option for CPU usage on a running or stopped burstable performance
+    /// instance. The credit options are <code>standard</code> and <code>unlimited</code>.
     /// 
     ///  
     /// <para>
-    /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/t2-instances.html">T2
-    /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+    /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
+    /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
     public partial class ModifyInstanceCreditSpecificationRequest : AmazonEC2Request
@@ -47,7 +47,7 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// A unique, case-sensitive token that you provide to ensure idempotency of your modification
-        /// request. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+        /// request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
         /// </para>
         /// </summary>
@@ -69,6 +69,7 @@ namespace Amazon.EC2.Model
         /// Information about the credit option for CPU usage.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<InstanceCreditSpecificationRequest> InstanceCreditSpecifications
         {
             get { return this._instanceCreditSpecifications; }

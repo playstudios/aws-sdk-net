@@ -35,7 +35,10 @@ namespace Amazon.AlexaForBusiness.Model
     {
         private string _address;
         private DistanceUnit _distanceUnit;
+        private bool? _isDefault;
+        private string _locale;
         private int? _maxVolumeLimit;
+        private UpdateMeetingRoomConfiguration _meetingRoomConfiguration;
         private string _profileArn;
         private string _profileName;
         private bool? _pstnEnabled;
@@ -50,6 +53,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The updated address for the room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=500)]
         public string Address
         {
             get { return this._address; }
@@ -81,6 +85,45 @@ namespace Amazon.AlexaForBusiness.Model
         }
 
         /// <summary>
+        /// Gets and sets the property IsDefault. 
+        /// <para>
+        /// Sets the profile as default if selected. If this is missing, no update is done to
+        /// the default status.
+        /// </para>
+        /// </summary>
+        public bool IsDefault
+        {
+            get { return this._isDefault.GetValueOrDefault(); }
+            set { this._isDefault = value; }
+        }
+
+        // Check to see if IsDefault property is set
+        internal bool IsSetIsDefault()
+        {
+            return this._isDefault.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property Locale. 
+        /// <para>
+        /// The updated locale for the room profile. (This is currently only available to a limited
+        /// preview audience.)
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string Locale
+        {
+            get { return this._locale; }
+            set { this._locale = value; }
+        }
+
+        // Check to see if Locale property is set
+        internal bool IsSetLocale()
+        {
+            return this._locale != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MaxVolumeLimit. 
         /// <para>
         /// The updated maximum volume limit for the room profile.
@@ -96,6 +139,24 @@ namespace Amazon.AlexaForBusiness.Model
         internal bool IsSetMaxVolumeLimit()
         {
             return this._maxVolumeLimit.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MeetingRoomConfiguration. 
+        /// <para>
+        /// The updated meeting room settings of a room profile.
+        /// </para>
+        /// </summary>
+        public UpdateMeetingRoomConfiguration MeetingRoomConfiguration
+        {
+            get { return this._meetingRoomConfiguration; }
+            set { this._meetingRoomConfiguration = value; }
+        }
+
+        // Check to see if MeetingRoomConfiguration property is set
+        internal bool IsSetMeetingRoomConfiguration()
+        {
+            return this._meetingRoomConfiguration != null;
         }
 
         /// <summary>
@@ -122,6 +183,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The updated name for the room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ProfileName
         {
             get { return this._profileName; }
@@ -194,6 +256,7 @@ namespace Amazon.AlexaForBusiness.Model
         /// The updated timezone for the room profile.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Timezone
         {
             get { return this._timezone; }

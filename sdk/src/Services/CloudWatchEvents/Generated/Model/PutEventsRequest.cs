@@ -29,7 +29,7 @@ namespace Amazon.CloudWatchEvents.Model
 {
     /// <summary>
     /// Container for the parameters to the PutEvents operation.
-    /// Sends custom events to Amazon CloudWatch Events so that they can be matched to rules.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules.
     /// </summary>
     public partial class PutEventsRequest : AmazonCloudWatchEventsRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.CloudWatchEvents.Model
         /// the event, and so on.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=10)]
         public List<PutEventsRequestEntry> Entries
         {
             get { return this._entries; }

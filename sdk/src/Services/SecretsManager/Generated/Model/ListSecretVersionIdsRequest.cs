@@ -99,11 +99,12 @@ namespace Amazon.SecretsManager.Model
         /// operation. If additional items exist beyond the maximum you specify, the <code>NextToken</code>
         /// response element is present and has a value (isn't null). Include that value as the
         /// <code>NextToken</code> request parameter in the next call to the operation to get
-        /// the next part of the results. Note that AWS Secrets Manager might return fewer results
+        /// the next part of the results. Note that Secrets Manager might return fewer results
         /// than the maximum even when there are more results available. You should check <code>NextToken</code>
         /// after every operation to ensure that you receive all of the results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -125,6 +126,7 @@ namespace Amazon.SecretsManager.Model
         /// response to indicate where the output should continue from.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=4096)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -143,7 +145,22 @@ namespace Amazon.SecretsManager.Model
         /// The identifier for the secret containing the versions you want to list. You can specify
         /// either the Amazon Resource Name (ARN) or the friendly name of the secret.
         /// </para>
+        ///  <note> 
+        /// <para>
+        /// If you specify an ARN, we generally recommend that you specify a complete ARN. You
+        /// can specify a partial ARN too—for example, if you don’t include the final hyphen and
+        /// six random characters that Secrets Manager adds at the end of the ARN when you created
+        /// the secret. A partial ARN match can work as long as it uniquely matches only one secret.
+        /// However, if your secret has a name that ends in a hyphen followed by six characters
+        /// (before Secrets Manager adds the hyphen and six characters to the ARN) and you try
+        /// to use that as a partial ARN, then those characters cause Secrets Manager to assume
+        /// that you’re specifying a complete ARN. This confusion can cause unexpected results.
+        /// To avoid this situation, we recommend that you don’t create secret names that end
+        /// with a hyphen followed by six characters.
+        /// </para>
+        ///  </note>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2048)]
         public string SecretId
         {
             get { return this._secretId; }

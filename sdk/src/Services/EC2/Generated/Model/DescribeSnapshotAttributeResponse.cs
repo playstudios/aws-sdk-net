@@ -28,7 +28,7 @@ using Amazon.Runtime.Internal;
 namespace Amazon.EC2.Model
 {
     /// <summary>
-    /// Contains the output of DescribeSnapshotAttribute.
+    /// This is the response object from the DescribeSnapshotAttribute operation.
     /// </summary>
     public partial class DescribeSnapshotAttributeResponse : AmazonWebServiceResponse
     {
@@ -39,7 +39,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property CreateVolumePermissions. 
         /// <para>
-        /// A list of permissions for creating volumes from the snapshot.
+        /// The users and groups that have the permissions for creating volumes from the snapshot.
         /// </para>
         /// </summary>
         public List<CreateVolumePermission> CreateVolumePermissions
@@ -57,7 +57,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property ProductCodes. 
         /// <para>
-        /// A list of product codes.
+        /// The product codes.
         /// </para>
         /// </summary>
         public List<ProductCode> ProductCodes

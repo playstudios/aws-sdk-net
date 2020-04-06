@@ -33,7 +33,7 @@ namespace Amazon.APIGateway.Model
     /// 
     ///  <div class="remarks">Client certificates are used to authenticate an API by the backend
     /// server. To authenticate an API client (or user), use IAM roles and policies, a custom
-    /// <a>Authorizer</a> or an Amazon Cognito user pool.</div> <div class="seeAlso"> <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-client-side-ssl-authentication.html">Use
+    /// <a>Authorizer</a> or an Amazon Cognito user pool.</div> <div class="seeAlso"> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-client-side-ssl-authentication.html">Use
     /// Client-Side Certificate</a> </div>
     /// </summary>
     public partial class UpdateClientCertificateResponse : AmazonWebServiceResponse
@@ -43,6 +43,7 @@ namespace Amazon.APIGateway.Model
         private string _description;
         private DateTime? _expirationDate;
         private string _pemEncodedCertificate;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets and sets the property ClientCertificateId. 
@@ -133,6 +134,24 @@ namespace Amazon.APIGateway.Model
         internal bool IsSetPemEncodedCertificate()
         {
             return this._pemEncodedCertificate != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The collection of tags. Each tag element is associated with a given resource.
+        /// </para>
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

@@ -37,10 +37,11 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property JobId. 
         /// <para>
-        /// The identifier for the content moderation analysis job. Use <code>JobId</code> to
-        /// identify the job in a subsequent call to <code>GetContentModeration</code>.
+        /// The identifier for the unsafe content analysis job. Use <code>JobId</code> to identify
+        /// the job in a subsequent call to <code>GetContentModeration</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }

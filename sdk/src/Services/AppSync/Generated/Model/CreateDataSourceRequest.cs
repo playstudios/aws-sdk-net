@@ -37,8 +37,10 @@ namespace Amazon.AppSync.Model
         private string _description;
         private DynamodbDataSourceConfig _dynamodbConfig;
         private ElasticsearchDataSourceConfig _elasticsearchConfig;
+        private HttpDataSourceConfig _httpConfig;
         private LambdaDataSourceConfig _lambdaConfig;
         private string _name;
+        private RelationalDatabaseDataSourceConfig _relationalDatabaseConfig;
         private string _serviceRoleArn;
         private DataSourceType _type;
 
@@ -48,6 +50,7 @@ namespace Amazon.AppSync.Model
         /// The API ID for the GraphQL API for the <code>DataSource</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApiId
         {
             get { return this._apiId; }
@@ -81,7 +84,7 @@ namespace Amazon.AppSync.Model
         /// <summary>
         /// Gets and sets the property DynamodbConfig. 
         /// <para>
-        /// DynamoDB settings.
+        /// Amazon DynamoDB settings.
         /// </para>
         /// </summary>
         public DynamodbDataSourceConfig DynamodbConfig
@@ -99,7 +102,7 @@ namespace Amazon.AppSync.Model
         /// <summary>
         /// Gets and sets the property ElasticsearchConfig. 
         /// <para>
-        /// Amazon Elasticsearch settings.
+        /// Amazon Elasticsearch Service settings.
         /// </para>
         /// </summary>
         public ElasticsearchDataSourceConfig ElasticsearchConfig
@@ -112,6 +115,24 @@ namespace Amazon.AppSync.Model
         internal bool IsSetElasticsearchConfig()
         {
             return this._elasticsearchConfig != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property HttpConfig. 
+        /// <para>
+        /// HTTP endpoint settings.
+        /// </para>
+        /// </summary>
+        public HttpDataSourceConfig HttpConfig
+        {
+            get { return this._httpConfig; }
+            set { this._httpConfig = value; }
+        }
+
+        // Check to see if HttpConfig property is set
+        internal bool IsSetHttpConfig()
+        {
+            return this._httpConfig != null;
         }
 
         /// <summary>
@@ -138,6 +159,7 @@ namespace Amazon.AppSync.Model
         /// A user-supplied name for the <code>DataSource</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=65536)]
         public string Name
         {
             get { return this._name; }
@@ -151,10 +173,28 @@ namespace Amazon.AppSync.Model
         }
 
         /// <summary>
+        /// Gets and sets the property RelationalDatabaseConfig. 
+        /// <para>
+        /// Relational database settings.
+        /// </para>
+        /// </summary>
+        public RelationalDatabaseDataSourceConfig RelationalDatabaseConfig
+        {
+            get { return this._relationalDatabaseConfig; }
+            set { this._relationalDatabaseConfig = value; }
+        }
+
+        // Check to see if RelationalDatabaseConfig property is set
+        internal bool IsSetRelationalDatabaseConfig()
+        {
+            return this._relationalDatabaseConfig != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ServiceRoleArn. 
         /// <para>
-        /// The IAM service role ARN for the data source. The system assumes this role when accessing
-        /// the data source.
+        /// The AWS IAM service role ARN for the data source. The system assumes this role when
+        /// accessing the data source.
         /// </para>
         /// </summary>
         public string ServiceRoleArn
@@ -175,6 +215,7 @@ namespace Amazon.AppSync.Model
         /// The type of the <code>DataSource</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DataSourceType Type
         {
             get { return this._type; }

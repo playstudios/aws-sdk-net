@@ -58,10 +58,11 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
             string target = "AWSGlue.CreateCrawler";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -82,6 +83,12 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("Configuration");
                     context.Writer.Write(publicRequest.Configuration);
+                }
+
+                if(publicRequest.IsSetCrawlerSecurityConfiguration())
+                {
+                    context.Writer.WritePropertyName("CrawlerSecurityConfiguration");
+                    context.Writer.Write(publicRequest.CrawlerSecurityConfiguration);
                 }
 
                 if(publicRequest.IsSetDatabaseName())
@@ -129,6 +136,20 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("TablePrefix");
                     context.Writer.Write(publicRequest.TablePrefix);
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("Tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetTargets())

@@ -34,18 +34,64 @@ namespace Amazon.CodeCommit.Model
     /// </summary>
     public partial class GetMergeConflictsRequest : AmazonCodeCommitRequest
     {
+        private ConflictDetailLevelTypeEnum _conflictDetailLevel;
+        private ConflictResolutionStrategyTypeEnum _conflictResolutionStrategy;
         private string _destinationCommitSpecifier;
+        private int? _maxConflictFiles;
         private MergeOptionTypeEnum _mergeOption;
+        private string _nextToken;
         private string _repositoryName;
         private string _sourceCommitSpecifier;
 
         /// <summary>
-        /// Gets and sets the property DestinationCommitSpecifier. 
+        /// Gets and sets the property ConflictDetailLevel. 
         /// <para>
-        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
-        /// For example, a branch name or a full commit ID.
+        /// The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used,
+        /// which returns a not-mergeable result if the same file has differences in both branches.
+        /// If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file
+        /// in both branches has differences on the same line.
         /// </para>
         /// </summary>
+        public ConflictDetailLevelTypeEnum ConflictDetailLevel
+        {
+            get { return this._conflictDetailLevel; }
+            set { this._conflictDetailLevel = value; }
+        }
+
+        // Check to see if ConflictDetailLevel property is set
+        internal bool IsSetConflictDetailLevel()
+        {
+            return this._conflictDetailLevel != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ConflictResolutionStrategy. 
+        /// <para>
+        /// Specifies which branch to use when resolving conflicts, or whether to attempt automatically
+        /// merging two versions of a file. The default is NONE, which requires any conflicts
+        /// to be resolved manually before the merge operation is successful.
+        /// </para>
+        /// </summary>
+        public ConflictResolutionStrategyTypeEnum ConflictResolutionStrategy
+        {
+            get { return this._conflictResolutionStrategy; }
+            set { this._conflictResolutionStrategy = value; }
+        }
+
+        // Check to see if ConflictResolutionStrategy property is set
+        internal bool IsSetConflictResolutionStrategy()
+        {
+            return this._conflictResolutionStrategy != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DestinationCommitSpecifier. 
+        /// <para>
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit
+        /// (for example, a branch name or a full commit ID).
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public string DestinationCommitSpecifier
         {
             get { return this._destinationCommitSpecifier; }
@@ -59,12 +105,30 @@ namespace Amazon.CodeCommit.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MergeOption. 
+        /// Gets and sets the property MaxConflictFiles. 
         /// <para>
-        /// The merge option or strategy you want to use to merge the code. The only valid value
-        /// is FAST_FORWARD_MERGE.
+        /// The maximum number of files to include in the output.
         /// </para>
         /// </summary>
+        public int MaxConflictFiles
+        {
+            get { return this._maxConflictFiles.GetValueOrDefault(); }
+            set { this._maxConflictFiles = value; }
+        }
+
+        // Check to see if MaxConflictFiles property is set
+        internal bool IsSetMaxConflictFiles()
+        {
+            return this._maxConflictFiles.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MergeOption. 
+        /// <para>
+        /// The merge option or strategy you want to use to merge the code. 
+        /// </para>
+        /// </summary>
+        [AWSProperty(Required=true)]
         public MergeOptionTypeEnum MergeOption
         {
             get { return this._mergeOption; }
@@ -78,11 +142,31 @@ namespace Amazon.CodeCommit.Model
         }
 
         /// <summary>
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// An enumeration token that, when provided in a request, returns the next batch of the
+        /// results.
+        /// </para>
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property RepositoryName. 
         /// <para>
         /// The name of the repository where the pull request was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string RepositoryName
         {
             get { return this._repositoryName; }
@@ -98,10 +182,11 @@ namespace Amazon.CodeCommit.Model
         /// <summary>
         /// Gets and sets the property SourceCommitSpecifier. 
         /// <para>
-        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
-        /// For example, a branch name or a full commit ID.
+        /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit
+        /// (for example, a branch name or a full commit ID).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SourceCommitSpecifier
         {
             get { return this._sourceCommitSpecifier; }

@@ -35,13 +35,85 @@ namespace Amazon.ElasticFileSystem
     /// use with Amazon EC2 instances in the AWS Cloud. With Amazon EFS, storage capacity
     /// is elastic, growing and shrinking automatically as you add and remove files, so your
     /// applications have the storage they need, when they need it. For more information,
-    /// see the <a href="http://docs.aws.amazon.com/efs/latest/ug/api-reference.html">User
+    /// see the <a href="https://docs.aws.amazon.com/efs/latest/ug/api-reference.html">User
     /// Guide</a>.
     /// </para>
     /// </summary>
     public partial interface IAmazonElasticFileSystem : IAmazonService, IDisposable
     {
 
+        
+        #region  CreateAccessPoint
+
+
+        /// <summary>
+        /// Creates an EFS access point. An access point is an application-specific view into
+        /// an EFS file system that applies an operating system user and group, and a file system
+        /// path, to any file system request made through the access point. The operating system
+        /// user and group override any identity information provided by the NFS client. The file
+        /// system path is exposed as the access point's root directory. Applications using the
+        /// access point can only access data in its own directory and below. To learn more, see
+        /// <a href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Mounting
+        /// a File System Using EFS Access Points</a>.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:CreateAccessPoint</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateAccessPoint service method.</param>
+        /// 
+        /// <returns>The response from the CreateAccessPoint service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointAlreadyExistsException">
+        /// Returned if the access point you are trying to create already exists, with the creation
+        /// token you provided in the request.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointLimitExceededException">
+        /// Returned if the AWS account has already created the maximum number of access points
+        /// allowed per file system.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateAccessPoint">REST API Reference for CreateAccessPoint Operation</seealso>
+        CreateAccessPointResponse CreateAccessPoint(CreateAccessPointRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the CreateAccessPoint operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the CreateAccessPoint operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateAccessPoint
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateAccessPoint">REST API Reference for CreateAccessPoint Operation</seealso>
+        IAsyncResult BeginCreateAccessPoint(CreateAccessPointRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  CreateAccessPoint operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginCreateAccessPoint.</param>
+        /// 
+        /// <returns>Returns a  CreateAccessPointResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateAccessPoint">REST API Reference for CreateAccessPoint Operation</seealso>
+        CreateAccessPointResponse EndCreateAccessPoint(IAsyncResult asyncResult);
+
+        #endregion
         
         #region  CreateFileSystem
 
@@ -96,7 +168,7 @@ namespace Amazon.ElasticFileSystem
         /// mode can scale to higher levels of aggregate throughput and operations per second
         /// with a tradeoff of slightly higher latencies for most file operations. The performance
         /// mode can't be changed after the file system has been created. For more information,
-        /// see <a href="http://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html">Amazon
+        /// see <a href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html">Amazon
         /// EFS: Performance Modes</a>.
         /// </para>
         ///  
@@ -104,8 +176,8 @@ namespace Amazon.ElasticFileSystem
         /// After the file system is fully created, Amazon EFS sets its lifecycle state to <code>available</code>,
         /// at which point you can create one or more mount targets for the file system in your
         /// VPC. For more information, see <a>CreateMountTarget</a>. You mount your Amazon EFS
-        /// file system on an EC2 instances in your VPC via the mount target. For more information,
-        /// see <a href="http://docs.aws.amazon.com/efs/latest/ug/how-it-works.html">Amazon EFS:
+        /// file system on an EC2 instances in your VPC by using the mount target. For more information,
+        /// see <a href="https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html">Amazon EFS:
         /// How it Works</a>. 
         /// </para>
         ///  
@@ -114,7 +186,7 @@ namespace Amazon.ElasticFileSystem
         /// action. 
         /// </para>
         /// </summary>
-        /// <param name="creationToken">String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.</param>
+        /// <param name="creationToken">A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.</param>
         /// 
         /// <returns>The response from the CreateFileSystem service method, as returned by ElasticFileSystem.</returns>
         /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
@@ -126,11 +198,22 @@ namespace Amazon.ElasticFileSystem
         /// token you provided.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemLimitExceededException">
-        /// Returned if the AWS account has already created maximum number of file systems allowed
-        /// per account.
+        /// Returned if the AWS account has already created the maximum number of file systems
+        /// allowed per account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InsufficientThroughputCapacityException">
+        /// Returned if there's not enough capacity to provision additional throughput. This value
+        /// might be returned when you try to create a file system in provisioned throughput mode,
+        /// when you attempt to increase the provisioned throughput of an existing file system,
+        /// or when you attempt to change an existing file system from bursting to provisioned
+        /// throughput mode.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
         /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.ThroughputLimitExceededException">
+        /// Returned if the throughput mode or amount of provisioned throughput can't be changed
+        /// because the throughput limit of 1024 MiB/s has been reached.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateFileSystem">REST API Reference for CreateFileSystem Operation</seealso>
         CreateFileSystemResponse CreateFileSystem(string creationToken);
@@ -185,7 +268,7 @@ namespace Amazon.ElasticFileSystem
         /// mode can scale to higher levels of aggregate throughput and operations per second
         /// with a tradeoff of slightly higher latencies for most file operations. The performance
         /// mode can't be changed after the file system has been created. For more information,
-        /// see <a href="http://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html">Amazon
+        /// see <a href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html">Amazon
         /// EFS: Performance Modes</a>.
         /// </para>
         ///  
@@ -193,8 +276,8 @@ namespace Amazon.ElasticFileSystem
         /// After the file system is fully created, Amazon EFS sets its lifecycle state to <code>available</code>,
         /// at which point you can create one or more mount targets for the file system in your
         /// VPC. For more information, see <a>CreateMountTarget</a>. You mount your Amazon EFS
-        /// file system on an EC2 instances in your VPC via the mount target. For more information,
-        /// see <a href="http://docs.aws.amazon.com/efs/latest/ug/how-it-works.html">Amazon EFS:
+        /// file system on an EC2 instances in your VPC by using the mount target. For more information,
+        /// see <a href="https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html">Amazon EFS:
         /// How it Works</a>. 
         /// </para>
         ///  
@@ -215,11 +298,22 @@ namespace Amazon.ElasticFileSystem
         /// token you provided.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemLimitExceededException">
-        /// Returned if the AWS account has already created maximum number of file systems allowed
-        /// per account.
+        /// Returned if the AWS account has already created the maximum number of file systems
+        /// allowed per account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InsufficientThroughputCapacityException">
+        /// Returned if there's not enough capacity to provision additional throughput. This value
+        /// might be returned when you try to create a file system in provisioned throughput mode,
+        /// when you attempt to increase the provisioned throughput of an existing file system,
+        /// or when you attempt to change an existing file system from bursting to provisioned
+        /// throughput mode.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
         /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.ThroughputLimitExceededException">
+        /// Returned if the throughput mode or amount of provisioned throughput can't be changed
+        /// because the throughput limit of 1024 MiB/s has been reached.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateFileSystem">REST API Reference for CreateFileSystem Operation</seealso>
         CreateFileSystemResponse CreateFileSystem(CreateFileSystemRequest request);
@@ -257,7 +351,7 @@ namespace Amazon.ElasticFileSystem
 
         /// <summary>
         /// Creates a mount target for a file system. You can then mount the file system on EC2
-        /// instances via the mount target.
+        /// instances by using the mount target.
         /// 
         ///  
         /// <para>
@@ -266,7 +360,7 @@ namespace Amazon.ElasticFileSystem
         /// file system. If you have multiple subnets in an Availability Zone, you create a mount
         /// target in one of the subnets. EC2 instances do not need to be in the same subnet as
         /// the mount target in order to access their file system. For more information, see <a
-        /// href="http://docs.aws.amazon.com/efs/latest/ug/how-it-works.html">Amazon EFS: How
+        /// href="https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html">Amazon EFS: How
         /// it Works</a>. 
         /// </para>
         ///  
@@ -297,9 +391,9 @@ namespace Amazon.ElasticFileSystem
         /// After creating the mount target, Amazon EFS returns a response that includes, a <code>MountTargetId</code>
         /// and an <code>IpAddress</code>. You use this IP address when mounting the file system
         /// in an EC2 instance. You can also use the mount target's DNS name when mounting the
-        /// file system. The EC2 instance on which you mount the file system via the mount target
-        /// can resolve the mount target's DNS name to its IP address. For more information, see
-        /// <a href="http://docs.aws.amazon.com/efs/latest/ug/how-it-works.html#how-it-works-implementation">How
+        /// file system. The EC2 instance on which you mount the file system by using the mount
+        /// target can resolve the mount target's DNS name to its IP address. For more information,
+        /// see <a href="https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html#how-it-works-implementation">How
         /// it Works: Implementation Overview</a>. 
         /// </para>
         ///  
@@ -371,13 +465,13 @@ namespace Amazon.ElasticFileSystem
         /// </para>
         ///  </note> 
         /// <para>
-        /// We recommend you create a mount target in each of the Availability Zones. There are
-        /// cost considerations for using a file system in an Availability Zone through a mount
-        /// target created in another Availability Zone. For more information, see <a href="http://aws.amazon.com/efs/">Amazon
+        /// We recommend that you create a mount target in each of the Availability Zones. There
+        /// are cost considerations for using a file system in an Availability Zone through a
+        /// mount target created in another Availability Zone. For more information, see <a href="http://aws.amazon.com/efs/">Amazon
         /// EFS</a>. In addition, by always using a mount target local to the instance's Availability
         /// Zone, you eliminate a partial failure scenario. If the Availability Zone in which
-        /// your mount target is created goes down, then you won't be able to access your file
-        /// system through that mount target. 
+        /// your mount target is created goes down, then you can't access your file system through
+        /// that mount target. 
         /// </para>
         ///  
         /// <para>
@@ -413,11 +507,11 @@ namespace Amazon.ElasticFileSystem
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.IncorrectFileSystemLifeCycleStateException">
-        /// Returned if the file system's life cycle state is not "created".
+        /// Returned if the file system's lifecycle state is not "available".
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
         /// Returned if an error occurred on the server side.
@@ -431,11 +525,11 @@ namespace Amazon.ElasticFileSystem
         /// on the file system's existing mount targets.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.NetworkInterfaceLimitExceededException">
-        /// The calling account has reached the ENI limit for the specific AWS region. Client
-        /// should try to delete some ENIs or get its account limit raised. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html">Amazon
-        /// VPC Limits</a> in the Amazon Virtual Private Cloud User Guide (see the Network interfaces
-        /// per VPC entry in the table).
+        /// The calling account has reached the limit for elastic network interfaces for the specific
+        /// AWS Region. The client should try to delete some elastic network interfaces or get
+        /// the account limit raised. For more information, see <a href="https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html">Amazon
+        /// VPC Limits</a> in the <i>Amazon VPC User Guide </i> (see the Network interfaces per
+        /// VPC entry in the table).
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.NoFreeAddressesInSubnetException">
         /// Returned if <code>IpAddress</code> was not specified in the request and there are
@@ -446,7 +540,7 @@ namespace Amazon.ElasticFileSystem
         /// than five.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.SecurityGroupNotFoundException">
-        /// Returned if one of the specified security groups does not exist in the subnet's VPC.
+        /// Returned if one of the specified security groups doesn't exist in the subnet's VPC.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.SubnetNotFoundException">
         /// Returned if there is no subnet with ID <code>SubnetId</code> provided in the request.
@@ -509,13 +603,14 @@ namespace Amazon.ElasticFileSystem
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
         /// Returned if an error occurred on the server side.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateTags">REST API Reference for CreateTags Operation</seealso>
+        [Obsolete("Use TagResource.")]
         CreateTagsResponse CreateTags(CreateTagsRequest request);
 
         /// <summary>
@@ -530,6 +625,7 @@ namespace Amazon.ElasticFileSystem
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndCreateTags
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateTags">REST API Reference for CreateTags Operation</seealso>
+        [Obsolete("Use TagResource.")]
         IAsyncResult BeginCreateTags(CreateTagsRequest request, AsyncCallback callback, object state);
 
 
@@ -542,7 +638,67 @@ namespace Amazon.ElasticFileSystem
         /// 
         /// <returns>Returns a  CreateTagsResult from ElasticFileSystem.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/CreateTags">REST API Reference for CreateTags Operation</seealso>
+        [Obsolete("Use TagResource.")]
         CreateTagsResponse EndCreateTags(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DeleteAccessPoint
+
+
+        /// <summary>
+        /// Deletes the specified access point. After deletion is complete, new clients can no
+        /// longer connect to the access points. Clients connected to the access point at the
+        /// time of deletion will continue to function until they terminate their connection.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:DeleteAccessPoint</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAccessPoint service method.</param>
+        /// 
+        /// <returns>The response from the DeleteAccessPoint service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointNotFoundException">
+        /// Returned if the specified <code>AccessPointId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteAccessPoint">REST API Reference for DeleteAccessPoint Operation</seealso>
+        DeleteAccessPointResponse DeleteAccessPoint(DeleteAccessPointRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteAccessPoint operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAccessPoint operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteAccessPoint
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteAccessPoint">REST API Reference for DeleteAccessPoint Operation</seealso>
+        IAsyncResult BeginDeleteAccessPoint(DeleteAccessPointRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteAccessPoint operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteAccessPoint.</param>
+        /// 
+        /// <returns>Returns a  DeleteAccessPointResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteAccessPoint">REST API Reference for DeleteAccessPoint Operation</seealso>
+        DeleteAccessPointResponse EndDeleteAccessPoint(IAsyncResult asyncResult);
 
         #endregion
         
@@ -574,7 +730,7 @@ namespace Amazon.ElasticFileSystem
         /// action.
         /// </para>
         /// </summary>
-        /// <param name="fileSystemId">ID of the file system you want to delete.</param>
+        /// <param name="fileSystemId">The ID of the file system you want to delete.</param>
         /// 
         /// <returns>The response from the DeleteFileSystem service method, as returned by ElasticFileSystem.</returns>
         /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
@@ -585,7 +741,7 @@ namespace Amazon.ElasticFileSystem
         /// Returned if a file system has mount targets.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
@@ -630,7 +786,7 @@ namespace Amazon.ElasticFileSystem
         /// Returned if a file system has mount targets.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
@@ -667,6 +823,65 @@ namespace Amazon.ElasticFileSystem
 
         #endregion
         
+        #region  DeleteFileSystemPolicy
+
+
+        /// <summary>
+        /// Deletes the <code>FileSystemPolicy</code> for the specified file system. The default
+        /// <code>FileSystemPolicy</code> goes into effect once the existing policy is deleted.
+        /// For more information about the default file system policy, see <a href="https://docs.aws.amazon.com/efs/latest/ug/res-based-policies-efs.html">Using
+        /// Resource-based Policies with EFS</a>.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:DeleteFileSystemPolicy</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFileSystemPolicy service method.</param>
+        /// 
+        /// <returns>The response from the DeleteFileSystemPolicy service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.IncorrectFileSystemLifeCycleStateException">
+        /// Returned if the file system's lifecycle state is not "available".
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteFileSystemPolicy">REST API Reference for DeleteFileSystemPolicy Operation</seealso>
+        DeleteFileSystemPolicyResponse DeleteFileSystemPolicy(DeleteFileSystemPolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeleteFileSystemPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeleteFileSystemPolicy operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteFileSystemPolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteFileSystemPolicy">REST API Reference for DeleteFileSystemPolicy Operation</seealso>
+        IAsyncResult BeginDeleteFileSystemPolicy(DeleteFileSystemPolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeleteFileSystemPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeleteFileSystemPolicy.</param>
+        /// 
+        /// <returns>Returns a  DeleteFileSystemPolicyResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteFileSystemPolicy">REST API Reference for DeleteFileSystemPolicy Operation</seealso>
+        DeleteFileSystemPolicyResponse EndDeleteFileSystemPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DeleteMountTarget
 
 
@@ -675,13 +890,13 @@ namespace Amazon.ElasticFileSystem
         /// 
         ///  
         /// <para>
-        /// This operation forcibly breaks any mounts of the file system via the mount target
+        /// This operation forcibly breaks any mounts of the file system by using the mount target
         /// that is being deleted, which might disrupt instances or applications using those mounts.
         /// To avoid applications getting cut off abruptly, you might consider unmounting any
         /// mounts of the mount target, if feasible. The operation also deletes the associated
-        /// network interface. Uncommitted writes may be lost, but breaking a mount target using
+        /// network interface. Uncommitted writes might be lost, but breaking a mount target using
         /// this operation does not corrupt the file system itself. The file system you created
-        /// remains. You can mount an EC2 instance in your VPC via another mount target.
+        /// remains. You can mount an EC2 instance in your VPC by using another mount target.
         /// </para>
         ///  
         /// <para>
@@ -709,7 +924,7 @@ namespace Amazon.ElasticFileSystem
         /// </para>
         ///  </li> </ul>
         /// </summary>
-        /// <param name="mountTargetId">ID of the mount target to delete (String).</param>
+        /// <param name="mountTargetId">The ID of the mount target to delete (String).</param>
         /// 
         /// <returns>The response from the DeleteMountTarget service method, as returned by ElasticFileSystem.</returns>
         /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
@@ -734,13 +949,13 @@ namespace Amazon.ElasticFileSystem
         /// 
         ///  
         /// <para>
-        /// This operation forcibly breaks any mounts of the file system via the mount target
+        /// This operation forcibly breaks any mounts of the file system by using the mount target
         /// that is being deleted, which might disrupt instances or applications using those mounts.
         /// To avoid applications getting cut off abruptly, you might consider unmounting any
         /// mounts of the mount target, if feasible. The operation also deletes the associated
-        /// network interface. Uncommitted writes may be lost, but breaking a mount target using
+        /// network interface. Uncommitted writes might be lost, but breaking a mount target using
         /// this operation does not corrupt the file system itself. The file system you created
-        /// remains. You can mount an EC2 instance in your VPC via another mount target.
+        /// remains. You can mount an EC2 instance in your VPC by using another mount target.
         /// </para>
         ///  
         /// <para>
@@ -821,8 +1036,8 @@ namespace Amazon.ElasticFileSystem
 
         /// <summary>
         /// Deletes the specified tags from a file system. If the <code>DeleteTags</code> request
-        /// includes a tag key that does not exist, Amazon EFS ignores it and doesn't cause an
-        /// error. For more information about tags and related restrictions, see <a href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Tag
+        /// includes a tag key that doesn't exist, Amazon EFS ignores it and doesn't cause an
+        /// error. For more information about tags and related restrictions, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Tag
         /// Restrictions</a> in the <i>AWS Billing and Cost Management User Guide</i>.
         /// 
         ///  
@@ -839,13 +1054,14 @@ namespace Amazon.ElasticFileSystem
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
         /// Returned if an error occurred on the server side.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
+        [Obsolete("Use UntagResource.")]
         DeleteTagsResponse DeleteTags(DeleteTagsRequest request);
 
         /// <summary>
@@ -860,6 +1076,7 @@ namespace Amazon.ElasticFileSystem
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeleteTags
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
+        [Obsolete("Use UntagResource.")]
         IAsyncResult BeginDeleteTags(DeleteTagsRequest request, AsyncCallback callback, object state);
 
 
@@ -872,7 +1089,128 @@ namespace Amazon.ElasticFileSystem
         /// 
         /// <returns>Returns a  DeleteTagsResult from ElasticFileSystem.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DeleteTags">REST API Reference for DeleteTags Operation</seealso>
+        [Obsolete("Use UntagResource.")]
         DeleteTagsResponse EndDeleteTags(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeAccessPoints
+
+
+        /// <summary>
+        /// Returns the description of a specific Amazon EFS access point if the <code>AccessPointId</code>
+        /// is provided. If you provide an EFS <code>FileSystemId</code>, it returns descriptions
+        /// of all access points for that file system. You can provide either an <code>AccessPointId</code>
+        /// or a <code>FileSystemId</code> in the request, but not both. 
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:DescribeAccessPoints</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccessPoints service method.</param>
+        /// 
+        /// <returns>The response from the DescribeAccessPoints service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointNotFoundException">
+        /// Returned if the specified <code>AccessPointId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeAccessPoints">REST API Reference for DescribeAccessPoints Operation</seealso>
+        DescribeAccessPointsResponse DescribeAccessPoints(DescribeAccessPointsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeAccessPoints operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeAccessPoints operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeAccessPoints
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeAccessPoints">REST API Reference for DescribeAccessPoints Operation</seealso>
+        IAsyncResult BeginDescribeAccessPoints(DescribeAccessPointsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeAccessPoints operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeAccessPoints.</param>
+        /// 
+        /// <returns>Returns a  DescribeAccessPointsResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeAccessPoints">REST API Reference for DescribeAccessPoints Operation</seealso>
+        DescribeAccessPointsResponse EndDescribeAccessPoints(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeFileSystemPolicy
+
+
+        /// <summary>
+        /// Returns the <code>FileSystemPolicy</code> for the specified EFS file system.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:DescribeFileSystemPolicy</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFileSystemPolicy service method.</param>
+        /// 
+        /// <returns>The response from the DescribeFileSystemPolicy service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.PolicyNotFoundException">
+        /// Returned if the default file system policy is in effect for the EFS file system specified.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeFileSystemPolicy">REST API Reference for DescribeFileSystemPolicy Operation</seealso>
+        DescribeFileSystemPolicyResponse DescribeFileSystemPolicy(DescribeFileSystemPolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeFileSystemPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeFileSystemPolicy operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeFileSystemPolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeFileSystemPolicy">REST API Reference for DescribeFileSystemPolicy Operation</seealso>
+        IAsyncResult BeginDescribeFileSystemPolicy(DescribeFileSystemPolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeFileSystemPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeFileSystemPolicy.</param>
+        /// 
+        /// <returns>Returns a  DescribeFileSystemPolicyResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeFileSystemPolicy">REST API Reference for DescribeFileSystemPolicy Operation</seealso>
+        DescribeFileSystemPolicyResponse EndDescribeFileSystemPolicy(IAsyncResult asyncResult);
 
         #endregion
         
@@ -887,11 +1225,12 @@ namespace Amazon.ElasticFileSystem
         /// 
         ///  
         /// <para>
-        ///  When retrieving all file system descriptions, you can optionally specify the <code>MaxItems</code>
-        /// parameter to limit the number of descriptions in a response. If more file system descriptions
-        /// remain, Amazon EFS returns a <code>NextMarker</code>, an opaque token, in the response.
-        /// In this case, you should send a subsequent request with the <code>Marker</code> request
-        /// parameter set to the value of <code>NextMarker</code>. 
+        /// When retrieving all file system descriptions, you can optionally specify the <code>MaxItems</code>
+        /// parameter to limit the number of descriptions in a response. Currently, this number
+        /// is automatically set to 10. If more file system descriptions remain, Amazon EFS returns
+        /// a <code>NextMarker</code>, an opaque token, in the response. In this case, you should
+        /// send a subsequent request with the <code>Marker</code> request parameter set to the
+        /// value of <code>NextMarker</code>. 
         /// </para>
         ///  
         /// <para>
@@ -900,11 +1239,6 @@ namespace Amazon.ElasticFileSystem
         /// the <code>Marker</code> and then the operation continues to call it with the <code>Marker</code>
         /// parameter set to the value of the <code>NextMarker</code> from the previous response
         /// until the response has no <code>NextMarker</code>. 
-        /// </para>
-        ///  
-        /// <para>
-        /// The implementation may return fewer than <code>MaxItems</code> file system descriptions
-        /// while still including a <code>NextMarker</code> value. 
         /// </para>
         ///  
         /// <para>
@@ -926,7 +1260,7 @@ namespace Amazon.ElasticFileSystem
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
@@ -963,6 +1297,67 @@ namespace Amazon.ElasticFileSystem
 
         #endregion
         
+        #region  DescribeLifecycleConfiguration
+
+
+        /// <summary>
+        /// Returns the current <code>LifecycleConfiguration</code> object for the specified Amazon
+        /// EFS file system. EFS lifecycle management uses the <code>LifecycleConfiguration</code>
+        /// object to identify which files to move to the EFS Infrequent Access (IA) storage class.
+        /// For a file system without a <code>LifecycleConfiguration</code> object, the call returns
+        /// an empty array in the response.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:DescribeLifecycleConfiguration</code>
+        /// operation.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLifecycleConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the DescribeLifecycleConfiguration service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeLifecycleConfiguration">REST API Reference for DescribeLifecycleConfiguration Operation</seealso>
+        DescribeLifecycleConfigurationResponse DescribeLifecycleConfiguration(DescribeLifecycleConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeLifecycleConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeLifecycleConfiguration operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeLifecycleConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeLifecycleConfiguration">REST API Reference for DescribeLifecycleConfiguration Operation</seealso>
+        IAsyncResult BeginDescribeLifecycleConfiguration(DescribeLifecycleConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeLifecycleConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeLifecycleConfiguration.</param>
+        /// 
+        /// <returns>Returns a  DescribeLifecycleConfigurationResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeLifecycleConfiguration">REST API Reference for DescribeLifecycleConfiguration Operation</seealso>
+        DescribeLifecycleConfigurationResponse EndDescribeLifecycleConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeMountTargets
 
 
@@ -978,15 +1373,19 @@ namespace Amazon.ElasticFileSystem
         /// or on the file system of the mount target that you specify in <code>MountTargetId</code>.
         /// </para>
         /// </summary>
-        /// <param name="fileSystemId">(Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if <code>MountTargetId</code> is not included.</param>
+        /// <param name="fileSystemId">(Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if an <code>AccessPointId</code> or <code>MountTargetId</code> is not included. Accepts either a file system ID or ARN as input.</param>
         /// 
         /// <returns>The response from the DescribeMountTargets service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointNotFoundException">
+        /// Returned if the specified <code>AccessPointId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
         /// Returned if the request is malformed or contains an error such as an invalid parameter
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
@@ -1013,12 +1412,16 @@ namespace Amazon.ElasticFileSystem
         /// <param name="request">Container for the necessary parameters to execute the DescribeMountTargets service method.</param>
         /// 
         /// <returns>The response from the DescribeMountTargets service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointNotFoundException">
+        /// Returned if the specified <code>AccessPointId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
         /// Returned if the request is malformed or contains an error such as an invalid parameter
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
@@ -1082,7 +1485,7 @@ namespace Amazon.ElasticFileSystem
         /// </para>
         ///  </li> </ul>
         /// </summary>
-        /// <param name="mountTargetId">ID of the mount target whose security groups you want to retrieve.</param>
+        /// <param name="mountTargetId">The ID of the mount target whose security groups you want to retrieve.</param>
         /// 
         /// <returns>The response from the DescribeMountTargetSecurityGroups service method, as returned by ElasticFileSystem.</returns>
         /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
@@ -1175,7 +1578,8 @@ namespace Amazon.ElasticFileSystem
         /// <summary>
         /// Returns the tags associated with a file system. The order of tags returned in the
         /// response of one <code>DescribeTags</code> call and the order of tags returned across
-        /// the responses of a multi-call iteration (when using pagination) is unspecified. 
+        /// the responses of a multiple-call iteration (when using pagination) is unspecified.
+        /// 
         /// 
         ///  
         /// <para>
@@ -1183,7 +1587,7 @@ namespace Amazon.ElasticFileSystem
         /// action. 
         /// </para>
         /// </summary>
-        /// <param name="fileSystemId">ID of the file system whose tag set you want to retrieve.</param>
+        /// <param name="fileSystemId">The ID of the file system whose tag set you want to retrieve.</param>
         /// 
         /// <returns>The response from the DescribeTags service method, as returned by ElasticFileSystem.</returns>
         /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
@@ -1191,19 +1595,21 @@ namespace Amazon.ElasticFileSystem
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
         /// Returned if an error occurred on the server side.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
+        [Obsolete("Use ListTagsForResource.")]
         DescribeTagsResponse DescribeTags(string fileSystemId);
 
         /// <summary>
         /// Returns the tags associated with a file system. The order of tags returned in the
         /// response of one <code>DescribeTags</code> call and the order of tags returned across
-        /// the responses of a multi-call iteration (when using pagination) is unspecified. 
+        /// the responses of a multiple-call iteration (when using pagination) is unspecified.
+        /// 
         /// 
         ///  
         /// <para>
@@ -1219,13 +1625,14 @@ namespace Amazon.ElasticFileSystem
         /// value or a missing required parameter.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
-        /// Returned if the specified <code>FileSystemId</code> does not exist in the requester's
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
         /// AWS account.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
         /// Returned if an error occurred on the server side.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
+        [Obsolete("Use ListTagsForResource.")]
         DescribeTagsResponse DescribeTags(DescribeTagsRequest request);
 
         /// <summary>
@@ -1240,6 +1647,7 @@ namespace Amazon.ElasticFileSystem
         /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTags
         ///         operation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
+        [Obsolete("Use ListTagsForResource.")]
         IAsyncResult BeginDescribeTags(DescribeTagsRequest request, AsyncCallback callback, object state);
 
 
@@ -1252,7 +1660,70 @@ namespace Amazon.ElasticFileSystem
         /// 
         /// <returns>Returns a  DescribeTagsResult from ElasticFileSystem.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/DescribeTags">REST API Reference for DescribeTags Operation</seealso>
+        [Obsolete("Use ListTagsForResource.")]
         DescribeTagsResponse EndDescribeTags(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTagsForResource
+
+
+        /// <summary>
+        /// Lists all tags for a top-level EFS resource. You must provide the ID of the resource
+        /// that you want to retrieve the tags for.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:DescribeAccessPoints</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointNotFoundException">
+        /// Returned if the specified <code>AccessPointId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse ListTagsForResource(ListTagsForResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTagsForResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        IAsyncResult BeginListTagsForResource(ListTagsForResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTagsForResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTagsForResource.</param>
+        /// 
+        /// <returns>Returns a  ListTagsForResourceResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        ListTagsForResourceResponse EndListTagsForResource(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1308,7 +1779,7 @@ namespace Amazon.ElasticFileSystem
         /// than five.
         /// </exception>
         /// <exception cref="Amazon.ElasticFileSystem.Model.SecurityGroupNotFoundException">
-        /// Returned if one of the specified security groups does not exist in the subnet's VPC.
+        /// Returned if one of the specified security groups doesn't exist in the subnet's VPC.
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/ModifyMountTargetSecurityGroups">REST API Reference for ModifyMountTargetSecurityGroups Operation</seealso>
         ModifyMountTargetSecurityGroupsResponse ModifyMountTargetSecurityGroups(ModifyMountTargetSecurityGroupsRequest request);
@@ -1338,6 +1809,361 @@ namespace Amazon.ElasticFileSystem
         /// <returns>Returns a  ModifyMountTargetSecurityGroupsResult from ElasticFileSystem.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/ModifyMountTargetSecurityGroups">REST API Reference for ModifyMountTargetSecurityGroups Operation</seealso>
         ModifyMountTargetSecurityGroupsResponse EndModifyMountTargetSecurityGroups(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutFileSystemPolicy
+
+
+        /// <summary>
+        /// Applies an Amazon EFS <code>FileSystemPolicy</code> to an Amazon EFS file system.
+        /// A file system policy is an IAM resource-based policy and can contain multiple policy
+        /// statements. A file system always has exactly one file system policy, which can be
+        /// the default policy or an explicit policy set or updated using this API operation.
+        /// When an explicit policy is set, it overrides the default policy. For more information
+        /// about the default file system policy, see <a href="https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy">Default
+        /// EFS File System Policy</a>. 
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:PutFileSystemPolicy</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutFileSystemPolicy service method.</param>
+        /// 
+        /// <returns>The response from the PutFileSystemPolicy service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.IncorrectFileSystemLifeCycleStateException">
+        /// Returned if the file system's lifecycle state is not "available".
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InvalidPolicyException">
+        /// Returned if the <code>FileSystemPolicy</code> is is malformed or contains an error
+        /// such as an invalid parameter value or a missing required parameter. Returned in the
+        /// case of a policy lockout safety check error.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/PutFileSystemPolicy">REST API Reference for PutFileSystemPolicy Operation</seealso>
+        PutFileSystemPolicyResponse PutFileSystemPolicy(PutFileSystemPolicyRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutFileSystemPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutFileSystemPolicy operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutFileSystemPolicy
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/PutFileSystemPolicy">REST API Reference for PutFileSystemPolicy Operation</seealso>
+        IAsyncResult BeginPutFileSystemPolicy(PutFileSystemPolicyRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutFileSystemPolicy operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutFileSystemPolicy.</param>
+        /// 
+        /// <returns>Returns a  PutFileSystemPolicyResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/PutFileSystemPolicy">REST API Reference for PutFileSystemPolicy Operation</seealso>
+        PutFileSystemPolicyResponse EndPutFileSystemPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  PutLifecycleConfiguration
+
+
+        /// <summary>
+        /// Enables lifecycle management by creating a new <code>LifecycleConfiguration</code>
+        /// object. A <code>LifecycleConfiguration</code> object defines when files in an Amazon
+        /// EFS file system are automatically transitioned to the lower-cost EFS Infrequent Access
+        /// (IA) storage class. A <code>LifecycleConfiguration</code> applies to all files in
+        /// a file system.
+        /// 
+        ///  
+        /// <para>
+        /// Each Amazon EFS file system supports one lifecycle configuration, which applies to
+        /// all files in the file system. If a <code>LifecycleConfiguration</code> object already
+        /// exists for the specified file system, a <code>PutLifecycleConfiguration</code> call
+        /// modifies the existing configuration. A <code>PutLifecycleConfiguration</code> call
+        /// with an empty <code>LifecyclePolicies</code> array in the request body deletes any
+        /// existing <code>LifecycleConfiguration</code> and disables lifecycle management.
+        /// </para>
+        ///  
+        /// <para>
+        /// In the request, specify the following: 
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// The ID for the file system for which you are enabling, disabling, or modifying lifecycle
+        /// management.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// A <code>LifecyclePolicies</code> array of <code>LifecyclePolicy</code> objects that
+        /// define when files are moved to the IA storage class. The array can contain only one
+        /// <code>LifecyclePolicy</code> item.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:PutLifecycleConfiguration</code>
+        /// operation.
+        /// </para>
+        ///  
+        /// <para>
+        /// To apply a <code>LifecycleConfiguration</code> object to an encrypted file system,
+        /// you need the same AWS Key Management Service (AWS KMS) permissions as when you created
+        /// the encrypted file system. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the PutLifecycleConfiguration service method.</param>
+        /// 
+        /// <returns>The response from the PutLifecycleConfiguration service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.IncorrectFileSystemLifeCycleStateException">
+        /// Returned if the file system's lifecycle state is not "available".
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/PutLifecycleConfiguration">REST API Reference for PutLifecycleConfiguration Operation</seealso>
+        PutLifecycleConfigurationResponse PutLifecycleConfiguration(PutLifecycleConfigurationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the PutLifecycleConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the PutLifecycleConfiguration operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndPutLifecycleConfiguration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/PutLifecycleConfiguration">REST API Reference for PutLifecycleConfiguration Operation</seealso>
+        IAsyncResult BeginPutLifecycleConfiguration(PutLifecycleConfigurationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  PutLifecycleConfiguration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginPutLifecycleConfiguration.</param>
+        /// 
+        /// <returns>Returns a  PutLifecycleConfigurationResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/PutLifecycleConfiguration">REST API Reference for PutLifecycleConfiguration Operation</seealso>
+        PutLifecycleConfigurationResponse EndPutLifecycleConfiguration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  TagResource
+
+
+        /// <summary>
+        /// Creates a tag for an EFS resource. You can create tags for EFS file systems and access
+        /// points using this API operation.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:TagResource</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointNotFoundException">
+        /// Returned if the specified <code>AccessPointId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse TagResource(TagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the TagResource operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndTagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        IAsyncResult BeginTagResource(TagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  TagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginTagResource.</param>
+        /// 
+        /// <returns>Returns a  TagResourceResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/TagResource">REST API Reference for TagResource Operation</seealso>
+        TagResourceResponse EndTagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UntagResource
+
+
+        /// <summary>
+        /// Removes tags from an EFS resource. You can remove tags from EFS file systems and access
+        /// points using this API operation.
+        /// 
+        ///  
+        /// <para>
+        /// This operation requires permissions for the <code>elasticfilesystem:UntagResource</code>
+        /// action.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.AccessPointNotFoundException">
+        /// Returned if the specified <code>AccessPointId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse UntagResource(UntagResourceRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUntagResource
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        IAsyncResult BeginUntagResource(UntagResourceRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UntagResource operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUntagResource.</param>
+        /// 
+        /// <returns>Returns a  UntagResourceResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        UntagResourceResponse EndUntagResource(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  UpdateFileSystem
+
+
+        /// <summary>
+        /// Updates the throughput mode or the amount of provisioned throughput of an existing
+        /// file system.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFileSystem service method.</param>
+        /// 
+        /// <returns>The response from the UpdateFileSystem service method, as returned by ElasticFileSystem.</returns>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.BadRequestException">
+        /// Returned if the request is malformed or contains an error such as an invalid parameter
+        /// value or a missing required parameter.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.FileSystemNotFoundException">
+        /// Returned if the specified <code>FileSystemId</code> value doesn't exist in the requester's
+        /// AWS account.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.IncorrectFileSystemLifeCycleStateException">
+        /// Returned if the file system's lifecycle state is not "available".
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InsufficientThroughputCapacityException">
+        /// Returned if there's not enough capacity to provision additional throughput. This value
+        /// might be returned when you try to create a file system in provisioned throughput mode,
+        /// when you attempt to increase the provisioned throughput of an existing file system,
+        /// or when you attempt to change an existing file system from bursting to provisioned
+        /// throughput mode.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.InternalServerErrorException">
+        /// Returned if an error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.ThroughputLimitExceededException">
+        /// Returned if the throughput mode or amount of provisioned throughput can't be changed
+        /// because the throughput limit of 1024 MiB/s has been reached.
+        /// </exception>
+        /// <exception cref="Amazon.ElasticFileSystem.Model.TooManyRequestsException">
+        /// Returned if you don’t wait at least 24 hours before changing the throughput mode,
+        /// or decreasing the Provisioned Throughput value.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/UpdateFileSystem">REST API Reference for UpdateFileSystem Operation</seealso>
+        UpdateFileSystemResponse UpdateFileSystem(UpdateFileSystemRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the UpdateFileSystem operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the UpdateFileSystem operation on AmazonElasticFileSystemClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndUpdateFileSystem
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/UpdateFileSystem">REST API Reference for UpdateFileSystem Operation</seealso>
+        IAsyncResult BeginUpdateFileSystem(UpdateFileSystemRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  UpdateFileSystem operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginUpdateFileSystem.</param>
+        /// 
+        /// <returns>Returns a  UpdateFileSystemResult from ElasticFileSystem.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/elasticfilesystem-2015-02-01/UpdateFileSystem">REST API Reference for UpdateFileSystem Operation</seealso>
+        UpdateFileSystemResponse EndUpdateFileSystem(IAsyncResult asyncResult);
 
         #endregion
         

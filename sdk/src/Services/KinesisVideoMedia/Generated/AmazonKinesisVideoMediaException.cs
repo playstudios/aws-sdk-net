@@ -28,10 +28,10 @@ namespace Amazon.KinesisVideoMedia
     ///<summary>
     /// Common exception for the KinesisVideoMedia service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonKinesisVideoMediaException : AmazonServiceException
+    public partial class AmazonKinesisVideoMediaException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonKinesisVideoMediaException
@@ -88,7 +88,7 @@ namespace Amazon.KinesisVideoMedia
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonKinesisVideoMediaException class with serialized data.
         /// </summary>

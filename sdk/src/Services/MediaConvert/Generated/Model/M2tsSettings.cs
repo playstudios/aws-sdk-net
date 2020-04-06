@@ -28,7 +28,15 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Settings for M2TS Container.
+    /// MPEG-2 TS container settings. These apply to outputs in a File output group when the
+    /// output's container (ContainerType) is MPEG-2 Transport Stream (M2TS). In these assets,
+    /// data is organized by the program map table (PMT). Each transport stream program contains
+    /// subsets of data, including audio, video, and metadata. Each of these subsets of data
+    /// has a numerical label called a packet identifier (PID). Each transport stream program
+    /// corresponds to one MediaConvert output. The PMT lists the types of data in a program
+    /// along with their PID. Downstream systems and players use the program map table to
+    /// look up the PID for each type of data it accesses and then uses the PIDs to locate
+    /// specific data within the asset.
     /// </summary>
     public partial class M2tsSettings
     {
@@ -45,6 +53,7 @@ namespace Amazon.MediaConvert.Model
         private M2tsEbpAudioInterval _ebpAudioInterval;
         private M2tsEbpPlacement _ebpPlacement;
         private M2tsEsRateInPes _esRateInPes;
+        private M2tsForceTsVideoEbpOrder _forceTsVideoEbpOrder;
         private double? _fragmentTime;
         private int? _maxPcrInterval;
         private int? _minEbpInterval;
@@ -58,6 +67,7 @@ namespace Amazon.MediaConvert.Model
         private int? _privateMetadataPid;
         private int? _programNumber;
         private M2tsRateMode _rateMode;
+        private M2tsScte35Esam _scte35Esam;
         private int? _scte35Pid;
         private M2tsScte35Source _scte35Source;
         private M2tsSegmentationMarkers _segmentationMarkers;
@@ -68,7 +78,8 @@ namespace Amazon.MediaConvert.Model
         private int? _videoPid;
 
         /// <summary>
-        /// Gets and sets the property AudioBufferModel.
+        /// Gets and sets the property AudioBufferModel. Selects between the DVB and ATSC buffer
+        /// models for Dolby Digital audio.
         /// </summary>
         public M2tsAudioBufferModel AudioBufferModel
         {
@@ -86,6 +97,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property AudioFramesPerPes. The number of audio frames to insert
         /// for each PES packet.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int AudioFramesPerPes
         {
             get { return this._audioFramesPerPes.GetValueOrDefault(); }
@@ -99,9 +111,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property AudioPids. Packet Identifier (PID) of the elementary audio
-        /// stream(s) in the transport stream. Multiple values are accepted, and can be entered
-        /// in ranges and/or by comma separation.
+        /// Gets and sets the property AudioPids. Specify the packet identifiers (PIDs) for any
+        /// elementary audio streams you include in this output. Specify multiple PIDs as a JSON
+        /// array. Default is the range 482-492.
         /// </summary>
         public List<int> AudioPids
         {
@@ -116,10 +128,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Bitrate. The output bitrate of the transport stream in
-        /// bits per second. Setting to 0 lets the muxer automatically determine the appropriate
+        /// Gets and sets the property Bitrate. Specify the output bitrate of the transport stream
+        /// in bits per second. Setting to 0 lets the muxer automatically determine the appropriate
         /// bitrate. Other common values are 3750000, 7500000, and 15000000.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int Bitrate
         {
             get { return this._bitrate.GetValueOrDefault(); }
@@ -133,7 +146,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property BufferModel.
+        /// Gets and sets the property BufferModel. Controls what buffer model to use for accurate
+        /// interleaving. If set to MULTIPLEX, use multiplex  buffer model. If set to NONE, this
+        /// can lead to lower latency, but low-memory devices may not be able to play back the
+        /// stream without interruptions.
         /// </summary>
         public M2tsBufferModel BufferModel
         {
@@ -148,7 +164,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DvbNitSettings.
+        /// Gets and sets the property DvbNitSettings. Inserts DVB Network Information Table (NIT)
+        /// at the specified table repetition interval.
         /// </summary>
         public DvbNitSettings DvbNitSettings
         {
@@ -163,7 +180,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DvbSdtSettings.
+        /// Gets and sets the property DvbSdtSettings. Inserts DVB Service Description Table (NIT)
+        /// at the specified table repetition interval.
         /// </summary>
         public DvbSdtSettings DvbSdtSettings
         {
@@ -178,9 +196,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DvbSubPids. Packet Identifier (PID) for input source DVB
-        /// Subtitle data to this output. Multiple values are accepted, and can be entered in
-        /// ranges and/or by comma separation.
+        /// Gets and sets the property DvbSubPids. Specify the packet identifiers (PIDs) for DVB
+        /// subtitle data included in this output. Specify multiple PIDs as a JSON array. Default
+        /// is the range 460-479.
         /// </summary>
         public List<int> DvbSubPids
         {
@@ -195,7 +213,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DvbTdtSettings.
+        /// Gets and sets the property DvbTdtSettings. Inserts DVB Time and Date Table (TDT) at
+        /// the specified table repetition interval.
         /// </summary>
         public DvbTdtSettings DvbTdtSettings
         {
@@ -210,9 +229,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DvbTeletextPid. Packet Identifier (PID) for input source
-        /// DVB Teletext data to this output.
+        /// Gets and sets the property DvbTeletextPid. Specify the packet identifier (PID) for
+        /// DVB teletext data you include in this output. Default is 499.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int DvbTeletextPid
         {
             get { return this._dvbTeletextPid.GetValueOrDefault(); }
@@ -226,7 +246,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EbpAudioInterval.
+        /// Gets and sets the property EbpAudioInterval. When set to VIDEO_AND_FIXED_INTERVALS,
+        /// audio EBP markers will be added to partitions 3 and 4. The interval between these
+        /// additional markers will be fixed, and will be slightly shorter than the video EBP
+        /// marker interval. When set to VIDEO_INTERVAL, these additional markers will not be
+        /// inserted. Only applicable when EBP segmentation markers are is selected (segmentationMarkers
+        /// is EBP or EBP_LEGACY).
         /// </summary>
         public M2tsEbpAudioInterval EbpAudioInterval
         {
@@ -241,7 +266,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EbpPlacement.
+        /// Gets and sets the property EbpPlacement. Selects which PIDs to place EBP markers on.
+        /// They can either be placed only on the video PID, or on both the video PID and all
+        /// audio PIDs. Only applicable when EBP segmentation markers are is selected (segmentationMarkers
+        /// is EBP or EBP_LEGACY).
         /// </summary>
         public M2tsEbpPlacement EbpPlacement
         {
@@ -256,7 +284,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property EsRateInPes.
+        /// Gets and sets the property EsRateInPes. Controls whether to include the ES Rate field
+        /// in the PES header.
         /// </summary>
         public M2tsEsRateInPes EsRateInPes
         {
@@ -271,8 +300,25 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FragmentTime. The length in seconds of each fragment. Only
-        /// used with EBP markers.
+        /// Gets and sets the property ForceTsVideoEbpOrder. Keep the default value (DEFAULT)
+        /// unless you know that your audio EBP markers are incorrectly appearing before your
+        /// video EBP markers. To correct this problem, set this value to Force (FORCE).
+        /// </summary>
+        public M2tsForceTsVideoEbpOrder ForceTsVideoEbpOrder
+        {
+            get { return this._forceTsVideoEbpOrder; }
+            set { this._forceTsVideoEbpOrder = value; }
+        }
+
+        // Check to see if ForceTsVideoEbpOrder property is set
+        internal bool IsSetForceTsVideoEbpOrder()
+        {
+            return this._forceTsVideoEbpOrder != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property FragmentTime. The length, in seconds, of each fragment.
+        /// Only used with EBP markers.
         /// </summary>
         public double FragmentTime
         {
@@ -287,9 +333,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MaxPcrInterval. Maximum time in milliseconds between Program
-        /// Clock References (PCRs) inserted into the transport stream.
+        /// Gets and sets the property MaxPcrInterval. Specify the maximum time, in milliseconds,
+        /// between Program Clock References (PCRs) inserted into the transport stream.
         /// </summary>
+        [AWSProperty(Min=0, Max=500)]
         public int MaxPcrInterval
         {
             get { return this._maxPcrInterval.GetValueOrDefault(); }
@@ -310,6 +357,7 @@ namespace Amazon.MediaConvert.Model
         /// The lookahead value does not add latency to the system. The Live Event must be configured
         /// elsewhere to create sufficient latency to make the lookahead accurate.
         /// </summary>
+        [AWSProperty(Min=0, Max=10000)]
         public int MinEbpInterval
         {
             get { return this._minEbpInterval.GetValueOrDefault(); }
@@ -323,7 +371,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property NielsenId3.
+        /// Gets and sets the property NielsenId3. If INSERT, Nielsen inaudible tones for media
+        /// tracking will be detected in the input audio and an equivalent ID3 tag will be inserted
+        /// in the output.
         /// </summary>
         public M2tsNielsenId3 NielsenId3
         {
@@ -358,6 +408,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property PatInterval. The number of milliseconds between instances
         /// of this table in the output transport stream.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PatInterval
         {
             get { return this._patInterval.GetValueOrDefault(); }
@@ -371,7 +422,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PcrControl.
+        /// Gets and sets the property PcrControl. When set to PCR_EVERY_PES_PACKET, a Program
+        /// Clock Reference value is inserted for every Packetized Elementary Stream (PES) header.
+        /// This is effective only when the PCR PID is the same as the video or audio elementary
+        /// stream.
         /// </summary>
         public M2tsPcrControl PcrControl
         {
@@ -386,10 +440,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PcrPid. Packet Identifier (PID) of the Program Clock Reference
-        /// (PCR) in the transport stream. When no value is given, the encoder will assign the
-        /// same value as the Video PID.
+        /// Gets and sets the property PcrPid. Specify the packet identifier (PID) for the program
+        /// clock reference (PCR) in this output. If you do not specify a value, the service will
+        /// use the value for Video PID (VideoPid).
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int PcrPid
         {
             get { return this._pcrPid.GetValueOrDefault(); }
@@ -403,9 +458,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PmtInterval. The number of milliseconds between instances
-        /// of this table in the output transport stream.
+        /// Gets and sets the property PmtInterval. Specify the number of milliseconds between
+        /// instances of the program map table (PMT) in the output transport stream.
         /// </summary>
+        [AWSProperty(Min=0, Max=1000)]
         public int PmtInterval
         {
             get { return this._pmtInterval.GetValueOrDefault(); }
@@ -419,9 +475,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PmtPid. Packet Identifier (PID) for the Program Map Table
-        /// (PMT) in the transport stream.
+        /// Gets and sets the property PmtPid. Specify the packet identifier (PID) for the program
+        /// map table (PMT) itself. Default is 480.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int PmtPid
         {
             get { return this._pmtPid.GetValueOrDefault(); }
@@ -435,9 +492,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property PrivateMetadataPid. Packet Identifier (PID) of the private
-        /// metadata stream in the transport stream.
+        /// Gets and sets the property PrivateMetadataPid. Specify the packet identifier (PID)
+        /// of the private metadata stream. Default is 503.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int PrivateMetadataPid
         {
             get { return this._privateMetadataPid.GetValueOrDefault(); }
@@ -451,9 +509,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property ProgramNumber. The value of the program number field in
-        /// the Program Map Table.
+        /// Gets and sets the property ProgramNumber. Use Program number (programNumber) to specify
+        /// the program number used in the program map table (PMT) for this output. Default is
+        /// 1. Program numbers and program map tables are parts of MPEG-2 transport stream containers,
+        /// used for organizing data.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int ProgramNumber
         {
             get { return this._programNumber.GetValueOrDefault(); }
@@ -467,7 +528,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RateMode.
+        /// Gets and sets the property RateMode. When set to CBR, inserts null packets into transport
+        /// stream to fill specified bitrate. When set to VBR, the bitrate setting acts as the
+        /// maximum bitrate, but the output will not be padded up to that bitrate.
         /// </summary>
         public M2tsRateMode RateMode
         {
@@ -482,9 +545,27 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Scte35Pid. Packet Identifier (PID) of the SCTE-35 stream
-        /// in the transport stream.
+        /// Gets and sets the property Scte35Esam. Include this in your job settings to put SCTE-35
+        /// markers in your HLS and transport stream outputs at the insertion points that you
+        /// specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         /// </summary>
+        public M2tsScte35Esam Scte35Esam
+        {
+            get { return this._scte35Esam; }
+            set { this._scte35Esam = value; }
+        }
+
+        // Check to see if Scte35Esam property is set
+        internal bool IsSetScte35Esam()
+        {
+            return this._scte35Esam != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Scte35Pid. Specify the packet identifier (PID) of the SCTE-35
+        /// stream in the transport stream.
+        /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int Scte35Pid
         {
             get { return this._scte35Pid.GetValueOrDefault(); }
@@ -498,7 +579,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Scte35Source.
+        /// Gets and sets the property Scte35Source. For SCTE-35 markers from your input-- Choose
+        /// Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to
+        /// also appear in this output. Choose None (NONE) if you don't want SCTE-35 markers in
+        /// this output. For SCTE-35 markers from an ESAM XML document-- Choose None (NONE). Also
+        /// provide the ESAM XML as a string in the setting Signal processing notification XML
+        /// (sccXml). Also enable ESAM SCTE-35 (include the property scte35Esam).
         /// </summary>
         public M2tsScte35Source Scte35Source
         {
@@ -513,7 +599,13 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentationMarkers.
+        /// Gets and sets the property SegmentationMarkers. Inserts segmentation markers at each
+        /// segmentation_time period. rai_segstart sets the Random Access Indicator bit in the
+        /// adaptation field. rai_adapt sets the RAI bit and adds the current timecode in the
+        /// private data bytes. psi_segstart inserts PAT and PMT tables at the start of segments.
+        /// ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable
+        /// specification OC-SP-EBP-I01-130118. ebp_legacy adds Encoder Boundary Point information
+        /// to the adaptation field using a legacy proprietary format.
         /// </summary>
         public M2tsSegmentationMarkers SegmentationMarkers
         {
@@ -528,7 +620,17 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentationStyle.
+        /// Gets and sets the property SegmentationStyle. The segmentation style parameter controls
+        /// how segmentation markers are inserted into the transport stream. With avails, it is
+        /// possible that segments may be truncated, which can influence where future segmentation
+        /// markers are inserted. When a segmentation style of "reset_cadence" is selected and
+        /// a segment is truncated due to an avail, we will reset the segmentation cadence. This
+        /// means the subsequent segment will have a duration of of $segmentation_time seconds.
+        /// When a segmentation style of "maintain_cadence" is selected and a segment is truncated
+        /// due to an avail, we will not reset the segmentation cadence. This means the subsequent
+        /// segment will likely be truncated as well. However, all segments after that will have
+        /// a duration of $segmentation_time seconds. Note that EBP lookahead is a slight exception
+        /// to this rule.
         /// </summary>
         public M2tsSegmentationStyle SegmentationStyle
         {
@@ -543,8 +645,8 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SegmentationTime. The length in seconds of each segment.
-        /// Required unless markers is set to _none_.
+        /// Gets and sets the property SegmentationTime. Specify the length, in seconds, of each
+        /// segment. Required unless markers is set to _none_.
         /// </summary>
         public double SegmentationTime
         {
@@ -559,9 +661,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TimedMetadataPid. Packet Identifier (PID) of the timed
-        /// metadata stream in the transport stream.
+        /// Gets and sets the property TimedMetadataPid. Specify the packet identifier (PID) for
+        /// timed metadata in this output. Default is 502.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int TimedMetadataPid
         {
             get { return this._timedMetadataPid.GetValueOrDefault(); }
@@ -575,9 +678,11 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property TransportStreamId. The value of the transport stream ID
-        /// field in the Program Map Table.
+        /// Gets and sets the property TransportStreamId. Specify the ID for the transport stream
+        /// itself in the program map table for this output. Transport stream IDs and program
+        /// map tables are parts of MPEG-2 transport stream containers, used for organizing data.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int TransportStreamId
         {
             get { return this._transportStreamId.GetValueOrDefault(); }
@@ -591,9 +696,10 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property VideoPid. Packet Identifier (PID) of the elementary video
-        /// stream in the transport stream.
+        /// Gets and sets the property VideoPid. Specify the packet identifier (PID) of the elementary
+        /// video stream in the transport stream.
         /// </summary>
+        [AWSProperty(Min=32, Max=8182)]
         public int VideoPid
         {
             get { return this._videoPid.GetValueOrDefault(); }

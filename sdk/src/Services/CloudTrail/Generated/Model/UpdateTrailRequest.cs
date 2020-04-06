@@ -43,6 +43,7 @@ namespace Amazon.CloudTrail.Model
         private bool? _enableLogFileValidation;
         private bool? _includeGlobalServiceEvents;
         private bool? _isMultiRegionTrail;
+        private bool? _isOrganizationTrail;
         private string _kmsKeyId;
         private string _name;
         private string _s3BucketName;
@@ -144,7 +145,8 @@ namespace Amazon.CloudTrail.Model
         /// is set to true, shadow trails (replications of the trail) will be created in the other
         /// regions. If the trail exists in all regions and this value is set to false, the trail
         /// will remain in the region where it was created, and its shadow trails in other regions
-        /// will be deleted.
+        /// will be deleted. As a best practice, consider using trails that log events in all
+        /// regions.
         /// </para>
         /// </summary>
         public bool IsMultiRegionTrail
@@ -157,6 +159,30 @@ namespace Amazon.CloudTrail.Model
         internal bool IsSetIsMultiRegionTrail()
         {
             return this._isMultiRegionTrail.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property IsOrganizationTrail. 
+        /// <para>
+        /// Specifies whether the trail is applied to all accounts in an organization in AWS Organizations,
+        /// or only for the current AWS account. The default is false, and cannot be true unless
+        /// the call is made on behalf of an AWS account that is the master account for an organization
+        /// in AWS Organizations. If the trail is not an organization trail and this is set to
+        /// true, the trail will be created in all AWS accounts that belong to the organization.
+        /// If the trail is an organization trail and this is set to false, the trail will remain
+        /// in the current AWS account but be deleted from all member accounts in the organization.
+        /// </para>
+        /// </summary>
+        public bool IsOrganizationTrail
+        {
+            get { return this._isOrganizationTrail.GetValueOrDefault(); }
+            set { this._isOrganizationTrail = value; }
+        }
+
+        // Check to see if IsOrganizationTrail property is set
+        internal bool IsSetIsOrganizationTrail()
+        {
+            return this._isOrganizationTrail.HasValue; 
         }
 
         /// <summary>
@@ -176,11 +202,11 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
+        /// arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
+        /// arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
         /// </para>
         ///  </li> <li> 
         /// <para>
@@ -234,9 +260,10 @@ namespace Amazon.CloudTrail.Model
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail</code> 
+        ///  <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -253,7 +280,7 @@ namespace Amazon.CloudTrail.Model
         /// Gets and sets the property S3BucketName. 
         /// <para>
         /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See
-        /// <a href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html">Amazon
+        /// <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html">Amazon
         /// S3 Bucket Naming Requirements</a>.
         /// </para>
         /// </summary>
@@ -273,7 +300,7 @@ namespace Amazon.CloudTrail.Model
         /// Gets and sets the property S3KeyPrefix. 
         /// <para>
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have
-        /// designated for log file delivery. For more information, see <a href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
+        /// designated for log file delivery. For more information, see <a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html">Finding
         /// Your CloudTrail Log Files</a>. The maximum length is 200 characters.
         /// </para>
         /// </summary>

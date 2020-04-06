@@ -81,6 +81,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.FontResolution);
             }
 
+            if(requestObject.IsSetFontScript())
+            {
+                context.Writer.WritePropertyName("fontScript");
+                context.Writer.Write(requestObject.FontScript);
+            }
+
             if(requestObject.IsSetFontSize())
             {
                 context.Writer.WritePropertyName("fontSize");
@@ -121,6 +127,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("shadowYOffset");
                 context.Writer.Write(requestObject.ShadowYOffset);
+            }
+
+            if(requestObject.IsSetSubtitlingType())
+            {
+                context.Writer.WritePropertyName("subtitlingType");
+                context.Writer.Write(requestObject.SubtitlingType);
             }
 
             if(requestObject.IsSetTeletextSpacing())

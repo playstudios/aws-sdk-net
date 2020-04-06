@@ -43,6 +43,7 @@ namespace Amazon.WorkDocs.Model
         /// results, the string is empty.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string Marker
         {
             get { return this._marker; }
@@ -61,6 +62,7 @@ namespace Amazon.WorkDocs.Model
         /// The total number of users included in the results.
         /// </para>
         /// </summary>
+        [Obsolete("This property is deprecated")]
         public long TotalNumberOfUsers
         {
             get { return this._totalNumberOfUsers.GetValueOrDefault(); }

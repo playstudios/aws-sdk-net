@@ -55,11 +55,12 @@ namespace Amazon.XRay.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetTraceGraphRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.XRay");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-04-12";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/TraceGraph";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/TraceGraph";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

@@ -39,32 +39,106 @@ namespace Amazon.MediaPackage
         #region  CreateChannel
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateChannel operation.
+        /// Creates a new Channel.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateChannel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateChannel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateChannel service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/CreateChannel">REST API Reference for CreateChannel Operation</seealso>
         Task<CreateChannelResponse> CreateChannelAsync(CreateChannelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion
+                
+        #region  CreateHarvestJob
+
+
+
+        /// <summary>
+        /// Creates a new HarvestJob record.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateHarvestJob service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the CreateHarvestJob service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/CreateHarvestJob">REST API Reference for CreateHarvestJob Operation</seealso>
+        Task<CreateHarvestJobResponse> CreateHarvestJobAsync(CreateHarvestJobRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion
                 
         #region  CreateOriginEndpoint
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateOriginEndpoint operation.
+        /// Creates a new OriginEndpoint record.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateOriginEndpoint operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateOriginEndpoint service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateOriginEndpoint service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/CreateOriginEndpoint">REST API Reference for CreateOriginEndpoint Operation</seealso>
         Task<CreateOriginEndpointResponse> CreateOriginEndpointAsync(CreateOriginEndpointRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
@@ -73,15 +147,34 @@ namespace Amazon.MediaPackage
         #region  DeleteChannel
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteChannel operation.
+        /// Deletes an existing Channel.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteChannel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteChannel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteChannel service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DeleteChannel">REST API Reference for DeleteChannel Operation</seealso>
         Task<DeleteChannelResponse> DeleteChannelAsync(DeleteChannelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
@@ -90,15 +183,34 @@ namespace Amazon.MediaPackage
         #region  DeleteOriginEndpoint
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteOriginEndpoint operation.
+        /// Deletes an existing OriginEndpoint.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteOriginEndpoint operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteOriginEndpoint service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteOriginEndpoint service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DeleteOriginEndpoint">REST API Reference for DeleteOriginEndpoint Operation</seealso>
         Task<DeleteOriginEndpointResponse> DeleteOriginEndpointAsync(DeleteOriginEndpointRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
@@ -107,32 +219,106 @@ namespace Amazon.MediaPackage
         #region  DescribeChannel
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeChannel operation.
+        /// Gets details about a Channel.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeChannel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeChannel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeChannel service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DescribeChannel">REST API Reference for DescribeChannel Operation</seealso>
         Task<DescribeChannelResponse> DescribeChannelAsync(DescribeChannelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion
+                
+        #region  DescribeHarvestJob
+
+
+
+        /// <summary>
+        /// Gets details about an existing HarvestJob.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeHarvestJob service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the DescribeHarvestJob service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DescribeHarvestJob">REST API Reference for DescribeHarvestJob Operation</seealso>
+        Task<DescribeHarvestJobResponse> DescribeHarvestJobAsync(DescribeHarvestJobRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion
                 
         #region  DescribeOriginEndpoint
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DescribeOriginEndpoint operation.
+        /// Gets details about an existing OriginEndpoint.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DescribeOriginEndpoint operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeOriginEndpoint service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DescribeOriginEndpoint service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/DescribeOriginEndpoint">REST API Reference for DescribeOriginEndpoint Operation</seealso>
         Task<DescribeOriginEndpointResponse> DescribeOriginEndpointAsync(DescribeOriginEndpointRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
@@ -141,66 +327,271 @@ namespace Amazon.MediaPackage
         #region  ListChannels
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListChannels operation.
+        /// Returns a collection of Channels.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListChannels operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListChannels service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListChannels service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListChannels">REST API Reference for ListChannels Operation</seealso>
         Task<ListChannelsResponse> ListChannelsAsync(ListChannelsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion
+                
+        #region  ListHarvestJobs
+
+
+
+        /// <summary>
+        /// Returns a collection of HarvestJob records.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListHarvestJobs service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListHarvestJobs service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListHarvestJobs">REST API Reference for ListHarvestJobs Operation</seealso>
+        Task<ListHarvestJobsResponse> ListHarvestJobsAsync(ListHarvestJobsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion
                 
         #region  ListOriginEndpoints
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ListOriginEndpoints operation.
+        /// Returns a collection of OriginEndpoint records.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ListOriginEndpoints operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ListOriginEndpoints service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ListOriginEndpoints service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListOriginEndpoints">REST API Reference for ListOriginEndpoints Operation</seealso>
         Task<ListOriginEndpointsResponse> ListOriginEndpointsAsync(ListOriginEndpointsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion
+                
+        #region  ListTagsForResource
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTagsForResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the ListTagsForResource service method, as returned by MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/ListTagsForResource">REST API Reference for ListTagsForResource Operation</seealso>
+        Task<ListTagsForResourceResponse> ListTagsForResourceAsync(ListTagsForResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion
                 
         #region  RotateChannelCredentials
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the RotateChannelCredentials operation.
+        /// Changes the Channel's first IngestEndpoint's username and password. WARNING - This
+        /// API is deprecated. Please use RotateIngestEndpointCredentials instead
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the RotateChannelCredentials operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the RotateChannelCredentials service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the RotateChannelCredentials service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateChannelCredentials">REST API Reference for RotateChannelCredentials Operation</seealso>
+        [Obsolete("This API is deprecated. Please use RotateIngestEndpointCredentials instead")]
         Task<RotateChannelCredentialsResponse> RotateChannelCredentialsAsync(RotateChannelCredentialsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion
+                
+        #region  RotateIngestEndpointCredentials
+
+
+
+        /// <summary>
+        /// Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's
+        /// id.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RotateIngestEndpointCredentials service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the RotateIngestEndpointCredentials service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/RotateIngestEndpointCredentials">REST API Reference for RotateIngestEndpointCredentials Operation</seealso>
+        Task<RotateIngestEndpointCredentialsResponse> RotateIngestEndpointCredentialsAsync(RotateIngestEndpointCredentialsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion
+                
+        #region  TagResource
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/TagResource">REST API Reference for TagResource Operation</seealso>
+        Task<TagResourceResponse> TagResourceAsync(TagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion
+                
+        #region  UntagResource
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by MediaPackage.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/UntagResource">REST API Reference for UntagResource Operation</seealso>
+        Task<UntagResourceResponse> UntagResourceAsync(UntagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion
                 
         #region  UpdateChannel
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateChannel operation.
+        /// Updates an existing Channel.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateChannel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateChannel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateChannel service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/UpdateChannel">REST API Reference for UpdateChannel Operation</seealso>
         Task<UpdateChannelResponse> UpdateChannelAsync(UpdateChannelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 
@@ -209,15 +600,34 @@ namespace Amazon.MediaPackage
         #region  UpdateOriginEndpoint
 
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateOriginEndpoint operation.
+        /// Updates an existing OriginEndpoint.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateOriginEndpoint operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateOriginEndpoint service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateOriginEndpoint service method, as returned by MediaPackage.</returns>
+        /// <exception cref="Amazon.MediaPackage.Model.ForbiddenException">
+        /// The client is not authorized to access the requested resource.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.InternalServerErrorException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.NotFoundException">
+        /// The requested resource does not exist.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.ServiceUnavailableException">
+        /// An unexpected error occurred.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.TooManyRequestsException">
+        /// The client has exceeded their resource or throttling limits.
+        /// </exception>
+        /// <exception cref="Amazon.MediaPackage.Model.UnprocessableEntityException">
+        /// The parameters sent in the request are not valid.
+        /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/mediapackage-2017-10-12/UpdateOriginEndpoint">REST API Reference for UpdateOriginEndpoint Operation</seealso>
         Task<UpdateOriginEndpointResponse> UpdateOriginEndpointAsync(UpdateOriginEndpointRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken));
 

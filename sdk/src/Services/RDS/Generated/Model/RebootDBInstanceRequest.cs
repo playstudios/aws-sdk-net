@@ -42,8 +42,8 @@ namespace Amazon.RDS.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about rebooting, see <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html">Rebooting
-    /// a DB Instance</a>. 
+    /// For more information about rebooting, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_RebootInstance.html">Rebooting
+    /// a DB Instance</a> in the <i>Amazon RDS User Guide.</i> 
     /// </para>
     /// </summary>
     public partial class RebootDBInstanceRequest : AmazonRDSRequest
@@ -80,6 +80,7 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBInstanceIdentifier
         {
             get { return this._dbInstanceIdentifier; }
@@ -95,12 +96,12 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ForceFailover. 
         /// <para>
-        ///  When <code>true</code>, the reboot is conducted through a MultiAZ failover. 
+        ///  A value that indicates whether the reboot is conducted through a Multi-AZ failover.
+        /// 
         /// </para>
         ///  
         /// <para>
-        /// Constraint: You can't specify <code>true</code> if the instance is not configured
-        /// for MultiAZ.
+        /// Constraint: You can't enable force failover if the instance isn't configured for Multi-AZ.
         /// </para>
         /// </summary>
         public bool ForceFailover

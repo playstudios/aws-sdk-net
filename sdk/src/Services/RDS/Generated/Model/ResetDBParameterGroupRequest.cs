@@ -51,7 +51,7 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Instantiates ResetDBParameterGroupRequest with the parameterized properties
         /// </summary>
-        /// <param name="dbParameterGroupName">The name of the DB parameter group. Constraints: <ul> <li> Must match the name of an existing DBParameterGroup. </li> </ul></param>
+        /// <param name="dbParameterGroupName">The name of the DB parameter group. Constraints: <ul> <li> Must match the name of an existing <code>DBParameterGroup</code>. </li> </ul></param>
         public ResetDBParameterGroupRequest(string dbParameterGroupName)
         {
             _dbParameterGroupName = dbParameterGroupName;
@@ -68,10 +68,11 @@ namespace Amazon.RDS.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// Must match the name of an existing DBParameterGroup.
+        /// Must match the name of an existing <code>DBParameterGroup</code>.
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DBParameterGroupName
         {
             get { return this._dbParameterGroupName; }
@@ -146,12 +147,9 @@ namespace Amazon.RDS.Model
         /// <summary>
         /// Gets and sets the property ResetAllParameters. 
         /// <para>
-        ///  Specifies whether (<code>true</code>) or not (<code>false</code>) to reset all parameters
-        /// in the DB parameter group to default values. 
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: <code>true</code> 
+        ///  A value that indicates whether to reset all parameters in the DB parameter group
+        /// to default values. By default, all parameters in the DB parameter group are reset
+        /// to default values. 
         /// </para>
         /// </summary>
         public bool ResetAllParameters

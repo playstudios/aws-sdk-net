@@ -41,7 +41,7 @@ namespace Amazon.EC2.Model
     /// You must launch a Scheduled Instance during its scheduled time period. You can't stop
     /// or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate
     /// a Scheduled Instance before the current scheduled time period ends, you can launch
-    /// it again after a few minutes. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html">Scheduled
+    /// it again after a few minutes. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html">Scheduled
     /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -56,7 +56,7 @@ namespace Amazon.EC2.Model
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For
-        /// more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+        /// more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
         /// </para>
         /// </summary>
@@ -101,6 +101,7 @@ namespace Amazon.EC2.Model
         /// and platform of the schedule that you purchased.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ScheduledInstancesLaunchSpecification LaunchSpecification
         {
             get { return this._launchSpecification; }
@@ -119,6 +120,7 @@ namespace Amazon.EC2.Model
         /// The Scheduled Instance ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ScheduledInstanceId
         {
             get { return this._scheduledInstanceId; }

@@ -29,7 +29,7 @@ namespace Amazon.KinesisAnalytics.Model
 {
     /// <summary>
     /// Describes the data format when records are written to the destination. For more information,
-    /// see <a href="http://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
+    /// see <a href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
     /// Application Output</a>.
     /// </summary>
     public partial class DestinationSchema
@@ -42,6 +42,7 @@ namespace Amazon.KinesisAnalytics.Model
         /// Specifies the format of the records on the output stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RecordFormatType RecordFormatType
         {
             get { return this._recordFormatType; }

@@ -38,14 +38,19 @@ namespace Amazon.EC2.Model
         private string _clientToken;
         private RequestLaunchTemplateData _launchTemplateData;
         private string _launchTemplateName;
+        private List<TagSpecification> _tagSpecifications = new List<TagSpecification>();
         private string _versionDescription;
 
         /// <summary>
         /// Gets and sets the property ClientToken. 
         /// <para>
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
         /// Idempotency</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Constraint: Maximum 128 ASCII characters.
         /// </para>
         /// </summary>
         public string ClientToken
@@ -66,6 +71,7 @@ namespace Amazon.EC2.Model
         /// The information for the launch template.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public RequestLaunchTemplateData LaunchTemplateData
         {
             get { return this._launchTemplateData; }
@@ -84,6 +90,7 @@ namespace Amazon.EC2.Model
         /// A name for the launch template.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=128)]
         public string LaunchTemplateName
         {
             get { return this._launchTemplateName; }
@@ -97,11 +104,30 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property TagSpecifications. 
+        /// <para>
+        /// The tags to apply to the launch template during creation.
+        /// </para>
+        /// </summary>
+        public List<TagSpecification> TagSpecifications
+        {
+            get { return this._tagSpecifications; }
+            set { this._tagSpecifications = value; }
+        }
+
+        // Check to see if TagSpecifications property is set
+        internal bool IsSetTagSpecifications()
+        {
+            return this._tagSpecifications != null && this._tagSpecifications.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property VersionDescription. 
         /// <para>
         /// A description for the first version of the launch template.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string VersionDescription
         {
             get { return this._versionDescription; }

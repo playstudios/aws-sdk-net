@@ -28,10 +28,10 @@ namespace Amazon.StepFunctions
     ///<summary>
     /// Common exception for the StepFunctions service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonStepFunctionsException : AmazonServiceException
+    public partial class AmazonStepFunctionsException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonStepFunctionsException
@@ -88,7 +88,7 @@ namespace Amazon.StepFunctions
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonStepFunctionsException class with serialized data.
         /// </summary>

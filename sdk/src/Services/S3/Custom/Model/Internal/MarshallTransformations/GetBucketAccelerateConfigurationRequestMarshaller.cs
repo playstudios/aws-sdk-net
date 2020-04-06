@@ -37,7 +37,11 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
             request.HttpMethod = "GET";
 
-            request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketAccelerateRequest.BucketName));
+            if (string.IsNullOrEmpty(getBucketAccelerateRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "GetBucketAccelerateConfigurationRequest.BucketName");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Concat("/", S3Transforms.ToStringValue(getBucketAccelerateRequest.BucketName));
             request.AddSubResource("accelerate");
             request.UseQueryString = true;
             

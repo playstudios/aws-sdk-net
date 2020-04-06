@@ -29,17 +29,18 @@ namespace Amazon.Rekognition.Model
 {
     /// <summary>
     /// Container for the parameters to the GetLabelDetection operation.
-    /// Gets the label detection results of a Rekognition Video analysis started by . 
+    /// Gets the label detection results of a Amazon Rekognition Video analysis started by
+    /// <a>StartLabelDetection</a>. 
     /// 
     ///  
     /// <para>
-    /// The label detection operation is started by a call to which returns a job identifier
-    /// (<code>JobId</code>). When the label detection operation finishes, Amazon Rekognition
-    /// publishes a completion status to the Amazon Simple Notification Service topic registered
-    /// in the initial call to <code>StartlabelDetection</code>. To get the results of the
-    /// label detection operation, first check that the status value published to the Amazon
-    /// SNS topic is <code>SUCCEEDED</code>. If so, call and pass the job identifier (<code>JobId</code>)
-    /// from the initial call to <code>StartLabelDetection</code>.
+    /// The label detection operation is started by a call to <a>StartLabelDetection</a> which
+    /// returns a job identifier (<code>JobId</code>). When the label detection operation
+    /// finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification
+    /// Service topic registered in the initial call to <code>StartlabelDetection</code>.
+    /// To get the results of the label detection operation, first check that the status value
+    /// published to the Amazon SNS topic is <code>SUCCEEDED</code>. If so, call <a>GetLabelDetection</a>
+    /// and pass the job identifier (<code>JobId</code>) from the initial call to <code>StartLabelDetection</code>.
     /// </para>
     ///  
     /// <para>
@@ -51,6 +52,11 @@ namespace Amazon.Rekognition.Model
     /// <para>
     /// The labels returned include the label name, the percentage confidence in the accuracy
     /// of the detected label, and the time the label was detected in the video.
+    /// </para>
+    ///  
+    /// <para>
+    /// The returned labels also include bounding box information for common objects, a hierarchical
+    /// taxonomy of detected labels, and the version of the label model used for detection.
     /// </para>
     ///  
     /// <para>
@@ -76,6 +82,7 @@ namespace Amazon.Rekognition.Model
         /// You get the job identifer from an initial call to <code>StartlabelDetection</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -91,10 +98,12 @@ namespace Amazon.Rekognition.Model
         /// <summary>
         /// Gets and sets the property MaxResults. 
         /// <para>
-        /// Maximum number of labels you want Amazon Rekognition to return in the response. The
-        /// default is 1000.
+        /// Maximum number of results to return per paginated call. The largest value you can
+        /// specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results
+        /// is returned. The default value is 1000.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -111,10 +120,11 @@ namespace Amazon.Rekognition.Model
         /// Gets and sets the property NextToken. 
         /// <para>
         /// If the previous response was incomplete (because there are more labels to retrieve),
-        /// Rekognition Video returns a pagination token in the response. You can use this pagination
-        /// token to retrieve the next set of labels. 
+        /// Amazon Rekognition Video returns a pagination token in the response. You can use this
+        /// pagination token to retrieve the next set of labels. 
         /// </para>
         /// </summary>
+        [AWSProperty(Max=255)]
         public string NextToken
         {
             get { return this._nextToken; }

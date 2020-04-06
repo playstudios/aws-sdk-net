@@ -96,7 +96,7 @@ namespace Amazon.ECS.Model
         /// <para>
         /// The task desired status with which to filter the <code>ListTasks</code> results. Specifying
         /// a <code>desiredStatus</code> of <code>STOPPED</code> limits the results to tasks that
-        /// Amazon ECS has set the desired status to <code>STOPPED</code>, which can be useful
+        /// Amazon ECS has set the desired status to <code>STOPPED</code>. This can be useful
         /// for debugging tasks that are not starting properly or have died or finished. The default
         /// status filter is <code>RUNNING</code>, which shows tasks that Amazon ECS has set the
         /// desired status to <code>RUNNING</code>.
@@ -104,9 +104,8 @@ namespace Amazon.ECS.Model
         ///  <note> 
         /// <para>
         /// Although you can filter results based on a desired status of <code>PENDING</code>,
-        /// this does not return any results because Amazon ECS never sets the desired status
-        /// of a task to that value (only a task's <code>lastStatus</code> may have a value of
-        /// <code>PENDING</code>).
+        /// this does not return any results. Amazon ECS never sets the desired status of a task
+        /// to that value (only a task's <code>lastStatus</code> may have a value of <code>PENDING</code>).
         /// </para>
         ///  </note>
         /// </summary>
@@ -144,7 +143,7 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property LaunchType. 
         /// <para>
-        /// The launch type for services you want to list.
+        /// The launch type for services to list.
         /// </para>
         /// </summary>
         public LaunchType LaunchType
@@ -186,10 +185,10 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The <code>nextToken</code> value returned from a previous paginated <code>ListTasks</code>
-        /// request where <code>maxResults</code> was used and the results exceeded the value
-        /// of that parameter. Pagination continues from the end of the previous results that
-        /// returned the <code>nextToken</code> value.
+        /// The <code>nextToken</code> value returned from a <code>ListTasks</code> request indicating
+        /// that more results are available to fulfill the request and further calls will be needed.
+        /// If <code>maxResults</code> was provided, it is possible the number of results to be
+        /// fewer than <code>maxResults</code>.
         /// </para>
         ///  <note> 
         /// <para>

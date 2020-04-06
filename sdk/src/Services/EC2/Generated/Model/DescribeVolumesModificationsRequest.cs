@@ -44,9 +44,9 @@ namespace Amazon.EC2.Model
     ///  
     /// <para>
     ///  You can also use CloudWatch Events to check the status of a modification to an EBS
-    /// volume. For information about CloudWatch Events, see the <a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
-    /// CloudWatch Events User Guide</a>. For more information, see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
-    /// Volume Modifications"</a>. 
+    /// volume. For information about CloudWatch Events, see the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
+    /// CloudWatch Events User Guide</a>. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
+    /// Volume Modifications"</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
     /// </para>
     /// </summary>
     public partial class DescribeVolumesModificationsRequest : AmazonEC2Request
@@ -59,10 +59,11 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property Filters. 
         /// <para>
-        /// One or more filters. Supported filters: <code>volume-id</code>, <code>modification-state</code>,
-        /// <code>target-size</code>, <code>target-iops</code>, <code>target-volume-type</code>,
-        /// <code>original-size</code>, <code>original-iops</code>, <code>original-volume-type</code>,
-        /// <code>start-time</code>. 
+        /// The filters. Supported filters: <code>volume-id</code> | <code>modification-state</code>
+        /// | <code>target-size</code> | <code>target-iops</code> | <code>target-volume-type</code>
+        /// | <code>original-size</code> | <code>original-iops</code> | <code>original-volume-type</code>
+        /// | <code>start-time</code> | <code>originalMultiAttachEnabled</code> | <code>targetMultiAttachEnabled</code>.
+        /// 
         /// </para>
         /// </summary>
         public List<Filter> Filters
@@ -117,7 +118,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property VolumeIds. 
         /// <para>
-        /// One or more volume IDs for which in-progress modifications will be described.
+        /// The IDs of the volumes for which in-progress modifications will be described.
         /// </para>
         /// </summary>
         public List<string> VolumeIds

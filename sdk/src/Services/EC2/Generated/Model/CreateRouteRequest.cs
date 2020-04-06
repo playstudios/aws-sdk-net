@@ -33,9 +33,9 @@ namespace Amazon.EC2.Model
     /// 
     ///  
     /// <para>
-    /// You must specify one of the following targets: Internet gateway or virtual private
-    /// gateway, NAT instance, NAT gateway, VPC peering connection, network interface, or
-    /// egress-only Internet gateway.
+    /// You must specify one of the following targets: internet gateway or virtual private
+    /// gateway, NAT instance, NAT gateway, VPC peering connection, network interface, egress-only
+    /// internet gateway, or transit gateway.
     /// </para>
     ///  
     /// <para>
@@ -59,7 +59,7 @@ namespace Amazon.EC2.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about route tables, see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Route_Tables.html">Route
+    /// For more information about route tables, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
     /// Tables</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -70,9 +70,11 @@ namespace Amazon.EC2.Model
         private string _egressOnlyInternetGatewayId;
         private string _gatewayId;
         private string _instanceId;
+        private string _localGatewayId;
         private string _natGatewayId;
         private string _networkInterfaceId;
         private string _routeTableId;
+        private string _transitGatewayId;
         private string _vpcPeeringConnectionId;
 
         /// <summary>
@@ -116,7 +118,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property EgressOnlyInternetGatewayId. 
         /// <para>
-        /// [IPv6 traffic only] The ID of an egress-only Internet gateway.
+        /// [IPv6 traffic only] The ID of an egress-only internet gateway.
         /// </para>
         /// </summary>
         public string EgressOnlyInternetGatewayId
@@ -134,7 +136,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property GatewayId. 
         /// <para>
-        /// The ID of an Internet gateway or virtual private gateway attached to your VPC.
+        /// The ID of an internet gateway or virtual private gateway attached to your VPC.
         /// </para>
         /// </summary>
         public string GatewayId
@@ -166,6 +168,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetInstanceId()
         {
             return this._instanceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property LocalGatewayId. 
+        /// <para>
+        /// The ID of the local gateway.
+        /// </para>
+        /// </summary>
+        public string LocalGatewayId
+        {
+            get { return this._localGatewayId; }
+            set { this._localGatewayId = value; }
+        }
+
+        // Check to see if LocalGatewayId property is set
+        internal bool IsSetLocalGatewayId()
+        {
+            return this._localGatewayId != null;
         }
 
         /// <summary>
@@ -210,6 +230,7 @@ namespace Amazon.EC2.Model
         /// The ID of the route table for the route.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RouteTableId
         {
             get { return this._routeTableId; }
@@ -220,6 +241,24 @@ namespace Amazon.EC2.Model
         internal bool IsSetRouteTableId()
         {
             return this._routeTableId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TransitGatewayId. 
+        /// <para>
+        /// The ID of a transit gateway.
+        /// </para>
+        /// </summary>
+        public string TransitGatewayId
+        {
+            get { return this._transitGatewayId; }
+            set { this._transitGatewayId = value; }
+        }
+
+        // Check to see if TransitGatewayId property is set
+        internal bool IsSetTransitGatewayId()
+        {
+            return this._transitGatewayId != null;
         }
 
         /// <summary>

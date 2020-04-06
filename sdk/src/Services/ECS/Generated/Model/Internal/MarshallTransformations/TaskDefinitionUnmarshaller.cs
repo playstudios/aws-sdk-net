@@ -94,6 +94,18 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.Family = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("inferenceAccelerators", targetDepth))
+                {
+                    var unmarshaller = new ListUnmarshaller<InferenceAccelerator, InferenceAcceleratorUnmarshaller>(InferenceAcceleratorUnmarshaller.Instance);
+                    unmarshalledObject.InferenceAccelerators = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("ipcMode", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.IpcMode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("memory", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -106,10 +118,22 @@ namespace Amazon.ECS.Model.Internal.MarshallTransformations
                     unmarshalledObject.NetworkMode = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("pidMode", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    unmarshalledObject.PidMode = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("placementConstraints", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<TaskDefinitionPlacementConstraint, TaskDefinitionPlacementConstraintUnmarshaller>(TaskDefinitionPlacementConstraintUnmarshaller.Instance);
                     unmarshalledObject.PlacementConstraints = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("proxyConfiguration", targetDepth))
+                {
+                    var unmarshaller = ProxyConfigurationUnmarshaller.Instance;
+                    unmarshalledObject.ProxyConfiguration = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("requiresAttributes", targetDepth))

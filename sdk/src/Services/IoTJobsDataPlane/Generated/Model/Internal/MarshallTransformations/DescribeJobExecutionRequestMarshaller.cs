@@ -55,22 +55,23 @@ namespace Amazon.IoTJobsDataPlane.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeJobExecutionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.IoTJobsDataPlane");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-29";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/things/{thingName}/jobs/{jobId}";
             if (!publicRequest.IsSetJobId())
                 throw new AmazonIoTJobsDataPlaneException("Request object does not have required field JobId set");
-            uriResourcePath = uriResourcePath.Replace("{jobId}", StringUtils.FromString(publicRequest.JobId));
+            request.AddPathResource("{jobId}", StringUtils.FromString(publicRequest.JobId));
             if (!publicRequest.IsSetThingName())
                 throw new AmazonIoTJobsDataPlaneException("Request object does not have required field ThingName set");
-            uriResourcePath = uriResourcePath.Replace("{thingName}", StringUtils.FromString(publicRequest.ThingName));
+            request.AddPathResource("{thingName}", StringUtils.FromString(publicRequest.ThingName));
             
             if (publicRequest.IsSetExecutionNumber())
                 request.Parameters.Add("executionNumber", StringUtils.FromLong(publicRequest.ExecutionNumber));
             
             if (publicRequest.IsSetIncludeJobDocument())
                 request.Parameters.Add("includeJobDocument", StringUtils.FromBool(publicRequest.IncludeJobDocument));
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/things/{thingName}/jobs/{jobId}";
+            request.MarshallerVersion = 2;
             request.UseQueryString = true;
 
             return request;

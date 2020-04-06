@@ -29,7 +29,8 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the DescribeFleets operation.
-    /// Describes the specified fleets or all fleets in the account.
+    /// Retrieves a list that describes one or more specified fleets, if the fleet names are
+    /// provided. Otherwise, all fleets in the account are described.
     /// </summary>
     public partial class DescribeFleetsRequest : AmazonAppStreamRequest
     {
@@ -61,6 +62,7 @@ namespace Amazon.AppStream.Model
         /// If this value is null, it retrieves the first page.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string NextToken
         {
             get { return this._nextToken; }

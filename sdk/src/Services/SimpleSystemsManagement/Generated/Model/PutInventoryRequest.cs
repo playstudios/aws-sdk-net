@@ -40,9 +40,10 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// <summary>
         /// Gets and sets the property InstanceId. 
         /// <para>
-        /// One or more instance IDs where you want to add or update inventory items.
+        /// An instance ID where you want to add or update inventory items.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -61,6 +62,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// The inventory items that you want to add or update on instances.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=30)]
         public List<InventoryItem> Items
         {
             get { return this._items; }

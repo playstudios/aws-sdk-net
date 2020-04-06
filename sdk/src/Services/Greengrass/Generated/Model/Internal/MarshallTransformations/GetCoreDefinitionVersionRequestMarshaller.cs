@@ -55,16 +55,17 @@ namespace Amazon.Greengrass.Model.Internal.MarshallTransformations
         public IRequest Marshall(GetCoreDefinitionVersionRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Greengrass");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-06-07";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/greengrass/definition/cores/{CoreDefinitionId}/versions/{CoreDefinitionVersionId}";
             if (!publicRequest.IsSetCoreDefinitionId())
                 throw new AmazonGreengrassException("Request object does not have required field CoreDefinitionId set");
-            uriResourcePath = uriResourcePath.Replace("{CoreDefinitionId}", StringUtils.FromString(publicRequest.CoreDefinitionId));
+            request.AddPathResource("{CoreDefinitionId}", StringUtils.FromString(publicRequest.CoreDefinitionId));
             if (!publicRequest.IsSetCoreDefinitionVersionId())
                 throw new AmazonGreengrassException("Request object does not have required field CoreDefinitionVersionId set");
-            uriResourcePath = uriResourcePath.Replace("{CoreDefinitionVersionId}", StringUtils.FromString(publicRequest.CoreDefinitionVersionId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{CoreDefinitionVersionId}", StringUtils.FromString(publicRequest.CoreDefinitionVersionId));
+            request.ResourcePath = "/greengrass/definition/cores/{CoreDefinitionId}/versions/{CoreDefinitionVersionId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

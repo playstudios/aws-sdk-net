@@ -51,6 +51,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// or Custom:<code>string</code> are all valid compliance types.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ComplianceType
         {
             get { return this._complianceType; }
@@ -125,6 +126,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// An ID for the resource. For a managed instance, this is the instance ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -144,6 +146,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// resource type.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public string ResourceType
         {
             get { return this._resourceType; }
@@ -201,6 +204,7 @@ namespace Amazon.SimpleSystemsManagement.Model
         /// Security Update for Active Directory Federation Services.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=500)]
         public string Title
         {
             get { return this._title; }

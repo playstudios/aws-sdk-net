@@ -39,9 +39,11 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property NextToken. 
         /// <para>
-        /// The token for the next set of results. (You received this token from a previous call.)
+        /// If you received a <code>NextToken</code> from a previous call that was paginated,
+        /// provide this token to receive the next set of results.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=63)]
         public string NextToken
         {
             get { return this._nextToken; }
@@ -57,9 +59,10 @@ namespace Amazon.WorkSpaces.Model
         /// <summary>
         /// Gets and sets the property WorkspaceIds. 
         /// <para>
-        /// The identifiers of the WorkSpaces.
+        /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=25)]
         public List<string> WorkspaceIds
         {
             get { return this._workspaceIds; }

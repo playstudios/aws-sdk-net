@@ -38,6 +38,8 @@ namespace Amazon.LexModelBuildingService.Model
         private List<EnumerationValue> _enumerationValues = new List<EnumerationValue>();
         private DateTime? _lastUpdatedDate;
         private string _name;
+        private string _parentSlotTypeSignature;
+        private List<SlotTypeConfiguration> _slotTypeConfigurations = new List<SlotTypeConfiguration>();
         private SlotValueSelectionStrategy _valueSelectionStrategy;
         private string _version;
 
@@ -83,6 +85,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// A description of the slot type.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=200)]
         public string Description
         {
             get { return this._description; }
@@ -102,6 +105,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// type can take.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=10000)]
         public List<EnumerationValue> EnumerationValues
         {
             get { return this._enumerationValues; }
@@ -139,6 +143,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the slot type.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string Name
         {
             get { return this._name; }
@@ -149,6 +154,44 @@ namespace Amazon.LexModelBuildingService.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ParentSlotTypeSignature. 
+        /// <para>
+        /// The built-in slot type used a the parent of the slot type.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=100)]
+        public string ParentSlotTypeSignature
+        {
+            get { return this._parentSlotTypeSignature; }
+            set { this._parentSlotTypeSignature = value; }
+        }
+
+        // Check to see if ParentSlotTypeSignature property is set
+        internal bool IsSetParentSlotTypeSignature()
+        {
+            return this._parentSlotTypeSignature != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property SlotTypeConfigurations. 
+        /// <para>
+        /// Configuration information that extends the parent built-in slot type.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=0, Max=10)]
+        public List<SlotTypeConfiguration> SlotTypeConfigurations
+        {
+            get { return this._slotTypeConfigurations; }
+            set { this._slotTypeConfigurations = value; }
+        }
+
+        // Check to see if SlotTypeConfigurations property is set
+        internal bool IsSetSlotTypeConfigurations()
+        {
+            return this._slotTypeConfigurations != null && this._slotTypeConfigurations.Count > 0; 
         }
 
         /// <summary>
@@ -176,6 +219,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The version assigned to the new slot type version. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string Version
         {
             get { return this._version; }

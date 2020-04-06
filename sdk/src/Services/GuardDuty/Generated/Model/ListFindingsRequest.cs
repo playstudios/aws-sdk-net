@@ -40,9 +40,13 @@ namespace Amazon.GuardDuty.Model
         private SortCriteria _sortCriteria;
 
         /// <summary>
-        /// Gets and sets the property DetectorId. The ID of the detector that specifies the GuardDuty
-        /// service whose findings you want to list.
+        /// Gets and sets the property DetectorId. 
+        /// <para>
+        /// The ID of the detector that specifies the GuardDuty service whose findings you want
+        /// to list.
+        /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=300)]
         public string DetectorId
         {
             get { return this._detectorId; }
@@ -56,8 +60,225 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property FindingCriteria. Represents the criteria used for querying
-        /// findings.
+        /// Gets and sets the property FindingCriteria. 
+        /// <para>
+        /// Represents the criteria used for querying findings. Valid values include:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// JSON field name
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// accountId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// region
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// confidence
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.accessKeyDetails.accessKeyId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.accessKeyDetails.principalId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.accessKeyDetails.userName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.accessKeyDetails.userType
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.iamInstanceProfile.id
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.imageId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.instanceId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.outpostArn
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.ipv6Addresses
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.publicDnsName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.publicIp
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.securityGroups.groupId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.securityGroups.groupName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.subnetId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.networkInterfaces.vpcId
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.tags.key
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.instanceDetails.tags.value
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// resource.resourceType
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.actionType
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.api
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.callerType
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.remoteIpDetails.city.cityName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.remoteIpDetails.country.countryName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.remoteIpDetails.organization.asn
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.awsApiCallAction.serviceName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.dnsRequestAction.domain
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.blocked
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.connectionDirection
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.localPortDetails.port
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.protocol
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.localIpDetails.ipAddressV4
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.remoteIpDetails.city.cityName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.remoteIpDetails.country.countryName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.remoteIpDetails.organization.asn
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.action.networkConnectionAction.remotePortDetails.port
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.additionalInfo.threatListName
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.archived
+        /// </para>
+        ///  
+        /// <para>
+        /// When this attribute is set to 'true', only archived findings are listed. When it's
+        /// set to 'false', only unarchived findings are listed. When this attribute is not set,
+        /// all existing findings are listed.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// service.resourceRole
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// severity
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// type
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// updatedAt
+        /// </para>
+        ///  
+        /// <para>
+        /// Type: Timestamp in Unix Epoch millisecond format: 1486685375000
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public FindingCriteria FindingCriteria
         {
@@ -72,10 +293,13 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property MaxResults. You can use this parameter to indicate the
-        /// maximum number of items you want in the response. The default value is 50. The maximum
-        /// value is 50.
+        /// Gets and sets the property MaxResults. 
+        /// <para>
+        /// You can use this parameter to indicate the maximum number of items you want in the
+        /// response. The default value is 50. The maximum value is 50.
+        /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=50)]
         public int MaxResults
         {
             get { return this._maxResults.GetValueOrDefault(); }
@@ -89,10 +313,13 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property NextToken. You can use this parameter when paginating results.
-        /// Set the value of this parameter to null on your first call to the ListFindings action.
-        /// For subsequent calls to the action fill nextToken in the request with the value of
-        /// nextToken from the previous response to continue listing data.
+        /// Gets and sets the property NextToken. 
+        /// <para>
+        /// You can use this parameter when paginating results. Set the value of this parameter
+        /// to null on your first call to the list action. For subsequent calls to the action
+        /// fill nextToken in the request with the value of NextToken from the previous response
+        /// to continue listing data.
+        /// </para>
         /// </summary>
         public string NextToken
         {
@@ -107,8 +334,10 @@ namespace Amazon.GuardDuty.Model
         }
 
         /// <summary>
-        /// Gets and sets the property SortCriteria. Represents the criteria used for sorting
-        /// findings.
+        /// Gets and sets the property SortCriteria. 
+        /// <para>
+        /// Represents the criteria used for sorting findings.
+        /// </para>
         /// </summary>
         public SortCriteria SortCriteria
         {

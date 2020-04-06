@@ -37,9 +37,10 @@ namespace Amazon.StorageGateway.Model
         /// <summary>
         /// Gets and sets the property GatewayARN. 
         /// <para>
-        /// The unique Amazon Resource Name of the disabled gateway.
+        /// The unique Amazon Resource Name (ARN) of the disabled gateway.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=50, Max=500)]
         public string GatewayARN
         {
             get { return this._gatewayARN; }

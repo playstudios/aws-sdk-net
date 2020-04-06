@@ -41,7 +41,7 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property ArtifactRevisions. 
         /// <para>
-        /// A list of ArtifactRevision objects included in a pipeline execution.
+        /// A list of <code>ArtifactRevision</code> objects included in a pipeline execution.
         /// </para>
         /// </summary>
         public List<ArtifactRevision> ArtifactRevisions
@@ -77,9 +77,10 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property PipelineName. 
         /// <para>
-        /// The name of the pipeline that was executed.
+        /// The name of the pipeline with the specified pipeline execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=100)]
         public string PipelineName
         {
             get { return this._pipelineName; }
@@ -95,9 +96,10 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property PipelineVersion. 
         /// <para>
-        /// The version number of the pipeline that was executed.
+        /// The version number of the pipeline with the specified pipeline execution.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public int PipelineVersion
         {
             get { return this._pipelineVersion.GetValueOrDefault(); }
@@ -121,12 +123,27 @@ namespace Amazon.CodePipeline.Model
         /// </para>
         ///  </li> <li> 
         /// <para>
+        /// Stopped: The pipeline execution was manually stopped. For more information, see <a
+        /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts.html#concepts-executions-stopped">Stopped
+        /// Executions</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Stopping: The pipeline execution received a request to be manually stopped. Depending
+        /// on the selected stop mode, the execution is either completing or abandoning in-progress
+        /// actions. For more information, see <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts.html#concepts-executions-stopped">Stopped
+        /// Executions</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
         /// Succeeded: The pipeline execution was completed successfully. 
         /// </para>
         ///  </li> <li> 
         /// <para>
         /// Superseded: While this pipeline execution was waiting for the next stage to be completed,
-        /// a newer pipeline execution advanced and continued through the pipeline instead. 
+        /// a newer pipeline execution advanced and continued through the pipeline instead. For
+        /// more information, see <a href="https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts.html#concepts-superseded">Superseded
+        /// Executions</a>.
         /// </para>
         ///  </li> <li> 
         /// <para>

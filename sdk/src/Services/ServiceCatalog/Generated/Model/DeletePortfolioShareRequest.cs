@@ -29,12 +29,14 @@ namespace Amazon.ServiceCatalog.Model
 {
     /// <summary>
     /// Container for the parameters to the DeletePortfolioShare operation.
-    /// Stops sharing the specified portfolio with the specified account.
+    /// Stops sharing the specified portfolio with the specified account or organization node.
+    /// Shares to an organization node can only be deleted by the master account of an Organization.
     /// </summary>
     public partial class DeletePortfolioShareRequest : AmazonServiceCatalogRequest
     {
         private string _acceptLanguage;
         private string _accountId;
+        private OrganizationNode _organizationNode;
         private string _portfolioId;
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace Amazon.ServiceCatalog.Model
         /// </para>
         ///  </li> </ul>
         /// </summary>
+        [AWSProperty(Max=100)]
         public string AcceptLanguage
         {
             get { return this._acceptLanguage; }
@@ -87,11 +90,30 @@ namespace Amazon.ServiceCatalog.Model
         }
 
         /// <summary>
+        /// Gets and sets the property OrganizationNode. 
+        /// <para>
+        /// The organization node to whom you are going to stop sharing.
+        /// </para>
+        /// </summary>
+        public OrganizationNode OrganizationNode
+        {
+            get { return this._organizationNode; }
+            set { this._organizationNode = value; }
+        }
+
+        // Check to see if OrganizationNode property is set
+        internal bool IsSetOrganizationNode()
+        {
+            return this._organizationNode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property PortfolioId. 
         /// <para>
         /// The portfolio identifier.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string PortfolioId
         {
             get { return this._portfolioId; }

@@ -33,14 +33,18 @@ namespace Amazon.Redshift.Model
     public partial class DescribeResizeResponse : AmazonWebServiceResponse
     {
         private double? _avgResizeRateInMegaBytesPerSecond;
+        private double? _dataTransferProgressPercent;
         private long? _elapsedTimeInSeconds;
         private long? _estimatedTimeToCompletionInSeconds;
         private List<string> _importTablesCompleted = new List<string>();
         private List<string> _importTablesInProgress = new List<string>();
         private List<string> _importTablesNotStarted = new List<string>();
+        private string _message;
         private long? _progressInMegaBytes;
+        private string _resizeType;
         private string _status;
         private string _targetClusterType;
+        private string _targetEncryptionType;
         private string _targetNodeType;
         private int? _targetNumberOfNodes;
         private long? _totalResizeDataInMegaBytes;
@@ -63,6 +67,24 @@ namespace Amazon.Redshift.Model
         internal bool IsSetAvgResizeRateInMegaBytesPerSecond()
         {
             return this._avgResizeRateInMegaBytesPerSecond.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property DataTransferProgressPercent. 
+        /// <para>
+        /// The percent of data transferred from source cluster to target cluster.
+        /// </para>
+        /// </summary>
+        public double DataTransferProgressPercent
+        {
+            get { return this._dataTransferProgressPercent.GetValueOrDefault(); }
+            set { this._dataTransferProgressPercent = value; }
+        }
+
+        // Check to see if DataTransferProgressPercent property is set
+        internal bool IsSetDataTransferProgressPercent()
+        {
+            return this._dataTransferProgressPercent.HasValue; 
         }
 
         /// <summary>
@@ -173,6 +195,24 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Message. 
+        /// <para>
+        /// An optional string to provide additional details about the resize action.
+        /// </para>
+        /// </summary>
+        public string Message
+        {
+            get { return this._message; }
+            set { this._message = value; }
+        }
+
+        // Check to see if Message property is set
+        internal bool IsSetMessage()
+        {
+            return this._message != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ProgressInMegaBytes. 
         /// <para>
         /// While the resize operation is in progress, this value shows the current amount of
@@ -195,6 +235,25 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ResizeType. 
+        /// <para>
+        /// An enum with possible values of <code>ClassicResize</code> and <code>ElasticResize</code>.
+        /// These values describe the type of resize operation being performed. 
+        /// </para>
+        /// </summary>
+        public string ResizeType
+        {
+            get { return this._resizeType; }
+            set { this._resizeType = value; }
+        }
+
+        // Check to see if ResizeType property is set
+        internal bool IsSetResizeType()
+        {
+            return this._resizeType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
         /// The status of the resize operation.
@@ -202,7 +261,7 @@ namespace Amazon.Redshift.Model
         ///  
         /// <para>
         /// Valid Values: <code>NONE</code> | <code>IN_PROGRESS</code> | <code>FAILED</code> |
-        /// <code>SUCCEEDED</code> 
+        /// <code>SUCCEEDED</code> | <code>CANCELLING</code> 
         /// </para>
         /// </summary>
         public string Status
@@ -237,6 +296,29 @@ namespace Amazon.Redshift.Model
         internal bool IsSetTargetClusterType()
         {
             return this._targetClusterType != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TargetEncryptionType. 
+        /// <para>
+        /// The type of encryption for the cluster after the resize is complete.
+        /// </para>
+        ///  
+        /// <para>
+        /// Possible values are <code>KMS</code> and <code>None</code>. In the China region possible
+        /// values are: <code>Legacy</code> and <code>None</code>.
+        /// </para>
+        /// </summary>
+        public string TargetEncryptionType
+        {
+            get { return this._targetEncryptionType; }
+            set { this._targetEncryptionType = value; }
+        }
+
+        // Check to see if TargetEncryptionType property is set
+        internal bool IsSetTargetEncryptionType()
+        {
+            return this._targetEncryptionType != null;
         }
 
         /// <summary>

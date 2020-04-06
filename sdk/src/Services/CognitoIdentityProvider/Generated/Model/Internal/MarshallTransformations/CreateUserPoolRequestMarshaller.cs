@@ -58,15 +58,27 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
             string target = "AWSCognitoIdentityProviderService.CreateUserPool";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-04-18";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
                 writer.WriteObjectStart();
                 var context = new JsonMarshallerContext(request, writer);
+                if(publicRequest.IsSetAccountRecoverySetting())
+                {
+                    context.Writer.WritePropertyName("AccountRecoverySetting");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = AccountRecoverySettingTypeMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.AccountRecoverySetting, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetAdminCreateUserConfig())
                 {
                     context.Writer.WritePropertyName("AdminCreateUserConfig");
@@ -216,6 +228,17 @@ namespace Amazon.CognitoIdentityProvider.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestUsernameAttributesListValue);
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetUsernameConfiguration())
+                {
+                    context.Writer.WritePropertyName("UsernameConfiguration");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = UsernameConfigurationTypeMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.UsernameConfiguration, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetUserPoolAddOns())

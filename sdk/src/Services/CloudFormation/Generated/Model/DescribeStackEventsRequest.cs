@@ -30,7 +30,7 @@ namespace Amazon.CloudFormation.Model
     /// <summary>
     /// Container for the parameters to the DescribeStackEvents operation.
     /// Returns all stack related events for a specified stack in reverse chronological order.
-    /// For more information about a stack's event history, go to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/concept-stack.html">Stacks</a>
+    /// For more information about a stack's event history, go to <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/concept-stack.html">Stacks</a>
     /// in the AWS CloudFormation User Guide.
     /// 
     ///  <note> 
@@ -51,6 +51,7 @@ namespace Amazon.CloudFormation.Model
         /// A string that identifies the next page of events that you want to retrieve.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1024)]
         public string NextToken
         {
             get { return this._nextToken; }

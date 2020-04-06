@@ -58,10 +58,11 @@ namespace Amazon.ElasticMapReduce.Model.Internal.MarshallTransformations
             string target = "ElasticMapReduce.CancelSteps";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2009-03-31";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -71,6 +72,12 @@ namespace Amazon.ElasticMapReduce.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("ClusterId");
                     context.Writer.Write(publicRequest.ClusterId);
+                }
+
+                if(publicRequest.IsSetStepCancellationOption())
+                {
+                    context.Writer.WritePropertyName("StepCancellationOption");
+                    context.Writer.Write(publicRequest.StepCancellationOption);
                 }
 
                 if(publicRequest.IsSetStepIds())

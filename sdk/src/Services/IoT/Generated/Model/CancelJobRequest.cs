@@ -34,7 +34,9 @@ namespace Amazon.IoT.Model
     public partial class CancelJobRequest : AmazonIoTRequest
     {
         private string _comment;
+        private bool? _force;
         private string _jobId;
+        private string _reasonCode;
 
         /// <summary>
         /// Gets and sets the property Comment. 
@@ -42,6 +44,7 @@ namespace Amazon.IoT.Model
         /// An optional comment string describing why the job was canceled.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2028)]
         public string Comment
         {
             get { return this._comment; }
@@ -55,11 +58,38 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Force. 
+        /// <para>
+        /// (Optional) If <code>true</code> job executions with status "IN_PROGRESS" and "QUEUED"
+        /// are canceled, otherwise only job executions with status "QUEUED" are canceled. The
+        /// default is <code>false</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Canceling a job which is "IN_PROGRESS", will cause a device which is executing the
+        /// job to be unable to update the job execution status. Use caution and ensure that each
+        /// device executing a job which is canceled is able to recover to a valid state.
+        /// </para>
+        /// </summary>
+        public bool Force
+        {
+            get { return this._force.GetValueOrDefault(); }
+            set { this._force = value; }
+        }
+
+        // Check to see if Force property is set
+        internal bool IsSetForce()
+        {
+            return this._force.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property JobId. 
         /// <para>
         /// The unique identifier you assigned to this job when it was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -70,6 +100,25 @@ namespace Amazon.IoT.Model
         internal bool IsSetJobId()
         {
             return this._jobId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReasonCode. 
+        /// <para>
+        /// (Optional)A reason code string that explains why the job was canceled.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=128)]
+        public string ReasonCode
+        {
+            get { return this._reasonCode; }
+            set { this._reasonCode = value; }
+        }
+
+        // Check to see if ReasonCode property is set
+        internal bool IsSetReasonCode()
+        {
+            return this._reasonCode != null;
         }
 
     }

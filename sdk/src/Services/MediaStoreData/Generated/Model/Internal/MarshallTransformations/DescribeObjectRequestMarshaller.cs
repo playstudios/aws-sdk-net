@@ -55,14 +55,15 @@ namespace Amazon.MediaStoreData.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeObjectRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaStoreData");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-01";            
             request.HttpMethod = "HEAD";
 
-            string uriResourcePath = "/{Path+}";
             if (!publicRequest.IsSetPath())
                 throw new AmazonMediaStoreDataException("Request object does not have required field Path set");
-            uriResourcePath = uriResourcePath.Replace("{Path+}", StringUtils.FromString(publicRequest.Path.TrimStart('/')));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Path+}", StringUtils.FromString(publicRequest.Path.TrimStart('/')));
+            request.ResourcePath = "/{Path+}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

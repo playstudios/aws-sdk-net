@@ -39,8 +39,8 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  
     /// <para>
-    /// For more information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-    /// Policies and Inline Policies</a> in the <i>Using IAM</i> guide. 
+    /// For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+    /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>. 
     /// </para>
     /// </summary>
     public partial class ManagedPolicyDetail
@@ -52,6 +52,7 @@ namespace Amazon.IdentityManagement.Model
         private string _description;
         private bool? _isAttachable;
         private string _path;
+        private int? _permissionsBoundaryUsageCount;
         private string _policyId;
         private string _policyName;
         private List<PolicyVersion> _policyVersionList = new List<PolicyVersion>();
@@ -60,6 +61,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Arn.
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string Arn
         {
             get { return this._arn; }
@@ -118,8 +120,8 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about policy versions, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-        /// for Managed Policies</a> in the <i>Using IAM</i> guide. 
+        /// For more information about policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
+        /// for Managed Policies</a> in the <i>IAM User Guide</i>. 
         /// </para>
         /// </summary>
         public string DefaultVersionId
@@ -140,6 +142,7 @@ namespace Amazon.IdentityManagement.Model
         /// A friendly description of the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=1000)]
         public string Description
         {
             get { return this._description; }
@@ -177,10 +180,11 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide.
+        /// For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string Path
         {
             get { return this._path; }
@@ -194,16 +198,41 @@ namespace Amazon.IdentityManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PermissionsBoundaryUsageCount. 
+        /// <para>
+        /// The number of entities (users and roles) for which the policy is used as the permissions
+        /// boundary. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+        /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        public int PermissionsBoundaryUsageCount
+        {
+            get { return this._permissionsBoundaryUsageCount.GetValueOrDefault(); }
+            set { this._permissionsBoundaryUsageCount = value; }
+        }
+
+        // Check to see if PermissionsBoundaryUsageCount property is set
+        internal bool IsSetPermissionsBoundaryUsageCount()
+        {
+            return this._permissionsBoundaryUsageCount.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property PolicyId. 
         /// <para>
         /// The stable and unique string identifying the policy.
         /// </para>
         ///  
         /// <para>
-        /// For more information about IDs, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide.
+        /// For more information about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=16, Max=128)]
         public string PolicyId
         {
             get { return this._policyId; }
@@ -222,6 +251,7 @@ namespace Amazon.IdentityManagement.Model
         /// The friendly name (not ARN) identifying the policy.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string PolicyName
         {
             get { return this._policyName; }

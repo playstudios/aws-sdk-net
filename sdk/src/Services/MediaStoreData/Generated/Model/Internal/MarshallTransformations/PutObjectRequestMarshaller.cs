@@ -55,17 +55,25 @@ namespace Amazon.MediaStoreData.Model.Internal.MarshallTransformations
         public IRequest Marshall(PutObjectRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaStoreData");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-09-01";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/{Path+}";
             if (!publicRequest.IsSetPath())
                 throw new AmazonMediaStoreDataException("Request object does not have required field Path set");
-            uriResourcePath = uriResourcePath.Replace("{Path+}", StringUtils.FromString(publicRequest.Path.TrimStart('/')));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{Path+}", StringUtils.FromString(publicRequest.Path.TrimStart('/')));
+            request.ResourcePath = "/{Path+}";
+            request.MarshallerVersion = 2;
             request.ContentStream =  publicRequest.Body ?? new MemoryStream();
-            request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
-                request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);
+            if(request.ContentStream.CanSeek)
+            {
+                request.Headers[Amazon.Util.HeaderKeys.ContentLengthHeader] =  
+                    request.ContentStream.Length.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                request.Headers[Amazon.Util.HeaderKeys.TransferEncodingHeader] = "chunked";
+            }
             request.Headers[Amazon.Util.HeaderKeys.ContentTypeHeader] = "binary/octet-stream";
         
             if(publicRequest.IsSetCacheControl())
@@ -76,6 +84,9 @@ namespace Amazon.MediaStoreData.Model.Internal.MarshallTransformations
         
             if(publicRequest.IsSetStorageClass())
                 request.Headers["x-amz-storage-class"] = publicRequest.StorageClass;
+        
+            if(publicRequest.IsSetUploadAvailability())
+                request.Headers["x-amz-upload-availability"] = publicRequest.UploadAvailability;
 
             return request;
         }

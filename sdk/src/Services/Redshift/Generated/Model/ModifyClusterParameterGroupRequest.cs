@@ -33,7 +33,7 @@ namespace Amazon.Redshift.Model
     /// 
     ///  
     /// <para>
-    ///  For more information about parameters and parameter groups, go to <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+    ///  For more information about parameters and parameter groups, go to <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
     /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
     /// </para>
     /// </summary>
@@ -48,6 +48,7 @@ namespace Amazon.Redshift.Model
         /// The name of the parameter group to be modified.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ParameterGroupName
         {
             get { return this._parameterGroupName; }
@@ -77,6 +78,7 @@ namespace Amazon.Redshift.Model
         /// pairs in the wlm_json_configuration parameter.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<Parameter> Parameters
         {
             get { return this._parameters; }

@@ -29,8 +29,8 @@ namespace Amazon.AppStream.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteImage operation.
-    /// Deletes the specified image. You cannot delete an image that is currently in use.
-    /// After you delete an image, you cannot provision new capacity using the image.
+    /// Deletes the specified image. You cannot delete an image when it is in use. After you
+    /// delete an image, you cannot provision new capacity using the image.
     /// </summary>
     public partial class DeleteImageRequest : AmazonAppStreamRequest
     {
@@ -42,6 +42,7 @@ namespace Amazon.AppStream.Model
         /// The name of the image.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }

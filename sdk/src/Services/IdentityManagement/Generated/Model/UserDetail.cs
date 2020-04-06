@@ -44,6 +44,8 @@ namespace Amazon.IdentityManagement.Model
         private DateTime? _createDate;
         private List<string> _groupList = new List<string>();
         private string _path;
+        private AttachedPermissionsBoundary _permissionsBoundary;
+        private List<Tag> _tags = new List<Tag>();
         private string _userId;
         private string _userName;
         private List<PolicyDetail> _userPolicyList = new List<PolicyDetail>();
@@ -51,6 +53,7 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Arn.
         /// </summary>
+        [AWSProperty(Min=20, Max=2048)]
         public string Arn
         {
             get { return this._arn; }
@@ -121,10 +124,11 @@ namespace Amazon.IdentityManagement.Model
         /// <summary>
         /// Gets and sets the property Path. 
         /// <para>
-        /// The path to the user. For more information about paths, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide.
+        /// The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string Path
         {
             get { return this._path; }
@@ -138,13 +142,58 @@ namespace Amazon.IdentityManagement.Model
         }
 
         /// <summary>
+        /// Gets and sets the property PermissionsBoundary. 
+        /// <para>
+        /// The ARN of the policy used to set the permissions boundary for the user.
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+        /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        public AttachedPermissionsBoundary PermissionsBoundary
+        {
+            get { return this._permissionsBoundary; }
+            set { this._permissionsBoundary = value; }
+        }
+
+        // Check to see if PermissionsBoundary property is set
+        internal bool IsSetPermissionsBoundary()
+        {
+            return this._permissionsBoundary != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// A list of tags that are associated with the specified user. For more information about
+        /// tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+        /// IAM Identities</a> in the <i>IAM User Guide</i>.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=50)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
+        }
+
+        /// <summary>
         /// Gets and sets the property UserId. 
         /// <para>
         /// The stable and unique string identifying the user. For more information about IDs,
-        /// see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-        /// Identifiers</a> in the <i>Using IAM</i> guide.
+        /// see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+        /// Identifiers</a> in the <i>IAM User Guide</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=16, Max=128)]
         public string UserId
         {
             get { return this._userId; }
@@ -163,6 +212,7 @@ namespace Amazon.IdentityManagement.Model
         /// The friendly name identifying the user.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string UserName
         {
             get { return this._userName; }

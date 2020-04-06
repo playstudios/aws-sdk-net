@@ -30,12 +30,12 @@ namespace Amazon.Route53.Model
     /// <summary>
     /// Container for the parameters to the DeleteQueryLoggingConfig operation.
     /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon
-    /// Route 53 stops sending query logs to CloudWatch Logs. Amazon Route 53 doesn't delete
-    /// any logs that are already in CloudWatch Logs.
+    /// Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any
+    /// logs that are already in CloudWatch Logs.
     /// 
     ///  
     /// <para>
-    /// For more information about DNS query logs, see <a>CreateQueryLoggingConfig</a>.
+    /// For more information about DNS query logs, see <a href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html">CreateQueryLoggingConfig</a>.
     /// </para>
     /// </summary>
     public partial class DeleteQueryLoggingConfigRequest : AmazonRoute53Request
@@ -48,6 +48,7 @@ namespace Amazon.Route53.Model
         /// The ID of the configuration that you want to delete. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=36)]
         public string Id
         {
             get { return this._id; }

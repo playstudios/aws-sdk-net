@@ -28,9 +28,10 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaConvert.Model
 {
     /// <summary>
-    /// Use the HDR master display (Hdr10Metadata) settings to provide values for HDR color.
-    /// These values vary depending on the input video and must be provided by a color grader.
-    /// Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate.
+    /// Use these settings to specify static color calibration metadata, as defined by SMPTE
+    /// ST 2086. These values don't affect the pixel values that are encoded in the video
+    /// stream. They are intended to help the downstream video player display content in a
+    /// way that reflects the intentions of the the content creator.
     /// </summary>
     public partial class Hdr10Metadata
     {
@@ -48,10 +49,12 @@ namespace Amazon.MediaConvert.Model
         private int? _whitePointY;
 
         /// <summary>
-        /// Gets and sets the property BluePrimaryX. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property BluePrimaryX. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int BluePrimaryX
         {
             get { return this._bluePrimaryX.GetValueOrDefault(); }
@@ -65,10 +68,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property BluePrimaryY. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property BluePrimaryY. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int BluePrimaryY
         {
             get { return this._bluePrimaryY.GetValueOrDefault(); }
@@ -82,10 +87,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GreenPrimaryX. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property GreenPrimaryX. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int GreenPrimaryX
         {
             get { return this._greenPrimaryX.GetValueOrDefault(); }
@@ -99,10 +106,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property GreenPrimaryY. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property GreenPrimaryY. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int GreenPrimaryY
         {
             get { return this._greenPrimaryY.GetValueOrDefault(); }
@@ -117,8 +126,10 @@ namespace Amazon.MediaConvert.Model
 
         /// <summary>
         /// Gets and sets the property MaxContentLightLevel. Maximum light level among all samples
-        /// in the coded video sequence, in units of candelas per square meter.
+        /// in the coded video sequence, in units of candelas per square meter.  This setting
+        /// doesn't have a default value; you must specify a value that is suitable for the content.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int MaxContentLightLevel
         {
             get { return this._maxContentLightLevel.GetValueOrDefault(); }
@@ -133,8 +144,11 @@ namespace Amazon.MediaConvert.Model
 
         /// <summary>
         /// Gets and sets the property MaxFrameAverageLightLevel. Maximum average light level
-        /// of any frame in the coded video sequence, in units of candelas per square meter.
+        /// of any frame in the coded video sequence, in units of candelas per square meter. This
+        /// setting doesn't have a default value; you must specify a value that is suitable for
+        /// the content.
         /// </summary>
+        [AWSProperty(Min=0, Max=65535)]
         public int MaxFrameAverageLightLevel
         {
             get { return this._maxFrameAverageLightLevel.GetValueOrDefault(); }
@@ -151,6 +165,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property MaxLuminance. Nominal maximum mastering display luminance
         /// in units of of 0.0001 candelas per square meter.
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int MaxLuminance
         {
             get { return this._maxLuminance.GetValueOrDefault(); }
@@ -167,6 +182,7 @@ namespace Amazon.MediaConvert.Model
         /// Gets and sets the property MinLuminance. Nominal minimum mastering display luminance
         /// in units of of 0.0001 candelas per square meter
         /// </summary>
+        [AWSProperty(Min=0, Max=2147483647)]
         public int MinLuminance
         {
             get { return this._minLuminance.GetValueOrDefault(); }
@@ -180,10 +196,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RedPrimaryX. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property RedPrimaryX. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int RedPrimaryX
         {
             get { return this._redPrimaryX.GetValueOrDefault(); }
@@ -197,10 +215,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property RedPrimaryY. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property RedPrimaryY. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int RedPrimaryY
         {
             get { return this._redPrimaryY.GetValueOrDefault(); }
@@ -214,10 +234,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property WhitePointX. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property WhitePointX. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int WhitePointX
         {
             get { return this._whitePointX.GetValueOrDefault(); }
@@ -231,10 +253,12 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property WhitePointY. HDR Master Display Information comes from
-        /// the color grader and the color grading tools. Range is 0 to 50,000, each increment
-        /// represents 0.00002 in CIE1931 color coordinate.
+        /// Gets and sets the property WhitePointY. HDR Master Display Information must be provided
+        /// by a color grader, using color grading tools. Range is 0 to 50,000, each increment
+        /// represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for
+        /// color correction.
         /// </summary>
+        [AWSProperty(Min=0, Max=50000)]
         public int WhitePointY
         {
             get { return this._whitePointY.GetValueOrDefault(); }

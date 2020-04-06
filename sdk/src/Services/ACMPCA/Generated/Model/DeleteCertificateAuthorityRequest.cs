@@ -29,34 +29,56 @@ namespace Amazon.ACMPCA.Model
 {
     /// <summary>
     /// Container for the parameters to the DeleteCertificateAuthority operation.
-    /// Deletes the private certificate authority (CA) that you created or started to create
-    /// by calling the <a>CreateCertificateAuthority</a> function. This action requires that
-    /// you enter an ARN (Amazon Resource Name) for the private CA that you want to delete.
-    /// You can find the ARN by calling the <a>ListCertificateAuthorities</a> function. You
-    /// can delete the CA if you are waiting for it to be created (the <b>Status</b> field
-    /// of the <a>CertificateAuthority</a> is <code>CREATING</code>) or if the CA has been
-    /// created but you haven't yet imported the signed certificate (the <b>Status</b> is
-    /// <code>PENDING_CERTIFICATE</code>) into ACM PCA. If you've already imported the certificate,
-    /// you cannot delete the CA unless it has been disabled for more than 30 days. To disable
-    /// a CA, call the <a>UpdateCertificateAuthority</a> function and set the <b>CertificateAuthorityStatus</b>
-    /// argument to <code>DISABLED</code>.
+    /// Deletes a private certificate authority (CA). You must provide the Amazon Resource
+    /// Name (ARN) of the private CA that you want to delete. You can find the ARN by calling
+    /// the <a>ListCertificateAuthorities</a> action. 
+    /// 
+    ///  <note> 
+    /// <para>
+    /// Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy.
+    /// </para>
+    ///  </note> 
+    /// <para>
+    /// Before you can delete a CA that you have created and activated, you must disable it.
+    /// To do this, call the <a>UpdateCertificateAuthority</a> action and set the <b>CertificateAuthorityStatus</b>
+    /// parameter to <code>DISABLED</code>. 
+    /// </para>
+    ///  
+    /// <para>
+    /// Additionally, you can delete a CA if you are waiting for it to be created (that is,
+    /// the status of the CA is <code>CREATING</code>). You can also delete it if the CA has
+    /// been created but you haven't yet imported the signed certificate into ACM Private
+    /// CA (that is, the status of the CA is <code>PENDING_CERTIFICATE</code>). 
+    /// </para>
+    ///  
+    /// <para>
+    /// When you successfully call <a>DeleteCertificateAuthority</a>, the CA's status changes
+    /// to <code>DELETED</code>. However, the CA won't be permanently deleted until the restoration
+    /// period has passed. By default, if you do not set the <code>PermanentDeletionTimeInDays</code>
+    /// parameter, the CA remains restorable for 30 days. You can set the parameter from 7
+    /// to 30 days. The <a>DescribeCertificateAuthority</a> action returns the time remaining
+    /// in the restoration window of a private CA in the <code>DELETED</code> state. To restore
+    /// an eligible CA, call the <a>RestoreCertificateAuthority</a> action.
+    /// </para>
     /// </summary>
     public partial class DeleteCertificateAuthorityRequest : AmazonACMPCARequest
     {
         private string _certificateAuthorityArn;
+        private int? _permanentDeletionTimeInDays;
 
         /// <summary>
         /// Gets and sets the property CertificateAuthorityArn. 
         /// <para>
         /// The Amazon Resource Name (ARN) that was returned when you called <a>CreateCertificateAuthority</a>.
-        /// This must be of the form: 
+        /// This must have the following form: 
         /// </para>
         ///  
         /// <para>
-        ///  <code>arn:aws:acm:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+        ///  <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
         /// </code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=5, Max=200)]
         public string CertificateAuthorityArn
         {
             get { return this._certificateAuthorityArn; }
@@ -67,6 +89,26 @@ namespace Amazon.ACMPCA.Model
         internal bool IsSetCertificateAuthorityArn()
         {
             return this._certificateAuthorityArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PermanentDeletionTimeInDays. 
+        /// <para>
+        /// The number of days to make a CA restorable after it has been deleted. This can be
+        /// anywhere from 7 to 30 days, with 30 being the default.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=7, Max=30)]
+        public int PermanentDeletionTimeInDays
+        {
+            get { return this._permanentDeletionTimeInDays.GetValueOrDefault(); }
+            set { this._permanentDeletionTimeInDays = value; }
+        }
+
+        // Check to see if PermanentDeletionTimeInDays property is set
+        internal bool IsSetPermanentDeletionTimeInDays()
+        {
+            return this._permanentDeletionTimeInDays.HasValue; 
         }
 
     }

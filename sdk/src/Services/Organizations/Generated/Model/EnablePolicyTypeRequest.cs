@@ -30,9 +30,15 @@ namespace Amazon.Organizations.Model
     /// <summary>
     /// Container for the parameters to the EnablePolicyType operation.
     /// Enables a policy type in a root. After you enable a policy type in a root, you can
-    /// attach policies of that type to the root, any OU, or account in that root. You can
-    /// undo this by using the <a>DisablePolicyType</a> operation.
+    /// attach policies of that type to the root, any organizational unit (OU), or account
+    /// in that root. You can undo this by using the <a>DisablePolicyType</a> operation.
     /// 
+    ///  
+    /// <para>
+    /// This is an asynchronous request that AWS performs in the background. AWS recommends
+    /// that you first use <a>ListRoots</a> to see the status of policy types for a specified
+    /// root, and then use this operation. 
+    /// </para>
     ///  
     /// <para>
     /// This operation can be called only from the organization's master account.
@@ -40,12 +46,8 @@ namespace Amazon.Organizations.Model
     ///  
     /// <para>
     /// You can enable a policy type in a root only if that policy type is available in the
-    /// organization. Use <a>DescribeOrganization</a> to view the status of available policy
-    /// types in the organization.
-    /// </para>
-    ///  
-    /// <para>
-    /// To view the status of policy type in a root, use <a>ListRoots</a>.
+    /// organization. To view the status of available policy types in the organization, use
+    /// <a>DescribeOrganization</a>.
     /// </para>
     /// </summary>
     public partial class EnablePolicyTypeRequest : AmazonOrganizationsRequest
@@ -59,6 +61,7 @@ namespace Amazon.Organizations.Model
         /// The policy type that you want to enable.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public PolicyType PolicyType
         {
             get { return this._policyType; }
@@ -80,9 +83,10 @@ namespace Amazon.Organizations.Model
         ///  
         /// <para>
         /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root ID string
-        /// requires "r-" followed by from 4 to 32 lower-case letters or digits.
+        /// requires "r-" followed by from 4 to 32 lowercase letters or digits.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RootId
         {
             get { return this._rootId; }

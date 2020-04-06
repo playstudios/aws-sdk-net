@@ -32,6 +32,7 @@ namespace Amazon.WorkDocs.Model
     /// </summary>
     public partial class ShareResult
     {
+        private string _inviteePrincipalId;
         private string _principalId;
         private RoleType _role;
         private string _shareId;
@@ -39,11 +40,31 @@ namespace Amazon.WorkDocs.Model
         private string _statusMessage;
 
         /// <summary>
+        /// Gets and sets the property InviteePrincipalId. 
+        /// <para>
+        /// The ID of the invited user.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1, Max=256)]
+        public string InviteePrincipalId
+        {
+            get { return this._inviteePrincipalId; }
+            set { this._inviteePrincipalId = value; }
+        }
+
+        // Check to see if InviteePrincipalId property is set
+        internal bool IsSetInviteePrincipalId()
+        {
+            return this._inviteePrincipalId != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property PrincipalId. 
         /// <para>
         /// The ID of the principal.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=256)]
         public string PrincipalId
         {
             get { return this._principalId; }
@@ -80,6 +101,7 @@ namespace Amazon.WorkDocs.Model
         /// The ID of the resource that was shared.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=128)]
         public string ShareId
         {
             get { return this._shareId; }
@@ -116,6 +138,7 @@ namespace Amazon.WorkDocs.Model
         /// The status message.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=2048)]
         public string StatusMessage
         {
             get { return this._statusMessage; }

@@ -30,13 +30,19 @@ namespace Amazon.EC2.Model
     /// <summary>
     /// Container for the parameters to the AssociateVpcCidrBlock operation.
     /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block,
-    /// or you can associate an Amazon-provided IPv6 CIDR block. The IPv6 CIDR block size
-    /// is fixed at /56.
+    /// an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool
+    /// that you provisioned through bring your own IP addresses (<a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html">BYOIP</a>).
+    /// The IPv6 CIDR block size is fixed at /56.
     /// 
     ///  
     /// <para>
+    /// You must specify one of the following in the request: an IPv4 CIDR block, an IPv6
+    /// pool, or an Amazon-provided IPv6 CIDR block.
+    /// </para>
+    ///  
+    /// <para>
     /// For more information about associating CIDR blocks with your VPC and applicable restrictions,
-    /// see <a href="http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Subnets.html#VPC_Sizing">VPC
+    /// see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing">VPC
     /// and Subnet Sizing</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
     /// </para>
     /// </summary>
@@ -44,6 +50,9 @@ namespace Amazon.EC2.Model
     {
         private bool? _amazonProvidedIpv6CidrBlock;
         private string _cidrBlock;
+        private string _ipv6CidrBlock;
+        private string _ipv6CidrBlockNetworkBorderGroup;
+        private string _ipv6Pool;
         private string _vpcId;
 
         /// <summary>
@@ -84,11 +93,81 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property Ipv6CidrBlock. 
+        /// <para>
+        /// An IPv6 CIDR block from the IPv6 address pool. You must also specify <code>Ipv6Pool</code>
+        /// in the request.
+        /// </para>
+        ///  
+        /// <para>
+        /// To let Amazon choose the IPv6 CIDR block for you, omit this parameter.
+        /// </para>
+        /// </summary>
+        public string Ipv6CidrBlock
+        {
+            get { return this._ipv6CidrBlock; }
+            set { this._ipv6CidrBlock = value; }
+        }
+
+        // Check to see if Ipv6CidrBlock property is set
+        internal bool IsSetIpv6CidrBlock()
+        {
+            return this._ipv6CidrBlock != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Ipv6CidrBlockNetworkBorderGroup. 
+        /// <para>
+        /// The name of the location from which we advertise the IPV6 CIDR block. Use this parameter
+        /// to limit the CiDR block to this location.
+        /// </para>
+        ///  
+        /// <para>
+        ///  You must set <code>AmazonProvidedIpv6CidrBlock</code> to <code>true</code> to use
+        /// this parameter.
+        /// </para>
+        ///  
+        /// <para>
+        ///  You can have one IPv6 CIDR block association per network border group.
+        /// </para>
+        /// </summary>
+        public string Ipv6CidrBlockNetworkBorderGroup
+        {
+            get { return this._ipv6CidrBlockNetworkBorderGroup; }
+            set { this._ipv6CidrBlockNetworkBorderGroup = value; }
+        }
+
+        // Check to see if Ipv6CidrBlockNetworkBorderGroup property is set
+        internal bool IsSetIpv6CidrBlockNetworkBorderGroup()
+        {
+            return this._ipv6CidrBlockNetworkBorderGroup != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Ipv6Pool. 
+        /// <para>
+        /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
+        /// </para>
+        /// </summary>
+        public string Ipv6Pool
+        {
+            get { return this._ipv6Pool; }
+            set { this._ipv6Pool = value; }
+        }
+
+        // Check to see if Ipv6Pool property is set
+        internal bool IsSetIpv6Pool()
+        {
+            return this._ipv6Pool != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property VpcId. 
         /// <para>
         /// The ID of the VPC.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string VpcId
         {
             get { return this._vpcId; }

@@ -55,11 +55,12 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
         public IRequest Marshall(CreateBrokerRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MQ");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/v1/brokers";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/v1/brokers";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -105,6 +106,17 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                     context.Writer.Write(publicRequest.DeploymentMode);
                 }
 
+                if(publicRequest.IsSetEncryptionOptions())
+                {
+                    context.Writer.WritePropertyName("encryptionOptions");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = EncryptionOptionsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.EncryptionOptions, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
                 if(publicRequest.IsSetEngineType())
                 {
                     context.Writer.WritePropertyName("engineType");
@@ -121,6 +133,17 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("hostInstanceType");
                     context.Writer.Write(publicRequest.HostInstanceType);
+                }
+
+                if(publicRequest.IsSetLogs())
+                {
+                    context.Writer.WritePropertyName("logs");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = LogsMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.Logs, context);
+
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetMaintenanceWindowStartTime())
@@ -151,6 +174,12 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                     context.Writer.WriteArrayEnd();
                 }
 
+                if(publicRequest.IsSetStorageType())
+                {
+                    context.Writer.WritePropertyName("storageType");
+                    context.Writer.Write(publicRequest.StorageType);
+                }
+
                 if(publicRequest.IsSetSubnetIds())
                 {
                     context.Writer.WritePropertyName("subnetIds");
@@ -160,6 +189,20 @@ namespace Amazon.MQ.Model.Internal.MarshallTransformations
                             context.Writer.Write(publicRequestSubnetIdsListValue);
                     }
                     context.Writer.WriteArrayEnd();
+                }
+
+                if(publicRequest.IsSetTags())
+                {
+                    context.Writer.WritePropertyName("tags");
+                    context.Writer.WriteObjectStart();
+                    foreach (var publicRequestTagsKvp in publicRequest.Tags)
+                    {
+                        context.Writer.WritePropertyName(publicRequestTagsKvp.Key);
+                        var publicRequestTagsValue = publicRequestTagsKvp.Value;
+
+                            context.Writer.Write(publicRequestTagsValue);
+                    }
+                    context.Writer.WriteObjectEnd();
                 }
 
                 if(publicRequest.IsSetUsers())

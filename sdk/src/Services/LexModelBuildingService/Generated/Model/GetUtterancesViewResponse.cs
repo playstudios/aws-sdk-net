@@ -41,6 +41,7 @@ namespace Amazon.LexModelBuildingService.Model
         /// The name of the bot for which utterance information was returned.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=2, Max=50)]
         public string BotName
         {
             get { return this._botName; }
@@ -58,7 +59,8 @@ namespace Amazon.LexModelBuildingService.Model
         /// <para>
         /// An array of <a>UtteranceList</a> objects, each containing a list of <a>UtteranceData</a>
         /// objects describing the utterances that were processed by your bot. The response contains
-        /// a maximum of 100 <code>UtteranceData</code> objects for each version.
+        /// a maximum of 100 <code>UtteranceData</code> objects for each version. Amazon Lex returns
+        /// the most frequent utterances received by the bot in the last 15 days.
         /// </para>
         /// </summary>
         public List<UtteranceList> Utterances

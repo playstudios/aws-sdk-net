@@ -37,7 +37,9 @@ namespace Amazon.Redshift.Model
         private string _clusterIdentifier;
         private string _clusterType;
         private string _clusterVersion;
+        private string _encryptionType;
         private bool? _enhancedVpcRouting;
+        private string _maintenanceTrackName;
         private string _masterUserPassword;
         private string _nodeType;
         private int? _numberOfNodes;
@@ -116,11 +118,30 @@ namespace Amazon.Redshift.Model
         }
 
         /// <summary>
+        /// Gets and sets the property EncryptionType. 
+        /// <para>
+        /// The encryption type for a cluster. Possible values are: KMS and None. For the China
+        /// region the possible values are None, and Legacy. 
+        /// </para>
+        /// </summary>
+        public string EncryptionType
+        {
+            get { return this._encryptionType; }
+            set { this._encryptionType = value; }
+        }
+
+        // Check to see if EncryptionType property is set
+        internal bool IsSetEncryptionType()
+        {
+            return this._encryptionType != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property EnhancedVpcRouting. 
         /// <para>
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled.
         /// To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC.
-        /// For more information, see <a href="http://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
+        /// For more information, see <a href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
         /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
         /// </para>
         ///  
@@ -142,6 +163,25 @@ namespace Amazon.Redshift.Model
         internal bool IsSetEnhancedVpcRouting()
         {
             return this._enhancedVpcRouting.HasValue; 
+        }
+
+        /// <summary>
+        /// Gets and sets the property MaintenanceTrackName. 
+        /// <para>
+        /// The name of the maintenance track that the cluster will change to during the next
+        /// maintenance window.
+        /// </para>
+        /// </summary>
+        public string MaintenanceTrackName
+        {
+            get { return this._maintenanceTrackName; }
+            set { this._maintenanceTrackName = value; }
+        }
+
+        // Check to see if MaintenanceTrackName property is set
+        internal bool IsSetMaintenanceTrackName()
+        {
+            return this._maintenanceTrackName != null;
         }
 
         /// <summary>

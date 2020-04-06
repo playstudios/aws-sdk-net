@@ -29,8 +29,8 @@ namespace Amazon.ServiceDiscovery.Model
 {
     /// <summary>
     /// Container for the parameters to the DeregisterInstance operation.
-    /// Deletes the records and the health check, if any, that Amazon Route 53 created for
-    /// the specified instance.
+    /// Deletes the Amazon Route 53 DNS records and health check, if any, that AWS Cloud Map
+    /// created for the specified instance.
     /// </summary>
     public partial class DeregisterInstanceRequest : AmazonServiceDiscoveryRequest
     {
@@ -43,6 +43,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// The value that you specified for <code>Id</code> in the <a>RegisterInstance</a> request.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=64)]
         public string InstanceId
         {
             get { return this._instanceId; }
@@ -61,6 +62,7 @@ namespace Amazon.ServiceDiscovery.Model
         /// The ID of the service that the instance is associated with.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=64)]
         public string ServiceId
         {
             get { return this._serviceId; }

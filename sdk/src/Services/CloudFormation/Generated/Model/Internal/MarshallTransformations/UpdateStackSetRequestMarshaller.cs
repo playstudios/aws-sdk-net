@@ -58,9 +58,29 @@ namespace Amazon.CloudFormation.Model.Internal.MarshallTransformations
 
             if(publicRequest != null)
             {
+                if(publicRequest.IsSetAccounts())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.Accounts)
+                    {
+                        request.Parameters.Add("Accounts" + "." + "member" + "." + publicRequestlistValueIndex, StringUtils.FromString(publicRequestlistValue));
+                        publicRequestlistValueIndex++;
+                    }
+                }
                 if(publicRequest.IsSetAdministrationRoleARN())
                 {
                     request.Parameters.Add("AdministrationRoleARN", StringUtils.FromString(publicRequest.AdministrationRoleARN));
+                }
+                if(publicRequest.IsSetAutoDeployment())
+                {
+                    if(publicRequest.AutoDeployment.IsSetEnabled())
+                    {
+                        request.Parameters.Add("AutoDeployment" + "." + "Enabled", StringUtils.FromBool(publicRequest.AutoDeployment.Enabled));
+                    }
+                    if(publicRequest.AutoDeployment.IsSetRetainStacksOnAccountRemoval())
+                    {
+                        request.Parameters.Add("AutoDeployment" + "." + "RetainStacksOnAccountRemoval", StringUtils.FromBool(publicRequest.AutoDeployment.RetainStacksOnAccountRemoval));
+                    }
                 }
                 if(publicRequest.IsSetCapabilities())
                 {
@@ -71,9 +91,34 @@ namespace Amazon.CloudFormation.Model.Internal.MarshallTransformations
                         publicRequestlistValueIndex++;
                     }
                 }
+                if(publicRequest.IsSetDeploymentTargets())
+                {
+                    if(publicRequest.DeploymentTargets.IsSetAccounts())
+                    {
+                        int publicRequestDeploymentTargetslistValueIndex = 1;
+                        foreach(var publicRequestDeploymentTargetslistValue in publicRequest.DeploymentTargets.Accounts)
+                        {
+                            request.Parameters.Add("DeploymentTargets" + "." + "Accounts" + "." + "member" + "." + publicRequestDeploymentTargetslistValueIndex, StringUtils.FromString(publicRequestDeploymentTargetslistValue));
+                            publicRequestDeploymentTargetslistValueIndex++;
+                        }
+                    }
+                    if(publicRequest.DeploymentTargets.IsSetOrganizationalUnitIds())
+                    {
+                        int publicRequestDeploymentTargetslistValueIndex = 1;
+                        foreach(var publicRequestDeploymentTargetslistValue in publicRequest.DeploymentTargets.OrganizationalUnitIds)
+                        {
+                            request.Parameters.Add("DeploymentTargets" + "." + "OrganizationalUnitIds" + "." + "member" + "." + publicRequestDeploymentTargetslistValueIndex, StringUtils.FromString(publicRequestDeploymentTargetslistValue));
+                            publicRequestDeploymentTargetslistValueIndex++;
+                        }
+                    }
+                }
                 if(publicRequest.IsSetDescription())
                 {
                     request.Parameters.Add("Description", StringUtils.FromString(publicRequest.Description));
+                }
+                if(publicRequest.IsSetExecutionRoleName())
+                {
+                    request.Parameters.Add("ExecutionRoleName", StringUtils.FromString(publicRequest.ExecutionRoleName));
                 }
                 if(publicRequest.IsSetOperationId())
                 {
@@ -132,6 +177,19 @@ namespace Amazon.CloudFormation.Model.Internal.MarshallTransformations
                         {
                             request.Parameters.Add("Parameters" + "." + "member" + "." + publicRequestlistValueIndex + "." + "UsePreviousValue", StringUtils.FromBool(publicRequestlistValue.UsePreviousValue));
                         }
+                        publicRequestlistValueIndex++;
+                    }
+                }
+                if(publicRequest.IsSetPermissionModel())
+                {
+                    request.Parameters.Add("PermissionModel", StringUtils.FromString(publicRequest.PermissionModel));
+                }
+                if(publicRequest.IsSetRegions())
+                {
+                    int publicRequestlistValueIndex = 1;
+                    foreach(var publicRequestlistValue in publicRequest.Regions)
+                    {
+                        request.Parameters.Add("Regions" + "." + "member" + "." + publicRequestlistValueIndex, StringUtils.FromString(publicRequestlistValue));
                         publicRequestlistValueIndex++;
                     }
                 }

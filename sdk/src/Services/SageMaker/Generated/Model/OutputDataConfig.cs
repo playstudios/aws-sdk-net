@@ -39,23 +39,62 @@ namespace Amazon.SageMaker.Model
         /// Gets and sets the property KmsKeyId. 
         /// <para>
         /// The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt
-        /// the model artifacts at rest using Amazon S3 server-side encryption. 
+        /// the model artifacts at rest using Amazon S3 server-side encryption. The <code>KmsKeyId</code>
+        /// can be any of the following formats: 
         /// </para>
-        ///  <note> 
+        ///  <ul> <li> 
         /// <para>
-        /// If the configuration of the output S3 bucket requires server-side encryption for objects,
-        /// and you don't provide the KMS key ID, Amazon SageMaker uses the default service key.
-        /// For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">KMS-Managed
-        /// Encryption Keys</a> in Amazon Simple Storage Service developer guide.
+        /// // KMS Key ID
         /// </para>
-        ///  </note> <note> 
+        ///  
         /// <para>
-        ///  The KMS key policy must grant permission to the IAM role you specify in your <code>CreateTrainingJob</code>
-        /// request. <a href="http://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">Using
-        /// Key Policies in AWS KMS</a> in the AWS Key Management Service Developer Guide. 
+        ///  <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code> 
         /// </para>
-        ///  </note>
+        ///  </li> <li> 
+        /// <para>
+        /// // Amazon Resource Name (ARN) of a KMS Key
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+        /// 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// // KMS Key Alias
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>"alias/ExampleAlias"</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// // Amazon Resource Name (ARN) of a KMS Key Alias
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"</code> 
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution
+        /// role must include permissions to call <code>kms:Encrypt</code>. If you don't provide
+        /// a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's
+        /// account. Amazon SageMaker uses server-side encryption with KMS-managed keys for <code>OutputDataConfig</code>.
+        /// If you use a bucket policy with an <code>s3:PutObject</code> permission that only
+        /// allows objects with server-side encryption, set the condition key of <code>s3:x-amz-server-side-encryption</code>
+        /// to <code>"aws:kms"</code>. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">KMS-Managed
+        /// Encryption Keys</a> in the <i>Amazon Simple Storage Service Developer Guide.</i> 
+        /// </para>
+        ///  
+        /// <para>
+        /// The KMS key policy must grant permission to the IAM role that you specify in your
+        /// <code>CreateTrainingJob</code>, <code>CreateTransformJob</code>, or <code>CreateHyperParameterTuningJob</code>
+        /// requests. For more information, see <a href="http://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html">Using
+        /// Key Policies in AWS KMS</a> in the <i>AWS Key Management Service Developer Guide</i>.
+        /// </para>
         /// </summary>
+        [AWSProperty(Max=2048)]
         public string KmsKeyId
         {
             get { return this._kmsKeyId; }
@@ -75,6 +114,7 @@ namespace Amazon.SageMaker.Model
         /// For example, <code>s3://bucket-name/key-name-prefix</code>. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Max=1024)]
         public string S3OutputPath
         {
             get { return this._s3OutputPath; }

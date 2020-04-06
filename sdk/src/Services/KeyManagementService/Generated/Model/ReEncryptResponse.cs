@@ -33,16 +33,19 @@ namespace Amazon.KeyManagementService.Model
     public partial class ReEncryptResponse : AmazonWebServiceResponse
     {
         private MemoryStream _ciphertextBlob;
+        private EncryptionAlgorithmSpec _destinationEncryptionAlgorithm;
         private string _keyId;
+        private EncryptionAlgorithmSpec _sourceEncryptionAlgorithm;
         private string _sourceKeyId;
 
         /// <summary>
         /// Gets and sets the property CiphertextBlob. 
         /// <para>
         /// The reencrypted data. When you use the HTTP API or the AWS CLI, the value is Base64-encoded.
-        /// Otherwise, it is not encoded.
+        /// Otherwise, it is not Base64-encoded.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=6144)]
         public MemoryStream CiphertextBlob
         {
             get { return this._ciphertextBlob; }
@@ -56,11 +59,30 @@ namespace Amazon.KeyManagementService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property DestinationEncryptionAlgorithm. 
+        /// <para>
+        /// The encryption algorithm that was used to reencrypt the data.
+        /// </para>
+        /// </summary>
+        public EncryptionAlgorithmSpec DestinationEncryptionAlgorithm
+        {
+            get { return this._destinationEncryptionAlgorithm; }
+            set { this._destinationEncryptionAlgorithm = value; }
+        }
+
+        // Check to see if DestinationEncryptionAlgorithm property is set
+        internal bool IsSetDestinationEncryptionAlgorithm()
+        {
+            return this._destinationEncryptionAlgorithm != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property KeyId. 
         /// <para>
         /// Unique identifier of the CMK used to reencrypt the data.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string KeyId
         {
             get { return this._keyId; }
@@ -74,11 +96,30 @@ namespace Amazon.KeyManagementService.Model
         }
 
         /// <summary>
+        /// Gets and sets the property SourceEncryptionAlgorithm. 
+        /// <para>
+        /// The encryption algorithm that was used to decrypt the ciphertext before it was reencrypted.
+        /// </para>
+        /// </summary>
+        public EncryptionAlgorithmSpec SourceEncryptionAlgorithm
+        {
+            get { return this._sourceEncryptionAlgorithm; }
+            set { this._sourceEncryptionAlgorithm = value; }
+        }
+
+        // Check to see if SourceEncryptionAlgorithm property is set
+        internal bool IsSetSourceEncryptionAlgorithm()
+        {
+            return this._sourceEncryptionAlgorithm != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SourceKeyId. 
         /// <para>
         /// Unique identifier of the CMK used to originally encrypt the data.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=2048)]
         public string SourceKeyId
         {
             get { return this._sourceKeyId; }

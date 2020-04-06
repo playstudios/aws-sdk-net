@@ -107,6 +107,7 @@ namespace Amazon.Lightsail.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [Obsolete("In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated.")]
         public Dictionary<string, string> Options
         {
             get { return this._options; }
@@ -146,8 +147,42 @@ namespace Amazon.Lightsail.Model
         /// <summary>
         /// Gets and sets the property Type. 
         /// <para>
-        /// The type of domain entry (e.g., <code>SOA</code> or <code>NS</code>).
+        /// The type of domain entry, such as address (A), canonical name (CNAME), mail exchanger
+        /// (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT).
         /// </para>
+        ///  
+        /// <para>
+        /// The following domain entry types can be used:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>A</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>CNAME</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>MX</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>NS</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SOA</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>SRV</code> 
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>TXT</code> 
+        /// </para>
+        ///  </li> </ul>
         /// </summary>
         public string Type
         {

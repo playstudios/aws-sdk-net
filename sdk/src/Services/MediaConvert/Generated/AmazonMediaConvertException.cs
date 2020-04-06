@@ -28,10 +28,10 @@ namespace Amazon.MediaConvert
     ///<summary>
     /// Common exception for the MediaConvert service.
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
-    public class AmazonMediaConvertException : AmazonServiceException
+    public partial class AmazonMediaConvertException : AmazonServiceException
     {
         /// <summary>
         /// Construct instance of AmazonMediaConvertException
@@ -88,7 +88,7 @@ namespace Amazon.MediaConvert
         {
         }
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the AmazonMediaConvertException class with serialized data.
         /// </summary>

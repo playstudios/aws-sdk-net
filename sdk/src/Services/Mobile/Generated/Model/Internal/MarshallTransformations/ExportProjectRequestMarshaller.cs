@@ -55,14 +55,15 @@ namespace Amazon.Mobile.Model.Internal.MarshallTransformations
         public IRequest Marshall(ExportProjectRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Mobile");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-07-01";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/exports/{projectId}";
             if (!publicRequest.IsSetProjectId())
                 throw new AmazonMobileException("Request object does not have required field ProjectId set");
-            uriResourcePath = uriResourcePath.Replace("{projectId}", StringUtils.FromString(publicRequest.ProjectId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{projectId}", StringUtils.FromString(publicRequest.ProjectId));
+            request.ResourcePath = "/exports/{projectId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

@@ -33,10 +33,6 @@ namespace Amazon.GameLift.Model
     /// to access a server process using the deleted alias receive an error. To delete an
     /// alias, specify the alias ID to be deleted.
     /// 
-    ///  
-    /// <para>
-    /// Alias-related operations include:
-    /// </para>
     ///  <ul> <li> 
     /// <para>
     ///  <a>CreateAlias</a> 
@@ -70,9 +66,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property AliasId. 
         /// <para>
-        /// Unique identifier for a fleet alias. Specify the alias you want to delete.
+        /// A unique identifier of the alias that you want to delete. You can use either the alias
+        /// ID or ARN value.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string AliasId
         {
             get { return this._aliasId; }

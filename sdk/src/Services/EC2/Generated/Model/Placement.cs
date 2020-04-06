@@ -36,6 +36,8 @@ namespace Amazon.EC2.Model
         private string _availabilityZone;
         private string _groupName;
         private string _hostId;
+        private string _hostResourceGroupArn;
+        private int? _partitionNumber;
         private string _spreadDomain;
         private Tenancy _tenancy;
 
@@ -47,7 +49,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Instantiates Placement with the parameterized properties
         /// </summary>
-        /// <param name="availabilityZone">The Availability Zone of the instance.</param>
+        /// <param name="availabilityZone">The Availability Zone of the instance. If not specified, an Availability Zone will be automatically chosen for you based on the load balancing criteria for the Region. This parameter is not supported by .</param>
         public Placement(string availabilityZone)
         {
             _availabilityZone = availabilityZone;
@@ -58,6 +60,10 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not
         /// supported for the <a>ImportInstance</a> command.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is not supported by .
         /// </para>
         /// </summary>
         public string Affinity
@@ -77,6 +83,15 @@ namespace Amazon.EC2.Model
         /// <para>
         /// The Availability Zone of the instance.
         /// </para>
+        ///  
+        /// <para>
+        /// If not specified, an Availability Zone will be automatically chosen for you based
+        /// on the load balancing criteria for the Region.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is not supported by .
+        /// </para>
         /// </summary>
         public string AvailabilityZone
         {
@@ -93,7 +108,7 @@ namespace Amazon.EC2.Model
         /// <summary>
         /// Gets and sets the property GroupName. 
         /// <para>
-        /// The name of the placement group the instance is in (for cluster compute instances).
+        /// The name of the placement group the instance is in.
         /// </para>
         /// </summary>
         public string GroupName
@@ -114,6 +129,10 @@ namespace Amazon.EC2.Model
         /// The ID of the Dedicated Host on which the instance resides. This parameter is not
         /// supported for the <a>ImportInstance</a> command.
         /// </para>
+        ///  
+        /// <para>
+        /// This parameter is not supported by .
+        /// </para>
         /// </summary>
         public string HostId
         {
@@ -128,9 +147,59 @@ namespace Amazon.EC2.Model
         }
 
         /// <summary>
+        /// Gets and sets the property HostResourceGroupArn. 
+        /// <para>
+        /// The ARN of the host resource group in which to launch the instances. If you specify
+        /// a host resource group ARN, omit the <b>Tenancy</b> parameter or set it to <code>host</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is not supported by .
+        /// </para>
+        /// </summary>
+        public string HostResourceGroupArn
+        {
+            get { return this._hostResourceGroupArn; }
+            set { this._hostResourceGroupArn = value; }
+        }
+
+        // Check to see if HostResourceGroupArn property is set
+        internal bool IsSetHostResourceGroupArn()
+        {
+            return this._hostResourceGroupArn != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PartitionNumber. 
+        /// <para>
+        /// The number of the partition the instance is in. Valid only if the placement group
+        /// strategy is set to <code>partition</code>.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is not supported by .
+        /// </para>
+        /// </summary>
+        public int PartitionNumber
+        {
+            get { return this._partitionNumber.GetValueOrDefault(); }
+            set { this._partitionNumber = value; }
+        }
+
+        // Check to see if PartitionNumber property is set
+        internal bool IsSetPartitionNumber()
+        {
+            return this._partitionNumber.HasValue; 
+        }
+
+        /// <summary>
         /// Gets and sets the property SpreadDomain. 
         /// <para>
         /// Reserved for future use.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is not supported by .
         /// </para>
         /// </summary>
         public string SpreadDomain
@@ -151,6 +220,10 @@ namespace Amazon.EC2.Model
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with
         /// a tenancy of <code>dedicated</code> runs on single-tenant hardware. The <code>host</code>
         /// tenancy is not supported for the <a>ImportInstance</a> command.
+        /// </para>
+        ///  
+        /// <para>
+        /// This parameter is not supported by .
         /// </para>
         /// </summary>
         public Tenancy Tenancy

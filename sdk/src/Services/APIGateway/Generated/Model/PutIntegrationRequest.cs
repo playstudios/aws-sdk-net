@@ -53,7 +53,7 @@ namespace Amazon.APIGateway.Model
         /// <summary>
         /// Gets and sets the property CacheKeyParameters. 
         /// <para>
-        /// Specifies a put integration input's cache key parameters.
+        /// An API-specific tag group of related cached parameters.
         /// </para>
         /// </summary>
         public List<string> CacheKeyParameters
@@ -71,7 +71,7 @@ namespace Amazon.APIGateway.Model
         /// <summary>
         /// Gets and sets the property CacheNamespace. 
         /// <para>
-        /// Specifies a put integration input's cache namespace.
+        /// A list of request parameters whose values are to be cached.
         /// </para>
         /// </summary>
         public string CacheNamespace
@@ -89,7 +89,7 @@ namespace Amazon.APIGateway.Model
         /// <summary>
         /// Gets and sets the property ConnectionId. 
         /// <para>
-        /// The (<a href="http://docs.aws.amazon.com/apigateway/api-reference/resource/vpc-link/#id"><code>id</code></a>)
+        /// The (<a href="https://docs.aws.amazon.com/apigateway/api-reference/resource/vpc-link/#id"><code>id</code></a>)
         /// of the <a>VpcLink</a> used for the integration when <code>connectionType=VPC_LINK</code>
         /// and undefined, otherwise.
         /// </para>
@@ -147,7 +147,7 @@ namespace Amazon.APIGateway.Model
         /// </li> </ul> 
         /// <para>
         /// If this property is not defined, the request payload will be passed through from the
-        /// method request to integration request without modification, provided that the <code>passthroughBehaviors</code>
+        /// method request to integration request without modification, provided that the <code>passthroughBehavior</code>
         /// is configured to support payload pass-through.
         /// </para>
         /// </summary>
@@ -187,6 +187,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] Specifies a put integration request's HTTP method.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string HttpMethod
         {
             get { return this._httpMethod; }
@@ -306,6 +307,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] Specifies a put integration request's resource ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ResourceId
         {
             get { return this._resourceId; }
@@ -324,6 +326,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }
@@ -361,6 +364,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] Specifies a put integration input's type.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public IntegrationType Type
         {
             get { return this._type; }
@@ -400,7 +404,7 @@ namespace Amazon.APIGateway.Model
         /// plus any required input parameters. Alternatively, <code>path</code> can be used for
         /// an AWS service path-based API. The ensuing <code>service_api</code> refers to the
         /// path to an AWS service resource, including the region of the integrated AWS service,
-        /// if applicable. For example, for integration with the S3 API of <code><a href="http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html">GetObject</a></code>,
+        /// if applicable. For example, for integration with the S3 API of <code><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html">GetObject</a></code>,
         /// the <code>uri</code> can be either <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}</code>
         /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>
         /// </para>

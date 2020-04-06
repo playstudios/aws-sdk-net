@@ -28,13 +28,17 @@ using Amazon.Runtime.Internal;
 namespace Amazon.MediaLive.Model
 {
     /// <summary>
-    /// Placeholder documentation for OutputSettings
+    /// Output Settings
     /// </summary>
     public partial class OutputSettings
     {
         private ArchiveOutputSettings _archiveOutputSettings;
+        private FrameCaptureOutputSettings _frameCaptureOutputSettings;
         private HlsOutputSettings _hlsOutputSettings;
+        private MediaPackageOutputSettings _mediaPackageOutputSettings;
         private MsSmoothOutputSettings _msSmoothOutputSettings;
+        private MultiplexOutputSettings _multiplexOutputSettings;
+        private RtmpOutputSettings _rtmpOutputSettings;
         private UdpOutputSettings _udpOutputSettings;
 
         /// <summary>
@@ -53,6 +57,21 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property FrameCaptureOutputSettings.
+        /// </summary>
+        public FrameCaptureOutputSettings FrameCaptureOutputSettings
+        {
+            get { return this._frameCaptureOutputSettings; }
+            set { this._frameCaptureOutputSettings = value; }
+        }
+
+        // Check to see if FrameCaptureOutputSettings property is set
+        internal bool IsSetFrameCaptureOutputSettings()
+        {
+            return this._frameCaptureOutputSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property HlsOutputSettings.
         /// </summary>
         public HlsOutputSettings HlsOutputSettings
@@ -68,6 +87,21 @@ namespace Amazon.MediaLive.Model
         }
 
         /// <summary>
+        /// Gets and sets the property MediaPackageOutputSettings.
+        /// </summary>
+        public MediaPackageOutputSettings MediaPackageOutputSettings
+        {
+            get { return this._mediaPackageOutputSettings; }
+            set { this._mediaPackageOutputSettings = value; }
+        }
+
+        // Check to see if MediaPackageOutputSettings property is set
+        internal bool IsSetMediaPackageOutputSettings()
+        {
+            return this._mediaPackageOutputSettings != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property MsSmoothOutputSettings.
         /// </summary>
         public MsSmoothOutputSettings MsSmoothOutputSettings
@@ -80,6 +114,36 @@ namespace Amazon.MediaLive.Model
         internal bool IsSetMsSmoothOutputSettings()
         {
             return this._msSmoothOutputSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property MultiplexOutputSettings.
+        /// </summary>
+        public MultiplexOutputSettings MultiplexOutputSettings
+        {
+            get { return this._multiplexOutputSettings; }
+            set { this._multiplexOutputSettings = value; }
+        }
+
+        // Check to see if MultiplexOutputSettings property is set
+        internal bool IsSetMultiplexOutputSettings()
+        {
+            return this._multiplexOutputSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property RtmpOutputSettings.
+        /// </summary>
+        public RtmpOutputSettings RtmpOutputSettings
+        {
+            get { return this._rtmpOutputSettings; }
+            set { this._rtmpOutputSettings = value; }
+        }
+
+        // Check to see if RtmpOutputSettings property is set
+        internal bool IsSetRtmpOutputSettings()
+        {
+            return this._rtmpOutputSettings != null;
         }
 
         /// <summary>

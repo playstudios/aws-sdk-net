@@ -34,9 +34,6 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
 
         public IRequest Marshall(GetObjectTorrentRequest getObjectTorrentRequest)
         {
-            if (string.IsNullOrEmpty(getObjectTorrentRequest.Key))
-                throw new System.ArgumentException("Key is a required property and must be set before making this call.", "GetObjectTorrentRequest.Key");
-
             IRequest request = new DefaultRequest(getObjectTorrentRequest, "AmazonS3");
 
             request.HttpMethod = "GET";
@@ -46,7 +43,13 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             if (getObjectTorrentRequest.IsSetRequestPayer())
                 request.Headers.Add(S3Constants.AmzHeaderRequestPayer, S3Transforms.ToStringValue(getObjectTorrentRequest.RequestPayer.ToString()));
 
-            request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
+            if (string.IsNullOrEmpty(getObjectTorrentRequest.BucketName))
+                throw new System.ArgumentException("BucketName is a required property and must be set before making this call.", "GetObjectTorrentRequest.BucketName");
+            if (string.IsNullOrEmpty(getObjectTorrentRequest.Key))
+                throw new System.ArgumentException("Key is a required property and must be set before making this call.", "GetObjectTorrentRequest.Key");
+
+			request.MarshallerVersion = 2;
+			request.ResourcePath = string.Format(CultureInfo.InvariantCulture, "/{0}/{1}",
                                                  S3Transforms.ToStringValue(getObjectTorrentRequest.BucketName),
                                                  S3Transforms.ToStringValue(getObjectTorrentRequest.Key));
 

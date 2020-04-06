@@ -31,67 +31,77 @@ namespace Amazon.ApplicationDiscoveryService
     ///
     /// AWS Application Discovery Service 
     /// <para>
-    /// AWS Application Discovery Service helps you plan application migration projects by
-    /// automatically identifying servers, virtual machines (VMs), software, and software
-    /// dependencies running in your on-premises data centers. Application Discovery Service
-    /// also collects application performance data, which can help you assess the outcome
-    /// of your migration. The data collected by Application Discovery Service is securely
-    /// retained in an AWS-hosted and managed database in the cloud. You can export the data
-    /// as a CSV or XML file into your preferred visualization tool or cloud-migration solution
-    /// to plan your migration. For more information, see <a href="http://aws.amazon.com/application-discovery/faqs/">AWS
-    /// Application Discovery Service FAQ</a>.
-    /// </para>
-    ///  
-    /// <para>
-    /// Application Discovery Service offers two modes of operation:
+    /// AWS Application Discovery Service helps you plan application migration projects. It
+    /// automatically identifies servers, virtual machines (VMs), and network dependencies
+    /// in your on-premises data centers. For more information, see the <a href="http://aws.amazon.com/application-discovery/faqs/">AWS
+    /// Application Discovery Service FAQ</a>. Application Discovery Service offers three
+    /// ways of performing discovery and collecting data about your on-premises servers:
     /// </para>
     ///  <ul> <li> 
     /// <para>
-    ///  <b>Agentless discovery</b> mode is recommended for environments that use VMware vCenter
-    /// Server. This mode doesn't require you to install an agent on each host. Agentless
-    /// discovery gathers server information regardless of the operating systems, which minimizes
-    /// the time required for initial on-premises infrastructure assessment. Agentless discovery
-    /// doesn't collect information about software and software dependencies. It also doesn't
-    /// work in non-VMware environments. 
+    ///  <b>Agentless discovery</b> is recommended for environments that use VMware vCenter
+    /// Server. This mode doesn't require you to install an agent on each host. It does not
+    /// work in non-VMware environments.
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// Agentless discovery gathers server information regardless of the operating systems,
+    /// which minimizes the time required for initial on-premises infrastructure assessment.
     /// </para>
     ///  </li> <li> 
     /// <para>
-    ///  <b>Agent-based discovery</b> mode collects a richer set of data than agentless discovery
-    /// by using the AWS Application Discovery Agent, which you install on one or more hosts
-    /// in your data center. The agent captures infrastructure and application information,
-    /// including an inventory of installed software applications, system and process performance,
-    /// resource utilization, and network dependencies between workloads. The information
-    /// collected by agents is secured at rest and in transit to the Application Discovery
-    /// Service database in the cloud. 
+    /// Agentless discovery doesn't collect information about network dependencies, only agent-based
+    /// discovery collects that information.
     /// </para>
-    ///  </li> </ul> 
+    ///  </li> </ul> </li> </ul> <ul> <li> 
     /// <para>
-    /// We recommend that you use agent-based discovery for non-VMware environments and to
-    /// collect information about software and software dependencies. You can also run agent-based
-    /// and agentless discovery simultaneously. Use agentless discovery to quickly complete
-    /// the initial infrastructure assessment and then install agents on select hosts.
+    ///  <b>Agent-based discovery</b> collects a richer set of data than agentless discovery
+    /// by using the AWS Application Discovery Agent, which you install on one or more hosts
+    /// in your data center.
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    ///  The agent captures infrastructure and application information, including an inventory
+    /// of running processes, system performance information, resource utilization, and network
+    /// dependencies.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// The information collected by agents is secured at rest and in transit to the Application
+    /// Discovery Service database in the cloud. 
+    /// </para>
+    ///  </li> </ul> </li> </ul> <ul> <li> 
+    /// <para>
+    ///  <b>AWS Partner Network (APN) solutions</b> integrate with Application Discovery Service,
+    /// enabling you to import details of your on-premises environment directly into Migration
+    /// Hub without using the discovery connector or discovery agent.
+    /// </para>
+    ///  <ul> <li> 
+    /// <para>
+    /// Third-party application discovery tools can query AWS Application Discovery Service,
+    /// and they can write to the Application Discovery Service database using the public
+    /// API.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// In this way, you can import data into Migration Hub and view it, so that you can associate
+    /// applications with servers and track migrations.
+    /// </para>
+    ///  </li> </ul> </li> </ul> 
+    /// <para>
+    ///  <b>Recommendations</b> 
     /// </para>
     ///  
     /// <para>
-    /// Application Discovery Service integrates with application discovery solutions from
-    /// AWS Partner Network (APN) partners. Third-party application discovery tools can query
-    /// Application Discovery Service and write to the Application Discovery Service database
-    /// using a public API. You can then import the data into either a visualization tool
-    /// or cloud-migration solution.
+    /// We recommend that you use agent-based discovery for non-VMware environments, and whenever
+    /// you want to collect information about network dependencies. You can run agent-based
+    /// and agentless discovery simultaneously. Use agentless discovery to complete the initial
+    /// infrastructure assessment quickly, and then install agents on select hosts to collect
+    /// additional information.
     /// </para>
-    ///  <important> 
+    ///  
     /// <para>
-    /// Application Discovery Service doesn't gather sensitive information. All data is handled
-    /// according to the <a href="http://aws.amazon.com/privacy/">AWS Privacy Policy</a>.
-    /// You can operate Application Discovery Service offline to inspect collected data before
-    /// it is shared with the service.
-    /// </para>
-    ///  </important> 
-    /// <para>
-    /// Your AWS account must be granted access to Application Discovery Service, a process
-    /// called <i>whitelisting</i>. This is true for AWS partners and customers alike. To
-    /// request access, <a href="http://aws.amazon.com/application-discovery/">sign up for
-    /// Application Discovery Service</a>. 
+    ///  <b>Working With This Guide</b> 
     /// </para>
     ///  
     /// <para>
@@ -102,11 +112,43 @@ namespace Amazon.ApplicationDiscoveryService
     /// that you're using. For more information, see <a href="http://aws.amazon.com/tools/#SDKs">AWS
     /// SDKs</a>.
     /// </para>
-    ///  
+    ///  <note> <ul> <li> 
     /// <para>
-    /// This guide is intended for use with the <a href="http://docs.aws.amazon.com/application-discovery/latest/userguide/">
-    /// <i>AWS Application Discovery Service User Guide</i> </a>.
+    /// Remember that you must set your Migration Hub home region before you call any of these
+    /// APIs.
     /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// You must make API calls for write actions (create, notify, associate, disassociate,
+    /// import, or put) while in your home region, or a <code>HomeRegionNotSetException</code>
+    /// error is returned.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// API calls for read actions (list, describe, stop, and delete) are permitted outside
+    /// of your home region.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// Although it is unlikely, the Migration Hub home region could change. If you call APIs
+    /// outside the home region, an <code>InvalidInputException</code> is returned.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// You must call <code>GetHomeRegion</code> to obtain the latest Migration Hub home region.
+    /// </para>
+    ///  </li> </ul> </note> 
+    /// <para>
+    /// This guide is intended for use with the <a href="http://docs.aws.amazon.com/application-discovery/latest/userguide/">AWS
+    /// Application Discovery Service User Guide</a>.
+    /// </para>
+    ///  <important> 
+    /// <para>
+    /// All data is handled according to the <a href="http://aws.amazon.com/privacy/">AWS
+    /// Privacy Policy</a>. You can operate Application Discovery Service offline to inspect
+    /// collected data before it is shared with the service.
+    /// </para>
+    ///  </important>
     /// </summary>
     public partial interface IAmazonApplicationDiscoveryService : IAmazonService, IDisposable
     {
@@ -124,6 +166,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -166,6 +211,73 @@ namespace Amazon.ApplicationDiscoveryService
 
         #endregion
         
+        #region  BatchDeleteImportData
+
+
+        /// <summary>
+        /// Deletes one or more import tasks, each identified by their import ID. Each import
+        /// task has a number of records that can identify servers or applications. 
+        /// 
+        ///  
+        /// <para>
+        /// AWS Application Discovery Service has built-in matching logic that will identify when
+        /// discovered servers match existing entries that you've previously discovered, the information
+        /// for the already-existing discovered server is updated. When you delete an import task
+        /// that contains records that were used to match, the information in those matched records
+        /// that comes from the deleted records will also be deleted.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the BatchDeleteImportData service method.</param>
+        /// 
+        /// <returns>The response from the BatchDeleteImportData service method, as returned by ApplicationDiscoveryService.</returns>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
+        /// The AWS user account does not have permission to perform the action. Check the IAM
+        /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid. Verify the parameters and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterValueException">
+        /// The value of one or more parameters are either invalid or out of range. Verify the
+        /// parameter values and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ServerInternalErrorException">
+        /// The server experienced an internal error. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/BatchDeleteImportData">REST API Reference for BatchDeleteImportData Operation</seealso>
+        BatchDeleteImportDataResponse BatchDeleteImportData(BatchDeleteImportDataRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the BatchDeleteImportData operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the BatchDeleteImportData operation on AmazonApplicationDiscoveryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndBatchDeleteImportData
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/BatchDeleteImportData">REST API Reference for BatchDeleteImportData Operation</seealso>
+        IAsyncResult BeginBatchDeleteImportData(BatchDeleteImportDataRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  BatchDeleteImportData operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginBatchDeleteImportData.</param>
+        /// 
+        /// <returns>Returns a  BatchDeleteImportDataResult from ApplicationDiscoveryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/BatchDeleteImportData">REST API Reference for BatchDeleteImportData Operation</seealso>
+        BatchDeleteImportDataResponse EndBatchDeleteImportData(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  CreateApplication
 
 
@@ -178,6 +290,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -233,6 +348,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -292,6 +410,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
         /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
         /// </exception>
@@ -347,6 +468,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
         /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
         /// </exception>
@@ -396,8 +520,9 @@ namespace Amazon.ApplicationDiscoveryService
 
 
         /// <summary>
-        /// Lists agents or the Connector by ID or lists all agents/Connectors associated with
-        /// your user account if you did not specify an ID.
+        /// Lists agents or connectors as specified by ID or other filters. All agents/connectors
+        /// associated with your user account can be listed if you call <code>DescribeAgents</code>
+        /// as is without passing any parameters.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeAgents service method.</param>
         /// 
@@ -405,6 +530,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -451,17 +579,41 @@ namespace Amazon.ApplicationDiscoveryService
 
 
         /// <summary>
-        /// Retrieves attributes for a list of configuration item IDs. All of the supplied IDs
-        /// must be for the same asset type (server, application, process, or connection). Output
-        /// fields are specific to the asset type selected. For example, the output for a <i>server</i>
-        /// configuration item includes a list of attributes about the server, such as host name,
-        /// operating system, and number of network cards.
+        /// Retrieves attributes for a list of configuration item IDs.
         /// 
+        ///  <note> 
+        /// <para>
+        /// All of the supplied IDs must be for the same asset type from one of the following:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// server
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// application
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// process
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// connection
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Output fields are specific to the asset type specified. For example, the output for
+        /// a <i>server</i> configuration item includes a list of attributes about the server,
+        /// such as host name, operating system, number of network cards, etc.
+        /// </para>
         ///  
         /// <para>
-        /// For a complete list of outputs for each asset type, see <a href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/discovery-api-queries.html#DescribeConfigurations">Using
-        /// the DescribeConfigurations Action</a>.
+        /// For a complete list of outputs for each asset type, see <a href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#DescribeConfigurations">Using
+        /// the DescribeConfigurations Action</a> in the <i>AWS Application Discovery Service
+        /// User Guide</i>.
         /// </para>
+        ///  </note>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeConfigurations service method.</param>
         /// 
@@ -469,6 +621,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -511,17 +666,78 @@ namespace Amazon.ApplicationDiscoveryService
 
         #endregion
         
+        #region  DescribeContinuousExports
+
+
+        /// <summary>
+        /// Lists exports as specified by ID. All continuous exports associated with your user
+        /// account can be listed if you call <code>DescribeContinuousExports</code> as is without
+        /// passing any parameters.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeContinuousExports service method.</param>
+        /// 
+        /// <returns>The response from the DescribeContinuousExports service method, as returned by ApplicationDiscoveryService.</returns>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
+        /// The AWS user account does not have permission to perform the action. Check the IAM
+        /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid. Verify the parameters and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterValueException">
+        /// The value of one or more parameters are either invalid or out of range. Verify the
+        /// parameter values and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.OperationNotPermittedException">
+        /// This operation is not permitted.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ResourceNotFoundException">
+        /// The specified configuration ID was not located. Verify the configuration ID and try
+        /// again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ServerInternalErrorException">
+        /// The server experienced an internal error. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/DescribeContinuousExports">REST API Reference for DescribeContinuousExports Operation</seealso>
+        DescribeContinuousExportsResponse DescribeContinuousExports(DescribeContinuousExportsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeContinuousExports operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeContinuousExports operation on AmazonApplicationDiscoveryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeContinuousExports
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/DescribeContinuousExports">REST API Reference for DescribeContinuousExports Operation</seealso>
+        IAsyncResult BeginDescribeContinuousExports(DescribeContinuousExportsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeContinuousExports operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeContinuousExports.</param>
+        /// 
+        /// <returns>Returns a  DescribeContinuousExportsResult from ApplicationDiscoveryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/DescribeContinuousExports">REST API Reference for DescribeContinuousExports Operation</seealso>
+        DescribeContinuousExportsResponse EndDescribeContinuousExports(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeExportConfigurations
 
 
         /// <summary>
-        /// Deprecated. Use <code>DescribeExportTasks</code> instead.
-        /// 
-        ///  
-        /// <para>
-        /// Retrieves the status of a given export process. You can retrieve status from a maximum
-        /// of 100 processes.
-        /// </para>
+        /// <code>DescribeExportConfigurations</code> is deprecated. Use <a href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html">DescribeImportTasks</a>,
+        /// instead.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeExportConfigurations service method.</param>
         /// 
@@ -529,6 +745,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -592,6 +811,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
         /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
         /// </exception>
@@ -633,12 +855,92 @@ namespace Amazon.ApplicationDiscoveryService
 
         #endregion
         
+        #region  DescribeImportTasks
+
+
+        /// <summary>
+        /// Returns an array of import tasks for your account, including status information, times,
+        /// IDs, the Amazon S3 Object URL for the import file, and more.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImportTasks service method.</param>
+        /// 
+        /// <returns>The response from the DescribeImportTasks service method, as returned by ApplicationDiscoveryService.</returns>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
+        /// The AWS user account does not have permission to perform the action. Check the IAM
+        /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid. Verify the parameters and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterValueException">
+        /// The value of one or more parameters are either invalid or out of range. Verify the
+        /// parameter values and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ServerInternalErrorException">
+        /// The server experienced an internal error. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/DescribeImportTasks">REST API Reference for DescribeImportTasks Operation</seealso>
+        DescribeImportTasksResponse DescribeImportTasks(DescribeImportTasksRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeImportTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeImportTasks operation on AmazonApplicationDiscoveryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeImportTasks
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/DescribeImportTasks">REST API Reference for DescribeImportTasks Operation</seealso>
+        IAsyncResult BeginDescribeImportTasks(DescribeImportTasksRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeImportTasks operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeImportTasks.</param>
+        /// 
+        /// <returns>Returns a  DescribeImportTasksResult from ApplicationDiscoveryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/DescribeImportTasks">REST API Reference for DescribeImportTasks Operation</seealso>
+        DescribeImportTasksResponse EndDescribeImportTasks(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeTags
 
 
         /// <summary>
-        /// Retrieves a list of configuration items that are tagged with a specific tag. Or retrieves
-        /// a list of all tags assigned to a specific configuration item.
+        /// Retrieves a list of configuration items that have tags as specified by the key-value
+        /// pairs, name and value, passed to the optional parameter <code>filters</code>.
+        /// 
+        ///  
+        /// <para>
+        /// There are three valid tag filter names:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// tagKey
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// tagValue
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// configurationId
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// Also, all configuration items associated with your user account that have tags can
+        /// be listed if you call <code>DescribeTags</code> as is without passing any parameters.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeTags service method.</param>
         /// 
@@ -646,6 +948,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -704,6 +1009,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -768,6 +1076,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
         /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
         /// </exception>
@@ -820,6 +1131,12 @@ namespace Amazon.ApplicationDiscoveryService
 
         /// <summary>
         /// Retrieves a short summary of discovered assets.
+        /// 
+        ///  
+        /// <para>
+        /// This API operation takes no request parameters and is called as is at the command
+        /// prompt as shown in the example.
+        /// </para>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetDiscoverySummary service method.</param>
         /// 
@@ -827,6 +1144,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -873,8 +1193,9 @@ namespace Amazon.ApplicationDiscoveryService
 
 
         /// <summary>
-        /// Retrieves a list of configuration items according to criteria that you specify in
-        /// a filter. The filter criteria identifies the relationship requirements.
+        /// Retrieves a list of configuration items as specified by the value passed to the required
+        /// parameter <code>configurationType</code>. Optional filtering may be applied to refine
+        /// search results.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the ListConfigurations service method.</param>
         /// 
@@ -882,6 +1203,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -941,6 +1265,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
         /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
         /// </exception>
@@ -982,6 +1309,76 @@ namespace Amazon.ApplicationDiscoveryService
 
         #endregion
         
+        #region  StartContinuousExport
+
+
+        /// <summary>
+        /// Start the continuous flow of agent's discovered data into Amazon Athena.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartContinuousExport service method.</param>
+        /// 
+        /// <returns>The response from the StartContinuousExport service method, as returned by ApplicationDiscoveryService.</returns>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
+        /// The AWS user account does not have permission to perform the action. Check the IAM
+        /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ConflictErrorException">
+        /// 
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid. Verify the parameters and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterValueException">
+        /// The value of one or more parameters are either invalid or out of range. Verify the
+        /// parameter values and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.OperationNotPermittedException">
+        /// This operation is not permitted.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ResourceInUseException">
+        /// This issue occurs when the same <code>clientRequestToken</code> is used with the <code>StartImportTask</code>
+        /// action, but with different parameters. For example, you use the same request token
+        /// but have two different import URLs, you can encounter this issue. If the import tasks
+        /// are meant to be different, use a different <code>clientRequestToken</code>, and try
+        /// again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ServerInternalErrorException">
+        /// The server experienced an internal error. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StartContinuousExport">REST API Reference for StartContinuousExport Operation</seealso>
+        StartContinuousExportResponse StartContinuousExport(StartContinuousExportRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartContinuousExport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartContinuousExport operation on AmazonApplicationDiscoveryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartContinuousExport
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StartContinuousExport">REST API Reference for StartContinuousExport Operation</seealso>
+        IAsyncResult BeginStartContinuousExport(StartContinuousExportRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartContinuousExport operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartContinuousExport.</param>
+        /// 
+        /// <returns>Returns a  StartContinuousExportResult from ApplicationDiscoveryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StartContinuousExport">REST API Reference for StartContinuousExport Operation</seealso>
+        StartContinuousExportResponse EndStartContinuousExport(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StartDataCollectionByAgentIds
 
 
@@ -994,6 +1391,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -1064,6 +1464,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
         /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
         /// </exception>
@@ -1108,6 +1511,183 @@ namespace Amazon.ApplicationDiscoveryService
 
         #endregion
         
+        #region  StartImportTask
+
+
+        /// <summary>
+        /// Starts an import task, which allows you to import details of your on-premises environment
+        /// directly into AWS Migration Hub without having to use the Application Discovery Service
+        /// (ADS) tools such as the Discovery Connector or Discovery Agent. This gives you the
+        /// option to perform migration assessment and planning directly from your imported data,
+        /// including the ability to group your devices as applications and track their migration
+        /// status.
+        /// 
+        ///  
+        /// <para>
+        /// To start an import request, do this:
+        /// </para>
+        ///  <ol> <li> 
+        /// <para>
+        /// Download the specially formatted comma separated value (CSV) import template, which
+        /// you can find here: <a href="https://s3-us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv">https://s3-us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv</a>.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Fill out the template with your server and application data.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL.
+        /// Your import file must be in the CSV format.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use the console or the <code>StartImportTask</code> command with the AWS CLI or one
+        /// of the AWS SDKs to import the records from your file.
+        /// </para>
+        ///  </li> </ol> 
+        /// <para>
+        /// For more information, including step-by-step procedures, see <a href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-import.html">Migration
+        /// Hub Import</a> in the <i>AWS Application Discovery Service User Guide</i>.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// There are limits to the number of import tasks you can create (and delete) in an AWS
+        /// account. For more information, see <a href="https://docs.aws.amazon.com/application-discovery/latest/userguide/ads_service_limits.html">AWS
+        /// Application Discovery Service Limits</a> in the <i>AWS Application Discovery Service
+        /// User Guide</i>.
+        /// </para>
+        ///  </note>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StartImportTask service method.</param>
+        /// 
+        /// <returns>The response from the StartImportTask service method, as returned by ApplicationDiscoveryService.</returns>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
+        /// The AWS user account does not have permission to perform the action. Check the IAM
+        /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid. Verify the parameters and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterValueException">
+        /// The value of one or more parameters are either invalid or out of range. Verify the
+        /// parameter values and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ResourceInUseException">
+        /// This issue occurs when the same <code>clientRequestToken</code> is used with the <code>StartImportTask</code>
+        /// action, but with different parameters. For example, you use the same request token
+        /// but have two different import URLs, you can encounter this issue. If the import tasks
+        /// are meant to be different, use a different <code>clientRequestToken</code>, and try
+        /// again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ServerInternalErrorException">
+        /// The server experienced an internal error. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StartImportTask">REST API Reference for StartImportTask Operation</seealso>
+        StartImportTaskResponse StartImportTask(StartImportTaskRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StartImportTask operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StartImportTask operation on AmazonApplicationDiscoveryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStartImportTask
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StartImportTask">REST API Reference for StartImportTask Operation</seealso>
+        IAsyncResult BeginStartImportTask(StartImportTaskRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StartImportTask operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStartImportTask.</param>
+        /// 
+        /// <returns>Returns a  StartImportTaskResult from ApplicationDiscoveryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StartImportTask">REST API Reference for StartImportTask Operation</seealso>
+        StartImportTaskResponse EndStartImportTask(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  StopContinuousExport
+
+
+        /// <summary>
+        /// Stop the continuous flow of agent's discovered data into Amazon Athena.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the StopContinuousExport service method.</param>
+        /// 
+        /// <returns>The response from the StopContinuousExport service method, as returned by ApplicationDiscoveryService.</returns>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
+        /// The AWS user account does not have permission to perform the action. Check the IAM
+        /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
+        /// One or more parameters are not valid. Verify the parameters and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterValueException">
+        /// The value of one or more parameters are either invalid or out of range. Verify the
+        /// parameter values and try again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.OperationNotPermittedException">
+        /// This operation is not permitted.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ResourceInUseException">
+        /// This issue occurs when the same <code>clientRequestToken</code> is used with the <code>StartImportTask</code>
+        /// action, but with different parameters. For example, you use the same request token
+        /// but have two different import URLs, you can encounter this issue. If the import tasks
+        /// are meant to be different, use a different <code>clientRequestToken</code>, and try
+        /// again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ResourceNotFoundException">
+        /// The specified configuration ID was not located. Verify the configuration ID and try
+        /// again.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.ServerInternalErrorException">
+        /// The server experienced an internal error. Try again.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StopContinuousExport">REST API Reference for StopContinuousExport Operation</seealso>
+        StopContinuousExportResponse StopContinuousExport(StopContinuousExportRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the StopContinuousExport operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the StopContinuousExport operation on AmazonApplicationDiscoveryServiceClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndStopContinuousExport
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StopContinuousExport">REST API Reference for StopContinuousExport Operation</seealso>
+        IAsyncResult BeginStopContinuousExport(StopContinuousExportRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  StopContinuousExport operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginStopContinuousExport.</param>
+        /// 
+        /// <returns>Returns a  StopContinuousExportResult from ApplicationDiscoveryService.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/discovery-2015-11-01/StopContinuousExport">REST API Reference for StopContinuousExport Operation</seealso>
+        StopContinuousExportResponse EndStopContinuousExport(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  StopDataCollectionByAgentIds
 
 
@@ -1120,6 +1700,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.
@@ -1174,6 +1757,9 @@ namespace Amazon.ApplicationDiscoveryService
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.AuthorizationErrorException">
         /// The AWS user account does not have permission to perform the action. Check the IAM
         /// policy associated with this account.
+        /// </exception>
+        /// <exception cref="Amazon.ApplicationDiscoveryService.Model.HomeRegionNotSetException">
+        /// The home region is not set. Set the home region to continue.
         /// </exception>
         /// <exception cref="Amazon.ApplicationDiscoveryService.Model.InvalidParameterException">
         /// One or more parameters are not valid. Verify the parameters and try again.

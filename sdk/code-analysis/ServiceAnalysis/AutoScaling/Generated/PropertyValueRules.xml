@@ -16,6 +16,16 @@
     <max>1600</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.AutoScaling.Model.BatchDeleteScheduledActionRequest.AutoScalingGroupName</property>
+    <min>1</min>
+    <max>1600</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.BatchPutScheduledUpdateGroupActionRequest.AutoScalingGroupName</property>
+    <min>1</min>
+    <max>1600</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.AutoScaling.Model.CompleteLifecycleActionRequest.AutoScalingGroupName</property>
     <min>1</min>
     <max>1600</max>
@@ -593,12 +603,22 @@
     <max>19</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.AutoScaling.Model.AutoScalingInstanceDetails.InstanceType</property>
+    <min>1</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.AutoScaling.Model.AutoScalingInstanceDetails.LaunchConfigurationName</property>
     <min>1</min>
     <max>255</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.AutoScaling.Model.AutoScalingInstanceDetails.LifecycleState</property>
+    <min>1</min>
+    <max>32</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.AutoScalingInstanceDetails.WeightedCapacity</property>
     <min>1</min>
     <max>32</max>
   </property-value-rule>
@@ -643,6 +663,19 @@
     <max>255</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.AutoScaling.Model.FailedScheduledUpdateGroupActionRequest.ErrorCode</property>
+    <min>1</min>
+    <max>64</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.FailedScheduledUpdateGroupActionRequest.ErrorMessage</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.FailedScheduledUpdateGroupActionRequest.ScheduledActionName</property>
+    <min>1</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.AutoScaling.Model.Filter.Name</property>
   </property-value-rule>
   <property-value-rule>
@@ -661,8 +694,29 @@
     <max>19</max>
   </property-value-rule>
   <property-value-rule>
+    <property>Amazon.AutoScaling.Model.Instance.InstanceType</property>
+    <min>1</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
     <property>Amazon.AutoScaling.Model.Instance.LaunchConfigurationName</property>
     <min>1</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.Instance.WeightedCapacity</property>
+    <min>1</min>
+    <max>32</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.InstancesDistribution.OnDemandAllocationStrategy</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.InstancesDistribution.SpotAllocationStrategy</property>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.InstancesDistribution.SpotMaxPrice</property>
+    <min>0</min>
     <max>255</max>
   </property-value-rule>
   <property-value-rule>
@@ -728,6 +782,16 @@
   <property-value-rule>
     <property>Amazon.AutoScaling.Model.LaunchConfiguration.UserData</property>
     <max>21847</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.LaunchTemplateOverrides.InstanceType</property>
+    <min>1</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.LaunchTemplateOverrides.WeightedCapacity</property>
+    <min>1</min>
+    <max>32</max>
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.AutoScaling.Model.LaunchTemplateSpecification.LaunchTemplateId</property>
@@ -914,6 +978,16 @@
   </property-value-rule>
   <property-value-rule>
     <property>Amazon.AutoScaling.Model.ScheduledUpdateGroupAction.ScheduledActionName</property>
+    <min>1</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.ScheduledUpdateGroupActionRequest.Recurrence</property>
+    <min>1</min>
+    <max>255</max>
+  </property-value-rule>
+  <property-value-rule>
+    <property>Amazon.AutoScaling.Model.ScheduledUpdateGroupActionRequest.ScheduledActionName</property>
     <min>1</min>
     <max>255</max>
   </property-value-rule>

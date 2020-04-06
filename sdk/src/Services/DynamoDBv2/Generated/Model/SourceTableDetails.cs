@@ -32,6 +32,7 @@ namespace Amazon.DynamoDBv2.Model
     /// </summary>
     public partial class SourceTableDetails
     {
+        private BillingMode _billingMode;
         private long? _itemCount;
         private List<KeySchemaElement> _keySchema = new List<KeySchemaElement>();
         private ProvisionedThroughput _provisionedThroughput;
@@ -42,11 +43,42 @@ namespace Amazon.DynamoDBv2.Model
         private long? _tableSizeBytes;
 
         /// <summary>
+        /// Gets and sets the property BillingMode. 
+        /// <para>
+        /// Controls how you are charged for read and write throughput and how you manage capacity.
+        /// This setting can be changed later.
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        ///  <code>PROVISIONED</code> - Sets the read/write capacity mode to <code>PROVISIONED</code>.
+        /// We recommend using <code>PROVISIONED</code> for predictable workloads.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        ///  <code>PAY_PER_REQUEST</code> - Sets the read/write capacity mode to <code>PAY_PER_REQUEST</code>.
+        /// We recommend using <code>PAY_PER_REQUEST</code> for unpredictable workloads. 
+        /// </para>
+        ///  </li> </ul>
+        /// </summary>
+        public BillingMode BillingMode
+        {
+            get { return this._billingMode; }
+            set { this._billingMode = value; }
+        }
+
+        // Check to see if BillingMode property is set
+        internal bool IsSetBillingMode()
+        {
+            return this._billingMode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property ItemCount. 
         /// <para>
-        /// Number of items in the table. Please note this is an approximate value. 
+        /// Number of items in the table. Note that this is an approximate value. 
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public long ItemCount
         {
             get { return this._itemCount.GetValueOrDefault(); }
@@ -65,6 +97,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Schema of the table. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=2)]
         public List<KeySchemaElement> KeySchema
         {
             get { return this._keySchema; }
@@ -83,6 +116,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Read IOPs and Write IOPS on the table when the backup was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public ProvisionedThroughput ProvisionedThroughput
         {
             get { return this._provisionedThroughput; }
@@ -119,6 +153,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Time when the source table was created. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public DateTime TableCreationDateTime
         {
             get { return this._tableCreationDateTime.GetValueOrDefault(); }
@@ -137,6 +172,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Unique identifier for the table for which the backup was created. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string TableId
         {
             get { return this._tableId; }
@@ -155,6 +191,7 @@ namespace Amazon.DynamoDBv2.Model
         /// The name of the table for which the backup was created. 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=3, Max=255)]
         public string TableName
         {
             get { return this._tableName; }
@@ -170,7 +207,7 @@ namespace Amazon.DynamoDBv2.Model
         /// <summary>
         /// Gets and sets the property TableSizeBytes. 
         /// <para>
-        /// Size of the table in bytes. Please note this is an approximate value.
+        /// Size of the table in bytes. Note that this is an approximate value.
         /// </para>
         /// </summary>
         public long TableSizeBytes

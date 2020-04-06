@@ -33,11 +33,12 @@ namespace Amazon.AutoScalingPlans.Model
     public partial class ApplicationSource
     {
         private string _cloudFormationStackARN;
+        private List<TagFilter> _tagFilters = new List<TagFilter>();
 
         /// <summary>
         /// Gets and sets the property CloudFormationStackARN. 
         /// <para>
-        /// The Amazon Resource Name (ARN) of a CloudFormation stack.
+        /// The Amazon Resource Name (ARN) of a AWS CloudFormation stack.
         /// </para>
         /// </summary>
         public string CloudFormationStackARN
@@ -50,6 +51,24 @@ namespace Amazon.AutoScalingPlans.Model
         internal bool IsSetCloudFormationStackARN()
         {
             return this._cloudFormationStackARN != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TagFilters. 
+        /// <para>
+        /// A set of tags (up to 50).
+        /// </para>
+        /// </summary>
+        public List<TagFilter> TagFilters
+        {
+            get { return this._tagFilters; }
+            set { this._tagFilters = value; }
+        }
+
+        // Check to see if TagFilters property is set
+        internal bool IsSetTagFilters()
+        {
+            return this._tagFilters != null && this._tagFilters.Count > 0; 
         }
 
     }

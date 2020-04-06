@@ -29,37 +29,35 @@ namespace Amazon.DirectConnect.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateInterconnect operation.
-    /// Creates a new interconnect between a AWS Direct Connect partner's network and a specific
+    /// Creates an interconnect between an AWS Direct Connect Partner's network and a specific
     /// AWS Direct Connect location.
     /// 
     ///  
     /// <para>
-    /// An interconnect is a connection which is capable of hosting other connections. The
-    /// AWS Direct Connect partner can use an interconnect to provide sub-1Gbps AWS Direct
-    /// Connect service to tier 2 customers who do not have their own connections. Like a
-    /// standard connection, an interconnect links the AWS Direct Connect partner's network
-    /// to an AWS Direct Connect location over a standard 1 Gbps or 10 Gbps Ethernet fiber-optic
-    /// cable. One end is connected to the partner's router, the other to an AWS Direct Connect
-    /// router.
+    /// An interconnect is a connection that is capable of hosting other connections. The
+    /// AWS Direct Connect partner can use an interconnect to provide AWS Direct Connect hosted
+    /// connections to customers through their own network services. Like a standard connection,
+    /// an interconnect links the partner's network to an AWS Direct Connect location over
+    /// a standard Ethernet fiber-optic cable. One end is connected to the partner's router,
+    /// the other to an AWS Direct Connect router.
     /// </para>
     ///  
     /// <para>
     /// You can automatically add the new interconnect to a link aggregation group (LAG) by
     /// specifying a LAG ID in the request. This ensures that the new interconnect is allocated
     /// on the same AWS Direct Connect endpoint that hosts the specified LAG. If there are
-    /// no available ports on the endpoint, the request fails and no interconnect will be
-    /// created.
+    /// no available ports on the endpoint, the request fails and no interconnect is created.
     /// </para>
     ///  
     /// <para>
-    /// For each end customer, the AWS Direct Connect partner provisions a connection on their
-    /// interconnect by calling AllocateConnectionOnInterconnect. The end customer can then
+    /// For each end customer, the AWS Direct Connect Partner provisions a connection on their
+    /// interconnect by calling <a>AllocateHostedConnection</a>. The end customer can then
     /// connect to AWS resources by creating a virtual interface on their connection, using
-    /// the VLAN assigned to them by the AWS Direct Connect partner.
+    /// the VLAN assigned to them by the AWS Direct Connect Partner.
     /// </para>
     ///  <note> 
     /// <para>
-    /// This is intended for use by AWS Direct Connect partners only.
+    /// Intended for use by AWS Direct Connect Partners only.
     /// </para>
     ///  </note>
     /// </summary>
@@ -69,25 +67,16 @@ namespace Amazon.DirectConnect.Model
         private string _interconnectName;
         private string _lagId;
         private string _location;
+        private string _providerName;
+        private List<Tag> _tags = new List<Tag>();
 
         /// <summary>
         /// Gets and sets the property Bandwidth. 
         /// <para>
-        /// The port bandwidth
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: 1Gbps
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
-        ///  
-        /// <para>
-        /// Available values: 1Gbps,10Gbps
+        /// The port bandwidth, in Gbps. The possible values are 1 and 10.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Bandwidth
         {
             get { return this._bandwidth; }
@@ -105,15 +94,8 @@ namespace Amazon.DirectConnect.Model
         /// <para>
         /// The name of the interconnect.
         /// </para>
-        ///  
-        /// <para>
-        /// Example: "<i>1G Interconnect to AWS</i>"
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
-        /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string InterconnectName
         {
             get { return this._interconnectName; }
@@ -127,7 +109,10 @@ namespace Amazon.DirectConnect.Model
         }
 
         /// <summary>
-        /// Gets and sets the property LagId.
+        /// Gets and sets the property LagId. 
+        /// <para>
+        /// The ID of the LAG.
+        /// </para>
         /// </summary>
         public string LagId
         {
@@ -144,17 +129,10 @@ namespace Amazon.DirectConnect.Model
         /// <summary>
         /// Gets and sets the property Location. 
         /// <para>
-        /// Where the interconnect is located
-        /// </para>
-        ///  
-        /// <para>
-        /// Example: EqSV5
-        /// </para>
-        ///  
-        /// <para>
-        /// Default: None
+        /// The location of the interconnect.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Location
         {
             get { return this._location; }
@@ -165,6 +143,43 @@ namespace Amazon.DirectConnect.Model
         internal bool IsSetLocation()
         {
             return this._location != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ProviderName. 
+        /// <para>
+        /// The name of the service provider associated with the interconnect.
+        /// </para>
+        /// </summary>
+        public string ProviderName
+        {
+            get { return this._providerName; }
+            set { this._providerName = value; }
+        }
+
+        // Check to see if ProviderName property is set
+        internal bool IsSetProviderName()
+        {
+            return this._providerName != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. 
+        /// <para>
+        /// The tags to associate with the interconnect.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Min=1)]
+        public List<Tag> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

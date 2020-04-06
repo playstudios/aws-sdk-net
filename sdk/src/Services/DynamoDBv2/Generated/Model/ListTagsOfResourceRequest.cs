@@ -34,7 +34,7 @@ namespace Amazon.DynamoDBv2.Model
     /// 
     ///  
     /// <para>
-    /// For an overview on tagging DynamoDB resources, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
+    /// For an overview on tagging DynamoDB resources, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
     /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
     /// </para>
     /// </summary>
@@ -70,6 +70,7 @@ namespace Amazon.DynamoDBv2.Model
         /// Name (ARN).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=1283)]
         public string ResourceArn
         {
             get { return this._resourceArn; }

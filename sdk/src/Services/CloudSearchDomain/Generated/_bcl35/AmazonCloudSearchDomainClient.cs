@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.CloudSearchDomain.Model;
 using Amazon.CloudSearchDomain.Model.Internal.MarshallTransformations;
+using Amazon.CloudSearchDomain.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -52,6 +54,7 @@ namespace Amazon.CloudSearchDomain
     /// </summary>
     public partial class AmazonCloudSearchDomainClient : AmazonServiceClient, IAmazonCloudSearchDomain
     {
+        private static IServiceMetadata serviceMetadata = new AmazonCloudSearchDomainMetadata();
 
         #region Overrides
 
@@ -74,6 +77,16 @@ namespace Amazon.CloudSearchDomain
             pipeline.AddHandlerBefore<Amazon.Runtime.Internal.Unmarshaller>(new Amazon.CloudSearchDomain.Internal.ValidationResponseHandler());
             pipeline.AddHandlerBefore<Amazon.Runtime.Internal.Unmarshaller>(new Amazon.CloudSearchDomain.Internal.ProcessExceptionHandler());
         }    
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -89,7 +102,7 @@ namespace Amazon.CloudSearchDomain
 
         #endregion
 
-        
+
         #region  Search
 
         /// <summary>
@@ -126,10 +139,11 @@ namespace Amazon.CloudSearchDomain
         /// </exception>
         public virtual SearchResponse Search(SearchRequest request)
         {
-            var marshaller = SearchRequestMarshaller.Instance;
-            var unmarshaller = SearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchResponseUnmarshaller.Instance;
 
-            return Invoke<SearchRequest,SearchResponse>(request, marshaller, unmarshaller);
+            return Invoke<SearchResponse>(request, options);
         }
 
         /// <summary>
@@ -145,11 +159,11 @@ namespace Amazon.CloudSearchDomain
         ///         operation.</returns>
         public virtual IAsyncResult BeginSearch(SearchRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SearchRequestMarshaller.Instance;
-            var unmarshaller = SearchResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SearchRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SearchResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SearchRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -199,10 +213,11 @@ namespace Amazon.CloudSearchDomain
         /// </exception>
         public virtual SuggestResponse Suggest(SuggestRequest request)
         {
-            var marshaller = SuggestRequestMarshaller.Instance;
-            var unmarshaller = SuggestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SuggestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SuggestResponseUnmarshaller.Instance;
 
-            return Invoke<SuggestRequest,SuggestResponse>(request, marshaller, unmarshaller);
+            return Invoke<SuggestResponse>(request, options);
         }
 
         /// <summary>
@@ -218,11 +233,11 @@ namespace Amazon.CloudSearchDomain
         ///         operation.</returns>
         public virtual IAsyncResult BeginSuggest(SuggestRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = SuggestRequestMarshaller.Instance;
-            var unmarshaller = SuggestResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = SuggestRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = SuggestResponseUnmarshaller.Instance;
 
-            return BeginInvoke<SuggestRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>
@@ -276,10 +291,11 @@ namespace Amazon.CloudSearchDomain
         /// </exception>
         public virtual UploadDocumentsResponse UploadDocuments(UploadDocumentsRequest request)
         {
-            var marshaller = UploadDocumentsRequestMarshaller.Instance;
-            var unmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadDocumentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
 
-            return Invoke<UploadDocumentsRequest,UploadDocumentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<UploadDocumentsResponse>(request, options);
         }
 
         /// <summary>
@@ -295,11 +311,11 @@ namespace Amazon.CloudSearchDomain
         ///         operation.</returns>
         public virtual IAsyncResult BeginUploadDocuments(UploadDocumentsRequest request, AsyncCallback callback, object state)
         {
-            var marshaller = UploadDocumentsRequestMarshaller.Instance;
-            var unmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UploadDocumentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UploadDocumentsResponseUnmarshaller.Instance;
 
-            return BeginInvoke<UploadDocumentsRequest>(request, marshaller, unmarshaller,
-                callback, state);
+            return BeginInvoke(request, options, callback, state);
         }
 
         /// <summary>

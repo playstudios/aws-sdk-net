@@ -82,6 +82,7 @@ namespace Amazon.DeviceFarm.Model
         /// A message about the problem's result.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=16384)]
         public string Message
         {
             get { return this._message; }
@@ -105,31 +106,31 @@ namespace Amazon.DeviceFarm.Model
         /// </para>
         ///  <ul> <li> 
         /// <para>
-        /// PENDING: A pending condition.
+        /// PENDING
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// PASSED: A passing condition.
+        /// PASSED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// WARNED: A warning condition.
+        /// WARNED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// FAILED: A failed condition.
+        /// FAILED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// SKIPPED: A skipped condition.
+        /// SKIPPED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// ERRORED: An error condition.
+        /// ERRORED
         /// </para>
         ///  </li> <li> 
         /// <para>
-        /// STOPPED: A stopped condition.
+        /// STOPPED
         /// </para>
         ///  </li> </ul>
         /// </summary>

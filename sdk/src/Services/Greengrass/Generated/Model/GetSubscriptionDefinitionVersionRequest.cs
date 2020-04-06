@@ -33,12 +33,30 @@ namespace Amazon.Greengrass.Model
     /// </summary>
     public partial class GetSubscriptionDefinitionVersionRequest : AmazonGreengrassRequest
     {
+        private string _nextToken;
         private string _subscriptionDefinitionId;
         private string _subscriptionDefinitionVersionId;
 
         /// <summary>
+        /// Gets and sets the property NextToken. The token for the next set of results, or ''null''
+        /// if there are no additional results.
+        /// </summary>
+        public string NextToken
+        {
+            get { return this._nextToken; }
+            set { this._nextToken = value; }
+        }
+
+        // Check to see if NextToken property is set
+        internal bool IsSetNextToken()
+        {
+            return this._nextToken != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property SubscriptionDefinitionId. The ID of the subscription definition.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubscriptionDefinitionId
         {
             get { return this._subscriptionDefinitionId; }
@@ -53,8 +71,13 @@ namespace Amazon.Greengrass.Model
 
         /// <summary>
         /// Gets and sets the property SubscriptionDefinitionVersionId. The ID of the subscription
-        /// definition version.
+        /// definition version. This value maps to the ''Version'' property of the corresponding
+        /// ''VersionInformation'' object, which is returned by ''ListSubscriptionDefinitionVersions''
+        /// requests. If the version is the last one that was associated with a subscription definition,
+        /// the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation''
+        /// object.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string SubscriptionDefinitionVersionId
         {
             get { return this._subscriptionDefinitionVersionId; }

@@ -55,13 +55,14 @@ namespace Amazon.MediaLive.Model.Internal.MarshallTransformations
         public IRequest Marshall(DescribeInputSecurityGroupRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MediaLive");
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-10-14";            
             request.HttpMethod = "GET";
 
-            string uriResourcePath = "/prod/inputSecurityGroups/{inputSecurityGroupId}";
             if (!publicRequest.IsSetInputSecurityGroupId())
                 throw new AmazonMediaLiveException("Request object does not have required field InputSecurityGroupId set");
-            uriResourcePath = uriResourcePath.Replace("{inputSecurityGroupId}", StringUtils.FromString(publicRequest.InputSecurityGroupId));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{inputSecurityGroupId}", StringUtils.FromString(publicRequest.InputSecurityGroupId));
+            request.ResourcePath = "/prod/inputSecurityGroups/{inputSecurityGroupId}";
+            request.MarshallerVersion = 2;
 
             return request;
         }

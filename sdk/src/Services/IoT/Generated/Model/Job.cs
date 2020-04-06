@@ -32,20 +32,41 @@ namespace Amazon.IoT.Model
     /// </summary>
     public partial class Job
     {
+        private AbortConfig _abortConfig;
         private string _comment;
         private DateTime? _completedAt;
         private DateTime? _createdAt;
         private string _description;
-        private Dictionary<string, string> _documentParameters = new Dictionary<string, string>();
+        private bool? _forceCanceled;
         private string _jobArn;
         private JobExecutionsRolloutConfig _jobExecutionsRolloutConfig;
         private string _jobId;
         private JobProcessDetails _jobProcessDetails;
         private DateTime? _lastUpdatedAt;
         private PresignedUrlConfig _presignedUrlConfig;
+        private string _reasonCode;
         private JobStatus _status;
         private List<string> _targets = new List<string>();
         private TargetSelection _targetSelection;
+        private TimeoutConfig _timeoutConfig;
+
+        /// <summary>
+        /// Gets and sets the property AbortConfig. 
+        /// <para>
+        /// Configuration for criteria to abort the job.
+        /// </para>
+        /// </summary>
+        public AbortConfig AbortConfig
+        {
+            get { return this._abortConfig; }
+            set { this._abortConfig = value; }
+        }
+
+        // Check to see if AbortConfig property is set
+        internal bool IsSetAbortConfig()
+        {
+            return this._abortConfig != null;
+        }
 
         /// <summary>
         /// Gets and sets the property Comment. 
@@ -53,6 +74,7 @@ namespace Amazon.IoT.Model
         /// If the job was updated, describes the reason for the update.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2028)]
         public string Comment
         {
             get { return this._comment; }
@@ -68,7 +90,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property CompletedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job was completed.
+        /// The time, in seconds since the epoch, when the job was completed.
         /// </para>
         /// </summary>
         public DateTime CompletedAt
@@ -86,7 +108,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property CreatedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job was created.
+        /// The time, in seconds since the epoch, when the job was created.
         /// </para>
         /// </summary>
         public DateTime CreatedAt
@@ -107,6 +129,7 @@ namespace Amazon.IoT.Model
         /// A short text description of the job.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=2028)]
         public string Description
         {
             get { return this._description; }
@@ -120,21 +143,22 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
-        /// Gets and sets the property DocumentParameters. 
+        /// Gets and sets the property ForceCanceled. 
         /// <para>
-        /// The parameters specified for the job document.
+        /// Will be <code>true</code> if the job was canceled with the optional <code>force</code>
+        /// parameter set to <code>true</code>.
         /// </para>
         /// </summary>
-        public Dictionary<string, string> DocumentParameters
+        public bool ForceCanceled
         {
-            get { return this._documentParameters; }
-            set { this._documentParameters = value; }
+            get { return this._forceCanceled.GetValueOrDefault(); }
+            set { this._forceCanceled = value; }
         }
 
-        // Check to see if DocumentParameters property is set
-        internal bool IsSetDocumentParameters()
+        // Check to see if ForceCanceled property is set
+        internal bool IsSetForceCanceled()
         {
-            return this._documentParameters != null && this._documentParameters.Count > 0; 
+            return this._forceCanceled.HasValue; 
         }
 
         /// <summary>
@@ -179,6 +203,7 @@ namespace Amazon.IoT.Model
         /// The unique identifier you assigned to this job when it was created.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=64)]
         public string JobId
         {
             get { return this._jobId; }
@@ -212,7 +237,7 @@ namespace Amazon.IoT.Model
         /// <summary>
         /// Gets and sets the property LastUpdatedAt. 
         /// <para>
-        /// The time, in milliseconds since the epoch, when the job was last updated.
+        /// The time, in seconds since the epoch, when the job was last updated.
         /// </para>
         /// </summary>
         public DateTime LastUpdatedAt
@@ -246,10 +271,29 @@ namespace Amazon.IoT.Model
         }
 
         /// <summary>
+        /// Gets and sets the property ReasonCode. 
+        /// <para>
+        /// If the job was updated, provides the reason code for the update.
+        /// </para>
+        /// </summary>
+        [AWSProperty(Max=128)]
+        public string ReasonCode
+        {
+            get { return this._reasonCode; }
+            set { this._reasonCode = value; }
+        }
+
+        // Check to see if ReasonCode property is set
+        internal bool IsSetReasonCode()
+        {
+            return this._reasonCode != null;
+        }
+
+        /// <summary>
         /// Gets and sets the property Status. 
         /// <para>
-        /// The status of the job, one of <code>IN_PROGRESS</code>, <code>CANCELED</code>, or
-        /// <code>COMPLETED</code>. 
+        /// The status of the job, one of <code>IN_PROGRESS</code>, <code>CANCELED</code>, <code>DELETION_IN_PROGRESS</code>
+        /// or <code>COMPLETED</code>. 
         /// </para>
         /// </summary>
         public JobStatus Status
@@ -270,6 +314,7 @@ namespace Amazon.IoT.Model
         /// A list of IoT things and thing groups to which the job should be sent.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public List<string> Targets
         {
             get { return this._targets; }
@@ -302,6 +347,27 @@ namespace Amazon.IoT.Model
         internal bool IsSetTargetSelection()
         {
             return this._targetSelection != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property TimeoutConfig. 
+        /// <para>
+        /// Specifies the amount of time each device has to finish its execution of the job. A
+        /// timer is started when the job execution status is set to <code>IN_PROGRESS</code>.
+        /// If the job execution status is not set to another terminal state before the timer
+        /// expires, it will be automatically set to <code>TIMED_OUT</code>.
+        /// </para>
+        /// </summary>
+        public TimeoutConfig TimeoutConfig
+        {
+            get { return this._timeoutConfig; }
+            set { this._timeoutConfig = value; }
+        }
+
+        // Check to see if TimeoutConfig property is set
+        internal bool IsSetTimeoutConfig()
+        {
+            return this._timeoutConfig != null;
         }
 
     }

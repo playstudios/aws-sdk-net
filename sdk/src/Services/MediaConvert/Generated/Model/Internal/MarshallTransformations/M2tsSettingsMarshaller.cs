@@ -148,6 +148,12 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                 context.Writer.Write(requestObject.EsRateInPes);
             }
 
+            if(requestObject.IsSetForceTsVideoEbpOrder())
+            {
+                context.Writer.WritePropertyName("forceTsVideoEbpOrder");
+                context.Writer.Write(requestObject.ForceTsVideoEbpOrder);
+            }
+
             if(requestObject.IsSetFragmentTime())
             {
                 context.Writer.WritePropertyName("fragmentTime");
@@ -224,6 +230,17 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
             {
                 context.Writer.WritePropertyName("rateMode");
                 context.Writer.Write(requestObject.RateMode);
+            }
+
+            if(requestObject.IsSetScte35Esam())
+            {
+                context.Writer.WritePropertyName("scte35Esam");
+                context.Writer.WriteObjectStart();
+
+                var marshaller = M2tsScte35EsamMarshaller.Instance;
+                marshaller.Marshall(requestObject.Scte35Esam, context);
+
+                context.Writer.WriteObjectEnd();
             }
 
             if(requestObject.IsSetScte35Pid())

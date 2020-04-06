@@ -43,7 +43,7 @@ namespace Amazon.APIGateway.Model
         /// <para>
         /// The base path name that callers of the API must provide as part of the URL after the
         /// domain name. This value must be unique for all of the mappings across a single API.
-        /// Leave this blank if you do not want callers to specify a base path name after the
+        /// Specify '(none)' if you do not want callers to specify a base path name after the
         /// domain name.
         /// </para>
         /// </summary>
@@ -65,6 +65,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The domain name of the <a>BasePathMapping</a> resource to create.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string DomainName
         {
             get { return this._domainName; }
@@ -83,6 +84,7 @@ namespace Amazon.APIGateway.Model
         /// [Required] The string identifier of the associated <a>RestApi</a>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string RestApiId
         {
             get { return this._restApiId; }
@@ -98,7 +100,7 @@ namespace Amazon.APIGateway.Model
         /// <summary>
         /// Gets and sets the property Stage. 
         /// <para>
-        /// The name of the API's stage that you want to use for this mapping. Leave this blank
+        /// The name of the API's stage that you want to use for this mapping. Specify '(none)'
         /// if you do not want callers to explicitly specify the stage name after any base path
         /// name.
         /// </para>

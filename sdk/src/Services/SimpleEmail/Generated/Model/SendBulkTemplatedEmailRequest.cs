@@ -50,12 +50,12 @@ namespace Amazon.SimpleEmail.Model
     /// <para>
     /// If your account is still in the Amazon SES sandbox, you may only send to verified
     /// addresses or domains, or to email addresses associated with the Amazon SES Mailbox
-    /// Simulator. For more information, see <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
+    /// Simulator. For more information, see <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Verifying
     /// Email Addresses and Domains</a> in the <i>Amazon SES Developer Guide.</i> 
     /// </para>
     ///  </li> <li> 
     /// <para>
-    /// The total size of the message, including attachments, must be less than 10 MB.
+    /// The maximum message size is 10 MB.
     /// </para>
     ///  </li> <li> 
     /// <para>
@@ -64,6 +64,18 @@ namespace Amazon.SimpleEmail.Model
     /// If a recipient email address is invalid (that is, it is not in the format <i>UserName@[SubDomain.]Domain.TopLevelDomain</i>),
     /// the entire message will be rejected, even if the message contains other recipients
     /// that are valid.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// The message may not include more than 50 recipients, across the To:, CC: and BCC:
+    /// fields. If you need to send an email message to a larger audience, you can divide
+    /// your recipient list into groups of 50 or fewer, and then call the <code>SendBulkTemplatedEmail</code>
+    /// operation several times to send the message to each group.
+    /// </para>
+    ///  </li> <li> 
+    /// <para>
+    /// The number of destinations you can contact in a single call to the API may be limited
+    /// by your account's maximum sending rate.
     /// </para>
     ///  </li> </ul>
     /// </summary>
@@ -131,6 +143,7 @@ namespace Amazon.SimpleEmail.Model
         /// the keys correspond to replacement tags in the email template.
         /// </para>
         /// </summary>
+        [AWSProperty(Max=262144)]
         public string DefaultTemplateData
         {
             get { return this._defaultTemplateData; }
@@ -151,6 +164,7 @@ namespace Amazon.SimpleEmail.Model
         /// objects within a <code>Destinations</code> array.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<BulkEmailDestination> Destinations
         {
             get { return this._destinations; }
@@ -221,7 +235,7 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about sending authorization, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+        /// For more information about sending authorization, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
         /// SES Developer Guide</a>.
         /// </para>
         /// </summary>
@@ -242,14 +256,14 @@ namespace Amazon.SimpleEmail.Model
         /// <para>
         /// The email address that is sending the email. This email address must be either individually
         /// verified with Amazon SES, or from a domain that has been verified with Amazon SES.
-        /// For information about verifying identities, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Amazon
+        /// For information about verifying identities, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-addresses-and-domains.html">Amazon
         /// SES Developer Guide</a>.
         /// </para>
         ///  
         /// <para>
         /// If you are sending on behalf of another user and have been permitted to do so by a
         /// sending authorization policy, then you must also specify the <code>SourceArn</code>
-        /// parameter. For more information about sending authorization, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+        /// parameter. For more information about sending authorization, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
         /// SES Developer Guide</a>.
         /// </para>
         ///  <note> 
@@ -266,6 +280,7 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  </note>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Source
         {
             get { return this._source; }
@@ -294,7 +309,7 @@ namespace Amazon.SimpleEmail.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about sending authorization, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+        /// For more information about sending authorization, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
         /// SES Developer Guide</a>.
         /// </para>
         /// </summary>
@@ -316,6 +331,7 @@ namespace Amazon.SimpleEmail.Model
         /// The template to use when sending this email.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Template
         {
             get { return this._template; }

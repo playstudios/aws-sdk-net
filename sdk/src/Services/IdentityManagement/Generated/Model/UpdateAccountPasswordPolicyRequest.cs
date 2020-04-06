@@ -42,7 +42,7 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  </li> </ul> </note> 
     /// <para>
-    ///  For more information about using a password policy, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
+    ///  For more information about using a password policy, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
     /// an IAM Password Policy</a> in the <i>IAM User Guide</i>.
     /// </para>
     /// </summary>
@@ -62,7 +62,7 @@ namespace Amazon.IdentityManagement.Model
         /// Gets and sets the property AllowUsersToChangePassword. 
         /// <para>
         ///  Allows all IAM users in your account to use the AWS Management Console to change
-        /// their own passwords. For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/HowToPwdIAMUser.html">Letting
+        /// their own passwords. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/HowToPwdIAMUser.html">Letting
         /// IAM Users Change Their Own Passwords</a> in the <i>IAM User Guide</i>.
         /// </para>
         ///  
@@ -120,6 +120,7 @@ namespace Amazon.IdentityManagement.Model
         /// value of <code>0</code>. The result is that IAM user passwords never expire.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=1095)]
         public int MaxPasswordAge
         {
             get { return this._maxPasswordAge.GetValueOrDefault(); }
@@ -143,6 +144,7 @@ namespace Amazon.IdentityManagement.Model
         /// value of <code>6</code>.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=6, Max=128)]
         public int MinimumPasswordLength
         {
             get { return this._minimumPasswordLength.GetValueOrDefault(); }
@@ -167,6 +169,7 @@ namespace Amazon.IdentityManagement.Model
         /// previous passwords.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=24)]
         public int PasswordReusePrevention
         {
             get { return this._passwordReusePrevention.GetValueOrDefault(); }
@@ -237,7 +240,7 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// ! @ # $ % ^ &amp;amp; * ( ) _ + - = [ ] { } | '
+        /// ! @ # $ % ^ &amp; * ( ) _ + - = [ ] { } | '
         /// </para>
         ///  
         /// <para>

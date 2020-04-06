@@ -41,10 +41,11 @@ namespace Amazon.Glue.Model
         /// <summary>
         /// Gets and sets the property CatalogId. 
         /// <para>
-        /// The ID of the Data Catalog where the partition in question resides. If none is supplied,
+        /// The ID of the Data Catalog where the partition in question resides. If none is provided,
         /// the AWS account ID is used by default.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=255)]
         public string CatalogId
         {
             get { return this._catalogId; }
@@ -63,6 +64,7 @@ namespace Amazon.Glue.Model
         /// The name of the catalog database where the partition resides.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string DatabaseName
         {
             get { return this._databaseName; }
@@ -81,6 +83,7 @@ namespace Amazon.Glue.Model
         /// The values that define the partition.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> PartitionValues
         {
             get { return this._partitionValues; }
@@ -99,6 +102,7 @@ namespace Amazon.Glue.Model
         /// The name of the partition's table.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=255)]
         public string TableName
         {
             get { return this._tableName; }

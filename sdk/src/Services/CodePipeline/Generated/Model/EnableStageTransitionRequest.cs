@@ -44,6 +44,7 @@ namespace Amazon.CodePipeline.Model
         /// stage to another.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string PipelineName
         {
             get { return this._pipelineName; }
@@ -63,6 +64,7 @@ namespace Amazon.CodePipeline.Model
         /// into the stage (inbound) or from that stage to the next stage (outbound).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=100)]
         public string StageName
         {
             get { return this._stageName; }
@@ -78,11 +80,12 @@ namespace Amazon.CodePipeline.Model
         /// <summary>
         /// Gets and sets the property TransitionType. 
         /// <para>
-        /// Specifies whether artifacts will be allowed to enter the stage and be processed by
-        /// the actions in that stage (inbound) or whether already-processed artifacts will be
-        /// allowed to transition to the next stage (outbound).
+        /// Specifies whether artifacts are allowed to enter the stage and be processed by the
+        /// actions in that stage (inbound) or whether already processed artifacts are allowed
+        /// to transition to the next stage (outbound).
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public StageTransitionType TransitionType
         {
             get { return this._transitionType; }

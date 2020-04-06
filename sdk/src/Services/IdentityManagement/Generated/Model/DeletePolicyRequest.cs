@@ -34,8 +34,8 @@ namespace Amazon.IdentityManagement.Model
     ///  
     /// <para>
     /// Before you can delete a managed policy, you must first detach the policy from all
-    /// users, groups, and roles that it is attached to. In addition you must delete all the
-    /// policy's versions. The following steps describe the process for deleting a managed
+    /// users, groups, and roles that it is attached to. In addition, you must delete all
+    /// the policy's versions. The following steps describe the process for deleting a managed
     /// policy:
     /// </para>
     ///  <ul> <li> 
@@ -59,7 +59,7 @@ namespace Amazon.IdentityManagement.Model
     /// </para>
     ///  </li> </ul> 
     /// <para>
-    /// For information about managed policies, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
+    /// For information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
     /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
     /// </para>
     /// </summary>
@@ -74,10 +74,11 @@ namespace Amazon.IdentityManagement.Model
         /// </para>
         ///  
         /// <para>
-        /// For more information about ARNs, see <a href="http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+        /// For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
         /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General Reference</i>.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=20, Max=2048)]
         public string PolicyArn
         {
             get { return this._policyArn; }

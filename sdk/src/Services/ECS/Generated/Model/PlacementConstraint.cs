@@ -29,8 +29,14 @@ namespace Amazon.ECS.Model
 {
     /// <summary>
     /// An object representing a constraint on task placement. For more information, see <a
-    /// href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html">Task
+    /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html">Task
     /// Placement Constraints</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+    /// 
+    ///  <note> 
+    /// <para>
+    /// If you are using the Fargate launch type, task placement constraints are not supported.
+    /// </para>
+    ///  </note>
     /// </summary>
     public partial class PlacementConstraint
     {
@@ -40,9 +46,9 @@ namespace Amazon.ECS.Model
         /// <summary>
         /// Gets and sets the property Expression. 
         /// <para>
-        /// A cluster query language expression to apply to the constraint. Note you cannot specify
+        /// A cluster query language expression to apply to the constraint. You cannot specify
         /// an expression if the constraint type is <code>distinctInstance</code>. For more information,
-        /// see <a href="http://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
+        /// see <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html">Cluster
         /// Query Language</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
         /// </para>
         /// </summary>
@@ -63,8 +69,7 @@ namespace Amazon.ECS.Model
         /// <para>
         /// The type of constraint. Use <code>distinctInstance</code> to ensure that each task
         /// in a particular group is running on a different container instance. Use <code>memberOf</code>
-        /// to restrict the selection to a group of valid candidates. The value <code>distinctInstance</code>
-        /// is not supported in task definitions.
+        /// to restrict the selection to a group of valid candidates.
         /// </para>
         /// </summary>
         public PlacementConstraintType Type

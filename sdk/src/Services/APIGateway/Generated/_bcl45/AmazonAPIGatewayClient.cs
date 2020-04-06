@@ -23,9 +23,11 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.APIGateway.Model;
 using Amazon.APIGateway.Model.Internal.MarshallTransformations;
+using Amazon.APIGateway.Internal;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
@@ -46,6 +48,7 @@ namespace Amazon.APIGateway
     /// </summary>
     public partial class AmazonAPIGatewayClient : AmazonServiceClient, IAmazonAPIGateway
     {
+        private static IServiceMetadata serviceMetadata = new AmazonAPIGatewayMetadata();
         #region Constructors
 
         /// <summary>
@@ -223,6 +226,16 @@ namespace Amazon.APIGateway
         {
             pipeline.AddHandlerAfter<Amazon.Runtime.Internal.Marshaller>(new Amazon.APIGateway.Internal.AmazonAPIGatewayPostMarshallHandler());
         }    
+        /// <summary>
+        /// Capture metadata for the service.
+        /// </summary>
+        protected override IServiceMetadata ServiceMetadata
+        {
+            get
+            {
+                return serviceMetadata;
+            }
+        }
 
         #endregion
 
@@ -238,14 +251,14 @@ namespace Amazon.APIGateway
 
         #endregion
 
-        
+
         #region  CreateApiKey
 
 
         /// <summary>
         /// Create an <a>ApiKey</a> resource. 
         /// 
-        ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/create-api-key.html">AWS
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-api-key.html">AWS
         /// CLI</a></div>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateApiKey service method.</param>
@@ -272,28 +285,52 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateApiKeyResponse CreateApiKey(CreateApiKeyRequest request)
         {
-            var marshaller = CreateApiKeyRequestMarshaller.Instance;
-            var unmarshaller = CreateApiKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateApiKeyResponseUnmarshaller.Instance;
 
-            return Invoke<CreateApiKeyRequest,CreateApiKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateApiKeyResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateApiKey operation.
-        /// </summary>
+        /// Create an <a>ApiKey</a> resource. 
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateApiKey operation.</param>
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-api-key.html">AWS
+        /// CLI</a></div>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateApiKey service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateApiKey service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateApiKeyResponse> CreateApiKeyAsync(CreateApiKeyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateApiKeyRequestMarshaller.Instance;
-            var unmarshaller = CreateApiKeyResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateApiKeyRequest,CreateApiKeyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateApiKeyResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateApiKeyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -304,7 +341,7 @@ namespace Amazon.APIGateway
         /// <summary>
         /// Adds a new <a>Authorizer</a> resource to an existing <a>RestApi</a> resource.
         /// 
-        ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS
         /// CLI</a></div>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateAuthorizer service method.</param>
@@ -328,28 +365,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateAuthorizerResponse CreateAuthorizer(CreateAuthorizerRequest request)
         {
-            var marshaller = CreateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<CreateAuthorizerRequest,CreateAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateAuthorizerResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateAuthorizer operation.
-        /// </summary>
+        /// Adds a new <a>Authorizer</a> resource to an existing <a>RestApi</a> resource.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateAuthorizer operation.</param>
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS
+        /// CLI</a></div>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateAuthorizer service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateAuthorizer service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateAuthorizerResponse> CreateAuthorizerAsync(CreateAuthorizerRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateAuthorizerRequest,CreateAuthorizerResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateAuthorizerResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateAuthorizerResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -381,28 +439,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateBasePathMappingResponse CreateBasePathMapping(CreateBasePathMappingRequest request)
         {
-            var marshaller = CreateBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = CreateBasePathMappingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBasePathMappingResponseUnmarshaller.Instance;
 
-            return Invoke<CreateBasePathMappingRequest,CreateBasePathMappingResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateBasePathMappingResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateBasePathMapping operation.
+        /// Creates a new <a>BasePathMapping</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateBasePathMapping operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateBasePathMapping service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateBasePathMapping service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateBasePathMappingResponse> CreateBasePathMappingAsync(CreateBasePathMappingRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = CreateBasePathMappingResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateBasePathMappingRequest,CreateBasePathMappingResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateBasePathMappingResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateBasePathMappingResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -442,28 +518,54 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateDeploymentResponse CreateDeployment(CreateDeploymentRequest request)
         {
-            var marshaller = CreateDeploymentRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDeploymentRequest,CreateDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDeploymentResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDeployment operation.
+        /// Creates a <a>Deployment</a> resource, which makes a specified <a>RestApi</a> callable
+        /// over the internet.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDeployment operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDeployment service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDeployment service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ServiceUnavailableException">
+        /// The requested service is not available. For details see the accompanying error message.
+        /// Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateDeploymentResponse> CreateDeploymentAsync(CreateDeploymentRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDeploymentRequestMarshaller.Instance;
-            var unmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateDeploymentRequest,CreateDeploymentResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDeploymentResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateDeploymentResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -498,28 +600,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateDocumentationPartResponse CreateDocumentationPart(CreateDocumentationPartRequest request)
         {
-            var marshaller = CreateDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = CreateDocumentationPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDocumentationPartResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDocumentationPartRequest,CreateDocumentationPartResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDocumentationPartResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDocumentationPart operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDocumentationPart operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDocumentationPart service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDocumentationPart service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateDocumentationPartResponse> CreateDocumentationPartAsync(CreateDocumentationPartRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = CreateDocumentationPartResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateDocumentationPartRequest,CreateDocumentationPartResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDocumentationPartResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateDocumentationPartResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -554,28 +677,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateDocumentationVersionResponse CreateDocumentationVersion(CreateDocumentationVersionRequest request)
         {
-            var marshaller = CreateDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = CreateDocumentationVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDocumentationVersionResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDocumentationVersionRequest,CreateDocumentationVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDocumentationVersionResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDocumentationVersion operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDocumentationVersion operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDocumentationVersion service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDocumentationVersion service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateDocumentationVersionResponse> CreateDocumentationVersionAsync(CreateDocumentationVersionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = CreateDocumentationVersionResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateDocumentationVersionRequest,CreateDocumentationVersionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDocumentationVersionResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateDocumentationVersionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -604,28 +748,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateDomainNameResponse CreateDomainName(CreateDomainNameRequest request)
         {
-            var marshaller = CreateDomainNameRequestMarshaller.Instance;
-            var unmarshaller = CreateDomainNameResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainNameResponseUnmarshaller.Instance;
 
-            return Invoke<CreateDomainNameRequest,CreateDomainNameResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateDomainNameResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateDomainName operation.
+        /// Creates a new domain name.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateDomainName operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateDomainName service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateDomainName service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateDomainNameResponse> CreateDomainNameAsync(CreateDomainNameRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateDomainNameRequestMarshaller.Instance;
-            var unmarshaller = CreateDomainNameResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateDomainNameRequest,CreateDomainNameResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateDomainNameResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateDomainNameResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -660,28 +819,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateModelResponse CreateModel(CreateModelRequest request)
         {
-            var marshaller = CreateModelRequestMarshaller.Instance;
-            var unmarshaller = CreateModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateModelResponseUnmarshaller.Instance;
 
-            return Invoke<CreateModelRequest,CreateModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateModelResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateModel operation.
+        /// Adds a new <a>Model</a> resource to an existing <a>RestApi</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateModel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateModel service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateModelResponse> CreateModelAsync(CreateModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateModelRequestMarshaller.Instance;
-            var unmarshaller = CreateModelResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateModelRequest,CreateModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateModelResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateModelResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -713,28 +893,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateRequestValidatorResponse CreateRequestValidator(CreateRequestValidatorRequest request)
         {
-            var marshaller = CreateRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = CreateRequestValidatorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRequestValidatorResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRequestValidatorRequest,CreateRequestValidatorResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRequestValidatorResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateRequestValidator operation.
+        /// Creates a <a>ReqeustValidator</a> of a given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateRequestValidator operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRequestValidator service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateRequestValidator service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateRequestValidatorResponse> CreateRequestValidatorAsync(CreateRequestValidatorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = CreateRequestValidatorResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateRequestValidatorRequest,CreateRequestValidatorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRequestValidatorResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateRequestValidatorResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -769,28 +967,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateResourceResponse CreateResource(CreateResourceRequest request)
         {
-            var marshaller = CreateResourceRequestMarshaller.Instance;
-            var unmarshaller = CreateResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateResourceResponseUnmarshaller.Instance;
 
-            return Invoke<CreateResourceRequest,CreateResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateResourceResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateResource operation.
+        /// Creates a <a>Resource</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateResource service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateResourceResponse> CreateResourceAsync(CreateResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateResourceRequestMarshaller.Instance;
-            var unmarshaller = CreateResourceResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateResourceRequest,CreateResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateResourceResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -819,28 +1038,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateRestApiResponse CreateRestApi(CreateRestApiRequest request)
         {
-            var marshaller = CreateRestApiRequestMarshaller.Instance;
-            var unmarshaller = CreateRestApiResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRestApiResponseUnmarshaller.Instance;
 
-            return Invoke<CreateRestApiRequest,CreateRestApiResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateRestApiResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateRestApi operation.
+        /// Creates a new <a>RestApi</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateRestApi operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateRestApi service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateRestApi service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateRestApiResponse> CreateRestApiAsync(CreateRestApiRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateRestApiRequestMarshaller.Instance;
-            var unmarshaller = CreateRestApiResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateRestApiRequest,CreateRestApiResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateRestApiResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateRestApiResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -876,28 +1110,50 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateStageResponse CreateStage(CreateStageRequest request)
         {
-            var marshaller = CreateStageRequestMarshaller.Instance;
-            var unmarshaller = CreateStageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStageResponseUnmarshaller.Instance;
 
-            return Invoke<CreateStageRequest,CreateStageResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateStageResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateStage operation.
+        /// Creates a new <a>Stage</a> resource that references a pre-existing <a>Deployment</a>
+        /// for the API.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateStage operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateStage service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateStage service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateStageResponse> CreateStageAsync(CreateStageRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateStageRequestMarshaller.Instance;
-            var unmarshaller = CreateStageResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateStageRequest,CreateStageResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateStageResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateStageResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -933,28 +1189,50 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateUsagePlanResponse CreateUsagePlan(CreateUsagePlanRequest request)
         {
-            var marshaller = CreateUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = CreateUsagePlanResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUsagePlanResponseUnmarshaller.Instance;
 
-            return Invoke<CreateUsagePlanRequest,CreateUsagePlanResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateUsagePlanResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateUsagePlan operation.
+        /// Creates a usage plan with the throttle and quota limits, as well as the associated
+        /// API stages, specified in the payload.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateUsagePlan operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateUsagePlan service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateUsagePlan service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateUsagePlanResponse> CreateUsagePlanAsync(CreateUsagePlanRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = CreateUsagePlanResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateUsagePlanRequest,CreateUsagePlanResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUsagePlanResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateUsagePlanResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -986,28 +1264,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateUsagePlanKeyResponse CreateUsagePlanKey(CreateUsagePlanKeyRequest request)
         {
-            var marshaller = CreateUsagePlanKeyRequestMarshaller.Instance;
-            var unmarshaller = CreateUsagePlanKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUsagePlanKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUsagePlanKeyResponseUnmarshaller.Instance;
 
-            return Invoke<CreateUsagePlanKeyRequest,CreateUsagePlanKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateUsagePlanKeyResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateUsagePlanKey operation.
+        /// Creates a usage plan key for adding an existing API key to a usage plan.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateUsagePlanKey operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateUsagePlanKey service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateUsagePlanKey service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateUsagePlanKeyResponse> CreateUsagePlanKeyAsync(CreateUsagePlanKeyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateUsagePlanKeyRequestMarshaller.Instance;
-            var unmarshaller = CreateUsagePlanKeyResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateUsagePlanKeyRequest,CreateUsagePlanKeyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateUsagePlanKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateUsagePlanKeyResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateUsagePlanKeyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1035,28 +1331,42 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual CreateVpcLinkResponse CreateVpcLink(CreateVpcLinkRequest request)
         {
-            var marshaller = CreateVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = CreateVpcLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVpcLinkResponseUnmarshaller.Instance;
 
-            return Invoke<CreateVpcLinkRequest,CreateVpcLinkResponse>(request, marshaller, unmarshaller);
+            return Invoke<CreateVpcLinkResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the CreateVpcLink operation.
+        /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous
+        /// operation that typically takes 2-4 minutes to complete and become operational. The
+        /// caller must have permissions to create and update VPC Endpoint services.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the CreateVpcLink operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the CreateVpcLink service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the CreateVpcLink service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<CreateVpcLinkResponse> CreateVpcLinkAsync(CreateVpcLinkRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = CreateVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = CreateVpcLinkResponseUnmarshaller.Instance;
-
-            return InvokeAsync<CreateVpcLinkRequest,CreateVpcLinkResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = CreateVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = CreateVpcLinkResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<CreateVpcLinkResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1081,28 +1391,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteApiKeyResponse DeleteApiKey(DeleteApiKeyRequest request)
         {
-            var marshaller = DeleteApiKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteApiKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApiKeyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteApiKeyRequest,DeleteApiKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteApiKeyResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteApiKey operation.
+        /// Deletes the <a>ApiKey</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteApiKey operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteApiKey service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteApiKey service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteApiKeyResponse> DeleteApiKeyAsync(DeleteApiKeyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteApiKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteApiKeyResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteApiKeyRequest,DeleteApiKeyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteApiKeyResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteApiKeyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1113,7 +1434,7 @@ namespace Amazon.APIGateway
         /// <summary>
         /// Deletes an existing <a>Authorizer</a> resource.
         /// 
-        ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/delete-authorizer.html">AWS
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/delete-authorizer.html">AWS
         /// CLI</a></div>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DeleteAuthorizer service method.</param>
@@ -1137,28 +1458,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteAuthorizerResponse DeleteAuthorizer(DeleteAuthorizerRequest request)
         {
-            var marshaller = DeleteAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteAuthorizerRequest,DeleteAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteAuthorizerResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteAuthorizer operation.
-        /// </summary>
+        /// Deletes an existing <a>Authorizer</a> resource.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteAuthorizer operation.</param>
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/delete-authorizer.html">AWS
+        /// CLI</a></div>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteAuthorizer service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteAuthorizer service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteAuthorizerResponse> DeleteAuthorizerAsync(DeleteAuthorizerRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteAuthorizerRequest,DeleteAuthorizerResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteAuthorizerResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteAuthorizerResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1190,28 +1532,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteBasePathMappingResponse DeleteBasePathMapping(DeleteBasePathMappingRequest request)
         {
-            var marshaller = DeleteBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = DeleteBasePathMappingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBasePathMappingResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteBasePathMappingRequest,DeleteBasePathMappingResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteBasePathMappingResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteBasePathMapping operation.
+        /// Deletes the <a>BasePathMapping</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteBasePathMapping operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteBasePathMapping service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteBasePathMapping service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteBasePathMappingResponse> DeleteBasePathMappingAsync(DeleteBasePathMappingRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = DeleteBasePathMappingResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteBasePathMappingRequest,DeleteBasePathMappingResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteBasePathMappingResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteBasePathMappingResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1240,28 +1600,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteClientCertificateResponse DeleteClientCertificate(DeleteClientCertificateRequest request)
         {
-            var marshaller = DeleteClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClientCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteClientCertificateRequest,DeleteClientCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteClientCertificateResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteClientCertificate operation.
+        /// Deletes the <a>ClientCertificate</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteClientCertificate operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteClientCertificate service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteClientCertificate service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteClientCertificateResponse> DeleteClientCertificateAsync(DeleteClientCertificateRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = DeleteClientCertificateResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteClientCertificateRequest,DeleteClientCertificateResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteClientCertificateResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteClientCertificateResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1291,28 +1666,44 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteDeploymentResponse DeleteDeployment(DeleteDeploymentRequest request)
         {
-            var marshaller = DeleteDeploymentRequestMarshaller.Instance;
-            var unmarshaller = DeleteDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDeploymentRequest,DeleteDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDeploymentResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteDeployment operation.
+        /// Deletes a <a>Deployment</a> resource. Deleting a deployment will only succeed if there
+        /// are no <a>Stage</a> resources associated with it.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteDeployment operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDeployment service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteDeployment service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteDeploymentResponse> DeleteDeploymentAsync(DeleteDeploymentRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteDeploymentRequestMarshaller.Instance;
-            var unmarshaller = DeleteDeploymentResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteDeploymentRequest,DeleteDeploymentResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDeploymentResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteDeploymentResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1344,28 +1735,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteDocumentationPartResponse DeleteDocumentationPart(DeleteDocumentationPartRequest request)
         {
-            var marshaller = DeleteDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = DeleteDocumentationPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDocumentationPartResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDocumentationPartRequest,DeleteDocumentationPartResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDocumentationPartResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteDocumentationPart operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteDocumentationPart operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDocumentationPart service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteDocumentationPart service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteDocumentationPartResponse> DeleteDocumentationPartAsync(DeleteDocumentationPartRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = DeleteDocumentationPartResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteDocumentationPartRequest,DeleteDocumentationPartResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDocumentationPartResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteDocumentationPartResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1397,28 +1806,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteDocumentationVersionResponse DeleteDocumentationVersion(DeleteDocumentationVersionRequest request)
         {
-            var marshaller = DeleteDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = DeleteDocumentationVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDocumentationVersionResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDocumentationVersionRequest,DeleteDocumentationVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDocumentationVersionResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteDocumentationVersion operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteDocumentationVersion operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDocumentationVersion service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteDocumentationVersion service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteDocumentationVersionResponse> DeleteDocumentationVersionAsync(DeleteDocumentationVersionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = DeleteDocumentationVersionResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteDocumentationVersionRequest,DeleteDocumentationVersionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDocumentationVersionResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteDocumentationVersionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1432,6 +1859,10 @@ namespace Amazon.APIGateway
         /// <param name="request">Container for the necessary parameters to execute the DeleteDomainName service method.</param>
         /// 
         /// <returns>The response from the DeleteDomainName service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
         /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
         /// The requested resource is not found. Make sure that the request URI is correct.
         /// </exception>
@@ -1443,28 +1874,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteDomainNameResponse DeleteDomainName(DeleteDomainNameRequest request)
         {
-            var marshaller = DeleteDomainNameRequestMarshaller.Instance;
-            var unmarshaller = DeleteDomainNameResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainNameResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteDomainNameRequest,DeleteDomainNameResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteDomainNameResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteDomainName operation.
+        /// Deletes the <a>DomainName</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteDomainName operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteDomainName service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteDomainName service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteDomainNameResponse> DeleteDomainNameAsync(DeleteDomainNameRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteDomainNameRequestMarshaller.Instance;
-            var unmarshaller = DeleteDomainNameResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteDomainNameRequest,DeleteDomainNameResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteDomainNameResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteDomainNameResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1497,28 +1943,47 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteGatewayResponseResponse DeleteGatewayResponse(DeleteGatewayResponseRequest request)
         {
-            var marshaller = DeleteGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = DeleteGatewayResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGatewayResponseResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteGatewayResponseRequest,DeleteGatewayResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteGatewayResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteGatewayResponse operation.
+        /// Clears any customization of a <a>GatewayResponse</a> of a specified response type
+        /// on the given <a>RestApi</a> and resets it with the default settings.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteGatewayResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteGatewayResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteGatewayResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteGatewayResponseResponse> DeleteGatewayResponseAsync(DeleteGatewayResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = DeleteGatewayResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteGatewayResponseRequest,DeleteGatewayResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteGatewayResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteGatewayResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1546,28 +2011,42 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteIntegrationResponse DeleteIntegration(DeleteIntegrationRequest request)
         {
-            var marshaller = DeleteIntegrationRequestMarshaller.Instance;
-            var unmarshaller = DeleteIntegrationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIntegrationResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteIntegrationRequest,DeleteIntegrationResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteIntegrationResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteIntegration operation.
+        /// Represents a delete integration.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteIntegration operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteIntegration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteIntegration service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteIntegrationResponse> DeleteIntegrationAsync(DeleteIntegrationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteIntegrationRequestMarshaller.Instance;
-            var unmarshaller = DeleteIntegrationResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteIntegrationRequest,DeleteIntegrationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIntegrationResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteIntegrationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1599,28 +2078,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteIntegrationResponseResponse DeleteIntegrationResponse(DeleteIntegrationResponseRequest request)
         {
-            var marshaller = DeleteIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = DeleteIntegrationResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIntegrationResponseResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteIntegrationResponseRequest,DeleteIntegrationResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteIntegrationResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteIntegrationResponse operation.
+        /// Represents a delete integration response.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteIntegrationResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteIntegrationResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteIntegrationResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteIntegrationResponseResponse> DeleteIntegrationResponseAsync(DeleteIntegrationResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = DeleteIntegrationResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteIntegrationResponseRequest,DeleteIntegrationResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteIntegrationResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteIntegrationResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1648,28 +2145,42 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteMethodResponse DeleteMethod(DeleteMethodRequest request)
         {
-            var marshaller = DeleteMethodRequestMarshaller.Instance;
-            var unmarshaller = DeleteMethodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMethodResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteMethodRequest,DeleteMethodResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteMethodResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteMethod operation.
+        /// Deletes an existing <a>Method</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteMethod operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMethod service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteMethod service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteMethodResponse> DeleteMethodAsync(DeleteMethodRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteMethodRequestMarshaller.Instance;
-            var unmarshaller = DeleteMethodResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteMethodRequest,DeleteMethodResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMethodResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteMethodResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1701,28 +2212,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteMethodResponseResponse DeleteMethodResponse(DeleteMethodResponseRequest request)
         {
-            var marshaller = DeleteMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = DeleteMethodResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMethodResponseResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteMethodResponseRequest,DeleteMethodResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteMethodResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteMethodResponse operation.
+        /// Deletes an existing <a>MethodResponse</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteMethodResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteMethodResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteMethodResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteMethodResponseResponse> DeleteMethodResponseAsync(DeleteMethodResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = DeleteMethodResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteMethodResponseRequest,DeleteMethodResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteMethodResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteMethodResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1754,28 +2283,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteModelResponse DeleteModel(DeleteModelRequest request)
         {
-            var marshaller = DeleteModelRequestMarshaller.Instance;
-            var unmarshaller = DeleteModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteModelResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteModelRequest,DeleteModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteModelResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteModel operation.
+        /// Deletes a model.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteModel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteModel service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteModelResponse> DeleteModelAsync(DeleteModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteModelRequestMarshaller.Instance;
-            var unmarshaller = DeleteModelResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteModelRequest,DeleteModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteModelResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteModelResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1807,28 +2354,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteRequestValidatorResponse DeleteRequestValidator(DeleteRequestValidatorRequest request)
         {
-            var marshaller = DeleteRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = DeleteRequestValidatorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRequestValidatorResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRequestValidatorRequest,DeleteRequestValidatorResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRequestValidatorResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteRequestValidator operation.
+        /// Deletes a <a>RequestValidator</a> of a given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteRequestValidator operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRequestValidator service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteRequestValidator service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteRequestValidatorResponse> DeleteRequestValidatorAsync(DeleteRequestValidatorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = DeleteRequestValidatorResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteRequestValidatorRequest,DeleteRequestValidatorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRequestValidatorResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteRequestValidatorResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1860,28 +2425,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteResourceResponse DeleteResource(DeleteResourceRequest request)
         {
-            var marshaller = DeleteResourceRequestMarshaller.Instance;
-            var unmarshaller = DeleteResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourceResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteResourceRequest,DeleteResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteResourceResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteResource operation.
+        /// Deletes a <a>Resource</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteResource service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteResourceResponse> DeleteResourceAsync(DeleteResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteResourceRequestMarshaller.Instance;
-            var unmarshaller = DeleteResourceResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteResourceRequest,DeleteResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteResourceResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1910,28 +2493,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteRestApiResponse DeleteRestApi(DeleteRestApiRequest request)
         {
-            var marshaller = DeleteRestApiRequestMarshaller.Instance;
-            var unmarshaller = DeleteRestApiResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRestApiResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteRestApiRequest,DeleteRestApiResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteRestApiResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteRestApi operation.
+        /// Deletes the specified API.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteRestApi operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteRestApi service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteRestApi service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteRestApiResponse> DeleteRestApiAsync(DeleteRestApiRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteRestApiRequestMarshaller.Instance;
-            var unmarshaller = DeleteRestApiResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteRestApiRequest,DeleteRestApiResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteRestApiResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteRestApiResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -1960,28 +2558,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteStageResponse DeleteStage(DeleteStageRequest request)
         {
-            var marshaller = DeleteStageRequestMarshaller.Instance;
-            var unmarshaller = DeleteStageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStageResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteStageRequest,DeleteStageResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteStageResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteStage operation.
+        /// Deletes a <a>Stage</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteStage operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteStage service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteStage service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteStageResponse> DeleteStageAsync(DeleteStageRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteStageRequestMarshaller.Instance;
-            var unmarshaller = DeleteStageResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteStageRequest,DeleteStageResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteStageResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteStageResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2010,28 +2623,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteUsagePlanResponse DeleteUsagePlan(DeleteUsagePlanRequest request)
         {
-            var marshaller = DeleteUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = DeleteUsagePlanResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUsagePlanResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteUsagePlanRequest,DeleteUsagePlanResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteUsagePlanResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteUsagePlan operation.
+        /// Deletes a usage plan of a given plan Id.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteUsagePlan operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUsagePlan service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteUsagePlan service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteUsagePlanResponse> DeleteUsagePlanAsync(DeleteUsagePlanRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = DeleteUsagePlanResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteUsagePlanRequest,DeleteUsagePlanResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUsagePlanResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteUsagePlanResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2064,28 +2692,47 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteUsagePlanKeyResponse DeleteUsagePlanKey(DeleteUsagePlanKeyRequest request)
         {
-            var marshaller = DeleteUsagePlanKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteUsagePlanKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUsagePlanKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUsagePlanKeyResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteUsagePlanKeyRequest,DeleteUsagePlanKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteUsagePlanKeyResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteUsagePlanKey operation.
+        /// Deletes a usage plan key and remove the underlying API key from the associated usage
+        /// plan.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteUsagePlanKey operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteUsagePlanKey service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteUsagePlanKey service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteUsagePlanKeyResponse> DeleteUsagePlanKeyAsync(DeleteUsagePlanKeyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteUsagePlanKeyRequestMarshaller.Instance;
-            var unmarshaller = DeleteUsagePlanKeyResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteUsagePlanKeyRequest,DeleteUsagePlanKeyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteUsagePlanKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteUsagePlanKeyResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteUsagePlanKeyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2114,28 +2761,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual DeleteVpcLinkResponse DeleteVpcLink(DeleteVpcLinkRequest request)
         {
-            var marshaller = DeleteVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = DeleteVpcLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVpcLinkResponseUnmarshaller.Instance;
 
-            return Invoke<DeleteVpcLinkRequest,DeleteVpcLinkResponse>(request, marshaller, unmarshaller);
+            return Invoke<DeleteVpcLinkResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the DeleteVpcLink operation.
+        /// Deletes an existing <a>VpcLink</a> of a specified identifier.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the DeleteVpcLink operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DeleteVpcLink service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the DeleteVpcLink service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<DeleteVpcLinkResponse> DeleteVpcLinkAsync(DeleteVpcLinkRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = DeleteVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = DeleteVpcLinkResponseUnmarshaller.Instance;
-
-            return InvokeAsync<DeleteVpcLinkRequest,DeleteVpcLinkResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = DeleteVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = DeleteVpcLinkResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<DeleteVpcLinkResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2164,28 +2826,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual FlushStageAuthorizersCacheResponse FlushStageAuthorizersCache(FlushStageAuthorizersCacheRequest request)
         {
-            var marshaller = FlushStageAuthorizersCacheRequestMarshaller.Instance;
-            var unmarshaller = FlushStageAuthorizersCacheResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FlushStageAuthorizersCacheRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FlushStageAuthorizersCacheResponseUnmarshaller.Instance;
 
-            return Invoke<FlushStageAuthorizersCacheRequest,FlushStageAuthorizersCacheResponse>(request, marshaller, unmarshaller);
+            return Invoke<FlushStageAuthorizersCacheResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the FlushStageAuthorizersCache operation.
+        /// Flushes all authorizer cache entries on a stage.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the FlushStageAuthorizersCache operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the FlushStageAuthorizersCache service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the FlushStageAuthorizersCache service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<FlushStageAuthorizersCacheResponse> FlushStageAuthorizersCacheAsync(FlushStageAuthorizersCacheRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = FlushStageAuthorizersCacheRequestMarshaller.Instance;
-            var unmarshaller = FlushStageAuthorizersCacheResponseUnmarshaller.Instance;
-
-            return InvokeAsync<FlushStageAuthorizersCacheRequest,FlushStageAuthorizersCacheResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FlushStageAuthorizersCacheRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FlushStageAuthorizersCacheResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<FlushStageAuthorizersCacheResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2214,28 +2891,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual FlushStageCacheResponse FlushStageCache(FlushStageCacheRequest request)
         {
-            var marshaller = FlushStageCacheRequestMarshaller.Instance;
-            var unmarshaller = FlushStageCacheResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FlushStageCacheRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FlushStageCacheResponseUnmarshaller.Instance;
 
-            return Invoke<FlushStageCacheRequest,FlushStageCacheResponse>(request, marshaller, unmarshaller);
+            return Invoke<FlushStageCacheResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the FlushStageCache operation.
+        /// Flushes a stage's cache.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the FlushStageCache operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the FlushStageCache service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the FlushStageCache service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<FlushStageCacheResponse> FlushStageCacheAsync(FlushStageCacheRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = FlushStageCacheRequestMarshaller.Instance;
-            var unmarshaller = FlushStageCacheResponseUnmarshaller.Instance;
-
-            return InvokeAsync<FlushStageCacheRequest,FlushStageCacheResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = FlushStageCacheRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = FlushStageCacheResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<FlushStageCacheResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2260,28 +2952,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GenerateClientCertificateResponse GenerateClientCertificate(GenerateClientCertificateRequest request)
         {
-            var marshaller = GenerateClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = GenerateClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateClientCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<GenerateClientCertificateRequest,GenerateClientCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<GenerateClientCertificateResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GenerateClientCertificate operation.
+        /// Generates a <a>ClientCertificate</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GenerateClientCertificate operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GenerateClientCertificate service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GenerateClientCertificate service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GenerateClientCertificateResponse> GenerateClientCertificateAsync(GenerateClientCertificateRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GenerateClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = GenerateClientCertificateResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GenerateClientCertificateRequest,GenerateClientCertificateResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GenerateClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GenerateClientCertificateResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GenerateClientCertificateResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2306,28 +3009,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetAccountResponse GetAccount(GetAccountRequest request)
         {
-            var marshaller = GetAccountRequestMarshaller.Instance;
-            var unmarshaller = GetAccountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountResponseUnmarshaller.Instance;
 
-            return Invoke<GetAccountRequest,GetAccountResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAccountResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetAccount operation.
+        /// Gets information about the current <a>Account</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetAccount operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetAccount service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetAccount service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetAccountResponse> GetAccountAsync(GetAccountRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetAccountRequestMarshaller.Instance;
-            var unmarshaller = GetAccountResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetAccountRequest,GetAccountResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAccountResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetAccountResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2352,28 +3066,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetApiKeyResponse GetApiKey(GetApiKeyRequest request)
         {
-            var marshaller = GetApiKeyRequestMarshaller.Instance;
-            var unmarshaller = GetApiKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApiKeyResponseUnmarshaller.Instance;
 
-            return Invoke<GetApiKeyRequest,GetApiKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApiKeyResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetApiKey operation.
+        /// Gets information about the current <a>ApiKey</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetApiKey operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetApiKey service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetApiKey service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetApiKeyResponse> GetApiKeyAsync(GetApiKeyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetApiKeyRequestMarshaller.Instance;
-            var unmarshaller = GetApiKeyResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetApiKeyRequest,GetApiKeyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApiKeyResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetApiKeyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2399,28 +3124,40 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetApiKeysResponse GetApiKeys(GetApiKeysRequest request)
         {
-            var marshaller = GetApiKeysRequestMarshaller.Instance;
-            var unmarshaller = GetApiKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApiKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApiKeysResponseUnmarshaller.Instance;
 
-            return Invoke<GetApiKeysRequest,GetApiKeysResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetApiKeysResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetApiKeys operation.
+        /// Gets information about the current <a>ApiKeys</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetApiKeys operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetApiKeys service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetApiKeys service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetApiKeysResponse> GetApiKeysAsync(GetApiKeysRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetApiKeysRequestMarshaller.Instance;
-            var unmarshaller = GetApiKeysResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetApiKeysRequest,GetApiKeysResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetApiKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetApiKeysResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetApiKeysResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2431,7 +3168,7 @@ namespace Amazon.APIGateway
         /// <summary>
         /// Describe an existing <a>Authorizer</a> resource.
         /// 
-        ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizer.html">AWS
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizer.html">AWS
         /// CLI</a></div>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAuthorizer service method.</param>
@@ -2448,28 +3185,42 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetAuthorizerResponse GetAuthorizer(GetAuthorizerRequest request)
         {
-            var marshaller = GetAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = GetAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<GetAuthorizerRequest,GetAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAuthorizerResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetAuthorizer operation.
-        /// </summary>
+        /// Describe an existing <a>Authorizer</a> resource.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetAuthorizer operation.</param>
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizer.html">AWS
+        /// CLI</a></div>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAuthorizer service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetAuthorizer service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetAuthorizerResponse> GetAuthorizerAsync(GetAuthorizerRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = GetAuthorizerResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetAuthorizerRequest,GetAuthorizerResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAuthorizerResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetAuthorizerResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2480,7 +3231,7 @@ namespace Amazon.APIGateway
         /// <summary>
         /// Describe an existing <a>Authorizers</a> resource.
         /// 
-        ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizers.html">AWS
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizers.html">AWS
         /// CLI</a></div>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the GetAuthorizers service method.</param>
@@ -2501,28 +3252,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetAuthorizersResponse GetAuthorizers(GetAuthorizersRequest request)
         {
-            var marshaller = GetAuthorizersRequestMarshaller.Instance;
-            var unmarshaller = GetAuthorizersResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAuthorizersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAuthorizersResponseUnmarshaller.Instance;
 
-            return Invoke<GetAuthorizersRequest,GetAuthorizersResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetAuthorizersResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetAuthorizers operation.
-        /// </summary>
+        /// Describe an existing <a>Authorizers</a> resource.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetAuthorizers operation.</param>
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizers.html">AWS
+        /// CLI</a></div>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetAuthorizers service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetAuthorizers service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetAuthorizersResponse> GetAuthorizersAsync(GetAuthorizersRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetAuthorizersRequestMarshaller.Instance;
-            var unmarshaller = GetAuthorizersResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetAuthorizersRequest,GetAuthorizersResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetAuthorizersRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetAuthorizersResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetAuthorizersResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2547,28 +3316,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetBasePathMappingResponse GetBasePathMapping(GetBasePathMappingRequest request)
         {
-            var marshaller = GetBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = GetBasePathMappingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBasePathMappingResponseUnmarshaller.Instance;
 
-            return Invoke<GetBasePathMappingRequest,GetBasePathMappingResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBasePathMappingResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetBasePathMapping operation.
+        /// Describe a <a>BasePathMapping</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetBasePathMapping operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetBasePathMapping service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetBasePathMapping service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetBasePathMappingResponse> GetBasePathMappingAsync(GetBasePathMappingRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = GetBasePathMappingResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetBasePathMappingRequest,GetBasePathMappingResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBasePathMappingResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetBasePathMappingResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2593,28 +3373,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetBasePathMappingsResponse GetBasePathMappings(GetBasePathMappingsRequest request)
         {
-            var marshaller = GetBasePathMappingsRequestMarshaller.Instance;
-            var unmarshaller = GetBasePathMappingsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBasePathMappingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBasePathMappingsResponseUnmarshaller.Instance;
 
-            return Invoke<GetBasePathMappingsRequest,GetBasePathMappingsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetBasePathMappingsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetBasePathMappings operation.
+        /// Represents a collection of <a>BasePathMapping</a> resources.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetBasePathMappings operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetBasePathMappings service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetBasePathMappings service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetBasePathMappingsResponse> GetBasePathMappingsAsync(GetBasePathMappingsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetBasePathMappingsRequestMarshaller.Instance;
-            var unmarshaller = GetBasePathMappingsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetBasePathMappingsRequest,GetBasePathMappingsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetBasePathMappingsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetBasePathMappingsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetBasePathMappingsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2639,28 +3430,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetClientCertificateResponse GetClientCertificate(GetClientCertificateRequest request)
         {
-            var marshaller = GetClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = GetClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetClientCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<GetClientCertificateRequest,GetClientCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetClientCertificateResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetClientCertificate operation.
+        /// Gets information about the current <a>ClientCertificate</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetClientCertificate operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetClientCertificate service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetClientCertificate service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetClientCertificateResponse> GetClientCertificateAsync(GetClientCertificateRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = GetClientCertificateResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetClientCertificateRequest,GetClientCertificateResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetClientCertificateResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetClientCertificateResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2686,28 +3488,40 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetClientCertificatesResponse GetClientCertificates(GetClientCertificatesRequest request)
         {
-            var marshaller = GetClientCertificatesRequestMarshaller.Instance;
-            var unmarshaller = GetClientCertificatesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetClientCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetClientCertificatesResponseUnmarshaller.Instance;
 
-            return Invoke<GetClientCertificatesRequest,GetClientCertificatesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetClientCertificatesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetClientCertificates operation.
+        /// Gets a collection of <a>ClientCertificate</a> resources.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetClientCertificates operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetClientCertificates service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetClientCertificates service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetClientCertificatesResponse> GetClientCertificatesAsync(GetClientCertificatesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetClientCertificatesRequestMarshaller.Instance;
-            var unmarshaller = GetClientCertificatesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetClientCertificatesRequest,GetClientCertificatesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetClientCertificatesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetClientCertificatesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetClientCertificatesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2736,28 +3550,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDeploymentResponse GetDeployment(GetDeploymentRequest request)
         {
-            var marshaller = GetDeploymentRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeploymentRequest,GetDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeploymentResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDeployment operation.
+        /// Gets information about a <a>Deployment</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDeployment operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetDeployment service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDeployment service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ServiceUnavailableException">
+        /// The requested service is not available. For details see the accompanying error message.
+        /// Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDeploymentResponse> GetDeploymentAsync(GetDeploymentRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDeploymentRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDeploymentRequest,GetDeploymentResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDeploymentResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2787,28 +3616,44 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDeploymentsResponse GetDeployments(GetDeploymentsRequest request)
         {
-            var marshaller = GetDeploymentsRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentsResponseUnmarshaller.Instance;
 
-            return Invoke<GetDeploymentsRequest,GetDeploymentsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDeploymentsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDeployments operation.
+        /// Gets information about a <a>Deployments</a> collection.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDeployments operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetDeployments service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDeployments service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ServiceUnavailableException">
+        /// The requested service is not available. For details see the accompanying error message.
+        /// Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDeploymentsResponse> GetDeploymentsAsync(GetDeploymentsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDeploymentsRequestMarshaller.Instance;
-            var unmarshaller = GetDeploymentsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDeploymentsRequest,GetDeploymentsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDeploymentsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDeploymentsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDeploymentsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2833,28 +3678,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDocumentationPartResponse GetDocumentationPart(GetDocumentationPartRequest request)
         {
-            var marshaller = GetDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationPartResponseUnmarshaller.Instance;
 
-            return Invoke<GetDocumentationPartRequest,GetDocumentationPartResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDocumentationPartResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDocumentationPart operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationPart operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationPart service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDocumentationPart service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDocumentationPartResponse> GetDocumentationPartAsync(GetDocumentationPartRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationPartResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDocumentationPartRequest,GetDocumentationPartResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationPartResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDocumentationPartResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2883,28 +3739,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDocumentationPartsResponse GetDocumentationParts(GetDocumentationPartsRequest request)
         {
-            var marshaller = GetDocumentationPartsRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationPartsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationPartsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationPartsResponseUnmarshaller.Instance;
 
-            return Invoke<GetDocumentationPartsRequest,GetDocumentationPartsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDocumentationPartsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDocumentationParts operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationParts operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationParts service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDocumentationParts service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDocumentationPartsResponse> GetDocumentationPartsAsync(GetDocumentationPartsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDocumentationPartsRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationPartsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDocumentationPartsRequest,GetDocumentationPartsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationPartsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationPartsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDocumentationPartsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2929,28 +3800,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDocumentationVersionResponse GetDocumentationVersion(GetDocumentationVersionRequest request)
         {
-            var marshaller = GetDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationVersionResponseUnmarshaller.Instance;
 
-            return Invoke<GetDocumentationVersionRequest,GetDocumentationVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDocumentationVersionResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDocumentationVersion operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationVersion operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationVersion service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDocumentationVersion service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDocumentationVersionResponse> GetDocumentationVersionAsync(GetDocumentationVersionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationVersionResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDocumentationVersionRequest,GetDocumentationVersionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationVersionResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDocumentationVersionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -2979,28 +3861,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDocumentationVersionsResponse GetDocumentationVersions(GetDocumentationVersionsRequest request)
         {
-            var marshaller = GetDocumentationVersionsRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationVersionsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationVersionsResponseUnmarshaller.Instance;
 
-            return Invoke<GetDocumentationVersionsRequest,GetDocumentationVersionsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDocumentationVersionsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDocumentationVersions operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationVersions operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetDocumentationVersions service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDocumentationVersions service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDocumentationVersionsResponse> GetDocumentationVersionsAsync(GetDocumentationVersionsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDocumentationVersionsRequestMarshaller.Instance;
-            var unmarshaller = GetDocumentationVersionsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDocumentationVersionsRequest,GetDocumentationVersionsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDocumentationVersionsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDocumentationVersionsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDocumentationVersionsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3030,28 +3927,44 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDomainNameResponse GetDomainName(GetDomainNameRequest request)
         {
-            var marshaller = GetDomainNameRequestMarshaller.Instance;
-            var unmarshaller = GetDomainNameResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainNameResponseUnmarshaller.Instance;
 
-            return Invoke<GetDomainNameRequest,GetDomainNameResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDomainNameResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDomainName operation.
+        /// Represents a domain name that is contained in a simpler, more intuitive URL that can
+        /// be called.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDomainName operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetDomainName service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDomainName service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ServiceUnavailableException">
+        /// The requested service is not available. For details see the accompanying error message.
+        /// Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDomainNameResponse> GetDomainNameAsync(GetDomainNameRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDomainNameRequestMarshaller.Instance;
-            var unmarshaller = GetDomainNameResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDomainNameRequest,GetDomainNameResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainNameResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDomainNameResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3077,28 +3990,40 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetDomainNamesResponse GetDomainNames(GetDomainNamesRequest request)
         {
-            var marshaller = GetDomainNamesRequestMarshaller.Instance;
-            var unmarshaller = GetDomainNamesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainNamesResponseUnmarshaller.Instance;
 
-            return Invoke<GetDomainNamesRequest,GetDomainNamesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetDomainNamesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetDomainNames operation.
+        /// Represents a collection of <a>DomainName</a> resources.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetDomainNames operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetDomainNames service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetDomainNames service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetDomainNamesResponse> GetDomainNamesAsync(GetDomainNamesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetDomainNamesRequestMarshaller.Instance;
-            var unmarshaller = GetDomainNamesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetDomainNamesRequest,GetDomainNamesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetDomainNamesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetDomainNamesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetDomainNamesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3130,28 +4055,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetExportResponse GetExport(GetExportRequest request)
         {
-            var marshaller = GetExportRequestMarshaller.Instance;
-            var unmarshaller = GetExportResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportResponseUnmarshaller.Instance;
 
-            return Invoke<GetExportRequest,GetExportResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetExportResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetExport operation.
+        /// Exports a deployed version of a <a>RestApi</a> in a specified format.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetExport operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetExport service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetExport service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetExportResponse> GetExportAsync(GetExportRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetExportRequestMarshaller.Instance;
-            var unmarshaller = GetExportResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetExportRequest,GetExportResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetExportRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetExportResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetExportResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3176,28 +4119,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetGatewayResponseResponse GetGatewayResponse(GetGatewayResponseRequest request)
         {
-            var marshaller = GetGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = GetGatewayResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGatewayResponseResponseUnmarshaller.Instance;
 
-            return Invoke<GetGatewayResponseRequest,GetGatewayResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetGatewayResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetGatewayResponse operation.
+        /// Gets a <a>GatewayResponse</a> of a specified response type on the given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetGatewayResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetGatewayResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetGatewayResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetGatewayResponseResponse> GetGatewayResponseAsync(GetGatewayResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = GetGatewayResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetGatewayResponseRequest,GetGatewayResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGatewayResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetGatewayResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3229,28 +4183,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetGatewayResponsesResponse GetGatewayResponses(GetGatewayResponsesRequest request)
         {
-            var marshaller = GetGatewayResponsesRequestMarshaller.Instance;
-            var unmarshaller = GetGatewayResponsesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGatewayResponsesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGatewayResponsesResponseUnmarshaller.Instance;
 
-            return Invoke<GetGatewayResponsesRequest,GetGatewayResponsesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetGatewayResponsesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetGatewayResponses operation.
+        /// Gets the <a>GatewayResponses</a> collection on the given <a>RestApi</a>. If an API
+        /// developer has not added any definitions for gateway responses, the result will be
+        /// the API Gateway-generated default <a>GatewayResponses</a> collection for the supported
+        /// response types.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetGatewayResponses operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetGatewayResponses service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetGatewayResponses service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetGatewayResponsesResponse> GetGatewayResponsesAsync(GetGatewayResponsesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetGatewayResponsesRequestMarshaller.Instance;
-            var unmarshaller = GetGatewayResponsesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetGatewayResponsesRequest,GetGatewayResponsesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetGatewayResponsesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetGatewayResponsesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetGatewayResponsesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3275,28 +4247,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetIntegrationResponse GetIntegration(GetIntegrationRequest request)
         {
-            var marshaller = GetIntegrationRequestMarshaller.Instance;
-            var unmarshaller = GetIntegrationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIntegrationResponseUnmarshaller.Instance;
 
-            return Invoke<GetIntegrationRequest,GetIntegrationResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetIntegrationResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetIntegration operation.
+        /// Get the integration settings.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetIntegration operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetIntegration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetIntegration service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetIntegrationResponse> GetIntegrationAsync(GetIntegrationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetIntegrationRequestMarshaller.Instance;
-            var unmarshaller = GetIntegrationResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetIntegrationRequest,GetIntegrationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIntegrationResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetIntegrationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3321,28 +4304,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetIntegrationResponseResponse GetIntegrationResponse(GetIntegrationResponseRequest request)
         {
-            var marshaller = GetIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = GetIntegrationResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIntegrationResponseResponseUnmarshaller.Instance;
 
-            return Invoke<GetIntegrationResponseRequest,GetIntegrationResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetIntegrationResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetIntegrationResponse operation.
+        /// Represents a get integration response.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetIntegrationResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetIntegrationResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetIntegrationResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetIntegrationResponseResponse> GetIntegrationResponseAsync(GetIntegrationResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = GetIntegrationResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetIntegrationResponseRequest,GetIntegrationResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetIntegrationResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetIntegrationResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3367,28 +4361,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetMethodResponse GetMethod(GetMethodRequest request)
         {
-            var marshaller = GetMethodRequestMarshaller.Instance;
-            var unmarshaller = GetMethodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMethodResponseUnmarshaller.Instance;
 
-            return Invoke<GetMethodRequest,GetMethodResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetMethodResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetMethod operation.
+        /// Describe an existing <a>Method</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetMethod operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetMethod service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetMethod service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetMethodResponse> GetMethodAsync(GetMethodRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetMethodRequestMarshaller.Instance;
-            var unmarshaller = GetMethodResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetMethodRequest,GetMethodResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMethodResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetMethodResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3413,28 +4418,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetMethodResponseResponse GetMethodResponse(GetMethodResponseRequest request)
         {
-            var marshaller = GetMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = GetMethodResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMethodResponseResponseUnmarshaller.Instance;
 
-            return Invoke<GetMethodResponseRequest,GetMethodResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetMethodResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetMethodResponse operation.
+        /// Describes a <a>MethodResponse</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetMethodResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetMethodResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetMethodResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetMethodResponseResponse> GetMethodResponseAsync(GetMethodResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = GetMethodResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetMethodResponseRequest,GetMethodResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetMethodResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetMethodResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3459,28 +4475,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetModelResponse GetModel(GetModelRequest request)
         {
-            var marshaller = GetModelRequestMarshaller.Instance;
-            var unmarshaller = GetModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetModelResponseUnmarshaller.Instance;
 
-            return Invoke<GetModelRequest,GetModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetModelResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetModel operation.
+        /// Describes an existing model defined for a <a>RestApi</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetModel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetModel service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetModelResponse> GetModelAsync(GetModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetModelRequestMarshaller.Instance;
-            var unmarshaller = GetModelResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetModelRequest,GetModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetModelResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetModelResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3509,28 +4536,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetModelsResponse GetModels(GetModelsRequest request)
         {
-            var marshaller = GetModelsRequestMarshaller.Instance;
-            var unmarshaller = GetModelsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetModelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetModelsResponseUnmarshaller.Instance;
 
-            return Invoke<GetModelsRequest,GetModelsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetModelsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetModels operation.
+        /// Describes existing <a>Models</a> defined for a <a>RestApi</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetModels operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetModels service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetModels service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetModelsResponse> GetModelsAsync(GetModelsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetModelsRequestMarshaller.Instance;
-            var unmarshaller = GetModelsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetModelsRequest,GetModelsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetModelsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetModelsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetModelsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3560,28 +4602,44 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetModelTemplateResponse GetModelTemplate(GetModelTemplateRequest request)
         {
-            var marshaller = GetModelTemplateRequestMarshaller.Instance;
-            var unmarshaller = GetModelTemplateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetModelTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetModelTemplateResponseUnmarshaller.Instance;
 
-            return Invoke<GetModelTemplateRequest,GetModelTemplateResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetModelTemplateResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetModelTemplate operation.
+        /// Generates a sample mapping template that can be used to transform a payload into the
+        /// structure of a model.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetModelTemplate operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetModelTemplate service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetModelTemplate service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetModelTemplateResponse> GetModelTemplateAsync(GetModelTemplateRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetModelTemplateRequestMarshaller.Instance;
-            var unmarshaller = GetModelTemplateResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetModelTemplateRequest,GetModelTemplateResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetModelTemplateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetModelTemplateResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetModelTemplateResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3606,28 +4664,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetRequestValidatorResponse GetRequestValidator(GetRequestValidatorRequest request)
         {
-            var marshaller = GetRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = GetRequestValidatorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRequestValidatorResponseUnmarshaller.Instance;
 
-            return Invoke<GetRequestValidatorRequest,GetRequestValidatorResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRequestValidatorResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetRequestValidator operation.
+        /// Gets a <a>RequestValidator</a> of a given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetRequestValidator operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetRequestValidator service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetRequestValidator service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetRequestValidatorResponse> GetRequestValidatorAsync(GetRequestValidatorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = GetRequestValidatorResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetRequestValidatorRequest,GetRequestValidatorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRequestValidatorResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetRequestValidatorResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3656,28 +4725,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetRequestValidatorsResponse GetRequestValidators(GetRequestValidatorsRequest request)
         {
-            var marshaller = GetRequestValidatorsRequestMarshaller.Instance;
-            var unmarshaller = GetRequestValidatorsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRequestValidatorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRequestValidatorsResponseUnmarshaller.Instance;
 
-            return Invoke<GetRequestValidatorsRequest,GetRequestValidatorsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRequestValidatorsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetRequestValidators operation.
+        /// Gets the <a>RequestValidators</a> collection of a given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetRequestValidators operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetRequestValidators service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetRequestValidators service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetRequestValidatorsResponse> GetRequestValidatorsAsync(GetRequestValidatorsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetRequestValidatorsRequestMarshaller.Instance;
-            var unmarshaller = GetRequestValidatorsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetRequestValidatorsRequest,GetRequestValidatorsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRequestValidatorsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRequestValidatorsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetRequestValidatorsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3702,28 +4786,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetResourceResponse GetResource(GetResourceRequest request)
         {
-            var marshaller = GetResourceRequestMarshaller.Instance;
-            var unmarshaller = GetResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetResourceResponseUnmarshaller.Instance;
 
-            return Invoke<GetResourceRequest,GetResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetResourceResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetResource operation.
+        /// Lists information about a resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetResource service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetResourceResponse> GetResourceAsync(GetResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetResourceRequestMarshaller.Instance;
-            var unmarshaller = GetResourceResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetResourceRequest,GetResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetResourceResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3752,28 +4847,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetResourcesResponse GetResources(GetResourcesRequest request)
         {
-            var marshaller = GetResourcesRequestMarshaller.Instance;
-            var unmarshaller = GetResourcesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetResourcesResponseUnmarshaller.Instance;
 
-            return Invoke<GetResourcesRequest,GetResourcesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetResourcesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetResources operation.
+        /// Lists information about a collection of <a>Resource</a> resources.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetResources operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetResources service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetResources service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetResourcesResponse> GetResourcesAsync(GetResourcesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetResourcesRequestMarshaller.Instance;
-            var unmarshaller = GetResourcesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetResourcesRequest,GetResourcesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetResourcesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetResourcesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetResourcesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3798,28 +4908,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetRestApiResponse GetRestApi(GetRestApiRequest request)
         {
-            var marshaller = GetRestApiRequestMarshaller.Instance;
-            var unmarshaller = GetRestApiResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRestApiResponseUnmarshaller.Instance;
 
-            return Invoke<GetRestApiRequest,GetRestApiResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRestApiResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetRestApi operation.
+        /// Lists the <a>RestApi</a> resource in the collection.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetRestApi operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetRestApi service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetRestApi service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetRestApiResponse> GetRestApiAsync(GetRestApiRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetRestApiRequestMarshaller.Instance;
-            var unmarshaller = GetRestApiResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetRestApiRequest,GetRestApiResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRestApiResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetRestApiResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3845,28 +4966,40 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetRestApisResponse GetRestApis(GetRestApisRequest request)
         {
-            var marshaller = GetRestApisRequestMarshaller.Instance;
-            var unmarshaller = GetRestApisResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRestApisRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRestApisResponseUnmarshaller.Instance;
 
-            return Invoke<GetRestApisRequest,GetRestApisResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetRestApisResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetRestApis operation.
+        /// Lists the <a>RestApis</a> resources for your collection.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetRestApis operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetRestApis service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetRestApis service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetRestApisResponse> GetRestApisAsync(GetRestApisRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetRestApisRequestMarshaller.Instance;
-            var unmarshaller = GetRestApisResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetRestApisRequest,GetRestApisResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetRestApisRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetRestApisResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetRestApisResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3898,28 +5031,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetSdkResponse GetSdk(GetSdkRequest request)
         {
-            var marshaller = GetSdkRequestMarshaller.Instance;
-            var unmarshaller = GetSdkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSdkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSdkResponseUnmarshaller.Instance;
 
-            return Invoke<GetSdkRequest,GetSdkResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSdkResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetSdk operation.
+        /// Generates a client SDK for a <a>RestApi</a> and <a>Stage</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetSdk operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetSdk service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetSdk service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetSdkResponse> GetSdkAsync(GetSdkRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetSdkRequestMarshaller.Instance;
-            var unmarshaller = GetSdkResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetSdkRequest,GetSdkResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSdkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSdkResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetSdkResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3944,28 +5095,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetSdkTypeResponse GetSdkType(GetSdkTypeRequest request)
         {
-            var marshaller = GetSdkTypeRequestMarshaller.Instance;
-            var unmarshaller = GetSdkTypeResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSdkTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSdkTypeResponseUnmarshaller.Instance;
 
-            return Invoke<GetSdkTypeRequest,GetSdkTypeResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSdkTypeResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetSdkType operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetSdkType operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSdkType service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetSdkType service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetSdkTypeResponse> GetSdkTypeAsync(GetSdkTypeRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetSdkTypeRequestMarshaller.Instance;
-            var unmarshaller = GetSdkTypeResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetSdkTypeRequest,GetSdkTypeResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSdkTypeRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSdkTypeResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetSdkTypeResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -3987,28 +5149,36 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetSdkTypesResponse GetSdkTypes(GetSdkTypesRequest request)
         {
-            var marshaller = GetSdkTypesRequestMarshaller.Instance;
-            var unmarshaller = GetSdkTypesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSdkTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSdkTypesResponseUnmarshaller.Instance;
 
-            return Invoke<GetSdkTypesRequest,GetSdkTypesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetSdkTypesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetSdkTypes operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetSdkTypes operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetSdkTypes service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetSdkTypes service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetSdkTypesResponse> GetSdkTypesAsync(GetSdkTypesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetSdkTypesRequestMarshaller.Instance;
-            var unmarshaller = GetSdkTypesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetSdkTypesRequest,GetSdkTypesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetSdkTypesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetSdkTypesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetSdkTypesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4033,28 +5203,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetStageResponse GetStage(GetStageRequest request)
         {
-            var marshaller = GetStageRequestMarshaller.Instance;
-            var unmarshaller = GetStageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStageResponseUnmarshaller.Instance;
 
-            return Invoke<GetStageRequest,GetStageResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetStageResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetStage operation.
+        /// Gets information about a <a>Stage</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetStage operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetStage service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetStage service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetStageResponse> GetStageAsync(GetStageRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetStageRequestMarshaller.Instance;
-            var unmarshaller = GetStageResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetStageRequest,GetStageResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStageResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetStageResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4079,28 +5260,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetStagesResponse GetStages(GetStagesRequest request)
         {
-            var marshaller = GetStagesRequestMarshaller.Instance;
-            var unmarshaller = GetStagesResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStagesResponseUnmarshaller.Instance;
 
-            return Invoke<GetStagesRequest,GetStagesResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetStagesResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetStages operation.
+        /// Gets information about one or more <a>Stage</a> resources.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetStages operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetStages service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetStages service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetStagesResponse> GetStagesAsync(GetStagesRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetStagesRequestMarshaller.Instance;
-            var unmarshaller = GetStagesResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetStagesRequest,GetStagesResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetStagesRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetStagesResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetStagesResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4132,28 +5324,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetTagsResponse GetTags(GetTagsRequest request)
         {
-            var marshaller = GetTagsRequestMarshaller.Instance;
-            var unmarshaller = GetTagsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTagsResponseUnmarshaller.Instance;
 
-            return Invoke<GetTagsRequest,GetTagsResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetTagsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetTags operation.
+        /// Gets the <a>Tags</a> collection for a given resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetTags operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetTags service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetTags service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetTagsResponse> GetTagsAsync(GetTagsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetTagsRequestMarshaller.Instance;
-            var unmarshaller = GetTagsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetTagsRequest,GetTagsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetTagsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetTagsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetTagsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4182,28 +5392,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetUsageResponse GetUsage(GetUsageRequest request)
         {
-            var marshaller = GetUsageRequestMarshaller.Instance;
-            var unmarshaller = GetUsageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsageResponseUnmarshaller.Instance;
 
-            return Invoke<GetUsageRequest,GetUsageResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUsageResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetUsage operation.
+        /// Gets the usage data of a usage plan in a specified time interval.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetUsage operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetUsage service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetUsage service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetUsageResponse> GetUsageAsync(GetUsageRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetUsageRequestMarshaller.Instance;
-            var unmarshaller = GetUsageResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetUsageRequest,GetUsageResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsageResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetUsageResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4232,28 +5457,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetUsagePlanResponse GetUsagePlan(GetUsagePlanRequest request)
         {
-            var marshaller = GetUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlanResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlanResponseUnmarshaller.Instance;
 
-            return Invoke<GetUsagePlanRequest,GetUsagePlanResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUsagePlanResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetUsagePlan operation.
+        /// Gets a usage plan of a given plan identifier.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlan operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlan service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetUsagePlan service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetUsagePlanResponse> GetUsagePlanAsync(GetUsagePlanRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlanResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetUsagePlanRequest,GetUsagePlanResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlanResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetUsagePlanResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4282,28 +5522,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetUsagePlanKeyResponse GetUsagePlanKey(GetUsagePlanKeyRequest request)
         {
-            var marshaller = GetUsagePlanKeyRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlanKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlanKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlanKeyResponseUnmarshaller.Instance;
 
-            return Invoke<GetUsagePlanKeyRequest,GetUsagePlanKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUsagePlanKeyResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetUsagePlanKey operation.
+        /// Gets a usage plan key of a given key identifier.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlanKey operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlanKey service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetUsagePlanKey service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetUsagePlanKeyResponse> GetUsagePlanKeyAsync(GetUsagePlanKeyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetUsagePlanKeyRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlanKeyResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetUsagePlanKeyRequest,GetUsagePlanKeyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlanKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlanKeyResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetUsagePlanKeyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4333,28 +5588,44 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetUsagePlanKeysResponse GetUsagePlanKeys(GetUsagePlanKeysRequest request)
         {
-            var marshaller = GetUsagePlanKeysRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlanKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlanKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlanKeysResponseUnmarshaller.Instance;
 
-            return Invoke<GetUsagePlanKeysRequest,GetUsagePlanKeysResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUsagePlanKeysResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetUsagePlanKeys operation.
+        /// Gets all the usage plan keys representing the API keys added to a specified usage
+        /// plan.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlanKeys operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlanKeys service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetUsagePlanKeys service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetUsagePlanKeysResponse> GetUsagePlanKeysAsync(GetUsagePlanKeysRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetUsagePlanKeysRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlanKeysResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetUsagePlanKeysRequest,GetUsagePlanKeysResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlanKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlanKeysResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetUsagePlanKeysResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4386,28 +5657,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetUsagePlansResponse GetUsagePlans(GetUsagePlansRequest request)
         {
-            var marshaller = GetUsagePlansRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlansResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlansRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlansResponseUnmarshaller.Instance;
 
-            return Invoke<GetUsagePlansRequest,GetUsagePlansResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetUsagePlansResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetUsagePlans operation.
+        /// Gets all the usage plans of the caller's account.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlans operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetUsagePlans service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetUsagePlans service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetUsagePlansResponse> GetUsagePlansAsync(GetUsagePlansRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetUsagePlansRequestMarshaller.Instance;
-            var unmarshaller = GetUsagePlansResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetUsagePlansRequest,GetUsagePlansResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetUsagePlansRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetUsagePlansResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetUsagePlansResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4432,28 +5721,39 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetVpcLinkResponse GetVpcLink(GetVpcLinkRequest request)
         {
-            var marshaller = GetVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = GetVpcLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVpcLinkResponseUnmarshaller.Instance;
 
-            return Invoke<GetVpcLinkRequest,GetVpcLinkResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetVpcLinkResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetVpcLink operation.
+        /// Gets a specified VPC link under the caller's account in a region.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetVpcLink operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetVpcLink service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetVpcLink service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetVpcLinkResponse> GetVpcLinkAsync(GetVpcLinkRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = GetVpcLinkResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetVpcLinkRequest,GetVpcLinkResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVpcLinkResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetVpcLinkResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4479,28 +5779,40 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual GetVpcLinksResponse GetVpcLinks(GetVpcLinksRequest request)
         {
-            var marshaller = GetVpcLinksRequestMarshaller.Instance;
-            var unmarshaller = GetVpcLinksResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVpcLinksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVpcLinksResponseUnmarshaller.Instance;
 
-            return Invoke<GetVpcLinksRequest,GetVpcLinksResponse>(request, marshaller, unmarshaller);
+            return Invoke<GetVpcLinksResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the GetVpcLinks operation.
+        /// Gets the <a>VpcLinks</a> collection under the caller's account in a selected region.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetVpcLinks operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the GetVpcLinks service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the GetVpcLinks service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<GetVpcLinksResponse> GetVpcLinksAsync(GetVpcLinksRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = GetVpcLinksRequestMarshaller.Instance;
-            var unmarshaller = GetVpcLinksResponseUnmarshaller.Instance;
-
-            return InvokeAsync<GetVpcLinksRequest,GetVpcLinksResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = GetVpcLinksRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = GetVpcLinksResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<GetVpcLinksResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4535,28 +5847,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual ImportApiKeysResponse ImportApiKeys(ImportApiKeysRequest request)
         {
-            var marshaller = ImportApiKeysRequestMarshaller.Instance;
-            var unmarshaller = ImportApiKeysResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportApiKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportApiKeysResponseUnmarshaller.Instance;
 
-            return Invoke<ImportApiKeysRequest,ImportApiKeysResponse>(request, marshaller, unmarshaller);
+            return Invoke<ImportApiKeysResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ImportApiKeys operation.
+        /// Import API keys from an external source, such as a CSV-formatted file.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ImportApiKeys operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ImportApiKeys service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ImportApiKeys service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<ImportApiKeysResponse> ImportApiKeysAsync(ImportApiKeysRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ImportApiKeysRequestMarshaller.Instance;
-            var unmarshaller = ImportApiKeysResponseUnmarshaller.Instance;
-
-            return InvokeAsync<ImportApiKeysRequest,ImportApiKeysResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportApiKeysRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportApiKeysResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<ImportApiKeysResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4588,28 +5921,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual ImportDocumentationPartsResponse ImportDocumentationParts(ImportDocumentationPartsRequest request)
         {
-            var marshaller = ImportDocumentationPartsRequestMarshaller.Instance;
-            var unmarshaller = ImportDocumentationPartsResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportDocumentationPartsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportDocumentationPartsResponseUnmarshaller.Instance;
 
-            return Invoke<ImportDocumentationPartsRequest,ImportDocumentationPartsResponse>(request, marshaller, unmarshaller);
+            return Invoke<ImportDocumentationPartsResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ImportDocumentationParts operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the ImportDocumentationParts operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ImportDocumentationParts service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ImportDocumentationParts service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<ImportDocumentationPartsResponse> ImportDocumentationPartsAsync(ImportDocumentationPartsRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ImportDocumentationPartsRequestMarshaller.Instance;
-            var unmarshaller = ImportDocumentationPartsResponseUnmarshaller.Instance;
-
-            return InvokeAsync<ImportDocumentationPartsRequest,ImportDocumentationPartsResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportDocumentationPartsRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportDocumentationPartsResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<ImportDocumentationPartsResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4642,28 +5993,47 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual ImportRestApiResponse ImportRestApi(ImportRestApiRequest request)
         {
-            var marshaller = ImportRestApiRequestMarshaller.Instance;
-            var unmarshaller = ImportRestApiResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportRestApiResponseUnmarshaller.Instance;
 
-            return Invoke<ImportRestApiRequest,ImportRestApiResponse>(request, marshaller, unmarshaller);
+            return Invoke<ImportRestApiResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the ImportRestApi operation.
+        /// A feature of the API Gateway control service for creating a new API from an external
+        /// API definition file.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the ImportRestApi operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the ImportRestApi service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the ImportRestApi service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<ImportRestApiResponse> ImportRestApiAsync(ImportRestApiRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = ImportRestApiRequestMarshaller.Instance;
-            var unmarshaller = ImportRestApiResponseUnmarshaller.Instance;
-
-            return InvokeAsync<ImportRestApiRequest,ImportRestApiResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = ImportRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = ImportRestApiResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<ImportRestApiResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4696,28 +6066,47 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual PutGatewayResponseResponse PutGatewayResponse(PutGatewayResponseRequest request)
         {
-            var marshaller = PutGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = PutGatewayResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutGatewayResponseResponseUnmarshaller.Instance;
 
-            return Invoke<PutGatewayResponseRequest,PutGatewayResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutGatewayResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutGatewayResponse operation.
+        /// Creates a customization of a <a>GatewayResponse</a> of a specified response type and
+        /// status code on the given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutGatewayResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutGatewayResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutGatewayResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<PutGatewayResponseResponse> PutGatewayResponseAsync(PutGatewayResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = PutGatewayResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<PutGatewayResponseRequest,PutGatewayResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutGatewayResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<PutGatewayResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4749,28 +6138,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual PutIntegrationResponse PutIntegration(PutIntegrationRequest request)
         {
-            var marshaller = PutIntegrationRequestMarshaller.Instance;
-            var unmarshaller = PutIntegrationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutIntegrationResponseUnmarshaller.Instance;
 
-            return Invoke<PutIntegrationRequest,PutIntegrationResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutIntegrationResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutIntegration operation.
+        /// Sets up a method's integration.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutIntegration operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutIntegration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutIntegration service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<PutIntegrationResponse> PutIntegrationAsync(PutIntegrationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutIntegrationRequestMarshaller.Instance;
-            var unmarshaller = PutIntegrationResponseUnmarshaller.Instance;
-
-            return InvokeAsync<PutIntegrationRequest,PutIntegrationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutIntegrationResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<PutIntegrationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4805,28 +6212,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual PutIntegrationResponseResponse PutIntegrationResponse(PutIntegrationResponseRequest request)
         {
-            var marshaller = PutIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = PutIntegrationResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutIntegrationResponseResponseUnmarshaller.Instance;
 
-            return Invoke<PutIntegrationResponseRequest,PutIntegrationResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutIntegrationResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutIntegrationResponse operation.
+        /// Represents a put integration.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutIntegrationResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutIntegrationResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutIntegrationResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<PutIntegrationResponseResponse> PutIntegrationResponseAsync(PutIntegrationResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = PutIntegrationResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<PutIntegrationResponseRequest,PutIntegrationResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutIntegrationResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<PutIntegrationResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4861,28 +6289,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual PutMethodResponse PutMethod(PutMethodRequest request)
         {
-            var marshaller = PutMethodRequestMarshaller.Instance;
-            var unmarshaller = PutMethodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMethodResponseUnmarshaller.Instance;
 
-            return Invoke<PutMethodRequest,PutMethodResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutMethodResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutMethod operation.
+        /// Add a method to an existing <a>Resource</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutMethod operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutMethod service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutMethod service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<PutMethodResponse> PutMethodAsync(PutMethodRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutMethodRequestMarshaller.Instance;
-            var unmarshaller = PutMethodResponseUnmarshaller.Instance;
-
-            return InvokeAsync<PutMethodRequest,PutMethodResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMethodResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<PutMethodResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4917,28 +6366,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual PutMethodResponseResponse PutMethodResponse(PutMethodResponseRequest request)
         {
-            var marshaller = PutMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = PutMethodResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMethodResponseResponseUnmarshaller.Instance;
 
-            return Invoke<PutMethodResponseRequest,PutMethodResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutMethodResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutMethodResponse operation.
+        /// Adds a <a>MethodResponse</a> to an existing <a>Method</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutMethodResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutMethodResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutMethodResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<PutMethodResponseResponse> PutMethodResponseAsync(PutMethodResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = PutMethodResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<PutMethodResponseRequest,PutMethodResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutMethodResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<PutMethodResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -4975,28 +6445,51 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual PutRestApiResponse PutRestApi(PutRestApiRequest request)
         {
-            var marshaller = PutRestApiRequestMarshaller.Instance;
-            var unmarshaller = PutRestApiResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRestApiResponseUnmarshaller.Instance;
 
-            return Invoke<PutRestApiRequest,PutRestApiResponse>(request, marshaller, unmarshaller);
+            return Invoke<PutRestApiResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the PutRestApi operation.
+        /// A feature of the API Gateway control service for updating an existing API with an
+        /// input of external API definitions. The update can take the form of merging the supplied
+        /// definition into the existing API or overwriting the existing API.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the PutRestApi operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the PutRestApi service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the PutRestApi service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<PutRestApiResponse> PutRestApiAsync(PutRestApiRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = PutRestApiRequestMarshaller.Instance;
-            var unmarshaller = PutRestApiResponseUnmarshaller.Instance;
-
-            return InvokeAsync<PutRestApiRequest,PutRestApiResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = PutRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = PutRestApiResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<PutRestApiResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5031,28 +6524,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual TagResourceResponse TagResource(TagResourceRequest request)
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<TagResourceRequest,TagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<TagResourceResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the TagResource operation.
+        /// Adds or updates a tag on a given resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the TagResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the TagResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the TagResource service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<TagResourceResponse> TagResourceAsync(TagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = TagResourceRequestMarshaller.Instance;
-            var unmarshaller = TagResourceResponseUnmarshaller.Instance;
-
-            return InvokeAsync<TagResourceRequest,TagResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TagResourceResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<TagResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5064,8 +6578,9 @@ namespace Amazon.APIGateway
         /// Simulate the execution of an <a>Authorizer</a> in your <a>RestApi</a> with headers,
         /// parameters, and an incoming request body.
         /// 
-        ///  <div class="seeAlso"> <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/use-custom-authorizer.html">Enable
-        /// custom authorizers</a> </div>
+        ///  <div class="seeAlso"> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use
+        /// Lambda Function as Authorizer</a> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use
+        /// Cognito User Pool as Authorizer</a> </div>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the TestInvokeAuthorizer service method.</param>
         /// 
@@ -5085,28 +6600,48 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual TestInvokeAuthorizerResponse TestInvokeAuthorizer(TestInvokeAuthorizerRequest request)
         {
-            var marshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<TestInvokeAuthorizerRequest,TestInvokeAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<TestInvokeAuthorizerResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the TestInvokeAuthorizer operation.
-        /// </summary>
+        /// Simulate the execution of an <a>Authorizer</a> in your <a>RestApi</a> with headers,
+        /// parameters, and an incoming request body.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the TestInvokeAuthorizer operation.</param>
+        ///  <div class="seeAlso"> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use
+        /// Lambda Function as Authorizer</a> <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use
+        /// Cognito User Pool as Authorizer</a> </div>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the TestInvokeAuthorizer service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the TestInvokeAuthorizer service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<TestInvokeAuthorizerResponse> TestInvokeAuthorizerAsync(TestInvokeAuthorizerRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
-
-            return InvokeAsync<TestInvokeAuthorizerRequest,TestInvokeAuthorizerResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestInvokeAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestInvokeAuthorizerResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<TestInvokeAuthorizerResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5136,28 +6671,44 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual TestInvokeMethodResponse TestInvokeMethod(TestInvokeMethodRequest request)
         {
-            var marshaller = TestInvokeMethodRequestMarshaller.Instance;
-            var unmarshaller = TestInvokeMethodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestInvokeMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestInvokeMethodResponseUnmarshaller.Instance;
 
-            return Invoke<TestInvokeMethodRequest,TestInvokeMethodResponse>(request, marshaller, unmarshaller);
+            return Invoke<TestInvokeMethodResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the TestInvokeMethod operation.
+        /// Simulate the execution of a <a>Method</a> in your <a>RestApi</a> with headers, parameters,
+        /// and an incoming request body.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the TestInvokeMethod operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the TestInvokeMethod service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the TestInvokeMethod service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<TestInvokeMethodResponse> TestInvokeMethodAsync(TestInvokeMethodRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = TestInvokeMethodRequestMarshaller.Instance;
-            var unmarshaller = TestInvokeMethodResponseUnmarshaller.Instance;
-
-            return InvokeAsync<TestInvokeMethodRequest,TestInvokeMethodResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = TestInvokeMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = TestInvokeMethodResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<TestInvokeMethodResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5189,28 +6740,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UntagResourceResponse UntagResource(UntagResourceRequest request)
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
 
-            return Invoke<UntagResourceRequest,UntagResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UntagResourceResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UntagResource operation.
+        /// Removes a tag from a given resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UntagResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UntagResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UntagResource service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UntagResourceResponse> UntagResourceAsync(UntagResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UntagResourceRequestMarshaller.Instance;
-            var unmarshaller = UntagResourceResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UntagResourceRequest,UntagResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UntagResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UntagResourceResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UntagResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5239,28 +6808,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateAccountResponse UpdateAccount(UpdateAccountRequest request)
         {
-            var marshaller = UpdateAccountRequestMarshaller.Instance;
-            var unmarshaller = UpdateAccountResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccountResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAccountRequest,UpdateAccountResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAccountResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateAccount operation.
+        /// Changes information about the current <a>Account</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateAccount operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateAccount service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateAccount service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateAccountResponse> UpdateAccountAsync(UpdateAccountRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateAccountRequestMarshaller.Instance;
-            var unmarshaller = UpdateAccountResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateAccountRequest,UpdateAccountResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAccountRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAccountResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateAccountResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5292,28 +6876,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateApiKeyResponse UpdateApiKey(UpdateApiKeyRequest request)
         {
-            var marshaller = UpdateApiKeyRequestMarshaller.Instance;
-            var unmarshaller = UpdateApiKeyResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApiKeyResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateApiKeyRequest,UpdateApiKeyResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateApiKeyResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateApiKey operation.
+        /// Changes information about an <a>ApiKey</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateApiKey operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateApiKey service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateApiKey service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateApiKeyResponse> UpdateApiKeyAsync(UpdateApiKeyRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateApiKeyRequestMarshaller.Instance;
-            var unmarshaller = UpdateApiKeyResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateApiKeyRequest,UpdateApiKeyResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateApiKeyRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateApiKeyResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateApiKeyResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5324,7 +6926,7 @@ namespace Amazon.APIGateway
         /// <summary>
         /// Updates an existing <a>Authorizer</a> resource.
         /// 
-        ///  <div class="seeAlso"><a href="http://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS
         /// CLI</a></div>
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the UpdateAuthorizer service method.</param>
@@ -5345,28 +6947,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateAuthorizerResponse UpdateAuthorizer(UpdateAuthorizerRequest request)
         {
-            var marshaller = UpdateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateAuthorizerRequest,UpdateAuthorizerResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateAuthorizerResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateAuthorizer operation.
-        /// </summary>
+        /// Updates an existing <a>Authorizer</a> resource.
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateAuthorizer operation.</param>
+        ///  <div class="seeAlso"><a href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS
+        /// CLI</a></div>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateAuthorizer service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateAuthorizer service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateAuthorizerResponse> UpdateAuthorizerAsync(UpdateAuthorizerRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateAuthorizerRequestMarshaller.Instance;
-            var unmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateAuthorizerRequest,UpdateAuthorizerResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateAuthorizerRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateAuthorizerResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateAuthorizerResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5398,28 +7018,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateBasePathMappingResponse UpdateBasePathMapping(UpdateBasePathMappingRequest request)
         {
-            var marshaller = UpdateBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = UpdateBasePathMappingResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBasePathMappingResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateBasePathMappingRequest,UpdateBasePathMappingResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateBasePathMappingResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateBasePathMapping operation.
+        /// Changes information about the <a>BasePathMapping</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateBasePathMapping operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateBasePathMapping service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateBasePathMapping service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateBasePathMappingResponse> UpdateBasePathMappingAsync(UpdateBasePathMappingRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateBasePathMappingRequestMarshaller.Instance;
-            var unmarshaller = UpdateBasePathMappingResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateBasePathMappingRequest,UpdateBasePathMappingResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateBasePathMappingRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateBasePathMappingResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateBasePathMappingResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5448,28 +7086,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateClientCertificateResponse UpdateClientCertificate(UpdateClientCertificateRequest request)
         {
-            var marshaller = UpdateClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateClientCertificateResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateClientCertificateResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateClientCertificateRequest,UpdateClientCertificateResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateClientCertificateResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateClientCertificate operation.
+        /// Changes information about an <a>ClientCertificate</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateClientCertificate operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateClientCertificate service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateClientCertificate service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateClientCertificateResponse> UpdateClientCertificateAsync(UpdateClientCertificateRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateClientCertificateRequestMarshaller.Instance;
-            var unmarshaller = UpdateClientCertificateResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateClientCertificateRequest,UpdateClientCertificateResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateClientCertificateRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateClientCertificateResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateClientCertificateResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5502,28 +7155,47 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateDeploymentResponse UpdateDeployment(UpdateDeploymentRequest request)
         {
-            var marshaller = UpdateDeploymentRequestMarshaller.Instance;
-            var unmarshaller = UpdateDeploymentResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDeploymentResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDeploymentRequest,UpdateDeploymentResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDeploymentResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateDeployment operation.
+        /// Changes information about a <a>Deployment</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateDeployment operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDeployment service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateDeployment service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ServiceUnavailableException">
+        /// The requested service is not available. For details see the accompanying error message.
+        /// Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateDeploymentResponse> UpdateDeploymentAsync(UpdateDeploymentRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateDeploymentRequestMarshaller.Instance;
-            var unmarshaller = UpdateDeploymentResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateDeploymentRequest,UpdateDeploymentResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDeploymentRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDeploymentResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateDeploymentResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5558,28 +7230,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateDocumentationPartResponse UpdateDocumentationPart(UpdateDocumentationPartRequest request)
         {
-            var marshaller = UpdateDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = UpdateDocumentationPartResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDocumentationPartResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDocumentationPartRequest,UpdateDocumentationPartResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDocumentationPartResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateDocumentationPart operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateDocumentationPart operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDocumentationPart service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateDocumentationPart service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateDocumentationPartResponse> UpdateDocumentationPartAsync(UpdateDocumentationPartRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateDocumentationPartRequestMarshaller.Instance;
-            var unmarshaller = UpdateDocumentationPartResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateDocumentationPartRequest,UpdateDocumentationPartResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDocumentationPartRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDocumentationPartResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateDocumentationPartResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5611,28 +7304,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateDocumentationVersionResponse UpdateDocumentationVersion(UpdateDocumentationVersionRequest request)
         {
-            var marshaller = UpdateDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = UpdateDocumentationVersionResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDocumentationVersionResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDocumentationVersionRequest,UpdateDocumentationVersionResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDocumentationVersionResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateDocumentationVersion operation.
-        /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateDocumentationVersion operation.</param>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDocumentationVersion service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateDocumentationVersion service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateDocumentationVersionResponse> UpdateDocumentationVersionAsync(UpdateDocumentationVersionRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateDocumentationVersionRequestMarshaller.Instance;
-            var unmarshaller = UpdateDocumentationVersionResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateDocumentationVersionRequest,UpdateDocumentationVersionResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDocumentationVersionRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDocumentationVersionResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateDocumentationVersionResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5664,28 +7375,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateDomainNameResponse UpdateDomainName(UpdateDomainNameRequest request)
         {
-            var marshaller = UpdateDomainNameRequestMarshaller.Instance;
-            var unmarshaller = UpdateDomainNameResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDomainNameResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateDomainNameRequest,UpdateDomainNameResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateDomainNameResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateDomainName operation.
+        /// Changes information about the <a>DomainName</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateDomainName operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateDomainName service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateDomainName service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateDomainNameResponse> UpdateDomainNameAsync(UpdateDomainNameRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateDomainNameRequestMarshaller.Instance;
-            var unmarshaller = UpdateDomainNameResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateDomainNameRequest,UpdateDomainNameResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateDomainNameRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateDomainNameResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateDomainNameResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5714,28 +7443,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateGatewayResponseResponse UpdateGatewayResponse(UpdateGatewayResponseRequest request)
         {
-            var marshaller = UpdateGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = UpdateGatewayResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGatewayResponseResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateGatewayResponseRequest,UpdateGatewayResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateGatewayResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateGatewayResponse operation.
+        /// Updates a <a>GatewayResponse</a> of a specified response type on the given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateGatewayResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateGatewayResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateGatewayResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateGatewayResponseResponse> UpdateGatewayResponseAsync(UpdateGatewayResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateGatewayResponseRequestMarshaller.Instance;
-            var unmarshaller = UpdateGatewayResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateGatewayResponseRequest,UpdateGatewayResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateGatewayResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateGatewayResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateGatewayResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5767,28 +7511,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateIntegrationResponse UpdateIntegration(UpdateIntegrationRequest request)
         {
-            var marshaller = UpdateIntegrationRequestMarshaller.Instance;
-            var unmarshaller = UpdateIntegrationResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIntegrationResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateIntegrationRequest,UpdateIntegrationResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateIntegrationResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateIntegration operation.
+        /// Represents an update integration.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateIntegration operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateIntegration service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateIntegration service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateIntegrationResponse> UpdateIntegrationAsync(UpdateIntegrationRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateIntegrationRequestMarshaller.Instance;
-            var unmarshaller = UpdateIntegrationResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateIntegrationRequest,UpdateIntegrationResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIntegrationRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIntegrationResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateIntegrationResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5820,28 +7582,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateIntegrationResponseResponse UpdateIntegrationResponse(UpdateIntegrationResponseRequest request)
         {
-            var marshaller = UpdateIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = UpdateIntegrationResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIntegrationResponseResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateIntegrationResponseRequest,UpdateIntegrationResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateIntegrationResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateIntegrationResponse operation.
+        /// Represents an update integration response.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateIntegrationResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateIntegrationResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateIntegrationResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateIntegrationResponseResponse> UpdateIntegrationResponseAsync(UpdateIntegrationResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateIntegrationResponseRequestMarshaller.Instance;
-            var unmarshaller = UpdateIntegrationResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateIntegrationResponseRequest,UpdateIntegrationResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateIntegrationResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateIntegrationResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateIntegrationResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5873,28 +7653,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateMethodResponse UpdateMethod(UpdateMethodRequest request)
         {
-            var marshaller = UpdateMethodRequestMarshaller.Instance;
-            var unmarshaller = UpdateMethodResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMethodResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateMethodRequest,UpdateMethodResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateMethodResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateMethod operation.
+        /// Updates an existing <a>Method</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateMethod operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMethod service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateMethod service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateMethodResponse> UpdateMethodAsync(UpdateMethodRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateMethodRequestMarshaller.Instance;
-            var unmarshaller = UpdateMethodResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateMethodRequest,UpdateMethodResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMethodRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMethodResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateMethodResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5929,28 +7727,49 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateMethodResponseResponse UpdateMethodResponse(UpdateMethodResponseRequest request)
         {
-            var marshaller = UpdateMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = UpdateMethodResponseResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMethodResponseResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateMethodResponseRequest,UpdateMethodResponseResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateMethodResponseResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateMethodResponse operation.
+        /// Updates an existing <a>MethodResponse</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateMethodResponse operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateMethodResponse service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateMethodResponse service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.LimitExceededException">
+        /// The request exceeded the rate limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateMethodResponseResponse> UpdateMethodResponseAsync(UpdateMethodResponseRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateMethodResponseRequestMarshaller.Instance;
-            var unmarshaller = UpdateMethodResponseResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateMethodResponseRequest,UpdateMethodResponseResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateMethodResponseRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateMethodResponseResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateMethodResponseResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -5982,28 +7801,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateModelResponse UpdateModel(UpdateModelRequest request)
         {
-            var marshaller = UpdateModelRequestMarshaller.Instance;
-            var unmarshaller = UpdateModelResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateModelResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateModelRequest,UpdateModelResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateModelResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateModel operation.
+        /// Changes information about a model.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateModel operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateModel service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateModel service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateModelResponse> UpdateModelAsync(UpdateModelRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateModelRequestMarshaller.Instance;
-            var unmarshaller = UpdateModelResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateModelRequest,UpdateModelResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateModelRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateModelResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateModelResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -6032,28 +7869,43 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateRequestValidatorResponse UpdateRequestValidator(UpdateRequestValidatorRequest request)
         {
-            var marshaller = UpdateRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = UpdateRequestValidatorResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRequestValidatorResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRequestValidatorRequest,UpdateRequestValidatorResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRequestValidatorResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateRequestValidator operation.
+        /// Updates a <a>RequestValidator</a> of a given <a>RestApi</a>.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateRequestValidator operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRequestValidator service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateRequestValidator service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateRequestValidatorResponse> UpdateRequestValidatorAsync(UpdateRequestValidatorRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateRequestValidatorRequestMarshaller.Instance;
-            var unmarshaller = UpdateRequestValidatorResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateRequestValidatorRequest,UpdateRequestValidatorResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRequestValidatorRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRequestValidatorResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateRequestValidatorResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -6085,28 +7937,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateResourceResponse UpdateResource(UpdateResourceRequest request)
         {
-            var marshaller = UpdateResourceRequestMarshaller.Instance;
-            var unmarshaller = UpdateResourceResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateResourceResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateResourceRequest,UpdateResourceResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateResourceResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateResource operation.
+        /// Changes information about a <a>Resource</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateResource operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateResource service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateResource service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateResourceResponse> UpdateResourceAsync(UpdateResourceRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateResourceRequestMarshaller.Instance;
-            var unmarshaller = UpdateResourceResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateResourceRequest,UpdateResourceResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateResourceRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateResourceResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateResourceResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -6138,28 +8008,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateRestApiResponse UpdateRestApi(UpdateRestApiRequest request)
         {
-            var marshaller = UpdateRestApiRequestMarshaller.Instance;
-            var unmarshaller = UpdateRestApiResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRestApiResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateRestApiRequest,UpdateRestApiResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateRestApiResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateRestApi operation.
+        /// Changes information about the specified API.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateRestApi operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateRestApi service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateRestApi service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateRestApiResponse> UpdateRestApiAsync(UpdateRestApiRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateRestApiRequestMarshaller.Instance;
-            var unmarshaller = UpdateRestApiResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateRestApiRequest,UpdateRestApiResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateRestApiRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateRestApiResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateRestApiResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -6191,28 +8079,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateStageResponse UpdateStage(UpdateStageRequest request)
         {
-            var marshaller = UpdateStageRequestMarshaller.Instance;
-            var unmarshaller = UpdateStageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateStageResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateStageRequest,UpdateStageResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateStageResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateStage operation.
+        /// Changes information about a <a>Stage</a> resource.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateStage operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateStage service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateStage service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateStageResponse> UpdateStageAsync(UpdateStageRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateStageRequestMarshaller.Instance;
-            var unmarshaller = UpdateStageResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateStageRequest,UpdateStageResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateStageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateStageResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateStageResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -6242,28 +8148,44 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateUsageResponse UpdateUsage(UpdateUsageRequest request)
         {
-            var marshaller = UpdateUsageRequestMarshaller.Instance;
-            var unmarshaller = UpdateUsageResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUsageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUsageResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateUsageRequest,UpdateUsageResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateUsageResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateUsage operation.
+        /// Grants a temporary extension to the remaining quota of a usage plan associated with
+        /// a specified API key.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateUsage operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateUsage service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateUsage service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateUsageResponse> UpdateUsageAsync(UpdateUsageRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateUsageRequestMarshaller.Instance;
-            var unmarshaller = UpdateUsageResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateUsageRequest,UpdateUsageResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUsageRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUsageResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateUsageResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -6295,28 +8217,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateUsagePlanResponse UpdateUsagePlan(UpdateUsagePlanRequest request)
         {
-            var marshaller = UpdateUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = UpdateUsagePlanResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUsagePlanResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateUsagePlanRequest,UpdateUsagePlanResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateUsagePlanResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateUsagePlan operation.
+        /// Updates a usage plan of a given plan Id.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateUsagePlan operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateUsagePlan service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateUsagePlan service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateUsagePlanResponse> UpdateUsagePlanAsync(UpdateUsagePlanRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateUsagePlanRequestMarshaller.Instance;
-            var unmarshaller = UpdateUsagePlanResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateUsagePlanRequest,UpdateUsagePlanResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateUsagePlanRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateUsagePlanResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateUsagePlanResponse>(request, options, cancellationToken);
         }
 
         #endregion
@@ -6348,28 +8288,46 @@ namespace Amazon.APIGateway
         /// </exception>
         public virtual UpdateVpcLinkResponse UpdateVpcLink(UpdateVpcLinkRequest request)
         {
-            var marshaller = UpdateVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = UpdateVpcLinkResponseUnmarshaller.Instance;
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVpcLinkResponseUnmarshaller.Instance;
 
-            return Invoke<UpdateVpcLinkRequest,UpdateVpcLinkResponse>(request, marshaller, unmarshaller);
+            return Invoke<UpdateVpcLinkResponse>(request, options);
         }
 
+
         /// <summary>
-        /// Initiates the asynchronous execution of the UpdateVpcLink operation.
+        /// Updates an existing <a>VpcLink</a> of a specified identifier.
         /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the UpdateVpcLink operation.</param>
+        /// <param name="request">Container for the necessary parameters to execute the UpdateVpcLink service method.</param>
         /// <param name="cancellationToken">
         ///     A cancellation token that can be used by other objects or threads to receive notice of cancellation.
         /// </param>
-        /// <returns>The task object representing the asynchronous operation.</returns>
+        /// 
+        /// <returns>The response from the UpdateVpcLink service method, as returned by APIGateway.</returns>
+        /// <exception cref="Amazon.APIGateway.Model.BadRequestException">
+        /// The submitted request is not valid, for example, the input is incomplete or incorrect.
+        /// See the accompanying error message for details.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.ConflictException">
+        /// The request configuration has conflicts. For details, see the accompanying error message.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.NotFoundException">
+        /// The requested resource is not found. Make sure that the request URI is correct.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.TooManyRequestsException">
+        /// The request has reached its throttling limit. Retry after the specified time period.
+        /// </exception>
+        /// <exception cref="Amazon.APIGateway.Model.UnauthorizedException">
+        /// The request is denied because the caller has insufficient permissions.
+        /// </exception>
         public virtual Task<UpdateVpcLinkResponse> UpdateVpcLinkAsync(UpdateVpcLinkRequest request, System.Threading.CancellationToken cancellationToken = default(CancellationToken))
         {
-            var marshaller = UpdateVpcLinkRequestMarshaller.Instance;
-            var unmarshaller = UpdateVpcLinkResponseUnmarshaller.Instance;
-
-            return InvokeAsync<UpdateVpcLinkRequest,UpdateVpcLinkResponse>(request, marshaller, 
-                unmarshaller, cancellationToken);
+            var options = new InvokeOptions();
+            options.RequestMarshaller = UpdateVpcLinkRequestMarshaller.Instance;
+            options.ResponseUnmarshaller = UpdateVpcLinkResponseUnmarshaller.Instance;
+            
+            return InvokeAsync<UpdateVpcLinkResponse>(request, options, cancellationToken);
         }
 
         #endregion

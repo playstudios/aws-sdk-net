@@ -31,6 +31,12 @@ namespace Amazon.ECR.Model
     /// Container for the parameters to the PutImage operation.
     /// Creates or updates the image manifest and tags associated with an image.
     /// 
+    ///  
+    /// <para>
+    /// When an image is pushed and all new image layers have been uploaded, the PutImage
+    /// API is called once to create or update the image manifest and tags associated with
+    /// the image.
+    /// </para>
     ///  <note> 
     /// <para>
     /// This operation is used by the Amazon ECR proxy, and it is not intended for general
@@ -52,6 +58,7 @@ namespace Amazon.ECR.Model
         /// The image manifest corresponding to the image to be uploaded.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=4194304)]
         public string ImageManifest
         {
             get { return this._imageManifest; }
@@ -71,6 +78,7 @@ namespace Amazon.ECR.Model
         /// the Docker Image Manifest V2 Schema 2 or OCI formats.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=300)]
         public string ImageTag
         {
             get { return this._imageTag; }
@@ -108,6 +116,7 @@ namespace Amazon.ECR.Model
         /// The name of the repository in which to put the image.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=2, Max=256)]
         public string RepositoryName
         {
             get { return this._repositoryName; }

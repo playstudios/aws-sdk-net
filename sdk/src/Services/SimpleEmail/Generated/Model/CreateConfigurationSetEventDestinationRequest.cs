@@ -34,14 +34,14 @@ namespace Amazon.SimpleEmail.Model
     ///  <note> 
     /// <para>
     /// When you create or update an event destination, you must provide one, and only one,
-    /// destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or
-    /// Amazon Simple Notification Service (Amazon SNS).
+    /// destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon
+    /// Simple Notification Service (Amazon SNS).
     /// </para>
     ///  </note> 
     /// <para>
     /// An event destination is the AWS service to which Amazon SES publishes the email sending
     /// events associated with a configuration set. For information about using configuration
-    /// sets, see the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
+    /// sets, see the <a href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
     /// SES Developer Guide</a>.
     /// </para>
     ///  
@@ -61,6 +61,7 @@ namespace Amazon.SimpleEmail.Model
         /// with.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ConfigurationSetName
         {
             get { return this._configurationSetName; }
@@ -80,6 +81,7 @@ namespace Amazon.SimpleEmail.Model
         /// be published to.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public EventDestination EventDestination
         {
             get { return this._eventDestination; }

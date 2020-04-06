@@ -67,6 +67,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// 1, 1970 00:00:00 UTC.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public DateTime CreationTime
         {
             get { return this._creationTime.GetValueOrDefault(); }
@@ -86,6 +87,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// 1970 00:00:00 UTC.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public DateTime FirstEventTimestamp
         {
             get { return this._firstEventTimestamp.GetValueOrDefault(); }
@@ -101,12 +103,13 @@ namespace Amazon.CloudWatchLogs.Model
         /// <summary>
         /// Gets and sets the property LastEventTimestamp. 
         /// <para>
-        ///  the time of the most recent log event in the log stream in CloudWatch Logs. This
-        /// number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
-        /// lastEventTime updates on an eventual consistency basis. It typically updates in less
-        /// than an hour from ingestion, but may take longer in some rare situations.
+        /// The time of the most recent log event in the log stream in CloudWatch Logs. This number
+        /// is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. The <code>lastEventTime</code>
+        /// value updates on an eventual consistency basis. It typically updates in less than
+        /// an hour from ingestion, but may take longer in some rare situations.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public DateTime LastEventTimestamp
         {
             get { return this._lastEventTimestamp.GetValueOrDefault(); }
@@ -126,6 +129,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// UTC.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0)]
         public DateTime LastIngestionTime
         {
             get { return this._lastIngestionTime.GetValueOrDefault(); }
@@ -144,6 +148,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The name of the log stream.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1, Max=512)]
         public string LogStreamName
         {
             get { return this._logStreamName; }
@@ -161,7 +166,15 @@ namespace Amazon.CloudWatchLogs.Model
         /// <para>
         /// The number of bytes stored.
         /// </para>
+        ///  
+        /// <para>
+        ///  <b>IMPORTANT:</b>On June 17, 2019, this parameter was deprecated for log streams,
+        /// and is always reported as zero. This change applies only to log streams. The <code>storedBytes</code>
+        /// parameter for log groups is not affected.
+        /// </para>
         /// </summary>
+        [Obsolete("Starting on June 17, 2019, this parameter will be deprecated for log streams, and will be reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.")]
+        [AWSProperty(Min=0)]
         public long StoredBytes
         {
             get { return this._storedBytes.GetValueOrDefault(); }
@@ -180,6 +193,7 @@ namespace Amazon.CloudWatchLogs.Model
         /// The sequence token.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=1)]
         public string UploadSequenceToken
         {
             get { return this._uploadSequenceToken; }

@@ -55,11 +55,12 @@ namespace Amazon.Connect.Model.Internal.MarshallTransformations
         public IRequest Marshall(StopContactRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Connect");
-            request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-08-08";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/contact/stop";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/contact/stop";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

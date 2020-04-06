@@ -21,6 +21,8 @@ namespace ServiceClientGenerator
                     return "AWS4Signer";
                 case "s3":
                     return "Amazon.S3.Internal.S3Signer";
+                case "s3v4":
+                    return "S3Signer";
                 case "":
                     return "NullSigner";
                 default:
@@ -29,18 +31,19 @@ namespace ServiceClientGenerator
         }
 
 
-        private static readonly DateTime EPOCH_START = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        public static readonly DateTime EPOCH_START = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         public static int ConvertToUnixEpochSeconds(DateTime dateTime)
         {
             TimeSpan ts = new TimeSpan(dateTime.ToUniversalTime().Ticks - EPOCH_START.Ticks);
             return Convert.ToInt32(ts.TotalSeconds);
         }
 
-        public static double ConvertToUnixEpochMilliSeconds(DateTime dateTime)
+        public static double ConvertToUnixEpochSecondsDouble(DateTime dateTime)
         {
             TimeSpan ts = new TimeSpan(dateTime.ToUniversalTime().Ticks - EPOCH_START.Ticks);
-            double milli = Math.Round(ts.TotalMilliseconds, 0) / 1000.0;
-            return milli;
+            double seconds = Math.Round(ts.TotalMilliseconds, 0) / 1000.0;
+            return seconds;
         }
 
         // List members in EC2 are always considered flattened, so we drop the 'member' prefix
@@ -131,7 +134,7 @@ namespace ServiceClientGenerator
             var marshallName = new StringBuilder();
             if (modifiers != null)
             {
-                var marshallOverride = modifiers.GetMarshallNameOverrides(member.OwningShape.Name, member.PropertyName);
+                var marshallOverride = modifiers.GetMarshallNameOverrides(member.OwningShape.Name, member.BasePropertyName);
                 if (marshallOverride != null)
                 {
                     var marshallOverrideName = !isEC2Protocol
@@ -154,13 +157,25 @@ namespace ServiceClientGenerator
             // if the marshal name still isn't set, fall back to the model
             if (marshallName.Length == 0)
             {
-                var modelMarshallName = !isEC2Protocol
-                                            ? member.MarshallName
-                                            : (string.IsNullOrEmpty(member.MarshallLocationName)
-                                                ? member.MarshallName
-                                                : member.MarshallLocationName);
+                string modelMarshallName;
+                if (!string.IsNullOrEmpty(member.MarshallQueryName))
+                {
+                    modelMarshallName = member.MarshallQueryName;
+                }
+                else
+                {
+                    if (isEC2Protocol && !string.IsNullOrEmpty(member.MarshallLocationName))
+                    {
+                        modelMarshallName = member.MarshallLocationName;
+                    }
+                    else
+                    {
+                        modelMarshallName = member.MarshallName;
+                    }
+                    modelMarshallName = TransformMarshallLocationName(isEC2Protocol, modelMarshallName);
+                }
 
-                marshallName.Append(TransformMarshallLocationName(isEC2Protocol, modelMarshallName));
+                marshallName.Append(modelMarshallName);
             }
 
             // also check if we need to emit from a submember as a result of shape substitution
@@ -171,11 +186,22 @@ namespace ServiceClientGenerator
                 var subMember = member.ModelShape.Members.Single(m => m.PropertyName.Equals(valueMember, StringComparison.Ordinal));
                 if (subMember != null)
                 {
-                    var subExpression = string.IsNullOrEmpty(subMember.MarshallLocationName)
-                        ? subMember.MarshallName
-                        : subMember.MarshallLocationName;
+                    string subExpression;
+                    if (!string.IsNullOrEmpty(subMember.MarshallQueryName))
+                    {
+                        subExpression = subMember.MarshallQueryName;
+                    }
+                    else
+                    {
+                        subExpression = string.IsNullOrEmpty(subMember.MarshallLocationName)
+                            ? subMember.MarshallName
+                            : subMember.MarshallLocationName;
 
-                    marshallName.AppendFormat(".{0}", TransformMarshallLocationName(isEC2Protocol, subExpression));
+                        subExpression = TransformMarshallLocationName(isEC2Protocol, subExpression);
+                    }
+
+
+                    marshallName.AppendFormat(".{0}", subExpression);
                 }
             }
 
@@ -283,7 +309,7 @@ namespace ServiceClientGenerator
             if (string.IsNullOrEmpty(locationName) || !isEC2Protocol)
                 return locationName;
 
-            return string.Concat(locationName.Substring(0, 1).ToUpper(), locationName.Substring(1));
+            return locationName.ToUpperFirstCharacter();
         }
 
         // common code to lower case, when EC2, the first char of the unmarshall location name
@@ -292,7 +318,7 @@ namespace ServiceClientGenerator
             if (string.IsNullOrEmpty(locationName) || !isEC2Protocol)
                 return locationName;
 
-            return string.Concat(locationName.Substring(0, 1).ToLower(), locationName.Substring(1));
+            return locationName.ToLowerFirstCharacter();
         }
 
         /// <summary>
@@ -362,6 +388,28 @@ namespace ServiceClientGenerator
         public static string ToClassMemberCase(this string s)
         {
             return "_" + s.ToCamelCase();
+        }
+
+        /// <summary>
+        /// Capitalizes the first character of a string, used to create proper naming for services, attributes, and operations
+        /// </summary>
+        public static string ToUpperFirstCharacter(this string s)
+        {
+            var txt = s.Substring(0,1).ToUpperInvariant();
+            if (s.Length > 1)
+                txt += s.Substring(1);
+            return txt;
+        }
+
+        /// <summary>
+        /// Changes first character of a string to lower case.
+        /// </summary>
+        public static string ToLowerFirstCharacter(this string s)
+        {
+            var txt = s.Substring(0, 1).ToLowerInvariant();
+            if (s.Length > 1)
+                txt += s.Substring(1);
+            return txt;
         }
     }
 }

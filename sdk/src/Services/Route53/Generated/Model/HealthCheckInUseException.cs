@@ -25,9 +25,10 @@ namespace Amazon.Route53.Model
     ///<summary>
     /// Route53 exception
     /// </summary>
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
     [Serializable]
 #endif
+    [Obsolete("This error code is not in use")]
     public class HealthCheckInUseException : AmazonRoute53Exception 
     {
         /// <summary>
@@ -79,7 +80,7 @@ namespace Amazon.Route53.Model
             : base(message, errorType, errorCode, requestId, statusCode) {}
 
 
-#if !PCL && !CORECLR
+#if !PCL && !NETSTANDARD
         /// <summary>
         /// Constructs a new instance of the HealthCheckInUseException class with serialized data.
         /// </summary>

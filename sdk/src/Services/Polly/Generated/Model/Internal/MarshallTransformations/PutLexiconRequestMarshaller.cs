@@ -55,14 +55,15 @@ namespace Amazon.Polly.Model.Internal.MarshallTransformations
         public IRequest Marshall(PutLexiconRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.Polly");
-            request.Headers["Content-Type"] = "application/x-amz-json-";
+            request.Headers["Content-Type"] = "application/json";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2016-06-10";            
             request.HttpMethod = "PUT";
 
-            string uriResourcePath = "/v1/lexicons/{LexiconName}";
             if (!publicRequest.IsSetName())
                 throw new AmazonPollyException("Request object does not have required field Name set");
-            uriResourcePath = uriResourcePath.Replace("{LexiconName}", StringUtils.FromString(publicRequest.Name));
-            request.ResourcePath = uriResourcePath;
+            request.AddPathResource("{LexiconName}", StringUtils.FromString(publicRequest.Name));
+            request.ResourcePath = "/v1/lexicons/{LexiconName}";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);

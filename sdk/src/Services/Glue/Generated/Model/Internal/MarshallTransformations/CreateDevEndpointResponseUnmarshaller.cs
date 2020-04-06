@@ -51,6 +51,12 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {
+                if (context.TestExpression("Arguments", targetDepth))
+                {
+                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    response.Arguments = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("AvailabilityZone", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
@@ -87,16 +93,34 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                     response.FailureReason = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("GlueVersion", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.GlueVersion = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("NumberOfNodes", targetDepth))
                 {
                     var unmarshaller = IntUnmarshaller.Instance;
                     response.NumberOfNodes = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("NumberOfWorkers", targetDepth))
+                {
+                    var unmarshaller = IntUnmarshaller.Instance;
+                    response.NumberOfWorkers = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("RoleArn", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.RoleArn = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("SecurityConfiguration", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.SecurityConfiguration = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("SecurityGroupIds", targetDepth))
@@ -121,6 +145,12 @@ namespace Amazon.Glue.Model.Internal.MarshallTransformations
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
                     response.VpcId = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("WorkerType", targetDepth))
+                {
+                    var unmarshaller = StringUnmarshaller.Instance;
+                    response.WorkerType = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("YarnEndpointAddress", targetDepth))

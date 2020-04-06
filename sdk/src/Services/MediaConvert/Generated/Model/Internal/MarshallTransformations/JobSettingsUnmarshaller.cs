@@ -76,10 +76,22 @@ namespace Amazon.MediaConvert.Model.Internal.MarshallTransformations
                     unmarshalledObject.AvailBlanking = unmarshaller.Unmarshall(context);
                     continue;
                 }
+                if (context.TestExpression("esam", targetDepth))
+                {
+                    var unmarshaller = EsamSettingsUnmarshaller.Instance;
+                    unmarshalledObject.Esam = unmarshaller.Unmarshall(context);
+                    continue;
+                }
                 if (context.TestExpression("inputs", targetDepth))
                 {
                     var unmarshaller = new ListUnmarshaller<Input, InputUnmarshaller>(InputUnmarshaller.Instance);
                     unmarshalledObject.Inputs = unmarshaller.Unmarshall(context);
+                    continue;
+                }
+                if (context.TestExpression("motionImageInserter", targetDepth))
+                {
+                    var unmarshaller = MotionImageInserterUnmarshaller.Instance;
+                    unmarshalledObject.MotionImageInserter = unmarshaller.Unmarshall(context);
                     continue;
                 }
                 if (context.TestExpression("nielsenConfiguration", targetDepth))

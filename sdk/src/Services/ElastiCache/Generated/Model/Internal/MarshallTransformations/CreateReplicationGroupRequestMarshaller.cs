@@ -103,11 +103,23 @@ namespace Amazon.ElastiCache.Model.Internal.MarshallTransformations
                 {
                     request.Parameters.Add("EngineVersion", StringUtils.FromString(publicRequest.EngineVersion));
                 }
+                if(publicRequest.IsSetGlobalReplicationGroupId())
+                {
+                    request.Parameters.Add("GlobalReplicationGroupId", StringUtils.FromString(publicRequest.GlobalReplicationGroupId));
+                }
+                if(publicRequest.IsSetKmsKeyId())
+                {
+                    request.Parameters.Add("KmsKeyId", StringUtils.FromString(publicRequest.KmsKeyId));
+                }
                 if(publicRequest.IsSetNodeGroupConfiguration())
                 {
                     int publicRequestlistValueIndex = 1;
                     foreach(var publicRequestlistValue in publicRequest.NodeGroupConfiguration)
                     {
+                        if(publicRequestlistValue.IsSetNodeGroupId())
+                        {
+                            request.Parameters.Add("NodeGroupConfiguration" + "." + "member" + "." + publicRequestlistValueIndex + "." + "NodeGroupId", StringUtils.FromString(publicRequestlistValue.NodeGroupId));
+                        }
                         if(publicRequestlistValue.IsSetPrimaryAvailabilityZone())
                         {
                             request.Parameters.Add("NodeGroupConfiguration" + "." + "member" + "." + publicRequestlistValueIndex + "." + "PrimaryAvailabilityZone", StringUtils.FromString(publicRequestlistValue.PrimaryAvailabilityZone));

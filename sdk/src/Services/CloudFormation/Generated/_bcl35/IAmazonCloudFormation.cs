@@ -54,7 +54,7 @@ namespace Amazon.CloudFormation
     /// <para>
     /// Amazon CloudFormation makes use of other AWS products. If you need additional technical
     /// information about a specific AWS product, you can find the product's technical documentation
-    /// at <a href="http://docs.aws.amazon.com/">docs.aws.amazon.com</a>.
+    /// at <a href="https://docs.aws.amazon.com/">docs.aws.amazon.com</a>.
     /// </para>
     /// </summary>
     public partial interface IAmazonCloudFormation : IAmazonService, IDisposable
@@ -117,7 +117,7 @@ namespace Amazon.CloudFormation
         /// <summary>
         /// For a specified stack that is in the <code>UPDATE_ROLLBACK_FAILED</code> state, continues
         /// rolling it back to the <code>UPDATE_ROLLBACK_COMPLETE</code> state. Depending on the
-        /// cause of the failure, you can manually <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed">
+        /// cause of the failure, you can manually <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed">
         /// fix the error</a> and continue the rollback. By continuing the rollback, you can return
         /// your stack to a working state (the <code>UPDATE_ROLLBACK_COMPLETE</code> state), and
         /// then try to update the stack again.
@@ -187,10 +187,11 @@ namespace Amazon.CloudFormation
         /// <para>
         /// To create a change set for a stack that doesn't exist, for the <code>ChangeSetType</code>
         /// parameter, specify <code>CREATE</code>. To create a change set for an existing stack,
-        /// specify <code>UPDATE</code> for the <code>ChangeSetType</code> parameter. After the
-        /// <code>CreateChangeSet</code> call successfully completes, AWS CloudFormation starts
-        /// creating the change set. To check the status of the change set or to review it, use
-        /// the <a>DescribeChangeSet</a> action.
+        /// specify <code>UPDATE</code> for the <code>ChangeSetType</code> parameter. To create
+        /// a change set for an import operation, specify <code>IMPORT</code> for the <code>ChangeSetType</code>
+        /// parameter. After the <code>CreateChangeSet</code> call successfully completes, AWS
+        /// CloudFormation starts creating the change set. To check the status of the change set
+        /// or to review it, use the <a>DescribeChangeSet</a> action.
         /// </para>
         ///  
         /// <para>
@@ -214,8 +215,8 @@ namespace Amazon.CloudFormation
         /// 
         ///  
         /// <para>
-        /// For information on stack set limitations, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-limitations.html">Limitations
-        /// of StackSets</a>.
+        /// For information on resource and stack limitations, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html">Limits</a>
+        /// in the <i>AWS CloudFormation User Guide</i>.
         /// </para>
         /// </exception>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/CreateChangeSet">REST API Reference for CreateChangeSet Operation</seealso>
@@ -272,8 +273,8 @@ namespace Amazon.CloudFormation
         /// 
         ///  
         /// <para>
-        /// For information on stack set limitations, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-limitations.html">Limitations
-        /// of StackSets</a>.
+        /// For information on resource and stack limitations, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html">Limits</a>
+        /// in the <i>AWS CloudFormation User Guide</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.CloudFormation.Model.TokenAlreadyExistsException">
@@ -315,9 +316,9 @@ namespace Amazon.CloudFormation
 
         /// <summary>
         /// Creates stack instances for the specified accounts, within the specified regions.
-        /// A stack instance refers to a stack in a specific account and region. <code>Accounts</code>
-        /// and <code>Regions</code> are required parameters—you must specify at least one account
-        /// and one region.
+        /// A stack instance refers to a stack in a specific account and region. You must specify
+        /// at least one value for either <code>Accounts</code> or <code>DeploymentTargets</code>,
+        /// and you must specify at least one value for <code>Regions</code>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the CreateStackInstances service method.</param>
         /// 
@@ -330,8 +331,8 @@ namespace Amazon.CloudFormation
         /// 
         ///  
         /// <para>
-        /// For information on stack set limitations, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-limitations.html">Limitations
-        /// of StackSets</a>.
+        /// For information on resource and stack limitations, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html">Limits</a>
+        /// in the <i>AWS CloudFormation User Guide</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.CloudFormation.Model.OperationIdAlreadyExistsException">
@@ -396,8 +397,8 @@ namespace Amazon.CloudFormation
         /// 
         ///  
         /// <para>
-        /// For information on stack set limitations, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-limitations.html">Limitations
-        /// of StackSets</a>.
+        /// For information on resource and stack limitations, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html">Limits</a>
+        /// in the <i>AWS CloudFormation User Guide</i>.
         /// </para>
         /// </exception>
         /// <exception cref="Amazon.CloudFormation.Model.NameAlreadyExistsException">
@@ -637,12 +638,73 @@ namespace Amazon.CloudFormation
 
         #endregion
         
+        #region  DeregisterType
+
+
+        /// <summary>
+        /// Removes a type or type version from active use in the CloudFormation registry. If
+        /// a type or type version is deregistered, it cannot be used in CloudFormation operations.
+        /// 
+        ///  
+        /// <para>
+        /// To deregister a type, you must individually deregister all registered versions of
+        /// that type. If a type has only a single registered version, deregistering that version
+        /// results in the type itself being deregistered. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You cannot deregister the default version of a type, unless it is the only registered
+        /// version of that type, in which case the type itself is deregistered as well. 
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterType service method.</param>
+        /// 
+        /// <returns>The response from the DeregisterType service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <exception cref="Amazon.CloudFormation.Model.TypeNotFoundException">
+        /// The specified type does not exist in the CloudFormation registry.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DeregisterType">REST API Reference for DeregisterType Operation</seealso>
+        DeregisterTypeResponse DeregisterType(DeregisterTypeRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DeregisterType operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DeregisterType operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDeregisterType
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DeregisterType">REST API Reference for DeregisterType Operation</seealso>
+        IAsyncResult BeginDeregisterType(DeregisterTypeRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DeregisterType operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDeregisterType.</param>
+        /// 
+        /// <returns>Returns a  DeregisterTypeResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DeregisterType">REST API Reference for DeregisterType Operation</seealso>
+        DeregisterTypeResponse EndDeregisterType(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeAccountLimits
 
 
         /// <summary>
         /// Retrieves your account's AWS CloudFormation limits, such as the maximum number of
-        /// stacks that you can create in your account.
+        /// stacks that you can create in your account. For more information about account limits,
+        /// see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html">AWS
+        /// CloudFormation Limits</a> in the <i>AWS CloudFormation User Guide</i>.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeAccountLimits service method.</param>
         /// 
@@ -683,7 +745,7 @@ namespace Amazon.CloudFormation
 
         /// <summary>
         /// Returns the inputs for the change set and a list of changes that AWS CloudFormation
-        /// will make if you execute the change set. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html">Updating
+        /// will make if you execute the change set. For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html">Updating
         /// Stacks Using Change Sets</a> in the AWS CloudFormation User Guide.
         /// </summary>
         /// <param name="request">Container for the necessary parameters to execute the DescribeChangeSet service method.</param>
@@ -724,12 +786,67 @@ namespace Amazon.CloudFormation
 
         #endregion
         
+        #region  DescribeStackDriftDetectionStatus
+
+
+        /// <summary>
+        /// Returns information about a stack drift detection operation. A stack drift detection
+        /// operation detects whether a stack's actual configuration differs, or has <i>drifted</i>,
+        /// from it's expected configuration, as defined in the stack template and any values
+        /// specified as template parameters. A stack is considered to have drifted if one or
+        /// more of its resources have drifted. For more information on stack and resource drift,
+        /// see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+        /// Unregulated Configuration Changes to Stacks and Resources</a>.
+        /// 
+        ///  
+        /// <para>
+        /// Use <a>DetectStackDrift</a> to initiate a stack drift detection operation. <code>DetectStackDrift</code>
+        /// returns a <code>StackDriftDetectionId</code> you can use to monitor the progress of
+        /// the operation using <code>DescribeStackDriftDetectionStatus</code>. Once the drift
+        /// detection operation has completed, use <a>DescribeStackResourceDrifts</a> to return
+        /// drift information about the stack and its resources.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStackDriftDetectionStatus service method.</param>
+        /// 
+        /// <returns>The response from the DescribeStackDriftDetectionStatus service method, as returned by CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeStackDriftDetectionStatus">REST API Reference for DescribeStackDriftDetectionStatus Operation</seealso>
+        DescribeStackDriftDetectionStatusResponse DescribeStackDriftDetectionStatus(DescribeStackDriftDetectionStatusRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeStackDriftDetectionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStackDriftDetectionStatus operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeStackDriftDetectionStatus
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeStackDriftDetectionStatus">REST API Reference for DescribeStackDriftDetectionStatus Operation</seealso>
+        IAsyncResult BeginDescribeStackDriftDetectionStatus(DescribeStackDriftDetectionStatusRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeStackDriftDetectionStatus operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeStackDriftDetectionStatus.</param>
+        /// 
+        /// <returns>Returns a  DescribeStackDriftDetectionStatusResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeStackDriftDetectionStatus">REST API Reference for DescribeStackDriftDetectionStatus Operation</seealso>
+        DescribeStackDriftDetectionStatusResponse EndDescribeStackDriftDetectionStatus(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeStackEvents
 
 
         /// <summary>
         /// Returns all stack related events for a specified stack in reverse chronological order.
-        /// For more information about a stack's event history, go to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/concept-stack.html">Stacks</a>
+        /// For more information about a stack's event history, go to <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/concept-stack.html">Stacks</a>
         /// in the AWS CloudFormation User Guide.
         /// 
         ///  <note> 
@@ -871,6 +988,63 @@ namespace Amazon.CloudFormation
 
         #endregion
         
+        #region  DescribeStackResourceDrifts
+
+
+        /// <summary>
+        /// Returns drift information for the resources that have been checked for drift in the
+        /// specified stack. This includes actual and expected configuration values for resources
+        /// where AWS CloudFormation detects configuration drift.
+        /// 
+        ///  
+        /// <para>
+        /// For a given stack, there will be one <code>StackResourceDrift</code> for each stack
+        /// resource that has been checked for drift. Resources that have not yet been checked
+        /// for drift are not included. Resources that do not currently support drift detection
+        /// are not checked, and so not included. For a list of resources that support drift detection,
+        /// see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html">Resources
+        /// that Support Drift Detection</a>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Use <a>DetectStackResourceDrift</a> to detect drift on individual resources, or <a>DetectStackDrift</a>
+        /// to detect drift on all supported resources for a given stack.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStackResourceDrifts service method.</param>
+        /// 
+        /// <returns>The response from the DescribeStackResourceDrifts service method, as returned by CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeStackResourceDrifts">REST API Reference for DescribeStackResourceDrifts Operation</seealso>
+        DescribeStackResourceDriftsResponse DescribeStackResourceDrifts(DescribeStackResourceDriftsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeStackResourceDrifts operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeStackResourceDrifts operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeStackResourceDrifts
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeStackResourceDrifts">REST API Reference for DescribeStackResourceDrifts Operation</seealso>
+        IAsyncResult BeginDescribeStackResourceDrifts(DescribeStackResourceDriftsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeStackResourceDrifts operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeStackResourceDrifts.</param>
+        /// 
+        /// <returns>Returns a  DescribeStackResourceDriftsResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeStackResourceDrifts">REST API Reference for DescribeStackResourceDrifts Operation</seealso>
+        DescribeStackResourceDriftsResponse EndDescribeStackResourceDrifts(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  DescribeStackResources
 
 
@@ -895,7 +1069,7 @@ namespace Amazon.CloudFormation
         /// You must specify either <code>StackName</code> or <code>PhysicalResourceId</code>,
         /// but not both. In addition, you can specify <code>LogicalResourceId</code> to filter
         /// the returned result. For more information about resources, the <code>LogicalResourceId</code>
-        /// and <code>PhysicalResourceId</code>, go to the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/">AWS
+        /// and <code>PhysicalResourceId</code>, go to the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/">AWS
         /// CloudFormation User Guide</a>.
         /// </para>
         ///  <note> 
@@ -1087,6 +1261,346 @@ namespace Amazon.CloudFormation
         /// <returns>Returns a  DescribeStackSetOperationResult from CloudFormation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeStackSetOperation">REST API Reference for DescribeStackSetOperation Operation</seealso>
         DescribeStackSetOperationResponse EndDescribeStackSetOperation(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeType
+
+
+        /// <summary>
+        /// Returns detailed information about a type that has been registered.
+        /// 
+        ///  
+        /// <para>
+        /// If you specify a <code>VersionId</code>, <code>DescribeType</code> returns information
+        /// about that specific type version. Otherwise, it returns information about the default
+        /// type version.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeType service method.</param>
+        /// 
+        /// <returns>The response from the DescribeType service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <exception cref="Amazon.CloudFormation.Model.TypeNotFoundException">
+        /// The specified type does not exist in the CloudFormation registry.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeType">REST API Reference for DescribeType Operation</seealso>
+        DescribeTypeResponse DescribeType(DescribeTypeRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeType operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeType operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeType
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeType">REST API Reference for DescribeType Operation</seealso>
+        IAsyncResult BeginDescribeType(DescribeTypeRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeType operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeType.</param>
+        /// 
+        /// <returns>Returns a  DescribeTypeResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeType">REST API Reference for DescribeType Operation</seealso>
+        DescribeTypeResponse EndDescribeType(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DescribeTypeRegistration
+
+
+        /// <summary>
+        /// Returns information about a type's registration, including its current status and
+        /// type and version identifiers.
+        /// 
+        ///  
+        /// <para>
+        /// When you initiate a registration request using <code> <a>RegisterType</a> </code>,
+        /// you can then use <code> <a>DescribeTypeRegistration</a> </code> to monitor the progress
+        /// of that registration request.
+        /// </para>
+        ///  
+        /// <para>
+        /// Once the registration request has completed, use <code> <a>DescribeType</a> </code>
+        /// to return detailed informaiton about a type.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTypeRegistration service method.</param>
+        /// 
+        /// <returns>The response from the DescribeTypeRegistration service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeTypeRegistration">REST API Reference for DescribeTypeRegistration Operation</seealso>
+        DescribeTypeRegistrationResponse DescribeTypeRegistration(DescribeTypeRegistrationRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeTypeRegistration operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DescribeTypeRegistration operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDescribeTypeRegistration
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeTypeRegistration">REST API Reference for DescribeTypeRegistration Operation</seealso>
+        IAsyncResult BeginDescribeTypeRegistration(DescribeTypeRegistrationRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DescribeTypeRegistration operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDescribeTypeRegistration.</param>
+        /// 
+        /// <returns>Returns a  DescribeTypeRegistrationResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DescribeTypeRegistration">REST API Reference for DescribeTypeRegistration Operation</seealso>
+        DescribeTypeRegistrationResponse EndDescribeTypeRegistration(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DetectStackDrift
+
+
+        /// <summary>
+        /// Detects whether a stack's actual configuration differs, or has <i>drifted</i>, from
+        /// it's expected configuration, as defined in the stack template and any values specified
+        /// as template parameters. For each resource in the stack that supports drift detection,
+        /// AWS CloudFormation compares the actual configuration of the resource with its expected
+        /// template configuration. Only resource properties explicitly defined in the stack template
+        /// are checked for drift. A stack is considered to have drifted if one or more of its
+        /// resources differ from their expected template configurations. For more information,
+        /// see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+        /// Unregulated Configuration Changes to Stacks and Resources</a>.
+        /// 
+        ///  
+        /// <para>
+        /// Use <code>DetectStackDrift</code> to detect drift on all supported resources for a
+        /// given stack, or <a>DetectStackResourceDrift</a> to detect drift on individual resources.
+        /// </para>
+        ///  
+        /// <para>
+        /// For a list of stack resources that currently support drift detection, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html">Resources
+        /// that Support Drift Detection</a>.
+        /// </para>
+        ///  
+        /// <para>
+        ///  <code>DetectStackDrift</code> can take up to several minutes, depending on the number
+        /// of resources contained within the stack. Use <a>DescribeStackDriftDetectionStatus</a>
+        /// to monitor the progress of a detect stack drift operation. Once the drift detection
+        /// operation has completed, use <a>DescribeStackResourceDrifts</a> to return drift information
+        /// about the stack and its resources.
+        /// </para>
+        ///  
+        /// <para>
+        /// When detecting drift on a stack, AWS CloudFormation does not detect drift on any nested
+        /// stacks belonging to that stack. Perform <code>DetectStackDrift</code> directly on
+        /// the nested stack itself.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetectStackDrift service method.</param>
+        /// 
+        /// <returns>The response from the DetectStackDrift service method, as returned by CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackDrift">REST API Reference for DetectStackDrift Operation</seealso>
+        DetectStackDriftResponse DetectStackDrift(DetectStackDriftRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DetectStackDrift operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DetectStackDrift operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetectStackDrift
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackDrift">REST API Reference for DetectStackDrift Operation</seealso>
+        IAsyncResult BeginDetectStackDrift(DetectStackDriftRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DetectStackDrift operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetectStackDrift.</param>
+        /// 
+        /// <returns>Returns a  DetectStackDriftResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackDrift">REST API Reference for DetectStackDrift Operation</seealso>
+        DetectStackDriftResponse EndDetectStackDrift(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DetectStackResourceDrift
+
+
+        /// <summary>
+        /// Returns information about whether a resource's actual configuration differs, or has
+        /// <i>drifted</i>, from it's expected configuration, as defined in the stack template
+        /// and any values specified as template parameters. This information includes actual
+        /// and expected property values for resources in which AWS CloudFormation detects drift.
+        /// Only resource properties explicitly defined in the stack template are checked for
+        /// drift. For more information about stack and resource drift, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html">Detecting
+        /// Unregulated Configuration Changes to Stacks and Resources</a>.
+        /// 
+        ///  
+        /// <para>
+        /// Use <code>DetectStackResourceDrift</code> to detect drift on individual resources,
+        /// or <a>DetectStackDrift</a> to detect drift on all resources in a given stack that
+        /// support drift detection.
+        /// </para>
+        ///  
+        /// <para>
+        /// Resources that do not currently support drift detection cannot be checked. For a list
+        /// of resources that support drift detection, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html">Resources
+        /// that Support Drift Detection</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetectStackResourceDrift service method.</param>
+        /// 
+        /// <returns>The response from the DetectStackResourceDrift service method, as returned by CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackResourceDrift">REST API Reference for DetectStackResourceDrift Operation</seealso>
+        DetectStackResourceDriftResponse DetectStackResourceDrift(DetectStackResourceDriftRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DetectStackResourceDrift operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DetectStackResourceDrift operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetectStackResourceDrift
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackResourceDrift">REST API Reference for DetectStackResourceDrift Operation</seealso>
+        IAsyncResult BeginDetectStackResourceDrift(DetectStackResourceDriftRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DetectStackResourceDrift operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetectStackResourceDrift.</param>
+        /// 
+        /// <returns>Returns a  DetectStackResourceDriftResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackResourceDrift">REST API Reference for DetectStackResourceDrift Operation</seealso>
+        DetectStackResourceDriftResponse EndDetectStackResourceDrift(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  DetectStackSetDrift
+
+
+        /// <summary>
+        /// Detect drift on a stack set. When CloudFormation performs drift detection on a stack
+        /// set, it performs drift detection on the stack associated with each stack instance
+        /// in the stack set. For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html">How
+        /// CloudFormation Performs Drift Detection on a Stack Set</a>.
+        /// 
+        ///  
+        /// <para>
+        ///  <code>DetectStackSetDrift</code> returns the <code>OperationId</code> of the stack
+        /// set drift detection operation. Use this operation id with <code> <a>DescribeStackSetOperation</a>
+        /// </code> to monitor the progress of the drift detection operation. The drift detection
+        /// operation may take some time, depending on the number of stack instances included
+        /// in the stack set, as well as the number of resources included in each stack.
+        /// </para>
+        ///  
+        /// <para>
+        /// Once the operation has completed, use the following actions to return drift information:
+        /// </para>
+        ///  <ul> <li> 
+        /// <para>
+        /// Use <code> <a>DescribeStackSet</a> </code> to return detailed informaiton about the
+        /// stack set, including detailed information about the last <i>completed</i> drift operation
+        /// performed on the stack set. (Information about drift operations that are in progress
+        /// is not included.)
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use <code> <a>ListStackInstances</a> </code> to return a list of stack instances belonging
+        /// to the stack set, including the drift status and last drift time checked of each instance.
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Use <code> <a>DescribeStackInstance</a> </code> to return detailed information about
+        /// a specific stack instance, including its drift status and last drift time checked.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information on performing a drift detection operation on a stack set, see
+        /// <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html">Detecting
+        /// Unmanaged Changes in Stack Sets</a>. 
+        /// </para>
+        ///  
+        /// <para>
+        /// You can only run a single drift detection operation on a given stack set at one time.
+        /// 
+        /// </para>
+        ///  
+        /// <para>
+        /// To stop a drift detection stack set operation, use <code> <a>StopStackSetOperation</a>
+        /// </code>.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DetectStackSetDrift service method.</param>
+        /// 
+        /// <returns>The response from the DetectStackSetDrift service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.InvalidOperationException">
+        /// The specified operation isn't valid.
+        /// </exception>
+        /// <exception cref="Amazon.CloudFormation.Model.OperationInProgressException">
+        /// Another operation is currently in progress for this stack set. Only one operation
+        /// can be performed for a stack set at a given time.
+        /// </exception>
+        /// <exception cref="Amazon.CloudFormation.Model.StackSetNotFoundException">
+        /// The specified stack set doesn't exist.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackSetDrift">REST API Reference for DetectStackSetDrift Operation</seealso>
+        DetectStackSetDriftResponse DetectStackSetDrift(DetectStackSetDriftRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DetectStackSetDrift operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the DetectStackSetDrift operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndDetectStackSetDrift
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackSetDrift">REST API Reference for DetectStackSetDrift Operation</seealso>
+        IAsyncResult BeginDetectStackSetDrift(DetectStackSetDriftRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  DetectStackSetDrift operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginDetectStackSetDrift.</param>
+        /// 
+        /// <returns>Returns a  DetectStackSetDriftResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/DetectStackSetDrift">REST API Reference for DetectStackSetDrift Operation</seealso>
+        DetectStackSetDriftResponse EndDetectStackSetDrift(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1405,12 +1919,12 @@ namespace Amazon.CloudFormation
         /// <summary>
         /// Lists all exported output values in the account and region in which you call this
         /// action. Use this action to see the exported output values that you can import into
-        /// other stacks. To import values, use the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
+        /// other stacks. To import values, use the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
         /// <code>Fn::ImportValue</code> </a> function. 
         /// 
         ///  
         /// <para>
-        /// For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html">
+        /// For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html">
         /// AWS CloudFormation Export Stack Output Values</a>.
         /// </para>
         /// </summary>
@@ -1458,7 +1972,7 @@ namespace Amazon.CloudFormation
         /// 
         ///  
         /// <para>
-        /// For more information about importing an exported output value, see the <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
+        /// For more information about importing an exported output value, see the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html">
         /// <code>Fn::ImportValue</code> </a> function. 
         /// </para>
         /// </summary>
@@ -1770,6 +2284,258 @@ namespace Amazon.CloudFormation
 
         #endregion
         
+        #region  ListTypeRegistrations
+
+
+        /// <summary>
+        /// Returns a list of registration tokens for the specified type(s).
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTypeRegistrations service method.</param>
+        /// 
+        /// <returns>The response from the ListTypeRegistrations service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypeRegistrations">REST API Reference for ListTypeRegistrations Operation</seealso>
+        ListTypeRegistrationsResponse ListTypeRegistrations(ListTypeRegistrationsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTypeRegistrations operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTypeRegistrations operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTypeRegistrations
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypeRegistrations">REST API Reference for ListTypeRegistrations Operation</seealso>
+        IAsyncResult BeginListTypeRegistrations(ListTypeRegistrationsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTypeRegistrations operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTypeRegistrations.</param>
+        /// 
+        /// <returns>Returns a  ListTypeRegistrationsResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypeRegistrations">REST API Reference for ListTypeRegistrations Operation</seealso>
+        ListTypeRegistrationsResponse EndListTypeRegistrations(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTypes
+
+
+        /// <summary>
+        /// Returns summary information about types that have been registered with CloudFormation.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTypes service method.</param>
+        /// 
+        /// <returns>The response from the ListTypes service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypes">REST API Reference for ListTypes Operation</seealso>
+        ListTypesResponse ListTypes(ListTypesRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTypes operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTypes operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTypes
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypes">REST API Reference for ListTypes Operation</seealso>
+        IAsyncResult BeginListTypes(ListTypesRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTypes operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTypes.</param>
+        /// 
+        /// <returns>Returns a  ListTypesResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypes">REST API Reference for ListTypes Operation</seealso>
+        ListTypesResponse EndListTypes(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  ListTypeVersions
+
+
+        /// <summary>
+        /// Returns summary information about the versions of a type.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the ListTypeVersions service method.</param>
+        /// 
+        /// <returns>The response from the ListTypeVersions service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypeVersions">REST API Reference for ListTypeVersions Operation</seealso>
+        ListTypeVersionsResponse ListTypeVersions(ListTypeVersionsRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the ListTypeVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the ListTypeVersions operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndListTypeVersions
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypeVersions">REST API Reference for ListTypeVersions Operation</seealso>
+        IAsyncResult BeginListTypeVersions(ListTypeVersionsRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  ListTypeVersions operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginListTypeVersions.</param>
+        /// 
+        /// <returns>Returns a  ListTypeVersionsResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/ListTypeVersions">REST API Reference for ListTypeVersions Operation</seealso>
+        ListTypeVersionsResponse EndListTypeVersions(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RecordHandlerProgress
+
+
+        /// <summary>
+        /// Reports progress of a resource handler to CloudFormation.
+        /// 
+        ///  
+        /// <para>
+        /// Reserved for use by the <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html">CloudFormation
+        /// CLI</a>. Do not use this API in your code.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RecordHandlerProgress service method.</param>
+        /// 
+        /// <returns>The response from the RecordHandlerProgress service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.InvalidStateTransitionException">
+        /// Error reserved for use by the <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html">CloudFormation
+        /// CLI</a>. CloudFormation does not return this error to users.
+        /// </exception>
+        /// <exception cref="Amazon.CloudFormation.Model.OperationStatusCheckFailedException">
+        /// Error reserved for use by the <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html">CloudFormation
+        /// CLI</a>. CloudFormation does not return this error to users.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RecordHandlerProgress">REST API Reference for RecordHandlerProgress Operation</seealso>
+        RecordHandlerProgressResponse RecordHandlerProgress(RecordHandlerProgressRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RecordHandlerProgress operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RecordHandlerProgress operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRecordHandlerProgress
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RecordHandlerProgress">REST API Reference for RecordHandlerProgress Operation</seealso>
+        IAsyncResult BeginRecordHandlerProgress(RecordHandlerProgressRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RecordHandlerProgress operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRecordHandlerProgress.</param>
+        /// 
+        /// <returns>Returns a  RecordHandlerProgressResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RecordHandlerProgress">REST API Reference for RecordHandlerProgress Operation</seealso>
+        RecordHandlerProgressResponse EndRecordHandlerProgress(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  RegisterType
+
+
+        /// <summary>
+        /// Registers a type with the CloudFormation service. Registering a type makes it available
+        /// for use in CloudFormation templates in your AWS account, and includes:
+        /// 
+        ///  <ul> <li> 
+        /// <para>
+        /// Validating the resource schema
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Determining which handlers have been specified for the resource
+        /// </para>
+        ///  </li> <li> 
+        /// <para>
+        /// Making the resource type available for use in your account
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// For more information on how to develop types and ready them for registeration, see
+        /// <a href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html">Creating
+        /// Resource Providers</a> in the <i>CloudFormation CLI User Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// Once you have initiated a registration request using <code> <a>RegisterType</a> </code>,
+        /// you can use <code> <a>DescribeTypeRegistration</a> </code> to monitor the progress
+        /// of the registration request.
+        /// </para>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the RegisterType service method.</param>
+        /// 
+        /// <returns>The response from the RegisterType service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RegisterType">REST API Reference for RegisterType Operation</seealso>
+        RegisterTypeResponse RegisterType(RegisterTypeRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the RegisterType operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the RegisterType operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndRegisterType
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RegisterType">REST API Reference for RegisterType Operation</seealso>
+        IAsyncResult BeginRegisterType(RegisterTypeRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  RegisterType operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginRegisterType.</param>
+        /// 
+        /// <returns>Returns a  RegisterTypeResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RegisterType">REST API Reference for RegisterType Operation</seealso>
+        RegisterTypeResponse EndRegisterType(IAsyncResult asyncResult);
+
+        #endregion
+        
         #region  SetStackPolicy
 
 
@@ -1807,6 +2573,53 @@ namespace Amazon.CloudFormation
         /// <returns>Returns a  SetStackPolicyResult from CloudFormation.</returns>
         /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/SetStackPolicy">REST API Reference for SetStackPolicy Operation</seealso>
         SetStackPolicyResponse EndSetStackPolicy(IAsyncResult asyncResult);
+
+        #endregion
+        
+        #region  SetTypeDefaultVersion
+
+
+        /// <summary>
+        /// Specify the default version of a type. The default version of a type will be used
+        /// in CloudFormation operations.
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SetTypeDefaultVersion service method.</param>
+        /// 
+        /// <returns>The response from the SetTypeDefaultVersion service method, as returned by CloudFormation.</returns>
+        /// <exception cref="Amazon.CloudFormation.Model.CFNRegistryException">
+        /// An error occurred during a CloudFormation registry operation.
+        /// </exception>
+        /// <exception cref="Amazon.CloudFormation.Model.TypeNotFoundException">
+        /// The specified type does not exist in the CloudFormation registry.
+        /// </exception>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/SetTypeDefaultVersion">REST API Reference for SetTypeDefaultVersion Operation</seealso>
+        SetTypeDefaultVersionResponse SetTypeDefaultVersion(SetTypeDefaultVersionRequest request);
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SetTypeDefaultVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the SetTypeDefaultVersion operation on AmazonCloudFormationClient.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes.</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// 
+        /// <returns>An IAsyncResult that can be used to poll or wait for results, or both; this value is also needed when invoking EndSetTypeDefaultVersion
+        ///         operation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/SetTypeDefaultVersion">REST API Reference for SetTypeDefaultVersion Operation</seealso>
+        IAsyncResult BeginSetTypeDefaultVersion(SetTypeDefaultVersionRequest request, AsyncCallback callback, object state);
+
+
+
+        /// <summary>
+        /// Finishes the asynchronous execution of the  SetTypeDefaultVersion operation.
+        /// </summary>
+        /// 
+        /// <param name="asyncResult">The IAsyncResult returned by the call to BeginSetTypeDefaultVersion.</param>
+        /// 
+        /// <returns>Returns a  SetTypeDefaultVersionResult from CloudFormation.</returns>
+        /// <seealso href="http://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/SetTypeDefaultVersion">REST API Reference for SetTypeDefaultVersion Operation</seealso>
+        SetTypeDefaultVersionResponse EndSetTypeDefaultVersion(IAsyncResult asyncResult);
 
         #endregion
         
@@ -1920,7 +2733,7 @@ namespace Amazon.CloudFormation
         ///  
         /// <para>
         /// For more information about creating an update template, updating a stack, and monitoring
-        /// the progress of the update, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks.html">Updating
+        /// the progress of the update, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks.html">Updating
         /// a Stack</a>.
         /// </para>
         /// </summary>
@@ -1976,7 +2789,7 @@ namespace Amazon.CloudFormation
         ///  
         /// <para>
         /// You can only update stack instances in regions and accounts where they already exist;
-        /// to create additional stack instances, use <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateStackInstances.html">CreateStackInstances</a>.
+        /// to create additional stack instances, use <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateStackInstances.html">CreateStackInstances</a>.
         /// 
         /// </para>
         ///  
@@ -1987,10 +2800,10 @@ namespace Amazon.CloudFormation
         ///  
         /// <para>
         /// You can only update the parameter <i>values</i> that are specified in the stack set;
-        /// to add or delete a parameter itself, use <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
+        /// to add or delete a parameter itself, use <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
         /// to update the stack set template. If you add a parameter to a template, before you
         /// can override the parameter value specified in the stack set you must first use <a
-        /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
+        /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html">UpdateStackSet</a>
         /// to update all stack instances with the updated template and parameter value specified
         /// in the stack set. Once a stack instance has been updated with the new parameter, you
         /// can then override the parameter value using <code>UpdateStackInstances</code>.
@@ -2054,7 +2867,8 @@ namespace Amazon.CloudFormation
 
 
         /// <summary>
-        /// Updates the stack set and <i>all</i> associated stack instances.
+        /// Updates the stack set, and associated stack instances in the specified accounts and
+        /// regions.
         /// 
         ///  
         /// <para>
@@ -2076,6 +2890,9 @@ namespace Amazon.CloudFormation
         /// <exception cref="Amazon.CloudFormation.Model.OperationInProgressException">
         /// Another operation is currently in progress for this stack set. Only one operation
         /// can be performed for a stack set at a given time.
+        /// </exception>
+        /// <exception cref="Amazon.CloudFormation.Model.StackInstanceNotFoundException">
+        /// The specified stack instance doesn't exist.
         /// </exception>
         /// <exception cref="Amazon.CloudFormation.Model.StackSetNotFoundException">
         /// The specified stack set doesn't exist.
@@ -2121,12 +2938,12 @@ namespace Amazon.CloudFormation
         /// <summary>
         /// Updates termination protection for the specified stack. If a user attempts to delete
         /// a stack with termination protection enabled, the operation fails and the stack remains
-        /// unchanged. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
+        /// unchanged. For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html">Protecting
         /// a Stack From Being Deleted</a> in the <i>AWS CloudFormation User Guide</i>.
         /// 
         ///  
         /// <para>
-        ///  For <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
+        ///  For <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html">nested
         /// stacks</a>, termination protection is set on the root stack and cannot be changed
         /// directly on the nested stack.
         /// </para>

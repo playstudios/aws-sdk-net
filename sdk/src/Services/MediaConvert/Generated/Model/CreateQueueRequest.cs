@@ -29,17 +29,21 @@ namespace Amazon.MediaConvert.Model
 {
     /// <summary>
     /// Container for the parameters to the CreateQueue operation.
-    /// Create a new transcoding queue. For information about job templates see the User Guide
-    /// at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+    /// Create a new transcoding queue. For information about queues, see Working With Queues
+    /// in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     /// </summary>
     public partial class CreateQueueRequest : AmazonMediaConvertRequest
     {
         private string _description;
         private string _name;
+        private PricingPlan _pricingPlan;
+        private ReservationPlanSettings _reservationPlanSettings;
+        private QueueStatus _status;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
 
         /// <summary>
-        /// Gets and sets the property Description. Optional. A description of the queue you are
-        /// creating.
+        /// Gets and sets the property Description. Optional. A description of the queue that
+        /// you are creating.
         /// </summary>
         public string Description
         {
@@ -54,8 +58,9 @@ namespace Amazon.MediaConvert.Model
         }
 
         /// <summary>
-        /// Gets and sets the property Name. The name of the queue you are creating.
+        /// Gets and sets the property Name. The name of the queue that you are creating.
         /// </summary>
+        [AWSProperty(Required=true)]
         public string Name
         {
             get { return this._name; }
@@ -66,6 +71,74 @@ namespace Amazon.MediaConvert.Model
         internal bool IsSetName()
         {
             return this._name != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PricingPlan. Specifies whether the pricing plan for the
+        /// queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments
+        /// of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue,
+        /// regardless of how much or how little you use it. Reserved pricing requires a 12-month
+        /// commitment. When you use the API to create a queue, the default is on-demand.
+        /// </summary>
+        public PricingPlan PricingPlan
+        {
+            get { return this._pricingPlan; }
+            set { this._pricingPlan = value; }
+        }
+
+        // Check to see if PricingPlan property is set
+        internal bool IsSetPricingPlan()
+        {
+            return this._pricingPlan != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property ReservationPlanSettings. Details about the pricing plan
+        /// for your reserved queue. Required for reserved queues and not applicable to on-demand
+        /// queues.
+        /// </summary>
+        public ReservationPlanSettings ReservationPlanSettings
+        {
+            get { return this._reservationPlanSettings; }
+            set { this._reservationPlanSettings = value; }
+        }
+
+        // Check to see if ReservationPlanSettings property is set
+        internal bool IsSetReservationPlanSettings()
+        {
+            return this._reservationPlanSettings != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Status. Initial state of the queue. If you create a paused
+        /// queue, then jobs in that queue won't begin.
+        /// </summary>
+        public QueueStatus Status
+        {
+            get { return this._status; }
+            set { this._status = value; }
+        }
+
+        // Check to see if Status property is set
+        internal bool IsSetStatus()
+        {
+            return this._status != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property Tags. The tags that you want to add to the resource. You
+        /// can tag resources with a key-value pair or with only a key.
+        /// </summary>
+        public Dictionary<string, string> Tags
+        {
+            get { return this._tags; }
+            set { this._tags = value; }
+        }
+
+        // Check to see if Tags property is set
+        internal bool IsSetTags()
+        {
+            return this._tags != null && this._tags.Count > 0; 
         }
 
     }

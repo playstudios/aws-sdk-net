@@ -84,10 +84,12 @@ namespace Amazon.ElasticMapReduce.Model
         /// <summary>
         /// Gets and sets the property BidPrice. 
         /// <para>
-        /// Bid price for each EC2 instance in the instance group when launching nodes as Spot
-        /// Instances, expressed in USD.
+        /// The bid price for each EC2 Spot instance type as defined by <code>InstanceType</code>.
+        /// Expressed in USD. If neither <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
+        /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to 100%.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string BidPrice
         {
             get { return this._bidPrice; }
@@ -147,6 +149,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// Target number of instances for the instance group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public int InstanceCount
         {
             get { return this._instanceCount.GetValueOrDefault(); }
@@ -165,6 +168,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The role of the instance group in the cluster.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public InstanceRoleType InstanceRole
         {
             get { return this._instanceRole; }
@@ -183,6 +187,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// The EC2 instance type for all instances in the instance group.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true, Min=1, Max=256)]
         public string InstanceType
         {
             get { return this._instanceType; }
@@ -219,6 +224,7 @@ namespace Amazon.ElasticMapReduce.Model
         /// Friendly name given to the instance group.
         /// </para>
         /// </summary>
+        [AWSProperty(Min=0, Max=256)]
         public string Name
         {
             get { return this._name; }

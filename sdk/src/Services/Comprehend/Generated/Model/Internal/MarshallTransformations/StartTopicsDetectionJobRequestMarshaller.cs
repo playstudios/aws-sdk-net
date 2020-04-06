@@ -58,10 +58,11 @@ namespace Amazon.Comprehend.Model.Internal.MarshallTransformations
             string target = "Comprehend_20171127.StartTopicsDetectionJob";
             request.Headers["X-Amz-Target"] = target;
             request.Headers["Content-Type"] = "application/x-amz-json-1.1";
+            request.Headers[Amazon.Util.HeaderKeys.XAmzApiVersion] = "2017-11-27";            
             request.HttpMethod = "POST";
 
-            string uriResourcePath = "/";
-            request.ResourcePath = uriResourcePath;
+            request.ResourcePath = "/";
+            request.MarshallerVersion = 2;
             using (StringWriter stringWriter = new StringWriter(CultureInfo.InvariantCulture))
             {
                 JsonWriter writer = new JsonWriter(stringWriter);
@@ -114,6 +115,23 @@ namespace Amazon.Comprehend.Model.Internal.MarshallTransformations
 
                     var marshaller = OutputDataConfigMarshaller.Instance;
                     marshaller.Marshall(publicRequest.OutputDataConfig, context);
+
+                    context.Writer.WriteObjectEnd();
+                }
+
+                if(publicRequest.IsSetVolumeKmsKeyId())
+                {
+                    context.Writer.WritePropertyName("VolumeKmsKeyId");
+                    context.Writer.Write(publicRequest.VolumeKmsKeyId);
+                }
+
+                if(publicRequest.IsSetVpcConfig())
+                {
+                    context.Writer.WritePropertyName("VpcConfig");
+                    context.Writer.WriteObjectStart();
+
+                    var marshaller = VpcConfigMarshaller.Instance;
+                    marshaller.Marshall(publicRequest.VpcConfig, context);
 
                     context.Writer.WriteObjectEnd();
                 }

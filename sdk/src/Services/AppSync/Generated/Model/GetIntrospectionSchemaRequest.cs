@@ -35,6 +35,7 @@ namespace Amazon.AppSync.Model
     {
         private string _apiId;
         private OutputType _format;
+        private bool? _includeDirectives;
 
         /// <summary>
         /// Gets and sets the property ApiId. 
@@ -42,6 +43,7 @@ namespace Amazon.AppSync.Model
         /// The API ID.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public string ApiId
         {
             get { return this._apiId; }
@@ -60,6 +62,7 @@ namespace Amazon.AppSync.Model
         /// The schema format: SDL or JSON.
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public OutputType Format
         {
             get { return this._format; }
@@ -70,6 +73,24 @@ namespace Amazon.AppSync.Model
         internal bool IsSetFormat()
         {
             return this._format != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property IncludeDirectives. 
+        /// <para>
+        /// A flag that specifies whether the schema introspection should contain directives.
+        /// </para>
+        /// </summary>
+        public bool IncludeDirectives
+        {
+            get { return this._includeDirectives.GetValueOrDefault(); }
+            set { this._includeDirectives = value; }
+        }
+
+        // Check to see if IncludeDirectives property is set
+        internal bool IsSetIncludeDirectives()
+        {
+            return this._includeDirectives.HasValue; 
         }
 
     }

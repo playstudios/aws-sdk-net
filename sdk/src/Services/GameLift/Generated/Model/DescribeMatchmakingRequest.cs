@@ -47,7 +47,21 @@ namespace Amazon.GameLift.Model
     /// </para>
     ///  
     /// <para>
-    /// Matchmaking-related operations include:
+    ///  <b>Learn more</b> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-client.html">
+    /// Add FlexMatch to a Game Client</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <a href="https://docs.aws.amazon.com/gamelift/latest/developerguide/match-notification.html">
+    /// Set Up FlexMatch Event Notification</a> 
+    /// </para>
+    ///  
+    /// <para>
+    ///  <b>Related operations</b> 
     /// </para>
     ///  <ul> <li> 
     /// <para>
@@ -78,9 +92,11 @@ namespace Amazon.GameLift.Model
         /// <summary>
         /// Gets and sets the property TicketIds. 
         /// <para>
-        /// Unique identifier for a matchmaking ticket. You can include up to 10 ID values. 
+        /// A unique identifier for a matchmaking ticket. You can include up to 10 ID values.
+        /// 
         /// </para>
         /// </summary>
+        [AWSProperty(Required=true)]
         public List<string> TicketIds
         {
             get { return this._ticketIds; }

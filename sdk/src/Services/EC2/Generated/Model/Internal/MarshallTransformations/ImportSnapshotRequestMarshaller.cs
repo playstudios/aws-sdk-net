@@ -64,17 +64,17 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                     {
                         request.Parameters.Add("ClientData" + "." + "Comment", StringUtils.FromString(publicRequest.ClientData.Comment));
                     }
-                    if(publicRequest.ClientData.IsSetUploadEnd())
+                    if(publicRequest.ClientData.IsSetUploadEndUtc())
                     {
-                        request.Parameters.Add("ClientData" + "." + "UploadEnd", StringUtils.FromDateTime(publicRequest.ClientData.UploadEnd));
+                        request.Parameters.Add("ClientData" + "." + "UploadEnd", StringUtils.FromDateTimeToISO8601(publicRequest.ClientData.UploadEndUtc));
                     }
                     if(publicRequest.ClientData.IsSetUploadSize())
                     {
                         request.Parameters.Add("ClientData" + "." + "UploadSize", StringUtils.FromDouble(publicRequest.ClientData.UploadSize));
                     }
-                    if(publicRequest.ClientData.IsSetUploadStart())
+                    if(publicRequest.ClientData.IsSetUploadStartUtc())
                     {
-                        request.Parameters.Add("ClientData" + "." + "UploadStart", StringUtils.FromDateTime(publicRequest.ClientData.UploadStart));
+                        request.Parameters.Add("ClientData" + "." + "UploadStart", StringUtils.FromDateTimeToISO8601(publicRequest.ClientData.UploadStartUtc));
                     }
                 }
                 if(publicRequest.IsSetClientToken())
@@ -110,6 +110,14 @@ namespace Amazon.EC2.Model.Internal.MarshallTransformations
                             request.Parameters.Add("DiskContainer" + "." + "UserBucket" + "." + "S3Key", StringUtils.FromString(publicRequest.DiskContainer.UserBucket.S3Key));
                         }
                     }
+                }
+                if(publicRequest.IsSetEncrypted())
+                {
+                    request.Parameters.Add("Encrypted", StringUtils.FromBool(publicRequest.Encrypted));
+                }
+                if(publicRequest.IsSetKmsKeyId())
+                {
+                    request.Parameters.Add("KmsKeyId", StringUtils.FromString(publicRequest.KmsKeyId));
                 }
                 if(publicRequest.IsSetRoleName())
                 {
